@@ -457,10 +457,6 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 					return NULL;
 				memset(r, 0, baselen);
 				ptr = r;
-				if (bPrependType) { // XXX dead code.
-					ptr[0] = 'n';
-					ptr ++;
-				}
 				for (SIZE_T j = 0; j < _dbvUID.cpbVal; j ++, ptr += 3) {
 					mir_snprintf(ptr, ((r + baselen) - ptr), "%02X ", (BYTE)_dbvUID.pbVal[j]);
 				}

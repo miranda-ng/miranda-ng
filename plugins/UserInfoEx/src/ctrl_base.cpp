@@ -282,7 +282,7 @@ INT_PTR CCtrlList::OnSetTextColour(HWND hCtrl, HDC hdc)
 	if (IsWindow(hCtrl) && myGlobals.ShowPropsheetColours)
 	{
 		CBaseCtrl* pCtrl = CBaseCtrl::GetObj(hCtrl);
-		if (PtrIsValid(pCtrl) && (pCtrl->_cbSize = sizeof(CBaseCtrl)))
+		if (PtrIsValid(pCtrl) && (pCtrl->_cbSize == sizeof(CBaseCtrl)))
 		{
 			return pCtrl->OnSetTextColour(hdc);
 		}

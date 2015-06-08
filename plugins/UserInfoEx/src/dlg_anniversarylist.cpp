@@ -782,7 +782,7 @@ class CAnnivList
 		SetDlgItemInt(_hDlg, TXT_NUMCONTACT, numContacts, FALSE);
 		SetDlgItemInt(_hDlg, TXT_FEMALE, numFemale, FALSE);
 		SetDlgItemInt(_hDlg, TXT_MALE, numMale, FALSE);
-		SetDlgItemInt(_hDlg, TXT_AGE, numBirthContacts > 0 ? max(0, (age - (age % numBirthContacts)) / numBirthContacts) : 0, FALSE);
+		SetDlgItemInt(_hDlg, TXT_AGE, numBirthContacts > 0 ? (age - (age % numBirthContacts)) / numBirthContacts : 0, FALSE);
 	}
 
 	// This method deletes all items from the listview
@@ -925,7 +925,7 @@ public:
  *
  * @return	always 0
  **/
-INT_PTR DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam)
+INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
 {
 	if (!gpDlg) {
 		try {

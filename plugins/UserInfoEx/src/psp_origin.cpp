@@ -72,8 +72,6 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 					switch (((LPNMHDR) lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
-							BYTE bChanged = 0;
-
 							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
 								break;
 
@@ -101,7 +99,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 								}
 							}
 						 
-							SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
+							SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
 						}
 						break;
 				

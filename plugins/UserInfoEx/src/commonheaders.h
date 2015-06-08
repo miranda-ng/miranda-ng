@@ -100,7 +100,7 @@ using namespace std;
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define FREE(p)				{if (PtrIsValid(p)){free((void*)p);(p)=NULL;}}
-#define MIR_DELETE(p)		{LPVOID ptr = (LPVOID)(p);if (PtrIsValid(ptr)){delete(ptr);(ptr)=NULL;}}
+#define MIR_DELETE(p)		{if (PtrIsValid(p)){delete(p);(p)=NULL;}}
 #define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}
 
 #define GetUserData(p)		GetWindowLongPtr((p), GWLP_USERDATA)

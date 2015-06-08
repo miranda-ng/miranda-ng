@@ -276,7 +276,7 @@ HICON CPsTreeItem::ProtoIcon()
 {
 	PROTOACCOUNT **pa;
 	int ProtoCount;
-	if (!CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&pa)) {
+	if (!ProtoEnumAccounts(&ProtoCount, &pa)) {
 		if (_pszName) {
 			for (int i = 0; i < ProtoCount; i++) {
 				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
@@ -305,8 +305,6 @@ HICON CPsTreeItem::ProtoIcon()
  **/
 int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOnly)
 {
-	HICON hIcon;
-
 	// check parameter
 	if (!_pszName || !odp)
 		return 1;
@@ -315,7 +313,8 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 	LPCSTR pszIconName = IconKey();
 
 	// use icolib to handle icons
-	if (!(hIcon = Skin_GetIcon(pszIconName))) {
+	HICON hIcon = Skin_GetIcon(pszIconName);
+	if (!hIcon) {
 		bool bNeedFree = false;
 
 		SKINICONDESC sid = { 0 };
