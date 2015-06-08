@@ -188,7 +188,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 			msg.AppendFormat("%s\n%s %s:\n%s", mir_utf8decodeA(dbMsgText), Translate("Edited at"), T2Utf(time), mir_utf8decodeA(message));
 			db_event_delete(hContact, dbevent);
-			AddMessageToDb(hContact, dbEventTimestamp, DBEF_UTF, skypeEditedId.c_str(), mir_utf8encode(msg.GetBuffer()));
+			AddMessageToDb(hContact, dbEventTimestamp, DBEF_UTF, skypeEditedId.c_str(), ptrA(mir_utf8encode(msg.GetBuffer())));
 		}
 		else OnReceiveMessage(clientMsgId.c_str(), conversationLink.c_str(), timestamp, message, emoteOffset);
 	}
