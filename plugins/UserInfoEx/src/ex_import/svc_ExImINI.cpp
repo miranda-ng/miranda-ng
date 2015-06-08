@@ -434,17 +434,16 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
  **/
 int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
 {
-	FILE	*file;
-	MCONTACT hNewContact = INVALID_CONTACT_ID;
-	DWORD	end,
-			numLines				= 0;
-	CHAR	szModule[MAXSETTING]	= {0};
-	WORD	numContactsInFile		= 0,		// number of contacts in the inifile
-			numContactsAdded		= 0;		// number of contacts, that were added to the database
-	CHAR	*strBuf					= (CHAR *) mir_alloc(1);
-			*strBuf					= 0;
-	
-	if (file = fopen(pszFileName, "rt")) {
+	FILE *file = fopen(pszFileName, "rt");
+	if (file) {
+		MCONTACT hNewContact = INVALID_CONTACT_ID;
+		DWORD	end,
+				numLines				= 0;
+		CHAR	szModule[MAXSETTING]	= {0};
+		WORD	numContactsInFile		= 0,		// number of contacts in the inifile
+				numContactsAdded		= 0;		// number of contacts, that were added to the database
+		CHAR	*strBuf					= (CHAR *) mir_alloc(1);
+				*strBuf					= 0;
 		SetCursor(LoadCursor(NULL, IDC_WAIT));
 
 		while (ImportreadLine(file, strBuf)) {

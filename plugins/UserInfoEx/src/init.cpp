@@ -36,6 +36,7 @@ static PLUGININFOEX pluginInfo = {
 };
 
 int hLangpack;
+HMODULE hDwmApi;
 
 /*
 ============================================================================================
@@ -52,7 +53,7 @@ int hLangpack;
  *
  * @return	always 0
  **/
-static int OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
+static int OnTopToolBarLoaded(WPARAM, LPARAM)
 {
 	DlgAnniversaryListOnTopToolBarLoaded();
 	SvcReminderOnTopToolBarLoaded();
@@ -67,7 +68,7 @@ static int OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  *
  * @return	always 0
  **/
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 
@@ -90,7 +91,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM, LPARAM)
 {
 	DlgContactInfoUnLoadModule();
 	SvcReminderUnloadModule();
@@ -145,6 +146,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {
  **/
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	FreeLibrary(hDwmApi);
 	return 0;
 }
 
@@ -182,7 +184,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	if (IsWinVerVistaPlus()) {
-		HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
+		hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi)
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 	}

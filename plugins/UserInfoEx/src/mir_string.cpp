@@ -54,8 +54,8 @@ wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
 char* mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo)
 {
 	char *pszReturn = NULL;
-	size_t sizeNew, sizeLen = mir_strlen(pszDest);
-	if (sizeFrom >= 0 && sizeFrom < sizeLen && sizeTo >= 0 && sizeTo <= sizeLen && sizeFrom < sizeTo) {
+	size_t sizeNew = 0, sizeLen = mir_strlen(pszDest);
+	if (sizeFrom < sizeLen && sizeTo <= sizeLen && sizeFrom < sizeTo) {
 		sizeNew = sizeLen - (sizeTo - sizeFrom);
 		size_t sizeCopy = sizeNew - sizeFrom;
 		pszReturn = (char *)mir_alloc(sizeNew + 1);

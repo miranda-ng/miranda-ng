@@ -480,11 +480,6 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			bct->hBitmap = (HBITMAP)lParam;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
-		else if (wParam == NULL && lParam == NULL) {
-			bct->hIcon = NULL;
-			bct->hBitmap = NULL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-		}
 		break;
 	case BM_SETCHECK:
 		if (!(bct->dwStyle & MBS_PUSHBUTTON)) break;

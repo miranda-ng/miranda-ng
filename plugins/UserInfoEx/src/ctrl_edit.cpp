@@ -289,21 +289,21 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 void CEditCtrl::OpenUrl()
 {
 	int lenUrl = 1 + Edit_GetTextLength(_hwnd);
-	LPSTR szUrl;
+	LPTSTR szUrl;
 	BYTE need_free = 0;
 
 	__try 
 	{
-		szUrl = (LPSTR)alloca((8 + lenUrl) * sizeof(CHAR));
+		szUrl = (LPTSTR)alloca((8 + lenUrl) * sizeof(TCHAR));
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER) 
 	{
-		szUrl = (LPSTR)mir_alloc((8 + lenUrl) * sizeof(CHAR));
+		szUrl = (LPTSTR)mir_alloc((8 + lenUrl) * sizeof(TCHAR));
 		need_free = 1;
 	}
-	if (szUrl && (GetWindowTextA(_hwnd, szUrl, lenUrl) > 0))
+	if (szUrl && (GetWindowText(_hwnd, szUrl, lenUrl) > 0))
 	{
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
+		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szUrl);
 	}
 	if (need_free)
 	{
@@ -313,6 +313,8 @@ void CEditCtrl::OpenUrl()
 
 LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 {
+	if (lnk == NULL)
+		return FALSE;
 	switch (lnk->msg)
 	{
 	case WM_SETCURSOR:
@@ -324,46 +326,38 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 
 	case WM_LBUTTONUP: 
 		{
-			if (lnk)
+			TEXTRANGE tr;
+			BYTE need_free = 0;
+
+			// do not call function if user selected some chars of the url string
+			SendMessage(_hwnd, EM_EXGETSEL, NULL, (LPARAM) &tr.chrg);
+			if (tr.chrg.cpMax == tr.chrg.cpMin)
 			{
-				TEXTRANGE tr;
-				BYTE need_free = 0;
+				// retrieve the url string
+				tr.chrg = lnk->chrg;
 
-				// do not call function if user selected some chars of the url string
-				SendMessage(_hwnd, EM_EXGETSEL, NULL, (LPARAM) &tr.chrg);
-				if (tr.chrg.cpMax == tr.chrg.cpMin)
+				__try 
 				{
-					// retrieve the url string
-					tr.chrg = lnk->chrg;
+					tr.lpstrText = (LPTSTR)alloca((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
+				}
+				__except(EXCEPTION_EXECUTE_HANDLER) 
+				{
+					tr.lpstrText = (LPTSTR)mir_alloc((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
+					need_free = 1;
+				}
+				if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0))
+				{
+					if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) 
+					{
+							memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
+							memcpy(tr.lpstrText, _T("mailto:"), (7*sizeof(TCHAR)));
+					}
 
-					__try 
-					{
-						tr.lpstrText = (LPTSTR)alloca((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
-					}
-					__except(EXCEPTION_EXECUTE_HANDLER) 
-					{
-						tr.lpstrText = (LPTSTR)mir_alloc((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
-						need_free = 1;
-					}
-					if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0))
-					{
-						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) 
-						{
-							 memmove(tr.lpstrText + (7*sizeof(TCHAR)), tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
-							 memcpy(tr.lpstrText, _T("mailto:"), (7*sizeof(TCHAR)));
-						}
-
-						LPSTR pszUrl = mir_t2a(tr.lpstrText);
-						if (pszUrl)
-						{
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)pszUrl);
-							mir_free(pszUrl);
-						}
-					}
-					if (need_free)
-					{
-						MIR_FREE(tr.lpstrText);
-					}
+					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tr.lpstrText);
+				}
+				if (need_free)
+				{
+					MIR_FREE(tr.lpstrText);
 				}
 			}
 		}

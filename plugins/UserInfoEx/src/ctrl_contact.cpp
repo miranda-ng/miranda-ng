@@ -186,17 +186,19 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			if (HIWORD(wParam) == BN_CLICKED) {
-				case IDOK:
-				{
+			case IDOK: {
+				if (HIWORD(wParam) == BN_CLICKED) {
 					if (cbi->pszVal && cbi->ccVal > 0)
 						GetDlgItemText(hDlg, EDIT_EMAIL, cbi->pszVal, cbi->ccVal);
 					if (cbi->pszCat && cbi->ccCat > 0)
 						GetDlgItemText(hDlg, EDIT_CATEGORY, cbi->pszCat, cbi->ccCat);
 				}
-				case IDCANCEL:
+				break;
+			}
+			case IDCANCEL: {
+				if (HIWORD(wParam) == BN_CLICKED) 
 					EndDialog(hDlg, LOWORD(wParam));
-					break;
+				break;
 			}
 			case EDIT_EMAIL:
 				if (HIWORD(wParam) == EN_UPDATE) {
@@ -288,9 +290,8 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			if (HIWORD(wParam) == BN_CLICKED) {
-				case IDOK:
-				{
+			case IDOK:
+				if (HIWORD(wParam) == BN_CLICKED) {
 					TCHAR szText[MAXDATASIZE];
 					int errorPos;
 
@@ -307,9 +308,9 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				}
 				//fall through
 			case IDCANCEL:
-				EndDialog(hDlg, wParam);
+				if (HIWORD(wParam) == BN_CLICKED) 
+					EndDialog(hDlg, wParam);
 				break;
-			}
 
 		case EDIT_COUNTRY:
 			if (HIWORD(wParam) != CBN_SELCHANGE)

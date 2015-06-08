@@ -701,8 +701,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 					while (xContact = xContact->NextSiblingElement("CONTACT"));
 			}
 			// load metacontact information (after subcontact for faster import)
-			ImportContact();
-			return ERROR_OK;
+			return ImportContact();
 		}
 		// import sub contacts as normal contacts
 		return _pXmlFile->ImportContacts(_xmlNode);

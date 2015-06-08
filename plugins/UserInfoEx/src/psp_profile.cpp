@@ -1198,7 +1198,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						for (iItem = lvi.iItem = lvi.iSubItem = 0; ListView_GetItem(hList, &lvi); lvi.iItem++) {
 							if (!PtrIsValid(pItem = (LPLCITEM)lvi.lParam)) {
 								// delete reluctant items
-								if (iFmt >= 0 && iFmt < SIZEOF(pFmt)) {
+								if (iFmt < SIZEOF(pFmt)) {
 									DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szCatFmt, iItem);
 									DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szValFmt, iItem);
 								}

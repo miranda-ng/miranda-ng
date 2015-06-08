@@ -214,8 +214,8 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 		FreeResource(hRes);
 	}
 	else {
-		HBITMAP hScrBM = 0;
-		if (NULL == (hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED)))
+		HBITMAP hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED);
+		if (hScrBM == NULL)
 			return dib;
 		dib = FIP->FI_CreateDIBFromHBITMAP(hScrBM);
 		DeleteObject(hScrBM);
@@ -239,29 +239,26 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	//TODO: use freeimage to create merget icon and add RGB(A) support
-	HICON hUpperIcon,hLowerIcon;
 	ICONINFO icoi;
 	BITMAP bm;
-	HDC hdc;
-	POINT aptTriangle[3];
 	HICON hIcon=NULL;
-	HRGN hrgn;
-	HBITMAP hbmPrev;
 	/* load both icons */
-	if (NULL == (hLowerIcon=(HICON)ServiceLoadFlagIcon((WPARAM)lParam,0))) return NULL;
-	hUpperIcon=(HICON)ServiceLoadFlagIcon(wParam,0);
+	HICON hLowerIcon=(HICON)ServiceLoadFlagIcon((WPARAM)lParam,0);
+	if (hLowerIcon == NULL) return NULL;
+	HICON hUpperIcon=(HICON)ServiceLoadFlagIcon(wParam,0);
 	/* merge them */
 	if (GetIconInfo(hLowerIcon,&icoi)) {
 		if (hUpperIcon!=NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
-			hdc=CreateCompatibleDC(NULL);
+			HDC hdc=CreateCompatibleDC(NULL);
 			if (hdc!=NULL) {
+				POINT aptTriangle[3];
 				memset(&aptTriangle, 0, sizeof(aptTriangle));
 				aptTriangle[1].y=bm.bmHeight-1;
 				aptTriangle[2].x=bm.bmWidth-1;
-				hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);
+				HRGN hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);
 				if (hrgn!=NULL) {
 					SelectClipRgn(hdc,hrgn);
-					hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
+					HBITMAP hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
 					if (hbmPrev!=NULL) {  /* error on select? */
 						if (DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE)) {
 							if (SelectObject(hdc,icoi.hbmMask)!=NULL) /* error on select? */
@@ -304,12 +301,14 @@ void InitIcons()
 		return;
 	}
 
+/*
 	//	res = FIP->FI_IsTransparent(dib_ico);
 	if (bit < 32) {
 		//disable transparency
 		FIP->FI_SetTransparent(dib, FALSE);
 		FIP->FI_SetTransparent(dib_ico, FALSE);
 	}
+*/
 
 	UINT h = FIP->FI_GetHeight(dib_ico);
 	UINT w = FIP->FI_GetWidth(dib_ico);
