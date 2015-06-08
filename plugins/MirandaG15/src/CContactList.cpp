@@ -1003,14 +1003,14 @@ void CContactList::InitializeGroupObjects()
 	int res = 0;
 	CContactListGroup *pGroup = NULL;
 	
-	MCONTACT hContact =  db_find_first();
+	
 	HANDLE hMetaContact = NULL;
 	char *szProto = NULL;
-	while(hContact != NULL)
+	for(MCONTACT hContact =  db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 	{
 		tstring strGroup = GetContactGroupPath(hContact);
 		szProto = GetContactProto(hContact);
-		if(szProto && db_get_b(NULL,"MetaContacts","Enabled",1) && !mir_strcmpi(szProto,"MetaContacts"))
+		if(szProto && db_get_b(NULL,META_PROTO,"Enabled",1) && !mir_strcmpi(szProto,META_PROTO))
 		{
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
 			tstring strPath = _T("");
@@ -1037,8 +1037,6 @@ void CContactList::InitializeGroupObjects()
 			if(!db_mc_isSub(hContact))
 				ChangeGroupObjectCounters(strGroup,1);
 		}
-
-        hContact = db_find_next(hContact);
     }
 }
 
