@@ -33,7 +33,7 @@ public:
 
 		mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
 
-		char *hash = mir_base64_encode(digest, sizeof(digest));
+		ptrA hash(mir_base64_encode(digest, sizeof(digest)));
 
 		Body
 			<< CHAR_VALUE("scopes", "client")
