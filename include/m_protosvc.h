@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
+Copyright (c) 2012-15 Miranda NG project (http://miranda-ng.org)
 Copyright (c) 2000-09 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -146,6 +146,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_NOAUTHDENYREASON 0x00000400 // protocol doesn't support authorization deny reason
 #define PF4_GROUPCHATFILES   0x00000800 // protocol supports sending files to group chats
 #define PF4_SINGLEFILEONLY   0x00001000 // protocol supports sending files one by one only
+#define PF4_READNOTIFY       0x00002000 // protocol supports receiving notify of message reading
 
 #define PFLAG_UNIQUEIDTEXT          100 // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 #define PFLAG_MAXCONTACTSPERPACKET  200 // returns the maximum number of contacts which can be sent in a single PSS_CONTACTS, lParam = (LPARAM)hContact.
