@@ -1,0 +1,25 @@
+﻿#muuid {31aaef41-1411-487e-86e2-c484f4174283}
+;============================================================
+;  File: MessageState.dll
+;  Plugin: Message state
+;  Version: 0.0.1.0
+;  Authors: MikalaiR
+;============================================================
+;file \plugins\MessageState\src\global.h
+[Unreaded message icon]
+Ikona nieprzeczytanej wiadomości
+[Readed message icon]
+Ikona przeczytanej wiadomości
+[Failed sending icon]
+Ikona nieudanego wysyłania
+[Sending message icon]
+Ikona wysyłania wiadomości
+;file \plugins\MessageState\src\messagestate.cpp
+[Last message read at]
+ostatnią wiadomość przeczytano 
+[Last message is not read]
+Nie przeczytano ostatniej wiadomości
+[Last message was not sent.]
+Ostatnia wiadomość nie została wysłana.
+[Sending...]
+Wysyłanie...
