@@ -4,7 +4,10 @@
 #include <windows.h>
 
 #include <newpluginapi.h>
+#include <m_core.h>
+#include <m_utils.h>
 #include <m_langpack.h>
+#include <m_folders.h>
 
 extern "C"
 {
@@ -23,5 +26,13 @@ class CMLua;
 #define MODULE "MirLua"
 
 extern HINSTANCE g_hInstance;
+
+#ifdef _UNICODE
+	#define COMMON_SCRIPTS_PATHT MIRANDA_PATHW L"\\Scripts"
+	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATAW L"\\Scripts"
+#else
+	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
+	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
+#endif
 
 #endif //_COMMON_H_

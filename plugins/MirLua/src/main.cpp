@@ -1,8 +1,11 @@
 #include "stdafx.h"
 
 int hLangpack;
-CMLua *g_luaCore;
 HINSTANCE g_hInstance;
+
+CMLua *g_mLua;
+HANDLE hCommonFolderPath;
+HANDLE hCustomFolderPath;
 
 PLUGININFOEX pluginInfo =
 {
@@ -32,18 +35,53 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
+void LoadScripts(const TCHAR *scriptDir)
+{
+	TCHAR searchMask[MAX_PATH];
+	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
+
+	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
+
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = FindFirstFile(searchMask, &fd);
+	if (hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+			{
+				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
+				PathToRelativeT(fullPath, path);
+				g_mLua->Load(T2Utf(path));
+			}
+		} while (FindNextFile(hFind, &fd));
+		FindClose(hFind);
+	}
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	g_luaCore = new CMLua();
+	g_mLua = new CMLua();
+
+	hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
+	hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
+
+	TCHAR commonScriptDir[MAX_PATH];
+	FoldersGetCustomPathT(hCommonFolderPath, commonScriptDir, SIZEOF(commonScriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	LoadScripts(commonScriptDir);
+
+	TCHAR customScriptDir[MAX_PATH];
+	FoldersGetCustomPathT(hCommonFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
+	LoadScripts(customScriptDir);
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	delete g_luaCore;
+	delete g_mLua;
 
 	return 0;
 }
