@@ -39,5 +39,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	UnInitModule();
 	return 0;
 }
