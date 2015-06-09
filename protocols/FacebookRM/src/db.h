@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_DELETED				"DeletedTS"
 #define FACEBOOK_KEY_CONTACT_TYPE			"ContactType"
 #define FACEBOOK_KEY_MESSAGE_ID				"LastMessageId"
-#define FACEBOOK_KEY_MESSAGE_READ			"MessageRead"
+#define FACEBOOK_KEY_MESSAGE_READ			"LastMsgReadTime"
 #define FACEBOOK_KEY_MESSAGE_READERS		"MessageReaders"
 
 // Contact and account DB keys
