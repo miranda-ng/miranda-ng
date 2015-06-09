@@ -135,7 +135,7 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
-luaL_Reg CMLua::CoreFunctions[10] =
+luaL_Reg CMLua::coreFunctions[10] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
 	{ "DestroyHookableEvent", lua_DestroyHookableEvent },
@@ -151,5 +151,5 @@ luaL_Reg CMLua::CoreFunctions[10] =
 	{ "ServiceExists", lua_ServiceExists },
 	{ "CallService", lua_CallService },
 
-	{ 0, 0 }
+	{ NULL, NULL }
 };

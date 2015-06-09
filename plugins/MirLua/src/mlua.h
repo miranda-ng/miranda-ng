@@ -4,13 +4,15 @@
 class CMLua
 {
 private:
-	lua_State *lua;
+	lua_State *L;
+
+	void Preload(const char *name, lua_CFunction func);
 
 public:
 	CMLua();
 	~CMLua();
 
-	static luaL_Reg CoreFunctions[10];
+	static luaL_Reg coreFunctions[10];
 
 	void Load(const char *name);
 };
