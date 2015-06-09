@@ -1,0 +1,2 @@
+﻿[Authentication failed. Invalid username.]
+[Enter confirmation code]

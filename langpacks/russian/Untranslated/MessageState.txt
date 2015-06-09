@@ -1,0 +1,7 @@
+﻿[Unreaded message icon]
+[Readed message icon]
+[Failed sending icon]
+[Sending message icon]
+[Last message readed at]
+[Last message is not readed]
+[Last message send failed]
