@@ -5,8 +5,8 @@ static LIST<void> arMonitoredWindows(3, PtrKeySortT);
 
 static IconItem Icons[] = 
 {
-	{ LPGEN("Unreaded message icon"), "unread_icon", IDI_UNREAD },
-	{ LPGEN("Readed message icon"), "read_icon", IDI_READ },
+	{ LPGEN("Unread message icon"), "unread_icon", IDI_UNREAD },
+	{ LPGEN("Read message icon"), "read_icon", IDI_READ },
 	{ LPGEN("Failed sending icon"), "fail_icon", IDI_FAIL },
 	{ LPGEN("Sending message icon"), "nosent_icon", IDI_NOSENT }
 };
