@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.0
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -70,6 +70,7 @@
 [Action icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_login.cpp
+[Authentication failed. Invalid username.]
 [Authentication failed. Bad username or password.]
 [Too many failed authentication attempts with given username or IP.]
 [Authentication failed. Unknown error.]
@@ -81,6 +82,8 @@
 [Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
+[Enter confirmation code]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
