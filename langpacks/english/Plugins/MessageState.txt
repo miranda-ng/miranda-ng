@@ -11,7 +11,7 @@
 [Failed sending icon]
 [Sending message icon]
 ;file \plugins\MessageState\src\messagestate.cpp
-[Last message readed at]
-[Last message is not readed]
-[Last message send failed]
+[Last message read at]
+[Last message is not read]
+[Last message was not sent.]
 [Sending...]
