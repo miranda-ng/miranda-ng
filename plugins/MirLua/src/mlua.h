@@ -5,14 +5,15 @@ class CMLua
 {
 private:
 	lua_State *L;
+	HANDLE hConsole;
+
+	int luaopen_m(lua_State *L);
 
 	void Preload(const char *name, lua_CFunction func);
 
 public:
 	CMLua();
 	~CMLua();
-
-	static luaL_Reg coreFunctions[10];
 
 	void Load(const char *name);
 };

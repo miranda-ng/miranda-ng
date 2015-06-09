@@ -8,6 +8,7 @@
 #include <m_utils.h>
 #include <m_langpack.h>
 #include <m_folders.h>
+#include <m_clist.h>
 
 extern "C"
 {
@@ -34,5 +35,8 @@ extern HINSTANCE g_hInstance;
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
+
+#define LUA_CLISTLIBNAME	"m_clist"
+int luaopen_m_clist(lua_State *L);
 
 #endif //_COMMON_H_
