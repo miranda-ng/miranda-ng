@@ -38,27 +38,27 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
 				sid.flags |= MBF_HIDDEN;
 				break;
 			}
-		case ICON_READED:
+		case ICON_READ:
 			{
 				sid.hIcon = Skin_GetIcon("read_icon");
 				TCHAR ttime[64];
 				_locale_t locale = _create_locale(LC_ALL, "");
 				_tcsftime_l(ttime, SIZEOF(ttime), _T("%X %x"), localtime(&time), locale);
 				_free_locale(locale);
-				CMString tooltip(FORMAT, L"%s %s",  TranslateT("Last message readed at"), ttime);
+				CMString tooltip(FORMAT, L"%s %s",  TranslateT("Last message read at"), ttime);
 				sid.tszTooltip = mir_tstrdup(tooltip.GetBuffer());
 				break;
 			}
-		case ICON_UNREADED:
+		case ICON_UNREAD:
 			{
 				sid.hIcon = Skin_GetIcon("unread_icon");
-				sid.tszTooltip = TranslateT("Last message is not readed");
+				sid.tszTooltip = TranslateT("Last message is not read");
 				break;
 			}
 		case ICON_FAILED:
 			{
 				sid.hIcon = Skin_GetIcon("fail_icon");
-				sid.tszTooltip = TranslateT("Last message send failed");
+				sid.tszTooltip = TranslateT("Last message was not sent.");
 				break;
 			}
 		case ICON_NOSENT:
@@ -82,7 +82,7 @@ int IconsUpdate(WPARAM hContact, LONGLONG readtime)
 	LONGLONG lasttime = GetLastSentMessageTime(hContact);
 	if (lasttime != -1 && readtime != 0)
 	{
-		SetSRMMIcon(hContact, (readtime >= lasttime) ? ICON_READED : ICON_UNREADED, readtime);
+		SetSRMMIcon(hContact, (readtime >= lasttime) ? ICON_READ : ICON_UNREAD, readtime);
 	}
 	else 
 		SetSRMMIcon(hContact, ICON_HIDDEN);
@@ -96,7 +96,7 @@ int OnProtoAck(WPARAM, LPARAM lParam)
 	{
 		if (pAck->result == ACKRESULT_SUCCESS)
 		{
-			SetSRMMIcon(pAck->hContact, ICON_UNREADED);
+			SetSRMMIcon(pAck->hContact, ICON_UNREAD);
 		}
 		else if (pAck->result == ACKRESULT_FAILED)
 		{
