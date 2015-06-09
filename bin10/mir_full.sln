@@ -425,6 +425,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftDynmap", "..\proto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroSwitch", "..\plugins\ZeroSwitch\ZeroSwitch.vcxproj", "{D31CD2B4-9025-4B01-9F74-EEEE2E94DDF4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageState", "..\plugins\MessageState\MessageState.vcxproj", "{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1917,6 +1919,14 @@ Global
 		{D31CD2B4-9025-4B01-9F74-EEEE2E94DDF4}.Release|Win32.Build.0 = Release|Win32
 		{D31CD2B4-9025-4B01-9F74-EEEE2E94DDF4}.Release|x64.ActiveCfg = Release|x64
 		{D31CD2B4-9025-4B01-9F74-EEEE2E94DDF4}.Release|x64.Build.0 = Release|x64
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Debug|Win32.Build.0 = Debug|Win32
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Debug|x64.ActiveCfg = Debug|x64
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Debug|x64.Build.0 = Debug|x64
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|Win32.ActiveCfg = Release|Win32
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|Win32.Build.0 = Release|Win32
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|x64.ActiveCfg = Release|x64
+		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
