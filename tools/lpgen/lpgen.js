@@ -110,7 +110,7 @@ sln_stream=FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault)
      // if exist sln_project_regexp, add to array, adding leading path to "trunk"
      if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, zlib.dll etc.
-        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|pu_stub|libcurl|glib)/i;
+        var unneeded_modules=/(Zlib|EkHtml|Libgcrypt|Libotr|Cryptlib|pu_stub|libcurl|glib)/i;
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1]))
         //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
