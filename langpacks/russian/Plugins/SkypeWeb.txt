@@ -119,6 +119,8 @@
 Значок действия
 [Protocols]
 Протоколы
+[Authentication failed. Invalid username.]
+Ошибка авторизации. Неверное имя пользователя.
 [Authentication failed. Bad username or password.]
 Не удалось авторизоваться, указано неверное имя пользователя или пароль.
 [Too many failed authentication attempts with given username or IP.]
@@ -137,6 +139,8 @@
 Разблокировать контакт
 [Create new chat]
 Создать новый чат
+[Enter confirmation code]
+Введите код подтверждения
 [Network]
 Сеть
 [%s connection]

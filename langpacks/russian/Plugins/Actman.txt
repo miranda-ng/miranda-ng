@@ -566,7 +566,7 @@ UTF16+сигнатура
 [int 0]
 целочисленный 0
 [displays File Transfer window]
-показывает окно передачи файлов
+Показывает окно передачи файлов
 [on Desktop]
 на рабочем столе
 [Show "About..." window]

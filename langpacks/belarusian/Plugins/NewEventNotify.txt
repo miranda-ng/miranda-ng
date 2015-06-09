@@ -86,6 +86,8 @@
 Вас дадалі
 [Requests your authorization]
 Запыт вашай аўтарызацыі
+[SMS Message]
+Паведамленне SMS
 [Unknown Event]
 Невядомая падзея
 [Notify of new events]

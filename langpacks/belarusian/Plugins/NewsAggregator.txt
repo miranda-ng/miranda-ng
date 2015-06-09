@@ -156,8 +156,6 @@ ID навіны.
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Аватары
-[Enable/disable auto update]
-Аднаўляць аўтаматычна
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 HTTP далучэнне каналаў навін

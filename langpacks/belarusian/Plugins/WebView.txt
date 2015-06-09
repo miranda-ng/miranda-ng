@@ -52,6 +52,8 @@
 Запіс у файл
 [Append data to file]
 Дадаць змесціва ў файл
+[Popup delay]
+Затрымка вакна
 [Delay]
 Затрымка
 [From Popup plugin]
@@ -84,7 +86,13 @@
 &Уставіць
 [Co&py all]
 Капіяваць усё
+[&Select all]
+&Вылучыць усё
 ;file \plugins\WebView\src\main.cpp
+[Auto update disabled]
+Аўтаабнаўленне выключана
+[Auto update enabled]
+Аўтаабнаўленне ўключана
 ;file \plugins\WebView\src\webview.cpp
 [Network]
 Сеціва

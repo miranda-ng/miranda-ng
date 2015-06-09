@@ -6,10 +6,20 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Dropbox\res\resource.rc
+[Authorization]
+Аўтарызацыя
+[Authorize]
+Аўтарызаваць
+[Autosend download link to contact]
+Адправіць спасылку аўтаматычна
 ;file \plugins\Dropbox\src\dropbox.cpp
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 ;file \plugins\Dropbox\src\dropbox_events.cpp
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+Абразок пратаколу
+[Upload file(s)]
+Загрузіць файл(ы)
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [Network]

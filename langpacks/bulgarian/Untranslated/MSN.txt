@@ -1,5 +1,4 @@
 ﻿[Allowed (active) contact]
-[Enable Popup notifications]
 [Enable Contact List notifications]
 [Enable Tray notifications]
 [&Kick user]

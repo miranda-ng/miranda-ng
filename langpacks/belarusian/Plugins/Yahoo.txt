@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Падтрымка пратакола Yahoo.
 ;file \protocols\Yahoo\res\Yahoo.rc
-[Yahoo]
-Yahoo
-[ID:]
-ID:
 [Password:]
 Пароль:
 [Nick:]
@@ -96,13 +92,13 @@ Yahoo Японія
 [Others]
 Іншае
 [&Invite user...]
-Запрасіць кантакт...
+&Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
 [User &details]
-Дадзеныя кантакту
+&Дадзеныя кантакту
 [User &history]
-Гісторыя кантакта
+&Гісторыя кантакта
 [Join My Conference...]
 Заходзь ў мой чат...
 [No, thank you...]

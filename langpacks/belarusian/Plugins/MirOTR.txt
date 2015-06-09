@@ -139,6 +139,8 @@ OTR завершаны
 OTR не з'яўляецца бяспечным
 [OTR]
 OTR
+[Refresh]
+Абнавіць
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Стварэнне новага прыватнага ключа для пратаколу '%s'.\n Пачакайце...
 [General]
@@ -151,6 +153,8 @@ OTR
 Адбіткі
 [Contact]
 Кантакт
+[Account]
+Конт
 [Policy]
 Палітыка
 [Verified]

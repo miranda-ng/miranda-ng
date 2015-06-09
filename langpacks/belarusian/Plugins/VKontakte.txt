@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.4
+;  Version: 0.1.1.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -12,8 +12,12 @@
 адкл.
 [Other]
 Іншае
+[Photos]
+Фатаграфіі
 [Groups]
 Гурты
+[Invites]
+Запрашэнні
 [E-mail or phone number:]
 Пошта ці нумар тэлефона:
 [Password:]
@@ -52,15 +56,21 @@
 Вылучыць карыстальнікаў для запрашэння ў чат
 [New chat's title:]
 Загаловак новага пакою:
+[Share]
+Падзяліцца
+[Url:]
+Спасылка:
 ;file \protocols\VKontakte\src\misc.cpp
-[Captcha form icon]
-Абразок формы
+[Status icon]
+Абразок статусу
 [Protocols]
 Пратаколы
 [VKontakte]
 Вконтакте
 [Error]
 Памылка
+[Message read: %s]
+Паведамленне прачытана ў: %s
 [Photo]
 Фота
 [Attachments:]
@@ -93,6 +103,8 @@
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
 Папярэджанне
+[Chat]
+Чат
 [&Invite a user]
 Запрасіць кантакт
 [View/change &title]
@@ -111,11 +123,23 @@
 Сеціва
 [Account]
 Конт
+[View]
+Выгляд
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
 [Create new chat]
 Стварыць чат
+[Status message]
+Статуснае паведамленне
+[Visit profile]
+Профіль
+[Errors]
+Памылкі
+[Notification]
+Абвестка
 ;file \protocols\VKontakte\src\vk_status.cpp
+[Waiting...]
+Чаканне...
 ;file \protocols\VKontakte\src\vk_thread.cpp
 ;file \protocols\VKontakte\src\vk_wallpost.cpp

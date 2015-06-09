@@ -52,8 +52,12 @@
 Змесціва
 [Target tool]
 Прыцэл
+[File:]
+Файл:
 [Description:]
 Апісанне:
+[Result]
+Вынік
 [&Copy]
 &Капіяваць
 [Close]
@@ -105,6 +109,8 @@
 [SendScreenshot - Error]
 SendScreenshot - Памылка
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Main Icon]
+Галоўны абразок
 [Help]
 Даведка
 [Open Folder]
@@ -175,6 +181,8 @@ HTTP далучэнне SendSS
 Выдаліць пасля адпраўкі
 [Capture]
 Запіс
+[Select a file]
+Абярыце файл
 [Select a target window.]
 Абярыце вакно для адпраўкі.
 [Screenshot ]

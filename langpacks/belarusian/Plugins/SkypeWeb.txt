@@ -2,35 +2,99 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.0.1
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+Стварыць чат
 [Cancel]
 Скасаваць
+[Mark users you want to invite to a new chat]
+Вылучыць карыстальнікаў для запрашэння ў чат
+[Invite user to chat]
+Запрасіць у чат
+[Choose one of your contacts to be invited:]
+Абярыце кантакт для запрашэння ў чат:
 [Password:]
 Пароль:
+[Default group:]
+Гурт:
+[Account]
+Конт
+[Others]
+Іншае
+[Place:]
+Месца:
+[Enter password]
+Увядзіце пароль
+[Save password]
+Захаваць пароль
 ;file \protocols\SkypeWeb\src\main.cpp
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+[Admin]
+Адмін
+[User]
+Карыстач
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
+[Warning]
+Увага
+[&Invite user...]
+&Запрасіць кантакт...
+[&Leave chat session]
+&Пакінуць сеанс
+[Set &role]
+Усталяваць &ролю
+[&Admin]
+&Адмін
+[&User]
+&Карыстач
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Вы ўпэўнены?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
+[Action]
+Дзеянне
+[Notifications]
+Абвесткі
+[Errors]
+Памылкі
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Duration]
+Працягласць
+[File transfer]
+Перадача файла
+[File name]
+Імя файла
 [Size]
 Памер
 [bytes]
 байт
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Protocol icon]
+Абразок пратаколу
+[Protocols]
+Пратаколы
+;file \protocols\SkypeWeb\src\skype_login.cpp
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+[Block contact]
+Заблакаваць
+[Create new chat]
+Стварыць чат
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 ;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+Паведамленне прачытана ў: %s

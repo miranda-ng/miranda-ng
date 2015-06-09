@@ -255,8 +255,6 @@
 [To default]
 Па змаўчанні
 ;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-Аднаўляць аўтаматычна
 [Auto Update Enabled]
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]

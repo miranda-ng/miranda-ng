@@ -8,7 +8,6 @@
 [min.]
 [(0-disabled)]
 [Keep connection on error]
-[sec (0 default, -1 disabled)]
 [Left button click cmd:]
 [Command parameters:]
 [Show again if still unread]

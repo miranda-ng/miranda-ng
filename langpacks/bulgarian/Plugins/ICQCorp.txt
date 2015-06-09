@@ -5,15 +5,31 @@
 ;  Version: 0.0.1.0
 ;  Authors: Miranda NG Team, Eugene Tarasenko
 ;============================================================
+[UIN:]
+UIN:
+[External IP:]
+Външно IP:
+[Internal IP:]
+Вътрешно IP:
 [Port:]
 Порт:
+[Login Server:]
+Сървър:
 [Password:]
 Парола:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Необходимо е да се свържете наново към мрежата ICQ, за да бъдат осъществени направените тук промените.
 [Network]
 Мрежа
+[ICQ number:]
+ICQ номер:
 [%d files]
 %d файла
 [%d directories]
 %d директории
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Прехвърлянето е прекратено защото Miranda не може да отвори файла за писане. Вероятно сте задали файлът да се съхрани в папка, която е само за четене.
 [<not specified>]
 <неуточнено>

@@ -5,5 +5,19 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
+[Unreaded message icon]
+Значок непрочитанного сообщения
+[Readed message icon]
+Значок прочитанного сообщения
+[Failed sending icon]
+Значок ошибки при отправке сообщения
+[Sending message icon]
+Значок отправки сообщения
+[Last message read at]
+Последнее сообщение прочитано в
+[Last message is not read]
+Последнее сообщение не прочитано
+[Last message was not sent.]
+Последнее сообщение не отправлено.
 [Sending...]
 Передача...

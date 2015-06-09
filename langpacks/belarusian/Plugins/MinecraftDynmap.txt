@@ -6,9 +6,23 @@
 ;  Authors: Robert Pösel
 ;============================================================
 ;file \protocols\MinecraftDynmap\res\resource.rc
+[Server:]
+Сервер:
+[Visible name:]
+Бачнае імя:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
+[Server]
+Сервер
+[You]
+Вы
 ;file \protocols\MinecraftDynmap\src\communication.cpp
 ;file \protocols\MinecraftDynmap\src\dialogs.cpp
+[Protocol icon]
+Абразок пратаколу
 ;file \protocols\MinecraftDynmap\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
+[Visible name]
+Бачнае імя

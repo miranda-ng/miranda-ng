@@ -19,6 +19,8 @@ Popup настройки
 Текст
 [Close after:]
 Затваряне след:
+[sec (0 default, -1 disabled)]
+сек (0=стандарт, -1=постоянно)
 [Sender]
 Изпращач
 [Subject]

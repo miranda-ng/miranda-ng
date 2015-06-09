@@ -44,6 +44,8 @@
 Конт
 [Set]
 Абраць
+[when full-screen mode is active]
+у поўнаэкранным рэжыме
 [when screen saver engages]
 пры запуску застаўкі
 [when workstation is locked]
@@ -244,6 +246,14 @@ Dial-up (эксперыментальна)
 незад. пінг.
 [Continuously check interval (secs)]
 Інтэрвал праверкі (сек)
+[Entering first auto-away status]
+Увод першага статуса аўта-адсутнасці
+[Entering second auto-away status]
+Увод другога статуса аўта-адсутнасці
+[Leaving first auto-away status]
+Выдаленне першага статуса аўта-адсутнасці
+[Leaving second auto-away status]
+Выдаленне другога статуса аўта-адсутнасці
 [Becoming active without status change]
 Не змяняць статус пры вяртанні
 [Pre-conditions]

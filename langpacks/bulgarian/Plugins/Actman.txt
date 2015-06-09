@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
-;Icons
 [Apply]
 Прилагане
 [New]
@@ -38,7 +37,6 @@
 Износ
 [Registered actions]
 Регистрирани действия
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия  на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
 [Actman settings converted to new version]
@@ -271,7 +269,6 @@ DWORD
 стойност (име)
 [name 'value']
 име 'стойност'
-;Scheduler
 [Start]
 Начало
 [Days]
@@ -292,12 +289,10 @@ DWORD
 Изпрати събитието при стартиране
 [Send event just once]
 Изпрати събитието само веднъж
-;Hooks
 [Description]
 Описание
 [Event]
 Събитие
-;Use Actions
 [Action list]
 Списък с действия
 [Where to use]
@@ -342,7 +337,6 @@ TopToolBar
 Разделен(а)
 [Do not translate]
 Без превеждане
-;services.ini
 [Hide All Titlebars]
 Скриване на всички заглавни ленти
 [Show All Frames]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.0.1
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Cancel]
@@ -15,6 +15,8 @@
 Акаунт
 [Others]
 Други
+[Place:]
+Място:
 [Enter password]
 Въведете парола
 [Save password]
@@ -37,12 +39,22 @@
 Потребител
 [Are you sure?]
 Сигурни ли сте?
+[Incoming call]
+Входящо обаждане
 [Action]
 Действие
+[Notifications]
+Уведомявания
+[Errors]
+Грешки
 [Call started]
 Начало на разговора
 [Call ended]
 Край на разговора
+[File transfer]
+Прехвърляне на файл
+[File name]
+Име на файла
 [Size]
 Размер
 [bytes]
@@ -55,7 +67,11 @@
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
+[Block contact]
+Блокиране на контакта
 [Network]
 Мрежа
 [%s connection]
 %s връзка
+[Incoming call from %s]
+Входящо обаждане от %s

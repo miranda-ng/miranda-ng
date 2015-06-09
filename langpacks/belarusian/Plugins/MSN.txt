@@ -112,13 +112,13 @@
 [Chat #]
 Чат #
 [&Invite user...]
-Запрасіць кантакт...
+&Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
 [User &details]
-Дадзеныя кантакту
+&Дадзеныя кантакту
 [User &history]
-Гісторыя кантакта
+&Гісторыя кантакта
 ;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u байт

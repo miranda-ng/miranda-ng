@@ -12,10 +12,18 @@
 Пароль:
 [Add]
 Дадаць
+[Save]
+Захаваць
 [Delete]
 Выдаліць
+[Configuration]
+Канфігурацыя
+[minutes]
+хвілін(ы)
 [seconds]
 секунд(ы)
+[Popup plugin]
+Успл. вокны
 ;file \plugins\GmailNotifier\src\check.cpp
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]

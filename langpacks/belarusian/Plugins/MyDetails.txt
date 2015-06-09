@@ -16,8 +16,6 @@
 Скасаваць
 [General]
 Агульнае
-[RTL]
-RTL
 [Align text to right]
 Выраўнаваць справа
 [Auto-resize frame]

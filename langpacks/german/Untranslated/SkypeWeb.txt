@@ -1,4 +1,5 @@
 ﻿[Use hostname]
+[Authentication failed. Invalid username.]
 [Authentication failed. Bad username or password.]
 [Too many failed authentication attempts with given username or IP.]
 [Authentication failed. Unknown error.]

@@ -140,6 +140,10 @@
 [Enter positive number.]
 Увядзіце станоўчую лічбу.
 ;file \plugins\Quotes\src\Forex.cpp
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
 [Quotes]
 Каціроўкі
 [Refresh All Quotes\\Rates]

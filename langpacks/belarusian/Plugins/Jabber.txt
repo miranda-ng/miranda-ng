@@ -633,7 +633,7 @@ xHTML фармат чат-паведамленняў
 [Member &info]
 Правы доступу
 [User &details]
-Дадзеныя кантакту
+&Дадзеныя кантакту
 [&Add to roster]
 &Дадаць у росцер
 [&Copy to clipboard]
@@ -641,7 +641,7 @@ xHTML фармат чат-паведамленняў
 [Invite to room]
 Запрасіць у чат
 [Set &role]
-Усталяваць ролю
+Усталяваць &ролю
 [&Visitor]
 Наведвальнік
 [&Participant]

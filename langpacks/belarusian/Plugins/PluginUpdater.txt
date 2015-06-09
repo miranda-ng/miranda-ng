@@ -46,6 +46,8 @@
 Зададзеная версія
 [Notifications]
 Абвесткі
+[Restart]
+Перазапуск
 [Errors]
 Памылкі
 [Info messages]
@@ -60,6 +62,8 @@
 Наладзіць колеры
 [Use &Windows colors]
 Колеры Windows
+[Use defa&ult colors]
+Колеры па змаўчанні
 [Preview]
 Прагляд
 [Click action]
@@ -133,6 +137,10 @@
 ;file \plugins\PluginUpdater\src\Events.cpp
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+Зачыніць вакно
+[Do nothing]
+Нічога не рабіць
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 гадзін(ы)

@@ -38,6 +38,8 @@
 Тэкст
 [Close after:]
 Закрыць пасля:
+[sec (0 default, -1 disabled)]
+сек.(0 змаўчанне, -1 адключана)
 [Left button click cmd:]
 Каманда па левай пстрычцы мышы:
 [Command parameters:]

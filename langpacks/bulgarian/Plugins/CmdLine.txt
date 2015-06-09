@@ -7,18 +7,6 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Приставката позволява контролирането на Miranda от командния ред.
-[Available commands: ]
-Налични команди:\s
-[%s usage:\n]
-%s употреба:\n
-[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-Така ще окажете на Miranda да изпълни определена команда. Командите може да са без параметър, с един или повече параметри. Ползвайте "%s help" за да получите пълния списък с команди.\n
-[No command can have more than %d parameters.\n]
-Командите не могат да имат повече от %d параметъра.\n
-[%s version %s]
-%s версия %s
-[Unknown command '%s'.\n]
-Неизвестна команда "%s".\n
 [Could not initialize CmdLine plugin property]
 Приставката CmdLine не може да бъде инициализирана коректно
 [Error]

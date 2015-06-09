@@ -6,6 +6,8 @@
 ;  Authors: Eugene f2065
 ;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
+[Close Miranda]
+Зачыніць Miranda
 [Clear]
 Сцерці
 [Show/Hide contact list]

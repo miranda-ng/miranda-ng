@@ -6,16 +6,38 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\Tox\res\resource.rc
+[Import]
+Імпартаваць
+[Copy ID]
+Капіяваць ID
+[Export]
+Экспарт
 [Name:]
 Імя:
 [Password:]
 Пароль:
+[Default group:]
+Гурт:
+[Connection settings]
+Налады далучэння
+[Enter password]
+Увядзіце пароль
+[Save password]
+Захаваць пароль
 [Cancel]
 Скасаваць
 [Add]
 Дадаць
+[Port]
+Порт
+[Public key]
+Адкрыты ключ
+[&Invite]
+Запрасіць
 [&Cancel]
 Скасаваць
+[End]
+канец
 [From:]
 Ад:
 [Date:]
@@ -30,7 +52,13 @@
 Для:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 ;file \protocols\Tox\src\tox_events.cpp
+[Action]
+Дзеянне
 ;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+Абразок пратаколу
+[Protocols]
+Пратаколы
 ;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
@@ -38,6 +66,8 @@
 Аўтарызаваць
 ;file \protocols\Tox\src\tox_multimedia.cpp
 ;file \protocols\Tox\src\tox_netlib.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\Tox\src\tox_options.cpp
 [All files]
 Усе файлы
@@ -47,5 +77,11 @@
 Вы ўпэўнены?
 [Network]
 Сеціва
+[Account]
+Конт
 ;file \protocols\Tox\src\tox_proto.cpp
+[Contact already in your contact list]
+Кантакт ужо ў вашым спісе
 ;file \protocols\Tox\src\tox_search.cpp
+[Query]
+Запыт
