@@ -5,8 +5,9 @@ CMLua::CMLua()
 	L = luaL_newstate();
 	luaL_openlibs(L);
 
-	luaL_newlib(L, CMLua::coreFunctions);
-	lua_setglobal(L, "M");
+	luaopen_m(L);
+
+	Preload(LUA_CLISTLIBNAME, luaopen_m_clist);
 }
 
 CMLua::~CMLua()
@@ -16,7 +17,8 @@ CMLua::~CMLua()
 
 void CMLua::Load(const char *path)
 {
-	luaL_dofile(L, path);
+	if (luaL_dofile(L, path))
+		printf("%s\n", lua_tostring(L, -1));
 }
 
 void CMLua::Preload(const char *name, lua_CFunction loader)

@@ -3,9 +3,13 @@
 int hLangpack;
 HINSTANCE g_hInstance;
 
-CMLua *g_mLua;
+CMLua *mLua;
 HANDLE hCommonFolderPath;
 HANDLE hCustomFolderPath;
+
+#ifdef _DEBUG
+HANDLE hConsole = NULL;
+#endif
 
 PLUGININFOEX pluginInfo =
 {
@@ -52,18 +56,31 @@ void LoadScripts(const TCHAR *scriptDir)
 			{
 				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
 				PathToRelativeT(fullPath, path);
-				g_mLua->Load(T2Utf(path));
+				mLua->Load(T2Utf(path));
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
 
+#include <io.h>
+#include <fcntl.h>
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	g_mLua = new CMLua();
+#ifdef _DEBUG
+	if (AllocConsole())
+	{
+		freopen("CONOUT$", "wt", stdout);
+		hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+		SetConsoleTitle(_T("MirLua Console"));
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+	}
+#endif
+
+	mLua = new CMLua();
 
 	hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 	hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
@@ -73,7 +90,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadScripts(commonScriptDir);
 
 	TCHAR customScriptDir[MAX_PATH];
-	FoldersGetCustomPathT(hCommonFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(hCustomFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	LoadScripts(customScriptDir);
 
 	return 0;
@@ -81,7 +98,13 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	delete g_mLua;
+#ifdef _DEBUG
+	if (hConsole)
+		CloseHandle(hConsole);
+	FreeConsole();
+#endif
+
+	delete mLua;
 
 	return 0;
 }

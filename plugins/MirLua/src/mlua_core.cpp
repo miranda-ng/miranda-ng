@@ -135,7 +135,7 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
-luaL_Reg CMLua::coreFunctions[10] =
+static luaL_Reg coreLib[] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
 	{ "DestroyHookableEvent", lua_DestroyHookableEvent },
@@ -153,3 +153,11 @@ luaL_Reg CMLua::coreFunctions[10] =
 
 	{ NULL, NULL }
 };
+
+int CMLua::luaopen_m(lua_State *L)
+{
+	luaL_newlib(L, coreLib);
+	lua_setglobal(L, "M");
+
+	return 1;
+}
