@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-HANDLE hDummyService;
-
 LONGLONG GetLastSentMessageTime(MCONTACT hContact)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
@@ -144,20 +142,12 @@ int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 
 INT_PTR DummyService(WPARAM, LPARAM){ return 0; }
 
-void UnInitModule()
-{
-	if (hDummyService)
-		DestroyServiceFunction(hDummyService);
-}
-
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
-
-	hDummyService = CreateServiceFunction(MODULENAME "/DummyService", DummyService);
 
 	// IcoLib support
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
