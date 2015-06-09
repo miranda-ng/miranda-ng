@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo protocol support for Miranda NG.]

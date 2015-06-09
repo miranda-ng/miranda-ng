@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.4
+;  Version: 0.1.1.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -295,6 +295,12 @@ Wprowadź tekst, który widzisz
 Uczestnicy
 [Owners]
 Właściciele
+[create chat]
+Stwórz czat
+[was kiked]
+został wyrzucony/a
+[left chat]
+opuścił/a czat
 [Unknown]
 Nieznany
 [Enter new chat title]
