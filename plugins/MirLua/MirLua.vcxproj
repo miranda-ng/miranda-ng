@@ -31,4 +31,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\icon.ico" />
+  </ItemGroup>
 </Project>

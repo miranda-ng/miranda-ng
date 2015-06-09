@@ -7,7 +7,8 @@ CMLua::CMLua()
 
 	luaopen_m(L);
 
-	Preload(LUA_CLISTLIBNAME, luaopen_m_clist);
+	Preload(M_ICONSLIBNAME, luaopen_m_icons);
+	Preload(M_MENUSLIBNAME, luaopen_m_menus);
 }
 
 CMLua::~CMLua()
