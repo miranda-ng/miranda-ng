@@ -309,7 +309,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 		else if (tszAction == _T("chat_kick_user")){
 			CMString tszActionMid = jnMsg["action_mid"].as_mstring();
 			if (tszActionMid.IsEmpty())
-				tszBody = TranslateT("was kiked");
+				tszBody = TranslateT("was kicked");
 			else {
 				CMString tszUid;
 				tszUid.AppendFormat(_T("%d"), uid);
@@ -321,12 +321,12 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
-							tszBody = TranslateT("was kiked");
+							tszBody = TranslateT("was kicked");
 						else
-							tszBody.AppendFormat(_T("%s by %s"), TranslateT("was kiked"), cu->m_tszNick);
+							tszBody.AppendFormat(_T("%s by %s"), TranslateT("was kicked"), cu->m_tszNick);
 					}
 					else 
-						tszBody = TranslateT("was kiked");
+						tszBody = TranslateT("was kicked");
 				}
 			}
 		}
