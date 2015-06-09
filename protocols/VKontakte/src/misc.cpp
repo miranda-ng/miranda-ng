@@ -303,7 +303,7 @@ bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 
 JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root)
 {
-	debugLogA("CVkProto::CheckJsonResponse JSONNode");
+	debugLogA("CVkProto::CheckJsonResponse");
 	root = JSONNode::parse(reply->pData);
 
 	if (!root)
