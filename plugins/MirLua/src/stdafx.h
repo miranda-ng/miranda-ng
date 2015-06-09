@@ -9,6 +9,9 @@
 #include <m_langpack.h>
 #include <m_folders.h>
 #include <m_clist.h>
+#include <m_genmenu.h>
+#include <m_icolib.h>
+#include <m_skin.h>
 
 extern "C"
 {
@@ -36,7 +39,10 @@ extern HINSTANCE g_hInstance;
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
 
-#define LUA_CLISTLIBNAME	"m_clist"
-int luaopen_m_clist(lua_State *L);
+#define M_ICONSLIBNAME	"m_icons"
+int luaopen_m_icons(lua_State *L);
+
+#define M_MENUSLIBNAME	"m_menus"
+int luaopen_m_menus(lua_State *L);
 
 #endif //_COMMON_H_
