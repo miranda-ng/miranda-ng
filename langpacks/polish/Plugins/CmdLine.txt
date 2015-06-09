@@ -7,26 +7,6 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Pozwala na kontrolowanie Mirandy poprzez wiersz poleceń.
-;file \plugins\CmdLine\MimCmd\src\commands.cpp
-[No help for '%s'.]
-Brak pomocy dla "%s".
-[Available commands: ]
-Dostępne komendy:\s
-[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
-Miranda została zamknięta lub wystąpił błąd podczas oczekiwania na wynik, nie udało się przetworzyć zapytania.
-;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
-[%s usage:\n]
-Użycie %s:\n
-[%s <command> [<param> [<param> [...]]].\n]
-%s <komenda> [<parametr> [<parametr> [...]]].\n
-[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-To powie Mirandzie, by uruchomić określoną komendę. Komenda może zawierać zero, jeden lub więcej parametrów. Użyj "%s help", by uzyskać listę dostępnych komend.\n
-[No command can have more than %d parameters.\n]
-Żadna komenda nie może zawierać więcej niż %d parametrów.\n
-[%s version %s]
-%s wersja %s
-[Unknown command '%s'.\n]
-Nieznana komenda "%s".\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
 Nie udało się zainicjować właściwości wtyczki CmdLine
