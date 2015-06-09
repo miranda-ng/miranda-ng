@@ -691,8 +691,9 @@ void facebook_client::erase_reader(MCONTACT hContact)
 	if (parent->isChatRoom(hContact)) {
 		parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READERS);
 	}
+	if (!ServiceExists("MessageState/DummyService"))
+		parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
 
-	parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
 	readers.erase(hContact);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
 }

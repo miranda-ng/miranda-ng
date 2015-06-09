@@ -170,7 +170,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 		else
 			return 0;
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_FORCEADDED | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE;
+		return PF4_NOCUSTOMAUTH | PF4_FORCEADDED | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_READNOTIFY;
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
 	case PFLAG_MAXLENOFMESSAGE:
@@ -1135,9 +1135,9 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 		// Load readers names
 		ptrT treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
-	} else {
+		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+	} else if (!ServiceExists("MessageState/DummyService")){
 		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	}
-
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
