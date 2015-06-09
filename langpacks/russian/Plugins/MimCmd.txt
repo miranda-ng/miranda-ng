@@ -1,0 +1,7 @@
+﻿;#muuid for MimCmd not found, please specify manually!
+;============================================================
+;  File: MimCmd.exe
+;  Plugin: MimCmd
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
