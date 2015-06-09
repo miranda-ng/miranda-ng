@@ -24,6 +24,7 @@ enum SRMM_ICON_TYPE
 #define DBKEY_MESSAGE_READ_TIME "LastMsgReadTime"
 
 int OnModulesLoaded(WPARAM, LPARAM);
-void UnInitModule();
+INT_PTR DummyService(WPARAM, LPARAM);
+
 
 #endif //_GLOBAL_H_

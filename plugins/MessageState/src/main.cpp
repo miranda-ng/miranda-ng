@@ -2,6 +2,7 @@
 
 int hLangpack;
 HINSTANCE g_hInst;
+HANDLE hDummyService;
 
 PLUGININFOEX pluginInfo = 
 {
@@ -34,11 +35,16 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+
+	hDummyService = CreateServiceFunction(MODULENAME "/DummyService", DummyService);
+
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnInitModule();
+	if (hDummyService)
+		DestroyServiceFunction(hDummyService);
+
 	return 0;
 }
