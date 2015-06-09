@@ -424,6 +424,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftDynmap", "..\proto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageState", "..\plugins\MessageState\MessageState.vcxproj", "{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirLua", "..\plugins\MirLua\MirLua.vcxproj", "{27D41D81-991F-4DC6-8749-B0321C87E694}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1934,6 +1936,14 @@ Global
 		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|Win32.Build.0 = Release|Win32
 		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|x64.ActiveCfg = Release|x64
 		{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}.Release|x64.Build.0 = Release|x64
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Debug|Win32.ActiveCfg = Debug|Win32
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Debug|Win32.Build.0 = Debug|Win32
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Debug|x64.ActiveCfg = Debug|x64
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Debug|x64.Build.0 = Debug|x64
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|Win32.ActiveCfg = Release|Win32
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|Win32.Build.0 = Release|Win32
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.ActiveCfg = Release|x64
+		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
