@@ -718,7 +718,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	debugLogA("CVkProto::OnProcessSrmmEvent");
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPENING)
+	if (event->uType == MSG_WINDOW_EVT_OPENING && !ServiceExists("MessageState/DummyService"))
 		SetSrmmReadStatus(event->hContact);
 
 	return 0;
