@@ -116,11 +116,12 @@ struct CVkChatMessage : public MZeroedObject
 		m_mid(_id),
 		m_uid(0),
 		m_date(0),
-		m_bHistory(false)
+		m_bHistory(false),
+		m_bIsAction(false)
 	{}
 
 	int m_mid, m_uid, m_date;
-	bool m_bHistory;
+	bool m_bHistory, m_bIsAction;
 	ptrT m_tszBody;
 };
 
@@ -639,7 +640,7 @@ private:
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
+	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
