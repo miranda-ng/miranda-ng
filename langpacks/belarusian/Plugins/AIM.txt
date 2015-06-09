@@ -142,13 +142,13 @@ AIM Усталяваць Instant Idle
 [Others]
 Іншае
 [&Invite user...]
-Запрасіць кантакт...
+&Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
 [User &details]
-Дадзеныя кантакту
+&Дадзеныя кантакту
 [User &history]
-Гісторыя кантакта
+&Гісторыя кантакта
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 Няслушнае імя ці пароль

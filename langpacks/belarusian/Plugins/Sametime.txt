@@ -6,32 +6,58 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 ;file \protocols\Sametime\res\resource.rc
+[Connection]
+Далучэнне
 [Password:]
 Пароль:
 [Port:]
 Порт:
+[Use popups]
+Успл. вокны
 [Contacts]
 Кантакты
 [None]
 Няма
+[Disconnected]
+Адключаны
 [Cancel]
 Скасаваць
 [Select all]
 Вылучыць усё
 ;file \protocols\Sametime\src\conference.cpp
+[Normal]
+Звычайны
 ;file \protocols\Sametime\src\files.cpp
 ;file \protocols\Sametime\src\messaging.cpp
 ;file \protocols\Sametime\src\options.cpp
 [Network]
 Сеціва
 ;file \protocols\Sametime\src\sametime.cpp
+[Protocol icon]
+Абразок пратаколу
+[Announce]
+Аб'яўленьне
+[Notification]
+Абвестка
 [Error]
 Памылка
 ;file \protocols\Sametime\src\sametime_proto.cpp
+[%s connection]
+Злучэнне %s
 ;file \protocols\Sametime\src\sametime_session.cpp
 ;file \protocols\Sametime\src\session_announce_win.cpp
 ;file \protocols\Sametime\src\userlist.cpp
 [Name]
 Імя
+[Description]
+Апісанне
 ;file \protocols\Sametime\src\utils.cpp
 ;file \protocols\Sametime\src\meanwhile\src\error.c
+[Not authorized]
+Не аўтарызаваны
+[Invalid data]
+Няслушныя дадзеныя
+[Not implemented]
+Не рэалізавана
+[Unknown error]
+Невядомая памылка

@@ -39,8 +39,24 @@
 ;file \plugins\TopToolBar\src\InternalButtons.cpp
 [Find/add contacts]
 Знайсці/дадаць кантакты
+[Show/hide offline contacts]
+Паказаць/схаваць адключаных
+[Hide offline contacts]
+Схаваць адключаных
+[Show offline contacts]
+Паказаць адключаных
+[Enable groups]
+Уключыць гурты
 [Disable groups]
 Адключыць гурты
+[Enable/disable sounds]
+Уключыць/Выключыць гукі
+[Disable sounds]
+Адключыць гукі
+[Enable sounds]
+Уключыць гукі
+[Minimize contact list]
+Схаваць спіс кантактаў
 [Exit]
 Выйсце
 ;file \plugins\TopToolBar\src\toolbar.cpp

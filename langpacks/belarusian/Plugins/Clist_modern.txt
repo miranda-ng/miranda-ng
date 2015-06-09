@@ -324,6 +324,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абразок у трэі
 [Use xStatus icon]
 Абразок xСтатуса
+[Global status]
+Агульны статус
 [Additional stuff]
 Дадаткова
 [Ignore empty extra icons places (arrange to right).]
@@ -893,6 +895,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Справа
 [Top]
 Угару
+[Bottom]
+Знізу
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Галоўнае меню

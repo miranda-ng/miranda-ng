@@ -340,7 +340,7 @@ xСтатус:
 [Client:]
 Кліент:
 [Email]
-Email
+Пошта
 [Email:]
 Пошта:
 [Gender:]
@@ -455,6 +455,10 @@ Email
 [# Solid color fill]
 \# заліванне колерам
 ;file \plugins\TipperYM\src\subst.cpp
+[%dh %dm]
+%dгадз. %dхв.
+[%dm]
+%dхв.
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон

@@ -1,0 +1,29 @@
+﻿;#muuid for MimCmd not found, please specify manually!
+;============================================================
+;  File: MimCmd.exe
+;  Plugin: MimCmd
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
+[This will tell Miranda to run the specified command.]
+Dies sagt Miranda, dass es den angegebenen Befehl ausführen soll.
+;file \plugins\MimCmd\src\commands.cpp
+[No help for '%s'.]
+Keine Hilfe für '%s'.
+[Available commands: ]
+Verfügbare Befehle:\s
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
+Miranda wurde geschlossen oder ein Fehler ist aufgetreten während auf das Ergebnis gewartet wurde, konnte Anfrage nicht verarbeiten.
+;file \plugins\MimCmd\src\MimCmd.cpp
+[%s usage:\n]
+%s Verwendung:\n
+[%s <command> [<param> [<param> [...]]].\n]
+%s <Befehl> [<Parameter> [<Parameter> [...]]].\n
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+Dies sagt Miranda, dass es den angegebenen Befehl ausführen soll. Die Befehle haben keinen, einen oder mehr Parameter. Verwenden Sie '%s help' für eine Liste aller möglichen Befehle.\n
+[No command can have more than %d parameters.\n]
+Kein Befehl kann mehr als %d Parameter haben.\n
+[%s version %s]
+%s Version %s
+[Unknown command '%s'.\n]
+Unbekannter Befehl '%s'.\n

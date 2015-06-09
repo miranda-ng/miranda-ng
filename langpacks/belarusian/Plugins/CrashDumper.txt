@@ -61,6 +61,8 @@
 З бібліятэкамі
 [Upload]
 Загрузіць
+[Copy link to clipboard]
+Капіяваць спасылку ў буфер
 [Open crash report directory]
 Тэчка захавання справаздач
 [Copy Version Info to clipboard]

@@ -57,6 +57,8 @@ Live ID:
 Обновяване
 [Hotmail]
 Hotmail
+[Enable Popup notifications]
+Уведомяване с Popup
 [Ignore new messages not in Inbox folder]
 Игнориране на писмата в папки различни от Inbox
 [Other]

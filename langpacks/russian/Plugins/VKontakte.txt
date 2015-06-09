@@ -289,6 +289,12 @@ Cоздать комнату чата
 Участники
 [Owners]
 Владельцы
+[create chat]
+создал чат
+[was kiked]
+выкинут
+[left chat]
+вышел
 [Unknown]
 Неизвестный
 [Enter new chat title]

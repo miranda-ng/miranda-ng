@@ -294,6 +294,8 @@ INI файлы
 [Finished. %d items were found.]
 Пошук завершаны, знойдзена %d элемент(аў).
 ;file \plugins\DbEditorPP\src\icons.cpp
+[Main icon]
+Галоўны абразок
 [Closed known module]
 Вядомы плагін (зачынены)
 [Open known module]

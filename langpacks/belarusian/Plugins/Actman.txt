@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Плагiн для кіравання "гарачымі" клавішамі і дзеяннямі, такімі як адкрыццё гутаркі, устаўка тэксту, запуск іншых праграм і выклік сэрвісаў.
-;Icons
 [Apply]
 Ужыць
 [New]
@@ -40,7 +39,6 @@
 Экспарт
 [Registered actions]
 Зарэгістраваныя дзеянні
-;Actions
 [Actions]
 Дзеянні
 [No description]
@@ -83,6 +81,8 @@
 Аргументы
 [Number of arguments]
 Колькасць аргументаў
+[Param]
+Параметр
 [number value]
 лік
 [ANSI string]
@@ -157,6 +157,8 @@
 Змяніць
 [Result]
 Вынік
+[Result type]
+Вынік вызаву службы
 [Free memory]
 чысціць памяць
 [DLL Handle Cache]
@@ -381,7 +383,6 @@ UTF16+сігнатура
 Цяперашні макрас
 [Select for FirstRun]
 Абраць для першага запуска
-;Scheduler
 [Scheduler]
 Планоўшчык
 [Task sample]
@@ -412,7 +413,6 @@ UTF16+сігнатура
 Адсылаць падзею пры старце задання
 [Send event just once]
 Адсылаць толькі пры першым запуску
-;Hooks
 [Hooks]
 Хукі
 [Description]
@@ -421,7 +421,6 @@ UTF16+сігнатура
 прыклад хука
 [Event]
 Падзея
-;Use Actions
 [Use Actions]
 Выкарыстанне дзеянняў
 [Action list]
@@ -464,7 +463,6 @@ UTF16+сігнатура
 Назва пункта меню:
 [Separated]
 Падзельнік
-;services.ini
 [int 0, if successful]
 0 у выніку поспеху
 [Show All Frames]
@@ -511,8 +509,12 @@ UTF16+сігнатура
 Адрасы (URL)
 [Ignore files]
 Перадачы файлаў
+[Ignore requests]
+Ігнараваць запыты
 [Ignore Contact]
 Ігнараваць кантакт
+[Station name]
+Імя станцыі
 [Protocol]
 Пратакол
 [Check for updates]

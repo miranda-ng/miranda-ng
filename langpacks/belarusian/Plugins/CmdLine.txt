@@ -7,26 +7,6 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Гэты плвгін дазваляе кіраваць Мірандай праз камандны радок.
-;file \plugins\CmdLine\MimCmd\src\commands.cpp
-[No help for '%s'.]
-Няма дапамогі для '%s'.
-[Available commands: ]
-Даступныя каманды:\s
-[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
-Miranda была зачынена ці адбылася памылка пры чаканні выніку, немагчыма апрацаваць запыт.
-;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
-[%s usage:\n]
-%s выкарыстанне:\n
-[%s <command> [<param> [<param> [...]]].\n]
-%s <каманда> [<аргумент> [<аргумент> [...]]].\n
-[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-Перадача Miranda паказанай каманды на выкананне. Каманды могуць мець ці не мець аргумент(ы). Выкарыстоўвайце '%s help' для атрымання спісу даступных каманд.\n
-[No command can have more than %d parameters.\n]
-Каманды могуць не маць %d аргументаў.\n
-[%s version %s]
-%s версія %s
-[Unknown command '%s'.\n]
-Невядомая каманда '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
 Не атрымалася ініцыялізаваць уласнасцівасці CmdLine
@@ -120,6 +100,8 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 Час чакання падцверджання ад кантакта '%s'.
 [Could not find contact handle for contact '%s'.]
 Немагчыма знайсці апрацоўнік для кантакту '%s'.
+[unknown value]
+невядомае значэнне
 [Setting '%s/%s' deleted.]
 Налада '%s/%s' выдалена.
 [Wrote '%s:%s' to database entry '%s/%s'.]

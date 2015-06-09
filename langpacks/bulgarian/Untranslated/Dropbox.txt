@@ -22,7 +22,6 @@
 [is not deleted]
 [is deleted]
 [Upload files to Dropbox]
-[Upload file(s)]
 [you are already authorized]
 [you are not authorized yet]
 ["%s" is not valid.\nUse "/help" for more info.]

@@ -98,6 +98,8 @@
 Асабістыя слоўнікі
 [Flags DLL]
 Бібліятэка са сцягамі (DLL)
+[Flags]
+Сцягі
 [Enable/disable spell checker]
 Уключыць/выключыць праверку арфаграфіі
 [Enabled]

@@ -209,6 +209,8 @@ History++ для гісторыі вокнаў
 Інфармацыя пра кантакт
 [Contact menu]
 Меню кантакту
+[Add permanently]
+Дадаць у спіс
 [Pin popup]
 Замацаваць
 [Dismiss popup]
@@ -246,6 +248,14 @@ History++ для гісторыі вокнаў
 Наведзенае дзеянне
 [Background]
 Фон
+[Border]
+Рамка
+[Sidebar]
+Урэзка
+[Title underline]
+Падкрэсленне загалоўка
+[Avatar border]
+Мяжа аватара
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Гісторыя ўсплывальных вокнаў адключана

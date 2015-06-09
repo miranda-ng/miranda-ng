@@ -134,6 +134,8 @@
 знакаў
 [Templates]
 Шаблоны
+[Template:]
+Шаблон:
 [Variables]
 Зменныя
 [Reset]
@@ -156,6 +158,8 @@
 Конты
 [Enable/Disable accounts which you don't wish to be notified for:]
 Уключыць/Выключыць абвесткі для контаў:
+[Log status changes]
+Запісваць змены статусаў
 [Log status changes to history]
 Запісваць змены статусаў у гісторыю
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
@@ -306,6 +310,8 @@
 Вы жадаеце скінуць усе шаблоны на стандартныя?
 [Reset templates]
 Скінуць шаблоны
+[Account]
+Конт
 [Filtering]
 Фільтраванне
 ;file \plugins\NewXstatusNotify\src\popup.h

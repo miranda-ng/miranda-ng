@@ -198,6 +198,8 @@ Tlen пошта
 [Grant authorization]
 Аўтарызаваць
 ;file \protocols\Tlen\src\tlen_avatar.cpp
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Не атрымалася стварыць кэш для аватараў. ПАМЫЛКА: %d: %s\n%s
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 файл

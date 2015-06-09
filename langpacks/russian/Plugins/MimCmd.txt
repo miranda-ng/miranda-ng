@@ -5,3 +5,23 @@
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[This will tell Miranda to run the specified command.]
+Передача Miranda указанной команды на выполнение.
+[No help for '%s'.]
+Нет помощи для '%s'.
+[Available commands: ]
+Доступные команды:\s
+[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
+Miranda была закрыта или произошла ошибка при ожидании результата, невозможно обработать запрос.
+[%s usage:\n]
+%s использование:\n
+[%s <command> [<param> [<param> [...]]].\n]
+%s <команда> [<аргумент> [<аргумент> [...]]].\n
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+Передача Miranda указанной команды на выполнение. Команды могут иметь или не иметь аргумент(ы). Используйте '%s help' для получения списка доступных команд.\n
+[No command can have more than %d parameters.\n]
+Команды не могут иметь больше %d аргументов.\n
+[%s version %s]
+%s версия %s
+[Unknown command '%s'.\n]
+Неизвестная команда '%s'.\n

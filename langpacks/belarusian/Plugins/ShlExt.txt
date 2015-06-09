@@ -43,6 +43,8 @@
 Вы ўпэўнены? Гэта выдаліць усе налады дадзенага модуля ў вашай БД і ўсе ключы рэестру, якія адказваюць за яго інтэграцыю ў Explorer.
 [Disable/Remove shlext]
 Адключыць/Выдаліць shlext
+[Services]
+Службы
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
 Апошнія

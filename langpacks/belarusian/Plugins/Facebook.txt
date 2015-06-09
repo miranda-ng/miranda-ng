@@ -60,12 +60,20 @@ URL:
 Абвяшчаць падказкай у трэі замест усплывальных вокнаў
 [Preview]
 Прагляд
+[Statuses]
+Статусы
 [Post Miranda statuses to Wall]
 Публікаваць статусы Miranda на сцяну
 [Turn off chat on Facebook when going to offline in Miranda]
 Адключаць чат на сайце пры адключэнні
 [Allow posting statuses to my pages (may slow down login)]
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
+[Bots challenge test]
+Абарона ад ботаў
+[Instruction:]
+Інструкцыя:
+[Submit]
+Перадаць
 [Messages]
 Паведамленні
 [Receive messages from "inbox" folder only]
@@ -75,15 +83,19 @@ URL:
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
 ;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+Увядзіце тэкст, які бачыце
 ;file \protocols\FacebookRM\src\chat.cpp
+[User]
+Карыстач
 [&Invite user...]
 &Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць чат
 [User &details]
-Дадзеныя кантакта
+&Дадзеныя кантакта
 [User &history]
-Гісторыя кантакта
+&Гісторыя кантакта
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Памылка далучэння: %s

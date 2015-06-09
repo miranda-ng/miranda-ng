@@ -1800,6 +1800,8 @@ UIN, E-mail і г.д.
 [%s is typing a message...]
 %s набірае тэкст...
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+Я
 [File sent]
 Пасылка файла
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -1821,6 +1823,8 @@ UIN, E-mail і г.д.
 Двукроп'е ва ўваходных паведамленнях
 [Message area]
 Вобласць паведамлення
+[Other events]
+Іншыя падзеі
 [Message log]
 Журнал
 [** New contacts **]
@@ -1959,6 +1963,8 @@ BMP
 [PNG bitmaps]
 Выявы PNG
 ;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Конт
 ;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
 Дадаць %s
@@ -2635,6 +2641,8 @@ ANSI плагін
 Аўтарызаваць
 [Revoke authorization]
 Адазваць аўтарызацыю
+[Warning]
+Увага
 [Always visible]
 Заўсёды бачны
 [Always invisible]

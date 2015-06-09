@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
-;Icons
 [Apply]
 Übernehmen
 [New]
@@ -42,7 +41,6 @@ Exportieren
 
 [Registered actions]
 Eingetragene Aktionen
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Ihre Actman-Einstellungen sind für eine alte Version. Wenn Sie bereit für eine Umwandlung Ihrer Einstellungen sind dann klicken Sie auf OK. Sonst klicken Sie auf Abbrechen und verwenden Sie die alte Version von ActMan, oder sichern Sie Ihre Einstellungen. Um Ihre bereits exportierten Makros beizubehalten importieren Sie diese bitte bevor Sie Ihre Einstellungen umwandeln.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
@@ -425,7 +423,6 @@ Für FirstRun auswählen
 Als flüchtig markieren
 [Single instance]
 Einzelne Instanz
-;Scheduler
 [Scheduler]
 Zeitplaner
 [Task sample]
@@ -456,7 +453,6 @@ Bei Nicht-Null-Ergebnis abbrechen
 Ereignis zur Startzeit senden
 [Send event just once]
 Ereignis nur einmalig senden
-;Hooks
 [Hooks]
 Hooks
 [Description]
@@ -467,7 +463,6 @@ Hookbeispiel
 Ereignis
 [Miranda event help]
 Miranda-Ereignishilfe
-;Use Actions
 [Use Actions]
 Aktionen verwenden
 [Action list]
@@ -516,7 +511,6 @@ Eigene Einstellungen
 Getrennt
 [Do not translate]
 Nicht übersetzen
-;services.ini
 [Show window for new/changed profile password]
 Zeigt ein Fenster für ein neues/geändertes Profilpasswort an.
 [int 0, if successful]
