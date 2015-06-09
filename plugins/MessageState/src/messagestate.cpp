@@ -90,7 +90,7 @@ int IconsUpdate(WPARAM hContact, LONGLONG readtime)
 int OnProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
-	if (pAck && pAck->type == ACKTYPE_MESSAGE && CheckProtoSupport(GetContactProto(pAck->hContact)))
+	if (pAck && pAck->type == ACKTYPE_MESSAGE && CheckProtoSupport(pAck->szModule))
 	{
 		if (pAck->result == ACKRESULT_SUCCESS)
 		{
