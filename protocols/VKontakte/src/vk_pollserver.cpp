@@ -87,7 +87,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 
 			if (hContact != NULL && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
 				setDword(hContact, "LastMsgReadTime", time(NULL));
-				SetSrmmReadStatus(hContact);
+				if (!ServiceExists("MessageState/DummyService"))
+					SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);
 			}
@@ -112,7 +113,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			hContact = FindUser(uid);
 			if (hContact != NULL) {
 				setDword(hContact, "LastMsgReadTime", time(NULL));
-				SetSrmmReadStatus(hContact);
+				if (!ServiceExists("MessageState/DummyService"))
+					SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);
 			}

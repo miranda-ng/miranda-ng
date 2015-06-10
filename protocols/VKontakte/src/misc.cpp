@@ -709,8 +709,11 @@ void CVkProto::ContactTypingThread(void *p)
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 	Sleep(5500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
-	Sleep(1500);
-	SetSrmmReadStatus(hContact);
+	
+	if (!ServiceExists("MessageState/DummyService")) {
+		Sleep(1500);
+		SetSrmmReadStatus(hContact);
+	}
 }
 
 int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
