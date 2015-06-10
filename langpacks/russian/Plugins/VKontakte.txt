@@ -7,14 +7,6 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
-[kick user]
-выкинул(а) пользователя
-[invite user]
-пригласил(а) пользователя
-[change chat title to]
-установил(а) тему
-[chat action not supported]
-действие не поддерживается
 [[img] BBCode support for image]
 Поддержка BB-кода [img] для изображений
 [off]
@@ -299,8 +291,16 @@ Cоздать комнату чата
 Владельцы
 [create chat]
 создал чат
+[kick user]
+выкинул(а) пользователя
 [left chat]
 вышел
+[invite user]
+пригласил(а) пользователя
+[change chat title to]
+установил(а) тему
+[chat action not supported]
+действие не поддерживается
 [Unknown]
 Неизвестный
 [Enter new chat title]

@@ -47,3 +47,13 @@
 Последние
 [Clear entries]
 Очистить историю
+[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+Невозможно удалить ключ реестра 'shlext COM', возможно он уже удалён или необходимы права администратора.
+[Problem]
+Проблема
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+Невозможно удалить ключ реестра, отвечающий за встраивание в контекстное меню файлов, возможно он уже удалён или необходимы права администратора.
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+Невозможно удалить ключ реестра, отвечающий за встраивание в контекстное меню папок, возможно он уже удалён или необходимы права администратора.
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+Для встраивания в контекстное меню оболочки операционной системы требуется ваше разрешение (однократно).
