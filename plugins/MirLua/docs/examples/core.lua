@@ -5,8 +5,7 @@ local genmenu = require('m_genmenu')
 local icolib = require('m_icolib')
 
 -- Add icon for menu items
-local hRestartIcon = icolib.AddIcon('testMenuIcon', 'Lua icon for menus')
-
+local hRestartIcon = icolib.AddIcon('restartIcon', 'Restart')
 
 -- Subscribe to [[Miranda/System/ModulesLoaded]] event
 m.OnModulesLoaded(function()
