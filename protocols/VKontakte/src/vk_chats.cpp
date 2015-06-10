@@ -282,7 +282,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	
 	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 	if (!jnFwdMessages.isnull()){
-		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszFwdMessages = _T("\n") + tszFwdMessages;
 		tszBody += tszFwdMessages;
@@ -290,7 +290,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 
 	const JSONNode &jnAttachments = jnMsg["attachments"];
 	if (!jnAttachments.isnull()){
-		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
+		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 		tszBody +=  tszAttachmentDescr;
@@ -304,12 +304,12 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			tszBody = _T("...");
 		else if (tszAction == _T("chat_create")) {
 			CMString tszActionText = jnMsg["action_text"].as_mstring();
-			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("create chat"), tszActionText);
+			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("create chat"), tszActionText.IsEmpty() ? _T(" ") : tszActionText);
 		}
-		else if (tszAction == _T("chat_kick_user")){
+		else if (tszAction == _T("chat_kick_user")) {
 			CMString tszActionMid = jnMsg["action_mid"].as_mstring();
 			if (tszActionMid.IsEmpty())
-				tszBody = TranslateT("was kicked");
+				tszBody = TranslateT("kick user");
 			else {
 				CMString tszUid;
 				tszUid.AppendFormat(_T("%d"), uid);
@@ -321,15 +321,49 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
-							tszBody = TranslateT("was kicked");
+							tszBody = TranslateT("kick user");
 						else
-							tszBody.AppendFormat(_T("%s by %s"), TranslateT("was kicked"), cu->m_tszNick);
+							tszBody.AppendFormat(_T("%s %s"), TranslateT("kick user"), cu->m_tszNick);
 					}
 					else 
-						tszBody = TranslateT("was kicked");
+						tszBody = TranslateT("kick user");
 				}
 			}
 		}
+		else if (tszAction == _T("chat_invite_user")) {
+			CMString tszActionMid = jnMsg["action_mid"].as_mstring();
+			if (tszActionMid.IsEmpty())
+				tszBody = TranslateT("invite user");
+			else {
+				int a_uid = 0;
+				int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
+				if (iReadCount == 1) {
+					CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
+					if (cu == NULL)
+						tszBody.AppendFormat(_T("%s https://vk.com/id%s"), TranslateT("invite user"), a_uid);
+					else
+						tszBody.AppendFormat(_T("%s %s"), TranslateT("invite user"), cu->m_tszNick);
+				}
+				else
+					tszBody = TranslateT("invite user");
+			}
+		}
+		else if (tszAction == _T("chat_title_update")) {
+			CMString tszTitle = jnMsg["action_text"].as_mstring();
+			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("change chat title to"), tszTitle.IsEmpty() ? _T(" ") : tszTitle);
+
+			if (!bIsHistory && tszTitle != (cc->m_tszTopic ? cc->m_tszTopic : _T(""))) {
+				cc->m_tszTopic = mir_tstrdup(tszTitle);
+				setTString(cc->m_hContact, "Nick", tszTitle);
+
+				GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
+				GCEVENT gce = { sizeof(GCEVENT), &gcd };
+				gce.ptszText = tszTitle;
+				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			}
+		}
+		else
+			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
 	}
 
 	if (cc->m_bHistoryRead)
