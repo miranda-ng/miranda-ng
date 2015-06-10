@@ -51,14 +51,14 @@ static luaL_Reg menusLib[] =
 
 int luaopen_m_menus(lua_State *L)
 {
-	//luaL_newlib(L, CMLua::clistLib);
-
 	lua_getglobal(L, "M");
 	luaL_checktype(L, -1, LUA_TTABLE);
 
 	lua_newtable(L);
 	luaL_setfuncs(L, menusLib, 0);
 	lua_setfield(L, -2, "Menus");
+
+	lua_pop(L, 1);
 
 	return 1;
 }

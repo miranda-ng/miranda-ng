@@ -5,7 +5,15 @@ CMLua::CMLua()
 	L = luaL_newstate();
 	luaL_openlibs(L);
 
-	luaopen_m(L);
+	lua_getglobal(L, "package");
+	lua_pushstring(L, "");
+	lua_setfield(L, -2, "path");
+	lua_pushstring(L, "");
+	lua_setfield(L, -2, "cpath");
+	lua_pop(L, 1);
+
+	luaL_newlib(L, coreLib);
+	lua_setglobal(L, "M");
 
 	Preload(M_ICONSLIBNAME, luaopen_m_icons);
 	Preload(M_MENUSLIBNAME, luaopen_m_menus);
@@ -16,9 +24,20 @@ CMLua::~CMLua()
 	lua_close(L);
 }
 
+void CMLua::AddPath(const char *path)
+{
+	lua_getglobal(L, "package");
+	lua_getfield(L, -1, "path");
+	const char *oldPath = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+	lua_pushfstring(L, "%s;%s\\?.lua", oldPath, path);
+	lua_setfield(L, -2, "path");
+	lua_pop(L, 1);
+}
+
 void CMLua::Load(const char *path)
 {
-	if (luaL_dofile(L, path))
+	if (luaL_dofile(L, path));
 		printf("%s\n", lua_tostring(L, -1));
 }
 

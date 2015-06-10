@@ -41,6 +41,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 void LoadScripts(const TCHAR *scriptDir)
 {
+	mLua->AddPath(ptrA(mir_utf8encodeT(scriptDir)));
+
 	TCHAR searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
 

@@ -1,5 +1,6 @@
 --- include m_menus module
 require('m_menus')
+require('m_icons')
 
 --- Add icon for menu items
 local hIcon = M.Icons.AddIcon('testMenuIcon', 'Lua icon for menus')
@@ -28,4 +29,4 @@ local hMenuItem = M.Menus.AddContactMenuItem('testRemove', 0, 0, 0, 'Srv/TestRem
 --- Remove menu item from parent menu
 -- @param handle The handle of menu item
 -- @return 0 on success
-M.Menus.RemoveMenuItem(hMenuItem);
+M.Menus.RemoveMenuItem(hMenuItem)
