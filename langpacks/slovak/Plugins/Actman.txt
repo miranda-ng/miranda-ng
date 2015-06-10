@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Doplnok pre manažovanie rôznych činností Mirandy.
-;Icons
 [Apply]
 Aplikovať
 [&Yes]
@@ -16,7 +15,6 @@ Aplikovať
 Nie
 [Yes to &All]
 Áno pre všetko
-;Actions
 [Help]
 Pomoc
 [Notes]
@@ -45,18 +43,14 @@ Varovanie
 Zoznam kontaktov
 [name]
 meno
-;Scheduler
 [Time]
 Čas
 [Date]
 Dátum
-;Hooks
 [Description]
 Udalosť
-;Use Actions
 [Status menu]
 Menu stavov
-;services.ini
 [Offline]
 Odpojený
 [Online]
@@ -85,12 +79,8 @@ Ignorovať správy
 Ignorovať URL
 [Ignore files]
 Ignorovať súbory
-[Warning]
-Varovanie
 [Notify]
 Notifikácia
-[Error]
-Chyba
 [Filename]
 Meno súboru
 [text]

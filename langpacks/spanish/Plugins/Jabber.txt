@@ -219,6 +219,8 @@ Refrescar
 Solicitud de autorización
 [Dialog]
 Diálogo
+[Bots Challenge Test]
+Prueba de reto Bots
 [Send]
 Enviar
 [Nickname]

@@ -31,6 +31,8 @@ Copiar
 Error
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+[Unknown Error]
+Error desconocido
 [File transfer]
 Transferencia de archivos
 [Yes]
@@ -39,6 +41,8 @@ Sí
 No
 [Ignore]
 Ignorar
+[Main Icon]
+Icono principal
 [Help]
 Ayuda
 [Open Folder]

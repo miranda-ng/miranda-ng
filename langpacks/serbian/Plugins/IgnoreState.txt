@@ -5,6 +5,18 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
+[Shows ignore state of contact in contact list.]
+
+;file \plugins\IgnoreState\res\ignore.rc
+[Plugin settings]
+
+[Filtered events:]
+
+[Use Miranda ignore settings for All Contacts]
+
+;file \plugins\IgnoreState\src\main.cpp
+[All]
+
 [Messages]
 Poruke
 [URL]
@@ -13,9 +25,20 @@ Link
 Datoteke
 [User Online]
 Korisnik na vezi
+[Authorization]
+
 [You Were Added]
 Vaš kontakt je dodat
 [Typing Notify]
 Obaveštenja o kucanju
+[Full Ignore]
+
+[Partial Ignore]
+
+[Message Ignore]
+
+[Ignore State]
+
+;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Ikonice

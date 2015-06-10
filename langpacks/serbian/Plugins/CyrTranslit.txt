@@ -5,3 +5,8 @@
 ;  Version: 0.1.2.0
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
+[Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
+
+;file \plugins\CyrTranslit\src\MirandaContact.cpp
+[&Transliterate]
+

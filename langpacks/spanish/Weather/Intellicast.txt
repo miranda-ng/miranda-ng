@@ -1,0 +1,74 @@
+﻿;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+[Mon]
+Lun
+[Tue]
+Mar
+[Wed]
+Mié
+[Thu]
+Jue
+[Fri]
+Vie
+[Sat]
+Sab
+[Sun]
+Dom
+[Sunny]
+Soleado
+[Partly Sunny]
+Parcialmente soleado
+[Mostly Sunny]
+Mayormente soleado
+[Partly Cloudy]
+Parcialmente nublado
+[Mostly Cloudy]
+Mayormente nublado
+[Mostly Clear]
+Despejado
+[Feel]
+Tocar
+[Forecast Day 1]
+pronóstico día 1
+[Heat Index]
+Índice de calor
+[Wind Direction]
+Dirección del viento
+[Wind Speed]
+Velocidad del viento
+[N]
+N
+[W]
+O
+[S]
+S
+[E]
+E
+[NW]
+NO
+[NE]
+NE
+[SW]
+SO
+[SE]
+SE
+[Scattered Clouds]
+Nubes dispersas
+[North]
+Norte
+[East]
+Este
+[South]
+Sur
+[West]
+Oeste
+[Northwest]
+Noroeste
+[Northeast]
+Nordeste
+[Southwest]
+Suroeste
+[Southeast]
+Sudeste

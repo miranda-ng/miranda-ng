@@ -8,7 +8,6 @@
 [days or less to birthday.]
 [Start notifying]
 [days in advance and]
-[Check every]
 [Only notify once per day.]
 [By default use]
 [to save birthday data.]

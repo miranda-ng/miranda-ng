@@ -7,6 +7,8 @@
 ;============================================================
 [Go to Customize -> Hotkeys to change the hotkey]
 Vaya a Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
+[Disable Sounds]
+Desabilitar sonidos
 [Hotkey]
 Tecla de acceso directo
 [Password:]

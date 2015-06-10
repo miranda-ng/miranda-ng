@@ -48,7 +48,6 @@
 [The buddy is already on your ignore list.]
 [You need to be connected to Yahoo to remove from the ignore list.]
 [Please select a buddy on the ignore list to remove.]
-[Connection]
 [Ignore List]
 [New E-mail available in Inbox]
 [%s plugin connections]

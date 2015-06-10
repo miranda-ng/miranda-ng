@@ -13,6 +13,10 @@ Eliminar
 Cancelar
 [URL]
 URL
+[Check every]
+Comprobar cada
+[minutes]
+minutos
 [Password]
 Contraseña
 [Reset]

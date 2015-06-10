@@ -5,15 +5,74 @@
 ;  Version: 0.1.3.4
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
+[Notifies you if you have unread email on an exchange server.]
+
+;file \plugins\Exchange\res\exchange.rc
+[Unread emails]
+
 [Close]
 Zatvori
+[Mark as read]
+
+[Connection]
+
 [Username:]
 Korisničko ime:
 [Password:]
 Šifra
+[Server:]
+
+[Preferences]
+
+[Check every]
+
 [seconds]
 sekundi
+[Force reconnect every]
+
+[minutes]
+
+[Check server before trying to connect]
+
+[Try to connect]
+
+[times before giving up]
+
+[Show email notifications using popup module]
+
+;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+
+[Subject]
+
 [Sender]
 Pošiljalac
+;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+
+[Server not available]
+
+[Server is not configured...]
+
+[You have %d unread emails...]
+
+[You have one unread email...]
+
+[Cannot connect to Exchange server...]
+
+[Exchange email]
+
+[Do you want to see the email headers?]
+
+;file \plugins\Exchange\src\hooked_events.cpp
+[Check exchange mailbox]
+
+[Exchange notify]
+
 [Plugins]
 Plug-inovi
+[Forcefully reconnecting to Exchange server ...]
+
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+

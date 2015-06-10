@@ -41,6 +41,8 @@ País:
 Estado:
 [City:]
 Ciudad
+[Server:]
+Servidor:
 [Enable]
 Habilitar
 [Text Color]

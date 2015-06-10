@@ -519,12 +519,8 @@ UTF16+сігнатура
 Пратакол
 [Check for updates]
 Праверыць абнаўленні
-[Warning]
-Увага
 [Notify]
 Абвестка
-[Error]
-Памылка
 [Popup window]
 Усплывальнае вакно
 [Filename]

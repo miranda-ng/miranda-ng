@@ -675,12 +675,8 @@ Updater-Downloadverzeichnis leeren
 Popup Plus (popup.dll), neustes YAPP (yapp.dll)
 [Enables or disables Popup windows]
 Aktiviert oder deaktiviert Popupfenster
-[Warning]
-Warnung
 [Notify]
 Benachrichtigung
-[Error]
-Fehler
 [YAPP or Popup]
 YAPP oder Popup
 [Popup window]

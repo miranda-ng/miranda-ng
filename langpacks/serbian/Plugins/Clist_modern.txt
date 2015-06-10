@@ -5,12 +5,33 @@
 ;  Version: 0.9.1.3
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
+
+;file \plugins\Clist_modern\res\resource.rc
+[Transparency:]
+
+[Window behavior:]
+
+[List sorting:]
+
+[Status bar:]
+
+[List content:]
+
 [Show counts of number of contacts in a group]
 Prikaz broja kontakata u grupi
 [Hide group counts when there are none online]
 Sakriti broj kada su svi odsutni
+[1st:]
+
+[2nd:]
+
+[3rd:]
+
 [Always on top]
 Uvek na vrhu
+[Hide contact list after]
+
 [seconds]
 sekundi
 [Fade contact list in/out]
@@ -23,10 +44,24 @@ Neprozirnost (neaktivno):
 Neprozirnost (aktivno):
 [Show avatars]
 Prikaži avatare
+[Animate avatars]
+
+[Show contact time in list]
+
+[Compact mode]
+
 [Show protocol names]
 Prikaži nazive protokola
 [Show status text]
 Prikaži tekst statusa
+[Settings]
+
+[Background color:]
+
+[Selection color:]
+
+[Use background bitmap]
+
 [Stretch to width]
 Razvuci po širini
 [Stretch to height]
@@ -39,26 +74,118 @@ Napravi vertikalne pročice
 Skrol uporedo sa tekstom
 [Stretch proportionally]
 Razvuci proporcionalno
+[Tile vertically according to row height]
+
 [Use Windows colors]
 Boje operativnog sistema
+[Available skins]
+
+[Rescan]
+
 [Apply]
 Primeni
+[Info]
+
+[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
+
+[Skin preview]
+
+[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
+
+[* Restart may be required for all changes to take effect]
+
+[Skin folder]
+
+[Available view modes]
+
+[Include protocols]
+
+[New]
+
+[Include groups]
+
+[Show contacts in groups]
+
+[Include status modes]
+
 [Cancel]
 Otkazivanje
+[Sticky contacts]
+
+[Clear all]
+
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+
 [Protocol]
 Protokol
 [Group]
 Grupa
+[Status mode]
+
+[Automatically clear this view mode after]
+
+[View mode options]
+
+[Editing view mode]
+
+[Last message]
+
 [Status bar]
 Statusna traka
 [Show status bar]
 Prikaži statusnu traku
 [Make sections equal width]
 Odeljci jednake širine
+[Space between]
+
+[Borders]
+
+[Vertical align]
+
+[Horizontal align]
+
+[Multiline status bar:]
+
+[Accounts per line]
+
+[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
+
+[Hold [Shift] to inverse [Right Click] behavior.]
+
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
+
+[Set options per account]
+
+[Enable custom account settings]
+
+[Hide account completely]
+
+[Show status name]
+
+[Show xStatus name]
+
+[Show protocol icon]
+
+[Use connecting icon]
+
+[Show xStatus icon]
+
+[Show both icons]
+
+[Show normal status as overlay]
+
+[Status overlay opacity is 75%]
+
+[Show unread emails (if supported)]
+
 [Right click opens status menu]
 Desni klik - opcije statusa
 [Right click opens Miranda menu]
 Desni klik - glavne Miranda opcije
+[Space on left]
+
+[Space on right]
+
 [Delete contact]
 Brisanje kontakta
 [No]
@@ -81,14 +208,28 @@ Sakrij prazne grupe
 Onemogući grupe
 [Ask before deleting contacts]
 Pitaj pre brisanja kontakata
+[Don't move offline user to bottom]
+
 [Contact list]
 Spisak kontakata
 [Contact list sorting]
 Sortiranje spiska kontakata
+[Place offline users out of groups]
+
 [Gamma correction]
 Gamma - podešavanje
 [Default]
 Standardno
+[Full selection]
+
+[Less selection]
+
+[No selection]
+
+[Selection mode]
+
+[Bring to front if covered]
+
 [Automatically resize window to height of list]
 Uklopiti visinu prozora dužini spiska
 [maximum]
@@ -97,12 +238,42 @@ Maksimum
 % ekrana
 [Size upwards]
 Širi ka vrhu
+[Behavior]
+
+[Lock manual resize]
+
+[Drag to]
+
+[Easy scroll]
+
 [Easy move]
 Jednostavno pomeranje
+[x100 ms]
+
+[show delay]
+
+[hide delay]
+
+[Hide method]
+
 [pixels]
 pikseli
+[keep on screen]
+
+[Snap to edges]
+
+[Event notify area]
+
+[Disabled]
+
+[Show automatically]
+
 [Always visible]
 Uvek vidljiv
+[Dock to sides]
+
+[and minimum]
+
 [Items]
 Elementi
 [Show divider between online and offline contacts]
@@ -127,6 +298,8 @@ Grupe
 Oivičiti nazive grupa
 [Sort groups alphabetically]
 Sortiraj grupe alfabetnim redosledom
+[Quicksearch in open groups only]
+
 [Indent groups by:]
 Razmak između grupa:
 [Visual]
@@ -137,16 +310,74 @@ Tečni skrol
 Vreme:
 [milliseconds]
 milisekunde
+[Hide vertical scrollbar]
+
+[Fade out entire list when:]
+
 [Single click interface]
 Odabir jednim klikom
 [Always show status in tooltip]
 Prikazati sve statuse u balonu
 [Disable icon blinking]
 Isključi žmiganje ikonica
+[ms, delay between icon blinking]
+
 [System tray icon]
 Ikonica u tray-u
+[Use xStatus icon]
+
+[Icon mode]
+
+[For similar statuses]
+
+[Global status]
+
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+
+[For different statuses]
+
+[Cycle period, seconds]
+
+[Additional stuff]
+
+[Ignore empty extra icons places (arrange to right).]
+
+[Allow internal requesting of status message text]
+
+[Remove status message if contact became offline]
+
+[Use improved search method in contact list]
+
+[Metacontacts stuff]
+
+[Use 'Meta' protocol icons for metacontacts]
+
+[Expand metacontacts]
+
+[Avoid double click expand]
+
+[Hide all extra icons for subcontacts]
+
+[Subcontacts indent:]
+
+[Show time only if it is different from current time]
+
+[Show contact time as row item]
+
+[Appearance]
+
 [Pin to desktop]
 Lepljenje na desktop
+[Client area margins]
+
+[Thin border main window]
+
+[Borderless main window]
+
 [Show menu bar]
 Prikazati meni
 [Show title bar]
@@ -159,16 +390,182 @@ Stil panela glavnog prozora
 Spustiti u tray
 [Translucency options]
 Podešavanja prozirnosti
+[Enable drop shadow (restart required)]
+
 [Frames]
 Okviri
+[Gaps between frames:]
+
+[Gaps after captions:]
+
+[Use non-layered mode]
+
+[Round corners]
+
+[Non-layered mode]
+
+[Disable skin engine]
+
+[Enable Aero Glass (Vista+)]
+
+[Order of items:]
+
+[Minimum row height:]
+
+[Row border:]
+
+[Variable row height]
+
+[Align left items to left]
+
+[Align right items to right]
+
+[Up]
+
+[Down]
+
 [Left margin:]
 Leva margina:
+[Right margin:]
+
+[Compact mode (show avatars and additional text on selected contacts only)]
+
+[Draw border on avatar]
+
+[Draw overlay icons]
+
+[Max size (pixels):]
+
+[Round corners of avatars]
+
+[Ignore size for row height calcs]
+
+[Border color:]
+
+[Custom corner size:]
+
+[Normal overlay icon]
+
+[Protocol status icon]
+
+[Contact icon]
+
+[height]
+
+[width]
+
+[Use old render method (fast, but has artifacts)]
+
+[Hide icon when showing avatar]
+
+[Draw icon in avatar space]
+
+[Hide groups icon]
+
+[Always show "Always visible" icon]
+
+[Use extra status icon instead protocol]
+
+[Draw normal status as overlay]
+
+[Right-to-left reading mode (mirror template)]
+
+[Replace smileys in contact list]
+
+[Use protocol smileys]
+
+[Draw smileys on first line]
+
+[Resize smileys and 'Listening to' icon]
+
+[Align to right]
+
+[Append nick if different from custom name]
+
+[Trim long text with ellipsis]
+
+[Show second line]
+
+[Top space:]
+
+[Draw smileys on second line]
+
+[Text:]
+
 [Status]
 Status
 [Nickname]
 Nadimak
+[Status message]
+
+[Listening to]
+
+[Contact time]
+
+[Show status if there is no status message]
+
+[Show listening to if there is no status message]
+
+[xStatus has priority]
+
+[Use 'xStatus: xMessage']
+
+[(Variables will be replaced)]
+
+[Show third line]
+
+[Draw smileys on third line]
+
+[Preview]
+
+[Top/Left]
+
+[Bottom/Right]
+
+[Position (vertical)]
+
+[Align]
+
 [Options]
 Podešavanja
+[Visible]
+
+[Show title]
+
+[Locked]
+
+[Border]
+
+[Floating]
+
+[Frames order]
+
+[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
+
+[Row template]
+
+[Add container]
+
+[Remove container]
+
+[Vertical align:]
+
+[Horizontal align:]
+
+[Container type:]
+
+[Container width:]
+
+[Container height:]
+
+[Layered]
+
+[Move up]
+
+[Move down]
+
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+
 [&Main menu]
 Glavni &meni
 [E&xit]
@@ -217,28 +614,126 @@ Sakriti Miranda prozor
 &Napravi grupu
 [&Hide offline users in here]
 Skloniti &odsutne kontakte ove grupe
+[&Show offline users in here]
+
 [&Rename group]
 &Preimenovati grupu
 [&Delete group]
 &Izbrisati grupu
+;file \plugins\Clist_modern\src\modern_clc.cpp
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
+
+[Converting to metacontact]
+
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
+
+[Converting to metacontact (moving)]
+
+[Do you want contact '%s' to be added to metacontact '%s'?]
+
+[Adding contact to metacontact]
+
+[Do you want contact '%s' to be default?]
+
+[Set default contact]
+
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
+
+[Changing metacontacts (moving)]
+
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
+
+[Error loading plugin]
+
+[Skins]
+
+[Modern contact list]
+
+[Avatar overlay]
+
+[Status overlay]
+
+[Contact list smileys]
+
 [List background]
 Pozadina spiska
+[Menu background]
+
+[Status bar background]
+
+[Frames title bar background]
+
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Kontakti
+[Row items]
+
+[Frame texts]
+
+[Special colors]
+
 [Standard contacts]
 Klasični kontakti
+[Away contacts]
+
+[DND contacts]
+
+[NA contacts]
+
+[Occupied contacts]
+
+[Free for chat contacts]
+
+[Invisible contacts]
+
+[On the phone contacts]
+
+[Out to lunch contacts]
+
 [Offline contacts]
 Kontakti koji nisu na vezi
 [Online contacts to whom you have a different visibility]
 Kontakti (na vezi) sa posebnim podešavanjem vidljivosti
 [Offline contacts to whom you have a different visibility]
 Kontakti (nisu na vezi) sa posebnim podešavanjem vidljivosti
+[Contacts who are 'not on list']
+
+[Open groups]
+
+[Open group member counts]
+
+[Closed groups]
+
+[Closed group member counts]
+
 [Dividers]
 Razdvajanje linijom
+[Second line]
+
+[Third line]
+
+[Status bar text]
+
+[Event area text]
+
+[Current view mode text]
+
 [Background]
 Pozadina
+[Hot text]
+
 [Selected text]
 Odabran tekst
+[Quick search text]
+
+[Menu text]
+
+[Selected menu text]
+
+[Frame title text]
+
+[3rd party frames transparent back color]
+
 [Not focused]
 Van fokusa
 [Offline]
@@ -263,33 +758,297 @@ Na ručku
 Telefoniram
 [Name]
 Naziv
+[Name (use locale settings)]
+
+[Last message time]
+
+[Account name]
+
+[Rate]
+
+[-Nothing-]
+
+[Hide to tray]
+
+[Behind left edge]
+
+[Behind right edge]
+
 [General]
 Uopšteno
 [List]
 Spisak
 [Window]
 Prozor
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[No events]
+
+[Event area background]
+
+[Event area]
+
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[&Contact rate]
+
 [None]
 Nema
+[Low]
+
+[Medium]
+
+[High]
+
+[Contact rate: none]
+
+[Contact rate: low]
+
+[Contact rate: medium]
+
+[Contact rate: high]
+
+[Show even if offline]
+
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Avatar]
+
+[Icon]
+
 [Text]
 Tekst
 [Extra icons]
 Dodatne ikonice
+[Left align group names]
+
+[Center group names]
+
+[Right align group names]
+
+[Row]
+
+[Row design]
+
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Nepoznat kontakt)
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[Tray menu]
+
 [&Hide/show]
 &Sakriti/Prikazati
 [&Find/add contacts...]
 %Pretraži/dodaj kontakte...
 [&Options...]
 &Podešavanja...
+[&About]
+
+;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+
+[Hide avatar]
+
+[Show contact &avatar]
+
+[Hide contact &avatar]
+
+[My contacts]
+
+[My Contacts]
+
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
+[Close Miranda]
+
+[Main]
+
+[Restore last status]
+
+[Show/Hide offline users]
+
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+
+[column]
+
+[line]
+
+[columns]
+
+[lines]
+
+[%s, contain %s]
+
+[ layered]
+
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[( unknown )]
+
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+
+[reVista for Modern v0.5]
+
+[This is second default Modern Contact list skin in Vista Aero style]
+
+[Angeli-Ka (graphics), FYR (template)]
+
+[Inside library]
+
+[Skin information]
+
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+
+[graphics by Angeli-Ka\ntemplate by FYR]
+
+[Select skin from list]
+
+[Please select skin to apply]
+
+[Default Skin]
+
+[%Default Skin%]
+
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+
+[Left]
+
+[Center]
+
+[Right]
+
+[Top]
+
+[Bottom]
+
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Glavni meni
 [Status menu]
 Izbor statusa
 [Accounts]
 Nalozi
+[Accounts...]
+
+[Show/Hide offline contacts]
+
+[Hide offline contacts]
+
+[Show offline contacts]
+
 [Find user]
 Pronađi korisnika
+[Use/Disable groups]
+
+[Use groups]
+
+[Enable/Disable sounds]
+
+[Enable sounds]
+
+[Disable sounds]
+
+[Minimize]
+
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
+
+[Toolbar background]
+
+[Toolbar upgrade]
+
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Ungrouped contacts]
+
+[And]
+
+[Or]
+
+[Older than]
+
+[Newer than]
+
+[Minutes]
+
+[Hours]
+
+[Days]
+
+[Configuring view mode: %s]
+
+[All contacts]
+
+[Filtering]
+
+[*** All contacts ***]
+
+[Configure view modes]
+
+[Really delete this view mode? This cannot be undone]
+
+[Delete a view mode]
+
+[A view mode with this name does already exist]
+
+[Duplicate name]
+
+[Setup view modes...]
+
+[Select a view mode]
+
+[Setup view modes]
+
+[Clear view mode and return to default display]
+
+[Reset view mode]
+
+[View mode background]
+
+[View modes]
+
+;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
+[&Visible]
+
+[&Show title]
+
+[&Locked]
+
+[&Expanded]
+
+[&Floating mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Show all frames]
+
+[Show all title bars]
+
+[Hide all title bars]
+
+[Lock frame]
+
+;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
 Nova grupa
+[Group menu]
+
+[Subgroup menu]
+

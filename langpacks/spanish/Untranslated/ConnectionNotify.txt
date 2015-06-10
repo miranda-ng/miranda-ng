@@ -6,7 +6,6 @@
 [try resolve addresses]
 [Show notification if no filter defined]
 [Attempt interval (ms)]
-[X]
 ['Online' means:]
 [Filters]
 [DN]

@@ -4,7 +4,6 @@
 [Clear statistics]
 [Notify me on every]
 [kilobytes]
-[minutes]
 [Text color:]
 [Popup timeout]
 [Show now]

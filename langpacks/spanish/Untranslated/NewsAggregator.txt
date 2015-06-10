@@ -5,8 +5,6 @@
 [Retrieve news at startup]
 [General Settings]
 [Title]
-[Check every]
-[minutes]
 [Check Feed]
 [Authentication]
 [Use &authentication]

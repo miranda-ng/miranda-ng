@@ -17,6 +17,8 @@ Cancelar
 Opciones
 [Background]
 Fondo
+[Transparent]
+Transparente
 [Set]
 Establecer
 [Avatars]

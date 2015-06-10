@@ -1,5 +1,4 @@
 ﻿[Twitter protocol support for Miranda NG.]
-[Server:]
 [Create a new Twitter account]
 [<Sign in to link your Twitter account>]
 [Send Tweet]

@@ -22,7 +22,6 @@
 [Set as hidden]
 [Try to make picture background transparent]
 [Use defaults]
-[Transparent]
 [Points:]
 [Color diff:]
 [Use per protocol avatars]

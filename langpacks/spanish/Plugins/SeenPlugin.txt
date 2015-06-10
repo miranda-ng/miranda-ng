@@ -35,6 +35,8 @@ Ver detalles del usuario
 <desconocido>
 [<none>]
 <Nada>
+[minutes]
+minutos
 [seconds]
 segundos
 [username]

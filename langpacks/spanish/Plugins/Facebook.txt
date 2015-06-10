@@ -63,10 +63,18 @@ Previsualizar
 Enviar estados de Miranda al Muro
 [Allow posting statuses to my pages (may slow down login)]
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
+[Bots challenge test]
+Prueba de reto Bots
+[Instruction:]
+Instrucción:
+[Submit]
+Presentar
 [Messages]
 Mensajes
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Activar soporte para emoticonos personalizados (EXPERIMENTAL)
+[Enter the text you see]
+Introduzca el texto que aparece
 [&Invite user...]
 &Invitar usuario...
 [&Leave chat session]
@@ -211,6 +219,8 @@ Meter
 Fuentes noticias
 [Friendship details]
 Detalles de amistad
+[Captcha form icon]
+Formulario Captcha icono
 [Visit friendship details]
 Visitar detalles de amistad
 [Cancel friendship]

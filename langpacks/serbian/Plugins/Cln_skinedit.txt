@@ -5,9 +5,69 @@
 ;  Version: 0.0.0.4
 ;  Authors: Nightwish, Pixel
 ;============================================================
+[Allows inline skin item editing for clist nicer.]
+
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+
 [General]
 Uopšteno
+[Gradient]
+
+[Left to right]
+
+[Right to left]
+
+[Top to bottom]
+
+[Bottom to top]
+
+[Round corners]
+
+[Top-Left]
+
+[Top-Right]
+
+[Bottom-Right]
+
+[Bottom-Left]
+
+[Item colors]
+
+[First color]
+
 [Text color]
 Boja teksta
+[Second color]
+
+[Transparent]
+
+[Alpha (percent)]
+
+[Item margins]
+
+[Item borders]
+
+[Border style]
+
+[3D border (bright / dark)]
+
+[Item ignored]
+
+[Dialog]
+
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
 [<None>]
 <ništa>
+[Raised]
+
+[Sunken]
+
+[Bumped]
+
+[Etched]
+

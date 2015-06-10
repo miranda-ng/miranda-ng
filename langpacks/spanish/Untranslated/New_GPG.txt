@@ -82,7 +82,6 @@
 [Expire date]
 [Key length]
 [key ID]
-[not set]
 [Default private key ID]
 [Failed to open file]
 [Generating new random key, please wait]

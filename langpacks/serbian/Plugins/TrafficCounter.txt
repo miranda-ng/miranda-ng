@@ -5,23 +5,147 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+
 [Accounts]
 Nalozi
+[Units]
+
+[Clear statistics]
+
+[Notification]
+
+[Notify me on every]
+
+[kilobytes]
+
+[minutes]
+
+[Background color:]
+
+[Text color:]
+
 [Reset to default]
 Vrati na standardno
+[Popup timeout]
+
+[From Popup plugin]
+
 [Custom]
 Izmenjeno
+[Test]
+
+[Show now]
+
+[Space between lines:]
+
+[Counters format string:]
+
+[Tooltip format string:]
+
+[Display traffic for current]
+
+;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+
+[Icon]
+
+[Account name]
+
+[Current traffic]
+
+[Total traffic]
+
+[Current online]
+
+[Total online]
+
 [General]
 Uopšteno
+[Draw frame as skin element]
+
+[Show tooltip in traffic window]
+
+["Toggle traffic counter" in main menu]
+
+[Visible accounts]
+
+[Summary traffic for visible accounts]
+
+[Overall traffic]
+
+[Hide now]
+
+[Day]
+
+[Week]
+
+[Month]
+
+[Year]
+
+[Services]
+
 [Options]
 Podešavanja
+[Traffic counter]
+
+[Statistics]
+
 [Popups]
 Balončići
+;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 bajtova
+[KB]
+
+[MB]
+
+[Adaptive]
+
+[Hourly]
+
+[Daily]
+
+[Weekly]
+
+[Monthly]
+
+[Yearly]
+
+[Period]
+
 [Incoming]
 Pristigle
 [Outgoing]
 Odlazni
+[Sum]
+
 [Online]
 Prisutan
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+
+[Couldn't read statistics file]
+
+[Traffic Counter]
+
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+
+[Show/Hide frame]
+
+[Hide traffic window]
+
+[Clear the current (Now:) value]
+
+[Toggle traffic counter]
+
+[Traffic counter notification]
+
+[%d kilobytes sent]
+
+[%d kilobytes received]
+

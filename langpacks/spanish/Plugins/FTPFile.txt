@@ -27,6 +27,8 @@ Apodo
 Cerrar
 [Options]
 Opciones
+[Server:]
+Servidor:
 [Select All]
 Seleccionar todo
 [Cancel]
@@ -47,6 +49,10 @@ CONECTANDO...
 CREADO
 [UNKNOWN]
 DESCONOCIDO
+[Clear All]
+Limpiar todo
+[minutes]
+minutos
 [hours]
 horas
 [days]

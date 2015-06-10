@@ -5,14 +5,32 @@
 ;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
+[Preview]
+Previsualizar
+[Click action]
+Acción de clic
+[On left click]
+En clic izquierdo
+[On right click]
+En clic derecho
+[Delay]
+Retardo
 [Sec]
 Seg
+[0 = Default]
+0 = por defecto
+[-1 = Infinite]
+-1 = Infinito
+[Colors]
+Colores
 [Background]
 Fondo
 [Text]
 Texto
 [&Delete]
 &Borrar
+[Title:]
+Título:
 [Delete]
 Eliminar
 [Status messages:]
@@ -71,6 +89,8 @@ En el teléfono
 Salí a comer
 [Re&ad %s message]
 Leer %s mens&aje(s)
+[Set status message]
+Establecer mensaje de estado
 [On]
 Encendido
 [Off]

@@ -21,3 +21,5 @@ Variables
 días
 [hours]
 horas
+[minutes]
+minutos

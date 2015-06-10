@@ -1,6 +1,5 @@
 ﻿[WhatsApp protocol support for Miranda NG.]
 [Phone number]
-[Default group:]
 [Use SSL connection (port 443)]
 [Automatically open group chats]
 [Registration]

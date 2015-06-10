@@ -21,7 +21,6 @@
 [Input]
 [Variables Help]
 [Open String Formatting Help]
-[Alias]
 [user defined]
 [stores y as alias named x]
 [Stopped]

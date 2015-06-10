@@ -40,7 +40,6 @@
 [hours (24)]
 [hours (12)]
 [AM/PM]
-[minutes]
 [-- User --]
 [UIN/handle]
 [Status message]

@@ -58,7 +58,6 @@
 [Open History]
 [Delete All User History]
 [Execute history task]
-[Status change]
 [Show Contacts]
 [Hide Contacts]
 [Find Next]

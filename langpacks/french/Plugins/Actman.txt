@@ -675,12 +675,8 @@ Vérifier la présence de mises à jour
 
 [Enables or disables Popup windows]
 
-[Warning]
-Avertissement
 [Notify]
 
-[Error]
-Erreur
 [YAPP or Popup]
 
 [Popup window]

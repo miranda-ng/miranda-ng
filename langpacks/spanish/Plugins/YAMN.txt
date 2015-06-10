@@ -17,8 +17,12 @@ Contacto
 Cuenta
 [Name:]
 Nombre:
+[Server:]
+Servidor:
 [Port:]
 Puerto:
+[SSL]
+SSL
 [Password:]
 Contraseña:
 [Default]
@@ -65,6 +69,8 @@ Apodo
 Error desconocido
 [Select All]
 Seleccionar todo
+[Subject]
+Sujeto
 [Size]
 Tamaño
 [Network]

@@ -5,40 +5,135 @@
 ;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
+[Scriver - send and receive instant messages.]
+
+;file \plugins\Scriver\res\resource.rc
+[Behavior]
+
+[Automatically pop up the window when]
+
+[and stay minimized]
+
 [Cascade new windows]
 Poređaj novootvorene prozore
+[Save size and location for each contact]
+
+[Minimize on send]
+
+[Hide windows on close]
+
 [Send message on 'Enter']
 Slanje jednim 'Enter'
 [Send message on double 'Enter']
 Slanje dvostrukim 'Enter'
+[Remember unsent messages]
+
+[Delete temporary contacts on closing]
+
 [Show warning when message has not been received after]
 Upozori me ukoliko poruka nije primljena posle
 [seconds]
 sekundi
 [Tabs]
 Jezičci
+[Enable tabs]
+
+[Always show tab bar]
+
+[Tabs at the bottom]
+
+[Limit names on tabs to]
+
+[characters]
+
+[Show close button on each tab]
+
+[Switch to active tab]
+
+[Limit number of tabs per window to]
+
+[Use separate windows for group chats]
+
+[Limit number of group chats tabs per window to]
+
+[Layout]
+
 [Show title bar]
 Prikaz naslovne trake
 [Show status bar]
 Prikaži statusnu traku
+[Show toolbar]
+
+[Show info bar]
+
 [Show avatars]
 Prikaži avatare
 [Use the contact's status icon as the window icon]
 Ikonica kontakta je ikonica prozora
+[Show progress indicator]
+
+[Enable transparency]
+
+[active]
+
+[inactive]
+
+[Min input area size]
+
+[lines]
+
 [Message window event log]
 Log događaja tokom razgovora
+[Enable IEView]
+
 [Show icons]
 Prikaži ikonice
+[Show time]
+
 [Show seconds]
 Prikaži sekunde
+[Show date]
+
+[Long date format]
+
+[Relative date]
+
 [Show names]
 Prikaži imena
+[Enable message grouping]
+
+[Mark follow-up messages with timestamp]
+
+[Start message text on a new line]
+
+[Show lines between messages]
+
+[Indent text]
+
+[Customize fonts and colors]
+
+[Preload]
+
+[Unread events only]
+
+[Last]
+
+[Events in the last]
+
 [events]
 Događaji
+[minutes]
+
+[Typing notification options]
+
 [Send typing notifications to the following users when you are typing a message to them:]
 Slanje obaveštenja o kucanju poruke odabranim korisnicima
+[Show typing notification switch in the status bar]
+
 [Show typing notifications when a user is typing a message]
 Dobijanje obaveštenja o kucanju poruka od drugih korisnika
+[Update message window icons when a user is typing]
+
 [Show typing notification when no message dialog is open]
 Prikaži obaveštenja o kucanju poruka i kada nema otvorenih razgovora
 [Flash in the system tray and in the contact list]
@@ -67,6 +162,14 @@ Detalji &korisnika
 &Dodati
 [&History]
 &Istorija
+[&Quote]
+
+[Send to all tabs]
+
+[You are about to send a message to all open tabs.\nAre you sure?]
+
+[Remember my choice for this container]
+
 [Yes]
 Da
 [No]
@@ -117,6 +220,8 @@ Podešavanja
 Ostalo
 [Add new rooms to group:]
 Dodaj nove sobe u grupu:
+[Nick list row height]
+
 [pixels]
 pikseli
 [Log options]
@@ -135,8 +240,16 @@ Ograniči log na (događaji):
 Omogući isticanje
 [Words to highlight (wildcards allowed)]
 Istakni reči (dozvoljen asterisk)
+[Save logs]
+
 [Location]
 Mesto
+[Trim to]
+
+[KB]
+
+[Group chat]
+
 [Use same style as in the message log]
 Isti stil iz loga poruka
 [Use default colors]
@@ -149,6 +262,8 @@ Tekst
 Pozadina
 [Timeout (s)]
 Timeout (s)
+[(0 means default setting, -1 means indefinite time)]
+
 [Log]
 Log
 [&Copy]
@@ -159,6 +274,20 @@ Ko&piranje svega
 &Izaberi sve
 [Word lookup]
 Pronađi reč
+[Bing]
+
+[Yandex]
+
+[Wikipedia (en)]
+
+[Google Maps]
+
+[Google Translate]
+
+[Yahoo]
+
+[Foodnetwork]
+
 [C&lear log]
 Izbriši &log
 [&Open link]
@@ -177,20 +306,43 @@ Izmesti
 Kopiranje
 [Paste]
 Ubaci
+[Paste && send]
+
 [Delete]
 Briši
 [Clear]
 Izbriši sve
+[Close other tabs]
+
+[Close tab]
+
 [List]
 Spisak
 [&Message]
 &Poruka
 [Clear lo&g]
 &Obrisati log
+;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt
+[User's details]
+
+[User's history]
+
+[Send message]
+
 [Smiley button]
 Smeško-dugme
+[User is typing]
+
+[Typing notification off]
+
+[Sending]
+
+[Quote button]
+
+[Close button]
+
 [Icon overlay]
 Iscrtavanje ikonice
 [Incoming message (10x10)]
@@ -243,6 +395,8 @@ Poslata poruka (10х10)
 Akcija (10x10)
 [Add Status (10x10)]
 Postavljen status (10х10)
+[Remove status (10x10)]
+
 [Join (10x10)]
 Dolazak (10x10)
 [Leave (10x10)]
@@ -251,22 +405,90 @@ Odlazak (10х10)
 Izlaz (10х10)
 [Kick (10x10)]
 Izbacivanje (10х10)
+[Nickchange (10x10)]
+
 [Topic (10x10)]
 Tema (10х10)
 [Highlight (10x10)]
 Istaknuto (10х10)
 [Information (10x10)]
 Informacija (10х10)
+[Single Messaging]
+
 [Group chats]
 Sobe za razgovor
+[Thai]
+
+[Japanese]
+
+[Simplified Chinese]
+
+[Korean]
+
+[Traditional Chinese]
+
+[Central European]
+
+[Cyrillic]
+
+[Latin I]
+
+[Greek]
+
+[Turkish]
+
+[Hebrew]
+
+[Arabic]
+
+[Baltic]
+
+[Vietnamese]
+
+[Korean (Johab)]
+
+;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Poruke
+[Navigate: previous tab]
+
+[Navigate: next tab]
+
+[Navigate: tab %d]
+
+[Window: Toggle status bar]
+
+[Window: Toggle title bar]
+
+[Window: Toggle toolbar]
+
+[Window: Toggle info bar]
+
+[Window: Clear log]
+
+[Window: Minimize]
+
+[Window: Close tab]
+
+[Action: Quote]
+
+[Action: Send to all]
+
+[Action: Paste and send]
+
+;file \plugins\Scriver\src\msgdialog.cpp
+[Quote]
+
+[Smiley]
+
 [User menu]
 Korisnički meni
 [User details]
 O korisniku
 [History]
 Istorija
+[Send]
+
 [Look up '%s':]
 Pronađi '%s':
 [No word to look up]
@@ -277,22 +499,60 @@ Zapamtiti kontakt na spisku
 Pregled detalja o korisniku
 [View user's history]
 Vidi istoriju korisnika
+[Quote text]
+
+[Insert emoticon]
+
+[User menu - %s]
+
+[Sending in progress: %d message(s) left...]
+
 [%s is typing a message...]
 %s kuca poruku...
 [Last message received on %s at %s.]
 Poslednja poruka primljena %s u %s.
+;file \plugins\Scriver\src\msglog.cpp
+[Unknown contact]
+
 [Me]
 Ja
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
+[to tiny bits, in Thy mercy]
+
+[My contact]
+
+[Lorem ipsum dolor sit amet,]
+
+[consectetur adipisicing elit]
+
+[Today]
+
+[Yesterday]
+
 [File sent]
 Datoteka je poslata
 [File received]
 Preuzeta datoteka
+[URL sent]
+
+[URL received]
+
+;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Uopšteno
+[Event log]
+
+[Group chat log]
+
 [Outgoing messages]
 Odlazne poruke
+[Outgoing background]
+
 [Incoming messages]
 Dolazne poruke
+[Incoming background]
+
 [Outgoing name]
 Ime pri slanju
 [Outgoing time]
@@ -307,10 +567,20 @@ Vreme prijema
 Dvotačka pri prijemu
 [Message area]
 Prostor za poruku
+[Input area background]
+
 [Outgoing URL]
 Odlazni link
 [Incoming URL]
 Dolazni link
+[Info bar contact name]
+
+[Info bar background]
+
+[Info bar status message]
+
+[Line between messages]
+
 [Offline]
 Odsutan
 [Online]
@@ -341,12 +611,15 @@ Prikaži balončiće (sistem nepodržan)
 Celi razgovori
 [Typing notify]
 Obaveštenja o kucanju
+;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Poruka od: %s
 [%s is typing a message]
 %s kuca poruku
 [Typing notification]
 Obaveštenje o kucanju
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+
 [Instant messages]
 IM komunikacija
 [Incoming (focused window)]
@@ -361,18 +634,53 @@ Odlazni
 Kontakt kuca poruku
 [Contact stopped typing]
 Kontakt prestaje sa kucanjem
+;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Desila se nepoznata greška.
+;file \plugins\Scriver\src\msgwindow.cpp
 [Always on top]
 Uvek na vrhu
+;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Rok poruke istekao.
+;file \plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\options.cpp
+[Flash when someone speaks]
+
+[Flash when a word is highlighted]
+
+[Show chat nick list]
+
+[Enable button context menus]
+
+[Show topic on your contact list (if supported)]
+
+[Do not play sounds when focused]
+
+[Do not pop up when joining]
+
+[Show and hide by double clicking in the contact list]
+
+[Show contact statuses (if supported)]
+
+[Display contact status icon before role icon]
+
+[Add ':' to auto-completed names]
+
 [Prefix all events with a timestamp]
 Svi događaji imaju vremensku oznaku
 [Only prefix with timestamp if it has changed]
 Vremenska oznaka promenljivih događaja
+[Timestamp has same color as event]
+
 [Indent the second line of a message]
 Indentacija druge linije poruke
+[Limit user names to 20 characters]
+
+[Strip colors from messages]
+
+[Enable 'event filter' for new rooms]
+
 [Show topic changes]
 Prikaži novo ime teme
 [Show users joining]
@@ -447,16 +755,82 @@ Prikaži balončić kod promena nadimka
 Prikaži balončić kod informacija
 [Show popup for status changes]
 Prikaži balončić kod promena statusa
+[Appearance and functionality of chat windows]
+
 [Icons to display in the tray]
 Odabir ikonica u tray-u
+[nick of current contact (if defined)]
+
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
+
+[user-defined account name of current contact (if defined).]
+
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+
+[path to Miranda root folder]
+
+[path to folder containing Miranda profiles]
+
+[name of current Miranda profile (filename, without extension)]
+
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+
+[will return parsed string %miranda_userdata%\\Logs]
+
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+
+[username for currently logged-on Windows user]
+
+["My Documents" folder for currently logged-on Windows user]
+
+["Desktop" folder for currently logged-on Windows user]
+
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+
+[day of month, 1-31]
+
+[day of month, 01-31]
+
+[month number, 1-12]
+
+[month number, 01-12]
+
+[abbreviated month name]
+
+[full month name]
+
+[year without century, 01-99]
+
+[year with century, 1901-9999]
+
+[abbreviated weekday name]
+
+[full weekday name]
+
+[Variables]
+
+[Appearance]
+
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Standardni događaji u novim sobama za razgovor kada je filter uključen
 [Select folder]
 Izbor foldera
 [Popups]
 Balončići
+;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 &Poruka %s
+;file \plugins\Scriver\src\chat\window.cpp
+[Italic]
+
+[Underline]
+
+[Filter]
+
+[Manager]
+
+[Nick list]
+
 [Insert a smiley]
 Ubaci smeška
 [Make the text bold (CTRL+B)]

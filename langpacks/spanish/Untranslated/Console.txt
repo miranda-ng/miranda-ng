@@ -25,6 +25,5 @@
 [*** Console resumed ***]
 [*** Console cleared ***]
 [Miranda Console]
-[Text Files (*.txt)]
 [Save selection to file]
 [Save log to file]

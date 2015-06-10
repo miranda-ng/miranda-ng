@@ -823,6 +823,8 @@ GIF obrázky
 Menu stavov
 [Connecting]
 Pripájam sa
+[Connecting (attempt %d)]
+Pripájam sa (%d. pokus)
 [(Unknown contact)]
 (neznámý kontakt)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]

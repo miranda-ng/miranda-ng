@@ -5,18 +5,78 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
+[Adds some useful options to a contacts menu.]
+
+;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
 [&Send]
 &Slanje
 [&Cancel]
 &Otkazivanje
+[Shown menu items]
+
 [Visibility]
 Vidljivost
+[Show alpha icons]
+
+[Hide from list]
+
 [Ignore]
 Ignorisati
+[Copy to Account (Ctrl+click for move to Account)]
+
+[Send 'You were added']
+
 [Request Authorization]
 Zatraži autorizaciju
+[Browse Received Files]
+
+[Copy IP]
+
+[Copy MirVer]
+
+[Copy Status Message]
+
+[Add item name]
+
+[Copy ID]
+
+[Add protocol name]
+
+[Show ID in menu item]
+
+[Trim too long ID]
+
+[* Use Ctrl+click to see popup with the copied text]
+
+[Hide contact on 'Ignore all']
+
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+
+[xStatus title]
+
+[xStatus message]
+
+[Listening to]
+
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+
 [Always visible]
 Uvek vidljiv
+[Never visible]
+
+[Copy to Account]
+
+[Copy xStatus Message]
+
+[All]
+
 [Messages]
 Poruke
 [URL]
@@ -25,11 +85,22 @@ Link
 Datoteke
 [User Online]
 Korisnik na vezi
+[Authorization]
+
 [You Were Added]
 Vaš kontakt je dodat
 [Typing Notify]
 Obaveštenja o kucanju
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+
+[Open ignore settings]
+
 [Request authorization]
 Zatraži autorizaciju
+[MenuItemEx]
+
+;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Podešavanja

@@ -35,6 +35,8 @@ Nombre
 Autenticación
 [&Cancel]
 &Cancelar
+[Alias]
+Alias
 [On]
 Encendido
 [Off]
@@ -55,6 +57,8 @@ ninguno
 Mensajes
 [Notices]
 Avisos
+[Server:]
+Servidor:
 [Password:]
 Contraseña:
 [Unknown]

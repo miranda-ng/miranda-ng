@@ -5,6 +5,8 @@
 ;  Version: 0.1.3.0
 ;  Authors: Vincent Joyce
 ;============================================================
+[minutes]
+minutos
 [seconds]
 segundos
 [Background color:]
@@ -51,6 +53,8 @@ Registro
 &Borrar
 [Co&py all]
 Co&piar todo
+[&Select all]
+&Seleccionar todo
 [Network]
 Red
 [Popups]

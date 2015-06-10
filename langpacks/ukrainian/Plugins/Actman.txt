@@ -613,12 +613,8 @@ UTF16+сигнатури
 з підтвердженням
 [without confirmation]
 без підтвердження
-[Warning]
-Попередження
 [Notify]
 сповіщення
-[Error]
-Помилка
 [YAPP or Popup]
 YAPP або Popup
 [Popup window]

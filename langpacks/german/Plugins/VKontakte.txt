@@ -297,9 +297,15 @@ Teilnehmer
 Besitzer
 [create chat]
 
-[was kiked]
+[kick user]
 
 [left chat]
+
+[invite user]
+
+[change chat title to]
+
+[chat action not supported]
 
 [Unknown]
 Unbekannt

@@ -9,3 +9,5 @@
 Menús
 [Remove]
 Eliminar
+[Services]
+Servicios

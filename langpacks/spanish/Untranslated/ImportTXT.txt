@@ -4,7 +4,6 @@
 [Choose a file...]
 [Choose a pattern...]
 [Choose a file for import...]
-[Text files (*.txt)]
 [All files (*.*)]
 [Error in cfg file: ]
 [No Files Patterns Found]

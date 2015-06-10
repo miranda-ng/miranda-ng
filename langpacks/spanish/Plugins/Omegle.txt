@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.3
 ;  Authors: Robert Pösel
 ;============================================================
+[Server:]
+Servidor:
 [Connecting...]
 Conectando...
 [%s server connection]

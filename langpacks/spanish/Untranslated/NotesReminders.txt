@@ -112,7 +112,6 @@
 [White]
 [Are you sure you want to delete this note?]
 [Visible]
-[Top]
 [Note text]
 [Date/Title]
 [Sticky Note Caption]

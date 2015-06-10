@@ -33,6 +33,8 @@ Tipo
 Bu&scar
 [link]
 enlace
+[Copy to clipboard]
+Copiar al portapapeles
 [Error]
 Error
 [incoming]

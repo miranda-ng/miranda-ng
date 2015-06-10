@@ -29,8 +29,14 @@ Pieles
 Previsualizar
 [Effects]
 Efectos
+[Shadow]
+Sombra
+[Border]
+Borde
 [ms]
 ms
+[Add separator]
+Añadir separador
 [Top]
 Superior
 [Center]
@@ -43,8 +49,12 @@ Right
 Ninguno
 [Appearance]
 Apariencia
+[Tooltips]
+Sugerencias
 [Customize]
 Personalizar
+[Unread emails]
+Mensajes de correo no leídos
 [Status]
 Estado
 [Country flag]

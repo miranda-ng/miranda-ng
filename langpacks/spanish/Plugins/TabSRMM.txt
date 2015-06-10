@@ -193,12 +193,16 @@ Fuente
 Mostrar barra de menú
 [Show status bar]
 Mostrar barra de estado
+[Toolbar]
+Barra de herramientas
 [Help]
 Ayuda
 [View user's history]
 Ver historial del usuario
 [Notifications]
 Notificaciones
+[disabled]
+desabilitado
 [Incoming file]
 Archivo entrante
 [Version]
@@ -225,6 +229,10 @@ Otro
 Mensaje de
 [Paste and send]
 Pegar y Enviar
+[Send message]
+Enviar mensaje
+[Copy to clipboard]
+Copiar al portapapeles
 [contact]
 Contacto
 [Skins]
@@ -263,6 +271,8 @@ Configuración de la Sala
 Mensaje entrante
 [Outgoing message]
 Mensaje saliente
+[Status change]
+Cambio de estado
 [Message Sessions]
 Sesiones de mensaje
 [Message Log]
@@ -407,3 +417,5 @@ Apodo
 %s: sesión de mensaje (%u usuarios)
 [hours]
 horas
+[minutes]
+minutos

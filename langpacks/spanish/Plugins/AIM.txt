@@ -7,6 +7,8 @@
 ;============================================================
 [Password:]
 Contraseña:
+[Connection]
+Conexión
 [Port:]
 Puerto:
 [Reset]
@@ -21,6 +23,8 @@ Inactivo
 &Entrar
 [&Cancel]
 &Cancelar
+[Change Password]
+Cambiar contraseña
 [New]
 Nuevo
 [E-mail]

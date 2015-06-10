@@ -21,3 +21,5 @@ Seleccionar carpeta
 Archivos
 [Plugins]
 Plugins
+[Main Icon]
+Icono principal

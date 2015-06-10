@@ -9,6 +9,8 @@
 Cerrar
 [Options]
 Opciones
+[Border]
+Borde
 [Preview]
 Previsualizar
 [Background color:]

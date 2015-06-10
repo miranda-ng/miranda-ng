@@ -37,8 +37,20 @@ Ruta:
 Establecer
 [Find/add contacts]
 Buscar/agregar contactos
+[Show/hide offline contacts]
+Mostrar/Ocultar contactos desconectados
+[Hide offline contacts]
+Ocultar contactos sin conexión
+[Show offline contacts]
+Mostrar contactos sin conexión
 [Disable groups]
 Desactivar grupos
+[Enable/disable sounds]
+Habilitar/Desabilitar sonidos
+[Disable sounds]
+Desabilitar sonidos
+[Enable sounds]
+Habilitar sonidos
 [Exit]
 Salir
 [Default]

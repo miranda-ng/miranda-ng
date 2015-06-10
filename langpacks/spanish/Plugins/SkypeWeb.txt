@@ -2,20 +2,44 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.0.1
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Cancel]
 Cancelar
 [Password:]
 Contraseña:
+[Default group:]
+Grupo predeterminado:
+[Account]
+Cuenta
+[Place:]
+Lugar:
+[Save password]
+Guardar contraseña
+[Warning]
+Advertencia
+[&Invite user...]
+&Invitar usuario...
+[&Leave chat session]
+&Abandonar sesión de charla
+[Notifications]
+Notificaciones
+[Errors]
+Errores
+[File transfer]
+Transferencia de archivos
 [Size]
 Tamaño
 [bytes]
 bytes
+[Protocols]
+Protocolos
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
 Conceder autorización
 [Network]
 Red
+[Message read: %s]
+Leer mensaje: %s

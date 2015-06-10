@@ -5,16 +5,63 @@
 ;  Version: 0.7.0.2
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
+
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+
+[Hide offline contacts]
+
+[Stick together]
+
+[Use fixed width]
+
 [pixels]
 pikseli
+[Hide all contacts]
+
+[Hide when a fullscreen app is active]
+
+[Show tooltips*]
+
+[ms]
+
+[Tooltips]
+
+[Miscellaneous]
+
+[0 = Default]
+
+[*requires Tipper plugin]
+
+[Bring to front]
+
+[Bring to front every]
+
 [seconds]
 sekundi
+[Hide when contact list is shown]
+
 [Single click interface]
 Odabir jednim klikom
 [Dim idle contacts]
 Zatamni neaktivne kontakte
+[Idle contacts]
+
+[Border]
+
+[Draw border]
+
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
 [Background]
 Pozadina
+[Background color:]
+
+[Use background bitmap]
+
 [Stretch to width]
 Razvuci po širini
 [Stretch to height]
@@ -27,6 +74,7 @@ Napravi vertikalne pročice
 Razvuci proporcionalno
 [Opacity:]
 Neprozirnost:
+;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Klasični kontakti
 [Online contacts to whom you have a different visibility]
@@ -37,5 +85,22 @@ Kontakti koji nisu na vezi
 Kontakti (nisu na vezi) sa posebnim podešavanjem vidljivosti
 [Contacts which are 'not on list']
 Kontakti 'van spiska korisnika'
+[Floating contacts]
+
+[Show all thumbs]
+
+[Hide all thumbs]
+
+[Remove thumb]
+
+[Show/Hide all thumbs]
+
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+
 [Contact list]
 Spisak kontakata
+[Main Features]
+
+[Appearance]
+

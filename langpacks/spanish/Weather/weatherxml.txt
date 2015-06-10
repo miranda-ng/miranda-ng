@@ -1,0 +1,42 @@
+﻿;============================================================
+;  File: weatherxml.ini
+;  Module: weather
+;============================================================
+[E]
+E
+[Feel]
+Tocar
+[Forecast Day 1]
+pronóstico día 1
+[Heat Index]
+Índice de calor
+[Mostly Clear]
+Despejado
+[Mostly Cloudy]
+Mayormente nublado
+[Mostly Sunny]
+Mayormente soleado
+[NE]
+NE
+[NW]
+NO
+[N]
+N
+[Partly Cloudy]
+Parcialmente nublado
+[Partly Sunny]
+Parcialmente soleado
+[SE]
+SE
+[SW]
+SO
+[S]
+S
+[Sunny]
+Soleado
+[W]
+O
+[Wind Direction]
+Dirección del viento
+[Wind Speed]
+Velocidad del viento

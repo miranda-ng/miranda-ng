@@ -3,6 +3,7 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Naziv naloga (recimo, Moj Gugl)
 [Choose the protocol type]
@@ -341,6 +342,8 @@ Služi za:
 Standardno
 [Set]
 Izbor
+[Enable icons]
+
 [Show accounts in the following order,\ndrag to choose another order:]
 Nalozi će biti prikazani ovim redom,\nručno podesiti redosled u listi:
 [Account order and visibility]
@@ -543,6 +546,7 @@ Kopiraj li&nk
 Otkazati izmene
 [Ungroup]
 Izdvoj iz grupe
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Potvrdi autorizaciju
 [&Deny]
@@ -559,6 +563,7 @@ Ubaciti na spisak kontakata po autorizaciji
 Vaš kontakt je dodat
 [&Close]
 &Zatvori
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s poruka za %s
 [Retrieving %s message...]
@@ -581,6 +586,7 @@ Statusne poruke:
 IZmeniti poruku - "%s"
 [Closing in %d]
 Zatvaram (%d)
+;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Slanje
 [&Emoticons]
@@ -705,6 +711,7 @@ Jezičci
 Z&atvori ostale jezičke
 [&Open at this position]
 &Otvori na ovom mestu
+;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Sakrij odsutne
 [Hide empty groups]
@@ -917,6 +924,7 @@ Ne&vidljiv\tCtrl+7
 Na &telefonu\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Šalji datoteke
 [To:]
@@ -1027,10 +1035,12 @@ Pitaj me
 Preimenuj (dodaj " (1)", itd)
 [You will always be asked about files from people not on your contact list]
 Pitanje će uvek biti postavljeno ako je datoteka stigla od nepoznatog kontakta
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 O programu
 [Credits >]
 Autori >
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Pasivni režim usled navedenih događaja:
 [Become idle if the screen saver is active]
@@ -1059,6 +1069,7 @@ Pasivni režim bez zvukova
 Pasivni režim posle:
 [Idle (auto-away):]
 Pasivni režim (auto-neaktivan):
+;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Odmah prikaži prozor kada:
 [In background]
@@ -1155,6 +1166,7 @@ Komunikacija:
 Ubaci i pošalji
 [Delete]
 Briši
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Pronađi
 [&Find next]
@@ -1165,6 +1177,7 @@ Pronaći šta:
 Ranije poruke
 [&Find...]
 &Pronađi...
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Dodaj broj telefona
 [Enter country, area code and phone number:]
@@ -1235,6 +1248,7 @@ Služba:
 Pozicija:
 [Website:]
 Web sajt:
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 &s zahteva autorizaciju
 [%u requests authorization]
@@ -1247,6 +1261,7 @@ Web sajt:
 Upozorenja
 [Added event]
 Dodat događaj
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Pregled detalja o korisniku
 [Add contact permanently to list]
@@ -1269,10 +1284,12 @@ Zapamtiti kontakt na spisku
 %s šalje zahtev za autorizaciju\n%s na %s
 [Feature is not supported by protocol]
 Protokol ne podržava zahtevanu opciju
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Čitaj &poruku od: "%s"
 [Re&ad status message]
 Čitaj &statusnu poruku
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Nisam tu još od %time%.
 [Give it up, I'm not in!]
@@ -1297,6 +1314,7 @@ Mmm... hrana.
 neaktivnooo
 [Status]
 Status
+;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Modul za komunikaciju
 [Group chat log background]
@@ -1309,6 +1327,7 @@ Pozadina spiska korisnika
 Međulinije spiska nadimaka
 [Nick list background (selected)]
 Pozadina spiska nadimaka (odabrano)
+;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
 Upotreba interfesa sa jezičcima
 [Close tab on double click]
@@ -1509,6 +1528,8 @@ Poslata poruka (10х10)
 Akcija (10x10)
 [Add status (10x10)]
 Postavljen status (10х10)
+[Remove status (10x10)]
+
 [Join (10x10)]
 Dolazak (10x10)
 [Leave (10x10)]
@@ -1557,12 +1578,14 @@ Uopšteno
 Log-ovi razgovora
 [Popups]
 Balončići
+;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
 Pronađi '%s':
 [No word to look up]
 Nije navedena reč za pretragu
 [&Message %s]
 &Poruka %s
+;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Ubaci smeška
 [Make the text bold (CTRL+B)]
@@ -1597,6 +1620,7 @@ Jedinstveni broj (ID)
 %s: razgovor
 [%s: message session (%u users)]
 %s: razgovor (%u korisnik(a))
+;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Klasični kontakti
 [Online contacts to whom you have a different visibility]
@@ -1617,6 +1641,7 @@ Odabran tekst
 Tekst 'pod kursorom'
 [Quicksearch text]
 Brzo pretraži tekst
+;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Van fokusa
 [Offline]
@@ -1641,14 +1666,21 @@ Na ručku
 Telefoniram
 [List background]
 Pozadina spiska
+;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Standardno
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Standardni protokol enkripcije
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Korisnik nije registrovan e-mail adresom
 [Send e-mail]
 Slanje e-maila
+[&E-mail]
+
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Datoteka od: %s
 [bytes]
@@ -1665,14 +1697,17 @@ Dovršene
 Greška
 [Denied]
 Odbijeno
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s datoteka
 [All files]
 Sve datoteke
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Izvršne datoteke
 [Events]
 Događaji
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Pristigle datoteke (lokalno)
 [View user's history]
@@ -1683,10 +1718,12 @@ Korisnički meni
 Otkazano
 [This file transfer has been canceled by the other side]
 Slanje/prijem datoteke je već otkazano od strane drugog korisnika
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d datoteka
 [%d directories]
 %d direktorijuma
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Datoteka nije bezbedna od virusa. Potvrda otvaranja:
 [File received]
@@ -1737,10 +1774,13 @@ Prenos podataka završen, otvori folder.
 Proveravam viruse...
 [Transfer and virus scan complete]
 Prenos podataka i provera virusa dovršeni
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odlazni
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Zaštita prava
+;file \src\core\stdhelp\src\help.cpp
 [&Help]
 &Pomoć
 [&About...]
@@ -1751,22 +1791,28 @@ Odlazni
 &Sajt Miranda NG
 [&Report bug]
 Prijavi &grešku
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Pasivni režim
+;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Rok poruke istekao.
+;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Prijem poruke(10x10)
 [Outgoing message (10x10)]
 Slanje poruke (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Poslednja poruka primljena %s u %s.
 [%s is typing a message...]
 %s kuca poruku...
+;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Ja
 [File sent]
 Datoteka je poslata
+;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Odlazne poruke
 [Incoming messages]
@@ -1799,6 +1845,7 @@ Prikaži balončiće (sistem nepodržan)
 Log razgovora
 [Typing notify]
 Obaveštenja o kucanju
+;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Poruka od: %s
 [%s is typing a message]
@@ -1821,12 +1868,15 @@ Greška pri slanju poruke
 Kontakt kuca poruku
 [Contact stopped typing]
 Kontakt prestaje sa kucanjem
+;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Desila se nepoznata greška.
+;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klijent ne razume poruku host-a. Postoji mogućnost da host ne podržava SSL ili podržava drugi oblik sigurnosti
 [Host we are connecting to is not the one certificate was issued for]
 Host koji prihvata vezu nije u vezi sa deklaracijom sertifikata
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Neodgovarajuća poruka
 [Outgoing message]
@@ -1849,16 +1899,19 @@ Potvrda brisanja istorije korisnika: %s?
 Briši istoriju
 [View &history]
 Pregledaj %istoriju
+;file \src\core\stdurl\url.cpp
 [URL from %s]
 Linkovi od: %s
 [Web page address (&URL)]
 Internet stranica (&URL)
 [URL]
 Link
+;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Pošalji link kome:
 [Send timed out]
 Rok za slanje istekao
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Izmeni E-Mail adresu
 [Edit phone number]
@@ -1879,6 +1932,7 @@ Mobilni
 Kontakt na poslu
 [Work fax]
 Faks na poslu
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Muško
 [Female]
@@ -1897,12 +1951,15 @@ Posao
 Bio
 [Notes]
 Beleške
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Vlasnik
 [View/change my &details...]
 Pregledaj/menjaj &detalje...
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je prisutan
+;file \src\mir_core\src\bitmaps.cpp
 [All Files]
 Sve datoteke
 [Windows bitmaps]
@@ -1913,10 +1970,15 @@ JPEG slike
 GIF slike
 [PNG bitmaps]
 PNG slike
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+
+;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
 Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Dodaj me na spisak i daj mi autorizaciju, molim.
+;file \src\modules\chat\chat_opts.cpp
 [Others nicknames]
 Tuđi nadimci
 [Your nickname]
@@ -1967,12 +2029,16 @@ Korisnik je promenio nadimak
 Korisnik je poslao naznaku
 [The topic has been changed]
 Tema je promenjena
+;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
 &Počni razgovor
 [&Leave chat]
 &Završi razgovor
+;file \src\modules\chat\clist.cpp
 [&Open chat window]
 &Otvori prozor za razgovor
+;file \src\modules\chat\colorchooser.cpp
+;file \src\modules\chat\log.cpp
 [%s has joined]
 Ulazak: %s
 [You have joined %s]
@@ -2001,6 +2067,7 @@ Tema je '%s%s'
 %s uklanja '%s' status za: %s
 [<invalid>]
 <pogrešno>
+;file \src\modules\chat\tools.cpp
 [%s wants your attention in %s]
 %s traži tvoje prisustvo u: %s
 [%s speaks in %s]
@@ -2035,6 +2102,8 @@ Naznka od: %s - %s
 Tema je '%s'
 [The topic is '%s' (set by %s)]
 Tema je '%s' (od strane: %s)
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Poseban status
 [%s (locked)]
@@ -2043,12 +2112,16 @@ Poseban status
 Izbor statusa
 [Main menu]
 Glavni meni
+;file \src\modules\clist\clistmod.cpp
 [Connecting]
 Povezivanje
 [Connecting (attempt %d)]
 Povezivanje (pokušaj br. %d)
+;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Nepoznat kontakt)
+;file \src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Kontakt je registrovan na IM serveru sa centralizovanom korisničkom bazom. Biće uklonjen sa servera i sa lokalnog spiska kontakata po sledećem povezivanju na mrežu sa koje je server.
 [De&lete]
@@ -2057,6 +2130,7 @@ Kontakt je registrovan na IM serveru sa centralizovanom korisničkom bazom. Bić
 &Promeni naziv
 [&Add permanently to list]
 &Dodaj na spisak zauvek
+;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Moje izmenjeno ime (neprenosivo)
 [Nick]
@@ -2079,12 +2153,15 @@ Prezime Ime
 '(Nepoznat kontakt)'
 [Contact names]
 Kontakti
+;file \src\modules\clist\genmenu.cpp
 [Menu icons]
 Ikonice menija
+;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Meniji
 [Customize]
 Podešavanja
+;file \src\modules\clist\groups.cpp
 [New group]
 Nova grupa
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2097,6 +2174,7 @@ Već postoji grupa sa tim imenom. Unesi jedinstveno ime grupe.
 Promeni ime grupe
 [This group]
 Ova grupa
+;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 Prikaži/Sakrij spisak kontakata
 [Read message]
@@ -2107,10 +2185,13 @@ Pregledaj podešavanja
 Pregledaj podešavanja log-a
 [Open 'Find user' dialog]
 Otvori prozor za pretragu korisnika
+;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 &Stavi u grupu
 [<Root group>]
 <Glavna grupa (root)>
+;file \src\modules\clist\protocolorder.cpp
+;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude sačuvan u: %s\nVeć postoji istoimeni profil. Ovaj problem morate da rešite ručno.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2129,6 +2210,7 @@ Miranda ne razume sadržaj datog profila
 Miranda ne uspeva da otvori '%s'\nNedostupnu datoteku koristi druga aplikacija, ili još jedna instanca Mirande
 [Miranda can't open that profile]
 Miranda ne može da otvori taj profil
+;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sistem(i) zaštite za prevenciju štetnih promena su pokrenuti i obaveštavaju korisnika o svakoj promeni.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2143,12 +2225,14 @@ Ova izmena ume da bude vrlo štetna.
 Ova izmena može biti štetna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nedozvoljen tip podešavanja za: '%s'. Prvi znak svake vrednosti mora biti b, w, d, l, s, e, u, g, h ili n.
+;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Zahtev za autorizaciju od %s%s: %s
 [You were added by %s%s]
 %s%s vas dodaje na spisak kontakata.
 [Contacts: ]
 Kontakti:
+;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' već postoji. Otpremiti u Kantu za Otpatke?\n\nUPOZORENJE: Profil će biti izgubljen ukoliko Kanta za Otpatke nije u funkciji.\nUPOZORENJE: Poverljivi podaci sadržani u profilu, preporučeno sigurno uklanjanje.
 [The profile already exists]
@@ -2187,10 +2271,14 @@ Izmenjeno
 Moji profili
 [New profile]
 Napravi profil
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 Aktivnosti razgovora
+;file \src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Dodatne ikonice
+;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Polje za pretragu je prazno. Pokušajte ponovo unosom odgovarajućih reči.
 [Search]
@@ -2209,6 +2297,7 @@ Sve mreže
 Koristeći
 [&Find/add contacts...]
 %Pretraži/dodaj kontakte...
+;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Pretraga '%s' bez uspeha, primećen problem - da li je %s na vezi?
 [Could not search on any of the protocols, are you online?]
@@ -2223,6 +2312,7 @@ Pronađeno %d %s korisnika
 Pronađeno %d korisnika (
 [No users found]
 Pretraga nije pronašla korisnike
+;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 Datoteka nije kreirana
 [<none>]
@@ -2251,16 +2341,20 @@ Greška pri upisu datoteke
 Primer teksta
 [Fonts]
 Fontovi
+;file \src\modules\fonts\FontService.cpp
 [Headers]
 Zaglavlja
 [Generic text]
 Bazični tekst
 [Small text]
 Dodatni tekst
+;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Kompleti ikonica
+;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Svi kontakti **
+;file \src\modules\langpack\lpopts.cpp
 [(incompatible)]
 (nekompatibilni)
 [Unknown]
@@ -2269,8 +2363,10 @@ Nepoznati
 predefinisani
 [Languages]
 Jezici
+;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Ovim se uklanjaju svi kontakti u vezi sa navedenim metakontaktom.\nTakođe, metakontakt će biti izbrisan.\nNastaviti?
+;file \src\modules\metacontacts\meta_addto.cpp
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 U bazi podataka nema metakontakata (u tom slučaju potrebno je stvoriti jedan na osnovu postojećeg kontakta)\nili ne postoji metakontakt kome možeš pridodati ovaj kontakt.\nAlternativno rešenje je pretvaranje ovog kontakta u metakontakt.\n\nKonvertovati kontakt u metakontakt?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
@@ -2295,6 +2391,9 @@ Metakontakt nije odabran
 Neuspelo dodeljivanje metakontaktu-
 [Assignment failure]
 Dodeljivanje nije uspelo
+;file \src\modules\metacontacts\meta_edit.cpp
+[ID]
+
 [Protocol]
 Protokol
 [Send offline]
@@ -2303,6 +2402,7 @@ Slanje bez konekcije
 Slanje &na vezi
 [Delete metacontact?]
 Brisanje metakontakta?
+;file \src\modules\metacontacts\meta_main.cpp
 [Toggle off]
 Isključi
 [Toggle on]
@@ -2317,6 +2417,7 @@ Izmeni
 Vrati na standardno
 [MetaContacts]
 Metakontakti
+;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Prijavljen je problem pri dodeljivanju kontakta metakontaktu
 [This will remove the metacontact permanently.\n\nProceed anyway?]
@@ -2339,12 +2440,15 @@ Utvrdi kao glavni metakontakt
 Briši metakontakt
 [Subcontacts]
 Podkontakti
+;file \src\modules\metacontacts\meta_options.cpp
 [Metacontacts]
 Metakontakti
+;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Nijedan kontakt nije na vezi.
 [Select metacontact]
 Odaberite metakontakt
+;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Pošiljalac
 [Could not retrieve contact protocol]
@@ -2363,6 +2467,7 @@ Neuspešan upis protokola kontakta u metakontakt
 Neuspešan upis protokola kontakta u metakontakt
 [Could not write nickname of contact to metacontact]
 Neuspešan upis nadimka kontakta u metakontakt
+;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 Tipičan netlib log
 [No times]
@@ -2379,12 +2484,14 @@ Mikrosekunde
 Mesto postavljanja i čuvanja log-a
 [Select program to be run]
 Odabir programa za pokretanje
+;file \src\modules\netlib\netlibopts.cpp
 [<mixed>]
 <pomešano>
 [<All connections>]
 <Sve veze>
 [Network]
 Mreža
+;file \src\modules\options\options.cpp
 [<all modules>]
 <svi moduli>
 [<core modules>]
@@ -2397,6 +2504,7 @@ Učitavam... %d%%
 Miranda NG podešavanja
 [&Options...]
 &Podešavanja...
+;file \src\modules\plugins\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Nije odabran ni jedan plug-in. Potrebna instalacija/uključivanje makar jednog protokola komunikacije, kao "StdMsg.dll"
 ['%s' is disabled, re-enable?]
@@ -2413,6 +2521,7 @@ Plug-in nije učitan u režimu održavanja!
 Ne mogu da učitam ni jedan plug-in za listu kontakata. Pokušao sam da zaobiđem vaša podešavanja kontakt liste, ali bez uspeha.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nije pronađen ni jedan plug-in za listu kontakata! StdClist.dll ili neki clist_*.dll plug-in moraju biti instalirani.
+;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Plug-in
 [Version]
@@ -2423,6 +2532,7 @@ Miranda NG mora biti ponovo pokrenuta kako bi bila zapamćena podešavanja plug-
 Odmah restartovati?
 [Plugins]
 Plug-inovi
+;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UPOZORENJE! Nalog će biti izbrisan. Sva podešavanja, kontakti i istorije razgovora će nestati.\n\nPotpuno ste sigurni?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2473,6 +2583,51 @@ Nalog %s je obrisan.
 Za brisanje naloga potrebno je isključiti plug-in
 [&Accounts...]
 &Nalozi...
+;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+
+[Browser: Forward]
+
+[Browser: Refresh]
+
+[Browser: Stop]
+
+[Browser: Search]
+
+[Browser: Fav]
+
+[Browser: Home]
+
+[Mute]
+
+[Vol-]
+
+[Vol+]
+
+[Media: Next Track]
+
+[Media: Prev. Track]
+
+[Media: Stop]
+
+[Media: Play/Pause]
+
+[Mail]
+
+[Media: Select]
+
+[App 1]
+
+[App 2]
+
+[Ctrl + ]
+
+[Alt + ]
+
+[Shift + ]
+
+[Win + ]
+
 [Remove shortcut]
 Ukloni prečicu
 [Add another shortcut]
@@ -2491,6 +2646,7 @@ Izmeni
 Sistemsko očitavanje
 [Miranda scope]
 Miranda očitavanje
+;file \src\modules\skin\skinicons.cpp
 [User online]
 Korisnik na vezi
 [Group (open)]
@@ -2569,16 +2725,20 @@ Ikonica statusa
 %s ikonica
 [Main icons]
 Glavne ikonice
+;file \src\modules\skin\sounds.cpp
 [Sound files]
 Zvučne datoteke
 [WAV files]
 WAV datoteke
+;file \src\modules\utils\path.cpp
 [Avatars]
 Avatari
 [Avatars root folder]
 Početni (root) folder za avatare
+;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <nije navedeno>
+;file \src\modules\utils\utils.cpp
 [Unspecified]
 Nije navedeno
 [Afghanistan]
@@ -3079,3 +3239,4 @@ Jemen
 Zambija
 [Zimbabwe]
 Zimbabve
+;file \src\modules\visibility\visibility.cpp

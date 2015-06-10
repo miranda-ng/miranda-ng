@@ -5,37 +5,152 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
+[Generates a list of extracted URIs from the history.]
+
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Pretraga
 [Close]
 Zatvori
+[Search for:]
+
+[Message direction]
+
+[Message types]
+
+[All directions]
+
+[Incoming only]
+
+[Outgoing only]
+
+[All types]
+
+[Mail addresses only]
+
+[Web addresses only]
+
+[Deep search]
+
+[Static]
+
+[Color select]
+
 [Incoming messages]
 Dolazne poruke
+[Plugin default]
+
+[Preview]
+
 [Outgoing messages]
 Odlazne poruke
 [Background color]
 Boja pozadine
+[Use Miranda settings]
+
 [Text color]
 Boja teksta
+[General settings]
+
+[Open links always in a new window]
+
+[Update list on new events]
+
+[Show whole message on 'mouse over' event]
+
+[Save window position individually for each contact]
+
+[Show...]
+
+[Date]
+
+[Parting line]
+
 [Timestamp]
 Vreme
+[Direction]
+
+[Type]
+
 [&File]
 &Datoteka
+[&Save]
+
 [&Close]
 &Zatvori
 [&Options]
 &Podešavanja
+[Message &direction]
+
+[&Outgoing messages only]
+
+[&Incoming messages only]
+
+[Message &type]
+
+[&Web addresses only]
+
+[&Mail addresses only]
+
+[&Clear search results]
+
 [&Search]
 &Pretraga
 [link]
 Link
+[Open]
+
+[Open in new window]
+
+[Copy to clipboard]
+
+[Show message]
+
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+
+[History is empty!]
+
+[There are no links in history!]
+
 [Error]
 Greška
 [incoming]
 Pristigle
 [outgoing]
 Odlazni
+[Filter]
+
+[no filter]
+
+[Search filter]
+
+[no settings]
+
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+
 [History]
 Istorija
+[Processing history...]
+
+[Could not create window!]
+
+[Could not allocate memory!]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist plugin]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+
+[Processing list...]
+
+[No messages found!\nPlease change current filter options.]
+
+[RTF file]
+
 [All files]
 Sve datoteke
+[Save RTF File]
+

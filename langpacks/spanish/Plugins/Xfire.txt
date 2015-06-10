@@ -55,6 +55,8 @@ Estoy al teléfono.
 Mmm... comida.
 [Voice]
 Voz
+[Protocols]
+Protocolos
 [Username]
 Nombre de usuario
 [Avatars]

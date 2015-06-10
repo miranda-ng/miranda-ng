@@ -9,6 +9,8 @@
 Cuentas
 [Notification]
 Notificación
+[minutes]
+minutos
 [Background color:]
 Color del fondo:
 [Reset to default]

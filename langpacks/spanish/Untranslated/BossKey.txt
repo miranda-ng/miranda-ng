@@ -3,7 +3,6 @@
 [Change status to]
 [Change only if current status is Online]
 [Use default status message]
-[Disable Sounds]
 [Show the Tray Icon]
 [When I return:]
 [Request password:]

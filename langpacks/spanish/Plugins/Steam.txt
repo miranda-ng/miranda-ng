@@ -9,13 +9,27 @@
 Usuario:
 [Password:]
 Contraseña:
+[Default group:]
+Grupo predeterminado:
+[Account]
+Cuenta
 [Contacts]
 Contactos
+[Use bigger avatars]
+Usar avatares grandes
 [Cancel]
 Cancelar
+[Save password]
+Guardar contraseña
 [Name]
 Nombre
 [Network]
 Red
 [Request authorization]
 Solicitar autorización
+[Unknown error]
+Error desconocido
+[Protocols]
+Protocolos
+[You cannot send messages when you are offline.]
+No puede enviar mensajes cuando no esté conectado.

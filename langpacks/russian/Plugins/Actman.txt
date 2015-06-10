@@ -619,12 +619,8 @@ UTF16+сигнатура
 с подтверждением
 [without confirmation]
 без подтверждения
-[Warning]
-Предупреждение
 [Notify]
 Уведомление
-[Error]
-Ошибка
 [YAPP or Popup]
 YAPP или Popup
 [Popup window]

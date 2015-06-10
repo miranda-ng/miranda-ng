@@ -18,7 +18,6 @@
 [Search online users only]
 [Remember]
 [Enable avatars support (loading)]
-[Server:]
 [Updates check interval, min]
 [Return absolute path]
 [Delete avatar file with contact]
