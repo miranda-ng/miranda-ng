@@ -1149,7 +1149,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		CMString tszBody(jnMsg["body"].as_mstring());
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (!jnFwdMessages) {
+		if (!jnFwdMessages.isnull()) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -1157,7 +1157,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		}
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (!jnAttachments) {
+		if (!jnAttachments.isnull()) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
