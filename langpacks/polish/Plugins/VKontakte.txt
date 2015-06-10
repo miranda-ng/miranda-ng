@@ -297,10 +297,16 @@ Uczestnicy
 Właściciele
 [create chat]
 Stwórz czat
-[was kiked]
-został wyrzucony/a
+[kick user]
+Wyrzuć użytkownika
 [left chat]
 opuścił/a czat
+[invite user]
+Zaproś użytkownika
+[change chat title to]
+Zmień temat czatu na
+[chat action not supported]
+Akcja czatu niewspierana
 [Unknown]
 Nieznany
 [Enter new chat title]
