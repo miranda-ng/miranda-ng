@@ -5,6 +5,12 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
+[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
+Отображает значок в окне сообщений, показывающий, когда ваше последнее исходящее сообщение было прочитано / ещё не прочитано.
+[Unread message icon]
+Значок непрочитанного сообщения
+[Read message icon]
+Значок нпрочитанного сообщения
 [Failed sending icon]
 Значок ошибки при отправке сообщения
 [Sending message icon]

@@ -1,3 +1,0 @@
-﻿[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
-[Unread message icon]
-[Read message icon]
