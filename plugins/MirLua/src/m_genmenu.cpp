@@ -40,7 +40,7 @@ static int lua_RemoveMenuItem(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg menusLib[] =
+static luaL_Reg genmenuApi[] =
 {
 	{ "AddMainMenuItem", lua_AddMainMenuItem },
 	{ "AddContactMenuItem", lua_AddContactMenuItem },
@@ -49,16 +49,9 @@ static luaL_Reg menusLib[] =
 	{ NULL, NULL }
 };
 
-int luaopen_m_menus(lua_State *L)
+LUAMOD_API int luaopen_m_genmenu(lua_State *L)
 {
-	lua_getglobal(L, "M");
-	luaL_checktype(L, -1, LUA_TTABLE);
-
-	lua_newtable(L);
-	luaL_setfuncs(L, menusLib, 0);
-	lua_setfield(L, -2, "Menus");
-
-	lua_pop(L, 1);
+	luaL_newlib(L, genmenuApi);
 
 	return 1;
 }

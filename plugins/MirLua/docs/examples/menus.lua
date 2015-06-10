@@ -1,9 +1,9 @@
 --- include m_menus module
-require('m_menus')
-require('m_icons')
+local genmenu = require('m_genmenu')
+local icolib = require('m_icolib')
 
 --- Add icon for menu items
-local hIcon = M.Icons.AddIcon('testMenuIcon', 'Lua icon for menus')
+local hIcon = icolib.AddIcon('testMenuIcon', 'Lua icon for menus')
 
 --- Add menu item to main menu
 -- @param name The name of menu item
@@ -12,7 +12,7 @@ local hIcon = M.Icons.AddIcon('testMenuIcon', 'Lua icon for menus')
 -- @param icon The handle of icon of menu item (default NULL)
 -- @param service The name of service which will be called (default '')
 -- @return handle of menu item
-M.Menus.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
+genmenu.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
 
 --- Add menu item to contact menu
 -- @param name The name of menu item
@@ -21,12 +21,12 @@ M.Menus.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
 -- @param icon The handle of icon of menu item (default NULL)
 -- @param service The name of service which will be called (default '')
 -- @return handle of menu item
-M.Menus.AddContactMenuItem('Contact menu item', 0, 0, hIcon, 'Srv/CMI')
+genmenu.AddContactMenuItem('Contact menu item', 0, 0, hIcon, 'Srv/CMI')
 
 --- Create the contact menu item which will be deleted below
-local hMenuItem = M.Menus.AddContactMenuItem('testRemove', 0, 0, 0, 'Srv/TestRemove')
+local hMenuItem = genmenu.AddContactMenuItem('testRemove', 0, 0, 0, 'Srv/TestRemove')
 
 --- Remove menu item from parent menu
 -- @param handle The handle of menu item
 -- @return 0 on success
-M.Menus.RemoveMenuItem(hMenuItem)
+genmenu.RemoveMenuItem(hMenuItem)
