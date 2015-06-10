@@ -527,6 +527,8 @@ UTF16+сигнатура
 Показывает всех пользователей
 [Show only Online Users]
 Скрывает отключённых
+[Toggle status]
+Переключает состояние
 [Change 'hide offline contacts' option value]
 Меняет значение настройки "Скрыть отключённых"
 [Offline]
@@ -552,7 +554,7 @@ UTF16+сигнатура
 [Set global status]
 Устанавливает глобальный статус
 [Switch contact list status]
-Переключает статус списка контактов
+Показывает или скрывает список контактов
 [Closes Miranda]
 Завершает работу программы
 [Show or hide netlog console window]

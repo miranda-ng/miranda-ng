@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Керування "гарячими клавішами" і діями, такими як відкриття вікна контакту, вставка тексту, запуск інших програм та виклик служб.
-;Icons
 [Apply]
 Застосувати
 [New]
@@ -42,7 +41,6 @@
 Перезавантажити/Оновити
 [Registered actions]
 Зареєстровані дії
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новий формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
@@ -423,7 +421,6 @@ UTF16+сигнатури
 Позначити як змінюване
 [Single instance]
 Один екземпляр
-;Scheduler
 [Scheduler]
 Планувальник
 [Task sample]
@@ -454,7 +451,6 @@ UTF16+сигнатури
 Надсилати подію при старті завдання
 [Send event just once]
 Надсилати тільки при першому запуску
-;Hooks
 [Hooks]
 Хуки
 [Description]
@@ -465,7 +461,6 @@ UTF16+сигнатури
 Подія
 [Miranda event help]
 Допомога по подіям
-;Use Actions
 [Use Actions]
 Використання дій
 [Action list]
@@ -514,7 +509,6 @@ UTF16+сигнатури
 Роздільник
 [Do not translate]
 Без перекладу
-;services.ini
 [Show window for new/changed profile password]
 Показує вікно для установки/зміни пароля профілю
 [int 0, if successful]
@@ -526,11 +520,11 @@ UTF16+сигнатури
 [Show All Titlebars]
 Показує назви
 [Show All Users]
-Показує всіх користувачів
+показує всіх користувачів
 [Show only Online Users]
-Ховає відключених
+ховає відключених
 [Toggle status]
-Перемикає стан
+перемикає стан
 [Change 'hide offline contacts' option value]
 Змінює значення "Сховати відключених"
 [Offline]
@@ -556,17 +550,21 @@ UTF16+сигнатури
 [Set global status]
 Встановлює глобальний статус
 [Switch contact list status]
-Перемикає стан списку контактів
+Показує або ховає список контактів
 [Closes Miranda]
 Завершує роботу програми
 [Show or hide netlog console window]
 Показує або ховає мережеву консоль
 [Returns contact amount, excluding user account]
-Повертає к-ть контактів (без облікового запису користувача)
+Повертає кількість контактів (без облікового запису користувача)
 [Ansi Text]
 Текст ANSI
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
+[displays File Transfer window]
+Відкриває вікно передачі файлів
+[on Desktop]
+на робочому столі
 [Show "About..." window]
 Показує вікно "Про Miranda NG"
 [Open support (originally - Miranda wiki) page]
@@ -574,21 +572,25 @@ UTF16+сигнатури
 [Open bug report page]
 Відкриває сторінку для створення повідомлення про помилку
 [System]
-Система
+система
+[Shows contact history or (wParam=0) system history]
+Відкриває історію контакта (або системну історію, якщо wParam=0)
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+Видаляє історію контакта. Якщо hContact NULL(0), то буде видалено системну історію.
 [Ignore all]
-Ігнорувати все
+ігнорувати все
 [Ignore messages]
-Ігнорувати повідомлення
+ігнорувати повідомлення
 [Ignore URLs]
-Ігнорувати URL
+ігнорувати URL
 [Ignore files]
-Ігнорувати файли
+ігнорувати файли
 [Ignore User Online]
-Ігнорувати "Користувач у мережі"
+ігнорувати "Користувач у мережі"
 [Ignore requests]
-Ігнорувати запити
+ігнорувати запити
 [Ignore 'You were added']
-Ігнорувати "Вас додали"
+ігнорувати "Вас додали"
 [Ignore Contact]
 Ігнорувати контакт
 [Unignore Contact]
@@ -602,7 +604,7 @@ UTF16+сигнатури
 [Station name]
 Ім'я станції
 [All protocols]
-Усі протоколи
+усі протоколи
 [Protocol]
 Протокол
 [Check for updates]
@@ -614,7 +616,7 @@ UTF16+сигнатури
 [Warning]
 Попередження
 [Notify]
-Сповіщення
+сповіщення
 [Error]
 Помилка
 [YAPP or Popup]
@@ -625,24 +627,32 @@ YAPP або Popup
 Текст Unicode
 [displays the Account Manager]
 Відкриває менеджер облікових записів
+[wParam is unicode]
+wParam в Unicode
+[wParam is Ansi]
+wParam в ANSI
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
 [struct]
 структура
+[Send file to contact.]
+Відправляє контакту файл
 [remove all temporary contacts from db]
 Видаляє з бази всі тимчасові контакти
 [Filename]
 Ім'я файлу
+[Shows contact property window.]
+Відкриває вікно з інформацією про користувача
 [Open URL in current window]
-Відкриває посилання в поточному вікні
+відкриває посилання в поточному вікні
 [0 - Open URL in current window]
-0 - Відкриває посилання в поточному вікні
+0 - відкриває посилання в поточному вікні
 [Open URL in default browser]
 Відкриває посилання в браузері за замовчанням
 [With formating]
-З форматуванням
+з форматуванням
 [Don't use formating]
-Без форматування
+без форматування
 [int 0, if unsuccessful]
 0 якщо невдало
 [Manage Jabber Bookmarks]
@@ -732,10 +742,10 @@ YAPP або Popup
 [The context menu for a contact is about to be built]
 Побудова контекстного меню для контакту
 [Double click on the contact list]
-Подвійний клік у КЛ
+Подвійний клік у списку контактів
 [database driver]
 драйвер бази
 [New contact added to database]
 Додавання нового контакту до бази
 [Contact deleting]
-Контакт видалено
+Видалення контакту

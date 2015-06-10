@@ -1,2 +1,0 @@
-﻿[ZeroSwitch plugin failed]
-[Oops, we've got a big hook error here :(]
