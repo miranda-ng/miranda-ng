@@ -1,0 +1,25 @@
+﻿#muuid {31aaef41-1411-487e-86e2-c484f4174283}
+;============================================================
+;  File: MessageState.dll
+;  Plugin: Message state
+;  Version: 0.0.1.0
+;  Authors: MikalaiR
+;============================================================
+[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
+Показує за допомогою значка у вікні повідомлень, прочитане ваше останнє надіслане повідомлення чи ще ні.
+[Unread message icon]
+Непрочитане повідомлення
+[Read message icon]
+Прочитане повідомлення
+[Failed sending icon]
+Помилка надсилання
+[Sending message icon]
+Надсилання
+[Last message read at]
+Останнє повідомлення прочитане о
+[Last message is not read]
+Останнє повідомлення не прочитане
+[Last message was not sent.]
+Останнє повідомлення не надіслане.
+[Sending...]
+Надсилання...

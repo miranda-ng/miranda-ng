@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
@@ -204,17 +204,17 @@ HTTP-з'єднання Yahoo
 [Yahoo Ping Error]
 Помилка пінгу Yahoo
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
-Не можу авторизуватися - неправильне ім'я. Перевірте ім'я користувача в налаштуваннях.
+Не вдалося авторизуватися: неправильне ім'я. Перевірте ім'я користувача в налаштуваннях.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
-Не можу авторизуватися - неправильний пароль. Перевірте ім'я користувача та пароль у налаштуваннях.
+Не вдалося авторизуватися: неправильний пароль. Перевірте ім'я користувача та пароль у налаштуваннях.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
-Не можу авторизуватися. Ваш обліковий запис заблоковано.\nПерейдіть на сайт %s.
+Не вдалося авторизуватися: ваш обліковий запис заблоковано.\nПерейдіть на сайт %s.
 [You have been logged out of the Yahoo service, possibly due to a duplicate login.]
 Вас відключено від сервісу Yahoo, можливо через підключення з іншого місця.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
-Не можу підключитися до сервісу Yahoo. Перевірте налаштування сервера/порт і проксі.
+Не вдалося підключитися до сервісу Yahoo. Перевірте налаштування сервера/порт і проксі.
 [Could not log in, unknown reason: %d.]
-Не можу авторизуватися, причина: %d.
+Не вдалося авторизуватися: %d.
 [Unknown error %s]
 Невідома помилка %s
 [Custom error %s]

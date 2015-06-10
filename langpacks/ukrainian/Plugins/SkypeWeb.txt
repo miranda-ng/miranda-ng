@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.0
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -35,6 +35,8 @@
 Позначати всі вхідні повідомлення непрочитаними
 [Place:]
 Місце:
+[Use hostname]
+Використ. ім'я хоста
 [Enter password]
 Введіть пароль
 [Save password]
@@ -117,6 +119,14 @@
 Дія
 [Protocols]
 Протоколи
+[Authentication failed. Invalid username.]
+Помилка авторизації. Неправильне ім'я користувача.
+[Authentication failed. Bad username or password.]
+Не вдалося авторизуватися, вказано неправильне ім'я користувача або пароль.
+[Too many failed authentication attempts with given username or IP.]
+Перевищено допустиму кількість невдалих спроб авторизації з таким ім'ям користувача або з цього IP.
+[Authentication failed. Unknown error.]
+Не вдалося авторизуватися через невідому помилку.
 [Request authorization]
 Запитати авторизацію
 [Grant authorization]
@@ -129,6 +139,8 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
+[Enter confirmation code]
+Введіть код підтвердження
 [Network]
 Мережа
 [%s connection]

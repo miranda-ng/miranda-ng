@@ -9,3 +9,7 @@
 Додає значок Miranda NG в діалог перемикання між вікнами, що викликається по Alt+Tab.
 [Plugin works under Windows XP only]
 Плагін працює тільки у Windows XP
+[ZeroSwitch plugin failed]
+Помилка плагіна ZeroSwitch
+[Oops, we've got a big hook error here :(]
+Помилка при спробі встановити хук :(

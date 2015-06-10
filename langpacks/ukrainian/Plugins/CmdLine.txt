@@ -7,24 +7,6 @@
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
 Плагін дозволяє керувати Miranda через командний рядок.
-[No help for '%s'.]
-Немає допомоги для '%s'.
-[Available commands: ]
-Доступнi команди:\s
-[Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
-Miranda була закрита або сталася помилка при очiкуваннi результату, неможливо обробити запит.
-[%s usage:\n]
-%s використання:\n
-[%s <command> [<param> [<param> [...]]].\n]
-%s <команда> [<аргумент> [<аргумент> [...]]].\n
-[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-Передача Miranda вказаної команди на виконання. Команди можуть мати жодного, один або бiльше аргументiв. Використовуйте '%s help' для отримання списку доступних команд.\n
-[No command can have more than %d parameters.\n]
-Команди не можуть мати бiльше %d аргументiв.\n
-[%s version %s]
-%s версiя %s
-[Unknown command '%s'.\n]
-Невiдома команда '%s'.\n
 [Could not initialize CmdLine plugin property]
 Не вдалося iнiцiалiзувати власностi CmdLine
 [Error]

@@ -99,6 +99,10 @@
 Видалити
 [Don't show in start menu]
 Вимкнути пункт у головному меню
+[(manual added)]
+(додано вручну)
+[Extra Command Line Parameters:]
+Додаткові параметри командного рядка:
 [Edit...]
 Правка...
 [Username:]
