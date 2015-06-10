@@ -9,6 +9,8 @@
 conectando
 [Advanced]
 Avanzado
+[Frame background]
+Marco de fondo
 [OFF]
 APAGADO
 [New]

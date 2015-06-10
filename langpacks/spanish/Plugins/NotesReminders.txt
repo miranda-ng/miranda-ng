@@ -27,6 +27,8 @@ Deshacer
 Plugins
 [Alerts]
 Alertas
+[Top]
+Superior
 [Notes]
 Notas
 [Minutes]

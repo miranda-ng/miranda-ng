@@ -7,8 +7,6 @@
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Забяспечвае падтрымку шыфравання GPG.
-[Email]
-Пошта
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load from file]
 Імпарт з файла
@@ -136,6 +134,8 @@ ID ключа:
 [GPG encryption status]
 Статус шыфравання GPG
 ;file \plugins\New_GPG\src\main.cpp
+[Email]
+Пошта
 [Name]
 Імя
 [Creation date]

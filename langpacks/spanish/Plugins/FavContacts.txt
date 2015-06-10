@@ -7,8 +7,12 @@
 ;============================================================
 [Customize]
 Personalizar
+[Show avatars]
+Mostrar avatares
 [Show]
 Mostrar
+[recent contacts]
+contactos recientes
 [Contacts]
 Contactos
 [Background]

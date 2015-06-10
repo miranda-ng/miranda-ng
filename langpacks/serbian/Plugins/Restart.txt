@@ -5,3 +5,10 @@
 ;  Version: 0.0.6.0
 ;  Authors: eugene.nv
 ;============================================================
+[Adds Restart menu item.]
+
+;file \plugins\Restart\src\restart.cpp
+[Restart]
+
+[Restart Plugin]
+

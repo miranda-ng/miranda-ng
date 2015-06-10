@@ -17,6 +17,10 @@ Cuenta
 segundos
 [pixels]
 píxeles
+[Draw border]
+Dibujar borde
+[Round corners]
+Esquinas redondeadas
 [Nickname]
 Apodo
 [Status]

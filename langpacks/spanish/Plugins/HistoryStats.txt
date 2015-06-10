@@ -41,6 +41,10 @@ Entrante
 Apodo
 [Protocol]
 Protocolo
+[Hours]
+Horas
+[Days]
+Días
 [incoming messages]
 Mensajes entrantes
 [outgoing messages]
@@ -49,8 +53,12 @@ Mensajes salientes
 Global
 [** All contacts **]
 ** Todos los contactos **
+[Miscellaneous]
+Diverso
 [Contact menu]
 Menú de contacto
+[Button]
+Botón
 [Configure...]
 Configurar...]
 [History]

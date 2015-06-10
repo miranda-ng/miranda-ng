@@ -53,6 +53,8 @@ Introduzca país, código de área y número de teléfono:
 O introduzca un número internacional completo:
 [Phone can receive SMS text messages]
 El teléfono puede recibir mensajes de texto SMS
+[Check every]
+Comprobar cada
 [hours]
 horas
 [Play sound]

@@ -24,7 +24,6 @@
 [%u says]
 [Speak]
 [Engine/Voice]
-[Announce]
 [%u is now offline]
 [%u is now online]
 [%u is away]

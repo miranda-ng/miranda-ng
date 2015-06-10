@@ -16,7 +16,6 @@
 [Title]
 [Do you really want to delete selected item?]
 [Do you want old database entries to be deleted after Import?]
-[Main Icon]
 [Modify selected item]
 [Delete selected item]
 [Set/unset current item as favorite]

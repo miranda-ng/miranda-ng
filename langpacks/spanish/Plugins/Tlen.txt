@@ -73,6 +73,8 @@ Notificaciones
 Red
 [E-mail]
 E-mail
+[Subject]
+Sujeto
 [Account]
 Cuenta
 [none]

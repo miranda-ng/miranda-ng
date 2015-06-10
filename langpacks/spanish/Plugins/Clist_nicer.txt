@@ -71,6 +71,8 @@ Sangría de grupos por:
 Clasificación de la lista de contacto
 [Avatars]
 Avatares
+[Show avatars]
+Mostrar avatares
 [Height]
 Alto
 [Icons]
@@ -85,6 +87,8 @@ Siempre en primer plano
 Mostrar barra de menú
 [Easy move]
 Fácil movimiento
+[Border]
+Borde
 [Title bar text:]
 Texto de la barra de título:
 [Pin to desktop]
@@ -275,14 +279,74 @@ Ocul&tar usuarios fuera de línea aquí
 El&iminar grupo
 [Appearance]
 Apariencia
+[Skin items]
+Ítems de piel
 [General]
 General
+[Gradient]
+Gradiente
+[Left to right]
+De izquierda a derecha
+[Right to left]
+De derecha a izquierda
+[Top to bottom]
+De arriba a abajo
+[Bottom to top]
+De abajo a arriba
+[Round corners]
+Esquinas redondeadas
+[Top-Left]
+Superior izquierda
+[Top-Right]
+Superior derecha
+[Bottom-Right]
+Inferior derecha
+[Bottom-Left]
+Inferior izquierda
+[Item colors]
+Colores de ítem
+[First color]
+Primer color
 [Text color]
 Color de texto
+[Second color]
+Segundo color
+[Transparent]
+Transparente
+[Alpha (percent)]
+Alfa (porcentaje)
+[Item margins]
+Márgenes del ítem
+[Item borders]
+Bordes del ítem
+[Border style]
+Estilo del borde
+[3D border (bright / dark)]
+Borde 3D (brillante / oscuro)
+[Item ignored]
+Ítem ignorado
+[Not yet supported]
+Aun no es soportado
+[Copy from]
+Copiar de
 [<None>]
 <Nada>
+[Raised]
+Elevado
+[Sunken]
+Hundido
+[Bumped]
+Golpeado
+[Etched]
+Grabado
+[Show/Hide offline contacts]
+Mostrar/Ocultar contactos desconectados
+[Use/Disable groups]
+Usar/Deshabilitar grupos
 [Accounts]
 Cuentas
+[Enable/Disable sounds]
+Habilitar/Desabilitar sonidos
 [Status menu]
 Menú de estado
 [Setup view modes]

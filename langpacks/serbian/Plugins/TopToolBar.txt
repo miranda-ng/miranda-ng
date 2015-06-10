@@ -5,19 +5,87 @@
 ;  Version: 0.8.0.4
 ;  Authors: Bethoven
 ;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+
+;file \plugins\TopToolBar\res\main.rc
+[Buttons order and visibility]
+
+[Button height]
+
+[Button width]
+
+[Interval between buttons]
+
+[Use flat mode]
+
+[Auto resize]
+
+[Single line]
+
+[Buttons order:]
+
+[Add separator]
+
+[Add launch]
+
+[Delete separator/launch button]
+
 [Name:]
 Ime:
+[Path:]
+
 [Set]
 Izbor
+;file \plugins\TopToolBar\src\InternalButtons.cpp
 [Show main menu]
 Glavni meni
+[Show options page]
+
+[Show accounts manager]
+
 [Find/add contacts]
 Pronađi/Dodaj kontakt
+[Show status menu]
+
+[Show/hide offline contacts]
+
+[Hide offline contacts]
+
+[Show offline contacts]
+
+[Enable/disable metacontacts]
+
+[Disable metacontacts]
+
+[Enable metacontacts]
+
+[Enable/disable groups]
+
+[Enable groups]
+
 [Disable groups]
 Onemogući grupe
+[Enable/disable sounds]
+
+[Disable sounds]
+
+[Enable sounds]
+
+[Minimize contact list]
+
 [Exit]
 Izlaz
+;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Standardno
+[TopToolBar background]
+
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+
+[TopToolBar]
+
+;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact list]
 Spisak kontakata
+[Toolbar]
+

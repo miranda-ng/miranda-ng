@@ -5,17 +5,64 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
+[Shows new message/status change info using on-screen display.]
+
+;file \plugins\wbOSD\res\wbOSD.rc
 [General]
 Uopšteno
+[Align]
+
+[Select font]
+
+[Shadow]
+
+[Show drop shadow]
+
+[Shadow align]
+
+[Shadow color]
+
+[Alternative shadow]
+
+[Shadow distance:]
+
 [Other]
 Ostalo
 [Background color]
 Boja pozadine
+[Transparent]
+
+[Alpha:]
+
+[Timeout (ms):]
+
+[Show testing OSD]
+
+[Announce]
+
 [Status changes]
 Izmene statusa
+[Show my status changes]
+
 [Text color]
 Boja teksta
+[Show events]
+
+[Format:]
+
+[Show message window after click]
+
+[Show when my status is:]
+
+;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+
+;file \plugins\wbOSD\src\options.cpp
+[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
+
 [Help]
 Pomoć
+[Miranda NG is great and this is a long message.]
+
 [Plugins]
 Plug-inovi

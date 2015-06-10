@@ -5,29 +5,294 @@
 ;  Version: 0.12.1.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+
+;file \protocols\MSN\res\msn.rc
+[MSN]
+
+[Live ID:]
+
 [Password:]
 Šifra
 [Nickname:]
 Nadimak:
+[Create a new Windows Live account]
+
+[Expert]
+
+[Send message font color/size info inside messages]
+
+[Disable all contacts not included into my contact list]
+
+[Manage server groups]
+
+[Allow people on my contact list send messages to mobile device]
+
+[Run the following application when new Hotmail arrives]
+
+[Connection settings]
+
+[Direct:]
+
+[Gateway:]
+
 [Reset]
 Reset
+[Notify me when a message delivery has failed]
+
+[Incoming file transfers]
+
+[Your host (or router):]
+
+[Server List Manager]
+
+[Contact is on your local list]
+
+[Contact is included into your server list]
+
+[Allowed (active) contact]
+
+[Blocked contact]
+
+[Somebody included you in his/her server list]
+
+[Refresh]
+
+[Hotmail]
+
+[Enable Popup notifications]
+
+[Enable Contact List notifications]
+
+[Enable Tray notifications]
+
+[Ignore new messages not in Inbox folder]
+
 [Other]
 Ostalo
+[Display errors using popups]
+
+[Enable 'Chat Session Established' popup]
+
+[Enable 'Contact left channel' popup]
+
+[Set Nickname]
+
 [Cancel]
 Otkazivanje
+[Mobile Device (used for SMS)]
+
+[Spouse/Partner]
+
+[Middle Name]
+
+[First Name]
+
+[Last Name]
+
+[Anniversary]
+
+[Birthday]
+
 [Nickname]
 Nadimak
+[Place:]
+
+[MSN Delete Contact]
+
+[Remove from Hotmail Address book]
+
+[Block Contact]
+
+[Invite Contact To Chat]
+
+[Live ID]
+
+[&Invite]
+
 [&Cancel]
 &Otkazivanje
 [Add]
 Dodaj
+;file \protocols\MSN\src\msn_chat.cpp
+[Chat #]
+
+[&Invite user...]
+
+[&Leave chat session]
+
 [User &details]
 Detalji &korisnika
+[User &history]
+
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
+;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
+[MSN Alert]
+
+[Contact tried to open an audio conference (not currently supported)]
+
+[Accept NetMeeting request from %s?]
+
+[MSN Protocol]
+
+[Chat session established by my request]
+
+[Chat session established by contact request]
+
+[Contact left channel]
+
+[This conversation has been inactive, participants will be removed.]
+
+[To resume the conversation, please quit this session and start a new chat session.]
+
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+
+[MSN Chat]
+
+[Others]
+
+[Message delivery failed]
+
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+
+;file \protocols\MSN\src\msn_links.cpp
+[MSN Link Protocol]
+
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+
+[%s protocol]
+
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+
+[Hotmail from %s (%S)]
+
+[Hotmail from %s]
+
+[Unread mail is available: %d in Inbox and %d in other folders.]
+
+;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+
+[&Block]
+
+[Open &Hotmail Inbox]
+
+[Send &Hotmail E-mail]
+
+[You must be talking to start Netmeeting]
+
+[Set &Nickname]
+
+[Create &Chat]
+
+[Display &Hotmail Inbox]
+
+[View &Profile]
+
+[Setup Live &Alerts]
+
+[&Start Netmeeting]
+
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+
+[Notify]
+
 [Error]
 Greška
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+
+[Hotmail Inbox]
+
 [Profile]
 Profil
+[MSN Services]
+
+[Block user]
+
+[Invite to chat]
+
+[Start Netmeeting]
+
 [Contact list]
 Spisak kontakata
+[Allowed list]
+
+[Blocked list]
+
+[Relative list]
+
+[Local list]
+
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+
+[MSN Options]
+
+[Automatically obtain host/port]
+
+[Manually specify host/port]
+
+[Disable]
+
+[IP info available only after login]
+
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+
 [Network]
 Mreža
+[Account]
+
+[Connection]
+
+[Server list]
+
+[Notifications]
+
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (not currently supported)]
+
+[Contact tried to view your webcam data (not currently supported)]
+
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+
+[Live Alert]
+
+[%s plugin HTTPS connections]
+
+[%s plugin connections]
+
+[Contact already in your contact list]
+
+[Protocol is offline]
+
+[You cannot send message to yourself]
+
+[Message is too long: SMS page limited to 133 UTF8 chars]
+
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+
+[Offline messaging is not allowed for LCS contacts]
+
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+
+[Convert to Chat]
+
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+

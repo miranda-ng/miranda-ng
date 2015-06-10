@@ -5,10 +5,18 @@
 ;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
+[New]
+Nuevo
 [Delete]
 Eliminar
 [Default]
 Por defecto
+[Settings]
+Ajustes
+[Title:]
+Título:
+[Account]
+Cuenta
 [Nickname]
 Apodo
 [Group]
@@ -19,14 +27,36 @@ E-mail
 Tipo:
 [Other]
 Otro
+[DWord]
+DWord
 [TimeStamp]
 Marca de tiempo
 [Service:]
 Servicio:
+[number value]
+valor numérico
+[ANSI string]
+Cadena ANSI
+[Unicode string]
+Cadena Unicode
+[current contact]
+contacto actual
+[last result]
+último resultado
+[parameter]
+parámetro
 [Free memory]
 Memoria libre
+[Save]
+Guardar
+[All]
+Todo
 [Close]
 Cerrar
+[Refresh]
+Refrescar
+[Show Offline contacts]
+Mostrar contactos sin conexión
 [Male]
 Masculino
 [Female]
@@ -39,6 +69,8 @@ Contactos
 &Copiar
 [&Move to Group]
 &Mover a grupo
+[Warning]
+Advertencia
 [Online]
 En línea
 [off]

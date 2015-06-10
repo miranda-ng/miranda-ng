@@ -9,10 +9,16 @@
 Nombre:
 [Password:]
 Contraseña:
+[Default group:]
+Grupo predeterminado:
+[Save password]
+Guardar contraseña
 [Cancel]
 Cancelar
 [Add]
 Añadir
+[Port]
+Puerto
 [&Cancel]
 &Cancelar
 [From:]
@@ -27,6 +33,8 @@ Fecha:
 &Historial
 [To:]
 A:
+[Protocols]
+Protocolos
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
@@ -37,3 +45,5 @@ Todos los archivos
 Error
 [Network]
 Red
+[Account]
+Cuenta

@@ -11,5 +11,7 @@ Servicios
 Texto
 [Background]
 Fondo
+[Text Files (*.txt)]
+Archivos de texto (*.txt)
 [All Files]
 Todos los archivos

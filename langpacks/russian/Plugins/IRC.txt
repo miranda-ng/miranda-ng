@@ -334,7 +334,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [Please enter the reason]
 Укажите причину
 [Ban'n Kick]
-Выгнать и забанить
+Выкинуть и забанить
 [*Disconnected*]
 *Отключён*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -712,9 +712,9 @@ Nickserv убить фантома
 [&Ban]
 &Бан
 [Ban'&n kick]
-Выгна&ть и забанить
+Выкину&ть и забанить
 [Ban'n kick (&reason)]
-Выгнать и забанить (с &причиной)
+Выкинуть и забанить (с &причиной)
 [&Direct Connection]
 &Прямое соединение ->
 [Request &Chat]

@@ -11,8 +11,12 @@ Nombre:
 Contraseña:
 [Add]
 Añadir
+[Save]
+Guardar
 [Delete]
 Eliminar
+[minutes]
+minutos
 [seconds]
 segundos
 [Other]

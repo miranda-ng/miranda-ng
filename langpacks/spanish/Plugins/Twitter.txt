@@ -5,6 +5,8 @@
 ;  Version: 1.3.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
+[Server:]
+Servidor:
 [Default group:]
 Grupo predeterminado:
 [Username:]

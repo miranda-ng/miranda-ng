@@ -1,5 +1,4 @@
 ﻿[Shows the history for a given contact using IEView.]
-[Dialog]
 [&Prev]
 [&Next]
 [Number of events to load]
@@ -10,7 +9,6 @@
 [Other options]
 [Load items in background]
 [RTL is default text direction]
-[Text:]
 [Direction]
 [Up]
 [Down]

@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin de gestión de teclas de acceso rápido para abrir la ventana de contactos, insertar texto, ejecutar programa y llamar servicios
-;Icons
 [Apply]
 Aplicar
 [New]
@@ -28,7 +27,6 @@ Elija acción
 &Añadir
 [Registered actions]
 Acciones registradas
-;Actions
 [Actions]
 Acciones
 [No description]
@@ -115,6 +113,8 @@ Memoria libre
 Contacto
 [Choose contact]
 Elija contacto
+[Refresh]
+Refrescar
 [Keep handle only]
 Mantener sólo manejar
 [Other Action groups]
@@ -179,6 +179,8 @@ Iconos
 Error
 [Warning]
 Advertencia
+[Info]
+Info
 [OK, Cancel]
 Aceptar, Cancelar
 [Abort, Retry, Ignore]
@@ -189,8 +191,12 @@ Sí, No, Cancelar
 Sí, No
 [Retry, Cancel]
 Reintentar, Cancelar
+[Database]
+Base de datos
 [Own settings]
 Valores propios
+[Settings]
+Ajustes
 [Contact list]
 Lista de contactos
 [Active accounts only]
@@ -201,7 +207,6 @@ Formato de lista de contacto
 Puede usar macros %name%, %uid%, %account% y %group%
 [name]
 nombre
-;Scheduler
 [Task sample]
 Tarea de ejemplo
 [Start]
@@ -212,6 +217,8 @@ Iniciando despues
 Iniciando desde
 [Start immediately]
 Iniciar inmediatamente
+[Days]
+Días
 [Repeat, times]
 Repetir, veces
 [Interval]
@@ -222,20 +229,20 @@ Romper el resultado no es cero
 Enviar tiempo de inicio del evento
 [Send event just once]
 Enviar evento una sola vez
-;Hooks
 [Hooks]
 Ganchos
 [hook sample]
 Gancho de ejemplo
 [Event]
 Evento
-;Use Actions
 [Use Actions]
 Usar acciones
 [Action list]
 Lista de acciones
 [Where to use]
 Dónde se utiliza
+[TopToolbar]
+Barra de herramientas superior
 [TabSRMM toolbar]
 Barra de herramientas TabSRMM
 [Core Hotkey]
@@ -248,6 +255,8 @@ Menú de contacto
 Menú de la bandeja
 [Protocol menus]
 Menús protocolo
+[Status menu]
+Menú de estado
 [2 state button/item]
 2 botones estado/ítem
 [Save button/item state]
@@ -266,7 +275,6 @@ Raíz emergente:
 Nombre del ítem del menú:
 [Separated]
 Separado
-;services.ini
 [Offline]
 Fuera de línea
 [Online]
@@ -289,16 +297,18 @@ En el teléfono
 Salí a comer
 [System]
 Sistema
+[Ignore Contact]
+Ignorar contacto
 [Protocol]
 Protocolo
-[Warning]
-Advertencia
+[Check for updates]
+Buscar actualizaciones de plugin
 [Notify]
 Notificar
-[Error]
-Error
 [text]
 texto
+[Set status message]
+Establecer mensaje de estado
 [None]
 Ninguno
 [On the phone]

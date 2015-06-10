@@ -435,12 +435,8 @@ Ansi текст
 Popup Plus (popup.dll) посл. YAPP (yapp.dll)
 [Enables or disables Popup windows]
 Включва или изключва Popup прозорците
-[Warning]
-Предупреждение
 [Notify]
 Уведомяване
-[Error]
-Грешка
 [YAPP or Popup]
 YAPP или Popup
 [Popup window]

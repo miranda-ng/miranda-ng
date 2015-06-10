@@ -7,7 +7,6 @@
 [Width:]
 [Maximum height:]
 [Opacity (%):]
-[Border]
 [Round corners (window)]
 [Transparent background]
 [Layout]

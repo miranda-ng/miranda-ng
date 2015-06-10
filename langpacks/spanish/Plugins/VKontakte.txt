@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.4
+;  Version: 0.1.1.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -11,6 +11,10 @@ Soporte del protocolo Vkontakte para Miranda NG.
 Apagado
 [Other]
 Otro
+[Photos]
+Fotos
+[Friends]
+Amigos
 [Groups]
 Grupos
 [E-mail or phone number:]
@@ -29,6 +33,10 @@ Instrucción:
 Presentar
 [Cancel]
 Cancelar
+[Share]
+Compartir
+[Url:]
+URL:
 [Captcha form icon]
 Formulario Captcha icono
 [Protocols]
@@ -37,10 +45,14 @@ Protocolos
 VKontakte
 [Error]
 Error
+[Message read: %s]
+Leer mensaje: %s
 [Photo]
 Foto
 [Attachments:]
 Adjuntos:
+[Video]
+Vídeo
 [Link]
 Enlace
 [(Unknown contact)]
@@ -49,9 +61,19 @@ Enlace
 Introduzca el texto que aparece
 [Unknown]
 Desconocido
+[Warning]
+Advertencia
+[Chat]
+Chat
 [Network]
 Red
 [Account]
 Cuenta
 [%s server connection]
 %s conexión al servidor
+[Visit profile]
+Visitar perfil
+[Errors]
+Errores
+[Notification]
+Notificación

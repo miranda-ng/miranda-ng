@@ -23,7 +23,6 @@
 [Show menu items]
 [Remind me]
 [days before]
-[Check every]
 [Icon flashing on event]
 [Enabled]
 [Perform check on each startup]

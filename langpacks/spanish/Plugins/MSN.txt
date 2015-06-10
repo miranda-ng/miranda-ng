@@ -49,5 +49,7 @@ Deshabilitar
 Red
 [Account]
 Cuenta
+[Connection]
+Conexión
 [Notifications]
 Notificaciones

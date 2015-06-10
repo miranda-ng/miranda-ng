@@ -33,6 +33,5 @@
 ["My Documents" folder for currently logged-on Windows user]
 ["Desktop" folder for currently logged-on Windows user]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-[minutes]
 [Select backup folder]
 [Error creating backup folder]

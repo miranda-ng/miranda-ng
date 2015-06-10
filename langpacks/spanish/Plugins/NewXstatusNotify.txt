@@ -91,10 +91,14 @@ Contacto
 <desconocido>
 [connecting]
 conectando
+[Status change]
+Cambio de estado
 [All Files]
 Todos los archivos
 [Log]
 Registro
+[Account]
+Cuenta
 [Filtering]
 Filtrando
 [(was %s)]

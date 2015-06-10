@@ -5,6 +5,11 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+
 [&Add]
 &Dodati
 [&User menu]
@@ -13,26 +18,52 @@
 Detalji &korisnika
 [&History]
 &Istorija
+[Choose contacts to be send:]
+
 [&Send]
 &Slanje
 [Cancel]
 Otkazivanje
+[&Select All]
+
+[Received contacts]
+
+[Add to &group:]
+
 [&Details]
 &Detalji
 [Close]
 Zatvori
+[Contacts send error]
+
 [An error has occurred. The protocol reported the following error:]
 Greška, protokol prijavljuje sledeće:
 [Try again]
 Pokušaj ponovo
+[Popup]
+
 [Add to List]
 Dodaj u listu
 [User details]
 O korisniku
+[Send Message]
+
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+
 [Contacts]
 Kontakti
+[Incoming Contacts]
+
+[Outgoing Contacts]
+
+;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Nadimak
+[First Name]
+
+[Last Name]
+
 [Add Contact Permanently to List]
 Zapamtiti kontakt na spisku
 [View User's Details]
@@ -41,3 +72,8 @@ Pregled detalja o korisniku
 Vidi istoriju korisnika
 [User Menu]
 Korisnički meni
+[Contacts from]
+
+;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+

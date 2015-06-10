@@ -5,8 +5,17 @@
 ;  Version: 0.1.0.1
 ;  Authors: Anar Ibragimoff
 ;============================================================
+[Forwards messages to some contact when you are not available.]
+
+;file \plugins\YARelay\res\yaRelay.rc
+[Forward messages from...]
+
+[Everyone]
+
 [Contact]
 Kontakt
+[Forward when your status is...]
+
 [Offline]
 Odsutan
 [Online]
@@ -23,5 +32,36 @@ Ne uznemiravaj
 Spreman za razgovor
 [Invisible]
 Nevidljiv
+[Forward messages to...]
+
+[Template]
+
+[%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
+
+[Forwarding options]
+
+[Split message (%m)]
+
+[Send only first]
+
+[Max size of split part (chars)]
+
+[Mark received messages as 'read']
+
+[Save sent messages in recipient's history]
+
+[split parts (0 = all)]
+
+[Note: Max size - it's a size of %m parameter]
+
+[Note: messages from this contact will not be forwarded]
+
+;file \plugins\YARelay\src\options.cpp
+[!EVERYONE!]
+
+[!DON'T FORWARD!]
+
 [Message sessions]
 Celi razgovori
+[Messages forwarding]
+

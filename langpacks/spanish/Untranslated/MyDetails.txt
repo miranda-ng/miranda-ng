@@ -17,8 +17,6 @@
 [Avatar]
 [Custom size:]
 [Allow it to grow]
-[Draw border]
-[Round corners]
 [Custom corner size:]
 [Use free space (under avatar) to other texts]
 [Frame options]

@@ -5,14 +5,25 @@
 ;  Version: 0.9.9.2
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
+[Provides the ability to quickly add new contacts.]
+
+;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Dodaj kontakt
+[Add a contact to your contact list]
+
+[Account:]
+
+[Contact ID:]
+
 [Custom name:]
 Izmenjeno ime:
 [Group:]
 Grupa:
 [Options]
 Podešavanja
+[Add temporarily]
+
 [Send "You were added"]
 Poslati "Dodat Vaš kontakt"
 [Send authorization request]
@@ -23,7 +34,21 @@ Zahtev za autorizaciju.
 &Dodati
 [&Cancel]
 &Otkazivanje
+;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Dodaj me na spisak i daj mi autorizaciju, molim.
 [None]
 Nema
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+
+[Open add contact dialog]
+
+[Main]
+
+[AddContact+]
+

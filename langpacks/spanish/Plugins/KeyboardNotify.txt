@@ -29,6 +29,8 @@ Invisible
 En el teléfono
 [Out to lunch]
 Salí a comer
+[minutes]
+minutos
 [Offline]
 Fuera de línea
 [&Preview]

@@ -1741,6 +1741,8 @@ Tiempo entrante
 Puntos de entrada
 [Message area]
 Área de mensaje
+[Other events]
+Otros eventos
 [Message log]
 Registro de mensaje
 [** New contacts **]
@@ -1867,6 +1869,8 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
+[Account]
+Cuenta
 [Add %s]
 Añadir %s
 [Please authorize my request and add me to your contact list.]
@@ -1987,6 +1991,8 @@ El tema es '%s' (establecido por %s)
 Estado personalizado
 [%s (locked)]
 %s (bloqueado)
+[Status menu]
+Menú de estado
 [Main menu]
 Menú principal
 [Connecting]
@@ -2203,6 +2209,8 @@ Idiomas
 Protocolo
 [Edit]
 Editar
+[Sender]
+Remitente
 [Standard netlib log]
 Registro netlib estándar
 [No times]
@@ -2399,6 +2407,8 @@ Solicitar autorización
 Conceder autorización
 [Revoke authorization]
 Revocar autorización
+[Warning]
+Advertencia
 [Always visible]
 Siempre visible
 [Always invisible]

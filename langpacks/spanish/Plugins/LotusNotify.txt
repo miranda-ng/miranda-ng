@@ -11,6 +11,12 @@ Contraseña:
 Fondo
 [Text]
 Texto
+[Sender]
+Remitente
+[Subject]
+Sujeto
+[version:]
+versión
 [Status]
 Estado
 [Plugins]

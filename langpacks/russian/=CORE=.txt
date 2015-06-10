@@ -1520,7 +1520,7 @@ UIN, E-mail и т.д.
 [Quit (10x10)]
 Выход (10х10)
 [Kick (10x10)]
-Выгнать (10х10)
+Выкинуть (10х10)
 [Nick change (10x10)]
 Смена псевдонима (10х10)
 [Notice (10x10)]
@@ -1964,7 +1964,7 @@ URL от %s
 [User has performed an action]
 Пользователь совершил действие
 [User has kicked some other user]
-Пользователь выгнал другого
+Пользователь выкинул другого
 [User's status was changed]
 Статус пользователя изменился
 [User has changed name]

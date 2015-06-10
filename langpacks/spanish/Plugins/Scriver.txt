@@ -23,6 +23,8 @@ Pestañas
 Mostrar barra de título
 [Show status bar]
 Mostrar barra de estado
+[Show avatars]
+Mostrar avatares
 [Use the contact's status icon as the window icon]
 Usar el icono de estado del contacto como el icono de la ventana
 [Message window event log]
@@ -35,6 +37,8 @@ Mostrar segundos
 Mostrar nombres
 [events]
 eventos
+[minutes]
+minutos
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notifications when a user is typing a message]

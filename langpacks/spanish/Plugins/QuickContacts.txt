@@ -7,3 +7,5 @@
 ;============================================================
 [Contacts]
 Contactos
+[Send message]
+Enviar mensaje

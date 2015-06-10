@@ -105,7 +105,6 @@
 [An alert has been received.]
 [Private conference]
 [%s mail]
-[Subject]
 [both]
 [from]
 [not on roster]

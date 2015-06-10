@@ -116,7 +116,6 @@
 [&Activity Report]
 [&Rescan my games...]
 [Set &Nickname]
-[Protocols]
 [XFire game icon]
 [XFire voice icon]
 [XFire does not support offline messaging!]

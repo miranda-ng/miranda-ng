@@ -15,10 +15,14 @@ Bu&scar
 Color de fondo
 [Cancel]
 Cancelar
+[Dword]
+Dword
 [E&xit]
 &Salir
 [&Options]
 &Opciones
+[New]
+Nuevo
 [&Delete]
 &Borrar
 [&Rename]
@@ -29,6 +33,8 @@ Ajustes
 Todos los archivos
 [Export to file]
 Importar a archivo
+[Main icon]
+Icono principal
 [Handle]
 Manejar
 [Contacts]
@@ -39,10 +45,14 @@ MANEJAR
 Base de datos
 [Name]
 Nombre
+[Data]
+Dato
 [Type]
 Tipo
 [Size]
 Tamaño
+[DWORD]
+DWORD
 [<unknown>]
 <desconocido>
 [Contact]

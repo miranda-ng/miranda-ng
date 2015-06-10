@@ -15,6 +15,8 @@ Archivo
 Texto
 [Background]
 Fondo
+[Timeout]
+Tiempo de espera
 [Preview]
 Previsualizar
 [Edit]

@@ -1,0 +1,11 @@
+﻿#muuid {40da5ebd-4f2d-4bea-841c-eab77bee6f4f}
+;============================================================
+;  File: MinecraftDynmap.dll
+;  Plugin: Minecraft Dynmap protocol
+;  Version: 0.0.0.2
+;  Authors: Robert Pösel
+;============================================================
+[Server:]
+Servidor:
+[%s server connection]
+%s conexión al servidor

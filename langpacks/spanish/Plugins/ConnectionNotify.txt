@@ -13,6 +13,8 @@ Texto
 Ajustes
 [Version:]
 Versión
+[X]
+X
 [Cancel]
 Cancelar
 [Show]

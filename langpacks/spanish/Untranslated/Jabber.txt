@@ -82,7 +82,6 @@
 [Deny]
 [Jabber Notebook]
 [Store notes on server and access them from anywhere.]
-[Bots Challenge Test]
 [XML Console]
 [Reset log]
 [Jabber Link Protocol]

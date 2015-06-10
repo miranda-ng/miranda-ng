@@ -29,6 +29,8 @@ Ver &historial
 Mensaje entrante
 [Outgoing message]
 Mensaje saliente
+[Status change]
+Cambio de estado
 [History]
 Historial
 [All events]

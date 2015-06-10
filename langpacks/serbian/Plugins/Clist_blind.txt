@@ -5,6 +5,9 @@
 ;  Version: 0.8.1.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
+[A contact list for blind folks.]
+
+;file \plugins\Clist_blind\res\resource.rc
 [Delete contact]
 Brisanje kontakta
 [Are you sure you want to delete %s?]
@@ -21,6 +24,18 @@ Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
 Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
 [Hotkeys]
 Dostupne skraćenice
+[Show/Hide:]
+
+[Read message:]
+
+[Web search:]
+
+[URL:]
+
+[Open in new browser window]
+
+[Show options]
+
 [Hide offline users]
 Sakrij odsutne
 [Hide empty groups]
@@ -121,8 +136,16 @@ Sakriti broj kada su svi odsutni
 Sortiraj grupe alfabetnim redosledom
 [Quick search in open groups only]
 Brza pretraga samo u otvorenim grupama
+[Templates]
+
+[Contact:]
+
 [Group:]
 Grupa:
+[Divider:]
+
+[Info:]
+
 [Status bar]
 Statusna traka
 [Show status bar]
@@ -197,6 +220,7 @@ Skloniti &odsutne kontakte ove grupe
 &Preimenovati grupu
 [&Delete group]
 &Izbrisati grupu
+;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 Van fokusa
 [Offline]
@@ -219,7 +243,22 @@ Nevidljiv
 Na ručku
 [On the phone]
 Telefoniram
+[Group: %name% %count% [%mode%]]
+
+[Divider: %s]
+
+[Info: %s]
+
 [List]
 Spisak
+;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Standardno
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp
+[Unknown protocol]
+
+[Expanded]
+
+[Collapsed]
+

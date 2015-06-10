@@ -21,4 +21,3 @@
 [Open contact menu]
 [Show all contacts]
 [Quick Contacts...]
-[Send message]

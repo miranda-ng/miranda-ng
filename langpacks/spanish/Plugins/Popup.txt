@@ -43,6 +43,8 @@ Seg
 segundos
 [Position:]
 Posición:
+[Send message]
+Enviar mensaje
 [User details]
 Información del usuario
 [Contact menu]
@@ -55,6 +57,8 @@ Ventanas emergentes
 Texto
 [Background]
 Fondo
+[Border]
+Borde
 [Cancel]
 Cancelar
 [Actions]
@@ -85,6 +89,8 @@ Salí a comer
 En el teléfono
 [Width]
 Ancho
+[Skin preview]
+Vista previa de la piel
 [Use Windows colors]
 Usar colores de Windows
 [Error]

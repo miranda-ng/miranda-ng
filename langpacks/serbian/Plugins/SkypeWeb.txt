@@ -2,24 +2,171 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.0.1
+;  Version: 0.12.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+
+;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+
 [Cancel]
 Otkazivanje
+[Mark users you want to invite to a new chat]
+
+[Invite user to chat]
+
+[Choose one of your contacts to be invited:]
+
+[Skypename:]
+
 [Password:]
 Šifra
+[Default group:]
+
+[Account]
+
+[Others]
+
+[Automatic messages synchronization]
+
+[Use local time for received messages]
+
+[Always notify as unread for all incoming message]
+
+[Place:]
+
+[Use hostname]
+
+[Enter password]
+
+[Save password]
+
+[Enter the password to continue.]
+
+;file \protocols\SkypeWeb\src\main.cpp
+[Skype Link Protocol]
+
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+[Admin]
+
+[User]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
 [Warning]
 Upozorenje
+[&Invite user...]
+
+[&Leave chat session]
+
+[&Change topic]
+
+[Kick &user]
+
+[Set &role]
+
+[&Admin]
+
+[&User]
+
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Potpuno ste sigurni?
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Incoming call]
+
+[Action]
+
+[Call information.]
+
+[Calls]
+
+[Notifications]
+
+[Errors]
+
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Edited at]
+
+[Call started]
+
+[Call ended]
+
+[Duration]
+
+[File transfer]
+
+[File name]
+
 [Size]
 Veličina
 [bytes]
 bajtova
+[Image]
+
+;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Protocol icon]
+
+[Create new chat icon]
+
+[Sync history icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
+
+[Notification icon]
+
+[Error icon]
+
+[Action icon]
+
+[Protocols]
+
+;file \protocols\SkypeWeb\src\skype_login.cpp
+[Authentication failed. Invalid username.]
+
+[Authentication failed. Bad username or password.]
+
+[Too many failed authentication attempts with given username or IP.]
+
+[Authentication failed. Unknown error.]
+
+;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]
 Autorizuj
+[Get server history]
+
+[Block contact]
+
+[Unblock contact]
+
+[Create new chat]
+
+;file \protocols\SkypeWeb\src\skype_messages.cpp
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
+[Enter confirmation code]
+
+;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Mreža
+;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+
+[Incoming call sound]
+
+[Incoming call canceled sound]
+
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Failed establish a TRouter connection.]
+
+[Incoming call from %s]
+
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+

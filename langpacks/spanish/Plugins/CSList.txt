@@ -19,6 +19,8 @@ Advertencia
 Mensaje
 [Main Menu]
 Menú Principal
+[Main Icon]
+Icono principal
 [Remove]
 Eliminar
 [Undo changes]

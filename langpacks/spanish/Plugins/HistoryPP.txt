@@ -9,12 +9,20 @@
 &Copiar enlace
 [&Select All]
 &Seleccionar todo
+[Other event]
+Otros eventos
 [Incoming url]
 URL entrante
+[Outgoing contacts]
+Contactos salientes
 [Outgoing file]
 Archivo saliente
 [Outgoing url]
 URL saliente
+[Toolbar]
+Barra de herramientas
+[and]
+y
 [Incoming Url]
 URL entrante
 [Outgoing Url]
@@ -23,6 +31,8 @@ URL saliente
 Solicitud de autorización
 [&Reset to Default]
 &Restablecer valores predeterminados
+[Incoming contacts]
+Contactos entrantes
 [Open in &new window]
 Abrir en &nueva ventana
 [Select &All]

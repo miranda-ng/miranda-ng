@@ -5,6 +5,8 @@
 ;  Version: 0.7.0.0
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
+[Connection]
+Conexión
 [Password:]
 Contraseña:
 [Port:]
@@ -17,9 +19,17 @@ Ninguno
 Cancelar
 [Select all]
 Seleccionar todo
+[Normal]
+Normal
 [Network]
 Red
+[Announce]
+Anunciar
+[Notification]
+Notificación
 [Error]
 Error
 [Name]
 Nombre
+[Unknown error]
+Error desconocido

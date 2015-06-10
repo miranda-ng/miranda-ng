@@ -21,6 +21,8 @@ segundos
 Otro
 [Clear History]
 Limpiar historial
+[Status on startup]
+Estado al arranque
 [milliseconds]
 milisegundos
 [Cut]

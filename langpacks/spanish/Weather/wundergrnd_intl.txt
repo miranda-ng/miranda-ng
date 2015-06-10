@@ -4,3 +4,65 @@
 ;============================================================
 [Clear]
 Limpiar
+[E]
+E
+[East]
+Este
+[Feel]
+Tocar
+[Forecast Day 1 Condition]
+Pronóstico día 1 Condición
+[Forecast Day 1 Day]
+Pronóstico día 1 Día
+[Forecast Day 1 High]
+Pronóstico día 1 Alto
+[Forecast Day 1 Low]
+Pronóstico día 1 Bajo
+[Forecast Day 1]
+pronóstico día 1
+[Heat Index]
+Índice de calor
+[Mostly Clear]
+Despejado
+[Mostly Cloudy]
+Mayormente nublado
+[Mostly Sunny]
+Mayormente soleado
+[NE]
+NE
+[NW]
+NO
+[N]
+N
+[North]
+Norte
+[Northeast]
+Nordeste
+[Northwest]
+Noroeste
+[Partly Cloudy]
+Parcialmente nublado
+[Partly Sunny]
+Parcialmente soleado
+[SE]
+SE
+[SW]
+SO
+[S]
+S
+[Scattered Clouds]
+Nubes dispersas
+[South]
+Sur
+[Southeast]
+Sudeste
+[Southwest]
+Suroeste
+[W]
+O
+[West]
+Oeste
+[Wind Direction]
+Dirección del viento
+[Wind Speed]
+Velocidad del viento

@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
+[Dialog]
+Diálogo
 [Close]
 Cerrar
 [&Search]
@@ -15,6 +17,8 @@ Buscar
 Buscar &siguiente
 [Cancel]
 Cancelar
+[Text:]
+Texto:
 [Error]
 Error
 [Time:]

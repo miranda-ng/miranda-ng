@@ -11,8 +11,12 @@ Actualizar
 Cerrar
 [Options]
 Opciones
+[minutes]
+minutos
 [Visibility]
 Visibilidad
+[Path:]
+Ruta:
 [Cancel]
 Cancelar
 [Colors]
@@ -69,6 +73,8 @@ Versión
 bytes
 [Description:]
 Detalles:
+[Frame Background]
+Marco de fondo
 [Network]
 Red
 [General]

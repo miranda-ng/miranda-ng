@@ -5,17 +5,95 @@
 ;  Version: 0.11.4.1
 ;  Authors: unsane, Robert Pösel
 ;============================================================
+[Steam protocol support for Miranda NG.]
+
+;file \protocols\Steam\res\Resource.rc
 [Username:]
 Korisničko ime:
 [Password:]
 Šifra
+[Default group:]
+
+[Account]
+
 [Contacts]
 Kontakti
+[Use bigger avatars]
+
+[Captcha]
+
 [Cancel]
 Otkazivanje
+[Steam Guard]
+
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+
+[Go to email domain]
+
+[Block]
+
+[Enter password]
+
+[Save password]
+
+[Enter the password to continue.]
+
+;file \protocols\Steam\src\main.cpp
+[Steam game]
+
+;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+
+[Looking to trade]
+
+[ (Non-Steam)]
+
+[ on server %s]
+
+[Playing]
+
+[%s has been removed from your contact list]
+
+[%s is back in your contact list]
+
+[%s has added you to his or her Friend List]
+
+;file \protocols\Steam\src\steam_dialogs.cpp
+[Fatal error, image services not found. Avatar services will be disabled.]
+
+[Avatar Service]
+
 [Name]
 Naziv
+;file \protocols\Steam\src\steam_events.cpp
+[%s connection]
+
 [Network]
 Mreža
+[Blocked contacts]
+
+;file \protocols\Steam\src\steam_login.cpp
+[Connection token expired. Please login again.]
+
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+
 [Request authorization]
 Zatraži autorizaciju
+[Join to game]
+
+;file \protocols\Steam\src\steam_messages.cpp
+[Unknown error]
+
+;file \protocols\Steam\src\steam_proto.cpp
+[Protocols]
+
+[Protocol icon]
+
+[Gaming icon]
+
+[SteamID]
+
+[You cannot send messages when you are offline.]
+
+;file \protocols\Steam\src\steam_xstatus.cpp

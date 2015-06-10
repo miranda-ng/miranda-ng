@@ -23,6 +23,8 @@ Nombre
 Cuentas
 [Default]
 Por defecto
+[not set]
+no establecido
 [Error]
 Error
 [Warning]

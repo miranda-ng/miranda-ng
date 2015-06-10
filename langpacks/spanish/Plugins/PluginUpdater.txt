@@ -45,6 +45,8 @@ Versión en desarrollo con símbolos de depuración
 Versión personalizada
 [Notifications]
 Notificaciones
+[Restart]
+Reiniciar
 [Errors]
 Errores
 [Info messages]
@@ -125,6 +127,10 @@ Comprobando nuevas versiones...
 No se encontraron actualizaciones.
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!
+[Close popup]
+Cerrar popup
+[Do nothing]
+No hacer nada
 [hours]
 horas
 [days]

@@ -36,7 +36,6 @@
 [Show 'Status message...' item in status menu]
 [Clear Predefined]
 [* This feature is available only when using StartupStatus plugin.]
-[Status on startup]
 [Set status after]
 [Protocol:]
 [Status:]

@@ -32,7 +32,6 @@
 [&Clear search results]
 [Open]
 [Open in new window]
-[Copy to clipboard]
 [Show message]
 [History Linklist]
 [History is empty!]

@@ -21,7 +21,6 @@
 [Only notify if status is]
 [Pending Events]
 [Remind me every]
-[minutes]
 [xStatuses]
 [Keys to flash]
 [Num Lock]

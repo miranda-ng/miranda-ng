@@ -11,8 +11,12 @@ Nuevo
 Eliminar
 [Edit]
 Editar
+[minutes]
+minutos
 [Row height:]
 Alto de fila:
+[Round corners]
+Esquinas redondeadas
 [Preview]
 Previsualizar
 [Cancel]
