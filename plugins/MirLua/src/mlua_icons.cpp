@@ -71,5 +71,7 @@ int luaopen_m_icons(lua_State *L)
 	luaL_setfuncs(L, iconsLib, 0);
 	lua_setfield(L, -2, "Icons");
 
+	lua_pop(L, 1);
+
 	return 1;
 }

@@ -41,10 +41,12 @@ static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 
 	lua_pushnumber(L, wParam);
 	lua_pushnumber(L, lParam);
-	lua_call(L, 2, 1);
-	int res = (int)luaL_checkinteger(L, 1);
+	if(lua_pcall(L, 2, 1, 0))
+		printf("%s\n", lua_tostring(L, -1));
+	
+	int res = (int)lua_tointeger(L, 1);
 
-	luaL_unref(L, LUA_REGISTRYINDEX, ref);
+	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
 
 	return res;
 }
@@ -81,10 +83,12 @@ static INT_PTR ServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, 
 
 	lua_pushnumber(L, wParam);
 	lua_pushnumber(L, lParam);
-	lua_call(L, 2, 1);
-	INT_PTR res = (INT_PTR)luaL_checkinteger(L, 1);
+	if (lua_pcall(L, 2, 1, 0))
+		printf("%s\n", lua_tostring(L, -1));
 
-	luaL_unref(L, LUA_REGISTRYINDEX, ref);
+	INT_PTR res = (INT_PTR)lua_tointeger(L, 1);
+
+	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
 
 	return res;
 }
@@ -135,7 +139,7 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg coreLib[] =
+luaL_Reg CMLua::coreLib[] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
 	{ "DestroyHookableEvent", lua_DestroyHookableEvent },
@@ -153,11 +157,3 @@ static luaL_Reg coreLib[] =
 
 	{ NULL, NULL }
 };
-
-int CMLua::luaopen_m(lua_State *L)
-{
-	luaL_newlib(L, coreLib);
-	lua_setglobal(L, "M");
-
-	return 1;
-}
