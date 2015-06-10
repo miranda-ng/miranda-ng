@@ -5,9 +5,10 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
+[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 ;file \plugins\MessageState\src\global.h
-[Unreaded message icon]
-[Readed message icon]
+[Unread message icon]
+[Read message icon]
 [Failed sending icon]
 [Sending message icon]
 ;file \plugins\MessageState\src\messagestate.cpp
