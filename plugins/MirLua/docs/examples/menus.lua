@@ -1,5 +1,6 @@
---- include m_menus module
+--- include m_genmenu module
 local genmenu = require('m_genmenu')
+--- include m_icolib module
 local icolib = require('m_icolib')
 
 --- Add icon for menu items
