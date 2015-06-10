@@ -5,11 +5,13 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
+[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
+Wyświetla ikonę w oknie rozmowy informującą o tym czy ostatnia wysłana wiadomość została już odczytana czy nie.
 ;file \plugins\MessageState\src\global.h
-[Unreaded message icon]
+[Unread message icon]
 Ikona nieprzeczytanej wiadomości
-[Readed message icon]
-Ikona przeczytanej wiadomości
+[Read message icon]
+Ikona odczytanej wiadomości
 [Failed sending icon]
 Ikona nieudanego wysyłania
 [Sending message icon]
