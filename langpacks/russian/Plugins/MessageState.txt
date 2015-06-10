@@ -10,7 +10,7 @@
 [Unread message icon]
 Значок непрочитанного сообщения
 [Read message icon]
-Значок непрочитанного сообщения
+Значок прочитанного сообщения
 [Failed sending icon]
 Значок ошибки при отправке сообщения
 [Sending message icon]
