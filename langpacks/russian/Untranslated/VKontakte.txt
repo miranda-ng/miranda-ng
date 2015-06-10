@@ -1,1 +1,5 @@
 ﻿[Url:]
+[kick user]
+[invite user]
+[change chat title to]
+[chat action not supported]

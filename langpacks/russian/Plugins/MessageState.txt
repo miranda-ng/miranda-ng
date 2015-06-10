@@ -5,10 +5,6 @@
 ;  Version: 0.0.1.0
 ;  Authors: MikalaiR
 ;============================================================
-[Unreaded message icon]
-Значок непрочитанного сообщения
-[Readed message icon]
-Значок прочитанного сообщения
 [Failed sending icon]
 Значок ошибки при отправке сообщения
 [Sending message icon]
