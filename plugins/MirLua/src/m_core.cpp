@@ -55,6 +55,12 @@ static int lua_HookEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
 
+	if (!lua_isfunction(L, 2))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
@@ -70,6 +76,40 @@ static int lua_UnhookEvent(lua_State *L)
 
 	int res = ::UnhookEvent(hEvent);
 	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_OnModulesLoaded(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+	
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	HANDLE res = ::HookEventObjParam(ME_SYSTEM_MODULESLOADED, HookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
+static int lua_OnPreShutdown(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = ::HookEventObjParam(ME_SYSTEM_PRESHUTDOWN, HookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
 
 	return 1;
 }
@@ -96,6 +136,12 @@ static INT_PTR ServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, 
 static int lua_CreateServiceFunction(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
+
+	if (!lua_isfunction(L, 2))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
 
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -148,6 +194,8 @@ luaL_Reg CMLua::coreLib[] =
 
 	{ "HookEvent", lua_HookEvent },
 	{ "UnhookEvent", lua_UnhookEvent },
+	{ "OnModulesLoaded", lua_OnModulesLoaded },
+	{ "OnPreShutdown", lua_OnPreShutdown },
 
 	{ "CreateServiceFunction", lua_CreateServiceFunction },
 	{ "DestroyServiceFunction", lua_DestroyServiceFunction },

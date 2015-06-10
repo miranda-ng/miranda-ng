@@ -38,10 +38,10 @@ extern HINSTANCE g_hInstance;
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
 
-#define M_ICONSLIBNAME	"m_icons"
-int luaopen_m_icons(lua_State *L);
+#define MLUA_ICOLIB	"m_icolib"
+LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
 
-#define M_MENUSLIBNAME	"m_menus"
-int luaopen_m_menus(lua_State *L);
+#define MLUA_GENMENU	"m_genmenu"
+LUAMOD_API int (luaopen_m_genmenu)(lua_State *L);
 
 #endif //_COMMON_H_

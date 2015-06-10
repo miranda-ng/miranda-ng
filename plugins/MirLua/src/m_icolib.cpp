@@ -53,7 +53,7 @@ static int lua_RemoveIcon(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg iconsLib[] =
+static luaL_Reg icolibApi[] =
 {
 	{ "AddIcon", lua_AddIcon },
 	{ "GetIcon", lua_GetIcon },
@@ -62,16 +62,9 @@ static luaL_Reg iconsLib[] =
 	{ NULL, NULL }
 };
 
-int luaopen_m_icons(lua_State *L)
+LUAMOD_API int luaopen_m_icolib(lua_State *L)
 {
-	lua_getglobal(L, "M");
-	luaL_checktype(L, -1, LUA_TTABLE);
-
-	lua_newtable(L);
-	luaL_setfuncs(L, iconsLib, 0);
-	lua_setfield(L, -2, "Icons");
-
-	lua_pop(L, 1);
+	luaL_newlib(L, icolibApi);
 
 	return 1;
 }

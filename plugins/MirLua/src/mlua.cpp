@@ -13,10 +13,10 @@ CMLua::CMLua()
 	lua_pop(L, 1);
 
 	luaL_newlib(L, coreLib);
-	lua_setglobal(L, "M");
+	lua_setglobal(L, "m");
 
-	Preload(M_ICONSLIBNAME, luaopen_m_icons);
-	Preload(M_MENUSLIBNAME, luaopen_m_menus);
+	Preload(MLUA_ICOLIB, luaopen_m_icolib);
+	Preload(MLUA_GENMENU, luaopen_m_genmenu);
 }
 
 CMLua::~CMLua()
@@ -37,7 +37,7 @@ void CMLua::AddPath(const char *path)
 
 void CMLua::Load(const char *path)
 {
-	if (luaL_dofile(L, path));
+	if (luaL_dofile(L, path))
 		printf("%s\n", lua_tostring(L, -1));
 }
 
