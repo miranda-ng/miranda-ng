@@ -63,6 +63,8 @@
 Поиск завершен.
 [Add time and date of alert to contact name]
 Добавить время и дату к имени контакта
+[Use 24 hour time format instead of 12 hour]
+24-часовой формат времени вместо 12-часового
 [Add as prefix]
 Добавить как префикс
 [Add as suffix]
@@ -109,6 +111,8 @@
 Ко&пировать всё
 [&Select all]
 Выбрать все
+[C&lear all]
+О&чистить всё
 [Auto update disabled]
 Автообновление выключено
 [Auto update enabled]
