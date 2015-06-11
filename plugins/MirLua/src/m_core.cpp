@@ -23,8 +23,8 @@ static int lua_DestroyHookableEvent(lua_State *L)
 static int lua_NotifyEventHooks(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-	WPARAM wParam = (WPARAM)lua_tointeger(L, 2);
-	LPARAM lParam = (LPARAM)lua_tointeger(L, 3);
+	WPARAM wParam = (WPARAM)lua_topointer(L, 2);
+	LPARAM lParam = (LPARAM)lua_topointer(L, 3);
 
 	int res = ::NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushinteger(L, res);
@@ -175,9 +175,8 @@ static int lua_ServiceExists(lua_State *L)
 static int lua_CallService(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-
-	WPARAM wParam = (WPARAM)luaL_checkinteger(L, 2);
-	LPARAM lParam = (LPARAM)luaL_checkinteger(L, 3);
+	WPARAM wParam = (WPARAM)lua_topointer(L, 2);
+	LPARAM lParam = (LPARAM)lua_topointer(L, 3);
 
 	INT_PTR res = ::CallService(name, wParam, lParam);
 	lua_pushinteger(L, res);
