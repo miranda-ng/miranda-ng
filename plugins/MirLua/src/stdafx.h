@@ -8,6 +8,7 @@
 #include <m_utils.h>
 #include <m_langpack.h>
 #include <m_folders.h>
+#include <m_database.h>
 #include <m_clist.h>
 #include <m_genmenu.h>
 #include <m_icolib.h>
@@ -37,6 +38,9 @@ extern HINSTANCE g_hInstance;
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
+
+#define MLUA_DATABASE	"m_database"
+LUAMOD_API int (luaopen_m_database)(lua_State *L);
 
 #define MLUA_ICOLIB	"m_icolib"
 LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
