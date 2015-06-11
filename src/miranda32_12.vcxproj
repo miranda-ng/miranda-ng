@@ -145,6 +145,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin12\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
@@ -212,6 +213,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin12\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>

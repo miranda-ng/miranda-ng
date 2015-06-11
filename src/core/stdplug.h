@@ -1,6 +1,6 @@
 
 #ifdef _STATIC
-	#define MIRANDA_EXE_FUNC(T) extern "C" T __declspec(dllexport)
+	#define MIRANDA_EXE_FUNC(T) extern "C" T
 #else
 	#define MIRANDA_EXE_FUNC(T) extern "C" T __declspec(dllimport)
 #endif

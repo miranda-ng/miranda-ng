@@ -113,10 +113,8 @@ MIR_CORE_DLL(int)     CallFunctionAsync(void (__stdcall *func)(void *), void *ar
 MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
-#if defined(_STATIC)
-__declspec(dllexport) INT_PTR CallContactService(MCONTACT, const char *, WPARAM, LPARAM);
-__declspec(dllexport) INT_PTR CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
-#else
+#if !defined(_STATIC)
+MIR_C_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
 MIR_C_CORE_DLL(INT_PTR) CallContactService(MCONTACT, const char *, WPARAM, LPARAM);
 MIR_C_CORE_DLL(INT_PTR) CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 #endif
@@ -262,11 +260,11 @@ MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t item
 MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const TCHAR *ptszDescr, const TCHAR *ptszFile, unsigned options);
 MIR_CORE_DLL(void)   mir_closeLog(HANDLE hLogger);
 
-MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...);
-MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const wchar_t *format, ...);
+MIR_C_CORE_DLL(int)  mir_writeLogA(HANDLE hLogger, const char *format, ...);
+MIR_C_CORE_DLL(int)  mir_writeLogW(HANDLE hLogger, const wchar_t *format, ...);
 
-MIR_CORE_DLL(int)   mir_writeLogVA(HANDLE hLogger, const char *format, va_list args);
-MIR_CORE_DLL(int)   mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_list args);
+MIR_CORE_DLL(int)    mir_writeLogVA(HANDLE hLogger, const char *format, va_list args);
+MIR_CORE_DLL(int)    mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_list args);
 
 ///////////////////////////////////////////////////////////////////////////////
 // md5 functions
@@ -369,7 +367,6 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 
 struct PROTO_INTERFACE;
 
-MIR_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
 MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 // Call it in the very beginning of your proto's constructor

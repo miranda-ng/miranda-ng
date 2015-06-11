@@ -100,9 +100,9 @@ INT_PTR srvProto_IsLoaded(WPARAM, LPARAM lParam)
 	return (INT_PTR)Proto_IsProtocolLoaded((char*)lParam);
 }
 
-static PROTO_INTERFACE* defInitProto(const char* szModuleName, const TCHAR*)
+static PROTO_INTERFACE* defInitProto(const char* szModule, const TCHAR*)
 {
-	return AddDefaultAccount(szModuleName);
+	return AddDefaultAccount(szModule);
 }
 
 static INT_PTR srvProto_RegisterModule(WPARAM, LPARAM lParam)
@@ -362,6 +362,23 @@ static INT_PTR Proto_BroadcastAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	return ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int ProtoServiceExists(const char *szModule, const char *szService)
+{
+	if (szModule == NULL || szService == NULL)
+		return false;
+
+	TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
+	if (item != NULL)
+		return true;
+
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, szModule, _TRUNCATE);
+	strncat_s(str, szService, _TRUNCATE);
+	return ServiceExists(str);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
