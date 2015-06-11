@@ -12,6 +12,7 @@ local hIcon = icolib.AddIcon('testMenuIcon', 'Lua icon for menus')
 -- @param position The position of menu item in main menu (default 0)
 -- @param icon The handle of icon of menu item (default NULL)
 -- @param service The name of service which will be called (default '')
+-- @param hParentMenu The handle of parent menu (default 0)
 -- @return handle of menu item
 genmenu.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
 
@@ -21,6 +22,7 @@ genmenu.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
 -- @param position The position of menu item in main menu (default 0)
 -- @param icon The handle of icon of menu item (default NULL)
 -- @param service The name of service which will be called (default '')
+-- @param hParentMenu The handle of parent menu (default 0)
 -- @return handle of menu item
 genmenu.AddContactMenuItem('Contact menu item', 0, 0, hIcon, 'Srv/CMI')
 
@@ -31,3 +33,9 @@ local hMenuItem = genmenu.AddContactMenuItem('testRemove', 0, 0, 0, 'Srv/TestRem
 -- @param handle The handle of menu item
 -- @return 0 on success
 genmenu.RemoveMenuItem(hMenuItem)
+
+--- Add root menu item
+local CMIF_ROOTHANDLE = 384
+local hRoot = genmenu.AddMainMenuItem('Main menu root', CMIF_ROOTHANDLE)
+--- Add child menu item
+genmenu.AddMainMenuItem('Main menu child', CMIF_ROOTHANDLE, 0, nil, 'Srv/CMI', hRoot)
