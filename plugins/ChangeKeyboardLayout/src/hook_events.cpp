@@ -107,7 +107,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		else if (!mir_tstrcmp(tszValue, ptszEmptySting))
 			ptszLayStrings[i] = ptszCurrLayout;
 		else {
-			ptszLayStrings[i] = tszValue.detouch();
+			ptszLayStrings[i] = tszValue.detach();
 			if (!mir_tstrcmp(ptszCurrLayout, ptszLayStrings[i]))
 				db_unset(NULL, ModuleName, ptszTemp);
 			mir_free(ptszCurrLayout);

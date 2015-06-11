@@ -83,7 +83,7 @@ public:
 	{
 		ptrT tszGroup(m_group.GetText());
 		if (mir_tstrcmp(m_proto->m_tszDefaultGroup, tszGroup))
-			m_proto->m_tszDefaultGroup = tszGroup.detouch();
+			m_proto->m_tszDefaultGroup = tszGroup.detach();
 
 		if (m_proto->isOnline())
 			MessageBox(NULL, TranslateT("Changes will be applied after protocol restart"), m_proto->m_tszUserName, MB_OK);

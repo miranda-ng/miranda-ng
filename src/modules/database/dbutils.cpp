@@ -168,7 +168,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		ptrT &ptszText = (mir_tstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
-			return (INT_PTR)ptszText.detouch();
+			return (INT_PTR)ptszText.detach();
 		case DBVT_ASCIIZ:
 			return (INT_PTR)mir_t2a(ptszText);
 		}

@@ -52,7 +52,7 @@ public:
 	__inline T* operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
-	__inline T* detouch() { T *res = data; data = NULL; return res; }
+	__inline T* detach() { T *res = data; data = NULL; return res; }
 };
 
 typedef mir_ptr<char>  ptrA;

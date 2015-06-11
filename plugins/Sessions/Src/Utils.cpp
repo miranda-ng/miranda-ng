@@ -47,7 +47,7 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 				memset(pszBuffer, 0, (g_ses_count + 1));
 				mir_strcpy(pszBuffer, szValue);
 			}
-			else pszBuffer = szValue.detouch();
+			else pszBuffer = szValue.detach();
 
 			char temp_1 = pszBuffer[0];
 			for (size_t i = 0; i < g_ses_count; i++) {
