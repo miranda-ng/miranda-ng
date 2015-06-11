@@ -458,7 +458,7 @@ void GetLocalizedString(HKEY hSubKey, const TCHAR *szName, wchar_t *szBuf, DWORD
 	szBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
 }
 
-extern "C" __declspec(dllexport) void RecalculateTime(void)
+extern "C" void RecalculateTime(void)
 {
 	GetTimeZoneInformation(&myInfo.myTZ.tzi);
 	myInfo.timestamp = time(NULL);
