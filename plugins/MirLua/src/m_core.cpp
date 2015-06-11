@@ -185,6 +185,16 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
+static int lua_Translate(lua_State *L)
+{
+	char *value = (char*)luaL_checkstring(L, 1);
+
+	ptrT string(mir_utf8decodeT(value, NULL));
+	lua_pushstring(L, T2Utf(TranslateTS(string)));
+
+	return 1;
+}
+
 luaL_Reg CMLua::coreLib[] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
@@ -202,6 +212,8 @@ luaL_Reg CMLua::coreLib[] =
 
 	{ "ServiceExists", lua_ServiceExists },
 	{ "CallService", lua_CallService },
+
+	{ "Translate", lua_Translate },
 
 	{ NULL, NULL }
 };
