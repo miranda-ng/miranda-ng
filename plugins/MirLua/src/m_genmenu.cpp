@@ -8,6 +8,7 @@ static int lua_AddMainMenuItem(lua_State *L)
 	mi.position = lua_tointeger(L, 3);
 	mi.icolibItem = (HANDLE)lua_touserdata(L, 4);
 	mi.pszService = (char*)lua_tostring(L, 5);
+	mi.hParentMenu = (HGENMENU)lua_touserdata(L, 6);
 
 	HGENMENU res = ::Menu_AddMainMenuItem(&mi);
 	lua_pushlightuserdata(L, res);
@@ -23,6 +24,7 @@ static int lua_AddContactMenuItem(lua_State *L)
 	mi.position = lua_tointeger(L, 3);
 	mi.icolibItem = (HANDLE)lua_touserdata(L, 4);
 	mi.pszService = (char*)lua_tostring(L, 5);
+	mi.hParentMenu = (HGENMENU)lua_touserdata(L, 6);
 
 	HGENMENU res = ::Menu_AddContactMenuItem(&mi);
 	lua_pushlightuserdata(L, res);

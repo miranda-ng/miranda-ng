@@ -23,8 +23,8 @@ static int lua_DestroyHookableEvent(lua_State *L)
 static int lua_NotifyEventHooks(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-	WPARAM wParam = (WPARAM)luaL_checkinteger(L, 2);
-	LPARAM lParam = (LPARAM)luaL_checkinteger(L, 3);
+	WPARAM wParam = (WPARAM)lua_tointeger(L, 2);
+	LPARAM lParam = (LPARAM)lua_tointeger(L, 3);
 
 	int res = ::NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushinteger(L, res);
