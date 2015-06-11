@@ -471,7 +471,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		m_ListeningInfo = 0;
 		ptrT szListeningTo(db_get_tsa(hContact, cc->szProto, "ListeningTo"));
 		if (szListeningTo != 0 && *szListeningTo)
-			m_ListeningInfo = szListeningTo.detouch();
+			m_ListeningInfo = szListeningTo.detach();
 	}
 	if (szKey == 0 || (szKey && !mir_strcmp("XStatusMsg", szKey))) {
 		if (m_xStatusMsg)
@@ -479,7 +479,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		m_xStatusMsg = 0;
 		ptrT szXStatusMsg(db_get_tsa(hContact, cc->szProto, "XStatusMsg"));
 		if (szXStatusMsg != 0 && *szXStatusMsg)
-			m_xStatusMsg = szXStatusMsg.detouch();
+			m_xStatusMsg = szXStatusMsg.detach();
 	}
 	m_xStatus = db_get_b(hContact, cc->szProto, "XStatusId", 0);
 }
