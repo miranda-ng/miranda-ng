@@ -65,9 +65,6 @@ void LoadScripts(const TCHAR *scriptDir)
 	}
 }
 
-#include <io.h>
-#include <fcntl.h>
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -101,11 +98,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-#ifdef _DEBUG
 	if (hConsole)
 		CloseHandle(hConsole);
 	FreeConsole();
-#endif
 
 	delete mLua;
 
