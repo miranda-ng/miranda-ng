@@ -7,7 +7,7 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);
-	pmi->pszName = LPGEN((char*)luaL_checkstring(L, -1));
+	pmi->pszName = mir_utf8decode((char*)luaL_checkstring(L, -1), NULL);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Flags");
