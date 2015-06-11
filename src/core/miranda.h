@@ -183,4 +183,8 @@ extern "C"
 	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
 
 	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd);
+
+	int     ProtoServiceExists(LPCSTR szModule, const char *szService);
+	INT_PTR CallContactService(MCONTACT, const char *, WPARAM, LPARAM);
+	INT_PTR CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 };

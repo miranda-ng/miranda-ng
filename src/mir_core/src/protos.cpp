@@ -99,19 +99,6 @@ MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
-{
-	if (szModule == NULL || szService == NULL)
-		return false;
-
-	char str[MAXMODULELABELLENGTH * 2];
-	strncpy_s(str, szModule, _TRUNCATE);
-	strncat_s(str, szService, _TRUNCATE);
-	return ServiceExists(str);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
 {
 	pThis->m_iVersion = 2;

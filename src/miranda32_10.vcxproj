@@ -142,6 +142,7 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <BaseAddress>0x400000</BaseAddress>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>
@@ -208,6 +209,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin10\lib</AdditionalLibraryDirectories>
       <BaseAddress>0x400000</BaseAddress>
+      <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>miranda32.exe.manifest</AdditionalManifestFiles>

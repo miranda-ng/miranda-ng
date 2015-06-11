@@ -16,3 +16,4 @@ IcoLib_ReleaseIcon         @13
 Window_FreeIcon_IcoLib     @14
 Window_SetIcon_IcoLib      @15
 Window_SetProtoIcon_IcoLib @16
+ProtoServiceExists         @17
