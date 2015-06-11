@@ -11,8 +11,8 @@ static int lua_AddIcon(lua_State *L)
 	SKINICONDESC si = { 0 };
 	si.flags = SIDF_PATH_TCHAR;
 	si.pszName = iconName;
-	si.description.a = (char*)lua_tostring(L, 2);
-	si.section.a = lua_isnone(L, 3) ? MODULE : (char*)lua_tostring(L, 3);
+	si.description.a = mir_utf8decode((char*)luaL_checkstring(L, 2), NULL);
+	si.section.a = lua_isnone(L, 3) ? MODULE : mir_utf8decode((char*)luaL_checkstring(L, 3), NULL);
 	si.defaultFile.t = filePath;
 	si.iDefaultIndex = -IDI_ICON;
 
