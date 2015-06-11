@@ -12,7 +12,7 @@ static int lua_AddIcon(lua_State *L)
 	si.flags = SIDF_PATH_TCHAR;
 	si.pszName = iconName;
 	si.description.a = (char*)lua_tostring(L, 2);
-	si.section.a = lua_isnone(L, 3) ? "MirLua" : (char*)lua_tostring(L, 3);
+	si.section.a = lua_isnone(L, 3) ? MODULE : (char*)lua_tostring(L, 3);
 	si.defaultFile.t = filePath;
 	si.iDefaultIndex = -IDI_ICON;
 

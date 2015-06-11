@@ -72,15 +72,16 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-#ifdef _DEBUG
-	if (AllocConsole())
+	if (db_get_b(NULL, MODULE, "ShowConsole", 0))
 	{
-		freopen("CONOUT$", "wt", stdout);
-		hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-		SetConsoleTitle(_T("MirLua Console"));
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+		if (AllocConsole())
+		{
+			freopen("CONOUT$", "wt", stdout);
+			hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+			SetConsoleTitle(_T("MirLua Console"));
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+		}
 	}
-#endif
 
 	mLua = new CMLua();
 
