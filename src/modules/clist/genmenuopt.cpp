@@ -61,6 +61,7 @@ static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
 class CGenMenuOptionsPage : public CDlgBase
 {
 	int iInitMenuValue;
+	bool bRebuild;
 
 	void SaveTree()
 	{
@@ -144,10 +145,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 	bool BuildTree(int MenuObjectId, bool bReread)
 	{
-		char buf[256];
-
 		FreeTreeData();
-		m_menuItems.DeleteAllItems();
 
 		int menupos = GetMenuObjbyId(MenuObjectId);
 		if (menupos == -1)
@@ -168,16 +166,14 @@ class CGenMenuOptionsPage : public CDlgBase
 
 			MenuItemOptData *PD = new MenuItemOptData();
 			GetMenuItemName(p, menuItemName, sizeof(menuItemName));
-			{
-				DBVARIANT dbv;
-				mir_snprintf(buf, "%s_name", menuItemName);
 
-				if (!db_get_ts(NULL, MenuNameItems, buf, &dbv)) {
-					PD->name = mir_tstrdup(dbv.ptszVal);
-					db_free(&dbv);
-				}
-				else PD->name = mir_tstrdup(GetMenuItemText(p));
-			}
+			char buf[256];
+			mir_snprintf(buf, "%s_name", menuItemName);
+			ptrT tszName(db_get_tsa(NULL, MenuNameItems, buf));
+			if (tszName != 0)
+				PD->name = tszName.detach();
+			else
+				PD->name = mir_tstrdup(GetMenuItemText(p));
 
 			PD->pimi = p;
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
@@ -199,7 +195,10 @@ class CGenMenuOptionsPage : public CDlgBase
 			arItems.insert(PD);
 		}
 
+		bRebuild = true;
 		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_menuItems.DeleteAllItems();
+
 		int lastpos = 0;
 		bool bIsFirst = TRUE;
 
@@ -236,6 +235,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		}
 
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
+		bRebuild = false;
 
 		ShowWindow(m_warning.GetHwnd(), (pimo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
 		m_menuItems.Enable(pimo->m_bUseUserDefinedItems);
@@ -274,7 +274,8 @@ public:
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
 		m_service(this, IDC_GENMENU_SERVICE),
-		m_warning(this, IDC_NOTSUPPORTWARNING)
+		m_warning(this, IDC_NOTSUPPORTWARNING),
+		bRebuild(false)
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
@@ -427,6 +428,9 @@ public:
 
 	void onMenuItemChanged(void*)
 	{
+		if (bRebuild)
+			return;
+
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
 
