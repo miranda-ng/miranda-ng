@@ -559,7 +559,7 @@ wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& he
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
-	delete httpHeaders;
+	delete[] httpHeaders;
 	for (std::list<char*>::iterator it = mallBuf.begin(); it != mallBuf.end(); ++it)
 	{
 		delete *it;
