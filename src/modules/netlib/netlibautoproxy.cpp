@@ -164,7 +164,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 {
 	bool noHttp = false;
 	bool usingSsl = false;
-	char szUrl[256] = "";
+	char szUrl[256];
 
 	if ((nlc->nloc.flags & (NLOCF_HTTP | NLOCF_HTTPGATEWAY) && nlc->nloc.flags & NLOCF_SSL) ||
 		nlc->nloc.wPort == 443 || forceHttps)

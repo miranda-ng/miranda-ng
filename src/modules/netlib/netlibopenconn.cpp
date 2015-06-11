@@ -704,18 +704,22 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 	}
 
 	while (!my_connect(nlc, nloc)) {
-		// Fallback to direct only when using HTTP proxy, as this is what used by companies
-		// If other type of proxy used it's an indication of security nutcase, leave him alone
-		if (usingProxy && (nlc->proxyType == PROXYTYPE_HTTPS || nlc->proxyType == PROXYTYPE_HTTP)) {
-			usingProxy = false;
-			nlc->proxyType = 0;
-			NetlibLogf(nlu, "Fallback to direct connection");
-			continue;
-		}
-		if (nlu->settings.useProxy && !usingProxy && nlu->settings.proxyType == PROXYTYPE_IE && !forceHttps) {
-			forceHttps = true;
-			usingProxy = NetlibGetIeProxyConn(nlc, true);
-			if (usingProxy) continue;
+		// if connection failed, the state of nlc might be unpredictable
+		if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
+			// Fallback to direct only when using HTTP proxy, as this is what used by companies
+			// If other type of proxy used it's an indication of security nutcase, leave him alone
+			if (usingProxy && (nlc->proxyType == PROXYTYPE_HTTPS || nlc->proxyType == PROXYTYPE_HTTP)) {
+				usingProxy = false;
+				nlc->proxyType = 0;
+				NetlibLogf(nlu, "Fallback to direct connection");
+				continue;
+			}
+			if (nlu->settings.useProxy && !usingProxy && nlu->settings.proxyType == PROXYTYPE_IE && !forceHttps) {
+				forceHttps = true;
+				usingProxy = NetlibGetIeProxyConn(nlc, true);
+				if (usingProxy)
+					continue;
+			}
 		}
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
