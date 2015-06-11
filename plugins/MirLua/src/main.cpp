@@ -7,9 +7,7 @@ CMLua *mLua;
 HANDLE hCommonFolderPath;
 HANDLE hCustomFolderPath;
 
-#ifdef _DEBUG
 HANDLE hConsole = NULL;
-#endif
 
 PLUGININFOEX pluginInfo =
 {
