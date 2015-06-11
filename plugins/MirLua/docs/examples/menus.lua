@@ -41,15 +41,12 @@ local CMIF_ROOTHANDLE = 384
 local hRoot = genmenu.AddMainMenuItem({ Name = "Main menu root", Flags = CMIF_ROOTHANDLE })
 
 --- Add child menu item
-menuItem.Name = "Main menu child"
+menuItem.Name = "Main menu child wierd"
 menuItem.Flags = CMIF_ROOTHANDLE
 menuItem.Service = 'Srv/SMI'
 menuItem.Parent = hRoot
-genmenu.AddMainMenuItem(menuItem)
+local hChild = genmenu.AddMainMenuItem(menuItem)
 
---- Add child menu item
-menuItem.Name = "Main menu child 2"
-menuItem.Flags = CMIF_ROOTHANDLE
-menuItem.Service = 'Srv/SMI'
-menuItem.Parent = "&Help"
-genmenu.AddMainMenuItem(menuItem)
+--- Modify menu item
+local CMIM_NAME = tonumber("80000000", 16)
+genmenu.ModifyMenuItem(hChild, { Name = "Main menu child", Flags = CMIM_NAME })
