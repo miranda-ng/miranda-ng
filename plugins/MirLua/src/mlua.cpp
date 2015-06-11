@@ -15,6 +15,7 @@ CMLua::CMLua()
 	luaL_newlib(L, coreLib);
 	lua_setglobal(L, "m");
 
+	Preload(MLUA_DATABASE, luaopen_m_database);
 	Preload(MLUA_ICOLIB, luaopen_m_icolib);
 	Preload(MLUA_GENMENU, luaopen_m_genmenu);
 }
