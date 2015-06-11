@@ -107,6 +107,17 @@ static int lua_DeleteContactSetting(lua_State *L)
 	return 1;
 }
 
+static int lua_DeleteModule(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+
+	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
@@ -115,6 +126,8 @@ static luaL_Reg databaseApi[] =
 	{ "WriteContactSetting", lua_WriteContactSetting },
 	{ "GetContactSetting", lua_GetContactSetting },
 	{ "DeleteContactSetting", lua_DeleteContactSetting },
+
+	{ "DeleteModule", lua_DeleteModule },
 
 	{ NULL, NULL }
 };
