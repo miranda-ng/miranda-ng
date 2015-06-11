@@ -26,3 +26,5 @@ if db.GetContactSetting(nil, 'MirLua', 'testByte') then
 -- @param module The name of section
 -- @param setting The name of setting
 db.DeleteContactSetting(nil, 'MirLua', 'testString');
+
+db.WriteContactSetting(nil, 'MirLua', 'ShowConsole', 1)
