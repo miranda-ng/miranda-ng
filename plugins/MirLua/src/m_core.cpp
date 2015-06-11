@@ -23,8 +23,50 @@ static int lua_DestroyHookableEvent(lua_State *L)
 static int lua_NotifyEventHooks(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-	WPARAM wParam = (WPARAM)lua_topointer(L, 2);
-	LPARAM lParam = (LPARAM)lua_topointer(L, 3);
+	
+	WPARAM wParam = NULL;
+	int type = lua_type(L, 2);
+	switch (type)
+	{
+	case LUA_TBOOLEAN:
+		wParam = lua_toboolean(L, 2);
+		break;
+	case LUA_TNUMBER:
+		wParam = lua_tonumber(L, 2);
+		break;
+	case LUA_TSTRING:
+		wParam = (WPARAM)lua_tostring(L, 2);
+		break;
+	case LUA_TUSERDATA:
+		wParam = (WPARAM)lua_touserdata(L, 2);
+		break;
+
+	default:
+		lua_pushinteger(L, 1);
+		return 1;
+	}
+
+	LPARAM lParam = NULL;
+	type = lua_type(L, 3);
+	switch (type)
+	{
+	case LUA_TBOOLEAN:
+		lParam = lua_toboolean(L, 3);
+		break;
+	case LUA_TNUMBER:
+		lParam = lua_tonumber(L, 3);
+		break;
+	case LUA_TSTRING:
+		lParam = (LPARAM)lua_tostring(L, 3);
+		break;
+	case LUA_TUSERDATA:
+		lParam = (LPARAM)lua_touserdata(L, 3);
+		break;
+
+	default:
+		lua_pushinteger(L, 1);
+		return 1;
+	}
 
 	int res = ::NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushinteger(L, res);
@@ -175,8 +217,50 @@ static int lua_ServiceExists(lua_State *L)
 static int lua_CallService(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-	WPARAM wParam = (WPARAM)lua_topointer(L, 2);
-	LPARAM lParam = (LPARAM)lua_topointer(L, 3);
+
+	WPARAM wParam = NULL;
+	int type = lua_type(L, 2);
+	switch (type)
+	{
+	case LUA_TBOOLEAN:
+		wParam = lua_toboolean(L, 2);
+		break;
+	case LUA_TNUMBER:
+		wParam = lua_tonumber(L, 2);
+		break;
+	case LUA_TSTRING:
+		wParam = (WPARAM)lua_tostring(L, 2);
+		break;
+	case LUA_TUSERDATA:
+		wParam = (WPARAM)lua_touserdata(L, 2);
+		break;
+
+	default:
+		lua_pushinteger(L, 1);
+		return 1;
+	}
+	
+	LPARAM lParam = NULL;
+	type = lua_type(L, 3);
+	switch (type)
+	{
+	case LUA_TBOOLEAN:
+		lParam = lua_toboolean(L, 3);
+		break;
+	case LUA_TNUMBER:
+		lParam = lua_tonumber(L, 3);
+		break;
+	case LUA_TSTRING:
+		lParam = (LPARAM)lua_tostring(L, 3);
+		break;
+	case LUA_TUSERDATA:
+		lParam = (LPARAM)lua_touserdata(L, 3);
+		break;
+
+	default:
+		lua_pushinteger(L, 1);
+		return 1;
+	}
 
 	INT_PTR res = ::CallService(name, wParam, lParam);
 	lua_pushinteger(L, res);

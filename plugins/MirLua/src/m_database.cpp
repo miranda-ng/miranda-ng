@@ -40,7 +40,7 @@ static int lua_WriteContactSetting(lua_State *L)
 		break;
 	
 	default:
-		lua_pushinteger(L, hContact);
+		lua_pushinteger(L, 1);
 		return 1;
 	}
 
@@ -62,7 +62,6 @@ static int lua_GetContactSetting(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
-	
 
 	switch (dbv.type)
 	{
