@@ -66,8 +66,8 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
-		psr.id.a = displayName.GetBuffer();
-		psr.nick.a = nick.GetBuffer();
+		psr.id.a = nick.GetBuffer();
+		psr.nick.a = displayName.GetBuffer();
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 	
