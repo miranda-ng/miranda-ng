@@ -187,10 +187,20 @@ static int lua_CallService(lua_State *L)
 
 static int lua_Translate(lua_State *L)
 {
-	char *value = (char*)luaL_checkstring(L, 1);
+	char *what = (char*)luaL_checkstring(L, 1);
 
-	ptrT string(mir_utf8decodeT(value, NULL));
-	lua_pushstring(L, T2Utf(TranslateTS(string)));
+	ptrT value(mir_utf8decodeT(what, NULL));
+	lua_pushstring(L, T2Utf(TranslateTS(value)));
+
+	return 1;
+}
+
+static int lua_ReplaceVariables(lua_State *L)
+{
+	char *what = (char*)luaL_checkstring(L, 1);
+
+	ptrT value(mir_utf8decodeT(what, NULL));
+	lua_pushstring(L, T2Utf(VARST(value)));
 
 	return 1;
 }
@@ -214,6 +224,7 @@ luaL_Reg CMLua::coreLib[] =
 	{ "CallService", lua_CallService },
 
 	{ "Translate", lua_Translate },
+	{ "ReplaceVariables", lua_ReplaceVariables },
 
 	{ NULL, NULL }
 };
