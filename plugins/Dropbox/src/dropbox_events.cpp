@@ -13,7 +13,6 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = MODULE;
-	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = L"Dropbox";
 
 	hNetlibConnection = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
