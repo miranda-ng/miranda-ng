@@ -3,39 +3,53 @@ local genmenu = require('m_genmenu')
 --- include m_icolib module
 local icolib = require('m_icolib')
 
+local menuItem =
+{
+  -- required field
+  Name = "Menu item",
+  Flags = 0,
+  Position = 0,
+  Icon = nil,
+  Service = nil,
+  Parent = nil
+}
+
 --- Add icon for menu items
 local hIcon = icolib.AddIcon('testMenuIcon', 'Lua icon for menus')
 
 --- Add menu item to main menu
--- @param name The name of menu item
--- @param flags The flugs that determine behaviour of menu item (default 0)
--- @param position The position of menu item in main menu (default 0)
--- @param icon The handle of icon of menu item (default NULL)
--- @param service The name of service which will be called (default '')
--- @param hParentMenu The handle of parent menu (default 0)
--- @return handle of menu item
-genmenu.AddMainMenuItem('Main menu item', 0, 0, hIcon, 'Srv/MMI')
+menuItem.Name = "Main menu item"
+menuItem.Icon = hIcon
+menuItem.Service = "Srv/MMI"
+genmenu.AddMainMenuItem(menuItem)
 
 --- Add menu item to contact menu
--- @param name The name of menu item
--- @param flags The flugs that determine behaviour of menu item (default 0)
--- @param position The position of menu item in main menu (default 0)
--- @param icon The handle of icon of menu item (default NULL)
--- @param service The name of service which will be called (default '')
--- @param hParentMenu The handle of parent menu (default 0)
--- @return handle of menu item
-genmenu.AddContactMenuItem('Contact menu item', 0, 0, hIcon, 'Srv/CMI')
+menuItem.Name = "Contact menu item"
+menuItem.Service = "Srv/CMI"
+genmenu.AddContactMenuItem(menuItem)
 
 --- Create the contact menu item which will be deleted below
-local hMenuItem = genmenu.AddContactMenuItem('testRemove', 0, 0, 0, 'Srv/TestRemove')
+menuItem.Name = "testRemove"
+menuItem.Service = "Srv/TestRemove"
+local hMenuItem = genmenu.AddContactMenuItem(menuItem)
 
 --- Remove menu item from parent menu
--- @param handle The handle of menu item
--- @return 0 on success
 genmenu.RemoveMenuItem(hMenuItem)
 
 --- Add root menu item
 local CMIF_ROOTHANDLE = 384
-local hRoot = genmenu.AddMainMenuItem('Main menu root', CMIF_ROOTHANDLE)
+local hRoot = genmenu.AddMainMenuItem({ Name = "Main menu root", Flags = CMIF_ROOTHANDLE })
+
 --- Add child menu item
-genmenu.AddMainMenuItem('Main menu child', CMIF_ROOTHANDLE, 0, nil, 'Srv/CMI', hRoot)
+menuItem.Name = "Main menu child"
+menuItem.Flags = CMIF_ROOTHANDLE
+menuItem.Service = 'Srv/SMI'
+menuItem.Parent = hRoot
+genmenu.AddMainMenuItem(menuItem)
+
+--- Add child menu item
+menuItem.Name = "Main menu child 2"
+menuItem.Flags = CMIF_ROOTHANDLE
+menuItem.Service = 'Srv/SMI'
+menuItem.Parent = "&Help"
+genmenu.AddMainMenuItem(menuItem)

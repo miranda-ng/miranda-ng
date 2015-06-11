@@ -1,16 +1,52 @@
 #include "stdafx.h"
 
+static CLISTMENUITEM* MakeMenuItem(lua_State *L)
+{
+	CLISTMENUITEM *pmi = (CLISTMENUITEM*)mir_calloc(sizeof(CLISTMENUITEM));
+	pmi->cbSize = sizeof(CLISTMENUITEM);
+
+	lua_getfield(L, 1, "Name");
+	pmi->pszName = LPGEN((char*)luaL_checkstring(L, -1));
+	lua_pop(L, 1);
+
+	lua_getfield(L, 1, "Flags");
+	pmi->flags = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, 1, "Position");
+	pmi->position = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, 1, "Icon");
+	pmi->icolibItem = (HANDLE)lua_touserdata(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, 1, "Service");
+	pmi->pszService = (char*)lua_tostring(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, 1, "Parent");
+	pmi->hParentMenu = (HGENMENU)lua_touserdata(L, -1);
+	lua_pop(L, 1);
+
+	return pmi;
+}
+
 static int lua_AddMainMenuItem(lua_State *L)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.pszName = LPGEN((char*)luaL_checkstring(L, 1));
-	mi.flags = lua_tointeger(L, 2);
-	mi.position = lua_tointeger(L, 3);
-	mi.icolibItem = (HANDLE)lua_touserdata(L, 4);
-	mi.pszService = (char*)lua_tostring(L, 5);
-	mi.hParentMenu = (HGENMENU)lua_touserdata(L, 6);
+	if (lua_type(L, 1) != LUA_TTABLE)
+	{
+		lua_pushlightuserdata(L, 0);
+		return 1;
+	}
 
-	HGENMENU res = ::Menu_AddMainMenuItem(&mi);
+	lua_settop(L, 1);
+
+	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+
+	lua_pop(L, 1);
+
+	HGENMENU res = ::Menu_AddMainMenuItem(pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -18,15 +54,19 @@ static int lua_AddMainMenuItem(lua_State *L)
 
 static int lua_AddContactMenuItem(lua_State *L)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.pszName = LPGEN((char*)luaL_checkstring(L, 1));
-	mi.flags = lua_tointeger(L, 2);
-	mi.position = lua_tointeger(L, 3);
-	mi.icolibItem = (HANDLE)lua_touserdata(L, 4);
-	mi.pszService = (char*)lua_tostring(L, 5);
-	mi.hParentMenu = (HGENMENU)lua_touserdata(L, 6);
+	if (lua_type(L, 1) != LUA_TTABLE)
+	{
+		lua_pushlightuserdata(L, 0);
+		return 1;
+	}
 
-	HGENMENU res = ::Menu_AddContactMenuItem(&mi);
+	lua_settop(L, 1);
+
+	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+
+	lua_pop(L, 1);
+
+	HGENMENU res = ::Menu_AddContactMenuItem(pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
