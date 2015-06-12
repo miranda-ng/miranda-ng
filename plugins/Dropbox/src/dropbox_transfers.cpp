@@ -67,9 +67,8 @@ void CDropbox::CreateFolder(const char *path)
 void CDropbox::CreateDownloadUrl(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	ptrA encodedPath(mir_utf8encode(path));
 	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
-	ShareRequest request(token, encodedPath, useShortUrl);
+	ShareRequest request(token, path, useShortUrl);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleHttpResponseError(response);
