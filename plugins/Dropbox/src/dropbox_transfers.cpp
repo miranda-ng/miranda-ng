@@ -46,8 +46,7 @@ void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *up
 void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	ptrA encodedPath(mir_utf8encode(path));
-	UploadFileChunkRequest request(token, uploadId, (char*)encodedPath);
+	UploadFileChunkRequest request(token, uploadId, path);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
@@ -55,8 +54,7 @@ void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
 void CDropbox::CreateFolder(const char *path)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	ptrA encodedPath(mir_utf8encode(path));
-	CreateFolderRequest request(token, encodedPath);
+	CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	// forder exists on server
