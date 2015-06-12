@@ -150,7 +150,7 @@ static int lua_OnMsgToolBarButtonPressed(lua_State *L)
 static luaL_Reg msgbuttinsbarApi[] =
 {
 	{ "AddButton", lua_AddButton },
-	{ "ModifyButtonButton", lua_ModifyButton },
+	{ "ModifyButton", lua_ModifyButton },
 	{ "RemoveButton", lua_RemoveButton },
 	
 	{ "OnMsgToolBarLoaded", lua_OnMsgToolBarLoaded },
