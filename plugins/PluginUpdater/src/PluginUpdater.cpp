@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-PlugOptions opts;
-
 HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;

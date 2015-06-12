@@ -19,6 +19,67 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+PlugOptions opts;
+POPUP_OPTIONS PopupOptions = {0};
+
+void LoadOptions()
+{
+	PopupOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
+	PopupOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	PopupOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
+	PopupOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+
+	opts.bUpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	opts.bOnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
+	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
+	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
+	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
+}
+
+int GetUpdateMode()
+{
+	int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, -1);
+
+	// Check if there is url for custom mode
+	if (UpdateMode == UPDATE_MODE_CUSTOM) {
+		ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+		if (url == NULL || !_tcslen(url)) {
+			// No url for custom mode, reset that setting so it will be determined automatically			
+			db_unset(NULL, MODNAME, DB_SETTING_UPDATE_MODE);
+			UpdateMode = -1;
+		}
+	}
+
+	if (UpdateMode < 0 || UpdateMode > UPDATE_MODE_MAX_VALUE) {
+		// Missing or unknown mode, determine correct from version of running core
+		char coreVersion[512];
+		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(coreVersion), (LPARAM)coreVersion);
+		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
+	}
+
+	return UpdateMode;
+}
+
+TCHAR* GetDefaultUrl()
+{
+#if MIRANDA_VER < 0x0A00
+	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
+#else
+	switch (GetUpdateMode()) {
+	case UPDATE_MODE_STABLE:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
+	case UPDATE_MODE_TRUNK:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
+	case UPDATE_MODE_TRUNK_SYMBOLS:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+	default:
+		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
+	}
+#endif
+}
+
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {

@@ -87,7 +87,7 @@ typedef OBJLIST<FILEINFO> FILELIST;
 extern struct PlugOptions
 {
 	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode;
-	BOOL bSilent, bDlgDld;
+	BOOL bSilent;
 
 	BYTE bPeriodMeasure;
 	int  Period;
@@ -134,6 +134,7 @@ using namespace std;
 
 extern HINSTANCE hInst;
 
+extern DWORD g_mirandaVersion;
 extern TCHAR tszRoot[MAX_PATH], tszTempPath[MAX_PATH];
 extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe, hNetlibUser;
@@ -204,7 +205,6 @@ void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
-int   GetUpdateMode();
 TCHAR* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HANDLE &nlc);
 

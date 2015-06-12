@@ -148,3 +148,31 @@ __forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
 
 
+
+template <size_t _Size>
+inline int mir_snprintf(char(&buffer)[_Size], const char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	return mir_vsnprintf(buffer, _Size, fmt, args);
+}
+
+template <size_t _Size>
+inline int mir_snwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	return mir_vsnwprintf(buffer, _Size, fmt, args);
+}
+
+template <size_t _Size>
+inline int mir_vsnprintf(char(&buffer)[_Size], const char* fmt, va_list va)
+{
+	return mir_vsnprintf(buffer, _Size, fmt, va);
+}
+
+template <size_t _Size>
+inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, va_list va)
+{
+	return mir_vsnwprintf(buffer, _Size, fmt, va);
+}
