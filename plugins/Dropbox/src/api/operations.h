@@ -4,7 +4,7 @@
 class ShareRequest : public HttpRequest
 {
 public:
-	ShareRequest(const char *token, const char *path, bool useShortUrl = true, const char *root = "auto") :
+	ShareRequest(const char *token, const char *path, bool useShortUrl, const char *root = "auto") :
 		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_API_URL "/shares/%s/%s", root, path)
 	{
 		if (!useShortUrl)
