@@ -23,74 +23,13 @@ static int lua_DestroyHookableEvent(lua_State *L)
 static int lua_NotifyEventHooks(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
-	
-	WPARAM wParam = NULL;
-	int type = lua_type(L, 2);
-	switch (type)
-	{
-	case LUA_TBOOLEAN:
-		wParam = lua_toboolean(L, 2);
-		break;
-	case LUA_TNUMBER:
-		wParam = lua_tonumber(L, 2);
-		break;
-	case LUA_TSTRING:
-		wParam = (WPARAM)lua_tostring(L, 2);
-		break;
-	case LUA_TUSERDATA:
-		wParam = (WPARAM)lua_touserdata(L, 2);
-		break;
-
-	default:
-		lua_pushinteger(L, 1);
-		return 1;
-	}
-
-	LPARAM lParam = NULL;
-	type = lua_type(L, 3);
-	switch (type)
-	{
-	case LUA_TBOOLEAN:
-		lParam = lua_toboolean(L, 3);
-		break;
-	case LUA_TNUMBER:
-		lParam = lua_tonumber(L, 3);
-		break;
-	case LUA_TSTRING:
-		lParam = (LPARAM)lua_tostring(L, 3);
-		break;
-	case LUA_TUSERDATA:
-		lParam = (LPARAM)lua_touserdata(L, 3);
-		break;
-
-	default:
-		lua_pushinteger(L, 1);
-		return 1;
-	}
+	WPARAM wParam = CMLua::GetWParam(L, 2);
+	LPARAM lParam = CMLua::GetLParam(L, 3);
 
 	int res = ::NotifyEventHooks(hEvent, wParam, lParam);
 	lua_pushinteger(L, res);
 
 	return 1;
-}
-
-static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
-{
-	lua_State *L = (lua_State*)obj;
-
-	int ref = param;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-
-	lua_pushnumber(L, wParam);
-	lua_pushnumber(L, lParam);
-	if(lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
-	
-	int res = (int)lua_tointeger(L, 1);
-
-	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
-
-	return res;
 }
 
 static int lua_HookEvent(lua_State *L)
@@ -106,7 +45,7 @@ static int lua_HookEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = ::HookEventObjParam(name, HookEventObjParam, L, ref);
+	HANDLE res = ::HookEventObjParam(name, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -133,7 +72,7 @@ static int lua_OnModulesLoaded(lua_State *L)
 	lua_pushvalue(L, 1);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	
-	HANDLE res = ::HookEventObjParam(ME_SYSTEM_MODULESLOADED, HookEventObjParam, L, ref);
+	HANDLE res = ::HookEventObjParam(ME_SYSTEM_MODULESLOADED, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -150,7 +89,7 @@ static int lua_OnPreShutdown(lua_State *L)
 	lua_pushvalue(L, 1);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = ::HookEventObjParam(ME_SYSTEM_PRESHUTDOWN, HookEventObjParam, L, ref);
+	HANDLE res = ::HookEventObjParam(ME_SYSTEM_PRESHUTDOWN, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -217,50 +156,8 @@ static int lua_ServiceExists(lua_State *L)
 static int lua_CallService(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-
-	WPARAM wParam = NULL;
-	int type = lua_type(L, 2);
-	switch (type)
-	{
-	case LUA_TBOOLEAN:
-		wParam = lua_toboolean(L, 2);
-		break;
-	case LUA_TNUMBER:
-		wParam = lua_tonumber(L, 2);
-		break;
-	case LUA_TSTRING:
-		wParam = (WPARAM)lua_tostring(L, 2);
-		break;
-	case LUA_TUSERDATA:
-		wParam = (WPARAM)lua_touserdata(L, 2);
-		break;
-
-	default:
-		lua_pushinteger(L, 1);
-		return 1;
-	}
-	
-	LPARAM lParam = NULL;
-	type = lua_type(L, 3);
-	switch (type)
-	{
-	case LUA_TBOOLEAN:
-		lParam = lua_toboolean(L, 3);
-		break;
-	case LUA_TNUMBER:
-		lParam = lua_tonumber(L, 3);
-		break;
-	case LUA_TSTRING:
-		lParam = (LPARAM)lua_tostring(L, 3);
-		break;
-	case LUA_TUSERDATA:
-		lParam = (LPARAM)lua_touserdata(L, 3);
-		break;
-
-	default:
-		lua_pushinteger(L, 1);
-		return 1;
-	}
+	WPARAM wParam = CMLua::GetWParam(L, 2);
+	LPARAM lParam = CMLua::GetLParam(L, 3);
 
 	INT_PTR res = ::CallService(name, wParam, lParam);
 	lua_pushinteger(L, res);

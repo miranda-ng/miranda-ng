@@ -16,6 +16,11 @@ public:
 	void AddPath(const char *path);
 
 	void Load(const char *name);
+
+	static WPARAM GetWParam(lua_State *L, int idx);
+	static LPARAM GetLParam(lua_State *L, int idx);
+
+	static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param);
 };
 
 #endif //_LUA_CORE_H_
