@@ -3,8 +3,10 @@
 // Used by LotusNotify.rc
 //
 #define IDI_ICON1                       101
-#define IDD_OPT_DIALOG                  102
+#define IDD_OPT_LOTUS_MISC              102
 #define IDI_ICON2                       103
+#define IDD_OPT_LOTUS_CONECTION         104
+#define IDD_OPT_LOTUS_POPUP             105
 #define IDC_SERVER                      1001
 #define IDC_DATABASE                    1002
 #define IDC_DATABASE2                   1003
@@ -23,9 +25,6 @@
 #define IDC_NEWEST                      1014
 #define IDC_BUTTON_DETECT               1015
 #define IDC_STATUS                      1016
-#define IDC_VERSION                     1017
-#define IDC_VERSION2                    1018
-#define IDC_BUTTON_DETECT2              1019
 #define IDC_BUTTON_CLEAR                1019
 #define IDC_FILTER_SENDER               1020
 #define IDC_FILTER_SUBJECT              1021
@@ -45,7 +44,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           101

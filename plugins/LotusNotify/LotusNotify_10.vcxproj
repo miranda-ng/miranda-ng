@@ -112,6 +112,10 @@
   <ItemGroup>
     <ResourceCompile Include="res\LotusNotify.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\icon1.ico" />
+    <None Include="res\icon2.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
