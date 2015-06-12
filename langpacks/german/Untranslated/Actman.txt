@@ -1,6 +1,0 @@
-﻿[Reload/Refresh]
-[Ansi message]
-[Ansi caption]
-[Use MMI]
-[Open main QuickSearch window with text filter]
-[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]

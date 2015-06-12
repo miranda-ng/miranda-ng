@@ -107,7 +107,7 @@ Gruppenchat
 [Profiles folder]
 Profilverzeichnis
 [Tox URI scheme]
-
+Tox URI-Schema
 [Action]
 Aktion
 ;file \protocols\Tox\src\tox_icons.cpp

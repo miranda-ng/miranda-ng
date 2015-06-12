@@ -37,7 +37,7 @@ Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Place:]
 Ort:
 [Use hostname]
-
+Hostname verwenden
 [Enter password]
 Passwort eingeben
 [Save password]
@@ -128,13 +128,13 @@ Aktionsicon
 Protokolle
 ;file \protocols\SkypeWeb\src\skype_login.cpp
 [Authentication failed. Invalid username.]
-
+Autorisierung fehlgeschlagen. Ungültiger Benutzername.
 [Authentication failed. Bad username or password.]
-
+Autorisierung fehlgeschlagen. Falscher Benutzername oder Passwort.
 [Too many failed authentication attempts with given username or IP.]
-
+Zu viele fehlgeschlagene Autorisierungsversuche mit dem angegebenen Benutzername oder der IP.
 [Authentication failed. Unknown error.]
-
+Autorisierung fehlgeschlagen. Unbekannter Fehler.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Autorisierung anfragen

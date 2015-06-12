@@ -296,17 +296,17 @@ Teilnehmer
 [Owners]
 Besitzer
 [create chat]
-
+Chat erstellt
 [kick user]
-
+Benutzer gekickt
 [left chat]
-
+Chat verlassen
 [invite user]
-
+Benutzer eingeladen
 [change chat title to]
-
+Chatthema geändert zu
 [chat action not supported]
-
+Chataktion nicht unterstützt
 [Unknown]
 Unbekannt
 [Enter new chat title]

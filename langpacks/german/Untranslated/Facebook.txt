@@ -1,8 +1,0 @@
-﻿[Show "On this day" posts at login]
-[Sample on this day]
-[a link]
-[On this day]
-[On this day posts]
-[Newsfeed event]
-[Ticker event]
-[On this day event]

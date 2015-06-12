@@ -63,7 +63,7 @@ Freundschaftsbenachrichtigungen
 [Ticker feeds]
 Ticker-Feeds
 [Show "On this day" posts at login]
-
+Beiträge "an diesem Tag" beim Anmelden anzeigen
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 [Use balloon notifications in system tray instead of popups]
@@ -230,12 +230,12 @@ Beispielfreundschaft
 [Sample ticker]
 Beispielticker
 [Sample on this day]
-
+Beispiel "an diesem Tag"
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
 [a link]
-
+ein Link
 [files]
 Dateien
 [a file]
@@ -261,7 +261,7 @@ Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
 [On this day]
-
+An diesem Tag
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -296,7 +296,7 @@ Newsfeeds
 [Friendship events]
 Freundschaftsereignisse
 [On this day posts]
-
+Beiträge an diesem Tag
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -306,15 +306,15 @@ Benachrichtigungen besuchen
 [Notification]
 Benachrichtigung
 [Newsfeed event]
-
+Newsfeed-Ereignis
 [Other event]
 Anderes Ereignis
 [Friendship event]
 Freundschaftsereignis
 [Ticker event]
-
+Ticker-Ereignis
 [On this day event]
-
+Ereignis an diesem Tag
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]

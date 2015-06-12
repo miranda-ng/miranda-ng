@@ -38,7 +38,7 @@ N&ein zu allem
 [Export]
 Exportieren
 [Reload/Refresh]
-
+Neu laden/Aktualisieren
 [Registered actions]
 Eingetragene Aktionen
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
@@ -120,9 +120,9 @@ Parameter
 [structure]
 Struktur
 [Ansi message]
-
+Ansi-Nachricht
 [Ansi caption]
-
+Ansi-Überschrift
 [Structure]
 Struktur
 [Structure editor]
@@ -176,7 +176,7 @@ V
 [Structure size]
 Strukturgröße
 [Use MMI]
-
+MMI verwenden
 [Structure help]
 Strukturhilfe
 [Name]
@@ -706,7 +706,7 @@ wParam ist Ansi
 [Reserved]
 Reserviert
 [Open main QuickSearch window with text filter]
-
+Öffnet QuickSearch-Hauptfenster mit Textfilter
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Spielt Sound durch Skin/Sounds/AddNew. Wenn Sound nicht gefunden wird wird Standard-Windows-Sound gespielt.
 [Send Email to contact]
@@ -852,4 +852,4 @@ Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]
 Kontakt löschen
 [Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
-
+Zeigt einen modalen Dialogmit dem Systemicon, eine Menge von Buttons und einer kurzen, anwendungsspezifischen Nachricht, wie Status oder Fehlerinformationen.

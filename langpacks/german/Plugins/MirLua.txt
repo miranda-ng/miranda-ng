@@ -6,9 +6,9 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
-
+Erlaubt es, die Funktionalität von Miranda NG durch Lua-Skripte zu erweitern
 ;file \plugins\MirLua\src\main.cpp
 [Common scripts folder]
-
+Gemeinsames Skripte-Verzeichnis
 [Custom scripts folder]
-
+Eigenes Skripte-Verzeichnis

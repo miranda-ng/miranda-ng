@@ -1,7 +1,0 @@
-﻿[Displays icons in message window showing whether your last outgoing message was read / is still unread.]
-[Unread message icon]
-[Failed sending icon]
-[Sending message icon]
-[Last message read at]
-[Last message is not read]
-[Last message was not sent.]
