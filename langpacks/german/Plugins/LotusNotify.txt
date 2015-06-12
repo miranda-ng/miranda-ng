@@ -53,13 +53,13 @@ Zeige erneut falls ungelesen
 [Show error messages]
 Fehlermeldungen anzeigen
 [Remember newest message ID and don't show older]
-Neuste Nachricht-ID merken\nund keine älteren anzeigen
+Neuste Nachricht-ID merken und keine älteren anzeigen
 [...even if popup not clicked]
-
+...auch wenn Popup nicht geklickt
 [Clear popups history]
-Lösche Popup-Verlauf
+Popup-Verlauf löschen
 [Filter messages contain below strings in:]
-Gefilterte Nachrichten enthalten untere Wörter:
+Nachrichten mit folgenden Wörtern filtern:
 [Sender]
 Sender
 [Subject]

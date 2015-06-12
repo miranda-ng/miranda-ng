@@ -1,1 +1,0 @@
-﻿[...even if popup not clicked]

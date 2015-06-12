@@ -59,7 +59,7 @@ Eigene Farben verwenden
 [Use &Windows colors]
 &Windows-Farben verwenden
 [Use defa&ult colors]
-
+&Standardfarben verwenden
 [Preview]
 Vorschau
 [Click action]
