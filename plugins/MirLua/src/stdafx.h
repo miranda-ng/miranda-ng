@@ -7,11 +7,13 @@
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_langpack.h>
-#include <m_folders.h>
 #include <m_database.h>
 #include <m_clist.h>
 #include <m_genmenu.h>
 #include <m_icolib.h>
+
+#include <m_folders.h>
+#include <m_toptoolbar.h>
 
 extern "C"
 {
@@ -47,5 +49,8 @@ LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
 
 #define MLUA_GENMENU	"m_genmenu"
 LUAMOD_API int (luaopen_m_genmenu)(lua_State *L);
+
+#define MLUA_TOPTOOLBAR	"m_toptoolbar"
+LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
 
 #endif //_COMMON_H_
