@@ -18,6 +18,7 @@ CMLua::CMLua()
 	Preload(MLUA_DATABASE, luaopen_m_database);
 	Preload(MLUA_ICOLIB, luaopen_m_icolib);
 	Preload(MLUA_GENMENU, luaopen_m_genmenu);
+	Preload(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
 	Preload(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 }
 

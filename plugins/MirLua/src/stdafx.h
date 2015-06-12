@@ -14,6 +14,7 @@
 
 #include <m_folders.h>
 #include <m_toptoolbar.h>
+#include <m_msg_buttonsbar.h>
 
 extern "C"
 {
@@ -49,6 +50,9 @@ LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
 
 #define MLUA_GENMENU	"m_genmenu"
 LUAMOD_API int (luaopen_m_genmenu)(lua_State *L);
+
+#define MLUA_MSGBUTTONSBAR	"m_msg_buttonsbar"
+LUAMOD_API int (luaopen_m_msg_buttonsbar)(lua_State *L);
 
 #define MLUA_TOPTOOLBAR	"m_toptoolbar"
 LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
