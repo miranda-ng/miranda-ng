@@ -113,6 +113,9 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 	lua_pushstring(L, "ButtonID");
 	lua_pushinteger(L, bcd->dwButtonId);
 	lua_settable(L, -3);
+	lua_pushstring(L, "hContact");
+	lua_pushinteger(L, bcd->hContact);
+	lua_settable(L, -3);
 	lua_pushstring(L, "Flags");
 	lua_pushinteger(L, bcd->flags);
 	lua_settable(L, -3);
