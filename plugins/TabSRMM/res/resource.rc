@@ -693,9 +693,9 @@ END
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\res\\cursor_hyperlink.cur"
-IDC_DROP                CURSOR                  "..\\..\\..\\src\\res\\cursor_drag_copy.cur"
-IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\res\\cursor_drop_user.cur"
+IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_hyperlink.cur"
+IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
+IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

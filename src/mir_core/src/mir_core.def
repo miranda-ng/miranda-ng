@@ -1,8 +1,6 @@
 LIBRARY mir_core
 
 EXPORTS
-CallContactService              @1
-CallProtoService                @2
 Langpack_LookupUuid             @3
 Langpack_MarkPluginLoaded       @4
 CallFunctionAsync               @5
@@ -161,7 +159,6 @@ wildcmpi                      @158
 wildcmpiw                     @159
 mir_base64_encode             @160
 mir_base64_decode             @161
-ProtoServiceExists            @162
 ProtoBroadcastAck             @163
 db_set_resident               @165
 db_set                        @166

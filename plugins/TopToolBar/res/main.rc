@@ -128,8 +128,8 @@ IDI_GROUPSOFF           ICON                    "Groups On_Off_UP.ico"
 IDI_GROUPSON            ICON                    "Groups On_Off_DN.ico"
 IDI_SOUNDSOFF           ICON                    "Sounds Enable_Disable_DN.ico"
 IDI_SOUNDSON            ICON                    "Sounds Enable_Disable_UP.ico"
-IDI_METAON              ICON                    "..\\..\\..\\src\\res\\meta_menu.ico"
-IDI_METAOFF             ICON                    "..\\..\\..\\src\\res\\meta_menuof.ico"
+IDI_METAON              ICON                    "..\\..\\..\\src\\mir_app\\res\\meta_menu.ico"
+IDI_METAOFF             ICON                    "..\\..\\..\\src\\mir_app\\res\\meta_menuof.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

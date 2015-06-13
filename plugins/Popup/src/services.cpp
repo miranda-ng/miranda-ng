@@ -240,21 +240,21 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	ppd2.lptzText = (TCHAR*)wParam;
 	switch (lParam & 0x7fffffff) {
 	case SM_ERROR:
-		ppd2.lchIcon = IcoLib_GetIcon(ICO_MISC_ERROR, 0);
+		ppd2.lchIcon = Skin_GetIcon(ICO_MISC_ERROR, 0);
 		ppd2.colorBack = RGB(191, 0, 0);
 		ppd2.colorText = RGB(255, 245, 225);
 		ppd2.lchNotification = g_hntfError;
 		ppd2.lptzTitle = TranslateT("Error");
 		break;
 	case SM_WARNING:
-		ppd2.lchIcon = IcoLib_GetIcon(ICO_MISC_WARNING, 0);
+		ppd2.lchIcon = Skin_GetIcon(ICO_MISC_WARNING, 0);
 		ppd2.colorBack = RGB(210, 210, 150);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfWarning;
 		ppd2.lptzTitle = TranslateT("Warning");
 		break;
 	case SM_NOTIFY:
-		ppd2.lchIcon = IcoLib_GetIcon(ICO_MISC_NOTIFY, 0);
+		ppd2.lchIcon = Skin_GetIcon(ICO_MISC_NOTIFY, 0);
 		ppd2.colorBack = RGB(230, 230, 230);
 		ppd2.colorText = RGB(0, 0, 0);
 		ppd2.lchNotification = g_hntfNotification;

@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
-HINSTANCE g_hInst = 0;
+HINSTANCE g_hInst = 0, g_hMirApp = 0;
 CLIST_INTERFACE *pcli = NULL;
 CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = { 0 };
@@ -80,6 +80,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	mir_getTMI(&tmi);
 
 	g_dwMainThreadID = GetCurrentThreadId();
+	g_hMirApp = GetModuleHandleA("mir_app.dll");
 
 	CHECKRES(PreLoadContactListModule());
 	CHECKRES(SubclassClistInterface());

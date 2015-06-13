@@ -604,25 +604,6 @@ static void NotifyTyping(SrmmWindowData *dat, int mode)
 	CallService(MS_PROTO_SELFISTYPING, (WPARAM)dat->hContact, dat->nTypeMode);
 }
 
-void Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char* tooltip)
-{
-	HWND hWnd = GetDlgItem(hwndDlg, itemId);
-	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(iconId));
-	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
-	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
-}
-
-void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
-{
-	Skin_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, itemId, BM_SETIMAGE, IMAGE_ICON, 0));
-}
-
-void Window_FreeIcon_IcoLib(HWND hwndDlg)
-{
-	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
-}
-
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

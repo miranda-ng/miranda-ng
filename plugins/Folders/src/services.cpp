@@ -83,7 +83,7 @@ int InitServices()
 	CallService(MS_DB_GETPROFILENAMET, SIZEOF(szCurrentProfile), (LPARAM)szCurrentProfile);
 	TCHAR *pos = _tcsrchr(szCurrentProfile, '.'); if (pos) *pos = 0;
 
-	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileName(GetModuleHandleA("mir_app.dll"), szMirandaPath, SIZEOF(szMirandaPath));
 	pos = _tcsrchr(szMirandaPath, '\\'); if (pos) *pos = 0;
 
 	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_userdata%"));

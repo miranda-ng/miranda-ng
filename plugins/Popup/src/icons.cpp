@@ -59,18 +59,6 @@ static IconItem iconList[] =
 	{ LPGEN("Copy to clipboard"), ICO_ACT_COPY, IDI_ACT_COPY }
 };
 
-/**
- * Returns a icon, identified by a name
- * @param	pszIcon		- name of the icon
- * @param	big			- bool big icon (default = false)
- * @return:	HICON if the icon is loaded, NULL otherwise
- **/
-
-HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
-{
-	return (pszIcon) ? Skin_GetIcon(pszIcon, big) : NULL;
-}
-
 void InitIcons()
 {
 	Icon_Register(hInst, SECT_TOLBAR, iconList, 2);
