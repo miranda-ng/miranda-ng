@@ -85,7 +85,7 @@ type
 
 var
   Form1: TForm1;
-  IconsItem, PluginsItem, CoreItem: Integer;
+  IconsItem, PluginsItem, CoreItem, LibsItem: Integer;
   IcePath: String;
   MirandaPath: String;
 
@@ -433,7 +433,8 @@ begin
         S := GetValue(CheckListBox1.Items[n], 0);
         S := LowerCase(S);
         // keep the order as for FillCombo function (atm Core<Plugins<Icons)
-        if      n < PluginsItem then F := '\core'
+        if      n < LibsItem    then F := '\ '
+        else if n < PluginsItem then F := '\libs'
         else if n < IconsItem   then F := '\icons'
         else                         F := '\plugins';
 
@@ -569,6 +570,7 @@ begin
   IcePath := ExtractFilePath(ParamStr(0));
 
   CoreItem    := FillCombo('core');
+  LibsItem    := FillCombo('libs');
   PluginsItem := FillCombo('icons');
   IconsItem   := FillCombo('plugins');
 end;
