@@ -432,8 +432,8 @@ begin
         ProgressBar1.Position := n;
         S := GetValue(CheckListBox1.Items[n], 0);
         S := LowerCase(S);
-        // keep the order as for FillCombo function (atm Core<Plugins<Icons)
-        if      n < LibsItem    then F := '\ '
+        // keep the order as for FillCombo function (atm Core<Libs<Plugins<Icons)
+        if      n < LibsItem    then F := '\core'
         else if n < PluginsItem then F := '\libs'
         else if n < IconsItem   then F := '\icons'
         else                         F := '\plugins';
