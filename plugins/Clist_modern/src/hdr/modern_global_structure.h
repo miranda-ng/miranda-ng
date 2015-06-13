@@ -9,7 +9,7 @@ typedef struct tagCLUIDATA
 	**         Global variables       **
 	************************************/
 
-	/*         NotifyArea menu          */
+	// NotifyArea menu
 	HMENU  hMenuNotify;
 	WORD   wNextMenuID;
 	int    iIconNotify;
@@ -19,7 +19,7 @@ typedef struct tagCLUIDATA
 	int    hIconNotify;
 	MCONTACT hUpdateContact;
 
-	/*         Contact List View Mode          */
+	// Contact List View Mode
 	TCHAR  groupFilter[2048];
 	char   protoFilter[2048];
 	char   varFilter[2048];

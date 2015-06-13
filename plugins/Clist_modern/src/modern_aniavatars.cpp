@@ -565,10 +565,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = NULL, 
 				// position - on avatar
 				int x = szWnd.cx - ICON_WIDTH;
 				int y = szWnd.cy - ICON_HEIGHT;
-				ske_ImageList_DrawEx(s_overlayIconImageList,
-					dat->overlayIconIdx & 0xFFFF,
-					tempDC, x, y, ICON_WIDTH, ICON_HEIGHT,
-					CLR_NONE, CLR_NONE, ILD_NORMAL);
+				ske_ImageList_DrawEx(s_overlayIconImageList, dat->overlayIconIdx & 0xFFFF, tempDC, x, y, ICON_WIDTH, ICON_HEIGHT, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			}
 			copyFromDC = tempDC;
 		}

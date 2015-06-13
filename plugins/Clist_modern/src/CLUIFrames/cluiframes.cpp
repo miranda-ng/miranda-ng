@@ -2698,43 +2698,39 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 			SetTextColor(hdcMem, GetSysColor(COLOR_CAPTIONTEXT));
 		else
 			SetTextColor(hdcMem, SelBkColour);
-		{
-			RECT textrc = rc;
-			if (!AlignCOLLIconToLeft) {
 
-				if (g_pfwFrames[pos].TitleBar.hicon != NULL) {
-					mod_DrawIconEx_helper(hdcMem, rc.left + 2, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CYSMICON) >> 1)), g_pfwFrames[pos].TitleBar.hicon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
-					textrc.left += GetSystemMetrics(SM_CXSMICON) + 4;
-					textrc.top += 2;
-				}
-				else {
-					textrc.left += 2;
-					textrc.top += 2;
-				}
-			}
-			else {
-				textrc.left += GetSystemMetrics(SM_CXSMICON) + 2;
+		RECT textrc = rc;
+		if (!AlignCOLLIconToLeft) {
+
+			if (g_pfwFrames[pos].TitleBar.hicon != NULL) {
+				ske_DrawIconEx(hdcMem, rc.left + 2, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CYSMICON) >> 1)), g_pfwFrames[pos].TitleBar.hicon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+				textrc.left += GetSystemMetrics(SM_CXSMICON) + 4;
 				textrc.top += 2;
 			}
-			ske_TextOut(hdcMem, textrc.left, textrc.top, g_pfwFrames[pos].TitleBar.tbname, (int)mir_tstrlen(g_pfwFrames[pos].TitleBar.tbname));
+			else {
+				textrc.left += 2;
+				textrc.top += 2;
+			}
 		}
+		else {
+			textrc.left += GetSystemMetrics(SM_CXSMICON) + 2;
+			textrc.top += 2;
+		}
+		ske_TextOut(hdcMem, textrc.left, textrc.top, g_pfwFrames[pos].TitleBar.tbname, (int)mir_tstrlen(g_pfwFrames[pos].TitleBar.tbname));
 
 		if (!AlignCOLLIconToLeft)
-			mod_DrawIconEx_helper(hdcMem, g_pfwFrames[pos].TitleBar.wndSize.right - GetSystemMetrics(SM_CXSMICON) - 2, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CXSMICON) >> 1)), g_pfwFrames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+			ske_DrawIconEx(hdcMem, g_pfwFrames[pos].TitleBar.wndSize.right - GetSystemMetrics(SM_CXSMICON) - 2, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CXSMICON) >> 1)), g_pfwFrames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 		else
-			mod_DrawIconEx_helper(hdcMem, rc.left, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CXSMICON) >> 1)), g_pfwFrames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+			ske_DrawIconEx(hdcMem, rc.left, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CXSMICON) >> 1)), g_pfwFrames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 	}
-	{
-		if (g_pfwFrames[pos].floating || (!g_CluiData.fLayered)) {
-			HRGN rgn = CreateRectRgn(rect->left, rect->top, rect->right, rect->bottom);
-			SelectClipRgn(hdcMem2, rgn);
-			BitBlt(hdcMem2, rect->left, rect->top, rc.right - rc.left, rc.bottom - rc.top, hdcMem, 0, 0, SRCCOPY);
-			DeleteObject(rgn);
-		}
-		else
-			BitBlt(hdcMem2, rect->left, rect->top, rc.right - rc.left, rc.bottom - rc.top, hdcMem, 0, 0, SRCCOPY);
-		//MyAlphaBlend(hdcMem2,rect.left,rect.top,rc.right-rc.left,rc.bottom-rc.top,hdcMem, 0, 0, rc.right-rc.left,rc.bottom-rc.top,bf);
+
+	if (g_pfwFrames[pos].floating || (!g_CluiData.fLayered)) {
+		HRGN rgn = CreateRectRgn(rect->left, rect->top, rect->right, rect->bottom);
+		SelectClipRgn(hdcMem2, rgn);
+		BitBlt(hdcMem2, rect->left, rect->top, rc.right - rc.left, rc.bottom - rc.top, hdcMem, 0, 0, SRCCOPY);
+		DeleteObject(rgn);
 	}
+	else BitBlt(hdcMem2, rect->left, rect->top, rc.right - rc.left, rc.bottom - rc.top, hdcMem, 0, 0, SRCCOPY);
 
 	SelectObject(hdcMem, b2);
 	DeleteObject(b1);
