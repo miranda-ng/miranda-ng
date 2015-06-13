@@ -70,9 +70,9 @@ int CFolderItem::operator ==(const CFolderItem *other)
 	return IsEqual(other);
 }
 
-void CFolderItem::Expand(TCHAR *buffer, int size)
+CMString CFolderItem::Expand()
 {
-	ExpandPath(buffer, m_tszFormat, size);
+	return ExpandPath(m_tszFormat);
 }
 
 void CFolderItem::Save()
@@ -87,8 +87,7 @@ int CFolderItem::FolderCreateDirectory(int showFolder)
 	if (m_tszFormat == NULL)
 		return FOLDER_SUCCESS;
 
-	TCHAR buffer[MAX_FOLDER_SIZE];
-	ExpandPath(buffer, m_tszFormat, SIZEOF(buffer));
+	CMString buffer(ExpandPath(m_tszFormat));
 	CreateDirectoryTreeT(buffer);
 	if (showFolder)
 		ShellExecute(NULL, L"explore", buffer, NULL, NULL, SW_SHOW);
@@ -104,8 +103,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	if (!mir_tstrcmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
 		return FOLDER_SUCCESS;
 
-	TCHAR buffer[MAX_FOLDER_SIZE];
-	ExpandPath(buffer, m_tszOldFormat, SIZEOF(buffer));
+	CMString buffer(ExpandPath(m_tszOldFormat));
 	RemoveDirectories(buffer);
 	int res = (DirectoryExists(buffer)) ? FOLDER_FAILURE : FOLDER_SUCCESS;
 	if ((res == FOLDER_FAILURE) && (showFolder))
@@ -115,13 +113,12 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 
 void CFolderItem::GetDataFromDatabase(const TCHAR *szNotFound)
 {
-	char name[256];
-	strcpy_s(name, sizeof(name), m_szSection);
-	strcat_s(name, sizeof(name), m_szName);
+	char szSettingName[256];
+	strcpy_s(szSettingName, SIZEOF(szSettingName), m_szSection);
+	strcat_s(szSettingName, SIZEOF(szSettingName), m_szName);
 
-	TCHAR buffer[MAX_FOLDER_SIZE];
-	GetStringFromDatabase(name, szNotFound, buffer, SIZEOF(buffer));
-	SetFormat(buffer);
+	ptrT tszValue(db_get_tsa(NULL, ModuleName, szSettingName));
+	SetFormat(tszValue != NULL ? tszValue : szNotFound);
 }
 
 void CFolderItem::WriteDataToDatabase()

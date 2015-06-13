@@ -21,18 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FOLDERS_UTILS_H
 #define M_FOLDERS_UTILS_H
 
-#include <stdarg.h>
-#include "commonheaders.h"
+CMString ExpandPath(const TCHAR *format);
 
-TCHAR *StrReplace(TCHAR *source, const TCHAR *what, const TCHAR *withWhat);
-TCHAR *StrCopy(TCHAR *source, size_t index, const TCHAR *what, size_t count);
-TCHAR *StrDelete(TCHAR *source, size_t index, size_t count);
-TCHAR *StrInsert(TCHAR *source, size_t index, const TCHAR *what);
-TCHAR *StrTrim(TCHAR *szText, const TCHAR *szTrimChars);
-
-void RemoveDirectories(TCHAR *szPath);
-int DirectoryExists(TCHAR *szPath);
-
-int GetStringFromDatabase(char *szSettingName, const TCHAR *szError, TCHAR *szResult, size_t size);
+void RemoveDirectories(const TCHAR *szPath);
+bool DirectoryExists(const TCHAR *szPath);
 
 #endif

@@ -28,10 +28,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <richedit.h>
 
+#include <stdarg.h>
+#include <string.h>
+#include <malloc.h>
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_system_cpp.h>
 #include <m_options.h>
+#include <m_string.h>
 
 #include <m_variables.h>
 #include <m_folders.h>

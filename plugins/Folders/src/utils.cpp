@@ -20,144 +20,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-char *StrCopy(char *source, size_t index, const char *what, size_t count)
+CMString ExpandPath(const TCHAR *format)
 {
-	for (size_t i = 0; i < count; i++)
-		source[index + i] = what[i];
+	CMString res;
 
-	return source;
-}
+	if (ServiceExists(MS_VARS_FORMATSTRING))
+		res = VARST(ptrT(variables_parse((TCHAR*)format, NULL, NULL)));
+	else
+		res = VARST(format);
 
-wchar_t *StrCopy(wchar_t *source, size_t index, const wchar_t *what, size_t count)
-{
-	for (size_t i = 0; i < count; i++)
-		source[index + i] = what[i];
+	res.Replace(PROFILE_PATHT, szCurrentProfilePath);
+	res.Replace(CURRENT_PROFILET, szCurrentProfile);
+	res.Replace(MIRANDA_PATHT, szMirandaPath);
+	res.Replace(MIRANDA_USERDATAT, szUserDataPath);
+	res.Trim();
 
-	return source;
-}
-
-char *StrDelete(char *source, size_t index, size_t count)
-{
-	size_t len = mir_strlen(source);
-	size_t i;
-	count = (count + index > len) ? len - index : count;
-	for (i = index; i + count <= len; i++)
-		source[i] = source[i + count];
-
-	return source;
-}
-
-wchar_t *StrDelete(wchar_t *source, size_t index, size_t count)
-{
-	size_t len = mir_wstrlen(source);
-	count = (count + index > len) ? len - index : count;
-	for (size_t i = index; i + count <= len; i++)
-		source[i] = source[i + count];
-
-	return source;
-}
-
-char *StrInsert(char *source, size_t index, const char *what)
-{
-	size_t whatLen = mir_strlen(what);
-	size_t sourceLen = mir_strlen(source);
-	size_t i;
-	for (i = sourceLen; i >= index; i--)
-		source[i + whatLen] = source[i];
-
-	for (i = 0; i < whatLen; i++)
-		source[index + i] = what[i];
-
-	return source;
-}
-
-wchar_t *StrInsert(wchar_t *source, size_t index, const wchar_t *what)
-{
-	size_t whatLen = mir_wstrlen(what);
-	size_t sourceLen = mir_wstrlen(source);
-	size_t i;
-	for (i = sourceLen; i >= index; i--)
-		source[i + whatLen] = source[i];
-
-	for (i = 0; i < whatLen; i++)
-		source[index + i] = what[i];
-
-	return source;
-}
-
-char *StrReplace(char *source, const char *what, const char *withWhat)
-{
-	size_t whatLen = mir_strlen(what);
-	size_t withWhatLen = mir_strlen(withWhat);
-
-	char *pos;
-	while ((pos = strstr(source, what))) {
-		size_t minLen = min(whatLen, withWhatLen);
-		StrCopy(source, pos - source, withWhat, minLen);
-		size_t index = pos - source + minLen;
-		if (whatLen > withWhatLen)
-			StrDelete(source, index, whatLen - withWhatLen);
-		else {
-			if (whatLen < withWhatLen)
-				StrInsert(source, index, withWhat + minLen);
+	// also remove the trailing slash
+	if (!res.IsEmpty()) {
+		int iNewSize = res.GetLength() - 1;
+		switch (res[iNewSize]) {
+		case '\\': case '/':
+			res.Truncate(iNewSize);
 		}
 	}
-	return source;
+
+	return res;
 }
 
-wchar_t *StrReplace(wchar_t *source, const wchar_t *what, const wchar_t *withWhat)
-{
-	size_t whatLen = mir_wstrlen(what);
-	size_t withWhatLen = mir_wstrlen(withWhat);
-
-	wchar_t *pos;
-	while ((pos = wcsstr(source, what))) {
-		size_t minLen = min(whatLen, withWhatLen);
-		StrCopy(source, pos - source, withWhat, minLen);
-		size_t index = pos - source + minLen;
-		if (whatLen > withWhatLen)
-			StrDelete(source, index, whatLen - withWhatLen);
-		else {
-			if (whatLen < withWhatLen)
-				StrInsert(source, index, withWhat + minLen);
-		}
-	}
-	return source;
-}
-
-char *StrTrim(char *szText, const char *szTrimChars)
-{
-	size_t i = mir_strlen(szText) - 1;
-	while (strchr(szTrimChars, szText[i]))
-		szText[i--] = '\0';
-
-	i = 0;
-	while ((i < mir_strlen(szText)) && (strchr(szTrimChars, szText[i])))
-		i++;
-
-	if (i)
-		StrDelete(szText, 0, i);
-
-	return szText;
-}
-
-wchar_t *StrTrim(wchar_t *szText, const wchar_t *szTrimChars)
-{
-	size_t i = mir_wstrlen(szText) - 1;
-	while (wcschr(szTrimChars, szText[i]))
-		szText[i--] = '\0';
-
-	i = 0;
-	while ((i < mir_wstrlen(szText)) && (wcschr(szTrimChars, szText[i])))
-		i++;
-
-	if (i)
-		StrDelete(szText, 0, i);
-
-	return szText;
-}
-
-void RemoveDirectories(TCHAR *path)
+void RemoveDirectories(const TCHAR *path)
 {
 	TCHAR *pos;
 	TCHAR *buffer = NEWWSTR_ALLOCA(path);
@@ -170,31 +60,10 @@ void RemoveDirectories(TCHAR *path)
 	}
 }
 
-int DirectoryExists(TCHAR *path)
+bool DirectoryExists(const TCHAR *path)
 {
-	TCHAR buffer[4096];
-	GetCurrentDirectory(SIZEOF(buffer), buffer);
-	int res = SetCurrentDirectory(path);
-	SetCurrentDirectory(buffer);
-	return res;
-}
-
-int GetStringFromDatabase(char *szSettingName, const wchar_t *szError, TCHAR *szResult, size_t size)
-{
-	size_t len;
-	DBVARIANT dbv;
-	if (db_get_ws(NULL, ModuleName, szSettingName, &dbv) == 0) {
-		size_t tmp = mir_tstrlen(dbv.ptszVal);
-		len = (tmp < size - 1) ? tmp : size - 1;
-		_tcsncpy(szResult, dbv.ptszVal, len);
-		szResult[len] = '\0';
-		db_free(&dbv);
-		return 0;
-	}
-
-	size_t tmp = mir_tstrlen(szError);
-	len = (tmp < size - 1) ? tmp : size - 1;
-	_tcsncpy(szResult, szError, len);
-	szResult[len] = '\0';
-	return 1;
+	DWORD dwAttributes = GetFileAttributes(path);
+	if (dwAttributes == INVALID_FILE_ATTRIBUTES || !(dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
+		return false;
+	return true;
 }
