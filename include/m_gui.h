@@ -338,6 +338,7 @@ public:
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
 	__forceinline CDlgBase *GetParent() { return m_parentWnd; }
 	__forceinline bool IsChanged() const { return m_bChanged; }
+	__forceinline void SetSilent() { m_bSilent = true; }
 
 	void Enable(int bIsEnable = true);
 	__forceinline void Disable() { Enable(false); }
@@ -376,7 +377,7 @@ protected:
 	HWND m_hwnd;  // must be the first data item
 	int m_idCtrl;
 	CDlgBase* m_parentWnd;
-	bool m_bChanged;
+	bool m_bChanged, m_bSilent;
 
 public:
 	CCallback<CCtrlBase> OnChange;

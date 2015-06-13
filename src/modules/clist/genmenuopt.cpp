@@ -286,6 +286,9 @@ public:
 
 		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND | MTREE_MULTISELECT);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
+
+		m_customName.SetSilent();
+		m_service.SetSilent();
 	}
 
 	//---- init dialog -------------------------------------------
