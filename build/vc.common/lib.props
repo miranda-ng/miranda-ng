@@ -22,8 +22,8 @@
   </ItemGroup>
   <PropertyGroup>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\libs\</OutDir>
-    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\libs\</OutDir>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Libs\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Libs\</OutDir>
   </PropertyGroup>
   <Import Project="common.props"/>
 </Project>
