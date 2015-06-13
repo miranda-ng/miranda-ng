@@ -2303,7 +2303,8 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 	: m_parentWnd(wnd),
 	m_idCtrl(idCtrl),
 	m_hwnd(NULL),
-	m_bChanged(false)
+	m_bChanged(false),
+	m_bSilent(false)
 {
 	if (wnd)
 		wnd->AddControl(this);
@@ -2342,7 +2343,7 @@ void CCtrlBase::NotifyChange()
 	if (!m_parentWnd || m_parentWnd->IsInitialized())
 		m_bChanged = true;
 
-	if (m_parentWnd) {
+	if (m_parentWnd && !m_bSilent) {
 		m_parentWnd->OnChange(this);
 		if (m_parentWnd->IsInitialized())
 			::SendMessage(::GetParent(m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0);

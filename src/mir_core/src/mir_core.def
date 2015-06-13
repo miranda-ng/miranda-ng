@@ -1240,3 +1240,4 @@ Proto_RegisterModule @1074 NONAME
 Bitmap_GetFilter @1248
 Bitmap_Load @1249
 CreateProtoServiceFunction @1250
+?SetSilent@CCtrlBase@@QAEXXZ @1251 NONAME
