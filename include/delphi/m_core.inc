@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
   CoreDLL = 'mir_core.dll';
+  AppDLL = 'mir_app.dll';
 
 ///////////////////////////////////////////////////////////////////////////////
 // command line support
@@ -141,9 +142,9 @@ procedure KillObjectServices(var ptr); stdcall;
                  external CoreDLL name 'KillObjectServices';
 
 function CallContactService(hContact:TMCONTACT;const name:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
-                 external CoreDLL name 'CallContactService';
+                 external AppDLL name 'CallContactService';
 function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
-                 external CoreDLL name 'CallProtoService';
+                 external AppDLL name 'CallProtoService';
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -432,7 +433,7 @@ function ProtoBroadcastAck(const szModule:PAnsiChar; hContact:TMCONTACT; type_:i
                  external CoreDLL name 'ProtoBroadcastAck';
 
 function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
-                 external CoreDLL name 'ProtoServiceExists';
+                 external AppDLL name 'ProtoServiceExists';
 
 procedure ProtoWindowAdd(pThis:pointer; wnd:HWND); stdcall;
                  external CoreDLL name 'ProtoWindowAdd';
