@@ -113,7 +113,7 @@ void __fastcall SafeDestroyIcon(HICON* icon)
 
 IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 {
-	TCHAR fileFull[ MAX_PATH ];
+	TCHAR fileFull[MAX_PATH];
 
 	if (!file)
 		return NULL;
@@ -126,8 +126,8 @@ IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 	IconSourceFile key = { fileFull };
 	int ix;
 	if ((ix = iconSourceFileList.getIndex(&key)) != -1) {
-		iconSourceFileList[ ix ]->ref_count++;
-		return iconSourceFileList[ ix ];
+		iconSourceFileList[ix]->ref_count++;
+		return iconSourceFileList[ix];
 	}
 
 	IconSourceFile* newItem = (IconSourceFile*)mir_calloc(sizeof(IconSourceFile));
@@ -202,10 +202,10 @@ static int InternalGetDIBSizes(HBITMAP bitmap, int* InfoHeaderSize, int* ImageSi
 	else {
 		if (bi.biClrUsed == 0)
 			*InfoHeaderSize = sizeof(BITMAPINFOHEADER) +
-				sizeof(RGBQUAD) * (int)(1 << bi.biBitCount);
+			sizeof(RGBQUAD) * (int)(1 << bi.biBitCount);
 		else
 			*InfoHeaderSize = sizeof(BITMAPINFOHEADER) +
-				sizeof(RGBQUAD) * bi.biClrUsed;
+			sizeof(RGBQUAD) * bi.biClrUsed;
 	}
 	*ImageSize = bi.biSizeImage;
 	return 0; // Success
@@ -331,8 +331,8 @@ IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int c
 	int ix;
 	if ((ix = iconSourceList.getIndex(&key)) != -1) {
 		IconSourceFile_Release(&r_file);
-		iconSourceList[ ix ]->ref_count++;
-		return iconSourceList[ ix ];
+		iconSourceList[ix]->ref_count++;
+		return iconSourceList[ix];
 	}
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));
@@ -351,7 +351,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 	if (!path)
 		return NULL;
 
-	TCHAR file[ MAX_PATH ];
+	TCHAR file[MAX_PATH];
 	mir_tstrncpy(file, path, SIZEOF(file));
 	TCHAR *comma = _tcsrchr(file, ',');
 
@@ -359,7 +359,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 	if (!comma)
 		n = 0;
 	else {
-		n = _ttoi(comma+1);
+		n = _ttoi(comma + 1);
 		*comma = 0;
 	}
 	return GetIconSourceItem(file, n, cxIcon, cyIcon);
@@ -367,14 +367,13 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 
 IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 {
-	TCHAR sourceName[ MAX_PATH ];
+	TCHAR sourceName[MAX_PATH];
 	IconSourceFile key = { sourceName };
 
-	int i=0;
+	int i = 0;
 	do { // find new unique name
 		mir_sntprintf(sourceName, SIZEOF(sourceName), _T("*StaticIcon_%d"), i++);
-	}
-		while (iconSourceFileList.getIndex(&key) != -1);
+	} while (iconSourceFileList.getIndex(&key) != -1);
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));
 	newItem->file = IconSourceFile_Get(sourceName, false);
@@ -419,7 +418,7 @@ static SectionItem* IcoLib_AddSection(TCHAR *sectionName, BOOL create_new)
 	int indx;
 	SectionItem key = { sectionName, 0 };
 	if ((indx = sectionList.getIndex(&key)) != -1)
-		return sectionList[ indx ];
+		return sectionList[indx];
 
 	if (create_new) {
 		SectionItem* newItem = (SectionItem*)mir_calloc(sizeof(SectionItem));
@@ -450,7 +449,7 @@ static void IcoLib_RemoveSection(SectionItem* section)
 IcolibItem* IcoLib_FindIcon(const char* pszIconName)
 {
 	int indx = iconList.getIndex((IcolibItem*)&pszIconName);
-	return (indx != -1) ? iconList[ indx ] : 0;
+	return (indx != -1) ? iconList[indx] : 0;
 }
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
@@ -533,7 +532,7 @@ MIR_APP_DLL(HANDLE) IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid)
 	else item->orderID = 0;
 
 	if (sid->defaultFile.a) {
-		WCHAR fileFull[ MAX_PATH ];
+		WCHAR fileFull[MAX_PATH];
 		if (utf_path)
 			PathToAbsoluteT(sid->defaultFile.w, fileFull);
 		else
@@ -573,7 +572,7 @@ MIR_APP_DLL(HANDLE) IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid)
 
 static int IcoLib_RemoveIcon_Internal(int i)
 {
-	IcolibItem *item = iconList[ i ];
+	IcolibItem *item = iconList[i];
 	IcoLib_FreeIcon(item);
 	iconList.remove(i);
 	SAFE_FREE((void**)&item);
@@ -606,9 +605,9 @@ void KillModuleIcons(int hLangpack)
 		return;
 
 	mir_cslock lck(csIconList);
-	for (int i = iconList.getCount()-1; i >= 0; i--) {
+	for (int i = iconList.getCount() - 1; i >= 0; i--) {
 		IcolibItem *item = iconList[i];
-		if ( item->hLangpack == hLangpack) {
+		if (item->hLangpack == hLangpack) {
 			IcoLib_FreeIcon(item);
 			iconList.remove(i);
 			SAFE_FREE((void**)&item);
@@ -669,7 +668,7 @@ HICON IconItem_GetDefaultIcon(IcolibItem* item, bool big)
 
 HICON IconItem_GetIcon(IcolibItem* item, bool big)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	HICON hIcon = NULL;
 
 	big = big && !item->cx;
@@ -739,8 +738,8 @@ MIR_APP_DLL(HICON) IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 		return NULL;
 
 	mir_cslock lck(csIconList);
-	IcolibItem* pi = (IcolibItem*)hItem;
-	if ( iconList.getIndex(pi) != -1)
+	IcolibItem *pi = (IcolibItem*)hItem;
+	if (iconList.getIndex(pi) != -1)
 		return IconItem_GetIcon(pi, big);
 
 	return hIconBlank;
@@ -833,18 +832,18 @@ int LoadIcoLibModule(void)
 
 	hIconBlank = LoadIconEx(g_hInst, MAKEINTRESOURCE(IDI_BLANK), 0);
 
-	hIcoLib_AddNewIcon    = CreateServiceFunction("Skin2/Icons/AddIcon",    sttIcoLib_AddNewIcon);
-	hIcoLib_RemoveIcon    = CreateServiceFunction(MS_SKIN2_REMOVEICON,      IcoLib_RemoveIcon);
-	hIcoLib_GetIcon       = CreateServiceFunction(MS_SKIN2_GETICON,         sttIcoLib_GetIcon);
-	hIcoLib_GetIconHandle = CreateServiceFunction(MS_SKIN2_GETICONHANDLE,   sttIcoLib_GetIconHandle);
-	hIcoLib_GetIcon2      = CreateServiceFunction(MS_SKIN2_GETICONBYHANDLE, sttIcoLib_GetIconByHandle);
-	hIcoLib_IsManaged     = CreateServiceFunction(MS_SKIN2_ISMANAGEDICON,   sttIcoLib_IsManaged);
-	hIcoLib_AddRef        = CreateServiceFunction(MS_SKIN2_ADDREFICON,      IcoLib_AddRef);
-	hIcoLib_ReleaseIcon   = CreateServiceFunction(MS_SKIN2_RELEASEICON,     sttIcoLib_ReleaseIcon);
-	hIcoLib_ReleaseIcon   = CreateServiceFunction(MS_SKIN2_RELEASEICONBIG,  sttIcoLib_ReleaseIconBig);
+	hIcoLib_AddNewIcon = CreateServiceFunction("Skin2/Icons/AddIcon", sttIcoLib_AddNewIcon);
+	hIcoLib_RemoveIcon = CreateServiceFunction(MS_SKIN2_REMOVEICON, IcoLib_RemoveIcon);
+	hIcoLib_GetIcon = CreateServiceFunction(MS_SKIN2_GETICON, sttIcoLib_GetIcon);
+	hIcoLib_GetIconHandle = CreateServiceFunction(MS_SKIN2_GETICONHANDLE, sttIcoLib_GetIconHandle);
+	hIcoLib_GetIcon2 = CreateServiceFunction(MS_SKIN2_GETICONBYHANDLE, sttIcoLib_GetIconByHandle);
+	hIcoLib_IsManaged = CreateServiceFunction(MS_SKIN2_ISMANAGEDICON, sttIcoLib_IsManaged);
+	hIcoLib_AddRef = CreateServiceFunction(MS_SKIN2_ADDREFICON, IcoLib_AddRef);
+	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICON, sttIcoLib_ReleaseIcon);
+	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICONBIG, sttIcoLib_ReleaseIconBig);
 
 	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
-	hIconsChangedEvent  = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
+	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
 
@@ -853,9 +852,8 @@ int LoadIcoLibModule(void)
 
 void UnloadIcoLibModule(void)
 {
-	int i;
-
-	if (!bModuleInitialized) return;
+	if (!bModuleInitialized)
+		return;
 
 	DestroyHookableEvent(hIconsChangedEvent);
 	DestroyHookableEvent(hIcons2ChangedEvent);
@@ -869,14 +867,14 @@ void UnloadIcoLibModule(void)
 	DestroyServiceFunction(hIcoLib_AddRef);
 	DestroyServiceFunction(hIcoLib_ReleaseIcon);
 
-	for (i = iconList.getCount()-1; i >= 0; i--) {
+	for (int i = iconList.getCount() - 1; i >= 0; i--) {
 		IcolibItem* p = iconList[i];
 		iconList.remove(i);
 		IcoLib_FreeIcon(p);
 		mir_free(p);
 	}
 
-	for (i = iconSourceList.getCount()-1; i >= 0; i--) {
+	for (int i = iconSourceList.getCount() - 1; i >= 0; i--) {
 		IconSourceItem* p = iconSourceList[i];
 		iconSourceList.remove(i);
 		IconSourceFile_Release(&p->file);
@@ -885,14 +883,14 @@ void UnloadIcoLibModule(void)
 		SAFE_FREE((void**)&p);
 	}
 
-	for (i = iconSourceFileList.getCount()-1; i >= 0; i--) {
+	for (int i = iconSourceFileList.getCount() - 1; i >= 0; i--) {
 		IconSourceFile* p = iconSourceFileList[i];
 		iconSourceFileList.remove(i);
 		SAFE_FREE((void**)&p->file);
 		SAFE_FREE((void**)&p);
 	}
 
-	for (i = 0; i < sectionList.getCount(); i++) {
+	for (int i = 0; i < sectionList.getCount(); i++) {
 		SAFE_FREE((void**)&sectionList[i]->name);
 		mir_free(sectionList[i]);
 	}

@@ -544,7 +544,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 static TCHAR tszCoreErr[] = LPGENT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now");
 
-bool LoadCorePlugin(MuuidReplacement& mr)
+bool LoadCorePlugin(MuuidReplacement &mr)
 {
 	TCHAR exe[MAX_PATH], tszPlugName[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
@@ -751,8 +751,6 @@ void UnloadNewPlugins(void)
 
 int LoadNewPluginsModule(void)
 {
-	int i;
-
 	// make full path to the plugin
 	TCHAR exe[MAX_PATH], fullPath[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
@@ -796,11 +794,11 @@ int LoadNewPluginsModule(void)
 	}
 
 	/* enable and disable as needed  */
-	for (i = 0; i < clistPlugins.getCount(); i++)
+	for (int i = 0; i < clistPlugins.getCount(); i++)
 		SetPluginOnWhiteList(clistPlugins[i]->pluginname, clist != clistPlugins[i] ? 0 : 1);
 
 	/* now loop thru and load all the other plugins, do this in one pass */
-	for (i = 0; i < pluginList.getCount(); i++) {
+	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
 		if (!TryLoadPlugin(p, false)) {
 			Plugin_Uninit(p);
@@ -893,6 +891,7 @@ void UnloadNewPluginsModule(void)
 		Plugin_Uninit(p);
 	}
 
-	if (hPluginListHeap) HeapDestroy(hPluginListHeap);
+	if (hPluginListHeap)
+		HeapDestroy(hPluginListHeap);
 	hPluginListHeap = 0;
 }

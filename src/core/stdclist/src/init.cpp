@@ -77,14 +77,14 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when number of accounts has been changed
 
-static int OnAccountsChanged( WPARAM wParam, LPARAM lParam )
+static int OnAccountsChanged(WPARAM wParam, LPARAM lParam)
 {
-	himlCListClc = (HIMAGELIST) CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	return 0;
 }
 
@@ -92,11 +92,11 @@ static int OnAccountsChanged( WPARAM wParam, LPARAM lParam )
 // called when all modules got loaded
 
 static int OnModernOptsInit(WPARAM wParam, LPARAM lParam);
-static int OnModulesLoaded( WPARAM wParam, LPARAM lParam )
+static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_MODERNOPT_INITIALIZE, OnModernOptsInit);
 	RegisterCListFonts();
-	himlCListClc = (HIMAGELIST) CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	return 0;
 }
 
@@ -132,7 +132,7 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
 	coreCli = *pcli;
