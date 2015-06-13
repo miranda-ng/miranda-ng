@@ -21,6 +21,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Libs\</OutDir>
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Libs\</OutDir>
