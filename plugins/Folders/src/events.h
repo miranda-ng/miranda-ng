@@ -21,14 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FOLDERS_EVENTS_H
 #define M_FOLDERS_EVENTS_H
 
-#include "commonheaders.h"
-#include "m_folders.h"
-
 int InitEvents();
 int DestroyEvents();
 
 int CallPathChangedEvents();
-
-
 
 #endif //M_FOLDERS_EVENTS_H

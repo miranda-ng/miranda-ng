@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FOLDERS_FOLDER_ITEM_H
 #define M_FOLDERS_FOLDER_ITEM_H
 
-#include <string.h>
-#include <malloc.h>
-#include <windows.h>
-
 #define FOLDERS_NO_HELPER_FUNCTIONS
 #include "m_folders.h"
 #undef FOLDERS_NO_HELPER_FUNCTIONS
@@ -49,7 +45,7 @@ public:
 	CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName);
 	virtual ~CFolderItem();
 
-	void Expand(TCHAR *buffer, int size);
+	CMString Expand();
 	void Save();
 
 	int IsEqual(const CFolderItem *other);

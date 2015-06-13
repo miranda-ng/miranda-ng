@@ -27,34 +27,6 @@ TCHAR szCurrentProfile[MAX_FOLDERS_PATH];
 TCHAR szMirandaPath[MAX_FOLDERS_PATH];
 TCHAR szUserDataPath[MAX_FOLDERS_PATH];
 
-INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
-{
-	szResult[0] = '\0';
-
-	TCHAR *input = NULL;
-	if (ServiceExists(MS_VARS_FORMATSTRING))
-		input = variables_parse(format, NULL, NULL);
-
-	if (input == NULL)
-		input = mir_tstrdup(format);
-
-	TCHAR *core_result = Utils_ReplaceVarsT(input);
-	_tcsncpy(szResult, core_result, size);
-
-	mir_free(core_result);
-
-	StrReplace(szResult, PROFILE_PATHT, szCurrentProfilePath);
-	StrReplace(szResult, CURRENT_PROFILET, szCurrentProfile);
-	StrReplace(szResult, MIRANDA_PATHT, szMirandaPath);
-	StrReplace(szResult, MIRANDA_USERDATAT, szUserDataPath);
-
-	StrTrim(szResult, _T("\t \\"));
-
-	mir_free(input);
-
-	return mir_tstrlen(szResult);
-}
-
 INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 {
 	FOLDERSDATA *data = (FOLDERSDATA*)lParam;
@@ -76,15 +48,8 @@ INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 
 INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 {
-	size_t len;
-
 	CFolderItem *p = (CFolderItem*)wParam;
-	if (lstRegisteredFolders.getIndex(p) != -1) {
-		TCHAR tmp[MAX_FOLDER_SIZE];
-		p->Expand(tmp, SIZEOF(tmp));
-		len = mir_tstrlen(tmp);
-	}
-	else len = 0;
+	size_t len = (lstRegisteredFolders.getIndex(p) != -1) ? p->Expand().GetLength() : 0;
 
 	if (lParam != NULL)
 		*((size_t*)lParam) = len;
@@ -102,14 +67,11 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 	if (data->cbSize != sizeof(FOLDERSGETDATA))
 		return 1;
 
-	if (data->flags & FF_UNICODE) {
-		p->Expand(data->szPathT, data->nMaxPathSize);
-		return 0;
-	}
-
-	TCHAR buf[MAX_FOLDER_SIZE];
-	p->Expand(buf, SIZEOF(buf));
-	strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
+	CMString buf(p->Expand());
+	if (data->flags & FF_UNICODE)
+		_tcsncpy_s(data->szPathT, data->nMaxPathSize, buf, _TRUNCATE);
+	else
+		strncpy_s(data->szPath, data->nMaxPathSize, _T2A(buf), _TRUNCATE);
 	return 0;
 }
 

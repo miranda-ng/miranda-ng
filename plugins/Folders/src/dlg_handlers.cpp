@@ -71,10 +71,9 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 
 static void RefreshPreview(HWND hWnd)
 {
-	TCHAR tmp[MAX_FOLDER_SIZE], res[MAX_FOLDER_SIZE];
+	TCHAR tmp[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, tmp, MAX_FOLDER_SIZE);
-	ExpandPath(res, tmp, MAX_FOLDER_SIZE);
-	SetDlgItemText(hWnd, IDC_PREVIEW_EDIT, res);
+	SetDlgItemText(hWnd, IDC_PREVIEW_EDIT, ExpandPath(tmp));
 }
 
 static void LoadItem(HWND hWnd, PFolderItem item)
