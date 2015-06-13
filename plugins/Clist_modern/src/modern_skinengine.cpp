@@ -2547,7 +2547,7 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 
 BOOL ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)
 {
-	//the routine to directly draw icon from image list without creating icon from there - should be some faster
+	// the routine to directly draw icon from image list without creating icon from there - should be some faster
 	if (i < 0)
 		return FALSE;
 
@@ -2555,9 +2555,9 @@ BOOL ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int 
 		return ImageList_DrawEx(himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 
 	BYTE alpha;
-	if (fStyle&ILD_BLEND25)
+	if (fStyle & ILD_BLEND25)
 		alpha = 64;
-	else if (fStyle&ILD_BLEND50)
+	else if (fStyle & ILD_BLEND50)
 		alpha = 128;
 	else
 		alpha = 255;

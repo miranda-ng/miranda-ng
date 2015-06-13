@@ -896,7 +896,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 
 	if (!tszFolderPath[0]) {
 		TCHAR szRelativePath[MAX_PATH];
-		GetModuleFileName(NULL, szRelativePath, MAX_PATH);
+		GetModuleFileName(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
 		TCHAR *str = _tcsrchr(szRelativePath, '\\');
 		if (str != NULL)
 			*str = 0;

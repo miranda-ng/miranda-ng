@@ -487,25 +487,25 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				if ((p.xStatusMode & 3) == 3) {
 					if (hIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
+						ske_DrawIconEx(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 					if (hxIcon) {
-						mod_DrawIconEx_helper(hDC, x + iconWidth + 1, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
+						ske_DrawIconEx(hDC, x + iconWidth + 1, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 						x += iconWidth + 1;
 					}
 					p.bDoubleIcons = hIcon && hxIcon;
 				}
 				else {
 					if (hxIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
+						ske_DrawIconEx(hDC, x, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 					if (hIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | ((hxIcon && (p.xStatusMode & 4)) ? (192 << 24) : 0) | dim);
+						ske_DrawIconEx(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | ((hxIcon && (p.xStatusMode & 4)) ? (192 << 24) : 0) | dim);
 				}
 
 				if (hxIcon || hIcon) { // TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto
 					if (db_get_b(NULL, p.szAccountName, "LockMainStatus", 0)) {
 						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
-							mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
+							ske_DrawIconEx(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 							Skin_ReleaseIcon(hLockOverlay);
 						}
 					}
