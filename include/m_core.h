@@ -40,6 +40,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIR_CORE_DLL(T) MIR_CORE_EXPORT T __stdcall
 #define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T __cdecl
 
+#ifdef MIR_APP_EXPORTS
+	#define MIR_APP_EXPORT
+#else
+	#define MIR_APP_EXPORT __declspec(dllimport)
+#endif
+
+#define MIR_APP_DLL(T) MIR_APP_EXPORT T __stdcall
+
 #pragma warning(disable:4201 4127 4706)
 
 #if defined(__cplusplus)
@@ -113,11 +121,9 @@ MIR_CORE_DLL(int)     CallFunctionAsync(void (__stdcall *func)(void *), void *ar
 MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
-#if !defined(_STATIC)
-MIR_C_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
-MIR_C_CORE_DLL(INT_PTR) CallContactService(MCONTACT, const char *, WPARAM, LPARAM);
-MIR_C_CORE_DLL(INT_PTR) CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
-#endif
+MIR_APP_DLL(int)      ProtoServiceExists(LPCSTR szModule, const char *szService);
+MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT, const char*, WPARAM, LPARAM);
+MIR_APP_DLL(INT_PTR)  CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
@@ -722,6 +728,8 @@ MIR_CORE_DLL(BOOL)    IsFullScreen();
 MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
 MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
+MIR_APP_DLL(int)      GetPluginLangByInstance(HINSTANCE hInstance);
+
 ///////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) UnloadCoreModule(void);
@@ -760,10 +768,18 @@ inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, va_list v
 #endif
 
 #ifndef MIR_CORE_EXPORTS
-	#if !defined( _WIN64 )
+	#if !defined(_WIN64)
 		#pragma comment(lib, "mir_core.lib")
 	#else
 		#pragma comment(lib, "mir_core64.lib")
+	#endif
+#endif
+
+#ifndef MIR_APP_EXPORTS
+	#if !defined(_WIN64)
+		#pragma comment(lib, "mir_app.lib")
+	#else
+		#pragma comment(lib, "mir_app64.lib")
 	#endif
 #endif
 

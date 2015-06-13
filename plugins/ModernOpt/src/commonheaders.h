@@ -44,4 +44,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 #include "modernopt.h"
-#include "..\..\..\src\resource.h"
+#include "..\..\..\src\mir_app\src\resource.h"

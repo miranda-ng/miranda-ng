@@ -351,7 +351,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 		ske_DrawText(hDC, szName, -1, &rc, DT_VCENTER | DT_SINGLELINE);
 	}
 	else {
-		HICON hIcon = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
+		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
 		TCHAR *ptszEvents = TranslateT("No events");
 		ske_DrawText(hDC, ptszEvents, (int)mir_tstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
 		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);

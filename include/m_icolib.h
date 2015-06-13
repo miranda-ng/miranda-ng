@@ -27,6 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // WARNING: do not use Translate(TS) for p(t)szSection or p(t)szDescription as they
 // are translated by the core, which may lead to double translation.
@@ -57,6 +61,24 @@ typedef struct {
   #define SIDF_PATH_TCHAR 0
   #define SIDF_ALL_TCHAR  0
 #endif
+
+MIR_APP_DLL(HICON)  LoadSkinProtoIcon(const char *szProto, int status, bool big = false);
+MIR_APP_DLL(HICON)  LoadSkinIcon(int idx, bool big = false);
+MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx);
+
+MIR_APP_DLL(HANDLE) IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid);
+MIR_APP_DLL(HICON)  IcoLib_GetIcon(const char* pszIconName, bool big);
+MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char* pszIconName);
+MIR_APP_DLL(HICON)  IcoLib_GetIconByHandle(HANDLE hItem, bool big);
+MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon);
+MIR_APP_DLL(int)    IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big = false);
+
+MIR_APP_DLL(void)   Button_SetIcon_IcoLib(HWND hDlg, int itemId, int iconId, const char* tooltip);
+MIR_APP_DLL(void)   Button_FreeIcon_IcoLib(HWND hDlg, int itemId);
+
+MIR_APP_DLL(void)   Window_SetIcon_IcoLib(HWND hWnd, int iconId);
+MIR_APP_DLL(void)   Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId);
+MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Adds an icon into options UI

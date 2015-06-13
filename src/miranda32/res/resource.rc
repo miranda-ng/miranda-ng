@@ -1,0 +1,21 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\..\mir_app\src\resource.h"
+
+#include <windows.h>
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MIRANDA   ICON  "../../mir_app/res/miranda_logo.ico"

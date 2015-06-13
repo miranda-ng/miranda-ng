@@ -61,7 +61,7 @@ static void InitAlteredPlacesBar()
 			dwFolderID = 17; RegSetValueEx(hkPlacesBar, _T("Place2"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
 
 			// Miranda's installation path
-			GetModuleFileNameA(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath)); 
+			GetModuleFileNameA(GetModuleHandleA("mir_app.dll"), szMirandaPath, SIZEOF(szMirandaPath));
 			p = mir_strrchr(szMirandaPath, '\\');
 			if (p) 
 			{

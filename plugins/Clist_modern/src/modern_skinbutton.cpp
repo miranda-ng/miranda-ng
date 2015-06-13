@@ -488,14 +488,11 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	if (!tip) return 0;
 	mir_cslock lck(csTips);
 	if (!hwndToolTips) {
-		//  hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
-
 		hwndToolTips = CreateWindowEx(0, TOOLTIPS_CLASS, NULL,
 			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, NULL, GetModuleHandle(NULL),
-			NULL);
+			hwnd, NULL, g_hMirApp, NULL);
 
 		SetWindowPos(hwndToolTips, HWND_TOPMOST, 0, 0, 0, 0,
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);

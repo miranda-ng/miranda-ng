@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
-#if defined _STATIC
+#if defined MIR_APP_EXPORTS
 	typedef struct _tagIntMenuItem* HGENMENU;
 #else
 	DECLARE_HANDLE(HGENMENU);

@@ -299,7 +299,7 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_RENAME              ICON                    "rename.ico"
-IDI_BLANK               ICON                    "..\\..\\..\\src\\res\\_blank.ico"
+IDI_BLANK               ICON                    "..\\..\\..\\src\\mir_app\\res\\_blank.ico"
 IDI_DELETE              ICON                    "delete.ico"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -307,9 +307,9 @@ IDI_DELETE              ICON                    "delete.ico"
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\res\\cursor_hyperlink.cur"
-IDC_DROP                CURSOR                  "..\\..\\..\\src\\res\\cursor_drag_copy.cur"
-IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\res\\cursor_drop_user.cur"
+IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_hyperlink.cur"
+IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
+IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

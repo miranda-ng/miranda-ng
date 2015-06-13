@@ -183,14 +183,14 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			TreeView_DeleteAllItems(hwndTree);
 			// Treeview create image list
 			HIMAGELIST hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, num_classes + 1);
-			ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIcon(ICO_OPT_GROUP, 0));
+			ImageList_ReplaceIcon(hImgLst, -1, Skin_GetIcon(ICO_OPT_GROUP, 0));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
 
 			for (i = 0; i < gTreeData.getCount(); ++i) {
 				switch (gTreeData[i]->typ) {
 				case 1: // Treeview part for typ 1 (notification)
 					mir_snprintf(iconName, SIZEOF(iconName), "%s_%S_%S", MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
-					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIcon(iconName));
+					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, Skin_GetIcon(iconName));
 					mir_sntprintf(itemName, SIZEOF(itemName), _T("%s/%s"), gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 					break;
 				case 2: // Treeview part typ 2 (popup class api)
@@ -223,7 +223,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					(WPARAM)Translate(statusButtons[i].title), 0);
 			}
 			// info icon
-			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
+			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_MISC_NOTIFY, 0), 0);
 			// more button
 			EnableWindow(GetDlgItem(hwnd, IDC_MORE), FALSE);
 			// preview button

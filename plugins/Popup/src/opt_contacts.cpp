@@ -35,7 +35,7 @@ static void sttSetAllContactIcons(HWND hwndList)
 		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
 		for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
 			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
-			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+			// hIml element [1..5] = Skin_GetIcon(....)   ~ old sttIcons
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, ((int)dwMode == i) ? i + 1 : 0));
 	}
 }
@@ -46,17 +46,17 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 
-		SendDlgItemMessage(hwnd, IDC_ICO_AUTO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_DEF, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_FAVORITE, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FAV, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_FULLSCREEN, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_BLOCK, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_AUTO, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_OPT_DEF, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_FAVORITE, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_OPT_FAV, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_FULLSCREEN, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_OPT_FULLSCREEN, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_OPT_BLOCK, 0), 0);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 5);
 			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_DEF, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FAV, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_BLOCK, 0));
+			ImageList_AddIcon(hIml, Skin_GetIcon(ICO_OPT_DEF, 0));
+			ImageList_AddIcon(hIml, Skin_GetIcon(ICO_OPT_FAV, 0));
+			ImageList_AddIcon(hIml, Skin_GetIcon(ICO_OPT_FULLSCREEN, 0));
+			ImageList_AddIcon(hIml, Skin_GetIcon(ICO_OPT_BLOCK, 0));
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*SIZEOF(sttIcons)*/, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_LIST));
@@ -88,7 +88,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 				if (iImage != EMPTY_EXTRA_ICON) {
 					for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
 						// hIml element [0]    = SKINICON_OTHER_SMALLDOT
-						// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+						// hIml element [1..5] = Skin_GetIcon(....)   ~ old sttIcons
 						SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (i == nm->iColumn) ? i + 1 : 0));
 				}
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

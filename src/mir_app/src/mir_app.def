@@ -1,0 +1,21 @@
+EXPORTS
+
+CallContactService          @1
+CallProtoService            @2
+RecalculateTime             @3
+LoadSkinProtoIcon           @4
+LoadSkinIcon                @5
+Button_FreeIcon_IcoLib      @6
+Button_SetIcon_IcoLib       @7
+GetSkinIconHandle           @8
+IcoLib_AddNewIcon           @9
+IcoLib_GetIcon             @10
+IcoLib_GetIconByHandle     @11
+IcoLib_GetIconHandle       @12
+IcoLib_IsManaged           @13
+IcoLib_ReleaseIcon         @14
+Window_FreeIcon_IcoLib     @15
+Window_SetIcon_IcoLib      @16
+Window_SetProtoIcon_IcoLib @17
+ProtoServiceExists         @18
+mir_main                   @19

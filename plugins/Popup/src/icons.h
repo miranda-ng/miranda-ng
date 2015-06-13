@@ -65,6 +65,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ICO_OPT_BLOCK		MODULNAME"_opt_block"
 
 void	InitIcons();
-HICON	IcoLib_GetIcon(LPCSTR pszIcon, bool big = false);
 
 #endif // __icons_h__
