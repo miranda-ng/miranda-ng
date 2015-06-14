@@ -34,7 +34,7 @@ void UninitCustomMenus(void);
 void MTG_OnmodulesLoad(void);
 
 static bool bModuleInitialized = false;
-static HANDLE hClcWindowList;
+static MWindowList hClcWindowList;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
 static LIST<void> arEvents(10);

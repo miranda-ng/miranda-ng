@@ -169,7 +169,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		{
 			CLISTEVENT *pcle = (CLISTEVENT*)lParam;
-			WindowList_Add(ghRecvWindowList, hwndDlg, pcle->hContact);
+			WindowList_Add(g_hRecvWindowList, hwndDlg, pcle->hContact);
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
 			EnableDlgItem(hwndDlg, IDOK, FALSE);
 			EnableDlgItem(hwndDlg, IDDETAILS, FALSE);
@@ -448,7 +448,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 	
 	case WM_CLOSE:  // user closed window, so destroy it
-		WindowList_Remove(ghRecvWindowList, hwndDlg);
+		WindowList_Remove(g_hRecvWindowList, hwndDlg);
 		DestroyWindow(hwndDlg);
 		break;
 

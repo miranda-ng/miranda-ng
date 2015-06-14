@@ -34,7 +34,7 @@ static mir_cs csTips;
 static HWND hwndToolTips = NULL;
 static BOOL	bThemed = FALSE;
 
-static HANDLE hButtonWindowList = NULL;
+static MWindowList hButtonWindowList = NULL;
 
 static int OnIconLibIconChanged(WPARAM, LPARAM)
 {

@@ -193,7 +193,7 @@ public:
 	static	int MessageEventAdded(WPARAM wParam, LPARAM lParam);
 
 public:
-	HANDLE m_hMessageWindowList;
+	MWindowList m_hMessageWindowList;
 
 	// various function pointers
 	static PDTTE  m_pfnDrawThemeTextEx;

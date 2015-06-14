@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static HANDLE hWindowList = 0;
+static MWindowList hWindowList = 0;
 static HGENMENU hContactMenu = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////

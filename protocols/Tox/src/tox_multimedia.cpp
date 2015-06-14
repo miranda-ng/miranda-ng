@@ -28,8 +28,8 @@ void CToxCallDlgBase::SetIcon(const char *name)
 {
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, 16));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, 32));
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
 }
 
 void CToxCallDlgBase::SetTitle(const TCHAR *title)

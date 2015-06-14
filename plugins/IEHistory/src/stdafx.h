@@ -79,7 +79,7 @@ extern HICON hIcon; //history icon
 extern int hLangpack;
 extern char ModuleName[];
 extern HINSTANCE hInstance; //dll instance
-extern HANDLE hOpenWindowsList;
+extern MWindowList hOpenWindowsList;
 
 extern PLUGININFOEX pluginInfo;
 

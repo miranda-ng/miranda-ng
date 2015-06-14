@@ -32,7 +32,7 @@ HANDLE hFolder = NULL;
 TCHAR profilePath[MAX_PATH];		// database profile path (read at startup only)
 TCHAR basedir[MAX_PATH];
 int hLangpack = 0;
-HANDLE hAvatarWindowsList = NULL;
+MWindowList hAvatarWindowsList = NULL;
 
 int OptInit(WPARAM wParam,LPARAM lParam);
 

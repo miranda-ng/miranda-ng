@@ -23,8 +23,8 @@
 #include "stdafx.h"
 #include "webview.h"
 
+MWindowList hWindowList;
 HANDLE hNetlibUser;
-HANDLE hWindowList;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
 
 int    hLangpack = 0;

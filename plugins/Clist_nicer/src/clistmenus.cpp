@@ -61,7 +61,7 @@ INT_PTR CloseAction(WPARAM, LPARAM)
 	return 0;
 }
 
-static HANDLE hWindowListIGN = 0;
+static MWindowList hWindowListIGN = 0;
 
 // dialog procedure for handling the contact ignore dialog (available from the contact menu
 static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

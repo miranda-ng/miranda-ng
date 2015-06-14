@@ -98,7 +98,7 @@ HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
 
-	HICON icon = IcoLib_GetIcon(iconName, (flags & LR_BIGICON) ? 32 : 16);
+	HICON icon = IcoLib_GetIcon(iconName, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
 

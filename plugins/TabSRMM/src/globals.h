@@ -133,7 +133,7 @@ public:
 	BOOL        m_autoSplit;
 	BOOL        m_FlashOnMTN;
 	DWORD       dwThreadID;
-	HANDLE      m_hMessageWindowList, hUserPrefsWindowList;
+	MWindowList m_hMessageWindowList, hUserPrefsWindowList;
 	HMENU       m_MenuBar;
 	COLORREF    m_ipBackgroundGradient;
 	COLORREF    m_ipBackgroundGradientHigh;

@@ -22,7 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInstance;
 HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
-HANDLE g_hShutdownEvent, g_pUserInfo;
+HANDLE g_hShutdownEvent;
+MWindowList g_pUserInfo;
 
 int hLangpack;
 

@@ -11,8 +11,8 @@ typedef struct CYAMNVariables
 {
 #define YAMN_VARIABLESVERSION	3
 	HINSTANCE hInst;
-	HANDLE MessageWnds;
-	HANDLE NewMailAccountWnd;
+	MWindowList MessageWnds;
+	MWindowList NewMailAccountWnd;
 	int Shutdown;
 } YAMN_VARIABLES, *PYAMN_VARIABLES;
 

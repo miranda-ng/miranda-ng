@@ -1238,3 +1238,10 @@ Bitmap_GetFilter @1248
 Bitmap_Load @1249
 CreateProtoServiceFunction @1250
 ?SetSilent@CCtrlBase@@QAEXXZ @1251 NONAME
+WindowList_Add @1252
+WindowList_Broadcast @1253
+WindowList_BroadcastAsync @1254
+WindowList_Create @1255
+WindowList_Destroy @1256
+WindowList_Find @1257
+WindowList_Remove @1258

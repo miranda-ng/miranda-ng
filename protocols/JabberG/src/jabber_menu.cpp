@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MENUITEM_SERVER		2
 #define MENUITEM_RESOURCES	10
 
-static HANDLE hDialogsList = NULL;
+static MWindowList hDialogsList = NULL;
 static HANDLE hChooserMenu, hStatusMenuInit;
 static int iChooserMenuPos = 30000;
 

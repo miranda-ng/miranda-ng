@@ -138,96 +138,55 @@ struct CountryListEntry {
 };
 #define MS_UTILS_GETCOUNTRYLIST    "Utils/GetCountryList"
 
-/******************************* Window lists *******************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// Window lists //////////////////////////////////////
+
+#if defined(MIR_CORE_EXPORTS)
+typedef struct TWindowList *MWindowList;
+#else
+DECLARE_HANDLE(MWindowList);
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocates a window list
-// wParam = lParam = 0 (unused)
 // returns a handle to the new window list
 
-#define MS_UTILS_ALLOCWINDOWLIST "Utils/AllocWindowList"
-__forceinline HANDLE WindowList_Create(void)
-{	return (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-}
+EXTERN_C MIR_CORE_DLL(MWindowList) WindowList_Create(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // destroys a window list
-// wParam = (HANDLE) window list handle
-// lParam = 0 (unused)
-// returns a handle to the new window list
-#define MS_UTILS_DESTROYWINDOWLIST "Utils/DestroyWindowList"
-__forceinline HANDLE WindowList_Destroy(HANDLE hList)
-{	return (HANDLE)CallService(MS_UTILS_DESTROYWINDOWLIST, (WPARAM)hList, 0);
-}
+
+EXTERN_C MIR_CORE_DLL(void) WindowList_Destroy(MWindowList hList);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // adds a window to the specified window list
-// wParam = 0
-// lParam = (LPARAM)(WINDOWLISTENTRY*)&wle
 // returns 0 on success, nonzero on failure
 
-typedef struct {
-	HANDLE hList;
-	HWND hwnd;
-	MCONTACT hContact;
-} WINDOWLISTENTRY;
-#define MS_UTILS_ADDTOWINDOWLIST "Utils/AddToWindowList"
-__forceinline INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, MCONTACT hContact) {
-	WINDOWLISTENTRY wle;
-	wle.hList = hList; wle.hwnd = hwnd; wle.hContact = hContact;
-	return CallService(MS_UTILS_ADDTOWINDOWLIST, 0, (LPARAM)&wle);
-}
+EXTERN_C MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // removes a window from the specified window list
-// wParam = (WPARAM)(HANDLE)hList
-// lParam = (LPARAM)(HWND)hwnd
 // returns 0 on success, nonzero on failure
 
-#define MS_UTILS_REMOVEFROMWINDOWLIST "Utils/RemoveFromWindowList"
-__forceinline INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
-	return CallService(MS_UTILS_REMOVEFROMWINDOWLIST, (WPARAM)hList, (LPARAM)hwnd);
-}
+EXTERN_C MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a window given the hContact
-// wParam = (WPARAM)(HANDLE)hList
-// lParam = (MCONTACT)hContact
 // returns the window handle on success, or NULL on failure
 
-#define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
-__forceinline HWND WindowList_Find(HANDLE hList, MCONTACT hContact) {
-	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, hContact);
-}
+EXTERN_C MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all windows in a list using SendMessage
-// wParam = (WPARAM)(HANDLE)hList
-// lParam = (LPARAM)(MSG*)&msg
 // returns 0 on success, nonzero on failure
-// Only msg.message, msg.wParam and msg.lParam are used
 
-#define MS_UTILS_BROADCASTTOWINDOWLIST "Utils/BroadcastToWindowList"
-__forceinline INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
-	MSG msg;
-	msg.message = message; msg.wParam = wParam; msg.lParam = lParam;
-	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST, (WPARAM)hList, (LPARAM)&msg);
-}
+EXTERN_C MIR_CORE_DLL(int) WindowList_Broadcast(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all windows in a list using PostMessage
-// wParam = (WPARAM)(HANDLE)hList
-// lParam = (LPARAM)(MSG*)&msg
 // returns 0 on success, nonzero on failure
-// Only msg.message, msg.wParam and msg.lParam are used
 
-#define MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC "Utils/BroadcastToWindowListAsync"
-
-__forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
-	MSG msg;
-	msg.message = message; msg.wParam = wParam; msg.lParam = lParam;
-	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC, (WPARAM)hList, (LPARAM)&msg);
-}
+EXTERN_C MIR_CORE_DLL(int) WindowList_BroadcastAsync(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam);
 
 /***************************** Hyperlink windows ********************************/
 

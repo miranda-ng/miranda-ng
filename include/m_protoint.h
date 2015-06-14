@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_protomod.h>
 #include <m_database.h>
+#include <m_utils.h>
 
 typedef enum
 {
@@ -45,15 +46,15 @@ typedef enum
 
 struct MIR_CORE_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
-	int    m_iStatus,         // current protocol status
-	       m_iDesiredStatus,  // status to be set after logging in
-	       m_iXStatus,		  // extanded status
-	       m_iVersion;        // version 2 or higher designate support of Unicode services
-	TCHAR* m_tszUserName;     // human readable protocol's name
-	char*  m_szModuleName;    // internal protocol name, also its database module name
-	HANDLE m_hProtoIcon;      // icon to be displayed in the account manager
-	HANDLE m_hNetlibUser;     // network agent
-	HANDLE m_hWindowList;     // list of all windows which belong to this protocol's instance
+	int         m_iStatus,         // current protocol status
+	            m_iDesiredStatus,  // status to be set after logging in
+	            m_iXStatus,        // extanded status
+	            m_iVersion;        // version 2 or higher designate support of Unicode services
+	TCHAR*      m_tszUserName;     // human readable protocol's name
+	char*       m_szModuleName;    // internal protocol name, also its database module name
+	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
+	HANDLE      m_hNetlibUser;     // network agent
+	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers

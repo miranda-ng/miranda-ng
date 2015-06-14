@@ -179,7 +179,7 @@ private:
 	static __int64 getMask(); // get bit mask for disabled message classes
 
 private:
-	static	HANDLE			hWindowList;
+	static MWindowList hWindowList;
 };
 
 #endif /* __UTILS_H */

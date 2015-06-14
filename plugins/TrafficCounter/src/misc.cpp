@@ -159,7 +159,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 	l += mir_tstrlen(szUnit) + 1;
 	Res = (TCHAR*)malloc(l * sizeof(TCHAR));
 	if (!Res) return 0;
-	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, l);
+	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, (int)l);
 	mir_tstrcat(Res, szUnit);
 
 	if (Size && Buffer)

@@ -46,12 +46,12 @@ SettingsList[] = {
 	IDS_MESSAGEDLG_DEF_OTL,  ID_STATUS_OUTTOLUNCH, IDR_MSGTREEMENU_DEF_OTL
 };
 
-static HANDLE hMTWindowList;
+static MWindowList hMTWindowList;
 static WNDPROC g_OrigEditProc;
 
 void LoadMsgTreeModule()
 {
-	hMTWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hMTWindowList = WindowList_Create();
 }
 
 static LRESULT CALLBACK EditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)

@@ -2,7 +2,7 @@
 
 int hLangpack;
 HINSTANCE hInst;
-HANDLE hWindowList;
+MWindowList hWindowList;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),

@@ -28,8 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "commonheaders.h"
 
 static HGENMENU hAwayMsgMenuItem, hCopyMsgMenuItem, hGoToURLMenuItem;
-static HANDLE hWindowList;
-static HANDLE hWindowList2;
+static MWindowList hWindowList, hWindowList2;
 
 static char *StrNormNewlineA(char *szStr)
 {

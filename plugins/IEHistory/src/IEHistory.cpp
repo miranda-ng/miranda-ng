@@ -25,7 +25,7 @@ int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_g
 char ModuleName[] = "IEHistory";
 HICON hIcon;
 HINSTANCE hInstance;
-HANDLE hOpenWindowsList = NULL;
+MWindowList hOpenWindowsList = NULL;
 
 HMODULE hUxTheme = 0;
 BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
@@ -70,7 +70,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	/// all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));
-	hOpenWindowsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hOpenWindowsList = WindowList_Create();
 
 	InitServices();
 

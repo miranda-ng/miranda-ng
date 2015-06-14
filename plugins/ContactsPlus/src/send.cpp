@@ -121,7 +121,7 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, in
 		return FALSE; // Failure
 	}
 	
-	TAckData *ackData = gaAckData.Add(hProcc, new TAckData(hContact));
+	TAckData *ackData = g_aAckData.Add(hProcc, new TAckData(hContact));
 	uacklist.Add(hProcc);
 	ackData->nContacts = nContacts;
 	ackData->aContacts = (MCONTACT*)mir_alloc(nContacts*sizeof(MCONTACT));
@@ -230,7 +230,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
 		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), lParam);
-		WindowList_Add(ghSendWindowList, hwndDlg, lParam);
+		WindowList_Add(g_hSendWindowList, hwndDlg, lParam);
 		wndData = new TSendContactsData(lParam);
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 		// new dlg init 
@@ -272,7 +272,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			wndData->UnhookProtoAck();
 			if (wndData->uacklist.Count) {
 				for (int i = 0; i < wndData->uacklist.Count; i++)
-					delete gaAckData.Remove(wndData->uacklist.Items[i]); // remove our ackdata & release structure
+					delete g_aAckData.Remove(wndData->uacklist.Items[i]); // remove our ackdata & release structure
 
 				mir_free(wndData->uacklist.Items);
 				wndData->uacklist.Items = NULL;
@@ -292,7 +292,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case MSGERROR_RETRY:// resend timeouted packets
 			for (int i = 0; i < wndData->uacklist.Count; i++) {
-				TAckData *lla = gaAckData.Remove(wndData->uacklist.Items[i]);
+				TAckData *lla = g_aAckData.Remove(wndData->uacklist.Items[i]);
 				HANDLE hProcc = (HANDLE)CallContactService(wndData->hContact, PSS_CONTACTS, MAKEWPARAM(0, lla->nContacts), (LPARAM)lla->aContacts);
 
 				if (!hProcc) { // if fatal do not include
@@ -303,7 +303,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				else {
 					// update process code
 					wndData->uacklist.Items[i] = hProcc;
-					gaAckData.Add(hProcc, lla);
+					g_aAckData.Add(hProcc, lla);
 				}
 			}// collect TAckData for our window, resend
 			break;
@@ -384,7 +384,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (ack->type != ACKTYPE_CONTACTS)
 				break;
 
-			TAckData *ackData = gaAckData.Get(ack->hProcess);
+			TAckData *ackData = g_aAckData.Get(ack->hProcess);
 			if (ackData == NULL)
 				break;    // on unknown hprocc go away
 
@@ -424,7 +424,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				pBlob += strlennull(pBlob) + 1;
 			}
 			db_event_add(ackData->hContact, &dbei);
-			gaAckData.Remove(ack->hProcess); // do not release here, still needed
+			g_aAckData.Remove(ack->hProcess); // do not release here, still needed
 			wndData->uacklist.Remove(ack->hProcess); // packet confirmed
 			for (i = 0; i < ackData->nContacts; i++) {
 				mir_free(maSend[i].mcaUIN);
@@ -464,7 +464,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_DESTROY:
 		for (int i = 0; i < SIZEOF(wndData->hIcons); i++)
 			DestroyIcon(wndData->hIcons[i]);
-		WindowList_Remove(ghSendWindowList, hwndDlg);
+		WindowList_Remove(g_hSendWindowList, hwndDlg);
 		delete wndData;
 		break;
 	}

@@ -13,7 +13,7 @@ int hLangpack = 0;
 CLIST_INTERFACE *pcli;
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
-HANDLE hWindowList;
+MWindowList hWindowList;
 HGENMENU hMenuItemRemove;
 
 const INT_PTR boo = 0;

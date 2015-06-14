@@ -33,7 +33,7 @@
 extern HINSTANCE hInst;
 extern HGENMENU hMenu;
 extern DWORD mirVer;
-extern HANDLE hAvatarWindowsList;
+extern MWindowList hAvatarWindowsList;
 extern Options opts;
 extern HANDLE hFolder;
 extern TCHAR basedir[];

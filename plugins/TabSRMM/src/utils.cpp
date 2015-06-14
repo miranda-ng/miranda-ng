@@ -52,7 +52,7 @@ static TRTFColorTable _rtf_ctable[] =
 int				Utils::rtf_ctable_size = 0;
 TRTFColorTable* Utils::rtf_ctable = 0;
 
-HANDLE			CWarning::hWindowList = 0;
+MWindowList CWarning::hWindowList = 0;
 
 static TCHAR *w_bbcodes_begin[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[color=") };
 static TCHAR *w_bbcodes_end[] = { _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]"), _T("[/color]") };

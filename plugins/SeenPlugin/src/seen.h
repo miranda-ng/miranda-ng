@@ -119,7 +119,7 @@ extern HINSTANCE hInstance;
 extern DWORD StatusColors15bits[];
 extern BOOL includeIdle;
 extern HANDLE ehmissed, ehuserinfo, ehmissed_proto;
-extern HANDLE g_pUserInfo;
+extern MWindowList g_pUserInfo;
 extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 

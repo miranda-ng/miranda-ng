@@ -23,7 +23,7 @@
 
 #define EXTRAICON_XSTEP (GetSystemMetrics(SM_CXSMICON) + 1)
 
-static HANDLE hCLWindowList;
+static MWindowList hCLWindowList;
 
 static int CLContactDeleted(WPARAM wParam, LPARAM lParam)
 {

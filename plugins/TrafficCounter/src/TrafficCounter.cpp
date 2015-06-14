@@ -392,7 +392,7 @@ int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 
 static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, BYTE ClistModernPresent)
 {
-	int nCount = mir_tstrlen( lpString );
+	int nCount = (int)mir_tstrlen( lpString );
 
 	if (ClistModernPresent)
 		AlphaText(hDC, lpString, nCount, lpRect, format, Traffic_FontColor);

@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int DetailsInit(WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static HANDLE hWindowList = NULL;
+static MWindowList hWindowList = NULL;
 static HANDLE hDetailsInitEvent;
 
 struct DetailsPageInit

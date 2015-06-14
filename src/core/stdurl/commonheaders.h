@@ -71,3 +71,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../../mir_app/src/resource.h"
 
 extern HINSTANCE hInst;
+extern MWindowList hUrlWindowList;

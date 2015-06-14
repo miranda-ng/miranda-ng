@@ -101,8 +101,8 @@ struct gAckList {
   ~gAckList() { if (Count) { for (int i=0; i<Count; i++) delete Items[i]; mir_free(Items); }; }
 };
 
-extern HANDLE ghSendWindowList;
-extern gAckList gaAckData;
+extern MWindowList g_hSendWindowList;
+extern gAckList g_aAckData;
 
 INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

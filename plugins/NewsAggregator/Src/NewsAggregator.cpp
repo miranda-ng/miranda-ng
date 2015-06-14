@@ -24,7 +24,7 @@ HINSTANCE hInst = NULL;
 int hLangpack;
 HANDLE hPrebuildMenuHook = NULL;
 HWND hAddFeedDlg;
-HANDLE hChangeFeedDlgList = NULL;
+MWindowList hChangeFeedDlgList = NULL;
 XML_API xi = {0};
 TCHAR tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;

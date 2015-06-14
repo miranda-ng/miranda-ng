@@ -13,7 +13,7 @@ HINSTANCE hInst;
 int hLangpack;
 LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
 HGENMENU hChangeSound = NULL;
-HANDLE hChangeSoundDlgList = NULL;
+MWindowList hChangeSoundDlgList = NULL;
 BYTE isIgnoreSound = 0, isOwnSound = 0;
 
 CHAT_MANAGER *pci;
