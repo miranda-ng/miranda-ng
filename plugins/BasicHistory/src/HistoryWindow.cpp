@@ -82,22 +82,22 @@ HistoryWindow::~HistoryWindow()
 	{
 		for (int i = 0; i < iconsNum; ++i)
 			if (eventIcons[i] != NULL)
-				Skin_ReleaseIcon(eventIcons[i]);
+				IcoLib_ReleaseIcon(eventIcons[i]);
 
 		delete[] eventIcons;
 	}
 
 	if (plusIco != NULL)
-		Skin_ReleaseIcon(plusIco);
+		IcoLib_ReleaseIcon(plusIco);
 
 	if (minusIco != NULL)
-		Skin_ReleaseIcon(minusIco);
+		IcoLib_ReleaseIcon(minusIco);
 
 	if (findNextIco != NULL)
-		Skin_ReleaseIcon(findNextIco);
+		IcoLib_ReleaseIcon(findNextIco);
 
 	if (findPrevIco != NULL)
-		Skin_ReleaseIcon(findPrevIco);
+		IcoLib_ReleaseIcon(findPrevIco);
 
 	if (himlSmall != NULL)
 		ImageList_Destroy(himlSmall);
@@ -1117,7 +1117,7 @@ void HistoryWindow::Initialise()
 		allIconNumber = iconsNum + 3;
 		eventIcons = new HICON[allIconNumber];
 		for (int i = 0; i < iconsNum; ++i) {
-			eventIcons[i] = Skin_GetIconByHandle( iconList[i].hIcolib );
+			eventIcons[i] = IcoLib_GetIconByHandle( iconList[i].hIcolib );
 			ImageList_AddIcon(himlSmall, eventIcons[i]);
 		}
 
@@ -1198,10 +1198,10 @@ void HistoryWindow::Initialise()
 void HistoryWindow::Destroy()
 {
 	HICON hIcon = (HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	
 	hIcon = (HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 
 	isDestroyed = true;
 	HistoryWindow::Close(this);

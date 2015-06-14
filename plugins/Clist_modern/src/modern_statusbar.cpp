@@ -506,7 +506,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
 							ske_DrawIconEx(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
-							Skin_ReleaseIcon(hLockOverlay);
+							IcoLib_ReleaseIcon(hLockOverlay);
 						}
 					}
 				}
@@ -514,7 +514,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if (bNeedDestroy)
 					DestroyIcon_protect(hIcon);
 				else
-					Skin_ReleaseIcon(hIcon);
+					IcoLib_ReleaseIcon(hIcon);
 				x += iconWidth + 1;
 				DeleteObject(rgn);
 			}

@@ -137,9 +137,9 @@ static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
 {
-	HICON icon = Skin_GetIconByHandle(iconList[i].hIcolib);
+	HICON icon = IcoLib_GetIconByHandle(iconList[i].hIcolib);
 	int res = ImageList_AddIcon(hIml, icon);
-	Skin_ReleaseIcon(icon);
+	IcoLib_ReleaseIcon(icon);
 	return res;
 }
 
@@ -152,8 +152,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		TranslateDialogDefault( hDlg );
 		oldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
 		
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(iconList[2].hIcolib, 1));
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[2].hIcolib));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(iconList[2].hIcolib, 1));
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(iconList[2].hIcolib));
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 			ImageList_AddIconFromIconLib(hIml, 1);
@@ -324,8 +324,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
-		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_BIG, 0));
-		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		hwndDialog = NULL;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);

@@ -239,7 +239,7 @@ begin
   while p<>nil do
   begin
     StrCopy(StrCopyE(@buf,IcoLibPrefix),p^.Name);
-    ImageList_ReplaceIcon(il,-1,CallService(MS_SKIN2_GETICON,0,lparam(@buf)));
+    ImageList_ReplaceIcon(il,-1,IcoLib_GetIcon(@buf,0));
 
     cbei.pszText       :=TranslateW(FastAnsiToWideBuf(p^.Name,buf));
     cbei.iItem         :=i;

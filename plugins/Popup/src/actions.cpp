@@ -35,19 +35,19 @@ void LoadActions()
 {
 	POPUPACTION actions[] =
 	{
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_REPLY, 0), LPGEN("General")"/"LPGEN("Quick reply"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_MESS, 0), LPGEN("General")"/"LPGEN("Send message"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_INFO, 0), LPGEN("General")"/"LPGEN("User details"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_MENU, 0), LPGEN("General")"/"LPGEN("Contact menu"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_ADD, 0), LPGEN("General")"/"LPGEN("Add permanently"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_PIN, 0), LPGEN("General")"/"LPGEN("Pin popup"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_CLOSE, 0), LPGEN("General")"/"LPGEN("Dismiss popup"), 0 },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_COPY, 0), LPGEN("General")"/"LPGEN("Copy to clipboard"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_REPLY, 0), LPGEN("General")"/"LPGEN("Quick reply"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MESS, 0), LPGEN("General")"/"LPGEN("Send message"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_INFO, 0), LPGEN("General")"/"LPGEN("User details"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MENU, 0), LPGEN("General")"/"LPGEN("Contact menu"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_ADD, 0), LPGEN("General")"/"LPGEN("Add permanently"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_PIN, 0), LPGEN("General")"/"LPGEN("Pin popup"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0), LPGEN("General")"/"LPGEN("Dismiss popup"), 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY, 0), LPGEN("General")"/"LPGEN("Copy to clipboard"), 0 },
 
 		// remove popup action
 #if defined(_DEBUG)
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_POPUP_ON, 0), "Popup Plus/Test action", PAF_ENABLED },
-		{ sizeof(POPUPACTION), Skin_GetIcon(ICO_ACT_CLOSE, 0), "Popup Plus/Second test action", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0), "Popup Plus/Test action", PAF_ENABLED },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0), "Popup Plus/Second test action", 0 },
 		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA), "Popup Plus/One more action", PAF_ENABLED },
 #endif
 	};
@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		TranslateDialogDefault(hwnd);
 
-		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)Skin_GetIcon(ICO_MISC_NOTIFY, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
 
 		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? BST_CHECKED : BST_UNCHECKED);

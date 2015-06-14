@@ -524,7 +524,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		CLISTFrame clf = { sizeof(clf) };
-		clf.hIcon=Skin_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
+		clf.hIcon=IcoLib_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
 		clf.align=alBottom;
 		clf.height=GetSystemMetrics(SM_CYICON);
 		clf.Flags=F_VISIBLE|F_SHOWTBTIP|F_NOBORDER|F_SKINNED;

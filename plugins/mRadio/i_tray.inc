@@ -141,7 +141,7 @@ begin
   mi.cbSize  :=sizeof(mi);
   mi.flags   :=CMIF_UNICODE;
   mi.szName.w:=cPluginName;
-  mi.hIcon   :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnSettings));
+  mi.hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
   if doTray then
     trayradioparent:=Menu_AddTrayMenuItem(@mi)
   else
@@ -178,7 +178,7 @@ begin
     mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
     ico:=IcoBtnOn;
   end;
-  mi.hIcon     :=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
+  mi.hIcon     :=IcoLib_GetIcon(ico,0);
   mi.szName.w  :='Mute';
   mi.pszService:=MS_RADIO_MUTE;
   mi.position  :=1;
@@ -197,7 +197,6 @@ begin
   begin
     playstr:='Pause';
   end;
-//  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
   mi.szName.w  :=playstr;
   mi.position  :=2;
   srvtrayplaypause:=CreateServiceFunction('mRadio/TrayPlayPause',@TrayPlayPause);
@@ -219,7 +218,7 @@ begin
   mi.szName.w  :='Quick Open';
   mi.position  :=4;
   mi.pszService:=MS_RADIO_QUICKOPEN;
-  mi.hIcon     :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnOpen));
+  mi.hIcon     :=IcoLib_GetIcon(IcoBtnOpen,0);
   if doTray then
     Menu_AddTrayMenuItem(@mi)
   else
@@ -265,7 +264,7 @@ begin
     ico:=IcoBtnOn;
   end;
   mi.flags:=CMIM_FLAGS or CMIM_ICON;
-  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(ico));
+  mi.hIcon:=IcoLib_GetIcon(ico,0);
   CallService(MS_CLIST_MODIFYMENUITEM,traymute,tlparam(@mi));
   mi.hIcon:=0;
 

@@ -295,7 +295,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 					bct->hwndToolTips = NULL;
 				}
 			}
-			if (bct->arrow) IcoLib_ReleaseIcon(bct->arrow, 0);
+			if (bct->arrow)
+				IcoLib_ReleaseIcon(bct->arrow);
 			DestroyTheme(bct);
 		}
 		break;
@@ -430,7 +431,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		}
 		else {
 			if (bct->arrow) {
-				IcoLib_ReleaseIcon(bct->arrow, 0);
+				IcoLib_ReleaseIcon(bct->arrow);
 				bct->arrow = NULL;
 				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
 			}

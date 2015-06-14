@@ -322,7 +322,7 @@ HICON BindOverlayIcon(HICON SourceIcon, LPCSTR OverlayIconName)
 	CorrectBitmap32Alpha(TargetIconInfo.hbmColor, FALSE);
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
-	OverlayIcon = Skin_GetIcon(OverlayIconName);
+	OverlayIcon = IcoLib_GetIcon(OverlayIconName);
 	if (!GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
 		return NULL;
 

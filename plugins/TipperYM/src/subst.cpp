@@ -838,7 +838,7 @@ HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto)
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, "activity", "icon");
 	if (!db_get_s(hContact, "AdvStatus", szSetting, &dbv)) {
-		hIcon = Skin_GetIcon(dbv.pszVal);
+		hIcon = IcoLib_GetIcon(dbv.pszVal);
 		db_free(&dbv);
 	}
 

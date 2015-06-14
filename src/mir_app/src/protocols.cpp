@@ -286,12 +286,12 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 		return (HICON)ppro->m_hProtoIcon;
 
 	bool big = (iconIndex & PLIF_SMALL) == 0;
-	HICON hIcon = Skin_GetIconByHandle(ppro->m_hProtoIcon, big);
+	HICON hIcon = IcoLib_GetIconByHandle(ppro->m_hProtoIcon, big);
 	if (iconIndex & PLIF_ICOLIB)
 		return hIcon;
 
 	HICON hIcon2 = CopyIcon(hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return hIcon2;
 }
 

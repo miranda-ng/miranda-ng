@@ -214,7 +214,7 @@ HICON LoadIconEx(int iconId, bool big)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
-			return Skin_GetIconByHandle(iconList[i].hIcolib, big);
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
 	return NULL;
 }
@@ -231,7 +231,7 @@ HANDLE GetIconHandle(int iconId)
 void ReleaseIconEx(HICON hIcon)
 {
 	if (hIcon)
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 }
 
 void WindowSetIcon(HWND hWnd, int iconId)

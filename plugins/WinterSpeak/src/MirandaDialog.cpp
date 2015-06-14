@@ -33,6 +33,6 @@ int MirandaDialog::ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 {
 	HICON hIcon = LoadSkinnedIcon(iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }

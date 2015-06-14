@@ -279,7 +279,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	UnhookEvent(hkOptInit);
 
-	Skin_ReleaseIcon(g_hReminderIcon);
+	IcoLib_ReleaseIcon(g_hReminderIcon);
 	DeleteObject(hBodyFont);
 	DeleteObject(hCaptionFont);
 

@@ -1131,7 +1131,7 @@ INT_PTR CAimProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CAimProto *ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1140,7 +1140,7 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		ppro = (CAimProto*)lParam;
 		{
-			WindowSetIcon(hwndDlg, "idle");
+			Window_SetIcon(hwndDlg, "idle");
 			unsigned long it = ppro->getDword(AIM_KEY_IIT, 0);
 			unsigned long hours = it / 60;
 			unsigned long minutes = it % 60;
@@ -1154,7 +1154,7 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 
 	case WM_COMMAND:
@@ -1201,7 +1201,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		ppro = (CAimProto*)lParam;
-		WindowSetIcon(hwndDlg, "aol");
+		Window_SetIcon(hwndDlg, "aol");
 		break;
 
 	case WM_CLOSE:
@@ -1209,7 +1209,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 
 	case WM_COMMAND:
@@ -1310,7 +1310,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (invite_chat_param*)lParam;
 
-		WindowSetIcon(hwndDlg, "aol");
+		Window_SetIcon(hwndDlg, "aol");
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, param->id);
 		SetDlgItemTextA(hwndDlg, IDC_MSG, Translate("Join me in this buddy chat!"));
 		break;
@@ -1320,7 +1320,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NCDESTROY:
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		delete param;
 		break;
 
@@ -1399,7 +1399,7 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		param = (invite_chat_req_param*)lParam;
 
-		WindowSetIcon(hwndDlg, "aol");
+		Window_SetIcon(hwndDlg, "aol");
 
 		SetDlgItemTextA(hwndDlg, IDC_ROOMNAME, strrchr(param->cnp->id, '-') + 1);
 		SetDlgItemTextA(hwndDlg, IDC_SCREENNAME, param->name);
@@ -1411,7 +1411,7 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_DESTROY:
-		WindowFreeIcon(hwndDlg);
+		Window_FreeIcon_IcoLib(hwndDlg);
 		delete param;
 		break;
 

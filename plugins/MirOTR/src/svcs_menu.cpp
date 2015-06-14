@@ -164,13 +164,13 @@ void InitMenu()
 
 	mi.ptszName = _T(LANG_STOP_OTR);
 	mi.pszService = MS_OTR_MENUSTOP;
-	mi.icolibItem = GetIconHandle(ICON_PRIVATE);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 
 	hStopItem = Menu_AddContactMenuItem(&mi);
 	
 	mi.ptszName = _T(LANG_START_OTR);
 	mi.pszService = MS_OTR_MENUSTART;
-	mi.icolibItem = GetIconHandle(ICON_NOT_PRIVATE);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 
 	hStartItem = Menu_AddContactMenuItem(&mi);
 

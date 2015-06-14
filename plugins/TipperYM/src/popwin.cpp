@@ -364,9 +364,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							iGender = db_get_b(pwd->hContact, szProto, "Gender", 0);
 
 						if (iGender == GEN_FEMALE)
-							pwd->extraIcons[i].hIcon = Skin_GetIcon("gender_female");
+							pwd->extraIcons[i].hIcon = IcoLib_GetIcon("gender_female");
 						else if (iGender == GEN_MALE)
-							pwd->extraIcons[i].hIcon = Skin_GetIcon("gender_male");
+							pwd->extraIcons[i].hIcon = IcoLib_GetIcon("gender_male");
 						pwd->extraIcons[i].bDestroy = false;
 					}
 
@@ -935,7 +935,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (pwd->extraIcons[i].bDestroy)
 				DestroyIcon(pwd->extraIcons[i].hIcon);
 			else
-				Skin_ReleaseIcon(pwd->extraIcons[i].hIcon);
+				IcoLib_ReleaseIcon(pwd->extraIcons[i].hIcon);
 		}
 
 		mir_free(pwd->clcit.swzText);

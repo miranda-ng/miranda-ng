@@ -428,7 +428,7 @@ void SwitchLayout(bool lastword)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 
 			POPUPDATAT pd = { 0 };
-			pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
+			pd.lchIcon = IcoLib_GetIcon("Switch Layout and Send");
 			mir_tstrncpy(pd.lptzText, buf, SIZEOF(pd.lptzText));
 			mir_tstrncpy(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
 			PUAddPopupT(&pd);

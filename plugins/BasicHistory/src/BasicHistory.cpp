@@ -189,7 +189,7 @@ HICON LoadIconEx(int iconId, int big)
 {
 	for (int i=0; i < SIZEOF(iconList); i++)
 		if ( iconList[i].defIconID == iconId)
-			return Skin_GetIconByHandle(iconList[i].hIcolib, big);
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
 	return 0;
 }

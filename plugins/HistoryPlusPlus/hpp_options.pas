@@ -353,7 +353,7 @@ begin
   try
     for i := 0 to High(hppIcons) do
     begin
-      ic := CallService(MS_SKIN2_GETICON, 0, LPARAM(hppIcons[i].name));
+      ic := IcoLib_GetIcon(hppIcons[i].name,0);
       if hppIcons[i].handle <> ic then
       begin
         hppIcons[i].handle := ic;

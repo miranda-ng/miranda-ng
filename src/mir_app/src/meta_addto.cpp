@@ -199,7 +199,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_DESTROY:
 		// Free all allocated memory and return the focus to the CList
 		HWND clist = GetParent(hwndDlg);
-		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		EndDialog(hwndDlg, TRUE);
 		SetFocus(clist);
 		return TRUE;

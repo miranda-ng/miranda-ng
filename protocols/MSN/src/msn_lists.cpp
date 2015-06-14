@@ -501,7 +501,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
 			ImageList_AddIcon(hIml, hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 
 			hIcon = LoadIconEx("list_lc");
 			ImageList_AddIcon(hIml, hIcon);

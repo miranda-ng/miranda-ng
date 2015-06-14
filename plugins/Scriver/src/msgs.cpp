@@ -454,7 +454,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
-	Skin_ReleaseIcon(mi.hIcon);
+	IcoLib_ReleaseIcon(mi.hIcon);
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileySettingsChanged);
 	HookEvent(ME_IEVIEW_OPTIONSCHANGED, SmileySettingsChanged);

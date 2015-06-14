@@ -199,7 +199,7 @@ begin
      (ActionItem.hIcolibIconPressed<>ActionItem.hIcolibIcon) then
   begin
     StrCopy(StrCopyE(@buf1,ActionItem.szNameID),'_pressed');
-    CallService(MS_SKIN2_REMOVEICON,0,LPARAM(@buf1));
+    IcoLib_RemoveIcon(@buf1);
     ActionItem.hIcolibIconPressed:=ActionItem.hIcolibIcon;
   end;
 end;
@@ -207,7 +207,7 @@ end;
 procedure DeleteIcolibIcon(var ActionItem:tMyActionItem);
 begin
   DeleteIcolibIconP(ActionItem);
-  CallService(MS_SKIN2_REMOVEICON,0,LPARAM(ActionItem.szNameID));
+  IcoLib_RemoveIcon(ActionItem.szNameID);
   ActionItem.hIcolibIcon       :=0;
   ActionItem.hIcolibIconPressed:=0;
 end;

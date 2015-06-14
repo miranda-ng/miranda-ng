@@ -582,7 +582,7 @@ void InitSettings(void)
 
 	InitFonts();
 
-	g_hReminderIcon = Skin_GetIconByHandle(iconList[10].hIcolib);
+	g_hReminderIcon = IcoLib_GetIconByHandle(iconList[10].hIcolib);
 
 	if (g_Transparency < MIN_ALPHA)
 		g_Transparency = MIN_ALPHA;

@@ -7,7 +7,3 @@
 #define ICON_REFRESH (MODULENAME"_refresh")
 
 void InitIcons();
-HICON LoadIcon(const char* name, int big);
-HANDLE GetIconHandle(const char* name);
-void ReleaseIcon(const char* name, int big);
-void ReleaseIcon(HICON handle, int big);

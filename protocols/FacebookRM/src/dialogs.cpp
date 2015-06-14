@@ -193,7 +193,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	{
 		TranslateDialogDefault(hwnd);
 
-		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(GetIconHandle("mind")));
+		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("mind")));
 
 		data = reinterpret_cast<post_status_data*>(lparam);
 

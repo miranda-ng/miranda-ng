@@ -225,7 +225,7 @@ begin
     ZeroMemory(@ttbopt,sizeof(ttbopt));
     ttbopt.cbSize    :=sizeof(ttbopt);
     ttbopt.pszService:=QS_SHOWSERVICE;
-    ttbopt.hIconUp   :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
+    ttbopt.hIconUp   :=IcoLib_GetIcon(QS_QS,0);
     ttbopt.hIconDn   :=ttbopt.hIconUp;
     ttbopt.dwFlags   :=TTBBF_VISIBLE;
     ttbopt.name      :=qs_module;
@@ -248,7 +248,7 @@ begin
 //    cmi.pszPopupName:=nil;
 //    cmi.flags       :=0;
   cmi.pszService  :=QS_SHOWSERVICE;
-  cmi.hIcon       :=CallService(MS_SKIN2_GETICON,0,lparam(QS_QS));
+  cmi.hIcon       :=IcoLib_GetIcon(QS_QS,0);
   MainMenuItem    :=Menu_AddMainMenuItem(@cmi);
 
   begin

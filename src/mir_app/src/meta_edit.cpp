@@ -428,7 +428,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case WM_DESTROY:
-		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		EndDialog(hwndDlg, IDCANCEL);
 		break;
 	}

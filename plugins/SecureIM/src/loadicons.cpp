@@ -59,7 +59,7 @@ HINSTANCE LoadIconsPack(const char* szIconsPack)
 int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
 	for (int i = 0; i < SIZEOF(icons); i++) {
-		HICON hIcon = Skin_GetIcon(icons[i].name);
+		HICON hIcon = IcoLib_GetIcon(icons[i].name);
 		if (icons[i].tbl == TBL_IEC)
 			g_hIEC[icons[i].idx] = hIcon;
 		else if (icons[i].tbl == TBL_ICO)
@@ -105,9 +105,9 @@ void InitIcons(void)
 		sid.pszName = icons[i].name;
 		sid.description.a = icons[i].text;
 		sid.iDefaultIndex = -icons[i].key;
-		HANDLE hIcolib = Skin_AddIcon(&sid);
+		HANDLE hIcolib = IcoLib_AddIcon(&sid);
 
-		HICON hIcon = Skin_GetIconByHandle(hIcolib);
+		HICON hIcon = IcoLib_GetIconByHandle(hIcolib);
 		if (icons[i].tbl == TBL_IEC)
 			g_hIEC[icons[i].idx] = hIcon;
 		else if (icons[i].tbl == TBL_ICO)

@@ -1566,7 +1566,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 		sid.iDefaultIndex = -iDefaultResource;
 	}
 
-	return Skin_AddIcon(&sid);
+	return IcoLib_AddIcon(&sid);
 }
 
 // MAIN WINPROC MESSAGE HANDLERS
@@ -2486,7 +2486,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 			DrawState(dis->hDC, NULL, NULL, (LPARAM)hIcon, 0, x, y, 0, 0,
 				DST_ICON | (dis->itemState & ODS_INACTIVE && (((FALSE))) ? DSS_DISABLED : DSS_NORMAL));
 
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 			nMirMenuState = dis->itemState;
 		}
 		else {
@@ -2533,7 +2533,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 		mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 		SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 		DrawState(dis->hDC, NULL, NULL, (LPARAM)hIcon, 0, (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + dx, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + dx, 0, 0, DST_ICON);
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 		nMirMenuState = dis->itemState;
 	}
 

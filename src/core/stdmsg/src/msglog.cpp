@@ -530,14 +530,14 @@ void LoadMsgLogIcons(void)
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
 
 	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
-		HICON hIcon = Skin_GetIconByHandle(iconList[i].hIcolib);
+		HICON hIcon = IcoLib_GetIconByHandle(iconList[i].hIcolib);
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
 		pLogIconBmpBits[i] = (char*)mir_alloc(size);
 		size_t rtfHeaderSize = mir_snprintf(pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 
 		SelectObject(hdcMem, hoBmp);
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO*)&bih, DIB_RGB_COLORS);

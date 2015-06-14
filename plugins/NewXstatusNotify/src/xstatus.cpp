@@ -174,7 +174,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		char szSetting[64];
 		mir_snprintf(szSetting, "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 		if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
-			hIcon = Skin_GetIcon(dbv.pszVal);
+			hIcon = IcoLib_GetIcon(dbv.pszVal);
 			db_free(&dbv);
 		}
 		break;
@@ -237,7 +237,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 		case TYPE_JABBER_ACTIVITY:
 			mir_snprintf(szSetting, "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 			if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
-				hIcon = Skin_GetIcon(dbv.pszVal);
+				hIcon = IcoLib_GetIcon(dbv.pszVal);
 				db_free(&dbv);
 			}
 			break;

@@ -28,8 +28,8 @@ void CToxCallDlgBase::SetIcon(const char *name)
 {
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
-	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(iconName, 16));
-	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(iconName, 32));
+	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, 16));
+	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, 32));
 }
 
 void CToxCallDlgBase::SetTitle(const TCHAR *title)
@@ -314,7 +314,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
 	cle.lParam = DB_EVENT_CALL;
-	cle.hIcon = Skin_GetIconByHandle(GetIconHandle("audio_ring"));
+	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle("audio_ring"));
 
 	TCHAR szTooltip[MAX_PATH];
 	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));

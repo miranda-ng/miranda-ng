@@ -234,7 +234,7 @@ static INT_PTR AdvSt()
 
 			if (PopUp == 1) {
 				lptzText = NonStatusAllow == 1 ? ALL_DISABLED_FLT : ALL_DISABLED;
-				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)(NonStatusAllow == 1 ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME)));
+				ppd.lchIcon = IcoLib_GetIconByHandle((NonStatusAllow == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
 				ppd.lchContact = NULL;
 				ppd.iSeconds = PopUpTime;
 				wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
@@ -249,7 +249,7 @@ static INT_PTR AdvSt()
 
 			if (PopUp == 1) {
 				lptzText = (DefEnabled == 1 && DefPopup == 1) ? TranslateT(ALL_ENABLED_FLT) : ALL_ENABLED;
-				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME)));
+				ppd.lchIcon = IcoLib_GetIconByHandle((DefEnabled == 1 && DefPopup == 1) ? GetIconHandle(ALL_ENABLED_FLT) : GetIconHandle(MENU_NAME));
 				wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
 				PUAddPopupT(&ppd);
 			}
@@ -270,7 +270,7 @@ static INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam)
 	if (PopUp == 1) {
 		TCHAR * lptzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
 		POPUPDATAT ppd = {0};
-		ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)(Enabled == 1 ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE)));
+		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;
 		wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
@@ -346,7 +346,7 @@ HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MENU_NAME, szIcon);
-	return Skin_GetIconHandle(szSettingName);
+	return IcoLib_GetIconHandle(szSettingName);
 }
 
 int InitializeOptions(WPARAM wParam,LPARAM lParam)

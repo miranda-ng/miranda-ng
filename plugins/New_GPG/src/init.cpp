@@ -124,18 +124,16 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		InitCheck();
 
-	HICON IconLibGetIcon(const char* ident);
-
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = szGPGModuleName;
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 0x00000001;
-	sid.hIcon = IconLibGetIcon("secured");
+	sid.hIcon = IcoLib_GetIcon("secured");
 	sid.szTooltip = LPGEN("GPG Turn off encryption");
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 0x00000002;
-	sid.hIcon = IconLibGetIcon("unsecured");
+	sid.hIcon = IcoLib_GetIcon("unsecured");
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid);
 

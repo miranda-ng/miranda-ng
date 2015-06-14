@@ -347,7 +347,7 @@ static void RefreshProtoIcons()
 		if (hIcon == NULL) {
 			hIcon = (HICON)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 			ImageList_AddIcon(hProtocolImageList, hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 		}
 	}
 }

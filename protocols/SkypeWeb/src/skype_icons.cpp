@@ -50,7 +50,7 @@ void CSkypeProto::InitIcons()
 
 		sid.description.t = Icons[i].Description;
 		sid.iDefaultIndex = -Icons[i].IconId;
-		Icons[i].Handle = Skin_AddIcon(&sid);
+		Icons[i].Handle = IcoLib_AddIcon(&sid);
 	}
 
 }
@@ -67,7 +67,7 @@ HANDLE CSkypeProto::GetSkinIconHandle(const char *name)
 {
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
-	HANDLE hIcon = Skin_GetIconHandle(iconName);
+	HANDLE hIcon = IcoLib_GetIconHandle(iconName);
 	if (hIcon == NULL)
 		hIcon = GetIconHandle(name);
 	return hIcon;
@@ -76,5 +76,5 @@ HANDLE CSkypeProto::GetSkinIconHandle(const char *name)
 void CSkypeProto::UninitIcons()
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
-		Skin_RemoveIcon(Icons[i].Name);
+		IcoLib_RemoveIcon(Icons[i].Name);
 }

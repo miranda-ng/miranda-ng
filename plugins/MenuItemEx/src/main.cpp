@@ -790,7 +790,7 @@ int BuildMenu(WPARAM wparam, LPARAM)
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
-		mi.hIcon = Skin_GetIcon(bHidden ? "miex_showil" : "miex_hidefl");
+		mi.hIcon = IcoLib_GetIcon(bHidden ? "miex_showil" : "miex_hidefl");
 		mi.ptszName = bHidden ? LPGENT("Show in list") : LPGENT("Hide from list");
 		Menu_ModifyItem(hmenuHide, &mi);
 	}
@@ -916,7 +916,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.dwDefPos = 1000;
 	bbd.ptszTooltip = LPGENT("Browse Received Files");
 	bbd.bbbFlags = BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
-	bbd.hIcon = Skin_GetIconHandle("miex_recfiles");
+	bbd.hIcon = IcoLib_GetIconHandle("miex_recfiles");
 	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 	return 0;
@@ -996,7 +996,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.ptszName = LPGENT("Ignore");
 	mi.pszService = 0;
 	mi.flags |= CMIF_ROOTHANDLE;
-	mi.hIcon = Skin_GetIcon("miex_ignore");
+	mi.hIcon = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
 	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, LoadSkinnedIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
@@ -1008,13 +1008,13 @@ static int PluginInit(WPARAM, LPARAM)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Contacts";
 	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), Skin_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood);
+	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood);
 
 	mi.pszPopupName = 0;
 	mi.position++;
 	mi.ptszName = LPGENT("Copy to Account");
 	mi.pszService = MS_PROTO;
-	mi.hIcon = Skin_GetIcon("miex_protocol");
+	mi.hIcon = IcoLib_GetIcon("miex_protocol");
 	hmenuProto = Menu_AddContactMenuItem(&mi);
 
 	EnumProtoSubmenu(0, 0);
@@ -1041,7 +1041,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.ptszName = LPGENT("Browse Received Files");
 	mi.pszService = MS_RECVFILES;
-	mi.hIcon = Skin_GetIcon("miex_recfiles");
+	mi.hIcon = IcoLib_GetIcon("miex_recfiles");
 	hmenuRecvFiles = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
@@ -1060,9 +1060,9 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.pszService = MS_COPYMIRVER;
 	hmenuCopyMirVer = Menu_AddContactMenuItem(&mi);
 
-	hIcon[0] = Skin_GetIcon("miex_copymver");
-	hIcon[1] = Skin_GetIcon("miex_vis");
-	hIcon[2] = Skin_GetIcon("miex_invis");
+	hIcon[0] = IcoLib_GetIcon("miex_copymver");
+	hIcon[1] = IcoLib_GetIcon("miex_vis");
+	hIcon[2] = IcoLib_GetIcon("miex_invis");
 	hIcon[3] = MakeHalfAlphaIcon(hIcon[1]);
 	hIcon[4] = MakeHalfAlphaIcon(hIcon[2]);
 

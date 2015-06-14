@@ -144,7 +144,7 @@ begin
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
-  mi.hIcon :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoLastFM));
+  mi.hIcon :=IcoLib_GetIcon(IcoLastFM,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hMenuLast,tlparam(@mi));
 end;
 
@@ -207,7 +207,7 @@ begin
   mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
 
-  mi.hIcon        :=CallService(MS_SKIN2_GETICON,0,lparam(IcoLastFM));
+  mi.hIcon        :=IcoLib_GetIcon(IcoLastFM,0);
   mi.szName.a     :='Disable scrobbling';
   mi.pszService   :=MS_WAT_LASTFM;
   mi.popupPosition:=500050000;

@@ -220,7 +220,7 @@ HICON GetIcon(int iIconId, int size)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iIconId)
-			return Skin_GetIconByHandle(iconList[i].hIcolib, size);
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib, size);
 
 	return NULL;
 }

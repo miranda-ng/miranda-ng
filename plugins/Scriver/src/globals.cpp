@@ -176,14 +176,14 @@ int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id)
 {
 	HICON hIcon = LoadSkinnedIcon(id);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
 int ImageList_AddIcon_Ex2(HIMAGELIST hIml, HICON hIcon)
 {
 	int res = ImageList_AddIcon(hIml, hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
@@ -191,7 +191,7 @@ int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id)
 {
 	HICON hIcon = LoadSkinnedIcon(id);
 	int res = ImageList_ReplaceIcon(hIml, nIndex, hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
@@ -199,22 +199,22 @@ int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status)
 {
 	HICON hIcon = LoadSkinnedProtoIcon(szProto, status);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
 void ReleaseIcons()
 {
-	Skin_ReleaseIcon(g_dat.hMsgIcon);
-	Skin_ReleaseIcon(g_dat.hMsgIconBig);
-	Skin_ReleaseIcon(g_dat.hIconChatBig);
+	IcoLib_ReleaseIcon(g_dat.hMsgIcon);
+	IcoLib_ReleaseIcon(g_dat.hMsgIconBig);
+	IcoLib_ReleaseIcon(g_dat.hIconChatBig);
 }
 
 HICON GetCachedIcon(const char *name)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 	if (!mir_strcmp(iconList[i].szName, name))
-		return Skin_GetIconByHandle(iconList[i].hIcolib);
+		return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
 	return NULL;
 }
@@ -225,7 +225,7 @@ void LoadGlobalIcons()
 
 	g_dat.hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	g_dat.hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
-	g_dat.hIconChatBig = Skin_GetIcon("chat_window", true);
+	g_dat.hIconChatBig = IcoLib_GetIcon("chat_window", true);
 
 	ImageList_RemoveAll(g_dat.hButtonIconList);
 	ImageList_RemoveAll(g_dat.hChatButtonIconList);

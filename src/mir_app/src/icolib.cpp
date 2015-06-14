@@ -31,10 +31,6 @@ HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
 
 HICON hIconBlank = NULL;
 
-static HANDLE
-	hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2,
-	hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
-
 int iconEventActive = 0;
 
 BOOL bNeedRebuild = FALSE;
@@ -496,9 +492,9 @@ static void IcoLib_FreeIcon(IcolibItem* icon)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// IcoLib_AddNewIcon
+// IcoLib_AddIcon
 
-MIR_APP_DLL(HANDLE) IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid)
+MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int hLangpack)
 {
 	bool utf = (sid->flags & SIDF_UNICODE) != 0;
 	bool utf_path = (sid->flags & SIDF_PATH_UNICODE) != 0;
@@ -568,6 +564,44 @@ MIR_APP_DLL(HANDLE) IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// IcoLib_ReleaseIcon
+
+static int ReleaseIconInternal(IcolibItem *item, bool big)
+{
+	if (item == NULL)
+		return 1;
+
+	IconSourceItem *source = big && !item->cx ? item->source_big : item->source_small;
+	if (source && source->icon_ref_count) {
+		if (iconEventActive)
+			source->icon_ref_count--;
+		else
+			IconSourceItem_ReleaseIcon(source);
+		return 0;
+	}
+
+	return 1;
+}
+
+MIR_APP_DLL(int) IcoLib_ReleaseIcon(HICON hIcon, bool big)
+{
+	if (hIcon == NULL)
+		return 1;
+
+	mir_cslock lck(csIconList);
+	return ReleaseIconInternal(IcoLib_FindHIcon(hIcon, big), big);
+}
+
+MIR_APP_DLL(int) IcoLib_Release(const char *szIconName, bool big)
+{
+	if (szIconName == NULL)
+		return 1;
+
+	mir_cslock lck(csIconList);
+	return ReleaseIconInternal(IcoLib_FindIcon(szIconName), big);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_RemoveIcon
 
 static int IcoLib_RemoveIcon_Internal(int i)
@@ -579,24 +613,22 @@ static int IcoLib_RemoveIcon_Internal(int i)
 	return 0;
 }
 
-static INT_PTR IcoLib_RemoveIcon(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) IcoLib_RemoveIcon(const char *pszIconName)
 {
-	if (wParam) {
-		mir_cslock lck(csIconList);
+	mir_cslock lck(csIconList);
 
-		int i = iconList.indexOf((IcolibItem*)wParam);
-		if (i != -1)
-			return IcoLib_RemoveIcon_Internal(i);
-	}
+	int i = iconList.indexOf((IcolibItem*)&pszIconName);
+	if (i != -1)
+		IcoLib_RemoveIcon_Internal(i);
+}
 
-	if (lParam) {
-		mir_cslock lck(csIconList);
+MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
+{
+	mir_cslock lck(csIconList);
 
-		int i = iconList.getIndex((IcolibItem*)&lParam);
-		if (i != -1)
-			return IcoLib_RemoveIcon_Internal(i);
-	}
-	return 1; // Failed
+	int i = iconList.getIndex((IcolibItem*)hIcoLib);
+	if (i != -1)
+		IcoLib_RemoveIcon_Internal(i);
 }
 
 void KillModuleIcons(int hLangpack)
@@ -666,14 +698,16 @@ HICON IconItem_GetDefaultIcon(IcolibItem* item, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon
 
-HICON IconItem_GetIcon(IcolibItem* item, bool big)
+HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 {
-	DBVARIANT dbv = { 0 };
-	HICON hIcon = NULL;
+	IcolibItem *item = (IcolibItem*)hIcoLib;
+	if (item == NULL)
+		return NULL;
 
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
 
+	DBVARIANT dbv = { 0 };
 	if (!source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
 		TCHAR tszFullPath[MAX_PATH];
 		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
@@ -683,6 +717,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 		db_free(&dbv);
 	}
 
+	HICON hIcon = NULL;
 	if (source)
 		hIcon = IconSourceItem_GetIcon(source);
 
@@ -763,23 +798,21 @@ MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon)
 // lParam: NULL
 // wParam: HICON
 
-static INT_PTR IcoLib_AddRef(WPARAM wParam, LPARAM)
+MIR_APP_DLL(int) IcoLib_AddRef(HICON hIcon)
 {
 	mir_cslock lck(csIconList);
 
 	bool big;
-	IcolibItem *item = IcoLib_FindHIcon((HICON)wParam, big);
-
-	INT_PTR res = 1;
+	IcolibItem *item = IcoLib_FindHIcon(hIcon, big);
 	if (item) {
 		IconSourceItem* source = big && !item->cx ? item->source_big : item->source_small;
 		if (source->icon_ref_count) {
 			source->icon_ref_count++;
-			res = 0;
+			return 0;
 		}
 	}
 
-	return res;
+	return 1;
 }
 
 static int SkinSystemModulesLoaded(WPARAM, LPARAM)
@@ -791,56 +824,11 @@ static int SkinSystemModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module initialization and finalization procedure
 
-static INT_PTR sttIcoLib_AddNewIcon(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_AddNewIcon((int)wParam, (SKINICONDESC*)lParam);
-}
-
-static INT_PTR sttIcoLib_GetIcon(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_GetIcon((const char*)lParam, wParam != 0);
-}
-
-static INT_PTR sttIcoLib_GetIconHandle(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_GetIconHandle((const char*)lParam);
-}
-
-static INT_PTR sttIcoLib_GetIconByHandle(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_GetIconByHandle((HANDLE)lParam, wParam != 0);
-}
-
-static INT_PTR sttIcoLib_ReleaseIcon(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, false);
-}
-
-static INT_PTR sttIcoLib_ReleaseIconBig(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, true);
-}
-
-static INT_PTR sttIcoLib_IsManaged(WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)IcoLib_IsManaged((HICON)wParam);
-}
-
 int LoadIcoLibModule(void)
 {
 	bModuleInitialized = TRUE;
 
 	hIconBlank = LoadIconEx(g_hInst, MAKEINTRESOURCE(IDI_BLANK), 0);
-
-	hIcoLib_AddNewIcon = CreateServiceFunction("Skin2/Icons/AddIcon", sttIcoLib_AddNewIcon);
-	hIcoLib_RemoveIcon = CreateServiceFunction(MS_SKIN2_REMOVEICON, IcoLib_RemoveIcon);
-	hIcoLib_GetIcon = CreateServiceFunction(MS_SKIN2_GETICON, sttIcoLib_GetIcon);
-	hIcoLib_GetIconHandle = CreateServiceFunction(MS_SKIN2_GETICONHANDLE, sttIcoLib_GetIconHandle);
-	hIcoLib_GetIcon2 = CreateServiceFunction(MS_SKIN2_GETICONBYHANDLE, sttIcoLib_GetIconByHandle);
-	hIcoLib_IsManaged = CreateServiceFunction(MS_SKIN2_ISMANAGEDICON, sttIcoLib_IsManaged);
-	hIcoLib_AddRef = CreateServiceFunction(MS_SKIN2_ADDREFICON, IcoLib_AddRef);
-	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICON, sttIcoLib_ReleaseIcon);
-	hIcoLib_ReleaseIcon = CreateServiceFunction(MS_SKIN2_RELEASEICONBIG, sttIcoLib_ReleaseIconBig);
 
 	hIcons2ChangedEvent = CreateHookableEvent(ME_SKIN2_ICONSCHANGED);
 	hIconsChangedEvent = CreateHookableEvent(ME_SKIN_ICONSCHANGED);
@@ -857,15 +845,6 @@ void UnloadIcoLibModule(void)
 
 	DestroyHookableEvent(hIconsChangedEvent);
 	DestroyHookableEvent(hIcons2ChangedEvent);
-
-	DestroyServiceFunction(hIcoLib_AddNewIcon);
-	DestroyServiceFunction(hIcoLib_RemoveIcon);
-	DestroyServiceFunction(hIcoLib_GetIcon);
-	DestroyServiceFunction(hIcoLib_GetIconHandle);
-	DestroyServiceFunction(hIcoLib_GetIcon2);
-	DestroyServiceFunction(hIcoLib_IsManaged);
-	DestroyServiceFunction(hIcoLib_AddRef);
-	DestroyServiceFunction(hIcoLib_ReleaseIcon);
 
 	for (int i = iconList.getCount() - 1; i >= 0; i--) {
 		IcolibItem* p = iconList[i];

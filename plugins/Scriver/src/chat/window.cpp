@@ -1402,7 +1402,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-						Skin_ReleaseIcon(hIcon);
+						IcoLib_ReleaseIcon(hIcon);
 						x_offset += 18;
 					}
 					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset, pci->SM_GetStatusIcon(si, ui), 10, 10, 0, NULL, DI_NORMAL);
@@ -1410,7 +1410,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
 						hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 						DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 3, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-						Skin_ReleaseIcon(hIcon);
+						IcoLib_ReleaseIcon(hIcon);
 						x_offset += 18;
 					}
 

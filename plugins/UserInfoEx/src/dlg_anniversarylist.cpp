@@ -307,7 +307,7 @@ class CAnnivList
 					break;
 
 				// set icons
-				hIcon = Skin_GetIcon(ICO_DLG_ANNIVERSARY);
+				hIcon = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
 				SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 
@@ -962,7 +962,7 @@ void DlgAnniversaryListOnTopToolBarLoaded()
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
-	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);
 	ttb.name = ttb.pszTooltipUp = LPGEN("Anniversary list");
 	TopToolbar_AddButton(&ttb);
 }

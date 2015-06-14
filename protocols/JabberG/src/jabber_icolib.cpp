@@ -94,7 +94,7 @@ CIconPool::CPoolItem::CPoolItem():
 CIconPool::CPoolItem::~CPoolItem()
 {
 	if (m_hIcolibItem && m_szIcolibName) {
-		CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)m_szIcolibName);
+		IcoLib_RemoveIcon(m_szIcolibName);
 		mir_free(m_szIcolibName);
 	}
 
@@ -126,7 +126,7 @@ void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHA
 	sid.description.t = szDescription;
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.iDefaultIndex = iconid;
-	item->m_hIcolibItem = Skin_AddIcon(&sid);
+	item->m_hIcolibItem = IcoLib_AddIcon(&sid);
 
 	m_items.insert(item);
 }
@@ -150,7 +150,7 @@ char *CIconPool::GetIcolibName(const char *name)
 HICON CIconPool::GetIcon(const char *name, bool big)
 {
 	if (CPoolItem *item = FindItemByName(name))
-		return Skin_GetIconByHandle(item->m_hIcolibItem, big);
+		return IcoLib_GetIconByHandle(item->m_hIcolibItem, big);
 
 	return NULL;
 }
@@ -186,7 +186,7 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 		return result;
 
 	if (!mir_strcmp(name, "main"))
-		return Skin_GetIconByHandle(m_hProtoIcon, big);
+		return IcoLib_GetIconByHandle(m_hProtoIcon, big);
 
 	return NULL;
 }
@@ -292,9 +292,9 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 		sid.defaultFile.a = szMyPath;
 		sid.iDefaultIndex = i;
 		sid.flags = SIDF_TCHAR;
-		Skin_AddIcon(&sid);
+		IcoLib_AddIcon(&sid);
 	}
-	return Skin_GetIcon(IconName);
+	return IcoLib_GetIcon(IconName);
 }
 
 static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
@@ -558,13 +558,13 @@ HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
-	return Skin_GetIcon(szSettingName, big);
+	return IcoLib_GetIcon(szSettingName, big);
 }
 
 void g_ReleaseIcon(HICON hIcon)
 {
 	if (hIcon)
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 }
 
 void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon)

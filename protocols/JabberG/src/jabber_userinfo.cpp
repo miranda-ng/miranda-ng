@@ -323,7 +323,7 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 			mir_sntprintf(szText, _T("%s (%s)"), TranslateTS(szAdvStatusTitle), szAdvStatusText);
 		else
 			_tcsncpy_s(szText, TranslateTS(szAdvStatusTitle), _TRUNCATE);
-		sttFillInfoLine(hwndTree, htiRoot, Skin_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
+		sttFillInfoLine(hwndTree, htiRoot, IcoLib_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
 	}
 
 	mir_free(szAdvStatusIcon);

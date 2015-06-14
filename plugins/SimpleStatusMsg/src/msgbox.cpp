@@ -78,7 +78,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 	HIMAGELIST himlIcons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, num_icons, 0);
 	HICON hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_OFFLINE);
 	ImageList_AddIcon(himlIcons, hicon);
-	Skin_ReleaseIcon(hicon);
+	IcoLib_ReleaseIcon(hicon);
 	statusicon_nr[0] = 0;
 
 	int j = 1;
@@ -86,7 +86,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 		if (Proto_Status2Flag(ID_STATUS_ONLINE + i) & status_flags) {
 			hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_ONLINE + i);
 			ImageList_AddIcon(himlIcons, hicon);
-			Skin_ReleaseIcon(hicon);
+			IcoLib_ReleaseIcon(hicon);
 			statusicon_nr[i + 1] = j;
 			j++;
 		}
@@ -805,8 +805,8 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	else if (iStatus > ID_STATUS_CURRENT)
 		iStatus = GetCurrentStatus(NULL);
 
-	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
-	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
 
 	if (!bDisabled && ((Proto_Status2Flag(iStatus) & msgbox_data->m_iStatusMsgModes)
 		|| (iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & msgbox_data->m_iStatusMsgModes))))
@@ -1616,8 +1616,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ReleaseIconEx("predef");
 			ReleaseIconEx("add");
 			ReleaseIconEx("clear");
-			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
+			IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+			IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 
 			hwndSAMsgDialog = NULL;
 			mir_free(msgbox_data);

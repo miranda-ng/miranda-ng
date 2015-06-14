@@ -192,8 +192,7 @@ begin
     li.iItem   :=i;
     li.lParam  :=i;
     li.pszText :=UActionList[i].szActDescr;
-    li.iImage:=ImageList_ReplaceIcon(il, -1,
-        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,LPARAM(UActionList[i].hIcolibIcon))));
+    li.iImage  :=ImageList_ReplaceIcon(il, -1, IcoLib_GetIconByHandle(UActionList[i].hIcolibIcon,0));
     li.iItem   :=SendMessageW(wnd,LVM_INSERTITEMW,0,LPARAM(@li));
 
     for lmenu:=main_menu to HIGH(tMenuType) do
@@ -225,8 +224,7 @@ begin
     li.mask    :=LVIF_IMAGE;
     li.iSubItem:=0;
     li.iItem   :=i;
-    li.iImage:=ImageList_ReplaceIcon(il, -1,
-        HICON(CallService(MS_SKIN2_GETICONBYHANDLE,0,TLPARAM(UActionList[i].hIcolibIcon))));
+    li.iImage:=ImageList_ReplaceIcon(il, -1, IcoLib_GetIconByHandle(UActionList[i].hIcolibIcon,0));
     SendMessageW(wnd,LVM_SETITEM,0,TLPARAM(@li));
   end;
   ImageList_Destroy(SendMessage(wnd,LVM_SETIMAGELIST,LVSIL_SMALL,il));

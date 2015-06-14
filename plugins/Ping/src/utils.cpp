@@ -293,10 +293,10 @@ static int OnShutdown(WPARAM, LPARAM)
 
 int ReloadIcons(WPARAM, LPARAM)
 {
-	hIconResponding = Skin_GetIcon("ping_responding");
-	hIconNotResponding = Skin_GetIcon("ping_not_responding");
-	hIconTesting = Skin_GetIcon("ping_testing");
-	hIconDisabled = Skin_GetIcon("ping_disabled");
+	hIconResponding = IcoLib_GetIcon("ping_responding");
+	hIconNotResponding = IcoLib_GetIcon("ping_not_responding");
+	hIconTesting = IcoLib_GetIcon("ping_testing");
+	hIconDisabled = IcoLib_GetIcon("ping_disabled");
 
 	RefreshWindow(0, 0);
 	return 0;
@@ -304,10 +304,10 @@ int ReloadIcons(WPARAM, LPARAM)
 
 void InitUtils()
 {
-	hIconResponding = Skin_GetIcon("ping_responding");
-	hIconNotResponding = Skin_GetIcon("ping_not_responding");
-	hIconTesting = Skin_GetIcon("ping_testing");
-	hIconDisabled = Skin_GetIcon("ping_disabled");
+	hIconResponding = IcoLib_GetIcon("ping_responding");
+	hIconNotResponding = IcoLib_GetIcon("ping_not_responding");
+	hIconTesting = IcoLib_GetIcon("ping_testing");
+	hIconDisabled = IcoLib_GetIcon("ping_disabled");
 
 	POPUPCLASS test = { sizeof(test) };
 	test.flags = PCF_TCHAR;

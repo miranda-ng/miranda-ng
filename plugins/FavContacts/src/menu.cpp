@@ -259,7 +259,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-					  Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
+					  IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 

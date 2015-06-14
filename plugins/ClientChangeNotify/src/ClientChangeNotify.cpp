@@ -279,11 +279,11 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 		mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY)) {
 			mi.ptszName = LPGENT("Disable c&lient change notification");
-			mi.hIcon = Skin_GetIcon("popup_enabled");
+			mi.hIcon = IcoLib_GetIcon("popup_enabled");
 		}
 		else {
 			mi.ptszName = LPGENT("Enable c&lient change notification");
-			mi.hIcon = Skin_GetIcon("popup_disabled");
+			mi.hIcon = IcoLib_GetIcon("popup_disabled");
 		}
 		mi.ptszPopupName = LPGENT("Popups");
 		Menu_ModifyItem(g_hTogglePopupsMenuItem, &mi);

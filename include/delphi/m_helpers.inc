@@ -553,7 +553,7 @@ end;
 
 function Skin_AddIcon(si:PSKINICONDESC):THANDLE;
 begin
-  result:=CallService(MS_SKIN2_ADDICON, hLangpack, LPARAM(si));
+  result:=IcoLib_AddIcon(si, hLangpack);
 end;
 
 procedure Icon_Register(hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar);

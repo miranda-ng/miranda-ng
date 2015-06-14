@@ -559,7 +559,7 @@ begin
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
-  mi.hIcon :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnReport));
+  mi.hIcon :=IcoLib_GetIcon(IcoBtnReport,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hMenuReport,tlparam(@mi));
 end;
 
@@ -602,7 +602,7 @@ begin
   mi.cbSize       :=sizeof(mi);
   mi.flags        :=0;
   mi.szPopupName.a:=PluginShort;
-  mi.hIcon        :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnReport));
+  mi.hIcon        :=IcoLib_GetIcon(IcoBtnReport,0);
   mi.szName.a     :='Create WATrack report';
   mi.pszService   :=MS_WAT_MAKEREPORT;
   mi.popupPosition:=MenuReportPos;

@@ -35,7 +35,7 @@ std::string Quotes_MakeIconName(const char* name)
 HICON Quotes_LoadIconEx(const char* name, bool bBig /*= false*/)
 {
 	std::string sIconName = Quotes_MakeIconName(name);
-	return Skin_GetIcon(sIconName.c_str(), bBig);
+	return IcoLib_GetIcon(sIconName.c_str(), bBig);
 }
 
 HANDLE Quotes_GetIconHandle(int iconId)

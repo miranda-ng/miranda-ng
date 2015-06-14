@@ -38,7 +38,7 @@ HICON Skin_GetIcon_SendSS(unsigned short id, BOOL big=0)
 		return GetIcon(ICO_MAIN);
 	return GetIconBtn(id);
 }
-#define Skin_GetIcon Skin_GetIcon_SendSS
+#define IcoLib_GetIcon Skin_GetIcon_SendSS
 /// original UserInfoEx codebase (almost):
 
 typedef struct _MSGPOPUPDATA
@@ -124,53 +124,53 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 	switch (id) {
 	case IDOK:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
 		break;
 
 	case IDABORT:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
 		break;
 
 	case IDRETRY:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
 		break;
 
 	case IDIGNORE:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
 		break;
 
 	case IDYES:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
 		break;
 
 	case IDNO:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, MODNAME"/No");
 		break;
 
 	case IDHELP:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, MODNAME"/Help");
 		break;
 
 	case IDALL:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, MODNAME"/All");
 		break;
 
 	case IDNONE:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, MODNAME"/None");
 	}
 }
@@ -215,7 +215,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					// set infobar's logo icon
 					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON,
-						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)Skin_GetIcon(ICO_DLG_DETAILS,TRUE)));
+						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)IcoLib_GetIcon(ICO_DLG_DETAILS,TRUE)));
 
 					// enable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
@@ -686,7 +686,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	MSGBOX mb = { 0 };
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = Skin_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = TranslateTS(pszTitle);
 	mb.ptszInfoText = TranslateTS(pszInfo);
@@ -713,7 +713,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = Skin_GetIcon(ICO_COMMON_MAIN);
+	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;

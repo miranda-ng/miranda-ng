@@ -28,24 +28,24 @@ const
   SIDF_PATH_UNICODE = $200; // Default File is in UCS-2
   SIDF_ALL_UNICODE  = SIDF_PATH_UNICODE or SIDF_UNICODE;
 
-const
 {
   Add a icon into options UI
-
-  wParam = 0
-  lParam = PSKINICONDESC
   returns a handle to the newly added item
 }
-  MS_SKIN2_ADDICON:PAnsiChar = 'Skin2/Icons/AddIcon';
+
+function IcoLib_AddIcon(pIcon:PSKINICONDESC; iLang:int):THANDLE; stdcall;
+                 external AppDLL name 'IcoLib_AddIcon';
 
 {
   Remove a icon from options UI
-
-  wParam = (THANDLE)icon handle
-  lParam = (PChar)icon name, one of them must be specified
   WARNING: This will invalidate all HICONs retrieved for specified pszName
 }
-  MS_SKIN2_REMOVEICON:PAnsiChar = 'Skin2/Icons/RemoveIcon';
+
+procedure IcoLib_RemoveIcon(iconName:PAnsiChar); stdcall;
+                 external AppDLL name 'IcoLib_RemoveIcon';
+procedure IcoLib_RemoveIconByHandle(icon:THandle); stdcall;
+                 external AppDLL name 'IcoLib_RemoveIconByHandle';
+
 {
   Retrieve HICON with name specified in lParam
   Returned HICON SHOULDN'T be destroyed, it managed by IcoLib
@@ -53,24 +53,23 @@ const
   wParam = 0 - small 1 - big
   lParam = pszName
 }
-  MS_SKIN2_GETICON :PAnsiChar = 'Skin2/Icons/GetIcon';
 
-{
-  Retrieve an icolib handle for icon by name specified in lParam
-
-  wParam = 0
-  lParam = (LPARAM)(char*)pszName
-}
-  MS_SKIN2_GETICONHANDLE:PAnsiChar = 'Skin2/Icons/GetIconHandle';
+function IcoLib_GetIcon(iconName:PAnsiChar; big:byte) : HICON; stdcall;
+                 external AppDLL name 'IcoLib_GetIcon';
 
 {
   Retrieve HICON with HANDLE specified in lParam
   Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
-
-  wParam = (WPARAM)0 - small 1 - big
-  lParam = (HANDLE)hIcoLibIcon
 }
-  MS_SKIN2_GETICONBYHANDLE:PAnsiChar = 'Skin2/Icons/GetIconByHandle';
+
+function IcoLib_GetIconByHandle(icon:THandle; big:byte) : HICON; stdcall;
+                 external AppDLL name 'IcoLib_GetIconByHandle';
+{
+  Retrieve an icolib handle for icon by name specified in lParam
+}
+
+function IcoLib_GetIconHandle(iconName:PAnsiChar):THandle; stdcall;
+                 external AppDLL name 'IcoLib_GetIconHandle';
 
 {
   Add reference to HICON
@@ -78,28 +77,30 @@ const
   wParam = (WPARAM)HICON
   lParam = 0 - small 1 - big
 }
-  MS_SKIN2_ADDREFICON:PAnsiChar = 'Skin2/Icons/AddRef';
+
+function IcoLib_AddRef(icon:HICON) : int; stdcall;
+                 external AppDLL name 'IcoLib_AddRef';
 
 {
   Retrieved HICON is not needed anymore (this helps optimize GDI usage)
-
-  wParam = HICON (optional)
-  lParam = pszName (optional)  // at least one needs to be specified
 }
-  MS_SKIN2_RELEASEICON   :PAnsiChar = 'Skin2/Icons/ReleaseIcon';
-  MS_SKIN2_RELEASEICONBIG:PAnsiChar = 'Skin2/Icons/ReleaseIconBig';
+
+function IcoLib_Release(iconName:PAnsiChar; big:byte) : int; stdcall;
+                 external AppDLL name 'IcoLib_Release';
+function IcoLib_ReleaseIcon(icon:THandle; big:byte) : int; stdcall;
+                 external AppDLL name 'IcoLib_ReleaseIcon';
 
 {
   Check whether HICON is managed by IcoLib
-
-  wParam = (WPARAM)HICON
-  lParam = 0
 }
-  MS_SKIN2_ISMANAGEDICON:PAnsiChar = 'Skin2/Icons/IsManaged';
+
+function IcoLib_IsManaged(icon:HICON) : THandle; stdcall;
+                 external AppDLL name 'IcoLib_IsManaged';
 
 {
   Icons change notification
 }
+const
   ME_SKIN2_ICONSCHANGED:PAnsiChar = 'Skin2/IconsChanged';
 
 {$ENDIF}

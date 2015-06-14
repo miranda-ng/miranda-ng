@@ -97,13 +97,13 @@ HICON GetIcolibIcon(int iconId)
 {
 	HANDLE handle = GetIconHandle(iconId);
 	if (handle != NULL)
-		return Skin_GetIconByHandle(handle);
+		return IcoLib_GetIconByHandle(handle);
 
 	return NULL;
 }
 
 void ReleaseIcolibIcon(HICON hIcon) {
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 }
 
 static void TlenRegisterIcons()

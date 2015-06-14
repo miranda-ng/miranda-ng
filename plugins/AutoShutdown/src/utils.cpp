@@ -218,7 +218,7 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 	sid.cx = GetSystemMetrics(fLarge?SM_CXICON:SM_CXSMICON);
 	sid.cy = GetSystemMetrics(fLarge?SM_CYICON:SM_CYSMICON);
 	sid.flags = SIDF_SORTED | SIDF_ALL_TCHAR;
-	return Skin_AddIcon(&sid);
+	return IcoLib_AddIcon(&sid);
 }
 
 void AddHotkey()

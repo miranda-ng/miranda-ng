@@ -60,14 +60,14 @@ void InitIcons(void)
 	Icon_Register(hInstance, "Protocols/AIM/"LPGEN("Profile Editor"), iconList+14, 14, "AIM");
 }
 
-HICON LoadIconEx(const char* name, bool big)
+HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "AIM_%s", name);
-	return Skin_GetIcon(szSettingName, big);
+	return IcoLib_GetIcon(szSettingName, big);
 }
 
-HANDLE GetIconHandle(const char* name)
+HANDLE GetIconHandle(const char *name)
 {
 	for (int i=0; i < SIZEOF(iconList); i++)
 		if ( !mir_strcmp(iconList[i].szName, name))
@@ -76,23 +76,17 @@ HANDLE GetIconHandle(const char* name)
 	return NULL;
 }
 
-void ReleaseIconEx(const char* name, bool big)
+void ReleaseIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName ), "%s_%s", "AIM", name);
-	Skin_ReleaseIcon(szSettingName, big);
+	IcoLib_Release(szSettingName, big);
 }
 
-void WindowSetIcon(HWND hWnd, const char* name)
+void Window_SetIcon(HWND hWnd, const char* name)
 {
 	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadIconEx( name, true ));
 	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx( name ));
-}
-
-void WindowFreeIcon(HWND hWnd)
-{
-	Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-	Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

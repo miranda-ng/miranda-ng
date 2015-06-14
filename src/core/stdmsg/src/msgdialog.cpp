@@ -1314,7 +1314,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if ((g_dat.flags & SMF_SHOWTYPINGWIN) && GetForegroundWindow() != hwndDlg) {
 						HICON hIcon = (HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0);
 						SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
-						Skin_ReleaseIcon(hIcon);
+						IcoLib_ReleaseIcon(hIcon);
 					}
 					dat->showTyping = 1;
 				}
@@ -1352,7 +1352,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						}
 						else DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 
-						Skin_ReleaseIcon(hIcon);
+						IcoLib_ReleaseIcon(hIcon);
 						return TRUE;
 					}
 				}

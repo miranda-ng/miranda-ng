@@ -67,7 +67,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 		if (szProto) {
 			char szBuf[128];
 			mir_snprintf(szBuf, SIZEOF(szBuf), "%s_conn", szProto);
-			*phIcon = Skin_GetIcon(szBuf);
+			*phIcon = IcoLib_GetIcon(szBuf);
 		}
 	}
 

@@ -26,7 +26,7 @@ void UpDate_CountryIcon(HWND hCtrl, int countryID)
 	HICON hIcon = LoadFlagIcon(countryID);
 	HICON hOld  = Static_SetIcon(hCtrl, hIcon);
 	ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
-	Skin_ReleaseIcon(hOld);
+	IcoLib_ReleaseIcon(hOld);
 }
 
 // Default dialog procedure, which handles common functions

@@ -404,7 +404,7 @@ void WhatsAppProto::NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT 
 			pd.colorText = colorText;
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
-			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
+			pd.lchIcon = IcoLib_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
 			pd.PluginData = szUrl;
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			mir_tstrcpy(pd.lptzContactName, title);

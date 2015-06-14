@@ -99,7 +99,7 @@ void RebuildContact()
 		//cascade all
 		mi.position = 1000050000;
 		mi.popupPosition = 1000050000;
-		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.pszName = MODULELONGNAME;
 		mhRoot = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
@@ -109,7 +109,7 @@ void RebuildContact()
 		//cascade Ex/Import
 		mi.position = 1000050100;
 		mi.popupPosition = 1000050100;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.pszName = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
@@ -127,7 +127,7 @@ void RebuildContact()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("User &details");
 		mi.position = 1000050000;
-		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.hotKey = MAKELPARAM(VK_F3, MOD_ALT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 		mi.hotKey = NULL;
@@ -141,14 +141,14 @@ void RebuildContact()
 		mi.pszService = MS_USERINFO_VCARD_EXPORT;
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export user details");
 		mi.position = 1000050200;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORT;
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import user details");
 		mi.position = 1000050300;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 	}
 }
@@ -196,7 +196,7 @@ void RebuildMain()
 			//cascade all
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
-			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
@@ -206,7 +206,7 @@ void RebuildMain()
 			//cascade Ex/Import
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
@@ -224,7 +224,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("View/change my &details...");
 		mi.position = 500050000;
-		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -235,14 +235,14 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 500150000;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 500151000;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -258,13 +258,13 @@ void RebuildMain()
 			mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
 			mi.pszName = LPGEN("Backup birthdays");
 			mi.position = 500253000;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_BDAY_BACKUP);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
 			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 			// Check anniversaries
 			mi.pszService = MS_USERINFO_REMINDER_CHECK;
 			mi.pszName = LPGEN("Check anniversaries");
 			mi.position = 500251000;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_SEARCH);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_SEARCH);
 			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 		}
 		else {
@@ -275,7 +275,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_REFRESH;
 		mi.pszName = LPGEN("Refresh contact details");
 		mi.position = 500254000;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -284,7 +284,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_REMINDER_LIST;
 		mi.pszName = LPGEN("Anniversary list");
 		mi.position = 500252000;
-		mi.hIcon = Skin_GetIcon(ICO_COMMON_ANNIVERSARY);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 }
@@ -341,7 +341,7 @@ void RebuildGroup()
 			//cascade all
 			mi.position = 250000;
 			mi.popupPosition = 250000;
-			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -351,7 +351,7 @@ void RebuildGroup()
 			//cascade Ex/Import
 			mi.position = 250100;
 			mi.popupPosition = 250100;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
@@ -370,14 +370,14 @@ void RebuildGroup()
 		mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 250200;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 250300;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 	}
 }
@@ -438,7 +438,7 @@ void RebuildSubGroup()
 			//cascade all
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
-			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -448,7 +448,7 @@ void RebuildSubGroup()
 			//cascade Ex/Import
 			mi.position = 1050100;
 			mi.popupPosition = 1050100;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import group");
 			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
@@ -468,7 +468,7 @@ void RebuildSubGroup()
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export group");
 		mi.position = 1050200;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		gmp.lParam=0;
 		gmp.wParam=TRUE;
 		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -478,7 +478,7 @@ void RebuildSubGroup()
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import group");
 		mi.position = 1050300;
-		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		gmp.lParam=0;
 		gmp.wParam=FALSE;
 		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -568,7 +568,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		case 5:
 			//cascade all
 			mi.position = 50100;
-			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
@@ -577,7 +577,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		case 9:
 			//cascade Ex/Import
 			mi.position = 50100;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import");
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
@@ -597,7 +597,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mi.pszName = LPGEN("&Export xml");
 			mi.position = 50200;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 
 			// Import
@@ -605,7 +605,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mi.pszName = LPGEN("&Import xml");
 			mi.position = 50300;
-			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+			mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 		}
 	}

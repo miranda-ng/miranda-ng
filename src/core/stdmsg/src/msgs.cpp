@@ -186,7 +186,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.ptszTooltip = szTip;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 			CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
-			Skin_ReleaseIcon(cle.hIcon);
+			IcoLib_ReleaseIcon(cle.hIcon);
 		}
 	}
 	return 0;

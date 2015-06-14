@@ -134,7 +134,7 @@ HICON LoadFlag(int countryNumber)
 
 	char szId[20];
 	mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", countryNumber); /* buffer safe */
-	return Skin_GetIcon(szId);
+	return IcoLib_GetIcon(szId);
 }
 
 HANDLE LoadFlagHandle(int countryNumber)
@@ -403,7 +403,7 @@ void InitIcons()
 				sid.hDefaultIcon = ImageList_ExtractIcon(NULL, himl, index);
 				index = CountryNumberToIndex(countries[i].id);
 
-				phIconHandles[index] = Skin_AddIcon(&sid);
+				phIconHandles[index] = IcoLib_AddIcon(&sid);
 				if (sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
 				mir_free(sid.description.t); sid.description.t = NULL;
 			}
@@ -422,7 +422,7 @@ void UninitIcons()
 		/* create identifier */
 		char szId[20];
 		mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
-		Skin_RemoveIcon(szId);
+		IcoLib_RemoveIcon(szId);
 	}
 	mir_free(phIconHandles);  /* does NULL check */
 }

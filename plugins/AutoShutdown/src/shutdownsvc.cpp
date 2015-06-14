@@ -307,7 +307,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 		if (lParam==SDSDT_SHUTDOWN || lParam==SDSDT_REBOOT || lParam==SDSDT_LOGOFF)
 			ShowWindow(GetDlgItem(hwndDlg,IDC_TEXT_UNSAVEDWARNING),SW_SHOW);
-		SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header"));
+		SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)IcoLib_GetIcon("AutoShutdown_Header"));
 		{
 			HFONT hBoldFont;
 			LOGFONT lf;

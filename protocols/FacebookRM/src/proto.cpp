@@ -536,7 +536,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 
 	ttb.pszService = service;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");
-	ttb.hIconHandleUp = Skin_GetIconByHandle(GetIconHandle("mind"));
+	ttb.hIconHandleUp = IcoLib_GetIconByHandle(GetIconHandle("mind"));
 	TopToolbar_AddButton(&ttb);
 
 	return 0;
@@ -995,7 +995,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(191, 0, 0); // red
 	ppc.colorText = RGB(255, 255, 255); // white
 	ppc.iSeconds = 0;
@@ -1006,7 +1006,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
@@ -1017,7 +1017,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notification"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notification"));
 	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
 	ppc.colorText = RGB(255, 255, 255); // white
 	ppc.iSeconds = 0;
@@ -1028,7 +1028,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
@@ -1039,7 +1039,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("friendship"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("friendship"));
 	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
 	ppc.colorText = RGB(255, 255, 255); // white
 	ppc.iSeconds = 0;
@@ -1050,7 +1050,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
@@ -1061,7 +1061,7 @@ void FacebookProto::InitPopups()
 	mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
@@ -1129,7 +1129,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
-	st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
+	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("read"));
 
 	if (isChatRoom(hContact)) {
 		// Load readers names

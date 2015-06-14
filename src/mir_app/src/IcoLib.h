@@ -94,8 +94,6 @@ IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int c
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
 IcolibItem* IcoLib_FindIcon(const char* pszIconName);
 
-HICON IconItem_GetIcon(IcolibItem* item, bool big);
-
 int SkinOptionsInit(WPARAM, LPARAM);
 
 extern mir_cs csIconList;

@@ -423,12 +423,12 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case MBM_SETICOLIBHANDLE:
 		bct->hIcolibHandle = (HANDLE)lParam;
-		bct->hIcon = (bct->hIcolibHandle) ? Skin_GetIconByHandle(bct->hIcolibHandle) : NULL;
+		bct->hIcon = (bct->hIcolibHandle) ? IcoLib_GetIconByHandle(bct->hIcolibHandle) : NULL;
 		return 1;
 
 	case MBM_REFRESHICOLIBICON:
 		if (bct->hIcolibHandle)
-			bct->hIcon = Skin_GetIconByHandle(bct->hIcolibHandle);
+			bct->hIcon = IcoLib_GetIconByHandle(bct->hIcolibHandle);
 		else
 			bct->hIcon = NULL;
 		InvalidateRect(hwndDlg, NULL, TRUE);

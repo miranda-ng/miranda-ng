@@ -105,18 +105,18 @@ HANDLE GetIconHandle(int iconId)
 	return NULL;
 }
 
-HICON LoadIconEx(const char* name, BOOL big)
+HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
-	return Skin_GetIcon(szSettingName, big);
+	return IcoLib_GetIcon(szSettingName, big);
 }
 
-void ReleaseIconEx(const char* name, BOOL big)
+void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
-	Skin_ReleaseIcon(szSettingName, big);
+	IcoLib_Release(szSettingName, big);
 }
 
 // Copied from MSN plugin - sent acks need to be from different thread

@@ -42,8 +42,8 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 
 void SametimeInitIcons(void);
 HANDLE GetIconHandle(int iconId);
-HICON LoadIconEx(const char* name, BOOL big);
-void ReleaseIconEx(const char* name, BOOL big);
+HICON LoadIconEx(const char* name, bool big);
+void ReleaseIconEx(const char* name, bool big);
 
 
 // services (async thread functions)

@@ -223,10 +223,10 @@ void SetStatusIcon(SrmmWindowData *dat)
 		hContact = dat->hContact;
 	char *szProto = GetContactProto(hContact);
 
-	Skin_ReleaseIcon(dat->statusIcon);
+	IcoLib_ReleaseIcon(dat->statusIcon);
 	dat->statusIcon = LoadSkinnedProtoIcon(szProto, dat->wStatus);
 
-	Skin_ReleaseIcon(dat->statusIconBig);
+	IcoLib_ReleaseIcon(dat->statusIconBig);
 	dat->statusIconBig = LoadSkinnedProtoIconBig(szProto, dat->wStatus);
 	if ((int)dat->statusIconBig == CALLSERVICE_NOTFOUND)
 		dat->statusIconBig = NULL;
@@ -1844,8 +1844,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 
-		Skin_ReleaseIcon(dat->statusIcon);
-		Skin_ReleaseIcon(dat->statusIconBig);
+		IcoLib_ReleaseIcon(dat->statusIcon);
+		IcoLib_ReleaseIcon(dat->statusIconBig);
 		if (dat->statusIconOverlay != NULL) DestroyIcon(dat->statusIconOverlay);
 		dat->statusIcon = NULL;
 		dat->statusIconOverlay = NULL;

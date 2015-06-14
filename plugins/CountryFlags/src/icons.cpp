@@ -147,7 +147,7 @@ HICON __fastcall LoadFlagIcon(int countryNumber)
 
 	char szId[20];
 	mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber); /* buffer safe */
-	return Skin_GetIcon(szId);
+	return IcoLib_GetIcon(szId);
 }
 
 int __fastcall CountryNumberToIndex(int countryNumber)
@@ -254,7 +254,7 @@ void InitIcons(void)
 				}
 				else sid.hDefaultIcon = NULL;
 				index = CountryNumberToIndex(countries[i].id);
-				phIconHandles[index] = Skin_AddIcon(&sid);
+				phIconHandles[index] = IcoLib_AddIcon(&sid);
 				if (sid.hDefaultIcon != NULL)
 					DestroyIcon(sid.hDefaultIcon);
 			}

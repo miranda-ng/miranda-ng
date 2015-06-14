@@ -806,9 +806,9 @@ static int TSAPI SetupIconLibConfig()
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 
 			if (n > 0 && n < 4)
-				PluginConfig.g_buttonBarIconHandles[j++] = Skin_AddIcon(&sid);
+				PluginConfig.g_buttonBarIconHandles[j++] = IcoLib_AddIcon(&sid);
 			else
-				Skin_AddIcon(&sid);
+				IcoLib_AddIcon(&sid);
 		}
 	}
 
@@ -816,19 +816,19 @@ static int TSAPI SetupIconLibConfig()
 	sid.pszName = "tabSRMM_clock_symbol";
 	sid.description.a = LPGEN("Clock symbol (for the info panel clock)");
 	sid.iDefaultIndex = -IDI_CLOCK;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.description.a = LPGEN("Feature disabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	sid.pszName = "tabSRMM_overlay_enabled";
 	sid.description.a = LPGEN("Feature enabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 	return 1;
 }
 
@@ -838,7 +838,7 @@ static int TSAPI LoadFromIconLib()
 {
 	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
-			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
+			*(ICONBLOCKS[n].idesc[i].phIcon) = IcoLib_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 
 	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIcons[1] = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
@@ -853,10 +853,10 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_IconGroupOpen = LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN);
 	PluginConfig.g_IconGroupClose = LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT);
 
-	PluginConfig.g_iconOverlayEnabled = Skin_GetIcon("tabSRMM_overlay_enabled");
-	PluginConfig.g_iconOverlayDisabled = Skin_GetIcon("tabSRMM_overlay_disabled");
+	PluginConfig.g_iconOverlayEnabled = IcoLib_GetIcon("tabSRMM_overlay_enabled");
+	PluginConfig.g_iconOverlayDisabled = IcoLib_GetIcon("tabSRMM_overlay_disabled");
 
-	PluginConfig.g_iconClock = Skin_GetIcon("tabSRMM_clock_symbol");
+	PluginConfig.g_iconClock = IcoLib_GetIcon("tabSRMM_clock_symbol");
 
 	CacheMsgLogIcons();
 	M.BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);

@@ -109,22 +109,22 @@ void SrmmMenu_Load()
 
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("Popup Mode: Auto");
-	sid.hIcon = sid.hIconDisabled = Skin_GetIcon(ICO_POPUP_ON, 0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
 	sid.szTooltip = LPGEN("Popup Mode: Favorite");
-	sid.hIcon = sid.hIconDisabled = Skin_GetIcon(ICO_FAV, 0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
 	sid.szTooltip = LPGEN("Popup Mode: Ignore fullscreen");
-	sid.hIcon = sid.hIconDisabled = Skin_GetIcon(ICO_FULLSCREEN, 0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 3;
 	sid.szTooltip = LPGEN("Popup Mode: Block contact");
-	sid.hIcon = sid.hIconDisabled = Skin_GetIcon(ICO_POPUP_OFF, 0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	Srmm_AddIcon(&sid);
 
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);

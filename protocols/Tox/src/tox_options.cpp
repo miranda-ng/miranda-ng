@@ -376,9 +376,9 @@ void CToxOptionsNodeList::OnInitDialog()
 
 	HIMAGELIST hImageList = m_nodes.CreateImageList(LVSIL_SMALL);
 	HICON icon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
-	ImageList_AddIcon(hImageList, icon); Skin_ReleaseIcon(icon);
+	ImageList_AddIcon(hImageList, icon); IcoLib_ReleaseIcon(icon);
 	icon = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
-	ImageList_AddIcon(hImageList, icon); Skin_ReleaseIcon(icon);
+	ImageList_AddIcon(hImageList, icon); IcoLib_ReleaseIcon(icon);
 
 	m_nodes.AddColumn(0, _T("IPv4"), 100);
 	m_nodes.AddColumn(1, _T("IPv6"), 100);

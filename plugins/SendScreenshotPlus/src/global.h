@@ -150,10 +150,10 @@ enum{
 	ICO_BTN_END_,
 };
 #define GetIconHandle(ico) ICONS[ico].hIcolib
-#define GetIcon(ico) Skin_GetIconByHandle(GetIconHandle(ico))
+#define GetIcon(ico) IcoLib_GetIconByHandle(GetIconHandle(ico))
 extern IconItem ICONS[ICO_END_];
 #define GetIconBtnHandle(ico) ICONS_BTN[ico].hIcolib
-#define GetIconBtn(ico) Skin_GetIconByHandle(GetIconBtnHandle(ico))
+#define GetIconBtn(ico) IcoLib_GetIconByHandle(GetIconBtnHandle(ico))
 extern IconItem ICONS_BTN[ICO_BTN_END_];
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))

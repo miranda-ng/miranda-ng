@@ -477,7 +477,7 @@ void CJabberProto::InitPopups(void)
 	ppc.iSeconds = 60;
 	m_hPopupClass = Popup_RegisterClass(&ppc);
 
-	Skin_ReleaseIcon(ppc.hIcon);
+	IcoLib_ReleaseIcon(ppc.hIcon);
 }
 
 void CJabberProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle)

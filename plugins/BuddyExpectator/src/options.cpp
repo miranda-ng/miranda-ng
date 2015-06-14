@@ -347,7 +347,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NO_HISTORY);
 
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
-			ppd.lchIcon = Skin_GetIcon("enabled_icon");
+			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NO_HISTORY);
 		}

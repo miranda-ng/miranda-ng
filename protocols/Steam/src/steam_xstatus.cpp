@@ -22,7 +22,7 @@ void SetContactExtraIcon(MCONTACT hContact, int status)
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
 
-	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? Skin_GetIconHandle(iconName) : NULL);
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? IcoLib_GetIconHandle(iconName) : NULL);
 }
 
 INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
@@ -98,7 +98,7 @@ HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
 
-	HICON icon = Skin_GetIcon(iconName, (flags & LR_BIGICON) ? 32 : 16);
+	HICON icon = IcoLib_GetIcon(iconName, (flags & LR_BIGICON) ? 32 : 16);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
 
@@ -135,7 +135,7 @@ INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 				// mark icon index in the array as valid
 				xstatusIconsValid.push_back(status);
 
-				Skin_ReleaseIcon(hXStatusIcon);
+				IcoLib_ReleaseIcon(hXStatusIcon);
 			}
 		}
 

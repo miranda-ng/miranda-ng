@@ -190,8 +190,7 @@ end;
 
 function GetIcon(action:integer;stat:integer):cardinal;
 begin
-  result:=CallService(MS_SKIN2_GETICON,0,
-      lparam(CtrlIcoLib[action][stat].name));
+  result:=IcoLib_GetIcon(CtrlIcoLib[action][stat].name,0);
 end;
 
 function GetIconDescr(action:integer):pAnsiChar;

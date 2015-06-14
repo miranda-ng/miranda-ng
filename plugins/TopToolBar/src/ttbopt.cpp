@@ -26,9 +26,9 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 	}
 	else {
 		if (b->hIconHandleUp) {
-			HICON hIcon = Skin_GetIconByHandle(b->hIconHandleUp);
+			HICON hIcon = IcoLib_GetIconByHandle(b->hIconHandleUp);
 			index = ImageList_AddIcon(il, hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 		}
 		else index = ImageList_AddIcon(il, b->hIconUp);
 

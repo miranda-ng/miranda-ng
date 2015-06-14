@@ -151,10 +151,10 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 			return FALSE;
 		SetUserData(hDlg, lParam);
 
-		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)Skin_GetIcon(ICO_DLG_EMAIL, TRUE));
+		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_EMAIL, TRUE));
 		if (db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1)) {
-			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_BTN_OK));
-			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_BTN_CANCEL));
+			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
+			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
 		}
 
 		if (*cbi->pszVal)
@@ -243,10 +243,10 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			if (!cbi) return FALSE;
 			SetUserData(hDlg, lParam);
 
-			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)Skin_GetIcon(ICO_DLG_PHONE, TRUE));
+			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)IcoLib_GetIcon(ICO_DLG_PHONE, TRUE));
 			if (db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1)) {
-				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_BTN_OK));
-				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_BTN_CANCEL));
+				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_OK));
+				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_BTN_CANCEL));
 			}
 
 			// translate Userinfo buttons
@@ -577,17 +577,17 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		**/
 	case WM_SETICON:
 	{
-		HICON hIcon = Skin_GetIcon(ICO_BTN_ADD);
+		HICON hIcon = IcoLib_GetIcon(ICO_BTN_ADD);
 		SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(cbex->hBtnAdd, (hIcon ? _T("") : _T("+")));
 
-		hIcon = Skin_GetIcon(ICO_BTN_DELETE);
+		hIcon = IcoLib_GetIcon(ICO_BTN_DELETE);
 		SendMessage(cbex->hBtnDel, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(cbex->hBtnDel, (hIcon ? _T("") : _T("-")));
 
 		if (cbex->pItems && cbex->numItems > 0) {
 			for (int i = 0; i < cbex->numItems; i++)
-				cbex->pItems[i].hIcon = Skin_GetIcon(cbex->pItems[i].pszIcon);
+				cbex->pItems[i].hIcon = IcoLib_GetIcon(cbex->pItems[i].pszIcon);
 
 			if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems)
 				SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[cbex->iSelectedItem].hIcon);
@@ -786,7 +786,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				}
 				mBox.cbSize = sizeof(MSGBOX);
 				mBox.hParent = hDlgDetails;
-				mBox.hiLogo = Skin_GetIcon(ICO_DLG_PHONE);
+				mBox.hiLogo = IcoLib_GetIcon(ICO_DLG_PHONE);
 				mBox.uType = MB_YESNO|MB_ICON_QUESTION|MB_NOPOPUP;
 				mBox.ptszTitle = TranslateT("Delete");
 				mBox.ptszMsg = szMsg;
@@ -955,7 +955,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		// set icon
 		if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->pszIcon) {
 			cbex->pItems[cbex->numItems].pszIcon = pItem->pszIcon;
-			cbex->pItems[cbex->numItems].hIcon = Skin_GetIcon(pItem->pszIcon);
+			cbex->pItems[cbex->numItems].hIcon = IcoLib_GetIcon(pItem->pszIcon);
 		}
 		// set flags
 		cbex->pItems[cbex->numItems].wFlags = (pItem->wMask & CBEXIM_CAT) ? pItem->wFlags : 0;
@@ -1000,7 +1000,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		// set icon
 		if ((pItem->wMask & CBEXIM_ICONTEXT) && pItem->pszIcon) {
 			cbex->pItems[pItem->iItem].pszIcon = pItem->pszIcon;
-			cbex->pItems[pItem->iItem].hIcon = Skin_GetIcon(pItem->pszIcon);
+			cbex->pItems[pItem->iItem].hIcon = IcoLib_GetIcon(pItem->pszIcon);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SendMessage(cbex->hBtnEdit, BM_SETIMAGE, IMAGE_ICON, (LPARAM)cbex->pItems[pItem->iItem].hIcon);
 		}

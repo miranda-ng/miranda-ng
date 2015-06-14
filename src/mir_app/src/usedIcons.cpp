@@ -53,10 +53,10 @@ static Icon* FindIcon(const char *icolibName)
 		usedIcons.insert(icon = new Icon(icolibName));
 
 	if (icon->hImage == INVALID_HANDLE_VALUE) {
-		HICON hIcon = Skin_GetIcon(icon->name);
+		HICON hIcon = IcoLib_GetIcon(icon->name);
 		if (hIcon != NULL) {
 			icon->hImage = ExtraIcon_Add(hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 		}
 	}
 

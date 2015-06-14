@@ -271,13 +271,13 @@ int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
 	ttb.name = "TabSRMM session list";
 	ttb.pszTooltipUp = LPGEN("TabSRMM session list");
-	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_sb_slist");
+	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_sb_slist");
 	TopToolbar_AddButton(&ttb);
 
 	ttb.name = "TabSRMM Menu";
 	ttb.pszTooltipUp = LPGEN("TabSRMM menu");
 	ttb.lParamUp = ttb.lParamDown = 1;
-	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_container");
+	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_container");
 	TopToolbar_AddButton(&ttb);
 
 	return 0;

@@ -401,7 +401,7 @@ public:
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
-		_popupButtons[0].lchIcon = Skin_GetIcon(ICO_BTN_DOWNARROW);
+		_popupButtons[0].lchIcon = IcoLib_GetIcon(ICO_BTN_DOWNARROW);
 		_popupButtons[0].wParam = MAKEWORD(IDSKIP, BN_CLICKED);
 		_popupButtons[0].lParam = NULL;
 		mir_strcpy(_popupButtons[0].lpzTitle, MODNAME"/Hide");
@@ -409,7 +409,7 @@ public:
 		// cancel button
 		_popupButtons[1].cbSize = sizeof(POPUPACTION);
 		_popupButtons[1].flags = PAF_ENABLED;
-		_popupButtons[1].lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		_popupButtons[1].lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 		_popupButtons[1].wParam = MAKEWORD(IDCANCEL, BN_CLICKED);
 		_popupButtons[1].lParam = NULL;
 		mir_strcpy(_popupButtons[1].lpzTitle, MODNAME"/Cancel");
@@ -423,7 +423,7 @@ public:
 	{
 		POPUPDATAT_V2 pd = { 0 };
 		pd.cbSize = sizeof(pd);
-		pd.lchIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		pd.iSeconds = -1;
 		pd.PluginData = this;
 		pd.PluginWindowProc = CPopupUpdProgress::WndProc;
@@ -613,7 +613,7 @@ class CContactUpdater : public CContactQueue
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Refresh contact details");
-			clmi.hIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 			Menu_ModifyItem(hMenuItemRefresh, &clmi);
 		}
 	}
@@ -730,7 +730,7 @@ public:
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Abort Refreshing Contact Details");
-			clmi.hIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
 			Menu_ModifyItem(hMenuItemRefresh, &clmi);
 		}
 	}

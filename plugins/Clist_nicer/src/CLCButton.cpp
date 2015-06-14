@@ -54,9 +54,9 @@ static void InitDefaultButtons()
 				tbb.dwFlags |= TTBBF_ASPUSHBUTTON;
 
 			tbb.pszTooltipUp = tbb.name = LPGEN(BTNS[i].pszButtonName);
-			tbb.hIconHandleUp = Skin_GetIconHandle(BTNS[i].pszButtonID);
+			tbb.hIconHandleUp = IcoLib_GetIconHandle(BTNS[i].pszButtonID);
 			if (BTNS[i].pszButtonDn)
-				tbb.hIconHandleDn = Skin_GetIconHandle(BTNS[i].pszButtonDn);
+				tbb.hIconHandleDn = IcoLib_GetIconHandle(BTNS[i].pszButtonDn);
 		}
 		else tbb.dwFlags |= TTBBF_ISSEPARATOR;
 

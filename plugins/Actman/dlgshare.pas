@@ -55,7 +55,7 @@ end;
 
 function OptSetButtonIcon(btn:HWND;num:integer):HICON;
 begin
-  result:=CallService(MS_SKIN2_GETICONBYHANDLE,0,LPARAM(Icons[num].hIcolib));
+  result:=IcoLib_GetIconByHandle(Icons[num].hIcolib,0);
   SendMessage(btn,BM_SETIMAGE,IMAGE_ICON,result);
 end;
 

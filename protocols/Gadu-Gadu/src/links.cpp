@@ -74,7 +74,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 		Menu_ModifyItem(gg->hInstanceMenuItem, &mi);
 		if (mi.hIcon)
-			Skin_ReleaseIcon(mi.hIcon);
+			IcoLib_ReleaseIcon(mi.hIcon);
 	}
 
 	if (items > 1) {

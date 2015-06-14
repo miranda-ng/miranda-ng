@@ -47,12 +47,12 @@ INT_PTR LoadLCIcon(WPARAM wParam, LPARAM lParam)
 		if (wParam & PLIF_ICOLIBHANDLE)
 			return (INT_PTR)icoList[0].hIcolib;
 
-		HICON hIcon = Skin_GetIconByHandle(icoList[0].hIcolib, (wParam & PLIF_SMALL) == 0);
+		HICON hIcon = IcoLib_GetIconByHandle(icoList[0].hIcolib, (wParam & PLIF_SMALL) == 0);
 		if (wParam & PLIF_ICOLIB)
 			return (INT_PTR)hIcon;
 
 		HICON hIcon2 = CopyIcon(hIcon);
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 		return (INT_PTR)hIcon2;
 	}
 

@@ -182,11 +182,11 @@ void RegisterFonts(void)
 
 // load icons from the skinning module if available
 
-HICON LoadIconEx(char* pszIcoLibName, BOOL big)
+HICON LoadIconEx(char* pszIcoLibName, bool big)
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);
-	return Skin_GetIcon(szTemp, big);
+	return IcoLib_GetIcon(szTemp, big);
 }
 
 static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)

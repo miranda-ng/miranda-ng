@@ -885,7 +885,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
 			for (int i = 0; i < SIZEOF(_buttons); i++) {
 				HWND hwndButton = GetDlgItem(hwnd, _buttons[i].btn_id);
-				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(_buttons[i].icon));
+				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(_buttons[i].icon));
 				CustomizeButton(hwndButton, bSkinned, !bSkinned, bSkinned);
 			}
 		}

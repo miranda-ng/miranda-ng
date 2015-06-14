@@ -592,14 +592,14 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			HICON hIcon = LoadSkinnedIcon(tmp);
 			DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
-			IcoLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon);
 
 			lps->rcItem.left += cxIcon + 2;
 
 			if (acc->ppro) {
-				hIcon = Skin_GetIconByHandle(acc->ppro->m_hProtoIcon);
+				hIcon = IcoLib_GetIconByHandle(acc->ppro->m_hProtoIcon);
 				DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
-				Skin_ReleaseIcon(hIcon);
+				IcoLib_ReleaseIcon(hIcon);
 			}
 			lps->rcItem.left += cxIcon + 2;
 

@@ -22,11 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void InitIcons(void);
 void InitExtraIcons(void);
 
-HICON  LoadIconEx(const char* name, bool big = false);
-HANDLE GetIconHandle(const char* name);
-void   ReleaseIconEx(const char* name, bool big = false);
-void   WindowSetIcon(HWND hWnd, const char* name);
-void   WindowFreeIcon(HWND hWnd);
+HICON  LoadIconEx(const char *name, bool big = false);
+HANDLE GetIconHandle(const char *name);
+void   ReleaseIconEx(const char *name, bool big = false);
+
+void   Window_SetIcon(HWND hWnd, const char *name);
 
 void   add_AT_icons(CAimProto* ppro);
 void   remove_AT_icons(CAimProto* ppro);
