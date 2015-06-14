@@ -210,7 +210,6 @@
     <ClCompile Include="urldialogs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\stdplug.h" />
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="url.h" />
   </ItemGroup>
