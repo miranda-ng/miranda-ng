@@ -968,22 +968,15 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
-void __cdecl OpenMessageWindowThread(void *data)
-{
-	MCONTACT hContact = (MCONTACT)data;
-	CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
-	CallServiceSync("SRMsg/LaunchMessageWindow", hContact, 0);
-}
-
 int HandlePopupClick(HWND hWnd, int action)
 {
+	MCONTACT hContact;
+
 	switch (action) {
 	case 2: //OPEN MESSAGE WINDOW
-	{
-		MCONTACT hContact = (MCONTACT)PUGetContact(hWnd);
+		hContact = (MCONTACT)PUGetContact(hWnd);
 		if (hContact)
-			HANDLE thread = mir_forkthread(OpenMessageWindowThread, (void*)hContact);
-	}//fallthrough
+			CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
 
 	case 1: //DISMISS
 		PUDeletePopup(hWnd);
