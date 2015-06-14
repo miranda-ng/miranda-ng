@@ -217,7 +217,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	sid.pszName = setting;
 	sid.description.a = notification->lpzName;
 	sid.hDefaultIcon = notification->lchIcon;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	gTreeData.insert(ptd);
 	return (HANDLE)ptd;
@@ -260,7 +260,7 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 
 	char setting[MAXMODULELABELLENGTH];
 	mir_snprintf(setting, MODULNAME"_%s_%s", ptd->notification.lpzGroup, ptd->notification.lpzName);
-	ppd->lchIcon = Skin_GetIcon(setting);
+	ppd->lchIcon = IcoLib_GetIcon(setting);
 }
 
 bool IsValidNotification(HANDLE hNotification)

@@ -549,7 +549,7 @@ bool Omegle_client::events()
 			
 			StatusTextData st = { 0 };
 			st.cbSize = sizeof(st);
-			// st.hIcon = Skin_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
+			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
 
 			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s is typing."), TranslateT("Stranger"));
 
@@ -564,7 +564,7 @@ bool Omegle_client::events()
 			
 			StatusTextData st = { 0 };
 			st.cbSize = sizeof(st);
-			// st.hIcon = Skin_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
+			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
 
 			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s stopped typing."), TranslateT("Stranger"));
 

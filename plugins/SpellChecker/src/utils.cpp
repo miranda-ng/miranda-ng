@@ -1506,12 +1506,12 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Draw icon
 			if (dict->hIcolib) {
-				HICON hFlag = Skin_GetIconByHandle(dict->hIcolib);
+				HICON hFlag = IcoLib_GetIconByHandle(dict->hIcolib);
 
 				rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
 				DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
 
-				Skin_ReleaseIcon(hFlag);
+				IcoLib_ReleaseIcon(hFlag);
 
 				rc.left += ICON_SIZE + 4;
 			}

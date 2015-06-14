@@ -267,12 +267,12 @@ public:
 		for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
 			ExtraIcon *extra = registeredExtraIcons[i];
 
-			HICON hIcon = Skin_GetIcon(extra->getDescIcon());
+			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
 			if (hIcon == NULL)
 				ImageList_AddIcon(hImageList, hBlankIcon);
 			else {
 				ImageList_AddIcon(hImageList, hIcon);
-				Skin_ReleaseIcon(hIcon);
+				IcoLib_ReleaseIcon(hIcon);
 			}
 		}
 		m_tree.SetImageList(hImageList, TVSIL_NORMAL);

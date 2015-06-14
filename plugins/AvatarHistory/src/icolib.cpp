@@ -14,12 +14,12 @@ static IconItem iconList[] =
 
 static HICON LoadIconEx(IconIndex i)
 {
-	return Skin_GetIconByHandle(iconList[(int)i].hIcolib);
+	return IcoLib_GetIconByHandle(iconList[(int)i].hIcolib);
 }
 
 static void ReleaseIconEx(HICON hIcon)
 {
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 }
 
 static void IcoLibUpdateMenus()
@@ -84,6 +84,6 @@ HICON createProtoOverlayedIcon(MCONTACT hContact)
 	HICON resIcon = getOverlayedIcon(icon0, icon1, FALSE);
 
 	ReleaseIconEx(icon1);
-	Skin_ReleaseIcon(icon0);
+	IcoLib_ReleaseIcon(icon0);
 	return resIcon;
 }

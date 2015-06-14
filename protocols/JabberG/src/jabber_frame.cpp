@@ -360,7 +360,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 
 		if (depth == 0) {
 			if (item.m_hIcolibIcon) {
-				HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
+				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 				if (hIcon) {
 					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 					g_ReleaseIcon(hIcon);
@@ -372,7 +372,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 		}
 		else {
 			if (item.m_hIcolibIcon) {
-				HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
+				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 				if (hIcon) {
 					SetRect(&item.m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
 					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
@@ -418,7 +418,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		SetRect(&item.m_rcItem, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
 
 		if (item.m_hIcolibIcon) {
-			HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
+			HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
 			if (hIcon) {
 				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 				cx += cx_icon + SZ_ICONSPACING;

@@ -102,7 +102,7 @@ static void __fastcall SetStatusIcon(MCONTACT hContact,int countryNumber)
 	Srmm_ModifyIcon(hContact, &sid);
 
 	if (sid.hIcon)
-		Skin_ReleaseIcon(sid.hIcon);
+		IcoLib_ReleaseIcon(sid.hIcon);
 }
 
 // always call in context of main thread

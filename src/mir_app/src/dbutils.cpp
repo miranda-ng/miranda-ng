@@ -213,11 +213,11 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 			return (INT_PTR)icon;
 	}
 	if (et && et->eventIcon)
-		icon = Skin_GetIconByHandle(et->eventIcon);
+		icon = IcoLib_GetIconByHandle(et->eventIcon);
 	if (!icon) {
 		char szName[100];
 		mir_snprintf(szName, SIZEOF(szName), "eventicon_%s%d", dbei->szModule, dbei->eventType);
-		icon = Skin_GetIcon(szName);
+		icon = IcoLib_GetIcon(szName);
 	}
 
 	if (!icon) {

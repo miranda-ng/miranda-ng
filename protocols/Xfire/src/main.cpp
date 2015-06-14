@@ -1411,8 +1411,8 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL) {
 		if (wParam & PLIF_ICOLIB)
-			return (INT_PTR)Skin_GetIcon("XFIRE_main");
-		return (INT_PTR)CopyIcon(Skin_GetIcon("XFIRE_main"));
+			return (INT_PTR)IcoLib_GetIcon("XFIRE_main");
+		return (INT_PTR)CopyIcon(IcoLib_GetIcon("XFIRE_main"));
 	}
 	return NULL;
 }

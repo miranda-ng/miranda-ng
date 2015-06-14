@@ -49,7 +49,7 @@ HICON Utils::loadIconEx(char *szName)
 {
 	char buff[100];
 	mir_snprintf(buff, "%s_%s", MODULE, szName);
-	return Skin_GetIcon(buff);
+	return IcoLib_GetIcon(buff);
 }
 
 TCHAR *Utils::getFileNameFromPath(TCHAR *stzPath)

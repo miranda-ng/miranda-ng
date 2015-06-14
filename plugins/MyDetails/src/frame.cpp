@@ -1181,11 +1181,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		HRGN rgn = CreateRectRgnIndirect(&rc);
 		SelectClipRgn(hdc, rgn);
 
-		HICON icon = Skin_GetIcon("MYDETAILS_NEXT_PROTOCOL");
+		HICON icon = IcoLib_GetIcon("MYDETAILS_NEXT_PROTOCOL");
 		if (icon == NULL)
 			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->next_proto_rect.left, data->next_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-		Skin_ReleaseIcon(icon);
+		IcoLib_ReleaseIcon(icon);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1194,11 +1194,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		rgn = CreateRectRgnIndirect(&rc);
 		SelectClipRgn(hdc, rgn);
 
-		icon = Skin_GetIcon("MYDETAILS_PREV_PROTOCOL");
+		icon = IcoLib_GetIcon("MYDETAILS_PREV_PROTOCOL");
 		if (icon == NULL)
 			icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
 		DrawIconEx(hdc, data->prev_proto_rect.left, data->prev_proto_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-		Skin_ReleaseIcon(icon);
+		IcoLib_ReleaseIcon(icon);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1250,7 +1250,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 		if (status_icon != NULL) {
 			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-			Skin_ReleaseIcon(status_icon);
+			IcoLib_ReleaseIcon(status_icon);
 		}
 
 		SelectClipRgn(hdc, NULL);
@@ -1318,11 +1318,11 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			HRGN rgn = CreateRectRgnIndirect(&rc);
 			SelectClipRgn(hdc, rgn);
 
-			HICON icon = Skin_GetIcon("LISTENING_TO_ICON");
+			HICON icon = IcoLib_GetIcon("LISTENING_TO_ICON");
 			if (icon == NULL)
 				icon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
 			DrawIconEx(hdc, data->listening_to_icon_rect.left, data->listening_to_icon_rect.top, icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-			Skin_ReleaseIcon(icon);
+			IcoLib_ReleaseIcon(icon);
 
 			SelectClipRgn(hdc, NULL);
 			DeleteObject(rgn);

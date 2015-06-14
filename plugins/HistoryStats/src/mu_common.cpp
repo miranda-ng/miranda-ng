@@ -134,7 +134,7 @@ namespace mu
 			sid.cx = cx;
 			sid.cy = cy;
 			sid.flags = SIDF_TCHAR;
-			Skin_AddIcon(&sid);
+			IcoLib_AddIcon(&sid);
 		}
 
 		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, HICON hDefaultIcon, int cx /* = 16 */, int cy /* = 16 */)
@@ -149,12 +149,12 @@ namespace mu
 			sid.cx = cx;
 			sid.cy = cy;
 			sid.flags = SIDF_TCHAR;
-			Skin_AddIcon(&sid);
+			IcoLib_AddIcon(&sid);
 		}
 
 		HICON getIcon(const char* szIconName)
 		{
-			return reinterpret_cast<HICON>(CallService(MS_SKIN2_GETICON, 0, reinterpret_cast<LPARAM>(szIconName)));
+			return IcoLib_GetIcon(szIconName);
 		}
 	}
 

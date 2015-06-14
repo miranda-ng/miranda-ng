@@ -1296,19 +1296,19 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			if (g_ShowNoteButtons) {
 				HICON hcIcon;
 				if (SN->OnTop)
-					hcIcon = Skin_GetIconByHandle(iconList[4].hIcolib);
+					hcIcon = IcoLib_GetIconByHandle(iconList[4].hIcolib);
 				else
-					hcIcon = Skin_GetIconByHandle(iconList[7].hIcolib);
+					hcIcon = IcoLib_GetIconByHandle(iconList[7].hIcolib);
 				DrawIcon(hdc, wr.right - wr.left - 16, 0 + 3, hcIcon);
-				Skin_ReleaseIcon(hcIcon);
+				IcoLib_ReleaseIcon(hcIcon);
 
-				hcIcon = Skin_GetIconByHandle(iconList[9].hIcolib);
+				hcIcon = IcoLib_GetIconByHandle(iconList[9].hIcolib);
 				DrawIcon(hdc, wr.right - wr.left - 32, 1 + 3, hcIcon);
-				Skin_ReleaseIcon(hcIcon);
+				IcoLib_ReleaseIcon(hcIcon);
 
-				hcIcon = Skin_GetIconByHandle(iconList[8].hIcolib);
+				hcIcon = IcoLib_GetIconByHandle(iconList[8].hIcolib);
 				DrawIcon(hdc, wr.right - wr.left - 48, 1 + 3, hcIcon);
-				Skin_ReleaseIcon(hcIcon);
+				IcoLib_ReleaseIcon(hcIcon);
 			}
 
 			if (wParam && wParam != 1)
@@ -1926,9 +1926,9 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		{
 			HWND H;
 
-			HICON hIcon = Skin_GetIconByHandle(iconList[13].hIcolib, ICON_SMALL);
+			HICON hIcon = IcoLib_GetIconByHandle(iconList[13].hIcolib, ICON_SMALL);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
-			hIcon = Skin_GetIconByHandle(iconList[13].hIcolib, ICON_BIG);
+			hIcon = IcoLib_GetIconByHandle(iconList[13].hIcolib, ICON_BIG);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 
 			SetWindowText(Dialog, LPGENT("Notes"));
@@ -1987,8 +1987,8 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		ListNotesVisible = FALSE;
-		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
-		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
 		return TRUE;
 
 	case WM_NOTIFY:

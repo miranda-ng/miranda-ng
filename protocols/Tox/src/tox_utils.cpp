@@ -46,7 +46,7 @@ void CToxProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = Skin_GetIcon("Tox_main");
+		ppd.lchIcon = IcoLib_GetIcon("Tox_main");
 
 		if (!PUAddPopupT(&ppd))
 			return;

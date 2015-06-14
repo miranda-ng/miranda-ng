@@ -195,12 +195,12 @@ HICON WINAPI g_LoadIconEx( int idx, bool big )
 {
 	if ( idx >= SIZEOF(iconList))
 		return NULL;
-	return Skin_GetIcon(iconList[idx].szName, big);
+	return IcoLib_GetIcon(iconList[idx].szName, big);
 }
 
 void WINAPI g_ReleaseIcon( HICON hIcon )
 {
-	if ( hIcon ) Skin_ReleaseIcon(hIcon);
+	if ( hIcon ) IcoLib_ReleaseIcon(hIcon);
 }
 
 static void LoadPlugins()

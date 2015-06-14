@@ -38,7 +38,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
 			}
 		case ICON_READ:
 			{
-				sid.hIcon = Skin_GetIcon("read_icon");
+				sid.hIcon = IcoLib_GetIcon("read_icon");
 				TCHAR ttime[64];
 				_locale_t locale = _create_locale(LC_ALL, "");
 				_tcsftime_l(ttime, SIZEOF(ttime), _T("%X %x"), localtime(&time), locale);
@@ -49,19 +49,19 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
 			}
 		case ICON_UNREAD:
 			{
-				sid.hIcon = Skin_GetIcon("unread_icon");
+				sid.hIcon = IcoLib_GetIcon("unread_icon");
 				sid.tszTooltip = TranslateT("Last message is not read");
 				break;
 			}
 		case ICON_FAILED:
 			{
-				sid.hIcon = Skin_GetIcon("fail_icon");
+				sid.hIcon = IcoLib_GetIcon("fail_icon");
 				sid.tszTooltip = TranslateT("Last message was not sent.");
 				break;
 			}
 		case ICON_NOSENT:
 			{
-				sid.hIcon = Skin_GetIcon("nosent_icon");
+				sid.hIcon = IcoLib_GetIcon("nosent_icon");
 				sid.tszTooltip = TranslateT("Sending...");
 				break;
 			}

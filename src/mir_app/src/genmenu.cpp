@@ -335,7 +335,7 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 			if (hIcon != NULL) {
 				pimi->hIcolibItem = hIcolibItem;
 				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, hIcon);
-				IcoLib_ReleaseIcon(hIcon, 0);
+				IcoLib_ReleaseIcon(hIcon);
 			}
 			else pimi->iconId = -1, pimi->hIcolibItem = NULL;
 		}
@@ -668,7 +668,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, hIcon);
 			p->hIcolibItem = hIcolibItem;
-			IcoLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon);
 		}
 		else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
 	}
@@ -1027,7 +1027,7 @@ static int MO_ReloadIcon(PMO_IntMenuItem pmi, void*)
 		if (newIcon)
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, newIcon);
 
-		IcoLib_ReleaseIcon(newIcon, 0);
+		IcoLib_ReleaseIcon(newIcon);
 	}
 
 	return FALSE;
@@ -1085,12 +1085,12 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		sid.pszName = iconame;
 		sid.description.t = descr;
 		sid.hDefaultIcon = hIcon;
-		pmi->hIcolibItem = IcoLib_AddNewIcon(0, &sid);
+		pmi->hIcolibItem = IcoLib_AddIcon(&sid, 0);
 
 		Safe_DestroyIcon(hIcon);
-		if (hIcon = Skin_GetIcon(iconame)) {
+		if (hIcon = IcoLib_GetIcon(iconame)) {
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
-			IcoLib_ReleaseIcon(hIcon, 0);
+			IcoLib_ReleaseIcon(hIcon);
 		}
 	}
 

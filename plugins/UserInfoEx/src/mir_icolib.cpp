@@ -186,7 +186,7 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, BYTE numCtrls)
 {
 	for (int i = 0; i < numCtrls; i++) {
-		HICON	hIcon = Skin_GetIcon(pCtrl[i].pszIcon);
+		HICON	hIcon = IcoLib_GetIcon(pCtrl[i].pszIcon);
 		if (pCtrl[i].idCtrl) {
 			HWND hCtrl = GetDlgItem(hDlg, pCtrl[i].idCtrl);
 			switch (pCtrl[i].Message) {
@@ -259,7 +259,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 				sid.hDefaultIcon = hDefIcon;
 				sid.iDefaultIndex = -1;
 			}
-			hIconHandle = Skin_AddIcon(&sid);
+			hIconHandle = IcoLib_AddIcon(&sid);
 		}
 		MIR_FREE(sid.description.t);
 		MIR_FREE(sid.section.t);
@@ -304,7 +304,7 @@ HANDLE IcoLib_RegisterIconHandle(LPSTR szIconID, LPSTR szDescription, LPSTR szSe
  **/
 HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, int idIcon, int Size)
 {
-	return Skin_GetIconByHandle(IcoLib_RegisterIconHandle(szIconID, szDescription, szSection, idIcon, Size));
+	return IcoLib_GetIconByHandle(IcoLib_RegisterIconHandle(szIconID, szDescription, szSection, idIcon, Size));
 }
 
 /**

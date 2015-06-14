@@ -264,7 +264,7 @@ static void CreateTrayIcon(bool create)
 	nim.hWnd = g_hListenWindow;
 	nim.uID = 100;
 	nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-	nim.hIcon = Skin_GetIcon("hidemim");
+	nim.hIcon = IcoLib_GetIcon("hidemim");
 	nim.uCallbackMessage = WM_USER + 24;
 	Shell_NotifyIcon(create ? NIM_ADD : NIM_DELETE, &nim);
 	g_TrayIcon = create;
@@ -539,7 +539,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
 	mi.pszPopupName = 0;
-	mi.hIcon = Skin_GetIcon("hidemim");
+	mi.hIcon = IcoLib_GetIcon("hidemim");
 	mi.ptszName = LPGENT("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 

@@ -26,6 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
+
 //loads an icon from the user's custom skin library, or from the exe if there
 //isn't one of them
 //wParam = id of icon to load - see below
@@ -38,6 +42,13 @@ __forceinline HICON  LoadSkinnedIcon(int id)       { return (HICON) CallService(
 __forceinline HANDLE LoadSkinnedIconHandle(int id) { return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1); }
 __forceinline HICON  LoadSkinnedIconBig(int id)    { return (HICON) CallService(MS_SKIN_LOADICON, id, 2); }
 __forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(MS_SKIN_LOADICON, id, 3); }
+
+///////////////////////////////////////////////////////////////////////////////
+// Miranda skin
+
+MIR_APP_DLL(HICON)  LoadSkinProtoIcon(const char *szProto, int status, bool big = false);
+MIR_APP_DLL(HICON)  LoadSkinIcon(int idx, bool big = false);
+MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx);
 
 // event icons
 #define SKINICON_EVENT_MESSAGE       100

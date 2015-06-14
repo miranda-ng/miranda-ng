@@ -8,7 +8,7 @@ LoadSkinIcon                @5
 Button_FreeIcon_IcoLib      @6
 Button_SetIcon_IcoLib       @7
 GetSkinIconHandle           @8
-IcoLib_AddNewIcon           @9
+IcoLib_AddIcon              @9
 IcoLib_GetIcon             @10
 IcoLib_GetIconByHandle     @11
 IcoLib_GetIconHandle       @12
@@ -19,3 +19,7 @@ Window_SetIcon_IcoLib      @16
 Window_SetProtoIcon_IcoLib @17
 ProtoServiceExists         @18
 mir_main                   @19
+IcoLib_RemoveIcon          @20
+IcoLib_RemoveIconByHandle  @21
+IcoLib_Release             @22
+IcoLib_AddRef              @23

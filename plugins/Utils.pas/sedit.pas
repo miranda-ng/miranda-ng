@@ -88,7 +88,7 @@ procedure RegisterIcons;
 var
   sid:TSKINICONDESC;
 begin
-  if CallService(MS_SKIN2_GETICON,0,LPARAM(ACI_NEW))<>0 then
+  if IcoLib_GetIcon(ACI_NEW,0)<>0 then
     exit;
 
   FillChar(sid,SizeOf(TSKINICONDESC),0);

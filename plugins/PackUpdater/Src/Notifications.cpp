@@ -95,11 +95,11 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
 	pa.lParam = 0;
 	switch (id) {
 	case IDYES:
-		pa.lchIcon = Skin_GetIcon("btn_ok");
+		pa.lchIcon = IcoLib_GetIcon("btn_ok");
 		strncpy_s(pa.lpzTitle, MODNAME"/Yes", SIZEOF(pa.lpzTitle));
 		break;
 	case IDNO:
-		pa.lchIcon = Skin_GetIcon("btn_cancel");
+		pa.lchIcon = IcoLib_GetIcon("btn_cancel");
 		strncpy_s(pa.lpzTitle, MODNAME"/No", SIZEOF(pa.lpzTitle));
 		break;
 	}

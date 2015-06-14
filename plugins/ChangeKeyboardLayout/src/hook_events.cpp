@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-INT_PTR APIChangeLayout(WPARAM wParam, LPARAM lParam)
+INT_PTR APIChangeLayout(WPARAM wParam, LPARAM)
 {
 	BOOL CurrentWord = moOptions.CurrentWordLayout;
 	return ChangeLayout((HWND)wParam, TOT_Layout, CurrentWord);
 }
 
-INT_PTR APIGetLayoutOfText(WPARAM wParam, LPARAM lParam)
+INT_PTR APIGetLayoutOfText(WPARAM, LPARAM lParam)
 {
 	LPTSTR ptszInText = (TCHAR*)lParam;
 	return (INT_PTR)GetLayoutOfText(ptszInText);
@@ -85,15 +85,15 @@ void RegPopupActions()
 	}
 }
 
-int OnIconsChanged(WPARAM wParam, LPARAM lParam)
+int OnIconsChanged(WPARAM, LPARAM)
 {
-	hPopupIcon = Skin_GetIcon("ckl_popup_icon");
-	hCopyIcon = Skin_GetIcon("ckl_copy_icon");
+	hPopupIcon = IcoLib_GetIcon("ckl_popup_icon");
+	hCopyIcon = IcoLib_GetIcon("ckl_copy_icon");
 	RegPopupActions();
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	LPCTSTR ptszEmptySting = _T("");
 
@@ -138,7 +138,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
+int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

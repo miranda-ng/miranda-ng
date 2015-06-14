@@ -124,7 +124,7 @@ begin
         IDC_RADIO_OPEN: begin
           result:=1;
           DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
-              CallService(MS_SKIN2_GETICON,0,TLPARAM(IcoBtnOpen)),
+              IcoLib_GetIcon(IcoBtnOpen,0),
               16,16,0,hbr,DI_NORMAL);
         end;
 
@@ -135,7 +135,7 @@ begin
           else
             tmp:=IcoBtnOn;
           DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
-              CallService(MS_SKIN2_GETICON,0,TLPARAM(tmp)),
+              IcoLib_GetIcon(tmp,0),
               16,16,0,hbr,DI_NORMAL);
         end;
       end;
@@ -232,7 +232,7 @@ begin
     begin
       cbSize  :=SizeOf(Frame);
       hWnd    :=FrameWnd;
-      hIcon   :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnSettings));
+      hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
       align   :=alTop;
       height  :=tr.bottom-tr.top+2;
       Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;

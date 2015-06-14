@@ -459,7 +459,7 @@ begin
   mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
 
-  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnContext));
+  mi.hIcon:=IcoLib_GetIcon(IcoBtnContext,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hContactMenuItem,tlparam(@mi));
 end;
 
@@ -506,8 +506,7 @@ begin
   mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
   mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
-//  mi.popupPosition:=MenuUserInfoPos;
-  mi.hIcon        :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnContext));
+  mi.hIcon        :=IcoLib_GetIcon(IcoBtnContext,0);
   mi.szName.a     :='Get user''s Music Info';
   mi.pszService   :=MS_WAT_GETCONTACTINFO;
   hContactMenuItem:=Menu_AddContactMenuItem(@mi);

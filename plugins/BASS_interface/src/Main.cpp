@@ -328,11 +328,11 @@ int OptionsInit(WPARAM wParam, LPARAM)
 static void EnableFrameIcon(bool bEnable)
 {
 	if (bEnable) {
-		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
+		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon("BASSSoundOn"));
 		SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
 	}
 	else {
-		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
+		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon("BASSSoundOff"));
 		SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
 	}
 }

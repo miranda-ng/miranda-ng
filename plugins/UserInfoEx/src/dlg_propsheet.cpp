@@ -273,7 +273,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 
-	HICON hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
+	HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
 	if (!hDefIcon)
 		hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
 
@@ -551,7 +551,7 @@ void DlgContactInfoInitTreeIcons()
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
 		metrics.y = GetSystemMetrics(SM_CYSMICON);
 		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
-			HICON hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
+			HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
 			if (!hDefIcon)
 				hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
 
@@ -715,8 +715,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2), !IsAeroMode());
 
 			// set icons
-			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN));
-			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN, 32));
+			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_COMMON_MAIN));
+			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_COMMON_MAIN, 32));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
 			// load basic protocol for current contact (for faster load later on and better handling for owner protocol)
@@ -1144,12 +1144,12 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 		
 		if (hCtrl = GetDlgItem(hDlg, BTN_IMPORT)) {
-			hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
+			hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			SetWindowText(hCtrl, hIcon ? _T("") : _T("I"));
 		}
 		if (hCtrl = GetDlgItem(hDlg, BTN_EXPORT)) {
-			hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
+			hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
 		}

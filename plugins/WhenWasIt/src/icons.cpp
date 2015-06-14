@@ -39,7 +39,7 @@ static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaul
 	sid.pszName = name;
 	sid.defaultFile.t = tszPath;
 	sid.iDefaultIndex = -iDefaultIdx;
-	return Skin_AddIcon(&sid);
+	return IcoLib_AddIcon(&sid);
 }
 
 int AddIcons()

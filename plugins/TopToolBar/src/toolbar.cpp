@@ -148,7 +148,7 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 		return;
 	}
 
-	hIcoLib = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(hSrc), 0);
+	hIcoLib = IcoLib_IsManaged((HICON)hSrc);
 	if (!hIcoLib) {
 		char buf[256];
 		mir_snprintf(buf, "toptoolbar_%s%s", but->name, bIsUp ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
@@ -160,10 +160,10 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 		mir_snprintf(buf, "%s%s", but->name, bIsUp ? "" : " (pressed)");
 		sid.description.a = buf;
 		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
-		hIcoLib = Skin_AddIcon(&sid);
+		hIcoLib = IcoLib_AddIcon(&sid);
 	}
 
-	hIcon = Skin_GetIconByHandle(hIcoLib);
+	hIcon = IcoLib_GetIconByHandle(hIcoLib);
 }
 
 TopButtonInt *CreateButton(TTBButton *but)
@@ -516,12 +516,12 @@ int OnIconChange(WPARAM, LPARAM)
 			continue;
 
 		if (b->hIconHandleUp) {
-			Skin_ReleaseIcon(b->hIconUp);
-			b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
+			IcoLib_ReleaseIcon(b->hIconUp);
+			b->hIconUp = IcoLib_GetIconByHandle(b->hIconHandleUp);
 		}
 		if (b->hIconHandleDn) {
-			Skin_ReleaseIcon(b->hIconDn);
-			b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
+			IcoLib_ReleaseIcon(b->hIconDn);
+			b->hIconDn = IcoLib_GetIconByHandle(b->hIconHandleDn);
 		}
 		DestroyWindow(b->hwnd);
 		b->CreateWnd();

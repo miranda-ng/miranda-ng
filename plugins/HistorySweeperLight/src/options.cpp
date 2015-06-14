@@ -63,7 +63,7 @@ HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
-	return Skin_GetIcon(szSettingName);
+	return IcoLib_GetIcon(szSettingName);
 }
 
 HANDLE GetIconHandle(const char* name)
@@ -79,7 +79,7 @@ void  ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
-	Skin_ReleaseIcon(szSettingName);
+	IcoLib_Release(szSettingName);
 }
 
 HANDLE hAllContacts, hSystemHistory;
@@ -202,7 +202,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
 			ImageList_AddIcon(hIml, hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 
 			hIcon = LoadIconEx("act1");
 			ImageList_AddIcon(hIml, hIcon);

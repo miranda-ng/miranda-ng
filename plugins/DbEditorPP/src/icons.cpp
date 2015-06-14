@@ -30,7 +30,7 @@ HICON LoadSkinnedDBEIcon(int icon)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == icon)
-			return Skin_GetIconByHandle(iconList[i].hIcolib);
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
 	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }

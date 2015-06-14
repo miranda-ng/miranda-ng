@@ -125,11 +125,11 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_ICONCHANGED:
 						{
-							HICON hIcon = Skin_GetIcon(ICO_BTN_GOTO);
+							HICON hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
 							SendDlgItemMessage(hDlg, BTN_GOTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							SetDlgItemText(hDlg, BTN_GOTO, hIcon ? _T("") : _T("->"));
 
-							hIcon = Skin_GetIcon(ICO_COMMON_ADDRESS);
+							hIcon = IcoLib_GetIcon(ICO_COMMON_ADDRESS);
 							SendDlgItemMessage(hDlg, ICO_ADDRESS, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							ShowWindow(GetDlgItem(hDlg, ICO_ADDRESS), hIcon ? SW_SHOW : SW_HIDE);
 
@@ -270,11 +270,11 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_ICONCHANGED:
 						{
-							HICON hIcon = Skin_GetIcon(ICO_BTN_GOTO);
+							HICON hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
 							SendDlgItemMessage(hDlg, BTN_GOTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							SetDlgItemText(hDlg, BTN_GOTO, hIcon ? _T("") : _T("->"));
 
-							hIcon = Skin_GetIcon(ICO_COMMON_ADDRESS);
+							hIcon = IcoLib_GetIcon(ICO_COMMON_ADDRESS);
 							SendDlgItemMessage(hDlg, ICO_ADDRESS, STM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 							ShowWindow(GetDlgItem(hDlg, ICO_ADDRESS), hIcon ? SW_SHOW : SW_HIDE);
 

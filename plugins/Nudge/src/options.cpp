@@ -214,7 +214,7 @@ static void CreateImageList(HWND hWnd)
 		CNudgeElement &p = arNudges[i];
 		INT_PTR res = CallProtoService(p.ProtocolName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
 		if (res == CALLSERVICE_NOTFOUND)
-			res = (INT_PTR)Skin_GetIcon("Nudge_Default");
+			res = (INT_PTR)IcoLib_GetIcon("Nudge_Default");
 
 		HICON hIcon = (HICON)res;
 		ImageList_AddIcon(hImList, hIcon);

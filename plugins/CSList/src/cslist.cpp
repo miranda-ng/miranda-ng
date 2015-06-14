@@ -140,7 +140,7 @@ extern "C" __declspec(dllexport) int Load()
 		sid.pszName = szSettingName;
 		sid.description.t = forms[i].ptszDescr;
 		sid.iDefaultIndex = -forms[i].iconNoIcoLib;
-		forms[i].hIcoLibItem = Skin_AddIcon(&sid);
+		forms[i].hIcoLibItem = IcoLib_AddIcon(&sid);
 	}
 
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
@@ -365,7 +365,7 @@ void CSWindow::initButtons()
 		if (forms[i].idc < 0)
 			continue;
 
-		SendDlgItemMessage(m_handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(forms[i].hIcoLibItem));
+		SendDlgItemMessage(m_handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(forms[i].hIcoLibItem));
 		SendDlgItemMessage(m_handle, forms[i].idc, BUTTONSETASFLATBTN, TRUE, 0); //maybe set as BUTTONSETDEFAULT?
 		SendDlgItemMessage(m_handle, forms[i].idc, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(forms[i].ptszTitle), BATF_TCHAR);
 	}

@@ -146,19 +146,19 @@ static HICON GetAnnivIcon(const CEvent &evt)
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		if (evt._wDaysLeft > 9)
-			hIcon = Skin_GetIcon(ICO_RMD_DTBX);
+			hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
 		else {
 			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
-			hIcon = Skin_GetIcon(szIcon);
+			hIcon = IcoLib_GetIcon(szIcon);
 		}
 		break;
 
 	case CEvent::ANNIVERSARY:
 		if (evt._wDaysLeft > 9)
-			hIcon = Skin_GetIcon(ICO_RMD_DTAX);
+			hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
 		else {
 			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
-			hIcon = Skin_GetIcon(szIcon);
+			hIcon = IcoLib_GetIcon(szIcon);
 		}
 	}
 	return hIcon;
@@ -319,12 +319,12 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("Birthday"));
-		cle.hIcon = Skin_GetIcon(ICO_COMMON_BIRTHDAY);
+		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 		break;
 
 	case CEvent::ANNIVERSARY:
 		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("an anniversary"));
-		cle.hIcon = Skin_GetIcon(ICO_COMMON_ANNIVERSARY);
+		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 		break;
 
 	default:
@@ -684,7 +684,7 @@ void SvcReminderOnTopToolBarLoaded()
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");
-	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_BIRTHDAY);
 	TopToolbar_AddButton(&ttb);
 }
 
@@ -738,7 +738,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 		MSGBOX mBox;
 		mBox.cbSize = sizeof(MSGBOX);
 		mBox.hParent = NULL;
-		mBox.hiLogo = Skin_GetIcon(ICO_COMMON_BIRTHDAY);
+		mBox.hiLogo = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 		mBox.uType = MB_ICON_INFO;
 		mBox.ptszTitle = TranslateT("Update custom birthday");
 		mBox.ptszMsg = TranslateT("Backing up and syncing all birthdays complete!");

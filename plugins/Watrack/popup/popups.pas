@@ -349,7 +349,7 @@ begin
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
-  mi.hIcon :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnInfo));
+  mi.hIcon :=IcoLib_GetIcon(IcoBtnInfo,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hMenuInfo,tlparam(@mi));
   if ActionList<>nil then
   begin
@@ -387,7 +387,7 @@ begin
   FillChar(ttb,SizeOf(ttb),0);
   ttb.cbSize    :=SizeOf(ttb);
   ttb.dwFlags   :=TTBBF_VISIBLE{ or TTBBF_SHOWTOOLTIP};
-  ttb.hIconUp   :=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnInfo));
+  ttb.hIconUp   :=IcoLib_GetIcon(IcoBtnInfo,0);
   ttb.hIconDn   :=ttb.hIconUp;
   ttb.pszService:=MS_WAT_SHOWMUSICINFO;
   ttb.name      :='Music Info';
@@ -486,7 +486,7 @@ begin
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize       :=SizeOf(mi);
   mi.szPopupName.a:=PluginShort;
-  mi.hIcon        :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnInfo));
+  mi.hIcon        :=IcoLib_GetIcon(IcoBtnInfo,0);
   mi.szName.a     :='Music Info';
   mi.pszService   :=MS_WAT_SHOWMUSICINFO;
   mi.popupPosition:=MenuInfoPos;

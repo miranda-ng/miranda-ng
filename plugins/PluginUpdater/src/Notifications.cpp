@@ -102,9 +102,9 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 			POPUPDATAT pd = { 0 };
 			pd.lchContact = NULL;
 #if MIRANDA_VER >= 0x0A00
-			pd.lchIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
+			pd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 #else
-			pd.lchIcon = Skin_GetIcon("check_update");
+			pd.lchIcon = IcoLib_GetIcon("check_update");
 #endif
 			if (Number == POPUP_TYPE_MSG) {
 				pd.PluginWindowProc = PopupDlgProcRestart;

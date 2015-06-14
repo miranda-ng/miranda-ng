@@ -31,12 +31,12 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	sid.section.t = sectionName;
 	sid.description.t = LPGENT("Protocol icon");
 	sid.iDefaultIndex = -IDI_STEAM;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "gaming");
 	sid.description.t = LPGENT("Gaming icon");
 	sid.iDefaultIndex = -IDI_GAMING;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	// temporary DB settings
 	db_set_resident(m_szModuleName, "Status");

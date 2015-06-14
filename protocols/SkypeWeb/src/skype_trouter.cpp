@@ -150,7 +150,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				cle.hContact = hContact;
 				cle.hDbEvent = hEvent;
 				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-				cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+				cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle("inc_call"));
 
 				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
 				cle.pszService = service.GetBuffer();

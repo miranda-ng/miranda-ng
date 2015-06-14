@@ -147,7 +147,7 @@ extern "C" __declspec(dllexport) int Load()
 	// Options
 	InitOptions();
 
-	if (Skin_GetIcon("LISTENING_TO_ICON") == NULL)
+	if (IcoLib_GetIcon("LISTENING_TO_ICON") == NULL)
 		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
 
 	Icon_Register(hInst, LPGEN("My details"), iconList + 1, SIZEOF(iconList) - 1);

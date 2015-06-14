@@ -41,22 +41,22 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 		case TRUST_FINISHED:
 			sid.flags = 0;
 			button.ptszTooltip = TranslateT(LANG_STATUS_FINISHED);
-			button.hIcon = GetIconHandle(ICON_FINISHED);
+			button.hIcon = IcoLib_GetIconHandle(ICON_FINISHED);
 			break;
 		case TRUST_UNVERIFIED:
 			sid2.flags = MBF_DISABLED;
 			button.ptszTooltip = TranslateT(LANG_STATUS_UNVERIFIED);
-			button.hIcon = GetIconHandle(ICON_UNVERIFIED);
+			button.hIcon = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 			break;
 		case TRUST_PRIVATE:
 			sid2.flags = 0;
 			button.ptszTooltip = TranslateT(LANG_STATUS_PRIVATE);
-			button.hIcon = GetIconHandle(ICON_PRIVATE);
+			button.hIcon = IcoLib_GetIconHandle(ICON_PRIVATE);
 			break;
 		default:
 			sid.flags = MBF_DISABLED;
 			button.ptszTooltip = TranslateT(LANG_STATUS_DISABLED);
-			button.hIcon = GetIconHandle(ICON_NOT_PRIVATE);
+			button.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 			break;
 		}
 		button.bbbFlags = 0;
@@ -112,10 +112,10 @@ void InitSRMM()
 	// add icon to srmm status icons
 	InitMirOTRMenu();
 
-	hIconNotSecure = LoadIcon(ICON_NOT_PRIVATE, 0);
-	hIconFinished = LoadIcon(ICON_FINISHED, 0);
-	hIconPrivate = LoadIcon(ICON_PRIVATE, 0);
-	hIconUnverified = LoadIcon(ICON_UNVERIFIED, 0);
+	hIconNotSecure = IcoLib_GetIcon(ICON_NOT_PRIVATE, 0);
+	hIconFinished = IcoLib_GetIcon(ICON_FINISHED, 0);
+	hIconPrivate = IcoLib_GetIcon(ICON_PRIVATE, 0);
+	hIconUnverified = IcoLib_GetIcon(ICON_UNVERIFIED, 0);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
@@ -141,17 +141,17 @@ void InitSRMM()
 		OTRButton.dwDefPos = 200;
 		OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON|BBBF_CANBEHIDDEN|BBBF_ISIMBUTTON;
 		OTRButton.ptszTooltip = TranslateT(LANG_OTR_TOOLTIP);
-		OTRButton.hIcon = GetIconHandle(ICON_NOT_PRIVATE);
+		OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 		HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
 		HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);
 	}
 }
 void DeinitSRMM()
 {
-	ReleaseIcon(ICON_NOT_PRIVATE, 0);
-	ReleaseIcon(ICON_FINISHED, 0);
-	ReleaseIcon(ICON_PRIVATE, 0);
-	ReleaseIcon(ICON_UNVERIFIED, 0);
+	IcoLib_Release(ICON_NOT_PRIVATE, 0);
+	IcoLib_Release(ICON_FINISHED, 0);
+	IcoLib_Release(ICON_PRIVATE, 0);
+	IcoLib_Release(ICON_UNVERIFIED, 0);
 	hIconNotSecure = hIconFinished = hIconPrivate = hIconUnverified =0;
 
 	UninitMirOTRMenu();

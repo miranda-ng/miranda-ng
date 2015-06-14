@@ -73,7 +73,7 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
-	sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
+	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_HIDDEN | MBF_TCHAR;
 
 	for (int i = 0; i < languages.getCount(); i++) {
@@ -84,9 +84,9 @@ static int IconsChanged(WPARAM, LPARAM)
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 
-		HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
+		HICON hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		sid.hIcon = CopyIcon(hIcon);
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 
 		Srmm_ModifyIcon(NULL, &sid);
 	}
@@ -164,19 +164,19 @@ static int ModulesLoaded(WPARAM, LPARAM)
 				sid.iDefaultIndex = 0;
 			}
 			else {
-				hFlagIcoLib = Skin_GetIcon("spellchecker_unknown");
+				hFlagIcoLib = IcoLib_GetIcon("spellchecker_unknown");
 				sid.hDefaultIcon = hFlagIcoLib;
 				sid.defaultFile.t = NULL;
 				sid.iDefaultIndex = 0;
 			}
 
 			// Oki, lets add to IcoLib, then
-			p->hIcolib = Skin_AddIcon(&sid);
+			p->hIcolib = IcoLib_AddIcon(&sid);
 
 			if (hFlag != NULL)
 				DestroyIcon(hFlag);
 			else
-				Skin_ReleaseIcon(hFlagIcoLib);
+				IcoLib_ReleaseIcon(hFlagIcoLib);
 		}
 		FreeLibrary(hFlagsDll);
 	}
@@ -199,7 +199,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
-	sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
+	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
 	sid.flags = MBF_TCHAR | MBF_HIDDEN;
 
 	for (int i = 0; i < languages.getCount(); i++) {
@@ -209,7 +209,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"),
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
-		sid.hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
+		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		Srmm_AddIcon(&sid);
 	}
 

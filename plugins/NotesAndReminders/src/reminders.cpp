@@ -2024,7 +2024,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 				}
 			}
 
-			hIcon = Skin_GetIconByHandle(iconList[12].hIcolib);
+			hIcon = IcoLib_GetIconByHandle(iconList[12].hIcolib);
 			SendDlgItemMessage(Dialog,IDC_BTN_PLAYSOUND,BM_SETIMAGE,(WPARAM)IMAGE_ICON,(LPARAM)hIcon);
 
 			if (NewReminderVisible == 2 && pEditReminder->SoundSel)
@@ -2214,7 +2214,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 		}
 	case WM_DESTROY:
 		{
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 			break;
 		}
 	}
@@ -2412,9 +2412,9 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 		break;
 	case WM_INITDIALOG:
 		{
-			HICON hIcon = Skin_GetIconByHandle(iconList[6].hIcolib, ICON_SMALL);
+			HICON hIcon = IcoLib_GetIconByHandle(iconList[6].hIcolib, ICON_SMALL);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
-			hIcon = Skin_GetIconByHandle(iconList[6].hIcolib, ICON_BIG);
+			hIcon = IcoLib_GetIconByHandle(iconList[6].hIcolib, ICON_BIG);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 
 			TranslateDialogDefault(Dialog);
@@ -2556,8 +2556,8 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			}
 		}
 	case WM_DESTROY:
-		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
-		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
 		break;
 	}
 	return FALSE;

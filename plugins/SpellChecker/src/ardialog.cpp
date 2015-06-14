@@ -165,9 +165,9 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_USERDATA, (LONG_PTR)data);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_OLD), OnlyCharsEditProc);
 
-			HICON hIcon = Skin_GetIcon("spellchecker_enabled");
+			HICON hIcon = IcoLib_GetIcon("spellchecker_enabled");
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-			Skin_ReleaseIcon(hIcon);
+			IcoLib_ReleaseIcon(hIcon);
 
 			SendDlgItemMessage(hwndDlg, IDC_OLD, EM_LIMITTEXT, 256, 0);
 			SendDlgItemMessage(hwndDlg, IDC_NEW, EM_LIMITTEXT, 256, 0);

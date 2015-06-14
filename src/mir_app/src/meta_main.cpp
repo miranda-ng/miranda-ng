@@ -44,7 +44,7 @@ HANDLE GetIconHandle(IconIndex i)
 
 HICON LoadIconEx(IconIndex i)
 {
-	return Skin_GetIcon(iconList[i].szName);
+	return IcoLib_GetIcon(iconList[i].szName);
 }
 
 void UnloadMetacontacts(void)

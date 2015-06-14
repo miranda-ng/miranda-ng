@@ -350,7 +350,7 @@ HICON LoadIconEx(char *pszIcoLibName)
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);
-	return Skin_GetIcon(szTemp);
+	return IcoLib_GetIcon(szTemp);
 }
 
 static void InitSetting(TCHAR* &ppPointer, const char *pszSetting, const TCHAR *pszDefault)

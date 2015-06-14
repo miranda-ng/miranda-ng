@@ -228,7 +228,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				POPUPDATAT_V2 ppd = { 0 };
 				ppd.cbSize = sizeof(ppd);
 				ppd.lchContact = hContact;
-				ppd.lchIcon = Skin_GetIcon("enabled_icon");
+				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
 				mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), TranslateT("Hiding %s (%S)"),
 					CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR),
@@ -408,7 +408,7 @@ INT_PTR ContactStillAbsentAction(WPARAM hContact, LPARAM lParam)
  */
 int onIconsChanged(WPARAM, LPARAM)
 {
-	hIcon = Skin_GetIcon("main_icon");
+	hIcon = IcoLib_GetIcon("main_icon");
 	return 0;
 }
 
@@ -494,7 +494,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 			ppd.cbSize = sizeof(ppd);
 
 			ppd.lchContact = hContact;
-			ppd.lchIcon = Skin_GetIcon("enabled_icon");
+			ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
@@ -627,17 +627,17 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
-	missyouactions[0].lchIcon = Skin_GetIcon("disabled_icon");
+	missyouactions[0].lchIcon = IcoLib_GetIcon("disabled_icon");
 	mir_strcpy(missyouactions[0].lpzTitle, LPGEN("Disable Miss You"));
 	missyouactions[0].wParam = missyouactions[0].lParam = 1;
 
 	hideactions[0].cbSize = sizeof(POPUPACTION);
-	hideactions[0].lchIcon = Skin_GetIcon("hide_icon");
+	hideactions[0].lchIcon = IcoLib_GetIcon("hide_icon");
 	mir_strcpy(hideactions[0].lpzTitle, LPGEN("Hide contact"));
 	hideactions[0].wParam = hideactions[0].lParam = 2;
 
 	hideactions[1].cbSize = sizeof(POPUPACTION);
-	hideactions[1].lchIcon = Skin_GetIcon("neverhide_icon");
+	hideactions[1].lchIcon = IcoLib_GetIcon("neverhide_icon");
 	mir_strcpy(hideactions[1].lpzTitle, LPGEN("Never hide this contact"));
 	hideactions[1].wParam = hideactions[1].lParam = 3;
 
@@ -662,7 +662,7 @@ int onShutdown(WPARAM, LPARAM)
 	DestroyServiceFunction(hMissYouAction);
 	DestroyServiceFunction(hMenuMissYouClick);
 
-	Skin_ReleaseIcon(hIcon);
+	IcoLib_ReleaseIcon(hIcon);
 	return 0;
 }
 

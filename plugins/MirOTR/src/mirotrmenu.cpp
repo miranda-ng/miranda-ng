@@ -106,25 +106,25 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 			mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 			switch (level) {
 				case TRUST_PRIVATE:{
-					mi.hIcolibItem = GetIconHandle(ICON_PRIVATE);
+					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 					mir_tstrncpy(text,TranslateT(LANG_STATUS_PRIVATE),SIZEOF(text));
 					size_t len = mir_tstrlen(text);
 					if(len < SIZEOF(text))
 						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_UNVERIFIED:{
-					mi.hIcolibItem = GetIconHandle(ICON_UNVERIFIED);
+					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 					mir_tstrncpy(text,TranslateT(LANG_STATUS_UNVERIFIED),SIZEOF(text));
 					size_t len = mir_tstrlen(text);
 					if(len < SIZEOF(text))
 						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_FINISHED:
-					mi.hIcolibItem = GetIconHandle(ICON_FINISHED);
+					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
 					mi.ptszName = TranslateT(LANG_STATUS_FINISHED);
 					break;
 				default:
-					mi.hIcolibItem = GetIconHandle(ICON_NOT_PRIVATE);
+					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 					mi.ptszName = TranslateT(LANG_STATUS_DISABLED);
 			}
 			CallService(MO_MODIFYMENUITEM, (WPARAM)hStatusInfoItem, (LPARAM)&mi);
@@ -228,28 +228,28 @@ void InitMirOTRMenu(void)
 	mi.ptszName = LANG_MENU_START;
 	mi.position = 100001;
 	mi.pszService = MS_OTR_MENUSTART;
-	mi.icolibItem = GetIconHandle(ICON_UNVERIFIED);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.ptszName = LANG_MENU_REFRESH;
 	mi.position = 100002;
 	mi.pszService = MS_OTR_MENUREFRESH;
-	mi.icolibItem = GetIconHandle(ICON_FINISHED);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
 	mi.ptszName = LANG_MENU_STOP;
 	mi.position = 100003;
 	mi.pszService = MS_OTR_MENUSTOP;
-	mi.icolibItem = GetIconHandle(ICON_NOT_PRIVATE);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.ptszName = LANG_MENU_VERIFY;
 	mi.position = 200001;
 	mi.pszService = MS_OTR_MENUVERIFY;
-	mi.icolibItem = GetIconHandle(ICON_PRIVATE);
+	mi.icolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR|CMIF_CHECKED;

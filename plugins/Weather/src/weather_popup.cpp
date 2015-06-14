@@ -141,7 +141,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
-		Skin_ReleaseIcon((HICON)PUGetPluginData(hWnd));
+		IcoLib_ReleaseIcon((HICON)PUGetPluginData(hWnd));
 		return FALSE;
 	}
 

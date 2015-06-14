@@ -40,7 +40,7 @@ HANDLE GetDTBIconHandle(int dtb);
 
 __forceinline HICON GetDTBIcon(int dtb)
 {
-	return Skin_GetIconByHandle(GetDTBIconHandle(dtb));
+	return IcoLib_GetIconByHandle(GetDTBIconHandle(dtb));
 }
 
 #endif //M_WWI_ICONS_H

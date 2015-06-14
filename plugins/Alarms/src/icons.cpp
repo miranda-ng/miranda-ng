@@ -14,11 +14,11 @@ static IconItem iconList[] =
 
 int ReloadIcons(WPARAM, LPARAM)
 {
-	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
-	hIconList1 = Skin_GetIcon("alarms_list1");
-	hIconList2 = Skin_GetIcon("alarms_list2");
+	hIconMenuSet = IcoLib_GetIcon("alarms_menu_set");
+	hIconList1 = IcoLib_GetIcon("alarms_list1");
+	hIconList2 = IcoLib_GetIcon("alarms_list2");
 	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		hIconMenuShowHide = Skin_GetIcon("alarms_menu_showhide");
+		hIconMenuShowHide = IcoLib_GetIcon("alarms_menu_showhide");
 
 	RefreshReminderFrame();
 	return 0;
@@ -29,7 +29,7 @@ void InitIcons()
 	Icon_Register(hInst, "Alarms", iconList, SIZEOF(iconList));
 
 	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		hIconMenuShowHide = Skin_GetIcon("alarms_menu_showhide");
+		hIconMenuShowHide = IcoLib_GetIcon("alarms_menu_showhide");
 
 	ReloadIcons(0, 0);
 	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);

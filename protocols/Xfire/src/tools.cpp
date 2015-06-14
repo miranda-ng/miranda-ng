@@ -94,9 +94,9 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, HICON h
 		ppd.lchIcon = hicon;
 
 		if (bIconsNotLoaded) {
-			hicNotify = Skin_GetIcon("popup_notify");
-			hicWarning = Skin_GetIcon("popup_warning");
-			hicError = Skin_GetIcon("popup_error");
+			hicNotify = IcoLib_GetIcon("popup_notify");
+			hicWarning = IcoLib_GetIcon("popup_warning");
+			hicError = IcoLib_GetIcon("popup_error");
 			bIconsNotLoaded = FALSE;
 		}
 

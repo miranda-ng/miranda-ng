@@ -985,13 +985,13 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					HICON hIcon = LoadSkinProtoIcon(szProto, status);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-					IcoLib_ReleaseIcon(hIcon, 0);
+					IcoLib_ReleaseIcon(hIcon);
 					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
 						hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 								g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-							IcoLib_ReleaseIcon(hIcon, 0);
+							IcoLib_ReleaseIcon(hIcon);
 						}
 
 					}
@@ -1023,7 +1023,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (dis->itemData == MENU_MIRANDAMENU) {
 					HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
 					fnDrawMenuItem(dis, CopyIcon(hIcon), NULL);
-					IcoLib_ReleaseIcon(hIcon, NULL);
+					IcoLib_ReleaseIcon(hIcon);
 					return TRUE;
 				}
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);

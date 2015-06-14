@@ -65,7 +65,7 @@ HICON LoadIconExEx(const char* IcoLibName, int NonIcoLibIcon)
 {
 	char szSettingName[64];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
-	return Skin_GetIcon(szSettingName);
+	return IcoLib_GetIcon(szSettingName);
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

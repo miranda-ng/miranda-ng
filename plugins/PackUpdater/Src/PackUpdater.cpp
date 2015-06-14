@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = Skin_GetIcon("check_update");
+	mi.hIcon = IcoLib_GetIcon("check_update");
 	mi.ptszName = LPGENT("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
@@ -83,7 +83,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = Skin_GetIcon("empty_folder");
+	mi.hIcon = IcoLib_GetIcon("empty_folder");
 	mi.ptszName = LPGENT("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);

@@ -699,7 +699,7 @@ public:
 		return res;
 	}
 
-	__forceinline char& operator[](int idx) const { return m_str[idx]; }
+	__forceinline char& operator[](size_t idx) const { return m_str[idx]; }
 	__forceinline operator char*() const {	return m_str; }
 	__forceinline operator unsigned char*() const {	return (unsigned char*)m_str; }
 	__forceinline operator LPARAM() const { return (LPARAM)m_str; }

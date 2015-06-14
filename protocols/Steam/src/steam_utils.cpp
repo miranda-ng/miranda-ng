@@ -183,7 +183,7 @@ void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message,
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = Skin_GetIcon(MODULE"_main");
+		ppd.lchIcon = IcoLib_GetIcon(MODULE"_main");
 
 		if (!PUAddPopupT(&ppd))
 			return;

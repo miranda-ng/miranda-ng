@@ -596,7 +596,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		TranslateDialogDefault(hDlg);
 		ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), myGlobals.UseDbxTree ? SW_HIDE : SW_SHOW);
 
-		SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_DLG_ANNIVERSARY, TRUE));
+		SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_DLG_ANNIVERSARY, TRUE));
 
 		// set colours			
 		SendDlgItemMessage(hDlg, EDIT_REMIND, EM_LIMITTEXT, 2, 0);
@@ -897,7 +897,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 				// Birthday
 				mir_tstrncpy(ppd.lptzContactName, TranslateT("Birthday"), SIZEOF(ppd.lptzContactName));
-				ppd.lchIcon = Skin_GetIcon(ICO_RMD_DTB0);
+				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTB0);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -910,7 +910,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 				// Anniversary
 				mir_tstrncpy(ppd.lptzContactName, TranslateT("Anniversary"), SIZEOF(ppd.lptzContactName));
-				ppd.lchIcon = Skin_GetIcon(ICO_RMD_DTAX);
+				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);

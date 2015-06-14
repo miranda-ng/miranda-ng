@@ -1636,8 +1636,8 @@ begin
     end
     else if (setting_type=QST_CONTACTINFO) and (cnftype=CNF_GENDER) then
     begin
-      if hIconF=0 then hIconF:=CallService(MS_SKIN2_GETICON,0,tlparam(QS_FEMALE));
-      if hIconM=0 then hIconM:=CallService(MS_SKIN2_GETICON,0,tlparam(QS_MALE));
+      if hIconF=0 then hIconF:=IcoLib_GetIcon(QS_FEMALE,0);
+      if hIconM=0 then hIconM:=IcoLib_GetIcon(QS_MALE,0);
       flags:=flags or COL_GENDER;
       tstrMale   :=TranslateW('Male');
       tstrFemale :=TranslateW('Female');
@@ -1977,8 +1977,7 @@ begin
         tmp:=tmp and not WS_EX_TOOLWINDOW;
       SetWindowLongPtrW(Dialog,GWL_EXSTYLE,tmp);
 
-      SendMessage(Dialog,WM_SETICON,ICON_SMALL,//LoadIcon(hInstance,PAnsiChar(IDI_QS))
-        CallService(MS_SKIN2_GETICON,0,tlparam(QS_QS)));
+      SendMessage(Dialog,WM_SETICON,ICON_SMALL,IcoLib_GetIcon(QS_QS,0));
       grid:=GetDlgItem(Dialog,IDC_LIST);
 
       // ListView

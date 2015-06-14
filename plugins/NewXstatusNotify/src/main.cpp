@@ -89,7 +89,7 @@ HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, szIcon);
-	return Skin_GetIconHandle(szSettingName);
+	return IcoLib_GetIconHandle(szSettingName);
 }
 
 static int __inline CheckStr(char *str, int not_empty, int empty)

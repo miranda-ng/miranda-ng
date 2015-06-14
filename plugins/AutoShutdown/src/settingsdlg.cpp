@@ -73,7 +73,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			hwndSettingsDlg=hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 			locale=CallService(MS_LANGPACK_GETLOCALE,0,0);
-			SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header"));
+			SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)IcoLib_GetIcon("AutoShutdown_Header"));
 			{
 				HFONT hBoldFont;
 				LOGFONT lf;

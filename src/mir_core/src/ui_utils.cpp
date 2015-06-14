@@ -648,7 +648,7 @@ CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char*
 
 CCtrlMButton::~CCtrlMButton()
 {
-	::Skin_ReleaseIcon(m_hIcon);
+	::IcoLib_ReleaseIcon(m_hIcon);
 }
 
 void CCtrlMButton::OnInit()
@@ -2564,8 +2564,8 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return result;
 
 	case WM_DESTROY:
-		Skin_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-		Skin_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+		IcoLib_ReleaseIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 		m_proto_interface->WindowUnsubscribe(m_hwnd);
 		break;
 

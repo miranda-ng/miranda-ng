@@ -197,8 +197,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				UnhookEvent(dat->hAwayMsgEvent);
 			Utils_SaveWindowPosition(hwndDlg, dat->hContact, "SRAway", "AwayMsgDlg");
 			WindowList_Remove(hWindowList, hwndDlg);
-			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, NULL));
-			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, NULL));
+			IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, NULL));
+			IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, NULL));
 			mir_free(dat);
 			break;
 	}
@@ -384,7 +384,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
-	Skin_ReleaseIcon(clmi.hIcon);
+	IcoLib_ReleaseIcon(clmi.hIcon);
 
 	ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 

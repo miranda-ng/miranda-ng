@@ -165,7 +165,7 @@ HICON CIcqProto::getXStatusIcon(int bStatus, UINT flags)
 	HICON icon = NULL;
 
 	if (bStatus > 0 && bStatus <= XSTATUS_COUNT)
-		icon = Skin_GetIconByHandle(hXStatusIcons[bStatus-1], (flags & LR_BIGICON) != 0);
+		icon = IcoLib_GetIconByHandle(hXStatusIcons[bStatus-1], (flags & LR_BIGICON) != 0);
 
 	return (flags & LR_SHARED || !icon) ? icon : CopyIcon(icon);
 }
@@ -756,8 +756,8 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				SAFE_FREE(&szValue);
 
 				if (dat->bXStatus) {
-					Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
-					Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+					IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+					IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 				}
 			}
 			dat->ppro->updateServerCustomStatus(TRUE);
@@ -901,7 +901,7 @@ void InitXStatusIcons()
 		sid.pszName = szTemp;
 		sid.description.a = (LPSTR)nameXStatus[i];
 		sid.iDefaultIndex = -(IDI_XSTATUS1+i);
-		hXStatusIcons[i] = Skin_AddIcon(&sid);
+		hXStatusIcons[i] = IcoLib_AddIcon(&sid);
 	}
 
 	// initialize arrays for CList custom status icons
@@ -1120,7 +1120,7 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 				// mark icon index in the array as valid
 				bXStatusCListIconsValid[bXStatus-1] = TRUE;
 
-				Skin_ReleaseIcon(hXStatusIcon);
+				IcoLib_ReleaseIcon(hXStatusIcon);
 			}		
 		}
 

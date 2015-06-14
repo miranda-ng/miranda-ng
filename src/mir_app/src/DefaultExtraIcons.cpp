@@ -51,7 +51,7 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 		// Is chat
 		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
-			hIcolib = Skin_GetIconHandle("ChatActivity");
+			hIcolib = IcoLib_GetIconHandle("ChatActivity");
 	}
 	else {
 		// Not chat

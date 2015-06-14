@@ -736,14 +736,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 void PopupData::SetIcon(HICON hNewIcon)
 {
 	if (flags & PDF_ICOLIB) {
-		Skin_ReleaseIcon(hIcon);
+		IcoLib_ReleaseIcon(hIcon);
 		flags &= ~PDF_ICOLIB;
 	}
 
 	hIcon = hNewIcon;
 
-	if ( CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)hIcon, 0)) {
-		CallService(MS_SKIN2_ADDREFICON, (WPARAM)hIcon, 0);
+	if (IcoLib_IsManaged(hIcon)) {
+		IcoLib_AddRef(hIcon);
 		flags |= PDF_ICOLIB;
 	}
 }

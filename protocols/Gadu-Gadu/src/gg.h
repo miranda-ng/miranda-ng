@@ -322,9 +322,9 @@ char *gg_avatarhash(char *param);
 
 /* IcoLib functions */
 void gg_icolib_init();
-HICON LoadIconEx(const char* name, BOOL big);
+HICON LoadIconEx(const char* name, bool big);
 HANDLE GetIconHandle(int iconId);
-void ReleaseIconEx(const char* name, BOOL big);
+void ReleaseIconEx(const char* name, bool big);
 void WindowSetIcon(HWND hWnd, const char* name);
 void WindowFreeIcon(HWND hWnd);
 

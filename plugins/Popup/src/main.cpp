@@ -113,17 +113,17 @@ static int IconsChanged(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (PopupOptions.ModuleIsEnabled == TRUE) { // The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		mi.hIcon = Skin_GetIcon(ICO_POPUP_ON, 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
 	else { // The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		mi.hIcon = Skin_GetIcon(ICO_POPUP_OFF, 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
 	mi.flags = CMIM_ICON;
 	Menu_ModifyItem(hMenuItem, &mi);
 	Menu_ModifyItem(hMenuRoot, &mi);
 
-	mi.hIcon = Skin_GetIcon(ICO_HISTORY, 0);
+	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.flags = CMIM_ICON;
 	Menu_ModifyItem(hMenuItemHistory, &mi);
 	return 0;
@@ -138,8 +138,8 @@ static int TTBLoaded(WPARAM, LPARAM)
 	if (PopupOptions.ModuleIsEnabled)
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
-	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
-	ttb.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_TB_POPUP_OFF);
+	ttb.hIconHandleDn = IcoLib_GetIconHandle(ICO_TB_POPUP_ON);
 	ttb.pszTooltipUp = LPGEN("Enable Popups");
 	ttb.pszTooltipDn = LPGEN("Disable Popups");
 	hTTButton = TopToolbar_AddButton(&ttb);
@@ -156,7 +156,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		PopupOptions.ModuleIsEnabled = FALSE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable Popups");
-		mi.hIcon = Skin_GetIcon(ICO_POPUP_OFF, 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
 	else {
 		// The module is disabled.
@@ -164,7 +164,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		PopupOptions.ModuleIsEnabled = TRUE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
 		mi.ptszName = LPGENT("Disable Popups");
-		mi.hIcon = Skin_GetIcon(ICO_POPUP_ON, 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	Menu_ModifyItem(hMenuItem, &mi);
@@ -193,7 +193,7 @@ void InitMenuItems(void)
 	// Build main menu
 	mi.position = -1000000000 /*1000001*/;
 	mi.ptszName = LPGENT(MODULNAME_PLU);
-	mi.hIcon = Skin_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.hIcon = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
@@ -209,7 +209,7 @@ void InitMenuItems(void)
 	mi.position = 1000000000;
 	mi.popupPosition = 1999990000;
 	mi.ptszName = LPGENT("Popup History");
-	mi.hIcon = Skin_GetIcon(ICO_HISTORY, 0);
+	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService = MENUCOMMAND_HISTORY;
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }

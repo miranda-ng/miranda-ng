@@ -248,7 +248,7 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 			return -1;
 		}
 		if (!getByte("PopupsSysIcons", DEFAULT_POPUPS_SYS_ICONS))
-			ppd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon);
+			ppd.lchIcon = IcoLib_GetIconByHandle(m_hProtoIcon);
 		else
 			ppd.lchIcon = (HICON)LoadImage( NULL, rsIcon, IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
 		

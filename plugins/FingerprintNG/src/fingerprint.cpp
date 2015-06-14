@@ -51,7 +51,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	mask->szMaskUpper = NULL;
 
 	if (mask->hIcolibItem)
-		Skin_RemoveIcon(mask->szIconName);
+		IcoLib_RemoveIcon(mask->szIconName);
 	mask->hIcolibItem = NULL;
 
 	if (!mask->szMask || !bEnable)
@@ -86,7 +86,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	sid.defaultFile.t = destfile;
 	sid.iDefaultIndex = -mask->iIconIndex;
 	sid.cx = sid.cy = 16;
-	mask->hIcolibItem = Skin_AddIcon(&sid);
+	mask->hIcolibItem = IcoLib_AddIcon(&sid);
 }
 
 /*
@@ -374,17 +374,17 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 	HICON icOverlay4 = NULL;
 
 	KN_FP_MASK* mainMask = &(def_kn_fp_mask[base]);
-	icMain = Skin_GetIconByHandle(mainMask->hIcolibItem);
+	icMain = IcoLib_GetIconByHandle(mainMask->hIcolibItem);
 
 	if (icMain) {
 		KN_FP_MASK* overlayMask = (overlay != -1) ? &(def_kn_fp_overlays_mask[overlay]) : NULL;
 		KN_FP_MASK* overlay2Mask = (overlay2 != -1) ? &(def_kn_fp_overlays2_mask[overlay2]) : NULL;
 		KN_FP_MASK* overlay3Mask = (overlay3 != -1) ? &(def_kn_fp_overlays3_mask[overlay3]) : NULL;
 		KN_FP_MASK* overlay4Mask = (overlay4 != -1) ? &(def_kn_fp_overlays4_mask[overlay4]) : NULL;
-		icOverlay = (overlayMask == NULL) ? NULL : Skin_GetIconByHandle(overlayMask->hIcolibItem);
-		icOverlay2 = (overlay2Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay2Mask->hIcolibItem);
-		icOverlay3 = (overlay3Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay3Mask->hIcolibItem);
-		icOverlay4 = (overlay4Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay4Mask->hIcolibItem);
+		icOverlay = (overlayMask == NULL) ? NULL : IcoLib_GetIconByHandle(overlayMask->hIcolibItem);
+		icOverlay2 = (overlay2Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay2Mask->hIcolibItem);
+		icOverlay3 = (overlay3Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay3Mask->hIcolibItem);
+		icOverlay4 = (overlay4Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay4Mask->hIcolibItem);
 
 		hIcon = icMain;
 
@@ -412,11 +412,11 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 	if (hIcon == icMain)
 		hIcon = CopyIcon(icMain);
 
-	Skin_ReleaseIcon(icMain);
-	Skin_ReleaseIcon(icOverlay);
-	Skin_ReleaseIcon(icOverlay2);
-	Skin_ReleaseIcon(icOverlay3);
-	Skin_ReleaseIcon(icOverlay4);
+	IcoLib_ReleaseIcon(icMain);
+	IcoLib_ReleaseIcon(icOverlay);
+	IcoLib_ReleaseIcon(icOverlay2);
+	IcoLib_ReleaseIcon(icOverlay3);
+	IcoLib_ReleaseIcon(icOverlay4);
 	return hIcon;
 }
 

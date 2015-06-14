@@ -76,7 +76,7 @@ int    OptionsInit(void);
 int    OptionsUnInit(void);
 void   LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour);
 void   LoadGlobalSettings(void);
-HICON  LoadIconEx(char* pszIcoLibName, BOOL big);
+HICON  LoadIconEx(char* pszIcoLibName, bool big);
 void   LoadLogFonts(void);
 void   SetIndentSize(void);
 void   RegisterFonts(void);

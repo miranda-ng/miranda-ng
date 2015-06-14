@@ -96,8 +96,8 @@ int TTBLoaded(WPARAM, LPARAM)
 	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
-	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
-	ttb.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
+	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_TB_POPUP_OFF);
+	ttb.hIconHandleDn = IcoLib_GetIconHandle(ICO_TB_POPUP_ON);
 	ttb.pszTooltipUp = LPGEN("Enable Popups");
 	ttb.pszTooltipDn = LPGEN("Disable Popups");
 	hTTButton = TopToolbar_AddButton(&ttb);

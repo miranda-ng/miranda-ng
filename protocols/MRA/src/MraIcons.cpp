@@ -53,7 +53,7 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 {
 	HICON hiIcon = NULL;
 	if (hIcon) {
-		hiIcon = Skin_GetIconByHandle(hIcon);
+		hiIcon = IcoLib_GetIconByHandle(hIcon);
 		if ((dwFlags & LR_SHARED) == 0)
 			hiIcon = CopyIcon(hiIcon);
 	}
@@ -116,7 +116,7 @@ void InitXStatusIcons()
 		sid.description.t = (TCHAR*)lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
-		hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);
+		hXStatusAdvancedStatusIcons[i] = IcoLib_AddIcon(&sid);
 	}
 }
 
@@ -126,7 +126,7 @@ void DestroyXStatusIcons()
 
 	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
 		mir_snprintf(szBuff, SIZEOF(szBuff), "mra_xstatus%ld", i);
-		Skin_RemoveIcon(szBuff);
+		IcoLib_RemoveIcon(szBuff);
 	}
 
 	memset(hXStatusAdvancedStatusIcons, 0, sizeof(hXStatusAdvancedStatusIcons));

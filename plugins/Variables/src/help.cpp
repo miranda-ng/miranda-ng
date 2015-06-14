@@ -1217,7 +1217,7 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 	switch (item) {
 	case VSI_HELPICON:
 		if (hHelpIcon == NULL)
-			hHelpIcon = Skin_GetIcon("vars_help");
+			hHelpIcon = IcoLib_GetIcon("vars_help");
 		return (INT_PTR)hHelpIcon;
 
 	case VSI_HELPTIPTEXT:

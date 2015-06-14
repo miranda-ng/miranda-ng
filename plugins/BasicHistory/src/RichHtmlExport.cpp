@@ -299,19 +299,19 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 
 	HICON ico = LoadIconEx(IDI_PLUSEX);
 	IcoSave(folder + _T("\\pnode.ico"), ico);
-	Skin_ReleaseIcon(ico);
+	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_MINUSEX);
 	IcoSave(folder + _T("\\mnode.ico"), ico);
-	Skin_ReleaseIcon(ico);
+	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_INM);
 	IcoSave(folder + _T("\\event0.ico"), ico);
-	Skin_ReleaseIcon(ico);
+	IcoLib_ReleaseIcon(ico);
 
 	ico = LoadIconEx(IDI_OUTM);
 	IcoSave(folder + _T("\\event1.ico"), ico);
-	Skin_ReleaseIcon(ico);
+	IcoLib_ReleaseIcon(ico);
 
 	EXP_FILE << _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
 	EXP_FILE << _T("<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=") << encoding << _T("\">\n");

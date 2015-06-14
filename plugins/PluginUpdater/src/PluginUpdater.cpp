@@ -89,7 +89,7 @@ extern "C" __declspec(dllexport) int Load(void)
 #if MIRANDA_VER >= 0x0A00
 	mi.icolibItem = iconList[0].hIcolib;
 #else
-	mi.icolibItem = Skin_GetIconHandle("check_update");
+	mi.icolibItem = IcoLib_GetIconHandle("check_update");
 #endif
 	mi.pszName = LPGEN("Check for updates");
 	mi.pszService = MS_PU_CHECKUPDATES;

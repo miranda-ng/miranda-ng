@@ -187,8 +187,8 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
 
 					bImagesLoaded 
-						= ((((hIcon = Skin_GetIcon(ICO_LST_MODULES)) != NULL) && 0 == ImageList_AddIcon(hImages, hIcon))
-						&& (((hIcon = Skin_GetIcon(ICO_LST_FOLDER)) != NULL) && 1 == ImageList_AddIcon(hImages, hIcon)));
+						= ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != NULL) && 0 == ImageList_AddIcon(hImages, hIcon))
+						&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != NULL) && 1 == ImageList_AddIcon(hImages, hIcon)));
 				}
 			}
 			// do the translation stuff

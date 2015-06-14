@@ -66,37 +66,6 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// IcoLib_ReleaseIcon
-// lParam: pszIconName or NULL
-// wParam: HICON or NULL
-
-MIR_APP_DLL(int) IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big)
-{
-	mir_cslock lck(csIconList);
-
-	IcolibItem *item = NULL;
-	if (szIconName)
-		item = IcoLib_FindIcon(szIconName);
-
-	if (!item && hIcon) // find by HICON
-		item = IcoLib_FindHIcon(hIcon, big);
-
-	int res = 1;
-	if (item) {
-		IconSourceItem* source = big && !item->cx ? item->source_big : item->source_small;
-		if (source && source->icon_ref_count) {
-			if (iconEventActive)
-				source->icon_ref_count--;
-			else
-				IconSourceItem_ReleaseIcon(source);
-			res = 0;
-		}
-	}
-
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon_Preview
 
 HICON IconItem_GetIcon_Preview(IcolibItem* item)
@@ -104,7 +73,7 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 	HICON hIcon = NULL;
 
 	if (!item->temp_reset) {
-		HICON hRefIcon = IconItem_GetIcon(item, false);
+		HICON hRefIcon = IcoLib_GetIconByHandle(item, false);
 		hIcon = CopyIcon(hRefIcon);
 		if (item->source_small && item->source_small->icon == hRefIcon)
 			IconSourceItem_ReleaseIcon(item->source_small);

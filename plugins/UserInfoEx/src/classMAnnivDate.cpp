@@ -241,7 +241,7 @@ MZodiac MAnnivDate::Zodiac()
 	for (i = 0; i < 13 && (wDays < zodiac[i].startDays || wDays > zodiac[i].endDays); i++);
 
 	MZodiac mZodiac;
-	mZodiac.hIcon = Skin_GetIcon(zodiac[i].szZodiacIcon);
+	mZodiac.hIcon = IcoLib_GetIcon(zodiac[i].szZodiacIcon);
 	mZodiac.pszName = zodiac[i].szZodiac;
 	return mZodiac;
 }
@@ -692,7 +692,7 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
 
 	MB.cbSize = sizeof(MSGBOX);
 	MB.hParent = NULL;
-	MB.hiLogo = Skin_GetIcon(ICO_DLG_ANNIVERSARY);
+	MB.hiLogo = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
 	MB.hiMsg = NULL;
 	MB.uType = MB_YESALLNO|MB_ICON_QUESTION|MB_INFOBAR|MB_NOPOPUP;
 	MB.ptszTitle = LPGENT("Update custom birthday");

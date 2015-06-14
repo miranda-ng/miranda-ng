@@ -129,8 +129,8 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
 			for (int i = 0; i < arPopupHistory.getCount(); ++i)
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
-			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_HISTORY, 0));
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_HISTORY, 1));
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 1));
 
 			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
 				logType = LOG_HPP;

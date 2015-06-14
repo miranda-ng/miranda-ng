@@ -93,16 +93,16 @@ static int clcHookIconsChanged(WPARAM, LPARAM)
 	hAvatarOverlays = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, SIZEOF(g_pAvatarOverlayIcons) * 2, 1);
 
 	for (i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
-		HICON hIcon = Skin_GetIcon(g_pAvatarOverlayIcons[i].name);
+		HICON hIcon = IcoLib_GetIcon(g_pAvatarOverlayIcons[i].name);
 		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
-		Skin_ReleaseIcon(g_pAvatarOverlayIcons[i].name);
+		IcoLib_Release(g_pAvatarOverlayIcons[i].name);
 
-		hIcon = Skin_GetIcon(g_pStatusOverlayIcons[i].name);
+		hIcon = IcoLib_GetIcon(g_pStatusOverlayIcons[i].name);
 		g_pStatusOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
-		Skin_ReleaseIcon(g_pStatusOverlayIcons[i].name);
+		IcoLib_Release(g_pStatusOverlayIcons[i].name);
 	}
 
-	g_hListeningToIcon = Skin_GetIcon("LISTENING_TO_ICON");
+	g_hListeningToIcon = IcoLib_GetIcon("LISTENING_TO_ICON");
 
 	pcli->pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
 	AniAva_UpdateOptions();
@@ -1646,14 +1646,14 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	sid.description.a = LPGEN("Listening to");
 	sid.pszName = "LISTENING_TO_ICON";
 	sid.iDefaultIndex = -IDI_LISTENING_TO;
-	Skin_AddIcon(&sid);
+	IcoLib_AddIcon(&sid);
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
 	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
 		sid.description.a = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
-		Skin_AddIcon(&sid);
+		IcoLib_AddIcon(&sid);
 	}
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Status overlay");
@@ -1661,7 +1661,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 		sid.description.a = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
-		Skin_AddIcon(&sid);
+		IcoLib_AddIcon(&sid);
 	}
 
 	clcHookIconsChanged(0, 0);

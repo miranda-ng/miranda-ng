@@ -62,7 +62,7 @@ const
 
 function SetButtonIcon(btn:HWND;name:PAnsiChar):HICON;
 begin
-  result:=CallService(MS_SKIN2_GETICON,0,LPARAM(name));
+  result:=IcoLib_GetIcon(name,0);
   SendMessage(btn,BM_SETIMAGE,IMAGE_ICON,result);
 end;
 

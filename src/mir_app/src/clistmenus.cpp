@@ -518,7 +518,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 				DestroyIcon(timi->mi.hIcon);
 				timi->mi.hIcon = NULL;
 			}
-			else IcoLib_ReleaseIcon(timi->mi.hIcon, 0);
+			else IcoLib_ReleaseIcon(timi->mi.hIcon);
 		}
 	}
 
@@ -939,7 +939,7 @@ void RebuildMenuOrder(void)
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
 			MO_SetOptionsMenuItem(hStatusMenuHandles[i].menuhandle[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
-			IcoLib_ReleaseIcon(tmi.hIcon, 0);
+			IcoLib_ReleaseIcon(tmi.hIcon);
 		}
 	}
 
@@ -985,7 +985,7 @@ void RebuildMenuOrder(void)
 			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
 			MO_SetOptionsMenuItem(hStatusMainMenuHandles[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
-			IcoLib_ReleaseIcon(tmi.hIcon, 0);
+			IcoLib_ReleaseIcon(tmi.hIcon);
 			break;
 		}
 	}

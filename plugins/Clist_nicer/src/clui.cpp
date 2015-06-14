@@ -248,7 +248,7 @@ static void CacheClientIcons()
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, SIZEOF(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
-		overlayicons[i - IDI_OVL_OFFLINE] = Skin_GetIcon(szBuffer);
+		overlayicons[i - IDI_OVL_OFFLINE] = IcoLib_GetIcon(szBuffer);
 	}
 }
 
@@ -1686,7 +1686,7 @@ buttons_done:
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
 						mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s_conn", pd->RealName);
-						hIcon = Skin_GetIcon(szBuffer);
+						hIcon = IcoLib_GetIcon(szBuffer);
 					}
 					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
 						int xStatus;
@@ -1708,14 +1708,14 @@ buttons_done:
 					else if (pd->protopos == nParts - 1)
 						x -= (cfg::dat.bCRight / 2);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-					Skin_ReleaseIcon(hIcon);
+					IcoLib_ReleaseIcon(hIcon);
 
 					if (cfg::getByte("CLUI", "sbar_showlocked", 1)) {
 						if (cfg::getByte(szProto, "LockMainStatus", 0)) {
 							hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != NULL) {
 								DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-								Skin_ReleaseIcon(hIcon);
+								IcoLib_ReleaseIcon(hIcon);
 							}
 						}
 					}

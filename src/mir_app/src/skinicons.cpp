@@ -160,7 +160,7 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 {
 	HICON hIcon = LoadSkinIcon(iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	IcoLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
@@ -168,7 +168,7 @@ int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char *szProto, i
 {
 	HICON hIcon = LoadSkinProtoIcon(szProto, iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
-	IcoLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
@@ -183,7 +183,7 @@ int ImageList_ReplaceIcon_NotShared(HIMAGELIST hIml, int iIndex, HINSTANCE hInst
 int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon)
 {
 	int res = ImageList_ReplaceIcon(hIml, nIndex, hIcon);
-	IcoLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon);
 	return res;
 }
 
@@ -201,8 +201,8 @@ MIR_APP_DLL(void) Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int
 
 MIR_APP_DLL(void) Window_FreeIcon_IcoLib(HWND hWnd)
 {
-	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0), NULL);
-	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), NULL);
+	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 }
 
 MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char *tooltip)
@@ -216,7 +216,7 @@ MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, co
 MIR_APP_DLL(void) Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 {
 	HICON hIcon = (HICON)SendDlgItemMessage(hwndDlg, itemId, BM_SETIMAGE, IMAGE_ICON, 0);
-	IcoLib_ReleaseIcon(hIcon, 0);
+	IcoLib_ReleaseIcon(hIcon);
 }
 
 MIR_APP_DLL(HICON) LoadSkinProtoIcon(const char *szProto, int status, bool big)
@@ -317,7 +317,7 @@ MIR_APP_DLL(HICON) LoadSkinProtoIcon(const char *szProto, int status, bool big)
 					sid.pszName = iconName;
 					sid.description.t = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
 					sid.iDefaultIndex = statusIcons[i].resource_id;
-					IcoLib_AddNewIcon(0, &sid);
+					IcoLib_AddIcon(&sid, 0);
 				}
 		}
 
@@ -417,7 +417,7 @@ int LoadSkinIcons(void)
 		sid.section.a = mainIcons[i].section == NULL ? LPGEN("Main icons") : (char*)mainIcons[i].section;
 		sid.description.a = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
-		mainIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
+		mainIcons[i].hIcolib = IcoLib_AddIcon(&sid, 0);
 	}
 
 	// Add global icons to list
@@ -430,7 +430,7 @@ int LoadSkinIcons(void)
 		sid.pszName = iconName;
 		sid.description.a = (char*)statusIcons[i].description;
 		sid.iDefaultIndex = statusIcons[i].resource_id;
-		statusIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
+		statusIcons[i].hIcolib = IcoLib_AddIcon(&sid, 0);
 	}
 	return 0;
 }

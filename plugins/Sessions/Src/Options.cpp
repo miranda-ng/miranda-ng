@@ -155,8 +155,8 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			opses_count = 0;
 			g_opHdlg = hdlg;
 			bOptionsInit = TRUE;
-			hMarked = Skin_GetIconByHandle(iconList[1].hIcolib);
-			hNotMarked = Skin_GetIconByHandle(iconList[2].hIcolib);
+			hMarked = IcoLib_GetIconByHandle(iconList[1].hIcolib);
+			hNotMarked = IcoLib_GetIconByHandle(iconList[2].hIcolib);
 
 			hIcon = (bChecked = IsMarkedUserDefSession(opses_count)) ? hMarked : hNotMarked;
 

@@ -694,7 +694,7 @@ void AddMenuItem()
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL;
-	mi.icolibItem = Skin_GetIconHandle("alarms_menu_set");
+	mi.icolibItem = IcoLib_GetIconHandle("alarms_menu_set");
 	mi.pszName = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;

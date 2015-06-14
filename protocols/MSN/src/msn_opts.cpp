@@ -54,7 +54,7 @@ HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "MSN_%s", name);
-	return Skin_GetIcon(szSettingName, big);
+	return IcoLib_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -70,7 +70,7 @@ void  ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "MSN_%s", name);
-	Skin_ReleaseIcon(szSettingName, big);
+	IcoLib_Release(szSettingName, big);
 }
 
 INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
