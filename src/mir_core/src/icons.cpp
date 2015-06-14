@@ -46,7 +46,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 		sid.cx = sid.cy = pIcons[i].size;
 		sid.description.a = pIcons[i].szDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
-		pIcons[i].hIcolib = (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)&sid);
+		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, hLangpack);
 	}
 }
 
@@ -71,6 +71,6 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 		sid.cx = sid.cy = pIcons[i].size;
 		sid.description.t = pIcons[i].tszDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
-		pIcons[i].hIcolib = (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)&sid);
+		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, hLangpack);
 	}
 }

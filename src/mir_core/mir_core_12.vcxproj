@@ -184,6 +184,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>mir_app.dll</DelayLoadDLLs>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -223,6 +224,7 @@
       <AdditionalDependencies>ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>mir_app.dll</DelayLoadDLLs>
     </Link>
     <PreBuildEvent>
       <Command>..\..\build\make_ver.bat</Command>
@@ -257,6 +259,7 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>mir_app.dll</DelayLoadDLLs>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -299,6 +302,7 @@
       <AdditionalDependencies>ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>mir_app.dll</DelayLoadDLLs>
     </Link>
     <PreBuildEvent>
       <Command>..\..\build\make_ver.bat</Command>
