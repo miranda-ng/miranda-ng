@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_url.h>
 #include "url.h"
 
-HANDLE hUrlWindowList = NULL;
+MWindowList hUrlWindowList = NULL;
 static HANDLE hEventContactSettingChange = NULL;
 static HANDLE hContactDeleted = NULL;
 static HGENMENU hSRUrlMenuItem = NULL;

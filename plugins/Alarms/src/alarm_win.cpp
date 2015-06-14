@@ -4,7 +4,7 @@
 #define ID_TIMER_SOUND				10101
 #define SOUND_REPEAT_PERIOD			5000	// milliseconds
 #define SPEACH_REPEAT_PERIOD		15000	// milliseconds
-HANDLE hAlarmWindowList = 0;
+MWindowList hAlarmWindowList = 0;
 
 FontIDT title_font_id, window_font_id;
 ColourIDT bk_colour_id;

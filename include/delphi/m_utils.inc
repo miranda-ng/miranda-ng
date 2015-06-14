@@ -159,59 +159,59 @@ const
   }
   MS_UTILS_GETCOUNTRYLIST:PAnsiChar = 'Utils/GetCountryList';
 
-
 //******************************* Window lists *******************************
 
   {
-    wParam : 0
-    lParam : 0
     Affect : Allocate a window list
     Returns: A handle to the new window list
   }
-  MS_UTILS_ALLOCWINDOWLIST:PAnsiChar = 'Utils/AllocWindowList';
+
+function WindowList_Create() : Thandle; stdcall;
+                 external CoreDLL name 'WindowList_Create';
+
+procedure WindowList_Destroy(hList:Thandle); stdcall;
+                 external CoreDLL name 'WindowList_Destroy';
 
   {
-    wParam : 0
-    lParam : Pointer to an initalised TWINDOWLISTENTRY structure
     Affect : Add a window to a given window list handle
     Returns: 0 on success, [non zero] on failure
   }
-  MS_UTILS_ADDTOWINDOWLIST:PAnsiChar = 'Utils/AddToWindowList';
+
+function WindowList_Add(hList:Thandle; hwnd:HWND; hContact:TMCONTACT) : int; stdcall;
+                 external CoreDLL name 'WindowList_Add';
 
   {
-    wParam : Handle to window list to remove from
-    lParam : Window handle to remove
     Affect : Remove a window from the specified window list
     Returns: 0 on success, [non zero] on failure
   }
-  MS_UTILS_REMOVEFROMWINDOWLIST:PAnsiChar = 'Utils/RemoveFromWindowList';
+
+function WindowList_Remove(hList:Thandle; hwnd:HWND) : int; stdcall;
+                 external CoreDLL name 'WindowList_Remove';
 
   {
-    wParam : Handle to the window list to look in
-    lParam : Handle to a TMCONTACT to find in the window list
     Affect : Find a window handle given the hContact
     Returns: The found window handle or NULL(0) on failure
   }
-  MS_UTILS_FINDWINDOWINLIST:PAnsiChar = 'Utils/FindWindowInList';
+
+function WindowList_Find(hList:Thandle; hContact:TMCONTACT) : HWND; stdcall;
+                 external CoreDLL name 'WindowList_Find';
 
   {
-    wParam : Handle to window list
-    lParam : Pointer to TMSG (initalised with what to broadcast)
     Affect : sends a message to all windows in a list using SendMessage
     Returns: 0 on success, [non zero] on failure
-    Notes  : only TMSG.Message, .wParam, .lParam are used
   }
-  MS_UTILS_BROADCASTTOWINDOWLIST:PAnsiChar = 'Utils/BroadcastToWindowList';
+
+function WindowList_Broadcast(hList:Thandle; message:UINT; wParam:TWPARAM; lParam:TLPARAM) : int; stdcall;
+                 external CoreDLL name 'WindowList_Broadcast';
 
   {
-  Inline helper: WindowList_BroadcastAsync
-  wParam : Handle to window list
-  lParam : Pointer to TMSG (initalised with what to broadcast)
-  Affect : Sends a message to all windows in a list using PostMessage
-  Returns: 0 on success, nonzero on failure, this service does not fail,
+    Affect : Sends a message to all windows in a list using PostMessage
+    Returns: 0 on success, nonzero on failure, this service does not fail,
            even if PostMessage() fails for whatever reason
   }
-  MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC:PAnsiChar = 'Utils/BroadcastToWindowListAsync';
+
+function WindowList_BroadcastAsync(hList:Thandle; message:UINT; wParam:TWPARAM; lParam:TLPARAM) : int; stdcall;
+                 external CoreDLL name 'WindowList_BroadcastAsync';
 
   {
     There aren't any services here, there's no need for them, the control class
@@ -221,6 +221,8 @@ const
     These are defined by STATIC controls and STN_CLICKED is sent to standard
     STATIC classes when they're clicked -- look at WINAPI docs for more info
   }
+
+const
   WNDCLASS_HYPERLINK = 'Hyperlink';
 
   {

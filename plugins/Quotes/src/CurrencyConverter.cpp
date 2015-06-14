@@ -96,7 +96,7 @@ namespace
 		{
 		case WM_INITDIALOG:
 		{
-			HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
+			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Add(hWL, hDlg, NULL);
 
@@ -155,7 +155,7 @@ namespace
 		return (TRUE);
 		case WM_CLOSE:
 		{
-			HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
+			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hDlg);
 			Utils_SaveWindowPosition(hDlg, NULL, QUOTES_PROTOCOL_NAME, WINDOW_PREFIX);
@@ -282,7 +282,7 @@ namespace
 
 INT_PTR QuotesMenu_CurrencyConverter(WPARAM, LPARAM)
 {
-	HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, true);
+	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, true);
 	HWND hWnd = WindowList_Find(hWL, NULL);
 	if (NULL != hWnd)
 	{

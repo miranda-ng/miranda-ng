@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-extern HANDLE hUrlWindowList;
-
 static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 {
 	TCHAR newtitle[256], oldtitle[256];

@@ -60,7 +60,7 @@ struct TRecvContactsData
 	HICON      hIcons[4];    // icons for dialog
 };
 
-extern HANDLE ghRecvWindowList;
+extern MWindowList g_hRecvWindowList;
 
 INT_PTR CALLBACK RecvDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

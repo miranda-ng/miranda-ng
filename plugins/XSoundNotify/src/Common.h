@@ -39,7 +39,7 @@ struct XSN_Data
 extern LIST<XSN_Data> XSN_Users;
 
 extern HINSTANCE hInst;
-extern HANDLE hChangeSoundDlgList;
+extern MWindowList hChangeSoundDlgList;
 extern BYTE isIgnoreSound, isOwnSound;
 
 bool IsSuitableProto(PROTOACCOUNT *pa);

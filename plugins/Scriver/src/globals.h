@@ -82,9 +82,9 @@ struct GlobalMessageData
 {
 	unsigned int flags;
 	unsigned int flags2;
-	HANDLE hMessageWindowList;
+	MWindowList hMessageWindowList;
 	DWORD openFlags;
-	HANDLE hParentWindowList;
+	MWindowList hParentWindowList;
 	ParentWindowData *lastParent;
 	ParentWindowData *lastChatParent;
 	DWORD limitNamesLength;

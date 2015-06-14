@@ -11,7 +11,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 #define WMU_SETOPT					(WM_USER + 60)
 
-extern HANDLE hAlarmWindowList;
+extern MWindowList hAlarmWindowList;
 
 void SetAlarmWinOptions();
 

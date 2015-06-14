@@ -55,6 +55,6 @@ using namespace std;
 
 extern HINSTANCE hInstance;
 
-extern HANDLE hInternalWindowList;
+extern MWindowList hInternalWindowList;
 
 #endif

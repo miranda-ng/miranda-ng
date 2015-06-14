@@ -136,7 +136,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			unsigned int iOldIEView = 0;
 			HWND	hWnd = M.FindWindow(hContact);
-			DWORD	sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
 			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
 			if (hWnd) {

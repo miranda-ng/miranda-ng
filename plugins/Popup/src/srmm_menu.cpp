@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	on current active mode for user.
 	*************************************************************************************/
 
-static HANDLE hDialogsList = NULL;
+static MWindowList hDialogsList = NULL;
 
 static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 {

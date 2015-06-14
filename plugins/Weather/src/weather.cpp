@@ -37,8 +37,7 @@ HWND hPopupWindow;
 HANDLE hHookWeatherUpdated;
 HANDLE hHookWeatherError;
 
-HANDLE hDataWindowList;
-HANDLE hWindowList;
+MWindowList hDataWindowList, hWindowList;
 
 HANDLE hUpdateMutex;
 

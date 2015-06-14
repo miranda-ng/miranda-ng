@@ -206,7 +206,7 @@ namespace
 		case WM_INITDIALOG:
 		{
 			hContact = MCONTACT(lParam);
-			HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
 			assert(hWL);
 			WindowList_Add(hWL, hdlg, hContact);
 
@@ -225,7 +225,7 @@ namespace
 			{
 				SetWindowLongPtr(hdlg, GWLP_USERDATA, 0);
 
-				HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+				MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
 				assert(hWL);
 				WindowList_Remove(hWL, hdlg);
 				Utils_SaveWindowPosition(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
@@ -253,7 +253,7 @@ int Quotes_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 	MCONTACT hContact = MCONTACT(wp);
 	if (CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact))
 	{
-		HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, true);
+		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, true);
 		assert(hWL);
 		HWND hWnd = WindowList_Find(hWL, hContact);
 		if (NULL != hWnd) {

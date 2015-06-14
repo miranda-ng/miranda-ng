@@ -22,9 +22,9 @@ CModuleInfo& CModuleInfo::GetInstance()
 	return mi;
 }
 
-HANDLE CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist /*= true*/)
+MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist /*= true*/)
 {
-	HANDLE hResult = NULL;
+	MWindowList hResult = NULL;
 	THandles::const_iterator i = m_ahWindowLists.find(rsKey);
 	if (i != m_ahWindowLists.end())
 	{

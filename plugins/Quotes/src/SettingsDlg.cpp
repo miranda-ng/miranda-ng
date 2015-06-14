@@ -271,7 +271,7 @@ namespace
 			MCONTACT hContact = MCONTACT(lp);
 			TranslateDialogDefault(hWnd);
 
-			HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
+			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 			assert(hWL);
 			WindowList_Add(hWL, hWnd, hContact);
 
@@ -493,7 +493,7 @@ namespace
 			CSettingWindowParam* pParam = get_param(hWnd);
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 
-			HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
+			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hWnd);
 			Utils_SaveWindowPosition(hWnd, pParam->m_hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
@@ -509,7 +509,7 @@ namespace
 
 void ShowSettingsDlg(MCONTACT hContact)
 {
-	HANDLE hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, true);
+	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL, hContact);
 	if (NULL != hWnd)

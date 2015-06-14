@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
 #define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"
 
-static HANDLE hMwinWindowList;
+static MWindowList hMwinWindowList;
 static HANDLE hFontHook;
 
 HGENMENU hMwinMenu;

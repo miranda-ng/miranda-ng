@@ -4,7 +4,7 @@ HANDLE hTypingNotify;
 
 static HGENMENU hDisableMenu = NULL;
 
-static HANDLE hPopupsList = NULL;
+static MWindowList hPopupsList = NULL;
 
 static BYTE   OnePopup;
 static BYTE   ShowMenu;

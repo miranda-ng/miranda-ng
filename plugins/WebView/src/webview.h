@@ -144,7 +144,8 @@ extern HWND ContactHwnd;
 extern HINSTANCE hInst;
 extern HMENU hMenu;
 extern int bpStatus;
-extern HANDLE hNetlibUser, hWindowList;
+extern HANDLE hNetlibUser;
+extern MWindowList hWindowList;
 extern HANDLE hMenuItem1, hMenuItemCountdown;
 extern char optionsname[80];
 

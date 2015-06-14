@@ -31,9 +31,9 @@ int hLangpack;
 
 int g_Utf8EventsSupported = TRUE;
 
-HANDLE ghSendWindowList;
-HANDLE ghRecvWindowList;
-gAckList gaAckData;
+MWindowList g_hSendWindowList;
+MWindowList g_hRecvWindowList;
+gAckList g_aAckData;
 
 HGENMENU hContactMenuItem;
 
@@ -155,20 +155,20 @@ static int HookContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto))
 		return 0;
 
-	WindowList_Broadcast(ghSendWindowList, DM_UPDATETITLE, 0, 0);
-	WindowList_Broadcast(ghRecvWindowList, DM_UPDATETITLE, 0, 0);
+	WindowList_Broadcast(g_hSendWindowList, DM_UPDATETITLE, 0, 0);
+	WindowList_Broadcast(g_hRecvWindowList, DM_UPDATETITLE, 0, 0);
 	return 0;
 }
 
 static int HookContactDeleted(WPARAM wParam, LPARAM)
 {  // if our contact gets deleted close his window
-	HWND h = WindowList_Find(ghSendWindowList, wParam);
+	HWND h = WindowList_Find(g_hSendWindowList, wParam);
 
 	if (h)
 		SendMessage(h, WM_CLOSE, 0, 0);
 
 	// since we hack the window list - more windows for one contact, we need to close them all
-	while (h = WindowList_Find(ghRecvWindowList, wParam))
+	while (h = WindowList_Find(g_hRecvWindowList, wParam))
 		SendMessage(h, WM_CLOSE, 0, 0);
 	return 0;
 }
@@ -176,7 +176,7 @@ static int HookContactDeleted(WPARAM wParam, LPARAM)
 static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 {
 	//find window for hContact
-	HWND hWnd = WindowList_Find(ghSendWindowList, wParam);
+	HWND hWnd = WindowList_Find(g_hSendWindowList, wParam);
 	if (!hWnd)
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), NULL, SendDlgProc, wParam);
 	else {
@@ -204,8 +204,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitCommonControls();
 
-	ghSendWindowList = WindowList_Create();
-	ghRecvWindowList = WindowList_Create();
+	g_hSendWindowList = WindowList_Create();
+	g_hRecvWindowList = WindowList_Create();
 
 	//init hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
@@ -225,7 +225,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	WindowList_Destroy(ghSendWindowList);
-	WindowList_Destroy(ghRecvWindowList);
+	WindowList_Destroy(g_hSendWindowList);
+	WindowList_Destroy(g_hRecvWindowList);
 	return 0;
 }

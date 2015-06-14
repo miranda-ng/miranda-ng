@@ -66,7 +66,7 @@ extern char ModuleName[];
 extern HINSTANCE hInstance;
 extern HWND hBirthdaysDlg;
 extern HWND hUpcomingDlg;
-extern HANDLE hAddBirthdayWndsList;
+extern MWindowList hAddBirthdayWndsList;
 
 struct CommonData{
 	DWORD foreground;

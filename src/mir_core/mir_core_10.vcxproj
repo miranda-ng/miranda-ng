@@ -92,6 +92,7 @@
     <ClCompile Include="src\ui_utils.cpp" />
     <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\windowlist.cpp" />
     <ClCompile Include="src\winver.cpp" />
   </ItemGroup>
   <ItemGroup>

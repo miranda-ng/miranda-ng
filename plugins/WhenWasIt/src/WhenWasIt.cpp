@@ -24,7 +24,7 @@ char ModuleName[] = "WhenWasIt";
 HINSTANCE hInstance;
 HWND hBirthdaysDlg = NULL;
 HWND hUpcomingDlg = NULL;
-HANDLE hAddBirthdayWndsList = NULL;
+MWindowList hAddBirthdayWndsList = NULL;
 int hLangpack;
 
 HANDLE hmCheckBirthdays = NULL;

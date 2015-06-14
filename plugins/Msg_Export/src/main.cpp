@@ -23,7 +23,7 @@ int hLangpack = 0;
 
 static HANDLE hOpenHistoryMenuItem = 0;
 
-HANDLE hInternalWindowList = NULL;
+MWindowList hInternalWindowList = NULL;
 
 /////////////////////////////////////////////////////
 // Remember to update the Version in the resource !!!

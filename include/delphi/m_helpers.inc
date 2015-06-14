@@ -28,10 +28,6 @@ function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int)
 function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
 
-function WindowList_Add      (hList:THANDLE; hWnd:HWND; hContact:TMCONTACT): int_ptr;
-function WindowList_Remove   (hList:THANDLE; hWnd:HWND): int_ptr;
-function WindowList_Find     (hList:THANDLE; hContact:TMCONTACT): int_ptr;
-function WindowList_Broadcast(hList:THANDLE; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
 function Utils_SaveWindowPosition   (hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 function Utils_RestoreWindowPosition(hWnd:HWND; hContact:TMCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 
@@ -251,38 +247,6 @@ begin
   CallService(MS_NETLIB_LOG, hNetLib, lParam(sz));
 end;
 
-
-function WindowList_Add(hList: THANDLE; hWnd: HWND; hContact: TMCONTACT): int_ptr;
-var
-  wle: TWINDOWLISTENTRY;
-begin
-  wle.hList    := hList;
-  wle.hWnd     := hWnd;
-  wle.hContact := hContact;
-  Result := CallService(MS_UTILS_ADDTOWINDOWLIST, 0, lParam(@wle));
-end;
-
-function WindowList_Remove(hList: THANDLE; hWnd: HWND): int_ptr;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := CallService(MS_UTILS_REMOVEFROMWINDOWLIST, hList, hWnd);
-end;
-
-function WindowList_Find(hList: THANDLE; hContact: TMCONTACT): int_ptr;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := CallService(MS_UTILS_FINDWINDOWINLIST, hList, hContact);
-end;
-
-function WindowList_Broadcast(hList: THANDLE; message: int; wParam: WPARAM; lParam: LPARAM): int_ptr;
-var
-  msg: TMSG;
-begin
-  msg.message := message;
-  msg.wParam  := wParam;
-  msg.lParam  := lParam;
-  Result := CallService(MS_UTILS_BROADCASTTOWINDOWLIST, hList, tLparam(@Msg));
-end;
 
 function Utils_SaveWindowPosition(hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 var

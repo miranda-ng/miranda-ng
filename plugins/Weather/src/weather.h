@@ -363,11 +363,12 @@ extern MYOPTIONS opt;
 extern unsigned status;
 extern unsigned old_status;
 
-extern HANDLE hDataWindowList;
+extern MWindowList hDataWindowList;
+extern MWindowList hWindowList;
+
 extern HANDLE hNetlibUser, hNetlibHttp;
 extern HANDLE hHookWeatherUpdated;
 extern HANDLE hHookWeatherError;
-extern HANDLE hWindowList;
 extern HANDLE hTBButton;
 extern UINT_PTR timerId;
 extern HANDLE hUpdateMutex;
@@ -546,6 +547,6 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact);
 INT_PTR CALLBACK DlgProcBrief(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void InitIcons(void);
-HICON  LoadIconEx(const char* name, BOOL big);
+HICON  LoadIconEx(const char* name, bool big);
 HANDLE GetIconHandle(const char* name);
 void   ReleaseIconEx(HICON hIcon);

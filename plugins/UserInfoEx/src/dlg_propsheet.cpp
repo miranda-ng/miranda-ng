@@ -59,8 +59,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 ***********************************************************************************************************/
 
 static BYTE bInitIcons = INIT_ICONS_NONE;
-static HANDLE ghWindowList = NULL;
-static HANDLE ghDetailsInitEvent = NULL;
+static MWindowList g_hWindowList = NULL;
+static HANDLE g_hDetailsInitEvent = NULL;
 
 static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -249,7 +249,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	myGlobals.WantAeroAdaption = db_get_b(NULL, MODNAME, SET_PROPSHEET_AEROADAPTION, TRUE);
 
 	// allow only one dialog per user
-	if (HWND hWnd = WindowList_Find(ghWindowList, wParam)) {
+	if (HWND hWnd = WindowList_Find(g_hWindowList, wParam)) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 		return 0;
@@ -301,7 +301,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	}
 
 	// add the pages
-	NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, wParam);
+	NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, wParam);
 	if (!psh._pPages || !psh._numPages) {
 		MsgErr(NULL, LPGENT("No pages have been added. Canceling dialog creation!"));
 		return 1;
@@ -319,7 +319,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 			if (psh._hContact) {
 				psh._pszProto = DB::Contact::Proto(psh._hContact);
 				if ((INT_PTR)psh._pszProto != CALLSERVICE_NOTFOUND)
-					NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
+					NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 			}
 		}
 		psh._hContact = wParam;
@@ -400,7 +400,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 **/
 static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 {
-	HWND hWnd = WindowList_Find(ghWindowList, wParam);
+	HWND hWnd = WindowList_Find(g_hWindowList, wParam);
 	if (hWnd != NULL)
 		DestroyWindow(hWnd);
 	return 0;
@@ -414,7 +414,7 @@ static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 **/
 static int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(ghWindowList, WM_DESTROY, 0, 0);
+	WindowList_BroadcastAsync(g_hWindowList, WM_DESTROY, 0, 0);
 	return 0;
 }
 
@@ -576,7 +576,7 @@ void DlgContactInfoInitTreeIcons()
 						pszContactProto = DB::Contact::Proto(psh._hContact);
 						if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
 							// call a notification for the contact to retrieve all protocol specific tree items
-							NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
+							NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 							if (psh._pPages) {
 								psh.Free_pPages();
 								psh._dwFlags = PSTVF_INITICONS | PSF_PROTOPAGESONLY;
@@ -592,7 +592,7 @@ void DlgContactInfoInitTreeIcons()
 		if (!(bInitIcons & INIT_ICONS_OWNER)) {
 			psh._hContact = NULL;
 			psh._pszProto = NULL;
-			NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
+			NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 			if (psh._pPages) {
 				psh.Free_pPages();
 			}
@@ -610,8 +610,8 @@ void DlgContactInfoInitTreeIcons()
 **/
 void DlgContactInfoUnLoadModule()
 {
-	WindowList_Destroy(ghWindowList);
-	DestroyHookableEvent(ghDetailsInitEvent);
+	WindowList_Destroy(g_hWindowList);
+	DestroyHookableEvent(g_hDetailsInitEvent);
 }
 
 /**
@@ -622,7 +622,7 @@ void DlgContactInfoUnLoadModule()
 **/
 void DlgContactInfoLoadModule()
 {
-	ghDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
+	g_hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
 	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
 	CreateServiceFunction("UserInfo/AddPage", AddPage);
@@ -630,7 +630,7 @@ void DlgContactInfoLoadModule()
 	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	HookEvent(ME_USERINFO_INITIALISE, InitDetails);
-	ghWindowList = WindowList_Create();
+	g_hWindowList = WindowList_Create();
 
 	// check whether changing my details via UserInfoEx is basically possible
 	myGlobals.CanChangeDetails = FALSE;
@@ -821,7 +821,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			// show the first propsheetpage
 			//
 			// finally add the dialog to the window list
-			WindowList_Add(ghWindowList, hDlg, pPs->hContact);
+			WindowList_Add(g_hWindowList, hDlg, pPs->hContact);
 
 			// show the dialog
 			pPs->dwFlags &= ~PSF_LOCKED;
@@ -1615,7 +1615,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		ResetUpdateInfo(pPs);
 
 		// avoid any further message processing for this dialog page
-		WindowList_Remove(ghWindowList, hDlg);
+		WindowList_Remove(g_hWindowList, hDlg);
 		SetUserData(hDlg, NULL);
 
 		// unhook events and stop timers

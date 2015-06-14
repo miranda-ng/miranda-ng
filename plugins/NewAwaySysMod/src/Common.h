@@ -294,7 +294,7 @@ TCString VariablesEscape(TCString Str);
 INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // ReadAwayMsg.cpp
-extern HANDLE g_hReadWndList;
+extern MWindowList g_hReadWndList;
 INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam);
 
 // AwayOpt.cpp

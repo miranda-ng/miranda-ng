@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadAwayMessageSending(void);
 
 static HGENMENU hAwayMsgMenuItem;
-static HANDLE hWindowList;
+static MWindowList hWindowList;
 
 struct AwayMsgDlgData {
 	MCONTACT hContact;

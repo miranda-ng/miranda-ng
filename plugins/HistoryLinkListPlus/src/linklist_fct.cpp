@@ -19,7 +19,7 @@
 #include "linklist.h"
 
 extern HINSTANCE hInst;
-extern HANDLE hWindowList;
+extern MWindowList hWindowList;
 
 /*
 The hyperlink detection in this function is taken from the

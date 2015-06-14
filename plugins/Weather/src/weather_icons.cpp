@@ -42,7 +42,7 @@ void InitIcons(void)
 	Icon_Register(hInst, WEATHERPROTONAME, iconList, SIZEOF(iconList), WEATHERPROTONAME);
 }
 
-HICON  LoadIconEx(const char* name, BOOL big)
+HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", WEATHERPROTONAME, name);

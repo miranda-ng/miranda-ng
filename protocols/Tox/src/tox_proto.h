@@ -251,7 +251,7 @@ private:
 	void OnGotFriendAvatarData(AvatarTransferParam *transfer);
 
 	// multimedia
-	HANDLE hAudioDialogs;
+	MWindowList hAudioDialogs;
 	HWAVEOUT hOutDevice;
 	std::map<MCONTACT, int32_t> calls;
 

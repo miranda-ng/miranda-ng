@@ -19,9 +19,8 @@
 
 // Global variables
 HINSTANCE hInst;
-                             
 
-HANDLE hWindowList;
+MWindowList hWindowList;
 HCURSOR splitCursor;
 int hLangpack;
 
