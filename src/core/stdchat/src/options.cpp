@@ -306,7 +306,7 @@ void AddIcons(void)
 }
 
 // load icons from the skinning module if available
-HICON LoadIconEx(char* pszIcoLibName, BOOL big)
+HICON LoadIconEx(const char *pszIcoLibName, bool big)
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);

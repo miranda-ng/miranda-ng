@@ -151,7 +151,7 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 // options.c
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 void AddIcons(void);
-HICON LoadIconEx(char* pszIcoLibName, BOOL big);
+HICON LoadIconEx(const char *pszIcoLibName, bool big);
 
 // services.c
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
