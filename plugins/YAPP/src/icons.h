@@ -12,6 +12,5 @@
 #define ICO_HISTORY         MODULE"_history"
 
 void	InitIcons();
-HICON	IcoLib_GetIcon(LPCSTR pszIcon, bool big=false);
 
 #endif // __icons_h__
