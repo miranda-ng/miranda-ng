@@ -174,7 +174,7 @@ var
   strdatetime:array [0..63] of WideChar;
   dbtts:TDBTIMETOSTRING;
 begin
-  dbtts.cbDest    :=sizeof(strdatetime);
+  dbtts.cbDest    :=Length(strdatetime);
   dbtts.szDest.w  :=@strdatetime;
   dbtts.szFormat.w:='d - t';
   CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,data,lparam(@dbtts));
