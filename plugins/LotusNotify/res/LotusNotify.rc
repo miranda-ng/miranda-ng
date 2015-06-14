@@ -63,7 +63,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,9,167,168,8
 END
 
-IDD_OPT_LOTUS_POPUP DIALOGEX 0, 0, 228, 204
+IDD_OPT_LOTUS_POPUP DIALOGEX 0, 0, 235, 204
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -88,7 +88,7 @@ BEGIN
     CONTROL         "Show error messages",IDC_SHOWERROR,"Button",
                     BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,5,110,218,8
     CONTROL         "Remember newest message ID and don't show older",IDC_NEWEST,"Button",
-                    BS_AUTOCHECKBOX | BS_LEFT | BS_MULTILINE | WS_TABSTOP,5,122,218,8
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_MULTILINE | WS_TABSTOP,5,122,230,8
     CONTROL         "...even if popup not clicked",IDC_REMEMBEREVENNONCLICKED,"Button",
                     BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,5,134,218,8
     PUSHBUTTON      "Clear popups history",IDC_BUTTON_CLEAR,43,185,140,14,BS_CENTER | BS_MULTILINE

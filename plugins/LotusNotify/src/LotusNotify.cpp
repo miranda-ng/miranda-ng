@@ -1466,7 +1466,7 @@ int LotusNotifyOptInit(WPARAM wParam,LPARAM)
     odp.pfnDlgProc = DlgProcLotusNotifyPopupOpts;
     Options_AddPage(wParam, &odp);
 
-    odp.ptszTab = LPGENT("Miscelaneous");
+    odp.ptszTab = LPGENT("Miscellaneous");
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_MISC);
 	odp.pfnDlgProc = DlgProcLotusNotifyMiscOpts;
 	Options_AddPage(wParam, &odp);
