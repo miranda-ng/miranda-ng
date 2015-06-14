@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -22,15 +22,13 @@
 [autoregister]
 Автореєстрація
 [Check interval:]
-Інтервал:
+Інтервал перевірки:
 [min.]
 хв
 [(0-disabled)]
-0 - вимкнено
+(0 - вимкнено)
 [Keep connection on error]
 Підтримувати з'єднання
-[Popup options]
-Спливаючі вікна
 [Set popup colors]
 Кольори
 [Background]
@@ -40,21 +38,21 @@
 [Close after:]
 Затримка:
 [sec (0 default, -1 disabled)]
-с (0 замовчання, -1 вимк.)
+с (0 - замовчання, -1 - вимкнено)
 [Left button click cmd:]
-Команда ЛКМ:
+Команда лівої кнопки миші:
 [Command parameters:]
 Параметри команди:
 [Show again if still unread]
-Показати непрочитане ще раз
+Показувати непрочитане ще раз
 [...but only if popup not clicked]
-...тільки якщо не натиснуте
+...тільки якщо спливаюче вікно не натиснуте
 [Show error messages]
 Повідомляти про помилки
 [Remember newest message ID and don't show older]
-Пам'ятати ID останнього повідмл. і не показувати старі
+Пам'ятати ID останнього повідомлення і не показувати старі
 [...even if popup not clicked]
-...навіть якщо не натиснуте
+...навіть якщо спливаюче вікно не натиснуте
 [Clear popups history]
 Очистити історію спливаючих вікон
 [Sender]
@@ -65,8 +63,6 @@
 Кому / Копія Кому
 [Offline status mean:]
 Автономний статус:
-[version:]
-Версія:
 [Unable to load all required Lotus API functions]
 Не вдається завантажити всі необхідні функцій Lotus API
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]
@@ -93,6 +89,12 @@ notes.ini модифіковано коректно. Необхідно пере
 Статус
 [Plugins]
 Плагіни
+[Connection]
+З'єднання
+[Popup]
+Спливаючі вікна
+[Miscellaneous]
+Інше
 [&Check Lotus]
 &Перевірити Lotus
 [Lotus Notify]
