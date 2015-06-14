@@ -58,20 +58,8 @@ function SendMessageTo(hContact: THandle; const Text: String): Boolean;
 var
   buff: AnsiString;
 begin
-  if boolean(ServiceExists(MS_MSG_SENDMESSAGEW)) then
-    Result := (CallService(MS_MSG_SENDMESSAGEW,WPARAM(hContact),LPARAM(PChar(Text))) = 0)
-  else
-  begin
-    buff := AnsiString(Text);
-    Result := (CallService(MS_MSG_SENDMESSAGE,WPARAM(hContact),LPARAM(PAnsiChar(buff))) = 0);
-    if not Result then
-      Result := (CallService('SRMsg/LaunchMessageWindow',WPARAM(hContact),LPARAM(PAnsiChar(buff))) = 0);
-  end;
+  buff := AnsiString(Text);
+  Result := (CallService(MS_MSG_SENDMESSAGE,WPARAM(hContact),LPARAM(PAnsiChar(buff))) = 0);
 end;
-
-{function ForwardMessage(Text: AnsiString): Boolean;
-begin
-  Result := (CallService(MS_MSG_FORWARDMESSAGE,0,LPARAM(PAnsiChar(Text)))=0);
-end;}
 
 end.

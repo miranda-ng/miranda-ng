@@ -87,7 +87,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 	switch (Action) {
 	case PCA_OPENMESSAGEWND: // open message window
 		if (hContact && hContact != INVALID_CONTACT_ID)
-			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, hContact, 0);
+			CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
 		break;
 
 	case PCA_OPENMENU: // open contact menu

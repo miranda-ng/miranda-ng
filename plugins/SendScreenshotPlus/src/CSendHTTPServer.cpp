@@ -35,7 +35,8 @@ INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
 
 //---------------------------------------------------------------------------
 CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-: CSend(Owner, hContact, true){
+	: CSend(Owner, hContact, true)
+{
 	m_EnableItem		= SS_DLG_DESCRIPTION ; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("HTTPServer transfer");
 	m_pszFileName		= NULL;
@@ -43,7 +44,8 @@ CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	m_fsi_pszRealPath	= NULL;
 }
 
-CSendHTTPServer::~CSendHTTPServer(){
+CSendHTTPServer::~CSendHTTPServer()
+{
 	mir_free(m_pszFileName);
 	mir_free(m_fsi_pszSrvPath);
 	mir_free(m_fsi_pszRealPath);
@@ -80,7 +82,8 @@ int CSendHTTPServer::Send()
 	return 0;
 }
 
-void CSendHTTPServer::SendThread() {
+void CSendHTTPServer::SendThread()
+{
 	INT_PTR ret;
 
 	if (ServiceExists(MS_HTTP_GET_LINK)) {
@@ -98,7 +101,7 @@ void CSendHTTPServer::SendThread() {
 		//send DATA and wait for reply
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 	}
- 
+
 	if (ret != 0) {
 		Error(LPGENT("%s (%i):\nCould not add a share to the HTTP Server plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret); return;
@@ -113,22 +116,7 @@ void CSendHTTPServer::SendThread() {
 	Exit(ACKRESULT_FAILED);
 }
 
-void CSendHTTPServer::SendThreadWrapper(void * Obj) {
+void CSendHTTPServer::SendThreadWrapper(void * Obj)
+{
 	reinterpret_cast<CSendHTTPServer*>(Obj)->SendThread();
 }
-
-//---------------------------------------------------------------------------
-/*
-CSendHTTPServer::CContactMapping CSendHTTPServer::_CContactMapping;
-INT_PTR CSendHTTPServer::MyCallService(const char *name, WPARAM wParam, LPARAM lParam) {
-/ *
-	CContactMapping::iterator Contact(_CContactMapping.end());
-	if ( wParam == m_hContact && (
-		(mir_strcmp(name, MS_MSG_SENDMESSAGE)== 0) ||
-		(mir_strcmp(name, "SRMsg/LaunchMessageWindow")== 0) ))
-	{
-		m_URL= mir_strdup((char*)lParam);
-		return 0;
-	}* /
-	return g_MirCallService(name, wParam, lParam);
-}*/
