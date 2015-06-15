@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -18,7 +18,6 @@
 [min.]
 [(0-disabled)]
 [Keep connection on error]
-[Popup options]
 [Set popup colors]
 [Background]
 [Text]
@@ -37,7 +36,6 @@
 [Subject]
 [To / CopyTo]
 [Offline status mean:]
-[version:]
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]
@@ -52,6 +50,9 @@
 [Attachments: %d bytes]
 [Status]
 [Plugins]
+[Connection]
+[Popup]
+[Miscellaneous]
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]

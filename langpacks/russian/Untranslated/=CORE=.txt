@@ -1,5 +1,4 @@
 ﻿[&E-mail]
-[ID]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]
@@ -20,3 +19,4 @@
 [Alt + ]
 [Shift + ]
 [Win + ]
+[ID]
