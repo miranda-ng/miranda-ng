@@ -116,11 +116,11 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 
-			hIconMsg = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconMsg = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_MESSAGE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_MSGICON, STM_SETICON, (WPARAM)hIconMsg, 0);
-			hIconUrl = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_URL), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconUrl = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_URL), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_URLICON, STM_SETICON, (WPARAM)hIconUrl, 0);
-			hIconFile = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconFile = (HICON)CopyImage(Skin_LoadIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIconFile, 0);
 
 			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGEREAD, Options.MessageRead ? BST_CHECKED : BST_UNCHECKED);

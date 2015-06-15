@@ -573,7 +573,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
 			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-				ImageList_AddIcon(himlViewModes, LoadSkinnedProtoIcon(NULL, i));
+				ImageList_AddIcon(himlViewModes, Skin_LoadProtoIcon(NULL, i));
 
 			hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_MINIMIZE), IMAGE_ICON, 16, 16, 0);
 			nullImage = ImageList_AddIcon(himlViewModes, hIcon);
@@ -1029,7 +1029,7 @@ void CreateViewModeFrame()
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
 	frame.TBtname = TranslateT("View modes");
-	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 	frame.align = alBottom;

@@ -311,12 +311,12 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 
 				if (sd->active && !mir_tstrcmp(sd->active, dat->filename)) {
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
-						LoadSkinnedIcon(SKINICON_OTHER_EMPTYBLOB),
+						Skin_LoadIcon(SKINICON_OTHER_EMPTYBLOB),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);
 				}
 				else {
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
-						LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT),
+						Skin_LoadIcon(SKINICON_OTHER_SMALLDOT),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);
 				}
 				lps->rcItem.left += cxIcon;

@@ -581,7 +581,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 		return NULL;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
@@ -1478,7 +1478,7 @@ static int CLUIFramesLoadMainMenu()
 
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = 3000090000;
 	mi.pszPopupName = (char*)-1;
@@ -2418,9 +2418,9 @@ static int DrawTitleBar(HDC dc, RECT rect, int Frameid)
 			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_tstrlen(Frames[pos].TitleBar.tbname));
 
 			if (!AlignCOLLIconToLeft)
-				DrawIconEx(hdcMem, Frames[pos].TitleBar.wndSize.right - 22, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(hdcMem, Frames[pos].TitleBar.wndSize.right - 22, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN) : Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);
 			else
-				DrawIconEx(hdcMem, 0, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(hdcMem, 0, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN) : Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);
 			SelectObject(hdcMem, oFont);
 		}
 	}

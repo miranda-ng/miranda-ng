@@ -299,13 +299,15 @@ static HANDLE HookEventInt(int type, const char *name, MIRANDAHOOK hookProc, voi
 	if ((idx = hooks.getIndex((THook*)name)) == -1)
 		return NULL;
 
-	THook* p = hooks[ idx ];
-	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount+1));
-	p->subscriber[ p->subscriberCount ].type = type;
-	p->subscriber[ p->subscriberCount ].pfnHook = hookProc;
-	p->subscriber[ p->subscriberCount ].object = object;
-	p->subscriber[ p->subscriberCount ].lParam = lParam;
-	p->subscriber[ p->subscriberCount ].hOwner = GetInstByAddress(hookProc);
+	THook *p = hooks[idx];
+	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount + 1));
+
+	THookSubscriber &s = p->subscriber[p->subscriberCount];
+	s.type = type;
+	s.pfnHook = hookProc;
+	s.object = object;
+	s.lParam = lParam;
+	s.hOwner = GetInstByAddress(hookProc);
 	p->subscriberCount++;
 
 	return (HANDLE)((p->id << 16) | p->subscriberCount);

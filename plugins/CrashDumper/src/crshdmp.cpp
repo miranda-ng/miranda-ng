@@ -310,7 +310,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (catchcrashes && !needrestart) {
 		mi.position = 2000099990;
 		mi.ptszName = LPGENT("Open crash report directory");
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 		mi.pszService = MS_CRASHDUMPER_URL;
 		Menu_AddMainMenuItem(&mi);
 	}
@@ -318,7 +318,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.popupPosition = 1;
 	mi.position = 2000099991;
 	mi.ptszName = LPGENT("Open online Version Info");
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_AddMainMenuItem(&mi);
 

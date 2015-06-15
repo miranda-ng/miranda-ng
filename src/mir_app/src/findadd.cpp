@@ -379,7 +379,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (caps & PF1_ANYSEARCH)
 					netProtoCount++;
 			}
-			dat->himlComboIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, netProtoCount + 1, netProtoCount + 1);
+			dat->himlComboIcons = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, netProtoCount + 1, netProtoCount + 1);
 			SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CBEM_SETIMAGELIST, 0, (LPARAM)dat->himlComboIcons);
 
 			COMBOBOXEXITEM cbei;
@@ -1037,7 +1037,7 @@ int LoadFindAddModule(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500020000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_FINDUSER);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszName = LPGEN("&Find/add contacts...");
 	mi.pszService = MS_FINDADD_FINDADD;
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);

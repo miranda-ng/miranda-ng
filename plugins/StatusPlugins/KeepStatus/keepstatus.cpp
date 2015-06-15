@@ -659,7 +659,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 	log_debugA("CheckConnectionTimer");
 	bool setStatus = false;
 	if (showConnectionPopups)
-		hIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
+		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 
 	for (int i = 0; i < connectionSettings.getCount() && !setStatus; i++) {
 		TConnectionSettings& cs = connectionSettings[i];
@@ -672,7 +672,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
 			setStatus = true;
 			if (showConnectionPopups)
-				hIcon = LoadSkinnedProtoIcon(cs.szName, ID_STATUS_OFFLINE);
+				hIcon = Skin_LoadProtoIcon(cs.szName, ID_STATUS_OFFLINE);
 		}
 	}
 
@@ -893,7 +893,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
-		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
 		mir_sntprintf(text, TranslateT("%s connected from another location"), GetHumanName(lParam));
 		break;
 
@@ -901,7 +901,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
-		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
 		if (db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
 			mir_sntprintf(text, TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
 		else if (db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
@@ -915,7 +915,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		if (lParam) { // ”казатель на им€ модул€. 
-			hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+			hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
 			mir_sntprintf(text, TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
 		}
 		else mir_sntprintf(text, TranslateT("Status error (next retry (%d) in %d s)"), retryCount + 1, currentDelay / 1000);
@@ -938,7 +938,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 					}
 				}
 			}
-			hIcon = LoadSkinnedProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
+			hIcon = Skin_LoadProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
 
 			rtrimt(protoInfo);
 			if (retryCount == (maxRetries - 1))
@@ -963,14 +963,14 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		if (lParam) {
-			hIcon = LoadSkinnedIcon(SKINICON_STATUS_ONLINE);
+			hIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
 			mir_sntprintf(text, TranslateT("Status was set ok"));
 		}
 		else mir_sntprintf(text, TranslateT("Giving up"));
 		break;
 	}
 	if (hIcon == NULL)
-		hIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
+		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 
 	log_info(L"KeepStatus: %s", text);
 	return ShowPopup(text, hIcon);

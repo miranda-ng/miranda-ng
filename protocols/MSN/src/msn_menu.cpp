@@ -445,7 +445,7 @@ void MSN_InitContactMenu(void)
 	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
 	mi.position = -2000010005;
 	mi.flags = CMIF_HIDDEN;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SENDEMAIL);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.pszName = LPGEN("Open &Hotmail Inbox");
 	hOpenInboxMenuItem = Menu_AddContactMenuItem(&mi);
 

@@ -138,7 +138,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
+		hIml = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 3, 3);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_SMALLDOT);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_VISIBLE_ALL);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_INVISIBLE_ALL);

@@ -593,8 +593,8 @@ public:
 	
 	virtual void OnInitDialog()
 	{
-		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
+		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconSX, g_iIconSY, 0));
+		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, g_iIconX, g_iIconY, 0));
 
 		if (m_pd->noProfiles || shouldAutoCreate(m_pd->ptszProfile))
 			m_tab.ActivatePage(1);

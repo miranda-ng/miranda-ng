@@ -479,7 +479,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			POPUPDATAT ppd = { NULL };
 
 			ppd.lchContact = NULL;
-			ppd.lchIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 			_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
 			if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))

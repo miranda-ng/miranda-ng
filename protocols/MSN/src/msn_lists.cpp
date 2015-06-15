@@ -499,7 +499,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 5, 5);
 
-			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
+			HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_SMALLDOT);
 			ImageList_AddIcon(hIml, hIcon);
 			IcoLib_ReleaseIcon(hIcon);
 

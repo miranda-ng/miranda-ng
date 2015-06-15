@@ -174,7 +174,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 
 int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id)
 {
-	HICON hIcon = LoadSkinnedIcon(id);
+	HICON hIcon = Skin_LoadIcon(id);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;
@@ -189,7 +189,7 @@ int ImageList_AddIcon_Ex2(HIMAGELIST hIml, HICON hIcon)
 
 int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id)
 {
-	HICON hIcon = LoadSkinnedIcon(id);
+	HICON hIcon = Skin_LoadIcon(id);
 	int res = ImageList_ReplaceIcon(hIml, nIndex, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;
@@ -197,7 +197,7 @@ int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id)
 
 int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status)
 {
-	HICON hIcon = LoadSkinnedProtoIcon(szProto, status);
+	HICON hIcon = Skin_LoadProtoIcon(szProto, status);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;
@@ -213,8 +213,8 @@ void ReleaseIcons()
 HICON GetCachedIcon(const char *name)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
-	if (!mir_strcmp(iconList[i].szName, name))
-		return IcoLib_GetIconByHandle(iconList[i].hIcolib);
+		if (!mir_strcmp(iconList[i].szName, name))
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
 	return NULL;
 }
@@ -223,8 +223,8 @@ void LoadGlobalIcons()
 {
 	int i;
 
-	g_dat.hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	g_dat.hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+	g_dat.hMsgIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	g_dat.hMsgIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	g_dat.hIconChatBig = IcoLib_GetIcon("chat_window", true);
 
 	ImageList_RemoveAll(g_dat.hButtonIconList);
@@ -321,7 +321,7 @@ void FreeGlobals()
 	if (g_dat.hSearchEngineIconList)
 		ImageList_Destroy(g_dat.hSearchEngineIconList);
 	mir_free(g_dat.tabIconListUsage);
-	
+
 	WindowList_Destroy(g_dat.hMessageWindowList);
 	WindowList_Destroy(g_dat.hParentWindowList);
 

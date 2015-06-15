@@ -584,7 +584,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	long iSeconds;
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
-		pud.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		pud.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		pud.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
 		pud.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
 		iSeconds = pluginOptions->iDelayMsg;

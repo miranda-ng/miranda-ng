@@ -64,7 +64,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	char szSetting[32];
 	bool colOrdersValid;
 
-	defaultColumnSizes[COLUMNID_PROTO] = GetSystemMetrics(SM_CXSMICON) + 4;
+	defaultColumnSizes[COLUMNID_PROTO] = g_iIconSX + 4;
 	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(GetParent(hwndResults), GWLP_USERDATA);
 
 	columnCount = NUM_COLUMNID;

@@ -22,7 +22,7 @@ int inline _DebugPopup(MCONTACT hContact, TCHAR *fmt, ...)
 	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
-		ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)
 			mir_tstrncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
 		else

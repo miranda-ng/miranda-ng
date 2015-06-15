@@ -164,7 +164,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	_ASSERT(ppd.lchIcon);
 	if (!ppd.lchIcon || (DWORD)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
 		// if we didn't succeed retrieving client icon, show the usual status icon instead
-		ppd.lchIcon = LoadSkinnedProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
+		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = NULL;
 	}
 	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)sd->hContact, GCDNF_TCHAR), lengthof(ppd.lptzContactName) - 1);

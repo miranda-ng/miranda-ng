@@ -89,7 +89,7 @@ static int MainInit(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 500050000;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.ptszName = LPGENT("My details");
 	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
 

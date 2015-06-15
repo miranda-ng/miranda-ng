@@ -176,7 +176,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					int x = rc.left - iSize - 5;
 					for (int i = 0; i < SIZEOF(SettingsList); i++) {
 						if (lpNMCD->nmcd.lItemlParam == dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
-							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, LoadSkinnedProtoIcon(NULL, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
+							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(NULL, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
 							x -= iSize + 1;
 						}
 					}

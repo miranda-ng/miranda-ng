@@ -48,7 +48,7 @@ void CToxProto::InitMenus()
 	mi.pszService = MODULE"/RequestAuth";
 	mi.ptszName = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnRequestAuth>);
 
@@ -56,7 +56,7 @@ void CToxProto::InitMenus()
 	mi.pszService = MODULE"/GrantAuth";
 	mi.ptszName = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 
@@ -90,7 +90,7 @@ int CToxProto::OnInitStatusMenu()
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = GetSkinIconHandle("main");
+		mi.icolibItem = Skin_GetIconHandle("main");
 		hStatusMunuRoot = /*m_hMenuRoot = */Menu_AddProtoMenuItem(&mi);
 	}
 	/*else
@@ -116,7 +116,7 @@ int CToxProto::OnInitStatusMenu()
 	CreateProtoService(tDest, &CToxProto::OnCreateChatRoom);
 	mi.ptszName = LPGENT("Create group chat");
 	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
-	mi.icolibItem = GetSkinIconHandle("conference");
+	mi.icolibItem = Skin_GetIconHandle("conference");
 	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi);*/
 
 	return 0;

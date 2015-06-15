@@ -423,7 +423,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		switch (iSelection) {
 		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
 			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
-			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 1, PluginConfig.g_hMenuFavorites);
+			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getProto(), dat->szStatus, dat->wStatus, Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 1, PluginConfig.g_hMenuFavorites);
 			break;
 		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
 			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
@@ -617,7 +617,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
 		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -1647,7 +1647,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 		if ((GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer || dat->pContainer->hwndActive != hwndDlg) && !(dbei.flags & DBEF_SENT)) {
 			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer))
 				FlashContainer(m_pContainer, 1, 0);
-			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 		}
 
@@ -1791,11 +1791,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 		UpdateTrayMenuState(dat, TRUE);
 		if (dat->cache->isFavorite())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-			LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
+			Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
 
 		if (dat->cache->isRecent())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
-			LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
+			Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
 
 		dat->Panel->Invalidate();
 		if (dat->pWnd)

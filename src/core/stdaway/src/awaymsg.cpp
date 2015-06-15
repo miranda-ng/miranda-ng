@@ -148,7 +148,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
-					mi.hIcon = LoadSkinProtoIcon(szProto, status);
+					mi.hIcon = Skin_LoadProtoIcon(szProto, status);
 				}
 			}
 		}

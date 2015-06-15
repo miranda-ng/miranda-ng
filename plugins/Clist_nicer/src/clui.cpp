@@ -187,7 +187,7 @@ static int CreateCLC()
 		frame.cbSize = sizeof(frame);
 		frame.tname = _T("EventArea");
 		frame.TBtname = TranslateT("Event area");
-		frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+		frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
 		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 		frame.align = alBottom;
@@ -203,7 +203,7 @@ static int CreateCLC()
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = pcli->hwndContactTree;
 		Frame.align = alClient;
-		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 		Frame.tname = _T("My contacts");
 		Frame.TBtname = TranslateT("My contacts");
@@ -288,14 +288,14 @@ void CreateButtonBar(HWND hWnd)
 	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBMENU, g_hInst, NULL);
 	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
-	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MAINMENU));
+	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MAINMENU));
 	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Open main menu"), 0);
 
 	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU)IDC_TBGLOBALSTATUS, g_hInst, NULL);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
-	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
+	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_STATUS_OFFLINE));
 	SendMessage(hTbGlobalStatus, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Set status modes"), 0);
 }
@@ -1696,10 +1696,10 @@ buttons_done:
 						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
 							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED); // get OWN xStatus icon (if set)
 						else
-							hIcon = LoadSkinnedProtoIcon(szProto, status);
+							hIcon = Skin_LoadProtoIcon(szProto, status);
 					}
 					else
-						hIcon = LoadSkinnedProtoIcon(szProto, status);
+						hIcon = Skin_LoadProtoIcon(szProto, status);
 
 					if (!(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;
@@ -1712,7 +1712,7 @@ buttons_done:
 
 					if (cfg::getByte("CLUI", "sbar_showlocked", 1)) {
 						if (cfg::getByte(szProto, "LockMainStatus", 0)) {
-							hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
+							hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != NULL) {
 								DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 								IcoLib_ReleaseIcon(hIcon);

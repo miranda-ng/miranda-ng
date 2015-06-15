@@ -187,7 +187,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3 + IGNOREEVENT_MAX, 3 + IGNOREEVENT_MAX);
+			HIMAGELIST hIml = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 3 + IGNOREEVENT_MAX, 3 + IGNOREEVENT_MAX);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_SMALLDOT);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_FILLEDBLOB);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_EMPTYBLOB);

@@ -452,7 +452,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 	TreeView_DeleteAllItems(hToolBarTree);
 
 	himgl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-	ImageList_AddIcon(himgl, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+	ImageList_AddIcon(himgl, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	ImageList_Destroy(TreeView_GetImageList(hToolBarTree, TVSIL_NORMAL));
 	TreeView_SetImageList(hToolBarTree, himgl, TVSIL_NORMAL);
 
@@ -845,7 +845,7 @@ void CB_InitDefaultButtons()
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_PROTOCOL;
 	bbd.dwDefPos = 10;
-	bbd.hIcon = LoadSkinnedIconHandle(SKINICON_OTHER_CONNECTING);
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_CONNECTING);
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.ptszTooltip = LPGENT("Protocol button");
 	CB_AddButton(0, (LPARAM)&bbd);

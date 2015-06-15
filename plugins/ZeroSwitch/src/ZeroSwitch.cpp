@@ -74,12 +74,12 @@ void CreateHelperWnd()
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInst;
-	wcex.hIcon = LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA);
+	wcex.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 	wcex.hCursor = NULL;
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName = _T("ZeroSwitchHlp");
-	wcex.hIconSm = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	wcex.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
 	if (NULL == RegisterClassEx(&wcex))
 		return; // wtf

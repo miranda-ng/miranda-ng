@@ -213,7 +213,7 @@ void ShowPopup(char* szText, TCHAR* tszText, MCONTACT hContact)
 		text = mir_a2t(szText);
 	if (!text) return;
 
-	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
 	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME - 1);
 	_tcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
@@ -469,7 +469,7 @@ void ModifyVisibleSet(int mode, BOOL alpha)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON;
-	mi.hIcon = (mode) ? hIcon[1] : (alpha ? hIcon[3] : LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+	mi.hIcon = (mode) ? hIcon[1] : (alpha ? hIcon[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	Menu_ModifyItem(hmenuVis, &mi);
 }
 
@@ -477,7 +477,7 @@ void ModifyInvisSet(int mode, BOOL alpha)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON;
-	mi.hIcon = (mode) ? hIcon[2] : (alpha ? hIcon[4] : LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+	mi.hIcon = (mode) ? hIcon[2] : (alpha ? hIcon[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	Menu_ModifyItem(hmenuOff, &mi);
 }
 
@@ -889,7 +889,7 @@ int EnumProtoSubmenu(WPARAM, LPARAM)
 	for (int i = 0; i < protoCount; i++)
 	{
 		hProtoItem[i] = AddSubmenuItem(hmenuProto, accs[i]->tszAccountName,
-			LoadSkinnedProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_KEEPUNTRANSLATED,
+			Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_KEEPUNTRANSLATED,
 			MS_PROTO, pos++, (int)accs[i]->szModuleName);
 	}
 	return 0;
@@ -999,10 +999,10 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.hIcon = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
-	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, LoadSkinnedIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
+	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, Skin_LoadIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
 	pos += 100000; // insert separator
 	for (i = 1; i < SIZEOF(ii); i++)
-		hIgnoreItem[i] = AddSubmenuItem(hmenuIgnore, ii[i].name, LoadSkinnedIcon(ii[i].icon), 0, MS_IGNORE, pos++, ii[i].type);
+		hIgnoreItem[i] = AddSubmenuItem(hmenuIgnore, ii[i].name, Skin_LoadIcon(ii[i].icon), 0, MS_IGNORE, pos++, ii[i].type);
 
 	pos += 100000; // insert separator
 	ood.cbSize = sizeof(ood);
@@ -1024,13 +1024,13 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.ptszName = LPGENT("Send 'You were added'");
 	mi.pszService = MS_ADDED;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_AUTH_ADD);
+	mi.hIcon = Skin_LoadIcon(SKINICON_AUTH_ADD);
 	hmenuAdded = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.ptszName = LPGENT("Request authorization");
 	mi.pszService = MS_AUTHREQ;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_AUTH_REQUEST);
+	mi.hIcon = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;

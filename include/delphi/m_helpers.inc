@@ -53,12 +53,6 @@ procedure Srmm_RemoveIcon(sid: PStatusIconData);
 procedure Srmm_ModifyIcon(hContact:TMCONTACT; sid:PStatusIconData);
 function  Srmm_GetNthIcon(hContact:TMCONTACT; index:int):pStatusIconData;
 
-function LoadSkinnedIcon      (id: int): HICON;
-function LoadSkinnedIconHandle(id: int): THANDLE;
-function LoadSkinnedIconBig   (id: int): HICON;
-function LoadSkinnedIconName  (id: int): PAnsiChar;
-
-function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THANDLE;
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
 function SkinPlaySound  (const name: PAnsiChar): int_ptr;
 
@@ -398,36 +392,6 @@ function Srmm_GetNthIcon(hContact:TMCONTACT; index:int):PStatusIconData;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   result:=PStatusIconData(CallService(MS_MSG_GETNTHICON, hContact, index));
-end;
-
-function LoadSkinnedIcon(id: int): HICON;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := HICON(CallService(MS_SKIN_LOADICON, id, 0));
-end;
-
-function LoadSkinnedIconHandle(id: int): THANDLE;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := THANDLE(CallService(MS_SKIN_LOADICON, id, 1));
-end;
-
-function LoadSkinnedIconBig(id: int): HICON;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := HICON(CallService(MS_SKIN_LOADICON, id, 2));
-end;
-
-function LoadSkinnedIconName(id: int): PAnsiChar;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := PAnsiChar(CallService(MS_SKIN_LOADICON, id, 3));
-end;
-
-function LoadSkinnedProtoIcon(const szProto: PAnsiChar; status: int): THANDLE;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := CallService(MS_SKIN_LOADPROTOICON, wParam(szProto), status);
 end;
 
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;

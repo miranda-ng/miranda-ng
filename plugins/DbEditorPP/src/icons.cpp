@@ -56,7 +56,7 @@ void AddProtoIconsToList(HIMAGELIST hil, int newshift)
 
 	for (int i = 0; i < protoCount; i++) {
 		HICON hIcon;
-		if (hIcon = LoadSkinnedProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
+		if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
 			AddIconToList(hil, hIcon);
 		else
 			AddIconToList(himl, LoadSkinnedDBEIcon(ICO_ONLINE));

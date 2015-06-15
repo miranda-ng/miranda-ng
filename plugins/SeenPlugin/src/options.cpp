@@ -90,7 +90,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, temp);
 			SendDlgItemMessage(hdlg, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
 			SendDlgItemMessage(hdlg, idText, CPM_SETCOLOUR, 0, ppd.colorText);
-			ppd.lchIcon = LoadSkinnedProtoIcon(NULL, idBack);
+			ppd.lchIcon = Skin_LoadProtoIcon(NULL, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, SIZEOF(szstamp));
 			_tcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL, 0), MAX_CONTACTNAME);

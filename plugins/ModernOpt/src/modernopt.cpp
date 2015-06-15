@@ -586,7 +586,7 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 	obj.cbSize = sizeof(obj);
 	obj.dwFlags = MODEROPT_FLG_TCHAR;
 
-	obj.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	obj.hInstance = hInst;
 
 	obj.iSection = MODERNOPT_PAGE_HOME;
@@ -607,22 +607,22 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 
 		obj.iType = MODERNOPT_TYPE_IGNOREOBJECT;
-		obj.hIcon = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		obj.lptzSubsection = _T("Files");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		obj.lptzSubsection = _T("Messages");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.hIcon = LoadSkinnedIcon(SKINICON_EVENT_URL);
+		obj.hIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
 		obj.lptzSubsection = _T("URL events");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.hIcon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 		obj.lptzSubsection = _T("Typing notifications");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.hIcon = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
+		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 		obj.lptzSubsection = _T("Added notifications");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-		obj.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		obj.lptzSubsection = _T("Auth requests");
 		CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
 

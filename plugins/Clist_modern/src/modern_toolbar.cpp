@@ -288,7 +288,7 @@ void CustomizeToolbar(HWND hwnd)
 	Frame.align = alTop;
 	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
 	Frame.height = 18;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	pMTBInfo->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)hwnd, (LPARAM)ToolBar_LayeredPaintProc);

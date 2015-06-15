@@ -179,7 +179,7 @@ static int OnLoadInit(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName = LPGENT("Custom contact sound");
 	mi.pszService = "XSoundNotify/ContactMenuCommand";
 	hChangeSound = Menu_AddContactMenuItem(&mi);

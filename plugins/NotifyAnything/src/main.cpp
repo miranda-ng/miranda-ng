@@ -169,20 +169,20 @@ HICON getIcon(const std::tstring &name)
 		icons[_T("winlogo")] = LoadIcon(NULL, IDI_WINLOGO);
 
 		// miranda icons
-		icons[_T("online")] = LoadSkinnedIcon(SKINICON_STATUS_ONLINE);
-		icons[_T("offline")] = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
-		icons[_T("away")] = LoadSkinnedIcon(SKINICON_STATUS_AWAY);
-		icons[_T("na")] = LoadSkinnedIcon(SKINICON_STATUS_NA);
-		icons[_T("occupied")] = LoadSkinnedIcon(SKINICON_STATUS_OCCUPIED);
-		icons[_T("dnd")] = LoadSkinnedIcon(SKINICON_STATUS_DND);
-		icons[_T("free4chat")] = LoadSkinnedIcon(SKINICON_STATUS_FREE4CHAT);
-		icons[_T("invisible")] = LoadSkinnedIcon(SKINICON_STATUS_INVISIBLE);
-		icons[_T("onthephone")] = LoadSkinnedIcon(SKINICON_STATUS_ONTHEPHONE);
-		icons[_T("outtolunch")] = LoadSkinnedIcon(SKINICON_STATUS_OUTTOLUNCH);
+		icons[_T("online")] = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
+		icons[_T("offline")] = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
+		icons[_T("away")] = Skin_LoadIcon(SKINICON_STATUS_AWAY);
+		icons[_T("na")] = Skin_LoadIcon(SKINICON_STATUS_NA);
+		icons[_T("occupied")] = Skin_LoadIcon(SKINICON_STATUS_OCCUPIED);
+		icons[_T("dnd")] = Skin_LoadIcon(SKINICON_STATUS_DND);
+		icons[_T("free4chat")] = Skin_LoadIcon(SKINICON_STATUS_FREE4CHAT);
+		icons[_T("invisible")] = Skin_LoadIcon(SKINICON_STATUS_INVISIBLE);
+		icons[_T("onthephone")] = Skin_LoadIcon(SKINICON_STATUS_ONTHEPHONE);
+		icons[_T("outtolunch")] = Skin_LoadIcon(SKINICON_STATUS_OUTTOLUNCH);
 
-		icons[_T("message")] = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-		icons[_T("url")] = LoadSkinnedIcon(SKINICON_EVENT_URL);
-		icons[_T("file")] = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+		icons[_T("message")] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		icons[_T("url")] = Skin_LoadIcon(SKINICON_EVENT_URL);
+		icons[_T("file")] = Skin_LoadIcon(SKINICON_EVENT_FILE);
 	}
 
 	std::map<std::tstring, HICON>::iterator i = icons.find(name);

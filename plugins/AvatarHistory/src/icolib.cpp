@@ -39,7 +39,7 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 
 void SetupIcoLib()
 {
-	iconList[0].hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	Icon_Register(hInst, LPGEN("Avatar History"), iconList+1, SIZEOF(iconList)-1);
 	IcoLibUpdateMenus();
 }
@@ -79,7 +79,7 @@ HICON createProtoOverlayedIcon(MCONTACT hContact)
 	HICON icon1 = LoadIconEx(I_OVERLAY);
 
 	char *szProto = GetContactProto(hContact);
-	HICON icon0 = LoadSkinnedProtoIcon(szProto, ID_STATUS_ONLINE);
+	HICON icon0 = Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE);
 
 	HICON resIcon = getOverlayedIcon(icon0, icon1, FALSE);
 

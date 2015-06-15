@@ -462,9 +462,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						if (hIcon)
 							bNeedDestroy = true;
 						else
-							hIcon = LoadSkinnedProtoIcon(p.szAccountName, p.iProtoStatus);
+							hIcon = Skin_LoadProtoIcon(p.szAccountName, p.iProtoStatus);
 					}
-					else hIcon = LoadSkinnedProtoIcon(p.szAccountName, p.iProtoStatus);
+					else hIcon = Skin_LoadProtoIcon(p.szAccountName, p.iProtoStatus);
 				}
 
 				HRGN rgn = CreateRectRgn(r.left, r.top, r.right, r.bottom);
@@ -503,7 +503,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				if (hxIcon || hIcon) { // TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto
 					if (db_get_b(NULL, p.szAccountName, "LockMainStatus", 0)) {
-						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
+						HICON hLockOverlay = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
 							ske_DrawIconEx(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 							IcoLib_ReleaseIcon(hLockOverlay);
@@ -885,7 +885,7 @@ HWND StatusBar_Create(HWND parent)
 	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.hWnd = hModernStatusBar;
 	Frame.align = alBottom;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
 	if (db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
 		Frame.Flags |= F_VISIBLE;

@@ -1272,8 +1272,8 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		m_hwnd = hwnd;
 
 		::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
-		::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA)));
-		::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::LoadSkinnedIcon(SKINICON_OTHER_MIRANDA)));
+		::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true)));
+		::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA)));
 		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
@@ -1322,7 +1322,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (uResId)
 			hIcon = reinterpret_cast<HICON>(::LoadImage(0, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
 		else
-			hIcon = ::LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+			hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
 		::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
 		if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))

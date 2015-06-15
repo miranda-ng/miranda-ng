@@ -546,7 +546,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		}
 		else {
 			if (pContainer->dwFlags & CNT_NOFLASH)
-				SendMessage(pContainer->hwnd, DM_SETICON, 0, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+				SendMessage(pContainer->hwnd, DM_SETICON, 0, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
 				FlashContainer(pContainer, 1, 0);
 		}
@@ -627,12 +627,12 @@ void TSAPI CreateImageList(BOOL bInitial)
 		DestroyIcon(hIcon);
 	}
 
-	PluginConfig.g_IconFileEvent = LoadSkinnedIcon(SKINICON_EVENT_FILE);
-	PluginConfig.g_IconMsgEvent = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	PluginConfig.g_IconMsgEventBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+	PluginConfig.g_IconFileEvent = Skin_LoadIcon(SKINICON_EVENT_FILE);
+	PluginConfig.g_IconMsgEvent = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	PluginConfig.g_IconMsgEventBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconMsgEventBig)
 		PluginConfig.g_IconMsgEventBig = 0;
-	PluginConfig.g_IconTypingEventBig = LoadSkinnedIconBig(SKINICON_OTHER_TYPING);
+	PluginConfig.g_IconTypingEventBig = Skin_LoadIcon(SKINICON_OTHER_TYPING, true);
 	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
 		PluginConfig.g_IconTypingEventBig = 0;
 	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
@@ -840,18 +840,18 @@ static int TSAPI LoadFromIconLib()
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
 			*(ICONBLOCKS[n].idesc[i].phIcon) = IcoLib_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 
-	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
-	PluginConfig.g_buttonBarIcons[1] = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
-	PluginConfig.g_buttonBarIconHandles[0] = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
-	PluginConfig.g_buttonBarIconHandles[1] = LoadSkinnedIconHandle(SKINICON_OTHER_ADDCONTACT);
-	PluginConfig.g_buttonBarIconHandles[20] = LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS);
+	PluginConfig.g_buttonBarIcons[0] = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
+	PluginConfig.g_buttonBarIcons[1] = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
+	PluginConfig.g_buttonBarIconHandles[0] = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
+	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 
 	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] =
-		PluginConfig.g_buttonBarIcons[12] = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
-	PluginConfig.g_IconChecked = LoadSkinnedIcon(SKINICON_OTHER_TICK);
-	PluginConfig.g_IconUnchecked = LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
-	PluginConfig.g_IconGroupOpen = LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN);
-	PluginConfig.g_IconGroupClose = LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT);
+		PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
+	PluginConfig.g_IconChecked = Skin_LoadIcon(SKINICON_OTHER_TICK);
+	PluginConfig.g_IconUnchecked = Skin_LoadIcon(SKINICON_OTHER_NOTICK);
+	PluginConfig.g_IconGroupOpen = Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN);
+	PluginConfig.g_IconGroupClose = Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT);
 
 	PluginConfig.g_iconOverlayEnabled = IcoLib_GetIcon("tabSRMM_overlay_enabled");
 	PluginConfig.g_iconOverlayDisabled = IcoLib_GetIcon("tabSRMM_overlay_disabled");

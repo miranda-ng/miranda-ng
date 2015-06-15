@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_BLOCK, 0), 0);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 5);
-			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_DEF, 0));
 			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FAV, 0));
 			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0));

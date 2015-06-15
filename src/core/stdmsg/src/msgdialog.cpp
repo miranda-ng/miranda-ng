@@ -912,13 +912,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (dat->szProto) {
 				WORD wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIconBig(dat->szProto, wStatus));
-				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(dat->szProto, wStatus));
+				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(dat->szProto, wStatus, true));
+				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(dat->szProto, wStatus));
 				break;
 			}
 		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 		break;
 
 	case DM_USERNAMETOCLIP:
@@ -1304,7 +1304,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (dat->nTypeSecs) {
 					TCHAR szBuf[256];
 					TCHAR* szContactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
-					HICON hTyping = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
 					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), szContactName);
 					dat->nTypeSecs--;
@@ -1342,7 +1342,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dis->CtlID == IDC_PROTOCOL) {
 				if (dat->szProto) {
 					int dwStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-					HICON hIcon = LoadSkinnedProtoIcon(dat->szProto, dwStatus);
+					HICON hIcon = Skin_LoadProtoIcon(dat->szProto, dwStatus);
 					if (hIcon) {
 						if (db_get_dw(dat->hContact, dat->szProto, "IdleTS", 0)) {
 							HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 0);

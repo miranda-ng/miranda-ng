@@ -1016,7 +1016,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 				if (!Proto_IsAvatarsEnabled(accs[i]->szModuleName))
 					continue;
 
-				ImageList_AddIcon(hIml, LoadSkinnedProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE));
+				ImageList_AddIcon(hIml, Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE));
 				item.pszText = accs[i]->tszAccountName;
 				item.iImage = num;
 				item.lParam = (LPARAM)accs[i]->szModuleName;

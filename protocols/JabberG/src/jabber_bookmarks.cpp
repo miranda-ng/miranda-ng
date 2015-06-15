@@ -282,7 +282,7 @@ void CJabberDlgBookmarks::OnInitDialog()
 
 	HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
-	ImageList_AddIcon_Icolib(hIml, LoadSkinnedIcon(SKINICON_EVENT_URL));
+	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
 
 	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"),        m_proto->getWord("bookmarksWnd_cx0", 120));
 	m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));

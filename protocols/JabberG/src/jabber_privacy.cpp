@@ -782,7 +782,7 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	m_clcClist.SetExStyle(CLS_EX_DISABLEDRAGDROP|CLS_EX_TRACKSELECT);
 
 	HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 9, 9);
-	ImageList_AddIcon_Icolib(hIml, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_msg_allow"));
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_msg_deny"));
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("pl_prin_allow"));
@@ -2136,7 +2136,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		m_privacyMenuServiceAllocated = i;
 	}
 	mi.position++;
-	mi.icolibItem = LoadSkinnedIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
+	mi.icolibItem = Skin_GetIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 	mi.ptszName = LPGENT("<none>");
 	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
 
@@ -2150,7 +2150,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		}
 
 		mi.position++;
-		mi.icolibItem = LoadSkinnedIconHandle(
+		mi.icolibItem = Skin_GetIconHandle(
 			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 		mi.ptszName = pList->GetListName();
 		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));

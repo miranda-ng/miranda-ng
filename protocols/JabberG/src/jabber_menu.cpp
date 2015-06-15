@@ -190,7 +190,7 @@ void g_MenuInit(void)
 	TMO_MenuItem tmi = { sizeof(tmi) };
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
-	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	CallService(MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, (LPARAM)&tmi);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +201,7 @@ void g_MenuInit(void)
 	// "Request authorization"
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	mi.pszService = "Jabber/ReqAuth";
 	g_hMenuRequestAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleRequestAuth);
@@ -210,7 +210,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/GrantAuth";
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	g_hMenuGrantAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleGrantAuth);
 
@@ -218,7 +218,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/RevokeAuth";
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = -2000001002;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	g_hMenuRevokeAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRevokeAuth);
 
@@ -234,7 +234,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/AddToRoster";
 	mi.pszName = LPGEN("Add to roster");
 	mi.position = -1999901005;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_ADD);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	g_hMenuRosterAdd = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRosterAdd);
 
@@ -294,7 +294,7 @@ void g_MenuInit(void)
 		mi.ptszName = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
 		mi.hParentMenu = g_hMenuDirectPresence[0];
-		mi.icolibItem = LoadSkinnedIcon(PresenceModeArray[i].icon);
+		mi.icolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i+1] = Menu_AddContactMenuItem(&mi);
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
@@ -371,7 +371,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	for (int i=0; i < SIZEOF(PresenceModeArray); i++) {
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_ICON | CMIM_FLAGS;
-		clmi.hIcon = (HICON)LoadSkinnedProtoIcon(m_szModuleName, PresenceModeArray[i].mode);
+		clmi.hIcon = (HICON)Skin_LoadProtoIcon(m_szModuleName, PresenceModeArray[i].mode);
 		Menu_ModifyItem(g_hMenuDirectPresence[i+1], &clmi);
 	}
 
@@ -1162,7 +1162,7 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 			++nItems;
 			lastItemId = i + 1;
 			clmi.flags |= CMIM_ICON;
-			clmi.hIcon = LoadSkinnedProtoIcon(ppro->m_szModuleName, ppro->m_iStatus);
+			clmi.hIcon = Skin_LoadProtoIcon(ppro->m_szModuleName, ppro->m_iStatus);
 		}
 		else clmi.flags |= CMIF_HIDDEN;
 

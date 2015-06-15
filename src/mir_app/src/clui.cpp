@@ -270,12 +270,12 @@ int LoadCLUIModule(void)
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = cli.hInst;
-	wndclass.hIcon = LoadSkinIcon(SKINICON_OTHER_MIRANDA, true);
+	wndclass.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH) (COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = MAKEINTRESOURCE(IDR_CLISTMENU);
 	wndclass.lpszClassName = _T(MIRANDACLASS);
-	wndclass.hIconSm = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
+	wndclass.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
 
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
@@ -329,14 +329,14 @@ int LoadCLUIModule(void)
 
 	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 	mi.position = 2000070000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_DELETE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszName = LPGEN("De&lete");
 	mi.pszService = "CList/DeleteContactCommand";
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
 	mi.position = 2000050000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_RENAME);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 	mi.pszName = LPGEN("&Rename");
 	mi.pszService = "CList/RenameContactCommand";
 	hRenameMenuItem = Menu_AddContactMenuItem(&mi);
@@ -344,7 +344,7 @@ int LoadCLUIModule(void)
 	CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
 	mi.position = -2050000000;
 	mi.flags |= CMIF_NOTONLIST;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_ADDCONTACT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	mi.pszName = LPGEN("&Add permanently to list");
 	mi.pszService = "CList/AddToListContactCommand";
 	Menu_AddContactMenuItem(&mi);
@@ -982,12 +982,12 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				SetBkMode(dis->hDC, TRANSPARENT);
 				x = dis->rcItem.left;
 				if (showOpts & 1) {
-					HICON hIcon = LoadSkinProtoIcon(szProto, status);
+					HICON hIcon = Skin_LoadProtoIcon(szProto, status);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
 					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
-						hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
+						hIcon = Skin_LoadIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 								g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
@@ -1021,7 +1021,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 			else if (dis->CtlType == ODT_MENU) {
 				if (dis->itemData == MENU_MIRANDAMENU) {
-					HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
+					HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MAINMENU);
 					fnDrawMenuItem(dis, CopyIcon(hIcon), NULL);
 					IcoLib_ReleaseIcon(hIcon);
 					return TRUE;

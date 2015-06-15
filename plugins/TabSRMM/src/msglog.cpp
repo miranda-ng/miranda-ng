@@ -181,9 +181,9 @@ void FreeLogFonts()
 
 void TSAPI CacheMsgLogIcons()
 {
-	Logicons[0] = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	Logicons[1] = LoadSkinnedIcon(SKINICON_EVENT_URL);
-	Logicons[2] = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+	Logicons[0] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+	Logicons[1] = Skin_LoadIcon(SKINICON_EVENT_URL);
+	Logicons[2] = Skin_LoadIcon(SKINICON_EVENT_FILE);
 	Logicons[3] = PluginConfig.g_iconOut;
 	Logicons[4] = PluginConfig.g_iconIn;
 	Logicons[5] = PluginConfig.g_iconStatus;

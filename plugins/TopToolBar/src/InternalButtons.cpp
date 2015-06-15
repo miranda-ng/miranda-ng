@@ -135,10 +135,10 @@ void InitInternalButtons()
 				ttb.hIconDn = NULL;
 		}
 		else {
-			ttb.hIconHandleUp = LoadSkinnedIconHandle(stdButtons[i].iconidUp);
+			ttb.hIconHandleUp = Skin_GetIconHandle(stdButtons[i].iconidUp);
 			if (stdButtons[i].iconidDn) {
 				ttb.dwFlags |= TTBBF_ASPUSHBUTTON;
-				ttb.hIconHandleDn = LoadSkinnedIconHandle(stdButtons[i].iconidDn);
+				ttb.hIconHandleDn = Skin_GetIconHandle(stdButtons[i].iconidDn);
 			}
 			else
 				ttb.hIconHandleDn = ttb.hIconDn = NULL;

@@ -68,7 +68,7 @@ int LoadSendRecvEMailModule(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000010000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_SENDEMAIL);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.pszName = LPGEN("&E-mail");
 	mi.pszService = MS_EMAIL_SENDEMAIL;
 	hEMailMenuItem = Menu_AddContactMenuItem(&mi);

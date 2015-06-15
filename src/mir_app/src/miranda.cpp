@@ -54,10 +54,17 @@ HINSTANCE g_hInst;
 DWORD hMainThreadId;
 int hLangpack = 0;
 bool bModulesLoadedFired = false;
+int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 {
-	g_hInst = hinstDLL;
+	if (dwReason == DLL_PROCESS_ATTACH) {
+		g_hInst = hinstDLL;
+		g_iIconX = g_iIconX;
+		g_iIconY = g_iIconY;
+		g_iIconSX = g_iIconSX;
+		g_iIconSY = g_iIconSY;
+	}
 	return TRUE;
 }
 

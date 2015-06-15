@@ -302,19 +302,6 @@ begin
   WriteDBBool(hppDBName,'InlineTextFormatting',Value);
 end;
 
-{function LoadIconFromDB(ID: Integer; Icon: TIcon): Boolean;
-var
-  hic: HIcon;
-begin
-  Result := False;
-  hic := LoadSkinnedIcon(ID);
-  if (hic <> 0) then begin
-    hic := CopyIcon(hic);
-    Icon.Handle := hic;
-    Result := True;
-  end;
-end;}
-
 procedure LoadIcons;
 var
   i: Integer;
@@ -330,7 +317,7 @@ begin
     // LoadIconFromDB(SKINICON_OTHER_MIRANDA,GridOptions.IconOther);
     for i := 0 to High(skinIcons) do
     begin
-      ic := LoadSkinnedIcon(skinIcons[i].id);
+      ic := Skin_LoadIcon(skinIcons[i].id,0);
       if skinIcons[i].handle <> ic then
       begin
         skinIcons[i].handle := ic;

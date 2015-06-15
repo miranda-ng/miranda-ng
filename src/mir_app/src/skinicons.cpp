@@ -121,7 +121,7 @@ const char protoIconsFmt[] = LPGEN("%s icons");
 // load small icon (shared) it's not need to be destroyed
 static HICON LoadSmallIconShared(HINSTANCE hInstance, LPCTSTR lpIconName)
 {
-	int cx = GetSystemMetrics(SM_CXSMICON);
+	int cx = g_iIconSX;
 	return (HICON)LoadImage(hInstance, lpIconName, IMAGE_ICON, cx, cx, LR_DEFAULTCOLOR | LR_SHARED);
 }
 
@@ -158,7 +158,7 @@ int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource)
 
 int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 {
-	HICON hIcon = LoadSkinIcon(iconId);
+	HICON hIcon = Skin_LoadIcon(iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;
@@ -166,7 +166,7 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 
 int ImageList_AddIcon_ProtoIconLibLoaded(HIMAGELIST hIml, const char *szProto, int iconId)
 {
-	HICON hIcon = LoadSkinProtoIcon(szProto, iconId);
+	HICON hIcon = Skin_LoadProtoIcon(szProto, iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;
@@ -189,14 +189,14 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 
 MIR_APP_DLL(void) Window_SetIcon_IcoLib(HWND hWnd, int iconId)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadSkinIcon(iconId, true));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinIcon(iconId));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)Skin_LoadIcon(iconId, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(iconId));
 }
 
 MIR_APP_DLL(void) Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)LoadSkinProtoIcon(szProto, iconId, true));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinProtoIcon(szProto, iconId));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)Skin_LoadProtoIcon(szProto, iconId, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(szProto, iconId));
 }
 
 MIR_APP_DLL(void) Window_FreeIcon_IcoLib(HWND hWnd)
@@ -208,7 +208,7 @@ MIR_APP_DLL(void) Window_FreeIcon_IcoLib(HWND hWnd)
 MIR_APP_DLL(void) Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char *tooltip)
 {
 	HWND hWnd = GetDlgItem(hwndDlg, itemId);
-	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinIcon(iconId));
+	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(iconId));
 	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
 	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
 }
@@ -219,7 +219,7 @@ MIR_APP_DLL(void) Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 	IcoLib_ReleaseIcon(hIcon);
 }
 
-MIR_APP_DLL(HICON) LoadSkinProtoIcon(const char *szProto, int status, bool big)
+MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 {
 	char iconName[MAX_PATH];
 	INT_PTR caps2;
@@ -336,7 +336,7 @@ MIR_APP_DLL(HICON) LoadSkinProtoIcon(const char *szProto, int status, bool big)
 	return hIcon;
 }
 
-MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx)
+MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx)
 {
 	for (int i = 0; i < SIZEOF(mainIcons); i++)
 		if (idx == mainIcons[i].id)
@@ -345,7 +345,7 @@ MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx)
 	return NULL;
 }
 
-char* GetSkinIconName(int idx)
+MIR_APP_DLL(char*) Skin_GetIconName(int idx)
 {
 	static char szIconName[100];
 
@@ -358,50 +358,24 @@ char* GetSkinIconName(int idx)
 	return NULL;
 }
 
-MIR_APP_DLL(HICON) LoadSkinIcon(int idx, bool big)
+MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
 {
 	// Query for global status icons
 	if (idx < SKINICON_EVENT_MESSAGE) {
 		if (idx >= SIZEOF(statusIcons))
 			return NULL;
 
-		return LoadSkinProtoIcon(NULL, statusIcons[idx].id, big);
+		return Skin_LoadProtoIcon(NULL, statusIcons[idx].id, big);
 	}
 
-	return IcoLib_GetIconByHandle(GetSkinIconHandle(idx), big);
+	return IcoLib_GetIconByHandle(Skin_GetIconHandle(idx), big);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initializes the icon skin module
 
-static INT_PTR sttLoadSkinIcon(WPARAM wParam, LPARAM lParam)
-{
-	switch (lParam) {
-		case 0: return (INT_PTR)LoadSkinIcon(wParam);
-		case 1: return (INT_PTR)GetSkinIconHandle(wParam);
-		case 2: return (INT_PTR)LoadSkinIcon(wParam, true);
-		case 3: return (INT_PTR)GetSkinIconName(wParam);
-	}
-
-	return 0;
-}
-
-static INT_PTR sttLoadSkinProtoIcon(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)LoadSkinProtoIcon((char*)wParam, (int)lParam, false);
-}
-
-static INT_PTR sttLoadSkinProtoIconBig(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)LoadSkinProtoIcon((char*)wParam, (int)lParam, true);
-}
-
 int LoadSkinIcons(void)
 {
-	CreateServiceFunction(MS_SKIN_LOADICON, sttLoadSkinIcon);
-	CreateServiceFunction(MS_SKIN_LOADPROTOICON, sttLoadSkinProtoIcon);
-	CreateServiceFunction(MS_SKIN_LOADPROTOICONBIG, sttLoadSkinProtoIconBig);
-
 	TCHAR modulePath[MAX_PATH];
 	GetModuleFileName(g_hInst, modulePath, SIZEOF(modulePath));
 

@@ -154,7 +154,7 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 	}
 	else {
 		mir_tstrncpy(msg, pcli->pfnGetContactDisplayName(fts->hContact, 0), SIZEOF(msg));
-		HICON hIcon = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
+		HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_DOWNARROW);
 		dat->hIcon = CopyIcon(hIcon);
 		IcoLib_ReleaseIcon(hIcon, NULL);
 	}
@@ -274,7 +274,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 			char *szProto = GetContactProto(dat->hContact);
 			WORD status = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_ONLINE);
-			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedProtoIcon(szProto, status));
+			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(szProto, status));
 		}
 
 		SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Contact menu"), 0);

@@ -333,7 +333,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleRequestAuth);
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi);
 
 	// "Grant authorization"
@@ -341,7 +341,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleGrantAuth);
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi);
 }
 

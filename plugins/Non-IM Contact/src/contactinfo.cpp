@@ -140,10 +140,10 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* icons */
 			CheckRadioButton(hwnd, 40072, 40080, db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
-			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
+			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LONG_PTR)LoadSkinnedProtoIcon(MODNAME, i));
+				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LONG_PTR)Skin_LoadProtoIcon(MODNAME, i));
 				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LONG_PTR)ButtWndProc);
 			}
 			db_free(&dbv);

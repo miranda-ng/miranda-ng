@@ -292,7 +292,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT | CLEF_TCHAR;
-			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SENDEMAIL);
+			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.ptszTooltip = tBuffer2;
 			char buf[64];
 			mir_snprintf(buf, "%s%s", m_szModuleName, MS_GOTO_INBOX);

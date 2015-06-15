@@ -109,6 +109,8 @@ void   KillModuleIcons(int hLangpack);
 
 /**** skinicons.cpp ********************************************************************/
 
+extern int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
+
 HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared);
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource);
 int ImageList_ReplaceIcon_NotShared(HIMAGELIST hIml, int iIndex, HINSTANCE hInstance, LPCTSTR szResource);

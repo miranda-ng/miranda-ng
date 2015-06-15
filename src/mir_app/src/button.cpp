@@ -169,19 +169,17 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	int textLen = GetWindowTextLength(ctl->hwnd);
 
 	if (ctl->hIcon) {
-		LONG g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
-		LONG g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
-		int ix = (rcClient.right-rcClient.left)/2 - (g_cxsmIcon/2);
-		int iy = (rcClient.bottom-rcClient.top)/2 - (g_cysmIcon/2);
+		int ix = (rcClient.right-rcClient.left)/2 - (g_iIconSX/2);
+		int iy = (rcClient.bottom-rcClient.top)/2 - (g_iIconSY/2);
 		if (ctl->stateId == PBS_PRESSED) {
 			ix++;
 			iy++;
 		}
 
-		HIMAGELIST hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_MASK | ILC_COLOR32, 1, 0);
+		HIMAGELIST hImageList = ImageList_Create(g_iIconSX, g_iIconSY, ILC_MASK | ILC_COLOR32, 1, 0);
 		ImageList_AddIcon(hImageList, ctl->hIcon);
 		HICON hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, DST_ICON | (IsWindowEnabled(ctl->hwnd) ? DSS_NORMAL : DSS_DISABLED));
+		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_iIconSX, g_iIconSY, DST_ICON | (IsWindowEnabled(ctl->hwnd) ? DSS_NORMAL : DSS_DISABLED));
 		ImageList_RemoveAll(hImageList);
 		ImageList_Destroy(hImageList);
 		DestroyIcon(hIconNew);
@@ -220,7 +218,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			sz.cx -= szHot.cx;
 		}
 		if (ctl->arrow)
-			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-g_iIconSX+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-g_iIconSY/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), g_iIconSX, g_iIconSY, IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 
 		SelectObject(hdcMem, ctl->hFont);
 		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0,
@@ -425,7 +423,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 	case BUTTONSETARROW: // turn arrow on/off
 		if (wParam) {
 			if (!bct->arrow) {
-				bct->arrow = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
+				bct->arrow = Skin_LoadIcon(SKINICON_OTHER_DOWNARROW);
 				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_BUTTONDROPDOWN);
 			}
 		}

@@ -62,7 +62,7 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 		}
 		else if (db_get_b(NULL, S_MOD, "ShowIcon", 1)) {
 			isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
-			cmi.hIcon = LoadSkinnedProtoIcon(szProto, isetting | 0x8000);
+			cmi.hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
 		}
 	}
 

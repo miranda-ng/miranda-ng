@@ -160,7 +160,7 @@ begin
     if si^.icon<>0 then
       Icon:=si^.icon
     else
-      Icon:=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+      Icon:=Skin_LoadIcon(SKINICON_OTHER_MIRANDA,0);
     if PopupDelay<0 then
       sec:=-1
     else if PopupDelay>0 then

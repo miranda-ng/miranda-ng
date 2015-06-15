@@ -181,7 +181,7 @@ extern "C" int __declspec(dllexport) Load()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Load GPG public key");
 	mi.pszService="/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
@@ -190,7 +190,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Toggle GPG encryption");
 	mi.pszService="/ToggleEncryption";
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
@@ -199,7 +199,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFd;
 	mi.flags=CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Send public key");
 	mi.pszService="/SendKey";
 	hSendKey = Menu_AddContactMenuItem(&mi);
@@ -208,7 +208,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Export GPG Public keys");
 	mi.pszService="/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
@@ -217,7 +217,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Import GPG Public keys");
 	mi.pszService="/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);

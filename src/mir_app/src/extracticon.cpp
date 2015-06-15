@@ -236,25 +236,24 @@ UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, H
 
 UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HICON *phicon, UINT flags)
 {
-	HANDLE hFile;
-	WORD magic[6];
-	DWORD read = 0;
 	UINT res = 0;
-
-	if (cxIcon == GetSystemMetrics(SM_CXICON) && cyIcon == GetSystemMetrics(SM_CYICON))
+	if (cxIcon == g_iIconX && cyIcon == g_iIconY)
 		res = ExtractIconEx(lpszFile, iconIndex, phicon, NULL, 1);
-	else if (cxIcon == GetSystemMetrics(SM_CXSMICON) && cyIcon == GetSystemMetrics(SM_CYSMICON))
+	else if (cxIcon == g_iIconSX && cyIcon == g_iIconSY)
 		res = ExtractIconEx(lpszFile, iconIndex, NULL, phicon, 1);
 	else if (cxIcon == 0 || cyIcon == 0)
 		res = ExtractIconEx(lpszFile, iconIndex, NULL, phicon, 1);
 	// check if the api succeded, if not try our method too
-	if (res) return res;
+	if (res)
+		return res;
 
-	hFile = CreateFile(lpszFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE hFile = CreateFile(lpszFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 
 	// failed to read file signature
+	DWORD read = 0;
+	WORD magic[6];
 	if (!ReadFile(hFile, &magic, sizeof(magic), &read, NULL) || (read != sizeof(magic))) {
 		CloseHandle(hFile);
 		return 0;
@@ -273,7 +272,6 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 	case MAGIC_ICON:
 		if ((magic[1] == MAGIC_ICO1 || magic[1] == MAGIC_CUR) && magic[2] >= 1)
 			res = _ExtractFromICO(lpszFile, iconIndex, cxIcon, cyIcon, phicon, flags);
-
 		break;
 	}
 

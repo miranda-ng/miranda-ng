@@ -685,7 +685,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 		else if (sttNodeIcons[i].iconName)
 			hIcon = m_proto->LoadIconEx(sttNodeIcons[i].iconName);
 		else if (sttNodeIcons[i].iconIndex)
-			hIcon = LoadSkinnedIcon(sttNodeIcons[i].iconIndex);
+			hIcon = Skin_LoadIcon(sttNodeIcons[i].iconIndex);
 		else continue;
 		sttNodeIcons[i].listIndex = TreeList_AddIcon(hwndList, hIcon, 0);
 		if (needDestroy) DestroyIcon(hIcon);

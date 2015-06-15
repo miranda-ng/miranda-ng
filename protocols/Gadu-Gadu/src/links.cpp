@@ -68,7 +68,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
 			mi.flags |= CMIM_ICON;
-			mi.hIcon = LoadSkinnedProtoIcon(gg->m_szModuleName, gg->m_iStatus);
+			mi.hIcon = Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus);
 		}
 		else mi.flags |= CMIF_HIDDEN;
 
@@ -116,7 +116,7 @@ void gg_links_instancemenu_init()
 	tmi.cbSize = sizeof(tmi);
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;
-	tmi.hIcolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
 }
 

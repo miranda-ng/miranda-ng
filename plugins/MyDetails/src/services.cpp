@@ -44,7 +44,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, proto_num);
 
 		if (proto_num == -1) {
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
 
 			// All protos have the same nick?
 			if (protocols->GetSize() > 0) {
@@ -338,7 +338,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
 		}
 		else if (data->status != 0) {
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(NULL, data->status));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(NULL, data->status));
 
 			TCHAR title[256];
 			mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"),
@@ -348,7 +348,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));
 		}
 		else {
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
 
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg());
 		}

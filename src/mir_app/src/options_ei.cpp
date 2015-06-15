@@ -258,7 +258,7 @@ public:
 			ShowWindow(label, SW_SHOW);
 		}
 
-		int cx = GetSystemMetrics(SM_CXSMICON);
+		int cx = g_iIconSX;
 		HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
 
 		HICON hBlankIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);

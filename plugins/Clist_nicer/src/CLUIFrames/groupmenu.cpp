@@ -258,7 +258,7 @@ void InitGroupMenus(void)
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 1900000;
 		mi.pszService = "CloseAction";
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 		mi.pszName = LPGEN("E&xit");
 		AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -266,14 +266,14 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 500;
 		mi.pszService = MS_CLIST_SHOWHIDE;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 		mi.pszName = LPGEN("&Hide/show");
 		hHideShowMainMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 200000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 		mi.pszService = "FindAdd/FindAddCommand";
 		mi.pszName = LPGEN("&Find/add contacts...");
 		AddGroupMenuItem(0, (LPARAM)&mi);
@@ -282,7 +282,7 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 300000;
 		mi.pszService = "";
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
 		mi.pszName = LPGEN("&Main menu");
 		hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -290,7 +290,7 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 300100;
 		mi.pszService = "";
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
 		mi.pszName = LPGEN("&Status");
 		hGroupStatusMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -305,7 +305,7 @@ void InitGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 400000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 		mi.pszService = "Options/OptionsCommand";
 		mi.pszName = LPGEN("&Options...");
 		AddGroupMenuItem(0, (LPARAM)&mi);
@@ -313,7 +313,7 @@ void InitGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 500000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 		mi.pszService = "CLN/About";
 		mi.pszName = LPGEN("&About the contact list...");
 		AddGroupMenuItem(0, (LPARAM)&mi);
@@ -546,7 +546,7 @@ void InitSubGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 900001;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_RENAME);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&Rename group");
 		gmp.lParam = 0;
@@ -556,7 +556,7 @@ void InitSubGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 900002;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&Delete group");
 		gmp.lParam = 0;

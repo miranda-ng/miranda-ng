@@ -1529,7 +1529,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		{
 			TWindowData *dat = (TWindowData*)wParam;
 			HICON hIconMsg = PluginConfig.g_IconMsgEvent;
-			HICON hIconBig = (dat && dat->cache) ? LoadSkinnedProtoIconBig(dat->cache->getProto(), dat->cache->getStatus()) : 0;
+			HICON hIconBig = (dat && dat->cache) ? Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus(), true) : 0;
 
 			if (Win7Taskbar->haveLargeIcons()) {
 				if ((HICON)lParam == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] || (HICON)lParam == hIconMsg) {
@@ -1580,11 +1580,11 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				break;
 			}
 			if (reinterpret_cast<HICON>(lParam) == hIconMsg)
-				hIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+				hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
 			if (pContainer->hIcon == STICK_ICON_MSG && (HICON)lParam != hIconMsg && pContainer->dwFlags & CNT_NEED_UPDATETITLE) {
 				lParam = (LPARAM)hIconMsg;
-				hIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+				hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 			}
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
 			if (0 != hIconBig && reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) != hIconBig)

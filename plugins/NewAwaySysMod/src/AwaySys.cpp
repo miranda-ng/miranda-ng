@@ -316,7 +316,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 			mir_sntprintf(szReadStr, SIZEOF(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
 			miReadMsg.ptszName = szReadStr;
 			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
-			miReadMsg.hIcon = LoadSkinnedProtoIcon(szProto, iContactMode);
+			miReadMsg.hIcon = Skin_LoadProtoIcon(szProto, iContactMode);
 		}
 	}
 	if (g_hContactMenuItem) {

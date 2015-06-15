@@ -199,7 +199,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 			switch(dwEventType){
 			case ICQEVENTTYPE_SMS:
 				lpwszTitlepart=TranslateT("Received SMS");
-				hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
+				hIcon=Skin_LoadIcon(SKINICON_OTHER_SMS);
 				break;
 			case ICQEVENTTYPE_SMSCONFIRMATION:
 				lpwszTitlepart=TranslateT("Received SMS Confirmation");

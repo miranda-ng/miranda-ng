@@ -1294,7 +1294,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Options...");
 	mi.pszService = "Options/OptionsCommand";

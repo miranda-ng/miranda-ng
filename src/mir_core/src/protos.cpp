@@ -104,7 +104,7 @@ MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName
 	pThis->m_iVersion = 2;
 	pThis->m_iStatus = pThis->m_iDesiredStatus = ID_STATUS_OFFLINE;
 	pThis->m_szModuleName = mir_strdup(pszModuleName);
-	pThis->m_hProtoIcon = IcoLib_IsManaged(LoadSkinnedProtoIcon(pszModuleName, ID_STATUS_ONLINE));
+	pThis->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
 	pThis->m_tszUserName = mir_tstrdup(ptszUserName);
 }
 

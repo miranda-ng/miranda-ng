@@ -495,7 +495,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				if (unOptions.DrawProtoIcon)
 				{
 					TC_DrawIconEx(hdc, rect.left, rect.top,
-						LoadSkinnedProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name,PS_GETSTATUS,0,0)), b, ClistModernPresent);
+						Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name,PS_GETSTATUS,0,0)), b, ClistModernPresent);
 					dx = 19;
 				}
 				// Изображаем имя аккаунта
@@ -562,7 +562,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			if (unOptions.DrawProtoIcon)
 			{
 				TC_DrawIconEx(hdc, rect.left, rect.top,
-					LoadSkinnedIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
+					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
 				dx = 19;
 			}
 			// Выводим текст
@@ -624,7 +624,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			if (unOptions.DrawProtoIcon)
 			{
 				TC_DrawIconEx(hdc, rect.left, rect.top,
-					LoadSkinnedIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
+					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
 				dx = 19;
 			}
 			// Выводим текст
@@ -682,7 +682,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
 				ExtraText[RowsNumber] = mir_a2t(ProtoList[i].name);
-				ahIcon[RowsNumber++] = LoadSkinnedProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0));
+				ahIcon[RowsNumber++] = Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0));
 			}
 		}
 		// Ещё 2 особых элемента.
@@ -692,7 +692,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
 			ExtraText[RowsNumber] = mir_a2t("summary");
-			ahIcon[RowsNumber++] = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+			ahIcon[RowsNumber++] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		}
 		if (unOptions.ShowOverall)
 		{
@@ -700,7 +700,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
 			ExtraText[RowsNumber] = mir_a2t("overall");
-			ahIcon[RowsNumber++] = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+			ahIcon[RowsNumber++] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		}
 
 		// Рисуем свой счётчик для каждого из выбранных протоколов
@@ -1135,7 +1135,7 @@ void NotifyOnSend(void)
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
-	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	//
 	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes sent"),
@@ -1154,7 +1154,7 @@ void NotifyOnRecv(void)
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
-	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
 	//
 	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes received"),

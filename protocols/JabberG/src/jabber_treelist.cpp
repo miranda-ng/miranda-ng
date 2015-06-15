@@ -136,9 +136,9 @@ void TreeList_Create(HWND hwnd)
 	ListView_SetImageList (hwnd, hIml, LVSIL_SMALL);
 
 	hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
-	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_GROUPOPEN, 0));
-	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_GROUPSHUT, 0));
-	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_DOWNARROW, 0));
+	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
+	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
+	ImageList_AddIcon_Icolib(hIml, Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
 	ListView_SetImageList (hwnd, hIml, LVSIL_STATE);
 }
 

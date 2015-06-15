@@ -577,11 +577,11 @@ begin
   begin
     if ((SBData[i].flags and (QSF_ACCDEL or QSF_ACCOFF))<>0) then
     begin
-      icon:=CallService(MS_SKIN_LOADPROTOICON,0,ID_STATUS_OFFLINE);
+      icon:=Skin_LoadProtoIcon(0,ID_STATUS_OFFLINE,0);
     end
     else
     begin
-      icon:=CallService(MS_SKIN_LOADPROTOICON,wparam(GetProtoName(i)),ID_STATUS_ONLINE);
+      icon:=Skin_LoadProtoIcon(GetProtoName(i),ID_STATUS_ONLINE,0);
     end;
 
     FastAnsiToWideBuf(GetProtoName(i),fmtstr);

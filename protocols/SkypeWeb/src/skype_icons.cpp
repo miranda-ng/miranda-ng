@@ -63,7 +63,7 @@ HANDLE CSkypeProto::GetIconHandle(const char *name)
 	return 0;
 }
 
-HANDLE CSkypeProto::GetSkinIconHandle(const char *name)
+HANDLE CSkypeProto::Skin_GetIconHandle(const char *name)
 {
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);

@@ -43,7 +43,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
 			TVINSERTSTRUCT tvis = { 0 };
-			int index = ImageList_AddIcon(himlButtonIcons, LoadSkinnedIcon(ii[i].icon));
+			int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
 			tvis.hParent = NULL;
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;

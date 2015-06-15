@@ -90,7 +90,7 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 	ttb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Open History");
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP;
-	ttb.hIconHandleUp = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	hToolbarButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
@@ -99,7 +99,7 @@ void InitMenuItems()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &History");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	hContactMenu = Menu_AddContactMenuItem(&mi);
@@ -109,7 +109,7 @@ void InitMenuItems()
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1000090001;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszName = LPGEN("Delete All User History");
 	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
 	hDeleteContactMenu = Menu_AddContactMenuItem(&mi);
@@ -124,7 +124,7 @@ void InitTaskMenuItems()
 		if (hTaskMainMenu == NULL) {
 			mi.position = 500060005;
 			mi.flags = CMIF_ROOTPOPUP;
-			mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+			mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 			mi.pszName = LPGEN("Execute history task");
 			hTaskMainMenu = Menu_AddMainMenuItem(&mi);
 		}

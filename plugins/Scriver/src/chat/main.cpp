@@ -34,11 +34,11 @@ void LoadModuleIcons(MODULEINFO *mi)
 	int overlayIcon = ImageList_AddIcon(hList, GetCachedIcon("chat_overlay"));
 	ImageList_SetOverlayImage(hList, overlayIcon, 1);
 
-	int index = ImageList_AddIcon(hList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
+	int index = ImageList_AddIcon(hList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
 	mi->hOnlineIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT);
 	mi->hOnlineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 
-	index = ImageList_AddIcon(hList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+	index = ImageList_AddIcon(hList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
 	mi->hOfflineIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT);
 	mi->hOfflineTalkIcon = ImageList_GetIcon(hList, index, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 
@@ -124,8 +124,8 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 static void OnCreateModule(MODULEINFO *mi)
 {
 	LoadModuleIcons(mi);
-	mi->hOnlineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_ONLINE);
-	mi->hOfflineIconBig = LoadSkinnedProtoIconBig(mi->pszModule, ID_STATUS_OFFLINE);
+	mi->hOnlineIconBig = Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE, true);
+	mi->hOfflineIconBig = Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE, true);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)

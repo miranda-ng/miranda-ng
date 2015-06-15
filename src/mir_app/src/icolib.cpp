@@ -382,25 +382,24 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 	return newItem;
 }
 
-int IconSourceItem_Release(IconSourceItem** pitem)
+int IconSourceItem_Release(IconSourceItem* &pitem)
 {
-	if (pitem && *pitem && (*pitem)->ref_count) {
-		IconSourceItem* item = *pitem;
-		item->ref_count--;
-		if (!item->ref_count) {
-			int indx;
-			if ((indx = iconSourceList.getIndex(item)) != -1) {
-				IconSourceFile_Release(&item->file);
-				SafeDestroyIcon(&item->icon);
-				SAFE_FREE((void**)&item->icon_data);
-				iconSourceList.remove(indx);
-				SAFE_FREE((void**)&item);
-			}
+	if (pitem == NULL || pitem->ref_count == 0)
+		return 1;
+
+	pitem->ref_count--;
+	if (!pitem->ref_count) {
+		int indx;
+		if ((indx = iconSourceList.getIndex(pitem)) != -1) {
+			IconSourceFile_Release(&pitem->file);
+			SafeDestroyIcon(&pitem->icon);
+			SAFE_FREE((void**)&pitem->icon_data);
+			iconSourceList.remove(indx);
+			SAFE_FREE((void**)&pitem);
 		}
-		*pitem = NULL;
-		return 0;
 	}
-	return 1;
+	pitem = NULL;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -485,9 +484,9 @@ static void IcoLib_FreeIcon(IcolibItem* icon)
 			IcoLib_RemoveSection(icon->section);
 		icon->section = NULL;
 	}
-	IconSourceItem_Release(&icon->source_small);
-	IconSourceItem_Release(&icon->source_big);
-	IconSourceItem_Release(&icon->default_icon);
+	IconSourceItem_Release(icon->source_small);
+	IconSourceItem_Release(icon->source_big);
+	IconSourceItem_Release(icon->default_icon);
 	SafeDestroyIcon(&icon->temp_icon);
 }
 
@@ -549,11 +548,11 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int hLangpack)
 			item->default_icon->ref_count++;
 		}
 		else {
-			int cx = item->cx ? item->cx : GetSystemMetrics(SM_CXSMICON);
-			int cy = item->cy ? item->cy : GetSystemMetrics(SM_CYSMICON);
+			int cx = item->cx ? item->cx : g_iIconSX;
+			int cy = item->cy ? item->cy : g_iIconSY;
 			item->default_icon = CreateStaticIconSourceItem(cx, cy);
 			if (GetIconData(sid->hDefaultIcon, &item->default_icon->icon_data, &item->default_icon->icon_size))
-				IconSourceItem_Release(&item->default_icon);
+				IconSourceItem_Release(item->default_icon);
 		}
 	}
 
@@ -655,41 +654,39 @@ HICON IconItem_GetDefaultIcon(IcolibItem* item, bool big)
 	HICON hIcon = NULL;
 
 	if (item->default_icon && !big) {
-		IconSourceItem_Release(&item->source_small);
+		IconSourceItem_Release(item->source_small);
 		item->source_small = item->default_icon;
 		item->source_small->ref_count++;
 		hIcon = IconSourceItem_GetIcon(item->source_small);
 	}
 
 	if (!hIcon && item->default_file) {
-		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
-		int cy = item->cy ? item->cy : GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON);
-		IconSourceItem* def_icon = GetIconSourceItem(item->default_file, item->default_indx, cx, cy);
+		int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
+		int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);
+		IconSourceItem *def_icon = GetIconSourceItem(item->default_file, item->default_indx, cx, cy);
 		if (big) {
 			if (def_icon != item->source_big) {
-				IconSourceItem_Release(&item->source_big);
+				IconSourceItem_Release(item->source_big);
 				item->source_big = def_icon;
 				if (def_icon) {
 					def_icon->ref_count++;
 					hIcon = IconSourceItem_GetIcon(def_icon);
 				}
 			}
-			else
-				IconSourceItem_Release(&def_icon);
+			else IconSourceItem_Release(def_icon);
 		}
 		else {
 			if (def_icon != item->default_icon) {
-				IconSourceItem_Release(&item->default_icon);
+				IconSourceItem_Release(item->default_icon);
 				item->default_icon = def_icon;
 				if (def_icon) {
-					IconSourceItem_Release(&item->source_small);
+					IconSourceItem_Release(item->source_small);
 					item->source_small = def_icon;
 					def_icon->ref_count++;
 					hIcon = IconSourceItem_GetIcon(def_icon);
 				}
 			}
-			else
-				IconSourceItem_Release(&def_icon);
+			else IconSourceItem_Release(def_icon);
 		}
 	}
 	return hIcon;
@@ -711,8 +708,8 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 	if (!source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
 		TCHAR tszFullPath[MAX_PATH];
 		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
-		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
-		int cy = item->cy ? item->cy : GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON);
+		int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
+		int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);
 		source = GetIconSourceItemFromPath(tszFullPath, cx, cy);
 		db_free(&dbv);
 	}
@@ -753,7 +750,7 @@ MIR_APP_DLL(HICON) IcoLib_GetIcon(const char* pszIconName, bool big)
 // IcoLib_GetIconHandle
 // lParam: pszIconName
 
-MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char* pszIconName)
+MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char *pszIconName)
 {
 	if (!pszIconName)
 		return NULL;

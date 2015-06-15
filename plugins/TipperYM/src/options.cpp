@@ -771,7 +771,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(btns[i].swzTooltip), BATF_TCHAR);
 			if (btns[i].uintCoreIconId)
-				SendDlgItemMessage(hwndDlg, btns[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(btns[i].uintCoreIconId));
+				SendDlgItemMessage(hwndDlg, btns[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(btns[i].uintCoreIconId));
 			else {
 				HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(btns[i].uintResIconId));
 				SendDlgItemMessage(hwndDlg, btns[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
@@ -1716,7 +1716,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Get more skins"), BATF_TCHAR);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_URL));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL));
 
 
 			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));

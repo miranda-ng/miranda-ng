@@ -194,8 +194,8 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
 			ShowPage(hwndDlg, i, FALSE);
 		}
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true));
 		ShowPage(hwndDlg, 0, TRUE);
 		SetFocus(hwndTree);
 		Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);

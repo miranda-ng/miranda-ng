@@ -76,10 +76,10 @@ void Manager::initImageList()
 	char buff[256];
 
 	this->himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, ServerList::FTP_COUNT + 4, 0);
-	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_DELETE)); // image index 0 is useless for INDEXTOSTATEIMAGEMASK
-	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_DELETE));
-	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_TICK));
+	ImageList_AddIcon(himlStates, Skin_LoadIcon(SKINICON_OTHER_DELETE)); // image index 0 is useless for INDEXTOSTATEIMAGEMASK
+	ImageList_AddIcon(himlStates, Skin_LoadIcon(SKINICON_OTHER_DELETE));
+	ImageList_AddIcon(himlStates, Skin_LoadIcon(SKINICON_OTHER_NOTICK));
+	ImageList_AddIcon(himlStates, Skin_LoadIcon(SKINICON_OTHER_TICK));
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
 	{
@@ -236,10 +236,10 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Utils::loadIconEx("main"));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_TICK));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_TICK));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select All"), BATF_TCHAR);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_NOTICK));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear All"), BATF_TCHAR);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BUTTONSETASFLATBTN, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("clear"));
@@ -248,7 +248,7 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("delete"));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete from FTP"), BATF_TCHAR);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_EXIT));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_EXIT));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close"), BATF_TCHAR);
 						
 			return TRUE;

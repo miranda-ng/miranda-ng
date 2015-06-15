@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			RECT rc = dis->rcItem;
-			DrawIconEx(dis->hDC, 3, (rc.top + rc.bottom - 16) / 2, LoadSkinnedProtoIcon(NULL, dis->itemData), 16, 16, 0, NULL, DI_NORMAL);
+			DrawIconEx(dis->hDC, 3, (rc.top + rc.bottom - 16) / 2, Skin_LoadProtoIcon(NULL, dis->itemData), 16, 16, 0, NULL, DI_NORMAL);
 			rc.left += 25;
 			SetBkMode(dis->hDC, TRANSPARENT);
 			DrawText(dis->hDC, buf, -1, &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX);

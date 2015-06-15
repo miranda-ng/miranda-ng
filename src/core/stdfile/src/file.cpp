@@ -127,7 +127,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;
-		cle.hIcon = LoadSkinIcon(SKINICON_EVENT_FILE);
+		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		cle.pszService = "SRFile/RecvFile";
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	}
@@ -338,7 +338,7 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000020000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.pszName = LPGEN("&File");
 	mi.pszService = MS_FILE_SENDFILE;
 	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
@@ -435,7 +435,7 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("File &transfers...");
 	mi.pszService = "FtMgr/Show"; //MS_PROTO_SHOWFTMGR;

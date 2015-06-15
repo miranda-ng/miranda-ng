@@ -236,18 +236,6 @@ namespace mu
 	}
 
 	/*
-	 * skin
-	 */
-
-	namespace skin
-	{
-		HICON loadIcon(int id)
-		{
-			return reinterpret_cast<HICON>(CallService(MS_SKIN_LOADICON, id, 0));
-		}
-	}
-
-	/*
 	 * system
 	 */
 

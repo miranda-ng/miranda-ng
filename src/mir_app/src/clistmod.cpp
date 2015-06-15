@@ -269,12 +269,12 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	int i, j;
 
 	for (i=0; i < SIZEOF(statusModeList); i++)
-		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, LoadSkinIcon(skinIconStatusList[i]));
-	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, LoadSkinIcon(SKINICON_OTHER_GROUPOPEN));
-	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, LoadSkinIcon(SKINICON_OTHER_GROUPSHUT));
+		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
+	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
+	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
 	for (i=0; i < protoIconIndex.getCount(); i++)
 		for (j = 0; j < SIZEOF(statusModeList); j++)
-			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, LoadSkinProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
+			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
 	cli.pfnInvalidateRect(cli.hwndContactList, NULL, TRUE);
 	return 0;

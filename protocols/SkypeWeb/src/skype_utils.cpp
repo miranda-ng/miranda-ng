@@ -37,7 +37,7 @@ void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
-	st.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+	st.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }

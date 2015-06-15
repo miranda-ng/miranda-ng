@@ -79,12 +79,12 @@ int OnShutdown(WPARAM, LPARAM)
 
 static void OnCreateModule(MODULEINFO *mi)
 {
-	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
+	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
 	mi->hOnlineIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT);
 	mi->hOnlineTalkIcon = ImageList_GetIcon(hIconsList, mi->OnlineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 	ImageList_AddIcon(hIconsList, mi->hOnlineTalkIcon);
 
-	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, LoadSkinnedProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
+	mi->OfflineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_OFFLINE));
 	mi->hOfflineIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT);
 	mi->hOfflineTalkIcon = ImageList_GetIcon(hIconsList, mi->OfflineIconIndex, ILD_TRANSPARENT | INDEXTOOVERLAYMASK(1));
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
@@ -398,7 +398,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 void LoadIcons(void)
 {
 	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
-	ImageList_AddIcon(hIconsList, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+	ImageList_AddIcon(hIconsList, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
 	ImageList_SetOverlayImage(hIconsList, 1, 1);
 }

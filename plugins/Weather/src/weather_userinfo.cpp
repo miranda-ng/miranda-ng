@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
 		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
-			(WPARAM)LoadSkinnedProtoIcon(WEATHERPROTONAME,
+			(WPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME,
 			db_get_w(hContact, WEATHERPROTONAME, "StatusIcon",0)), 0);
 
 		{	// bold and enlarge the current condition
@@ -213,8 +213,8 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		// set icons
 		{
 			WORD statusIcon = db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0);
-			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIconBig(WEATHERPROTONAME, statusIcon)));
-			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(WEATHERPROTONAME, statusIcon)));
+			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon, true)));
+			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon)));
 		}
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;

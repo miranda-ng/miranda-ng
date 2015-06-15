@@ -262,7 +262,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 					rc.right - FILTER_BOX_HEIGHT + (FILTER_BOX_HEIGHT-16)/2 + 16, rc.top + (FILTER_BOX_HEIGHT-16)/2 + 16);
 
 				DrawIconEx(hdc, rc.left + (FILTER_BOX_HEIGHT-16)/2, rc.top + (FILTER_BOX_HEIGHT-16)/2, g_LoadIconEx("sd_filter_apply"), 16, 16, 0, NULL, DI_NORMAL);
-				DrawIconEx(hdc, rc.right - FILTER_BOX_HEIGHT + (FILTER_BOX_HEIGHT-16)/2, rc.top + (FILTER_BOX_HEIGHT-16)/2, LoadSkinnedIcon(SKINICON_OTHER_DELETE), 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(hdc, rc.right - FILTER_BOX_HEIGHT + (FILTER_BOX_HEIGHT-16)/2, rc.top + (FILTER_BOX_HEIGHT-16)/2, Skin_LoadIcon(SKINICON_OTHER_DELETE), 16, 16, 0, NULL, DI_NORMAL);
 
 				rc.left += 5*FILTER_BOX_HEIGHT/3;
 				rc.right -= 5*FILTER_BOX_HEIGHT/3;

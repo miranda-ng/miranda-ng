@@ -138,7 +138,7 @@ void CGlobals::reloadSystemModulesChanged()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
@@ -543,7 +543,7 @@ int CGlobals::OkToExit(WPARAM, LPARAM)
 void CGlobals::RestoreUnreadMessageAlerts(void)
 {
 	CLISTEVENT cle = { sizeof(cle) };
-	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
