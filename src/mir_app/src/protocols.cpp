@@ -371,9 +371,12 @@ MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 	if (szModule == NULL || szService == NULL)
 		return false;
 
-	TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
-	if (item != NULL)
-		return true;
+	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
+	if (pa && !pa->bOldProto) {
+		TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
+		if (item != NULL)
+			return true;
+	}
 
 	char str[MAXMODULELABELLENGTH * 2];
 	strncpy_s(str, szModule, _TRUNCATE);
