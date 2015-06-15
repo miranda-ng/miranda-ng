@@ -35,6 +35,8 @@
 [Now checking Lotus, try again later]
 [Attachments: %d bytes]
 [Plugins]
+[Popup]
+[Miscellaneous]
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]

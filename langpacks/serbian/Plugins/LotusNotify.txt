@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -29,8 +29,6 @@
 [(0-disabled)]
 
 [Keep connection on error]
-
-[Popup options]
 
 [Set popup colors]
 
@@ -68,8 +66,6 @@ Pošiljalac
 
 [Offline status mean:]
 
-[version:]
-
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 
@@ -97,6 +93,12 @@ Pošiljalac
 Status
 [Plugins]
 Plug-inovi
+[Connection]
+
+[Popup]
+
+[Miscellaneous]
+
 [&Check Lotus]
 
 [Lotus Notify]

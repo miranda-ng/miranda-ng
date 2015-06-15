@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -30,8 +30,6 @@ Min.
 (0-deaktiviert)
 [Keep connection on error]
 Verbindung bei Fehler beibehalten
-[Popup options]
-Popup-Einstellungen
 [Set popup colors]
 Popupfarben bestimmen
 [Background]
@@ -68,8 +66,6 @@ Betreff
 An / Kopiere An
 [Offline status mean:]
 Offline-Status bedeutet:
-[version:]
-Version:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Konnte nicht alle benötigten Lotus-API-Funktionen laden.
@@ -97,6 +93,12 @@ Anhänge: %d Bytes
 Status
 [Plugins]
 Plugins
+[Connection]
+Verbindung
+[Popup]
+Popup
+[Miscellaneous]
+Sonstiges
 [&Check Lotus]
 Lotus prüfen
 [Lotus Notify]

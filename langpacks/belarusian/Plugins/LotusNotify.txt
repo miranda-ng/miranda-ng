@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -28,8 +28,6 @@
 хв.
 [(0-disabled)]
 0-выключана
-[Popup options]
-Налады ўсплывальных вокнаў
 [Set popup colors]
 Колер вакна
 [Background]
@@ -64,8 +62,6 @@
 Каму / Копія
 [Offline status mean:]
 Аўтаномны статус:
-[version:]
-версія:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Не ўдалося загрузіць усе неабходныя функцыі Lotus API
@@ -93,6 +89,12 @@ notes.ini, здаецца, быў усталяваны правільна.
 Статус
 [Plugins]
 Плагіны
+[Connection]
+Далучэнне
+[Popup]
+Вакно
+[Miscellaneous]
+Іншае
 [&Check Lotus]
 Праверыць Lotus
 [Lotus Notify]

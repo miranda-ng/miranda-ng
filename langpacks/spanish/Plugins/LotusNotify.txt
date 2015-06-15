@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.22.0
+;  Version: 0.1.23.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Password:]
@@ -15,9 +15,13 @@ Texto
 Remitente
 [Subject]
 Sujeto
-[version:]
-versión
 [Status]
 Estado
 [Plugins]
 Plugins
+[Connection]
+Conexión
+[Popup]
+Ventana emergente
+[Miscellaneous]
+Diverso

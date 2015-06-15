@@ -3,510 +3,16 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-[Enter account name (for example, My Google)]
-Introduzca el nombre de cuenta (por ejemplo, Mi Google)
-[Choose the protocol type]
-Seleccione el tipo de protocolo
-[Specify the internal account name (optional)]
-Especifique el nombre de la cuenta interna (opcional)
-[Cancel]
-Cancelar
-[Add contact]
-Añadir contacto
-[&Add]
-&Añadir
-[&Cancel]
-&Cancelar
-[Send "You were added"]
-Enviar "Usted fue agregado"
-[Send authorization request]
-Enviar solicitud de autorización
-[Open contact's chat window]
-Abrir ventana de conversación del contacto
-[Custom name:]
-Nombre personalizado:
-[Group:]
-Grupo:
-[Options]
-Opciones
 [Authorization request]
 Solicitud de autorización
-[Delete contact]
-Eliminar contacto
-[&Yes]
-&Sí
-[&No]
-&No
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options->Contacts->Ignore to unhide contacts.]
-Usar Opciones->Contactos->Ignorar Para mostrar los contactos
-[Are you sure you want to delete %s?]
-¿Está seguro de que desea eliminar a %s?
-[This will erase all history and settings for this contact!]
-¡Esto borrará toda el historial y los valores de este contacto!
-[Contact display options]
-Opciones de visualización de contacto
-[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-En lugar de mostrar los contactos por su apodo,\narrastre para seleccionar otro orden:
-[Miranda NG profile manager]
-Administrador de perfiles de Miranda NG
-[Manage your Miranda NG profile]
-Administre su perfil Miranda NG
-[&Run]
-Ejecuta&r
-[&Exit]
-&Salir
-[Start in service mode with]
-Iniciar en el modo de servicio con
-[Find/add contacts]
-Buscar/agregar contactos
-[Search:]
-Buscar:
-[E-mail address]
-Dirección E-mail
-[Name]
-Nombre
-[Nick:]
-Nick:
-[First:]
-Primero:
-[Last:]
-Último:
-[Advanced]
-Avanzado
-[Advanced >>]
-Avanzado >>
-[&Search]
-Bu&scar
-[More options]
-Más opciones
-[Add to list]
-Añadir a la lista
-[Custom]
-Personalizado
-[Here you can add contacts to your contact list]
-Aquí usted puede agregar contactos a su lista de contactos
-[Configure your Miranda NG options]
-Configure las opciones de Miranda NG
-[Apply]
-Aplicar
-[Switch to simple options]
-Cambiar a opciones sencillas
-[Please select a subentry from the list]
-Por favor seleccione una subentrada de la lista
-[Install database settings]
-Instalar ajustes de la base de datos
-[Yes]
-Sí
-[No]
-No
-[A file containing new database settings has been placed in the Miranda NG directory.]
-Un archivo que contiene los nuevos valores de base de datos se ha colocado en el directorio de Miranda NG.
-[Do you want to import the settings now?]
-¿Desea importar la configuración ahora?
-[No to all]
-No a todo
-[&View contents]
-&Ver contenidos
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de los cambios que no se sabe que son seguros.
-[Database setting change]
-Cambiar configuración de base de datos
-[Database settings are being imported from]
-Propiedades de la base están siendo importadas de
-[This file wishes to change the setting]
-Este archivo desea cambiar el ajuste
-[to the value]
-al valor
-[Do you want to allow this change?]
-¿Desea permitir este cambio?
-[&Allow all further changes to this section]
-Permitir todos los nuevos c&ambios en esta sección
-[Cancel import]
-Cancelar importación
-[Database import complete]
-Importar base de datos completado
-[The import has completed from]
-La importación ha completado a partir de
-[What do you want to do with the file now?]
-¿Qué es lo que quiere hacer con el archivo ahora?
-[&Recycle]
-&Reciclar
-[&Delete]
-&Borrar
-[&Move/Rename]
-&Mover/Renombrar
-[&Leave]
-&Dejar
-[Netlib log options]
-Opciones de registro Netlib
-[Show]
-Mostrar
-[Received bytes]
-Bytes recibidos
-[Sent bytes]
-Bytes enviados
-[Additional data due to proxy communication]
-Datos adicionales debido a la comunicación de proxy
-[SSL traffic]
-Tráfico SSL
-[Text dumps where available]
-Dumpear texto cuando se pueda
-[Auto-detect text]
-Detección automática de texto
-[Calling modules' names]
-Llamando a nombres de módulos
-[Log to]
-Registrar en
-[OutputDebugString()]
-OutputDebugString()
-[File]
-Archivo
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-Ejecutar programa cuando Miranda NG comienza (por ejemplo tail-f, dbgview, etc.):
-[Run now]
-Ejecutar ahora
-[Show this dialog box when Miranda NG starts]
-Mostrar este cuadro de diálogo cuando Miranda NG inicia
-[Sounds]
-Sonidos
-[&Change...]
-&Cambiar...
-[&Preview]
-&Previsualizar
-[Download more sounds]
-Descargar más sonidos
-[Sound information]
-Información de sonido
-[Location:]
-Ubicación:
-[Name:]
-Nombre:
-[Enable sound events]
-Activar eventos de sonido
-[Icons]
-Iconos
-[Show category:]
-Mostrar categoría:
-[&Load icon set...]
-&Cargar grupo de iconos...
-[&Import icons >>]
-&Importar iconos >>
-[Download more icons]
-Descargar más iconos
-[The following events are being ignored:]
-Los siguientes eventos seran ignorados:
-[Messages]
-Mensajes
-[URLs]
-URLs
-[Files]
-Archivos
-[Online notification]
-Notificación En línea
-[Auth requests]
-Solicitudes de autenticación
-[All events]
-Todos los eventos
-[None]
-Ninguno
-[Only the ticked contacts will be shown on the main contact list]
-Sólo los contactos marcados se muestran en la lista de contactos principal
-[Ignore]
-Ignorar
-[Added notification]
-Notificación añadida
-[Typing]
-Escribiendo
-[Visibility]
-Visibilidad
-[You are visible to this person even when in invisible mode]
-Usted es visible a esta persona, incluso cuando está en modo invisible
-[You are never visible to this person]
-Nunca es visible a esta persona
-[Icon index]
-Índice de icono
-[Icon library:]
-Biblioteca de icono:
-[Drag icons to main list to assign them:]
-Arrastre los iconos a la lista principal para asignarles:
-[Import multiple]
-Importar múltiples
-[To main icons]
-A iconos principales
-[To]
-A
-[<< &Import]
-<< &Importar
-[To default status icons]
-Para reajustar los iconos de estado
-[Logging...]
-Iniciando...
-[Outgoing connections]
-Conexiones salientes
-[Use proxy server]
-Usar servidor proxy
-[Type:]
-Tipo:
-[Host:]
-Anfitrión:
-[Port:]
-Puerto:
-[(often %d)]
-(veces %d)
-[Use custom login (domain login picked up automatically)]
-Usar inicio de sesión personalizado (Dominio de sesión tomado automáticamente)
-[Username:]
-Usuario:
-[Password:]
-Contraseña:
-[Resolve hostnames through proxy]
-Resolver nombres de anfitrión a través del proxy
-[Port range:]
-Rango de puerto:
-[Example: 1050-1070, 2000-2010, 2500]
-Ejemplo: 1050-1070, 2000-2010, 2500
-[Validate SSL certificates]
-Validar certificados SSL
-[Incoming connections]
-Conexiones entrantes
-[Enable UPnP port mapping]
-Habilitar la asignación de puertos UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Tendrá que volver a conectarse para que los cambios en esta página surtan efecto.
-[Please complete the following form to create a new user profile]
-Por favor, complete el siguiente formulario para crear un nuevo perfil de usuario.
-[Profile]
-Perfil
-[e.g., Workplace]
-Ejemplo: Trabajo
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
-[e.g., dbx mmap]
-Ejemplo: dbx mmap
-[Driver]
-Controlador
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mmap.dll
-[Download more plugins]
-Descargar más plugins
-[Description:]
-Detalles:
-[Author(s):]
-Autor(es):
-[E-mail:]
-E-mail:
-[Homepage:]
-Sitio web:
-[Unique ID:]
-ID único:
-[Copyright:]
-Copyright:
-[Please restart Miranda NG for your changes to take effect.]
-Por favor reinicie Miranda NG para que los cambios surtan efecto.
-[Fonts and colors]
-Fuentes y colores
-[Undo]
-Deshacer
-[Reset]
-Reiniciar
-[Export...]
-Exportar...
-[Color/background]
-Color/fondo
-[Text effect]
-Efecto de texto
-[Text color]
-Color de texto
-[Choose font]
-Elegir fuente
-[Menu objects]
-Objetos del menú
-[Menu items]
-Elementos del menú
-[Protocol menus]
-Menús protocolo
-[Move to the main menu]
-Mover al menú principal
-[Move to the status bar]
-Mover a la barra de estado
-[Warning!\r\nThis menu object not support user defined options.]
-¡Advertencia!\r\nEste menú objeto no admite opciones definidas por el usuario.
-[Insert separator]
-Insertar separador
-[Service:]
-Servicio:
-[Default]
-Por defecto
-[Set]
-Establecer
-[Show accounts in the following order,\ndrag to choose another order:]
-Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
-[Account order and visibility]
-Orden de cuenta y visibilidad
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
-[Key bindings]
-Atajos de teclado
-[Shortcut:]
-Atajo:
-[Add]
-Añadir
-[Remove]
-Eliminar
-[Undo changes]
-Deshacer cambios
-[Reset to default]
-Restaurar por defecto
-[Hotkeys]
-Teclas de acceso directo
-[Accounts]
-Cuentas
-[Configure your IM accounts]
-Configure sus cuentas de mensajería instantánea
-[Account information:]
-Información de la cuenta:
-[Additional:]
-Adicional:
-[Configure network...]
-Configurar red...
-[Get more protocols...]
-Obtener más protocolos...
-[&Add...]
-&Añadir...
-[&Edit]
-&Editar
-[&Options]
-&Opciones
-[&Upgrade]
-Act&ualizar
-[&Remove...]
-&Retirar...
-[Miranda NG is being restarted.\nPlease wait...]
-Miranda NG se reinicia.\nPor favor espere...
-[Error console]
-Consola de errores
-[Error notifications]
-Notificaciones de error
-[Headers:]
-Cabeceras
-[This font is used to display main section titles or text elements.]
-Esta fuente se utiliza para mostrar secciones de títulos principales o elementos de texto.
-[Normal text:]
-Texto normal:
-[This font is used to display most text elements or section bodies.]
-Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
-[Minor notes:]
-Notas menores:
-[This font is used to display various additional notes.]
-Esta fuente se utiliza para mostrar diferentes notas complementarias.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
-[Event icon legend:]
-Leyenda de icono de evento:
-[Choose events you wish to ignore:]
-Seleccione los eventos que desea ignorar:
-[Font effect]
-Efecto de fuente
-[Effect:]
-Efecto:
-[Base color:]
-Color básico:
-[opacity:]
-opacidad:
-[Secondary color:]
-Color secundario:
-[Select the extra icons to be shown in the contact list:]
-Seleccione los iconos adicionales que se muestran en la lista de contactos:
-[*only the first %d icons will be shown]
-* sólo los primeros %d iconos se muestran
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
-[Information]
-Información
-[Contacts]
-Contactos
-[&Apply]
-&Aplicar
-[Contact list]
-Lista de contactos
-[Last modified using:]
-Última modificación usando:
-[Date:]
-Fecha:
-[Locale:]
-Local
-[Reload langpack]
-Recargar langpack
-[Download more language packs]
-Descargar más paquetes de idioma
-[Tray]
-Bandeja
-[&Hide/Show]
-&Mostrar/Ocultar
-[E&xit]
-&Salir
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo Grupo
-[&Hide offline users]
-&Ocultar usuarios Fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar &grupos
-[Hide Miranda]
-Ocultar Miranda
-[Group]
-Grupo
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar Grupo
-[&Reset to default]
-Restablecer valores predeterminados
-[find/add]
-buscar/añadir
-[&Add to list]
-&Añadir a la lista
-[User &details]
-&Detalles del usuario
-[Send &message]
-Enviar mensaje
-[Log]
-Registro
-[&Copy]
-&Copiar
-[Co&py all]
-Co&piar todo
-[Select &all]
-Elegir &todo
-[C&lear log]
-&Limpiar registro
-[Open in &new window]
-Abrir en nueva ventana
-[&Open in existing window]
-Abrir en ventana existente
-[&Copy link]
-Copiar enlace
-[Cancel change]
-Cancelar cambio
-[Ungroup]
-Desagrupar
 [&Authorize]
 &Autorizar
 [&Deny]
 &Denegar
 [Decide &later]
 &Decidir más &tarde
+[User &details]
+&Detalles del usuario
 [Reason:]
 Razón:
 [Denial reason:]
@@ -517,8 +23,12 @@ Añadir a la lista de contactos si está autorizado
 Usted fue añadido
 [&Close]
 &Cerrar
+[&Add]
+&Añadir
 [%s message for %s]
 %s Mensaje(S) para %s
+[&Cancel]
+&Cancelar
 [Retrieving %s message...]
 Recuperando %s Mensaje(S)...
 [Status messages]
@@ -565,6 +75,8 @@ Configu&ración de espacio
 Mostrar sólo estos eventos:
 [Actions]
 Acciones
+[Messages]
+Mensajes
 [Nick changes]
 Cambios de Nick
 [Users joining]
@@ -575,12 +87,16 @@ Usuarios saliendo
 Cambios de tema
 [Status changes]
 Cambios de estado
+[Information]
+Información
 [Disconnects]
 Desconectados
 [User kicks]
 Usuarios sacados
 [Notices]
 Avisos
+[Options]
+Opciones
 [Log options]
 Opciones de registro
 [Log timestamp]
@@ -629,8 +145,12 @@ Fondo
 Lista
 [&Message]
 &Mensaje
+[Log]
+Registro
 [Clear lo&g]
 Limpiar re&gistro
+[Co&py all]
+Co&piar todo
 [Word lookup]
 Palabra de búsqueda
 [Wikipedia]
@@ -641,8 +161,12 @@ Enlace
 Abrir una nueva ventana del navegador
 [&Open in current browser window]
 Abrir en ventana actual del navegad&or
+[&Copy link]
+Copiar enlace
 [Message]
 Mensaje
+[Undo]
+Deshacer
 [Redo]
 Rehacer
 [Copy]
@@ -663,6 +187,20 @@ Pestañas
 C&errar otras pestañas
 [&Open at this position]
 Abrir en esta p&osición
+[Delete contact]
+Eliminar contacto
+[No]
+No
+[Yes]
+Sí
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
+[Use Options->Contacts->Ignore to unhide contacts.]
+Usar Opciones->Contactos->Ignorar Para mostrar los contactos
+[Are you sure you want to delete %s?]
+¿Está seguro de que desea eliminar a %s?
+[This will erase all history and settings for this contact!]
+¡Esto borrará toda el historial y los valores de este contacto!
 [Hide offline users]
 Ocultar usuarios fuera de línea
 [Hide empty groups]
@@ -685,6 +223,8 @@ Mostrar estado sobre herramientas
 Desactivar parpadeo de icono
 [ms delay]
 ms de retardo
+[Show]
+Mostrar
 [icon when statuses differ]
 icono cuando el estado cambia
 [Cycle icons every]
@@ -695,6 +235,8 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
+[Contact list]
+Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
@@ -853,6 +395,8 @@ Ventana:
 Fondo de lista de de contactos:
 [&Main menu]
 &Menú principal
+[E&xit]
+&Salir
 [&Status]
 E&stado
 [&Offline\tCtrl+0]
@@ -875,8 +419,38 @@ No molestar
 En el &teléfono\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Salí a comer\tCtrl+9
+[Tray]
+Bandeja
+[&Hide/Show]
+&Mostrar/Ocultar
+[Nowhere]
+En ninguna parte
+[&New group]
+&Nuevo Grupo
+[&Hide offline users]
+&Ocultar usuarios Fuera de línea
+[Hide &offline users out here]
+Ocultar usuarios fuera de línea fuera de aquí
+[Hide &empty groups]
+Ocu&ltar grupos vacíos
+[Disable &groups]
+Desactivar &grupos
+[Hide Miranda]
+Ocultar Miranda
+[Group]
+Grupo
+[&New subgroup]
+&Nuevo subgrupo
+[&Hide offline users in here]
+Ocul&tar usuarios fuera de línea aquí
+[&Rename group]
+&Renombrar grupo
+[&Delete group]
+El&iminar Grupo
 [Send file(s)]
 Enviar archivo(s)
+[Cancel]
+Cancelar
 [To:]
 A:
 [File(s):]
@@ -885,6 +459,8 @@ Archivo(s)
 Sele&ccionar de nuevo...
 [Total size:]
 Tamaño total:
+[Description:]
+Detalles:
 [&User menu]
 Menú de usuario
 [Incoming file transfer]
@@ -895,6 +471,8 @@ Transferencia de archivos entrantes
 &Denegar
 [From:]
 De:
+[Date:]
+Fecha:
 [Files:]
 Archivos:
 [Save to:]
@@ -933,6 +511,8 @@ Archivo existente
 Tamaño:
 [Last modified:]
 Última modificación:
+[Type:]
+Tipo:
 [Open file]
 Abrir archivo
 [Open folder]
@@ -1107,6 +687,12 @@ Guardar la posición de la ventana para cada contacto
 Comportamiento de la ventana de mensaje:
 [Messaging:]
 Mensajería:
+[C&lear log]
+&Limpiar registro
+[&Copy]
+&Copiar
+[Select &all]
+Elegir &todo
 [&Open link]
 &Abrir enlace
 [Paste and send]
@@ -1151,6 +737,8 @@ Género:
 Apellido:
 [Age:]
 Edad:
+[E-mail:]
+E-mail:
 [Date of birth:]
 Fecha de nacimiento:
 [Marital status:]
@@ -1193,6 +781,418 @@ Departamento:
 Posición:
 [Website:]
 Sitio web
+[Enter account name (for example, My Google)]
+Introduzca el nombre de cuenta (por ejemplo, Mi Google)
+[Choose the protocol type]
+Seleccione el tipo de protocolo
+[Specify the internal account name (optional)]
+Especifique el nombre de la cuenta interna (opcional)
+[Add contact]
+Añadir contacto
+[Send "You were added"]
+Enviar "Usted fue agregado"
+[Send authorization request]
+Enviar solicitud de autorización
+[Open contact's chat window]
+Abrir ventana de conversación del contacto
+[Custom name:]
+Nombre personalizado:
+[Group:]
+Grupo:
+[&Yes]
+&Sí
+[&No]
+&No
+[Contact display options]
+Opciones de visualización de contacto
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+En lugar de mostrar los contactos por su apodo,\narrastre para seleccionar otro orden:
+[Miranda NG profile manager]
+Administrador de perfiles de Miranda NG
+[Manage your Miranda NG profile]
+Administre su perfil Miranda NG
+[&Run]
+Ejecuta&r
+[&Exit]
+&Salir
+[Start in service mode with]
+Iniciar en el modo de servicio con
+[Find/add contacts]
+Buscar/agregar contactos
+[Search:]
+Buscar:
+[E-mail address]
+Dirección E-mail
+[Name]
+Nombre
+[Nick:]
+Nick:
+[First:]
+Primero:
+[Last:]
+Último:
+[Advanced]
+Avanzado
+[Advanced >>]
+Avanzado >>
+[&Search]
+Bu&scar
+[More options]
+Más opciones
+[Add to list]
+Añadir a la lista
+[Custom]
+Personalizado
+[Here you can add contacts to your contact list]
+Aquí usted puede agregar contactos a su lista de contactos
+[Configure your Miranda NG options]
+Configure las opciones de Miranda NG
+[Apply]
+Aplicar
+[Switch to simple options]
+Cambiar a opciones sencillas
+[Please select a subentry from the list]
+Por favor seleccione una subentrada de la lista
+[Install database settings]
+Instalar ajustes de la base de datos
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Un archivo que contiene los nuevos valores de base de datos se ha colocado en el directorio de Miranda NG.
+[Do you want to import the settings now?]
+¿Desea importar la configuración ahora?
+[No to all]
+No a todo
+[&View contents]
+&Ver contenidos
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de los cambios que no se sabe que son seguros.
+[Database setting change]
+Cambiar configuración de base de datos
+[Database settings are being imported from]
+Propiedades de la base están siendo importadas de
+[This file wishes to change the setting]
+Este archivo desea cambiar el ajuste
+[to the value]
+al valor
+[Do you want to allow this change?]
+¿Desea permitir este cambio?
+[&Allow all further changes to this section]
+Permitir todos los nuevos c&ambios en esta sección
+[Cancel import]
+Cancelar importación
+[Database import complete]
+Importar base de datos completado
+[The import has completed from]
+La importación ha completado a partir de
+[What do you want to do with the file now?]
+¿Qué es lo que quiere hacer con el archivo ahora?
+[&Recycle]
+&Reciclar
+[&Delete]
+&Borrar
+[&Move/Rename]
+&Mover/Renombrar
+[&Leave]
+&Dejar
+[Netlib log options]
+Opciones de registro Netlib
+[Received bytes]
+Bytes recibidos
+[Sent bytes]
+Bytes enviados
+[Additional data due to proxy communication]
+Datos adicionales debido a la comunicación de proxy
+[SSL traffic]
+Tráfico SSL
+[Text dumps where available]
+Dumpear texto cuando se pueda
+[Auto-detect text]
+Detección automática de texto
+[Calling modules' names]
+Llamando a nombres de módulos
+[Log to]
+Registrar en
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Archivo
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Ejecutar programa cuando Miranda NG comienza (por ejemplo tail-f, dbgview, etc.):
+[Run now]
+Ejecutar ahora
+[Show this dialog box when Miranda NG starts]
+Mostrar este cuadro de diálogo cuando Miranda NG inicia
+[Sounds]
+Sonidos
+[&Change...]
+&Cambiar...
+[&Preview]
+&Previsualizar
+[Download more sounds]
+Descargar más sonidos
+[Sound information]
+Información de sonido
+[Location:]
+Ubicación:
+[Name:]
+Nombre:
+[Enable sound events]
+Activar eventos de sonido
+[Icons]
+Iconos
+[Show category:]
+Mostrar categoría:
+[&Load icon set...]
+&Cargar grupo de iconos...
+[&Import icons >>]
+&Importar iconos >>
+[Download more icons]
+Descargar más iconos
+[The following events are being ignored:]
+Los siguientes eventos seran ignorados:
+[URLs]
+URLs
+[Files]
+Archivos
+[Online notification]
+Notificación En línea
+[Auth requests]
+Solicitudes de autenticación
+[All events]
+Todos los eventos
+[None]
+Ninguno
+[Only the ticked contacts will be shown on the main contact list]
+Sólo los contactos marcados se muestran en la lista de contactos principal
+[Ignore]
+Ignorar
+[Added notification]
+Notificación añadida
+[Typing]
+Escribiendo
+[Visibility]
+Visibilidad
+[You are visible to this person even when in invisible mode]
+Usted es visible a esta persona, incluso cuando está en modo invisible
+[You are never visible to this person]
+Nunca es visible a esta persona
+[Icon index]
+Índice de icono
+[Icon library:]
+Biblioteca de icono:
+[Drag icons to main list to assign them:]
+Arrastre los iconos a la lista principal para asignarles:
+[Import multiple]
+Importar múltiples
+[To main icons]
+A iconos principales
+[To]
+A
+[<< &Import]
+<< &Importar
+[To default status icons]
+Para reajustar los iconos de estado
+[Logging...]
+Iniciando...
+[Outgoing connections]
+Conexiones salientes
+[Use proxy server]
+Usar servidor proxy
+[Host:]
+Anfitrión:
+[Port:]
+Puerto:
+[(often %d)]
+(veces %d)
+[Use custom login (domain login picked up automatically)]
+Usar inicio de sesión personalizado (Dominio de sesión tomado automáticamente)
+[Username:]
+Usuario:
+[Password:]
+Contraseña:
+[Resolve hostnames through proxy]
+Resolver nombres de anfitrión a través del proxy
+[Port range:]
+Rango de puerto:
+[Example: 1050-1070, 2000-2010, 2500]
+Ejemplo: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Validar certificados SSL
+[Incoming connections]
+Conexiones entrantes
+[Enable UPnP port mapping]
+Habilitar la asignación de puertos UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Tendrá que volver a conectarse para que los cambios en esta página surtan efecto.
+[Please complete the following form to create a new user profile]
+Por favor, complete el siguiente formulario para crear un nuevo perfil de usuario.
+[Profile]
+Perfil
+[e.g., Workplace]
+Ejemplo: Trabajo
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Puede seleccionar un controlador de perfil diferente del predeterminado, puede ofrecer más características o habilidades, en caso de duda usar el predeterminado.
+[e.g., dbx mmap]
+Ejemplo: dbx mmap
+[Driver]
+Controlador
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Problema: No se puede encontrar ningún controlador de base de datos, esto significa que no se puede crear un nuevo perfil, necesita obtener dbx_mmap.dll
+[Download more plugins]
+Descargar más plugins
+[Author(s):]
+Autor(es):
+[Homepage:]
+Sitio web:
+[Unique ID:]
+ID único:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Por favor reinicie Miranda NG para que los cambios surtan efecto.
+[Fonts and colors]
+Fuentes y colores
+[Reset]
+Reiniciar
+[Export...]
+Exportar...
+[Color/background]
+Color/fondo
+[Text effect]
+Efecto de texto
+[Text color]
+Color de texto
+[Choose font]
+Elegir fuente
+[Menu objects]
+Objetos del menú
+[Menu items]
+Elementos del menú
+[Protocol menus]
+Menús protocolo
+[Move to the main menu]
+Mover al menú principal
+[Move to the status bar]
+Mover a la barra de estado
+[Warning!\r\nThis menu object not support user defined options.]
+¡Advertencia!\r\nEste menú objeto no admite opciones definidas por el usuario.
+[Insert separator]
+Insertar separador
+[Service:]
+Servicio:
+[Default]
+Por defecto
+[Set]
+Establecer
+[Show accounts in the following order,\ndrag to choose another order:]
+Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
+[Account order and visibility]
+Orden de cuenta y visibilidad
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
+[Key bindings]
+Atajos de teclado
+[Shortcut:]
+Atajo:
+[Add]
+Añadir
+[Remove]
+Eliminar
+[Undo changes]
+Deshacer cambios
+[Reset to default]
+Restaurar por defecto
+[Hotkeys]
+Teclas de acceso directo
+[Accounts]
+Cuentas
+[Configure your IM accounts]
+Configure sus cuentas de mensajería instantánea
+[Account information:]
+Información de la cuenta:
+[Additional:]
+Adicional:
+[Configure network...]
+Configurar red...
+[Get more protocols...]
+Obtener más protocolos...
+[&Add...]
+&Añadir...
+[&Edit]
+&Editar
+[&Options]
+&Opciones
+[&Upgrade]
+Act&ualizar
+[&Remove...]
+&Retirar...
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG se reinicia.\nPor favor espere...
+[Error console]
+Consola de errores
+[Error notifications]
+Notificaciones de error
+[Headers:]
+Cabeceras
+[This font is used to display main section titles or text elements.]
+Esta fuente se utiliza para mostrar secciones de títulos principales o elementos de texto.
+[Normal text:]
+Texto normal:
+[This font is used to display most text elements or section bodies.]
+Esta fuente se utiliza para mostrar más elementos de texto o sección de cuerpos.
+[Minor notes:]
+Notas menores:
+[This font is used to display various additional notes.]
+Esta fuente se utiliza para mostrar diferentes notas complementarias.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+¡Bienvenido al gestor de cuentas de Miranda NG!\nAquí usted puede configurar sus cuentas de mensajería instantánea.\n\nSeleccione una cuenta de la lista de la izquierda para ver las opciones disponibles. Alternativamente, haga clic en el signo más debajo de la lista para configurar una nueva cuenta de MI.
+[Event icon legend:]
+Leyenda de icono de evento:
+[Choose events you wish to ignore:]
+Seleccione los eventos que desea ignorar:
+[Font effect]
+Efecto de fuente
+[Effect:]
+Efecto:
+[Base color:]
+Color básico:
+[opacity:]
+opacidad:
+[Secondary color:]
+Color secundario:
+[Select the extra icons to be shown in the contact list:]
+Seleccione los iconos adicionales que se muestran en la lista de contactos:
+[*only the first %d icons will be shown]
+* sólo los primeros %d iconos se muestran
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
+[Contacts]
+Contactos
+[&Apply]
+&Aplicar
+[Last modified using:]
+Última modificación usando:
+[Locale:]
+Local
+[Reload langpack]
+Recargar langpack
+[Download more language packs]
+Descargar más paquetes de idioma
+[&Reset to default]
+Restablecer valores predeterminados
+[find/add]
+buscar/añadir
+[&Add to list]
+&Añadir a la lista
+[Send &message]
+Enviar mensaje
+[Open in &new window]
+Abrir en nueva ventana
+[&Open in existing window]
+Abrir en ventana existente
+[Cancel change]
+Cancelar cambio
+[Ungroup]
+Desagrupar
 [%s requests authorization]
 %s solicita autorización
 [%u requests authorization]
@@ -1859,22 +1859,40 @@ Propietario
 Ver/cambiar mis &datos...
 [%s is online]
 %s está en línea
-[All Files]
-Todos los archivos
-[Windows bitmaps]
-Mapas de bits de Windows
-[JPEG bitmaps]
-Mapas de bits JPEG
-[GIF bitmaps]
-Mapas de bits GIF
-[PNG bitmaps]
-Mapas de bits PNG
-[Account]
-Cuenta
 [Add %s]
 Añadir %s
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
+[&Join chat]
+&Entrar
+[%s has joined]
+%s se ha unido
+[You have joined %s]
+Te has unido a %s
+[%s has left]
+%s ha salido
+[%s has disconnected]
+%s se ha desconectado
+[%s is now known as %s]
+%s ahora se conoce como %s
+[You are now known as %s]
+Usted ahora se conoce como %s
+[%s kicked %s]
+%s sacado %s
+[Notice from %s: ]
+Aviso de %s:\s
+[The topic is '%s%s']
+El tema es '%s%s'
+[ (set by %s on %s)]
+ (establecido por %s el %s)
+[ (set by %s)]
+ (establecido por %s)
+[%s enables '%s' status for %s]
+%s habilitar '%s' de estado para %s
+[%s disables '%s' status for %s]
+%s deshabilitar '%s' de estado para %s
+[<invalid>]
+<inválido>
 [Others nicknames]
 Otros apodos
 [Your nickname]
@@ -1923,36 +1941,6 @@ El usuario ha cambiado de nombre
 El usuario ha enviado una notificación
 [The topic has been changed]
 El tema ha sido cambiado
-[&Join chat]
-&Entrar
-[%s has joined]
-%s se ha unido
-[You have joined %s]
-Te has unido a %s
-[%s has left]
-%s ha salido
-[%s has disconnected]
-%s se ha desconectado
-[%s is now known as %s]
-%s ahora se conoce como %s
-[You are now known as %s]
-Usted ahora se conoce como %s
-[%s kicked %s]
-%s sacado %s
-[Notice from %s: ]
-Aviso de %s:\s
-[The topic is '%s%s']
-El tema es '%s%s'
-[ (set by %s on %s)]
- (establecido por %s el %s)
-[ (set by %s)]
- (establecido por %s)
-[%s enables '%s' status for %s]
-%s habilitar '%s' de estado para %s
-[%s disables '%s' status for %s]
-%s deshabilitar '%s' de estado para %s
-[<invalid>]
-<inválido>
 [%s wants your attention in %s]
 %s quiere su atención en %s
 [%s speaks in %s]
@@ -2029,38 +2017,6 @@ Nombre Apellido
 '(Contacto desconocido)'
 [Contact names]
 Nombres de contacto
-[Menu icons]
-Iconos de menú
-[Menus]
-Menús
-[Customize]
-Personalizar
-[New group]
-Nuevo grupo
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-¿Eliminar el grupo '%s'? Esta operación no se puede deshacer.
-[Delete group]
-Eliminar grupo
-[You already have a group with that name. Please enter a unique name for the group.]
-Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusivo para el grupo.
-[Rename group]
-Renombrar grupo
-[This group]
-Este grupo
-[Show/Hide contact list]
-Mostrar/Ocultar lista de contactos
-[Read message]
-Leer mensaje
-[Open Options page]
-Abrir opciones de página
-[Open logging options]
-Abrir opciones de registro
-[Open 'Find user' dialog]
-Abrir diálogo 'Buscar usuario'
-[&Move to group]
-&Mover a grupo
-[<Root group>]
-<Grupo raíz>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2093,6 +2049,196 @@ Este cambio se sabe es son potencialmente peligroso.
 Este cambio no se sabe que es seguro
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
+[Chat activity]
+Actividad de chat
+[You haven't filled in the search field. Please enter a search term and try again.]
+No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
+[Search]
+Buscar
+[Results]
+Resultados
+[There are no results to display.]
+No hay resultados para mostrar.
+[Searching]
+Buscando
+[All networks]
+Todas las redes
+[Handle]
+Manejar
+[&Find/add contacts...]
+&Buscar/agregar contactos...
+[Failed to create file]
+No se pudo crear el archivo
+[<none>]
+<Nada>
+[Shadow at left]
+Sombra a la izquierda
+[Shadow at right]
+Sombra a la derecha
+[Outline]
+Perfil
+[Outline smooth]
+Perfil suavizado
+[Smooth bump]
+Golpe suavizado
+[Contour thin]
+Contorno delgado
+[Contour heavy]
+Contour pesado
+[Configuration files]
+Archivos de configuración
+[Text files]
+Archivos de texto
+[Error writing file]
+Error escribiendo archivo
+[Customize]
+Personalizar
+[Sample text]
+Texto de ejemplo
+[Fonts]
+Fuentes
+[Headers]
+Cabeceras
+[Generic text]
+Texto genérico
+[Small text]
+Texto pequeño
+[Menu icons]
+Iconos de menú
+[Menus]
+Menús
+[New group]
+Nuevo grupo
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+¿Eliminar el grupo '%s'? Esta operación no se puede deshacer.
+[Delete group]
+Eliminar grupo
+[You already have a group with that name. Please enter a unique name for the group.]
+Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusivo para el grupo.
+[Rename group]
+Renombrar grupo
+[This group]
+Este grupo
+[Ctrl + ]
+Ctrl +\s
+[Alt + ]
+Alt +\s
+[Shift + ]
+Shift +\s
+[Win + ]
+Win +\s
+[Remove shortcut]
+Eliminar atajo
+[Add another shortcut]
+Añadir otro atajo
+[Scope:]
+Alcance:
+[System]
+Sistema
+[Actions:]
+Acciones:
+[Add binding]
+Añadir enlace
+[Modify]
+Modificar
+[System scope]
+Alcanse de sistema
+[Miranda scope]
+Alcanse de Miranda
+[** All contacts **]
+** Todos los contactos **
+[Show/Hide contact list]
+Mostrar/Ocultar lista de contactos
+[Read message]
+Leer mensaje
+[Open Options page]
+Abrir opciones de página
+[Open logging options]
+Abrir opciones de registro
+[Open 'Find user' dialog]
+Abrir diálogo 'Buscar usuario'
+[(incompatible)]
+(incompatible)
+[Unknown]
+Desconocido
+[built-in]
+construido
+[Languages]
+Idiomas
+[Protocol]
+Protocolo
+[Edit]
+Editar
+[Sender]
+Remitente
+[&Move to group]
+&Mover a grupo
+[<Root group>]
+<Grupo raíz>
+[Standard netlib log]
+Registro netlib estándar
+[No times]
+No hay tiempos
+[Standard hh:mm:ss times]
+Estándar hh:mm:ss veces
+[Times in milliseconds]
+Tiempos en milisegundos
+[Times in microseconds]
+Tiempos en microsegundos
+[(Miranda core logging)]
+(Miranda nucleo de inicio de seción)
+[Select where log file will be created]
+Seleccione el archivo de registro que se creará
+[Select program to be run]
+Seleccione el programa a ser ejecutado
+[<All connections>]
+<Todas las conexiones>
+[Network]
+Red
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
+['%s' is disabled, re-enable?]
+'%s' está deshabilitado, ¿volver a activar?
+[Re-enable Miranda plugin?]
+Volver a activar el plugin de Miranda?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Módulo básico '%s' no se puede cargar o falta.
+[Fatal error]
+Error fatal
+[Unable to load plugin in service mode!]
+¡No se pueden cargar plugins en el modo de servicio!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
+[<all modules>]
+<todos los módulos>
+[<core modules>]
+<módulos básicos>
+[Loading... %d%%]
+Cargando... %d%%
+[%s options]
+%s opciones
+[Miranda NG options]
+Miranda NG opciones
+[&Options...]
+&Opciones
+[Extra icons]
+Iconos adicionales
+[Avatars]
+Avatares
+[Avatars root folder]
+Carpeta raíz de avatares
+[Plugin]
+Plugin
+[Version]
+Versión
+[Miranda NG must be restarted to apply changes for these plugins:]
+Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
+[Do you want to restart it now?]
+¿Desea reiniciar ahora?
+[Plugins]
+Plugins
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.
 [The profile already exists]
@@ -2125,150 +2271,6 @@ Modificado
 Mis perfiles
 [New profile]
 Nuevo perfil
-[Chat activity]
-Actividad de chat
-[Extra icons]
-Iconos adicionales
-[You haven't filled in the search field. Please enter a search term and try again.]
-No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
-[Search]
-Buscar
-[Results]
-Resultados
-[There are no results to display.]
-No hay resultados para mostrar.
-[Searching]
-Buscando
-[All networks]
-Todas las redes
-[Handle]
-Manejar
-[&Find/add contacts...]
-&Buscar/agregar contactos...
-[Could not start a search on '%s', there was a problem - is %s connected?]
-No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
-[Could not search on any of the protocols, are you online?]
-No se pudo buscar en ninguno de los protocolos, ¿esta usted en línea?
-[Problem with search]
-Problema con la búsqueda
-[1 %s user found]
-1 %s usuario encontrado
-[%d %s users found]
-%d %s usuarios encontrados
-[%d users found (]
-%d usuarios encontrados (
-[No users found]
-Ningún usuario encontrado
-[Failed to create file]
-No se pudo crear el archivo
-[<none>]
-<Nada>
-[Shadow at left]
-Sombra a la izquierda
-[Shadow at right]
-Sombra a la derecha
-[Outline]
-Perfil
-[Outline smooth]
-Perfil suavizado
-[Smooth bump]
-Golpe suavizado
-[Contour thin]
-Contorno delgado
-[Contour heavy]
-Contour pesado
-[Configuration files]
-Archivos de configuración
-[Text files]
-Archivos de texto
-[Error writing file]
-Error escribiendo archivo
-[Sample text]
-Texto de ejemplo
-[Fonts]
-Fuentes
-[Headers]
-Cabeceras
-[Generic text]
-Texto genérico
-[Small text]
-Texto pequeño
-[Icon sets]
-Conjuntos de iconos
-[** All contacts **]
-** Todos los contactos **
-[(incompatible)]
-(incompatible)
-[Unknown]
-Desconocido
-[built-in]
-construido
-[Languages]
-Idiomas
-[Protocol]
-Protocolo
-[Edit]
-Editar
-[Sender]
-Remitente
-[Standard netlib log]
-Registro netlib estándar
-[No times]
-No hay tiempos
-[Standard hh:mm:ss times]
-Estándar hh:mm:ss veces
-[Times in milliseconds]
-Tiempos en milisegundos
-[Times in microseconds]
-Tiempos en microsegundos
-[(Miranda core logging)]
-(Miranda nucleo de inicio de seción)
-[Select where log file will be created]
-Seleccione el archivo de registro que se creará
-[Select program to be run]
-Seleccione el programa a ser ejecutado
-[<All connections>]
-<Todas las conexiones>
-[Network]
-Red
-[<all modules>]
-<todos los módulos>
-[<core modules>]
-<módulos básicos>
-[Loading... %d%%]
-Cargando... %d%%
-[%s options]
-%s opciones
-[Miranda NG options]
-Miranda NG opciones
-[&Options...]
-&Opciones
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' está deshabilitado, ¿volver a activar?
-[Re-enable Miranda plugin?]
-Volver a activar el plugin de Miranda?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Módulo básico '%s' no se puede cargar o falta.
-[Fatal error]
-Error fatal
-[Unable to load plugin in service mode!]
-¡No se pueden cargar plugins en el modo de servicio!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
-[Plugin]
-Plugin
-[Version]
-Versión
-[Miranda NG must be restarted to apply changes for these plugins:]
-Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
-[Do you want to restart it now?]
-¿Desea reiniciar ahora?
-[Plugins]
-Plugins
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ¡ADVERTENCIA! La cuenta se va a eliminar. Esto significa que todos sus ajustes, contactos y las historias serán también borrados.\n\n¿Estás absolutamente seguro?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2317,32 +2319,22 @@ La cuenta %s se está borrando
 Es necesario desactivar plugin para eliminar esta cuenta
 [&Accounts...]
 &Cuentas...
-[Ctrl + ]
-Ctrl +\s
-[Alt + ]
-Alt +\s
-[Shift + ]
-Shift +\s
-[Win + ]
-Win +\s
-[Remove shortcut]
-Eliminar atajo
-[Add another shortcut]
-Añadir otro atajo
-[Scope:]
-Alcance:
-[System]
-Sistema
-[Actions:]
-Acciones:
-[Add binding]
-Añadir enlace
-[Modify]
-Modificar
-[System scope]
-Alcanse de sistema
-[Miranda scope]
-Alcanse de Miranda
+[Could not start a search on '%s', there was a problem - is %s connected?]
+No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
+[Could not search on any of the protocols, are you online?]
+No se pudo buscar en ninguno de los protocolos, ¿esta usted en línea?
+[Problem with search]
+Problema con la búsqueda
+[1 %s user found]
+1 %s usuario encontrado
+[%d %s users found]
+%d %s usuarios encontrados
+[%d users found (]
+%d usuarios encontrados (
+[No users found]
+Ningún usuario encontrado
+[Icon sets]
+Conjuntos de iconos
 [User online]
 Usuario en línea
 [Group (open)]
@@ -2425,10 +2417,6 @@ Iconos principales
 Archivos de sonido
 [WAV files]
 Archivos WAV
-[Avatars]
-Avatares
-[Avatars root folder]
-Carpeta raíz de avatares
 [<unspecified>]
 <Sin especificar>
 [Unspecified]
@@ -2931,3 +2919,15 @@ Yemen
 Zambia
 [Zimbabwe]
 Zimbabue
+[All Files]
+Todos los archivos
+[Windows bitmaps]
+Mapas de bits de Windows
+[JPEG bitmaps]
+Mapas de bits JPEG
+[GIF bitmaps]
+Mapas de bits GIF
+[PNG bitmaps]
+Mapas de bits PNG
+[Account]
+Cuenta

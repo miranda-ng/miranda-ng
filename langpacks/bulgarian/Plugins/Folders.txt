@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 [Custom folders]

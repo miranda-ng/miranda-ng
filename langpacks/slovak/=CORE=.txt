@@ -3,234 +3,12 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-[Cancel]
-Storno
 [Authorization request]
 Požiadavka na autorizáciu
-[Delete contact]
-Zmazať kontakt
-[&Yes]
-Áno
-[&No]
-Nie
-[Find/add contacts]
-Nájsť/Pridať kontakt
-[E-mail address]
-E-mailová adresa
-[Name]
-Meno
-[Nick:]
-Prezívka:
-[First:]
-Meno:
-[Last:]
-Priezvisko:
-[Advanced]
-Podrobne
-[Advanced >>]
-Podrobne >>
-[&Search]
-Hľadať
-[More options]
-Ďalšie nastavenia
-[Add to list]
-Pridať do zoznamu
-[Apply]
-Aplikovať
-[Please select a subentry from the list]
-Prosím vyberte zo zoznamu jednu z podkategórií
-[Install database settings]
-Aplikovať nastavenia databázy
-[Yes]
-Áno
-[No]
-Nie
-[Do you want to import the settings now?]
-Chcete importovať nastavenia?
-[No to all]
-Nie pre všetko
-[&View contents]
-Zobraziť obsah
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
-[Database setting change]
-Zmena nastavenia databázy
-[Database settings are being imported from]
-Nastavenie databázy je importované z
-[This file wishes to change the setting]
-Tento súbor zmení nastavenie
-[to the value]
-hodnotu
-[Do you want to allow this change?]
-Prajete si umožniť túto zmenu?
-[&Allow all further changes to this section]
-Umožniť všetky budúce zmeny v tejto sekcii
-[Cancel import]
-Zrušiť importovanie
-[Database import complete]
-Databáza kompletne importovaná
-[The import has completed from]
-Import je kompletný z
-[What do you want to do with the file now?]
-Čo ďalej robiť so súborom?
-[&Recycle]
-Recyklovať
-[&Delete]
-Vymazať
-[&Move/Rename]
-Presunúť/Premenovať
-[&Leave]
-Opustiť
-[Show]
-Zobraziť
-[OutputDebugString()]
-OutputDebugString()
-[File]
-Súbor
-[Sounds]
-Zvuky
-[&Change...]
-Zmeniť...
-[&Preview]
-Prehrať
-[Download more sounds]
-Stiahnuť viac zvukov
-[Icons]
-Ikony
-[Show category:]
-Kategória:
-[&Load icon set...]
-Načítať súbor ikon...
-[&Import icons >>]
-Importovať ikony >>
-[Download more icons]
-Stiahnuť viac ikon
-[The following events are being ignored:]
-Nasledujúce udalosti budú ignorované:
-[None]
-Žiadne
-[Only the ticked contacts will be shown on the main contact list]
-V zozname kontaktov budú iba označené kontakty
-[Ignore]
-Ignorovať
-[Visibility]
-Viditeľnosť
-[You are visible to this person even when in invisible mode]
-Pre túto osobu ste viditelný pokiaľ neprejdete do stavu "Neviditelný"
-[You are never visible to this person]
-Pre túto osobu ste VŽDY neviditelný
-[Icon index]
-Zoznam ikon
-[Icon library:]
-Knižnica ikon:
-[Drag icons to main list to assign them:]
-Pretiahnite ikony do hlavného zoznamu a priraďte ich:
-[Import multiple]
-Importovať viac ikon
-[To main icons]
-Medzi moje ikony
-[To]
-Do
-[<< &Import]
-Importovať
-[Outgoing connections]
-Odchádzajúce pripojenia
-[Use proxy server]
-Použi proxy server
-[Type:]
-Typ:
-[Host:]
-Server:
-[Port:]
-Port:
-[(often %d)]
-(asi %d)
-[Username:]
-Užív. meno:
-[Password:]
-Heslo:
-[Resolve hostnames through proxy]
-Resolvuj mená cez proxy
-[Example: 1050-1070, 2000-2010, 2500]
-Napr: 1050-1070, 2000-2010, 2500
-[Incoming connections]
-Prichádzajúce pripojenia
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
-[Download more plugins]
-Získať ďalšie plug-iny
-[Description:]
-Popis:
-[E-mail:]
-E-mail:
-[Homepage:]
-WWW:
-[Copyright:]
-Copyright:
-[Undo]
-Späť
-[Reset]
-Reset
-[Text color]
-Fraba textu
-[Default]
-Prednastavené
-[Hotkeys]
-Klávesové skratky
-[Contacts]
-Kontakty
-[Contact list]
-Zoznam kontaktov
-[Date:]
-Dátum:
-[&Hide/Show]
-Skryť/Zobraziť
-[E&xit]
-Koniec
-[&New group]
-Nová skupina
-[&Hide offline users]
-Skryť nepripojených užívatelov
-[Hide &offline users out here]
-Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &empty groups]
-Skryť prázdne skupiny
-[Disable &groups]
-Skryť názvy skupín
-[&New subgroup]
-Nová podskupina
-[&Hide offline users in here]
-Skryť nepripojených užívatelov v tejto skupine
-[&Rename group]
-Premenovať skupinu
-[&Delete group]
-Zmazať skupinu
-[&Reset to default]
-Vrátiť sa k pôvodnemu nastaveniu
-[&Add to list]
-Pridať do zoznamu
-[User &details]
-Informácie o užívatelovi
-[Send &message]
-Odoslať správu
-[Log]
-Log
-[&Copy]
-Kopírovať
-[Co&py all]
-Kopírovať všetko
-[Select &all]
-Vybrať všetko
-[C&lear log]
-Odstrániť záznamy v Logu
-[Open in &new window]
-Otvoriť v novom okne
-[&Open in existing window]
-Otvoriť v tomto okne
-[&Copy link]
-Kopírovať odkaz
 [&Authorize]
 Autorizovať
+[User &details]
+Informácie o užívatelovi
 [Reason:]
 Dôvod:
 [You were added]
@@ -267,6 +45,20 @@ Pozadie
 Zoznam
 [&Message]
 &Správa
+[Log]
+Log
+[Co&py all]
+Kopírovať všetko
+[&Copy link]
+Kopírovať odkaz
+[Undo]
+Späť
+[Delete contact]
+Zmazať kontakt
+[No]
+Nie
+[Yes]
+Áno
 [Hide offline users]
 Skryť nepripojených užívateľov
 [Hide empty groups]
@@ -279,6 +71,8 @@ Triediť kontakty podľa mena
 Triediť kontakty podľa stavu
 [Single click interface]
 Nepoužívať dvojklik myšou
+[Show]
+Zobraziť
 [Cycle icons every]
 Cyklovať každú ikonu
 [seconds, when statuses differ]
@@ -287,6 +81,8 @@ sekund, ked su stavy rozdielne
 Zobraziť mnohonásobné ikony
 [Only when statuses differ]
 Iba pri rozdielnych stavoch
+[Contact list]
+Zoznam kontaktov
 [System tray icon]
 Ikona v oznamovacej oblasti
 [System tray icon when using multiple protocols]
@@ -405,6 +201,8 @@ Zobraziť stavový text
 Pravé tlačítko myši otvára stavové menu
 [Make sections equal width]
 Rovnaká šírka oddielov
+[E&xit]
+Koniec
 [&Status]
 Stav
 [&Offline\tCtrl+0]
@@ -427,8 +225,30 @@ Neviditelný
 Telefonujem
 [Out to &lunch\tCtrl+9]
 Na obede
+[&Hide/Show]
+Skryť/Zobraziť
+[&New group]
+Nová skupina
+[&Hide offline users]
+Skryť nepripojených užívatelov
+[Hide &offline users out here]
+Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
+[Hide &empty groups]
+Skryť prázdne skupiny
+[Disable &groups]
+Skryť názvy skupín
+[&New subgroup]
+Nová podskupina
+[&Hide offline users in here]
+Skryť nepripojených užívatelov v tejto skupine
+[&Rename group]
+Premenovať skupinu
+[&Delete group]
+Zmazať skupinu
 [Send file(s)]
 Odoslať súbor(y)
+[Cancel]
+Storno
 [To:]
 Pre:
 [File(s):]
@@ -437,6 +257,8 @@ Súbor(y):
 Znovu vybrať
 [Total size:]
 Celková veľkosť:
+[Description:]
+Popis:
 [Incoming file transfer]
 Príchádzajúci súbor
 [A&ccept]
@@ -445,6 +267,8 @@ Prijať
 Odmietnúť
 [From:]
 Od:
+[Date:]
+Dátum:
 [Files:]
 Súbory:
 [Save to:]
@@ -475,6 +299,8 @@ Súbor existuje
 Veľkosť:
 [Last modified:]
 Posledná modifikácia:
+[Type:]
+Typ:
 [Open file]
 Otvoriť súbor
 [Open folder]
@@ -547,6 +373,12 @@ Nahrať počet posledných udalostí
 Nahrať iba udalosti, ktoré sú menšie než
 [minutes old]
 minút staré
+[C&lear log]
+Odstrániť záznamy v Logu
+[&Copy]
+Kopírovať
+[Select &all]
+Vybrať všetko
 [Find]
 Hľadať
 [&Find next]
@@ -583,6 +415,8 @@ Pohlavie:
 Priezvisko:
 [Age:]
 Vek:
+[E-mail:]
+E-mail:
 [Date of birth:]
 Dátum narodenia:
 [Phone:]
@@ -621,6 +455,172 @@ Oddelenie:
 Pozícia:
 [Website:]
 WWW stránky:
+[&Yes]
+Áno
+[&No]
+Nie
+[Find/add contacts]
+Nájsť/Pridať kontakt
+[E-mail address]
+E-mailová adresa
+[Name]
+Meno
+[Nick:]
+Prezívka:
+[First:]
+Meno:
+[Last:]
+Priezvisko:
+[Advanced]
+Podrobne
+[Advanced >>]
+Podrobne >>
+[&Search]
+Hľadať
+[More options]
+Ďalšie nastavenia
+[Add to list]
+Pridať do zoznamu
+[Apply]
+Aplikovať
+[Please select a subentry from the list]
+Prosím vyberte zo zoznamu jednu z podkategórií
+[Install database settings]
+Aplikovať nastavenia databázy
+[Do you want to import the settings now?]
+Chcete importovať nastavenia?
+[No to all]
+Nie pre všetko
+[&View contents]
+Zobraziť obsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Bezpečnostný systém sa zmení, budete varovaný pred nebezpečiami.
+[Database setting change]
+Zmena nastavenia databázy
+[Database settings are being imported from]
+Nastavenie databázy je importované z
+[This file wishes to change the setting]
+Tento súbor zmení nastavenie
+[to the value]
+hodnotu
+[Do you want to allow this change?]
+Prajete si umožniť túto zmenu?
+[&Allow all further changes to this section]
+Umožniť všetky budúce zmeny v tejto sekcii
+[Cancel import]
+Zrušiť importovanie
+[Database import complete]
+Databáza kompletne importovaná
+[The import has completed from]
+Import je kompletný z
+[What do you want to do with the file now?]
+Čo ďalej robiť so súborom?
+[&Recycle]
+Recyklovať
+[&Delete]
+Vymazať
+[&Move/Rename]
+Presunúť/Premenovať
+[&Leave]
+Opustiť
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Súbor
+[Sounds]
+Zvuky
+[&Change...]
+Zmeniť...
+[&Preview]
+Prehrať
+[Download more sounds]
+Stiahnuť viac zvukov
+[Icons]
+Ikony
+[Show category:]
+Kategória:
+[&Load icon set...]
+Načítať súbor ikon...
+[&Import icons >>]
+Importovať ikony >>
+[Download more icons]
+Stiahnuť viac ikon
+[The following events are being ignored:]
+Nasledujúce udalosti budú ignorované:
+[None]
+Žiadne
+[Only the ticked contacts will be shown on the main contact list]
+V zozname kontaktov budú iba označené kontakty
+[Ignore]
+Ignorovať
+[Visibility]
+Viditeľnosť
+[You are visible to this person even when in invisible mode]
+Pre túto osobu ste viditelný pokiaľ neprejdete do stavu "Neviditelný"
+[You are never visible to this person]
+Pre túto osobu ste VŽDY neviditelný
+[Icon index]
+Zoznam ikon
+[Icon library:]
+Knižnica ikon:
+[Drag icons to main list to assign them:]
+Pretiahnite ikony do hlavného zoznamu a priraďte ich:
+[Import multiple]
+Importovať viac ikon
+[To main icons]
+Medzi moje ikony
+[To]
+Do
+[<< &Import]
+Importovať
+[Outgoing connections]
+Odchádzajúce pripojenia
+[Use proxy server]
+Použi proxy server
+[Host:]
+Server:
+[Port:]
+Port:
+[(often %d)]
+(asi %d)
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[Resolve hostnames through proxy]
+Resolvuj mená cez proxy
+[Example: 1050-1070, 2000-2010, 2500]
+Napr: 1050-1070, 2000-2010, 2500
+[Incoming connections]
+Prichádzajúce pripojenia
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
+[Download more plugins]
+Získať ďalšie plug-iny
+[Homepage:]
+WWW:
+[Copyright:]
+Copyright:
+[Reset]
+Reset
+[Text color]
+Fraba textu
+[Default]
+Prednastavené
+[Hotkeys]
+Klávesové skratky
+[Contacts]
+Kontakty
+[&Reset to default]
+Vrátiť sa k pôvodnemu nastaveniu
+[&Add to list]
+Pridať do zoznamu
+[Send &message]
+Odoslať správu
+[Open in &new window]
+Otvoriť v novom okne
+[&Open in existing window]
+Otvoriť v tomto okne
 [View user's details]
 Zobraziť informácie o užívatelovi
 [Add contact permanently to list]
@@ -811,14 +811,6 @@ Poznámky
 Zobraziť/Zmeniť moje informácie...
 [%s is online]
 %s je pripojený
-[All Files]
-Všetky súbory
-[Windows bitmaps]
-Windows obrázky
-[JPEG bitmaps]
-JPEG obrázky
-[GIF bitmaps]
-GIF obrázky
 [Status menu]
 Menu stavov
 [Connecting]
@@ -851,14 +843,6 @@ Meno Priezvisko
 '(neznámý kontakt)' (nepresúvatelné)
 [Contact names]
 Mená kontaktov
-[New group]
-Nová skupina
-[You already have a group with that name. Please enter a unique name for the group.]
-Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
-[Rename group]
-Premenovať skupinu
-[This group]
-Táto skupina
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Bezpečnostný systém zmien je zapojený a budete varovaný pred každou zmenou.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -871,8 +855,6 @@ Táto zmena je bezpečná.
 Táto zmena je potencialne nebezpečná.
 [This change is not known to be safe.]
 Táto zmena je nebezpečná.
-[Size]
-Veľkosť
 [You haven't filled in the search field. Please enter a search term and try again.]
 Vyhľadávacie pole nesmie byť prázdne. Prosím zadajte hľadaný výraz a skúste to znovu.
 [Search]
@@ -889,22 +871,20 @@ Všetky siete
 Hlavička
 [&Find/add contacts...]
 Nájsť/Pridať kontakty...
-[1 %s user found]
-1 %s užívatel nájdený
-[%d %s users found]
-Nájdených %d %s užívatelov.
-[%d users found (]
-Nájdených %d užívatelov
-[No users found]
-Nenájdený užívatelia
 [<none>]
 <nič>
 [Sample text]
 Vzorový text
 [Fonts]
 Písmo
-[Icon sets]
-Súbor ikon
+[New group]
+Nová skupina
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina s týmto menom už existuje. Zadajte prosím nové unikátne meno pre túto skupinu.
+[Rename group]
+Premenovať skupinu
+[This group]
+Táto skupina
 [** All contacts **]
 ** Všetky kontakty **
 [Unknown]
@@ -917,8 +897,20 @@ Všetky pripojenia
 Sieť
 [&Options...]
 Nastavenia...
+[Size]
+Veľkosť
 [Configure]
 Konfigurovať
+[1 %s user found]
+1 %s užívatel nájdený
+[%d %s users found]
+Nájdených %d %s užívatelov.
+[%d users found (]
+Nájdených %d užívatelov
+[No users found]
+Nenájdený užívatelia
+[Icon sets]
+Súbor ikon
 [User online]
 Pripojený užívatel
 [Group (open)]
@@ -933,3 +925,11 @@ Varovanie
 %s ikon
 [Main icons]
 Moje ikony
+[All Files]
+Všetky súbory
+[Windows bitmaps]
+Windows obrázky
+[JPEG bitmaps]
+JPEG obrázky
+[GIF bitmaps]
+GIF obrázky
