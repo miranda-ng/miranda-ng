@@ -2,12 +2,16 @@
 #define _COMMON_H_
 
 #include <windows.h>
+#include <commctrl.h>
 
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_langpack.h>
 #include <m_database.h>
+#include <m_options.h>
+#include <m_gui.h>
+
 #include <m_clist.h>
 #include <m_genmenu.h>
 #include <m_icolib.h>
@@ -29,10 +33,14 @@ extern "C"
 class CMLua;
 
 #include "mlua.h"
+#include "mlua_options.h"
 
 #define MODULE "MirLua"
 
 extern HINSTANCE g_hInstance;
+
+extern HANDLE g_hCommonFolderPath;
+extern HANDLE g_hCustomFolderPath;
 
 #ifdef _UNICODE
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATHW L"\\Scripts"
