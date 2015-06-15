@@ -324,41 +324,41 @@ void InitTrayMenus(void)
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.pszName = LPGEN("E&xit");
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 100000;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.pszName = LPGEN("&Hide/show");
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	hTrayHideShowMainMenuItem = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 200000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
 	mi.pszName = LPGEN("&Find/add contacts...");
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 300000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszService = "FakeService_1";
 	mi.pszName = LPGEN("&Main menu");
 	hTrayMainMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 300100;
 	mi.pszService = "FakeService_2";
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS); // eternity #004
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
 	mi.pszName = LPGEN("&Status");
 	hTrayStatusMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 400000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
 	mi.pszName = LPGEN("&Options...");
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 500000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "Help/AboutCommand";
 	mi.pszName = LPGEN("&About");
 	Menu_AddTrayMenuItem(&mi);

@@ -218,8 +218,8 @@ int LoadCLCModule(void)
 {
 	bModuleInitialized = true;
 
-	g_IconWidth = GetSystemMetrics(SM_CXSMICON);
-	g_IconHeight = GetSystemMetrics(SM_CYSMICON);
+	g_IconWidth = g_iIconSX;
+	g_IconHeight = g_iIconSY;
 
 	hClcWindowList = WindowList_Create();
 	hShowInfoTipEvent = CreateHookableEvent(ME_CLC_SHOWINFOTIP);

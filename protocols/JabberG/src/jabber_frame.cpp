@@ -106,7 +106,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 		UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
 
 		CreateInfoItem("$/JID", true);
-		UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
+		UpdateInfoItem("$/JID", Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
 		SetInfoItemCallback("$/JID", &CJabberProto::InfoFrame_OnSetup);
 	}
 }

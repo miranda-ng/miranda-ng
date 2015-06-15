@@ -375,9 +375,9 @@ void CToxOptionsNodeList::OnInitDialog()
 	m_nodes.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
 
 	HIMAGELIST hImageList = m_nodes.CreateImageList(LVSIL_SMALL);
-	HICON icon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+	HICON icon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 	ImageList_AddIcon(hImageList, icon); IcoLib_ReleaseIcon(icon);
-	icon = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+	icon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 	ImageList_AddIcon(hImageList, icon); IcoLib_ReleaseIcon(icon);
 
 	m_nodes.AddColumn(0, _T("IPv4"), 100);

@@ -185,7 +185,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 	}
 
 	if (hIcon == NULL)
-		hIcon = LoadSkinnedProtoIcon(xsc->szProto, db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_ONLINE));
+		hIcon = Skin_LoadProtoIcon(xsc->szProto, db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_ONLINE));
 
 	// cut message if needed
 	TCHAR *copyText = NULL;
@@ -248,7 +248,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	}
 
 	if (hIcon == NULL)
-		hIcon = LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
+		hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 
 	BlinkIcon(xsc->hContact, hIcon, str);
 	mir_free(str);

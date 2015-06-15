@@ -94,8 +94,8 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 		hList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, STATUS_COUNT - 1, 0);
 		if (hList != NULL) {
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-				ImageList_AddIcon(hList, LoadSkinnedProtoIcon(szProto, i));
-			ImageList_AddIcon(hList, LoadSkinnedIcon(SKINICON_OTHER_USERONLINE));
+				ImageList_AddIcon(hList, Skin_LoadProtoIcon(szProto, i));
+			ImageList_AddIcon(hList, Skin_LoadIcon(SKINICON_OTHER_USERONLINE));
 		}
 	}
 
@@ -443,7 +443,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		ImageList_AddIcon(hImageList, LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLEALL)));
 		SendDlgItemMessage(hwndDlg, IDC_ENABLEALLICON, STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_ENABLEALL, ILD_NORMAL), 0);
 
-		ImageList_AddIcon(hImageList, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+		ImageList_AddIcon(hImageList, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 
 		SendDlgItemMessage(hwndDlg, IDC_INDSNDLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hImageList);
 		SendDlgItemMessage(hwndDlg, IDC_INDSNDLIST, CLM_SETEXTRACOLUMNS, 8, 0);

@@ -244,7 +244,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 				cle.flags = CLEF_TCHAR;
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
-				cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMS);
+				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 				cle.pszService = szServiceFunction;
 				cle.ptszTooltip = szToolTip;
 				CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);

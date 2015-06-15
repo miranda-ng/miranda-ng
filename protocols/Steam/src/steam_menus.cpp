@@ -147,7 +147,7 @@ void CSteamProto::InitMenus()
 	mi.pszService = MODULE "/AuthRequest";
 	mi.ptszName = LPGENT("Request authorization");
 	mi.position = -201001000 + CMI_AUTH_REQUEST;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRequestCommand>);
 
@@ -155,7 +155,7 @@ void CSteamProto::InitMenus()
 	mi.pszService = MODULE "/Block";
 	mi.ptszName = LPGENT("Block");
 	mi.position = -201001001 + CMI_BLOCK;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::BlockCommand>);
 

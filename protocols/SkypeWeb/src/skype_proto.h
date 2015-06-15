@@ -152,7 +152,7 @@ private:
 	// icons
 	static IconInfo Icons[];
 	static HANDLE GetIconHandle(const char *name);
-	static HANDLE GetSkinIconHandle(const char *name);
+	static HANDLE Skin_GetIconHandle(const char *name);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];

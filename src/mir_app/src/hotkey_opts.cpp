@@ -487,19 +487,19 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			RECT rc;
 			GetClientRect(hwndHotkey, &rc);
-			colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3 * GetSystemMetrics(SM_CXSMICON) - 5;
+			colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3 * g_iIconSX - 5;
 
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_WIDTH;
 			lvc.cx = colWidth * 2 / 3;
 			ListView_InsertColumn(hwndHotkey, COL_NAME, &lvc);
-			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			lvc.cx = g_iIconSX;
 			ListView_InsertColumn(hwndHotkey, COL_TYPE, &lvc);
 			lvc.cx = colWidth / 3;
 			ListView_InsertColumn(hwndHotkey, COL_KEY, &lvc);
-			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			lvc.cx = g_iIconSX;
 			ListView_InsertColumn(hwndHotkey, COL_RESET, &lvc);
-			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			lvc.cx = g_iIconSX;
 			ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
 
 			for (int i = 0; i < hotkeys.getCount(); i++) {

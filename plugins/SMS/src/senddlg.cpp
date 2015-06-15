@@ -86,15 +86,15 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		
 		mir_subclassWindow(GetDlgItem(hWndDlg, IDC_MESSAGE), MessageSubclassProc);
 
-		SendMessage(hWndDlg,WM_SETICON,ICON_BIG,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_SMS));
-		SendDlgItemMessage(hWndDlg,IDC_HISTORY,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
+		SendMessage(hWndDlg,WM_SETICON,ICON_BIG,(LPARAM)Skin_LoadIcon(SKINICON_OTHER_SMS));
+		SendDlgItemMessage(hWndDlg,IDC_HISTORY,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY));
 		{
 			HICON hIcon;
 			HIMAGELIST hIml=ImageList_Create(16,16,ILC_COLOR32|ILC_MASK,0,30);
 			TreeView_SetImageList(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),hIml,TVSIL_NORMAL);	
-			hIcon=LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
+			hIcon=Skin_LoadIcon(SKINICON_OTHER_NOTICK);
 			ImageList_AddIcon(hIml,hIcon);
-			hIcon=LoadSkinnedIcon(SKINICON_OTHER_TICK);
+			hIcon=Skin_LoadIcon(SKINICON_OTHER_TICK);
 			ImageList_AddIcon(hIml,hIcon);
 			hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDI_HALFTICK),IMAGE_ICON,0,0,LR_SHARED);
 			ImageList_AddIcon(hIml,hIcon);

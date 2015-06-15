@@ -201,7 +201,7 @@ void CVkProto::InitMenus()
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_CREATECHAT);
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_CREATECHAT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
 	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
 
@@ -398,7 +398,7 @@ void CVkProto::InitPopups(void)
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = LoadSkinnedIcon(SKINICON_ERROR);
+	ppc.hIcon = Skin_LoadIcon(SKINICON_ERROR);
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;

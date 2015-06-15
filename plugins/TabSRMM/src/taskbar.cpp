@@ -678,9 +678,9 @@ void CThumbBase::renderBase()
 			}
 		}
 		else {
-			hIcon = reinterpret_cast<HICON>(LoadSkinnedProtoIconBig(m_dat->cache->getActiveProto(), m_dat->cache->getActiveStatus()));
+			hIcon = reinterpret_cast<HICON>(Skin_LoadProtoIcon(m_dat->cache->getActiveProto(), m_dat->cache->getActiveStatus(), true));
 			if (0 == hIcon || reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) == hIcon) {
-				hIcon = reinterpret_cast<HICON>(LoadSkinnedProtoIcon(m_dat->cache->getActiveProto(), m_dat->cache->getActiveStatus()));
+				hIcon = reinterpret_cast<HICON>(Skin_LoadProtoIcon(m_dat->cache->getActiveProto(), m_dat->cache->getActiveStatus()));
 				lIconSize = 16;
 			}
 		}

@@ -614,7 +614,7 @@ HICON EventList::GetEventCoreIcon(const EventIndex& ev)
 		return NULL;
 	
 	HICON ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&gdbei);
-	HICON icoMsg = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	HICON icoMsg = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	if (icoMsg == ico)
 		return NULL;
 

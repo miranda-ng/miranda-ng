@@ -630,7 +630,7 @@ int LoadUserInfoModule(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000050000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_USERDETAILS);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.pszName = LPGEN("User &details");
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	Menu_AddContactMenuItem(&mi);

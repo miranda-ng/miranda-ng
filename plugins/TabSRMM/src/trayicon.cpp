@@ -212,7 +212,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 		return;
 
 	if (hIcon == 0)
-		hIcon = LoadSkinnedProtoIcon(szProto, wStatus);
+		hIcon = Skin_LoadProtoIcon(szProto, wStatus);
 
 	PROTOACCOUNT *acc = ProtoGetAccount(szProto);
 	if (acc && acc->tszAccountName) {

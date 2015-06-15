@@ -644,7 +644,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			int i;
 			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				HICON hIcon = LoadSkinnedProtoIcon(NULL, i);
+				HICON hIcon = Skin_LoadProtoIcon(NULL, i);
 				ImageList_AddIcon(himlViewModes, hIcon);
 				IcoLib_ReleaseIcon(hIcon);
 			}
@@ -1199,7 +1199,7 @@ void CreateViewModeFrame()
 	CLISTFrame frame = { 0 };
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
-	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
 	frame.TBtname = TranslateT("View modes");
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;

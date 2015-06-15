@@ -610,7 +610,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dbces.lParam = (LPARAM)hwndDlg;
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
-		SendDlgItemMessage(hwndDlg, IDC_REMUSER, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
+		SendDlgItemMessage(hwndDlg, IDC_REMUSER, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_OTHER_DELETE));
 
 		mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
 		SetDlgItemTextA(hwndDlg, IDC_FILESSHOULDBE, inipath);
@@ -762,7 +762,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		//gamelist füllen
 		SendMessage(hwndDlg, WM_FILLGAMELIST, 0, 0);
 
-		//SendDlgItemMessage(hwndDlg, IDC_CREATETXTLIST), BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
+		//SendDlgItemMessage(hwndDlg, IDC_CREATETXTLIST), BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
 
 		return TRUE;
 	}

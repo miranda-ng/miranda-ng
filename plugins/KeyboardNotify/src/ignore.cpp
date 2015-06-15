@@ -205,10 +205,10 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLDOT)));
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FILLEDBLOB)));
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_EMPTYBLOB)));
-				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_EVENT_URL));
-				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_EVENT_FILE));
-				ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_FILE));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 				for (i=0; i < SIZEOF(hIcons); i++)
 					hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);

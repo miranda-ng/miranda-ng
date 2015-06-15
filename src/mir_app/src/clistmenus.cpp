@@ -502,7 +502,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			curProtoStatus = 0;
 
 		if (curProtoStatus >= ID_STATUS_OFFLINE && curProtoStatus < ID_STATUS_IDLE)
-			timi->mi.hIcon = LoadSkinProtoIcon(prot, curProtoStatus);
+			timi->mi.hIcon = Skin_LoadProtoIcon(prot, curProtoStatus);
 		else {
 			timi->mi.hIcon = (HICON)CallProtoServiceInt(NULL, prot, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			if (timi->mi.hIcon == (HICON)CALLSERVICE_NOTFOUND)
@@ -921,7 +921,7 @@ void RebuildMenuOrder(void)
 			tmi.root = rootmenu;
 			tmi.position = pos++;
 			tmi.ptszName = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
-			tmi.hIcon = LoadSkinProtoIcon(pa->szModuleName, statusModeList[j]);
+			tmi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
 
 			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
@@ -962,7 +962,7 @@ void RebuildMenuOrder(void)
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				tmi.flags |= CMIF_CHECKED;
 
-			tmi.hIcon = LoadSkinIcon(skinIconStatusList[j]);
+			tmi.hIcon = Skin_LoadIcon(skinIconStatusList[j]);
 			tmi.position = pos++;
 			tmi.hotKey = MAKELPARAM(MOD_CONTROL, '0' + j);
 
@@ -1323,7 +1323,7 @@ void InitCustomMenus(void)
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";
 	mi.pszName = LPGEN("E&xit");
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_EXIT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	AddMainMenuItem(0, (LPARAM)&mi);
 
 	cli.currentStatusMenuItem = ID_STATUS_OFFLINE;

@@ -43,7 +43,7 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		// setup the popup
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
-		ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
+		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, winfo.status);
 		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 		GetDisplay(&winfo, opt.pText, ppd.lptzText);
 		ppd.PluginWindowProc = PopupDlgProc;

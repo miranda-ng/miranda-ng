@@ -218,7 +218,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONSETASPUSHBTN, TRUE, 0);
 				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BM_SETIMAGE,
-					IMAGE_ICON, (LPARAM)LoadSkinnedIcon(statusButtons[i].iconId));
+					IMAGE_ICON, (LPARAM)Skin_LoadIcon(statusButtons[i].iconId));
 				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONADDTOOLTIP,
 					(WPARAM)Translate(statusButtons[i].title), 0);
 			}

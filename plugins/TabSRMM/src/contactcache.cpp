@@ -566,7 +566,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 HICON CContactCache::getIcon(int& iSize) const
 {
 	if (!m_dat || !m_hwnd)
-		return LoadSkinnedProtoIcon(cc->szProto, m_wStatus);
+		return Skin_LoadProtoIcon(cc->szProto, m_wStatus);
 
 	if (m_dat->dwFlags & MWF_ERRORSTATE)
 		return PluginConfig.g_iconErr;

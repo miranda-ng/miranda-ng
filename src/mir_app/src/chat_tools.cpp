@@ -85,7 +85,7 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	switch (gce->pDest->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		ci.AddEvent(si->hContact, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
+		ci.AddEvent(si->hContact, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->ptszNick, si->ptszName);
 		break;
 	case GC_EVENT_MESSAGE:
 		ci.AddEvent(si->hContact, ci.hIcons[ICON_MESSAGE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->ptszNick, si->ptszName);
@@ -213,10 +213,10 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	switch (gce->pDest->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-		ci.ShowPopup(si->hContact, si, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, ci.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		ci.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, ci.aFonts[16].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		ci.ShowPopup(si->hContact, si, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, ci.aFonts[16].color, _T("%s %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+		ci.ShowPopup(si->hContact, si, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), si->pszModule, si->ptszName, ci.aFonts[16].color, _T("%s %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_MESSAGE:
 		ci.ShowPopup(si->hContact, si, ci.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, ci.aFonts[9].color, TranslateT("%s says: %s"), gce->ptszNick, RemoveFormatting(gce->ptszText));

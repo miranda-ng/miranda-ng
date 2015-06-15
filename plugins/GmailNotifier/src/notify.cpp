@@ -91,7 +91,7 @@ void NotifyUser(Account *curAcc)
 			cle.hContact = curAcc->hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT;
-			cle.hIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
+			cle.hIcon = Skin_LoadProtoIcon(pluginName, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";
 			cle.pszTooltip = curAcc->results.next->content;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)curAcc->hContact, (LPARAM)1);
@@ -102,7 +102,7 @@ void NotifyUser(Account *curAcc)
 			POPUPDATA ppd = { 0 };
 
 			ppd.lchContact = curAcc->hContact;
-			ppd.lchIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
+			ppd.lchIcon = Skin_LoadProtoIcon(pluginName, ID_STATUS_OCCUPIED);
 			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < 5 && i < newMails; i++) {

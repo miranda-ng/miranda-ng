@@ -75,7 +75,7 @@ static void updatePreviewImage(HWND hwndBox)
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_TCHAR;
-	ppd.lchIcon = LoadSkinnedIcon(SKINICON_STATUS_ONLINE);
+	ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
 	ppd.lptzTitle = TranslateT("Skin preview");
 	ppd.lptzText = TranslateT("Just take a look at this skin... ;)");
 

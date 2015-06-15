@@ -76,7 +76,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 			num_icons++;
 
 	HIMAGELIST himlIcons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, num_icons, 0);
-	HICON hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_OFFLINE);
+	HICON hicon = Skin_LoadProtoIcon(szProto, ID_STATUS_OFFLINE);
 	ImageList_AddIcon(himlIcons, hicon);
 	IcoLib_ReleaseIcon(hicon);
 	statusicon_nr[0] = 0;
@@ -84,7 +84,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 	int j = 1;
 	for (i = 0; i < 9; ++i) {
 		if (Proto_Status2Flag(ID_STATUS_ONLINE + i) & status_flags) {
-			hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_ONLINE + i);
+			hicon = Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE + i);
 			ImageList_AddIcon(himlIcons, hicon);
 			IcoLib_ReleaseIcon(hicon);
 			statusicon_nr[i + 1] = j;
@@ -805,8 +805,8 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	else if (iStatus > ID_STATUS_CURRENT)
 		iStatus = GetCurrentStatus(NULL);
 
-	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
-	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(msgbox_data->m_szProto, iStatus)));
+	IcoLib_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(msgbox_data->m_szProto, iStatus)));
 
 	if (!bDisabled && ((Proto_Status2Flag(iStatus) & msgbox_data->m_iStatusMsgModes)
 		|| (iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & msgbox_data->m_iStatusMsgModes))))
@@ -924,8 +924,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				icoStatus = init_data->m_iStatus;
 			if (icoStatus < ID_STATUS_OFFLINE)
 				icoStatus = ID_STATUS_OFFLINE;
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(init_data->m_szProto, icoStatus));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(init_data->m_szProto, icoStatus));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(init_data->m_szProto, icoStatus));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(init_data->m_szProto, icoStatus));
 
 			copy_init_data = (struct MsgBoxData *)mir_alloc(sizeof(struct MsgBoxData));
 

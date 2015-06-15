@@ -86,9 +86,9 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 void __fastcall SAFE_FREE(void** p);
 void __fastcall SafeDestroyIcon(HICON* icon);
 
-int   IconSourceItem_Release(IconSourceItem** pitem);
-int   IconSourceItem_ReleaseIcon(IconSourceItem* item);
-HICON IconSourceItem_GetIcon(IconSourceItem* item);
+int   IconSourceItem_Release(IconSourceItem* &pitem);
+int   IconSourceItem_ReleaseIcon(IconSourceItem *item);
+HICON IconSourceItem_GetIcon(IconSourceItem *item);
 IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int cyIcon);
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);

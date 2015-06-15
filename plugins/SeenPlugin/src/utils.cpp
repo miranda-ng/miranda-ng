@@ -493,7 +493,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
 
 	ppd.lchContact = hcontact;
-	ppd.lchIcon = LoadSkinnedProtoIcon(lpzProto, newStatus);
+	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
 	if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
 		_tcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact, 0), MAX_CONTACTNAME);

@@ -57,9 +57,9 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 		// Not chat
 		hExtraIcon = hExtraVisibility;
 		if (apparentMode == ID_STATUS_OFFLINE)
-			hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_INVISIBLE_ALL);
+			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_INVISIBLE_ALL);
 		else if (apparentMode == ID_STATUS_ONLINE)
-			hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_VISIBLE_ALL);
+			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL);
 	}
 
 	if (hIcolib != NULL || clear) {
@@ -262,7 +262,7 @@ static ProtoInfo* FindProto(const char *proto)
 	if (p)
 		return p;
 
-	HICON hIcon = LoadSkinnedProtoIcon(proto, ID_STATUS_ONLINE);
+	HICON hIcon = Skin_LoadProtoIcon(proto, ID_STATUS_ONLINE);
 	if (hIcon == NULL)
 		return NULL;
 
@@ -302,18 +302,18 @@ static int ProtocolOnClick(WPARAM wParam, LPARAM, LPARAM)
 void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_Register("chat_activity", LPGEN("Chat activity"), "ChatActivity");
-	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", LoadSkinnedIconName(SKINICON_OTHER_VISIBLE_ALL));
+	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
-	hExtraProto = ExtraIcon_Register("protocol", "Account", LoadSkinnedIconName(SKINICON_OTHER_ACCMGR),
+	hExtraProto = ExtraIcon_Register("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
 
 	for (int i = 0; i < SIZEOF(infos); i++) {
 		Info &p = infos[i];
-		p.hIcolib = LoadSkinnedIconHandle(p.iSkinIcon);
+		p.hIcolib = Skin_GetIconHandle(p.iSkinIcon);
 		if (p.OnClick)
-			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p);
+			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p);
 		else
-			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon));
+			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, Skin_GetIconName(p.iSkinIcon));
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {

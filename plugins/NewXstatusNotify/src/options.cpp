@@ -403,12 +403,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						mir_tstrcat(str, TranslateT("This is status message"));
 					}
 
-					ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, i), i, str);
+					ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, i), i, str);
 				}
 				_tcsncpy(str, TranslateT("This is extra status"), SIZEOF(str));
-				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
+				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
 				_tcsncpy(str, TranslateT("This is status message"), SIZEOF(str));
-				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
+				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
 			}

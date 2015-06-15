@@ -421,7 +421,7 @@ HRESULT CLUI::CreateCLC()
 	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.hWnd = pcli->hwndContactTree;
 	Frame.align = alClient;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_TCHAR;
 	Frame.tname = LPGENT("My contacts");
 	Frame.TBtname = TranslateT("My contacts");
@@ -1541,7 +1541,7 @@ static BOOL FileExists(TCHAR * tszFilename)
 HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, TCHAR *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource)
 {
 	if (hDefaultModuleInst == NULL)
-		return LoadSkinnedIconHandle(iDefaultResource);
+		return Skin_GetIconHandle(iDefaultResource);
 
 	TCHAR fileFull[MAX_PATH] = { 0 };
 
@@ -2474,7 +2474,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 			char buf[255];
 			short offset = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
 
-			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
+			HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MAINMENU);
 
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 1, dis->itemState);
 			mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
@@ -2528,7 +2528,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 		//TODO check if caption is visible
 		char buf[255] = { 0 };
 		short dx = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
-		HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		HICON hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 3, dis->itemState);
 		mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 		SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);

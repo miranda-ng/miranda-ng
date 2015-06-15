@@ -80,7 +80,7 @@ begin
           IDC_TEST: begin
             mGetMem(ppd,SizeOf(TPOPUPDATAW));
             FillChar(ppd^,SizeOf(ppd^),0);
-            ppd^.lchIcon:=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+            ppd^.lchIcon:=Skin_LoadIcon(SKINICON_OTHER_MIRANDA,0);
             StrCopyW(ppd^.lpwzContactName,TranslateW('popup test'));
             StrCopyW(ppd^.lpwzText,TranslateW('second line'));
             if IsDlgButtonChecked(Dialog,IDC_COLORDEF)=BST_CHECKED then

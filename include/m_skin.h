@@ -30,26 +30,6 @@ extern int hLangpack;
 #include <m_core.h>
 #endif
 
-//loads an icon from the user's custom skin library, or from the exe if there
-//isn't one of them
-//wParam = id of icon to load - see below
-//lParam = 0
-//returns an hIcon for the new icon. Do *not* DestroyIcon() the return value
-//returns NULL if id is invalid, but will always succeed for a valid id
-#define MS_SKIN_LOADICON     "Skin/Icons/Load"
-//nice function to wrap this:
-__forceinline HICON  LoadSkinnedIcon(int id)       { return (HICON) CallService(MS_SKIN_LOADICON, id, 0); }
-__forceinline HANDLE LoadSkinnedIconHandle(int id) { return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1); }
-__forceinline HICON  LoadSkinnedIconBig(int id)    { return (HICON) CallService(MS_SKIN_LOADICON, id, 2); }
-__forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(MS_SKIN_LOADICON, id, 3); }
-
-///////////////////////////////////////////////////////////////////////////////
-// Miranda skin
-
-MIR_APP_DLL(HICON)  LoadSkinProtoIcon(const char *szProto, int status, bool big = false);
-MIR_APP_DLL(HICON)  LoadSkinIcon(int idx, bool big = false);
-MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx);
-
 // event icons
 #define SKINICON_EVENT_MESSAGE       100
 #define SKINICON_EVENT_URL           101
@@ -114,10 +94,15 @@ MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx);
 #define SKINICON_AUTH_GRANT          249
 #define SKINICON_AUTH_REVOKE         250
 
-//menu icons are owned by the module that uses them so are not and should not
-//be skinnable. Except exit and show/hide
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda skin
+// in all these functions idx = SKINICON_* constant
 
-//status mode icons. NOTE: These are deprecated in favour of LoadSkinnedProtoIcon()
+EXTERN_C MIR_APP_DLL(HICON)  Skin_LoadIcon(int idx, bool big = false);
+EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx);
+EXTERN_C MIR_APP_DLL(char*)  Skin_GetIconName(int idx);
+
+// status mode icons. NOTE: These are deprecated in favour of LoadSkinProtoIcon()
 #define SKINICON_STATUS_OFFLINE     0
 #define SKINICON_STATUS_ONLINE      1
 #define SKINICON_STATUS_AWAY        2
@@ -129,23 +114,20 @@ MIR_APP_DLL(HANDLE) GetSkinIconHandle(int idx);
 #define SKINICON_STATUS_ONTHEPHONE  8
 #define SKINICON_STATUS_OUTTOLUNCH  9
 
-//Loads an icon representing the status mode for a particular protocol.
-//wParam = (WPARAM)(const char*)szProto
-//lParam = status
-//returns an hIcon for the new icon. Do *not* DestroyIcon() the return value
-//returns NULL on failure
-//if szProto is NULL the function will load the user's selected 'all protocols'
-//status icon.
-#define MS_SKIN_LOADPROTOICON     "Skin/Icons/LoadProto"
-#define MS_SKIN_LOADPROTOICONBIG  "Skin/Icons/LoadProtoBig"
-//nice function to wrap this:
-__forceinline HICON LoadSkinnedProtoIcon(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, status);}
-__forceinline HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Loads an icon representing the status mode for a particular protocol.
+// returns an hIcon for the new icon. Do *not* DestroyIcon() the return value
+// returns NULL on failure
+// if szProto is NULL the function will load the user's selected 'all protocols'
+// status icon.
 
-//add a new sound so it has a default and can be changed in the options dialog
-//wParam = hLangpack
-//lParam = (LPARAM)(SKINSOUNDDESC*)ssd;
-//returns 0 on success, nonzero otherwise
+EXTERN_C MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big = false);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// add a new sound so it has a default and can be changed in the options dialog
+// wParam = hLangpack
+// lParam = (LPARAM)(SKINSOUNDDESC*)ssd;
+// returns 0 on success, nonzero otherwise
 
 #define SSDF_UNICODE 0x0001
 
@@ -210,11 +192,13 @@ __forceinline INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)ssd);
 }
 
-//plays a named sound event
-//wParam = 0
-//lParam = (LPARAM)(const char*)pszName
-//pszName should have been added with Skin/Sounds/AddNew, but if not the
-//function will not fail, it will play the Windows default sound instead.
+/////////////////////////////////////////////////////////////////////////////////////////
+// plays a named sound event
+// wParam = 0
+// lParam = (LPARAM)(const char*)pszName
+// pszName should have been added with Skin/Sounds/AddNew, but if not the
+// function will not fail, it will play the Windows default sound instead.
+
 #define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
 
 __forceinline INT_PTR SkinPlaySound(const char *name)
@@ -222,9 +206,11 @@ __forceinline INT_PTR SkinPlaySound(const char *name)
 	return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);
 }
 
-//plays any sound file
-//wParam = 0
-//lParam = (LPARAM)(const TCHAR*)ptszFileName
+/////////////////////////////////////////////////////////////////////////////////////////
+// plays any sound file
+// wParam = 0
+// lParam = (LPARAM)(const TCHAR*)ptszFileName
+
 #define MS_SKIN_PLAYSOUNDFILE        "Skin/Sounds/PlayFile"
 
 __forceinline INT_PTR SkinPlaySoundFile(const TCHAR *ptszFileName)
@@ -232,23 +218,20 @@ __forceinline INT_PTR SkinPlaySoundFile(const TCHAR *ptszFileName)
 	return CallService(MS_SKIN_PLAYSOUNDFILE, 0, (LPARAM)ptszFileName);
 }
 
-//sent when the icons DLL has been changed in the options dialog, and everyone
-//should re-make their image lists
-//wParam = lParam = 0
+/////////////////////////////////////////////////////////////////////////////////////////
+// sent when the icons DLL has been changed in the options dialog, and everyone
+// should re-make their image lists
+// wParam = lParam = 0
+
 #define ME_SKIN_ICONSCHANGED     "Skin/IconsChanged"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// wParam: 0 when playing sound (1 when sound is being previewed)
+// lParam: (TCHAR*) pszSoundFile
+// Affect: This hook is fired when the sound module needs to play a sound
+// Note  : This event has default processing, if no one HookEvent()'s this event then it will
+//         use the default hook code, which uses PlaySound()
 
-/*
-	wParam: 0 when playing sound (1 when sound is being previewed)
-	lParam: (TCHAR*) pszSoundFile
-	Affect: This hook is fired when the sound module needs to play a sound
-	Note  : This event has default processing, if no one HookEvent()'s this event then it will
-			use the default hook code, which uses PlaySound()
-	Version: 0.3.4a (2004/09/15)
-*/
 #define ME_SKIN_PLAYINGSOUND  "Skin/Sounds/Playing"
-
-//random ideas for the future:
-// Skin/LoadNetworkAnim - get some silly spinner thing when we want to be busy
 
 #endif //M_SKIN_H__

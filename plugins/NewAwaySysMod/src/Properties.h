@@ -128,9 +128,9 @@ public:
 				DestroyIcon(IconList[i]);
 
 			if (Icons[i] & IL_SKINICON)
-				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
+				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
 			else if (Icons[i] & IL_PROTOICON)
-				IconList.SetAtGrow(i) = (HICON)CopyImage(LoadSkinnedProtoIcon(NULL, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
+				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadProtoIcon(NULL, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
 			else
 				IconList.SetAtGrow(i) = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(Icons[i]), IMAGE_ICON, cxIcon, cyIcon, 0);
 		}

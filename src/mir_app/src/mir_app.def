@@ -3,11 +3,11 @@ EXPORTS
 CallContactService          @1
 CallProtoService            @2
 RecalculateTime             @3
-LoadSkinProtoIcon           @4
-LoadSkinIcon                @5
+Skin_LoadProtoIcon          @4
+Skin_LoadIcon               @5
 Button_FreeIcon_IcoLib      @6
 Button_SetIcon_IcoLib       @7
-GetSkinIconHandle           @8
+Skin_GetIconHandle          @8
 IcoLib_AddIcon              @9
 IcoLib_GetIcon             @10
 IcoLib_GetIconByHandle     @11
@@ -23,3 +23,4 @@ IcoLib_RemoveIcon          @20
 IcoLib_RemoveIconByHandle  @21
 IcoLib_Release             @22
 IcoLib_AddRef              @23
+Skin_GetIconName           @24

@@ -285,7 +285,7 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (hi && nf) DestroyIcon(hi);
 	if (IconName != NULL && SectName != NULL)  {
 		SKINICONDESC sid = { 0 };
-		sid.hDefaultIcon = (has_proto_icon) ? NULL : LoadSkinnedProtoIcon(0, -internalidx);
+		sid.hDefaultIcon = (has_proto_icon) ? NULL : Skin_LoadProtoIcon(0, -internalidx);
 		sid.section.t = SectName;
 		sid.pszName = IconName;
 		sid.description.t = Description;

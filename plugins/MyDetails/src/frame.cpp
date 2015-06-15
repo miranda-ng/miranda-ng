@@ -281,7 +281,7 @@ int CreateFrame()
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
-		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_TCHAR;
 		Frame.height = 100;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
@@ -332,7 +332,7 @@ int CreateFrame()
 		mi.popupPosition = -0x7FFFFFFF;
 		mi.ptszPopupName = LPGENT("My details");
 		mi.position = 1; // 500010000
-		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS);
+		mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.ptszName = LPGENT("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
@@ -1246,7 +1246,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_GETCUSTOMSTATUSICON))
 			status_icon = (HICON)CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, LR_SHARED);
 		else
-			status_icon = LoadSkinnedProtoIcon(proto->name, proto->status);
+			status_icon = Skin_LoadProtoIcon(proto->name, proto->status);
 
 		if (status_icon != NULL) {
 			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);

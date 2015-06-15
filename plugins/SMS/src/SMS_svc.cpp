@@ -30,14 +30,14 @@ int LoadModules(void)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 300050000;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMS);
+	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 	mi.ptszName = SMS_SEND_STR;
 	mi.pszService = szServiceFunction;
 	mi.flags = CMIF_TCHAR;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = -2000070000;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMS);
+	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 	mi.ptszName = SMS_SEND_CM_STR;
 	mi.pszService = szServiceFunction;
 	mi.flags = CMIF_TCHAR;	

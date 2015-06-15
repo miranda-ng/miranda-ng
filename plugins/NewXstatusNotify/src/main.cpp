@@ -437,11 +437,11 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		pdp->newStatus = newStatus;
 		pdp->hAwayMsgHook = NULL;
 		pdp->hAwayMsgProcess = NULL;
-		ShowChangePopup(hContact, LoadSkinnedProtoIcon(szProto, newStatus), newStatus, str, pdp);
+		ShowChangePopup(hContact, Skin_LoadProtoIcon(szProto, newStatus), newStatus, str, pdp);
 	}
 
 	if (opt.BlinkIcon && !opt.TempDisabled) {
-		HICON hIcon = opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, newStatus) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
+		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, newStatus) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
 		mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
@@ -719,7 +719,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		}
 
 		ShowChangePopup(hContact,
-			LoadSkinnedProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)),
+			Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)),
 			ID_STATUS_STATUSMSG, str);
 
 		mir_free(str);
@@ -731,7 +731,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	}
 
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
-		HICON hIcon = opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
+		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
 		mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);

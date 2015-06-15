@@ -55,7 +55,7 @@ static int UrlEventAdded(WPARAM hContact, LPARAM lParam)
 	cle.flags = CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = lParam;
-	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
 	cle.ptszTooltip = szTooltip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
@@ -71,7 +71,7 @@ static INT_PTR SendUrlCommand(WPARAM wParam, LPARAM)
 static void RestoreUnreadUrlAlerts(void)
 {
 	CLISTEVENT cle = { sizeof(cle) };
-	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
 	cle.flags = CLEF_TCHAR;
 
@@ -121,7 +121,7 @@ static int SRUrlModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000040000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_URL);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.pszName = LPGEN("Web page address (&URL)");
 	mi.pszService = MS_URL_SENDURL;
 	hSRUrlMenuItem = Menu_AddContactMenuItem(&mi);

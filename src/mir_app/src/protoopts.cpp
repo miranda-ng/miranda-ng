@@ -302,8 +302,8 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			int iItem = LOWORD(SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam));
 			ListBox_GetItemRect(hwnd, iItem, &dat->rcCheck);
 
-			dat->rcCheck.right = dat->rcCheck.left + GetSystemMetrics(SM_CXSMICON) + 4;
-			dat->rcCheck.bottom = dat->rcCheck.top + GetSystemMetrics(SM_CYSMICON) + 4;
+			dat->rcCheck.right = dat->rcCheck.left + g_iIconSX + 4;
+			dat->rcCheck.bottom = dat->rcCheck.top + g_iIconSY + 4;
 			if (PtInRect(&dat->rcCheck, pt))
 				dat->iItem = iItem;
 			else
@@ -347,8 +347,8 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				return 0;
 
 			ListBox_GetItemRect(hwnd, ListBox_GetCurSel(hwnd), &rc);
-			rc.left += 2 * GetSystemMetrics(SM_CXSMICON) + 4;
-			rc.bottom = rc.top + max(GetSystemMetrics(SM_CXSMICON), parentDat->titleHeight) + 4 - 1;
+			rc.left += 2 * g_iIconSX + 4;
+			rc.bottom = rc.top + max(g_iIconSX, parentDat->titleHeight) + 4 - 1;
 			++rc.top; --rc.right;
 
 			dat->hwndEdit = CreateWindow(_T("EDIT"), pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, hwnd, NULL, g_hInst, NULL);
@@ -518,7 +518,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			SelectObject(hdc, hfnt);
 			ReleaseDC(hwndDlg, hdc);
 
-			dat->normalHeight = 4 + max(dat->titleHeight, GetSystemMetrics(SM_CYSMICON));
+			dat->normalHeight = 4 + max(dat->titleHeight, g_iIconSY);
 			dat->selectedHeight = dat->normalHeight + 4 + 2 * dat->textHeight;
 		}
 
@@ -559,8 +559,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		HBRUSH hbrBack;
 		SIZE sz;
 		{
-			int cxIcon = GetSystemMetrics(SM_CXSMICON);
-			int cyIcon = GetSystemMetrics(SM_CYSMICON);
+			int cxIcon = g_iIconSX;
+			int cyIcon = g_iIconSY;
 
 			LPDRAWITEMSTRUCT lps = (LPDRAWITEMSTRUCT)lParam;
 			PROTOACCOUNT *acc = (PROTOACCOUNT *)lps->itemData;
@@ -590,7 +590,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			else
 				tmp = acc->bIsEnabled ? SKINICON_OTHER_TICK : SKINICON_OTHER_NOTICK;
 
-			HICON hIcon = LoadSkinnedIcon(tmp);
+			HICON hIcon = Skin_LoadIcon(tmp);
 			DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
 			IcoLib_ReleaseIcon(hIcon);
 
@@ -695,8 +695,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				if (iItem != LB_ERR) {
 					RECT rc;
 					ListBox_GetItemRect(hwndList, iItem, &rc);
-					pt.x = rc.left + GetSystemMetrics(SM_CXSMICON) + 4;
-					pt.y = rc.top + 4 + max(GetSystemMetrics(SM_CXSMICON), dat->titleHeight);
+					pt.x = rc.left + g_iIconSX + 4;
+					pt.y = rc.top + 4 + max(g_iIconSX, dat->titleHeight);
 					ClientToScreen(hwndList, &pt);
 				}
 			}
@@ -1019,7 +1019,7 @@ static INT_PTR OptProtosShow(WPARAM, LPARAM)
 int OptProtosLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_ACCMGR);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Accounts...");
 	mi.pszService = MS_PROTO_SHOWACCMGR;

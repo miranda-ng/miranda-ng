@@ -775,7 +775,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 		cle.cbSize = sizeof(cle);
 		cle.hContact = (MCONTACT)dat->hContact;
 		cle.hDbEvent = hEvent;
-		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		dat->dwFlagsEx |= MWF_SHOW_FLASHCLIST;
@@ -1786,8 +1786,8 @@ HICON TSAPI MY_GetContactIcon(const TWindowData *dat, LPCSTR szSetting)
 {
 	int bUseMeta = (szSetting == NULL) ? false : M.GetByte(szSetting, mir_strcmp(szSetting, "MetaiconTab") == 0);
 	if (bUseMeta)
-		return LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus());
-	return LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus());
+		return Skin_LoadProtoIcon(dat->cache->getProto(), dat->cache->getStatus());
+	return Skin_LoadProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -50,9 +50,6 @@ var
   hwndDialog:HWND;
   //Services
   SrvITxt,SrvIWiz:THANDLE;
-  //hooks
-  onLoadHook:THANDLE;
-  onAccChangHook:THANDLE;
 
 function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
@@ -105,8 +102,6 @@ end;
 
 function OnModulesLoaded(wParam: wParam; lParam: lParam): int; cdecl;
 begin
-  UnhookEvent(onLoadHook);
-  result := 0;
   EnumProtocols;
   // check for AutoStart
   if (DBReadByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_AS) = 1) and (ProtoCount > 0) then
@@ -114,6 +109,7 @@ begin
     CallService(IMPORT_WIZ_SERVICE, 0, 0);
     DBWriteByte(0, IMPORT_TXT_MODULE, IMPORT_TXT_AS, 0);
   end;
+  result := 0;
 end;
 
 function Load(): int; cdecl;
@@ -138,14 +134,13 @@ begin
   mi.pszContactOwner := nil;
   Menu_AddMainMenuItem(@mi);
 
-  onLoadHook := HookEvent(ME_SYSTEM_MODULESLOADED, @OnModulesLoaded);
-  onAccChangHook := HookEvent(ME_PROTO_ACCLISTCHANGED, @OnAccountChanged);
+  HookEvent(ME_SYSTEM_MODULESLOADED, @OnModulesLoaded);
+  HookEvent(ME_PROTO_ACCLISTCHANGED, @OnAccountChanged);
   result := 0;
 end;
 
 function Unload: int; cdecl;
 begin
-  UnhookEvent(onAccChangHook);
   DestroyServiceFunction(SrvITxt);
   DestroyServiceFunction(SrvIWiz);
   Result := 0;

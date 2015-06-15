@@ -176,13 +176,13 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, 
 			TreeView_DeleteAllItems(hwndTree);
 
 			hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR|ILC_COLOR32|ILC_MASK, 5, 1);
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));	// check on
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));	// check off
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));	// radio on
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));	// radio on
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN));
-			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_TICK));	// check on
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_NOTICK));	// check off
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_TICK));	// radio on
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_NOTICK));	// radio on
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
 
 			/* build options tree. based on code from IcoLib */

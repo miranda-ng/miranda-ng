@@ -119,7 +119,7 @@ void g_MenuInit(void)
 
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = 1000030000;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Grant authorization"
@@ -127,7 +127,7 @@ void g_MenuInit(void)
 
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = 1000029999;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	
 	// "Revoke authorization"
@@ -135,7 +135,7 @@ void g_MenuInit(void)
 
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	
 	// "Add to server list"
@@ -143,7 +143,7 @@ void g_MenuInit(void)
 
 	mi.pszName = LPGEN("Add to server list");
 	mi.position = -2049999999;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_ADD);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Show custom status details"
@@ -213,7 +213,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)
 			clmi.hIcon = getXStatusIcon(bXStatus, LR_SHARED);
 		else
-			clmi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
+			clmi.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMALLDOT);
 		Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], &clmi);
 	}
 

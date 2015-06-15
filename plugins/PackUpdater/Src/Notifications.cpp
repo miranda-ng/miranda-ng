@@ -114,7 +114,7 @@ VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 	POPUPDATAT_V2 pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.lchContact = NULL; //(HANDLE)wParam;
-	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
+	pd.lchIcon = Skin_LoadIcon(PopupsList[Number].Icon);
 	mir_tstrncpy(pd.lptzText, Text, SIZEOF(pd.lptzText));
 	mir_tstrncpy(pd.lptzContactName, Title, SIZEOF(pd.lptzContactName));
 	switch (MyOptions.DefColors) {

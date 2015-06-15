@@ -191,7 +191,7 @@ CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, TCHAR *title):
 	m_cbModes.OnDropdown =
 	m_txtDescription.OnChange = Callback(this, &CJabberDlgPepSimple::global_OnChange);
 
-	m_modes.insert(new CStatusMode(-1, "<none>", LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT), TranslateT("None"), false));
+	m_modes.insert(new CStatusMode(-1, "<none>", Skin_LoadIcon(SKINICON_OTHER_SMALLDOT), TranslateT("None"), false));
 }
 
 CJabberDlgPepSimple::~CJabberDlgPepSimple()
@@ -609,7 +609,7 @@ CPepMood::CPepMood(CJabberProto *proto) :
 	m_text(NULL),
 	m_mode(-1)
 {
-	UpdateMenuItem(LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
+	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
 }
 
 CPepMood::~CPepMood()
@@ -696,7 +696,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 		m_mode = mood;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (mood >= 0) ? g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon = (mood >= 0) ? g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag) : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
 
 		if (m_proto->m_pInfoFrame) {
@@ -706,7 +706,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 			}
 			else {
 				mir_tstrcpy(title, LPGENT("Set mood..."));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
+				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
 			}
 		}
 
@@ -760,8 +760,8 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 		}
 		else {
 			Retract();
-			UpdateMenuItem(LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
+			UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
 		}
 	}
 }
@@ -989,7 +989,7 @@ CPepActivity::CPepActivity(CJabberProto *proto):
 	m_text(NULL),
 	m_mode(-1)
 {
-	UpdateMenuItem(LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
+	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
 }
 
 CPepActivity::~CPepActivity()
@@ -1084,7 +1084,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 		m_mode = activity;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (activity >= 0) ? g_ActivityIcons.GetIcolibHandle(returnActivity(activity)) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon = (activity >= 0) ? g_ActivityIcons.GetIcolibHandle(returnActivity(activity)) : Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
 
 		if (m_proto->m_pInfoFrame) {
@@ -1094,7 +1094,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 			}
 			else {
 				mir_tstrcpy(title, LPGENT("Set activity..."));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
+				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
 			}
 		}
 
@@ -1133,9 +1133,9 @@ void CPepActivity::ShowSetDialog(BYTE)
 	}
 	else {
 		Retract();
-		UpdateMenuItem(LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
+		UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
 		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
 	}
 }
 

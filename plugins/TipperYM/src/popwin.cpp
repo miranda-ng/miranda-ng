@@ -87,7 +87,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// get status icon
 				if (pwd->bIsIconVisible[0]) {
-					pwd->extraIcons[0].hIcon = LoadSkinnedProtoIcon(pwd->clcit.szProto, wStatus);
+					pwd->extraIcons[0].hIcon = Skin_LoadProtoIcon(pwd->clcit.szProto, wStatus);
 					pwd->extraIcons[0].bDestroy = false;
 				}
 
@@ -1504,7 +1504,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pa->szModuleName))
 					mir_sntprintf(swzProto, SIZEOF(swzProto), TranslateT("%s (locked)"), pa->tszAccountName);
 
-			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, LoadSkinnedProtoIcon(pa->szModuleName, wStatus));
+			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));
 			bFirstItem = false;
 
 			if (dwItems & TRAYTIP_LOGON) {
@@ -1669,7 +1669,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				TCHAR swzText[256];
 				mir_tstrcpy(swzText, pwd->clcit.swzText);
 				if (pchBr) swzText[pchBr - pwd->clcit.swzText] = 0;
-				AddRow(pwd, swzText, _T(""), NULL, false, true, false, true, LoadSkinnedIcon(SKINICON_OTHER_FILLEDBLOB));
+				AddRow(pwd, swzText, _T(""), NULL, false, true, false, true, Skin_LoadIcon(SKINICON_OTHER_FILLEDBLOB));
 			}
 		}
 

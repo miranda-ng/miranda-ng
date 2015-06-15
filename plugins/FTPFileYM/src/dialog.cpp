@@ -204,7 +204,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg, IDC_BTN_CLIPBOARD, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Copy Link to Clipboard"), BATF_TCHAR);
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DOWNLOAD, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_DOWNLOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_URL));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_DOWNLOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_DOWNLOAD, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), BATF_TCHAR);
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_FILEMANAGER, BUTTONSETASFLATBTN, 0, 0);
@@ -212,11 +212,11 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg, IDC_BTN_FILEMANAGER, BUTTONADDTOOLTIP, (WPARAM)TranslateT("FTP File Manager"), BATF_TCHAR);
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_OPTIONS, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_OPTIONS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_OPTIONS));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_OPTIONS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_OPTIONS));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_OPTIONS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Options"), BATF_TCHAR);
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONSETASFLATBTN, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_DELETE));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close"), BATF_TCHAR);
 
 			break;

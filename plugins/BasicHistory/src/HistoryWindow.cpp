@@ -1103,8 +1103,8 @@ void HistoryWindow::Initialise()
 	ResetCList(hWnd);
 			
 	RestorePos();
-	SendMessage(hWnd, WM_SETICON, ICON_BIG,   ( LPARAM )LoadSkinnedIconBig( SKINICON_OTHER_HISTORY ));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, ( LPARAM )LoadSkinnedIcon( SKINICON_OTHER_HISTORY ));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG,   (LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_HISTORY));
 	SendMessage(editWindow,EM_AUTOURLDETECT,TRUE,0);
 	SendMessage(editWindow,EM_SETEVENTMASK,0,ENM_LINK | ENM_SELCHANGE | ENM_KEYEVENTS | ENM_MOUSEEVENTS);
 	SendMessage(editWindow,EM_SETEDITSTYLE,SES_EXTENDBACKCOLOR,SES_EXTENDBACKCOLOR);
@@ -1122,13 +1122,13 @@ void HistoryWindow::Initialise()
 		}
 
 		int id = iconsNum;
-		eventIcons[id] = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+		eventIcons[id] = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
-		eventIcons[++id] = LoadSkinnedIcon(SKINICON_EVENT_URL);
+		eventIcons[++id] = Skin_LoadIcon(SKINICON_EVENT_URL);
 		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
-		eventIcons[++id] = LoadSkinnedIcon(SKINICON_OTHER_WINDOWS);
+		eventIcons[++id] = Skin_LoadIcon(SKINICON_OTHER_WINDOWS);
 		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
 		if ((isGroupImages = Options::instance->groupShowEvents) != false)
@@ -1161,9 +1161,9 @@ void HistoryWindow::Initialise()
 		ImageList_AddIcon(himlButtons, findNextIco);
 		findPrevIco = LoadIconEx(IDI_FINDPREV);
 		ImageList_AddIcon(himlButtons, findPrevIco);
-		configIco = LoadSkinnedIcon(SKINICON_OTHER_OPTIONS);
+		configIco = Skin_LoadIcon(SKINICON_OTHER_OPTIONS);
 		ImageList_AddIcon(himlButtons, configIco);
-		deleteIco = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+		deleteIco = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 		ImageList_AddIcon(himlButtons, deleteIco);
 				
 		// Set the image list.

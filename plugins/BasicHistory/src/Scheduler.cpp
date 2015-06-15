@@ -72,7 +72,7 @@ void InitScheduler()
 
 	POPUPCLASS test = { sizeof(test) };
 	test.flags = PCF_TCHAR;
-	test.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	test.iSeconds = 10;
 	test.ptszDescription = TranslateT("History task");
 	test.pszName = MODULE;
@@ -1302,7 +1302,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 			ShowClassPopupT(MODULE, msg, (wchar_t*)_error.c_str());
 		else if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {	
 			POPUPDATAT ppd = {0};
-			ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 			_tcscpy_s(ppd.lptzContactName, msg);
 			_tcscpy_s(ppd.lptzText, _error.c_str());
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);

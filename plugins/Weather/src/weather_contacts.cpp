@@ -142,10 +142,10 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		wndData = ( CntSetWndDataType* )mir_alloc(sizeof(CntSetWndDataType));
 		wndData->hContact = hContact = lParam;
-		wndData->hRename = LoadSkinnedIcon(SKINICON_OTHER_RENAME);
-		wndData->hUserDetail = LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS);
-		wndData->hFile = LoadSkinnedIcon(SKINICON_EVENT_FILE);
-		wndData->hSrchAll = LoadSkinnedIcon(SKINICON_OTHER_SEARCHALL);
+		wndData->hRename = Skin_LoadIcon(SKINICON_OTHER_RENAME);
+		wndData->hUserDetail = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
+		wndData->hFile = Skin_LoadIcon(SKINICON_EVENT_FILE);
+		wndData->hSrchAll = Skin_LoadIcon(SKINICON_OTHER_SEARCHALL);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wndData);
 

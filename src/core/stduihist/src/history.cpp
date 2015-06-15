@@ -412,7 +412,7 @@ int LoadHistoryModule(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
-	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &history");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	hContactMenu = Menu_AddContactMenuItem(&mi);

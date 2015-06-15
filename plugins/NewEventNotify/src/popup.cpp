@@ -418,7 +418,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
 		if (!(pluginOptions->maskNotify & MASK_MESSAGE)) return 1;
-		pudw.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		pudw.colorBack = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colBackMsg;
 		pudw.colorText = pluginOptions->bDefaultColorMsg ? 0 : pluginOptions->colTextMsg;
 		iSeconds = pluginOptions->iDelayMsg;
@@ -427,7 +427,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 
 	case EVENTTYPE_URL:
 		if (!(pluginOptions->maskNotify & MASK_URL)) return 1;
-		pudw.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_URL);
+		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_URL);
 		pudw.colorBack = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colBackUrl;
 		pudw.colorText = pluginOptions->bDefaultColorUrl ? 0 : pluginOptions->colTextUrl;
 		iSeconds = pluginOptions->iDelayUrl;
@@ -436,7 +436,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 
 	case EVENTTYPE_FILE:
 		if (!(pluginOptions->maskNotify & MASK_FILE)) return 1;
-		pudw.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		pudw.colorBack = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colBackFile;
 		pudw.colorText = pluginOptions->bDefaultColorFile ? 0 : pluginOptions->colTextFile;
 		iSeconds = pluginOptions->iDelayFile;
@@ -445,7 +445,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 
 	default:
 		if (!(pluginOptions->maskNotify & MASK_OTHER)) return 1;
-		pudw.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		pudw.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
 		pudw.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
 		iSeconds = pluginOptions->iDelayOthers;

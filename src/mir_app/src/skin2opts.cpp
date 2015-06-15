@@ -89,7 +89,7 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 		}
 
 		if (!hIcon && item->default_file) {
-			IconSourceItem_Release(&item->default_icon);
+			IconSourceItem_Release(item->default_icon);
 			item->default_icon = GetIconSourceItem(item->default_file, item->default_indx, item->cx, item->cy);
 			if (item->default_icon) {
 				HICON hRefIcon = IconSourceItem_GetIcon(item->default_icon);
@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		hwndParent = (HWND)lParam;
 		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
 		dragging = dragItem = 0;
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 		{
 			RECT rcThis, rcParent;
@@ -536,7 +536,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dragging = 1;
 				dragItem = ((LPNMLISTVIEW)lParam)->iItem;
 				dropHiLite = -1;
-				ImageList_BeginDrag(ListView_GetImageList(hPreview, LVSIL_NORMAL), dragItem, GetSystemMetrics(SM_CXICON) / 2, GetSystemMetrics(SM_CYICON) / 2);
+				ImageList_BeginDrag(ListView_GetImageList(hPreview, LVSIL_NORMAL), dragItem, g_iIconX / 2, g_iIconY / 2);
 				{
 					POINT pt;
 					RECT rc;
@@ -653,7 +653,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		//
 		ListView_SetUnicodeFormat(hPreview, TRUE);
 		ListView_SetExtendedListViewStyleEx(hPreview, LVS_EX_INFOTIP, LVS_EX_INFOTIP);
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 30), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 30), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 
 		SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
@@ -911,12 +911,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						if (item->temp_reset) {
 							db_unset(NULL, "SkinIcons", item->name);
 							if (item->source_small != item->default_icon) {
-								IconSourceItem_Release(&item->source_small);
+								IconSourceItem_Release(item->source_small);
 							}
 						}
 						else if (item->temp_file) {
 							db_set_ts(NULL, "SkinIcons", item->name, item->temp_file);
-							IconSourceItem_Release(&item->source_small);
+							IconSourceItem_Release(item->source_small);
 							SafeDestroyIcon(&item->temp_icon);
 						}
 					}

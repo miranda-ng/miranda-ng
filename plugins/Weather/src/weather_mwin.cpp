@@ -155,11 +155,11 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					int statusIcon = db_get_w(data->hContact, WEATHERPROTONAME, "Status", 0);
 
 					picSize = GetSystemMetrics(SM_CXICON);
-					hIcon = LoadSkinnedProtoIconBig(WEATHERPROTONAME, statusIcon);
+					hIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon, true);
 					if ((INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
 					{
 						picSize = GetSystemMetrics(SM_CXSMICON);
-						hIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, statusIcon);
+						hIcon = Skin_LoadProtoIcon(WEATHERPROTONAME, statusIcon);
 					}
 				}
 

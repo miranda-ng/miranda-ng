@@ -91,7 +91,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = lParam;
 	cle.flags = CLEF_TCHAR;
-	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	TCHAR toolTip[256];
 	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
@@ -181,7 +181,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.hContact = hContact;
 			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+			cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 			cle.pszService = "SRMsg/ReadMessage";
 			cle.ptszTooltip = szTip;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
@@ -227,7 +227,7 @@ static void RestoreUnreadMessageAlerts(void)
 	TCHAR toolTip[256];
 
 	CLISTEVENT cle = { sizeof(cle) };
-	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 	cle.ptszTooltip = toolTip;
@@ -281,7 +281,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);

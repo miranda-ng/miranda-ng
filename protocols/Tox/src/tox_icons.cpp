@@ -52,7 +52,7 @@ HANDLE CToxProto::GetIconHandle(const char *name)
 	return NULL;
 }
 
-HANDLE CToxProto::GetSkinIconHandle(const char *name)
+HANDLE CToxProto::Skin_GetIconHandle(const char *name)
 {
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);

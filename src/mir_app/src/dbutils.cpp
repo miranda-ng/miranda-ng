@@ -223,15 +223,15 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 	if (!icon) {
 		switch(dbei->eventType) {
 		case EVENTTYPE_URL:
-			icon = LoadSkinIcon(SKINICON_EVENT_URL);
+			icon = Skin_LoadIcon(SKINICON_EVENT_URL);
 			break;
 
 		case EVENTTYPE_FILE:
-			icon = LoadSkinIcon(SKINICON_EVENT_FILE);
+			icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 			break;
 
 		default: // EVENTTYPE_MESSAGE and unknown types
-			icon = LoadSkinIcon(SKINICON_EVENT_MESSAGE);
+			icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 		}
 	}

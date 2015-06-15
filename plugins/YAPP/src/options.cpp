@@ -496,6 +496,6 @@ void InitOptions()
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	// an icon for preview popups
-	hPopupIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	hPopupIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	LoadOptions();
 }

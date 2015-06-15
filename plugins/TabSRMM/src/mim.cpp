@@ -547,7 +547,7 @@ nowindowcreate:
 			cle.hContact = hContact;
 			cle.hDbEvent = hDbEvent;
 			cle.flags = CLEF_TCHAR;
-			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);

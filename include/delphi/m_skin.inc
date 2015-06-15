@@ -88,22 +88,18 @@ const
   SKINICON_AUTH_REQUEST        = 248;
   SKINICON_AUTH_GRANT          = 249;
   SKINICON_AUTH_REVOKE         = 250;
-{
-  SKINICON_EVENT_MESSAGE_BIG     = 300;
-  SKINICON_EVENT_URL_BIG         = 301;
-  SKINICON_EVENT_FILE_BIG        = 302;
-  SKINICON_OTHER_MIRANDA_BIG     = 303;
-  SKINICON_OTHER_ADDCONTACT_BIG  = 304;
-  SKINICON_OTHER_USERDETAILS_BIG = 305;
-  SKINICON_OTHER_HISTORY_BIG     = 306;
-  SKINICON_OTHER_FINDUSER_BIG    = 307;
-  SKINICON_OTHER_OPTIONS_BIG     = 308;
-  SKINICON_OTHER_ACCMGR_BIG      = 309;
-}
-  // menu icons are owned by the module that uses them so are not and should
-  // not be skinnable. Except exit and show/hide
 
-  // status mode icons. NOTE: These are deprecated in favour of LoadSkinnedProtoIcon()
+function Skin_LoadIcon(iconId:int; big:byte) : HICON; stdcall;
+                 external AppDLL name 'Skin_LoadIcon';
+
+function Skin_GetIconHandle(iconId:int) : THANDLE; stdcall;
+                 external AppDLL name 'Skin_GetIconHandle';
+
+function Skin_GetIconName(iconId:int) : PAnsiChar; stdcall;
+                 external AppDLL name 'Skin_GetIconName';
+
+// status mode icons. NOTE: These are deprecated in favour of LoadSkinnedProtoIcon()
+const
   SKINICON_STATUS_OFFLINE    = 0;
   SKINICON_STATUS_ONLINE     = 1;
   SKINICON_STATUS_AWAY       = 2;
@@ -114,6 +110,9 @@ const
   SKINICON_STATUS_INVISIBLE  = 7;
   SKINICON_STATUS_ONTHEPHONE = 8;
   SKINICON_STATUS_OUTTOLUNCH = 9;
+
+function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; stdcall;
+                 external AppDLL name 'Skin_LoadProtoIcon';
 
 const
   SSDF_UNICODE  = $0001;
@@ -130,11 +129,6 @@ type
 
 const
   {
-    wParam : ICON_ID
-    lParam : 0 - return HICON
-             1 - return icolib handle
-             2 - return big icon HICON
-             3 - return icolib icon name
     Affect : Load an icon from the user's custom skin lib, or from the exe
              if there isn't one loaded, see notes
     Return : HICON for the new icon, do *not* DestroyIcon() the return value
@@ -143,16 +137,12 @@ const
   MS_SKIN_LOADICON:PAnsiChar = 'Skin/Icons/Load';
 
   {
-    wParam : null terminated string containing the protocol name
-    lParam : status_wanted
     Affect : Load an icon representing the status_wanted for a particular protocol, see notes
     Returns: an HICON for the new icon, do NOT DestroyIcon() the return value
              returns NULL(0) on failure.
     Notes  : If wParam is NULL(0) the service will load the user's selected
              'all protocols' status icon
   }
-  MS_SKIN_LOADPROTOICON   :PAnsiChar = 'Skin/Icons/LoadProto';
-  MS_SKIN_LOADPROTOICONBIG:PAnsiChar = 'Skin/Icons/LoadProtoBig';
 
   {
     wParam : hLangpack

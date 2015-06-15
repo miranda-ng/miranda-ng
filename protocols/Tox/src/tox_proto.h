@@ -125,7 +125,7 @@ private:
 	static IconInfo Icons[];
 	static HICON GetIcon(const char *name, int size = 0);
 	static HANDLE GetIconHandle(const char *name);
-	static HANDLE GetSkinIconHandle(const char *name);
+	static HANDLE Skin_GetIconHandle(const char *name);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];

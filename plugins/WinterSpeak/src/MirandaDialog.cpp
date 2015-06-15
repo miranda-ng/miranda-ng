@@ -31,7 +31,7 @@ WCHAR *MirandaDialog::Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 int MirandaDialog::ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
 {
-	HICON hIcon = LoadSkinnedIcon(iconId);
+	HICON hIcon = Skin_LoadIcon(iconId);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	IcoLib_ReleaseIcon(hIcon);
 	return res;

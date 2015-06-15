@@ -54,7 +54,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	if (m_MimIcon == 0) {
 		HDC		hdc = ::GetDC(m_pContainer->hwnd);
-		HANDLE 	hIcon = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+		HANDLE 	hIcon = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 
 		HDC hdcTemp = ::CreateCompatibleDC(hdc);
 
@@ -319,7 +319,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			}
 			if (iIndex == 0)
 				::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
-				(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
+				(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, Skin_LoadIcon(SKINICON_OTHER_MIRANDA),
 				16, 16, 0, 0, DI_NORMAL);
 
 			return CDRF_SKIPDEFAULT;

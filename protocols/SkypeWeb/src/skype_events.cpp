@@ -56,7 +56,7 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 	}
 	default:
 	{
-		icon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		break;
 	}
 	}

@@ -206,7 +206,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 					// capture all the icons!
 					spi.hProto = murmur_hash(pa->szModuleName);
 					for (int j = 0; j <= 10; j++)
-						spi.hIcons[j] = LoadSkinnedProtoIcon(pa->szModuleName, ID_STATUS_OFFLINE + j);
+						spi.hIcons[j] = Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_OFFLINE + j);
 
 					pct->fType = REQUEST_NEWICONS;
 					memcpy(LPSTR(pct) + sizeof(TSlotIPC), &spi, sizeof(TSlotProtoIcons));
@@ -224,7 +224,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 	if (pct != NULL) {
 		memset(&spi.hIcons, 0, sizeof(spi.hIcons));
 		spi.hProto = 0; // no protocol
-		spi.hIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		spi.hIcons[0] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		pct->fType = REQUEST_NEWICONS;
 		memcpy(LPSTR(pct) + sizeof(TSlotIPC), &spi, sizeof(TSlotProtoIcons));
 		if (ipch->NewIconsBegin == NULL)

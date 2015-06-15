@@ -480,13 +480,13 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			g_SetAwayMsgPage.SetWnd(hwndDlg);
 			g_SetAwayMsgPage.DBToMemToPage();
 
-			HICON hTitleIconBigElse = LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA);
+			HICON hTitleIconBigElse = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 
 			char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
 			int Status = 0;
 			Status = g_ProtoStates[dat->szProtocol].Status;
-			HICON hTitleIcon = LoadSkinnedProtoIcon(szProto, Status);
-			HICON hTitleIconBig = LoadSkinnedProtoIconBig(szProto, Status);
+			HICON hTitleIcon = Skin_LoadProtoIcon(szProto, Status);
+			HICON hTitleIconBig = Skin_LoadProtoIcon(szProto, Status, true);
 
 			if (hTitleIconBig == NULL || (HICON)CALLSERVICE_NOTFOUND == hTitleIconBig)
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBigElse);
@@ -869,7 +869,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			CList->SetExtraImageList(hil);
 
 			HTREEITEM hSelItem;
-			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, LoadSkinnedProtoIcon(NULL, g_ProtoStates[(char*)NULL].Status));
+			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(NULL, g_ProtoStates[(char*)NULL].Status));
 			int numAccs;
 			PROTOACCOUNT **accs;
 			ProtoEnumAccounts(&numAccs, &accs);
@@ -878,7 +878,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				// don't forget to change Recent Message Save loop in the UM_SAM_APPLYANDCLOSE if you're changing something here
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					PROTOACCOUNT * acc = ProtoGetAccount(p->szModuleName);
-					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, LoadSkinnedProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].Status));
+					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].Status));
 					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
 				}
@@ -997,7 +997,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				if (CList->GetItemType(hItem) == MCLCIT_INFO) {
 					char *szProto = (char*)CList->GetItemParam(hItem);
 					if (!wParam || !mir_strcmp(szProto, (char*)wParam)) {
-						CList->SetInfoIcon(hItem, LoadSkinnedProtoIcon(szProto, g_ProtoStates[szProto].Status));
+						CList->SetInfoIcon(hItem, Skin_LoadProtoIcon(szProto, g_ProtoStates[szProto].Status));
 					}
 				}
 				SetExtraIcon(CList, EXTRACOLUMN_IGNORE, hItem, -1);

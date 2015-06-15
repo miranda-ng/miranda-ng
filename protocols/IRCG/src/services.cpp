@@ -56,7 +56,7 @@ void CIrcProto::InitMainMenus(void)
 	if (m_iStatus != ID_STATUS_OFFLINE) mi.flags |= CMIF_GRAYED;
 
 	mi.pszName = LPGEN("&Join channel");
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);//GetIconHandle(IDI_JOIN);
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);//GetIconHandle(IDI_JOIN);
 	mir_strcpy(d, IRC_JOINCHANNEL);
 	mi.position = 201002;
 	hMenuJoin = Menu_AddProtoMenuItem(&mi);

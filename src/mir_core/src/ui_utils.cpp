@@ -642,7 +642,7 @@ CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, HICON hIcon, const char* t
 
 CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip)
 	: CCtrlButton(dlg, ctrlId),
-	m_hIcon(::LoadSkinnedIcon(iCoreIcon)),
+	m_hIcon(::Skin_LoadIcon(iCoreIcon)),
 	m_toolTip(tooltip)
 {}
 
@@ -2648,6 +2648,6 @@ void CProtoIntDlgBase::UpdateStatusBar()
 	RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
 	int parts[] = { rcStatus.right - rcStatus.left - sz.cx, -1 };
 	SendMessage(m_hwndStatus, SB_SETPARTS, 2, (LPARAM)parts);
-	SendMessage(m_hwndStatus, SB_SETICON, 1, (LPARAM)LoadSkinnedProtoIcon(m_proto_interface->m_szModuleName, m_proto_interface->m_iStatus));
+	SendMessage(m_hwndStatus, SB_SETICON, 1, (LPARAM)Skin_LoadProtoIcon(m_proto_interface->m_szModuleName, m_proto_interface->m_iStatus));
 	SendMessage(m_hwndStatus, SB_SETTEXT, 1, (LPARAM)m_proto_interface->m_tszUserName);
 }

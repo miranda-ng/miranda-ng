@@ -221,15 +221,10 @@ void SetStatusIcon(SrmmWindowData *dat)
 	MCONTACT hContact = db_mc_getSrmmSub(dat->hContact);
 	if (hContact == NULL)
 		hContact = dat->hContact;
+
 	char *szProto = GetContactProto(hContact);
-
-	IcoLib_ReleaseIcon(dat->statusIcon);
-	dat->statusIcon = LoadSkinnedProtoIcon(szProto, dat->wStatus);
-
-	IcoLib_ReleaseIcon(dat->statusIconBig);
-	dat->statusIconBig = LoadSkinnedProtoIconBig(szProto, dat->wStatus);
-	if ((int)dat->statusIconBig == CALLSERVICE_NOTFOUND)
-		dat->statusIconBig = NULL;
+	dat->statusIcon = Skin_LoadProtoIcon(szProto, dat->wStatus, false);
+	dat->statusIconBig = Skin_LoadProtoIcon(szProto, dat->wStatus, true);
 
 	if (dat->statusIconOverlay != NULL)
 		DestroyIcon(dat->statusIconOverlay);

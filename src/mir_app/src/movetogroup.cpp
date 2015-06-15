@@ -92,7 +92,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		mi.position = 100000;
 		mi.pszName = LPGEN("&Move to group");
 		mi.flags = CMIF_ROOTHANDLE;
-		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_GROUP);
+		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 
 		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
 	}

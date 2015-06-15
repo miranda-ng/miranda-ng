@@ -103,8 +103,8 @@ void ConvertBufferToPARGB32(HANDLE hPaintBuffer, HDC hdc, HICON hIcon, SIZE& siz
 HBITMAP ConvertIconToBitmap(HICON hicon, HIMAGELIST hIml, int iconId)
 {
 	SIZE sizIcon;
-	sizIcon.cx = GetSystemMetrics(SM_CXSMICON);
-	sizIcon.cy = GetSystemMetrics(SM_CYSMICON);
+	sizIcon.cx = g_iIconSX;
+	sizIcon.cy = g_iIconSY;
 
 	RECT rcIcon = { 0, 0, sizIcon.cx, sizIcon.cy };
 

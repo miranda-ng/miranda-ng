@@ -134,7 +134,7 @@ extern "C" int __declspec(dllexport) Load()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
-	mi.hIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_ONLINE);
+	mi.hIcon = Skin_LoadProtoIcon(pluginName, ID_STATUS_ONLINE);
 	mi.pszName = LPGEN("&Check all Gmail inboxes");
 	mi.pszContactOwner = pluginName;
 	mi.pszService = "GmailMNotifier/MenuCommand";

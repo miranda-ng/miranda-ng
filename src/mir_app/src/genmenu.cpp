@@ -131,8 +131,8 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 	if (pimi->iconId == -1)
 		return FALSE;
 
-	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
-	mis->itemHeight = GetSystemMetrics(SM_CYSMICON) + 2;
+	mis->itemWidth = max(0, g_iIconSX - GetSystemMetrics(SM_CXMENUCHECK) + 4);
+	mis->itemHeight = g_iIconSY + 2;
 	return TRUE;
 }
 
@@ -154,12 +154,12 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 	if (pimi == NULL || pimi->iconId == -1)
 		return FALSE;
 
-	int y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + 1;
+	int y = (dis->rcItem.bottom - dis->rcItem.top - g_iIconSY) / 2 + 1;
 	if (dis->itemState & ODS_SELECTED) {
 		if (dis->itemState & ODS_CHECKED) {
 			RECT rc;
-			rc.left = 2; rc.right = GetSystemMetrics(SM_CXSMICON) + 2;
-			rc.top = y; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 2;
+			rc.left = 2; rc.right = g_iIconSX + 2;
+			rc.top = y; rc.bottom = rc.top + g_iIconSY + 2;
 			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
 			ImageList_DrawEx(pimi->parent->m_hMenuIcons, pimi->iconId, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_SELECTED);
 		}
@@ -168,8 +168,8 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 	else {
 		if (dis->itemState & ODS_CHECKED) {
 			RECT rc;
-			rc.left = 0; rc.right = GetSystemMetrics(SM_CXSMICON) + 4;
-			rc.top = y - 2; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 4;
+			rc.left = 0; rc.right = g_iIconSX + 4;
+			rc.top = y - 2; rc.bottom = rc.top + g_iIconSY + 4;
 			DrawEdge(dis->hDC, &rc, BDR_SUNKENOUTER, BF_RECT);
 			InflateRect(&rc, -1, -1);
 			COLORREF menuCol = GetSysColor(COLOR_MENU);
@@ -525,7 +525,7 @@ INT_PTR MO_CreateNewMenuObject(WPARAM wParam, LPARAM lParam)
 	p->ptszDisplayName = mir_a2t(LPCSTR(wParam));
 	p->CheckService = mir_strdup(pmp->CheckService);
 	p->ExecService = mir_strdup(pmp->ExecService);
-	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 15, 100);
+	p->m_hMenuIcons = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 15, 100);
 	g_menus.insert(p);
 	return p->id;
 }

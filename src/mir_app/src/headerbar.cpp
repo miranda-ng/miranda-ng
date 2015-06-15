@@ -197,7 +197,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	textRect.left = 50;
 	textRect.right = mit->width;
 	textRect.top = 2 + iTopSpace;
-	textRect.bottom = GetSystemMetrics(SM_CYICON) - 2 + iTopSpace;
+	textRect.bottom = g_iIconY - 2 + iTopSpace;
 
 	if (IsAeroMode()) {
 		DTTOPTS dto = { 0 };

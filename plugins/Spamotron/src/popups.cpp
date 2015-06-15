@@ -156,19 +156,19 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, NULL, TRUE);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, NULL, TRUE);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, NULL, TRUE);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
 	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS)) {
@@ -205,19 +205,19 @@ int ShowPopup(MCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 			ppdp.colorText = _getOptD("PopupBlockedForeground", defaultPopupBlockedForeground);
 			ppdp.colorBack = _getOptD("PopupBlockedBackground", defaultPopupBlockedBackground);
 			ppdp.iSeconds = _getOptD("PopupBlockedTimeout", defaultPopupBlockedTimeout);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
 			ppdp.colorText = _getOptD("PopupApprovedForeground", defaultPopupApprovedForeground);
 			ppdp.colorBack = _getOptD("PopupApprovedBackground", defaultPopupApprovedBackground);
 			ppdp.iSeconds = _getOptD("PopupApprovedTimeout", defaultPopupApprovedTimeout);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
 			ppdp.colorText = _getOptD("PopupChallengeForeground", defaultPopupChallengeForeground);
 			ppdp.colorBack = _getOptD("PopupChallengeBackground", defaultPopupChallengeBackground);
 			ppdp.iSeconds = _getOptD("PopupChallengeTimeout", defaultPopupChallengeTimeout);
-			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
 	if (_getOptB("PopupWindowsColors", defaultPopupWindowsColors)) {

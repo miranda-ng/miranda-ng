@@ -114,8 +114,8 @@ INT_PTR Meta_LoadIcon(WPARAM wParam, LPARAM)
 	}
 
 	return (INT_PTR)LoadImage(g_hInst, MAKEINTRESOURCE(id), IMAGE_ICON,
-		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON),
-		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+		(wParam & PLIF_SMALL) ? g_iIconX : g_iIconSX,
+		(wParam & PLIF_SMALL) ? g_iIconY : g_iIconSY, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -651,7 +651,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	sid.szModule = META_PROTO;
 	sid.flags = MBF_TCHAR;
 	sid.tszTooltip = LPGENT("Select metacontact");
-	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
+	sid.hIcon = Skin_LoadProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
 	return 0;
 }

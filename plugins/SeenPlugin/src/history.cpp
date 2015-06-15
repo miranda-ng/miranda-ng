@@ -178,15 +178,15 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR),
 			TranslateT("last seen history"));
 		SetWindowText(hwndDlg, sztemp);
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
 
 		if (db_get_b(hContact, S_MOD, "OnlineAlert", 0))
 			CheckDlgButton(hwndDlg, IDC_STATUSCHANGE, BST_CHECKED);
 
-		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
-		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
-		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
+		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
+		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 
 		//set-up tooltips
 		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("View User's Details"), BATF_TCHAR);

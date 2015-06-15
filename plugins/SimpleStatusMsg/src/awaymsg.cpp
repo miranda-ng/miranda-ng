@@ -122,8 +122,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 					SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
 				}
 				SetDlgItemText(hwndDlg, IDC_RETRIEVING, str);
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(szProto, dwStatus));
-				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(szProto, dwStatus));
+				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(szProto, dwStatus));
+				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_LoadProtoIcon(szProto, dwStatus));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY), FALSE);
 			}
 			Utils_RestoreWindowPosition(hwndDlg, lParam, "SRAway", "AwayMsgDlg");
@@ -376,7 +376,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
 				clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-				clmi.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
+				clmi.hIcon = Skin_LoadProtoIcon(szProto, iStatus);
 				mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 				clmi.ptszName = str;
 			}
