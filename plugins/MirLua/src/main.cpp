@@ -3,10 +3,10 @@
 int hLangpack;
 HINSTANCE g_hInstance;
 
-CMLua *mLua;
-HANDLE hCommonFolderPath;
-HANDLE hCustomFolderPath;
+HANDLE g_hCommonFolderPath;
+HANDLE g_hCustomFolderPath;
 
+CMLua *mLua;
 HANDLE hConsole = NULL;
 
 PLUGININFOEX pluginInfo =
@@ -63,6 +63,26 @@ void LoadScripts(const TCHAR *scriptDir)
 	}
 }
 
+int OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.ptszGroup = LPGENT("Customize");
+	odp.ptszTitle = LPGENT("Scripts");
+	odp.ptszTab = _T("Lua");
+	odp.pDialog = CLuaOptions::CreateOptionsPage();
+	Options_AddPage(wParam, &odp);
+
+	return 0;
+}
+
+int OnModulesLoaded(WPARAM wParam, LPARAM)
+{
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
+
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -80,16 +100,18 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	mLua = new CMLua();
 
-	hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
-	hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
+	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
+	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
 	TCHAR commonScriptDir[MAX_PATH];
-	FoldersGetCustomPathT(hCommonFolderPath, commonScriptDir, SIZEOF(commonScriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCommonFolderPath, commonScriptDir, SIZEOF(commonScriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	LoadScripts(commonScriptDir);
 
 	TCHAR customScriptDir[MAX_PATH];
-	FoldersGetCustomPathT(hCustomFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCustomFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	LoadScripts(customScriptDir);
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return 0;
 }

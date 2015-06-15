@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CMLua::CMLua()
+CMLua::CMLua() : L(NULL)
 {
 	L = luaL_newstate();
 	luaL_openlibs(L);
@@ -24,7 +24,8 @@ CMLua::CMLua()
 
 CMLua::~CMLua()
 {
-	lua_close(L);
+	if(L)
+		lua_close(L);
 }
 
 void CMLua::AddPath(const char *path)
