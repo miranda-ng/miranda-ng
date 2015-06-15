@@ -59,7 +59,7 @@ static int lua_GetContactSetting(lua_State *L)
 	DBVARIANT dbv;
 	if (db_get(hContact, szModule, szSetting, &dbv))
 	{
-		lua_pushnil(L);
+		lua_pushvalue(L, 4);
 		return 1;
 	}
 
@@ -85,7 +85,7 @@ static int lua_GetContactSetting(lua_State *L)
 
 	default:
 		db_free(&dbv);
-		lua_pushnil(L);
+		lua_pushvalue(L, 4);
 		return 1;
 	}
 
