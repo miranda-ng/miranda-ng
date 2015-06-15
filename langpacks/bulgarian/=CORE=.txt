@@ -3,524 +3,16 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-[Enter account name (for example, My Google)]
-Въведете име на акаунта
-[Choose the protocol type]
-Изберете тип на протокола
-[Specify the internal account name (optional)]
-Въведете вътрешно име (не е задължително)
-[Cancel]
-Отказ
-[Add contact]
-Добавяне на контакт
-[&Add]
-Добавяне
-[&Cancel]
-Отказ
-[Send "You were added"]
-Изпращане на съобщение "Вие бяхте добавен(а)"
-[Send authorization request]
-Изпрати молба за упълномощаване
-[Custom name:]
-Избор на име:
-[Group:]
-Група:
-[Options]
-Настройки
 [Authorization request]
 Молба за упълномощаване
-[Delete contact]
-Изтриване на контакта
-[&Yes]
-Да
-[&No]
-Не
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Може да отмените скриването от Настройки > Контакти > Игнориране
-[Are you sure you want to delete %s?]
-Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
-[This will erase all history and settings for this contact!]
-Ще бъде изтрита изтрита историята и настройките за контакта!
-[Contact display options]
-Изобразяване на контактите
-[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
-[Miranda NG profile manager]
-Miranda NG - диспечер на профили
-[Manage your Miranda NG profile]
-Управление профилите за Miranda NG
-[&Run]
-Изпълнение
-[&Exit]
-Изход
-[Start in service mode with]
-Стартиране в сервизен режим с:
-[Find/add contacts]
-Търсене/Добавяне на контакти
-[Search:]
-Търсене:
-[E-mail address]
-Имейл
-[Name]
-Име
-[Nick:]
-Прякор:
-[First:]
-Първо:
-[Last:]
-Последно:
-[Advanced]
-Разширени
-[Advanced >>]
-Разширено >>
-[&Search]
-Търсене
-[More options]
-Още опции
-[Add to list]
-Добавяне в списъка
-[Custom]
-Избор
-[Here you can add contacts to your contact list]
-От тук можете да добавите нови контакти в списъка
-[Configure your Miranda NG options]
-Конфигурирайте настройките на Miranda NG
-[Apply]
-Прилагане
-[Switch to simple options]
-Опростен вид на настройките
-[Please select a subentry from the list]
-Моля, изберете подраздел от списъка вляво
-[Install database settings]
-Инсталиране на нови настройки в базата от данни
-[Yes]
-Да
-[No]
-Не
-[A file containing new database settings has been placed in the Miranda NG directory.]
-В директорията на Miranda NG има файл с нови настройки за базата от данни.
-[Do you want to import the settings now?]
-Желаете ли настройките да бъдат внесени сега?
-[No to all]
-Не на всички
-[&View contents]
-Съдържание
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди промени, за които не е известно да са безопасни.
-[Database setting change]
-Промяна в базата от данни
-[Database settings are being imported from]
-Внасяне на настройки в базата от данни от
-[This file wishes to change the setting]
-Файлът ще промени настройките
-[to the value]
-на следната стойност
-[Do you want to allow this change?]
-Желаете ли да позволите тази промяна?
-[&Allow all further changes to this section]
-Разреши всички следващи промени в секцията
-[Cancel import]
-Отказ от вноса
-[Database import complete]
-Внасянето на базата от данни завърши
-[What do you want to do with the file now?]
-Какво желаете да стане с файла?
-[&Delete]
-Изтриване
-[&Move/Rename]
-Преместване/Преименуване
-[&Leave]
-Излизане
-[Netlib log options]
-Настройки на дневника на мрежовите връзки
-[Show]
-Показване
-[Received bytes]
-Получени байтове
-[Sent bytes]
-Изпратени байтове
-[Additional data due to proxy communication]
-Допълнителни данни поради прокси комуникация
-[SSL traffic]
-SSL трафик
-[Auto-detect text]
-Автооткриване на текст
-[Log to]
-Запис в
-[OutputDebugString()]
-OutputDebugString()
-[File]
-Файл
-[Run now]
-Стартиране
-[Show this dialog box when Miranda NG starts]
-Показване на този прозорец, когато Miranda NG стартира
-[Sounds]
-Звук
-[&Change...]
-Промяна...
-[&Preview]
-Образец
-[Download more sounds]
-Сваляне на още звуци
-[Sound information]
-Информация за звука
-[Location:]
-Местоположение:
-[Name:]
-Име:
-[Enable sound events]
-Включване на звука
-[Icons]
-Икони
-[Show category:]
-Показване на категория:
-[&Load icon set...]
-Зареди комплект икони...
-[&Import icons >>]
-Внос на икони >>
-[Download more icons]
-Сваляне на още икони
-[The following events are being ignored:]
-Следните събития ще бъдат игнорирани:
-[Messages]
-Съобщения
-[URLs]
-URL адреси
-[Files]
-Файлове
-[Online notification]
-Уведомяване "На линия"
-[Auth requests]
-Молби за упълномощаване
-[All events]
-Всички събития
-[None]
-Няма
-[Only the ticked contacts will be shown on the main contact list]
-Само отметнатите контакти ще бъдат видими в списъка с контакти
-[Ignore]
-Игнориране
-[Added notification]
-Уведомяване за добавяне
-[Typing]
-Пише
-[Visibility]
-Видимост
-[You are visible to this person even when in invisible mode]
-Винаги сте видим за този човек, дори и при състояние Невидим
-[You are never visible to this person]
-Винаги сте невидим за този човек
-[Icon index]
-Индекс на иконите
-[Icon library:]
-Библиотека на иконите:
-[Drag icons to main list to assign them:]
-За да назначите икона я влачете към главния списък:
-[Import multiple]
-Внос на няколко
-[To main icons]
-Към основните икони
-[To]
-За
-[<< &Import]
-<< Внос
-[To default status icons]
-Стандартни икони за състоянието
-[Logging...]
-Записване...
-[Outgoing connections]
-Изходящи връзки
-[Use proxy server]
-Ползване на прокси сървър
-[Type:]
-Тип:
-[Host:]
-Хост:
-[Port:]
-Порт:
-[(often %d)]
-(често %d)
-[Username:]
-Потребител:
-[Password:]
-Парола:
-[Resolve hostnames through proxy]
-Откриване имената на хостовете чрез прокси сървъра
-[Port range:]
-Портов обхват:
-[Example: 1050-1070, 2000-2010, 2500]
-Пример: 1050-1070, 2000-2010, 2500
-[Validate SSL certificates]
-Потвърждаване на SSL сертификатите
-[Incoming connections]
-Входящи връзки
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
-[Please complete the following form to create a new user profile]
-Попълнете следния формуляр, за да създадете нов потребителски профил.
-[Profile]
-Профил
-[e.g., Workplace]
-напр. raboten
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Можете да изберете драйвер за профила, който предлага повече функции. Ако имате съмнения използвайте стандартния.
-[e.g., dbx mmap]
-напр. dbx mmap driver
-[Driver]
-Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mmap.dll
-[Download more plugins]
-Сваляне на още приставки
-[Description:]
-Описание:
-[Author(s):]
-Автор(и):
-[E-mail:]
-Имейл:
-[Homepage:]
-Страница:
-[Copyright:]
-Copyright:
-[Please restart Miranda NG for your changes to take effect.]
-Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
-[Fonts and colors]
-Шрифтове и цветове
-[Undo]
-Отмяна
-[Reset]
-Анулиране
-[Export...]
-Износ...
-[Color/background]
-Фонов цвят
-[Text effect]
-Ефекти
-[Text color]
-Цвят на текста
-[Choose font]
-Избор на шрифт
-[Menu objects]
-Менюта
-[Menu items]
-Елементи
-[Protocol menus]
-Менюта на протоколите
-[Move to the main menu]
-в главното меню
-[Move to the status bar]
-в лентата за състояние
-[Warning!\r\nThis menu object not support user defined options.]
-Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
-[Insert separator]
-Вмъкване на разделител
-[Service:]
-Услуга:
-[Default]
-Стандарт
-[Set]
-Задай
-[Enable icons]
-Включи иконите
-[Show accounts in the following order,\ndrag to choose another order:]
-Показване на акаунтите в следния ред,\nвлачете, за да промените реда:
-[Account order and visibility]
-Ред и видимост на акаунтите
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
-[Shortcut:]
-Препратка:
-[Add]
-Добавяне
-[Remove]
-Премахване
-[Undo changes]
-Отменяна на промените
-[Reset to default]
-Стандарт
-[Hotkeys]
-Клавишни комбинации
-[Accounts]
-Акаунти
-[Configure your IM accounts]
-Настройте вашите акаунти
-[Account information:]
-Информация за акаунта:
-[Additional:]
-Допълнително:
-[Configure network...]
-Мрежови настройки...
-[Get more protocols...]
-Сваляне на още протоколи...
-[&Add...]
-Добавяне...
-[&Edit]
-Редактиране
-[&Options]
-Настройки
-[&Upgrade]
-Надграждане
-[&Remove...]
-Премахване...
-[Miranda NG is being restarted.\nPlease wait...]
-Miranda NG се рестартира.\nМоля, изчакайте...
-[Error notifications]
-Уведомяване за грешки
-[Headers:]
-Горни колонтитули:
-[This font is used to display main section titles or text elements.]
-Шрифт за изобразяване етикети на секции или текстови елементи.
-[Normal text:]
-Нормален текст:
-[This font is used to display most text elements or section bodies.]
-Шрифт за повечето текстови елементи или съдържанието на секциите.
-[Minor notes:]
-Малки бележки:
-[This font is used to display various additional notes.]
-Шрифта за изобразяване на различни допълнителни бележки.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
-[Event icon legend:]
-Легенда на иконите за събития:
-[Choose events you wish to ignore:]
-Кои събития да бъдат игнорирани:
-[Font effect]
-Ефекти на шрифта
-[Effect:]
-Ефект:
-[Base color:]
-Основен цвят:
-[opacity:]
-плътност:
-[Secondary color:]
-Втори цвят:
-[Select the extra icons to be shown in the contact list:]
-Изберете допълнителни икони за показване в списъка с контакти:
-[*only the first %d icons will be shown]
-*ще бъдат показани само първите %d икони
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
-[Add to existing metacontact]
-Добавяне към съществуващ метаконтакт
-[Please select a metacontact:]
-Моля, изберете метаконтакт:
-[Sort alphabetically]
-По азбучен ред
-[Editing]
-Редактиране
-[Information]
-Информация
-[Contacts]
-Контакти
-[&Remove]
-Премахване
-[&Set as default]
-Стандартен
-[Move &up]
-Нагоре
-[Move &down]
-Надолу
-[&Apply]
-Прилагане
-[Context menu]
-Контекстно меню
-[Use contact's unique ID]
-С уникалния идентификатор
-[Use contact's display name]
-С display name
-[Contact labels]
-Именуване на контактите
-[Set default and open message window]
-Да се отваря прозореца за съобщения
-[Show subcontact context menu]
-Да се показва контекстното меню на подконтакта
-[Show user information]
-Информация за потребителя
-[Contact list]
-Списък с контакти
-[Display subcontact nickname]
-Показване прякора на подконтакта
-[Display subcontact display name]
-Показване на display name на подконтакта
-[Current language:]
-Текущ език:
-[Last modified using:]
-Посл. промяна с:
-[Date:]
-Дата:
-[Locale:]
-Език:
-[Reload langpack]
-Презареждане на пакета
-[Download more language packs]
-Сваляне на още езикови пакети
-[Tray]
-Трей
-[&Hide/Show]
-Показване/Скриване
-[E&xit]
-Изход
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[Group]
-Група
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
-[&Reset to default]
-Стандарт
-[&Add to list]
-Добавяне в списъка
-[User &details]
-Подробности за потребителя
-[Send &message]
-Изпращане на съобщение
-[Log]
-Дневник
-[&Copy]
-Копиране
-[Co&py all]
-Копиране на всичко
-[Select &all]
-Маркиране на всичко
-[C&lear log]
-Изчистване на дневника
-[Open in &new window]
-Отваряне в нов прозорец
-[&Open in existing window]
-Отваряне в съществуващ прозорец
-[&Copy link]
-Копиране на връзката
-[Cancel change]
-Отказ на промяната
-[Ungroup]
-Дегрупиране
 [&Authorize]
 Приемане
 [&Deny]
 Отхвърляне
 [Decide &later]
 Попитай по-късно
+[User &details]
+Подробности за потребителя
 [Reason:]
 Причина:
 [Denial reason:]
@@ -531,8 +23,12 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вие бяхте добавен
 [&Close]
 Затваряне
+[&Add]
+Добавяне
 [%s message for %s]
 Текст "%s" на %s
+[&Cancel]
+Отказ
 [Retrieving %s message...]
 Извличане на текста "%s"...
 [Status messages]
@@ -579,6 +75,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване само на следните събития:
 [Actions]
 Действия
+[Messages]
+Съобщения
 [Nick changes]
 Промяна на прякор
 [Users joining]
@@ -589,12 +87,16 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Промяна на темата
 [Status changes]
 Промяна на състояние
+[Information]
+Информация
 [Disconnects]
 Излизания от мрежата
 [User kicks]
 Изгонване на потребител
 [Notices]
 Известия
+[Options]
+Настройки
 [Log options]
 Настройки на дневника
 [Log timestamp]
@@ -641,8 +143,12 @@ Popup за приставката Chat
 Списък
 [&Message]
 Съобщение
+[Log]
+Дневник
 [Clear lo&g]
 Изчистване на дневника
+[Co&py all]
+Копиране на всичко
 [Word lookup]
 Търсене на дума
 [Wikipedia]
@@ -653,8 +159,12 @@ Wikipedia
 Отваряне в нов прозорец на браузера
 [&Open in current browser window]
 Отваряне в текущия прозорец
+[&Copy link]
+Копиране на връзката
 [Message]
 Съобщение
+[Undo]
+Отмяна
 [Redo]
 Възстановяване
 [Copy]
@@ -675,6 +185,20 @@ Wikipedia
 Затваряне на другите табове
 [&Open at this position]
 Отваряне на тази позиция
+[Delete contact]
+Изтриване на контакта
+[No]
+Не
+[Yes]
+Да
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+Може да отмените скриването от Настройки > Контакти > Игнориране
+[Are you sure you want to delete %s?]
+Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[This will erase all history and settings for this contact!]
+Ще бъде изтрита изтрита историята и настройките за контакта!
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Hide empty groups]
@@ -697,6 +221,8 @@ Wikipedia
 Без мигане на икони
 [ms delay]
 мс времетраене
+[Show]
+Показване
 [icon when statuses differ]
 икона при различни състояния
 [Cycle icons every]
@@ -707,6 +233,8 @@ Wikipedia
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
+[Contact list]
+Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
@@ -863,6 +391,8 @@ Wikipedia
 Фон на списъка с контакти:
 [&Main menu]
 Главно меню
+[E&xit]
+Изход
 [&Status]
 Състояние
 [&Offline\tCtrl+0]
@@ -885,8 +415,38 @@ Wikipedia
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
+[Tray]
+Трей
+[&Hide/Show]
+Показване/Скриване
+[Nowhere]
+Никъде
+[&New group]
+Нова група
+[&Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide &offline users out here]
+Скриване на контактите "Извън линия" тук
+[Hide &empty groups]
+Скриване на празните групи
+[Disable &groups]
+Без групи
+[Hide Miranda]
+Скриване на Miranda
+[Group]
+Група
+[&New subgroup]
+Нова подгрупа
+[&Hide offline users in here]
+Скриване на контактите "Извън линия" тук
+[&Rename group]
+Преименуване на групата
+[&Delete group]
+Изтриване на групата
 [Send file(s)]
 Изпрати файл(ове)
+[Cancel]
+Отказ
 [To:]
 За:
 [File(s):]
@@ -895,6 +455,8 @@ Wikipedia
 Изберете отново...
 [Total size:]
 Общ размер:
+[Description:]
+Описание:
 [&User menu]
 Потребителско меню
 [Incoming file transfer]
@@ -905,6 +467,8 @@ Wikipedia
 Отказ
 [From:]
 От:
+[Date:]
+Дата:
 [Files:]
 Файлове:
 [Save to:]
@@ -943,6 +507,8 @@ Wikipedia
 Размер:
 [Last modified:]
 Последна промяна:
+[Type:]
+Тип:
 [Open file]
 Отвари файла
 [Open folder]
@@ -1111,6 +677,12 @@ Wikipedia
 Запис на позицията на прозореца поотделно за всеки контакт
 [Message window behavior:]
 Поведение на прозореца за съобщения:
+[C&lear log]
+Изчистване на дневника
+[&Copy]
+Копиране
+[Select &all]
+Маркиране на всичко
 [&Open link]
 Отваряне на връзката
 [Paste and send]
@@ -1155,6 +727,8 @@ Wikipedia
 Фамилия:
 [Age:]
 Възраст:
+[E-mail:]
+Имейл:
 [Date of birth:]
 Рожден ден:
 [Marital status:]
@@ -1197,6 +771,432 @@ Wikipedia
 Позиция:
 [Website:]
 Сайт:
+[Enter account name (for example, My Google)]
+Въведете име на акаунта
+[Choose the protocol type]
+Изберете тип на протокола
+[Specify the internal account name (optional)]
+Въведете вътрешно име (не е задължително)
+[Add contact]
+Добавяне на контакт
+[Send "You were added"]
+Изпращане на съобщение "Вие бяхте добавен(а)"
+[Send authorization request]
+Изпрати молба за упълномощаване
+[Custom name:]
+Избор на име:
+[Group:]
+Група:
+[&Yes]
+Да
+[&No]
+Не
+[Contact display options]
+Изобразяване на контактите
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
+[Miranda NG profile manager]
+Miranda NG - диспечер на профили
+[Manage your Miranda NG profile]
+Управление профилите за Miranda NG
+[&Run]
+Изпълнение
+[&Exit]
+Изход
+[Start in service mode with]
+Стартиране в сервизен режим с:
+[Find/add contacts]
+Търсене/Добавяне на контакти
+[Search:]
+Търсене:
+[E-mail address]
+Имейл
+[Name]
+Име
+[Nick:]
+Прякор:
+[First:]
+Първо:
+[Last:]
+Последно:
+[Advanced]
+Разширени
+[Advanced >>]
+Разширено >>
+[&Search]
+Търсене
+[More options]
+Още опции
+[Add to list]
+Добавяне в списъка
+[Custom]
+Избор
+[Here you can add contacts to your contact list]
+От тук можете да добавите нови контакти в списъка
+[Configure your Miranda NG options]
+Конфигурирайте настройките на Miranda NG
+[Apply]
+Прилагане
+[Switch to simple options]
+Опростен вид на настройките
+[Please select a subentry from the list]
+Моля, изберете подраздел от списъка вляво
+[Install database settings]
+Инсталиране на нови настройки в базата от данни
+[A file containing new database settings has been placed in the Miranda NG directory.]
+В директорията на Miranda NG има файл с нови настройки за базата от данни.
+[Do you want to import the settings now?]
+Желаете ли настройките да бъдат внесени сега?
+[No to all]
+Не на всички
+[&View contents]
+Съдържание
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди промени, за които не е известно да са безопасни.
+[Database setting change]
+Промяна в базата от данни
+[Database settings are being imported from]
+Внасяне на настройки в базата от данни от
+[This file wishes to change the setting]
+Файлът ще промени настройките
+[to the value]
+на следната стойност
+[Do you want to allow this change?]
+Желаете ли да позволите тази промяна?
+[&Allow all further changes to this section]
+Разреши всички следващи промени в секцията
+[Cancel import]
+Отказ от вноса
+[Database import complete]
+Внасянето на базата от данни завърши
+[What do you want to do with the file now?]
+Какво желаете да стане с файла?
+[&Delete]
+Изтриване
+[&Move/Rename]
+Преместване/Преименуване
+[&Leave]
+Излизане
+[Netlib log options]
+Настройки на дневника на мрежовите връзки
+[Received bytes]
+Получени байтове
+[Sent bytes]
+Изпратени байтове
+[Additional data due to proxy communication]
+Допълнителни данни поради прокси комуникация
+[SSL traffic]
+SSL трафик
+[Auto-detect text]
+Автооткриване на текст
+[Log to]
+Запис в
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Файл
+[Run now]
+Стартиране
+[Show this dialog box when Miranda NG starts]
+Показване на този прозорец, когато Miranda NG стартира
+[Sounds]
+Звук
+[&Change...]
+Промяна...
+[&Preview]
+Образец
+[Download more sounds]
+Сваляне на още звуци
+[Sound information]
+Информация за звука
+[Location:]
+Местоположение:
+[Name:]
+Име:
+[Enable sound events]
+Включване на звука
+[Icons]
+Икони
+[Show category:]
+Показване на категория:
+[&Load icon set...]
+Зареди комплект икони...
+[&Import icons >>]
+Внос на икони >>
+[Download more icons]
+Сваляне на още икони
+[The following events are being ignored:]
+Следните събития ще бъдат игнорирани:
+[URLs]
+URL адреси
+[Files]
+Файлове
+[Online notification]
+Уведомяване "На линия"
+[Auth requests]
+Молби за упълномощаване
+[All events]
+Всички събития
+[None]
+Няма
+[Only the ticked contacts will be shown on the main contact list]
+Само отметнатите контакти ще бъдат видими в списъка с контакти
+[Ignore]
+Игнориране
+[Added notification]
+Уведомяване за добавяне
+[Typing]
+Пише
+[Visibility]
+Видимост
+[You are visible to this person even when in invisible mode]
+Винаги сте видим за този човек, дори и при състояние Невидим
+[You are never visible to this person]
+Винаги сте невидим за този човек
+[Icon index]
+Индекс на иконите
+[Icon library:]
+Библиотека на иконите:
+[Drag icons to main list to assign them:]
+За да назначите икона я влачете към главния списък:
+[Import multiple]
+Внос на няколко
+[To main icons]
+Към основните икони
+[To]
+За
+[<< &Import]
+<< Внос
+[To default status icons]
+Стандартни икони за състоянието
+[Logging...]
+Записване...
+[Outgoing connections]
+Изходящи връзки
+[Use proxy server]
+Ползване на прокси сървър
+[Host:]
+Хост:
+[Port:]
+Порт:
+[(often %d)]
+(често %d)
+[Username:]
+Потребител:
+[Password:]
+Парола:
+[Resolve hostnames through proxy]
+Откриване имената на хостовете чрез прокси сървъра
+[Port range:]
+Портов обхват:
+[Example: 1050-1070, 2000-2010, 2500]
+Пример: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Потвърждаване на SSL сертификатите
+[Incoming connections]
+Входящи връзки
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
+[Please complete the following form to create a new user profile]
+Попълнете следния формуляр, за да създадете нов потребителски профил.
+[Profile]
+Профил
+[e.g., Workplace]
+напр. raboten
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Можете да изберете драйвер за профила, който предлага повече функции. Ако имате съмнения използвайте стандартния.
+[e.g., dbx mmap]
+напр. dbx mmap driver
+[Driver]
+Драйвер
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mmap.dll
+[Download more plugins]
+Сваляне на още приставки
+[Author(s):]
+Автор(и):
+[Homepage:]
+Страница:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
+[Fonts and colors]
+Шрифтове и цветове
+[Reset]
+Анулиране
+[Export...]
+Износ...
+[Color/background]
+Фонов цвят
+[Text effect]
+Ефекти
+[Text color]
+Цвят на текста
+[Choose font]
+Избор на шрифт
+[Menu objects]
+Менюта
+[Menu items]
+Елементи
+[Protocol menus]
+Менюта на протоколите
+[Move to the main menu]
+в главното меню
+[Move to the status bar]
+в лентата за състояние
+[Warning!\r\nThis menu object not support user defined options.]
+Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
+[Insert separator]
+Вмъкване на разделител
+[Service:]
+Услуга:
+[Default]
+Стандарт
+[Set]
+Задай
+[Enable icons]
+Включи иконите
+[Show accounts in the following order,\ndrag to choose another order:]
+Показване на акаунтите в следния ред,\nвлачете, за да промените реда:
+[Account order and visibility]
+Ред и видимост на акаунтите
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
+[Shortcut:]
+Препратка:
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Undo changes]
+Отменяна на промените
+[Reset to default]
+Стандарт
+[Hotkeys]
+Клавишни комбинации
+[Accounts]
+Акаунти
+[Configure your IM accounts]
+Настройте вашите акаунти
+[Account information:]
+Информация за акаунта:
+[Additional:]
+Допълнително:
+[Configure network...]
+Мрежови настройки...
+[Get more protocols...]
+Сваляне на още протоколи...
+[&Add...]
+Добавяне...
+[&Edit]
+Редактиране
+[&Options]
+Настройки
+[&Upgrade]
+Надграждане
+[&Remove...]
+Премахване...
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG се рестартира.\nМоля, изчакайте...
+[Error notifications]
+Уведомяване за грешки
+[Headers:]
+Горни колонтитули:
+[This font is used to display main section titles or text elements.]
+Шрифт за изобразяване етикети на секции или текстови елементи.
+[Normal text:]
+Нормален текст:
+[This font is used to display most text elements or section bodies.]
+Шрифт за повечето текстови елементи или съдържанието на секциите.
+[Minor notes:]
+Малки бележки:
+[This font is used to display various additional notes.]
+Шрифта за изобразяване на различни допълнителни бележки.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
+[Event icon legend:]
+Легенда на иконите за събития:
+[Choose events you wish to ignore:]
+Кои събития да бъдат игнорирани:
+[Font effect]
+Ефекти на шрифта
+[Effect:]
+Ефект:
+[Base color:]
+Основен цвят:
+[opacity:]
+плътност:
+[Secondary color:]
+Втори цвят:
+[Select the extra icons to be shown in the contact list:]
+Изберете допълнителни икони за показване в списъка с контакти:
+[*only the first %d icons will be shown]
+*ще бъдат показани само първите %d икони
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
+[Add to existing metacontact]
+Добавяне към съществуващ метаконтакт
+[Please select a metacontact:]
+Моля, изберете метаконтакт:
+[Sort alphabetically]
+По азбучен ред
+[Editing]
+Редактиране
+[Contacts]
+Контакти
+[&Remove]
+Премахване
+[&Set as default]
+Стандартен
+[Move &up]
+Нагоре
+[Move &down]
+Надолу
+[&Apply]
+Прилагане
+[Context menu]
+Контекстно меню
+[Use contact's unique ID]
+С уникалния идентификатор
+[Use contact's display name]
+С display name
+[Contact labels]
+Именуване на контактите
+[Set default and open message window]
+Да се отваря прозореца за съобщения
+[Show subcontact context menu]
+Да се показва контекстното меню на подконтакта
+[Show user information]
+Информация за потребителя
+[Display subcontact nickname]
+Показване прякора на подконтакта
+[Display subcontact display name]
+Показване на display name на подконтакта
+[Current language:]
+Текущ език:
+[Last modified using:]
+Посл. промяна с:
+[Locale:]
+Език:
+[Reload langpack]
+Презареждане на пакета
+[Download more language packs]
+Сваляне на още езикови пакети
+[&Reset to default]
+Стандарт
+[&Add to list]
+Добавяне в списъка
+[Send &message]
+Изпращане на съобщение
+[Open in &new window]
+Отваряне в нов прозорец
+[&Open in existing window]
+Отваряне в съществуващ прозорец
+[Cancel change]
+Отказ на промяната
+[Ungroup]
+Дегрупиране
 [%s requests authorization]
 %s желае да бъде упълномощен
 [%u requests authorization]
@@ -1857,22 +1857,42 @@ URL
 Преглед/Промяна на личните данни
 [%s is online]
 %s е на линия
-[All Files]
-Всички файлове
-[Windows bitmaps]
-BMP изображения
-[JPEG bitmaps]
-JPEG изображения
-[GIF bitmaps]
-GIF изображения
-[PNG bitmaps]
-PNG изображения
-[Account]
-Акаунт
 [Add %s]
 Добавяне на %s
 [Please authorize my request and add me to your contact list.]
 Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
+[&Join chat]
+Влизане
+[&Open chat window]
+Отваряне на чат прозореца
+[%s has joined]
+%s влезе
+[You have joined %s]
+Вие влязохте в %s
+[%s has left]
+%s излезе
+[%s has disconnected]
+%s излезе от мрежата
+[%s is now known as %s]
+%s смени името си на %s
+[You are now known as %s]
+Сменихте името си на %s
+[%s kicked %s]
+%s изгони %s
+[Notice from %s: ]
+Известие от %s:\s
+[The topic is '%s%s']
+Темата е "%s%s"
+[ (set by %s on %s)]
+ (зададена от %s на %s)
+[ (set by %s)]
+ (зададена от %s)
+[%s enables '%s' status for %s]
+%s даде статут "%s" на "%s"
+[%s disables '%s' status for %s]
+%s отне статута "%s" на "%s"
+[<invalid>]
+<невалидно>
 [Others nicknames]
 Други прякори
 [Your nickname]
@@ -1921,40 +1941,8 @@ PNG изображения
 Получаване на известие
 [The topic has been changed]
 Промяна на тема
-[&Join chat]
-Влизане
 [&Leave chat]
 Излизане
-[&Open chat window]
-Отваряне на чат прозореца
-[%s has joined]
-%s влезе
-[You have joined %s]
-Вие влязохте в %s
-[%s has left]
-%s излезе
-[%s has disconnected]
-%s излезе от мрежата
-[%s is now known as %s]
-%s смени името си на %s
-[You are now known as %s]
-Сменихте името си на %s
-[%s kicked %s]
-%s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
-[ (set by %s on %s)]
- (зададена от %s на %s)
-[ (set by %s)]
- (зададена от %s)
-[%s enables '%s' status for %s]
-%s даде статут "%s" на "%s"
-[%s disables '%s' status for %s]
-%s отне статута "%s" на "%s"
-[<invalid>]
-<невалидно>
 [%s wants your attention in %s]
 %s изисква вниманието ви в %s
 [%s speaks in %s]
@@ -2033,38 +2021,6 @@ PNG изображения
 "(Непознат контакт)"
 [Contact names]
 Имена на контактите
-[Menu icons]
-Икони в менютата
-[Menus]
-Менюта
-[Customize]
-Персонализиране
-[New group]
-Нова група
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
-[Delete group]
-Изтриване на групата
-[You already have a group with that name. Please enter a unique name for the group.]
-Вече съществува група с въведеното име. Моля, въведете уникално име.
-[Rename group]
-Преименуване на групата
-[This group]
-Тази група
-[Show/Hide contact list]
-Показва/Скрива списъка с контакти
-[Read message]
-Прочитане на съобщение
-[Open Options page]
-Отваря "Настройки"
-[Open logging options]
-Отваря "Настройки на дневника на мрежовите връзки"
-[Open 'Find user' dialog]
-Отваря "Търсене/Добавяне на контакти"
-[&Move to group]
-Преместване в друга група
-[<Root group>]
-<Главна група>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно вече съществува профил със същото име. Моля, разрешете проблема ръчно!
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2103,48 +2059,8 @@ PNG изображения
 Бяхте добавени от %s%s
 [Contacts: ]
 Контакти:\s
-[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
-[The profile already exists]
-Профила вече съществува
-[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Не е възможно '%s' да бъде преместен в кошчето. Моля, изберете друго име.
-[Problem moving profile]
-Проблем с преместването на профила
-[Unable to create the profile '%s', the error was %x]
-Създаването на профила '%s' е невъзможно поради следната грешка - %x
-[Problem creating profile]
-Проблем със създаването на профил
-[&Create]
-Създаване
-[<In use>]
-<В употреба>
-[<Unknown format>]
-<Неизвестен формат>
-[Are you sure you want to remove profile "%s"?]
-Наистина ли желаете профилът "%s" да бъде изтрит?
-[&Convert]
-Конвертиране
-[Run]
-Изпълнение
-[Convert database]
-Конвертиране на базата данни
-[Check database]
-Проверка на базата данни
-[Size]
-Размер
-[Created]
-Създаден
-[Modified]
-Променен
-[My profiles]
-Моите профили
-[New profile]
-Нов профил
 [Chat activity]
 Чат активност
-[Extra icons]
-Допълнителни икони
 [You haven't filled in the search field. Please enter a search term and try again.]
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
 [Search]
@@ -2159,20 +2075,6 @@ PNG изображения
 Всички мрежи
 [&Find/add contacts...]
 Търсене/Добавяне на контакти
-[Could not start a search on '%s', there was a problem - is %s connected?]
-Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
-[Could not search on any of the protocols, are you online?]
-Не е възможно търсене в никой от протоколите. На линия ли сте?
-[Problem with search]
-Проблем с търсенето
-[1 %s user found]
-1 %s намерен потребител
-[%d %s users found]
-Намерени са %d потребителя от мрежата %s
-[%d users found (]
-%d намерени потребителя (
-[No users found]
-Няма намерени потребители
 [Failed to create file]
 Грешка при създаването на файла
 [<none>]
@@ -2187,6 +2089,8 @@ PNG изображения
 Текстови файлове
 [Error writing file]
 Грешка при записването на файла
+[Customize]
+Персонализиране
 [Sample text]
 Примерен текст
 [Fonts]
@@ -2197,10 +2101,92 @@ PNG изображения
 Основен текст
 [Small text]
 Малък текст
-[Icon sets]
-Комплект икони
+[Menu icons]
+Икони в менютата
+[Menus]
+Менюта
+[New group]
+Нова група
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
+[Delete group]
+Изтриване на групата
+[You already have a group with that name. Please enter a unique name for the group.]
+Вече съществува група с въведеното име. Моля, въведете уникално име.
+[Rename group]
+Преименуване на групата
+[This group]
+Тази група
+[Browser: Back]
+Браузър: Назад
+[Browser: Forward]
+Браузър: Напред
+[Browser: Refresh]
+Браузър: Презареди
+[Browser: Stop]
+Браузър: Стоп
+[Browser: Search]
+Браузър: Търсене
+[Browser: Fav]
+Браузър: Любими
+[Browser: Home]
+Браузър: Начало
+[Mute]
+Вкл./Изкл. на звука
+[Vol-]
+Звук -
+[Vol+]
+Звук +
+[Media: Next Track]
+Медия: Следваща песен
+[Media: Prev. Track]
+Медия: Предишна песен
+[Media: Stop]
+Медия: Стоп
+[Media: Play/Pause]
+Медия: ВЪзпроизведи/Пауза
+[Mail]
+Поща
+[Media: Select]
+Медия: Избор
+[Ctrl + ]
+Ctrl +\s
+[Alt + ]
+Alt +\s
+[Shift + ]
+Shift +\s
+[Win + ]
+Win +\s
+[Remove shortcut]
+Премахване на препратката
+[Add another shortcut]
+Добавяне на препратка
+[Scope:]
+Обхват:
+[System]
+Система
+[Actions:]
+Действия:
+[Add binding]
+Дублиране
+[Modify]
+Промяна
+[System scope]
+За Windows
+[Miranda scope]
+Само за Miranda
 [** All contacts **]
 ** Всички контакти **
+[Show/Hide contact list]
+Показва/Скрива списъка с контакти
+[Read message]
+Прочитане на съобщение
+[Open Options page]
+Отваря "Настройки"
+[Open logging options]
+Отваря "Настройки на дневника на мрежовите връзки"
+[Open 'Find user' dialog]
+Отваря "Търсене/Добавяне на контакти"
 [(incompatible)]
 (несъвместимо)
 [Unknown]
@@ -2281,6 +2267,10 @@ PNG изображения
 Изберете метакнтакт
 [Sender]
 Изпращач
+[&Move to group]
+Преместване в друга група
+[<Root group>]
+<Главна група>
 [No times]
 Без час
 [Standard hh:mm:ss times]
@@ -2297,18 +2287,6 @@ PNG изображения
 <Всички връзки>
 [Network]
 Мрежа
-[<all modules>]
-<всички модули>
-[<core modules>]
-<модули на ядрото>
-[Loading... %d%%]
-Зареждане... %d%%
-[%s options]
-%s настройки
-[Miranda NG options]
-Настройки на Miranda NG
-[&Options...]
-Настройки...
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
 ['%s' is disabled, re-enable?]
@@ -2323,6 +2301,24 @@ PNG изображения
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка.
+[<all modules>]
+<всички модули>
+[<core modules>]
+<модули на ядрото>
+[Loading... %d%%]
+Зареждане... %d%%
+[%s options]
+%s настройки
+[Miranda NG options]
+Настройки на Miranda NG
+[&Options...]
+Настройки...
+[Extra icons]
+Допълнителни икони
+[Avatars]
+Аватари
+[Avatars root folder]
+Основна папка за аватари
 [Plugin]
 Приставка
 [Version]
@@ -2333,6 +2329,44 @@ PNG изображения
 Желаете ли да бъде рестартирана сега?
 [Plugins]
 Приставки
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
+[The profile already exists]
+Профила вече съществува
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Не е възможно '%s' да бъде преместен в кошчето. Моля, изберете друго име.
+[Problem moving profile]
+Проблем с преместването на профила
+[Unable to create the profile '%s', the error was %x]
+Създаването на профила '%s' е невъзможно поради следната грешка - %x
+[Problem creating profile]
+Проблем със създаването на профил
+[&Create]
+Създаване
+[<In use>]
+<В употреба>
+[<Unknown format>]
+<Неизвестен формат>
+[Are you sure you want to remove profile "%s"?]
+Наистина ли желаете профилът "%s" да бъде изтрит?
+[&Convert]
+Конвертиране
+[Run]
+Изпълнение
+[Convert database]
+Конвертиране на базата данни
+[Check database]
+Проверка на базата данни
+[Size]
+Размер
+[Created]
+Създаден
+[Modified]
+Променен
+[My profiles]
+Моите профили
+[New profile]
+Нов профил
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Акаунтът ще бъде изтрит. Тоест всички негови настройки, контакти и историята ще бъдат изтрити.\n\nНаистина ли желаете това?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2381,64 +2415,22 @@ ID на акаунта
 Необходимо е да изключите приставка, за да бъде изтрит акаунта.
 [&Accounts...]
 Акаунти...
-[Browser: Back]
-Браузър: Назад
-[Browser: Forward]
-Браузър: Напред
-[Browser: Refresh]
-Браузър: Презареди
-[Browser: Stop]
-Браузър: Стоп
-[Browser: Search]
-Браузър: Търсене
-[Browser: Fav]
-Браузър: Любими
-[Browser: Home]
-Браузър: Начало
-[Mute]
-Вкл./Изкл. на звука
-[Vol-]
-Звук -
-[Vol+]
-Звук +
-[Media: Next Track]
-Медия: Следваща песен
-[Media: Prev. Track]
-Медия: Предишна песен
-[Media: Stop]
-Медия: Стоп
-[Media: Play/Pause]
-Медия: ВЪзпроизведи/Пауза
-[Mail]
-Поща
-[Media: Select]
-Медия: Избор
-[Ctrl + ]
-Ctrl +\s
-[Alt + ]
-Alt +\s
-[Shift + ]
-Shift +\s
-[Win + ]
-Win +\s
-[Remove shortcut]
-Премахване на препратката
-[Add another shortcut]
-Добавяне на препратка
-[Scope:]
-Обхват:
-[System]
-Система
-[Actions:]
-Действия:
-[Add binding]
-Дублиране
-[Modify]
-Промяна
-[System scope]
-За Windows
-[Miranda scope]
-Само за Miranda
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
+[Could not search on any of the protocols, are you online?]
+Не е възможно търсене в никой от протоколите. На линия ли сте?
+[Problem with search]
+Проблем с търсенето
+[1 %s user found]
+1 %s намерен потребител
+[%d %s users found]
+Намерени са %d потребителя от мрежата %s
+[%d users found (]
+%d намерени потребителя (
+[No users found]
+Няма намерени потребители
+[Icon sets]
+Комплект икони
 [User online]
 Потребител "На линия"
 [Group (open)]
@@ -2519,10 +2511,6 @@ ANSI приставка
 Файлове със звуци
 [WAV files]
 WAV файлове
-[Avatars]
-Аватари
-[Avatars root folder]
-Основна папка за аватари
 [<unspecified>]
 <Неуточнено>
 [Unspecified]
@@ -3025,3 +3013,15 @@ WAV файлове
 Замбия
 [Zimbabwe]
 Зимбабве
+[All Files]
+Всички файлове
+[Windows bitmaps]
+BMP изображения
+[JPEG bitmaps]
+JPEG изображения
+[GIF bitmaps]
+GIF изображения
+[PNG bitmaps]
+PNG изображения
+[Account]
+Акаунт

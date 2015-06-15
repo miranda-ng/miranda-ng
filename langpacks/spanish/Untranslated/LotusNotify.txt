@@ -9,7 +9,6 @@
 [min.]
 [(0-disabled)]
 [Keep connection on error]
-[Popup options]
 [Set popup colors]
 [Close after:]
 [sec (0 default, -1 disabled)]

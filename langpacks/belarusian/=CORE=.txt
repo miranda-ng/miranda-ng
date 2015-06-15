@@ -3,552 +3,17 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-;file \src\resource.rc
-[Enter account name (for example, My Google)]
-Увядзіце імя конта
-[Choose the protocol type]
-Выбар тыпу пратаколу
-[Specify the internal account name (optional)]
-Пазначце ўнутранае імя конту (не абавязкова)
-[Cancel]
-Скасаваць
-[Add contact]
-Дадаць кантакт
-[&Add]
-Дадаць
-[&Cancel]
-Скасаваць
-[Send "You were added"]
-Адправіць "Вас дадалі"
-[Send authorization request]
-Адправіць запыт на аўтарызацыю
-[Open contact's chat window]
-Адчыніць вакно гутаркі
-[Custom name:]
-Зададзенае імя:
-[Group:]
-Гурт:
-[Options]
-Налады
+;file \src\core\stdauth\res\resource.rc
 [Authorization request]
 Запыт аўтарызацыі
-[Delete contact]
-Выдаліць кантакт
-[&Yes]
-&Так
-[&No]
-&Не
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Схаваць са спісу (захоўваецца гісторыя і налады бачнасці)
-[Use Options->Contacts->Ignore to unhide contacts.]
-Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
-[Are you sure you want to delete %s?]
-Выдаліць %s са спісу?
-[This will erase all history and settings for this contact!]
-Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
-[Contact display options]
-Параметры паказу кантактаў
-[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Замест паказу мянушак,\nабярыце іншы прыярытэт паказу імёнаў:
-[Miranda NG profile manager]
-Мэнэджар профіляў Miranda
-[Manage your Miranda NG profile]
-Кіраванне профілямі Miranda NG
-[&Run]
-Выканаць
-[&Exit]
-Выхад
-[Start in service mode with]
-Запуск у службовым рэжыме з
-[Find/add contacts]
-Знайсці/дадаць кантакты
-[Search:]
-Шукаць:
-[E-mail address]
-Адрас e-mail
-[Name]
-Імя
-[Nick:]
-Мянушка:
-[First:]
-Імя:
-[Last:]
-Прозвішча:
-[Advanced]
-Дадаткова
-[Advanced >>]
-Дадаткова >>
-[&Search]
-Шукаць
-[More options]
-Яшчэ налады
-[Add to list]
-Дадаць у спіс
-[Custom]
-Наладзіць
-[Here you can add contacts to your contact list]
-Тут Вы можаце знайсці і дадаць кантакты ў спіс кантактаў
-[Configure your Miranda NG options]
-Галоўны дыялог налад Miranda NG
-[Apply]
-Ужыць
-[Switch to simple options]
-Спрошчаны выгляд налад
-[Please select a subentry from the list]
-Абярыце падпадзел са спісу
-[Install database settings]
-Усталяваць налады базы дадзеных
-[Yes]
-Так
-[No]
-Не
-[A file containing new database settings has been placed in the Miranda NG directory.]
-Файл з новымі наладамі базы дадзеных быў змешчаны ў тэчку Міранды.
-[Do you want to import the settings now?]
-Імпартаваць налады зараз?
-[No to all]
-Не для ўсіх
-[&View contents]
-&Змест
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад небяспечнымі зменамі.
-[Database setting change]
-Змена налад базы дадзеных
-[Database settings are being imported from]
-Налады імпартуюцца з
-[This file wishes to change the setting]
-Гэты файл змяняе наладу
-[to the value]
-на значэнне
-[Do you want to allow this change?]
-Дазволіць змену?
-[&Allow all further changes to this section]
-&Дазволіць усе змены ў гэтай секцыі
-[Cancel import]
-Скасаваць імпарт
-[Database import complete]
-Імпарт базы здзейснены
-[The import has completed from]
-Імпарт здзейснены з
-[What do you want to do with the file now?]
-Што вы жадаеце зрабіць з файлам?
-[&Recycle]
-Вярнуць
-[&Delete]
-Выдаліць
-[&Move/Rename]
-Перасунуць/пераназваць
-[&Leave]
-Пакінуць
-[Netlib log options]
-Налады лога сеціва
-[Show]
-Паказаць
-[Received bytes]
-Атрыманыя байты
-[Sent bytes]
-Адпраў. байты
-[Additional data due to proxy communication]
-Дадатковыя дадзеныя пра проксі
-[SSL traffic]
-Трафік SSL
-[Text dumps where available]
-Тэкставыя дампы (калі ёсць)
-[Auto-detect text]
-Аўтавызначэнне тэксту
-[Calling modules' names]
-Імёны выклікаючых плагінаў
-[Log to]
-Весьці лог у
-[OutputDebugString()]
-Выснова адладкавых радкоў
-[File]
-Файл
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-Выканаць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
-[Run now]
-Вык. зараз
-[Show this dialog box when Miranda NG starts]
-Паказаць гэты дыялог пры запуску Miranda NG
-[Sounds]
-Гукі
-[&Change...]
-Змяніць...
-[&Preview]
-Прагляд
-[Download more sounds]
-Запампаваць з сайта Miranda NG
-[Sound information]
-Дадатковая інфармацыя
-[Location:]
-Шлях:
-[Name:]
-Імя:
-[Enable sound events]
-Уключыць гукі падзей
-[Icons]
-Абразкі
-[Show category:]
-Катэгорыя:
-[&Load icon set...]
-Абраць набор абразкоў...
-[&Import icons >>]
-Імпарт абразкоў >>
-[Download more icons]
-Запампаваць яшчэ
-[The following events are being ignored:]
-Наступныя падзеі будуць праігнараваны:
-[Messages]
-Паведамленні
-[URLs]
-Спасылкі
-[Files]
-Файлы
-[Online notification]
-Абвестка "Далучаны"
-[Auth requests]
-Запыты аўтарызацыі
-[All events]
-Усе падзеі
-[None]
-Няма
-[Only the ticked contacts will be shown on the main contact list]
-Толькі пазначаныя кантакты будуць паказаны ў спісе кантактаў
-[Ignore]
-Ігнараваць
-[Added notification]
-Абвестка пра даданне
-[Typing]
-Набор тэксту
-[Visibility]
-Бачнасць
-[You are visible to this person even when in invisible mode]
-Вы заўсёды бачныя для гэтага чалавека
-[You are never visible to this person]
-Вы заўсёды нябачныя для гэтага чалавека
-[Icon index]
-Нумар абразка
-[Icon library:]
-Бібліятэка:
-[Drag icons to main list to assign them:]
-Перацягніце абразок у вакно для замены:
-[Import multiple]
-Імпарт некалькіх
-[To main icons]
-Галоўныя абразкі
-[To]
-У
-[<< &Import]
-<< Імпарт
-[To default status icons]
-Абразкі па змаўчанні
-[Logging...]
-Лог...
-[Outgoing connections]
-Выходныя злучэнні
-[Use proxy server]
-Карыстацца проксі
-[Type:]
-Тып:
-[Host:]
-Хост:
-[Port:]
-Порт:
-[(often %d)]
-(частая %d)
-[Use custom login (domain login picked up automatically)]
-Імя карыстача (уваход з даменным іменем аўтаматычны)
-[Username:]
-Карыстач:
-[Password:]
-Пароль:
-[Resolve hostnames through proxy]
-Выкарыстоўваць DNS на проксі
-[Port range:]
-Порты:
-[Example: 1050-1070, 2000-2010, 2500]
-Прыклад: 1050-1070, 2000-2010, 2500
-[Validate SSL certificates]
-Правяраць подпіс SSL сертыфікатаў
-[Incoming connections]
-Уваходныя злучэнні
-[Enable UPnP port mapping]
-Уключыць перанакіраванне портаў UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Змены запрацуюць пры наступным далучэнні.
-[Please complete the following form to create a new user profile]
-Запоўніце форму для стварэння профіля карыстача
-[Profile]
-Профіль
-[e.g., Workplace]
-напр. "Працоўны"
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Вы можаце абраць іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
-[e.g., dbx mmap]
-напрыклад, dbx_mmap
-[Driver]
-Драйвер
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mmap.dll
-[Download more plugins]
-Запампаваць іншыя плагіны
-[Description:]
-Апісанне:
-[Author(s):]
-Аўтар(ы):
-[E-mail:]
-Пошта:
-[Homepage:]
-Сайт:
-[Unique ID:]
-Унік. ID:
-[Copyright:]
-Правы:
-[Please restart Miranda NG for your changes to take effect.]
-Змены запрацуюць пасля перазапуску праграмы.
-[Fonts and colors]
-Шрыфты і колеры
-[Undo]
-Адкат
-[Reset]
-Скід
-[Export...]
-Экспарт...
-[Color/background]
-Колер фону
-[Text effect]
-Эфект
-[Text color]
-Колер тэксту
-[Choose font]
-Шрыфт
-[Menu objects]
-Выгляды меню
-[Menu items]
-Пункты меню
-[Protocol menus]
-Меню пратаколаў
-[Move to the main menu]
-У галоўным меню
-[Move to the status bar]
-У панэлі статусаў
-[Warning!\r\nThis menu object not support user defined options.]
-Увага!\r\nГэтыя пункты меню не паддаюцца наладзе.
-[Insert separator]
-Уставіць падзельнік
-[Service:]
-Cлужба:
-[Default]
-Змаўчанні
-[Set]
-Абраць
-[Enable icons]
-Уключыць абразкі
-[Show accounts in the following order,\ndrag to choose another order:]
-Паслядоўнасць адлюстравання контаў.\nПерацягвайце для змены:
-[Account order and visibility]
-Паслядоўнасць контаў
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Нататка: Змены запрацуюць пасля перазапуску праграмы.
-[Key bindings]
-Гарачыя клавішы
-[Shortcut:]
-Спалучэнне:
-[Add]
-Дадаць
-[Remove]
-Выдаліць
-[Undo changes]
-Адмяніць змены
-[Reset to default]
-Скід на змаўчанні
-[Hotkeys]
-Гарачыя клавішы
-[Accounts]
-Конты
-[Configure your IM accounts]
-Налада вашых контаў
-[Account information:]
-Конт:
-[Additional:]
-Дадаткова:
-[Configure network...]
-Налада сеціва...
-[Get more protocols...]
-Загрузка пратаколаў...
-[&Add...]
-&Дадаць
-[&Edit]
-Кіраваць
-[&Options]
-&Налады
-[&Upgrade]
-&Мадэрнізацыя
-[&Remove...]
-Выдаліць...
-[Miranda NG is being restarted.\nPlease wait...]
-Miranda NG перазапускаецца.\nКалі ласка, пачакайце...
-[Error console]
-Кансоль памылак
-[Error notifications]
-Абвесткі пра памылкі
-[Headers:]
-Загалоўкі:
-[This font is used to display main section titles or text elements.]
-Шрыфт для загалоўкаў асноўных частак ці тэкставых элементаў.
-[Normal text:]
-Звычайны тэкст:
-[This font is used to display most text elements or section bodies.]
-Шрыфт для большасці тэкставых элементаў ці частак.
-[Minor notes:]
-Нататкі:
-[This font is used to display various additional notes.]
-Шрыфт для розных дадатковых нататак.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Вас вітае менеджэр контаў Міранды НГ!\nТут вы можаце наладзіць свае конты.\n\nАбярыце конт з спісу злева, каб убачыць даступныя опцыі. Цi проста націсніце на кнопку "Стварыць" пад спісам, каб стварыць новы конт.
-[Event icon legend:]
-Апісанне абразкоў падзей:
-[Choose events you wish to ignore:]
-Выберыце падзеі, якія вы хочаце ігнараваць:
-[Font effect]
-Эфект шрыфта
-[Effect:]
-Эфект:
-[Base color:]
-Асноўны колер:
-[opacity:]
-непразрыстасць:
-[Secondary color:]
-Другасны колер:
-[Select the extra icons to be shown in the contact list:]
-Абярыце якія экстра абразкі будуць адлюстроўвацца ў спісе кантактаў:
-[*only the first %d icons will be shown]
-*будуць адлюстроўвацца толькі першыя %d абразкоў
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Вы можаце гуртаваць/разгуртоўваць абразкі, вылучаючы іх (CTRL+клік левай кнопкай мышы) і выклікаючы меню з дапамогай правай кнопкі мышы.
-[Add to existing metacontact]
-Дадаць да метакантакту
-[Please select a metacontact:]
-Абярыце метакантакт
-[Sort alphabetically]
-Па алфавіце
-[Editing]
-Рэдагаванне
-[Information]
-Інфармацыя
-[Contacts]
-Кантакты
-[&Remove]
-выдаліць
-[&Set as default]
-&Па змаўчанні
-[Move &up]
-Угару
-[Move &down]
-Уніз
-[Send &offline]
-У афлайн
-[&Apply]
-Ужыць
-[Context menu]
-Кантэкстнае меню
-[Use contact's unique ID]
-UIN, E-mail і г.д.
-[Use contact's display name]
-Выкарыстоўваць імя
-[Contact labels]
-Пазнакі кантактаў
-[Set default and open message window]
-Адчыніць вакно паведамленні
-[Show subcontact context menu]
-Паказваць кантэкстнае меню
-[Show user information]
-Пра кантакт
-[Contact list]
-Спіс кантактаў
-[Display subcontact nickname]
-Выкарыстоўваць мянушку субкантакту
-[Display subcontact display name]
-Выкарыстоўваць адлюстроўванае імя
-[Lock name to first contact]
-Фіксаваць імя
-[Last modified using:]
-Праверана на версіі:
-[Date:]
-Дата:
-[Locale:]
-Мова:
-[Reload langpack]
-Аднавіць пераклад
-[Download more language packs]
-Загрузіць дадатковыя пераклады
-[Tray]
-Трэй
-[&Hide/Show]
-С&хаваць/паказаць
-[E&xit]
-Выхад
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртоў
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[Group]
-Гурт
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
-[&Reset to default]
-&Скінуць
-[find/add]
-знайсці/дадаць
-[&Add to list]
-&Дадаць у спіс
-[User &details]
-&Інфармацыя
-[Send &message]
-Адправіць паведамленне
-[Log]
-Лог
-[&Copy]
-Капіяваць
-[Co&py all]
-Капіяваць усё
-[Select &all]
-Вылучыць &усё
-[C&lear log]
-Сцерці лог
-[Open in &new window]
-Адкрыць у новым вакне
-[&Open in existing window]
-Адкрыць у бягучым вакне
-[&Copy link]
-Капіяваць спасылку
-[Cancel change]
-Адкаціць змены
-[Ungroup]
-Разгуртаваць
-;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 Дазволіць
 [&Deny]
 Забараніць
 [Decide &later]
 Вырашыць &пазней
+[User &details]
+&Інфармацыя
 [Reason:]
 Чыннік:
 [Denial reason:]
@@ -559,9 +24,13 @@ UIN, E-mail і г.д.
 Вас дадалі
 [&Close]
 Зачыніць
+[&Add]
+Дадаць
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s (%s)
+[&Cancel]
+Скасаваць
 [Retrieving %s message...]
 Загрузка паведамлення "%s"...
 [Status messages]
@@ -609,6 +78,8 @@ UIN, E-mail і г.д.
 Паказваць толькі:
 [Actions]
 Дзеянні
+[Messages]
+Паведамленні
 [Nick changes]
 Змена ніка
 [Users joining]
@@ -619,12 +90,16 @@ UIN, E-mail і г.д.
 Змены тэмы
 [Status changes]
 Змены статусу
+[Information]
+Інфармацыя
 [Disconnects]
 Адключэнні
 [User kicks]
 Выспятак
 [Notices]
 Абвесткі
+[Options]
+Налады
 [Log options]
 Налады лога
 [Log timestamp]
@@ -673,8 +148,12 @@ UIN, E-mail і г.д.
 Спіс
 [&Message]
 Паведамленне
+[Log]
+Лог
 [Clear lo&g]
 Сцерці чат
+[Co&py all]
+Капіяваць усё
 [Word lookup]
 Знайсці слова
 [Link]
@@ -683,8 +162,12 @@ UIN, E-mail і г.д.
 Адкрыць у &новым вакне
 [&Open in current browser window]
 Адкрыць у бягучым вакне
+[&Copy link]
+Капіяваць спасылку
 [Message]
 Паведамленне
+[Undo]
+Адкат
 [Redo]
 Вярнуць
 [Copy]
@@ -706,6 +189,20 @@ UIN, E-mail і г.д.
 [&Open at this position]
 Адкрыць у гэтым месцы
 ;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+Выдаліць кантакт
+[No]
+Не
+[Yes]
+Так
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Схаваць са спісу (захоўваецца гісторыя і налады бачнасці)
+[Use Options->Contacts->Ignore to unhide contacts.]
+Налады->Кантакты->Ігнараваць, каб адлюстраваць кантакты.
+[Are you sure you want to delete %s?]
+Выдаліць %s са спісу?
+[This will erase all history and settings for this contact!]
+Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
 [Hide offline users]
 Схаваць адключаных
 [Hide empty groups]
@@ -728,6 +225,8 @@ UIN, E-mail і г.д.
 Выключыць мігценне
 [ms delay]
 Затрымка (мс)
+[Show]
+Паказаць
 [icon when statuses differ]
 пры розных статусах
 [Cycle icons every]
@@ -738,6 +237,8 @@ UIN, E-mail і г.д.
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
+[Contact list]
+Спіс кантактаў
 [System tray icon]
 Абразок у трэі
 [System tray icon when using multiple protocols]
@@ -896,6 +397,8 @@ UIN, E-mail і г.д.
 Фон спісу кантактаў:
 [&Main menu]
 Галоўнае меню
+[E&xit]
+Выхад
 [&Status]
 Статус
 [&Offline\tCtrl+0]
@@ -918,9 +421,39 @@ UIN, E-mail і г.д.
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
+[Tray]
+Трэй
+[&Hide/Show]
+С&хаваць/паказаць
+[Nowhere]
+Нідзе
+[&New group]
+Стварыць гурт
+[&Hide offline users]
+Схаваць адключаных
+[Hide &offline users out here]
+Схаваць адключаных па-за гуртоў
+[Hide &empty groups]
+Схаваць пустыя гурты
+[Disable &groups]
+Адключыць гурты
+[Hide Miranda]
+Схаваць спіс кантактаў
+[Group]
+Гурт
+[&New subgroup]
+Стварыць падгурт
+[&Hide offline users in here]
+Схаваць адключаных у гурце
+[&Rename group]
+Пераназваць гурт
+[&Delete group]
+Выдаліць гурт
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Адправіць файл(ы)
+[Cancel]
+Скасаваць
 [To:]
 Для:
 [File(s):]
@@ -929,6 +462,8 @@ UIN, E-mail і г.д.
 &Абраць ізноў...
 [Total size:]
 Агульны памер:
+[Description:]
+Апісанне:
 [&User menu]
 Меню кантакта
 [Incoming file transfer]
@@ -939,6 +474,8 @@ UIN, E-mail і г.д.
 Адмовіць
 [From:]
 Ад:
+[Date:]
+Дата:
 [Files:]
 Файлы:
 [Save to:]
@@ -977,6 +514,8 @@ UIN, E-mail і г.д.
 Памер:
 [Last modified:]
 Зменены:
+[Type:]
+Тып:
 [Open file]
 Адкрыць файл
 [Open folder]
@@ -1154,6 +693,12 @@ UIN, E-mail і г.д.
 Паводзіны вакна гутаркі:
 [Messaging:]
 Адсылаць паведамленні:
+[C&lear log]
+Сцерці лог
+[&Copy]
+Капіяваць
+[Select &all]
+Вылучыць &усё
 [&Open link]
 &адчыніць спасылку
 [Paste and send]
@@ -1200,6 +745,8 @@ UIN, E-mail і г.д.
 Прозвішча:
 [Age:]
 Узрост:
+[E-mail:]
+Пошта:
 [Date of birth:]
 Дата нараджэння:
 [Marital status:]
@@ -1242,6 +789,459 @@ UIN, E-mail і г.д.
 Пасада:
 [Website:]
 Сайт:
+;file \src\mir_app\res\resource.rc
+[Enter account name (for example, My Google)]
+Увядзіце імя конта
+[Choose the protocol type]
+Выбар тыпу пратаколу
+[Specify the internal account name (optional)]
+Пазначце ўнутранае імя конту (не абавязкова)
+[Add contact]
+Дадаць кантакт
+[Send "You were added"]
+Адправіць "Вас дадалі"
+[Send authorization request]
+Адправіць запыт на аўтарызацыю
+[Open contact's chat window]
+Адчыніць вакно гутаркі
+[Custom name:]
+Зададзенае імя:
+[Group:]
+Гурт:
+[&Yes]
+&Так
+[&No]
+&Не
+[Contact display options]
+Параметры паказу кантактаў
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Замест паказу мянушак,\nабярыце іншы прыярытэт паказу імёнаў:
+[Miranda NG profile manager]
+Мэнэджар профіляў Miranda
+[Manage your Miranda NG profile]
+Кіраванне профілямі Miranda NG
+[&Run]
+Выканаць
+[&Exit]
+Выхад
+[Start in service mode with]
+Запуск у службовым рэжыме з
+[Find/add contacts]
+Знайсці/дадаць кантакты
+[Search:]
+Шукаць:
+[E-mail address]
+Адрас e-mail
+[Name]
+Імя
+[Nick:]
+Мянушка:
+[First:]
+Імя:
+[Last:]
+Прозвішча:
+[Advanced]
+Дадаткова
+[Advanced >>]
+Дадаткова >>
+[&Search]
+Шукаць
+[More options]
+Яшчэ налады
+[Add to list]
+Дадаць у спіс
+[Custom]
+Наладзіць
+[Here you can add contacts to your contact list]
+Тут Вы можаце знайсці і дадаць кантакты ў спіс кантактаў
+[Configure your Miranda NG options]
+Галоўны дыялог налад Miranda NG
+[Apply]
+Ужыць
+[Switch to simple options]
+Спрошчаны выгляд налад
+[Please select a subentry from the list]
+Абярыце падпадзел са спісу
+[Install database settings]
+Усталяваць налады базы дадзеных
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Файл з новымі наладамі базы дадзеных быў змешчаны ў тэчку Міранды.
+[Do you want to import the settings now?]
+Імпартаваць налады зараз?
+[No to all]
+Не для ўсіх
+[&View contents]
+&Змест
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад небяспечнымі зменамі.
+[Database setting change]
+Змена налад базы дадзеных
+[Database settings are being imported from]
+Налады імпартуюцца з
+[This file wishes to change the setting]
+Гэты файл змяняе наладу
+[to the value]
+на значэнне
+[Do you want to allow this change?]
+Дазволіць змену?
+[&Allow all further changes to this section]
+&Дазволіць усе змены ў гэтай секцыі
+[Cancel import]
+Скасаваць імпарт
+[Database import complete]
+Імпарт базы здзейснены
+[The import has completed from]
+Імпарт здзейснены з
+[What do you want to do with the file now?]
+Што вы жадаеце зрабіць з файлам?
+[&Recycle]
+Вярнуць
+[&Delete]
+Выдаліць
+[&Move/Rename]
+Перасунуць/пераназваць
+[&Leave]
+Пакінуць
+[Netlib log options]
+Налады лога сеціва
+[Received bytes]
+Атрыманыя байты
+[Sent bytes]
+Адпраў. байты
+[Additional data due to proxy communication]
+Дадатковыя дадзеныя пра проксі
+[SSL traffic]
+Трафік SSL
+[Text dumps where available]
+Тэкставыя дампы (калі ёсць)
+[Auto-detect text]
+Аўтавызначэнне тэксту
+[Calling modules' names]
+Імёны выклікаючых плагінаў
+[Log to]
+Весьці лог у
+[OutputDebugString()]
+Выснова адладкавых радкоў
+[File]
+Файл
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Выканаць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
+[Run now]
+Вык. зараз
+[Show this dialog box when Miranda NG starts]
+Паказаць гэты дыялог пры запуску Miranda NG
+[Sounds]
+Гукі
+[&Change...]
+Змяніць...
+[&Preview]
+Прагляд
+[Download more sounds]
+Запампаваць з сайта Miranda NG
+[Sound information]
+Дадатковая інфармацыя
+[Location:]
+Шлях:
+[Name:]
+Імя:
+[Enable sound events]
+Уключыць гукі падзей
+[Icons]
+Абразкі
+[Show category:]
+Катэгорыя:
+[&Load icon set...]
+Абраць набор абразкоў...
+[&Import icons >>]
+Імпарт абразкоў >>
+[Download more icons]
+Запампаваць яшчэ
+[The following events are being ignored:]
+Наступныя падзеі будуць праігнараваны:
+[URLs]
+Спасылкі
+[Files]
+Файлы
+[Online notification]
+Абвестка "Далучаны"
+[Auth requests]
+Запыты аўтарызацыі
+[All events]
+Усе падзеі
+[None]
+Няма
+[Only the ticked contacts will be shown on the main contact list]
+Толькі пазначаныя кантакты будуць паказаны ў спісе кантактаў
+[Ignore]
+Ігнараваць
+[Added notification]
+Абвестка пра даданне
+[Typing]
+Набор тэксту
+[Visibility]
+Бачнасць
+[You are visible to this person even when in invisible mode]
+Вы заўсёды бачныя для гэтага чалавека
+[You are never visible to this person]
+Вы заўсёды нябачныя для гэтага чалавека
+[Icon index]
+Нумар абразка
+[Icon library:]
+Бібліятэка:
+[Drag icons to main list to assign them:]
+Перацягніце абразок у вакно для замены:
+[Import multiple]
+Імпарт некалькіх
+[To main icons]
+Галоўныя абразкі
+[To]
+У
+[<< &Import]
+<< Імпарт
+[To default status icons]
+Абразкі па змаўчанні
+[Logging...]
+Лог...
+[Outgoing connections]
+Выходныя злучэнні
+[Use proxy server]
+Карыстацца проксі
+[Host:]
+Хост:
+[Port:]
+Порт:
+[(often %d)]
+(частая %d)
+[Use custom login (domain login picked up automatically)]
+Імя карыстача (уваход з даменным іменем аўтаматычны)
+[Username:]
+Карыстач:
+[Password:]
+Пароль:
+[Resolve hostnames through proxy]
+Выкарыстоўваць DNS на проксі
+[Port range:]
+Порты:
+[Example: 1050-1070, 2000-2010, 2500]
+Прыклад: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Правяраць подпіс SSL сертыфікатаў
+[Incoming connections]
+Уваходныя злучэнні
+[Enable UPnP port mapping]
+Уключыць перанакіраванне портаў UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Змены запрацуюць пры наступным далучэнні.
+[Please complete the following form to create a new user profile]
+Запоўніце форму для стварэння профіля карыстача
+[Profile]
+Профіль
+[e.g., Workplace]
+напр. "Працоўны"
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Вы можаце абраць іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
+[e.g., dbx mmap]
+напрыклад, dbx_mmap
+[Driver]
+Драйвер
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mmap.dll
+[Download more plugins]
+Запампаваць іншыя плагіны
+[Author(s):]
+Аўтар(ы):
+[Homepage:]
+Сайт:
+[Unique ID:]
+Унік. ID:
+[Copyright:]
+Правы:
+[Please restart Miranda NG for your changes to take effect.]
+Змены запрацуюць пасля перазапуску праграмы.
+[Fonts and colors]
+Шрыфты і колеры
+[Reset]
+Скід
+[Export...]
+Экспарт...
+[Color/background]
+Колер фону
+[Text effect]
+Эфект
+[Text color]
+Колер тэксту
+[Choose font]
+Шрыфт
+[Menu objects]
+Выгляды меню
+[Menu items]
+Пункты меню
+[Protocol menus]
+Меню пратаколаў
+[Move to the main menu]
+У галоўным меню
+[Move to the status bar]
+У панэлі статусаў
+[Warning!\r\nThis menu object not support user defined options.]
+Увага!\r\nГэтыя пункты меню не паддаюцца наладзе.
+[Insert separator]
+Уставіць падзельнік
+[Service:]
+Cлужба:
+[Default]
+Змаўчанні
+[Set]
+Абраць
+[Enable icons]
+Уключыць абразкі
+[Show accounts in the following order,\ndrag to choose another order:]
+Паслядоўнасць адлюстравання контаў.\nПерацягвайце для змены:
+[Account order and visibility]
+Паслядоўнасць контаў
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Нататка: Змены запрацуюць пасля перазапуску праграмы.
+[Key bindings]
+Гарачыя клавішы
+[Shortcut:]
+Спалучэнне:
+[Add]
+Дадаць
+[Remove]
+Выдаліць
+[Undo changes]
+Адмяніць змены
+[Reset to default]
+Скід на змаўчанні
+[Hotkeys]
+Гарачыя клавішы
+[Accounts]
+Конты
+[Configure your IM accounts]
+Налада вашых контаў
+[Account information:]
+Конт:
+[Additional:]
+Дадаткова:
+[Configure network...]
+Налада сеціва...
+[Get more protocols...]
+Загрузка пратаколаў...
+[&Add...]
+&Дадаць
+[&Edit]
+Кіраваць
+[&Options]
+&Налады
+[&Upgrade]
+&Мадэрнізацыя
+[&Remove...]
+Выдаліць...
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG перазапускаецца.\nКалі ласка, пачакайце...
+[Error console]
+Кансоль памылак
+[Error notifications]
+Абвесткі пра памылкі
+[Headers:]
+Загалоўкі:
+[This font is used to display main section titles or text elements.]
+Шрыфт для загалоўкаў асноўных частак ці тэкставых элементаў.
+[Normal text:]
+Звычайны тэкст:
+[This font is used to display most text elements or section bodies.]
+Шрыфт для большасці тэкставых элементаў ці частак.
+[Minor notes:]
+Нататкі:
+[This font is used to display various additional notes.]
+Шрыфт для розных дадатковых нататак.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Вас вітае менеджэр контаў Міранды НГ!\nТут вы можаце наладзіць свае конты.\n\nАбярыце конт з спісу злева, каб убачыць даступныя опцыі. Цi проста націсніце на кнопку "Стварыць" пад спісам, каб стварыць новы конт.
+[Event icon legend:]
+Апісанне абразкоў падзей:
+[Choose events you wish to ignore:]
+Выберыце падзеі, якія вы хочаце ігнараваць:
+[Font effect]
+Эфект шрыфта
+[Effect:]
+Эфект:
+[Base color:]
+Асноўны колер:
+[opacity:]
+непразрыстасць:
+[Secondary color:]
+Другасны колер:
+[Select the extra icons to be shown in the contact list:]
+Абярыце якія экстра абразкі будуць адлюстроўвацца ў спісе кантактаў:
+[*only the first %d icons will be shown]
+*будуць адлюстроўвацца толькі першыя %d абразкоў
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Вы можаце гуртаваць/разгуртоўваць абразкі, вылучаючы іх (CTRL+клік левай кнопкай мышы) і выклікаючы меню з дапамогай правай кнопкі мышы.
+[Add to existing metacontact]
+Дадаць да метакантакту
+[Please select a metacontact:]
+Абярыце метакантакт
+[Sort alphabetically]
+Па алфавіце
+[Editing]
+Рэдагаванне
+[Contacts]
+Кантакты
+[&Remove]
+выдаліць
+[&Set as default]
+&Па змаўчанні
+[Move &up]
+Угару
+[Move &down]
+Уніз
+[Send &offline]
+У афлайн
+[&Apply]
+Ужыць
+[Context menu]
+Кантэкстнае меню
+[Use contact's unique ID]
+UIN, E-mail і г.д.
+[Use contact's display name]
+Выкарыстоўваць імя
+[Contact labels]
+Пазнакі кантактаў
+[Set default and open message window]
+Адчыніць вакно паведамленні
+[Show subcontact context menu]
+Паказваць кантэкстнае меню
+[Show user information]
+Пра кантакт
+[Display subcontact nickname]
+Выкарыстоўваць мянушку субкантакту
+[Display subcontact display name]
+Выкарыстоўваць адлюстроўванае імя
+[Lock name to first contact]
+Фіксаваць імя
+[Last modified using:]
+Праверана на версіі:
+[Locale:]
+Мова:
+[Reload langpack]
+Аднавіць пераклад
+[Download more language packs]
+Загрузіць дадатковыя пераклады
+[&Reset to default]
+&Скінуць
+[find/add]
+знайсці/дадаць
+[&Add to list]
+&Дадаць у спіс
+[Send &message]
+Адправіць паведамленне
+[Open in &new window]
+Адкрыць у новым вакне
+[&Open in existing window]
+Адкрыць у бягучым вакне
+[Cancel change]
+Адкаціць змены
+[Ungroup]
+Разгуртаваць
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s запытаў аўтарызацыю
@@ -1951,26 +1951,46 @@ URL ад %s
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
-;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Усе файлы
-[Windows bitmaps]
-BMP
-[JPEG bitmaps]
-Выявы JPEG
-[GIF bitmaps]
-Выявы GIF
-[PNG bitmaps]
-Выявы PNG
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Конт
-;file \src\modules\addcontact\addcontact.cpp
+;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Дадаць %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
-;file \src\modules\chat\chat_opts.cpp
+;file \src\mir_app\src\chat_clist.cpp
+[&Join chat]
+Зайсці
+[&Open chat window]
+Адчыніць гутарку
+;file \src\mir_app\src\chat_log.cpp
+[%s has joined]
+%s увайшоў
+[You have joined %s]
+Вы прыйшлі на '%s'
+[%s has left]
+%s выйшаў
+[%s has disconnected]
+%s адключыўся
+[%s is now known as %s]
+%s змяніў імя на %s
+[You are now known as %s]
+Зараз вы вядомыя як %s
+[%s kicked %s]
+%s выкінуў %s
+[Notice from %s: ]
+Абвестка ад %s:\s
+[The topic is '%s%s']
+Тэма '%s%s'
+[ (set by %s on %s)]
+ (усталявана %s %s)
+[ (set by %s)]
+ (пастаўлена %s)
+[%s enables '%s' status for %s]
+%s уключае статус '%s' для %s
+[%s disables '%s' status for %s]
+%s выключае статус '%s' для %s
+[<invalid>]
+<няверна>
+;file \src\mir_app\src\chat_opts.cpp
 [Others nicknames]
 Іншыя мянушкі
 [Your nickname]
@@ -2021,45 +2041,10 @@ BMP
 Кантакт адправіў абвестку
 [The topic has been changed]
 Тэма змянілася
-;file \src\modules\chat\chat_svc.cpp
-[&Join chat]
-Зайсці
+;file \src\mir_app\src\chat_svc.cpp
 [&Leave chat]
 Пакінуць чат
-;file \src\modules\chat\clist.cpp
-[&Open chat window]
-Адчыніць гутарку
-;file \src\modules\chat\colorchooser.cpp
-;file \src\modules\chat\log.cpp
-[%s has joined]
-%s увайшоў
-[You have joined %s]
-Вы прыйшлі на '%s'
-[%s has left]
-%s выйшаў
-[%s has disconnected]
-%s адключыўся
-[%s is now known as %s]
-%s змяніў імя на %s
-[You are now known as %s]
-Зараз вы вядомыя як %s
-[%s kicked %s]
-%s выкінуў %s
-[Notice from %s: ]
-Абвестка ад %s:\s
-[The topic is '%s%s']
-Тэма '%s%s'
-[ (set by %s on %s)]
- (усталявана %s %s)
-[ (set by %s)]
- (пастаўлена %s)
-[%s enables '%s' status for %s]
-%s уключае статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключае статус '%s' для %s
-[<invalid>]
-<няверна>
-;file \src\modules\chat\tools.cpp
+;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s патрабуе Вашай увагі ў %s
 [%s speaks in %s]
@@ -2094,8 +2079,8 @@ BMP
 Тэма '%s'
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
+;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistmenus.cpp
 [Custom status]
 xСтатус
 [%s (locked)]
@@ -2104,14 +2089,14 @@ xСтатус
 Меню статусаў
 [Main menu]
 Галоўнае меню
-;file \src\modules\clist\clistmod.cpp
+;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Далучэнне
-;file \src\modules\clist\clistsettings.cpp
+;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
+;file \src\mir_app\src\clisttray.cpp
+;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Гэты кантакт знаходзіцца ў сістэме абмену імгненнымі паведамленнямі, якая захоўвае спісы кантактаў на серверы. Кантакт будзе выдалены з сервера і з лакальнага спісу пры наступным злучэнні.
 [De&lete]
@@ -2120,7 +2105,8 @@ xСтатус
 Пераназваць
 [&Add permanently to list]
 Дадаць у сталы спіс
-;file \src\modules\clist\contacts.cpp
+;file \src\mir_app\src\colorchooser.cpp
+;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
 [Nick]
@@ -2143,45 +2129,7 @@ xСтатус
 '(Невядомы кантакт)'
 [Contact names]
 Кантакты
-;file \src\modules\clist\genmenu.cpp
-[Menu icons]
-Меню
-;file \src\modules\clist\genmenuopt.cpp
-[Menus]
-Меню
-[Customize]
-Тонкая налада
-;file \src\modules\clist\groups.cpp
-[New group]
-Новы гурт
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Вы ўпэўнены, што жадаеце выдаліць гурт "%s"? Аперацыя не можа быць адменена.
-[Delete group]
-Выдаленне гурта
-[You already have a group with that name. Please enter a unique name for the group.]
-Гурт з такім імем ужо ёсць. Увядзіце ўнікальнае імя для гурта.
-[Rename group]
-Пераназваць гурт
-[This group]
-Гэты гурт
-;file \src\modules\clist\keyboard.cpp
-[Show/Hide contact list]
-Паказаць/Схаваць спіс кантактаў
-[Read message]
-Прачытаць паведамленне
-[Open Options page]
-Адкрыць налады
-[Open logging options]
-Налады лога сеціва
-[Open 'Find user' dialog]
-Адкрыць дыялог пошуку кантактаў
-;file \src\modules\clist\movetogroup.cpp
-[&Move to group]
-Перасунуць у
-[<Root group>]
-<Каранёвы гурт>
-;file \src\modules\clist\protocolorder.cpp
-;file \src\modules\database\database.cpp
+;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2200,7 +2148,7 @@ Miranda не можа распазнаць гэты профіль
 Miranda не можа адкрыць '%s'\nЁн недасяжны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
 [Miranda can't open that profile]
 Miranda NG не можа адкрыць гэты профіль
-;file \src\modules\database\dbini.cpp
+;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад кожнай вырабленай зменай.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2215,14 +2163,310 @@ Miranda NG не можа адкрыць гэты профіль
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
-;file \src\modules\database\dbutils.cpp
+;file \src\mir_app\src\dbutils.cpp
 [Authorization request from %s%s: %s]
 Запыт аўтарызацыі от %s%s: %s
 [You were added by %s%s]
 Вас дадаў %s%s
 [Contacts: ]
 Кантакты:\s
-;file \src\modules\database\profilemanager.cpp
+;file \src\mir_app\src\DefaultExtraIcons.cpp
+[Chat activity]
+Актыўнасць у чаце
+;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
+[Search]
+Пошук
+[Results]
+Вынікі
+[There are no results to display.]
+Няма вынікаў.
+[Searching]
+Пошук
+[All networks]
+Усе пратаколы
+[Handle]
+Назва
+[&Find/add contacts...]
+Дадаць кантакты
+;file \src\mir_app\src\FontOptions.cpp
+[Failed to create file]
+Памылка стварэння файла
+[<none>]
+<няма>
+[Shadow at left]
+Цень злева
+[Shadow at right]
+Цень справа
+[Outline]
+Контур
+[Outline smooth]
+Гладкі контур
+[Smooth bump]
+Размыцце
+[Contour thin]
+Тонкі контур
+[Contour heavy]
+Тоўсты контур
+[Configuration files]
+Файлы канфігурацый
+[Text files]
+Тэкставыя файлы
+[Error writing file]
+Памылка запісу ў файл
+[Customize]
+Тонкая налада
+[Sample text]
+Прыклад тэксту
+[Fonts]
+Шрыфты
+;file \src\mir_app\src\FontService.cpp
+[Headers]
+Загалоўкі
+[Generic text]
+Асноўны тэкст
+[Small text]
+Дадатковы тэкст
+;file \src\mir_app\src\genmenu.cpp
+[Menu icons]
+Меню
+;file \src\mir_app\src\genmenuopt.cpp
+[Menus]
+Меню
+;file \src\mir_app\src\groups.cpp
+[New group]
+Новы гурт
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Вы ўпэўнены, што жадаеце выдаліць гурт "%s"? Аперацыя не можа быць адменена.
+[Delete group]
+Выдаленне гурта
+[You already have a group with that name. Please enter a unique name for the group.]
+Гурт з такім імем ужо ёсць. Увядзіце ўнікальнае імя для гурта.
+[Rename group]
+Пераназваць гурт
+[This group]
+Гэты гурт
+;file \src\mir_app\src\hotkey_opts.cpp
+[Remove shortcut]
+Выдаліць спалучэнне
+[Add another shortcut]
+Дадаць злучэнне
+[Scope:]
+Дзе:
+[System]
+Сістэма
+[Actions:]
+Дзеянні:
+[Add binding]
+Дадаць злучэнне
+[Modify]
+Змяніць
+[System scope]
+Спалучэнне ў сістэме
+[Miranda scope]
+Спалучэнне ў Miranda
+;file \src\mir_app\src\ignore.cpp
+[** All contacts **]
+** Усе кантакты **
+;file \src\mir_app\src\keyboard.cpp
+[Show/Hide contact list]
+Паказаць/Схаваць спіс кантактаў
+[Read message]
+Прачытаць паведамленне
+[Open Options page]
+Адкрыць налады
+[Open logging options]
+Налады лога сеціва
+[Open 'Find user' dialog]
+Адкрыць дыялог пошуку кантактаў
+;file \src\mir_app\src\lpopts.cpp
+[(incompatible)]
+(несумяшчальны)
+[Unknown]
+Невядома
+[built-in]
+убудаваны
+[Languages]
+Мовы
+;file \src\mir_app\src\metacontacts.h
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
+Выдаліць метакантакт?
+;file \src\mir_app\src\meta_addto.cpp
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
+Няма яшчэ ніводнага метакантакту ў базе (у гэтым выпадку трэба спачатку канверсаваць адзін просты кантакт у метакантакт).\n Як варыянт пераўтварыце гэты кантакт у новы метакантакт.\n\n Пераўтварыць гэты кантакт у метакантакт?
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
+Гэты кантакт з'яўлецца МетаКантактам.\nВы не можаце дадаць МетаКантакт у іншы.\n\nКалі ласка, абярыце іншы.
+[Metacontact conflict]
+Канфлікт метакантактаў
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
+Гэты кантакт ужо дададзены ў метакантакт.\n Вы не можаце дадаць кантакт у некалькі метакантактаў.
+[Multiple metacontacts]
+Мноства метакантактаў
+[No suitable metacontact found]
+Не знойдзена падыходнага метакантакту
+[a contact]
+кантакт
+[Adding %s...]
+Даданне %s...
+[Please select a metacontact]
+Абярыце метакантакт
+[No metacontact selected]
+Метакантакт не абраны
+[Assignment to the metacontact failed.]
+Не атрымалася дадаць да метакантакту.
+[Assignment failure]
+Няўдалае прызначэнне
+;file \src\mir_app\src\meta_edit.cpp
+[Protocol]
+Пратакол
+[Send offline]
+Адпраўка ў афлайн
+[Delete metacontact?]
+Выдаліць метакантакт?
+;file \src\mir_app\src\meta_main.cpp
+[Toggle off]
+Выключыць
+[Toggle on]
+Уключыць
+[Convert to metacontact]
+Зрабіць метакантактам
+[Add to existing]
+Дадаць
+[Edit]
+Змяніць
+[Set to default]
+Па змаўчанні
+[MetaContacts]
+Метакантакты
+;file \src\mir_app\src\meta_menu.cpp
+[There was a problem in assigning the contact to the metacontact]
+Выяўлена праблема дадання кантакту да метакантакту
+[This will remove the metacontact permanently.\n\nProceed anyway?]
+Выдаленне метакантакту.\n\n Працягнуць?
+[Are you sure?]
+Вы ўпэўнены?
+[Remove from metacontact]
+Выдаліць з метакантакту
+[Toggle metacontacts off]
+Выключыць метакантакты
+[Toggle metacontacts on]
+Уключыць метакантакты
+[Add to existing metacontact...]
+Дадаць да метакантакту
+[Edit metacontact...]
+Змяніць метакантакт...
+[Set as metacontact default]
+Метакантакт па змаўчанні
+[Delete metacontact]
+Выдаліць метакантакт
+[Subcontacts]
+Субкантакты
+;file \src\mir_app\src\meta_options.cpp
+[Metacontacts]
+Метакантакты
+;file \src\mir_app\src\meta_services.cpp
+[No online contacts found.]
+Няма далучаных кантактаў.
+;file \src\mir_app\src\meta_utils.cpp
+[Sender]
+Адпраўшчык
+[Could not retrieve contact protocol]
+Не магу запытаць пратакол кантакту
+[Assignment error]
+Памылка прызначэння
+[Could not get unique ID of contact]
+Не магу атрымаць унікальны ID кантакту
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
+Кантакт не ў спісе. Калі ласка, дадайце кантакт у спіс перад прызначэннем.
+[Metacontact is full]
+Метакантакт поўны
+[Could not write contact protocol to metacontact]
+Памылка запісу пратаколу кантакту ў метакантакт
+[Could not write unique ID of contact to metacontact]
+Памылка запісу ўнікальнага ID кантакту ў метакантакт
+[Could not write nickname of contact to metacontact]
+Не магу запісаць мянушку кантакту ў метакантакт
+;file \src\mir_app\src\movetogroup.cpp
+[&Move to group]
+Перасунуць у
+[<Root group>]
+<Каранёвы гурт>
+;file \src\mir_app\src\netliblog.cpp
+[Standard netlib log]
+Стандартны журнал netlib
+[No times]
+Без часу
+[Standard hh:mm:ss times]
+Гадзіны, хвіліны, секунды
+[Times in milliseconds]
+Мілісекунды
+[Times in microseconds]
+Мікрасекунды
+[(Miranda core logging)]
+Ядро Miranda
+[Select where log file will be created]
+Абраць шлях ды файла лога
+[Select program to be run]
+Абраць праграму для запуску
+;file \src\mir_app\src\netlibopts.cpp
+[<mixed>]
+<розныя>
+[<All connections>]
+<Усе далучэнні>
+[Network]
+Сеціва
+;file \src\mir_app\src\newplugins.cpp
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
+['%s' is disabled, re-enable?]
+'%s' адключаны, далучыць?
+[Re-enable Miranda plugin?]
+Уключыць плагін?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
+[Fatal error]
+Фатальная памылка
+[Unable to load plugin in service mode!]
+Немагчыма загрузіць плагін у службовым рэжыме!
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
+;file \src\mir_app\src\options.cpp
+[<all modules>]
+<усе плагіны>
+[<core modules>]
+<базавыя налады>
+[Loading... %d%%]
+Загрузка... %d%%
+[%s options]
+%s налады
+[Miranda NG options]
+Налады Miranda
+[&Options...]
+&Налады
+;file \src\mir_app\src\options_ei.cpp
+[Extra icons]
+Экстра абразкі
+;file \src\mir_app\src\path.cpp
+[Avatars]
+Аватары
+[Avatars root folder]
+Каранёвая тэчка аватараў
+;file \src\mir_app\src\pluginopts.cpp
+[Plugin]
+Плагін
+[Version]
+Версія
+[Miranda NG must be restarted to apply changes for these plugins:]
+Для наступных плагінаў патрабуецца перазапуск Miranda NG:
+[Do you want to restart it now?]
+Вы жадаеце перазагрузіць зараз?
+[Plugins]
+Плагіны
+;file \src\mir_app\src\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nУвага: Профіль будзе выдалены, калі ён адключаны.\nУвага: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены.
 [The profile already exists]
@@ -2255,260 +2499,8 @@ Miranda NG не можа адкрыць гэты профіль
 Мае профілі
 [New profile]
 Стварыць профіль
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
-[Chat activity]
-Актыўнасць у чаце
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
-[Extra icons]
-Экстра абразкі
-;file \src\modules\findadd\findadd.cpp
-[You haven't filled in the search field. Please enter a search term and try again.]
-Вы не запоўнілі поле для пошуку. Калі ласка, увядзіце запыт для пошуку і паспрабуйце яшчэ раз.
-[Search]
-Пошук
-[Results]
-Вынікі
-[There are no results to display.]
-Няма вынікаў.
-[Searching]
-Пошук
-[All networks]
-Усе пратаколы
-[Handle]
-Назва
-[&Find/add contacts...]
-Дадаць кантакты
-;file \src\modules\findadd\searchresults.cpp
-[Could not start a search on '%s', there was a problem - is %s connected?]
-Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
-[Could not search on any of the protocols, are you online?]
-Не магу запусціць пошук ні ў адным пратаколе, праверце далучэнне.
-[Problem with search]
-Праблема з пошукам
-[1 %s user found]
-Знойдзены 1 кантакт %s
-[%d %s users found]
-Знойдзена %d кантактаў %s
-[%d users found (]
-Знойдзена %d кантактаў (
-[No users found]
-Кантакты не знойдзены
-;file \src\modules\fonts\FontOptions.cpp
-[Failed to create file]
-Памылка стварэння файла
-[<none>]
-<няма>
-[Shadow at left]
-Цень злева
-[Shadow at right]
-Цень справа
-[Outline]
-Контур
-[Outline smooth]
-Гладкі контур
-[Smooth bump]
-Размыцце
-[Contour thin]
-Тонкі контур
-[Contour heavy]
-Тоўсты контур
-[Configuration files]
-Файлы канфігурацый
-[Text files]
-Тэкставыя файлы
-[Error writing file]
-Памылка запісу ў файл
-[Sample text]
-Прыклад тэксту
-[Fonts]
-Шрыфты
-;file \src\modules\fonts\FontService.cpp
-[Headers]
-Загалоўкі
-[Generic text]
-Асноўны тэкст
-[Small text]
-Дадатковы тэкст
-;file \src\modules\icolib\skin2opts.cpp
-[Icon sets]
-Наборы абразкоў
-;file \src\modules\ignore\ignore.cpp
-[** All contacts **]
-** Усе кантакты **
-;file \src\modules\langpack\lpopts.cpp
-[(incompatible)]
-(несумяшчальны)
-[Unknown]
-Невядома
-[built-in]
-убудаваны
-[Languages]
-Мовы
-;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-Выдаліць метакантакт?
-;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-Няма яшчэ ніводнага метакантакту ў базе (у гэтым выпадку трэба спачатку канверсаваць адзін просты кантакт у метакантакт).\n Як варыянт пераўтварыце гэты кантакт у новы метакантакт.\n\n Пераўтварыць гэты кантакт у метакантакт?
-[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-Гэты кантакт з'яўлецца МетаКантактам.\nВы не можаце дадаць МетаКантакт у іншы.\n\nКалі ласка, абярыце іншы.
-[Metacontact conflict]
-Канфлікт метакантактаў
-[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
-Гэты кантакт ужо дададзены ў метакантакт.\n Вы не можаце дадаць кантакт у некалькі метакантактаў.
-[Multiple metacontacts]
-Мноства метакантактаў
-[No suitable metacontact found]
-Не знойдзена падыходнага метакантакту
-[a contact]
-кантакт
-[Adding %s...]
-Даданне %s...
-[Please select a metacontact]
-Абярыце метакантакт
-[No metacontact selected]
-Метакантакт не абраны
-[Assignment to the metacontact failed.]
-Не атрымалася дадаць да метакантакту.
-[Assignment failure]
-Няўдалае прызначэнне
-;file \src\modules\metacontacts\meta_edit.cpp
-[Protocol]
-Пратакол
-[Send offline]
-Адпраўка ў афлайн
-[Delete metacontact?]
-Выдаліць метакантакт?
-;file \src\modules\metacontacts\meta_main.cpp
-[Toggle off]
-Выключыць
-[Toggle on]
-Уключыць
-[Convert to metacontact]
-Зрабіць метакантактам
-[Add to existing]
-Дадаць
-[Edit]
-Змяніць
-[Set to default]
-Па змаўчанні
-[MetaContacts]
-Метакантакты
-;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the metacontact]
-Выяўлена праблема дадання кантакту да метакантакту
-[This will remove the metacontact permanently.\n\nProceed anyway?]
-Выдаленне метакантакту.\n\n Працягнуць?
-[Are you sure?]
-Вы ўпэўнены?
-[Remove from metacontact]
-Выдаліць з метакантакту
-[Toggle metacontacts off]
-Выключыць метакантакты
-[Toggle metacontacts on]
-Уключыць метакантакты
-[Add to existing metacontact...]
-Дадаць да метакантакту
-[Edit metacontact...]
-Змяніць метакантакт...
-[Set as metacontact default]
-Метакантакт па змаўчанні
-[Delete metacontact]
-Выдаліць метакантакт
-[Subcontacts]
-Субкантакты
-;file \src\modules\metacontacts\meta_options.cpp
-[Metacontacts]
-Метакантакты
-;file \src\modules\metacontacts\meta_services.cpp
-[No online contacts found.]
-Няма далучаных кантактаў.
-;file \src\modules\metacontacts\meta_utils.cpp
-[Sender]
-Адпраўшчык
-[Could not retrieve contact protocol]
-Не магу запытаць пратакол кантакту
-[Assignment error]
-Памылка прызначэння
-[Could not get unique ID of contact]
-Не магу атрымаць унікальны ID кантакту
-[Contact is 'not on list' - please add the contact to your contact list before assigning.]
-Кантакт не ў спісе. Калі ласка, дадайце кантакт у спіс перад прызначэннем.
-[Metacontact is full]
-Метакантакт поўны
-[Could not write contact protocol to metacontact]
-Памылка запісу пратаколу кантакту ў метакантакт
-[Could not write unique ID of contact to metacontact]
-Памылка запісу ўнікальнага ID кантакту ў метакантакт
-[Could not write nickname of contact to metacontact]
-Не магу запісаць мянушку кантакту ў метакантакт
-;file \src\modules\netlib\netliblog.cpp
-[Standard netlib log]
-Стандартны журнал netlib
-[No times]
-Без часу
-[Standard hh:mm:ss times]
-Гадзіны, хвіліны, секунды
-[Times in milliseconds]
-Мілісекунды
-[Times in microseconds]
-Мікрасекунды
-[(Miranda core logging)]
-Ядро Miranda
-[Select where log file will be created]
-Абраць шлях ды файла лога
-[Select program to be run]
-Абраць праграму для запуску
-;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-<розныя>
-[<All connections>]
-<Усе далучэнні>
-[Network]
-Сеціва
-;file \src\modules\options\options.cpp
-[<all modules>]
-<усе плагіны>
-[<core modules>]
-<базавыя налады>
-[Loading... %d%%]
-Загрузка... %d%%
-[%s options]
-%s налады
-[Miranda NG options]
-Налады Miranda
-[&Options...]
-&Налады
-;file \src\modules\plugins\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' адключаны, далучыць?
-[Re-enable Miranda plugin?]
-Уключыць плагін?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
-[Fatal error]
-Фатальная памылка
-[Unable to load plugin in service mode!]
-Немагчыма загрузіць плагін у службовым рэжыме!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
-;file \src\modules\plugins\pluginopts.cpp
-[Plugin]
-Плагін
-[Version]
-Версія
-[Miranda NG must be restarted to apply changes for these plugins:]
-Для наступных плагінаў патрабуецца перазапуск Miranda NG:
-[Do you want to restart it now?]
-Вы жадаеце перазагрузіць зараз?
-[Plugins]
-Плагіны
-;file \src\modules\protocols\protoopts.cpp
+;file \src\mir_app\src\protocolorder.cpp
+;file \src\mir_app\src\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\nВы абсалютна ўпэўненыя?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2557,26 +2549,25 @@ ID конта
 Для выдалення конта неабходна яго адключыць
 [&Accounts...]
 Конты...
-;file \src\modules\skin\hotkey_opts.cpp
-[Remove shortcut]
-Выдаліць спалучэнне
-[Add another shortcut]
-Дадаць злучэнне
-[Scope:]
-Дзе:
-[System]
-Сістэма
-[Actions:]
-Дзеянні:
-[Add binding]
-Дадаць злучэнне
-[Modify]
-Змяніць
-[System scope]
-Спалучэнне ў сістэме
-[Miranda scope]
-Спалучэнне ў Miranda
-;file \src\modules\skin\skinicons.cpp
+;file \src\mir_app\src\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
+[Could not search on any of the protocols, are you online?]
+Не магу запусціць пошук ні ў адным пратаколе, праверце далучэнне.
+[Problem with search]
+Праблема з пошукам
+[1 %s user found]
+Знойдзены 1 кантакт %s
+[%d %s users found]
+Знойдзена %d кантактаў %s
+[%d users found (]
+Знойдзена %d кантактаў (
+[No users found]
+Кантакты не знойдзены
+;file \src\mir_app\src\skin2opts.cpp
+[Icon sets]
+Наборы абразкоў
+;file \src\mir_app\src\skinicons.cpp
 [User online]
 Кантакт далучаны
 [Group (open)]
@@ -2655,20 +2646,15 @@ ANSI плагін
 %s абразкі
 [Main icons]
 Галоўныя
-;file \src\modules\skin\sounds.cpp
+;file \src\mir_app\src\sounds.cpp
 [Sound files]
 Файлы гукаў
 [WAV files]
 Файлы гукаў
-;file \src\modules\utils\path.cpp
-[Avatars]
-Аватары
-[Avatars root folder]
-Каранёвая тэчка аватараў
-;file \src\modules\utils\timezones.cpp
+;file \src\mir_app\src\timezones.cpp
 [<unspecified>]
 <не пазначана>
-;file \src\modules\utils\utils.cpp
+;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Не пазначана
 [Afghanistan]
@@ -3167,4 +3153,18 @@ ANSI плагін
 Замбія
 [Zimbabwe]
 Зімбабвэ
-;file \src\modules\visibility\visibility.cpp
+;file \src\mir_app\src\visibility.cpp
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Усе файлы
+[Windows bitmaps]
+BMP
+[JPEG bitmaps]
+Выявы JPEG
+[GIF bitmaps]
+Выявы GIF
+[PNG bitmaps]
+Выявы PNG
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Конт

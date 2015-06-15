@@ -3,556 +3,17 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-;file \src\resource.rc
-[Enter account name (for example, My Google)]
-Entrez le nom du compte (ex : My Google)
-[Choose the protocol type]
-Choisissez le type de protocole
-[Specify the internal account name (optional)]
-Spécifiez le nom interne du compte (optionnel)
-[Cancel]
-Annuler
-[Add contact]
-Ajouter le contact
-[&Add]
-&Ajouter
-[&Cancel]
-&Annuler
-[Send "You were added"]
-Envoyer "Vous êtes ajouté"
-[Send authorization request]
-Demande d'autorisation
-[Open contact's chat window]
-Ouvrir la fenêtre de discussion du contact
-[Custom name:]
-Nom à afficher :
-[Group:]
-Groupe :
-[Options]
-Paramètres
+;file \src\core\stdauth\res\resource.rc
 [Authorization request]
 Demande d'autorisation
-[Delete contact]
-Supprimer un contact
-[&Yes]
-&Oui
-[&No]
-&Non
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Contacts->Ignore to unhide contacts.]
-Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
-[Are you sure you want to delete %s?]
-Voulez-vous vraiment supprimer %s ?
-[This will erase all history and settings for this contact!]
-Ceci effacera tout l'historique et réglages de ce contact !
-[Contact display options]
-Options d'affichage des contacts
-[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
-[Miranda NG profile manager]
-Gestionnaire de profil Miranda NG
-[Manage your Miranda NG profile]
-Gérez votre profil Miranda NG
-[&Run]
-&Lancer
-[&Exit]
-&Quitter
-[Start in service mode with]
-Démarrer en mode service avec
-[Find/add contacts]
-Chercher/Ajouter des contacts
-[Search:]
-Chercher :
-[E-mail address]
-Adresse électronique
-[Name]
-Nom
-[Nick:]
-Pseudo :
-[First:]
-Prénom :
-[Last:]
-Nom :
-[Advanced]
-Avancé
-[Advanced >>]
-Avancé >>
-[&Search]
-&Recherche
-[More options]
-Plus d'options
-[Add to list]
-Ajouter à ma liste
-[Custom]
-Défini
-[Here you can add contacts to your contact list]
-Ici, vous pouvez ajouter des contacts à votre liste de contacts
-[Configure your Miranda NG options]
-Configurer les paramètres de votre Miranda NG
-[Apply]
-Appliquer
-[Switch to simple options]
-Passer en paramètres simple
-[Please select a subentry from the list]
-Veuillez choisir une sous-entrée de la liste
-[Install database settings]
-Installer les paramètres de la base de données
-[Yes]
-Oui
-[No]
-Non
-[A file containing new database settings has been placed in the Miranda NG directory.]
-Un fichier contenant les nouveaux paramètres de la base de données a été placé dans le répertoire de Miranda NG.
-[Do you want to import the settings now?]
-Voulez-vous importer les paramètres maintenant ?
-[No to all]
-Non à tout
-[&View contents]
-&Voir le contenu
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Les systèmes de sécurité pour prévenir tout changement malicieux sont en place, vous serez prévenus avant les changements qui ne sont pas connus comme étant sans danger.
-[Database setting change]
-Changer les paramètres de la base de données
-[Database settings are being imported from]
-Les paramètres de la base de données sont importés à partir de
-[This file wishes to change the setting]
-Ce fichier veut changer le paramètre
-[to the value]
-à la valeur
-[Do you want to allow this change?]
-Voulez-vous autoriser ce changement ?
-[&Allow all further changes to this section]
-&Permettre tous les changements de cette section
-[Cancel import]
-Annuler
-[Database import complete]
-Importation de la base de données terminée
-[The import has completed from]
-L'importation est terminée, à partir de
-[What do you want to do with the file now?]
-Que voulez-vous désormais faire avec le fichier ?
-[&Recycle]
-&Recycler
-[&Delete]
-&Effacer
-[&Move/Rename]
-&Déplacer/Renommer
-[&Leave]
-&Quitter
-[Netlib log options]
-Options du journal
-[Show]
-Afficher
-[Received bytes]
-Octets reçus
-[Sent bytes]
-Octets envoyés
-[Additional data due to proxy communication]
-Autres données venant de la communication proxy
-[SSL traffic]
-Traffic SSL
-[Text dumps where available]
-Décharges de texte là où disponible
-[Auto-detect text]
-Auto-détection du texte
-[Calling modules' names]
-Appel des noms de modules
-[Log to]
-Inscription dans...
-[OutputDebugString()]
-OutputDebugString()
-[File]
-Fichier
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
-[Run now]
-Exécuter maintenant
-[Show this dialog box when Miranda NG starts]
-Toujours afficher au démarrage de Miranda NG
-[Sounds]
-Sons
-[&Change...]
-&Changer...
-[&Preview]
-&Aperçu
-[Download more sounds]
-Télécharger plus de sons
-[Sound information]
-Infos sur le fichier son
-[Location:]
-Lieu :
-[Name:]
-Nom :
-[Enable sound events]
-Activer les évènements sonore
-[Icons]
-Icônes
-[Show category:]
-Afficher la catégorie
-[&Load icon set...]
-&Charger un pack d'icônes
-[&Import icons >>]
-&Importer des icônes
-[Download more icons]
-Télécharger plus d'icônes
-[The following events are being ignored:]
-Les événements suivants sont ignorés :
-[Messages]
-Messages
-[URLs]
-Adresses URL
-[Files]
-Fichiers
-[Online notification]
-Notification d'état
-[Auth requests]
-Demande d'autoris.
-[All events]
-Tous les évènements
-[None]
-Aucun
-[Only the ticked contacts will be shown on the main contact list]
-Seuls les contacts cochés seront affichés sur la liste de contacts principale
-[Ignore]
-Ignorer
-[Added notification]
-Notification ajoutée
-[Typing]
-Écrit
-[Visibility]
-Visibilité
-[You are visible to this person even when in invisible mode]
-Vous êtes visible pour cette personne, même en mode Invisible.
-[You are never visible to this person]
-Vous n'êtes jamais visible pour cette personne.
-[Icon index]
-Index de l'icône
-[Icon library:]
-Bibliothèque :
-[Drag icons to main list to assign them:]
-Déplacer les icônes jusqu'à la liste principale pour les assigner :
-[Import multiple]
-Importer plusieurs icônes vers :
-[To main icons]
-Icônes principales
-[To]
-Vers
-[<< &Import]
-&Importer
-[To default status icons]
-Icônes d'état par défaut
-[Logging...]
-Connexion...
-[Outgoing connections]
-Connexions sortante
-[Use proxy server]
-Utiliser serveur proxy
-[Type:]
-Type :
-[Host:]
-Hôte :
-[Port:]
-Port :
-[(often %d)]
-(Ex. %d)
-[Use custom login (domain login picked up automatically)]
-
-[Username:]
-Identifiant :
-[Password:]
-Passe :
-[Resolve hostnames through proxy]
-Résoudre les noms à travers le proxy
-[Port range:]
-Ports :
-[Example: 1050-1070, 2000-2010, 2500]
-Exemple : 1050-1070, 2000-2010, 2500
-[Validate SSL certificates]
-Valider les certificats SSL
-[Incoming connections]
-Connexions entrantes
-[Enable UPnP port mapping]
-Activer la redirection UPnP des ports
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Vous devrez vous reconnecter afin de valider les modifications de cette page.
-[Please complete the following form to create a new user profile]
-Veuillez remplir le formulaire suivant pour créer un nouveau profil
-[Profile]
-Profil
-[e.g., Workplace]
-ex : Lieu de travail
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
-[e.g., dbx mmap]
-ex : dbx mmap
-[Driver]
-Pilote
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_mmap.dll"
-[Download more plugins]
-Télécharger plus de plugins
-[Description:]
-Description :
-[Author(s):]
-Auteur(s) :
-[E-mail:]
-Courriel :
-[Homepage:]
-Page web :
-[Unique ID:]
-ID unique :
-[Copyright:]
-Copyright :
-[Please restart Miranda NG for your changes to take effect.]
-Relancer Miranda NG pour que vos changements prennent effets.
-[Fonts and colors]
-Police et Couleurs
-[Undo]
-Annuler
-[Reset]
-Réinitialiser
-[Export...]
-Exportation...
-[Color/background]
-Couleur du fond
-[Text effect]
-Effet du texte
-[Text color]
-Couleur du texte
-[Choose font]
-Choisir la police
-[Menu objects]
-Objet du menu
-[Menu items]
-Élément du menu
-[Protocol menus]
-Menu des Protocoles
-[Move to the main menu]
-Déplacer au menu principal
-[Move to the status bar]
-Déplacer dans la barre de status
-[Warning!\r\nThis menu object not support user defined options.]
-        -={ Avertissement }=-\r\nCe menu ne peut être modifié.
-[Insert separator]
-Insérer un séparateur
-[Service:]
-Service :
-[Default]
-Défaut
-[Set]
-OK
-[Enable icons]
-Activer les icônes
-[Show accounts in the following order,\ndrag to choose another order:]
-Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordre
-[Account order and visibility]
-Organisation et visibilité des Comptes
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Note : Miranda devra être relancé pour prendre en compte les changements.
-[Key bindings]
-Raccourcis clavier
-[Shortcut:]
-Raccourci :
-[Add]
-Ajouter
-[Remove]
-Retirer
-[Undo changes]
-Annuler les changements
-[Reset to default]
-Paramètres par défaut
-[Hotkeys]
-Raccourcis clavier
-[Accounts]
-Comptes
-[Configure your IM accounts]
-Configurer vos comptes de messagerie instantanée
-[Account information:]
-Informations sur le compte :
-[Additional:]
-Extra :
-[Configure network...]
-Configurer le réseau...
-[Get more protocols...]
-Récupérer d'autres protocoles...
-[&Add...]
-&Ajouter...
-[&Edit]
-&Modifier
-[&Options]
-&Paramètres
-[&Upgrade]
-&Mettre à jour...
-[&Remove...]
-&Effacer...
-[Miranda NG is being restarted.\nPlease wait...]
-Miranda NG redémarre.\nVeuillez patienter...
-[Error console]
-Erreur console
-[Error notifications]
-
-[Headers:]
-En-têtes :
-[This font is used to display main section titles or text elements.]
-Cette police est utilisée pour afficher les titres ou des éléments de texte.
-[Normal text:]
-Texte normal :
-[This font is used to display most text elements or section bodies.]
-
-[Minor notes:]
-Notes :
-[This font is used to display various additional notes.]
-
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
-[Event icon legend:]
-
-[Choose events you wish to ignore:]
-Choisir l'évènement que vous voulez ignorer :
-[Font effect]
-
-[Effect:]
-Effet :
-[Base color:]
-Couleur de base :
-[opacity:]
-opacité :
-[Secondary color:]
-Couleur secondaire :
-[Select the extra icons to be shown in the contact list:]
-Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts :
-[*only the first %d icons will be shown]
-*Seulement les premières icônes %d seront affichés
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-
-[Add to existing metacontact]
-Ajouter à un metacontact existant
-[Please select a metacontact:]
-Veuillez choisir un metacontact :
-[Sort alphabetically]
-Trier alphabétiquement
-[Editing]
-Édition de la fiche metacontact
-[Information]
-Informations
-[Contacts]
-Contacts
-[&Remove]
-&Supprimer
-[&Set as default]
-Par &défaut
-[Move &up]
-&Monter
-[Move &down]
-&Baisser
-[Send &offline]
-Envoi &hors ligne
-[&Apply]
-&Appliquer
-[Context menu]
-Menu contextuel
-[Use contact's unique ID]
-Voir l'ID du contact
-[Use contact's display name]
-Voir son nom défini
-[Contact labels]
-Nom affiché
-[When I click on a sub in the popup menu...]
-
-[Set default and open message window]
-Définir par défaut et fenêtre d'envoi
-[Show subcontact context menu]
-Voir le menu du sous-contact
-[Show user information]
-Voir les infos du contact
-[Contact list]
-Liste de contacts
-[Display subcontact nickname]
-Voir le pseudo du sous-contact
-[Display subcontact display name]
-Voir le nom défini du sous-contact
-[Lock name to first contact]
-Verrouiller nom sur le 1er contact
-[Current language:]
-Langue actuelle :
-[Last modified using:]
-Pour :
-[Date:]
-Date :
-[Locale:]
-Locale :
-[Reload langpack]
-
-[Download more language packs]
-Télécharger plus de pack de traduction
-[Tray]
-Tray
-[&Hide/Show]
-&Afficher/Cacher
-[E&xit]
-&Quitter
-[Nowhere]
-Autre
-[&New group]
-Nouveau groupe
-[&Hide offline users]
-Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes vides
-[Disable &groups]
-Désactiver les groupes
-[Hide Miranda]
-Cacher Miranda
-[Group]
-Groupe
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-Cacher les Hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-Effacer le groupe
-[&Reset to default]
-&Paramètres par défaut
-[find/add]
-cherche/ajoute
-[&Add to list]
-&Ajouter à la liste
-[User &details]
-&Détails du contact
-[Send &message]
-Envoyer
-[Log]
-Journal
-[&Copy]
-&Copier
-[Co&py all]
-&Tout copier
-[Select &all]
-Tout &sélectionner
-[C&lear log]
-Effacer le journal
-[Open in &new window]
-Ouvrir dans une nouvelle fenêtre
-[&Open in existing window]
-Ouvrir dans une fenêtre existante
-[&Copy link]
-&Copier le lien
-[Cancel change]
-Annuler les changements
-[Ungroup]
-Dégrouper
-;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autoriser
 [&Deny]
 &Refuser
 [Decide &later]
 Décider plus &tard
+[User &details]
+&Détails du contact
 [Reason:]
 Motif :
 [Denial reason:]
@@ -563,9 +24,13 @@ Ajouter à la liste de contacts si autorisé
 Vous avez été ajouté
 [&Close]
 &Fermer
+[&Add]
+&Ajouter
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Message %s pour %s
+[&Cancel]
+&Annuler
 [Retrieving %s message...]
 Récupération du message %s...
 [Status messages]
@@ -613,6 +78,8 @@ Fermeture dans %d
 Voir ces évènements si :
 [Actions]
 Actions
+[Messages]
+Messages
 [Nick changes]
 Changements de pseudo
 [Users joining]
@@ -623,12 +90,16 @@ Départ d'usagers
 Changements de sujet
 [Status changes]
 Changements d'état
+[Information]
+Informations
 [Disconnects]
 Déconnexions
 [User kicks]
 Kicks d'usagers
 [Notices]
 Notifications
+[Options]
+Paramètres
 [Log options]
 Options du journal
 [Log timestamp]
@@ -677,8 +148,12 @@ Arrière-plan
 Liste
 [&Message]
 &Message
+[Log]
+Journal
 [Clear lo&g]
 Effacer le journal
+[Co&py all]
+&Tout copier
 [Word lookup]
 Consultation de mot
 [Wikipedia]
@@ -689,8 +164,12 @@ Lien
 Ouvrir &nouvelle fenêtre de navigateur
 [&Open in current browser window]
 &Ouvrir dans la fenêtre active du navigateur
+[&Copy link]
+&Copier le lien
 [Message]
 Message
+[Undo]
+Annuler
 [Redo]
 Refaire
 [Copy]
@@ -712,6 +191,20 @@ Fermer les autres onglets
 [&Open at this position]
 Ouvrir à cet endroit
 ;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+Supprimer un contact
+[No]
+Non
+[Yes]
+Oui
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Effacer de la liste mais conserver son historique et ses options.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
+[Are you sure you want to delete %s?]
+Voulez-vous vraiment supprimer %s ?
+[This will erase all history and settings for this contact!]
+Ceci effacera tout l'historique et réglages de ce contact !
 [Hide offline users]
 Cacher les contacts hors ligne
 [Hide empty groups]
@@ -734,6 +227,8 @@ Afficher l'état dans la bulle
 Sans clignotement
 [ms delay]
 fréquence (ms)
+[Show]
+Afficher
 [icon when statuses differ]
 quand les états diffèrent
 [Cycle icons every]
@@ -744,6 +239,8 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
+[Contact list]
+Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
@@ -902,6 +399,8 @@ Fenètre :
 Arrière-plan de la liste de contacts :
 [&Main menu]
 &Menu principal
+[E&xit]
+&Quitter
 [&Status]
 &État
 [&Offline\tCtrl+0]
@@ -924,9 +423,39 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
+[Tray]
+Tray
+[&Hide/Show]
+&Afficher/Cacher
+[Nowhere]
+Autre
+[&New group]
+Nouveau groupe
+[&Hide offline users]
+Cacher les contacts hors ligne
+[Hide &offline users out here]
+Cacher les &Hors ligne de ce groupe
+[Hide &empty groups]
+Cacher les groupes vides
+[Disable &groups]
+Désactiver les groupes
+[Hide Miranda]
+Cacher Miranda
+[Group]
+Groupe
+[&New subgroup]
+&Nouveau sous-groupe
+[&Hide offline users in here]
+Cacher les Hors ligne de ce groupe
+[&Rename group]
+&Renommer le groupe
+[&Delete group]
+Effacer le groupe
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Envoi de fichier(s)
+[Cancel]
+Annuler
 [To:]
 À :
 [File(s):]
@@ -935,6 +464,8 @@ Fichier(s) :
 &Sélectionner...
 [Total size:]
 Taille totale :
+[Description:]
+Description :
 [&User menu]
 &Menu utilisateur
 [Incoming file transfer]
@@ -945,6 +476,8 @@ Transfert de fichier entrant
 &Refuser
 [From:]
 De :
+[Date:]
+Date :
 [Files:]
 Fichiers :
 [Save to:]
@@ -983,6 +516,8 @@ Fichier existant
 Taille :
 [Last modified:]
 Dernière modification :
+[Type:]
+Type :
 [Open file]
 Ouvrir fichier
 [Open folder]
@@ -1160,6 +695,12 @@ Sauvegarder la position de la fenêtre pour chaque contact
 Comportement de la fenêtre de message :
 [Messaging:]
 
+[C&lear log]
+Effacer le journal
+[&Copy]
+&Copier
+[Select &all]
+Tout &sélectionner
 [&Open link]
 &Ouvrir le lien
 [Paste and send]
@@ -1206,6 +747,8 @@ Sexe :
 Nom :
 [Age:]
 Age :
+[E-mail:]
+Courriel :
 [Date of birth:]
 Anniversaire :
 [Marital status:]
@@ -1248,6 +791,463 @@ Département :
 Position :
 [Website:]
 Site Web :
+;file \src\mir_app\res\resource.rc
+[Enter account name (for example, My Google)]
+Entrez le nom du compte (ex : My Google)
+[Choose the protocol type]
+Choisissez le type de protocole
+[Specify the internal account name (optional)]
+Spécifiez le nom interne du compte (optionnel)
+[Add contact]
+Ajouter le contact
+[Send "You were added"]
+Envoyer "Vous êtes ajouté"
+[Send authorization request]
+Demande d'autorisation
+[Open contact's chat window]
+Ouvrir la fenêtre de discussion du contact
+[Custom name:]
+Nom à afficher :
+[Group:]
+Groupe :
+[&Yes]
+&Oui
+[&No]
+&Non
+[Contact display options]
+Options d'affichage des contacts
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
+[Miranda NG profile manager]
+Gestionnaire de profil Miranda NG
+[Manage your Miranda NG profile]
+Gérez votre profil Miranda NG
+[&Run]
+&Lancer
+[&Exit]
+&Quitter
+[Start in service mode with]
+Démarrer en mode service avec
+[Find/add contacts]
+Chercher/Ajouter des contacts
+[Search:]
+Chercher :
+[E-mail address]
+Adresse électronique
+[Name]
+Nom
+[Nick:]
+Pseudo :
+[First:]
+Prénom :
+[Last:]
+Nom :
+[Advanced]
+Avancé
+[Advanced >>]
+Avancé >>
+[&Search]
+&Recherche
+[More options]
+Plus d'options
+[Add to list]
+Ajouter à ma liste
+[Custom]
+Défini
+[Here you can add contacts to your contact list]
+Ici, vous pouvez ajouter des contacts à votre liste de contacts
+[Configure your Miranda NG options]
+Configurer les paramètres de votre Miranda NG
+[Apply]
+Appliquer
+[Switch to simple options]
+Passer en paramètres simple
+[Please select a subentry from the list]
+Veuillez choisir une sous-entrée de la liste
+[Install database settings]
+Installer les paramètres de la base de données
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Un fichier contenant les nouveaux paramètres de la base de données a été placé dans le répertoire de Miranda NG.
+[Do you want to import the settings now?]
+Voulez-vous importer les paramètres maintenant ?
+[No to all]
+Non à tout
+[&View contents]
+&Voir le contenu
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Les systèmes de sécurité pour prévenir tout changement malicieux sont en place, vous serez prévenus avant les changements qui ne sont pas connus comme étant sans danger.
+[Database setting change]
+Changer les paramètres de la base de données
+[Database settings are being imported from]
+Les paramètres de la base de données sont importés à partir de
+[This file wishes to change the setting]
+Ce fichier veut changer le paramètre
+[to the value]
+à la valeur
+[Do you want to allow this change?]
+Voulez-vous autoriser ce changement ?
+[&Allow all further changes to this section]
+&Permettre tous les changements de cette section
+[Cancel import]
+Annuler
+[Database import complete]
+Importation de la base de données terminée
+[The import has completed from]
+L'importation est terminée, à partir de
+[What do you want to do with the file now?]
+Que voulez-vous désormais faire avec le fichier ?
+[&Recycle]
+&Recycler
+[&Delete]
+&Effacer
+[&Move/Rename]
+&Déplacer/Renommer
+[&Leave]
+&Quitter
+[Netlib log options]
+Options du journal
+[Received bytes]
+Octets reçus
+[Sent bytes]
+Octets envoyés
+[Additional data due to proxy communication]
+Autres données venant de la communication proxy
+[SSL traffic]
+Traffic SSL
+[Text dumps where available]
+Décharges de texte là où disponible
+[Auto-detect text]
+Auto-détection du texte
+[Calling modules' names]
+Appel des noms de modules
+[Log to]
+Inscription dans...
+[OutputDebugString()]
+OutputDebugString()
+[File]
+Fichier
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
+[Run now]
+Exécuter maintenant
+[Show this dialog box when Miranda NG starts]
+Toujours afficher au démarrage de Miranda NG
+[Sounds]
+Sons
+[&Change...]
+&Changer...
+[&Preview]
+&Aperçu
+[Download more sounds]
+Télécharger plus de sons
+[Sound information]
+Infos sur le fichier son
+[Location:]
+Lieu :
+[Name:]
+Nom :
+[Enable sound events]
+Activer les évènements sonore
+[Icons]
+Icônes
+[Show category:]
+Afficher la catégorie
+[&Load icon set...]
+&Charger un pack d'icônes
+[&Import icons >>]
+&Importer des icônes
+[Download more icons]
+Télécharger plus d'icônes
+[The following events are being ignored:]
+Les événements suivants sont ignorés :
+[URLs]
+Adresses URL
+[Files]
+Fichiers
+[Online notification]
+Notification d'état
+[Auth requests]
+Demande d'autoris.
+[All events]
+Tous les évènements
+[None]
+Aucun
+[Only the ticked contacts will be shown on the main contact list]
+Seuls les contacts cochés seront affichés sur la liste de contacts principale
+[Ignore]
+Ignorer
+[Added notification]
+Notification ajoutée
+[Typing]
+Écrit
+[Visibility]
+Visibilité
+[You are visible to this person even when in invisible mode]
+Vous êtes visible pour cette personne, même en mode Invisible.
+[You are never visible to this person]
+Vous n'êtes jamais visible pour cette personne.
+[Icon index]
+Index de l'icône
+[Icon library:]
+Bibliothèque :
+[Drag icons to main list to assign them:]
+Déplacer les icônes jusqu'à la liste principale pour les assigner :
+[Import multiple]
+Importer plusieurs icônes vers :
+[To main icons]
+Icônes principales
+[To]
+Vers
+[<< &Import]
+&Importer
+[To default status icons]
+Icônes d'état par défaut
+[Logging...]
+Connexion...
+[Outgoing connections]
+Connexions sortante
+[Use proxy server]
+Utiliser serveur proxy
+[Host:]
+Hôte :
+[Port:]
+Port :
+[(often %d)]
+(Ex. %d)
+[Use custom login (domain login picked up automatically)]
+
+[Username:]
+Identifiant :
+[Password:]
+Passe :
+[Resolve hostnames through proxy]
+Résoudre les noms à travers le proxy
+[Port range:]
+Ports :
+[Example: 1050-1070, 2000-2010, 2500]
+Exemple : 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Valider les certificats SSL
+[Incoming connections]
+Connexions entrantes
+[Enable UPnP port mapping]
+Activer la redirection UPnP des ports
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Vous devrez vous reconnecter afin de valider les modifications de cette page.
+[Please complete the following form to create a new user profile]
+Veuillez remplir le formulaire suivant pour créer un nouveau profil
+[Profile]
+Profil
+[e.g., Workplace]
+ex : Lieu de travail
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibilités, mais dans le doute, utilisez le pilote par défaut.
+[e.g., dbx mmap]
+ex : dbx mmap
+[Driver]
+Pilote
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Impossible de trouver un plugin de base de données, cela signifie que vous ne pouvez pas créer un nouveau profil, vous devez installer "dbx_mmap.dll"
+[Download more plugins]
+Télécharger plus de plugins
+[Author(s):]
+Auteur(s) :
+[Homepage:]
+Page web :
+[Unique ID:]
+ID unique :
+[Copyright:]
+Copyright :
+[Please restart Miranda NG for your changes to take effect.]
+Relancer Miranda NG pour que vos changements prennent effets.
+[Fonts and colors]
+Police et Couleurs
+[Reset]
+Réinitialiser
+[Export...]
+Exportation...
+[Color/background]
+Couleur du fond
+[Text effect]
+Effet du texte
+[Text color]
+Couleur du texte
+[Choose font]
+Choisir la police
+[Menu objects]
+Objet du menu
+[Menu items]
+Élément du menu
+[Protocol menus]
+Menu des Protocoles
+[Move to the main menu]
+Déplacer au menu principal
+[Move to the status bar]
+Déplacer dans la barre de status
+[Warning!\r\nThis menu object not support user defined options.]
+        -={ Avertissement }=-\r\nCe menu ne peut être modifié.
+[Insert separator]
+Insérer un séparateur
+[Service:]
+Service :
+[Default]
+Défaut
+[Set]
+OK
+[Enable icons]
+Activer les icônes
+[Show accounts in the following order,\ndrag to choose another order:]
+Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordre
+[Account order and visibility]
+Organisation et visibilité des Comptes
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Note : Miranda devra être relancé pour prendre en compte les changements.
+[Key bindings]
+Raccourcis clavier
+[Shortcut:]
+Raccourci :
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Undo changes]
+Annuler les changements
+[Reset to default]
+Paramètres par défaut
+[Hotkeys]
+Raccourcis clavier
+[Accounts]
+Comptes
+[Configure your IM accounts]
+Configurer vos comptes de messagerie instantanée
+[Account information:]
+Informations sur le compte :
+[Additional:]
+Extra :
+[Configure network...]
+Configurer le réseau...
+[Get more protocols...]
+Récupérer d'autres protocoles...
+[&Add...]
+&Ajouter...
+[&Edit]
+&Modifier
+[&Options]
+&Paramètres
+[&Upgrade]
+&Mettre à jour...
+[&Remove...]
+&Effacer...
+[Miranda NG is being restarted.\nPlease wait...]
+Miranda NG redémarre.\nVeuillez patienter...
+[Error console]
+Erreur console
+[Error notifications]
+
+[Headers:]
+En-têtes :
+[This font is used to display main section titles or text elements.]
+Cette police est utilisée pour afficher les titres ou des éléments de texte.
+[Normal text:]
+Texte normal :
+[This font is used to display most text elements or section bodies.]
+
+[Minor notes:]
+Notes :
+[This font is used to display various additional notes.]
+
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
+[Event icon legend:]
+
+[Choose events you wish to ignore:]
+Choisir l'évènement que vous voulez ignorer :
+[Font effect]
+
+[Effect:]
+Effet :
+[Base color:]
+Couleur de base :
+[opacity:]
+opacité :
+[Secondary color:]
+Couleur secondaire :
+[Select the extra icons to be shown in the contact list:]
+Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts :
+[*only the first %d icons will be shown]
+*Seulement les premières icônes %d seront affichés
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+
+[Add to existing metacontact]
+Ajouter à un metacontact existant
+[Please select a metacontact:]
+Veuillez choisir un metacontact :
+[Sort alphabetically]
+Trier alphabétiquement
+[Editing]
+Édition de la fiche metacontact
+[Contacts]
+Contacts
+[&Remove]
+&Supprimer
+[&Set as default]
+Par &défaut
+[Move &up]
+&Monter
+[Move &down]
+&Baisser
+[Send &offline]
+Envoi &hors ligne
+[&Apply]
+&Appliquer
+[Context menu]
+Menu contextuel
+[Use contact's unique ID]
+Voir l'ID du contact
+[Use contact's display name]
+Voir son nom défini
+[Contact labels]
+Nom affiché
+[When I click on a sub in the popup menu...]
+
+[Set default and open message window]
+Définir par défaut et fenêtre d'envoi
+[Show subcontact context menu]
+Voir le menu du sous-contact
+[Show user information]
+Voir les infos du contact
+[Display subcontact nickname]
+Voir le pseudo du sous-contact
+[Display subcontact display name]
+Voir le nom défini du sous-contact
+[Lock name to first contact]
+Verrouiller nom sur le 1er contact
+[Current language:]
+Langue actuelle :
+[Last modified using:]
+Pour :
+[Locale:]
+Locale :
+[Reload langpack]
+
+[Download more language packs]
+Télécharger plus de pack de traduction
+[&Reset to default]
+&Paramètres par défaut
+[find/add]
+cherche/ajoute
+[&Add to list]
+&Ajouter à la liste
+[Send &message]
+Envoyer
+[Open in &new window]
+Ouvrir dans une nouvelle fenêtre
+[&Open in existing window]
+Ouvrir dans une fenêtre existante
+[Cancel change]
+Annuler les changements
+[Ungroup]
+Dégrouper
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s demande une autorisation
@@ -1959,26 +1959,46 @@ Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
-;file \src\mir_core\src\bitmaps.cpp
-[All Files]
-Tous les fichiers
-[Windows bitmaps]
-Bitmap Windows
-[JPEG bitmaps]
-Images JPEG
-[GIF bitmaps]
-Images GIF
-[PNG bitmaps]
-Images PNG
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Compte
-;file \src\modules\addcontact\addcontact.cpp
+;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Ajouter %s
 [Please authorize my request and add me to your contact list.]
 Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
-;file \src\modules\chat\chat_opts.cpp
+;file \src\mir_app\src\chat_clist.cpp
+[&Join chat]
+Re&joindre
+[&Open chat window]
+&Ouvrir la fenêtre de chat
+;file \src\mir_app\src\chat_log.cpp
+[%s has joined]
+%s est arrivé
+[You have joined %s]
+Vous avez rejoint %s
+[%s has left]
+%s est sorti
+[%s has disconnected]
+%s s'est déconnecté
+[%s is now known as %s]
+%s est devenu %s
+[You are now known as %s]
+Vous êtes connu en tant que %s
+[%s kicked %s]
+%s a exclu %s
+[Notice from %s: ]
+Notice de %s :\s
+[The topic is '%s%s']
+Le sujet est '%s%s'
+[ (set by %s on %s)]
+
+[ (set by %s)]
+ (réglé par %s)
+[%s enables '%s' status for %s]
+
+[%s disables '%s' status for %s]
+
+[<invalid>]
+<invalide>
+;file \src\mir_app\src\chat_opts.cpp
 [Others nicknames]
 Autres pseudos
 [Your nickname]
@@ -2029,45 +2049,10 @@ Usagé a changé de nom
 Usager a envoyé une notice
 [The topic has been changed]
 Le sujet a été changé
-;file \src\modules\chat\chat_svc.cpp
-[&Join chat]
-Re&joindre
+;file \src\mir_app\src\chat_svc.cpp
 [&Leave chat]
 &Quitter le chat
-;file \src\modules\chat\clist.cpp
-[&Open chat window]
-&Ouvrir la fenêtre de chat
-;file \src\modules\chat\colorchooser.cpp
-;file \src\modules\chat\log.cpp
-[%s has joined]
-%s est arrivé
-[You have joined %s]
-Vous avez rejoint %s
-[%s has left]
-%s est sorti
-[%s has disconnected]
-%s s'est déconnecté
-[%s is now known as %s]
-%s est devenu %s
-[You are now known as %s]
-Vous êtes connu en tant que %s
-[%s kicked %s]
-%s a exclu %s
-[Notice from %s: ]
-Notice de %s :\s
-[The topic is '%s%s']
-Le sujet est '%s%s'
-[ (set by %s on %s)]
-
-[ (set by %s)]
- (réglé par %s)
-[%s enables '%s' status for %s]
-
-[%s disables '%s' status for %s]
-
-[<invalid>]
-<invalide>
-;file \src\modules\chat\tools.cpp
+;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s demande votre attention dans %s
 [%s speaks in %s]
@@ -2102,8 +2087,8 @@ Notice de %s : %s
 Le sujet est '%s'
 [The topic is '%s' (set by %s)]
 Le sujet est '%s' (defini par %s)
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
+;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistmenus.cpp
 [Custom status]
 États personnalisés
 [%s (locked)]
@@ -2112,16 +2097,16 @@ Le sujet est '%s' (defini par %s)
 Menu états
 [Main menu]
 Menu principal
-;file \src\modules\clist\clistmod.cpp
+;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Connexion...
 [Connecting (attempt %d)]
 
-;file \src\modules\clist\clistsettings.cpp
+;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
+;file \src\mir_app\src\clisttray.cpp
+;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ce contact est sur un système de messagerie instantanée gardant les listes de contacts sur un serveur central. Le contact sera supprimé du serveur et de votre liste de contacts lors de votre prochaine connexion.
 [De&lete]
@@ -2130,7 +2115,8 @@ Ce contact est sur un système de messagerie instantanée gardant les listes de 
 &Renommer
 [&Add permanently to list]
 &Ajouter à la liste
-;file \src\modules\clist\contacts.cpp
+;file \src\mir_app\src\colorchooser.cpp
+;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Le nom choisi (non déplaçable)
 [Nick]
@@ -2153,45 +2139,7 @@ Nom Prénom
 '(Contacts Inconnus)'
 [Contact names]
 Noms des contacts
-;file \src\modules\clist\genmenu.cpp
-[Menu icons]
-Menus
-;file \src\modules\clist\genmenuopt.cpp
-[Menus]
-Menus
-[Customize]
-Apparence
-;file \src\modules\clist\groups.cpp
-[New group]
-Nouveau groupe
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Etes-vous sûr de vouloir supprimer le groupe '% s'? Cette opération ne peut être annulée.
-[Delete group]
-Effacer un groupe
-[You already have a group with that name. Please enter a unique name for the group.]
-Nom de groupe déjà existant, veuillez en choisir un autre.
-[Rename group]
-Renommer un groupe
-[This group]
-Ce groupe
-;file \src\modules\clist\keyboard.cpp
-[Show/Hide contact list]
-Afficher/Masquer la liste de contacts
-[Read message]
-Lire le message
-[Open Options page]
-
-[Open logging options]
-
-[Open 'Find user' dialog]
-
-;file \src\modules\clist\movetogroup.cpp
-[&Move to group]
-&Déplacer vers le groupe
-[<Root group>]
-<sans groupe>
-;file \src\modules\clist\protocolorder.cpp
-;file \src\modules\database\database.cpp
+;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas déplacer le profil %s vers le nouvel emplacement %s\nCar un profil avec ce nom existe déjà. Veuillez résoudre le problème manuellement.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2210,7 +2158,7 @@ Miranda ne comprend pas ce profil !
 Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda
 [Miranda can't open that profile]
 Miranda ne peut pas ouvrir ce profil
-;file \src\modules\database\dbini.cpp
+;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2225,60 +2173,18 @@ Ce changement est connu pour être potentiellement dangereux.
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
-;file \src\modules\database\dbutils.cpp
+;file \src\mir_app\src\dbutils.cpp
 [Authorization request from %s%s: %s]
 Demande d'autorisation de %s%s : %s
 [You were added by %s%s]
 Vous avez été ajouté par %s%s
 [Contacts: ]
 Contacts :\s
-;file \src\modules\database\profilemanager.cpp
-[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé.
-[The profile already exists]
-Le profil existe déjà
-[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Impossible de déplacer '%s' vers la Corbeille. S'il vous plaît sélectionner un autre nom de profil.
-[Problem moving profile]
-Problème de déplacement du profil
-[Unable to create the profile '%s', the error was %x]
-Impossible de créer le profil '%s', l'erreur était %x
-[Problem creating profile]
-Souci à la création de profil
-[&Create]
-&Créer
-[<In use>]
-
-[<Unknown format>]
-
-[Are you sure you want to remove profile "%s"?]
-Êtes-vous sûr que vous voulez supprimer le profil "%s"?
-[&Convert]
-
-[Run]
-Lancer
-[Convert database]
-
-[Check database]
-Vérifiez la base de données
-[Size]
-Taille
-[Created]
-Créée
-[Modified]
-
-[My profiles]
-Mes profils
-[New profile]
-Nouveau profil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]
 
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
-[Extra icons]
-Icônes d'accès rapide
-;file \src\modules\findadd\findadd.cpp
+;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Vous n’avez rempli aucun champ de recherche. Veuillez entrer un terme recherché et réessayer.
 [Search]
@@ -2297,22 +2203,7 @@ Recherche en cours...
 Pseudo
 [&Find/add contacts...]
 &Chercher/Ajouter des contacts...
-;file \src\modules\findadd\searchresults.cpp
-[Could not start a search on '%s', there was a problem - is %s connected?]
-Impossible de lancer une recherche sur '%s', êtes-vous sûr que %s est connecté ?
-[Could not search on any of the protocols, are you online?]
-Impossible de lancer la recherche sur aucun des protocoles, êtes-vous sûr d'être connecté ?
-[Problem with search]
-Problème avec la recherche
-[1 %s user found]
-1 contact %s trouvé
-[%d %s users found]
-%d contacts %s trouvés
-[%d users found (]
-%d contacts trouvés (
-[No users found]
-Aucun utilisateur trouvé
-;file \src\modules\fonts\FontOptions.cpp
+;file \src\mir_app\src\FontOptions.cpp
 [Failed to create file]
 Échec de la création du fichier
 [<none>]
@@ -2337,253 +2228,39 @@ Contour
 Fichiers Texte
 [Error writing file]
 Erreur d'écriture du fichier
+[Customize]
+Apparence
 [Sample text]
 Exemple
 [Fonts]
 Polices
-;file \src\modules\fonts\FontService.cpp
+;file \src\mir_app\src\FontService.cpp
 [Headers]
 
 [Generic text]
 
 [Small text]
 Petit texte
-;file \src\modules\icolib\skin2opts.cpp
-[Icon sets]
-
-;file \src\modules\ignore\ignore.cpp
-[** All contacts **]
-** Tous les contacts **
-;file \src\modules\langpack\lpopts.cpp
-[(incompatible)]
-(incompatible)
-[Unknown]
-Inconnu
-[built-in]
-
-[Languages]
-Langages
-;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-Vous êtes sur le point d'enlever tous les contacts liés à ce metacontact.\nCeci supprimera le metacontact.\n\nVoulez-vous vraiment continuer ?
-;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-Soit il n'y a aucun metacontact dans la base de données (dans ce cas-ci vous devrait d'abord convertir un contact)\nsoit il n'y en a aucun qui peut accueillir ce contact.\nUne autre solution consiste à convertir ce contact en nouveau metacontact.\nVoulez-vous convertir ce contact en nouveau metacontact ?
-[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-Ce contact est déjà dans un metacontact.\nVous ne pouvez pas ajouter ce contact.\n\nVeuillez en choisir un autre.
-[Metacontact conflict]
-Conflit de metacontact
-[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
-Ce contact est déjà associé à un metacontact.\nVous ne pouvez pas mettre un contact dans plusieurs metacontacts.
-[Multiple metacontacts]
-Metacontacts multiple
-[No suitable metacontact found]
-Aucun metacontact approprié trouvé
-[a contact]
-un contact
-[Adding %s...]
-Ajout de %s...
-[Please select a metacontact]
-Veuillez choisir un metacontact
-[No metacontact selected]
-Pas de metacontact sélectionné
-[Assignment to the metacontact failed.]
-Échec d'assignement à un metacontact.
-[Assignment failure]
-Assignement raté
-;file \src\modules\metacontacts\meta_edit.cpp
-[ID]
-ID
-[Protocol]
-Protocole
-[Send offline]
-Envoi hors ligne
-[Send &online]
-
-[Delete metacontact?]
-Supprimer ce metacontact ?
-;file \src\modules\metacontacts\meta_main.cpp
-[Toggle off]
-
-[Toggle on]
-
-[Convert to metacontact]
-Convertir en metacontact
-[Add to existing]
-
-[Edit]
-Éditer
-[Set to default]
-Par défaut
-[MetaContacts]
-
-;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the metacontact]
-Il y a eu un problème lors de l'assignation du contact à un metacontact
-[This will remove the metacontact permanently.\n\nProceed anyway?]
-Ceci supprimera complètement le metacontact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
-[Are you sure?]
-Etes-vous sûr?
-[Remove from metacontact]
-Retirer du metacontact
-[Toggle metacontacts off]
-Désactiver metacontact
-[Toggle metacontacts on]
-Activer metacontact
-[Add to existing metacontact...]
-Ajouter à un metacontact existant...
-[Edit metacontact...]
-Modifier le metacontact...
-[Set as metacontact default]
-Mettre ce contact par défaut
-[Delete metacontact]
-Effacer le metacontact
-[Subcontacts]
-
-;file \src\modules\metacontacts\meta_options.cpp
-[Metacontacts]
-
-;file \src\modules\metacontacts\meta_services.cpp
-[No online contacts found.]
-Aucun contact en ligne trouvé.
-[Select metacontact]
-
-;file \src\modules\metacontacts\meta_utils.cpp
-[Sender]
-
-[Could not retrieve contact protocol]
-N'a pas pu rechercher le protocole du contact
-[Assignment error]
-Erreur d'assignement
-[Could not get unique ID of contact]
-N'a pas pu obtenir l'ID du contact
-[Contact is 'not on list' - please add the contact to your contact list before assigning.]
-Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant de l'assigner.
-[Metacontact is full]
-Metacontact est plein
-[Could not write contact protocol to metacontact]
-Impossible d'écrire le protocole du contact au metacontact
-[Could not write unique ID of contact to metacontact]
-Impossible d'écrire l'ID du contact au metacontact
-[Could not write nickname of contact to metacontact]
-Impossible d'écrire le pseudo du contact au metacontact
-;file \src\modules\netlib\netliblog.cpp
-[Standard netlib log]
-
-[No times]
-Sans durée
-[Standard hh:mm:ss times]
-Temps standard hh:mm:ss
-[Times in milliseconds]
-Temps en millisecondes
-[Times in microseconds]
-Temps en microsecondes
-[(Miranda core logging)]
-
-[Select where log file will be created]
-Sélectionnez l'emplacement du fichier journal
-[Select program to be run]
-Sélectionnez le programme à lancer
-;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-
-[<All connections>]
-<Toutes connexions>
-[Network]
-Réseau
-;file \src\modules\options\options.cpp
-[<all modules>]
-< Tous les plugins >
-[<core modules>]
-
-[Loading... %d%%]
-
-[%s options]
-%s options
-[Miranda NG options]
-Options de Miranda NG
-[&Options...]
-&Paramètres...
-;file \src\modules\plugins\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' est inactif, le réactiver ?
-[Re-enable Miranda plugin?]
-Réactiver le plugin ?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-
-[Fatal error]
-Erreur fatale
-[Unable to load plugin in service mode!]
-
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'un des plugins de liste de contact, par exemple, "StdClist.dll"
-;file \src\modules\plugins\pluginopts.cpp
-[Plugin]
-Plugin
-[Version]
-Version
-[Miranda NG must be restarted to apply changes for these plugins:]
-Miranda NG doit être redémarré pour appliquer les modifications de ces plugins :
-[Do you want to restart it now?]
-Voulez-vous redémarrer maintenant?
-[Plugins]
-Plugins
-;file \src\modules\protocols\protoopts.cpp
-[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
-ATTENTION! Le compte va être supprimé. Cela signifie que tous les paramètres, les contacts et les historiques seront également effacés.\n\nÊtes-vous absolument sûr?
-[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est nécessaire. \n\nSi vous voulez redémarrer Miranda maintenant, appuyez sur Oui, si vous voulez mettre à jour un autre compte, appuyez sur Non
-[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
-
-[Account name must be filled.]
-
-[Account error]
-
-[Account name has to be unique. Please enter unique name.]
-Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
-[Create new account]
-Créer un compte
-[Editing account]
-Modifier ce compte
-[Upgrading account]
-Mise à jour du compte
-[Account is disabled. Please activate it to access options.]
-Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
-[New account]
-Nouveau compte
-[Remove account]
-Effacer ce compte
-[Configure...]
-Configurer...
-[Upgrade account]
-Mettre à jour
-[Account ID]
-ID du compte
-[<unknown>]
-<inconnu>
-[Protocol is not loaded.]
-Le protocole n'a pas été chargé.
-[Rename]
-Renommer
-[Configure]
-Configurer
-[Upgrade]
-Mise à jour
-[Account %s is being disabled]
-
-[Account is online. Disable account?]
-Le compte est en ligne. Désactivez le compte?
-[Account %s is being deleted]
-Le compte %s est supprimé.
-[You need to disable plugin to delete this account]
-Vous devez désactiver le plugin pour supprimer ce compte
-[&Accounts...]
-&Comptes...
-;file \src\modules\skin\hotkey_opts.cpp
+;file \src\mir_app\src\genmenu.cpp
+[Menu icons]
+Menus
+;file \src\mir_app\src\genmenuopt.cpp
+[Menus]
+Menus
+;file \src\mir_app\src\groups.cpp
+[New group]
+Nouveau groupe
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Etes-vous sûr de vouloir supprimer le groupe '% s'? Cette opération ne peut être annulée.
+[Delete group]
+Effacer un groupe
+[You already have a group with that name. Please enter a unique name for the group.]
+Nom de groupe déjà existant, veuillez en choisir un autre.
+[Rename group]
+Renommer un groupe
+[This group]
+Ce groupe
+;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 
 [Browser: Forward]
@@ -2646,7 +2323,321 @@ Modifier
 
 [Miranda scope]
 
-;file \src\modules\skin\skinicons.cpp
+;file \src\mir_app\src\ignore.cpp
+[** All contacts **]
+** Tous les contacts **
+;file \src\mir_app\src\keyboard.cpp
+[Show/Hide contact list]
+Afficher/Masquer la liste de contacts
+[Read message]
+Lire le message
+[Open Options page]
+
+[Open logging options]
+
+[Open 'Find user' dialog]
+
+;file \src\mir_app\src\lpopts.cpp
+[(incompatible)]
+(incompatible)
+[Unknown]
+Inconnu
+[built-in]
+
+[Languages]
+Langages
+;file \src\mir_app\src\metacontacts.h
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
+Vous êtes sur le point d'enlever tous les contacts liés à ce metacontact.\nCeci supprimera le metacontact.\n\nVoulez-vous vraiment continuer ?
+;file \src\mir_app\src\meta_addto.cpp
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
+Soit il n'y a aucun metacontact dans la base de données (dans ce cas-ci vous devrait d'abord convertir un contact)\nsoit il n'y en a aucun qui peut accueillir ce contact.\nUne autre solution consiste à convertir ce contact en nouveau metacontact.\nVoulez-vous convertir ce contact en nouveau metacontact ?
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
+Ce contact est déjà dans un metacontact.\nVous ne pouvez pas ajouter ce contact.\n\nVeuillez en choisir un autre.
+[Metacontact conflict]
+Conflit de metacontact
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
+Ce contact est déjà associé à un metacontact.\nVous ne pouvez pas mettre un contact dans plusieurs metacontacts.
+[Multiple metacontacts]
+Metacontacts multiple
+[No suitable metacontact found]
+Aucun metacontact approprié trouvé
+[a contact]
+un contact
+[Adding %s...]
+Ajout de %s...
+[Please select a metacontact]
+Veuillez choisir un metacontact
+[No metacontact selected]
+Pas de metacontact sélectionné
+[Assignment to the metacontact failed.]
+Échec d'assignement à un metacontact.
+[Assignment failure]
+Assignement raté
+;file \src\mir_app\src\meta_edit.cpp
+[ID]
+ID
+[Protocol]
+Protocole
+[Send offline]
+Envoi hors ligne
+[Send &online]
+
+[Delete metacontact?]
+Supprimer ce metacontact ?
+;file \src\mir_app\src\meta_main.cpp
+[Toggle off]
+
+[Toggle on]
+
+[Convert to metacontact]
+Convertir en metacontact
+[Add to existing]
+
+[Edit]
+Éditer
+[Set to default]
+Par défaut
+[MetaContacts]
+
+;file \src\mir_app\src\meta_menu.cpp
+[There was a problem in assigning the contact to the metacontact]
+Il y a eu un problème lors de l'assignation du contact à un metacontact
+[This will remove the metacontact permanently.\n\nProceed anyway?]
+Ceci supprimera complètement le metacontact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
+[Are you sure?]
+Etes-vous sûr?
+[Remove from metacontact]
+Retirer du metacontact
+[Toggle metacontacts off]
+Désactiver metacontact
+[Toggle metacontacts on]
+Activer metacontact
+[Add to existing metacontact...]
+Ajouter à un metacontact existant...
+[Edit metacontact...]
+Modifier le metacontact...
+[Set as metacontact default]
+Mettre ce contact par défaut
+[Delete metacontact]
+Effacer le metacontact
+[Subcontacts]
+
+;file \src\mir_app\src\meta_options.cpp
+[Metacontacts]
+
+;file \src\mir_app\src\meta_services.cpp
+[No online contacts found.]
+Aucun contact en ligne trouvé.
+[Select metacontact]
+
+;file \src\mir_app\src\meta_utils.cpp
+[Sender]
+
+[Could not retrieve contact protocol]
+N'a pas pu rechercher le protocole du contact
+[Assignment error]
+Erreur d'assignement
+[Could not get unique ID of contact]
+N'a pas pu obtenir l'ID du contact
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
+Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant de l'assigner.
+[Metacontact is full]
+Metacontact est plein
+[Could not write contact protocol to metacontact]
+Impossible d'écrire le protocole du contact au metacontact
+[Could not write unique ID of contact to metacontact]
+Impossible d'écrire l'ID du contact au metacontact
+[Could not write nickname of contact to metacontact]
+Impossible d'écrire le pseudo du contact au metacontact
+;file \src\mir_app\src\movetogroup.cpp
+[&Move to group]
+&Déplacer vers le groupe
+[<Root group>]
+<sans groupe>
+;file \src\mir_app\src\netliblog.cpp
+[Standard netlib log]
+
+[No times]
+Sans durée
+[Standard hh:mm:ss times]
+Temps standard hh:mm:ss
+[Times in milliseconds]
+Temps en millisecondes
+[Times in microseconds]
+Temps en microsecondes
+[(Miranda core logging)]
+
+[Select where log file will be created]
+Sélectionnez l'emplacement du fichier journal
+[Select program to be run]
+Sélectionnez le programme à lancer
+;file \src\mir_app\src\netlibopts.cpp
+[<mixed>]
+
+[<All connections>]
+<Toutes connexions>
+[Network]
+Réseau
+;file \src\mir_app\src\newplugins.cpp
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
+['%s' is disabled, re-enable?]
+'%s' est inactif, le réactiver ?
+[Re-enable Miranda plugin?]
+Réactiver le plugin ?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
+[Fatal error]
+Erreur fatale
+[Unable to load plugin in service mode!]
+
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'un des plugins de liste de contact, par exemple, "StdClist.dll"
+;file \src\mir_app\src\options.cpp
+[<all modules>]
+< Tous les plugins >
+[<core modules>]
+
+[Loading... %d%%]
+
+[%s options]
+%s options
+[Miranda NG options]
+Options de Miranda NG
+[&Options...]
+&Paramètres...
+;file \src\mir_app\src\options_ei.cpp
+[Extra icons]
+Icônes d'accès rapide
+;file \src\mir_app\src\path.cpp
+[Avatars]
+Avatars
+[Avatars root folder]
+Dossier des avatars
+;file \src\mir_app\src\pluginopts.cpp
+[Plugin]
+Plugin
+[Version]
+Version
+[Miranda NG must be restarted to apply changes for these plugins:]
+Miranda NG doit être redémarré pour appliquer les modifications de ces plugins :
+[Do you want to restart it now?]
+Voulez-vous redémarrer maintenant?
+[Plugins]
+Plugins
+;file \src\mir_app\src\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé.
+[The profile already exists]
+Le profil existe déjà
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Impossible de déplacer '%s' vers la Corbeille. S'il vous plaît sélectionner un autre nom de profil.
+[Problem moving profile]
+Problème de déplacement du profil
+[Unable to create the profile '%s', the error was %x]
+Impossible de créer le profil '%s', l'erreur était %x
+[Problem creating profile]
+Souci à la création de profil
+[&Create]
+&Créer
+[<In use>]
+
+[<Unknown format>]
+
+[Are you sure you want to remove profile "%s"?]
+Êtes-vous sûr que vous voulez supprimer le profil "%s"?
+[&Convert]
+
+[Run]
+Lancer
+[Convert database]
+
+[Check database]
+Vérifiez la base de données
+[Size]
+Taille
+[Created]
+Créée
+[Modified]
+
+[My profiles]
+Mes profils
+[New profile]
+Nouveau profil
+;file \src\mir_app\src\protocolorder.cpp
+;file \src\mir_app\src\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+ATTENTION! Le compte va être supprimé. Cela signifie que tous les paramètres, les contacts et les historiques seront également effacés.\n\nÊtes-vous absolument sûr?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est nécessaire. \n\nSi vous voulez redémarrer Miranda maintenant, appuyez sur Oui, si vous voulez mettre à jour un autre compte, appuyez sur Non
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+
+[Account name must be filled.]
+
+[Account error]
+
+[Account name has to be unique. Please enter unique name.]
+Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
+[Create new account]
+Créer un compte
+[Editing account]
+Modifier ce compte
+[Upgrading account]
+Mise à jour du compte
+[Account is disabled. Please activate it to access options.]
+Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
+[New account]
+Nouveau compte
+[Remove account]
+Effacer ce compte
+[Configure...]
+Configurer...
+[Upgrade account]
+Mettre à jour
+[Account ID]
+ID du compte
+[<unknown>]
+<inconnu>
+[Protocol is not loaded.]
+Le protocole n'a pas été chargé.
+[Rename]
+Renommer
+[Configure]
+Configurer
+[Upgrade]
+Mise à jour
+[Account %s is being disabled]
+
+[Account is online. Disable account?]
+Le compte est en ligne. Désactivez le compte?
+[Account %s is being deleted]
+Le compte %s est supprimé.
+[You need to disable plugin to delete this account]
+Vous devez désactiver le plugin pour supprimer ce compte
+[&Accounts...]
+&Comptes...
+;file \src\mir_app\src\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+Impossible de lancer une recherche sur '%s', êtes-vous sûr que %s est connecté ?
+[Could not search on any of the protocols, are you online?]
+Impossible de lancer la recherche sur aucun des protocoles, êtes-vous sûr d'être connecté ?
+[Problem with search]
+Problème avec la recherche
+[1 %s user found]
+1 contact %s trouvé
+[%d %s users found]
+%d contacts %s trouvés
+[%d users found (]
+%d contacts trouvés (
+[No users found]
+Aucun utilisateur trouvé
+;file \src\mir_app\src\skin2opts.cpp
+[Icon sets]
+
+;file \src\mir_app\src\skinicons.cpp
 [User online]
 Utilisateur en ligne
 [Group (open)]
@@ -2725,20 +2716,15 @@ Icônes d'état
 Icônes %s
 [Main icons]
 Icônes principales
-;file \src\modules\skin\sounds.cpp
+;file \src\mir_app\src\sounds.cpp
 [Sound files]
 Fichiers son
 [WAV files]
 Fichiers WAV
-;file \src\modules\utils\path.cpp
-[Avatars]
-Avatars
-[Avatars root folder]
-Dossier des avatars
-;file \src\modules\utils\timezones.cpp
+;file \src\mir_app\src\timezones.cpp
 [<unspecified>]
 <non spécifié>
-;file \src\modules\utils\utils.cpp
+;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Non spécifié
 [Afghanistan]
@@ -3239,4 +3225,18 @@ Yémen
 Zambie
 [Zimbabwe]
 Zimbabwe
-;file \src\modules\visibility\visibility.cpp
+;file \src\mir_app\src\visibility.cpp
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Tous les fichiers
+[Windows bitmaps]
+Bitmap Windows
+[JPEG bitmaps]
+Images JPEG
+[GIF bitmaps]
+Images GIF
+[PNG bitmaps]
+Images PNG
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Compte

@@ -3,26 +3,8 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-[Send authorization request]
-Send authorisation request
 [Authorization request]
 Authorisation request
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
-[e.g., Workplace]
-e.g. Workplace
-[e.g., dbx mmap]
-e.g. dbx mmap
-[Fonts and colors]
-Fonts and colours
-[Color/background]
-Colour/background
-[Text color]
-Text colour
-[Base color:]
-Base colour:
-[Secondary color:]
-Secondary colour:
 [&Authorize]
 &Authorise
 [Add to contact list if authorized]
@@ -51,6 +33,24 @@ Minimise the file transfer window
 Minimise the message window on send
 [Message window behavior:]
 Message window behaviour:
+[Send authorization request]
+Send authorisation request
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
+[e.g., Workplace]
+e.g. Workplace
+[e.g., dbx mmap]
+e.g. dbx mmap
+[Fonts and colors]
+Fonts and colours
+[Color/background]
+Colour/background
+[Text color]
+Text colour
+[Base color:]
+Base colour:
+[Secondary color:]
+Secondary colour:
 [%s requests authorization]
 %s requests authorisation
 [%u requests authorization]
@@ -79,10 +79,10 @@ This file transfer has been cancelled by the other side
 Initialising...
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-[Customize]
-Customise
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
+[Customize]
+Customise
 [Request authorization]
 Request authorisation
 [Grant authorization]
