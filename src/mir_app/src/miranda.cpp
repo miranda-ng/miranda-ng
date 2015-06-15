@@ -60,10 +60,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 {
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		g_hInst = hinstDLL;
-		g_iIconX = g_iIconX;
-		g_iIconY = g_iIconY;
-		g_iIconSX = g_iIconSX;
-		g_iIconSY = g_iIconSY;
+		g_iIconX = GetSystemMetrics(SM_CXICON);
+		g_iIconY = GetSystemMetrics(SM_CYICON);
+		g_iIconSX = GetSystemMetrics(SM_CXSMICON);
+		g_iIconSY = GetSystemMetrics(SM_CYSMICON);
 	}
 	return TRUE;
 }
