@@ -1,5 +1,5 @@
-7-Zip 9.38
-----------
+7-Zip 15.05 beta
+----------------
 
 7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / XP / Vista / 7 / 8 / 10. 
 
@@ -22,7 +22,7 @@ The main features of 7-Zip:
 
 
 7-Zip is free software distributed under the GNU LGPL (except for unRar code).
-Read License.txt for more infomation about license.
+Read License.txt for more information about license.
 
 
   This distribution package contains the following files:
