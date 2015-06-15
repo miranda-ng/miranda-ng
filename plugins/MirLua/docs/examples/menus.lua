@@ -23,6 +23,11 @@ menuItem.Icon = hIcon
 menuItem.Service = "Srv/MMI"
 genmenu.AddMainMenuItem(menuItem)
 
+--- Add menu item to main menu
+menuItem.Name = "Tray menu item"
+menuItem.Service = "Srv/TMI"
+genmenu.AddTrayMenuItem(menuItem)
+
 --- Add menu item to contact menu
 menuItem.Name = "Contact menu item"
 menuItem.Service = "Srv/CMI"
