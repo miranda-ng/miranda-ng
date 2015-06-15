@@ -27,13 +27,11 @@ int lpprintf(const char *format, ...)
 	va_list va;
 	va_start(va, format);
 	const int MAX_SIZE = 16192;
-	char buffer[MAX_SIZE] = {0};
-	int len = mir_vsnprintf(buffer, MAX_SIZE - 1, format, va);
-	buffer[MAX_SIZE - 1] = 0;
+	char buffer[MAX_SIZE] = { 0 };
+	int len = mir_vsnprintf(buffer, MAX_SIZE, format, va);
 	va_end(va);
 	CharToOemBuffA(buffer, buffer, len);
 	printf("%s", buffer);
-
 	return len;
 }
 
@@ -74,33 +72,25 @@ void ShowVersion()
 int main(int argc, char *argv[])
 {
 	int error = 0;
-	if ((argc == 2) && (mir_strcmp(argv[1], "-v") == 0))
-	{
+	if ((argc == 2) && (mir_strcmp(argv[1], "-v") == 0)) {
 		ShowVersion();
-
 		return 0;
 	}
 
-	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule()))
-	{
+	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule())) {
 		lpprintf("Could not create connection with Miranda or could not retrieve list of known commands.\n");
 		error = MIMRES_NOMIRANDA;
 	}
-	else{
-		if ((argc <= 1) || (argc > MAX_ARGUMENTS))
-		{
+	else {
+		if (argc <= 1 || argc > MAX_ARGUMENTS)
 			PrintUsage();
-		}
-		else{
+		else {
 			PReply reply = ParseCommand(argv, argc);
-			if (reply)
-			{
+			if (reply) {
 				error = reply->code;
 				lpprintf("%s\n", reply->message);
 			}
-			else{
-				lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
-			}
+			else lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
 
 			DestroyKnownCommands();
 			DisconnectFromMiranda();
