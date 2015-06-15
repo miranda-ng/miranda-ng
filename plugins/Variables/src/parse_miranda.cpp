@@ -178,7 +178,7 @@ static TCHAR* getDBSetting(MCONTACT hContact, char* module, char* setting, TCHAR
 	if (db_get_s(hContact, module, setting, &dbv, 0))
 		return defaultValue;
 
-	TCHAR* var = NULL;
+	TCHAR *var = NULL;
 	switch (dbv.type) {
 	case DBVT_BYTE:
 		var = itot(dbv.bVal);
@@ -423,16 +423,14 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 	if (!mir_tstrcmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
 	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
-		if (!ProtoServiceExists(szProto, PS_GETCAPS))
-			return NULL;
-
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
+		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
+			return NULL;
 	}
 	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
-		if (!ProtoServiceExists(szProto, PS_GETCAPS))
-			return NULL;
-
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
+			return NULL;
 	}
 	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PINICK))) {
 		CONTACTINFO ci;
@@ -475,13 +473,7 @@ static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 		return NULL;
 
-	size_t size = mir_strlen(szProto) + mir_tstrlen(szUniqueID) + 4;
-	TCHAR *res = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
-	if (res == NULL)
-		return NULL;
-
-	mir_sntprintf(res, size, _T("<%S:%s>"), szProto, szUniqueID);
-	return res;
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detach();
 }
 
 static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
