@@ -18,12 +18,15 @@ static BBButton* MakeBBButton(lua_State *L)
 
 	lua_pushstring(L, "Flags");
 	lua_gettable(L, -2);
-	tbb->bbbFlags = BBBF_ISLSIDEBUTTON | lua_tointeger(L, -1);
+	tbb->bbbFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Tooltip");
 	lua_gettable(L, -2);
-	tbb->ptszTooltip = mir_utf8decodeT((char*)lua_tostring(L, -1));
+	if ((tbb->bbbFlags & BBBF_ANSITOOLTIP))
+		tbb->pszTooltip = mir_utf8decode((char*)lua_tostring(L, -1), NULL);
+	else
+		tbb->ptszTooltip = mir_utf8decodeT((char*)lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Icon");
