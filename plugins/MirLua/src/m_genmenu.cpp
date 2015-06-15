@@ -70,6 +70,22 @@ static int lua_AddContactMenuItem(lua_State *L)
 	return 1;
 }
 
+static int lua_AddTrayMenuItem(lua_State *L)
+{
+	if (lua_type(L, 1) != LUA_TTABLE)
+	{
+		lua_pushlightuserdata(L, 0);
+		return 1;
+	}
+
+	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+
+	HGENMENU res = ::Menu_AddTrayMenuItem(pmi);
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
 static int lua_ModifyMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
@@ -102,6 +118,7 @@ static luaL_Reg genmenuApi[] =
 {
 	{ "AddMainMenuItem", lua_AddMainMenuItem },
 	{ "AddContactMenuItem", lua_AddContactMenuItem },
+	{ "AddTrayMenuItem", lua_AddTrayMenuItem },
 	{ "ModifyMenuItem", lua_ModifyMenuItem },
 	{ "RemoveMenuItem", lua_RemoveMenuItem },
 
