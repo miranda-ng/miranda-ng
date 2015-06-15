@@ -71,7 +71,6 @@ int CreateSystemEvents()
 int CreateMutexes()
 {
 	hmClient = CreateMutexA(NULL, FALSE, MUTEX_CLIENT_NAME);
-
 	return (hmClient == NULL);
 }
 
@@ -80,26 +79,20 @@ int CreateSharedMem()
 	hsmCmdLine = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TSharedData), SHAREDMEM_NAME);
 	sdCmdLine = (PSharedData) MapViewOfFile(hsmCmdLine, FILE_MAP_WRITE, 0, 0, sizeof(TSharedData));
 
-	return ((hsmCmdLine == NULL) || (sdCmdLine == NULL));
+	return (hsmCmdLine == NULL) || (sdCmdLine == NULL);
 }
 
 int DestroySystemEvents()
 {
-	int res = (!CloseHandle(heServerExec)) || (!CloseHandle(heServerDone)) || (!CloseHandle(heServerClose) || (!CloseHandle(heServerBufferFull)));
-
-	return res;
+	return (!CloseHandle(heServerExec)) || (!CloseHandle(heServerDone)) || (!CloseHandle(heServerClose) || (!CloseHandle(heServerBufferFull)));
 }
 
 int DestroyMutexes()
 {
-	int res = !CloseHandle(hmClient);
-
-	return res;
+	return !CloseHandle(hmClient);
 }
 
 int DestroySharedMem()
 {
-	int res = (!UnmapViewOfFile(sdCmdLine)) || (!CloseHandle(hsmCmdLine));
-
-	return res;
+	return (!UnmapViewOfFile(sdCmdLine)) || (!CloseHandle(hsmCmdLine));
 }

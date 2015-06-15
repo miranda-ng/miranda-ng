@@ -30,14 +30,26 @@ HMODULE hCmdLineDLL = NULL;
 char *GetMirandaFolder(char *mimFolder, int size)
 {
 	strncpy_s(mimFolder, size, sdCmdLine->mimFolder, _TRUNCATE);
-	mimFolder[size - 1] = 0;
-
 	return mimFolder;
 }
 
-
 int ConnectToMiranda()
 {
+	TCHAR tszPath[MAX_PATH];
+	GetModuleFileName(NULL, tszPath, _countof(tszPath));
+	TCHAR *p = _tcsrchr(tszPath, '\\');
+	if (p) p[1] = 0;
+
+	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
+	DWORD cbPath = (DWORD)_tcslen(tszPath);
+
+	DWORD cbSize = GetEnvironmentVariable(_T("PATH"), NULL, 0);
+	TCHAR *ptszVal = new TCHAR[cbSize + MAX_PATH + 2];
+	_tcscpy(ptszVal, tszPath);
+	_tcscat(ptszVal, _T(";"));
+	GetEnvironmentVariable(_T("PATH"), ptszVal + cbPath + 1, cbSize);
+	SetEnvironmentVariable(_T("PATH"), ptszVal);
+
 	char pluginPath[1024];
 	GetMirandaFolder(pluginPath, sizeof(pluginPath));
 	mir_strcat(pluginPath, "\\plugins\\cmdline.dll");
@@ -48,14 +60,10 @@ int ConnectToMiranda()
 
 	int failure = 1;
 	if (hCmdLineDLL)
-	{
 		ListCommands = (LISTCOMMANDS) GetProcAddress(hCmdLineDLL, "ListCommands");
-	}
 
 	if (ListCommands)
-	{
 		failure = 0;
-	}
 
 	return failure;
 }
@@ -68,14 +76,11 @@ int DisconnectFromMiranda()
 int GetKnownCommands()
 {
 	ListCommands(&knownCommands, &cKnownCommands);
-
 	return (knownCommands == NULL);
 }
 
 int DestroyKnownCommands()
 {
-
-
 	return 0;
 }
 
@@ -87,24 +92,14 @@ PCommand GetCommand(char *command)
 	_strlwr(lower);
 
 	for (i = 0; i < cKnownCommands; i++)
-	{
 		if (mir_strcmp(knownCommands[i].command, lower) == 0)
-		{
 			return &knownCommands[i];
-		}
-	}
 
 	//allow more parameters to trigger the help command - /h -h /? --help
 	if ((mir_strcmp(lower, "/h") == 0) || (mir_strcmp(lower, "-h") == 0) || (mir_strcmp(lower, "/?") == 0) || (mir_strcmp(lower, "--help") == 0))
-	{
 		for (i = 0; i < cKnownCommands; i++)
-		{
 			if (knownCommands[i].ID == MIMCMD_HELP)
-			{
 				return &knownCommands[i];
-			}
-		}
-	}
 
 	return NULL;
 }
@@ -167,41 +162,30 @@ void FillSharedDataStruct(PCommand command, char *arguments[], int count)
 
 void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PReply reply)
 {
-	const HANDLE events[] = {heServerDone, heServerClose, heServerBufferFull};
+	const HANDLE events[] = { heServerDone, heServerClose, heServerBufferFull };
 	const int cEvents = sizeof(events) / sizeof(events[0]);
 
-	if (WaitForSingleObject(hmClient, INFINITE) == WAIT_OBJECT_0)
-	{//got the mutex, we're the only one who can talk to miranda now
+	if (WaitForSingleObject(hmClient, INFINITE) == WAIT_OBJECT_0) {//got the mutex, we're the only one who can talk to miranda now
 		FillSharedDataStruct(command, arguments, count);
 		SetEvent(heServerExec); //tell Miranda to process the request
 
 		int done = FALSE;
-		while (!done)
-		{
-			switch (WaitForMultipleObjects(cEvents, events, FALSE, INFINITE)) //wait until server either finished processing or miranda was closed
-			{
-				case WAIT_OBJECT_0: //done event
-				{
-					done = TRUE;
+		while (!done) {
+			// wait until server either finished processing or miranda was closed
+			switch (WaitForMultipleObjects(cEvents, events, FALSE, INFINITE)) {
+			case WAIT_OBJECT_0: //done event
+				done = TRUE;
+				break; //nothing to do
 
-					break; //nothing to do
-				}
+			case WAIT_OBJECT_0 + 1: //close event
+			default:
+				mir_strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
+				done = TRUE;
+				break;
 
-				case WAIT_OBJECT_0 + 1: //close event
-				default:
-				{
-					mir_strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
-					done = TRUE;
-
-					break;
-				}
-
-				case WAIT_OBJECT_0 + 2: //buffer full event
-				{
-					lpprintf("%s", reply->message);
-
-					break;
-				}
+			case WAIT_OBJECT_0 + 2: //buffer full event
+				lpprintf("%s", reply->message);
+				break;
 			}
 		}
 
@@ -210,9 +194,8 @@ void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PRepl
 
 		ReleaseMutex(hmClient); //let other possible clients talk to the server
 	}
-	else{
+	else {
 		reply->code = -1;
 		*reply->message = 0;
 	}
-
 }
