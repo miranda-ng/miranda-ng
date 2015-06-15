@@ -538,7 +538,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	else if (mir_tstrcmp(dat->szFilterString, TranslateT(CORE_MODULES_FILTER)) == 0) {
 		// replace string with process name - that will show core settings
 		TCHAR szFileName[300];
-		GetModuleFileName(NULL, szFileName, SIZEOF(szFileName));
+		GetModuleFileName(g_hInst, szFileName, SIZEOF(szFileName));
 		TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
 		if (pos)
 			pos++;
