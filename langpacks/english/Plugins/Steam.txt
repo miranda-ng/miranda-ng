@@ -38,7 +38,6 @@
 [Avatar Service]
 [Name]
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
 [Network]
 [Blocked contacts]
 ;file \protocols\Steam\src\steam_login.cpp
@@ -53,6 +52,7 @@
 [Protocols]
 [Protocol icon]
 [Gaming icon]
+[%s connection]
 [SteamID]
 [You cannot send messages when you are offline.]
 ;file \protocols\Steam\src\steam_xstatus.cpp
