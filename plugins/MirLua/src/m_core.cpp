@@ -206,5 +206,7 @@ luaL_Reg CMLua::coreLib[] =
 	{ "Translate", lua_Translate },
 	{ "ReplaceVariables", lua_ReplaceVariables },
 
+	{ "NULL", NULL },
+
 	{ NULL, NULL }
 };

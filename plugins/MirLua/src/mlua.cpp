@@ -13,6 +13,8 @@ CMLua::CMLua() : L(NULL)
 	lua_pop(L, 1);
 
 	luaL_newlib(L, coreLib);
+	lua_pushlightuserdata(L, NULL);
+	lua_setfield(L, -2, "NULL");
 	lua_setglobal(L, "m");
 
 	Preload(MLUA_DATABASE, luaopen_m_database);

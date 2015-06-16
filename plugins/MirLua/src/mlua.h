@@ -5,7 +5,7 @@ class CMLua
 {
 private:
 	lua_State *L;
-	static luaL_Reg coreLib[14];
+	static luaL_Reg coreLib[15];
 
 	void Preload(const char *name, lua_CFunction func);
 
