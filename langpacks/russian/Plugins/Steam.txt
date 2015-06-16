@@ -59,8 +59,6 @@
 Служба аватар
 [Name]
 Имя
-[%s connection]
-%s подключение
 [Network]
 Сеть
 [Blocked contacts]
@@ -81,5 +79,7 @@
 Значок протокола
 [Gaming icon]
 Игровой значок
+[%s connection]
+%s подключение
 [You cannot send messages when you are offline.]
 Вы не можете посылать сообщения, когда вы оффлайн.
