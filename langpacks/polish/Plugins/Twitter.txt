@@ -93,7 +93,7 @@ Nie udało się zainicjować połączenia Netlib dla %s.
 [%s avatar connection]
 Połączenie awatarów %s
 [Twitter (avatars)]
-Twitter (awatary_
+Twitter (awatary)
 [%s Protocol]
 Protokół %s
 ;file \protocols\Twitter\src\theme.cpp

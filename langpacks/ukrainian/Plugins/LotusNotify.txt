@@ -55,6 +55,8 @@
 ...навіть якщо спливаюче вікно не натиснуте
 [Clear popups history]
 Очистити історію спливаючих вікон
+[Filter messages containing the following:]
+Фільтрувати повідомлення, що містять:
 [Sender]
 Відправник
 [Subject]

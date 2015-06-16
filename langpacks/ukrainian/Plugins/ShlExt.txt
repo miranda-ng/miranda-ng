@@ -38,7 +38,7 @@
 [Approved]
 Дозволено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Ви впевнені? Це видалить усі налаштування даного плагіна у вашому профілі та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
+Ви впевнені? Ця дія видалить усі налаштування даного плагіна у вашому профілі та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
 [Disable/Remove shlext]
 Вимкнути/Видалити ShlExt
 [Services]
@@ -47,3 +47,13 @@
 Останні
 [Clear entries]
 Очистити історію
+[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+Не вдалося видалити ключ реєстру shlext COM, можливо його вже видалено або потрібні права адміністратора.
+[Problem]
+Проблема
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+Не вдалося видалити ключ реєстру, що відповідає за інтеграцію в контекстне меню файлів, можливо його вже видалено або потрібні права адміністратора.
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+Не вдалося видалити ключ реєстру, що відповідає за інтеграцію в контекстне меню папок, можливо його вже видалено або потрібні права адміністратора.
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+Для інтеграції в контекстне меню оболонки операційної системи потрібен ваш дозвіл (один раз).
