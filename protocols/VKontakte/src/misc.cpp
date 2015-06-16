@@ -1035,7 +1035,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			const JSONNode &jnSubAttachments = jnWall["attachments"];
 			if (!jnSubAttachments.isnull()) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, m_iBBCForAttachments);
+				CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 				tszAttachmentDescr.Replace(_T("\n"), _T("\n\t"));
 				res += _T("\n\t") + tszAttachmentDescr;
 			}
@@ -1150,7 +1150,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (!jnFwdMessages.isnull()) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody += tszFwdMessages;
@@ -1158,7 +1158,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (!jnAttachments.isnull()) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
+			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 			tszBody += tszAttachmentDescr;
