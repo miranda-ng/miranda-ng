@@ -19,16 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Jabber</ProjectName>
-    <ProjectGuid>{33276462-8313-4192-8306-13717ECCA60A}</ProjectGuid>
+    <ProjectName>Zlib</ProjectName>
+    <ProjectGuid>{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
-      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <ModuleDefinitionFile>src/zlib.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

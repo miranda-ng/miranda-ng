@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 #include "job_generic.h"
-#include "..\Zlib\src\zip.h"
+#include "..\..\libs\zlib\src\zip.h"
 
 class PackerJob: public GenericJob
 {

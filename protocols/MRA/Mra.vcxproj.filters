@@ -1,4 +1,784 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+    <ClCompile Include="src\Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MraAdvancedSearch.cpp" />
+    <ClCompile Include="src\MraAvatars.cpp" />
+    <ClCompile Include="src\MraChat.cpp" />
+    <ClCompile Include="src\MraFilesQueue.cpp" />
+    <ClCompile Include="src\MraIcons.cpp" />
+    <ClCompile Include="src\MraMPop.cpp" />
+    <ClCompile Include="src\MraMRIMProxy.cpp" />
+    <ClCompile Include="src\MraOfflineMsg.cpp" />
+    <ClCompile Include="src\MraPopUp.cpp" />
+    <ClCompile Include="src\MraProto.cpp" />
+    <ClCompile Include="src\MraRTFMsg.cpp" />
+    <ClCompile Include="src\MraSelectEMail.cpp" />
+    <ClCompile Include="src\MraSendCommand.cpp" />
+    <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra_functions.cpp" />
+    <ClCompile Include="src\Mra_menus.cpp" />
+    <ClCompile Include="src\Mra_options.cpp" />
+    <ClCompile Include="src\Mra_proto.cpp" />
+    <ClCompile Include="src\Mra_svcs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MraConstans.h" />
+    <ClInclude Include="src\MraFilesQueue.h" />
+    <ClInclude Include="src\MraIcons.h" />
+    <ClInclude Include="src\MraMPop.h" />
+    <ClInclude Include="src\MraMRIMProxy.h" />
+    <ClInclude Include="src\MraOfflineMsg.h" />
+    <ClInclude Include="src\MraPlaces.h" />
+    <ClInclude Include="src\MraPopUp.h" />
+    <ClInclude Include="src\MraProto.h" />
+    <ClInclude Include="src\MraRTFMsg.h" />
+    <ClInclude Include="src\MraSelectEMail.h" />
+    <ClInclude Include="src\MraSendQueue.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc" />
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

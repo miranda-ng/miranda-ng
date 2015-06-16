@@ -24,7 +24,7 @@ extern "C"
 	#if MIRANDA_VER < 0x0A00
 		#include "Minizip\unzip.h"
 	#else
-		#include "..\zlib\src\unzip.h"
+		#include "..\..\libs\zlib\src\unzip.h"
 	#endif
 
 	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
