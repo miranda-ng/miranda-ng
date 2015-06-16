@@ -35,5 +35,8 @@
       <ModuleDefinitionFile Condition="'$(Platform)'=='Win32'">src/mir_core.def</ModuleDefinitionFile>
       <ModuleDefinitionFile Condition="'$(Platform)'=='x64'">src/mir_core64.def</ModuleDefinitionFile>
     </Link>
+    <PreBuildEvent>
+      <Command>..\..\build\make_ver.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
 </Project>
