@@ -99,7 +99,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Filter messages contain below strings in:",IDC_STATIC,5,20,235,62
+    GROUPBOX        "Filter messages containing the following:",IDC_STATIC,5,20,235,62
     LTEXT           "Sender",IDC_STATIC,9,33,71,8
     COMBOBOX        IDC_FILTER_SENDER,82,32,120,11,CBS_DROPDOWN | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
