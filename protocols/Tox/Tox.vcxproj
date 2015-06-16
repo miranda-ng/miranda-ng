@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup Label="ProjectConfigurations">
+  <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -33,7 +33,7 @@
       <AdditionalDependencies>Winmm.lib;dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent Condition="'$(Platform)'=='Win32'">
-      <Command>copy bin\x86\libtox.* "$(SolutionDir)$(Configuration)\Libs\" /y
+      <Command>xcopy bin\x86\libtox.* "$(SolutionDir)$(Configuration)\Libs\libtox.*" /y
 copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
     </PostBuildEvent>
     <PostBuildEvent Condition="'$(Platform)'=='x64'">
