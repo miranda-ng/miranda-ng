@@ -8,7 +8,16 @@
 [Allow you to extend Miranda NG functionality with lua scripts.]
 Pozwala na rozszerzenie funkcjonalności Mirandy NG za pomocą skryptów lua.
 ;file \plugins\MirLua\src\main.cpp
+[Customize]
+Personalizacja
+[Scripts]
+Skrypty
 [Common scripts folder]
 Wspólny folder skryptów
 [Custom scripts folder]
 Własny folder skryptów
+;file \plugins\MirLua\src\mlua_options.cpp
+[Common scripts]
+Wspólne skrypty
+[Custom scripts]
+Własne skrypty

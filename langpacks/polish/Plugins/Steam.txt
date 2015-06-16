@@ -66,8 +66,6 @@ Usługa awatarów
 [Name]
 Nazwa
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
-Połączenie %s
 [Network]
 Sieć
 [Blocked contacts]
@@ -92,6 +90,8 @@ Protokoły
 Ikona protokołu
 [Gaming icon]
 Ikona grania
+[%s connection]
+Połączenie %s
 [SteamID]
 SteamID
 [You cannot send messages when you are offline.]

@@ -56,8 +56,8 @@ Zapamiętaj najnowszą wiadomość i nie pokazuj starszych od niej
 ...nawet jeśli popup nie został kliknięty
 [Clear popups history]
 Wyczyść historię powiadomień
-[Filter messages contain below strings in:]
-Filtruj powiadomienia zawierające napisy w:
+[Filter messages containing the following:]
+Filtruj wiadomości zawierające następującą treść:
 [Sender]
 Nadawca
 [Subject]
