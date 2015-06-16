@@ -30,9 +30,18 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	GetModuleFileName(hInstance, tszPath, _countof(tszPath));
 
 	TCHAR *p = _tcsrchr(tszPath, '\\');
-	if (p)
-		p[1] = 0;
+	if (p == NULL)
+		return 4;
 
+	// if current dir isn't set
+	*p = 0;
+	SetCurrentDirectory(tszPath);
+
+	// all dlls must be moved to libs
+	if (!CheckDlls(tszPath))
+		return 3;
+
+	*p = '\\'; p[1] = 0;
 	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
 	
