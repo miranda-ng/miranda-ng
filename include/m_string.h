@@ -440,7 +440,7 @@ public:
 			return;
 		}
 		DWORD dwSize = static_cast<DWORD>(size);
-		BOOL fSuccess = ::CharToOemBuffA(pstrString, pstrString, dwSize);
+		::CharToOemBuffA(pstrString, pstrString, dwSize);
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString, size_t size)
@@ -449,7 +449,7 @@ public:
 			return;
 
 		DWORD dwSize = static_cast<DWORD>(size);
-		BOOL fSuccess = ::OemToCharBuffA(pstrString, pstrString, dwSize);
+		::OemToCharBuffA(pstrString, pstrString, dwSize);
 	}
 
 	static void __stdcall FloodCharacters(char ch, int nLength, char* pch)
