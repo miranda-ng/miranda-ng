@@ -79,6 +79,7 @@ Source: "Files\Zlib.dll"; DestDir: "{app}"; Components: program; Flags: ignoreve
 Source: "Files\DbChecker.bat"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\msvcp100.dll"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\msvcr100.dll"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent()
+Source: "Files\Libs\libjson.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_app.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdAuth.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdAutoAway.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
