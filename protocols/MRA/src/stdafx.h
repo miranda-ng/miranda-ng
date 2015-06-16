@@ -18,7 +18,7 @@
 #include <time.h>
 #include <commctrl.h>
 
-#include "../../plugins/zlib/src/zlib.h"
+#include "../../libs/zlib/src/zlib.h"
 
 #include <newpluginapi.h>
 #include <m_system.h>

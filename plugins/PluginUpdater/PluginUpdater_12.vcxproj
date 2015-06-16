@@ -208,7 +208,7 @@
     <Image Include="res\PlgList.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zlib\zlib_12.vcxproj">
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "../plugins/zlib/src/zlib.h"
+#include "../libs/zlib/src/zlib.h"
 #include "netlib.h"
 
 #define HTTPRECVHEADERSTIMEOUT   30000  //in ms

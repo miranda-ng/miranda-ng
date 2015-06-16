@@ -29,8 +29,8 @@
 #include "m_system.h"
 #include "m_database.h"
 
-__inline int My_lstrlen(LPCSTR lpString) {return mir_strlen(lpString);}
-__inline int My_lstrlen(LPCWSTR lpString) {return mir_wstrlen(lpString);}
+__inline int My_lstrlen(LPCSTR lpString) {return (int)mir_strlen(lpString);}
+__inline int My_lstrlen(LPCWSTR lpString) {return (int)mir_wstrlen(lpString);}
 __inline int My_lstrcmp(LPCSTR lpString1, LPCSTR lpString2) {return mir_strcmp(lpString1, lpString2);}
 __inline int My_lstrcmp(LPCWSTR lpString1, LPCWSTR lpString2) {return mir_wstrcmp(lpString1, lpString2);}
 __inline LPCSTR My_strstr(LPCSTR lpString1, LPCSTR lpString2) {return strstr(lpString1, lpString2);}

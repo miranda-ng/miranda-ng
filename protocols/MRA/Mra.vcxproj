@@ -26,11 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ProjectReference Condition="'$(VisualStudioVersion)' == '10.0'" Include="..\..\plugins\zlib\zlib_10.vcxproj">
-      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Condition="'$(VisualStudioVersion)' == '12.0'" Include="..\..\plugins\zlib\zlib_12.vcxproj">
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
