@@ -52,18 +52,33 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 	// services
 	CreateServiceFunction(MODULE"/MenuChoose", CSteamProto::MenuChooseService);
+
 	// avatar API
 	CreateProtoService(PS_GETAVATARINFO, &CSteamProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CSteamProto::GetMyAvatar);
+
 	// custom status API
 	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::OnGetXStatusEx);
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
 	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::OnRequestAdvStatusIconIdx);
+
+	// netlib support
+	TCHAR name[128];
+	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.ptszDescriptiveName = name;
+	nlu.szSettingsModule = m_szModuleName;
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
+	requestQueue = new RequestQueue(m_hNetlibUser);
 }
 
 CSteamProto::~CSteamProto()
 {
+	delete requestQueue;
 }
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)

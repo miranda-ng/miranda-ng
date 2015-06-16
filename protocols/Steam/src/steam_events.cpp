@@ -5,29 +5,14 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_OPT_INITIALISE, &CSteamProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 
-	TCHAR name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
-
-	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
-	nlu.ptszDescriptiveName = name;
-	nlu.szSettingsModule = m_szModuleName;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	requestQueue = new RequestQueue(m_hNetlibUser);
-
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
-
 	return 0;
 }
 
 int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	delete requestQueue;
-
 	Netlib_CloseHandle(this->m_hNetlibUser);
 	this->m_hNetlibUser = NULL;
-
 	return 0;
 }
 
