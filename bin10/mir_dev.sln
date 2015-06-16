@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjson", "..\libs\libjson\libjson.vcxproj", "{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_10.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -428,8 +430,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageState", "..\plugins\MessageState\MessageState.vcxproj", "{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirLua", "..\plugins\MirLua\MirLua.vcxproj", "{27D41D81-991F-4DC6-8749-B0321C87E694}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjson", "..\libs\libjson\libjson.vcxproj", "{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
