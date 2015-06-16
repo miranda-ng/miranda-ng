@@ -179,7 +179,7 @@ static int lua_ReplaceVariables(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
-	ptrT value(mir_utf8decodeT(what, NULL));
+	ptrT value(mir_utf8decodeT(what));
 	lua_pushstring(L, T2Utf(VARST(value)));
 
 	return 1;
