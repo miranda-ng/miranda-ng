@@ -197,12 +197,12 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
 
 int InitPathUtils(void)
 {
-	GetModuleFileNameA(hInst, szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileNameA(NULL, szMirandaPath, SIZEOF(szMirandaPath));
 	char *p = strrchr(szMirandaPath, '\\');
 	if (p)
 		p[1] = 0;
 
-	GetModuleFileNameW(hInst, szMirandaPathW, SIZEOF(szMirandaPathW));
+	GetModuleFileNameW(NULL, szMirandaPathW, SIZEOF(szMirandaPathW));
 	WCHAR *tp = wcsrchr(szMirandaPathW, '\\');
 	if (tp)
 		tp[1] = 0;
