@@ -22,7 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
+
 #include "../../mir_app/src/langpack.h"
 
 #define LANGPACK_BUF_SIZE 4000
@@ -454,7 +455,7 @@ static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
 	return 0;
 }
 
-static char *LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
+char* LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
 {
 	if (g_entryCount == 0 || szEnglish == NULL)
 		return (char*)szEnglish;
@@ -562,11 +563,9 @@ struct LANGPACKTRANSLATEDIALOG
 static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 {
 	int hLangpack = (int)lParam;
-	TCHAR szClass[32];
-	int id = GetDlgCtrlID(hwnd);
-
 	MUUID *uuid = Langpack_LookupUuid(hLangpack);
 
+	TCHAR szClass[32];
 	GetClassName(hwnd, szClass, SIZEOF(szClass));
 	if (!mir_tstrcmpi(szClass, _T("static")) || !mir_tstrcmpi(szClass, _T("hyperlink")) || !mir_tstrcmpi(szClass, _T("button")) || !mir_tstrcmpi(szClass, _T("MButtonClass")) || !mir_tstrcmpi(szClass, _T("MHeaderbarCtrl")))
 		TranslateWindow(uuid, hwnd);

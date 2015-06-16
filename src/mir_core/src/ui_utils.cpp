@@ -20,11 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #include <m_button.h>
 #include <m_gui.h>
-#include <m_icolib.h>
 #include <m_skin.h>
 
 static mir_cs csDialogs, csCtrl;
@@ -2412,7 +2411,7 @@ int CCtrlBase::GetInt()
 	return _ttoi(result);
 }
 
-LRESULT CCtrlBase::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)
 {
 	return FALSE;
 }

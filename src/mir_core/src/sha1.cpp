@@ -34,7 +34,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define SHA_ROTL(X, n) (((X) << (n)) | ((X) >> (32-(n))))
 

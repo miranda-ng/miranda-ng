@@ -53,7 +53,7 @@
 
 // (C) 2005 Joe @ Whale - changed to compile with Miranda
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define T_MASK ((UINT32)~0)
 #define T1 /* 0xd76aa478 */ (T_MASK ^ 0x28955b87)

@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR *p2)
 {
@@ -273,92 +273,92 @@ MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // default PROTO_INTERFACE method implementations
 
-MCONTACT PROTO_INTERFACE::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT PROTO_INTERFACE::AddToList(int, PROTOSEARCHRESULT*)
 {
 	return NULL; // error
 }
 
-MCONTACT PROTO_INTERFACE::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
+MCONTACT PROTO_INTERFACE::AddToListByEvent(int, int, MEVENT)
 {
 	return NULL; // error
 }
 
-int PROTO_INTERFACE::Authorize(MEVENT hDbEvent)
+int PROTO_INTERFACE::Authorize(MEVENT)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
+int PROTO_INTERFACE::AuthDeny(MEVENT, const TCHAR*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthRecv(MCONTACT hContact, PROTORECVEVENT*)
+int PROTO_INTERFACE::AuthRecv(MCONTACT, PROTORECVEVENT*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+int PROTO_INTERFACE::AuthRequest(MCONTACT, const TCHAR*)
 {
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE PROTO_INTERFACE::FileAllow(MCONTACT, HANDLE, const TCHAR*)
 {
 	return NULL; // error
 }
 
-int PROTO_INTERFACE::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int PROTO_INTERFACE::FileCancel(MCONTACT, HANDLE)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
+int PROTO_INTERFACE::FileDeny(MCONTACT, HANDLE, const TCHAR*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
+int PROTO_INTERFACE::FileResume(HANDLE, int*, const TCHAR**)
 {
 	return 1; // error
 }
 
-DWORD_PTR PROTO_INTERFACE::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR PROTO_INTERFACE::GetCaps(int, MCONTACT)
 {
 	return 0; // empty value
 }
 
-int PROTO_INTERFACE::GetInfo(MCONTACT hContact, int infoType)
+int PROTO_INTERFACE::GetInfo(MCONTACT, int)
 {
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchBasic(const TCHAR* id)
+HANDLE PROTO_INTERFACE::SearchBasic(const TCHAR*)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByEmail(const TCHAR* email)
+HANDLE PROTO_INTERFACE::SearchByEmail(const TCHAR*)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
+HANDLE PROTO_INTERFACE::SearchByName(const TCHAR*, const TCHAR*, const TCHAR*)
 {
 	return NULL; // error
 }
 
-HWND PROTO_INTERFACE::SearchAdvanced(HWND owner)
+HWND PROTO_INTERFACE::SearchAdvanced(HWND)
 {
 	return NULL; // error
 }
 
-HWND PROTO_INTERFACE::CreateExtendedSearchUI(HWND owner)
+HWND PROTO_INTERFACE::CreateExtendedSearchUI(HWND)
 {
 	return NULL; // error
 }
 
-int PROTO_INTERFACE::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
+int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 {
 	return 1; // error
 }
@@ -374,62 +374,62 @@ int PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 	return 0;
 }
 
-int PROTO_INTERFACE::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
+int PROTO_INTERFACE::RecvUrl(MCONTACT, PROTORECVEVENT*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int PROTO_INTERFACE::SendContacts(MCONTACT, int, int, MCONTACT*)
 {
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
+HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const TCHAR*, TCHAR**)
 {
 	return NULL; // error
 }
 
-int PROTO_INTERFACE::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int PROTO_INTERFACE::SendMsg(MCONTACT, int, const char*)
 {
 	return 0; // error
 }
 
-int PROTO_INTERFACE::SendUrl(MCONTACT hContact, int flags, const char *url)
+int PROTO_INTERFACE::SendUrl(MCONTACT, int, const char*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SetApparentMode(MCONTACT hContact, int mode)
+int PROTO_INTERFACE::SetApparentMode(MCONTACT, int)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SetStatus(int iNewStatus)
+int PROTO_INTERFACE::SetStatus(int)
 {
 	return 1; // you better declare it
 }
 
-HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT hContact)
+HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT)
 {
 	return NULL; // no away message
 }
 
-int PROTO_INTERFACE::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
+int PROTO_INTERFACE::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SetAwayMsg(int iStatus, const TCHAR* msg)
+int PROTO_INTERFACE::SetAwayMsg(int, const TCHAR*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::UserIsTyping(MCONTACT hContact, int type)
+int PROTO_INTERFACE::UserIsTyping(MCONTACT, int)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
+int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM)
 {
 	return 1; // not an error, vitally important
 }
