@@ -20,6 +20,7 @@ CMLua::CMLua() : L(NULL)
 	Preload(MLUA_GENMENU, luaopen_m_genmenu);
 	Preload(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
 	Preload(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
+	Preload(MLUA_VARIABLES, luaopen_m_variables);
 }
 
 CMLua::~CMLua()
@@ -65,7 +66,7 @@ WPARAM CMLua::GetWParam(lua_State *L, int idx)
 		wParam = lua_tonumber(L, idx);
 		break;
 	case LUA_TSTRING:
-		wParam = (WPARAM)lua_tostring(L, idx);
+		wParam = (LPARAM)mir_utf8decode((char*)lua_tostring(L, idx), NULL);
 		break;
 	case LUA_TUSERDATA:
 		wParam = (WPARAM)lua_touserdata(L, idx);
@@ -86,7 +87,7 @@ LPARAM CMLua::GetLParam(lua_State *L, int idx)
 		lParam = lua_tonumber(L, idx);
 		break;
 	case LUA_TSTRING:
-		lParam = (LPARAM)lua_tostring(L, idx);
+		lParam = (LPARAM)mir_utf8decode((char*)lua_tostring(L, idx), NULL);
 		break;
 	case LUA_TUSERDATA:
 		lParam = (LPARAM)lua_touserdata(L, idx);
