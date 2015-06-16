@@ -104,7 +104,7 @@
 [Add time and date of alert to contact name]
 Додавати час і дату сповіщення до імені контакту
 [Use 24 hour time format instead of 12 hour]
-Використовувати 24-годинний формат часу замість 12-годинного
+24-годинний формат часу замість 12-годинного
 [Add as prefix]
 Додавати префікс
 [Add as suffix]

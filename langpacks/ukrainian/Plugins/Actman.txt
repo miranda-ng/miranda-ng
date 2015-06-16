@@ -614,7 +614,7 @@ UTF16+сигнатури
 [without confirmation]
 без підтвердження
 [Notify]
-сповіщення
+Сповіщення
 [YAPP or Popup]
 YAPP або Popup
 [Popup window]

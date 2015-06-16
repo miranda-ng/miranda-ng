@@ -6,6 +6,8 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\SkypeWeb\res\resource.rc
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+Падтрымка пратаколу Skype у Miranda NG. Заснавана на Skype для Web.
 [Create group chat]
 Стварыць чат
 [Cancel]

@@ -98,7 +98,7 @@
 [Weather Station]
 Прогноз погоды
 [City name]
-город
+Город
 [Log Information]
 Сохранение информации
 [Use internal history]

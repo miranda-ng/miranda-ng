@@ -291,6 +291,18 @@
 Учасники
 [Owners]
 Власники
+[create chat]
+створив(ла) чат
+[kick user]
+вигнав(ла) користувача
+[left chat]
+вийшов(ла)
+[invite user]
+запросив(ла) користувача
+[change chat title to]
+встановив(ла) тему
+[chat action not supported]
+дія не підтримується
 [Unknown]
 Невідомий
 [Enter new chat title]
