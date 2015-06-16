@@ -68,7 +68,8 @@ MIR_CORE_DLL(CMStringData*) mirstr_allocate(int nChars, int nCharSize)
 
 MIR_CORE_DLL(void) mirstr_free(CMStringData *pData)
 {
-	free(pData);
+	if (pData != &m_nil)
+		free(pData);
 }
 
 MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int nCharSize)
