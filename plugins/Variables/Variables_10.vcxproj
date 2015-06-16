@@ -234,8 +234,8 @@
   <ItemGroup>
     <None Include="res\V.ico" />
   </ItemGroup>
-   <ItemGroup>
-    <ProjectReference Include="..\Pcre16\pcre16_10.vcxproj">
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\Pcre16\pcre16.vcxproj">
       <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
     </ProjectReference>
   </ItemGroup>
