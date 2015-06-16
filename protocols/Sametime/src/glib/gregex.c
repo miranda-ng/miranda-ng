@@ -26,7 +26,7 @@
 #ifdef USE_SYSTEM_PCRE
 #include <pcre.h>
 #else
-#include "..\..\..\..\plugins\pcre16\src\pcre.h"
+#include "..\..\..\..\libs\pcre16\src\pcre.h"
 #endif
 
 #include "gtypes.h"
