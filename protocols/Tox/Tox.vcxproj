@@ -37,7 +37,7 @@
 copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
     </PostBuildEvent>
     <PostBuildEvent Condition="'$(Platform)'=='x64'">
-      <Command>copy bin\x64\libtox.* "$(SolutionDir)$(Configuration)64\\Libs\" /y
+      <Command>xcopy bin\x64\libtox.* "$(SolutionDir)$(Configuration)64\Libs\libtox.*" /y
 copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
