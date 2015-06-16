@@ -269,7 +269,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response)
 
 	JSONROOT root(response->pData);
 
-	JSONNODE *node = json_get(root, "error");
+	JSONNode *node = json_get(root, "error");
 	ptrT error(json_as_string(node));
 	if (mir_tstrcmpi(error, _T("OK")) || response->resultCode == HTTP_STATUS_UNAUTHORIZED)
 	{

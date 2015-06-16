@@ -1,7 +1,7 @@
 #ifndef JSON_WORKER_H
 #define JSON_WORKER_H
 
-class MIR_CORE_EXPORT JSONWorker
+class LIBJSON_EXPORT JSONWorker
 {
 public:
 	static JSONNode parse(const json_string & json);

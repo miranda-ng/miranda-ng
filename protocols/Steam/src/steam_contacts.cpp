@@ -94,9 +94,9 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 	return hContact;
 }
 
-void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
+void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 {
-	JSONNODE *node = NULL;
+	JSONNode *node = NULL;
 
 	// set common data
 	node = json_get(data, "personaname");
@@ -322,15 +322,15 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	return hContact;
 }
 
-void CSteamProto::ProcessContact(std::map<std::string, JSONNODE*>::iterator *it, MCONTACT hContact)
+void CSteamProto::ProcessContact(std::map<std::string, JSONNode*>::iterator *it, MCONTACT hContact)
 {
 	std::string steamId = (*it)->first;
-	JSONNODE *child = (*it)->second;
+	JSONNode *child = (*it)->second;
 
 	if (!hContact)
 		hContact = AddContact(steamId.c_str());
 
-	JSONNODE *node = json_get(child, "friend_since");
+	JSONNode *node = json_get(child, "friend_since");
 	if (node)
 		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
 
@@ -365,16 +365,16 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 
 	std::string steamIds = ptrA(getStringA("SteamID"));
 
-	std::map<std::string, JSONNODE*> friends;
+	std::map<std::string, JSONNode*> friends;
 
 	// Remember contacts on server
-	JSONNODE *node = json_get(root, "friends");
-	JSONNODE *nroot = json_as_array(node);
+	JSONNode *node = json_get(root, "friends");
+	JSONNode *nroot = json_as_array(node);
 	if (nroot != NULL)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			JSONNODE *child = json_at(nroot, i);
+			JSONNode *child = json_at(nroot, i);
 			if (child == NULL)
 				break;
 
@@ -397,7 +397,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 		if (id == NULL)
 			continue;
 
-		std::map<std::string, JSONNODE*>::iterator it = friends.find(std::string(id));
+		std::map<std::string, JSONNode*>::iterator it = friends.find(std::string(id));
 
 		if (it != friends.end())
 		{
@@ -415,7 +415,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 	}
 
 	// Check remaining contacts in map and add them to contact list
-	for (std::map<std::string, JSONNODE*>::iterator it = friends.begin(); it != friends.end();)
+	for (std::map<std::string, JSONNode*>::iterator it = friends.begin(); it != friends.end();)
 	{
 		// Contact is on server-list, but not in database, add (but not notify) it
 		ProcessContact(&it, NULL);
@@ -425,7 +425,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 	}
 	friends.clear();
 
-	// We need to delete nroot here at the end, because we had references to JSONNODE objects stored in friends map
+	// We need to delete nroot here at the end, because we had references to JSONNode objects stored in friends map
 	json_delete(nroot);
 
 	if (!steamIds.empty())
@@ -450,13 +450,13 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response)
 
 	//std::string steamIds;
 
-	JSONNODE *node = json_get(root, "friends");
-	JSONNODE *nroot = json_as_array(node);
+	JSONNode *node = json_get(root, "friends");
+	JSONNode *nroot = json_as_array(node);
 	if (nroot != NULL)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			JSONNODE *child = json_at(nroot, i);
+			JSONNode *child = json_at(nroot, i);
 			if (child == NULL)
 				break;
 
@@ -492,13 +492,13 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 	if (root == NULL)
 		return;
 		
-	JSONNODE *node = json_get(root, "players");
-	JSONNODE *nroot = json_as_array(node);
+	JSONNode *node = json_get(root, "players");
+	JSONNode *nroot = json_as_array(node);
 	if (nroot != NULL)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			JSONNODE *item = json_at(nroot, i);
+			JSONNode *item = json_at(nroot, i);
 			if (item == NULL)
 				break;
 
@@ -601,9 +601,9 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 	if (root == NULL)
 		return;
 
-	JSONNODE *node = json_get(root, "players");
-	JSONNODE *nodes = json_as_array(node);
-	JSONNODE *nroot = json_at(nodes, 0);	
+	JSONNode *node = json_get(root, "players");
+	JSONNode *nodes = json_as_array(node);
+	JSONNode *nroot = json_at(nodes, 0);	
 
 	if (nroot != NULL)
 	{
@@ -665,7 +665,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 	if (root == NULL)
 		return;
 
-	JSONNODE *node = json_get(root, "success");
+	JSONNode *node = json_get(root, "success");
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
@@ -685,7 +685,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 	if (root == NULL)
 		return;
 
-	JSONNODE *node = json_get(root, "success");
+	JSONNode *node = json_get(root, "success");
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
@@ -706,9 +706,9 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 	if (root == NULL)
 		return;
 
-	JSONNODE *node = json_get(root, "players");
-	JSONNODE *nodes = json_as_array(node);
-	JSONNODE *nroot = json_at(nodes, 0);
+	JSONNode *node = json_get(root, "players");
+	JSONNode *nodes = json_as_array(node);
+	JSONNode *nroot = json_at(nodes, 0);
 
 	if (nroot != NULL)
 	{

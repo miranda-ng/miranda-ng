@@ -79,7 +79,7 @@
 	for argument checking and throwing exceptions if needed.
 */
 
-class MIR_CORE_EXPORT JSONNode
+class LIBJSON_EXPORT JSONNode
 {
 	friend class JSONWorker;
 	friend class internalJSONNode;

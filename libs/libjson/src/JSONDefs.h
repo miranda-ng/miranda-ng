@@ -74,8 +74,8 @@ typedef void (*json_free_t)(void *);
 	typedef void * (*json_malloc_t)(size_t);
 	typedef void * (*json_realloc_t)(void *, size_t);
 #else
-	#define JSONNODE void  //so that JSONNODE* is void*
-	typedef JSONNODE** JSONNODE_ITERATOR;
+	#define JSONNode void  //so that JSONNode* is void*
+	typedef JSONNode** JSONNODE_ITERATOR;
 	typedef void * (*json_malloc_t)(size_t);
 	typedef void * (*json_realloc_t)(void *, size_t);
 #endif

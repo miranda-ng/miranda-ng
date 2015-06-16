@@ -41,13 +41,10 @@ bool CMsnProto::APISkypeComRequest(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *he
 	return true;
 }
 
-static TCHAR *get_json_str(JSONNODE *item, const char *pszValue)
+static TCHAR* get_json_str(JSONNode *item, const char *pszValue)
 {
-	JSONNODE *node;
-	TCHAR *ret;
-
-	if (node=json_get(item, pszValue)) {
-		ret = json_as_string(node);
+	if (JSONNode *node = json_get(item, pszValue)) {
+		TCHAR *ret = json_as_string(node);
 		if (!mir_tstrcmp(ret, _T("null"))) {
 			mir_free(ret);
 			return NULL;
@@ -79,7 +76,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 			JSONROOT root(nlhrReply->pData);
 			if (root == NULL) return false;
 
-			JSONNODE *items = json_as_array(root), *item;
+			JSONNode *items = json_as_array(root), *item;
 			for (size_t i = 0; i < json_size(items); i++)
 			{
 				int lstId = LIST_FL;
@@ -134,7 +131,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 			JSONROOT root(nlhrReply->pData);
 			if (root == NULL) return false;
 
-			JSONNODE *items = json_as_array(root), *item, *node;
+			JSONNode *items = json_as_array(root), *item, *node;
 			for (size_t i = 0; i < json_size(items); i++)
 			{
 				item = json_at(items, i);
@@ -186,7 +183,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT item(nlhrReply->pData);
-			JSONNODE *node;
+			JSONNode *node;
 			if (item == NULL) return false;
 
 			ptrA skypename(mir_t2a(ptrT(json_as_string(json_get(item, "username")))));
@@ -215,7 +212,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 				if (value=get_json_str(item, "about")) setTString(hContact, "About", value);
 				if ((node = json_get(item, "emails")) && !json_empty(node))
 				{
-					JSONNODE *items = json_as_array(node), *item;
+					JSONNode *items = json_as_array(node), *item;
 					char szName[16];
 					for (size_t i = 0; i < min(json_size(items), 3); i++)
 					{
@@ -382,12 +379,12 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 				return false;
 			}
 
-			JSONNODE *items = json_as_array(root);
+			JSONNode *items = json_as_array(root);
 			for (size_t i = 0; i < json_size(items); i++)
 			{
-				JSONNODE *item = json_at(items, i);
-				JSONNODE *ContactCards = json_get(item, "ContactCards");
-				JSONNODE *Skype = json_get(ContactCards, "Skype");
+				JSONNode *item = json_at(items, i);
+				JSONNode *ContactCards = json_get(item, "ContactCards");
+				JSONNode *Skype = json_get(ContactCards, "Skype");
 
 				TCHAR *sDisplayName = json_as_string(json_get(Skype, "DisplayName"));
 				TCHAR *sSkypeName = json_as_string(json_get(Skype, "SkypeName"));

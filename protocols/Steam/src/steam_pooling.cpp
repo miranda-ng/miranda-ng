@@ -2,9 +2,9 @@
 
 #define POLLING_ERRORS_LIMIT 3
 
-void CSteamProto::ParsePollData(JSONNODE *data)
+void CSteamProto::ParsePollData(JSONNode *data)
 {
-	JSONNODE *node, *item = NULL;
+	JSONNode *node, *item = NULL;
 
 	std::string steamIds;
 	for (size_t i = 0; i < json_size(data); i++)
@@ -192,7 +192,7 @@ void CSteamProto::PollingThread(void*)
 			errors = 0;
 
 		JSONROOT root(response->pData);
-		JSONNODE *node = json_get(root, "error");
+		JSONNode *node = json_get(root, "error");
 		ptrT error(json_as_string(node));
 
 		if (!lstrcmpi(error, _T("OK")))
@@ -201,7 +201,7 @@ void CSteamProto::PollingThread(void*)
 			messageId = json_as_int(node);
 
 			node = json_get(root, "messages");
-			JSONNODE *nroot = json_as_array(node);
+			JSONNode *nroot = json_as_array(node);
 
 			if (nroot != NULL)
 			{

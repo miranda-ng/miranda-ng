@@ -27,7 +27,7 @@ struct SendMessageParam
 struct STEAM_SEARCH_RESULT
 {
 	PROTOSEARCHRESULT hdr;
-	JSONNODE *data;
+	JSONNode *data;
 };
 
 enum
@@ -129,7 +129,7 @@ protected:
 	static void MirFreeArg(void *arg) { mir_free(arg); }
 
 	// pooling thread
-	void ParsePollData(JSONNODE *data);
+	void ParsePollData(JSONNode *data);
 	void __cdecl PollingThread(void*);
 
 	// account
@@ -153,8 +153,8 @@ protected:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void UpdateContact(MCONTACT hContact, JSONNODE *data);
-	void ProcessContact(std::map<std::string, JSONNODE*>::iterator *it, MCONTACT hContact);
+	void UpdateContact(MCONTACT hContact, JSONNode *data);
+	void ProcessContact(std::map<std::string, JSONNode*>::iterator *it, MCONTACT hContact);
 	
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);
