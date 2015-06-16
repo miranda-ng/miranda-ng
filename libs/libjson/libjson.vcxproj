@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F6A9340E-B8D9-4C75-BE30-47DC66D0ABC7}</ProjectGuid>
+    <ProjectName>libjson</ProjectName>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">LIBJSON_EXPORTS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">LIBJSON_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
+      <ModuleDefinitionFile Condition="'$(Platform)'=='Win32'">src/libjson.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile Condition="'$(Platform)'=='x64'">src/libjson64.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>

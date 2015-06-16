@@ -23,7 +23,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	if (response != NULL && response->resultCode == HTTP_STATUS_OK)
 	{
 		JSONROOT root(response->pData);
-		JSONNODE *node = json_get(root, "error");
+		JSONNode *node = json_get(root, "error");
 		if (node)
 			error = json_as_string(node);
 	}

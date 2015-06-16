@@ -1,0 +1,194 @@
+LIBRARY libjson
+
+EXPORTS
+??0JSONNode@@AAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @1 NONAME
+??0JSONNode@@AAE@PAVinternalJSONNode@@@Z @2 NONAME
+??0JSONNode@@AAE@_NAAV0@@Z @3 NONAME
+??0JSONNode@@QAE@ABV0@@Z @4 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z @5 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@D@Z @6 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@E@Z @7 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@F@Z @8 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z @9 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z @10 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z @11 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z @12 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z @13 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@M@Z @14 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@N@Z @15 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z @16 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z @17 NONAME
+??0JSONNode@@QAE@D@Z @18 NONAME
+??1JSONNode@@QAE@XZ @19 NONAME
+??4JSONNode@@QAEAAV0@ABV0@@Z @20 NONAME
+??4JSONNode@@QAEAAV0@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @21 NONAME
+??4JSONNode@@QAEAAV0@D@Z @22 NONAME
+??4JSONNode@@QAEAAV0@E@Z @23 NONAME
+??4JSONNode@@QAEAAV0@F@Z @24 NONAME
+??4JSONNode@@QAEAAV0@G@Z @25 NONAME
+??4JSONNode@@QAEAAV0@H@Z @26 NONAME
+??4JSONNode@@QAEAAV0@I@Z @27 NONAME
+??4JSONNode@@QAEAAV0@J@Z @28 NONAME
+??4JSONNode@@QAEAAV0@K@Z @29 NONAME
+??4JSONNode@@QAEAAV0@M@Z @30 NONAME
+??4JSONNode@@QAEAAV0@N@Z @31 NONAME
+??4JSONNode@@QAEAAV0@PBD@Z @32 NONAME
+??4JSONNode@@QAEAAV0@_N@Z @33 NONAME
+??4JSONWorker@@QAEAAV0@ABV0@@Z @34 NONAME
+??8JSONNode@@QBE_NABV0@@Z @35 NONAME
+??8JSONNode@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @36 NONAME
+??8JSONNode@@QBE_ND@Z @37 NONAME
+??8JSONNode@@QBE_NE@Z @38 NONAME
+??8JSONNode@@QBE_NF@Z @39 NONAME
+??8JSONNode@@QBE_NG@Z @40 NONAME
+??8JSONNode@@QBE_NH@Z @41 NONAME
+??8JSONNode@@QBE_NI@Z @42 NONAME
+??8JSONNode@@QBE_NJ@Z @43 NONAME
+??8JSONNode@@QBE_NK@Z @44 NONAME
+??8JSONNode@@QBE_NM@Z @45 NONAME
+??8JSONNode@@QBE_NN@Z @46 NONAME
+??8JSONNode@@QBE_NPBD@Z @47 NONAME
+??8JSONNode@@QBE_N_N@Z @48 NONAME
+??9JSONNode@@QBE_NABV0@@Z @49 NONAME
+??9JSONNode@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @50 NONAME
+??9JSONNode@@QBE_ND@Z @51 NONAME
+??9JSONNode@@QBE_NE@Z @52 NONAME
+??9JSONNode@@QBE_NF@Z @53 NONAME
+??9JSONNode@@QBE_NG@Z @54 NONAME
+??9JSONNode@@QBE_NH@Z @55 NONAME
+??9JSONNode@@QBE_NI@Z @56 NONAME
+??9JSONNode@@QBE_NJ@Z @57 NONAME
+??9JSONNode@@QBE_NK@Z @58 NONAME
+??9JSONNode@@QBE_NM@Z @59 NONAME
+??9JSONNode@@QBE_NN@Z @60 NONAME
+??9JSONNode@@QBE_NPBD@Z @61 NONAME
+??9JSONNode@@QBE_N_N@Z @62 NONAME
+??AJSONNode@@QAEAAV0@I@Z @63 NONAME
+??AJSONNode@@QAEAAV0@PBD@Z @64 NONAME
+??AJSONNode@@QBEABV0@I@Z @65 NONAME
+??AJSONNode@@QBEABV0@PBD@Z @66 NONAME
+??BJSONNode@@QBE_NXZ @67 NONAME
+??_FJSONNode@@QAEXXZ @68 NONAME
+?DoArray@JSONWorker@@SAXPBVinternalJSONNode@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @69 NONAME
+?DoNode@JSONWorker@@SAXPBVinternalJSONNode@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @70 NONAME
+?FindNextRelevant@JSONWorker@@CAIDABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z @71 NONAME
+?FixString@JSONWorker@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@AA_N@Z @72 NONAME
+?Hex@JSONWorker@@CADAAPBD@Z @73 NONAME
+?NewNode@JSONWorker@@CAXPBVinternalJSONNode@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1_N@Z @74 NONAME
+?RemoveWhiteSpace@JSONWorker@@SAPADABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAD@Z @75 NONAME
+?RemoveWhiteSpaceAndComments@JSONWorker@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z @76 NONAME
+?SpecialChar@JSONWorker@@CAXAAPBDAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @77 NONAME
+?UTF8@JSONWorker@@CAEAAPBD@Z @78 NONAME
+?UTF8_2@JSONWorker@@CAPADAAPBD@Z @79 NONAME
+?UnfixString@JSONWorker@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@_N@Z @80 NONAME
+?as_array@JSONNode@@QBE?AV1@XZ @81 NONAME
+?as_bool@JSONNode@@QBE_NXZ @82 NONAME
+?as_float@JSONNode@@QBENXZ @83 NONAME
+?as_int@JSONNode@@QBEJXZ @84 NONAME
+?as_mstring@JSONNode@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @85 NONAME
+?as_node@JSONNode@@QBE?AV1@XZ @86 NONAME
+?as_string@JSONNode@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @87 NONAME
+?at@JSONNode@@QAEAAV1@I@Z @88 NONAME
+?at@JSONNode@@QAEAAV1@PBD@Z @89 NONAME
+?at@JSONNode@@QBEABV1@I@Z @90 NONAME
+?at@JSONNode@@QBEABV1@PBD@Z @91 NONAME
+?begin@JSONNode@@QAE?AUiterator@1@XZ @92 NONAME
+?begin@JSONNode@@QBE?AUconst_iterator@1@XZ @93 NONAME
+?cast@JSONNode@@QAEXD@Z @94 NONAME
+?clear@JSONNode@@QAEXXZ @95 NONAME
+?decRef@JSONNode@@AAEXXZ @96 NONAME
+?deleteJSONNode@JSONNode@@SAXPAV1@@Z @97 NONAME
+?duplicate@JSONNode@@QBE?AV1@XZ @98 NONAME
+?empty@JSONNode@@QBE_NXZ @99 NONAME
+?end@JSONNode@@QAE?AUiterator@1@XZ @100 NONAME
+?end@JSONNode@@QBE?AUconst_iterator@1@XZ @101 NONAME
+?erase@JSONNode@@QAE?AUiterator@1@U21@@Z @102 NONAME
+?erase@JSONNode@@QAE?AUiterator@1@U21@ABU21@@Z @103 NONAME
+?erase@JSONNode@@QAE?AUreverse_iterator@1@U21@@Z @104 NONAME
+?erase@JSONNode@@QAE?AUreverse_iterator@1@U21@ABU21@@Z @105 NONAME
+?find@JSONNode@@QAE?AUiterator@1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @106 NONAME
+?find@JSONNode@@QBE?AUconst_iterator@1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @107 NONAME
+?insert@JSONNode@@QAE?AUiterator@1@U21@ABU21@1@Z @108 NONAME
+?insert@JSONNode@@QAE?AUiterator@1@U21@ABUconst_iterator@1@1@Z @109 NONAME
+?insert@JSONNode@@QAE?AUiterator@1@U21@ABUreverse_const_iterator@1@1@Z @110 NONAME
+?insert@JSONNode@@QAE?AUiterator@1@U21@ABUreverse_iterator@1@1@Z @111 NONAME
+?insert@JSONNode@@QAE?AUiterator@1@U21@ABV1@@Z @112 NONAME
+?insert@JSONNode@@QAE?AUreverse_iterator@1@U21@ABU21@1@Z @113 NONAME
+?insert@JSONNode@@QAE?AUreverse_iterator@1@U21@ABUconst_iterator@1@1@Z @114 NONAME
+?insert@JSONNode@@QAE?AUreverse_iterator@1@U21@ABUiterator@1@1@Z @115 NONAME
+?insert@JSONNode@@QAE?AUreverse_iterator@1@U21@ABUreverse_const_iterator@1@1@Z @116 NONAME
+?insert@JSONNode@@QAE?AUreverse_iterator@1@U21@ABV1@@Z @117 NONAME
+?insertFFF@JSONNode@@AAE?AUiterator@1@U21@QAPAV1@1@Z @118 NONAME
+?insertFRR@JSONNode@@AAE?AUiterator@1@U21@QAPAV1@1@Z @119 NONAME
+?insertRFF@JSONNode@@AAE?AUreverse_iterator@1@U21@QAPAV1@1@Z @120 NONAME
+?insertRRR@JSONNode@@AAE?AUreverse_iterator@1@U21@QAPAV1@1@Z @121 NONAME
+?isnull@JSONNode@@QBE_NXZ @122 NONAME
+?makeUniqueInternal@JSONNode@@AAEXXZ @123 NONAME
+?merge@JSONNode@@AAEXPAV1@@Z @124 NONAME
+?merge@JSONNode@@QAAXIZZ @125 NONAME
+?merge@JSONNode@@QAEXAAV1@@Z @126 NONAME
+?name@JSONNode@@QBEPBDXZ @127 NONAME
+?newJSONNode@JSONNode@@CAPAV1@ABV1@@Z @128 NONAME
+?newJSONNode@JSONNode@@CAPAV1@PAVinternalJSONNode@@@Z @129 NONAME
+?newJSONNode_Shallow@JSONNode@@SAPAV1@ABV1@@Z @130 NONAME
+?nullify@JSONNode@@QAEXXZ @131 NONAME
+?parse@JSONNode@@SA?AV1@PBD@Z @132 NONAME
+?parse@JSONWorker@@SA?AVJSONNode@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @133 NONAME
+?pop_back@JSONNode@@QAE?AV1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @134 NONAME
+?pop_back@JSONNode@@QAE?AV1@I@Z @135 NONAME
+?preparse@JSONNode@@QAEXXZ @136 NONAME
+?push_back@JSONNode@@QAEXABV1@@Z @137 NONAME
+?rbegin@JSONNode@@QAE?AUreverse_iterator@1@XZ @138 NONAME
+?rbegin@JSONNode@@QBE?AUreverse_const_iterator@1@XZ @139 NONAME
+?rend@JSONNode@@QAE?AUreverse_iterator@1@XZ @140 NONAME
+?rend@JSONNode@@QBE?AUreverse_const_iterator@1@XZ @141 NONAME
+?reserve@JSONNode@@QAEXI@Z @142 NONAME
+?set_name@JSONNode@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @143 NONAME
+?size@JSONNode@@QBEIXZ @144 NONAME
+?swap@JSONNode@@QAEXAAV1@@Z @145 NONAME
+?toUTF8@JSONWorker@@CA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@E@Z @146 NONAME
+?type@JSONNode@@QBEEXZ @147 NONAME
+?write@JSONNode@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @148 NONAME
+?write_formatted@JSONNode@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @149 NONAME
+json_as_array @150
+json_as_bool @151
+json_as_float @152
+json_as_int @153
+json_as_node @154
+json_as_string @155
+json_at @156
+json_cast @157
+json_clear @158
+json_copy @159
+json_delete @160
+json_duplicate @161
+json_empty @162
+json_equal @163
+json_free @164
+json_get @165
+json_merge @166
+json_name @167
+json_new @168
+json_new_a @169
+json_new_b @170
+json_new_f @171
+json_new_i @172
+json_nullify @173
+json_parse @174
+json_pop_back @175
+json_pop_back_at @176
+json_preparse @177
+json_push_back @178
+json_reserve @179
+json_set_a @180
+json_set_b @181
+json_set_f @182
+json_set_i @183
+json_set_n @184
+json_set_name @185
+json_size @186
+json_strip_white_space @187
+json_swap @188
+json_type @189
+json_write @190
+json_write_formatted @191

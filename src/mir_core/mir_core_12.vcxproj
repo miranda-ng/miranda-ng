@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\include\m_core.h" />
     <ClInclude Include="..\..\include\m_database.h" />
     <ClInclude Include="..\..\include\m_gui.h" />
-    <ClInclude Include="..\..\include\m_json.h" />
     <ClInclude Include="..\..\include\m_metacontacts.h" />
     <ClInclude Include="..\..\include\m_protoint.h" />
     <ClInclude Include="..\..\include\m_string.h" />
@@ -30,14 +29,6 @@
     <ClInclude Include="..\..\include\m_system_cpp.h" />
     <ClInclude Include="..\..\include\m_utils.h" />
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\json\internalJSONNode.h" />
-    <ClInclude Include="src\json\JSONChildren.h" />
-    <ClInclude Include="src\json\JSONDebug.h" />
-    <ClInclude Include="src\json\JSONDefs.h" />
-    <ClInclude Include="src\json\JSONMemory.h" />
-    <ClInclude Include="src\json\JSONNode.h" />
-    <ClInclude Include="src\json\JSONOptions.h" />
-    <ClInclude Include="src\json\NumberToString.h" />
     <ClInclude Include="src\miranda.h" />
   </ItemGroup>
   <ItemGroup>
@@ -45,36 +36,6 @@
     <ClCompile Include="src\cmdline.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\icons.cpp" />
-    <ClCompile Include="src\json\internalJSONNode.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONChildren.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONDebug.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONIterators.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONMemory.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONNode.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONNode_Mutex.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONWorker.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONWriter.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\json\libJSON.cpp">
-      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\mc.cpp" />
     <ClCompile Include="src\mstring.cpp" />
@@ -101,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\m_string.inl" />
-    <None Include="src\json\JSONNode.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>mir_core</ProjectName>

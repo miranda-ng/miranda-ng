@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+    <ClCompile Include="src\internalJSONNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONChildren.cpp" />
+    <ClCompile Include="src\JSONDebug.cpp" />
+    <ClCompile Include="src\JSONIterators.cpp" />
+    <ClCompile Include="src\JSONMemory.cpp" />
+    <ClCompile Include="src\JSONNode.cpp" />
+    <ClCompile Include="src\JSONNode_Mutex.cpp" />
+    <ClCompile Include="src\JSONWorker.cpp" />
+    <ClCompile Include="src\JSONWriter.cpp" />
+    <ClCompile Include="src\libJSON.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\internalJSONNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JSONChildren.h" />
+    <ClInclude Include="src\JSONDebug.h" />
+    <ClInclude Include="src\JSONDefs.h" />
+    <ClInclude Include="src\JSONMemory.h" />
+    <ClInclude Include="src\JSONNode.h" />
+    <ClInclude Include="src\JSONOptions.h" />
+    <ClInclude Include="src\JSONWorker.h" />
+    <ClInclude Include="src\NumberToString.h" />
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\libjson.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\libjson64.def" />
+    <None Include="src\libjson.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\libjson64.def" />
+    <None Include="src\libjson.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\libjson64.def" />
+  </ItemGroup>
+</Project>

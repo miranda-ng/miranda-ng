@@ -8,9 +8,6 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{a578a180-0eb9-4c3e-b4ae-0eaefa01d207}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\json">
-      <UniqueIdentifier>{fd36323a-6636-4faa-90b0-e2980235fe19}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\memory.cpp">
@@ -67,36 +64,6 @@
     <ClCompile Include="src\protos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\json\internalJSONNode.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONChildren.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONDebug.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONIterators.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONMemory.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONNode.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONNode_Mutex.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONWorker.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\JSONWriter.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\libJSON.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
     <ClCompile Include="src\logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,33 +102,6 @@
     <ClInclude Include="..\..\include\m_database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\json\internalJSONNode.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONChildren.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONDebug.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONDefs.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONMemory.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONNode.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONOptions.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\JSONWorker.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json\NumberToString.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\m_system_cpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -172,9 +112,6 @@
   <ItemGroup>
     <None Include="..\..\include\m_string.inl">
       <Filter>Header Files</Filter>
-    </None>
-    <None Include="src\json\JSONNode.inl">
-      <Filter>Source Files\json</Filter>
     </None>
   </ItemGroup>
 </Project>

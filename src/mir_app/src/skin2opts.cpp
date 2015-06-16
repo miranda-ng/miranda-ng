@@ -73,7 +73,7 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 	HICON hIcon = NULL;
 
 	if (!item->temp_reset) {
-		HICON hRefIcon = IcoLib_GetIconByHandle(item, false);
+		HICON hRefIcon = IcoLib_GetIconByHandle((HANDLE)item, false);
 		hIcon = CopyIcon(hRefIcon);
 		if (item->source_small && item->source_small->icon == hRefIcon)
 			IconSourceItem_ReleaseIcon(item->source_small);
