@@ -6,7 +6,7 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-Плагін зберігає історію зміни аватарів контактів і показує спливаючі вікна.
+Зберігає історію зміни аватарів контактів і показує спливаючі вікна.
 [Avatar List Popup]
 Сплив. вікно списку аватарів
 [Save As...]

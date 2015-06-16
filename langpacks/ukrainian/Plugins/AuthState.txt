@@ -6,7 +6,7 @@
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
-Цей плагін помістить значок навпроти імені, якщо контакт авторизував вас, або ви не авторизували його.
+Показує значок навпроти імені, якщо контакт авторизував вас, або ви не авторизували його.
 [Show Auth icon]
 Показувати значок "Запит"
 [Show Grant icon]

@@ -6,7 +6,7 @@
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Відображає значки клієнтів, використовуваних вашими співрозмовниками.
+Показує значки клієнтів, використовуваних вашими співрозмовниками.
 [Fingerprint overlays icons]
 Оверлеї значків клієнтів
 [Miranda clients]

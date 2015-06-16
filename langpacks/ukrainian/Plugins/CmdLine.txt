@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Плагін дозволяє керувати Miranda через командний рядок.
+Дозволяє керувати Miranda через командний рядок.
 [Could not initialize CmdLine plugin property]
 Не вдалося iнiцiалiзувати власностi CmdLine
 [Error]
