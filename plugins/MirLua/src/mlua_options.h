@@ -11,6 +11,10 @@ private:
 protected:
 	void OnInitDialog();
 
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void OnApply();
+
 public:
 	CLuaOptions(int idDialog);
 

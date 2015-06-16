@@ -44,6 +44,8 @@ void CLuaOptions::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
+	m_scripts.SetExtendedListViewStyle(LVS_EX_CHECKBOXES);
+
 	m_scripts.EnableGroupView(TRUE);
 	m_scripts.AddGroup(0, TranslateT("Common scripts"));
 	m_scripts.AddGroup(1, TranslateT("Custom scripts"));
@@ -64,7 +66,9 @@ void CLuaOptions::OnInitDialog()
 		{
 			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
-				m_scripts.AddItem(fd.cFileName, -1, NULL, 0);
+				int iItem = m_scripts.AddItem(fd.cFileName, -1, NULL, 0);
+				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
+					m_scripts.SetCheckState(iItem, TRUE);
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
@@ -83,5 +87,41 @@ void CLuaOptions::OnInitDialog()
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
+	}
+}
+
+INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+	case WM_NOTIFY:
+	{
+		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
+		if (lpnmHdr->idFrom == m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED)
+		{
+			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
+			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK)
+			{
+				NotifyChange();
+			}
+		}
+	}
+	break;
+	}
+
+	return CDlgBase::DlgProc(msg, wParam, lParam);
+}
+
+void CLuaOptions::OnApply()
+{
+	int count = m_scripts.GetItemCount();
+	for (int iItem = 0; iItem < count; iItem++)
+	{
+		TCHAR fileName[MAX_PATH];
+		m_scripts.GetItemText(iItem, 0, fileName, SIZEOF(fileName));
+		if (!m_scripts.GetCheckState(iItem))
+			db_set_b(NULL, MODULE, _T2A(fileName), 0);
+		else
+			db_unset(NULL, MODULE, _T2A(fileName));
 	}
 }
