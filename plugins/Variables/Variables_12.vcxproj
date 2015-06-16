@@ -235,7 +235,7 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pcre16\pcre16_12.vcxproj">
+    <ProjectReference Include="..\..\libs\Pcre16\pcre16.vcxproj">
       <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
     </ProjectReference>
   </ItemGroup>

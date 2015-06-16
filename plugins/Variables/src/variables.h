@@ -49,7 +49,7 @@
 
 #include "..\helpers\gen_helpers.h"
 
-#include "..\pcre16\src\pcre.h"
+#include "..\..\libs\pcre16\src\pcre.h"
 
 #include "resource.h"
 #include "version.h"
