@@ -6,7 +6,7 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-Плагін дозволяє завантажити файл на FTP-сервер за допомогою Miranda NG і надіслати посилання своїм контактам.
+Дозволяє завантажити файл на FTP-сервер за допомогою Miranda NG і надіслати посилання своїм контактам.
 [FTP accounts]
 Облікові записи FTP
 [Host name]

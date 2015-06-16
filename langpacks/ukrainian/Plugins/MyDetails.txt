@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-Плагін дозволяє показувати і редагувати ваші деталі для всіх протоколів.
+Показує у фреймі ваші дані (нік, аватар, статус) для всіх облікових записів і дозволяє їх редагувати.
 [Set my nickname]
 Мій нік
 [Nickname:]

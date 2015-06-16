@@ -6,7 +6,7 @@
 ;  Authors: StDenis
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
-Плагін замінює діалогові вікна (у яких є тільки кнопка OK) на спливаючі вікна.
+Замінює діалогові вікна (у яких є тільки кнопка OK) на спливаючі вікна.
 [ASTERISK style]
 З зірочкою
 [Background color]

@@ -302,7 +302,7 @@ ID користувача в панелі статусу
 [Available formats]
 Доступні формати
 [Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
-Використовуйте для вказівки власних тем журналу повідомлень для цього контейнера. Це не буде мати ефекту при використанні IEView або іншого переглядача журналу повідомлень. НЕ слід плутати зі скінами.
+Використовуйте для вказівки власної теми журналу повідомлень для цього контейнера. Це налаштування не матиме ефекту при використанні IEView або іншого переглядача журналу повідомлень. Не слід плутати зі скінами.
 [Use global container size and position]
 Загальний розмір і позиція контейнерів
 [Save current as global]

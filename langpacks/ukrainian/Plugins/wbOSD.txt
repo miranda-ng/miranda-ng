@@ -6,7 +6,7 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 [Shows new message/status change info using on-screen display.]
-Показ нових повідомлень, змін статусу за допомогою OSD.
+Показує нові повідомлення і зміни статусу, використовуючи OSD.
 [General]
 Загальне
 [Align]
