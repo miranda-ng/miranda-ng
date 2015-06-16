@@ -65,7 +65,7 @@ int CreateSystemEvents()
 	heServerClose = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_CLOSE);
 	heServerBufferFull = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_BUFFERFULL);
 
-	return ((heServerExec == NULL) || (heServerDone == NULL) || (heServerClose == NULL) || (heServerBufferFull == NULL));
+	return (heServerExec == NULL) || (heServerDone == NULL) || (heServerClose == NULL) || (heServerBufferFull == NULL);
 }
 
 int CreateMutexes()
