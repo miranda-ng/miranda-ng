@@ -81,19 +81,24 @@ int main(int argc, char *argv[])
 		return MIMRES_NOMIRANDA;
 	}
 
-	if (argc <= 1 || argc > MAX_ARGUMENTS)
+	if (argc <= 1 || argc > MAX_ARGUMENTS) {
 		PrintUsage();
-	else {
-		PReply reply = ParseCommand(argv, argc);
-		if (reply) {
-			error = reply->code;
-			lpprintf("%s\n", reply->message);
-		}
-		else lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
-
-		DestroyKnownCommands();
-		DisconnectFromMiranda();
-		DestroyClient();
+		return 0;
 	}
-	return 0;
+
+	int error;
+	PReply reply = ParseCommand(argv, argc);
+	if (reply) {
+		error = reply->code;
+		lpprintf("%s\n", reply->message);
+	}
+	else {
+		lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
+		error = 0;
+	}
+
+	DestroyKnownCommands();
+	DisconnectFromMiranda();
+	DestroyClient();
+	return error;
 }
