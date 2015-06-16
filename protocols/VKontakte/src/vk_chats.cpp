@@ -340,7 +340,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 				if (iReadCount == 1) {
 					CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 					if (cu == NULL)
-						tszBody.AppendFormat(_T("%s https://vk.com/id%s"), TranslateT("invite user"), a_uid);
+						tszBody.AppendFormat(_T("%s https://vk.com/id%d"), TranslateT("invite user"), a_uid);
 					else
 						tszBody.AppendFormat(_T("%s %s"), TranslateT("invite user"), cu->m_tszNick);
 				}
