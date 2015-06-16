@@ -354,7 +354,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, HXML parent)
 	// disco#items
 	if (!pNode->GetItemsRequestId()) {
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryItems, JABBER_IQ_TYPE_GET, pNode->GetJid());
-		pInfo->SetTimeout(30000);
+		pInfo->SetTimeout(60000);
 		pNode->SetItemsRequestId(pInfo->GetIqId());
 
 		XmlNodeIq iq(pInfo);
