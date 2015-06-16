@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-CLuaOptions::CLuaOptions(int idDialog)
-	: CDlgBase(g_hInstance, idDialog), m_scripts(this, IDC_SCRIPTS)
+CLuaOptions::CLuaOptions(int idDialog) : CDlgBase(g_hInstance, idDialog),
+	m_scripts(this, IDC_SCRIPTS), isScriptListInit(false)
 {
 }
 
@@ -88,6 +88,7 @@ void CLuaOptions::OnInitDialog()
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
+	isScriptListInit = true;
 }
 
 INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -102,7 +103,8 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
 			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK)
 			{
-				NotifyChange();
+				if (isScriptListInit)
+					NotifyChange();
 			}
 		}
 	}

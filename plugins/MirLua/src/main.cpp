@@ -56,7 +56,8 @@ void LoadScripts(const TCHAR *scriptDir)
 			{
 				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
 				PathToRelativeT(fullPath, path);
-				mLua->Load(T2Utf(path));
+				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
+					mLua->Load(T2Utf(path));
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);

@@ -4,6 +4,7 @@
 class CLuaOptions : public CDlgBase
 {
 private:
+	bool isScriptListInit;
 	CCtrlListView m_scripts;
 
 	void LoadScripts(const TCHAR *scriptDir);
