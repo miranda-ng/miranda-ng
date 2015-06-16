@@ -22,7 +22,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 /* a simple sorted list implementation */
 
@@ -225,7 +225,7 @@ MIR_CORE_DLL(int) List_RemovePtr(SortedList* list, void* p)
 	return idx;
 }
 
-MIR_CORE_DLL(void) List_Copy(SortedList* s, SortedList* d, size_t itemSize)
+MIR_CORE_DLL(void) List_Copy(SortedList* s, SortedList* d, size_t)
 {
 	d->increment = s->increment;
 	d->limit = s->limit;

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 HWND hAPCWindow = NULL;
 
@@ -112,7 +112,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // entry point
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		hInst = hinstDLL;

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 struct MSubclassData
 {
@@ -111,8 +111,6 @@ MIR_CORE_DLL(void) mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC ol
 
 static void removeHook(MSubclassData *p, int idx)
 {
-	WNDPROC saveProc = p->m_hooks[idx];
-
 	// untie hook from a window to prevent calling mir_callNextSubclass from saveProc
 	for (int i = idx + 1; i < p->m_iHooks; i++)
 		p->m_hooks[i-1] = p->m_hooks[i];

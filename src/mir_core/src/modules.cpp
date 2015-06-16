@@ -22,7 +22,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 // list of hooks
 
@@ -70,7 +70,7 @@ typedef struct
 	int result;
 	const char *name;
 }
-	TServiceToMainThreadItem;
+TServiceToMainThreadItem;
 
 // other static variables
 static BOOL bServiceMode = FALSE;
@@ -92,7 +92,7 @@ __forceinline HANDLE getThreadEvent()
 
 static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
 {
-	int result = PostMessage(hAPCWindow, WM_USER+1, (WPARAM)pFunc, (LPARAM)pParam); // let this get processed in its own time
+	int result = PostMessage(hAPCWindow, WM_USER + 1, (WPARAM)pFunc, (LPARAM)pParam); // let this get processed in its own time
 	if (hDoneEvent)
 		WaitForSingleObject(hDoneEvent, INFINITE);
 
@@ -113,8 +113,8 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 	if ((idx = hooks.getIndex((THook*)name)) != -1)
 		return hooks[idx];
 
-	THook* newItem = (THook*)mir_alloc(sizeof(THook));
-	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[ MAXMODULELABELLENGTH-1 ] = 0;
+	THook *newItem = (THook*)mir_alloc(sizeof(THook));
+	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[MAXMODULELABELLENGTH - 1] = 0;
 	newItem->id = hookId++;
 	newItem->subscriberCount = 0;
 	newItem->subscriber = NULL;
@@ -136,7 +136,7 @@ MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 	if ((idx = hooks.getIndex((THook*)hEvent)) == -1)
 		return 1;
 
-	THook* p = hooks[idx];
+	THook *p = hooks[idx];
 	p->secretSignature = 0;
 	if (p->subscriberCount) {
 		mir_free(p->subscriber);
@@ -151,7 +151,7 @@ MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 
 MIR_CORE_DLL(int) SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook)
 {
-	THook* p = (THook*)hEvent;
+	THook *p = (THook*)hEvent;
 
 	mir_cslock lck(csHooks);
 	if (hooks.getIndex(p) != -1)
@@ -161,7 +161,7 @@ MIR_CORE_DLL(int) SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnH
 
 MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	THook* p = (THook*)hEvent;
+	THook *p = (THook*)hEvent;
 	if (p == NULL || hInst == NULL)
 		return -1;
 
@@ -190,7 +190,7 @@ MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wPa
 	return 0;
 }
 
-static int CallHookSubscribers(THook* p, WPARAM wParam, LPARAM lParam)
+static int CallHookSubscribers(THook *p, WPARAM wParam, LPARAM lParam)
 {
 	if (p == NULL)
 		return -1;
@@ -223,14 +223,13 @@ static int CallHookSubscribers(THook* p, WPARAM wParam, LPARAM lParam)
 
 enum { hookOk, hookEmpty, hookInvalid };
 
-__forceinline int checkHook(THook* p)
+int checkHook(THook *p)
 {
 	if (p == NULL)
 		return hookInvalid;
 
 	int ret;
-	__try
-	{
+	__try {
 		if (p->secretSignature != HOOK_SECRET_SIGNATURE)
 			ret = hookInvalid;
 		else if (p->subscriberCount == 0 && p->pfnHook == NULL)
@@ -238,7 +237,7 @@ __forceinline int checkHook(THook* p)
 		else
 			ret = hookOk;
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		ret = hookInvalid;
 	}
@@ -255,12 +254,12 @@ static void CALLBACK HookToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	switch ( checkHook((THook*)hEvent)) {
+	switch (checkHook((THook*)hEvent)) {
 		case hookInvalid: return -1;
 		case hookEmpty: return 0;
 	}
 
-	if ( GetCurrentThreadId() == mainThreadId)
+	if (GetCurrentThreadId() == mainThreadId)
 		return CallHookSubscribers((THook*)hEvent, wParam, lParam);
 
 	THookToMainThreadItem item;
@@ -274,7 +273,7 @@ MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 
 MIR_CORE_DLL(int) NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	switch ( checkHook((THook*)hEvent)) {
+	switch (checkHook((THook*)hEvent)) {
 		case hookInvalid: return -1;
 		case hookEmpty: return 0;
 	}
@@ -284,7 +283,7 @@ MIR_CORE_DLL(int) NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 
 extern "C" MIR_CORE_DLL(int) GetSubscribersCount(THook* pHook)
 {
-	switch ( checkHook(pHook)) {
+	switch (checkHook(pHook)) {
 		case hookInvalid:
 		case hookEmpty: return 0;
 	}
@@ -341,11 +340,11 @@ MIR_CORE_DLL(HANDLE) HookEventMessage(const char *name, HWND hwnd, UINT message)
 	if ((idx = hooks.getIndex((THook*)name)) == -1)
 		return NULL;
 
-	THook* p = hooks[ idx ];
-	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount+1));
-	p->subscriber[ p->subscriberCount ].type = 5;
-	p->subscriber[ p->subscriberCount ].hwnd = hwnd;
-	p->subscriber[ p->subscriberCount ].message = message;
+	THook *p = hooks[idx];
+	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount + 1));
+	p->subscriber[p->subscriberCount].type = 5;
+	p->subscriber[p->subscriberCount].hwnd = hwnd;
+	p->subscriber[p->subscriberCount].message = message;
 	p->subscriberCount++;
 	return (HANDLE)((p->id << 16) | p->subscriberCount);
 }
@@ -360,7 +359,7 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 
 	mir_cslock lck(csHooks);
 
-	THook* p = NULL;
+	THook *p = NULL;
 	for (int i = 0; i < hooks.getCount(); i++)
 		if (hooks[i]->id == hookId) {
 			p = hooks[i];
@@ -373,10 +372,10 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 	if (subscriberId >= p->subscriberCount || subscriberId < 0)
 		return 1;
 
-	p->subscriber[subscriberId].type    = 0;
+	p->subscriber[subscriberId].type = 0;
 	p->subscriber[subscriberId].pfnHook = NULL;
-	p->subscriber[subscriberId].hOwner  = NULL;
-	while (p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0)
+	p->subscriber[subscriberId].hOwner = NULL;
+	while (p->subscriberCount && p->subscriber[p->subscriberCount - 1].type == 0)
 		p->subscriberCount--;
 	if (p->subscriberCount == 0) {
 		mir_free(p->subscriber);
@@ -389,15 +388,15 @@ MIR_CORE_DLL(void) KillModuleEventHooks(HINSTANCE hInst)
 {
 	mir_cslock lck(csHooks);
 
-	for (int i = hooks.getCount()-1; i >= 0; i--) {
+	for (int i = hooks.getCount() - 1; i >= 0; i--) {
 		if (hooks[i]->subscriberCount == 0)
 			continue;
 
-		for (int j = hooks[i]->subscriberCount-1; j >= 0; j--) {
+		for (int j = hooks[i]->subscriberCount - 1; j >= 0; j--) {
 			if (hooks[i]->subscriber[j].hOwner != hInst)
 				continue;
 
-			char szModuleName[ MAX_PATH ];
+			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(hooks[i]->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
 			UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
 			if (hooks[i]->subscriberCount == 0)
@@ -410,11 +409,11 @@ MIR_CORE_DLL(void) KillObjectEventHooks(void* pObject)
 {
 	mir_cslock lck(csHooks);
 
-	for (int i = hooks.getCount()-1; i >= 0; i--) {
+	for (int i = hooks.getCount() - 1; i >= 0; i--) {
 		if (hooks[i]->subscriberCount == 0)
 			continue;
 
-		for (int j = hooks[i]->subscriberCount-1; j >= 0; j--) {
+		for (int j = hooks[i]->subscriberCount - 1; j >= 0; j--) {
 			if (hooks[i]->subscriber[j].object == pObject) {
 				UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
 				if (hooks[i]->subscriberCount == 0)
@@ -428,8 +427,8 @@ static void DestroyHooks()
 {
 	mir_cslock lck(csHooks);
 
-	for (int i=0; i < hooks.getCount(); i++) {
-		THook* p = hooks[i];
+	for (int i = 0; i < hooks.getCount(); i++) {
+		THook *p = hooks[i];
 		if (p->subscriberCount)
 			mir_free(p->subscriber);
 		DeleteCriticalSection(&p->csHook);
@@ -460,12 +459,12 @@ static HANDLE CreateServiceInt(int type, const char *name, MIRANDASERVICE servic
 
 	TService* p = (TService*)mir_alloc(sizeof(*p) + strlen(name));
 	strcpy(p->name, name);
-	p->nameHash   = tmp.nameHash;
+	p->nameHash = tmp.nameHash;
 	p->pfnService = serviceProc;
-	p->hOwner     = GetInstByAddress(serviceProc);
-	p->flags      = type;
-	p->lParam     = lParam;
-	p->object     = object;
+	p->hOwner = GetInstByAddress(serviceProc);
+	p->flags = type;
+	p->lParam = lParam;
+	p->object = object;
 	services.insert(p);
 
 	return (HANDLE)tmp.nameHash;
@@ -537,16 +536,17 @@ MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam, LPARAM lParam
 	int flags = pService->flags;
 	LPARAM fnParam = pService->lParam;
 	void* object = pService->object;
-	switch(flags) {
+	switch (flags) {
 		case 1:  return ((MIRANDASERVICEPARAM)pfnService)(wParam, lParam, fnParam);
 		case 2:  return ((MIRANDASERVICEOBJ)pfnService)(object, wParam, lParam);
 		case 3:  return ((MIRANDASERVICEOBJPARAM)pfnService)(object, wParam, lParam, fnParam);
 		default: return pfnService(wParam, lParam);
-}	}
+	}
+}
 
 static void CALLBACK CallServiceToMainAPCFunc(ULONG_PTR dwParam)
 {
-	TServiceToMainThreadItem *item = (TServiceToMainThreadItem*) dwParam;
+	TServiceToMainThreadItem *item = (TServiceToMainThreadItem*)dwParam;
 	item->result = CallService(item->name, item->wParam, item->lParam);
 	SetEvent(item->hDoneEvent);
 }
@@ -571,7 +571,7 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 	return item.result;
 }
 
-MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
+MIR_CORE_DLL(int) CallFunctionAsync(void(__stdcall *func)(void *), void *arg)
 {
 	if (GetCurrentThreadId() == mainThreadId)
 		func(arg);
@@ -584,9 +584,9 @@ MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)
 {
 	mir_cslock lck(csServices);
 
-	for (int i = services.getCount()-1; i >= 0; i--) {
+	for (int i = services.getCount() - 1; i >= 0; i--) {
 		if (services[i]->hOwner == hInst) {
-			char szModuleName[ MAX_PATH ];
+			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(services[i]->hOwner, szModuleName, sizeof(szModuleName));
 			DestroyServiceFunction((HANDLE)services[i]->nameHash);
 		}
@@ -597,7 +597,7 @@ MIR_CORE_DLL(void) KillObjectServices(void* pObject)
 {
 	mir_cslock lck(csServices);
 
-	for (int i = services.getCount()-1; i >= 0; i--)
+	for (int i = services.getCount() - 1; i >= 0; i--)
 		if (services[i]->object == pObject)
 			DestroyServiceFunction((HANDLE)services[i]->nameHash);
 }
@@ -606,7 +606,7 @@ static void DestroyServices()
 {
 	mir_cslock lck(csServices);
 
-	for (int j=0; j < services.getCount(); j++)
+	for (int j = 0; j < services.getCount(); j++)
 		mir_free(services[j]);
 }
 
