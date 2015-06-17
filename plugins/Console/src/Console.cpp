@@ -625,10 +625,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 		hTabs = GetDlgItem(hwndDlg, IDC_TABS);
 
-		//TabCtrl_SetMinTabWidth(hTabs, 100);
-
 		// restore position
-		Utils_RestoreWindowPositionEx(hwndDlg, RWPF_HIDDEN, NULL, "Console", "Console");
+		Utils_RestoreWindowPosition(hwndDlg, NULL, "Console", "Console", RWPF_HIDDEN);
 
 		CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(name), (LPARAM)name);
 

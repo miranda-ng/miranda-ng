@@ -291,20 +291,12 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					wp.flags = 0;
 
 					SetWindowPlacement(hDlg, &wp);
-				} else {
-					restorePos = true;
 				}
+				else restorePos = true;
 			}
 
-			if (restorePos) {
-				SAVEWINDOWPOS pos;
-				pos.hContact = NULL;
-				pos.hwnd = hDlg;
-				pos.szModule = dbLastUC_ModuleName;
-				pos.szNamePrefix = dbLastUC_WindowPosPrefix;
-
-				CallService(MS_UTILS_RESTOREWINDOWPOSITION, 0, (LPARAM)&pos);
-			}
+			if (restorePos)
+				Utils_RestoreWindowPosition(hDlg, NULL, dbLastUC_ModuleName, dbLastUC_WindowPosPrefix);
 
 			SendMessage(hDlg, WM_SIZE, 0, 0);
 			WindowList_Add(hWindowList, hDlg, NULL);
@@ -385,20 +377,14 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		{
-			// Save current window position.
-			SAVEWINDOWPOS pos;
-			pos.hContact = NULL;
-			pos.hwnd = hDlg;
-			pos.szModule = dbLastUC_ModuleName;
-			pos.szNamePrefix = dbLastUC_WindowPosPrefix;
-			CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)&pos);
-			delete DlgDat->Contacts;
-			delete DlgDat;
-			// Remove entry from Window list
-			WindowList_Remove(hWindowList, hDlg);
-			break;
-		}
+		Utils_SaveWindowPosition(hDlg, NULL, dbLastUC_ModuleName, dbLastUC_WindowPosPrefix);
+
+		delete DlgDat->Contacts;
+		delete DlgDat;
+
+		// Remove entry from Window list
+		WindowList_Remove(hWindowList, hDlg);
+		break;
 	}
 	return FALSE;
 }

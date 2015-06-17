@@ -325,99 +325,6 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR SaveWindowPosition(WPARAM, LPARAM lParam)
-{
-	SAVEWINDOWPOS *swp = (SAVEWINDOWPOS*)lParam;
-	WINDOWPLACEMENT wp;
-	char szSettingName[64];
-
-	wp.length = sizeof(wp);
-	GetWindowPlacement(swp->hwnd, &wp);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
-	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.left);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
-	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.top);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", swp->szNamePrefix);
-	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.right-wp.rcNormalPosition.left);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", swp->szNamePrefix);
-	db_set_dw(swp->hContact, swp->szModule, szSettingName, wp.rcNormalPosition.bottom-wp.rcNormalPosition.top);
-	return 0;
-}
-
-static INT_PTR svcAssertInsideScreen(WPARAM wParam, LPARAM)
-{
-	LPRECT rc = (LPRECT)wParam;
-	if (rc == NULL)
-		return -1;
-
-	return AssertInsideScreen(*rc);
-}
-
-int AssertInsideScreen(RECT &rc)
-{
-	RECT rcScreen;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen, FALSE);
-	if (MonitorFromRect(&rc, MONITOR_DEFAULTTONULL))
-		return 0;
-
-	MONITORINFO mi = {0};
-	HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
-	mi.cbSize = sizeof(mi);
-	if (GetMonitorInfo(hMonitor, &mi))
-		rcScreen = mi.rcWork;
-
-	if (rc.top >= rcScreen.bottom)
-		OffsetRect(&rc, 0, rcScreen.bottom - rc.bottom);
-	else if (rc.bottom <= rcScreen.top)
-		OffsetRect(&rc, 0, rcScreen.top - rc.top);
-	if (rc.left >= rcScreen.right)
-		OffsetRect(&rc, rcScreen.right - rc.right, 0);
-	else if (rc.right <= rcScreen.left)
-		OffsetRect(&rc, rcScreen.left - rc.left, 0);
-
-	return 1;
-}
-
-static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
-{
-	SAVEWINDOWPOS *swp = (SAVEWINDOWPOS*)lParam;
-	WINDOWPLACEMENT wp;
-	char szSettingName[64];
-	int x, y;
-
-	wp.length = sizeof(wp);
-	GetWindowPlacement(swp->hwnd, &wp);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", swp->szNamePrefix);
-	x = db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
-	y = (int)db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
-	if (x == -1) return 1;
-	if (wParam&RWPF_NOSIZE) {
-		OffsetRect(&wp.rcNormalPosition, x-wp.rcNormalPosition.left, y-wp.rcNormalPosition.top);
-	}
-	else {
-		wp.rcNormalPosition.left = x;
-		wp.rcNormalPosition.top = y;
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", swp->szNamePrefix);
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left+db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", swp->szNamePrefix);
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top+db_get_dw(swp->hContact, swp->szModule, szSettingName, -1);
-	}
-	wp.flags = 0;
-	if (wParam & RWPF_HIDDEN)
-		wp.showCmd = SW_HIDE;
-	if (wParam & RWPF_NOACTIVATE)
-		wp.showCmd = SW_SHOWNOACTIVATE;
-
-	if (!(wParam & RWPF_NOMOVE))
-		AssertInsideScreen(wp.rcNormalPosition);
-
-	SetWindowPlacement(swp->hwnd, &wp);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 {
 	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
@@ -465,9 +372,6 @@ int LoadUtilsModule(void)
 	bModuleInitialized = TRUE;
 
 	CreateServiceFunction(MS_UTILS_RESIZEDIALOG, ResizeDialog);
-	CreateServiceFunction(MS_UTILS_SAVEWINDOWPOSITION, SaveWindowPosition);
-	CreateServiceFunction(MS_UTILS_RESTOREWINDOWPOSITION, RestoreWindowPosition);
-	CreateServiceFunction(MS_UTILS_ASSERTINSIDESCREEN, svcAssertInsideScreen);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);

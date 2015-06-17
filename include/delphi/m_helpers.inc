@@ -28,9 +28,6 @@ function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int)
 function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
 
-function Utils_SaveWindowPosition   (hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-function Utils_RestoreWindowPosition(hWnd:HWND; hContact:TMCONTACT; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-
 function mir_hashstr (const key:PAnsiChar):uint; {inline;}
 function mir_hashstrW(const key:PWideChar):uint; {inline;}
 function lrtrim (str:PAnsiChar):PAnsiChar; {inline}
@@ -239,29 +236,6 @@ procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   CallService(MS_NETLIB_LOG, hNetLib, lParam(sz));
-end;
-
-
-function Utils_SaveWindowPosition(hWnd:HWND; hContact:TMCONTACT; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-var
-  swp: TSAVEWINDOWPOS;
-begin
-  swp.hWnd     := hWnd;
-  swp.hContact := hContact;
-  swp.szModule := szModule;
-  swp.szNamePrefix := szNamePrefix;
-  Result := CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, lParam(@swp));
-end;
-
-function Utils_RestoreWindowPosition(hWnd:HWND; hContact:TMCONTACT; Flags:int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
-var
-  swp: TSAVEWINDOWPOS;
-begin
-  swp.hWnd         := hWnd;
-  swp.hContact     := hContact;
-  swp.szModule     := szModule;
-  swp.szNamePrefix := szNamePrefix;
-  Result := CallService(MS_UTILS_RESTOREWINDOWPOSITION, Flags, lParam(@swp));
 end;
 
 
