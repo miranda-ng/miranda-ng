@@ -173,6 +173,29 @@ int SafeCreateDirectory(const TCHAR *pFolder)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool TryDeleteFile(const TCHAR *ptszFileName)
+{
+	for (int i = 0; i < 5; i++) {
+		if (SafeDeleteFile(ptszFileName))
+			return true;
+
+		switch (GetLastError()) {
+		case ERROR_ACCESS_DENIED:
+		case ERROR_SHARING_VIOLATION:
+		case ERROR_LOCK_VIOLATION:
+			break;
+
+		default:
+			return false;
+		}
+
+		Sleep(200);
+	}
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CheckDlls(const TCHAR *ptszPath)
 {
 	// ptszPath - slash-terminated string
@@ -201,7 +224,7 @@ LBL_Error:	MessageBox(NULL, _T("Miranda failed to delete the obsolete file. Do i
 			bInit = true;
 		}
 
-		if (!SafeDeleteFile(findData.cFileName))
+		if (!TryDeleteFile(findData.cFileName))
 			goto LBL_Error;
 	}
 		while (FindNextFile(hSearch, &findData));
