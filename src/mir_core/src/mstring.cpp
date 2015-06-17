@@ -45,7 +45,7 @@ CNilMStringData::CNilMStringData()
 	achNil[1] = 0;
 }
 
-static CNilMStringData m_nil;
+static CNilMStringData *m_nil = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CMBaseString
@@ -68,8 +68,7 @@ MIR_CORE_DLL(CMStringData*) mirstr_allocate(int nChars, int nCharSize)
 
 MIR_CORE_DLL(void) mirstr_free(CMStringData *pData)
 {
-	if (pData != &m_nil)
-		free(pData);
+	free(pData);
 }
 
 MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int nCharSize)
@@ -88,8 +87,10 @@ MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int 
 
 MIR_CORE_DLL(CMStringData*) mirstr_getNil()
 {
-	m_nil.AddRef();
-	return &m_nil;
+	if (m_nil == NULL)
+		m_nil = new CNilMStringData();
+	m_nil->AddRef();
+	return m_nil;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
