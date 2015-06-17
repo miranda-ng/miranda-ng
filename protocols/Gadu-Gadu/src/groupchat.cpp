@@ -289,7 +289,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 		if (chat->ignore)
 		{
 			// Copy recipient list
-			chat->recipients_count = recipients_count + (sender ? 1 : 0);
+			chat->recipients_count = recipients_count + 1;
 			chat->recipients = (uin_t *)calloc(chat->recipients_count, sizeof(uin_t));
 			for(i = 0; i < recipients_count; i++)
 				chat->recipients[i] = recipients[i];
@@ -480,7 +480,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						free(participants);
 					}
 				}
-
+				// fall through
 				case IDCANCEL:
 					DestroyWindow(hwndDlg);
 					break;

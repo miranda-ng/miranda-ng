@@ -816,7 +816,6 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 			{
 			TCHAR text[256];
-			gg_pubdir50_t req;
 			GGPROTO *gg = dat->gg;
 
 			if (!gg->isonline())
@@ -829,7 +828,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), FALSE);
 
-			req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
+			gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
 
 			GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
 			if (mir_tstrlen(text))
