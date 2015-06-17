@@ -1561,10 +1561,9 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	if (szNick)
 		setTString(hContact, GG_KEY_NICK, szNick);
 	else if (isonline()) {
-		gg_pubdir50_t req;
-
 		// Search for that nick
-		if (req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)) {
+		gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
+		if (req) {
 			// Add uin and search it
 			gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa(uin));
 			gg_pubdir50_seq_set(req, GG_SEQ_GETNICK);

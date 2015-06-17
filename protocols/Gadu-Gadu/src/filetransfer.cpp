@@ -908,7 +908,6 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	char *bslash, *filename;
-	struct gg_dcc *dcc;
 	DWORD ip, ver;
 	WORD port;
 	uin_t myuin, uin;
@@ -928,10 +927,10 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** 
 
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
-		struct gg_dcc7 *dcc7;
 
 		gg_EnterCriticalSection(&sess_mutex, "SendFile", 46, "sess_mutex", 1);
-		if (!(dcc7 = gg_dcc7_send_file(sess, uin, filename, NULL, NULL))) {
+		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(sess, uin, filename, NULL, NULL);
+		if (!dcc7) {
 			gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 1, "sess_mutex", 1);
 			debugLogA("SendFile(): Failed to send file \"%s\".", filename);
 			mir_free(filename);
@@ -967,6 +966,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** 
 	}
 
 	// Try to connect if not ask user to connect me
+	struct gg_dcc *dcc = NULL;
 	if ((ip && port >= 10 && !(dcc = gg_dcc_send_file(ip, port, myuin, uin))) || (port < 10 && port > 0))
 	{
 		// Make fake dcc structure

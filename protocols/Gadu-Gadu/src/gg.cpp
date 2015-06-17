@@ -147,38 +147,34 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 void GGPROTO::cleanuplastplugin(DWORD version)
 {
-   // Store current plugin version
-   setDword(GG_PLUGINVERSION, pluginInfo.version);
+	// Store current plugin version
+	setDword(GG_PLUGINVERSION, pluginInfo.version);
 
-   //1. clean files: %miranda_avatarcache%\GG\*.(null)
-   if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
-      debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
+	//1. clean files: %miranda_avatarcache%\GG\*.(null)
+	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
+		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
-      TCHAR avatarsPath[MAX_PATH];
-      mir_sntprintf(avatarsPath, SIZEOF(avatarsPath), _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+		TCHAR avatarsPath[MAX_PATH];
+		mir_sntprintf(avatarsPath, SIZEOF(avatarsPath), _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 
-      debugLog(_T("cleanuplastplugin() 1: miranda_avatarcache = %s"), avatarsPath);
+		debugLog(_T("cleanuplastplugin() 1: miranda_avatarcache = %s"), avatarsPath);
 
-      if (avatarsPath !=  NULL){
-         HANDLE hFind = INVALID_HANDLE_VALUE;
-         TCHAR spec[MAX_PATH + 10];
-         mir_sntprintf(spec, SIZEOF(spec), _T("%s\\*.(null)"), avatarsPath);
-         WIN32_FIND_DATA ffd;
-         hFind = FindFirstFile(spec, &ffd);
-         if (hFind != INVALID_HANDLE_VALUE) {
-            do {
-               TCHAR filePathT [2*MAX_PATH + 10];
-               mir_sntprintf(filePathT, SIZEOF(filePathT), _T("%s\\%s"), avatarsPath, ffd.cFileName);
-               if (!_taccess(filePathT, 0)){
-                  debugLog(_T("cleanuplastplugin() 1: remove file = %s"), filePathT);
-                  _tremove(filePathT);
-               }
-            } while (FindNextFile(hFind, &ffd) != 0);
-            FindClose(hFind);
-         }
-      }
-   }
-
+		TCHAR spec[MAX_PATH + 10];
+		mir_sntprintf(spec, SIZEOF(spec), _T("%s\\*.(null)"), avatarsPath);
+		WIN32_FIND_DATA ffd;
+		HANDLE hFind = FindFirstFile(spec, &ffd);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			do {
+				TCHAR filePathT [2*MAX_PATH + 10];
+				mir_sntprintf(filePathT, SIZEOF(filePathT), _T("%s\\%s"), avatarsPath, ffd.cFileName);
+				if (!_taccess(filePathT, 0)){
+					debugLog(_T("cleanuplastplugin() 1: remove file = %s"), filePathT);
+					_tremove(filePathT);
+				}
+			} while (FindNextFile(hFind, &ffd) != 0);
+			FindClose(hFind);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////

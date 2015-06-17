@@ -251,7 +251,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	}
 	else if ((wParam & GAIF_FORCE) != 0) {
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
-			getAvatarFilename(pai->hContact, pai->filename, sizeof(pai->filename));
+			getAvatarFilename(pai->hContact, pai->filename, SIZEOF(pai->filename));
 			if (_tremove(pai->filename) != 0){
 				debugLog(_T("getavatarinfo(): delete. _tremove file %s error. errno=%d: %s"), pai->filename, errno, strerror(errno));
 				TCHAR error[512];
@@ -351,10 +351,9 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR res = 0;
-	TCHAR *szMsg;
 
 	gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 72, "modemsg_mutex", 1);
-	szMsg = getstatusmsg(wParam ? gg_normalizestatus(wParam) : m_iStatus);
+	TCHAR *szMsg = getstatusmsg(wParam ? gg_normalizestatus(wParam) : m_iStatus);
 	if (isonline() && szMsg)
 		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(szMsg) : (INT_PTR)mir_t2a(szMsg);
 	gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 72, 1, "modemsg_mutex", 1);

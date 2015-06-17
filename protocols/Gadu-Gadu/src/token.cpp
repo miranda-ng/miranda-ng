@@ -106,16 +106,12 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 // Gets GG token
 int GGPROTO::gettoken(GGTOKEN *token)
 {
-	struct gg_http *h = NULL;
-	struct gg_token *t = NULL;
-	IMGSRVC_MEMIO memio = {0};
-	GGTOKENDLGDATA dat = {0};
-
 	// Zero tokens
 	mir_strcpy(token->id, "");
 	mir_strcpy(token->val, "");
 
-	if (!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE) {
+	struct gg_http *h = gg_token(0);
+	if (!h || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE) {
 		TCHAR error[128];
 		mir_sntprintf(error, TranslateT("Token retrieval failed because of error:\n\t%s"), http_error_string(h ? h->error : 0));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -123,22 +119,25 @@ int GGPROTO::gettoken(GGTOKEN *token)
 		return FALSE;
 	}
 
-	if (!(t = (struct gg_token *)h->data) || (!h->body)) {
+	struct gg_token *t = (struct gg_token *)h->data;
+	if (!t || !h->body) {
 		TCHAR error[128];
-		mir_sntprintf(error, TranslateT("Token retrieval failed because of error:\n\t%s"), http_error_string(h ? h->error : 0));
+		mir_sntprintf(error, TranslateT("Token retrieval failed because of error:\n\t%s"), http_error_string(h->error));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg_free_pubdir(h);
 		return FALSE;
 	}
 
 	// Return token id
+	GGTOKENDLGDATA dat = {0};
 	strncpy(dat.id, t->tokenid, sizeof(dat.id));
 	dat.width = t->width;
 	dat.height = t->height;
 
 	// Load bitmap
+	IMGSRVC_MEMIO memio = {0};
 	memio.iLen = h->body_size;
-	memio.pBuf = (void *)h->body;
+	memio.pBuf = h->body;
 	memio.fif = FIF_UNKNOWN; /* detect */
 	memio.flags = 0;
 	dat.hBitmap = (HBITMAP) CallService(MS_IMG_LOADFROMMEM, (WPARAM) &memio, 0);

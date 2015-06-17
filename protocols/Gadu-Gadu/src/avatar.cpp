@@ -324,7 +324,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 
 	char *AvatarURL, *AvatarTs;
 	if (getAvatarFileInfo(getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
-		if (AvatarURL != NULL && AvatarTs != NULL > 0) {
+		if (AvatarURL != NULL && AvatarTs != NULL) {
 			setString(GG_KEY_AVATARURL, AvatarURL);
 			setString(GG_KEY_AVATARTS, AvatarTs);
 			mir_free(AvatarURL); mir_free(AvatarTs);

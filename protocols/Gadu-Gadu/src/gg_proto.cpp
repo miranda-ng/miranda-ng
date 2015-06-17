@@ -265,10 +265,10 @@ void __cdecl GGPROTO::searchthread(void *)
 HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 {
 	if (!isonline())
-		return (HANDLE)0;
+		return 0;
 
-	gg_pubdir50_t req;
-	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
+	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
+	if (!req) {
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
 #endif
@@ -374,15 +374,12 @@ HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TC
 
 HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 {
-	gg_pubdir50_t req;
-	TCHAR text[64];
-	unsigned long crc;
-
 	// Check if connected
 	if (!isonline())
-		return (HWND)0;
+		return 0;
 
-	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
+	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
+	if (!req)
 	{
 #ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
@@ -394,6 +391,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	CMStringA szQuery;
 
 	// Fetch search data
+	TCHAR text[64];
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
@@ -482,10 +480,10 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	// No data entered
 	if (szQuery.GetLength() <= 7 || (szQuery.GetLength() == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED)))
-		return (HWND)0;
+		return 0;
 
 	// Count crc & check if the data was equal if yes do same search with shift
-	crc = crc_get(szQuery.GetBuffer());
+	unsigned long crc = crc_get(szQuery.GetBuffer());
 
 	if (crc == last_crc && next_uin)
 		gg_pubdir50_add(req, GG_PUBDIR50_START, ditoa(next_uin));
@@ -547,9 +545,9 @@ typedef struct
 
 void __cdecl GGPROTO::sendackthread(void *ack)
 {
+	GG_SEQ_ACK *pAck = (GG_SEQ_ACK *)ack;
 	gg_sleep(100, FALSE, "sendackthread", 105, 1);
-	ProtoBroadcastAck(((GG_SEQ_ACK *)ack)->hContact,
-		ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) ((GG_SEQ_ACK *)ack)->seq, 0);
+	ProtoBroadcastAck(pAck->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) pAck->seq, 0);
 	mir_free(ack);
 }
 
@@ -616,19 +614,20 @@ int GGPROTO::SetStatus(int iNewStatus)
 //////////////////////////////////////////////////////////
 // when away message is requested
 
-void __cdecl GGPROTO::getawaymsgthread(void *hContact)
+void __cdecl GGPROTO::getawaymsgthread(void *arg)
 {
 	DBVARIANT dbv;
 
+	MCONTACT hContact = (MCONTACT) arg;
 	debugLogA("getawaymsgthread(): started");
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
-	if (!db_get_s((MCONTACT)hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
+	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
-		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		debugLog(_T("getawaymsgthread(): Reading away msg <%s>."), dbv.ptszVal);
 		db_free(&dbv);
 	} else {
-		ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)NULL);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	}
 	debugLogA("getawaymsgthread(): end");
 }
