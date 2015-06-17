@@ -154,10 +154,10 @@ const
 
 //******************************* Window lists *******************************
 
-  {
-    Affect : Allocate a window list
-    Returns: A handle to the new window list
-  }
+{
+  Affect : Allocate a window list
+  Returns: A handle to the new window list
+}
 
 function WindowList_Create() : Thandle; stdcall;
                  external CoreDLL name 'WindowList_Create';
@@ -165,108 +165,104 @@ function WindowList_Create() : Thandle; stdcall;
 procedure WindowList_Destroy(hList:Thandle); stdcall;
                  external CoreDLL name 'WindowList_Destroy';
 
-  {
-    Affect : Add a window to a given window list handle
-    Returns: 0 on success, [non zero] on failure
-  }
+{
+  Affect : Add a window to a given window list handle
+  Returns: 0 on success, [non zero] on failure
+}
 
 function WindowList_Add(hList:Thandle; hwnd:HWND; hContact:TMCONTACT) : int; stdcall;
                  external CoreDLL name 'WindowList_Add';
 
-  {
-    Affect : Remove a window from the specified window list
-    Returns: 0 on success, [non zero] on failure
-  }
+{
+  Affect : Remove a window from the specified window list
+  Returns: 0 on success, [non zero] on failure
+}
 
 function WindowList_Remove(hList:Thandle; hwnd:HWND) : int; stdcall;
                  external CoreDLL name 'WindowList_Remove';
 
-  {
-    Affect : Find a window handle given the hContact
-    Returns: The found window handle or NULL(0) on failure
-  }
+{
+  Affect : Find a window handle given the hContact
+  Returns: The found window handle or NULL(0) on failure
+}
 
 function WindowList_Find(hList:Thandle; hContact:TMCONTACT) : HWND; stdcall;
                  external CoreDLL name 'WindowList_Find';
 
-  {
-    Affect : sends a message to all windows in a list using SendMessage
-    Returns: 0 on success, [non zero] on failure
-  }
+{
+  Affect : sends a message to all windows in a list using SendMessage
+  Returns: 0 on success, [non zero] on failure
+}
 
 function WindowList_Broadcast(hList:Thandle; message:UINT; wParam:TWPARAM; lParam:TLPARAM) : int; stdcall;
                  external CoreDLL name 'WindowList_Broadcast';
 
-  {
-    Affect : Sends a message to all windows in a list using PostMessage
-    Returns: 0 on success, nonzero on failure, this service does not fail,
-           even if PostMessage() fails for whatever reason
-  }
+{
+  Affect : Sends a message to all windows in a list using PostMessage
+  Returns: 0 on success, nonzero on failure, this service does not fail,
+         even if PostMessage() fails for whatever reason
+}
 
 function WindowList_BroadcastAsync(hList:Thandle; message:UINT; wParam:TWPARAM; lParam:TLPARAM) : int; stdcall;
                  external CoreDLL name 'WindowList_BroadcastAsync';
 
-  {
-    There aren't any services here, there's no need for them, the control class
-    will obey the SS_LEFT (0), SS_CENTER (1), SS_RIGHT(2) styles
-    the control will send STN_CLICKED via WM_COMMAND when the link itself is clicked
-    -
-    These are defined by STATIC controls and STN_CLICKED is sent to standard
-    STATIC classes when they're clicked -- look at WINAPI docs for more info
-  }
+{
+  There aren't any services here, there's no need for them, the control class
+  will obey the SS_LEFT (0), SS_CENTER (1), SS_RIGHT(2) styles
+  the control will send STN_CLICKED via WM_COMMAND when the link itself is clicked
+  -
+  These are defined by STATIC controls and STN_CLICKED is sent to standard
+  STATIC classes when they're clicked -- look at WINAPI docs for more info
+}
 
 const
   WNDCLASS_HYPERLINK = 'Hyperlink';
 
-  {
-    wParam : 0
-    lParam : Pointer to a initialised TSAVEWINDOWPOS structure
-    Affect :
-    Returns: 0 on success, [non zero] on failure
-    Notes  :
-    Version: v0.1.1.0+
-  }
-  MS_UTILS_SAVEWINDOWPOSITION:PAnsiChar = 'Utils/SaveWindowPos';
+{
+  Returns: 0 on success, [non zero] on failure
+}
 
-  {
-    wParam : see RWPF_* flags
-    lParam : Pointer to a initalised TSAVEWINDOWPOS
-    Affect : Restores the position of a window from the database, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : If no position info was found, the service will return 1.
-             The NoSize version won't use stored information size, the window
-             is left the same size
-             -
-             See Utils_RestoreWindowPosition() Helper function, this function is
-             a bit different from the C function (which can be inlined too! dammit)
-             that there's only one function and not three (which just passed different flags)
-    Version: v0.1.1.0+
-  }
-  MS_UTILS_RESTOREWINDOWPOSITION:PAnsiChar = 'Utils/RestoreWindowPos';
+function Utils_SaveWindowPosition(hwnd:HWND; hContact:TMCONTACT; const szModule,szNamePrefix:PAnsiChar) : int; stdcall;
+                 external CoreDLL name 'Utils_SaveWindowPosition';
 
 {
-    wParam : pointer to RECT
-    lParam : 0
+  Affect : Restores the position of a window from the database, see notes
+  Returns: 0 on success, [non zero] on failure
+  Notes  : If no position info was found, the service will return 1.
+           The NoSize version won't use stored information size, the window
+           is left the same size
+           -
+           See Utils_RestoreWindowPosition() Helper function, this function is
+           a bit different from the C function (which can be inlined too! dammit)
+           that there's only one function and not three (which just passed different flags)
+}
+
+function Utils_RestoreWindowPosition(hwnd:HWND; hContact:TMCONTACT; const szModule,szNamePrefix:PAnsiChar; flags:int) : int; stdcall;
+                 external CoreDLL name 'Utils_RestoreWindowPosition';
+
+{
     Affect : Moves a RECT inside screen if it is outside.It works with multiple monitors (v0.9.0.4+)
     Returns: <0 on error, 0 if not changed the rect, 1 if changed the rect
 }
-  MS_UTILS_ASSERTINSIDESCREEN:PAnsiChar = 'Utils/AssertInsideScreen';
 
-  {
-    wParam : 0
-    lParam : Pointer to a null terminated string containing filename
-    Affect : Loads a bitmap (or other graphic type, see Notes
-    Returns: HBITMAP on success, NULL(0) on failure
-    Notes  : This function also supports JPEG, GIF (and maybe PNG too)
-             For speed, if the file extention is .bmp or .rle it will use LoadImage()
-             and not load OLE for the extra image support
-             -
-             Remember to delete the returned handle with DeleteObject (see GDI documentation for WINAPI)
-    Version: v0.1.2.1+
-  }
+function Utils_AssertInsideScreen(var rc:RECT) : int; stdcall;
+                 external CoreDLL name 'Utils_AssertInsideScreen';
+
+{
+  wParam : 0
+  lParam : Pointer to a null terminated string containing filename
+  Affect : Loads a bitmap (or other graphic type, see Notes
+  Returns: HBITMAP on success, NULL(0) on failure
+  Notes  : This function also supports JPEG, GIF (and maybe PNG too)
+           For speed, if the file extention is .bmp or .rle it will use LoadImage()
+           and not load OLE for the extra image support
+           -
+           Remember to delete the returned handle with DeleteObject (see GDI documentation for WINAPI)
+}
+
+const
   MS_UTILS_LOADBITMAP :PAnsiChar = 'Utils/LoadBitmap';
   MS_UTILS_LOADBITMAPW:PAnsiChar = 'Utils/LoadBitmapW';
-
 
 {
   Affect : Saves a path to a relative path (from the miranda directory)

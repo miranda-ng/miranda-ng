@@ -1053,3 +1053,6 @@ WindowList_Destroy @1106
 WindowList_Find @1107
 WindowList_Remove @1108
 ?SetSilent@CCtrlBase@@QEAAXXZ @1109 NONAME
+Utils_AssertInsideScreen @1110
+Utils_RestoreWindowPosition @1111
+Utils_SaveWindowPosition @1112

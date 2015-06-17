@@ -288,11 +288,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			tci.lParam = (LPARAM)dat->hwndOutgoing;
 			TabCtrl_InsertItem(hwndTab, 1, &tci);
 
-			// Utils_RestoreWindowPosition(hwnd, NULL, "SRFile", "FtMgrDlg_");
-			SAVEWINDOWPOS swp;
-			swp.hwnd = hwnd; swp.hContact = NULL; swp.szModule = "SRFile"; swp.szNamePrefix = "FtMgrDlg_";
-			CallService(MS_UTILS_RESTOREWINDOWPOSITION, RWPF_NOACTIVATE, (LPARAM)&swp);
-
+			Utils_RestoreWindowPosition(hwnd, NULL, "SRFile", "FtMgrDlg_", RWPF_NOACTIVATE);
 			// Fall through to setup initial placement
 		}
 	case WM_SIZE:

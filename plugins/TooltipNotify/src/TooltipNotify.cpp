@@ -306,10 +306,8 @@ CTooltip *CTooltipNotify::BeginNotify(STooltipData *pTooltipData)
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkAreaRect, 0);
 	pTooltip->get_Rect(&TooltipRect);
 
-	if (m_sOptions.bAutoPos || Utils_RestoreWindowPositionEx(pTooltip->GetHandle(), RWPF_NOSIZE | RWPF_NOACTIVATE, 0, MODULENAME, "toolwindow"))
-		pTooltip->set_Position(
-			WorkAreaRect.right - 10 - (TooltipRect.right-TooltipRect.left), 
-			WorkAreaRect.bottom - 2 - (TooltipRect.bottom-TooltipRect.top));
+	if (m_sOptions.bAutoPos || Utils_RestoreWindowPosition(pTooltip->GetHandle(), 0, MODULENAME, "toolwindow", RWPF_NOSIZE | RWPF_NOACTIVATE))
+		pTooltip->set_Position(WorkAreaRect.right - 10 - (TooltipRect.right-TooltipRect.left), WorkAreaRect.bottom - 2 - (TooltipRect.bottom-TooltipRect.top));
 
 	UINT_PTR idTimer = SetTimer(0, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
 	pTooltipData->idTimer = idTimer;
