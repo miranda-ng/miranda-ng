@@ -27,7 +27,7 @@ __inline TCString Path_ToRelative(TCString &Path)
 {
 	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)(TCHAR*)Path, (LPARAM)(TCHAR*)Str);
+	PathToRelativeT(Path, Str);
 	Str.ReleaseBuffer();
 	return Str;
 }
@@ -37,7 +37,7 @@ __inline TCString Path_ToAbsolute(TCString &Path)
 {
 	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)(TCHAR*)Path, (LPARAM)(TCHAR*)Str);
+	PathToAbsoluteT(Path, Str);
 	Str.ReleaseBuffer();
 	return Str;
 }

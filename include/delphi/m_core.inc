@@ -388,32 +388,6 @@ function GetInstByAddress(codePtr:pointer):HINST; stdcall;
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// path utils
-
-procedure CreatePathToFile(wszFilePath:PAnsiChar); stdcall;
-                 external CoreDLL name 'CreatePathToFile';
-function CreateDirectoryTree(const szDir:PAnsiChar):int; stdcall;
-                 external CoreDLL name 'CreateDirectoryTree';
-function PathIsAbsolute(const pSrc:PAnsiChar):int; stdcall;
-                 external CoreDLL name 'PathIsAbsolute';
-function PathToAbsolute(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
-                 external CoreDLL name 'PathToAbsolute';
-function PathToRelative(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
-                 external CoreDLL name 'PathToRelative';
-
-procedure CreatePathToFileW(wszFilePath:PWideChar); stdcall;
-                 external CoreDLL name 'CreatePathToFileW';
-function CreateDirectoryTreeW(const szDir:PWideChar):int; stdcall;
-                 external CoreDLL name 'CreateDirectoryTreeW';
-function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
-                 external CoreDLL name 'PathIsAbsoluteW';
-function PathToAbsoluteW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
-                 external CoreDLL name 'PathToAbsoluteW';
-function PathToRelativeW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
-                 external CoreDLL name 'PathToRelativeW';
-
-
-///////////////////////////////////////////////////////////////////////////////
 // print functions
 
 function mir_snprintf(buffer:PAnsiChar;count:size_t;fmt:PAnsiChar{, ...}):int; stdcall;

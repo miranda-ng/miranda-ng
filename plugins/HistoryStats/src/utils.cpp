@@ -895,7 +895,7 @@ namespace utils
 		if (strMirandaPath.empty()) {
 			TCHAR szPath[MAX_PATH] = { 0 };
 
-			mu::utils::pathToAbsolute(_T("x"), szPath);
+			PathToAbsoluteT(_T("x"), szPath);
 			strMirandaPath = extractPath(szPath);
 		}
 

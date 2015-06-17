@@ -123,16 +123,6 @@ namespace mu
 	}
 
 	/*
-	 * utils
-	 */
-
-	namespace utils
-	{
-		int pathToRelative(const TCHAR* pszPath, TCHAR* pszNewPath);
-		int pathToAbsolute(const TCHAR* pszPath, TCHAR* pszNewPath);
-	}
-
-	/*
 	 * core interface functions
 	 */
 

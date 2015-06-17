@@ -216,7 +216,7 @@ static IconItem iconList[] =
 	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
 };
 
-HICON GetIcon(int iIconId, int size)
+HICON GetIcon(int iIconId, bool size)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iIconId)

@@ -56,7 +56,7 @@ int OpenBayes()
 		mir_free(tmp);
 	}
 
-	CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)bayesdb_fullpath);
+	CreateDirectoryTree(bayesdb_fullpath);
 
 	mir_strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
 	bayesdb_fullpath_utf8 = mir_utf8encode(bayesdb_fullpath);

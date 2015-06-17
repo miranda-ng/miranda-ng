@@ -258,23 +258,6 @@ namespace mu
 	}
 
 	/*
-	 * utils
-	 */
-
-	namespace utils
-	{
-		int pathToRelative(const TCHAR* pszPath, TCHAR* pszNewPath)
-		{
-			return CallService(MS_UTILS_PATHTORELATIVET, reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
-		}
-
-		int pathToAbsolute(const TCHAR* pszPath, TCHAR* pszNewPath)
-		{
-			return CallService(MS_UTILS_PATHTOABSOLUTET, reinterpret_cast<WPARAM>(pszPath), reinterpret_cast<LPARAM>(pszNewPath));
-		}
-	}
-
-	/*
 	 * core interface functions
 	 */
 
