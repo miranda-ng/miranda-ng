@@ -107,6 +107,8 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 	TRouter.sessId = szToken.GetString();
 	if (!m_hTrouterThread)
 		m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
+	else 
+		SetEvent(m_hTrouterEvent);
 
 	if (!isHealth)
 		SendRequest(new RegisterTrouterRequest(m_szTokenSecret, TRouter.url.c_str(), TRouter.sessId.c_str()));
@@ -123,6 +125,53 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 		TRouter.instance,
 		TRouter.ccid),
 		&CSkypeProto::OnGetTrouter, (void *)1);
+}
+
+void CSkypeProto::TRouterThread(void*)
+{
+	debugLogA(__FUNCTION__": entering");
+
+	int errors = 0;
+
+	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
+	{
+		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
+		request->nlc = m_TrouterConnection;
+		NLHR_PTR response(request->Send(m_hNetlibUser));
+
+		if (response == NULL)
+		{
+			errors++;
+			delete request;
+			continue;
+		}
+
+		if (response->resultCode == 200)
+		{
+			if (response->pData)
+			{
+				char *json = strstr(response->pData, "{");
+				if (json != NULL)
+				{
+					JSONNode root = JSONNode::parse(json);
+					std::string szBody = root["body"].as_string();
+					const JSONNode &headers = root["headers"];
+					const JSONNode body = JSONNode::parse(szBody.c_str());
+					OnTrouterEvent(body, headers);
+				}
+			}
+		}
+		else
+		{
+			SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
+			WaitForSingleObject(m_hTrouterEvent, INFINITE);
+		}
+		m_TrouterConnection = response->nlc;
+		delete request;
+	}
+	m_hTrouterThread = NULL;
+	m_TrouterConnection = NULL;
+	debugLogA(__FUNCTION__": leaving");
 }
 
 void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
@@ -170,54 +219,6 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 		SkinPlaySound("skype_call_canceled");
 		break;
 	}
-}
-
-void CSkypeProto::TRouterThread(void*)
-{
-	debugLogA(__FUNCTION__": entering");
-
-	int errors = 0;
-
-	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
-	{
-		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
-		request->nlc = m_TrouterConnection;
-		NLHR_PTR response(request->Send(m_hNetlibUser));
-
-		if (response == NULL)
-		{
-			errors++;
-			delete request;
-			continue;
-		}
-
-		if (response->resultCode == 200)
-		{
-			if (response->pData)
-			{
-				char *json = strstr(response->pData, "{");
-				if (json != NULL)
-				{
-					JSONNode root = JSONNode::parse(json);
-					std::string szBody = root["body"].as_string();
-					const JSONNode &headers = root["headers"];
-					const JSONNode body = JSONNode::parse(szBody.c_str());
-					OnTrouterEvent(body, headers);
-				}
-			}
-		}
-		else
-		{
-			SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
-			delete request;
-			break;
-		}
-		m_TrouterConnection = response->nlc;
-		delete request;
-	}
-	m_hTrouterThread = NULL;
-	m_TrouterConnection = NULL;
-	debugLogA(__FUNCTION__": leaving");
 }
 
 INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM, LPARAM lParam)
