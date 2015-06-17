@@ -196,14 +196,10 @@ bool TryDeleteFile(const TCHAR *ptszFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CheckDlls(const TCHAR *ptszPath)
+bool CheckDlls()
 {
-	// ptszPath - slash-terminated string
-	TCHAR tszSearchPath[MAX_PATH];
-	_sntprintf(tszSearchPath, _countof(tszSearchPath), _T("*.dll"), ptszPath);
-
 	WIN32_FIND_DATA findData;
-	HANDLE hSearch = FindFirstFile(tszSearchPath, &findData);
+	HANDLE hSearch = FindFirstFile(_T("*.dll"), &findData);
 	if (hSearch == INVALID_HANDLE_VALUE) // no dlls? why bother
 		return true;
 

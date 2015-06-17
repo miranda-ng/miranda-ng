@@ -34,14 +34,13 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		return 4;
 
 	// if current dir isn't set
-	*p = 0;
+	p[1] = 0;
 	SetCurrentDirectory(tszPath);
 
 	// all dlls must be moved to libs
-	if (!CheckDlls(tszPath))
+	if (!CheckDlls())
 		return 3;
 
-	*p = '\\'; p[1] = 0;
 	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
 	
