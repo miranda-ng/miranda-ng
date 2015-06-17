@@ -989,6 +989,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszAudio;
 			tszAudio.AppendFormat(_T("%s - %s"), tszArtist, tszTitle);
 
+			int iParamPos = tszUrl.Find(_T("?"));
+			if (m_bShortenLinksForAudio &&  iParamPos != -1)
+				tszUrl = tszUrl.Left(iParamPos);
+
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Audio"), iBBC, vkbbcB),
 				SetBBCString(tszAudio, iBBC, vkbbcUrl, tszUrl));

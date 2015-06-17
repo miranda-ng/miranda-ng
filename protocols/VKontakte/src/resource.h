@@ -47,6 +47,7 @@
 #define IDC_REMOVE_FROM_CLIST           1033
 #define IDC_FORCE_ONLINE_ON_ACT         1035
 #define IDC_STICKERS_AS_SMYLES          1036
+#define IDC_SHOTEN_LINKS_FOR_AUDIO      1037
 #define IDC_ONREAD                      1039
 #define IDC_ONRECEIVE                   1040
 #define IDC_ONREPLY                     1041

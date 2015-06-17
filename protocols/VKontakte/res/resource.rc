@@ -51,7 +51,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 166
+        BOTTOMMARGIN, 177
     END
 
     IDD_OPT_FEEDS, DIALOG
@@ -122,7 +122,7 @@ END
 // Dialog
 //
 
-IDD_OPT_VIEW DIALOGEX 0, 0, 304, 173
+IDD_OPT_VIEW DIALOGEX 0, 0, 304, 184
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -139,7 +139,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,154,61,129,10
     CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
-    GROUPBOX        "Other",IDC_STATIC,4,138,293,26
+    GROUPBOX        "Other",IDC_STATIC,4,138,293,36
     GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
     CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
@@ -147,6 +147,8 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,154,110,129,10
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
+    CONTROL         "Shorten links for audio attachments",IDC_SHOTEN_LINKS_FOR_AUDIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,160,278,10
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 232
