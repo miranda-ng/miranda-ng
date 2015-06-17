@@ -74,13 +74,6 @@ type
     ISOcode: array [0..2] of AnsiChar;
   end;
 
-  PWINDOWLISTENTRY = ^TWINDOWLISTENTRY;
-  TWINDOWLISTENTRY = record
-    hList   : THANDLE;
-    hWnd    : HWND;
-    hContact: TMCONTACT;
-  end;
-
   PSAVEWINDOWPOS = ^TSAVEWINDOWPOS;
   TSAVEWINDOWPOS = record
     hWnd        : HWND;
@@ -274,59 +267,61 @@ const
   MS_UTILS_LOADBITMAP :PAnsiChar = 'Utils/LoadBitmap';
   MS_UTILS_LOADBITMAPW:PAnsiChar = 'Utils/LoadBitmapW';
 
-  {
-      wParam : byte length of buffer (not to be confused with byte range)
-      lParam : Pointer to buffer
-      Affect : Get the filter strings for use in the open file dialog, see notes
-      Returns: 0 on success [non zero] on failure
-      Notes  : See the WINAPI under OPENFILENAME.lpStrFiler for formatting,
-               an 'All bitmaps' item is alway first, and 'All files' is always last
-               -
-               The returned string is always formatted
-               -
-               To build this filter, the filter string consists of
-               filter followed by a descriptive text
-               followed by more filters and their descriptive texts -- end with double NULL(0)
-               e.g. *.bmp' #0 'All bitmaps' #0 '*.*' #0 'All Files' #0 #0
-  }
-  MS_UTILS_GETBITMAPFILTERSTRINGS :PAnsiChar = 'Utils/GetBitmapFilterStrings';
-  MS_UTILS_GETBITMAPFILTERSTRINGSW:PAnsiChar = 'Utils/GetBitmapFilterStringsW';
 
-  {
-    wParam : pszPath
-    lParam : pszNewPath
-    Affect : Saves a path to a relative path (from the miranda directory)
-             Only saves as a relative path if the file is in the miranda
-             directory (or sub directory)
-    Notes  : pszPath is the path to convert and pszNewPath is the buffer that
-             the new path is copied too. pszNewPath MUST be of the size MAX_PATH.
-    Returns: numbers of chars copied.
-  }
-  MS_UTILS_PATHTORELATIVE :PAnsiChar = 'Utils/PathToRelative';
-//Unicode versions (0.6.2+)
-  MS_UTILS_PATHTORELATIVEW:PAnsiChar = 'Utils/PathToRelativeW';
+{
+  Affect : Saves a path to a relative path (from the miranda directory)
+           Only saves as a relative path if the file is in the miranda
+           directory (or sub directory)
+  Notes  : pszPath is the path to convert and pszNewPath is the buffer that
+           the new path is copied too. pszNewPath MUST be of the size MAX_PATH.
+  Returns: numbers of chars copied.
+}
 
-  {
-    Affect : Saves a path to a absolute path (from the miranda directory)
-    wParam : pszPath
-    lParam : pszNewPath
-    Notes  : pszPath is the path to convert and pszNewPath is the buffer that
-             the new path is copied too. pszNewPath MUST be of the size MAX_PATH.
-    Returns: numbers of chars copied.
-  }
-  MS_UTILS_PATHTOABSOLUTE :PAnsiChar = 'Utils/PathToAbsolute';
-//Unicode versions (0.6.2+)
-  MS_UTILS_PATHTOABSOLUTEW:PAnsiChar = 'Utils/PathToAbsoluteW';
+function PathToRelative(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
+                 external CoreDLL name 'PathToRelative';
+function PathToRelativeW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
+                 external CoreDLL name 'PathToRelativeW';
+
+{
+  Affect : Saves a path to a absolute path (from the miranda directory)
+  Notes  : pszPath is the path to convert and pszNewPath is the buffer that
+           the new path is copied too. pszNewPath MUST be of the size MAX_PATH.
+  Returns: numbers of chars copied.
+}
+
+function PathToAbsolute(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
+                 external CoreDLL name 'PathToAbsolute';
+function PathToAbsoluteW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
+                 external CoreDLL name 'PathToAbsoluteW';
 
 {
   Creates a directory tree (even more than one directories levels are missing) 0.7.0+
-  wParam=0 (unused)
-  lParam=pszPath - directory to be created
   Returns 0 on success error code otherwise
-  Unicode version is available since 0.7.0
 }
-  MS_UTILS_CREATEDIRTREE :PAnsiChar = 'Utils/CreateDirTree';
-  MS_UTILS_CREATEDIRTREEW:PAnsiChar = 'Utils/CreateDirTreeW';
+
+function CreateDirectoryTree(const szDir:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'CreateDirectoryTree';
+function CreateDirectoryTreeW(const szDir:PWideChar):int; stdcall;
+                 external CoreDLL name 'CreateDirectoryTreeW';
+
+{
+  Creates all subdirectories required to create a file with the file name given
+  Returns 0 on success or an error code otherwise
+}
+
+procedure CreatePathToFile(wszFilePath:PAnsiChar); stdcall;
+                 external CoreDLL name 'CreatePathToFile';
+procedure CreatePathToFileW(wszFilePath:PWideChar); stdcall;
+                 external CoreDLL name 'CreatePathToFileW';
+{
+  Checks if a file name is absolute or not
+  returns TRUE if yes or FALSE if not
+}
+
+function PathIsAbsolute(const pSrc:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'PathIsAbsolute';
+function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
+                 external CoreDLL name 'PathIsAbsoluteW';
 
 {
    Generates Random number of any length
@@ -334,6 +329,8 @@ const
   lParam=(LPARAM)(char*)pszArray - pointer to array to fill with random number
   Always returns 0
 }
+
+const
   MS_UTILS_GETRANDOM:PAnsiChar = 'Utils/GetRandom';
 
 //Replace variables in text

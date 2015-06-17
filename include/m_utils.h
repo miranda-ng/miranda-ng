@@ -287,58 +287,75 @@ EXTERN_C MIR_CORE_DLL(HBITMAP) Bitmap_Load(const TCHAR *ptszFileName);
 EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Saves a path to a relative path (from the miranda directory)
+// Converts a path to a relative path
 // Only saves as a relative path if the file is in the miranda directory (or
 // sub directory)
-// wParam = (WPARAM)(char*)pszPath
-// lParam = (LPARAM)(char*)pszNewPath
-// pszPath is the path to convert and pszNewPath is the buffer that
-// the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
-// Returns numbers of chars copied.
-// Unicode version is available since 0.6.2
+//
+// [pszSrc] is the path to convert and [pszOut] is the buffer that
+// the new path is copied too. pszOut MUST be at least of the size MAX_PATH.
+//
+// [pszBase] is the folder that is treated as root for 'relativity'
+// by default = path to miranda32.exe
+//
+// Returns number of chars copied.
 
-#define MS_UTILS_PATHTORELATIVE "Utils/PathToRelative"
-#define MS_UTILS_PATHTORELATIVEW "Utils/PathToRelativeW"
-
-#ifdef _UNICODE
-	#define MS_UTILS_PATHTORELATIVET MS_UTILS_PATHTORELATIVEW
+#if defined( __cplusplus )
+EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, const char* pszBase = 0);
+EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = 0);
 #else
-	#define MS_UTILS_PATHTORELATIVET MS_UTILS_PATHTORELATIVE
+EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, const char* pszBase);
+EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
 #endif
+
+#define PathToRelativeT PathToRelativeW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Saves a path to a absolute path (from the miranda directory)
-// wParam = (WPARAM)(char*)pszPath
-// lParam = (LPARAM)(char*)pszNewPath
-// pszPath is the path to convert and pszNewPath is the buffer that
-// the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
+//
+// [pszSrc] is the path to convert and [pszOut] is the buffer that
+// the new path is copied too. pszOut MUST be of the size MAX_PATH.
+//
+// [pszBase] is the folder that is treated as root for 'relativity'
+// by default = path to miranda32.exe
+//
 // Returns numbers of chars copied.
-// Unicode version is available since 0.6.2
 
-#define MS_UTILS_PATHTOABSOLUTE "Utils/PathToAbsolute"
-#define MS_UTILS_PATHTOABSOLUTEW "Utils/PathToAbsoluteW"
-
-#ifdef _UNICODE
-	#define MS_UTILS_PATHTOABSOLUTET MS_UTILS_PATHTOABSOLUTEW
+#if defined( __cplusplus )
+EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, const char* pszBase = 0);
+EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = 0);
 #else
-	#define MS_UTILS_PATHTOABSOLUTET MS_UTILS_PATHTOABSOLUTE
+EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, const char* pszBase);
+EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
 #endif
+
+#define PathToAbsoluteT PathToAbsoluteW
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Creates a directory tree (even more than one directories levels are missing) 0.7.0+
-// wParam = 0 (unused)
-// lParam = (LPARAM)(char*)pszPath - directory to be created
-// Returns 0 on success error code otherwise
-// Unicode version is available since 0.7.0
+// Creates a directory tree (even more than one directories levels are missing)
+// Returns 0 on success or an error code otherwise
 
-#define MS_UTILS_CREATEDIRTREE "Utils/CreateDirTree"
-#define MS_UTILS_CREATEDIRTREEW "Utils/CreateDirTreeW"
+EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTree(const char *pszDir);
+EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *pwszDir);
 
-#ifdef _UNICODE
-	#define MS_UTILS_CREATEDIRTREET MS_UTILS_CREATEDIRTREEW
-#else
-	#define MS_UTILS_CREATEDIRTREET MS_UTILS_CREATEDIRTREE
-#endif
+#define CreateDirectoryTreeT CreateDirectoryTreeW
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Creates all subdirectories required to create a file with the file name given
+// Returns 0 on success or an error code otherwise
+
+EXTERN_C MIR_CORE_DLL(void) CreatePathToFile(char *wszFilePath);
+EXTERN_C MIR_CORE_DLL(void) CreatePathToFileW(wchar_t *wszFilePath);
+
+#define CreatePathToFileT CreatePathToFileW
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Checks if a file name is absolute or not
+// returns TRUE if yes or FALSE if not
+
+EXTERN_C MIR_CORE_DLL(int) PathIsAbsolute(const char *pSrc);
+EXTERN_C MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *pSrc);
+
+#define PathIsAbsoluteT PathIsAbsoluteW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Generates Random number of any length

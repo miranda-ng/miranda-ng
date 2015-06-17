@@ -7,7 +7,7 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+		CreateDirectoryTreeT(path);
 
 	ptrT address(getTStringA(hContact, TOX_SETTINGS_ID));
 	if (address == NULL)

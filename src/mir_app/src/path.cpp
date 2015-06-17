@@ -30,45 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern TCHAR g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
 
 static HANDLE hAvatarFolder;
-static TCHAR  tszAvatarRoot[MAX_PATH];
+static TCHAR tszAvatarRoot[MAX_PATH];
 
-static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
-{
-	return PathToRelative((char*)wParam, (char*)lParam);
-}
-
-static INT_PTR pathToAbsolute(WPARAM wParam, LPARAM lParam)
-{
-	return PathToAbsolute((char*)wParam, (char*)lParam);
-}
-
-static INT_PTR createDirTree(WPARAM, LPARAM lParam)
-{
-	if (lParam == 0)
-		return 1;
-
-	return CreateDirectoryTree((char*)lParam);
-}
-
-static INT_PTR pathToRelativeW(WPARAM wParam, LPARAM lParam)
-{
-	return PathToRelativeW((WCHAR*)wParam, (WCHAR*)lParam );
-}
-
-static INT_PTR pathToAbsoluteW(WPARAM wParam, LPARAM lParam)
-{
-	return PathToAbsoluteW((WCHAR*)wParam, (WCHAR*)lParam, NULL);
-}
-
-static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
-{
-	if (lParam == 0)
-		return 1;
-
-	return CreateDirectoryTreeW((WCHAR*)lParam);
-}
-
-TCHAR *GetContactID(MCONTACT hContact)
+TCHAR* GetContactID(MCONTACT hContact)
 {
 	TCHAR *theValue = {0};
 	char *szProto = GetContactProto(hContact);
@@ -421,15 +385,6 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 
 int InitPathUtils(void)
 {
-	CreateServiceFunction(MS_UTILS_PATHTORELATIVE, pathToRelative);
-	CreateServiceFunction(MS_UTILS_PATHTORELATIVEW, pathToRelativeW);
-
-	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTE, pathToAbsolute);
-	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTEW, pathToAbsoluteW);
-
-	CreateServiceFunction(MS_UTILS_CREATEDIRTREE, createDirTree);
-	CreateServiceFunction(MS_UTILS_CREATEDIRTREEW, createDirTreeW);
-
 	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
 	return 0;
 }

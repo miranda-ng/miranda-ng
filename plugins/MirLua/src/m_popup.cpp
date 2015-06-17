@@ -11,7 +11,7 @@ static POPUPDATA2* MakePopupData(lua_State *L)
 	lua_pop(L, 1);
 
 	if (!(ppd->flags & PU2_TCHAR))
-		ppd->flags | PU2_TCHAR;
+		ppd->flags |= PU2_TCHAR;
 
 	lua_pushstring(L, "Title");
 	lua_gettable(L, -2);

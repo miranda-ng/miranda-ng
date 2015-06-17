@@ -330,37 +330,6 @@ MIR_CORE_DLL(void) UnregisterModule(HINSTANCE hInst);
 MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
 
 ///////////////////////////////////////////////////////////////////////////////
-// path utils
-
-MIR_CORE_DLL(void)   CreatePathToFile(char* wszFilePath);
-MIR_CORE_DLL(int)    CreateDirectoryTree(const char* szDir);
-MIR_CORE_DLL(int)    PathIsAbsolute(const char *pSrc);
-
-MIR_CORE_DLL(void)   CreatePathToFileW(wchar_t* wszFilePath);
-MIR_CORE_DLL(int)    CreateDirectoryTreeW(const wchar_t* szDir);
-MIR_CORE_DLL(int)    PathIsAbsoluteW(const wchar_t *pSrc);
-
-#if defined( __cplusplus )
-	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base=0);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base = 0);
-
-	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base = 0);
-	MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base = 0);
-#else
-	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base);
-
-	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base);
-	MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base);
-#endif
-
-#define CreatePathToFileT CreatePathToFileW
-#define CreateDirectoryTreeT CreateDirectoryTreeW
-#define PathIsAbsoluteT PathIsAbsoluteW
-#define PathToAbsoluteT PathToAbsoluteW
-#define PathToRelativeT PathToRelativeW
-
-///////////////////////////////////////////////////////////////////////////////
 // print functions
 
 MIR_CORE_DLL(int)    mir_snprintf(char *buffer, size_t count, const char* fmt, ...);

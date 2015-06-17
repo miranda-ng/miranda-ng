@@ -34,7 +34,7 @@ void CToxProto::InitIcons()
 	}
 }
 
-HICON CToxProto::GetIcon(const char *name, int size)
+HICON CToxProto::GetIcon(const char *name, bool size)
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
 		if (mir_strcmpi(Icons[i].Name, name) == 0)

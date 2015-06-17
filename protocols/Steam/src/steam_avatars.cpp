@@ -7,7 +7,7 @@ TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+		CreateDirectoryTreeT(path);
 
 	ptrA steamId(getStringA(hContact, "SteamID"));
 	if (steamId != NULL)

@@ -83,6 +83,9 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char *base)
 
 MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)
 {
+	if (szFilePath == NULL)
+		return;
+
 	char *pszLastBackslash = strrchr(szFilePath, '\\');
 	if (pszLastBackslash == NULL)
 		return;
@@ -94,6 +97,9 @@ MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)
 
 MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 {
+	if (szDir == NULL)
+		return 1;
+
 	char szTestDir[MAX_PATH];
 	mir_strncpy(szTestDir, szDir, SIZEOF(szTestDir));
 
@@ -167,6 +173,9 @@ MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR *b
 
 MIR_CORE_DLL(void) CreatePathToFileW(WCHAR *wszFilePath)
 {
+	if (wszFilePath == NULL)
+		return;
+
 	WCHAR *pszLastBackslash = wcsrchr(wszFilePath, '\\');
 	if (pszLastBackslash == NULL)
 		return;
@@ -178,6 +187,9 @@ MIR_CORE_DLL(void) CreatePathToFileW(WCHAR *wszFilePath)
 
 MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
 {
+	if (szDir == NULL)
+		return 1;
+
 	WCHAR szTestDir[MAX_PATH];
 	mir_wstrncpy(szTestDir, szDir, SIZEOF(szTestDir));
 
