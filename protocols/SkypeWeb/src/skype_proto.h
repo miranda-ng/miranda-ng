@@ -109,7 +109,7 @@ private:
 	RequestQueue *requestQueue;
 	bool isTerminated;
 	std::map<std::string, std::string> cookies;
-	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread, m_TrouterConnection, m_hCallHook;
+	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread, m_TrouterConnection, m_hTrouterEvent, m_hCallHook;
 	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

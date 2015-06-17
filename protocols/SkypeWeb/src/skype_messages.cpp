@@ -250,11 +250,11 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			for (int i = 0; i < xi.getChildCount(xml); i++)
 			{
 				int fileSize;
-				HXML xmlNode = xi.getNthChild(xml, L"file", i);
+				HXML xmlNode = xi.getNthChild(xml, _T("file"), i);
 				if (xmlNode == NULL)
 					break;
-				fileSize = atoi(_T2A(xi.getAttrValue(xmlNode, L"size")));
-				ptrA fileName(mir_t2a(xi.getText(xmlNode)));
+				fileSize = atoi(_T2A(xi.getAttrValue(xmlNode, _T("size"))));
+				ptrA fileName(mir_utf8encodeT(xi.getText(xmlNode)));
 				if (fileName == NULL || fileSize == NULL)
 					continue;
 
