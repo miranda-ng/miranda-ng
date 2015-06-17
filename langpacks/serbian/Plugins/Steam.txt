@@ -66,8 +66,6 @@ Otkazivanje
 [Name]
 Naziv
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
-
 [Network]
 Mreža
 [Blocked contacts]
@@ -91,6 +89,8 @@ Zatraži autorizaciju
 [Protocol icon]
 
 [Gaming icon]
+
+[%s connection]
 
 [SteamID]
 

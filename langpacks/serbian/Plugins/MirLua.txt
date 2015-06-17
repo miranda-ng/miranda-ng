@@ -6,16 +6,18 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
-Поддержка скриптов на языке Lua в Miranda NG.
+
+;file \plugins\MirLua\src\main.cpp
 [Customize]
-Тонкая настройка
+Podešavanja
 [Scripts]
-Скрипты
+
 [Common scripts folder]
-Папка с общими скриптами
+
 [Custom scripts folder]
-Папка с пользовательскими скриптами
+
+;file \plugins\MirLua\src\mlua_options.cpp
 [Common scripts]
-Общие скрипты
+
 [Custom scripts]
-Пользовательские скрипты
+

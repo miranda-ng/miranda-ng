@@ -1,7 +1,6 @@
 ﻿[try detect]
 [autoregister]
 [Keep connection on error]
-[Filter messages containing the following:]
 [To / CopyTo]
 [Offline status mean:]
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]
