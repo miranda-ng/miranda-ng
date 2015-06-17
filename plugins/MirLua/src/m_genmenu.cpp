@@ -5,17 +5,17 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 	CLISTMENUITEM *pmi = (CLISTMENUITEM*)mir_calloc(sizeof(CLISTMENUITEM));
 	pmi->cbSize = sizeof(CLISTMENUITEM);
 
+	lua_pushstring(L, "Flags");
+	lua_gettable(L, -2);
+	pmi->flags = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);
 	if (!(pmi->flags & CMIF_UNICODE))
 		pmi->pszName = mir_utf8decode((char*)lua_tostring(L, -1), NULL);
 	else
 		pmi->ptszName = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
-	lua_pop(L, 1);
-
-	lua_pushstring(L, "Flags");
-	lua_gettable(L, -2);
-	pmi->flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Position");

@@ -3,7 +3,7 @@ local ttb = require('m_toptoolbar')
 --- include m_icolib module
 local icolib = require('m_icolib')
 
-local TTBBF_VISIBLE = tonumber("0x0002", 16)
+local TTBBF_VISIBLE = tonumber("0002", 16)
 
 m.OnModulesLoaded(function()
   ttb.OnTopToolBarLoaded(function()
