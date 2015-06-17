@@ -546,6 +546,7 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		CheckDlgButton(hwndDlg, IDC_ATTBBC_ADV, (ppro->m_iBBCForAttachments == bbcAdvanced) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOTEN_LINKS_FOR_AUDIO, ppro->m_bShortenLinksForAudio ? BST_CHECKED : BST_UNCHECKED);	
 
 		return TRUE;
 
@@ -563,6 +564,7 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		case IDC_ATTBBC_BASIC:
 		case IDC_ATTBBC_ADV:
 		case IDC_STICKERS_AS_SMYLES:
+		case IDC_SHOTEN_LINKS_FOR_AUDIO:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -602,6 +604,9 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 			ppro->m_bStikersAsSmyles = IsDlgButtonChecked(hwndDlg, IDC_STICKERS_AS_SMYLES) == BST_CHECKED;
 			ppro->setByte("StikersAsSmyles", ppro->m_bStikersAsSmyles);
+
+			ppro->m_bShortenLinksForAudio = IsDlgButtonChecked(hwndDlg, IDC_SHOTEN_LINKS_FOR_AUDIO) == BST_CHECKED;
+			ppro->setByte("ShortenLinksForAudio", ppro->m_bShortenLinksForAudio);
 		}
 		break;
 

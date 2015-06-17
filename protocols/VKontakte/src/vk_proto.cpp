@@ -119,6 +119,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
 	m_iInvisibleInterval = getDword("InvisibleInterval", 10);
 
+	m_bShortenLinksForAudio = getBool("ShortenLinksForAudio", true);
+	
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;
 	delSetting("InviteGroupIds");

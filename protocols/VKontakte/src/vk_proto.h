@@ -589,7 +589,8 @@ private:
 		m_bNotificationFilterInvites,
 		m_bUseBBCOnAttacmentsAsNews,
 		m_bUseNonStandardUrlEncode,
-		m_bSetBroadcast;
+		m_bSetBroadcast,
+		m_bShortenLinksForAudio;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 
