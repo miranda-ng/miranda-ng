@@ -18,7 +18,7 @@
 [Remember newest message ID and don't show older]
 [...even if popup not clicked]
 [Clear popups history]
-[Filter messages contain below strings in:]
+[Filter messages containing the following:]
 [Sender]
 [Subject]
 [To / CopyTo]

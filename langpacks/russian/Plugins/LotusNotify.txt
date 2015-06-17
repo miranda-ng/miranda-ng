@@ -49,6 +49,8 @@
 ...даже если всплывающее окно не нажато
 [Clear popups history]
 Очистить историю всплывающих окон
+[Filter messages containing the following:]
+Отфильтровать сообщения, содержащие слова:
 [Sender]
 Отправитель
 [Subject]

@@ -66,8 +66,6 @@ Avatardienst
 [Name]
 Name
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
-%s-Verbindung
 [Network]
 Netzwerk
 [Blocked contacts]
@@ -92,6 +90,8 @@ Protokolle
 Protokollicon
 [Gaming icon]
 Spiel-Icon
+[%s connection]
+%s-Verbindung
 [SteamID]
 SteamID
 [You cannot send messages when you are offline.]

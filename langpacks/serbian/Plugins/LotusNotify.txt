@@ -56,7 +56,7 @@ Tekst
 
 [Clear popups history]
 
-[Filter messages contain below strings in:]
+[Filter messages containing the following:]
 
 [Sender]
 Pošiljalac

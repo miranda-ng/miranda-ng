@@ -52,7 +52,7 @@
 Запамінаць найноўшы ID паведамлення і не паказваць старэй
 [Clear popups history]
 Выдаліць гісторыю усплывальных вокнаў
-[Filter messages contain below strings in:]
+[Filter messages containing the following:]
 Фільтраваць паведамленні, што ўтрымоўваюць:
 [Sender]
 Адпраўшчык

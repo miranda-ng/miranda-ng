@@ -31,8 +31,6 @@
 Услуга за аватари
 [Name]
 Име
-[%s connection]
-%s връзка
 [Network]
 Мрежа
 [Request authorization]
@@ -43,5 +41,7 @@
 Протоколи
 [Protocol icon]
 Икона на протокола
+[%s connection]
+%s връзка
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"

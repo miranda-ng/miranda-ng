@@ -69,6 +69,8 @@
 [Account]
 Конт
 ;file \protocols\WhatsApp\src\messages.cpp
+[server]
+сервер
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s

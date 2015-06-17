@@ -59,8 +59,6 @@
 Служба аватарів
 [Name]
 Ім'я
-[%s connection]
-З'єднання %s
 [Network]
 Мережа
 [Blocked contacts]
@@ -81,5 +79,7 @@
 Значок протоколу
 [Gaming icon]
 Ігровий значок
+[%s connection]
+З'єднання %s
 [You cannot send messages when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.

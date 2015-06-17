@@ -16,7 +16,7 @@
 [Remember newest message ID and don't show older]
 [...even if popup not clicked]
 [Clear popups history]
-[Filter messages contain below strings in:]
+[Filter messages containing the following:]
 [To / CopyTo]
 [Offline status mean:]
 [Unable to load all required Lotus API functions]

@@ -38,8 +38,6 @@
 [Name]
 Імя
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
-Злучэнне %s
 [Network]
 Сеціва
 ;file \protocols\Steam\src\steam_login.cpp
@@ -54,6 +52,8 @@
 Пратаколы
 [Protocol icon]
 Абразок пратаколу
+[%s connection]
+Злучэнне %s
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\Steam\src\steam_xstatus.cpp

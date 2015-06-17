@@ -445,6 +445,8 @@ HistoryStats - Папярэджанне
 Слупкі
 [Column settings]
 Налады калонак
+[Output]
+Выснова
 [Output settings]
 Налады высновы
 [Create statistics]
