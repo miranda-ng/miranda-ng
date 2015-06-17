@@ -196,34 +196,31 @@ bool TryDeleteFile(const TCHAR *ptszFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static TCHAR *arDlls[] = { _T("mir_app.dll"), _T("mir_core.dll"), _T("pcre16.dll"), _T("zlib.dll"), _T("libtox.dll") };
+
 bool CheckDlls()
 {
-	WIN32_FIND_DATA findData;
-	HANDLE hSearch = FindFirstFile(_T("*.dll"), &findData);
-	if (hSearch == INVALID_HANDLE_VALUE) // no dlls? why bother
-		return true;
-
 	bool bInit = false;
-	do {
-		// skip Visual Studio runtime if present
-		if (!_tcsnicmp(findData.cFileName, _T("msvc"), 4))
+
+	for (int i = 0; i < _countof(arDlls); i++) {
+		// if dll is missing - skip it
+		if (_taccess(arDlls[i], 0) != 0)
 			continue;
 
 		// there's smth to delete. init UAC
 		if (!bInit) {
 			// failed? then we need UAC
 			if (!PrepareEscalation()) {
-LBL_Error:	MessageBox(NULL, _T("Miranda failed to delete the obsolete file. Do it manually"), findData.cFileName, MB_ICONEXCLAMATION | MB_OK);
+LBL_Error:	MessageBox(NULL, _T("Miranda failed to delete the obsolete file. Do it manually"), arDlls[i], MB_ICONEXCLAMATION | MB_OK);
 				return false;
 			}
 
 			bInit = true;
 		}
 
-		if (!TryDeleteFile(findData.cFileName))
+		if (!TryDeleteFile(arDlls[i]))
 			goto LBL_Error;
 	}
-		while (FindNextFile(hSearch, &findData));
 
 	return true;
 }
