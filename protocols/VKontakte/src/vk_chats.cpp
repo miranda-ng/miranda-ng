@@ -21,7 +21,7 @@ enum
 {
 	IDM_NONE,
 	IDM_TOPIC, IDM_INVITE, IDM_DESTROY,
-	IDM_KICK, IDM_INFO
+	IDM_KICK, IDM_INFO, IDM_VISIT_PROFILE
 };
 
 static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
@@ -783,6 +783,15 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		}
 		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
+
+	case IDM_VISIT_PROFILE:
+		hContact = FindUser(cu->m_uid);
+		if (hContact == NULL) {
+			CMString tszUrl(FORMAT, _T("http://vk.com/id%d"), cu->m_uid);
+			CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszUrl.GetBuffer());
+		} else 
+			SvcVisitProfile(hContact, 0);
+		break;
 		
 	case IDM_KICK:
 		if (!IsOnline())
@@ -810,6 +819,7 @@ static gc_item sttLogListItems[] =
 static gc_item sttListItems[] =
 {
 	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
+	{ LPGENT("Visit profile"), IDM_VISIT_PROFILE, MENU_ITEM },
 	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
 };
 
