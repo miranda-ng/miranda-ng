@@ -877,8 +877,8 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 	int iHeight = jnPhoto["height"].as_int();
 
 	tszRes.AppendFormat(_T("%s (%dx%d)"), SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, tszLink), iWidth, iHeight);
-	if (m_iIMGBBCSupport)
-		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), !tszPreviewLink.IsEmpty() ? tszPreviewLink : (!tszLink.IsEmpty() ? tszLink : _T("")));
+	if (m_iIMGBBCSupport && iBBC != bbcNo)
+		tszRes.AppendFormat(_T("\n\t%s"), SetBBCString(!tszPreviewLink.IsEmpty() ? tszPreviewLink : (!tszLink.IsEmpty() ? tszLink : _T("")), bbcBasic, vkbbcImg));
 	CMString tszText(jnPhoto["text"].as_mstring());
 	if (!tszText.IsEmpty())
 		tszRes += _T("\n") + tszText;
@@ -901,6 +901,9 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 		{ vkbbcU, bbcNo, _T("%s") },
 		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
 		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
+		{ vkbbcImg, bbcNo, _T("%s") },
+		{ vkbbcImg, bbcBasic, _T("[img]%s[/img]") },
+		{ vkbbcImg, bbcAdvanced, _T("[img]%s[/img]") },
 		{ vkbbcUrl, bbcNo, _T("%s (%s)") },
 		{ vkbbcUrl, bbcBasic, _T("[i]%s[/i] (%s)") },
 		{ vkbbcUrl, bbcAdvanced, _T("[url=%s]%s[/url]") },
@@ -1065,8 +1068,8 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				}
 				res.AppendFormat(_T("%s"), tszLink);
 
-				if (m_iIMGBBCSupport)
-					res.AppendFormat(_T("[img]%s[/img]"), tszLink);
+				if (m_iIMGBBCSupport && iBBC != bbcNo)
+					res += SetBBCString(tszLink, iBBC, vkbbcImg);				
 			}
 		}
 		else if (tszType == _T("link")) {
@@ -1083,10 +1086,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
 			if (!tszImage.IsEmpty())
-				if (m_iIMGBBCSupport)
-					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), tszImage);
-				else
-					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage);
+				res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), SetBBCString(tszImage, m_iIMGBBCSupport ? iBBC : bbcNo, vkbbcImg));			
 
 			if (!tszDescription.IsEmpty())
 				res.AppendFormat(_T("\n\t%s"), tszDescription);
@@ -1108,9 +1108,8 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				continue;
 			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, tszLink);
 
-			if (m_iIMGBBCSupport)
-				res.AppendFormat(_T("\n\t[img]%s[/img]"), tszLink);
-
+			if (m_iIMGBBCSupport && iBBC != bbcNo)
+				res.AppendFormat(_T("\n\t%s"), SetBBCString(tszLink, iBBC, vkbbcImg));
 		}
 		else
 			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(tszType, iBBC, vkbbcB));
