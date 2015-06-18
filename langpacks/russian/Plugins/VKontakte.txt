@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -323,6 +323,8 @@ Cоздать комнату чата
 &Удалить комнату чата
 [&User details]
 Информация о &контакте
+[Visit profile]
+Профиль на сайте
 [&Kick]
 &Выкинуть
 [User was tagged in these photos:]
@@ -379,8 +381,6 @@ Cоздать комнату чата
 Опубликовать на своей стене
 [Load news from VK]
 Загрузить новости с VK
-[Visit profile]
-Профиль на сайте
 [Send message to user\'s wall]
 Сообщение на стене
 [Add as friend]

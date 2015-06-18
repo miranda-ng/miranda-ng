@@ -1333,8 +1333,7 @@
 [Modified]
 [My profiles]
 [New profile]
-;file \src\mir_app\src\protocolorder.cpp
-;file \src\mir_app\src\protoopts.cpp
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
@@ -1360,6 +1359,9 @@
 [Account %s is being deleted]
 [You need to disable plugin to delete this account]
 [&Accounts...]
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
@@ -1673,5 +1675,3 @@
 [JPEG bitmaps]
 [GIF bitmaps]
 [PNG bitmaps]
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
