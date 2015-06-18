@@ -1,1 +1,3 @@
-﻿[Url:]
+﻿[Shorten links for audio attachments]
+[Url:]
+[returned to chat]

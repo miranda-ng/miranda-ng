@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -19,6 +19,7 @@
 [Other]
 [BBCode support on attachments]
 [Process stickers as smileys]
+[Shorten links for audio attachments]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
@@ -156,6 +157,7 @@
 [kick user]
 [left chat]
 [invite user]
+[returned to chat]
 [change chat title to]
 [chat action not supported]
 [Unknown]
@@ -169,6 +171,7 @@
 [View/change &title]
 [&Destroy room]
 [&User details]
+[Visit profile]
 [&Kick]
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [User was tagged in these photos:]
@@ -202,7 +205,6 @@
 [Status message]
 [Send message to my wall]
 [Load news from VK]
-[Visit profile]
 [Send message to user\'s wall]
 [Add as friend]
 [Delete from friend list]

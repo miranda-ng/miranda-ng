@@ -2477,6 +2477,8 @@ ID учётной записи
 Для удаления учётной записи необходимо отключить протокол
 [&Accounts...]
 &Учётные записи...
+[Account]
+Учётная запись
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
 [Could not search on any of the protocols, are you online?]
@@ -3087,5 +3089,3 @@ ANSI плагин
 Изображения GIF
 [PNG bitmaps]
 Изображения PNG
-[Account]
-Учётная запись
