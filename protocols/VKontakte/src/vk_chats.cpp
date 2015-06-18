@@ -335,17 +335,23 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			if (tszActionMid.IsEmpty())
 				tszBody = TranslateT("invite user");
 			else {
-				int a_uid = 0;
-				int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
-				if (iReadCount == 1) {
-					CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
-					if (cu == NULL)
-						tszBody.AppendFormat(_T("%s (https://vk.com/id%d)"), TranslateT("invite user"), a_uid);
+				CMString tszUid;
+				tszUid.AppendFormat(_T("%d"), uid);
+				if (tszUid == tszActionMid)
+					tszBody.AppendFormat(_T(" (https://vk.com/id%s) %s"), tszUid, TranslateT("returned to chat"));
+				else {
+					int a_uid = 0;
+					int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
+					if (iReadCount == 1) {
+						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
+						if (cu == NULL)
+							tszBody.AppendFormat(_T("%s (https://vk.com/id%d)"), TranslateT("invite user"), a_uid);
+						else
+							tszBody.AppendFormat(_T("%s %s (https://vk.com/id%d)"), TranslateT("invite user"), cu->m_tszNick, a_uid);
+					}
 					else
-						tszBody.AppendFormat(_T("%s %s (https://vk.com/id%d)"), TranslateT("invite user"), cu->m_tszNick, a_uid);
-				}
-				else
-					tszBody = TranslateT("invite user");
+						tszBody = TranslateT("invite user");
+				}			
 			}
 		}
 		else if (tszAction == _T("chat_title_update")) {

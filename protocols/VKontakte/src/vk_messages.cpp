@@ -54,6 +54,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("user_id", userID)
+		<< INT_PARAM("guid", ((LONG) time(NULL)) * 100 + msgId % 100)
 		<< VER_API;
 
 	if (StickerId != 0)
@@ -89,7 +90,12 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (!jnResponse.isnull()) {
-			UINT mid = jnResponse.as_int();
+			UINT mid;
+			if (jnResponse.type() != JSON_STRING) 
+				mid = jnResponse.as_int();
+			else if (_stscanf(jnResponse.as_mstring(), _T("%d"), &mid) != 1)
+				mid = 0;				
+
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);
 			if (mid > getDword(param->hContact, "lastmsgid", 0))
