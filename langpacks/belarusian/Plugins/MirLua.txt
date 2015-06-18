@@ -5,6 +5,9 @@
 ;  Version: 0.11.0.0
 ;  Authors: Miranda NG team
 ;============================================================
+;file \plugins\MirLua\res\resource.rc
+[Reload]
+Перагрузіць
 ;file \plugins\MirLua\src\main.cpp
 [Customize]
 Тонкая налада

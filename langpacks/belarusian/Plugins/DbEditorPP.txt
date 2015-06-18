@@ -2,42 +2,36 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
 Пашыраны рэдактар базы.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ search and replace]
+[Search and replace]
 Знайсці і замяніць
 [Search for]
 Шукаць
-[Text:]
-Тэкст:
-[In:]
-У:
-[Case sensitive]
-Улік рэгістра
-[Module name]
-Плагін
 [Exact match]
 Дакладна
+[&Search]
+&Шукаць
+[Module name]
+Плагін
 [Setting name]
 Імя налады
 [Setting value]
 Значэнне
-[&Search]
-&Шукаць
+[Case sensitive]
+Улік рэгістра
+[&Cancel]
+С&касаваць
 [Replace with]
 Замяніць на
 [Entirely]
 Цалкам
-[Found field]
-Знойдзена поле
 [&Replace]
 &Замяніць
-[&Cancel]
-С&касаваць
 [Restore last opened position]
 Аднавіць апошняе становішча
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,10 +54,12 @@
 Скасаваць
 [Edit setting]
 Рэдагаваць наладу
-[Value name:]
-Імя:
-[Value data:]
-Значэнне:
+[Name]
+Імя
+[Value]
+Значэнне
+[Edit setting (%s)]
+Рэдагаваць наладу (%s)
 [Base]
 Падстава
 [Save value as:]
@@ -84,14 +80,10 @@
 Капіяваць плагін і налады ў
 [Copy to all contacts (including Settings)]
 Ва ўсе кантакты (і агульныя налады)
-[Import module/settings]
-Імпартаваць плагін/налады
-[Paste the settings to import here.]
-Устаўце налады сюды.
 [Import]
 Імпартаваць
-[Insert &CR/LF]
-Уставіць &CR/LF
+[Paste the settings to import here:]
+Устаўце налады сюды:
 [Database Editor++]
 Рэдактар базы
 [&Main]
@@ -148,10 +140,14 @@
 Аднаўляць становішча
 [&Open options]
 Адчыніць налады
-[&Edit/rename]
-Кіраваць/пераназваць
-[New]
-Стварыць
+[&Edit]
+Кіраваць
+[&Copy]
+Капіяваць
+[&Delete]
+Выдаліць
+[Convert to]
+Перавесці ў
 [&Byte]
 Байт
 [&Word]
@@ -162,28 +158,20 @@
 Радок
 [&Unicode]
 Юнікод
-[&Convert to]
-Перавесці ў
-[Encyption]
-Шыфраванне
-[View decrypted string]
-Прагледзець расшыфраваны радок
-[View encrypted string]
-Прагледзець зашыфраваны радок
-[Decrypt string]
-Расшыфраваць радок
-[Encrypt string]
-Зашыфраваць радок
+[New]
+Стварыць
 [&Watch]
 Назіраць
-[&Delete]
-Выдаліць
+[&Refresh]
+Абнавіць
 [&Rename]
 Пераназваць
 [Copy to contact]
 Капіяваць у кантакт...
 [Export module]
 Экспартаваць плагін...
+[&Add module]
+Дадаць плагін...
 [&Clone]
 Кланаваць
 [Export contact]
@@ -194,8 +182,6 @@
 З файла...
 [From pasted text]
 З устаўленага тэксту...
-[&Add module]
-Дадаць плагін...
 [Export settings]
 Экспартаваць налады
 [Export contacts]
@@ -208,43 +194,10 @@
 Акно назіранняў
 [Reload watch list]
 Абнавіць спіс назіранняў
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-[Cannot Convert!]
-Не магу канверсаваць!
-[New BYTE value]
-Стварыць байт
-[Edit BYTE value]
-Рэдагаваць байт
-[New WORD value]
-Стварыць слова
-[Edit WORD value]
-Рэдагаваць слова
-[New DWORD value]
-Стварыць падвойнае слова
-[Edit DWORD value]
-Рэдагаваць падвойнае слова
-[New STRING value]
-Стварыць радок
-[Edit STRING value]
-Рэдагаваць радок
-[New UNICODE value]
-Стварыць значэнне Unicode
-[Edit UNICODE value]
-Рэдагаваць значэнне Unicode
-[New BLOB value]
-Стварыць BLOB
-[Edit BLOB value]
-Рэдагаваць BLOB
-[Couldn't allocate enough memory!]
-Немагчыма вылучыць памяць!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
-[Settings]
-Налады
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Выдаліць плагін "%s"?
-[Confirm module deletion]
-Выдаліць плагін?
 [Delete module from database]
 Выдаліць плагін з базы
 [Delete module from database... Loading]
@@ -258,48 +211,38 @@ INI файлы
 Усе файлы
 [Export to file]
 Экспарт
-[Error loading module list]
-Памылка загрузкі спісу плагінаў
 [Couldn't open file for writing]
 Не атрымоўваецца адкрыць файл на запіс
 [Import from files]
 Імпарт з файлаў
 ;file \plugins\DbEditorPP\src\findwindow.cpp
+[Result]
+Вынік
+[Contact]
+Кантакт
+[Module]
+Плагiн
+[Setting]
+Налада
 [Enter a string to search the database for]
 Увядзіце радок пошуку
 [Stop]
 Спыніць
-[Replaced with]
-Заменена на
+[Replaced]
+Заменена
 [Deleted]
 Выдалена
 [Found]
 Знойдзена
-[%s Module "%s" in contact "%s"]
-%s плагін "%s" у кантакце "%s"
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s налада "%s" у плагіны "%s" кантакту "%s" - "%s"
-[%s Setting "%s" in module "%s" in contact "%s"]
-%s налада "%s" у плагіны "%s" кантакту "%s"
-[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s "%s" у наладзе "%s" у плагіны "%s" кантакту "%s"
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
 [Searching...]
 Пошук...
-[Error Loading Setting List]
-Памылка загрузкі спісу налад
-[Finished. %d items were found, %d items were deleted.]
-Пошук завершаны, знойдзена %d і выдалена %d элемент(аў).
-[Finished. %d items were found, %d items were replaced.]
-Пошук завершаны, знойдзена %d і заменена %d элемент(аў).
-[Finished. %d items were found.]
-Пошук завершаны, знойдзена %d элемент(аў).
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Галоўны абразок
-[Closed known module]
-Вядомы плагін (зачынены)
-[Open known module]
-Вядомы плагін (адкрыты)
+[Settings]
+Налады
 [Contacts group]
 Гурт кантактаў
 [Unknown contact]
@@ -313,73 +256,35 @@ INI файлы
 Рэдактар базы
 [Open user tree in DBE++]
 Рэдактары базы
+[<UNKNOWN>]
+<НЕВЯДОМА>
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
-[Confirm contact delete]
-Пацверджанне выдалення кантакту
-;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
+[Error loading module list]
+Памылка загрузкі спісу плагінаў
+[Error loading setting list]
+Памылка загрузкі спісу налад
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Загрузка кантактаў...
 [Loading modules...]
 Загрузка плагінаў...
-[Module tree not found]
-Плагін дрэва не знойдзены
 [Contacts]
 Кантакты
-[HANDLE]
-HANDLE
-[Add module to contact "%s"]
-Дадаць плагін кантакту "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
 [Database]
 Профіль
+;file \plugins\DbEditorPP\src\renamemodule.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Name]
-Імя
-[Data]
-Дадзеныя
 [Type]
 Тып
 [Size]
 Памер
 [*** encrypted ***]
 *** зашыфравана ***
-[UNICODE]
-юнікод
-[BLOB]
-BLOB
-[BYTE]
-байт
-[WORD]
-слова
-[DWORD]
-дв. слова
-[STRING]
-радок
-[<unsupported>]
-<не падтрымліваецца>
-[<unknown>]
-<невядома>
-[Decoded string..]
-Расшыфраваны радок
-[Encoded string..]
-Зашыфраваны радок
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
-[Contact]
-Кантакт
-[Module]
-Плагiн
-[Setting]
-Налада
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (байт) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (слова) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (падвойнае слова) 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: "%s"
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Зменена налада БД: \nПлагін: "%s" , Налада: "%s"\nНовае значэнне: (UTF8) "%s"
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+Зменена налада базы: \nПлагін: "%s", налада: "%s"\nНовае значэнне (%s): "%s"
