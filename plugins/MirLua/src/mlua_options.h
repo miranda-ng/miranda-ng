@@ -6,15 +6,17 @@ class CLuaOptions : public CDlgBase
 private:
 	bool isScriptListInit;
 	CCtrlListView m_scripts;
+	CCtrlButton m_reload;
 
-	void LoadScripts(const TCHAR *scriptDir);
+	void LoadScripts(const TCHAR *scriptDir, int iGroup = -1);
 
 protected:
 	void OnInitDialog();
+	void OnApply();
+
+	void OnReload(CCtrlBase*);
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void OnApply();
 
 public:
 	CLuaOptions(int idDialog);

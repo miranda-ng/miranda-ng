@@ -1,8 +1,10 @@
 #include "stdafx.h"
 
 CLuaOptions::CLuaOptions(int idDialog) : CDlgBase(g_hInstance, idDialog),
-	m_scripts(this, IDC_SCRIPTS), isScriptListInit(false)
+	m_scripts(this, IDC_SCRIPTS), isScriptListInit(false),
+	m_reload(this, IDC_RELOAD)
 {
+	m_reload.OnClick = Callback(this, &CLuaOptions::OnReload);
 }
 
 void CLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
@@ -15,7 +17,7 @@ void CLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szVa
 	ctrl.CreateDbLink(MODULE, szSetting, szValue);
 }
 
-void CLuaOptions::LoadScripts(const TCHAR *scriptDir)
+void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
 {
 	TCHAR searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
@@ -30,10 +32,9 @@ void CLuaOptions::LoadScripts(const TCHAR *scriptDir)
 		{
 			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
-				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
-				PathToRelativeT(fullPath, path);
-
-				m_scripts.AddItem(fd.cFileName, -1, NULL, 0);
+				int iItem = m_scripts.AddItem(fd.cFileName, -1, NULL, iGroup);
+				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
+					m_scripts.SetCheckState(iItem, TRUE);
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
@@ -44,51 +45,38 @@ void CLuaOptions::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	m_scripts.SetExtendedListViewStyle(LVS_EX_CHECKBOXES);
-
+	m_scripts.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 	m_scripts.EnableGroupView(TRUE);
-	m_scripts.AddGroup(0, TranslateT("Common scripts"));
-	m_scripts.AddGroup(1, TranslateT("Custom scripts"));
-
 	m_scripts.AddColumn(0, _T("Script"), 300);
 
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = NULL;
-	TCHAR scriptDir[MAX_PATH];
-	TCHAR searchMask[MAX_PATH];
-
+	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, SIZEOF(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
-	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
-	hFind = FindFirstFile(searchMask, &fd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				int iItem = m_scripts.AddItem(fd.cFileName, -1, NULL, 0);
-				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					m_scripts.SetCheckState(iItem, TRUE);
-			}
-		} while (FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
+	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
+	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
+	m_scripts.AddGroup(0, header);
+	LoadScripts(scriptDir, 0);
 
 	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, SIZEOF(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
-	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
-	hFind = FindFirstFile(searchMask, &fd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				m_scripts.AddItem(fd.cFileName, -1, NULL, 1);
-			}
-		} while (FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
+	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
+	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Custom scripts"), relativeScriptDir);
+	m_scripts.AddGroup(1, header);
+	LoadScripts(scriptDir, 1);
+
 	isScriptListInit = true;
+}
+
+void CLuaOptions::OnApply()
+{
+	int count = m_scripts.GetItemCount();
+	for (int iItem = 0; iItem < count; iItem++)
+	{
+		TCHAR fileName[MAX_PATH];
+		m_scripts.GetItemText(iItem, 0, fileName, SIZEOF(fileName));
+		if (!m_scripts.GetCheckState(iItem))
+			db_set_b(NULL, MODULE, _T2A(fileName), 0);
+		else
+			db_unset(NULL, MODULE, _T2A(fileName));
+	}
 }
 
 INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -114,16 +102,9 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
-void CLuaOptions::OnApply()
+void CLuaOptions::OnReload(CCtrlBase*)
 {
-	int count = m_scripts.GetItemCount();
-	for (int iItem = 0; iItem < count; iItem++)
-	{
-		TCHAR fileName[MAX_PATH];
-		m_scripts.GetItemText(iItem, 0, fileName, SIZEOF(fileName));
-		if (!m_scripts.GetCheckState(iItem))
-			db_set_b(NULL, MODULE, _T2A(fileName), 0);
-		else
-			db_unset(NULL, MODULE, _T2A(fileName));
-	}
+	g_mLua->Reload();
+	CLuaLoader loader(g_mLua);
+	loader.LoadScripts();
 }

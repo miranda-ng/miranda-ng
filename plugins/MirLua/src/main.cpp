@@ -6,7 +6,7 @@ HINSTANCE g_hInstance;
 HANDLE g_hCommonFolderPath;
 HANDLE g_hCustomFolderPath;
 
-CMLua *mLua;
+CMLua *g_mLua;
 HANDLE hConsole = NULL;
 
 PLUGININFOEX pluginInfo =
@@ -35,33 +35,6 @@ DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
-}
-
-void LoadScripts(const TCHAR *scriptDir)
-{
-	mLua->AddPath(ptrA(mir_utf8encodeT(scriptDir)));
-
-	TCHAR searchMask[MAX_PATH];
-	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
-
-	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(searchMask, &fd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
-				PathToRelativeT(fullPath, path);
-				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					mLua->Load(T2Utf(path));
-			}
-		} while (FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
 }
 
 int OnOptionsInit(WPARAM wParam, LPARAM)
@@ -99,18 +72,13 @@ extern "C" int __declspec(dllexport) Load(void)
 		}
 	}
 
-	mLua = new CMLua();
-
 	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
-	TCHAR commonScriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hCommonFolderPath, commonScriptDir, SIZEOF(commonScriptDir), VARST(COMMON_SCRIPTS_PATHT));
-	LoadScripts(commonScriptDir);
+	g_mLua = new CMLua();
 
-	TCHAR customScriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hCustomFolderPath, customScriptDir, SIZEOF(customScriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
-	LoadScripts(customScriptDir);
+	CLuaLoader loader(g_mLua);
+	loader.LoadScripts();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
@@ -123,7 +91,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 		CloseHandle(hConsole);
 	FreeConsole();
 
-	delete mLua;
+	delete g_mLua;
 
 	return 0;
 }
