@@ -35,6 +35,8 @@ Contact "%s" was authorised in the server list.
 Contact "%s" lost its authorisation in the server list.
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Are you sure you want to revoke user's authorisation?\nThis will remove you from his/her list on some clients.
+[Mail Order Catalog]
+Mail order catalogue
 [Past Organization]
 Past Organisation
 [Non-Profit Organization Management]

@@ -7,6 +7,8 @@
 ;============================================================
 [Advanced Database Editor.]
 Расширенный редактор базы.
+[Search and replace]
+Найти и заменить
 [Search for]
 Искать
 [Exact match]
@@ -53,6 +55,8 @@
 Редактировать настройку
 [Name]
 Имя
+[Value]
+Значение
 [Base]
 Основание
 [Hexadecimal]
@@ -79,6 +83,8 @@
 Во все контакты (и общие настройки)
 [Import]
 Импорт
+[Paste the settings to import here:]
+Вставьте сюда настройки:
 [Database Editor++]
 Редактор базы
 [&Main]
@@ -141,6 +147,8 @@
 &Копировать
 [&Delete]
 &Удалить
+[Convert to]
+Преобразовать в
 [&Byte]
 &Байт
 [&Word]
@@ -155,6 +163,8 @@
 Создать
 [&Watch]
 &Наблюдать
+[&Refresh]
+&Обновить
 [&Rename]
 &Переименовать
 [Copy to contact]
@@ -185,6 +195,8 @@
 Окно наблюдений
 [Reload watch list]
 Обновить список наблюдений
+[Copy module "%s"]
+Копировать модуль "%s"
 [Are you sure you want to delete module "%s"?]
 Удалить модуль "%s"?
 [Delete module from database]
@@ -201,8 +213,12 @@ INI файлы
 Экспорт
 [Couldn't open file for writing]
 Не удается открыть файл на запись
+[Import to "%s"]
+Импортировать в "%s"
 [Import from files]
 Импорт из файлов
+[Result]
+Результат
 [Contact]
 Контакт
 [Module]
@@ -213,14 +229,22 @@ INI файлы
 Введите строку поиска
 [Stop]
 Стоп
+[Replaced]
+Заменено
 [Deleted]
 Удалено
 [Found]
 Найдено
 [Searching...]
 Поиск...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Поиск завершен, найдено %d / заменено %d / удалено %d элемент(ов)
 [Main icon]
 Основной значок
+[Closed module]
+Закрытый модуль
+[Open module]
+Открытый модуль
 [Settings]
 Настройки
 [Contacts group]
@@ -231,6 +255,8 @@ INI файлы
 Известный контакт
 [Open user tree]
 Открыть список пользователей
+[Empty setting]
+Пустая
 [BLOB setting]
 BLOB
 [Byte setting]
@@ -252,7 +278,7 @@ ID пользователя
 [<UNKNOWN>]
 <неизвестно>
 [Are you sure you want to delete contact "%s"?]
-Вы уверены, что хотите удалить контакт "%s"?
+Удалить контакт "%s"?
 [Error loading module list]
 Ошибка при загрузке списка модулей
 [Error loading setting list]
@@ -265,9 +291,23 @@ ID пользователя
 Контакты
 [Database]
 Профиль
+[Add module to "%s"]
+Добавить модуль в "%s"
 [Type]
 Тип
 [Size]
 Размер
+[Unable to store value in this data type!]
+Невозможно сохранить значение, используя этот тип данных!
+[Are you sure you want to delete setting(s): %d?]
+Удалить настройку(и) %d?
 [*** encrypted ***]
 *** зашифровано ***
+[Unknown DBVariant type!]
+Неизвестный тип DBVariant!
+[Edit setting (%s)]
+Редактировать настройку (%s)
+[New setting (%s)]
+Новая настройка (%s)
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+Изменена настройка базы: \nмодуль: "%s", настройка: "%s"\nновое значение (%s): "%s"

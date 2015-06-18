@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -115,6 +115,8 @@
 Выдаліць чат
 [&User details]
 Пра кантакт
+[Visit profile]
+Профіль
 [&Kick]
 Выкінуць
 ;file \protocols\VKontakte\src\vk_feed.cpp
@@ -134,8 +136,6 @@
 Стварыць чат
 [Status message]
 Статуснае паведамленне
-[Visit profile]
-Профіль
 [Errors]
 Памылкі
 [Notification]

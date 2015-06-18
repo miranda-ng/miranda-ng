@@ -297,6 +297,8 @@ Cоздать комнату чата
 вышел
 [invite user]
 пригласил(а) пользователя
+[returned to chat]
+вернулся
 [change chat title to]
 установил(а) тему
 [chat action not supported]

@@ -2499,8 +2499,7 @@ Miranda NG не можа адкрыць гэты профіль
 Мае профілі
 [New profile]
 Стварыць профіль
-;file \src\mir_app\src\protocolorder.cpp
-;file \src\mir_app\src\protoopts.cpp
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\nВы абсалютна ўпэўненыя?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2549,6 +2548,10 @@ ID конта
 Для выдалення конта неабходна яго адключыць
 [&Accounts...]
 Конты...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
+Конт
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
@@ -3165,6 +3168,3 @@ BMP
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Конт

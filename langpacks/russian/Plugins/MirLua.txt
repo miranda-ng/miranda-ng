@@ -7,6 +7,8 @@
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
 Поддержка скриптов на языке Lua в Miranda NG.
+[Reload]
+Перегрузить
 [Customize]
 Тонкая настройка
 [Scripts]
