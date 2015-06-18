@@ -1,17 +1,17 @@
 #include "headers.h"
 
-static int working;
+volatile BOOL working;
 static HWND hwnd2Delete = NULL;
 
-int deleteModule(char *module, MCONTACT hContact, int fromMenu)
+int deleteModule(MCONTACT hContact, const char *module, int confirm)
 {
-	if (!module)
+	if (!module || IsModuleEmpty(hContact, module))
 		return 0;
 
-	if (!fromMenu && db_get_b(NULL, modname, "WarnOnDelete", 1)) {
-		char msg[1024];
-		mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete module \"%s\"?"), module);
-		if (MessageBox(0, msg, Translate("Confirm module deletion"), MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
+	if (confirm && db_get_b(NULL, modname, "WarnOnDelete", 1)) {
+		TCHAR text[MSG_SIZE];
+		mir_sntprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module));
+		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return 0;
 	}
 
@@ -27,28 +27,29 @@ int deleteModule(char *module, MCONTACT hContact, int fromMenu)
 	return 1;
 }
 
-void __cdecl PopulateModuleDropListThreadFunc(void *di)
+void __cdecl PopulateModuleDropListThreadFunc(void *param)
 {
-	HWND hwnd = (HWND)di;
+	HWND hwnd = (HWND)param;
 	ModuleSettingLL msll;
 	if (!EnumModules(&msll)) {
 		DestroyWindow(hwnd);
 		return;
 	}
+
 	int moduleEmpty;
 	ModSetLinkLinkItem *module = msll.first;
 	while (module && working) {
 		moduleEmpty = 1;
 		// check the null
 		if (!IsModuleEmpty(NULL, module->name)) {
-			SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
+			SendDlgItemMessageA(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
 			moduleEmpty = 0;
 			module = module->next;
 			continue;
 		}
 		for (MCONTACT hContact = db_find_first(); moduleEmpty && hContact; hContact = db_find_next(hContact)) {
 			if (!IsModuleEmpty(hContact, module->name)) {
-				SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
+				SendDlgItemMessageA(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
 				moduleEmpty = 0;
 				break;
 			}
@@ -59,7 +60,7 @@ void __cdecl PopulateModuleDropListThreadFunc(void *di)
 	}
 	SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, 0, 0);
 	FreeModuleSettingLL(&msll);
-	SetWindowText(hwnd, Translate("Delete module from database"));
+	SetWindowText(hwnd, TranslateT("Delete module from database"));
 	EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS), 1);
 	EnableWindow(GetDlgItem(hwnd, IDOK), 1);
 	EnableWindow(GetDlgItem(hwnd, IDCANCEL), 1);
@@ -74,30 +75,30 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		SetWindowText(hwnd, Translate("Delete module from database... Loading"));
+		SetWindowText(hwnd, LPGENT("Delete module from database... Loading"));
 		EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS), 0);
 		EnableWindow(GetDlgItem(hwnd, IDOK), 0);
-		SetDlgItemText(hwnd, IDC_INFOTEXT, Translate("Delete module from database"));
-		SetDlgItemText(hwnd, CHK_COPY2ALL, Translate("Delete module from all contacts (including Setting)"));
+		SetDlgItemText(hwnd, IDC_INFOTEXT, LPGENT("Delete module from database"));
+		SetDlgItemText(hwnd, CHK_COPY2ALL, LPGENT("Delete module from all contacts (including Setting)"));
 		EnableWindow(GetDlgItem(hwnd, CHK_COPY2ALL), 0);
 		CheckDlgButton(hwnd, CHK_COPY2ALL, BST_CHECKED);
 		TranslateDialogDefault(hwnd);
 		working = 1;
-		forkthread(PopulateModuleDropListThreadFunc, 0, hwnd);
+		mir_forkthread(PopulateModuleDropListThreadFunc, hwnd);
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
 		{
-			char text[128];
-			GetDlgItemText(hwnd, IDC_CONTACTS, text, SIZEOF(text));
+			char module[FLD_SIZE];
+			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, SIZEOF(module));
 			SetCursor(LoadCursor(NULL, IDC_WAIT));
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-				deleteModule(text, hContact, 1);
+				deleteModule(hContact, module, 0);
 
 			// do the null
-			deleteModule(text, NULL, 1);
+			deleteModule(NULL, module, 0);
 			SetCursor(LoadCursor(NULL, IDC_ARROW));
 			refreshTree(1);
 		}
@@ -118,10 +119,10 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void deleteModuleGui()
+void deleteModuleDlg()
 {
 	if (!hwnd2Delete)
-		hwnd2Delete = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc, 0);
+		hwnd2Delete = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc);
 	else
 		SetForegroundWindow(hwnd2Delete);
 }

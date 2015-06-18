@@ -1,27 +1,54 @@
 #include "headers.h"
 
-HIMAGELIST himl;
 
-IconItem iconList[] = {
-	{ LPGENT("Main icon"), "DBE++_0", ICO_DBE_BUTT },
-	{ LPGENT("Closed known module"), "DBE++_1", ICO_KNOWN },
-	{ LPGENT("Open known module"), "DBE++_2", ICO_KNOWNOPEN },
-	{ LPGENT("Settings"), "DBE++_5", ICO_SETTINGS },
-	{ LPGENT("Contacts group"), "DBE++_6", ICO_CONTACTS },
-	{ LPGENT("Unknown contact"), "DBE++_7", ICO_OFFLINE },
-	{ LPGENT("Known contact"), "DBE++_8", ICO_ONLINE },
-	{ LPGENT("Open user tree"), "DBE++_9", ICO_REGUSER },
-
-	{ LPGENT("BLOB setting"), "DBE++_BINARY", ICO_BINARY },
-	{ LPGENT("Byte setting"), "DBE++_BYTE", ICO_BYTE },
-	{ LPGENT("Word setting"), "DBE++_WORD", ICO_WORD },
-	{ LPGENT("Dword setting"), "DBE++_DWORD", ICO_DWORD },
-	{ LPGENT("String setting"), "DBE++_STRING", ICO_STRING },
-	{ LPGENT("Unicode setting"), "DBE++_UNICODE", ICO_UNICODE },
-	{ LPGENT("Handle"), "DBE++_HANDLE", ICO_HANDLE }
+int dbeIcons[] = {
+	ICO_EMPTY,
+	ICO_BINARY,
+	ICO_BYTE,
+	ICO_WORD,
+	ICO_DWORD,
+	ICO_STRING,
+	ICO_UNICODE,
+	ICO_HANDLE,
+	ICO_SETTINGS,
+	ICO_CLOSED,
+	ICO_OPENED,
+	ICO_CONTACTS,
+	ICO_ONLINE,
+	ICO_OFFLINE
 };
 
-void addIcons(void)
+
+IconItem iconList[] = {
+	{ LPGEN("Main icon"), "DBE++_0", ICO_DBE_BUTT },
+	{ LPGEN("Closed module"), "DBE++_1", ICO_CLOSED },
+	{ LPGEN("Open module"), "DBE++_2", ICO_OPENED },
+	{ LPGEN("Settings"), "DBE++_5", ICO_SETTINGS },
+	{ LPGEN("Contacts group"), "DBE++_6", ICO_CONTACTS },
+	{ LPGEN("Unknown contact"), "DBE++_7", ICO_OFFLINE },
+	{ LPGEN("Known contact"), "DBE++_8", ICO_ONLINE },
+	{ LPGEN("Open user tree"), "DBE++_9", ICO_REGUSER },
+	{ LPGEN("Empty setting"), "DBE++10", ICO_EMPTY },
+	{ LPGEN("BLOB setting"), "DBE++_BINARY", ICO_BINARY },
+	{ LPGEN("Byte setting"), "DBE++_BYTE", ICO_BYTE },
+	{ LPGEN("Word setting"), "DBE++_WORD", ICO_WORD },
+	{ LPGEN("Dword setting"), "DBE++_DWORD", ICO_DWORD },
+	{ LPGEN("String setting"), "DBE++_STRING", ICO_STRING },
+	{ LPGEN("Unicode setting"), "DBE++_UNICODE", ICO_UNICODE },
+	{ LPGEN("Handle"), "DBE++_HANDLE", ICO_HANDLE }
+};
+
+
+
+HANDLE GetIcoLibHandle(int icon)
+{
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == icon)
+			return iconList[i].hIcolib;
+	return INVALID_HANDLE_VALUE;
+}
+
+void IcoLibRegister(void)
 {
 	Icon_Register(hInst, modFullname, iconList, SIZEOF(iconList));
 }
@@ -35,57 +62,46 @@ HICON LoadSkinnedDBEIcon(int icon)
 	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }
 
-int AddIconToList(HIMAGELIST hil, HICON hIcon)
-{
-	if (!hIcon || !hil)
-		return 0;
-
-	ImageList_AddIcon(hil, hIcon);
-	return 1;
-}
-
 static PROTOACCOUNT **protocols = NULL;
 static int protoCount = 0;
-static int shift = 0;
 
-void AddProtoIconsToList(HIMAGELIST hil, int newshift)
+HIMAGELIST LoadIcons()
 {
-	shift = newshift;
+	HICON hIcon;
+	HIMAGELIST hil = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, SIZEOF(dbeIcons), 5);
+
+	if (!hil) return NULL;
+
+	for(int i = 0; i < SIZEOF(dbeIcons); i++)
+		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
 
 	ProtoEnumAccounts(&protoCount, &protocols);
 
 	for (int i = 0; i < protoCount; i++) {
-		HICON hIcon;
-		if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
-			AddIconToList(hil, hIcon);
+		if (!Proto_IsProtocolLoaded(protocols[i]->szModuleName))
+			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_OFFLINE));
 		else
-			AddIconToList(himl, LoadSkinnedDBEIcon(ICO_ONLINE));
-	}
-}
-
-int GetProtoIcon(char *szProto)
-{
-	if (!protoCount || !protocols || !szProto)
-		return DEF_ICON;
-
-	int n = 0;
-
-	for (int i = 0; i < protoCount; i++) {
-		if (!mir_strcmp(protocols[i]->szModuleName, szProto))
-			return n + shift;
-
-		n++;
+		if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
+			ImageList_AddIcon(hil, hIcon);
+		else
+			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_ONLINE));
 	}
 
-	return DEF_ICON;
+	return hil;
 }
 
-BOOL IsProtocolLoaded(char *pszProtocolName)
-{
-	if (protoCount)
-		for (int i = 0; i < protoCount; i++)
-			if (!mir_strcmp(protocols[i]->szModuleName, pszProtocolName))
-				return TRUE;
 
-	return FALSE;
+int GetProtoIconIndex(const char *szProto)
+{
+	if (szProto && szProto[0]) {
+		if (protoCount && protocols) {
+			for (int i = 0; i < protoCount; i++) {
+				if (!mir_strcmp(protocols[i]->szModuleName, szProto))
+					return i + SIZEOF(dbeIcons);
+			}
+			if (Proto_IsProtocolLoaded(szProto))
+				return SIZEOF(dbeIcons) - 2; // ICO_ONLINE;
+		}
+	}
+	return SIZEOF(dbeIcons) - 1; // ICO_OFFLINE;
 }
