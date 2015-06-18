@@ -40,7 +40,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 	HookProtoEvent(ME_OPT_INITIALISE, &CSametimeProto::OptInit);
 
 	// Initialize temporary DB settings
-	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
 
 	RegisterPopups();

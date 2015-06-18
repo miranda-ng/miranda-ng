@@ -68,8 +68,6 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 
 	InitPrefs();
 
-	db_set_resident(m_szModuleName, "Status");
-
 	CList_SetAllOffline(true);
 
 	IRC_MAP_ENTRY("PING", PING)

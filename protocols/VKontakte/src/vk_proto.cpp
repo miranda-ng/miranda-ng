@@ -65,8 +65,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 		m_defaultGroup = mir_tstrdup(_T("VKontakte"));
 	Clist_CreateGroup(NULL, m_defaultGroup);
 
-	db_set_resident(m_szModuleName, "Status");
-
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
 	m_bMesAsUnread = getBool("MesAsUnread", false);

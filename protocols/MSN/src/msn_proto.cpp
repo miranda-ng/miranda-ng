@@ -47,7 +47,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	lsAvatarQueue(1),
 	msgCache(5, CompareId)
 {
-	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "p2pMsgId");
 	db_set_resident(m_szModuleName, "MobileEnabled");
