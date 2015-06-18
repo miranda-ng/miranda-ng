@@ -1,75 +1,151 @@
 #include "headers.h"
 
-void setupSettingsList(HWND hwnd2List)
-{
-	ListView_SetUnicodeFormat(hwnd2List, TRUE);
 
-	LVCOLUMN sLC;
-	sLC.fmt = LVCFMT_LEFT;
-	ListView_SetExtendedListViewStyle(hwnd2List, 32 | LVS_EX_SUBITEMIMAGES); //LVS_EX_FULLROWSELECT
-	sLC.mask = LVCF_FMT | LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH;
+SettingListInfo info = {0};
+HWND hwnd2List = 0;
 
-	sLC.pszText = Translate("Name");
-	sLC.cx = db_get_w(NULL, modname, "Column0width", 145);
-	ListView_InsertColumn(hwnd2List, 0, &sLC);
-	sLC.pszText = Translate("Data");
-	sLC.cx = db_get_w(NULL, modname, "Column1width", 145);
-	ListView_InsertColumn(hwnd2List, 1, &sLC);
-	sLC.pszText = Translate("Type");
-	sLC.cx = db_get_w(NULL, modname, "Column2width", 60);
-	ListView_InsertColumn(hwnd2List, 2, &sLC);
-	sLC.pszText = Translate("Size");
-	sLC.cx = db_get_w(NULL, modname, "Column3width", 80);
-	ListView_InsertColumn(hwnd2List, 3, &sLC);
-}
 
-void saveListSettings(HWND hwnd2List)
-{
-	LVCOLUMN sLC = { 0 };
-	char tmp[33]; tmp[32] = 0;
+static int lastColumn = -1;
 
-	sLC.mask = LVCF_WIDTH;
 
-	for (int i = 0; i <= 3; i++)
-		if (ListView_GetColumn(hwnd2List, i, &sLC)) {
-			mir_snprintf(tmp, "Column%dwidth", i);
-			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
-		}
+struct ColumnsSettings csSettingList[] = {
+	{ LPGENT("Name"),  0, "Column0width", 180 },
+	{ LPGENT("Value"), 1, "Column1width", 250 },
+	{ LPGENT("Type"),  2, "Column2width", 60 },
+	{ LPGENT("Size"),  3, "Column3width", 80 },
+	{ LPGENT("#"),     4, "Column4width", 30 },
+	{0}
+};
+
+
+int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax)
+{ 
+	LV_ITEMA lvi;
+	lvi.iSubItem = iSubItem;
+	lvi.cchTextMax = cchTextMax;
+	lvi.pszText = pszText;
+	return SendMessageA((hwndLV), LVM_GETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
 }
 
 
-void ClearListview(HWND hwnd2Settings)
+int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText) 
+{ 
+	LV_ITEMA lvi;
+	lvi.iSubItem = iSubItem;
+	lvi.pszText = (char*)pszText;
+ 	return SendMessageA((hwndLV), LVM_SETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
+}
+
+
+int convertSetting(MCONTACT hContact, const char *module, const char *setting, int toType)
 {
-	SettingListInfo *info = (SettingListInfo*)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
-	if (info && ListView_GetItemCount(hwnd2Settings)) {
-		mir_free(info->module);
-		if (info->hwnd2Edit) {
-			SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-			info->hwnd2Edit = NULL;
-		}
-		mir_free(info);
-		SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
+	DBVARIANT dbv = { 0 };
+
+	if (db_get_s(hContact, module, setting, &dbv, 0)) return 0;
+
+	if (dbv.type == toType) {
+	    db_free(&dbv);
+		return 1;
 	}
-	ListView_DeleteAllItems(hwnd2Settings);
+
+	int res = 0;
+	DWORD val = 0;
+	TCHAR tmp[16]; 
+	ptrT value;
+
+	switch (dbv.type) {
+
+	case DBVT_BYTE:
+	case DBVT_WORD:
+	case DBVT_DWORD:
+		val = getNumericValue(&dbv);
+		value = mir_tstrdup(_ultot(val, tmp, 10));
+		break;
+
+	case DBVT_WCHAR:
+		if (!value) value = mir_u2t(dbv.pwszVal);
+	case DBVT_UTF8:
+		if (!value) value = mir_utf8decodeT(dbv.pszVal);
+	case DBVT_ASCIIZ:
+		if (!value) value = mir_a2t(dbv.pszVal);
+
+		if (mir_tstrlen(value) < 11)
+			val = _tcstoul(value, NULL, NULL);
+		break;
+	}
+
+	switch (toType) {
+
+	case DBVT_BYTE:
+	case DBVT_WORD:
+	case DBVT_DWORD:
+		if (val != 0 || !mir_tstrcmp(value, _T("0")))
+  			res = setNumericValue(hContact, module, setting, val, toType);
+		break;
+
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+	case DBVT_WCHAR:
+		if (value)
+			res = setTextValue(hContact, module, setting, value, toType);
+		break;
+
+	}
+
+	if (!res)
+		msg(TranslateT("Unable to store value in this data type!"));
+
+	db_free(&dbv);
+
+	return res;
 }
 
-void DeleteSettingsFromList(HWND hSettings, MCONTACT hContact, char *module, char *setting)
+
+void EditFinish(int selected)
 {
-	int count = ListView_GetSelectedCount(hSettings);
+    if (info.hwnd2Edit) {
+		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
+		info.hwnd2Edit = NULL;
+	}
+	info.selectedItem = selected;
+}
+
+
+void ClearListView()
+{
+	EditFinish(0);
+	info.module[0] = 0;
+	info.setting[0] = 0;
+	info.hContact = 0;
+
+	ListView_DeleteAllItems(hwnd2List);
+}
+
+
+void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *setting)
+{
+	int count = ListView_GetSelectedCount(hwnd2List);
 
 	if (!count) return;
+
+	if (db_get_b(NULL, modname, "WarnOnDelete", 1)) {
+		TCHAR text[MSG_SIZE];
+		mir_sntprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
+		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
+			return;
+	}
 
 	if (count == 1)
 		db_unset(hContact, module, setting);
 	else {
-		int items = ListView_GetItemCount(hSettings);
+		int items = ListView_GetItemCount(hwnd2List);
 		int i = 0;
-		char text[256];
+		char text[FLD_SIZE];
 
 		while (i < items) {
-			if (ListView_GetItemState(hSettings, i, LVIS_SELECTED)) {
-				ListView_GetItemText(hSettings, i, 0, text, SIZEOF(text));
-				db_unset(hContact, module, text);
+			if (ListView_GetItemState(hwnd2List, i, LVIS_SELECTED)) {
+				if (ListView_GetItemTextA(hwnd2List, i, 0, text, SIZEOF(text)))
+					db_unset(hContact, module, text);
 				items--;
 			}
 			else
@@ -77,246 +153,277 @@ void DeleteSettingsFromList(HWND hSettings, MCONTACT hContact, char *module, cha
 		}
 	}
 
-	if (ListView_GetItemCount(hSettings) == 0) {
-		HWND hModules = GetDlgItem(hwnd2mainWindow, IDC_MODULES);
-		TVITEM item;
-		char text[265];
-		item.mask = TVIF_PARAM | TVIF_TEXT;
-		item.pszText = text;
-		item.cchTextMax = SIZEOF(text);
-		item.hItem = (HTREEITEM)findItemInTree(hModules, hContact, module);
-		if ((int)item.hItem != -1)
-			if (TreeView_GetItem(hModules, &item) && item.lParam) {
-				mir_free((char*)item.lParam);
-				TreeView_DeleteItem(hModules, item.hItem);
-			}
-	}
+	if (ListView_GetItemCount(hwnd2List) == 0)
+		replaceTreeItem(hContact, module, 0);
 }
 
-void additem(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting, int index)
+
+int findListItem(const char *setting) 
 {
-	char *data = NULL;
-	LVITEM lvi;
+	if (!setting || !setting[0]) return -1;
+
+	LVFINDINFOA lvfi;
+	lvfi.flags = LVFI_STRING;
+	lvfi.psz = setting;
+	lvfi.vkDirection = VK_DOWN;
+	return SendMessageA(hwnd2List, LVM_FINDITEMA, -1, (LPARAM)&lvfi);
+}
+
+
+void deleteListItem(const char *setting)
+{
+    int item = findListItem(setting);
+	if (item > -1)
+		ListView_DeleteItem(hwnd2List, item);
+}
+
+
+void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident)
+{
+	if (!dbv || !dbv->type) {
+		ListView_DeleteItem(hwnd2List, index);
+		return;
+	}
+
+	if (index < 0) return;
+
+	LVITEM lvi = {0};
 	lvi.mask = LVIF_IMAGE;
 	lvi.iItem = index;
-	lvi.iSubItem = 0;
 
-	if (g_db && g_db->IsSettingEncrypted(module, setting)) {
-		lvi.iImage = 5;
-		ListView_SetItem(hwnd2Settings, &lvi);
+	ListView_SetItemText(hwnd2List, index, 4, resident?_T("[R]"):_T(""));
 
-		ListView_SetItemTextW(hwnd2Settings, index, 1, TranslateW(L"*** encrypted ***"));
-
-		ListView_SetItemText(hwnd2Settings, index, 2, Translate("UNICODE"));
-		ListView_SetItemText(hwnd2Settings, index, 3, "");
+	if (g_db && g_db->IsSettingEncrypted(info.module, setting)) {
+		lvi.iImage = IMAGE_UNICODE;
+		ListView_SetItem(hwnd2List, &lvi);
+		ListView_SetItemTextA(hwnd2List, index, 0, setting);
+		ListView_SetItemText(hwnd2List, index, 1, TranslateT("*** encrypted ***"));
+		ListView_SetItemText(hwnd2List, index, 2, _T("UNICODE"));
+		ListView_SetItemText(hwnd2List, index, 3, _T(""));
 		return;
 	}
 
-	DBVARIANT dbv = { 0 };
-	if (!GetSetting(hContact, module, setting, &dbv)) {
-		switch (dbv.type) {
-		case DBVT_BLOB:
-			if (!(data = (char*)mir_realloc(data, 3 * (dbv.cpbVal + 1) + 10))) {
-				msg(Translate("Couldn't allocate enough memory!"), modFullname); return;
-			}
-			data[0] = '\0';
-			for (int j = 0; j < dbv.cpbVal; j++) {
-				char tmp[16];
-				mir_snprintf(tmp, "%02X ", (BYTE)dbv.pbVal[j]);
-				mir_strcat(data, tmp);
-			}
-			lvi.iImage = 0;
-			ListView_SetItem(hwnd2Settings, &lvi);
-			ListView_SetItemText(hwnd2Settings, index, 1, data);
-			ListView_SetItemText(hwnd2Settings, index, 2, Translate("BLOB"));
-			mir_snprintf(data, 3 * (dbv.cpbVal + 1) + 10, "0x%04X (%d)", dbv.cpbVal, dbv.cpbVal);
-			ListView_SetItemText(hwnd2Settings, index, 3, data);
-			break;
+	TCHAR data[32];
+	int length;
 
-		case DBVT_BYTE:
-			if (!(data = (char*)mir_realloc(data, 16))) // 0x00 (000)
-				return;
-			lvi.iImage = 1;
-			ListView_SetItem(hwnd2Settings, &lvi);
-			mir_snprintf(data, 16, "0x%02X (%d)", dbv.bVal, dbv.bVal);
-			ListView_SetItemText(hwnd2Settings, index, 1, data);
-			ListView_SetItemText(hwnd2Settings, index, 2, Translate("BYTE"));
-			ListView_SetItemText(hwnd2Settings, index, 3, "0x0001 (1)");
-			break;
-
-		case DBVT_WORD:
-			if (!(data = (char*)mir_realloc(data, 16))) // 0x0000 (00000)
-				return;
-
-			lvi.iImage = 2;
-			ListView_SetItem(hwnd2Settings, &lvi);
-			mir_snprintf(data, 16, "0x%04X (%ld)", dbv.wVal, dbv.wVal);
-			ListView_SetItemText(hwnd2Settings, index, 1, data);
-			ListView_SetItemText(hwnd2Settings, index, 2, Translate("WORD"));
-			ListView_SetItemText(hwnd2Settings, index, 3, "0x0002 (2)");
-			break;
-
-		case DBVT_DWORD:
-			if (!(data = (char*)mir_realloc(data, 32))) // 0x00000000 (0000000000)
-				return;
-
-			lvi.iImage = 3;
-			ListView_SetItem(hwnd2Settings, &lvi);
-			mir_snprintf(data, 32, "0x%08X (%ld)", dbv.dVal, dbv.dVal);
-			ListView_SetItemText(hwnd2Settings, index, 1, data);
-			ListView_SetItemText(hwnd2Settings, index, 2, Translate("DWORD"));
-			ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
-			break;
-
-		case DBVT_ASCIIZ:
-			if ((data = (char*)mir_realloc(data, 512))) {
-				lvi.iImage = 4;
-				ListView_SetItem(hwnd2Settings, &lvi);
-				ListView_SetItemText(hwnd2Settings, index, 1, dbv.pszVal);
-				ListView_SetItemText(hwnd2Settings, index, 2, Translate("STRING"));
-				int length = mir_strlen(dbv.pszVal) + 1;
-				mir_snprintf(data, 512, "0x%04X (%d)", length, length);
-				ListView_SetItemText(hwnd2Settings, index, 3, data);
-			}
-			break;
-
-		case DBVT_UTF8:
-			if ((data = (char*)mir_realloc(data, 512))) {
-				lvi.iImage = 5;
-				ListView_SetItem(hwnd2Settings, &lvi);
-
-				int length = (int)mir_strlen(dbv.pszVal) + 1;
-				WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
-				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, length);
-				ListView_SetItemTextW(hwnd2Settings, index, 1, wc);
-
-				ListView_SetItemText(hwnd2Settings, index, 2, Translate("UNICODE"));
-				mir_snprintf(data, 512, "0x%04X (%d)", length, length);
-				ListView_SetItemText(hwnd2Settings, index, 3, data);
-			}
-			break;
-
-		case DBVT_DELETED:
-			return;
-		}
+	switch (dbv->type) {
+	case DBVT_BLOB:
+	{
+		lvi.iImage = IMAGE_BINARY;
+		ListView_SetItem(hwnd2List, &lvi);
+		ptrA str(StringFromBlob(dbv->pbVal, dbv->cpbVal));		
+		ListView_SetItemTextA(hwnd2List, index, 1, str);
+		mir_sntprintf(data, _T("0x%04X (%u)"), dbv->cpbVal, dbv->cpbVal);
+		ListView_SetItemText(hwnd2List, index, 3, data);
+		break;
 	}
-	else if (dbv.type == DBVT_UTF8) {
-		lvi.iImage = 5;
-		ListView_SetItem(hwnd2Settings, &lvi);
-		ListView_SetItemText(hwnd2Settings, index, 1, Translate("<unsupported>"));
-		ListView_SetItemText(hwnd2Settings, index, 2, Translate("UNICODE"));
-		ListView_SetItemText(hwnd2Settings, index, 3, Translate("<unknown>"));
-	}
-	else ListView_DeleteItem(hwnd2Settings, index);
+	case DBVT_BYTE:
+		lvi.iImage = IMAGE_BYTE;
+		ListView_SetItem(hwnd2List, &lvi);
+		mir_sntprintf(data, _T("0x%02X (%u)"), dbv->bVal, dbv->bVal);
+		ListView_SetItemText(hwnd2List, index, 1, data);
+		ListView_SetItemText(hwnd2List, index, 3, _T("0x0001 (1)"));
+		break;
 
-	db_free(&dbv);
-	mir_free(data);
+	case DBVT_WORD:
+		lvi.iImage = IMAGE_WORD;
+		ListView_SetItem(hwnd2List, &lvi);
+		mir_sntprintf(data, _T("0x%04X (%u)"), dbv->wVal, dbv->wVal);
+		ListView_SetItemText(hwnd2List, index, 1, data);
+		ListView_SetItemText(hwnd2List, index, 3, _T("0x0002 (2)"));
+		break;
+
+	case DBVT_DWORD:
+		lvi.iImage = IMAGE_DWORD;
+		ListView_SetItem(hwnd2List, &lvi);
+		mir_sntprintf(data, _T("0x%08X (%u)"), dbv->dVal, dbv->dVal);
+		ListView_SetItemText(hwnd2List, index, 1, data);
+		ListView_SetItemText(hwnd2List, index, 3, _T("0x0004 (4)"));
+		break;
+
+	case DBVT_ASCIIZ:
+	{
+		lvi.iImage = IMAGE_STRING;
+		ListView_SetItem(hwnd2List, &lvi);
+		ListView_SetItemTextA(hwnd2List, index, 1, dbv->pszVal);
+		length = mir_strlen(dbv->pszVal) + 1;
+		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		ListView_SetItemText(hwnd2List, index, 3, data);
+		break;
+	}
+	case DBVT_WCHAR:
+	{
+		lvi.iImage = IMAGE_UNICODE;
+		ListView_SetItem(hwnd2List, &lvi);
+		length = mir_wstrlen(dbv->pwszVal) + 1;
+		ptrT str(mir_u2t(dbv->pwszVal));
+		ListView_SetItemText(hwnd2List, index, 1, str);
+		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		ListView_SetItemText(hwnd2List, index, 3, data);
+		break;
+	}
+	case DBVT_UTF8:
+	{
+		lvi.iImage = IMAGE_UNICODE;
+		ListView_SetItem(hwnd2List, &lvi);
+		length = mir_strlen(dbv->pszVal) + 1;
+		ptrT str(mir_utf8decodeT(dbv->pszVal));
+		ListView_SetItemText(hwnd2List, index, 1, str);
+		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
+		ListView_SetItemText(hwnd2List, index, 3, data);
+		break;
+	}
+	case DBVT_DELETED:
+//		ListView_DeleteItem(hwnd2List, index);
+		return;
+	}
+
+	//ListView_SetItemTextA(hwnd2List, index, 0, setting);
+	ListView_SetItemText(hwnd2List, index, 2, DBVType(dbv->type));
 }
 
-void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char* module)
-{
-	SettingListInfo* info = (SettingListInfo*)mir_calloc(sizeof(SettingListInfo));
-	LVITEM lvItem;
 
-	ModuleSettingLL setlist;
-	if (!EnumSettings(hContact, module, &setlist)) {
-		msg(Translate("Error Loading Setting List"), modFullname);
-		mir_free(info);
+void addListHandle(MCONTACT hContact)
+{
+	TCHAR name[NAME_SIZE], data[32];
+	LVITEM lvi = { 0 };
+	lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
+	lvi.lParam = hContact;
+	lvi.iImage = IMAGE_HANDLE;
+
+	GetContactName(hContact, NULL, name, SIZEOF(name));
+	lvi.pszText = name;
+
+	int index = ListView_InsertItem(hwnd2List, &lvi);
+
+	mir_sntprintf(data, _T("0x%08X (%ld)"), hContact, hContact);
+
+	ListView_SetItemText(hwnd2List, index, 1, data);
+	ListView_SetItemText(hwnd2List, index, 2, _T("HANDLE"));
+	ListView_SetItemText(hwnd2List, index, 3, _T("0x0004 (4)"));
+	if (db_mc_isEnabled()) {
+		if (db_mc_isSub(hContact)) {
+			ListView_SetItemText(hwnd2List, index, 4, _T("[S]"));
+		} else
+		if (db_mc_isMeta(hContact)) {
+			ListView_SetItemText(hwnd2List, index, 4, _T("[M]"));
+		}
+	}
+}
+
+
+void addListItem(const char *setting, int resident)
+{
+	DBVARIANT dbv;
+	if (!db_get_s(info.hContact, info.module, setting, &dbv, 0)) {
+		LVITEMA lvi = { 0 };
+		lvi.mask = LVIF_TEXT;
+		lvi.pszText = (char*)setting;
+		int index = SendMessageA(hwnd2List, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+		updateListItem(index, setting, &dbv, resident);
+		db_free(&dbv);
+	} 
+	else
+	if (!resident) { 
+		LVITEMA lvi = { 0 };
+		lvi.mask = LVIF_TEXT;
+		lvi.pszText = (char*)setting;
+		int index = SendMessageA(hwnd2List, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+		ListView_SetItemText(hwnd2List, index, 1, TranslateT("*** buggy resident ***"));
 		return;
 	}
+}
+
+
+void PopulateSettings(MCONTACT hContact, const char *module)
+{
+    // save module as it can be erased by ClearListView()
+    char tmp[FLD_SIZE];
+    mir_strncpy(tmp, module, SIZEOF(tmp));
 
 	// clear any settings that may be there...
-	ClearListview(hwnd2Settings);
+	ClearListView();
 
-	info->hContact = hContact;
-	info->module = mir_tstrdup(module);
-	SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, (LONG_PTR)info);
+	info.hContact = hContact;
+	mir_strncpy(info.module, tmp, SIZEOF(info.module));
 
-	// icons
-	if (himl2)
-		ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
+	ModuleSettingLL setlist;
 
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iItem = 0;
-	lvItem.iSubItem = 0;
+	if (IsModuleEmpty(info.hContact, info.module) || !EnumSettings(info.hContact, info.module, &setlist))
+		return;
 
-	ModSetLinkLinkItem *setting = setlist.first;
-	while (setting) {
-		lvItem.pszText = setting->name;
-		additem(hwnd2Settings, hContact, module, setting->name, ListView_InsertItem(hwnd2Settings, &lvItem));
-		setting = (ModSetLinkLinkItem*)setting->next;
-	}
+	for (ModSetLinkLinkItem *setting = setlist.first; setting; setting = setting->next)
+		addListItem(setting->name, 0);
 
+	FreeModuleSettingLL(&setlist);
+
+	// Resident settings 
+	if (!EnumResidentSettings(module, &setlist))
+		return;
+
+	for (ModSetLinkLinkItem *setting = setlist.first; setting; setting = setting->next)
+		addListItem(setting->name, 1);
+	
 	FreeModuleSettingLL(&setlist);
 }
 
-void SelectSetting(char *setting)
+
+void SelectSetting(const char *setting)
 {
-	LVITEM lvItem;
-	LVFINDINFO lvfi;
-	HWND hwnd2Settings = GetDlgItem(hwnd2mainWindow, IDC_SETTINGS);
+	LVITEM lvItem = {0};
 
-	lvfi.flags = LVFI_STRING;
-	lvfi.psz = setting;
-	lvfi.vkDirection = VK_DOWN;
+	lvItem.mask = LVIF_STATE;
+	lvItem.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
 
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iItem = ListView_FindItem(hwnd2Settings, -1, &lvfi);
+	int items = ListView_GetItemCount(hwnd2List);
+	for (int i = 0; i < items; i++) {
+		if (ListView_GetItemState(hwnd2List, i, lvItem.stateMask))
+			ListView_SetItemState(hwnd2List, i, 0, lvItem.stateMask);
+	}
+
+	lvItem.iItem = findListItem(setting);
+
 	if (lvItem.iItem != -1) {
-		lvItem.mask = LVIF_STATE;
+		EditFinish(lvItem.iItem);
 		lvItem.state = LVIS_SELECTED | LVIS_FOCUSED;
-		lvItem.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
-		ListView_SetItem(hwnd2Settings, &lvItem);
+		ListView_SetItem(hwnd2List, &lvItem);
 	}
 }
 
-void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting)
+
+void settingChanged(MCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv)
 {
-	LVITEM lvItem;
-	LVFINDINFO lvfi;
-
-	lvfi.flags = LVFI_STRING;
-	lvfi.psz = setting;
-	lvfi.vkDirection = VK_DOWN;
-
-	lvItem.mask = LVIF_TEXT | LVIF_IMAGE;
-	lvItem.iItem = ListView_FindItem(hwnd2Settings, -1, &lvfi);
-	lvItem.iSubItem = 0;
-
-	if (lvItem.iItem == -1) {
-		lvItem.iItem = 0;
-		lvItem.pszText = setting;
-		lvItem.iItem = ListView_InsertItem(hwnd2Settings, &lvItem);
+	// modules tree
+	if (dbv->type != DBVT_DELETED) {
+		HTREEITEM hItem = findItemInTree(hContact, module);
+		if (!hItem) {
+			HTREEITEM hParent = findItemInTree(hContact, NULL);
+			if (hParent)
+				insertItem(hContact, module, hParent);
+		}
 	}
-	additem(hwnd2Settings, hContact, module, setting, lvItem.iItem);
+
+	// settings list
+	if (hContact != info.hContact || mir_strcmp(info.module, module)) return;
+
+	if (dbv->type == DBVT_DELETED) {
+		deleteListItem(setting);
+	} else {
+		LVITEMA lvi = {0};
+		lvi.iItem = findListItem(setting);
+		if (lvi.iItem == -1) {
+			lvi.iItem = 0;
+			lvi.mask = LVIF_TEXT;
+			lvi.pszText = (char*)setting;
+			lvi.iItem = SendMessageA(hwnd2List, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+		}
+		updateListItem(lvi.iItem, setting, dbv, IsResidentSetting(module, setting));
+	}
 }
 
-struct EditLabelInfoStruct
-{
-	MCONTACT hContact;
-	char module[256];
-	char setting[256];
-	int item;
-	int subitem;
-	HWND hwnd;
-	int unicode;
-};
-
-void writeStandardTextfromLabel(EditLabelInfoStruct* info, char* value, WCHAR *wc, int type)
-{
-	if (type != DBVT_ASCIIZ && type != DBVT_UTF8)
-		db_unset(info->hContact, info->module, info->setting);
-
-	if (type == DBVT_UTF8 && wc) {
-		db_set_ws(info->hContact, info->module, info->setting, wc);
-		mir_free(wc);
-	}
-	else db_set_s(info->hContact, info->module, info->setting, value);
-}
 
 static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	EditLabelInfoStruct* info = (EditLabelInfoStruct*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
@@ -331,389 +438,287 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 		}
 		break;
 	case WM_USER:
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+	{
 		SetFocus(hwnd);
 		SendMessage(hwnd, WM_SETFONT, SendMessage(GetParent(hwnd), WM_GETFONT, 0, 0), 1);
-		info = ((EditLabelInfoStruct*)lParam);
-		if (info->subitem)
+		if (info.subitem)
 			SendMessage(hwnd, EM_LIMITTEXT, (WPARAM)65535, 0);
 		else
 			SendMessage(hwnd, EM_LIMITTEXT, (WPARAM)255, 0);
 		SendMessage(hwnd, EM_SETSEL, 0, -1);
 		break;
+	}
 	case WM_PAINT:
 		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
 		{
-			int len = GetWindowTextLength(hwnd) + 1;
-			char *value = (char*)_alloca(len);
-			WCHAR *wc = NULL;
 			DBVARIANT dbv = { 0 };
+			int len = GetWindowTextLength(hwnd) + 1;
 
-			GetWindowTextA(hwnd, value, len);
-
-			if (info->unicode)
-				wc = mir_a2u(value);
-
-			if (len <= 1 || GetSetting(info->hContact, info->module, info->setting, &dbv)) {
+			if ((!info.subitem && len <= 1) || db_get_s(info.hContact, info.module, info.setting, &dbv, 0)) {
 				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 				return 0;
 			}
+			
+			TCHAR *value = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
 
-			switch (info->subitem) {
+			GetWindowText(hwnd, value, len);
+
+			_T2A szValue(value);
+
+			int res = 0;
+
+			switch (info.subitem) {
 			case 0: // setting name
-				if (!mir_strcmp(info->setting, value) || mir_strlen(value) > 255) {
+				if (!mir_strcmp(info.setting, szValue) || mir_strlen(szValue) > 0xFE) {
 					db_free(&dbv);
+					mir_free(value);
 					SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
 					return 0;
 				}
-				db_set(info->hContact, info->module, value, &dbv);
-				db_unset(info->hContact, info->module, info->setting);
-				{
-					LVFINDINFO lvfi;
-					lvfi.flags = LVFI_STRING;
-					lvfi.psz = info->setting;
-					lvfi.vkDirection = VK_DOWN;
-					int item = ListView_FindItem(info->hwnd, -1, &lvfi);
-					ListView_DeleteItem(info->hwnd, item);
-				}
+				if (db_set(info.hContact, info.module, szValue, &dbv))
+					break;
+				res = 1;
+				db_unset(info.hContact, info.module, info.setting);
+				deleteListItem(info.setting);
 				break;
 
 			case 1: // value
-				int val;
+				DWORD val;
 				int i = 0;
 
 				if (dbv.type == DBVT_BLOB) {
-					WriteBlobFromString(info->hContact, info->module, info->setting, value, len);
+					res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, mir_strlen(szValue));
 					break;
 				}
 
 				switch (value[0]) {
-				case 'b':
-				case 'B':
-					if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-						sscanf(&value[3], "%x", &val);
-					else if (value[1] >= '0' && value[1] <= '9') {
-						val = atoi(&value[1]);
-						if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-							db_unset(info->hContact, info->module, info->setting);
+				case _T('b'):
+				case _T('B'):
+					val = _tcstoul(&value[1], NULL, 0);
+					if (!val || value[1] == _T('0')) {
+						res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
+					}
+					else 
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					break;
+				case _T('w'):
+				case _T('W'):
+					val = _tcstoul(&value[1], NULL, 0);
+					if (!val || value[1] == _T('0'))
+						res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
+					else 
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					break;
+				case _T('d'):
+				case _T('D'):
+					val = _tcstoul(&value[1], NULL, 0);
+					if (!val || value[1] == _T('0'))
+						res = !db_set_dw(info.hContact, info.module, info.setting, val);
+					else 
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+					break;
 
-						db_set_b(info->hContact, info->module, info->setting, (BYTE)val);
-					}
-					else writeStandardTextfromLabel(info, value, wc, dbv.type);
-					break;
-				case 'w':
-				case 'W':
-					if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-						sscanf(&value[3], "%x", &val);
-					else if (value[1] >= '0' && value[1] <= '9') {
-						val = atoi(&value[1]);
-						if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-							db_unset(info->hContact, info->module, info->setting);
-						db_set_w(info->hContact, info->module, info->setting, (WORD)val);
-					}
-					else writeStandardTextfromLabel(info, value, wc, dbv.type);
-					break;
-				case 'd':
-				case 'D':
-					if (value[1] == '0' && (value[2] == 'x' || value[2] == 'X'))
-						sscanf(&value[3], "%x", &val);
-					else if (value[1] >= '0' && value[1] <= '9') {
-						val = atoi(&value[1]);
-						if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-							db_unset(info->hContact, info->module, info->setting);
-						db_set_dw(info->hContact, info->module, info->setting, val);
-					}
-					else writeStandardTextfromLabel(info, value, wc, dbv.type);
-					break;
-				case '0':
+				case _T('0'):
 					i = 1;
-				case 'x':
-				case 'X':
-					if (value[i] == 'x' || value[i] == 'X') {
-						sscanf(&value[i + 1], "%x", &val);
-						switch (dbv.type) {
-						case DBVT_UTF8:
-						case DBVT_ASCIIZ:
-							writeStandardTextfromLabel(info, value, wc, dbv.type);
-							break;
-						case DBVT_BYTE:
-							db_set_b(info->hContact, info->module, info->setting, (BYTE)val);
-							break;
-						case DBVT_WORD:
-							db_set_w(info->hContact, info->module, info->setting, (WORD)val);
-							break;
-						case DBVT_DWORD:
-							db_set_dw(info->hContact, info->module, info->setting, (DWORD)val);
-							break;
-						}
-					}
-					else {
-						val = atoi(value);
-						switch (dbv.type) {
-						case DBVT_ASCIIZ:
-						case DBVT_UTF8:
-							writeStandardTextfromLabel(info, value, wc, dbv.type);
-							break;
-						case DBVT_BYTE:
-							db_set_b(info->hContact, info->module, info->setting, (BYTE)val);
-							break;
-						case DBVT_WORD:
-							db_set_w(info->hContact, info->module, info->setting, (WORD)val);
-							break;
-						case DBVT_DWORD:
-							db_set_dw(info->hContact, info->module, info->setting, (DWORD)val);
-							break;
-						}
+				case _T('1'):
+				case _T('2'):
+				case _T('3'):
+				case _T('4'):
+				case _T('5'):
+				case _T('6'):
+				case _T('7'):
+				case _T('8'):
+				case _T('9'):
+				case _T('-'):
+				case _T('x'):
+				case _T('X'):
+					if (value[i] == _T('x') || value[i] == _T('X'))
+						val = _tcstoul(&value[i+1], NULL, 16);
+					else
+						val = _tcstoul(value, NULL, 10);
+
+					switch (dbv.type) {
+					case DBVT_BYTE:
+					case DBVT_WORD:
+					case DBVT_DWORD:
+						res = setNumericValue(info.hContact, info.module, info.setting, val, dbv.type);
+						break;
+					case DBVT_ASCIIZ:
+					case DBVT_WCHAR:
+					case DBVT_UTF8:
+						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+						break;
 					}
 					break;
-				case '\"':
-				case '\'':
+				case _T('\"'):
+				case _T('\''):
 				{
-					int nlen = mir_strlen(value);
+					int nlen = mir_tstrlen(value);
 					int sh = 0;
 					if (nlen > 3) {
 						if (value[nlen - 1] == value[0]) {
-							value[nlen - 1] = '\0';
+							value[nlen - 1] = 0;
 							sh = 1;
 						}
 					}
-					writeStandardTextfromLabel(info, &value[sh], wc, dbv.type);
+					res = setTextValue(info.hContact, info.module, info.setting, &value[sh], dbv.type);
 				}
 				break;
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case '-':
-					val = atoi(value);
-					switch (dbv.type) {
-					case DBVT_ASCIIZ:
-					case DBVT_UTF8:
-						writeStandardTextfromLabel(info, value, wc, dbv.type);
-						break;
-					case DBVT_BYTE:
-						db_set_b(info->hContact, info->module, info->setting, (BYTE)val);
-						break;
-					case DBVT_WORD:
-						db_set_w(info->hContact, info->module, info->setting, (WORD)val);
-						break;
-					case DBVT_DWORD:
-						db_set_dw(info->hContact, info->module, info->setting, (DWORD)val);
-						break;
-					}
-					break;
 
 				default:
-					writeStandardTextfromLabel(info, value, wc, dbv.type);
+					res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 					break;
 				}
 				break;
 			}
+
+			mir_free(value);
 			db_free(&dbv);
+
+			if (!res) {
+				msg(TranslateT("Unable to store value in this data type!"));
+				break;
+			}
+
 		} // fall through
 		case IDCANCEL:
-			SettingListInfo *sli = (SettingListInfo*)GetWindowLongPtr(info->hwnd, GWLP_USERDATA);
-			if (sli && sli->hwnd2Edit == hwnd)
-				sli->hwnd2Edit = NULL;
-
-			mir_free(info);
+		{
 			DestroyWindow(hwnd);
 			return 0;
 		}
 		break; // wm_command
-
+		}
 	case WM_GETDLGCODE:
 		return DLGC_WANTALLKEYS;
+	case WM_DESTROY:
+		info.hwnd2Edit = NULL;
+		break;		
 	}
 	return mir_callNextSubclass(hwnd, SettingLabelEditSubClassProc, msg, wParam, lParam);
 }
 
-void EditLabel(HWND hwnd2List, int item, int subitem)
+void EditLabel(int item, int subitem)
 {
 	RECT rc;
-	char setting[256], value[16] = { 0 };
+	char setting[FLD_SIZE];
 	DBVARIANT dbv;
-	SettingListInfo* info = (SettingListInfo*)GetWindowLongPtr(hwnd2List, GWLP_USERDATA);
-	EditLabelInfoStruct *data = (EditLabelInfoStruct*)mir_calloc(sizeof(EditLabelInfoStruct));
-	if (!data || !info)
+
+	if (info.hwnd2Edit) {
+		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0); // ignore the new value of the last edit
+		info.hwnd2Edit = NULL;
+	}
+	
+	if (!ListView_GetItemTextA(hwnd2List, item, 0, setting, SIZEOF(setting))) return;
+	if (!setting[0] || !ListView_GetSubItemRect(hwnd2List, item, subitem, LVIR_LABEL, &rc))
+		return;
+	
+	if (db_get_s(info.hContact, info.module, setting, &dbv, 0)) 
 		return;
 
-	if (info->hwnd2Edit) {
-		SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0); // ignore the new value of the last edit
-		info->hwnd2Edit = NULL;
-	}
+	info.hContact = info.hContact;
+	mir_strcpy(info.setting, setting);
+	info.subitem = subitem;
 
-	LVITEM lvi;
-	lvi.mask = LVIF_TEXT;
-	lvi.iItem = item;
-	lvi.iSubItem = 0;
-	lvi.pszText = setting;
-	lvi.cchTextMax = SIZEOF(setting);
-	if (!ListView_GetItem(hwnd2List, &lvi) ||
-		!ListView_GetSubItemRect
-		(hwnd2List, item, subitem, LVIR_LABEL, &rc) ||
-		GetSetting(info->hContact, info->module, setting, &dbv)) {
-		mir_free(data);
-		return;
-	}
+	if (!subitem)
+		info.hwnd2Edit = CreateWindow(_T("EDIT"), _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+	else {
+	    TCHAR *str = NULL, value[16] = { 0 };
 
-	data->hContact = info->hContact;
-	mir_strcpy(data->module, info->module);
-	mir_strcpy(data->setting, setting);
-	data->item = item;
-	data->subitem = subitem;
-	data->hwnd = hwnd2List;
-
-	// fix size for long strings
-
-	switch (dbv.type) {
-	case DBVT_UTF8:
-		if (subitem) {
-			int len = mir_strlen(dbv.pszVal) + 1;
-			WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
-			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
-			data->unicode = 1;
-			info->hwnd2Edit = CreateWindowW(L"EDIT", wc, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, (int)((rc.right - rc.left)*1.5), (rc.bottom - rc.top) * 3, hwnd2List, 0, hInst, 0);
+		switch (dbv.type) {
+		case DBVT_ASCIIZ:
+			str = mir_a2t(dbv.pszVal);
+			break;
+		case DBVT_BYTE:
+			mir_sntprintf(value, (g_Hex & HEX_BYTE) ? _T("0x%02X") : _T("%u"), dbv.bVal);
+			break;
+		case DBVT_WORD:
+			mir_sntprintf(value, (g_Hex & HEX_WORD) ? _T("0x%04X") : _T("%u"), dbv.wVal);
+			break;
+		case DBVT_DWORD:
+			mir_sntprintf(value, (g_Hex & HEX_DWORD) ? _T("0x%08X") : _T("%u"), dbv.dVal);
+			break;
+		case DBVT_WCHAR:
+			str = mir_u2t(dbv.pwszVal);
+			break;
+		case DBVT_UTF8:
+			str = mir_utf8decodeT(dbv.pszVal);
+			break;
+		case DBVT_BLOB:
+		{
+			ptrA tmp(StringFromBlob(dbv.pbVal, dbv.cpbVal));
+			str = mir_a2t(tmp);
 			break;
 		}
-		// fall through
-	case DBVT_ASCIIZ:
-		if (subitem) // convert from UTF8
-			info->hwnd2Edit = CreateWindow("EDIT", dbv.pszVal, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, (int)((rc.right - rc.left)*1.5), (rc.bottom - rc.top) * 3, hwnd2List, 0, hInst, 0);
-		else
-			info->hwnd2Edit = CreateWindow("EDIT", setting, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
-		break;
-	case DBVT_BYTE:
-		if (Hex & HEX_BYTE)
-			mir_snprintf(value, SIZEOF(value), "0x%02X", dbv.bVal);
-		else
-			itoa(dbv.bVal, value, 10);
-		info->hwnd2Edit = CreateWindow("EDIT", !subitem ? setting : value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
-		break;
-	case DBVT_WORD:
-		if (Hex & HEX_WORD)
-			mir_snprintf(value, SIZEOF(value), "0x%04X", dbv.wVal);
-		else
-			itoa(dbv.wVal, value, 10);
-		info->hwnd2Edit = CreateWindow("EDIT", !subitem ? setting : value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
-		break;
-	case DBVT_DWORD:
-		if (Hex & HEX_DWORD)
-			mir_snprintf(value, SIZEOF(value), "0x%08X", dbv.dVal);
-		else
-			itoa(dbv.dVal, value, 10);
-		info->hwnd2Edit = CreateWindow("EDIT", !subitem ? setting : value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
-		break;
-	case DBVT_BLOB:
-		if (!subitem)
-			info->hwnd2Edit = CreateWindow("EDIT", setting, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
-		else {
-			int j;
-			char tmp[16];
-			char *data = (char*)_alloca(3 * (dbv.cpbVal + 1) + 10);
-
-			if (!data) { msg(Translate("Couldn't allocate enough memory!"), modFullname); return; }
-			data[0] = '\0';
-
-			for (j = 0; j < dbv.cpbVal; j++) {
-				mir_snprintf(tmp, "%02X ", (BYTE)dbv.pbVal[j]);
-				mir_strcat(data, tmp);
-			}
-
-			info->hwnd2Edit = CreateWindow("EDIT", data, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE, rc.left, rc.top, (int)((rc.right - rc.left)*1.5), (rc.bottom - rc.top) * 3, hwnd2List, 0, hInst, 0);
 		}
-		break;
-	default:
-		return;
+
+		if (str)
+		{
+		    int height = (rc.bottom - rc.top) * 4;
+			RECT rclist;
+			GetClientRect(hwnd2List, &rclist);
+		    if (rc.top + height > rclist.bottom && rclist.bottom - rclist.top > height)
+		    	rc.top = rc.bottom - height;
+			info.hwnd2Edit = CreateWindow(_T("EDIT"), str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, 0, hInst, 0);
+			mir_free(str);
+		}
+		else
+		if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
+			info.hwnd2Edit = CreateWindow(_T("EDIT"), value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+
 	}
 
 	db_free(&dbv);
 
-	mir_subclassWindow(info->hwnd2Edit, SettingLabelEditSubClassProc);
-
-	SendMessage(info->hwnd2Edit, WM_USER, 0, (LPARAM)data);
+	mir_subclassWindow(info.hwnd2Edit, SettingLabelEditSubClassProc);
+	SendMessage(info.hwnd2Edit, WM_USER, 0, 0);
 }
 
-static int test;
+
 void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
-static int lastColumn = -1;
 
-struct SettingsSortParams
-{
-	HWND hList;
-	int column;
-};
-
-INT_PTR CALLBACK SettingsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
-{
-	SettingsSortParams params = *(SettingsSortParams *)myParam;
-	const int maxSize = 1024;
-	TCHAR text1[maxSize];
-	TCHAR text2[maxSize];
-	ListView_GetItemText(params.hList, lParam1, params.column, text1, SIZEOF(text1));
-	ListView_GetItemText(params.hList, lParam2, params.column, text2, SIZEOF(text2));
-
-	int res = mir_tstrcmpi(text1, text2);
-	res = (params.column == lastColumn) ? -res : res;
-	return res;
-}
 
 void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
-	SettingListInfo* info = (SettingListInfo*)GetWindowLongPtr(GetDlgItem(hwnd, IDC_SETTINGS), GWLP_USERDATA);
 	LVHITTESTINFO hti;
 
 	switch (((NMHDR*)lParam)->code) {
 	case NM_CLICK:
-
 		hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-		if (db_get_b(NULL, modname, "DontAllowInLineEdit", 0))
-			break;
-		if (info && ListView_SubItemHitTest(GetDlgItem(hwnd, IDC_SETTINGS), &hti) > -1) {
-			if (hti.iSubItem < 2 && hti.flags != LVHT_ONITEMICON) {
-				if (info->selectedItem == hti.iItem)
-					EditLabel(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, hti.iSubItem);
-				else if (info->hwnd2Edit) {
-					SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-					info->hwnd2Edit = NULL;
-					info->selectedItem = hti.iItem;
-				}
-				else info->selectedItem = hti.iItem;
-			}
-			else {
-				if (info->hwnd2Edit) {
-					SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-					info->hwnd2Edit = NULL;
-				}
-				info->selectedItem = hti.iItem;
-			}
+		if (ListView_SubItemHitTest(hwnd2List, &hti) > -1) {
+			if (g_Inline && hti.iSubItem <= 1 && hti.flags != LVHT_ONITEMICON && info.selectedItem == hti.iItem)
+				EditLabel(hti.iItem, hti.iSubItem);
+			else 
+				EditFinish(hti.iItem);
 		}
-		else if (info && info->hwnd2Edit) {
-			SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-			info->hwnd2Edit = NULL;
-			info->selectedItem = 0;
-		}
+		else 
+			EditFinish(0);
 		break;
 
 	case NM_DBLCLK:
 		hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-		if (info && ListView_SubItemHitTest(GetDlgItem(hwnd, IDC_SETTINGS), &hti) > -1) {
-			if ((hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) || (db_get_b(NULL, modname, "DontAllowInLineEdit", 0))) {
-				char setting[256];
-				SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-				info->hwnd2Edit = NULL;
-				ListView_GetItemText(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, 0, setting, SIZEOF(setting));
-				editSetting(info->hContact, info->module, setting);
+		if (ListView_SubItemHitTest(hwnd2List, &hti) > -1) {
+			if (!info.module[0]) { // contact
+				LVITEM lvi = { 0 };
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = hti.iItem;
+				if (!ListView_GetItem(hwnd2List, &lvi)) break;
+
+				ItemInfo ii = {0};
+				ii.hContact = (MCONTACT)lvi.lParam;
+				SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
+				break;
 			}
-			else EditLabel(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, hti.iSubItem);
+			if (!g_Inline || hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) {
+				char setting[FLD_SIZE];
+				EditFinish(hti.iItem);
+				if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, SIZEOF(setting)))
+					editSetting(info.hContact, info.module, setting);
+			}
+			else 
+				EditLabel(hti.iItem, hti.iSubItem);
 		}
 		break;
 
@@ -723,337 +728,203 @@ void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 
 	case LVN_COLUMNCLICK:
 		LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
-		SettingsSortParams params = { 0 };
-		params.hList = GetDlgItem(hwnd, IDC_SETTINGS);
+		ColumnsSortParams params = { 0 };
+		params.hList = hwnd2List;
 		params.column = lv->iSubItem;
-		ListView_SortItemsEx(params.hList, SettingsCompare, (LPARAM)&params);
+		params.last = lastColumn;
+		ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
 		lastColumn = (params.column == lastColumn) ? -1 : params.column;
 		break;
 	}
 }
 
+
 void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to the main window, NOT the listview
 {
-	HWND hSettings = GetDlgItem(hwnd, IDC_SETTINGS);
-	SettingListInfo* info = (SettingListInfo*)GetWindowLongPtr(hSettings, GWLP_USERDATA);
-	if (!info)
-		return;
-
-	char setting[256], *module;
-	MCONTACT hContact;
 	LVHITTESTINFO hti;
 	POINT pt;
 	HMENU hMenu, hSubMenu;
-	DBsetting *dbsetting;
-	DBVARIANT dbv = { 0 }; // freed in the dialog
-
-	module = info->module;
-	hContact = info->hContact;
 
 	hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
-	if (ListView_SubItemHitTest(hSettings, &hti) == -1) {
+
+	if (ListView_SubItemHitTest(hwnd2List, &hti) == -1) {
 		// nowhere.. new item menu
 		GetCursorPos(&pt);
 		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		hSubMenu = GetSubMenu(hMenu, 6);
 		TranslateMenu(hSubMenu);
 
+		if (!info.module[0]) {
+			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // new
+			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
+		}
+
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL)) {
 		case MENU_ADD_BYTE:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_BYTE;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_BYTE);
+			return;
 
 		case MENU_ADD_WORD:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_WORD;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_WORD);
+			return;
 
 		case MENU_ADD_DWORD:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_DWORD;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_DWORD);
+			return;
 
 		case MENU_ADD_STRING:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_ASCIIZ;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_ASCIIZ);
+			return;
 
 		case MENU_ADD_UNICODE:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_UTF8;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParamW(hInst, MAKEINTRESOURCEW(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_WCHAR);
+			return;
 
 		case MENU_ADD_BLOB:
-			dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-			dbv.type = DBVT_BLOB;
-			dbsetting->dbv = dbv;
-			dbsetting->hContact = hContact;
-			dbsetting->module = mir_tstrdup(module);
-			dbsetting->setting = mir_tstrdup("");
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-			break;
+			newSetting(info.hContact, info.module, DBVT_BLOB);
+			return;
+
+		case MENU_REFRESH:
+    		PopulateSettings(info.hContact, info.module);
+			return;
 		}
 		return;
 	}
 
 	// on item
-	char type[8];
-	LVITEM lvi;
-	int i;
-	int watching = 0;
 	GetCursorPos(&pt);
 	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 	hSubMenu = GetSubMenu(hMenu, 0);
 	TranslateMenu(hSubMenu);
 
-	lvi.mask = LVIF_IMAGE | LVIF_TEXT;
+	LVITEM lvi = { 0 };
+
+	lvi.mask = LVIF_IMAGE;
 	lvi.iItem = hti.iItem;
 	lvi.iSubItem = 0;
-	lvi.pszText = setting;
-	lvi.cchTextMax = SIZEOF(setting);
-
-	ListView_GetItem(hSettings, &lvi);
-	ListView_GetItemText(hSettings, hti.iItem, 2, type, SIZEOF(type));
+	ListView_GetItem(hwnd2List, &lvi);
 
 	switch (lvi.iImage) {
-	case 4: // STRING
+	case IMAGE_STRING:
 		RemoveMenu(hSubMenu, MENU_CHANGE2STRING, MF_BYCOMMAND);
 		break;
-	case 1: // BYTE
-		RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
+	case IMAGE_BYTE:
 		RemoveMenu(hSubMenu, MENU_CHANGE2BYTE, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2UNICODE, MF_BYCOMMAND);
 		break;
-	case 2: // WORD
-		RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
+	case IMAGE_WORD:
 		RemoveMenu(hSubMenu, MENU_CHANGE2WORD, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2UNICODE, MF_BYCOMMAND);
 		break;
-	case 3: // DWORD
-		RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
+	case IMAGE_DWORD:
 		RemoveMenu(hSubMenu, MENU_CHANGE2DWORD, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2UNICODE, MF_BYCOMMAND);
 		break;
-	case 0: // BLOB
-		RemoveMenu(hSubMenu, 3, MF_BYPOSITION);
-		RemoveMenu(hSubMenu, 1, MF_BYPOSITION);
-		RemoveMenu(hSubMenu, 2, MF_BYPOSITION);
-		RemoveMenu(hSubMenu, MENU_EDIT_SET, MF_BYCOMMAND);
+	case IMAGE_BINARY:
+		RemoveMenu(hSubMenu, 3, MF_BYPOSITION); // convert
 		break;
-	case 5: // UTF8
-		RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
+	case IMAGE_UNICODE:
 		RemoveMenu(hSubMenu, MENU_CHANGE2DWORD, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2WORD, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2BYTE, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_CHANGE2UNICODE, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_CHANGE2BYTE, MF_BYCOMMAND);
+		break;
+	case IMAGE_EMPTY: // resident
+		RemoveMenu(hSubMenu, 3, MF_BYPOSITION); // convert
+		RemoveMenu(hSubMenu, MENU_COPY_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_DELETE_SET, MF_BYCOMMAND);
+		break;
+
+	case IMAGE_HANDLE:
+		RemoveMenu(hSubMenu, MENU_EDIT_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_COPY_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_DELETE_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_WATCH_ITEM, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // convert
+		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
+		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // new
 		break;
 	}
 
-	// watch list stuff
-
-	if (ListView_GetSelectedCount(hSettings) > 1) {
-		RemoveMenu(hSubMenu, 3, MF_BYPOSITION);
-		RemoveMenu(hSubMenu, 1, MF_BYPOSITION);
-		RemoveMenu(hSubMenu, 3, MF_BYPOSITION);
+	if (ListView_GetSelectedCount(hwnd2List) > 1) {
+		RemoveMenu(hSubMenu, 3, MF_BYPOSITION); // convert
 		RemoveMenu(hSubMenu, MENU_EDIT_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_COPY_SET, MF_BYCOMMAND);
+		RemoveMenu(hSubMenu, MENU_WATCH_ITEM, MF_BYCOMMAND);
 	}
+	
+	char setting[FLD_SIZE];
+	if (!ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, SIZEOF(setting))) return;
 
 	// check if the setting is being watched and if it is then check the menu item
-	for (i = 0; i < WatchListArray.count; i++) {
-		if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact)) {
-			if (WatchListArray.item[i].WatchModule == WATCH_MODULE)
-				continue;
-
-			if (!mir_strcmp(module, WatchListArray.item[i].module) && WatchListArray.item[i].setting[0]) {
-				if (!mir_strcmp(setting, WatchListArray.item[i].setting)) {
-					// yes so uncheck it
-					CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
-					watching = 1;
-					break;
-				}
-			}
-		}
-	}
-
+	int watchIdx = WatchedArrayIndex(info.hContact, info.module, setting, 1);
+	if (watchIdx >= 0)
+		CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
+	
 	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL)) {
 	case MENU_EDIT_SET:
-		editSetting(info->hContact, info->module, setting);
+		editSetting(info.hContact, info.module, setting);
+		break;
+
+	case MENU_COPY_SET:
+		copySetting(info.hContact, info.module, setting);
 		break;
 
 	case MENU_ADD_BYTE:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_BYTE;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
+		newSetting(info.hContact, info.module, DBVT_BYTE);
+		return;
 
 	case MENU_ADD_WORD:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_WORD;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
+		newSetting(info.hContact, info.module, DBVT_WORD);
+		return;
 
 	case MENU_ADD_DWORD:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_DWORD;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
+		newSetting(info.hContact, info.module, DBVT_DWORD);
+		return;
 
 	case MENU_ADD_STRING:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_ASCIIZ;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
-
-	case MENU_ADD_UNICODE:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_UTF8;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParamW(hInst, MAKEINTRESOURCEW(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
+		newSetting(info.hContact, info.module, DBVT_ASCIIZ);
+		return;
 
 	case MENU_ADD_BLOB:
-		dbsetting = (DBsetting*)mir_alloc(sizeof(DBsetting)); // gets safe_free()ed in the window proc
-		dbv.type = DBVT_BLOB;
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_tstrdup(module);
-		dbsetting->setting = mir_tstrdup("");
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
-		break;
+		newSetting(info.hContact, info.module, DBVT_BLOB);
+		return;
 
-		///////////////////////// convert to submenu
 	case MENU_CHANGE2BYTE:
-		if (convertSetting(hContact, module, setting, 0)) {
-			lvi.iImage = 1;
-			ListView_SetItem(hSettings, &lvi);
-		}
+		convertSetting(info.hContact, info.module, setting, DBVT_BYTE);
 		break;
 
 	case MENU_CHANGE2WORD:
-		if (convertSetting(hContact, module, setting, 1)) {
-			lvi.iImage = 2;
-			ListView_SetItem(hSettings, &lvi);
-		}
+		convertSetting(info.hContact, info.module, setting, DBVT_WORD);
 		break;
 
 	case MENU_CHANGE2DWORD:
-		if (convertSetting(hContact, module, setting, 2)) {
-			lvi.iImage = 3;
-			ListView_SetItem(hSettings, &lvi);
-		}
+		convertSetting(info.hContact, info.module, setting, DBVT_DWORD);
 		break;
 
 	case MENU_CHANGE2STRING:
-		if (convertSetting(hContact, module, setting, 3)) {
-			lvi.iImage = 4;
-			ListView_SetItem(hSettings, &lvi);
-		}
+		convertSetting(info.hContact, info.module, setting, DBVT_ASCIIZ);
 		break;
 
 	case MENU_CHANGE2UNICODE:
-		if (convertSetting(hContact, module, setting, 4)) {
-			lvi.iImage = 5;
-			ListView_SetItem(hSettings, &lvi);
-		}
+		convertSetting(info.hContact, info.module, setting, DBVT_UTF8);
 		break;
 
-		///////////////////////// convert to submenu
-	case MENU_VIEWDECRYPT:
-		if (!db_get(hContact, module, setting, &dbv) && dbv.type == DBVT_ASCIIZ) {
-			if (mir_strcmp(setting, "LoginPassword"))
-				msg(dbv.pszVal, Translate("Decoded string.."));
-			else {
-				char *str = mir_strdup(dbv.pszVal);
-				char *str1 = str;
-				for (; *str1; ++str1) {
-					const char c = *str1 ^ 0xc3;
-					if (c) *str1 = c;
-				}
-
-				WCHAR *res = mir_utf8decodeW(str);
-				MessageBoxW(0, res, TranslateW(L"Decoded string.."), MB_OK);
-				mir_free(res);
-				mir_free(str);
-			}
-			db_free(&dbv);
-		}
-		break;
-
-	case MENU_VIEWENCRYPT:
-		if (!db_get(hContact, module, setting, &dbv) && dbv.type == DBVT_ASCIIZ)
-			msg(dbv.pszVal, Translate("Encoded string.."));
-		db_free(&dbv);
-		break;
-
-	case MENU_DECRYPT:
-		if (!db_get_s(hContact, module, setting, &dbv))
-			db_set_s(hContact, module, setting, dbv.pszVal);
-		db_free(&dbv);
-		break;
-
-	case MENU_ENCRYPT:
-		if (!db_get_s(hContact, module, setting, &dbv))
-			db_set_s(hContact, module, setting, dbv.pszVal);
-		db_free(&dbv);
-		break;
-
-		///////////////////////// divider
 	case MENU_WATCH_ITEM:
-		if (!watching)
-			addSettingToWatchList(hContact, module, setting);
+		if (watchIdx < 0)
+			addSettingToWatchList(info.hContact, info.module, setting);
 		else
-			freeWatchListItem(i);
-		if (hwnd2watchedVarsWindow)
-			PopulateWatchedWindow(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
+			freeWatchListItem(watchIdx);
+		PopulateWatchedWindow();
 		break;
 
 	case MENU_DELETE_SET:
-		DeleteSettingsFromList(hSettings, hContact, module, setting);
+		DeleteSettingsFromList(info.hContact, info.module, setting);
+		break;
+
+	case MENU_REFRESH:
+		PopulateSettings(info.hContact, info.module);
 		break;
 	}
 }

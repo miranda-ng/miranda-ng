@@ -5,9 +5,6 @@
       <UniqueIdentifier>{bc4414ca-bfab-4385-a016-6239272b67ab}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Source Files\ModSetting Enuming">
-      <UniqueIdentifier>{8ba4deb9-307a-4c99-9c87-2243a0ef802e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\dialogs">
       <UniqueIdentifier>{b1b3b1b6-9fe0-435d-b8ab-1715cc5e7430}</UniqueIdentifier>
     </Filter>
@@ -29,15 +26,6 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modsettingenum.cpp">
-      <Filter>Source Files\ModSetting Enuming</Filter>
-    </ClCompile>
-    <ClCompile Include="src\addeditsettingsdlg.cpp">
-      <Filter>Source Files\dialogs</Filter>
     </ClCompile>
     <ClCompile Include="src\copymodule.cpp">
       <Filter>Source Files\dialogs</Filter>
@@ -66,11 +54,17 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\settingsdlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modsettingenum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renamemodule.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\modsettingenum.h">
-      <Filter>Source Files\ModSetting Enuming</Filter>
-    </ClInclude>
     <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +78,54 @@
   <ItemGroup>
     <None Include="docs\dbeditorpp_readme.txt" />
     <None Include="docs\dbeditorpp_translation.txt" />
+    <None Include="res\regedit.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\known.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\known_open.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\settings.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\online.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dbepp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\usermenu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\string.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\contacts.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\binary.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dword.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\byte.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\word.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\offline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\unicode.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\handle.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">

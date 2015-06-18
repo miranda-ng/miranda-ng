@@ -24,34 +24,26 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_FIND DIALOGEX 0, 0, 340, 249
-STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "Database Editor++ search and replace"
+IDD_FIND DIALOGEX 0, 0, 395, 250
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Search and replace"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Search for",IDC_STATIC,3,1,268,58
-    LTEXT           "Text:",IDC_STATIC,10,74,26,8
-    EDITTEXT        IDC_TEXT,40,13,216,12,ES_AUTOHSCROLL
-    LTEXT           "In:",IDC_STATIC,10,30,23,8
-    LTEXT           "In:",IDC_STATIC,10,90,23,8,NOT WS_VISIBLE
-    CONTROL         "Case sensitive",IDC_CASESENSITIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,30,72,10
-    CONTROL         "Module name",IDC_MODNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,44,73,10
-    CONTROL         "Module name",IDC_MODNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_GROUP | WS_TABSTOP,40,90,73,10
-    CONTROL         "Exact match",IDC_EXACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,30,64,10
-    CONTROL         "Setting name",IDC_SETTINGNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,44,72,10
-    CONTROL         "Setting name",IDC_SETTINGNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,115,90,72,10
-    CONTROL         "Setting value",IDC_SETTINGVALUE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,44,69,10
-    CONTROL         "Setting value",IDC_SETTINGVALUE2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,194,90,67,10
-    DEFPUSHBUTTON   "&Search",IDC_SEARCH,277,5,60,14
-    GROUPBOX        "Replace with",IDC_STATIC,3,60,334,30
-    LTEXT           "Text:",IDC_STATIC,10,15,26,8
-    EDITTEXT        IDC_REPLACE,40,72,216,12,ES_AUTOHSCROLL
-    CONTROL         "Entirely",IDC_ENTIRELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,262,74,67,10
-    CONTROL         "Found field",IDC_FOUND,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_TABSTOP,267,90,65,10
-    PUSHBUTTON      "&Replace",IDOK,277,25,60,14
-    PUSHBUTTON      "&Cancel",IDCANCEL,277,45,60,14
-    LISTBOX         IDC_LIST,3,95,334,136,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_SBAR,"msctls_statusbar32",WS_TABSTOP | 0x100,3,237,334,12
+    GROUPBOX        "Search for",IDC_SEARCH2,4,1,387,45
+    EDITTEXT        IDC_TEXT,10,11,232,12,ES_AUTOHSCROLL
+    CONTROL         "Exact match",IDC_EXACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,249,12,69,8
+    DEFPUSHBUTTON   "&Search",IDC_SEARCH,325,10,60,14
+    CONTROL         "Module name",IDC_MODNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,29,69,10
+    CONTROL         "Setting name",IDC_SETTINGNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,29,71,10
+    CONTROL         "Setting value",IDC_SETTINGVALUE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,172,29,68,10
+    CONTROL         "Case sensitive",IDC_CASESENSITIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,249,30,69,8
+    PUSHBUTTON      "&Cancel",IDCANCEL,325,27,60,14
+    GROUPBOX        "Replace with",IDC_STATIC,4,47,387,28
+    EDITTEXT        IDC_REPLACE,10,57,232,12,ES_AUTOHSCROLL
+    CONTROL         "Entirely",IDC_ENTIRELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,249,58,69,10
+    PUSHBUTTON      "&Replace",IDOK,325,56,60,14
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTDESCENDING | LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,4,80,387,152
+    CONTROL         "",IDC_SBAR,"msctls_statusbar32",WS_TABSTOP | 0x100,4,238,387,12
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 314, 92
@@ -86,13 +78,13 @@ BEGIN
 END
 
 IDD_EDIT_SETTING DIALOGEX 0, 0, 252, 133
-STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION
 CAPTION "Edit setting"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Value name:",IDC_STATIC,7,7,238,8
+    LTEXT           "Name",IDC_STATIC,7,7,238,8
     EDITTEXT        IDC_SETTINGNAME,7,18,238,14,ES_AUTOHSCROLL
-    LTEXT           "Value data:",IDC_STATIC,7,37,159,8
+    LTEXT           "Value",IDC_STATIC,7,37,159,8
     EDITTEXT        IDC_SETTINGVALUE,7,49,159,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_STRING,7,49,238,54,ES_MULTILINE | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL
     EDITTEXT        IDC_BLOB,7,49,238,54,ES_MULTILINE | NOT WS_VISIBLE | WS_VSCROLL
@@ -108,13 +100,13 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,132,114,50,14
 END
 
-IDD_WATCH_DIAG DIALOGEX 0, 0, 414, 190
+IDD_WATCH_DIAG DIALOGEX 0, 0, 413, 199
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Watched database settings"
 MENU IDR_WATCHWINDOWMENU
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "List1",IDC_VARS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTDESCENDING | LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,0,414,190
+    CONTROL         "List1",IDC_VARS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTDESCENDING | LVS_SHAREIMAGELISTS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,0,0,413,199
 END
 
 IDD_COPY_MOD DIALOGEX 0, 0, 186, 67
@@ -132,25 +124,24 @@ END
 
 IDD_IMPORT DIALOGEX 0, 0, 268, 170
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Import module/settings"
+CAPTION "Import"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Paste the settings to import here.",IDC_STATIC,7,7,105,8
+    LTEXT           "Paste the settings to import here:",IDC_STATIC,7,7,254,8
     EDITTEXT        IDC_TEXT,7,18,254,124,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
     DEFPUSHBUTTON   "Import",IDOK,153,149,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,211,149,50,14
-    PUSHBUTTON      "Insert &CR/LF",IDC_CRLF,20,149,58,14
 END
 
-IDD_MAIN DIALOGEX 0, 0, 408, 225
+IDD_MAIN DIALOGEX 0, 0, 549, 238
 STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "Database Editor++"
 MENU IDR_MAINMENU
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Tree1",IDC_MODULES,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,0,3,102,222
-    CONTROL         "List1",IDC_SETTINGS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_SHAREIMAGELISTS | WS_BORDER | WS_TABSTOP,103,3,305,222
-    CONTROL         "",IDC_SPLITTER,"Static",SS_ENHMETAFILE,102,3,1,222
+    CONTROL         "Tree1",IDC_MODULES,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,0,0,131,237
+    CONTROL         "List1",IDC_SETTINGS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_SHAREIMAGELISTS | WS_BORDER | WS_TABSTOP,135,0,410,237
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ENHMETAFILE,131,0,4,235
 END
 
 
@@ -164,19 +155,20 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_FIND, DIALOG
     BEGIN
-        LEFTMARGIN, 3
-        RIGHTMARGIN, 337
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 391
         VERTGUIDE, 10
-        VERTGUIDE, 40
-        VERTGUIDE, 115
-        VERTGUIDE, 194
-        VERTGUIDE, 277
-        TOPMARGIN, 7
-        HORZGUIDE, 18
-        HORZGUIDE, 35
-        HORZGUIDE, 48
-        HORZGUIDE, 68
-        HORZGUIDE, 95
+        VERTGUIDE, 16
+        VERTGUIDE, 94
+        VERTGUIDE, 172
+        VERTGUIDE, 249
+        VERTGUIDE, 325
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 249
+        HORZGUIDE, 17
+        HORZGUIDE, 34
+        HORZGUIDE, 63
+        HORZGUIDE, 99
     END
 
     IDD_OPTIONS, DIALOG
@@ -235,9 +227,11 @@ BEGIN
 
     IDD_MAIN, DIALOG
     BEGIN
-        VERTGUIDE, 102
-        VERTGUIDE, 103
-        TOPMARGIN, 3
+        RIGHTMARGIN, 545
+        VERTGUIDE, 131
+        VERTGUIDE, 135
+        BOTTOMMARGIN, 237
+        HORZGUIDE, 237
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -250,22 +244,23 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_REGEDIT             ICON                    "Icon_1.ico"
-ICO_KNOWN               ICON                    "Yellow.ico"
-ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
-ICO_SETTINGS            ICON                    "Icon_4.ico"
-ICO_ONLINE              ICON                    "online2.ico"
+ICO_REGEDIT             ICON                    "regedit.ico"
+ICO_CLOSED              ICON                    "closed.ico"
+ICO_OPENED              ICON                    "opened.ico"
+ICO_SETTINGS            ICON                    "settings.ico"
+ICO_ONLINE              ICON                    "online.ico"
 ICO_DBE_BUTT            ICON                    "dbepp.ico"
 ICO_REGUSER             ICON                    "usermenu.ico"
-ICO_STRING              ICON                    "Icon_14.ico"
-ICO_CONTACTS            ICON                    "Contacts.ico"
-ICO_BINARY              ICON                    "Icon_15.ico"
-ICO_DWORD               ICON                    "Icon_16.ico"
-ICO_BYTE                ICON                    "Icon_17.ico"
-ICO_WORD                ICON                    "Icon_18.ico"
-ICO_OFFLINE             ICON                    "offline2.ico"
+ICO_STRING              ICON                    "string.ico"
+ICO_CONTACTS            ICON                    "contacts.ico"
+ICO_BINARY              ICON                    "binary.ico"
+ICO_DWORD               ICON                    "dword.ico"
+ICO_BYTE                ICON                    "byte.ico"
+ICO_WORD                ICON                    "word.ico"
+ICO_OFFLINE             ICON                    "offline.ico"
 ICO_UNICODE             ICON                    "unicode.ico"
 ICO_HANDLE              ICON                    "handle.ico"
+ICO_EMPTY               ICON                    "empty.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -311,6 +306,8 @@ BEGIN
     BEGIN
         MENUITEM "&Search and replace",         MENU_FINDANDREPLACE
         MENUITEM SEPARATOR
+        MENUITEM "&Fix resident settings",      MENU_FIX_RESIDENT
+        MENUITEM SEPARATOR
         MENUITEM "&Delete module",              MENU_DELETE
     END
     POPUP "&Watches"
@@ -341,6 +338,8 @@ BEGIN
         MENUITEM "Edit &Words in Hex",          MENU_WORD_HEX
         MENUITEM "Edit &Dwords in Hex",         MENU_DWORD_HEX
         MENUITEM SEPARATOR
+        MENUITEM "&Inline edit",                MENU_INLINE_EDIT
+        MENUITEM SEPARATOR
         MENUITEM "&Restore position",           MENU_SAVE_POSITION
         MENUITEM "&Open options",               MENU_OPEN_OPTIONS
     END
@@ -350,7 +349,17 @@ IDR_CONTEXTMENU MENU
 BEGIN
     POPUP "Item context"
     BEGIN
-        MENUITEM "&Edit/rename",                MENU_EDIT_SET
+        MENUITEM "&Edit",                       MENU_EDIT_SET
+        MENUITEM "&Copy",                       MENU_COPY_SET 
+        MENUITEM "&Delete",                     MENU_DELETE_SET
+        POPUP "Convert to"
+        BEGIN
+            MENUITEM "&Byte",                       MENU_CHANGE2BYTE
+            MENUITEM "&Word",                       MENU_CHANGE2WORD
+            MENUITEM "&Dword",                      MENU_CHANGE2DWORD
+            MENUITEM "&String",                     MENU_CHANGE2STRING
+            MENUITEM "&Unicode",                    MENU_CHANGE2UNICODE
+        END
         MENUITEM SEPARATOR
         POPUP "New"
         BEGIN
@@ -361,37 +370,25 @@ BEGIN
             MENUITEM "&Unicode",                    MENU_ADD_UNICODE
             MENUITEM "BL&OB",                       MENU_ADD_BLOB
         END
-        POPUP "&Convert to"
-        BEGIN
-            MENUITEM "&Byte",                       MENU_CHANGE2BYTE
-            MENUITEM "&Word",                       MENU_CHANGE2WORD
-            MENUITEM "&Dword",                      MENU_CHANGE2DWORD
-            MENUITEM "&String",                     MENU_CHANGE2STRING
-            MENUITEM "&Unicode",                    MENU_CHANGE2UNICODE
-        END
-        POPUP "Encyption"
-        BEGIN
-            MENUITEM "View decrypted string",       MENU_VIEWDECRYPT
-            MENUITEM "View encrypted string",       MENU_VIEWENCRYPT
-            MENUITEM "Decrypt string",              MENU_DECRYPT
-            MENUITEM "Encrypt string",              MENU_ENCRYPT
-        END
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-        MENUITEM "&Delete",                     MENU_DELETE_SET
+		MENUITEM "&Refresh",                    MENU_REFRESH
+
     END
     POPUP "Null Mod context"
     BEGIN
         MENUITEM "&Rename",                     MENU_RENAME_MOD
         MENUITEM "Copy to contact",             MENU_COPY_MOD
+        MENUITEM "&Delete",                     MENU_DELETE_MOD
         MENUITEM SEPARATOR
         MENUITEM "Export module",               MENU_EXPORTMODULE
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-        MENUITEM "&Delete",                     MENU_DELETE_MOD
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contact menu"
     BEGIN
+        MENUITEM "&Add module",                 MENU_ADD_MODULE
         MENUITEM "&Clone",                      MENU_CLONE_CONTACT
         MENUITEM "&Delete",                     MENU_DELETE_CONTACT
         MENUITEM SEPARATOR
@@ -402,17 +399,20 @@ BEGIN
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Add module",                 MENU_ADD_MODULE
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "NULL contact menu"
     BEGIN
         MENUITEM "&Add module",                 MENU_ADD_MODULE
+        MENUITEM SEPARATOR
         MENUITEM "Export settings",             MENU_EXPORTCONTACT
         POPUP "Import settings"
         BEGIN
             MENUITEM "From a file",                 MENU_IMPORTFROMFILE
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
+        MENUITEM SEPARATOR
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contacts menu"
     BEGIN
@@ -422,17 +422,20 @@ BEGIN
             MENUITEM "From a file",                 MENU_IMPORTFROMFILE
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
+        MENUITEM SEPARATOR
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contact Mod context"
     BEGIN
         MENUITEM "&Rename",                     MENU_RENAME_MOD
         MENUITEM "Copy to contact",             MENU_COPY_MOD
+        MENUITEM "&Delete",                     MENU_DELETE_MOD
         MENUITEM SEPARATOR
         MENUITEM "Export module",               MENU_EXPORTMODULE
         MENUITEM "Export module from all contacts", MENU_EXPORTDB
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-        MENUITEM "&Delete",                     MENU_DELETE_MOD
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "new item"
     BEGIN
@@ -445,6 +448,8 @@ BEGIN
             MENUITEM "&Unicode",                    MENU_ADD_UNICODE
             MENUITEM "BL&OB",                       MENU_ADD_BLOB
         END
+        MENUITEM SEPARATOR
+   		MENUITEM "&Refresh",                    MENU_REFRESH
     END
 END
 

@@ -3,16 +3,17 @@
 HINSTANCE hInst = NULL;
 
 MIDatabase *g_db;
+
 HANDLE hTTBButt = NULL;
 BOOL bServiceMode = FALSE;
 BOOL usePopups;
-HWND hwnd2watchedVarsWindow;
+
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
-WatchListArrayStruct WatchListArray;
 MCONTACT hRestore;
-IconItem iconList[];
+
+extern HWND hwnd2watchedVarsWindow;
 
 //========================
 //  MirandaPluginInfo
@@ -50,54 +51,25 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	return TRUE;
 }
 
-void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char *module, char *setting);
 
 int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	char *setting;
-	SettingListInfo *info;
 
-	if (hwnd2mainWindow) {
-		HWND hwnd2Settings = GetDlgItem(hwnd2mainWindow, IDC_SETTINGS);
-		if (info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA)) {
-			if ((hContact == info->hContact) && !mir_strcmp(info->module, cws->szModule)) {
-				setting = mir_strdup(cws->szSetting);
-				if (cws->value.type == DBVT_DELETED) {
-					LVFINDINFO lvfi;
-					int index;
-					lvfi.flags = LVFI_STRING;
-					lvfi.psz = setting;
-					lvfi.vkDirection = VK_DOWN;
-					index = ListView_FindItem(hwnd2Settings, -1, &lvfi);
-					if (index > -1)
-						ListView_DeleteItem(hwnd2Settings, index);
-					mir_free(setting);
-					return 0;
-				}
-				settingChanged(hwnd2Settings, hContact, info->module, setting);
-				mir_free(setting);
-			}
-		}
-	}
-
+	// setting list
+	if (hwnd2mainWindow)
+		settingChanged(hContact, cws->szModule, cws->szSetting, &(cws->value));
+	
 	// watch list
 	if (!hwnd2watchedVarsWindow && !usePopups)
 		return 0;
 
-	for (int i = 0; i < WatchListArray.count; i++) {
-		if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact)) {
-			if (!mir_strcmp(cws->szModule, WatchListArray.item[i].module)) {
-				if (!WatchListArray.item[i].setting || !mir_strcmp(cws->szSetting, WatchListArray.item[i].setting)) {
-					if (usePopups)
-						popupWatchedVar(hContact, cws->szModule, cws->szSetting);
-					if (hwnd2watchedVarsWindow)
-						PopulateWatchedWindow(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
-					break;
-				}
-			}
-		}
+	if (WatchedArrayIndex(hContact, cws->szModule, cws->szSetting, 0) >= 0)
+	{
+		if (usePopups) popupWatchedVar(hContact, cws->szModule, cws->szSetting);
+		PopulateWatchedWindow();
 	}
+
 	return 0;
 }
 
@@ -105,8 +77,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 {
 	if (!hwnd2mainWindow) { // so only opens 1 at a time
 		hRestore = wParam;
-		SetCursor(LoadCursor(NULL, IDC_WAIT));
-		CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), 0, MainDlgProc);
+		openMainWindow();
 	}
 	else {
 		ShowWindow(hwnd2mainWindow, SW_RESTORE);
@@ -123,19 +94,13 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-BOOL IsCP_UTF8(void)
-{
-	CPINFO CPInfo;
-	return GetCPInfo(CP_UTF8, &CPInfo);
-}
-
 static int OnTTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = "DBEditorpp/MenuCommand";
 	ttb.name = LPGEN("Database Editor++");
-	ttb.hIconHandleUp = iconList[0].hIcolib;
+	ttb.hIconHandleUp = GetIcoLibHandle(ICO_DBE_BUTT);
 	ttb.pszTooltipUp = LPGEN("Open Database Editor");
 	hTTBButt = TopToolbar_AddButton(&ttb);
 	return 0;
@@ -143,12 +108,12 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	addIcons();
+	IcoLibRegister();
 
 	// Register menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1900000001;
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.icolibItem = GetIcoLibHandle(ICO_DBE_BUTT);
 	mi.pszPopupName = "Database";
 	mi.pszName = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
@@ -158,17 +123,18 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
 	mi.flags = 0;
-	mi.icolibItem = iconList[7].hIcolib;
+	mi.icolibItem = GetIcoLibHandle(ICO_REGUSER);
 	mi.pszName = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	// Register hotkeys
+	_A2T text(modFullname);
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
-	hkd.ptszDescription = LPGEN("Open Database Editor");
-	hkd.ptszSection = modFullname;
+	hkd.ptszDescription = LPGENT("Open Database Editor");
+	hkd.ptszSection = text;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
@@ -178,8 +144,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	for (int i = 0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
-	DBVARIANT dbv;
-	if (!db_get(NULL, "Contact", "NameOrder", &dbv)) {
+	DBVARIANT dbv = {0};
+	if (!db_get_s(NULL, "Contact", "NameOrder", &dbv, DBVT_BLOB)) {
 		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}
@@ -196,13 +162,12 @@ int PreShutdown(WPARAM, LPARAM)
 {
 	if (hwnd2watchedVarsWindow) DestroyWindow(hwnd2watchedVarsWindow);
 	if (hwnd2mainWindow) DestroyWindow(hwnd2mainWindow);
-	if (hwnd2importWindow) DestroyWindow(hwnd2importWindow);
 	return 0;
 }
 
 INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	addIcons();
+	IcoLibRegister();
 	bServiceMode = TRUE;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
@@ -220,7 +185,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hwnd2mainWindow = hwnd2watchedVarsWindow = hwnd2importWindow = 0;
+	hwnd2mainWindow = NULL;
+
 	hRestore = NULL;
 	g_db = GetCurrentDatabase();
 
@@ -240,7 +206,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	icex.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
-	memset(&WatchListArray, 0, sizeof(WatchListArray));
 	return 0;
 }
 
@@ -250,35 +215,35 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-//=======================================================
-// db_get_s (prob shouldnt use this unless u know how big the string is gonna be..)
-//=======================================================
 
-int DBGetContactSettingStringStatic(MCONTACT hContact, char *szModule, char *szSetting, char *value, int maxLength)
+// ======================================================================================================================
+
+char *StringFromBlob(BYTE *blob, WORD len)
 {
-	DBVARIANT dbv;
-	if (!db_get(hContact, szModule, szSetting, &dbv)) {
-		strncpy(value, dbv.pszVal, maxLength);
-		db_free(&dbv);
-		return 1;
+	int j;
+	char tmp[16];
+
+	char *data = (char*)mir_alloc(3 * (len + 2));
+	data[0] = 0;
+
+	for (j = 0; j < len; j++)
+	{
+		mir_snprintf(tmp, SIZEOF(tmp), "%02X ", blob[j]);
+		mir_strcat(data, tmp);
 	}
-	else {
-		db_free(&dbv);
-		return 0;
-	}
+	return data;
 }
+
 
 int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue, int len)
 {
 	int j = 0, i = 0;
-	BYTE *data = NULL;
 	BYTE b;
-	int tmp;
+	int tmp, res = 0;
+	BYTE *data = (BYTE*)mir_alloc(2 + len / 2);
 
-	if (!(data = (BYTE *)_alloca(2 + len / 2))) {
-		msg(Translate("Couldn't allocate enough memory!"), modFullname);
+	if (!data)
 		return 0;
-	}
 
 	while (j < len) {
 		b = szValue[j];
@@ -288,221 +253,344 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 			(b >= 'a' && b <= 'f'))
 		{
 			if (sscanf(&szValue[j], "%02X", &tmp) == 1) {
-				data[i++] = (BYTE)tmp;
+				data[i++] = (BYTE)(tmp&0xFF);
 				j++;
 			}
 		}
 		j++;
 	}
 
+
 	if (i)
-		return db_set_blob(hContact, szModule, szSetting, data, (WORD)i);
+		res = !db_set_blob(hContact, szModule, szSetting, data, (WORD)i);
 
+	mir_free(data);
+	return res;
+}
+
+TCHAR *DBVType(BYTE type)
+{
+	switch (type) {
+	case DBVT_BYTE:		return _T("BYTE");
+	case DBVT_WORD:		return _T("WORD");
+	case DBVT_DWORD:	return _T("DWORD");
+	case DBVT_ASCIIZ:	return _T("STRING");
+	case DBVT_WCHAR:
+	case DBVT_UTF8:		return _T("UNICODE");
+	case DBVT_BLOB:		return _T("BLOB");
+	case DBVT_DELETED:	return _T("DELETED");
+	}
+	return _T("");
+}
+
+
+DWORD getNumericValue(DBVARIANT *dbv) {
+	switch(dbv->type) {
+	case DBVT_DWORD:
+		return dbv->dVal;
+	case DBVT_WORD:
+		return dbv->wVal;
+	case DBVT_BYTE:
+		return dbv->bVal;
+	}
 	return 0;
 }
 
-int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+
+int setNumericValue(MCONTACT hContact, const char *module, const char *setting, DWORD value, int type) 
 {
-	return db_get_s(hContact, szModule, szSetting, dbv, 0);
+	switch(type) {
+	case DBVT_BYTE:
+		if (value <= 0xFF)
+			return !db_set_b(hContact, module, setting, (BYTE)value);
+		break;
+
+	case DBVT_WORD:
+		if (value <= 0xFFFF)
+			return !db_set_w(hContact, module, setting, (WORD)value);
+		break;
+
+	case DBVT_DWORD:
+		return !db_set_dw(hContact, module, setting, value);
+
+	}			
+	return 0;
 }
 
-int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, char *Value, int length)
+
+int IsRealUnicode(TCHAR *value)
+{
+#ifdef _UNICODE
+	BOOL nonascii = 0;
+	WideCharToMultiByte(Langpack_GetDefaultCodePage(), WC_NO_BEST_FIT_CHARS, value, -1, NULL, 0, NULL, &nonascii);
+	return nonascii;
+#endif
+	return 0;
+}
+
+
+int setTextValue(MCONTACT hContact, const char *module, const char *setting, TCHAR *value, int type)
+{
+#ifdef _UNICODE
+	if (type == DBVT_UTF8 || type == DBVT_WCHAR)
+		return !db_set_ws(hContact, module, setting, value);
+
+	if (type == DBVT_ASCIIZ && IsRealUnicode(value))
+		return 0;
+#endif
+	return !db_set_s(hContact, module, setting, _T2A(value));
+}
+
+
+int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length)
 {
 	DBVARIANT dbv = { 0 };
 
-	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
+	if (!module || !setting || !value)
+		return 0;
+
+	if (length >= 10 && !db_get_s(hContact, module, setting, &dbv, 0)) {
 		switch (dbv.type) {
+
 		case DBVT_ASCIIZ:
-			strncpy(Value, dbv.pszVal, length);
+			mir_strncpy(value, dbv.pszVal, length);
 			break;
+
 		case DBVT_DWORD:
-			_itoa(dbv.dVal, Value, 10);
-			break;
-		case DBVT_BYTE:
-			_itoa(dbv.bVal, Value, 10);
-			break;
 		case DBVT_WORD:
-			_itoa(dbv.wVal, Value, 10);
+		case DBVT_BYTE:
+			_ultoa(getNumericValue(&dbv), value, 10);
 			break;
+
+		case DBVT_WCHAR:
+		{
+			ptrA str(mir_u2a(dbv.pwszVal));
+			mir_strncpy(value, str, length);
+			break;
+
+		}
 		case DBVT_UTF8:
-			int len = (int)mir_strlen(dbv.pszVal) + 1;
-			char *sz = (char *)_alloca(len * 3);
-			WCHAR *wc = (WCHAR *)_alloca(len * sizeof(WCHAR));
-			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
-			WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
-			strncpy(Value, sz, length);
+		{
+			ptrA str(mir_utf8decodeA(dbv.pszVal));
+			mir_strncpy(value, str, length);
 			break;
 		}
+		case DBVT_DELETED:
+			value[0] = 0;
+			return 0;
+		}
 
+		int type = dbv.type;
 		db_free(&dbv);
-
-		Value[length - 1] = 0;
-		return 1;
+		return type;
 	}
 
-	if (Value)
-		Value[0] = 0;
-
+	value[0] = 0;
 	return 0;
 }
 
-int GetValueW(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *Value, int length)
+int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length)
 {
 	DBVARIANT dbv = { 0 };
-	WCHAR *wc;
-	int len;
 
-	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
+	if (!module || !setting || !value)
+		return 0;
+
+	if (length >= 10 && !db_get_s(hContact, module, setting, &dbv, 0)) {
 		switch (dbv.type) {
-		case DBVT_UTF8:
-			len = (int)mir_strlen(dbv.pszVal) + 1;
-			wc = (WCHAR *)_alloca(length * sizeof(WCHAR));
-			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
-			wcsncpy((WCHAR *)Value, wc, length);
-			break;
 
 		case DBVT_ASCIIZ:
-			len = (int)mir_strlen(dbv.pszVal) + 1;
-			wc = (WCHAR *)_alloca(len * sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
-			wcsncpy((WCHAR *)Value, wc, length);
-			break;
-
-		case DBVT_DWORD:
-			_itow(dbv.dVal, Value, 10);
-			break;
-
-		case DBVT_BYTE:
-			_itow(dbv.bVal, Value, 10);
-			break;
-
-		case DBVT_WORD:
-			_itow(dbv.wVal, Value, 10);
+		{
+			ptrW str(mir_a2u(dbv.pszVal));
+			mir_wstrncpy(value, str, length);			        	
 			break;
 		}
+		case DBVT_DWORD:
+		case DBVT_WORD:
+		case DBVT_BYTE:
+			_ultow(getNumericValue(&dbv), value, 10);
+			break;
 
+		case DBVT_WCHAR:
+			mir_wstrncpy(value, dbv.pwszVal, length);
+			break;
+
+		case DBVT_UTF8:
+		{	
+			ptrW str(mir_utf8decodeW(dbv.pszVal));
+			mir_wstrncpy(value, str, length);
+			break;
+		}
+		case DBVT_DELETED:
+			value[0] = 0;
+			return 0;
+		}
+
+		int type = dbv.type;
 		db_free(&dbv);
-
-		Value[length - 1] = 0;
-		return 1;
+		return type;
 	}
 
-	if (Value)
-		Value[0] = 0;
-
+	value[0] = 0;
 	return 0;
 }
 
-char *u2a(wchar_t *src)
+
+int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxlen)
 {
-	if (!src)
-		return NULL;
+	if (!value)
+		return 0;
 
-	int cbLen = WideCharToMultiByte(CP_ACP, 0, src, -1, NULL, 0, NULL, NULL);
-	char *result = (char *)mir_calloc((cbLen + 1) * sizeof(char));
-	if (result == NULL)
-		return NULL;
+	if (!hContact) {
+		mir_tstrncpy(value, TranslateT("Settings"), maxlen);
+		return 1;
+	}
 
-	WideCharToMultiByte(CP_ACP, 0, src, -1, result, cbLen, NULL, NULL);
-	result[cbLen] = 0;
-	return result;
-}
+	char *szProto = (char*)proto;
+	char tmp[FLD_SIZE];
+	TCHAR name[NAME_SIZE];
+	name[0] = 0;
 
-wchar_t *a2u(char *src, wchar_t *buffer, int len)
-{
-	wchar_t *result = buffer;
-	if (result == NULL || len < 3)
-		return NULL;
+	if (hContact && (!proto || !proto[0])) {
+		if (!db_get_static(hContact, "Protocol", "p", tmp, SIZEOF(tmp)))
+			szProto = tmp;
+	}
 
-	MultiByteToWideChar(CP_ACP, 0, src, -1, result, len - 1);
-	result[len - 1] = 0;
+	for (int i = 0; i < NAMEORDERCOUNT - 1; i++) {
+		switch (nameOrder[i]) {
+		case 0: // custom name
+			GetValue(hContact, "CList", "MyHandle", name, SIZEOF(name));
+			break;
 
-	return result;
-}
+		case 1: // nick
+			if (!szProto) break;
+			GetValue(hContact, szProto, "Nick", name, SIZEOF(name));
+			break;
+/*
+		case 2: // First Name
+			if (!szProto) break;
+			GetValue(hContact, szProto, "FirstName", name, SIZEOF(name));
+			break;
+*/
+		case 3: // E-mail
+			if (!szProto) break;
+			GetValue(hContact, szProto, "e-mail", name, SIZEOF(name));
+			break;
+/*
+		case 4: // Last Name
+			GetValue(hContact, szProto, "LastName", name, SIZEOF(name));
+			break;
+*/
+		case 5: // Unique id
+		{
+			if (!szProto) break;
+			// protocol must define a PFLAG_UNIQUEIDSETTING
+			char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
+				GetValue(hContact, szProto, uid, name, SIZEOF(name));
+		}
+		break;
+		case 6: // first + last name
+		{
+			if (!szProto) break;
 
-int GetDatabaseString(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *Value, int length, BOOL unicode)
-{
-	if (unicode)
-		return GetValueW(hContact, szModule, szSetting, Value, length);
+			GetValue(hContact, szProto, "FirstName", name, SIZEOF(name));
+
+			int len = mir_tstrlen(name);
+			if (len + 2 < SIZEOF(name)) {
+			    if (len)
+					mir_tstrncat(name, _T(" "), SIZEOF(name));
+				len++;
+				GetValue(hContact, szProto, "LastName", &name[len], SIZEOF(name) - len);
+			}
+		}
+		break;
+		}
+
+		if (name[0])
+			break;
+	}
+
+	if (!name[0])
+		mir_tstrncpy(name, TranslateT("<UNKNOWN>"), SIZEOF(name));
+
+	if (szProto && szProto[0]) {
+		if (g_Order)
+			mir_sntprintf(value, maxlen, _T("(%s) %s"), _A2T(szProto), name);
+		else
+			mir_sntprintf(value, maxlen , _T("%s (%s)"), name, _A2T(szProto));
+	}
 	else
-		return GetValue(hContact, szModule, szSetting, (char *)Value, length);
-}
+		mir_tstrncpy(value, name, maxlen);
 
-WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
-{
-	int i, r = 0;
-	static WCHAR res[512];
-	char *proto = (char *)szProto;
-	char name[256];
-
-	if (hContact && !proto)
-		if (GetValue(hContact, "Protocol", "p", name, SIZEOF(name)))
-			proto = name;
-
-	if (proto) {
-		for (i = 0; i < NAMEORDERCOUNT - 1; i++) {
-			switch (nameOrder[i]) {
-			case 0: // custom name
-				r = GetDatabaseString(hContact, "CList", "MyHandle", res, SIZEOF(res), unicode);
-				break;
-
-			case 1: // nick
-				r = GetDatabaseString(hContact, proto, "Nick", res, SIZEOF(res), unicode);
-				break;
-
-			case 2: // First Name
-				r = GetDatabaseString(hContact, proto, "FirstName", res, SIZEOF(res), unicode);
-				break;
-
-			case 3: // E-mail
-				r = GetDatabaseString(hContact, proto, "e-mail", res, SIZEOF(res), unicode);
-				break;
-
-			case 4: // Last Name
-				if (GetDatabaseString(hContact, proto, "LastName", res, SIZEOF(res), unicode))
-					break;
-
-			case 5: // Unique id
-			{
-				// protocol must define a PFLAG_UNIQUEIDSETTING
-				char *uid = (char *)CallProtoService(proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
-					r = GetDatabaseString(hContact, proto, uid, res, SIZEOF(res), unicode);
-			}
-			break;
-			case 6: // first + last name
-			{
-				int len = 0;
-
-				if (r = GetDatabaseString(hContact, proto, "FirstName", res, SIZEOF(res), unicode)) {
-					if (unicode)
-						len = (int)mir_wstrlen(res);
-					else
-						len = (int)mir_strlen((char *)res);
-				}
-				else
-					res[0] = 0;
-
-				if (len && len < SIZEOF(res) - 2) {
-					if (unicode)
-						mir_wstrcat(res, L" ");
-					else
-						mir_strcat((char*)res, " ");
-
-					len++;
-				}
-
-				if (SIZEOF(res) - len > 1)
-					r |= GetDatabaseString(hContact, proto, "LastName", &res[len], SIZEOF(res) - len, unicode);
-
-				break;
-			}
-			}
-
-			if (r)
-				return res;
-		}
+	if (!szProto || !Proto_IsProtocolLoaded(szProto)) {
+		mir_tstrncat(value, _T(" "), maxlen);
+		mir_tstrncat(value, TranslateT("[UNLOADED]"), maxlen);
 	}
 
-	return (unicode) ? nick_unknownW : (WCHAR *)nick_unknown;
+	return 1;
 }
+
+
+int ApplyProtoFilter(MCONTACT hContact)
+{
+	if (g_Mode == MODE_ALL)	return 0;
+
+	int loaded = 0;
+	char szProto[FLD_SIZE];
+
+	if (!db_get_static(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+		loaded = Proto_IsProtocolLoaded(szProto) ? 1 : 0;
+
+	if ((loaded && g_Mode == MODE_UNLOADED) || (!loaded && g_Mode == MODE_LOADED))
+		return 1;
+
+	return 0;
+}
+
+
+void loadListSettings(HWND hwnd, ColumnsSettings *cs)
+{
+	LVCOLUMN sLC = {0};
+	sLC.fmt = LVCFMT_LEFT;
+	sLC.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
+	int i = 0; 
+	while (cs[i].name) {
+		sLC.pszText = TranslateTS(cs[i].name);
+		sLC.cx = db_get_w(NULL, modname, cs[i].dbname, cs[i].defsize);
+		ListView_InsertColumn(hwnd, cs[i].index, &sLC);
+		i++;
+	}
+}
+
+
+void saveListSettings(HWND hwnd, ColumnsSettings *cs)
+{
+	char tmp[FLD_SIZE];
+	LVCOLUMN sLC = {0};
+	sLC.mask = LVCF_WIDTH;
+	int i = 0;
+	while (cs[i].name) {
+		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
+			mir_snprintf(tmp, SIZEOF(tmp), cs[i].dbname, i);
+			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
+		}
+		i++;
+	}
+}
+
+
+INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
+{
+	ColumnsSortParams params = *(ColumnsSortParams *)myParam;
+	const int maxSize = 1024;
+	TCHAR text1[maxSize];
+	TCHAR text2[maxSize];
+	ListView_GetItemText(params.hList, lParam1, params.column, text1, SIZEOF(text1));
+	ListView_GetItemText(params.hList, lParam2, params.column, text2, SIZEOF(text2));
+
+	int res = mir_tstrcmpi(text1, text2);
+	return (params.column == params.last) ? -res : res;
+}
+
+

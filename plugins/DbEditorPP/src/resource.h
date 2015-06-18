@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by E:\Miranda\NG\plugins\DbeditorPP\res\resource.rc
 //
 #define ICO_REGEDIT                     1
 #define ICO_UNICODE                     2
@@ -12,6 +12,7 @@
 #define ICO_BYTE                        8
 #define ICO_WORD                        9
 #define ICO_HANDLE                      10
+#define ICO_EMPTY                       11
 #define IDD_MAIN                        101
 #define IDR_MAINMENU                    103
 #define IDR_CONTEXTMENU                 104
@@ -27,8 +28,8 @@
 #define IDD_CHANGE_ARRAYSIZE            120
 #define IDD_FIND                        121
 #define IDD_OPTIONS                     122
-#define ICO_KNOWN                       124
-#define ICO_KNOWNOPEN                   125
+#define ICO_CLOSED                      124
+#define ICO_OPENED                      125
 #define ICO_SETTINGS                    128
 #define ICO_ONLINE                      129
 #define IDC_MODULES                     1000
@@ -69,6 +70,7 @@
 #define IDC_SEARCH                      1042
 #define IDC_EXACT                       1043
 #define IDC_EXPANDSETTINGS              1044
+#define IDC_SEARCH2                     1045
 #define IDC_WARNONDEL                   1047
 #define IDC_POPUPS                      1048
 #define IDC_POPUPTIMEOUT                1049
@@ -92,6 +94,7 @@
 #define MENU_DELETE_SET                 40012
 #define MENU_DELETE_MOD                 40013
 #define MENU_CREATE_MOD                 40014
+#define MENU_COPY_SET                   40015
 #define MENU_VIEW_WATCHES               40016
 #define MENU_REMALL_WATCHES             40017
 #define MENU_ADD_WATCH                  40018
@@ -106,6 +109,7 @@
 #define MENU_ADD_DWORD                  40026
 #define MENU_ADD_STRING                 40027
 #define MENU_SAVE_WATCHES               40028
+#define MENU_INLINE_EDIT                40029
 #define MENU_RENAME_MOD                 40030
 #define MENU_COPY_MOD                   40032
 #define MENU_USE_MODLIST                40033
@@ -120,10 +124,7 @@
 #define MENU_WARNONDEL                  40042
 #define MENU_LOAD_WATCHES               40043
 #define MENU_WORD_HEX                   40044
-#define MENU_DECRYPT                    40045
-#define MENU_ENCRYPT                    40046
-#define MENU_VIEWDECRYPT                40047
-#define MENU_VIEWENCRYPT                40048
+#define MENU_FIX_RESIDENT               40045
 #define MENU_LOGTODISK                  40049
 #define MENU_FINDANDREPLACE             40050
 #define MENU_FINDMODSETTING             40051
