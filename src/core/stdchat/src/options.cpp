@@ -141,7 +141,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, char* pszDescr, BOOL bExpanded)
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-	tvis.item.pszText = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)pszDescr);
+	tvis.item.pszText = Langpack_PcharToTchar(pszDescr);
 	tvis.item.stateMask = bExpanded ? TVIS_STATEIMAGEMASK | TVIS_EXPANDED : TVIS_STATEIMAGEMASK;
 	tvis.item.state = bExpanded ? INDEXTOSTATEIMAGEMASK(1) | TVIS_EXPANDED : INDEXTOSTATEIMAGEMASK(1);
 	HTREEITEM res = TreeView_InsertItem(hwndTree, &tvis);

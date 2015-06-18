@@ -128,3 +128,4 @@ ProtoLogW @125
 ProtoWindowAdd @126
 ProtoWindowRemove @127
 Proto_IsProtocolLoaded @128
+GetPluginFakeId @129

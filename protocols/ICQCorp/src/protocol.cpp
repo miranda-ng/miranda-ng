@@ -2202,7 +2202,7 @@ void ICQ::addUrl(ICQUser *u, char *m, unsigned short theCmd, unsigned short theS
     CCSDATA ccs;
     PROTORECVEVENT pre;
 
-    messageLen = mir_tstrlen(m);
+    messageLen = (int)mir_tstrlen(m);
     for (i=0; i<messageLen; i++) if (m[i] == (char)0xFE) m[i] = 0;
 
     url = new char[messageLen + 1];

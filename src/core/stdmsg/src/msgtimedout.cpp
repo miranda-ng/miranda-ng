@@ -47,9 +47,8 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (!param->szMsg || !param->szMsg[0])
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
 			else {
-				TCHAR* ptszError = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)param->szMsg);
+				ptrT ptszError(Langpack_PcharToTchar(param->szMsg));
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptszError);
-				mir_free(ptszError);
 			}
 
 			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrT(mir_utf8decodeT(item->szMsg)));

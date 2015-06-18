@@ -60,7 +60,7 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SYSTEMTIME stFileDate;
 	TCHAR szDate[128]; szDate[0] = 0;
 	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
-		GetDateFormat((LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0), DATE_SHORTDATE, &stFileDate, NULL, szDate, SIZEOF(szDate));
+		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, SIZEOF(szDate));
 	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	
 	/* general */

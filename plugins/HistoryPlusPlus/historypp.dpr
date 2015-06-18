@@ -162,7 +162,7 @@ begin
   Langpack_Register();
 
   // Getting langpack codepage for ansi translation
-  hppCodepage := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+  hppCodepage := Langpack_GetDefaultCodePage;
   if hppCodepage = CP_ACP then
     hppCodepage := GetACP();
   // Checking the version of richedit is available, need 2.0+

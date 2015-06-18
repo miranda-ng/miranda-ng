@@ -685,10 +685,43 @@ void GetDefaultLang()
 		db_set_ts(NULL, "Langpack", "Current", _T("default"));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+EXTERN_C MIR_APP_DLL(int) GetPluginFakeId(const MUUID &uuid, int hLangpack);
+
+MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
+{
+	if (_hLang && pInfo)
+		*(int*)_hLang = GetPluginFakeId(pInfo->uuid, Langpack_MarkPluginLoaded((PLUGININFOEX*)pInfo));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
+{
+	if (pszStr == NULL)
+		pszStr = NEWTSTR_ALLOCA(langPack.tszFileName);
+
+	UnloadLangPackModule();
+	LoadLangPack(pszStr);
+	Langpack_SortDuplicates();
+
+	NotifyEventHooks(hevChanged, 0, 0);
+}
+
+static INT_PTR srvReloadLangpack(WPARAM, LPARAM lParam)
+{
+	ReloadLangpack((TCHAR*)lParam);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(int) LoadLangPackModule(void)
 {
 	bModuleInitialized = TRUE;
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
+	CreateServiceFunction(MS_LANGPACK_RELOAD, srvReloadLangpack);
 	GetDefaultLang();
 	return 0;
 }
@@ -724,18 +757,4 @@ void UnloadLangPackModule()
 	}
 
 	langPack.tszFileName[0] = langPack.tszFullPath[0] = 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
-{
-	if (pszStr == NULL)
-		pszStr = NEWTSTR_ALLOCA(langPack.tszFileName);
-
-	UnloadLangPackModule();
-	LoadLangPack(pszStr);
-	Langpack_SortDuplicates();
-
-	NotifyEventHooks(hevChanged, 0, 0);
 }

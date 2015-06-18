@@ -124,7 +124,7 @@ begin
         AnsiToWide(GetContactID(hContact, Proto), Result);
 
       if (Result = nil) or (Result^ = #0) then
-        AnsiToWide(Translate(Proto), Result, CallService(MS_LANGPACK_GETCODEPAGE, 0, 0));
+        AnsiToWide(Translate(Proto), Result, Langpack_GetDefaultCodePage);
     end;
   end;
 end;
@@ -155,7 +155,7 @@ begin
           DBVT_ASCIIZ: StrDup(Result, dbv.szVal.a);
           DBVT_UTF8,
           DBVT_WCHAR:  begin
-            cp := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+            cp := Langpack_GetDefaultCodePage;
             if dbv._type = DBVT_UTF8 then
               UTF8ToAnsi(dbv.szVal.a, Result, cp)
             else // dbv._type = DBVT_WCHAR then
@@ -174,7 +174,7 @@ begin
   if Proto = nil then
     Proto := GetContactProto(hContact);
   if Proto = nil then
-    Result := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0)
+    Result := Langpack_GetDefaultCodePage
   else
   begin
     Result := DBReadWord(hContact, Proto, 'AnsiCodePage', $FFFF);
@@ -622,7 +622,7 @@ begin
                 DBVT_WORD   : p:=IntToStr(buf1,ldbv.wVal);
                 DBVT_DWORD  : p:=IntToStr(buf1,ldbv.dVal);
                 DBVT_UTF8   : UTF8ToWide(ldbv.szVal.A,p);
-                DBVT_ASCIIZ : AnsiToWide(ldbv.szVal.A,p,CallService(MS_LANGPACK_GETCODEPAGE,0,0));
+                DBVT_ASCIIZ : AnsiToWide(ldbv.szVal.A,p,Langpack_GetDefaultCodePage);
                 DBVT_WCHAR  : p:=ldbv.szVal.W;
                 DBVT_BLOB   : p:='blob';
               end;

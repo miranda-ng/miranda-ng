@@ -2354,7 +2354,7 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,REMINDERDAT
 	if (!pReminder)
 		EnableMenuItem(FhMenu, IDM_DELETEREMINDER, MF_GRAYED|MF_BYCOMMAND);
 
-    CallService(MS_LANGPACK_TRANSLATEMENU,(DWORD)FhMenu,0);
+	TranslateMenu(FhMenu);
 	TrackPopupMenu(FhMenu,TPM_LEFTALIGN | TPM_RIGHTBUTTON,LOWORD(lParam),HIWORD(lParam),0,AhWnd,0);
 	DestroyMenu(hMenuLoad);
 	return TRUE;

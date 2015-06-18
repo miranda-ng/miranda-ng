@@ -34,7 +34,6 @@ int  LoadNewPluginsModuleInfos(void); // core: preloading plugins
 int  LoadNewPluginsModule(void);	// core: N.O. plugins
 int  LoadNetlibModule(void);		// core: network
 int  LoadSslModule(void);
-int  LoadLangpackModule(void);	// core: translation
 int  LoadProtocolsModule(void);	// core: protocol manager
 int  LoadAccountsModule(void);    // core: account manager
 int  LoadIgnoreModule(void);		// protocol filter: ignore
@@ -90,7 +89,7 @@ int LoadDefaultModules(void)
 {
 	// load order is very important for these
 	if (LoadSystemModule()) return 1;
-	if (LoadLangpackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
+	if (LoadLangPackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
 	if (CheckRestart()) return 1;
 	if (LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
 	if (LoadIcoTabsModule()) return 1;

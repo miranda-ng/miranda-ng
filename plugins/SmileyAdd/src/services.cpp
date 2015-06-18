@@ -236,10 +236,7 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 	if (IsBadStringPtrA(smre->name, 50) || IsBadStringPtrA(smre->dispname, 50)) return FALSE;
 
 
-	unsigned lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
-
-
+	unsigned lpcp = Langpack_GetDefaultCodePage();
 
 	CMString nmd(A2W_SM(smre->dispname, lpcp));
 

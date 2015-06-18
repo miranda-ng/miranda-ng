@@ -31,7 +31,7 @@ char* u2a(const WCHAR *pszUnicode)
 	DWORD flags;
 
 	if (pszUnicode==NULL) return NULL;
-	codepage=CallService(MS_LANGPACK_GETCODEPAGE,0,0);
+	codepage = Langpack_GetDefaultCodePage();
 	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
 	cch=WideCharToMultiByte(codepage,flags=WC_COMPOSITECHECK,pszUnicode,-1,NULL,0,NULL,NULL);
 	if (!cch) cch=WideCharToMultiByte(codepage,flags=0,pszUnicode,-1,NULL,0,NULL,NULL);
@@ -97,11 +97,11 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 
 	mbp=(MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
 	if (mbp==NULL) return;
-	mbp->cbSize=sizeof(*mbp);
-	mbp->lpszCaption=mir_strdup(pszTitle);
-	mbp->lpszText=mir_strdup(szText);
-	mbp->dwStyle=MB_OK|MB_SETFOREGROUND|MB_TASKMODAL;
-	mbp->dwLanguageId=LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0));
+	mbp->cbSize = sizeof(*mbp);
+	mbp->lpszCaption = mir_strdup(pszTitle);
+	mbp->lpszText = mir_strdup(szText);
+	mbp->dwStyle = MB_OK|MB_SETFOREGROUND|MB_TASKMODAL;
+	mbp->dwLanguageId = LANGIDFROMLCID(Langpack_GetDefaultLocale());
 	switch(flags&NIIF_ICON_MASK) {
 		case NIIF_INFO:    mbp->dwStyle|=MB_ICONINFORMATION; break;
 		case NIIF_WARNING: mbp->dwStyle|=MB_ICONWARNING; break;
@@ -115,7 +115,7 @@ char* GetWinErrorDescription(DWORD dwLastError)
 {
 	char *buf=NULL;
 	DWORD flags=FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM;
-	if (!FormatMessageA(flags,NULL,dwLastError,LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0)),(char*)&buf,0,NULL))
+	if (!FormatMessageA(flags,NULL,dwLastError,LANGIDFROMLCID(Langpack_GetDefaultLocale()),(char*)&buf,0,NULL))
 		if (GetLastError()==ERROR_RESOURCE_LANG_NOT_FOUND)
 			FormatMessageA(flags,NULL,dwLastError,0,(char*)&buf,0,NULL);
 	return buf;
@@ -170,7 +170,7 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 	if (pfnGetDurationFormat != NULL) {
 		SYSTEMTIME st;
 		LCID locale;
-		locale=(LCID)CallService(MS_LANGPACK_GETLOCALE,0,0);
+		locale=Langpack_GetDefaultLocale();
 		if (TimeStampToSystemTime(countdown,&st))
 			if (pfnGetDurationFormat(locale,0,&st,0,NULL,pszOut,nSize))
 				return TRUE;
@@ -185,7 +185,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 {
 	SYSTEMTIME st,stNow;
 	LCID locale;
-	locale=(LCID)CallService(MS_LANGPACK_GETLOCALE,0,0);
+	locale=Langpack_GetDefaultLocale();
 	GetLocalTime(&stNow);
 	TimeStampToSystemTime(timestamp,&st);
 	/* today: no need to show the date */

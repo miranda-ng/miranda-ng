@@ -940,7 +940,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	g_LPCodePage = Langpack_GetDefaultCodePage();
 
 	//Hook necessary events
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);

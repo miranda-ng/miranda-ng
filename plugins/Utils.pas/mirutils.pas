@@ -132,7 +132,7 @@ const
 function MirandaCP:integer;
 begin
   if MirCP<0 then
-    MirCP:=CallService(MS_LANGPACK_GETCODEPAGE,0,0);
+    MirCP:=Langpack_GetDefaultCodePage;
   result:=MirCP;
 end;
 

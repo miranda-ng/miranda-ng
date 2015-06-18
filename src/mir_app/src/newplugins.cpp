@@ -188,7 +188,7 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 	return NULL;
 }
 
-int GetPluginFakeId(const MUUID &uuid, int hLangpack)
+EXTERN_C MIR_APP_DLL(int) GetPluginFakeId(const MUUID &uuid, int hLangpack)
 {
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
