@@ -1134,7 +1134,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 
 void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateout)
 {
-	int localeID = CallService(MS_LANGPACK_GETLOCALE, 0, 0);
+	int localeID = Langpack_GetDefaultLocale();
 	//int localeID = MAKELCID(LANG_URDU, SORT_DEFAULT);
 	if (localeID == CALLSERVICE_NOTFOUND) localeID = LOCALE_USER_DEFAULT;
 	if (filetime > MAXFILETIME) filetime = MAXFILETIME;

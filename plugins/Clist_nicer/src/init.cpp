@@ -170,7 +170,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.bShowXStatusOnSbar = cfg::getByte("CLUI", "xstatus_sbar", 0);
 	cfg::dat.bLayeredHack = cfg::getByte("CLUI", "layeredhack", 1);
 	cfg::dat.bFirstRun = cfg::getByte("CLUI", "firstrun", 1);
-	cfg::dat.langPackCP = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	cfg::dat.langPackCP = Langpack_GetDefaultCodePage();
 	cfg::dat.realTimeSaving = cfg::getByte("CLUI", "save_pos_always", 0);
 
 	DWORD sortOrder = cfg::getDword("CList", "SortOrder", SORTBY_NAME);

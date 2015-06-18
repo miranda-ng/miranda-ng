@@ -186,7 +186,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
 	m_smcxicon = m_smcyicon = 16;
 	m_PasteAndSend = M.GetByte("pasteandsend", 1);
-	m_LangPackCP = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
+	m_LangPackCP = Langpack_GetDefaultCodePage();
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
 	m_autoSplit = M.GetByte("autosplit", 0);
 	m_FlashOnMTN = M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);

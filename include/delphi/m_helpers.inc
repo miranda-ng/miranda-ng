@@ -11,7 +11,6 @@ function CLCDEFAULT_SELBKCOLOUR:dword;
 function CLCDEFAULT_SELTEXTCOLOUR:dword;
 function CLCDEFAULT_HOTTEXTCOLOUR:dword;
 
-
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
 function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
@@ -325,7 +324,7 @@ end;
 
 function Langpack_Register:int_ptr;
 begin
-  CallService(MS_LANGPACK_REGISTER,WPARAM(@hLangpack),LPARAM(@PluginInfo));
+  mir_getLP(PluginInfo, hLangpack);
   result:=hLangpack;
 end;
 

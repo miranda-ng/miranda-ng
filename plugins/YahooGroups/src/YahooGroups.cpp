@@ -50,7 +50,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 	LogInit();
 	
-	currentCodePage = (UINT) CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	currentCodePage = Langpack_GetDefaultCodePage();
 	
 	InitServices();
 	

@@ -171,37 +171,6 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconI
 ///////////////////////////////////////////////////////////////////////////////
 // language packs support
 
-#define LANG_UNICODE 0x1000
-
-MIR_CORE_DLL(void)     Langpack_SortDuplicates(void);
-MIR_CORE_DLL(int)      Langpack_GetDefaultCodePage( void );
-MIR_CORE_DLL(int)      Langpack_GetDefaultLocale(void);
-MIR_CORE_DLL(TCHAR*)   Langpack_PcharToTchar(const char* pszStr);
-
-MIR_CORE_DLL(int)      LoadLangPackModule(void);
-MIR_CORE_DLL(int)      LoadLangPack(const TCHAR *szLangPack);
-MIR_CORE_DLL(void)     ReloadLangpack(TCHAR *pszStr);
-
-MIR_CORE_DLL(char*)    TranslateA_LP(const char* str, int hLang);
-MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t* str, int hLang);
-MIR_CORE_DLL(void)     TranslateMenu_LP(HMENU, int hLang);
-MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
-
-#define Translate(s) TranslateA_LP(s, hLangpack)
-#define TranslateW(s) TranslateW_LP(s, hLangpack)
-#define TranslateMenu(h) TranslateMenu_LP(h,hLangpack)
-#define TranslateDialogDefault(h) TranslateDialog_LP(h,hLangpack)
-
-#ifdef _UNICODE
-	#define TranslateT(s)	 TranslateW_LP(_T(s),hLangpack)
-	#define TranslateTS(s)	 TranslateW_LP(s,hLangpack)
-	#define TranslateTH(l,s) TranslateW_LP(s,l)
-#else
-	#define TranslateT(s)	 TranslateA_LP(s,hLangpack)
-	#define TranslateTS(s)	 TranslateA_LP(s,hLangpack)
-	#define TranslateTH(l,s) TranslateA_LP(s,l)
-#endif
-
 MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len);
 
 #pragma optimize("gt", on)
@@ -670,7 +639,11 @@ MIR_CORE_DLL(BOOL)    IsFullScreen();
 MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
 MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
-MIR_APP_DLL(int)      GetPluginLangByInstance(HINSTANCE hInstance);
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieves the hLangpack of a plugin by its HINSTANCE
+// returns hLangpack if found, or 0 if error occurred
+
+MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE);
 
 ///////////////////////////////////////////////////////////////////////////////
 

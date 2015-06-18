@@ -270,15 +270,13 @@ static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
 
 static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, SortedList *pSorted*/)
 {
-	if (!pList[0].ptszTranslated)
-	{
+	if (!pList[0].ptszTranslated) {
 		for (UINT i = 0; i < nListCount; i++)	
-		{
-			pList[i].ptszTranslated = (LPTSTR)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)pList[i].pszText);
-		}
+			pList[i].ptszTranslated = Langpack_PcharToTchar(pList[i].pszText);
+
 		// Ignore last item, if it is a "Other" item.
 		if (!mir_strcmp(pList[nListCount-1].pszText, LPGEN("Other"))) nListCount--;
-	
+
 		// Sort list according translated text and ignore first item.
 		qsort(pList+1, nListCount-1, sizeof(pList[0]), 
 			(int (*)(const void*, const void*))ListSortProc);
@@ -309,7 +307,7 @@ INT_PTR GetCountryList(LPUINT pnListSize, LPIDSTRLIST *pList)
 				for (UINT i = 0; i < MyCountriesCount; i++) {
 					MyCountries[i].nID = country[i].id;
 					MyCountries[i].pszText = country[i].szName;
-					MyCountries[i].ptszTranslated = (LPTSTR)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)country[i].szName);
+					MyCountries[i].ptszTranslated = Langpack_PcharToTchar(country[i].szName);
 				}
 				// Sort list according translated text and ignore first item.
 				qsort(MyCountries+1, MyCountriesCount-1, sizeof(MyCountries[0]), 

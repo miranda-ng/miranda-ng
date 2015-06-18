@@ -1031,10 +1031,9 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
 	}
 
-    CallService(MS_LANGPACK_TRANSLATEMENU,(DWORD)FhMenu,0);
+	TranslateMenu(FhMenu);
 	TrackPopupMenu(FhMenu,TPM_LEFTALIGN | TPM_RIGHTBUTTON,LOWORD(lParam),HIWORD(lParam),0,AhWnd,0);
 	DestroyMenu(hMenuLoad);
-
 	return TRUE;
 }
 
@@ -1864,10 +1863,9 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,STICKYNOTE 
 			CheckMenuItem(FhMenu, IDM_TOGGLEONTOP, MF_CHECKED|MF_BYCOMMAND);
 	}
 
-    CallService(MS_LANGPACK_TRANSLATEMENU,(DWORD)FhMenu,0);
+	TranslateMenu(FhMenu);
 	TrackPopupMenu(FhMenu,TPM_LEFTALIGN | TPM_RIGHTBUTTON,LOWORD(lParam),HIWORD(lParam),0,AhWnd,0);
 	DestroyMenu(hMenuLoad);
-
 	return TRUE;
 }
 

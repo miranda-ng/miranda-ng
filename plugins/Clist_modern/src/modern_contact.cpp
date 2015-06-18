@@ -130,7 +130,7 @@ int CompareContacts2(const ClcContact *contact1, const ClcContact *contact2, int
 	if (by == SORTBY_NAME_LOCALE) {
 		//name
 		static int LocaleId = -1;
-		if (LocaleId == -1) LocaleId = CallService(MS_LANGPACK_GETLOCALE, 0, 0);
+		if (LocaleId == -1) LocaleId = Langpack_GetDefaultLocale();
 		return (CompareString(LocaleId, NORM_IGNORECASE, SAFETSTRING(namea), -1, SAFETSTRING(nameb), -1)) - 2;
 	}
 	if (by == SORTBY_LASTMSG) {

@@ -116,7 +116,7 @@ function Load(): int; cdecl;
 var
   mi: TCListMenuItem;
 begin
-  cp := CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+  cp := Langpack_GetDefaultCodePage;
   SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
   SrvIWiz := CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
   FillChar(mi, sizeof(mi), 0);

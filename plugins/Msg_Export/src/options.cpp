@@ -1008,7 +1008,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				ClientToScreen(hMapUser, &pt);
 			}
 
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, 0);
+			TranslateMenu(hMenu);
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndDlg, NULL);
 
 			DestroyMenu(hMainMenu);

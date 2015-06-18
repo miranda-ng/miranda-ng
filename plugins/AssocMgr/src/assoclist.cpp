@@ -696,7 +696,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				}
 			}
 			/* sort items (before moving to groups) */
-			ListView_SortItems(hwndList, ListViewSortDesc, (LPARAM)CallService(MS_LANGPACK_GETLOCALE, 0, 0));
+			ListView_SortItems(hwndList, ListViewSortDesc, Langpack_GetDefaultLocale());
 			/* groups */
 			if(ListView_EnableGroupView(hwndList, TRUE) == 1) { /* returns 0 on pre WinXP or if commctls6 are disabled */
 				LVGROUP lvg;

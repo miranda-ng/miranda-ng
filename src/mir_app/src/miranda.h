@@ -77,7 +77,6 @@ extern TCHAR mirandabootini[MAX_PATH];
 /**** newplugins.cpp *******************************************************************/
 
 char* GetPluginNameByInstance(HINSTANCE hInstance);
-int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
 int   LoadStdPlugins(void);
 
 /**** path.cpp *************************************************************************/

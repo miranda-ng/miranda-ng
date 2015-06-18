@@ -61,7 +61,7 @@ CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, int iMode) :
 	GetSystemInfo(&sinf);
 	m_ChunkSize = sinf.dwAllocationGranularity;
 
-	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	m_codePage = Langpack_GetDefaultCodePage();
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 

@@ -952,3 +952,4 @@ WindowList_Remove @1108
 Utils_AssertInsideScreen @1110
 Utils_RestoreWindowPosition @1111
 Utils_SaveWindowPosition @1112
+mir_getLP @1113

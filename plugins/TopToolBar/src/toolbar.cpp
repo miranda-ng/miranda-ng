@@ -564,7 +564,7 @@ int OnPluginLoad(WPARAM, LPARAM lParam)
 
 int OnPluginUnload(WPARAM, LPARAM lParam)
 {
-	int hLangpack = CallService(MS_LANGPACK_LOOKUPHANDLE, 0, lParam);
+	int hLangpack = GetPluginLangByInstance((HINSTANCE)lParam);
 	if (hLangpack) {
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);

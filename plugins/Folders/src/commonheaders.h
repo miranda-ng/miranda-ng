@@ -37,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_options.h>
 #include <m_string.h>
+#include <m_langpack.h>
 
 #include <m_variables.h>
 #include <m_folders.h>

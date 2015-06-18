@@ -159,29 +159,6 @@ namespace mu
 	}
 
 	/*
-	 * langpack
-	 */
-
-	namespace langpack
-	{
-		const TCHAR* translateString(const TCHAR* szEnglish)
-		{
-			return reinterpret_cast<const TCHAR*>(CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, reinterpret_cast<LPARAM>(szEnglish)));
-		}
-
-		UINT getCodePage()
-		{
-			static UINT CodePage = -1;
-
-			if (CodePage == -1) {
-				CodePage = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
-			}
-
-			return CodePage;
-		}
-	}
-
-	/*
 	 * opt
 	 */
 

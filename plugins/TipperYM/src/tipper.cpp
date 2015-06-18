@@ -301,8 +301,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getCLI();
 	mir_getTMI(&tmi);
 
-	if (ServiceExists(MS_LANGPACK_GETCODEPAGE))
-		iCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
+	iCodePage = Langpack_GetDefaultCodePage();
 
 	InitTranslations();
 	InitMessagePump();

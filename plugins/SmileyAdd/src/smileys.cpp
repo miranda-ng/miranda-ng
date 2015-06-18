@@ -977,9 +977,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	const CMString& defaultFile = GetSmileyCategory(tname)->GetFilename();
 
-
-	unsigned lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
+	unsigned lpcp = Langpack_GetDefaultCodePage();
 
 	PROTOCOLDESCRIPTOR **proto;
 	int protoCount = 0;

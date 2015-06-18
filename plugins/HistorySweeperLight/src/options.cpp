@@ -119,15 +119,13 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
 	for (i = 0; i < SIZEOF(time_stamp_strings); i++) {
-		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)time_stamp_strings[i]);
+		ptrT ptszTimeStr(Langpack_PcharToTchar(time_stamp_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
-		mir_free(ptszTimeStr);
 	}
 
 	for (i = 0; i < SIZEOF(keep_strings); i++) {
-		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)keep_strings[i]);
+		ptrT ptszTimeStr(Langpack_PcharToTchar(keep_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
-		mir_free(ptszTimeStr);
 	}
 
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0), 0);
