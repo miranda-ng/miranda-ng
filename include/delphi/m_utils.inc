@@ -245,7 +245,7 @@ function Utils_RestoreWindowPosition(hwnd:HWND; hContact:TMCONTACT; const szModu
     Returns: <0 on error, 0 if not changed the rect, 1 if changed the rect
 }
 
-function Utils_AssertInsideScreen(var rc:RECT) : int; stdcall;
+function Utils_AssertInsideScreen(var rc:TRECT) : int; stdcall;
                  external CoreDLL name 'Utils_AssertInsideScreen';
 
 {
