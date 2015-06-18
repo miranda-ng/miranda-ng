@@ -7,15 +7,22 @@ private:
 	lua_State *L;
 	static luaL_Reg coreLib[15];
 
-	void Preload(const char *name, lua_CFunction func);
+	void LoadModule(const char *name, lua_CFunction func);
+
+	void LoadCoreModule();
+	void LoadMirandaModules();
+
+	void Load();
+	void Unload();
 
 public:
 	CMLua();
 	~CMLua();
 
-	void AddPath(const char *path);
+	void Reload();
 
-	void Load(const char *name);
+	void AddScriptsPath(const char *path);
+	void LoadScript(const char *name);
 
 	static WPARAM GetWParam(lua_State *L, int idx);
 	static LPARAM GetLParam(lua_State *L, int idx);

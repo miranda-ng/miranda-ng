@@ -32,12 +32,14 @@ extern "C"
 #include "version.h"
 #include "resource.h"
 
-class CMLua;
-
 #include "mlua.h"
+#include "mlua_loader.h"
 #include "mlua_options.h"
 
 #define MODULE "MirLua"
+
+
+extern CMLua *g_mLua;
 
 extern HINSTANCE g_hInstance;
 
