@@ -136,9 +136,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
 
-	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, DBSETTING_DISPLAY_UID);
-
 	db_set_resident(m_szModuleName, "SubscriptionText");
 	db_set_resident(m_szModuleName, "Subscription");
 	db_set_resident(m_szModuleName, "Auth");

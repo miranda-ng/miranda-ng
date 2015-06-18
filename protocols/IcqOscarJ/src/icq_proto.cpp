@@ -94,7 +94,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	wCookieSeq = 2;
 
 	// Initialize temporary DB settings
-	db_set_resident(m_szModuleName, "Status"); // NOTE: XStatus cannot be temporary
 	db_set_resident(m_szModuleName, "TemporaryVisible");
 	db_set_resident(m_szModuleName, "TickTS");
 	db_set_resident(m_szModuleName, "IdleTS");

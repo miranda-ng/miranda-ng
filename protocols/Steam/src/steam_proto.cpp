@@ -39,7 +39,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	IcoLib_AddIcon(&sid);
 
 	// temporary DB settings
-	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "XStatusId");
 	db_set_resident(m_szModuleName, "XStatusName");
 	db_set_resident(m_szModuleName, "XStatusMsg");

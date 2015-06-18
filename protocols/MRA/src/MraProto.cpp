@@ -94,7 +94,6 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
 	// unsaved values
-	db_set_resident(m_szModuleName, "Status");// NOTE: XStatus cannot be temporary
 	db_set_resident(m_szModuleName, "LogonTS");
 	db_set_resident(m_szModuleName, "ContactID");
 	db_set_resident(m_szModuleName, "GroupID");

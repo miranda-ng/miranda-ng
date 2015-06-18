@@ -526,7 +526,6 @@ void CYahooProto::LoadYahooServices(void)
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "PictLastCheck");
 	db_set_resident(m_szModuleName, "PictLoading");
-	db_set_resident(m_szModuleName, "Status");
 
 	db_set_resident(m_szModuleName, "YAway");
 	db_set_resident(m_szModuleName, "YGMsg");
