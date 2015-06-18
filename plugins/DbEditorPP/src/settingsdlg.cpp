@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 int saveAsType(HWND hwnd, int original)
 {

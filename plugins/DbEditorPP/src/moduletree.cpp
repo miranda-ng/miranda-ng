@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 HWND hwnd2Tree = 0;
 
@@ -37,7 +37,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 	HTREEITEM contact;
 	ModuleTreeInfoStruct *lParam;
 	int itemscount = 0;
-	int i = 0, icon = 0;
+	int icon = 0;
 	HTREEITEM hItem = 0;
 
 	SetWindowText(hwnd2mainWindow, TranslateT("Loading contacts..."));

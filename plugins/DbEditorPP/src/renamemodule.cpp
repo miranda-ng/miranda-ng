@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 
 int renameModule(MCONTACT hContact, const char *oldName, const char *newName)

@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 HWND hwnd2watchedVarsWindow = NULL;
 
@@ -372,14 +372,10 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 	int timeout = db_get_b(NULL, modname, "PopupDelay", 3);
 
 	TCHAR name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
-	int res = 0;
-
 	GetContactName(hContact, NULL, name, SIZEOF(name));
 
 	// 2nd line
 	int type = GetValue(hContact, module, setting, value, SIZEOF(value));
-//	if (!type) value = _T("NULL");
-
 	mir_sntprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), _A2T(module), _A2T(setting), DBVType(type), value);
 
 	POPUPDATAT ppd = { 0 };

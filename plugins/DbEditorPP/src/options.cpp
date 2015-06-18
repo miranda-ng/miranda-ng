@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 
 void FreeModuleSettingLL(ModuleSettingLL *msll)
@@ -168,7 +168,7 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 	if (!m_lResidentSettings.getCount()) return 0;
 	if (m_lResidentModules.getIndex((char*)module) == -1) return 0; 
 
-	int len = mir_strlen(module);
+	int len = (int)mir_strlen(module);
 	int cnt = 0;
 
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {

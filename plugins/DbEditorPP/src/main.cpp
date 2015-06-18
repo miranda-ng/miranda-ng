@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 HINSTANCE hInst = NULL;
 
@@ -14,6 +14,8 @@ HGENMENU hUserMenu;
 MCONTACT hRestore;
 
 extern HWND hwnd2watchedVarsWindow;
+
+#pragma comment(lib, "shlwapi.lib")
 
 //========================
 //  MirandaPluginInfo
@@ -320,12 +322,9 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 
 int IsRealUnicode(TCHAR *value)
 {
-#ifdef _UNICODE
 	BOOL nonascii = 0;
 	WideCharToMultiByte(Langpack_GetDefaultCodePage(), WC_NO_BEST_FIT_CHARS, value, -1, NULL, 0, NULL, &nonascii);
 	return nonascii;
-#endif
-	return 0;
 }
 
 
@@ -496,7 +495,7 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 
 			GetValue(hContact, szProto, "FirstName", name, SIZEOF(name));
 
-			int len = mir_tstrlen(name);
+			int len = (int)mir_tstrlen(name);
 			if (len + 2 < SIZEOF(name)) {
 			    if (len)
 					mir_tstrncat(name, _T(" "), SIZEOF(name));
