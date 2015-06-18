@@ -404,63 +404,46 @@ function mir_vsnwprintf(buffer:PWideChar;count:size_t;fmt:PWideChar;va:va_list):
 // protocol functions
 
 function ProtoBroadcastAck(const szModule:PAnsiChar; hContact:TMCONTACT; type_:int; result_:int; hProcess:THANDLE; lParam:LPARAM): int_ptr; stdcall;
-                 external CoreDLL name 'ProtoBroadcastAck';
+                 external AppDLL name 'ProtoBroadcastAck';
 
 function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
                  external AppDLL name 'ProtoServiceExists';
 
 procedure ProtoWindowAdd(pThis:pointer; wnd:HWND); stdcall;
-                 external CoreDLL name 'ProtoWindowAdd';
+                 external AppDLL name 'ProtoWindowAdd';
 
 procedure ProtoWindowRemove(pThis:pointer; wnd:HWND); stdcall;
-                 external CoreDLL name 'ProtoWindowRemove';
+                 external AppDLL name 'ProtoWindowRemove';
 
 // Call it in the very beginning of your proto's constructor
-procedure ProtoConstructor(pThis:pointer{PPROTO_INTERFACE}; const pszModuleName:PAnsiChar;
-                           ptszUserName:PWideChar); stdcall;
-                 external CoreDLL name 'ProtoConstructor';
+procedure ProtoConstructor(pThis:pointer{PPROTO_INTERFACE}; const pszModuleName:PAnsiChar; ptszUserName:PWideChar); stdcall;
+                 external AppDLL name 'ProtoConstructor';
 
 // Call it in the very end of your proto's destructor
 procedure ProtoDestructor(pThis:pointer{PPROTO_INTERFACE}); stdcall;
-                 external CoreDLL name 'ProtoDestructor';
-
-{!!
-typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
-procedure   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
-function ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, uint* threadID):THANDLE;
-
-typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
-procedure   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
-function ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService):THANDLE;
-
-typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
-procedure ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
-
-typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-procedure ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
-}
+                 external AppDLL name 'ProtoDestructor';
 
 procedure ProtoLogA(pThis:pointer{PPROTO_INTERFACE}; szFormat :PAnsiChar; args:va_list); stdcall;
-                 external CoreDLL name 'ProtoLogA';
+                 external AppDLL name 'ProtoLogA';
 procedure ProtoLogW(pThis:pointer{PPROTO_INTERFACE}; wszFormat:PWideChar; args:va_list); stdcall;
-                 external CoreDLL name 'ProtoLogW';
+                 external AppDLL name 'ProtoLogW';
 
 // returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
 function ProtoGetAvatarExtension(format:int):PWideChar; stdcall;
-                 external CoreDLL name 'ProtoGetAvatarExtension';
+                 external AppDLL name 'ProtoGetAvatarExtension';
 
 // detects image format by extension
 function ProtoGetAvatarFormat(const szFileName:PWideChar):int; stdcall;
-                 external CoreDLL name 'ProtoGetAvatarFormat';
+                 external AppDLL name 'ProtoGetAvatarFormat';
 
 // detects image format by its contents
 function ProtoGetAvatarFileFormat(const szFileName:PWideChar):int; stdcall;
-                 external CoreDLL name 'ProtoGetAvatarFileFormat';
+                 external AppDLL name 'ProtoGetAvatarFileFormat';
 
 // returns the image format and extension by the first bytes of picture
 // ptszExtension might be NULL
 function ProtoGetBufferFormat(const buf:PByte; var ext:PWideChar):int; stdcall;
-                 external CoreDLL name 'ProtoGetBufferFormat';
+                 external AppDLL name 'ProtoGetBufferFormat';
 
 
 ///////////////////////////////////////////////////////////////////////////////

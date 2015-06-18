@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadProtoChains(void);
 int LoadProtoOptions(void);
 
+HANDLE hAckEvent;
 HANDLE hAccListChanged;
 static HANDLE hTypeEvent;
 static BOOL bModuleInitialized = FALSE;
@@ -111,9 +112,13 @@ static INT_PTR srvProto_RegisterModule(WPARAM, LPARAM lParam)
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
 		return 1;
 
-	PROTOCOLDESCRIPTOR *p = Proto_RegisterModule(pd);
-	if (p == NULL)
+	PROTOCOLDESCRIPTOR *p = (PROTOCOLDESCRIPTOR*)mir_calloc(sizeof(PROTOCOLDESCRIPTOR));
+	if (!p)
 		return 2;
+
+	memcpy(p, pd, pd->cbSize);
+	p->szName = mir_strdup(pd->szName);
+	protos.insert(p);
 
 	if (p->fnInit == NULL && (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL)) {
 		// let's create a new container
@@ -364,6 +369,13 @@ static INT_PTR Proto_BroadcastAck(WPARAM, LPARAM lParam)
 	return ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
 }
 
+static INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
+{
+	*(int*)wParam = protos.getCount();
+	*(PROTOCOLDESCRIPTOR***)lParam = protos.getArray();
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
@@ -474,7 +486,9 @@ int LoadProtocolsModule(void)
 
 	hTypeEvent = CreateHookableEvent(ME_PROTO_CONTACTISTYPING);
 	hAccListChanged = CreateHookableEvent(ME_PROTO_ACCLISTCHANGED);
+	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
 
+	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
 	CreateServiceFunction(MS_PROTO_BROADCASTACK, Proto_BroadcastAck);
 	CreateServiceFunction(MS_PROTO_ISPROTOCOLLOADED, srvProto_IsLoaded);
 	CreateServiceFunction(MS_PROTO_REGISTERMODULE, srvProto_RegisterModule);
@@ -498,6 +512,17 @@ int LoadProtocolsModule(void)
 void UnloadProtocolsModule()
 {
 	if (!bModuleInitialized) return;
+
+	for (int i = 0; i < protos.getCount(); i++) {
+		mir_free(protos[i]->szName);
+		mir_free(protos[i]);
+	}
+	protos.destroy();
+
+	if (hAckEvent) {
+		DestroyHookableEvent(hAckEvent);
+		hAckEvent = NULL;
+	}
 
 	if (hAccListChanged) {
 		DestroyHookableEvent(hAccListChanged);

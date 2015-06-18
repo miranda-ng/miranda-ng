@@ -92,7 +92,6 @@ static void LoadCoreModule(void)
 	InitPathUtils();
 	InitLogs();
 	InitialiseModularEngine();
-	InitProtocols();
 	InitMetaContacts();
 }
 
@@ -103,7 +102,6 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 	CloseHandle(hThreadQueueEmpty);
 	TlsFree(mir_tls);
 
-	UninitProtocols();
 	DestroyModularEngine();
 	UninitLogs();
 	UnloadLangPackModule();
