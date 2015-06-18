@@ -225,7 +225,7 @@ typedef struct {
 #ifdef __cplusplus
 extern "C"
 #endif
-MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
+MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
 
 // gets the network-level protocol associated with a contact
 // wParam = (MCONTACT)hContact

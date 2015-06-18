@@ -1123,7 +1123,7 @@ public:
 
 struct PROTO_INTERFACE;
 
-class MIR_CORE_EXPORT CProtoIntDlgBase : public CDlgBase
+class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 {
 	typedef CDlgBase CSuper;
 

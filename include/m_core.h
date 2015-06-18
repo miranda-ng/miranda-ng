@@ -41,7 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T __cdecl
 
 #ifdef MIR_APP_EXPORTS
-	#define MIR_APP_EXPORT
+	#define MIR_APP_EXPORT __declspec(dllexport)
 #else
 	#define MIR_APP_EXPORT __declspec(dllimport)
 #endif
@@ -342,52 +342,25 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 
 struct PROTO_INTERFACE;
 
-MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
-
-// Call it in the very beginning of your proto's constructor
-MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);
-
-// Call it in the very end of your proto's destructor
-MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis);
-
-#if defined( __cplusplus )
-typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
-MIR_CORE_DLL(void)   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
-MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
-MIR_CORE_DLL(void)   ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd);
-MIR_CORE_DLL(void)   ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd);
-
-typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
-MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
-
-typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
-
-typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-MIR_CORE_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
-#endif
-
-MIR_CORE_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
-MIR_CORE_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
+MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 // avatar support functions
 
 // returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
-MIR_CORE_DLL(const TCHAR*) ProtoGetAvatarExtension(int format);
+MIR_APP_DLL(const TCHAR*) ProtoGetAvatarExtension(int format);
 
 // detects image format by extension
-MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName);
+MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName);
 
 // detects image format by its contents
-MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
+MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
 
 // returns the image format and extension by the first bytes of picture
 // ptszExtension might be NULL
 #if defined( __cplusplus )
-	MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension = NULL);
+	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension = NULL);
 #else
-	MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension);
+	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

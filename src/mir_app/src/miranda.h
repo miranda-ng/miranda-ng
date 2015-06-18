@@ -143,6 +143,7 @@ void KillModuleMenus(int hLangpack);
 #define OFFSET_NAME     800
 
 extern LIST<PROTOACCOUNT> accounts;
+extern LIST<PROTOCOLDESCRIPTOR> protos;
 
 INT_PTR ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
@@ -182,6 +183,4 @@ extern "C"
 	MIR_CORE_DLL(int)  Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
 	MIR_CORE_DLL(int)  GetSubscribersCount(HANDLE hHook);
 	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
-
-	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd);
 };

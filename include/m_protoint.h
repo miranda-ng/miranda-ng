@@ -30,6 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_database.h>
 #include <m_utils.h>
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// data types
+
 typedef enum
 {
 	EV_PROTO_ONLOAD,
@@ -44,7 +47,42 @@ typedef enum
 }
 	PROTOEVENTTYPE;
 
-struct MIR_CORE_EXPORT PROTO_INTERFACE : public MZeroedObject
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol helpers
+
+struct PROTO_INTERFACE;
+
+// Call it in the very beginning of your proto's constructor
+EXTERN_C MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);
+
+// Call it in the very end of your proto's destructor
+EXTERN_C MIR_APP_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis);
+
+#if defined( __cplusplus )
+typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
+EXTERN_C MIR_APP_DLL(void)   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
+EXTERN_C MIR_APP_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
+EXTERN_C MIR_APP_DLL(void)   ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd);
+EXTERN_C MIR_APP_DLL(void)   ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd);
+
+typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
+EXTERN_C MIR_APP_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+EXTERN_C MIR_APP_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
+EXTERN_C MIR_APP_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+
+typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+EXTERN_C MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+#endif
+
+EXTERN_C MIR_APP_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
+EXTERN_C MIR_APP_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// interface declaration
+
+struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
 	int         m_iStatus,         // current protocol status
 	            m_iDesiredStatus,  // status to be set after logging in

@@ -28,13 +28,13 @@ static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR 
 	return strcmp(p1->szName, p2->szName);
 }
 
-static LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
+LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
 
-static HANDLE hAckEvent;
+extern HANDLE hAckEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
+MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 {
 	if (szProtoName == NULL)
 		return NULL;
@@ -44,45 +44,16 @@ MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName
 	return protos.find(&tmp);
 }
 
-INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
-{
-	*(int*)wParam = protos.getCount();
-	*(PROTOCOLDESCRIPTOR***)lParam = protos.getArray();
-	return 0;
-}
-
-MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
-{
-	PROTOCOLDESCRIPTOR *p = (PROTOCOLDESCRIPTOR*)mir_calloc(sizeof(PROTOCOLDESCRIPTOR));
-	if (!p)
-		return NULL;
-
-	memcpy(p, pd, pd->cbSize);
-	p->szName = mir_strdup(pd->szName);
-	protos.insert(p);
-	return p;
-}
-
-HINSTANCE ProtoGetInstance(const char *szModuleName)
-{
-	PROTOACCOUNT *pa = ProtoGetAccount(szModuleName);
-	if (pa == NULL)
-		return NULL;
-
-	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(pa->szProtoName);
-	return (p == NULL) ? NULL : GetInstByAddress(p->fnInit);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
+MIR_APP_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
 {
 	char buf[4096];
 	int res = _vsnprintf(buf, sizeof(buf), szFormat, args);
 	CallService(MS_NETLIB_LOG, (WPARAM)(pThis ? pThis->m_hNetlibUser : NULL), (LPARAM)((res != -1) ? buf : CMStringA().FormatV(szFormat, args)));
 }
 
-MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
+MIR_APP_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
 	WCHAR buf[4096];
 	int res = _vsnwprintf(buf, SIZEOF(buf), wszFormat, args);
@@ -91,7 +62,7 @@ MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, v
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
 	return NotifyEventHooks(hAckEvent, 0, (LPARAM)&ack);
@@ -99,7 +70,7 @@ MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
+MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
 {
 	pThis->m_iVersion = 2;
 	pThis->m_iStatus = pThis->m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -109,7 +80,7 @@ MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName
 	db_set_resident(pThis->m_szModuleName, "Status");
 }
 
-MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
+MIR_APP_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
 {
 	mir_free(pThis->m_szModuleName);
 	mir_free(pThis->m_tszUserName);
@@ -117,7 +88,7 @@ MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
 	WindowList_Destroy(pThis->m_hWindowList);
 }
 
-MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)
+MIR_APP_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)
 {
 	char str[MAXMODULELABELLENGTH * 2];
 	strncpy_s(str, pThis->m_szModuleName, _TRUNCATE);
@@ -125,7 +96,7 @@ MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szServ
 	::CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&serviceProc, pThis);
 }
 
-MIR_CORE_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam serviceProc, LPARAM lParam)
+MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam serviceProc, LPARAM lParam)
 {
 	char str[MAXMODULELABELLENGTH * 2];
 	strncpy_s(str, pThis->m_szModuleName, _TRUNCATE);
@@ -133,12 +104,12 @@ MIR_CORE_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* s
 	::CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, pThis, lParam);
 }
 
-MIR_CORE_DLL(void) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
+MIR_APP_DLL(void) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
 {
 	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, pThis);
 }
 
-MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szName)
+MIR_APP_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szName)
 {
 	char str[MAXMODULELABELLENGTH * 2];
 	strncpy_s(str, pThis->m_szModuleName, _TRUNCATE);
@@ -146,19 +117,19 @@ MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char
 	return CreateHookableEvent(str);
 }
 
-MIR_CORE_DLL(void) ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param)
+MIR_APP_DLL(void) ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param)
 {
 	UINT threadID;
 	CloseHandle((HANDLE)::mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, pThis, param, &threadID));
 }
 
-MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param, UINT* threadID)
+MIR_APP_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param, UINT* threadID)
 {
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
 }
 
-MIR_CORE_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
+MIR_APP_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
 {
 	if (pThis->m_hWindowList == NULL)
 		pThis->m_hWindowList = WindowList_Create();
@@ -166,14 +137,14 @@ MIR_CORE_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
 	WindowList_Add(pThis->m_hWindowList, hwnd, NULL);
 }
 
-MIR_CORE_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
+MIR_APP_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
 {
 	WindowList_Remove(pThis->m_hWindowList, hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
+MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 {
 	if (format == PA_FORMAT_PNG)
 		return _T(".png");
@@ -193,7 +164,7 @@ MIR_CORE_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 	return _T("");
 }
 
-MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
+MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 {
 	if (ptszFileName == NULL)
 		return PA_FORMAT_UNKNOWN;
@@ -226,7 +197,7 @@ MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 	return PA_FORMAT_UNKNOWN;
 }
 
-MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
+MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
 {
 	if (!memcmp(pBuffer, "\x89PNG", 4)) {
 		if (ptszExtension) *ptszExtension = _T(".png");
@@ -257,7 +228,7 @@ MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszEx
 	return PA_FORMAT_UNKNOWN;
 }
 
-MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
+MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
 {
 	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -433,26 +404,4 @@ int PROTO_INTERFACE::UserIsTyping(MCONTACT, int)
 int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM)
 {
 	return 1; // not an error, vitally important
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void InitProtocols()
-{
-	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
-	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
-}
-
-void UninitProtocols()
-{
-	for (int i = 0; i < protos.getCount(); i++) {
-		mir_free(protos[i]->szName);
-		mir_free(protos[i]);
-	}
-	protos.destroy();
-
-	if (hAckEvent) {
-		DestroyHookableEvent(hAckEvent);
-		hAckEvent = NULL;
-	}
 }
