@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 
 SettingListInfo info = {0};
@@ -242,37 +242,32 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		break;
 
 	case DBVT_ASCIIZ:
-	{
 		lvi.iImage = IMAGE_STRING;
 		ListView_SetItem(hwnd2List, &lvi);
 		ListView_SetItemTextA(hwnd2List, index, 1, dbv->pszVal);
-		length = mir_strlen(dbv->pszVal) + 1;
+		length = (int)mir_strlen(dbv->pszVal) + 1;
 		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
-	}
+
 	case DBVT_WCHAR:
-	{
 		lvi.iImage = IMAGE_UNICODE;
 		ListView_SetItem(hwnd2List, &lvi);
-		length = mir_wstrlen(dbv->pwszVal) + 1;
-		ptrT str(mir_u2t(dbv->pwszVal));
-		ListView_SetItemText(hwnd2List, index, 1, str);
+		length = (int)mir_wstrlen(dbv->pwszVal) + 1;
+		ListView_SetItemText(hwnd2List, index, 1, dbv->pwszVal);
 		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
-	}
+
 	case DBVT_UTF8:
-	{
 		lvi.iImage = IMAGE_UNICODE;
 		ListView_SetItem(hwnd2List, &lvi);
-		length = mir_strlen(dbv->pszVal) + 1;
-		ptrT str(mir_utf8decodeT(dbv->pszVal));
-		ListView_SetItemText(hwnd2List, index, 1, str);
+		length = (int)mir_strlen(dbv->pszVal) + 1;
+		ListView_SetItemText(hwnd2List, index, 1, ptrT(mir_utf8decodeT(dbv->pszVal)));
 		mir_sntprintf(data, _T("0x%04X (%u)"), length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
-	}
+
 	case DBVT_DELETED:
 //		ListView_DeleteItem(hwnd2List, index);
 		return;
@@ -490,7 +485,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 				int i = 0;
 
 				if (dbv.type == DBVT_BLOB) {
-					res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, mir_strlen(szValue));
+					res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, (int)mir_strlen(szValue));
 					break;
 				}
 
@@ -556,7 +551,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 				case _T('\"'):
 				case _T('\''):
 				{
-					int nlen = mir_tstrlen(value);
+					size_t nlen = mir_tstrlen(value);
 					int sh = 0;
 					if (nlen > 3) {
 						if (value[nlen - 1] == value[0]) {
