@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "My details"
 #define __FILENAME               "MyDetails.dll"
-#define __DESCRIPTION            "Shows and allows you to edit your details for all protocols."
+#define __DESCRIPTION            "Shows and allows you to edit your details for all accounts."
 #define __AUTHOR                 "Ricardo Pescuma Domenecci, Drugwash"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "http://miranda-ng.org/p/MyDetails/"
