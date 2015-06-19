@@ -727,12 +727,13 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			case PSN_INFOCHANGED:
 				{
-					char *szProto;
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					GGPROTO *gg = dat->gg;
+					if (!dat)
+						break;
 
 					// Show updated message
-					if (dat && dat->updating)
+					if (dat->updating)
 					{
 						MessageBox(NULL, TranslateT("Your details has been uploaded to the public directory."),
 							gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
@@ -740,15 +741,12 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						break;
 					}
 
-					if (hContact == NULL)
-						szProto = gg->m_szModuleName;
-					else
-						szProto = GetContactProto(hContact);
+					char *szProto = (hContact == NULL) ? gg->m_szModuleName : GetContactProto(hContact);
 					if (szProto == NULL)
 						break;
 
 					// Disable when updating
-					if (dat) dat->disableUpdate = TRUE;
+					dat->disableUpdate = TRUE;
 
 					SetValue(hwndDlg, IDC_UIN, hContact, szProto, GG_KEY_UIN, 0, hContact != NULL);
 					SetValue(hwndDlg, IDC_REALIP, hContact, szProto, GG_KEY_CLIENTIP, SVS_IP, hContact != NULL);
@@ -780,7 +778,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 
 					// Disable when updating
-					if (dat) dat->disableUpdate = FALSE;
+					dat->disableUpdate = FALSE;
 					break;
 				}
 			}
