@@ -1115,9 +1115,15 @@ INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg, WPARAM
         break;
 
     case WM_COMMAND://user changed something, so get changes to variables
-        if (!bInit && (HIWORD(wParam) == EN_CHANGE))
+        if (!bInit)
         {
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+            switch (HIWORD(wParam))
+            {
+            case EN_CHANGE:     // text is modified in an edit ctrl
+            case BN_CLICKED:    // a checkbox is modified
+                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+                break;
+            }
         }
         switch(LOWORD(wParam))
         {
@@ -1140,6 +1146,10 @@ INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg, WPARAM
                 i=SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_GETCURSEL,0,0);
                 SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
                 SetDlgItemTextA(hwndDlg,IDC_SERVER,text);
+                if (!bInit)
+                {
+                    PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+                }
                 break;
 
             case CBN_DROPDOWN:
@@ -1220,9 +1230,16 @@ INT_PTR CALLBACK DlgProcLotusNotifyPopupOpts(HWND hwndDlg, UINT msg, WPARAM wPar
         break;
 
     case WM_COMMAND://user changed something, so get changes to variables
-        if (!bInit && (HIWORD(wParam) == EN_CHANGE))
+        if (!bInit)
         {
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+            switch (HIWORD(wParam))
+            {
+            case EN_CHANGE:         // text is modified in an edit ctrl
+            case BN_CLICKED:        // a checkbox is modified
+            case CPN_COLOURCHANGED: // a color has changed
+                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+                break;
+            }
         }
         switch(LOWORD(wParam))
         {
@@ -1306,6 +1323,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
     HWND hwndList;
     TCHAR buff[512];
     char tmp[255];
+    int index, size;
     TCHAR* strptr;
     LVITEM lvI={0};
     LVCOLUMN lvc={0};
@@ -1381,24 +1399,45 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
         {
         case IDC_BUTTON_ADD_SENDER_FILTER:
             GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, SIZEOF(tmp));
-            SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
+            if (strlen(tmp) > 0)
+            {
+                SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
+                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+            }
             break;
         case IDC_BUTTON_REMOVE_SENDER_FILTER:
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_DELETESTRING, 0, (LPARAM)SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETCURSEL,0,0));
+            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETCURSEL,0,0);
+            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_DELETESTRING, index, 0);
+            SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_SETCURSEL, min(index, size-1), 0);
+            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
             break;
         case IDC_BUTTON_ADD_SUBJECT_FILTER:
             GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, SIZEOF(tmp));
-            SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
+            if (strlen(tmp) > 0)
+            {
+                SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
+                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+            }
             break;
         case IDC_BUTTON_REMOVE_SUBJECT_FILTER:
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_DELETESTRING, 0, (LPARAM)SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETCURSEL,0,0));
+            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETCURSEL,0,0);
+            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_DELETESTRING, index, 0);
+            SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_SETCURSEL, min(index, size-1), 0);
+            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
             break;
         case IDC_BUTTON_ADD_TO_FILTER:
             GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, SIZEOF(tmp));
-            SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
+            if (strlen(tmp) > 0)
+            {
+                SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
+                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+            }
             break;
         case IDC_BUTTON_REMOVE_TO_FILTER:
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_DELETESTRING, 0, (LPARAM)SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETCURSEL,0,0));
+            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETCURSEL,0,0);
+            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_DELETESTRING, index, 0);
+            SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_SETCURSEL, min(index, size-1), 0);
+            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
             break;
         }
         break;
