@@ -403,7 +403,7 @@ procedure TForm1.IceItClick(Sender: TObject);
 var
   n: Integer;
   S: String;
-  F: String;
+  F,X: String;
   xFilePath: String;
   xIcoPath: String;
   xTemp: String;
@@ -450,7 +450,9 @@ begin
         end
         else
         begin
-          xFilePath := MirandaPath + F + '\' + S + '.dll';
+          if (F = '\libs') then X := '.mir'
+          else                  X := '.dll';
+          xFilePath := MirandaPath + F + '\' + S + X;
           xIcoPath := IcePath + F + '\' + S + '\' + S;
         end;
         CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'PROGRESS');
