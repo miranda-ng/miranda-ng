@@ -77,8 +77,8 @@ char* ChangeInfoData::GetItemSettingText(int i, char *buf, size_t bufsize)
 
 				FieldNamesItem *list = (FieldNamesItem*)si.pList;
 				if (list == timezonesField) {
-					HANDLE tz = tmi.createByContact(NULL, ppro->m_szModuleName, 0);
-					text = make_utf8_string_static(tmi.getTzDescription(tmi.getTzName(tz)), buf, bufsize);
+					HANDLE tz = TimeZone_CreateByContact(NULL, ppro->m_szModuleName, 0);
+					text = make_utf8_string_static(TimeZone_GetDescription(TimeZone_GetName(tz)), buf, bufsize);
 					break;
 				}
 

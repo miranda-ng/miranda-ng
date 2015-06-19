@@ -25,7 +25,6 @@ int LoadIdleModule(void);
 void UnloadIdleModule(void);
 
 CLIST_INTERFACE* pcli;
-TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -59,7 +58,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IDLE, 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 	mir_getCLI();
 
 	LoadIdleModule();

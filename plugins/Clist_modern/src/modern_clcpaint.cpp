@@ -1108,7 +1108,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						TCHAR buf[70] = _T("");
 						mir_free_and_nil(pdnce->szSecondLineText);
 
-						tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
 						pdnce->szSecondLineText = mir_tstrdup(buf);
 					}
 
@@ -1136,7 +1136,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						TCHAR buf[70] = _T("");
 						mir_free(pdnce->szThirdLineText);
 
-						tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
 						pdnce->szThirdLineText = mir_tstrdup(buf);
 					}
 
@@ -1417,7 +1417,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 
 			case TC_TIME:
 				TCHAR szResult[80];
-				if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 					ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &p_rect, DT_NOPREFIX | DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0));
@@ -2163,7 +2163,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
 					TCHAR szResult[80];
 
-					if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+					if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
 						SIZE text_size;
 						RECT rc;
 
@@ -2351,7 +2351,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					TCHAR buf[70] = _T("");
-					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
 					mir_free(pdnce->szSecondLineText);
 					pdnce->szSecondLineText = mir_tstrdup(buf);
 				}
@@ -2385,7 +2385,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					TCHAR buf[70] = _T("");
-					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
 					mir_free(pdnce->szThirdLineText);
 					pdnce->szThirdLineText = mir_tstrdup(buf);
 				}
@@ -2818,7 +2818,7 @@ void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	if (!pdnce)
 		return;
 
-	if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
 		// Select font
 		ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 		ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), prcItem, DT_NOPREFIX | DT_SINGLELINE);

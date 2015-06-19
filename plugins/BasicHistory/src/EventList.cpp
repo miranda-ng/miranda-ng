@@ -366,7 +366,7 @@ void EventList::AddGroup(const EventIndex& ev)
 	TCHAR eventText[256];
 	int i;
 	eventText[0] = 0;
-	tmi.printTimeStamp(NULL, data.timestamp, _T("d t"), eventText, 64, 0);
+	TimeZone_PrintTimeStamp(NULL, data.timestamp, _T("d t"), eventText, 64, 0);
 	std::wstring time = eventText;
 	std::wstring user;
 	if (data.isMe)

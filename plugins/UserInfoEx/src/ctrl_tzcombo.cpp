@@ -49,27 +49,14 @@ static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, int index, LPARAM lParam)
  **/
 CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 {
-	CTzCombo *ctrl = NULL;
 	HWND hCtrl = GetDlgItem(hDlg, idCtrl);
 
-	ctrl = new CTzCombo(hDlg, idCtrl, pszSetting);
+	CTzCombo *ctrl = new CTzCombo(hDlg, idCtrl, pszSetting);
 	if (ctrl) {
-		//use new core tz interface
-		if (tmi.prepareList) {
-			//set the adress of our timezone handle as itemdata
-			//caller can obtain the handle htz to extract all relevant information
-			ctrl->_curSel = 0;
-			tmi.prepareList(NULL, NULL, hCtrl, TZF_PLF_CB);
-		}
-		//fallback use old UIEX method
-		else {
-			ctrl->_curSel = ComboBox_AddString(hCtrl, TranslateT("<Unspecified>"));
-			if (SUCCEEDED(ctrl->_curSel)) {
-				ComboBox_SetItemData(hCtrl, ctrl->_curSel, NULL);
-			}
-			ComboBox_SetCurSel(hCtrl, ctrl->_curSel);
-			EnumTimeZones(EnumNamesProc, (LPARAM)hCtrl);
-		}
+		//set the adress of our timezone handle as itemdata
+		//caller can obtain the handle htz to extract all relevant information
+		ctrl->_curSel = 0;
+		TimeZone_PrepareList(NULL, NULL, hCtrl, TZF_PLF_CB);
 	}
 	return (ctrl);
 }
@@ -130,7 +117,7 @@ int CTzCombo::Find(LPTIME_ZONE_INFORMATION pTimeZone) const
 	int nItemCount = ComboBox_GetCount(_hwnd);
 
 	for (nItemIndex = 0; nItemIndex < nItemCount; nItemIndex++) {
-		if (pTimeZone == tmi.getTzi((HANDLE)ComboBox_GetItemData(_hwnd, nItemIndex)))
+		if (pTimeZone == TimeZone_GetInfo((HANDLE)ComboBox_GetItemData(_hwnd, nItemIndex)))
 			return nItemIndex;
 	}
 	return CB_ERR;
@@ -160,31 +147,10 @@ void CTzCombo::Release()
 BOOL CTzCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
 	if (!_Flags.B.hasChanged) {
-		//use new core tz interface to change the cbbox
-		if (tmi.storeListResults) {
-			_curSel = CB_ERR;
-//			_curSel = tmi.selectListItem(hContact, _hwnd, TZF_PLF_CB);
-										//dident work well, coz no fallback to proto setting.
-										//we use saver way by getTziByContact
-			LPTIME_ZONE_INFORMATION pTimeZone;
-			pTimeZone = tmi.getTziByContact(hContact);
-			ComboBox_SetCurSel(_hwnd, Find(pTimeZone));
-			_curSel = ComboBox_GetCurSel(_hwnd);
-		}
-		//fallback use old UIEX method
-		else {
-			CTimeZone *pTimeZone;
-			_curSel		= CB_ERR;
-			_Flags.W	= GetContactTimeZoneCtrl(hContact, pszProto, &pTimeZone);
-			if (_Flags.W) {
-				ComboBox_SetCurSel(_hwnd, Find(pTimeZone));
-				_curSel = ComboBox_GetCurSel(_hwnd);
-			}
-			if (_curSel == CB_ERR) {
-				ComboBox_SetCurSel(_hwnd, NULL);
-				_curSel = ComboBox_GetCurSel(_hwnd);
-			}
-		}
+		LPTIME_ZONE_INFORMATION pTimeZone;
+		pTimeZone = getTziByContact(hContact);
+		ComboBox_SetCurSel(_hwnd, Find(pTimeZone));
+		_curSel = ComboBox_GetCurSel(_hwnd);
 		SendMessage(GetParent(_hwnd), WM_TIMER, 0, 0);
 	}
 	return _Flags.B.hasChanged;
@@ -205,28 +171,12 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 		const char* pszModule = hContact ? USERINFO : pszProto;
 		if (_Flags.B.hasCustom || !hContact) {
 			//use new core tz interface
-			if (tmi.storeListResults) {
-				tmi.storeListResults(hContact, NULL, _hwnd, TZF_PLF_CB);
-				if (!hContact) {
-					_Flags.B.hasCustom = 0;
-					_Flags.B.hasProto = 1;
-				}
-				_Flags.B.hasChanged = 0;
+			TimeZone_StoreListResult(hContact, NULL, _hwnd, TZF_PLF_CB);
+			if (!hContact) {
+				_Flags.B.hasCustom = 0;
+				_Flags.B.hasProto = 1;
 			}
-			//fallback use old UIEX method
-			else {
-				const CTimeZone* pTimeZone = (CTimeZone*)ComboBox_GetItemData(_hwnd, _curSel);
-				if (PtrIsValid(pTimeZone)) {
-					db_set_ts(hContact, USERINFO, SET_CONTACT_TIMEZONENAME, pTimeZone->ptszName);
-					db_set_b(hContact, pszModule, SET_CONTACT_TIMEZONE, pTimeZone->ToMirandaTimezone());
-
-					if (!hContact) {
-						_Flags.B.hasCustom = 0;
-						_Flags.B.hasProto = 1;
-					}
-					_Flags.B.hasChanged = 0;
-				}
-			}
+			_Flags.B.hasChanged = 0;
 		}
 
 		if (_Flags.B.hasChanged)
@@ -275,5 +225,5 @@ void CTzCombo::OnChangedByUser(WORD wChangedMsg)
  **/
 void CTzCombo::GetTime(LPTSTR szTime, int cchTime)
 {
-	tmi.printDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
+	TimeZone_PrintDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
 }

@@ -42,15 +42,6 @@ namespace mu
 	}
 
 	/*
-	 * db_time
-	 */
-
-	namespace db_time
-	{
-		DWORD timestampToLocal(DWORD timestamp);
-	}
-
-	/*
 	 * icolib
 	 */
 

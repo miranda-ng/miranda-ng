@@ -367,7 +367,7 @@ static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR co
 		else
 			szFormat = _T("d");
 
-		tmi.printTimeStamp(hTimeZone, check, szFormat, szResult, SIZEOF(szResult), 0);
+		TimeZone_PrintTimeStamp(hTimeZone, check, szFormat, szResult, SIZEOF(szResult), 0);
 	}
 	return szResult;
 }
@@ -496,7 +496,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	// templated code starts here
 	if (dwEffectiveFlags & MWF_LOG_SHOWTIME) {
 		hTimeZone = ((dat->dwFlags & MWF_LOG_LOCALTIME) && !isSent) ? dat->hTimeZone : NULL;
-		time_t local_time = tmi.timeStampToTimeZoneTimeStamp(hTimeZone, dbei.timestamp);
+		time_t local_time = TimeZone_UtcToLocal(hTimeZone, dbei.timestamp);
 		event_time = *gmtime(&local_time);
 	}
 

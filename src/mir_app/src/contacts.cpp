@@ -344,9 +344,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 
 	case CNF_TIMEZONE:
 		{
-			HANDLE hTz = tmi.createByContact(ci->hContact, 0, TZF_KNOWNONLY);
+			HANDLE hTz = TimeZone_CreateByContact(ci->hContact, 0, TZF_KNOWNONLY);
 			if (hTz) {
-				LPTIME_ZONE_INFORMATION tzi = tmi.getTzi(hTz);
+				LPTIME_ZONE_INFORMATION tzi = TimeZone_GetInfo(hTz);
 				int offset = tzi->Bias + tzi->StandardBias;
 
 				char str[80];

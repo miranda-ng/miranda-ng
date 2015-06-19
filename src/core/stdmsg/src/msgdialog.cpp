@@ -136,7 +136,7 @@ static void ShowTime(SrmmWindowData *dat)
 			TCHAR buf[32];
 			unsigned i = (g_dat.flags & SMF_SHOWREADCHAR) ? 2 : 1;
 
-			tmi.printDateTime(dat->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+			TimeZone_PrintDateTime(dat->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, i, (LPARAM)buf);
 			dat->wMinute = st.wMinute;
 		}
@@ -618,7 +618,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			dat->hContact = newData->hContact;
 			dat->bIsMeta = db_mc_isMeta(dat->hContact) != 0;
-			dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
+			dat->hTimeZone = TimeZone_CreateByContact(dat->hContact, 0, TZF_KNOWNONLY);
 			dat->wMinute = 61;
 
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
@@ -957,8 +957,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		if (dat->lastMessage) {
 			TCHAR date[64], time[64], fmt[128];
-			tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
-			tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
 			mir_sntprintf(fmt, SIZEOF(fmt), TranslateT("Last message received on %s at %s."), date, time);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 		}
@@ -1080,7 +1080,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_NEWTIMEZONE:
-		dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
+		dat->hTimeZone = TimeZone_CreateByContact(dat->hContact, 0, TZF_KNOWNONLY);
 		dat->wMinute = 61;
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;

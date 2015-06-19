@@ -59,7 +59,6 @@ PLUGININFOEX pluginInfo = {
 };
 
 XML_API  xi;
-TIME_API tmi;
 
 CLIST_INTERFACE* pcli;
 FI_INTERFACE *FIP = NULL;
@@ -184,7 +183,6 @@ extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
 	mir_getXI(&xi);
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 

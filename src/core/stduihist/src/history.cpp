@@ -164,7 +164,7 @@ static void FillHistoryThread(void* param)
 		TCHAR str[200], eventText[256], strdatetime[64];
 		GetObjectSummary(&dbei, str, SIZEOF(str));
 		if (str[0]) {
-			tmi.printTimeStamp(NULL, dbei.timestamp, _T("d t"), strdatetime, SIZEOF(strdatetime), 0);
+			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("d t"), strdatetime, SIZEOF(strdatetime), 0);
 			mir_sntprintf(eventText, SIZEOF(eventText), _T("%s: %s"), strdatetime, str);
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);

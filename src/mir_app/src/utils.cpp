@@ -34,8 +34,6 @@ int  InitHyperlink(void);
 int  InitColourPicker(void);
 void InitXmlApi(void);
 
-void InitTimeZones(void);
-
 int  InitCrypt(void);
 void UninitCrypt(void);
 
@@ -384,7 +382,6 @@ int LoadUtilsModule(void)
 	InitPathUtils();
 	InitColourPicker();
 	InitXmlApi();
-	InitTimeZones();
 	InitCrypt();
 	return 0;
 }

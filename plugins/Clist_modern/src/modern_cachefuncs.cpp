@@ -58,7 +58,7 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 
 	if (dat && dat->hWnd == pcli->hwndContactTree) {
 		DWORD flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
-		pdnce->hTimeZone = tmi.createByContact(hContact, 0, flags);
+		pdnce->hTimeZone = TimeZone_CreateByContact(hContact, 0, flags);
 	}
 }
 
@@ -496,7 +496,7 @@ int Cache_GetLineText(
 		if (pdnce->hTimeZone) {
 			// Get pdnce time
 			text[0] = 0;
-			tmi.printDateTime(pdnce->hTimeZone, _T("t"), text, text_size, 0);
+			TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), text, text_size, 0);
 		}
 
 		return TEXT_CONTACT_TIME;

@@ -40,8 +40,6 @@ CLIST_INTERFACE corecli = { 0 };
 CLUIDATA g_CluiData = { 0 };
 int hLangpack;
 
-TIME_API tmi;
-
 static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
 int EventArea_UnloadModule();
@@ -77,7 +75,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int CListInitialise()
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 
 	g_dwMainThreadID = GetCurrentThreadId();
 	g_hMirApp = GetModuleHandleA("mir_app.dll");

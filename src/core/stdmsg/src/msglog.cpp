@@ -293,7 +293,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		else
 			szFormat = g_dat.flags & SMF_SHOWDATE ? _T("d t") : _T("t");
 
-		tmi.printTimeStamp(NULL, dbei.timestamp, szFormat, str, SIZEOF(str), 0);
+		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, SIZEOF(str), 0);
 
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, str);

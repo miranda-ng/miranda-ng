@@ -70,59 +70,43 @@ TCHAR *NullTranslation(MCONTACT hContact, const char *szModuleName, const char *
 	return NULL;
 }
 
-TCHAR *TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
+TCHAR* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	if (ts == 0) return 0;
+	if (ts == 0)
+		return 0;
 	
-	DBTIMETOSTRINGT dbt = {0};
-	dbt.cbDest = bufflen;
-	dbt.szDest = buff;
-	dbt.szFormat = _T("d");
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
-	return buff;
+	return TimeZone_ToStringT(ts, _T("d"), buff, bufflen);
 }
 
-TCHAR *TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
+TCHAR* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	if (ts == 0) return 0;
+	if (ts == 0)
+		return 0;
 	
-	DBTIMETOSTRINGT dbt = {0};
-	dbt.cbDest = bufflen;
-	dbt.szDest = buff;
-	dbt.szFormat = _T("D");
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
-	return buff;
+	return TimeZone_ToStringT(ts, _T("D"), buff, bufflen);
 }
 
-TCHAR *TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
+TCHAR* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	if (ts == 0) return 0;
+	if (ts == 0)
+		return 0;
 	
-	DBTIMETOSTRINGT dbt = {0};
-	dbt.cbDest = bufflen;
-	dbt.szDest = buff;
-	dbt.szFormat = _T("s");
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
-	return buff;
+	return TimeZone_ToStringT(ts, _T("s"), buff, bufflen);
 }
 
-TCHAR *TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
+TCHAR* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	if (ts == 0) return 0;
+	if (ts == 0)
+		return 0;
 	
-	DBTIMETOSTRINGT dbt = {0};
-	dbt.cbDest = bufflen;
-	dbt.szDest = buff;
-	dbt.szFormat = _T("t");
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
-	return buff;
+	return TimeZone_ToStringT(ts, _T("t"), buff, bufflen);
 }
 
-TCHAR *TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
+TCHAR* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	DWORD t = (DWORD)time(0);

@@ -1053,10 +1053,10 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("UID: %s"), dat->cache->getUIN());
 		else if (dat->lastMessage) {
 			TCHAR date[64], time[64];
-			tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
 			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && mir_tstrlen(date) > 6)
 				date[mir_tstrlen(date) - 5] = 0;
-			tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
 			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Last received: %s at %s"), date, time);
 		}
 		else szBuf[0] = 0;

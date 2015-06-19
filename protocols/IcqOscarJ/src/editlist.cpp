@@ -99,7 +99,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 	}
 
 	if (list == timezonesField) {
-		tmi.prepareList(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
+		TimeZone_PrepareList(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
 	}
 	else {
 		int j, n = ListBoxAddStringUtf(hwndListEdit, "Unspecified");
@@ -149,7 +149,7 @@ void ChangeInfoData::EndListEdit(int save)
 		if (iItem != -1 && i != -1) {
 			FieldNamesItem *list = (FieldNamesItem*)si.pList;
 			if (list == timezonesField) {
-				tmi.storeListResults(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
+				TimeZone_StoreListResult(NULL, ppro->m_szModuleName, hwndListEdit, TZF_PLF_LB);
 				list[i = 0].code = ppro->getDword("Timezone", 0);
 			}
 

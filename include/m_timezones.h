@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __M_TIMEZONES_H
 #define __M_TIMEZONES_H
 
+#ifndef M_CORE_H__
 #include <m_core.h>
+#endif
 
 #define MIM_TZ_NAMELEN 64
 
@@ -39,66 +41,93 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef INT_PTR mir_time;
 
-typedef struct
-{
-	size_t cbSize;
+EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags);
 
-	HANDLE (*createByName)(LPCTSTR tszName, DWORD dwFlags);
-	HANDLE (*createByContact)(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags);
-	void (*storeByContact)(MCONTACT hContact, LPCSTR szModule, HANDLE hTZ);
+EXTERN_C MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, HANDLE hTZ);
+EXTERN_C MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
 
-	int (*printDateTime)(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
-	int (*printTimeStamp)(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags);
 
-	int (*prepareList)(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
-	int (*selectListItem)(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
-	void (*storeListResults)(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
 
-	int (*getTimeZoneTime)(HANDLE hTZ, SYSTEMTIME *st);
-	mir_time (*timeStampToTimeZoneTimeStamp)(HANDLE hTZ, mir_time ts);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st);
+EXTERN_C MIR_CORE_DLL(mir_time) TimeZone_UtcToLocal(HANDLE hTZ, mir_time ts);
 
-	LPTIME_ZONE_INFORMATION (*getTzi)(HANDLE hTZ);
-	LPCTSTR (*getTzName)(HANDLE hTZ);
-	LPCTSTR (*getTzDescription)(LPCTSTR TZname);
+EXTERN_C MIR_CORE_DLL(LPTIME_ZONE_INFORMATION) TimeZone_GetInfo(HANDLE hTZ);
+EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ);
+EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname);
 
 #ifdef __cplusplus
-	int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
-	{ return printDateTime(createByContact(hContact, 0, dwFlags), szFormat, szDest, cbDest, dwFlags); }
+	
+__forceinline int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+{
+	return TimeZone_PrintDateTime(TimeZone_CreateByContact(hContact, 0, dwFlags), szFormat, szDest, cbDest, dwFlags);
+}
 
-	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
-	{ return printTimeStamp(createByContact(hContact, 0, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
-	}
+__forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+{
+	return TimeZone_PrintTimeStamp(TimeZone_CreateByContact(hContact, 0, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
+}
 
-	LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
-	{ return getTzi(createByContact(hContact, 0, 0)); }
+__forceinline LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
+{
+	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, 0, 0));
+}
 
-	int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
-	{ return getTimeZoneTime(createByContact(hContact, 0, 0), st); }
+__forceinline int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
+{
+	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, 0, 0), st);
+}
 
-	mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
-	{ return timeStampToTimeZoneTimeStamp(createByContact(hContact, 0, 0), ts); }
+__forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
+{
+	return TimeZone_UtcToLocal(TimeZone_CreateByContact(hContact, 0, 0), ts);
+}
+
 #endif
 
-} TIME_API;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Time services
+//
+// Converts a GMT timestamp into local time
+// Returns the converted value
+//
+// Timestamps have zero at midnight 1/1/1970 GMT, this service converts such a
+// value to be based at midnight 1/1/1970 local time.
+// This service does not use a simple conversion based on the current offset
+// between GMT and local. Rather, it figures out whether daylight savings time
+// would have been in place at the time of the stamp and gives the local time as
+// it would have been at the time and date the stamp contains.
+// This service isn't nearly as useful as db/time/TimestampToString below and I
+// recommend avoiding its use when possible so that you don't get your timezones
+// mixed up (like I did. Living at GMT makes things easier for me, but has certain
+// disadvantages :-)).
 
-/* every protocol should declare this variable to use the Time API */
-extern TIME_API tmi;
+EXTERN_C MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD);
 
-/*
-a service to obtain the Time API
+/////////////////////////////////////////////////////////////////////////////////////////
+// Converts a GMT timestamp into a customisable local time string
+// Returns the destination buffer
+// 
+// Uses db/time/timestamptolocal for the conversion so read that description to
+// see what's going on.
+// The string is formatted according to the current user's locale, language and
+// preferences.
+// szFormat can have the following special characters:
+// t  Time without seconds, eg hh:mm
+// s  Time with seconds, eg hh:mm:ss
+// m  Time without minutes, eg hh
+// d  Short date, eg dd/mm/yyyy
+// D  Long date, eg d mmmm yyyy
+// I  ISO 8061 Time yyyy-mm-ddThh:mm:ssZ
+// All other characters are copied across to szDest as-is
 
-wParam = 0;
-lParam = (LPARAM)(TIME_API*).
+EXTERN_C MIR_CORE_DLL(char*) TimeZone_ToString(mir_time timeVal, const char *szFormat, char *szDest, size_t cchDest);
+EXTERN_C MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFormat, wchar_t *wszDest, size_t cchDest);
 
-returns TRUE if all is Ok, and FALSE otherwise
-*/
-
-#define MS_SYSTEM_GET_TMI "Miranda/System/GetTimeApi"
-
-__forceinline int mir_getTMI(TIME_API* dest)
-{
-	dest->cbSize = sizeof(*dest);
-	return CallService(MS_SYSTEM_GET_TMI, 0, (LPARAM)dest);
-}
+#define TimeZone_ToStringT TimeZone_ToStringW
 
 #endif /* __M_TIMEZONES_H */

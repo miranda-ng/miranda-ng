@@ -1367,8 +1367,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			else if (dat->lastMessage) {
 				TCHAR date[64], time[64];
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
+				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
+				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
 				mir_sntprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
 				sbd.pszText = szText;
 			}

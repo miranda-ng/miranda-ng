@@ -593,59 +593,6 @@ __forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Time services
-
-/* DB/Time/TimestampToLocal
-Converts a GMT timestamp into local time
-  wParam = (WPARAM)(DWORD)timestamp
-  lParam = 0
-Returns the converted value
-Timestamps have zero at midnight 1/1/1970 GMT, this service converts such a
-value to be based at midnight 1/1/1970 local time.
-This service does not use a simple conversion based on the current offset
-between GMT and local. Rather, it figures out whether daylight savings time
-would have been in place at the time of the stamp and gives the local time as
-it would have been at the time and date the stamp contains.
-This service isn't nearly as useful as db/time/TimestampToString below and I
-recommend avoiding its use when possible so that you don't get your timezones
-mixed up (like I did. Living at GMT makes things easier for me, but has certain
-disadvantages :-)).
-*/
-#define MS_DB_TIME_TIMESTAMPTOLOCAL   "DB/Time/TimestampToLocal"
-
-/* DB/Time/TimestampToString
-Converts a GMT timestamp into a customisable local time string
-  wParam = (WPARAM)(DWORD)timestamp
-  lParam = (LPARAM)(DBTIMETOSTRING*)&tts
-Returns 0 always
-Uses db/time/timestamptolocal for the conversion so read that description to
-see what's going on.
-The string is formatted according to the current user's locale, language and
-preferences.
-szFormat can have the following special characters:
-  t  Time without seconds, eg hh:mm
-  s  Time with seconds, eg hh:mm:ss
-  m  Time without minutes, eg hh
-  d  Short date, eg dd/mm/yyyy
-  D  Long date, eg d mmmm yyyy
-  I  ISO 8061 Time yyyy-mm-ddThh:mm:ssZ
-All other characters are copied across to szDest as-is
-*/
-typedef struct {
-	char *szFormat;  // format string, as above
-	char *szDest;    // place to put the output string
-	int cbDest;      // maximum number of bytes to put in szDest
-} DBTIMETOSTRING;
-#define MS_DB_TIME_TIMESTAMPTOSTRING  "DB/Time/TimestampToString"
-
-typedef struct {
-	TCHAR *szFormat; // format string, as above
-	TCHAR *szDest;	  // place to put the output string
-	int cbDest;      // maximum number of bytes to put in szDest
-} DBTIMETOSTRINGT;
-#define MS_DB_TIME_TIMESTAMPTOSTRINGT "DB/Time/TimestampToStringT"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Random services
 
 /*

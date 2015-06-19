@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 int hLangpack;
 XML_API  xi;
-TIME_API tmi = { 0 };
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 char g_szMirVer[100];
@@ -55,7 +54,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 	mir_getXI(&xi);
 	mir_getCLI();

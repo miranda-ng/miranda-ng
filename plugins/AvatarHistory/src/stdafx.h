@@ -16,6 +16,7 @@
 #include <m_langpack.h>
 #include <m_history.h>
 #include <m_imgsrvc.h>
+#include <m_timezones.h>
 #include <m_icolib.h>
 #include <win2k.h>
 

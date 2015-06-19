@@ -155,18 +155,14 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 {
 	static char szResult[512];
 	char str[80];
-
-	DBTIMETOSTRING dbtts;
+	const char *szFormat;
 
 	struct tm tm_now, tm_today;
 	time_t now = time(NULL);
 	time_t today;
 
-	dbtts.cbDest = 70;
-	dbtts.szDest = str;
-
 	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
-		dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
+		szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
 		szResult[0] = '\0';
 	}
 	else {
@@ -176,24 +172,24 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 		today = mktime(&tm_today);
 
 		if (dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
-			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
+			szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
 			mir_strcpy(szResult, Translate("Today"));
 			mir_strcat(szResult, ", ");
 		}
 		else if (dwFlags & MWF_LOG_USERELATIVEDATES && check > (today - 86400)) {
-			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
+			szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "s" : "t";
 			mir_strcpy(szResult, Translate("Yesterday"));
 			mir_strcat(szResult, ", ");
 		}
 		else {
 			if (dwFlags & MWF_LOG_LONGDATES)
-				dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"D s" : (char *)"D t";
+				szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "D s" : "D t";
 			else
-				dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"d s" : (char *)"d t";
+				szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? "d s" : "d t";
 			szResult[0] = '\0';
 		}
 	}
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
+	TimeZone_ToString(check, szFormat, str, SIZEOF(str));
 	mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;

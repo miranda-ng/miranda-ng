@@ -1110,7 +1110,7 @@ bgskipped:
 				int fHeight = 0;
 
 				TCHAR szResult[80];
-				if (tmi.printDateTime(cEntry->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+				if (TimeZone_PrintDateTime(cEntry->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
 					goto nodisplay;
 
 				COLORREF oldColor = GetTextColor(hdcMem);

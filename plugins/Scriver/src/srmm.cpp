@@ -27,7 +27,6 @@ int OnLoadModule(void);
 int OnUnloadModule(void);
 
 int hLangpack;
-TIME_API tmi;
 HINSTANCE g_hInst;
 CLIST_INTERFACE *pcli;
 
@@ -63,7 +62,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 extern "C" __declspec(dllexport) int Load(void)
 {
 	// set the memory manager
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 

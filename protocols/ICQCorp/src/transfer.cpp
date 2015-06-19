@@ -326,7 +326,7 @@ void ICQTransfer::ack(unsigned int result)
     fts.szCurrentFile = fileName;
     fts.currentFileSize = fileSize;
     fts.currentFileProgress = fileProgress;
-    fts.currentFileTime = CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, fileDate, 0);
+    fts.currentFileTime = TimeZone_ToLocal(fileDate);
 /*
     switch (session->status)
     {

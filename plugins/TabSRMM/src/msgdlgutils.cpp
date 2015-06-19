@@ -1383,7 +1383,7 @@ void TSAPI LoadOwnAvatar(TWindowData *dat)
 void TSAPI LoadTimeZone(TWindowData *dat)
 {
 	if (dat)
-		dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
+		dat->hTimeZone = TimeZone_CreateByContact(dat->hContact, 0, TZF_KNOWNONLY);
 }
 
 // paste contents of the clipboard into the message input area and send it immediately

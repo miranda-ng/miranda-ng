@@ -1134,12 +1134,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			nFirstColumnWidth,
 			dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
-		DBTIMETOSTRINGT dbtts;
-		dbtts.cbDest = SIZEOF(szTemp) - nIndent - 2;
-		dbtts.szDest = &szTemp[nIndent];
-		dbtts.szFormat = (TCHAR*)sTimeFormat.c_str();
-
-		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, dbei.timestamp, (LPARAM)&dbtts);
+		TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], SIZEOF(szTemp) - nIndent - 2);
 
 		nIndent = (int)mir_tstrlen(szTemp);
 		szTemp[nIndent++] = ' ';

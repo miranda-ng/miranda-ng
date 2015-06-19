@@ -88,6 +88,5 @@ INT_PTR		GetContactTimeZoneInformation_old(WPARAM wParam, LPARAM lParam);
 INT_PTR		GetContactLocalTime_old(WPARAM wParam, LPARAM lParam);
 
 void		SvcTimezoneSyncWithWindows();
-void		SvcTimezoneLoadModule_old();
 
 #endif /* _SVC_TIMEZONE_H_OLD */

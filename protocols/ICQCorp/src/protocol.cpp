@@ -719,7 +719,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
                >> newCommand;
 
         timeStampLastMessage = timedataStamp;
-        timedataStamp = CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, timedataStamp, 0);
+        timedataStamp = TimeZone_ToLocal(timedataStamp);
 
         processSystemMessage(packet, checkUin, newCommand, timedataStamp);
         break;
@@ -806,7 +806,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
                >> newCommand;
 
         db_set_dw(NULL, protoName, "LastBroadcastTime", timedataStamp);
-        timedataStamp = CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, timedataStamp, 0);
+        timedataStamp = TimeZone_ToLocal(timedataStamp);
 
         processSystemMessage(packet, checkUin, newCommand, timedataStamp);
         break;

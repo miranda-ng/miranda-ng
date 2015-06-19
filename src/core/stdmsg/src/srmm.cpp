@@ -28,8 +28,6 @@ CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;
 int hLangpack;
 
-TIME_API tmi;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -58,7 +56,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, M
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 

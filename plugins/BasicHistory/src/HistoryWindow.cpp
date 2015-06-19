@@ -1487,7 +1487,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 				}
 			}
 
-			tmi.printTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
+			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
 			*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetFont(&TextFont);
@@ -2147,7 +2147,7 @@ void HistoryWindow::FormatQuote(std::wstring& quote, const MessageData& md, cons
 	else
 		quote += contactName;
 	TCHAR str[32];
-	tmi.printTimeStamp(NULL, md.timestamp, _T("d t"), str, 32, 0);
+	TimeZone_PrintTimeStamp(NULL, md.timestamp, _T("d t"), str, 32, 0);
 	quote += _T(", ");
 	quote += str;
 	quote += _T("\n");

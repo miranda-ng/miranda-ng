@@ -1458,11 +1458,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 {
 	char timestamp[256];
-	DBTIMETOSTRING tts = {0};
-	tts.szDest = timestamp;
-	tts.cbDest = sizeof(timestamp);
-	tts.szFormat = "D, s";
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, dbEvent->timestamp,(LPARAM) &tts);
+	TimeZone_ToString(dbEvent->timestamp, "D, s", timestamp, sizeof(timestamp));
 
 	char *sender = (dbEvent->flags & DBEF_SENT) ? Translate("[me]") : contact;
 	char *message = DbGetEventTextA(dbEvent,CP_ACP);

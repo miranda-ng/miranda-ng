@@ -1063,7 +1063,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	char *day = 0, *month = 0, *year = 0, *time = 0, *shift = 0;
 	SYSTEMTIME st;
 	ULONGLONG res = 0;
-	int wShiftSeconds = CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, 0, 0);
+	int wShiftSeconds = TimeZone_ToLocal(0);
 	GetLocalTime(&st);
 	//datein = "Xxx, 1 Jan 2060 5:29:1 +0530 XXX";
 	//datein = "Xxx,  1 Jan 2060 05:29:10 ";

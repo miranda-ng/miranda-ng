@@ -563,11 +563,10 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case CNF_TIMEZONE:
-			//use new core tz interface
-			if (tmi.prepareList) {
-				HANDLE hTz = tmi.createByContact(ci->hContact, 0, TZF_KNOWNONLY);
+			{
+				HANDLE hTz = TimeZone_CreateByContact(ci->hContact, 0, TZF_KNOWNONLY);
 				if (hTz) {
-					LPTIME_ZONE_INFORMATION tzi = tmi.getTzi(hTz);
+					LPTIME_ZONE_INFORMATION tzi = TimeZone_GetInfo(hTz);
 					int offset = tzi->Bias + tzi->StandardBias;
 
 					char str[80];
@@ -577,27 +576,9 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 					return 0;
 				}
 				ci->pszVal = NULL;
+				ci->type = (ci->pszVal != NULL) ? CNFT_ASCIIZ : 0;
+				result = ci->type == 0;
 			}
-			//fallback use old UIEX method
-			else {
-				CTimeZone* ptz = GetContactTimeZone(ci->hContact, ci->szProto);
-				if (ptz) {
-					if (ci->dwFlag & CNF_UNICODE)
-						ci->pszVal = (LPTSTR)mir_t2u(ptz->ptszDisplay);
-					else
-						ci->pszVal = (LPTSTR)mir_t2a(ptz->ptszDisplay);
-				}
-				else {
-					/* If a timezone does not exist in CTzMgr, it is a invalid timezone,
-					because Windows and CTzMgr know all existing timezones and it
-					would not be shown anywhere anyway as UserInfoEx displays only
-					known windows timezones in the details dialog!
-					*/
-					ci->pszVal = NULL;
-				}
-			}
-			ci->type = (ci->pszVal != NULL) ? CNFT_ASCIIZ : 0;
-			result = ci->type == 0;
 			break;
 
 		//

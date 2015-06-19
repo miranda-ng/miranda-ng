@@ -333,9 +333,9 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 				}
 			}
 				
-			tmi.printTimeStamp(NULL, data.timestamp, longFormatDate, str , MAXSELECTSTR, 0);
+			TimeZone_PrintTimeStamp(NULL, data.timestamp, longFormatDate, str , MAXSELECTSTR, 0);
 			std::wstring longDate = str;
-			tmi.printTimeStamp(NULL, data.timestamp, formatDate, str , MAXSELECTSTR, 0);
+			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str , MAXSELECTSTR, 0);
 			std::wstring shortDate = str;
 
 			std::wstring user;

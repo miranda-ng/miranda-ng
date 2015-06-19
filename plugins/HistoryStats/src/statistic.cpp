@@ -434,7 +434,7 @@ bool Statistic::stepReadDB()
 			// filter logged status messages from tabSRMM
 			if (dbei.eventType == etMessage) {
 				// convert to local time (everything in this plugin is done in local time)
-				DWORD localTimestamp = utils::toLocalTime(dbei.timestamp);
+				DWORD localTimestamp = TimeZone_ToLocal(dbei.timestamp);
 
 				if (localTimestamp >= m_TimeMin && localTimestamp <= m_TimeMax) {
 					if (dbei.flags & DBEF_UTF) {
@@ -1235,7 +1235,7 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 	m_nFirstTime(0),
 	m_nLastTime(0)
 {
-	m_TimeStarted = utils::toLocalTime(time(NULL));
+	m_TimeStarted = TimeZone_ToLocal(time(NULL));
 	m_MSecStarted = GetTickCount();
 	m_AverageMinTime = settings.m_AverageMinTime * 24 * 60 * 60; // calculate seconds from days
 }

@@ -712,14 +712,7 @@ static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR ret[128];
-	DBTIMETOSTRINGT tst = { 0 };
-	tst.szFormat = _T("d s");
-	tst.szDest = ret;
-	tst.cbDest = SIZEOF(ret);
-	if (CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)time(NULL), (LPARAM)&tst))
-		return NULL;
-
-	return mir_tstrdup(ret);
+	return mir_tstrdup(TimeZone_ToStringT(time(NULL), _T("d s"), ret, SIZEOF(ret)));
 }
 
 static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)

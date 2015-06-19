@@ -120,19 +120,11 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode)
+char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode)
 {
-	static char szResult[512];
+	static char szResult[512]; szResult[0] = '\0';
 	char str[80];
-	char format[20];
-	DBTIMETOSTRING dbtts;
-
-	szResult[0] = '\0';
-	format[0] = '\0';
-
-	dbtts.cbDest = 70;
-	dbtts.szDest = str;
-	dbtts.szFormat = format;
+	char format[20]; format[0] = '\0';
 
 	if ((mode == 0 || mode == 1) && (dwFlags & SMF_LOG_SHOWDATE)) {
 		struct tm tm_now, tm_today;
@@ -163,13 +155,13 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		}
 	}
 	if (mode == 0 || mode == 2) {
-		if (mode == 0 && (dwFlags & SMF_LOG_SHOWDATE)) {
+		if (mode == 0 && (dwFlags & SMF_LOG_SHOWDATE))
 			mir_strcat(format, " ");
-		}
+
 		mir_strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
 	}
 	if (format[0] != '\0') {
-		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
+		TimeZone_ToString(check, format, str, SIZEOF(str));
 		mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	}
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);

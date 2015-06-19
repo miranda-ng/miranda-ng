@@ -134,12 +134,8 @@ DWORD LastMessageTimestamp(MCONTACT hContact, bool received)
 void FormatTimestamp(DWORD ts, char *szFormat, TCHAR *buff, int bufflen)
 {
 	TCHAR swzForm[16];
-	DBTIMETOSTRINGT dbt = {0};
-	dbt.cbDest = bufflen;
-	dbt.szDest = buff;
 	a2t(szFormat, swzForm, 16);
-	dbt.szFormat = swzForm;
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ts, (LPARAM)&dbt);
+	TimeZone_ToStringT(ts, swzForm, buff, bufflen);
 }
 
 bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
@@ -280,7 +276,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		}
 	}
 	else if (!mir_tstrcmp(swzRawSpec, _T("time"))) {
-		if (tmi.printDateTime && !tmi.printDateTimeByContact(hContact, _T("t"), buff, bufflen, TZF_KNOWNONLY))
+		if (!printDateTimeByContact(hContact, _T("t"), buff, bufflen, TZF_KNOWNONLY))
 			return true;
 	}
 	else if (!mir_tstrcmp(swzRawSpec, _T("uidname"))) {

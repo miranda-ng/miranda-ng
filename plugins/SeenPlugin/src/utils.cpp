@@ -105,7 +105,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 	DWORD res = db_get_dw(hcontact, S_MOD, "seenTS", 0);
 	if (res) {
 		if (st) {
-			ll = UInt32x32To64(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, res, 0), 10000000) + NUM100NANOSEC;
+			ll = UInt32x32To64(TimeZone_ToLocal(res), 10000000) + NUM100NANOSEC;
 			ft.dwLowDateTime = (DWORD)ll;
 			ft.dwHighDateTime = (DWORD)(ll >> 32);
 			FileTimeToSystemTime(&ft, st);
@@ -127,7 +127,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 					ll -= NUM100NANOSEC;
 					ll /= 10000000;
 					//perform LOCALTOTIMESTAMP
-					res = (DWORD)ll - CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, 0, 0);
+					res = (DWORD)ll - TimeZone_ToLocal(0);
 					//nevel look for Year/Month/Day/Hour/Minute/Second again
 					db_set_dw(hcontact, S_MOD, "seenTS", res);
 				}
@@ -406,7 +406,7 @@ void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
 {
 	SYSTEMTIME st;
 	FILETIME ft;
-	ULONGLONG ll = UInt32x32To64(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, t, 0), 10000000) + NUM100NANOSEC;
+	ULONGLONG ll = UInt32x32To64(TimeZone_ToLocal(t), 10000000) + NUM100NANOSEC;
 	ft.dwLowDateTime = (DWORD)ll;
 	ft.dwHighDateTime = (DWORD)(ll >> 32);
 	FileTimeToSystemTime(&ft, &st);

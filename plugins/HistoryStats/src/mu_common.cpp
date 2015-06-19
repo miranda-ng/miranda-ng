@@ -104,14 +104,6 @@ namespace mu
 		}
 	}
 
-	namespace db_time
-	{
-		DWORD timestampToLocal(DWORD timestamp)
-		{
-			return static_cast<DWORD>(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, static_cast<WPARAM>(timestamp), 0));
-		}
-	}
-
 	/*
 	 * icolib
 	 */

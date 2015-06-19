@@ -2,7 +2,6 @@ EXPORTS
 
 CallContactService          @1
 CallProtoService            @2
-RecalculateTime             @3
 Skin_LoadProtoIcon          @4
 Skin_LoadIcon               @5
 Button_FreeIcon_IcoLib      @6

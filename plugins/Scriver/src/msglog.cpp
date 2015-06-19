@@ -425,7 +425,7 @@ TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? _T("s") : _T("t"));
 	}
 	if (format[0] != '\0') {
-		tmi.printTimeStamp(NULL, check, format, str, SIZEOF(str), 0);
+		TimeZone_PrintTimeStamp(NULL, check, format, str, SIZEOF(str), 0);
 		mir_tstrncat(szResult, str, SIZEOF(szResult) - mir_tstrlen(szResult));
 	}
 	return szResult;

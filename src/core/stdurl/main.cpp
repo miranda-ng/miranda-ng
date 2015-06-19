@@ -24,7 +24,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 int LoadSendRecvUrlModule(void);
 
 CLIST_INTERFACE* pcli;
-TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -58,7 +57,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRURL,
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 	mir_getCLI();
 
 	LoadSendRecvUrlModule();
