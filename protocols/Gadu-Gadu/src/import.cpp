@@ -393,7 +393,8 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 		mir_sntprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(_T("import_text(): Cannot import list from file \"%s\". errno=%d: %s"), str, errno, strerror(errno));
-		fclose(f);
+		if (f)
+			fclose(f);
 		return 0;
 	}
 }

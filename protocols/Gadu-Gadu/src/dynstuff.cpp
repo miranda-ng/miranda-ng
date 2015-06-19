@@ -549,13 +549,11 @@ void array_add(char ***array, char *string)
  */
 char *array_join(char **array, const char *sep)
 {
-	string_t s = string_init(NULL);
-	int i;
-
 	if (!array)
 		return _strdup("");
 
-	for (i = 0; array[i]; i++) {
+	string_t s = string_init(NULL);
+	for (int i = 0; array[i]; i++) {
 		if (i)
 			string_append(s, sep);
 
