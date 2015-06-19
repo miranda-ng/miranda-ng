@@ -172,7 +172,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 	int protoCount;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&protoCount, &accs);
+	Proto_EnumAccounts(&protoCount, &accs);
 	if (protoCount == 0)
 		return 0;
 
@@ -800,7 +800,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 						int protoCount;
 						PROTOACCOUNT **accs;
-						ProtoEnumAccounts(&protoCount, &accs);
+						Proto_EnumAccounts(&protoCount, &accs);
 
 						bool first = true;
 						for (int pos = 0; pos < protoCount; pos++) {

@@ -60,7 +60,6 @@ using std::fstream;
 #include <m_langpack.h>
 #include <m_clui.h>
 #include <m_skin.h>
-#include <m_protomod.h>
 #include <m_jabber.h>
 #include <m_icq.h>
 #include <m_message.h>

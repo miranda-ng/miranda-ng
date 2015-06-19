@@ -56,7 +56,6 @@ using namespace std;
 #include <m_database.h>
 #include <m_hotkeys.h>
 #include <m_langpack.h>
-#include <m_protomod.h>
 #include <m_options.h>
 #include <m_xml.h>
 #include <m_timezones.h>
@@ -222,7 +221,7 @@ static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
 
 static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 {
-	return (pAcc->bIsEnabled && ProtoGetAccount(pAcc->szModuleName));
+	return (pAcc->bIsEnabled && Proto_GetAccount(pAcc->szModuleName));
 }
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);

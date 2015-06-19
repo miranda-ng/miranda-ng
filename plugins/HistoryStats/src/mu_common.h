@@ -72,16 +72,6 @@ namespace mu
 	}
 
 	/*
-	 * proto
-	 */
-
-	namespace proto
-	{
-		int enumProtocols(int* numProtocols, PROTOACCOUNT*** ppProtoDescriptors);
-		const char* getContactBaseProto(MCONTACT hContact);
-	}
-
-	/*
 	 * protosvc
 	 */
 

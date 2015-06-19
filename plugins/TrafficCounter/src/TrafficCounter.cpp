@@ -1172,7 +1172,7 @@ void CreateProtocolList(void)
 	int i;
 	PROTOACCOUNT **acc;
 	//
-	ProtoEnumAccounts(&NumberOfAccounts,&acc);
+	Proto_EnumAccounts(&NumberOfAccounts,&acc);
 	//
 	ProtoList = (PROTOLIST*)mir_alloc(sizeof(PROTOLIST)*(NumberOfAccounts));
 	//

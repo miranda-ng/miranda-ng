@@ -473,7 +473,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 		SetFlags(MADF_HASCUSTOM);
 	}
 	// if pszProto is set to NULL, this will be scaned only incase the birthday date has not been found yet
-	else if (pszProto || (pszProto = DB::Contact::Proto(hContact)) != NULL)
+	else if (pszProto || (pszProto = Proto_GetBaseAccountName(hContact)) != NULL)
 	{
 		// try to get birthday from basic protocol
 		if (!DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
@@ -728,7 +728,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 	// A custom birthday was set by user before and is not to be ignored
 	if ((_wFlags & MADF_HASCUSTOM) && (bDontIgnoreAnything || !lastAnswer || (*lastAnswer != IDNONE))) {
 		if (!pszProto)
-			pszProto = DB::Contact::Proto(hContact);
+			pszProto = Proto_GetBaseAccountName(hContact);
 
 		if (pszProto) {
 			BYTE bIsMeta = DB::Module::IsMeta(pszProto);
@@ -772,7 +772,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 					for (int i = 0; i < nSubContactCount; i++) {
 						MCONTACT hSubContact = db_mc_getSub(hContact, i);
 						if (hSubContact != NULL) {
-							if (!mdbIgnore.DBGetDate(hSubContact, DB::Contact::Proto(hSubContact), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
+							if (!mdbIgnore.DBGetDate(hSubContact, Proto_GetBaseAccountName(hSubContact), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 								mdbIgnore.DBWriteDateStamp(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
 
 							DBWriteBirthDate(hSubContact);

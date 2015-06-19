@@ -342,10 +342,9 @@ extern "C" int __declspec(dllexport) Load(void)
    pd.fnInit = (pfnInitProto)gg_proto_init;
    pd.fnUninit = (pfnUninitProto)gg_proto_uninit;
    pd.type = PROTOTYPE_PROTOCOL;
+   Proto_RegisterModule( &pd);
 
-   // Register module
-   CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM) &pd);
-   gg_links_instancemenu_init();
+	gg_links_instancemenu_init();
    return 0;
 }
 

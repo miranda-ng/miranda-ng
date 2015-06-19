@@ -59,7 +59,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 	if ((hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
-	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)pszModule);
+	Proto_AddToContact(hContact, pszModule);
 	if (pszGroup[0])
 		db_set_ts(hContact, "CList", "Group", pszGroup);
 	else

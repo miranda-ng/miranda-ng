@@ -241,16 +241,14 @@ void DlgOption::SubGlobal::onWMInitDialog()
 
 	PROTOACCOUNT **protoList;
 	int protoCount;
-
-	if (mu::proto::enumProtocols(&protoCount, &protoList) == 0) {
-		upto_each_(i, protoCount)
-		{
-			m_hHideContactMenuProtos.push_back(m_Options.insertCheck(
-				m_hProtocols,
-				Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
-				0,
-				reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
-		}
+	Proto_EnumAccounts(&protoCount, &protoList);
+	upto_each_(i, protoCount)
+	{
+		m_hHideContactMenuProtos.push_back(m_Options.insertCheck(
+			m_hProtocols,
+			Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
+			0,
+			reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 	}
 
 	m_Options.ensureVisible(NULL);

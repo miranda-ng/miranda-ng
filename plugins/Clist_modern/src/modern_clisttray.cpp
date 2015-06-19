@@ -382,7 +382,7 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 	PROTOACCOUNT **acc;
 	int AccNum;
-	ProtoEnumAccounts(&AccNum, &acc);
+	Proto_EnumAccounts(&AccNum, &acc);
 
 	// looking for the appropriate account to show its icon
 	int t = pcli->cycleStep;
@@ -453,7 +453,7 @@ int GetGoodAccNum(bool *bDiffers, bool *bConn)
 {
 	PROTOACCOUNT **acc;
 	int AccNum, i;
-	ProtoEnumAccounts(&AccNum, &acc);
+	Proto_EnumAccounts(&AccNum, &acc);
 
 	if (bConn)
 		*bConn = FALSE;
@@ -535,7 +535,7 @@ int cliTrayIconInit(HWND hwnd)
 		if (!szProto)
 			break;
 
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (!pa || !pa->ppro)
 			pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
 		else
@@ -554,7 +554,7 @@ int cliTrayIconInit(HWND hwnd)
 	case TRAY_ICON_MODE_ALL:
 		PROTOACCOUNT **acc;
 		int AccNum, i;
-		ProtoEnumAccounts(&AccNum, &acc);
+		Proto_EnumAccounts(&AccNum, &acc);
 
 		for (i = AccNum; i--;) {
 			if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->ppro)

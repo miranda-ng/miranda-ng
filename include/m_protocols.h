@@ -32,11 +32,6 @@ struct PROTO_INTERFACE;
 #include "statusmodes.h"
 #include <m_core.h>
 
-// send a general request through the protocol chain for a contact
-// wParam = 0
-// lParam = (LPARAM)(CCSDATA*)&ccs
-// returns the value as documented in the PS_ definition (m_protosvc.h)
-
 typedef struct {
 	MCONTACT hContact;
 	const char *szProtoService;   // a PS_ constant
@@ -44,23 +39,14 @@ typedef struct {
 	LPARAM lParam;
 } CCSDATA;
 
-#define MS_PROTO_CALLCONTACTSERVICE    "Proto/CallContactService"
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // a general network 'ack'
 // wParam = 0
 // lParam = (LPARAM)(ACKDATA*)&ack
 // Note that just because definitions are here doesn't mean they will be sent.
 // Read the documentation for the function you are calling to see what replies
 // you will receive.
-typedef struct {
-	int cbSize;
-	const char *szModule;  // the name of the protocol module which initiated this ack
-	MCONTACT hContact;
-	int type;     // an ACKTYPE_ constant
-	int result; 	// an ACKRESULT_ constant
-	HANDLE hProcess;   // a caller-defined process code
-	LPARAM lParam;	   // caller-defined extra info
-} ACKDATA;
+
 #define ACKTYPE_MESSAGE    0
 #define ACKTYPE_URL        1
 #define ACKTYPE_FILE       2
@@ -95,9 +81,19 @@ typedef struct {
 #define ACKRESULT_CONNECTPROXY 110  // connecting to file proxy
 #define ACKRESULT_SEARCHRESULT 111  // result of extended search
 
-#define ME_PROTO_ACK       "Proto/Ack"
+typedef struct {
+	int cbSize;
+	const char *szModule;  // the name of the protocol module which initiated this ack
+	MCONTACT hContact;
+	int type;     // an ACKTYPE_ constant
+	int result; 	// an ACKRESULT_ constant
+	HANDLE hProcess;   // a caller-defined process code
+	LPARAM lParam;	   // caller-defined extra info
+} ACKDATA;
 
-// v0.3.2+: When result is ACKRESULT_FAILED or ACKRESULT_DENIED, lParam can point to
+#define ME_PROTO_ACK "Proto/Ack"
+
+// When result is ACKRESULT_FAILED or ACKRESULT_DENIED, lParam can point to
 // a human readable string with an explanation. For example: "The message was too
 // long to be delivered". If no error message is specified, lParam must be NULL.
 // Right now only explanations from ACKTYPE_MESSAGE is shown.
@@ -149,30 +145,26 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 	unsigned __int64 currentFileProgress;
 	unsigned __int64 currentFileTime;  // as seconds since 1970
 }
-PROTOFILETRANSFERSTATUS;
-
-// Enumerate the currently running protocols
-// wParam = (WPARAM)(int*)&numberOfProtocols
-// lParam = (LPARAM)(PROTOCOLDESCRIPTOR***)&ppProtocolDescriptors
-// Returns 0 on success, nonzero on failure
-// Neither wParam nor lParam may be NULL
-// The list returned by this service is the protocol modules currently installed
-// and running. It is not the complete list of all protocols that have ever been
-// installed.
-// IMPORTANT NOTE #1: the list returned is not static, it may be changed in the
-// program's lifetime. Do not use this list in the global context, copy protocols
-// names otherwise.
-// IMPORTANT NOTE #2: in version 0.8 this service is mapped to the MS_PROTO_ENUMACCOUNTS
-// service to provide the compatibility with old plugins (first three members of
-// PROTOACCOUNT are equal to the old PROTOCOLDESCRIPTOR format). If you declare the
-// MIRANDA_VER macro with value greater or equal to 0x800, use MS_PROTO_ENUMPROTOS
-// service instead to obtain the list of running protocols instead of accounts.
-// Note that a protocol module need not be an interface to an Internet server,
-// they can be encryption and loads of other things, too.
-// And yes, before you ask, that is triple indirection. Deal with it.
-// Access members using ppProtocolDescriptors[index]->element
+	PROTOFILETRANSFERSTATUS;
 
 #define PROTOCOLDESCRIPTOR_V3_SIZE (sizeof(size_t)+sizeof(INT_PTR)+sizeof(char*))
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// For recv, it will go from lower to higher, so in this case:
+// check ignore, decrypt (encryption), translate
+// 
+// For send, it will go translate, encrypt, ignore(??), send
+// 
+// The DB will store higher numbers here, LOWER in the protocol chain, and lower numbers
+// here HIGHER in the protocol chain
+
+#define PROTOTYPE_IGNORE         50    // added during v0.3.3
+#define PROTOTYPE_PROTOCOL     1000
+#define PROTOTYPE_VIRTUAL      1001    // virtual protocol (has no accounts)
+#define PROTOTYPE_ENCRYPTION   2000
+#define PROTOTYPE_FILTER       3000
+#define PROTOTYPE_TRANSLATION  4000
+#define PROTOTYPE_OTHER       10000    // avoid using this if at all possible
 
  // initializes an empty account
 typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const TCHAR* szUserName);
@@ -195,69 +187,64 @@ typedef struct {
 }
 	PROTOCOLDESCRIPTOR;
 
-// v0.3.3+:
-// 
-// For recv, it will go from lower to higher, so in this case:
-// check ignore, decrypt (encryption), translate
-// 
-// For send, it will go translate, encrypt, ignore(??), send
-// 
-// The DB will store higher numbers here, LOWER in the protocol chain, and lower numbers
-// here HIGHER in the protocol chain
+/////////////////////////////////////////////////////////////////////////////////////////
+// Enumerate the currently running protocols
+// Returns 0 on success, nonzero on failure
+// Neither wParam nor lParam may be NULL
+// The list returned by this service is the protocol modules currently installed
+// and running. It is not the complete list of all protocols that have ever been
+// installed.
+// IMPORTANT NOTE #1: the list returned is not static, it may be changed in the
+// program's lifetime. Do not use this list in the global context, copy protocols
+// names otherwise.
+// IMPORTANT NOTE #2: in version 0.8 this service is mapped to the MS_PROTO_ENUMACCOUNTS
+// service to provide the compatibility with old plugins (first three members of
+// PROTOACCOUNT are equal to the old PROTOCOLDESCRIPTOR format). If you declare the
+// MIRANDA_VER macro with value greater or equal to 0x800, use MS_PROTO_ENUMPROTOS
+// service instead to obtain the list of running protocols instead of accounts.
+// Note that a protocol module need not be an interface to an Internet server,
+// they can be encryption and loads of other things, too.
+// And yes, before you ask, that is triple indirection. Deal with it.
+// Access members using ppProtocolDescriptors[index]->element
 
-#define PROTOTYPE_IGNORE         50    // added during v0.3.3
-#define PROTOTYPE_PROTOCOL     1000
-#define PROTOTYPE_VIRTUAL      1001    // virtual protocol (has no accounts)
-#define PROTOTYPE_ENCRYPTION   2000
-#define PROTOTYPE_FILTER       3000
-#define PROTOTYPE_TRANSLATION  4000
-#define PROTOTYPE_OTHER       10000    // avoid using this if at all possible
+EXTERN_C MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProtos);
 
-#define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // determines if a protocol module is loaded or not
-// wParam = 0 (unused)
-// lParam = (LPARAM)(const char*)szName
 // Returns a pointer to the PROTOCOLDESCRIPTOR if the protocol is loaded, or
 // NULL if it isn't.
-#define MS_PROTO_ISPROTOCOLLOADED  "Proto/IsProtocolLoaded"
 
-#ifdef __cplusplus
-extern "C"
-#endif
-MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
+EXTERN_C MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets the network-level protocol associated with a contact
-// wParam = (MCONTACT)hContact
-// lParam = 0
 // Returns a char* pointing to the asciiz name of the protocol or NULL if the
 // contact has no protocol. There is no need to free() it or anything.
 // This is the name of the module that actually accesses the network for that
 // contact.
-#define MS_PROTO_GETCONTACTBASEPROTO  "Proto/GetContactBaseProto"
 
-__forceinline char* GetContactProto(MCONTACT hContact)
-{	return (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
-}
+EXTERN_C MIR_APP_DLL(char*) GetContactProto(MCONTACT hContact);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // determines whether the specified contact has the given protocol in its chain
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(const char*)szName
 // Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't
-#define MS_PROTO_ISPROTOONCONTACT  "Proto/IsProtoOnContact"
 
-#define PROTOTYPE_SELFTYPING_OFF      0
-#define PROTOTYPE_SELFTYPING_ON       1
+EXTERN_C MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // This service is for notifying protocols that the user is typing a message v0.3.3+
 // in a message dialog.
 // This is typically sent by a message dialog when a user in the clist is typing.
 // wParam = (MCONTACT)hContact
 // lParam = (LPARAM)(int)typing state
 // NOTE: Only protocols should generally call this service
+
+#define PROTOTYPE_SELFTYPING_OFF      0
+#define PROTOTYPE_SELFTYPING_ON       1
+
 #define MS_PROTO_SELFISTYPING "Proto/SelfIsTyping"
 
-#define PROTOTYPE_CONTACTTYPING_OFF      0
-#define PROTOTYPE_CONTACTTYPING_INFINITE 2147483647
+/////////////////////////////////////////////////////////////////////////////////////////
 // This service is for notifying message dialogs/other plugins of a user typing. v0.3.3+
 // This is typically sent by a protocol when a user in the clist is typing.
 // wParam = (MCONTACT)hContact
@@ -266,8 +253,13 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 // how long to display its notification.  If time is 0, then notification
 // of typing ends.
 // NOTE: Only protocols should generally call this service
+
+#define PROTOTYPE_CONTACTTYPING_OFF      0
+#define PROTOTYPE_CONTACTTYPING_INFINITE 2147483647
+
 #define MS_PROTO_CONTACTISTYPING "Proto/ContactIsTyping"
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // This hook notifies when a user is typing.  If a message dialog supports sending v0.3.3+
 // typing notifications it should hook this event and fire the
 // ProtoService PSS_USERISTYPING to the contacts protocol *after* verifying
@@ -275,6 +267,7 @@ __forceinline char* GetContactProto(MCONTACT hContact)
 // to this user (checked visibility, individual typing blocking, etc).
 // wParam = (MCONTACT)hContact
 // lParam = (LPARAM)(int)typing state
+
 #define ME_PROTO_CONTACTISTYPING "Proto/ContactIsTypingEvent"
 
 // -------------- accounts support --------------------- 0.8.0+
@@ -299,19 +292,19 @@ typedef struct tagACCOUNT
 }
 	PROTOACCOUNT;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // account enumeration service
 // wParam = (WPARAM)(int*)piNumAccounts
 // lParam = (LPARAM)(PROTOACCOUNT**)paAccounts
-#define MS_PROTO_ENUMACCOUNTS "Proto/EnumAccounts"
 
-__forceinline INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArray)
-{	return CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)accNumber, (LPARAM)accArray);
-}
+MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // creates new account
 // wParam = 0
 // lParam = (LPARAM)(ACC_CREATE*) account definition
 // return value = PROTOACCOUNT* or NULL
+
 #define MS_PROTO_CREATEACCOUNT "Proto/CreateAccount"
 
 typedef struct tagACC_CREATE
@@ -325,17 +318,13 @@ __forceinline PROTOACCOUNT* ProtoCreateAccount(ACC_CREATE *pAccountDef)
 {	return (PROTOACCOUNT*)CallService(MS_PROTO_CREATEACCOUNT, 0, (LPARAM)pAccountDef);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // retrieves an account's interface by its physical name (database module)
-// wParam = 0
-// lParam = (LPARAM)(char*)szAccountName
 // return value = PROTOACCOUNT* or NULL
-#define MS_PROTO_GETACCOUNT "Proto/GetAccount"
 
-__forceinline PROTOACCOUNT* ProtoGetAccount(const char* accName)
-{
-	return (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accName);
-}
+EXTERN_C MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *pszModuleName);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // this event is fired when the accounts list gets changed
 // wParam = event type (1 - added, 2 - changed, 3 - deleted, 4 - upgraded, 5 - enabled/disabled)
 // lParam = (LPARAM)(PROTOACCOUNT*) - account being changed
@@ -348,37 +337,37 @@ __forceinline PROTOACCOUNT* ProtoGetAccount(const char* accName)
 
 #define ME_PROTO_ACCLISTCHANGED "Proto/AccListChanged"
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // displays the Account Manager
 // wParam = 0
 // lParam = 0
+
 #define MS_PROTO_SHOWACCMGR "Protos/ShowAccountManager"
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // determines if an account is enabled or not
 // wParam = 0
 // lParam = (LPARAM)(PROTOACCOUNT*)
 // Returns 1 if an account is valid and enabled, 0 otherwise
-#define MS_PROTO_ISACCOUNTENABLED "Proto/IsAccountEnabled"
 
-__forceinline int IsAccountEnabled(const PROTOACCOUNT *pa)
-{
-  return (int)CallService(MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa);
-}
+EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // determines if an account is locked or not
 // wParam = 0
 // lParam = (LPARAM)(char*)szAccountName
 // Returns 1 if an account is locked and not supposed to change status, 0 otherwise
-#define MS_PROTO_ISACCOUNTLOCKED "Proto/IsAccountLocked"
 
+EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountLocked(const char *szModuleName);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets the account associated with a contact
-// wParam = (MCONTACT)hContact
-// lParam = 0
 // Returns a char* pointing to the asciiz name of the protocol or NULL if the
 // contact has no protocol. There is no need to mir_free() it or anything.
 // This is the name of the module that actually accesses the network for that
 // contact.
-#define MS_PROTO_GETCONTACTBASEACCOUNT  "Proto/GetContactBaseAccount"
+
+EXTERN_C MIR_APP_DLL(char*) Proto_GetBaseAccountName(MCONTACT);
 
 /* -------------- avatar support ---------------------
 
@@ -445,5 +434,67 @@ typedef struct {
 */
 
 #define PS_GETAVATARINFO "/GetAvatarInformation"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// notify the protocol manager that you're around
+// wParam = 0
+// lParam = (PROTOCOLDESCRIPTOR*)&descriptor
+// returns 0 on success, nonzero on failure
+// This service must be called in your module's Load(void) routine.
+// descriptor.type can be a value other than the PROTOTYPE_ constants specified
+// above to provide more precise positioning information for the contact
+// protocol lists. It is strongly recommended that you give values relative to
+// the constants, however, by adding or subtracting small integers ( <= 100).
+// PROTOTYPE_PROTOCOL modules must not do this. The value must be exact.
+// See MS_PROTO_ENUMPROTOCOLS for more notes.
+
+EXTERN_C MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR*);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// adds the specified protocol module to the chain for a contact
+// returns 0 on success, nonzero on failure
+// The module is added in the correct position according to the type given when
+// it was registered.
+
+EXTERN_C MIR_APP_DLL(int) Proto_AddToContact(MCONTACT, const char *szProto);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// removes the specified protocol module from the chain for a contact
+// wParam = (MCONTACT)hContact
+// lParam = (LPARAM)(const char*)szName
+// returns 0 on success, nonzero on failure
+
+EXTERN_C MIR_APP_DLL(int) Proto_RemoveFromContact(MCONTACT, const char *szProto);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Call the next service in the chain for this send operation
+// The return value should be returned immediately
+// iOrder and ccs should be passed as the parameters that your service was
+// called with. iOrder must remain untouched but ccs is a CCSDATA structure
+// that can be copied and modified if needed.
+// Typically, the last line of any chaining protocol function is
+// return Proto_ChainSend(iOrder, ccs);
+
+EXTERN_C MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Call the next service in the chain for this receive operation
+// The return value should be returned immediately
+// iOrder and ccs should be passed as the parameters that your service was
+// called with. iOrder must remain untouched but ccs is a CCSDATA structure
+// that can be copied and modified if needed.
+// When being initiated by the network-access protocol module, wParam should be zero.
+// Thread safety: ms_proto_chainrecv is completely thread safe since 0.1.2.0
+// Calls to it are translated to the main thread and passed on from there. The
+// function will not return until all callees have returned, irrepective of
+// differences between threads the functions are in.
+
+EXTERN_C MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs);
+
+__forceinline INT_PTR ProtoChainRecv(MCONTACT hContact, char *szService, WPARAM wParam, LPARAM lParam)
+{
+	CCSDATA ccs = { hContact, szService, wParam, lParam };
+	return Proto_ChainRecv(0, &ccs);
+}
 
 #endif // M_PROTOCOLS_H

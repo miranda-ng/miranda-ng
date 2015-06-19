@@ -49,7 +49,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CToxProto::OnModulesLoaded);
 

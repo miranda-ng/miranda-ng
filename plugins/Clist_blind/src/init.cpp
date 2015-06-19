@@ -474,7 +474,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 		return proto_name;
 	}
 
-	acc = ProtoGetAccount(item->proto);
+	acc = Proto_GetAccount(item->proto);
 
 	if (acc == NULL)
 	{

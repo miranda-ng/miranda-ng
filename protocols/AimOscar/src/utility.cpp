@@ -194,7 +194,7 @@ MCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempo
 	if (addIfNeeded) {
 		MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (hContact) {
-			if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) == 0) {
+			if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
 				setString(hContact, AIM_KEY_SN, norm_sn);
 				setString(hContact, AIM_KEY_NK, sn);
 				debugLogA("Adding contact %s to client side list.",norm_sn);

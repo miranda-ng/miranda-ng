@@ -573,7 +573,7 @@ namespace
 		dbei.timestamp = static_cast<DWORD>(nTime);
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = ::mir_strlen(psz) + 1;
+		dbei.cbBlob = (int)::mir_strlen(psz) + 1;
 		dbei.pBlob = (PBYTE)(char*)psz;
 		db_event_add(hContact, &dbei);
 	}
@@ -818,7 +818,7 @@ MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 {
 	MCONTACT hContact = MCONTACT(CallService(MS_DB_CONTACT_ADD, 0, 0));
 	if (hContact) {
-		if (0 == CallService(MS_PROTO_ADDTOCONTACT, WPARAM(hContact), (LPARAM)QUOTES_PROTOCOL_NAME)) {
+		if (0 == Proto_AddToContact(hContact, QUOTES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
 			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PROVIDER, sProvName.c_str());
 			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());

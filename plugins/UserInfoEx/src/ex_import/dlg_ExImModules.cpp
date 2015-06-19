@@ -220,7 +220,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 						name = (LPCTSTR) pDat->ExImContact->ptszName;
 						break;
 					case EXIM_ACCOUNT:
-						PROTOACCOUNT* acc = ProtoGetAccount(pDat->ExImContact->pszName);
+						PROTOACCOUNT* acc = Proto_GetAccount(pDat->ExImContact->pszName);
 						name = (LPCTSTR) acc->tszAccountName;
 						break;
 				}
@@ -240,7 +240,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				TreeView_SetItemHeight(hTree, 18);
 
 				pszProto = (pDat->ExImContact->Typ == EXIM_CONTACT && pDat->ExImContact->hContact != NULL)
-					? (LPSTR)DB::Contact::Proto(pDat->ExImContact->hContact)
+					? (LPSTR)Proto_GetBaseAccountName(pDat->ExImContact->hContact)
 					: NULL;
 
 				// add items that are always exported
@@ -298,7 +298,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 									{
 										// ignore empty modules
 										if (!DB::Module::IsEmpty(hContact, p)) {
-											pszProto = DB::Contact::Proto(hContact);
+											pszProto = Proto_GetBaseAccountName(hContact);
 											// Filter by mode
 											switch (pDat->ExImContact->Typ)
 											{

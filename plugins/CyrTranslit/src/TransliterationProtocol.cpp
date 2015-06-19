@@ -32,7 +32,7 @@ void TransliterationProtocol::initialize()
 	pd.cbSize = sizeof(pd);
 	pd.szName = MODULE_NAME;
 	pd.type = PROTOTYPE_TRANSLATION;
-	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE, sendMessage);
 }
@@ -62,14 +62,14 @@ INT_PTR TransliterationProtocol::sendMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	if ( !MirandaContact::bIsActive(ccs->hContact))
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 
 	LPARAM oldlParam = ccs->lParam;
 	bool msgProcessed = true;
 
 	TranslateMessageUTF(wParam, lParam);
 
-	int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+	int ret = Proto_ChainSend(wParam, ccs);
 
 	if (msgProcessed) {
 		mir_free(reinterpret_cast<void*>(ccs->lParam));

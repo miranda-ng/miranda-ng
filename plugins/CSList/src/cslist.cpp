@@ -96,7 +96,7 @@ static int OnCreateMenuItems(WPARAM, LPARAM)
 {
 	int protoCount;
 	PROTOACCOUNT** pdesc;
-	ProtoEnumAccounts(&protoCount, &pdesc);
+	Proto_EnumAccounts(&protoCount, &pdesc);
 
 	for (int i = 0; i < protoCount; i++)
 		if (ProtoServiceExists(pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX))
@@ -179,7 +179,7 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 	if (code == IDCLOSE)
 		return;
 
-	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szAccName);
+	PROTOACCOUNT* pdescr = Proto_GetAccount(szAccName);
 	if (pdescr == NULL)
 		return;
 
@@ -225,7 +225,7 @@ INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 
 void addProtoStatusMenuItem(char *protoName)
 {
-	PROTOACCOUNT *pdescr = ProtoGetAccount(protoName);
+	PROTOACCOUNT *pdescr = Proto_GetAccount(protoName);
 	if (pdescr == NULL)
 		return;
 
@@ -321,7 +321,7 @@ CSWindow::~CSWindow()
 
 void CSWindow::initIcons()
 {
-	PROTOACCOUNT *pdescr = ProtoGetAccount(m_protoName);
+	PROTOACCOUNT *pdescr = Proto_GetAccount(m_protoName);
 	if (pdescr == NULL)
 		return;
 
@@ -471,7 +471,7 @@ void CSAMWindow::exec()
 
 void CSAMWindow::setCombo()
 {
-	PROTOACCOUNT *pdescr = ProtoGetAccount(m_parent->m_protoName);
+	PROTOACCOUNT *pdescr = Proto_GetAccount(m_parent->m_protoName);
 	if (pdescr == NULL)
 		return;
 
@@ -567,7 +567,7 @@ void CSAMWindow::checkItemValidity()
 
 	GetDlgItemText(m_handle, IDC_MESSAGE, tszInputMessage, SIZEOF(tszInputMessage));
 
-	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_parent->m_protoName);
+	PROTOACCOUNT *pdescr = Proto_GetAccount(m_parent->m_protoName);
 	if (pdescr == NULL)
 		return;
 

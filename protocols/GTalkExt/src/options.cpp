@@ -241,7 +241,7 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 
 	for (int i = 0; i < g_accs.getCount(); i++) {
 		LPCSTR szProto = g_accs[i]->m_pa->szModuleName;
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
 			OPTIONSDIALOGPAGE odp = { 0 };
 			odp.ptszTitle = pa->tszAccountName;

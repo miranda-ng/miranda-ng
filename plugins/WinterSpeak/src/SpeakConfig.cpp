@@ -50,40 +50,39 @@ bool SpeakConfig::say(const std::wstring &sentence, MCONTACT user, bool message)
 	if (NULL != user)
 	{
 		// get the status of the protocol of this user
-		const char *protocol = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0);
-
-		switch (CallProtoService(protocol, PS_GETSTATUS, 0, 0))
-		{
-			case ID_STATUS_ONLINE:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Online);
-				break;
-			case ID_STATUS_AWAY:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Away);
-				break;
-			case ID_STATUS_DND:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Dnd);
-				break;
-			case ID_STATUS_NA:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Na);
-				break;
-			case ID_STATUS_OCCUPIED:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied);
-				break;
-			case ID_STATUS_FREECHAT:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat);
-				break;
-			case ID_STATUS_INVISIBLE:
-				active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible);
-				break;
-			case ID_STATUS_OFFLINE:
-				// if we are offline for this protocol, then don't speak the 
-				// sentence this is so we don't announce users offline status if 
-				// we are disconnected.
-				active = false;
-				break;
-			default:
-				active = false;
-				break;
+		const char *protocol = GetContactProto(user);
+		
+		switch (CallProtoService(protocol, PS_GETSTATUS, 0, 0)) {
+		case ID_STATUS_ONLINE:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Online);
+			break;
+		case ID_STATUS_AWAY:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Away);
+			break;
+		case ID_STATUS_DND:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Dnd);
+			break;
+		case ID_STATUS_NA:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Na);
+			break;
+		case ID_STATUS_OCCUPIED:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied);
+			break;
+		case ID_STATUS_FREECHAT:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat);
+			break;
+		case ID_STATUS_INVISIBLE:
+			active = m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible);
+			break;
+		case ID_STATUS_OFFLINE:
+			// if we are offline for this protocol, then don't speak the 
+			// sentence this is so we don't announce users offline status if 
+			// we are disconnected.
+			active = false;
+			break;
+		default:
+			active = false;
+			break;
 		}
 
 		// if its a user say, then check the users status

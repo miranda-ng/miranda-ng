@@ -680,7 +680,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 				// enum protocols currently running						
 				int iProtoCount = 0;
 				PROTOACCOUNT **ppProtos = 0;
-				ProtoEnumAccounts(&iProtoCount, &ppProtos);
+				Proto_EnumAccounts(&iProtoCount, &ppProtos);
 
 				// and fill in the list
 				for (int i=0; i < iProtoCount; i++)

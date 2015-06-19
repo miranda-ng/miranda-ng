@@ -280,14 +280,12 @@ MirfoxData::getContactDefaultState(MirandaContact* contact)
 void
 MirfoxData::initializeMirandaAccounts()
 {
-
 	clearMirandaAccounts();
 
+	//get accounts from Miranda by CallService MS_PROTO_ENUMACCOUNTS
 	int accountsCount = 0;
 	PROTOACCOUNT **accounts;
-
-	//get accounts from Miranda by CallService MS_PROTO_ENUMACCOUNTS
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&accountsCount, (LPARAM)&accounts);
+	Proto_EnumAccounts(&accountsCount, &accounts);
 
 	uint64_t protocolId = 1;
 
@@ -372,12 +370,11 @@ void MirfoxData::initializeMirandaContacts()
 	for (mirandaContactsIter = mirandaContactsPtr->begin(); mirandaContactsIter != mirandaContactsPtr->end(); mirandaContactsIter++){
 
 		logger->log_p(L"initializeMirandaContacts: try to get account for hContact = [" SCNuPTR L"]", mirandaContactsIter->contactHandle);
-		char* szModuleName = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)(mirandaContactsIter->contactHandle), 0);
-		if (szModuleName == NULL){
+		char *szModuleName = Proto_GetBaseAccountName(mirandaContactsIter->contactHandle);
+		if (szModuleName == NULL)
 			continue;  //mirandaContactsIter->mirandaAccountPtr will be NULL
-		}
-		mirandaContactsIter->mirandaAccountPtr = getMirandaAccountPtrBySzModuleName(szModuleName);
 
+		mirandaContactsIter->mirandaAccountPtr = getMirandaAccountPtrBySzModuleName(szModuleName);
 	}
 
 

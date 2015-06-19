@@ -92,7 +92,7 @@ extern HINSTANCE hInst;
 INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing = 0, i, j, numProtocols;
-	PROTOCOLDESCRIPTOR** pd;
+	PROTOACCOUNT **pd;
 	TCHAR pName[256] = {0};
 	char protoOption[256] = {0};
 	char protoName[256] = {0};
@@ -102,113 +102,113 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 	TCHAR buf[512];
 
 	switch (msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(optDlg);
-			bInitializing = 1;
-			
-			///Main enable switch
-			CheckDlgButton(optDlg, IDC_OPT_OUT_MSG_APPROVE, _getOptB("ApproveOnMsgOut", defaultApproveOnMsgOut) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_IN_MSG_APPROVE, _getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, _getOptB("DontReplySameMsg", defaultDontReplySameMsg) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_MSG, _getOptB("DontReplyMsg", defaultDontReplyMsg) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, _getOptB("HideUnverified", defaultHideUnverified) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, _getOptB("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, _getOptB("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
+	case WM_INITDIALOG:
+		TranslateDialogDefault(optDlg);
+		bInitializing = 1;
 
-			SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, SIZEOF(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
-			SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itot((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
-			SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itot((unsigned int)_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
-			SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, SIZEOF(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
+		///Main enable switch
+		CheckDlgButton(optDlg, IDC_OPT_OUT_MSG_APPROVE, _getOptB("ApproveOnMsgOut", defaultApproveOnMsgOut) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_IN_MSG_APPROVE, _getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, _getOptB("DontReplySameMsg", defaultDontReplySameMsg) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_MSG, _getOptB("DontReplyMsg", defaultDontReplyMsg) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, _getOptB("HideUnverified", defaultHideUnverified) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, _getOptB("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, _getOptB("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
 
-			///Individual protocols list
-			ListView_SetExtendedListViewStyle(hProtocolsList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
-			lvc.mask = LVCF_WIDTH;
-			lvc.cx = 120;
-			ListView_InsertColumn(hProtocolsList, 0, &lvc);
-			lvi.mask = LVIF_TEXT | LVIF_STATE;
-			CallService(MS_PROTO_ENUMACCOUNTS, (LPARAM)&numProtocols, (WPARAM)&pd);
-			for (i = 0, j = 0; i < numProtocols; i++)
-			{
-				lvi.iItem = i;
-				_getMOptS(pName, 200*sizeof(TCHAR), pd[i]->szName, "AM_BaseProto", _T(""));
-				if (mir_tstrcmp(pName, _T("ICQ")) != 0)
-					continue;
-				lvi.pszText = mir_a2u(pd[i]->szName);
-				ListView_InsertItem(hProtocolsList, &lvi);
+		SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, SIZEOF(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
+		SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itot((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
+		SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itot((unsigned int)_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
+		SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, SIZEOF(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
+
+		///Individual protocols list
+		ListView_SetExtendedListViewStyle(hProtocolsList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = 120;
+		ListView_InsertColumn(hProtocolsList, 0, &lvc);
+		lvi.mask = LVIF_TEXT | LVIF_STATE;
+		Proto_EnumAccounts(&numProtocols, &pd);
+		for (i = 0, j = 0; i < numProtocols; i++)
+		{
+			lvi.iItem = i;
+			_getMOptS(pName, 200*sizeof(TCHAR), pd[i]->szModuleName, "AM_BaseProto", _T(""));
+			if (mir_tstrcmp(pName, _T("ICQ")) != 0)
+				continue;
+			lvi.pszText = mir_a2u(pd[i]->szModuleName);
+			ListView_InsertItem(hProtocolsList, &lvi);
+			memset(protoOption, 0, sizeof(protoOption));
+			mir_strcat(protoOption, "proto_");
+			mir_strcat(protoOption, pd[i]->szModuleName);
+			ListView_SetCheckState(hProtocolsList, j++, _getOptB(protoOption, 0));
+		}
+
+		bInitializing = 0;
+		return TRUE;
+
+	case WM_COMMAND:
+		if (bInitializing)
+			return FALSE;
+		switch (LOWORD(wParam)) {
+		case IDC_OPT_OUT_MSG_APPROVE:
+		case IDC_OPT_IN_MSG_APPROVE:
+		case IDC_OPT_DONT_REPLY_SAME_MSG:
+		case IDC_OPT_DONT_REPLY_MSG:
+		case IDC_OPT_ADD_PERMANENTLY:
+		case IDC_OPT_HIDE_UNTIL_VERIFIED:
+		case IDC_OPT_LOG_ACTIONS:
+			if (HIWORD(wParam) != BN_CLICKED)
+				return  FALSE;
+			break;
+		case IDC_OPT_IN_MSG_APPROVE_WORDLIST:
+		case IDC_OPT_MAX_MSG_CONTACT:
+		case IDC_OPT_MAX_SAME_MSG:
+		case IDC_OPT_DONT_REPLY_MSG_WORDLIST:
+			if (HIWORD(wParam) != EN_CHANGE)
+				return FALSE;
+			break;
+		}
+		SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		if (bInitializing)
+			return FALSE;
+
+		switch (LOWORD(wParam)) {
+		case IDC_OPT_PROTOCOLS:
+			if (
+				((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && 
+				((LPNMLISTVIEW)lParam)->uChanged & LVIF_STATE &&
+				(((LPNMLISTVIEW)lParam)->uOldState & LVIS_STATEIMAGEMASK) != \
+				(((LPNMLISTVIEW)lParam)->uNewState & LVIS_STATEIMAGEMASK)
+				)
+				SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		switch (((NMHDR*)lParam)->code) {
+		case PSN_APPLY:
+			_setOptB("ApproveOnMsgOut", IsDlgButtonChecked(optDlg, IDC_OPT_OUT_MSG_APPROVE));
+			_setOptB("ApproveOnMsgIn", IsDlgButtonChecked(optDlg, IDC_OPT_IN_MSG_APPROVE));
+			_setOptB("DontReplySameMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG));
+			_setOptB("DontReplyMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_MSG));
+			_setOptB("AddPermanently", IsDlgButtonChecked(optDlg, IDC_OPT_ADD_PERMANENTLY));
+			_setOptB("HideUnverified", IsDlgButtonChecked(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED));
+			_setOptB("LogActions", IsDlgButtonChecked(optDlg, IDC_OPT_LOG_ACTIONS));
+			_saveDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, "ApproveOnMsgInWordlist");
+			_saveDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, "DontReplyMsgWordlist");
+			_saveDlgItemInt(optDlg, IDC_OPT_MAX_MSG_CONTACT, "MaxMsgContactCountPerDay");
+			_saveDlgItemInt(optDlg, IDC_OPT_MAX_SAME_MSG, "MaxSameMsgCountPerDay");
+			numProtocols = ListView_GetItemCount(hProtocolsList);
+			for (i = 0; i < numProtocols; i++) {
+				ListView_GetItemText(hProtocolsList, i, 0, buf, SIZEOF(buf));
+				//wcstombs(protoName, buf, SIZEOF(buf));
 				memset(protoOption, 0, sizeof(protoOption));
 				mir_strcat(protoOption, "proto_");
-				mir_strcat(protoOption, pd[i]->szName);
-				ListView_SetCheckState(hProtocolsList, j++, _getOptB(protoOption, 0));
+				mir_strcat(protoOption, mir_u2a(buf));
+				_setOptB(protoOption, ListView_GetCheckState(hProtocolsList, i));
 			}
-
-			bInitializing = 0;
 			return TRUE;
-
-		case WM_COMMAND:
-			if (bInitializing)
-				return FALSE;
-			switch (LOWORD(wParam)) {
-				case IDC_OPT_OUT_MSG_APPROVE:
-				case IDC_OPT_IN_MSG_APPROVE:
-				case IDC_OPT_DONT_REPLY_SAME_MSG:
-				case IDC_OPT_DONT_REPLY_MSG:
-				case IDC_OPT_ADD_PERMANENTLY:
-				case IDC_OPT_HIDE_UNTIL_VERIFIED:
-				case IDC_OPT_LOG_ACTIONS:
-					if (HIWORD(wParam) != BN_CLICKED)
-						return  FALSE;
-					break;
-				case IDC_OPT_IN_MSG_APPROVE_WORDLIST:
-				case IDC_OPT_MAX_MSG_CONTACT:
-				case IDC_OPT_MAX_SAME_MSG:
-				case IDC_OPT_DONT_REPLY_MSG_WORDLIST:
-					if (HIWORD(wParam) != EN_CHANGE)
-						return FALSE;
-					break;
-			}
-			SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
-			break;
-		case WM_NOTIFY:
-			if (bInitializing)
-				return FALSE;
-			switch (LOWORD(wParam)) {
-				case IDC_OPT_PROTOCOLS:
-					if (
-						((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && 
-						((LPNMLISTVIEW)lParam)->uChanged & LVIF_STATE &&
-						(((LPNMLISTVIEW)lParam)->uOldState & LVIS_STATEIMAGEMASK) != \
-						  (((LPNMLISTVIEW)lParam)->uNewState & LVIS_STATEIMAGEMASK)
-						)
-						SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
-					break;
-			}
-			switch (((NMHDR*)lParam)->code) {
-				case PSN_APPLY:
-					_setOptB("ApproveOnMsgOut", IsDlgButtonChecked(optDlg, IDC_OPT_OUT_MSG_APPROVE));
-					_setOptB("ApproveOnMsgIn", IsDlgButtonChecked(optDlg, IDC_OPT_IN_MSG_APPROVE));
-					_setOptB("DontReplySameMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG));
-					_setOptB("DontReplyMsg", IsDlgButtonChecked(optDlg, IDC_OPT_DONT_REPLY_MSG));
-					_setOptB("AddPermanently", IsDlgButtonChecked(optDlg, IDC_OPT_ADD_PERMANENTLY));
-					_setOptB("HideUnverified", IsDlgButtonChecked(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED));
-					_setOptB("LogActions", IsDlgButtonChecked(optDlg, IDC_OPT_LOG_ACTIONS));
-					_saveDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, "ApproveOnMsgInWordlist");
-					_saveDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, "DontReplyMsgWordlist");
-					_saveDlgItemInt(optDlg, IDC_OPT_MAX_MSG_CONTACT, "MaxMsgContactCountPerDay");
-					_saveDlgItemInt(optDlg, IDC_OPT_MAX_SAME_MSG, "MaxSameMsgCountPerDay");
-					numProtocols = ListView_GetItemCount(hProtocolsList);
-					for (i = 0; i < numProtocols; i++) {
-						ListView_GetItemText(hProtocolsList, i, 0, buf, SIZEOF(buf));
-						//wcstombs(protoName, buf, SIZEOF(buf));
-						memset(protoOption, 0, sizeof(protoOption));
-						mir_strcat(protoOption, "proto_");
-						mir_strcat(protoOption, mir_u2a(buf));
-						_setOptB(protoOption, ListView_GetCheckState(hProtocolsList, i));
-					}
-					return TRUE;
-			}
-			break;
-		case WM_DESTROY:
-			break;
+		}
+		break;
 	}
 	return FALSE;
 }

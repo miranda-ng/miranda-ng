@@ -53,11 +53,9 @@
 #include <m_clui.h>
 #include <m_skin.h>
 #include <m_langpack.h>
-#include <m_protomod.h>
 #include <m_database.h>
 #include <m_system.h>
 #include <m_protocols.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_userinfo.h>

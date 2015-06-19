@@ -89,4 +89,4 @@
 #define HISTORY_HK_IMPDAT 116
 #define HISTORY_HK_ALLCONTACTS 117
 
-HICON LoadIconEx(int iconId, int big = 0);
+HICON LoadIconEx(int iconId, bool big = false);

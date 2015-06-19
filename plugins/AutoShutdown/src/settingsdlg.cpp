@@ -54,10 +54,11 @@ static bool AnyProtoHasCaps(DWORD caps1)
 {
 	int nProtoCount;
 	PROTOACCOUNT **protos;
-	if (!ProtoEnumAccounts(&nProtoCount, &protos))
-		for(int i=0;i<nProtoCount;++i)
-			if (CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
-				return true; /* CALLSERVICE_NOTFOUND also handled gracefully */
+	Proto_EnumAccounts(&nProtoCount, &protos);
+
+	for(int i=0;i<nProtoCount;++i)
+		if (CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
+			return true; /* CALLSERVICE_NOTFOUND also handled gracefully */
 	return false;
 }
 

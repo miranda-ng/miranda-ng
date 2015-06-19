@@ -204,7 +204,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int protocolCount = 0;
 			PROTOACCOUNT **protocols;
-			ProtoEnumAccounts(&protocolCount, &protocols);
+			Proto_EnumAccounts(&protocolCount, &protocols);
 			DWORD globalFlags = 0;
 			for (int i = 0; i < protocolCount; ++i) {
 				if (!protocols[i]->bIsVirtual) {
@@ -521,7 +521,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				{
 					int protocolCount;
 					PROTOACCOUNT **protocols;
-					ProtoEnumAccounts(&protocolCount, &protocols);
+					Proto_EnumAccounts(&protocolCount, &protocols);
 
 					for (int i = 0; i < protocolCount; ++i) {
 						if (!protocols[i]->bIsVirtual) {

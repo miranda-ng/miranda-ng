@@ -365,30 +365,34 @@ static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR IgnoreRecvMessage(WPARAM wParam, LPARAM lParam)
 {
-	if (IsIgnored((WPARAM)((CCSDATA*)lParam)->hContact, IGNOREEVENT_MESSAGE))
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	if (IsIgnored(ccs->hContact, IGNOREEVENT_MESSAGE))
 		return 1;
-	return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 static INT_PTR IgnoreRecvUrl(WPARAM wParam, LPARAM lParam)
 {
-	if ( IsIgnored((WPARAM)((CCSDATA*)lParam)->hContact, IGNOREEVENT_URL))
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	if (IsIgnored(ccs->hContact, IGNOREEVENT_URL))
 		return 1;
-	return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 static INT_PTR IgnoreRecvFile(WPARAM wParam, LPARAM lParam)
 {
-	if ( IsIgnored((WPARAM)((CCSDATA*)lParam)->hContact, IGNOREEVENT_FILE))
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	if (IsIgnored(ccs->hContact, IGNOREEVENT_FILE))
 		return 1;
-	return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 static INT_PTR IgnoreRecvAuth(WPARAM wParam, LPARAM lParam)
 {
-	if ( IsIgnored((WPARAM)((CCSDATA*)lParam)->hContact, IGNOREEVENT_AUTHORIZATION))
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	if (IsIgnored(ccs->hContact, IGNOREEVENT_AUTHORIZATION))
 		return 1;
-	return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
@@ -420,10 +424,11 @@ static int IgnoreModernOptInit(WPARAM wParam, LPARAM)
 
 int LoadIgnoreModule(void)
 {
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "Ignore";
 	pd.type = PROTOTYPE_IGNORE;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction("Ignore", PSR_MESSAGE, IgnoreRecvMessage);
 	CreateProtoServiceFunction("Ignore", PSR_URL, IgnoreRecvUrl);

@@ -36,7 +36,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 	if ((hContact = CallService(MS_DB_CONTACT_ADD, 0, 0)) == 0)
 		return INVALID_CONTACT_ID;
 
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+	Proto_AddToContact(hContact, m_szModuleName);
 	setString(hContact, "ID", jid.c_str());
 	debugLogA("Added contact %s", jid.c_str());
 	setString(hContact, "MirVer", "WhatsApp");

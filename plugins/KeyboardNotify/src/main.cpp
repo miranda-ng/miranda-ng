@@ -652,7 +652,7 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 void createProtocolList(void)
 {
 	PROTOACCOUNT **proto;
-	ProtoEnumAccounts(&ProtoList.protoCount, &proto);
+	Proto_EnumAccounts(&ProtoList.protoCount, &proto);
 	ProtoList.protoInfo = (PROTOCOL_INFO *)malloc(ProtoList.protoCount * sizeof(PROTOCOL_INFO));
 	if (!ProtoList.protoInfo) {
 		ProtoList.protoCount = 0;

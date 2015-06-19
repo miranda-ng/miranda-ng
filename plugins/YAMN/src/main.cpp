@@ -286,7 +286,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = YAMN_DBMODULE;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	InitializeCriticalSection(&AccountStatusCS);
 	InitializeCriticalSection(&FileWritingCS);

@@ -135,7 +135,7 @@ static int ProtoAck(WPARAM wParam, LPARAM lParam)
 	if ( ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS ) {
 		long status = 0;
 		int count;
-		ProtoEnumAccounts(&count, &protos);
+		Proto_EnumAccounts(&count, &protos);
 
 		for (int i=0; i < count; i++)
 			status = status | Proto_Status2Flag(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));

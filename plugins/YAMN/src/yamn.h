@@ -16,7 +16,7 @@
 #include <m_clist.h>
 #include <m_options.h>
 #include <m_database.h>
-#include <m_protomod.h>
+#include <m_protosvc.h>
 #include <m_icolib.h>
 #include <m_popup.h>
 #include <m_messages.h>

@@ -237,7 +237,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 	// If not, make a new contact!
 	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
-		if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) == 0) {
+		if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
 			db_set_s(hContact, m_szModuleName, TWITTER_KEY_UN, name);
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_ONLINE);
 			db_set_utf(hContact, "CList", "StatusMsg", status);

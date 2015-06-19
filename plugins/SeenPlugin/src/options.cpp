@@ -234,7 +234,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 			PROTOACCOUNT **protos;
 			int numberOfProtocols;
-			ProtoEnumAccounts(&numberOfProtocols, &protos);
+			Proto_EnumAccounts(&numberOfProtocols, &protos);
 
 			for (int i = 0; i < numberOfProtocols; i++) {
 				if (CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)

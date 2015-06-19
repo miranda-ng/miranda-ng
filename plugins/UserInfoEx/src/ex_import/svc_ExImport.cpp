@@ -60,7 +60,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 			disp = temp;
 			break;
 		case EXIM_ACCOUNT:
-			PROTOACCOUNT* acc = ProtoGetAccount(ExImContact->pszName);
+			PROTOACCOUNT* acc = Proto_GetAccount(ExImContact->pszName);
 			temp = mir_t2a(acc->tszAccountName);
 			disp = temp;
 			break;

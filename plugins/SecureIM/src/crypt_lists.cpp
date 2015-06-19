@@ -21,7 +21,7 @@ void loadSupportedProtocols()
 
 	int numberOfProtocols;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&numberOfProtocols, &protos);
+	Proto_EnumAccounts(&numberOfProtocols, &protos);
 
 	for (int i = 0; i < numberOfProtocols; i++) {
 		if (!protos[i]->szModuleName || !CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0))
@@ -67,7 +67,7 @@ void freeSupportedProtocols()
 pSupPro getSupPro(MCONTACT hContact)
 {
 	for (int j = 0; j < arProto.getCount(); j++)
-		if (CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)arProto[j]->name))
+		if (Proto_IsProtoOnContact(hContact, arProto[j]->name))
 			return arProto[j];
 
 	return NULL;

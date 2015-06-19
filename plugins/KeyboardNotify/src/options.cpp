@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				lvItem.iSubItem = 0;
 				for (int i=0; i < ProtoList.protoCount; i++) {
 					int count; PROTOACCOUNT** protos;
-					ProtoEnumAccounts( &count, &protos );
+					Proto_EnumAccounts( &count, &protos );
 					if(ProtoList.protoInfo[i].visible) {
 						lvItem.lParam = (LPARAM)ProtoList.protoInfo[i].szProto;
 						lvItem.pszText = protos[i] -> tszAccountName;
@@ -1362,7 +1362,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count) {
 					int count;
 					PROTOACCOUNT **protos;
-					ProtoEnumAccounts( &count, &protos );
+					Proto_EnumAccounts( &count, &protos );
 
 					tvis.hParent = NULL;
 					tvis.hInsertAfter = TVI_LAST;

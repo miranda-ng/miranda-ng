@@ -168,6 +168,7 @@ type
 
 type
   PPROTOCOLDESCRIPTOR = ^TPROTOCOLDESCRIPTOR;
+  PPPROTOCOLDESCRIPTOR = ^PPROTOCOLDESCRIPTOR;
   TPROTOCOLDESCRIPTOR = record
     cbSize : size_t;
     szName : PAnsiChar; // unique name of the module
@@ -202,24 +203,26 @@ const
   Returns a pointer to the PROTOCOLDESCRIPTOR if the protocol is loaded, or
   NULL if it isn't.
 }
-  MS_PROTO_ISPROTOCOLLOADED:PAnsiChar = 'Proto/IsProtocolLoaded';
+
+function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdcall;
+                 external AppDLL name 'Proto_IsProtocolLoaded';
 
 { gets the network-level protocol associated with a contact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
   Returns a AnsiChar* pointing to the asciiz name of the protocol or NULL if the
   contact has no protocol. There is no need to free() it or anything.
   This is the name of the module that actually accesses the network for that
   contact. }
-  MS_PROTO_GETCONTACTBASEPROTO = 'Proto/GetContactBaseProto';
+
+function Proto_GetProtoName(hContact:TMCONTACT) : PAnsiChar; stdcall;
+                 external AppDLL name 'GetContactProto';
 
 { determines whether the specified contact has the given protocol in its chain
   wParam=(WPARAM)(HANDLE)hContact
   lParam=(LPARAM)(const AnsiChar*)szName
   Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't }
+const
   MS_PROTO_ISPROTOONCONTACT:PAnsiChar = 'Proto/IsProtoOnContact';
 
-const
   PROTOTYPE_SELFTYPING_OFF = 0;
   PROTOTYPE_SELFTYPING_ON  = 1;
 { This service is for notifying protocols that the user is typing a message v0.3.3+
@@ -256,6 +259,7 @@ const
 
 type
   PPROTOACCOUNT = ^TPROTOACCOUNT;
+  PPPROTOACCOUNT = ^PPROTOACCOUNT;
   TPROTOACCOUNT = record
     cbSize          :int;              // sizeof this structure
     szModuleName    :PAnsiChar;        // unique physical account name (matches database module name)
@@ -273,13 +277,12 @@ type
   end;
   tagACCOUNT = TPROTOACCOUNT;
 
-const
 //account enumeration service
-//wParam=(WPARAM)(int)piNumAccounts
-//lParam=(LPARAM)(PROTOACCOUNT**)paAccounts
-  MS_PROTO_ENUMACCOUNTS:PAnsiChar = 'Proto/EnumAccounts';
+procedure Proto_EnumAccounts(var nAccs:int; var pAccs:PPPROTOACCOUNT); stdcall;
+                 external AppDLL name 'Proto_EnumAccounts';
 
-  MS_PROTO_ENUMPROTOS   :PAnsiChar = 'Proto/EnumProtos';   // MIRANDA_VER >= $800
+procedure Proto_EnumProtocols(var nProtos:int; var pProtos:PPPROTOCOLDESCRIPTOR); stdcall;
+                 external AppDLL name 'Proto_EnumProtocols';
 
 type
   PACC_CREATE = ^TACC_CREATE;
@@ -300,7 +303,10 @@ const
 //wParam=0
 //lParam=(LPARAM)(AnsiChar*)szAccountName
 //return value = PROTOACCOUNT* or NULL
-  MS_PROTO_GETACCOUNT:PAnsiChar = 'Proto/GetAccount';
+
+function Proto_GetAccount(proto:PAnsiChar) : PPROTOACCOUNT; stdcall;
+                 external AppDLL name 'Proto_GetAccount';
+
 (*
 __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
 {  return (PROTOACCOUNT* )CallService( MS_PROTO_GETACCOUNT, 0, (LPARAM)accName );
@@ -311,6 +317,7 @@ __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
 //wParam = event type (1 - added, 2 - changed, 3 - deleted, 5 - enabled/disabled)
 //lParam = (LPARAM)(PROTOACCOUNT*) - account being changed
 
+const
   PRAC_ADDED    = 1;
   PRAC_CHANGED  = 2;
   PRAC_REMOVED  = 3;
@@ -329,11 +336,11 @@ __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
 
 {
   determines if an account is enabled or not
-  wParam = 0
-  lParam = PPROTOACCOUNT
   Returns 1 if an account is valid and enabled, 0 otherwise
 }
-  MS_PROTO_ISACCOUNTENABLED:PAnsiChar = 'Proto/IsAccountEnabled';
+
+function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall;
+                 external AppDLL name 'Proto_IsAccountEnabled';
 
 {
   determines if an account is locked or not
@@ -341,17 +348,19 @@ __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
   lParam = PAnsiChar szAccountName
   Returns 1 if an account is locked and not supposed to change status, 0 otherwise
 }
-  MS_PROTO_ISACCOUNTLOCKED:PAnsiChar = 'Proto/IsAccountLocked';
+
+function Proto_IsAccountLocked(proto:PAnsiChar) : byte; stdcall;
+                 external AppDLL name 'Proto_IsAccountLocked';
 
 {
   gets the account associated with a contact
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=0
   Returns a PAnsiChar pointing to the asciiz name of the protocol or NULL if the
   contact has no protocol. There is no need to mir_free() it or anything.
   This is the name of the module that actually accesses the network for that contact.
 }
-  MS_PROTO_GETCONTACTBASEACCOUNT:PAnsiChar = 'Proto/GetContactBaseAccount';
+
+function Proto_GetBaseAccountName(hContact:TMCONTACT) : PAnsiChar; stdcall;
+                 external AppDLL name 'Proto_GetBaseAccountName';
 
 // -------------- avatar support ---------------------
 {
@@ -384,6 +393,7 @@ __inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
   When ACKRESULT_STATUS, hProcess is the result code - the value of this is protocol dependent,
   See protocol documentation to do with avatars for what codes are defined and what they mean.
 }
+
 const
   PA_FORMAT_UNKNOWN = 0; // the protocol can not determine much about the "bitmap"
   PA_FORMAT_PNG     = 1; // the image is PNG

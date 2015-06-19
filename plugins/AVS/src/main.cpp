@@ -336,14 +336,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	int accCount;
 	PROTOACCOUNT **accs = NULL;
-	ProtoEnumAccounts(&accCount, &accs);
+	Proto_EnumAccounts(&accCount, &accs);
 
 	if (fei != NULL) {
 		LoadDefaultInfo();
 
 		int protoCount;
 		PROTOCOLDESCRIPTOR **proto;
-		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
+		Proto_EnumProtocols(&protoCount, &proto);
 		for (int i = 0; i < protoCount; i++)
 			LoadProtoInfo(proto[i]);
 		for (int i = 0; i < accCount; i++)

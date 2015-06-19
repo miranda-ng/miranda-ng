@@ -14,8 +14,6 @@ int IsProtoIM(const PROTOACCOUNT *pa)
 int FillTree(HWND hwnd)
 {
 	ProtocolData *PD;
-	int i, n;
-	PROTOACCOUNT** pa;
 
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
@@ -24,11 +22,12 @@ int FillTree(HWND hwnd)
 
 	TreeView_DeleteAllItems(hwnd);
 
-	if (CallService(MS_PROTO_ENUMACCOUNTS, (LPARAM)&n, (WPARAM)&pa))
-		return FALSE;
+	int n;
+	PROTOACCOUNT** pa;
+	Proto_EnumAccounts(&n, &pa);
 
-	for (i = 0; i < n; i++) {
-		if (IsAccountEnabled(pa[i])) {
+	for (int i = 0; i < n; i++) {
+		if (Proto_IsAccountEnabled(pa[i])) {
 			PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 			PD->RealName = pa[i]->szModuleName;
 			PD->enabled = IsProtoIM(pa[i]);

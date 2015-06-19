@@ -53,7 +53,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
-			PROTOACCOUNT* acc = ProtoGetAccount(dbei.szModule);
+			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
 			TCHAR* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last);
 			TCHAR* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first);
@@ -177,7 +177,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
-			PROTOACCOUNT* acc = ProtoGetAccount(dbei.szModule);
+			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
 			ptrT lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last));
 			ptrT firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first));

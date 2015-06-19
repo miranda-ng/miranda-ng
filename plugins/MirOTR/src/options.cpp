@@ -319,7 +319,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 
 			int num_protocols;
 			PROTOACCOUNT **pppDesc;
-			ProtoEnumAccounts(&num_protocols, &pppDesc);
+			Proto_EnumAccounts(&num_protocols, &pppDesc);
 			for (int i = 0; i < num_protocols; i++) {
 				if (!mir_strcmp(pppDesc[i]->szModuleName, META_PROTO))
 					continue;
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				const char *proto = GetContactProto(hContact);
-				if (proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME) // ignore chatrooms
+				if (proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && Proto_IsProtoOnContact(hContact, MODULENAME) // ignore chatrooms
 					&& mir_strcmp(proto, META_PROTO) != 0) // and MetaContacts
 				{
 					lvI.iItem = 0;
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					lvI.pszText = (TCHAR*)contact_get_nameT(hContact);
 					lvI.iItem = ListView_InsertItem(lv, &lvI);
 
-					PROTOACCOUNT *pa = ProtoGetAccount(proto);
+					PROTOACCOUNT *pa = Proto_GetAccount(proto);
 					ListView_SetItemText(lv, lvI.iItem, 1, pa->tszAccountName);
 
 					ListView_SetItemText(lv, lvI.iItem, 2, (TCHAR*)policy_to_string((OtrlPolicy)db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)));
@@ -683,7 +683,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 				if (context->app_data) {
 					user = (TCHAR*)contact_get_nameT((MCONTACT)context->app_data);
 					if (user) {
-						PROTOACCOUNT *pa = ProtoGetAccount(context->protocol);
+						PROTOACCOUNT *pa = Proto_GetAccount(context->protocol);
 
 						for (Fingerprint *fp = context->fingerprint_root.next; fp; fp = fp->next) {
 							otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
@@ -749,7 +749,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						MCONTACT hContact = (MCONTACT)fp->context->app_data;
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-						PROTOACCOUNT *pa = ProtoGetAccount(GetContactProto(hContact));
+						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
 						mir_sntprintf(buff, SIZEOF(buff) - 1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						buff[SIZEOF(buff) - 1] = '\0';
 						ShowError(buff);
@@ -780,7 +780,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						MCONTACT hContact = (MCONTACT)it->first->context->app_data;
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-						PROTOACCOUNT *pa = ProtoGetAccount(GetContactProto(hContact));
+						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
 						mir_sntprintf(buff, SIZEOF(buff) - 1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						buff[SIZEOF(buff) - 1] = '\0';
 						ShowError(buff);

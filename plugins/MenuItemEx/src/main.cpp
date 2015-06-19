@@ -599,7 +599,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
 
 	if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 
 		if (!pa->bOldProto)
 			mir_snprintf(buffer, "%s: %s", pa->szProtoName, szID);
@@ -700,13 +700,13 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 	if (CTRL_IS_PRESSED) {
 		hContactNew = hContact;
 		RenameDbProto(hContact, hContactNew, GetContactProto(hContact), (char*)lparam, 1);
-		CallService(MS_PROTO_REMOVEFROMCONTACT, hContact, (LPARAM)GetContactProto(hContact));
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContactNew, lparam);
+		Proto_RemoveFromContact(hContact, GetContactProto(hContact));
+		Proto_AddToContact(hContactNew, (char*)lparam);
 	}
 	else {
 		hContactNew = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (hContactNew) {
-			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContactNew, lparam);
+			Proto_AddToContact(hContactNew, (char*)lparam);
 			RenameDbProto(hContact, hContactNew, GetContactProto(hContact), (char*)lparam, 0);
 			RenameDbProto(hContact, hContactNew, "CList", "CList", 0);
 		}
@@ -776,7 +776,7 @@ int BuildMenu(WPARAM wparam, LPARAM)
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	MCONTACT hContact = (MCONTACT)wparam;
 	char* pszProto = GetContactProto(hContact);
-	PROTOACCOUNT *pa = ProtoGetAccount(pszProto);
+	PROTOACCOUNT *pa = Proto_GetAccount(pszProto);
 
 	bIsOnline = isProtoOnline(pszProto);
 
@@ -822,15 +822,15 @@ int BuildMenu(WPARAM wparam, LPARAM)
 				j++;
 			}
 
-			int check = 0 != CallService(MS_PROTO_ISPROTOONCONTACT, wparam, (LPARAM)accs[i]->szModuleName);
+			int check = Proto_IsProtoOnContact(wparam, accs[i]->szModuleName);
 			ModifySubmenuItem(hProtoItem[i], accs[i]->tszAccountName, check, hide);
 		}
 		Menu_ShowItem(hmenuProto, j > 1);
 	}
 	else Menu_ShowItem(hmenuProto, false);
 
-	Menu_ShowItem(hmenuAdded, (bShowAll || (flags & VF_ADD)) && bIsOnline && IsAccountEnabled(pa));
-	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && IsAccountEnabled(pa));
+	Menu_ShowItem(hmenuAdded, (bShowAll || (flags & VF_ADD)) && bIsOnline && Proto_IsAccountEnabled(pa));
+	Menu_ShowItem(hmenuAuthReq, (bShowAll || (flags & VF_REQ)) && bIsOnline && Proto_IsAccountEnabled(pa));
 
 	bEnabled = bShowAll || (flags & VF_CID);
 	Menu_ShowItem(hmenuCopyID, bEnabled);
@@ -883,7 +883,7 @@ int EnumProtoSubmenu(WPARAM, LPARAM)
 			}
 		}
 	}
-	ProtoEnumAccounts(&protoCount, &accs);
+	Proto_EnumAccounts(&protoCount, &accs);
 	if (protoCount > MAX_PROTOS)
 		protoCount = MAX_PROTOS;
 	for (int i = 0; i < protoCount; i++)

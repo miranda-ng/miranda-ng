@@ -75,7 +75,7 @@ HIMAGELIST LoadIcons()
 	for(int i = 0; i < SIZEOF(dbeIcons); i++)
 		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
 
-	ProtoEnumAccounts(&protoCount, &protocols);
+	Proto_EnumAccounts(&protoCount, &protocols);
 
 	for (int i = 0; i < protoCount; i++) {
 		if (!Proto_IsProtocolLoaded(protocols[i]->szModuleName))

@@ -441,16 +441,13 @@ extern "C"
 		Quotes_IconsInit();
 		Quotes_InitExtraIcons();
 
-		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+		PROTOCOLDESCRIPTOR pd = { 0 };
+		pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
 		pd.szName = QUOTES_PROTOCOL_NAME;
 		pd.type = PROTOTYPE_VIRTUAL;
-		CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+		Proto_RegisterModule(&pd);
 
-		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
-		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
-		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_SETSTATUS, QuoteProtoFunc_SetStatus);
 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
-		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_LOADICON, QuoteProtoFunc_LoadIcon);
 
 		HookEvent(ME_SYSTEM_MODULESLOADED, QuotesEventFunc_OnModulesLoaded);
 		HookEvent(ME_DB_CONTACT_DELETED, QuotesEventFunc_OnContactDeleted);

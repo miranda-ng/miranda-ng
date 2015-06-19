@@ -352,7 +352,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 	// Try to make a new contact
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 
-	if (hContact && CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName) != 0) {
+	if (hContact && Proto_AddToContact(hContact, m_szModuleName) != 0) {
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		hContact = NULL;
 	}

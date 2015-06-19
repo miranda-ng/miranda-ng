@@ -75,7 +75,7 @@ static void RemoveProtoPic(const char *szProto)
 
 			if (p.szProtoname == NULL)
 				continue;
-			PROTOACCOUNT *pdescr = ProtoGetAccount(p.szProtoname);
+			PROTOACCOUNT *pdescr = Proto_GetAccount(p.szProtoname);
 			if (pdescr == NULL && mir_strcmp(p.szProtoname, szProto))
 				continue;
 
@@ -140,7 +140,7 @@ static void SetProtoPic(char *szProto)
 		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)g_ProtoPictures[i].szProtoname);
+			PROTOACCOUNT* pdescr = Proto_GetAccount(g_ProtoPictures[i].szProtoname);
 			if (pdescr == NULL && mir_strcmp(g_ProtoPictures[i].szProtoname, szProto))
 				continue;
 
@@ -1008,7 +1008,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			PROTOACCOUNT **accs;
 			int count, num = 0;
 
-			ProtoEnumAccounts(&count, &accs);
+			Proto_EnumAccounts(&count, &accs);
 			for (int i = 0; i < count; i++) {
 				if (!ProtoServiceExists(accs[i]->szModuleName, PS_GETMYAVATAR))
 					continue;

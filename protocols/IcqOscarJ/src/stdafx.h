@@ -63,7 +63,6 @@
 #include <m_message.h>
 #include <m_netlib.h>
 #include <m_protocols.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_options.h>
 #include <m_system.h>

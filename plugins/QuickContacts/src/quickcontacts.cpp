@@ -112,7 +112,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int pcount = 0;
 	PROTOACCOUNT** pdesc;
 
-	ProtoEnumAccounts(&pcount,&pdesc);
+	Proto_EnumAccounts(&pcount,&pdesc);
 
 	opts.num_protos = pcount;
 
@@ -410,7 +410,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 		mir_tstrncpy(contact->szname, tmp, SIZEOF(contact->szname));
 
-		PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
+		PROTOACCOUNT *acc = Proto_GetAccount(pszProto);
 		if (acc != NULL)
 			mir_tstrncpy(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
 

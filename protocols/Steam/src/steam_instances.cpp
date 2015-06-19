@@ -32,8 +32,7 @@ void CSteamProto::UninitProtoInstances()
 
 CSteamProto* CSteamProto::GetContactProtoInstance(MCONTACT hContact)
 {
-	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
-
+	char *proto = GetContactProto(hContact);
 	if (proto == NULL)
 		return NULL;
 

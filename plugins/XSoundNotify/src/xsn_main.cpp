@@ -69,7 +69,7 @@ void InitSelfSounds()
 	int protoCount = 0;
 	PROTOACCOUNT** protos = 0;
 
-	ProtoEnumAccounts(&protoCount, &protos);
+	Proto_EnumAccounts(&protoCount, &protos);
 	for (int i = 0; i < protoCount; i++) {
 		for (int j = 0; j < SIZEOF(selfSounds); j++) {
 			char namebuf[128];
@@ -193,7 +193,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM)
 	MCONTACT hContact = wParam;
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		Menu_ShowItem(hChangeSound, IsSuitableProto(pa));
 	}
 	return 0;

@@ -69,7 +69,6 @@
 #include <m_fontservice.h>
 #include <m_acc.h>
 #include <m_chat_int.h>
-#include <m_protomod.h>
 #include <m_hotkeys.h>
 #include <m_genmenu.h>
 #include <m_popup.h>

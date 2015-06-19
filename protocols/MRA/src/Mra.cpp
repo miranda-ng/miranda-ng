@@ -92,7 +92,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)mraProtoInit;
 	pd.fnUninit = (pfnUninitProto)mraProtoUninit;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 	return 0;
 }
 

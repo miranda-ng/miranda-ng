@@ -580,7 +580,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 	int count;
 	PROTOACCOUNT** protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 
 	for (int i = 0; i < count; i++)
 		if (IsSuitableProto(protos[i]))

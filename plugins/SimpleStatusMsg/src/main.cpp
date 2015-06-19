@@ -481,7 +481,7 @@ void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -699,7 +699,7 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -756,7 +756,7 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, TCHA
 			int status;
 			for (int i = 0; i < accounts->count; ++i)
 			{
-				if (!IsAccountEnabled(accounts->pa[i]))
+				if (!Proto_IsAccountEnabled(accounts->pa[i]))
 					continue;
 
 				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -793,7 +793,7 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, TCHA
 
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -877,7 +877,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -896,7 +896,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 	{
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -946,7 +946,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1002,7 +1002,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 
 	if (accounts->statusMsgCount == 1 && !szProto) {
 		for (int i = 0; i < accounts->count; ++i) {
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1111,7 +1111,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		if (!bShowDlg || bScreenSaverRunning || (iProtoFlags & PROTO_NOCHANGE && !bOnStartup)) {
 			TCHAR *msg = NULL;
 			for (int i = 0; i < accounts->count; ++i) {
-				if (!IsAccountEnabled(accounts->pa[i]))
+				if (!Proto_IsAccountEnabled(accounts->pa[i]))
 					continue;
 
 				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -1255,7 +1255,7 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWO
 	// is global status mode going to be set?
 	for (i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -1293,7 +1293,7 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWO
 
 	for (i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -1313,7 +1313,7 @@ VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD
 
 	for (i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -1353,7 +1353,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 
 		for (int i = 0; i < accounts->count; ++i)
 		{
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1434,11 +1434,11 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	int iStatusMenuItemCount = 0, count;
 	DWORD iStatusMsgFlags = 0;
 
-	ProtoEnumAccounts(&count, &pa);
+	Proto_EnumAccounts(&count, &pa);
 	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * count);
 	for (int i = 0; i < count; ++i)
 	{
-		if (!IsAccountEnabled(pa[i]))
+		if (!Proto_IsAccountEnabled(pa[i]))
 			continue;
 
 		if (CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
@@ -1468,7 +1468,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 
 	for (int i = 0; i < count; ++i)
 	{
-		if (!IsAccountEnabled(pa[i]))
+		if (!Proto_IsAccountEnabled(pa[i]))
 			continue;
 
 		if (!CallProtoService(pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1487,13 +1487,13 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 			continue;
 
 		TCHAR szBuffer[256];
-		if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pa[i]->szModuleName))
+		if (Proto_IsAccountLocked(pa[i]->szModuleName))
 		{
 			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.ptszPopupName = szBuffer;
 		}
-		else
-			mi.ptszPopupName = pa[i]->tszAccountName;
+		else mi.ptszPopupName = pa[i]->tszAccountName;
+		
 		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
 	}
 
@@ -1521,7 +1521,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < accounts->count; ++i)
 	{
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
@@ -1722,9 +1722,9 @@ static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
 	accounts->statusMsgCount = 0;
 	UnhookProtoEvents();
 
-	ProtoEnumAccounts(&accounts->count, &accounts->pa);
+	Proto_EnumAccounts(&accounts->count, &accounts->pa);
 	for (int i = 0; i < accounts->count; ++i) {
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!mir_strcmp(accounts->pa[i]->szProtoName, "ICQ"))
@@ -1816,7 +1816,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		else {
 			g_uSetStatusTimer = (UINT_PTR *)mir_alloc(sizeof(UINT_PTR) * accounts->count);
 			for (int i = 0; i < accounts->count; ++i) {
-				if (!IsAccountEnabled(accounts->pa[i]))
+				if (!Proto_IsAccountEnabled(accounts->pa[i]))
 					continue;
 
 				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
@@ -1838,7 +1838,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 		char szSetting[80];
 
 		for (int i = 0; i < accounts->count; ++i) {
-			if (!IsAccountEnabled(accounts->pa[i]))
+			if (!Proto_IsAccountEnabled(accounts->pa[i]))
 				continue;
 
 			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))

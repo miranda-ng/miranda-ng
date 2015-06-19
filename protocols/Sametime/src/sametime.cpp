@@ -271,7 +271,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.szName = "Sametime";
 	pd.fnInit = (pfnInitProto)sametime_proto_init;
 	pd.fnUninit = (pfnUninitProto)sametime_proto_uninit;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 	return 0;
 }
 

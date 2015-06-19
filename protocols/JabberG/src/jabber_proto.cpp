@@ -301,7 +301,7 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 		// not already there: add
 		debugLog(_T("Add new jid to contact jid = %s"), newJid);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
+		Proto_AddToContact(hContact, m_szModuleName);
 		setTString(hContact, "jid", newJid);
 
 		// Note that by removing or disable the "NotOnList" will trigger

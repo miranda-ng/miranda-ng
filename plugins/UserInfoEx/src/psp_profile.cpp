@@ -1140,7 +1140,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 									MCONTACT hSubContact, hDefContact;
 									LPCSTR pszSubBaseProto;
 
-									if ((hDefContact = db_mc_getSub(hContact, iDefault)) && (pszSubBaseProto = DB::Contact::Proto(hDefContact))) {
+									if ((hDefContact = db_mc_getSub(hContact, iDefault)) && (pszSubBaseProto = Proto_GetBaseAccountName(hDefContact))) {
 										if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hDefContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA | CTRLF_HASPROTO)) < 0)
 											return FALSE;
 
@@ -1151,7 +1151,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 												continue;
 											if (!(hSubContact = db_mc_getSub(hContact, j)))
 												continue;
-											if (!(pszSubBaseProto = DB::Contact::Proto(hSubContact)))
+											if (!(pszSubBaseProto = Proto_GetBaseAccountName(hSubContact)))
 												continue;
 											if ((numProtoItems += ProfileList_AddItemlistFromDB(pList, iItem, idList, nList, hSubContact, pszSubBaseProto, pFmt[i].szCatFmt, pFmt[i].szValFmt, CTRLF_HASMETA | CTRLF_HASPROTO)) < 0)
 												return FALSE;

@@ -100,7 +100,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 	DBVARIANT dbv;
 	CONTACTINFO *ci = (CONTACTINFO*)lParam;
 	if (ci == NULL) return 1;
-	if (ci->szProto == NULL) ci->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)ci->hContact, 0);
+	if (ci->szProto == NULL) ci->szProto = Proto_GetBaseAccountName(ci->hContact);
 	if (ci->szProto == NULL) return 1;
 	
 	ci->type = 0;

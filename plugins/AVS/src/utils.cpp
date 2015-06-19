@@ -99,7 +99,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 					MyPathToAbsolute(tszValue, tszFilename);
 
 				if (!strstr(szProto, "Global avatar for")) {
-					PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
+					PROTOACCOUNT* pdescr = Proto_GetAccount(szProto);
 					if (pdescr == NULL)
 						return -1;
 					char key[MAX_PATH];

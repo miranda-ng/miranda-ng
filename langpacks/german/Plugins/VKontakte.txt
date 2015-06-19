@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -32,6 +32,8 @@ Sonstige
 BBCode-Unterstützung für Anhänge
 [Process stickers as smileys]
 Sticker als Smileys darstellen
+[Shorten links for audio attachments]
+
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
@@ -303,6 +305,8 @@ Benutzer gekickt
 Chat verlassen
 [invite user]
 Benutzer eingeladen
+[returned to chat]
+
 [change chat title to]
 Chatthema geändert zu
 [chat action not supported]
@@ -329,6 +333,8 @@ Benutzer e&inladen
 Raum &zerstören
 [&User details]
 Kontakt&profil
+[Visit profile]
+Profil ansehen
 [&Kick]
 &Kick
 ;file \protocols\VKontakte\src\vk_feed.cpp
@@ -390,8 +396,6 @@ Statusnachricht
 Nachricht auf meine Pinnwand senden
 [Load news from VK]
 Neuigkeiten von VK laden
-[Visit profile]
-Profil ansehen
 [Send message to user\'s wall]
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]

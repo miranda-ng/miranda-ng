@@ -60,7 +60,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			int count;
 			PROTOACCOUNT** protos;
-			ProtoEnumAccounts(&count, &protos);
+			Proto_EnumAccounts(&count, &protos);
 
 			for (i = 0; i < count; i++) {
 				if (!IsSuitableProto(protos[i]))

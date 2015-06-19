@@ -198,11 +198,10 @@ void SetProtocolsOffline()
 {
 	if ( GetSettingBool("GlobalSettings", "SetProtocolsOffline", TRUE) ) {
 		PROTOACCOUNT **accounts;
-		int i,count;
+		int count;
+		Proto_EnumAccounts(&count, &accounts);
 
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
-
-		for (i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
 				continue;*/
 			if (!accounts[i]->bIsEnabled)
@@ -324,9 +323,7 @@ void RemoveSettings()
 	if ( GetSettingBool("GlobalSettings", "RemoveProtocolSettings", TRUE) ) {
 		PROTOACCOUNT **accounts;
 		int i,count;
-
-		// TODO MS_PROTO_ENUMACCOUNTS
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
+		Proto_EnumAccounts(&count, &accounts);
 
 		for (i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
@@ -434,11 +431,10 @@ void RemoveDirectories()
 	// Remove protocol folders
 	if (GetSettingBool("GlobalSettings", "RemoveProtocolFolders", TRUE)) {
 		PROTOACCOUNT **accounts;
-		int i,count;
+		int count;
+		Proto_EnumAccounts(&count, &accounts);
 
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
-
-		for (i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			/*if (protos[i]->type != PROTOTYPE_PROTOCOL)
 				continue;*/
 			if (!accounts[i]->bIsEnabled)

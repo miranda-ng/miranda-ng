@@ -216,7 +216,7 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(GetDlgItem(hwnd, IDC_PROTOCOLS), 0, &lvc);
 
 	// fill protocols...
-	ProtoEnumAccounts(&protoCount, &accs);
+	Proto_EnumAccounts(&protoCount, &accs);
 
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;

@@ -502,13 +502,13 @@ int RefreshAccountList(WPARAM eventCode,LPARAM lParam)
 	int dwAccCount=0,dwSMSAccountsCount=0;
 	PROTOACCOUNT **ppaAccounts;
 
-	ProtoEnumAccounts((int*)&dwAccCount,&ppaAccounts);
+	Proto_EnumAccounts((int*)&dwAccCount,&ppaAccounts);
 
 	FreeAccountList();
 	ssSMSSettings.ppaSMSAccounts=(PROTOACCOUNT**)MEMALLOC((dwAccCount*sizeof(LPVOID)));
 	if (ssSMSSettings.ppaSMSAccounts)
 		for (int i=0; i < dwAccCount; i++)
-			if ( IsAccountEnabled(ppaAccounts[i]))
+			if ( Proto_IsAccountEnabled(ppaAccounts[i]))
 				if ( ProtoServiceExists(ppaAccounts[i]->szModuleName,MS_ICQ_SENDSMS)) 
 					ssSMSSettings.ppaSMSAccounts[dwSMSAccountsCount++] = ppaAccounts[i];
 

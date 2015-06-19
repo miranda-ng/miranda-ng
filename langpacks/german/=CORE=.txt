@@ -2567,8 +2567,7 @@ Geändert
 Meine Profile
 [New profile]
 Neues Profil
-;file \src\mir_app\src\protocolorder.cpp
-;file \src\mir_app\src\protoopts.cpp
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kontakte und Verläufe ebenfalls gelöscht werden.\n\nSind Sie sich absolut sicher?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2619,6 +2618,10 @@ Konto %s wird gelöscht
 Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 [&Accounts...]
 &Konten...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
+Konto
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Miranda kann für das Protokoll '%s' keine Suche starten, ist das Protokoll %s online?
@@ -3237,6 +3240,3 @@ JPEG-Bilder
 GIF-Bilder
 [PNG bitmaps]
 PNG-Bilder
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Konto

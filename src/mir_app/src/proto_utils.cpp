@@ -46,6 +46,14 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProtos)
+{
+	if (nProtos) *nProtos = protos.getCount();
+	if (pProtos) *pProtos = protos.getArray();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
 {
 	char buf[4096];

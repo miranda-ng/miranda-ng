@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					free(replace);
 					hContact2 = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-					CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact2, (LPARAM)MODNAME);
+					Proto_AddToContact(hContact2, MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
 					// blank dbVar2 so the replaceing doesnt crash..
@@ -396,7 +396,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						msg("contact did not get created", "");
 						return 0;
 					}
-					CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact2, (LPARAM)MODNAME);
+					Proto_AddToContact(hContact2, MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
 					db_set_s(hContact2, MODNAME, "Name", dbVar1);
@@ -633,7 +633,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					msg("contact did get created", "");
 					continue;
 				}
-				CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODNAME);
+				Proto_AddToContact(hContact, MODNAME);
 				CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 				db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 				db_set_s(hContact, MODNAME, "Name", name);

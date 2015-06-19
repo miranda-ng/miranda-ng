@@ -46,7 +46,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		
 			PROTOACCOUNT** proto;
 			int protoCount = 0;
-			ProtoEnumAccounts(&protoCount, &proto);
+			Proto_EnumAccounts(&protoCount, &proto);
 			if (protoCount <= 0)
 			{
 				DisableDialog(hwndDlg);

@@ -411,7 +411,7 @@ var
   p:pAnsichar;
 //  hContract:THANDLE;
 begin
-  CallService(MS_PROTO_ENUMACCOUNTS,wparam(@protoCount),lparam(@proto));
+  Proto_EnumAccounts(protoCount, proto);
 
   mGetMem(protos,(protoCount+1)*SizeOf(tMyProto)); // 0 - default
   NumProto:=0;

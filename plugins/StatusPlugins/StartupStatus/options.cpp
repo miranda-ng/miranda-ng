@@ -39,7 +39,7 @@ static TSettingsList* GetCurrentProtoSettings()
 {
 	int count;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 
 	TSettingsList *result = new TSettingsList(count, CompareSettings);
 	if (result == NULL)

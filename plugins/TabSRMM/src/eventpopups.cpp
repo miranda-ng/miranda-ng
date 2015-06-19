@@ -694,7 +694,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
 		return 0;
 
-	PROTOACCOUNT *acc = ProtoGetAccount(szProto);
+	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
 	TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 	if (tszFinalProto == 0)
 		return 0;

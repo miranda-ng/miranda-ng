@@ -65,9 +65,9 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 			tokenLen[2] = j;
 		}
 
-		char *accModule = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
+		char *accModule = Proto_GetBaseAccountName(hContact);
 		if (accModule != NULL) {
-			PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
+			PROTOACCOUNT* proto = Proto_GetAccount(accModule);
 			if (proto != NULL) {
 				tokens[3] = mir_tstrdup(proto->tszAccountName);
 				tokenLen[3] = mir_tstrlen(tokens[3]);

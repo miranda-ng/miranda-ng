@@ -74,7 +74,7 @@ int AccountName2Protocol(const char *accountName, OUT char *uniqueProtocolName, 
 {
 	int count;
 	PROTOACCOUNT **accounts = NULL;
-	ProtoEnumAccounts(&count, &accounts);
+	Proto_EnumAccounts(&count, &accounts);
 
 	strncpy_s(uniqueProtocolName, length, accountName, _TRUNCATE);
 
@@ -217,7 +217,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 
 			int count;
 			PROTOACCOUNT **accounts = NULL;
-			ProtoEnumAccounts(&count, &accounts);
+			Proto_EnumAccounts(&count, &accounts);
 
 			char pn[128];
 
@@ -328,7 +328,7 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 			char *awayMsg = argv[2];
 			int count = 0;
 			PROTOACCOUNT **accounts = NULL;
-			ProtoEnumAccounts(&count, &accounts);
+			Proto_EnumAccounts(&count, &accounts);
 
 			CMStringA szReply;
 			int i;
@@ -1250,7 +1250,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 
 		int count = 0;
 		PROTOACCOUNT **accounts = NULL;
-		ProtoEnumAccounts(&count, &accounts);
+		Proto_EnumAccounts(&count, &accounts);
 
 		int i;
 		int global = (mir_strcmp(protocol, "GLOBAL") == 0);

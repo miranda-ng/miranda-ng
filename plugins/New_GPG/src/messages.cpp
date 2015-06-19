@@ -341,18 +341,18 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)
-		return CallService(MS_PROTO_CHAINRECV, w, l);
+		return Proto_ChainRecv(w, ccs);
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)(ccs->lParam);
 	if (!pre)
-		return CallService(MS_PROTO_CHAINRECV, w, l);
+		return Proto_ChainRecv(w, ccs);
 	char *msg = pre->szMessage;
 	if (!msg)
-		return CallService(MS_PROTO_CHAINRECV, w, l);
+		return Proto_ChainRecv(w, ccs);
 	DWORD dbflags = DBEF_UTF;
 	if(db_mc_isMeta(ccs->hContact))
 	{
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
-			return CallService(MS_PROTO_CHAINRECV, w, l);
+			return Proto_ChainRecv(w, ccs);
 		else
 		{
 			if(bDebugLog)
@@ -578,7 +578,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			}
 		}
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
-			return CallService(MS_PROTO_CHAINRECV, w, l);
+			return Proto_ChainRecv(w, ccs);
 		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, (DWORD)ccs->wParam, pre->timestamp));
 		return 0;
 }
@@ -758,21 +758,21 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)
-		return CallService(MS_PROTO_CHAINSEND, w, l);
+		return Proto_ChainSend(w, ccs);
 	if(!ccs->lParam)
-		return CallService(MS_PROTO_CHAINSEND, w, l);
+		return Proto_ChainSend(w, ccs);
 	char *msg = (char*)ccs->lParam;
 	if (!msg)
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: failed to get message data, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		return CallService(MS_PROTO_CHAINSEND, w, l);
+		return Proto_ChainSend(w, ccs);
 	}
 	if(strstr(msg,"-----BEGIN PGP MESSAGE-----"))
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: encrypted messge, let it go, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		return CallService(MS_PROTO_CHAINSEND, w, l);
+		return Proto_ChainSend(w, ccs);
 	}
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": info: contact have key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
@@ -782,7 +782,7 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: contact not secured, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		return CallService(MS_PROTO_CHAINSEND, w, l);
+		return Proto_ChainSend(w, ccs);
 	}
 	return returnNoError(ccs->hContact);
 }

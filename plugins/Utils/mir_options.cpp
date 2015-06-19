@@ -210,7 +210,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 				int count;
 				PROTOACCOUNT **protos;
-				ProtoEnumAccounts(&count, &protos);
+				Proto_EnumAccounts(&count, &protos);
 
 				for (int i = 0; i < count; i++) {
 					PROTOACCOUNT *p = protos[i];

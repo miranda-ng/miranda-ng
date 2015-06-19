@@ -34,13 +34,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_protomod.h>
 #include <m_icolib.h>
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_skin.h>
 #include <m_database.h>
 #include <m_history.h>
+#include <m_protosvc.h>
 #include <m_userinfo.h>
 #include <m_netlib.h>
 #include <m_ignore.h>

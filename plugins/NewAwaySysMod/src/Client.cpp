@@ -32,7 +32,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 {
 	int numAccs;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&numAccs, &accs);
+	Proto_EnumAccounts(&numAccs, &accs);
 
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_Terminated()) {
 		DWORD MinUpdateTimeDifference = g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
@@ -92,7 +92,7 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 	else { // change message of all protocols
 		int numAccs;
 		PROTOACCOUNT **accs;
-		ProtoEnumAccounts(&numAccs, &accs);
+		Proto_EnumAccounts(&numAccs, &accs);
 		for (int i = 0; i < numAccs; i++) {
 			PROTOACCOUNT *p = accs[i];
 			if (!db_get_b(NULL, p->szModuleName, "LockMainStatus", 0)) {

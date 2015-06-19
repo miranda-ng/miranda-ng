@@ -682,8 +682,7 @@ begin
       begin
         if value._type=DBVT_DELETED then
         begin
-          if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0)),
-             PluginName)<>0 then exit;
+          if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
 
           pc:=DBReadString(wParam,PluginName,optNick);
           DBWriteString(wParam,strCList,optMyHandle,pc);
@@ -697,8 +696,7 @@ begin
 
     if StrCmp(szSetting,optAge)=0 then
     begin
-      if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0)),
-         PluginName)<>0 then exit;
+      if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
       if value._type=DBVT_DELETED then
         i:=DBReadWord(wParam,PluginName,optAge)
       else
@@ -712,8 +710,7 @@ begin
       DBVT_ASCIIZ ,
       DBVT_WCHAR  ,
       DBVT_UTF8   :
-      if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0)),
-         PluginName)<>0 then exit;
+      if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
     else
       exit;
     end;
@@ -739,8 +736,4 @@ begin
   result:=0;
   if ActiveContact<>THANDLE(wParam) then exit;
   ControlCenter(MRC_STOP,wParam);
-
-{  if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0)),
-             PluginName)<>0 then exit;
-}
 end;

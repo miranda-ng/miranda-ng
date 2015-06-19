@@ -148,10 +148,8 @@ INT_PTR ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, 
 
 PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const TCHAR *tszAccountName);
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(const char *accName);
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 
-bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa);
 bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa);
 
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);

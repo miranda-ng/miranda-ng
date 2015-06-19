@@ -296,7 +296,7 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	{
 		// create contact
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)this->m_szModuleName);
+		Proto_AddToContact(hContact, this->m_szModuleName);
 
 		setString(hContact, "SteamID", steamId);
 

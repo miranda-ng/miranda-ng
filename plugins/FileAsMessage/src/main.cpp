@@ -116,17 +116,17 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 
 INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *pccsd = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	PROTORECVEVENT *ppre = (PROTORECVEVENT *)ccs->lParam;
 
 	if (strncmp(ppre->szMessage, szServicePrefix, mir_strlen(szServicePrefix)))
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		return Proto_ChainRecv(wParam, ccs);
 
-	HWND hwnd = WindowList_Find(hFileList, pccsd->hContact);
+	HWND hwnd = WindowList_Find(hFileList, ccs->hContact);
 	if (!IsWindow(hwnd))
 	{
 		if (hwnd != 0) WindowList_Remove(hFileList, hwnd);
-		FILEECHO *fe = new FILEECHO(pccsd->hContact);
+		FILEECHO *fe = new FILEECHO(ccs->hContact);
 		fe->inSend = FALSE;
 		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
 		if (hwnd == NULL)
@@ -136,7 +136,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	char *msg = mir_strdup(ppre->szMessage + mir_strlen(szServicePrefix));
-	PostMessage(hwnd, WM_FE_MESSAGE, (WPARAM)pccsd->hContact, (LPARAM)msg);
+	PostMessage(hwnd, WM_FE_MESSAGE, (WPARAM)ccs->hContact, (LPARAM)msg);
 
 	return 0;
 }
@@ -203,7 +203,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = SERVICE_NAME;
 	pd.type = PROTOTYPE_FILTER;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

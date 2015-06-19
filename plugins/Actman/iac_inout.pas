@@ -268,7 +268,7 @@ begin
 
     if hContact=0 then exit;
 
-    p:=GetContactProtoAcc(hContact);
+    p:=Proto_GetBaseAccountName(hContact);
     if DBReadByte(hContact,p,'ChatRoom',0)<>1 then
     begin
       WidetoUTF8(last,blob);

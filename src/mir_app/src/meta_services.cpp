@@ -134,7 +134,7 @@ static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 	if (cc && cc->IsSub())
 		Meta_SetSrmmSub(cc->parentID, cc->contactID);
 
-	CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	Proto_ChainRecv(wParam, ccs);
 	return 0;
 }
 
@@ -231,7 +231,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 	if (cc == NULL || cc->nDefault == -1) {
 		// This is a simple contact, let through the stack of protocols
 		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	}
 
 	MCONTACT hMostOnline = db_mc_getSrmmSub(cc->contactID);
@@ -599,7 +599,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		char *szProto = GetContactProto(cc->pSubs[i]);
 		if (szProto == NULL) continue;
 
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa == NULL)
 			continue;
 

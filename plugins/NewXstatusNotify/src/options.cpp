@@ -717,7 +717,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		int count;
 		PROTOACCOUNT **protos;
-		ProtoEnumAccounts(&count, &protos);
+		Proto_EnumAccounts(&count, &protos);
 
 		for (int i = 0; i < count; i++) {
 			if (IsSuitableProto(protos[i])) {

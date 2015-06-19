@@ -1139,9 +1139,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	int count = 0;
 	PROTOACCOUNT **accounts = NULL;
-	ProtoEnumAccounts(&count, &accounts);
+	Proto_EnumAccounts(&count, &accounts);
 	for (int i = 0; i < count; i++)
-		if (IsAccountEnabled(accounts[i]))
+		if (Proto_IsAccountEnabled(accounts[i]))
 			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);
 
 	return 0;

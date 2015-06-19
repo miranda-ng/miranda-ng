@@ -116,7 +116,7 @@ void CConfig::LoadSettings()
 	CProtoFilter *pProtoFilter;
 	tstring strSetting;
 
-	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&iCount,(LPARAM)&ppAccounts);
+	Proto_EnumAccounts(&iCount, &ppAccounts);
 	for(int i=0;i<iCount;i++)
 	{
 		/*if(ppProtocolDescriptor[i]->type != PROTOTYPE_PROTOCOL)

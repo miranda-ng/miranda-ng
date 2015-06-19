@@ -68,16 +68,16 @@ uses hpp_database, hpp_options;
 
 function GetContactProto(hContact: TMCONTACT): AnsiString;
 begin
-  Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
+  Result := Proto_GetProtoName(hContact);
 end;
 
 function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: AnsiString): AnsiString;
 begin
-  Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
+  Result := Proto_GetProtoName(hContact);
   if (Result = META_PROTO) then
   begin
     SubContact := CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
-    SubProtocol := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, SubContact, 0));
+    SubProtocol := Proto_GetProtoName(SubContact);
   end
   else
   begin

@@ -73,11 +73,11 @@ int LoadMetacontacts(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = META_FILTER;
 	pd.type = PROTOTYPE_FILTER;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	pd.szName = META_PROTO;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
 	Meta_InitServices();

@@ -327,7 +327,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Add each proto
 	PROTOACCOUNT **protos;
 	int count;
-	ProtoEnumAccounts(&count,&protos);
+	Proto_EnumAccounts(&count,&protos);
 
 	for (int i = 0; i < count; i++)
 		if (protos[i]->bIsEnabled)

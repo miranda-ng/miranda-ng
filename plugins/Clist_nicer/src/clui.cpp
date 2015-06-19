@@ -265,9 +265,9 @@ static void InitIcoLib()
 
 	PROTOACCOUNT **accs = NULL;
 	int p_count = 0;
-	ProtoEnumAccounts(&p_count, &accs);
+	Proto_EnumAccounts(&p_count, &accs);
 	for (int k = 0; k < p_count; k++) {
-		if (!IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+		if (!Proto_IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
 
 		TCHAR szDescr[128];
@@ -1731,7 +1731,7 @@ buttons_done:
 
 				if (showOpts & 2) {
 					TCHAR szName[64];
-					PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+					PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 					if (pa) {
 						mir_tstrncpy(szName, pa->tszAccountName, SIZEOF(szName));
 						szName[SIZEOF(szName) - 1] = 0;

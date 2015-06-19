@@ -185,7 +185,7 @@ void InitIcolib()
 {
 }
 
-HICON LoadIconEx(int iconId, int big)
+HICON LoadIconEx(int iconId, bool big)
 {
 	for (int i=0; i < SIZEOF(iconList); i++)
 		if ( iconList[i].defIconID == iconId)

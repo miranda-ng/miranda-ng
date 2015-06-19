@@ -832,7 +832,7 @@ bool SmileyCategoryListType::DeleteCustomCategory(int index)
 
 void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile)
 {
-	if (IsAccountEnabled(acc) && acc->szProtoName && IsSmileyProto(acc->szModuleName))
+	if (Proto_IsAccountEnabled(acc) && acc->szProtoName && IsSmileyProto(acc->szModuleName))
 	{
 		CMString displayName(acc->tszAccountName ? acc->tszAccountName : A2T_SM(acc->szModuleName));
 		CMString PhysProtoName, paths;
@@ -981,7 +981,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	PROTOCOLDESCRIPTOR **proto;
 	int protoCount = 0;
-	CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
+	Proto_EnumProtocols(&protoCount, &proto);
 
 	for (int i = 0; i < protoCount; i++){
 		PROTOCOLDESCRIPTOR* pd = proto[i];
@@ -990,7 +990,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	}
 
 	PROTOACCOUNT **accList;	
-	ProtoEnumAccounts(&protoCount, &accList);
+	Proto_EnumAccounts(&protoCount, &accList);
 	for (int i = 0; i < protoCount; i++)
 		AddAccountAsCategory(accList[i], defaultFile);
 

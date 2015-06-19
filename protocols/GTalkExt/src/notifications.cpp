@@ -51,7 +51,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 {
 	int count = 0;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
 		if (getJabberApi(protos[i]->szModuleName)) {
 			ptrT tszJid(db_get_tsa(0, protos[i]->szModuleName, "jid"));
@@ -171,7 +171,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		db_set_dw(0, acc, PSEUDOCONTACT_LINK, hContact);
 		db_set_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)acc);
+		Proto_AddToContact(hContact, acc);
 	}
 
 	// SetAvatar(hContact);

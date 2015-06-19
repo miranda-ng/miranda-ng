@@ -213,7 +213,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					{ //get accounts
 						int count = 0;
 						PROTOACCOUNT **accounts;
-						ProtoEnumAccounts(&count, &accounts);
+						Proto_EnumAccounts(&count, &accounts);
 						std::wstring accs;
 						for(int i = 0; i < count; i++)
 						{
@@ -252,7 +252,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			SendDlgItemMessageA(hwndDlg, IDC_ACCOUNT, CB_ADDSTRING, 0, (LPARAM)Translate("Default"));
 			int count = 0;
 			PROTOACCOUNT **accounts;
-			ProtoEnumAccounts(&count, &accounts);
+			Proto_EnumAccounts(&count, &accounts);
 			for(int i = 0; i < count; i++)
 			{
 				if(StriStr(accounts[i]->szModuleName, "metacontacts"))
@@ -2084,7 +2084,7 @@ void InitCheck()
 		_wmkdir(tmp_dir.c_str());
 		int count = 0;
 		PROTOACCOUNT **accounts;
-		ProtoEnumAccounts(&count, &accounts);
+		Proto_EnumAccounts(&count, &accounts);
 		string question;
 		//char *keyid = nullptr, *key = nullptr;
 		char *keyid = nullptr;
@@ -2242,7 +2242,7 @@ void InitCheck()
 	{
 		int count = 0;
 		PROTOACCOUNT **accounts;
-		ProtoEnumAccounts(&count, &accounts);
+		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
@@ -2257,7 +2257,7 @@ void InitCheck()
 	{
 		int count = 0;
 		PROTOACCOUNT **accounts;
-		ProtoEnumAccounts(&count, &accounts);
+		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;

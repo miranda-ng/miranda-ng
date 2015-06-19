@@ -148,16 +148,14 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch(msg)
 	{
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwnd);
-			int n;
-			PROTOACCOUNT **pppd;
-			if(!ProtoEnumAccounts(&n, &pppd))
-				for (int i = 0; i < n; ++i) {
-					SendDlgItemMessageA(hwnd, (ProtoInList(pppd[i]->szModuleName) ? ID_USEDPROTO : ID_ALLPROTO), LB_ADDSTRING, 0, (LPARAM)pppd[i]->szModuleName);
-				}
-		}
+		TranslateDialogDefault(hwnd);
+		int n;
+		PROTOACCOUNT **pppd;
+		Proto_EnumAccounts(&n, &pppd);
+		for (int i = 0; i < n; ++i)
+			SendDlgItemMessageA(hwnd, (ProtoInList(pppd[i]->szModuleName) ? ID_USEDPROTO : ID_ALLPROTO), LB_ADDSTRING, 0, (LPARAM)pppd[i]->szModuleName);
 		return TRUE;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam))
 		{

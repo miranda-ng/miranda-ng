@@ -69,7 +69,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 
 	int numAccounts;
 	PROTOACCOUNT** accounts;
-	ProtoEnumAccounts(&numAccounts, &accounts);
+	Proto_EnumAccounts(&numAccounts, &accounts);
 
 	for (int i = 0; i < numAccounts; i++) {
 		PROTOACCOUNT *pa = accounts[i];

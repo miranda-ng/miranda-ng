@@ -73,7 +73,7 @@ void CluiProtocolStatusChanged(int, const char*)
 
 	int protoCount;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&protoCount, &accs);
+	Proto_EnumAccounts(&protoCount, &accs);
 	if (protoCount == 0)
 		return;
 

@@ -76,7 +76,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 			debugLog(_T("AddContact(): Failed to create Sametime contact"));
 			return NULL; ///TODO error handling
 		}
-		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) != 0) {
+		if (Proto_AddToContact(hContact, m_szModuleName) != 0) {
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			debugLog(_T("AddContact(): Failed to register Sametime contact"));
 			return NULL; ///TODO error handling

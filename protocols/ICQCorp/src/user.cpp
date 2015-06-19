@@ -140,20 +140,18 @@ static BOOL CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
-    OPTIONSDIALOGPAGE odp = { 0 };
-    char *proto;
+	char *proto = GetContactProto(lParam);
+	if ((proto == NULL || mir_strcmp(proto, protoName)) && lParam)
+		return 0;
 
-    proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, lParam, 0);
-    if ((proto == NULL || mir_strcmp(proto, protoName)) && lParam) return 0;
-
-    odp.position = -1900000000;
-    odp.pszTitle = Translate(protoName);
-    odp.pfnDlgProc = (DLGPROC)icqUserInfoDlgProc;
-    odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
-    odp.hInstance = hInstance;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.position = -1900000000;
+	odp.pszTitle = Translate(protoName);
+	odp.pfnDlgProc = (DLGPROC)icqUserInfoDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
+	odp.hInstance = hInstance;
 	Options_AddPage(wParam, &odp);
-
-    return 0;
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

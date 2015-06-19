@@ -46,7 +46,7 @@ void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
 
 	enum{OFFLINE_STATUS_INDEX = 5};
 
-	ProtoEnumAccounts(&cAccounts, &ppAccount);
+	Proto_EnumAccounts(&cAccounts, &ppAccount);
 	for(int i = 0; i < cAccounts;++i)
 	{
 		PROTOACCOUNT* pAccount = ppAccount[i];

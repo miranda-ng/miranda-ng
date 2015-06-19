@@ -120,7 +120,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 		return mir_a2t(szProto);
 
 	case CCNF_ACCOUNT: {
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		return pa ? mir_tstrdup(pa->tszAccountName) : NULL;
 	}
 

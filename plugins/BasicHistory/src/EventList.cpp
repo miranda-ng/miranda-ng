@@ -434,10 +434,10 @@ std::wstring EventList::GetMyName()
 
 inline std::wstring GetProtocolName(MCONTACT hContact)
 {
-	char* ac = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
+	char* ac = Proto_GetBaseAccountName(hContact);
 	std::wstring proto1;
 	if (ac != NULL) {
-		PROTOACCOUNT* acnt = ProtoGetAccount(ac);
+		PROTOACCOUNT* acnt = Proto_GetAccount(ac);
 		if (acnt != NULL && acnt->szModuleName != NULL) {
 			wchar_t* proto = mir_a2u(acnt->szProtoName);
 			proto1 = proto;

@@ -112,7 +112,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 	else
 		pd.lchIcon = LoadIconEx("window");
 
-	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
+	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
 	mir_sntprintf(pd.lptzContactName, SIZEOF(pd.lptzContactName), _T("%s - %s"),
 		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 		pcli->pfnGetContactDisplayName(hContact, 0));
