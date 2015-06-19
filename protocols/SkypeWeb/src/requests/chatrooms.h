@@ -158,4 +158,22 @@ public:
 	}
 };
 
+class SetChatPropertiesRequest : public HttpRequest
+{
+public:
+	SetChatPropertiesRequest(const char *regToken, const char *chatId, const char *propname, const char *value, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/threads/19:%s/properties?name=%s", server, chatId, propname)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode(propname, value));
+
+		Body << VALUE(node.write().c_str());
+	}
+};
+
 #endif //_SKYPE_REQUEST_CHATS_H_

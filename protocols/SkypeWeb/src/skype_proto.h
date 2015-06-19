@@ -337,6 +337,7 @@ private:
 
 	time_t GetLastMessageTime(MCONTACT hContact);
 	CMString RunConfirmationCode();
+	CMString ChangeTopicForm();
 	//events
 	void InitDBEvents();
 	int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
