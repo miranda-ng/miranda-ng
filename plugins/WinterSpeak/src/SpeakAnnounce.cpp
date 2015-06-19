@@ -145,7 +145,7 @@ void SpeakAnnounce::status(const std::wstring &sentence, MCONTACT user)
 bool SpeakAnnounce::readMessage(MCONTACT contact)
 {
 	// Check if message window exists
-	if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen)) {
+	if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen) || m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused)) {
 		// Do not notify if window is already  open
 		MessageWindowInputData mwid;
 		mwid.cbSize = sizeof(MessageWindowInputData);
@@ -154,7 +154,13 @@ bool SpeakAnnounce::readMessage(MCONTACT contact)
 		MessageWindowData mwd;
 		mwd.cbSize = sizeof(MessageWindowData);
 		mwd.hContact = contact;
-		return ((CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd)) || ((mwd.hwndWindow != NULL) && (mwd.uState & MSG_WINDOW_STATE_EXISTS)));
+		//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
+		if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd) == 0) {
+			if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
+				return ((mwd.uState & MSG_WINDOW_STATE_EXISTS) != 0);
+			else if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
+				return ((mwd.uState & MSG_WINDOW_STATE_FOCUS) != 0);
+		}
 	}
 	return true;
 }
