@@ -451,7 +451,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			newFindWindow();
 			break;
 		case MENU_FIX_RESIDENT:
-			if (dlg(TranslateT("Fix resident setting deleting them from DB ?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
+			if (dlg(TranslateT("Fix resident setting deleting them from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 				int cnt = fixResidentSettings();
 				TCHAR text[MSG_SIZE];
 				mir_sntprintf(text, TranslateT("Deleted orphaned items: %d"), cnt);
