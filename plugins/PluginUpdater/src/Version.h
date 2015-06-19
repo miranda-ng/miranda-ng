@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME             "Plugin updater"
 #define __FILENAME                "PluginUpdater.dll"
-#define __DESCRIPTION             "Plugin updater for Miranda NG."
+#define __DESCRIPTION             "Install and update plugins and other Miranda NG components."
 #define __AUTHOR                  "Mataes, George Hazan"
 #define __AUTHOREMAIL             "mataes2007@gmail.com"
 #define __AUTHORWEB               "http://miranda-ng.org/p/PluginUpdater/"
