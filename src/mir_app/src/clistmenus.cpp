@@ -450,7 +450,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
 						MENUITEMINFO mi = { 0 };
 						TCHAR d[100];
-						GetMenuString(it.OwnerMenu, it.position, d, SIZEOF(d), MF_BYPOSITION);
+						GetMenuString(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
 
 						mi.cbSize = sizeof(mi);
 						mi.fMask = MIIM_STRING | MIIM_STATE;
@@ -544,7 +544,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		bool bIsLocked = !Proto_IsAccountLocked(acc);
 		db_set_b(NULL, prot, "LockMainStatus", bIsLocked);
 
-		CallProtoServiceInt(NULL, smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
+		CallProtoServiceInt(NULL, smep->proto, PS_GETNAME, (WPARAM)_countof(szHumanName), (LPARAM)szHumanName);
 
 		PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
 		if (pimi == NULL)
@@ -827,8 +827,8 @@ void RebuildMenuOrder(void)
 	hStatusMenuObject = MO_CreateMenuObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
 	MO_SetOptionsMenuObject(hStatusMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
 
-	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(SIZEOF(statusModeList) * sizeof(PMO_IntMenuItem));
-	hStatusMainMenuHandlesCnt = SIZEOF(statusModeList);
+	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(_countof(statusModeList) * sizeof(PMO_IntMenuItem));
+	hStatusMainMenuHandlesCnt = _countof(statusModeList);
 
 	hStatusMenuHandles = (tStatusMenuHandles*)mir_calloc(sizeof(tStatusMenuHandles)*accounts.getCount());
 	hStatusMenuHandlesCnt = accounts.getCount();
@@ -857,7 +857,7 @@ void RebuildMenuOrder(void)
 		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -885,7 +885,7 @@ void RebuildMenuOrder(void)
 			tmi.flags |= CMIF_CHECKED;
 
 		if ((tmi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -908,7 +908,7 @@ void RebuildMenuOrder(void)
 		DestroyIcon(ic);
 		pos += 500000;
 
-		for (int j = 0; j < SIZEOF(statusModeList); j++) {
+		for (int j = 0; j < _countof(statusModeList); j++) {
 			if (!(flags & statusModePf2List[j]))
 				continue;
 
@@ -947,7 +947,7 @@ void RebuildMenuOrder(void)
 	int pos = 200000;
 
 	// add to root menu
-	for (int j = 0; j < SIZEOF(statusModeList); j++) {
+	for (int j = 0; j < _countof(statusModeList); j++) {
 		for (int i = 0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT *pa = accounts[i];
 			if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
@@ -973,7 +973,7 @@ void RebuildMenuOrder(void)
 			{
 				TCHAR buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
-				HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
+				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 				mir_sntprintf(buf, _T("%s\t%s"),
 					cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				tmi.ptszName = buf;
@@ -1000,10 +1000,10 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 	TMO_MenuItem tmi = { sizeof(tmi) };
 	tmi.flags = CMIM_HOTKEY | CMIM_NAME | CMIF_TCHAR;
 
-	for (int j = 0; j < SIZEOF(statusModeList); j++) {
+	for (int j = 0; j < _countof(statusModeList); j++) {
 		TCHAR buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
-		HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
+		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 		mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		tmi.ptszName = buf;
 		tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1017,7 +1017,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 
 int statustopos(int status)
 {
-	for (int j = 0; j < SIZEOF(statusModeList); j++)
+	for (int j = 0; j < _countof(statusModeList); j++)
 		if (status == statusModeList[j])
 			return j;
 
@@ -1070,19 +1070,19 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < accounts.getCount(); i++) {
 		if (!mir_strcmp(accounts[i]->szModuleName, ack->szModule)) {
-			if (((int)ack->hProcess >= ID_STATUS_OFFLINE || (int)ack->hProcess == 0) && (int)ack->hProcess < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
+			if (((int)ack->hProcess >= ID_STATUS_OFFLINE || (int)ack->hProcess == 0) && (int)ack->hProcess < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos((int)ack->hProcess);
 				if (pos == -1)
 					pos = 0;
-				for (pos = 0; pos < SIZEOF(statusModeList); pos++) {
+				for (pos = 0; pos < _countof(statusModeList); pos++) {
 					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
 					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
 				}
 			}
 
-			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
+			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos((int)ack->lParam);
-				if (pos >= 0 && pos < SIZEOF(statusModeList)) {
+				if (pos >= 0 && pos < _countof(statusModeList)) {
 					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE | CMIF_CHECKED;
 					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
 				}
@@ -1304,9 +1304,9 @@ void InitCustomMenus(void)
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.ptszSection = _T("Status");
 	hkd.dwFlags = HKD_TCHAR;
-	for (int i = 0; i < SIZEOF(statusHotkeys); i++) {
+	for (int i = 0; i < _countof(statusHotkeys); i++) {
 		char szName[30];
-		mir_snprintf(szName, SIZEOF(szName), "StatusHotKey_%d", i);
+		mir_snprintf(szName, _countof(szName), "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
 		hkd.ptszDescription = fnGetStatusModeDescription(hkd.lParam, 0);

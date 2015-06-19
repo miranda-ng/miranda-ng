@@ -52,23 +52,23 @@ static IconItem iconList[] =
 	{ LPGEN("Delete All"), "actDel", IDI_ACTDEL }
 };
 
-static HANDLE hIconLibItem[SIZEOF(iconList)];
+static HANDLE hIconLibItem[_countof(iconList)];
 
 void InitIcons(void)
 {
-	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList), ModuleName);
+	Icon_Register(hInst, ModuleName, iconList, _countof(iconList), ModuleName);
 }
 
 HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", ModuleName, name);
 	return IcoLib_GetIcon(szSettingName);
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return hIconLibItem[i];
 
@@ -78,7 +78,7 @@ HANDLE GetIconHandle(const char* name)
 void  ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", ModuleName, name);
 	IcoLib_Release(szSettingName);
 }
 
@@ -118,12 +118,12 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_RESETCONTENT, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
-	for (i = 0; i < SIZEOF(time_stamp_strings); i++) {
+	for (i = 0; i < _countof(time_stamp_strings); i++) {
 		ptrT ptszTimeStr(Langpack_PcharToTchar(time_stamp_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 
-	for (i = 0; i < SIZEOF(keep_strings); i++) {
+	for (i = 0; i < _countof(keep_strings); i++) {
 		ptrT ptszTimeStr(Langpack_PcharToTchar(keep_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}

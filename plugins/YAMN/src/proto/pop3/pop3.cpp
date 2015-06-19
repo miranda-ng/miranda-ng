@@ -201,7 +201,7 @@ char* CPop3Client::User(char* name)
 	char query[128];
 	char *Result;
 
-	mir_snprintf(query, SIZEOF(query), "USER %s\r\n", name);
+	mir_snprintf(query, _countof(query), "USER %s\r\n", name);
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	if (AckFlag==POP3_FERR)
@@ -220,7 +220,7 @@ char* CPop3Client::Pass(char* pw)
 	char query[128];
 	char *Result;
 
-	mir_snprintf(query, SIZEOF(query), "PASS %s\r\n", pw);
+	mir_snprintf(query, _countof(query), "PASS %s\r\n", pw);
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	if (AckFlag==POP3_FERR)
@@ -248,7 +248,7 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	mir_md5_finish(&ctx, digest);
 
 	char hexdigest[40];
-	mir_snprintf(query, SIZEOF(query), "APOP %s %s\r\n", name, bin2hex(digest, sizeof(digest), hexdigest));
+	mir_snprintf(query, _countof(query), "APOP %s %s\r\n", name, bin2hex(digest, sizeof(digest), hexdigest));
 
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
@@ -302,7 +302,7 @@ char* CPop3Client::Top(int nr, int lines)
 
 	char query[128];
 
-	mir_snprintf(query, SIZEOF(query), "TOP %d %d\r\n", nr, lines);
+	mir_snprintf(query, _countof(query), "TOP %d %d\r\n", nr, lines);
 	NetClient->Send(query);
 	return RecvRest(NetClient->Recv(),POP3_SEARCHDOT);
 }
@@ -318,11 +318,11 @@ char* CPop3Client::Uidl(int nr)
 
 	if (nr)
 	{
-		mir_snprintf(query, SIZEOF(query), "UIDL %d\r\n", nr);
+		mir_snprintf(query, _countof(query), "UIDL %d\r\n", nr);
 		NetClient->Send(query);
 		return RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	}
-	mir_snprintf(query, SIZEOF(query), "UIDL\r\n");
+	mir_snprintf(query, _countof(query), "UIDL\r\n");
 	NetClient->Send(query);
 	return RecvRest(NetClient->Recv(),POP3_SEARCHDOT);
 }
@@ -336,7 +336,7 @@ char* CPop3Client::Dele(int nr)
 
 	char query[128];
 
-	mir_snprintf(query, SIZEOF(query), "DELE %d\r\n", nr);
+	mir_snprintf(query, _countof(query), "DELE %d\r\n", nr);
 	NetClient->Send(query);
 	return RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 }
@@ -349,7 +349,7 @@ char* CPop3Client::Retr(int nr)
 
 	char query[128];
 
-	mir_snprintf(query, SIZEOF(query), "RETR %d\r\n", nr);
+	mir_snprintf(query, _countof(query), "RETR %d\r\n", nr);
 	NetClient->Send(query);
 	RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	return NetClient->Recv();

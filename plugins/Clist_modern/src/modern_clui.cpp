@@ -191,7 +191,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 
 	HWND hwndClist = GetFocus();
 	TCHAR cls[128];
-	GetClassName(hwndClist, cls, SIZEOF(cls));
+	GetClassName(hwndClist, cls, _countof(cls));
 	if (mir_tstrcmp(_T(CLISTCONTROL_CLASS), cls))
 		hwndClist = pcli->hwndContactList;
 
@@ -334,7 +334,7 @@ static IconItemT iconItem[] = {
 
 HRESULT CLUI::RegisterAvatarMenu()
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, SIZEOF(iconItem));
+	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
@@ -487,7 +487,7 @@ HICON GetMainStatusOverlay(int STATUS)
 
 void UnloadAvatarOverlayIcon()
 {
-	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
+	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
 		g_pAvatarOverlayIcons[i].listID = -1;
 		g_pStatusOverlayIcons[i].listID = -1;
 	}
@@ -679,9 +679,9 @@ void CLUI_ChangeWindowMode()
 	TCHAR titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		mir_tstrncpy(titleText, _T(MIRANDANAME), SIZEOF(titleText));
+		mir_tstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
 	else {
-		mir_tstrncpy(titleText, dbv.ptszVal, SIZEOF(titleText));
+		mir_tstrncpy(titleText, dbv.ptszVal, _countof(titleText));
 		db_free(&dbv);
 	}
 	SetWindowText(pcli->hwndContactList, titleText);
@@ -905,7 +905,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 
 	if (szAccoName) {
 		// first of all try to find by account name( or empty - global )
-		mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, szAccoName);
+		mir_sntprintf(fileFull, _countof(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, szAccoName);
 		if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 			return count;
 
@@ -913,7 +913,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, acc->szProtoName);
+				mir_sntprintf(fileFull, _countof(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, acc->szProtoName);
 				if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 					return count;
 			}
@@ -921,7 +921,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 	}
 
 	// third try global
-	mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn.dll"), tszFolderPath);
+	mir_sntprintf(fileFull, _countof(fileFull), _T("%s\\Icons\\proto_conn.dll"), tszFolderPath);
 	if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 		return count;
 
@@ -947,7 +947,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	HICON hIcon;
 
 	if (szAccoName) {
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("proto_conn_%S.dll"), szAccoName);
+		mir_sntprintf(szFullPath, _countof(szFullPath), _T("proto_conn_%S.dll"), szAccoName);
 		if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 			return hIcon;
 
@@ -955,7 +955,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("proto_conn_%S.dll"), acc->szProtoName);
+				mir_sntprintf(szFullPath, _countof(szFullPath), _T("proto_conn_%S.dll"), acc->szProtoName);
 				if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 					return hIcon;
 			}
@@ -963,7 +963,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	}
 
 	// third try global
-	mir_tstrncpy(szFullPath, _T("proto_conn.dll"), SIZEOF(szFullPath));
+	mir_tstrncpy(szFullPath, _T("proto_conn.dll"), _countof(szFullPath));
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 
@@ -1562,7 +1562,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 	if (fileFull[0] != _T('\0'))
 		sid.iDefaultIndex = -iDefaultIndex;
 	else {
-		GetModuleFileName(hDefaultModuleInst, fileFull, SIZEOF(fileFull));
+		GetModuleFileName(hDefaultModuleInst, fileFull, _countof(fileFull));
 		sid.iDefaultIndex = -iDefaultResource;
 	}
 
@@ -1592,7 +1592,7 @@ LRESULT CLUI::PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bH
 	if (msg == uMsgGetProfile && wParam != 0) { // got IPC message
 		int rc = 0;
 		char szName[MAX_PATH];
-		mir_snprintf(szName, SIZEOF(szName), "Miranda::%u", wParam); // caller will tell us the ID of the map
+		mir_snprintf(szName, _countof(szName), "Miranda::%u", wParam); // caller will tell us the ID of the map
 		HANDLE hMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, szName);
 		if (hMap != NULL) {
 			void *hView = NULL;

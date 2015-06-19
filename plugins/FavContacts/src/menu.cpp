@@ -394,7 +394,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 				g_filter[l-1] = 0;
 		}
 		else if (_istalnum(LOWORD(wParam))) {
-			if (mir_tstrlen(g_filter) < SIZEOF(g_filter) - 1) {
+			if (mir_tstrlen(g_filter) < _countof(g_filter) - 1) {
 				TCHAR s[] = { LOWORD(wParam), 0 };
 				mir_tstrcat(g_filter, s);
 			}

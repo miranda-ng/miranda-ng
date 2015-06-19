@@ -147,7 +147,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
-	GetClassName(hwnd, szWindowClass, SIZEOF(szWindowClass));
+	GetClassName(hwnd, szWindowClass, _countof(szWindowClass));
 	if (!mir_tstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
 		struct ClcData *dat;
 		hwndCurrentDrag = hwnd;
@@ -229,7 +229,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 		fileCount = DragQueryFile(hDrop, -1, NULL, 0);
 		ppFiles = NULL;
 		for (i=0; i < fileCount; i++) {
-			DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
+			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 			AddToFileList(&ppFiles, &totalCount, szFilename);
 		}
 

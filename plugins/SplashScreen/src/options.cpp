@@ -194,7 +194,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			TCHAR tmp[MAX_PATH];
-			mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
+			mir_sntprintf(tmp, _countof(tmp), _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
 			ofn.lpstrFilter = tmp;
 			ofn.hwndOwner = 0;
 			ofn.lpstrFile = szTempPath;
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			TCHAR tmp[MAX_PATH];
-			mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c"), TranslateT("Sound Files"), 0, 0, 0);
+			mir_sntprintf(tmp, _countof(tmp), _T("%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c"), TranslateT("Sound Files"), 0, 0, 0);
 			ofn.lpstrFilter = tmp;
 			ofn.hwndOwner = 0;
 			ofn.lpstrFile = szTempPath;
@@ -308,25 +308,25 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				TCHAR tmp[MAX_PATH];
 
-				GetDlgItemText(hwndDlg, IDC_SPLASHPATH, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_SPLASHPATH, tmp, _countof(tmp));
 				db_set_ts(NULL, MODNAME, "Path", tmp);
 
-				GetDlgItemText(hwndDlg, IDC_SNDPATH, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_SNDPATH, tmp, _countof(tmp));
 				db_set_ts(NULL, MODNAME, "Sound", tmp);
 
-				GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, _countof(tmp));
 				db_set_ts(NULL, MODNAME, "VersionPrefix", tmp);
 				mir_tstrcpy(szPrefix, tmp);
 
-				GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, _countof(tmp));
 				db_set_dw(NULL, MODNAME, "TimeToShow", _ttoi(tmp));
 				options.showtime = _ttoi(tmp);
 
-				GetDlgItemText(hwndDlg, IDC_FISTEP, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_FISTEP, tmp, _countof(tmp));
 				db_set_dw(NULL, MODNAME, "FadeinSpeed", _ttoi(tmp));
 				options.fisteps = _ttoi(tmp);
 
-				GetDlgItemText(hwndDlg, IDC_FOSTEP, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_FOSTEP, tmp, _countof(tmp));
 				db_set_dw(NULL, MODNAME, "FadeoutSpeed", _ttoi(tmp));
 				options.fosteps = _ttoi(tmp);
 

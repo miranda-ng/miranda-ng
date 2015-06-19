@@ -267,11 +267,11 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
 	}
 
 	TCHAR szMsgBuf2[512];
-	mir_sntprintf(szMsgBuf2, SIZEOF(szMsgBuf2), _T("SSL connection failure (%x %u): %s"), scRet, line, szMsgBuf);
+	mir_sntprintf(szMsgBuf2, _countof(szMsgBuf2), _T("SSL connection failure (%x %u): %s"), scRet, line, szMsgBuf);
 
 	char* szMsg = Utf8EncodeT(szMsgBuf2);
 	SslLog(szMsg);
@@ -432,7 +432,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	ChainPara.cbSize = sizeof(ChainPara);
 	ChainPara.RequestedUsage.dwType = USAGE_MATCH_TYPE_OR;
-	ChainPara.RequestedUsage.Usage.cUsageIdentifier = SIZEOF(rgszUsages);
+	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 	if (!g_Crypt.CertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore,
 	     &ChainPara, 0, NULL, &pChainContext))

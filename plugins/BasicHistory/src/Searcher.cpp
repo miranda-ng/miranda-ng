@@ -102,7 +102,7 @@ void Searcher::Find()
 		return;
 	}
 
-	GetWindowText(context->findWindow, str, SIZEOF(str));
+	GetWindowText(context->findWindow, str, _countof(str));
 	if (!str[0]) {
 		TCHAR buf[256];
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
@@ -298,7 +298,7 @@ void Searcher::Find()
 	lastFindSelection = -1;
 	if (isStart) {
 		TCHAR buf[256];
-		GetWindowText(context->findWindow, str, SIZEOF(str));
+		GetWindowText(context->findWindow, str, _countof(str));
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}

@@ -144,7 +144,7 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 
 		while (i < items) {
 			if (ListView_GetItemState(hwnd2List, i, LVIS_SELECTED)) {
-				if (ListView_GetItemTextA(hwnd2List, i, 0, text, SIZEOF(text)))
+				if (ListView_GetItemTextA(hwnd2List, i, 0, text, _countof(text)))
 					db_unset(hContact, module, text);
 				items--;
 			}
@@ -289,7 +289,7 @@ void addListHandle(MCONTACT hContact)
 	lvi.lParam = hContact;
 	lvi.iImage = IMAGE_HANDLE;
 
-	GetContactName(hContact, NULL, name, SIZEOF(name));
+	GetContactName(hContact, NULL, name, _countof(name));
 	lvi.pszText = name;
 
 	int index = ListView_InsertItem(hwnd2List, &lvi);
@@ -337,13 +337,13 @@ void PopulateSettings(MCONTACT hContact, const char *module)
 {
     // save module as it can be erased by ClearListView()
     char tmp[FLD_SIZE];
-    mir_strncpy(tmp, module, SIZEOF(tmp));
+    mir_strncpy(tmp, module, _countof(tmp));
 
 	// clear any settings that may be there...
 	ClearListView();
 
 	info.hContact = hContact;
-	mir_strncpy(info.module, tmp, SIZEOF(info.module));
+	mir_strncpy(info.module, tmp, _countof(info.module));
 
 	ModuleSettingLL setlist;
 
@@ -609,7 +609,7 @@ void EditLabel(int item, int subitem)
 		info.hwnd2Edit = NULL;
 	}
 	
-	if (!ListView_GetItemTextA(hwnd2List, item, 0, setting, SIZEOF(setting))) return;
+	if (!ListView_GetItemTextA(hwnd2List, item, 0, setting, _countof(setting))) return;
 	if (!setting[0] || !ListView_GetSubItemRect(hwnd2List, item, subitem, LVIR_LABEL, &rc))
 		return;
 	
@@ -712,7 +712,7 @@ void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 			if (!g_Inline || hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) {
 				char setting[FLD_SIZE];
 				EditFinish(hti.iItem);
-				if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, SIZEOF(setting)))
+				if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting)))
 					editSetting(info.hContact, info.module, setting);
 			}
 			else 
@@ -853,7 +853,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 	}
 	
 	char setting[FLD_SIZE];
-	if (!ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, SIZEOF(setting))) return;
+	if (!ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting))) return;
 
 	// check if the setting is being watched and if it is then check the menu item
 	int watchIdx = WatchedArrayIndex(info.hContact, info.module, setting, 1);

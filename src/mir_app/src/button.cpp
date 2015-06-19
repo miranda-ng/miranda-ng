@@ -204,7 +204,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 
 		SIZE sz;
 		TCHAR szText[MAX_PATH];
-		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+		GetWindowText(ctl->hwnd, szText, _countof(szText));
 		GetTextExtentPoint32(hdcMem, szText, (int)mir_tstrlen(szText), &sz);
 		int xOffset = (rcClient.right - rcClient.left - sz.cx)/2;
 		int yOffset = (rcClient.bottom - rcClient.top - sz.cy)/2;

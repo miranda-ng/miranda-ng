@@ -33,7 +33,7 @@ static INT_PTR GetClistVersion(WPARAM, LPARAM lParam)
 {
 	static char g_szVersionString[256];
 
-	mir_snprintf(g_szVersionString, SIZEOF(g_szVersionString), "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
+	mir_snprintf(g_szVersionString, _countof(g_szVersionString), "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
 	if (!IsBadWritePtr((LPVOID)lParam, 4))
 		*((DWORD *)lParam) = pluginInfo.version;
 
@@ -133,8 +133,8 @@ void CluiProtocolStatusChanged(int, const char*)
 			if (showOpts & 1)
 				x += 16;
 			if (showOpts & 2) {
-				mir_tstrncpy(szName, pa->tszAccountName, SIZEOF(szName));
-				szName[SIZEOF(szName) - 1] = 0;
+				mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
+				szName[_countof(szName) - 1] = 0;
 				if ((showOpts & 4) && mir_tstrlen(szName) < sizeof(szName) - 1)
 					mir_tstrcat(szName, _T(" "));
 				GetTextExtentPoint32(hdc, szName, (int)mir_tstrlen(szName), &textSize);
@@ -211,7 +211,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int)wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
 		if (szMaxProto)
-			strncpy_s(g_maxProto, SIZEOF(g_maxProto), szMaxProto, _TRUNCATE);
+			strncpy_s(g_maxProto, _countof(g_maxProto), szMaxProto, _TRUNCATE);
 	}
 
 	/*

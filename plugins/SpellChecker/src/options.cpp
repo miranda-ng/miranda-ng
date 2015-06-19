@@ -84,8 +84,8 @@ void InitOptions()
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, SIZEOF(optionsControls), MODULE_NAME);
-	LoadOpts(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME);
+	LoadOpts(optionsControls, _countof(optionsControls), MODULE_NAME);
+	LoadOpts(autoReplaceControls, _countof(autoReplaceControls), MODULE_NAME);
 
 	if (languages.getCount() <= 0) {
 		opts.default_language[0] = _T('\0');
@@ -94,7 +94,7 @@ void LoadOptions()
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, MODULE_NAME, "DefaultLanguage", &dbv)) {
-		mir_tstrncpy(opts.default_language, dbv.ptszVal, SIZEOF(opts.default_language));
+		mir_tstrncpy(opts.default_language, dbv.ptszVal, _countof(opts.default_language));
 		db_free(&dbv);
 	}
 
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 	}
 
-	return SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
 struct AutoreplaceData
@@ -349,7 +349,7 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	if (item < 0)
 		find[0] = 0;
 	else
-		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, SIZEOF(find));
+		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, _countof(find));
 
 	if (mir_tstrlen(find) > 0) {
 		AutoReplacement &ar = data->autoReplaceMap[find];
@@ -370,7 +370,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		BOOL ret = SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		BOOL ret = SaveOptsDlgProc(autoReplaceControls, _countof(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 		int sel = -1;
 		for (int i = 0; i < languages.getCount(); i++) {
@@ -431,7 +431,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
 			while (sel >= 0) {
 				TCHAR tmp[256];
-				ListView_GetItemText(hList, sel, 0, tmp, SIZEOF(tmp));
+				ListView_GetItemText(hList, sel, 0, tmp, _countof(tmp));
 
 				data->RemoveWord(tmp);
 				changed = TRUE;
@@ -499,5 +499,5 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 	}
 
-	return SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(autoReplaceControls, _countof(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }

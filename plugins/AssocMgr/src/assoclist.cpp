@@ -62,7 +62,7 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	db_set_b(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	/* dll name for uninstall */
 	if(assoc->hInstance!= NULL && assoc->hInstance!= hInst && assoc->hInstance!= GetModuleHandle(NULL))
-		if( GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
+		if( GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
 			if( PathToRelativeT(szBuf, szDLL)) {
 				mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
 				db_set_ts(NULL, "AssocMgr", szSetting, szDLL);
@@ -266,9 +266,9 @@ static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static TCHAR szDesc[32];
 	if(assoc->pszFileExt == NULL)
-		mir_sntprintf(szDesc, SIZEOF(szDesc), _T("%hs:"), assoc->pszClassName);
+		mir_sntprintf(szDesc, _countof(szDesc), _T("%hs:"), assoc->pszClassName);
 	else
-		mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
+		mir_sntprintf(szDesc, _countof(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
 }
 

@@ -68,7 +68,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CYahooProto::OnPrebuildContactMenu);
 
 	TCHAR tModuleDescr[100];
-	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
+	mir_sntprintf(tModuleDescr, _countof(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -707,7 +707,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			char str[128];
 			bool reconnectRequired = false;
 
-			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, _countof(str));
 
 			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
 				reconnectRequired = true;
@@ -719,7 +719,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			ppro->setString(YAHOO_LOGINID, str);
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, _countof(str));
 
 			if (ppro->getString(YAHOO_PASSWORD, &dbv)) {
 				reconnectRequired = true;

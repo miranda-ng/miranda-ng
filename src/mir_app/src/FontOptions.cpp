@@ -149,7 +149,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 
 		mir_snprintf(buff, "\n[%s]", F.dbSettingsGroup);
 		if (mir_strcmp(buff, header) != 0) {
-			strncpy(header, buff, SIZEOF(header));
+			strncpy(header, buff, _countof(header));
 			WriteLine(out, buff);
 		}
 
@@ -311,7 +311,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
@@ -450,7 +450,7 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		TranslateDialogDefault(hwndDlg);
 		pEffect = (FONTEFFECT*)lParam;
 		{
-			for (int i = 0; i < SIZEOF(ModernEffectNames); i++) {
+			for (int i = 0; i < _countof(ModernEffectNames); i++) {
 				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(ModernEffectNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETITEMDATA, itemid, i);
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, 0, 0);
@@ -1078,7 +1078,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_BTN_EXPORT:
 			{
 				TCHAR fname_buff[MAX_PATH], filter[MAX_PATH];
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c"), TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, _countof(filter), _T("%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c"), TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);

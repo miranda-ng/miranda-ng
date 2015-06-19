@@ -119,14 +119,14 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 
 	default:
 		TCHAR err[512];
-		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, SIZEOF(err), NULL)) {
+		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, _countof(err), NULL)) {
 			pszErrorMsg = make_utf8_string(err);
 			bNeedFree = TRUE;
 		}
 		break;
 	}
 
-	mir_snprintf(szBuf, SIZEOF(szBuf), "%s%s%s (%s %d)",
+	mir_snprintf(szBuf, _countof(szBuf), "%s%s%s (%s %d)",
 					 szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "",
 					 szMsg ? "\r\n\r\n" : "",
 					 ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512),
@@ -144,6 +144,6 @@ void CIcqProto::icq_LogFatalParam(const char *szMsg, WORD wError)
 	char str[MAX_PATH];
 	char buf[MAX_PATH];
 
-	mir_snprintf(buf, ICQTranslateUtfStatic(szMsg, str, SIZEOF(str)), wError);
+	mir_snprintf(buf, ICQTranslateUtfStatic(szMsg, str, _countof(str)), wError);
 	icq_LogMessage(LOG_FATAL, buf);
 }

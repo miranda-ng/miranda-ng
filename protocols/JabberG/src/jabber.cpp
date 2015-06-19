@@ -136,7 +136,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
 	fontid.deffontsettings.size = -11;
-	mir_tstrncpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), SIZEOF(fontid.deffontsettings.szFace));
+	mir_tstrncpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
 	_tcsncpy_s(fontid.name, LPGENT("Frame title"), _TRUNCATE);
@@ -196,7 +196,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
-	mir_sntprintf(szCoreVersion, SIZEOF(szCoreVersion), _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
+	mir_sntprintf(szCoreVersion, _countof(szCoreVersion), _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 

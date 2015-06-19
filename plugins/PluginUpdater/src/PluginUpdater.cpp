@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0);
 
-	DWORD dwLen = GetTempPath( SIZEOF(tszTempPath), tszTempPath);
+	DWORD dwLen = GetTempPath( _countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 

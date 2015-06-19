@@ -94,7 +94,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			param->saveOnlinePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD);
 			param->pro->setByte("SaveSessionPassword", param->saveOnlinePassword);
 
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, param->onlinePassword, SIZEOF(param->onlinePassword));
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, param->onlinePassword, _countof(param->onlinePassword));
 			{
 				BOOL savePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM);
 				param->pro->setByte("SavePassword", savePassword);
@@ -148,7 +148,7 @@ void ThreadData::xmpp_client_query(void)
 		return;
 
 	char temp[256];
-	mir_snprintf(temp, SIZEOF(temp), "_xmpp-client._tcp.%s", conn.server);
+	mir_snprintf(temp, _countof(temp), "_xmpp-client._tcp.%s", conn.server);
 
 	DNS_RECORDA *results = NULL;
 	DNS_STATUS status = DnsQuery_A(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD *)&results, NULL);
@@ -250,7 +250,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *param)
 			_tcsncpy_s(info.conn.username, tszValue, _TRUNCATE);
 
 		if (*rtrimt(info.conn.username) == '\0') {
-			DWORD dwSize = SIZEOF(info.conn.username);
+			DWORD dwSize = _countof(info.conn.username);
 			if (GetUserName(info.conn.username, &dwSize))
 				setTString("LoginName", info.conn.username);
 			else
@@ -278,7 +278,7 @@ LBL_FatalError:
 		}
 
 		if (m_options.HostNameAsResource) {
-			DWORD dwCompNameLen = SIZEOF(info.resource) - 1;
+			DWORD dwCompNameLen = _countof(info.resource) - 1;
 			if (!GetComputerName(info.resource, &dwCompNameLen))
 				mir_tstrcpy(info.resource, _T("Miranda"));
 		}
@@ -290,7 +290,7 @@ LBL_FatalError:
 		}
 
 		TCHAR jidStr[512];
-		mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S/%s"), info.conn.username, info.conn.server, info.resource);
+		mir_sntprintf(jidStr, _countof(jidStr), _T("%s@%S/%s"), info.conn.username, info.conn.server, info.resource);
 		_tcsncpy_s(info.fullJID, jidStr, _TRUNCATE);
 
 		if (m_options.UseDomainLogin) // in the case of NTLM auth we have no need in password
@@ -299,7 +299,7 @@ LBL_FatalError:
 			if (m_savedPassword != NULL)
 				_tcsncpy_s(info.conn.password, m_savedPassword, _TRUNCATE);
 			else {
-				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S"), info.conn.username, info.conn.server);
+				mir_sntprintf(jidStr, _countof(jidStr), _T("%s@%S"), info.conn.username, info.conn.server);
 
 				JabberPasswordDlgParam param;
 				param.pro = this;
@@ -971,7 +971,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 		szLengthInTime[0] = 0;
 		if (szLength) {
 			int nLength = _ttoi(szLength);
-			mir_sntprintf(szLengthInTime, SIZEOF(szLengthInTime), _T("%02d:%02d:%02d"),
+			mir_sntprintf(szLengthInTime, _countof(szLengthInTime), _T("%02d:%02d:%02d"),
 				nLength / 3600, (nLength / 60) % 60, nLength % 60);
 		}
 
@@ -1289,7 +1289,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		else if (!mir_tstrcmp(ptszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) &&
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
 			TCHAR chkJID[JABBER_MAX_JID_LEN] = _T("@");
-			JabberStripJid(from, chkJID + 1, SIZEOF(chkJID) - 1);
+			JabberStripJid(from, chkJID + 1, _countof(chkJID) - 1);
 			for (int i = 1;; i++) {
 				HXML iNode = xmlGetNthChild(xNode, _T("item"), i);
 				if (iNode == NULL)
@@ -1496,9 +1496,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 	MCONTACT hContact;
 	BOOL bSelfPresence = FALSE;
 	TCHAR szBareFrom[JABBER_MAX_JID_LEN];
-	JabberStripJid(from, szBareFrom, SIZEOF(szBareFrom));
+	JabberStripJid(from, szBareFrom, _countof(szBareFrom));
 	TCHAR szBareOurJid[JABBER_MAX_JID_LEN];
-	JabberStripJid(info->fullJID, szBareOurJid, SIZEOF(szBareOurJid));
+	JabberStripJid(info->fullJID, szBareOurJid, _countof(szBareOurJid));
 
 	if (!mir_tstrcmpi(szBareFrom, szBareOurJid))
 		bSelfPresence = TRUE;

@@ -31,18 +31,18 @@ static IconItem icons[] =
 	{ LPGEN("Visit Homepage"), "homepage", 0 }, 
 };
 
-static HANDLE hIconLibItem[SIZEOF(icons)];
+static HANDLE hIconLibItem[_countof(icons)];
 
 // TODO: uninit
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Twitter", icons, SIZEOF(icons), "Twitter");
-	icons[SIZEOF(icons) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	Icon_Register(g_hInstance, "Protocols/Twitter", icons, _countof(icons), "Twitter");
+	icons[_countof(icons) - 1].hIcolib = Skin_GetIconHandle(SKINICON_EVENT_URL);
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (size_t i = 0; i < SIZEOF(icons); i++)
+	for (size_t i = 0; i < _countof(icons); i++)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 
@@ -106,16 +106,16 @@ void InitContactMenus()
 
 void UninitContactMenus()
 {
-	for (size_t i = 0; i < SIZEOF(g_hMenuItems); i++)
+	for (size_t i = 0; i < _countof(g_hMenuItems); i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuItems[i], 0);
 
 	UnhookEvent(g_hMenuEvts[0]);
-	for (size_t i = 1; i < SIZEOF(g_hMenuEvts); i++)
+	for (size_t i = 1; i < _countof(g_hMenuEvts); i++)
 		DestroyServiceFunction(g_hMenuEvts[i]);
 }
 
 void ShowContactMenus(bool show)
 {
-	for (size_t i = 0; i < SIZEOF(g_hMenuItems); i++)
+	for (size_t i = 0; i < _countof(g_hMenuItems); i++)
 		Menu_ShowItem(g_hMenuItems[i], show);
 }

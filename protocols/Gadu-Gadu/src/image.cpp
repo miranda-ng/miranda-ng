@@ -69,7 +69,7 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 int GGPROTO::img_init()
 {
 	char service[64];
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
 	CreateProtoService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
 
 	// Send image contact menu item
@@ -248,10 +248,10 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	GGPROTO* gg = ((GGIMAGEDLGDATA *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->gg;
 
 	TCHAR szFilter[128];
-	gg_img_getfilter(szFilter, SIZEOF(szFilter));
+	gg_img_getfilter(szFilter, _countof(szFilter));
 
 	TCHAR szFileName[MAX_PATH];
-	_tcsncpy(szFileName, dat->lpszFileName, SIZEOF(szFileName));
+	_tcsncpy(szFileName, dat->lpszFileName, _countof(szFileName));
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -677,7 +677,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TCHAR szFileName[MAX_PATH];
 			OPENFILENAME ofn = {0};
 
-			gg_img_getfilter(szFilter, SIZEOF(szFilter));
+			gg_img_getfilter(szFilter, _countof(szFilter));
 			*szFileName = 0;
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
@@ -860,7 +860,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	if (res != 0) {
 		TCHAR image_msg[MAX_PATH + 11];
-		mir_sntprintf(image_msg, SIZEOF(image_msg), _T("[img]%s[/img]"), szPath);
+		mir_sntprintf(image_msg, _countof(image_msg), _T("[img]%s[/img]"), szPath);
 
 		T2Utf szMessage(image_msg);
 		PROTORECVEVENT pre = {0};

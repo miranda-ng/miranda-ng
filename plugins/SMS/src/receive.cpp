@@ -152,10 +152,10 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 					tvi.mask=TVIF_TEXT;
 					tvi.hItem=SendSMSWindowHItemSendGet(hWndDlg);
 					tvi.pszText=tszPhone;
-					tvi.cchTextMax=SIZEOF(tszPhone);
+					tvi.cchTextMax=_countof(tszPhone);
 					TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
 				}
-				else GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,SIZEOF(szPhone));
+				else GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,_countof(szPhone));
 
 				if (ack->result == ACKRESULT_FAILED)
 					lpszErrorDescription=lpszXML;
@@ -164,7 +164,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 					GetXMLFieldExBuff(lpszXML,dwXMLSize,szBuff,sizeof(szBuff),NULL,"sms_response","error","params","param",NULL);
 				}
 
-				mir_sntprintf(tszErrorMessage,SIZEOF(tszErrorMessage),TranslateT("SMS message didn't send by %S to %s because: %S"),szNetwork,tszPhone,lpszErrorDescription);
+				mir_sntprintf(tszErrorMessage,_countof(tszErrorMessage),TranslateT("SMS message didn't send by %S to %s because: %S"),szNetwork,tszPhone,lpszErrorDescription);
 				ShowWindow(hWndDlg,SW_SHOWNORMAL);
 				EnableWindow(hWndDlg,FALSE);
 				HWND hwndTimeOut=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT),hWndDlg,SMSTimedOutDlgProc);
@@ -238,7 +238,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			}
 			else {
 				memcpy(pszServiceFunctionName,SMS_READ,sizeof(SMS_READ));
-				mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Message from %s"),GetContactNameW(hContact));
+				mir_sntprintf(szToolTip,_countof(szToolTip),TranslateT("SMS Message from %s"),GetContactNameW(hContact));
 
 				CLISTEVENT cle = { sizeof(cle) };
 				cle.flags = CLEF_TCHAR;
@@ -261,7 +261,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			UINT iIcon;
 			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, NULL, NULL, 0, NULL, &iIcon)) {
 				memcpy(pszServiceFunctionName,SMS_READ_ACK,sizeof(SMS_READ_ACK));
-				mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Confirmation from %s"),GetContactNameW(hContact));
+				mir_sntprintf(szToolTip,_countof(szToolTip),TranslateT("SMS Confirmation from %s"),GetContactNameW(hContact));
 
 				CLISTEVENT cle = { sizeof(cle) };
 				cle.flags = CLEF_TCHAR;

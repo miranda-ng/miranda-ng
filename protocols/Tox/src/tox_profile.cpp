@@ -11,7 +11,7 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 {
 	TCHAR profilePath[MAX_PATH];
 	TCHAR profileRootPath[MAX_PATH];
-	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, SIZEOF(profileRootPath), VARST(_T("%miranda_userdata%")));
+	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARST(_T("%miranda_userdata%")));
 	mir_sntprintf(profilePath, MAX_PATH, _T("%s\\%s.tox"), profileRootPath, accountName);
 	return profilePath;
 }

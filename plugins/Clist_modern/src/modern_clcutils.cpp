@@ -531,7 +531,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	else {
 		int defItems[] = { ITEM_ICON, ITEM_TEXT, ITEM_EXTRA_ICONS, };
 		for (int i = 0; i < NUM_ITEM_TYPE; i++)
-			dat->row_items[i] = (i < SIZEOF(defItems)) ? defItems[i] : -1;
+			dat->row_items[i] = (i < _countof(defItems)) ? defItems[i] : -1;
 	}
 
 	// Avatar
@@ -611,7 +611,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->second_line_text, tszLineText, SIZEOF(dat->second_line_text));
+			mir_tstrncpy(dat->second_line_text, tszLineText, _countof(dat->second_line_text));
 		else
 			dat->second_line_text[0] = _T('\0');
 
@@ -639,7 +639,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->third_line_text, tszLineText, SIZEOF(dat->third_line_text));
+			mir_tstrncpy(dat->third_line_text, tszLineText, _countof(dat->third_line_text));
 		else
 			dat->third_line_text[0] = _T('\0');
 

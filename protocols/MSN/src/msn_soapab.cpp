@@ -76,8 +76,8 @@ ezxml_t CMsnProto::abSoapHdr(const char* service, const char* scenario, ezxml_t&
 ezxml_t CMsnProto::getSoapResponse(ezxml_t bdy, const char* service)
 {
 	char resp1[40], resp2[40];
-	mir_snprintf(resp1, SIZEOF(resp1), "%sResponse", service);
-	mir_snprintf(resp2, SIZEOF(resp2), "%sResult", service);
+	mir_snprintf(resp1, _countof(resp1), "%sResponse", service);
+	mir_snprintf(resp2, _countof(resp2), "%sResult", service);
 
 	ezxml_t res = ezxml_get(bdy, "soap:Body", 0, resp1, 0, resp2, -1);
 	if (res == NULL)
@@ -95,7 +95,7 @@ ezxml_t CMsnProto::getSoapFault(ezxml_t bdy, bool err)
 void CMsnProto::UpdateABHost(const char* service, const char* url)
 {
 	char hostname[128];
-	mir_snprintf(hostname, SIZEOF(hostname), "ABHost-%s", service);
+	mir_snprintf(hostname, _countof(hostname), "ABHost-%s", service);
 
 	if (url)
 		setString(hostname, url);
@@ -114,7 +114,7 @@ void CMsnProto::UpdateABCacheKey(ezxml_t bdy, bool isSharing)
 char* CMsnProto::GetABHost(const char* service, bool isSharing)
 {
 	char hostname[128];
-	mir_snprintf(hostname, SIZEOF(hostname), "ABHost-%s", service);
+	mir_snprintf(hostname, _countof(hostname), "ABHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
 	if (db_get_static(NULL, m_szModuleName, hostname, host, 256)) {
@@ -284,7 +284,7 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 					}
 					else if (mir_strcmp(szType, "Phone") == 0) {
 						netId = NETID_MOB;
-						mir_snprintf(email, SIZEOF(email), "tel:%s", ezxml_txt(ezxml_child(memb, "PhoneNumber")));
+						mir_snprintf(email, _countof(email), "tel:%s", ezxml_txt(ezxml_child(memb, "PhoneNumber")));
 						szEmail = email;
 					}
 					else if (mir_strcmp(szType, "Email") == 0) {
@@ -686,7 +686,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 								szMsgUsr = ezxml_txt(ezxml_child(phn, "isMessengerEnabled"));
 								if (mir_strcmp(szMsgUsr, "true") == 0) {
 									szEmail = ezxml_txt(ezxml_child(phn, "number"));
-									mir_snprintf(email, SIZEOF(email), "tel:%s", szEmail);
+									mir_snprintf(email, _countof(email), "tel:%s", szEmail);
 									szEmail = email;
 									netId = NETID_MOB;
 									break;
@@ -1584,7 +1584,7 @@ void CMsnProto::MSN_ABUpdateDynamicItem(bool allowRecurse)
 	tm *tmst = gmtime(&timer);
 
 	char tmstr[64];
-	mir_snprintf(tmstr, SIZEOF(tmstr), "%04u-%02u-%02uT%02u:%02u:%02uZ",
+	mir_snprintf(tmstr, _countof(tmstr), "%04u-%02u-%02uT%02u:%02u:%02uZ",
 		tmst->tm_year + 1900, tmst->tm_mon + 1, tmst->tm_mday,
 		tmst->tm_hour, tmst->tm_min, tmst->tm_sec);
 

@@ -38,7 +38,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			UINT blockSize;
 			PVOID pVerInfo;
 
-			GetModuleFileName(NULL, filename, SIZEOF(filename));
+			GetModuleFileName(NULL, filename, _countof(filename));
 			verInfoSize = GetFileVersionInfoSize(filename, &unused);
 			pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
@@ -48,10 +48,10 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		{
 			char productVersion[56];
-			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(productVersion), (LPARAM)productVersion);
+			CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(productVersion), (LPARAM)productVersion);
 
 			TCHAR str[64];
-			mir_sntprintf(str, SIZEOF(str), STR_VERSION_FORMAT, productVersion);
+			mir_sntprintf(str, _countof(str), STR_VERSION_FORMAT, productVersion);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);

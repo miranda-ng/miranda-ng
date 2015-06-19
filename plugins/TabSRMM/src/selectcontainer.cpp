@@ -47,7 +47,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (lParam) {
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 			if (dat) {
-				mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), TranslateT("Select container for %s"), dat->cache->getNick());
+				mir_sntprintf(szNewTitle, _countof(szNewTitle), TranslateT("Select container for %s"), dat->cache->getNick());
 				SetWindowText(hwndDlg, szNewTitle);
 			}
 		}
@@ -102,7 +102,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			TCHAR szNewName[CONTAINER_NAMELEN], szName[CONTAINER_NAMELEN + 1];
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
 			if (iLen) {
-				GetDlgItemText(hwndDlg, IDC_NEWCONTAINERNAME, szNewName, SIZEOF(szNewName));
+				GetDlgItemText(hwndDlg, IDC_NEWCONTAINERNAME, szNewName, _countof(szNewName));
 				if (!_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN) || !_tcsncmp(szNewName, TranslateT("Default container"), CONTAINER_NAMELEN)) {
 					MessageBox(hwndDlg, TranslateT("You cannot rename the default container"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					break;
@@ -144,7 +144,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 			if (iLen) {
-				GetDlgItemText(hwndDlg, IDC_NEWCONTAINER, szNewName, SIZEOF(szNewName));
+				GetDlgItemText(hwndDlg, IDC_NEWCONTAINER, szNewName, _countof(szNewName));
 				int iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)szNewName);
 				if (iItem != LB_ERR || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
@@ -178,7 +178,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		char szValue[10];
 		TContainerData *pContainer = 0;
 		do {
-			mir_snprintf(szValue, SIZEOF(szValue), "%d", iCounter);
+			mir_snprintf(szValue, _countof(szValue), "%d", iCounter);
 			if (db_get_ts(NULL, szKey, szValue, &dbv))
 				break;          // end of list
 			if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {

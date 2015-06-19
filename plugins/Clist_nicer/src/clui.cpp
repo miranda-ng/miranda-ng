@@ -247,18 +247,18 @@ static void CacheClientIcons()
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
-		mir_snprintf(szBuffer, SIZEOF(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
+		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		overlayicons[i - IDI_OVL_OFFLINE] = IcoLib_GetIcon(szBuffer);
 	}
 }
 
 static void InitIcoLib()
 {
-	Icon_Register(g_hInst, LPGEN("Contact list")"/"LPGEN("Default"), myIcons, SIZEOF(myIcons));
+	Icon_Register(g_hInst, LPGEN("Contact list")"/"LPGEN("Default"), myIcons, _countof(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
-		mir_snprintf(szBuffer, SIZEOF(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
+		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR), szBuffer, i };
 		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Overlay icons"), &icon, 1);
 	}
@@ -271,7 +271,7 @@ static void InitIcoLib()
 			continue;
 
 		TCHAR szDescr[128];
-		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
+		mir_sntprintf(szDescr, _countof(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
 		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
@@ -1424,7 +1424,7 @@ skipbg:
 							if (serviceFailure) {
 								char szError[512];
 
-								mir_snprintf(szError, SIZEOF(szError), Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
+								mir_snprintf(szError, _countof(szError), Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
 								MessageBoxA(0, szError, Translate("Service failure"), MB_OK);
 							}
 							break;
@@ -1685,7 +1685,7 @@ buttons_done:
 
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
-						mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s_conn", pd->RealName);
+						mir_snprintf(szBuffer, _countof(szBuffer), "%s_conn", pd->RealName);
 						hIcon = IcoLib_GetIcon(szBuffer);
 					}
 					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
@@ -1733,8 +1733,8 @@ buttons_done:
 					TCHAR szName[64];
 					PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 					if (pa) {
-						mir_tstrncpy(szName, pa->tszAccountName, SIZEOF(szName));
-						szName[SIZEOF(szName) - 1] = 0;
+						mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
+						szName[_countof(szName) - 1] = 0;
 					}
 					else
 						szName[0] = 0;
@@ -2012,12 +2012,12 @@ static clistFontDescr[] =
 void FS_RegisterFonts()
 {
 	FontIDT fid = { sizeof(fid) };
-	_tcsncpy(fid.group, LPGENT("Contact list"), SIZEOF(fid.group));
+	_tcsncpy(fid.group, LPGENT("Contact list"), _countof(fid.group));
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
 
 	HDC hdc = GetDC(NULL);
-	for (int i = 0; i < SIZEOF(clistFontDescr); i++) {
+	for (int i = 0; i < _countof(clistFontDescr); i++) {
 		LOGFONT lf;
 		pcli->pfnGetFontSetting(i, &lf, &fid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
@@ -2030,11 +2030,11 @@ void FS_RegisterFonts()
 		fid.flags &= ~FIDF_CLASSMASK;
 		fid.flags |= clistFontDescr[i].iMask;
 
-		_tcsncpy(fid.name, clistFontDescr[i].tszName, SIZEOF(fid.name));
+		_tcsncpy(fid.name, clistFontDescr[i].tszName, _countof(fid.name));
 
 		char idstr[10];
 		mir_snprintf(idstr, "Font%d", i);
-		strncpy(fid.prefix, idstr, SIZEOF(fid.prefix));
+		strncpy(fid.prefix, idstr, _countof(fid.prefix));
 		fid.order = i;
 		FontRegisterT(&fid);
 	}
@@ -2047,32 +2047,32 @@ void FS_RegisterFonts()
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact list"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.name, LPGENT("Background"), _countof(colourid.name));
+	_tcsncpy(colourid.group, LPGENT("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Selected text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Hottrack text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.dbSettingsGroup, "CLUI", sizeof(colourid.dbSettingsGroup));
 	strncpy(colourid.setting, "clr_frameborder", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Embedded frames border"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Embedded frames border"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = RGB(40, 40, 40);
 	ColourRegisterT(&colourid);

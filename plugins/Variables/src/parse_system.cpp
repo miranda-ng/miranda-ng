@@ -105,7 +105,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
-	mir_sntprintf(szVal, SIZEOF(szVal), _T("%.0f"), cValue.doubleValue);
+	mir_sntprintf(szVal, _countof(szVal), _T("%.0f"), cValue.doubleValue);
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
 	mir_free(szCounter);
@@ -282,7 +282,7 @@ static TCHAR *parseDiffTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	diff = difftime(mktime(&t1), mktime(&t0));
-	mir_sntprintf(szTime, SIZEOF(szTime), _T("%.0f"), diff);
+	mir_sntprintf(szTime, _countof(szTime), _T("%.0f"), diff);
 
 	return mir_tstrdup(szTime);
 }
@@ -371,7 +371,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	tszRes = NULL;
 
 	if (ai->argc > 1)
-		_tcsncpy(tszFirst, ai->targv[1], SIZEOF(tszFirst) - 1);
+		_tcsncpy(tszFirst, ai->targv[1], _countof(tszFirst) - 1);
 
 	if (ai->argc > 2)
 		tszFilter = ai->targv[2];
@@ -387,10 +387,10 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 			bFiles = FALSE;
 	}
 	if (tszFirst[mir_tstrlen(tszFirst) - 1] == '\\')
-		mir_tstrncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	else {
-		mir_tstrncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
-		mir_tstrncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, _T("\\"), _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	}
 
 	WIN32_FIND_DATA ffd;
@@ -819,7 +819,7 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR szVal[32];
-	mir_sntprintf(szVal, SIZEOF(szVal), _T("%u"), cValue.largeValue);
+	mir_sntprintf(szVal, _countof(szVal), _T("%u"), cValue.largeValue);
 	PdhRemoveCounter(hCounter);
 	PdhCloseQuery(hQuery);
 	return mir_tstrdup(szVal);

@@ -378,7 +378,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			if (bSesssionNameChanged) {
 				if (GetWindowTextLength(hComboBoxEdit)) {
 					TCHAR szUserSessionName[MAX_PATH] = { '\0' };
-					GetWindowText(hComboBoxEdit, szUserSessionName, SIZEOF(szUserSessionName));
+					GetWindowText(hComboBoxEdit, szUserSessionName, _countof(szUserSessionName));
 					RenameUserDefSession(opses_count, szUserSessionName);
 					SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
 					LoadSessionToCombobox(hdlg, 1, 255, "UserSessionDsc", 0);

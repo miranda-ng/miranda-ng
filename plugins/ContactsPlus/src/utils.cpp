@@ -115,7 +115,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
 {
 	TCHAR newtitle[512];
-	mir_tstrncpy(newtitle, TranslateTS(pszTitleStart), SIZEOF(newtitle));
+	mir_tstrncpy(newtitle, TranslateTS(pszTitleStart), _countof(newtitle));
 	
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
@@ -124,13 +124,13 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
 			TCHAR *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 			TCHAR oldTitle[MAX_PATH];
-			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, SIZEOF(oldTitle));
+			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, _countof(oldTitle));
 
 			if (mir_tstrcmp(uid ? uid : contactName, oldTitle))
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
 			TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-			mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s %s (%s)"), TranslateTS(pszTitleStart), contactName, szStatus);
+			mir_sntprintf(newtitle, _countof(newtitle), _T("%s %s (%s)"), TranslateTS(pszTitleStart), contactName, szStatus);
 		}
 	}
 

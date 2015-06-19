@@ -1193,7 +1193,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			else dat->wStatus = ID_STATUS_OFFLINE;
 
-			for (int i = 0; i < SIZEOF(btnControls); i++)
+			for (int i = 0; i < _countof(btnControls); i++)
 				CustomizeButton(GetDlgItem(hwndDlg, btnControls[i]));
 
 			GetMYUIN(dat);
@@ -1280,7 +1280,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
 
-			for (int i = 0; i < SIZEOF(tooltips); i++)
+			for (int i = 0; i < _countof(tooltips); i++)
 				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
 
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
@@ -1292,7 +1292,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_RETRY, TranslateT("Retry"));
 
 			UINT _ctrls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
-			for (int i = 0; i < SIZEOF(_ctrls); i++) {
+			for (int i = 0; i < _countof(_ctrls); i++) {
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
@@ -2112,7 +2112,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_LOADBUTTONBARICONS:
-		for (int i = 0; i < SIZEOF(buttonicons); i++) {
+		for (int i = 0; i < _countof(buttonicons); i++) {
 			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
 			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 		}
@@ -2331,7 +2331,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (iIndex < SendQueue::NR_SENDJOBS) { // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
-				mir_sntprintf(job->szErrorMsg, SIZEOF(job->szErrorMsg), TranslateT("Delivery failure: %s"),
+				mir_sntprintf(job->szErrorMsg, _countof(job->szErrorMsg), TranslateT("Delivery failure: %s"),
 					TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
@@ -2549,7 +2549,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				char szIndex[10];
 				char *szKey = "TAB_ContainersW";
 
-				mir_snprintf(szIndex, SIZEOF(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
+				mir_snprintf(szIndex, _countof(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					ptrT val(db_get_tsa(NULL, szKey, szIndex));
 					if (val)
@@ -2634,7 +2634,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					break;
 
 				if (final_sendformat)
-					DoRtfToTags(dat, decoded, SIZEOF(rtfDefColors), rtfDefColors);
+					DoRtfToTags(dat, decoded, _countof(rtfDefColors), rtfDefColors);
 				decoded.TrimRight();
 
 				T2Utf utfResult(decoded);
@@ -3052,7 +3052,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
 			TCHAR** ppFiles = NULL;
 			for (i = 0; i < fileCount; i++) {
-				DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
+				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 				Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
 			}
 

@@ -41,7 +41,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time = 0)
 				sid.hIcon = IcoLib_GetIcon("read_icon");
 				TCHAR ttime[64];
 				_locale_t locale = _create_locale(LC_ALL, "");
-				_tcsftime_l(ttime, SIZEOF(ttime), _T("%X %x"), localtime(&time), locale);
+				_tcsftime_l(ttime, _countof(ttime), _T("%X %x"), localtime(&time), locale);
 				_free_locale(locale);
 				CMString tooltip(FORMAT, L"%s %s",  TranslateT("Last message read at"), ttime);
 				sid.tszTooltip = mir_tstrdup(tooltip.GetBuffer());
@@ -150,7 +150,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 
 	// IcoLib support
-	for (size_t i = 0; i < SIZEOF(Icons); i++)
+	for (size_t i = 0; i < _countof(Icons); i++)
 		Icon_Register(g_hInst, MODULENAME, &Icons[i], 1);
 
 	StatusIconData sid = { sizeof(sid) };

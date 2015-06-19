@@ -117,7 +117,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 #ifdef DEBUG_LOAD_TIME
 	t = __rdtsc() - t;
 	char dest[101];
-	mir_snprintf(dest, SIZEOF(dest), "%I64d ticks\n", t / 3200000);
+	mir_snprintf(dest, _countof(dest), "%I64d ticks\n", t / 3200000);
 	MessageBoxA(NULL, dest, NULL, 0);
 	//exit(0);
 #endif
@@ -326,7 +326,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			if (!bTranslated)
 				Config.AnswerThinkTime = 4;
 			TCHAR c[MAX_WARN_TEXT];
-			bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, SIZEOF(c));
+			bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, _countof(c));
 			if (bTranslated)
 				Config.WarnText = c;
 			else
@@ -434,7 +434,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (!bTranslated)
 			{
 				TCHAR message[5000];
-				mir_sntprintf(message, SIZEOF(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+				mir_sntprintf(message, _countof(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 				MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 			}
 			break;
@@ -461,7 +461,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
 			UpdateEngine();
 			TCHAR c[MAX_MIND_FILE];
-			bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, SIZEOF(c));
+			bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, _countof(c));
 			if (bTranslated)
 				Config.MindFileName = c;
 			else
@@ -626,7 +626,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!blInit)
 	{
 		TCHAR path[2000];
-		mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
+		mir_sntprintf(path, _countof(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
@@ -646,7 +646,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 			//So in case of saving error we will remain silent
 #if 0
 			TCHAR path[MAX_PATH];
-			mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
+			mir_sntprintf(path, _countof(path), TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
 			TCHAR* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR|MB_TASKMODAL|MB_OK);*/
 #endif

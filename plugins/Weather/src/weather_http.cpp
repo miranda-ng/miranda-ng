@@ -72,7 +72,7 @@ int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **sz
 	nlhr.szUrl = szUrl;
 	nlhr.nlc = hNetlibHttp;
 	nlhr.headers = headers;
-	nlhr.headersCount = SIZEOF(headers);
+	nlhr.headersCount = _countof(headers);
 
 	if (cookie == NULL || cookie[0] == 0)
 		--nlhr.headersCount;

@@ -365,7 +365,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = SIZEOF(Items);
+		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
@@ -379,7 +379,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{ _T(""), 100, MENU_SEPARATOR, FALSE },
 			{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;*/
 			gcmi->nItems = 0;
 			gcmi->Item = NULL;
@@ -391,7 +391,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
 				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 	}
@@ -415,7 +415,7 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 	MCONTACT hNotificationsChatRoom = ChatIDToHContact(FACEBOOK_NOTIFICATIONS_CHATROOM);
 	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
 		TCHAR nameT[200];
-		mir_sntprintf(nameT, SIZEOF(nameT), _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
+		mir_sntprintf(nameT, _countof(nameT), _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session
 		GCSESSION gcw = { sizeof(gcw) };

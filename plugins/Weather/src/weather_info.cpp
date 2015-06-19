@@ -152,55 +152,55 @@ void GetINIInfo(TCHAR *pszSvc)
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL)
 	{
-		mir_sntprintf(str2, SIZEOF(str2), TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
+		mir_sntprintf(str2, _countof(str2), TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else
 	{
-		mir_sntprintf(str2, SIZEOF(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
-		mir_tstrncat(str2, _T("\n\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Name:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->DisplayName, SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Internal Name:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->InternalName, SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Author:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Author, SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Version:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Version, SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("INI Version:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		mir_sntprintf(str2, _countof(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		mir_tstrncat(str2, _T("\n\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t\t"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->DisplayName, _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Internal Name:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->InternalName, _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Author:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t\t"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->Author, _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Version:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t\t"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->Version, _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("INI Version:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t"), _countof(str2) - mir_tstrlen(str2));
 		switch (sData->InternalVer) {
-		case 1: mir_tstrncat(str2, _T("1.0"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 2: mir_tstrncat(str2, _T("1.1"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 3: mir_tstrncat(str2, _T("1.1a"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 4: mir_tstrncat(str2, _T("1.2"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 5: mir_tstrncat(str2, _T("1.3"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 6: mir_tstrncat(str2, _T("1.4"), SIZEOF(str2) - mir_tstrlen(str2)); break;
-		case 7: mir_tstrncat(str2, _T("1.5"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 1: mir_tstrncat(str2, _T("1.0"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 2: mir_tstrncat(str2, _T("1.1"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 3: mir_tstrncat(str2, _T("1.1a"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 4: mir_tstrncat(str2, _T("1.2"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 5: mir_tstrncat(str2, _T("1.3"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 6: mir_tstrncat(str2, _T("1.4"), _countof(str2) - mir_tstrlen(str2)); break;
+		case 7: mir_tstrncat(str2, _T("1.5"), _countof(str2) - mir_tstrlen(str2)); break;
 		}
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("File Name:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->ShortFileName, SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Item Count:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
-		mir_tstrncat(str2, TranslateT("Memory Used:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i "), str2, sData->MemUsed);
-		mir_tstrncat(str2, TranslateT("bytes"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Description:"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Description, SIZEOF(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("File Name:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\t"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->ShortFileName, _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Item Count:"), _countof(str2) - mir_tstrlen(str2));
+		mir_sntprintf(str2, _countof(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
+		mir_tstrncat(str2, TranslateT("Memory Used:"), _countof(str2) - mir_tstrlen(str2));
+		mir_sntprintf(str2, _countof(str2), _T("%s\t%i "), str2, sData->MemUsed);
+		mir_tstrncat(str2, TranslateT("bytes"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, TranslateT("Description:"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
+		mir_tstrncat(str2, sData->Description, _countof(str2) - mir_tstrlen(str2));
 
 		// display the message box and quit
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
@@ -216,8 +216,8 @@ void MoreVarList(void)
 	TCHAR str[10240], tempstr[1024];
 
 	// heading
-	_tcsncpy(str, VARS_LIST, SIZEOF(str) - 1);
-	mir_tstrncat(str, _T("\n\n"), SIZEOF(str) - mir_tstrlen(str));
+	_tcsncpy(str, VARS_LIST, _countof(str) - 1);
+	mir_tstrncat(str, _T("\n\n"), _countof(str) - mir_tstrlen(str));
 	// loop through all weather services to find custom variables
 	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
 	{
@@ -227,12 +227,12 @@ void MoreVarList(void)
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
 			if ( mir_tstrcmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
-				mir_sntprintf(tempstr, SIZEOF(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
+				mir_sntprintf(tempstr, _countof(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
 				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
-					mir_tstrncat(str, tempstr, SIZEOF(str) - mir_tstrlen(str));
-					mir_tstrncat(str, _T(", "), SIZEOF(str) - mir_tstrlen(str));
+					mir_tstrncat(str, tempstr, _countof(str) - mir_tstrlen(str));
+					mir_tstrncat(str, _T(", "), _countof(str) - mir_tstrlen(str));
 				}
 			}
 		}

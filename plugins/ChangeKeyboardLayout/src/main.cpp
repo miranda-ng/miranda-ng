@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// IcoLib support
-	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
+	Icon_Register(hInst, ModuleName, iconList, _countof(iconList));
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 

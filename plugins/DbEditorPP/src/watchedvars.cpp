@@ -116,7 +116,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 
 	TCHAR data[32], tmp[16], name[NAME_SIZE];
 
-	GetContactName(hContact, NULL, name, SIZEOF(name));
+	GetContactName(hContact, NULL, name, _countof(name));
 	lvItem.pszText = name;
 
 	index = ListView_InsertItem(hwnd, &lvItem);
@@ -321,8 +321,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							{
 								ItemInfo ii;
 								ii.hContact = (MCONTACT)lvi.lParam;
-								ListView_GetItemTextA(hwndVars, hti.iItem, 1, ii.module, SIZEOF(ii.module));
-								ListView_GetItemTextA(hwndVars, hti.iItem, 2, ii.setting, SIZEOF(ii.setting));
+								ListView_GetItemTextA(hwndVars, hti.iItem, 1, ii.module, _countof(ii.module));
+								ListView_GetItemTextA(hwndVars, hti.iItem, 2, ii.setting, _countof(ii.setting));
 								ii.type = FW_SETTINGNAME;
 								SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
 							}
@@ -372,17 +372,17 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 	int timeout = db_get_b(NULL, modname, "PopupDelay", 3);
 
 	TCHAR name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
-	GetContactName(hContact, NULL, name, SIZEOF(name));
+	GetContactName(hContact, NULL, name, _countof(name));
 
 	// 2nd line
-	int type = GetValue(hContact, module, setting, value, SIZEOF(value));
+	int type = GetValue(hContact, module, setting, value, _countof(value));
 	mir_sntprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), _A2T(module), _A2T(setting), DBVType(type), value);
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = (MCONTACT)hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
-	mir_tstrncpy(ppd.lptzContactName, name, SIZEOF(ppd.lptzContactName));
-	mir_tstrncpy(ppd.lptzText, text, SIZEOF(ppd.lptzText));
+	mir_tstrncpy(ppd.lptzContactName, name, _countof(ppd.lptzContactName));
+	mir_tstrncpy(ppd.lptzText, text, _countof(ppd.lptzText));
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = timeout ? timeout : -1;

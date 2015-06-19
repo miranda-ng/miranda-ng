@@ -38,7 +38,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		TranslateDialogDefault(hdlg);
 
-		for (i = 0; i < SIZEOF(checkboxes); i++)
+		for (i = 0; i < _countof(checkboxes); i++)
 		{
 			CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
 		}
@@ -47,7 +47,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
 			for (i = 0; i < 4; i++)
 			{
-				GetDlgItemText(hdlg, checkboxes[i].idc, buffer, (SIZEOF(buffer) - 3));
+				GetDlgItemText(hdlg, checkboxes[i].idc, buffer, (_countof(buffer) - 3));
 				mir_tstrcat(buffer, _T(" *"));
 				SetDlgItemText(hdlg, checkboxes[i].idc, buffer);
 			}
@@ -72,7 +72,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		case PSN_APPLY:
 			DWORD mod_flags = 0;
 
-			for (i = 0; i < SIZEOF(checkboxes); i++)
+			for (i = 0; i < _countof(checkboxes); i++)
 				mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
 
 			db_set_dw(NULL, MODULENAME, "flags", mod_flags);

@@ -1110,7 +1110,7 @@ bgskipped:
 				int fHeight = 0;
 
 				TCHAR szResult[80];
-				if (TimeZone_PrintDateTime(cEntry->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
+				if (TimeZone_PrintDateTime(cEntry->hTimeZone, _T("t"), szResult, _countof(szResult), 0))
 					goto nodisplay;
 
 				COLORREF oldColor = GetTextColor(hdcMem);
@@ -1501,7 +1501,7 @@ bgdone:
 		pts[5].x = pts[2].x + 1;      pts[5].y = pts[1].y + 2;
 		pts[6].x = pts[1].x;          pts[6].y = pts[5].y;
 		pts[7].x = pts[0].x;          pts[7].y = pts[4].y;
-		HRGN hRgn = CreatePolygonRgn(pts, SIZEOF(pts), ALTERNATE);
+		HRGN hRgn = CreatePolygonRgn(pts, _countof(pts), ALTERNATE);
 		HBRUSH hBrush = CreateSolidBrush(dat->fontInfo[FONTID_CONTACTS].colour);
 		HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
 		FillRgn(hdcMem, hRgn, hBrush);

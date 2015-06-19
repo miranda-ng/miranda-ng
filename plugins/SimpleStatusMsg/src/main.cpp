@@ -69,21 +69,21 @@ void log2file(const char *fmt, ...)
 	HANDLE hFile = CreateFileA("simplestatusmsg.log", GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	SetFilePointer(hFile, 0, 0, FILE_END);
 
-	strncpy(szText, "[\0", SIZEOF(szText));
+	strncpy(szText, "[\0", _countof(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
-	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, szText, SIZEOF(szText));
+	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, szText, _countof(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
-	strncpy(szText, "] \0", SIZEOF(szText));
+	strncpy(szText, "] \0", _countof(szText));
 
 	va_start(va, fmt);
-	mir_vsnprintf(szText + mir_strlen(szText), SIZEOF(szText) - mir_strlen(szText), fmt, va);
+	mir_vsnprintf(szText + mir_strlen(szText), _countof(szText) - mir_strlen(szText), fmt, va);
 	va_end(va);
 
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
-	strncpy(szText, "\n\0", SIZEOF(szText));
+	strncpy(szText, "\n\0", _countof(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	CloseHandle(hFile);
@@ -225,9 +225,9 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				}
 				t.wMinute = mm % 60;
 				t.wHour = mm / 60;
-				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &t, NULL, substituteStr, SIZEOF(substituteStr));
+				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &t, NULL, substituteStr, _countof(substituteStr));
 			}
-			else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, SIZEOF(substituteStr));
+			else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 
 			if (mir_tstrlen(substituteStr) > 6)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
@@ -237,7 +237,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 		}
 		else if (!_tcsnicmp(msg + i, _T("%date%"), 6))
 		{
-			GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, SIZEOF(substituteStr));
+			GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 
 			if (mir_tstrlen(substituteStr) > 6)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
@@ -258,7 +258,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			if (ran_to > ran_from)
 			{
-				mir_sntprintf(substituteStr, SIZEOF(substituteStr), _T("%d"), GetRandom(ran_from, ran_to));
+				mir_sntprintf(substituteStr, _countof(substituteStr), _T("%d"), GetRandom(ran_from, ran_to));
 				for (k = i + 1; msg[k]; k++) if (msg[k] == '%') { k++; break; }
 
 				if (mir_tstrlen(substituteStr) > k - i)
@@ -276,7 +276,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			DBVARIANT dbv;
 			BOOL rmark[25];
 
-			for (k = 0; k < SIZEOF(rmark); k++) rmark[k] = FALSE;
+			for (k = 0; k < _countof(rmark); k++) rmark[k] = FALSE;
 			maxk = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 			if (maxk == 0) rmark[0] = TRUE;
 
@@ -324,7 +324,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			DBVARIANT dbv;
 			BOOL rmark[25];
 
-			for (k = 0; k < SIZEOF(rmark); k++) rmark[k] = FALSE;
+			for (k = 0; k < _countof(rmark); k++) rmark[k] = FALSE;
 			maxk = db_get_w(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
 			if (maxk == 0) rmark[0] = TRUE;
 
@@ -1366,14 +1366,14 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 			if (iCurrentStatus < ID_STATUS_ONLINE)
 				continue;
 
-			mir_snprintf(szBuffer, SIZEOF(szBuffer), "FCur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, _countof(szBuffer), "FCur%sMsg", accounts->pa[i]->szModuleName);
 			if (db_get_ts(NULL, "SimpleStatusMsg", szBuffer, &dbv))
 				continue;
 
 			tszMsg = InsertVarsIntoMsg(dbv.ptszVal, accounts->pa[i]->szModuleName, iCurrentStatus, NULL);
 			db_free(&dbv);
 
-			mir_snprintf(szBuffer, SIZEOF(szBuffer), "Cur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, _countof(szBuffer), "Cur%sMsg", accounts->pa[i]->szModuleName);
 			if (!db_get_ts(NULL, "SimpleStatusMsg", szBuffer, &dbv))
 			{
 				if (tszMsg && dbv.ptszVal && !mir_tstrcmp(tszMsg, dbv.ptszVal) || !tszMsg && !dbv.ptszVal)
@@ -1663,7 +1663,7 @@ static TCHAR *ParseDate(ARGUMENTSINFO *ai)
 
 	TCHAR szStr[128] = {0};
 	ai->flags |= AIF_DONTPARSE;
-	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szStr, SIZEOF(szStr));
+	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szStr, _countof(szStr));
 
 	return mir_tstrdup(szStr);
 }

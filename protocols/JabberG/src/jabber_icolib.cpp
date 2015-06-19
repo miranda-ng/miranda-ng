@@ -113,7 +113,7 @@ CIconPool::~CIconPool()
 void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)
 {
 	char szSettingName[128];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "jabber_%s", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "jabber_%s", name);
 
 	CPoolItem *item = new CPoolItem;
 	item->m_name = mir_strdup(name);
@@ -167,8 +167,8 @@ CIconPool::CPoolItem *CIconPool::FindItemByName(const char *name)
 
 void CJabberProto::IconsInit(void)
 {
-	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * SIZEOF(TransportProtoTable));
-	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
+	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * _countof(TransportProtoTable));
+	for (int i=0; i < _countof(TransportProtoTable); i++)
 		m_transportProtoTableStartIndex[i] = -1;
 }
 
@@ -277,8 +277,8 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str=strrchr(szPath,'\\');
 	if (str != NULL) *str=0;
-	mir_snprintf(szMyPath, SIZEOF(szMyPath), "%s\\Icons\\%s", szPath, filename);
-	mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
+	mir_snprintf(szMyPath, _countof(szMyPath), "%s\\Icons\\%s", szPath, filename);
+	mir_snprintf(szFullPath, _countof(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi=ExtractIconFromPath(szFullPath,&nf);
 	if (hi) has_proto_icon=TRUE;
@@ -316,8 +316,8 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	int first=-1;
 	HICON empty=LoadSmallIcon(NULL,MAKEINTRESOURCE(102));
 
-	mir_sntprintf(Group, SIZEOF(Group), LPGENT("Status icons")_T("/%s/%S %s"), m_tszUserName, proto, TranslateT("transport"));
-	mir_snprintf(defFile, SIZEOF(defFile), "proto_%s.dll",proto);
+	mir_sntprintf(Group, _countof(Group), LPGENT("Status icons")_T("/%s/%S %s"), m_tszUserName, proto, TranslateT("transport"));
+	mir_snprintf(defFile, _countof(defFile), "proto_%s.dll",proto);
 	if (!hAdvancedStatusIcon)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
@@ -326,7 +326,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
 		TCHAR *descr = pcli->pfnGetStatusModeDescription(n+ID_STATUS_OFFLINE, 0);
-		mir_snprintf(Uname, SIZEOF(Uname), "%s_Transport_%s_%d", m_szModuleName, proto, n);
+		mir_snprintf(Uname, _countof(Uname), "%s_Transport_%s_%d", m_szModuleName, proto, n);
 		HICON hicon = LoadTransportIcon(defFile,-skinIconStatusToResourceId[i],Uname,Group,descr,-(n+ID_STATUS_OFFLINE),&needFree);
 		int index = (m_transportProtoTableStartIndex[iID] == -1)?-1:m_transportProtoTableStartIndex[iID]+n;
 		int added = ImageList_ReplaceIcon(hAdvancedStatusIcon,index,hicon?hicon:empty);
@@ -343,7 +343,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 
 int CJabberProto::GetTransportProtoID(TCHAR* TransportDomain)
 {
-	for (int i=0; i<SIZEOF(TransportProtoTable); i++)
+	for (int i=0; i<_countof(TransportProtoTable); i++)
 		if ( MatchMask(TransportDomain, TransportProtoTable[i].mask))
 			return i;
 
@@ -352,7 +352,7 @@ int CJabberProto::GetTransportProtoID(TCHAR* TransportDomain)
 
 int CJabberProto::GetTransportStatusIconIndex(int iID, int Status)
 {
-	if (iID < 0 || iID >= SIZEOF(TransportProtoTable))
+	if (iID < 0 || iID >= _countof(TransportProtoTable))
 		return -1;
 
 	//icons not loaded - loading icons
@@ -374,7 +374,7 @@ int CJabberProto::GetTransportStatusIconIndex(int iID, int Status)
 
 int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 {
-	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
+	for (int i=0; i < _countof(TransportProtoTable); i++)
 		if (m_transportProtoTableStartIndex[i] != -1)
 			LoadAdvancedIcons(i);
 
@@ -432,7 +432,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, MCONTACT hConta
 	if (resourcepos != NULL)
 		*resourcepos = '\0';
 
-	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
+	for (int i=0; i < _countof(TransportProtoTable); i++)
 		if (MatchMask(domain, TransportProtoTable[i].mask)) {
 			GetTransportStatusIconIndex(GetTransportProtoID(domain), ID_STATUS_OFFLINE);
 			isTransported = TRUE;
@@ -525,29 +525,29 @@ static IconItem sharedIconList4[] =
 
 void g_IconsInit()
 {
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber"),                       sharedIconList1, SIZEOF(sharedIconList1), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber")"/"LPGEN("Dialogs"),    sharedIconList2, SIZEOF(sharedIconList2), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Discovery"), sharedIconList3, SIZEOF(sharedIconList3), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Privacy"),   sharedIconList4, SIZEOF(sharedIconList4), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber"),                       sharedIconList1, _countof(sharedIconList1), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber")"/"LPGEN("Dialogs"),    sharedIconList2, _countof(sharedIconList2), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Discovery"), sharedIconList3, _countof(sharedIconList3), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Privacy"),   sharedIconList4, _countof(sharedIconList4), GLOBAL_SETTING_PREFIX);
 }
 
 HANDLE g_GetIconHandle(int iconId)
 {
 	int i;
 
-	for (i=0; i < SIZEOF(sharedIconList1); i++)
+	for (i=0; i < _countof(sharedIconList1); i++)
 		if (sharedIconList1[i].defIconID == iconId)
 			return sharedIconList1[i].hIcolib;
 
-	for (i=0; i < SIZEOF(sharedIconList2); i++)
+	for (i=0; i < _countof(sharedIconList2); i++)
 		if (sharedIconList2[i].defIconID == iconId)
 			return sharedIconList2[i].hIcolib;
 
-	for (i=0; i < SIZEOF(sharedIconList3); i++)
+	for (i=0; i < _countof(sharedIconList3); i++)
 		if (sharedIconList3[i].defIconID == iconId)
 			return sharedIconList3[i].hIcolib;
 
-	for (i=0; i < SIZEOF(sharedIconList4); i++)
+	for (i=0; i < _countof(sharedIconList4); i++)
 		if (sharedIconList4[i].defIconID == iconId)
 			return sharedIconList4[i].hIcolib;
 
@@ -557,7 +557,7 @@ HANDLE g_GetIconHandle(int iconId)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

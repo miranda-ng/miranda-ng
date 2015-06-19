@@ -18,7 +18,7 @@ void __stdcall	SSL_DebugLog(const char *fmt, ...)
 	va_list	vararg;
 
 	va_start( vararg, fmt );
-	int tBytes = mir_vsnprintf(str, SIZEOF(str), fmt, vararg);
+	int tBytes = mir_vsnprintf(str, _countof(str), fmt, vararg);
 	if ( tBytes == 0 )
 		return;
 

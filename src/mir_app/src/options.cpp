@@ -160,7 +160,7 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 	TVITEM tvi;
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
@@ -178,7 +178,7 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 	TVITEM tvi;
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 	tvi.hItem = TreeView_GetChild(hwndTree, hItem);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
@@ -193,7 +193,7 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 {
 	TCHAR szClass[64];
-	GetClassName(hwnd, szClass, SIZEOF(szClass));
+	GetClassName(hwnd, szClass, _countof(szClass));
 
 	if (!mir_tstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 		SendMessage(hwnd, WM_SETFONT, lParam, 0);
@@ -208,7 +208,7 @@ static void SaveOptionsTreeState(HWND hdlg)
 	char buf[130], str[128];
 	tvi.mask = TVIF_TEXT | TVIF_STATE;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 	tvi.hItem = TreeView_GetRoot(GetDlgItem(hdlg, IDC_PAGETREE));
 	while (tvi.hItem != NULL) {
 		if (SendDlgItemMessageA(hdlg, IDC_PAGETREE, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
@@ -233,7 +233,7 @@ static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 static TCHAR* GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
 {
 	TCHAR tszModuleName[MAX_PATH];
-	GetModuleFileName(hInstance, tszModuleName, SIZEOF(tszModuleName));
+	GetModuleFileName(hInstance, tszModuleName, _countof(tszModuleName));
 	TCHAR *dllName = _tcsrchr(tszModuleName, '\\');
 	if (!dllName)
 		dllName = tszModuleName;
@@ -272,7 +272,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 
 	TCHAR pluginName[MAX_PATH];
 	char *temp = GetPluginNameByInstance(page->getInst());
-	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->getInst(), pluginName, SIZEOF(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
+	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->getInst(), pluginName, _countof(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
 
 	if (enableKeywordFiltering && !current)
 		DestroyWindow(hWnd); // destroy the page, we're done with it
@@ -508,7 +508,7 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 		countKnownInst++;
 		
 		TCHAR tszModuleName[MAX_PATH];
-		GetModuleFileName(inst, tszModuleName, SIZEOF(tszModuleName));
+		GetModuleFileName(inst, tszModuleName, _countof(tszModuleName));
 
 		TCHAR *dllName = mir_a2t(GetPluginNameByInstance(inst));
 		if (!dllName) dllName = mir_tstrdup(_tcsrchr(tszModuleName, _T('\\')));
@@ -526,7 +526,7 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 {
 	LPARAM oldSel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_GETEDITSEL, 0, 0);
-	GetDlgItemText(hdlg, IDC_KEYWORD_FILTER, dat->szFilterString, SIZEOF(dat->szFilterString));
+	GetDlgItemText(hdlg, IDC_KEYWORD_FILTER, dat->szFilterString, _countof(dat->szFilterString));
 
 	// if filter string is set to all modules then make the filter string empty (this will return all modules)
 	BOOL bRemoveFocusFromFilter = FALSE;
@@ -538,7 +538,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	else if (mir_tstrcmp(dat->szFilterString, TranslateT(CORE_MODULES_FILTER)) == 0) {
 		// replace string with process name - that will show core settings
 		TCHAR szFileName[300];
-		GetModuleFileName(g_hInst, szFileName, SIZEOF(szFileName));
+		GetModuleFileName(g_hInst, szFileName, _countof(szFileName));
 		TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
 		if (pos)
 			pos++;
@@ -552,7 +552,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 		if (sel != -1) {
 			HINSTANCE hinst = (HINSTANCE)SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETITEMDATA, sel, 0);
 			TCHAR szFileName[300];
-			GetModuleFileName(hinst, szFileName, SIZEOF(szFileName));
+			GetModuleFileName(hinst, szFileName, _countof(szFileName));
 			TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
 			if (pos) pos++;
 			else pos = szFileName;
@@ -651,7 +651,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	TVITEMA tvi;
 	tvi.mask = TVIF_TEXT | TVIF_STATE;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem != NULL) {
 		if (SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
@@ -1151,7 +1151,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 		return;
 
 	TCHAR tszTitle[100];
-	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%s options"), pa->tszAccountName);
+	mir_sntprintf(tszTitle, _countof(tszTitle), TranslateT("%s options"), pa->tszAccountName);
 
 	OPENOPTIONSDIALOG ood = { sizeof(ood) };
 	ood.pszGroup = LPGEN("Network");

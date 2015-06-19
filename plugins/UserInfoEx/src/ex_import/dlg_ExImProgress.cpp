@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				{ ICO_DLG_IMPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+			const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			TranslateDialogDefault(hDlg);
@@ -194,7 +194,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 			va_list vl;
 
 			va_start(vl, pszFormat);
-			mir_vsntprintf(buf, SIZEOF(buf), TranslateTS(pszFormat), vl);
+			mir_vsntprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
 			va_end(vl);
 			SetDlgItemText(_hDlg, TXT_CONTACT, buf);	 
 		}
@@ -221,9 +221,9 @@ BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 			va_list vl;
 
 			va_start(vl, pszFormat);
-			mir_vsntprintf(buf, SIZEOF(buf), TranslateTS(pszFormat), vl);
+			mir_vsntprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
 			va_end(vl);
-			GetDlgItemText(_hDlg, TXT_SETTING, tmp, SIZEOF(tmp));
+			GetDlgItemText(_hDlg, TXT_SETTING, tmp, _countof(tmp));
 			if (mir_tstrcmpi(tmp,buf))
 				SetDlgItemText(_hDlg, TXT_SETTING, buf);
 		}

@@ -997,7 +997,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 			TranslateT("Nickname"), ui->pszNick,
 			TranslateT("Unique ID"), ui->pszUID,
 			TranslateT("Status"), pci->TM_WordToString(si->pStatuses, ui->Status));
@@ -1149,13 +1149,13 @@ static int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char * szModule, 
 	GetWindowPlacement(hwnd, &wp);
 	
 	char szSettingName[64];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
 	int x = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
 	int y = (int)db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
 	int width = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
 	int height = db_get_dw(hContact, szModule, szSettingName, -1);
 
 	if (x == -1)
@@ -2230,7 +2230,7 @@ LABEL_SHOWWINDOW:
 				case ID_SEARCH_WIKIPEDIA:
 					if (pszWord[0]) {
 						TCHAR szURL[1024];
-						mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
+						mir_sntprintf(szURL, _countof(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
 						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
 					}
 					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2316,7 +2316,7 @@ LABEL_SHOWWINDOW:
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != NULL) {
 					static TCHAR ptszBuf[1024];
-					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+					mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 						TranslateT("Nickname"), ui->pszNick,
 						TranslateT("Unique ID"), ui->pszUID,
 						TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -2435,11 +2435,11 @@ LABEL_SHOWWINDOW:
 					_tcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFolder, SIZEOF(szFolder), _T("%s\\%s"), g_Settings.pszLogDir, szName);
+					mir_sntprintf(szFolder, _countof(szFolder), _T("%s\\%s"), g_Settings.pszLogDir, szName);
 					mir_sntprintf(szName, _T("%s.log"), si->ptszID);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFile, SIZEOF(szFile), _T("%s\\%s"), szFolder, szName);
+					mir_sntprintf(szFile, _countof(szFile), _T("%s\\%s"), szFolder, szName);
 					ShellExecute(hwndDlg, _T("open"), szFile, NULL, NULL, SW_SHOW);
 				}
 			}

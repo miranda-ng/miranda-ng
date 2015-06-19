@@ -264,7 +264,7 @@ struct HttpSecurityContext
 			if (szHost && _stricmp(szProvider, "Basic")) {
 				unsigned long ip = inet_addr(szHost);
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
-				mir_snprintf(szSpnStr, SIZEOF(szSpnStr), "HTTP/%s", host && host->h_name ? host->h_name : szHost);
+				mir_snprintf(szSpnStr, _countof(szSpnStr), "HTTP/%s", host && host->h_name ? host->h_name : szHost);
 				_strlwr(szSpnStr + 5);
 				NetlibLogf(nlc->nlu, "Host SPN: %s", szSpnStr);
 			}
@@ -311,7 +311,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	char *peol;
 
 	while(true) {
-		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, SIZEOF(buffer) - 1, MSG_PEEK | recvFlags);
+		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK | recvFlags);
 
 		if (bytesPeeked == 0) {
 			SetLastError(ERROR_HANDLE_EOF);
@@ -328,7 +328,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 			SetLastError(ERROR_BAD_FORMAT);
 			return 0;
 		}
-		if (bytesPeeked == SIZEOF(buffer) - 1) {
+		if (bytesPeeked == _countof(buffer) - 1) {
 			SetLastError(ERROR_BUFFER_OVERFLOW);
 			return 0;
 		}
@@ -868,13 +868,13 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		++nlhrSend.headersCount;
 
 		char szMirandaVer[64];
-		CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szMirandaVer), (LPARAM)szMirandaVer);
+		CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(szMirandaVer), (LPARAM)szMirandaVer);
 		char *pspace = strchr(szMirandaVer, ' ');
 		if (pspace) {
 			*pspace++='\0';
-			mir_snprintf(szUserAgent, SIZEOF(szUserAgent), "Miranda/%s (%s)", szMirandaVer, pspace);
+			mir_snprintf(szUserAgent, _countof(szUserAgent), "Miranda/%s (%s)", szMirandaVer, pspace);
 		}
-		else mir_snprintf(szUserAgent, SIZEOF(szUserAgent), "Miranda/%s", szMirandaVer);
+		else mir_snprintf(szUserAgent, _countof(szUserAgent), "Miranda/%s", szMirandaVer);
 	}
 	if (!doneAcceptEncoding) {
 		nlhrSend.headers[nlhrSend.headersCount].szName = "Accept-Encoding";

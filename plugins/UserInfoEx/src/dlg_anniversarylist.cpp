@@ -242,15 +242,15 @@ class CAnnivList
 			case COLUMN_CONTACT:
 			case COLUMN_PROTO:
 			case COLUMN_DESC:
-				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, SIZEOF(szText1));
-				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, SIZEOF(szText2));
+				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
+				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
 				result = pDlg->_sortOrder * mir_tstrcmp(szText1, szText2);
 				break;
 
 			case COLUMN_AGE:
 			case COLUMN_ETA:
-				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, SIZEOF(szText1));
-				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, SIZEOF(szText2));
+				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
+				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
 				result = pDlg->_sortOrder * (_ttoi(szText1) - _ttoi(szText2));
 				break;
 
@@ -598,7 +598,7 @@ class CAnnivList
 		LVCOLUMN lvc;
 		CHAR pszSetting[MAXSETTING];
 
-		mir_snprintf(pszSetting, SIZEOF(pszSetting), "AnnivDlg_Col%d", iSubItem);
+		mir_snprintf(pszSetting, _countof(pszSetting), "AnnivDlg_Col%d", iSubItem);
 		lvc.cx = db_get_w(NULL, MODNAME, pszSetting, defaultWidth);
 		lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 		lvc.iSubItem = iSubItem;
@@ -713,7 +713,7 @@ class CAnnivList
 					AddSubItem(iItem, COLUMN_DESC, (LPTSTR)ad.Description());
 
 					// sixth line: date
-					ad.DateFormatAlt(szText, SIZEOF(szText));
+					ad.DateFormatAlt(szText, _countof(szText));
 					AddSubItem(iItem, COLUMN_DATE, szText);
 					
 					_numRows++;
@@ -877,7 +877,7 @@ public:
 				int c, cc = Header_GetItemCount(ListView_GetHeader(_hList));
 
 				for (c = 0; c < cc; c++) {
-					mir_snprintf(pszSetting, SIZEOF(pszSetting), "AnnivDlg_Col%d", c);
+					mir_snprintf(pszSetting, _countof(pszSetting), "AnnivDlg_Col%d", c);
 					db_set_w(NULL, MODNAME, pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
 				}
 				DeleteAllItems();

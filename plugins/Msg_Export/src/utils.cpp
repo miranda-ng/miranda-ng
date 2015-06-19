@@ -518,7 +518,7 @@ bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 	BYTE * p = (BYTE*)pData;
 	for (int n = 0; n < nSize; n++)
 	{
-		mir_snprintf(cBuf, SIZEOF(cBuf), "%.2X ", p[n]);
+		mir_snprintf(cBuf, _countof(cBuf), "%.2X ", p[n]);
 		if (!bWriteToFile(hFile, cBuf, 3))
 			return false;
 	}
@@ -774,7 +774,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 			if (dwUIN)
 			{
 				TCHAR sTmp[20];
-				mir_sntprintf(sTmp, SIZEOF(sTmp), _T("%d"), dwUIN);
+				mir_sntprintf(sTmp, _countof(sTmp), _T("%d"), dwUIN);
 				sReplaceUin = sTmp;
 			}
 			else
@@ -871,11 +871,11 @@ void ReplaceTimeVariables(tstring &sRet)
 		GetLocalTime(&stTime);
 		TCHAR sTmp[20];
 
-		mir_sntprintf(sTmp, SIZEOF(sTmp), _T("%d"), stTime.wYear);
+		mir_sntprintf(sTmp, _countof(sTmp), _T("%d"), stTime.wYear);
 		ReplaceAll(sRet, _T("%year%"), sTmp);
-		mir_sntprintf(sTmp, SIZEOF(sTmp), _T("%.2d"), stTime.wMonth);
+		mir_sntprintf(sTmp, _countof(sTmp), _T("%.2d"), stTime.wMonth);
 		ReplaceAll(sRet, _T("%month%"), sTmp);
-		mir_sntprintf(sTmp, SIZEOF(sTmp), _T("%.2d"), stTime.wDay);
+		mir_sntprintf(sTmp, _countof(sTmp), _T("%.2d"), stTime.wDay);
 		ReplaceAll(sRet, _T("%day%"), sTmp);
 	}
 }
@@ -941,7 +941,7 @@ void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO *
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		//ofn.hwndOwner = NULL;
 		ofn.lpstrFile = szFile;
-		ofn.nMaxFile = SIZEOF(szFile);
+		ofn.nMaxFile = _countof(szFile);
 		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
@@ -1132,7 +1132,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			nFirstColumnWidth,
 			dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
-		TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], SIZEOF(szTemp) - nIndent - 2);
+		TimeZone_ToStringT(dbei.timestamp, sTimeFormat.c_str(), &szTemp[nIndent], _countof(szTemp) - nIndent - 2);
 
 		nIndent = (int)mir_tstrlen(szTemp);
 		szTemp[nIndent++] = ' ';
@@ -1460,7 +1460,7 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool b
 				// then we will look for a ? and so on.
 
 				const TCHAR ac[] = { _T(' '), _T('?'), _T('-'), _T('.'), _T(',') };
-				for (int y = 0; y < SIZEOF(ac); y++)
+				for (int y = 0; y < _countof(ac); y++)
 				{
 					for (int n = nLineLen; n > 0; n--)
 					{

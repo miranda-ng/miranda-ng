@@ -82,12 +82,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_BTN_LOGBROWSE:
 			{
 				TCHAR filter[MAX_PATH];
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.txt%c%s%c*.*%c"), TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
+				mir_sntprintf(filter, _countof(filter), _T("%s%c*.txt%c%s%c*.*%c"), TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = options.log_filename;
 				ofn.hwndOwner = hwndDlg;
-				ofn.nMaxFile = SIZEOF(options.log_filename);
+				ofn.nMaxFile = _countof(options.log_filename);
 				ofn.lpstrTitle = TranslateT("Open log file");
 				ofn.lpstrFilter = filter;
 				ofn.nFilterIndex = 1;
@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			options.block_reps = IsDlgButtonChecked(hwndDlg, IDC_CHK_BLOCK) == BST_CHECKED;
 			options.logging = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG) == BST_CHECKED;
 			options.log_csv = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOGCSV) == BST_CHECKED;
-			GetDlgItemText(hwndDlg, IDC_ED_FILENAME, options.log_filename, SIZEOF(options.log_filename));
+			GetDlgItemText(hwndDlg, IDC_ED_FILENAME, options.log_filename, _countof(options.log_filename));
 
 			options.no_test_icon = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOTESTICON) == BST_CHECKED;
 
@@ -233,14 +233,14 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
 				break;
 			case IDOK:
-				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, SIZEOF(add_edit_addr.pszName));
-				GetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel, SIZEOF(add_edit_addr.pszLabel));
-				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, SIZEOF(add_edit_addr.pszCommand));
-				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, SIZEOF(add_edit_addr.pszParams));
+				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, _countof(add_edit_addr.pszName));
+				GetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel, _countof(add_edit_addr.pszLabel));
+				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, _countof(add_edit_addr.pszCommand));
+				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, _countof(add_edit_addr.pszParams));
 
 				if (SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1)
 				{
-					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, SIZEOF(add_edit_addr.pszProto));
+					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, _countof(add_edit_addr.pszProto));
 					if (!mir_strcmp(add_edit_addr.pszProto, Translate("<none>")))
 						add_edit_addr.pszProto[0] = '\0';
 					else {

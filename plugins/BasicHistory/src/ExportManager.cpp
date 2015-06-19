@@ -41,9 +41,9 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
+	mir_sntprintf(filter, _countof(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
-	mir_sntprintf(filter + len, SIZEOF(filter) - len, _T("*.%s"), ext);
+	mir_sntprintf(filter + len, _countof(filter) - len, _T("*.%s"), ext);
 	len += mir_tstrlen(filter + len);
 	filter[++len] = 0;
 	TCHAR stzFilePath[1024];
@@ -59,7 +59,7 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
 	ofn.lpstrTitle = open ? TranslateT("Import") : TranslateT("Export");
-	ofn.nMaxFile = SIZEOF(stzFilePath);
+	ofn.nMaxFile = _countof(stzFilePath);
 	ofn.lpstrDefExt = ext;
 	if (open) {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;

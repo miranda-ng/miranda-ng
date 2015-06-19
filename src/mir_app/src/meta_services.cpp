@@ -243,7 +243,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 		tfap->hContact = ccs->hContact;
 		tfap->hEvent = hEvent;
 		tfap->id = 10;
-		strncpy(tfap->msg, Translate("No online contacts found."), SIZEOF(tfap->msg) - 1);
+		strncpy(tfap->msg, Translate("No online contacts found."), _countof(tfap->msg) - 1);
 
 		CloseHandle(mir_forkthread(sttFakeAckFail, (void*)tfap));
 		SetEvent(hEvent);
@@ -852,7 +852,7 @@ void Meta_InitServices()
 	// hidden contact menu items...ho hum
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "MetaContacts/MenuFunc%d", i);
+		mir_snprintf(szServiceName, _countof(szServiceName), "MetaContacts/MenuFunc%d", i);
 		CreateServiceFunctionParam(szServiceName, MenuFunc, i);
 	}
 

@@ -148,8 +148,8 @@ void CContactCache::TContactInfo::LoadInfo()
 		CNF_CONAME, CNF_CODEPT, CNF_COCITY, CNF_COSTATE, CNF_COSTREET, CNF_COCOUNTRY
 	};
 
-	for (int i = 0; i < SIZEOF(items); ++i)
-		if (AppendInfo(p, SIZEOF(info) - (p - info), hContact, items[i]))
+	for (int i = 0; i < _countof(items); ++i)
+		if (AppendInfo(p, _countof(info) - (p - info), hContact, items[i]))
 			p += mir_tstrlen(p) + 1;
 
 	*p = 0;
@@ -180,7 +180,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 
 	HKL kbdLayoutActive = GetKeyboardLayout(GetCurrentThreadId());
 	HKL kbdLayouts[10];
-	int nKbdLayouts = GetKeyboardLayoutList(SIZEOF(kbdLayouts), kbdLayouts);
+	int nKbdLayouts = GetKeyboardLayoutList(_countof(kbdLayouts), kbdLayouts);
 
 	TCHAR buf[256];
 	BYTE keyState[256] = { 0 };
@@ -193,7 +193,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 			for (i = 0; str[i]; ++i) {
 				UINT vk = VkKeyScanEx(str[i], kbdLayoutActive);
 				UINT scan = MapVirtualKeyEx(vk, 0, kbdLayoutActive);
-				ToUnicodeEx(vk, scan, keyState, buf + i, SIZEOF(buf) - i, 0, kbdLayouts[iLayout]);
+				ToUnicodeEx(vk, scan, keyState, buf + i, _countof(buf) - i, 0, kbdLayouts[iLayout]);
 			}
 			buf[i] = 0;
 		}

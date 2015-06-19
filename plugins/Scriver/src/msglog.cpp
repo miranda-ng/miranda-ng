@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int RTL_Detect(WCHAR *pszwText);
 static int logPixelSY;
 static char* pLogIconBmpBits[3];
-static size_t logIconBmpSize[SIZEOF(pLogIconBmpBits)];
+static size_t logIconBmpSize[_countof(pLogIconBmpBits)];
 static HIMAGELIST g_hImageList;
 
 #define STREAMSTAGE_HEADER  0
@@ -379,7 +379,7 @@ static char* SetToStyle(int style)
 	static char szStyle[128];
 	LOGFONT lf;
 	LoadMsgDlgFont(style, &lf, NULL);
-	mir_snprintf(szStyle, SIZEOF(szStyle), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
+	mir_snprintf(szStyle, _countof(szStyle), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
 	return szStyle;
 }
 
@@ -425,8 +425,8 @@ TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? _T("s") : _T("t"));
 	}
 	if (format[0] != '\0') {
-		TimeZone_PrintTimeStamp(NULL, check, format, str, SIZEOF(str), 0);
-		mir_tstrncat(szResult, str, SIZEOF(szResult) - mir_tstrlen(szResult));
+		TimeZone_PrintTimeStamp(NULL, check, format, str, _countof(str), 0);
+		mir_tstrncat(szResult, str, _countof(szResult) - mir_tstrlen(szResult));
 	}
 	return szResult;
 }
@@ -465,7 +465,7 @@ static int DetectURL(wchar_t *text, BOOL firstChar) {
 	if (!((c >= '0' && c<='9') || (c >= 'A' && c<='Z') || (c >= 'a' && c<='z'))) {
 		int found = 0;
 		int i, len = 0;
-		int prefixlen = SIZEOF(prefixes);
+		int prefixlen = _countof(prefixes);
 		for (i = 0; i < prefixlen; i++) {
 			if (!wcsncmp(text, prefixes[i].text, prefixes[i].length)) {
 				len = prefixes[i].length;
@@ -909,7 +909,7 @@ void LoadMsgLogIcons(void)
 	HICON hIcon = NULL;
 	RECT rc;
 
-	g_hImageList = ImageList_Create(10, 10, ILC_COLOR32 | ILC_MASK, SIZEOF(pLogIconBmpBits), 0);
+	g_hImageList = ImageList_Create(10, 10, ILC_COLOR32 | ILC_MASK, _countof(pLogIconBmpBits), 0);
 	HBRUSH hBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 	HBRUSH hInBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_INCOMINGBKGCOLOUR, SRMSGDEFSET_INCOMINGBKGCOLOUR));
 	HBRUSH hOutBkgBrush = CreateSolidBrush(db_get_dw(NULL, SRMMMOD, SRMSGSET_OUTGOINGBKGCOLOUR, SRMSGDEFSET_OUTGOINGBKGCOLOUR));
@@ -929,7 +929,7 @@ void LoadMsgLogIcons(void)
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
 	HBRUSH hBrush = hBkgBrush;
-	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
+	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		switch (i) {
 		case LOGICON_MSG_IN:
 			ImageList_AddIcon(g_hImageList, GetCachedIcon("scriver_INCOMING"));
@@ -976,7 +976,7 @@ void LoadMsgLogIcons(void)
 
 void FreeMsgLogIcons(void)
 {
-	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i = 0; i < _countof(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 
 	ImageList_RemoveAll(g_hImageList);

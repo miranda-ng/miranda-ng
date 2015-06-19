@@ -224,8 +224,8 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				{
 					char pass[128], cpass[128];
 					BOOL enable;
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, SIZEOF(pass));
-					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, SIZEOF(cpass));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
 					enable = mir_strlen(pass) && mir_strlen(cpass) && !mir_strcmp(cpass, pass);
 					if (dat && dat->mode == GG_USERUTIL_REMOVE)
 						EnableWindow(GetDlgItem(hwndDlg, IDOK), IsDlgButtonChecked(hwndDlg, IDC_CONFIRM) ? enable : FALSE);
@@ -237,9 +237,9 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				case IDOK:
 				{
 					char pass[128], cpass[128], email[128];
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, SIZEOF(pass));
-					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, SIZEOF(cpass));
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, SIZEOF(email));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
+					GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
 					EndDialog(hwndDlg, IDOK);
 
 					// Check dialog box mode

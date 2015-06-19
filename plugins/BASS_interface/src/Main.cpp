@@ -186,7 +186,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			else {
 				DBVARIANT dbv = { 0 }; BASS_DEVICEINFO info; DWORD bassver = BASS_GetVersion();
 
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
 				SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
@@ -222,7 +222,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (hBass != NULL) {
 				SYSTEMTIME systime = { 0 };
 
-				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
 				db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
 
 				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
@@ -558,7 +558,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	else {
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			mir_tstrncpy(CurrBassPath, VARST(_T("Plugins\\Bass\\bass.dll")), SIZEOF(CurrBassPath));
+			mir_tstrncpy(CurrBassPath, VARST(_T("Plugins\\Bass\\bass.dll")), _countof(CurrBassPath));
 			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
@@ -614,7 +614,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
-	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
+	Icon_Register(hInst, ModuleName, iconList, _countof(iconList));
 	return 0;
 }
 

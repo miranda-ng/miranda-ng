@@ -146,7 +146,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 
 		if (proto) {
 			char prefix[128];
-			mir_snprintf(prefix, SIZEOF(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
+			mir_snprintf(prefix, _countof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
 			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
@@ -381,15 +381,15 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
-	mir_sntprintf(fid.group, SIZEOF(fid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
-	mir_strncpy(fid.dbSettingsGroup, PU_MODULCLASS, SIZEOF(fid.dbSettingsGroup) - 1);
+	mir_sntprintf(fid.group, _countof(fid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
+	mir_strncpy(fid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup) - 1);
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	mir_tstrncpy(fid.deffontsettings.szFace, _T("Verdana"), SIZEOF(fid.deffontsettings.szFace) - 1);
-	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name) - 1);
-	mir_strncpy(fid.prefix, setting, SIZEOF(fid.prefix));
-	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
+	mir_tstrncpy(fid.deffontsettings.szFace, _T("Verdana"), _countof(fid.deffontsettings.szFace) - 1);
+	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TEXT), _countof(fid.name) - 1);
+	mir_strncpy(fid.prefix, setting, _countof(fid.prefix));
+	mir_snprintf(fid.prefix, _countof(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = fonts.clText;
 	FontRegisterT(&fid);
@@ -399,10 +399,10 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(ColourIDT);
-	mir_sntprintf(cid.group, SIZEOF(cid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
-	mir_strncpy(cid.dbSettingsGroup, PU_MODULCLASS, SIZEOF(fid.dbSettingsGroup));
-	mir_tstrncpy(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
-	mir_snprintf(cid.setting, SIZEOF(cid.setting), "%s/BgCol", ptd->pupClass.pszName);
+	mir_sntprintf(cid.group, _countof(cid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
+	mir_strncpy(cid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup));
+	mir_tstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
+	mir_snprintf(cid.setting, _countof(cid.setting), "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
 	ColourRegisterT(&cid);
 

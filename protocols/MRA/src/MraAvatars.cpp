@@ -48,7 +48,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 
 DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
-	mir_snprintf(szAvtSectName, SIZEOF(szAvtSectName), "%s Avatars", m_szModuleName);
+	mir_snprintf(szAvtSectName, _countof(szAvtSectName), "%s Avatars", m_szModuleName);
 
 	if (phAvatarsQueueHandle == NULL)
 		return ERROR_INVALID_HANDLE;
@@ -230,7 +230,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							break;
 
 						default:
-							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
+							mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
 							ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 							break;
 						}
@@ -262,7 +262,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 											bContinue = FALSE;
 											break;
 										case 1:
-											dwReceived = Netlib_Recv(hConnection, (LPSTR)&btBuff, SIZEOF(btBuff), 0);
+											dwReceived = Netlib_Recv(hConnection, (LPSTR)&btBuff, _countof(btBuff), 0);
 											if (dwReceived == 0 || dwReceived == SOCKET_ERROR) {
 												dwErrorCode = GetLastError();
 												ShowFormattedErrorMessage(L"Avatars: error on receive file data", dwErrorCode);
@@ -288,7 +288,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 								}
 								else {
 									dwErrorCode = GetLastError();
-									mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Avatars: can't open file %s, error"), wszFileName);
+									mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Avatars: can't open file %s, error"), wszFileName);
 									ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 								}
 							}
@@ -375,7 +375,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 	}
 
 	char szBuff[4096];
-	mir_snprintf(szBuff, SIZEOF(szBuff), "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
+	mir_snprintf(szBuff, _countof(szBuff), "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
 	CMStringA szSelfVersionString = MraGetSelfVersionString();
 
 	NETLIBHTTPHEADER nlbhHeaders[8] = { 0 };
@@ -473,7 +473,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, MCONTACT hCon
 		return ERROR_NOT_SUPPORTED;
 
 	TCHAR tszBase[MAX_PATH];
-	mir_sntprintf(tszBase, SIZEOF(tszBase), _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(tszBase, _countof(tszBase), _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible
@@ -601,13 +601,13 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			CheckDlgButton(hWndDlg, IDC_RETURN_ABC_PATH, db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE, db_get_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", MRA_DELETE_AVT_ON_CONTACT_DELETE) ? BST_CHECKED : BST_UNCHECKED);
 
-			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
+			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, _countof(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
 		}
 		return TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_ENABLE)
-			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
+			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, _countof(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
 
 		if (LOWORD(wParam) == IDC_BUTTON_DEFAULT) {
 			SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
@@ -629,7 +629,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
 
 			TCHAR szServer[MAX_PATH];
-			GetDlgItemText(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer));
+			GetDlgItemText(hWndDlg, IDC_SERVER, szServer, _countof(szServer));
 			db_set_ts(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
 			return TRUE;
 		}

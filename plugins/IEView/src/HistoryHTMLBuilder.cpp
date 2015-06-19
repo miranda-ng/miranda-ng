@@ -83,8 +83,8 @@ char *HistoryHTMLBuilder::timestampToString(time_t check)
 {
 	static char szResult[512];
 	char str[80];
-	TimeZone_ToString(check, "d t", str, SIZEOF(str));
-	mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
+	TimeZone_ToString(check, "d t", str, _countof(str));
+	mir_strncat(szResult, str, _countof(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }

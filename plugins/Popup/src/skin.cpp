@@ -1095,11 +1095,11 @@ bool Skins::load()
 	TCHAR dir[1024] = { '\0' };
 
 	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
-		if (FoldersGetCustomPathT(folderId, dir, SIZEOF(dir), NULL) != 0)
+		if (FoldersGetCustomPathT(folderId, dir, _countof(dir), NULL) != 0)
 			return false;
 	}
 	else {
-		mir_tstrncpy(dir, VARST(_T("%miranda_path%\\skins\\popup")), SIZEOF(dir));
+		mir_tstrncpy(dir, VARST(_T("%miranda_path%\\skins\\popup")), _countof(dir));
 		DWORD fa = GetFileAttributes(dir);
 		if ((fa == INVALID_FILE_ATTRIBUTES) || !(fa&FILE_ATTRIBUTE_DIRECTORY))
 			return false;

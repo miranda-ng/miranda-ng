@@ -684,7 +684,7 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	if (avatarHash != NULL && !downloadingAvatar) {
-		TlenGetAvatarFileName(this, item, pai->filename, SIZEOF(pai->filename)-1);
+		TlenGetAvatarFileName(this, item, pai->filename, _countof(pai->filename)-1);
 		pai->format = ( pai->hContact == NULL ) ? threadData->avatarFormat : item->avatarFormat;
 		return GAIR_SUCCESS;
 	}
@@ -800,7 +800,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCH
 	db_free(&dbv);
 
 	int id = TlenSerialNext(this);
-	mir_snprintf(idStr, SIZEOF(idStr), "%d", id);
+	mir_snprintf(idStr, _countof(idStr), "%d", id);
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, idStr);
 	if (item != NULL) {
 		ft->iqId = mir_strdup(idStr);

@@ -161,9 +161,9 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 {
 	TCHAR savePath[MAX_PATH];
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
-		_tcsncat_s(savePath, SHORTCUT_FILENAME, SIZEOF(savePath) - mir_tstrlen(savePath));
+		_tcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_tstrlen(savePath));
 	else
-		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), SHORTCUT_FILENAME);
+		mir_sntprintf(savePath, _countof(savePath), _T(".\\%s"), SHORTCUT_FILENAME);
 
 	// Get a pointer to the IShellLink interface.
 	IShellLink *psl;
@@ -175,7 +175,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 		// Set the path to the shortcut target, and add the
 		// description.
 		TCHAR path[MAX_PATH];
-		GetModuleFileName(NULL, path, SIZEOF(path));
+		GetModuleFileName(NULL, path, _countof(path));
 		psl->SetPath(path);
 		psl->SetDescription(desc);
 		psl->SetArguments( _A2T(args));
@@ -220,7 +220,7 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				EmptyClipboard();
 
 				char cmdl[2048];
-				GetDlgItemTextA(hwndDlg,IDC_CMDL, cmdl, SIZEOF(cmdl));
+				GetDlgItemTextA(hwndDlg,IDC_CMDL, cmdl, _countof(cmdl));
 				HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
 				if (cmdlGlob == NULL) {
 					CloseClipboard();
@@ -610,7 +610,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 				int flags = (CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_5, 0));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_RESETCONTENT, 0, 0);
-				for ( int i=0; i < SIZEOF(statusModeList); i++ ) {
+				for ( int i=0; i < _countof(statusModeList); i++ ) {
 					if ( (flags&statusModePf2List[i]) || (statusModeList[i] == ID_STATUS_OFFLINE)) {
 						int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModeList[i], 0));
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, LB_SETITEMDATA, (WPARAM)item, (LPARAM)statusModeList[i]);
@@ -866,7 +866,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 		case WM_COMMAND:
 			if (LOWORD(wParam) == IDC_OK) {
 				TCHAR profileName[128];
-				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, SIZEOF(profileName));
+				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, _countof(profileName));
 				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
 				// done and exit
 				DestroyWindow(hwndDlg);

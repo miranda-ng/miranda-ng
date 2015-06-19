@@ -45,7 +45,7 @@ int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 {
 	char url[MAX_PATH];
 	DWORD gameId = getDword(hContact, "GameID", 0);
-	mir_snprintf(url, SIZEOF(url), "steam://rungameid/%lu", gameId);
+	mir_snprintf(url, _countof(url), "steam://rungameid/%lu", gameId);
 	CallService(MS_UTILS_OPENURL, 0, (LPARAM)url);
 
 	return 0;
@@ -88,7 +88,7 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 int CSteamProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	for (int i = 0; i < SIZEOF(CSteamProto::contactMenuItems); i++)
+	for (int i = 0; i < _countof(CSteamProto::contactMenuItems); i++)
 		Menu_ShowItem(CSteamProto::contactMenuItems[i], false);
 
 	CSteamProto* ppro = CSteamProto::GetContactProtoInstance((MCONTACT)wParam);

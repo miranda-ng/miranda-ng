@@ -121,7 +121,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 						if (node != NULL)
 						{
 							char* s = mir_t2a_cp(xi.getText(node), CP_ACP);
-							mir_strncpy(szFileLink, s, SIZEOF(szFileLink));
+							mir_strncpy(szFileLink, s, _countof(szFileLink));
 							mir_free(s);
 							error = NULL;
 						}

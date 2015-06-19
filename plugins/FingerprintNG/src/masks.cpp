@@ -636,7 +636,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 };
 
-int DEFAULT_KN_FP_MASK_COUNT = SIZEOF(def_kn_fp_mask);
+int DEFAULT_KN_FP_MASK_COUNT = _countof(def_kn_fp_mask);
 
 //#########################################################################################################################################################################
 //#################################   OVERLAYS LAYER #1   #################################################################################################################
@@ -763,7 +763,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_on_mobile", _T("*(mobile)*"), LPGENT("Mobile overlay"), IDI_PLATFORM_MOBILE, OVERLAYS_PLATFORM_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);
+int DEFAULT_KN_FP_OVERLAYS_COUNT = _countof(def_kn_fp_overlays_mask);
 
 //#########################################################################################################################################################################
 //#########################################################################################################################################################################
@@ -806,7 +806,7 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
 	{ "client_MirIM_04_over", _T("*Miranda*0.4.*"), LPGENT("Miranda IM v0.4 #2 overlay"), IDI_MIRANDA_IM_V4, MIRANDA_VERSION_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);
+int DEFAULT_KN_FP_OVERLAYS2_COUNT = _countof(def_kn_fp_overlays2_mask);
 
 //#########################################################################################################################################################################
 //#########################################################################################################################################################################
@@ -820,7 +820,7 @@ KN_FP_MASK def_kn_fp_overlays3_mask[] =
 	{ "client_Unicode", _T("*unicode*"), LPGENT("Unicode overlay"), IDI_UNICODE_CLIENT, OVERLAYS_UNICODE_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
+int DEFAULT_KN_FP_OVERLAYS3_COUNT = _countof(def_kn_fp_overlays3_mask);
 
 //#########################################################################################################################################################################
 //#########################################################################################################################################################################
@@ -833,4 +833,4 @@ KN_FP_MASK def_kn_fp_overlays4_mask[] =
 	{ "client_SecureIM_over", _T("*Secure*IM*"), LPGENT("SecureIM overlay"), IDI_SECUREIM_OVERLAY, OVERLAYS_SECURITY_CASE },
 };
 
-int DEFAULT_KN_FP_OVERLAYS4_COUNT = SIZEOF(def_kn_fp_overlays4_mask);
+int DEFAULT_KN_FP_OVERLAYS4_COUNT = _countof(def_kn_fp_overlays4_mask);

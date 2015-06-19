@@ -119,7 +119,7 @@ public:
 			va_list vl;
 			
 			va_start(vl, szText);
-			if (mir_vsntprintf(buf, SIZEOF(buf), szText, vl) != -1)
+			if (mir_vsntprintf(buf, _countof(buf), szText, vl) != -1)
 			{
 				SetTitle(buf);	 
 			}
@@ -179,7 +179,7 @@ public:
 				}
 			
 				va_start(vl, szText);
-				if (mir_vsntprintf(buf, SIZEOF(buf), fmt, vl) != -1)
+				if (mir_vsntprintf(buf, _countof(buf), fmt, vl) != -1)
 				{
 					SetText(buf);	 
 				}
@@ -427,7 +427,7 @@ public:
 		pd.iSeconds = -1;
 		pd.PluginData = this;
 		pd.PluginWindowProc = CPopupUpdProgress::WndProc;
-		pd.actionCount = SIZEOF(_popupButtons);
+		pd.actionCount = _countof(_popupButtons);
 		pd.lpActions = _popupButtons;
 
 		// dummy text

@@ -119,7 +119,7 @@ void ShowWumfPopup(PWumf w)
 	TCHAR text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
-	mir_sntprintf(title, SIZEOF(title), _T("%s (%s)"), w->szComp, w->szUser);
+	mir_sntprintf(title, _countof(title), _T("%s (%s)"), w->szComp, w->szUser);
 	mir_sntprintf(text, _T("%s (%s)"), w->szPath, w->szPerm);
 	ShowThePopup(w, title, text);
 }
@@ -266,7 +266,7 @@ void ChooseFile(HWND hDlg)
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hDlg;
 	ofn.lpstrFile = szFile;
-	ofn.nMaxFile = SIZEOF(szFile);
+	ofn.nMaxFile = _countof(szFile);
 	ofn.lpstrFilter = _T("All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0");
 	ofn.nFilterIndex = 2;
 	ofn.Flags = OFN_CREATEPROMPT;
@@ -281,7 +281,7 @@ void ChooseFile(HWND hDlg)
 	}
 	else if (CommDlgExtendedError() != 0) {
 		TCHAR str[256];
-		mir_sntprintf(str, SIZEOF(str), TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
+		mir_sntprintf(str, _countof(str), TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
 		MessageBox(hDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
 }
@@ -413,7 +413,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_FILE:
-				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, SIZEOF(WumfOptions.LogFile));
+				GetDlgItemText(hwndDlg,IDC_FILE,WumfOptions.LogFile, _countof(WumfOptions.LogFile));
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
@@ -453,7 +453,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				db_set_b(NULL, MODULENAME, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
 				db_set_b(NULL, MODULENAME, LOG_COMP, (BYTE)WumfOptions.LogComp);
 				db_set_b(NULL, MODULENAME, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
-				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, SIZEOF(WumfOptions.LogFile));
+				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
 				db_set_ts(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
 			}
 		}

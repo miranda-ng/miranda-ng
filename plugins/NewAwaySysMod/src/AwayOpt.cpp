@@ -138,13 +138,13 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 		// init image buttons
-		for (int i = 0; i < SIZEOF(Dlg1Buttons); i++) {
+		for (int i = 0; i < _countof(Dlg1Buttons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1Buttons[i].DlgItem);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg1Buttons[i].Text), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
-		for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+		for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg1DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -162,10 +162,10 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return true;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++)
+		for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++)
 			SendDlgItemMessage(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg1DefMsgDlgItems[i].IconIndex]);
 
-		for (int i = 0; i < SIZEOF(Dlg1Buttons); i++)
+		for (int i = 0; i < _countof(Dlg1Buttons); i++)
 			if (Dlg1Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Dlg1Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg1Buttons[i].IconIndex]);
 
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));
 						}
 					}
-					for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+					for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg1DefMsgDlgItems[i].DlgItem);
 						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg1DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
 					}
@@ -227,7 +227,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					_ASSERT(SelectedItem);
 					// SelectedItem contains the same info as one of ItemOld or ItemNew - so we'll just use SelectedItem and won't bother with identifying which of ItemOld or ItemNew is currently selected
 					if ((pnm->ItemOld && pnm->ItemOld->ID == SelectedItem->ID) || (pnm->ItemNew && pnm->ItemNew->ID == SelectedItem->ID)) {
-						for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+						for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg1DefMsgDlgItems[i].DlgItem);
 							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg1DefMsgDlgItems[i].Status) == SelectedItem->ID);
 						}
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDC_MESSAGEDLG_DEF_INV:
 			case IDC_MESSAGEDLG_DEF_OTP:
 			case IDC_MESSAGEDLG_DEF_OTL:
-				for (int i = 0; i < SIZEOF(Dlg1DefMsgDlgItems); i++) {
+				for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 					if (LOWORD(wParam) == Dlg1DefMsgDlgItems[i].DlgItem) {
 						MsgTree->SetDefMsg(Dlg1DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID); // PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
 						break;
@@ -373,7 +373,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_WAITFORMSG_SPIN, UDM_SETRANGE32, -1, 9999);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_RECENTMSGSCOUNT_SPIN, UDM_SETRANGE32, 0, 99);
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN, UDM_SETRANGE32, 30, 99999);
-		for (int i = 0; i < SIZEOF(Dlg2StatusButtons); i++) {
+		for (int i = 0; i < _countof(Dlg2StatusButtons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg2StatusButtons[i].DlgItem);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg2StatusButtons[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -386,7 +386,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		return true;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < SIZEOF(Dlg2StatusButtons); i++)
+		for (int i = 0; i < _countof(Dlg2StatusButtons); i++)
 			SendDlgItemMessage(hwndDlg, Dlg2StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg2StatusButtons[i].IconIndex]);
 		break;
 
@@ -523,10 +523,10 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				_T("Miranda"), AUTOREPLY_IDLE_MIRANDA
 			};
 
-			for (int i = 0; i < SIZEOF(IdleComboValues); i++)
+			for (int i = 0; i < _countof(IdleComboValues); i++)
 				SendMessage(hCombo, CB_SETITEMDATA, SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(IdleComboValues[i].Text)), IdleComboValues[i].Meaning);
 
-			for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++) {
+			for (int i = 0; i < _countof(Dlg3StatusButtons); i++) {
 				HWND hButton = GetDlgItem(hwndDlg, Dlg3StatusButtons[i].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg3StatusButtons[i].Status, 0), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -557,7 +557,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			ti.hwnd = hwndDlg;
-			for (int i = 0; i < SIZEOF(Tooltips); i++) {
+			for (int i = 0; i < _countof(Tooltips); i++) {
 				ti.uId = (UINT)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
 				ti.lpszText = TranslateTS(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -573,7 +573,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return true;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < SIZEOF(Dlg3StatusButtons); i++)
+		for (int i = 0; i < _countof(Dlg3StatusButtons); i++)
 			SendDlgItemMessage(hwndDlg, Dlg3StatusButtons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg3StatusButtons[i].IconIndex]);
 
 		variables_skin_helpbutton(hwndDlg, IDC_REPLYDLG_VARS);
@@ -693,13 +693,13 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
 		// init image buttons
-		for (int i = 0; i < SIZEOF(Dlg4Buttons); i++) {
+		for (int i = 0; i < _countof(Dlg4Buttons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg4Buttons[i].DlgItem);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg4Buttons[i].Text), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
-		for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+		for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg4DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -717,10 +717,10 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		return true;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++)
+		for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++)
 			SendDlgItemMessage(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg4DefMsgDlgItems[i].IconIndex]);
 
-		for (int i = 0; i < SIZEOF(Dlg4Buttons); i++)
+		for (int i = 0; i < _countof(Dlg4Buttons); i++)
 			if (Dlg4Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Dlg4Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Dlg4Buttons[i].IconIndex]);
 
@@ -767,7 +767,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));
 						}
 					}
-					for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+					for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++) {
 						COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg4DefMsgDlgItems[i].DlgItem);
 						Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg4DefMsgDlgItems[i].Status) == pnm->ItemNew->ID);
 					}
@@ -781,7 +781,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					CBaseTreeItem* SelectedItem = MsgTree->GetSelection();
 					_ASSERT(SelectedItem);
 					if ((pnm->ItemOld && pnm->ItemOld->ID == SelectedItem->ID) || (pnm->ItemNew && pnm->ItemNew->ID == SelectedItem->ID)) { // SelectedItem contains the same info as one of ItemOld or ItemNew - so we'll just use SelectedItem and won't bother with identifying which of ItemOld or ItemNew is currently selected
-						for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+						for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++) {
 							COptItem_Checkbox *Checkbox = (COptItem_Checkbox*)g_MessagesOptPage.Find(Dlg4DefMsgDlgItems[i].DlgItem);
 							Checkbox->SetWndValue(g_MessagesOptPage.GetWnd(), MsgTree->GetDefMsg(Dlg4DefMsgDlgItems[i].Status) == SelectedItem->ID);
 						}
@@ -826,7 +826,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_MESSAGEDLG_DEF_INV:
 			case IDC_MESSAGEDLG_DEF_OTP:
 			case IDC_MESSAGEDLG_DEF_OTL:
-				for (int i = 0; i < SIZEOF(Dlg4DefMsgDlgItems); i++) {
+				for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++) {
 					if (LOWORD(wParam) == Dlg4DefMsgDlgItems[i].DlgItem) {
 						// PSM_CHANGED is sent here through MTN_DEFMSGCHANGED, so we don't need to send it once more
 						MsgTree->SetDefMsg(Dlg4DefMsgDlgItems[i].Status, MsgTree->GetSelection()->ID);
@@ -952,7 +952,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		if (hChildItem)
 			SetListGroupIcons(hwndList, hChildItem, hItem);
 
-		for (int i = 0; i < SIZEOF(Icons); i++) {
+		for (int i = 0; i < _countof(Icons); i++) {
 			int Icon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 			if (Icons[i] == 0xFF)
 				Icons[i] = Icon;
@@ -963,7 +963,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	}
 	hItem = (FirstItemType == CLCIT_CONTACT) ? hFirstItem : (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (int i = 0; i < SIZEOF(Icons); i++) {
+		for (int i = 0; i < _countof(Icons); i++) {
 			int Icon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 			if (Icons[i] == 0xFF)
 				Icons[i] = Icon;
@@ -974,7 +974,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	}
 	
 	// set icons
-	for (int i = 0; i < SIZEOF(Icons); i++)
+	for (int i = 0; i < _countof(Icons); i++)
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, Icons[i]));
 }
 

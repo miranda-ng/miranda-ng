@@ -69,12 +69,12 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 		}
 
 		if (ptszBackPath != NULL) {
-			PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
-			PrepareFileName(tszBackFile, SIZEOF(tszBackFile), ptszBackPath, ptszNewName);
+			PrepareFileName(tszDestFile, _countof(tszDestFile), ptszDestPath, ptszNewName);
+			PrepareFileName(tszBackFile, _countof(tszBackFile), ptszBackPath, ptszNewName);
 			BackupFile(tszDestFile, tszBackFile);
 		}
 
-		PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
+		PrepareFileName(tszDestFile, _countof(tszDestFile), ptszDestPath, ptszNewName);
 		SafeCreateFilePath(tszDestFile);
 
 		TCHAR *ptszFile2unzip;
@@ -82,7 +82,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 			ptszFile2unzip = tszDestFile;
 		else {
 			TCHAR tszTempPath[MAX_PATH];
-			GetTempPath( SIZEOF(tszTempPath), tszTempPath);
+			GetTempPath( _countof(tszTempPath), tszTempPath);
 			GetTempFileName(tszTempPath, _T("PUtemp"), GetCurrentProcessId(), tszBackFile);
 			ptszFile2unzip = tszBackFile;
 		}

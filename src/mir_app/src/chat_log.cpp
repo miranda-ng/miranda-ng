@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // the srmm module and then modified to fit the chat module.
 
 char*  pLogIconBmpBits[14];
-size_t logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
+size_t logIconBmpSize[ _countof(pLogIconBmpBits) ];
 
 #define RTFCACHELINESIZE 128
 static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT][RTFCACHELINESIZE];
@@ -315,7 +315,7 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time)
 {
 	static TCHAR szTime[30];
-	if (!_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
+	if (!_tcsftime(szTime, _countof(szTime)-1, pszStamp, localtime(&time)))
 		_tcsncpy_s(szTime, TranslateT("<invalid>"), _TRUNCATE);
 	return szTime;
 }
@@ -364,12 +364,12 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			static char szStyle[256];
 			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
+				mir_snprintf(szStyle, _countof(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 			else {
 				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
+				mir_snprintf(szStyle, _countof(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
 				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 		}
@@ -494,7 +494,7 @@ void LoadMsgLogBitmaps(void)
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
-	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
+	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
 		pLogIconBmpBits[i] = (char*)mir_alloc(size);
 		size_t rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
@@ -537,6 +537,6 @@ void LoadMsgLogBitmaps(void)
 
 void FreeMsgLogBitmaps(void)
 {
-	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i = 0; i < _countof(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }

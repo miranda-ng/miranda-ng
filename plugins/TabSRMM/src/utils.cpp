@@ -152,7 +152,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 						clr_found = true;
 						if (was_added) {
 							TCHAR wszTemp[100];
-							mir_sntprintf(wszTemp, SIZEOF(wszTemp), _T("##col##%06u:%04u"), endmark - closing, ii);
+							mir_sntprintf(wszTemp, _countof(wszTemp), _T("##col##%06u:%04u"), endmark - closing, ii);
 							wszTemp[99] = 0;
 							message.insert(beginmark, wszTemp);
 						}
@@ -641,7 +641,7 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 	char szCname[50];
 	TContainerSettings csTemp = { 0 };
 
-	mir_snprintf(szCname, SIZEOF(szCname), "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+	mir_snprintf(szCname, _countof(szCname), "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
 		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
@@ -658,10 +658,10 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 
 	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 	if (pContainer->settings->fPrivate) {
-		mir_snprintf(szCName, SIZEOF(szCName), "%s%d_Blob", szSetting, pContainer->iContainerIndex);
+		mir_snprintf(szCName, _countof(szCName), "%s%d_Blob", szSetting, pContainer->iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
-	mir_snprintf(szCName, SIZEOF(szCName), "%s%d_theme", szSetting, pContainer->iContainerIndex);
+	mir_snprintf(szCName, _countof(szCName), "%s%d_theme", szSetting, pContainer->iContainerIndex);
 	if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
@@ -893,7 +893,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 
 			TCHAR	szFilename[MAX_PATH];
-			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s%s"), tszPath, tszFilename);
+			mir_sntprintf(szFilename, _countof(szFilename), _T("%s%s"), tszPath, tszFilename);
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
 					return true;

@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			{
 				TCHAR title[256];
-				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, SIZEOF(title));
+				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
 				cfg::writeTString(NULL, "CList", "TitleText", title);
 				SetWindowText(pcli->hwndContactList, title);
 			}

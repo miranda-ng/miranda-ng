@@ -720,7 +720,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 				db_set_w(NULL, "CList", "SecondLineType", (WORD)radio);
 
 				TCHAR t[TEXT_TEXT_MAX_LENGTH];
-				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, SIZEOF(t));
+				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 				t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 				db_set_ts(NULL, "CList", "SecondLineText", t);
 
@@ -887,7 +887,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				{
 					TCHAR t[TEXT_TEXT_MAX_LENGTH];
 
-					GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, SIZEOF(t));
+					GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 					t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 
 					db_set_ws(NULL, "CList", "ThirdLineText", t);
@@ -940,7 +940,7 @@ int CListOptInit(WPARAM wParam, LPARAM)
 	odp.pszTitle = LPGEN("Row items");
 	odp.flags = ODPF_BOLDGROUPS;
 
-	for (int i = 0; i < SIZEOF(row_opt_items); i++) {
+	for (int i = 0; i < _countof(row_opt_items); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(row_opt_items[i].id);
 		odp.pszTab = row_opt_items[i].name;
 		odp.pfnDlgProc = row_opt_items[i].wnd_proc;

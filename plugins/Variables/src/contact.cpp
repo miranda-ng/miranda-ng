@@ -94,7 +94,7 @@ BYTE getContactInfoType(TCHAR* type)
 	if (type == NULL || mir_tstrlen(type) == 0 )
 		return 0;
 
-	for (int i=0; i < SIZEOF(builtinCnfs); i++ )
+	for (int i=0; i < _countof(builtinCnfs); i++ )
 		if (!mir_tstrcmp( builtinCnfs[i].str, type ))
 			return builtinCnfs[i].cnfCode;
 

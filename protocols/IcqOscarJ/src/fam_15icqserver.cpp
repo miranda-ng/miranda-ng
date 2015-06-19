@@ -525,7 +525,7 @@ int CIcqProto::parseUserInfoRecord(MCONTACT hContact, oscar_tlv *pData, UserInfo
 
 			for (int i = 0; i < nRecordDef; i++) {
 				char szItemKey[MAX_PATH];
-				mir_snprintf(szItemKey, SIZEOF(szItemKey), pRecordDef[i].szDbSetting, nRecords);
+				mir_snprintf(szItemKey, _countof(szItemKey), pRecordDef[i].szDbSetting, nRecords);
 
 				switch (pRecordDef[i].dbType) {
 				case DBVT_UTF8:
@@ -550,7 +550,7 @@ int CIcqProto::parseUserInfoRecord(MCONTACT hContact, oscar_tlv *pData, UserInfo
 		for (int i = nRecords; i <= nMaxRecords; i++)
 			for (int j = 0; j < nRecordDef; j++) {
 				char szItemKey[MAX_PATH];
-				mir_snprintf(szItemKey, SIZEOF(szItemKey), pRecordDef[j].szDbSetting, i);
+				mir_snprintf(szItemKey, _countof(szItemKey), pRecordDef[j].szDbSetting, i);
 				delSetting(hContact, szItemKey);
 			}
 
@@ -784,9 +784,9 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 	writeDbInfoSettingTLVStringUtf(hContact, "LastName", cDetails, 0x6E);
 	writeDbInfoSettingTLVStringUtf(hContact, "Nick", cDetails, 0x78);
 	// Home Address
-	parseUserInfoRecord(hContact, cDetails->getTLV(0x96, 1), rAddress, SIZEOF(rAddress), 1);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0x96, 1), rAddress, _countof(rAddress), 1);
 	// Origin Address
-	parseUserInfoRecord(hContact, cDetails->getTLV(0xA0, 1), rOriginAddress, SIZEOF(rOriginAddress), 1);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0xA0, 1), rOriginAddress, _countof(rOriginAddress), 1);
 	// Phones
 	pTLV = cDetails->getTLV(0xC8, 1);
 	if (pTLV && pTLV->wLen >= 2) {
@@ -825,13 +825,13 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 		delSetting(hContact, "CompanyFax");
 	}
 	// Emails
-	parseUserInfoRecord(hContact, cDetails->getTLV(0x8C, 1), rEmail, SIZEOF(rEmail), 4);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0x8C, 1), rEmail, _countof(rEmail), 4);
 
 	writeDbInfoSettingTLVByte(hContact, "Timezone", cDetails, 0x17C);
 	// Company
-	parseUserInfoRecord(hContact, cDetails->getTLV(0x118, 1), rCompany, SIZEOF(rCompany), 1);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0x118, 1), rCompany, _countof(rCompany), 1);
 	// Education
-	parseUserInfoRecord(hContact, cDetails->getTLV(0x10E, 1), rEducation, SIZEOF(rEducation), 1);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0x10E, 1), rEducation, _countof(rEducation), 1);
 
 	switch (cDetails->getNumber(0x82, 1)) {
 	case 1:
@@ -853,7 +853,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 
 	writeDbInfoSettingTLVByte(hContact, "MaritalStatus", cDetails, 0x12C);
 	// Interests
-	parseUserInfoRecord(hContact, cDetails->getTLV(0x122, 1), rInterest, SIZEOF(rInterest), 4);
+	parseUserInfoRecord(hContact, cDetails->getTLV(0x122, 1), rInterest, _countof(rInterest), 4);
 
 	writeDbInfoSettingTLVStringUtf(hContact, "About", cDetails, 0x186);
 

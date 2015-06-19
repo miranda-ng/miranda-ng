@@ -94,7 +94,7 @@ void CAimProto::report_file_error(TCHAR *fname)
 {
 	TCHAR errmsg[512];
 	TCHAR* error = mir_a2t(_strerror(NULL));
-	mir_sntprintf(errmsg, SIZEOF(errmsg), TranslateT("Failed to open file: %s : %s"), fname, error);
+	mir_sntprintf(errmsg, _countof(errmsg), TranslateT("Failed to open file: %s : %s"), fname, error);
 	mir_free(error);
 	ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 }
@@ -347,7 +347,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					mir_free(buf);
 
 					TCHAR fname[256];
-					mir_sntprintf(fname, SIZEOF(fname), _T("%s%s"), ft->pfts.tszWorkingDir, name);
+					mir_sntprintf(fname, _countof(fname), _T("%s%s"), ft->pfts.tszWorkingDir, name);
 					mir_free(name);
 					mir_free(ft->pfts.tszCurrentFile);
 					ft->pfts.tszCurrentFile = mir_tstrdup(fname);

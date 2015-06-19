@@ -518,7 +518,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case IDC_RSA_COPY:
 			char txt[128];
-			GetDlgItemText(hDlg, IDC_RSA_SHA, txt, SIZEOF(txt));
+			GetDlgItemText(hDlg, IDC_RSA_SHA, txt, _countof(txt));
 			CopyToClipboard(hDlg, txt);
 			return TRUE;
 
@@ -803,17 +803,17 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		{
 			char gpgexe[256];
 			char filter[128];
-			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, SIZEOF(gpgexe));
+			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, _countof(gpgexe));
 
 			// filter zusammensetzen
-			mir_snprintf(filter, SIZEOF(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
+			mir_snprintf(filter, _countof(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
 
 			// OPENFILENAME initialisieren
 			OPENFILENAME ofn = { sizeof(ofn) };
 			ofn.hwndOwner = hDlg;
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = gpgexe;
-			ofn.nMaxFile = SIZEOF(gpgexe);
+			ofn.nMaxFile = _countof(gpgexe);
 			ofn.lpstrTitle = Translate("Select GnuPG Executable");
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
 
@@ -1042,7 +1042,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	if (bPGPloaded && ver) {
 		char pgpVerStr[64];
-		mir_snprintf(pgpVerStr, SIZEOF(pgpVerStr), Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
+		mir_snprintf(pgpVerStr, _countof(pgpVerStr), Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
 		SetDlgItemText(hDlg, IDC_PGP_SDK, pgpVerStr);
 	}
 	else SetDlgItemText(hDlg, IDC_PGP_SDK, Translate(sim219));
@@ -1327,9 +1327,9 @@ void ApplyGPGSettings(HWND hDlg)
 {
 	char tmp[256];
 
-	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, SIZEOF(tmp));
+	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgExec", tmp);
-	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, SIZEOF(tmp));
+	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgHome", tmp);
 
 	bSavePass = (IsDlgButtonChecked(hDlg, IDC_SAVEPASS_CBOX) == BST_CHECKED);
@@ -1337,14 +1337,14 @@ void ApplyGPGSettings(HWND hDlg)
 
 	BOOL bgpgLogFlag = (IsDlgButtonChecked(hDlg, IDC_LOGGINGON_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgLogFlag", bgpgLogFlag);
-	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, SIZEOF(tmp));
+	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
 	BOOL bgpgTmpFlag = (IsDlgButtonChecked(hDlg, IDC_TMPPATHON_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
-	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, SIZEOF(tmp));
+	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgTmp", tmp);
 	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
 	else gpg_set_tmp(0);
@@ -1414,7 +1414,7 @@ void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 UINT getListViewPSK(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, SIZEOF(str));
+	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
 	return strncmp(str, Translate(sim206), sizeof(str)) == 0;
 }
 
@@ -1428,7 +1428,7 @@ void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 UINT getListViewPUB(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, SIZEOF(str));
+	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
 	return strncmp(str, Translate(sim233), sizeof(str)) == 0;
 }
 
@@ -1548,14 +1548,14 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 {
 	// restore sort column
 	char t[32];
-	mir_snprintf(t, SIZEOF(t), "os%02x", (UINT)lParamSort & 0xF0);
+	mir_snprintf(t, _countof(t), "os%02x", (UINT)lParamSort & 0xF0);
 	if ((lParamSort & 0x0F) == 0)
 		lParamSort = (int)db_get_b(0, MODULENAME, t, lParamSort + 1);
 
 	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
 
 	// restore sort order
-	mir_snprintf(t, SIZEOF(t), "os%02x", (UINT)lParamSort);
+	mir_snprintf(t, _countof(t), "os%02x", (UINT)lParamSort);
 	int m = db_get_b(0, MODULENAME, t, 0);
 	if (bChangeSortOrder) { m = !m; db_set_b(0, MODULENAME, t, m); }
 
@@ -1571,7 +1571,7 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
 
 	ofn.lpstrFile = KeyPath;
 	char temp[MAX_PATH];
-	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = TranslateT("Open Key File");
 	if (!GetOpenFileName(&ofn)) return FALSE;
@@ -1628,7 +1628,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	char temp[MAX_PATH];
-	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.hwndOwner = hParent;
 	ofn.nMaxFile = MAX_PATH;
@@ -1661,7 +1661,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
 	ofn.lpstrFile = szFile;
 	char temp[MAX_PATH];
-	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
 	if (!GetOpenFileName(&ofn))

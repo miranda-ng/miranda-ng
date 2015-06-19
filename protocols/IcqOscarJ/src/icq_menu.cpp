@@ -177,7 +177,7 @@ INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM)
 {
 	DWORD dwUin = getContactUin(hContact);
 	char url[256];
-	mir_snprintf(url, SIZEOF(url), "http://www.icq.com/people/%d",dwUin);
+	mir_snprintf(url, _countof(url), "http://www.icq.com/people/%d",dwUin);
 	return CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url);
 }
 

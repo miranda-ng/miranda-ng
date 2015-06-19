@@ -156,7 +156,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 				bContinue = FALSE;
 				break;
 			case 1:
-				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff + dwRcvBuffSizeUsed), (int)(SIZEOF(btBuff) - dwRcvBuffSizeUsed), 0);
+				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff + dwRcvBuffSizeUsed), (int)(_countof(btBuff) - dwRcvBuffSizeUsed), 0);
 				if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR)
 					dwRcvBuffSizeUsed += dwBytesReceived;
 				else
@@ -349,11 +349,11 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	DWORD dwXStatusMir = m_iXStatus, dwXStatus;
 	DWORD dwStatus = GetMraStatusFromMiradaStatus(m_iDesiredStatus, dwXStatusMir, &dwXStatus);
 	if (IsXStatusValid(dwXStatusMir)) {// xstatuses
-		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
+		mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", dwXStatusMir);
 		if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
 			wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
 
-		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
+		mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldMsg", dwXStatusMir);
 		mraGetStringW(NULL, szValueName, wszStatusDesc);
 	}
 	else wszStatusTitle = pcli->pfnGetStatusModeDescription(m_iDesiredStatus, 0);
@@ -646,7 +646,7 @@ bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
 		break;
 	default:// ## unknown error
 		TCHAR szBuff[1024];
-		mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateT("MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
+		mir_sntprintf(szBuff, _countof(szBuff), TranslateT("MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
 		ShowFormattedErrorMessage(szBuff, NO_ERROR);
 		break;
 	}
@@ -743,7 +743,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			break;
 		default:// ## unknown error
 			TCHAR szBuff[1024];
-			mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
+			mir_sntprintf(szBuff, _countof(szBuff), TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 			break;
 		}
@@ -1037,7 +1037,7 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 		break;
 	default:
 		TCHAR szBuff[1024];
-		mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
+		mir_sntprintf(szBuff, _countof(szBuff), TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		break;
 	}
@@ -1205,7 +1205,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 					}
 					else if (fieldType == 'u') {
 						char szBuff[50];
-						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
+						mir_snprintf(szBuff, _countof(szBuff), "%lu, ", dwTemp);//;
 						debugLogA("%s ", szBuff);
 					}
 					else _CrtDbgBreak();
@@ -1345,7 +1345,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
 		else {
 			TCHAR szBuff[1024];
-			mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
+			mir_sntprintf(szBuff, _countof(szBuff), TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		}
 	}

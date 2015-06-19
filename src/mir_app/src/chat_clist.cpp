@@ -212,7 +212,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fm
 
 	va_list marker;
 	va_start(marker, fmt);
-	mir_vsntprintf(szBuf, SIZEOF(szBuf), fmt, marker);
+	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	CLISTEVENT cle = { 0 };

@@ -55,9 +55,9 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 	TCHAR s1[1024], s2[1024];
 
 	_tcsncpy_s(s1, _s1, _TRUNCATE);
-	CharLowerBuff(s1, SIZEOF(s1));
+	CharLowerBuff(s1, _countof(s1));
 	_tcsncpy_s(s2, _s2, _TRUNCATE);
-	CharLowerBuff(s2, SIZEOF(s2));
+	CharLowerBuff(s2, _countof(s2));
 
 	return _tcsstr(s1, s2) != NULL;
 }
@@ -82,12 +82,12 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, SIZEOF(iconList), "VKontakte");
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, _countof(iconList), "VKontakte");
 }
 
 HANDLE GetIconHandle(int iCommand)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iCommand)
 			return iconList[i].hIcolib;
 
@@ -735,13 +735,13 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 
 	TCHAR ttime[64];
 	_locale_t locale = _create_locale(LC_ALL, "");
-	_tcsftime_l(ttime, SIZEOF(ttime), _T("%X - %x"), localtime(&time), locale);
+	_tcsftime_l(ttime, _countof(ttime), _T("%X - %x"), localtime(&time), locale);
 	_free_locale(locale);
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
-	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
@@ -756,7 +756,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	if (tmpMsg)
 		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
-		mir_snprintf(HeadMsg, SIZEOF(HeadMsg), "[sticker:%d]", stickerid);
+		mir_snprintf(HeadMsg, _countof(HeadMsg), "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
 		if (retLen < mir_strlen(Msg)) {
 			CMStringA szMsg(Msg, int(mir_strlen(Msg) - mir_strlen(tmpMsg)));
@@ -834,7 +834,7 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 
 	CMString tszRes;
 	vkFeedback = vkParent = vkNull;
-	for (int i = 0; i < SIZEOF(vkNotification); i++)
+	for (int i = 0; i < _countof(vkNotification); i++)
 		if (tszType == vkNotification[i].ptszType) {
 			vkFeedback = vkNotification[i].vkFeedback;
 			vkParent = vkNotification[i].vkParent;
@@ -852,7 +852,7 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		return tszRes;
 
 	CMString tszLink, tszPreviewLink;
-	for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+	for (int i = 0; i < _countof(szImageTypes); i++) {
 		const JSONNode &n = jnPhoto[szImageTypes[i]];
 		if (!n.isnull()) {
 			tszLink = n.as_mstring();
@@ -922,7 +922,7 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 		return CMString();
 
 	TCHAR *ptszFormat = NULL;
-	for (int i = 0; i < SIZEOF(bbcItem); i++)
+	for (int i = 0; i < _countof(bbcItem); i++)
 		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
 			ptszFormat = bbcItem[i].ptszTempate;
 			break;
@@ -1059,7 +1059,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			}
 			else {
 				CMString tszLink;
-				for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+				for (int i = 0; i < _countof(szImageTypes); i++) {
 					const JSONNode &n = jnSticker[szImageTypes[i]];
 					if (!n.isnull()) {
 						tszLink = n.as_mstring();
@@ -1097,7 +1097,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				continue;
 
 			CMString tszLink;
-			for (int i = 0; i < SIZEOF(szGiftTypes); i++) {
+			for (int i = 0; i < _countof(szGiftTypes); i++) {
 				const JSONNode &n = jnGift[szGiftTypes[i]];
 				if (!n.isnull()) {
 					tszLink = n.as_mstring();
@@ -1146,7 +1146,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		time_t datetime = (time_t)jnMsg["date"].as_int();
 		TCHAR ttime[64];
 		_locale_t locale = _create_locale(LC_ALL, "");
-		_tcsftime_l(ttime, SIZEOF(ttime), _T("%x %X"), localtime(&datetime), locale);
+		_tcsftime_l(ttime, _countof(ttime), _T("%x %X"), localtime(&datetime), locale);
 		_free_locale(locale);
 
 		CMString tszBody(jnMsg["body"].as_mstring());

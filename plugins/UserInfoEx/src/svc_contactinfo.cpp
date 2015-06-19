@@ -548,12 +548,12 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 					ci->pszVal = NULL;
 					if (ci->dwFlag & CNF_UNICODE) {
 						WCHAR wszDate[80];
-						if (GetDateFormatW(LOCALE_USER_DEFAULT, wParam == 1 ? DATE_LONGDATE : DATE_SHORTDATE, &st, NULL, wszDate, SIZEOF(wszDate)))
+						if (GetDateFormatW(LOCALE_USER_DEFAULT, wParam == 1 ? DATE_LONGDATE : DATE_SHORTDATE, &st, NULL, wszDate, _countof(wszDate)))
 							ci->pszVal = (LPTSTR)mir_wstrdup(wszDate);
 					}
 					else {
 						CHAR szDate[80];
-						if (GetDateFormatA(LOCALE_USER_DEFAULT, wParam == 1 ? DATE_LONGDATE : DATE_SHORTDATE, &st, NULL, szDate, SIZEOF(szDate)))
+						if (GetDateFormatA(LOCALE_USER_DEFAULT, wParam == 1 ? DATE_LONGDATE : DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate)))
 							ci->pszVal = (LPTSTR)mir_strdup(szDate);
 					}
 					ci->type = (ci->pszVal != NULL) ? CNFT_ASCIIZ : 0;

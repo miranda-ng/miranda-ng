@@ -908,7 +908,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	InitOptions();
 
-	for (int i = 0; i < SIZEOF(s_fonts); i++) {
+	for (int i = 0; i < _countof(s_fonts); i++) {
 		LOGFONT lf;
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lf), &lf, FALSE);
 		if (i == FLT_FONTID_OFFINVIS || i == FLT_FONTID_INVIS)
@@ -917,7 +917,7 @@ extern "C" int __declspec(dllexport) Load()
 		COLORREF defColor = GetSysColor((i == FLT_FONTID_NOTONLIST) ? COLOR_3DSHADOW : COLOR_WINDOWTEXT);
 
 		char szId[20];
-		mir_snprintf(szId, SIZEOF(szId), "Font%d", i);
+		mir_snprintf(szId, _countof(szId), "Font%d", i);
 		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), s_fonts[i], NULL, NULL, i + 1, false, &lf, defColor);
 	}
 

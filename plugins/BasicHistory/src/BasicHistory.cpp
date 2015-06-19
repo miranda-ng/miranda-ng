@@ -186,7 +186,7 @@ void InitIcolib()
 
 HICON LoadIconEx(int iconId, bool big)
 {
-	for (int i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < _countof(iconList); i++)
 		if ( iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
@@ -274,7 +274,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	EventList::Init();
 	
-	Icon_Register(hInst, LPGEN("History"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("History"), iconList, _countof(iconList));
 	return 0;
 }
 

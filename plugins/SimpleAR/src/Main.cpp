@@ -114,7 +114,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 
 	for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
 	{
-		mir_snprintf(szStatus,SIZEOF(szStatus),"%d",c);
+		mir_snprintf(szStatus,_countof(szStatus),"%d",c);
 		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 			continue;
 		else
@@ -193,7 +193,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 				if (isQun)
 					return FALSE;
 
-				mir_snprintf(szStatus,SIZEOF(szStatus),"%d",status);
+				mir_snprintf(szStatus,_countof(szStatus),"%d",status);
 				if (!db_get_ts(NULL,protocolname,szStatus,&dbv))
 				{
 					if (*dbv.ptszVal)
@@ -286,7 +286,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	HookEvent(ME_DB_EVENT_ADDED, addEvent);
 	HookEvent(ME_SYSTEM_MODULESLOADED, CheckDefaults);
 
-	Icon_RegisterT(hinstance, _T("Simple Auto Replier"), iconList, SIZEOF(iconList));
+	Icon_RegisterT(hinstance, _T("Simple Auto Replier"), iconList, _countof(iconList));
 
 	return 0;
 }

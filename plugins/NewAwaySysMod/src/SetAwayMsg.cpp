@@ -434,7 +434,7 @@ void UpdateCheckboxesState(CCList *CList)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -601,7 +601,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 
 			// init image buttons
-			for (int i = 0; i < SIZEOF(Buttons); i++) {
+			for (int i = 0; i < _countof(Buttons); i++) {
 				HWND hButton = GetDlgItem(hwndDlg, Buttons[i].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[i].Text), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
@@ -612,7 +612,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.dll"), NULL);
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-			for (int i = 0; i < SIZEOF(Tooltips); i++) {
+			for (int i = 0; i < _countof(Tooltips); i++) {
 				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
 				ti.lpszText = TranslateTS(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -849,7 +849,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				return true;
 			}
 			TCHAR BtnTitle[64];
-			mir_sntprintf(BtnTitle, SIZEOF(BtnTitle), TranslateT("Closing in %d"), Countdown);
+			mir_sntprintf(BtnTitle, _countof(BtnTitle), TranslateT("Closing in %d"), Countdown);
 			SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 			Countdown--;
 		}
@@ -1013,7 +1013,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		break;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < SIZEOF(Buttons); i++)
+		for (int i = 0; i < _countof(Buttons); i++)
 			if (Buttons[i].IconIndex != ILI_NOICON)
 				SendDlgItemMessage(hwndDlg, Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[i].IconIndex]);
 

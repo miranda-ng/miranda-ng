@@ -177,9 +177,9 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 
 			TCHAR substituteStr[128];
 			if (!_tcsnicmp(tszMsg + j, _T("%time%"), 6))
-				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, SIZEOF(substituteStr));
+				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, _countof(substituteStr));
 			else if (!_tcsnicmp(tszMsg + j, _T("%date%"), 6))
-				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, SIZEOF(substituteStr));
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, _countof(substituteStr));
 			else
 				continue;
 

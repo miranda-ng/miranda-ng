@@ -58,7 +58,7 @@ HINSTANCE LoadIconsPack(const char* szIconsPack)
 
 int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
-	for (int i = 0; i < SIZEOF(icons); i++) {
+	for (int i = 0; i < _countof(icons); i++) {
 		HICON hIcon = IcoLib_GetIcon(icons[i].name);
 		if (icons[i].tbl == TBL_IEC)
 			g_hIEC[icons[i].idx] = hIcon;
@@ -94,13 +94,13 @@ void InitIcons(void)
 		g_hIconInst = hNewIconInst;
 
 	TCHAR tszPath[MAX_PATH];
-	GetModuleFileName(g_hIconInst, tszPath, SIZEOF(tszPath));
+	GetModuleFileName(g_hIconInst, tszPath, _countof(tszPath));
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = "SecureIM";
 	sid.defaultFile.t = tszPath;
 
-	for (int i = 0; i < SIZEOF(icons); i++) {
+	for (int i = 0; i < _countof(icons); i++) {
 		sid.section.a = icons[i].section;
 		sid.pszName = icons[i].name;
 		sid.description.a = icons[i].text;

@@ -3,7 +3,7 @@
 void CToxProto::InitNetlib()
 {
 	wchar_t name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);

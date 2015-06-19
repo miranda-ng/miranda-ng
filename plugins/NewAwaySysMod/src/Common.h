@@ -153,8 +153,8 @@
 
 #define DB_SETTINGSVER "SettingsVer"
 
-#ifndef SIZEOF
-#define SIZEOF(s) (sizeof(s) / sizeof(*s))
+#ifndef _countof
+#define _countof(s) (sizeof(s) / sizeof(*s))
 #endif
 
 #define UM_ICONSCHANGED (WM_USER + 121)
@@ -322,7 +322,7 @@ static __inline int LogMessage(const char *Format, ...)
 	char szText[8096];
 	mir_strcpy(szText, LOG_PREFIX);
 	va_start(va, Format);
-	mir_vsnprintf(szText + (SIZEOF(LOG_PREFIX) - 1), sizeof(szText) - (SIZEOF(LOG_PREFIX) - 1), Format, va);
+	mir_vsnprintf(szText + (_countof(LOG_PREFIX) - 1), sizeof(szText) - (_countof(LOG_PREFIX) - 1), Format, va);
 	va_end(va);
 	return CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 }

@@ -637,8 +637,8 @@ retry:
 
 							_tcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
-								mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %s"), TranslateT("City:"), __city);
-								mir_tstrncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
+								mir_sntprintf(strFmt1, _countof(strFmt1), _T(", %s %s"), TranslateT("City:"), __city);
+								mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
 							}
 							if (__birthyear) {
 								time_t t = time(NULL);
@@ -646,8 +646,8 @@ retry:
 								int br = atoi(__birthyear);
 
 								if (br < (lt->tm_year + 1900) && br > 1900) {
-									mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %d"), TranslateT("Age:"), (lt->tm_year + 1900) - br);
-									mir_tstrncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
+									mir_sntprintf(strFmt1, _countof(strFmt1), _T(", %s %d"), TranslateT("Age:"), (lt->tm_year + 1900) - br);
+									mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
 								}
 							}
 
@@ -975,7 +975,7 @@ retry:
 							if (iIndexes && iIndexes[i])
 								continue;
 
-							mir_sntprintf(szMsg, SIZEOF(szMsg), _T("%s (%s)"), szText,
+							mir_sntprintf(szMsg, _countof(szMsg), _T("%s (%s)"), szText,
 								*e->event.multilogon_info.sessions[i].name != '\0' ?
 								_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
 							showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
@@ -1008,7 +1008,7 @@ retry:
 					{
 						CLISTEVENT cle = {0};
 						char service[128];
-						mir_snprintf(service, SIZEOF(service), GGS_RECVIMAGE, m_szModuleName);
+						mir_snprintf(service, _countof(service), GGS_RECVIMAGE, m_szModuleName);
 
 						cle.cbSize = sizeof(cle);
 						cle.hContact = hContact;
@@ -1716,7 +1716,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 	{
 		char sversion[48];
 		setDword(hContact, GG_KEY_CLIENTVERSION, (DWORD) version);
-		mir_snprintf(sversion, SIZEOF(sversion), "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
+		mir_snprintf(sversion, _countof(sversion), "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
 		setString(hContact, "MirVer", sversion);
 	}
 }

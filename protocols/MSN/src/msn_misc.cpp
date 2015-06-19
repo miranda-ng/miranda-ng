@@ -122,7 +122,7 @@ void CMsnProto::InitCustomFolders(void)
 	if (InitCstFldRan) return;
 
 	TCHAR folder[MAX_PATH];
-	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
+	mir_sntprintf(folder, _countof(folder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
 	hCustomSmileyFolder = FoldersRegisterCustomPathT(LPGEN("Custom Smileys"), m_szModuleName, folder, m_tszUserName);
 
 	InitCstFldRan = true;
@@ -290,10 +290,10 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 		return fmt;
 
 	TCHAR szFileName[MAX_PATH];
-	MSN_GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName), NULL);
+	MSN_GetAvatarFileName(NULL, szFileName, _countof(szFileName), NULL);
 	_tremove(szFileName);
 
-	MSN_GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName), szExt);
+	MSN_GetAvatarFileName(NULL, szFileName, _countof(szFileName), szExt);
 
 	int fileId = _topen(szFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 	if (fileId >= 0) {
@@ -479,7 +479,7 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 
 #ifdef OBSOLETE
 			if (parFlags & MSG_OFFLINE)
-				off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n"); 
+				off += mir_snprintf((buf + off), (_countof(buf) - off), "Dest-Agent: client\r\n"); 
 #endif
 		}
 
@@ -541,7 +541,7 @@ void ThreadData::sendCaps(void)
 	char mversion[100], capMsg[1000];
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mversion), (LPARAM)mversion);
 
-	mir_snprintf(capMsg, SIZEOF(capMsg),
+	mir_snprintf(capMsg, _countof(capMsg),
 		"Content-Type: text/x-clientcaps\r\n\r\n"
 		"Client-Name: Miranda NG %s (MSN v.%s)\r\n",
 		mversion, __VERSION_STRING_DOTS);
@@ -586,7 +586,7 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 void CMsnProto::MSN_SendTyping(ThreadData* info, const char* email, int netId, bool bTyping)
 {
 	char tCommand[1024];
-	mir_snprintf(tCommand, SIZEOF(tCommand),
+	mir_snprintf(tCommand, _countof(tCommand),
 		"Messaging: 2.0\r\n"
 		"Message-Type: %s\r\n"
 		"Content-Type: Application/Message\r\n"
@@ -632,7 +632,7 @@ void CMsnProto::MSN_SendStatusMessage(const char*)
 	size_t sz;
 	char  szMsg[2048];
 	if (msnCurrentMedia.cbSize == 0) {
-		sz = mir_snprintf(szMsg, SIZEOF(szMsg), "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
+		sz = mir_snprintf(szMsg, _countof(szMsg), "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
 			"<DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme></Data>",
 			msgEnc, MyOptions.szMachineGuid);
 	}
@@ -667,7 +667,7 @@ void CMsnProto::MSN_SendStatusMessage(const char*)
 			*szPlayer = HtmlEncodeUTF8T(msnCurrentMedia.ptszPlayer),
 			*szType = HtmlEncodeUTF8T(msnCurrentMedia.ptszType);
 
-		sz = mir_snprintf(szMsg, SIZEOF(szMsg),
+		sz = mir_snprintf(szMsg, _countof(szMsg),
 			"<Data>"
 			"<PSM>%s</PSM>"
 			"<CurrentMedia>%s\\0%s\\01\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0\\0</CurrentMedia>"
@@ -799,7 +799,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		char szMsg[2048];
 #ifdef OBSOLETE
 		if (m_iStatus < ID_STATUS_ONLINE) {
-			int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
+			int sz = mir_snprintf(szMsg, _countof(szMsg),
 				"<EndpointData><Capabilities>%u:%u</Capabilities></EndpointData>", myFlags, myFlagsEx);
 			msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 
@@ -820,13 +820,13 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			szPlace = dbv.pszVal;
 		else {
 			TCHAR buf[128] = _T("Miranda");
-			DWORD buflen = SIZEOF(buf);
+			DWORD buflen = _countof(buf);
 			GetComputerName(buf, &buflen);
 			szPlace = mir_utf8encodeT(buf);
 		}
 
 		char** msgptr = GetStatusMsgLoc(newStatus);
-		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
+		int sz = mir_snprintf(szMsg, _countof(szMsg),
 			"<user>"
 			"<sep n=\"PE\" epid=\"%s\"><VER>%s</VER><TYP>11</TYP><Capabilities>0:0</Capabilities></sep>"
 			"<s n=\"IM\"><Status>%s</Status></s>"
@@ -859,7 +859,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 
 		// TODO: Send, MSN_SendStatusMessage anpassen.
 #ifdef OBSOLETE
-		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
+		int sz = mir_snprintf(szMsg, _countof(szMsg),
 			"<PrivateEndpointData>"
 			"<EpName>%s</EpName>"
 			"<Idle>%s</Idle>"
@@ -959,7 +959,7 @@ void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 	TCHAR *buf = Langpack_PcharToTchar(msgtext);
 
 	va_start(tArgs, msgtext);
-	mir_vsntprintf(tBuffer, SIZEOF(tBuffer), buf, tArgs);
+	mir_vsntprintf(tBuffer, _countof(tBuffer), buf, tArgs);
 	va_end(tArgs);
 
 	mir_free(buf);
@@ -1061,7 +1061,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups) || !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		if (pud->flags & MSN_ALLOW_MSGBOX) {
 			TCHAR szMsg[MAX_SECONDLINE + MAX_CONTACTNAME];
-			mir_sntprintf(szMsg, SIZEOF(szMsg), _T("%s:\n%s"), pud->title, pud->text);
+			mir_sntprintf(szMsg, _countof(szMsg), _T("%s:\n%s"), pud->title, pud->text);
 			MessageBox(NULL, szMsg, TranslateT("MSN Protocol"),
 				MB_OK | (iserr ? MB_ICONERROR : MB_ICONINFORMATION));
 		}
@@ -1393,7 +1393,7 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 		md5hash[i] &= 0x7FFFFFFF;
 
 	char chlString[128];
-	mir_snprintf(chlString, SIZEOF(chlString), "%s%s00000000", chl, msnProductID);
+	mir_snprintf(chlString, _countof(chlString), "%s%s00000000", chl, msnProductID);
 	chlString[(mir_strlen(chl) + mir_strlen(msnProductID) + 7) & 0xF8] = 0;
 
 	LONGLONG high = 0, low = 0;

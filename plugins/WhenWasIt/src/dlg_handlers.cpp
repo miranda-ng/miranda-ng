@@ -123,7 +123,7 @@ SIZE GetControlTextSize(HWND hCtrl)
 	const size_t maxSize = 2048;
 	TCHAR buffer[maxSize];
 	SIZE size;
-	GetWindowText(hCtrl, buffer, SIZEOF(buffer));
+	GetWindowText(hCtrl, buffer, _countof(buffer));
 	GetTextExtentPoint32(hDC, buffer, (int)mir_tstrlen(buffer), &size);
 	SelectObject(hDC, oldFont);
 	ReleaseDC(hCtrl, hDC);
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer);
 		_itot(commonData.checkInterval, buffer, 10);
 		SetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer);
-		mir_sntprintf(buffer, SIZEOF(buffer), _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
+		mir_sntprintf(buffer, _countof(buffer), _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
 		SetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer);
 		_itot(commonData.cSoundNearDays, buffer, 10);
 		SetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer);
@@ -306,22 +306,22 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					const int maxSize = 1024;
 					TCHAR buffer[maxSize];
 
-					GetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer, _countof(buffer));
 					TCHAR *stop = NULL;
 					commonData.daysInAdvance = _tcstol(buffer, &stop, 10);
 
 					if (*stop) { commonData.daysInAdvance = DAYS_TO_NOTIFY; }
 
-					GetDlgItemText(hWnd, IDC_DAYS_AFTER, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_DAYS_AFTER, buffer, _countof(buffer));
 					commonData.daysAfter = _tcstol(buffer, &stop, 10);
 
 					if (*stop) { commonData.daysAfter = DAYS_TO_NOTIFY_AFTER; }
 
-					GetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer, _countof(buffer));
 					commonData.checkInterval = _ttol(buffer);
 					if (!commonData.checkInterval) { commonData.checkInterval = CHECK_INTERVAL; }
 
-					GetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer, _countof(buffer));
 					TCHAR *pos;
 					pos = _tcschr(buffer, _T('|'));
 					if (pos) {
@@ -338,12 +338,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					else commonData.popupTimeout = commonData.popupTimeoutToday = _ttol(buffer);
 
-					GetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer, _countof(buffer));
 					//cSoundNearDays = _ttol(buffer);
 					commonData.cSoundNearDays = _tcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cSoundNearDays = BIRTHDAY_NEAR_DEFAULT_DAYS; }
 
-					GetDlgItemText(hWnd, IDC_DLG_TIMEOUT, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_DLG_TIMEOUT, buffer, _countof(buffer));
 					commonData.cDlgTimeout = _tcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cDlgTimeout = POPUP_TIMEOUT; }
 
@@ -419,7 +419,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		char *szProto = GetContactProto(hContact);
 
 		TCHAR buffer[2048];
-		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Set birthday for %s:"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(buffer, _countof(buffer), TranslateT("Set birthday for %s:"), pcli->pfnGetContactDisplayName(hContact, 0));
 		SetWindowText(hWnd, buffer);
 
 		HWND hDate = GetDlgItem(hWnd, IDC_DATE);
@@ -443,7 +443,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 		case DOB_PROTOCOL:
 			DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
-			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("%S protocol"), szProto);
+			mir_sntprintf(buffer, _countof(buffer), TranslateT("%S protocol"), szProto);
 			szCurrentModuleTooltip = buffer;
 			break;
 
@@ -544,8 +544,8 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 	TCHAR text1[maxSize];
 	TCHAR text2[maxSize];
 	long value1, value2;
-	ListView_GetItemText(params.hList, (int)lParam1, params.column, text1, SIZEOF(text1));
-	ListView_GetItemText(params.hList, (int)lParam2, params.column, text2, SIZEOF(text2));
+	ListView_GetItemText(params.hList, (int)lParam1, params.column, text1, _countof(text1));
+	ListView_GetItemText(params.hList, (int)lParam2, params.column, text2, _countof(text2));
 
 	int res = 0;
 
@@ -609,22 +609,22 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 
 		TCHAR buffer[2048];
 		if ((dtb <= 366) && (dtb >= 0))
-			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), dtb);
+			mir_sntprintf(buffer, _countof(buffer), _T("%d"), dtb);
 		else
-			mir_sntprintf(buffer, SIZEOF(buffer), NA);
+			mir_sntprintf(buffer, _countof(buffer), NA);
 
 		ListView_SetItemText(hList, entry, 2, buffer);
 		if ((month != 0) && (day != 0))
-			mir_sntprintf(buffer, SIZEOF(buffer), _T("%04d-%02d-%02d"), year, month, day);
+			mir_sntprintf(buffer, _countof(buffer), _T("%04d-%02d-%02d"), year, month, day);
 		else
-			mir_sntprintf(buffer, SIZEOF(buffer), NA);
+			mir_sntprintf(buffer, _countof(buffer), NA);
 
 		ListView_SetItemText(hList, entry, 3, buffer);
 
 		if (age < 400 && age > 0) //hopefully noone lives longer than this :)
-			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), age);
+			mir_sntprintf(buffer, _countof(buffer), _T("%d"), age);
 		else
-			mir_sntprintf(buffer, SIZEOF(buffer), NA);
+			mir_sntprintf(buffer, _countof(buffer), NA);
 
 		ListView_SetItemText(hList, entry, 4, buffer);
 		ListView_SetItemText(hList, entry, 5, GetBirthdayModule(module, hContact));
@@ -694,7 +694,7 @@ void SetBirthdaysCount(HWND hWnd)
 {
 	int count = ListView_GetItemCount((GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST)));
 	TCHAR title[512];
-	mir_sntprintf(title, SIZEOF(title), TranslateT("Birthday list (%d)"), count);
+	mir_sntprintf(title, _countof(title), TranslateT("Birthday list (%d)"), count);
 	SetWindowText(hWnd, title);
 }
 
@@ -881,7 +881,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		const int MAX_SIZE = 512;
 		TCHAR buffer[MAX_SIZE];
 		timeout--;
-		mir_sntprintf(buffer, SIZEOF(buffer), (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), timeout);
+		mir_sntprintf(buffer, _countof(buffer), (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), timeout);
 		SetDlgItemText(hWnd, IDC_CLOSE, buffer);
 
 		if (timeout <= 0)
@@ -914,9 +914,9 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		ListView_InsertItem(hList, &item);
 
 		TCHAR buffer[512];
-		mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), data->age);
+		mir_sntprintf(buffer, _countof(buffer), _T("%d"), data->age);
 		ListView_SetItemText(hList, index, 1, buffer);
-		mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), data->dtb);
+		mir_sntprintf(buffer, _countof(buffer), _T("%d"), data->dtb);
 		ListView_SetItemText(hList, index, 2, buffer);
 
 		BirthdaysSortParams params = { 0 };

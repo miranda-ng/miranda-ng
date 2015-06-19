@@ -305,7 +305,7 @@ void RemoveProtocolSettings(const char * protocolName)
 
 			// Delete it
 			if (name[0] != '\0') {
-				mir_snprintf(moduleName, SIZEOF(moduleName), "%s%s", protocolName, name);
+				mir_snprintf(moduleName, _countof(moduleName), "%s%s", protocolName, name);
 				DeleteSettingEx(moduleName, NULL);
 			}
 
@@ -443,7 +443,7 @@ void RemoveDirectories()
 			if (accounts[i]->szModuleName == NULL || accounts[i]->szModuleName[0] == '\0')
 				continue;
 
-			mir_snprintf(dir, SIZEOF(dir), "%s%s", gMirandaDir, accounts[i]->szModuleName);
+			mir_snprintf(dir, _countof(dir), "%s%s", gMirandaDir, accounts[i]->szModuleName);
 			DeleteFileOrFolder(dir);
 		}
 	}
@@ -467,7 +467,7 @@ void RemoveDirectories()
 
 			// Delete it
 			if (name[0] != '\0') {
-				mir_snprintf(dir, SIZEOF(dir), "%s%s", gMirandaDir, name);
+				mir_snprintf(dir, _countof(dir), "%s%s", gMirandaDir, name);
 				DeleteFileOrFolder(dir);
 			}
 

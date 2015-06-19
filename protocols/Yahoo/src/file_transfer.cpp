@@ -299,7 +299,7 @@ static void dl_file(int id, INT_PTR fd, int error, const char *filename, unsigne
 		 *
 		 * Don't rely on workingDir to be right, since it's not used to check if file exists.
 		 */
-		mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
+		mir_sntprintf(filefull, _countof(filefull), _T("%s\\%s"), sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
 		FREE(sf->pfts.tszCurrentFile);
 		sf->pfts.tszCurrentFile = _tcsdup(filefull);
 
@@ -545,7 +545,7 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 		char z[1024];
 		struct yahoo_file_info *fi = (struct yahoo_file_info *) f->data;
 
-		mir_snprintf(z, SIZEOF(z), "%s (%lu)\r\n", fi->filename, fi->filesize);
+		mir_snprintf(z, _countof(z), "%s (%lu)\r\n", fi->filename, fi->filesize);
 		mir_strcat(fn, z);
 		fc++;
 	}

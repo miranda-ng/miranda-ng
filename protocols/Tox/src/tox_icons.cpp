@@ -23,10 +23,10 @@ void CToxProto::InitIcons()
 	sid.pszName = szSettingName;
 	sid.section.t = szSectionName;
 
-	mir_sntprintf(szSectionName, SIZEOF(szSectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
-	for (int i = 0; i < SIZEOF(Icons); i++)
+	mir_sntprintf(szSectionName, _countof(szSectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+	for (int i = 0; i < _countof(Icons); i++)
 	{
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, Icons[i].Name);
+		mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODULE, Icons[i].Name);
 
 		sid.description.t = Icons[i].Description;
 		sid.iDefaultIndex = -Icons[i].IconId;
@@ -36,7 +36,7 @@ void CToxProto::InitIcons()
 
 HICON CToxProto::GetIcon(const char *name, bool size)
 {
-	for (size_t i = 0; i < SIZEOF(Icons); i++)
+	for (size_t i = 0; i < _countof(Icons); i++)
 		if (mir_strcmpi(Icons[i].Name, name) == 0)
 			return IcoLib_GetIconByHandle(Icons[i].Handle, size);
 
@@ -45,7 +45,7 @@ HICON CToxProto::GetIcon(const char *name, bool size)
 
 HANDLE CToxProto::GetIconHandle(const char *name)
 {
-	for (size_t i = 0; i < SIZEOF(Icons); i++)
+	for (size_t i = 0; i < _countof(Icons); i++)
 		if (mir_strcmpi(Icons[i].Name, name) == 0)
 			return Icons[i].Handle;
 
@@ -55,7 +55,7 @@ HANDLE CToxProto::GetIconHandle(const char *name)
 HANDLE CToxProto::Skin_GetIconHandle(const char *name)
 {
 	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, name);
 	HANDLE hIcon = IcoLib_GetIconHandle(iconName);
 	if (hIcon == NULL)
 		hIcon = GetIconHandle(name);
@@ -65,6 +65,6 @@ HANDLE CToxProto::Skin_GetIconHandle(const char *name)
 
 void CToxProto::UninitIcons()
 {
-	for (size_t i = 0; i < SIZEOF(Icons); i++)
+	for (size_t i = 0; i < _countof(Icons); i++)
 		IcoLib_RemoveIcon(Icons[i].Name);
 }

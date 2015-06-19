@@ -410,7 +410,7 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 	if (my_login_info && GetAwareIdFromContact(hContact, &id_block)) {
 		TCHAR title[512];
 		TCHAR* ts = mir_utf8decodeT(my_login_info->user_name);
-		mir_sntprintf(title, SIZEOF(title), TranslateT("%s's conference"), ts);
+		mir_sntprintf(title, _countof(title), TranslateT("%s's conference"), ts);
 		mir_free(ts);
 
 		idb.user = id_block.user;
@@ -518,13 +518,13 @@ void CSametimeProto::InitConferenceMenu()
 	mi.pszContactOwner = m_szModuleName;
 	
 	mi.ptszName = LPGENT("Leave conference");
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, MS_SAMETIME_MENULEAVECHAT);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENULEAVECHAT);
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_LEAVE);
 	hLeaveChatMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.ptszName = LPGENT("Start conference");
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUCREATECHAT);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUCREATECHAT);
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_INVITE);
 	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi);

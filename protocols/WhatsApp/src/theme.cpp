@@ -10,12 +10,12 @@ static IconItem icons[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/WhatsApp", icons, SIZEOF(icons), "WhatsApp");
+	Icon_Register(g_hInstance, "Protocols/WhatsApp", icons, _countof(icons), "WhatsApp");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (size_t i = 0; i < SIZEOF(icons); i++)
+	for (size_t i = 0; i < _countof(icons); i++)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return icons[i].hIcolib;
 
@@ -24,7 +24,7 @@ HANDLE GetIconHandle(const char* name)
 
 char* GetIconDescription(const char* name)
 {
-	for (size_t i = 0; i < SIZEOF(icons); i++)
+	for (size_t i = 0; i < _countof(icons); i++)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return icons[i].szDescr;
 

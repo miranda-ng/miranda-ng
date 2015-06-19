@@ -33,7 +33,7 @@ AutoReplacement::AutoReplacement(const TCHAR *replace, BOOL useVariables)
 AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 {
 	this->dict = dict;
-	mir_tstrncpy(filename, aFilename, SIZEOF(filename));
+	mir_tstrncpy(filename, aFilename, _countof(filename));
 	loadAutoReplaceMap();
 }
 
@@ -47,7 +47,7 @@ void AutoReplaceMap::loadAutoReplaceMap()
 	char c;
 	int pos = 0;
 	while ((c = fgetc(file)) != EOF) {
-		if (c == '\n' || c == '\r' || pos >= SIZEOF(tmp) - 1) {
+		if (c == '\n' || c == '\r' || pos >= _countof(tmp) - 1) {
 			if (pos > 0) {
 				tmp[pos] = '\0';
 

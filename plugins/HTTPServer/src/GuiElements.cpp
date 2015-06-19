@@ -284,7 +284,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
 					char pszFileName[MAX_PATH];
-					GetWindowText(hFileName, pszFileName, SIZEOF(pszFileName));
+					GetWindowText(hFileName, pszFileName, _countof(pszFileName));
 
 					if (mir_strcmp(pstShare->pszSrvPath, szSelection) &&
 					    mir_strcmp(pszFileName, pszShareDirStr)) {
@@ -435,7 +435,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	ofn.lStructSize = sizeof(OPENFILENAME);
 
 	char temp[MAX_PATH];
-	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _countof(temp), _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 
 	ofn.lpstrFile = pstNewShare->pszRealPath;
@@ -854,7 +854,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			LVITEM sItem = { 0 };
 			sItem.mask = LVIF_TEXT;
 			sItem.pszText = szTmp;
-			sItem.cchTextMax = SIZEOF(szTmp);
+			sItem.cchTextMax = _countof(szTmp);
 
 			switch (LOWORD(wParam)) {
 				case IDC_SHOWHIDDENSHARES: {
@@ -1212,11 +1212,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					case IDC_TEST_EXTERNALIP: {
 							char szUrl[ 500 ];
 							char szKeyWord[ 1000 ];
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, SIZEOF(szUrl));
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, SIZEOF(szKeyWord));
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, _countof(szUrl));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, _countof(szKeyWord));
 							DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
 
-							mir_snprintf(szKeyWord, SIZEOF(szKeyWord), Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
+							mir_snprintf(szKeyWord, _countof(szKeyWord), Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
 							    SplitIpAddress(dwExternalIP) ,
 							    szUrl);
 							MessageBox(hwndDlg, szKeyWord, MSG_BOX_TITEL, MB_OK);
@@ -1229,7 +1229,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				switch (p->code) {
 					case PSN_APPLY: {
 							char szTemp[ 500 ];
-							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, SIZEOF(szTemp)))
+							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, _countof(szTemp)))
 								db_set_s(NULL, MODULE, "ExternalSrvName", szTemp);
 
 							bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
@@ -1252,11 +1252,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOW_POPUPS) == BST_CHECKED;
 							db_set_b(NULL, MODULE, "ShowPopups", bShowPopups);
 
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, SIZEOF(szTemp));
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, _countof(szTemp));
 							sUrlAddress = szTemp;
 							db_set_s(NULL, MODULE, "UrlAddress", sUrlAddress.c_str());
 
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, SIZEOF(szTemp));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, _countof(szTemp));
 							sPageKeyword = szTemp;
 							db_set_s(NULL, MODULE, "PageKeyword", sPageKeyword.c_str());
 							dwExternalIpAddress = 0;

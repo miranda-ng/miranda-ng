@@ -70,9 +70,9 @@ VOID CALLBACK KeepAliveTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	TCHAR temp2[270];
 	if (!ppro->m_info.sServerName.IsEmpty())
-		mir_sntprintf(temp2, SIZEOF(temp2), _T("PING %s"), ppro->m_info.sServerName.c_str());
+		mir_sntprintf(temp2, _countof(temp2), _T("PING %s"), ppro->m_info.sServerName.c_str());
 	else
-		mir_sntprintf(temp2, SIZEOF(temp2), _T("PING %u"), time(0));
+		mir_sntprintf(temp2, _countof(temp2), _T("PING %u"), time(0));
 
 	if (ppro->IsConnected())
 		ppro->SendIrcMessage(temp2, false);
@@ -259,7 +259,7 @@ void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 bool CIrcProto::OnIrc_PING(const CIrcMessage* pmsg)
 {
 	TCHAR szResponse[100];
-	mir_sntprintf(szResponse, SIZEOF(szResponse), _T("PONG %s"), pmsg->parameters[0].c_str());
+	mir_sntprintf(szResponse, _countof(szResponse), _T("PONG %s"), pmsg->parameters[0].c_str());
 	SendIrcMessage(szResponse);
 	return false;
 }
@@ -275,7 +275,7 @@ bool CIrcProto::OnIrc_WELCOME(const CIrcMessage* pmsg)
 		CMString word = GetWord(pmsg->parameters[1].c_str(), i);
 		while (!word.IsEmpty()) {
 			if (_tcschr(word.c_str(), '!') && _tcschr(word.c_str(), '@')) {
-				mir_tstrncpy(host, word.c_str(), SIZEOF(host));
+				mir_tstrncpy(host, word.c_str(), _countof(host));
 				TCHAR* p1 = _tcschr(host, '@');
 				if (p1)
 					ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(_T2A(p1 + 1), IP_AUTO));
@@ -670,7 +670,7 @@ bool CIrcProto::OnIrc_PINGPONG(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->sCommand == _T("PING")) {
 		TCHAR szResponse[100];
-		mir_sntprintf(szResponse, SIZEOF(szResponse), _T("PONG %s"), pmsg->parameters[0].c_str());
+		mir_sntprintf(szResponse, _countof(szResponse), _T("PONG %s"), pmsg->parameters[0].c_str());
 		SendIrcMessage(szResponse);
 	}
 
@@ -1194,7 +1194,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 		// if the whois window is visible and the ctcp reply belongs to the user in it, then show the reply in the whois window
 		if (m_whoisDlg && IsWindowVisible(m_whoisDlg->GetHwnd())) {
-			m_whoisDlg->m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+			m_whoisDlg->m_InfoNick.GetText(szTemp, _countof(szTemp));
 			if (mir_tstrcmpi(szTemp, pmsg->prefix.sNick.c_str()) == 0) {
 				if (pmsg->m_bIncoming && (command == _T("version") || command == _T("userinfo") || command == _T("time"))) {
 					SetActiveWindow(m_whoisDlg->GetHwnd());
@@ -1676,7 +1676,7 @@ bool CIrcProto::OnIrc_WHOIS_OTHER(const CIrcMessage* pmsg)
 		TCHAR temp[1024], temp2[1024];
 		m_whoisDlg->m_InfoOther.GetText(temp, 1000);
 		mir_tstrcat(temp, _T("%s\r\n"));
-		mir_sntprintf(temp2, SIZEOF(temp2), temp, pmsg->parameters[2].c_str());
+		mir_sntprintf(temp2, _countof(temp2), temp, pmsg->parameters[2].c_str());
 		m_whoisDlg->m_InfoOther.SetText(temp2);
 	}
 	ShowMessage(pmsg);
@@ -1726,7 +1726,7 @@ bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 		TCHAR tTimeBuf[128], *tStopStr;
 		time_t ttTime = _tcstol(pmsg->parameters[3].c_str(), &tStopStr, 10);
 		_tcsftime(tTimeBuf, 128, _T("%c"), localtime(&ttTime));
-		mir_sntprintf(temp3, SIZEOF(temp3), TranslateT("online since %s, idle %s"), tTimeBuf, temp);
+		mir_sntprintf(temp3, _countof(temp3), TranslateT("online since %s, idle %s"), tTimeBuf, temp);
 		m_whoisDlg->m_AwayTime.SetText(temp3);
 	}
 	ShowMessage(pmsg);
@@ -1812,7 +1812,7 @@ bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage* pmsg)
 	if (pmsg->m_bIncoming) {
 		if (nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_tstrcmp(pmsg->parameters[1].c_str(), m_alternativeNick))) {
 			TCHAR m[200];
-			mir_sntprintf(m, SIZEOF(m), _T("NICK %s"), m_alternativeNick);
+			mir_sntprintf(m, _countof(m), _T("NICK %s"), m_alternativeNick);
 			if (IsConnected())
 				SendIrcMessage(m);
 		}

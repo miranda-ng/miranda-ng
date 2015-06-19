@@ -369,7 +369,7 @@ static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
 
 	RECT rc;
 	int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
-	for (int i = 0; i < SIZEOF(ctrls); i++) {
+	for (int i = 0; i < _countof(ctrls); i++) {
 		GetWindowRect(GetDlgItem(hwndDlg, ctrls[i]), &rc);
 		MapWindowPoints(NULL, hwndDlg, (LPPOINT)&rc, 2);
 		SetWindowPos(GetDlgItem(hwndDlg, ctrls[i]), NULL, rc.left, rc.top + offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
@@ -466,7 +466,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		if (!info.loadRecent(i))
 			break;
 
-		mir_sntprintf(jid, SIZEOF(jid), _T("%s@%s (%s)"),
+		mir_sntprintf(jid, _countof(jid), _T("%s@%s (%s)"),
 			info.room, info.server,
 			info.nick ? info.nick : TranslateT("<no nick>"));
 		SetDlgItemText(m_hwnd, IDC_RECENT1 + i, jid);
@@ -687,18 +687,18 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			// fall through
 		case IDOK:
 			{
-				GetDlgItemText(m_hwnd, IDC_SERVER, text, SIZEOF(text));
+				GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
 				TCHAR *server = NEWTSTR_ALLOCA(text), *room;
 
 				m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", server);
 
-				GetDlgItemText(m_hwnd, IDC_ROOM, text, SIZEOF(text));
+				GetDlgItemText(m_hwnd, IDC_ROOM, text, _countof(text));
 				room = NEWTSTR_ALLOCA(text);
 
-				GetDlgItemText(m_hwnd, IDC_NICK, text, SIZEOF(text));
+				GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
 				TCHAR *nick = NEWTSTR_ALLOCA(text);
 
-				GetDlgItemText(m_hwnd, IDC_PASSWORD, text, SIZEOF(text));
+				GetDlgItemText(m_hwnd, IDC_PASSWORD, text, _countof(text));
 				TCHAR *password = NEWTSTR_ALLOCA(text);
 				m_proto->GroupchatJoinRoom(server, room, nick, password);
 			}
@@ -1182,7 +1182,7 @@ public:
 	void OnCommand_Accept(CCtrlButton*)
 	{
 		TCHAR text[128];
-		GetDlgItemText(m_hwnd, IDC_NICK, text, SIZEOF(text));
+		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
 		m_proto->AcceptGroupchatInvite(m_info->roomJid, text, m_info->password);
 		EndDialog(m_hwnd, 0);
 	}

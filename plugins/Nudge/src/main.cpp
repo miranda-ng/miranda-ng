@@ -50,7 +50,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		TCHAR msg[500];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
+		mir_sntprintf(msg, _countof(msg), TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
 			for (int i = 0; i < arNudges.getCount(); i++) {
 				CNudgeElement &p = arNudges[i];
@@ -207,8 +207,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 void LoadProtocols(void)
 {
 	//Load the default nudge
-	mir_snprintf(DefaultNudge.ProtocolName, SIZEOF(DefaultNudge.ProtocolName), "Default");
-	mir_snprintf(DefaultNudge.NudgeSoundname, SIZEOF(DefaultNudge.NudgeSoundname), "Nudge : Default");
+	mir_snprintf(DefaultNudge.ProtocolName, _countof(DefaultNudge.ProtocolName), "Default");
+	mir_snprintf(DefaultNudge.NudgeSoundname, _countof(DefaultNudge.NudgeSoundname), "Nudge : Default");
 	SkinAddNewSoundEx(DefaultNudge.NudgeSoundname, LPGEN("Nudge"), LPGEN("Default Nudge"));
 	DefaultNudge.Load();
 
@@ -231,7 +231,7 @@ static IconItem iconList[] =
 // Load icons
 void LoadIcons(void)
 {
-	Icon_Register(hInst, LPGEN("Nudge"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Nudge"), iconList, _countof(iconList));
 }
 
 // Nudge support
@@ -513,7 +513,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 	// Add a specific sound per protocol
 	CNudgeElement *p = new CNudgeElement();
-	mir_snprintf(p->NudgeSoundname, SIZEOF(p->NudgeSoundname), "%s: Nudge", proto->szModuleName);
+	mir_snprintf(p->NudgeSoundname, _countof(p->NudgeSoundname), "%s: Nudge", proto->szModuleName);
 
 	strcpy_s(p->ProtocolName, proto->szModuleName);
 	_tcscpy_s(p->AccountName, proto->tszAccountName);
@@ -522,7 +522,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	p->hEvent = hevent;
 
 	TCHAR soundDesc[MAXMODULELABELLENGTH + 10];
-	mir_sntprintf(soundDesc, SIZEOF(soundDesc), LPGENT("Nudge for %s"), proto->tszAccountName);
+	mir_sntprintf(soundDesc, _countof(soundDesc), LPGENT("Nudge for %s"), proto->tszAccountName);
 	SkinAddNewSoundExT(p->NudgeSoundname, LPGENT("Nudge"), soundDesc);
 
 	arNudges.insert(p);

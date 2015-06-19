@@ -41,7 +41,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDOK:
 			{
 				TCHAR FileName[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName, SIZEOF(FileName));
+				GetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName, _countof(FileName));
 				int bytesParsed = 0;
 				HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 				if(hXml != NULL) {
@@ -130,7 +130,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 												if ( !group)
 													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
 												else {
-													mir_sntprintf(tmpgroup, SIZEOF(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
+													mir_sntprintf(tmpgroup, _countof(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
 												break;
@@ -209,9 +209,9 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					}
 					TCHAR mes[MAX_PATH];
 					if (DUPES)
-						mir_sntprintf(mes, SIZEOF(mes), TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+						mir_sntprintf(mes, _countof(mes), TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
 					else
-						mir_sntprintf(mes, SIZEOF(mes), TranslateT("Imported %d feed(s)."), count);
+						mir_sntprintf(mes, _countof(mes), TranslateT("Imported %d feed(s)."), count);
 					MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, _countof(tmp), _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -491,7 +491,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, _countof(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;

@@ -288,7 +288,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  break;
 	  case ID_OK:
 		  {
-			  ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
+			  ListView_GetItemText(hwndList, itemnum, 0, fp, _countof(fp));
 			  TCHAR *name = new TCHAR [64];
 			  ListView_GetItemText(hwndList, itemnum, 2, name, 64);
 			  {
@@ -321,7 +321,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  boost::algorithm::erase_all(out, "\r");
 			  {
 				  char buf[64];
-				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
+				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 				  if(!mir_strcmp(buf, Translate("Default")))
 				  {
 					  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
@@ -350,7 +350,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 			  }
 			  TCHAR passwd[64];
-			  GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, SIZEOF(passwd));
+			  GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, _countof(passwd));
 			  if(passwd[0])
 			  {
 				  string dbsetting = "szKey_";
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  }
 		  break;
 	  case IDC_DELETE_KEY:
-		  ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
+		  ListView_GetItemText(hwndList, itemnum, 0, fp, _countof(fp));
 		  {
 			  string out;
 			  DWORD code;
@@ -496,7 +496,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  }
 		  {
 			  char buf[64];
-			  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
+			  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 			  if(!mir_strcmp(buf, Translate("Default")))
 			  {
 				  db_unset(NULL, szGPGModuleName, "GPGPubKey");
@@ -624,7 +624,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 				  {
 					  char buf[64];
-					  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
+					  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 					  if(!mir_strcmp(buf, Translate("Default")))
 					  {
 						  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
@@ -649,7 +649,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  		case IDC_ACCOUNT:
 			{
 				char buf[64];
-				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
+				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 				if(!mir_strcmp(buf, Translate("Default")))
 				{
 					string keyinfo = Translate("key ID");
@@ -676,7 +676,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					{
 						if(OpenClipboard(hwndDlg))
 						{
-							ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
+							ListView_GetItemText(hwndList, itemnum, 0, fp, _countof(fp));
 							string out;
 							DWORD code;
 							std::vector<wstring> cmd;
@@ -706,7 +706,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							if(!szKey)
 							{
 								TCHAR msg[64];
-								mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to lock memory with error %d"), GetLastError());
+								mir_sntprintf(msg, _countof(msg), TranslateT("Failed to lock memory with error %d"), GetLastError());
 								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 								GlobalFree(hMem);
 							}
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							{
 								GlobalFree(hMem);
 								TCHAR msg[64];
-								mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed write to clipboard with error %d"), GetLastError());
+								mir_sntprintf(msg, _countof(msg), TranslateT("Failed write to clipboard with error %d"), GetLastError());
 								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 							}
 							CloseClipboard();
@@ -741,7 +741,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						mir_free(path);
 						if(!file.is_open())
 							break; //TODO: handle error
-						ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
+						ListView_GetItemText(hwndList, itemnum, 0, fp, _countof(fp));
 						string out;
 						DWORD code;
 						std::vector<wstring> cmd;
@@ -767,7 +767,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					}
 					break;
 				case IDC_CHANGE_PASSWD:
-					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, SIZEOF(key_id_global));
+					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, _countof(key_id_global));
 //					extern void ShowChangePasswdDlg();
 //					ShowChangePasswdDlg();
 					//temporary code follows
@@ -1001,7 +1001,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
       case ID_OK:
         {
 		  TCHAR tmp[512];
-		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
+		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
 		  if(tmp[0])
 		  {
 			  char *mir_path = new char [MAX_PATH];
@@ -1051,7 +1051,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
+		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 		  while(tmp[mir_tstrlen(tmp)-1] == '\\')
 			  tmp[mir_tstrlen(tmp)-1] = '\0';
 		  if(!tmp[0])
@@ -1079,7 +1079,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	  case IDC_GENERATE_RANDOM:
         {
 			TCHAR tmp[512];
-			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
+			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
 			if(tmp[0])
 			{
 				char *mir_path = new char [MAX_PATH];
@@ -1129,7 +1129,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			}
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
+			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 			while(tmp[mir_tstrlen(tmp)-1] == '\\')
 				tmp[mir_tstrlen(tmp)-1] = '\0';
 			if(!tmp[0])
@@ -1803,7 +1803,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
       {
 	  case IDOK:
 		  {
-			  ListView_GetItemText(hwndList, itemnum2, 0, id, SIZEOF(id));
+			  ListView_GetItemText(hwndList, itemnum2, 0, id, _countof(id));
 			  extern HWND hPubKeyEdit;
 			  string out;
 			  DWORD code;
@@ -2050,11 +2050,11 @@ void InitCheck()
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
 			TCHAR buf[4096];
-			_tcsncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), SIZEOF(buf));
-			mir_tstrncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf) - mir_tstrlen(buf));
-			mir_tstrncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf) - mir_tstrlen(buf));
+			_tcsncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), _countof(buf));
+			mir_tstrncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), _countof(buf) - mir_tstrlen(buf));
+			mir_tstrncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), _countof(buf) - mir_tstrlen(buf));
 			if(!gpg_valid)
-				mir_tstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), SIZEOF(buf) - mir_tstrlen(buf));
+				mir_tstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), _countof(buf) - mir_tstrlen(buf));
 			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if(!gpg_valid)
@@ -2304,8 +2304,8 @@ void ImportKey()
 			ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 			mir_free(ptmp);
-			mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
-			mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
+			mir_tstrncat(tmp2, _T("\\"), _countof(tmp2) - mir_tstrlen(tmp2));
+			mir_tstrncat(tmp2, _T("temporary_exported.asc"), _countof(tmp2) - mir_tstrlen(tmp2));
 			boost::filesystem::remove(tmp2);
 			wfstream f(tmp2, std::ios::out);
 			if(db_mc_isMeta(hContact))

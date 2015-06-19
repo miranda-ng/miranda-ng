@@ -171,11 +171,11 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			TCHAR szButton[MAX_PATH];
 			HWND hBtn = GetDlgItem(hDlg, IDOK);
-			GetWindowText(hBtn, szButton, SIZEOF(szButton));
+			GetWindowText(hBtn, szButton, _countof(szButton));
 			SetWindowText(hBtn, TranslateTS(szButton));
 
 			hBtn = GetDlgItem(hDlg, IDCANCEL);
-			GetWindowText(hBtn, szButton, SIZEOF(szButton));
+			GetWindowText(hBtn, szButton, _countof(szButton));
 			SetWindowText(hBtn, TranslateTS(szButton));
 		}
 		return TRUE;
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 					TCHAR szText[MAXDATASIZE];
 					LPTSTR pszAdd, pszDot;
 					if (PtrIsValid(cbi)) {
-						GetWindowText((HWND)lParam, szText, SIZEOF(szText));
+						GetWindowText((HWND)lParam, szText, _countof(szText));
 						EnableWindow(GetDlgItem(hDlg, IDOK), 
 							((pszAdd = _tcschr(szText, '@')) && 
 							*(pszAdd + 1) != '.' &&
@@ -255,10 +255,10 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				HWND hBtn;
 
 				hBtn = GetDlgItem(hDlg, IDOK);
-				GetWindowText(hBtn, szButton, SIZEOF(szButton));
+				GetWindowText(hBtn, szButton, _countof(szButton));
 				SetWindowText(hBtn, TranslateTS(szButton));
 				hBtn = GetDlgItem(hDlg, IDCANCEL);
-				GetWindowText(hBtn, szButton, SIZEOF(szButton));
+				GetWindowText(hBtn, szButton, _countof(szButton));
 				SetWindowText(hBtn, TranslateTS(szButton));
 			}
 			if (*cbi->pszVal) SetWindowText(hDlg, LPGENT("Edit phone number"));
@@ -295,7 +295,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					TCHAR szText[MAXDATASIZE];
 					int errorPos;
 
-					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, SIZEOF(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
+					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
 						MsgErr(hDlg, TranslateT("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only."));
 						break;
 					}
@@ -326,9 +326,9 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				int	 nCurSel = SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETCURSEL, 0, 0);
 				UINT	nCountry = (nCurSel != CB_ERR) ? SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETITEMDATA, nCurSel, 0) : 0;
 
-				GetDlgItemText(hDlg, EDIT_AREA, szArea, SIZEOF(szArea));
-				GetDlgItemText(hDlg, EDIT_NUMBER, szData, SIZEOF(szData));
-				mir_sntprintf(szPhone, SIZEOF(szPhone), _T("+%u (%s) %s"), nCountry, szArea, szData);
+				GetDlgItemText(hDlg, EDIT_AREA, szArea, _countof(szArea));
+				GetDlgItemText(hDlg, EDIT_NUMBER, szData, _countof(szData));
+				mir_sntprintf(szPhone, _countof(szPhone), _T("+%u (%s) %s"), nCountry, szArea, szData);
 				noRecursion = 1;
 				SetDlgItemText(hDlg, EDIT_PHONE, szPhone);
 				noRecursion = 0;
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			{
 				TCHAR szText[MAXDATASIZE], *pText, *pArea, *pNumber;
 				int isValid = 1;
-				GetDlgItemText(hDlg, EDIT_PHONE, szText, SIZEOF(szText));
+				GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText));
 				if (szText[0] != '+') isValid = 0;
 				if (isValid) {
 					int i, country = _tcstol(szText + 1, &pText, 10);
@@ -778,7 +778,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						!cbex->pItems ||
 						cbex->iSelectedItem < 0 ||
 						cbex->iSelectedItem >= cbex->numItems ||
-						FAILED(mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
+						FAILED(mir_sntprintf(szMsg, _countof(szMsg), TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
 						cbex->pItems[cbex->iSelectedItem].szCat, cbex->pItems[cbex->iSelectedItem].pszVal))
 			)
 				{
@@ -845,7 +845,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							int errorPos;
 							TCHAR szEdit[MAXDATASIZE];
 
-							if (ccVal = GetWindowText(cbex->hEdit, szEdit, SIZEOF(szEdit))) {
+							if (ccVal = GetWindowText(cbex->hEdit, szEdit, _countof(szEdit))) {
 								if (!(ccVal = CheckPhoneSyntax(szEdit, szVal, MAXDATASIZE, errorPos)) || errorPos > -1) {
 									SetWindowText(cbex->hEdit, szVal);
 									SendMessage(cbex->hEdit, EM_SETSEL, errorPos, errorPos);
@@ -854,10 +854,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							break;
 						}
 						case EDIT_EMAIL:
-							ccVal = GetWindowText(cbex->hEdit, szVal, SIZEOF(szVal));
+							ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
 							break;
 						default:
-							ccVal = GetWindowText(cbex->hEdit, szVal, SIZEOF(szVal));
+							ccVal = GetWindowText(cbex->hEdit, szVal, _countof(szVal));
 							break;
 					}
 							
@@ -944,7 +944,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		// set category string
 		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
-			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, SIZEOF(cbex->pItems[cbex->numItems].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, _countof(cbex->pItems[cbex->numItems].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 		}
 
 		// set value string
@@ -983,8 +983,8 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		// set new category string
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
-			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, SIZEOF(cbex->pItems[pItem->iItem].szCat))) 
-				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, SIZEOF(cbex->pItems[pItem->iItem].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, _countof(cbex->pItems[pItem->iItem].szCat))) 
+				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, _countof(cbex->pItems[pItem->iItem].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
 		}
@@ -1347,7 +1347,7 @@ int CtrlContactAddMyItemsFromDB(
 	cbi.pszIcon = szIcon;
 
 	for (i = 0;
-		SUCCEEDED(mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatVal, i)) &&
+		SUCCEEDED(mir_snprintf(pszSetting, _countof(pszSetting), szFormatVal, i)) &&
 		(cbi.wFlags = DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
 		i++)
 	{
@@ -1358,7 +1358,7 @@ int CtrlContactAddMyItemsFromDB(
 		dbv.ptszVal = NULL;
 
 		// read category
-		if (SUCCEEDED(mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatCat, i))) {
+		if (SUCCEEDED(mir_snprintf(pszSetting, _countof(pszSetting), szFormatCat, i))) {
 			if (cbi.wFlags & CTRLF_HASCUSTOM) {
 				if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbv))
 					dbv.type = DBVT_DELETED;
@@ -1426,7 +1426,7 @@ int CtrlContactWriteItemToDB(
 		db_unset(hContact, pszModule, pszSetting);
 	else {
 		if (cbi.wFlags & CBEXIF_SMS)
-			mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal) - mir_tstrlen(szVal));
+			mir_tstrncat(szVal, _T(" SMS"), _countof(szVal) - mir_tstrlen(szVal));
 
 		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
@@ -1476,15 +1476,15 @@ int CtrlContactWriteMyItemsToDB(
 	while (CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi) && cbi.iItem < 50) {
 		if (!(cbi.wFlags & CBEXIF_DELETED) && *szVal) {
 			if (cbi.wFlags & CBEXIF_SMS) {
-				mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal) - mir_tstrlen(szVal));
+				mir_tstrncat(szVal, _T(" SMS"), _countof(szVal) - mir_tstrlen(szVal));
 			}
-			mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatCat, i);
+			mir_snprintf(pszSetting, _countof(pszSetting), szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
 				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else
 				db_unset(hContact, pszModule, pszSetting);
-			mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatVal, i);
+			mir_snprintf(pszSetting, _countof(pszSetting), szFormatVal, i);
 			if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;

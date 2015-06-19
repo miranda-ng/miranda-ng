@@ -40,37 +40,37 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TCHAR str[MAX_PATH];
 			char passw[MAX_PATH];
 			{
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
 				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				Proto_AddToContact(hContact, MODULE);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
 
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
 				db_set_ts(hContact, MODULE, "URL", str);
 				db_set_b(hContact, MODULE, "CheckState", 1);
 				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(hContact, MODULE, "UseAuth", 1);
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
 					db_set_ts(hContact, MODULE, "Login", str);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(hContact, MODULE, "Password", passw);
 				}
 				DeleteAllItems(hwndList);
@@ -95,7 +95,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),
@@ -115,7 +115,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			TCHAR tszURL[MAX_PATH] = { 0 }, *tszTitle = NULL;
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
 				tszTitle = CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
@@ -204,33 +204,33 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
 				db_set_ts(SelItem->hContact, MODULE, "URL", str);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ts(SelItem->hContact, MODULE, "Nick", str);
 				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ts(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
 
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
 					db_set_ts(SelItem->hContact, MODULE, "Login", str);
 
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(SelItem->hContact, MODULE, "Password", passw);
 				}
 				else {
@@ -260,7 +260,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),
@@ -278,7 +278,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
@@ -361,33 +361,33 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
+				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
 				db_set_ts(hContact, MODULE, "URL", str);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
 				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(hContact, MODULE, "UseAuth", 1);
 
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
 					db_set_ts(hContact, MODULE, "Login", str);
 
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(hContact, MODULE, "Password", passw);
 				}
 				else {
@@ -415,7 +415,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),
@@ -433,7 +433,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
@@ -485,8 +485,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			sel = ListView_GetSelectionMark(hwndList);
 			{
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
+				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
+				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = sel;
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
@@ -497,8 +497,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 				TCHAR nick[MAX_PATH], url[MAX_PATH];
 				int sel = ListView_GetSelectionMark(hwndList);
-				ListView_GetItemText(hwndList, sel, 0, nick, SIZEOF(nick));
-				ListView_GetItemText(hwndList, sel, 1, url, SIZEOF(url));
+				ListView_GetItemText(hwndList, sel, 0, nick, _countof(nick));
+				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
 
 				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 					ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
@@ -556,8 +556,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			sel = ListView_GetHotItem(hwndList);
 			if (sel != -1) {
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
+				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
+				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = sel;
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);

@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (InitFrame()) return 1; /* before icons */
 
 	/* shared */
-	Icon_Register(hInst, "Automatic Shutdown", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "Automatic Shutdown", iconList, _countof(iconList));
 
 	InitShutdownSvc();
 	InitWatcher(); /* before InitSettingsDlg() */

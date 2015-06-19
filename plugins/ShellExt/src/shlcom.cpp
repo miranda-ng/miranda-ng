@@ -90,7 +90,7 @@ BOOL AddToList(TAddArgList& args)
 			HANDLE hFind = FindFirstFileA(szBuf, &fd);
 			while (true) {
 				if (fd.cFileName[0] != '.') {
-					mir_snprintf(szBuf, SIZEOF(szBuf),"%s\\%s", args.szFile, fd.cFileName);
+					mir_snprintf(szBuf, _countof(szBuf),"%s\\%s", args.szFile, fd.cFileName);
 					// keep a copy of the current thing being processed
 					szThis = args.szFile;
 					args.szFile = szBuf;
@@ -559,8 +559,8 @@ void CheckUnregisterServer()
 	if (bIsVistaPlus) {
 		// launches regsvr to remove the dll under admin.
 		TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
-		GetModuleFileName(hInst, szFileName, SIZEOF(szFileName));
-		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("/s /u \"%s\""), szFileName);
+		GetModuleFileName(hInst, szFileName, _countof(szFileName));
+		mir_sntprintf(szBuf, _countof(szBuf), _T("/s /u \"%s\""), szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = _T("runas");
@@ -588,8 +588,8 @@ void CheckRegisterServer()
 			TranslateT("Shell context menus requires your permission to register with Windows Explorer (one time only)."),
 			TranslateT("Miranda NG - Shell context menus (shellext.dll)"), MB_OK | MB_ICONINFORMATION);
 		// /s = silent
-		GetModuleFileName(hInst, szFileName, SIZEOF(szFileName));
-		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("/s \"%s\""), szFileName);
+		GetModuleFileName(hInst, szFileName, _countof(szFileName));
+		mir_sntprintf(szBuf, _countof(szBuf), _T("/s \"%s\""), szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = _T("runas");

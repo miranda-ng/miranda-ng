@@ -3,10 +3,10 @@
 static int lua_AddIcon(lua_State *L)
 {
 	TCHAR filePath[MAX_PATH];
-	GetModuleFileName(g_hInstance, filePath, SIZEOF(filePath));
+	GetModuleFileName(g_hInstance, filePath, _countof(filePath));
 
 	char iconName[MAX_PATH];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
 
 	SKINICONDESC si = { 0 };
 	si.flags = SIDF_PATH_TCHAR;
@@ -25,7 +25,7 @@ static int lua_AddIcon(lua_State *L)
 static int lua_GetIcon(lua_State *L)
 {
 	char iconName[MAX_PATH];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
 
 	HANDLE res = ::IcoLib_GetIconHandle(iconName);
 	lua_pushlightuserdata(L, res);
@@ -42,7 +42,7 @@ static int lua_RemoveIcon(lua_State *L)
 	else if (lua_isstring(L, 1))
 	{
 		char iconName[MAX_PATH];
-		mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, lua_tostring(L, 1));
+		mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, lua_tostring(L, 1));
 		::IcoLib_RemoveIcon(iconName);
 	}
 	else

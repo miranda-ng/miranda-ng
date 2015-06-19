@@ -32,7 +32,7 @@
 	#include <m_button.h>
 #endif
 
-#ifndef SIZEOF
+#ifndef _countof
 	#include <win2k.h>
 #endif
 
@@ -516,7 +516,7 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 	if (ServiceExists(MS_VARS_GETSKINITEM))
 		hIcon = (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON);
 
-	GetClassName(GetDlgItem(hwndDlg, uIDButton), tszClass, SIZEOF(tszClass));
+	GetClassName(GetDlgItem(hwndDlg, uIDButton), tszClass, _countof(tszClass));
 	if (!mir_tstrcmp(tszClass, _T("Button"))) {
 		if (hIcon != NULL) {
 			SetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE)|BS_ICON);

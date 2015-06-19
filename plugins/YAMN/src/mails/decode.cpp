@@ -151,7 +151,7 @@ struct _tcptable CodePageNamesAll[]=
 	{ "MAC-", "CR",0,10082}
 };
 
-int CPLENALL = SIZEOF(CodePageNamesAll);
+int CPLENALL = _countof(CodePageNamesAll);
 struct _tcptable *CodePageNamesSupp;
 int CPLENSUPP = 1;
 

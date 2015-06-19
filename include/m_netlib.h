@@ -793,7 +793,7 @@ __inline INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 	va_list va;
 	va_start(va, fmt);
 	char szText[1024];
-	mir_vsnprintf(szText, sizeof(szText), fmt, va);
+	mir_vsnprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
 	return CallService(MS_NETLIB_LOG, (WPARAM)hUser, (LPARAM)szText);
 }
@@ -803,7 +803,7 @@ __inline INT_PTR Netlib_LogfW(HANDLE hUser, const wchar_t *fmt, ...)
 	va_list va;
 	va_start(va, fmt);
 	wchar_t szText[1024];
-	mir_vsnwprintf(szText, SIZEOF(szText), fmt, va);
+	mir_vsnwprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
 	return CallService(MS_NETLIB_LOGW, (WPARAM)hUser, (LPARAM)szText);
 }

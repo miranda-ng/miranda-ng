@@ -29,7 +29,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 	{
 		TCHAR szError[256];
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, opts.error, 0, szError, SIZEOF(szError), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, opts.error, 0, szError, _countof(szError), NULL);
 		SetDlgItemText(hdlg, IDC_ERRORTEXT, szError);
 	}
 	if (opts.error == ERROR_SHARING_VIOLATION) ShowWindow(GetDlgItem(hdlg, IDC_INUSE), SW_SHOW);

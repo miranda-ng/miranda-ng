@@ -71,7 +71,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 char* CMsnProto::GetStoreHost(const char* service)
 {
 	char hostname[128];
-	mir_snprintf(hostname, SIZEOF(hostname), "StoreHost-%s", service);
+	mir_snprintf(hostname, _countof(hostname), "StoreHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
 	if (db_get_static(NULL, m_szModuleName, hostname, host, 256) || !*host)
@@ -83,7 +83,7 @@ char* CMsnProto::GetStoreHost(const char* service)
 void CMsnProto::UpdateStoreHost(const char* service, const char* url)
 {
 	char hostname[128];
-	mir_snprintf(hostname, SIZEOF(hostname), "StoreHost-%s", service);
+	mir_snprintf(hostname, _countof(hostname), "StoreHost-%s", service);
 
 	setString(hostname, url);
 }

@@ -43,7 +43,7 @@ static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 		TCHAR szFocusClass[64];
 		HWND hwndFocus = GetFocus();
 
-		GetClassName(hwndFocus, szFocusClass, SIZEOF(szFocusClass));
+		GetClassName(hwndFocus, szFocusClass, _countof(szFocusClass));
 		if (!mir_tstrcmp(szFocusClass, _T(CLISTCONTROL_CLASS))) {
 			hItem = (HANDLE) SendMessage(hwndFocus, CLM_FINDGROUP, wParam, 0);
 			if (hItem)
@@ -179,11 +179,11 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				TCHAR tszName[64];
 				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
-					mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);
+					mir_sntprintf(tszName, _countof(tszName), _T("%s "), pa->tszAccountName);
 				else
 					tszName[0] = 0;
 
-				if (showOpts & 4 && mir_tstrlen(tszName) < SIZEOF(tszName)-1)
+				if (showOpts & 4 && mir_tstrlen(tszName) < _countof(tszName)-1)
 					mir_tstrcat(tszName, _T(" "));
 				GetTextExtentPoint32(hdc, tszName, (int)mir_tstrlen(tszName), &textSize);
 				x += textSize.cx;

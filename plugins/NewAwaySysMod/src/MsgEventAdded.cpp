@@ -175,7 +175,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 
 	unsigned int iMode = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 	int i;
-	for (i = SIZEOF(StatusModeList) - 1; i >= 0; i--)
+	for (i = _countof(StatusModeList) - 1; i >= 0; i--)
 		if (iMode == StatusModeList[i].Status)
 			break;
 

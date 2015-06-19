@@ -52,7 +52,7 @@ void LoadActions()
 #endif
 	};
 
-	for (int i = 0; i < SIZEOF(actions); ++i)
+	for (int i = 0; i < _countof(actions); ++i)
 		RegisterAction(&actions[i]);
 }
 
@@ -268,7 +268,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
-			for (i = 0; i < SIZEOF(controls); ++i)
+			for (i = 0; i < _countof(controls); ++i)
 				EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
 		}
 		windowInitialized = true;
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			{
 				BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
-				for (i = 0; i < SIZEOF(controls); ++i)
+				for (i = 0; i < _countof(controls); ++i)
 					EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
 			}
 			break;

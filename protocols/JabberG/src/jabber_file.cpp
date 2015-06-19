@@ -178,7 +178,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
 
 	TCHAR szPort[10];
-	mir_sntprintf(szPort, SIZEOF(szPort), _T("%d"), connInfo.wPort);
+	mir_sntprintf(szPort, _countof(szPort), _T("%d"), connInfo.wPort);
 	ppro->debugLogA("File server incoming connection accepted: %s", connInfo.szIpPort);
 
 	JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_FILE, szPort);
@@ -258,7 +258,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ft->hFileEvent = hEvent;
 
 	TCHAR szPort[20];
-	mir_sntprintf(szPort, SIZEOF(szPort), _T("%d"), nlb.wPort);
+	mir_sntprintf(szPort, _countof(szPort), _T("%d"), nlb.wPort);
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
@@ -288,7 +288,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 					myAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
 
 				char szAddr[256];
-				mir_snprintf(szAddr, SIZEOF(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
+				mir_snprintf(szAddr, _countof(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
 
 				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
@@ -402,7 +402,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				}
 
 				char fileBuffer[2048];
-				int bytes = mir_snprintf(fileBuffer, SIZEOF(fileBuffer), "HTTP/1.1 200 OK\r\nContent-Length: %I64u\r\n\r\n", statbuf.st_size);
+				int bytes = mir_snprintf(fileBuffer, _countof(fileBuffer), "HTTP/1.1 200 OK\r\nContent-Length: %I64u\r\n\r\n", statbuf.st_size);
 				WsSend(s, fileBuffer, bytes, MSG_DUMPASTEXT);
 
 				ft->std.flags |= PFTS_SENDING;
@@ -498,7 +498,7 @@ int filetransfer::create()
 		return fileId;
 
 	TCHAR filefull[MAX_PATH];
-	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), std.tszWorkingDir, std.tszCurrentFile);
+	mir_sntprintf(filefull, _countof(filefull), _T("%s\\%s"), std.tszWorkingDir, std.tszCurrentFile);
 	replaceStrT(std.tszCurrentFile, filefull);
 
 	if (hWaitEvent != INVALID_HANDLE_VALUE)

@@ -33,7 +33,7 @@ static __inline LONG regchk(LONG res, const char *pszFunc, const void *pszInfo, 
 		char *pszErr;
 		pszErr = GetWinErrorDescription(res);
 		pszInfo2 = s2t(pszInfo, fInfoUnicode, FALSE);  /* does NULL check */
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)"), pszFunc, pszInfo2, pszFile, nLine, pszErr, res);
+		mir_sntprintf(szMsg, _countof(szMsg), TranslateT("Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)"), pszFunc, pszInfo2, pszFile, nLine, pszErr, res);
 		MessageBox(NULL, szMsg, TranslateT("Registry warning"), MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL);
 		if (pszErr != NULL) LocalFree(pszErr);
 		mir_free(pszInfo2);  /* does NULL check */
@@ -127,7 +127,7 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 {
 	TCHAR szDbFile[MAX_PATH], szExe[MAX_PATH], *pszFmt;
 	if (fFixedDbProfile) {
-		if ( CallService(MS_DB_GETPROFILENAMET, SIZEOF(szDbFile), (LPARAM)szDbFile))
+		if ( CallService(MS_DB_GETPROFILENAMET, _countof(szDbFile), (LPARAM)szDbFile))
 			return NULL;
 		TCHAR *p = _tcsrchr(szDbFile, '.');
 		if (p)
@@ -135,7 +135,7 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 	}
 	else mir_tstrcpy(szDbFile, _T("%1")); /* buffer safe */
 
-	if ( !GetModuleFileName(fMirExe ? NULL : hInst, szExe, SIZEOF(szExe)))
+	if ( !GetModuleFileName(fMirExe ? NULL : hInst, szExe, _countof(szExe)))
 		return NULL;
 
 	if (fMirExe)
@@ -145,10 +145,10 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 		/* run command for rundll32.exe calling WaitForDDE */
 		pszFmt = _T("rundll32.exe %s,WaitForDDE \"/profile:%s\"");
 		/* ensure the command line is not too long */ 
-		GetShortPathName(szExe, szExe, SIZEOF(szExe));
+		GetShortPathName(szExe, szExe, _countof(szExe));
 		/* surround by quotes if failed */
 		size_t len = mir_tstrlen(szExe);
-		if ( _tcschr(szExe,_T(' ')) != NULL && (len+2) < SIZEOF(szExe)) {
+		if ( _tcschr(szExe,_T(' ')) != NULL && (len+2) < _countof(szExe)) {
 			memmove(szExe, szExe+1, (len+1)*sizeof(TCHAR));
 			szExe[len+2] = szExe[0] = _T('\"');
 			szExe[len+3] = 0;
@@ -156,7 +156,7 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 	}
 
 	TCHAR tszBuffer[1024];
-	mir_sntprintf(tszBuffer, SIZEOF(tszBuffer), pszFmt, szExe, szDbFile);
+	mir_sntprintf(tszBuffer, _countof(tszBuffer), pszFmt, szExe, szDbFile);
 	return mir_tstrdup(tszBuffer);
 }
 
@@ -176,7 +176,7 @@ static BOOL IsValidRunCommand(const TCHAR *pszRunCmd)
 		if (pargs!=NULL) *pargs=0;
 		pexe=buf;
 	}
-	if (SearchPath(NULL,pexe,_T(".exe"),SIZEOF(szFullExe),szFullExe,&pszFilePart)) {
+	if (SearchPath(NULL,pexe,_T(".exe"),_countof(szFullExe),szFullExe,&pszFilePart)) {
 		if (pszFilePart!=NULL)
 			if (!mir_tstrcmpi(pszFilePart,_T("rundll32.exe")) || !mir_tstrcmpi(pszFilePart,_T("rundll.exe"))) {
 				/* split into dll path and arguments */
@@ -200,7 +200,7 @@ TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID)
 {
 	TCHAR szModule[MAX_PATH],*pszIconLoc=NULL;
 	int cch;
-	if ((cch=GetModuleFileName(hModule,szModule,SIZEOF(szModule))) != 0) {
+	if ((cch=GetModuleFileName(hModule,szModule,_countof(szModule))) != 0) {
 		pszIconLoc=(TCHAR*)mir_alloc((cch+=8)*sizeof(TCHAR));
 		if (pszIconLoc!=NULL)
 			mir_sntprintf(pszIconLoc, cch, _T("%s,%i"), szModule, -(int)nIconResID); /* id may be 0, buffer safe */
@@ -212,7 +212,7 @@ TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID)
 TCHAR *MakeAppFileName(BOOL fMirExe)
 {
 	TCHAR szExe[MAX_PATH],*psz;
-	if (GetModuleFileName(fMirExe?NULL:hInst,szExe,SIZEOF(szExe))) {
+	if (GetModuleFileName(fMirExe?NULL:hInst,szExe,_countof(szExe))) {
 		psz=_tcsrchr(szExe,_T('\\'));
 		if (psz!=NULL) ++psz;
 		else psz=szExe;

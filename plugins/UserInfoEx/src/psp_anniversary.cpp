@@ -148,7 +148,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						{ ICO_BTN_ADD, BM_SETIMAGE, BTN_ADD },
 						{ ICO_BTN_DELETE, BM_SETIMAGE, BTN_DELETE }
 					};
-					IcoLib_SetCtrlIcons(hDlg, idIcon, SIZEOF(idIcon));
+					IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
 				}
 				return FALSE;
 			}

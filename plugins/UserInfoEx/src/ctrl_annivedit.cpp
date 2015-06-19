@@ -364,10 +364,10 @@ INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(MCONTACT hContact)
 	}
 	// delete reluctant items
 	do {
-		ofs = mir_snprintf(szSet0, SIZEOF(szSet0), "Anniv%d", wIndex);
+		ofs = mir_snprintf(szSet0, _countof(szSet0), "Anniv%d", wIndex);
 		ret = 1;
-		for (i = 0; i < SIZEOF(szPrefix); i++) {
-			mir_strncpy(szSet0 + ofs, szPrefix[i], SIZEOF(szSet0) - ofs);
+		for (i = 0; i < _countof(szPrefix); i++) {
+			mir_strncpy(szSet0 + ofs, szPrefix[i], _countof(szSet0) - ofs);
 			ret &= db_unset(hContact, USERINFO, szSet0);
 		}
 	}

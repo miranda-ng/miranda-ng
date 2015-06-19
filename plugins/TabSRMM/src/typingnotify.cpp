@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			CheckDlgButton(hwndDlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 		}
 
-		for (i = 0; i < SIZEOF(colorPicker); i++) {
+		for (i = 0; i < _countof(colorPicker); i++) {
 			SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_SETCOLOUR, 0, colorPicker[i].color);
 			Utils::enableDlgControl(hwndDlg, colorPicker[i].res, (ColorMode == COLOR_OWN));
 		}
@@ -260,7 +260,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					bEnableOthers = true;
 				}
 
-				for (i = 0; i < SIZEOF(colorPicker); i++)
+				for (i = 0; i < _countof(colorPicker); i++)
 					Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
 
 				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
@@ -536,11 +536,11 @@ int TN_ModuleInit()
 	Timeout2 = M.GetByte(Module, SET_TIMEOUT2, DEF_TIMEOUT2);
 
 	if (!(M.GetDword(Module, colorPicker[0].desc, 1) && !M.GetDword(Module, colorPicker[0].desc, 0)))
-		for (i = 0; i < SIZEOF(colorPicker); i++)
+		for (i = 0; i < _countof(colorPicker); i++)
 			colorPicker[i].color = M.GetDword(Module, colorPicker[i].desc, 0);
 
-	mir_sntprintf(szStart, SIZEOF(szStart), TranslateT("...is typing a message."));
-	mir_sntprintf(szStop, SIZEOF(szStop), TranslateT("...has stopped typing."));
+	mir_sntprintf(szStart, _countof(szStart), TranslateT("...is typing a message."));
+	mir_sntprintf(szStop, _countof(szStop), TranslateT("...has stopped typing."));
 
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);

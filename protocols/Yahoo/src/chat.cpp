@@ -54,7 +54,7 @@ void CALLBACK ConferenceRequestCB(PVOID dwParam);
 void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
 {
 	char z[1024];
-	mir_snprintf(z, SIZEOF(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
+	mir_snprintf(z, _countof(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
 	LOG(("[ext_yahoo_got_conf_invite] %s", z));
 
 	CYahooProto* ppro = getProtoById(id);
@@ -91,7 +91,7 @@ void ext_yahoo_conf_userdecline(int id, const char *me, const char *who, const c
 	TCHAR info[1024];
 	TCHAR *whot = mir_utf8decodeT(who);
 	TCHAR *msgt = mir_utf8decodeT(msg);
-	mir_sntprintf(info, SIZEOF(info), TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : _T(""));
+	mir_sntprintf(info, _countof(info), TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : _T(""));
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_INFORMATION, info);
 	mir_free(msgt);
 	mir_free(whot);
@@ -342,7 +342,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = SIZEOF(Items);
+		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
@@ -355,7 +355,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ _T(""), 100, MENU_SEPARATOR, FALSE },
 				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 		else {
@@ -364,7 +364,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 		mir_free(id);
@@ -501,7 +501,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_ADDSCR:
 				if (param->ppro->m_bLoggedIn) {
 					TCHAR sn[64];
-					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, SIZEOF(sn));
+					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, _countof(sn));
 
 					CLCINFOITEM cii = { 0 };
 					cii.cbSize = sizeof(cii);
@@ -516,7 +516,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDOK:
 				{
 					TCHAR msg[1024];
-					GetDlgItemText(hwndDlg, IDC_MSG, msg, SIZEOF(msg));
+					GetDlgItemText(hwndDlg, IDC_MSG, msg, _countof(msg));
 
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 					YList *who = NULL;
@@ -589,7 +589,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDCANCEL:
 				if (cm) {
 					TCHAR msg[1024];
-					GetDlgItemText(hwndDlg, IDC_MSG2, msg, SIZEOF(msg));
+					GetDlgItemText(hwndDlg, IDC_MSG2, msg, _countof(msg));
 					yahoo_conference_decline(param->ppro->m_id, NULL, cm->members, param->room, T2Utf(msg));
 
 					param->ppro->m_chatrooms.remove((CYahooProto::ChatRoom*)&param->room);
@@ -612,7 +612,7 @@ static void CALLBACK ConferenceRequestCB(PVOID pParam)
 INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	char room[128];
-	mir_snprintf(room, SIZEOF(room), "%s-%u", m_yahoo_id, time(NULL));
+	mir_snprintf(room, _countof(room), "%s-%u", m_yahoo_id, time(NULL));
 
 	InviteChatParam* param = new InviteChatParam(room, this);
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL,

@@ -33,7 +33,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 {
 	// find in Miranda profile subfolders
 	TCHAR searchspec[MAX_PATH];
-	mir_sntprintf(searchspec, SIZEOF(searchspec), _T("%s\\*.*"), mirandaPath);
+	mir_sntprintf(searchspec, _countof(searchspec), _T("%s\\*.*"), mirandaPath);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchspec, &fd);
@@ -52,7 +52,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 		TCHAR buf[MAX_PATH], profile[MAX_PATH];
 		mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), mirandaPath, fd.cFileName, fd.cFileName);
 		if (_taccess(buf, 0) == 0) {
-			mir_sntprintf(profile, SIZEOF(profile), _T("%s.dat"), fd.cFileName);
+			mir_sntprintf(profile, _countof(profile), _T("%s.dat"), fd.cFileName);
 
 			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ADDSTRING, 0, (LPARAM)profile);
 			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETITEMDATA, i, (LPARAM)mir_tstrdup(buf));
@@ -82,7 +82,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
 		TCHAR filename[MAX_PATH];
-		GetDlgItemText(hwndDlg, IDC_FILENAME, filename, SIZEOF(filename));
+		GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
 		if (_taccess(filename, 4))
 			SendMessage(GetParent(hwndDlg), WIZM_DISABLEBUTTON, 1, 0);
 		return TRUE;
@@ -95,7 +95,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 
 		case IDOK:
 			TCHAR filename[MAX_PATH];
-			GetDlgItemText(hwndDlg, IDC_FILENAME, filename, SIZEOF(filename));
+			GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
 			if (_taccess(filename, 4)) {
 				MessageBox(hwndDlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 				break;
@@ -122,7 +122,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			ptrT pfd(Utils_ReplaceVarsT(_T("%miranda_profilesdir%")));
 
 			TCHAR str[MAX_PATH], text[256];
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 			mir_sntprintf(text, _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 
 			OPENFILENAME ofn = { 0 };
@@ -132,7 +132,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			ofn.lpstrDefExt = _T("dat");
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
-			ofn.nMaxFile = SIZEOF(str);
+			ofn.nMaxFile = _countof(str);
 			ofn.lpstrInitialDir = pfd;
 			if (GetOpenFileName(&ofn)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, str);
@@ -306,15 +306,15 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 		case IDC_INCOMING:
 		case IDC_OUTGOING:
 			if (LOWORD(wParam) == IDC_ALL)
-				for (int i = 0; i < SIZEOF(SysControls); i++)
+				for (int i = 0; i < _countof(SysControls); i++)
 					CheckDlgButton(hwndDlg, SysControls[i], IsDlgButtonChecked(hwndDlg, SysControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_OUTGOING)
-				for (int i = 0; i < SIZEOF(InControls); i++)
+				for (int i = 0; i < _countof(InControls); i++)
 					CheckDlgButton(hwndDlg, InControls[i], IsDlgButtonChecked(hwndDlg, InControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_INCOMING)
-				for (int i = 0; i < SIZEOF(OutControls); i++)
+				for (int i = 0; i < _countof(OutControls); i++)
 					CheckDlgButton(hwndDlg, OutControls[i], IsDlgButtonChecked(hwndDlg, OutControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 

@@ -336,26 +336,26 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	_tcsncpy(filter, TranslateT("Text files"), SIZEOF(filter));
-	mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
+	_tcsncpy(filter, TranslateT("Text files"), _countof(filter));
+	mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, _T("*.TXT"), _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, _T(" (*)"), SIZEOF(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
+	_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
+	mir_tstrncat(pfilter, _T(" (*)"), _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, _T("*"), _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
 
 	*pfilter = '\0';
@@ -364,7 +364,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-	ofn.nMaxFile = SIZEOF(str);
+	ofn.nMaxFile = _countof(str);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("txt");
 
@@ -405,33 +405,33 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	OPENFILENAME ofn = {0};
 	TCHAR filter[512], *pfilter;
 
-	_tcsncpy(str, TranslateT("contacts"), SIZEOF(str));
-	mir_tstrncat(str, _T(".txt"), SIZEOF(str) - mir_tstrlen(str));
+	_tcsncpy(str, TranslateT("contacts"), _countof(str));
+	mir_tstrncat(str, _T(".txt"), _countof(str) - mir_tstrlen(str));
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	_tcsncpy(filter, TranslateT("Text files"), SIZEOF(filter));
-	mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
+	_tcsncpy(filter, TranslateT("Text files"), _countof(filter));
+	mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, _T("*.TXT"), _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, _T(" (*)"), SIZEOF(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
+	_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
+	mir_tstrncat(pfilter, _T(" (*)"), _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
+	_tcsncpy(pfilter, _T("*"), _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	if (pfilter >= filter + SIZEOF(filter))
+	if (pfilter >= filter + _countof(filter))
 		return 0;
 	*pfilter = '\0';
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-	ofn.nMaxFile = SIZEOF(str);
+	ofn.nMaxFile = _countof(str);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("txt");
 
@@ -516,7 +516,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 {
 	// Import from server item
 	char service[64];
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
 	CreateProtoService(GGS_IMPORT_SERVER, &GGPROTO::import_server);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -529,7 +529,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Import from textfile
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
 	CreateProtoService(GGS_IMPORT_TEXT, &GGPROTO::import_text);
 
 	mi.position = 2000500002;
@@ -539,7 +539,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Remove from server
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
 	CreateProtoService(GGS_REMOVE_SERVER, &GGPROTO::remove_server);
 
 	mi.position = 2000500003;
@@ -549,7 +549,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to server
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
 	CreateProtoService(GGS_EXPORT_SERVER, &GGPROTO::export_server);
 
 	mi.position = 2005000001;
@@ -559,7 +559,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to textfile
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
 	CreateProtoService(GGS_EXPORT_TEXT, &GGPROTO::export_text);
 
 	mi.position = 2005000002;

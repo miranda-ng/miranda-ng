@@ -116,7 +116,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(hwnd);
 			tvi.pszText = text;
-			tvi.cchTextMax = SIZEOF(text);
+			tvi.cchTextMax = _countof(text);
 			if (TreeView_GetItem(hwnd, &tvi) && tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				MCONTACT hContact = mtis->hContact;
@@ -177,7 +177,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			char setting[FLD_SIZE];
 			int idx = ListView_GetSelectionMark(hwnd);
 			if (idx == -1 ) return 0;
-			ListView_GetItemTextA(hwnd, idx, 0, setting, SIZEOF(setting));
+			ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
 
 			if (wParam == VK_F2)
 				editSetting(info.hContact, info.module, setting);
@@ -322,7 +322,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				TVITEM tvi = { 0 };
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 				tvi.pszText = text;
-				tvi.cchTextMax = SIZEOF(text);
+				tvi.cchTextMax = _countof(text);
 				tvi.hItem = item;
 				if (TreeView_GetItem(hwnd2Tree, &tvi)) {
 					MCONTACT hContact = 0;
@@ -348,7 +348,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 				if (pos != -1) {
 					char data[FLD_SIZE];
-					ListView_GetItemTextA(hwnd2List, pos, 0, data, SIZEOF(data));
+					ListView_GetItemTextA(hwnd2List, pos, 0, data, _countof(data));
 					db_set_s(NULL, modname, "LastSetting", data);
 				}
 				else
@@ -409,7 +409,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(hwnd2Tree);
 			tvi.pszText = text; // modulename
-			tvi.cchTextMax = SIZEOF(text);
+			tvi.cchTextMax = _countof(text);
 			if (!TreeView_GetItem(hwnd2Tree, &tvi)) break;
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 			if (mtis && (mtis->type == MODULE))

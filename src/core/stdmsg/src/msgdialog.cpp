@@ -136,7 +136,7 @@ static void ShowTime(SrmmWindowData *dat)
 			TCHAR buf[32];
 			unsigned i = (g_dat.flags & SMF_SHOWREADCHAR) ? 2 : 1;
 
-			TimeZone_PrintDateTime(dat->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+			TimeZone_PrintDateTime(dat->hTimeZone, _T("t"), buf, _countof(buf), 0);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, i, (LPARAM)buf);
 			dat->wMinute = st.wMinute;
 		}
@@ -173,18 +173,18 @@ static void SetDialogToType(HWND hwndDlg)
 {
 	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (dat->hContact)
-		ShowMultipleControls(hwndDlg, infoLineControls, SIZEOF(infoLineControls), (g_dat.flags&SMF_SHOWINFO) ? SW_SHOW : SW_HIDE);
+		ShowMultipleControls(hwndDlg, infoLineControls, _countof(infoLineControls), (g_dat.flags&SMF_SHOWINFO) ? SW_SHOW : SW_HIDE);
 	else
-		ShowMultipleControls(hwndDlg, infoLineControls, SIZEOF(infoLineControls), SW_HIDE);
+		ShowMultipleControls(hwndDlg, infoLineControls, _countof(infoLineControls), SW_HIDE);
 
 	if (dat->hContact) {
-		ShowMultipleControls(hwndDlg, buttonLineControls, SIZEOF(buttonLineControls), (g_dat.flags&SMF_SHOWBTNS) ? SW_SHOW : SW_HIDE);
+		ShowMultipleControls(hwndDlg, buttonLineControls, _countof(buttonLineControls), (g_dat.flags&SMF_SHOWBTNS) ? SW_SHOW : SW_HIDE);
 		if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 	}
-	else ShowMultipleControls(hwndDlg, buttonLineControls, SIZEOF(buttonLineControls), SW_HIDE);
+	else ShowMultipleControls(hwndDlg, buttonLineControls, _countof(buttonLineControls), SW_HIDE);
 
-	ShowMultipleControls(hwndDlg, sendControls, SIZEOF(sendControls), SW_SHOW);
+	ShowMultipleControls(hwndDlg, sendControls, _countof(sendControls), SW_SHOW);
 	if (!dat->hwndStatus) {
 		int grip = (GetWindowLongPtr(hwndDlg, GWL_STYLE) & WS_THICKFRAME) ? SBARS_SIZEGRIP : 0;
 		dat->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | grip, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
@@ -479,7 +479,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 	SrmmWindowData *dat = (SrmmWindowData *)lParam;
 
 	if (!(g_dat.flags & SMF_SHOWINFO) && !(g_dat.flags & SMF_SHOWBTNS)) {
-		for (int i = 0; i < SIZEOF(buttonLineControls); i++)
+		for (int i = 0; i < _countof(buttonLineControls); i++)
 			if (buttonLineControls[i] == urc->wId)
 				OffsetRect(&urc->rcItem, 0, -dat->lineHeight);
 	}
@@ -491,7 +491,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		int len = GetWindowTextLength(h);
 		if (len > 0) {
 			TCHAR buf[256];
-			GetWindowText(h, buf, SIZEOF(buf));
+			GetWindowText(h, buf, _countof(buf));
 
 			HDC hdc = GetDC(h);
 			HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0));
@@ -836,7 +836,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
 			TCHAR** ppFiles = NULL;
 			for (i = 0; i < fileCount; i++) {
-				DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
+				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 				AddToFileList(&ppFiles, &totalCount, szFilename);
 			}
 			CallServiceSync(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->hContact, (LPARAM)ppFiles);
@@ -957,9 +957,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		if (dat->lastMessage) {
 			TCHAR date[64], time[64], fmt[128];
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
-			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
-			mir_sntprintf(fmt, SIZEOF(fmt), TranslateT("Last message received on %s at %s."), date, time);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, _countof(date), 0);
+			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, _countof(time), 0);
+			mir_sntprintf(fmt, _countof(fmt), TranslateT("Last message received on %s at %s."), date, time);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 		}
 		else SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)_T(""));
@@ -1054,9 +1054,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 				if (statusIcon)
-					mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
+					mir_sntprintf(newtitle, _countof(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
 				else
-					mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
+					mir_sntprintf(newtitle, _countof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
 					
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 				if (!cws || (!mir_strcmp(cws->szModule, dat->szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
@@ -1068,10 +1068,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->wOldStatus = dat->wStatus;
 			}
 			else
-				mir_tstrncpy(newtitle, TranslateT("Message session"), SIZEOF(newtitle));
+				mir_tstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
 
 			TCHAR oldtitle[256];
-			GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
+			GetWindowText(hwndDlg, oldtitle, _countof(oldtitle));
 			if (mir_tstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 				SetWindowText(hwndDlg, newtitle);
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -1306,7 +1306,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					TCHAR* szContactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), szContactName);
+					mir_sntprintf(szBuf, _countof(szBuf), TranslateT("%s is typing a message..."), szContactName);
 					dat->nTypeSecs--;
 
 					SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);

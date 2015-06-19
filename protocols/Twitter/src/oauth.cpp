@@ -90,7 +90,7 @@ wstring mir_twitter::UrlGetQuery(const wstring& url)
 	wchar_t buf[1024*4] = {};
 
 	components.lpszExtraInfo = buf;
-	components.dwExtraInfoLength = SIZEOF(buf);
+	components.dwExtraInfoLength = _countof(buf);
 
 	BOOL crackUrlOk = InternetCrackUrl(url.c_str(), url.size(), 0, &components);
 	_ASSERTE(crackUrlOk);
@@ -308,7 +308,7 @@ wstring mir_twitter::OAuthNormalizeUrl(const wstring& url)
 	if (Compare(brokenURL[L"scheme"], L"http", false) && !(Compare(brokenURL[L"port"], L"80", false)) ||
 		(Compare(brokenURL[L"scheme"], L"https", false) && !(Compare(brokenURL[L"port"], L"443", false))))
 	{
-		mir_snwprintf(port, SIZEOF(port), L":%s", brokenURL[L"port"]);
+		mir_snwprintf(port, _countof(port), L":%s", brokenURL[L"port"]);
 	}
 
 	// InternetCrackUrl includes ? and # elements in the path, 
@@ -366,7 +366,7 @@ wstring mir_twitter::OAuthCreateNonce()
 	wstring nonce;
 
 	for (int i = 0; i <= 16; ++i)
-		nonce += ALPHANUMERIC[rand() % (SIZEOF(ALPHANUMERIC) - 1)]; // don't count null terminator in array
+		nonce += ALPHANUMERIC[rand() % (_countof(ALPHANUMERIC) - 1)]; // don't count null terminator in array
 
 	return nonce;
 }
@@ -378,7 +378,7 @@ wstring mir_twitter::OAuthCreateTimestamp()
 	_ASSERTE(utcNow != -1);
 
 	wchar_t buf[100] = {};
-	mir_snwprintf(buf, SIZEOF(buf), L"%I64u", utcNow);
+	mir_snwprintf(buf, _countof(buf), L"%I64u", utcNow);
 
 	return buf;
 }

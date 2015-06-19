@@ -169,7 +169,7 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 	TCHAR *p,szPath[MAX_PATH];
 
 	/* we are inside RunDll32 here */
-	if (!GetModuleFileName(hInst,szPath,SIZEOF(szPath))) return NULL;
+	if (!GetModuleFileName(hInst,szPath,_countof(szPath))) return NULL;
 	p=_tcsrchr(szPath,_T('\\'));
 	if(p!=NULL) {	*p=0; p=_tcsrchr(szPath,_T('\\')); }
 	if(p==NULL) return NULL;
@@ -202,7 +202,7 @@ __declspec(dllexport) void CALLBACK WaitForDDE(HWND,HINSTANCE,TCHAR *pszCmdLine,
 		if(pHandles[1]!=NULL) {
 			dwTick=GetTickCount();
 			/* either process terminated or dde window created */
-			if(WaitForMultipleObjects(SIZEOF(pHandles),pHandles,FALSE,DDEMESSAGETIMEOUT)==WAIT_OBJECT_0) {
+			if(WaitForMultipleObjects(_countof(pHandles),pHandles,FALSE,DDEMESSAGETIMEOUT)==WAIT_OBJECT_0) {
 				dwTick=GetTickCount()-dwTick;
 				if(dwTick<DDEMESSAGETIMEOUT)
 					WaitForInputIdle(pHandles[1],DDEMESSAGETIMEOUT-dwTick);

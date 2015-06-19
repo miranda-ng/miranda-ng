@@ -164,7 +164,7 @@ void DialogConfigActive::load(HWND window)
 	ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_USERONLINE);
 
 	SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-	for (int i=0; i < SIZEOF(hIcons); i++)
+	for (int i=0; i < _countof(hIcons); i++)
 		hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);
 
 	SendDlgItemMessage(window, IDC_ALLICON, STM_SETICON, (WPARAM)hIcons[0], 0);
@@ -284,7 +284,7 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 	while (hItem) {
 		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for (i=0; i < SIZEOF(iconOn); i++)
+		for (i=0; i < _countof(iconOn); i++)
 			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i] = 0;
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
@@ -292,7 +292,7 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (i=0; i < SIZEOF(iconOn); i++) {
+		for (i=0; i < _countof(iconOn); i++) {
 			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
 			if (iImage != EMPTY_EXTRA_ICON)
@@ -301,7 +301,7 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for (i=0; i < SIZEOF(iconOn); i++) {
+	for (i=0; i < _countof(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0) : EMPTY_EXTRA_ICON));
 		if (groupChildCount) groupChildCount[i]+=childCount[i];
 	}

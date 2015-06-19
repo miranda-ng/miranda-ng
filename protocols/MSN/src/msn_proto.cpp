@@ -128,7 +128,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu1.szSettingsModule = szDbsettings;
 	nlu1.ptszDescriptiveName = szBuffer;
 
-	mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%s_HTTPS", m_szModuleName);
+	mir_snprintf(szDbsettings, _countof(szDbsettings), "%s_HTTPS", m_szModuleName);
 	mir_sntprintf(szBuffer, TranslateT("%s plugin HTTPS connections"), m_tszUserName);
 	hNetlibUserHttps = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
 
@@ -494,7 +494,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	filetransfer* ft = (filetransfer*)arg;
 
 	TCHAR filefull[MAX_PATH];
-	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
+	mir_sntprintf(filefull, _countof(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStrT(ft->std.tszCurrentFile, filefull);
 
 	ResetEvent(ft->hResumeEvt);
@@ -586,7 +586,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szP
 
 	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL) {
 		TCHAR szCurrDir[MAX_PATH];
-		GetCurrentDirectory(SIZEOF(szCurrDir), szCurrDir);
+		GetCurrentDirectory(_countof(szCurrDir), szCurrDir);
 		ft->std.tszWorkingDir = mir_tstrdup(szCurrDir);
 	}
 	else {
@@ -1226,7 +1226,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 
 	case EV_PROTO_ONERASE:
 		char szDbsettings[64];
-		mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%s_HTTPS", m_szModuleName);
+		mir_snprintf(szDbsettings, _countof(szDbsettings), "%s_HTTPS", m_szModuleName);
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
 		break;
 

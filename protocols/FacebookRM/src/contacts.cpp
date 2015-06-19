@@ -313,7 +313,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 			if (fbc->participants.size() > namesUsed) {
 				TCHAR more[200];
-				mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
+				mir_sntprintf(more, _countof(more), TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
 				fbc->chat_name = more;
 			}
 

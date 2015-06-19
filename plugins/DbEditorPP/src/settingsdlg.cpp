@@ -189,7 +189,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			TCHAR settingname[FLD_SIZE];
-			GetDlgItemText(hwnd, IDC_SETTINGNAME, settingname, SIZEOF(settingname));
+			GetDlgItemText(hwnd, IDC_SETTINGNAME, settingname, _countof(settingname));
 
 			if (settingname[0])
 			{

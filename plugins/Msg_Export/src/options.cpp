@@ -297,7 +297,7 @@ void SetToDefault(HWND hParent)
 	}
 
 	TCHAR szTemp[500];
-	if (!GetDlgItemText(hParent, IDC_DEFAULT_FILE, szTemp, SIZEOF(szTemp)))
+	if (!GetDlgItemText(hParent, IDC_DEFAULT_FILE, szTemp, _countof(szTemp)))
 		return;
 
 	LVITEM sItem = { 0 };
@@ -359,16 +359,16 @@ BOOL bApplyChanges(HWND hwndDlg)
 		nMaxLineWidth = nTmp;
 	}
 
-	GetDlgItemText(hwndDlg, IDC_EXPORT_TIMEFORMAT, szTemp, SIZEOF(szTemp));
+	GetDlgItemText(hwndDlg, IDC_EXPORT_TIMEFORMAT, szTemp, _countof(szTemp));
 	sTimeFormat = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_EXPORT_DIR, szTemp, SIZEOF(szTemp));
+	GetDlgItemText(hwndDlg, IDC_EXPORT_DIR, szTemp, _countof(szTemp));
 	sExportDir = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szTemp, SIZEOF(szTemp));
+	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szTemp, _countof(szTemp));
 	sDefaultFile = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szTemp, SIZEOF(szTemp));
+	GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szTemp, _countof(szTemp));
 	sFileViewerPrg = szTemp;
 
 	bUseInternalViewer(IsDlgButtonChecked(hwndDlg, IDC_USE_INTERNAL_VIEWER) == BST_CHECKED);
@@ -394,7 +394,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 		sItem.iItem = nCur;
 		sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 		sItem.pszText = szTemp;
-		sItem.cchTextMax = SIZEOF(szTemp);
+		sItem.cchTextMax = _countof(szTemp);
 
 		if (ListView_GetItem(hMapUser, &sItem))
 		{
@@ -469,7 +469,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 {
 
 	TCHAR szDefaultFile[500];
-	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, SIZEOF(szDefaultFile));
+	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, _countof(szDefaultFile));
 
 	LVITEM sItem = { 0 };
 
@@ -483,7 +483,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		sItem.iItem = nCur;
 		sItem.iSubItem = 1;
 		sItem.pszText = szSearch;
-		sItem.cchTextMax = SIZEOF(szSearch);
+		sItem.cchTextMax = _countof(szSearch);
 
 		if (!ListView_GetItem(hMapUser, &sItem))
 		{
@@ -502,7 +502,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			sItem.iItem = nSubCur;
 			sItem.iSubItem = 1;
 			sItem.pszText = szSubCur;
-			sItem.cchTextMax = SIZEOF(szSubCur);
+			sItem.cchTextMax = _countof(szSubCur);
 			if (ListView_GetItem(hMapUser, &sItem))
 			{
 				size_t nLen = mir_tstrlen(szSubCur);
@@ -521,13 +521,13 @@ void AutoFindeFileNames(HWND hwndDlg)
 		{
 			tstring sFileName;
 			szSearch[0] = 0;
-			ListView_GetItemText(hMapUser, nCur, 0, szSearch, SIZEOF(szSearch));
+			ListView_GetItemText(hMapUser, nCur, 0, szSearch, _countof(szSearch));
 			bool bPriHasFileName = szSearch[0] != 0;
 			if (bPriHasFileName)
 				sFileName = szSearch;
 
 			szSearch[0] = 0;
-			ListView_GetItemText(hMapUser, nStortestIndex, 0, szSearch, SIZEOF(szSearch));
+			ListView_GetItemText(hMapUser, nStortestIndex, 0, szSearch, _countof(szSearch));
 			bool bSubHasFileName = szSearch[0] != 0;
 			if (bSubHasFileName)
 				sFileName = szSearch;
@@ -571,7 +571,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 void OpenHelp(HWND hwndDlg)
 {
 	TCHAR szPath[MAX_PATH];
-	if (GetModuleFileName(hInstance, szPath, SIZEOF(szPath)))
+	if (GetModuleFileName(hInstance, szPath, _countof(szPath)))
 	{
 		size_t nLen = mir_tstrlen(szPath);
 		if (nLen > 3)
@@ -706,7 +706,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					DWORD dwUIN = db_get_dw(hContact, sTmpA.c_str(), "UIN", 0);
 					TCHAR szTmp[50];
-					mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%d"), dwUIN);
+					mir_sntprintf(szTmp, _countof(szTmp), _T("%d"), dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
 					ListView_SetItem(hMapUser, &sItem);
@@ -892,13 +892,13 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			TCHAR szFile[260];       // buffer for file name
 			TCHAR buf[MAX_PATH];
 
-			GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, SIZEOF(szFile));
+			GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, _countof(szFile));
 			// Initialize OPENFILENAME
 			memset(&ofn, 0, sizeof(OPENFILENAME));
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = szFile;
-			ofn.nMaxFile = SIZEOF(szFile);
+			ofn.nMaxFile = _countof(szFile);
 			mir_sntprintf(buf, _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 			ofn.lpstrFilter = buf;
 			ofn.nFilterIndex = 1;
@@ -1186,7 +1186,7 @@ BOOL bApplyChanges2(HWND hwndDlg)
 		sItem.iItem = nCur;
 		sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 		sItem.pszText = &szTemp[12];
-		sItem.cchTextMax = (SIZEOF(szTemp) - 15);
+		sItem.cchTextMax = (_countof(szTemp) - 15);
 		if (::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem))
 		{
 			if (sItem.iImage)

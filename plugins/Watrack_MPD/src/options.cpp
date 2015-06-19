@@ -50,10 +50,10 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			TCHAR szText[256];
 			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
-			GetDlgItemText(hwndDlg, IDC_SERVER, szText, SIZEOF(szText));
+			GetDlgItemText(hwndDlg, IDC_SERVER, szText, _countof(szText));
 			db_set_ts(NULL, szModuleName, "Server", szText);
 			mir_tstrcpy(gbHost, szText);
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, SIZEOF(szText));
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, _countof(szText));
 			db_set_ts(NULL, szModuleName, "Password", szText);
 			mir_tstrcpy(gbPassword, szText);
           return TRUE;

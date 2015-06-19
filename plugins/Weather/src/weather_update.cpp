@@ -58,11 +58,11 @@ int UpdateWeather(MCONTACT hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) {
 			// show warnings by popup
-			mir_sntprintf(str, SIZEOF(str) - 105,
+			mir_sntprintf(str, _countof(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
-			mir_tstrncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
+			mir_tstrncat(str, _T("\n"), _countof(str) - mir_tstrlen(str));
 			TCHAR *tszError = GetError(code);
-			mir_tstrncat(str, tszError, SIZEOF(str) - mir_tstrlen(str));
+			mir_tstrncat(str, tszError, _countof(str) - mir_tstrlen(str));
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
 		}
@@ -106,7 +106,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			mir_sntprintf(str, SIZEOF(str), _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
+			mir_sntprintf(str, _countof(str), _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -381,7 +381,7 @@ int GetWeatherData(MCONTACT hContact)
 {
 	// get eacnh part of the id's
 	TCHAR id[256];
-	GetStationID(hContact, id, SIZEOF(id));
+	GetStationID(hContact, id, _countof(id));
 
 	// test ID format
 	TCHAR* szInfo = _tcschr(id, '/');
@@ -391,7 +391,7 @@ int GetWeatherData(MCONTACT hContact)
 	GetID(id);
 
 	TCHAR Svc[256];
-	GetStationID(hContact, Svc, SIZEOF(Svc));
+	GetStationID(hContact, Svc, _countof(Svc));
 	GetSvc(Svc);
 
 	// check for invalid station
@@ -409,19 +409,19 @@ int GetWeatherData(MCONTACT hContact)
 		// generate update URL
 		switch(i) {
 		case 0:
-			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL, _T2A(id));
+			mir_snprintf(loc, _countof(loc), Data->UpdateURL, _T2A(id));
 			break;
 
 		case 1:
-			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, _T2A(id));
+			mir_snprintf(loc, _countof(loc), Data->UpdateURL2, _T2A(id));
 			break;
 
 		case 2:
-			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, _T2A(id));
+			mir_snprintf(loc, _countof(loc), Data->UpdateURL3, _T2A(id));
 			break;
 
 		case 3:
-			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, _T2A(id));
+			mir_snprintf(loc, _countof(loc), Data->UpdateURL4, _T2A(id));
 			break;
 
 		default:
@@ -489,15 +489,15 @@ int GetWeatherData(MCONTACT hContact)
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
 							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
-								mir_tstrncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - mir_tstrlen(DataValue));
-								DataValue[SIZEOF(DataValue)-1] = 0;
+								mir_tstrncat(DataValue, dbv.ptszVal, _countof(DataValue) - mir_tstrlen(DataValue));
+								DataValue[_countof(DataValue)-1] = 0;
 								db_free(&dbv);
 							}
 							break;
 
 						case'\"': // constant, add it to the result string
-							mir_tstrncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - mir_tstrlen(DataValue));
-							DataValue[SIZEOF(DataValue)-1] = 0;
+							mir_tstrncat(DataValue, TranslateTS(str2), _countof(DataValue) - mir_tstrlen(DataValue));
+							DataValue[_countof(DataValue)-1] = 0;
 							break;
 						}
 
@@ -513,8 +513,8 @@ int GetWeatherData(MCONTACT hContact)
 					// for the "Break Data=" operation
 					DBVARIANT dbv;
 					if ( !DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
-						_tcsncpy(DataValue, dbv.ptszVal, SIZEOF(DataValue));
-						DataValue[SIZEOF(DataValue)-1] = 0;
+						_tcsncpy(DataValue, dbv.ptszVal, _countof(DataValue));
+						DataValue[_countof(DataValue)-1] = 0;
 						db_free(&dbv);
 					}
 					else {
@@ -549,7 +549,7 @@ int GetWeatherData(MCONTACT hContact)
 				// temporary workaround for mToolTip to show feel-like temperature
 				if ( !mir_tstrcmp(Item->Item.Name, _T("Feel")))
 					db_set_ts(hContact, WEATHERCONDITION, "Heat Index", DataValue);
-				GetStationID(hContact, Svc, SIZEOF(Svc));
+				GetStationID(hContact, Svc, _countof(Svc));
 				if ( !mir_tstrcmp(Svc, opt.Default))
 					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if ( !mir_tstrcmp(Item->Item.Name, _T("Condition"))) {

@@ -1180,7 +1180,7 @@ void HistoryWindow::Initialise()
 		{ 2, IDM_CONFIG, TBSTATE_ENABLED,  BTNS_DROPDOWN, {0}, 0, (INT_PTR)TranslateT("Options")},
 	};    
 	SendMessage(toolbarWindow, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
-	SendMessage(toolbarWindow, TB_ADDBUTTONS,       (WPARAM)SIZEOF(tbButtons),       (LPARAM)&tbButtons);
+	SendMessage(toolbarWindow, TB_ADDBUTTONS,       (WPARAM)_countof(tbButtons),       (LPARAM)&tbButtons);
 	SendMessage(toolbarWindow, TB_SETBUTTONSIZE, 0, MAKELPARAM(16, 16));
 	SendMessage(toolbarWindow, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_DRAWDDARROWS);
 	SendMessage(toolbarWindow, TB_SETMAXTEXTROWS, 0, 0);
@@ -2061,7 +2061,7 @@ void HistoryWindow::Delete(int what)
 		return;
 
 	TCHAR message[256];
-	mir_sntprintf(message, SIZEOF(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
+	mir_sntprintf(message, _countof(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 

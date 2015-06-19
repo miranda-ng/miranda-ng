@@ -134,7 +134,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, _countof(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 	if (hContact) {
 		hContact = db_mc_tryMeta(hContact);
@@ -149,7 +149,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 		rvaVarsToReplace[2].lptzValue = mir_a2t(GetContactProto(hContact));
 		rvaVarsToReplace[3].lptzKey = NULL;
 		rvaVarsToReplace[3].lptzValue = NULL;
-		for (int i = 0; i < (SIZEOF(rvaVarsToReplace) - 1); i++)
+		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
 			RemoveInvalidFilenameChars(rvaVarsToReplace[i].lptzValue);
 
 		dat.cbSize = sizeof(dat);
@@ -158,15 +158,15 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 		dat.hContact = hContact;
 		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)tszTemp, (LPARAM)&dat);
 		if (result) {
-			_tcsncpy(tszTemp, result, SIZEOF(tszTemp));
+			_tcsncpy(tszTemp, result, _countof(tszTemp));
 			mir_free(result);
-			for (int i = 0; i < (SIZEOF(rvaVarsToReplace) - 1); i++)
+			for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
 				mir_free(rvaVarsToReplace[i].lptzValue);
 		}
 	}
 
 	if (patchVars)
-		patchDir(tszTemp, SIZEOF(tszTemp));
+		patchDir(tszTemp, _countof(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
 	mir_tstrncpy(szDir, tszTemp, cchDir);
 }
@@ -179,9 +179,9 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, _countof(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
-	patchDir(tszTemp, SIZEOF(tszTemp));
+	patchDir(tszTemp, _countof(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
 	mir_tstrncpy(szDir, tszTemp, cchDir);
 }
@@ -215,7 +215,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
-			GetContactReceivedFilesDir(dat->hContact, szPath, SIZEOF(szPath), TRUE);
+			GetContactReceivedFilesDir(dat->hContact, szPath, _countof(szPath), TRUE);
 			SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);
 			SHAutoComplete(GetWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), GW_CHILD), 1);
 
@@ -254,7 +254,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else DestroyWindow(hwndDlg);
 
 			TCHAR datetimestr[64];
-			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, SIZEOF(datetimestr), 0);
+			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, _countof(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
 
 			char* szProto = GetContactProto(dat->hContact);
@@ -330,8 +330,8 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				TCHAR szDirName[MAX_PATH], szExistingDirName[MAX_PATH];
 
-				GetDlgItemText(hwndDlg, IDC_FILEDIR, szDirName, SIZEOF(szDirName));
-				GetLowestExistingDirName(szDirName, szExistingDirName, SIZEOF(szExistingDirName));
+				GetDlgItemText(hwndDlg, IDC_FILEDIR, szDirName, _countof(szDirName));
+				GetLowestExistingDirName(szDirName, szExistingDirName, _countof(szExistingDirName));
 				if (BrowseForFolder(hwndDlg, szExistingDirName))
 					SetDlgItemText(hwndDlg, IDC_FILEDIR, szExistingDirName);
 			}
@@ -340,9 +340,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDOK:
 			{	//most recently used directories
 				TCHAR szRecvDir[MAX_PATH], szDefaultRecvDir[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_FILEDIR, szRecvDir, SIZEOF(szRecvDir));
+				GetDlgItemText(hwndDlg, IDC_FILEDIR, szRecvDir, _countof(szRecvDir));
 				RemoveInvalidPathChars(szRecvDir);
-				GetContactReceivedFilesDir(NULL, szDefaultRecvDir, SIZEOF(szDefaultRecvDir), TRUE);
+				GetContactReceivedFilesDir(NULL, szDefaultRecvDir, _countof(szDefaultRecvDir), TRUE);
 				if (_tcsnicmp(szRecvDir, szDefaultRecvDir, mir_tstrlen(szDefaultRecvDir))) {
 					char idstr[32];
 					int i;
@@ -362,9 +362,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIRBROWSE), FALSE);
 
-			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, SIZEOF(dat->szSavePath));
-			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, SIZEOF(dat->szFilenames));
-			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, SIZEOF(dat->szMsg));
+			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, _countof(dat->szSavePath));
+			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, _countof(dat->szFilenames));
+			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, _countof(dat->szMsg));
 			dat->hwndTransfer = FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			//check for auto-minimize here to fix BUG#647620

@@ -186,7 +186,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 
 	cli.pfnTrayIconMakeTooltip(NULL, p.szProto);
 	if (!hasTips())
-		mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
+		mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
 	replaceStrT(p.ptszToolTip, cli.szTip);
 
 	Shell_NotifyIcon(NIM_ADD, &nid);
@@ -343,7 +343,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
 		if (!hasTips())
-			mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
+			mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
 		if (cli.trayIconCount == 1)
@@ -365,7 +365,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
 		if (!hasTips())
-			mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
+			mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
 		if (cli.trayIconCount == 1)
@@ -819,10 +819,10 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
-		mir_wstrncpy(nid.szInfo, msn->tszInfo, SIZEOF(nid.szInfo));
-		mir_wstrncpy(nid.szInfoTitle, msn->tszInfoTitle, SIZEOF(nid.szInfoTitle));
-		nid.szInfo[SIZEOF(nid.szInfo) - 1] = 0;
-		nid.szInfoTitle[SIZEOF(nid.szInfoTitle) - 1] = 0;
+		mir_wstrncpy(nid.szInfo, msn->tszInfo, _countof(nid.szInfo));
+		mir_wstrncpy(nid.szInfoTitle, msn->tszInfoTitle, _countof(nid.szInfoTitle));
+		nid.szInfo[_countof(nid.szInfo) - 1] = 0;
+		nid.szInfoTitle[_countof(nid.szInfoTitle) - 1] = 0;
 		nid.uTimeout = msn->uTimeout;
 		nid.dwInfoFlags = (msn->dwInfoFlags & ~NIIF_INTERN_UNICODE);
 		return Shell_NotifyIconW(NIM_MODIFY, &nid) == 0;

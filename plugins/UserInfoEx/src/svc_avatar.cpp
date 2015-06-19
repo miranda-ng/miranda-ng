@@ -33,7 +33,7 @@ namespace NServices
 				size_t len = mir_strlen(szFileName);
 
 				CHAR tmp[64];
-				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp), 0, 0) > 0)
+				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, _countof(tmp), 0, 0) > 0)
 					mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", tmp);
 
 				return !PathFileExistsA(szFileName);
@@ -54,7 +54,7 @@ namespace NServices
 				// get zodiac for birthday
 				zodiac = mtb.Zodiac();
 
-				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, SIZEOF(szFileName))) {
+				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, _countof(szFileName))) {
 					// extract the bitmap from the icon
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 

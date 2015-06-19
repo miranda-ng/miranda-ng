@@ -243,7 +243,7 @@ void CMsnProto::MSN_CleanupLists(void)
 				mir_free(sze);
 
 				TCHAR title[128];
-				mir_sntprintf(title, SIZEOF(title), TranslateT("%s protocol"), m_tszUserName);
+				mir_sntprintf(title, _countof(title), TranslateT("%s protocol"), m_tszUserName);
 
 				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 					MSN_AddUser(p.hContact, p.email, 0, LIST_LL);
@@ -260,7 +260,7 @@ void CMsnProto::MSN_CleanupLists(void)
 
 		if (p.list & (LIST_LL | LIST_FL) && p.hContact) {
 			TCHAR path[MAX_PATH];
-			MSN_GetCustomSmileyFileName(p.hContact, path, SIZEOF(path), "", 0);
+			MSN_GetCustomSmileyFileName(p.hContact, path, _countof(path), "", 0);
 			if (path[0]) {
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);

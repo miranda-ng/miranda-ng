@@ -65,7 +65,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupWnd2) {
 		res = false;
 		TCHAR msg[1024];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_sntprintf(msg, _countof(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MessageBox(NULL, msg, _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 	}
 
@@ -80,7 +80,7 @@ bool	LoadPopupWnd2()
 	err = GetLastError();
 	if (!g_wndClass.cPopupEditBox) {
 		TCHAR msg[2048];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
+		mir_sntprintf(msg, _countof(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
 			wclw.cbSize,		// UINT        cbSize;
 			wclw.style,			// UINT        style;
 			wclw.lpfnWndProc,	// WNDPROC     lpfnWndProc;
@@ -116,7 +116,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupMenuHostWnd) {
 		res = false;
 		TCHAR msg[1024];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_sntprintf(msg, _countof(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -350,7 +350,7 @@ void PopupWnd2::show()
 
 			if (*PopupOptions.Effect) {
 				char vfxService[128];
-				mir_snprintf(vfxService, SIZEOF(vfxService), "Popup/Vfx/%S", PopupOptions.Effect);
+				mir_snprintf(vfxService, _countof(vfxService), "Popup/Vfx/%S", PopupOptions.Effect);
 				if (ServiceExists(vfxService))
 					if (effect = (IPopupPlusEffect *)CallService(vfxService, 0, 0)) {
 						effect->beginEffect(m_bmp->getWidth(), m_bmp->getHeight(), m_btAlpha0, m_btAlpha1, dwTime1 - dwTime0);
@@ -437,7 +437,7 @@ void PopupWnd2::hide()
 
 			if (*PopupOptions.Effect) {
 				char vfxService[128];
-				mir_snprintf(vfxService, SIZEOF(vfxService), "Popup/Vfx/%S", PopupOptions.Effect);
+				mir_snprintf(vfxService, _countof(vfxService), "Popup/Vfx/%S", PopupOptions.Effect);
 				if (ServiceExists(vfxService))
 					if (effect = (IPopupPlusEffect *)CallService(vfxService, 0, 0)) {
 						effect->beginEffect(m_bmp->getWidth(), m_bmp->getHeight(), m_btAlpha0, m_btAlpha1, dwTime1 - dwTime0);
@@ -712,7 +712,7 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
 	if (m_options->DisplayTime)
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, SIZEOF(m_time));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, _countof(m_time));
 	else m_time[0] = 0;
 
 	fixDefaults();
@@ -752,9 +752,9 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	if (m_options->DisplayTime) {
 		if (ppd->dwTimestamp)
-			TimeZone_ToStringT(ppd->dwTimestamp, _T("t"), m_time, SIZEOF(m_time));
+			TimeZone_ToStringT(ppd->dwTimestamp, _T("t"), m_time, _countof(m_time));
 		else
-			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, SIZEOF(m_time));
+			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, _countof(m_time));
 	}
 	else m_time[0] = 0;
 
@@ -847,7 +847,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		switch (wParam) {
 		case VK_RETURN:
 			TCHAR msg[2048];
-			GetWindowText(hwnd, msg, SIZEOF(msg));
+			GetWindowText(hwnd, msg, _countof(msg));
 			if (mir_wstrlen(msg) == 0) {
 				DestroyWindow(hwnd);
 				return 0;

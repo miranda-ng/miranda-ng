@@ -42,7 +42,7 @@ int iIconId[5] = { 3, 2, 4, 1, 0 };
 //
 int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	for (int indx = 0; indx < SIZEOF(hIcons); indx++)
+	for (int indx = 0; indx < _countof(hIcons); indx++)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
 
 	WindowList_Broadcast(hFileList, WM_FE_SKINCHANGE, 0, 0);
@@ -169,7 +169,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD dwVersi
 
 static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 {
-	for (int indx = 0; indx < SIZEOF(hIcons); indx++)
+	for (int indx = 0; indx < _countof(hIcons); indx++)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
@@ -191,7 +191,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitCRC32();
 
-	Icon_Register(hInst, "fileAsMessage", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "fileAsMessage", iconList, _countof(iconList));
 
 	hFileList = WindowList_Create();
 

@@ -459,7 +459,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		UnhookEvent(wndData->hHook);
 		DestroyMenu(wndData->mhPopup);
 		{
-			for (int i = 0; i < SIZEOF(wndData->hIcons); i++)
+			for (int i = 0; i < _countof(wndData->hIcons); i++)
 				DestroyIcon(wndData->hIcons[i]);
 		}
 		delete wndData; // automatically calls destructor

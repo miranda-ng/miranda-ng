@@ -97,7 +97,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 					pstr = str;
 
 					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1)) {
-						ICQTranslateUtfStatic(LPGEN(" (DC Established)"), szExtra, SIZEOF(szExtra));
+						ICQTranslateUtfStatic(LPGEN(" (DC Established)"), szExtra, _countof(szExtra));
 						mir_strcat(str, (char*)szExtra);
 						bUtf = 1;
 					}

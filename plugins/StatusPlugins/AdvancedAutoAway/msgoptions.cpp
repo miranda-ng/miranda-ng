@@ -66,7 +66,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			settings = ( AAMSGSETTING** )malloc(sizeof(AAMSGSETTING*));
 			count = 0;
-			for (int i=0; i < SIZEOF(statusModeList); i++ ) {
+			for (int i=0; i < _countof(statusModeList); i++ ) {
 				if ( !( protoModeMsgFlags & Proto_Status2Flag( statusModeList[i] )))
 					continue;
 

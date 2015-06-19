@@ -80,7 +80,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 			break;
 
 		case CNFT_DWORD:
-			mir_sntprintf(szUid, SIZEOF(szUid), _T("%u"), ci.dVal);
+			mir_sntprintf(szUid, _countof(szUid), _T("%u"), ci.dVal);
 			break;
 		}
 	}
@@ -88,9 +88,9 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		SkinPlaySound("AuthRequest");
 		if (szUid[0])
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%s requests authorization"), szUid);
+			mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("%s requests authorization"), szUid);
 		else
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
+			mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
 
 		cli.hIcon = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 		cli.pszService = MS_AUTH_SHOWREQUEST;
@@ -99,9 +99,9 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	else if (dbei.eventType == EVENTTYPE_ADDED) {
 		SkinPlaySound("AddedEvent");
 		if (szUid[0])
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%s added you to their contact list"), szUid);
+			mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("%s added you to their contact list"), szUid);
 		else
-			mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
+			mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
 
 		cli.hIcon = Skin_LoadIcon(SKINICON_AUTH_ADD);
 		cli.pszService = MS_AUTH_SHOWADDED;

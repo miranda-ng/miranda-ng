@@ -297,11 +297,11 @@ int StatusMsgExists(MCONTACT hContact)
 	LPSTR module = GetContactProto(hContact);
 	if (!module) return 0;
 
-	for (int i = 0; i < SIZEOF(statusMsg); i++) {
+	for (int i = 0; i < _countof(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, SIZEOF(par), "%s/%s", module, statusMsg[i].name);
+			mir_snprintf(par, _countof(par), "%s/%s", module, statusMsg[i].name);
 		else
-			strncpy(par, statusMsg[i].name, SIZEOF(par)-1);
+			strncpy(par, statusMsg[i].name, _countof(par)-1);
 
 		LPSTR msg = db_get_sa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
@@ -341,9 +341,9 @@ void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
 	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
 	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
 	if (mIP)
-		mir_snprintf(szmIP, SIZEOF(szmIP), "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
+		mir_snprintf(szmIP, _countof(szmIP), "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
 	if (rIP)
-		mir_snprintf(szrIP, SIZEOF(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
+		mir_snprintf(szrIP, _countof(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 	mir_strcpy(szIP, szrIP);
 	mir_strcat(szIP, szmIP);
 }
@@ -401,7 +401,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpara
 		case IDOK:
 		{
 			TCHAR tszReason[256] = { 0 };
-			GetDlgItemText(hdlg, IDC_REASON, tszReason, SIZEOF(tszReason));
+			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
 			CallContactService(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 		} // fall through
 		case IDCANCEL:
@@ -505,7 +505,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 
 	TCHAR buffer[256];
 	char szID[256];
-	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
+	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
 	if (szID[0])  {
 		if (bShowID) {
 			if (bTrimID && (mir_strlen(szID) > MAX_IDLEN)) {
@@ -513,7 +513,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s [%S]"), TranslateT("Copy ID"), szID);
+			mir_sntprintf(buffer, _countof(buffer), _T("%s [%S]"), TranslateT("Copy ID"), szID);
 			mi.ptszName = buffer;
 		}
 		else mi.ptszName = LPGENT("Copy ID");
@@ -596,7 +596,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	if (szProto == NULL)
 		return 0;
 
-	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
+	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
 
 	if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -607,7 +607,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 			mir_snprintf(buffer, "%s: %s", szProto, szID);
 	}
 	else
-		strncpy(buffer, szID, SIZEOF(buffer)-1);
+		strncpy(buffer, szID, _countof(buffer)-1);
 
 	CopyToClipboard((HWND)lparam, buffer, 0);
 	if (CTRL_IS_PRESSED && bPopupService)
@@ -628,21 +628,21 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		return 0;
 
 	buffer[0] = 0;
-	for (int i = 0; i < SIZEOF(statusMsg); i++) {
+	for (int i = 0; i < _countof(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, SIZEOF(par), "%s/%s", module, statusMsg[i].name);
+			mir_snprintf(par, _countof(par), "%s/%s", module, statusMsg[i].name);
 		else
-			strncpy(par, statusMsg[i].name, SIZEOF(par) - 1);
+			strncpy(par, statusMsg[i].name, _countof(par) - 1);
 
 		LPTSTR msg = db_get_tsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
 			if (_tcsclen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
-					mir_tstrncat(buffer, _T(": "), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, _T(": "), (_countof(buffer) - _tcsclen(buffer) - 1));
 				}
-				mir_tstrncat(buffer, msg, (SIZEOF(buffer) - _tcsclen(buffer) - 1));
-				mir_tstrncat(buffer, _T("\r\n"), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, msg, (_countof(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, _T("\r\n"), (_countof(buffer) - _tcsclen(buffer) - 1));
 			}
 			mir_free(msg);
 		}
@@ -727,11 +727,11 @@ int isIgnored(MCONTACT hContact, int type)
 		return CallService(MS_IGNORE_ISIGNORED, hContact, (LPARAM)type);
 
 	int i = 0, all = 0;
-	for (i = 1; i < SIZEOF(ii); i++)
+	for (i = 1; i < _countof(ii); i++)
 		if (isIgnored(hContact, ii[i].type))
 			all++;
 
-	return (all == SIZEOF(ii) - 1) ? 1 : 0; // ignoring all or not
+	return (all == _countof(ii) - 1) ? 1 : 0; // ignoring all or not
 }
 
 INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
@@ -798,14 +798,14 @@ int BuildMenu(WPARAM wparam, LPARAM)
 	bEnabled = bShowAll || (flags & VF_IGN);
 	Menu_ShowItem(hmenuIgnore, bEnabled);
 	if (bEnabled) {
-		for (int i = 1; i < SIZEOF(ii); i++) {
+		for (int i = 1; i < _countof(ii); i++) {
 			int check = isIgnored(hContact, ii[i].type);
 			if (check)
 				all++;
 
 			ModifySubmenuItem(hIgnoreItem[i], ii[i].name, check, 0);
 
-			if (all == SIZEOF(ii) - 1) // ignor all
+			if (all == _countof(ii) - 1) // ignor all
 				check = 1;
 			else
 				check = 0;
@@ -1001,7 +1001,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, Skin_LoadIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
 	pos += 100000; // insert separator
-	for (i = 1; i < SIZEOF(ii); i++)
+	for (i = 1; i < _countof(ii); i++)
 		hIgnoreItem[i] = AddSubmenuItem(hmenuIgnore, ii[i].name, Skin_LoadIcon(ii[i].icon), 0, MS_IGNORE, pos++, ii[i].type);
 
 	pos += 100000; // insert separator
@@ -1086,8 +1086,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, SIZEOF(iconList));
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, SIZEOF(overlayIconList));
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, _countof(iconList));
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);

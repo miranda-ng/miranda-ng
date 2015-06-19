@@ -140,7 +140,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitOptions();
 
 	// icons
-	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, _countof(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
@@ -217,10 +217,10 @@ void RegisterProtocol(char *proto, TCHAR *account)
 	size_t id = proto_items.size();
 	proto_items.resize(id+1);
 
-	strncpy(proto_items[id].proto, proto, SIZEOF(proto_items[id].proto));
-	proto_items[id].proto[SIZEOF(proto_items[id].proto)-1] = 0;
+	strncpy(proto_items[id].proto, proto, _countof(proto_items[id].proto));
+	proto_items[id].proto[_countof(proto_items[id].proto)-1] = 0;
 
-	mir_tstrncpy(proto_items[id].account, account, SIZEOF(proto_items[id].account));
+	mir_tstrncpy(proto_items[id].account, account, _countof(proto_items[id].account));
 
 	proto_items[id].hMenu = NULL;
 	proto_items[id].old_xstatus = 0;
@@ -240,7 +240,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED)
 		{
-			mir_tstrncpy(info->account, proto->tszAccountName, SIZEOF(info->account));
+			mir_tstrncpy(info->account, proto->tszAccountName, _countof(info->account));
 
 			TCHAR text[512];
 			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
@@ -571,9 +571,9 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				};
 
 				Buffer<TCHAR> name;
-				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, SIZEOF(fr));
+				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
 				Buffer<TCHAR> msg;
-				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, SIZEOF(fr));
+				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 				ics.ptszName = name.str;
@@ -663,9 +663,9 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			};
 
 			Buffer<TCHAR> name;
-			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, SIZEOF(fr));
+			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
 			Buffer<TCHAR> msg;
-			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, SIZEOF(fr));
+			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 			status = XSTATUS_MUSIC;
 			ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
@@ -781,7 +781,7 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 	};
 
 	Buffer<TCHAR> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, SIZEOF(fr));
+	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
 	return ret.detach();
 }
 
@@ -986,7 +986,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 	};
 
 	Buffer<TCHAR> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, SIZEOF(fr));
+	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
 	return ret.detach();
 }
 

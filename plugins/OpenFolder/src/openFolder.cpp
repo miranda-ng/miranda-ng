@@ -30,7 +30,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
 	TCHAR szMirandaPath[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, _countof(szMirandaPath));
 	TCHAR *p = _tcsrchr(szMirandaPath, '\\');
 	if (p)
 		p[1] = 0;
@@ -64,7 +64,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 HICON LoadIconExEx(const char* IcoLibName, int NonIcoLibIcon)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
 	return IcoLib_GetIcon(szSettingName);
 }
 

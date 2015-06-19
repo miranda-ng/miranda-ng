@@ -115,10 +115,10 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, _getOptB("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, _getOptB("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
 
-		SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, SIZEOF(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
+		SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, _countof(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
 		SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itot((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
 		SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itot((unsigned int)_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
-		SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, SIZEOF(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
+		SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, _countof(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
 
 		///Individual protocols list
 		ListView_SetExtendedListViewStyle(hProtocolsList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
@@ -199,8 +199,8 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			_saveDlgItemInt(optDlg, IDC_OPT_MAX_SAME_MSG, "MaxSameMsgCountPerDay");
 			numProtocols = ListView_GetItemCount(hProtocolsList);
 			for (i = 0; i < numProtocols; i++) {
-				ListView_GetItemText(hProtocolsList, i, 0, buf, SIZEOF(buf));
-				//wcstombs(protoName, buf, SIZEOF(buf));
+				ListView_GetItemText(hProtocolsList, i, 0, buf, _countof(buf));
+				//wcstombs(protoName, buf, _countof(buf));
 				memset(protoOption, 0, sizeof(protoOption));
 				mir_strcat(protoOption, "proto_");
 				mir_strcat(protoOption, mir_u2a(buf));
@@ -520,7 +520,7 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					if (!dbuf)
 						return FALSE;
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
-					mir_snprintf(cbuf, SIZEOF(cbuf), "%0.04f", get_msg_score(dbuf));
+					mir_snprintf(cbuf, _countof(cbuf), "%0.04f", get_msg_score(dbuf));
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
 					MessageBoxA(NULL, cbuf, Translate("Message score"), MB_OK);
 					free(dbuf);

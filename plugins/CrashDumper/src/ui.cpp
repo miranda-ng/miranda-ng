@@ -233,10 +233,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
 			char szSetting[100];
-			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, SIZEOF(szSetting));
+			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, _countof(szSetting));
 			db_set_s(NULL, PluginName, "Username", szSetting);
 
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, SIZEOF(szSetting));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, _countof(szSetting));
 			db_set_s(NULL, PluginName, "Password", szSetting);
 
 			db_set_b(NULL, PluginName, "UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
@@ -282,7 +282,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case 3:
 			TCHAR path[MAX_PATH];
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+			mir_sntprintf(path, _countof(path), TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
 			break;
 
@@ -305,7 +305,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 
 	va_list va;
 	va_start(va, format);
-	int len = mir_vsntprintf(pi.lptzText, SIZEOF(pi.lptzText) - 1, format, va);
+	int len = mir_vsntprintf(pi.lptzText, _countof(pi.lptzText) - 1, format, va);
 	pi.lptzText[len] = 0;
 	va_end(va);
 

@@ -192,7 +192,7 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 		RECT	sizeText;
 		HFONT	hOldFont;
 
-		ccText = GetWindowTextW(ctl->hwnd, wszText, SIZEOF(wszText));
+		ccText = GetWindowTextW(ctl->hwnd, wszText, _countof(wszText));
 
 		if (ccText > 0) {
 			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
@@ -301,7 +301,7 @@ static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 		SIZE	sizeText;
 		HFONT	hOldFont;
 
-		ccText = GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+		ccText = GetWindowText(ctl->hwnd, szText, _countof(szText));
 
 		if (ccText > 0) {
 			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
@@ -543,7 +543,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	case BUTTONTRANSLATE:
 		{
 			TCHAR szButton[MAX_PATH];
-			GetWindowText(bct->hwnd, szButton, SIZEOF(szButton));
+			GetWindowText(bct->hwnd, szButton, _countof(szButton));
 			SetWindowText(bct->hwnd, TranslateTS(szButton));
 		}
 		break;

@@ -73,7 +73,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		TVITEMEX tvi;
 		tvi.hItem = m_menuItems.GetRoot();
-		tvi.cchTextMax = SIZEOF(idstr);
+		tvi.cchTextMax = _countof(idstr);
 		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
 		tvi.pszText = idstr;
 
@@ -85,7 +85,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		TIntMenuObject *pimo = g_menus[menupos];
 
 		char MenuNameItems[256];
-		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
+		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pimo->pszName);
 		int runtimepos = 100;
 
 		while (tvi.hItem != NULL) {
@@ -95,13 +95,13 @@ class CGenMenuOptionsPage : public CDlgBase
 				char menuItemName[256], DBString[300];
 				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
-				mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
+				mir_snprintf(DBString, _countof(DBString), "%s_visible", menuItemName);
 				db_set_b(NULL, MenuNameItems, DBString, tvi.iImage != 0);
 
-				mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
+				mir_snprintf(DBString, _countof(DBString), "%s_pos", menuItemName);
 				db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
 
-				mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
+				mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
 				if (iod->name != NULL && iod->defname != NULL &&
 					mir_tstrcmp(iod->name, iod->defname) != 0)
 					db_set_ts(NULL, MenuNameItems, DBString, iod->name);
@@ -156,7 +156,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			return false;
 
 		char menuItemName[256], MenuNameItems[256];
-		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
+		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pimo->pszName);
 
 		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 

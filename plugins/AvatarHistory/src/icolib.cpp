@@ -40,7 +40,7 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 void SetupIcoLib()
 {
 	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Icon_Register(hInst, LPGEN("Avatar History"), iconList+1, SIZEOF(iconList)-1);
+	Icon_Register(hInst, LPGEN("Avatar History"), iconList+1, _countof(iconList)-1);
 	IcoLibUpdateMenus();
 }
 

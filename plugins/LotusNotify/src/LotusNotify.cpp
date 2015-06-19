@@ -235,7 +235,7 @@ void init_pluginname()
 
     HANDLE hFind = FindFirstFileA(text, &ffd);
     if(hFind != INVALID_HANDLE_VALUE) {
-        strncpy_s(text, SIZEOF(text), ffd.cFileName, mir_strlen(ffd.cFileName));
+        strncpy_s(text, _countof(text), ffd.cFileName, mir_strlen(ffd.cFileName));
         FindClose(hFind);
     }
     // Check if we have relative or full path
@@ -252,7 +252,7 @@ void init_pluginname()
 	}
 
 	// copy to static variable
-	strncpy_s(PLUGINNAME, SIZEOF(PLUGINNAME), p, mir_strlen(p));
+	strncpy_s(PLUGINNAME, _countof(PLUGINNAME), p, mir_strlen(p));
 	assert(mir_strlen(PLUGINNAME)>0);
 
 }
@@ -273,7 +273,7 @@ BOOL strrep(char *src, char *needle, char *newstring)
 	begining[pos]='\0';
 
 	pos = pos+(int)mir_strlen(needle);
-	strncpy_s(tail, _countof(tail), src+pos, SIZEOF(tail));
+	strncpy_s(tail, _countof(tail), src+pos, _countof(tail));
 	begining[pos]='\0';
 
 	pos = sprintf(src, "%s%s%s", begining, newstring, tail); //!!!!!!!!!!!!!!!!
@@ -333,8 +333,8 @@ void Click(HWND hWnd,BOOL execute)
 	if(execute && settingCommand[0] ) {
 		char tmpcommand[2*MAX_SETTING_STR];
 		char tmpparameters[2*MAX_SETTING_STR];
-		strncpy_s(tmpcommand, SIZEOF(tmpcommand), settingCommand, SIZEOF(tmpcommand));
-		strncpy_s(tmpparameters, SIZEOF(tmpparameters), settingParameters, SIZEOF(tmpparameters));
+		strncpy_s(tmpcommand, _countof(tmpcommand), settingCommand, _countof(tmpcommand));
+		strncpy_s(tmpparameters, _countof(tmpparameters), settingParameters, _countof(tmpparameters));
 		strrep(tmpcommand, "%OID%", pid->strNote);
 		strrep(tmpparameters, "%OID%", pid->strNote);
 		log_p(L"executing: %S %S", tmpcommand, tmpparameters);
@@ -429,10 +429,10 @@ BOOL checkNotesIniFile(BOOL bInfo)
 		if(settingIniAnswer == 1)
 		{
 			if(mir_strlen(tmp) > 0) {
-				strcat_s(tmp, SIZEOF(tmp), ",");
-				strcat_s(tmp, SIZEOF(tmp), PLUGINNAME_lower); //add our plugin to extensions
+				strcat_s(tmp, _countof(tmp), ",");
+				strcat_s(tmp, _countof(tmp), PLUGINNAME_lower); //add our plugin to extensions
 			} else {
-				strncpy_s(tmp, SIZEOF(tmp), PLUGINNAME_lower, mir_strlen(PLUGINNAME_lower)); //set our plugin as extension
+				strncpy_s(tmp, _countof(tmp), PLUGINNAME_lower, mir_strlen(PLUGINNAME_lower)); //set our plugin as extension
 			}
 
 			(OSSetEnvironmentVariable1) ("EXTMGR_ADDINS", tmp); //set notes.ini entry
@@ -474,8 +474,8 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL; //(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
-	_tcscpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), sender);
-	_tcscpy_s(ppd.lptzText, SIZEOF(ppd.lptzText), text);
+	_tcscpy_s(ppd.lptzContactName, _countof(ppd.lptzContactName), sender);
+	_tcscpy_s(ppd.lptzText, _countof(ppd.lptzText), text);
 	if(settingSetColours)
 	{
 		ppd.colorBack = settingBgColor;
@@ -486,7 +486,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	ppd.iSeconds=settingInterval1;
 	//Now the "additional" data.
 	mpd->id = id;
-	strncpy_s(mpd->strNote, SIZEOF(mpd->strNote), strUID, mir_strlen(strUID));
+	strncpy_s(mpd->strNote, _countof(mpd->strNote), strUID, mir_strlen(strUID));
 	//mpd->newStatus = ID_STATUS_ONLINE;
 
 	//Now that the plugin data has been filled, we add it to the PopUpData.
@@ -794,10 +794,10 @@ void checkthread(void*)
 
 		if(attSize){
 			WCHAR field_attachments_UNICODE[MAX_FIELD];
-			mir_sntprintf(field_attachments_UNICODE, SIZEOF(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
-			mir_sntprintf(msgSubject, SIZEOF(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE );
+			mir_sntprintf(field_attachments_UNICODE, _countof(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
+			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE );
 		} else {
-			mir_sntprintf(msgSubject, SIZEOF(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE );
+			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE );
 		}
 
 		//check if this is not filtered msg
@@ -975,27 +975,27 @@ void LoadSettings()
 
 	DBVARIANT dbv;
 	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)){
-		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, SIZEOF(settingDatabase));
+		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, _countof(settingDatabase));
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL, PLUGINNAME, "LNServer", &dbv)) {
-		strncpy_s(settingServer, _countof(settingServer), dbv.pszVal, SIZEOF(settingServer));
+		strncpy_s(settingServer, _countof(settingServer), dbv.pszVal, _countof(settingServer));
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL, PLUGINNAME, "LNServerSec", &dbv)) {
-		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, SIZEOF(settingServerSec));
+		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, _countof(settingServerSec));
 		db_free(&dbv);
 	}
 	if(!db_get(NULL, PLUGINNAME, "LNPassword", &dbv)) {
-		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, SIZEOF(settingPassword));
+		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, _countof(settingPassword));
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ)) {
-		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, SIZEOF(settingCommand));
+		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, _countof(settingCommand));
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL, PLUGINNAME, "LNParameters", &dbv, DBVT_ASCIIZ)) {
-		strncpy_s(settingParameters, _countof(settingParameters), dbv.pszVal, SIZEOF(settingParameters));
+		strncpy_s(settingParameters, _countof(settingParameters), dbv.pszVal, _countof(settingParameters));
 		db_free(&dbv);
 	}
 
@@ -1036,7 +1036,7 @@ void LoadSettings()
 void SaveSettings(HWND hwndDlg)
 {
     char buff[128];
-    GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, SIZEOF(settingServer));
+    GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
     db_set_s(NULL, PLUGINNAME, "LNServer", settingServer );
     db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
     db_set_s(NULL, PLUGINNAME, "LNPassword", settingPassword);
@@ -1067,8 +1067,8 @@ void SaveSettings(HWND hwndDlg)
     for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, 0); i++){
         TCHAR text[512] = TEXT("");
         SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterSender, SIZEOF(settingFilterSender), text);
-        _tcscat_s(settingFilterSender, SIZEOF(settingFilterSender), TEXT(";"));
+        _tcscat_s(settingFilterSender, _countof(settingFilterSender), text);
+        _tcscat_s(settingFilterSender, _countof(settingFilterSender), TEXT(";"));
     }
     db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
@@ -1076,8 +1076,8 @@ void SaveSettings(HWND hwndDlg)
     for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++){
         TCHAR text[512] = TEXT("");
         SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterSubject, SIZEOF(settingFilterSubject), text);
-        _tcscat_s(settingFilterSubject, SIZEOF(settingFilterSubject), TEXT(";"));
+        _tcscat_s(settingFilterSubject, _countof(settingFilterSubject), text);
+        _tcscat_s(settingFilterSubject, _countof(settingFilterSubject), TEXT(";"));
     }
     db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
@@ -1085,8 +1085,8 @@ void SaveSettings(HWND hwndDlg)
     for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++){
         TCHAR text[512] = TEXT("");
         SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterTo, SIZEOF(settingFilterTo), text);
-        _tcscat_s(settingFilterTo, SIZEOF(settingFilterTo), TEXT(";"));
+        _tcscat_s(settingFilterTo, _countof(settingFilterTo), text);
+        _tcscat_s(settingFilterTo, _countof(settingFilterTo), TEXT(";"));
     }
     db_set_ts(NULL, PLUGINNAME, "LNFilterTo", settingFilterTo);
 }
@@ -1129,15 +1129,15 @@ INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg, WPARAM
         {
         case IDC_BUTTON_DETECT:
             lookupLotusDefaultSettings(hwndDlg);
-            GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, SIZEOF(settingServer));
-            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, SIZEOF(settingDatabase));
+            GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
+            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
             break;
         case IDC_BUTTON_CHECK:
             settingIniCheck = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BUTTON_CHECK);
             checkNotesIniFile(TRUE);
             break;
         case IDC_DATABASE:
-            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, SIZEOF(settingDatabase));
+            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
             break;
         case IDC_SERVER:
             switch(HIWORD(wParam))
@@ -1161,10 +1161,10 @@ INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg, WPARAM
             }
             break;
         case IDC_SERVERSEC:
-            GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, SIZEOF(settingServerSec));
+            GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, _countof(settingServerSec));
             break;
         case IDC_PASSWORD:
-            GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, SIZEOF(settingPassword));
+            GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, _countof(settingPassword));
             break;
         case IDC_INTERVAL:
             settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE);
@@ -1275,10 +1275,10 @@ INT_PTR CALLBACK DlgProcLotusNotifyPopupOpts(HWND hwndDlg, UINT msg, WPARAM wPar
             settingEvenNonClicked = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED);
             break;
         case IDC_COMMAND:
-            GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, SIZEOF(settingCommand));
+            GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, _countof(settingCommand));
             break;
         case IDC_PARAMETERS:
-            GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, SIZEOF(settingParameters));
+            GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, _countof(settingParameters));
             break;
         case IDC_BUTTON_CLEAR:
             deleteElements();
@@ -1398,7 +1398,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
         switch(LOWORD(wParam))
         {
         case IDC_BUTTON_ADD_SENDER_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, SIZEOF(tmp));
+            GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, _countof(tmp));
             if (strlen(tmp) > 0)
             {
                 SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
@@ -1412,7 +1412,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
             PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
             break;
         case IDC_BUTTON_ADD_SUBJECT_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, SIZEOF(tmp));
+            GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, _countof(tmp));
             if (strlen(tmp) > 0)
             {
                 SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
@@ -1426,7 +1426,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
             PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
             break;
         case IDC_BUTTON_ADD_TO_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, SIZEOF(tmp));
+            GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, _countof(tmp));
             if (strlen(tmp) > 0)
             {
                 SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
@@ -1617,7 +1617,7 @@ void checkEnvPath(TCHAR *path)
 		return;
 	}
 
-	assert(mir_tstrlen(path) + mir_tstrlen(cur) + 1 < SIZEOF(nowy));
+	assert(mir_tstrlen(path) + mir_tstrlen(cur) + 1 < _countof(nowy));
 	_tcsncpy_s(nowy, _T("PATH="), _TRUNCATE);
 	_tcscat_s(nowy, cur);
 	if(cur[mir_tstrlen(cur)-1]!=';')

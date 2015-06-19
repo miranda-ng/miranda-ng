@@ -94,7 +94,7 @@ static __forceinline char *GetContactIDX(char *, MCONTACT hContact)
 static __forceinline char *GetEnvironmentVariableX(char *variable)
 {
 	char result[512];
-	if (GetEnvironmentVariableA(variable, result, SIZEOF(result)))
+	if (GetEnvironmentVariableA(variable, result, _countof(result)))
 		return mir_strdup(result);
 	return NULL;
 }
@@ -124,7 +124,7 @@ static __forceinline char *GetModulePathX(char *, HMODULE hModule)
 static __forceinline char *GetUserNameX(char *)
 {
 	char result[128];
-	DWORD size = SIZEOF(result);
+	DWORD size = _countof(result);
 	if (GetUserNameA(result, &size))
 		return mir_strdup(result);
 	return NULL;
@@ -144,13 +144,13 @@ static __forceinline char *GetPathVarX(char *, int code)
 		if (hAvatarFolder != NULL)
 			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+			mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return makeFileName(szFullPath);
@@ -178,7 +178,7 @@ static __forceinline TCHAR *GetContactIDX(TCHAR *, MCONTACT hContact)
 static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
 {
 	TCHAR result[512];
-	if (GetEnvironmentVariable(variable, result, SIZEOF(result)))
+	if (GetEnvironmentVariable(variable, result, _countof(result)))
 		return mir_tstrdup(result);
 	return NULL;
 }
@@ -199,7 +199,7 @@ static __forceinline TCHAR *GetProfileDirX(TCHAR*)
 static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 {
 	TCHAR result[MAX_PATH];
-	GetModuleFileName(hModule, result, SIZEOF(result));
+	GetModuleFileName(hModule, result, _countof(result));
 	TCHAR* str = _tcsrchr(result, '\\');
 	if (str) *str = 0;
 	return mir_tstrdup(result);
@@ -208,7 +208,7 @@ static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 static __forceinline TCHAR *GetUserNameX(TCHAR *)
 {
 	TCHAR result[128];
-	DWORD size = SIZEOF(result);
+	DWORD size = _countof(result);
 	if (GetUserName(result, &size))
 		return mir_tstrdup(result);
 	return NULL;
@@ -228,13 +228,13 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 		if (hAvatarFolder != NULL)
 			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+			mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return mir_tstrdup(szFullPath);
@@ -393,20 +393,20 @@ int InitPathUtils(void)
 
 static int OnFoldersChanged(WPARAM, LPARAM)
 {
-	mir_sntprintf(tszAvatarRoot, SIZEOF(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+	mir_sntprintf(tszAvatarRoot, _countof(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 
 	TCHAR tmpVar[MAX_PATH];
-	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
+	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
 		_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 	return 0;
 }
 
 void InitPathVar()
 {
-	mir_sntprintf(tszAvatarRoot, SIZEOF(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+	mir_sntprintf(tszAvatarRoot, _countof(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
 		TCHAR tmpVar[MAX_PATH];
-		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
+		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
 			_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	}

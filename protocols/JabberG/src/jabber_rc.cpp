@@ -310,7 +310,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 
 		// priority
 		TCHAR szPriority[ 256 ];
-		mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (short)getWord("Priority", 5));
+		mir_sntprintf(szPriority, _countof(szPriority), _T("%d"), (short)getWord("Priority", 5));
 		xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Priority")) << XATTR(_T("type"), _T("text-single"))
 			<< XATTR(_T("var"), _T("status-priority")) << XCHILD(_T("value"), szPriority);
 
@@ -414,12 +414,12 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 		// Automatically Accept File Transfers
 		TCHAR szTmpBuff[ 1024 ];
-		mir_sntprintf(szTmpBuff, SIZEOF(szTmpBuff), _T("%d"), db_get_b(NULL, "SRFile", "AutoAccept", 0));
+		mir_sntprintf(szTmpBuff, _countof(szTmpBuff), _T("%d"), db_get_b(NULL, "SRFile", "AutoAccept", 0));
 		xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Automatically Accept File Transfers"))
 			<< XATTR(_T("type"), _T("boolean")) << XATTR(_T("var"), _T("auto-files")) << XCHILD(_T("value"), szTmpBuff);
 
 		// Use sounds
-		mir_sntprintf(szTmpBuff, SIZEOF(szTmpBuff), _T("%d"), db_get_b(NULL, "Skin", "UseSound", 0));
+		mir_sntprintf(szTmpBuff, _countof(szTmpBuff), _T("%d"), db_get_b(NULL, "Skin", "UseSound", 0));
 		xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Play sounds"))
 			<< XATTR(_T("type"), _T("boolean")) << XATTR(_T("var"), _T("sounds")) << XCHILD(_T("value"), szTmpBuff);
 
@@ -495,7 +495,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 	if (pSession->GetStage() == 0) {
 		int nUnreadEvents = RcGetUnreadEventsCount();
 		if (!nUnreadEvents) {
-			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no messages to forward"));
+			mir_sntprintf(szMsg, _countof(szMsg), TranslateT("There is no messages to forward"));
 
 			m_ThreadInfo->send(
 				XmlNodeIq(_T("result"), pInfo)
@@ -517,7 +517,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 		xNode << XCHILD(_T("title"), TranslateT("Forward options"));
 
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%d message(s) to be forwarded"), nUnreadEvents);
+		mir_sntprintf(szMsg, _countof(szMsg), TranslateT("%d message(s) to be forwarded"), nUnreadEvents);
 		xNode << XCHILD(_T("instructions"), szMsg);
 
 		xNode << XCHILD(_T("field")) << XATTR(_T("type"), _T("hidden")) << XATTR(_T("var"), _T("FORM_TYPE"))
@@ -583,7 +583,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				size_t cbBlob = mir_strlen((LPSTR)dbei.pBlob)+1;
 				if (cbBlob < dbei.cbBlob) { // rest of message contains a sender's resource
 					ptrT szOResource( mir_utf8decodeT((LPSTR)dbei.pBlob + cbBlob+1));
-					mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), tszJid, szOResource);
+					mir_sntprintf(szOFrom, _countof(szOFrom), _T("%s/%s"), tszJid, szOResource);
 				} else
 					_tcsncpy_s(szOFrom, tszJid, _TRUNCATE);
 
@@ -593,7 +593,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				time_t ltime = (time_t)dbei.timestamp;
 				struct tm *gmt = gmtime(&ltime);
 				TCHAR stime[512];
-				mir_sntprintf(stime, SIZEOF(stime), _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
+				mir_sntprintf(stime, _countof(stime), _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
 					gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 				msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
 
@@ -607,7 +607,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 			}
 		}
 
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent);
+		mir_sntprintf(szMsg, _countof(szMsg), TranslateT("%d message(s) forwarded"), nEventsSent);
 
 		m_ThreadInfo->send(
 			XmlNodeIq(_T("result"), pInfo)
@@ -627,9 +627,9 @@ int CJabberProto::AdhocLockWSHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSes
 
 	TCHAR szMsg[ 1024 ];
 	if (bOk)
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Workstation successfully locked"));
+		mir_sntprintf(szMsg, _countof(szMsg), TranslateT("Workstation successfully locked"));
 	else
-		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Error %d occurred during workstation lock"), GetLastError());
+		mir_sntprintf(szMsg, _countof(szMsg), TranslateT("Error %d occurred during workstation lock"), GetLastError());
 
 	m_ThreadInfo->send(
 		XmlNodeIq(_T("result"), pInfo)
@@ -709,7 +709,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 
 		if (!nChatsCount) {
 			TCHAR szMsg[ 1024 ];
-			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no group chats to leave"));
+			mir_sntprintf(szMsg, _countof(szMsg), TranslateT("There is no group chats to leave"));
 
 			m_ThreadInfo->send(
 				XmlNodeIq(_T("result"), pInfo)

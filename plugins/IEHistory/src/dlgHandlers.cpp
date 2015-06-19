@@ -546,7 +546,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					count = 0;
 				else {
 					TCHAR buffer[1024];
-					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, SIZEOF(buffer));
+					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
 					count = _tstol(buffer);
 					count = (count < 0) ? 0 : count;
 				}
@@ -643,7 +643,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			if (type == SEARCH_TEXT) { //text search
 				TCHAR text[2048]; //TODO buffer overrun
-				GetDlgItemText(hWnd, IDC_SEARCH_TEXT, text, SIZEOF(text));
+				GetDlgItemText(hWnd, IDC_SEARCH_TEXT, text, _countof(text));
 				searchResult = SearchHistory(data->contact, data->hLastFoundEvent, text, direction, type);
 			}
 			else { //time search

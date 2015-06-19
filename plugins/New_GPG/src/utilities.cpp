@@ -61,14 +61,14 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.lStructSize=CDSIZEOF_STRUCT(OPENFILENAME,lpTemplateName);
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
-	_tcsncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
+	_tcsncpy(filter,TranslateW(szExtDesc), _countof(filter)-1);
 	pfilter=filter+mir_tstrlen(filter)+1;
 	mir_tstrcpy(pfilter, szExt);
 	pfilter[mir_tstrlen(pfilter)+1] = '\0';
 	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
 	tmp = UniGetContactSettingUtf(0, szGPGModuleName, szSetting, _T(""));
-	_tcsncpy(str, tmp, SIZEOF(str)-1);
+	_tcsncpy(str, tmp, _countof(str)-1);
 	mir_free(tmp);
 	if(mir_tstrlen(str)< 2)
 		str[0] = '\0';
@@ -1541,11 +1541,11 @@ void ExportGpGKeysFunc(int type)
 		file.close();
 	TCHAR msg[512];
 	if(type == 2)
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
+		mir_sntprintf(msg, _countof(msg), TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
 	else if(type == 1)
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported all private keys."));
+		mir_sntprintf(msg, _countof(msg), TranslateT("We have successfully exported all private keys."));
 	else if(!type)
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported %d public keys."), exported_keys);
+		mir_sntprintf(msg, _countof(msg), TranslateT("We have successfully exported %d public keys."), exported_keys);
 	MessageBox(NULL, msg, TranslateT("Keys export result"), MB_OK);
 }
 
@@ -1862,8 +1862,8 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 				_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 				mir_free(ptmp);
-				mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
-				mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
+				mir_tstrncat(tmp2, _T("\\"), _countof(tmp2) - mir_tstrlen(tmp2));
+				mir_tstrncat(tmp2, _T("temporary_exported.asc"), _countof(tmp2) - mir_tstrlen(tmp2));
 				boost::filesystem::remove(tmp2);
 				wfstream f(tmp2, std::ios::out);
 				f<<toUTF16(key).c_str();
@@ -1890,9 +1890,9 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		file.close();
 	TCHAR msg[512];
 	if(processed_private_keys)
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
+		mir_sntprintf(msg, _countof(msg), TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
 	else
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully processed %d public keys."), processed_keys);
+		mir_sntprintf(msg, _countof(msg), TranslateT("We have successfully processed %d public keys."), processed_keys);
 	MessageBox(NULL, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
 }
@@ -2084,16 +2084,16 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 			  std::string old_pass, new_pass;
 			  extern TCHAR key_id_global[17];
 			  TCHAR buf[256] = {0};
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, SIZEOF(buf));
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, _countof(buf));
 			  new_pass = toUTF8(buf);
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, SIZEOF(buf));
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, _countof(buf));
 			  if(new_pass != toUTF8(buf))
 			  {
 				  MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
 				  //key_id_global[0] = 0;
 				  break;
 			  }
-			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, SIZEOF(buf));
+			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, _countof(buf));
 			  old_pass = toUTF8(buf);
 			  bool old_pass_match = false;
 			  TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));

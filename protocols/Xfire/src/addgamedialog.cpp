@@ -144,12 +144,12 @@ static void FillGameList(LPVOID hwndDlg) {
 						if (z2 != zahlbuffer2)
 						{
 							listentry.gameid = MAKELONG(gameid, atoi(zahlbuffer2));
-							mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid, atoi(zahlbuffer2));
+							mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid, atoi(zahlbuffer2));
 						}
 						else
 						{
 							listentry.gameid = gameid;
-							mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid);
+							mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid);
 						}
 
 
@@ -265,7 +265,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe) {
 	//kein backslash dann normal ret als exenamen verwenden
 	if ((int)exename == 1) exename = exe;
 	//filterstring aufbauen
-	mir_snprintf(szFilter, SIZEOF(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
+	mir_snprintf(szFilter, _countof(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
 	unsigned int sizeFilter = mir_strlen(szFilter);
 	for (unsigned int i = 0; i < sizeFilter; i++)
@@ -275,7 +275,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe) {
 	ofn->lStructSize = sizeof(OPENFILENAMEA);
 	ofn->hwndOwner = hwndDlg;
 	ofn->lpstrFile = szFile;
-	ofn->nMaxFile = SIZEOF(szFile);
+	ofn->nMaxFile = _countof(szFile);
 	ofn->lpstrFilter = szFilter;
 	ofn->nFilterIndex = 1;
 	ofn->lpstrFileTitle = exe;
@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 		{
 			char temp[256];
 			//eingabe bei der suche auslesen
-			GetDlgItemTextA(hwndDlg, IDC_SEARCH, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_SEARCH, temp, _countof(temp));
 			//eingabe in der liste suchen
 			int idx = SendDlgItemMessageA(hwndDlg, IDC_GAMELIST, LB_FINDSTRING, 0, (LPARAM)temp);
 			//gefunden?
@@ -345,13 +345,13 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 				int gameid2 = HIWORD(gameids);
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
 
 				//spielnamen holen
 				if (xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
-					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
 
 					//einige felder vorbelegen
 					SetDlgItemTextA(hPage, IDC_ADD_NAME, ret);
@@ -389,9 +389,9 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 				char ret[512];
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
 
 				//neuen gameeintrag anlegen
 				Xfire_game* newgame = new Xfire_game();
@@ -628,7 +628,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				newgame = new Xfire_game();
 
 			//Spielname
-			GetDlgItemTextA(hwndDlg, IDC_ADD_NAME, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_NAME, temp, _countof(temp));
 			if (!mir_strlen(temp))
 			{
 				if (!editgame) delete newgame;
@@ -643,7 +643,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			//spielid nur setzen/prüfen, wenn kein editgame
 			if (!editgame) {
-				GetDlgItemTextA(hwndDlg, IDC_ADD_ID, temp, SIZEOF(temp));
+				GetDlgItemTextA(hwndDlg, IDC_ADD_ID, temp, _countof(temp));
 				if (!mir_strlen(temp))
 				{
 					if (!editgame) delete newgame;
@@ -671,7 +671,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				}
 			}
 			//zu sendene spielid
-			GetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, temp, _countof(temp));
 			if (mir_strlen(temp))
 			{
 				//standardmäßig wird bei einem customeintrag keine id versendet
@@ -681,7 +681,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 
 			//launcher exe
-			GetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, temp, _countof(temp));
 			if (mir_strlen(temp))
 			{
 				//lowercase pfad
@@ -690,7 +690,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				newgame->setString(temp, &newgame->launchparams);
 			}
 			//detectexe
-			GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, _countof(temp));
 			if (!mir_strlen(temp))
 			{
 				if (!editgame) delete newgame;
@@ -708,13 +708,13 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			}
 			//mustcontain parameter
-			GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, _countof(temp));
 			if (mir_strlen(temp))
 			{
 				newgame->setString(temp, &newgame->mustcontain);
 			}
 			//statusmsg speichern
-			GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, SIZEOF(temp));
+			GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, _countof(temp));
 			if (mir_strlen(temp))
 			{
 				newgame->setString(temp, &newgame->statusmsg);

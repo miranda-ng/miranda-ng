@@ -80,7 +80,7 @@ void InitComboBoxNumders(HWND hWndCombo, DWORD dwStart, DWORD dwEnd)
 
 	for (DWORD i = dwStart; i <= dwEnd; i++) {
 		TCHAR szBuff[MAX_PATH];
-		mir_sntprintf(szBuff, SIZEOF(szBuff), _T("%lu"), i);
+		mir_sntprintf(szBuff, _countof(szBuff), _T("%lu"), i);
 		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, i);
 	}
@@ -106,7 +106,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			HWND hWndCombo = GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN);
 			ResetComboBox(hWndCombo);
 			for (size_t i = 0; lpcszMailRuDomains[i]; i++) {
-				MultiByteToWideChar(MRA_CODE_PAGE, 0, lpcszMailRuDomains[i], -1, wszBuff, SIZEOF(wszBuff));
+				MultiByteToWideChar(MRA_CODE_PAGE, 0, lpcszMailRuDomains[i], -1, wszBuff, _countof(wszBuff));
 				SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)wszBuff);
 			}
 
@@ -260,20 +260,20 @@ HWND CMraProto::SearchAdvanced(HWND hWndDlg)
 	char szUser[MAX_PATH], szDomain[MAX_PATH];
 	TCHAR wszNickName[MAX_PATH], wszFirstName[MAX_PATH], wszLastName[MAX_PATH];
 
-	size_t dwUserSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_USER, szUser, SIZEOF(szUser));
-	size_t dwDomainSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_DOMAIN, szDomain, SIZEOF(szDomain));
+	size_t dwUserSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_USER, szUser, _countof(szUser));
+	size_t dwDomainSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_DOMAIN, szDomain, _countof(szDomain));
 	if (dwUserSize && dwDomainSize) {
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
 	}
 
-	size_t dwNickNameSize = GetDlgItemText(hWndDlg, IDC_NICK, wszNickName, SIZEOF(wszNickName));
+	size_t dwNickNameSize = GetDlgItemText(hWndDlg, IDC_NICK, wszNickName, _countof(wszNickName));
 	if (dwNickNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
 
-	size_t dwFirstNameSize = GetDlgItemText(hWndDlg, IDC_FIRSTNAME, wszFirstName, SIZEOF(wszFirstName));
+	size_t dwFirstNameSize = GetDlgItemText(hWndDlg, IDC_FIRSTNAME, wszFirstName, _countof(wszFirstName));
 	if (dwFirstNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
 
-	size_t dwLastNameSize = GetDlgItemText(hWndDlg, IDC_LASTNAME, wszLastName, SIZEOF(wszLastName));
+	size_t dwLastNameSize = GetDlgItemText(hWndDlg, IDC_LASTNAME, wszLastName, _countof(wszLastName));
 	if (dwLastNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
 
 	DWORD dwSex = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_GENDER);

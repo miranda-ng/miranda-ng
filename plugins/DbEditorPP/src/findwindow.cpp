@@ -98,11 +98,11 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR text[FLD_SIZE];
 				TCHAR replace[FLD_SIZE] = {0};
 
-				if (!GetDlgItemText(hwnd, IDC_TEXT, text, SIZEOF(text)) && !IsDlgButtonChecked(hwnd, IDC_EXACT)) break;
+				if (!GetDlgItemText(hwnd, IDC_TEXT, text, _countof(text)) && !IsDlgButtonChecked(hwnd, IDC_EXACT)) break;
 
                 // empty replace is done only for exact match or entire replace
 				if (LOWORD(wParam) == IDOK &&
-					!GetDlgItemText(hwnd, IDC_REPLACE, replace, SIZEOF(replace)) &&
+					!GetDlgItemText(hwnd, IDC_REPLACE, replace, _countof(replace)) &&
 					(!IsDlgButtonChecked(hwnd, IDC_ENTIRELY) && !IsDlgButtonChecked(hwnd, IDC_EXACT)))
 					break;
 
@@ -192,8 +192,8 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 						{
 							ItemInfo ii = {0};
 							ii.hContact = (MCONTACT)lvi.lParam;
-							ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, SIZEOF(ii.module));
-							ListView_GetItemTextA(hwndResults, hti.iItem, 3, ii.setting, SIZEOF(ii.setting));
+							ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, _countof(ii.module));
+							ListView_GetItemTextA(hwndResults, hti.iItem, 3, ii.setting, _countof(ii.setting));
 							if (ii.setting[0])
 								ii.type = FW_SETTINGNAME;
 							else if (ii.module[0])
@@ -245,7 +245,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 	else
 		mode = TranslateT("Found");
 			
-	GetContactName(hContact, NULL, name, SIZEOF(name));
+	GetContactName(hContact, NULL, name, _countof(name));
 
 	LVITEM lvi = {0};
 	lvi.mask = LVIF_PARAM;

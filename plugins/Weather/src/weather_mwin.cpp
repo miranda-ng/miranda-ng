@@ -252,7 +252,7 @@ static void addWindow(MCONTACT hContact)
 	db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
 	TCHAR winname[512];
-	mir_sntprintf(winname, SIZEOF(winname), _T("Weather: %s"), dbv.ptszVal);
+	mir_sntprintf(winname, _countof(winname), _T("Weather: %s"), dbv.ptszVal);
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE,

@@ -33,7 +33,7 @@ static void sttSetAllContactIcons(HWND hwndList)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
-		for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
+		for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i)
 			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
 			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, ((int)dwMode == i) ? i + 1 : 0));
@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0));
 			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_BLOCK, 0));
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*SIZEOF(sttIcons)*/, 0);
+			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*_countof(sttIcons)*/, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_LIST));
 			sttSetAllContactIcons(GetDlgItem(hwnd, IDC_LIST));
 		}
@@ -86,7 +86,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 
 				int iImage = SendDlgItemMessage(hwnd, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 				if (iImage != EMPTY_EXTRA_ICON) {
-					for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
+					for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i)
 						// hIml element [0]    = SKINICON_OTHER_SMALLDOT
 						// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
 						SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (i == nm->iColumn) ? i + 1 : 0));
@@ -101,7 +101,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 				HWND hwndList = GetDlgItem(hwnd, IDC_LIST);
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-					for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i) {
+					for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i) {
 						if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0))) {
 							db_set_b(hContact, MODULNAME, "ShowMode", i);
 							break;

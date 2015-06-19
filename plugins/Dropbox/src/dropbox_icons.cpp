@@ -8,12 +8,12 @@ static IconItem iconList[] =
 
 void InitializeIcons()
 {
-	Icon_Register(g_hInstance, "Protocols/" MODULE, iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(g_hInstance, "Protocols/" MODULE, iconList, _countof(iconList), MODULE);
 }
 
 HANDLE GetIconHandleByName(const char *name)
 {
-	for (size_t i = 0; i < SIZEOF(iconList); i++)
+	for (size_t i = 0; i < _countof(iconList); i++)
 		if (mir_strcmpi(iconList[i].szName, name) == 0)
 			return iconList[i].hIcolib;
 
@@ -22,7 +22,7 @@ HANDLE GetIconHandleByName(const char *name)
 
 HICON LoadIconEx(int iconId, bool big)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 

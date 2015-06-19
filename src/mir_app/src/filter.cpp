@@ -59,7 +59,7 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 		item.mask = TVIF_TEXT;
 		item.hItem = root;
 		item.pszText = title;
-		item.cchTextMax = SIZEOF(title);
+		item.cchTextMax = _countof(title);
 
 		if (TreeView_GetItem(hWndDlg, &item))
 			if (mir_tstrlen(title) > 0)
@@ -78,12 +78,12 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 void AddDialogString(HWND hWndDlg, const PageHash key)
 {
 	TCHAR title[2048];
-	GetWindowText(hWndDlg, title, SIZEOF(title));
+	GetWindowText(hWndDlg, title, _countof(title));
 	if (mir_tstrlen(title) > 0)
 		AddFilterString(key, title);
 
 	TCHAR szClass[64];
-	GetClassName(hWndDlg, szClass, SIZEOF(szClass));
+	GetClassName(hWndDlg, szClass, _countof(szClass));
 
 	if (mir_tstrcmpi(szClass, _T("SysTreeView32")) == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
@@ -98,7 +98,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				title[0] = 0; //safety
 				int res = ListBox_GetText(hWndDlg, i, title);
 				if (res != LB_ERR) {
-					title[SIZEOF(title) - 1] = 0;
+					title[_countof(title) - 1] = 0;
 					if (mir_tstrlen(title) > 0)
 						AddFilterString(key, title);
 				}
@@ -111,7 +111,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		int count = ListView_GetItemCount(hWndDlg);
 		for (int i=0; i < count; i++) {
 			title[0] = 0; //safety
-			ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
+			ListView_GetItemText(hWndDlg, i, 0, title, _countof(title));
 
 			if (mir_tstrlen(title) > 0)
 				AddFilterString(key, title);
@@ -126,7 +126,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				title[0] = 0; //safety
 				int res = ComboBox_GetLBText(hWndDlg, i, title);
 				if (res != CB_ERR) {
-					title[SIZEOF(title) - 1] = 0;
+					title[_countof(title) - 1] = 0;
 
 					if (mir_tstrlen(title) > 0)
 						AddFilterString(key, title);

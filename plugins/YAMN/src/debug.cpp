@@ -43,21 +43,21 @@ void InitDebug()
 	InitializeCriticalSection(&FileAccessCS);
 
 #ifdef DEBUG_SYNCHRO
-	mir_sntprintf(DebugFileName, SIZEOF(DebugFileName), DebugSynchroFileName2, DebugUserDirectory);
+	mir_sntprintf(DebugFileName, _countof(DebugFileName), DebugSynchroFileName2, DebugUserDirectory);
 	
 	SynchroFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(SynchroFile,"Synchro debug file created by %s\n",YAMN_VER);
 #endif
 
 #ifdef DEBUG_COMM
-	mir_sntprintf(DebugFileName, SIZEOF(DebugFileName), DebugCommFileName2, DebugUserDirectory);
+	mir_sntprintf(DebugFileName, _countof(DebugFileName), DebugCommFileName2, DebugUserDirectory);
 
 	CommFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(CommFile,"Communication debug file created by %s\n",YAMN_VER);
 #endif
 
 #ifdef DEBUG_DECODE
-	mir_sntprintf(DebugFileName, SIZEOF(DebugFileName), DebugDecodeFileName2, DebugUserDirectory);
+	mir_sntprintf(DebugFileName, _countof(DebugFileName), DebugDecodeFileName2, DebugUserDirectory);
 
 	DecodeFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(DecodeFile,"Decoding kernel debug file created by %s\n",YAMN_VER);
@@ -92,7 +92,7 @@ void DebugLog(HANDLE File,const char *fmt,...)
 
 	va_start(vararg,fmt);
 	str=(char *)malloc(strsize=65536);
-	mir_snprintf(tids, SIZEOF(tids), "[%x]",GetCurrentThreadId());
+	mir_snprintf(tids, _countof(tids), "[%x]",GetCurrentThreadId());
 	while(mir_vsnprintf(str, strsize, fmt, vararg)==-1)
 		str=(char *)realloc(str,strsize+=65536);
 	va_end(vararg);
@@ -113,7 +113,7 @@ void DebugLogW(HANDLE File,const WCHAR *fmt,...)
 
 	va_start(vararg,fmt);
 	str=(WCHAR *)malloc((strsize=65536)*sizeof(WCHAR));
-	mir_snprintf(tids, SIZEOF(tids), "[%x]",GetCurrentThreadId());
+	mir_snprintf(tids, _countof(tids), "[%x]",GetCurrentThreadId());
 	while(mir_vsnwprintf(str, strsize, fmt, vararg)==-1)
 		str=(WCHAR *)realloc(str,(strsize+=65536)*sizeof(WCHAR));
 	va_end(vararg);

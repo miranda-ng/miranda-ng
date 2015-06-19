@@ -61,8 +61,8 @@ int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 	// match only node@domain part
 	TCHAR szTempJid1[JABBER_MAX_JID_LEN], szTempJid2[JABBER_MAX_JID_LEN];
 	return mir_tstrcmpi(
-		JabberStripJid(jid1, szTempJid1, SIZEOF(szTempJid1)),
-		JabberStripJid(jid2, szTempJid2, SIZEOF(szTempJid2)));
+		JabberStripJid(jid1, szTempJid1, _countof(szTempJid1)),
+		JabberStripJid(jid2, szTempJid2, _countof(szTempJid2)));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -361,14 +361,14 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 		int i;
 
 		// search through known software list
-		for (i = 0; i < SIZEOF(sttCapsNodeToName_Map); i++)
+		for (i = 0; i < _countof(sttCapsNodeToName_Map); i++)
 			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
 				res.Format(_T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
 				break;
 			}
 
 		// unknown software
-		if (i == SIZEOF(sttCapsNodeToName_Map))
+		if (i == _countof(sttCapsNodeToName_Map))
 			res.Format(_T("%s %s"), resource->m_tszCapsNode, resource->m_tszCapsVer);
 	}
 
@@ -407,9 +407,9 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
 	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
-		mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
+		mir_sntprintf(szFullJid, _countof(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
 	else
-		mir_tstrncpy(szFullJid, jid, SIZEOF(szFullJid));
+		mir_tstrncpy(szFullJid, jid, _countof(szFullJid));
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 

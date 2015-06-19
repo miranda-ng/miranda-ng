@@ -24,7 +24,7 @@ void timerFunc(void *di)
 	/* update the web pages*/
 	for (int i = 0;; i++) {
 		mir_snprintf(fn, "fn%d", i);
-		if (!db_get_static(NULL, MODNAME, fn, text, SIZEOF(text)))
+		if (!db_get_static(NULL, MODNAME, fn, text, _countof(text)))
 			break;
 
 		if (!strncmp("http://", text, mir_strlen("http://")) || !strncmp("https://", text, mir_strlen("https://"))) {
@@ -32,7 +32,7 @@ void timerFunc(void *di)
 			int timer = db_get_w(NULL, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {
 				if (!InternetDownloadFile(text)) {
-					mir_snprintf(szFileName, SIZEOF(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), i);
+					mir_snprintf(szFileName, _countof(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), i);
 					savehtml(szFileName);
 				}
 			}
@@ -43,7 +43,7 @@ void timerFunc(void *di)
 	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
 		int timer = db_get_w(hContact, MODNAME, "Timer", 15);
 		if (timer && !(timerCount % timer))
-			if (db_get_static(hContact, MODNAME, "Name", text, SIZEOF(text)))
+			if (db_get_static(hContact, MODNAME, "Name", text, _countof(text)))
 				replaceAllStrings(hContact);
 	}
 }

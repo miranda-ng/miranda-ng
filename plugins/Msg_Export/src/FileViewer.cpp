@@ -198,7 +198,7 @@ int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 
 				*/
 	char szRtfHeader[400];
-	int nSrcLen = mir_snprintf(szRtfHeader, SIZEOF(szRtfHeader),
+	int nSrcLen = mir_snprintf(szRtfHeader, _countof(szRtfHeader),
 		"{\\rtf1\\ansi\r\n"
 		"{\\colortbl ;\\red%d\\green%d\\blue%d;\\red%d\\green%d\\blue%d;}\r\n"
 		"\\viewkind4\\uc1\\pard\\cf2 ",
@@ -625,9 +625,9 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 		TCHAR szTmp[1500];
 
 		if (nDBCount == -1)
-			mir_sntprintf(szTmp, SIZEOF(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
+			mir_sntprintf(szTmp, _countof(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
 		else
-			mir_sntprintf(szTmp, SIZEOF(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
+			mir_sntprintf(szTmp, _countof(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
 
 		SETTEXTEX stText = { 0 };
 		stText.codepage = 1200;
@@ -674,7 +674,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	CloseHandle(hFile);
 
 	TCHAR szTmp[100];
-	mir_sntprintf(szTmp, SIZEOF(szTmp), _T("File open time %d\n"), GetTickCount() - dwStart);
+	mir_sntprintf(szTmp, _countof(szTmp), _T("File open time %d\n"), GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 
 	GETTEXTLENGTHEX sData = { 0 };
@@ -686,7 +686,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	if (!bScrollToBottom)
 		SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&ptOldPos);
 
-	mir_sntprintf(szTmp, SIZEOF(szTmp), TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
+	mir_sntprintf(szTmp, _countof(szTmp), TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 	return true;
 }
@@ -985,7 +985,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			TCHAR szFormat[200];
 			TCHAR szTitle[200];
-			if (GetWindowText(hwndDlg, szFormat, SIZEOF(szFormat))) {
+			if (GetWindowText(hwndDlg, szFormat, _countof(szFormat))) {
 				const TCHAR *pszNick = NickFromHandle(pclDlg->hContact);
 				tstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of('\\');

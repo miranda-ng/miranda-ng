@@ -67,7 +67,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				cle.hDbEvent = uniqueEventId++;
 				cle.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
-				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_sntprintf(tooltip, _countof(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);

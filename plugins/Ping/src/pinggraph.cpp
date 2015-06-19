@@ -276,10 +276,10 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	RegisterClass(&wndclass);
 
 	TCHAR title[256];
-	mir_tstrncpy(title, TranslateT("Ping Graph"), SIZEOF(title));
+	mir_tstrncpy(title, TranslateT("Ping Graph"), _countof(title));
 	if (lParam) {
-		mir_tstrncat(title, _T(" - "), SIZEOF(title) - mir_tstrlen(title));
-		mir_tstrncat(title, (TCHAR *)lParam, SIZEOF(title) - mir_tstrlen(title));
+		mir_tstrncat(title, _T(" - "), _countof(title) - mir_tstrlen(title));
+		mir_tstrncat(title, (TCHAR *)lParam, _countof(title) - mir_tstrlen(title));
 	}
 
 	HWND parent = 0;

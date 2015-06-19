@@ -48,7 +48,7 @@ static int g_status_events_size = 0;
 bool TSAPI IsStatusEvent(int eventType)
 {
 	if (g_status_events_size == 0)
-		g_status_events_size = SIZEOF(g_status_events);
+		g_status_events_size = _countof(g_status_events);
 
 	for (int i = 0; i < g_status_events_size; i++) {
 		if (eventType == g_status_events[i])
@@ -82,7 +82,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 	TCITEM item = { 0 };
 	item.mask = TCIF_IMAGE | TCIF_TEXT | TCIF_PARAM;
 	item.pszText = oldText;
-	item.cchTextMax = SIZEOF(oldText);
+	item.cchTextMax = _countof(oldText);
 	TabCtrl_GetItem(hwndTab, dat->iTabID, &item);
 
 	int newIndex = LOWORD(iMode);
@@ -135,12 +135,12 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	DWORD setView = 1;
 
 	TCHAR szTimestamp[100];
-	mir_sntprintf(szTimestamp, SIZEOF(szTimestamp), _T("%04u %02u %02u_%02u%02u"), lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
+	mir_sntprintf(szTimestamp, _countof(szTimestamp), _T("%04u %02u %02u_%02u%02u"), lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
 
 	TCHAR *szProto = mir_a2t(dat->cache->getActiveProto());
 
 	TCHAR szFinalPath[MAX_PATH];
-	mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
+	mir_sntprintf(szFinalPath, _countof(szFinalPath), _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
 	if (CreateDirectory(szFinalPath, 0) == 0) {
@@ -153,17 +153,17 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 	TCHAR szBaseName[MAX_PATH];
 	if (isOwnPic)
-		mir_sntprintf(szBaseName, SIZEOF(szBaseName), _T("My Avatar_%s"), szTimestamp);
+		mir_sntprintf(szBaseName, _countof(szBaseName), _T("My Avatar_%s"), szTimestamp);
 	else
-		mir_sntprintf(szBaseName, SIZEOF(szBaseName), _T("%s_%s"), dat->cache->getNick(), szTimestamp);
+		mir_sntprintf(szBaseName, _countof(szBaseName), _T("%s_%s"), dat->cache->getNick(), szTimestamp);
 
-	mir_sntprintf(szFinalFilename, SIZEOF(szFinalFilename), _T("%s.png"), szBaseName);
+	mir_sntprintf(szFinalFilename, _countof(szFinalFilename), _T("%s.png"), szBaseName);
 
 	// do not allow / or \ or % in the filename
 	Utils::sanitizeFilename(szFinalFilename);
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.bmp;*.png;*.jpg;*.gif%c%c"), TranslateT("Image files"), 0, 0, 0);
+	mir_sntprintf(filter, _countof(filter), _T("%s%c*.bmp;*.png;*.jpg;*.gif%c%c"), TranslateT("Image files"), 0, 0, 0);
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lpstrDefExt = _T("png");
@@ -1047,7 +1047,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 			mir_free((void*)ci.pszVal);
 			break;
 		case CNFT_DWORD:
-			mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%u"), ci.dVal);
+			mir_sntprintf(dat->myUin, _countof(dat->myUin), _T("%u"), ci.dVal);
 			break;
 		default:
 			dat->myUin[0] = 0;
@@ -1285,7 +1285,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 		TCHAR	szKey[20];
 		DWORD	dwLID = _tcstoul(szKLName, &stopped, 16);
 
-		mir_sntprintf(szKey, SIZEOF(szKey), _T("%04.04x"), LOWORD(dwLID));
+		mir_sntprintf(szKey, _countof(szKey), _T("%04.04x"), LOWORD(dwLID));
 		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, _T("MIME\\Database\\Rfc1766"), 0, KEY_READ, &hKey)) {
 			DWORD dwLength = 255;
 			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, 0, 0, (unsigned char *)szLI, &dwLength)) {
@@ -1305,7 +1305,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 		_tcsupr(szLI);
 	}
 	fLocaleNotSet = (dat->lcID[0] == 0 && dat->lcID[1] == 0);
-	mir_sntprintf(dat->lcID, SIZEOF(dat->lcID), szLI);
+	mir_sntprintf(dat->lcID, _countof(dat->lcID), szLI);
 	GetStringTypeA(dat->lcid, CT_CTYPE2, (char*)szTest, 3, wCtype2);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA;
@@ -1581,7 +1581,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			SetTextColor(dis->hDC, GetSysColor(COLOR_BTNTEXT));
 			CSkin::FillBack(dis->hDC, &dis->rcItem);
 		}
-		GetWindowText(dis->hwndItem, szWindowText, SIZEOF(szWindowText));
+		GetWindowText(dis->hwndItem, szWindowText, _countof(szWindowText));
 		szWindowText[255] = 0;
 		SetBkMode(dis->hDC, TRANSPARENT);
 		DrawText(dis->hDC, szWindowText, -1, &dis->rcItem, DT_SINGLELINE | DT_VCENTER | DT_NOCLIP | DT_END_ELLIPSIS);
@@ -1956,7 +1956,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 
 	if (filename[0] == 0) {	// prompting to save
 		TCHAR filter[MAX_PATH];
-		mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.jpg%c%c"), TranslateT("JPEG-compressed images"), 0, 0, 0);
+		mir_sntprintf(filter, _countof(filter), _T("%s%c*.jpg%c%c"), TranslateT("JPEG-compressed images"), 0, 0, 0);
 
 		OPENFILENAME dlg;
 		dlg.lStructSize = sizeof(dlg);

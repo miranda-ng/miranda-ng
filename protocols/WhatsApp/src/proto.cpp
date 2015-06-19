@@ -253,7 +253,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	nlhr.requestType = REQUEST_POST;
 	nlhr.szUrl = url.GetBuffer();
 	nlhr.headers = s_registerHeaders;
-	nlhr.headersCount = SIZEOF(s_registerHeaders);
+	nlhr.headersCount = _countof(s_registerHeaders);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_GENERATEHOST | NLHRF_REMOVEHOST | NLHRF_SSL;
 
 	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,

@@ -117,14 +117,14 @@ static void sttFillJidList(HWND hwndDlg)
 						if (jidListInfo->type == MUC_BANLIST) {
 							LPCTSTR reason = xmlGetText(xmlGetChild(itemNode , _T("reason")));
 							if (reason != NULL) {
-								mir_sntprintf(tszItemText, SIZEOF(tszItemText), _T("%s (%s)") , jid, reason);
+								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , jid, reason);
 								lvi.pszText = tszItemText;
 							}
 						}
 						else if (jidListInfo->type == MUC_VOICELIST || jidListInfo->type == MUC_MODERATORLIST) {
 							LPCTSTR nick = xmlGetAttrValue(itemNode, _T("nick"));
 							if (nick != NULL) {
-								mir_sntprintf(tszItemText, SIZEOF(tszItemText), _T("%s (%s)") , nick, jid);
+								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , nick, jid);
 								lvi.pszText = tszItemText;
 							}
 						}
@@ -200,7 +200,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				{IDC_BTN_FILTERAPPLY,	"Apply filter",		"sd_filter_apply",	false},
 				{IDC_BTN_FILTERRESET,	"Reset filter",		"sd_filter_reset",	false},
 			};
-			for (int i=0; i < SIZEOF(buttons); i++)
+			for (int i=0; i < _countof(buttons); i++)
 			{
 				SendDlgItemMessage(hwndDlg, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)dat->ppro->LoadIconEx(buttons[i].icon));
 				SendDlgItemMessage(hwndDlg, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
@@ -248,7 +248,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 
 			// Populate displayed list from iqNode
-			mir_tstrncpy(title, TranslateT("JID List"), SIZEOF(title));
+			mir_tstrncpy(title, TranslateT("JID List"), _countof(title));
 			if ((dat=(JABBER_MUC_JIDLIST_INFO *) lParam) != NULL) {
 				HXML iqNode = dat->iqNode;
 				if (iqNode != NULL) {
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						HXML queryNode = xmlGetChild(iqNode , _T("query"));
 						if (queryNode != NULL) {
 							TCHAR *localFrom = mir_tstrdup(from);
-							mir_sntprintf(title, SIZEOF(title), TranslateT("%s, %d items (%s)"),
+							mir_sntprintf(title, _countof(title), TranslateT("%s, %d items (%s)"),
 								(dat->type == MUC_VOICELIST) ? TranslateT("Voice List") :
 								(dat->type == MUC_MEMBERLIST) ? TranslateT("Member List") :
 								(dat->type == MUC_MODERATORLIST) ? TranslateT("Moderator List") :
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					lvi.iItem = hti.iItem;
 					lvi.iSubItem = 0;
 					lvi.pszText = text;
-					lvi.cchTextMax = SIZEOF(text);
+					lvi.cchTextMax = _countof(text);
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					if (lvi.lParam == -1) {
 						CMString szBuffer(dat->type2str());
@@ -357,7 +357,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						//delete
 						TCHAR msgText[128];
 
-						mir_sntprintf(msgText, SIZEOF(msgText), TranslateT("Removing %s?"), text);
+						mir_sntprintf(msgText, _countof(msgText), TranslateT("Removing %s?"), text);
 						if (MessageBox(hwndDlg, msgText, dat->type2str(), MB_YESNO|MB_SETFOREGROUND) == IDYES) {
 							dat->ppro->DeleteMucListItem(dat, (TCHAR*)lvi.lParam);
 							mir_free((void *)lvi.lParam);

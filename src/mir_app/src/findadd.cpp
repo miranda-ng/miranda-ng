@@ -284,7 +284,7 @@ static const int controls[] = { IDC_BYPROTOID, IDC_BYEMAIL, IDC_BYNAME, IDC_BYAD
 
 static void CheckSearchTypeRadioButton(HWND hwndDlg, int idControl)
 {
-	for (int i = 0; i < SIZEOF(controls); i++)
+	for (int i = 0; i < _countof(controls); i++)
 		CheckDlgButton(hwndDlg, controls[i], idControl == controls[i] ? BST_CHECKED : BST_UNCHECKED);
 }
 
@@ -359,7 +359,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ReleaseDC(GetDlgItem(hwndDlg, IDC_STATUSBAR), hdc);
 			partWidth[1] = partWidth[0] + 150;
 			partWidth[2] = -1;
-			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, SIZEOF(partWidth), (LPARAM)partWidth);
+			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, _countof(partWidth), (LPARAM)partWidth);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 			SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
 
@@ -703,7 +703,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					BeginSearch(hwndDlg, dat, szProto, PS_SEARCHBYADVANCED, PF1_EXTSEARCHUI, dat->hwndTinySearch);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID)) {
 					TCHAR str[256];
-					GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
 					rtrimt(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
@@ -712,7 +712,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) {
 					TCHAR str[256];
-					GetDlgItemText(hwndDlg, IDC_EMAIL, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_EMAIL, str, _countof(str));
 					rtrimt(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
@@ -722,9 +722,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYNAME)) {
 					TCHAR nick[256], first[256], last[256];
 					PROTOSEARCHBYNAME psbn;
-					GetDlgItemText(hwndDlg, IDC_NAMENICK, nick, SIZEOF(nick));
-					GetDlgItemText(hwndDlg, IDC_NAMEFIRST, first, SIZEOF(first));
-					GetDlgItemText(hwndDlg, IDC_NAMELAST, last, SIZEOF(last));
+					GetDlgItemText(hwndDlg, IDC_NAMENICK, nick, _countof(nick));
+					GetDlgItemText(hwndDlg, IDC_NAMEFIRST, first, _countof(first));
+					GetDlgItemText(hwndDlg, IDC_NAMELAST, last, _countof(last));
 					psbn.pszFirstName = first;
 					psbn.pszLastName = last;
 					psbn.pszNick = nick;
@@ -774,7 +774,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				else {
 					TCHAR str[256];
-					GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
+					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
 					if (*rtrimt(str) == 0)
 						break;
 

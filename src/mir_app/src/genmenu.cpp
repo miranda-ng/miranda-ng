@@ -917,13 +917,13 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			DBVARIANT dbv = { 0 };
 			int pos;
 			char MenuNameItems[256];
-			mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pmo->pszName);
+			mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
 
 			char menuItemName[256];
 			GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
 
 			// check if it visible
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
+			mir_snprintf(DBString, _countof(DBString), "%s_visible", menuItemName);
 			if (db_get_b(NULL, MenuNameItems, DBString, -1) == -1)
 				db_set_b(NULL, MenuNameItems, DBString, 1);
 
@@ -934,14 +934,14 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			}
 
 			// mi.pszName
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
+			mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
 			if (!db_get_ts(NULL, MenuNameItems, DBString, &dbv)) {
 				if (mir_tstrlen(dbv.ptszVal) > 0)
 					replaceStrT(pmi->CustomName, dbv.ptszVal);
 				db_free(&dbv);
 			}
 
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
+			mir_snprintf(DBString, _countof(DBString), "%s_pos", menuItemName);
 			if ((pos = db_get_dw(NULL, MenuNameItems, DBString, -1)) == -1) {
 				db_set_dw(NULL, MenuNameItems, DBString, mi->position);
 				if (pmi->submenu.first)
@@ -986,7 +986,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if (GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf(str, SIZEOF(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
+					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1001,7 +1001,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if (GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf(str, SIZEOF(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
+					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1060,10 +1060,10 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 		TCHAR sectionName[256];
-		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
+		mir_sntprintf(sectionName, _countof(sectionName), LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
 
 		char iconame[256];
-		mir_snprintf(iconame, SIZEOF(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
+		mir_snprintf(iconame, _countof(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
 
 		// remove '&'
 		if (descr) {

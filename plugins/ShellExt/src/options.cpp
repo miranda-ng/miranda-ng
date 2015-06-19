@@ -8,7 +8,7 @@ static void AutoSize(HWND hwnd)
   HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 
   TCHAR szBuf[MAX_PATH];
-  int i = GetWindowText(hwnd, szBuf, SIZEOF(szBuf));
+  int i = GetWindowText(hwnd, szBuf, _countof(szBuf));
 
   SIZE tS;
   GetTextExtentPoint32(hDC, szBuf, i, &tS);
@@ -34,7 +34,7 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
 	case WM_INITDIALOG:
       TranslateDialogDefault(hwndDlg);
       comReg = IsCOMRegistered();
-		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%s (%s)"), 
+		mir_sntprintf(szBuf, _countof(szBuf), _T("%s (%s)"), 
 			TranslateTS(COM_OKSTR[ (comReg & COMREG_OK) != 0 ]),
 			TranslateTS(COM_APPROVEDSTR[ (comReg & COMREG_APPROVED) != 0 ]));
       SetDlgItemText(hwndDlg, IDC_STATUS, szBuf);

@@ -8,7 +8,7 @@ int LoadServices(void)
 	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
 
 	// Service creation
-	for (size_t i=0;i<SIZEOF(siPluginServices);i++)
+	for (size_t i=0;i<_countof(siPluginServices);i++)
 	{
 		memcpy(pszServiceFunctionName,siPluginServices[i].lpszName,(mir_strlen(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,(MIRANDASERVICE)siPluginServices[i].lpFunc);
@@ -26,7 +26,7 @@ int LoadModules(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED,RefreshAccountList);
 
 	char szServiceFunction[MAX_PATH];
-	mir_snprintf(szServiceFunction,SIZEOF(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
+	mir_snprintf(szServiceFunction,_countof(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 300050000;

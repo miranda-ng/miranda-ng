@@ -325,7 +325,7 @@ static INT_PTR OkToExit(WPARAM, LPARAM)
 static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 {
 	TCHAR filename[MAX_PATH];
-	GetModuleFileName(g_hInst, filename, SIZEOF(filename));
+	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);
@@ -344,7 +344,7 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 {
 	TCHAR filename[MAX_PATH];
-	GetModuleFileName(g_hInst, filename, SIZEOF(filename));
+	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);
@@ -365,7 +365,7 @@ static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR filename[MAX_PATH], *productVersion;
-	GetModuleFileName(g_hInst, filename, SIZEOF(filename));
+	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
 	PVOID pVerInfo = _alloca(verInfoSize);

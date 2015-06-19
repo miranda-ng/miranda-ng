@@ -123,7 +123,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ListData* ld = ( ListData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetDlgItemText(hdlg, IDC_RCLICKVALUE, szValue, SIZEOF(szValue));
+			GetDlgItemText(hdlg, IDC_RCLICKVALUE, szValue, _countof(szValue));
 			if(mir_tstrlen(szValue))
 			{
 				if(ld->ptszOPQValue&&(ld->ptszOPQValue!=ld->ptszQValue))
@@ -144,7 +144,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ButtonData* bd = ( ButtonData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, SIZEOF(szValue));
+			GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, _countof(szValue));
 			if(mir_tstrlen(szValue))
 			{
 				if(mir_tstrlen(bd->pszOpValue)&&(bd->pszOpValue!=bd->pszValue))
@@ -213,7 +213,7 @@ void SaveMenuTree(HWND hdlg)
 	g_iButtonsCount=TreeView_GetCount(hButtonsList);
 
 	tvi.pszText = strbuf;
-	tvi.cchTextMax = SIZEOF(strbuf);
+	tvi.cchTextMax = _countof(strbuf);
 	tvi.mask=TVIF_HANDLE|TVIF_TEXT ;
 	tvi.hItem=TreeView_GetRoot(hButtonsList);
 
@@ -260,7 +260,7 @@ void SaveMenuTree(HWND hdlg)
 
 			if(ld->ptszQValue)
 			{
-				mir_snprintf(szMEntry, SIZEOF(szMEntry), "ButtonValue_%u", iBl);
+				mir_snprintf(szMEntry, _countof(szMEntry), "ButtonValue_%u", iBl);
 				db_set_ts(NULL, PLGNAME,szMEntry,ld->ptszQValue);
 			}
 
@@ -276,13 +276,13 @@ void SaveMenuTree(HWND hdlg)
 			}	
 
 
-			mir_snprintf(szMEntry, SIZEOF(szMEntry), "ButtonName_%u", iBl);
+			mir_snprintf(szMEntry, _countof(szMEntry), "ButtonName_%u", iBl);
 			db_set_ts(NULL, PLGNAME,szMEntry,ld->ptszButtonName);
 
 			ld->dwOPFlags=0;
 			ld->dwPos=iBl;
 			ld->bIsServName=ld->bIsOpServName;
-			mir_snprintf(szMEntry, SIZEOF(szMEntry), "RCEntryIsServiceName_%u", iBl);
+			mir_snprintf(szMEntry, _countof(szMEntry), "RCEntryIsServiceName_%u", iBl);
 			db_set_b(NULL, PLGNAME,szMEntry,ld->bIsServName);
 
 			bDeleted=FALSE;
@@ -492,7 +492,7 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 		tvis.item.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 
 		tvis.item.pszText=strbuf;
-		tvis.item.cchTextMax=SIZEOF(strbuf);
+		tvis.item.cchTextMax=_countof(strbuf);
 		tvis.item.hItem=hItem;
 		TreeView_GetItem(hMenuTree,&tvis.item);				
 	}
@@ -766,12 +766,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					TCHAR szLabel[256];
 
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = SIZEOF(strbuf);
+					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask=TVIF_TEXT |TVIF_HANDLE|TVIF_PARAM;
 					tvi.hItem=TreeView_GetSelection(hMenuTree);
 					TreeView_GetItem(hMenuTree,&tvi);
 
-					GetWindowText(hwndEdit, szLabel, SIZEOF(szLabel));
+					GetWindowText(hwndEdit, szLabel, _countof(szLabel));
 					hwndEdit=NULL;
 					if (!mir_tstrlen(szLabel)) break;
 					if (bd = (ButtonData*)tvi.lParam){
@@ -828,7 +828,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					ButtonData *bd = ( ButtonData* )tvi.lParam;
 					if (bd) {
 						TCHAR szValue[256];
-						GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, SIZEOF(szValue));
+						GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, _countof(szValue));
 						if(mir_tstrlen(szValue))
 						{
 							if(bd->pszOpValue&&(bd->pszOpValue!=bd->pszValue))
@@ -898,12 +898,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					TCHAR szLabel[128];
 
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = SIZEOF(strbuf);
+					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask=TVIF_TEXT |TVIF_HANDLE|TVIF_PARAM;
 					tvi.hItem=TreeView_GetSelection(hButtonsList);
 					TreeView_GetItem(hButtonsList,&tvi);
 
-					GetWindowText(hwndEdit, szLabel, SIZEOF(szLabel));
+					GetWindowText(hwndEdit, szLabel, _countof(szLabel));
 					hwndEdit=NULL;
 					if (!mir_tstrlen(szLabel)) break;
 
@@ -989,7 +989,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 
-				GetDlgItemText(hdlg, IDC_BUTTONNAME, namebuff, SIZEOF(namebuff));
+				GetDlgItemText(hdlg, IDC_BUTTONNAME, namebuff, _countof(namebuff));
 
 				tvis.item.mask=TVIF_PARAM|TVIF_TEXT;
 				tvis.item.pszText=(mir_tstrlen(namebuff))?namebuff:TranslateT("New Button");
@@ -1039,7 +1039,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
 				memset(bd,0,sizeof(ButtonData));
 
-				GetDlgItemText(hdlg, IDC_MENUNAME, namebuff, SIZEOF(namebuff));
+				GetDlgItemText(hdlg, IDC_MENUNAME, namebuff, _countof(namebuff));
 
 				bd->dwOPPos=TreeView_GetCount(hMenuTree)-1;
 				bd->pszOpName=mir_tstrlen(namebuff)?mir_tstrdup(namebuff):mir_tstrdup(TranslateT("New Menu Entry"));
@@ -1086,7 +1086,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					while(tvi.hItem){
 						tvis.hInsertAfter=hti;
 						tvi.pszText = strbuf;
-						tvi.cchTextMax = SIZEOF(strbuf);
+						tvi.cchTextMax = _countof(strbuf);
 						tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 
 						TreeView_GetItem(hMenuTree,&tvi); 

@@ -175,7 +175,7 @@ void ChangeInfoData::EndListEdit(int save)
 			if (sid.changed) {
 				char buf[MAX_PATH];
 				TCHAR tbuf[MAX_PATH];
-				if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, SIZEOF(buf)), tbuf, SIZEOF(buf)))
+				if (utf8_to_tchar_static(ICQTranslateUtfStatic(pItem.text, buf, _countof(buf)), tbuf, _countof(buf)))
 					ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
 
 				EnableDlgItem(GetParent(hwndList), IDC_SAVE, TRUE);

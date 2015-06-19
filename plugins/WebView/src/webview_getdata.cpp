@@ -77,7 +77,7 @@ void GetData(void *param)
 	}
 
 	if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-		strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
+		strncpy_s(contactname, _countof(contactname), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
@@ -87,17 +87,17 @@ void GetData(void *param)
 		db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
 
 	if (!db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
-		strncpy_s(tempstring, SIZEOF(tempstring), dbv.pszVal, _TRUNCATE);
+		strncpy_s(tempstring, _countof(tempstring), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
 	if (!db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
-		strncpy_s(tempstring2, SIZEOF(tempstring2), dbv.pszVal, _TRUNCATE);
+		strncpy_s(tempstring2, _countof(tempstring2), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
 	if (!db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
-		strncpy_s(url, SIZEOF(url), dbv.pszVal, _TRUNCATE);
+		strncpy_s(url, _countof(url), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
@@ -287,9 +287,9 @@ void GetData(void *param)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, _countof(tstr), "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, _countof(tstr), "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
 			else {
@@ -307,20 +307,20 @@ void GetData(void *param)
 
 				db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, _countof(tstr), "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, _countof(tstr), "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
 
 			ftime = time(NULL);
 			nTime = localtime(&ftime);
 
-			strncpy_s(timeprefix, SIZEOF(timeprefix), Translate("Last updated on"), _TRUNCATE);
-			strncpy_s(timeat, SIZEOF(timeat), Translate("at the time"), _TRUNCATE);
+			strncpy_s(timeprefix, _countof(timeprefix), Translate("Last updated on"), _TRUNCATE);
+			strncpy_s(timeat, _countof(timeat), Translate("at the time"), _TRUNCATE);
 			strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
 			strftime(temptime2, 32, " %I:%M %p.", nTime);
-			mir_snprintf(timestring, SIZEOF(timestring), " %s %s%s%s", timeprefix, temptime1, timeat, temptime2);
+			mir_snprintf(timestring, _countof(timestring), " %s %s%s%s", timeprefix, temptime1, timeat, temptime2);
 		} // end download success 
 
 		if (DownloadSuccess) {
@@ -334,15 +334,15 @@ void GetData(void *param)
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				if (eventIndex == 2) {
-					strncpy(buff, truncated, SIZEOF(buff));
+					strncpy(buff, truncated, _countof(buff));
 					Filter(buff);
 
 					if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
-						strncpy_s(Alerttempstring, SIZEOF(Alerttempstring), dbv.pszVal, _TRUNCATE);
+						strncpy_s(Alerttempstring, _countof(Alerttempstring), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}
 					if (!db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
-						strncpy_s(Alerttempstring2, SIZEOF(Alerttempstring2), dbv.pszVal, _TRUNCATE);
+						strncpy_s(Alerttempstring2, _countof(Alerttempstring2), dbv.pszVal, _TRUNCATE);
 						db_free(&dbv);
 					}
 

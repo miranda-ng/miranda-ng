@@ -210,7 +210,7 @@ tstring CAppletManager::TranslateString(TCHAR *szString,...)
 
 	va_list body;
 	va_start(body, szString);
-	_vstprintf_s(out, SIZEOF(out), szTranslatedString, body);
+	_vstprintf_s(out, _countof(out), szTranslatedString, body);
 	va_end(body);
 	return out;
 }

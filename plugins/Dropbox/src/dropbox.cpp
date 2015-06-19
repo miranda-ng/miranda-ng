@@ -144,7 +144,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		instance->DestroyAccessToken();
 
 	char requestToken[128];
-	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
+	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, _countof(requestToken));
 
 	GetAccessTokenRequest request(requestToken);
 	NLHR_PTR response(request.Send(instance->hNetlibConnection));

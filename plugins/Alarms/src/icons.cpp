@@ -26,7 +26,7 @@ int ReloadIcons(WPARAM, LPARAM)
 
 void InitIcons()
 {
-	Icon_Register(hInst, "Alarms", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "Alarms", iconList, _countof(iconList));
 
 	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		hIconMenuShowHide = IcoLib_GetIcon("alarms_menu_showhide");

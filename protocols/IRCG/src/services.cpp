@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CIrcProto::InitMainMenus(void)
 {
 	char temp[MAXMODULELABELLENGTH];
-	char *d = temp + mir_snprintf(temp, SIZEOF(temp), m_szModuleName);
+	char *d = temp + mir_snprintf(temp, _countof(temp), m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
@@ -137,7 +137,7 @@ int IrcPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 void InitContactMenus(void)
 {
 	char temp[MAXMODULELABELLENGTH];
-	char *d = temp + mir_snprintf(temp, SIZEOF(temp), "IRC");
+	char *d = temp + mir_snprintf(temp, _countof(temp), "IRC");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
@@ -459,7 +459,7 @@ static void DoChatFormatting(TCHAR* pszText)
 				if (p1 - 3 >= pszText && p1[-3] == '\003')
 					mir_tstrcpy(InsertThis, _T(","));
 				else if (iFG >= 0)
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\x03%u,"), iFG);
+					mir_sntprintf(InsertThis, _countof(InsertThis), _T("\x03%u,"), iFG);
 				else
 					mir_tstrcpy(InsertThis, _T("\x0399,"));
 
@@ -468,7 +468,7 @@ static void DoChatFormatting(TCHAR* pszText)
 
 			case 'F':
 				if (iFG >= 0)
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\x03%u,99"), iFG);
+					mir_sntprintf(InsertThis, _countof(InsertThis), _T("\x03%u,99"), iFG);
 				else
 					mir_tstrcpy(InsertThis, _T("\x0399,99"));
 				iRemoveChars = 2;
@@ -853,7 +853,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
 				if (mir_tstrcmpi(gcmi->pszID, SERVERWINDOW)) {
-					gcmi->nItems = SIZEOF(logItems);
+					gcmi->nItems = _countof(logItems);
 					gcmi->Item = logItems;
 				}
 				else gcmi->nItems = 0;
@@ -863,7 +863,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				CONTACT user = { (TCHAR*)gcmi->pszUID, NULL, NULL, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
-				gcmi->nItems = SIZEOF(nickItems);
+				gcmi->nItems = _countof(nickItems);
 				gcmi->Item = nickItems;
 				BOOL bIsInList = (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0);
 				gcmi->Item[gcmi->nItems - 1].bDisabled = bIsInList;
@@ -877,7 +877,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 				TCHAR stzChanName[100];
 				const TCHAR* temp = _tcschr(gcmi->pszID, ' ');
-				size_t len = min(((temp == NULL) ? mir_tstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), SIZEOF(stzChanName) - 1);
+				size_t len = min(((temp == NULL) ? mir_tstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
 				mir_tstrncpy(stzChanName, gcmi->pszID, len);
 				stzChanName[len] = 0;
 				CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);

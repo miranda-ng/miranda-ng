@@ -139,12 +139,12 @@ void RegisterFonts(void)
 	_tcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
 	_tcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
 
-	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
+	for (int i = 0; i < _countof(fontOptionsList); i++, index++) {
 		FontOptionsList &FO = fontOptionsList[i];
 		strncpy_s(fontid.dbSettingsGroup, CHATFONT_MODULE, _TRUNCATE);
 		_tcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
-		mir_snprintf(fontid.prefix, SIZEOF(fontid.prefix), "Font%d", index);
+		mir_snprintf(fontid.prefix, _countof(fontid.prefix), "Font%d", index);
 		fontid.order = index;
 
 		switch (i) {

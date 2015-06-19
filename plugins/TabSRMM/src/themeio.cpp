@@ -193,7 +193,7 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 		WritePrivateProfileStringA(fontBlocks[n].szBLockname, "Valid", "1", szIniFilename);
 		for (i = 0; i < fontBlocks[n].iCount; i++) {
 			mir_snprintf(szTemp, "Font%d", firstIndex + i);
-			mir_snprintf(szAppname, SIZEOF(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
+			mir_snprintf(szAppname, _countof(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
 			if (!db_get_s(NULL, szModule, szTemp, &dbv)) {
 				WritePrivateProfileStringA(szAppname, "Face", dbv.pszVal, szIniFilename);
 				db_free(&dbv);
@@ -211,12 +211,12 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 	}
 	def = SRMSGDEFSET_BKGCOLOUR;
 
-	for (i = 0; i < SIZEOF(_extSettings); i++) {
+	for (i = 0; i < _countof(_extSettings); i++) {
 		auto &p = _extSettings[i];
 		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
 	}
 
-	for (i = 0; i < SIZEOF(_extSettings_v5); i++) {
+	for (i = 0; i < _countof(_extSettings_v5); i++) {
 		auto &p = _extSettings_v5[i];
 		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
 	}
@@ -276,7 +276,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 			}
 			for (i = 0; i < fontBlocks[n].iCount; i++) {
 				mir_snprintf(szTemp, "Font%d", firstIndex + i);
-				mir_snprintf(szAppname, SIZEOF(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
+				mir_snprintf(szAppname, _countof(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 						strncpy_s(szBuf, "Arial", _TRUNCATE);
@@ -309,13 +309,13 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 		if (dwFlags & THEME_READ_FONTS) {
 			COLORREF defclr;
 
-			for (i = 0; i < SIZEOF(_extSettings); i++) {
+			for (i = 0; i < _countof(_extSettings); i++) {
 				db_set_dw(0, _extSettings[i].szDbModule, _extSettings[i].szDbSetting,
 					GetPrivateProfileIntA(_extSettings[i].szIniSection, _extSettings[i].szIniName, _extSettings[i].dwDef, szIniFilename));
 			}
 
 			if (version >= 5) {
-				for (i = 0; i < SIZEOF(_extSettings_v5); i++) {
+				for (i = 0; i < _countof(_extSettings_v5); i++) {
 					db_set_dw(0, _extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting,
 						GetPrivateProfileIntA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName, _extSettings_v5[i].dwDef, szIniFilename));
 				}
@@ -428,7 +428,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	szFilename[0] = 0;
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
+	mir_sntprintf(filter, _countof(filter), _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = 0;

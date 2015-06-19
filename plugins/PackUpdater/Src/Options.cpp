@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);
 		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, MyOptions.Timeout, TRUE);
 		//Mouse actions
-		for (i = 0; i < SIZEOF(PopupActions); i++) {
+		for (i = 0; i < _countof(PopupActions); i++) {
 			SendDlgItemMessage(hdlg, IDC_LC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_LC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 			SendDlgItemMessage(hdlg, IDC_RC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_RC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 		}
@@ -204,7 +204,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		//Popups nitified
 		for (i = 0; i < POPUPS; i++) {
 			mir_snprintf(str, "Popups%d", i);
-			mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
+			mir_snprintf(str2, _countof(str2), "Popups%dM", i);
 			CheckDlgButton(hdlg, (i + 40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, (i + 1024), (db_get_b(NULL, MODNAME, str2, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			if (IsDlgButtonChecked(hdlg, (i + 40071)))
@@ -373,7 +373,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (i = 0; i < POPUPS; i++) {
 				mir_snprintf(str, "Popups%d", i);
 				db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i + 40071))));
-				mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
+				mir_snprintf(str2, _countof(str2), "Popups%dM", i);
 				db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i + 1024))));
 			}
 			return TRUE;

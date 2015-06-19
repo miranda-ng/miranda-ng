@@ -86,7 +86,7 @@ static IconItem iconList[] =
 
 static HANDLE GetIconHandle(int iconId)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
@@ -108,7 +108,7 @@ void ReleaseIcolibIcon(HICON hIcon) {
 
 static void TlenRegisterIcons()
 {
-	Icon_Register(hInst, "Protocols/Tlen", iconList, SIZEOF(iconList), "TLEN");
+	Icon_Register(hInst, "Protocols/Tlen", iconList, _countof(iconList), "TLEN");
 }
 
 int TlenProtocol::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
@@ -189,7 +189,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 
 	memset(&cookie, 0, sizeof(cookie));
 	if (login != NULL && password != NULL) {
-		mir_snprintf( form, SIZEOF(form), "username=%s&password=%s", login, password);
+		mir_snprintf( form, _countof(form), "username=%s&password=%s", login, password);
 		headers[0].szName = "Content-Type";
 		headers[0].szValue = "application/x-www-form-urlencoded";
 		memset(&req, 0, sizeof(req));
@@ -225,7 +225,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 	}
 	mir_free(login);
 	mir_free(password);
-	mir_snprintf(szFileName, SIZEOF(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
+	mir_snprintf(szFileName, _countof(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
 	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szFileName);
 	return 0;
 }

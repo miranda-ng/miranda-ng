@@ -75,7 +75,7 @@ void TSAPI LoadLogfont(int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
 		lf->lfClipPrecision = lfResult.lfClipPrecision;
 		lf->lfQuality = lfResult.lfQuality;
 		lf->lfPitchAndFamily = lfResult.lfPitchAndFamily;
-		mir_snprintf(lf->lfFaceName, SIZEOF(lf->lfFaceName), "%S", lfResult.lfFaceName);
+		mir_snprintf(lf->lfFaceName, _countof(lf->lfFaceName), "%S", lfResult.lfFaceName);
 	}
 }
 
@@ -97,7 +97,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 {
 	bool fValid = false;
 	TCHAR tszMask[MAX_PATH];
-	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s*.*"), tszFolder);
+	mir_sntprintf(tszMask, _countof(tszMask), _T("%s*.*"), tszFolder);
 
 	WIN32_FIND_DATA fd = { 0 };
 	HANDLE h = FindFirstFile(tszMask, &fd);
@@ -117,9 +117,9 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		LRESULT lr;
 		TCHAR	szBuf[255];
 
-		mir_sntprintf(tszFinalName, SIZEOF(tszFinalName), _T("%s%s"), tszFolder, fd.cFileName);
+		mir_sntprintf(tszFinalName, _countof(tszFinalName), _T("%s%s"), tszFolder, fd.cFileName);
 
-		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, SIZEOF(szBuf), tszFinalName);
+		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, _countof(szBuf), tszFinalName);
 		if (!mir_tstrcmp(szBuf, _T("None"))) {
 			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
 			_tcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
@@ -153,7 +153,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	_tcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
 	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
-	mir_sntprintf(tszFindMask, SIZEOF(tszFindMask), _T("%s*.*"), tszSkinRoot);
+	mir_sntprintf(tszFindMask, _countof(tszFindMask), _T("%s*.*"), tszSkinRoot);
 
 	SendMessage(hwndCombobox, CB_RESETCONTENT, 0, 0);
 	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<no skin>"));
@@ -163,7 +163,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	while (h != INVALID_HANDLE_VALUE) {
 		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
 			TCHAR	tszSubDir[MAX_PATH];
-			mir_sntprintf(tszSubDir, SIZEOF(tszSubDir), _T("%s%s\\"), tszSkinRoot, fd.cFileName);
+			mir_sntprintf(tszSubDir, _countof(tszSubDir), _T("%s%s\\"), tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
 		if (FindNextFile(h, &fd) == 0)
@@ -729,7 +729,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 		Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
 		Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), r != 0);
-		for (int i = 0; i < SIZEOF(__ctrls); i++)
+		for (int i = 0; i < _countof(__ctrls); i++)
 			Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 	}
 	return 0;
@@ -1488,7 +1488,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 
 			bInit = TRUE;
 
-			for (int i = 0; i < SIZEOF(opts); ++i)
+			for (int i = 0; i < _countof(opts); ++i)
 				OptCheckBox_Load(hwndDlg, opts + i);
 
 			// Always on!
@@ -1572,7 +1572,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (int i = 0; i < SIZEOF(opts); ++i)
+				for (int i = 0; i < _countof(opts); ++i)
 					OptCheckBox_Save(hwndDlg, opts + i);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT))

@@ -107,7 +107,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	switch (opt.tUnit) {
 	case 1:
 		// rounding
-		numToStr((temp-32)/9*5, tstr, SIZEOF(tstr));
+		numToStr((temp-32)/9*5, tstr, _countof(tstr));
 		if (opt.DoNotAppendUnit)
 			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
@@ -115,7 +115,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		break;
 
 	case 2:
-		numToStr(temp, tstr, SIZEOF(tstr));
+		numToStr(temp, tstr, _countof(tstr));
 		if (opt.DoNotAppendUnit)
 			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
@@ -212,19 +212,19 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	// convert to apporiate unit
 	switch (opt.wUnit) {
 	case 1:
-		numToStr(tempunit * 3.6, tstr, SIZEOF(tstr));
+		numToStr(tempunit * 3.6, tstr, _countof(tstr));
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("km/h"));
 		break;
 	case 2:
-		numToStr(tempunit, tstr, SIZEOF(tstr));
+		numToStr(tempunit, tstr, _countof(tstr));
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("m/s"));
 		break;
 	case 3:
-		numToStr(tempunit / 0.44704, tstr, SIZEOF(tstr));
+		numToStr(tempunit / 0.44704, tstr, _countof(tstr));
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("mph"));
 		break;
 	case 4:
-		numToStr(tempunit / 0.514444, tstr, SIZEOF(tstr));
+		numToStr(tempunit / 0.514444, tstr, _countof(tstr));
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("knots"));
 		break;
 	}
@@ -393,7 +393,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 		do {
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
-			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
+			mir_sntprintf(LangPackStr, _countof(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
 			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
 			CharLowerBuff(LangPackStr1, (DWORD)mir_tstrlen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
@@ -522,7 +522,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 			switch (chr) {
 			case 'c': mir_tstrcat(str, w->cond); break;
 			case 'd':	// get the current date
-				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, SIZEOF(lpzDate));
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, _countof(lpzDate));
 				mir_tstrcat(str, lpzDate); break;
 			case 'e': mir_tstrcat(str, w->dewpoint); break;
 			case 'f': mir_tstrcat(str, w->feel); break;
@@ -548,7 +548,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				name[0] = 0;
 				// read the entire variable name
 				while (dis[i] != ']' && i < mir_tstrlen(dis)) {
-					mir_snprintf(temp, SIZEOF(temp), "%c", dis[i++]);
+					mir_snprintf(temp, _countof(temp), "%c", dis[i++]);
 					mir_strcat(name, temp);
 				}
 				// access the database to get its value
@@ -562,7 +562,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 		}
 		// if the character is not a variable, write the original character to the new string
 		else {
-			mir_sntprintf(lpzDate, SIZEOF(lpzDate), _T("%c"), dis[i]);
+			mir_sntprintf(lpzDate, _countof(lpzDate), _T("%c"), dis[i]);
 			mir_tstrcat(str, lpzDate);
 	}	}
 
@@ -634,7 +634,7 @@ TCHAR *GetError(int code)
 	case 503:	str = E503; break;
 	case 504:	str = E504; break;
 	default:
-		mir_sntprintf(str2, SIZEOF(str2), TranslateT("HTTP Error %i"), code);
+		mir_sntprintf(str2, _countof(str2), TranslateT("HTTP Error %i"), code);
 		str = str2;
 		break;
 	}

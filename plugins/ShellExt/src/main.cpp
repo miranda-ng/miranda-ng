@@ -26,8 +26,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		bIsVistaPlus = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
 
-		GetTempPath(SIZEOF(tszLogPath), tszLogPath);
-		_tcscat_s(tszLogPath, SIZEOF(tszLogPath), _T("shlext.log"));
+		GetTempPath(_countof(tszLogPath), tszLogPath);
+		_tcscat_s(tszLogPath, _countof(tszLogPath), _T("shlext.log"));
 
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
@@ -127,7 +127,7 @@ STDAPI DllRegisterServer()
 		return E_FAIL;
 
 	TCHAR tszFileName[MAX_PATH];
-	GetModuleFileName(hInst, tszFileName, SIZEOF(tszFileName));
+	GetModuleFileName(hInst, tszFileName, _countof(tszFileName));
 	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(TCHAR)*(lstrlen(tszFileName)+1)))
 		return E_FAIL;
 	if ( RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))

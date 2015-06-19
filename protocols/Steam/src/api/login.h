@@ -8,7 +8,7 @@ public:
 		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001")
 	{
 		char data[256];
-		mir_snprintf(data, SIZEOF(data), "access_token=%s&ui_mode=web", token);
+		mir_snprintf(data, _countof(data), "access_token=%s&ui_mode=web", token);
 
 		SetData(data, strlen(data));
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -22,7 +22,7 @@ public:
 		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001")
 	{
 		char data[256];
-		mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s", token, umqId);
+		mir_snprintf(data, _countof(data), "access_token=%s&umqid=%s", token, umqId);
 
 		SetData(data, strlen(data));
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");

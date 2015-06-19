@@ -153,13 +153,13 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 				opt.defaultFTP = opt.selected;
 
 			ServerList::FTP *ftp = ftpList.getSelected();
-			GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->stzName, SIZEOF(ftp->stzName));
-			GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer, SIZEOF(ftp->szServer));
-			GetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser, SIZEOF(ftp->szUser));
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass, SIZEOF(ftp->szPass));
-			GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir, SIZEOF(ftp->szDir));
-			GetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl, SIZEOF(ftp->szUrl));
-			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod, SIZEOF(ftp->szChmod));
+			GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->stzName, _countof(ftp->stzName));
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer, _countof(ftp->szServer));
+			GetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser, _countof(ftp->szUser));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass, _countof(ftp->szPass));
+			GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir, _countof(ftp->szDir));
+			GetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl, _countof(ftp->szUrl));
+			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod, _countof(ftp->szChmod));
 
 			ftp->ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
 			ftp->iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);

@@ -381,7 +381,7 @@ void LoadNotes(BOOL bIsStartup)
 	{
 		char *DelPos;
 
-		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
 
 		if (Value)
 		{
@@ -694,7 +694,7 @@ void PurgeNotes(void)
 	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 	for(I = 0; I < NotesCount; I++)
 	{
-		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 }
@@ -940,7 +940,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 			Value[0xffff] = 0;
 		}
 
-		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
+		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
 
 		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
@@ -956,7 +956,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	// delete any left over DB note entries
 	for(; I < OldNotesCount; I++)
 	{
-		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 
@@ -1024,10 +1024,10 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 		HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Background Color")));
 		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Text Color")));
 
-		for (i=0; i<SIZEOF(clrPresets); i++)
+		for (i=0; i<_countof(clrPresets); i++)
 			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
 
-		for (i=0; i<SIZEOF(clrPresets); i++)
+		for (i=0; i<_countof(clrPresets); i++)
 			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
 	}
 
@@ -1404,12 +1404,12 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			if (lpMeasureItem->CtlType != ODT_MENU)
 				break;
 
-			if (lpMeasureItem->itemID >= IDM_COLORPRESET_BG && lpMeasureItem->itemID <= IDM_COLORPRESET_BG+SIZEOF(clrPresets))
+			if (lpMeasureItem->itemID >= IDM_COLORPRESET_BG && lpMeasureItem->itemID <= IDM_COLORPRESET_BG+_countof(clrPresets))
 			{
 				MeasureColorPresetMenuItem(hdlg, lpMeasureItem, clrPresets + (lpMeasureItem->itemID - IDM_COLORPRESET_BG));
 				return TRUE;
 			}
-			else if (lpMeasureItem->itemID >= IDM_COLORPRESET_FG && lpMeasureItem->itemID <= IDM_COLORPRESET_FG+SIZEOF(clrPresets))
+			else if (lpMeasureItem->itemID >= IDM_COLORPRESET_FG && lpMeasureItem->itemID <= IDM_COLORPRESET_FG+_countof(clrPresets))
 			{
 				MeasureColorPresetMenuItem(hdlg, lpMeasureItem, clrPresets + (lpMeasureItem->itemID - IDM_COLORPRESET_FG));
 				return TRUE;
@@ -1424,12 +1424,12 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			if (lpDrawItem->CtlType != ODT_MENU)
 				break;
 
-			if (lpDrawItem->itemID >= IDM_COLORPRESET_BG && lpDrawItem->itemID <= IDM_COLORPRESET_BG+SIZEOF(clrPresets))
+			if (lpDrawItem->itemID >= IDM_COLORPRESET_BG && lpDrawItem->itemID <= IDM_COLORPRESET_BG+_countof(clrPresets))
 			{
 				PaintColorPresetMenuItem(lpDrawItem, clrPresets + (lpDrawItem->itemID - IDM_COLORPRESET_BG));
 				return TRUE;
 			}
-			else if (lpDrawItem->itemID >= IDM_COLORPRESET_FG && lpDrawItem->itemID <= IDM_COLORPRESET_FG+SIZEOF(clrPresets))
+			else if (lpDrawItem->itemID >= IDM_COLORPRESET_FG && lpDrawItem->itemID <= IDM_COLORPRESET_FG+_countof(clrPresets))
 			{
 				PaintColorPresetMenuItem(lpDrawItem, clrPresets + (lpDrawItem->itemID - IDM_COLORPRESET_FG));
 				return TRUE;
@@ -1459,7 +1459,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 
 			H = SN->REHwnd;
 
-			if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG+SIZEOF(clrPresets))
+			if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG+_countof(clrPresets))
 			{
 				SN->BgColor = clrPresets[id-IDM_COLORPRESET_BG].color | 0xff000000;
 				SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
@@ -1467,7 +1467,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 				JustSaveNotes();
 				return FALSE;
 			}
-			else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG+SIZEOF(clrPresets))
+			else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG+_countof(clrPresets))
 			{
 				CHARFORMAT CF = {0};
 				SN->FgColor = clrPresets[id-IDM_COLORPRESET_FG].color | 0xff000000;
@@ -2025,7 +2025,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 				switch (NM->hdr.code)
 				{
 				case HDN_ENDTRACK:
-					UpdateGeomFromWnd(Dialog, NULL, g_notesListColGeom, SIZEOF(g_notesListColGeom));
+					UpdateGeomFromWnd(Dialog, NULL, g_notesListColGeom, _countof(g_notesListColGeom));
 					break;
 				}
 			}

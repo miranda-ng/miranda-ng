@@ -77,7 +77,7 @@ void AddMessage(const TCHAR* fmt, ...)
 	va_list args;
 	TCHAR msgBuf[4096];
 	va_start(args, fmt);
-	mir_vsntprintf(msgBuf, SIZEOF(msgBuf), TranslateTS(fmt), args);
+	mir_vsntprintf(msgBuf, _countof(msgBuf), TranslateTS(fmt), args);
 
 	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }
@@ -252,7 +252,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		r.top--; r.bottom--;
 
 		TCHAR tszText[100];
-		ListView_GetItemText(hwnd, hit.iItem, 1, tszText, SIZEOF(tszText));
+		ListView_GetItemText(hwnd, hit.iItem, 1, tszText, _countof(tszText));
 
 		LVITEM lvitem;
 		lvitem.iItem = hit.iItem;
@@ -734,7 +734,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 					ccDst->pSubs[i] = MapContact(ccSrc->pSubs[i]);
 
 					char szSettingName[100];
-					mir_snprintf(szSettingName, SIZEOF(szSettingName), "Handle%d", i);
+					mir_snprintf(szSettingName, _countof(szSettingName), "Handle%d", i);
 					db_set_dw(hDest, META_PROTO, szSettingName, ccDst->pSubs[i]);
 
 					db_set_b(ccDst->pSubs[i], META_PROTO, "IsSubcontact", 1);

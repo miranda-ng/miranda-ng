@@ -63,12 +63,12 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 		if (hSelectedContact != hContact)
 			lParam->type |= EMPTY;
 
-		if (db_get_static(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+		if (db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			szProto[0] = 0;
 
 		icon = GetProtoIconIndex(szProto);
 
-		GetContactName(hContact, szProto, name, SIZEOF(name));
+		GetContactName(hContact, szProto, name, _countof(name));
 
 		tvi.item.pszText = name;
 		tvi.item.iImage = icon;
@@ -162,7 +162,7 @@ HTREEITEM findItemInTree(MCONTACT hContact, const char* module)
 	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
 	item.pszText = text;
-	item.cchTextMax = SIZEOF(text);
+	item.cchTextMax = _countof(text);
 	do {
 		do {
 			lastItem = item.hItem;
@@ -241,7 +241,7 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
 	item.pszText = text;
-	item.cchTextMax = SIZEOF(text);
+	item.cchTextMax = _countof(text);
 	prelastItem = item.hItem;
 
 	do {
@@ -330,7 +330,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 			TVITEM tvi = { 0 };
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = text;
-			tvi.cchTextMax = SIZEOF(text);
+			tvi.cchTextMax = _countof(text);
 			tvi.hItem = item;
 
 			TreeView_GetItem(hwnd2Tree, &tvi);
@@ -340,18 +340,18 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 				if (mtis->type == CONTACT)
 					SelectedModule[0] = 0;
 				else
-					mir_strncpy(SelectedModule, _T2A(text), SIZEOF(SelectedModule));
+					mir_strncpy(SelectedModule, _T2A(text), _countof(SelectedModule));
 				Select = 1;
 			}
 		}
 		break;
 
 	case 2: // restore saved
-		if (GetValueA(NULL, modname, "LastModule", SelectedModule, SIZEOF(SelectedModule))) {
+		if (GetValueA(NULL, modname, "LastModule", SelectedModule, _countof(SelectedModule))) {
 			hSelectedContact = db_get_dw(NULL, modname, "LastContact", INVALID_CONTACT_ID);
 			if (hSelectedContact != INVALID_CONTACT_ID)
 				Select = 1;
-			GetValueA(NULL, modname, "LastSetting", SelectedSetting, SIZEOF(SelectedSetting));
+			GetValueA(NULL, modname, "LastSetting", SelectedSetting, _countof(SelectedSetting));
 		}
 		break;
 
@@ -508,7 +508,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = pnmtv->itemNew.hItem;
 			tvi.pszText = text;
-			tvi.cchTextMax = SIZEOF(text);
+			tvi.cchTextMax = _countof(text);
 			TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
 			
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
@@ -589,7 +589,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
 		tvi.hItem = ptvdi->item.hItem;
 		tvi.pszText = text;
-		tvi.cchTextMax = SIZEOF(text);
+		tvi.cchTextMax = _countof(text);
 		TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 		mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
 
@@ -631,7 +631,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 	tvi.hItem = hti.hItem;
 	tvi.pszText = text;
-	tvi.cchTextMax = SIZEOF(text);
+	tvi.cchTextMax = _countof(text);
 	TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 
 	if (!tvi.lParam) return;

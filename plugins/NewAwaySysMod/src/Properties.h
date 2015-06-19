@@ -123,7 +123,7 @@ public:
 		int cxIcon = GetSystemMetrics(SM_CXSMICON);
 		int cyIcon = GetSystemMetrics(SM_CYSMICON);
 		int i;
-		for (i = 0; i < SIZEOF(Icons); i++) {
+		for (i = 0; i < _countof(Icons); i++) {
 			if (IconList.GetSize() > i && IconList[i])
 				DestroyIcon(IconList[i]);
 
@@ -317,7 +317,7 @@ public:
 	CString ProtoStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
 	{
 		if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID)) {
-			for (int i = 0; i < SIZEOF(StatusSettings); i++)
+			for (int i = 0; i < _countof(StatusSettings); i++)
 				if (Status == StatusSettings[i].Status)
 					return szProto ? (CString(Prefix) + "_" + szProto + "_" + StatusSettings[i].Setting) : (CString(Prefix) + StatusSettings[i].Setting);
 		}
@@ -381,7 +381,7 @@ public:
 __inline CString StatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID = 0)
 {
 	if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
-		for (int i = 0; i < SIZEOF(StatusSettings); i++)
+		for (int i = 0; i < _countof(StatusSettings); i++)
 			if (Status == StatusSettings[i].Status)
 				return CString(Prefix) + StatusSettings[i].Setting;
 

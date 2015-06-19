@@ -41,13 +41,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			int bCheck = db_get_b(NULL, ModuleName, "Check", 1);
 
 			TCHAR buffer[4096];
-			GetStringFromDatabase("Username", _T(""), buffer, SIZEOF(buffer));
+			GetStringFromDatabase("Username", _T(""), buffer, _countof(buffer));
 			SetDlgItemText(hWnd, IDC_USER_EDIT, buffer);
 
-			GetStringFromDatabase("Password", _T(""), buffer, SIZEOF(buffer));
+			GetStringFromDatabase("Password", _T(""), buffer, _countof(buffer));
 			SetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer);
 
-			GetStringFromDatabase("Server", _T(""), buffer, SIZEOF(buffer));
+			GetStringFromDatabase("Server", _T(""), buffer, _countof(buffer));
 			SetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer);
 
 			SetDlgItemInt(hWnd, IDC_PORT_EDIT, db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT), FALSE);
@@ -111,16 +111,16 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				db_set_b(NULL, ModuleName, "Check", IsDlgButtonChecked(hWnd, IDC_CHECK_EMAILS));
 
 				TCHAR buffer[4096];
-				GetDlgItemText(hWnd, IDC_USER_EDIT, buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_USER_EDIT, buffer, _countof(buffer));
 				db_set_ts(NULL, ModuleName, "Username", buffer);
 
-				GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer, _countof(buffer));
 				db_set_ts(NULL, ModuleName, "Password", buffer);
 
-				GetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer, _countof(buffer));
 				db_set_ts(NULL, ModuleName, "Server", buffer);
 
-				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, _countof(buffer));
 				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd,IDC_PORT_EDIT,NULL,FALSE));
 
 				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd,IDC_INTERVAL_EDIT,NULL,FALSE));
@@ -174,7 +174,7 @@ int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < count; i++) {
 			if (ListView_GetItemState(hWnd, i, LVIS_SELECTED)) {
 				TCHAR emailID[4096]; //uhh
-				ListView_GetItemText(hWnd, i, 2, emailID, SIZEOF(emailID));
+				ListView_GetItemText(hWnd, i, 2, emailID, _countof(emailID));
 				exchangeServer.OpenMessage(emailID);
 			}
 		}
@@ -303,7 +303,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					item.iItem = i;
 					item.mask = LVIF_TEXT;
 					item.iSubItem = 2;
-					item.cchTextMax = SIZEOF(emailID);
+					item.cchTextMax = _countof(emailID);
 					item.pszText = emailID;
 					ListView_GetItem(hList, &item);
 					exchangeServer.MarkEmailAsRead(emailID);

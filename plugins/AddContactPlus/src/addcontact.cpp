@@ -196,7 +196,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		case IDC_USERID:
 			if (HIWORD(wparam) == EN_CHANGE) {
 				TCHAR szUserId[256];
-				if (GetDlgItemText(hdlg, IDC_USERID, szUserId, SIZEOF(szUserId))) {
+				if (GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId))) {
 					if (!IsWindowEnabled(GetDlgItem(hdlg, IDOK)))
 						EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
 				}
@@ -234,7 +234,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		case IDOK:
 			{
 				TCHAR szUserId[256];
-				GetDlgItemText(hdlg, IDC_USERID, szUserId, SIZEOF(szUserId));
+				GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId));
 
 				if (*rtrimt(szUserId) == 0 ||
 					(strstr(acs->proto, "GG") && _tcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
@@ -256,7 +256,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 					}
 					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(TLEN_SEARCH_RESULT));
 					psr->cbSize = sizeof(TLEN_SEARCH_RESULT);
-					mir_snprintf(((TLEN_SEARCH_RESULT*)psr)->jid, SIZEOF(((TLEN_SEARCH_RESULT*)psr)->jid), "%S", szUserId);
+					mir_snprintf(((TLEN_SEARCH_RESULT*)psr)->jid, _countof(((TLEN_SEARCH_RESULT*)psr)->jid), "%S", szUserId);
 				}
 				else {
 					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
@@ -276,7 +276,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				TCHAR szHandle[256];
-				if (GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, SIZEOF(szHandle)))
+				if (GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, _countof(szHandle)))
 					db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
@@ -297,7 +297,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 							CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {
 							TCHAR tszReason[512];
-							GetDlgItemText(hdlg, IDC_AUTHREQ, tszReason, SIZEOF(tszReason));
+							GetDlgItemText(hdlg, IDC_AUTHREQ, tszReason, _countof(tszReason));
 							CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 						}
 					}

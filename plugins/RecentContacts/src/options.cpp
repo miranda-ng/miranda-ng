@@ -45,11 +45,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				LastUCOpt.WindowAutoSize = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_WINDOWAUTOSIZE);
 				db_set_b(NULL, dbLastUC_ModuleName, dbLastUC_WindowAutosize, (BYTE)LastUCOpt.WindowAutoSize);
 
-				GetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str, _countof(str));
 				LastUCOpt.MaxShownContacts= atoi(str);
 				db_set_b(0,dbLastUC_ModuleName, dbLastUC_MaxShownContacts, LastUCOpt.MaxShownContacts);
 
-				GetDlgItemTextA(hwndDlg, IDC_DATETIME, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_DATETIME, str, _countof(str));
 				db_set_s(0,dbLastUC_ModuleName, dbLastUC_DateTimeFormat, str );
 
 				LoadDBSettings();

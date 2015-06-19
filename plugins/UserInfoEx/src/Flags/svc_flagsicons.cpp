@@ -102,13 +102,13 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 	/* binary search in index array */
 	if (countryNumber > 0) {
 		int i,high/*,low=0*/;
-		high=SIZEOF(BitmapIndexMap);
+		high=_countof(BitmapIndexMap);
 		/*old code need sortet BitmapIndexMap*/
 		/*if (countryNumber<=BitmapIndexMap[high])
 			while(low<=high) {
 				i=low+((high-low)/2);
 				// never happens
-				if (i<0 || i>=SIZEOF(BitmapIndexMap)) DebugBreak();
+				if (i<0 || i>=_countof(BitmapIndexMap)) DebugBreak();
 				if (BitmapIndexMap[i]==countryNumber) return i;
 				if (countryNumber>BitmapIndexMap[i]) low=i+1;      
 				else high=i-1;
@@ -133,7 +133,7 @@ HICON LoadFlag(int countryNumber)
 		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber=0xFFFF,0);
 
 	char szId[20];
-	mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", countryNumber); /* buffer safe */
+	mir_snprintf(szId, _countof(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", countryNumber); /* buffer safe */
 	return IcoLib_GetIcon(szId);
 }
 
@@ -255,7 +255,7 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 				memset(&aptTriangle, 0, sizeof(aptTriangle));
 				aptTriangle[1].y=bm.bmHeight-1;
 				aptTriangle[2].x=bm.bmWidth-1;
-				HRGN hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);
+				HRGN hrgn=CreatePolygonRgn(aptTriangle,_countof(aptTriangle),WINDING);
 				if (hrgn!=NULL) {
 					SelectClipRgn(hdc,hrgn);
 					HBITMAP hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
@@ -397,7 +397,7 @@ void InitIcons()
 			for (int i=0; i < nCountriesCount; i++) {
 				sid.description.t = mir_a2t(LPGEN(countries[i].szName));
 				/* create identifier */
-				mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
+				mir_snprintf(szId, _countof(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);
 				/* create icon */
 				sid.hDefaultIcon = ImageList_ExtractIcon(NULL, himl, index);
@@ -421,7 +421,7 @@ void UninitIcons()
 	for(int i=0;i<nCountriesCount;++i) {
 		/* create identifier */
 		char szId[20];
-		mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
+		mir_snprintf(szId, _countof(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 		IcoLib_RemoveIcon(szId);
 	}
 	mir_free(phIconHandles);  /* does NULL check */

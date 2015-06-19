@@ -324,7 +324,7 @@ INT_PTR GetCountryList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetMaritalList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplMarital);
+	*pnListSize = _countof(TmplMarital);
 	*pList = TmplMarital;
 	SvcConstantsTranslateList(TmplMarital, *pnListSize);
 	return MIR_OK;
@@ -332,7 +332,7 @@ INT_PTR GetMaritalList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetLanguageList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplLanguages);
+	*pnListSize = _countof(TmplLanguages);
 	*pList = TmplLanguages;
 	SvcConstantsTranslateList(TmplLanguages, *pnListSize);
 	return MIR_OK;
@@ -340,7 +340,7 @@ INT_PTR GetLanguageList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetOccupationList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplOccupations);
+	*pnListSize = _countof(TmplOccupations);
 	*pList = TmplOccupations;
 	SvcConstantsTranslateList(TmplOccupations, *pnListSize);
 	return MIR_OK;
@@ -348,7 +348,7 @@ INT_PTR GetOccupationList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetInterestsList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplInterests);
+	*pnListSize = _countof(TmplInterests);
 	*pList = TmplInterests;
 	SvcConstantsTranslateList(TmplInterests, *pnListSize);
 	return MIR_OK;
@@ -356,7 +356,7 @@ INT_PTR GetInterestsList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetPastList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplPast);
+	*pnListSize = _countof(TmplPast);
 	*pList = TmplPast;
 	SvcConstantsTranslateList(TmplPast, *pnListSize);
 	return MIR_OK;
@@ -364,7 +364,7 @@ INT_PTR GetPastList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetAffiliationsList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplAffiliations);
+	*pnListSize = _countof(TmplAffiliations);
 	*pList = TmplAffiliations;
 	SvcConstantsTranslateList(TmplAffiliations, *pnListSize);
 	return MIR_OK;
@@ -372,7 +372,7 @@ INT_PTR GetAffiliationsList(LPUINT pnListSize, LPIDSTRLIST *pList)
 
 INT_PTR GetNamePrefixList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
-	*pnListSize = SIZEOF(TmplPrefixes);
+	*pnListSize = _countof(TmplPrefixes);
 	*pList = TmplPrefixes;
 	SvcConstantsTranslateList(TmplPrefixes, *pnListSize);
 	return MIR_OK;
@@ -403,13 +403,13 @@ static void FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList
 
 void SvcConstantsUnloadModule(void)
 {
-	SvcConstantsClearList(SIZEOF(TmplMarital), TmplMarital);
-	SvcConstantsClearList(SIZEOF(TmplLanguages), TmplLanguages);
-	SvcConstantsClearList(SIZEOF(TmplOccupations), TmplOccupations);
-	SvcConstantsClearList(SIZEOF(TmplInterests), TmplInterests);
-	SvcConstantsClearList(SIZEOF(TmplPast), TmplPast);
-	SvcConstantsClearList(SIZEOF(TmplAffiliations), TmplAffiliations);
-	SvcConstantsClearList(SIZEOF(TmplPrefixes), TmplPrefixes);
+	SvcConstantsClearList(_countof(TmplMarital), TmplMarital);
+	SvcConstantsClearList(_countof(TmplLanguages), TmplLanguages);
+	SvcConstantsClearList(_countof(TmplOccupations), TmplOccupations);
+	SvcConstantsClearList(_countof(TmplInterests), TmplInterests);
+	SvcConstantsClearList(_countof(TmplPast), TmplPast);
+	SvcConstantsClearList(_countof(TmplAffiliations), TmplAffiliations);
+	SvcConstantsClearList(_countof(TmplPrefixes), TmplPrefixes);
 	SvcConstantsClearList(MyCountriesCount, MyCountries);
 	MIR_FREE(MyCountries);
 }

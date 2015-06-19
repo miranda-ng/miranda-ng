@@ -112,7 +112,7 @@ void AddTipperItem()
 		}
 	}
 
-	for (i = 0; i < SIZEOF(TipperItemProps); i++)
+	for (i = 0; i < _countof(TipperItemProps); i++)
 		ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
 
 #define WRITE_TIPPER_PROPS(index, value)\

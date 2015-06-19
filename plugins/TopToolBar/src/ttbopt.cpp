@@ -241,14 +241,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TCHAR str[MAX_PATH];
 				OPENFILENAME ofn = {0};
 
-				GetDlgItemText(hwndDlg, IDC_EPATH, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_EPATH, str, _countof(str));
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				ofn.lpstrFilter = NULL;
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
-				ofn.nMaxFile = SIZEOF(str);
+				ofn.nMaxFile = _countof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = _T("exe");
 				if (!GetOpenFileName(&ofn))
@@ -290,14 +290,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						TreeView_SetItem(hTree, &tvi);
 					}
 
-					GetDlgItemText(hwndDlg, IDC_ENAME, buf, SIZEOF(buf));
+					GetDlgItemText(hwndDlg, IDC_ENAME, buf, _countof(buf));
 					replaceStr(btn->pszName, _T2A(buf));
 
 					tvi.mask = TVIF_TEXT;
 					tvi.pszText = buf;
 					TreeView_SetItem(hTree, &tvi);
 
-					GetDlgItemText(hwndDlg, IDC_EPATH, buf, SIZEOF(buf));
+					GetDlgItemText(hwndDlg, IDC_EPATH, buf, _countof(buf));
 					replaceStrT(btn->ptszProgram, buf);
 				}
 				break;
@@ -515,7 +515,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = name;
-				tvis.item.cchTextMax = SIZEOF(name);
+				tvis.item.cchTextMax = _countof(name);
 				tvis.item.hItem = dat->hDragItem;
 				TreeView_GetItem(hTree, &tvis.item);
 

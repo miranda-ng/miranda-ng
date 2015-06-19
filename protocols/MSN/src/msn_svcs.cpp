@@ -78,7 +78,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (pai->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0) {
-		MSN_GetAvatarFileName(NULL, filename, SIZEOF(filename), NULL);
+		MSN_GetAvatarFileName(NULL, filename, _countof(filename), NULL);
 		pai->format = ProtoGetAvatarFormat(filename);
 		if (pai->format != PA_FORMAT_UNKNOWN)
 			mir_tstrcpy(pai->filename, filename);
@@ -93,7 +93,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 	else return GAIR_NOAVATAR;
 
-	MSN_GetAvatarFileName(pai->hContact, filename, SIZEOF(filename), NULL);
+	MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), NULL);
 	pai->format = ProtoGetAvatarFormat(filename);
 
 	if (pai->format != PA_FORMAT_UNKNOWN) {
@@ -139,7 +139,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			ft->std.hContact = pai->hContact;
 			ft->p2p_object = mir_strdup(szContext);
 
-			MSN_GetAvatarFileName(pai->hContact, filename, SIZEOF(filename), _T("unk"));
+			MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), _T("unk"));
 			ft->std.tszCurrentFile = mir_tstrdup(filename);
 
 			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
@@ -188,7 +188,7 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 	TCHAR* szFileName = (TCHAR*)lParam;
 
 	TCHAR tFileName[MAX_PATH];
-	MSN_GetAvatarFileName(NULL, tFileName, SIZEOF(tFileName), NULL);
+	MSN_GetAvatarFileName(NULL, tFileName, _countof(tFileName), NULL);
 	_tremove(tFileName);
 
 	if (szFileName == NULL) {

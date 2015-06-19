@@ -289,7 +289,7 @@ void CConfig::SaveFontSettings(int iFont)
 	char szSetting[128];
 
 	// Height
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dHeight",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dHeight",iFont);
 	db_set_b(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfHeight);
 	// Style
 	int style = 0;
@@ -297,13 +297,13 @@ void CConfig::SaveFontSettings(int iFont)
 		style |= FONTF_BOLD;
 	if(m_logfont[iFont].lfItalic)
 		style |= FONTF_ITALIC;
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dStyle",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dStyle",iFont);
 	db_set_b(NULL, "MirandaG15", szSetting, style);
 	// Charset
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dCharset",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dCharset",iFont);
 	db_set_b(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfCharSet);
 	// Name
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dName",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dName",iFont);
 	db_set_ts(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
 	
 	UpdateFontSettings(iFont);
@@ -322,18 +322,18 @@ void CConfig::LoadFontSettings(int iFont)
 	m_logfont[iFont].lfQuality = DEFAULT_QUALITY;
 	m_logfont[iFont].lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 	// Height
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dHeight",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dHeight",iFont);
 	m_logfont[iFont].lfHeight = (char) db_get_b(NULL, "MirandaG15", szSetting, -MulDiv(6, 96, 72));
 	// Style
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dStyle",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dStyle",iFont);
 	int style = db_get_b(NULL, "MirandaG15", szSetting, 0);
 	m_logfont[iFont].lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
     m_logfont[iFont].lfItalic = style & FONTF_ITALIC ? 1 : 0;
 	// Charset
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dCharset",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dCharset",iFont);
 	m_logfont[iFont].lfCharSet = db_get_b(NULL, "MirandaG15", szSetting, DEFAULT_CHARSET);
 	// Name
-	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dName",iFont);
+	mir_snprintf(szSetting,_countof(szSetting),"Font%dName",iFont);
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "MirandaG15", szSetting, &dbv))
         mir_tstrcpy(m_logfont[iFont].lfFaceName,_T("Small Fonts"));
@@ -507,10 +507,10 @@ INT_PTR CALLBACK CConfig::ChatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLFIRST,	m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_FIRST? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLLAST,		m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_LAST? BST_CHECKED	: BST_UNCHECKED);
 			
-			_itoa_s(m_aiIntSettings[SESSION_LOGSIZE], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[SESSION_LOGSIZE], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_SESSION_LOGSIZE, buf);
 			
-			_itoa_s(m_aiIntSettings[SESSION_CLOSETIMER], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[SESSION_CLOSETIMER], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_SESSION_CLOSETIMER, buf);
 
 			m_bInitializingDialog = false;
@@ -543,10 +543,10 @@ INT_PTR CALLBACK CConfig::ChatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					m_abBoolSettings[MAXIMIZED_TITLE] =  IsDlgButtonChecked(hwndDlg,IDC_MAXIMIZED_TITLE) == BST_UNCHECKED ? true : false;
 					m_abBoolSettings[MAXIMIZED_LABELS] =  IsDlgButtonChecked(hwndDlg,IDC_MAXIMIZED_LABELS) == BST_UNCHECKED ? true : false;
 
-					GetDlgItemTextA(hwndDlg,IDC_SESSION_LOGSIZE,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_SESSION_LOGSIZE,buf,_countof(buf));
 					m_aiIntSettings[SESSION_LOGSIZE] = atoi(buf) > 0 ? atoi(buf):1;
 					
-					GetDlgItemTextA(hwndDlg,IDC_SESSION_CLOSETIMER,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_SESSION_CLOSETIMER,buf,_countof(buf));
 					m_aiIntSettings[SESSION_CLOSETIMER] = atoi(buf) >= 0 ? atoi(buf):1;
 
 					CConfig::SaveSettings();
@@ -622,16 +622,16 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_SKIP_STATUS,		m_abBoolSettings[NOTIFY_SKIP_STATUS]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_SKIP_MESSAGES,	m_abBoolSettings[NOTIFY_SKIP_MESSAGES]	? BST_CHECKED	: BST_UNCHECKED);
 			
-			_itoa_s(m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_NOTIFY_CHANNELCUTOFF_OFFSET, buf);
 
-			_itoa_s(m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_NOTIFY_NICKCUTOFF_OFFSET, buf);
 
-			_itoa_s(m_aiIntSettings[NOTIFY_LOGSIZE], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[NOTIFY_LOGSIZE], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_NOTIFY_LOGSIZE, buf);
 			
-			_itoa_s(m_aiIntSettings[NOTIFY_DURATION], buf, SIZEOF(buf), 10);
+			_itoa_s(m_aiIntSettings[NOTIFY_DURATION], buf, _countof(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_NOTIFY_DURATION, buf);
 
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLEHIDE, m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_HIDE? BST_CHECKED : BST_UNCHECKED);
@@ -699,16 +699,16 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 					m_abBoolSettings[NOTIFY_SKIP_SIGNOFF] =		IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_SKIP_SIGNOFF) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_SKIP_STATUS] =		IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_SKIP_STATUS) == BST_CHECKED ? true : false;
 					
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_CHANNELCUTOFF_OFFSET,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_CHANNELCUTOFF_OFFSET,buf,_countof(buf));
 					m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_NICKCUTOFF_OFFSET,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_NICKCUTOFF_OFFSET,buf,_countof(buf));
 					m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_DURATION,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_DURATION,buf,_countof(buf));
 					m_aiIntSettings[NOTIFY_DURATION] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_LOGSIZE,buf,SIZEOF(buf));
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_LOGSIZE,buf,_countof(buf));
 					m_aiIntSettings[NOTIFY_LOGSIZE] = atoi(buf) > 0 ? atoi(buf):1;
 
 					if(IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_TITLEHIDE) == BST_CHECKED)

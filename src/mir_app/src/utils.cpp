@@ -298,7 +298,7 @@ static CountryListEntry countries[] = {
 
 static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 {
-	for (int i = 0; i < SIZEOF(countries); i++)
+	for (int i = 0; i < _countof(countries); i++)
 		if ((int)wParam == countries[i].id)
 			return (INT_PTR)countries[i].szName;
 
@@ -307,7 +307,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 
 static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
 {
-	for (int i = 0; i < SIZEOF(countries); i++)
+	for (int i = 0; i < _countof(countries); i++)
 		if ( mir_strcmpi((char*)wParam, countries[i].ISOcode) == 0)
 			return (INT_PTR)countries[i].szName;
 
@@ -316,7 +316,7 @@ static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
 
 static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 {
-	*(int*)wParam = SIZEOF(countries);
+	*(int*)wParam = _countof(countries);
 	*(CountryListEntry**)lParam = countries;
 	return 0;
 }
@@ -329,12 +329,12 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
-	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 	if (wParam) {
 		VARST profilename( _T("%miranda_profilename%"));
-		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
 	}
-	else mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+	else mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);

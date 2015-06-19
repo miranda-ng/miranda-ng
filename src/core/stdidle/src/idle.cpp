@@ -236,7 +236,7 @@ void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 int IdleGetStatusIndex(WORD status)
 {
-	for (int j = 0; j < SIZEOF(aa_Status); j++)
+	for (int j = 0; j < _countof(aa_Status); j++)
 		if (aa_Status[j] == status)
 			return j;
 
@@ -267,7 +267,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
 
 		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED : BST_UNCHECKED);
-		for (j = 0; j < SIZEOF(aa_Status); j++)
+		for (j = 0; j < _countof(aa_Status); j++)
 			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
 
 		j = IdleGetStatusIndex((WORD)(db_get_w(NULL, IDLEMOD, IDL_AASTATUS, 0)));

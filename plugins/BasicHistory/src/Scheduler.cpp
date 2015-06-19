@@ -236,9 +236,9 @@ bool DoTask(TaskOptions& to)
 		if (err.empty())
 			_tcscpy_s(msg, TranslateT("Some value is invalid"));
 		else if (errDescr.empty())
-			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), err.c_str());
+			mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value."), err.c_str());
 		else
-			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
+			mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
 
 		DoError(to, msg);
 		return true;
@@ -395,7 +395,7 @@ bool DoTask(TaskOptions& to)
 						errorStr += L"\n";
 
 					TCHAR msg[1024];
-					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Incorrect file format: %s."), GetName(*it).c_str());
+					mir_sntprintf(msg, _countof(msg), TranslateT("Incorrect file format: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
 				else {
@@ -404,7 +404,7 @@ bool DoTask(TaskOptions& to)
 
 					TCHAR msg[1024];
 					
-					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
+					mir_sntprintf(msg, _countof(msg), TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
 			}
@@ -460,7 +460,7 @@ bool DoTask(TaskOptions& to)
 
 				TCHAR msg[1024];
 					
-				mir_sntprintf(msg, SIZEOF(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+				mir_sntprintf(msg, _countof(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 				errorStr += msg;
 			}
 
@@ -481,7 +481,7 @@ bool DoTask(TaskOptions& to)
 						errorStr += L"\n";
 
 					TCHAR msg[1024];
-					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+					mir_sntprintf(msg, _countof(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 					errorStr += msg;
 					break;
 				}
@@ -586,7 +586,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 		TCHAR time[256];
 		SYSTEMTIME st;
 		GetLocalTime(&st);
-		mir_sntprintf(time, SIZEOF(time), _T("%d-%02d-%02d %02d%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
+		mir_sntprintf(time, _countof(time), _T("%d-%02d-%02d %02d%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
 		std::wstring str1 = str.substr(0, pos);
 		str1 += time;
 		str1 += str.substr(pos + 6);
@@ -1124,7 +1124,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 			DeleteFile(log.c_str());
 			TCHAR cmdLine[MAX_PATH];
-			mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+			mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
 			STARTUPINFO				startupInfo = {0};
 			PROCESS_INFORMATION		processInfo;
 			startupInfo.cb			= sizeof(STARTUPINFO);
@@ -1213,7 +1213,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 		DeleteFile(log.c_str());
 		TCHAR cmdLine[MAX_PATH];
-		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
 		STARTUPINFO				startupInfo = {0};
 		PROCESS_INFORMATION		processInfo;
 		startupInfo.cb			= sizeof(STARTUPINFO);
@@ -1243,7 +1243,7 @@ void CreatePath(const TCHAR *szDir)
 	DWORD dwAttributes;
 	TCHAR *pszLastBackslash, szTestDir[ MAX_PATH ];
 
-	mir_tstrncpy( szTestDir, szDir, SIZEOF( szTestDir ));
+	mir_tstrncpy( szTestDir, szDir, _countof( szTestDir ));
 	if (( dwAttributes = GetFileAttributes( szTestDir )) != INVALID_FILE_ATTRIBUTES && ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ))
 		return;
 
@@ -1274,7 +1274,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam)
 void DoError(const TaskOptions& to, const std::wstring _error)
 {
 	TCHAR msg[256];
-	mir_sntprintf(msg, SIZEOF(msg), TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
+	mir_sntprintf(msg, _countof(msg), TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
 	if (Options::instance->schedulerHistoryAlerts) {
 		std::wstring error = msg;
 		error += L"\n";

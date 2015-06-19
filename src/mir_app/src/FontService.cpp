@@ -95,17 +95,17 @@ int LoadFontserviceModule(void)
 
 	_tcsncpy_s(fontid.name, LPGENT("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
-	strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
+	strncpy(fontid.prefix, "Header", _countof(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	_tcsncpy_s(fontid.name, LPGENT("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
-	strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
+	strncpy(fontid.prefix, "Generic", _countof(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	_tcsncpy_s(fontid.name, LPGENT("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
-	strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
+	strncpy(fontid.prefix, "Small", _countof(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	// do last for silly dyna plugin

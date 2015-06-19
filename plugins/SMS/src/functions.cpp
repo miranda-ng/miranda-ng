@@ -99,13 +99,13 @@ DWORD GetContactPhonesCountParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszVa
 	WCHAR wszPhone[MAX_PHONE_LEN];
 	size_t i,dwPhoneSize;
 
-	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
+	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhone,_countof(wszPhone),&dwPhoneSize))
 		if ( IsPhoneW(wszPhone,dwPhoneSize))
 			dwRet++;
 
 	for (i=0; i <= PHONES_MIN_COUNT; i++) {
-		mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
-		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
+		mir_snprintf(szBuff,_countof(szBuff),"%s%ld",lpszValueName,i);
+		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhone,_countof(wszPhone),&dwPhoneSize))
 			if ( IsPhoneW(wszPhone,dwPhoneSize))
 				dwRet++;
 	}
@@ -136,7 +136,7 @@ BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
 	size_t i,dwPhoneSizeLocal;
 
-	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
+	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,_countof(wszPhoneLocal),&dwPhoneSizeLocal))
 		if ( IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
 			dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
 			if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize)==CSTR_EQUAL)
@@ -144,8 +144,8 @@ BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 		}
 
 		for (i=0; i <= PHONES_MIN_COUNT; i++) {
-			mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
-			if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal)) {
+			mir_snprintf(szBuff,_countof(szBuff),"%s%ld",lpszValueName,i);
+			if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,_countof(wszPhoneLocal),&dwPhoneSizeLocal)) {
 				if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
 					dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
 					if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize) == CSTR_EQUAL)
@@ -416,7 +416,7 @@ static const size_t dwXMLSymbolsCount[]	={sizeof(TCHAR),		sizeof(TCHAR),		sizeof
 //Decode XML coded string. The function translate special xml code into standard characters.
 DWORD DecodeXML(LPTSTR lptszMessage,size_t dwMessageSize,LPTSTR lptszMessageConverted,size_t dwMessageConvertedBuffSize,size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
+	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),_countof(lpszXMLTags),(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
 
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
 	return(dwRet);
@@ -425,7 +425,7 @@ DWORD DecodeXML(LPTSTR lptszMessage,size_t dwMessageSize,LPTSTR lptszMessageConv
 //Encode XML coded string. The function translate special saved xml characters into special characters.
 DWORD EncodeXML(LPTSTR lptszMessage,size_t dwMessageSize,LPTSTR lptszMessageConverted,size_t dwMessageConvertedBuffSize,size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
+	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),_countof(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
 
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
 	return(dwRet);
@@ -447,7 +447,7 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 
 	if (colour)
 	{
-		mir_snprintf(str,SIZEOF(str),"Font%dCol",i);
+		mir_snprintf(str,_countof(str),"Font%dCol",i);
 		(*colour)=db_get_dw(NULL,SRMMMOD,str,fontOptionsList[0].defColour);
 	}
 
@@ -455,30 +455,30 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 	{
 		if (db_get(NULL,SRMMMOD,str,&dbv))
 		{
-			mir_tstrncpy(lf->lfFaceName,fontOptionsList[0].szDefFace,SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName,fontOptionsList[0].szDefFace,_countof(lf->lfFaceName));
 		}else{
-			mir_tstrncpy(lf->lfFaceName,dbv.ptszVal,SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName,dbv.ptszVal,_countof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 
-		mir_snprintf(str,SIZEOF(str),"Font%dSize",i);
+		mir_snprintf(str,_countof(str),"Font%dSize",i);
 		lf->lfHeight=(char)db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defSize);
 		lf->lfWidth=0;
 		lf->lfEscapement=0;
 		lf->lfOrientation=0;
-		mir_snprintf(str,SIZEOF(str),"Font%dSty",i);
+		mir_snprintf(str,_countof(str),"Font%dSty",i);
 		style=db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defStyle);
 		lf->lfWeight=style&FONTF_BOLD?FW_BOLD:FW_NORMAL;
 		lf->lfItalic=style&FONTF_ITALIC?1:0;
 		lf->lfUnderline=0;
 		lf->lfStrikeOut=0;
-		mir_snprintf(str,SIZEOF(str),"Font%dSet",i);
+		mir_snprintf(str,_countof(str),"Font%dSet",i);
 		lf->lfCharSet=db_get_b(NULL,SRMMMOD,str,MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 		lf->lfOutPrecision=OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision=CLIP_DEFAULT_PRECIS;
 		lf->lfQuality=DEFAULT_QUALITY;
 		lf->lfPitchAndFamily=DEFAULT_PITCH|FF_DONTCARE;
-		mir_snprintf(str,SIZEOF(str),"Font%d",i);
+		mir_snprintf(str,_countof(str),"Font%d",i);
 	}
 }
 

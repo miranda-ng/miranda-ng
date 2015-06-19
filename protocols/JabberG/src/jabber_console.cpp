@@ -194,7 +194,7 @@ static void sttEmptyBuf(StringBuf *buf)
 static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 {
 	char indentLevel[128];
-	mir_snprintf(indentLevel, SIZEOF(indentLevel), RTF_INDENT_FMT, (int)(indent*200));
+	mir_snprintf(indentLevel, _countof(indentLevel), RTF_INDENT_FMT, (int)(indent*200));
 
 	sttAppendBufRaw(buf, RTF_BEGINTAG);
 	sttAppendBufRaw(buf, indentLevel);
@@ -228,7 +228,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 		if (xmlGetChildCount(node)) {
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
 			char indentTextLevel[128];
-			mir_snprintf(indentTextLevel, SIZEOF(indentTextLevel), RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
+			mir_snprintf(indentTextLevel, _countof(indentTextLevel), RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
 		}
 
@@ -348,7 +348,7 @@ void CJabberDlgConsole::OnInitDialog()
 	*m_proto->m_filterInfo.pattern = 0;
 	ptrT tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
 	if (tszPattern != NULL)
-		mir_tstrncpy(m_proto->m_filterInfo.pattern, tszPattern, SIZEOF(m_proto->m_filterInfo.pattern));
+		mir_tstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
 	SetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern);
@@ -370,7 +370,7 @@ void CJabberDlgConsole::OnInitDialog()
 		{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
 	};
 
-	for (int i=0; i < SIZEOF(buttons); i++) {
+	for (int i=0; i < _countof(buttons); i++) {
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
@@ -378,7 +378,7 @@ void CJabberDlgConsole::OnInitDialog()
 		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, BST_CHECKED);
 	}
 
-	for (int i=0; i < SIZEOF(filter_modes); i++)
+	for (int i=0; i < _countof(filter_modes); i++)
 		if (filter_modes[i].type == m_proto->m_filterInfo.type) {
 			g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
@@ -549,23 +549,23 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
 
-				if (len > SIZEOF(m_proto->m_filterInfo.pattern)) {
+				if (len > _countof(m_proto->m_filterInfo.pattern)) {
 					TCHAR *buf = (TCHAR *)_alloca(len * sizeof(TCHAR));
 					SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
-					mir_tstrncpy(m_proto->m_filterInfo.pattern, buf, SIZEOF(m_proto->m_filterInfo.pattern));
+					mir_tstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
 				}
 				else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
 			}
 			else if (HIWORD(wParam) == CBN_EDITCHANGE) {
 				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
-				GetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern, SIZEOF(m_proto->m_filterInfo.pattern));
+				GetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern, _countof(m_proto->m_filterInfo.pattern));
 			}
 			break;
 
 		case IDC_BTN_FILTER:
 			int i;
 			HMENU hMenu = CreatePopupMenu();
-			for (i = 0; i < SIZEOF(filter_modes); i++)
+			for (i = 0; i < _countof(filter_modes); i++)
 				AppendMenu(hMenu,
 					MF_STRING | ((filter_modes[i].type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0),
 					filter_modes[i].type + 1, TranslateTS(filter_modes[i].title));
@@ -578,7 +578,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (res) {
 				m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
-				for (i = 0; i < SIZEOF(filter_modes); i++) {
+				for (i = 0; i < _countof(filter_modes); i++) {
 					if (filter_modes[i].type == m_proto->m_filterInfo.type) {
 						g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 						break;

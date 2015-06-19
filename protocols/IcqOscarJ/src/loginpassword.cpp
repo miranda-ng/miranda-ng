@@ -42,7 +42,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DWORD dwUin = ppro->getContactUin(NULL);
 
 			TCHAR pszUIN[MAX_PATH];
-			mir_sntprintf(pszUIN, SIZEOF(pszUIN), TranslateT("Enter a password for UIN %u:"), dwUin);
+			mir_sntprintf(pszUIN, _countof(pszUIN), TranslateT("Enter a password for UIN %u:"), dwUin);
 			SetDlgItemText(hwndDlg, IDC_INSTRUCTION, pszUIN);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
@@ -66,7 +66,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ppro->m_bRememberPwd = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEPASS);
 			ppro->setByte("RememberPass", ppro->m_bRememberPwd);
 
-			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, SIZEOF(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, _countof(ppro->m_szPassword));
 
 			ppro->icq_login(ppro->m_szPassword);
 

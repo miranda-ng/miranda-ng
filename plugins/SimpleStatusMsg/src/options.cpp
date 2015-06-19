@@ -878,7 +878,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					if (data->proto_msg[j].flags & PROTO_THIS_MSG)
 					{
-						int len = GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, SIZEOF(msg));
+						int len = GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
 						if (len > 0)
 						{	
 							if (data->proto_msg[j].msg == NULL)
@@ -900,7 +900,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					}
 					else
 					{
-						GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, SIZEOF(msg));
+						GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
 						mir_tstrcpy(data->status_msg[j].msg[i], msg);
 					}
 				}
@@ -1346,7 +1346,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 				max_hist_msgs = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 				for (i = 1; i <= max_hist_msgs; i++) {
-					mir_snprintf(text, SIZEOF(text), "SMsg%d", i);
+					mir_snprintf(text, _countof(text), "SMsg%d", i);
 					db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
 				}
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");

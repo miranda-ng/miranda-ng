@@ -670,7 +670,7 @@ static int LocateStorePosition(int Frameid, int maxstored)
 
 	char settingname[255];
 	for (int i = 0; i < maxstored; i++) {
-		mir_snprintf(settingname, SIZEOF(settingname), "Name%d", i);
+		mir_snprintf(settingname, _countof(settingname), "Name%d", i);
 		DBVARIANT dbv = { 0 };
 		if (db_get_ts(NULL, CLUIFrameModule, settingname, &dbv))
 			continue;
@@ -2902,7 +2902,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				int oldflags;
 
 
-				mir_snprintf(TBcapt, SIZEOF(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
+				mir_snprintf(TBcapt, _countof(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
 					g_pfwFrames[pos].szName, g_pfwFrames[pos].height, g_pfwFrames[pos].visible, g_pfwFrames[pos].floating,
 					g_pfwFrames[pos].FloatingPos.x, g_pfwFrames[pos].FloatingPos.y,
 					g_pfwFrames[pos].FloatingSize.x, g_pfwFrames[pos].FloatingSize.y,

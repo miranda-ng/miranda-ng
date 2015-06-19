@@ -151,7 +151,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		case WM_CREATE:
 		case HLK_MEASURETEXT:
 		{	TCHAR szText[256];
-			if (!GetWindowText(hwnd, szText, SIZEOF(szText))) return 0;
+			if (!GetWindowText(hwnd, szText, _countof(szText))) return 0;
 			lParam = (LPARAM)szText;
 			/* fall thru */
 		case WM_SETTEXT:
@@ -228,7 +228,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					hPrevFont = (HFONT)SelectObject(hdc, dat->hDisableFont);
 					textColor = dat->disableColor;
 				}
-				if (GetClientRect(hwnd, &rc) && GetWindowText(hwnd, szText, SIZEOF(szText))) {
+				if (GetClientRect(hwnd, &rc) && GetWindowText(hwnd, szText, _countof(szText))) {
 					BOOL fSmoothing;
 					UINT fSmoothingType;
 					SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, &fSmoothing, 0);

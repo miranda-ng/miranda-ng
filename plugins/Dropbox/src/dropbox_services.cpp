@@ -179,7 +179,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 			{ "delete", &CDropbox::CommandDelete }
 		};
 
-		for (int i = 0; i < SIZEOF(commands); i++)
+		for (int i = 0; i < _countof(commands); i++)
 		{
 			if (!mir_strcmp(szMessage+1, commands[i].szCommand))
 			{
@@ -199,7 +199,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	}
 
 	char help[1024];
-	mir_snprintf(help, SIZEOF(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
+	mir_snprintf(help, _countof(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
 	CallContactService(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
 	return 0;
 }

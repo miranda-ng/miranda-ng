@@ -44,21 +44,21 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 		}
 	}
 
-	GetSensiblyFormattedSize(totalSize, str, SIZEOF(str), 0, 1, NULL);
+	GetSensiblyFormattedSize(totalSize, str, _countof(str), 0, 1, NULL);
 	SetDlgItemText(hwndDlg, IDC_TOTALSIZE, str);
 	if (i > 1) {
 		TCHAR szFormat[32];
 		if (fileCount && dirCount) {
-			mir_sntprintf(szFormat, SIZEOF(szFormat), _T("%s, %s"), TranslateTS(fileCount == 1 ? _T("%d file") : _T("%d files")), TranslateTS(dirCount == 1 ? _T("%d directory") : _T("%d directories")));
-			mir_sntprintf(str, SIZEOF(str), szFormat, fileCount, dirCount);
+			mir_sntprintf(szFormat, _countof(szFormat), _T("%s, %s"), TranslateTS(fileCount == 1 ? _T("%d file") : _T("%d files")), TranslateTS(dirCount == 1 ? _T("%d directory") : _T("%d directories")));
+			mir_sntprintf(str, _countof(str), szFormat, fileCount, dirCount);
 		}
 		else if (fileCount) {
 			mir_tstrcpy(szFormat, TranslateT("%d files"));
-			mir_sntprintf(str, SIZEOF(str), szFormat, fileCount);
+			mir_sntprintf(str, _countof(str), szFormat, fileCount);
 		}
 		else {
 			mir_tstrcpy(szFormat, TranslateT("%d directories"));
-			mir_sntprintf(str, SIZEOF(str), szFormat, dirCount);
+			mir_sntprintf(str, _countof(str), szFormat, dirCount);
 		}
 		SetDlgItemText(hwndDlg, IDC_FILE, str);
 	}
@@ -323,9 +323,9 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MSG), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHOOSE), FALSE);
 
-			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, SIZEOF(dat->szSavePath));
-			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, SIZEOF(dat->szFilenames));
-			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, SIZEOF(dat->szMsg));
+			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, _countof(dat->szSavePath));
+			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, _countof(dat->szFilenames));
+			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, _countof(dat->szMsg));
 			dat->hwndTransfer = FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			DestroyWindow(hwndDlg);

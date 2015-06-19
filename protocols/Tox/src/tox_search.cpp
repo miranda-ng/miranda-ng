@@ -73,15 +73,15 @@ void CToxProto::SearchByNameAsync(void *arg)
 		mir_strcpy(fileName, VARS(TOX_INI_PATH));
 
 		char *section, sections[MAX_PATH], value[TOX_PUBLIC_KEY_SIZE * 2];
-		GetPrivateProfileSectionNamesA(sections, SIZEOF(sections), fileName);
+		GetPrivateProfileSectionNamesA(sections, _countof(sections), fileName);
 		section = sections;
 		while (*section != NULL)
 		{
 			if (strstr(section, "Dns_") == section)
 			{
-				GetPrivateProfileStringA(section, "Domain", NULL, value, SIZEOF(value), fileName);
+				GetPrivateProfileStringA(section, "Domain", NULL, value, _countof(value), fileName);
 				ptrA dnsDomain(mir_strdup(value));
-				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
+				GetPrivateProfileStringA(section, "PubKey", NULL, value, _countof(value), fileName);
 				ToxBinAddress dnsPubKey = value;
 
 				if (domain == NULL || mir_strcmpi(domain, dnsDomain) == 0)
@@ -95,7 +95,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 					{
 						dnsString[length] = 0;
 						char dnsQuery[MAX_PATH * 2];
-						mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "_%s._tox.%s", dnsString, dnsDomain);
+						mir_snprintf(dnsQuery, _countof(dnsQuery), "_%s._tox.%s", dnsString, dnsDomain);
 
 						ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
 						if (!address.IsEmpty())
@@ -106,7 +106,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 							psr.nick.a = mir_strdup(name);
 
 							char email[MAX_PATH];
-							mir_snprintf(email, SIZEOF(email), "%s@%s", name, domain);
+							mir_snprintf(email, _countof(email), "%s@%s", name, domain);
 							psr.email.a = mir_strdup(email);
 
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -123,7 +123,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 	if (resolved == 0 && domain)
 	{
 		char dnsQuery[MAX_PATH];
-		mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "%s._tox.%s", name, domain);
+		mir_snprintf(dnsQuery, _countof(dnsQuery), "%s._tox.%s", name, domain);
 
 		ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
 		if (!address.IsEmpty())
@@ -134,7 +134,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 			psr.nick.a = mir_strdup(name);
 
 			char email[MAX_PATH];
-			mir_snprintf(email, SIZEOF(email), "%s@%s", name, domain);
+			mir_snprintf(email, _countof(email), "%s@%s", name, domain);
 			psr.email.a = mir_strdup(email);
 
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -184,7 +184,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
 
 	TCHAR text[MAX_PATH];
-	GetDlgItemText(owner, IDC_SEARCH, text, SIZEOF(text));
+	GetDlgItemText(owner, IDC_SEARCH, text, _countof(text));
 
 	const std::string query = T2Utf(text);
 	if (std::regex_search(query, match, regex))

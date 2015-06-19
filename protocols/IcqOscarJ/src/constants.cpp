@@ -128,4 +128,4 @@ const SettingItem setting[] =
 	{ LPGEN("Interest areas 4"), LI_STRING, DBVT_UTF8, "Interest3Text" },
 };
 
-const int settingCount = SIZEOF(setting);
+const int settingCount = _countof(setting);

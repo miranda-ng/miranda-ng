@@ -94,8 +94,8 @@ static IconItem iconList[] =
 static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 {
 	BYTE bContactRate = db_get_b(hContact, "CList", "Rate", 0);
-	if (bContactRate > SIZEOF(rates) - 1)
-		bContactRate = SIZEOF(rates) - 1;
+	if (bContactRate > _countof(rates) - 1)
+		bContactRate = _countof(rates) - 1;
 
 	BOOL bModifyMenu = FALSE;
 
@@ -130,12 +130,12 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	mi.hParentMenu = hFavoriteContactMenu;
 	if (!hFavoriteContactMenuItems) {
-		hFavoriteContactMenuItems = (HGENMENU *)malloc(sizeof(HANDLE) * SIZEOF(rates));
-		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE) * SIZEOF(rates));
+		hFavoriteContactMenuItems = (HGENMENU *)malloc(sizeof(HANDLE) * _countof(rates));
+		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE) * _countof(rates));
 	}
 
 	int i;
-	for (i = 0; i < SIZEOF(rates); i++) {
+	for (i = 0; i < _countof(rates); i++) {
 		mi.icolibItem = iconList[i].hIcolib;
 		mi.ptszName = rates[i];
 		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
@@ -181,7 +181,7 @@ INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM)
 
 int LoadFavoriteContactMenu()
 {
-	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, _countof(iconList));
 
 	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);

@@ -57,7 +57,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			else
 				nick[0] = 0;
 
-			for (int i=0; i < SIZEOF(szInvalidChars); i++ ) {
+			for (int i=0; i < _countof(szInvalidChars); i++ ) {
 				TCHAR *p = _tcschr(nick, szInvalidChars[i]);
 				if (p != NULL) {
 					WErrorPopup((MCONTACT)"ERROR", TranslateT("Invalid symbol present in contact name."));
@@ -81,16 +81,16 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 			// TEST GET NAME FOR CACHE
 			TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
-			GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
+			GetModuleFileName(hInst, cachepath, _countof(cachepath));
 			TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+			mir_sntprintf(cachedirectorypath, _countof(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			TCHAR newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
-			mir_sntprintf(renamedcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
+			mir_sntprintf(newcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
+			mir_sntprintf(renamedcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
 
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
@@ -119,14 +119,14 @@ int SiteDeleted(WPARAM wParam, LPARAM lParam)
 
 	// TEST GET NAME FOR CACHE
 	TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-	GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
+	GetModuleFileName(hInst, cachepath, _countof(cachepath));
 	TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+	mir_sntprintf(cachedirectorypath, _countof(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
+	mir_sntprintf(newcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
 	// file exists?
 	if ( _taccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _tfopen(newcachepath, _T("r"));
@@ -144,12 +144,12 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 {
 	//GET NAME FOR CACHE
 	TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
-	GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
+	GetModuleFileName(hInst, cachepath, _countof(cachepath));
 	TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\%s"), cachepath, cacheend);
+	mir_sntprintf(cachedirectorypath, _countof(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\%s"), cachepath, cacheend);
 
 	if( _taccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((MCONTACT)"ERROR", TranslateT("Cache folder does not exist."));
@@ -172,7 +172,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TCHAR Cnick[200], *Oldnick;
-	_tcsncpy(Cnick, url, SIZEOF(Cnick));
+	_tcsncpy(Cnick, url, _countof(Cnick));
 	if ((Oldnick = _tcsstr(Cnick, _T("://"))) != 0)
 		Oldnick += 3;
 	else 
@@ -324,7 +324,7 @@ INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam)
 	if (searchId != -1)
 		return 0; // only one search at a time
 
-	mir_tstrncpy(sID, (TCHAR*)lParam, SIZEOF(sID));
+	mir_tstrncpy(sID, (TCHAR*)lParam, _countof(sID));
 	searchId = 1;
 
 	// create a thread for the ID search
@@ -380,7 +380,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	//Convert url into a name for contact
 	TCHAR Cnick[255];
 	if (psr->nick.t != NULL)
-		_tcsncpy(Cnick, psr->nick.t, SIZEOF(Cnick));
+		_tcsncpy(Cnick, psr->nick.t, _countof(Cnick));
 	else
 		Cnick[0] = 0;
 

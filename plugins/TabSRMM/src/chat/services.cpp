@@ -55,7 +55,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	TCHAR newcontactname[128];
 	if (mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
+			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
 			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
 	}

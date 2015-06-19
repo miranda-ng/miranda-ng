@@ -108,7 +108,7 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 		DBVARIANT dbv3;
 		if (!db_get(ai->fi->hContact, protocolname, "ServerIP", &dbv3))
 		{
-			mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "Port", 0));
+			mir_snprintf(temp, _countof(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "Port", 0));
 			db_free(&dbv3);
 			return mir_strdup(temp);
 		}
@@ -133,7 +133,7 @@ char* Varxfirevoiceip(ARGUMENTSINFO *ai) {
 		DBVARIANT dbv3;
 		if (!db_get(ai->fi->hContact, protocolname, "VServerIP", &dbv3))
 		{
-			mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "VPort", 0));
+			mir_snprintf(temp, _countof(temp), "%s:%d", dbv3.pszVal, db_get_w(ai->fi->hContact, protocolname, "VPort", 0));
 			db_free(&dbv3);
 			return mir_strdup(temp);
 		}

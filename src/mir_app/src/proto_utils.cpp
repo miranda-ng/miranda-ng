@@ -64,7 +64,7 @@ MIR_APP_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_l
 MIR_APP_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
 	WCHAR buf[4096];
-	int res = _vsnwprintf(buf, SIZEOF(buf), wszFormat, args);
+	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
 	CallService(MS_NETLIB_LOGW, (WPARAM)(pThis ? pThis->m_hNetlibUser : NULL), (LPARAM)((res != -1) ? buf : CMStringW().FormatV(wszFormat, args)));
 }
 
@@ -244,10 +244,10 @@ MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
 
 	DWORD dwBytes;
 	char buf[32];
-	BOOL res = ReadFile(hFile, buf, SIZEOF(buf), &dwBytes, NULL);
+	BOOL res = ReadFile(hFile, buf, _countof(buf), &dwBytes, NULL);
 	CloseHandle(hFile);
 
-	return (res && dwBytes == SIZEOF(buf)) ? ProtoGetBufferFormat(buf) : PA_FORMAT_UNKNOWN;
+	return (res && dwBytes == _countof(buf)) ? ProtoGetBufferFormat(buf) : PA_FORMAT_UNKNOWN;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

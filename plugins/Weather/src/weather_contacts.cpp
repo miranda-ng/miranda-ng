@@ -30,7 +30,7 @@ static void OpenUrl( TCHAR* format, TCHAR* id )
 	TCHAR loc[512];
 
 	GetID( id );
-	mir_sntprintf(loc, SIZEOF(loc), format, id);
+	mir_sntprintf(loc, _countof(loc), format, id);
 	
 	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)loc );
 }
@@ -59,10 +59,10 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam) 
 {
 	TCHAR id[256], loc2[256];
-	GetStationID(wParam, id, SIZEOF(id));
+	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
-		if (DBGetStaticString(wParam, WEATHERPROTONAME, "InfoURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
+		if (DBGetStaticString(wParam, WEATHERPROTONAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(NULL, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -77,10 +77,10 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam)
 INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam) 
 {
 	TCHAR id[256], loc2[256];
-	GetStationID(wParam, id, SIZEOF(id));
+	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
-		if (DBGetStaticString(wParam, WEATHERPROTONAME, "MapURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
+		if (DBGetStaticString(wParam, WEATHERPROTONAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(NULL, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_ID:
 			// check if there are 2 parts in the ID (svc/id) seperated by "/"
 			// if not, don't let user change the setting
-			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			chop = _tcsstr(str, _T("/"));
 			if (chop == NULL)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
@@ -238,7 +238,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_NAME:
 			// check if station name is entered
 			// if not, don't let user change the setting
-			GetDlgItemText(hwndDlg, IDC_NAME, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_NAME, str, _countof(str));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), str[0] != 0);
 			break;
 
@@ -249,17 +249,17 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 				if ( !CheckSearch()) return TRUE;	// don't download if update is in progress
 				// get the weather update data using the string in the ID field
-				GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 				GetSvc(str);
 				WIDATA *sData = GetWIData(str);
-				GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 				GetID(str);
 				// if ID search is available, do it
 				if (sData->IDSearch.Available) {
 					TCHAR *szData = NULL;
 
 					// load the page
-					mir_snprintf(loc, SIZEOF(loc), sData->IDSearch.SearchURL, str);
+					mir_snprintf(loc, _countof(loc), sData->IDSearch.SearchURL, str);
 					str[0] = 0;
 					if (InternetDownloadFile(loc, NULL, sData->UserAgent, &szData) == 0) {
 						TCHAR *szInfo = szData;
@@ -285,23 +285,23 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		case IDC_BROWSE:	// fall through
 			// browse for the external log file
-			GetDlgItemText(hwndDlg, IDC_LOG, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 			// Initialize OPENFILENAME
 			memset(&ofn, 0, sizeof(OPENFILENAME));
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = str;
-			ofn.nMaxFile = SIZEOF(str);
+			ofn.nMaxFile = _countof(str);
 			// set filters
-			_tcsncpy(filter, TranslateT("Text Files"), SIZEOF(filter) - 1);
-			mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
+			_tcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
+			mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
 			pfilter = filter + mir_tstrlen(filter)+1;
-			_tcsncpy(pfilter, _T("*.txt"), SIZEOF(filter) - 1);
+			_tcsncpy(pfilter, _T("*.txt"), _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
-			_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - 1);
-			mir_tstrncat(pfilter, _T(" (*.*)"), SIZEOF(filter) - mir_tstrlen(filter));
+			_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
+			mir_tstrncat(pfilter, _T(" (*.*)"), _countof(filter) - mir_tstrlen(filter));
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
-			_tcsncpy(pfilter, _T("*.*"), SIZEOF(filter) - 1);
+			_tcsncpy(pfilter, _T("*.*"), _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
@@ -320,23 +320,23 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		case IDC_VIEW1:
 			// view the page for more info
-			GetDlgItemText(hwndDlg, IDC_IURL, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_IURL, str, _countof(str));
 			if (str[0] == 0) return TRUE;
-			GetDlgItemText(hwndDlg, IDC_ID, str2, SIZEOF(str2));
+			GetDlgItemText(hwndDlg, IDC_ID, str2, _countof(str2));
 			OpenUrl(str, str2);
 			break;
 
 		case IDC_VIEW2:
 			// view the page for weather map
-			GetDlgItemText(hwndDlg, IDC_MURL, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_MURL, str, _countof(str));
 			if (str[0] == 0) return TRUE;
-			GetDlgItemText(hwndDlg, IDC_ID, str2, SIZEOF(str2));
+			GetDlgItemText(hwndDlg, IDC_ID, str2, _countof(str2));
 			OpenUrl(str, str2);
 			break;
 
 		case IDC_RESET1:
 			// reset the more info url to service default
-			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			GetSvc(str);
 			sData = GetWIData(str);
 			SetDlgItemTextA(hwndDlg, IDC_IURL, sData->DefaultURL);
@@ -344,7 +344,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		case IDC_RESET2:
 			// reset the weathe map url to service default
-			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			GetSvc(str);
 			sData = GetWIData(str);
 			SetDlgItemText(hwndDlg, IDC_MURL, sData->DefaultMap);
@@ -352,7 +352,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		case IDC_SVCINFO:
 			// display the information of the ini file used by the weather station
-			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			GetSvc(str);
 			GetINIInfo(str);
 			break;
@@ -360,26 +360,26 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_CHANGE:
 			// temporary disable the protocol while applying the change
 			// start writing the new settings to database
-			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			db_set_ts(hContact, WEATHERPROTONAME, "ID", str);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
 				mir_tstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
 				db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 			}
-			GetDlgItemText(hwndDlg, IDC_NAME, city, SIZEOF(city));
+			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
 			db_set_ts(hContact, WEATHERPROTONAME, "Nick", city);
-			mir_sntprintf(str2, SIZEOF(str2), TranslateT("Current weather information for %s."), city);
+			mir_sntprintf(str2, _countof(str2), TranslateT("Current weather information for %s."), city);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
-				GetDlgItemText(hwndDlg, IDC_LOG, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 				db_set_ts(hContact, WEATHERPROTONAME, "Log", str);
 			}
 			else db_unset(hContact, WEATHERPROTONAME, "Log");
 
-			GetDlgItemText(hwndDlg, IDC_IURL, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_IURL, str, _countof(str));
 			db_set_ts(hContact, WEATHERPROTONAME, "InfoURL", str);
 
-			GetDlgItemText(hwndDlg, IDC_MURL, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_MURL, str, _countof(str));
 			db_set_ts(hContact, WEATHERPROTONAME, "MapURL", str);
 			db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
 			db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
@@ -452,12 +452,12 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 			// if the station is not a default station, set it as the new default station
 			// this is the first weather station encountered from the search
 			if ( mir_tstrcmp(opt.Default, dbv.ptszVal)) {
-				_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
+				_tcsncpy(opt.Default, dbv.ptszVal, _countof(opt.Default) - 1);
 				opt.DefStn = hContact;
 				db_free(&dbv);
 				if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 					TCHAR str[255];
-					mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+					mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 					db_free(&dbv);
 					MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 				}

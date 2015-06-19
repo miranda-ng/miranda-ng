@@ -47,7 +47,7 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 {
 	TCHAR tstr[250+1];
 
-	GetDlgItemText(hwnd, idCtrl, tstr, SIZEOF(tstr));
+	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {
 		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {
@@ -73,12 +73,12 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 
 		// Server
 		SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(servers[0])));
-		for(size_t i=1; i<SIZEOF(servers); i++)
+		for(size_t i=1; i<_countof(servers); i++)
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
 		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
 
 		// Language
-		for(size_t i=0; i<SIZEOF(languages); i++)
+		for(size_t i=0; i<_countof(languages); i++)
 			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
 		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 
@@ -150,12 +150,12 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 
 		// Server
 		SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(servers[0])));
-		for(size_t i=1; i<SIZEOF(servers); i++)
+		for(size_t i=1; i<_countof(servers); i++)
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
 		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
 
 		// Language
-		for(size_t i=0; i<SIZEOF(languages); i++)
+		for(size_t i=0; i<_countof(languages); i++)
 			SendDlgItemMessageA(hwnd, IDC_LANGUAGE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(languages[i].lang)));
 		SendDlgItemMessage(hwnd, IDC_LANGUAGE, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0), 0);
 

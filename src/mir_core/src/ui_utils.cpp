@@ -1403,7 +1403,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.itemex.mask = (UINT)-1;
 	tvis.itemex.pszText = name;
-	tvis.itemex.cchTextMax = SIZEOF(name);
+	tvis.itemex.cchTextMax = _countof(name);
 	tvis.itemex.hItem = hItem;
 	if (!GetItem(&tvis.itemex))
 		return NULL;
@@ -1628,7 +1628,7 @@ void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 {
 	TVITEMEX tvi;
 	TCHAR buf[128];
-	GetItem(hItem, &tvi, buf, SIZEOF(buf));
+	GetItem(hItem, &tvi, buf, _countof(buf));
 	tvi.pszText = TranslateTS(tvi.pszText);
 	SetItem(&tvi);
 }
@@ -1672,7 +1672,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 
 	while (tvi.hItem) {
 		GetItem(&tvi);

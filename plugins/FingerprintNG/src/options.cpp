@@ -83,13 +83,13 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		for (i = 0; i < SIZEOF(settings); i++)
+		for (i = 0; i < _countof(settings); i++)
 			LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, settings[i].defValue);
 		break;
 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED)
-			for (i = 0; i < SIZEOF(settings); i++)
+			for (i = 0; i < _countof(settings); i++)
 				if (settings[i].idCtrl == LOWORD(wParam)) {
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
@@ -99,7 +99,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_NOTIFY:
 		NMHDR *hdr = (NMHDR *)lParam;
 		if (hdr && hdr->code == PSN_APPLY) {
-			for (i = 0; i < SIZEOF(settings); i++)
+			for (i = 0; i < _countof(settings); i++)
 				StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
 
 			ClearFI();

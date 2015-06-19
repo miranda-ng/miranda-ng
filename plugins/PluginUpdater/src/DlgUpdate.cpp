@@ -59,9 +59,9 @@ static void ApplyUpdates(void *param)
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
-	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -101,7 +101,7 @@ static void ApplyUpdates(void *param)
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -109,8 +109,8 @@ static void ApplyUpdates(void *param)
 				// otherwise it would be replaced by unzip
 				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, _countof(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -172,7 +172,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
 			{
 				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+				GetModuleFileName(NULL, szPath, _countof(szPath));
 				TCHAR *ext = _tcsrchr(szPath, '.');
 				if (ext != NULL)
 					*ext = '\0';
@@ -374,10 +374,10 @@ static void DlgUpdateSilent(void *lParam)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -415,7 +415,7 @@ static void DlgUpdateSilent(void *lParam)
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -423,8 +423,8 @@ static void DlgUpdateSilent(void *lParam)
 				// otherwise it would be replaced by unzip
 				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, _countof(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -452,7 +452,7 @@ static void DlgUpdateSilent(void *lParam)
 
 	// 5) Prepare Restart
 	TCHAR tszTitle[100];
-	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), count);
+	mir_sntprintf(tszTitle, _countof(tszTitle), TranslateT("%d component(s) was updated"), count);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
@@ -474,7 +474,7 @@ static void DlgUpdateSilent(void *lParam)
 		if (!notified) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
 			TCHAR tszText[200];
-			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+			mir_sntprintf(tszText, _countof(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
 #if MIRANDA_VER >= 0x0A00
@@ -555,7 +555,7 @@ static renameTable[] =
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 {
-	for (int i = 0; i < SIZEOF(renameTable); i++) {
+	for (int i = 0; i < _countof(renameTable); i++) {
 		if (wildcmpit(ptszOldName, renameTable[i].oldName)) {
 			TCHAR *ptszDest = renameTable[i].newName;
 			if (ptszDest == NULL)
@@ -590,12 +590,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 
 	// skip profile folder
 	TCHAR tszProfilePath[MAX_PATH];
-	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszProfilePath), (LPARAM)tszProfilePath);
+	CallService(MS_DB_GETPROFILEPATHT, _countof(tszProfilePath), (LPARAM)tszProfilePath);
 	if (!_tcsicmp(tszFolder, tszProfilePath))
 		return 0;
 
 	TCHAR tszBuf[MAX_PATH];
-	mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\*"), tszFolder);
+	mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\*"), tszFolder);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
@@ -609,7 +609,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			// Scan recursively all subfolders
 			if (_tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T(".."))) {
-				mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+				mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 				count += ScanFolder(tszBuf, cbBaseLen, level + 1, tszBaseUrl, hashes, UpdateFiles);
 			}
 		}
@@ -620,12 +620,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				if (level == 0)
 					_tcsncpy(tszNewName, ffd.cFileName, MAX_PATH);
 				else
-					mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
+					mir_sntprintf(tszNewName, _countof(tszNewName), _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
 
 			TCHAR *ptszUrl;
 			int MyCRC;
-			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
@@ -686,25 +686,25 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			// Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
 			// copy the relative old name
-			_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, SIZEOF(FileInfo->tszOldName));
+			_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, _countof(FileInfo->tszOldName));
 			FileInfo->bDeleteOnly = bDeleteOnly;
 			if (FileInfo->bDeleteOnly) {
 				// save the full old name for deletion
-				_tcsncpy(FileInfo->tszNewName, tszBuf, SIZEOF(FileInfo->tszNewName));
+				_tcsncpy(FileInfo->tszNewName, tszBuf, _countof(FileInfo->tszNewName));
 			}
 			else {
-				_tcsncpy(FileInfo->tszNewName, ptszUrl, SIZEOF(FileInfo->tszNewName));
+				_tcsncpy(FileInfo->tszNewName, ptszUrl, _countof(FileInfo->tszNewName));
 			}
 
-			_tcsncpy(tszBuf, ptszUrl, SIZEOF(tszBuf));
+			_tcsncpy(tszBuf, ptszUrl, _countof(tszBuf));
 			TCHAR *p = _tcsrchr(tszBuf, '.');
 			if (p) *p = 0;
 			p = _tcsrchr(tszBuf, '\\');
 			p = (p) ? p + 1 : tszBuf;
 			_tcslwr(p);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
+			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';
 
@@ -728,7 +728,7 @@ static void CheckUpdates(void *)
 {
 	Netlib_LogfT(hNetlibUser, _T("Checking for updates"));
 	TCHAR tszTempPath[MAX_PATH];
-	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
+	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen - 1] == '\\')
 		tszTempPath[dwLen - 1] = 0;
 

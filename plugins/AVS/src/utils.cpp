@@ -103,7 +103,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 					if (pdescr == NULL)
 						return -1;
 					char key[MAX_PATH];
-					mir_snprintf(key, SIZEOF(key), "Global avatar for %s accounts", pdescr->szProtoName);
+					mir_snprintf(key, _countof(key), "Global avatar for %s accounts", pdescr->szProtoName);
 					if (tszValue = db_get_tsa(NULL, PPICT_MODULE, key))
 						MyPathToAbsolute(tszValue, tszFilename);
 				}
@@ -128,7 +128,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)szFileName, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 				else
-					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
+					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, _countof(tszFilename));
 			}
 			else if (tszValue = db_get_tsa(NULL, szProto, "AvatarFile"))
 				MyPathToAbsolute(tszValue, tszFilename);

@@ -121,7 +121,7 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 
 				for (int index = 1; index < 8; index++) {
 					TCHAR str[5];
-					mir_sntprintf(str, SIZEOF(str), _T("#$%u"), index);
+					mir_sntprintf(str, _countof(str), _T("#$%u"), index);
 					if (!GetWord(line, index).IsEmpty() && IsChannel(GetWord(line, index)))
 						S.Replace(str, GetWord(line, index).c_str());
 					else {
@@ -132,12 +132,12 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 				}
 				for (int index2 = 1; index2 < 8; index2++) {
 					TCHAR str[5];
-					mir_sntprintf(str, SIZEOF(str), _T("$%u-"), index2);
+					mir_sntprintf(str, _countof(str), _T("$%u-"), index2);
 					S.Replace(str, GetWordAddress(line, index2));
 				}
 				for (int index3 = 1; index3 < 8; index3++) {
 					TCHAR str[5];
-					mir_sntprintf(str, SIZEOF(str), _T("$%u"), index3);
+					mir_sntprintf(str, _countof(str), _T("$%u"), index3);
 					S.Replace(str, GetWord(line, index3).c_str());
 				}
 				Messageout += GetWordAddress(S.c_str(), 1);
@@ -176,7 +176,7 @@ CMString CIrcProto::DoIdentifiers(CMString text, const TCHAR*)
 	text.Replace(_T("%me"), m_info.sNick.c_str());
 
 	char mirver[100];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(mirver), LPARAM(mirver));
+	CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(mirver), LPARAM(mirver));
 	text.Replace(_T("%mirver"), _A2T(mirver));
 
 	text.Replace(_T("%version"), _T(__VERSION_STRING_DOTS));
@@ -799,7 +799,7 @@ bool CIrcProto::PostIrcMessage(const TCHAR* fmt, ...)
 	va_list marker;
 	va_start(marker, fmt);
 	static TCHAR szBuf[4 * 1024];
-	mir_vsntprintf(szBuf, SIZEOF(szBuf), fmt, marker);
+	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	return PostIrcMessageWnd(NULL, NULL, szBuf);

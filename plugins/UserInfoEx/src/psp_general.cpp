@@ -131,7 +131,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 								{ ICO_COMMON_MALE,    STM_SETIMAGE, ICO_MALE },
 								{ ICO_COMMON_MARITAL, STM_SETIMAGE, ICO_MARITAL },
 							};
-							IcoLib_SetCtrlIcons(hDlg, idIcon, SIZEOF(idIcon));
+							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
 						}
 					}
 				}

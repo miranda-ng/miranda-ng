@@ -1031,7 +1031,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			DWORD dwTrayMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
 			DWORD dwTrayFlags = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", 0);
 
-			for (int i = 0; i < SIZEOF(_eventorder); i++) {
+			for (int i = 0; i < _countof(_eventorder); i++) {
 				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupMask & _eventorder[i] ? (dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayMask & _eventorder[i] ? (dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
@@ -1050,7 +1050,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			int iFlags = 0, i;
 			DWORD dwMask = 0;
 
-			for (i = 0; i < SIZEOF(_eventorder); i++) {
+			for (i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1072,7 +1072,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			dwMask = iFlags = 0;
 
-			for (i = 0; i < SIZEOF(_eventorder); i++) {
+			for (i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1094,7 +1094,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			dwMask = iFlags = 0;
 
-			for (i = 0; i < SIZEOF(_eventorder); i++) {
+			for (i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1323,7 +1323,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 			TranslateT("Nickname"), ui1->pszNick,
 			TranslateT("Unique ID"), ui1->pszUID,
 			TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1458,7 +1458,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else if (wParam < ' ')
 				break;
 			else {
-				if (mir_tstrlen(si->szSearch) >= SIZEOF(si->szSearch) - 2) {
+				if (mir_tstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
 					MessageBeep(MB_OK);
 					break;
 				}
@@ -1671,7 +1671,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					}
 				}
 				if (tszBuf[0] == 0)
-					mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
+					mir_sntprintf(tszBuf, _countof(tszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 					TranslateT("Nick"), ui1->pszNick,
 					TranslateT("Unique ID"), ui1->pszUID,
 					TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1890,7 +1890,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			const TCHAR *szNick = dat->cache->getNick();
 			if (mir_tstrlen(szNick) > 0) {
 				if (M.GetByte("cuttitle", 0))
-					CutContactName(szNick, dat->newtitle, SIZEOF(dat->newtitle));
+					CutContactName(szNick, dat->newtitle, _countof(dat->newtitle));
 				else
 					_tcsncpy_s(dat->newtitle, szNick, _TRUNCATE);
 			}
@@ -1976,17 +1976,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					else if (diff > 59) {
 						DWORD hours = diff / 60;
 						DWORD minutes = diff % 60;
-						mir_sntprintf(mi->tszIdleMsg, SIZEOF(mi->tszIdleMsg), TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
+						mir_sntprintf(mi->tszIdleMsg, _countof(mi->tszIdleMsg), TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
 							TranslateT("hours") : TranslateT("hour"),
 							minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
-					else mir_sntprintf(mi->tszIdleMsg, SIZEOF(mi->tszIdleMsg), TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+					else mir_sntprintf(mi->tszIdleMsg, _countof(mi->tszIdleMsg), TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 				}
-				mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
+				mir_sntprintf(szFinalStatusBarText, _countof(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 			}
 			else {
 				if (si->ptszStatusbarText)
-					mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
+					mir_sntprintf(szFinalStatusBarText, _countof(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
 				else
 					_tcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
 			}
@@ -2570,7 +2570,7 @@ LABEL_SHOWWINDOW:
 					case ID_SEARCH_GOOGLE:
 						if (pszWord[0]) {
 							TCHAR szURL[4096];
-							mir_sntprintf(szURL, SIZEOF(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
+							mir_sntprintf(szURL, _countof(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
 							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
 						}
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2579,7 +2579,7 @@ LABEL_SHOWWINDOW:
 					case ID_SEARCH_WIKIPEDIA:
 						if (pszWord[0]) {
 							TCHAR szURL[4096];
-							mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
+							mir_sntprintf(szURL, _countof(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
 							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
 						}
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -3176,7 +3176,7 @@ LABEL_SHOWWINDOW:
 				DBVARIANT dbv = { 0 };
 				char szIndex[10];
 				char *szKey = "TAB_ContainersW";
-				mir_snprintf(szIndex, SIZEOF(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
+				mir_snprintf(szIndex, _countof(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);

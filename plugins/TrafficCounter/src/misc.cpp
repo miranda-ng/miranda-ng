@@ -153,7 +153,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 			return 0;
 	}
 
-	mir_sntprintf(Str1, SIZEOF(Str1), _T("%d.%d"), Value / Divider, Value % Divider);
+	mir_sntprintf(Str1, _countof(Str1), _T("%d.%d"), Value / Divider, Value % Divider);
 	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
 	if (!l) return 0;
 	l += mir_tstrlen(szUnit) + 1;
@@ -210,49 +210,49 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 		if (!mir_tstrcmp(Token, _T("d")))
 		{
 			q = Duration / (60 * 60 * 24);
-			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60 * 60 * 24;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("h")))
 		{
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60 * 60;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("hh")))
 		{
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q * 60 * 60;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("m")))
 		{
 			q = Duration / 60;
-			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("mm")))
 		{
 			q = Duration / 60;
-			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q * 60;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("s")))
 		{
 			q = Duration;
-			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q;
 		}
 		else
 		if (!mir_tstrcmp(Token, _T("ss")))
 		{
 			q = Duration;
-			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);
+			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q;
 		}
 

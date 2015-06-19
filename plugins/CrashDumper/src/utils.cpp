@@ -288,15 +288,15 @@ void GetInternetExplorerVersion(CMString &buffer)
 	TCHAR iVer[64] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey)) {
-		size = SIZEOF(ieBuild);
+		size = _countof(ieBuild);
 		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
 
-		size = SIZEOF(ieVersion);
+		size = _countof(ieVersion);
 		if (RegQueryValueEx(hKey, TEXT("Version"), NULL, NULL, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
 			ieVersion[0] = 0;
 
-		size = SIZEOF(iVer);
+		size = _countof(iVer);
 		if (RegQueryValueEx(hKey, TEXT("IVer"), NULL, NULL, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
 			iVer[0] = 0;
 
@@ -351,11 +351,11 @@ void GetProcessorString(CMString &buffer)
 	TCHAR cpuName[512] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
-		size = SIZEOF(cpuName);
+		size = _countof(cpuName);
 		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
 			mir_tstrcpy(cpuName, TEXT("Unknown"));
 
-		size = SIZEOF(cpuIdent);
+		size = _countof(cpuIdent);
 		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
 			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
 				mir_tstrcpy(cpuIdent, TEXT("Unknown"));

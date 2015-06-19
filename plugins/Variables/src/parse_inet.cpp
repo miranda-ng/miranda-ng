@@ -40,7 +40,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai)
 
 		char hex[8];
 		memmove(res + cur + 3, res + cur + 1, mir_strlen(res + cur + 1) + 1);
-		mir_snprintf(hex, SIZEOF(hex), "%%%x", *(res + cur));
+		mir_snprintf(hex, _countof(hex), "%%%x", *(res + cur));
 		strncpy(res + cur, hex, mir_strlen(hex));
 		cur += mir_strlen(hex);
 	}

@@ -101,7 +101,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint, POINT *pOffset)
 	if (!g_CluiData.fDisableSkinEngine) {
 		char szRequest[128];
 		/* painting */
-		mir_snprintf(szRequest, SIZEOF(szRequest), "Button,ID=%s,Hovered=%s,Pressed=%s,Focused=%s",
+		mir_snprintf(szRequest, _countof(szRequest), "Button,ID=%s,Hovered=%s,Pressed=%s,Focused=%s",
 			bct->szButtonID,				// ID		
 			b2str(bct->stateId == PBS_HOT),	// Hovered
 			b2str(bct->stateId == PBS_PRESSED || bct->bIsPushed == TRUE),	// Pressed
@@ -239,7 +239,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case WM_SETTEXT:
-		mir_tstrncpy(bct->szText, (TCHAR*)lParam, SIZEOF(bct->szText));
+		mir_tstrncpy(bct->szText, (TCHAR*)lParam, _countof(bct->szText));
 		break;
 
 	case WM_SETFONT:

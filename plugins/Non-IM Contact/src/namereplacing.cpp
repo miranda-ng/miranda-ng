@@ -3,7 +3,7 @@
 int readFileIntoArray(int fileNumber, char *FileContents[])
 {
 	char dbSetting[20], temp[MAX_STRING_LENGTH];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "fn%d", fileNumber);
+	mir_snprintf(dbSetting, _countof(dbSetting), "fn%d", fileNumber);
 
 	char *szVar = db_get_sa(NULL, MODNAME, dbSetting);
 	if (szVar == NULL)
@@ -11,9 +11,9 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 
 	char tszFileName[MAX_PATH];
 	if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 7))
-		mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
+		mir_snprintf(tszFileName, _countof(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
 	else
-		mir_strncpy(tszFileName, szVar, SIZEOF(tszFileName));
+		mir_strncpy(tszFileName, szVar, _countof(tszFileName));
 	mir_free(szVar);
 
 	FILE* file = fopen(tszFileName, "r");
@@ -405,9 +405,9 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 			return 0;
 
 		if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 8))
-			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), file);
+			mir_snprintf(tszFileName, _countof(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), file);
 		else
-			mir_strncpy(tszFileName, szVar, SIZEOF(tszFileName));
+			mir_strncpy(tszFileName, szVar, _countof(tszFileName));
 		mir_free(szVar);
 
 		HANDLE hFile = CreateFileA(tszFileName, 0, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -417,7 +417,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
 			szNewStr.Append(tszFileName);
-			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s%d))", szPattern, file);
+			mir_snprintf(tszFileName, _countof(tszFileName), "%s%d))", szPattern, file);
 			return (int)mir_strlen(tszFileName);
 		}
 		CloseHandle(hFile);
@@ -540,8 +540,8 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 				return ERROR_NO_FILE;
 			}
 			else {
-				mir_snprintf(tempString, SIZEOF(tempString), "fn%d", tempInt);
-				if (db_get_static(NULL, MODNAME, tempString, tempString, SIZEOF(tempString)))
+				mir_snprintf(tempString, _countof(tempString), "fn%d", tempInt);
+				if (db_get_static(NULL, MODNAME, tempString, tempString, _countof(tempString)))
 					szNewString.Append(tempString);
 				else return ERROR_NO_FILE;
 				positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
@@ -578,7 +578,7 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 	CMStringA newString;
 	char text[MAX_STRING_LENGTH];
 	int error = 0, status = GetLCStatus(0, 0);
-	if (db_get_static(hContact, module1, setting1, text, SIZEOF(text))) {
+	if (db_get_static(hContact, module1, setting1, text, _countof(text))) {
 		switch (stringReplacer(text, newString, hContact)) {
 		case ERROR_NO_LINE_AFTER_VAR_F:
 			newString.Format(Translate("%s - ERROR: no line specified or line not found (in %s)"), text, setting1);
@@ -622,11 +622,11 @@ void replaceAllStrings(MCONTACT hContact)
 	WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 	/* tooltips*/
 	WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
-	if (db_get_static(hContact, MODNAME, "Program", tmp1, SIZEOF(tmp1)) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2, SIZEOF(tmp2))) {
-		mir_snprintf(tmp3, SIZEOF(tmp3), "%s %s", tmp1, tmp2);
+	if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1)) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2, _countof(tmp2))) {
+		mir_snprintf(tmp3, _countof(tmp3), "%s %s", tmp1, tmp2);
 		db_set_s(hContact, "UserInfo", "FirstName", tmp3);
 	}
-	else if (db_get_static(hContact, MODNAME, "Program", tmp1, SIZEOF(tmp1))) {
+	else if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1))) {
 		db_set_s(hContact, "UserInfo", "FirstName", tmp1);
 	}
 	else db_set_s(hContact, "UserInfo", "FirstName", "");

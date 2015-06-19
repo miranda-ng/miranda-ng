@@ -71,7 +71,7 @@ void __cdecl CVkProto::SearchThread(void* p)
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
 		
 	TCHAR arg[200];
-	mir_sntprintf(arg, SIZEOF(arg), _T("%s %s %s"), pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
+	mir_sntprintf(arg, _countof(arg), _T("%s %s %s"), pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
 	debugLog(_T("CVkProto::SearchThread %s"), arg);
 	if (!IsOnline())
 		return;

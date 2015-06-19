@@ -1,7 +1,7 @@
 #include "gmail.h"
 
 static void SaveButton(HWND hwndDlg,HWND hwndCombo, int curIndex) {
-	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, SIZEOF(acc[curIndex].name))) {
+	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, _countof(acc[curIndex].name))) {
 		char *tail = strstr(acc[curIndex].name, "@");
 		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
 			mir_strcpy(acc[curIndex].hosted, tail + 1);
@@ -10,7 +10,7 @@ static void SaveButton(HWND hwndDlg,HWND hwndCombo, int curIndex) {
 		SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
 		db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
-		GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, SIZEOF(acc[curIndex].pass));
+		GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, _countof(acc[curIndex].pass));
 		db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
 	}
 }
@@ -128,12 +128,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				OPENFILENAME OpenFileName;
 				TCHAR szName[_MAX_PATH];
 				memset(&OpenFileName, 0, sizeof(OPENFILENAME));
-				GetDlgItemText(hwndDlg, IDC_PRG, szName, SIZEOF(szName));
+				GetDlgItemText(hwndDlg, IDC_PRG, szName, _countof(szName));
 				OpenFileName.lStructSize = sizeof(OPENFILENAME);
 				OpenFileName.hwndOwner = hwndDlg;
 				OpenFileName.lpstrFilter = _T("Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0");
 				OpenFileName.lpstrFile = szName;
-				OpenFileName.nMaxFile = SIZEOF(szName);
+				OpenFileName.nMaxFile = _countof(szName);
 				OpenFileName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
 				if (!GetOpenFileName(&OpenFileName))
 					return 0;
@@ -224,7 +224,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			else if (IsDlgButtonChecked(hwndDlg, IDC_STARTPRG) == BST_CHECKED) {
 				opt.OpenUsePrg = 2;
 			}
-			GetDlgItemTextA(hwndDlg, IDC_PRG, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_PRG, str, _countof(str));
 
 			db_set_dw(NULL, pluginName, "OpenUsePrg", opt.OpenUsePrg);
 			db_set_s(NULL, pluginName, "OpenUsePrgPath", str);

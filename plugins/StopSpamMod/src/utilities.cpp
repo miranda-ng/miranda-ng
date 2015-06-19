@@ -247,7 +247,7 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 	if (hStopSpamLogDirH)
 		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, _T(""));
 	else
-		mir_tstrncpy(pszName, VARST( _T("%miranda_logpath%")), SIZEOF(pszName));
+		mir_tstrncpy(pszName, VARST( _T("%miranda_logpath%")), _countof(pszName));
 
 	filename = pszName;
 	filename = filename + _T("\\stopspam_mod.log");

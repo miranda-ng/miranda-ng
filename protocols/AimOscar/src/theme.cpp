@@ -63,13 +63,13 @@ void InitIcons(void)
 HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "AIM_%s", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "AIM_%s", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(const char *name)
 {
-	for (int i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < _countof(iconList); i++)
 		if ( !mir_strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 
@@ -79,7 +79,7 @@ HANDLE GetIconHandle(const char *name)
 void ReleaseIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName ), "%s_%s", "AIM", name);
+	mir_snprintf(szSettingName, _countof(szSettingName ), "%s_%s", "AIM", name);
 	IcoLib_Release(szSettingName, big);
 }
 
@@ -239,21 +239,21 @@ void CAimProto::InitMainMenus(void)
 	mi.hParentMenu = hRoot;
 	mi.flags = CMIF_CHILDPOPUP;
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/ManageAccount");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/ManageAccount");
 	CreateProtoService("/ManageAccount", &CAimProto::ManageAccount);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle("aim");
 	mi.pszName = LPGEN("Manage Account");
 	hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/InstantIdle");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/InstantIdle");
 	CreateProtoService("/InstantIdle",&CAimProto::InstantIdle);
 	mi.position = 201002;
 	mi.icolibItem = GetIconHandle("idle");
 	mi.pszName = LPGEN("Instant Idle");
 	hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/JoinChatRoom");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/JoinChatRoom");
 	CreateProtoService("/JoinChatRoom", &CAimProto::JoinChatUI);
 	mi.position = 201003;
 	mi.icolibItem = GetIconHandle("aol");
@@ -270,7 +270,7 @@ void CAimProto::InitContactMenus(void)
 	mi.pszService = service_name;
 	mi.pszContactOwner = m_szModuleName;
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/GetHTMLAwayMsg");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/GetHTMLAwayMsg");
 	CreateProtoService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("away");
@@ -278,7 +278,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/GetProfile");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/GetProfile");
 	CreateProtoService("/GetProfile", &CAimProto::GetProfile);
 	mi.position = -2000005090;
 	mi.icolibItem = GetIconHandle("profile");
@@ -286,7 +286,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTOFFLINE;
 	hReadProfileMenuItem = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/AddToServerList");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/AddToServerList");
 	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList); 
 	mi.position = -2000005080;
 	mi.icolibItem = GetIconHandle("add");
@@ -294,7 +294,7 @@ void CAimProto::InitContactMenus(void)
 	mi.flags = CMIF_NOTONLINE | CMIF_HIDDEN;
 	hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(service_name, SIZEOF(service_name), "%s%s", m_szModuleName, "/BlockCommand");
+	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/BlockCommand");
 	CreateProtoService("/BlockCommand", &CAimProto::BlockBuddy);
 	mi.position = -2000005060;
 	mi.icolibItem = GetIconHandle("block");

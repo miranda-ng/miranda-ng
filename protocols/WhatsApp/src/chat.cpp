@@ -166,14 +166,14 @@ void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 {
 	TCHAR tszFileName[MAX_PATH], filter[256];
-	Bitmap_GetFilter(filter, SIZEOF(filter));
+	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
 	ofn.hwndOwner = 0;
 	ofn.lpstrFile = tszFileName;
-	ofn.nMaxFile = ofn.nMaxFileTitle = SIZEOF(tszFileName);
+	ofn.nMaxFile = ofn.nMaxFileTitle = _countof(tszFileName);
 	ofn.Flags = OFN_HIDEREADONLY;
 	ofn.lpstrInitialDir = _T(".");
 	ofn.lpstrDefExt = _T("");
@@ -274,11 +274,11 @@ int WhatsAppProto::OnChatMenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
-		gcmi->nItems = SIZEOF(sttLogListItems);
+		gcmi->nItems = _countof(sttLogListItems);
 		gcmi->Item = sttLogListItems;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = SIZEOF(sttNickListItems);
+		gcmi->nItems = _countof(sttNickListItems);
 		gcmi->Item = sttNickListItems;
 	}
 
@@ -313,7 +313,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 
 	GCDEST gcd = { m_szModuleName, ptszJid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	for (int i = SIZEOF(sttStatuses) - 1; i >= 0; i--) {
+	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
 		gce.ptszStatus = TranslateTS(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}

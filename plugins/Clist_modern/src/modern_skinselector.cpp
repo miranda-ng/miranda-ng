@@ -502,7 +502,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 {
 	char buf[255];
 	int res;
-	GetParamN(Params, buf, SIZEOF(buf), 0, ',', 0);
+	GetParamN(Params, buf, _countof(buf), 0, ',', 0);
 	// if (boolstrcmpi("Push",buf)
 	{   //Push type
 		char buf2[20] = { 0 };
@@ -518,20 +518,20 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 		DWORD alingnto;
 		int a = ((int)!mir_strcmpi(buf, "Switch")) * 2;
 
-		GetParamN(Params, pServiceName, SIZEOF(pServiceName), 1, ',', 0);
+		GetParamN(Params, pServiceName, _countof(pServiceName), 1, ',', 0);
 		// if (a) GetParamN(Params,pStatusServiceName, sizeof(pStatusServiceName),a+1,',',0);
-		Left = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 2, ',', 0));
-		Top = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 3, ',', 0));
-		Right = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 4, ',', 0));
-		Bottom = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 5, ',', 0));
-		GetParamN(Params, TL, SIZEOF(TL), a + 6, ',', 0);
+		Left = atoi(GetParamN(Params, buf2, _countof(buf2), a + 2, ',', 0));
+		Top = atoi(GetParamN(Params, buf2, _countof(buf2), a + 3, ',', 0));
+		Right = atoi(GetParamN(Params, buf2, _countof(buf2), a + 4, ',', 0));
+		Bottom = atoi(GetParamN(Params, buf2, _countof(buf2), a + 5, ',', 0));
+		GetParamN(Params, TL, _countof(TL), a + 6, ',', 0);
 
-		MinWidth = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 7, ',', 0));
-		MinHeight = atoi(GetParamN(Params, buf2, SIZEOF(buf2), a + 8, ',', 0));
-		GetParamNT(Params, Hint, SIZEOF(Hint), a + 9, ',', 0);
+		MinWidth = atoi(GetParamN(Params, buf2, _countof(buf2), a + 7, ',', 0));
+		MinHeight = atoi(GetParamN(Params, buf2, _countof(buf2), a + 8, ',', 0));
+		GetParamNT(Params, Hint, _countof(Hint), a + 9, ',', 0);
 		if (a) {
-			GetParamN(Params, Section, SIZEOF(Section), 2, ',', 0);
-			GetParamN(Params, Type, SIZEOF(Type), 3, ',', 0);
+			GetParamN(Params, Section, _countof(Section), 2, ',', 0);
+			GetParamN(Params, Type, _countof(Type), 3, ',', 0);
 		}
 		alingnto = ((TL[0] == 'R') ? SBF_ALIGN_TL_RIGHT : 0)
 			+ ((TL[0] == 'C') ? SBF_ALIGN_TL_HCENTER : 0)
@@ -560,7 +560,7 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 		SKINOBJECTDESCRIPTOR obj = { 0 };
 		char buf[250];
 		obj.szObjectID = mir_strdup(ObjectName);
-		GetParamN(Params, buf, SIZEOF(buf), 0, ',', 0);
+		GetParamN(Params, buf, _countof(buf), 0, ',', 0);
 		if (!mir_strcmpi(buf, "Glyph"))
 			obj.bType = OT_GLYPHOBJECT;
 		else if (!mir_strcmpi(buf, "Font"))
@@ -570,26 +570,26 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 		case OT_GLYPHOBJECT:
 		{
 			GLYPHOBJECT gl = { 0 };
-			GetParamN(Params, buf, SIZEOF(buf), 1, ',', 0);
+			GetParamN(Params, buf, _countof(buf), 1, ',', 0);
 			if (!mir_strcmpi(buf, "Solid")) {
 				// Solid
 				gl.Style = ST_BRUSH;
-				int r = atoi(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
-				int g = atoi(GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0));
-				int b = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
-				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 5, ',', 0));
+				int r = atoi(GetParamN(Params, buf, _countof(buf), 2, ',', 0));
+				int g = atoi(GetParamN(Params, buf, _countof(buf), 3, ',', 0));
+				int b = atoi(GetParamN(Params, buf, _countof(buf), 4, ',', 0));
+				gl.dwAlpha = atoi(GetParamN(Params, buf, _countof(buf), 5, ',', 0));
 				gl.dwColor = RGB(r, g, b);
 			}
 			else if (!mir_strcmpi(buf, "Image")) {
 				// Image
 				gl.Style = ST_IMAGE;
-				gl.szFileName = mir_strdup(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
-				gl.dwLeft = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
-				gl.dwTop = atoi(GetParamN(Params, buf, SIZEOF(buf), 5, ',', 0));
-				gl.dwRight = atoi(GetParamN(Params, buf, SIZEOF(buf), 6, ',', 0));
-				gl.dwBottom = atoi(GetParamN(Params, buf, SIZEOF(buf), 7, ',', 0));
-				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 8, ',', 0));
-				GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0);
+				gl.szFileName = mir_strdup(GetParamN(Params, buf, _countof(buf), 2, ',', 0));
+				gl.dwLeft = atoi(GetParamN(Params, buf, _countof(buf), 4, ',', 0));
+				gl.dwTop = atoi(GetParamN(Params, buf, _countof(buf), 5, ',', 0));
+				gl.dwRight = atoi(GetParamN(Params, buf, _countof(buf), 6, ',', 0));
+				gl.dwBottom = atoi(GetParamN(Params, buf, _countof(buf), 7, ',', 0));
+				gl.dwAlpha = atoi(GetParamN(Params, buf, _countof(buf), 8, ',', 0));
+				GetParamN(Params, buf, _countof(buf), 3, ',', 0);
 				if (!mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
 				else if (!mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
 				else if (!mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
@@ -598,19 +598,19 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 			else if (!mir_strcmpi(buf, "Fragment")) {
 				//Image
 				gl.Style = ST_FRAGMENT;
-				gl.szFileName = mir_strdup(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
+				gl.szFileName = mir_strdup(GetParamN(Params, buf, _countof(buf), 2, ',', 0));
 
-				gl.clipArea.x = atoi(GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0));
-				gl.clipArea.y = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
-				gl.szclipArea.cx = atoi(GetParamN(Params, buf, SIZEOF(buf), 5, ',', 0));
-				gl.szclipArea.cy = atoi(GetParamN(Params, buf, SIZEOF(buf), 6, ',', 0));
+				gl.clipArea.x = atoi(GetParamN(Params, buf, _countof(buf), 3, ',', 0));
+				gl.clipArea.y = atoi(GetParamN(Params, buf, _countof(buf), 4, ',', 0));
+				gl.szclipArea.cx = atoi(GetParamN(Params, buf, _countof(buf), 5, ',', 0));
+				gl.szclipArea.cy = atoi(GetParamN(Params, buf, _countof(buf), 6, ',', 0));
 
-				gl.dwLeft = atoi(GetParamN(Params, buf, SIZEOF(buf), 8, ',', 0));
-				gl.dwTop = atoi(GetParamN(Params, buf, SIZEOF(buf), 9, ',', 0));
-				gl.dwRight = atoi(GetParamN(Params, buf, SIZEOF(buf), 10, ',', 0));
-				gl.dwBottom = atoi(GetParamN(Params, buf, SIZEOF(buf), 11, ',', 0));
-				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 12, ',', 0));
-				GetParamN(Params, buf, SIZEOF(buf), 7, ',', 0);
+				gl.dwLeft = atoi(GetParamN(Params, buf, _countof(buf), 8, ',', 0));
+				gl.dwTop = atoi(GetParamN(Params, buf, _countof(buf), 9, ',', 0));
+				gl.dwRight = atoi(GetParamN(Params, buf, _countof(buf), 10, ',', 0));
+				gl.dwBottom = atoi(GetParamN(Params, buf, _countof(buf), 11, ',', 0));
+				gl.dwAlpha = atoi(GetParamN(Params, buf, _countof(buf), 12, ',', 0));
+				GetParamN(Params, buf, _countof(buf), 7, ',', 0);
 				if (!mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
 				else if (!mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
 				else if (!mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
@@ -641,6 +641,6 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	rq.hDC = hdc;
 	rq.rcDestRect = *rcSize;
 	rq.rcClipRect = *rcClip;
-	mir_strncpy(rq.szObjectID, "Masked draw", SIZEOF(rq.szObjectID));
+	mir_strncpy(rq.szObjectID, "Masked draw", _countof(rq.szObjectID));
 	return ske_Service_DrawGlyph((WPARAM)&rq, (LPARAM)ModernMask);
 }

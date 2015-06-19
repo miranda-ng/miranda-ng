@@ -100,7 +100,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_BUTTON) {
 			TCHAR temp[500];
-			GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, SIZEOF(temp));
+			GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, _countof(temp));
 
 			BYTE bAdvanced = IsDlgButtonChecked(m_hwnd, IDC_RADIO1) ? 0 : 1;
 			if (bAdvanced) {
@@ -125,7 +125,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 					db_free(&dbv);
 				}
 
-				GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, SIZEOF(temp));
+				GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, _countof(temp));
 				if (mir_tstrlen(GetWord(temp, 0).c_str()))
 					p->ppro->setTString(p->hContact, "UWildcard", GetWord(temp, 0).c_str());
 				else
@@ -134,13 +134,13 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			p->ppro->setByte(p->hContact, "AdvancedMode", bAdvanced);
 
-			GetDlgItemText(m_hwnd, IDC_USER, temp, SIZEOF(temp));
+			GetDlgItemText(m_hwnd, IDC_USER, temp, _countof(temp));
 			if (mir_tstrlen(GetWord(temp, 0).c_str()))
 				p->ppro->setTString(p->hContact, "UUser", GetWord(temp, 0).c_str());
 			else
 				db_unset(p->hContact, p->ppro->m_szModuleName, "UUser");
 
-			GetDlgItemText(m_hwnd, IDC_HOST, temp, SIZEOF(temp));
+			GetDlgItemText(m_hwnd, IDC_HOST, temp, _countof(temp));
 			if (mir_tstrlen(GetWord(temp, 0).c_str()))
 				p->ppro->setTString(p->hContact, "UHost", GetWord(temp, 0).c_str());
 			else

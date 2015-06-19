@@ -126,8 +126,8 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	sf->filesize = statbuf.st_size;
 
 	wchar_t tszFilename[MAX_PATH];
-	wcsncpy(tszFilename, szFile, SIZEOF(tszFilename) - 1);
-	GetShortPathNameW(szFile, tszFilename, SIZEOF(tszFilename));
+	wcsncpy(tszFilename, szFile, _countof(tszFilename) - 1);
+	GetShortPathNameW(szFile, tszFilename, _countof(tszFilename));
 	char szFilename[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFilename, -1, szFilename, MAX_PATH, 0, 0);
 	sf->filename = strdup(szFilename);
@@ -468,7 +468,7 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 
 			// Need to delete the Avatar File!!
 			TCHAR szFile[MAX_PATH];
-			GetAvatarFileName(hContact, szFile, SIZEOF(szFile) - 1, 0);
+			GetAvatarFileName(hContact, szFile, _countof(szFile) - 1, 0);
 			DeleteFile(szFile);
 
 			// Reset the avatar and cleanup.
@@ -651,7 +651,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (getDword(pai->hContact, "PictCK", 0) == 0)
 		return GAIR_NOAVATAR;
 
-	GetAvatarFileName(pai->hContact, pai->filename, SIZEOF(pai->filename), getByte(pai->hContact, "AvatarType", 0));
+	GetAvatarFileName(pai->hContact, pai->filename, _countof(pai->filename), getByte(pai->hContact, "AvatarType", 0));
 	pai->format = PA_FORMAT_PNG;
 	debugLogA("[YAHOO_GETAVATARINFO] filename: %s", pai->filename);
 

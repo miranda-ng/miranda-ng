@@ -55,7 +55,7 @@ int GetUpdateMode()
 	if (UpdateMode < 0 || UpdateMode > UPDATE_MODE_MAX_VALUE) {
 		// Missing or unknown mode, determine correct from version of running core
 		char coreVersion[512];
-		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(coreVersion), (LPARAM)coreVersion);
+		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(coreVersion), (LPARAM)coreVersion);
 		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
 	}
 
@@ -222,7 +222,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_set_b(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE)));
 				db_set_b(NULL, MODNAME, "SilentMode", opts.bSilentMode = IsDlgButtonChecked(hwndDlg, IDC_SILENTMODE));
 				TCHAR buffer[3] = {0};
-				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, SIZEOF(buffer));
+				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, _countof(buffer));
 				db_set_dw(NULL, MODNAME, "Period", opts.Period = _ttoi(buffer));
 
 				mir_forkthread(InitTimer, (void*)1);
@@ -247,7 +247,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				}
 				else {
 					TCHAR tszUrl[100];
-					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, SIZEOF(tszUrl));
+					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
 					db_set_ts(NULL, MODNAME, DB_SETTING_UPDATE_URL, tszUrl);
 					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 					opts.bForceRedownload = 0;
@@ -286,7 +286,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hdlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, -1, 9999);
 		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, PopupOptions.Timeout, TRUE);
 		//Mouse actions
-		for (int i = 0; i < SIZEOF(PopupActions); i++) {
+		for (int i = 0; i < _countof(PopupActions); i++) {
 			SendDlgItemMessage(hdlg, IDC_LC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_LC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 			SendDlgItemMessage(hdlg, IDC_RC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_RC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 		}

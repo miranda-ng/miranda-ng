@@ -489,8 +489,8 @@ int Meta_SetAllNicks()
 static void SwapValues(MCONTACT hContact, LPCSTR szSetting, int n1, int n2)
 {
 	char buf1[100], buf2[100];
-	mir_snprintf(buf1, SIZEOF(buf1), "%s%d", szSetting, n1);
-	mir_snprintf(buf2, SIZEOF(buf2), "%s%d", szSetting, n2);
+	mir_snprintf(buf1, _countof(buf1), "%s%d", szSetting, n1);
+	mir_snprintf(buf2, _countof(buf2), "%s%d", szSetting, n2);
 
 	DBVARIANT dbv1, dbv2;
 	int ok1 = !db_get(hContact, META_PROTO, buf1, &dbv1);
@@ -526,7 +526,7 @@ int Meta_SwapContacts(DBCachedContact *cc, int n1, int n2)
 void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
 {
 	char idStr[50];
-	mir_snprintf(idStr, SIZEOF(idStr), "Login%d", i);
+	mir_snprintf(idStr, _countof(idStr), "Login%d", i);
 
 	DBVARIANT dbv;
 	if(db_get(hMeta, META_PROTO, idStr, &dbv))

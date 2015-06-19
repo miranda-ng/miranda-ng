@@ -373,14 +373,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			}
 
 			// get update time and remove the old timer
-			GetDlgItemText(hdlg, IDC_UPDATETIME, str, SIZEOF(str));
+			GetDlgItemText(hdlg, IDC_UPDATETIME, str, _countof(str));
 			opt.UpdateTime = (WORD)_ttoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(NULL, timerId);
 			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, (TIMERPROC)timerProc);
 
 			// other general options
-			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, SIZEOF(opt.DegreeSign));
+			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, _countof(opt.DegreeSign));
 			opt.StartupUpdate = IsDlgButtonChecked(hdlg, IDC_STARTUPUPD);
 			opt.AutoUpdate = IsDlgButtonChecked(hdlg, IDC_UPDATE);
 			opt.NoProtoCondition = BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
@@ -472,7 +472,7 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetWindowPos(hdlg, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 		TranslateDialogDefault(hdlg);
 		// generate the display text for variable list
-		_tcsncpy(str, VAR_LIST_OPT, SIZEOF(str) - 1);
+		_tcsncpy(str, VAR_LIST_OPT, _countof(str) - 1);
 		SetDlgItemText(hdlg, IDC_VARLIST, str);
 
 		// make the more variable and other buttons flat
@@ -578,21 +578,21 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			// free memory for old settings
 			FreeTextVar();
 			// save new settings to memory
-			GetDlgItemText(hdlg, IDC_CTEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_CTEXT, textstr, _countof(textstr));
 			wSetData(&opt.cText, textstr);
-			GetDlgItemText(hdlg, IDC_BTEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_BTEXT, textstr, _countof(textstr));
 			wSetData(&opt.bText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_BTITLE, textstr, _countof(textstr));
 			wSetData(&opt.bTitle, textstr);
-			GetDlgItemText(hdlg, IDC_ETEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_ETEXT, textstr, _countof(textstr));
 			wSetData(&opt.eText, textstr);
-			GetDlgItemText(hdlg, IDC_NTEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_NTEXT, textstr, _countof(textstr));
 			wSetData(&opt.nText, textstr);
-			GetDlgItemText(hdlg, IDC_HTEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_HTEXT, textstr, _countof(textstr));
 			wSetData(&opt.hText, textstr);
-			GetDlgItemText(hdlg, IDC_XTEXT, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_XTEXT, textstr, _countof(textstr));
 			wSetData(&opt.xText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE2, textstr, SIZEOF(textstr));
+			GetDlgItemText(hdlg, IDC_BTITLE2, textstr, _countof(textstr));
 			wSetData(&opt.sText, textstr);
 			SaveOptions();
 			UpdateAllInfo(0, 0);

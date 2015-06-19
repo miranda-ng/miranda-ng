@@ -60,7 +60,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			else if (special == SVS_MONTH) {
 				if (dbv.bVal > 0 && dbv.bVal <= 12) {
 					ptstr = str;
-					GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, str, SIZEOF(str));
+					GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, str, _countof(str));
 				}
 				else unspecified = 1;
 			}
@@ -68,7 +68,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					ptstr = str;
-					mir_sntprintf(str, SIZEOF(str), dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					mir_sntprintf(str, _countof(str), dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			} else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
@@ -82,7 +82,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
+					mir_sntprintf(str, _countof(str), _T("%S"), pstr);
 				}
 			}
 			else {
@@ -100,12 +100,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, SIZEOF(str), _T("%S"), pstr);
+					mir_sntprintf(str, _countof(str), _T("%S"), pstr);
 				}
 				if (dbv.dVal == 0) unspecified = 1;
 			} else if (special == SVS_GGVERSION) {
 				ptstr = str;
-				mir_sntprintf(str, SIZEOF(str), _T("%S"), (char *)gg_version2string(dbv.dVal));
+				mir_sntprintf(str, _countof(str), _T("%S"), (char *)gg_version2string(dbv.dVal));
 			} else {
 				ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			}
@@ -113,7 +113,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_ASCIIZ:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			ptstr = str;
-			mir_sntprintf(str, SIZEOF(str), _T("%S"), dbv.pszVal);
+			mir_sntprintf(str, _countof(str), _T("%S"), dbv.pszVal);
 			break;
 		case DBVT_TCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
@@ -123,7 +123,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			valT = mir_utf8decodeT(dbv.pszVal);
 			ptstr = str;
-			_tcscpy_s(str, SIZEOF(str), valT);
+			_tcscpy_s(str, _countof(str), valT);
 			mir_free(valT);
 			break;
 		default:
@@ -204,9 +204,9 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 static void gg_optsdlgcheck(HWND hwndDlg)
 {
 	TCHAR text[128];
-	GetDlgItemText(hwndDlg, IDC_UIN, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_UIN, text, _countof(text));
 	if (text[0]) {
-		GetDlgItemText(hwndDlg, IDC_EMAIL, text, SIZEOF(text));
+		GetDlgItemText(hwndDlg, IDC_EMAIL, text, _countof(text));
 		if (text[0])
 			ShowWindow(GetDlgItem(hwndDlg, IDC_CHEMAIL), SW_SHOW);
 		else
@@ -337,9 +337,9 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				char email[128];
 				uin_t uin;
-				GetDlgItemTextA(hwndDlg, IDC_UIN, email, SIZEOF(email));
+				GetDlgItemTextA(hwndDlg, IDC_UIN, email, _countof(email));
 				uin = atoi(email);
-				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, SIZEOF(email));
+				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
 				if (!mir_strlen(email))
 					MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
 					gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
@@ -370,10 +370,10 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				GGUSERUTILDLGDATA dat;
 				int ret;
 				char pass[128], email[128];
-				GetDlgItemTextA(hwndDlg, IDC_UIN, pass, SIZEOF(pass));
+				GetDlgItemTextA(hwndDlg, IDC_UIN, pass, _countof(pass));
 				dat.uin = atoi(pass);
-				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, SIZEOF(pass));
-				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, SIZEOF(email));
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
 				dat.pass = pass;
 				dat.email = email;
 				dat.gg = gg;
@@ -457,15 +457,15 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			uin_t uin;
 
 			// Write Gadu-Gadu number & password
-			GetDlgItemTextA(hwndDlg, IDC_UIN, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_UIN, str, _countof(str));
 			uin = atoi(str);
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, _countof(str));
 			gg->checknewuser(uin, str);
 			gg->setDword(GG_KEY_UIN, uin);
 			gg->setString(GG_KEY_PASSWORD, str);
 
 			// Write Gadu-Gadu email
-			GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, _countof(str));
 			gg->setString(GG_KEY_EMAIL, str);
 
 			// Write checkboxes
@@ -564,9 +564,9 @@ static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam
 			gg->setWord(GG_KEY_GC_POLICY_UNKNOWN, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_GETCURSEL, 0, 0));
 			gg->setWord(GG_KEY_GC_POLICY_DEFAULT, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_GETCURSEL, 0, 0));
 
-			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, str, _countof(str));
 			gg->setWord(GG_KEY_GC_COUNT_TOTAL, (WORD)atoi(str));
-			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, str, _countof(str));
 			gg->setWord(GG_KEY_GC_COUNT_UNKNOWN, (WORD)atoi(str));
 		}
 		break;
@@ -664,16 +664,16 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				gg->setByte(GG_KEY_FORWARDING, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FORWARDING));
 
 				// Write custom servers
-				GetDlgItemTextA(hwndDlg, IDC_HOST, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_HOST, str, _countof(str));
 				gg->setString(GG_KEY_SERVERHOSTS, str);
 
 				// Write direct port
-				GetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, str, _countof(str));
 				gg->setWord(GG_KEY_DIRECTPORT, (WORD)atoi(str));
 				// Write forwarding host
-				GetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, str, _countof(str));
 				gg->setString(GG_KEY_FORWARDHOST, str);
-				GetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, str, _countof(str));
 				gg->setWord(GG_KEY_FORWARDPORT, (WORD)atoi(str));
 				break;
 			}
@@ -828,19 +828,19 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
 
-			GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_CITY, T2Utf(text));
 
@@ -856,15 +856,15 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				gg_pubdir50_add(req, GG_PUBDIR50_GENDER, "");
 			}
 
-			GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, SIZEOF(text));
+			GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, _countof(text));
 			if (mir_tstrlen(text))
 				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, T2Utf(text));
 
@@ -962,10 +962,10 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GGUSERUTILDLGDATA dat;
 				int ret;
 				char pass[128], email[128];
-				GetDlgItemTextA(hwndDlg, IDC_UIN, pass, SIZEOF(pass));
+				GetDlgItemTextA(hwndDlg, IDC_UIN, pass, _countof(pass));
 				dat.uin = atoi(pass);
-				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, SIZEOF(pass));
-				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, SIZEOF(email));
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
 				dat.pass = pass;
 				dat.email = email;
 				dat.gg = gg;
@@ -1021,15 +1021,15 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					uin_t uin;
 
 					// Write Gadu-Gadu number & password
-					GetDlgItemTextA(hwndDlg, IDC_UIN, str, SIZEOF(str));
+					GetDlgItemTextA(hwndDlg, IDC_UIN, str, _countof(str));
 					uin = atoi(str);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, _countof(str));
 					gg->checknewuser(uin, str);
 					gg->setDword(GG_KEY_UIN, uin);
 					gg->setString(GG_KEY_PASSWORD, str);
 
 					// Write Gadu-Gadu email
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, SIZEOF(str));
+					GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, _countof(str));
 					gg->setString(GG_KEY_EMAIL, str);
 				}
 			}

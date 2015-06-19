@@ -631,7 +631,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				break;
 
 			char name[64];
-			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, SIZEOF(name));
+			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, _countof(name));
 			if (mir_strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv)) {
 				if (mir_strcmp(name, dbv.pszVal))
 					ppro->aim_admin_format_name(ppro->hAdminConn, ppro->admin_seqno, name);
@@ -639,7 +639,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 
 			char email[254];
-			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, SIZEOF(email));
+			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, _countof(email));
 			if (mir_strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
 			{
 				if (mir_strcmp(email, dbv.pszVal))
@@ -650,9 +650,9 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PINFO), SW_HIDE);
 
 			char cpw[256], npw1[256], npw2[256];
-			GetDlgItemTextA(hwndDlg, IDC_CPW, cpw, SIZEOF(cpw));
-			GetDlgItemTextA(hwndDlg, IDC_NPW1, npw1, SIZEOF(npw1));
-			GetDlgItemTextA(hwndDlg, IDC_NPW2, npw2, SIZEOF(npw2));
+			GetDlgItemTextA(hwndDlg, IDC_CPW, cpw, _countof(cpw));
+			GetDlgItemTextA(hwndDlg, IDC_NPW1, npw1, _countof(npw1));
+			GetDlgItemTextA(hwndDlg, IDC_NPW2, npw2, _countof(npw2));
 			if (cpw[0] != 0 && npw1[0] != 0 && npw2[0] != 0) {
 				// AOL only requires that you send the current password and a (single) new password.
 				// Let's allow the client to type (two) new passwords incase they make a mistake so we
@@ -798,7 +798,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				char str[128];
 				//SN
-				GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_SN, str, _countof(str));
 				if (str[0] != 0)
 					ppro->setString(AIM_KEY_SN, str);
 				else
@@ -806,16 +806,16 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//END SN
 
 				//NK
-				if (GetDlgItemTextA(hwndDlg, IDC_NK, str, SIZEOF(str)))
+				if (GetDlgItemTextA(hwndDlg, IDC_NK, str, _countof(str)))
 					ppro->setString(AIM_KEY_NK, str);
 				else {
-					GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
+					GetDlgItemTextA(hwndDlg, IDC_SN, str, _countof(str));
 					ppro->setString(AIM_KEY_NK, str);
 				}
 				//END NK
 
 				//PW
-				GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_PW, str, _countof(str));
 				if (str[0] != 0)
 					ppro->setString(AIM_KEY_PW, str);
 				else
@@ -823,7 +823,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//END PW
 
 				//HN
-				GetDlgItemTextA(hwndDlg, IDC_HN, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_HN, str, _countof(str));
 				if (str[0] != 0 && mir_strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
@@ -959,12 +959,12 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_ALLOWADD) {
 			char nick[80];
-			GetDlgItemTextA(hwndDlg, IDC_ALLOWEDIT, nick, SIZEOF(nick));
+			GetDlgItemTextA(hwndDlg, IDC_ALLOWEDIT, nick, _countof(nick));
 			SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_ADDSTRING, 0, (LPARAM)trim_str(nick));
 		}
 		else if (LOWORD(wParam) == IDC_BLOCKADD) {
 			char nick[80];
-			GetDlgItemTextA(hwndDlg, IDC_BLOCKEDIT, nick, SIZEOF(nick));
+			GetDlgItemTextA(hwndDlg, IDC_BLOCKEDIT, nick, _countof(nick));
 			SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_ADDSTRING, 0, (LPARAM)trim_str(nick));
 		}
 		else if (LOWORD(wParam) == IDC_ALLOWREMOVE) {
@@ -1106,10 +1106,10 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_SN, str, _countof(str));
 			ppro->setString(AIM_KEY_SN, str);
 
-			GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, _countof(str));
 			ppro->setString(AIM_KEY_PW, str);
 			return TRUE;
 		}
@@ -1216,7 +1216,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			char room[128];
-			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, SIZEOF(room));
+			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, _countof(room));
 			if (ppro->state == 1 && room[0] != 0) {
 				chatnav_param* par = new chatnav_param(room, 4);
 				ppro->ForkThread(&CAimProto::chatnav_request_thread, par);
@@ -1349,7 +1349,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDC_ADDSCR:
 				if (param->ppro->state == 1) {
 					TCHAR sn[64];
-					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, SIZEOF(sn));
+					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, _countof(sn));
 
 					CLCINFOITEM cii = { 0 };
 					cii.cbSize = sizeof(cii);
@@ -1366,7 +1366,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					chat_list_item* item = param->ppro->find_chat_by_id(param->id);
 					if (item) {
 						char msg[1024];
-						GetDlgItemTextA(hwndDlg, IDC_MSG, msg, SIZEOF(msg));
+						GetDlgItemTextA(hwndDlg, IDC_MSG, msg, _countof(msg));
 
 						HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 						clist_chat_invite_send(NULL, hwndList, item, param->ppro, msg);

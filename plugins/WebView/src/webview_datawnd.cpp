@@ -58,13 +58,13 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				char *tempbuffer = (char*)malloc(len + 2);
 
 				GetDlgItemTextA(ParentHwnd, IDC_DATA, tempbuffer, len);
-				strncpy(buff, tempbuffer, SIZEOF(buff));
+				strncpy(buff, tempbuffer, _countof(buff));
 				free(tempbuffer);
 
 				Filter(buff);
 				CharUpperBuffA(buff, (int)mir_strlen(buff));
 
-				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, SIZEOF(NewSearchstr));
+				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, _countof(NewSearchstr));
 				CharUpperBuffA(NewSearchstr, (int)mir_strlen(NewSearchstr));
 
 				OLDstartposition = startposition;
@@ -125,8 +125,8 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 	TCHAR urltext[300], titlebartxt[300];
 	int contactcount = 0;
 
-	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, SIZEOF(urltext));
-	GetWindowText(hwndDlg, titlebartxt, SIZEOF(titlebartxt));
+	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, _countof(urltext));
+	GetWindowText(hwndDlg, titlebartxt, _countof(titlebartxt));
 
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
@@ -165,11 +165,11 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				_tcsncpy_s(url, dbv.ptszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
-			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, SIZEOF(url)));
+			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
 
 			char preservename[100];
 			if (!db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-				strncpy_s(preservename, SIZEOF(preservename), dbv.pszVal, _TRUNCATE);
+				strncpy_s(preservename, _countof(preservename), dbv.pszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			else preservename[0] = 0;
@@ -233,11 +233,11 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			HDC hdc = GetDC(GetDlgItem(hwndDlg, IDC_STATUSBAR));
 			SelectObject(hdc, (HFONT) SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, tszSizeString, SIZEOF(tszSizeString), &textSize);
+			GetTextExtentPoint32(hdc, tszSizeString, _countof(tszSizeString), &textSize);
 			int partWidth[2] = { textSize.cx, -1 };
 			ReleaseDC(GetDlgItem(hwndDlg, IDC_STATUSBAR), hdc);
 
-			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, SIZEOF(partWidth), (LPARAM)partWidth);
+			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, _countof(partWidth), (LPARAM)partWidth);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 
 			if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
@@ -337,7 +337,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OPEN_URL:
-			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, SIZEOF(url));
+			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, _countof(url));
 			CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);  
 			db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;

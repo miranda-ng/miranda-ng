@@ -53,7 +53,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
 			mir_tstrcpy(lf->lfFaceName, _T("Arial"));
 		else {
-			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 		mir_snprintf(str, "SRMFont%dSet", i);
@@ -135,7 +135,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 		if (pszWordText && pszWordText[0]) {
 			TCHAR szMenuText[4096];
-			mir_sntprintf(szMenuText, SIZEOF(szMenuText), TranslateT("Look up '%s':"), pszWordText);
+			mir_sntprintf(szMenuText, _countof(szMenuText), TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
 		else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
@@ -146,7 +146,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		if (pszWordText)
 			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
-			mir_tstrncpy(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
+			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
 		if (mir_tstrlen(szTemp) > 40)
 			mir_tstrcpy(szTemp + 40, _T("..."));

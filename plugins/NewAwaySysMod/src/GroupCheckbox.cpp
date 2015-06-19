@@ -44,8 +44,8 @@
 #define CGSM_ISCHECKED 3 // mask for BM_GETCHECK
 #define CGSM_GETSTATE 7 // mask to get only valid values for BM_GETSTATE
 
-#ifndef SIZEOF
-#define SIZEOF(s) (sizeof(s) / sizeof(*s))
+#ifndef _countof
+#define _countof(s) (sizeof(s) / sizeof(*s))
 #endif
 
 class CCheckboxData
@@ -266,7 +266,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 				{ 0, 0, DFCS_PUSHED, DFCS_INACTIVE,
 				DFCS_CHECKED, DFCS_CHECKED, DFCS_CHECKED | DFCS_PUSHED, DFCS_CHECKED | DFCS_INACTIVE,
 				DFCS_BUTTON3STATE | DFCS_CHECKED, DFCS_BUTTON3STATE | DFCS_CHECKED, DFCS_BUTTON3STATE | DFCS_INACTIVE | DFCS_CHECKED | DFCS_PUSHED, DFCS_BUTTON3STATE | DFCS_INACTIVE | DFCS_CHECKED | DFCS_PUSHED };
-				_ASSERT(StateID >= 1 && StateID <= SIZEOF(dfcStates));
+				_ASSERT(StateID >= 1 && StateID <= _countof(dfcStates));
 				DrawFrameControl(hdcMem, &rc, DFC_BUTTON, dfcStates[StateID - 1]);
 			}
 

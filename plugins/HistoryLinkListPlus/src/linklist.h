@@ -129,7 +129,7 @@ typedef struct {
 #define LINKLIST_SHOW_TYPE		"ShowMessageType"
 
 
-#define _mstrlen(x) (SIZEOF(x) - 1)
+#define _mstrlen(x) (_countof(x) - 1)
 #define MAKE_TXT_COL(BGCol) ((DWORD)~BGCol & 0x00FFFFFF)
 
 #define DM_LINKSPLITTER			WM_USER+99

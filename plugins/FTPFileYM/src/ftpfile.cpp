@@ -84,7 +84,7 @@ static IconItem iconList[] =
 
 static void InitIcolib()
 {
-	Icon_Register(hInst, LPGEN("FTP File"), iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(hInst, LPGEN("FTP File"), iconList, _countof(iconList), MODULE);
 }
 
 void InitMenuItems()
@@ -112,7 +112,7 @@ void InitMenuItems()
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
 	{
 		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
-			mir_sntprintf(stzName, SIZEOF(stzName), TranslateT("FTP Server %d"), i + 1);
+			mir_sntprintf(stzName, _countof(stzName), TranslateT("FTP Server %d"), i + 1);
 
 		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = 0; 

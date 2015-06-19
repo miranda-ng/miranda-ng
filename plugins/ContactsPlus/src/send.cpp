@@ -462,7 +462,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_DESTROY:
-		for (int i = 0; i < SIZEOF(wndData->hIcons); i++)
+		for (int i = 0; i < _countof(wndData->hIcons); i++)
 			DestroyIcon(wndData->hIcons[i]);
 		WindowList_Remove(g_hSendWindowList, hwndDlg);
 		delete wndData;

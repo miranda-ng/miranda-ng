@@ -47,7 +47,7 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						HXML child = xi.getChild(chan, j);
 						if (!mir_tstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
-							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
@@ -59,7 +59,7 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						HXML child = xi.getChild(node, j);
 						if (!mir_tstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
-							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
@@ -73,7 +73,7 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 	}
 	Netlib_LogfT(hNetlibUser, _T("%s is not a valid feed's address."), tszURL);
 	TCHAR mes[MAX_PATH];
-	mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
+	mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
 	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
 	return NULL;
 }
@@ -199,7 +199,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							LPCTSTR szAttrName = xi.getAttrName(node, i);
 							if (!mir_tstrcmpi(szAttrName, _T("version"))) {
 								TCHAR ver[MAX_PATH];
-								mir_sntprintf(ver, SIZEOF(ver), _T("RSS %s"), xi.getAttrValue(node, szAttrName));
+								mir_sntprintf(ver, _countof(ver), _T("RSS %s"), xi.getAttrValue(node, szAttrName));
 								db_set_ts(hContact, MODULE, "MirVer", ver);
 								break;
 							}
@@ -267,7 +267,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 
 										CMString filename = szNick;
 										filename.Replace(_T("/"), _T("_"));
-										mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
+										mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
 										CreateDirectoryTreeT(tszRoot);
 										if (DownloadFile(url, ai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
@@ -393,7 +393,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 										ai.format = ProtoGetAvatarFormat(ext);
 
 										TCHAR *filename = szNick;
-										mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+										mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
 										if (DownloadFile(url, ai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
@@ -538,7 +538,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
@@ -571,7 +571,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);

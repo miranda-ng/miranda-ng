@@ -123,7 +123,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		SkinPlaySound("RecvFile");
 
 		TCHAR szTooltip[256];
-		mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;
@@ -356,7 +356,7 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
-	GetContactReceivedFilesDir(hContact, szContRecDir, SIZEOF(szContRecDir), TRUE);
+	GetContactReceivedFilesDir(hContact, szContRecDir, _countof(szContRecDir), TRUE);
 	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
 	return 0;
 }
@@ -364,7 +364,7 @@ INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 INT_PTR openRecDir(WPARAM, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
-	GetReceivedFilesDir(szContRecDir, SIZEOF(szContRecDir));
+	GetReceivedFilesDir(szContRecDir, _countof(szContRecDir));
 	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
 	return 0;
 }

@@ -137,7 +137,7 @@ private:
 
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDOK), FALSE);
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDAPPLY), FALSE);
-				mir_snprintf(_pPs->szUpdating, SIZEOF(_pPs->szUpdating), "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
+				mir_snprintf(_pPs->szUpdating, _countof(_pPs->szUpdating), "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
 				ShowWindow(GetDlgItem(_pPs->hDlg, TXT_UPDATING), SW_SHOW);
 				SetTimer(_pPs->hDlg, TIMERID_UPDATING, 100, NULL);
 				return 0;
@@ -437,56 +437,56 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000000;
 	odp.pfnDlgProc = PSPProcGeneral;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_GENERAL);
-	mir_tstrncpy(szTitle + ofs, LPGENT("General"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000001;
 	odp.pfnDlgProc = PSPProcContactHome;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
 	odp.position = 0x8000002;
 	odp.pfnDlgProc = PSPProcOrigin;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADVANCED);
-	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
 	odp.position = 0x8000003;
 	odp.pfnDlgProc = PSPProcAnniversary;
 	odp.hIcon = (HICON)ICONINDEX(IDI_BIRTHDAY);
-	mir_tstrncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
 	odp.position = 0x8000004;
 	odp.pfnDlgProc = PSPProcCompany;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_COMPANY);
-	mir_tstrncpy(szTitle + ofs, LPGENT("Work"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("Work"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000005;
 	odp.pfnDlgProc = PSPProcContactWork;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 	odp.position = 0x8000006;
 	odp.pfnDlgProc = PSPProcAbout;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ABOUT);
-	mir_tstrncpy(szTitle + ofs, LPGENT("About"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("About"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
 	odp.position = 0x8000007;
 	odp.pfnDlgProc = PSPProcContactProfile;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_PROFILE);
-	mir_tstrncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 	return 0;
 }
@@ -794,14 +794,14 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					static const WORD idMove[] = { IDC_PAGETITLE, IDC_PAGETITLEBG, IDC_PAGETITLEBG2, IDOK, IDCANCEL, IDAPPLY };
 					HWND hCtrl;
 
-					for (int i = 0; i < SIZEOF(idResize); i++) {
+					for (int i = 0; i < _countof(idResize); i++) {
 						if (hCtrl = GetDlgItem(hDlg, idResize[i])) {
 							GetWindowRect(hCtrl, &rc);
 							OffsetRect(&rc, -pt.x, -pt.y);
 							MoveWindow(hCtrl, rc.left, rc.top, rc.right - rc.left + addWidth, rc.bottom - rc.top, FALSE);
 						}
 					}
-					for (int k = 0; k < SIZEOF(idMove); k++) {
+					for (int k = 0; k < _countof(idMove); k++) {
 						if (hCtrl = GetDlgItem(hDlg, idMove[k])) {
 							GetWindowRect(hCtrl, &rc);
 							OffsetRect(&rc, -pt.x, -pt.y);
@@ -828,7 +828,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			//
 			pPs->updateAnimFrame = 0;
 			if (pPs->hContact && *pPs->pszProto) {
-				GetDlgItemTextA(hDlg, TXT_UPDATING, pPs->szUpdating, SIZEOF(pPs->szUpdating));
+				GetDlgItemTextA(hDlg, TXT_UPDATING, pPs->szUpdating, _countof(pPs->szUpdating));
 				ShowWindow(GetDlgItem(hDlg, TXT_UPDATING), SW_HIDE);
 				
 				if (DlgProc(hDlg, M_CHECKONLINE, NULL, NULL)) 
@@ -1135,7 +1135,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{ ICO_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 		};
 		
-		const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 1;
+		const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 1;
 		
 		IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 		
@@ -1541,7 +1541,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (pPs->hContact != NULL) {
 				ResetUpdateInfo(pPs);
 
-				mir_snprintf(pPs->szUpdating, SIZEOF(pPs->szUpdating), "%s (%s)", Translate("updating"), pPs->pszProto);
+				mir_snprintf(pPs->szUpdating, _countof(pPs->szUpdating), "%s (%s)", Translate("updating"), pPs->pszProto);
 
 				// need meta contact's subcontact information
 				if (DB::Module::IsMetaAndScan(pPs->pszProto)) {
