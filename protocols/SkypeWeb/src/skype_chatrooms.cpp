@@ -190,6 +190,9 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			OnLeaveChatRoom(FindChatRoom(chat_id), NULL);
 			break;
 		case 30:
+			CMString newTopic = ChangeTopicForm();
+			if (!newTopic.IsEmpty())
+				SendRequest(new SetChatPropertiesRequest(m_szRegToken, chat_id, "topic", ptrA(mir_utf8encodeT(newTopic.GetBuffer())), m_szServer));
 			break;
 		}
 		break;
@@ -718,4 +721,15 @@ void CSkypeProto::ResetOptions(HWND hwndDlg)
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
+}
+
+CMString CSkypeProto::ChangeTopicForm()
+{
+	CMString caption(FORMAT, _T("[%s] %s"), _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
+	ENTER_STRING pForm = { sizeof(pForm) };
+	pForm.type = ESF_PASSWORD;
+	pForm.caption = caption;
+	pForm.ptszInitVal = NULL;
+	pForm.szModuleName = m_szModuleName;
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
 }
