@@ -22,7 +22,7 @@ const
   libz='zlib';
 {$else}
   {$ifdef windows}
-    libz='zlib';
+    libz='zlib.mir';
   {$else windows}
     libz='z';
   {$endif windows}
