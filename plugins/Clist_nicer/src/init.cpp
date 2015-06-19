@@ -37,8 +37,6 @@ extern HICON overlayicons[10];
 extern int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
-TIME_API tmi;
-
 HMENU BuildGroupPopupMenu(ClcGroup *group);
 ClcContact *CreateClcContact(void);
 CListEvent *fnCreateEvent(void);
@@ -126,7 +124,6 @@ static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hConta
 extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getLP(&pluginInfo);
-	mir_getTMI(&tmi);
 
 	mir_getCLI();
 	coreCli = *pcli;

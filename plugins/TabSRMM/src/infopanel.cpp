@@ -543,7 +543,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 
 	TCHAR szResult[80]; szResult[0] = 0;
 	if (m_dat->hTimeZone) {
-		tmi.printDateTime(m_dat->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0);
+		TimeZone_PrintDateTime(m_dat->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0);
 		GetTextExtentPoint32(hdc, szResult, (int)mir_tstrlen(szResult), &sTime);
 	}
 

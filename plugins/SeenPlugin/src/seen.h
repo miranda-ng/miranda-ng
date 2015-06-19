@@ -41,6 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_message.h>
 #include <m_protosvc.h>
 #include <m_popup.h>
+#include <m_timezones.h>
 #include <m_ignore.h>
 #include <m_button.h>
 #include <m_string.h>

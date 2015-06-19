@@ -170,9 +170,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	// init clist interface
 	mir_getCLI();
 
-	// init new miranda timezone interface
-	mir_getTMI(&tmi);
-
 	// init freeimage interface
 	INT_PTR result = CALLSERVICE_NOTFOUND;
 	if (ServiceExists(MS_IMG_GETINTERFACE))
@@ -196,7 +193,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	IcoLib_LoadModule();
 
 	SvcFlagsLoadModule();
-	tmi.getTimeZoneTime ? SvcTimezoneLoadModule() : SvcTimezoneLoadModule_old();
+	SvcTimezoneLoadModule();
 	SvcContactInfoLoadModule();
 	SvcEMailLoadModule();
 	SvcRefreshContactInfoLoadModule();

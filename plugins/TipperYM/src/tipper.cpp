@@ -37,7 +37,6 @@ TCHAR SKIN_FOLDER[256];
 
 CLIST_INTERFACE *pcli = NULL;
 FI_INTERFACE *fii = NULL;
-TIME_API tmi;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx =
@@ -299,7 +298,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
-	mir_getTMI(&tmi);
 
 	iCodePage = Langpack_GetDefaultCodePage();
 

@@ -438,11 +438,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 
 		// Get time
 		TCHAR date[64];
-		DBTIMETOSTRINGT tts = {0};
-		tts.szFormat = _T("d s");
-		tts.szDest = date;
-		tts.cbDest = SIZEOF(date);
-		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)dbei.timestamp, (LPARAM)&tts);
+		TimeZone_ToStringT(dbei.timestamp, _T("d s"), date, SIZEOF(date));
 
 		// Get file in disk
 		TCHAR path[MAX_PATH];

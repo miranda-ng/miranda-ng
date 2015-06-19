@@ -83,6 +83,7 @@ http://miranda-ng.org/distr/
 #include <m_popup.h>
 #include <m_string.h>
 #include <m_imgsrvc.h>
+#include <m_timezones.h>
 
 #include <m_metacontacts.h>
 #include <m_folders.h>

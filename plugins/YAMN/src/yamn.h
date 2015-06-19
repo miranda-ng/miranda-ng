@@ -22,6 +22,7 @@
 #include <m_messages.h>
 #include <m_netlib.h>
 #include <m_hotkeys.h>
+#include <m_timezones.h>
 
 #include <m_toptoolbar.h>
 #include <m_kbdnotify.h>

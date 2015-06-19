@@ -38,6 +38,7 @@ using namespace std;
 #include <m_history.h>
 #include <m_userinfo.h>
 #include <m_protosvc.h>
+#include <m_timezones.h>
 #include <m_icq.h>
 #include <win2k.h>
 

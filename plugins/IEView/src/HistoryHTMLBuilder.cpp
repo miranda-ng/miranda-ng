@@ -83,12 +83,7 @@ char *HistoryHTMLBuilder::timestampToString(time_t check)
 {
 	static char szResult[512];
 	char str[80];
-	DBTIMETOSTRING dbtts;
-	dbtts.cbDest = 70;
-	dbtts.szDest = str;
-	szResult[0] = '\0';
-	dbtts.szFormat = (char *)"d t";
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
+	TimeZone_ToString(check, "d t", str, SIZEOF(str));
 	mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;

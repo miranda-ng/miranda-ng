@@ -22,10 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "commonheaders.h"
 
 // global:
-HINSTANCE		ghInst		= NULL;
-TIME_API		tmi;					//timezone interface
-FI_INTERFACE	*FIP		= NULL;		//freeimage interface
-CLIST_INTERFACE *pcli		= NULL;
+HINSTANCE ghInst = NULL;
+FI_INTERFACE *FIP = NULL;		//freeimage interface
+CLIST_INTERFACE *pcli = NULL;
 
 MGLOBAL			myGlobals;
 pfnDwmIsCompositionEnabled	dwmIsCompositionEnabled;

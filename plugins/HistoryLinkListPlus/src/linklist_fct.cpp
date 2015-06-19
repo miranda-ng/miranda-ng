@@ -41,7 +41,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	static LPCTSTR hyperlinkSubstrings[] = {
 		_T(".com"),_T(".net"),_T(".org"),_T(".co.uk"),_T(".ru")
 	};
-	DBTIMETOSTRINGT dbtimestring;
+
 	LISTELEMENT *newElement, *actualElement;
 	BYTE type = LINK_UNKNOWN;
 	int direction, isLink, linkFound = 0;
@@ -149,10 +149,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 				_tcsncpy_s(link, word, ((wordlen > LINK_MAX) ? LINK_MAX : wordlen));
 			}
 
-			dbtimestring.szFormat = _T("d-t");
-			dbtimestring.szDest = dbdate;
-			dbtimestring.cbDest = SIZEOF(dbdate);
-			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,(WPARAM)dbei->timestamp, (LPARAM)&dbtimestring);
+			TimeZone_ToStringT(dbei->timestamp, _T("d-t"), dbdate, SIZEOF(dbdate));
 			date_ptr = _tcstok_s(dbdate, _T("-"), &tok_ctx);
 			time_ptr = _tcstok_s(NULL, _T("-"), &tok_ctx);
 			_tcsncpy_s(date, date_ptr, _TRUNCATE);

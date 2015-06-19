@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETARROW, 1, 0);
 
 			TCHAR str[128];
-			tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), str, SIZEOF(str), 0);
+			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("t d"), str, SIZEOF(str), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, str);
 		}
 

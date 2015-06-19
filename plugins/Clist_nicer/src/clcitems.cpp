@@ -38,7 +38,7 @@ static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
 	DWORD flags = 0;
 	if (cfg::dat.bShowLocalTimeSelective)
 		flags |= TZF_DIFONLY;
-	c->hTimeZone = tmi.createByContact(hContact, 0, flags);
+	c->hTimeZone = TimeZone_CreateByContact(hContact, 0, flags);
 }
 
 //routines for managing adding/removal of items in the list, including sorting

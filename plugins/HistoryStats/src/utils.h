@@ -38,9 +38,6 @@ namespace utils
 	ext::string toLowerCase(const ext::string& text);
 	ext::string toUpperCase(const ext::string& text);
 	
-	// time conversion
-	inline DWORD toLocalTime(DWORD gmtTimestamp) { return mu::db_time::timestampToLocal(gmtTimestamp); }
-
 	// version conversion
 	DWORD dottedToVersion(ext::string version);
 	ext::string versionToDotted(DWORD version);

@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HWND hAPCWindow = NULL;
 
 int  InitPathUtils(void);
-void (*RecalculateTime)(void);
+void RecalculateTime(void);
 
 void CheckLogs();
 void InitLogs();
@@ -36,6 +36,7 @@ void UninitLogs();
 
 void InitWinver();
 void InitMetaContacts();
+void InitTimeZones();
 
 int hLangpack = 0;
 HINSTANCE hInst = 0;
@@ -57,7 +58,7 @@ static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	if (msg == WM_TIMER)
 		CheckLogs();
 
-	if (msg == WM_TIMECHANGE && RecalculateTime)
+	if (msg == WM_TIMECHANGE)
 		RecalculateTime();
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -73,7 +74,6 @@ static void LoadCoreModule(void)
 	hAPCWindow = CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
 	DestroyWindow(hAPCWindow);
-	hAPCWindow = NULL;
 
 	hAPCWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
@@ -81,16 +81,10 @@ static void LoadCoreModule(void)
 	hStackMutex = CreateMutex(NULL, FALSE, NULL);
 	hThreadQueueEmpty = CreateEvent(NULL, TRUE, TRUE, NULL);
 
-	#ifdef _WIN64
-		HMODULE mirInst = GetModuleHandleA("miranda64.exe");
-	#else
-		HMODULE mirInst = GetModuleHandleA("miranda32.exe");
-	#endif
-	RecalculateTime = (void (*)()) GetProcAddress(mirInst, "RecalculateTime");
-
 	InitWinver();
 	InitPathUtils();
 	InitLogs();
+	InitTimeZones();
 	InitialiseModularEngine();
 	InitMetaContacts();
 }

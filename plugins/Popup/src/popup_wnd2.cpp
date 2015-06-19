@@ -751,16 +751,10 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	m_lpzSkin = mir_a2t(ppd->lpzSkin);
 
 	if (m_options->DisplayTime) {
-		if (ppd->dwTimestamp) {
-			DBTIMETOSTRINGT dbtts;
-			dbtts.szFormat = _T("t");
-			dbtts.szDest = m_time;
-			dbtts.cbDest = SIZEOF(m_time);
-			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppd->dwTimestamp, (LPARAM)&dbtts);
-		}
-		else {
+		if (ppd->dwTimestamp)
+			TimeZone_ToStringT(ppd->dwTimestamp, _T("t"), m_time, SIZEOF(m_time));
+		else
 			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, SIZEOF(m_time));
-		}
 	}
 	else m_time[0] = 0;
 

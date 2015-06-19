@@ -288,7 +288,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					if (item == -1) {
 						TCHAR szResult[80];
 
-						if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+						if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
 							SIZE text_size = { 0 };
 							RECT rc = { 0 };
 							// Select font

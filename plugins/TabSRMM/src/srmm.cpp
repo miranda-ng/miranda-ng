@@ -36,7 +36,6 @@ LOGFONT lfDefault = { 0 };
  */
 
 int hLangpack;
-TIME_API tmi = { 0 };
 CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo = {
@@ -74,7 +73,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	mir_getCLI();
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);

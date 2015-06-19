@@ -590,16 +590,3 @@ INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 /***********************************************************************************************************
  * initialization
  ***********************************************************************************************************/
-
-/**
-* This function initially loads the module upon startup.
-**/
-
-void SvcTimezoneLoadModule_old()
-{
-	TzMgr.Init();
-	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
-	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);
-	if (db_get_b(NULL, MODNAME, SET_OPT_AUTOTIMEZONE, TRUE))
-		SvcTimezoneSyncWithWindows();
-}

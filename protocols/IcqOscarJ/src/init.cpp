@@ -30,7 +30,6 @@
 
 HINSTANCE hInst;
 int hLangpack;
-TIME_API tmi;
 CLIST_INTERFACE *pcli;
 bool g_bTerminated;
 
@@ -96,7 +95,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-	mir_getTMI(&tmi);
 
 	srand(time(NULL));
 	_tzset();

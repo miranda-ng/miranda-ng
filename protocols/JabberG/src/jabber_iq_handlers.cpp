@@ -393,7 +393,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	TCHAR stime[100];
 	TCHAR szTZ[10];
 
-	tmi.printDateTime(UTC_TIME_HANDLE, _T("I"), stime, SIZEOF(stime), 0);
+	TimeZone_PrintDateTime(UTC_TIME_HANDLE, _T("I"), stime, SIZEOF(stime), 0);
 
 	int nGmtOffset = GetGMTOffset();
 	mir_sntprintf(szTZ, SIZEOF(szTZ), _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
@@ -401,7 +401,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(_T("result"), pInfo);
 	HXML timeNode = iq << XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME);
 	timeNode << XCHILD(_T("utc"), stime); timeNode << XCHILD(_T("tzo"), szTZ);
-	LPCTSTR szTZName = tmi.getTzName(NULL);
+	LPCTSTR szTZName = TimeZone_GetName(NULL);
 	if (szTZName)
 		timeNode << XCHILD(_T("tz"), szTZName);
 	m_ThreadInfo->send(iq);
@@ -426,7 +426,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(_T("result"), pInfo);
 	HXML queryNode = iq << XQUERY(JABBER_FEAT_ENTITY_TIME_OLD);
 	queryNode << XCHILD(_T("utc"), stime);
-	LPCTSTR szTZName = tmi.getTzName(NULL);
+	LPCTSTR szTZName = TimeZone_GetName(NULL);
 	if (szTZName)
 		queryNode << XCHILD(_T("tz"), szTZName);
 	queryNode << XCHILD(_T("display"), dtime);

@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HINSTANCE hInst;
 
 int hLangpack;
-TIME_API tmi;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialization routines
@@ -111,7 +110,6 @@ static int msnProtoUninit(CMsnProto* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

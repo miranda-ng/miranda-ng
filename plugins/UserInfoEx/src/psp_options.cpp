@@ -418,13 +418,8 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			DBGetCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS, TRUE);
 			DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
 			DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
-			if (tmi.getTimeZoneTime) {
-				CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
-				EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
-			}
-			else {
-				DBGetCheckBtn(hDlg, CHECK_OPT_AUTOTIMEZONE, SET_OPT_AUTOTIMEZONE, TRUE);
-			}
+			CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
+			EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
 
 			bInitialized = 1;
 			break;
@@ -435,11 +430,6 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			DBWriteCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN);
 
 			DBWriteCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE);
-			if (!tmi.getTimeZoneTime) {
-				DBWriteCheckBtn(hDlg, CHECK_OPT_AUTOTIMEZONE, SET_OPT_AUTOTIMEZONE);
-				if (IsDlgButtonChecked(hDlg, CHECK_OPT_AUTOTIMEZONE))
-					SvcTimezoneSyncWithWindows();
-			}
 		}
 		break;
 

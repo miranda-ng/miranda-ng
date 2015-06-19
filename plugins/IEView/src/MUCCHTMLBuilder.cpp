@@ -82,11 +82,7 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 {
 	static char szResult[512];
 	char str[80];
-
-	DBTIMETOSTRING dbtts;
-
-	dbtts.cbDest = 70;
-	dbtts.szDest = str;
+	const char *szFormat;
 
 	szResult[0] = '\0';
 	struct tm tm_now, tm_today;
@@ -96,24 +92,20 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 	tm_today = tm_now;
 	tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 	today = mktime(&tm_today);
-	if (dwData&IEEDD_MUCC_SHOW_DATE && dwData&IEEDD_MUCC_SHOW_TIME) {
-		if (dwData&IEEDD_MUCC_LONG_DATE) {
-			dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"D s" : (char *)"D t";
-		}
-		else {
-			dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"d s" : (char *)"d t";
-		}
+	if (dwData & IEEDD_MUCC_SHOW_DATE && dwData & IEEDD_MUCC_SHOW_TIME) {
+		if (dwData & IEEDD_MUCC_LONG_DATE)
+			szFormat = (dwData & IEEDD_MUCC_SECONDS) ? "D s" : "D t";
+		else
+			szFormat = (dwData & IEEDD_MUCC_SECONDS) ? "d s" : "d t";
 	}
-	else if (dwData&IEEDD_MUCC_SHOW_DATE) {
-		dbtts.szFormat = dwData&IEEDD_MUCC_LONG_DATE ? (char *)"D" : (char *)"d";
-	}
-	else if (dwData&IEEDD_MUCC_SHOW_TIME) {
-		dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"s" : (char *)"t";
-	}
-	else {
-		dbtts.szFormat = (char *)"";
-	}
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
+	else if (dwData & IEEDD_MUCC_SHOW_DATE)
+		szFormat = dwData & IEEDD_MUCC_LONG_DATE ? "D" : "d";
+	else if (dwData & IEEDD_MUCC_SHOW_TIME)
+		szFormat = dwData & IEEDD_MUCC_SECONDS ? "s" : "t";
+	else
+		szFormat = (char *)"";
+
+	TimeZone_ToString(check, szFormat, str, SIZEOF(str));
 	mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;

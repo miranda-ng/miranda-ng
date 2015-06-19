@@ -44,6 +44,7 @@
 #include <m_clc.h>
 #include <m_string.h>
 #include <m_metacontacts.h>
+#include <m_timezones.h>
 
 #include <m_variables.h>
 
