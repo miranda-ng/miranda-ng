@@ -2,39 +2,33 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
 Редактор на базата от данни за напреднали.
-[Database Editor++ search and replace]
-Database Editor++ търсене и заместване
+[Search and replace]
+Търсене и заместване
 [Search for]
 Търсене на
-[Text:]
-Текст:
-[In:]
-В:
-[Module name]
-Име на модула
 [Exact match]
 Точно съвпадение
+[&Search]
+Търсене
+[Module name]
+Име на модула
 [Setting name]
 Име на настройката
 [Setting value]
 Стойност на настройката
-[&Search]
-Търсене
+[&Cancel]
+Отказ
 [Replace with]
 Замяна с
 [Entirely]
 Напълно
-[Found field]
-Намерено поле
 [&Replace]
 Замяна
-[&Cancel]
-Отказ
 [Restore last opened position]
 Възстановяване на последната позиция
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -57,10 +51,10 @@ Popup времетраене (0=безкрайност)
 Отказ
 [Edit setting]
 Редактиране
-[Value name:]
-Име на стойността:
-[Value data:]
-Стойност:
+[Name]
+Име
+[Value]
+Стойност
 [Hexadecimal]
 Шестнадесетичнa
 [Decimal]
@@ -83,12 +77,10 @@ STRING
 В кой контакт да се копира модула и настройките
 [Copy to all contacts (including Settings)]
 Във всеки контакт (включва и настройките)
-[Import module/settings]
-Внос на модул/настройки
-[Paste the settings to import here.]
-Поставете настройките за внасяне тук.
 [Import]
 Внос
+[Paste the settings to import here:]
+Поставете настройките за внасяне тук:
 [Database Editor++]
 Database Editor++
 [&Main]
@@ -139,10 +131,14 @@ Database Editor++
 Възстановяване на позицията
 [&Open options]
 Отваряне на настройките
-[&Edit/rename]
-Редактиране/Преименуване
-[New]
-Нов
+[&Edit]
+Редактиране
+[&Copy]
+Копиране
+[&Delete]
+Изтриване
+[Convert to]
+Превръщане в
 [&Byte]
 Byte
 [&Word]
@@ -153,30 +149,22 @@ Dword
 Низ
 [&Unicode]
 Unicode
+[New]
+Нов
 [BL&OB]
 BLOB
-[&Convert to]
-Превръщане в
-[Encyption]
-Шифроване
-[View decrypted string]
-Преглед на разшифрованият низ
-[View encrypted string]
-Преглед на шифрования низ
-[Decrypt string]
-Разшифроване на низа
-[Encrypt string]
-Шифроване на низа
 [&Watch]
 Наблюдение
-[&Delete]
-Изтриване
+[&Refresh]
+Обновяване
 [&Rename]
 Преименуване
 [Copy to contact]
 Копиране в контакт
 [Export module]
 Износ на модула
+[&Add module]
+Добавяне на модул
 [&Clone]
 Клониране
 [Export contact]
@@ -187,8 +175,6 @@ BLOB
 От файл
 [From pasted text]
 От поставен текст
-[&Add module]
-Добавяне на модул
 [Export settings]
 Изнасяне на настройките
 [Export contacts]
@@ -201,40 +187,8 @@ BLOB
 Прозорец на наблюдаваните стойности
 [Reload watch list]
 Обновяване списъка за наблюдение
-[Cannot Convert!]
-Превръщането е невъзможно!
-[New BYTE value]
-Нова BYTE стойност
-[Edit BYTE value]
-Редактиране на BYTE стойност
-[New WORD value]
-Нова WORD стойност
-[Edit WORD value]
-Редактиране на WORD стойност
-[New DWORD value]
-Нова DWORD стойност
-[Edit DWORD value]
-Редактиране на DWORD стойност
-[New STRING value]
-Нова стойност на низа
-[Edit STRING value]
-Редактиране стойността на низа
-[New UNICODE value]
-Нова UNICODE стойност
-[Edit UNICODE value]
-Редактиране на UNICODE стойност
-[New BLOB value]
-Нова BLOB стойност
-[Edit BLOB value]
-Редактиране на BLOB стойност
-[Couldn't allocate enough memory!]
-Не е възможно заделянето на достатъчно памет!
-[Settings]
-Настройки
 [Are you sure you want to delete module "%s"?]
 Желаете ли модулът "%s" да бъде изтрит?
-[Confirm module deletion]
-Потвърждение за изтриване на модул
 [Delete module from database]
 Изтриване на модул от базата от данни
 [Delete module from database... Loading]
@@ -247,46 +201,40 @@ INI файлове
 Всички файлове
 [Export to file]
 Износ във файл
-[Error loading module list]
-Грешка при зареждане на списъка с модули
 [Couldn't open file for writing]
 Файлът не може да бъде отворен за писане
 [Import from files]
 Внос от файл
+[Result]
+Резултат
+[Contact]
+Контакт
+[Module]
+Модул
+[Setting]
+Настройка
 [Enter a string to search the database for]
 Въведете низ за търсене в базата от данни
 [Stop]
 Стоп
-[Replaced with]
-Замяна с
+[Replaced]
+Замяна
 [Deleted]
 Изтрито
 [Found]
 Открито:
-[%s Module "%s" in contact "%s"]
-%s модул "%s" на контакт "%s"
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s настройка "%s" в модул "%s" на контакт "%s" - "%s"
-[%s Setting "%s" in module "%s" in contact "%s"]
-%s настройка "%s" в модул "%s" на контакт "%s"
-[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s "%s" в настройка "%s" в модул "%s" на контакт "%s"
 [Searching...]
 Търсене...
-[Error Loading Setting List]
-Грешка при зареждането на списъка с настройки
-[Finished. %d items were found, %d items were deleted.]
-Готово. Бяха намерени %d елемента. %d елемента бяха изтрити.
-[Finished. %d items were found, %d items were replaced.]
-Готово. Бяха намерени %d елемента. %d елемента бяха заменени.
-[Finished. %d items were found.]
-Готово. Бяха намерени %d елемента.
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
 [Main icon]
 Главна икона
-[Closed known module]
-Затворен познат модул
-[Open known module]
-Отворен познат модул
+[Closed module]
+Затворен модул
+[Open module]
+Отворен модул
+[Settings]
+Настройки
 [Contacts group]
 Група с контакти
 [Unknown contact]
@@ -297,59 +245,27 @@ INI файлове
 Отваряне на Database Editor++
 [Open user tree in DBE++]
 Отваряне на контакта в DBE++
+[<UNKNOWN>]
+<НЕИЗВЕСТНО>
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
-[Confirm contact delete]
-Потвърдете изтриването на контакт
+[Error loading module list]
+Грешка при зареждане на списъка с модули
+[Error loading setting list]
+Грешка при зареждането на списъка с настройки
 [Loading contacts...]
 Зареждане на контактите...
 [Loading modules...]
 Зареждане на модулите...
-[Module tree not found]
-Дървото на модулът не е открито
 [Contacts]
 Контакти
-[Add module to contact "%s"]
-Добавяне на модул към контакта "%s"
 [Database]
 База от данни
-[Name]
-Име
-[Data]
-Данни
+[Add module to "%s"]
+Добавяне на модул към "%s"
 [Type]
 Тип
 [Size]
 Размер
-[UNICODE]
-UNICODE
-[BLOB]
-BLOB
-[BYTE]
-BYTE
-[WORD]
-WORD
-[DWORD]
-DWORD
-[STRING]
-STRING
-[<unsupported>]
-<не се поддържа>
-[<unknown>]
-<неизвестно>
-[Contact]
-Контакт
-[Module]
-Модул
-[Setting]
-Настройка
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: (BYTE) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: (WORD) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: (DWORD) 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: "%s"
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: (UTF8) "%s"
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+Промяна в базата от данни: \nМодул: "%s", Настройка: "%s"\nНова стойност (%s): "%s"

@@ -2319,6 +2319,8 @@ La cuenta %s se está borrando
 Es necesario desactivar plugin para eliminar esta cuenta
 [&Accounts...]
 &Cuentas...
+[Account]
+Cuenta
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -2929,5 +2931,3 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
-[Account]
-Cuenta

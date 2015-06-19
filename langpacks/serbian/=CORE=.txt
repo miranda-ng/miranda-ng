@@ -2567,8 +2567,7 @@ Izmenjeno
 Moji profili
 [New profile]
 Napravi profil
-;file \src\mir_app\src\protocolorder.cpp
-;file \src\mir_app\src\protoopts.cpp
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UPOZORENJE! Nalog će biti izbrisan. Sva podešavanja, kontakti i istorije razgovora će nestati.\n\nPotpuno ste sigurni?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2619,6 +2618,10 @@ Nalog %s je obrisan.
 Za brisanje naloga potrebno je isključiti plug-in
 [&Accounts...]
 &Nalozi...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
+
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Pretraga '%s' bez uspeha, primećen problem - da li je %s na vezi?
@@ -3237,6 +3240,3 @@ JPEG slike
 GIF slike
 [PNG bitmaps]
 PNG slike
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-

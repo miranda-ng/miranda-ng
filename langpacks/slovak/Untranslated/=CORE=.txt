@@ -808,6 +808,7 @@
 [Account %s is being deleted]
 [You need to disable plugin to delete this account]
 [&Accounts...]
+[Account]
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
 [Problem with search]
@@ -1097,4 +1098,3 @@
 [Zambia]
 [Zimbabwe]
 [PNG bitmaps]
-[Account]

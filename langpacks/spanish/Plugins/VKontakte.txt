@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -65,14 +65,14 @@ Desconocido
 Advertencia
 [Chat]
 Chat
+[Visit profile]
+Visitar perfil
 [Network]
 Red
 [Account]
 Cuenta
 [%s server connection]
 %s conexión al servidor
-[Visit profile]
-Visitar perfil
 [Errors]
 Errores
 [Notification]

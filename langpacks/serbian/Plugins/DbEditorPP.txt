@@ -2,42 +2,36 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
 
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ search and replace]
+[Search and replace]
 
 [Search for]
 
-[Text:]
-
-[In:]
-
-[Case sensitive]
-
-[Module name]
-
 [Exact match]
+
+[&Search]
+&Pretraga
+[Module name]
 
 [Setting name]
 
 [Setting value]
 
-[&Search]
-&Pretraga
+[Case sensitive]
+
+[&Cancel]
+&Otkazivanje
 [Replace with]
 
 [Entirely]
 
-[Found field]
-
 [&Replace]
 
-[&Cancel]
-&Otkazivanje
 [Restore last opened position]
 
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,9 +54,9 @@ Boja pozadine
 Otkazivanje
 [Edit setting]
 
-[Value name:]
-
-[Value data:]
+[Name]
+Naziv
+[Value]
 
 [Base]
 
@@ -88,13 +82,9 @@ Otkazivanje
 
 [Copy to all contacts (including Settings)]
 
-[Import module/settings]
-
-[Paste the settings to import here.]
-
 [Import]
 
-[Insert &CR/LF]
+[Paste the settings to import here:]
 
 [Database Editor++]
 
@@ -109,6 +99,8 @@ Otkazivanje
 [&Actions]
 
 [&Search and replace]
+
+[&Fix resident settings]
 
 [&Delete module]
 
@@ -148,13 +140,19 @@ Otkazivanje
 
 [Edit &Dwords in Hex]
 
+[&Inline edit]
+
 [&Restore position]
 
 [&Open options]
 
-[&Edit/rename]
-
-[New]
+[&Edit]
+&Izmeni
+[&Copy]
+&Kopiranje
+[&Delete]
+&Brisanje
+[Convert to]
 
 [&Byte]
 
@@ -166,29 +164,21 @@ Otkazivanje
 
 [&Unicode]
 
+[New]
+
 [BL&OB]
-
-[&Convert to]
-
-[Encyption]
-
-[View decrypted string]
-
-[View encrypted string]
-
-[Decrypt string]
-
-[Encrypt string]
 
 [&Watch]
 
-[&Delete]
-&Brisanje
+[&Refresh]
+
 [&Rename]
 &Promeni naziv
 [Copy to contact]
 
 [Export module]
+
+[&Add module]
 
 [&Clone]
 
@@ -199,8 +189,6 @@ Otkazivanje
 [From a file]
 
 [From pasted text]
-
-[&Add module]
 
 [Export settings]
 
@@ -214,42 +202,11 @@ Otkazivanje
 
 [Reload watch list]
 
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-[Cannot Convert!]
-
-[New BYTE value]
-
-[Edit BYTE value]
-
-[New WORD value]
-
-[Edit WORD value]
-
-[New DWORD value]
-
-[Edit DWORD value]
-
-[New STRING value]
-
-[Edit STRING value]
-
-[New UNICODE value]
-
-[Edit UNICODE value]
-
-[New BLOB value]
-
-[Edit BLOB value]
-
-[Couldn't allocate enough memory!]
-
 ;file \plugins\DbEditorPP\src\copymodule.cpp
-[Settings]
+[Copy module "%s"]
 
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
-
-[Confirm module deletion]
 
 [Delete module from database]
 
@@ -264,47 +221,43 @@ Otkazivanje
 Sve datoteke
 [Export to file]
 
-[Error loading module list]
-
 [Couldn't open file for writing]
+
+[Import to "%s"]
 
 [Import from files]
 
 ;file \plugins\DbEditorPP\src\findwindow.cpp
+[Result]
+
+[Contact]
+Kontakt
+[Module]
+
+[Setting]
+
 [Enter a string to search the database for]
 
 [Stop]
 
-[Replaced with]
+[Replaced]
 
 [Deleted]
 
 [Found]
 
-[%s Module "%s" in contact "%s"]
-
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-
-[%s Setting "%s" in module "%s" in contact "%s"]
-
-[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-
 [Searching...]
 
-[Error Loading Setting List]
-
-[Finished. %d items were found, %d items were deleted.]
-
-[Finished. %d items were found, %d items were replaced.]
-
-[Finished. %d items were found.]
+[Finished. Items found: %d / replaced: %d / deleted: %d]
 
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 
-[Closed known module]
+[Closed module]
 
-[Open known module]
+[Open module]
+
+[Settings]
 
 [Contacts group]
 
@@ -313,6 +266,8 @@ Sve datoteke
 [Known contact]
 
 [Open user tree]
+
+[Empty setting]
 
 [BLOB setting]
 
@@ -333,73 +288,57 @@ Koristeći
 
 [Open user tree in DBE++]
 
+[<UNKNOWN>]
+<NEPOZNATO>
+[[UNLOADED]]
+
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 
-[Confirm contact delete]
+[Fix resident setting deleting them from DB ?]
 
-;file \plugins\DbEditorPP\src\modules.cpp
+[Deleted orphaned items: %d]
+
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
+[Error loading module list]
+
+[Error loading setting list]
+
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 
 [Loading modules...]
 
-[Module tree not found]
-
 [Contacts]
 Kontakti
-[HANDLE]
-Koristeći
-[Add module to contact "%s"]
-
 ;file \plugins\DbEditorPP\src\options.cpp
 [Database]
 
-;file \plugins\DbEditorPP\src\settinglist.cpp
-[Name]
-Naziv
-[Data]
+;file \plugins\DbEditorPP\src\renamemodule.cpp
+[Add module to "%s"]
 
+;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]
 
 [Size]
 Veličina
+[Unable to store value in this data type!]
+
+[Are you sure you want to delete setting(s): %d?]
+
 [*** encrypted ***]
 
-[UNICODE]
+[*** buggy resident ***]
 
-[BLOB]
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
+[Unknown DBVariant type!]
 
-[BYTE]
+[Edit setting (%s)]
 
-[WORD]
-
-[DWORD]
-
-[STRING]
-
-[<unsupported>]
-
-[<unknown>]
-<nepoznato>
-[Decoded string..]
-
-[Encoded string..]
+[New setting (%s)]
 
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
-[Contact]
-Kontakt
-[Module]
+[*** resident ***]
 
-[Setting]
-
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 

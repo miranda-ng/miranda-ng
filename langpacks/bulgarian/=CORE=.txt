@@ -2415,6 +2415,8 @@ ID на акаунта
 Необходимо е да изключите приставка, за да бъде изтрит акаунта.
 [&Accounts...]
 Акаунти...
+[Account]
+Акаунт
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
 [Could not search on any of the protocols, are you online?]
@@ -3023,5 +3025,3 @@ JPEG изображения
 GIF изображения
 [PNG bitmaps]
 PNG изображения
-[Account]
-Акаунт

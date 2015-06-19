@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
-[Text:]
-Texto:
 [&Search]
 Bu&scar
 [&Cancel]
@@ -15,45 +13,43 @@ Bu&scar
 Color de fondo
 [Cancel]
 Cancelar
+[Name]
+Nombre
 [Dword]
 Dword
 [E&xit]
 &Salir
 [&Options]
 &Opciones
-[New]
-Nuevo
+[&Edit]
+&Editar
+[&Copy]
+&Copiar
 [&Delete]
 &Borrar
+[New]
+Nuevo
 [&Rename]
 &Renombrar
-[Settings]
-Ajustes
 [All Files]
 Todos los archivos
 [Export to file]
 Importar a archivo
+[Contact]
+Contacto
 [Main icon]
 Icono principal
+[Settings]
+Ajustes
 [Handle]
 Manejar
+[<UNKNOWN>]
+<DESCONOCIDO>
 [Contacts]
 Contactos
-[HANDLE]
-MANEJAR
 [Database]
 Base de datos
-[Name]
-Nombre
-[Data]
-Dato
 [Type]
 Tipo
 [Size]
 Tamaño
-[DWORD]
-DWORD
-[<unknown>]
-<desconocido>
-[Contact]
-Contacto

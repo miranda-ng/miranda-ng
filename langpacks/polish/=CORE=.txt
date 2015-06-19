@@ -2567,8 +2567,7 @@ Zmodyfikowano
 Moje profile
 [New profile]
 Nowy profil
-;file \src\mir_app\src\protocolorder.cpp
-;file \src\mir_app\src\protoopts.cpp
+;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i historia zostaną usunięte.\n\nCzy jesteś pewien?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2619,6 +2618,10 @@ Konto "%s" zostanie usunięte
 Musisz wyłączyć wtyczkę, by usunąć to konto.
 [&Accounts...]
 &Konta...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
+Konto
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
@@ -3237,6 +3240,3 @@ Mapa bitowa JPEG
 Mapa bitowa GIF
 [PNG bitmaps]
 Mapa bitowa PNG
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Konto

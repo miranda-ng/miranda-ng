@@ -7,6 +7,9 @@
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
 Pozwala na rozszerzenie funkcjonalności Mirandy NG za pomocą skryptów lua.
+;file \plugins\MirLua\res\resource.rc
+[Reload]
+Odśwież
 ;file \plugins\MirLua\src\main.cpp
 [Customize]
 Personalizacja
