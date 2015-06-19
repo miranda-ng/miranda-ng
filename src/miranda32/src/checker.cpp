@@ -196,7 +196,11 @@ bool TryDeleteFile(const TCHAR *ptszFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR *arDlls[] = { _T("mir_app.dll"), _T("mir_core.dll"), _T("pcre16.dll"), _T("zlib.dll"), _T("libtox.dll") };
+static TCHAR *arDlls[] = 
+{
+	_T("mir_app.dll"), _T("mir_core.dll"), _T("pcre16.dll"), _T("zlib.dll"), _T("libtox.dll"),
+	_T("libs\\mir_app.dll"), _T("libs\\mir_core.dll"), _T("libs\\libjson.dll"), _T("libs\\pcre16.dll"), _T("libs\\zlib.dll")
+};
 
 bool CheckDlls()
 {

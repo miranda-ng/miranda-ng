@@ -1,5 +1,6 @@
-EXPORTS
+LIBRARY mir_app.mir
 
+EXPORTS
 CallContactService          @1
 CallProtoService            @2
 Skin_LoadProtoIcon          @4

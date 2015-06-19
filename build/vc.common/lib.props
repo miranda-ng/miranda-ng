@@ -28,4 +28,8 @@
     <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Libs\</OutDir>
   </PropertyGroup>
   <Import Project="common.props"/>
+  <PropertyGroup>
+    <TargetExt>.mir</TargetExt>
+    <TargetPath>$(OutDir)$(TargetName)$(TargetExt)</TargetPath>
+  </PropertyGroup>
 </Project>

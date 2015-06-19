@@ -1,4 +1,4 @@
-LIBRARY libjson
+LIBRARY libjson.mir
 
 EXPORTS
 ??0JSONNode@@AEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @1 NONAME

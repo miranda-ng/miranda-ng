@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {$DEFINE M_ZLIB}
 
 const
-  ZlibDLL = 'zlib.dll';
+  ZlibDLL = 'zlib.mir';
 
   Z_NO_FLUSH      = 0;
   Z_PARTIAL_FLUSH = 1;
