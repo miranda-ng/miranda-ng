@@ -2,41 +2,35 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
 Розширений редактор бази.
-[Database Editor++ search and replace]
+[Search and replace]
 Знайти і замінити
 [Search for]
 Шукати
-[Text:]
-Текст:
-[In:]
-В:
-[Case sensitive]
-Регістр
-[Module name]
-Модуль
 [Exact match]
 Точний збіг
-[Setting name]
-Ім'я налаштування
-[Setting value]
-Значення
 [&Search]
 &Шукати
+[Module name]
+Модуль
+[Setting name]
+Параметр
+[Setting value]
+Значення
+[Case sensitive]
+Регістр
+[&Cancel]
+&Скасувати
 [Replace with]
 Замінити на
 [Entirely]
 Повністю
-[Found field]
-Поле пошуку
 [&Replace]
 &Замінити
-[&Cancel]
-&Скасувати
 [Restore last opened position]
 Відновлювати останнє положення
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -54,15 +48,15 @@
 [Add a module named]
 Додати модуль з назвою
 [Add to all contacts (including Settings)]
-У всі контакти (включаючи налаштування)
+У всі контакти (включаючи Налаштування)
 [Cancel]
 Скасувати
 [Edit setting]
 Редагувати налаштування
-[Value name:]
-Ім'я:
-[Value data:]
-Значення:
+[Name]
+Ім'я
+[Value]
+Значення
 [Base]
 Основа
 [Hexadecimal]
@@ -86,15 +80,11 @@
 [Contact to copy module and settings to]
 Копіювати модуль та налаштування в
 [Copy to all contacts (including Settings)]
-У всі контакти (і загальні налаштування)
-[Import module/settings]
-Імпортувати модуль/налаштування
-[Paste the settings to import here.]
-Вставте налаштування сюди.
+У всі контакти (включаючи Налаштування)
 [Import]
 Імпорт
-[Insert &CR/LF]
-Вставити &CR/LF
+[Paste the settings to import here:]
+Вставте налаштування сюди:
 [Database Editor++]
 Редактор бази
 [&Main]
@@ -151,10 +141,14 @@
 В&ідновити положення
 [&Open options]
 &Відкрити налаштування
-[&Edit/rename]
-&Правити/перейменувати
-[New]
-Створити
+[&Edit]
+&Змінити
+[&Copy]
+&Копіювати
+[&Delete]
+&Видалити
+[Convert to]
+Перевести в
 [&Byte]
 &Байт
 [&Word]
@@ -165,28 +159,20 @@
 Р&ядок
 [&Unicode]
 &Юнікод
-[&Convert to]
-&Перевести в
-[Encyption]
-&Шифрування
-[View decrypted string]
-Переглянути розшифрований рядок
-[View encrypted string]
-Переглянути зашифрований рядок
-[Decrypt string]
-Розшифрувати рядок
-[Encrypt string]
-Зашифрувати рядок
+[New]
+Створити
 [&Watch]
 &Спостерігати
-[&Delete]
-&Видалити
+[&Refresh]
+&Оновити
 [&Rename]
 &Перейменувати
 [Copy to contact]
 Копіювати в контакт...
 [Export module]
 Експортувати модуль...
+[&Add module]
+Додати модуль...
 [&Clone]
 Клонувати
 [Export contact]
@@ -197,8 +183,6 @@
 З файлу...
 [From pasted text]
 З вставленого тексту...
-[&Add module]
-Додати модуль...
 [Export settings]
 Експортувати налаштування
 [Export contacts]
@@ -211,92 +195,58 @@
 Вікно спостережень
 [Reload watch list]
 Оновити список спостережень
-[Cannot Convert!]
-Неможливо конвертувати!
-[New BYTE value]
-Створити байт
-[Edit BYTE value]
-Редагувати байт
-[New WORD value]
-Створити слово
-[Edit WORD value]
-Редагувати слово
-[New DWORD value]
-Створити подвійне слово
-[Edit DWORD value]
-Редагувати подвійне слово
-[New STRING value]
-Створити рядок
-[Edit STRING value]
-Редагувати рядок
-[New UNICODE value]
-Створити значення Unicode
-[Edit UNICODE value]
-Редагувати значення Unicode
-[New BLOB value]
-Створити BLOB
-[Edit BLOB value]
-Редагувати BLOB
-[Couldn't allocate enough memory!]
-Неможливо виділити пам'ять!
-[Settings]
-Налаштування
+[Copy module "%s"]
+Копіювати модуль "%s"
 [Are you sure you want to delete module "%s"?]
 Видалити модуль "%s"?
-[Confirm module deletion]
-Видалити модуль?
 [Delete module from database]
 Видалити модуль з бази
 [Delete module from database... Loading]
 Видалення модуля з бази... Завантаження
 [Delete module from all contacts (including Setting)]
-Видалити модуль з усіх контактів (з налаштуваннями)
+З усіх контактів (а також з Налаштувань)
 [INI Files]
 Файли INI
 [All Files]
 Усі файли
 [Export to file]
 Експорт
-[Error loading module list]
-Помилка завантаження списку модулів
 [Couldn't open file for writing]
 Не вдається відкрити файл на запис
+[Import to "%s"]
+Імпортувати в "%s"
 [Import from files]
 Імпорт з файлів
+[Result]
+Результат
+[Contact]
+Контакт
+[Module]
+Модуль
+[Setting]
+Параметр
 [Enter a string to search the database for]
-Введіть рядок пошуку
+Введіть рядок для пошуку в базі
 [Stop]
 Зупинити
-[Replaced with]
-Замінено на
+[Replaced]
+Замінено
 [Deleted]
 Видалено
 [Found]
 Знайдено
-[%s Module "%s" in contact "%s"]
-%s модуль "%s" в контакті "%s"
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s налаштування "%s" в модулі "%s" контакту "%s" - "%s"
-[%s Setting "%s" in module "%s" in contact "%s"]
-%s налаштування "%s" у модулі "%s" контакту "%s"
-[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s "%s" в налаштуванні "%s" в модулі "%s" контакту "%s"
 [Searching...]
 Пошук...
-[Error Loading Setting List]
-Помилка завантаження списку налаштувань
-[Finished. %d items were found, %d items were deleted.]
-Пошук завершено. Знайдено %d елементів, видалено %d.
-[Finished. %d items were found, %d items were replaced.]
-Пошук завершено. Знайдено %d елементів, замінено %d.
-[Finished. %d items were found.]
-Пошук завершено. Знайдено %d елементів.
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Пошук завершено. Знайдено: %d елементів / замінено: %d / видалено: %d
 [Main icon]
 Головний значок
-[Closed known module]
-Модуль (згорнутий)
-[Open known module]
-Модуль (розгорнутий)
+[Closed module]
+Згорнутий модуль
+[Open module]
+Розгорнутий модуль
+[Settings]
+Налаштування
 [Contacts group]
 Група контактів
 [Unknown contact]
@@ -305,6 +255,8 @@
 Відомий контакт
 [Open user tree]
 Відкрити в редакторі бази
+[Empty setting]
+Порожнє налаштування
 [BLOB setting]
 BLOB
 [Byte setting]
@@ -323,65 +275,39 @@ ID користувача
 Відкрити редактор бази
 [Open user tree in DBE++]
 Відкрити в редакторі бази
+[<UNKNOWN>]
+<невідомо>
 [Are you sure you want to delete contact "%s"?]
-Ви впевнені, що хочете видалити контакт "%s"?
-[Confirm contact delete]
-Підтвердження видалення контакту
+Видалити контакт "%s"?
+[Error loading module list]
+Помилка завантаження списку модулів
+[Error loading setting list]
+Помилка завантаження списку налаштувань
 [Loading contacts...]
 Завантаження контактів...
 [Loading modules...]
 Завантаження модулів...
-[Module tree not found]
-Дерево модулів не знайдено
 [Contacts]
 Контакти
-[HANDLE]
-ID користувача
-[Add module to contact "%s"]
-Додати модуль контакту "%s"
 [Database]
 Профіль
-[Name]
-Ім'я
-[Data]
-Дані
+[Add module to "%s"]
+Додати модуль до "%s"
 [Type]
 Тип
 [Size]
 Розмір
+[Unable to store value in this data type!]
+Неможливо зберегти значення, використовуючи цей тип даних!
+[Are you sure you want to delete setting(s): %d?]
+Видалити налаштування: %d?
 [*** encrypted ***]
 ***зашифровано***
-[UNICODE]
-Юнікод
-[BYTE]
-Байт
-[WORD]
-Слово
-[DWORD]
-Подв. слово
-[STRING]
-Рядок
-[<unsupported>]
-<не підтримується>
-[<unknown>]
-<невідомо>
-[Decoded string..]
-Розшифрований рядок
-[Encoded string..]
-Зашифрований рядок
-[Contact]
-Контакт
-[Module]
-Модуль
-[Setting]
-Параметр
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення: (байт) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення: (слово) %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення: (подвійне слово) 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення: "%s"
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення: (UTF8) "%s"
+[Unknown DBVariant type!]
+Невідомий тип DBVariant!
+[Edit setting (%s)]
+Редагувати налаштування (%s)
+[New setting (%s)]
+Нове налаштування (%s)
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+Змінено налаштування бази:\nмодуль: "%s", настройка: "%s"\nНове значення (%s): "%s"

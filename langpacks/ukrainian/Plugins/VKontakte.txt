@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,6 +31,8 @@
 Підтримка BB-кодів у вкладеннях
 [Process stickers as smileys]
 Обробляти стікери як смайли
+[Shorten links for audio attachments]
+Скорочувати посилання для аудіовкладень
 [News and event notifications]
 Новини і сповіщення
 [WARNING: Causes excessive network traffic!!!]
@@ -299,6 +301,8 @@
 вийшов(ла)
 [invite user]
 запросив(ла) користувача
+[returned to chat]
+повернувся
 [change chat title to]
 встановив(ла) тему
 [chat action not supported]
@@ -325,6 +329,8 @@
 &Видалити кімнату
 [&User details]
 &Інформація про користувача
+[Visit profile]
+Профіль на сайті
 [&Kick]
 &Вигнати
 [User was tagged in these photos:]
@@ -381,8 +387,6 @@
 Публікувати на своїй стіні
 [Load news from VK]
 Завантажити новини з сайту
-[Visit profile]
-Профіль на сайті
 [Send message to user\'s wall]
 Повідомлення на стіні користувача
 [Add as friend]

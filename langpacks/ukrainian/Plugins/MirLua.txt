@@ -7,9 +7,17 @@
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
 Підтримка скриптів на мові Lua в Miranda NG
+[Reload]
+Перезавантажити
 [Customize]
 Тонке налаштування
+[Scripts]
+Скрипти
 [Common scripts folder]
 Папка із загальними скриптами
 [Custom scripts folder]
 Папка зі скриптами користувача
+[Common scripts]
+Загальні скрипти
+[Custom scripts]
+Скрипти користувача
