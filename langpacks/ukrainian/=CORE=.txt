@@ -2471,6 +2471,8 @@ ID облікового запису
 Перед видаленням облікового запису необхідно вимкнути плагін
 [&Accounts...]
 Облікові записи...
+[Account]
+Обліковий запис
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
@@ -3081,5 +3083,3 @@ ANSI-плагін
 Зображення GIF
 [PNG bitmaps]
 Зображення PNG
-[Account]
-Обліковий запис
