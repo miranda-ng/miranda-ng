@@ -445,8 +445,7 @@ static bool bWriteTextToFile(HANDLE hFile, const TCHAR *pszSrc, bool bUtf8File, 
 {
 	if (nLen != -1) {
 		TCHAR *tmp = (TCHAR*)alloca(sizeof(TCHAR)*(nLen + 1));
-		mir_tstrncpy(tmp, pszSrc, nLen);
-		tmp[nLen] = 0;
+		mir_tstrncpy(tmp, pszSrc, nLen + 1);
 		pszSrc = tmp;
 	}
 
@@ -468,8 +467,7 @@ static bool bWriteTextToFile(HANDLE hFile, const char *pszSrc, bool bUtf8File, i
 
 	if (nLen != -1) {
 		char *tmp = (char*)alloca(nLen + 1);
-		mir_strncpy(tmp, pszSrc, nLen);
-		tmp[nLen] = 0;
+		mir_strncpy(tmp, pszSrc, nLen + 1);
 		pszSrc = tmp;
 	}
 
