@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.5
+;  Version: 0.1.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,6 +31,8 @@ Autre
 [BBCode support on attachments]
 
 [Process stickers as smileys]
+
+[Shorten links for audio attachments]
 
 [News and event notifications]
 
@@ -303,6 +305,8 @@ Lien
 
 [invite user]
 
+[returned to chat]
+
 [change chat title to]
 
 [chat action not supported]
@@ -329,6 +333,8 @@ Avertissement
 
 [&User details]
 &Détails contact
+[Visit profile]
+Visiter le profil
 [&Kick]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
@@ -390,8 +396,6 @@ Compte
 
 [Load news from VK]
 
-[Visit profile]
-Visiter le profil
 [Send message to user\'s wall]
 
 [Add as friend]

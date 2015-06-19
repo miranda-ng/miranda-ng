@@ -276,7 +276,7 @@ ID користувача
 [Open user tree in DBE++]
 Відкрити в редакторі бази
 [<UNKNOWN>]
-<невідомо>
+<НЕВІДОМО>
 [Are you sure you want to delete contact "%s"?]
 Видалити контакт "%s"?
 [Error loading module list]

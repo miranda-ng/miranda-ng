@@ -7,6 +7,9 @@
 ;============================================================
 [Allow you to extend Miranda NG functionality with lua scripts.]
 
+;file \plugins\MirLua\res\resource.rc
+[Reload]
+
 ;file \plugins\MirLua\src\main.cpp
 [Customize]
 Podešavanja

@@ -9,7 +9,7 @@
 Erweiterter Datenbank-Editor.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Search and replace]
-
+Suchen und Ersetzen
 [Search for]
 Suchen nach
 [Exact match]
@@ -85,7 +85,7 @@ Zu allen Kontakten kopieren (inkl. Einstell.)
 [Import]
 Importieren
 [Paste the settings to import here:]
-
+Zu importierende Einstellungen hier einfügen:
 [Database Editor++]
 Datenbank-Editor++
 [&Main]
@@ -153,7 +153,7 @@ B&earbeiten
 [&Delete]
 &Löschen
 [Convert to]
-
+Umwandeln zu
 [&Byte]
 &Byte
 [&Word]
@@ -241,7 +241,7 @@ Geben Sie einen Suchstring für die Datenbank ein
 [Stop]
 Stopp
 [Replaced]
-
+Ersetzt
 [Deleted]
 Gelöscht
 [Found]
@@ -254,9 +254,9 @@ Suche...
 [Main icon]
 Haupticon
 [Closed module]
-
+Geschlossenes Modul
 [Open module]
-
+Offenes Modul
 [Settings]
 Einstellungen
 [Contacts group]
@@ -289,7 +289,7 @@ Handle
 [Open user tree in DBE++]
 Benutzerzweig in DBE++ öffnen
 [<UNKNOWN>]
-<unbekannt>
+<UNBEKANNT>
 [[UNLOADED]]
 
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -341,4 +341,4 @@ Größe
 [*** resident ***]
 
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
-
+Datenbankeinstellung geändert: \nModul: "%s", Einstellung: "%s"\nNeuer Wert (%s): "%s"

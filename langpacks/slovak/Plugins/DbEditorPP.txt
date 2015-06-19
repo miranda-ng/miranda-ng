@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -13,14 +13,16 @@ Hľadať
 Farba pozadia
 [Cancel]
 Storno
-[Value name:]
-Hodnota name:
-[Value data:]
-Hodnota data:
+[Name]
+Meno
+[Value]
+Hodnota
 [Refresh &settings]
 Obnoviť nastavenie
 [E&xit]
 Koniec
+[&Copy]
+Kopírovať
 [&Delete]
 Vymazať
 [&Rename]
@@ -29,25 +31,15 @@ Vymazať
 Export kontaktov
 [Import contacts]
 Import kontaktov
-[Edit STRING value]
-Editovať STRING hodnotu
 [All Files]
 Všetky súbory
+[Contact]
+Kontakt
 [Handle]
 Hlavička
-[Confirm contact delete]
-Potvrď vymazanie kontaktu
 [Contacts]
 Kontakty
-[HANDLE]
-Hlavička
-[Name]
-Meno
-[Data]
-Dáta
 [Type]
 typ
 [Size]
 Veľkosť
-[Contact]
-Kontakt
