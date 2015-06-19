@@ -50,7 +50,7 @@ public:
 	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnChangedByUser(WORD wChangedMsg);
 
-	void			GetTime(LPTSTR szTime, WORD cchTime);
+	void			GetTime(LPTSTR szTime, int cchTime);
 };
 
 #endif /* _UI_CTRL_TZ_COMBO_INCLUDE_ */

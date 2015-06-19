@@ -273,23 +273,7 @@ void CTzCombo::OnChangedByUser(WORD wChangedMsg)
  *
  * @return	nothing
  **/
-void CTzCombo::GetTime(LPTSTR szTime, WORD cchTime)
+void CTzCombo::GetTime(LPTSTR szTime, int cchTime)
 {
-	//use new core tz interface
-	if (tmi.printDateTime) {
-		tmi.printDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
-	}
-	//fallback use old UIEX method
-	else {
-		const CTimeZone *pTimeZone = (CTimeZone*)ComboBox_GetItemData(_hwnd, _curSel);
-		if (PtrIsValid(pTimeZone)) {
-			MTime now;
-			TIME_ZONE_INFORMATION tzi = *pTimeZone;
-
-			now.GetTimeUTC();
-			now.UTCToTzSpecificLocal(&tzi);
-			now.TimeFormat(szTime, cchTime);
-		}
-		else mir_tstrcpy(szTime, _T("--:--"));
-	}
+	tmi.printDateTime((HANDLE)ComboBox_GetItemData(_hwnd, _curSel), _T("t"), szTime, cchTime, 0);
 }

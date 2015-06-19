@@ -470,7 +470,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 					DBTIMETOSTRINGT tst = {0};
 					tst.szFormat = _T("d s");
 					tst.szDest = tmp;
-					tst.cbDest = 128;
+					tst.cbDest = SIZEOF(tmp);
 					CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM) time(NULL), (LPARAM) &tst);
 					buffer->replace(j, i + 1, tmp);
 				}
