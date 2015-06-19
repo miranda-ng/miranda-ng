@@ -73,7 +73,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		SendDlgItemMessage(hwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)LPGENT("Enter a string to search the database for"));
+		SendDlgItemMessage(hwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)TranslateT("Enter a string to search the database for"));
 		CheckDlgButton(hwnd, IDC_MODNAME, BST_CHECKED);
 		CheckDlgButton(hwnd, IDC_SETTINGNAME, BST_CHECKED);
 		CheckDlgButton(hwnd, IDC_SETTINGVALUE, BST_CHECKED);
