@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 const
-  CoreDLL = 'mir_core.dll';
-  AppDLL = 'mir_app.dll';
+  CoreDLL = 'mir_core.mir';
+  AppDLL = 'mir_app.mir';
 
 ///////////////////////////////////////////////////////////////////////////////
 // command line support

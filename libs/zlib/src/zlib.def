@@ -1,4 +1,5 @@
 ; zlib data compression library
+LIBRARY zlib.mir
 EXPORTS
 ; basic functions
     zlibVersion

@@ -51,16 +51,16 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	GetEnvironmentVariable(_T("PATH"), ptszVal + cbPath + 1, cbSize);
 	SetEnvironmentVariable(_T("PATH"), ptszVal);
 
-	HINSTANCE hMirApp = LoadLibraryA("mir_app.dll");
+	HINSTANCE hMirApp = LoadLibraryA("mir_app.mir");
 	if (hMirApp == NULL) {
-		MessageBox(NULL, _T("mir_app.dll cannot be loaded"), _T("Fatal error"), MB_ICONERROR | MB_OK);
+		MessageBox(NULL, _T("mir_app.mir cannot be loaded"), _T("Fatal error"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 
 	typedef int (WINAPI *pfnMain)(LPTSTR);
 	pfnMain fnMain = (pfnMain)GetProcAddress(hMirApp, "mir_main");
 	if (fnMain == NULL) {
-		MessageBox(NULL, _T("invalid mir_app.dll present, program exiting"), _T("Fatal error"), MB_ICONERROR | MB_OK);
+		MessageBox(NULL, _T("invalid mir_app.mir present, program exiting"), _T("Fatal error"), MB_ICONERROR | MB_OK);
 		return 2;
 	}
 
