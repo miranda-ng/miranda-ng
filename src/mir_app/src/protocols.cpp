@@ -472,6 +472,8 @@ int LoadProtocolsModule(void)
 
 	// just to make QuickSearch happy
 	CreateServiceFunction("Proto/GetContactBaseAccount", srvProto_GetContactBaseAccount);
+	
+	CreateServiceFunction(MS_PROTO_HIDDENSTUB, stubChainRecv);
 
 	return LoadProtoOptions();
 }

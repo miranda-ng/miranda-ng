@@ -166,6 +166,9 @@ void WriteDbAccounts(void);
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
 
+INT_PTR stubChainRecv(WPARAM, LPARAM);
+#define MS_PROTO_HIDDENSTUB "Proto/stubChainRecv"
+
 /**** utils.cpp ************************************************************************/
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);

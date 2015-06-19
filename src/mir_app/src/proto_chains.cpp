@@ -70,7 +70,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 	}
 
 	char szProto[40];
-	if (GetProtocolP((MCONTACT)ccs->hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP(ccs->hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -91,16 +91,40 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 
 MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
 {
+	INT_PTR ret;
 	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
-	return Proto_ChainSend(0, &ccs);
+
+	for (int i = 0; i < filters.getCount(); i++) {
+		if ((ret = CallProtoServiceInt(hContact, filters[i]->szName, szProtoService, i + 1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
+			//chain was started, exit
+			return ret;
+		}
+	}
+
+	char szProto[40];
+	if (GetProtocolP(hContact, szProto, sizeof(szProto)))
+		return 1;
+
+	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+	if (pa == NULL || pa->ppro == NULL)
+		return 1;
+
+	if (pa->bOldProto)
+		ret = CallProtoServiceInt(hContact, szProto, szProtoService, (WPARAM)(-1), (LPARAM)&ccs);
+	else
+		ret = CallProtoServiceInt(hContact, szProto, szProtoService, wParam, lParam);
+	if (ret == CALLSERVICE_NOTFOUND)
+		ret = 1;
+
+	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __stdcall stubChainRecv(void *param)
+INT_PTR stubChainRecv(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA*)param;
-	Proto_ChainRecv(0, ccs);
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
@@ -114,7 +138,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	// begin processing by finding end of chain
 	if (iOrder == 0) {
 		if (GetCurrentThreadId() != hMainThreadId) // restart this function in the main thread
-			return CallFunctionAsync(stubChainRecv, ccs);
+			return CallServiceSync(MS_PROTO_HIDDENSTUB, iOrder, LPARAM(ccs));
 
 		iOrder = filters.getCount();
 	}
