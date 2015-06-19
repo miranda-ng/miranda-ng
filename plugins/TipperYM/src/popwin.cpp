@@ -77,7 +77,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (mir_tstrlen(pwd->swzTitle) == 0)
 					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
-				if (Proto_IsAccountLocked(pwd->clcit.szProto))
+				if (Proto_IsAccountLocked(pa))
 					mir_sntprintf(pwd->swzTitle, SIZEOF(pwd->swzTitle), TranslateT("%s (locked)"), pwd->swzTitle);
 
 				// protocol status
@@ -1499,7 +1499,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			TCHAR swzProto[256];
 			mir_tstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
-				if (Proto_IsAccountLocked(pa->szModuleName))
+				if (Proto_IsAccountLocked(pa))
 					mir_sntprintf(swzProto, SIZEOF(swzProto), TranslateT("%s (locked)"), pa->tszAccountName);
 
 			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));

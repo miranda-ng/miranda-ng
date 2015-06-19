@@ -35,16 +35,6 @@ static int AutoAwaySound(WPARAM, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
-{
-	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
-}
-
-static bool Proto_IsAccountLocked(PROTOACCOUNT *pa)
-{
-	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
-}
-
 static void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {

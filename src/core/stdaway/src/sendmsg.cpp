@@ -27,16 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static DWORD protoModeMsgFlags;
 static HWND hwndStatusMsg;
 
-static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
-{
-	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
-}
-
-static bool Proto_IsAccountLocked(PROTOACCOUNT *pa)
-{
-	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
-}
-
 static const TCHAR *GetDefaultMessage(int status)
 {
 	switch(status) {

@@ -129,8 +129,8 @@ const int Stricmp(const TCHAR *str, const TCHAR *substr)
 	TCHAR *str_up = NEWTSTR_MALLOC(str);
 	TCHAR *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuff(str_up, mir_tstrlen(str_up));
-	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
+	CharUpperBuff(str_up, (int)mir_tstrlen(str_up));
+	CharUpperBuff(substr_up, (int)mir_tstrlen(substr_up));
 
 	i = mir_tstrcmp(str_up, substr_up);
 
@@ -189,7 +189,7 @@ BOOL IsUrlContains(TCHAR * Str)
 
 	if(Str && mir_tstrlen(Str)>0) {
 		TCHAR *StrLower = NEWTSTR_MALLOC(Str);
-		CharLowerBuff(StrLower, mir_tstrlen(StrLower));
+		CharLowerBuff(StrLower, (int)mir_tstrlen(StrLower));
 		for (int i=0; i<CountUrl; i++)
 			if(_tcsstr (StrLower, URL[i]))
 			{

@@ -338,14 +338,9 @@ MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa)
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
 }
 
-bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa)
+MIR_APP_DLL(bool) Proto_IsAccountLocked(const PROTOACCOUNT *pa)
 {
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
-}
-
-MIR_APP_DLL(bool) Proto_IsAccountLocked(const char *pszModuleName)
-{
-	return Proto_IsAccountLocked(Proto_GetAccount(pszModuleName));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
