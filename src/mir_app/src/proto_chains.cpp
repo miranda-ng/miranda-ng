@@ -59,7 +59,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 {
 	INT_PTR ret;
 
-	if (iOrder == (WPARAM)(-1))
+	if (iOrder == -1)
 		return 1;
 
 	for (int i = iOrder; i < filters.getCount(); i++) {
@@ -97,6 +97,12 @@ MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szProtoSe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void __stdcall stubChainRecv(void *param)
+{
+	CCSDATA *ccs = (CCSDATA*)param;
+	Proto_ChainRecv(0, ccs);
+}
+
 MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 {
 	INT_PTR ret;
@@ -108,7 +114,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	// begin processing by finding end of chain
 	if (iOrder == 0) {
 		if (GetCurrentThreadId() != hMainThreadId) // restart this function in the main thread
-			return Proto_ChainRecv(iOrder, ccs);
+			return CallFunctionAsync(stubChainRecv, ccs);
 
 		iOrder = filters.getCount();
 	}
