@@ -38,19 +38,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define STATIC_PLUGIN    0x0002
 
-/* The UUID structure below is used to for plugin UUID's and module type definitions */
-typedef struct _MUUID {
-  unsigned long a;
-  unsigned short b;
-  unsigned short c;
-  unsigned char d[8];
-} MUUID;
+/////////////////////////////////////////////////////////////////////////////////////////
+// The UUID structure below is used to for plugin UUID's and module type definitions
 
+struct MUUID
+{
+	unsigned long a;
+	unsigned short b;
+	unsigned short c;
+	unsigned char d[8];
+};
 
-/* Used to define the end of the MirandaPluginInterface list */
+MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Used to define the end of the MirandaPluginInterface list
+
 #define MIID_LAST  {0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0}}
 
-/* Replaceable internal modules interface ids */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Replaceable internal modules interface ids
+
 #define MIID_HISTORY        {0x5ca0cbc1, 0x999a, 0x4ea2, {0x8b, 0x44, 0xf8, 0xf6, 0x7d, 0x7f, 0x8e, 0xbe}}
 #define MIID_UIUSERINFO     {0x570b931c, 0x9af8, 0x48f1, {0xad, 0x9f, 0xc4, 0x49, 0x8c, 0x61, 0x8a, 0x77}}
 #define MIID_SRURL          {0x5192445c, 0xf5e8, 0x46c0, {0x8f, 0x9e, 0x2b, 0x6d, 0x43, 0xe5, 0xc7, 0x53}}
@@ -66,7 +74,9 @@ typedef struct _MUUID {
 #define MIID_CRYPTO         {0x415ca6e1, 0x895f, 0x40e6, {0x87, 0xbd, 0x9b, 0x39, 0x60, 0x16, 0xd0, 0xe5}}
 #define MIID_SSL            {0x3bbbbd20, 0x20e6, 0x479b, {0xbd, 0x4b, 0xe8, 0x4d, 0xe2, 0x62, 0x71, 0x20}}
 
-/* Common plugin interfaces (core plugins) */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Common plugin interfaces (core plugins)
+
 #define MIID_DATABASE       {0xae77fd33, 0xe484, 0x4dc7, {0x8c, 0xbc, 0x09, 0x9f, 0xed, 0xcc, 0xcf, 0xdd}}
 #define MIID_CLIST          {0x9d8da8bf, 0x665b, 0x4908, {0x9e, 0x61, 0x9f, 0x75, 0x98, 0xae, 0x33, 0x0e}}
 #define MIID_CHAT           {0x23576a43, 0x3a26, 0x4357, {0x9b, 0x1b, 0x4a, 0x71, 0x9e, 0x42, 0x5d, 0x48}}
@@ -74,20 +84,21 @@ typedef struct _MUUID {
 #define MIID_IMPORT         {0x5f3bcad4, 0x75f8, 0x476e, {0xb3, 0x6b, 0x2b, 0x30, 0x70, 0x32, 0x49, 0x0c}}
 #define MIID_TESTPLUGIN     {0x53b974f4, 0x3c74, 0x4dba, {0x8f, 0xc2, 0x6f, 0x92, 0xfe, 0x01, 0x3b, 0x8c}}
 
-/* Special exception interface for protocols.
-   This interface allows more than one plugin to implement it at the same time
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Special exception interface for protocols.
+// This interface allows more than one plugin to implement it at the same time
+
 #define MIID_PROTOCOL    {0x2a3c815e, 0xa7d9, 0x424b, {0xba, 0x30, 0x2, 0xd0, 0x83, 0x22, 0x90, 0x85}}
 
 #define MIID_SERVICEMODE    {0x8a92c026, 0x953a, 0x4f5f, { 0x99, 0x21, 0xf2, 0xc2, 0xdc, 0x19, 0x5e, 0xc5}}
 
-/* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH
-   This service might return one of the following values:
-	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
-	SERVICE_ONLYDB - load database and then execute service plugin only
-	SERVICE_MONOPOLY - execute only service plugin, even without database
-	SERVICE_FAILED - terminate Miranda execution
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Each service mode plugin must implement MS_SERVICEMODE_LAUNCH
+// This service might return one of the following values:
+// SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
+// SERVICE_ONLYDB - load database and then execute service plugin only
+// SERVICE_MONOPOLY - execute only service plugin, even without database
+// SERVICE_FAILED - terminate Miranda execution
 
 #define SERVICE_CONTINUE    0
 #define SERVICE_ONLYDB      1
@@ -96,7 +107,7 @@ typedef struct _MUUID {
 
 #define MS_SERVICEMODE_LAUNCH "ServiceMode/Launch"
 
-typedef struct PLUGININFOEX_tag
+struct PLUGININFOEX
 {
 	int cbSize;
 	char *shortName;
@@ -108,19 +119,22 @@ typedef struct PLUGININFOEX_tag
 	char *homepage;
 	BYTE flags;	   // right now the only flag, UNICODE_AWARE, is recognized here
 	MUUID uuid;    // plugin's unique identifier
-}
-	PLUGININFOEX;
+};
 
-//Miranda/System/LoadModule event
-//called when a plugin is being loaded dynamically
-//wParam = PLUGININFOEX*
-//lParam = HINSTANCE of the loaded plugin
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda/System/LoadModule event
+// called when a plugin is being loaded dynamically
+// wParam = PLUGININFOEX*
+// lParam = HINSTANCE of the loaded plugin
+
 #define ME_SYSTEM_MODULELOAD "Miranda/System/LoadModule"
 
-//Miranda/System/UnloadModule event
-//called when a plugin is being unloaded dynamically
-//wParam = PLUGININFOEX*
-//lParam = HINSTANCE of the plugin to be unloaded
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda/System/UnloadModule event
+// called when a plugin is being unloaded dynamically
+// wParam = PLUGININFOEX*
+// lParam = HINSTANCE of the plugin to be unloaded
+
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
 #endif // M_NEWPLUGINAPI_H__
