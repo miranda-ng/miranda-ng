@@ -248,7 +248,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
 		default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
 	};
-	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
+	mir_snprintf(timestamp, _countof(timestamp), "%ld", time(NULL)); 
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	oauth_setparam(oauth_parameters, "oauth_nonce", ptrA(oauth_generate_nonce()));
 	if (token != NULL && *token)

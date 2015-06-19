@@ -78,7 +78,7 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char *base)
 	if (pSrc[0] == '\\')
 		pSrc++;
 	mir_snprintf(buf, "%s%s", base, pSrc);
-	return GetFullPathNameA(buf, SIZEOF(buf), pOut, NULL);
+	return GetFullPathNameA(buf, _countof(buf), pOut, NULL);
 }
 
 MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)
@@ -101,7 +101,7 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 		return 1;
 
 	char szTestDir[MAX_PATH];
-	mir_strncpy(szTestDir, szDir, SIZEOF(szTestDir));
+	mir_strncpy(szTestDir, szDir, _countof(szTestDir));
 
 	DWORD dwAttributes = GetFileAttributesA(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -191,7 +191,7 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
 		return 1;
 
 	WCHAR szTestDir[MAX_PATH];
-	mir_wstrncpy(szTestDir, szDir, SIZEOF(szTestDir));
+	mir_wstrncpy(szTestDir, szDir, _countof(szTestDir));
 
 	DWORD dwAttributes = GetFileAttributesW(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -209,12 +209,12 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
 
 int InitPathUtils(void)
 {
-	GetModuleFileNameA(NULL, szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileNameA(NULL, szMirandaPath, _countof(szMirandaPath));
 	char *p = strrchr(szMirandaPath, '\\');
 	if (p)
 		p[1] = 0;
 
-	GetModuleFileNameW(NULL, szMirandaPathW, SIZEOF(szMirandaPathW));
+	GetModuleFileNameW(NULL, szMirandaPathW, _countof(szMirandaPathW));
 	WCHAR *tp = wcsrchr(szMirandaPathW, '\\');
 	if (tp)
 		tp[1] = 0;

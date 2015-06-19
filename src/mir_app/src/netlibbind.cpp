@@ -279,7 +279,7 @@ LBL_Error:
 
 	if (nlb->dwInternalIP == 0) {
 		char hostname[64] = "";
-		gethostname(hostname, SIZEOF(hostname));
+		gethostname(hostname, _countof(hostname));
 
 		PHOSTENT he = gethostbyname(hostname);
 		if (he && he->h_addr)

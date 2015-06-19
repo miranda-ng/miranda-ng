@@ -94,7 +94,7 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConn, (LPARAM)&connInfo);
 
-	mir_sntprintf(szPort, SIZEOF(szPort), _T("%u"), connInfo.wPort);
+	mir_sntprintf(szPort, _countof(szPort), _T("%u"), connInfo.wPort);
 	ppro->debugLogA("bytestream_send_connection incoming connection accepted: %s", connInfo.szIpPort);
 
 	if ((item = ppro->ListGetItemPtr(LIST_BYTE, szPort)) == NULL) {
@@ -208,7 +208,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			if (localAddr == NULL)
 				localAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
 
-			mir_sntprintf(szPort, SIZEOF(szPort), _T("%d"), nlb.wPort);
+			mir_sntprintf(szPort, _countof(szPort), _T("%d"), nlb.wPort);
 			JABBER_LIST_ITEM *item = ListAdd(LIST_BYTE, szPort);
 			item->jbt = jbt;
 			hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -406,7 +406,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 	int id = JabberGetPacketID(iqNode);
 
 	TCHAR listJid[JABBER_MAX_JID_LEN];
-	mir_sntprintf(listJid, SIZEOF(listJid), _T("ftproxy_%d"), id);
+	mir_sntprintf(listJid, _countof(listJid), _T("ftproxy_%d"), id);
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTIQID, listJid);
 	if (item == NULL)
@@ -555,7 +555,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			int iqId = SerialNext();
 
 			TCHAR listJid[256];
-			mir_sntprintf(listJid, SIZEOF(listJid), _T("ftproxy_%d"), iqId);
+			mir_sntprintf(listJid, _countof(listJid), _T("ftproxy_%d"), iqId);
 
 			JABBER_LIST_ITEM *item = ListAdd(LIST_FTIQID, listJid);
 			item->jbt = jbt;

@@ -32,7 +32,7 @@ void PreviewSound(HWND hList)
 
 	int hlpStatus = lvi.lParam;
 
-	ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
+	ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
 	if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
 			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
@@ -72,9 +72,9 @@ TCHAR *SelectSound(HWND hwndDlg, TCHAR *buff, size_t bufflen)
 	ofn.hInstance = hInst;
 	TCHAR filter[MAX_PATH];
 	if (GetModuleHandle(_T("bass_interface.dll")))
-		mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+		mir_sntprintf(filter, _countof(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 	else
-		mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav)%c*.wav%c%s (*.*)%c*%c"), TranslateT("Wave files"), 0, 0, TranslateT("All files"), 0, 0);
+		mir_sntprintf(filter, _countof(filter), _T("%s (*.wav)%c*.wav%c%s (*.*)%c*%c"), TranslateT("Wave files"), 0, 0, TranslateT("All files"), 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = buff;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
@@ -171,11 +171,11 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 					if (!db_get_ts(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
-						_tcsncpy(buff, dbv.ptszVal, SIZEOF(buff)-1);
+						_tcsncpy(buff, dbv.ptszVal, _countof(buff)-1);
 						db_free(&dbv);
 					}
 					else
-						_tcsncpy(buff, TranslateT(DEFAULT_SOUND), SIZEOF(buff)-1);
+						_tcsncpy(buff, TranslateT(DEFAULT_SOUND), _countof(buff)-1);
 
 					ListView_SetItemText(hList, lvi.iItem, 1, buff);
 				}
@@ -237,7 +237,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			//Cycle through the list reading the text associated to each status.
 			for (lvi.iItem = ListView_GetItemCount(hList) - 1; lvi.iItem >= 0; lvi.iItem--) {
 				ListView_GetItem(hList, &lvi);
-				ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
+				ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
 
 				if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
 					if (lvi.lParam < ID_STATUS_MIN)
@@ -349,7 +349,7 @@ void SetGroupsIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *g
 		if (hChildItem)
 			SetGroupsIcons(hwndList, hChildItem, hItem, childCount);
 
-		for (int i = 0; i < SIZEOF(iconOn); i++) {
+		for (int i = 0; i < _countof(iconOn); i++) {
 			if (iconOn[i] && GetExtraImage(hwndList, hItem, i) == EXTRA_IMAGE_DOT)
 				iconOn[i] = 0;
 		}
@@ -364,7 +364,7 @@ void SetGroupsIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *g
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 
 	while (hItem) {
-		for (int i = 0; i < SIZEOF(iconOn); i++) {
+		for (int i = 0; i < _countof(iconOn); i++) {
 			int image = GetExtraImage(hwndList, hItem, i);
 			if (iconOn[i] && image == EXTRA_IMAGE_DOT)
 				iconOn[i] = 0;
@@ -377,7 +377,7 @@ void SetGroupsIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *g
 	}
 
 	//set icons
-	for (int i = 0; i < SIZEOF(iconOn); i++) {
+	for (int i = 0; i < _countof(iconOn); i++) {
 		SetExtraImage(hwndList, hParentItem, i, childCount[i] ? (iconOn[i] ? i : EXTRA_IMAGE_DOT) : EMPTY_EXTRA_ICON);
 		if (groupChildCount)
 			groupChildCount[i] += childCount[i];

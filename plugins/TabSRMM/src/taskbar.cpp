@@ -696,7 +696,7 @@ void CThumbBase::renderBase()
 		wchar_t	tszTemp[30];
 
 		m_rcIcon.top += m_sz.cy;
-		mir_sntprintf(tszTemp, SIZEOF(tszTemp), TranslateT("%d unread"), m_dat->dwUnread);
+		mir_sntprintf(tszTemp, _countof(tszTemp), TranslateT("%d unread"), m_dat->dwUnread);
 		CSkin::RenderText(m_hdc, m_dat->hTheme, tszTemp, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
 	}
 	m_rcIcon = m_rcTop;

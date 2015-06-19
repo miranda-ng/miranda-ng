@@ -219,7 +219,7 @@ void CSkypeProto::SendPresence(bool isLogin)
 	else
 	{
 		TCHAR compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = SIZEOF(compName);
+		DWORD size = _countof(compName);
 		GetComputerName(compName, &size);
 		epname = mir_utf8encodeT(compName);
 	}

@@ -185,7 +185,7 @@ public:
 		if (result == ERROR_SUCCESS) {
 			// clear out old list
 			this->destroy(); _bias.destroy();
-			for (i = 0; ERROR_SUCCESS == RegEnumKey(hKeyRoot, i, szName, SIZEOF(szName)); i++) {
+			for (i = 0; ERROR_SUCCESS == RegEnumKey(hKeyRoot, i, szName, _countof(szName)); i++) {
 				result = RegOpenKey(hKeyRoot, szName, &hKeyTz);
 				if (result == ERROR_SUCCESS) {
 					pTimeZone = new CTimeZone();

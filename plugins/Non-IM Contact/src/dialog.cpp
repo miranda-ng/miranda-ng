@@ -61,7 +61,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR tmp[5];
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
-					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, SIZEOF(tmp));
+					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, _countof(tmp));
 					db_set_w(NULL, MODNAME, "Timer", (WORD)_ttoi(tmp));
 				}
 				else db_set_w(NULL, MODNAME, "Timer", 0);
@@ -136,7 +136,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				char tmp[MAX_STRING_LENGTH];
 				int i = 0, j;
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
-					GetDlgItemTextA(hwnd, IDC_STRING, tmp, SIZEOF(tmp));
+					GetDlgItemTextA(hwnd, IDC_STRING, tmp, _countof(tmp));
 					if (tmp[mir_strlen(tmp) - 1] == '(') {
 						for (i = 0; i < VARS; i++) {
 							if (!mir_strcmp(braceList[i].var, &tmp[mir_strlen(tmp) - mir_strlen(braceList[i].var)])) {
@@ -179,7 +179,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			char str2replace[MAX_STRING_LENGTH];
 			int error;
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
-				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, SIZEOF(str2replace));
+				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, _countof(str2replace));
 				switch (stringReplacer(str2replace, replacedString, NULL)) {
 				case ERROR_NO_LINE_AFTER_VAR_F:
 					replacedString.Format("ERROR: no %s", "%line or %wholeline or %lastline after %fn");
@@ -288,10 +288,10 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
 	psh.hInstance = hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
-	db_get_static(hContact, MODNAME, "Nick", nick, SIZEOF(nick));
-	mir_snprintf(title, SIZEOF(title), Translate("Edit Non-IM Contact \"%s\""), nick);
+	db_get_static(hContact, MODNAME, "Nick", nick, _countof(nick));
+	mir_snprintf(title, _countof(title), Translate("Edit Non-IM Contact \"%s\""), nick);
 	psh.pszCaption = title;
-	psh.nPages = SIZEOF(psp);
+	psh.nPages = _countof(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;
 	psh.pfnCallback = PropSheetProc;
 
@@ -307,7 +307,7 @@ INT_PTR addContact(WPARAM wParam, LPARAM lParam)
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp, SIZEOF(tmp)))
+	if (!db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;
@@ -324,7 +324,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM lParam)
 		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp, SIZEOF(tmp)))
+	if (!db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;

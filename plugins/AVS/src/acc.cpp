@@ -469,7 +469,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case AVATAR_SETNOAVATARTEXT:
-		mir_tstrncpy(data->noAvatarText, TranslateTS((TCHAR*)lParam), SIZEOF(data->noAvatarText));
+		mir_tstrncpy(data->noAvatarText, TranslateTS((TCHAR*)lParam), _countof(data->noAvatarText));
 		Invalidate(hwnd);
 		return TRUE;
 

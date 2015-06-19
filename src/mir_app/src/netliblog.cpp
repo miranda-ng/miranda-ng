@@ -104,7 +104,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_TEXTDUMPS, logOptions.textDumps ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
 		{
-			for (int i=0; i < SIZEOF(szTimeFormats); i++)
+			for (int i=0; i < _countof(szTimeFormats); i++)
 				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTimeFormats[i]));
 		}
 		SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
@@ -148,7 +148,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
 				TCHAR path[MAX_PATH];
-				GetWindowText((HWND)lParam, path, SIZEOF(path));
+				GetWindowText((HWND)lParam, path, _countof(path));
 
 				PathToAbsoluteT(VARST(path), path);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
@@ -157,10 +157,10 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 		case IDC_FILENAMEBROWSE:
 		case IDC_RUNATSTARTBROWSE:
-			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, SIZEOF(str));
+			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
 			{
 				TCHAR filter[200];
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, _countof(filter), _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -174,7 +174,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				}
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
-				ofn.nMaxFile = SIZEOF(str) - 2;
+				ofn.nMaxFile = _countof(str) - 2;
 				ofn.nMaxFileTitle = MAX_PATH;
 				if (LOWORD(wParam) == IDC_FILENAMEBROWSE) {
 					if (!GetSaveFileName(&ofn)) return 1;
@@ -183,7 +183,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					return 1;
 
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
-					memmove(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
+					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(TCHAR)));
 					str[0] = '"';
 					mir_tstrcat(str, _T("\""));
 				}
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 
 		case IDC_RUNNOW:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
 			if (str[0]) {
 				STARTUPINFO si = { sizeof(si) };
 				PROCESS_INFORMATION pi;
@@ -201,15 +201,15 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 
 		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
 			db_set_ts(NULL, "Netlib", "RunAtStart", str);
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 			logOptions.tszUserFile = rtrimt(str);
 			db_set_ts(NULL, "Netlib", "File", str);
 
-			GetDlgItemText(hwndDlg, IDC_PATH, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_PATH, str, _countof(str));
 			logOptions.tszFile = rtrimt(str);
 
 			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
@@ -300,21 +300,21 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	char szTime[32], szHead[128];
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
-		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, NULL, NULL, szTime, SIZEOF(szTime));
+		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, NULL, NULL, szTime, _countof(szTime));
 		mir_strcat(szTime, " ");
 		break;
 
 	case TIMEFORMAT_MILLISECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%03I64u ", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, _countof(szTime), "%I64u.%03I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
 	case TIMEFORMAT_MICROSECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u ", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, _countof(szTime), "%I64u.%06I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
@@ -325,9 +325,9 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 
 	char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
 	if (szUser)
-		mir_snprintf(szHead, SIZEOF(szHead), "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
+		mir_snprintf(szHead, _countof(szHead), "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
 	else
-		mir_snprintf(szHead, SIZEOF(szHead), "[%s%04X] ", szTime, GetCurrentThreadId());
+		mir_snprintf(szHead, _countof(szHead), "[%s%04X] ", szTime, GetCurrentThreadId());
 
 	if (logOptions.toOutputDebugString) {
 		if (szHead[0])
@@ -401,7 +401,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
-	int titleLineLen = mir_snprintf(szTitleLine, SIZEOF(szTitleLine), "(%p:%u) Data %s%s\r\n",
+	int titleLineLen = mir_snprintf(szTitleLine, _countof(szTitleLine), "(%p:%u) Data %s%s\r\n",
 		nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 

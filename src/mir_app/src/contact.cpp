@@ -62,7 +62,7 @@ void fnChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 int GetStatusModeOrdering(int statusMode)
 {
 	int i;
-	for (i=0; i < SIZEOF(statusModeOrder); i++)
+	for (i=0; i < _countof(statusModeOrder); i++)
 		if (statusModeOrder[i].status == statusMode)
 			return statusModeOrder[i].order;
 	return 1000;
@@ -126,7 +126,7 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 	nameb = cli.pfnGetContactDisplayName(a, 0);
 	_tcsncpy_s(namea, nameb, _TRUNCATE);
-	namea[ SIZEOF(namea)-1 ] = 0;
+	namea[ _countof(namea)-1 ] = 0;
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names

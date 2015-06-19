@@ -35,14 +35,14 @@ UploadJob::UploadJob(UploadJob *job) :
 	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
 { 
 	mir_strcpy(this->szFileLink, job->szFileLink);
-	for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
+	for (int i = 0; i < _countof(this->lastSpeed); i++)
 		this->lastSpeed[i] = 0;
 }
 
 UploadJob::UploadJob(PackerJob *job) :
 	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
 { 
-	for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
+	for (int i = 0; i < _countof(this->lastSpeed); i++)
 		this->lastSpeed[i] = 0;
 
 	Utils::makeSafeString(job->stzFileName, this->szSafeFileName);
@@ -385,19 +385,19 @@ void UploadJob::updateStats()
 	if (this->uiSent && (time(NULL) > this->startTS)) {
 		double speed = ((double)this->uiSent / 1024)/(time(NULL) - this->startTS);
 		this->avgSpeed = speed;
-		for (int i = 0; i < SIZEOF(this->lastSpeed); i++) {
+		for (int i = 0; i < _countof(this->lastSpeed); i++) {
 			this->avgSpeed += (this->lastSpeed[i] == 0 ? speed : this->lastSpeed[i]);
-			if (i < SIZEOF(this->lastSpeed) - 1)
+			if (i < _countof(this->lastSpeed) - 1)
 				this->lastSpeed[i + 1] = this->lastSpeed[i];
 		}
 
-		this->avgSpeed /= SIZEOF(this->lastSpeed) + 1;
+		this->avgSpeed /= _countof(this->lastSpeed) + 1;
 		this->lastSpeed[0] = speed;
 		
-		mir_sntprintf(this->tab->stzSpeed, SIZEOF(this->tab->stzSpeed), _T("%0.1f kB/s"), this->avgSpeed);
+		mir_sntprintf(this->tab->stzSpeed, _countof(this->tab->stzSpeed), _T("%0.1f kB/s"), this->avgSpeed);
 		
 		double perc = this->uiFileSize ? ((double)this->uiTotalSent / this->uiFileSize) * 100 : 0;
-		mir_sntprintf(this->tab->stzComplet, SIZEOF(this->tab->stzComplet), _T("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiTotalSent/1024, (int)this->uiFileSize/1024);
+		mir_sntprintf(this->tab->stzComplet, _countof(this->tab->stzComplet), _T("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiTotalSent/1024, (int)this->uiFileSize/1024);
 	
 		long s = (this->uiFileSize - this->uiTotalSent) / (long)(this->avgSpeed * 1024); 
 		int d = (s / 60 / 60 / 24);
@@ -408,7 +408,7 @@ void UploadJob::updateStats()
 		TCHAR buff[256];
 		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
 		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
-		mir_sntprintf(this->tab->stzRemain, SIZEOF(this->tab->stzRemain), _T("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiTotalSent)/1024, this->uiFileSize/1024);
+		mir_sntprintf(this->tab->stzRemain, _countof(this->tab->stzRemain), _T("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiTotalSent)/1024, this->uiFileSize/1024);
 
 		this->refreshTab(false);
 	}
@@ -498,12 +498,12 @@ void UploadJob::closeAllTabs()
 void UploadJob::createToolTip()
 { 
 	TCHAR *server = mir_a2t(this->ftp->szServer);
-	mir_sntprintf(uDlg->stzToolTipText, SIZEOF(uDlg->stzToolTipText), 
+	mir_sntprintf(uDlg->stzToolTipText, _countof(uDlg->stzToolTipText), 
 		TranslateT("Status: %s\r\nFile: %s\r\nServer: %s"), 
 		this->getStatusString(), this->stzFileName, server);
 
 	if (this->tab->stzSpeed[0] && this->tab->stzComplet[0] && this->tab->stzRemain[0])
-		mir_sntprintf(uDlg->stzToolTipText, SIZEOF(uDlg->stzToolTipText), 
+		mir_sntprintf(uDlg->stzToolTipText, _countof(uDlg->stzToolTipText), 
 			TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"), 
 			uDlg->stzToolTipText, this->tab->stzSpeed, this->tab->stzComplet, this->tab->stzRemain);
 		

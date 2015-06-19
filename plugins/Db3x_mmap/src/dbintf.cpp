@@ -219,7 +219,7 @@ int CDb3Mmap::Start(DBCHeckCallback *callback)
 
 int CDb3Mmap::CheckDb(int phase, int firstTime)
 {
-	if (phase >= SIZEOF(Workers))
+	if (phase >= _countof(Workers))
 		return ERROR_OUT_OF_PAPER;
 
 	return (this->*Workers[phase])(firstTime);

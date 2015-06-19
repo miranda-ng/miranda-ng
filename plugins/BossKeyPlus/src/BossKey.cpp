@@ -118,7 +118,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 		uid = LOWORD(wParam);
 		if (uid == IDOK){
 			char password[MAXPASSLEN + 1] = { 0 };
-			int passlen = GetDlgItemTextA(hDlg, IDC_EDIT1, password, SIZEOF(password));
+			int passlen = GetDlgItemTextA(hDlg, IDC_EDIT1, password, _countof(password));
 			if (passlen == 0) {
 				SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
@@ -491,7 +491,7 @@ static TCHAR *HokeyVkToName(WORD vkKey)
 		code |= (1UL << 24);
 	}
 
-	GetKeyNameText(code, buf, SIZEOF(buf));
+	GetKeyNameText(code, buf, _countof(buf));
 	return buf;
 }
 
@@ -713,7 +713,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", 0);
 	}
 
-	Icon_Register(g_hInstance, "BossKey", iconList, SIZEOF(iconList));
+	Icon_Register(g_hInstance, "BossKey", iconList, _countof(iconList));
 
 	g_hHideService = CreateServiceFunction(MS_BOSSKEY_HIDE, BossKeyHideMiranda); // Create service
 

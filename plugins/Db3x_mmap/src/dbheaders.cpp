@@ -71,7 +71,7 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 			if (bInteractive)
 				if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
 					TCHAR tszCurPath[MAX_PATH];
-					GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
+					GetModuleFileName(NULL, tszCurPath, _countof(tszCurPath));
 					TCHAR *p = _tcsrchr(tszCurPath, '\\');
 					if (p) *p = 0;
 

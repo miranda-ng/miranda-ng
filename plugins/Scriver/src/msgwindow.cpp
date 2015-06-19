@@ -88,7 +88,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	size_t i, len;
 	for (len = 0, p = tmplt; *p; p++, len++) {
 		if (*p == '%') {
-			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
+			for (i = 0; i < _countof(titleTokenNames); i++) {
 				int tnlen = (int)mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
 					len += tokenLen[i] - 1;
@@ -104,7 +104,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	TCHAR *title = (TCHAR*)mir_alloc(sizeof(TCHAR) * (len + 1));
 	for (len = 0, p = tmplt; *p; p++) {
 		if (*p == '%') {
-			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
+			for (i = 0; i < _countof(titleTokenNames); i++) {
 				size_t tnlen = mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
 					if (tokens[i] != NULL) {
@@ -115,7 +115,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 					break;
 				}
 			}
-			if (i < SIZEOF(titleTokenNames))
+			if (i < _countof(titleTokenNames))
 				continue;
 		}
 		title[len++] = *p;
@@ -128,7 +128,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	if (isTemplate)
 		mir_free(tmplt);
 
-	for (i = 0; i < SIZEOF(titleTokenNames); i++)
+	for (i = 0; i < _countof(titleTokenNames); i++)
 		mir_free(tokens[i]);
 
 	mir_free(pszNewTitleEnd);
@@ -518,9 +518,9 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					curSel = TabCtrl_GetCurSel(hwnd);
 					item.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_TEXT;
 					item.pszText = sBuffer;
-					item.cchTextMax = SIZEOF(sBuffer);
+					item.cchTextMax = _countof(sBuffer);
 					TabCtrl_GetItem(hwnd, dat->srcTab, &item);
-					sBuffer[SIZEOF(sBuffer) - 1] = '\0';
+					sBuffer[_countof(sBuffer) - 1] = '\0';
 
 					if (curSel == dat->srcTab)
 						curSel = dat->destTab;
@@ -1133,14 +1133,14 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			char *szNamePrefix = (!savePerContact && dat->isChat) ? "chat" : "";
 			if (!dat->windowWasCascaded) {
-				mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
+				mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
 				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.left);
-				mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
+				mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
 				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.top);
 			}
-			mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
+			mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
 			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-			mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
+			mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
 			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 			db_set_b(hContact, SRMMMOD, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
 			if (g_dat.lastParent == dat)
@@ -1259,7 +1259,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (tbd != NULL && dat->hwndActive == hwnd) {
 				if (tbd->iFlags & TBDF_TEXT) {
 					TCHAR oldtitle[256];
-					GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
+					GetWindowText(hwndDlg, oldtitle, _countof(oldtitle));
 					if (mir_tstrcmp(tbd->pszText, oldtitle))
 						SetWindowText(hwndDlg, tbd->pszText);
 				}
@@ -1400,7 +1400,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 	TCITEM tci;
 	tci.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_STATE;
 	tci.pszText = szLabel;
-	tci.cchTextMax = SIZEOF(szLabel);
+	tci.cchTextMax = _countof(szLabel);
 	tci.dwStateMask = TCIS_HIGHLIGHTED;
 	if (TabCtrl_GetItem(hwnd, iTabIndex, &tci)) {
 		IMAGEINFO info;
@@ -1508,9 +1508,9 @@ int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szMod
 	GetWindowPlacement(hwnd, &wp);
 
 	char szSettingName[64];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
 	int x = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
 	int y = db_get_dw(hContact, szModule, szSettingName, -1);
 	if (x == -1)
 		return 1;
@@ -1520,9 +1520,9 @@ int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szMod
 	else {
 		wp.rcNormalPosition.left = x;
 		wp.rcNormalPosition.top = y;
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
+		mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
 		wp.rcNormalPosition.right = wp.rcNormalPosition.left + db_get_dw(hContact, szModule, szSettingName, -1);
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
+		mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
 		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + db_get_dw(hContact, szModule, szSettingName, -1);
 	}
 	wp.flags = 0;

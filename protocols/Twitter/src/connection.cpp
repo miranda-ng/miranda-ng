@@ -167,7 +167,7 @@ bool TwitterProto::NegotiateConnection()
 
 		// this looks like bad code.. can someone clean this up please?  or confirm that it's ok
 		wchar_t buf[1024] = {};
-		mir_snwprintf(buf, SIZEOF(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
+		mir_snwprintf(buf, _countof(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
 
 		debugLogW(_T("**NegotiateConnection - Launching %s"), buf);
 		ShellExecute(NULL, L"open", buf, NULL, NULL, SW_SHOWNORMAL);

@@ -42,7 +42,7 @@ IconItem iconList[] = {
 
 HANDLE GetIcoLibHandle(int icon)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == icon)
 			return iconList[i].hIcolib;
 	return INVALID_HANDLE_VALUE;
@@ -50,12 +50,12 @@ HANDLE GetIcoLibHandle(int icon)
 
 void IcoLibRegister(void)
 {
-	Icon_Register(hInst, modFullname, iconList, SIZEOF(iconList));
+	Icon_Register(hInst, modFullname, iconList, _countof(iconList));
 }
 
 HICON LoadSkinnedDBEIcon(int icon)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == icon)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
@@ -68,11 +68,11 @@ static int protoCount = 0;
 HIMAGELIST LoadIcons()
 {
 	HICON hIcon;
-	HIMAGELIST hil = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, SIZEOF(dbeIcons), 5);
+	HIMAGELIST hil = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, _countof(dbeIcons), 5);
 
 	if (!hil) return NULL;
 
-	for(int i = 0; i < SIZEOF(dbeIcons); i++)
+	for(int i = 0; i < _countof(dbeIcons); i++)
 		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
 
 	Proto_EnumAccounts(&protoCount, &protocols);
@@ -97,11 +97,11 @@ int GetProtoIconIndex(const char *szProto)
 		if (protoCount && protocols) {
 			for (int i = 0; i < protoCount; i++) {
 				if (!mir_strcmp(protocols[i]->szModuleName, szProto))
-					return i + SIZEOF(dbeIcons);
+					return i + _countof(dbeIcons);
 			}
 			if (Proto_IsProtocolLoaded(szProto))
-				return SIZEOF(dbeIcons) - 2; // ICO_ONLINE;
+				return _countof(dbeIcons) - 2; // ICO_ONLINE;
 		}
 	}
-	return SIZEOF(dbeIcons) - 1; // ICO_OFFLINE;
+	return _countof(dbeIcons) - 1; // ICO_OFFLINE;
 }

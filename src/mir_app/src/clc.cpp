@@ -421,7 +421,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 						}
 						group = group->parent;
 						size_t nameLen = mir_tstrlen(group->cl.items[i]->szText);
-						if (mir_tstrlen(szFullName) + 1 + nameLen > SIZEOF(szFullName)) {
+						if (mir_tstrlen(szFullName) + 1 + nameLen > _countof(szFullName)) {
 							szFullName[0] = '\0';
 							break;
 						}
@@ -581,7 +581,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
-		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 		dat->needsResort = 1;
 		SortClcByTimer(hwnd);
 		break;
@@ -592,7 +592,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		contact->proto = GetContactProto(wParam);
 		cli.pfnInvalidateDisplayNameCacheEntry(wParam);
-		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 		SortClcByTimer(hwnd);
 		break;
 
@@ -828,7 +828,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			TCHAR szNew[2];
 			szNew[0] = (TCHAR) wParam;
 			szNew[1] = '\0';
-			if (mir_tstrlen(dat->szQuickSearch) >= SIZEOF(dat->szQuickSearch) - 1) {
+			if (mir_tstrlen(dat->szQuickSearch) >= _countof(dat->szQuickSearch) - 1) {
 				MessageBeep(MB_OK);
 				break;
 			}
@@ -1150,7 +1150,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						TCHAR szNewName[120];
-						mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
+						mir_sntprintf(szNewName, _countof(szNewName), _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
 						cli.pfnRenameGroup(contacto->groupId, szNewName);
 					}
 				}
@@ -1189,7 +1189,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 				if (contact->type == CLCIT_GROUP) { //dropee is a group
 					TCHAR szNewName[120];
-					mir_tstrncpy(szNewName, contact->szText, SIZEOF(szNewName));
+					mir_tstrncpy(szNewName, contact->szText, _countof(szNewName));
 					cli.pfnRenameGroup(contact->groupId, szNewName);
 				}
 				else if (contact->type == CLCIT_CONTACT) //dropee is a contact

@@ -63,7 +63,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 			DWORD ann = db_get_dw( NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE );
 			if ( ann & ( 1 << ( ack->lParam - ID_STATUS_OFFLINE ))) {
 				TCHAR buffer[512];
-				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM) ack->lParam,GSMDF_TCHAR));
+				mir_sntprintf(buffer, _countof(buffer), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM) ack->lParam,GSMDF_TCHAR));
 				ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), ack->hContact);
 	}	}	}
 
@@ -122,7 +122,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TCHAR bufferW[512];
-	mir_sntprintf(bufferW, SIZEOF(bufferW), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,newStatus,GSMDF_TCHAR));
+	mir_sntprintf(bufferW, _countof(bufferW), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,newStatus,GSMDF_TCHAR));
 	ShowOSD(bufferW, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), hContact);
 	return 0;
 }
@@ -152,7 +152,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	logmsg("HookedNewEvent2");
 
 	TCHAR buf[512];
-	_tcsncpy(buf, DEFAULT_MESSAGEFORMAT,SIZEOF(buf));
+	_tcsncpy(buf, DEFAULT_MESSAGEFORMAT,_countof(buf));
 
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {
@@ -194,7 +194,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 		c2 = DbGetEventTextT( &dbe, 0 );
 
 	TCHAR buffer[512];
-	mir_sntprintf(buffer, SIZEOF(buffer), buf, c1, c2);
+	mir_sntprintf(buffer, _countof(buffer), buf, c1, c2);
 	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), wParam);
 
 	mir_free( c1 );

@@ -212,7 +212,7 @@ void ReleaseIcons()
 
 HICON GetCachedIcon(const char *name)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (!mir_strcmp(iconList[i].szName, name))
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
 
@@ -231,13 +231,13 @@ void LoadGlobalIcons()
 	ImageList_RemoveAll(g_dat.hChatButtonIconList);
 	ImageList_RemoveAll(g_dat.hHelperIconList);
 	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
-	for (i = 0; i < SIZEOF(buttonIcons); i++) {
+	for (i = 0; i < _countof(buttonIcons); i++) {
 		if (buttonIcons[i] == NULL)
 			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, NULL, ID_STATUS_OFFLINE);
 		else
 			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(buttonIcons[i]));
 	}
-	for (i = 0; i < SIZEOF(chatButtonIcons); i++)
+	for (i = 0; i < _countof(chatButtonIcons); i++)
 		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(chatButtonIcons[i]));
 
 	ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));

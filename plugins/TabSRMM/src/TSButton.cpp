@@ -279,7 +279,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 		CopyRect(&rcText, &rcClient);
 
 		TCHAR szText[MAX_PATH];
-		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+		GetWindowText(ctl->hwnd, szText, _countof(szText));
 		SetBkMode(hdcMem, TRANSPARENT);
 		HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 		if (ctl->pContainer && CSkin::m_skinEnabled)

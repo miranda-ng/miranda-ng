@@ -70,7 +70,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 
 	// set contact info and settings
 	TCHAR svc[256];
-	_tcsncpy(svc, psr->email.t, SIZEOF(svc)); svc[SIZEOF(svc)-1] = 0;
+	_tcsncpy(svc, psr->email.t, _countof(svc)); svc[_countof(svc)-1] = 0;
 	GetSvc(svc);
 	// set settings by obtaining the default for the service 
 	if (psr->lastName.t[0] != 0) {
@@ -90,7 +90,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	AvatarDownloaded(hContact);
 
 	TCHAR str[256];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("Current weather information for %s."), psr->nick.t);
+	mir_sntprintf(str, _countof(str), TranslateT("Current weather information for %s."), psr->nick.t);
 	db_set_ts(hContact, WEATHERPROTONAME, "About", str);
 
 	// make the last update tags to something invalid
@@ -104,12 +104,12 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	// if no default station is found, set the new contact as default station
 	if (opt.Default[0] == 0) {
 		DBVARIANT dbv;
-		GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
+		GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 		opt.DefStn = hContact;
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
-			mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 		}
@@ -155,8 +155,8 @@ static void __cdecl BasicSearchTimerProc(LPVOID hWnd)
 INT_PTR WeatherBasicSearch(WPARAM wParam, LPARAM lParam) 
 {
 	if (searchId != -1) return 0;   //only one search at a time
-	_tcsncpy(sID, ( TCHAR* )lParam, SIZEOF(sID));
-	sID[SIZEOF(sID)-1] = 0;
+	_tcsncpy(sID, ( TCHAR* )lParam, _countof(sID));
+	sID[_countof(sID)-1] = 0;
 	searchId = 1;
 	// create a thread for the ID search
 	mir_forkthread(BasicSearchTimerProc, NULL);
@@ -210,7 +210,7 @@ INT_PTR WeatherAdvancedSearch(WPARAM, LPARAM lParam)
 	if (searchId != -1) return 0;   //only one search at a time
 
 	searchId = 1;
-	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, SIZEOF(name1));
+	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, _countof(name1));
 
 	// search for the weather station using a thread
 	mir_forkthread(NameSearchTimerProc, NULL);
@@ -233,7 +233,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 		TCHAR *szData = NULL;
 
 		// load the page
-		mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, sID);
+		mir_snprintf(loc, _countof(loc), sData->SearchURL, sID);
 		BOOL bFound = (InternetDownloadFile(loc, NULL, NULL, &szData) == 0);
 		if (bFound) {
 			TCHAR* szInfo = szData;
@@ -250,7 +250,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 
 	// give no station name but only ID if the search is unavailable
 	else _tcsncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
-	mir_sntprintf(newID, SIZEOF(newID), _T("%s/%s"), svc, sID);
+	mir_sntprintf(newID, _countof(newID), _T("%s/%s"), svc, sID);
 
 	// set the search result and broadcast it
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -310,7 +310,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 	// replace spaces with %20
 	char loc[256];
 	T2Utf szSearchName(name);
-	mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
+	mir_snprintf(loc, _countof(loc), sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
 	if (InternetDownloadFile(loc, NULL, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;
 		search = _tcsstr(szInfo, sData->NotFoundStr);	// determine if data is available
@@ -323,14 +323,14 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				// if station ID appears first in the downloaded data
 				if ( !mir_tstrcmpi(sData->Single.First, _T("ID"))) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, _countof(sID), _T("%s/%s"), svc, str);
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
 				else if ( !mir_tstrcmpi(sData->Single.First, _T("NAME"))) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, _countof(sID), _T("%s/%s"), svc, str);
 				}
 				else
 					str[0] = 0;
@@ -343,7 +343,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				
 				// if can't get the name, use the search string as name
 				if (Name[0] == 0)
-					_tcsncpy(Name, name, SIZEOF(Name));
+					_tcsncpy(Name, name, _countof(Name));
 
 				// set the data and broadcast it
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -364,14 +364,14 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					// if station ID appears first in the downloaded data
 					if ( !mir_tstrcmpi(sData->Multiple.First, _T("ID"))) {
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, _countof(sID), _T("%s/%s"), svc, str);
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 					}
 					// if station name appears first in the downloaded data
 					else if ( !mir_tstrcmpi(sData->Multiple.First, _T("NAME"))) {
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, _countof(sID), _T("%s/%s"), svc, str);
 					}
 					else
 						break;
@@ -382,7 +382,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 
 					// if can't get the name, use the search string as name
 					if (Name[0] == 0)	
-						_tcsncpy(Name, name, SIZEOF(Name));
+						_tcsncpy(Name, name, _countof(Name));
 
 					PROTOSEARCHRESULT psr = { sizeof(psr) };
 					psr.flags = PSR_TCHAR;

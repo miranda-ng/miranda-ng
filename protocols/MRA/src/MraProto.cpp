@@ -36,7 +36,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	TCHAR name[MAX_PATH];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -46,7 +46,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	InitMenus();
 
-	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s_new_email", m_szModuleName);
+	mir_snprintf(szNewMailSound, _countof(szNewMailSound), "%s_new_email", m_szModuleName);
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
@@ -525,11 +525,11 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 		SYSTEMTIME tt = { 0 };
 		dwTime = getDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
 		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
-			mir_sntprintf(szTime, SIZEOF(szTime), _T("%04ld.%02ld.%02ld %02ld:%02ld: "), tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
+			mir_sntprintf(szTime, _countof(szTime), _T("%04ld.%02ld.%02ld %02ld:%02ld: "), tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
 		else
 			szTime[0] = 0;
 
-		mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus.c_str());
+		mir_sntprintf(szStatusDesc, _countof(szStatusDesc), _T("%s%s"), szTime, szBlogStatus.c_str());
 		iRet = GetTickCount();
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}

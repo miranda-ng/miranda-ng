@@ -53,11 +53,11 @@ void UpdateMyXFireIni(LPVOID dummy) {
 
 	//ini pfad rausbekommen
 	char file[1024], file2[1024], file3[1024];
-	mir_snprintf(file,SIZEOF(file), "%sxfire_games.new",inipath);
-	mir_snprintf(file2,SIZEOF(file2), "%sxfire_games.ini",inipath);
-	mir_snprintf(file3,SIZEOF(file3), "%sxfire_games.old",inipath);
+	mir_snprintf(file,_countof(file), "%sxfire_games.new",inipath);
+	mir_snprintf(file2,_countof(file2), "%sxfire_games.ini",inipath);
+	mir_snprintf(file3,_countof(file3), "%sxfire_games.old",inipath);
 
-	mir_snprintf(request, SIZEOF(request), "%s%d", INI_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, _countof(request), "%s%d", INI_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request))
 	{
@@ -89,11 +89,11 @@ void UpdateMyIcons(LPVOID dummy) {
 
 	//ini pfad rausbekommen
 	char file[1024], file2[1024], file3[1024];
-	mir_snprintf(file,SIZEOF(file), "%sicons.new",inipath);
-	mir_snprintf(file2,SIZEOF(file2), "%sicons.dll",inipath);
-	mir_snprintf(file3,SIZEOF(file3), "%sicons.old",inipath);
+	mir_snprintf(file,_countof(file), "%sicons.new",inipath);
+	mir_snprintf(file2,_countof(file2), "%sicons.dll",inipath);
+	mir_snprintf(file3,_countof(file3), "%sicons.old",inipath);
 
-	mir_snprintf(request, SIZEOF(request), "%s%d", ICO_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, _countof(request), "%s%d", ICO_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request))
 	{

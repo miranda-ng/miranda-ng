@@ -60,7 +60,7 @@ static OptPageControl pageControls[] = {
 // Initializations needed by options
 void LoadOptions()
 {
-	LoadOpts(pageControls, SIZEOF(pageControls), MODULE_NAME);
+	LoadOpts(pageControls, _countof(pageControls), MODULE_NAME);
 
 	// This is created here to assert that this key always exists
 	opts.refresh_status_message_timer = db_get_w(NULL, "MyDetails", "RefreshStatusMessageTimer", 12);
@@ -72,7 +72,7 @@ void LoadOptions()
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL ret = SaveOptsDlgProc(pageControls, SIZEOF(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	BOOL ret = SaveOptsDlgProc(pageControls, _countof(pageControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_INITDIALOG:

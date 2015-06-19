@@ -20,13 +20,13 @@ public:
 		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/actions/AddFriendAjax")
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[128];
-		mir_snprintf(data, SIZEOF(data),
+		mir_snprintf(data, _countof(data),
 			"sessionID=%s&steamid=%s",
 			sessionId,
 			who);
@@ -44,13 +44,13 @@ public:
 		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/actions/BlockUserAjax")
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[128];
-		mir_snprintf(data, SIZEOF(data),
+		mir_snprintf(data, _countof(data),
 			"sessionID=%s&action=ignore&steamid=%s",
 			sessionId,
 			who);
@@ -68,13 +68,13 @@ public:
 		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/actions/RemoveFriendAjax")
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[128];
-		mir_snprintf(data, SIZEOF(data),
+		mir_snprintf(data, _countof(data),
 			"sessionID=%s&steamid=%s",
 			sessionId,
 			who);

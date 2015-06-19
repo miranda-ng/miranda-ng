@@ -575,7 +575,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE },
 			{ LPGENT("&Change topic"), 30, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = SIZEOF(Items);
+		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
@@ -595,7 +595,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 				{ LPGENT("&Admin"), 30, MENU_POPUPITEM },
 				{ LPGENT("&User"), 40, MENU_POPUPITEM }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 	}
@@ -656,7 +656,7 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			uids.insert(ppro->getStringA(SKYPE_SETTINGS_ID));
 
 			TCHAR tszTitle[1024];
-			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, SIZEOF(tszTitle));
+			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, _countof(tszTitle));
 			ppro->SendRequest(new CreateChatroomRequest(ppro->m_szRegToken, uids, ptrA(ppro->getStringA(SKYPE_SETTINGS_ID)), ppro->m_szServer));
 			for (int i = 0; i < uids.getCount(); i++)
 				mir_free(uids[i]);

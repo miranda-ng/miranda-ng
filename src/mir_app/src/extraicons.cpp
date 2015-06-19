@@ -520,7 +520,7 @@ void LoadExtraIconsModule()
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
 
 	// Icons
-	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, _countof(iconList));
 
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

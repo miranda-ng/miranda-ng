@@ -150,8 +150,8 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 	else {
 		TCHAR szText1[100];
 		TCHAR szText2[100];
-		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, SIZEOF(szText1));
-		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, SIZEOF(szText2));
+		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, _countof(szText1));
+		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, _countof(szText2));
 		return mir_tstrcmpi(szText1, szText2)*sortMultiplier;
 	}
 	return 0;
@@ -187,7 +187,7 @@ static void BeginSearchFailed(void * arg)
 			protoName, protoName);
 		mir_free((char*)arg);
 	}
-	else mir_tstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), SIZEOF(buf));
+	else mir_tstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), _countof(buf));
 	MessageBox(0, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 

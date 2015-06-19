@@ -10,7 +10,7 @@ CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto) :
 void CSteamPasswordEditor::OnInitDialog()
 {
 	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "main");
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "main");
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
 
@@ -48,7 +48,7 @@ CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain) :
 void CSteamGuardDialog::OnInitDialog()
 {
 	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "main");
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "main");
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
 
@@ -59,7 +59,7 @@ void CSteamGuardDialog::OnInitDialog()
 
 void CSteamGuardDialog::OnOk(CCtrlButton*)
 {
-	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), SIZEOF(m_guardCode) + 1);
+	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode) + 1);
 	EndDialog(m_hwnd, 1);
 }
 
@@ -95,7 +95,7 @@ CSteamCaptchaDialog::~CSteamCaptchaDialog()
 void CSteamCaptchaDialog::OnInitDialog()
 {
 	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "main");
+	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "main");
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(iconName, false));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(iconName, true));
 
@@ -106,7 +106,7 @@ void CSteamCaptchaDialog::OnInitDialog()
 
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 {
-	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), SIZEOF(m_captchaText) + 1);
+	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText) + 1);
 	EndDialog(m_hwnd, 1);
 }
 

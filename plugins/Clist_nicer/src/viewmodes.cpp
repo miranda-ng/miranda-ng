@@ -342,7 +342,7 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = SIZEOF(szTemp);
+				item.cchTextMax = _countof(szTemp);
 				item.iItem = i;
 				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
 				
@@ -364,7 +364,7 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = SIZEOF(szTemp);
+				item.cchTextMax = _countof(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 
@@ -475,12 +475,12 @@ void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = SIZEOF(szTemp);
+		item.cchTextMax = _countof(szTemp);
 
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
+			mir_snprintf(szMask, _countof(szMask), "%s|", szTemp);
 			if (dbv_pf.pszVal && strstr(dbv_pf.pszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -497,14 +497,14 @@ void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = SIZEOF(szTemp);
+		item.cchTextMax = _countof(szTemp);
 
 		ListView_SetCheckState(hwndList, 0, dwFlags & CLVM_INCLUDED_UNGROUPED ? TRUE : FALSE);
 
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, SIZEOF(szMask), _T("%s|"), szTemp);
+			mir_sntprintf(szMask, _countof(szMask), _T("%s|"), szTemp);
 			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -690,7 +690,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				char szBuf[256];
 
 				szBuf[0] = 0;
-				GetDlgItemTextA(hwndDlg, IDC_NEWVIEMODE, szBuf, SIZEOF(szBuf));
+				GetDlgItemTextA(hwndDlg, IDC_NEWVIEMODE, szBuf, _countof(szBuf));
 				szBuf[255] = 0;
 
 				if (mir_strlen(szBuf) > 2) {
@@ -883,7 +883,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_USER + 100:
 		{
 			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
-			for (int i = 0; i < SIZEOF(_buttons); i++) {
+			for (int i = 0; i < _countof(_buttons); i++) {
 				HWND hwndButton = GetDlgItem(hwnd, _buttons[i].btn_id);
 				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(_buttons[i].icon));
 				CustomizeButton(hwndButton, bSkinned, !bSkinned, bSkinned);
@@ -1060,8 +1060,8 @@ void ApplyViewMode(const char *name)
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
 	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) >= 2) {
-			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, SIZEOF(cfg::dat.groupFilter));
-			cfg::dat.groupFilter[SIZEOF(cfg::dat.groupFilter) - 1] = 0;
+			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, _countof(cfg::dat.groupFilter));
+			cfg::dat.groupFilter[_countof(cfg::dat.groupFilter) - 1] = 0;
 			cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
 		}
 		mir_free(dbv.ptszVal);

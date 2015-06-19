@@ -468,7 +468,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 				else if (foundLen == 6 && _tcsncmp(&buffer->str[j], _T("%date%"), 6) == 0)
 				{
 					TCHAR tmp[128];
-					TimeZone_ToStringT(time(NULL), _T("d s"), tmp, SIZEOF(tmp));
+					TimeZone_ToStringT(time(NULL), _T("d s"), tmp, _countof(tmp));
 					buffer->replace(j, i + 1, tmp);
 				}
 				else

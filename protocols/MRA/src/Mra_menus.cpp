@@ -282,7 +282,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 
 	TCHAR szItem[MAX_PATH + 64];
-	mir_sntprintf(szItem, SIZEOF(szItem), _T("%s Custom Status"), m_tszUserName);
+	mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000060000;
@@ -301,7 +301,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		mir_snprintf(pszServiceFunctionName, 100, "/menuXStatus%ld", i);
 		mi.position ++;
 		if (i) {
-			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", i);
+			mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", i);
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
 				mi.ptszName = (TCHAR*)szStatusTitle.c_str();
 			else
@@ -400,7 +400,7 @@ void CMraProto::InitMenus()
 	// xstatus menu
 	for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%d", i);
+		mir_snprintf(szServiceName, _countof(szServiceName), "/menuXStatus%d", i);
 		CreateProtoServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
 	}
 }

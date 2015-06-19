@@ -155,7 +155,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 static void enumServerGroups(CIcqProto* ppro)
 {
 	char szModule[MAX_PATH+9];
-	mir_snprintf(szModule, SIZEOF(szModule), "%s%s", ppro->m_szModuleName, "SrvGroups");
+	mir_snprintf(szModule, _countof(szModule), "%s%s", ppro->m_szModuleName, "SrvGroups");
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = &GroupEnumIdsEnumProc;
@@ -809,7 +809,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			hCurrentContact = NULL;
 			currentState = STATE_REGROUP;
 			currentAction = ACTION_NONE;
-			icq_ShowMultipleControls(hwndDlg, settingsControls, SIZEOF(settingsControls), SW_HIDE);
+			icq_ShowMultipleControls(hwndDlg, settingsControls, _countof(settingsControls), SW_HIDE);
 			//        SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0xFFFFFFFF, 0);
 			//        InvalidateRect(GetDlgItem(hwndDlg, IDC_CLIST), NULL, FALSE);
 			EnableDlgItem(hwndDlg, IDC_CLIST, FALSE);

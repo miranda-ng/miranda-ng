@@ -370,7 +370,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
 	if (re == NULL)
 		return FALSE; // [TODO] and log some error
-	_getOptS(response, SIZEOF(response), "Response", defaultResponse);	
+	_getOptS(response, _countof(response), "Response", defaultResponse);	
 
 	ttmp = _tcstok(response, _T("\r\n"));
 	for (i = 0; ttmp != NULL; i ++) {
@@ -428,7 +428,7 @@ int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 {
 	char *tmp, *tmporig;
 	TCHAR msg[MAX_BUFFER_LENGTH];
-	mir_sntprintf(msg, SIZEOF(msg), message, CONTACT_NAME(hContact));
+	mir_sntprintf(msg, _countof(msg), message, CONTACT_NAME(hContact));
 
 	if (_getOptB("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);
@@ -468,9 +468,9 @@ int LogToSystemHistory(char *message, char *origmessage)
 	dbei.szModule = PLUGIN_NAME;
 	dbei.pBlob = (PBYTE)msg;
 	if (origmessage)
-		dbei.cbBlob = (1 + mir_snprintf(msg, SIZEOF(msg), "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
+		dbei.cbBlob = (1 + mir_snprintf(msg, _countof(msg), "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
 	else 
-		dbei.cbBlob = (1 + mir_snprintf(msg, SIZEOF(msg), "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
+		dbei.cbBlob = (1 + mir_snprintf(msg, _countof(msg), "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_READ;
 	db_event_add(NULL, &dbei);

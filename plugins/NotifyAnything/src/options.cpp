@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case NA_LOG_BROWSE:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				TCHAR szTemp[MAX_PATH + 1], szTemp1[MAX_PATH + 1], szProfileDir[MAX_PATH + 1];
-				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, SIZEOF(szTemp));
+				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, _countof(szTemp));
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = szTemp;
@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			s.allow_execute = IsDlgButtonChecked(hwndDlg, NA_ALLOW_EXECUTE) != BST_UNCHECKED;
 
 			TCHAR buf[1000];
-			if (!GetDlgItemText(hwndDlg, NA_PORT, buf, SIZEOF(buf)))
+			if (!GetDlgItemText(hwndDlg, NA_PORT, buf, _countof(buf)))
 				buf[0] = '\0';
 			int port = _ttoi(buf);
 			if (port <= 0 || port > 65535)
@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			else
 				s.port = port;
 
-			if (!GetDlgItemText(hwndDlg, NA_PASSWORD, buf, SIZEOF(buf)))
+			if (!GetDlgItemText(hwndDlg, NA_PASSWORD, buf, _countof(buf)))
 				buf[0] = '\0';
 			s.password = buf;
 

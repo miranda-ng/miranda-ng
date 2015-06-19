@@ -230,7 +230,7 @@ char *StringFromBlob(BYTE *blob, WORD len)
 
 	for (j = 0; j < len; j++)
 	{
-		mir_snprintf(tmp, SIZEOF(tmp), "%02X ", blob[j]);
+		mir_snprintf(tmp, _countof(tmp), "%02X ", blob[j]);
 		mir_strcat(data, tmp);
 	}
 	return data;
@@ -451,33 +451,33 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 	name[0] = 0;
 
 	if (hContact && (!proto || !proto[0])) {
-		if (!db_get_static(hContact, "Protocol", "p", tmp, SIZEOF(tmp)))
+		if (!db_get_static(hContact, "Protocol", "p", tmp, _countof(tmp)))
 			szProto = tmp;
 	}
 
 	for (int i = 0; i < NAMEORDERCOUNT - 1; i++) {
 		switch (nameOrder[i]) {
 		case 0: // custom name
-			GetValue(hContact, "CList", "MyHandle", name, SIZEOF(name));
+			GetValue(hContact, "CList", "MyHandle", name, _countof(name));
 			break;
 
 		case 1: // nick
 			if (!szProto) break;
-			GetValue(hContact, szProto, "Nick", name, SIZEOF(name));
+			GetValue(hContact, szProto, "Nick", name, _countof(name));
 			break;
 /*
 		case 2: // First Name
 			if (!szProto) break;
-			GetValue(hContact, szProto, "FirstName", name, SIZEOF(name));
+			GetValue(hContact, szProto, "FirstName", name, _countof(name));
 			break;
 */
 		case 3: // E-mail
 			if (!szProto) break;
-			GetValue(hContact, szProto, "e-mail", name, SIZEOF(name));
+			GetValue(hContact, szProto, "e-mail", name, _countof(name));
 			break;
 /*
 		case 4: // Last Name
-			GetValue(hContact, szProto, "LastName", name, SIZEOF(name));
+			GetValue(hContact, szProto, "LastName", name, _countof(name));
 			break;
 */
 		case 5: // Unique id
@@ -486,21 +486,21 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 			// protocol must define a PFLAG_UNIQUEIDSETTING
 			char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
-				GetValue(hContact, szProto, uid, name, SIZEOF(name));
+				GetValue(hContact, szProto, uid, name, _countof(name));
 		}
 		break;
 		case 6: // first + last name
 		{
 			if (!szProto) break;
 
-			GetValue(hContact, szProto, "FirstName", name, SIZEOF(name));
+			GetValue(hContact, szProto, "FirstName", name, _countof(name));
 
 			int len = (int)mir_tstrlen(name);
-			if (len + 2 < SIZEOF(name)) {
+			if (len + 2 < _countof(name)) {
 			    if (len)
-					mir_tstrncat(name, _T(" "), SIZEOF(name));
+					mir_tstrncat(name, _T(" "), _countof(name));
 				len++;
-				GetValue(hContact, szProto, "LastName", &name[len], SIZEOF(name) - len);
+				GetValue(hContact, szProto, "LastName", &name[len], _countof(name) - len);
 			}
 		}
 		break;
@@ -511,7 +511,7 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 	}
 
 	if (!name[0])
-		mir_tstrncpy(name, TranslateT("<UNKNOWN>"), SIZEOF(name));
+		mir_tstrncpy(name, TranslateT("<UNKNOWN>"), _countof(name));
 
 	if (szProto && szProto[0]) {
 		if (g_Order)
@@ -538,7 +538,7 @@ int ApplyProtoFilter(MCONTACT hContact)
 	int loaded = 0;
 	char szProto[FLD_SIZE];
 
-	if (!db_get_static(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+	if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 		loaded = Proto_IsProtocolLoaded(szProto) ? 1 : 0;
 
 	if ((loaded && g_Mode == MODE_UNLOADED) || (!loaded && g_Mode == MODE_LOADED))
@@ -571,7 +571,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	int i = 0;
 	while (cs[i].name) {
 		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
-			mir_snprintf(tmp, SIZEOF(tmp), cs[i].dbname, i);
+			mir_snprintf(tmp, _countof(tmp), cs[i].dbname, i);
 			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
 		}
 		i++;
@@ -585,8 +585,8 @@ INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	const int maxSize = 1024;
 	TCHAR text1[maxSize];
 	TCHAR text2[maxSize];
-	ListView_GetItemText(params.hList, lParam1, params.column, text1, SIZEOF(text1));
-	ListView_GetItemText(params.hList, lParam2, params.column, text2, SIZEOF(text2));
+	ListView_GetItemText(params.hList, lParam1, params.column, text1, _countof(text1));
+	ListView_GetItemText(params.hList, lParam2, params.column, text2, _countof(text2));
 
 	int res = mir_tstrcmpi(text1, text2);
 	return (params.column == params.last) ? -res : res;

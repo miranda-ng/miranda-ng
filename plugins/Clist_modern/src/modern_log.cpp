@@ -21,7 +21,7 @@ void Log(const char *file, int line, const char *fmt, ...)
 		file_tmp++;
 
 	va_start(vararg, fmt);
-	mir_vsnprintf(str, SIZEOF(str), fmt, vararg);
+	mir_vsnprintf(str, _countof(str), fmt, vararg);
 	va_end(vararg);
 	{
 		char * tmp = str;

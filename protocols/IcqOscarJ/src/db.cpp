@@ -85,7 +85,7 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 		char buf[MAX_PATH];
 		TCHAR tbuf[MAX_PATH];
 
-		if (utf8_to_tchar_static(GetItemSettingText(i, buf, SIZEOF(buf)), tbuf, SIZEOF(tbuf)))
+		if (utf8_to_tchar_static(GetItemSettingText(i, buf, _countof(buf)), tbuf, _countof(tbuf)))
 			ListView_SetItemText(hwndList, i, 1, tbuf);
 	}
 }
@@ -136,7 +136,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			{
 				char szTest[16];
 
-				GetDlgItemTextA(hwndDlg, IDC_OLDPASS, szTest, SIZEOF(szTest));
+				GetDlgItemTextA(hwndDlg, IDC_OLDPASS, szTest, _countof(szTest));
 
 				if (mir_strcmp(szTest, dat->ppro->GetUserPassword(TRUE))) {
 					MessageBox(hwndDlg, TranslateT("The password does not match your current password. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
@@ -145,7 +145,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				}
 
-				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szTest, SIZEOF(szTest));
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szTest, _countof(szTest));
 				if (mir_strcmp(szTest, dat->Pass)) {
 					MessageBox(hwndDlg, TranslateT("The password does not match the password you originally entered. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
 					SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETSEL, 0, (LPARAM)-1);

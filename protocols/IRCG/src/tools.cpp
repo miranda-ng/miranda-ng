@@ -628,7 +628,7 @@ void CIrcProto::DoUserhostWithReason(int type, CMString reason, bool bSendComman
 
 	va_list ap;
 	va_start(ap, userhostparams);
-	mir_vsntprintf(temp, SIZEOF(temp), (S + _T(" ") + userhostparams).c_str(), ap);
+	mir_vsntprintf(temp, _countof(temp), (S + _T(" ") + userhostparams).c_str(), ap);
 	va_end(ap);
 
 	// Add reason

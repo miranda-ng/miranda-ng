@@ -114,7 +114,7 @@ void InitInternalButtons()
 	CreateServiceFunction(TTBI_STATUSMENUBUTT, TTBInternalStatusMenuButt);
 	CreateServiceFunction(TTBI_SHOWHIDEOFFLINE, TTBInternalShowHideOffline);
 
-	for (int i = 0; i < SIZEOF(stdButtons); i++) {
+	for (int i = 0; i < _countof(stdButtons); i++) {
 		TTBButton ttb = {0};
 		ttb.cbSize = sizeof(ttb);
 		ttb.name = stdButtons[i].name;

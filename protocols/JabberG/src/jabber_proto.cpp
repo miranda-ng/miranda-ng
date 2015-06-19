@@ -46,8 +46,8 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 		return mir_tstrcmpi(p1->jid, p2->jid);
 
 	TCHAR szp1[JABBER_MAX_JID_LEN], szp2[JABBER_MAX_JID_LEN];
-	JabberStripJid(p1->jid, szp1, SIZEOF(szp1));
-	JabberStripJid(p2->jid, szp2, SIZEOF(szp2));
+	JabberStripJid(p1->jid, szp1, _countof(szp1));
+	JabberStripJid(p2->jid, szp2, _countof(szp2));
 	return mir_tstrcmpi(szp1, szp2);
 }
 
@@ -577,7 +577,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 		return (DWORD_PTR)"jid";
 	case PFLAG_MAXCONTACTSPERPACKET:
 		TCHAR szClientJid[JABBER_MAX_JID_LEN];
-		if (GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
+		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
 			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
 		}
@@ -594,10 +594,10 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 		return 1;
 
 	TCHAR jid[JABBER_MAX_JID_LEN], szBareJid[JABBER_MAX_JID_LEN];
-	if (!GetClientJID(hContact, jid, SIZEOF(jid)))
+	if (!GetClientJID(hContact, jid, _countof(jid)))
 		return 1;
 
-	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
+	JabberStripJid(jid, szBareJid, _countof(szBareJid));
 	bool bUseResource = ListGetItemPtr(LIST_CHATROOM, szBareJid) != NULL;
 
 	if (m_ThreadInfo) {
@@ -633,7 +633,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 				for (int i=0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
 					TCHAR tmp[JABBER_MAX_JID_LEN];
-					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szBareJid, r->m_tszResourceName);
+					mir_sntprintf(tmp, _countof(tmp), _T("%s/%s"), szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
 						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
@@ -716,7 +716,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 				mir_free(szServer);
 				szServer = mir_tstrdup(_T("sms"));
 			}
-			mir_sntprintf(jsb->jid, SIZEOF(jsb->jid), _T("%s@%s"), szJid, szServer);
+			mir_sntprintf(jsb->jid, _countof(jsb->jid), _T("%s@%s"), szJid, szServer);
 		}
 		else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 		mir_free(szServer);
@@ -813,7 +813,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 		return 0;
 
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if (!GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
+	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 
 	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
@@ -952,7 +952,7 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
+	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
@@ -1239,7 +1239,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	if (!m_bJabberOnline) return 0;
 
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
-	if (!GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
+	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szClientJid);

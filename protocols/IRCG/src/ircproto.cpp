@@ -184,15 +184,15 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s server connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	char szTemp2[256];
-	mir_snprintf(szTemp2, SIZEOF(szTemp2), "%s DCC", m_szModuleName);
+	mir_snprintf(szTemp2, _countof(szTemp2), "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
@@ -277,13 +277,13 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	if (m_nick[0]) {
 		TCHAR szBuf[40];
 		if (mir_tstrlen(m_alternativeNick) == 0) {
-			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%s%u"), m_nick, rand() % 9999);
+			mir_sntprintf(szBuf, _countof(szBuf), _T("%s%u"), m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
 			mir_tstrncpy(m_alternativeNick, szBuf, 30);
 		}
 
 		if (mir_tstrlen(m_name) == 0) {
-			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("Miranda%u"), rand() % 9999);
+			mir_sntprintf(szBuf, _countof(szBuf), _T("Miranda%u"), rand() % 9999);
 			setTString("Name", szBuf);
 			mir_tstrncpy(m_name, szBuf, 200);
 		}

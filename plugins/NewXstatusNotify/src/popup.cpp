@@ -36,7 +36,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const TCHAR
 	}
 	_tcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
 
-	_tcsncpy(ppd.lptzText, stzText, SIZEOF(ppd.lptzText));
+	_tcsncpy(ppd.lptzText, stzText, _countof(ppd.lptzText));
 
 	switch (opt.Colors) {
 	case POPUP_COLOR_OWN:
@@ -85,9 +85,9 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 
 	TCHAR stzText[1024];
 	if (pstzLast)
-		mir_sntprintf(stzText, SIZEOF(stzText), _T("%s\n%s"), pstzLast, tszStatus);
+		mir_sntprintf(stzText, _countof(stzText), _T("%s\n%s"), pstzLast, tszStatus);
 	else
-		_tcsncpy(stzText, tszStatus, SIZEOF(stzText));
+		_tcsncpy(stzText, tszStatus, _countof(stzText));
 	SendMessage(pdp->hWnd, WM_SETREDRAW, FALSE, 0);
 	PUChangeTextT(pdp->hWnd, stzText);
 	SendMessage(pdp->hWnd, WM_SETREDRAW, TRUE, 0);

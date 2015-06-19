@@ -304,13 +304,13 @@ void PasteToWeb1::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	{
 		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
 		{
-			mir_sntprintf(bufErr, SIZEOF(bufErr), TranslateT("Error during sending text to web page: %s"), resCont + 17);
+			mir_sntprintf(bufErr, _countof(bufErr), TranslateT("Error during sending text to web page: %s"), resCont + 17);
 			error = bufErr;
 		}
 		else
 		{
 			char* s = mir_u2a_cp(resCont, CP_ACP);
-			mir_strncpy(szFileLink, s, SIZEOF(szFileLink));
+			mir_strncpy(szFileLink, s, _countof(szFileLink));
 			mir_free(s);
 		}
 		mir_free(resCont);
@@ -336,7 +336,7 @@ std::wstring PasteToWeb1::GetUserKey(std::wstring& user, std::wstring& password)
 	{
 		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
 		{
-			mir_sntprintf(bufErr, SIZEOF(bufErr), TranslateT("Error during getting user key from web page: %s"), resCont + 17);
+			mir_sntprintf(bufErr, _countof(bufErr), TranslateT("Error during getting user key from web page: %s"), resCont + 17);
 			MessageBox(NULL, bufErr, TranslateT("Error"), MB_OK | MB_ICONERROR);
 		}
 		else

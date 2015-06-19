@@ -518,20 +518,20 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	if (dat->first_line_append_nick && (!dat->force_in_dialog)) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
-			TCHAR nick[SIZEOF(contact->szText)];
-			mir_tstrncpy(nick, dbv.ptszVal, SIZEOF(contact->szText));
+			TCHAR nick[_countof(contact->szText)];
+			mir_tstrncpy(nick, dbv.ptszVal, _countof(contact->szText));
 			db_free(&dbv);
 
 			// They are the same -> use the name to keep the case
 			if (mir_tstrcmpi(name, nick) == 0)
-				mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
+				mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 			else
 				// Append then
-				mir_sntprintf(contact->szText, SIZEOF(contact->szText), _T("%s - %s"), name, nick);
+				mir_sntprintf(contact->szText, _countof(contact->szText), _T("%s - %s"), name, nick);
 		}
-		else mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
+		else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 	}
-	else mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
+	else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 
 	if (!dat->force_in_dialog) {
 		SHORTDATA data = { 0 };
@@ -550,11 +550,11 @@ void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 	int type = TEXT_EMPTY;
 
 	if (dat->second_line_show)
-		type = Cache_GetLineText(pdnce, dat->second_line_type, Text, SIZEOF(Text), dat->second_line_text,
+		type = Cache_GetLineText(pdnce, dat->second_line_type, Text, _countof(Text), dat->second_line_text,
 		dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
 		dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
-	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
+	Text[_countof(Text) - 1] = 0; //to be sure that it is null terminated string
 
 	replaceStrT(pdnce->szSecondLineText, (dat->second_line_show) ? Text : NULL);
 
@@ -574,11 +574,11 @@ void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
 	int type = TEXT_EMPTY;
 	if (dat->third_line_show)
-		type = Cache_GetLineText(pdnce, dat->third_line_type, Text, SIZEOF(Text), dat->third_line_text,
+		type = Cache_GetLineText(pdnce, dat->third_line_type, Text, _countof(Text), dat->third_line_text,
 		dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
 		dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
-	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
+	Text[_countof(Text) - 1] = 0; //to be sure that it is null terminated string
 
 	replaceStrT(pdnce->szThirdLineText, (dat->third_line_show) ? Text : NULL);
 	if (pdnce->szThirdLineText) {

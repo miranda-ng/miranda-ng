@@ -36,7 +36,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	if (opts.dbChecker == NULL) {
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
 		if (dblink == NULL) {
-			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
+			mir_sntprintf(tszMsg, _countof(tszMsg),
 				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
 		LBL_Error:
@@ -45,7 +45,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 		}
 
 		if (dblink->CheckDB == NULL) {
-			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
+			mir_sntprintf(tszMsg, _countof(tszMsg),
 				TranslateT("Database driver '%s' doesn't support checking."),
 				TranslateTS(dblink->szFullName));
 			goto LBL_Error;
@@ -79,8 +79,8 @@ void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 
 	mir_tstrcpy(szMirandaBootIni, szMirandaDir);
 	mir_tstrcat(szMirandaBootIni, _T("\\mirandaboot.ini"));
-	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T("./Profiles"), szProfileDir, SIZEOF(szProfileDir), szMirandaBootIni);
-	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, SIZEOF(szExpandedProfileDir));
+	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T("./Profiles"), szProfileDir, _countof(szProfileDir), szMirandaBootIni);
+	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, _countof(szExpandedProfileDir));
 	_tchdir(szMirandaDir);
 	if (!_tfullpath(szPath, szExpandedProfileDir, cbPath))
 		mir_tstrncpy(szPath, szMirandaDir, cbPath);
@@ -129,7 +129,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
 	TCHAR szSize[20];
-	mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
+	mir_sntprintf(szSize, _countof(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
 	return iNewItem;
 }
@@ -149,7 +149,7 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 				continue;
 
-			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
+			mir_sntprintf(szFilename, _countof(szFilename), _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
 			if (_taccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
 		} while (FindNextFile(hFind, &fd));
@@ -192,7 +192,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 1, &lvc);
 
 			TCHAR szMirandaPath[MAX_PATH];
-			GetModuleFileName(NULL, szMirandaPath, SIZEOF(szMirandaPath));
+			GetModuleFileName(NULL, szMirandaPath, _countof(szMirandaPath));
 			TCHAR *str2 = _tcsrchr(szMirandaPath, '\\');
 			if (str2 != NULL)
 				*str2 = 0;
@@ -201,11 +201,11 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			HKEY hKey;
 			TCHAR szProfileDir[MAX_PATH];
 			TCHAR szMirandaProfiles[MAX_PATH];
-			DWORD cbData = SIZEOF(szMirandaPath);
+			DWORD cbData = _countof(szMirandaPath);
 
 			mir_tstrcpy(szMirandaProfiles, szMirandaPath);
 			mir_tstrcat(szMirandaProfiles, _T("\\Profiles"));
-			GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
+			GetProfileDirectory(szMirandaPath, szProfileDir, _countof(szProfileDir));
 
 			// search in profile dir (using ini file)
 			if (mir_tstrcmpi(szProfileDir, szMirandaProfiles))
@@ -219,7 +219,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				if (RegQueryValueEx(hKey, _T("Path"), NULL, NULL, (PBYTE)szMirandaPath, &cbData) == ERROR_SUCCESS) {
 					if (mir_tstrcmp(szProfileDir, szMirandaPath)) {
-						GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
+						GetProfileDirectory(szMirandaPath, szProfileDir, _countof(szProfileDir));
 						FindAdd(hdlg, szProfileDir, _T("[reg]\\"));
 					}
 				}
@@ -246,7 +246,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WZN_PAGECHANGING:
-		GetDlgItemText(hdlg, IDC_FILE, opts.filename, SIZEOF(opts.filename));
+		GetDlgItemText(hdlg, IDC_FILE, opts.filename, _countof(opts.filename));
 		break;
 
 	case WM_COMMAND:
@@ -272,7 +272,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			tmp = addstring(tmp, _T("*"));
 			*tmp = 0;
 
-			GetDlgItemText(hdlg, IDC_FILE, str, SIZEOF(str));
+			GetDlgItemText(hdlg, IDC_FILE, str, _countof(str));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hdlg;
 			ofn.hInstance = NULL;
@@ -280,7 +280,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			ofn.lpstrDefExt = _T("dat");
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.nMaxFile = SIZEOF(str);
+			ofn.nMaxFile = _countof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			if (GetOpenFileName(&ofn)) {
 				int i = AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), str, _T(""));

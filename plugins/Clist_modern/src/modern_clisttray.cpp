@@ -649,7 +649,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 
 	// if Tipper is missing or turned off for tray, use system tooltips
 	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1))
-		mir_tstrncpy(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
+		mir_tstrncpy(nid.szTip, pcli->szTip, _countof(nid.szTip));
 
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
 

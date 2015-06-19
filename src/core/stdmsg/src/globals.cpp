@@ -32,7 +32,7 @@ IconItem iconList[] =
 
 static void InitIcons(void)
 {
-	Icon_Register(g_hInst, LPGEN("Messaging"), iconList, SIZEOF(iconList), "SRMM");
+	Icon_Register(g_hInst, LPGEN("Messaging"), iconList, _countof(iconList), "SRMM");
 }
 
 static int IconsChanged(WPARAM, LPARAM)

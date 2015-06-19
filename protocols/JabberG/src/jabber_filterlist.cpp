@@ -135,7 +135,7 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 		bool found = false;
 		if (str) {
 			for (int j = 0; j < 10; ++j) {
-				GetItemText(i, j, buf, SIZEOF(buf));
+				GetItemText(i, j, buf, _countof(buf));
 				if (!*buf)
 					break;
 
@@ -247,7 +247,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 				{rc.left+FILTER_BOX_HEIGHT, rc.top+FILTER_BOX_HEIGHT},
 				{rc.left, rc.top+FILTER_BOX_HEIGHT},
 			};
-			HRGN hrgnFilter = CreatePolygonRgn(pts, SIZEOF(pts), ALTERNATE);
+			HRGN hrgnFilter = CreatePolygonRgn(pts, _countof(pts), ALTERNATE);
 
 			HDC hdc = GetWindowDC(m_hwnd);
 

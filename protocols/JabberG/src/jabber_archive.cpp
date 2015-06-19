@@ -45,7 +45,7 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
 		TCHAR buf[40];
-		list << XATTR(_T("start"), time2str(tmLast, buf, SIZEOF(buf)));
+		list << XATTR(_T("start"), time2str(tmLast, buf, _countof(buf)));
 	}
 	m_ThreadInfo->send(iq);
 }

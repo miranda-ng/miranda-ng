@@ -31,7 +31,7 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		TranslateDialogDefault(hwnd);
 
 		TCHAR msg[MSG_SIZE], name[NAME_SIZE];
-		GetContactName((MCONTACT)lParam, NULL, name, SIZEOF(name));
+		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
 
 		mir_sntprintf(msg, TranslateT("Add module to \"%s\""), name);
 		SetWindowText(hwnd, msg);
@@ -42,7 +42,7 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case IDOK:
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_MODNAME))) {
 				char modulename[FLD_SIZE];
-				GetDlgItemTextA(hwnd, IDC_MODNAME, modulename, SIZEOF(modulename));
+				GetDlgItemTextA(hwnd, IDC_MODNAME, modulename, _countof(modulename));
 				if (IsDlgButtonChecked(hwnd, CHK_ADD2ALL)) {
 					// null contact
 					db_set_b(NULL, modulename, "(Default)", 0);

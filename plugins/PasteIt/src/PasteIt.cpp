@@ -72,7 +72,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 std::wstring GetFile()
 {
 	TCHAR filter[512];
-	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), SIZEOF(filter));
+	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), _countof(filter));
 	memcpy(filter + mir_tstrlen(filter), _T("\0*.*\0"), 6 * sizeof(TCHAR));
 	TCHAR stzFilePath[1024];
 	stzFilePath[0] = 0;
@@ -84,7 +84,7 @@ std::wstring GetFile()
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
 	ofn.lpstrTitle = TranslateT("Paste It - Select file");
-	ofn.nMaxFile = SIZEOF(stzFilePath);
+	ofn.nMaxFile = _countof(stzFilePath);
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
 	if (GetOpenFileName(&ofn))
 	{

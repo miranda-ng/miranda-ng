@@ -162,12 +162,12 @@ std::string Omegle_client::get_server( bool not_last )
 	int q = not_last ? 1 : 0;	
 
 	int server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
-	if (server < 0 || server >= (int)(SIZEOF(servers)-q))
+	if (server < 0 || server >= (int)(_countof(servers)-q))
 		server = 0;
 
 	if (server == 0) {
 		srand(::time(NULL));
-		server = (rand() % (SIZEOF(servers)-1-q))+1;
+		server = (rand() % (_countof(servers)-1-q))+1;
 	}
 
 	return servers[server];
@@ -176,7 +176,7 @@ std::string Omegle_client::get_server( bool not_last )
 std::string Omegle_client::get_language()
 {
 	int language = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
-	if (language < 0 || language >= (SIZEOF(languages)))
+	if (language < 0 || language >= (_countof(languages)))
 		language = 0;
 
 	return language > 0 ? languages[language].id : "en";
@@ -300,7 +300,7 @@ bool Omegle_client::start()
 
 	if (this->spy_mode_) {
 		//// get last server from list, which is for spy mode
-		//this->server_ = servers[SIZEOF(servers)-1];
+		//this->server_ = servers[_countof(servers)-1];
 
 		if (this->question_.empty()) {
 			data = "&wantsspy=1";
@@ -551,7 +551,7 @@ bool Omegle_client::events()
 			st.cbSize = sizeof(st);
 			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
 
-			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s is typing."), TranslateT("Stranger"));
+			mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("%s is typing."), TranslateT("Stranger"));
 
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}
@@ -566,7 +566,7 @@ bool Omegle_client::events()
 			st.cbSize = sizeof(st);
 			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
 
-			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s stopped typing."), TranslateT("Stranger"));
+			mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("%s stopped typing."), TranslateT("Stranger"));
 
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}

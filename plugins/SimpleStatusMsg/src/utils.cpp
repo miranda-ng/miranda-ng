@@ -36,19 +36,19 @@ static IconItem iconList[] =
 
 void IconsInit(void)
 {
-	Icon_Register(g_hInst, LPGEN("Simple Status Message"), iconList, SIZEOF(iconList), "SimpleStatusMsg");
+	Icon_Register(g_hInst, LPGEN("Simple Status Message"), iconList, _countof(iconList), "SimpleStatusMsg");
 }
 
 HICON LoadIconEx(const char *name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "SimpleStatusMsg_%s", name);
 	return IcoLib_GetIcon(szSettingName);
 }
 
 HANDLE GetIconHandle(int iconId)
 {
-	for(int i = 0; i < SIZEOF(iconList); i++)
+	for(int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
@@ -58,14 +58,14 @@ HANDLE GetIconHandle(int iconId)
 void ReleaseIconEx(const char *name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "SimpleStatusMsg_%s", name);
 	IcoLib_Release(szSettingName);
 }
 
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc)
 {
 	char szProtoEvent[MAXMODULELABELLENGTH];
-	mir_snprintf(szProtoEvent, SIZEOF(szProtoEvent), "%s%s", szModule, szEvent);
+	mir_snprintf(szProtoEvent, _countof(szProtoEvent), "%s%s", szModule, szEvent);
 	HANDLE res = HookEventParam(szProtoEvent, hookProc, (LPARAM)szModule);
 	arProtoHooks.insert(res);
 	return res;

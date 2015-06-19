@@ -476,7 +476,7 @@ int LocateStorePosition(int Frameid, int maxstored)
 
 	for (int i = 0; i < maxstored; i++) {
 		char settingname[255];
-		mir_snprintf(settingname, SIZEOF(settingname), "Name%d", i);
+		mir_snprintf(settingname, _countof(settingname), "Name%d", i);
 		ptrT frmname(db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
 		if (mir_tstrcmpi(frmname, Frames[Frameid].name) == 0)
@@ -1772,7 +1772,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 
 	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
 		TCHAR ptszClassName[256];
-		GetClassName(Frames[nFramescount].hWnd, ptszClassName, SIZEOF(ptszClassName));
+		GetClassName(Frames[nFramescount].hWnd, ptszClassName, _countof(ptszClassName));
 		Frames[nFramescount].name = mir_tstrdup(ptszClassName);
 	}
 	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->wname) : mir_a2t(clfrm->name);
@@ -2598,7 +2598,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			int pos = id2pos(Frameid);
 			if (pos != -1) {
 				int oldflags;
-				mir_snprintf(TBcapt, SIZEOF(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
+				mir_snprintf(TBcapt, _countof(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
 								 Frames[pos].name, Frames[pos].height, Frames[pos].visible, Frames[pos].floating,
 								 Frames[pos].FloatingPos.x, Frames[pos].FloatingPos.y,
 								 Frames[pos].FloatingSize.x, Frames[pos].FloatingSize.y,
@@ -3085,7 +3085,7 @@ TCHAR g_ptszEventName[100];
 
 static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
-	mir_sntprintf(g_ptszEventName, SIZEOF(g_ptszEventName), _T("mf_update_evt_%d"), GetCurrentThreadId());
+	mir_sntprintf(g_ptszEventName, _countof(g_ptszEventName), _T("mf_update_evt_%d"), GetCurrentThreadId());
 	g_hEventThread = CreateEvent(NULL, TRUE, FALSE, g_ptszEventName);
 	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, NULL);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);

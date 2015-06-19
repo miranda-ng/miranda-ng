@@ -120,7 +120,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
 	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
 	if (TTBButtons == 1 && hTTBarloaded != NULL) {
-		Icon_Register(hInst, "Toolbar/"MENU_NAME, iconttbList, SIZEOF(iconttbList), MENU_NAME);
+		Icon_Register(hInst, "Toolbar/"MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
 		RemoveTTButtons();
 		CreateTTButtons(0,0);
 	}
@@ -160,17 +160,17 @@ void EnablePopupModule()
 
 void InitSettings()
 {
-	if(gethostname(hostname, SIZEOF(hostname)) == 0){
-		mir_snprintf(EnabledComp, SIZEOF(EnabledComp), "%s_Enabled", hostname);
-		mir_snprintf(DelayComp, SIZEOF(DelayComp), "%s_Delay", hostname);
-		mir_snprintf(PopUpComp, SIZEOF(PopUpComp), "%s_PopUp", hostname);
-		mir_snprintf(PopUpTimeComp, SIZEOF(PopUpTimeComp), "%s_PopUpTime", hostname);
-		mir_snprintf(MenuitemComp, SIZEOF(MenuitemComp), "%s_MenuItem", hostname);
-		mir_snprintf(TTBButtonsComp, SIZEOF(TTBButtonsComp), "%s_TTBButtons", hostname);
-		mir_snprintf(DefSoundComp, SIZEOF(DefSoundComp), "%s_DefSound", hostname);
-		mir_snprintf(DefPopupComp, SIZEOF(DefPopupComp), "%s_DefPopup", hostname);
-		mir_snprintf(DefEnabledComp, SIZEOF(DefEnabledComp), "%s_DefEnabled", hostname);
-		mir_snprintf(NonStatusAllowComp, SIZEOF(NonStatusAllowComp), "%s_NonStatusAllow", hostname);
+	if(gethostname(hostname, _countof(hostname)) == 0){
+		mir_snprintf(EnabledComp, _countof(EnabledComp), "%s_Enabled", hostname);
+		mir_snprintf(DelayComp, _countof(DelayComp), "%s_Delay", hostname);
+		mir_snprintf(PopUpComp, _countof(PopUpComp), "%s_PopUp", hostname);
+		mir_snprintf(PopUpTimeComp, _countof(PopUpTimeComp), "%s_PopUpTime", hostname);
+		mir_snprintf(MenuitemComp, _countof(MenuitemComp), "%s_MenuItem", hostname);
+		mir_snprintf(TTBButtonsComp, _countof(TTBButtonsComp), "%s_TTBButtons", hostname);
+		mir_snprintf(DefSoundComp, _countof(DefSoundComp), "%s_DefSound", hostname);
+		mir_snprintf(DefPopupComp, _countof(DefPopupComp), "%s_DefPopup", hostname);
+		mir_snprintf(DefEnabledComp, _countof(DefEnabledComp), "%s_DefEnabled", hostname);
+		mir_snprintf(NonStatusAllowComp, _countof(NonStatusAllowComp), "%s_NonStatusAllow", hostname);
 	}
 	//first run on the host, initial setting
 	if (!(delay = db_get_dw(NULL, MODULE_NAME, DelayComp, 0)))
@@ -219,7 +219,7 @@ void LoadSettings()
 void IsMenu()
 {
 	if (MenuItem == 1) {
-		Icon_Register(hInst, MENU_NAME, iconList, SIZEOF(iconList), MENU_NAME);
+		Icon_Register(hInst, MENU_NAME, iconList, _countof(iconList), MENU_NAME);
 		InitMenu();
 	}
 }
@@ -345,7 +345,7 @@ void RemoveTTButtons()
 HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MENU_NAME, szIcon);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MENU_NAME, szIcon);
 	return IcoLib_GetIconHandle(szSettingName);
 }
 

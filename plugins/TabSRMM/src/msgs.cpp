@@ -473,7 +473,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	TCHAR newcontactname[128], tabtitle[128];
 	if (contactName && mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
+			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
 			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
 
@@ -484,14 +484,14 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
-		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
+		mir_sntprintf(tabtitle, _countof(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
 	else
-		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s   "), newcontactname);
+		mir_sntprintf(tabtitle, _countof(tabtitle), _T("%s   "), newcontactname);
 
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 	newData.item.iImage = 0;
-	newData.item.cchTextMax = SIZEOF(tabtitle);
+	newData.item.cchTextMax = _countof(tabtitle);
 
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 	// hide the active tab
@@ -741,12 +741,12 @@ struct {
 	int nItems;
 }
 static ICONBLOCKS[] = {
-	{ LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons, SIZEOF(_deficons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons, SIZEOF(_toolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons, SIZEOF(_exttoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons, SIZEOF(_chattoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons, SIZEOF(_logicons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon, SIZEOF(_trayIcon) }
+	{ LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons, _countof(_deficons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons, _countof(_toolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons, _countof(_exttoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons, _countof(_chattoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons, _countof(_logicons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon, _countof(_trayIcon) }
 };
 
 static int GetIconPackVersion(HMODULE hDLL)
@@ -798,7 +798,7 @@ static int TSAPI SetupIconLibConfig()
 	sid.defaultFile.t = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++) {
+	for (int n = 0; n < _countof(ICONBLOCKS); n++) {
 		sid.section.a = ICONBLOCKS[n].szSection;
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++) {
 			sid.pszName = ICONBLOCKS[n].idesc[i].szName;
@@ -836,7 +836,7 @@ static int TSAPI SetupIconLibConfig()
 
 static int TSAPI LoadFromIconLib()
 {
-	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
+	for (int n = 0; n < _countof(ICONBLOCKS); n++)
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
 			*(ICONBLOCKS[n].idesc[i].phIcon) = IcoLib_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 
@@ -878,7 +878,7 @@ void TSAPI LoadIconTheme()
 
 static void UnloadIcons()
 {
-	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
+	for (int n = 0; n < _countof(ICONBLOCKS); n++)
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
 			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
@@ -1046,7 +1046,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	TCHAR sztName[64];
-	mir_sntprintf(sztName, SIZEOF(sztName), _T("s%u"), nextStgId++);
+	mir_sntprintf(sztName, _countof(sztName), _T("s%u"), nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

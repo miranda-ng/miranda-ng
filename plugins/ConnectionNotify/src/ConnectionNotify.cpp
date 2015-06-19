@@ -197,16 +197,16 @@ void fillExceptionsListView(HWND hwndDlg)
 		ListView_InsertItem(hwndList, &lvI);
 		lvI.iSubItem = 1;
 		if (tmp->intIntPort == -1)
-			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:*"), tmp->strIntIp);
+			mir_sntprintf(tmpAddress, _countof(tmpAddress), _T("%s:*"), tmp->strIntIp);
 		else
-			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:%d"), tmp->strIntIp, tmp->intIntPort);
+			mir_sntprintf(tmpAddress, _countof(tmpAddress), _T("%s:%d"), tmp->strIntIp, tmp->intIntPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 2;
 		if (tmp->intExtPort == -1)
-			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:*"), tmp->strExtIp);
+			mir_sntprintf(tmpAddress, _countof(tmpAddress), _T("%s:*"), tmp->strExtIp);
 		else
-			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:%d"), tmp->strExtIp, tmp->intExtPort);
+			mir_sntprintf(tmpAddress, _countof(tmpAddress), _T("%s:%d"), tmp->strExtIp, tmp->intExtPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 3;
@@ -252,20 +252,20 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 		case ID_OK:
 		{
 			TCHAR tmpPort[6];
-			GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, SIZEOF(tmpPort));
+			GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, _countof(tmpPort));
 			if (tmpPort[0] == '*')
 				connCurrentEditModal->intIntPort = -1;
 			else
 				connCurrentEditModal->intIntPort = GetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, NULL, FALSE);
-			GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, SIZEOF(tmpPort));
+			GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, _countof(tmpPort));
 			if (tmpPort[0] == '*')
 				connCurrentEditModal->intExtPort = -1;
 			else
 				connCurrentEditModal->intExtPort = GetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, NULL, FALSE);
 
-			GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, SIZEOF(connCurrentEditModal->strIntIp));
-			GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, SIZEOF(connCurrentEditModal->strExtIp));
-			GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, SIZEOF(connCurrentEditModal->PName));
+			GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, _countof(connCurrentEditModal->strIntIp));
+			GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, _countof(connCurrentEditModal->strExtIp));
+			GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, _countof(connCurrentEditModal->PName));
 
 			connCurrentEditModal->Pid = !(BOOL)SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_GETCURSEL, 0, 0);
 
@@ -303,7 +303,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		bOptionsOpen = TRUE;
 		TranslateDialogDefault(hwndDlg);//translate miranda function
 #ifdef _WIN64
-		mir_sntprintf(buff,SIZEOF(buff),_T("%d.%d.%d.%d/64"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+		mir_sntprintf(buff,_countof(buff),_T("%d.%d.%d.%d/64"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #else
 		mir_sntprintf(buff, _T("%d.%d.%d.%d/32"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #endif
@@ -717,10 +717,10 @@ static unsigned __stdcall checkthread(void *)
 
 #ifdef _DEBUG
 				TCHAR msg[1024];
-				mir_sntprintf(msg, SIZEOF(msg), _T("%s:%d\n%s:%d"), cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
+				mir_sntprintf(msg, _countof(msg), _T("%s:%d\n%s:%d"), cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
 				_OutputDebugString(_T("New connection: %s"), msg);
 #endif
-				pid2name(cur->Pid, cur->PName, SIZEOF(cur->PName));
+				pid2name(cur->Pid, cur->PName, _countof(cur->PName));
 				if (WAIT_OBJECT_0 == WaitForSingleObject(hExceptionsMutex, 100))
 				{
 					if (checkFilter(connExceptions, cur))
@@ -798,12 +798,12 @@ void showMsg(TCHAR *pName, DWORD pid, TCHAR *intIp, TCHAR *extIp, int intPort, i
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	if (settingResolveIp) {
 		TCHAR hostName[128];
-		getDnsName(extIp, hostName, SIZEOF(hostName));
-		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), _T("%s:%d\n%s:%d"), hostName, extPort, intIp, intPort);
+		getDnsName(extIp, hostName, _countof(hostName));
+		mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), _T("%s:%d\n%s:%d"), hostName, extPort, intIp, intPort);
 	}
-	else mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), _T("%s:%d\n%s:%d"), extIp, extPort, intIp, intPort);
+	else mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), _T("%s:%d\n%s:%d"), extIp, extPort, intIp, intPort);
 
-	mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), _T("%s (%s)"), pName, tcpStates[state - 1]);
+	mir_sntprintf(ppd.lptzContactName, _countof(ppd.lptzContactName), _T("%s (%s)"), pName, tcpStates[state - 1]);
 
 	if (settingSetColours) {
 		ppd.colorBack = settingBgColor;

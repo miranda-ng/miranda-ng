@@ -184,8 +184,8 @@ int CALLBACK PopupsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	TCHAR text2[MAX_SIZE];
 	int res;
 	
-	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, SIZEOF(text1));
-	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, SIZEOF(text2));
+	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, _countof(text1));
+	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, _countof(text2));
 	
 	res = mir_tstrcmpi(text1, text2);
 	
@@ -440,7 +440,7 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 	TCHAR filter[MAX_FILTER_SIZE];
 	DeleteOldEvents(hWnd, renderer); //delete events
 		
-	GetDlgItemText(hWnd, IDC_HISTORY_FILTER, filter, SIZEOF(filter)); //get filter text
+	GetDlgItemText(hWnd, IDC_HISTORY_FILTER, filter, _countof(filter)); //get filter text
 	
 	AddEvents(hWnd, renderer, filter, MatchesFilter);
 	
@@ -481,7 +481,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 			{
 				if (ListView_GetItemState(hList, i, LVIS_SELECTED))
 				{
-					ListView_GetItemText(hList, i, selection - 100, buffer, SIZEOF(buffer));
+					ListView_GetItemText(hList, i, selection - 100, buffer, _countof(buffer));
 					found = 1;
 					break;
 				}

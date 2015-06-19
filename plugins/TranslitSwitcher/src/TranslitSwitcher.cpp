@@ -81,7 +81,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		Icon_Register(hInst, "TabSRMM/TranslitSwitcher", iconList, SIZEOF(iconList));
+		Icon_Register(hInst, "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
 
 		BBButton bbd = { 0 };
 		bbd.cbSize = sizeof(BBButton);

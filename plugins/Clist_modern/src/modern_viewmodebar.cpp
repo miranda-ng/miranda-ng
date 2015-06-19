@@ -388,11 +388,11 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = SIZEOF(szTemp);
+				item.cchTextMax = _countof(szTemp);
 				item.iItem = i;
 				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-				mir_strncat(newProtoFilter, szTemp, SIZEOF(newProtoFilter) - mir_strlen(newProtoFilter));
-				mir_strncat(newProtoFilter, "|", SIZEOF(newProtoFilter) - mir_strlen(newProtoFilter));
+				mir_strncat(newProtoFilter, szTemp, _countof(newProtoFilter) - mir_strlen(newProtoFilter));
+				mir_strncat(newProtoFilter, "|", _countof(newProtoFilter) - mir_strlen(newProtoFilter));
 				newProtoFilter[2047] = 0;
 			}
 		}
@@ -409,11 +409,11 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = SIZEOF(szTemp);
+				item.cchTextMax = _countof(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-				mir_tstrncat(newGroupFilter, szTemp, SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
-				mir_tstrncat(newGroupFilter, _T("|"), SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
+				mir_tstrncat(newGroupFilter, szTemp, _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
+				mir_tstrncat(newGroupFilter, _T("|"), _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
 				newGroupFilter[2047] = 0;
 			}
 		}
@@ -499,7 +499,7 @@ static void UpdateFilters()
 	SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempBuf);
 
 	T2Utf szBuf(szTempBuf);
-	mir_strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
+	mir_strncpy(g_szModename, szBuf, _countof(g_szModename));
 
 	mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
 	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
@@ -532,12 +532,12 @@ static void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = SIZEOF(szTemp);
+		item.cchTextMax = _countof(szTemp);
 
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
+			mir_snprintf(szMask, _countof(szMask), "%s|", szTemp);
 			if (szPF && strstr(szPF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -553,14 +553,14 @@ static void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = SIZEOF(szTemp);
+		item.cchTextMax = _countof(szTemp);
 
 		ListView_SetCheckState(hwndList, 0, dwFlags & CLVM_INCLUDED_UNGROUPED ? TRUE : FALSE);
 
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, SIZEOF(szMask), _T("%s|"), szTemp);
+			mir_sntprintf(szMask, _countof(szMask), _T("%s|"), szTemp);
 			if (szGF && _tcsstr(szGF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -770,7 +770,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TCHAR szBuf[256];
 			szBuf[0] = 0;
-			GetDlgItemText(hwndDlg, IDC_NEWVIEMODE, szBuf, SIZEOF(szBuf));
+			GetDlgItemText(hwndDlg, IDC_NEWVIEMODE, szBuf, _countof(szBuf));
 			szBuf[255] = 0;
 
 			if (szBuf[0] != 0) {
@@ -1262,8 +1262,8 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		mir_snprintf(szSetting, "%c%s_PF", 246, Name);
 		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_strlen(dbv.pszVal) >= 2) {
-				mir_strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
-				g_CluiData.protoFilter[SIZEOF(g_CluiData.protoFilter) - 1] = 0;
+				mir_strncpy(g_CluiData.protoFilter, dbv.pszVal, _countof(g_CluiData.protoFilter));
+				g_CluiData.protoFilter[_countof(g_CluiData.protoFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
 			}
 			mir_free(dbv.pszVal);
@@ -1271,8 +1271,8 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
 		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_tstrlen(dbv.ptszVal) >= 2) {
-				mir_tstrncpy(g_CluiData.groupFilter, dbv.ptszVal, SIZEOF(g_CluiData.groupFilter));
-				g_CluiData.groupFilter[SIZEOF(g_CluiData.groupFilter) - 1] = 0;
+				mir_tstrncpy(g_CluiData.groupFilter, dbv.ptszVal, _countof(g_CluiData.groupFilter));
+				g_CluiData.groupFilter[_countof(g_CluiData.groupFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 			}
 			mir_free(dbv.ptszVal);
@@ -1294,7 +1294,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
 			mir_snprintf(szSetting, "%c%s_OPT", 246, Name);
 			DWORD timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
-			mir_strncpy(g_CluiData.old_viewmode, g_CluiData.current_viewmode, SIZEOF(g_CluiData.old_viewmode));
+			mir_strncpy(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _countof(g_CluiData.old_viewmode));
 			g_CluiData.old_viewmode[255] = 0;
 			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, NULL);
 		}
@@ -1302,7 +1302,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 			mir_snprintf(szSetting, "%c_LastMode", 246);
 			db_set_s(NULL, CLVM_MODULE, szSetting, Name);
 		}
-		mir_strncpy(g_CluiData.current_viewmode, Name, SIZEOF(g_CluiData.current_viewmode));
+		mir_strncpy(g_CluiData.current_viewmode, Name, _countof(g_CluiData.current_viewmode));
 		g_CluiData.current_viewmode[255] = 0;
 
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG) {

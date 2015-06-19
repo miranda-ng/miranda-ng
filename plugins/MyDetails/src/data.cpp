@@ -54,8 +54,8 @@ void DeInitProtocolData()
 
 Protocol::Protocol(const char *aName, const TCHAR *descr)
 {
-	mir_strncpy(name, aName, SIZEOF(name));
-	mir_tstrncpy(description, descr, SIZEOF(description));
+	mir_strncpy(name, aName, _countof(name));
+	mir_tstrncpy(description, descr, _countof(description));
 
 	data_changed = true;
 
@@ -129,14 +129,14 @@ int Protocol::GetStatus()
 
 	if (custom_status == 0) {
 		TCHAR *tmp = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
-		lcopystr(status_name, tmp, SIZEOF(status_name));
+		lcopystr(status_name, tmp, _countof(status_name));
 	}
 	else {
 		TCHAR *p = (tszXStatusName[0] != 0) ? TranslateTS(tszXStatusName) : TranslateT("<no status name>");
 		if (tszXStatusMessage[0])
-			mir_sntprintf(status_name, SIZEOF(status_name), _T("%s: %s"), p, tszXStatusMessage);
+			mir_sntprintf(status_name, _countof(status_name), _T("%s: %s"), p, tszXStatusMessage);
 		else
-			lcopystr(status_name, p, SIZEOF(status_name));
+			lcopystr(status_name, p, _countof(status_name));
 	}
 
 	return status;
@@ -170,7 +170,7 @@ void Protocol::SetStatus(int aStatus)
 		pse[0]->status = aStatus;
 		pse[0]->szName = name;
 
-		GetStatusMsg(aStatus, status_msg, SIZEOF(status_msg));
+		GetStatusMsg(aStatus, status_msg, _countof(status_msg));
 		pse[0]->szMsg = status_msg;
 
 		CallService(MS_CS_SETSTATUSEX, (WPARAM)&pse, 0);
@@ -184,7 +184,7 @@ void Protocol::SetStatus(int aStatus)
 
 		if (CanSetStatusMsg(aStatus)) {
 			TCHAR status_msg[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
-			GetStatusMsg(aStatus, status_msg, SIZEOF(status_msg));
+			GetStatusMsg(aStatus, status_msg, _countof(status_msg));
 			SetStatusMsg(aStatus, status_msg);
 		}
 	}
@@ -226,7 +226,7 @@ void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 
 TCHAR* Protocol::GetStatusMsg()
 {
-	GetStatusMsg(status, status_message, SIZEOF(status_message));
+	GetStatusMsg(status, status_message, _countof(status_message));
 	return status_message;
 }
 
@@ -309,11 +309,11 @@ TCHAR *Protocol::GetNick()
 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 		// CNF_DISPLAY always returns a string type
-		lcopystr(nickname, ci.pszVal, SIZEOF(nickname));
+		lcopystr(nickname, ci.pszVal, _countof(nickname));
 		mir_free(ci.pszVal);
 	}
 	else
-		lcopystr(nickname, _T(""), SIZEOF(nickname));
+		lcopystr(nickname, _T(""), _countof(nickname));
 
 	return nickname;
 }
@@ -365,17 +365,17 @@ bool Protocol::ListeningToEnabled()
 TCHAR *Protocol::GetListeningTo()
 {
 	if (!CanGetListeningTo()) {
-		lcopystr(listening_to, _T(""), SIZEOF(listening_to));
+		lcopystr(listening_to, _T(""), _countof(listening_to));
 		return listening_to;
 	}
 
 	DBVARIANT dbv = { 0 };
 	if (db_get_ts(NULL, name, "ListeningTo", &dbv)) {
-		lcopystr(listening_to, _T(""), SIZEOF(listening_to));
+		lcopystr(listening_to, _T(""), _countof(listening_to));
 		return listening_to;
 	}
 
-	lcopystr(listening_to, dbv.ptszVal, SIZEOF(listening_to));
+	lcopystr(listening_to, dbv.ptszVal, _countof(listening_to));
 	db_free(&dbv);
 	return listening_to;
 }
@@ -485,7 +485,7 @@ void ProtocolArray::SetNicks(const TCHAR *nick)
 	if (nick == NULL || nick[0] == '\0')
 		return;
 
-	mir_tstrncpy(default_nick, nick, SIZEOF(default_nick));
+	mir_tstrncpy(default_nick, nick, _countof(default_nick));
 
 	db_set_ts(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
 
@@ -522,7 +522,7 @@ void ProtocolArray::GetDefaultNick()
 {
 	ptrT tszNick(db_get_tsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
 	if (tszNick)
-		mir_tstrncpy(default_nick, tszNick, SIZEOF(default_nick));
+		mir_tstrncpy(default_nick, tszNick, _countof(default_nick));
 	else
 		default_nick[0] = '\0';
 }
@@ -531,7 +531,7 @@ void ProtocolArray::GetDefaultAvatar()
 {
 	ptrT tszFile(db_get_tsa(0, "ContactPhoto", "File"));
 	if (tszFile)
-		mir_tstrncpy(default_avatar_file, tszFile, SIZEOF(default_avatar_file));
+		mir_tstrncpy(default_avatar_file, tszFile, _countof(default_avatar_file));
 	else
 		default_avatar_file[0] = '\0';
 }
@@ -550,7 +550,7 @@ TCHAR *ProtocolArray::GetDefaultStatusMsg(int status)
 
 	TCHAR *tmp = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)status, 0);
 	if (tmp != NULL) {
-		mir_tstrncpy(default_status_message, tmp, SIZEOF(default_status_message));
+		mir_tstrncpy(default_status_message, tmp, _countof(default_status_message));
 		mir_free(tmp);
 	}
 

@@ -190,7 +190,7 @@ bool CContactCache::updateUIN()
 				mir_free(ci.pszVal);
 				break;
 			case CNFT_DWORD:
-				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%u"), ci.dVal);
+				mir_sntprintf(m_szUIN, _countof(m_szUIN), _T("%u"), ci.dVal);
 				break;
 			}
 		}

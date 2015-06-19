@@ -36,7 +36,7 @@ int m_log(const TCHAR *function, const TCHAR *fmt, ...)
 				 GetCurrentThreadId(), GetTickCount(), function);
 
     va_start(va, fmt);
-    mir_vsntprintf(&text[len], SIZEOF(text) - len, fmt, va);
+    mir_vsntprintf(&text[len], _countof(text) - len, fmt, va);
     va_end(va);
 
 	BOOL writeBOM = (GetFileAttributes(_T("c:\\miranda_listeningto.log.txt")) == INVALID_FILE_ATTRIBUTES);

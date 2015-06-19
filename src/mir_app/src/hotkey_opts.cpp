@@ -127,7 +127,7 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			TCHAR buf[256] = { 0 };
 			data->key = (BYTE)LOWORD(wParam);
 			data->shift = (BYTE)HIWORD(wParam);
-			HotkeyToName(buf, SIZEOF(buf), data->shift, data->key);
+			HotkeyToName(buf, _countof(buf), data->shift, data->key);
 			SetWindowText(hwnd, buf);
 		}
 		return 0;
@@ -169,7 +169,7 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				data->key = key;
 			}
 
-			HotkeyToName(buf, SIZEOF(buf), data->shift, data->key);
+			HotkeyToName(buf, _countof(buf), data->shift, data->key);
 			SetWindowText(hwnd, buf);
 
 			if (bKeyDown && data->key)
@@ -222,7 +222,7 @@ static void sttOptionsSetupItem(HWND hwndList, int idx, THotkeyItem *item)
 
 	lvi.mask = LVIF_TEXT;
 	lvi.iSubItem = COL_KEY;
-	HotkeyToName(buf, SIZEOF(buf), HIBYTE(item->OptHotkey), LOBYTE(item->OptHotkey));
+	HotkeyToName(buf, _countof(buf), HIBYTE(item->OptHotkey), LOBYTE(item->OptHotkey));
 	lvi.pszText = buf;
 	ListView_SetItem(hwndList, &lvi);
 
@@ -269,14 +269,14 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 	lvi.mask = LVIF_TEXT | LVIF_PARAM;
 	lvi.iItem = lParam1;
 	lvi.pszText = title1;
-	lvi.cchTextMax = SIZEOF(title1);
+	lvi.cchTextMax = _countof(title1);
 	if (ListView_GetItem((HWND)lParamSort, &lvi))
 		item1 = (THotkeyItem *)lvi.lParam;
 
 	lvi.mask = LVIF_TEXT | LVIF_PARAM;
 	lvi.iItem = lParam2;
 	lvi.pszText = title2;
-	lvi.cchTextMax = SIZEOF(title2);
+	lvi.cchTextMax = _countof(title2);
 	if (ListView_GetItem((HWND)lParamSort, &lvi))
 		item2 = (THotkeyItem *)lvi.lParam;
 
@@ -523,7 +523,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TCHAR buf[128];
 			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
-			lvi.cchTextMax = SIZEOF(buf);
+			lvi.cchTextMax = _countof(buf);
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
 				char *szSetting;
 
@@ -896,7 +896,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 							lvi.mask = LVIF_TEXT;
 							lvi.iItem = param->iItem;
 							lvi.pszText = buf;
-							lvi.cchTextMax = SIZEOF(buf);
+							lvi.cchTextMax = _countof(buf);
 							ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 
 							if (param->uNewState >> 12 == 1) {
@@ -957,7 +957,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 								lvi.mask = LVIF_TEXT | LVIF_PARAM;
 								lvi.iItem = param->nmcd.dwItemSpec;
 								lvi.pszText = buf;
-								lvi.cchTextMax = SIZEOF(buf);
+								lvi.cchTextMax = _countof(buf);
 								ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 
 								item = (THotkeyItem *)lvi.lParam;
@@ -1014,7 +1014,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TCHAR buf[128];
 			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
-			lvi.cchTextMax = SIZEOF(buf);
+			lvi.cchTextMax = _countof(buf);
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
 				lvi.mask = LVIF_PARAM;
 				lvi.iSubItem = 0;

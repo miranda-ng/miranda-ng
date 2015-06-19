@@ -380,9 +380,9 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 {
 	TCHAR szJid[JABBER_MAX_JID_LEN];
 	TCHAR szNode[ 512 ];
-	if (!GetDlgItemText(hwndDlg, IDC_COMBO_JID, szJid, SIZEOF(szJid)))
+	if (!GetDlgItemText(hwndDlg, IDC_COMBO_JID, szJid, _countof(szJid)))
 		szJid[ 0 ] = 0;
-	if (!GetDlgItemText(hwndDlg, IDC_COMBO_NODE, szNode, SIZEOF(szNode)))
+	if (!GetDlgItemText(hwndDlg, IDC_COMBO_NODE, szNode, _countof(szNode)))
 		szNode[ 0 ] = 0;
 
 	ComboAddRecentString(hwndDlg, IDC_COMBO_JID, "discoWnd_rcJid", szJid);
@@ -504,7 +504,7 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 			iOverlay = SD_OVERLAY_NONE;
 	}
 
-	for (int i=0; i < SIZEOF(sttNodeIcons); i++)
+	for (int i=0; i < _countof(sttNodeIcons); i++)
 	{
 		if (!sttNodeIcons[i].iconIndex && !sttNodeIcons[i].iconName) continue;
 
@@ -674,7 +674,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 
 	TreeList_Create(hwndList);
 	TreeList_AddIcon(hwndList, m_proto->LoadIconEx("main"), 0);
-	for (int i=0; i < SIZEOF(sttNodeIcons); i++)
+	for (int i=0; i < _countof(sttNodeIcons); i++)
 	{
 		bool needDestroy = false;
 		HICON hIcon;
@@ -1201,7 +1201,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	HMENU hMenu = CreatePopupMenu();
 	BOOL lastSeparator = TRUE;
 	bool bFilterItems = !GetAsyncKeyState(VK_CONTROL);
-	for (int i=0; i < SIZEOF(items); i++) {
+	for (int i=0; i < _countof(items); i++) {
 		JABBER_LIST_ITEM *rosterItem = NULL;
 		if (bFilterItems) {
 			if ((items[i].flags & SD_FLG_NONODE) && pNode->GetNode())
@@ -1325,7 +1325,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	case SD_ACT_COPYINFO:
 		{
 			TCHAR buf[8192];
-			pNode->GetTooltipText(buf, SIZEOF(buf));
+			pNode->GetTooltipText(buf, _countof(buf));
 			JabberCopyText(m_pDlgServiceDiscovery->GetHwnd(), buf);
 		}
 		break;

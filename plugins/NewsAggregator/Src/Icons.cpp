@@ -33,19 +33,19 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, _countof(iconList), MODULE);
 }
 
 HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODULE, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(const char *name)
 {
-	for (int i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < _countof(iconList); i++)
 		if ( !mir_strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 

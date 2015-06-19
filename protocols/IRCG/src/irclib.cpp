@@ -234,7 +234,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 
 	CMString m_userID = GetWord(info.sUserID.c_str(), 0);
 	TCHAR szHostName[MAX_PATH];
-	DWORD cbHostName = SIZEOF(szHostName);
+	DWORD cbHostName = _countof(szHostName);
 	GetComputerName(szHostName, &cbHostName);
 	CMString HostName = GetWord(szHostName, 0);
 	if (m_userID.IsEmpty())
@@ -289,7 +289,7 @@ int CIrcProto::NLSend(const TCHAR* fmt, ...)
 	va_start(marker, fmt);
 
 	TCHAR szBuf[1024 * 4];
-	mir_vsntprintf(szBuf, SIZEOF(szBuf), fmt, marker);
+	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	char* buf = mir_t2a_cp(szBuf, getCodepage());
@@ -304,7 +304,7 @@ int CIrcProto::NLSend(const char* fmt, ...)
 	va_start(marker, fmt);
 
 	char szBuf[1024 * 4];
-	int cbLen = mir_vsnprintf(szBuf, SIZEOF(szBuf), fmt, marker);
+	int cbLen = mir_vsnprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	return NLSend((unsigned char*)szBuf, cbLen);

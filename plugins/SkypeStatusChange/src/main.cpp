@@ -100,7 +100,7 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 
 	if (!g_Options.IsProtocolExcluded(pAckData->szModule)) {
 		int nStatus = CallProtoService(pAckData->szModule,PS_GETSTATUS,0,0);
-		for(size_t i = 0; i < SIZEOF(g_aStatusCode); ++i) {
+		for(size_t i = 0; i < _countof(g_aStatusCode); ++i) {
 			const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[i];
 			if (ms.m_nMirandaStatus == nStatus) {
 				int nPrevStatus;
@@ -171,7 +171,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						mir_cslock guard(g_csStatusInfo);
 						si = g_CurrStatusInfo;
 					}
-					if (INVALID_INDEX != si.StatusIndex() && si.StatusIndex() < SIZEOF(g_aStatusCode)) {
+					if (INVALID_INDEX != si.StatusIndex() && si.StatusIndex() < _countof(g_aStatusCode)) {
 						const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[si.StatusIndex()];
 						HWND wndSkypeAPIWindow = reinterpret_cast<HWND>(wp);
 
@@ -179,7 +179,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						char szSkypeCmd[BUFFER_SIZE];
 						const char szSkypeCmdSetStatus[] = "SET USERSTATUS ";
 						::strncpy_s(szSkypeCmd,szSkypeCmdSetStatus,sizeof(szSkypeCmdSetStatus)/sizeof(szSkypeCmdSetStatus[0]));
-						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
+						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, _countof(szSkypeCmd) - mir_strlen(szSkypeCmd));
 						DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 
 						COPYDATASTRUCT oCopyData;
@@ -201,7 +201,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 								const char szSkypeCmdSetStatusMsg[] = "SET PROFILE MOOD_TEXT ";
 								::strncpy_s(szSkypeCmd,szSkypeCmdSetStatusMsg,sizeof(szSkypeCmdSetStatusMsg)/sizeof(szSkypeCmdSetStatusMsg[0]));
-								::strncat_s(szSkypeCmd, pMsg, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
+								::strncat_s(szSkypeCmd, pMsg, _countof(szSkypeCmd) - mir_strlen(szSkypeCmd));
 										
 								DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 

@@ -393,7 +393,7 @@ public:
 		tvis.hParent = NULL;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-		for (int i = 0; i < SIZEOF(nameOrderDescr); i++) {
+		for (int i = 0; i < _countof(nameOrderDescr); i++) {
 			tvis.item.lParam = nameOrder[i];
 			tvis.item.pszText = TranslateTS(nameOrderDescr[nameOrder[i]]);
 			m_nameOrder.InsertItem(&tvis);
@@ -411,14 +411,14 @@ public:
 			nameOrder[i++] = (BYTE)tvi.lParam;
 			tvi.hItem = m_nameOrder.GetNextSibling(tvi.hItem);
 		}
-		db_set_blob(NULL, "Contact", "NameOrder", nameOrder, SIZEOF(nameOrderDescr));
+		db_set_blob(NULL, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
 		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)INVALID_HANDLE_VALUE, 0);
 	}
 
 	void OnBeginDrag(CCtrlTreeView::TEventInfo *evt)
 	{
 		LPNMTREEVIEW pNotify = evt->nmtv;
-		if (pNotify->itemNew.lParam == 0 || pNotify->itemNew.lParam == SIZEOF(nameOrderDescr) - 1)
+		if (pNotify->itemNew.lParam == 0 || pNotify->itemNew.lParam == _countof(nameOrderDescr) - 1)
 			pNotify->hdr.code = 0; // deny dragging
 	}
 };

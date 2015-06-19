@@ -166,7 +166,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 					memcpy(tmp+len,_T("[/img][/url]"),13*sizeof(TCHAR)); len+=12;
 				}
 			}else
-				len=GetDlgItemText(hwndDlg,edtID,tmp,SIZEOF(tmp));
+				len=GetDlgItemText(hwndDlg,edtID,tmp,_countof(tmp));
 			int retries=3;
 			do{
 				if(!OpenClipboard(hwndDlg)){
@@ -382,12 +382,12 @@ void CSend::DB_EventAdd(WORD EventType)
 void CSend::Error(LPCTSTR pszFormat, ...) {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
-	mir_sntprintf(tszMsg, SIZEOF(tszMsg),_T("%s - %s") ,_T(SZ_SENDSS), TranslateT("Error"));
+	mir_sntprintf(tszMsg, _countof(tszMsg),_T("%s - %s") ,_T(SZ_SENDSS), TranslateT("Error"));
 	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsntprintf(tszMsg, SIZEOF(tszMsg), TranslateTS(pszFormat), vl);
+	mir_vsntprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 	mir_free(m_ErrorMsg), m_ErrorMsg = mir_tstrdup(tszMsg);
 

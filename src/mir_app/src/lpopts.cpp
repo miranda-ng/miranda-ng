@@ -36,18 +36,18 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	if (!(pack->flags & LPF_NOLOCALE)) {
 		TCHAR szLocaleName[256], szLanguageName[128], szContryName[128];
 
-		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHLANGUAGENAME : LOCALE_SENGLANGUAGE, szLanguageName, SIZEOF(szLanguageName)))
+		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHLANGUAGENAME : LOCALE_SENGLANGUAGE, szLanguageName, _countof(szLanguageName)))
 			szLanguageName[0] = _T('\0');
-		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHCOUNTRYNAME : LOCALE_SENGCOUNTRY, szContryName, SIZEOF(szContryName)))
+		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHCOUNTRYNAME : LOCALE_SENGCOUNTRY, szContryName, _countof(szContryName)))
 			szContryName[0] = _T('\0');
 		
 		/* add some note if its incompatible */
 		if (szLanguageName[0] && szContryName[0]) {
-			mir_sntprintf(szLocaleName, SIZEOF(szLocaleName), _T("%s (%s)"), TranslateTS(szLanguageName), TranslateTS(szContryName));
+			mir_sntprintf(szLocaleName, _countof(szLocaleName), _T("%s (%s)"), TranslateTS(szLanguageName), TranslateTS(szContryName));
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				TCHAR *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
-				szLocaleName[SIZEOF(szLocaleName) - mir_tstrlen(pszIncompat) - 1] = 0;
+				szLocaleName[_countof(szLocaleName) - mir_tstrlen(pszIncompat) - 1] = 0;
 				mir_tstrcat(mir_tstrcat(szLocaleName, _T(" ")), pszIncompat);
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
@@ -60,7 +60,7 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SYSTEMTIME stFileDate;
 	TCHAR szDate[128]; szDate[0] = 0;
 	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
-		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, SIZEOF(szDate));
+		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, _countof(szDate));
 	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
 	
 	/* general */
@@ -77,7 +77,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
 
 	/* insert */
 	TCHAR tszName[512];
-	mir_sntprintf(tszName, SIZEOF(tszName), _T("%s [%s]"),
+	mir_sntprintf(tszName, _countof(tszName), _T("%s [%s]"),
 		TranslateTS(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
 	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				char buf[512];
 				mir_strcpy(buf, "mailto:");
-				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], SIZEOF(buf) - 7))
+				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], _countof(buf) - 7))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM)buf);
 			}
 			break;

@@ -197,7 +197,7 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = SIZEOF(Items);
+		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if ( gcmi->Type == MENU_ON_NICKLIST ) 
@@ -211,7 +211,7 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ _T(""), 100, MENU_SEPARATOR, FALSE },
 				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 		else {
@@ -219,7 +219,7 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}	
 		mir_free(sn);

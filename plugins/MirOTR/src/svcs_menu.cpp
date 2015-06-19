@@ -22,7 +22,7 @@ int StartOTR(MCONTACT hContact) {
 	TCHAR* nick=ProtoGetNickname(proto);
 	if(nick){
 		TCHAR msg[1024];
-		TCHAR* msgend = msg+SIZEOF(msg)-1;
+		TCHAR* msgend = msg+_countof(msg)-1;
 		TCHAR* msgoff = msg;
 		for(const char* c=MIROTR_PROTO_HELLO; *c; *msgoff++=*c++);
 		*msgoff++ = '\n';

@@ -154,7 +154,7 @@ static TCHAR* parseDBProfileName(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR name[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILENAMET, SIZEOF(name), (LPARAM)name))
+	if (CallService(MS_DB_GETPROFILENAMET, _countof(name), (LPARAM)name))
 		return NULL;
 
 	return mir_tstrdup(name);
@@ -166,7 +166,7 @@ static TCHAR* parseDBProfilePath(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR path[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILEPATHT, SIZEOF(path), (LPARAM)path))
+	if (CallService(MS_DB_GETPROFILEPATHT, _countof(path), (LPARAM)path))
 		return NULL;
 
 	return mir_tstrdup(path);
@@ -390,7 +390,7 @@ static TCHAR* parseMirandaPath(ARGUMENTSINFO *ai)
 
 	ai->flags |= AIF_DONTPARSE;
 	TCHAR path[MAX_PATH];
-	if (GetModuleFileName(NULL, path, SIZEOF(path)) == 0)
+	if (GetModuleFileName(NULL, path, _countof(path)) == 0)
 		return NULL;
 
 	return mir_tstrdup(path);
@@ -712,7 +712,7 @@ static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR ret[128];
-	return mir_tstrdup(TimeZone_ToStringT(time(NULL), _T("d s"), ret, SIZEOF(ret)));
+	return mir_tstrdup(TimeZone_ToStringT(time(NULL), _T("d s"), ret, _countof(ret)));
 }
 
 static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
@@ -723,7 +723,7 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR corevar[MAX_PATH];
-	mir_sntprintf(corevar, SIZEOF(corevar), _T("%%%s%%"), ai->targv[0]);
+	mir_sntprintf(corevar, _countof(corevar), _T("%%%s%%"), ai->targv[0]);
 	return Utils_ReplaceVarsT(corevar);
 }
 

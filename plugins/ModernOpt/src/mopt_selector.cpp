@@ -85,7 +85,7 @@ struct TSkinListItem
 		if (TCHAR *p = _tcsrchr(title, _T('.'))) *p = 0;
 
 		TCHAR curPath[MAX_PATH];
-		GetCurrentDirectory(SIZEOF(curPath), curPath);
+		GetCurrentDirectory(_countof(curPath), curPath);
 
 		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
 		PathToRelativeT(curPath, path);
@@ -130,7 +130,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 {
 	if (start) {
 		static TCHAR mirPath[MAX_PATH];
-		GetModuleFileName(NULL, mirPath, SIZEOF(mirPath));
+		GetModuleFileName(NULL, mirPath, _countof(mirPath));
 		if (TCHAR *p = _tcsrchr(mirPath, _T('\\'))) *p = 0;
 		SetCurrentDirectory(mirPath);
 		SendMessage(hwndList, LB_RESETCONTENT, 0, 0);

@@ -1517,7 +1517,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			if ((BYTE)*pszMsg == 0xFE) {
 				*pszMsg = '\0';
 				pszMsgField[nMsgFields++] = pszMsg + 1;
-				if (nMsgFields >= SIZEOF(pszMsgField))
+				if (nMsgFields >= _countof(pszMsgField))
 					break;
 			}
 		}
@@ -2605,7 +2605,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, size_t wLen)
 			char szMsg[MAX_PATH];
 			char *nick = NickFromHandleUtf(hContact);
 
-			mir_snprintf(szMsg, SIZEOF(szMsg), ICQTranslateUtfStatic(LPGEN("Contact \"%s\" has closed the message window."), szFormat, MAX_PATH), nick);
+			mir_snprintf(szMsg, _countof(szMsg), ICQTranslateUtfStatic(LPGEN("Contact \"%s\" has closed the message window."), szFormat, MAX_PATH), nick);
 			ShowPopupMsg(hContact, ICQTranslateUtfStatic(LPGEN("ICQ Note"), szFormat, MAX_PATH), szMsg, LOG_NOTE);
 			SAFE_FREE((void**)&nick);
 

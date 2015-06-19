@@ -487,12 +487,12 @@ static int ProfileList_AddItemlistFromDB(
 
 	for (i = 0, lvi.iItem = iItem; ; i++) {
 		// read the setting from db
-		mir_snprintf(pszSetting, SIZEOF(pszSetting), szValFormat, i);
+		mir_snprintf(pszSetting, _countof(pszSetting), szValFormat, i);
 		if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbvVal))
 			break;
 		if (dbvVal.type != DBVT_TCHAR)
 			continue;
-		mir_snprintf(pszSetting, SIZEOF(pszSetting), szCatFormat, i);
+		mir_snprintf(pszSetting, _countof(pszSetting), szCatFormat, i);
 		DB::Setting::GetAString(hContact, pszModule, pszSetting, &dbvCat);
 		// create the itemobject
 		if (!(pItem = (LPLCITEM)mir_alloc(sizeof(LCITEM)))) {
@@ -913,7 +913,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 				if (!PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd)))
 					break;
-				GetWindowText(pList->labelEdit.hEdit, szEdit, SIZEOF(szEdit));
+				GetWindowText(pList->labelEdit.hEdit, szEdit, _countof(szEdit));
 
 				// need to create the dropdown list?
 				if (pList->labelEdit.dropDown.hDrop == NULL) {
@@ -1193,36 +1193,36 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						*szGroup = 0;
 						lvi.mask = LVIF_TEXT | LVIF_PARAM;
 						lvi.pszText = szGroup;
-						lvi.cchTextMax = SIZEOF(szGroup);
+						lvi.cchTextMax = _countof(szGroup);
 
 						for (iItem = lvi.iItem = lvi.iSubItem = 0; ListView_GetItem(hList, &lvi); lvi.iItem++) {
 							if (!PtrIsValid(pItem = (LPLCITEM)lvi.lParam)) {
 								// delete reluctant items
-								if (iFmt < SIZEOF(pFmt)) {
+								if (iFmt < _countof(pFmt)) {
 									DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szCatFmt, iItem);
 									DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szValFmt, iItem);
 								}
 								// find information about the group
-								for (iFmt = 0; iFmt < SIZEOF(pFmt); iFmt++) {
+								for (iFmt = 0; iFmt < _countof(pFmt); iFmt++) {
 									if (!mir_tstrcmp(szGroup, pFmt[iFmt].szGroup))
 										break;
 								}
 								// indicate, no group was found. should not happen!!
-								if (iFmt == SIZEOF(pFmt)) {
+								if (iFmt == _countof(pFmt)) {
 									*szGroup = 0;
 									iFmt = -1;
 								}
 								iItem = 0;
 							}
-							else if (iFmt >= 0 && iFmt < SIZEOF(pFmt)) {
+							else if (iFmt >= 0 && iFmt < _countof(pFmt)) {
 								// save value
 								if (!pItem->pszText[1] || !*pItem->pszText[1])
 									continue;
 								if (!(pItem->wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA))) {
-									mir_snprintf(pszSetting, SIZEOF(pszSetting), pFmt[iFmt].szValFmt, iItem);
+									mir_snprintf(pszSetting, _countof(pszSetting), pFmt[iFmt].szValFmt, iItem);
 									db_set_ts(hContact, pszModule, pszSetting, pItem->pszText[1]);
 									// save category
-									mir_snprintf(pszSetting, SIZEOF(pszSetting), pFmt[iFmt].szCatFmt, iItem);
+									mir_snprintf(pszSetting, _countof(pszSetting), pFmt[iFmt].szCatFmt, iItem);
 									if (pItem->idstrList && pItem->iListItem > 0 && pItem->iListItem < pItem->idstrListCount)
 										db_set_s(hContact, pszModule, pszSetting, (LPSTR)pItem->idstrList[pItem->iListItem].pszText);
 									else if (pItem->pszText[0] && *pItem->pszText[0])
@@ -1239,7 +1239,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 							}
 						}
 						// delete reluctant items
-						if (iFmt >= 0 && iFmt < SIZEOF(pFmt)) {
+						if (iFmt >= 0 && iFmt < _countof(pFmt)) {
 							DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szCatFmt, iItem);
 							DB::Setting::DeleteArray(hContact, pszModule, pFmt[iFmt].szValFmt, iItem);
 						}

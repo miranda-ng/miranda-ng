@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				CopySettingsStruct(&settings, &tempSettings[iUser]->settings);
 				flags = tempSettings[iUser]->flags;
 			}
-			ShowMultipleControls(hwndDlg, outgoingConnectionsControls, SIZEOF(outgoingConnectionsControls), flags&NUF_OUTGOING ? SW_SHOW : SW_HIDE);
+			ShowMultipleControls(hwndDlg, outgoingConnectionsControls, _countof(outgoingConnectionsControls), flags&NUF_OUTGOING ? SW_SHOW : SW_HIDE);
 			CheckDlgButton(hwndDlg, IDC_USEPROXY, settings.useProxy ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_RESETCONTENT, 0, 0);
 			if (settings.proxyType == 0) AddProxyTypeItem(hwndDlg, 0, settings.proxyType);
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckDlgButton(hwndDlg, IDC_PROXYDNS, settings.dnsThroughProxy ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_VALIDATESSL, settings.validateSSL ? BST_CHECKED : BST_UNCHECKED);
 
-			ShowMultipleControls(hwndDlg, incomingConnectionsControls, SIZEOF(incomingConnectionsControls), flags&NUF_INCOMING ? SW_SHOW : SW_HIDE);
+			ShowMultipleControls(hwndDlg, incomingConnectionsControls, _countof(incomingConnectionsControls), flags&NUF_INCOMING ? SW_SHOW : SW_HIDE);
 			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTS, settings.specifyIncomingPorts ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemTextA(hwndDlg, IDC_PORTSRANGE, settings.szIncomingPorts ? settings.szIncomingPorts : "");
 
@@ -341,11 +341,11 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TCHAR str[80];
 		{
 			int selectedProxyType = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETCURSEL, 0, 0), 0);
-			mir_sntprintf(str, SIZEOF(str), TranslateT("(often %d)"), oftenProxyPorts[selectedProxyType]);
+			mir_sntprintf(str, _countof(str), TranslateT("(often %d)"), oftenProxyPorts[selectedProxyType]);
 			SetDlgItemText(hwndDlg, IDC_STOFTENPORT, str);
 			if (IsDlgButtonChecked(hwndDlg, IDC_USEPROXY) != BST_UNCHECKED) {
 				int enableAuth = 0, enableUser = 0, enablePass = 0, enableServer = 1;
-				EnableMultipleControls(hwndDlg, useProxyControls, SIZEOF(useProxyControls), TRUE);
+				EnableMultipleControls(hwndDlg, useProxyControls, _countof(useProxyControls), TRUE);
 				if (selectedProxyType == 0) {
 					for (int i = 0; i < tempSettings.getCount(); i++) {
 						NetlibTempSettings *p = tempSettings[i];
@@ -378,9 +378,9 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYHOST), enableServer);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROXYPORT), enableServer);
 			}
-			else EnableMultipleControls(hwndDlg, useProxyControls, SIZEOF(useProxyControls), FALSE);
-			EnableMultipleControls(hwndDlg, specifyPortsControls, SIZEOF(specifyPortsControls), IsDlgButtonChecked(hwndDlg, IDC_SPECIFYPORTS) != BST_UNCHECKED);
-			EnableMultipleControls(hwndDlg, specifyOPortsControls, SIZEOF(specifyOPortsControls), IsDlgButtonChecked(hwndDlg, IDC_SPECIFYPORTSO) != BST_UNCHECKED);
+			else EnableMultipleControls(hwndDlg, useProxyControls, _countof(useProxyControls), FALSE);
+			EnableMultipleControls(hwndDlg, specifyPortsControls, _countof(specifyPortsControls), IsDlgButtonChecked(hwndDlg, IDC_SPECIFYPORTS) != BST_UNCHECKED);
+			EnableMultipleControls(hwndDlg, specifyOPortsControls, _countof(specifyOPortsControls), IsDlgButtonChecked(hwndDlg, IDC_SPECIFYPORTSO) != BST_UNCHECKED);
 		}
 		break;
 

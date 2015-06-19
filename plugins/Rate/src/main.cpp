@@ -124,7 +124,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	// IcoLib support
-	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, _countof(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");

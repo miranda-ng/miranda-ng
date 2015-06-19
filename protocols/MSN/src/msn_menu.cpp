@@ -93,7 +93,7 @@ INT_PTR CMsnProto::MsnViewProfile(WPARAM hContact, LPARAM)
 	}
 
 	char tUrl[256];
-	mir_snprintf(tUrl, SIZEOF(tUrl), "http://cid-%I64X.profiles.live.com", _atoi64(cid));
+	mir_snprintf(tUrl, _countof(tUrl), "http://cid-%I64X.profiles.live.com", _atoi64(cid));
 	MsnInvokeMyURL(false, tUrl);
 	return 0;
 }
@@ -181,7 +181,7 @@ INT_PTR CMsnProto::MsnSendNetMeeting(WPARAM wParam, LPARAM)
 
 	char msg[1024];
 
-	mir_snprintf(msg, SIZEOF(msg),
+	mir_snprintf(msg, _countof(msg),
 		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		"Application-Name: NetMeeting\r\n"
 		"Application-GUID: {44BBA842-CC51-11CF-AAFA-00AA00B6015C}\r\n"
@@ -232,7 +232,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 			CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (proto->msnLoggedIn) {
 				TCHAR str[130];
-				GetDlgItemText(hwndDlg, IDC_NICKNAME, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_NICKNAME, str, _countof(str));
 				proto->MSN_SendNickname(str);
 			}
 		}
@@ -349,7 +349,7 @@ void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 	if (!bEnable)
 		mi.flags |= CMIF_GRAYED;
 
-	for (int i = 0; i < SIZEOF(menuItemsMain); i++)
+	for (int i = 0; i < _countof(menuItemsMain); i++)
 		if (menuItemsMain[i] != NULL)
 			Menu_ModifyItem(menuItemsMain[i], &mi);
 

@@ -263,7 +263,7 @@ typedef struct
 int TreeReadEnum(const char *szSetting, LPARAM lParam)
 {
 	sTreeReadEnumData *TreeReadEnumData = (sTreeReadEnumData*)lParam;
-	int Len = TreeReadEnumData->TreeCtrl->sDBSetting.GetLen() + SIZEOF(TREEITEM_DBSTR_TITLE) - 1;
+	int Len = TreeReadEnumData->TreeCtrl->sDBSetting.GetLen() + _countof(TREEITEM_DBSTR_TITLE) - 1;
 	if (!strncmp(szSetting, TreeReadEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_TITLE, Len) && isdigit(szSetting[Len])) {
 		int ID = atol(szSetting + Len);
 		short ParentID = (TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) ? 0 : db_get_w(NULL, *TreeReadEnumData->sModule,
@@ -648,7 +648,7 @@ typedef struct
 int ListReadEnum(const char *szSetting, LPARAM lParam)
 {
 	sListReadEnumData *ListReadEnumData = (sListReadEnumData*)lParam;
-	int Len = ListReadEnumData->sDBSettingPrefix->GetLen() + ListReadEnumData->ListCtrl->sDBSetting.GetLen() + SIZEOF(LISTITEM_DBSTR_TEXT) - 1;
+	int Len = ListReadEnumData->sDBSettingPrefix->GetLen() + ListReadEnumData->ListCtrl->sDBSetting.GetLen() + _countof(LISTITEM_DBSTR_TEXT) - 1;
 	if (!strncmp(szSetting, *ListReadEnumData->sDBSettingPrefix + ListReadEnumData->ListCtrl->sDBSetting + LISTITEM_DBSTR_TEXT, Len) && isdigit(szSetting[Len])) {
 		int ID = atol(szSetting + Len);
 		ListReadEnumData->ListCtrl->Value.SetAtGrow(ID).Text = db_get_s(NULL, *ListReadEnumData->sModule, *ListReadEnumData->sDBSettingPrefix + szSetting, _T(""));

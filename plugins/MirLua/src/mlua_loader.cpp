@@ -35,9 +35,9 @@ void CLuaLoader::LoadScripts()
 {
 	TCHAR scriptDir[MAX_PATH];
 
-	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, SIZEOF(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	LoadScripts(scriptDir);
 
-	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, SIZEOF(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	LoadScripts(scriptDir);
 }

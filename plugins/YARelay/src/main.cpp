@@ -241,7 +241,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	TCHAR *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
 	if (szForwardTemplate){
-		_tcsncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
+		_tcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
 	else _tcsncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);

@@ -80,11 +80,11 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
 	}
 
 	TCHAR szMsgBuf2[512];
-	mir_sntprintf(szMsgBuf2, SIZEOF(szMsgBuf2), _T("SSL connection failure (%x %u): %s"), scRet, line, szMsgBuf);
+	mir_sntprintf(szMsgBuf2, _countof(szMsgBuf2), _T("SSL connection failure (%x %u): %s"), scRet, line, szMsgBuf);
 
 	char* szMsg = Utf8EncodeT(szMsgBuf2);
 	Netlib_Logf(NULL, szMsg);
@@ -189,7 +189,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	ChainPara.cbSize = sizeof(ChainPara);
 	ChainPara.RequestedUsage.dwType = USAGE_MATCH_TYPE_OR;
-	ChainPara.RequestedUsage.Usage.cUsageIdentifier = SIZEOF(rgszUsages);
+	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 
 	if (!CertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, &ChainPara, 0, NULL, &pChainContext)) {
@@ -300,7 +300,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		InBuffers[1].BufferType = SECBUFFER_EMPTY;
 
 		SecBufferDesc InBuffer;
-		InBuffer.cBuffers = SIZEOF(InBuffers);
+		InBuffer.cBuffers = _countof(InBuffers);
 		InBuffer.pBuffers = InBuffers;
 		InBuffer.ulVersion = SECBUFFER_VERSION;
 
@@ -314,7 +314,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		OutBuffers[0].cbBuffer = 0;
 
 		SecBufferDesc OutBuffer;
-		OutBuffer.cBuffers = SIZEOF(OutBuffers);
+		OutBuffer.cBuffers = _countof(OutBuffers);
 		OutBuffer.pBuffers = OutBuffers;
 		OutBuffer.ulVersion = SECBUFFER_VERSION;
 
@@ -412,7 +412,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	OutBuffers[0].cbBuffer = 0;
 
 	SecBufferDesc OutBuffer;
-	OutBuffer.cBuffers = SIZEOF(OutBuffers);
+	OutBuffer.cBuffers = _countof(OutBuffers);
 	OutBuffer.pBuffers = OutBuffers;
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
@@ -479,7 +479,7 @@ void NetlibSslShutdown(SslHandle *ssl)
 	OutBuffers[0].cbBuffer = sizeof(dwType);
 
 	SecBufferDesc OutBuffer;
-	OutBuffer.cBuffers = SIZEOF(OutBuffers);
+	OutBuffer.cBuffers = _countof(OutBuffers);
 	OutBuffer.pBuffers = OutBuffers;
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
@@ -606,7 +606,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 		SecBufferDesc Message;
 		Message.ulVersion = SECBUFFER_VERSION;
-		Message.cBuffers = SIZEOF(Buffers);
+		Message.cBuffers = _countof(Buffers);
 		Message.pBuffers = Buffers;
 
 		if (g_pSSPI->DecryptMessage != NULL && g_pSSPI->DecryptMessage != PVOID(0x80000000))
@@ -629,7 +629,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		// Locate data and (optional) extra buffers.
 		SecBuffer *pDataBuffer = NULL;
 		SecBuffer *pExtraBuffer = NULL;
-		for (int i = 1; i < SIZEOF(Buffers); i++) {
+		for (int i = 1; i < _countof(Buffers); i++) {
 			if (pDataBuffer == NULL && Buffers[i].BufferType == SECBUFFER_DATA)
 				pDataBuffer = &Buffers[i];
 
@@ -727,7 +727,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 
 		SecBufferDesc Message;
 		Message.ulVersion = SECBUFFER_VERSION;
-		Message.cBuffers = SIZEOF(Buffers);
+		Message.cBuffers = _countof(Buffers);
 		Message.pBuffers = Buffers;
 
 		if (g_pSSPI->EncryptMessage != NULL)

@@ -335,8 +335,8 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 
 	if (m_options.ShowOSVersion) {
 		TCHAR os[256] = { 0 };
-		if (!GetOSDisplayString(os, SIZEOF(os)))
-			mir_tstrncpy(os, _T("Microsoft Windows"), SIZEOF(os));
+		if (!GetOSDisplayString(os, _countof(os)))
+			mir_tstrncpy(os, _T("Microsoft Windows"), _countof(os));
 		query << XCHILD(_T("os"), os);
 	}
 
@@ -393,10 +393,10 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	TCHAR stime[100];
 	TCHAR szTZ[10];
 
-	TimeZone_PrintDateTime(UTC_TIME_HANDLE, _T("I"), stime, SIZEOF(stime), 0);
+	TimeZone_PrintDateTime(UTC_TIME_HANDLE, _T("I"), stime, _countof(stime), 0);
 
 	int nGmtOffset = GetGMTOffset();
-	mir_sntprintf(szTZ, SIZEOF(szTZ), _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
+	mir_sntprintf(szTZ, _countof(szTZ), _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
 
 	XmlNodeIq iq(_T("result"), pInfo);
 	HXML timeNode = iq << XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME);
@@ -417,7 +417,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	_tzset();
 	time(&ltime);
 	gmt = gmtime(&ltime);
-	mir_sntprintf(stime, SIZEOF(stime), _T("%.4i%.2i%.2iT%.2i:%.2i:%.2i"),
+	mir_sntprintf(stime, _countof(stime), _T("%.4i%.2i%.2iT%.2i:%.2i:%.2i"),
 		gmt->tm_year + 1900, gmt->tm_mon + 1,
 		gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 	dtime = _tctime(&ltime);
@@ -453,7 +453,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	}
 
 	TCHAR szFileName[MAX_PATH];
-	GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName));
+	GetAvatarFileName(NULL, szFileName, _countof(szFileName));
 
 	FILE* in = _tfopen(szFileName, _T("rb"));
 	if (in == NULL)
@@ -641,7 +641,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		TCHAR *p = str + 7, *q;
 		if ((q = _tcschr(p, '/')) != NULL) {
 			TCHAR text[1024];
-			if (q - p < SIZEOF(text)) {
+			if (q - p < _countof(text)) {
 				_tcsncpy_s(text, p, q - p);
 				text[q - p] = '\0';
 				if ((p = _tcschr(text, ':')) != NULL) {

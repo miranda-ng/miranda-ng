@@ -43,7 +43,7 @@ IGNOREITEMS ii[] = {
 	{ LPGENT("Typing Notify"), IGNOREEVENT_TYPINGNOTIFY, SKINICON_OTHER_TYPING }
 };
 
-int nII = SIZEOF(ii);
+int nII = _countof(ii);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -90,7 +90,7 @@ INT_PTR isIgnored(MCONTACT hContact, int type)
 		if (isIgnored(hContact, ii[i].type))
 			ii[i].filtered ? filtered++ : all++;
 
-	return (all + filtered == SIZEOF(ii) - 1) ? 1 : (all > 0 ? -1 : 0);
+	return (all + filtered == _countof(ii) - 1) ? 1 : (all > 0 ? -1 : 0);
 }
 
 void applyExtraImage(MCONTACT hContact)
@@ -121,7 +121,7 @@ VOID fill_filter(void)
 
 	currentFilter = bUseMirandaSettings ? db_get_dw(NULL, "Ignore", "Default1", 0) : db_get_dw(NULL, MODULENAME, "Filter", 0x8);
 
-	for (int i = 0; i < SIZEOF(ii); i++) {
+	for (int i = 0; i < _countof(ii); i++) {
 		if (checkState((ii[i].type)))
 			ii[i].filtered = true;
 		else
@@ -167,7 +167,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	//IcoLib support
-	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, _countof(iconList));
 
 	hExtraIcon = ExtraIcon_Register("ignore", LPGEN("Ignore State"), "ignore_full");
 

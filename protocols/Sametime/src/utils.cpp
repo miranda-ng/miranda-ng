@@ -40,8 +40,8 @@ void CSametimeProto::RegisterPopups()
 	puc.ptszDescription = szDescr;
 	puc.pszName = szName;
 
-	mir_snprintf(szName, SIZEOF(szName), "%s_%s", m_szModuleName, "Notify");
-	mir_sntprintf(szDescr, SIZEOF(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Notification"));
+	mir_snprintf(szName, _countof(szName), "%s_%s", m_szModuleName, "Notify");
+	mir_sntprintf(szDescr, _countof(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Notification"));
 	puc.hIcon = CopyIcon(LoadIconEx("notify", FALSE));
 	ReleaseIconEx("notify", FALSE);
 	puc.iSeconds = 8;
@@ -49,8 +49,8 @@ void CSametimeProto::RegisterPopups()
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	hPopupNotify = Popup_RegisterClass(&puc);
 
-	mir_snprintf(szName, SIZEOF(szName), "%s_%s", m_szModuleName, "Error");
-	mir_sntprintf(szDescr, SIZEOF(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Error"));
+	mir_snprintf(szName, _countof(szName), "%s_%s", m_szModuleName, "Error");
+	mir_sntprintf(szDescr, _countof(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Error"));
 	puc.hIcon = CopyIcon(LoadIconEx("error", FALSE));
 	ReleaseIconEx("error", FALSE);
 	puc.iSeconds = 10;
@@ -89,9 +89,9 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		ppd.ptszTitle = puData->title;
 		ppd.ptszText = puData->text;
 		if (puData->flag == SAMETIME_POPUP_ERROR)
-			mir_snprintf(szName, SIZEOF(szName), "%s_%s", proto->m_szModuleName, "Error");
+			mir_snprintf(szName, _countof(szName), "%s_%s", proto->m_szModuleName, "Error");
 		else
-			mir_snprintf(szName, SIZEOF(szName), "%s_%s", proto->m_szModuleName, "Notify");
+			mir_snprintf(szName, _countof(szName), "%s_%s", proto->m_szModuleName, "Notify");
 		ppd.pszClassName = szName;
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}

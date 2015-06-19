@@ -68,7 +68,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 		if(HIWORD(wParam)==BN_CLICKED && LOWORD(wParam)==ID_btnExplore){ /// local file tab
 			OPENFILENAME ofn={sizeof(OPENFILENAME)};
 			TCHAR filename[MAX_PATH];
-			GetDlgItemText(hDlg,ID_edtSize,filename,SIZEOF(filename));
+			GetDlgItemText(hDlg,ID_edtSize,filename,_countof(filename));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hDlg;
 			ofn.lpstrFilter = _T("Images\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff\0");
@@ -235,7 +235,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	if(m_MonitorCount >1) {
 		TCHAR tszTemp[120];
 		for(size_t mon=0; mon<m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
-			mir_sntprintf(tszTemp, SIZEOF(tszTemp),_T("%Iu. %s%s"),
+			mir_sntprintf(tszTemp, _countof(tszTemp),_T("%Iu. %s%s"),
 				mon+1, TranslateT("Monitor"),
 				(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
 				);
@@ -775,7 +775,7 @@ void TfrmMain::btnCaptureClick() {
 	if(m_opt_tabCapture==1) m_hTargetWindow=GetDesktopWindow();
 	else if(m_opt_tabCapture==2){
 		TCHAR filename[MAX_PATH];
-		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, SIZEOF(filename));
+		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, _countof(filename));
 		FILE* fp=_wfopen(filename,_T("rb"));
 		if(!fp){
 			TCHAR *err = TranslateT("Select a file");
@@ -910,8 +910,8 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	_itot(rect.right - rect.left, B, 10);
 //	_itot_s(rect.bottom - rect.top, H, 16, 10);
 	_itot(rect.bottom - rect.top, H, 10);
-	mir_tstrncat(B, _T("x"), SIZEOF(B) - mir_tstrlen(B));
-	mir_tstrncat(B, H, SIZEOF(B) - mir_tstrlen(B));
+	mir_tstrncat(B, _T("x"), _countof(B) - mir_tstrlen(B));
+	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -921,8 +921,8 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl) {
 	_itot(ABS(rect.right - rect.left), B, 10);
 //	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itot(ABS(rect.bottom - rect.top), H, 10);
-	mir_tstrncat(B, _T("x"), SIZEOF(B) - mir_tstrlen(B));
-	mir_tstrncat(B, H, SIZEOF(B) - mir_tstrlen(B));
+	mir_tstrncat(B, _T("x"), _countof(B) - mir_tstrlen(B));
+	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -953,7 +953,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		mir_tstradd(pszFileDesc, TranslateT("for Client area "));
 	}
 	mir_tstradd(pszFileDesc, TranslateT("of \""));
-	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, SIZEOF(winText));
+	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
 	mir_tstradd(pszFileDesc, winText);
 	if(m_opt_tabCapture==1)
 		mir_tstradd(pszFileDesc, _T("\""));
@@ -1105,7 +1105,7 @@ void TfrmMain::FormClose() {
 	bool bCanDelete=m_opt_btnDeleteAfterSend;
 	if(m_opt_tabCapture==2){ /// existing file
 		TCHAR description[1024];
-		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, SIZEOF(description));
+		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, _countof(description));
 		if(!IsWindowEnabled(GetDlgItem(m_hWnd,ID_chkDesc)) || !m_opt_btnDesc)
 			*description='\0';
 		if(m_cSend) {

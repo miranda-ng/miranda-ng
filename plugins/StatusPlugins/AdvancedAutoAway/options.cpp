@@ -183,7 +183,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
-				for (int i = 0; i < SIZEOF(statusModeList); i++) {
+				for (int i = 0; i < _countof(statusModeList); i++) {
 					if ((flags & statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
 						lvItem.pszText = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
 						lvItem.lParam = (LPARAM)statusModePf2List[i];
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);
 				SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
-				for (int i=0; i < SIZEOF(statusModeList); i++) {
+				for (int i=0; i < _countof(statusModeList); i++) {
 					if ((flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame) {
 						TCHAR *statusMode = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
 						int item = SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);

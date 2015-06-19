@@ -69,9 +69,9 @@ BOOL CheckPath(char*ppath, char*pathwildcard = NULL)
 
 					strncpy(temp, ppath,XFIRE_MAX_STATIC_STRING_LEN-1);
 					*(temp + mir_strlen(temp) - 1) = 0;
-					mir_strncat(temp, wfd.cFileName, SIZEOF(temp) - mir_strlen(temp));
-					mir_strncat(temp, "\\", SIZEOF(temp) - mir_strlen(temp));
-					mir_strncat(temp, pos, SIZEOF(temp) - mir_strlen(temp));
+					mir_strncat(temp, wfd.cFileName, _countof(temp) - mir_strlen(temp));
+					mir_strncat(temp, "\\", _countof(temp) - mir_strlen(temp));
+					mir_strncat(temp, pos, _countof(temp) - mir_strlen(temp));
 
 					if (GetFileAttributesA(temp) != 0xFFFFFFFF) { //exe vorhanden???? unt hint?
 						//gefundenes in path kopieren
@@ -253,9 +253,9 @@ void Scan4Games(LPVOID lparam)
 	{
 		//2 gameids?
 		if (split)
-			mir_snprintf(temp, SIZEOF(temp), "%i_%i", i, i2);
+			mir_snprintf(temp, _countof(temp), "%i_%i", i, i2);
 		else
-			mir_snprintf(temp, SIZEOF(temp), "%i", i);
+			mir_snprintf(temp, _countof(temp), "%i", i);
 
 		//MessageBox(0,temp,temp,0);
 
@@ -467,7 +467,7 @@ void Scan4Games(LPVOID lparam)
 									multiexe = FALSE;
 									for (int i = 1; i < 9; i++)
 									{
-										mir_snprintf(ret, SIZEOF(ret), "DetectExe[%d]", i);
+										mir_snprintf(ret, _countof(ret), "DetectExe[%d]", i);
 										if (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
 										{
 											char* pos = strrchr(path, '\\');
@@ -550,7 +550,7 @@ void Scan4Games(LPVOID lparam)
 									newgame->setString(ret2, &newgame->launchparams);
 
 								//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
-								mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[0]");
+								mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[0]");
 								int i = 0;
 
 								while (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
@@ -561,7 +561,7 @@ void Scan4Games(LPVOID lparam)
 									newgame->appendString(ret2, &newgame->notcontain);
 
 									i++;
-									mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[%d]", i);
+									mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", i);
 								}
 
 								newgame->setNameandIcon();
@@ -652,7 +652,7 @@ void Scan4Games(LPVOID lparam)
 						newgame->setstatusmsg = atoi(ret2);
 
 					//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
-					mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[0]");
+					mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[0]");
 					int i = 0;
 
 					while (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
@@ -663,7 +663,7 @@ void Scan4Games(LPVOID lparam)
 						newgame->appendString(ret2, &newgame->notcontain);
 
 						i++;
-						mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[%d]", i);
+						mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", i);
 					}
 
 					newgame->setNameandIcon();
@@ -725,7 +725,7 @@ void Scan4Games(LPVOID lparam)
 		int p = mir_strlen(gamelist) - 2;
 		if (p > -1)
 			gamelist[p] = 0; //letztes koma killen
-		mir_snprintf(ret, SIZEOF(ret), Translate("Games found:%s%s"), "\r\n\r\n", gamelist);
+		mir_snprintf(ret, _countof(ret), Translate("Games found:%s%s"), "\r\n\r\n", gamelist);
 		MSGBOX(ret);
 	}
 

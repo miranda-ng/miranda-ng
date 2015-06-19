@@ -84,7 +84,7 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 	}
 	else
 	{
-		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, SIZEOF(avdlg->fn));
+		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, _countof(avdlg->fn));
 	}
 
 	CloseHandle(mir_forkthread(AvatarDialogThread, (void*)avdlg));
@@ -138,7 +138,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			{
 				TCHAR title[MAX_PATH];
 
-				mir_sntprintf(title, SIZEOF(title), TranslateT("Avatar History for %s"), displayName);
+				mir_sntprintf(title, _countof(title), TranslateT("Avatar History for %s"), displayName);
 				SetWindowText(hwnd, title);
 			}
 
@@ -376,7 +376,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, SIZEOF(path), _T("%s\\*.*"), dir);
+	mir_sntprintf(path, _countof(path), _T("%s\\*.*"), dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -386,7 +386,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	{
 		if (finddata.cFileName[0] != '.')
 		{
-			mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(path, _countof(path), _T("%s\\%s"), dir, finddata.cFileName);
 			max_pos = AddFileToList(path,finddata.cFileName,finddata.cFileName,list);
 		}
 	}
@@ -403,7 +403,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, SIZEOF(path), _T("%s\\*.lnk"), dir);
+	mir_sntprintf(path, _countof(path), _T("%s\\*.lnk"), dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -414,7 +414,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 		if (finddata.cFileName[0] != '.')
 		{
 			TCHAR lnk[MAX_PATH];
-			mir_sntprintf(lnk, SIZEOF(lnk), _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(lnk, _countof(lnk), _T("%s\\%s"), dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
 				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
 		}
@@ -438,7 +438,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 
 		// Get time
 		TCHAR date[64];
-		TimeZone_ToStringT(dbei.timestamp, _T("d s"), date, SIZEOF(date));
+		TimeZone_ToStringT(dbei.timestamp, _T("d s"), date, _countof(date));
 
 		// Get file in disk
 		TCHAR path[MAX_PATH];
@@ -534,7 +534,7 @@ static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 {
 	TCHAR filter[MAX_PATH], file[MAX_PATH];
-	Bitmap_GetFilter(filter, SIZEOF(filter));
+	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
@@ -551,7 +551,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	TCHAR title[MAX_PATH];
 	if (displayName)
 	{
-		mir_sntprintf(title, SIZEOF(title), TranslateT("Save Avatar for %s"), displayName);
+		mir_sntprintf(title, _countof(title), TranslateT("Save Avatar for %s"), displayName);
 		ofn.lpstrTitle = title;
 	}
 	else

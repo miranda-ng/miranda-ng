@@ -66,7 +66,7 @@ static void ReportSecError(SECURITY_STATUS scRet, int line)
 {
 	char szMsgBuf[256];
 	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
+		NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
 
 	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
 

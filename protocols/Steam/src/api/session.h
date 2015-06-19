@@ -10,7 +10,7 @@ public:
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
 		char data[512];
-		mir_snprintf(data, SIZEOF(data),
+		mir_snprintf(data, _countof(data),
 			"oauth_token=%s&steamid=%s&webcookie=%s",
 			token,
 			steamId,

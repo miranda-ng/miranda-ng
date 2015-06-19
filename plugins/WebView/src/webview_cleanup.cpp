@@ -788,7 +788,7 @@ void Removewhitespace(char *truncated)
 void Filter(char *truncated)
 {
 	char tempraw[MAXSIZE1];
-	strncpy(tempraw, truncated, SIZEOF(tempraw));
+	strncpy(tempraw, truncated, _countof(tempraw));
 
 	for (int counter = 0; counter < mir_strlen(tempraw); counter++)
 		if ((tempraw[counter] == '\n') || (tempraw[counter] == '\r') || (tempraw[counter] == '\t'))

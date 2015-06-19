@@ -133,7 +133,7 @@ void UploadDialog::Tab::select()
 void UploadDialog::Tab::labelCompleted()
 { 
 	TCHAR buff[64], buff2[256];
-	mir_sntprintf(buff2, SIZEOF(buff2), _T("* %s"), Utils::getTextFragment(this->job->stzFileName, 20, buff));
+	mir_sntprintf(buff2, _countof(buff2), _T("* %s"), Utils::getTextFragment(this->job->stzFileName, 20, buff));
 
 	TCITEM tab = {0};
 	tab.mask = TCIF_TEXT;
@@ -301,7 +301,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 							bool bChecked = (tab->iOptAutoDelete == -1) ? true : false;
 							TCHAR buff[256];
 
-							for (int i = 0; i < SIZEOF(times); i++) 
+							for (int i = 0; i < _countof(times); i++) 
 							{
 								if (i == 3 || i == 7)
 									AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);

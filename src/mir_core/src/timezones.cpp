@@ -130,11 +130,11 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size
 		if (iso)
 			tszTemp.AppendFormat(_T("%d-%02d-%02dT%02d:%02d:%02dZ"), st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
 		else if (date) {
-			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, SIZEOF(dateTimeStr));
+			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, _countof(dateTimeStr));
 			tszTemp.Append(dateTimeStr);
 		}
 		else {
-			GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, SIZEOF(dateTimeStr));
+			GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, _countof(dateTimeStr));
 			tszTemp.Append(dateTimeStr);
 		}
 	}
@@ -382,7 +382,7 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		TCHAR	tszClassName[128];
-		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
+		GetClassName(hWnd, tszClassName, _countof(tszClassName));
 		if (!mir_tstrcmpi(tszClassName, _T("COMBOBOX")))
 			dwFlags |= TZF_PLF_CB;
 		else if (!mir_tstrcmpi(tszClassName, _T("LISTBOX")))
@@ -548,7 +548,7 @@ void InitTimeZones(void)
 		HKEY	hSubKey;
 		TCHAR	tszName[MIM_TZ_NAMELEN];
 
-		DWORD dwSize = SIZEOF(tszName);
+		DWORD dwSize = _countof(tszName);
 		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, NULL, NULL, 0, NULL)) {
 			if (ERROR_SUCCESS == RegOpenKeyEx(hKey, tszName, 0, KEY_QUERY_VALUE, &hSubKey)) {
 				dwSize = sizeof(tszName);
@@ -569,16 +569,16 @@ void InitTimeZones(void)
 				tz->hash = mir_hashstrT(tszName);
 				tz->offset = INT_MIN;
 
-				GetLocalizedString(hSubKey, _T("Display"), tz->szDisplay, SIZEOF(tz->szDisplay));
-				GetLocalizedString(hSubKey, _T("Std"), tz->tzi.StandardName, SIZEOF(tz->tzi.StandardName));
-				GetLocalizedString(hSubKey, _T("Dlt"), tz->tzi.DaylightName, SIZEOF(tz->tzi.DaylightName));
+				GetLocalizedString(hSubKey, _T("Display"), tz->szDisplay, _countof(tz->szDisplay));
+				GetLocalizedString(hSubKey, _T("Std"), tz->tzi.StandardName, _countof(tz->tzi.StandardName));
+				GetLocalizedString(hSubKey, _T("Dlt"), tz->tzi.DaylightName, _countof(tz->tzi.DaylightName));
 
 				g_timezones.insert(tz);
 				g_timezonesBias.insert(tz);
 
 				RegCloseKey(hSubKey);
 			}
-			dwSize = SIZEOF(tszName);
+			dwSize = _countof(tszName);
 		}
 		RegCloseKey(hKey);
 	}

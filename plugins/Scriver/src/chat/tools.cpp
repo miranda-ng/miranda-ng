@@ -53,7 +53,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 
 		if (pszWordText && pszWordText[0]) {
 			TCHAR szMenuText[4096];
-			mir_sntprintf(szMenuText, SIZEOF(szMenuText), TranslateT("Look up '%s':"), pszWordText);
+			mir_sntprintf(szMenuText, _countof(szMenuText), TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 			SetSearchEngineIcons(*hMenu, g_dat.hSearchEngineIconList);
 		}
@@ -65,7 +65,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		if (pszWordText)
 			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
-			mir_tstrncpy(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
+			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
 		if (mir_tstrlen(szTemp) > 40)
 			mir_tstrncpy(szTemp + 40, _T("..."), 4);

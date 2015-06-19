@@ -199,7 +199,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
 
-			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", btOpacity);
+			mir_snprintf(szPercent, _countof(szPercent), "%d%%", btOpacity);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), SetLayeredWindowAttributes != 0);
@@ -230,7 +230,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			fcOpt.thumbAlpha = (BYTE)((nPos * 255) / 100);
 			SetThumbsOpacity(fcOpt.thumbAlpha);
 
-			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", nPos);
+			mir_snprintf(szPercent, _countof(szPercent), "%d%%", nPos);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
@@ -245,8 +245,8 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		case IDC_BROWSE:
 			{
 				TCHAR str[MAX_PATH], filter[512];
-				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-				Bitmap_GetFilter(filter, SIZEOF(filter));
+				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
+				Bitmap_GetFilter(filter, _countof(filter));
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
@@ -254,7 +254,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-				ofn.nMaxFile = SIZEOF(str);
+				ofn.nMaxFile = _countof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = _T("bmp");
 				if (!GetOpenFileName(&ofn))
@@ -302,7 +302,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				db_set_b(NULL, MODULE, "BkUseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 
 				TCHAR str[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 				db_set_ts(NULL, MODULE, "BkBitmap", str);
 
 				WORD flags = 0;

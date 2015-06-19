@@ -114,8 +114,8 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 void CFolderItem::GetDataFromDatabase(const TCHAR *szNotFound)
 {
 	char szSettingName[256];
-	strcpy_s(szSettingName, SIZEOF(szSettingName), m_szSection);
-	strcat_s(szSettingName, SIZEOF(szSettingName), m_szName);
+	strcpy_s(szSettingName, _countof(szSettingName), m_szSection);
+	strcat_s(szSettingName, _countof(szSettingName), m_szName);
 
 	ptrT tszValue(db_get_tsa(NULL, ModuleName, szSettingName));
 	SetFormat(tszValue != NULL ? tszValue : szNotFound);

@@ -48,7 +48,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPreviewBoxWndclass) {
 		TCHAR msg[1024];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_sntprintf(msg, _countof(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -62,7 +62,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPlusDlgBox) {
 		TCHAR msg[1024];
-		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_sntprintf(msg, _countof(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 }
@@ -210,7 +210,7 @@ static LPTSTR mainOption[] = {
 
 int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions)
 {
-	for (int i = 0; i < SIZEOF(mainOption); i++) {
+	for (int i = 0; i < _countof(mainOption); i++) {
 		BOOL bCheck = 0;
 		switch (i) {
 		case 0:
@@ -280,7 +280,7 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 
 	// check "Skin options" state 
 	char prefix[128];
-	mir_snprintf(prefix, SIZEOF(prefix), "skin.%S", PopupOptions.SkinPack);
+	mir_snprintf(prefix, _countof(prefix), "skin.%S", PopupOptions.SkinPack);
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
 		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), _T("Skin options"));
 

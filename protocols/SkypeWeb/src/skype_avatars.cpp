@@ -63,7 +63,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = ProtoGetBufferFormat(response->pData);
 	setByte(hContact, "AvatarType", ai.format);
-	GetAvatarFileName(hContact, ai.filename, SIZEOF(ai.filename));
+	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
 
 	FILE *out = _tfopen(ai.filename, _T("wb"));
 	if (out == NULL) {
@@ -98,8 +98,8 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	pai->format = getByte(pai->hContact, "AvatarType", PA_FORMAT_JPEG);
 
 	TCHAR tszFileName[MAX_PATH];
-	GetAvatarFileName(pai->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy(pai->filename, tszFileName, SIZEOF(pai->filename));
+	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
+	_tcsncpy(pai->filename, tszFileName, _countof(pai->filename));
 
 	if (::_taccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
@@ -117,7 +117,7 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR path[MAX_PATH];
-	GetAvatarFileName(NULL, path, SIZEOF(path));
+	GetAvatarFileName(NULL, path, _countof(path));
 	_tcsncpy((TCHAR*)wParam, path, (int)lParam);
 	return 0;
 }
@@ -155,7 +155,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		setByte(hContact, "NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;
-		GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename));
+		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
 		ai.format = ProtoGetAvatarFormat(ai.filename);
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	}
@@ -165,7 +165,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR *path = (TCHAR*)lParam;
 	TCHAR avatarPath[MAX_PATH];
-	GetAvatarFileName(NULL, avatarPath, SIZEOF(avatarPath));
+	GetAvatarFileName(NULL, avatarPath, _countof(avatarPath));
 	if (path != NULL)
 	{
 		if (!CopyFile(path, avatarPath, FALSE))

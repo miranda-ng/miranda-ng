@@ -45,7 +45,7 @@ static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaul
 int AddIcons()
 {
 	TCHAR tszPath[MAX_PATH];
-	GetModuleFileName(hInstance, tszPath, SIZEOF(tszPath));
+	GetModuleFileName(hInstance, tszPath, _countof(tszPath));
 
 	hCheckMenu = AddIcon("MenuCheck", LPGEN("Check birthdays menu item"), tszPath, IDI_CHECK);
 	hListMenu = AddIcon("MenuList", LPGEN("List birthdays menu item"), tszPath, IDI_LIST);
@@ -61,10 +61,10 @@ int AddIcons()
 	hDTB[1] = AddIcon("DTB1", LPGEN("1 day to birthday"), tszPath, IDI_DTB1);
 	for (int i = 2; i < cDTB; i++) {
 		mir_snprintf(name, "DTB%d", i);
-		mir_snprintf(description, SIZEOF(description), Translate("%d days to birthday"), i);
+		mir_snprintf(description, _countof(description), Translate("%d days to birthday"), i);
 		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0 + i);
 	}
-	mir_snprintf(description, SIZEOF(description), Translate("More than %d days to birthday"), cDTB - 1);
+	mir_snprintf(description, _countof(description), Translate("More than %d days to birthday"), cDTB - 1);
 	hDTBMore = AddIcon("DTBMore", description, tszPath, IDI_DTBMORE);
 
 	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", LPGEN("WhenWasIt birthday reminder"), "MenuCheck");

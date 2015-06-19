@@ -403,7 +403,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 	dat->hwndRenameEdit = NULL;
 	if (save) {
 		TCHAR text[120]; text[0] = 0;
-		GetWindowText(hwndEdit, text, SIZEOF(text));
+		GetWindowText(hwndEdit, text, _countof(text));
 
 		ClcContact *contact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) != -1) {
@@ -411,7 +411,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
-						mir_sntprintf(szFullName, SIZEOF(szFullName), _T("%s\\%s"),
+						mir_sntprintf(szFullName, _countof(szFullName), _T("%s\\%s"),
 							cli.pfnGetGroupName(contact->group->parent->groupId, NULL), text);
 						cli.pfnRenameGroup(contact->groupId, szFullName);
 					}

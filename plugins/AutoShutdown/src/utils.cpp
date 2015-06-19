@@ -49,7 +49,7 @@ void TrimString(TCHAR *pszStr)
 {
 	int i;
 	TCHAR *psz,szChars[]=_T(" \r\n\t");
-	for(i=0;i<SIZEOF(szChars);++i) {
+	for(i=0;i<_countof(szChars);++i) {
 		/* trim end */
 		psz=&pszStr[mir_tstrlen(pszStr)-1];
 		while(pszStr[0] && *psz==szChars[i]) {
@@ -80,7 +80,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 
 	va_list va;
 	va_start(va,pszTextFmt);
-	mir_vsnprintf(szText,SIZEOF(szText),pszTextFmt,va);
+	mir_vsnprintf(szText,_countof(szText),pszTextFmt,va);
 	va_end(va);
 
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
@@ -193,9 +193,9 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 		return GetTimeFormat(locale,((st.wSecond==0)?TIME_NOSECONDS:0)|TIME_FORCE24HOURFORMAT,&st,NULL,pszOut,nSize) != 0;
 	/* show both date and time */
 	{	TCHAR szDate[128],szTime[128];
-		if (!GetTimeFormat(locale,((st.wSecond==0)?TIME_NOSECONDS:0)|TIME_FORCE24HOURFORMAT,&st,NULL,szTime,SIZEOF(szTime)))
+		if (!GetTimeFormat(locale,((st.wSecond==0)?TIME_NOSECONDS:0)|TIME_FORCE24HOURFORMAT,&st,NULL,szTime,_countof(szTime)))
 			return FALSE;
-		if (!GetDateFormat(locale,DATE_SHORTDATE,&st,NULL,szDate,SIZEOF(szDate)))
+		if (!GetDateFormat(locale,DATE_SHORTDATE,&st,NULL,szDate,_countof(szDate)))
 			return FALSE;
 		mir_sntprintf(pszOut,nSize,_T("%s %s"),szTime,szDate);
 		return TRUE;
@@ -207,7 +207,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDesc,HINSTANCE hInst,WORD idRes,BOOL fLarge)
 {
 	TCHAR szFileName[MAX_PATH];
-	GetModuleFileName(hInst,szFileName,SIZEOF(szFileName));
+	GetModuleFileName(hInst,szFileName,_countof(szFileName));
 
 	SKINICONDESC sid = { 0 };
 	sid.pszName = (char*)pszDbName;

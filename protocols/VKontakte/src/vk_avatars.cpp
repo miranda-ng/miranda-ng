@@ -23,7 +23,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 		return;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	GetAvatarFileName((MCONTACT)pReq->pUserInfo, ai.filename, SIZEOF(ai.filename));
+	GetAvatarFileName((MCONTACT)pReq->pUserInfo, ai.filename, _countof(ai.filename));
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _tfopen(ai.filename, _T("wb"));
@@ -80,8 +80,8 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	TCHAR tszFileName[MAX_PATH];
-	GetAvatarFileName(pai->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy(pai->filename, tszFileName, SIZEOF(pai->filename));
+	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
+	_tcsncpy(pai->filename, tszFileName, _countof(pai->filename));
 
 	pai->format = ProtoGetAvatarFormat(pai->filename);
 
@@ -160,7 +160,7 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		setByte(hContact,"NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;
-		GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename));
+		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
 		ai.format = ProtoGetAvatarFormat(ai.filename);
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	}

@@ -546,7 +546,7 @@ NETLIBHTTPHEADER *facebook_client::get_request_headers(int request_type, int *he
 std::string facebook_client::get_newsfeed_type()
 {
 	BYTE feed_type = parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
-	if (feed_type >= SIZEOF(feed_types))
+	if (feed_type >= _countof(feed_types))
 		feed_type = 0;
 
 	std::string ret = "sk=";
@@ -559,7 +559,7 @@ std::string facebook_client::get_newsfeed_type()
 std::string facebook_client::get_server_type()
 {
 	BYTE server_type = parent->getByte(FACEBOOK_KEY_SERVER_TYPE, 0);
-	if (server_type >= SIZEOF(server_types))
+	if (server_type >= _countof(server_types))
 		server_type = 0;
 	return server_types[server_type].id;
 }
@@ -567,7 +567,7 @@ std::string facebook_client::get_server_type()
 std::string facebook_client::get_privacy_type()
 {
 	BYTE privacy_type = parent->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0);
-	if (privacy_type >= SIZEOF(privacy_types))
+	if (privacy_type >= _countof(privacy_types))
 		privacy_type = 0;
 	return privacy_types[privacy_type].id;
 }

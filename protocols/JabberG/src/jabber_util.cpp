@@ -542,8 +542,8 @@ int __stdcall JabberGetPacketID(HXML n)
 {
 	const TCHAR *str = xmlGetAttrValue(n, _T("id"));
 	if (str)
-		if (!_tcsncmp(str, _T(JABBER_IQID), SIZEOF(JABBER_IQID) - 1))
-			return _ttoi(str + SIZEOF(JABBER_IQID) - 1);
+		if (!_tcsncmp(str, _T(JABBER_IQID), _countof(JABBER_IQID) - 1))
+			return _ttoi(str + _countof(JABBER_IQID) - 1);
 
 	return -1;
 }
@@ -941,7 +941,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 
 					if (getByte(ai.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
 						TCHAR tszFileName[MAX_PATH];
-						GetAvatarFileName(ai.hContact, tszFileName, SIZEOF(tszFileName));
+						GetAvatarFileName(ai.hContact, tszFileName, _countof(tszFileName));
 						DeleteFile(tszFileName);
 					}
 
@@ -958,7 +958,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					ptrA cmpsha(getStringA(ai.hContact, "AvatarSaved"));
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
 						TCHAR tszFileName[MAX_PATH];
-						GetAvatarFileName(ai.hContact, tszFileName, SIZEOF(tszFileName));
+						GetAvatarFileName(ai.hContact, tszFileName, _countof(tszFileName));
 						_tcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 						FILE* out = _tfopen(tszFileName, _T("wb"));
 						if (out != NULL) {

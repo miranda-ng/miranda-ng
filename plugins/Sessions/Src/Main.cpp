@@ -202,7 +202,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				int i = 0, length = GetWindowTextLength(GetDlgItem(hdlg, IDC_LIST));
 				SavePosition(hdlg, "SaveDlg");
 				if (length > 0) {
-					GetDlgItemText(hdlg, IDC_LIST, szUserSessionName, SIZEOF(szUserSessionName));
+					GetDlgItemText(hdlg, IDC_LIST, szUserSessionName, _countof(szUserSessionName));
 					szUserSessionName[length + 1] = '\0';
 					if (IsDlgButtonChecked(hdlg, IDC_SELCONTACTS) && bSC) {
 						for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -603,17 +603,17 @@ int DelUserDefSession(int ses_count)
 	}
 
 	char szSessionName[256];
-	mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "UserSessionDsc", ses_count);
+	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
-	mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "FavUserSession", ses_count);
+	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "UserSessionDsc", i);
+		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", i);
 		ptrT szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
 
-		mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "UserSessionDsc", i - 1);
+		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", i - 1);
 		if (szSessionNameBuf) {
 			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
 			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
@@ -621,7 +621,7 @@ int DelUserDefSession(int ses_count)
 		else {
 			db_unset(NULL, MODNAME, szSessionName);
 
-			mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "FavUserSession", i - 1);
+			mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", i - 1);
 			db_unset(NULL, MODNAME, szSessionName);
 			break;
 		}
@@ -639,14 +639,14 @@ int DeleteAutoSession(int ses_count)
 	}
 
 	char szSessionName[256];
-	mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "SessionDate", ses_count);
+	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "SessionDate", i);
+		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", i);
 		ptrT szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
 
-		mir_snprintf(szSessionName, SIZEOF(szSessionName), "%s_%u", "SessionDate", i - 1);
+		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", i - 1);
 		if (szSessionNameBuf)
 			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
 		else {
@@ -894,6 +894,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 
 	// Icons
-	Icon_Register(g_hInst, MODNAME, iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, MODNAME, iconList, _countof(iconList));
 	return 0;
 }

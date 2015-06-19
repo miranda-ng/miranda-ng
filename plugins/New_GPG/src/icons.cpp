@@ -26,7 +26,7 @@ static IconItem iconList[] =
 
 void InitIconLib()
 {
-	Icon_Register(hInst, szGPGModuleName, iconList, SIZEOF(iconList));
+	Icon_Register(hInst, szGPGModuleName, iconList, _countof(iconList));
 }
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)

@@ -60,12 +60,12 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
-			GetWindowText(hwndDlg, format, SIZEOF(format));
-			mir_sntprintf(str, SIZEOF(str), format, status, contactName);
+			GetWindowText(hwndDlg, format, _countof(format));
+			mir_sntprintf(str, _countof(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);
 
-			GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, SIZEOF(format));
-			mir_sntprintf(str, SIZEOF(str), format, status);
+			GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, _countof(format));
+			mir_sntprintf(str, _countof(str), format, status);
 			SetDlgItemText(hwndDlg, IDC_RETRIEVING, str);
 
 			Window_SetProtoIcon_IcoLib(hwndDlg, szProto, dwStatus);
@@ -143,7 +143,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 		int chatRoom = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (!chatRoom) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
+			mir_sntprintf(str, _countof(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {

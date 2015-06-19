@@ -18,14 +18,14 @@ static IconItem iconList[] =
 
 void Quotes_IconsInit()
 {
-	::Icon_Register(g_hInstance, QUOTES_PROTOCOL_NAME, iconList, SIZEOF(iconList), QUOTES_PROTOCOL_NAME);
+	::Icon_Register(g_hInstance, QUOTES_PROTOCOL_NAME, iconList, _countof(iconList), QUOTES_PROTOCOL_NAME);
 }
 
 std::string Quotes_MakeIconName(const char* name)
 {
 	assert(name);
 	//char szSettingName[100];
-	//mir_snprintf(szSettingName,SIZEOF(szSettingName),"%s_%s",QUOTES_PROTOCOL_NAME,name);
+	//mir_snprintf(szSettingName,_countof(szSettingName),"%s_%s",QUOTES_PROTOCOL_NAME,name);
 	std::string sName(QUOTES_PROTOCOL_NAME);
 	sName += "_";
 	sName += name;
@@ -40,7 +40,7 @@ HICON Quotes_LoadIconEx(const char* name, bool bBig /*= false*/)
 
 HANDLE Quotes_GetIconHandle(int iconId)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 

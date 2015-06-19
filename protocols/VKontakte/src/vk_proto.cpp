@@ -148,7 +148,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	gcr.nColors = SIZEOF(sttColors);
+	gcr.nColors = _countof(sttColors);
 	gcr.pColors = sttColors;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);

@@ -184,7 +184,7 @@ static void RemoveAllItems(HWND hwnd)
 static bool LoadPluginDynamically(PluginListItemData *dat)
 {
 	TCHAR exe[MAX_PATH];
-	GetModuleFileName(NULL, exe, SIZEOF(exe));
+	GetModuleFileName(NULL, exe, _countof(exe));
 	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
 
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, _T("Plugins"), exe);
@@ -424,7 +424,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
 						
 						TCHAR buf[1024];
-						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, SIZEOF(buf));
+						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : _T(""));
 
 						ptrT tszAuthor(latin2t(sel ? dat->author : NULL));
@@ -456,12 +456,12 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (hdr->hdr.code == PSN_APPLY) {
 				bool needRestart = false;
 				TCHAR bufRestart[1024];
-				int bufLen = mir_sntprintf(bufRestart, SIZEOF(bufRestart), _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
+				int bufLen = mir_sntprintf(bufRestart, _countof(bufRestart), _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				for (int iRow = 0; iRow != -1;) {
 					TCHAR buf[1024];
-					ListView_GetItemText(hwndList, iRow, 1, buf, SIZEOF(buf));
+					ListView_GetItemText(hwndList, iRow, 1, buf, _countof(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
 
@@ -483,7 +483,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 										ListView_SetItem(hwndList, &lvi);
 									}
 									else {
-										bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+										bufLen += mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, _T(" - %s\n"), buf);
 										needRestart = true;
 									}
 								}
@@ -496,7 +496,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 										ListView_SetItem(hwndList, &lvi);
 									}
 									else {
-										bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+										bufLen += mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, _T(" - %s\n"), buf);
 										needRestart = true;
 									}
 								}
@@ -510,7 +510,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), needRestart);
 				if (needRestart) {
-					mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T("\n%s"), TranslateT("Do you want to restart it now?"));
+					mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, _T("\n%s"), TranslateT("Do you want to restart it now?"));
 					if (MessageBox(NULL, bufRestart, _T("Miranda NG"), MB_ICONWARNING | MB_YESNO) == IDYES)
 						CallService(MS_SYSTEM_RESTART, 1, 0);
 				}
@@ -530,7 +530,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				char buf[512];
 				char *p = &buf[7];
 				mir_strcpy(buf, "mailto:");
-				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), p, SIZEOF(buf) - 7))
+				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), p, _countof(buf) - 7))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM)(LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p));
 				break;
 			}

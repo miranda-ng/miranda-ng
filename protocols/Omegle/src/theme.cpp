@@ -29,16 +29,16 @@ static IconItem icons[] =
 	{ "omegle", LPGEN("Omegle Icon"), IDI_OMEGLE },
 };
 
-static HANDLE hIconLibItem[SIZEOF(icons)];
+static HANDLE hIconLibItem[_countof(icons)];
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Omegle", icons, SIZEOF(icons), "Omegle");
+	Icon_Register(g_hInstance, "Protocols/Omegle", icons, _countof(icons), "Omegle");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for(size_t i=0; i<SIZEOF(icons); i++)
+	for(size_t i=0; i<_countof(icons); i++)
 	{
 		if(mir_strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];

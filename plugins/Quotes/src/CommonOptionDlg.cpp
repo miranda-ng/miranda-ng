@@ -67,7 +67,7 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 		// refresh rate
 		HWND hwndCombo = ::GetDlgItem(hWnd, IDC_COMBO_REFRESH_RATE);
 		LPCTSTR pszRefreshRateTypes[] = { TranslateT("Seconds"), TranslateT("Minutes"), TranslateT("Hours") };
-		for (int i = 0; i < SIZEOF(pszRefreshRateTypes); ++i)
+		for (int i = 0; i < _countof(pszRefreshRateTypes); ++i)
 		{
 			::SendMessage(hwndCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRefreshRateTypes[i]));
 		}

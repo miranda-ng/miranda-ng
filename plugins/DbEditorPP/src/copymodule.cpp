@@ -35,13 +35,13 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		    if (ApplyProtoFilter(hContact))
 		    	continue;
 
-			GetContactName(hContact, NULL, name, SIZEOF(name));
+			GetContactName(hContact, NULL, name, _countof(name));
 				
 			int index = SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)name);
 			SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, hContact);
 		}
 
-		GetContactName(NULL, NULL, name, SIZEOF(name));
+		GetContactName(NULL, NULL, name, _countof(name));
 		int index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)name);
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, 0);
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, index, 0);

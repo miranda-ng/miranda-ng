@@ -339,7 +339,7 @@ static const struct _tag_cpltbl
 static unsigned FindCP(const char* mimecp)
 {
 	unsigned cp = CP_ACP;
-	for (unsigned i = 0; i < SIZEOF(cptbl); ++i) {
+	for (unsigned i = 0; i < _countof(cptbl); ++i) {
 		if (_stricmp(mimecp, cptbl[i].mimecp) == 0) {
 			cp = cptbl[i].cp;
 			break;

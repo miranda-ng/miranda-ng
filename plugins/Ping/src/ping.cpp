@@ -151,7 +151,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 
-	Icon_Register(hInst, LPGEN("Ping"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Ping"), iconList, _countof(iconList));
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 

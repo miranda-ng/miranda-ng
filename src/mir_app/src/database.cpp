@@ -73,7 +73,7 @@ bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 int getProfilePath(TCHAR *buf, size_t)
 {
 	TCHAR profiledir[MAX_PATH];
-	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), profiledir, SIZEOF(profiledir), mirandabootini);
+	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), profiledir, _countof(profiledir), mirandabootini);
 
 	if (profiledir[0] == 0)
 		mir_tstrcpy(profiledir, _T("%miranda_path%\\Profiles"));
@@ -102,7 +102,7 @@ static bool showProfileManager(void)
 		return 1;
 
 	// wanna show it?
-	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T("never"), Mgr, SIZEOF(Mgr), mirandabootini);
+	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T("never"), Mgr, _countof(Mgr), mirandabootini);
 	return (mir_tstrcmpi(Mgr, _T("yes")) == 0);
 }
 
@@ -112,14 +112,14 @@ bool shouldAutoCreate(TCHAR *szProfile)
 		return false;
 
 	TCHAR ac[32];
-	GetPrivateProfileString(_T("Database"), _T("AutoCreate"), _T(""), ac, SIZEOF(ac), mirandabootini);
+	GetPrivateProfileString(_T("Database"), _T("AutoCreate"), _T(""), ac, _countof(ac), mirandabootini);
 	return mir_tstrcmpi(ac, _T("yes")) == 0;
 }
 
 static void getDefaultProfile(TCHAR *szProfile, size_t cch)
 {
 	TCHAR defaultProfile[MAX_PATH];
-	GetPrivateProfileString(_T("Database"), _T("DefaultProfile"), _T(""), defaultProfile, SIZEOF(defaultProfile), mirandabootini);
+	GetPrivateProfileString(_T("Database"), _T("DefaultProfile"), _T(""), defaultProfile, _countof(defaultProfile), mirandabootini);
 
 	if (defaultProfile[0] == 0)
 		return;
@@ -186,7 +186,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 	if (isRootDir)
 		_tcsncpy_s(pfd, VARST(_T("%miranda_path%\\*.dat")), _TRUNCATE);
 	else
-		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
+		mir_sntprintf(pfd, _countof(pfd), _T("%s\\*.dat"), profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
@@ -196,10 +196,10 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			TCHAR path[MAX_PATH], path2[MAX_PATH];
 			TCHAR* profile = mir_tstrdup(ffd.cFileName);
 			TCHAR *c = _tcsrchr(profile, '.'); if (c) *c = 0;
-			mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), pfd, ffd.cFileName);
-			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s"), profiledir, profile);
+			mir_sntprintf(path, _countof(path), _T("%s\\%s"), pfd, ffd.cFileName);
+			mir_sntprintf(path2, _countof(path2), _T("%s\\%s"), profiledir, profile);
 			CreateDirectoryTreeT(path2);
-			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
+			mir_sntprintf(path2, _countof(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
 			if (_taccess(path2, 0) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
@@ -241,7 +241,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 	if (bShowProfileManager || !reqfd) {
 		TCHAR searchspec[MAX_PATH];
-		mir_sntprintf(searchspec, SIZEOF(searchspec), _T("%s\\*.*"), profiledir);
+		mir_sntprintf(searchspec, _countof(searchspec), _T("%s\\*.*"), profiledir);
 
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(searchspec, &ffd);
@@ -252,7 +252,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 					continue;
 
 				TCHAR newProfile[MAX_PATH];
-				mir_sntprintf(newProfile, SIZEOF(newProfile), _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
+				mir_sntprintf(newProfile, _countof(newProfile), _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
 				if (_taccess(newProfile, 0) != 0)
 					continue;
 
@@ -287,7 +287,7 @@ static int getProfileAutoRun(TCHAR *szProfile)
 		return false;
 
 	TCHAR Mgr[32];
-	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T(""), Mgr, SIZEOF(Mgr), mirandabootini);
+	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T(""), Mgr, _countof(Mgr), mirandabootini);
 	if (mir_tstrcmpi(Mgr, _T("never")))
 		return 0;
 
@@ -297,10 +297,10 @@ static int getProfileAutoRun(TCHAR *szProfile)
 // returns 1 if a profile was selected
 static int getProfile(TCHAR *szProfile, size_t cch)
 {
-	getProfilePath(g_profileDir, SIZEOF(g_profileDir));
+	getProfilePath(g_profileDir, _countof(g_profileDir));
 	if (IsInsideRootDir(g_profileDir, true))
 		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
-			getProfilePath(g_profileDir, SIZEOF(g_profileDir));
+			getProfilePath(g_profileDir, _countof(g_profileDir));
 
 	getDefaultProfile(szProfile, cch);
 	getProfileCmdLine(szProfile, cch);
@@ -458,7 +458,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW *x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res = 0;
-	if (GetClassName(hwnd, classname, SIZEOF(classname)) && mir_tstrcmp(_T("Miranda"), classname) == 0) {
+	if (GetClassName(hwnd, classname, _countof(classname)) && mir_tstrcmp(_T("Miranda"), classname) == 0) {
 		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
 			x->found++;
 			return FALSE;
@@ -488,7 +488,7 @@ int LoadDatabaseModule(void)
 	LoadDatabaseServices();
 
 	// find out which profile to load
-	if (!getProfile(szProfile, SIZEOF(szProfile)))
+	if (!getProfile(szProfile, _countof(szProfile)))
 		return 1;
 
 	if (arDbPlugins.getCount() == 0) {

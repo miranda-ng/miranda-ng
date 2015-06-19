@@ -126,6 +126,6 @@ void WhatsAppProto::onMessageStatusUpdate(const FMessage &fmsg)
 	time_t ts = atol(fmsg.key.id.substr(0, delim).c_str());
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&ts));
+	_tcsftime(ttime, _countof(ttime), _T("%X"), localtime(&ts));
 	utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message received: %s by %s"), ttime, ptszBy));
 }

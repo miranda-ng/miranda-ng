@@ -435,8 +435,8 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			TCHAR	szPID[20];
 
 			_tstrtime(szPID);
-			_tcsncpy(szPIDandName, m_szUsername, SIZEOF(szPIDandName)-1);		
-			mir_tstrncat(szPIDandName, szPID, SIZEOF(szPIDandName) - mir_tstrlen(szPIDandName));
+			_tcsncpy(szPIDandName, m_szUsername, _countof(szPIDandName)-1);		
+			mir_tstrncat(szPIDandName, szPID, _countof(szPIDandName) - mir_tstrlen(szPIDandName));
 			
 			hr = CreateProfile(szPIDandName);
 			if ( HR_FAILED(hr)) {

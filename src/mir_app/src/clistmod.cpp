@@ -100,7 +100,7 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 	default:
 		if (IsStatusConnecting(mode)) {
 			const TCHAR* connFmt = LPGENT("Connecting (attempt %d)");
-			mir_sntprintf(szMode, SIZEOF(szMode), (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
+			mir_sntprintf(szMode, _countof(szMode), (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
 		return NULL;
@@ -157,11 +157,11 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 {
 	int index, i;
 
-	for (index = 0; index < SIZEOF(statusModeList); index++)
+	for (index = 0; index < _countof(statusModeList); index++)
 		if (status == statusModeList[index])
 			break;
 
-	if (index == SIZEOF(statusModeList))
+	if (index == _countof(statusModeList))
 		index = 0;
 	if (szProto == NULL)
 		return index + 1;
@@ -188,7 +188,7 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
 	ProtoIconIndex *pii = new ProtoIconIndex;
 	pii->szProto = pa->szModuleName;
-	for (int i=0; i < SIZEOF(statusModeList); i++) {
+	for (int i=0; i < _countof(statusModeList); i++) {
 		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i]);
 		if (i == 0)
 			pii->iIconBase = iImg;
@@ -268,12 +268,12 @@ static int CListIconsChanged(WPARAM, LPARAM)
 {
 	int i, j;
 
-	for (i=0; i < SIZEOF(statusModeList); i++)
+	for (i=0; i < _countof(statusModeList); i++)
 		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
 	for (i=0; i < protoIconIndex.getCount(); i++)
-		for (j = 0; j < SIZEOF(statusModeList); j++)
+		for (j = 0; j < _countof(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
 	cli.pfnInvalidateRect(cli.hwndContactList, NULL, TRUE);
@@ -460,7 +460,7 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 	nameb = cli.pfnGetContactDisplayName(a, 0);
 	_tcsncpy_s(namea, nameb, _TRUNCATE);
-	namea[ SIZEOF(namea)-1 ] = 0;
+	namea[ _countof(namea)-1 ] = 0;
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
@@ -513,7 +513,7 @@ int LoadContactListModule2(void)
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
 	//now all core skin icons are loaded via icon lib. so lets release them
-	for (int i=0; i < SIZEOF(statusModeList); i++)
+	for (int i=0; i < _countof(statusModeList); i++)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
 
 	//see IMAGE_GROUP... in clist.h if you add more images above here

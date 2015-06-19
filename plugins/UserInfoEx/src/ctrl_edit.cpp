@@ -122,19 +122,19 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		switch (dbv.type) 
 		{
 		case DBVT_BYTE:
-			_itot_s(dbv.bVal, szText, SIZEOF(szText), 10);
+			_itot_s(dbv.bVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
 			_pszValue = mir_tstrdup(szText);
 			break;
 
 		case DBVT_WORD:
-			_itot_s(dbv.wVal, szText, SIZEOF(szText), 10);
+			_itot_s(dbv.wVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
 			_pszValue = mir_tstrdup(szText);
 			break;
 
 		case DBVT_DWORD:
-			_itot_s(dbv.dVal, szText, SIZEOF(szText), 10);
+			_itot_s(dbv.dVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
 			_pszValue = mir_tstrdup(szText);
 			break;

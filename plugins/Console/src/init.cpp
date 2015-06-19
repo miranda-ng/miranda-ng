@@ -61,7 +61,7 @@ static IconItem iconList[] =
 
 HANDLE LoadIcon(int iIconID)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iIconID)
 			return iconList[i].hIcolib;
 	return NULL;
@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "Console", iconList, _countof(iconList));
 
 	InitCommonControls();
 	InitConsole();

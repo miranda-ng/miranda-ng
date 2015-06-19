@@ -133,7 +133,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			int i;
 			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
-			for (i = 0; i < SIZEOF(checkBoxToStyleEx); i++)
+			for (i = 0; i < _countof(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id,
 				(exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag *
 				checkBoxToStyleEx[i].not) ? BST_CHECKED : BST_UNCHECKED);
@@ -141,7 +141,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			UDACCEL accel[2] = { {0, 10} , {2, 50} };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, SIZEOF(accel), (LPARAM) & accel);
+			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM) & accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0,
 				MAKELONG(db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 		}
@@ -156,9 +156,9 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, SIZEOF(greyoutValues),
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, _countof(greyoutValues),
 			db_get_dw(NULL, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, SIZEOF(offlineValues),
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, _countof(offlineValues),
 			db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(NULL, "CLC", "NoVScrollBar", 0) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (((LPNMHDR) lParam)->code == PSN_APPLY ) {
 				int i;
 				DWORD exStyle = 0;
-				for (i = 0; i < SIZEOF(checkBoxToStyleEx); i++)
+				for (i = 0; i < _countof(checkBoxToStyleEx); i++)
 					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not)
 						exStyle |= checkBoxToStyleEx[i].flag;
 
@@ -235,13 +235,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					(BYTE) SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 
-				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, _countof(tmp));
 				db_set_ts(NULL, "CLC", "TemplateContact", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, _countof(tmp));
 				db_set_ts(NULL, "CLC", "TemplateGroup", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, _countof(tmp));
 				db_set_ts(NULL, "CLC", "TemplateDivider", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, _countof(tmp));
 				db_set_ts(NULL, "CLC", "TemplateInfo", tmp);
 
 				pcli->pfnClcOptionsChanged();

@@ -375,7 +375,7 @@ void SwitchLayout(bool lastword)
 		return;
 
 	TCHAR szClassName[MAX_PATH];
-	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if ((mir_tstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
 		TCHAR buf[2048];
 		if (mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) {
@@ -388,9 +388,9 @@ void SwitchLayout(bool lastword)
 			event.iType = IEE_GET_SELECTION;
 			event.hwnd = hwnd3;
 			TCHAR *selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-			mir_tstrncpy(buf, selected, SIZEOF(buf));
+			mir_tstrncpy(buf, selected, _countof(buf));
 		}
-		else GetWindowText(hwnd2, buf, SIZEOF(buf));		// gimme, gimme, gimme...
+		else GetWindowText(hwnd2, buf, _countof(buf));		// gimme, gimme, gimme...
 
 		size_t slen = mir_tstrlen(buf);
 		if (slen != 0) {
@@ -429,8 +429,8 @@ void SwitchLayout(bool lastword)
 
 			POPUPDATAT pd = { 0 };
 			pd.lchIcon = IcoLib_GetIcon("Switch Layout and Send");
-			mir_tstrncpy(pd.lptzText, buf, SIZEOF(pd.lptzText));
-			mir_tstrncpy(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
+			mir_tstrncpy(pd.lptzText, buf, _countof(pd.lptzText));
+			mir_tstrncpy(pd.lptzContactName, TranslateT("TranslitSwitcher"), _countof(pd.lptzContactName));
 			PUAddPopupT(&pd);
 		}
 	}
@@ -514,7 +514,7 @@ void TranslitLayout(bool lastword)
 		return;
 
 	TCHAR szClassName[16];
-	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) != 0)
 		return;
 
@@ -582,7 +582,7 @@ void InvertCase(bool lastword)
 
 	TCHAR szClassName[16];
 
-	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) != 0)
 		return;
 

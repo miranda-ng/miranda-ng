@@ -799,7 +799,7 @@ void Options::Save()
 		}
 		buf[j++] = '_';
 
-		mir_strncpy(buf + j, "formats", SIZEOF(buf) - j);
+		mir_strncpy(buf + j, "formats", _countof(buf) - j);
 		std::wstring forms;
 		for (std::list<PasteFormat>::iterator it = webOptions[i]->formats.begin(); it != webOptions[i]->formats.end(); ++it)
 		{
@@ -808,30 +808,30 @@ void Options::Save()
 
 		db_set_ws(0, MODULE, buf, forms.c_str());
 
-		mir_strncpy(buf + j, "defFormatId", SIZEOF(buf) - j);
+		mir_strncpy(buf + j, "defFormatId", _countof(buf) - j);
 		db_set_ws(0, MODULE, buf, webOptions[i]->defFormatId.c_str());
 
 		if (webOptions[i]->isSendFileName)
 		{
-			mir_strncpy(buf + j, "sendFileName", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "sendFileName", _countof(buf) - j);
 			db_set_b(0, MODULE, buf, webOptions[i]->sendFileName ? 1 : 0);
 		}
 
 		if (webOptions[i]->isPublicPaste)
 		{
-			mir_strncpy(buf + j, "publicPaste", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "publicPaste", _countof(buf) - j);
 			db_set_b(0, MODULE, buf, webOptions[i]->publicPaste ? 1 : 0);
 		}
 
 		if (webOptions[i]->isCombo1)
 		{
-			mir_strncpy(buf + j, "combo1", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "combo1", _countof(buf) - j);
 			db_set_ws(0, MODULE, buf, webOptions[i]->combo1.c_str());
 		}
 
 		if (webOptions[i]->isPastebin)
 		{
-			mir_strncpy(buf + j, "pastebinUserKey", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "pastebinUserKey", _countof(buf) - j);
 			db_set_ws(0, MODULE, buf, webOptions[i]->pastebinUserKey.c_str());
 		}
 	}
@@ -868,7 +868,7 @@ void Options::Load()
 		}
 		buf[j++] = '_';
 
-		mir_strncpy(buf + j, "formats", SIZEOF(buf) - j);
+		mir_strncpy(buf + j, "formats", _countof(buf) - j);
 		DBVARIANT forms;
 		if (!db_get_ws(0, MODULE, buf, &forms))
 		{
@@ -899,7 +899,7 @@ void Options::Load()
 			db_free(&forms);
 		}
 
-		mir_strncpy(buf + j, "defFormatId", SIZEOF(buf) - j);
+		mir_strncpy(buf + j, "defFormatId", _countof(buf) - j);
 		DBVARIANT defForm;
 		if (!db_get_ws(0, MODULE, buf, &defForm))
 		{
@@ -909,19 +909,19 @@ void Options::Load()
 
 		if (webOptions[i]->isSendFileName)
 		{
-			mir_strncpy(buf + j, "sendFileName", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "sendFileName", _countof(buf) - j);
 			webOptions[i]->sendFileName = db_get_b(0, MODULE, buf, 1) ? true : false;
 		}
 
 		if (webOptions[i]->isPublicPaste)
 		{
-			mir_strncpy(buf + j, "publicPaste", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "publicPaste", _countof(buf) - j);
 			webOptions[i]->publicPaste = db_get_b(0, MODULE, buf, 0) ? true : false;
 		}
 
 		if (webOptions[i]->isCombo1)
 		{
-			mir_strncpy(buf + j, "combo1", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "combo1", _countof(buf) - j);
 			DBVARIANT combo1;
 			if (!db_get_ws(0, MODULE, buf, &combo1))
 			{
@@ -932,7 +932,7 @@ void Options::Load()
 
 		if (webOptions[i]->isPastebin)
 		{
-			mir_strncpy(buf + j, "pastebinUserKey", SIZEOF(buf) - j);
+			mir_strncpy(buf + j, "pastebinUserKey", _countof(buf) - j);
 			DBVARIANT pastebinUserKey;
 			if (!db_get_ws(0, MODULE, buf, &pastebinUserKey))
 			{

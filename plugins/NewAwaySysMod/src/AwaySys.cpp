@@ -231,7 +231,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	int i;
-	for (i = SIZEOF(StatusModeList) - 1; i >= 0; i--)
+	for (i = _countof(StatusModeList) - 1; i >= 0; i--)
 		if (wParam == StatusModeList[i].Status)
 			break;
 	if (i < 0)
@@ -300,20 +300,20 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 	TCHAR szSetStr[256], szReadStr[256];
 	if (szProto) {
 		int i;
-		for (i = SIZEOF(StatusModeList) - 1; i >= 0; i--)
+		for (i = _countof(StatusModeList) - 1; i >= 0; i--)
 			if (iMode == StatusModeList[i].Status)
 				break;
 
 		// the protocol supports status message sending for current status, or autoreplying
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID)))) {
-			mir_sntprintf(szSetStr, SIZEOF(szSetStr), TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_sntprintf(szSetStr, _countof(szSetStr), TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
 			miSetMsg.ptszName = szSetStr;
 			miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;
 		}
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
-			mir_sntprintf(szReadStr, SIZEOF(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
+			mir_sntprintf(szReadStr, _countof(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
 			miReadMsg.ptszName = szReadStr;
 			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 			miReadMsg.hIcon = Skin_LoadProtoIcon(szProto, iContactMode);
@@ -692,7 +692,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		tr.szService = MS_AWAYSYS_VARIABLESHANDLER;
 		tr.szCleanupService = MS_AWAYSYS_FREEVARMEM;
 		tr.memType = TR_MEM_OWNER;
-		for (int i = 0; i < SIZEOF(Variables); i++) {
+		for (int i = 0; i < _countof(Variables); i++) {
 			tr.flags = Variables[i].Flags | TRF_CALLSVC | TRF_TCHAR;
 			tr.tszTokenString = Variables[i].Name;
 			tr.szHelpText = Variables[i].Descr;
@@ -713,7 +713,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 
-	Icon_Register(g_hInstance, MOD_NAME, iconList, SIZEOF(iconList), "nas");
+	Icon_Register(g_hInstance, MOD_NAME, iconList, _countof(iconList), "nas");
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService

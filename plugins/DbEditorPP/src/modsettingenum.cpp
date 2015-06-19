@@ -113,7 +113,7 @@ int enumResidentProc(const char *setting, DWORD, LPARAM)
 
 	char str[FLD_SIZE];
 	const char *end = strstr(setting, "/");
-	if (end && (end - setting) < SIZEOF(str)) {
+	if (end && (end - setting) < _countof(str)) {
 		mir_strncpy(str, setting, end - setting + 1);
 		if (m_lResidentModules.getIndex(str) == -1)
 				m_lResidentModules.insert(mir_strdup(str));
@@ -152,9 +152,9 @@ int IsResidentSetting(const char *module, const char *setting)
 	if (!setting) return 1;
 
 	char str[2*FLD_SIZE];
-    mir_strncpy(str, module, SIZEOF(str)-1);
+    mir_strncpy(str, module, _countof(str)-1);
     mir_strcat(str, "/");
-    mir_strncat(str, setting, SIZEOF(str));
+    mir_strncat(str, setting, _countof(str));
 	return m_lResidentSettings.getIndex(str) != -1;
 }
 
@@ -244,9 +244,9 @@ int fixResidentSettings()
 
 			for (setting = SettingList.first; setting; setting = setting->next) {
 
-			    mir_strncpy(str, module->name, SIZEOF(str)-1);
+			    mir_strncpy(str, module->name, _countof(str)-1);
 			    mir_strcat(str, "/");
-			    mir_strncat(str, setting->name, SIZEOF(str));
+			    mir_strncat(str, setting->name, _countof(str));
 				int idx = m_lResidentSettings.getIndex(str);
 
 				if (idx == -1)

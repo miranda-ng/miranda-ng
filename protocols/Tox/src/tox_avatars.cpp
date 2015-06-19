@@ -3,7 +3,7 @@
 std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(path, _countof(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -129,7 +129,7 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 		std::tstring path = GetAvatarFilePath(pai->hContact);
 		if (IsFileExists(path))
 		{
-			mir_tstrncpy(pai->filename, path.c_str(), SIZEOF(pai->filename));
+			mir_tstrncpy(pai->filename, path.c_str(), _countof(pai->filename));
 			pai->format = PA_FORMAT_PNG;
 
 			return GAIR_SUCCESS;
@@ -224,7 +224,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 	}
 
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(path, _countof(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 	OnFileAllow(transfer->pfts.hContact, transfer, path);
 }
 

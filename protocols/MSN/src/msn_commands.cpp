@@ -60,7 +60,7 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 	else if (dwValue == 0x30000024)
 		szVersion = "Miranda IM 0.4.x (MSN v.0.4.x)";
 	else if (always || getByte(hContact, "StdMirVer", 0)) {
-		unsigned wlmId = min(dwValue >> 28 & 0xff, SIZEOF(MirVerStr) - 1);
+		unsigned wlmId = min(dwValue >> 28 & 0xff, _countof(MirVerStr) - 1);
 		szVersion = MirVerStr[wlmId];
 	}
 	else
@@ -85,7 +85,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		struct { char *typeId, *strMsgBytes; } datas;
 	};
 
-	if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2) {
+	if (sttDivideWords(params, _countof(tWords), tWords) < 2) {
 		debugLogA("Invalid %.3s command, ignoring", cmdString);
 		return;
 	}
@@ -439,7 +439,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			nlhr.flags = NLHRF_GENERATEHOST | NLHRF_PERSISTENT | NLHRF_SMARTAUTHHEADER;
 			nlhr.szUrl = uri;
 			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
-			nlhr.headersCount = SIZEOF(nlbhHeaders);
+			nlhr.headersCount = _countof(nlbhHeaders);
 			nlhr.nlc = hHttpsConnection;
 
 			mHttpsTS = clock();
@@ -481,7 +481,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
 				TCHAR tComment[40];
-				mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+				mir_sntprintf(tComment, _countof(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
@@ -522,7 +522,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	const char* szCont = ezxml_attr(cont, "n");
 
 	char szEmail[128];
-	mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
+	mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
 
 	const char *szNetId = ezxml_attr(cont, "t");
 	if (msnSearchId != NULL) {
@@ -721,7 +721,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 	unsigned pCount;
 
 	char* p = (char*)szCrntMda;
-	for (pCount = 0; pCount < SIZEOF(parts); ++pCount) {
+	for (pCount = 0; pCount < _countof(parts); ++pCount) {
 		parts[pCount] = p;
 
 		char* p1 = strstr(p, "\\0");
@@ -762,7 +762,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 
 		for (unsigned i = 4; i < pCount; i++) {
 			char part[16];
-			size_t lenPart = mir_snprintf(part, SIZEOF(part), "{%d}", i - 4);
+			size_t lenPart = mir_snprintf(part, _countof(part), "{%d}", i - 4);
 			if (parts[i][0] == '\0' && unknown != NULL)
 				parts[i] = unknown;
 			size_t lenPartsI = mir_strlen(parts[i]);
@@ -837,13 +837,13 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 
 		const char* acturl = ezxml_attr(xmlact, "url");
 		if (acturl == NULL || strstr(acturl, "://") == NULL)
-			sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "%s", ezxml_attr(xmlnot, "siteurl"));
+			sz += mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "%s", ezxml_attr(xmlnot, "siteurl"));
 
-		sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "%s", acturl);
+		sz += mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "%s", acturl);
 		if (sz != 0 && fullurl[sz - 1] != '?')
-			sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "?");
+			sz += mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "?");
 
-		mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "notification_id=%s&message_id=%s",
+		mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "notification_id=%s&message_id=%s",
 			ezxml_attr(xmlnot, "id"), ezxml_attr(xmlmsg, "id"));
 
 		SkinPlaySound(alertsoundname);
@@ -896,7 +896,7 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2) {
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2) {
 LBL_InvalidCommand:
 				debugLogA("Invalid %.3s command, ignoring", cmdString);
 				break;
@@ -935,7 +935,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			MimeHeaders tHeader;
@@ -966,7 +966,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			HReadBuffer buf(info, 0);
@@ -1034,7 +1034,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			MimeHeaders tHeader;
@@ -1198,7 +1198,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			HReadBuffer buf(info, 0);
@@ -1271,7 +1271,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			MimeHeaders tHeader;
@@ -1322,7 +1322,7 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			if (sttDivideWords(params, _countof(tWords), tWords) < 2)
 				goto LBL_InvalidCommand;
 
 			MimeHeaders tHeader;
@@ -1434,7 +1434,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ft->p2p_dest = mir_strdup(email);
 
 		TCHAR tComment[40];
-		mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+		mir_sntprintf(tComment, _countof(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
 		pre.dwFlags = PRFF_TCHAR;
@@ -1452,9 +1452,9 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ThreadData* newThread = new ThreadData;
 
 		if (inet_addr(IPAddress) != MyConnection.extIP || !IPAddressInt)
-			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%s", IPAddress, Port);
+			mir_snprintf(newThread->mServer, _countof(newThread->mServer), "%s:%s", IPAddress, Port);
 		else
-			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
+			mir_snprintf(newThread->mServer, _countof(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
 
 		newThread->mType = SERVER_FILETRANS;
 
@@ -1531,7 +1531,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 
 	if (IPAddress != NULL && Port == NULL && SessionID != NULL && SessionProtocol == NULL) { // netmeeting receive 2
 		char ipaddr[256];
-		mir_snprintf(ipaddr, SIZEOF(ipaddr), "callto://%s", IPAddress);
+		mir_snprintf(ipaddr, _countof(ipaddr), "callto://%s", IPAddress);
 		ShellExecuteA(NULL, "open", ipaddr, NULL, NULL, SW_SHOW);
 	}
 }
@@ -1548,7 +1548,7 @@ void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
 			int listId = atol(ezxml_attr(cont, "l"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
 			Lists_Remove(listId, szEmail);
 
 			MsnContact* msc = Lists_Get(szEmail);
@@ -1609,7 +1609,7 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 			ptrA smileyName(mir_urlEncode(buf));
 
 			TCHAR path[MAX_PATH];
-			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);
+			MSN_GetCustomSmileyFileName(hContact, path, _countof(path), smileyName, iSmileyType);
 			ft->std.tszCurrentFile = mir_tstrdup(path);
 
 			if (p2p_IsDlFileOk(ft))
@@ -1644,7 +1644,7 @@ void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
 			int netId = atol(ezxml_attr(cont, "t"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
 
 			UrlDecode((char*)szNick);
 
@@ -2206,7 +2206,7 @@ LBL_InvalidCommand:
 			newThread->mType = SERVER_SWITCHBOARD;
 			newThread->mInitialContactWLID = mir_strdup(data.callerEmail);
 			MSN_HContactFromEmail(data.callerEmail, data.callerNick, true, true);
-			mir_snprintf(newThread->mCookie, SIZEOF(newThread->mCookie), "%s %d", data.authChallengeInfo, trid);
+			mir_snprintf(newThread->mCookie, _countof(newThread->mCookie), "%s %d", data.authChallengeInfo, trid);
 
 			ReleaseSemaphore(newThread->hWaitEvent, MSN_PACKETS_COMBINE, NULL);
 
@@ -2354,7 +2354,7 @@ LBL_InvalidCommand:
 	case ' XUU':   // UUX: MSNP11 addition
 		{
 			char* tWords[1];
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) != SIZEOF(tWords))
+			if (sttDivideWords(params, _countof(tWords), tWords) != _countof(tWords))
 				goto LBL_InvalidCommand;
 
 			int len = atol(tWords[0]);

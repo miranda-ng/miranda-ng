@@ -64,7 +64,7 @@ static PresenceModeArray[] =
 	{ SKINICON_STATUS_DND, ID_STATUS_DND },
 	{ SKINICON_STATUS_FREE4CHAT, ID_STATUS_FREECHAT },
 };
-static HGENMENU g_hMenuDirectPresence[SIZEOF(PresenceModeArray) + 1];
+static HGENMENU g_hMenuDirectPresence[_countof(PresenceModeArray) + 1];
 
 static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 {
@@ -287,9 +287,9 @@ void g_MenuInit(void)
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_ROOTHANDLE | CMIF_TCHAR;
-	for (int i=0; i < SIZEOF(PresenceModeArray); i++) {
+	for (int i=0; i < _countof(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
-		buf[SIZEOF(buf)-2] = '0' + i;
+		buf[_countof(buf)-2] = '0' + i;
 		mi.pszService = buf;
 		mi.ptszName = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
@@ -368,7 +368,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	Menu_ShowItem(g_hMenuDirectPresence[0], TRUE);
-	for (int i=0; i < SIZEOF(PresenceModeArray); i++) {
+	for (int i=0; i < _countof(PresenceModeArray); i++) {
 		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_ICON | CMIM_FLAGS;
 		clmi.hIcon = (HICON)Skin_LoadProtoIcon(m_szModuleName, PresenceModeArray[i].mode);
@@ -445,7 +445,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	CMString szTmp;
 	for (int i=0; i < nMenuResourceItemsNew; i++) {
-		mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
+		mir_snprintf(tDest, _countof(text) - nModuleNameLength, "/UseResource_%d", i);
 		if (i >= m_nMenuResourceItems) {
 			CreateProtoServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
 			mi.pszName = "";
@@ -734,19 +734,19 @@ void CJabberProto::MenuInit()
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hParentMenu = m_hMenuPriorityRoot;
 
-	mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/0", m_szModuleName);
+	mir_snprintf(srvFce, _countof(srvFce), "%s/menuSetPriority/0", m_szModuleName);
 	bool needServices = !ServiceExists(srvFce);
 	if (needServices)
 		CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
-	for (int i = 0; i < SIZEOF(steps); i++) {
+	for (int i = 0; i < _countof(steps); i++) {
 		if (!steps[i]) {
 			mi.position += 100000;
 			continue;
 		}
 
-		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/%d", m_szModuleName, steps[i]);
+		mir_snprintf(srvFce, _countof(srvFce), "%s/menuSetPriority/%d", m_szModuleName, steps[i]);
 		if (steps[i] > 0) {
 			mir_sntprintf(szName, TranslateT("Increase priority by %d"), steps[i]);
 			mi.icolibItem = GetIconHandle(IDI_ARROW_UP);
@@ -1004,7 +1004,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			return 0;
 
 		TCHAR jid[JABBER_MAX_JID_LEN];
-		if (GetClientJID(event->hContact, jid, SIZEOF(jid))) {
+		if (GetClientJID(event->hContact, jid, _countof(jid))) {
 			pResourceStatus r(ResourceInfoFromJID(jid));
 			if (r && r->m_bMessageSessionActive) {
 				r->m_bMessageSessionActive = FALSE;

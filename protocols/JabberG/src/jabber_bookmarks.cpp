@@ -104,12 +104,12 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		switch (LOWORD(wParam)) {
 		case IDC_ROOM_JID:
 			if ((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE)
-				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, SIZEOF(text)));
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, _countof(text)));
 			break;
 
 		case IDOK:
 			{
-				GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, _countof(text));
 				TCHAR *roomJID = NEWTSTR_ALLOCA(text);
 
 				if (param->m_item)
@@ -122,13 +122,13 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				else
 					replaceStrT(item->type, _T("conference"));
 
-				GetDlgItemText(hwndDlg, IDC_NICK, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_NICK, text, _countof(text));
 				replaceStrT(item->nick, text);
 
-				GetDlgItemText(hwndDlg, IDC_PASSWORD, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_PASSWORD, text, _countof(text));
 				replaceStrT(item->password, text);
 
-				GetDlgItemText(hwndDlg, IDC_NAME, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_NAME, text, _countof(text));
 				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
 
 				item->bAutoJoin = (IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED);

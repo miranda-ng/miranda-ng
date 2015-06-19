@@ -261,7 +261,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 			char szData1[1024];
 
 			szReq = mir_strdup(szResult);
-			sz = mir_snprintf(szData1, SIZEOF(szData1),
+			sz = mir_snprintf(szData1, _countof(szData1),
 				soap_action, szActionName, szDev, szReq, szActionName);
 
 			sz = mir_snprintf(szData, 4096,
@@ -274,7 +274,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 		{
 			char szData1[1024];
 
-			sz = mir_snprintf(szData1, SIZEOF(szData1),
+			sz = mir_snprintf(szData1, _countof(szData1),
 				soap_query, szActionName);
 
 			sz = mir_snprintf(szData, 4096,
@@ -787,7 +787,7 @@ void NetlibUPnPCleanup(void*)
 			if (txtParseParam(szData, "<NewExternalPort", ">", "<", buf, sizeof(buf))) {
 				WORD mport = (WORD)atol(buf);
 
-				if (j >= SIZEOF(ports))
+				if (j >= _countof(ports))
 					break;
 
 				for (k = 0; k < numports; ++k)

@@ -79,15 +79,15 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 int InitServices()
 {
-	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(szCurrentProfilePath), (LPARAM)szCurrentProfilePath);
-	CallService(MS_DB_GETPROFILENAMET, SIZEOF(szCurrentProfile), (LPARAM)szCurrentProfile);
+	CallService(MS_DB_GETPROFILEPATHT, _countof(szCurrentProfilePath), (LPARAM)szCurrentProfilePath);
+	CallService(MS_DB_GETPROFILENAMET, _countof(szCurrentProfile), (LPARAM)szCurrentProfile);
 	TCHAR *pos = _tcsrchr(szCurrentProfile, '.'); if (pos) *pos = 0;
 
-	GetModuleFileName(GetModuleHandleA("mir_app.dll"), szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileName(GetModuleHandleA("mir_app.dll"), szMirandaPath, _countof(szMirandaPath));
 	pos = _tcsrchr(szMirandaPath, '\\'); if (pos) *pos = 0;
 
 	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	mir_sntprintf(szUserDataPath, SIZEOF(szUserDataPath), szTemp);
+	mir_sntprintf(szUserDataPath, _countof(szUserDataPath), szTemp);
 	mir_free(szTemp);
 
 	CreateServiceFunction(MS_FOLDERS_GET_PATH, GetPathService);

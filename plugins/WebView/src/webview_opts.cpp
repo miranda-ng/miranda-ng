@@ -64,7 +64,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 			int posafter = (stringafter - buttontext) + 1;
 			strdel(stringafter, 1);
 			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-			mir_sntprintf(newbuttontext, SIZEOF(buttontext), _T("%s!!%s"), stringbefore, stringafter);
+			mir_sntprintf(newbuttontext, _countof(buttontext), _T("%s!!%s"), stringbefore, stringafter);
 
 			posafter = 0;
 			posbefore = 0;
@@ -202,7 +202,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				TCHAR str3[512];
 				POPUPDATAT ppd = { 0 };
 
-				GetDlgItemText(hdlg, IDC_DELAY, str3, SIZEOF(str3));
+				GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
 
 				if (IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)) {
 					BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				int popupdelayval = 0;
 				TCHAR str2[512];
-				GetDlgItemText(hdlg, IDC_DELAY, str2, SIZEOF(str2));
+				GetDlgItemText(hdlg, IDC_DELAY, str2, _countof(str2));
 
 				popupdelayval = _ttol(str2);
 				db_set_dw(NULL, MODULENAME, POP_DELAY_KEY, popupdelayval);
@@ -315,10 +315,10 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateTS(AlertTypes[db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0)]));
 		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateTS(EventTypes[db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0)]));
 
-		for (i = 0; i < SIZEOF(AlertTypes); i++)
+		for (i = 0; i < _countof(AlertTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(AlertTypes[i]));
 
-		for (i = 0; i < SIZEOF(EventTypes); i++)
+		for (i = 0; i < _countof(EventTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(EventTypes[i]));
 
 		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) {
@@ -452,7 +452,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_BROWSE:
 			{
 				TCHAR szFileName[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_FILENAME, szFileName, SIZEOF(szFileName));
+				GetDlgItemText(hwndDlg, IDC_FILENAME, szFileName, _countof(szFileName));
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
@@ -461,7 +461,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ofn.lpstrFilter = _T("TEXT Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0");
 				ofn.lpstrFile = szFileName;
 				ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-				ofn.nMaxFile = SIZEOF(szFileName);
+				ofn.nMaxFile = _countof(szFileName);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = _T("txt");
 				if (!GetSaveFileName(&ofn))
@@ -757,19 +757,19 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							break;
 						}
 
-				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, SIZEOF(buf));
+				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, _countof(buf));
 				db_set_ts(hContact, MODULENAME, FILE_KEY, buf);
 
 				db_set_b(hContact, MODULENAME, APPEND_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
 				db_set_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
 
-				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, SIZEOF(buf));
+				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, _countof(buf));
 				db_set_ts(hContact, MODULENAME, ALERT_STRING_KEY, buf);
 
-				GetDlgItemText(hwndDlg, IDC_START2, buf, SIZEOF(buf));
+				GetDlgItemText(hwndDlg, IDC_START2, buf, _countof(buf));
 				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, buf);
 
-				GetDlgItemText(hwndDlg, IDC_END2, buf, SIZEOF(buf));
+				GetDlgItemText(hwndDlg, IDC_END2, buf, _countof(buf));
 				db_set_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, buf);
 
 				db_set_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
@@ -929,10 +929,10 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR string[128];
 				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-				GetDlgItemText(hwndDlg, IDC_START, string, SIZEOF(string));
+				GetDlgItemText(hwndDlg, IDC_START, string, _countof(string));
 				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
 
-				GetDlgItemText(hwndDlg, IDC_END, string, SIZEOF(string));
+				GetDlgItemText(hwndDlg, IDC_END, string, _countof(string));
 				db_set_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, string);
 
 				db_set_w(hContact, MODULENAME, EVNT_INDEX_KEY, 2);
@@ -984,7 +984,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					break;
 				}
 
-				GetDlgItemText(hwndDlg, IDC_SITE_NAME, contactname, SIZEOF(contactname));
+				GetDlgItemText(hwndDlg, IDC_SITE_NAME, contactname, _countof(contactname));
 				if (_tcschr(contactname, '\\') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
@@ -1024,17 +1024,17 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-				GetDlgItemText(hwndDlg, IDC_URL, url, SIZEOF(url));
+				GetDlgItemText(hwndDlg, IDC_URL, url, _countof(url));
 				db_set_ts(hContact, MODULENAME, URL_KEY, url);
 				db_set_ts(hContact, MODULENAME, "Homepage", url);
 
-				GetDlgItemText(hwndDlg, IDC_START, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_START, str, _countof(str));
 				db_set_ts(hContact, MODULENAME, START_STRING_KEY, str);
 
-				GetDlgItemText(hwndDlg, IDC_END, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_END, str, _countof(str));
 				db_set_ts(hContact, MODULENAME, END_STRING_KEY, str);
 
-				GetDlgItemText(hwndDlg, IDC_SITE_NAME, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_SITE_NAME, str, _countof(str));
 				db_set_ts(hContact, "CList", "MyHandle", str);
 
 				db_set_b(hContact, MODULENAME, DBLE_WIN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
@@ -1043,7 +1043,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
 				db_set_b(hContact, MODULENAME, RWSPACE_KEY, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
 
-				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, FixButtonText(url, SIZEOF(url)));
+				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
 
 				SetWindowText(ParentHwnd, str);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
@@ -1121,7 +1121,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else SetDlgItemText(hwndDlg, IDC_TYPEFACE, Def_font_face);
 
-			for (int i = 0; i < SIZEOF(fontSizes); i++)
+			for (int i = 0; i < _countof(fontSizes); i++)
 				SendDlgItemMessage(hwndDlg, IDC_FONTSIZE, CB_ADDSTRING, 0, (LPARAM)fontSizes[i]);
 
 			SendMessage(hwndDlg, M_FILLSCRIPTCOMBO, wParam, 0);
@@ -1176,7 +1176,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			HDC hdc = GetDC(hwndDlg);
 
 			lf.lfCharSet = DEFAULT_CHARSET;
-			GetDlgItemText(hwndDlg, IDC_TYPEFACE, lf.lfFaceName, SIZEOF(lf.lfFaceName));
+			GetDlgItemText(hwndDlg, IDC_TYPEFACE, lf.lfFaceName, _countof(lf.lfFaceName));
 			lf.lfPitchAndFamily = 0;
 			SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_RESETCONTENT, 0, 0);
 			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC) EnumFontScriptsProc, (LPARAM) GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
@@ -1282,7 +1282,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			db_set_b(NULL, MODULENAME, DATA_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
 
 			TCHAR str[100];
-			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
 			db_set_ts(NULL, MODULENAME, FONT_FACE_KEY, str);
 
 			db_set_b(NULL, MODULENAME, FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, NULL, FALSE)));

@@ -143,7 +143,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 
 	va_list va;
 	va_start(va,pszTextFmt);
-	mir_vsnprintf(szText,SIZEOF(szText),pszTextFmt,va);
+	mir_vsnprintf(szText,_countof(szText),pszTextFmt,va);
 	va_end(va);
 
 	if(ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {

@@ -146,7 +146,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 				CYahooProto* ppro = (CYahooProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				/* Get String from dialog */
-				GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, SIZEOF(str));
+				GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, _countof(str));
 
 				/* Save it for later use */
 				ppro->setString(YAHOO_CUSTSTATDB, str);
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				BOOL toSet;
 
-				toSet = GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, SIZEOF(str)) != 0;
+				toSet = GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, _countof(str)) != 0;
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), toSet);
 			}
@@ -224,7 +224,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 		y = yahoo_urlencode(yahoo_get_cookie(m_id, "y"));
 		t = yahoo_urlencode(yahoo_get_cookie(m_id, "t"));
 		u = yahoo_urlencode(url);
-		mir_snprintf(tUrl, SIZEOF(tUrl),
+		mir_snprintf(tUrl, _countof(tUrl),
 			"http://msg.edit.yahoo.com/config/reset_cookies?&.y=Y=%s&.t=T=%s&.ver=2&.done=http%%3a//us.rd.yahoo.com/messenger/client/%%3f%s",
 			y, t, u);
 
@@ -233,7 +233,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 		FREE(u);
 	}
 	else {
-		mir_snprintf(tUrl, SIZEOF(tUrl), url);
+		mir_snprintf(tUrl, _countof(tUrl), url);
 	}
 
 	debugLogA("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
@@ -259,7 +259,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
 	if (getString(wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 
-	mir_snprintf(tUrl, SIZEOF(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
+	mir_snprintf(tUrl, _countof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
 	db_free(&dbv);
 
 	OpenURL(tUrl, 0);
@@ -285,7 +285,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM wParam, LPARAM lParam
 	}
 
 	char tUrl[4096];
-	mir_snprintf(tUrl, SIZEOF(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
+	mir_snprintf(tUrl, _countof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
 	db_free(&dbv);
 
 	OpenURL(tUrl, 0);

@@ -45,7 +45,7 @@ void LoadProfilStatus(void *arg) {
 
 	//dl
 	char url[255];
-	mir_snprintf(url, SIZEOF(url),"http://miniprofile.xfire.com/bg/sh/type/1/%s.png",fname);
+	mir_snprintf(url, _countof(url),"http://miniprofile.xfire.com/bg/sh/type/1/%s.png",fname);
 	char* buf = NULL;
 	unsigned int size = 0;
 
@@ -68,7 +68,7 @@ void SetItemTxt(HWND hwndDlg, int feldid, char*feld, MCONTACT hcontact, int type
 		if (type == 1)
 		{
 			char temp[255];
-			mir_snprintf(temp, SIZEOF(temp), "%i", dbv.wVal);
+			mir_snprintf(temp, _countof(temp), "%i", dbv.wVal);
 			SetDlgItemTextA(hwndDlg, feldid, temp);
 		}
 		else
@@ -95,7 +95,7 @@ static int GetIPPortUDetails(MCONTACT hContact, char* feld1, char* feld2)
 		return 0;
 
 	char temp[255];
-	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, feld2, -1));
+	mir_snprintf(temp, _countof(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, feld2, -1));
 	db_free(&dbv);
 
 	if (OpenClipboard(NULL)) {
@@ -380,30 +380,30 @@ char status[256]="";
 char game[512]="";
 if (!db_get(hContact,"ContactPhoto","File",&dbv))
 {
-mir_snprintf(img,SIZEOF(img),"<img src=\"%s\">",dbv.pszVal);
+mir_snprintf(img,_countof(img),"<img src=\"%s\">",dbv.pszVal);
 db_free(&dbv);
 }
 if (!db_get(hContact,protocolname,"Username",&dbv))
 {
-mir_snprintf(username,SIZEOF(username),"<b>Username:</b> %s<br>",dbv.pszVal);
+mir_snprintf(username,_countof(username),"<b>Username:</b> %s<br>",dbv.pszVal);
 db_free(&dbv);
 }
 if (!db_get(hContact,protocolname,"Nick",&dbv))
 {
-mir_snprintf(nick,SIZEOF(nick),"<b>Nick:</b> %s<br>",dbv.pszVal);
+mir_snprintf(nick,_countof(nick),"<b>Nick:</b> %s<br>",dbv.pszVal);
 db_free(&dbv);
 }
 if (!db_get(hContact,protocolname,"XStatusMsg",&dbv))
 {
-mir_snprintf(status,SIZEOF(status),"<b>Status:</b> %s<br>",dbv.pszVal);
+mir_snprintf(status,_countof(status),"<b>Status:</b> %s<br>",dbv.pszVal);
 db_free(&dbv);
 }
 if (!db_get(hContact,protocolname,"RGame",&dbv))
 {
-mir_snprintf(game,SIZEOF(game),"<fieldset style='border:1px solid #0091d5;background-color:#0d2c3e;margin-bottom:8px;'><legend>Spiel</legend><table><tr><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'><b><u>%s</u></b></td></tr></table></fieldset>",dbv.pszVal);
+mir_snprintf(game,_countof(game),"<fieldset style='border:1px solid #0091d5;background-color:#0d2c3e;margin-bottom:8px;'><legend>Spiel</legend><table><tr><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'><b><u>%s</u></b></td></tr></table></fieldset>",dbv.pszVal);
 db_free(&dbv);
 }
-mir_snprintf(profil,SIZEOF(profil),"mshtml:<div style='position:absolute;top:0;left:0;border:1px solid #0091d5;background-color:#000;padding:6px;width:334px;height:249px'><table><tr><td valign=top>%s</td><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'>%s%s%s</td></tr><tr><td valign=top colspan=\"2\" style='font-family:Arial;font-size:11px;color:#fff;'>%s%s</td></tr></table></div>",img,username,nick,status,game);
+mir_snprintf(profil,_countof(profil),"mshtml:<div style='position:absolute;top:0;left:0;border:1px solid #0091d5;background-color:#000;padding:6px;width:334px;height:249px'><table><tr><td valign=top>%s</td><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'>%s%s%s</td></tr><tr><td valign=top colspan=\"2\" style='font-family:Arial;font-size:11px;color:#fff;'>%s%s</td></tr></table></div>",img,username,nick,status,game);
 HWND hWnd = ::CreateWindow("AtlAxWin", profil,
 WS_CHILD|WS_VISIBLE, 0, 0, 334, 249, hwndDlg, NULL,
 ::GetModuleHandle(NULL), NULL);

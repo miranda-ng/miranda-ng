@@ -110,21 +110,21 @@ void CWhoisDlg::OnDestroy()
 void CWhoisDlg::OnGo(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_proto->PostIrcMessage(_T("/WHOIS %s %s"), szTemp, szTemp);
 }
 
 void CWhoisDlg::OnQuery(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_proto->PostIrcMessage(_T("/QUERY %s"), szTemp);
 }
 
 void CWhoisDlg::OnPing(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
 	m_proto->PostIrcMessage(_T("/PRIVMSG %s \001PING %u\001"), szTemp, time(0));
 }
@@ -132,7 +132,7 @@ void CWhoisDlg::OnPing(CCtrlButton*)
 void CWhoisDlg::OnUserInfo(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
 	m_proto->PostIrcMessage(_T("/PRIVMSG %s \001USERINFO\001"), szTemp);
 }
@@ -140,7 +140,7 @@ void CWhoisDlg::OnUserInfo(CCtrlButton*)
 void CWhoisDlg::OnTime(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
 	m_proto->PostIrcMessage(_T("/PRIVMSG %s \001TIME\001"), szTemp);
 }
@@ -148,7 +148,7 @@ void CWhoisDlg::OnTime(CCtrlButton*)
 void CWhoisDlg::OnVersion(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_InfoNick.GetText(szTemp, SIZEOF(szTemp));
+	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
 	m_proto->PostIrcMessage(_T("/PRIVMSG %s \001VERSION\001"), szTemp);
 }
@@ -229,7 +229,7 @@ void CNickDlg::OnDestroy()
 void CNickDlg::OnOk(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_Enick.GetText(szTemp, SIZEOF(szTemp));
+	m_Enick.GetText(szTemp, _countof(szTemp));
 	m_proto->PostIrcMessage(_T("/NICK %s"), szTemp);
 
 	CMString S = szTemp;
@@ -304,7 +304,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		// Retrieve the input text
 		TCHAR strFilterText[255];
 		TCHAR newTitle[255];
-		m_filter.GetText(strFilterText, SIZEOF(strFilterText));
+		m_filter.GetText(strFilterText, _countof(strFilterText));
 
 		if (strFilterText[0]) {
 			int itemCount = 0;
@@ -318,7 +318,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			LVITEM lvm;
 			TCHAR text[255];
 			lvm.pszText = text;	// Set buffer for texts
-			lvm.cchTextMax = SIZEOF(text);
+			lvm.cchTextMax = _countof(text);
 			lvm.mask = LVIF_TEXT;
 			for (int i = 0; i < j; i++) {
 				lvm.iSubItem = 0;	// First column
@@ -376,13 +376,13 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(m_list.GetHwnd(), SW_HIDE);
 
 			// New dialog title
-			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
+			mir_sntprintf(newTitle, _countof(newTitle), TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
 			SetWindowText(m_hwnd, newTitle);
 		}
 		else {
 			ShowWindow(m_list.GetHwnd(), SW_SHOW);
 			ShowWindow(m_list2.GetHwnd(), SW_HIDE);
-			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("Channels on server"));
+			mir_sntprintf(newTitle, _countof(newTitle), TranslateT("Channels on server"));
 			SetWindowText(m_hwnd, newTitle);
 		}
 	}
@@ -423,7 +423,7 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	lvm.iItem = lParam1;
 	lvm.iSubItem = param->iSubItem;
 	lvm.pszText = temp1;
-	lvm.cchTextMax = SIZEOF(temp1);
+	lvm.cchTextMax = _countof(temp1);
 	param->pList->GetItem(&lvm);
 	lvm.iItem = lParam2;
 	lvm.pszText = temp2;
@@ -464,7 +464,7 @@ void CListDlg::List_OnColumnClick(CCtrlListView::TEventInfo *ev)
 void CListDlg::OnJoin(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	m_filter.GetText(szTemp, SIZEOF(szTemp));
+	m_filter.GetText(szTemp, _countof(szTemp));
 
 	if (szTemp[0])
 		m_list2.GetItemText(m_list2.GetSelectionMark(), 0, szTemp, 255);
@@ -524,7 +524,7 @@ void CJoinDlg::OnDestroy()
 void CJoinDlg::OnOk(CCtrlButton*)
 {
 	TCHAR szTemp[255];
-	GetDlgItemText(m_hwnd, IDC_ENICK, szTemp, SIZEOF(szTemp));
+	GetDlgItemText(m_hwnd, IDC_ENICK, szTemp, _countof(szTemp));
 	if (m_proto->IsChannel(szTemp))
 		m_proto->PostIrcMessage(_T("/JOIN %s"), szTemp);
 	else
@@ -614,10 +614,10 @@ void CQuickDlg::OnDestroy()
 
 void CQuickDlg::OnOk(CCtrlButton*)
 {
-	GetDlgItemTextA(m_hwnd, IDC_SERVER, m_proto->m_serverName, SIZEOF(m_proto->m_serverName));
-	GetDlgItemTextA(m_hwnd, IDC_PORT, m_proto->m_portStart, SIZEOF(m_proto->m_portStart));
-	GetDlgItemTextA(m_hwnd, IDC_PORT2, m_proto->m_portEnd, SIZEOF(m_proto->m_portEnd));
-	GetDlgItemTextA(m_hwnd, IDC_PASS, m_proto->m_password, SIZEOF(m_proto->m_password));
+	GetDlgItemTextA(m_hwnd, IDC_SERVER, m_proto->m_serverName, _countof(m_proto->m_serverName));
+	GetDlgItemTextA(m_hwnd, IDC_PORT, m_proto->m_portStart, _countof(m_proto->m_portStart));
+	GetDlgItemTextA(m_hwnd, IDC_PORT2, m_proto->m_portEnd, _countof(m_proto->m_portEnd));
+	GetDlgItemTextA(m_hwnd, IDC_PASS, m_proto->m_password, _countof(m_proto->m_password));
 
 	int i = m_serverCombo.GetCurSel();
 	SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
@@ -632,7 +632,7 @@ void CQuickDlg::OnOk(CCtrlButton*)
 	}
 
 	TCHAR windowname[20];
-	GetWindowText(m_hwnd, windowname, SIZEOF(windowname));
+	GetWindowText(m_hwnd, windowname, _countof(windowname));
 	if (mir_tstrcmpi(windowname, _T("Miranda IRC")) == 0) {
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel() - 1;
 		m_proto->setDword("ServerComboSelection", m_proto->m_serverComboSelection);
@@ -908,7 +908,7 @@ void CManagerDlg::OnClose()
 	}
 
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 	CMString S = _T("");
 	TCHAR temp[1000];
 	for (int i = 0; i < 5; i++) {
@@ -966,8 +966,8 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 
 	TCHAR temp2[450];
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-	mir_sntprintf(temp2, SIZEOF(temp2), _T("/MODE %s %s %s"), window, mode, _T("%question"));
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
+	mir_sntprintf(temp2, _countof(temp2), _T("/MODE %s %s %s"), window, mode, _T("%question"));
 	SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 	dlg->Activate();
 }
@@ -1009,8 +1009,8 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 
 			TCHAR temp2[450];
 			TCHAR window[256];
-			GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-			mir_sntprintf(temp2, SIZEOF(temp2), _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
+			GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
+			mir_sntprintf(temp2, _countof(temp2), _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
 			SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 			dlg->Activate();
 		}
@@ -1026,7 +1026,7 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 		m_remove.Disable();
 
 		TCHAR temp[100], mode[3];
-		TCHAR* m = m_list.GetItemText(i, temp, SIZEOF(temp));
+		TCHAR* m = m_list.GetItemText(i, temp, _countof(temp));
 		CMString user = GetWord(m, 0);
 
 		if (m_radio1.GetState()) {
@@ -1043,7 +1043,7 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 		}
 
 		TCHAR window[256];
-		GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
+		GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 		if (MessageBox(m_hwnd, user.c_str(), temp, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
 			m_proto->PostIrcMessage(_T("/MODE %s %s %s"), window, mode, user.c_str());
 			ApplyQuestion();
@@ -1078,7 +1078,7 @@ void CManagerDlg::OnChangeTopic(CCtrlData*)
 void CManagerDlg::OnApplyModes(CCtrlButton*)
 {
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 	CHANNELINFO *wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {
 		TCHAR toadd[10]; *toadd = '\0';
@@ -1158,7 +1158,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			appendixadd += _T(" ");
 
 			TCHAR temp[400];
-			m_key.GetText(temp, SIZEOF(temp));
+			m_key.GetText(temp, _countof(temp));
 			appendixadd += temp;
 		}
 
@@ -1167,7 +1167,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 				mir_tstrcat(toremove, _T("l"));
 			else if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_LIMIT))) {
 				TCHAR temp[15];
-				GetDlgItemText(m_hwnd, IDC_LIMIT, temp, SIZEOF(temp));
+				GetDlgItemText(m_hwnd, IDC_LIMIT, temp, _countof(temp));
 				if (wi->pszLimit && mir_tstrcmpi(wi->pszLimit, temp)) {
 					mir_tstrcat(toadd, _T("l"));
 					appendixadd += _T(" ") + CMString(temp);
@@ -1179,7 +1179,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			appendixadd += _T(" ");
 
 			TCHAR temp[15];
-			m_limit.GetText(temp, SIZEOF(temp));
+			m_limit.GetText(temp, _countof(temp));
 			appendixadd += temp;
 		}
 
@@ -1207,8 +1207,8 @@ void CManagerDlg::OnApplyTopic(CCtrlButton*)
 {
 	TCHAR temp[470];
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-	m_topic.GetText(temp, SIZEOF(temp));
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
+	m_topic.GetText(temp, _countof(temp));
 	m_proto->PostIrcMessage(_T("/TOPIC %s %s"), window, temp);
 	int i = m_topic.SendMsg(CB_FINDSTRINGEXACT, -1, (LPARAM)temp);
 	if (i != LB_ERR)
@@ -1243,7 +1243,7 @@ void CManagerDlg::OnRadio(CCtrlData*)
 void CManagerDlg::ApplyQuestion()
 {
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 
 	TCHAR mode[3];
 	mir_tstrcpy(mode, _T("+b"));

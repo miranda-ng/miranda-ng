@@ -92,7 +92,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 		case IDOK:
 		{
 			char module[FLD_SIZE];
-			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, SIZEOF(module));
+			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, _countof(module));
 			SetCursor(LoadCursor(NULL, IDC_WAIT));
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 				deleteModule(hContact, module, 0);

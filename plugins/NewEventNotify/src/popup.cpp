@@ -231,7 +231,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				if (pcBlob >= pcEnd)
 					break;
 			}
-			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Received %d contacts."), nContacts);
+			mir_sntprintf(szBuf, _countof(szBuf), TranslateT("Received %d contacts."), nContacts);
 			comment1 = mir_tstrdup(szBuf);
 		}
 		commentFix = POPUP_COMMENT_CONTACTS;
@@ -254,7 +254,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
+			mir_snprintf(szUin, _countof(szUin), "%d", *((DWORD*)dbei->pBlob));
 			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);
@@ -290,7 +290,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char *pszLast  = pszFirst + mir_strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
+			mir_snprintf(szUin, _countof(szUin), "%d", *((DWORD*)dbei->pBlob));
 			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);
@@ -540,12 +540,12 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 
 	TCHAR lpzText[MAX_SECONDLINE*2] = _T("\0\0");
 	if (pdata->pluginOptions->bShowHeaders)
-		mir_sntprintf(lpzText, SIZEOF(lpzText), TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
+		mir_sntprintf(lpzText, _countof(lpzText), TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
 
 	int doReverse = pdata->pluginOptions->bShowON;
 
 	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) || (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
-		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s...\n"), lpzText);
+		mir_sntprintf(lpzText, _countof(lpzText), _T("%s...\n"), lpzText);
 
 	//take the active event as starting one
 	EVENT_DATA_EX *eventData = pdata->firstShowEventData;
@@ -573,17 +573,17 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			TCHAR timestamp[MAX_DATASIZE];
 			TCHAR formatTime[MAX_DATASIZE];
 			if (pdata->pluginOptions->bShowDate)
-				_tcsncpy(formatTime, _T("%Y.%m.%d"), SIZEOF(formatTime));
+				_tcsncpy(formatTime, _T("%Y.%m.%d"), _countof(formatTime));
 			else if (pdata->pluginOptions->bShowTime)
-				mir_tstrncat(formatTime, _T(" %H:%M"), SIZEOF(formatTime) - mir_tstrlen(formatTime));
+				mir_tstrncat(formatTime, _T(" %H:%M"), _countof(formatTime) - mir_tstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
-			_tcsftime(timestamp, SIZEOF(timestamp), formatTime, localtime(&localTime));
-			mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s[b][i]%s[/i][/b]\n"), lpzText, timestamp);
+			_tcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
+			mir_sntprintf(lpzText, _countof(lpzText), _T("%s[b][i]%s[/i][/b]\n"), lpzText, timestamp);
 		}
 
 		// prepare event preview
 		TCHAR* szEventPreview = GetEventPreview(&dbe);
-		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s%s"), lpzText, szEventPreview);
+		mir_sntprintf(lpzText, _countof(lpzText), _T("%s%s"), lpzText, szEventPreview);
 		mir_free(szEventPreview);
 		
 		if (dbe.pBlob)
@@ -595,11 +595,11 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		else if ((iEvent >= pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg) || !eventData->prev)
 			break;
 
-		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s\n"), lpzText);
+		mir_sntprintf(lpzText, _countof(lpzText), _T("%s\n"), lpzText);
 	}
 
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
-		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s\n..."), lpzText);
+		mir_sntprintf(lpzText, _countof(lpzText), _T("%s\n..."), lpzText);
 
 	PUChangeTextT(pdata->hWnd, lpzText);
 	return 0;

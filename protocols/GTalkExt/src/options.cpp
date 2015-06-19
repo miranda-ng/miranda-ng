@@ -218,7 +218,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 
-		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, SIZEOF(timeout));
+		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, _countof(timeout));
 		db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
 	}
 	return 0;

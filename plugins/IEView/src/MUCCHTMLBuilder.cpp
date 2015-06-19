@@ -105,8 +105,8 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 	else
 		szFormat = (char *)"";
 
-	TimeZone_ToString(check, szFormat, str, SIZEOF(str));
-	mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
+	TimeZone_ToString(check, szFormat, str, _countof(str));
+	mir_strncat(szResult, str, _countof(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }

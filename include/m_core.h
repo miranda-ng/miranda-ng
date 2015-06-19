@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_CORE_H__ 1
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #ifndef M_TYPES_H__
    #include <m_types.h>

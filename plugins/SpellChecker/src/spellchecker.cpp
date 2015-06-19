@@ -80,7 +80,7 @@ static int IconsChanged(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"),
+		mir_sntprintf(tmp, _countof(tmp), _T("%s - %s"),
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 
@@ -135,7 +135,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (opts.use_flags) {
 		// Load flags dll
 		TCHAR flag_file[MAX_PATH];
-		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
+		mir_sntprintf(flag_file, _countof(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
 		TCHAR path[MAX_PATH];
@@ -151,7 +151,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 			sid.description.t = p->full_name;
 
 			char lang[32];
-			mir_snprintf(lang, SIZEOF(lang), "spell_lang_%d", i);
+			mir_snprintf(lang, _countof(lang), "spell_lang_%d", i);
 			sid.pszName = lang;
 
 			HICON hFlag = NULL, hFlagIcoLib = NULL;
@@ -185,7 +185,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Dictionary *dict = languages[j];
 
 		TCHAR filename[MAX_PATH];
-		mir_sntprintf(filename, SIZEOF(filename), _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
+		mir_sntprintf(filename, _countof(filename), _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
 		dict->autoReplace = new AutoReplaceMap(filename, dict);
 
 		if (mir_tstrcmp(dict->language, opts.default_language) == 0)
@@ -206,7 +206,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"),
+		mir_sntprintf(tmp, _countof(tmp), _T("%s - %s"),
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
@@ -240,7 +240,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	// icons
-	Icon_Register(hInst, LPGEN("Spell Checker"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Spell Checker"), iconList, _countof(iconList));
 
 	// hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

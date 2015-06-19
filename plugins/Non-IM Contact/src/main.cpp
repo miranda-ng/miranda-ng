@@ -32,8 +32,8 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM lParam)
 	if (proto && !mir_strcmp(proto, MODNAME)) {
 		if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 			editContact(wParam, 0);		// for later when i add a second double click setting
-		else if (db_get_static(wParam, MODNAME, "Program", program, SIZEOF(program)) && mir_strcmp(program, "")) {
-			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, SIZEOF(params)))
+		else if (db_get_static(wParam, MODNAME, "Program", program, _countof(program)) && mir_strcmp(program, "")) {
+			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, _countof(params)))
 				mir_strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)program);
@@ -118,7 +118,7 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
-	Icon_Register(hInst, LPGEN("Non-IM Contact"), icoList, SIZEOF(icoList));
+	Icon_Register(hInst, LPGEN("Non-IM Contact"), icoList, _countof(icoList));
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE, NimcOptInit);

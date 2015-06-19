@@ -140,7 +140,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 
 	ListView_GetSubItemRect(hList, hti.iItem, hti.iSubItem, LVIR_LABEL, &rc);
 	szText[0] = 0;
-	ListView_GetItemText(hList, hti.iItem, hti.iSubItem, szText, SIZEOF(szText));
+	ListView_GetItemText(hList, hti.iItem, hti.iSubItem, szText, _countof(szText));
 	hdc = GetDC(hList);
 	GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &textSize);
 	ReleaseDC(hList, hdc);
@@ -167,8 +167,8 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			TCHAR oldTitle[256], newTitle[256];
 			HANDLE hProtoAckEvent;
 
-			GetWindowText(hwndDlg, oldTitle, SIZEOF(oldTitle));
-			mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, gg->m_tszUserName);
+			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
+			mir_sntprintf(newTitle, _countof(newTitle), oldTitle, gg->m_tszUserName);
 			SetWindowText(hwndDlg, newTitle);
 			WindowSetIcon(hwndDlg, "sessions");
 
@@ -267,7 +267,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 							{
 								TCHAR szText[256];
 								szText[0] = 0;
-								ListView_GetItemText(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, szText, SIZEOF(szText));
+								ListView_GetItemText(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, szText, _countof(szText));
 								FillRect(nm->nmcd.hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
 								SetTextColor(nm->nmcd.hdc, RGB(0, 0, 255));
 								DrawText(nm->nmcd.hdc, szText, -1, &rc, DT_END_ELLIPSIS | DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_TOP);
@@ -327,9 +327,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 
 						EmptyClipboard();
 						szClientName[0] = szIP[0] = szLoginTime[0] = 0;
-						ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, SIZEOF(szClientName));
-						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, SIZEOF(szIP));
-						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, SIZEOF(szLoginTime));
+						ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, _countof(szClientName));
+						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
+						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
 						mir_sntprintf(szText, _T("%s\t%s\t%s"), szClientName, szIP, szLoginTime);
 						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
 						{
@@ -345,8 +345,8 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 					{
 						TCHAR szUrl[256], szIP[64];
 						szIP[0] = 0;
-						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, SIZEOF(szIP));
-						mir_sntprintf(szUrl, SIZEOF(szUrl), _T("http://whois.domaintools.com/%s"), szIP);
+						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
+						mir_sntprintf(szUrl, _countof(szUrl), _T("http://whois.domaintools.com/%s"), szIP);
 						CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)szUrl); 
 						break;
 					}
@@ -425,7 +425,7 @@ BOOL GGPROTO::sessions_closedlg()
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
 	char service[64];
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
 	CreateProtoService(GGS_CONCUR_SESS, &GGPROTO::sessions_view);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

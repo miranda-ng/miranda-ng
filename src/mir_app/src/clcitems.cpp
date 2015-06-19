@@ -41,7 +41,7 @@ int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 
 ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
-	TCHAR *pBackslash, *pNextField, szThisField[ SIZEOF(dat->list.cl.items[0]->szText) ];
+	TCHAR *pBackslash, *pNextField, szThisField[ _countof(dat->list.cl.items[0]->szText) ];
 	ClcGroup *group = &dat->list;
 	int i, compareResult;
 
@@ -53,11 +53,11 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 	do {
 		pBackslash = _tcschr(pNextField, '\\');
 		if (pBackslash == NULL) {
-			mir_tstrncpy(szThisField, pNextField, SIZEOF(szThisField));
+			mir_tstrncpy(szThisField, pNextField, _countof(szThisField));
 			pNextField = NULL;
 		}
 		else {
-			mir_tstrncpy(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
+			mir_tstrncpy(szThisField, pNextField, min(_countof(szThisField), pBackslash - pNextField + 1));
 			pNextField = pBackslash + 1;
 		}
 		compareResult = 1;
@@ -89,7 +89,7 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 				return NULL;
 			i = cli.pfnAddItemToGroup(group, i);
 			group->cl.items[i]->type = CLCIT_GROUP;
-			mir_tstrncpy(group->cl.items[i]->szText, szThisField, SIZEOF(group->cl.items[i]->szText));
+			mir_tstrncpy(group->cl.items[i]->szText, szThisField, _countof(group->cl.items[i]->szText));
 			group->cl.items[i]->groupId = (WORD) (pNextField ? 0 : groupId);
 			group->cl.items[i]->group = (ClcGroup *) mir_alloc(sizeof(ClcGroup));
 			group->cl.items[i]->group->parent = group;
@@ -167,7 +167,7 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 	group->cl.items[i]->type = CLCIT_INFO;
 	group->cl.items[i]->flags = (BYTE) flags;
 	group->cl.items[i]->hContact = (MCONTACT)++iInfoItemUniqueHandle;
-	mir_tstrncpy(group->cl.items[i]->szText, pszText, SIZEOF(group->cl.items[i]->szText));
+	mir_tstrncpy(group->cl.items[i]->szText, pszText, _countof(group->cl.items[i]->szText));
 	return i;
 }
 
@@ -205,7 +205,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	DWORD idleMode = szProto != NULL ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		group->cl.items[i]->flags |= CONTACTF_IDLE;
-	mir_tstrncpy(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
+	mir_tstrncpy(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), _countof(group->cl.items[i]->szText));
 
 	ClcCacheEntry *p = cli.pfnGetCacheEntry(hContact);
 	if (p != NULL)

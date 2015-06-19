@@ -261,7 +261,7 @@ static int sttRegisterFontWorker(FontIDW *font_id, int hLangpack)
 	if (!mir_tstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 		LOGFONT lf;
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
-		mir_tstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
+		mir_tstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, _countof(newItem->deffontsettings.szFace));
 		if (!newItem->deffontsettings.size)
 			newItem->deffontsettings.size = lf.lfHeight;
 	}
@@ -292,7 +292,7 @@ static INT_PTR sttGetFontWorker(FontIDW *font_id, LOGFONT *lf)
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
-		if (!_tcsncmp(F.name, font_id->name, SIZEOF(F.name)) && !_tcsncmp(F.group, font_id->group, SIZEOF(F.group))) {
+		if (!_tcsncmp(F.name, font_id->name, _countof(F.name)) && !_tcsncmp(F.group, font_id->group, _countof(F.group))) {
 			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
 				CreateFromFontSettings(&F.deffontsettings, lf);
 				colour = F.deffontsettings.colour;
@@ -465,7 +465,7 @@ static INT_PTR sttGetEffectWorker(EffectIDW *effect_id, FONTEFFECT *effect)
 {
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
-		if (!_tcsncmp(E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp(E.group, effect_id->group, SIZEOF(E.group))) {
+		if (!_tcsncmp(E.name, effect_id->name, _countof(E.name)) && !_tcsncmp(E.group, effect_id->group, _countof(E.group))) {
 			FONTEFFECT temp;
 			UpdateEffectSettings(effect_id, &temp);
 

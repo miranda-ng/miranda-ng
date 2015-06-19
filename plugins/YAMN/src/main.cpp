@@ -62,7 +62,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
 {
 	TCHAR tszOldPath[MAX_PATH];
-	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszOldPath), (LPARAM)tszOldPath);
+	CallService(MS_DB_GETPROFILEPATHT, _countof(tszOldPath), (LPARAM)tszOldPath);
 	mir_tstrcat(tszOldPath, _T("\\*.book"));
 
 	VARST ptszNewPath( _T("%miranda_userdata%"));
@@ -181,19 +181,19 @@ static IconItem iconList[] =
 
 static void LoadIcons()
 {
-	Icon_Register(YAMNVar.hInst, "YAMN", iconList, SIZEOF(iconList));
+	Icon_Register(YAMNVar.hInst, "YAMN", iconList, _countof(iconList));
 }
 
 HANDLE WINAPI g_GetIconHandle( int idx )
 {
-	if ( idx >= SIZEOF(iconList))
+	if ( idx >= _countof(iconList))
 		return NULL;
 	return iconList[idx].hIcolib;
 }
 
 HICON WINAPI g_LoadIconEx( int idx, bool big )
 {
-	if ( idx >= SIZEOF(iconList))
+	if ( idx >= _countof(iconList))
 		return NULL;
 	return IcoLib_GetIcon(iconList[idx].szName, big);
 }
@@ -206,7 +206,7 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 static void LoadPlugins()
 {
 	TCHAR szSearchPath[MAX_PATH];
-	mir_sntprintf(szSearchPath, SIZEOF(szSearchPath), _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
+	mir_sntprintf(szSearchPath, _countof(szSearchPath), _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
 
 	hDllPlugins = NULL;
 
@@ -228,7 +228,7 @@ static void LoadPlugins()
 				continue;
 
 			TCHAR szPluginPath[MAX_PATH];
-			mir_sntprintf(szPluginPath, SIZEOF(szPluginPath),_T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
+			mir_sntprintf(szPluginPath, _countof(szPluginPath),_T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
 			if (hDll == NULL)
 				continue;
@@ -266,12 +266,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	PathToAbsoluteT( _T("."), szMirandaDir);
 
 	// retrieve the current profile name
-	CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
+	CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
 	TCHAR *fc = _tcsrchr(ProfileName, '.');
 	if ( fc != NULL ) *fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
-	GetProfileDirectory(UserDirectory, SIZEOF(UserDirectory));
+	GetProfileDirectory(UserDirectory, _countof(UserDirectory));
 
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);

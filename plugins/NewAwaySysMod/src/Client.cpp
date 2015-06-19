@@ -123,7 +123,7 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 		ID_STATUS_IDLE, "Idl"
 	};
 
-	for (int i = 0; i < SIZEOF(StatusSettings); i++) {
+	for (int i = 0; i < _countof(StatusSettings); i++) {
 		if (iMode == StatusSettings[i].Status) {
 			db_set_ts(NULL, "SRAway", CString(StatusSettings[i].Setting) + "Msg", CurMsg);
 			db_set_ts(NULL, "SRAway", CString(StatusSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?

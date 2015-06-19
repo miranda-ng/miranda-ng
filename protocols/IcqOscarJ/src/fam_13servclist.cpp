@@ -181,7 +181,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 				break;
 
 			char szLogText[MAX_PATH];
-			mir_snprintf(szLogText, SIZEOF(szLogText), szChange, nItems);
+			mir_snprintf(szLogText, _countof(szLogText), szChange, nItems);
 			debugLogA("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
 		}
 		break;
@@ -288,7 +288,7 @@ void CIcqProto::handleServerCListRightsReply(BYTE *buf, size_t wLen)
 			for (int i = 0; i < pTLV->wLen / 2; i++) {
 				m_wServerListLimits[i] = (pLimits[i] & 0xFF) << 8 | (pLimits[i] >> 8);
 
-				if (i + 1 >= SIZEOF(m_wServerListLimits))
+				if (i + 1 >= _countof(m_wServerListLimits))
 					break;
 			}
 
@@ -1248,7 +1248,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wItem
 				char *nick = NickFromHandleUtf(hContact);
 
 				setByte(hContact, "Auth", 0);
-				mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" was authorized in the server list."), msg, SIZEOF(msg)), nick);
+				mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" was authorized in the server list."), msg, _countof(msg)), nick);
 				icq_LogMessage(LOG_WARNING, str);
 				SAFE_FREE(&nick);
 			}
@@ -1258,7 +1258,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wItem
 				char *nick = NickFromHandleUtf(hContact);
 
 				setByte(hContact, "Auth", 1);
-				mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" lost its authorization in the server list."), msg, SIZEOF(msg)), nick);
+				mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" lost its authorization in the server list."), msg, _countof(msg)), nick);
 				icq_LogMessage(LOG_WARNING, str);
 				SAFE_FREE(&nick);
 			}
@@ -1348,7 +1348,7 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wItem
 			char msg[MAX_PATH];
 			char *nick = NickFromHandleUtf(hContact);
 
-			mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("User \"%s\" was removed from server list."), msg, SIZEOF(msg)), nick);
+			mir_snprintf(str, ICQTranslateUtfStatic(LPGEN("User \"%s\" was removed from server list."), msg, _countof(msg)), nick);
 			icq_LogMessage(LOG_WARNING, str);
 			SAFE_FREE(&nick);
 		}

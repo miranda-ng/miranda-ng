@@ -78,7 +78,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	Icon_Register(g_hInst, LPGEN("Favorites"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Favorites"), iconList, _countof(iconList));
 
 	LoadHttpApi();
 	return 0;

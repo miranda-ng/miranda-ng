@@ -51,7 +51,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		TCHAR tszID[40];
-		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		mir_sntprintf(tszID, _countof(tszID), _T("%p"), hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
@@ -91,7 +91,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		TCHAR tszID[40];
-		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		mir_sntprintf(tszID, _countof(tszID), _T("%p"), hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
@@ -131,7 +131,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		TCHAR tszID[40];
-		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		mir_sntprintf(tszID, _countof(tszID), _T("%p"), hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}
 

@@ -28,9 +28,9 @@ void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		TCHAR buf[MAX_PATH] = {0};
-		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, SIZEOF(buf));
+		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, _countof(buf));
 		tlogin = mir_tstrdup(buf);
-		GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
+		GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, _countof(buf));
 		tpass = mir_tstrdup(buf);
 	}
 	char *user = mir_t2a(tlogin), *pass = mir_t2a(tpass);
@@ -56,10 +56,10 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			if (SelItem.hwndList) {
 				TCHAR str[MAX_PATH];
-				if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, SIZEOF(str)))
+				if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, _countof(str)))
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
 				else {
-					GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, SIZEOF(str));
+					GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, _countof(str));
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
 				}
 			}
@@ -87,11 +87,11 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ItemInfo &SelItem = *(ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR username[MAX_PATH];
 				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, SIZEOF(username))) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, _countof(username))) {
 					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					break;
 				}
-				if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, SIZEOF(passw))) {
+				if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, _countof(passw))) {
 					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					break;
 				}

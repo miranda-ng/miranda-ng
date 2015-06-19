@@ -183,7 +183,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 		return JABBER_RESOURCE_CAPS_NONE;
 
 	TCHAR szBareJid[JABBER_MAX_JID_LEN];
-	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
+	JabberStripJid(jid, szBareJid, _countof(szBareJid));
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szBareJid);
 	if (item == NULL)
@@ -201,7 +201,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	if (item) {
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			TCHAR szFullJid[JABBER_MAX_JID_LEN];
-			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
+			mir_sntprintf(szFullJid, _countof(szFullJid), _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;
@@ -214,7 +214,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 {
 	TCHAR fullJid[JABBER_MAX_JID_LEN];
 	if (appendBestResource)
-		GetClientJID(jid, fullJid, SIZEOF(fullJid));
+		GetClientJID(jid, fullJid, _countof(fullJid));
 	else
 		_tcsncpy_s(fullJid, jid, _TRUNCATE);
 
@@ -240,7 +240,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 			r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 
 			TCHAR queryNode[512];
-			mir_sntprintf(queryNode, SIZEOF(queryNode), _T("%s#%s"), r->m_tszCapsNode, r->m_tszCapsVer);
+			mir_sntprintf(queryNode, _countof(queryNode), _T("%s#%s"), r->m_tszCapsNode, r->m_tszCapsVer);
 			m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), queryNode));
 
 			bRequestSent = TRUE;
@@ -615,7 +615,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 				continue;
 
 			TCHAR szExtCap[ 512 ];
-			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
+			mir_sntprintf(szExtCap, _countof(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
 			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
 				break;
@@ -625,7 +625,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
 		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 			TCHAR szExtCap[ 512 ];
-			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
+			mir_sntprintf(szExtCap, _countof(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
 			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 				break;
@@ -667,8 +667,8 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		TCHAR *os = szOsBuffer;
 
 		if (ppro->m_options.ShowOSVersion) {
-			if (!GetOSDisplayString(szOsBuffer, SIZEOF(szOsBuffer)))
-				mir_tstrncpy(szOsBuffer, _T(""), SIZEOF(szOsBuffer));
+			if (!GetOSDisplayString(szOsBuffer, _countof(szOsBuffer)))
+				mir_tstrncpy(szOsBuffer, _T(""), _countof(szOsBuffer));
 			else {
 				TCHAR *szOsWindows = _T("Microsoft Windows");
 				size_t nOsWindowsLength = mir_tstrlen(szOsWindows);

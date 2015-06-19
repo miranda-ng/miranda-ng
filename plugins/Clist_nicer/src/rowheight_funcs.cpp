@@ -95,7 +95,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 	int other_fonts[] = { FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS };
 
 	// Get contact font size
-	for (i = 0; i < SIZEOF(contact_fonts); i++)
+	for (i = 0; i < _countof(contact_fonts); i++)
 		if (max_height < dat->fontInfo[contact_fonts[i]].fontHeight)
 			max_height = dat->fontInfo[contact_fonts[i]].fontHeight;
 
@@ -103,7 +103,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 		max_height += ROW_SPACE_BEETWEEN_LINES + dat->fontInfo[FONTID_STATUS].fontHeight;
 
 	// Get other font sizes
-	for (i = 0; i < SIZEOF(other_fonts); i++) {
+	for (i = 0; i < _countof(other_fonts); i++) {
 		if (max_height < dat->fontInfo[other_fonts[i]].fontHeight)
 			max_height = dat->fontInfo[other_fonts[i]].fontHeight;
 	}

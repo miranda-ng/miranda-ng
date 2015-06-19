@@ -45,8 +45,8 @@ TCHAR* RemoveFormatting(const TCHAR *pszWord)
 
 	TCHAR *d = szTemp;
 	size_t cbLen = mir_tstrlen(pszWord);
-	if (cbLen > SIZEOF(szTemp))
-		cbLen = SIZEOF(szTemp)-1;
+	if (cbLen > _countof(szTemp))
+		cbLen = _countof(szTemp)-1;
 
 	for (size_t i = 0; i < cbLen;) {
 		if (pszWord[i] == '%') {
@@ -184,11 +184,11 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, SIZEOF(pd.lptzContactName), _T("%s - %s"), 
+	mir_sntprintf(pd.lptzContactName, _countof(pd.lptzContactName), _T("%s - %s"), 
 		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 		cli.pfnGetContactDisplayName(hContact, 0));
 
-	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), SIZEOF(pd.lptzText));
+	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
 	if (g_Settings->iPopupStyle == 2) {
@@ -563,9 +563,9 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	// formatting strings don't need to be translatable - changing them via language pack would
 	// only screw up the log format.
 	if (p)
-		mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %c %s\r\n"), szTime, p, szBuffer);
+		mir_sntprintf(szLine, _countof(szLine), _T("%s %c %s\r\n"), szTime, p, szBuffer);
 	else
-		mir_sntprintf(szLine, SIZEOF(szLine), _T("%s %s\r\n"), szTime, szBuffer);
+		mir_sntprintf(szLine, _countof(szLine), _T("%s %s\r\n"), szTime, szBuffer);
 
 	if (szLine[0]) {
 		_fputts(szLine, hFile);
@@ -590,11 +590,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
 
 				TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewPath, SIZEOF(tszNewPath), _T("%s%sarchived\\"), tszDrive, tszDir);
+				mir_sntprintf(tszNewPath, _countof(tszNewPath), _T("%s%sarchived\\"), tszDrive, tszDir);
 				CreateDirectoryTreeT(tszNewPath);
 
 				TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
+				mir_sntprintf(tszNewName, _countof(tszNewName), _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 				fclose(hFile);
 				hFile = 0;
 				if (!PathFileExists(tszNewName))
@@ -742,7 +742,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
 		if (g_Settings->pszLogDir[mir_tstrlen(g_Settings->pszLogDir) - 1] == '\\') {
-			mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
+			mir_sntprintf(tszTemp, _countof(tszTemp), _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
 			ptszVarPath = tszTemp;
 		}
 		else ptszVarPath = g_Settings->pszLogDir;
@@ -758,7 +758,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 			PathToAbsoluteT(tszParsedName, si->pszLogFileName);
 		mir_free(tszParsedName);
 
-		for (int i = 0; i < SIZEOF(rva); i++)
+		for (int i = 0; i < _countof(rva); i++)
 			mir_free(rva[i].lptzValue);
 
 		for (TCHAR *p = si->pszLogFileName + 2; *p; ++p)

@@ -38,8 +38,8 @@ void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags)
 
 		ppd->lchContact = NULL;
 		ppd->lchIcon = (flags ? hIconResponding : hIconNotResponding);
-		mir_tstrncpy(ppd->lptzContactName, line1, SIZEOF(ppd->lptzContactName));
-		mir_tstrncpy(ppd->lptzText, line2, SIZEOF(ppd->lptzText));
+		mir_tstrncpy(ppd->lptzContactName, line1, _countof(ppd->lptzContactName));
+		mir_tstrncpy(ppd->lptzText, line2, _countof(ppd->lptzText));
 
 		ppd->colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd->colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -221,26 +221,26 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	char buf[256];
 	mir_snprintf(buf, "Address%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
-		mir_tstrncpy(pa.pszName, dbv.ptszVal, SIZEOF(pa.pszName));
+		mir_tstrncpy(pa.pszName, dbv.ptszVal, _countof(pa.pszName));
 		db_free(&dbv);
 	}
 	else
-		mir_tstrncpy(pa.pszName, TranslateT("Unknown Address"), SIZEOF(pa.pszName));
+		mir_tstrncpy(pa.pszName, TranslateT("Unknown Address"), _countof(pa.pszName));
 
 	mir_snprintf(buf, "Label%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
-		mir_tstrncpy(pa.pszLabel, dbv.ptszVal, SIZEOF(pa.pszLabel));
+		mir_tstrncpy(pa.pszLabel, dbv.ptszVal, _countof(pa.pszLabel));
 		db_free(&dbv);
 	}
 	else
-		mir_tstrncpy(pa.pszLabel, TranslateT("Unknown"), SIZEOF(pa.pszLabel));
+		mir_tstrncpy(pa.pszLabel, TranslateT("Unknown"), _countof(pa.pszLabel));
 
 	mir_snprintf(buf, "Port%d", index);
 	pa.port = (int)db_get_dw(0, "PingPlug", buf, -1);
 
 	mir_snprintf(buf, "Proto%d", index);
 	if (!db_get_s(0, "PingPlug", buf, &dbv)) {
-		mir_strncpy(pa.pszProto, dbv.pszVal, SIZEOF(pa.pszProto));
+		mir_strncpy(pa.pszProto, dbv.pszVal, _countof(pa.pszProto));
 		db_free(&dbv);
 		mir_snprintf(buf, "Status%d", index);
 		pa.set_status = db_get_w(0, "PingPlug", buf, ID_STATUS_ONLINE);

@@ -461,7 +461,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData *dat)
 {
 	TCHAR szServerName[100];
 	EnableWindow(GetDlgItem(hwndDlg, IDC_GO), FALSE);
-	GetDlgItemText(hwndDlg, IDC_SERVER, szServerName, SIZEOF(szServerName));
+	GetDlgItemText(hwndDlg, IDC_SERVER, szServerName, _countof(szServerName));
 	dat->CurrentHeight = 0;
 	dat->curPos = 0;
 	SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
@@ -493,21 +493,21 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 	//search in recent
 	for (int i = 0; i < 10; i++) {
 		char key[30];
-		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
+		mir_snprintf(key, _countof(key), "RecentlySearched_%d", i);
 		ptrT szValue(getTStringA(key));
 		if (szValue == NULL || mir_tstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j = i; j < 10; j++) {
-			mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j + 1);
+			mir_snprintf(key, _countof(key), "RecentlySearched_%d", j + 1);
 			szValue = getTStringA(key);
 			if (szValue != NULL) {
-				mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
+				mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
 				setTString(NULL, key, szValue);
 			}
 			else {
 				if (deleteLastFromDB) {
-					mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
+					mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
 					delSetting(NULL, key);
 				}
 				break;
@@ -523,15 +523,15 @@ void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 	SearchDeleteFromRecent(szAddr);
 
 	for (int j = 9; j > 0; j--) {
-		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j - 1);
+		mir_snprintf(key, _countof(key), "RecentlySearched_%d", j - 1);
 		ptrT szValue(getTStringA(key));
 		if (szValue != NULL) {
-			mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
+			mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
 			setTString(NULL, key, szValue);
 		}
 	}
 
-	mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", 0);
+	mir_snprintf(key, _countof(key), "RecentlySearched_%d", 0);
 	setTString(key, szAddr);
 	if (hwndDialog)
 		JabberSearchAddUrlToRecentCombo(hwndDialog, szAddr);
@@ -563,7 +563,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 			for (i = 0; i < 10; i++) {
 				char key[30];
-				mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
+				mir_snprintf(key, _countof(key), "RecentlySearched_%d", i);
 				ptrT szValue(dat->ppro->getTStringA(key));
 				if (szValue != NULL)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
@@ -743,7 +743,7 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 
 	// get server name
 	TCHAR szServerName[100];
-	GetDlgItemText(hwndDlg, IDC_SERVER, szServerName, SIZEOF(szServerName));
+	GetDlgItemText(hwndDlg, IDC_SERVER, szServerName, _countof(szServerName));
 
 	// formating query
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultAdvancedSearch, JABBER_IQ_TYPE_SET, szServerName);
@@ -764,7 +764,7 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 	else { //and Simple fields: XEP-0055 Example 3
 		for (int i = 0; i < dat->nJSInfCount; i++) {
 			TCHAR szFieldValue[100];
-			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, SIZEOF(szFieldValue));
+			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, _countof(szFieldValue));
 			if (szFieldValue[0] != 0) {
 				xmlAddChild(query, dat->pJSInf[i].szFieldName, szFieldValue);
 				fRequestNotEmpty = TRUE;

@@ -60,7 +60,7 @@ bool hasMobileClient(MCONTACT hContact, LPARAM)
 		_tcslwr(client);
 		
 		// Find whether this client contain something from clients list
-		for (size_t i = 0; i < SIZEOF(clients); i++)
+		for (size_t i = 0; i < _countof(clients); i++)
 			if (_tcsstr(client, clients[i]))
 				return true;
 	}

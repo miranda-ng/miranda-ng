@@ -218,7 +218,7 @@ static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		if(hChildItem) {
 			setListGroupIcons(hwndList, hChildItem, hItem, childCount); //recursion
 		}
-		for( i=0; i < SIZEOF(iconOn); i++){
+		for( i=0; i < _countof(iconOn); i++){
 			if(iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem,i) == 0){
 				iconOn[i] = 0;
 			}
@@ -234,7 +234,7 @@ static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	}
 
 	while(hItem) {
-		for ( i=0; i < SIZEOF(iconOn); i++) {
+		for ( i=0; i < _countof(iconOn); i++) {
 			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if(iconOn[i] && iImage==0){
 				iconOn[i]=0;
@@ -247,7 +247,7 @@ static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	}
 
 	//set icons
-	for( i=0; i < SIZEOF(iconOn); i++) {
+	for( i=0; i < _countof(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i,childCount[i]?(iconOn[i]?i+1:0):0xFF));
 		if(groupChildCount){
 			groupChildCount[i]+=childCount[i];

@@ -100,7 +100,7 @@ static void RemoveProtoPic(const char *szProto)
 static void SetProtoPic(char *szProto)
 {
 	TCHAR FileName[MAX_PATH], filter[256];
-	Bitmap_GetFilter(filter, SIZEOF(filter));
+	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -388,7 +388,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (!db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
 						if (!PathIsAbsoluteT(VARST(dbv.ptszVal))) {
 							TCHAR szFinalPath[MAX_PATH];
-							mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%%miranda_path%%\\%s"), dbv.ptszVal);
+							mir_sntprintf(szFinalPath, _countof(szFinalPath), _T("%%miranda_path%%\\%s"), dbv.ptszVal);
 							SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
 						}
 						else SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, dbv.ptszVal);
@@ -1081,7 +1081,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 
 				char description[256];
-				CallProtoService(proto, PS_GETNAME, SIZEOF(description), (LPARAM)description);
+				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
 				TCHAR *descr = mir_a2t(description);
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
 					avSetMyAvatar(proto, _T(""));

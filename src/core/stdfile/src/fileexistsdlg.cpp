@@ -35,9 +35,9 @@ static void SetControlToUnixTime(HWND hwndDlg, UINT idCtrl, time_t unixTime)
 	filetime.dwHighDateTime = liFiletime.HighPart;
 	filetime.dwLowDateTime = liFiletime.LowPart;
 	FileTimeToSystemTime(&filetime, &st);
-	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, &st, NULL, szTime, SIZEOF(szTime));
-	GetDateFormatA(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szDate, SIZEOF(szDate));
-	mir_snprintf(szOutput, SIZEOF(szOutput), "%s %s", szDate, szTime);
+	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, &st, NULL, szTime, _countof(szTime));
+	GetDateFormatA(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate));
+	mir_snprintf(szOutput, _countof(szOutput), "%s %s", szDate, szTime);
 	SetDlgItemTextA(hwndDlg, idCtrl, szOutput);
 }
 
@@ -149,27 +149,27 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 
 		TCHAR *pszExtension = _tcsrchr(pszFilename, '.');
 		if (pszExtension)
-			mir_tstrncpy(szExtension, pszExtension + 1, SIZEOF(szExtension));
+			mir_tstrncpy(szExtension, pszExtension + 1, _countof(szExtension));
 		else {
 			pszExtension = _T(".");
 			szExtension[0] = '\0';
 		}
 		CharUpper(szExtension);
 		if (fileInfo.szTypeName[0] == '\0')
-			mir_sntprintf(fileInfo.szTypeName, SIZEOF(fileInfo.szTypeName), TranslateT("%s file"), szExtension);
+			mir_sntprintf(fileInfo.szTypeName, _countof(fileInfo.szTypeName), TranslateT("%s file"), szExtension);
 		SetDlgItemText(info->hwndDlg, IDC_EXISTINGTYPE, fileInfo.szTypeName);
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0] = '\0';
 		if (!mir_tstrcmp(szExtension, _T("EXE")))
-			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("2"), szIconFile, SIZEOF(szIconFile));
+			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("2"), szIconFile, _countof(szIconFile));
 		else {
 			TCHAR szTypeName[MAX_PATH];
-			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, SIZEOF(szTypeName))) {
+			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, _countof(szTypeName))) {
 				mir_tstrcat(szTypeName, _T("\\DefaultIcon"));
-				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, SIZEOF(szIconFile))) {
+				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, _countof(szIconFile))) {
 					if (_tcsstr(szIconFile, _T("%1")))
-						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("0"), szIconFile, SIZEOF(szIconFile));
+						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("0"), szIconFile, _countof(szIconFile));
 					else szIconFile[0] = '\0';
 				}
 			}
@@ -213,7 +213,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)fts);
 			SetDlgItemText(hwndDlg, IDC_FILENAME, fts->tszCurrentFile);
 			SetControlToUnixTime(hwndDlg, IDC_NEWDATE, fts->currentFileTime);
-			GetSensiblyFormattedSize(fts->currentFileSize, szSize, SIZEOF(szSize), 0, 1, NULL);
+			GetSensiblyFormattedSize(fts->currentFileSize, szSize, _countof(szSize), 0, 1, NULL);
 			SetDlgItemText(hwndDlg, IDC_NEWSIZE, szSize);
 
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EXISTINGICON), IconCtrlSubclassProc);
@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			HWND hwndFocus = GetDlgItem(hwndDlg, IDC_RESUME);
 			if (_tstati64(fts->tszCurrentFile, &statbuf) == 0) {
 				SetControlToUnixTime(hwndDlg, IDC_EXISTINGDATE, statbuf.st_mtime);
-				GetSensiblyFormattedSize(statbuf.st_size, szSize, SIZEOF(szSize), 0, 1, NULL);
+				GetSensiblyFormattedSize(statbuf.st_size, szSize, _countof(szSize), 0, 1, NULL);
 				SetDlgItemText(hwndDlg, IDC_EXISTINGSIZE, szSize);
 				if (statbuf.st_size > (int)fts->currentFileSize) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_RESUME), FALSE);
@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_OPENFOLDER:
 				{
 					TCHAR szFile[MAX_PATH];
-					mir_tstrncpy(szFile, fts->tszCurrentFile, SIZEOF(szFile));
+					mir_tstrncpy(szFile, fts->tszCurrentFile, _countof(szFile));
 					TCHAR *pszLastBackslash = _tcsrchr(szFile, '\\');
 					if (pszLastBackslash)
 						*pszLastBackslash = '\0';
@@ -283,11 +283,11 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					TCHAR filter[512], *pfilter;
 					TCHAR str[MAX_PATH];
 
-					mir_tstrncpy(str, fts->tszCurrentFile, SIZEOF(str));
+					mir_tstrncpy(str, fts->tszCurrentFile, _countof(str));
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
+					_tcsncpy(filter, TranslateT("All files"),_countof(filter)-1);
 					mir_tstrcat(filter, _T(" (*)"));
 					pfilter = filter + mir_tstrlen(filter) + 1;
 					mir_tstrcpy(pfilter, _T("*"));
@@ -295,7 +295,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					*pfilter = '\0';
 					ofn.lpstrFilter = filter;
 					ofn.lpstrFile = str;
-					ofn.nMaxFile = SIZEOF(str);
+					ofn.nMaxFile = _countof(str);
 					ofn.nMaxFileTitle = MAX_PATH;
 					if (!GetSaveFileName(&ofn))
 						return FALSE;

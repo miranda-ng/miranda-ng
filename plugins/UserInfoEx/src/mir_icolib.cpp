@@ -134,7 +134,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 	};
 	TCHAR absolute[MAX_PATH];
 
-	for (int i = 0; i < SIZEOF(path); i++) {
+	for (int i = 0; i < _countof(path); i++) {
 		PathToAbsoluteT(path[i], absolute);
 		if (PathFileExists(absolute))
 			return path[i];
@@ -326,7 +326,7 @@ void IcoLib_LoadModule()
 	// load default icon if required
 	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON,  GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (int i = 0; i < SIZEOF(icoDesc); i++)
+	for (int i = 0; i < _countof(icoDesc); i++)
 		IcoLib_RegisterIconHandleEx(
 			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, 
 			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);

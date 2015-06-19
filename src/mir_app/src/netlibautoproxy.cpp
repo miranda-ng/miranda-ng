@@ -370,14 +370,14 @@ void NetlibLoadIeProxy(void)
 	int tResult = RegQueryValueExA(hSettings, "ProxyEnable", NULL, NULL, (BYTE*)&enabled, &tValueLen);
 	bEnabled = enabled && tResult == ERROR_SUCCESS;
 
-	tValueLen = SIZEOF(szHostStr);
+	tValueLen = _countof(szHostStr);
 	tResult = RegQueryValueExA(hSettings, "ProxyServer", NULL, NULL, (BYTE*)szHostStr, &tValueLen);
 	bEnabled = bEnabled && tResult == ERROR_SUCCESS;
 
-	tValueLen = SIZEOF(szAutoUrlStr);
+	tValueLen = _countof(szAutoUrlStr);
 	RegQueryValueExA(hSettings, "AutoConfigUrl", NULL, NULL, (BYTE*)szAutoUrlStr, &tValueLen);
 
-	tValueLen = SIZEOF(szProxyBypassStr);
+	tValueLen = _countof(szProxyBypassStr);
 	RegQueryValueExA(hSettings, "ProxyOverride", NULL, NULL, (BYTE*)szProxyBypassStr, &tValueLen);
 
 	RegCloseKey(hSettings);

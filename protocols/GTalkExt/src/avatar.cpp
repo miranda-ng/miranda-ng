@@ -33,7 +33,7 @@
 LPTSTR CreateAvaFile(HANDLE *hFile)
 {
 	TCHAR name[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(name), (LPARAM)&name))
+	if (CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(name), (LPARAM)&name))
 		return NULL;
 
 	TCHAR *p = _tcsrchr(name, '.');
@@ -41,7 +41,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 		*p = 0;
 
 	TCHAR path[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILEPATHT, (WPARAM)SIZEOF(path), (LPARAM)&path))
+	if (CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)&path))
 		return NULL;
 
 	TCHAR full[MAX_PATH + 2];

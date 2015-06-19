@@ -52,7 +52,7 @@ std::wstring& MirandaUtils::getProfileName()
 	}
 	
 	wchar_t mirandaProfileNameW[128] = {0};
-	CallService(MS_DB_GETPROFILENAMEW, SIZEOF(mirandaProfileNameW), (WPARAM)mirandaProfileNameW);
+	CallService(MS_DB_GETPROFILENAMEW, _countof(mirandaProfileNameW), (WPARAM)mirandaProfileNameW);
 	profileName.append(mirandaProfileNameW);
 
 	return profileName;
@@ -68,7 +68,7 @@ std::wstring& MirandaUtils::getDisplayName()
 
 	displayName.append(L"Miranda NG v.");
 	char mirandaVersion[128];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(mirandaVersion), (LPARAM)mirandaVersion);
+	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(mirandaVersion), (LPARAM)mirandaVersion);
 	displayName.append(_A2T(mirandaVersion));
 	displayName.append(L" (");
 	displayName.append(getProfileName());

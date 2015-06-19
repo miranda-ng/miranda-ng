@@ -142,15 +142,15 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 				}
 				case 'd':
 					defval = db_get_dw(NULL, section, key, defval);
-					Value = mir_strdup(_ltoa(defval, buf, SIZEOF(buf)));
+					Value = mir_strdup(_ltoa(defval, buf, _countof(buf)));
 					break;
 				case 'w':
 					defval = db_get_w(NULL, section, key, defval);
-					Value = mir_strdup(_ltoa(defval, buf, SIZEOF(buf)));
+					Value = mir_strdup(_ltoa(defval, buf, _countof(buf)));
 					break;
 				case 'b':
 					defval = db_get_b(NULL, section, key, defval);
-					Value = mir_strdup(_ltoa(defval, buf, SIZEOF(buf)));
+					Value = mir_strdup(_ltoa(defval, buf, _countof(buf)));
 					break;
 				}
 				mir_free(section);

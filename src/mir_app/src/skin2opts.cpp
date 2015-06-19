@@ -49,7 +49,7 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 	if (!path)
 		return (HICON)NULL;
 
-	mir_tstrncpy(file, path, SIZEOF(file));
+	mir_tstrncpy(file, path, _countof(file));
 	comma = _tcsrchr(file, ',');
 	if (!comma)
 		n = 0;
@@ -118,7 +118,7 @@ static void __fastcall MySetCursor(TCHAR* nCursor)
 static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, SIZEOF(path), _T("%s,"), filename);
+	mir_sntprintf(path, _countof(path), _T("%s,"), filename);
 	size_t suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
@@ -250,7 +250,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 
 	ofn.lpstrFilter = filter;
 	ofn.lpstrDefExt = _T("dll");
-	mir_tstrncpy(file, szFile, SIZEOF(file));
+	mir_tstrncpy(file, szFile, _countof(file));
 	ofn.lpstrFile = file;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
 	ofn.nMaxFile = MAX_PATH * 2;
@@ -317,7 +317,7 @@ static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
@@ -398,7 +398,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ImageList_RemoveAll(hIml);
 
 			TCHAR filename[MAX_PATH], caption[64];
-			GetDlgItemText(hwndDlg, IDC_ICONSET, filename, SIZEOF(filename));
+			GetDlgItemText(hwndDlg, IDC_ICONSET, filename, _countof(filename));
 			{
 				RECT rcPreview, rcGroup;
 
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lvi.iItem = 0;
 			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
 			for (int i = 0; i < count; lvi.iItem++, i++) {
-				mir_sntprintf(caption, SIZEOF(caption), _T("%d"), i + 1);
+				mir_sntprintf(caption, _countof(caption), _T("%d"), i + 1);
 				lvi.pszText = caption;
 
 				HICON hIcon = NULL;
@@ -438,7 +438,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_BROWSE:
 			{
 				TCHAR str[MAX_PATH], *file;
-				GetDlgItemText(hwndDlg, IDC_ICONSET, str, SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_ICONSET, str, _countof(str));
 				if (!(file = OpenFileDlg(GetParent(hwndDlg), str, TRUE)))
 					break;
 				SetDlgItemText(hwndDlg, IDC_ICONSET, file);
@@ -515,12 +515,12 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR path[MAX_PATH], fullPath[MAX_PATH], filename[MAX_PATH];
 				LVITEM lvi;
 
-				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, SIZEOF(fullPath));
+				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, _countof(fullPath));
 				PathToRelativeT(fullPath, filename);
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
-				mir_sntprintf(path, SIZEOF(path), _T("%s,%d"), filename, (int)lvi.lParam);
+				mir_sntprintf(path, _countof(path), _T("%s,%d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
 				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 			}

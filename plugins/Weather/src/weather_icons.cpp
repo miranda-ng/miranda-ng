@@ -39,19 +39,19 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(hInst, WEATHERPROTONAME, iconList, SIZEOF(iconList), WEATHERPROTONAME);
+	Icon_Register(hInst, WEATHERPROTONAME, iconList, _countof(iconList), WEATHERPROTONAME);
 }
 
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", WEATHERPROTONAME, name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", WEATHERPROTONAME, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
 HANDLE  GetIconHandle(const char* name)
 {
-	for (int i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < _countof(iconList); i++)
 		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return iconList[i].hIcolib;
 

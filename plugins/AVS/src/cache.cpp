@@ -149,7 +149,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 
 			// Default value
 			if (cacn.hash[0] == '\0')
-				mir_sntprintf(cacn.hash, SIZEOF(cacn.hash), _T("AVS-HASH-%x"), GetFileHash(cacn.filename));
+				mir_sntprintf(cacn.hash, _countof(cacn.hash), _T("AVS-HASH-%x"), GetFileHash(cacn.filename));
 
 			NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)cacn.hContact, (LPARAM)&cacn);
 		}

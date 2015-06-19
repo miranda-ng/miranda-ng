@@ -54,10 +54,10 @@ void RegisterCListFonts()
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWREREGISTER | FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS;
 	strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
-	_tcsncpy(fontid.group, LPGENT("Contact list"), SIZEOF(fontid.group));
+	_tcsncpy(fontid.group, LPGENT("Contact list"), _countof(fontid.group));
 
 	HDC hdc = GetDC(NULL);
-	for (int i = 0; i < SIZEOF(clistFontDescr); i++) {
+	for (int i = 0; i < _countof(clistFontDescr); i++) {
 		LOGFONT lf;
 		pcli->pfnGetFontSetting(i, &lf, &fontid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
@@ -70,11 +70,11 @@ void RegisterCListFonts()
 		fontid.flags &= ~FIDF_CLASSMASK;
 		fontid.flags |= clistFontDescr[i].iMask;
 
-		_tcsncpy(fontid.name, clistFontDescr[i].tszName, SIZEOF(fontid.name));
+		_tcsncpy(fontid.name, clistFontDescr[i].tszName, _countof(fontid.name));
 
 		char idstr[10];
 		mir_snprintf(idstr, "Font%d", i);
-		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
+		strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
 		fontid.order = i;
 		FontRegisterT(&fontid);
 	}
@@ -87,25 +87,25 @@ void RegisterCListFonts()
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact list"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.name, LPGENT("Background"), _countof(colourid.name));
+	_tcsncpy(colourid.group, LPGENT("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Selected text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Hottrack text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	ColourRegisterT(&colourid);

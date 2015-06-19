@@ -120,7 +120,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
-	mir_sntprintf(cf.szFaceName, SIZEOF(cf.szFaceName), _T("MS Shell Dlg"));
+	mir_sntprintf(cf.szFaceName, _countof(cf.szFaceName), _T("MS Shell Dlg"));
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 
 	return S_OK;
@@ -148,7 +148,7 @@ HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD;
 	cf.dwEffects = 0;
-	mir_sntprintf(cf.szFaceName, SIZEOF(cf.szFaceName), _T("MS Shell Dlg"));
+	mir_sntprintf(cf.szFaceName, _countof(cf.szFaceName), _T("MS Shell Dlg"));
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 	return S_OK;
 }
@@ -170,7 +170,7 @@ HRESULT CFormattedTextDraw::Draw(void *hdcDraw, RECT *prc)
 	cf.crTextColor = GetTextColor((HDC)hdcDraw);
 	cf.bCharSet = lf.lfCharSet;
 	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
-	mir_sntprintf(cf.szFaceName, SIZEOF(cf.szFaceName), lf.lfFaceName);
+	mir_sntprintf(cf.szFaceName, _countof(cf.szFaceName), lf.lfFaceName);
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 
 	m_spTextServices->TxDraw(
@@ -211,7 +211,7 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 	cf.crTextColor = GetTextColor((HDC)hdcDraw);
 	cf.bCharSet = lf.lfCharSet;
 	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
-	mir_sntprintf(cf.szFaceName, SIZEOF(cf.szFaceName), lf.lfFaceName);
+	mir_sntprintf(cf.szFaceName, _countof(cf.szFaceName), lf.lfFaceName);
 
 	if (!m_spTextServices)
 		return S_FALSE;

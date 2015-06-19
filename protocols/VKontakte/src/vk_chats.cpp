@@ -73,7 +73,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 
 	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	for (int i = SIZEOF(sttStatuses)-1; i >= 0; i--) {
+	for (int i = _countof(sttStatuses)-1; i >= 0; i--) {
 		gce.ptszStatus = TranslateTS(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
@@ -839,11 +839,11 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
-		gcmi->nItems = SIZEOF(sttLogListItems);
+		gcmi->nItems = _countof(sttLogListItems);
 		gcmi->Item = sttLogListItems;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = SIZEOF(sttListItems);
+		gcmi->nItems = _countof(sttListItems);
 		gcmi->Item = sttListItems;
 	}
 	return 0;
@@ -922,7 +922,7 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			TCHAR tszTitle[1024];
-			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, SIZEOF(tszTitle));
+			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, _countof(tszTitle));
 			ppro->CreateNewChat(uids, tszTitle);
 			EndDialog(hwndDlg, 0);
 			return TRUE;

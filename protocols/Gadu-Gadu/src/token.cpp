@@ -57,7 +57,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				case IDOK:
 				{
-					GetDlgItemTextA(hwndDlg, IDC_TOKEN, dat->val, SIZEOF(dat->val));
+					GetDlgItemTextA(hwndDlg, IDC_TOKEN, dat->val, _countof(dat->val));
 					EndDialog(hwndDlg, IDOK);
 					break;
 				}

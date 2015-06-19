@@ -43,7 +43,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	{
 		TranslateDialogDefault(hwndDlg);
 
-		for (int indx = 0; indx < SIZEOF(settingId); indx++)
+		for (int indx = 0; indx < _countof(settingId); indx++)
 			if (settingId[indx] > 0)
 				SendDlgItemMessage(hwndDlg, settingId[indx], CPM_SETCOLOUR, 0, db_get_dw(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]));
 			else
@@ -59,7 +59,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		if (//MAKEWPARAM(IDC_AUTO, BN_CLICKED) != wParam || 
 			MAKEWPARAM(IDC_ALPHANUM, BN_CLICKED) != wParam)
 		{
-			for (int indx = 0; indx < SIZEOF(settingId); indx++)
+			for (int indx = 0; indx < _countof(settingId); indx++)
 			{
 				if (LOWORD(wParam) == abs(settingId[indx]))
 				{
@@ -88,7 +88,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			int value;
 			BOOL succ;
 
-			for (int indx = 0; indx < SIZEOF(settingId); indx++)
+			for (int indx = 0; indx < _countof(settingId); indx++)
 			{
 				if (settingId[indx] > 0)
 					value = SendDlgItemMessage(hwndDlg, settingId[indx], CPM_GETCOLOUR, 0, 0);

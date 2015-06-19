@@ -118,17 +118,17 @@ void VersionConversions()
 {
 	WCHAR wsztm[MAX_PATH];
 
-	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,SIZEOF(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,_countof(wsztm),NULL))
 		DB_SMS_SetByte(NULL,"UseSignature",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
 
-	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,SIZEOF(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,_countof(wsztm),NULL))
 		DB_SMS_SetByte(NULL,"SignaturePos",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
 
-	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,SIZEOF(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,_countof(wsztm),NULL))
 		DB_SMS_SetByte(NULL,"ShowACK",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK);

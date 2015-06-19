@@ -30,5 +30,5 @@ Foobar::Foobar()
 { 
 	name = _T("foobar2000");
 	window_classes = wcs;
-	num_window_classes = SIZEOF(wcs);
+	num_window_classes = _countof(wcs);
 }

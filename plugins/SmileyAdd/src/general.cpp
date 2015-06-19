@@ -140,7 +140,7 @@ void pathToAbsolute(const CMString& pSrc, CMString& pOut)
 	TCHAR *szVarPath = Utils_ReplaceVarsT(pSrc.c_str());
 	if (szVarPath == (TCHAR*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
 		TCHAR szExpPath[MAX_PATH];
-		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, SIZEOF(szExpPath));
+		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, _countof(szExpPath));
 		PathToAbsoluteT(szExpPath, szOutPath);
 	}
 	else {

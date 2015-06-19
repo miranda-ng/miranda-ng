@@ -359,7 +359,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		if (sscanf(store, "%s", tmp2) == EOF) continue;
 		//template start
 		bool bFound = false;
-		for (unsigned i = 0; i < SIZEOF(templateNames); i++) {
+		for (unsigned i = 0; i < _countof(templateNames); i++) {
 			if (!strncmp(store, templateNames[i].tokenString, templateNames[i].tokenLen)) {
 				bFound = true;
 				break;
@@ -386,7 +386,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		"MessageOutGroupStart", "MessageOutGroupInner",
 		"hMessageOutGroupStart", "hMessageOutGroupInner" };
 	tmap->grouping = true;
-	for (i = 0; i < SIZEOF(groupTemplates); i++) {
+	for (i = 0; i < _countof(groupTemplates); i++) {
 		if (tmap->getTemplate(groupTemplates[i]) == NULL) {
 			tmap->grouping = false;
 			break;
@@ -394,7 +394,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 	}
 	static const char *rtlTemplates[] = { "MessageInRTL", "MessageOutRTL" }; //"HTMLStartRTL",
 	tmap->rtl = true;
-	for (i = 0; i < SIZEOF(rtlTemplates); i++) {
+	for (i = 0; i < _countof(rtlTemplates); i++) {
 		if (tmap->getTemplate(rtlTemplates[i]) == NULL) {
 			tmap->rtl = false;
 			break;

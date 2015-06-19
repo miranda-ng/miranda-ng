@@ -76,9 +76,9 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON))); 
 		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
-		mir_sntprintf(title, SIZEOF(title), _T("%s [%s]"), TranslateT("Linklist plugin"), (LPCTSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)DlgParam->hContact, GCDNF_TCHAR));
+		mir_sntprintf(title, _countof(title), _T("%s [%s]"), TranslateT("Linklist plugin"), (LPCTSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)DlgParam->hContact, GCDNF_TCHAR));
 		SetWindowText(hDlg, title);
-		GetFilterText(listMenu, filter, SIZEOF(filter));
+		GetFilterText(listMenu, filter, _countof(filter));
 		SetDlgItemText(hDlg, IDC_STATUS, filter);
 			
 		mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterProc);
@@ -207,7 +207,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case IDM_CLEARSEARCH: // clear search results
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
 			WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
@@ -221,7 +221,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hDlg, WM_CLOSE, 0, 0);
 			break;
 		case IDM_DIR_IN: // view only incoming messages
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
@@ -234,11 +234,11 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			}		
-			GetFilterText(GetMenu(hDlg), filter, SIZEOF(filter));
+			GetFilterText(GetMenu(hDlg), filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
 		case IDM_DIR_OUT: // view only outgoing messages
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				break; // not possible if search dialog is open
@@ -251,11 +251,11 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			}
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
 		case IDM_TYPE_WEB: // view only e-mail addresses
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			// not possible if search dialog is open
 			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
@@ -269,7 +269,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			}
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
 		case IDM_TYPE_MAIL: // view only URLs
@@ -284,7 +284,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			}
-			GetFilterText(listMenu, filter, SIZEOF(filter));
+			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
 		}
@@ -413,7 +413,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 				mir_free(buffer);
 			}		
-			mir_sntprintf(filter, SIZEOF(filter), _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
+			mir_sntprintf(filter, _countof(filter), _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
 			SetDlgItemText(hWndMain, IDC_STATUS, filter);
 			} break;
 		}

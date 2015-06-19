@@ -25,7 +25,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			for (INT c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++)
 			{
-				mir_snprintf(tszStatus, SIZEOF(tszStatus), "%d", c);
+				mir_snprintf(tszStatus, _countof(tszStatus), "%d", c);
 				pszStatus=(TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)c,GSMDF_TCHAR);
 				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
@@ -98,7 +98,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
 					Menu_ModifyItem(hEnableMenu, &mi);
 
-					GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, SIZEOF(ptszText));
+					GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, _countof(ptszText));
 					db_set_ts(NULL, protocolname, KEY_HEADING, ptszText);
 
 					INT size = GetDlgItemInt(hwndDlg, IDC_INTERVAL, &translated, FALSE);
@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						else
 						{
 							char szStatus[6] = {0};
-							mir_snprintf(szStatus, SIZEOF(szStatus), "%d", c);
+							mir_snprintf(szStatus, _countof(szStatus), "%d", c);
 
 							if (c<ID_STATUS_FREECHAT && ptszMessage[c-ID_STATUS_ONLINE-1])
 								db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);

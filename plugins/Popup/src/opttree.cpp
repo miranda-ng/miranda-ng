@@ -33,7 +33,7 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = hItem;
 	tvi.pszText = buf;
-	tvi.cchTextMax = SIZEOF(buf);
+	tvi.cchTextMax = _countof(buf);
 	SendMessage(hwndTree, TVM_GETITEMW, 0, (LPARAM)&tvi);
 	tvi.pszText = TranslateTS(tvi.pszText);
 	SendMessage(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
@@ -80,7 +80,7 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHA
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = SIZEOF(str);
+	tvi.cchTextMax = _countof(str);
 
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);

@@ -72,7 +72,7 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	TCHAR text[1024];
-	BuildDTBText(dtb, name, text, SIZEOF(text));
+	BuildDTBText(dtb, name, text, _countof(text));
 	int gender = GetContactGender(hContact);
 
 	POPUPDATAT pd = { 0 };
@@ -116,7 +116,7 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	TCHAR text[1024];
-	BuildDABText(dab, name, text, SIZEOF(text));
+	BuildDABText(dab, name, text, _countof(text));
 	int gender = GetContactGender(hContact);
 
 	POPUPDATAT pd = { 0 };
@@ -156,7 +156,7 @@ int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	TCHAR text[1024];
-	BuildDTBText(dtb, name, text, SIZEOF(text));
+	BuildDTBText(dtb, name, text, _countof(text));
 	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
@@ -178,7 +178,7 @@ int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	TCHAR text[1024];
-	BuildDABText(dab, name, text, SIZEOF(text));
+	BuildDABText(dab, name, text, _countof(text));
 	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);

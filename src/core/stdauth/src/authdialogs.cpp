@@ -63,14 +63,14 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			TCHAR name[128] = _T("");
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s %s"), firstT, lastT);
+				off = mir_sntprintf(name, _countof(name), _T("%s %s"), firstT, lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), firstT);
+				off = mir_sntprintf(name, _countof(name), _T("%s"), firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), lastT);
+				off = mir_sntprintf(name, _countof(name), _T("%s"), lastT);
 			if (nickT[0]) {
 				if (off)
-					mir_sntprintf(name + off, SIZEOF(name) - off, _T(" (%s)"), nickT);
+					mir_sntprintf(name + off, _countof(name) - off, _T(" (%s)"), nickT);
 				else
 					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}
@@ -79,11 +79,11 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			TCHAR hdr[256];
 			if (uin && emailT[0])
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
 			else if (uin)
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
 			else
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT : TranslateT("(Unknown)"), acc->tszAccountName);
 
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 
@@ -188,14 +188,14 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TCHAR name[128] = _T("");
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s %s"), (TCHAR*)firstT, (TCHAR*)lastT);
+				off = mir_sntprintf(name, _countof(name), _T("%s %s"), (TCHAR*)firstT, (TCHAR*)lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), (TCHAR*)firstT);
+				off = mir_sntprintf(name, _countof(name), _T("%s"), (TCHAR*)firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), (TCHAR*)lastT);
+				off = mir_sntprintf(name, _countof(name), _T("%s"), (TCHAR*)lastT);
 			if (mir_tstrlen(nickT)) {
 				if (off)
-					mir_sntprintf(name + off, SIZEOF(name) - off, _T(" (%s)"), (TCHAR*)nickT);
+					mir_sntprintf(name + off, _countof(name) - off, _T(" (%s)"), (TCHAR*)nickT);
 				else
 					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}
@@ -204,11 +204,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			TCHAR hdr[256];
 			if (uin && emailT[0])
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (TCHAR*)emailT, acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (TCHAR*)emailT, acc->tszAccountName);
 			else if (uin)
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
 			else
-				mir_sntprintf(hdr, SIZEOF(hdr), TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (TCHAR*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+				mir_sntprintf(hdr, _countof(hdr), TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (TCHAR*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
 
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 			SetDlgItemText(hwndDlg, IDC_REASON, reasonT);
@@ -265,7 +265,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_DENYREASON))) {
 					TCHAR tszReason[256];
-					GetDlgItemText(hwndDlg, IDC_DENYREASON, tszReason, SIZEOF(tszReason));
+					GetDlgItemText(hwndDlg, IDC_DENYREASON, tszReason, _countof(tszReason));
 					CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)tszReason);
 				}
 				else CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, 0);

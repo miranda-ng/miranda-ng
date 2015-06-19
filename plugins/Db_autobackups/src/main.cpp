@@ -41,7 +41,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 
-	Icon_Register(g_hInstance, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
+	Icon_Register(g_hInstance, LPGEN("Database")"/"LPGEN("Database backups"), iconList, _countof(iconList));
 
 	return 0;
 }
@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 static int FoldersGetBackupPath(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hFolder, options.folder, SIZEOF(options.folder), DIR SUB_DIR);
+	FoldersGetCustomPathT(hFolder, options.folder, _countof(options.folder), DIR SUB_DIR);
 	return 0;
 }
 INT_PTR ABService(WPARAM, LPARAM)
@@ -67,16 +67,16 @@ INT_PTR DBSaveAs(WPARAM, LPARAM)
 {
 	TCHAR fname_buff[MAX_PATH], tszFilter[200];
 	OPENFILENAME ofn = { 0 };
-	CallService(MS_DB_GETPROFILENAMET, SIZEOF(fname_buff), (LPARAM)fname_buff);
+	CallService(MS_DB_GETPROFILENAMET, _countof(fname_buff), (LPARAM)fname_buff);
 
-	mir_sntprintf(tszFilter, SIZEOF(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"),
+	mir_sntprintf(tszFilter, _countof(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"),
 		TranslateT("Miranda NG databases"), 0, 0,
 		TranslateT("Compressed Miranda NG databases"), 0, 0,
 		TranslateT("All files"), 0, 0);
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = fname_buff;
-	ofn.nMaxFile = SIZEOF(fname_buff);
+	ofn.nMaxFile = _countof(fname_buff);
 	ofn.Flags = OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
 	ofn.lpstrFilter = tszFilter;
 	ofn.nFilterIndex = 1;

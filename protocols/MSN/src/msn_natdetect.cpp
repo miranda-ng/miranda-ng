@@ -312,7 +312,7 @@ static bool IsIcfEnabled(void)
 	if (FAILED(hr)) goto error;
 
 	TCHAR szFileName[MAX_PATH];
-	GetModuleFileName(NULL, szFileName, SIZEOF(szFileName));
+	GetModuleFileName(NULL, szFileName, _countof(szFileName));
 
 	wszFileName = mir_t2u(szFileName);
 

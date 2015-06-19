@@ -399,7 +399,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	case CLM_SETITEMTEXT:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
-		mir_tstrncpy(contact->szText, (TCHAR*)lParam, SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, (TCHAR*)lParam, _countof(contact->szText));
 		cli.pfnSortCLC(hwnd, dat, 1);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;

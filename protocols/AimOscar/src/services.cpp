@@ -346,7 +346,7 @@ INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (getByte(AIM_KEY_DA, 0)) return GAIR_NOAVATAR;
 
-	switch (get_avatar_filename(pai->hContact, pai->filename, SIZEOF(pai->filename), NULL))
+	switch (get_avatar_filename(pai->hContact, pai->filename, _countof(pai->filename), NULL))
 	{
 	case GAIR_SUCCESS:
 		if (!(wParam & GAIF_FORCE) || state != 1 ) 
@@ -479,12 +479,12 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 
 		TCHAR tFileName[MAX_PATH];
 		TCHAR *ext = _tcsrchr(szFileName, '.');
-		get_avatar_filename(NULL, tFileName, SIZEOF(tFileName), ext);
+		get_avatar_filename(NULL, tFileName, _countof(tFileName), ext);
 		int fileId = _topen(tFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 		if (fileId < 0)
 		{
 			char errmsg[512];
-			mir_snprintf(errmsg, SIZEOF(errmsg), "Cannot store avatar. File '%s' could not be created/overwritten", tFileName);
+			mir_snprintf(errmsg, _countof(errmsg), "Cannot store avatar. File '%s' could not be created/overwritten", tFileName);
 			ShowPopup(errmsg, ERROR_POPUP);
 			return 1; 
 		}

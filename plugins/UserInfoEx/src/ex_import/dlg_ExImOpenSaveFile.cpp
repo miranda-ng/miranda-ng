@@ -61,7 +61,7 @@ static void InitAlteredPlacesBar()
 			dwFolderID = 17; RegSetValueEx(hkPlacesBar, _T("Place2"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
 
 			// Miranda's installation path
-			GetModuleFileNameA(GetModuleHandleA("mir_app.dll"), szMirandaPath, SIZEOF(szMirandaPath));
+			GetModuleFileNameA(GetModuleHandleA("mir_app.dll"), szMirandaPath, _countof(szMirandaPath));
 			p = mir_strrchr(szMirandaPath, '\\');
 			if (p) 
 			{
@@ -69,7 +69,7 @@ static void InitAlteredPlacesBar()
 			}
 
 			// Miranda's profile path
-			if (!CallService(MS_DB_GETPROFILEPATH, SIZEOF(szProfilePath), (LPARAM)szProfilePath))
+			if (!CallService(MS_DB_GETPROFILEPATH, _countof(szProfilePath), (LPARAM)szProfilePath))
 			{
 				// only add if different from profile path
 				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
@@ -114,7 +114,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 			// miranda button
 			switch (tbb->idCommand) {
 			case 41063:
-				mir_tstrncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
+				mir_tstrncpy(szBtnText, TranslateT("Miranda NG"), _countof(szBtnText));
 				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
 				if (iString != -1) tbb->iString = iString;
 				// set tooltip
@@ -204,7 +204,7 @@ static void GetInitialDir(LPSTR pszInitialDir)
 
 	szRelative[0] = 0;
 	// is some standard path defined
-	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
+	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, _countof(szRelative))) {
 		if (!PathToAbsolute(szRelative, pszInitialDir))
 			mir_strcpy(pszInitialDir, szRelative);
 	}

@@ -47,38 +47,38 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	// if the string is not found in database, a value of "N/A" is stored in the field
 	WEATHERINFO winfo;
 	winfo.hContact = hContact;
-	GetStationID(hContact, winfo.id, SIZEOF(winfo.id));
+	GetStationID(hContact, winfo.id, _countof(winfo.id));
 
-	if (DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, SIZEOF(winfo.city)))
-		_tcsncpy(winfo.city, NODATA, SIZEOF(winfo.city) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, SIZEOF(winfo.update)))
-		_tcsncpy(winfo.update, NODATA, SIZEOF(winfo.update) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, SIZEOF(winfo.cond)))
-		_tcsncpy(winfo.cond, NODATA, SIZEOF(winfo.cond) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, SIZEOF(winfo.temp)))
-		_tcsncpy(winfo.temp, NODATA, SIZEOF(winfo.temp) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, SIZEOF(winfo.high)))
-		_tcsncpy(winfo.high, NODATA, SIZEOF(winfo.high) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, SIZEOF(winfo.low)))
-		_tcsncpy(winfo.low, NODATA, SIZEOF(winfo.low) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, SIZEOF(winfo.sunset)))
-		_tcsncpy(winfo.sunset, NODATA, SIZEOF(winfo.sunset) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, SIZEOF(winfo.sunrise)))
-		_tcsncpy(winfo.sunrise, NODATA, SIZEOF(winfo.sunrise) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, SIZEOF(winfo.wind)))
-		_tcsncpy(winfo.wind, NODATA, SIZEOF(winfo.wind) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, SIZEOF(winfo.winddir)))
-		_tcsncpy(winfo.winddir, NODATA, SIZEOF(winfo.winddir) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, SIZEOF(winfo.dewpoint)))
-		_tcsncpy(winfo.dewpoint, NODATA, SIZEOF(winfo.dewpoint) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, SIZEOF(winfo.pressure)))
-		_tcsncpy(winfo.pressure, NODATA, SIZEOF(winfo.pressure) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, SIZEOF(winfo.vis)))
-		_tcsncpy(winfo.vis, NODATA, SIZEOF(winfo.vis) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, SIZEOF(winfo.humid)))
-		_tcsncpy(winfo.humid, NODATA, SIZEOF(winfo.humid) - 1);
-	if (DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, SIZEOF(winfo.feel)))
-		_tcsncpy(winfo.feel, NODATA, SIZEOF(winfo.feel) - 1);
+	if (DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, _countof(winfo.city)))
+		_tcsncpy(winfo.city, NODATA, _countof(winfo.city) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, _countof(winfo.update)))
+		_tcsncpy(winfo.update, NODATA, _countof(winfo.update) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, _countof(winfo.cond)))
+		_tcsncpy(winfo.cond, NODATA, _countof(winfo.cond) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, _countof(winfo.temp)))
+		_tcsncpy(winfo.temp, NODATA, _countof(winfo.temp) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, _countof(winfo.high)))
+		_tcsncpy(winfo.high, NODATA, _countof(winfo.high) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, _countof(winfo.low)))
+		_tcsncpy(winfo.low, NODATA, _countof(winfo.low) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, _countof(winfo.sunset)))
+		_tcsncpy(winfo.sunset, NODATA, _countof(winfo.sunset) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, _countof(winfo.sunrise)))
+		_tcsncpy(winfo.sunrise, NODATA, _countof(winfo.sunrise) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, _countof(winfo.wind)))
+		_tcsncpy(winfo.wind, NODATA, _countof(winfo.wind) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, _countof(winfo.winddir)))
+		_tcsncpy(winfo.winddir, NODATA, _countof(winfo.winddir) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, _countof(winfo.dewpoint)))
+		_tcsncpy(winfo.dewpoint, NODATA, _countof(winfo.dewpoint) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, _countof(winfo.pressure)))
+		_tcsncpy(winfo.pressure, NODATA, _countof(winfo.pressure) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, _countof(winfo.vis)))
+		_tcsncpy(winfo.vis, NODATA, _countof(winfo.vis) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, _countof(winfo.humid)))
+		_tcsncpy(winfo.humid, NODATA, _countof(winfo.humid) - 1);
+	if (DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, _countof(winfo.feel)))
+		_tcsncpy(winfo.feel, NODATA, _countof(winfo.feel) - 1);
 
 	winfo.status = (WORD)db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
 	return winfo;
@@ -150,11 +150,11 @@ void EraseAllInfo()
 
 		// if no default station find, assign a new one
 		if (opt.Default[0] == 0) {
-			GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
+			GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 			opt.DefStn = hContact;
 			if ( !db_get_ts(hContact,WEATHERPROTONAME, "Nick",&dbv)) {
-				mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+				mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 				db_free(&dbv);
 				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 			}
@@ -176,12 +176,12 @@ void EraseAllInfo()
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
 		if ( !db_get_ts(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
-			_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
+			_tcsncpy(opt.Default, dbv.ptszVal, _countof(opt.Default) - 1);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
 		if ( !db_get_ts(LastContact,WEATHERPROTONAME, "Nick",&dbv)) {
-			mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 		}

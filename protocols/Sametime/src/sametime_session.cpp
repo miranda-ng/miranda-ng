@@ -155,7 +155,7 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 	TCHAR stzFromBuff[256];
 	stzFrom = mir_utf8decodeT(from->user_name);
 	stzText = mir_utf8decodeT(text);
-	mir_sntprintf(stzFromBuff, SIZEOF(stzFromBuff), TranslateT("Session announcement - from '%s'"), stzFrom);
+	mir_sntprintf(stzFromBuff, _countof(stzFromBuff), TranslateT("Session announcement - from '%s'"), stzFrom);
 	MessageBox(0, TranslateTS(stzText), stzFromBuff, MB_OK);
 	mir_free(stzText);
 	mir_free(stzFrom);
@@ -567,7 +567,7 @@ void CSametimeProto::InitSessionMenu()
 	mi.popupPosition = 500085001;
 	mi.position = 2000060000;
 	mi.ptszName = LPGENT("Send announcement...");
-	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);
+	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
 	mi.pszContactOwner = m_szModuleName;

@@ -129,9 +129,9 @@ void TSAPI CacheLogFonts()
 	memset(logfonts, 0, (sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2)));
 	for (int i = 0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
-		mir_snprintf(rtfFontsGlobal[i], SIZEOF(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic, logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
+		mir_snprintf(rtfFontsGlobal[i], _countof(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic, logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
 	}
-	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], SIZEOF(rtfFontsGlobal[MSGDLGFONTCOUNT]), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
+	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], _countof(rtfFontsGlobal[MSGDLGFONTCOUNT]), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
 
 	_tcsncpy(szToday, TranslateT("Today"), 20);
 	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
@@ -367,7 +367,7 @@ static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR co
 		else
 			szFormat = _T("d");
 
-		TimeZone_PrintTimeStamp(hTimeZone, check, szFormat, szResult, SIZEOF(szResult), 0);
+		TimeZone_PrintTimeStamp(hTimeZone, check, szFormat, szResult, _countof(szResult), 0);
 	}
 	return szResult;
 }
@@ -460,7 +460,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (dwEffectiveFlags & MWF_DIVIDERWANTED) {
 		static char szStyle_div[128] = "\0";
 		if (szStyle_div[0] == 0)
-			mir_snprintf(szStyle_div, SIZEOF(szStyle_div), "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
+			mir_snprintf(szStyle_div, _countof(szStyle_div), "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
 
 		str.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS);
 		dat->dwFlags &= ~MWF_DIVIDERWANTED;
@@ -1029,7 +1029,7 @@ static void SetupLogFormatting(TWindowData *dat)
 	if (dat->hHistoryEvents)
 		strncpy_s(dat->szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
 	else
-		mir_snprintf(dat->szMicroLf, SIZEOF(dat->szMicroLf), "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
+		mir_snprintf(dat->szMicroLf, _countof(dat->szMicroLf), "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
 }
 
 static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppend, BOOL isSent)
@@ -1139,7 +1139,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 
 	if (dat->hHistoryEvents && dat->curHistory == dat->maxHistory) {
 		char szPattern[50];
-		mir_snprintf(szPattern, SIZEOF(szPattern), "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
+		mir_snprintf(szPattern, _countof(szPattern), "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
 
 		FINDTEXTEXA fi;
 		fi.lpstrText = szPattern;

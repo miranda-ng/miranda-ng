@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	if (!Initialized) {
 		pOptions = options;
-		optionCount = SIZEOF(options);
+		optionCount = _countof(options);
 		// Если нет Variables, активируем галочки для старого метода рисования
 		if (!bVariablesExists)
 			for (i = 0; i < 8; i++)
@@ -310,9 +310,9 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
 
 			// Формат счётчиков
-			GetDlgItemText(hwndDlg, IDC_EDIT_COUNTER_FORMAT, Traffic_CounterFormat, SIZEOF(Traffic_CounterFormat));
+			GetDlgItemText(hwndDlg, IDC_EDIT_COUNTER_FORMAT, Traffic_CounterFormat, _countof(Traffic_CounterFormat));
 			// Формат всплывающей подсказки
-			GetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat, SIZEOF(Traffic_TooltipFormat));
+			GetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat, _countof(Traffic_TooltipFormat));
 
 			// Ключевой цвет
 			UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);

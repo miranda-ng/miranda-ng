@@ -125,7 +125,7 @@ char* ChangeInfoData::GetItemSettingText(int i, char *buf, size_t bufsize)
 void ChangeInfoData::PaintItemSetting(HDC hdc, RECT *rc, int i, UINT itemState)
 {
 	char str[MAX_PATH];
-	char *text = GetItemSettingText(i, str, SIZEOF(str));
+	char *text = GetItemSettingText(i, str, _countof(str));
 
 	const SettingItem &si = setting[i];
 	SettingItemData &sid = settingData[i];
@@ -204,7 +204,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR text[MAX_PATH];
 				lvi.lParam = lvi.iItem;
 				lvi.pszText = text;
-				utf8_to_tchar_static(setting[lvi.iItem].szDescription, text, SIZEOF(text));
+				utf8_to_tchar_static(setting[lvi.iItem].szDescription, text, _countof(text));
 				ListView_InsertItem(dat->hwndList, &lvi);
 			}
 		}
@@ -467,17 +467,17 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			if (ack->type != ACKTYPE_SETINFO) break;
 			if (ack->result == ACKRESULT_SUCCESS) {
-				for (i = 0; i < SIZEOF(dat->hUpload); i++)
+				for (i = 0; i < _countof(dat->hUpload); i++)
 					if (dat->hUpload[i] && ack->hProcess == dat->hUpload[i]) break;
 
-				if (i == SIZEOF(dat->hUpload)) break;
+				if (i == _countof(dat->hUpload)) break;
 				dat->hUpload[i] = NULL;
-				for (done = 0, i = 0; i < SIZEOF(dat->hUpload); i++)
+				for (done = 0, i = 0; i < _countof(dat->hUpload); i++)
 					done += dat->hUpload[i] == NULL;
 				TCHAR buf[MAX_PATH];
-				mir_sntprintf(buf, TranslateT("Upload in progress...%d%%"), 100 * done / (SIZEOF(dat->hUpload)));
+				mir_sntprintf(buf, TranslateT("Upload in progress...%d%%"), 100 * done / (_countof(dat->hUpload)));
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, buf);
-				if (done < SIZEOF(dat->hUpload)) break;
+				if (done < _countof(dat->hUpload)) break;
 
 				dat->ClearChangeFlags();
 				UnhookEvent(dat->hAckHook);

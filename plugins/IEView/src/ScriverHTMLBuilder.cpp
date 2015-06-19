@@ -136,13 +136,13 @@ char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		today = mktime(&tm_today);
 
 		if (dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
-			strncpy(szResult, Translate("Today"), SIZEOF(szResult)-1);
+			strncpy(szResult, Translate("Today"), _countof(szResult)-1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}
 		}
 		else if (dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
-			strncpy(szResult, Translate("Yesterday"), SIZEOF(szResult)-1);
+			strncpy(szResult, Translate("Yesterday"), _countof(szResult)-1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}
@@ -161,8 +161,8 @@ char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		mir_strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
 	}
 	if (format[0] != '\0') {
-		TimeZone_ToString(check, format, str, SIZEOF(str));
-		mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
+		TimeZone_ToString(check, format, str, _countof(str));
+		mir_strncat(szResult, str, _countof(szResult) - mir_strlen(szResult));
 	}
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;

@@ -57,7 +57,7 @@ void cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 
 static int GetStatusModeOrdering(int statusMode)
 {
-	for (int i = 0; i < SIZEOF(statusModeOrder); i++)
+	for (int i = 0; i < _countof(statusModeOrder); i++)
 		if (statusModeOrder[i].status == statusMode)
 			return statusModeOrder[i].order;
 	return 1000;
@@ -153,7 +153,7 @@ int CompareContacts2(const ClcContact *contact1, const ClcContact *contact2, int
 int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 {
 	int i, r;
-	for (i = 0; i < SIZEOF(g_CluiData.bSortByOrder); i++)
+	for (i = 0; i < _countof(g_CluiData.bSortByOrder); i++)
 	{
 		r = CompareContacts2(contact1, contact2, g_CluiData.bSortByOrder[i]);
 		if (r != 0)

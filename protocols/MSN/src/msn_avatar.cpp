@@ -79,7 +79,7 @@ LBL_Error:
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = fmt;
 	ai.hContact = p->hContact;
-	MSN_GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename), szExt);
+	MSN_GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename), szExt);
 	_tremove(ai.filename);
 
 	int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);

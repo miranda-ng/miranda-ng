@@ -199,9 +199,9 @@ void LoadConfig()
 {
 	for (int indx = 0; indx < 4; indx++) {
 		char szNameFG[4], szNameBG[4], szNameTO[4];
-		mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
-		mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
-		mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
+		mir_snprintf(szNameFG, _countof(szNameFG), "FG%d", indx);
+		mir_snprintf(szNameBG, _countof(szNameBG), "BG%d", indx);
+		mir_snprintf(szNameTO, _countof(szNameTO), "TO%d", indx);
 		options.FG[indx] = db_get_dw(NULL, SERVICENAME, szNameFG, optionsDefault.FG[indx]);
 		options.BG[indx] = db_get_dw(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
 		options.Timeout[indx] = db_get_dw(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);

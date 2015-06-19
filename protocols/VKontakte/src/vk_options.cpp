@@ -63,10 +63,10 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			TCHAR str[1025];
-			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
 			ppro->setTString("Login", str);
 			
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
 			T2Utf szRawPasswd(str);
 			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
@@ -170,16 +170,16 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCHAR str[1025];
-			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
 			ppro->setTString("Login", str);
 
-			GetDlgItemText(hwndDlg, IDC_GROUPNAME, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_GROUPNAME, str, _countof(str));
 			if (mir_tstrcmp(ppro->getGroup(), str)) {
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}
 			
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, _countof(str));
 			T2Utf szRawPasswd(str);
 			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
@@ -330,7 +330,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			db_set_b(NULL, "ListeningTo", szListeningTo, ppro->m_iMusicSendMetod == 0 ? 0 : 1);
 
 			TCHAR buffer[5] = { 0 };
-			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, SIZEOF(buffer));
+			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, _countof(buffer));
 			ppro->setDword("InvisibleInterval", ppro->m_iInvisibleInterval = _ttoi(buffer));
 		}
 		break;
@@ -494,10 +494,10 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			ppro->setByte("NotificationFilterInvites", ppro->m_bNotificationFilterInvites);
 
 			TCHAR buffer[5] = { 0 };
-			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, SIZEOF(buffer));
+			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, _countof(buffer));
 			ppro->setDword("NewsInterval", ppro->m_iNewsInterval = _ttoi(buffer));
 
-			GetDlgItemText(hwndDlg, IDC_ED_INT_NOTIF, buffer, SIZEOF(buffer));
+			GetDlgItemText(hwndDlg, IDC_ED_INT_NOTIF, buffer, _countof(buffer));
 			ppro->setDword("NotificationsInterval", ppro->m_iNotificationsInterval = _ttoi(buffer));
 			
 		}

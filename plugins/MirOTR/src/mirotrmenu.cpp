@@ -107,17 +107,17 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 			switch (level) {
 				case TRUST_PRIVATE:{
 					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
-					mir_tstrncpy(text,TranslateT(LANG_STATUS_PRIVATE),SIZEOF(text));
+					mir_tstrncpy(text,TranslateT(LANG_STATUS_PRIVATE),_countof(text));
 					size_t len = mir_tstrlen(text);
-					if(len < SIZEOF(text))
-						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
+					if(len < _countof(text))
+						mir_sntprintf(text+len, _countof(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_UNVERIFIED:{
 					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
-					mir_tstrncpy(text,TranslateT(LANG_STATUS_UNVERIFIED),SIZEOF(text));
+					mir_tstrncpy(text,TranslateT(LANG_STATUS_UNVERIFIED),_countof(text));
 					size_t len = mir_tstrlen(text);
-					if(len < SIZEOF(text))
-						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
+					if(len < _countof(text))
+						mir_sntprintf(text+len, _countof(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_FINISHED:
 					mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);

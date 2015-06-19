@@ -89,7 +89,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			else if (special == SVS_MONTH) {
 				if (dbv.bVal > 0 && dbv.bVal <= 12) {
 					pstr = str;
-					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1 + dbv.bVal, str, SIZEOF(str));
+					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1 + dbv.bVal, str, _countof(str));
 				}
 				else unspecified = 1;
 			}
@@ -111,7 +111,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				WORD wSave = dbv.wVal;
 				if (wSave == (WORD)-1) {
 					char szSettingName[100];
-					mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sName", szSetting);
+					mir_snprintf(szSettingName, _countof(szSettingName), "%sName", szSetting);
 					if (!db_get_ts(hContact, szModule, szSettingName, &dbv)) {
 						ptstr = dbv.ptszVal;
 						unspecified = false;
@@ -221,8 +221,8 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_EMAIL:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
 				TCHAR szExec[264], szEmail[256];
-				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, SIZEOF(szEmail));
-				mir_sntprintf(szExec, SIZEOF(szExec), _T("mailto:%s"), szEmail);
+				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
+				mir_sntprintf(szExec, _countof(szExec), _T("mailto:%s"), szEmail);
 				ShellExecute(hwndDlg, _T("open"), szExec, NULL, NULL, SW_SHOW);
 			}
 			break;
@@ -250,7 +250,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
 				TCHAR szTime[80];
-				if (printDateTimeByContact(hContact, _T("s"), szTime, SIZEOF(szTime), TZF_KNOWNONLY)) {
+				if (printDateTimeByContact(hContact, _T("s"), szTime, _countof(szTime), TZF_KNOWNONLY)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), FALSE);
 					SetDlgItemText(hwndDlg, IDC_LOCALTIME, TranslateT("<not specified>"));
 				}
@@ -344,7 +344,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_WEBPAGE:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
 				char szPage[256];
-				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, SIZEOF(szPage));
+				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, _countof(szPage));
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szPage);
 			}
 		}
@@ -482,7 +482,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_WEBPAGE:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
 				char szPage[256];
-				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, SIZEOF(szPage));
+				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, _countof(szPage));
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szPage);
 			}
 			break;
@@ -545,7 +545,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MYNOTES))) {
 						char text[2048];
-						GetDlgItemTextA(hwndDlg, IDC_MYNOTES, text, SIZEOF(text));
+						GetDlgItemTextA(hwndDlg, IDC_MYNOTES, text, _countof(text));
 						db_set_s(hContact, "UserInfo", "MyNotes", text);
 					}
 					else db_unset(hContact, "UserInfo", "MyNotes");

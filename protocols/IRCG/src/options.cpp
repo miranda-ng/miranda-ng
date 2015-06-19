@@ -207,12 +207,12 @@ static IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(hInst, "Protocols/IRC", iconList, SIZEOF(iconList), "IRC");
+	Icon_Register(hInst, "Protocols/IRC", iconList, _countof(iconList), "IRC");
 }
 
 HICON LoadIconEx(int iconId, bool big)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
@@ -221,7 +221,7 @@ HICON LoadIconEx(int iconId, bool big)
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
@@ -373,7 +373,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 	void OnOk(CCtrlButton*)
 	{
-		for (int k = 0; k < SIZEOF(sttRequiredFields); k++)
+		for (int k = 0; k < _countof(sttRequiredFields); k++)
 			if (!GetWindowTextLength(GetDlgItem(m_hwnd, sttRequiredFields[k]))) {
 				MessageBox(m_hwnd, TranslateT("Please complete all fields"), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 				return;
@@ -398,7 +398,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		pData->m_name = m_server.GetTextA();
 
 		char temp[255];
-		mir_snprintf(temp, SIZEOF(temp), "%s: %s", pData->m_group, pData->m_name);
+		mir_snprintf(temp, _countof(temp), "%s: %s", pData->m_group, pData->m_name);
 		mir_free(pData->m_name);
 		pData->m_name = mir_strdup(temp);
 
@@ -416,24 +416,24 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 static TDbSetting ConnectSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_userID), "UserID", DBVT_TCHAR, SIZEOF(pZero->m_userID) },
-	{ FIELD_OFFSET(CIrcProto, m_identSystem), "IdentSystem", DBVT_TCHAR, SIZEOF(pZero->m_identSystem) },
-	{ FIELD_OFFSET(CIrcProto, m_identPort), "IdentPort", DBVT_TCHAR, SIZEOF(pZero->m_identPort) },
+	{ FIELD_OFFSET(CIrcProto, m_userID), "UserID", DBVT_TCHAR, _countof(pZero->m_userID) },
+	{ FIELD_OFFSET(CIrcProto, m_identSystem), "IdentSystem", DBVT_TCHAR, _countof(pZero->m_identSystem) },
+	{ FIELD_OFFSET(CIrcProto, m_identPort), "IdentPort", DBVT_TCHAR, _countof(pZero->m_identPort) },
 
-	{ FIELD_OFFSET(CIrcProto, m_serverName ), "ServerName", DBVT_ASCIIZ, SIZEOF(pZero->m_serverName) },
-	{ FIELD_OFFSET(CIrcProto, m_portStart ), "PortStart", DBVT_ASCIIZ, SIZEOF(pZero->m_portStart) },
-	{ FIELD_OFFSET(CIrcProto, m_portEnd ), "PortEnd", DBVT_ASCIIZ, SIZEOF(pZero->m_portEnd ) },
-	{ FIELD_OFFSET(CIrcProto, m_password ), "Password", DBVT_ASCIIZ, SIZEOF(pZero->m_password ) },
+	{ FIELD_OFFSET(CIrcProto, m_serverName ), "ServerName", DBVT_ASCIIZ, _countof(pZero->m_serverName) },
+	{ FIELD_OFFSET(CIrcProto, m_portStart ), "PortStart", DBVT_ASCIIZ, _countof(pZero->m_portStart) },
+	{ FIELD_OFFSET(CIrcProto, m_portEnd ), "PortEnd", DBVT_ASCIIZ, _countof(pZero->m_portEnd ) },
+	{ FIELD_OFFSET(CIrcProto, m_password ), "Password", DBVT_ASCIIZ, _countof(pZero->m_password ) },
 	{ FIELD_OFFSET(CIrcProto, m_joinOnInvite ), "JoinOnInvite", DBVT_BYTE },
-	{ FIELD_OFFSET(CIrcProto, m_network ), "Network", DBVT_ASCIIZ, SIZEOF(pZero->m_network ) },
+	{ FIELD_OFFSET(CIrcProto, m_network ), "Network", DBVT_ASCIIZ, _countof(pZero->m_network ) },
 	{ FIELD_OFFSET(CIrcProto, m_iSSL ), "UseSSL", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationTime) , "OnlineNotificationTime", DBVT_WORD, 0, 30 },
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationLimit) , "OnlineNotificationLimit", DBVT_WORD, 0, 50 },
 	{ FIELD_OFFSET(CIrcProto, m_channelAwayNotification), "ChannelAwayNotification", DBVT_BYTE, 0, 1 },
-	{ FIELD_OFFSET(CIrcProto, m_nick), "Nick", DBVT_TCHAR, SIZEOF(pZero->m_nick) },
-	{ FIELD_OFFSET(CIrcProto, m_pNick), "PNick", DBVT_TCHAR, SIZEOF(pZero->m_pNick) },
-	{ FIELD_OFFSET(CIrcProto, m_alternativeNick), "AlernativeNick", DBVT_TCHAR, SIZEOF(pZero->m_alternativeNick) },
-	{ FIELD_OFFSET(CIrcProto, m_name), "Name", DBVT_TCHAR, SIZEOF(pZero->m_name) },
+	{ FIELD_OFFSET(CIrcProto, m_nick), "Nick", DBVT_TCHAR, _countof(pZero->m_nick) },
+	{ FIELD_OFFSET(CIrcProto, m_pNick), "PNick", DBVT_TCHAR, _countof(pZero->m_pNick) },
+	{ FIELD_OFFSET(CIrcProto, m_alternativeNick), "AlernativeNick", DBVT_TCHAR, _countof(pZero->m_alternativeNick) },
+	{ FIELD_OFFSET(CIrcProto, m_name), "Name", DBVT_TCHAR, _countof(pZero->m_name) },
 	{ FIELD_OFFSET(CIrcProto, m_disableDefaultServer), "DisableDefaultServer", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_ident), "Ident", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_identTimer), "IdentTimer", DBVT_BYTE },
@@ -698,10 +698,10 @@ void CConnectPrefsDlg::OnApply()
 {
 	//Save the setting in the CONNECT dialog
 	if (m_enableServer.GetState()) {
-		m_server.GetTextA(m_proto->m_serverName, SIZEOF(m_proto->m_serverName));
-		m_port.GetTextA(m_proto->m_portStart, SIZEOF(m_proto->m_portStart));
-		m_port2.GetTextA(m_proto->m_portEnd, SIZEOF(m_proto->m_portEnd));
-		m_pass.GetTextA(m_proto->m_password, SIZEOF(m_proto->m_password));
+		m_server.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
+		m_port.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
+		m_port2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
+		m_pass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
 	}
 	else m_proto->m_serverName[0] = m_proto->m_portStart[0] = m_proto->m_portEnd[0] = m_proto->m_password[0] = 0;
 
@@ -709,16 +709,16 @@ void CConnectPrefsDlg::OnApply()
 	m_proto->m_onlineNotificationLimit = SendDlgItemMessage(m_hwnd, IDC_SPIN2, UDM_GETPOS, 0, 0);
 	m_proto->m_channelAwayNotification = m_channelAway.GetState();
 
-	m_nick.GetText(m_proto->m_nick, SIZEOF(m_proto->m_nick));
+	m_nick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
 	removeSpaces(m_proto->m_nick);
 	_tcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
-	m_nick2.GetText(m_proto->m_alternativeNick, SIZEOF(m_proto->m_alternativeNick));
+	m_nick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
 	removeSpaces(m_proto->m_alternativeNick);
-	m_userID.GetText(m_proto->m_userID, SIZEOF(m_proto->m_userID));
+	m_userID.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
 	removeSpaces(m_proto->m_userID);
-	m_name.GetText(m_proto->m_name, SIZEOF(m_proto->m_name));
-	m_identSystem.GetText(m_proto->m_identSystem, SIZEOF(m_proto->m_identSystem));
-	m_identPort.GetText(m_proto->m_identPort, SIZEOF(m_proto->m_identPort));
+	m_name.GetText(m_proto->m_name, _countof(m_proto->m_name));
+	m_identSystem.GetText(m_proto->m_identSystem, _countof(m_proto->m_identSystem));
+	m_identPort.GetText(m_proto->m_identPort, _countof(m_proto->m_identPort));
 	m_proto->m_disableDefaultServer = !m_enableServer.GetState();
 	m_proto->m_ident = m_ident.GetState();
 	m_proto->m_identTimer = m_identTimer.GetState();
@@ -780,9 +780,9 @@ void CConnectPrefsDlg::OnApply()
 
 				char TextLine[512];
 				if (pData->m_iSSL > 0)
-					mir_snprintf(TextLine, SIZEOF(TextLine), "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
+					mir_snprintf(TextLine, _countof(TextLine), "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				else
-					mir_snprintf(TextLine, SIZEOF(TextLine), "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
+					mir_snprintf(TextLine, _countof(TextLine), "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				db_set_s(NULL, SERVERSMODULE, pData->m_name, TextLine);
 
 				// combobox might contain new items
@@ -792,7 +792,7 @@ void CConnectPrefsDlg::OnApply()
 		}
 	}
 
-	m_proto->WriteSettings(ConnectSettings, SIZEOF(ConnectSettings));
+	m_proto->WriteSettings(ConnectSettings, _countof(ConnectSettings));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -800,14 +800,14 @@ void CConnectPrefsDlg::OnApply()
 
 static TDbSetting CtcpSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_userInfo), "UserInfo", DBVT_TCHAR, SIZEOF(pZero->m_userInfo) },
+	{ FIELD_OFFSET(CIrcProto, m_userInfo), "UserInfo", DBVT_TCHAR, _countof(pZero->m_userInfo) },
 	{ FIELD_OFFSET(CIrcProto, m_DCCPacketSize), "DccPacketSize", DBVT_WORD, 0, 4096 },
 	{ FIELD_OFFSET(CIrcProto, m_DCCPassive), "DccPassive", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_DCCMode), "DCCMode", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_manualHost), "ManualHost", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_IPFromServer), "IPFromServer", DBVT_BYTE, 0, 1 },
 	{ FIELD_OFFSET(CIrcProto, m_disconnectDCCChats), "DisconnectDCCChats", DBVT_BYTE },
-	{ FIELD_OFFSET(CIrcProto, m_mySpecifiedHost), "SpecHost", DBVT_ASCIIZ, SIZEOF(pZero->m_mySpecifiedHost) },
+	{ FIELD_OFFSET(CIrcProto, m_mySpecifiedHost), "SpecHost", DBVT_ASCIIZ, _countof(pZero->m_mySpecifiedHost) },
 	{ FIELD_OFFSET(CIrcProto, m_DCCChatAccept), "CtcpChatAccept", DBVT_BYTE, 0, 1 },
 	{ FIELD_OFFSET(CIrcProto, m_sendNotice), "SendNotice", DBVT_BYTE, 0, 1 }
 };
@@ -913,7 +913,7 @@ void CCtcpPrefsDlg::OnClicked(CCtrlData*)
 
 void CCtcpPrefsDlg::OnApply()
 {
-	m_userInfo.GetText(m_proto->m_userInfo, SIZEOF(m_proto->m_userInfo));
+	m_userInfo.GetText(m_proto->m_userInfo, _countof(m_proto->m_userInfo));
 
 	m_proto->m_DCCPacketSize = m_combo.GetInt();
 	m_proto->m_DCCPassive = m_passive.GetState();
@@ -939,7 +939,7 @@ void CCtcpPrefsDlg::OnApply()
 	if (m_radio3.GetState())
 		m_proto->m_DCCChatAccept = 3;
 
-	m_proto->WriteSettings(CtcpSettings, SIZEOF(CtcpSettings));
+	m_proto->WriteSettings(CtcpSettings, _countof(CtcpSettings));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -947,7 +947,7 @@ void CCtcpPrefsDlg::OnApply()
 
 static TDbSetting OtherSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_TCHAR, SIZEOF(pZero->m_quitMessage) },
+	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_TCHAR, _countof(pZero->m_quitMessage) },
 	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_TCHAR, -1 },
 	{ FIELD_OFFSET(CIrcProto, m_codepage), "Codepage", DBVT_DWORD, 0, CP_ACP },
 	{ FIELD_OFFSET(CIrcProto, m_utfAutodetect), "UtfAutodetect", DBVT_BYTE },
@@ -1055,7 +1055,7 @@ void COtherPrefsDlg::OnInitDialog()
 		}
 	}
 
-	for (int i = 0; i < SIZEOF(sttPerformEvents); i++) {
+	for (int i = 0; i < _countof(sttPerformEvents); i++) {
 		int idx = m_performCombo.InsertString(_A2T(Translate(sttPerformEvents[i])), i);
 		addPerformComboValue(idx, sttPerformEvents[i]);
 	}
@@ -1161,7 +1161,7 @@ void COtherPrefsDlg::OnApply()
 {
 	mir_free(m_proto->m_alias);
 	m_proto->m_alias = m_alias.GetText();
-	m_quitMessage.GetText(m_proto->m_quitMessage, SIZEOF(m_proto->m_quitMessage));
+	m_quitMessage.GetText(m_proto->m_quitMessage, _countof(m_proto->m_quitMessage));
 
 	int curSel = m_codepage.GetCurSel();
 	m_proto->m_codepage = m_codepage.GetItemData(curSel);
@@ -1187,7 +1187,7 @@ void COtherPrefsDlg::OnApply()
 				db_unset(NULL, m_proto->m_szModuleName, pPerf->mSetting.c_str());
 		}
 	}
-	m_proto->WriteSettings(OtherSettings, SIZEOF(OtherSettings));
+	m_proto->WriteSettings(OtherSettings, _countof(OtherSettings));
 }
 
 void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
@@ -1218,7 +1218,7 @@ CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg
 	if (mask == NULL)
 		szOldMask[0] = 0;
 	else
-		_tcsncpy(szOldMask, mask, SIZEOF(szOldMask));
+		_tcsncpy(szOldMask, mask, _countof(szOldMask));
 
 	m_Ok.OnClick = Callback(this, &CAddIgnoreDlg::OnOk);
 }
@@ -1248,8 +1248,8 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 	if (IsDlgButtonChecked(m_hwnd, IDC_C) == BST_CHECKED) flags += 'c';
 	if (IsDlgButtonChecked(m_hwnd, IDC_M) == BST_CHECKED) flags += 'm';
 
-	GetDlgItemText(m_hwnd, IDC_MASK, szMask, SIZEOF(szMask));
-	GetDlgItemText(m_hwnd, IDC_NETWORK, szNetwork, SIZEOF(szNetwork));
+	GetDlgItemText(m_hwnd, IDC_MASK, szMask, _countof(szMask));
+	GetDlgItemText(m_hwnd, IDC_NETWORK, szNetwork, _countof(szNetwork));
 
 	CMString Mask = GetWord(szMask, 0);
 	if (Mask.GetLength() != 0) {
@@ -1293,7 +1293,7 @@ static int CALLBACK IgnoreListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParam
 	LVITEM lvm;
 	lvm.mask = LVIF_TEXT;
 	lvm.iSubItem = 0;
-	lvm.cchTextMax = SIZEOF(temp1);
+	lvm.cchTextMax = _countof(temp1);
 
 	lvm.iItem = lParam1;
 	lvm.pszText = temp1;
@@ -1376,7 +1376,7 @@ void CIrcProto::InitIgnore(void)
 	int idx = 0;
 	char settingName[40];
 	for (;;) {
-		mir_snprintf(settingName, SIZEOF(settingName), "IGNORE:%d", idx++);
+		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", idx++);
 
 		DBVARIANT dbv;
 		if (getTString(settingName, &dbv))
@@ -1396,13 +1396,13 @@ void CIrcProto::RewriteIgnoreSettings(void)
 
 	int i = 0;
 	for (;;) {
-		mir_snprintf(settingName, SIZEOF(settingName), "IGNORE:%d", i++);
+		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", i++);
 		if (db_unset(NULL, m_szModuleName, settingName))
 			break;
 	}
 
 	for (i = 0; i < m_ignoreItems.getCount(); i++) {
-		mir_snprintf(settingName, SIZEOF(settingName), "IGNORE:%d", i);
+		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", i);
 
 		CIrcIgnoreItem& C = m_ignoreItems[i];
 		setTString(settingName, (C.mask + _T(" ") + C.flags + _T(" ") + C.network).c_str());
@@ -1553,7 +1553,7 @@ void CIgnorePrefsDlg::OnDelete(CCtrlButton*)
 
 	TCHAR szMask[512];
 	int i = m_list.GetSelectionMark();
-	m_list.GetItemText(i, 0, szMask, SIZEOF(szMask));
+	m_list.GetItemText(i, 0, szMask, _countof(szMask));
 	m_proto->RemoveIgnore(szMask);
 }
 
@@ -1570,7 +1570,7 @@ void CIgnorePrefsDlg::OnApply()
 	m_proto->m_ignore = m_enable.GetState();
 	m_proto->m_ignoreChannelDefault = m_ignoreChannel.GetState();
 	m_proto->m_DCCChatIgnore = m_ignoreUnknown.GetState() ? 2 : 1;
-	m_proto->WriteSettings(IgnoreSettings, SIZEOF(IgnoreSettings));
+	m_proto->WriteSettings(IgnoreSettings, _countof(IgnoreSettings));
 }
 
 void CIgnorePrefsDlg::OnDestroy()
@@ -1581,9 +1581,9 @@ void CIgnorePrefsDlg::OnDestroy()
 	int i = m_list.GetItemCount();
 	for (int j = 0; j < i; j++) {
 		TCHAR szMask[512], szFlags[40], szNetwork[100];
-		m_list.GetItemText(j, 0, szMask, SIZEOF(szMask));
-		m_list.GetItemText(j, 1, szFlags, SIZEOF(szFlags));
-		m_list.GetItemText(j, 2, szNetwork, SIZEOF(szNetwork));
+		m_list.GetItemText(j, 0, szMask, _countof(szMask));
+		m_list.GetItemText(j, 1, szFlags, _countof(szFlags));
+		m_list.GetItemText(j, 2, szNetwork, _countof(szNetwork));
 		m_proto->m_ignoreItems.insert(new CIrcIgnoreItem(szMask, szFlags, szNetwork));
 	}
 
@@ -1694,10 +1694,10 @@ void CIrcProto::InitPrefs(void)
 
 	OtherSettings[0].defStr = STR_QUITMESSAGE;
 
-	ReadSettings(ConnectSettings, SIZEOF(ConnectSettings));
-	ReadSettings(CtcpSettings, SIZEOF(CtcpSettings));
-	ReadSettings(OtherSettings, SIZEOF(OtherSettings));
-	ReadSettings(IgnoreSettings, SIZEOF(IgnoreSettings));
+	ReadSettings(ConnectSettings, _countof(ConnectSettings));
+	ReadSettings(CtcpSettings, _countof(CtcpSettings));
+	ReadSettings(OtherSettings, _countof(OtherSettings));
+	ReadSettings(IgnoreSettings, _countof(IgnoreSettings));
 
 	int x = getDword("SizeOfListBottom", -1);
 	if (x != -1) {
@@ -1797,20 +1797,20 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 	virtual void OnApply()
 	{
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel();
-		m_server.GetTextA(m_proto->m_serverName, SIZEOF(m_proto->m_serverName));
-		m_port.GetTextA(m_proto->m_portStart, SIZEOF(m_proto->m_portStart));
-		m_port2.GetTextA(m_proto->m_portEnd, SIZEOF(m_proto->m_portEnd));
-		m_pass.GetTextA(m_proto->m_password, SIZEOF(m_proto->m_password));
+		m_server.GetTextA(m_proto->m_serverName, _countof(m_proto->m_serverName));
+		m_port.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
+		m_port2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
+		m_pass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
 
-		m_nick.GetText(m_proto->m_nick, SIZEOF(m_proto->m_nick));
+		m_nick.GetText(m_proto->m_nick, _countof(m_proto->m_nick));
 		removeSpaces(m_proto->m_nick);
 		_tcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
-		m_nick2.GetText(m_proto->m_alternativeNick, SIZEOF(m_proto->m_alternativeNick));
+		m_nick2.GetText(m_proto->m_alternativeNick, _countof(m_proto->m_alternativeNick));
 		removeSpaces(m_proto->m_alternativeNick);
-		m_userID.GetText(m_proto->m_userID, SIZEOF(m_proto->m_userID));
+		m_userID.GetText(m_proto->m_userID, _countof(m_proto->m_userID));
 		removeSpaces(m_proto->m_userID);
-		m_name.GetText(m_proto->m_name, SIZEOF(m_proto->m_name));
-		m_proto->WriteSettings(ConnectSettings, SIZEOF(ConnectSettings));
+		m_name.GetText(m_proto->m_name, _countof(m_proto->m_name));
+		m_proto->WriteSettings(ConnectSettings, _countof(ConnectSettings));
 	}
 
 	void OnChangeCombo(CCtrlCombo*)

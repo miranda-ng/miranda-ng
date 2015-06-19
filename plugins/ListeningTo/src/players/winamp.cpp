@@ -27,7 +27,7 @@ Winamp::Winamp()
 { 
 	name = _T("Winamp");
 	window_classes = wcs;
-	num_window_classes = SIZEOF(wcs);
+	num_window_classes = _countof(wcs);
 	message_window_class = MIRANDA_WINDOWCLASS _T(".Winamp");
 	dll_name = "gen_mlt";
 }

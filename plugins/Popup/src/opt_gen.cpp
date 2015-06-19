@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					TCHAR prefix[128];
-					mir_sntprintf(prefix, SIZEOF(prefix), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					mir_sntprintf(prefix, _countof(prefix), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
 					pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
 				}
 			}
@@ -240,10 +240,10 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					char prefix[128];
-					mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
+					mir_snprintf(prefix, _countof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 
 					TCHAR pszSettingName[256];
-					mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					mir_sntprintf(pszSettingName, _countof(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
 					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
 				}
 			}
@@ -526,10 +526,10 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					for (int i = 0; i < protocolCount; ++i) {
 						if (!protocols[i]->bIsVirtual) {
 							char prefix[128];
-							mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
+							mir_snprintf(prefix, _countof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 
 							TCHAR pszSettingName[256];
-							mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), _T("Protocol Status/%s"), protocols[i]->tszAccountName);
+							mir_sntprintf(pszSettingName, _countof(pszSettingName), _T("Protocol Status/%s"), protocols[i]->tszAccountName);
 							db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
 						}
 					}
@@ -581,7 +581,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void ErrorMSG(int minValue, int maxValue)
 {
 	TCHAR str[128];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
+	mir_sntprintf(str, _countof(str), TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
 	MSGERROR(str);
 }
 

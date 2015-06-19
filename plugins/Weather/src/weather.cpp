@@ -229,7 +229,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// window needed for popup commands
 	TCHAR SvcFunc[100];
-	mir_sntprintf(SvcFunc, SIZEOF(SvcFunc), _T("%s__PopupWindow"), _T(WEATHERPROTONAME));
+	mir_sntprintf(SvcFunc, _countof(SvcFunc), _T("%s__PopupWindow"), _T(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);

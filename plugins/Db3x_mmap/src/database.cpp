@@ -87,7 +87,7 @@ void __cdecl dbpanic(void *)
 			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
 		TCHAR err[256];
-		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
+		mir_sntprintf(err, _countof(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}
@@ -128,13 +128,13 @@ char* printVariant(DBVARIANT* p)
 	static char boo[1000];
 
 	switch (p->type) {
-	case DBVT_BYTE:	 mir_snprintf(boo, SIZEOF(boo), "byte: %d", p->bVal ); break;
-	case DBVT_WORD:	 mir_snprintf(boo, SIZEOF(boo), "word: %d", p->wVal ); break;
-	case DBVT_DWORD:	 mir_snprintf(boo, SIZEOF(boo), "dword: %d", p->dVal ); break;
+	case DBVT_BYTE:	 mir_snprintf(boo, _countof(boo), "byte: %d", p->bVal ); break;
+	case DBVT_WORD:	 mir_snprintf(boo, _countof(boo), "word: %d", p->wVal ); break;
+	case DBVT_DWORD:	 mir_snprintf(boo, _countof(boo), "dword: %d", p->dVal ); break;
 	case DBVT_UTF8:
-	case DBVT_ASCIIZ:  mir_snprintf(boo, SIZEOF(boo), "string: '%s'", p->pszVal); break;
+	case DBVT_ASCIIZ:  mir_snprintf(boo, _countof(boo), "string: '%s'", p->pszVal); break;
 	case DBVT_DELETED: mir_strcpy(boo, "deleted"); break;
-	default:				 mir_snprintf(boo, SIZEOF(boo), "crap: %d", p->type ); break;
+	default:				 mir_snprintf(boo, _countof(boo), "crap: %d", p->type ); break;
 	}
 	return boo;
 }

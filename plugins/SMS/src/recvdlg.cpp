@@ -138,7 +138,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				HWND hwndSendSms;
 				MCONTACT hContact;
 
-				hContact=HContactFromPhone(wszPhone,GetDlgItemText(hWndDlg,IDC_NUMBER,wszPhone,SIZEOF(wszPhone)));
+				hContact=HContactFromPhone(wszPhone,GetDlgItemText(hWndDlg,IDC_NUMBER,wszPhone,_countof(wszPhone)));
 				hwndSendSms=SendSMSWindowIsOtherInstanceHContact(hContact);
 				if (hwndSendSms)
 					SetFocus(hwndSendSms);
@@ -215,12 +215,12 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 			if (dwPhoneSize)
 				dwPhoneSize = CopyNumberW((wszPhoneLocal+1),lpwszPhone,dwPhoneSize);
 			else {
-				GetDataFromMessage(lpszMessage,dwMessageSize,NULL,(wszPhoneLocal+1),(SIZEOF(wszPhoneLocal)-1),&dwPhoneSize,NULL);
+				GetDataFromMessage(lpszMessage,dwMessageSize,NULL,(wszPhoneLocal+1),(_countof(wszPhoneLocal)-1),&dwPhoneSize,NULL);
 				dwPhoneSize++;
 			}
 
 			lpwszContactDisplayName = GetContactNameW(hContact);
-			mir_sntprintf(wszTitle, SIZEOF(wszTitle),_T("%s - %s"), lpwszContactDisplayName, lpwszTitlepart);
+			mir_sntprintf(wszTitle, _countof(wszTitle),_T("%s - %s"), lpwszContactDisplayName, lpwszTitlepart);
 			MultiByteToWideChar(CP_UTF8, 0, lpszMessage, (int)dwMessageSize, lpwszMessage, (int)dwMessageSize+MAX_PATH);
 
 			SetWindowText(prswdWindowData->hWnd, wszTitle);

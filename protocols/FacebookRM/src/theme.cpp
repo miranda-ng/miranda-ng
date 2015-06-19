@@ -51,12 +51,12 @@ static IconItem icons[] =
 
 void InitIcons(void)
 {
-	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons), "Facebook");
+	Icon_Register(g_hInstance, "Protocols/Facebook", icons, _countof(icons), "Facebook");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (size_t i = 0; i < SIZEOF(icons); i++)
+	for (size_t i = 0; i < _countof(icons); i++)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return icons[i].hIcolib;
 

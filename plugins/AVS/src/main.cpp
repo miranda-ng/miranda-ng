@@ -142,10 +142,10 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 		return;
 
 	char protoName[MAX_PATH];
-	mir_snprintf(protoName, SIZEOF(protoName), "Global avatar for %s accounts", proto->szName);
+	mir_snprintf(protoName, _countof(protoName), "Global avatar for %s accounts", proto->szName);
 
 	TCHAR protoNameTmp[MAX_PATH];
-	mir_sntprintf(protoNameTmp, SIZEOF(protoNameTmp), TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
+	mir_sntprintf(protoNameTmp, _countof(protoNameTmp), TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
 	if (CreateAvatarInCache(0, pce, protoName) != 1)
 		db_unset(0, PPICT_MODULE, protoName);
@@ -323,7 +323,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	TCHAR szEventName[100];
-	mir_sntprintf(szEventName, SIZEOF(szEventName), _T("avs_loaderthread_%d"), GetCurrentThreadId());
+	mir_sntprintf(szEventName, _countof(szEventName), _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 
 	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
@@ -381,7 +381,7 @@ static int LoadAvatarModule()
 	InitServices();
 	InitPolls();
 
-	_tcsncpy_s(g_szDataPath, SIZEOF(g_szDataPath), VARST(_T("%miranda_userdata%\\")), _TRUNCATE);
+	_tcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(_T("%miranda_userdata%\\")), _TRUNCATE);
 	_tcslwr(g_szDataPath);
 	return 0;
 }

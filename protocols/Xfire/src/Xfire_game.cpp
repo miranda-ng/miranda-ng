@@ -57,7 +57,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 			//port begrenzen
 			port = port % 65535;
 			//port in string wandeln
-			mir_snprintf(portstr, SIZEOF(portstr), "%d", port);
+			mir_snprintf(portstr, _countof(portstr), "%d", port);
 
 			str_replace(mynetworkparams, "%UA_GAME_HOST_NAME%", ip);
 			str_replace(mynetworkparams, "%UA_GAME_HOST_PORT%", portstr);
@@ -192,11 +192,11 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		TCHAR fpath[MAX_PATH] = _T("");
 
 		//lese den pfad des spiels aus
-		GetModuleFileNameEx(op, NULL, fpath, SIZEOF(fpath));
+		GetModuleFileNameEx(op, NULL, fpath, _countof(fpath));
 
 		//8.3 pfade umwandeln, nur wenn sich eine tilde im string befindet
 		if (_tcschr(fpath, '~'))
-			GetLongPathName(fpath, fpath, SIZEOF(fpath));
+			GetLongPathName(fpath, fpath, _countof(fpath));
 
 		//alles in kelinbuchstaben umwandeln
 		this->strtolowerT(fpath);
@@ -440,7 +440,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	mi.pszPopupName = Translate("Start game");
 	mi.pszContactOwner = protocolname;
 
-	mir_snprintf(temp, SIZEOF(temp), servicefunction, this->id);
+	mir_snprintf(temp, _countof(temp), servicefunction, this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
 	if (ServiceExists(temp))
 		DestroyServiceFunction(temp);

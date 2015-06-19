@@ -758,7 +758,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					break;
 				case CBN_EDITCHANGE:
-					GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
+					GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
 					if ((item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)theme)) == CB_ERR) {	//new theme
 						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
@@ -780,13 +780,13 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if(HIWORD(wParam) == EN_CHANGE) {
 					TCHAR theme[MAX_PATH+1], customAux[MAX_PATH+1];
 
-					GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
+					GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
 					int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 					if (item == CB_ERR)
 						return TRUE;
 					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 					if (str) {
-						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, SIZEOF(customAux));
+						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, _countof(customAux));
 						if (mir_wstrcmp(str, customAux))
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), TRUE);
 						else
@@ -798,7 +798,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 				TCHAR custom[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, SIZEOF(custom));
+				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, _countof(custom));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
 				testSequence(custom);
 				}
@@ -807,7 +807,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 				TCHAR theme[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
 				if (!theme[0])
 					return TRUE;
 				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
@@ -827,7 +827,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 				TCHAR theme[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
 				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str) {
@@ -842,7 +842,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 				TCHAR theme[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
 				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
@@ -884,7 +884,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_HIDEREADONLY|OFN_NOCHANGEDIR|OFN_NOREADONLYRETURN|OFN_PATHMUSTEXIST;
-				ofn.nMaxFile = SIZEOF(path);
+				ofn.nMaxFile = _countof(path);
 				ofn.lpstrDefExt = _T("knt");
 				if(GetSaveFileName(&ofn))
 					exportThemes(path);
@@ -912,7 +912,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_FILEMUSTEXIST|OFN_HIDEREADONLY|OFN_NOCHANGEDIR;
-				ofn.nMaxFile = SIZEOF(path);
+				ofn.nMaxFile = _countof(path);
 				ofn.lpstrDefExt = _T("knt");
 				if(GetOpenFileName(&ofn)) {
 					importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
@@ -1115,7 +1115,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), TRUE);
 					break;
 				case CBN_EDITCHANGE:
-					GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, SIZEOF(szFileName));
+					GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
 					if ((item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName)) == CB_ERR) {	//new program
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDPGM), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
@@ -1131,7 +1131,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				int item;
 				TCHAR szFileName[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, SIZEOF(szFileName));
+				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
 				if (!szFileName[0])
 					break;
 				item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_ADDSTRING, 0, (LPARAM)szFileName);
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				int item;
 				TCHAR szFileName[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, SIZEOF(szFileName));
+				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
 				item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
 				SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_DELETESTRING, (WPARAM)item, 0);
 				if (SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0) == 0) {

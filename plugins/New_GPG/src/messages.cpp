@@ -957,7 +957,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDOK:
 			{
 				TCHAR tmp[64];
-				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, SIZEOF(tmp));
+				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, _countof(tmp));
 				if(tmp[0])
 				{
 					extern TCHAR *password;

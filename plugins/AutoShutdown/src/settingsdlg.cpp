@@ -45,7 +45,7 @@ static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage,LPARAM lParam)
 	/* dialog closed? */
 	if (!IsWindow((HWND)lParam)) return FALSE; /* stop poll thread */
 	TCHAR str[64];
-	mir_sntprintf(str,SIZEOF(str),TranslateT("(current: %u%%)"),nCpuUsage);
+	mir_sntprintf(str,_countof(str),TranslateT("(current: %u%%)"),nCpuUsage);
 	SetWindowText((HWND)lParam,str);
 	return TRUE;
 }
@@ -116,8 +116,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				HWND hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT);
 				DWORD lastUnit=db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 				SendMessage(hwndCombo,CB_SETLOCALE,(WPARAM)locale,0); /* sort order */
-				SendMessage(hwndCombo,CB_INITSTORAGE,SIZEOF(unitNames),SIZEOF(unitNames)*16); /* approx. */
-				for(int i=0;i<SIZEOF(unitNames);++i) {
+				SendMessage(hwndCombo,CB_INITSTORAGE,_countof(unitNames),_countof(unitNames)*16); /* approx. */
+				for(int i=0;i<_countof(unitNames);++i) {
 					int index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)TranslateTS(unitNames[i]));
 					if (index != LB_ERR) {
 						SendMessage(hwndCombo,CB_SETITEMDATA,index,(LPARAM)unitValues[i]);

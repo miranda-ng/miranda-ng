@@ -227,7 +227,7 @@ IconItemT iconItem[] = {
 
 void InitIconLibMenuIcons(void)
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, SIZEOF(iconItem));
+	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
 }
 
 void InitGroupMenus(void)

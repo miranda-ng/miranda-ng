@@ -261,7 +261,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					if (strncmp(resp->pData,"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A",8) == 0) avatarType = PA_FORMAT_PNG;
 					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
-					getAvatarFilename(ai.hContact, ai.filename, SIZEOF(ai.filename));
+					getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
 					file_fd = _topen(ai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
 					if (file_fd != -1) {
 						_write(file_fd, resp->pData, resp->dataLength);
@@ -389,7 +389,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	size_t avatarFileB64EncLen = mir_strlen(avatarFileB64Enc);
 
 	char dataPrefix[64];
-	mir_snprintf(dataPrefix, SIZEOF(dataPrefix), "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
+	mir_snprintf(dataPrefix, _countof(dataPrefix), "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
 	size_t dataPrefixLen = mir_strlen(dataPrefix);
 
 	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;

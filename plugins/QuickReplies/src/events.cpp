@@ -52,8 +52,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
 
 		char buttonNameTranslated[32], buttonName[32];
-		mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x", Translate("Button"), iNumber + 1);
-		mir_snprintf(buttonName, SIZEOF(buttonName), MODULE" %x", iNumber + 1);
+		mir_snprintf(buttonNameTranslated, _countof(buttonNameTranslated), "%s %x", Translate("Button"), iNumber + 1);
+		mir_snprintf(buttonName, _countof(buttonName), MODULE" %x", iNumber + 1);
 
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);
@@ -81,20 +81,20 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	LIST<wchar_t> replyList(1);
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
-	mir_snprintf(buttonName, SIZEOF(buttonName), MODULE" %x", iNumber + 1);
+	mir_snprintf(buttonName, _countof(buttonName), MODULE" %x", iNumber + 1);
 	if (mir_strcmp(cbcd->pszModule, buttonName))
 		return 0;
 
 	if (cbcd->dwButtonId != iNumber)
 		return 1;
 
-	mir_snprintf(key, SIZEOF(key), "RepliesCount_%x", iNumber);
+	mir_snprintf(key, _countof(key), "RepliesCount_%x", iNumber);
 	count = db_get_w(NULL, MODULE, key, 0);
 
 	{
 		if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON)
 		{
-			mir_snprintf(buttonName, SIZEOF(buttonName), "%s %x", Translate("Button"), iNumber + 1);
+			mir_snprintf(buttonName, _countof(buttonName), "%s %x", Translate("Button"), iNumber + 1);
 
 			OPENOPTIONSDIALOG ood = {0};
 			ood.cbSize = sizeof(ood);
@@ -109,7 +109,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 
 		for (int i = 0; i < count; i++)
 		{
-			mir_snprintf(key, SIZEOF(key), "Reply_%x_%x", iNumber, i);
+			mir_snprintf(key, _countof(key), "Reply_%x_%x", iNumber, i);
 			wchar_t *value = db_get_wsa(NULL, MODULE, key);
 
 			if (!value)
@@ -137,7 +137,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 
 				SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)replyList[index - 1]);
 
-				mir_snprintf(key, SIZEOF(key), "ImmediatelySend_%x", iNumber);
+				mir_snprintf(key, _countof(key), "ImmediatelySend_%x", iNumber);
 				if ((BYTE)db_get_b(NULL, MODULE, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
 					SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 			}
@@ -156,7 +156,7 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_BB_REMOVEBUTTON))
 	{
 		char buttonName[32];
-		mir_snprintf(buttonName, SIZEOF(buttonName), MODULE" %x", iNumber + 1);
+		mir_snprintf(buttonName, _countof(buttonName), MODULE" %x", iNumber + 1);
 
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);

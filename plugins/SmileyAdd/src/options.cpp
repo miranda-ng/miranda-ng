@@ -247,7 +247,7 @@ void OptionsDialogType::AddCategory(void)
 {
 	TCHAR cat[30];
 
-	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, SIZEOF(cat)); 
+	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, _countof(cat)); 
 	CMString catd = cat;
 
 	if (!catd.IsEmpty()) {
@@ -517,7 +517,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 
 	TCHAR filename[MAX_PATH] = _T("");
 	ofn.lpstrFile = filename;
-	ofn.nMaxFile = SIZEOF(filename);
+	ofn.nMaxFile = _countof(filename);
 
 	CMString inidir;
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item); 
@@ -564,7 +564,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 void OptionsDialogType::FilenameChanged(void)
 {
 	TCHAR str[MAX_PATH];
-	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, SIZEOF(str));
+	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, _countof(str));
 
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto()); 
 	if (smc->GetFilename() != str) {

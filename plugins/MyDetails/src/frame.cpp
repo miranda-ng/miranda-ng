@@ -234,19 +234,19 @@ int CreateFrame()
 		memset(&font_id[i], 0, sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontIDT);
-		mir_tstrncpy(font_id[i].group, LPGENT("My details"), SIZEOF(font_id[i].group));
-		mir_tstrncpy(font_id[i].name, font_names[i], SIZEOF(font_id[i].name));
-		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, SIZEOF(font_id[i].dbSettingsGroup));
-		mir_tstrncpy(font_id[i].backgroundName, LPGENT("Background"), SIZEOF(font_id[i].backgroundName));
-		mir_tstrncpy(font_id[i].backgroundGroup, LPGENT("My details"), SIZEOF(font_id[i].backgroundGroup));
+		mir_tstrncpy(font_id[i].group, LPGENT("My details"), _countof(font_id[i].group));
+		mir_tstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
+		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, _countof(font_id[i].dbSettingsGroup));
+		mir_tstrncpy(font_id[i].backgroundName, LPGENT("Background"), _countof(font_id[i].backgroundName));
+		mir_tstrncpy(font_id[i].backgroundGroup, LPGENT("My details"), _countof(font_id[i].backgroundGroup));
 
-		mir_strncpy(font_id[i].prefix, font_settings[i], SIZEOF(font_id[i].prefix));
+		mir_strncpy(font_id[i].prefix, font_settings[i], _countof(font_id[i].prefix));
 
 		font_id[i].deffontsettings.colour = font_colors[i];
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		font_id[i].deffontsettings.style = font_styles[i];
 		font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
-		mir_tstrncpy(font_id[i].deffontsettings.szFace, _T("Tahoma"), SIZEOF(font_id[i].deffontsettings.szFace));
+		mir_tstrncpy(font_id[i].deffontsettings.szFace, _T("Tahoma"), _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
 		FontRegisterT(&font_id[i]);
@@ -1475,7 +1475,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 	// Add this proto to menu
 	TCHAR tmp[128];
-	mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Enable listening to for %s"), proto->description);
+	mir_sntprintf(tmp, _countof(tmp), TranslateT("Enable listening to for %s"), proto->description);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -1715,7 +1715,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my avatar for %s..."), proto->description);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my avatar for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1755,7 +1755,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s..."), proto->description);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1803,7 +1803,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."), proto->description);
+					mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), proto->description);
 
 					MENUITEMINFO mii = { 0 };
 					mii.cbSize = sizeof(mii);
@@ -1822,7 +1822,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				// Add this to menu
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."),
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."),
 					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
 
 				MENUITEMINFO mii = { 0 };
@@ -1888,7 +1888,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR tmp[128];
 				MENUITEMINFO mii = { 0 };
 
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Enable listening to for %s"), proto->description);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Enable listening to for %s"), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
@@ -1904,7 +1904,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				// Add this to menu
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."),
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."),
 					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
 
 				memset(&mii, 0, sizeof(mii));
@@ -1924,7 +1924,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."), proto->description);
+					mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), proto->description);
 
 					memset(&mii, 0, sizeof(mii));
 					mii.cbSize = sizeof(mii);
@@ -1942,7 +1942,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					InsertMenuItem(submenu, 0, TRUE, &mii);
 				}
 
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s..."), proto->description);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
@@ -1959,7 +1959,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
-				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my avatar for %s..."), proto->description);
+				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my avatar for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);

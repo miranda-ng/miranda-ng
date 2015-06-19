@@ -10,9 +10,9 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			char name[2048];
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)hContact);
 
-			if (!db_get_static(hContact, MODNAME, "Name", name, SIZEOF(name))) break;
+			if (!db_get_static(hContact, MODNAME, "Name", name, _countof(name))) break;
 			SetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, name);
-			if (!db_get_static(hContact, MODNAME, "ToolTip", name, SIZEOF(name))) break;
+			if (!db_get_static(hContact, MODNAME, "ToolTip", name, _countof(name))) break;
 			SetDlgItemTextA(hwnd, IDC_TOOLTIP, name);
 		}
 		return TRUE;
@@ -29,7 +29,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_DISPLAY_NAME))) {
 					char text[512];
-					GetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, text, SIZEOF(text));
+					GetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, text, _countof(text));
 					db_set_s(hContact, MODNAME, "Name", text);
 					WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");
 				}
@@ -40,7 +40,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_TOOLTIP))) {
 					char text[2048];
-					GetDlgItemTextA(hwnd, IDC_TOOLTIP, text, SIZEOF(text));
+					GetDlgItemTextA(hwnd, IDC_TOOLTIP, text, _countof(text));
 					db_set_s(hContact, MODNAME, "ToolTip", text);
 					WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
 				}
@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (!db_get_w(NULL, MODNAME, "Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_sntprintf(string, SIZEOF(string), TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
+					mir_sntprintf(string, _countof(string), TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}
@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_OPEN_FOLDER:
 			if (BrowseForFolder(hwnd, szFileName)) {
-				mir_snprintf(szFileName, SIZEOF(szFileName), "%s ,/e", szFileName);
+				mir_snprintf(szFileName, _countof(szFileName), "%s ,/e", szFileName);
 				SetDlgItemTextA(hwnd, IDC_LINK, "explorer.exe");
 				SetDlgItemTextA(hwnd, IDC_PARAMS, szFileName);
 			}
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_LINK))) {
 					char text[512];
-					GetDlgItemTextA(hwnd, IDC_LINK, text, SIZEOF(text));
+					GetDlgItemTextA(hwnd, IDC_LINK, text, _countof(text));
 					db_set_s(hContact, MODNAME, "ProgramString", text);
 					WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
 				}
@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_PARAMS))) {
 					char text[512];
-					GetDlgItemTextA(hwnd, IDC_PARAMS, text, SIZEOF(text));
+					GetDlgItemTextA(hwnd, IDC_PARAMS, text, _countof(text));
 					db_set_s(hContact, MODNAME, "ProgramParamsString", text);
 					WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 				}
@@ -233,7 +233,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_GROUP))) {
 					TCHAR text[512];
-					GetDlgItemText(hwnd, IDC_GROUP, text, SIZEOF(text));
+					GetDlgItemText(hwnd, IDC_GROUP, text, _countof(text));
 					Clist_CreateGroup(NULL, text);
 					db_set_ts(hContact, "CList", "Group", text);
 				}
@@ -252,7 +252,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
 					if (GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER))) {
 						TCHAR text[512];
-						GetDlgItemText(hwnd, IDC_TIMER, text, SIZEOF(text));
+						GetDlgItemText(hwnd, IDC_TIMER, text, _countof(text));
 						db_set_w(hContact, MODNAME, "Timer", (WORD)_ttoi(text));
 					}
 					else db_set_w(hContact, MODNAME, "Timer", 15);
@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				int i = 0, j = 0, k = 0;
 				char *string = oldString[k];
 				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
-				if (db_get_static(hContact1, MODNAME, "Name", dbVar1, SIZEOF(dbVar1))) {
+				if (db_get_static(hContact1, MODNAME, "Name", dbVar1, _countof(dbVar1))) {
 					char *replace = (char*)malloc(GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) + 1);
 					GetDlgItemTextA(hwnd, IDC_STRING_REPLACE, replace, GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) + 1);
 					// get the list of replace strings
@@ -347,7 +347,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 					db_set_s(hContact2, MODNAME, "Name", dbVar2);
 					// copy the ProgramString
-					if (db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, SIZEOF(dbVar1))) {
+					if (db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, _countof(dbVar1))) {
 						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
@@ -355,7 +355,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						db_set_s(hContact2, MODNAME, "ProgramString", dbVar2);
 					}
 					// copy the ProgramParamString
-					if (db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, SIZEOF(dbVar1))) {
+					if (db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, _countof(dbVar1))) {
 						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
@@ -363,7 +363,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						db_set_s(hContact2, MODNAME, "ProgramParamString", dbVar2);
 					}
 					// copy the group
-					if (db_get_static(hContact1, "CList", "Group", dbVar1, SIZEOF(dbVar1))) {
+					if (db_get_static(hContact1, "CList", "Group", dbVar1, _countof(dbVar1))) {
 						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
@@ -371,7 +371,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						db_set_s(hContact2, "CList", "Group", dbVar2);
 					}
 					// copy the ToolTip
-					if (db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, SIZEOF(dbVar1))) {
+					if (db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, _countof(dbVar1))) {
 						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
@@ -390,7 +390,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			else {
 				char dbVar1[2000];
 				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				if (db_get_static(hContact1, MODNAME, "Name", dbVar1, SIZEOF(dbVar1))) {
+				if (db_get_static(hContact1, MODNAME, "Name", dbVar1, _countof(dbVar1))) {
 					MCONTACT hContact2 = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 					if (!hContact2) {
 						msg("contact did not get created", "");
@@ -400,19 +400,19 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
 					db_set_s(hContact2, MODNAME, "Name", dbVar1);
-					if (db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, SIZEOF(dbVar1)))
+					if (db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, _countof(dbVar1)))
 						db_set_s(hContact2, MODNAME, "ProgramString", dbVar1);
 
 					// copy the ProgramParamString
-					if (db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, SIZEOF(dbVar1)))
+					if (db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, _countof(dbVar1)))
 						db_set_s(hContact2, MODNAME, "ProgramParamString", dbVar1);
 
 					// copy the group
-					if (db_get_static(hContact1, "CList", "Group", dbVar1, SIZEOF(dbVar1)))
+					if (db_get_static(hContact1, "CList", "Group", dbVar1, _countof(dbVar1)))
 						db_set_s(hContact2, "CList", "Group", dbVar1);
 
 					// copy the ToolTip
-					if (db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, SIZEOF(dbVar1)))
+					if (db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, _countof(dbVar1)))
 						db_set_s(hContact2, MODNAME, "ToolTip", dbVar1);
 
 					// timer
@@ -453,15 +453,15 @@ void ExportContact(MCONTACT hContact)
 		//	else 
 		FILE *file = fopen(szFileName, "a");
 		if (file) {
-			if (db_get_static(hContact, MODNAME, "Name", DBVar, SIZEOF(DBVar))) {
+			if (db_get_static(hContact, MODNAME, "Name", DBVar, _countof(DBVar))) {
 				fprintf(file, "\r\n[Non-IM Contact]\r\nName=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ProgramString", DBVar, SIZEOF(DBVar)))
+				if (db_get_static(hContact, MODNAME, "ProgramString", DBVar, _countof(DBVar)))
 					fprintf(file, "ProgramString=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ProgramParamString", DBVar, SIZEOF(DBVar)))
+				if (db_get_static(hContact, MODNAME, "ProgramParamString", DBVar, _countof(DBVar)))
 					fprintf(file, "ProgramParamString=%s\r\n", DBVar);
-				if (db_get_static(hContact, MODNAME, "ToolTip", DBVar, SIZEOF(DBVar)))
+				if (db_get_static(hContact, MODNAME, "ToolTip", DBVar, _countof(DBVar)))
 					fprintf(file, "ToolTip=%s</tooltip>\r\n", DBVar);
-				if (db_get_static(hContact, "CList", "Group", DBVar, SIZEOF(DBVar)))
+				if (db_get_static(hContact, "CList", "Group", DBVar, _countof(DBVar)))
 					fprintf(file, "Group=%s\r\n", DBVar);
 				if (tmp = db_get_w(hContact, MODNAME, "Icon", 40072))
 					fprintf(file, "Icon=%d\r\n", tmp);

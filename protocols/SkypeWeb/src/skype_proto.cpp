@@ -23,7 +23,7 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	m_hProtoIcon = Icons[0].Handle;
 
 	wchar_t name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;

@@ -133,9 +133,9 @@ extern "C" __declspec(dllexport) int Load()
 	sid.cx = sid.cy = 16;
 	sid.section.t = _T(MODULENAME);
 
-	for (int i = 0; i < SIZEOF(forms); i++) {
+	for (int i = 0; i < _countof(forms); i++) {
 		char szSettingName[64];
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODNAME, forms[i].pszIconIcoLib);
+		mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODNAME, forms[i].pszIconIcoLib);
 
 		sid.pszName = szSettingName;
 		sid.description.t = forms[i].ptszDescr;
@@ -261,14 +261,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 		StatusItem* si = new StatusItem();
 		si->m_iIcon = i - 1;
 
-		mir_snprintf(bufTitle, SIZEOF(bufTitle), "XStatus%dName", i);
+		mir_snprintf(bufTitle, _countof(bufTitle), "XStatus%dName", i);
 		if (!db_get_ts(NULL, protoName, bufTitle, &dbv)) {
 			mir_tstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
-		mir_snprintf(bufMessage, SIZEOF(bufMessage), "XStatus%dMsg", i);
+		mir_snprintf(bufMessage, _countof(bufMessage), "XStatus%dMsg", i);
 		if (!db_get_ts(NULL, protoName, bufMessage, &dbv)) {
 			mir_tstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
@@ -361,7 +361,7 @@ void CSWindow::deinitIcons()
 
 void CSWindow::initButtons()
 {
-	for (int i = 0; i < SIZEOF(forms); i++) {
+	for (int i = 0; i < _countof(forms); i++) {
 		if (forms[i].idc < 0)
 			continue;
 
@@ -390,7 +390,7 @@ void CSWindow::toggleEmptyListMessage()
 BOOL CSWindow::itemPassedFilter(ListItem< StatusItem >* li)
 {
 	TCHAR filter[MAX_PATH];
-	GetDlgItemText(m_handle, IDC_FILTER_FIELD, filter, SIZEOF(filter));
+	GetDlgItemText(m_handle, IDC_FILTER_FIELD, filter, _countof(filter));
 
 	if (mir_tstrlen(filter))
 	{
@@ -417,7 +417,7 @@ void CSWindow::toggleFilter()
 	else
 	{
 		TCHAR filterText[255];
-		GetDlgItemText(m_handle, IDC_FILTER_FIELD, filterText, SIZEOF(filterText));
+		GetDlgItemText(m_handle, IDC_FILTER_FIELD, filterText, _countof(filterText));
 		if (filterText[0] != 0)
 			SetDlgItemText(m_handle, IDC_FILTER_FIELD, TEXT(""));
 	}
@@ -539,7 +539,7 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 			EDITBALLOONTIP ebt = { 0 };
 			ebt.cbStruct = sizeof(ebt);
 			ebt.pszTitle = TranslateT("Warning");
-			mir_sntprintf(tszPopupTip, SIZEOF(tszPopupTip), TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
+			mir_sntprintf(tszPopupTip, _countof(tszPopupTip), TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
 			ebt.pszText = tszPopupTip;
 			ebt.ttiIcon = TTI_WARNING;
 			SendDlgItemMessage(m_handle, item, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
@@ -565,7 +565,7 @@ void CSAMWindow::checkItemValidity()
 
 	TCHAR tszInputMessage[EXTRASTATUS_MESSAGE_LIMIT];
 
-	GetDlgItemText(m_handle, IDC_MESSAGE, tszInputMessage, SIZEOF(tszInputMessage));
+	GetDlgItemText(m_handle, IDC_MESSAGE, tszInputMessage, _countof(tszInputMessage));
 
 	PROTOACCOUNT *pdescr = Proto_GetAccount(m_parent->m_protoName);
 	if (pdescr == NULL)
@@ -579,7 +579,7 @@ void CSAMWindow::checkItemValidity()
 	cs.ptszName = tszTitle;
 	cs.wParam = &i;
 	if (CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-		mir_tstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), SIZEOF(m_item->m_tszTitle));
+		mir_tstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), _countof(m_item->m_tszTitle));
 
 	if (mir_tstrcmp(m_item->m_tszMessage, tszInputMessage))
 		mir_tstrcpy(m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
@@ -738,30 +738,30 @@ int CSItemsList::compareItems(const StatusItem* p1, const StatusItem* p2)
 void CSItemsList::loadItems(char *protoName)
 {
 	char dbSetting[32];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_ItemsCount", protoName);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_ItemsCount", protoName);
 	unsigned int itemsCount = getWord(dbSetting, DEFAULT_ITEMS_COUNT);
 
 	for (unsigned int i = 1; i <= itemsCount; i++) {
 		StatusItem* item = new StatusItem();
 		DBVARIANT dbv;
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dIcon", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dIcon", protoName, i);
 		item->m_iIcon = getByte(dbSetting, DEFAULT_ITEM_ICON);
 
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dTitle", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dTitle", protoName, i);
 		if (!getTString(dbSetting, &dbv)) {
 			mir_tstrcpy(item->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dMessage", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dMessage", protoName, i);
 		if (!getTString(dbSetting, &dbv)) {
 			mir_tstrcpy(item->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszMessage[0] = 0;
 
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dFavourite", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dFavourite", protoName, i);
 		item->m_bFavourite = (BOOL)getByte(dbSetting, DEFAULT_ITEM_IS_FAVOURITE);
 
 		m_list->add(item);
@@ -773,34 +773,34 @@ void CSItemsList::saveItems(char *protoName)
 {
 	unsigned int i;
 	char dbSetting[32];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_ItemsCount", protoName);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_ItemsCount", protoName);
 	unsigned int oldItemsCount = getWord(dbSetting, DEFAULT_ITEMS_COUNT);
 
 	for (i = 1; i <= m_list->getCount(); i++)
 	{
 		StatusItem* item = m_list->get(i - 1);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dIcon", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dIcon", protoName, i);
 		setByte(dbSetting, item->m_iIcon);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dTitle", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dTitle", protoName, i);
 		setTString(dbSetting, item->m_tszTitle);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dMessage", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dMessage", protoName, i);
 		setTString(dbSetting, item->m_tszMessage);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dFavourite", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dFavourite", protoName, i);
 		setByte(dbSetting, item->m_bFavourite);
 	}
 
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_ItemsCount", protoName);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_ItemsCount", protoName);
 	setWord(dbSetting, m_list->getCount());
 
 	for (; i <= oldItemsCount; i++)
 	{
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dIcon", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dIcon", protoName, i);
 		deleteSetting(dbSetting);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dTitle", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dTitle", protoName, i);
 		deleteSetting(dbSetting);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dMessage", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dMessage", protoName, i);
 		deleteSetting(dbSetting);
-		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dFavourite", protoName, i);
+		mir_snprintf(dbSetting, _countof(dbSetting), "%s_Item%dFavourite", protoName, i);
 		deleteSetting(dbSetting);
 	}
 }

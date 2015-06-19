@@ -104,7 +104,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 	if (data_len > 0) {
 		const TCHAR *type;
 		ai.format = ProtoGetBufferFormat(data, &type);
-		get_avatar_filename(ai.hContact, ai.filename, SIZEOF(ai.filename), type);
+		get_avatar_filename(ai.hContact, ai.filename, _countof(ai.filename), type);
 
 		int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY,  _S_IREAD | _S_IWRITE);
 		if (fileId >= 0) {

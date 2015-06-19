@@ -45,7 +45,7 @@ void RemoveTopToolbarButtons()
 int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 {
 	if (iconList[0].hIcolib == NULL)
-		Icon_Register(hInst, "Toolbar/StartupStatus", iconList, SIZEOF(iconList));
+		Icon_Register(hInst, "Toolbar/StartupStatus", iconList, _countof(iconList));
 
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 

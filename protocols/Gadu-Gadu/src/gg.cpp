@@ -64,11 +64,11 @@ TCHAR* ws_strerror(int code)
    if (code == 0)
    {
       TCHAR buff[128];
-      int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, SIZEOF(buff), NULL);
+      int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
       if (len == 0)
-         mir_sntprintf(err_desc, SIZEOF(err_desc), _T("WinSock %u: Unknown error."), WSAGetLastError());
+         mir_sntprintf(err_desc, _countof(err_desc), _T("WinSock %u: Unknown error."), WSAGetLastError());
       else
-         mir_sntprintf(err_desc, SIZEOF(err_desc), _T("WinSock %d: %s"), WSAGetLastError(), buff);
+         mir_sntprintf(err_desc, _countof(err_desc), _T("WinSock %d: %s"), WSAGetLastError(), buff);
       return err_desc;
    }
 
@@ -155,18 +155,18 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		TCHAR avatarsPath[MAX_PATH];
-		mir_sntprintf(avatarsPath, SIZEOF(avatarsPath), _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+		mir_sntprintf(avatarsPath, _countof(avatarsPath), _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 
 		debugLog(_T("cleanuplastplugin() 1: miranda_avatarcache = %s"), avatarsPath);
 
 		TCHAR spec[MAX_PATH + 10];
-		mir_sntprintf(spec, SIZEOF(spec), _T("%s\\*.(null)"), avatarsPath);
+		mir_sntprintf(spec, _countof(spec), _T("%s\\*.(null)"), avatarsPath);
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(spec, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				TCHAR filePathT [2*MAX_PATH + 10];
-				mir_sntprintf(filePathT, SIZEOF(filePathT), _T("%s\\%s"), avatarsPath, ffd.cFileName);
+				mir_sntprintf(filePathT, _countof(filePathT), _T("%s\\%s"), avatarsPath, ffd.cFileName);
 				if (!_taccess(filePathT, 0)){
 					debugLog(_T("cleanuplastplugin() 1: remove file = %s"), filePathT);
 					_tremove(filePathT);
@@ -240,7 +240,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 void GGPROTO::block_init()
 {
    char service[64];
-   mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
+   mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
    CreateProtoService(GGS_BLOCKUSER, &GGPROTO::blockuser);
 
    CLISTMENUITEM mi = { sizeof(mi) };
@@ -435,7 +435,7 @@ void gg_debughandler(int level, const char *format, va_list ap)
    strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
 
    char prefix[6];
-   mir_snprintf(prefix, SIZEOF(prefix), "%lu", GetCurrentThreadId());
+   mir_snprintf(prefix, _countof(prefix), "%lu", GetCurrentThreadId());
    size_t prefixLen = mir_strlen(prefix);
    if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
    memcpy(szText, prefix, PREFIXLEN);

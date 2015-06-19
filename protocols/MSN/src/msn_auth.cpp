@@ -153,8 +153,8 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	time_t ts = time(NULL);
 
 	TCHAR szTs1[64], szTs2[64];
-	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, _T("I"), szTs1, SIZEOF(szTs1), 0);
-	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, _T("I"), szTs2, SIZEOF(szTs2), 0);
+	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, _T("I"), szTs1, _countof(szTs1), 0);
+	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, _T("I"), szTs2, _countof(szTs2), 0);
 
 	CMStringA szAuthInfo(FORMAT, authPacket, int(ts), MyOptions.szEmail, ptrA(HtmlEncode(szPassword)), szTs1, szTs2);
 
@@ -266,7 +266,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						}
 						else if (retVal != 3 && retVal != 7) {
 							char err[512];
-							mir_snprintf(err, SIZEOF(err), "Unknown Authentication error: %s", szFault);
+							mir_snprintf(err, _countof(err), "Unknown Authentication error: %s", szFault);
 							MSN_ShowError(err);
 						}
 					}
@@ -954,7 +954,7 @@ const char *CMsnProto::GetSkypeToken(bool bAsAuthHeader)
 		nlhr.requestType = REQUEST_POST;
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
 		nlhr.nlc = hHttpsConnection;
-		nlhr.headersCount = SIZEOF(headers);
+		nlhr.headersCount = _countof(headers);
 		nlhr.headers = headers;
 		nlhr.headers[0].szName = "User-Agent";
 		nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;

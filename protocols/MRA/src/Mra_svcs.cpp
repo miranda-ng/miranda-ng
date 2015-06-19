@@ -353,13 +353,13 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 
 		// obsolete (TODO: remove in next version)
 		char szValueName[MAX_PATH];
-		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatus);
+		mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", dwXStatus);
 		if (!mraGetStringW(NULL, szValueName, szBuff))
 			szBuff = lpcszXStatusNameDef[dwXStatus];
 		mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, szBuff);
 
 		// obsolete (TODO: remove in next version)
-		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatus);
+		mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldMsg", dwXStatus);
 		if (mraGetStringW(NULL, szValueName, szBuff))
 			mraSetStringExW(NULL, DBSETTING_XSTATUSMSG, szBuff);
 		else
@@ -401,7 +401,7 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM, LPARAM lParam)
 
 				// set custom status name
 				if (pData->flags & CSSF_MASK_NAME) {
-					mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatus);
+					mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", dwXStatus);
 					if (pData->flags & CSSF_UNICODE) {
 						mraSetStringExW(NULL, szValueName, pData->pwszName);
 						mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, pData->pwszName);
@@ -414,7 +414,7 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM, LPARAM lParam)
 
 				// set custom status message
 				if (pData->flags & CSSF_MASK_MESSAGE) {
-					mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatus);
+					mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldMsg", dwXStatus);
 					if (pData->flags & CSSF_UNICODE) {
 						mraSetStringExW(NULL, szValueName, pData->pwszMessage);
 						mraSetStringExW(NULL, DBSETTING_XSTATUSMSG, pData->pwszMessage);
@@ -528,7 +528,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 	if (IsXStatusValid(dwXStatusMir)) {
 		char szValueName[MAX_PATH];
 		if (pwszStatusTitle.IsEmpty()) {
-			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
+			mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", dwXStatusMir);
 			// custom xstatus name
 			if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
 				wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
@@ -536,7 +536,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 		else wszStatusTitle = pwszStatusTitle;
 
 		if (pwszStatusDesc.IsEmpty()) {
-			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
+			mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldMsg", dwXStatusMir);
 			// custom xstatus description
 			mraGetStringW(NULL, szValueName, wszStatusDesc);
 		}

@@ -53,10 +53,10 @@ static void ApplyDownloads(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	VARST tszMirandaPath(_T("%miranda_path%"));
@@ -113,7 +113,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
 
 				TCHAR link[MAX_PATH];
-				mir_sntprintf(link, SIZEOF(link), PLUGIN_INFO_URL, tszFileName);
+				mir_sntprintf(link, _countof(link), PLUGIN_INFO_URL, tszFileName);
 				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
 			}
 		}
@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6) {
 				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+				GetModuleFileName(NULL, szPath, _countof(szPath));
 				TCHAR *ext = _tcsrchr(szPath, '.');
 				if (ext != NULL)
 					*ext = '\0';
@@ -346,7 +346,7 @@ static void __stdcall LaunchListDialog(void *param)
 static void GetList(void *)
 {
 	TCHAR tszTempPath[MAX_PATH];
-	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
+	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 
@@ -364,17 +364,17 @@ static void GetList(void *)
 		ServListEntry &hash = hashes[i];
 
 		TCHAR tszPath[MAX_PATH];
-		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), dirname, hash.m_name);
+		mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\%s"), dirname, hash.m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
 			FILEINFO *FileInfo = new FILEINFO;
 			FileInfo->bDeleteOnly = FALSE;
 			// copy the relative old name
-			_tcsncpy(FileInfo->tszOldName, hash.m_name, SIZEOF(FileInfo->tszOldName));
-			_tcsncpy(FileInfo->tszNewName, hash.m_name, SIZEOF(FileInfo->tszNewName));
+			_tcsncpy(FileInfo->tszOldName, hash.m_name, _countof(FileInfo->tszOldName));
+			_tcsncpy(FileInfo->tszNewName, hash.m_name, _countof(FileInfo->tszNewName));
 
 			TCHAR tszFileName[MAX_PATH];
-			_tcsncpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1, SIZEOF(tszFileName));
+			_tcsncpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1, _countof(tszFileName));
 			TCHAR *tp = _tcschr(tszFileName, L'.'); *tp = 0;
 
 			TCHAR tszRelFileName[MAX_PATH];
@@ -383,8 +383,8 @@ static void GetList(void *)
 			tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
 			_tcslwr(tp);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), baseUrl, tszRelFileName);
+			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), baseUrl, tszRelFileName);
 			for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
 				*tp++ = '/';
 			FileInfo->File.CRCsum = hash.m_crc;

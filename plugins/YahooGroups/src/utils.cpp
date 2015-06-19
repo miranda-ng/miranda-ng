@@ -271,7 +271,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 				{
 					case CNFT_BYTE:
 						{
-							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.bVal);
+							mir_sntprintf(tmp, _countof(tmp), _T("%d"), ctInfo.bVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -279,7 +279,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 						
 					case CNFT_WORD:
 						{
-							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.wVal);
+							mir_sntprintf(tmp, _countof(tmp), _T("%d"), ctInfo.wVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -287,7 +287,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 						
 					case CNFT_DWORD:
 						{
-							mir_sntprintf(tmp, SIZEOF(tmp), _T("%ld"), ctInfo.dVal);
+							mir_sntprintf(tmp, _countof(tmp), _T("%ld"), ctInfo.dVal);
 							buffer = _tcsdup(tmp);
 							
 							break;
@@ -327,7 +327,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 		szHandle = GetContactID(hContact, cProtocol);
 		
 		tmp = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
-		_tcsncpy(dispName, tmp, SIZEOF(dispName));
+		_tcsncpy(dispName, tmp, _countof(dispName));
 		
 		if ((szHandle) && ((mir_tstrcmpi(szHandle, szID) == 0) || (mir_tstrcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;

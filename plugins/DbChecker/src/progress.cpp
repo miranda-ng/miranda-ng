@@ -34,7 +34,7 @@ void AddToStatus(int flags, const TCHAR* fmt, ...)
 	va_start(vararg, fmt);
 
 	TCHAR str[256];
-	mir_vsntprintf(str, SIZEOF(str), fmt, vararg);
+	mir_vsntprintf(str, _countof(str), fmt, vararg);
 	va_end(vararg);
 
 	int i = SendMessage(hwndStatus, LB_ADDSTRING, 0, (LPARAM)str);

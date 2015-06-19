@@ -59,13 +59,13 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		case IDOK:
 			if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 				TCHAR newPasswd[512], text[512];
-				GetDlgItemText(hwndDlg, IDC_NEWPASSWD, newPasswd, SIZEOF(newPasswd));
-				GetDlgItemText(hwndDlg, IDC_NEWPASSWD2, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_NEWPASSWD, newPasswd, _countof(newPasswd));
+				GetDlgItemText(hwndDlg, IDC_NEWPASSWD2, text, _countof(text));
 				if (mir_tstrcmp(newPasswd, text)) {
 					MessageBox(hwndDlg, TranslateT("New password does not match."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 					break;
 				}
-				GetDlgItemText(hwndDlg, IDC_OLDPASSWD, text, SIZEOF(text));
+				GetDlgItemText(hwndDlg, IDC_OLDPASSWD, text, _countof(text));
 				if (mir_tstrcmp(text, ppro->m_ThreadInfo->conn.password)) {
 					MessageBox(hwndDlg, TranslateT("Current password is incorrect."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 					break;

@@ -348,7 +348,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 		return NULL;
 
 	TCHAR file[MAX_PATH];
-	mir_tstrncpy(file, path, SIZEOF(file));
+	mir_tstrncpy(file, path, _countof(file));
 	TCHAR *comma = _tcsrchr(file, ',');
 
 	int n;
@@ -368,7 +368,7 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 
 	int i = 0;
 	do { // find new unique name
-		mir_sntprintf(sourceName, SIZEOF(sourceName), _T("*StaticIcon_%d"), i++);
+		mir_sntprintf(sourceName, _countof(sourceName), _T("*StaticIcon_%d"), i++);
 	} while (iconSourceFileList.getIndex(&key) != -1);
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));

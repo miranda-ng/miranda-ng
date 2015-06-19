@@ -16,7 +16,7 @@ int Openfile(TCHAR *outputFile, const char *module, int maxlen)
 
 	if (module) {
 		int n = 0;
-		mir_tstrncpy(filename, _A2T(module), SIZEOF(filename));
+		mir_tstrncpy(filename, _A2T(module), _countof(filename));
 
 		while (filename[n]) {
 			switch (filename[n]) {
@@ -121,27 +121,27 @@ char* NickFromHContact(MCONTACT hContact)
 		int loaded = 0;
 		szProto[0] = 0;
 
-		if (!db_get_static(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			loaded = Proto_IsProtocolLoaded(szProto) ? 1 : 0;
 
-		if (!szProto[0] || db_get_static(hContact, szProto, "Nick", name, SIZEOF(name))) 
-			mir_strncpy(name, "(UNKNOWN)", SIZEOF(name));
+		if (!szProto[0] || db_get_static(hContact, szProto, "Nick", name, _countof(name))) 
+			mir_strncpy(name, "(UNKNOWN)", _countof(name));
 		
 		if (!loaded) {
 			if (szProto[0])
-				mir_snprintf(nick, SIZEOF(nick), "%s (%s)", name, szProto);
+				mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
 			else 
-				mir_strncpy(nick, name, SIZEOF(nick));
+				mir_strncpy(nick, name, _countof(nick));
 		}
 		else {
 			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
 				char szUID[FLD_SIZE];
-				GetValueA(hContact, szProto, uid, szUID, SIZEOF(szUID));
-				mir_snprintf(nick, SIZEOF(nick), "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
+				GetValueA(hContact, szProto, uid, szUID, _countof(szUID));
+				mir_snprintf(nick, _countof(nick), "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
 			}
 			else 
-				mir_snprintf(nick, SIZEOF(nick), "%s (%s)", name, szProto);
+				mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
 		}
 	}
 
@@ -269,9 +269,9 @@ MCONTACT CheckNewContact(const char *myProto, const char *uid, const char *myNam
 	char szProto[FLD_SIZE], szName[NAME_SIZE];
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		if (!db_get_static(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			if (!mir_strcmp(szProto, myProto))
-				if (GetValueA(hContact, szProto, uid, szName, SIZEOF(szName)) && !mir_strcmp(szName, myName))
+				if (GetValueA(hContact, szProto, uid, szName, _countof(szName)) && !mir_strcmp(szName, myName))
 					return hContact;
 
 	return INVALID_CONTACT_ID;
@@ -314,19 +314,19 @@ void importSettings(MCONTACT hContact, char *utf8)
 				char *p1 = strrchr(&importstring[i], '>*{');
 				char *p2 = strrchr(&importstring[i], '}*');
 
-				if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(szUID)) {
+				if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < _countof(szUID)) {
 					strncpy(szUID, p1 + 1, p2 - p1 - 2);
 
 					p1 = strrchr(&importstring[i], ')*<');
 					p2 = strrchr(&importstring[i], '>*{');
 
-					if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(uid)) {
+					if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < _countof(uid)) {
 						strncpy(uid, p1 + 1, p2 - p1 - 3);
 
 						p1 = strrchr(&importstring[i], ' *(');
 						p2 = strrchr(&importstring[i], ')*<');
 
-						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(szProto)) {
+						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < _countof(szProto)) {
 							strncpy(szProto, p1 + 1, p2 - p1 - 3);
 
 							char *protouid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -446,7 +446,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		TCHAR name[NAME_SIZE], msg[MSG_SIZE];
 
-		GetContactName((MCONTACT)lParam, NULL, name, SIZEOF(name));
+		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
 
 		mir_sntprintf(msg, TranslateT("Import to \"%s\""), name);
 		SetWindowText(hwnd, msg);
@@ -516,11 +516,11 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 	mir_tstrcpy(szFileNames, _T(""));	
 
 	if (!FilePath)
-		offset = Openfile2Import(szFileNames, SIZEOF(szFileNames));
+		offset = Openfile2Import(szFileNames, _countof(szFileNames));
 	else {
 	    _A2T tmp(FilePath);
 		if (GetFileAttributes(tmp) != INVALID_FILE_ATTRIBUTES)
-			mir_tstrncpy(szFileNames, tmp, SIZEOF(szFileNames));
+			mir_tstrncpy(szFileNames, tmp, _countof(szFileNames));
 	}
 
 	int index = 0;

@@ -314,7 +314,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 				IDS_MESSAGEDLG_DEF_OTL, ID_STATUS_OUTTOLUNCH
 			};
 
-			for (int i = 0; i < SIZEOF(DefMsgDlgItems); i++) {
+			for (int i = 0; i < _countof(DefMsgDlgItems); i++) {
 				if (DefMsgDlgItems[i].Status == Status) {
 					DefMsgID = MsgTreeData.GetDBValue(DefMsgDlgItems[i].DBSetting);
 					break;

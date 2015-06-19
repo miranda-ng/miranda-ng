@@ -99,9 +99,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			int indx;
 
 			for (indx = 0; indx < 4; indx++) {
-				mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
-				mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
-				mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
+				mir_snprintf(szNameFG, _countof(szNameFG), "FG%d", indx);
+				mir_snprintf(szNameBG, _countof(szNameBG), "BG%d", indx);
+				mir_snprintf(szNameTO, _countof(szNameTO), "TO%d", indx);
 
 				DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
 				DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);

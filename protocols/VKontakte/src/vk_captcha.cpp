@@ -80,7 +80,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			return TRUE;
 
 		case IDOK:
-			GetDlgItemTextA(hwndDlg, IDC_VALUE, params->Result, SIZEOF(params->Result));
+			GetDlgItemTextA(hwndDlg, IDC_VALUE, params->Result, _countof(params->Result));
 			EndDialog(hwndDlg, 1);
 			return TRUE;
 		}

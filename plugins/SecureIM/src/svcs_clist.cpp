@@ -77,7 +77,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	// check offline/online
 	if (!ptr) {
 		// hide menu bars
-		for (i = 0; i < SIZEOF(g_hMenu); i++)
+		for (i = 0; i < _countof(g_hMenu); i++)
 			Menu_ShowItem(g_hMenu[i], false);
 		return 0;
 	}
@@ -90,7 +90,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	bool isMiranda = isClientMiranda(hContact);
 
 	// hide all menu bars
-	for (i = 0; i < SIZEOF(g_hMenu); i++)
+	for (i = 0; i < _countof(g_hMenu); i++)
 		Menu_ShowItem(g_hMenu[i], false);
 
 	if (isSecureProto && !isChat && isMiranda &&

@@ -235,7 +235,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.format = format;
 			ai.hContact = ft->std.hContact;
-			MSN_GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename), ext);
+			MSN_GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename), ext);
 
 			_trename(ft->std.tszCurrentFile, ai.filename);
 
@@ -1174,7 +1174,7 @@ void CMsnProto::p2p_InitFileTransfer(
 			}
 			if (pictmatch) {
 				TCHAR szFileName[MAX_PATH];
-				MSN_GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName), NULL);
+				MSN_GetAvatarFileName(NULL, szFileName, _countof(szFileName), NULL);
 				ft->fileId = _topen(szFileName, O_RDONLY | _O_BINARY, _S_IREAD);
 				if (ft->fileId == -1) {
 					p2p_sendStatus(ft, 603);
@@ -1224,7 +1224,7 @@ void CMsnProto::p2p_InitFileTransfer(
 			ft->std.totalFiles = 1;
 
 			TCHAR tComment[40];
-			mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+			mir_sntprintf(tComment, _countof(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 			PROTORECVFILET pre = { 0 };
 			pre.dwFlags = PRFF_TCHAR;
@@ -1396,7 +1396,7 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 			newThread->mType = SERVER_P2P_DIRECT;
 			newThread->mInitialContactWLID = mir_strdup(wlid);
 			strncpy_s(newThread->mCookie, szCallID, _TRUNCATE);
-			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer),
+			mir_snprintf(newThread->mServer, _countof(newThread->mServer),
 				ipv6 ? "[%s]:%s" : "%s:%s", pAddrTokBeg, pPortTokBeg);
 
 			newThread->startThread(&CMsnProto::p2p_fileActiveThread, this);
@@ -1739,7 +1739,7 @@ void CMsnProto::p2p_processMsgV2(ThreadData* info, char* msgbody, const char* wl
 
 		if (hdrdata.mRemSize || hdrdata.mTFCode == 0) {
 			char msgid[128];
-			mir_snprintf(msgid, SIZEOF(msgid), "%s_%08x", wlid, hdrdata.mPacketNum);
+			mir_snprintf(msgid, _countof(msgid), "%s_%08x", wlid, hdrdata.mPacketNum);
 
 			int idx;
 			if (hdrdata.mTFCode == 0x01) {
@@ -1830,7 +1830,7 @@ void CMsnProto::p2p_processMsg(ThreadData* info, char* msgbody, const char* wlid
 
 		if (hdrdata.mPacketLen < hdrdata.mTotalSize) {
 			char msgid[128];
-			mir_snprintf(msgid, SIZEOF(msgid), "%s_%08x", wlid, hdrdata.mID);
+			mir_snprintf(msgid, _countof(msgid), "%s_%08x", wlid, hdrdata.mID);
 			int idx = addCachedMsg(msgid, msgbody, (size_t)hdrdata.mOffset, hdrdata.mPacketLen,
 				(size_t)hdrdata.mTotalSize, false);
 
@@ -2094,7 +2094,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 			if (ft->p2p_isV2) {
 				if (cont->places.getCount() && cont->places[0].cap1 & cap_SupportsP2PBootstrap) {
 					char wlid[128];
-					mir_snprintf(wlid, SIZEOF(wlid),
+					mir_snprintf(wlid, _countof(wlid),
 						mir_strcmp(cont->places[0].id, sttVoidUid) ? "%s;%s" : "%s",
 						cont->email, cont->places[0].id);
 
@@ -2145,7 +2145,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 	if (ft->p2p_isV2 && ft->std.currentFileNumber == 0) {
 		for (int i = 0; i < cont->places.getCount(); ++i) {
 			char wlid[128];
-			mir_snprintf(wlid, SIZEOF(wlid),
+			mir_snprintf(wlid, _countof(wlid),
 				mir_strcmp(cont->places[i].id, sttVoidUid) ? "%s;%s" : "%s",
 				cont->email, cont->places[i].id);
 

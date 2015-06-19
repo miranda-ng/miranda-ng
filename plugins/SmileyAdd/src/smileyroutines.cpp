@@ -235,7 +235,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 		TextDocument->Freeze(&cnt);
 
 		TCHAR classname[20];
-		GetClassName(hwnd, classname, SIZEOF(classname));
+		GetClassName(hwnd, classname, _countof(classname));
 		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) || fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);

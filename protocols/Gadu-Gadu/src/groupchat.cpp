@@ -43,7 +43,7 @@ int GGPROTO::gc_init()
 
 		gc_enabled = TRUE;
 		// create & hook event
-		mir_snprintf(service, SIZEOF(service), GG_GC_GETCHAT, m_szModuleName);
+		mir_snprintf(service, _countof(service), GG_GC_GETCHAT, m_szModuleName);
 		debugLogA("gc_init(): Registered with groupchat plugin.");
 	}
 	else debugLogA("gc_init(): Cannot register with groupchat plugin !!!");
@@ -64,7 +64,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		mi.hParentMenu = hRoot;
 
 		// Conferencing
-		mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
+		mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
 		CreateProtoService(GGS_OPEN_CONF, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
@@ -73,7 +73,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
 		// Clear ignored conferences
-		mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
+		mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
 		CreateProtoService(GGS_CLEAR_IGNORED, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;
@@ -303,7 +303,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	// Create new chat window
 	TCHAR status[256];
 	TCHAR *senderName = sender ? pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0) : NULL;
-	mir_sntprintf(status, SIZEOF(status), (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
+	mir_sntprintf(status, _countof(status), (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
 
 	GCSESSION gcwindow = { sizeof(gcwindow) };
 	gcwindow.iType = GCW_CHATROOM;

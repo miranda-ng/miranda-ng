@@ -15,7 +15,7 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 {
 	// Register m_hNetlibUser user
 	TCHAR name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
@@ -45,7 +45,7 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 	RegisterPopups();
 	InitAwayMsg();
 
-	mir_snprintf(szProtoGroups, SIZEOF(szProtoGroups), "%s_GROUPS", m_szModuleName);
+	mir_snprintf(szProtoGroups, _countof(szProtoGroups), "%s_GROUPS", m_szModuleName);
 
 	m_iStatus = ID_STATUS_OFFLINE;
 	previous_status = ID_STATUS_OFFLINE;
@@ -177,7 +177,7 @@ HANDLE CSametimeProto::SearchBasic(const TCHAR* id)
 HWND CSametimeProto::SearchAdvanced(HWND owner)
 {
 	TCHAR buf[512];
-	if (GetDlgItemText(owner, IDC_EDIT1, buf, SIZEOF(buf))) {
+	if (GetDlgItemText(owner, IDC_EDIT1, buf, _countof(buf))) {
 		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : mir_tstrlen(buf));
 		return (HWND)SearchForUser(T2Utf(buf), TRUE);
 	}

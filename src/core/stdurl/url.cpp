@@ -49,7 +49,7 @@ static int UrlEventAdded(WPARAM hContact, LPARAM lParam)
 	SkinPlaySound("RecvUrl");
 
 	TCHAR szTooltip[256];
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
@@ -82,7 +82,7 @@ static void RestoreUnreadUrlAlerts(void)
 			db_event_get(hDbEvent, &dbei);
 			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_URL) {
 				TCHAR toolTip[256];
-				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_sntprintf(toolTip, _countof(toolTip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;

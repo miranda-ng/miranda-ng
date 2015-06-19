@@ -418,7 +418,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, MCONTACT hContact, B
 					null_strcpy(szMoodData, moods, moodsize);
 
 					if (moodXStatus[i] == -1) continue;
-					mir_snprintf(szMoodId, SIZEOF(szMoodId), "0icqmood%d", moodXStatus[i]);
+					mir_snprintf(szMoodId, _countof(szMoodId), "0icqmood%d", moodXStatus[i]);
 					if (!mir_strcmp(szMoodId, szMoodData)) {
 						BYTE bXStatusId = (BYTE)(i+1);
 						char str[MAX_PATH];
@@ -510,7 +510,7 @@ void CIcqProto::updateServerCustomStatus(int fullUpdate)
 
 		// prepare mood id
 		if (m_bMoodsEnabled && bXStatus && moodXStatus[bXStatus-1] != -1)
-			mir_snprintf(szMoodData, SIZEOF(szMoodData), "0icqmood%d", moodXStatus[bXStatus-1]);
+			mir_snprintf(szMoodData, _countof(szMoodData), "0icqmood%d", moodXStatus[bXStatus-1]);
 		else
 			szMoodData[0] = '\0';
 
@@ -717,7 +717,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			break;
 		}
 
-		mir_snprintf(str,SIZEOF(str),dat->okButtonFormat,dat->countdown);
+		mir_snprintf(str,_countof(str),dat->okButtonFormat,dat->countdown);
 		SetDlgItemTextUtf(hwndDlg,IDOK,str);
 		dat->countdown--;
 		break;
@@ -857,7 +857,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	if (m_bHideXStatusUI || m_bHideXStatusMenu)
 		return;
 
-	mir_snprintf(szItem, SIZEOF(szItem), Translate("%s Custom Status"), m_szModuleName);
+	mir_snprintf(szItem, _countof(szItem), Translate("%s Custom Status"), m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = szItem;
@@ -865,7 +865,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	mi.position = 2000040000;
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
-		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
+		mir_snprintf(srvFce, _countof(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
 
 		mi.position++;
 
@@ -893,7 +893,7 @@ void InitXStatusIcons()
 	SKINICONDESC sid = { 0 };
 	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/"LPGEN("Custom Status");
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.defaultFile.t = InitXStatusIconLibrary(lib, SIZEOF(lib));
+	sid.defaultFile.t = InitXStatusIconLibrary(lib, _countof(lib));
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
 		char szTemp[100];

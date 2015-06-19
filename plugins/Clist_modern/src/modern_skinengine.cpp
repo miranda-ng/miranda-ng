@@ -215,12 +215,12 @@ int IniParser::GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderN
 
 	TCHAR custom_folder[MAX_PATH], cus[MAX_PATH];
 	TCHAR *b3;
-	mir_tstrncpy(custom_folder, pszFolderName, SIZEOF(custom_folder));
+	mir_tstrncpy(custom_folder, pszFolderName, _countof(custom_folder));
 	b3 = custom_folder + mir_tstrlen(custom_folder);
 	while (b3 > custom_folder && *b3 != _T('\\')) { b3--; }
 	*b3 = _T('\0');
 
-	GetPrivateProfileString(_T("Skin_Description_Section"), _T("SkinFolder"), _T(""), cus, SIZEOF(custom_folder), szFileName);
+	GetPrivateProfileString(_T("Skin_Description_Section"), _T("SkinFolder"), _T(""), cus, _countof(custom_folder), szFileName);
 	if (cus[0] != 0)
 		mir_sntprintf(pszFolderName, MAX_PATH, _T("%s\\%s"), custom_folder, cus);
 
@@ -266,7 +266,7 @@ HRESULT IniParser::_DoParseFile()
 {
 	char szLine[MAX_LINE_LEN];
 	_nLine = 0;
-	while (fgets(szLine, SIZEOF(szLine), _hFile) != NULL) {
+	while (fgets(szLine, _countof(szLine), _hFile) != NULL) {
 		size_t len = 0;
 		char * pLine = (char*)_RemoveTailings(szLine, len);
 		if (len > 0) {
@@ -1483,9 +1483,9 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 
 	TCHAR b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		mir_sntprintf(b2, SIZEOF(b2), _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
+		mir_sntprintf(b2, _countof(b2), _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
 	else
-		mir_tstrncpy(b2, file, SIZEOF(b2));
+		mir_tstrncpy(b2, file, _countof(b2));
 
 	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
@@ -2983,13 +2983,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 		BitBlt(g_pCachedWindow->hImageDC, rLine.left, rLine.top, rLine.right - rLine.left, rLine.bottom - rLine.top, g_pCachedWindow->hBackDC, rLine.left, rLine.top, SRCCOPY);
 
 		char req[255];
-		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rLine, &rLine, req);
-		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rThumb, &rThumb, req);
-		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rUpBtn, &rUpBtn, req);
-		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rDnBtn, &rDnBtn, req);
 	}
 
@@ -3302,9 +3302,9 @@ static DWORD ske_HexToARGB(char * Hex)
 	char buf2[11] = { 0 };
 	mir_snprintf(buf, "%s\n", Hex);
 	if (buf[1] == 'x' || buf[1] == 'X')
-		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf + 2);
+		mir_snprintf(buf2, _countof(buf2), "0x%s\n", buf + 2);
 	else
-		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf);
+		mir_snprintf(buf2, _countof(buf2), "0x%s\n", buf);
 	buf2[10] = '\0';
 
 	char *st;
@@ -3450,7 +3450,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 	logfont.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
 	char buf[255];
-	mir_strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), SIZEOF(logfont.lfFaceName));
+	mir_strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), _countof(logfont.lfFaceName));
 	logfont.lfHeight = atoi(GetParamN(szDefineString, buf, sizeof(buf), 1, ',', TRUE));
 	if (logfont.lfHeight < 0) {
 		HDC hdc = CreateCompatibleDC(NULL);

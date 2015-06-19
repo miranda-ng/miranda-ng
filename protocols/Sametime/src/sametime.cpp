@@ -94,12 +94,12 @@ static IconItem iconList[] =
 
 void SametimeInitIcons(void)
 {
-	Icon_Register(hInst, "Protocols/Sametime", iconList, SIZEOF(iconList), "SAMETIME");
+	Icon_Register(hInst, "Protocols/Sametime", iconList, _countof(iconList), "SAMETIME");
 }
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (int i = 0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 	return NULL;
@@ -108,14 +108,14 @@ HANDLE GetIconHandle(int iconId)
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "SAMETIME", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
 void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "SAMETIME", name);
 	IcoLib_Release(szSettingName, big);
 }
 

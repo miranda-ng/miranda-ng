@@ -120,7 +120,7 @@ std::string utils::text::trim(const std::string &data )
 int utils::debug::log(const std::string &file_name, const std::string &text)
 {
 	char szFile[MAX_PATH];
-	GetModuleFileNameA(g_hInstance, szFile, SIZEOF(szFile));
+	GetModuleFileNameA(g_hInstance, szFile, _countof(szFile));
 	std::string path = szFile;
 	path = path.substr( 0, path.rfind( "\\" ));
 	path = path.substr( 0, path.rfind( "\\" ) + 1 );

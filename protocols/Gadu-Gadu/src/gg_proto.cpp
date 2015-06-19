@@ -40,7 +40,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 
 	// Register m_hNetlibUser user
 	TCHAR name[128];
-	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -392,7 +392,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	// Fetch search data
 	TCHAR text[64];
-	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf firstName_utf8(text);
@@ -401,7 +401,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 	/* 1 */ szQuery.AppendChar('.');
 
-	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf lastName_utf8(text);
@@ -410,7 +410,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 	/* 2 */ szQuery.AppendChar('.');
 
-	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf nickName_utf8(text);
@@ -419,7 +419,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 	/* 3 */ szQuery.AppendChar('.');
 
-	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf city_utf8(text);
@@ -428,7 +428,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 	/* 4 */ szQuery.AppendChar('.');
 
-	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, SIZEOF(text));
+	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, _countof(text));
 	if (mir_tstrlen(text))
 	{
 		int yearTo = _tstoi(text);
@@ -438,7 +438,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		int ay = lt->tm_year + 1900;
 		char age[16];
 
-		GetDlgItemTextA(hwndDlg, IDC_AGETO, age, SIZEOF(age));
+		GetDlgItemTextA(hwndDlg, IDC_AGETO, age, _countof(age));
 		yearFrom = atoi(age);
 
 		// Count & fix ranges

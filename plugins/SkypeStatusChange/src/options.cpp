@@ -79,7 +79,7 @@ void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
 					nState = TCBS_UNCHECKED;
 			}
 			tree_insert_item(hDlg,hwndTreeCtrl,TranslateTS(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
-			for(size_t k = 0; k < SIZEOF(g_aStatusCode); ++k) {
+			for(size_t k = 0; k < _countof(g_aStatusCode); ++k) {
 				const CMirandaStatus2SkypeStatus& m2s = g_aStatusCode[k];
 				unsigned long statusFlags = Proto_Status2Flag(m2s.m_nMirandaStatus);
 				if ((m2s.m_nMirandaStatus != ID_STATUS_OFFLINE) && (nStatusBits & statusFlags) && !(nStatusExcluded & statusFlags)) {

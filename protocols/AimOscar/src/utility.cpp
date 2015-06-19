@@ -496,42 +496,42 @@ void BdList::remove_by_id(unsigned short id)
 unsigned short CAimProto::getBuddyId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_BI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
 void CAimProto::setBuddyId(MCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_BI"%d", i);
 	setWord(hContact, item, id);
 }
 
 int CAimProto::deleteBuddyId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_BI"%d", i);
 	return delSetting(hContact, item);
 }
 
 unsigned short CAimProto::getGroupId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_GI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
 void CAimProto::setGroupId(MCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_GI"%d", i);
 	setWord(hContact, item, id);
 }
 
 int CAimProto::deleteGroupId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
+	mir_snprintf(item, _countof(item), AIM_KEY_GI"%d", i);
 	return delSetting(hContact, item);
 }
 
@@ -553,7 +553,7 @@ int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TC
 	if (fid < 0)
 	{
 		TCHAR errmsg[512];
-		mir_sntprintf(errmsg, SIZEOF(errmsg), TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
+		mir_sntprintf(errmsg, _countof(errmsg), TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
 		ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 	}
 	return fid;

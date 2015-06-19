@@ -90,11 +90,11 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 									LPTSTR ptr;
 									
 									mt.UTCToLocal();
-									mt.DateFormatLong(szTime, SIZEOF(szTime));
+									mt.DateFormatLong(szTime, _countof(szTime));
 									
 									mir_tstrcat(szTime, _T(" - "));
 									ptr = szTime + mir_tstrlen(szTime);
-									mt.TimeFormat(ptr, SIZEOF(szTime) - (ptr - szTime));
+									mt.TimeFormat(ptr, _countof(szTime) - (ptr - szTime));
 									SetDlgItemText(hDlg, TXT_DATEADDED, szTime);
 								}
 							}
@@ -110,7 +110,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 								{ ICO_COMMON_CLOCK,   STM_SETIMAGE, ICO_CLOCK },
 							};
 
-							IcoLib_SetCtrlIcons(hDlg, idIcon, SIZEOF(idIcon));
+							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
 						}
 					}
 				}
@@ -134,7 +134,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 	case WM_TIMER:
 		{
 			TCHAR szTime[32];
-			CTzCombo::GetObj(hDlg, EDIT_TIMEZONE)->GetTime(szTime, SIZEOF(szTime));
+			CTzCombo::GetObj(hDlg, EDIT_TIMEZONE)->GetTime(szTime, _countof(szTime));
 			SetDlgItemText(hDlg, TXT_TIME, szTime);
 			break;
 		}

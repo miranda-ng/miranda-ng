@@ -124,7 +124,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 	PROTOACCOUNT *pa = param->pa;
 
 	TCHAR tszAccName[256];
-	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, SIZEOF(tszAccName));
+	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, _countof(tszAccName));
 	rtrimt(tszAccName);
 	if (tszAccName[0] == 0) {
 		MessageBox(hwndDlg, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
@@ -133,7 +133,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 
 	if (param->action == PRAC_ADDED) {
 		char buf[200];
-		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
+		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, _countof(buf));
 		if (FindAccountByName(rtrim(buf))) {
 			MessageBox(hwndDlg, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 			return false;
@@ -143,13 +143,13 @@ static bool OnCreateAccount(HWND hwndDlg)
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
 		TCHAR szPlugin[MAX_PATH];
-		mir_sntprintf(szPlugin, SIZEOF(szPlugin), _T("%s.dll"), _A2T(pa->szProtoName));
+		mir_sntprintf(szPlugin, _countof(szPlugin), _T("%s.dll"), _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);
-		if (oldProto && UnloadPlugin(szPlugin, SIZEOF(szPlugin))) {
+		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			TCHAR szNewName[MAX_PATH];
-			mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s~"), szPlugin);
+			mir_sntprintf(szNewName, _countof(szNewName), _T("%s~"), szPlugin);
 			MoveFile(szPlugin, szNewName);
 		}
 		param->action = PRAC_ADDED;
@@ -157,10 +157,10 @@ static bool OnCreateAccount(HWND hwndDlg)
 
 	if (param->action == PRAC_ADDED) {
 		char buf[200];
-		GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, SIZEOF(buf));
+		GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, _countof(buf));
 		char *szBaseProto = NEWSTR_ALLOCA(buf);
 
-		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
+		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, _countof(buf));
 		rtrim(buf);
 
 		pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
@@ -202,9 +202,9 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				TCHAR str[200];
 				if (param->action == PRAC_CHANGED) { // update
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
-					mir_sntprintf(str, SIZEOF(str), _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
+					mir_sntprintf(str, _countof(str), _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
 				}
-				else mir_sntprintf(str, SIZEOF(str), _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
+				else mir_sntprintf(str, _countof(str), _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
 
 				SetWindowText(hwndDlg, str);
 				SetDlgItemText(hwndDlg, IDC_ACCNAME, param->pa->tszAccountName);

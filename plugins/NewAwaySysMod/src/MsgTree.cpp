@@ -174,7 +174,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					TreeView_GetItemRect(lpNMCD->nmcd.hdr.hwndFrom, (HTREEITEM)lpNMCD->nmcd.dwItemSpec, &rc, true);
 					int iSize = GetSystemMetrics(SM_CXSMICON);
 					int x = rc.left - iSize - 5;
-					for (int i = 0; i < SIZEOF(SettingsList); i++) {
+					for (int i = 0; i < _countof(SettingsList); i++) {
 						if (lpNMCD->nmcd.lItemlParam == dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
 							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(NULL, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
 							x -= iSize + 1;
@@ -391,13 +391,13 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 					mii.fMask = MIIM_BITMAP | MIIM_DATA | MIIM_STATE | MIIM_CHECKMARKS;
 					mii.hbmpItem = HBMMENU_CALLBACK;
 					int i;
-					for (i = 0; i < SIZEOF(MenuItems); i++) { // set icons
+					for (i = 0; i < _countof(MenuItems); i++) { // set icons
 						mii.dwItemData = MenuItems[i].IconID;
 						SetMenuItemInfo(hPopupMenu, MenuItems[i].ItemID, false, &mii);
 					}
 					mii.fMask = MIIM_STATE;
 					mii.fState = MFS_CHECKED;
-					for (i = 0; i < SIZEOF(SettingsList); i++) // set checkmarks
+					for (i = 0; i < _countof(SettingsList); i++) // set checkmarks
 						if (TreeCtrl->Value[Order].ID == dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
 							SetMenuItemInfo(hPopupMenu, SettingsList[i].MenuItemID, false, &mii);
 
@@ -424,7 +424,7 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 					case IDR_MSGTREEMENU_DEF_INV:
 					case IDR_MSGTREEMENU_DEF_OTP:
 					case IDR_MSGTREEMENU_DEF_OTL:
-						for (int i = 0; i < SIZEOF(SettingsList); i++) {
+						for (int i = 0; i < _countof(SettingsList); i++) {
 							if (SettingsList[i].MenuItemID == MenuResult) {
 								dat->SetDefMsg(SettingsList[i].Status, tvi.lParam);
 								break;
@@ -513,7 +513,7 @@ bool CMsgTree::SetSelection(int ID, int Flags) // set ID = -1 to unselect; retur
 
 int CMsgTree::GetDefMsg(int iMode)
 {
-	for (int i = 0; i < SIZEOF(SettingsList); i++)
+	for (int i = 0; i < _countof(SettingsList); i++)
 		if (SettingsList[i].Status == iMode)
 			return MsgTreePage.GetValue(SettingsList[i].DBSetting);
 
@@ -522,7 +522,7 @@ int CMsgTree::GetDefMsg(int iMode)
 
 void CMsgTree::SetDefMsg(int iMode, int ID)
 {
-	for (int i = 0; i < SIZEOF(SettingsList); i++) {
+	for (int i = 0; i < _countof(SettingsList); i++) {
 		if (SettingsList[i].Status == iMode) {
 			if (MsgTreePage.GetValue(SettingsList[i].DBSetting) != ID) {
 				RECT rc;

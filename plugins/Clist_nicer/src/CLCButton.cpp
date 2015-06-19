@@ -45,7 +45,7 @@ static int g_index = -1;
 
 static void InitDefaultButtons()
 {
-	for (int i = 0; i < SIZEOF(BTNS); i++) {
+	for (int i = 0; i < _countof(BTNS); i++) {
 		TTBButton tbb = { sizeof(tbb) };
 
 		g_index = i;
@@ -72,7 +72,7 @@ static void InitDefaultButtons()
 
 void ClcSetButtonState(int ctrlid, int status)
 {
-	for (int i = 0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < _countof(BTNS); i++)
 		if (BTNS[i].ctrlid == ctrlid) {
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : 0);
 			break;
@@ -81,7 +81,7 @@ void ClcSetButtonState(int ctrlid, int status)
 
 HWND ClcGetButtonWindow(int ctrlid)
 {
-	for (int i = 0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < _countof(BTNS); i++)
 		if (BTNS[i].ctrlid == ctrlid)
 			return BTNS[i].hwndButton;
 
@@ -90,7 +90,7 @@ HWND ClcGetButtonWindow(int ctrlid)
 
 int ClcGetButtonId(HWND hwnd)
 {
-	for (int i = 0; i < SIZEOF(BTNS); i++)
+	for (int i = 0; i < _countof(BTNS); i++)
 		if (BTNS[i].hwndButton == hwnd)
 			return BTNS[i].ctrlid;
 

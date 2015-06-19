@@ -188,7 +188,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 		}
 
 		hwndCtrl = GetDlgItem(hwndDlg, IDC_ICOTABS);
-		for (i = 0; i < SIZEOF(g_ModernOptPages); ++i)
+		for (i = 0; i < _countof(g_ModernOptPages); ++i)
 			if (g_ModernOptPages[i].bShow && g_ModernOptPages[i].bShowTab)
 			{
 				HICON hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(g_ModernOptPages[i].iIcon), IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);

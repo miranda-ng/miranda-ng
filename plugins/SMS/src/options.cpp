@@ -37,14 +37,14 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 
-		if (DB_SMS_GetStaticStringW(NULL,"Signature",tszSign,SIZEOF(tszSign),NULL)==FALSE)
-			mir_sntprintf(tszSign,SIZEOF(tszSign),TranslateT("From %s:\r\n\r\n"),GetContactNameW(NULL));
+		if (DB_SMS_GetStaticStringW(NULL,"Signature",tszSign,_countof(tszSign),NULL)==FALSE)
+			mir_sntprintf(tszSign,_countof(tszSign),TranslateT("From %s:\r\n\r\n"),GetContactNameW(NULL));
 
 		SetDlgItemText(hWndDlg,IDC_SIGNATURE,tszSign);
 		{
 			BOOL bUseSign = DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
 			CheckDlgButton(hWndDlg, IDC_USESIGNATURE, bUseSign ? BST_CHECKED : BST_UNCHECKED);
-			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,SIZEOF(wSMSSignControlsList),bUseSign);
+			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,_countof(wSMSSignControlsList),bUseSign);
 
 			BOOL bSignBebefore=DB_SMS_GetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
 			CheckDlgButton(hWndDlg, IDC_BEGIN, bSignBebefore ? BST_CHECKED : BST_UNCHECKED);
@@ -60,7 +60,7 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		switch(LOWORD(wParam)){
 		case IDC_USESIGNATURE:
-			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,SIZEOF(wSMSSignControlsList),IsDlgButtonChecked(hWndDlg,IDC_USESIGNATURE));
+			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,_countof(wSMSSignControlsList),IsDlgButtonChecked(hWndDlg,IDC_USESIGNATURE));
 			break;
 		}
 		break;
@@ -70,7 +70,7 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 		case 0:
 			switch (((LPNMHDR)lParam)->code){
 			case PSN_APPLY:
-				GetDlgItemText(hWndDlg,IDC_SIGNATURE,tszSign,SIZEOF(tszSign));
+				GetDlgItemText(hWndDlg,IDC_SIGNATURE,tszSign,_countof(tszSign));
 				DB_SMS_SetStringW(NULL,"Signature",tszSign);
 
 				DB_SMS_SetByte(NULL,"UseSignature",IsDlgButtonChecked(hWndDlg,IDC_USESIGNATURE));

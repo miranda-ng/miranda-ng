@@ -30,12 +30,12 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 
 		char str[256];
 		int off = mir_snprintf(str, "dbghelp.dll v.5.0 or later required to provide a crash report\n");
-		off += mir_snprintf(str + off, SIZEOF(str) - off, "Missing Module: %s ", dlld->szDll);
+		off += mir_snprintf(str + off, _countof(str) - off, "Missing Module: %s ", dlld->szDll);
 
 		if (dlld->dlp.fImportByName)
-			mir_snprintf(str + off, SIZEOF(str) - off, "Function: %s ", dlld->dlp.szProcName);
+			mir_snprintf(str + off, _countof(str) - off, "Function: %s ", dlld->dlp.szProcName);
 		else
-			mir_snprintf(str + off, SIZEOF(str) - off, "Ordinal: %x ", dlld->dlp.dwOrdinal);
+			mir_snprintf(str + off, _countof(str) - off, "Ordinal: %x ", dlld->dlp.dwOrdinal);
 
 		MessageBoxA(NULL, str, "Miranda Crash Dumper", MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 	}
@@ -55,13 +55,13 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 
 	__try {
 		if (dtsubfldr) {
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			mir_sntprintf(path, _countof(path), TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, NULL);
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
+			mir_sntprintf(path, _countof(path), TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
 		else
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
+			mir_sntprintf(path, _countof(path), TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -82,18 +82,18 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 
 	__try {
 		if (dtsubfldr) {
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			mir_sntprintf(path, _countof(path), TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, NULL);
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
+			mir_sntprintf(path, _countof(path), TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
 		else
-			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
+			mir_sntprintf(path, _countof(path), TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		mir_sntprintf(path, SIZEOF(path), TranslateT("Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?"), CrashLogFolder);
+		mir_sntprintf(path, _countof(path), TranslateT("Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?"), CrashLogFolder);
 
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateCrashReport(hDumpFile, exc_ptr, notify ? path : NULL);

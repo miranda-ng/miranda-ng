@@ -202,7 +202,7 @@ static int CountFiles(char *szItem)
 
 					if (NULL != strstr(szItem, "*.*")) {
 						size_t offset = mir_strlen(szDirName) - 3;
-						mir_snprintf(szDirName + offset, SIZEOF(szDirName) - offset, "%s\0", fd.cFileName);
+						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
 					}
 
 					++nCount;
@@ -237,7 +237,7 @@ static void SaveFiles(char *szItem, char **ppFiles, int *pnCount)
 
 					if (NULL != strstr(szItem, "*.*")) {
 						size_t offset = mir_strlen(szDirName) - 3;
-						mir_snprintf(szDirName + offset, SIZEOF(szDirName) - offset, "%s\0", fd.cFileName);
+						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
 					}
 
 					ppFiles[*pnCount] = _strdup(szDirName);

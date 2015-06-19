@@ -70,7 +70,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 			Protocol *proto = protocols->Get(proto_num);
 
 			TCHAR tmp[128];
-			mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s"), proto->description);
+			mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s"), proto->description);
 
 			SetWindowText(hwndDlg, tmp);
 
@@ -93,7 +93,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDOK:
 		{
 			TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
-			GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, SIZEOF(tmp));
+			GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, _countof(tmp));
 
 			LONG_PTR proto_num = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (proto_num == -1)
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			}
 
 			TCHAR title[256];
-			mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"), proto->description);
+			mir_sntprintf(title, _countof(title), TranslateT("Set my status message for %s"), proto->description);
 			SetWindowText(hwndDlg, title);
 
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(NULL, data->status));
 
 			TCHAR title[256];
-			mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"),
+			mir_sntprintf(title, _countof(title), TranslateT("Set my status message for %s"),
 				CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, data->status, GSMDF_TCHAR));
 			SetWindowText(hwndDlg, title);
 
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 		case IDOK:
 		{
 			TCHAR tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
-			GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, SIZEOF(tmp));
+			GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, _countof(tmp));
 
 			SetStatusMessageData *data = (SetStatusMessageData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 

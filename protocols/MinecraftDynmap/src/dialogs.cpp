@@ -30,14 +30,14 @@ static IconItem icons[] = {
 	{ "proto", LPGEN("Protocol icon"), IDI_PROTO },
 };
 
-static HANDLE hIconLibItem[SIZEOF(icons)];
+static HANDLE hIconLibItem[_countof(icons)];
 
 void InitIcons(void) {
-	Icon_Register(g_hInstance, "Protocols/MinecraftDynmap", icons, SIZEOF(icons), "MinecraftDynmap");
+	Icon_Register(g_hInstance, "Protocols/MinecraftDynmap", icons, _countof(icons), "MinecraftDynmap");
 }
 
 HANDLE GetIconHandle(const char* name) {
-	for (size_t i = 0; i < SIZEOF(icons); i++) {
+	for (size_t i = 0; i < _countof(icons); i++) {
 		if (strcmp(icons[i].szName, name) == 0) {
 			return hIconLibItem[i];
 		}
@@ -73,7 +73,7 @@ static void StoreDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const
 {
 	TCHAR tstr[250+1];
 
-	GetDlgItemText(hwnd, idCtrl, tstr, SIZEOF(tstr));
+	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {
 		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {

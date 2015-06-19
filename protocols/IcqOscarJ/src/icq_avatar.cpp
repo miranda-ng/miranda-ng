@@ -79,7 +79,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	mir_sntprintf(szPath, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
-	fgd.nMaxPathSize = SIZEOF(szPath);
+	fgd.nMaxPathSize = _countof(szPath);
 	fgd.szPathT = szPath;
 	fgd.flags = FF_TCHAR;
 
@@ -1158,7 +1158,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.format = PA_FORMAT_JPEG; // this is for error only
 			ai.hContact = pCookieData->hContact;
-			mir_tstrncpy(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));
+			mir_tstrncpy(ai.filename, pCookieData->szFile, _countof(ai.filename));
 			AddAvatarExt(PA_FORMAT_JPEG, ai.filename);
 
 			ppro->FreeCookie(pSnacHeader->dwRef);
@@ -1211,11 +1211,11 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 					const TCHAR *ptszExt;
 					int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
 					TCHAR tszImageFile[MAX_PATH];
-					mir_sntprintf(tszImageFile, SIZEOF(tszImageFile), _T("%s%s"), pCookieData->szFile, ptszExt);
+					mir_sntprintf(tszImageFile, _countof(tszImageFile), _T("%s%s"), pCookieData->szFile, ptszExt);
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format
-					mir_tstrncpy(ai.filename, tszImageFile, SIZEOF(ai.filename));
+					mir_tstrncpy(ai.filename, tszImageFile, _countof(ai.filename));
 
 					int out = _topen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 					if (out != -1) {

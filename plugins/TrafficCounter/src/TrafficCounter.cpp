@@ -214,7 +214,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0)
 	{
 		if(mir_tstrlen(dbv.ptszVal) > 0)
-			mir_tstrncpy(Traffic_CounterFormat, dbv.ptszVal, SIZEOF(Traffic_CounterFormat));
+			mir_tstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
 		//
 		db_free(&dbv);
 	}
@@ -232,7 +232,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0)
 	{
 		if(mir_tstrlen(dbv.ptszVal) > 0)
-			mir_tstrncpy(Traffic_TooltipFormat, dbv.ptszVal, SIZEOF(Traffic_TooltipFormat));
+			mir_tstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
 		//
 		db_free(&dbv);
 	}
@@ -1138,7 +1138,7 @@ void NotifyOnSend(void)
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	//
-	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes sent"),
+	mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("%d kilobytes sent"),
 		notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;
@@ -1157,7 +1157,7 @@ void NotifyOnRecv(void)
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
 	//
-	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes received"),
+	mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("%d kilobytes received"),
 		notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;

@@ -70,8 +70,8 @@ static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 	else {
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];
-			CallService(MS_DB_GETPROFILEPATH, SIZEOF(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, SIZEOF(dbPath), _T("%S\\"), tmp);
+			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
+			mir_sntprintf(dbPath, _countof(dbPath), _T("%S\\"), tmp);
 		}
 
 		size_t len = mir_tstrlen(dbPath);
@@ -88,8 +88,8 @@ static void PathToAbsolute(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 	else {
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];
-			CallService(MS_DB_GETPROFILEPATH, SIZEOF(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, SIZEOF(dbPath), _T("%S\\"), tmp);
+			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
+			mir_sntprintf(dbPath, _countof(dbPath), _T("%S\\"), tmp);
 		}
 
 		mir_sntprintf(pOut, outSize, _T("%s%s"), dbPath, pSrc);
@@ -360,7 +360,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				case CONTROL_TEXT:
 				{
 					TCHAR tmp[1024];
-					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 					db_set_ts(NULL, module, ctrl->setting, tmp);
 				}
 				break;
@@ -381,7 +381,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				case CONTROL_FILE:
 				{
 					TCHAR tmp[1024];
-					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 					TCHAR rel[1024];
 					PathToRelative(rel, 1024, tmp);
 					db_set_ts(NULL, module, ctrl->setting, rel);
@@ -390,7 +390,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				case CONTROL_COMBO_TEXT:
 				{
 					TCHAR tmp[1024];
-					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 					db_set_ts(NULL, module, ctrl->setting, tmp);
 				}
 				break;

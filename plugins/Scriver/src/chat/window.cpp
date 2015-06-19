@@ -138,7 +138,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	BOOL bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
 	int  buttonVisibility = bToolbar ? g_dat.chatBbuttonVisibility : 0;
 	int  hSplitterMinTop = TOOLBAR_HEIGHT + si->minLogBoxHeight, hSplitterMinBottom = si->minEditBoxHeight;
-	int  toolbarHeight = bToolbar ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat.chatBbuttonVisibility) ? TOOLBAR_HEIGHT : TOOLBAR_HEIGHT / 3 : 0;
+	int  toolbarHeight = bToolbar ? IsToolbarVisible(_countof(toolbarButtons), g_dat.chatBbuttonVisibility) ? TOOLBAR_HEIGHT : TOOLBAR_HEIGHT / 3 : 0;
 
 	si->iSplitterY = si->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
 
@@ -147,7 +147,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	if (si->iSplitterY < hSplitterMinBottom)
 		si->iSplitterY = hSplitterMinBottom;
 
-	ShowToolbarControls(hwndDlg, SIZEOF(toolbarButtons), toolbarButtons, buttonVisibility, SW_SHOW);
+	ShowToolbarControls(hwndDlg, _countof(toolbarButtons), toolbarButtons, buttonVisibility, SW_SHOW);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
 	if (si->iType != GCW_SERVER)
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIST), si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
@@ -178,7 +178,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), 0, w - si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY), 0, 0, h - si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
-	hdwp = ResizeToolbar(hwndDlg, hdwp, w, toolbarTopY + 1, toolbarHeight - 1, SIZEOF(toolbarButtons), toolbarButtons, buttonVisibility);
+	hdwp = ResizeToolbar(hwndDlg, hdwp, w, toolbarTopY + 1, toolbarHeight - 1, _countof(toolbarButtons), toolbarButtons, buttonVisibility);
 	EndDeferWindowPos(hdwp);
 	if (si->hwndLog != NULL) {
 		IEVIEWWINDOW ieWindow;
@@ -799,7 +799,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * p
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -967,7 +967,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			TCHAR szNew[2];
 			szNew[0] = (TCHAR)wParam;
 			szNew[1] = '\0';
-			if (mir_tstrlen(si->szSearch) >= SIZEOF(si->szSearch) - 2) {
+			if (mir_tstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
 				MessageBeep(MB_OK);
 				break;
 			}
@@ -1432,7 +1432,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				char szIndicator = SM_GetStatusIndicator(si, ui);
 				if (szIndicator > '\0') {
 					static TCHAR ptszBuf[128];
-					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%c%s"), szIndicator, ui->pszNick);
+					mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%c%s"), szIndicator, ui->pszNick);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
 				else SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
@@ -1641,7 +1641,7 @@ LABEL_SHOWWINDOW:
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
 						static TCHAR ptszBuf[1024];
-						mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+						mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
 							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -1919,7 +1919,7 @@ LABEL_SHOWWINDOW:
 
 	case WM_RBUTTONUP:
 		hToolbarMenu = CreatePopupMenu();
-		for (int i = 0; i < SIZEOF(toolbarButtons); i++) {
+		for (int i = 0; i < _countof(toolbarButtons); i++) {
 			MENUITEMINFO mii = { sizeof(mii) };
 			mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 			mii.fType = MFT_STRING;

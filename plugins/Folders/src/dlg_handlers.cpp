@@ -91,7 +91,7 @@ static void SaveItem(HWND hWnd, PFolderItem item, int bEnableApply)
 		return;
 
 	TCHAR buffer[MAX_FOLDER_SIZE];
-	GetEditText(hWnd, buffer, SIZEOF(buffer));
+	GetEditText(hWnd, buffer, _countof(buffer));
 	item->SetFormat(buffer);
 
 	if (bEnableApply)
@@ -123,7 +123,7 @@ static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		mir_sntprintf(tszMessage, SIZEOF(tszMessage), _T("%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s"),
+		mir_sntprintf(tszMessage, _countof(tszMessage), _T("%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s"),
 			TranslateT("Don't forget to click on Apply to save the changes. If you don't then the changes won't"),
 			TranslateT("be saved to the database, they will only be valid for this session."),
 			TranslateT("Variable string"),

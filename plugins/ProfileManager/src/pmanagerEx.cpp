@@ -49,7 +49,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 static INT_PTR ChangePM(WPARAM, LPARAM)
 {
 	TCHAR fn[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
 	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	CallService("CloseAction", 0, 0);
 	return 0;
@@ -58,7 +58,7 @@ static INT_PTR ChangePM(WPARAM, LPARAM)
 static INT_PTR LoadPM(WPARAM, LPARAM)
 {
 	TCHAR fn[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
 	ShellExecute(0, _T("open"), fn, _T("/ForceShowPM"), _T(""), 1);
 	return 0;
 }
@@ -70,8 +70,8 @@ static INT_PTR CheckDb(WPARAM, LPARAM)
 		PROCESS_INFORMATION pi;
 		STARTUPINFO si = { 0 };
 		si.cb = sizeof(si);
-		GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
-		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
+		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
 		CallService("CloseAction", 0, 0);
 		CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	}
@@ -98,7 +98,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.position = -500200000;
 	mi.pszPopupName = LPGEN("Database");
 
-	for (int i = 0; i < SIZEOF(iconList); i++) {
+	for (int i = 0; i < _countof(iconList); i++) {
 		mi.pszName = iconList[i].szDescr;
 		mi.pszService = iconList[i].szName;
 		mi.icolibItem = iconList[i].hIcolib;
@@ -115,7 +115,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	Icon_Register(hInst, LPGEN("Profile manager"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Profile manager"), iconList, _countof(iconList));
 
 	CreateServiceFunction(SRV_LOAD_PM, LoadPM);
 	CreateServiceFunction(SRV_CHECK_DB, CheckDb);

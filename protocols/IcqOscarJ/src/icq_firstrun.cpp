@@ -30,7 +30,7 @@ static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 	char pszUIN[20];
 	DWORD dwUIN = ppro->getContactUin(NULL);
 	if (dwUIN) {
-		mir_snprintf(pszUIN, SIZEOF(pszUIN), "%u", dwUIN);
+		mir_snprintf(pszUIN, _countof(pszUIN), "%u", dwUIN);
 		SetDlgItemTextA(hwndDlg, IDC_UIN, pszUIN);
 	}
 
@@ -86,10 +86,10 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_UIN, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_UIN, str, _countof(str));
 			ppro->setDword(UNIQUEIDSETTING, atoi(str));
 
-			GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, _countof(ppro->m_szPassword));
 			mir_strcpy(ppro->m_szPassword, str);
 			ppro->setString("Password", str);
 			break;

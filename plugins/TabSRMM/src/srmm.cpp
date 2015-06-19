@@ -108,7 +108,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 
 	GetLocalTime(&st);
 
-	mir_snprintf(tszTime, SIZEOF(tszTime), "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	mir_snprintf(tszTime, _countof(tszTime), "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
 
 	mir_vsntprintf(debug, ibsize - 10, fmt, va);
@@ -120,7 +120,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		FILE *f;
 
 		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\%s", szDataPath, "tabsrmm_debug.log");
+		mir_snprintf(szLogFileName, _countof(szLogFileName), "%s\\%s", szDataPath, "tabsrmm_debug.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {
 			fputs(tszTime, f);

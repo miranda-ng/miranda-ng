@@ -850,7 +850,7 @@ void CIcqProto::LoadServerIDs()
 	int nStart = nServerIDListCount;
 
 	char szModule[MAX_PATH];
-	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sSrvGroups", m_szModuleName);
 	GroupReserveIdsEnumParam param = { this, szModule };
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
@@ -1178,7 +1178,7 @@ int CIcqProto::IsServerGroupsDefined()
 		char szModule[MAX_PATH];
 
 		// flush obsolete linking data
-		mir_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
+		mir_snprintf(szModule, _countof(szModule), "%sGroups", m_szModuleName);
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
 
 		iRes = 0; // no groups defined, or older version
@@ -1193,7 +1193,7 @@ void CIcqProto::FlushSrvGroupsCache()
 {
 	char szModule[MAX_PATH];
 
-	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sSrvGroups", m_szModuleName);
 	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
 }
 
@@ -1273,7 +1273,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 	char szModule[MAX_PATH];
 	char* pars[3];
 
-	mir_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sGroups", m_szModuleName);
 
 	pars[0] = NULL;
 	pars[1] = (char*)wGroupID;
@@ -1308,7 +1308,7 @@ char* CIcqProto::getServListGroupName(WORD wGroupID)
 		return NULL;
 	}
 
-	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sSrvGroups", m_szModuleName);
 	_itoa(wGroupID, szGroup, 0x10);
 
 	if (!CheckServerID(wGroupID, 0)) { // check if valid id, if not give empty and remove
@@ -1330,7 +1330,7 @@ void CIcqProto::setServListGroupName(WORD wGroupID, const char *szGroupName)
 		return;
 	}
 
-	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sSrvGroups", m_szModuleName);
 	_itoa(wGroupID, szGroup, 0x10);
 
 	if (szGroupName)
@@ -1344,7 +1344,7 @@ void CIcqProto::setServListGroupName(WORD wGroupID, const char *szGroupName)
 WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 {
 	char szModule[MAX_PATH];
-	mir_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sGroups", m_szModuleName);
 
 	WORD wGroupId = db_get_w(NULL, szModule, szPath, 0);
 
@@ -1360,7 +1360,7 @@ WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 void CIcqProto::setServListGroupLinkID(const char *szPath, WORD wGroupID)
 {
 	char szModule[MAX_PATH];
-	mir_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sGroups", m_szModuleName);
 
 	if (wGroupID)
 		db_set_w(NULL, szModule, szPath, wGroupID);
@@ -1530,7 +1530,7 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 		szGroupNameBase = null_strdup(szGroupName);
 	null_strcut(szGroupNameBase, m_wServerListRecordNameMaxLength);
 
-	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(szModule, _countof(szModule), "%sSrvGroups", m_szModuleName);
 
 	do {
 		pars[0] = (char*)this;

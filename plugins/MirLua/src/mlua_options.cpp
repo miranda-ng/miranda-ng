@@ -50,13 +50,13 @@ void CLuaOptions::OnInitDialog()
 	m_scripts.AddColumn(0, _T("Script"), 300);
 
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
-	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, SIZEOF(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
 	m_scripts.AddGroup(0, header);
 	LoadScripts(scriptDir, 0);
 
-	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, SIZEOF(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
+	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Custom scripts"), relativeScriptDir);
 	m_scripts.AddGroup(1, header);
@@ -71,7 +71,7 @@ void CLuaOptions::OnApply()
 	for (int iItem = 0; iItem < count; iItem++)
 	{
 		TCHAR fileName[MAX_PATH];
-		m_scripts.GetItemText(iItem, 0, fileName, SIZEOF(fileName));
+		m_scripts.GetItemText(iItem, 0, fileName, _countof(fileName));
 		if (!m_scripts.GetCheckState(iItem))
 			db_set_b(NULL, MODULE, _T2A(fileName), 0);
 		else

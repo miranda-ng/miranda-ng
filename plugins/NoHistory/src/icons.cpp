@@ -19,7 +19,7 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("No History"), iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(hInst, LPGEN("No History"), iconList, _countof(iconList), MODULE);
 
 	ReloadIcons(0, 0);
 

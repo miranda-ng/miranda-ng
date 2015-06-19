@@ -72,7 +72,7 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, SIZEOF(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
+	mir_snprintf(SettingName, _countof(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
 
 	if (!db_get_s(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
@@ -369,7 +369,7 @@ static int SaveTree(HWND hToolBarTree)
 	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
 	tvi.hItem = TreeView_GetRoot(hToolBarTree);
 	tvi.pszText = strbuf;
-	tvi.cchTextMax = SIZEOF(strbuf);
+	tvi.cchTextMax = _countof(strbuf);
 	{
 		mir_cslock lck(csToolBar);
 
@@ -572,7 +572,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = strbuf;
-				tvis.item.cchTextMax = SIZEOF(strbuf);
+				tvis.item.cchTextMax = _countof(strbuf);
 				tvis.item.hItem = (HTREEITEM)hDragItem;
 				TreeView_GetItem(hToolBarTree, &tvis.item);
 				TreeView_DeleteItem(hToolBarTree, hDragItem);
@@ -711,7 +711,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					TVITEM tvi;
 					tvi.hItem = hti;
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = SIZEOF(strbuf);
+					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
@@ -738,7 +738,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					TVITEM tvi;
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = SIZEOF(strbuf);
+					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					tvi.hItem = hti;
 					TreeView_GetItem(hToolBarTree, &tvi);
@@ -830,8 +830,8 @@ void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, SIZEOF(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
-	mir_snprintf(SettingParameter, SIZEOF(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, cbd->m_bLSided, cbd->m_bRSided, cbd->m_bCanBeHidden);
+	mir_snprintf(SettingName, _countof(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
+	mir_snprintf(SettingParameter, _countof(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, cbd->m_bLSided, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else

@@ -40,7 +40,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	if (stat == 2) {
 		char z[1024];
 
-		mir_snprintf(z, SIZEOF(z), "Error sending message to %s", who);
+		mir_snprintf(z, _countof(z), "Error sending message to %s", who);
 		LOG((z));
 		ShowError(TranslateT("Yahoo Error"), _A2T(z));
 		return;

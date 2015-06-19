@@ -100,8 +100,8 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
-	ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
+	_tcsncpy(ds->swzName, dbv.ptszVal, _countof(ds->swzName));
+	ds->swzName[_countof(ds->swzName) - 1] = 0;
 	db_free(&dbv);
 
 	mir_snprintf(setting, "Type%d", index);
@@ -161,15 +161,15 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
-	di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
+	_tcsncpy(di->swzLabel, dbv.ptszVal, _countof(di->swzLabel));
+	di->swzLabel[_countof(di->swzLabel) - 1] = 0;
 	db_free(&dbv);
 
 	mir_snprintf(setting, "DIValue%d", index);
 	di->swzValue[0] = 0;
 	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) {
-		_tcsncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
-		di->swzValue[SIZEOF(di->swzValue) - 1] = 0;
+		_tcsncpy(di->swzValue, dbv.ptszVal, _countof(di->swzValue));
+		di->swzValue[_countof(di->swzValue) - 1] = 0;
 		db_free(&dbv);
 	}
 
@@ -516,7 +516,7 @@ void LoadOptions()
 	}
 	else if (opt.skinMode == SM_IMAGE) {
 		if (!db_get_ts(NULL, MODULE, "SkinName", &dbv)) {
-			_tcsncpy(opt.szSkinName, dbv.ptszVal, SIZEOF(opt.szSkinName) - 1);
+			_tcsncpy(opt.szSkinName, dbv.ptszVal, _countof(opt.szSkinName) - 1);
 			db_free(&dbv);
 		}
 	}
@@ -543,7 +543,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel);
 			SetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue);
 
-			for (int i = 0; i < SIZEOF(displayItemTypes); i++) {
+			for (int i = 0; i < _countof(displayItemTypes); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateTS(displayItemTypes[i].title));
 				SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETITEMDATA, index, (LPARAM)displayItemTypes[i].type);
 				if (displayItemTypes[i].type == di->type)
@@ -573,7 +573,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETCURSEL, 0, 0);
 						int type = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETITEMDATA, sel, 0);
-						for (int i = 0; i < SIZEOF(displayItemTypes); i++) {
+						for (int i = 0; i < _countof(displayItemTypes); i++) {
 							if (displayItemTypes[i].type == type)
 								di->type = displayItemTypes[i].type;
 						}
@@ -709,10 +709,10 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							ds->type = DVT_PROTODB;
 						else {
 							ds->type = DVT_DB;
-							GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, SIZEOF(ds->szModuleName));
+							GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, _countof(ds->szModuleName));
 						}
 
-						GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, SIZEOF(ds->szSettingName));
+						GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, _countof(ds->szSettingName));
 
 						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETCURSEL, 0, 0);
 						ds->iTranslateFuncId = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, sel, 0);
@@ -767,7 +767,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		for (int i = 0; i < SIZEOF(btns); i++) {
+		for (int i = 0; i < _countof(btns); i++) {
 			SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, btns[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(btns[i].swzTooltip), BATF_TCHAR);
 			if (btns[i].uintCoreIconId)
@@ -994,7 +994,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							item.stateMask = TVIS_STATEIMAGEMASK;
 							item.hItem = hItem;
 							item.pszText = buff;
-							item.cchTextMax = SIZEOF(buff);
+							item.cchTextMax = _countof(buff);
 							if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item)) {
 								tmpParam = item.lParam;
 								tmpState = item.state;
@@ -1461,7 +1461,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvi.item.stateMask = TVIS_STATEIMAGEMASK;
-			for (int i = 0; i < SIZEOF(extraIconName); i++) {
+			for (int i = 0; i < _countof(extraIconName); i++) {
 				tvi.item.lParam = (LPARAM)&exIcons[i];
 				tvi.item.pszText = TranslateTS(extraIconName[exIcons[i].order]);
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(exIcons[i].vis ? 2 : 1);
@@ -1517,8 +1517,8 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
 							i++;
 						}
-						db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, SIZEOF(opt.exIconsOrder));
-						db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, SIZEOF(opt.exIconsVis));
+						db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, _countof(opt.exIconsOrder));
+						db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, _countof(opt.exIconsVis));
 
 						opt.iSmileyAddFlags = 0;
 						opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS) ? SMILEYADD_ENABLE : 0)
@@ -1647,7 +1647,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 				tvis.item.pszText = swzName;
-				tvis.item.cchTextMax = SIZEOF(swzName);
+				tvis.item.cchTextMax = _countof(swzName);
 				tvis.item.hItem = dat->hDragItem;
 				tvis.item.state = INDEXTOSTATEIMAGEMASK(((ICONSTATE *)item.lParam)->vis ? 2 : 1);
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis.item);
@@ -1979,7 +1979,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			for (i = 0; i < SIZEOF(trayTipItems); i++) {
+			for (i = 0; i < _countof(trayTipItems); i++) {
 				tvi.item.pszText = TranslateTS(trayTipItems[i]);
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(opt.iFirstItems & (1 << i) ? 2 : 1);
 				TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi);
@@ -2036,7 +2036,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				TVITEM item;
 				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS));
 				item.pszText = buff;
-				item.cchTextMax = SIZEOF(buff);
+				item.cchTextMax = _countof(buff);
 				item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 				item.stateMask = TVIS_STATEIMAGEMASK;
 				while (item.hItem != NULL) {

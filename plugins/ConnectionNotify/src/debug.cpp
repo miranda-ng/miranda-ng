@@ -27,7 +27,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 		case 's':
 		{
 			TCHAR* s = va_arg(argptr, TCHAR *);
-			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, s);
+			mir_sntprintf(OutMsg, _countof(OutMsg), format, s);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
 			mir_tstrcat(format, _T(" "));
@@ -37,7 +37,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 		case 'c':
 		{
 			char c = (char)va_arg(argptr, int);
-			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, c);
+			mir_sntprintf(OutMsg, _countof(OutMsg), format, c);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
 			mir_tstrcat(format, _T(" "));
@@ -47,7 +47,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 		case 'd':
 		{
 			int d = va_arg(argptr, int);
-			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, d);
+			mir_sntprintf(OutMsg, _countof(OutMsg), format, d);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
 			mir_tstrcat(format, _T(" "));

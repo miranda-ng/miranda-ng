@@ -226,12 +226,12 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			/* convert */
 			for(i=0;i<nCountriesCount;i++) {
 				/* map different writings */
-				for(j=0;j<SIZEOF(differentCountryNames);j++)
+				for(j=0;j<_countof(differentCountryNames);j++)
 					if (!mir_tstrcmpi(countries[i].szName,differentCountryNames[j].szMir)) {
 						buf=(char*)differentCountryNames[j].szCSV;
 						break;
 					}
-				if (j == SIZEOF(differentCountryNames))
+				if (j == _countof(differentCountryNames))
 					buf=(char*)countries[i].szName;
 				/* check country */
 				if (!mir_strcmpi(pszCountry,buf)) {
@@ -246,7 +246,7 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			}
 			/* not in list */
 			if (i == nCountriesCount) {
-				mir_snprintf(out, SIZEOF(out), "Unknown: %s-%s [%s, %s]\n", pszFrom, pszTo, pszTwo, pszCountry);
+				mir_snprintf(out, _countof(out), "Unknown: %s-%s [%s, %s]\n", pszFrom, pszTo, pszTwo, pszCountry);
 				OutputDebugStringA(out); /* all ascii */
 			}
 		}

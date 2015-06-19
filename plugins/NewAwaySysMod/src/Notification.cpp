@@ -69,7 +69,7 @@ void ShowLog(TCString &LogFilePath)
 	int Result = (int)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) {
 		TCHAR szError[64];
-		mir_sntprintf(szError, SIZEOF(szError), TranslateT("Error #%d"), Result);
+		mir_sntprintf(szError, _countof(szError), TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }

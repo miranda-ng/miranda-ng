@@ -133,7 +133,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	unsigned  i;
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
+	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, _countof(szSearchPath));
 	chop = _tcsrchr(szSearchPath, '\\');
 
 	if (chop) *chop = '\0';
@@ -148,12 +148,12 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	pai->format = PA_FORMAT_PNG;
-	mir_sntprintf(pai->filename, SIZEOF(pai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
+	mir_sntprintf(pai->filename, _countof(pai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
 	if ( _taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_GIF;
-	mir_sntprintf(pai->filename, SIZEOF(pai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
+	mir_sntprintf(pai->filename, _countof(pai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
 	if ( _taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 

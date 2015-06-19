@@ -493,7 +493,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 		}
 		{
 			char ttt[2048];
-			mir_snprintf(ttt, SIZEOF(ttt), "%s %d %d ", statusTxt, ft->proto->framesAvailableForPlayback, ft->proto->availOverrunValue);
+			mir_snprintf(ttt, _countof(ttt), "%s %d %d ", statusTxt, ft->proto->framesAvailableForPlayback, ft->proto->availOverrunValue);
 			SetDlgItemTextA(ft->proto->voiceDlgHWND, IDC_STATUS, ttt);
 		}
 		TlenP2PPacketFree(packet);
@@ -683,7 +683,7 @@ INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
-			mir_snprintf(serialId, SIZEOF(serialId), "%d", TlenSerialNext(this));
+			mir_snprintf(serialId, _countof(serialId), "%d", TlenSerialNext(this));
 			TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_VOICE, serialId);
 			if (item != NULL) {
 				TLEN_FILE_TRANSFER *ft = TlenFileCreateFT(this, dbv.pszVal);
@@ -931,7 +931,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	MCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-		mir_snprintf(jid, SIZEOF(jid), "%s@%s", id, dbv.pszVal);
+		mir_snprintf(jid, _countof(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if ((hContact = TlenHContactFromJID(proto, jid)) != NULL)
 			return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
@@ -1012,11 +1012,11 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, _countof(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				}
 				else {
-					strncpy(jid, from, SIZEOF(jid) - 1);
+					strncpy(jid, from, _countof(jid) - 1);
 				}
 				ignore = !IsAuthorized(proto, jid);
 				ask = true;
@@ -1025,11 +1025,11 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, _countof(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				}
 				else {
-					strncpy(jid, from, SIZEOF(jid) - 1);
+					strncpy(jid, from, _countof(jid) - 1);
 				}
 				ask = !IsAuthorized(proto, jid);
 				ignore = false;

@@ -331,7 +331,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 		mir_subclassWindow(dat->hList, SubclassProc);
 
 		// init buttons
-		for (int i = 0; i < SIZEOF(ctrls); i++) {
+		for (int i = 0; i < _countof(ctrls); i++) {
 			HWND hwnd = GetDlgItem(hwndDlg, ctrls[i].control);
 			SendMessage(hwnd, ctrls[i].type, 0, 0);
 			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[i + ICON_FIRST]);
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			if (!buf) break;
 
 			while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0) {
-				ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText) - 1);
+				ListView_GetItemText(dat->hList, idx, 0, szText, _countof(szText) - 1);
 				src = szText;
 				while (*dst++ = *src++);
 				dst--;
@@ -565,7 +565,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 					flags |= LVNI_SELECTED;
 
 				while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0) {
-					ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText));
+					ListView_GetItemText(dat->hList, idx, 0, szText, _countof(szText));
 					_ftprintf(fp, _T("%s\n"), szText);
 				}
 				fclose(fp);
@@ -628,11 +628,11 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		// restore position
 		Utils_RestoreWindowPosition(hwndDlg, NULL, "Console", "Console", RWPF_HIDDEN);
 
-		CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(name), (LPARAM)name);
+		CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(name), (LPARAM)name);
 
-		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)SIZEOF(path), (LPARAM)path);
+		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)path);
 
-		mir_sntprintf(title, SIZEOF(title), _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
+		mir_sntprintf(title, _countof(title), _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);
@@ -953,7 +953,7 @@ static int OnFastDump(WPARAM wParam, LPARAM lParam)
 		TCHAR *str = dumpMsg->szMsg;
 
 		char *szModule = (wParam) ? ((NETLIBUSER *)wParam)->szDescriptiveName : "[Core]";
-		mir_strncpy(dumpMsg->szModule, szModule, SIZEOF(dumpMsg->szModule));
+		mir_strncpy(dumpMsg->szModule, szModule, _countof(dumpMsg->szModule));
 
 		wchar_t *ucs2 = mir_a2u(logMsg->pszHead);
 		mir_wstrcpy(str, ucs2);
@@ -1115,8 +1115,8 @@ static int OnFontChange(WPARAM, LPARAM)
 		FontIDT fid = { 0 };
 		fid.cbSize = sizeof(fid);
 
-		mir_tstrncpy(fid.group, LPGENT("Console"), SIZEOF(fid.group));
-		mir_tstrncpy(fid.name, LPGENT("Text"), SIZEOF(fid.name));
+		mir_tstrncpy(fid.group, LPGENT("Console"), _countof(fid.group));
+		mir_tstrncpy(fid.name, LPGENT("Text"), _countof(fid.name));
 
 		colLogFont = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
 
@@ -1139,28 +1139,28 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(fid);
-	mir_tstrncpy(fid.group, LPGENT("Console"), SIZEOF(fid.group));
-	mir_tstrncpy(fid.name, LPGENT("Text"), SIZEOF(fid.name));
-	mir_strncpy(fid.dbSettingsGroup, "Console", SIZEOF(fid.dbSettingsGroup));
-	mir_strncpy(fid.prefix, "ConsoleFont", SIZEOF(fid.prefix));
-	mir_tstrncpy(fid.backgroundGroup, LPGENT("Console"), SIZEOF(fid.backgroundGroup));
-	mir_tstrncpy(fid.backgroundName, LPGENT("Background"), SIZEOF(fid.backgroundName));
+	mir_tstrncpy(fid.group, LPGENT("Console"), _countof(fid.group));
+	mir_tstrncpy(fid.name, LPGENT("Text"), _countof(fid.name));
+	mir_strncpy(fid.dbSettingsGroup, "Console", _countof(fid.dbSettingsGroup));
+	mir_strncpy(fid.prefix, "ConsoleFont", _countof(fid.prefix));
+	mir_tstrncpy(fid.backgroundGroup, LPGENT("Console"), _countof(fid.backgroundGroup));
+	mir_tstrncpy(fid.backgroundName, LPGENT("Background"), _countof(fid.backgroundName));
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
-	mir_tstrncpy(fid.deffontsettings.szFace, _T("Courier"), SIZEOF(fid.deffontsettings.szFace));
+	mir_tstrncpy(fid.deffontsettings.szFace, _T("Courier"), _countof(fid.deffontsettings.szFace));
 	FontRegisterT(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(cid);
-	mir_tstrncpy(cid.group, LPGENT("Console"), SIZEOF(cid.group));
-	mir_tstrncpy(cid.name, LPGENT("Background"), SIZEOF(cid.name));
-	mir_strncpy(cid.dbSettingsGroup, "Console", SIZEOF(cid.dbSettingsGroup));
-	mir_strncpy(cid.setting, "BgColor", SIZEOF(cid.setting));
+	mir_tstrncpy(cid.group, LPGENT("Console"), _countof(cid.group));
+	mir_tstrncpy(cid.name, LPGENT("Background"), _countof(cid.name));
+	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
+	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
 	ColourRegisterT(&cid);
 
@@ -1230,13 +1230,13 @@ void InitConsole()
 	hIcons[1] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_NOSCROLL), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 	hIcons[2] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_PAUSED), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (i = 0; i < SIZEOF(ctrls); i++) {
+	for (i = 0; i < _countof(ctrls); i++) {
 		hIcons[i + ICON_FIRST] = (HICON)LoadImage(hInst, MAKEINTRESOURCE(ctrls[i].icon), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 	}
 
-	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, SIZEOF(logicons), 0);
+	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, _countof(logicons), 0);
 
-	for (i = 0; i < SIZEOF(logicons); i++)
+	for (i = 0; i < _countof(logicons); i++)
 	{
 		hi = (HICON)LoadImage(hInst, MAKEINTRESOURCE(logicons[i]), IMAGE_ICON, LOGICONX_SIZE, LOGICONY_SIZE, 0);
 		if (hi)
@@ -1264,7 +1264,7 @@ void ShutdownConsole(void)
 
 	if (gImg) ImageList_Destroy(gImg);
 
-	for (i = 0; i < SIZEOF(hIcons); i++) {
+	for (i = 0; i < _countof(hIcons); i++) {
 		if (hIcons[i]) DestroyIcon(hIcons[i]);
 	}
 }

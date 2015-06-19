@@ -95,7 +95,7 @@ void AddNewGroup(const char *newGroup)
 	char group[1024];
 
 	*group = 1;
-	strncpy_s((group + 1), (SIZEOF(group) - 1), newGroup, _TRUNCATE);
+	strncpy_s((group + 1), (_countof(group) - 1), newGroup, _TRUNCATE);
 	
 	mir_snprintf(tmp, "%d", index);
 	const int MAX_SIZE = 1024;

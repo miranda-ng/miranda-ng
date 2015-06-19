@@ -59,10 +59,10 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_ID_TEXT, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_ID_TEXT, str, _countof(str));
 			ppro->setString(DUMMY_ID_TEXT, str);
 
-			GetDlgItemTextA(hwndDlg, IDC_ID_SETTING, str, SIZEOF(str));
+			GetDlgItemTextA(hwndDlg, IDC_ID_SETTING, str, _countof(str));
 			ppro->setString(DUMMY_ID_SETTING, str);
 		}
 		break;

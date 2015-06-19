@@ -176,7 +176,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 	if (title)
 		mir_sntprintf(buf, _T("%s: %s"), title, value);
 	else
-		mir_tstrncpy(buf, value, SIZEOF(buf));
+		mir_tstrncpy(buf, value, _countof(buf));
 
 	TVINSERTSTRUCT tvis = {0};
 	tvis.hParent = htiRoot;
@@ -251,20 +251,20 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 	// Resource priority
 	TCHAR szPriority[128];
-	mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (int)r->m_iPriority);
+	mir_sntprintf(szPriority, _countof(szPriority), _T("%d"), (int)r->m_iPriority);
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Resource priority"), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
-		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
+		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), _countof(buf));
 		size_t len = mir_tstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("unknown"), _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<not specified>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
@@ -279,7 +279,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				TCHAR szDescription[ 1024 ];
 				if (g_JabberFeatCapPairs[i].tszDescription)
-					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
+					mir_sntprintf(szDescription, _countof(szDescription), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
 					_tcsncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -289,7 +289,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[j]->jcbCap) {
 				TCHAR szDescription[ 1024 ];
 				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
-					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
+					mir_sntprintf(szDescription, _countof(szDescription), _T("%s (%s)"), TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
 				else
 					_tcsncpy_s(szDescription, ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -365,15 +365,15 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// logoff
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
-		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
+		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), _countof(buf));
 		size_t len = mir_tstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("unknown"), _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<not specified>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL,
 		(item->jid && _tcschr(item->jid, _T('@'))) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
@@ -384,9 +384,9 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// activity
 	if (item->m_pLastSeenResource)
-		mir_tstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, SIZEOF(buf));
+		mir_tstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<no information available>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<no information available>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Last active resource"), buf,
 		sttInfoLineId(0, INFOLINE_LASTACTIVE));
@@ -537,7 +537,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					TVITEMEX tvi = { 0 };
 					tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 					tvi.hItem = hItem;
-					tvi.cchTextMax = SIZEOF(szBuffer);
+					tvi.cchTextMax = _countof(szBuffer);
 					tvi.pszText = szBuffer;
 					if (TreeView_GetItem(hwndTree, &tvi)) {
 						if (TCHAR *str = _tcsstr(szBuffer, _T(": ")))

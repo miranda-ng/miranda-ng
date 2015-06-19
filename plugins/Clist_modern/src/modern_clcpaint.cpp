@@ -1108,7 +1108,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						TCHAR buf[70] = _T("");
 						mir_free_and_nil(pdnce->szSecondLineText);
 
-						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
 						pdnce->szSecondLineText = mir_tstrdup(buf);
 					}
 
@@ -1136,7 +1136,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						TCHAR buf[70] = _T("");
 						mir_free(pdnce->szThirdLineText);
 
-						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+						TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
 						pdnce->szThirdLineText = mir_tstrdup(buf);
 					}
 
@@ -1289,7 +1289,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						//TODO fix overlays
 						// Draw overlay
 						if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-							&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
+							&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < _countof(g_pAvatarOverlayIcons)) {
 							p_rect.top = p_rect.bottom - ICON_HEIGHT;
 							p_rect.left = p_rect.right - ICON_HEIGHT;
 
@@ -1417,7 +1417,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 
 			case TC_TIME:
 				TCHAR szResult[80];
-				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 					ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &p_rect, DT_NOPREFIX | DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0));
@@ -2015,7 +2015,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 	text_left_pos = row_rc.right;
 	// Now let's check what we have to draw
 	for (item_iterator = 0; item_iterator < NUM_ITEM_TYPE && free_row_rc.left < free_row_rc.right; item_iterator++) {
-		if (Drawing->ext_nItemsNum >= SIZEOF(Drawing->ext_mpItemsDesc)) break;
+		if (Drawing->ext_nItemsNum >= _countof(Drawing->ext_mpItemsDesc)) break;
 		if (left)
 			item = item_iterator;
 		else
@@ -2130,7 +2130,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					&& (!Drawing->image_is_special || !has_avatar ||
 					(dat->avatars_draw_overlay
 					&& dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-					&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)
+					&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < _countof(g_pAvatarOverlayIcons)
 					&& dat->avatars_overlay_type == SETTING_AVATAR_OVERLAY_TYPE_CONTACT))) {
 					// Don't have to draw and don't have to keep the empty space
 					break;
@@ -2163,7 +2163,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
 					TCHAR szResult[80];
 
-					if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+					if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
 						SIZE text_size;
 						RECT rc;
 
@@ -2351,7 +2351,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					TCHAR buf[70] = _T("");
-					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
 					mir_free(pdnce->szSecondLineText);
 					pdnce->szSecondLineText = mir_tstrdup(buf);
 				}
@@ -2385,7 +2385,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				if (dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
 					TCHAR buf[70] = _T("");
-					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), buf, _countof(buf), 0);
 					mir_free(pdnce->szThirdLineText);
 					pdnce->szThirdLineText = mir_tstrdup(buf);
 				}
@@ -2612,7 +2612,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 		int overlayIdx = -1;
 		int blendmode = 255;
 		if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-			&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
+			&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < _countof(g_pAvatarOverlayIcons)) {
 			switch (dat->avatars_overlay_type) {
 			case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
 				overlayIdx = g_pAvatarOverlayIcons[GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE].listID;
@@ -2676,7 +2676,7 @@ void CLCPaint::_DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing,
 		DeleteObject(rgn);
 		// Draw overlays
 		if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-			&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
+			&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < _countof(g_pAvatarOverlayIcons)) {
 			POINT ptOverlay = { prcItem->right - ICON_HEIGHT, prcItem->bottom - ICON_HEIGHT };
 			if (dat->avatars_draw_border) {
 				ptOverlay.x--;
@@ -2818,7 +2818,7 @@ void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	if (!pdnce)
 		return;
 
-	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, _T("t"), szResult, _countof(szResult), 0)) {
 		// Select font
 		ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 		ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), prcItem, DT_NOPREFIX | DT_SINGLELINE);

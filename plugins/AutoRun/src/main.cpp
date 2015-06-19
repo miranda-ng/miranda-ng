@@ -27,8 +27,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 void GetProfilePath(TCHAR *res, size_t resLen)
 {
 	TCHAR dbname[MAX_PATH], exename[MAX_PATH];
-	CallService(MS_DB_GETPROFILENAMET, SIZEOF(dbname), (LPARAM)dbname);
-	GetModuleFileName(NULL, exename, SIZEOF(exename));
+	CallService(MS_DB_GETPROFILENAMET, _countof(dbname), (LPARAM)dbname);
+	GetModuleFileName(NULL, exename, _countof(exename));
 
 	TCHAR *p = _tcsrchr(dbname, '.');
 	if (p) *p = 0;
@@ -44,7 +44,7 @@ static void SetAutorun(BOOL autorun)
 	case TRUE:
 		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
 			TCHAR result[MAX_PATH];
-			GetProfilePath(result, SIZEOF(result));
+			GetProfilePath(result, _countof(result));
 			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*mir_tstrlen(result));
 			RegCloseKey(hKey);
 		}
@@ -69,7 +69,7 @@ static BOOL CmpCurrentAndRegistry()
 	if ( RegQueryValueEx(hKey, _T("MirandaNG"), NULL, NULL, (LPBYTE)dbpath, &dwBufLen) != ERROR_SUCCESS)
 		return FALSE;
 	
-	GetProfilePath(result, SIZEOF(result));
+	GetProfilePath(result, _countof(result));
 	return mir_tstrcmpi(result, dbpath) == 0;
 }
 

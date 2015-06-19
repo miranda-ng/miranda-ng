@@ -79,7 +79,7 @@ static void EscapesToBinary(char *str)
 			memmove(str+1,codeend,mir_strlen(codeend)+1);
 			continue;
 		}
-		for(int i=0;i<SIZEOF(escapes);i+=2)
+		for(int i=0;i<_countof(escapes);i+=2)
 			if(str[1]==escapes[i]) 
 			{
 				*str=escapes[i+1];
@@ -117,14 +117,14 @@ char *BinaryToEscapes(char *str)
 			pout=out=(char*)SAFE_REALLOC(out,len);
 		}
 		*pout++='\\';
-		for(i = 0; i < SIZEOF(escapes); i += 2)
+		for(i = 0; i < _countof(escapes); i += 2)
 			if (*str==escapes[i+1]) 
 			{
 				*pout++=escapes[i];
 				extra--;
 				break;
 			}
-			if(i < SIZEOF(escapes)) continue;
+			if(i < _countof(escapes)) continue;
 			*pout++='0'; extra--;
 			if (*str>=8) 
 			{
@@ -325,7 +325,7 @@ void ChangeInfoData::EndStringEdit(int save)
 		if (sid.changed) {
 			TCHAR tbuf[MAX_PATH];
 
-			GetWindowText(hwndEdit, tbuf, SIZEOF(tbuf));
+			GetWindowText(hwndEdit, tbuf, _countof(tbuf));
 			ListView_SetItemText(hwndList, iEditItem, 1, tbuf);
 
 			EnableDlgItem(hwndDlg, IDC_SAVE, TRUE);

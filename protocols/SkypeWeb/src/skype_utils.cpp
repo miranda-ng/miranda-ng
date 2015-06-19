@@ -32,13 +32,13 @@ void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
 
 	TCHAR ttime[64];
 	_locale_t locale = _create_locale(LC_ALL, "");
-	_tcsftime_l(ttime, SIZEOF(ttime), _T("%X - %x"), localtime(&time), locale);
+	_tcsftime_l(ttime, _countof(ttime), _T("%X - %x"), localtime(&time), locale);
 	_free_locale(locale);
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
 	st.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
@@ -394,7 +394,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 				std::string entity = data.substr(begin + 1, i - begin - 1);
 
 				bool found = false;
-				for (int j = 0; j < SIZEOF(htmlEntities); j++)
+				for (int j = 0; j < _countof(htmlEntities); j++)
 				{
 					if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity))
 					{

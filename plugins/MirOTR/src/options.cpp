@@ -37,7 +37,7 @@ void SetFilenames(const TCHAR *path)
 int FoldersChanged(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR path[MAX_PATH];
-	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, SIZEOF(path), _T("")))
+	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), _T("")))
 		SetFilenames( VARST(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
@@ -352,7 +352,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				if (sel != -1) {
 					PROTOREGENKEYOPTIONS *opts = new PROTOREGENKEYOPTIONS();
 					opts->refresh = hwndDlg;
-					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, opts->proto, SIZEOF(opts->proto));
+					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, opts->proto, _countof(opts->proto));
 					CloseHandle((HANDLE)_beginthreadex(0, 0, regen_key_thread, opts, 0, 0));
 				}
 				break;
@@ -361,7 +361,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				sel = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS));
 				if (sel != -1) {
 					TCHAR buff_proto[128];
-					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, SIZEOF(buff_proto));
+					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, _countof(buff_proto));
 					TCHAR buff[512];
 					mir_sntprintf(buff, TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
 					if (IDYES == MessageBox(hwndDlg, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION | MB_YESNO)) {
@@ -416,7 +416,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), TRUE);
 				TCHAR buff[50];
-				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 1, buff, SIZEOF(buff));
+				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 1, buff, _countof(buff));
 				SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 			}
 		}
@@ -428,7 +428,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				if (proto == NULL)
 					continue;
 
-				ListView_GetItemText(lv, i, 1, policy, SIZEOF(policy));
+				ListView_GetItemText(lv, i, 1, policy, _countof(policy));
 				db_set_dw(0, MODULENAME"_ProtoPol", proto, policy_from_string(policy));
 			}
 			// handle apply
@@ -579,7 +579,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), TRUE);
 					TCHAR buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 2, buff, SIZEOF(buff));
+					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 2, buff, _countof(buff));
 					SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 				}
 			}
@@ -595,7 +595,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					MCONTACT hContact = (MCONTACT)lvi.lParam;
 					ContactPolicyMap *cp = (ContactPolicyMap *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					TCHAR buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, SIZEOF(buff));
+					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, _countof(buff));
 					if (_tcsncmp(buff, TranslateT(LANG_YES), 50) == 0) {
 						(*cp)[hContact].htmlconv = HTMLCONV_DISABLE;
 						ListView_SetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, TranslateT(LANG_NO));
@@ -750,8 +750,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
-						mir_sntprintf(buff, SIZEOF(buff) - 1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						buff[SIZEOF(buff) - 1] = '\0';
+						mir_sntprintf(buff, _countof(buff) - 1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
+						buff[_countof(buff) - 1] = '\0';
 						ShowError(buff);
 					}
 					else {
@@ -781,8 +781,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
-						mir_sntprintf(buff, SIZEOF(buff) - 1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						buff[SIZEOF(buff) - 1] = '\0';
+						mir_sntprintf(buff, _countof(buff) - 1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
+						buff[_countof(buff) - 1] = '\0';
 						ShowError(buff);
 					}
 					else otrl_context_forget_fingerprint(it->first, 1);

@@ -210,17 +210,17 @@ char* GetContactID(MCONTACT hContact, char *szProto)
 	char tmp[16];
 	switch (ctInfo.type) {
 	case CNFT_BYTE:
-		mir_snprintf(tmp, SIZEOF(tmp), "%d", ctInfo.bVal);
+		mir_snprintf(tmp, _countof(tmp), "%d", ctInfo.bVal);
 		buffer = strdup(tmp);
 		break;
 
 	case CNFT_WORD:
-		mir_snprintf(tmp, SIZEOF(tmp), "%d", ctInfo.wVal);
+		mir_snprintf(tmp, _countof(tmp), "%d", ctInfo.wVal);
 		buffer = strdup(tmp);
 		break;
 
 	case CNFT_DWORD:
-		mir_snprintf(tmp, SIZEOF(tmp), "%ld", ctInfo.dVal);
+		mir_snprintf(tmp, _countof(tmp), "%ld", ctInfo.dVal);
 		buffer = strdup(tmp);
 		break;
 

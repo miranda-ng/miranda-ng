@@ -230,21 +230,21 @@ void RegisterFontServiceFonts()
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(FontIDT);
 
-    _tcsncpy(fontid.group, _T(SECTIONNAME), SIZEOF(fontid.group));
-    _tcsncpy(fontid.backgroundGroup, _T(SECTIONNAME), SIZEOF(fontid.backgroundGroup) );
-	strncpy(fontid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
+    _tcsncpy(fontid.group, _T(SECTIONNAME), _countof(fontid.group));
+    _tcsncpy(fontid.backgroundGroup, _T(SECTIONNAME), _countof(fontid.backgroundGroup) );
+	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
 	HDC hDC = GetDC(NULL);
 	int nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
 	ReleaseDC(NULL, hDC);
 
-	for (int i = 0; i < SIZEOF(fontOptionsList); i++)
+	for (int i = 0; i < _countof(fontOptionsList); i++)
 	{
 		fontid.order = i;
 		mir_snprintf(szTemp, "Font%d", i);
-		strncpy(fontid.prefix, szTemp, SIZEOF(fontid.prefix));
-		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+		strncpy(fontid.prefix, szTemp, _countof(fontid.prefix));
+		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 
 		fontid.deffontsettings.size = (char)-MulDiv(fontOptionsList[i].defSize, nFontScale, 72);
@@ -252,8 +252,8 @@ void RegisterFontServiceFonts()
 
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fontid.backgroundName));
+		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
+		_tcsncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
 
 		FontRegisterT(&fontid);
 	}
@@ -261,16 +261,16 @@ void RegisterFontServiceFonts()
 	ColourIDT colorid = {0};
 	colorid.cbSize = sizeof(ColourIDT);
 
-	_tcsncpy(colorid.group, _T(SECTIONNAME), SIZEOF(colorid.group));
-	strncpy(colorid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
+	_tcsncpy(colorid.group, _T(SECTIONNAME), _countof(colorid.group));
+	strncpy(colorid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	colorid.flags = 0;
 
-	for (int i = 0; i < SIZEOF(colourOptionsList); i++)
+	for (int i = 0; i < _countof(colourOptionsList); i++)
 	{
 		colorid.order = i;
-		_tcsncpy(colorid.name, colourOptionsList[i].szName, SIZEOF(colorid.name));
+		_tcsncpy(colorid.name, colourOptionsList[i].szName, _countof(colorid.name));
 		colorid.defcolour = colourOptionsList[i].defColour;
-		strncpy(colorid.setting, colourOptionsList[i].szSettingName, SIZEOF(colorid.setting));
+		strncpy(colorid.setting, colourOptionsList[i].szSettingName, _countof(colorid.setting));
 
 		ColourRegisterT(&colorid);
 	}
@@ -284,8 +284,8 @@ void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
     FontIDT fontid = {0};
 
     fontid.cbSize = sizeof(fontid);
-    _tcsncpy(fontid.group, LPGENT(SECTIONNAME), SIZEOF(fontid.group));
-    _tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+    _tcsncpy(fontid.group, LPGENT(SECTIONNAME), _countof(fontid.group));
+    _tcsncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 
     COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 
@@ -360,9 +360,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 
 			SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_RESETCONTENT,0,0);
 			SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_RESETCONTENT,0,0);
-			for (i=0; i<SIZEOF(dateFormats); i++)
+			for (i=0; i<_countof(dateFormats); i++)
 				SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_ADDSTRING,0,(LPARAM)dateFormats[i].lpszUI);
-			for (i=0; i<SIZEOF(timeFormats); i++)
+			for (i=0; i<_countof(timeFormats); i++)
 				SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_ADDSTRING,0,(LPARAM)timeFormats[i].lpszUI);
 			SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_ADDSTRING,0,(LPARAM)Translate("None"));
 			SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_ADDSTRING,0,(LPARAM)Translate("None"));
@@ -467,7 +467,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				ofn.hwndOwner = hdlg;
 				ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
 				ofn.lpstrFile = s;
-				ofn.nMaxFile = SIZEOF(s);
+				ofn.nMaxFile = _countof(s);
 				ofn.lpstrTitle = TranslateT("Select Executable");
 				ofn.lpstrInitialDir = _T(".");
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
@@ -573,10 +573,10 @@ void InitSettings(void)
 	g_CloseAfterAddReminder = (BOOL)db_get_dw(0,MODULENAME,"CloseAfterAddReminder",1);
 	g_UseDefaultPlaySound = !(BOOL)db_get_dw(0,MODULENAME,"UseMCI",1);
 
-	ReadSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,SIZEOF(g_reminderListGeom));
-	ReadSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,SIZEOF(g_reminderListColGeom));
-	ReadSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,SIZEOF(g_notesListGeom));
-	ReadSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,SIZEOF(g_notesListColGeom));
+	ReadSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,_countof(g_reminderListGeom));
+	ReadSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,_countof(g_reminderListColGeom));
+	ReadSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,_countof(g_notesListGeom));
+	ReadSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,_countof(g_notesListColGeom));
 
 	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
@@ -594,13 +594,13 @@ void TermSettings(void)
 {
 	if (g_reminderListGeom[2] > 0 && g_reminderListGeom[3] > 0)
 	{
-		WriteSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,SIZEOF(g_reminderListGeom));
-		WriteSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,SIZEOF(g_reminderListColGeom));
+		WriteSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,_countof(g_reminderListGeom));
+		WriteSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,_countof(g_reminderListColGeom));
 	}
 	if (g_notesListGeom[2] > 0 && g_notesListGeom[3] > 0)
 	{
-		WriteSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,SIZEOF(g_notesListGeom));
-		WriteSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,SIZEOF(g_notesListColGeom));
+		WriteSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,_countof(g_notesListGeom));
+		WriteSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,_countof(g_notesListColGeom));
 	}
 
 	if (g_lpszAltBrowser)

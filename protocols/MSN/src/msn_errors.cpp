@@ -52,7 +52,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		struct { char *typeId, *strMsgBytes; } data;
 	};
 
-	if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2) {
+	if (sttDivideWords(params, _countof(tWords), tWords) < 2) {
 		debugLogA("Invalid %.3s command, ignoring", cmdString);
 		return 0;
 	}
@@ -90,7 +90,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	case ERR_DETAILED_ERR_IN_PAYLOAD:
 	case ERR_LIST_UNAVAILABLE:
 		char* tWords[4];
-		if (sttDivideWords(cmdString, SIZEOF(tWords), tWords) == SIZEOF(tWords))
+		if (sttDivideWords(cmdString, _countof(tWords), tWords) == _countof(tWords))
 			HReadBuffer(info, 0).surelyRead(atol(tWords[3]));
 		return 0;
 

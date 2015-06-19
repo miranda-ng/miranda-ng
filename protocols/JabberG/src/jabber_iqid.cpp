@@ -219,7 +219,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 			JabberShaStrBuf buf;
 			T2Utf str(m_ThreadInfo->conn.password);
 			char text[200];
-			mir_snprintf(text, SIZEOF(text), "%s%s", m_ThreadInfo->szStreamId, str);
+			mir_snprintf(text, _countof(text), "%s%s", m_ThreadInfo->szStreamId, str);
 			query << XCHILD(_T("digest"), _A2T(JabberSha1(text, buf)));
 		}
 		else if (xmlGetChild(queryNode, "password") != NULL)
@@ -279,7 +279,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		LPCTSTR szJid = XPathT(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
 		if (szJid) {
-			if (!_tcsncmp(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID)))
+			if (!_tcsncmp(m_ThreadInfo->fullJID, szJid, _countof(m_ThreadInfo->fullJID)))
 				debugLog(_T("Result Bind: %s confirmed "), m_ThreadInfo->fullJID);
 			else {
 				debugLog(_T("Result Bind: %s changed to %s"), m_ThreadInfo->fullJID, szJid);
@@ -589,7 +589,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 		return;
 
 	TCHAR szAvatarFileName[MAX_PATH];
-	GetAvatarFileName(hContact, szAvatarFileName, SIZEOF(szAvatarFileName));
+	GetAvatarFileName(hContact, szAvatarFileName, _countof(szAvatarFileName));
 
 	debugLog(_T("Picture file name set to %s"), szAvatarFileName);
 	HANDLE hFile = CreateFile(szAvatarFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -752,13 +752,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 						if (nEmail == 0)
 							mir_strcpy(text, "e-mail");
 						else
-							mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail - 1);
+							mir_snprintf(text, _countof(text), "e-mail%d", nEmail - 1);
 					}
-					else mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail);
+					else mir_snprintf(text, _countof(text), "e-mail%d", nEmail);
 					setTString(hContact, text, xmlGetText(m));
 
 					if (hContact == NULL) {
-						mir_snprintf(text, SIZEOF(text), "e-mailFlag%d", nEmail);
+						mir_snprintf(text, _countof(text), "e-mailFlag%d", nEmail);
 						int nFlag = 0;
 						if (xmlGetChild(n, "HOME") != NULL) nFlag |= JABBER_VCEMAIL_HOME;
 						if (xmlGetChild(n, "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
@@ -820,7 +820,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
 								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
-							text[SIZEOF(text)-1] = '\0';
+							text[_countof(text)-1] = '\0';
 							setTString(hContact, "Street", text);
 						}
 						else {
@@ -863,7 +863,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
 								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
-							text[SIZEOF(text)-1] = '\0';
+							text[_countof(text)-1] = '\0';
 							setTString(hContact, "CompanyStreet", text);
 						}
 						else {
@@ -924,10 +924,10 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 					}
 					else {
 						char text[100];
-						mir_snprintf(text, SIZEOF(text), "Phone%d", nPhone);
+						mir_snprintf(text, _countof(text), "Phone%d", nPhone);
 						setTString(text, xmlGetText(m));
 
-						mir_snprintf(text, SIZEOF(text), "PhoneFlag%d", nPhone);
+						mir_snprintf(text, _countof(text), "PhoneFlag%d", nPhone);
 						int nFlag = 0;
 						if (xmlGetChild(n, "HOME")  != NULL) nFlag |= JABBER_VCTEL_HOME;
 						if (xmlGetChild(n, "WORK")  != NULL) nFlag |= JABBER_VCTEL_WORK;
@@ -1012,7 +1012,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 				delSetting(hContact, "e-mail");
 			else {
 				char text[100];
-				mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail - 1);
+				mir_snprintf(text, _countof(text), "e-mail%d", nEmail - 1);
 				if (db_get_s(hContact, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				delSetting(hContact, text);
@@ -1023,11 +1023,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	else {
 		while (true) {
 			char text[100];
-			mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail);
+			mir_snprintf(text, _countof(text), "e-mail%d", nEmail);
 			if (getString(text, &dbv)) break;
 			db_free(&dbv);
 			delSetting(text);
-			mir_snprintf(text, SIZEOF(text), "e-mailFlag%d", nEmail);
+			mir_snprintf(text, _countof(text), "e-mailFlag%d", nEmail);
 			delSetting(text);
 			nEmail++;
 		}
@@ -1057,11 +1057,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	else {
 		while (true) {
 			char text[100];
-			mir_snprintf(text, SIZEOF(text), "Phone%d", nPhone);
+			mir_snprintf(text, _countof(text), "Phone%d", nPhone);
 			if (getString(text, &dbv)) break;
 			db_free(&dbv);
 			delSetting(text);
-			mir_snprintf(text, SIZEOF(text), "PhoneFlag%d", nPhone);
+			mir_snprintf(text, _countof(text), "PhoneFlag%d", nPhone);
 			delSetting(text);
 			nPhone++;
 		}
@@ -1327,7 +1327,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 	}
 	
 	TCHAR szJid[JABBER_MAX_JID_LEN];
-	mir_tstrncpy(szJid, from, SIZEOF(szJid));
+	mir_tstrncpy(szJid, from, _countof(szJid));
 	TCHAR *res = _tcschr(szJid, _T('/'));
 	if (res != NULL)
 		*res = 0;
@@ -1367,7 +1367,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 	}
 	
 	TCHAR szJid[JABBER_MAX_JID_LEN];
-	mir_tstrncpy(szJid, from, SIZEOF(szJid));
+	mir_tstrncpy(szJid, from, _countof(szJid));
 	TCHAR *res = _tcschr(szJid, _T('/'));
 	if (res != NULL)
 		*res = 0;
@@ -1407,7 +1407,7 @@ LBL_ErrFormat:
 
 	TCHAR tszFileName[MAX_PATH];
 	if (getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
-		GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
+		GetAvatarFileName(hContact, tszFileName, _countof(tszFileName));
 		DeleteFile(tszFileName);
 	}
 
@@ -1419,7 +1419,7 @@ LBL_ErrFormat:
 	mir_sha1_append(&sha, (BYTE*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
 
-	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
+	GetAvatarFileName(hContact, tszFileName, _countof(tszFileName));
 	_tcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 
 	FILE *out = _tfopen(tszFileName, _T("wb"));

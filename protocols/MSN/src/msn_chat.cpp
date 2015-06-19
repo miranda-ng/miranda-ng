@@ -47,14 +47,14 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 {
 	char *szNet, *szEmail;
 
-	_tcsncpy(info->mChatID, _A2T(pszID), SIZEOF(info->mChatID));
+	_tcsncpy(info->mChatID, _A2T(pszID), _countof(info->mChatID));
 	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, NULL);
 	info->netId = atoi(szNet);
 	strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
 
 	TCHAR szName[512];
 	InterlockedIncrement(&m_chatID);
-	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), SIZEOF(szName));
+	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), _countof(szName));
 	else mir_sntprintf(szName, _T("%s %s%d"),
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
@@ -67,7 +67,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 
 	GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	for (int j = 0; j < SIZEOF(m_ptszRoles); j++) {
+	for (int j = 0; j < _countof(m_ptszRoles); j++) {
 		gce.ptszStatus = m_ptszRoles[j];
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
@@ -431,7 +431,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_ADDSCR:
 			if (param->ppro->msnLoggedIn) {
 				TCHAR email[MSN_MAX_EMAIL_LEN];
-				GetDlgItemText(hwndDlg, IDC_EDITSCR, email, SIZEOF(email));
+				GetDlgItemText(hwndDlg, IDC_EDITSCR, email, _countof(email));
 
 				CLCINFOITEM cii = { 0 };
 				cii.cbSize = sizeof(cii);
@@ -620,7 +620,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
-		gcmi->nItems = SIZEOF(Items);
+		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
@@ -633,7 +633,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				{ _T(""), 100, MENU_SEPARATOR, FALSE },
 				{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 		else {
@@ -653,7 +653,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				if (pszRole && !mir_tstrcmpi(pszRole, _T("admin")))
 					Items[3].pszDesc = LPGENT("&Deop user");
 			}
-			gcmi->nItems = SIZEOF(Items);
+			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
 		mir_free(email);

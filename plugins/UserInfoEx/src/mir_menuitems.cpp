@@ -82,7 +82,7 @@ void RebuildContact()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
+	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -178,7 +178,7 @@ void RebuildMain()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
+	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -316,7 +316,7 @@ void RebuildGroup()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
+	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
@@ -413,7 +413,7 @@ void RebuildSubGroup()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
+	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];

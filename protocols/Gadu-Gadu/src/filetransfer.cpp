@@ -269,7 +269,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc->tick = tick;
-								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -299,7 +299,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -497,7 +497,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc7->tick = tick;
-								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
+								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;
@@ -527,7 +527,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc7->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
+								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;

@@ -63,8 +63,8 @@ static INT_PTR CALLBACK WallPostFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 		case IDOK:
 			TCHAR tszMsg[4096], tszUrl[4096];
-			GetDlgItemText(hwndDlg, IDC_ED_MSG, tszMsg, SIZEOF(tszMsg));
-			GetDlgItemText(hwndDlg, IDC_ED_URL, tszUrl, SIZEOF(tszUrl));
+			GetDlgItemText(hwndDlg, IDC_ED_MSG, tszMsg, _countof(tszMsg));
+			GetDlgItemText(hwndDlg, IDC_ED_URL, tszUrl, _countof(tszUrl));
 
 			if (IsEmpty(tszMsg) && IsEmpty(tszUrl)) {
 				SetDlgItemText(hwndDlg, IDC_ST_WARNING, TranslateT("Attention! Message body or url should not be empty!"));

@@ -32,7 +32,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 	char* pszSign = strchr(pszSrc, pszReplace);
 
 	if (pszSign) {
-		strncpy(szBuffer, pszSrc, SIZEOF(szBuffer)-1);
+		strncpy(szBuffer, pszSrc, _countof(szBuffer)-1);
 
 		do {
 			mir_strcpy(szBuffer + (pszSign - pszSrc), pszNew);

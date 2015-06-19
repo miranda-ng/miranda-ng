@@ -54,7 +54,7 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
 		tvi.mask = TVIF_STATE|TVIF_TEXT;
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
 		tvi.pszText = szModule;
-		tvi.cchTextMax = SIZEOF(szModule);
+		tvi.cchTextMax = _countof(szModule);
 
 		do {
 			if (
@@ -89,7 +89,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = szBuf;
-	tvi.cchTextMax = SIZEOF(szBuf);
+	tvi.cchTextMax = _countof(szBuf);
 
 	for (tvi.hItem = TreeView_GetChild(hTree, hParent);
 		tvi.hItem != NULL;
@@ -171,7 +171,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 					{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 				};
-				const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+				const int numIconsToSet = db_get_b(NULL, MODNAME, SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview
@@ -225,8 +225,8 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 						break;
 				}
 				TranslateDialogDefault(hDlg);			//to translate oldTitle
-				GetWindowText(hDlg, oldTitle, SIZEOF(oldTitle));
-				mir_sntprintf(newTitle, SIZEOF(newTitle), _T("%s - %s"), name, oldTitle);
+				GetWindowText(hDlg, oldTitle, _countof(oldTitle));
+				mir_sntprintf(newTitle, _countof(newTitle), _T("%s - %s"), name, oldTitle);
 				SetWindowText(hDlg, newTitle);
 			}
 
@@ -394,7 +394,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					tvi.mask = TVIF_TEXT;
 					tvi.pszText = szText;
-					tvi.cchTextMax = SIZEOF(szText);
+					tvi.cchTextMax = _countof(szText);
 
 					// search the tree item of optional items
 					for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_ROOT, NULL);

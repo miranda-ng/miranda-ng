@@ -89,7 +89,7 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 {
 	TCHAR cls[128];
 	HWND hwndClist = GetFocus();
-	GetClassName(hwndClist, cls, SIZEOF(cls));
+	GetClassName(hwndClist, cls, _countof(cls));
 	hwndClist = (!mir_tstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
@@ -100,7 +100,7 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 {
 	TCHAR cls[128];
 	HWND hwndClist = GetFocus();
-	GetClassName(hwndClist, cls, SIZEOF(cls));
+	GetClassName(hwndClist, cls, _countof(cls));
 	// worst case scenario, the rename is sent to the main contact list
 	hwndClist = (!mir_tstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
@@ -124,8 +124,8 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 			SendDlgItemMessage(hWnd, IDC_TOPLINE, WM_SETFONT, (WPARAM) CreateFontIndirect(&lf), 0);
 		
 			TCHAR szFormat[256], szFinal[256];
-			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, SIZEOF(szFormat));
-			mir_sntprintf(szFinal, SIZEOF(szFinal), szFormat, cli.pfnGetContactDisplayName(lParam, 0));
+			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
+			mir_sntprintf(szFinal, _countof(szFinal), szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
 		SetFocus( GetDlgItem(hWnd, IDNO));
@@ -279,9 +279,9 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		mir_tstrncpy(titleText, _T(MIRANDANAME), SIZEOF(titleText));
+		mir_tstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
 	else {
-		mir_tstrncpy(titleText, dbv.ptszVal, SIZEOF(titleText));
+		mir_tstrncpy(titleText, dbv.ptszVal, _countof(titleText));
 		db_free(&dbv);
 	}
 
@@ -412,7 +412,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		TCHAR profile[MAX_PATH];
 		int rc;
 		// wParam = (ATOM)hProfileAtom, lParam = 0
-		if (GlobalGetAtomName((ATOM) wParam, profile, SIZEOF(profile))) {
+		if (GlobalGetAtomName((ATOM) wParam, profile, _countof(profile))) {
 			rc = mir_tstrcmpi(profile, VARST(_T("%miranda_userdata%\\%miranda_profilename%.dat"))) == 0;
 			ReplyMessage(rc);
 			if (rc) {
@@ -1003,7 +1003,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PROTOACCOUNT *pa;
 					TCHAR tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
-						mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);
+						mir_sntprintf(tszName, _countof(tszName), _T("%s "), pa->tszAccountName);
 					else
 						tszName[0] = 0;
 

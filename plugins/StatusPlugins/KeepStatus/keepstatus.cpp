@@ -212,7 +212,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 	mir_cslock lck(GenStatusCS);
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", cs->szName);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", cs->szName);
 	cs->lastStatus = lastStatus == 0 ? cs->status : lastStatus;
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		cs->status = ID_STATUS_DISABLED;
@@ -520,7 +520,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", ack->szModule);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", ack->szModule);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return 0;
 
@@ -933,8 +933,8 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
 				if (mir_tstrlen(ps[i]->tszAccName) > 0 && mir_strlen(ps[i]->szName) > 0) {
 					if (db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
-						mir_sntprintf(protoInfoLine, SIZEOF(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
-						mir_tstrncat(protoInfo, protoInfoLine, SIZEOF(protoInfo) - mir_tstrlen(protoInfo) - 1);
+						mir_sntprintf(protoInfoLine, _countof(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
+						mir_tstrncat(protoInfo, protoInfoLine, _countof(protoInfo) - mir_tstrlen(protoInfo) - 1);
 					}
 				}
 			}
@@ -1051,7 +1051,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", szProto);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", szProto);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1)) // 'hard' disabled
 		return -1;
 
@@ -1077,7 +1077,7 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 	char *szProto = (char *)lParam;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", szProto);
+	mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", szProto);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return FALSE;
 

@@ -112,7 +112,7 @@ struct Info
 static void EmailOnClick(Info*, const char *text)
 {
 	char cmd[1024];
-	mir_snprintf(cmd, SIZEOF(cmd), "mailto:%s", text);
+	mir_snprintf(cmd, _countof(cmd), "mailto:%s", text);
 	ShellExecuteA(NULL, "open", cmd, NULL, NULL, SW_SHOW);
 }
 
@@ -143,10 +143,10 @@ static void SetExtraIcons(MCONTACT hContact)
 	if ( IsEmpty(proto))
 		return;
 
-	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
+	for (unsigned int i = 0; i < _countof(infos); i++) {
 		Info &p = infos[i];
 
-		for (unsigned int j = 0; j < SIZEOF(p.db); j += 2) {
+		for (unsigned int j = 0; j < _countof(p.db); j += 2) {
 			if (p.db[j + 1] == NULL)
 				break;
 
@@ -180,10 +180,10 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	for (int i = 0; i < SIZEOF(infos); i++) {
+	for (int i = 0; i < _countof(infos); i++) {
 		Info &p = infos[i];
 
-		for (int j = 0; j < SIZEOF(p.db); j += 2) {
+		for (int j = 0; j < _countof(p.db); j += 2) {
 			if (p.db[j + 1] == NULL)
 				break;
 			if (p.db[j] == NULL && !isProto)
@@ -216,7 +216,7 @@ static int DefaultOnClick(WPARAM hContact, LPARAM, LPARAM param)
 		return 0;
 
 	bool found = false;
-	for (int j = 0; !found && j < SIZEOF(p->db); j += 2) {
+	for (int j = 0; !found && j < _countof(p->db); j += 2) {
 		if (p->db[j + 1] == NULL)
 			break;
 
@@ -307,7 +307,7 @@ void DefaultExtraIcons_Load()
 	hExtraProto = ExtraIcon_Register("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
 
-	for (int i = 0; i < SIZEOF(infos); i++) {
+	for (int i = 0; i < _countof(infos); i++) {
 		Info &p = infos[i];
 		p.hIcolib = Skin_GetIconHandle(p.iSkinIcon);
 		if (p.OnClick)

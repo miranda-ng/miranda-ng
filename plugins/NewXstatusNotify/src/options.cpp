@@ -31,20 +31,20 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 void LoadTemplates()
 {
-	DBGetStringDefault(0, MODULE, "TPopupXChanged", templates.PopupXstatusChanged, SIZEOF(templates.PopupXstatusChanged), DEFAULT_POPUP_CHANGED);
-	DBGetStringDefault(0, MODULE, "TPopupXRemoved", templates.PopupXstatusRemoved, SIZEOF(templates.PopupXstatusRemoved), DEFAULT_POPUP_REMOVED);
-	DBGetStringDefault(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged, SIZEOF(templates.PopupXMsgChanged), DEFAULT_POPUP_MSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved, SIZEOF(templates.PopupXMsgRemoved), DEFAULT_POPUP_MSGREMOVED);
+	DBGetStringDefault(0, MODULE, "TPopupXChanged", templates.PopupXstatusChanged, _countof(templates.PopupXstatusChanged), DEFAULT_POPUP_CHANGED);
+	DBGetStringDefault(0, MODULE, "TPopupXRemoved", templates.PopupXstatusRemoved, _countof(templates.PopupXstatusRemoved), DEFAULT_POPUP_REMOVED);
+	DBGetStringDefault(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged, _countof(templates.PopupXMsgChanged), DEFAULT_POPUP_MSGCHANGED);
+	DBGetStringDefault(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved, _countof(templates.PopupXMsgRemoved), DEFAULT_POPUP_MSGREMOVED);
 
-	DBGetStringDefault(0, MODULE, "TLogXChanged", templates.LogXstatusChanged, SIZEOF(templates.LogXstatusChanged), DEFAULT_LOG_CHANGED);
-	DBGetStringDefault(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved, SIZEOF(templates.LogXstatusRemoved), DEFAULT_LOG_REMOVED);
-	DBGetStringDefault(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged, SIZEOF(templates.LogXMsgChanged), DEFAULT_LOG_MSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved, SIZEOF(templates.LogXMsgRemoved), DEFAULT_LOG_MSGREMOVED);
-	DBGetStringDefault(0, MODULE, "TLogXOpening", templates.LogXstatusOpening, SIZEOF(templates.LogXstatusOpening), DEFAULT_LOG_OPENING);
+	DBGetStringDefault(0, MODULE, "TLogXChanged", templates.LogXstatusChanged, _countof(templates.LogXstatusChanged), DEFAULT_LOG_CHANGED);
+	DBGetStringDefault(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved, _countof(templates.LogXstatusRemoved), DEFAULT_LOG_REMOVED);
+	DBGetStringDefault(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged, _countof(templates.LogXMsgChanged), DEFAULT_LOG_MSGCHANGED);
+	DBGetStringDefault(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved, _countof(templates.LogXMsgRemoved), DEFAULT_LOG_MSGREMOVED);
+	DBGetStringDefault(0, MODULE, "TLogXOpening", templates.LogXstatusOpening, _countof(templates.LogXstatusOpening), DEFAULT_LOG_OPENING);
 
-	DBGetStringDefault(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged, SIZEOF(templates.LogSMsgChanged), DEFAULT_LOG_SMSGCHANGED);
-	DBGetStringDefault(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved, SIZEOF(templates.LogSMsgRemoved), DEFAULT_LOG_SMSGREMOVED);
-	DBGetStringDefault(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening, SIZEOF(templates.LogSMsgOpening), DEFAULT_LOG_SMSGOPENING);
+	DBGetStringDefault(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged, _countof(templates.LogSMsgChanged), DEFAULT_LOG_SMSGCHANGED);
+	DBGetStringDefault(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved, _countof(templates.LogSMsgRemoved), DEFAULT_LOG_SMSGREMOVED);
+	DBGetStringDefault(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening, _countof(templates.LogSMsgOpening), DEFAULT_LOG_SMSGOPENING);
 
 	templates.PopupXFlags = db_get_b(0, MODULE, "TPopupXFlags", NOTIFY_NEW_XSTATUS | NOTIFY_NEW_MESSAGE);
 	templates.PopupSMsgFlags = db_get_b(0, MODULE, "TPopupSMsgFlags", NOTIFY_NEW_MESSAGE);
@@ -218,7 +218,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 			//Statuses notified
 			char status[8];
-			mir_snprintf(status, SIZEOF(status), "%d", i);
+			mir_snprintf(status, _countof(status), "%d", i);
 			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline ? BST_CHECKED : BST_UNCHECKED);
@@ -249,14 +249,14 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TCHAR buff[MAX_PATH];
 			OPENFILENAME ofn = { 0 };
 
-			GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, SIZEOF(buff));
+			GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, _countof(buff));
 
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.lpstrFile = buff;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.hwndOwner = hwndDlg;
 			TCHAR filter[MAX_PATH];
-			mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c"), TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
+			mir_sntprintf(filter, _countof(filter), _T("%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c"), TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 2;
 			ofn.lpstrInitialDir = buff;
@@ -284,12 +284,12 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			opt.HiddenContactsToo = IsDlgButtonChecked(hwndDlg, IDC_HIDDENCONTACTSTOO);
 			opt.UseIndSnd = IsDlgButtonChecked(hwndDlg, IDC_USEINDIVSOUNDS);
 
-			GetDlgItemText(hwndDlg, IDC_LOGFILE, opt.LogFilePath, SIZEOF(opt.LogFilePath));
+			GetDlgItemText(hwndDlg, IDC_LOGFILE, opt.LogFilePath, _countof(opt.LogFilePath));
 
 			//Notified statuses
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				char status[8];
-				mir_snprintf(status, SIZEOF(status), "%d", i);
+				mir_snprintf(status, _countof(status), "%d", i);
 				db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 			}
 			opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, opt.PopupConnectionTimeout, TRUE);
 
 		//Mouse actions
-		for (int i = 0; i < SIZEOF(PopupActions); i++) {
+		for (int i = 0; i < _countof(PopupActions); i++) {
 			SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 			SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 		}
@@ -381,13 +381,13 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			{
 				TCHAR str[MAX_SECONDLINE] = { 0 };
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					_tcsncpy(str, _T(""), SIZEOF(str));
+					_tcsncpy(str, _T(""), _countof(str));
 
 					if (opt.ShowStatus) {
 						if (opt.UseAlternativeText == 1)
-							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, SIZEOF(str));
+							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, _countof(str));
 						else
-							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, SIZEOF(str));
+							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, _countof(str));
 
 						if (opt.ShowPreviousStatus) {
 							TCHAR buff[MAX_STATUSTEXT];
@@ -405,9 +405,9 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, i), i, str);
 				}
-				_tcsncpy(str, TranslateT("This is extra status"), SIZEOF(str));
+				_tcsncpy(str, TranslateT("This is extra status"), _countof(str));
 				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-				_tcsncpy(str, TranslateT("This is status message"), SIZEOF(str));
+				_tcsncpy(str, TranslateT("This is status message"), _countof(str));
 				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
@@ -630,10 +630,10 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				(IsDlgButtonChecked(hwndDlg, IDC_CHK_MSGREMOVE) ? NOTIFY_REMOVE_MESSAGE : 0);
 
 			// Templates
-			GetDlgItemText(hwndDlg, IDC_ED_TCHANGE, templates.PopupXstatusChanged, SIZEOF(templates.PopupXstatusChanged));
-			GetDlgItemText(hwndDlg, IDC_ED_TREMOVE, templates.PopupXstatusRemoved, SIZEOF(templates.PopupXstatusRemoved));
-			GetDlgItemText(hwndDlg, IDC_ED_TCHANGEMSG, templates.PopupXMsgChanged, SIZEOF(templates.PopupXMsgChanged));
-			GetDlgItemText(hwndDlg, IDC_ED_TREMOVEMSG, templates.PopupXMsgRemoved, SIZEOF(templates.PopupXMsgRemoved));
+			GetDlgItemText(hwndDlg, IDC_ED_TCHANGE, templates.PopupXstatusChanged, _countof(templates.PopupXstatusChanged));
+			GetDlgItemText(hwndDlg, IDC_ED_TREMOVE, templates.PopupXstatusRemoved, _countof(templates.PopupXstatusRemoved));
+			GetDlgItemText(hwndDlg, IDC_ED_TCHANGEMSG, templates.PopupXMsgChanged, _countof(templates.PopupXMsgChanged));
+			GetDlgItemText(hwndDlg, IDC_ED_TREMOVEMSG, templates.PopupXMsgRemoved, _countof(templates.PopupXMsgRemoved));
 
 			// Save options to db
 			SaveOptions();
@@ -729,19 +729,19 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				DBVARIANT dbVar = { 0 };
 				char protoname[MAX_PATH] = { 0 };
-				mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", protos[i]->szModuleName);
+				mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgChanged", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, SIZEOF(prototemplate->ProtoTemplateMsg));
+					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 				else {
-					_tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateMsg));
+					_tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
 					db_free(&dbVar);
 				}
 
-				mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
+				mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, SIZEOF(prototemplate->ProtoTemplateRemoved));
+					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 				else {
-					_tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateRemoved));
+					_tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
 					db_free(&dbVar);
 				}
 
@@ -749,7 +749,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
 
 				char dbSetting[128];
-				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
+				mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", protos[i]->szModuleName);
 				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
 				lvItem.iItem++;
 			}
@@ -862,7 +862,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_GetItem(hList, &lvItem);
 
 				char dbSetting[128];
-				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", (char *)lvItem.lParam);
+				mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", (char *)lvItem.lParam);
 				db_set_b(NULL, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
@@ -999,11 +999,11 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				(IsDlgButtonChecked(hwndDlg, IDC_CHK_XSTATUSOPENING) ? NOTIFY_OPENING_ML : 0);
 
 			// Templates
-			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSCHANGED, templates.LogXstatusChanged, SIZEOF(templates.LogXstatusChanged));
-			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSREMOVED, templates.LogXstatusRemoved, SIZEOF(templates.LogXstatusRemoved));
-			GetDlgItemText(hwndDlg, IDC_ED_TMSGCHANGED, templates.LogXMsgChanged, SIZEOF(templates.LogXMsgChanged));
-			GetDlgItemText(hwndDlg, IDC_ED_TMSGREMOVED, templates.LogXMsgRemoved, SIZEOF(templates.LogXMsgRemoved));
-			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSOPENING, templates.LogXstatusOpening, SIZEOF(templates.LogXstatusOpening));
+			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSCHANGED, templates.LogXstatusChanged, _countof(templates.LogXstatusChanged));
+			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSREMOVED, templates.LogXstatusRemoved, _countof(templates.LogXstatusRemoved));
+			GetDlgItemText(hwndDlg, IDC_ED_TMSGCHANGED, templates.LogXMsgChanged, _countof(templates.LogXMsgChanged));
+			GetDlgItemText(hwndDlg, IDC_ED_TMSGREMOVED, templates.LogXMsgRemoved, _countof(templates.LogXMsgRemoved));
+			GetDlgItemText(hwndDlg, IDC_ED_TXSTATUSOPENING, templates.LogXstatusOpening, _countof(templates.LogXstatusOpening));
 
 			SaveOptions();
 			SaveTemplates();
@@ -1170,9 +1170,9 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				(IsDlgButtonChecked(hwndDlg, IDC_LOG_SMSGOPENING) ? NOTIFY_OPENING_ML : 0);
 
 			// Templates
-			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGCHANGED, templates.LogSMsgChanged, SIZEOF(templates.LogSMsgChanged));
-			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGREMOVED, templates.LogSMsgRemoved, SIZEOF(templates.LogSMsgRemoved));
-			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGOPENING, templates.LogSMsgOpening, SIZEOF(templates.LogSMsgOpening));
+			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGCHANGED, templates.LogSMsgChanged, _countof(templates.LogSMsgChanged));
+			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGREMOVED, templates.LogSMsgRemoved, _countof(templates.LogSMsgRemoved));
+			GetDlgItemText(hwndDlg, IDC_LOG_TSMSGOPENING, templates.LogSMsgOpening, _countof(templates.LogSMsgOpening));
 
 			SaveOptions();
 			SaveTemplates();

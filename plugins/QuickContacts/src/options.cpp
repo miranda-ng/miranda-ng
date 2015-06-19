@@ -90,7 +90,7 @@ static OptPageControl controls[] = {
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	int ret = SaveOptsDlgProc(controls, SIZEOF(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	int ret = SaveOptsDlgProc(controls, _countof(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_INITDIALOG:

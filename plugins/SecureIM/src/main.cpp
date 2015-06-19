@@ -212,7 +212,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	SkinAddNewSound("OutgoingSecureMessage", LPGEN("Outgoing Secure Message"), "Sounds\\oSecureMessage.wav");
 
 	// init extra icons
-	for (int i = 0; i < SIZEOF(g_IEC); i++)
+	for (int i = 0; i < _countof(g_IEC); i++)
 		g_IEC[i] = (HANDLE)-1;
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);

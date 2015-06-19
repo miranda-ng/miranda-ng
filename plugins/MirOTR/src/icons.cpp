@@ -11,5 +11,5 @@ static IconItem iconList[] = {
 
 void InitIcons()
 {
-	Icon_Register(hInst, "OTR", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "OTR", iconList, _countof(iconList));
 }

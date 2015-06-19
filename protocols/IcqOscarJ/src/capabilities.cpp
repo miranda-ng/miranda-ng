@@ -84,7 +84,7 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 
 	if (!fdwCapabilities) return;
 
-	for (int nIndex = 0; nIndex < SIZEOF(CapabilityNames); nIndex++) {
+	for (int nIndex = 0; nIndex < _countof(CapabilityNames); nIndex++) {
 		// Check if the current capability is present
 		if ((fdwCapabilities & CapabilityNames[nIndex].capID) == CapabilityNames[nIndex].capID) {
 			if (mir_strlen(szBuffer))
@@ -182,7 +182,7 @@ DWORD GetCapabilitiesFromBuffer(BYTE *pBuffer, int nLength)
 	DWORD fdwCaps = 0;
 
 	// Calculate the number of records
-	int nRecordSize = SIZEOF(CapabilityRecord);
+	int nRecordSize = _countof(CapabilityRecord);
 
 	// Loop over all capabilities in the buffer and
 	// compare them to our own record of capabilities
