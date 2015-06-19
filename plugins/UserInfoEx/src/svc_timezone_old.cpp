@@ -412,7 +412,7 @@ CTimeZone* GetContactTimeZone(MCONTACT hContact, LPCSTR pszProto)
 
 CTimeZone* GetContactTimeZone(MCONTACT hContact)
 {
-	return GetContactTimeZone(hContact, DB::Contact::Proto(hContact));
+	return GetContactTimeZone(hContact, Proto_GetBaseAccountName(hContact));
 }
 
 /**
@@ -531,13 +531,13 @@ void SvcTimezoneSyncWithWindows()
 
 	PROTOACCOUNT **pAcc;
 	int nAccCount;
-	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc))) {
-		for (int i = 0; i < nAccCount; i++) {
-			// update local timezone as database setting
-			if (IsProtoAccountEnabled(pAcc[i]) && SvcTimezoneSyncWithWindowsProc(pAcc[i]->szModuleName, tzi.Bias))
-				// update my contact information on icq server
-				CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, CIXT_LOCATION, NULL);
-		}
+	Proto_EnumAccounts(&nAccCount, &pAcc);
+
+	for (int i = 0; i < nAccCount; i++) {
+		// update local timezone as database setting
+		if (IsProtoAccountEnabled(pAcc[i]) && SvcTimezoneSyncWithWindowsProc(pAcc[i]->szModuleName, tzi.Bias))
+			// update my contact information on icq server
+			CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, CIXT_LOCATION, NULL);
 	}
 }
 

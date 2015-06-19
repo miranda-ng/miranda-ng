@@ -481,9 +481,9 @@ void MirandaUtils::translateOldDBNames() {
 	//account's settings		"ACCOUNTSTATE_"
 	int accountsTmpCount = 0;
 	PROTOACCOUNT **accountsTmp;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&accountsTmpCount, (LPARAM)&accountsTmp);
-	for(int i=0; i<accountsTmpCount; i++) {
+	Proto_EnumAccounts(&accountsTmpCount, &accountsTmp);
 
+	for(int i=0; i<accountsTmpCount; i++) {
 		logger->log_p(L"TranslateOldDBNames: found ACCOUNT: [%s]  protocol: [%S]", accountsTmp[i]->tszAccountName, accountsTmp[i]->szProtoName);
 
 		std::string mirandaAccountDBKey("ACCOUNTSTATE_");
@@ -496,7 +496,7 @@ void MirandaUtils::translateOldDBNames() {
 		}
 	}
 
-	//contacts		"state"
+	//contacts "state"
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
 		logger->log_p(L"TranslateOldDBNames: found CONTACT: [" SCNuPTR L"]", hContact);
 

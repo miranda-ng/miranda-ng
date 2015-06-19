@@ -61,7 +61,7 @@ void CContactCache::initPhaseTwo()
 {
 	m_szAccount = 0;
 	if (cc->szProto) {
-		PROTOACCOUNT *acc = ProtoGetAccount(cc->szProto);
+		PROTOACCOUNT *acc = Proto_GetAccount(cc->szProto);
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
@@ -152,7 +152,7 @@ void CContactCache::updateMeta()
 		m_hSub = db_mc_getSrmmSub(cc->contactID);
 		m_szMetaProto = GetContactProto(m_hSub);
 		m_wMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
-		PROTOACCOUNT *pa = ProtoGetAccount(m_szMetaProto);
+		PROTOACCOUNT *pa = Proto_GetAccount(m_szMetaProto);
 		if (pa)
 			m_szAccount = pa->tszAccountName;
 

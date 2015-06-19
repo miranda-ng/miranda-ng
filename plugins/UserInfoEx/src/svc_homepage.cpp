@@ -43,7 +43,7 @@ static LPSTR Get(MCONTACT hContact)
 {
 	// ignore owner
 	if (hContact != NULL) {
-		LPCSTR pszProto = DB::Contact::Proto(hContact);
+		LPCSTR pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto != NULL) {
 			LPCSTR e[2] = { SET_CONTACT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE };
 			for (int i = 0; i < 2; i++) {

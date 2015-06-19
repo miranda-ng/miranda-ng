@@ -175,7 +175,7 @@ begin
     IntToStr(sbuf,WorkData.LastResult);
   end;
 
-  proto:=GetContactProtoAcc(hContact);
+  proto:=Proto_GetBaseAccountName(hContact);
   // now need to process module
   if (flags and ACF_RW_MODULE)<>0 then
   begin

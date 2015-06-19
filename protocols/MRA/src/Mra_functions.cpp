@@ -543,7 +543,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		}
 		else {
 			hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-			CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
+			Proto_AddToContact(hContact, m_szModuleName);
 		}
 
 		if (hContact) {
@@ -711,7 +711,7 @@ bool IsHTTPSProxyUsed(HANDLE hNetlibUser)
 // определяет принадлежность контакта данной копии плагина
 bool CMraProto::IsContactMra(MCONTACT hContact)
 {
-	return CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)m_szModuleName) != 0;
+	return Proto_IsProtoOnContact(hContact, m_szModuleName) != 0;
 }
 
 // определяется является ли контакт контактом MRA протокола, не зависимо от того какому плагину он принадлежит
@@ -887,7 +887,9 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 static void FakeThread(void* param)
 {
 	Sleep(100);
-	CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)param);
+	
+	ACKDATA *ack = (ACKDATA*)param;
+	ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
 	mir_free(param);
 }
 

@@ -856,7 +856,7 @@ BYTE CVCardFileVCF::Open(MCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
 		return FALSE;
 	if ((_hContact = hContact) == INVALID_CONTACT_ID)
 		return FALSE;
-	if (!(_pszBaseProto = DB::Contact::Proto(_hContact)))
+	if (!(_pszBaseProto = Proto_GetBaseAccountName(_hContact)))
 		return FALSE;
 	return TRUE;
 }

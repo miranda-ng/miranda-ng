@@ -186,7 +186,7 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 	if (szProto == NULL) {
 		int nAccounts;
 		PROTOACCOUNT **accounts;
-		ProtoEnumAccounts(&nAccounts, &accounts);
+		Proto_EnumAccounts(&nAccounts, &accounts);
 
 		for (int i = 0; i < nAccounts; i++) {
 			PROTOACCOUNT *pa = accounts[i];
@@ -575,7 +575,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 
 	int nAccounts;
 	PROTOACCOUNT** accounts;
-	ProtoEnumAccounts(&nAccounts, &accounts);
+	Proto_EnumAccounts(&nAccounts, &accounts);
 	for (int i = 0; i < nAccounts; i++) {
 		if (!Proto_IsAccountEnabled(accounts[i]))
 			continue;

@@ -177,7 +177,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 						break;
 					case EXIM_ACCOUNT:
 						// export only contact with selectet account name
-						if (!mir_strncmp(ExImContact->pszName, DB::Contact::Proto(hContact), mir_strlen(ExImContact->pszName))) {
+						if (!mir_strncmp(ExImContact->pszName, Proto_GetBaseAccountName(hContact), mir_strlen(ExImContact->pszName))) {
 							if (vContact.fromDB(hContact)) {
 								vContact.Export(xmlfile, &Modules);
 							}

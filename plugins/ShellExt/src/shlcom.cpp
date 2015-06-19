@@ -193,7 +193,8 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 
 	int protoCount;
 	PROTOACCOUNT **pp;
-	if (ProtoEnumAccounts(&protoCount,&pp) == 0 && protoCount != 0) {
+	Proto_EnumAccounts(&protoCount,&pp);
+	if (protoCount != 0) {
 		spi.pid = GetCurrentProcessId();
 		while (protoCount > 0) {
 			PROTOACCOUNT *pa = *pp;

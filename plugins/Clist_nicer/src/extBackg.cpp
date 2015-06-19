@@ -280,7 +280,7 @@ void LoadExtBkSettingsFromDB()
 
 	int protoCount;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&protoCount, &accs);
+	Proto_EnumAccounts(&protoCount, &accs);
 
 	for (i = 0; i < protoCount; i++) {
 		StatusItems_t *p = (StatusItems_t*)mir_alloc(sizeof(StatusItems_t));

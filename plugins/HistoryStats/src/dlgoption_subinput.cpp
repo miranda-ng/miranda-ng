@@ -103,16 +103,14 @@ void DlgOption::SubInput::onWMInitDialog()
 
 	PROTOACCOUNT **protoList;
 	int protoCount;
-
-	if (mu::proto::enumProtocols(&protoCount, &protoList) == 0) {
-		upto_each_(i, protoCount)
-		{
-			m_hProtosIgnore.push_back(m_Options.insertCheck(
-				m_hProtocols,
-				Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
-				0,
-				reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
-		}
+	Proto_EnumAccounts(&protoCount, &protoList);
+	upto_each_(i, protoCount)
+	{
+		m_hProtosIgnore.push_back(m_Options.insertCheck(
+			m_hProtocols,
+			Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
+			0,
+			reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 	}
 
 	// diable filtering raw RTF if 'rtfconv.dll' isn't available

@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			int num_protocols = 0;
 			PROTOACCOUNT **pppDesc;
 
-			ProtoEnumAccounts(&num_protocols, &pppDesc);
+			Proto_EnumAccounts(&num_protocols, &pppDesc);
 			for (int i = 0; i < num_protocols; i++)
 				SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
 

@@ -51,7 +51,7 @@ int IsWatchedProtocol(const char* szProto)
 	if (szProto == NULL)
 		return 0;
 
-	PROTOACCOUNT *pd = ProtoGetAccount(szProto);
+	PROTOACCOUNT *pd = Proto_GetAccount(szProto);
 	if (pd == NULL || CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 		return 0;
 
@@ -372,7 +372,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 'A':
 		{
-			PROTOACCOUNT *pa = ProtoGetAccount(ci.szProto);
+			PROTOACCOUNT *pa = Proto_GetAccount(ci.szProto);
 			if (!pa) goto LBL_noData;
 			_tcsncpy(szdbsetting, pa->tszAccountName, SIZEOF(szdbsetting));
 			charPtr = szdbsetting;

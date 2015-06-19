@@ -446,7 +446,7 @@ static void sttCreateInstance(LPCSTR szModuleName)
 
 	GoogleTalkAcc *gta = new GoogleTalkAcc();
 	gta->m_japi = japi;
-	gta->m_pa = ProtoGetAccount(szModuleName);
+	gta->m_pa = Proto_GetAccount(szModuleName);
 	g_accs.insert(gta);
 
 	// Google Shared Status (http://code.google.com/apis/talk/jep_extensions/shared_status.html)
@@ -467,7 +467,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 {
 	int count;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++)
 		sttCreateInstance(protos[i]->szModuleName);
 

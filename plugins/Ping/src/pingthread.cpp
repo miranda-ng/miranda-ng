@@ -56,7 +56,7 @@ void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_stat
 		int num_protocols;
 		PROTOACCOUNT **pppDesc;
 
-		ProtoEnumAccounts(&num_protocols, &pppDesc);
+		Proto_EnumAccounts(&num_protocols, &pppDesc);
 		for (int i = 0; i < num_protocols; i++) {
 			SetProtoStatus(pszLabel, pppDesc[i]->szModuleName, if_status, new_status);
 		}
@@ -230,9 +230,7 @@ void __cdecl sttCheckStatusThreadProc(void *vp)
 			upCount = count;
 			total = index;
 		}
-		else {
-			total = 0;
-		}
+		else total = 0;
 	}
 }
 

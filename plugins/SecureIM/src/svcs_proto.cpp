@@ -48,28 +48,28 @@ LPSTR szUnrtfMsg = NULL;
 // RecvMsg handler
 INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *pccsd = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
-	pUinKey ptr = getUinKey(pccsd->hContact);
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	PROTORECVEVENT *ppre = (PROTORECVEVENT *)ccs->lParam;
+	pUinKey ptr = getUinKey(ccs->hContact);
 	LPSTR szEncMsg = ppre->szMessage, szPlainMsg = NULL;
 
 	Sent_NetLog("onRecvMsg: %s", szEncMsg);
 
 	int ssig = getSecureSig(ppre->szMessage, &szEncMsg);
-	bool bSecured = (isContactSecured(pccsd->hContact)&SECURED) != 0;
-	bool bPGP = isContactPGP(pccsd->hContact);
-	bool bGPG = isContactGPG(pccsd->hContact);
+	bool bSecured = (isContactSecured(ccs->hContact)&SECURED) != 0;
+	bool bPGP = isContactPGP(ccs->hContact);
+	bool bGPG = isContactGPG(ccs->hContact);
 
 	// pass any unchanged message
-	if (!ptr || ssig == SiG_GAME || !isSecureProtocol(pccsd->hContact) ||
-		 (db_mc_isMeta(pccsd->hContact) && (pccsd->wParam & PREF_SIMNOMETA)) || isChatRoom(pccsd->hContact) ||
+	if (!ptr || ssig == SiG_GAME || !isSecureProtocol(ccs->hContact) ||
+		 (db_mc_isMeta(ccs->hContact) && (ccs->wParam & PREF_SIMNOMETA)) || isChatRoom(ccs->hContact) ||
 		 (ssig == SiG_NONE && !ptr->msgSplitted && !bSecured && !bPGP && !bGPG)) {
 		Sent_NetLog("onRecvMsg: pass unhandled");
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		return Proto_ChainRecv(wParam, ccs);
 	}
 
 	// drop message: fake, unsigned or from invisible contacts
-	if (isContactInvisible(pccsd->hContact) || ssig == SiG_FAKE) {
+	if (isContactInvisible(ccs->hContact) || ssig == SiG_FAKE) {
 		Sent_NetLog("onRecvMsg: drop unhandled (contact invisible or hidden)");
 		return 1;
 	}
@@ -80,8 +80,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		ptrA szPlainMsg(m_aastrcat(Translate(sim402), szEncMsg));
 		ppre->szMessage = szPlainMsg;
-		pccsd->wParam |= PREF_SIMNOMETA;
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		ccs->wParam |= PREF_SIMNOMETA;
+		return Proto_ChainRecv(wParam, ccs);
 	}
 
 	// received non-pgp secure message from disabled contact
@@ -90,12 +90,12 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (ptr->mode == MODE_NATIVE) {
 			// tell to the other side that we have the plugin disabled with him
-			pccsd->wParam |= PREF_METANODB;
-			pccsd->lParam = (LPARAM)SIG_DISA;
-			pccsd->szProtoService = PSS_MESSAGE;
-			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			ccs->wParam |= PREF_METANODB;
+			ccs->lParam = (LPARAM)SIG_DISA;
+			ccs->szProtoService = PSS_MESSAGE;
+			Proto_ChainSend(wParam, ccs);
 
-			showPopup(sim003, pccsd->hContact, g_hPOP[POP_PU_DIS], 0);
+			showPopup(sim003, ccs->hContact, g_hPOP[POP_PU_DIS], 0);
 		}
 		else {
 			createRSAcntx(ptr);
@@ -133,7 +133,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		szEncMsg = ppre->szMessage;
 		if (!ptr->cntx) {
-			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings) ? CPP_MODE_GPG : CPP_MODE_PGP) | ((db_get_b(pccsd->hContact, MODULENAME, "gpgANSI", 0)) ? CPP_MODE_GPG_ANSI : 0));
+			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings) ? CPP_MODE_GPG : CPP_MODE_PGP) | ((db_get_b(ccs->hContact, MODULENAME, "gpgANSI", 0)) ? CPP_MODE_GPG_ANSI : 0));
 			ptr->keyLoaded = 0;
 		}
 
@@ -153,30 +153,30 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		if (!szOldMsg) { // error while decrypting message, send error
 			SAFE_FREE(ptr->msgSplitted);
 			ppre->szMessage = Translate(sim401);
-			return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+			return Proto_ChainRecv(wParam, ccs);
 		}
 
 		// receive encrypted message in non-encrypted mode
-		if (!isContactPGP(pccsd->hContact) && !isContactGPG(pccsd->hContact)) {
+		if (!isContactPGP(ccs->hContact) && !isContactGPG(ccs->hContact)) {
 			szNewMsg = m_ustrcat(Translate(sim403), szOldMsg);
 			szOldMsg = szNewMsg;
 		}
 		ptrA szMsgUtf(utf8_to_miranda(szOldMsg, ppre->flags));
-		pccsd->wParam = ppre->flags;
+		ccs->wParam = ppre->flags;
 		ppre->szMessage = szMsgUtf;
 
 		// show decoded message
 		showPopupRM(ptr->hContact);
 		SAFE_FREE(ptr->msgSplitted);
-		pccsd->wParam |= PREF_SIMNOMETA;
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		ccs->wParam |= PREF_SIMNOMETA;
+		return Proto_ChainRecv(wParam, ccs);
 	}
 
 	Sent_NetLog("onRecvMsg: switch(ssig)=%d", ssig);
 
 	switch (ssig) {
 	case SiG_PGPM:
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		return Proto_ChainRecv(wParam, ccs);
 
 	case SiG_SECU: // new secured msg, pass to rsa_recv
 		Sent_NetLog("onRecvMsg: RSA/AES message");
@@ -197,14 +197,14 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				return 1; // don't display it ...
 
 			ptrA szNewMsg(utf8_to_miranda(szOldMsg, ppre->flags));
-			pccsd->wParam = ppre->flags;
+			ccs->wParam = ppre->flags;
 			ppre->szMessage = szNewMsg;
 
 			// show decoded message
 			showPopupRM(ptr->hContact);
 			SAFE_FREE(ptr->msgSplitted);
-			pccsd->wParam |= PREF_SIMNOMETA;
-			return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+			ccs->wParam |= PREF_SIMNOMETA;
+			return Proto_ChainRecv(wParam, ccs);
 		}
 
 	case SiG_ENON: // online message
@@ -228,14 +228,14 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			mir_strcpy(reSend, SIG_RSND); // copy resend sig
 			mir_strcat(reSend, szEncMsg); // add mess
 
-			pccsd->wParam |= PREF_METANODB;
-			pccsd->lParam = (LPARAM)reSend; // reSend Message to reemit
-			pccsd->szProtoService = PSS_MESSAGE;
-			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send back cipher message
+			ccs->wParam |= PREF_METANODB;
+			ccs->lParam = (LPARAM)reSend; // reSend Message to reemit
+			ccs->szProtoService = PSS_MESSAGE;
+			Proto_ChainSend(wParam, ccs); // send back cipher message
 
 			ptrA keyToSend(InitKeyA(ptr, 0)); // calculate public and private key
-			pccsd->lParam = keyToSend;
-			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send new key
+			ccs->lParam = keyToSend;
+			Proto_ChainSend(wParam, ccs); // send new key
 
 			showPopup(sim005, NULL, g_hPOP[POP_PU_DIS], 0);
 			showPopupKS(ptr->hContact);
@@ -256,7 +256,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 		if (db_get(ptr->hContact, MODULENAME, "offlineKey", &dbv))
-			return CallService(MS_PROTO_CHAINRECV, wParam, lParam); // exit and show messsage
+			return Proto_ChainRecv(wParam, ccs); // exit and show messsage
 
 		// if valid key is succefully retrieved
 		ptr->offlineKey = true;
@@ -273,7 +273,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (cpp_keyx(ptr->cntx)) {
 			// decrypt sended back message and save message for future sending with a new secret key
-			addMsg2Queue(ptr, pccsd->wParam, ptrA(decodeMsg(ptr, (LPARAM)pccsd, szEncMsg)));
+			addMsg2Queue(ptr, ccs->wParam, ptrA(decodeMsg(ptr, (LPARAM)ccs, szEncMsg)));
 			showPopupRM(ptr->hContact);
 			showPopup(sim004, NULL, g_hPOP[POP_PU_DIS], 0);
 		}
@@ -336,8 +336,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				loadRSAkey(ptr);
 				exp->rsa_connect(ptr->cntx);
 
-				showPopupKS(pccsd->hContact);
-				ShowStatusIconNotify(pccsd->hContact);
+				showPopupKS(ccs->hContact);
+				ShowStatusIconNotify(ccs->hContact);
 				return 1;
 			}
 
@@ -348,10 +348,10 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				ptrA keyToSend(InitKeyA(ptr, CPP_FEATURES_NEWPG | KEY_A_SIG)); // calculate NEW public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
-				pccsd->wParam |= PREF_METANODB;
-				pccsd->lParam = (LPARAM)keyToSend;
-				pccsd->szProtoService = PSS_MESSAGE;
-				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				ccs->wParam |= PREF_METANODB;
+				ccs->lParam = (LPARAM)keyToSend;
+				ccs->szProtoService = PSS_MESSAGE;
+				Proto_ChainSend(wParam, ccs);
 
 				showPopupKS(ptr->hContact);
 				waitForExchange(ptr); // запустим ожидание
@@ -363,10 +363,10 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				ptrA keyToSend(InitKeyA(ptr, 0)); // calculate public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
-				pccsd->wParam |= PREF_METANODB;
-				pccsd->lParam = (LPARAM)keyToSend;
-				pccsd->szProtoService = PSS_MESSAGE;
-				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				ccs->wParam |= PREF_METANODB;
+				ccs->lParam = (LPARAM)keyToSend;
+				ccs->szProtoService = PSS_MESSAGE;
+				Proto_ChainSend(wParam, ccs);
 
 				showPopupKS(ptr->hContact);
 			}
@@ -393,10 +393,10 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				ptrA keyToSend(InitKeyA(ptr, CPP_FEATURES_NEWPG | KEY_B_SIG)); // calculate NEW public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYB %s", keyToSend);
 
-				pccsd->wParam |= PREF_METANODB;
-				pccsd->lParam = keyToSend;
-				pccsd->szProtoService = PSS_MESSAGE;
-				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				ccs->wParam |= PREF_METANODB;
+				ccs->lParam = keyToSend;
+				ccs->szProtoService = PSS_MESSAGE;
+				Proto_ChainSend(wParam, ccs);
 			}
 			break;
 
@@ -441,8 +441,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 	Sent_NetLog("onRecvMsg: exit");
 
-	pccsd->wParam |= PREF_SIMNOMETA;
-	int ret = CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	ccs->wParam |= PREF_SIMNOMETA;
+	int ret = Proto_ChainRecv(wParam, ccs);
 	SAFE_FREE(szPlainMsg);
 	return ret;
 }
@@ -450,19 +450,19 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 // SendMsg handler
 INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *pccsd = (CCSDATA*)lParam;
-	pUinKey ptr = getUinKey(pccsd->hContact);
-	int ssig = getSecureSig((LPCSTR)pccsd->lParam);
-	int stat = getContactStatus(pccsd->hContact);
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	pUinKey ptr = getUinKey(ccs->hContact);
+	int ssig = getSecureSig((LPCSTR)ccs->lParam);
+	int stat = getContactStatus(ccs->hContact);
 
-	Sent_NetLog("onSend: %s", (LPSTR)pccsd->lParam);
+	Sent_NetLog("onSend: %s", (LPSTR)ccs->lParam);
 
 	// pass unhandled messages
 	if (!ptr || ssig == SiG_GAME || ssig == SiG_PGPM || ssig == SiG_SECU || ssig == SiG_SECP ||
-		isChatRoom(pccsd->hContact) || stat == -1 ||
+		isChatRoom(ccs->hContact) || stat == -1 ||
 		(ssig == SiG_NONE && ptr->sendQueue) || (ssig == SiG_NONE && ptr->status == STATUS_DISABLED)) {
 			Sent_NetLog("onSendMsg: pass unhandled");
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			return Proto_ChainSend(wParam, ccs);
 	}
 
 	//
@@ -479,28 +479,28 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 			if (!ptr->keyLoaded && bPGPloaded) ptr->keyLoaded = LoadKeyPGP(ptr);
 			if (!ptr->keyLoaded && bGPGloaded) ptr->keyLoaded = LoadKeyGPG(ptr);
-			if (!ptr->keyLoaded) return returnError(pccsd->hContact, Translate(sim108));
+			if (!ptr->keyLoaded) return returnError(ccs->hContact, Translate(sim108));
 
 			LPSTR szNewMsg = NULL;
-			ptrA szUtfMsg(miranda_to_utf8((LPCSTR)pccsd->lParam, pccsd->wParam));
+			ptrA szUtfMsg(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam));
 			if (ptr->keyLoaded == 1) // PGP
 				szNewMsg = pgp_encode(ptr->cntx, szUtfMsg);
 			else if (ptr->keyLoaded == 2) // GPG
 				szNewMsg = gpg_encode(ptr->cntx, szUtfMsg);
 
 			if (!szNewMsg)
-				return returnError(pccsd->hContact, Translate(sim109));
+				return returnError(ccs->hContact, Translate(sim109));
 
 			// отправляем зашифрованное сообщение
 			splitMessageSend(ptr, szNewMsg);
 
 			showPopupSM(ptr->hContact);
 
-			return returnNoError(pccsd->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// отправляем незашифрованное
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	}
 
 	// get contact SecureIM status
@@ -523,16 +523,16 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			if (!bSOM || (!isClientMiranda(ptr, 1) && !isSecureIM(ptr, 1)) || !loadRSAkey(ptr)) {
 				if (ssig == SiG_NONE)
 					// просто шлем незашифрованное в оффлайн
-					return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+					return Proto_ChainSend(wParam, ccs);
 
 				// ничего не шлем дальше - это служебное сообщение
-				return returnNoError(pccsd->hContact);
+				return returnNoError(ccs->hContact);
 			}
 
 			// шлем шифрованное в оффлайн
-			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)pccsd->lParam, pccsd->wParam)));
+			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			showPopupSM(ptr->hContact);
-			return returnNoError(pccsd->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// SecureIM connection with this contact is disabled
@@ -543,10 +543,10 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 
 			if (ssig == SiG_NONE) // просто шлем незашифрованное
-				return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				return Proto_ChainSend(wParam, ccs);
 
 			// ничего не шлем дальше - это служебное сообщение
-			return returnNoError(pccsd->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// разорвать соединение
@@ -557,21 +557,21 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 			ShowStatusIconNotify(ptr->hContact);
 			waitForExchange(ptr, 3); // дошлем нешифрованно
-			return returnNoError(pccsd->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// соединение установлено
 		if (ptr->cntx && exp->rsa_get_state(ptr->cntx) == 7) {
-			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)pccsd->lParam, pccsd->wParam)));
+			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			ShowStatusIconNotify(ptr->hContact);
 			showPopupSM(ptr->hContact);
-			return returnNoError(pccsd->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// просто сообщение (без тэгов, нет контекста и работают AIP & NOL)
 		if (ssig == SiG_NONE && isSecureIM(ptr->hContact)) {
 			// добавим его в очередь
-			addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
+			addMsg2Queue(ptr, ccs->wParam, (LPSTR)ccs->lParam);
 			// запускаем процесс установки соединения
 			ssig = SiG_INIT;
 			// запускаем трэд ожидания и досылки
@@ -583,13 +583,13 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			createRSAcntx(ptr);
 			loadRSAkey(ptr);
 			exp->rsa_connect(ptr->cntx);
-			showPopupKS(pccsd->hContact);
-			ShowStatusIconNotify(pccsd->hContact);
-			return returnNoError(pccsd->hContact);
+			showPopupKS(ccs->hContact);
+			ShowStatusIconNotify(ccs->hContact);
+			return returnNoError(ccs->hContact);
 		}
 
 		// просто шлем незашифрованное (не знаю даже когда такое случится)
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	}
 
 	//
@@ -603,7 +603,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		// if user try initialize connection
 		if (ssig == SiG_INIT) // secure IM is disabled ...
-			return returnError(pccsd->hContact, Translate(sim105));
+			return returnError(ccs->hContact, Translate(sim105));
 
 		if (ptr->cntx) { // if secure context exists
 			cpp_delete_context(ptr->cntx); ptr->cntx = 0;
@@ -611,15 +611,15 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			CCSDATA ccsd;
 			memcpy(&ccsd, (HLOCAL)lParam, sizeof(CCSDATA));
 
-			pccsd->wParam |= PREF_METANODB;
+			ccs->wParam |= PREF_METANODB;
 			ccsd.lParam = (LPARAM)SIG_DEIN;
 			ccsd.szProtoService = PSS_MESSAGE;
-			CallService(MS_PROTO_CHAINSEND, wParam, (LPARAM)&ccsd);
+			Proto_ChainSend(wParam, &ccsd);
 
-			showPopupDC(pccsd->hContact);
-			ShowStatusIconNotify(pccsd->hContact);
+			showPopupDC(ccs->hContact);
+			ShowStatusIconNotify(ccs->hContact);
 		}
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	}
 
 	// contact is offline
@@ -631,10 +631,10 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		if (!bSOM) {
 			if (ssig != SiG_NONE)
-				return returnNoError(pccsd->hContact);
+				return returnNoError(ccs->hContact);
 
 			// exit and send unencrypted message
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			return Proto_ChainSend(wParam, ccs);
 		}
 		BOOL isMiranda = isClientMiranda(ptr->hContact);
 
@@ -652,18 +652,18 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 				db_unset(ptr->hContact, MODULENAME, "offlineKey");
 				db_unset(ptr->hContact, MODULENAME, "offlineKeyTimeout");
 				if (msgbox1(0, sim106, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDNO)
-					return returnNoError(pccsd->hContact);
+					return returnNoError(ccs->hContact);
 
 				// exit and send unencrypted message
-				return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				return Proto_ChainSend(wParam, ccs);
 			}
 		}
 		else {
 			if (ssig != SiG_NONE)
-				return returnNoError(pccsd->hContact);
+				return returnNoError(ccs->hContact);
 
 			// exit and send unencrypted message
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			return Proto_ChainSend(wParam, ccs);
 		}
 	}
 	else {
@@ -691,31 +691,31 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		if (ptr->cntx) {
 			cpp_delete_context(ptr->cntx); ptr->cntx = 0;
 
-			pccsd->wParam |= PREF_METANODB;
-			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			ccs->wParam |= PREF_METANODB;
+			Proto_ChainSend(wParam, ccs);
 
-			showPopupDC(pccsd->hContact);
-			ShowStatusIconNotify(pccsd->hContact);
+			showPopupDC(ccs->hContact);
+			ShowStatusIconNotify(ccs->hContact);
 		}
-		return returnNoError(pccsd->hContact);
+		return returnNoError(ccs->hContact);
 	}
 
 	if (cpp_keya(ptr->cntx) && cpp_keyb(ptr->cntx) && !cpp_keyx(ptr->cntx))
 		CalculateKeyX(ptr, ptr->hContact);
 
-	ShowStatusIconNotify(pccsd->hContact);
+	ShowStatusIconNotify(ccs->hContact);
 
 	// if cryptokey exist
 	if (cpp_keyx(ptr->cntx)) {
 		Sent_NetLog("onSendMsg: cryptokey exist");
 
-		ptrA szNewMsg(encodeMsg(ptr, (LPARAM)pccsd));
+		ptrA szNewMsg(encodeMsg(ptr, (LPARAM)ccs));
 		Sent_NetLog("onSend: encrypted msg '%s'", szNewMsg);
 
-		pccsd->wParam |= PREF_METANODB;
-		pccsd->lParam = szNewMsg;
-		pccsd->szProtoService = PSS_MESSAGE;
-		int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		ccs->wParam |= PREF_METANODB;
+		ccs->lParam = szNewMsg;
+		ccs->szProtoService = PSS_MESSAGE;
+		int ret = Proto_ChainSend(wParam, ccs);
 
 		showPopupSM(ptr->hContact);
 		return ret;
@@ -726,26 +726,26 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 	// send KeyA if init || always_try || waitkey || always_if_possible
 	if (ssig == SiG_INIT || (stid == STATUS_ALWAYSTRY && isClientMiranda(ptr->hContact)) || isSecureIM(ptr->hContact) || ptr->waitForExchange) {
 		if (ssig == SiG_NONE)
-			addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
+			addMsg2Queue(ptr, ccs->wParam, (LPSTR)ccs->lParam);
 
 		if (!ptr->waitForExchange) {
 			// init || always_try || always_if_possible
 			ptrA keyToSend(InitKeyA(ptr, 0));	// calculate public and private key & fill KeyA
 			Sent_NetLog("Sending KEY3: %s", keyToSend);
 
-			pccsd->wParam |= PREF_METANODB;
-			pccsd->lParam = (LPARAM)keyToSend;
-			pccsd->szProtoService = PSS_MESSAGE;
-			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			ccs->wParam |= PREF_METANODB;
+			ccs->lParam = (LPARAM)keyToSend;
+			ccs->szProtoService = PSS_MESSAGE;
+			Proto_ChainSend(wParam, ccs);
 
-			showPopupKS(pccsd->hContact);
-			ShowStatusIconNotify(pccsd->hContact);
+			showPopupKS(ccs->hContact);
+			ShowStatusIconNotify(ccs->hContact);
 
 			waitForExchange(ptr); // запускаем ожидание
 		}
-		return returnNoError(pccsd->hContact);
+		return returnNoError(ccs->hContact);
 	}
 
 	Sent_NetLog("onSendMsg: pass unchanged to chain");
-	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+	return Proto_ChainSend(wParam, ccs);
 }

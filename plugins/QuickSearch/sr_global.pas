@@ -373,7 +373,7 @@ begin
     width          :=82;
     flags          :=COL_ON;
     setting_type   :=QST_SERVICE;
-    StrDup (service.service,MS_PROTO_GETCONTACTBASEACCOUNT);
+    StrDup (service.service,'Proto/GetContactBaseAccount');
     service.flags  :=ACF_TYPE_STRING;
     service.w_flags:=ACF_TYPE_PARAM;
     service.l_flags:=ACF_TYPE_NUMBER;

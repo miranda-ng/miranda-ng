@@ -342,7 +342,7 @@ void CleanThread()
 	std::list<std::string> protocols;
 	int count = 0;
 	PROTOACCOUNT **accounts;
-	ProtoEnumAccounts(&count, &accounts);
+	Proto_EnumAccounts(&count, &accounts);
 	for(int i = 0; i < count; i++)
 	{
 		if(!strstr(accounts[i]->szModuleName, "MetaContacts") && !strstr(accounts[i]->szModuleName, "Weather")) //not real protocols

@@ -32,7 +32,7 @@
 #ifndef M_ICQ_H__
 #define M_ICQ_H__ 1
 
-
+#include <m_protosvc.h>
 
 //extended search result structure, used for all searches
 typedef struct {

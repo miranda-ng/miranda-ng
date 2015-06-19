@@ -354,7 +354,7 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = PROTONAME;
 	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);
 	CreateProtoServiceFunction(PROTONAME, PS_GETNAME, EMPGetName);

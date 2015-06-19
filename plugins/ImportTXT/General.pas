@@ -269,7 +269,7 @@ begin
   Contact := db_find_first();
   while (Contact <> 0) do
   begin
-    otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
+    otherproto := Proto_GetProtoName(Contact);
     if otherproto = proto then
     begin
       ci.cbSize := SizeOf(ci);
@@ -304,7 +304,7 @@ begin
   Contact := db_find_first();
   while (Contact <> 0) do
   begin
-    otherproto := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, Contact, 0));
+    otherproto := Proto_GetProtoName(Contact);
     if otherproto = proto then
     begin
       ci.cbSize := SizeOf(ci);
@@ -333,7 +333,7 @@ var
 begin
   ProtoCount := 0;
   SetLength(Protocols, 30);
-  CallService(MS_PROTO_ENUMACCOUNTS, int(@iProtoCount), int(@ppAccounts));
+  Proto_EnumAccounts(iProtoCount, ppAccounts);
   for i := 1 to iProtoCount do
   begin
     temps := GetContactID(0, ppAccounts^^.szModuleName, false);
@@ -351,7 +351,7 @@ end;
 
 function GetContactProto(hContact: THandle): AnsiString;
 begin
-  result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
+  result := Proto_GetProtoName(hContact);
 end;
 
 function DBFreeVariant(dbv: PDBVARIANT): integer;

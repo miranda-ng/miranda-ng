@@ -615,7 +615,7 @@ static TCHAR *VariablesBossKey(ARGUMENTSINFO *ai) {
 
 static int EnumProtos(WPARAM, LPARAM)
 {
-	ProtoEnumAccounts(&protoCount, &proto);
+	Proto_EnumAccounts(&protoCount, &proto);
 
 	delete[] oldStatus;
 	delete[] oldStatusMsg;

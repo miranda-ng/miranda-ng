@@ -1053,8 +1053,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = protocolname;
 	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
+	Proto_RegisterModule(&pd);
 
 	hLogEvent = CreateHookableEvent("XFireProtocol/Log");
 
@@ -1592,7 +1591,7 @@ MCONTACT CList_AddContact(XFireContact xfc, bool InList, bool SetOnline, int cla
 	// here we create a new one since no one is to be found
 	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)protocolname);
+		Proto_AddToContact(hContact, protocolname);
 
 		if (InList)
 			db_unset(hContact, "CList", "NotOnList");

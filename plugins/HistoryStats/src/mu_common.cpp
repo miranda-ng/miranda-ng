@@ -179,23 +179,6 @@ namespace mu
 	}
 
 	/*
-	 * proto
-	 */
-
-	namespace proto
-	{
-		int enumProtocols(int* numProtocols, PROTOACCOUNT*** ppProtoDescriptors)
-		{
-			return ProtoEnumAccounts(numProtocols, ppProtoDescriptors);
-		}
-
-		const char* getContactBaseProto(MCONTACT hContact)
-		{
-			return reinterpret_cast<const char*>(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
-		}
-	}
-
-	/*
 	 * protosvc
 	 */
 

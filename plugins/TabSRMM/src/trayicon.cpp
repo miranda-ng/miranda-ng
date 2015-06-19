@@ -214,7 +214,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 	if (hIcon == 0)
 		hIcon = Skin_LoadProtoIcon(szProto, wStatus);
 
-	PROTOACCOUNT *acc = ProtoGetAccount(szProto);
+	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
 	if (acc && acc->tszAccountName) {
 		mii.cbSize = sizeof(mii);
 		mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);

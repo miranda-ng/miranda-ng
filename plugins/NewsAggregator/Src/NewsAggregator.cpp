@@ -72,7 +72,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);

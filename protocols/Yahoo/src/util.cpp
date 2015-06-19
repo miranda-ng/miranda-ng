@@ -13,7 +13,6 @@
 #include "yahoo.h"
 #include <windowsx.h>
 #include <m_popup.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_skin.h>

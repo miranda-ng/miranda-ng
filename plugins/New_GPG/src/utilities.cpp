@@ -155,7 +155,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	std::string key_id_str;
 	{
 		LPSTR proto = GetContactProto(hContact);
-		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
+		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string acc_str;
 		if(acc)
 		{
@@ -240,7 +240,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	{
 		CLISTMENUITEM mi2 = { sizeof(mi2) };
 		LPSTR proto = GetContactProto(hContact);
-		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
+		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string setting;
 		if(acc)
 		{
@@ -531,9 +531,10 @@ std::wstring encrypt_file(MCONTACT hContact, TCHAR *filename)
 //from secureim partially
 INT_PTR onSendFile(WPARAM w, LPARAM l)
 {
-	if(!bFileTransfers)
-		return CallService(MS_PROTO_CHAINSEND, w, l);
 	CCSDATA *ccs=(CCSDATA*)l;
+	if(!bFileTransfers)
+		return Proto_ChainSend(w, ccs);
+
 	if(isContactSecured(ccs->hContact))
 	{
 		char *proto = GetContactProto(ccs->hContact);
@@ -581,12 +582,12 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		if(supported_proto && !cap_found)
 		{
 			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
-				return CallService(MS_PROTO_CHAINSEND, w, l);
+				return Proto_ChainSend(w, ccs);
 		}
 		if(!supported_proto)
 		{
 			if(MessageBox(0, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
-				return CallService(MS_PROTO_CHAINSEND, w, l);
+				return Proto_ChainSend(w, ccs);
 		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
 		DWORD flags = (DWORD)ccs->wParam; //check for PFTS_UNICODE here
@@ -627,7 +628,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 			}
 		}
 	}
-	return CallService(MS_PROTO_CHAINSEND, w, l);
+	return Proto_ChainSend(w, ccs);
 }
 
 
@@ -668,7 +669,7 @@ int GetJabberInterface(WPARAM w, LPARAM l) //get interface for all jabber accoun
 	void AddHandlers();
 	int count = 0;
 	PROTOACCOUNT **accounts;
-	ProtoEnumAccounts(&count, &accounts);
+	Proto_EnumAccounts(&count, &accounts);
 	list <JabberAccount*>::iterator p;
 	Accounts.clear();
 	Accounts.push_back(new JabberAccount);
@@ -1572,7 +1573,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		return 1; //TODO: handle error
 	PROTOACCOUNT **accs;
 	int acc_count = 0, processed_keys = 0, processed_private_keys = 0;
-	ProtoEnumAccounts(&acc_count, &accs);
+	Proto_EnumAccounts(&acc_count, &accs);
 	char line[256];
 	file.getline(line, 255);
 	if(!strstr(line, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && !strstr(line, "-----BEGIN PGP PRIVATE KEY BLOCK-----"))

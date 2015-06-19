@@ -376,7 +376,7 @@ begin
     exit;
   end;
 
-  szProto := pAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0));
+  szProto := Proto_GetProtoName(wParam);
   if (StrComp(cws.szModule, 'CList') <> 0) and
     ((szProto = nil) or (StrComp(cws.szModule, szProto) <> 0)) then
     exit;

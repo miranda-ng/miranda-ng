@@ -237,7 +237,7 @@ int GetProfile( int profile, TSettingsList& arSettings )
 
 	// if count == 0, continue so the default profile will be returned
 	PROTOACCOUNT** protos;
-	ProtoEnumAccounts( &count, &protos );
+	Proto_EnumAccounts( &count, &protos );
 
 	for ( int i=0; i < count; i++ )
 		if ( IsSuitableProto( protos[i] ))

@@ -911,7 +911,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 
 		if (szAccoName[0]) {
 			// second try to find by protocol name
-			PROTOACCOUNT *acc = ProtoGetAccount(szAccoName);
+			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
 				mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, acc->szProtoName);
 				if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
@@ -953,7 +953,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 
 		if (szAccoName[0]) {
 			// second try to find by protocol name
-			PROTOACCOUNT *acc = ProtoGetAccount(szAccoName);
+			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
 				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("proto_conn_%S.dll"), acc->szProtoName);
 				if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
@@ -1081,10 +1081,10 @@ void CLUI_DisconnectAll()
 {
 	PROTOACCOUNT **accs;
 	int nProtoCount;
-	ProtoEnumAccounts(&nProtoCount, &accs);
+	Proto_EnumAccounts(&nProtoCount, &accs);
 
 	for (int nProto = 0; nProto < nProtoCount; nProto++)
-		if (IsAccountEnabled(accs[nProto]))
+		if (Proto_IsAccountEnabled(accs[nProto]))
 			CallProtoService(accs[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 

@@ -400,7 +400,7 @@ begin
         hContact:=CallService(MS_DB_CONTACT_ADD,0,0);
         if hContact<>0 then
         begin
-          CallService(MS_PROTO_ADDTOCONTACT,hContact,tlparam(PluginName));
+          Proto_AddToContact(hContact,PluginName);
           // URL
           DBWriteUnicode(hContact,PluginName,optStationURL,lurl);
           DBWriteUnicode(hContact,PluginName,optFirstName ,lurl);

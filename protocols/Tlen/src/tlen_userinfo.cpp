@@ -127,7 +127,7 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 
 int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if (!ProtoGetAccount(m_szModuleName))
+	if (!Proto_GetAccount(m_szModuleName))
 		return 0;
 
 	MCONTACT hContact = (MCONTACT) lParam;

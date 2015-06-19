@@ -203,7 +203,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->getName();
 
 	else if (pdnce->isUnknown && pdnce->m_cache_cszProto && pdnce->m_bProtoNotExists == TRUE && g_flag_bOnModulesLoadedCalled) {
-		if (ProtoGetAccount(pdnce->m_cache_cszProto) == NULL) {
+		if (Proto_GetAccount(pdnce->m_cache_cszProto) == NULL) {
 			pdnce->m_bProtoNotExists = FALSE;
 			pdnce->getName();
 		}

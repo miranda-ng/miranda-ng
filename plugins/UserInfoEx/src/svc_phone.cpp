@@ -53,7 +53,7 @@ static INT_PTR Get(MCONTACT hContact)
 
 	// ignore owner
 	if (hContact != NULL) {
-		LPCSTR pszProto = DB::Contact::Proto(hContact);
+		LPCSTR pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto != NULL) {
 			LPCSTR e[2][4] = {
 				{ SET_CONTACT_CELLULAR,         SET_CONTACT_PHONE,         "MyPhone0"        },

@@ -302,11 +302,11 @@ static void GetProtocolStrings(CMString& buffer)
 	int accCount;
 	int i, j;
 
-	ProtoEnumAccounts(&accCount, &accList);
+	Proto_EnumAccounts(&accCount, &accList);
 
 	int protoCount;
 	PROTOCOLDESCRIPTOR **protoList;
-	CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&protoList);
+	Proto_EnumProtocols(&protoCount, &protoList);
 
 	int protoCountMy = 0;
 	char** protoListMy = (char**)alloca((protoCount + accCount) * sizeof(char*));
@@ -333,7 +333,7 @@ static void GetProtocolStrings(CMString& buffer)
 		for (i = 0; i < protoCountMy; i++)
 			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName)) {
 				protos[i].nloaded = accList[j]->bDynDisabled != 0;
-				if (IsAccountEnabled(accList[j]))
+				if (Proto_IsAccountEnabled(accList[j]))
 					++protos[i].countse;
 				else
 					++protos[i].countsd;

@@ -183,7 +183,7 @@ static MCONTACT AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD fl
 		// not already there: add
 		char *jid = mir_strdup(newJid); _strlwr(jid);
 		hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM) proto->m_szModuleName);
+		Proto_AddToContact(hContact, proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		char *nick=TlenNickFromJID(newJid);
 		if (nick == NULL)

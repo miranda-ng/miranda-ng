@@ -9,8 +9,7 @@ var
 begin
   FillChar(mi,SizeOf(mi),0);
   mi.cbSize:=sizeof(mi);
-  if StrCmp(PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0)),
-     PluginName)<>0 then
+  if StrCmp(Proto_GetProtoName(hContact),PluginName)<>0 then
   begin
     mi.flags:=CMIM_FLAGS or CMIF_HIDDEN;
     CallService(MS_CLIST_MODIFYMENUITEM,hCMenuItemPlay,tlparam(@mi));

@@ -343,7 +343,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 	CONTACTINFO *ci = (CONTACTINFO*) lParam;
 	INT_PTR result;
 
-	if (ci && ci->cbSize == sizeof(CONTACTINFO) && (ci->szProto != NULL || (ci->szProto = DB::Contact::Proto(ci->hContact)) != NULL)) {
+	if (ci && ci->cbSize == sizeof(CONTACTINFO) && (ci->szProto != NULL || (ci->szProto = Proto_GetBaseAccountName(ci->hContact)) != NULL)) {
 		switch (ci->dwFlag & 0x7F) {
 
 		//

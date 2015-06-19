@@ -105,7 +105,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)yahooProtoInit;
 	pd.fnUninit = (pfnUninitProto)yahooProtoUninit;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);

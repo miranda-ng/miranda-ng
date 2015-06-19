@@ -44,7 +44,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CSteamProto::InitProtoInstance;
 	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitProtoInstance;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	char iconName[100];
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");

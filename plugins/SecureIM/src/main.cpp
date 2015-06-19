@@ -346,7 +346,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = (char*)MODULENAME;
 	pd.type = PROTOTYPE_ENCRYPTION;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);

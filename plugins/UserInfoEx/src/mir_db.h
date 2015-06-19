@@ -32,8 +32,6 @@ namespace Contact {
 	{	return pcli->pfnGetContactDisplayName(hContact, 0);
 	}
 
-	LPSTR   Proto(MCONTACT hContact);
-
 	INT_PTR GetCount();
 
 	MCONTACT Add();

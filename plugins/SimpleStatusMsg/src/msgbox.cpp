@@ -648,7 +648,7 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 	}
 	db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 	for (i = 0; i < accounts->count; i++) {
-		if (!IsAccountEnabled(accounts->pa[i]))
+		if (!Proto_IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -780,7 +780,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	TCHAR szTitle[256], szProtoName[128];
 	BOOL bDisabled = msgbox_data->m_szProto && !(CallProtoService(msgbox_data->m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND);
 
-	mir_sntprintf(szProtoName, SIZEOF(szProtoName), msgbox_data->m_szProto ? ProtoGetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
+	mir_sntprintf(szProtoName, SIZEOF(szProtoName), msgbox_data->m_szProto ? Proto_GetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
 	if (iStatus == ID_STATUS_CURRENT) {
 		if (msgbox_data->m_bOnStartup)
 			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
@@ -905,7 +905,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			init_data = (struct MsgBoxInitData *)lParam;
 			GetWindowText(hwndDlg, szFormat, SIZEOF(szFormat));
-			mir_sntprintf(szProtoName, SIZEOF(szProtoName), init_data->m_szProto ? ProtoGetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
+			mir_sntprintf(szProtoName, SIZEOF(szProtoName), init_data->m_szProto ? Proto_GetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
 
 			if (init_data->m_iStatus == ID_STATUS_CURRENT) {
 				if (init_data->m_bOnStartup)
@@ -1138,7 +1138,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						else {
 							db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 							for (int j = 0; j < accounts->count; j++) {
-								if (!IsAccountEnabled(accounts->pa[j]))
+								if (!Proto_IsAccountEnabled(accounts->pa[j]))
 									continue;
 
 								if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1188,7 +1188,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 									else {
 										db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
 										for (int j = 0; j < accounts->count; j++) {
-											if (!IsAccountEnabled(accounts->pa[j]))
+											if (!Proto_IsAccountEnabled(accounts->pa[j]))
 												continue;
 
 											if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1236,7 +1236,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							else {
 								db_set_s(NULL, "SimpleStatusMsg", "LastMsg", buff);
 								for (int j = 0; j < accounts->count; j++) {
-									if (!IsAccountEnabled(accounts->pa[j]))
+									if (!Proto_IsAccountEnabled(accounts->pa[j]))
 										continue;
 
 									if (!CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))

@@ -6,7 +6,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	pd.cbSize = sizeof(pd);
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
@@ -43,7 +43,7 @@ MCONTACT CDropbox::GetDefaultContact()
 	if (!hDefaultContact)
 	{
 		hDefaultContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		if (!CallService(MS_PROTO_ADDTOCONTACT, hDefaultContact, (LPARAM)MODULE))
+		if (!Proto_AddToContact(hDefaultContact, MODULE))
 		{
 			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);

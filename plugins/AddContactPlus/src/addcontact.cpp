@@ -89,9 +89,9 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 	PROTOACCOUNT** pAccounts;
 	int iRealAccCount, iAccCount = 0;
 
-	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
+	Proto_EnumAccounts(&iRealAccCount, &pAccounts);
 	for (int i = 0; i < iRealAccCount; i++) {
-		if (!IsAccountEnabled(pAccounts[i]))
+		if (!Proto_IsAccountEnabled(pAccounts[i]))
 			continue;
 		
 		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -120,7 +120,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 	HDC hdc = GetDC(hdlg);
 	SelectObject(hdc, (HFONT)SendDlgItemMessage(hdlg, IDC_PROTO, WM_GETFONT, 0, 0));
 	for (int i = 0; i < iRealAccCount; i++) {
-		if (!IsAccountEnabled(pAccounts[i])) continue;
+		if (!Proto_IsAccountEnabled(pAccounts[i])) continue;
 		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (!(dwCaps & PF1_BASICSEARCH) && !(dwCaps & PF1_EXTSEARCH) && !(dwCaps & PF1_SEARCHBYEMAIL) && !(dwCaps & PF1_SEARCHBYNAME))
 			continue;

@@ -135,7 +135,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 
 	int count;
 	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 
 	for (i = 0; i < count; i++) {
 		if (!IsSuitableProto(protos[i]))
@@ -216,7 +216,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 	// set all status messages first
 	for (int i = 0; i < protoList->getCount(); i++) {
 		char *szProto = protoSettings[i]->szName;
-		if (!ProtoGetAccount(szProto)) {
+		if (!Proto_GetAccount(szProto)) {
 			log_debugA("CommonStatus: %s is not loaded", szProto);
 			continue;
 		}
@@ -290,7 +290,7 @@ int GetProtoCount()
 {
 	int pCount = 0, count;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&count, &accs);
+	Proto_EnumAccounts(&count, &accs);
 
 	for (int i = 0; i < count; i++)
 		if (IsSuitableProto(accs[i]))

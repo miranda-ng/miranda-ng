@@ -212,7 +212,7 @@ extern "C" int __declspec(dllexport) Load()
 	pd.fnInit = (pfnInitProto)jabberProtoInit;
 	pd.fnUninit = (pfnUninitProto)jabberProtoUninit;
 	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	g_IconsInit();
 	g_XstatusIconsInit();

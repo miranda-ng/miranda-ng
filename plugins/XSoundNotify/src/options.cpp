@@ -30,7 +30,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		TranslateDialogDefault(hwndDlg);
 		int count;
 		PROTOACCOUNT **protos;
-		ProtoEnumAccounts(&count, &protos);
+		Proto_EnumAccounts(&count, &protos);
 		for (int i = 0; i < count; i++)
 			if (IsSuitableProto(protos[i]))
 				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_ADDSTRING, 0, (LPARAM)protos[i]->tszAccountName), (LPARAM)protos[i]);

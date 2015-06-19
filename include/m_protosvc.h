@@ -794,6 +794,12 @@ __forceinline INT_PTR Proto_RecvMessage(MCONTACT hContact, PROTORECVEVENT *pcre)
 	return CallService(MS_PROTO_RECVMSG, 0, (LPARAM)&ccs);
 }
 
+__forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
+	return Proto_ChainRecv(0, &ccs);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Proto/AuthRecv
 // Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and adds it
@@ -838,6 +844,12 @@ __forceinline INT_PTR Proto_RecvFile(MCONTACT hContact, PROTORECVFILET *pcre)
 {
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
+}
+
+__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILET *pre)
+{
+	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
+	return Proto_ChainRecv(0, &ccs);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

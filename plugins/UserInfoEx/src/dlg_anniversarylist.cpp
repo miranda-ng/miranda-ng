@@ -746,7 +746,7 @@ class CAnnivList
 			// ignore meta subcontacts here, as they are not interesting.
 			if (!db_mc_isSub(hContact)) {
 				// filter protocol
-				pszProto = DB::Contact::Proto(hContact);
+				pszProto = Proto_GetBaseAccountName(hContact);
 				if (pszProto) {
 					numContacts++;
 					switch (GenderOf(hContact, pszProto)) {

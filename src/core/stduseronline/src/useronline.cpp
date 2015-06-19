@@ -93,7 +93,7 @@ static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
 	int numAccounts;
 	PROTOACCOUNT** accounts;
-	ProtoEnumAccounts(&numAccounts, &accounts);
+	Proto_EnumAccounts(&numAccounts, &accounts);
 
 	// reset the counter
 	for (int i = 0; i < numAccounts; i++)

@@ -63,7 +63,7 @@ static void FillContactList(HWND hList)
 		LvItem.iSubItem = 1; // id
 		char *szProto = GetContactProto(g_data.hContact[i]);
 		if (szProto) {
-			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 
 			char *szField = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 

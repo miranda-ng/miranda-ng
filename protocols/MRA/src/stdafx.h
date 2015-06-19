@@ -32,7 +32,6 @@
 #include <m_ignore.h>
 #include <m_message.h>
 #include <m_options.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>

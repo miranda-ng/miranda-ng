@@ -215,7 +215,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 	else {
 		PROTOACCOUNT **accs;
 		int numAccs = 0;
-		ProtoEnumAccounts(&numAccs, &accs);
+		Proto_EnumAccounts(&numAccs, &accs);
 		for (int i = 0; i < numAccs; i++) {
 			Flag1 |= CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			Flag3 |= CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
@@ -583,7 +583,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	int numAccs = 0;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&numAccs, &accs);
+	Proto_EnumAccounts(&numAccs, &accs);
 	for (int i = 0, CurProtoIndex = 0; i < numAccs && CurProtoIndex < MAXICQACCOUNTS; i++) {
 		HANDLE hHook = HookEvent(CString(accs[i]->szModuleName) + ME_ICQ_STATUSMSGREQ, StatusMsgReqHooks[CurProtoIndex]);
 		if (hHook) {

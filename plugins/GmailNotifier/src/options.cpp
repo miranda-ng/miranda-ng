@@ -150,7 +150,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
 			SetFocus(hwndCombo);
 			acc[curIndex].hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
-			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)acc[curIndex].hContact, (LPARAM)pluginName);
+			Proto_AddToContact(acc[curIndex].hContact, pluginName);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		

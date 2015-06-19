@@ -482,7 +482,7 @@ static int _GetNetVisibleProtoCount()
 {
 	int i, count, netProtoCount;
 	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&count, &accs);
+	Proto_EnumAccounts(&count, &accs);
 	for (i = 0, netProtoCount = 0; i < count; i++) {
 		if (pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0)
 			continue;
@@ -620,7 +620,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			int AccNum, i, siS, siV, item;
 			PROTOACCOUNT **acc;
 
-			ProtoEnumAccounts(&AccNum, &acc);
+			Proto_EnumAccounts(&AccNum, &acc);
 
 			for (siS = siV = -1, i = 0; i < AccNum; i++)
 			{

@@ -143,7 +143,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						for (j = 0; j < accounts->count; j++)
 						{
-							if (!IsAccountEnabled(accounts->pa[j]) || !CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+							if (!Proto_IsAccountEnabled(accounts->pa[j]) || !CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 								continue;
 
 							mir_snprintf(setting, "%sFlags", accounts->pa[j]->szModuleName);
@@ -190,7 +190,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (i = 0; i < accounts->count; ++i)
 				{
-					if (!IsAccountEnabled(accounts->pa[i])
+					if (!Proto_IsAccountEnabled(accounts->pa[i])
 						|| !CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0)
 						|| !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					{
@@ -931,7 +931,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (k = 0; k < accounts->count; k++)
 				{
-					if (!IsAccountEnabled(accounts->pa[k]) || !CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
+					if (!Proto_IsAccountEnabled(accounts->pa[k]) || !CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || !(CallProtoService(accounts->pa[k]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 						continue;
 
 					if (k != j - 1)
@@ -1020,7 +1020,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					for (int j = 0; j < accounts->count; j++)
 					{
-						if (!IsAccountEnabled(accounts->pa[j]))
+						if (!Proto_IsAccountEnabled(accounts->pa[j]))
 							continue;
 
 						if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
@@ -1046,7 +1046,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				for (i = 0; i < accounts->count; i++)
 				{
-					if (!IsAccountEnabled(accounts->pa[i]))
+					if (!Proto_IsAccountEnabled(accounts->pa[i]))
 						continue;
 
 					if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1351,7 +1351,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				}
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 				for (i = 0; i < accounts->count; i++) {
-					if (!IsAccountEnabled(accounts->pa[i]))
+					if (!Proto_IsAccountEnabled(accounts->pa[i]))
 						continue;
 
 					if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
@@ -1451,7 +1451,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			data->setdelay = (int *)mir_alloc(sizeof(int) * accounts->count);
 			for (i = 0; i < accounts->count; ++i)
 			{
-				if (!IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!Proto_IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
 				index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
@@ -1637,7 +1637,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			char szSetting[80];
 			for (int i = 0; i < accounts->count; i++)
 			{
-				if (!IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!Proto_IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
 				mir_snprintf(szSetting, "Startup%sStatus", accounts->pa[i]->szModuleName);

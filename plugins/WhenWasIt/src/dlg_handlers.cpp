@@ -591,7 +591,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 				age--;
 
 		char *szProto = GetContactProto(hContact);
-		PROTOACCOUNT *pAcc = ProtoGetAccount(szProto);
+		PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
 		TCHAR *ptszAccName = (pAcc == NULL) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
 		LVITEM item = { 0 };

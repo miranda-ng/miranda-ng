@@ -23,7 +23,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, MCONTACT 
 		return;
 
 	// check if we just connected, and want to suppress status changes
-	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) && m_protocol_info.isDisabled((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)user, 0)))
+	if (!m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) && m_protocol_info.isDisabled(GetContactProto(user)))
 		return;
 
 	bool speak = false;

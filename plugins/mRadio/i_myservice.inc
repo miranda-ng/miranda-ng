@@ -13,7 +13,7 @@ begin
   begin
     if wParam=0 then
       wParam:=GetCListSelContact;
-    p:=GetContactProtoAcc(wParam);
+    p:=Proto_GetBaseAccountName(wParam);
     if (p=nil) or (StrCmp(p,PluginName)<>0) then
       exit;
     hContact:=wParam;
@@ -161,7 +161,7 @@ begin
     result:=CallService(MS_DB_CONTACT_ADD,0,0);
     if result<>0 then
     begin
-      CallService(MS_PROTO_ADDTOCONTACT,result,lparam(PluginName));
+      Proto_AddToContact(result,PluginName);
       DBWriteString(result,PluginName,optStationURL,pc);
       DBWriteString(result,PluginName,optFirstName ,pc);
 
@@ -297,7 +297,7 @@ begin
     result:=CallService(MS_DB_CONTACT_ADD,0,0);
     if result<>0 then
     begin
-      CallService(MS_PROTO_ADDTOCONTACT,result,tlparam(PluginName));
+      Proto_AddToContact(result,PluginName);
       //
 //      DBWriteByte(result,strCList,'Hidden'   ,0);
       DBWriteByte(result,strCList,'NotOnList',1);

@@ -128,7 +128,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL
 	}
 
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
+	Proto_AddToContact(hNewContact, m_szModuleName);
 	setTString(hNewContact, "jid", s);
 	if (nick != NULL && *nick != '\0')
 		setTString(hNewContact, "Nick", nick);

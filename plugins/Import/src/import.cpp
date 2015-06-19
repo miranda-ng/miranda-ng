@@ -166,7 +166,7 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char *szModuleName, 
 		return INVALID_CONTACT_ID;
 
 	hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)szModuleName);
+	Proto_AddToContact(hContact, szModuleName);
 	db_set_dw(hContact, szModuleName, "UIN", uin);
 	AddMessage(LPGENT("Added contact %u (found in history)"), uin);
 	return hContact;
@@ -275,7 +275,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		int protoCount, iSel = 0;
 		PROTOACCOUNT **accs;
-		ProtoEnumAccounts(&protoCount, &accs);
+		Proto_EnumAccounts(&protoCount, &accs);
 		for (int i = 0; i < protoCount; i++) {
 			int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
 			SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)accs[i]);
@@ -394,7 +394,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 {
 	int destProtoCount;
 	PROTOACCOUNT **destAccs;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&destProtoCount, (LPARAM)&destAccs);
+	Proto_EnumAccounts(&destProtoCount, &destAccs);
 
 	PROTOACCOUNT *pProto = NULL;
 	for (int i = 0; i < destProtoCount; i++) {
@@ -548,7 +548,7 @@ static MCONTACT MapContact(MCONTACT hSrc)
 static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
 {
 	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)szProto) != 0) {
+	if (Proto_AddToContact(hContact, szProto) != 0) {
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		AddMessage(LPGENT("Failed to add %S contact %s"), szProto, pszUserID);
 		return INVALID_CONTACT_ID;
@@ -719,7 +719,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 		// do we need to add a new metacontact?
 		if (hDest == INVALID_CONTACT_ID) {
 			hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
-			CallService(MS_PROTO_ADDTOCONTACT, hDest, LPARAM(META_PROTO));
+			Proto_AddToContact(hDest, META_PROTO);
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 
 			ccDst = dstDb->m_cache->GetCachedContact(hDest);
@@ -768,7 +768,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 		else AddMessage(LPGENT("Added metacontact"));
 	}
 
-	PROTOACCOUNT *pa = ProtoGetAccount(META_PROTO);
+	PROTOACCOUNT *pa = Proto_GetAccount(META_PROTO);
 	if (pa) {
 		AccountMap pda(META_PROTO, 0, _T(META_PROTO));
 		ImportContactSettings(&pda, ccSrc->contactID, ccDst->contactID);
@@ -799,7 +799,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return NULL;
 	}
 
-	if (!ProtoGetAccount(pda->pa->szModuleName)) {
+	if (!Proto_GetAccount(pda->pa->szModuleName)) {
 		AddMessage(LPGENT("Skipping contact, %S not installed."), cc->szProto);
 		return NULL;
 	}
@@ -1114,7 +1114,7 @@ void MirandaImport(HWND hdlg)
 
 		int protoCount;
 		PROTOACCOUNT **accs;
-		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&protoCount, (LPARAM)&accs);
+		Proto_EnumAccounts(&protoCount, &accs);
 
 		if (protoCount > 0)
 			ImportHistory(NULL, accs, protoCount);

@@ -22,7 +22,7 @@
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
-#include <m_protomod.h>
+#include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_skin.h>

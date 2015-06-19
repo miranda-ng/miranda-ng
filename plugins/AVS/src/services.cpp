@@ -225,7 +225,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 		PROTOACCOUNT **accs;
 		int i, count;
 
-		ProtoEnumAccounts(&count, &accs);
+		Proto_EnumAccounts(&count, &accs);
 		for (i = 0; i < count; i++) {
 			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
 				continue;
@@ -528,7 +528,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 	else {
 		int count;
 		PROTOACCOUNT **accs;
-		ProtoEnumAccounts(&count, &accs);
+		Proto_EnumAccounts(&count, &accs);
 		for (int i = 0; i < count; i++) {
 			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
 				continue;
@@ -635,7 +635,7 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 
 		int count;
 		PROTOACCOUNT **accs;
-		ProtoEnumAccounts(&count, &accs);
+		Proto_EnumAccounts(&count, &accs);
 		for (int i = 0; i < count; i++) {
 			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
 				continue;

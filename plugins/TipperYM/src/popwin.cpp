@@ -70,16 +70,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->iIndent = opt.iTextIndent;
 				pwd->iSidebarWidth = opt.iSidebarWidth;
 
-				if (ServiceExists(MS_PROTO_GETACCOUNT)) {
-					PROTOACCOUNT *pa = ProtoGetAccount(pwd->clcit.szProto);
-					if (pa)
-						mir_tstrcpy(pwd->swzTitle, pa->tszAccountName);
-				}
+				PROTOACCOUNT *pa = Proto_GetAccount(pwd->clcit.szProto);
+				if (pa)
+					mir_tstrcpy(pwd->swzTitle, pa->tszAccountName);
 
 				if (mir_tstrlen(pwd->swzTitle) == 0)
 					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
-				if (CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pwd->clcit.szProto))
+				if (Proto_IsAccountLocked(pwd->clcit.szProto))
 					mir_sntprintf(pwd->swzTitle, SIZEOF(pwd->swzTitle), TranslateT("%s (locked)"), pwd->swzTitle);
 
 				// protocol status
@@ -1467,7 +1465,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		int oldOrder = -1, iProtoCount = 0;
 		PROTOACCOUNT **accs;
-		ProtoEnumAccounts(&iProtoCount, &accs);
+		Proto_EnumAccounts(&iProtoCount, &accs);
 
 		for (int j = 0; j < iProtoCount; j++) {
 			PROTOACCOUNT *pa = NULL;
@@ -1484,7 +1482,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (opt.bHideOffline && wStatus == ID_STATUS_OFFLINE)
 				continue;
 
-			if (!IsAccountEnabled(pa) || !IsTrayProto(pa->tszAccountName, (BOOL)wParam))
+			if (!Proto_IsAccountEnabled(pa) || !IsTrayProto(pa->tszAccountName, (BOOL)wParam))
 				continue;
 
 			if (dwItems & TRAYTIP_NUMCONTACTS) {
@@ -1501,7 +1499,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			TCHAR swzProto[256];
 			mir_tstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
-				if (CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pa->szModuleName))
+				if (Proto_IsAccountLocked(pa->szModuleName))
 					mir_sntprintf(swzProto, SIZEOF(swzProto), TranslateT("%s (locked)"), pa->tszAccountName);
 
 			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));

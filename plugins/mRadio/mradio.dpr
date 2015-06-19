@@ -168,7 +168,7 @@ begin
   desc.cbSize:=PROTOCOLDESCRIPTOR_V3_SIZE;//SizeOf(desc);
   desc.szName:=PluginName;
   desc._type :=PROTOTYPE_VIRTUAL;
-  CallService(MS_PROTO_REGISTERMODULE,0,lparam(@desc));
+  Proto_RegisterModule(@desc);
 
   // hooks and services
   hhRadioStatus:=CreateHookableEvent(ME_RADIO_STATUS);

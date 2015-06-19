@@ -629,7 +629,7 @@ class CContactUpdater : public CContactQueue
 	 **/
 	virtual void Callback(MCONTACT hContact, PVOID param)
 	{
-		LPSTR	pszProto	= DB::Contact::Proto(hContact);
+		LPSTR	pszProto	= Proto_GetBaseAccountName(hContact);
 
 		if (pszProto && pszProto[0])
 		{
@@ -689,7 +689,7 @@ public:
 	 **/
 	BOOL QueueAddRefreshContact(MCONTACT hContact, int iWait)
 	{
-		LPSTR pszProto = DB::Contact::Proto(hContact);
+		LPSTR pszProto = Proto_GetBaseAccountName(hContact);
 
 		if ((mir_strcmp(pszProto, "Weather") != 0) && (mir_strcmp(pszProto, META_PROTO) != 0) && IsProtoOnline(pszProto))
 			return Add(iWait, hContact);
@@ -763,17 +763,14 @@ static CContactUpdater	*ContactUpdater = NULL;
  **/
 static BOOL IsMirandaOnline()
 {
-	PROTOACCOUNT **pAcc;
-	int i, nAccCount;
 	BOOL bIsOnline = FALSE;
+	PROTOACCOUNT **pAcc;
+	int nAccCount;
+	Proto_EnumAccounts(&nAccCount, &pAcc);
 
-	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
-	{
-		for (i = 0; (i < nAccCount) && !bIsOnline; i++) 
-		{
-			bIsOnline |= (IsProtoAccountEnabled(pAcc[i]) && IsProtoOnline(pAcc[i]->szModuleName));
-		}
-	}
+	for (int i = 0; (i < nAccCount) && !bIsOnline; i++) 
+		bIsOnline |= (IsProtoAccountEnabled(pAcc[i]) && IsProtoOnline(pAcc[i]->szModuleName));
+
 	return bIsOnline;
 }
 

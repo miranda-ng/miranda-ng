@@ -101,7 +101,7 @@ extern "C" int __declspec(dllexport) Load()
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)ircProtoInit;
 	pd.fnUninit = (pfnUninitProto)ircProtoUninit;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 	return 0;
 }
 

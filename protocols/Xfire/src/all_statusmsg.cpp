@@ -57,7 +57,7 @@ BOOL BackupStatusMsg() {
 	oltostatus = new vector < unsigned int > ;
 
 	//alle protokolle durchgehen und den status in den vector sichern
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&anz, (LPARAM)&temp);
+	Proto_EnumAccounts(&anz, &temp);
 	for (int i = 0; i < anz; i++)
 	{
 		statusid = CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0);
@@ -225,7 +225,7 @@ BOOL SetGameStatusMsg()
 		statusMsg = statusmsg;
 	}
 
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&anz, (LPARAM)&temp);
+	Proto_EnumAccounts(&anz, &temp);
 	for (int i = 0; i < anz; i++)
 	{
 		if (olstatus->at(i) != -1)
@@ -290,7 +290,7 @@ BOOL SetOldStatusMsg()
 	if (olstatusmsg == NULL)
 		return FALSE;
 
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&anz, (LPARAM)&temp);
+	Proto_EnumAccounts(&anz, &temp);
 	for (int i = 0; i < anz; i++)
 	{
 		if (olstatus->at(i) != -1)

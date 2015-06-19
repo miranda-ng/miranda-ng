@@ -216,8 +216,7 @@ void LoadProtocols(void)
 
 	int numberOfProtocols = 0;
 	PROTOACCOUNT **ppProtocolDescriptors;
-	INT_PTR ret = ProtoEnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
-	if (ret == 0)
+	Proto_EnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
 	for (int i = 0; i < numberOfProtocols; i++)
 		Nudge_AddAccount(ppProtocolDescriptors[i]);
 

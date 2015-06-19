@@ -261,7 +261,7 @@ public:
 		if (!szProto) { 
 			int numAccs;
 			PROTOACCOUNT **accs;
-			ProtoEnumAccounts(&numAccs, &accs);
+			Proto_EnumAccounts(&numAccs, &accs);
 			for (int i = 0; i < numAccs; i++)
 				(*this)[accs[i]->szModuleName]; // add a protocol if it isn't in the list yet
 		}

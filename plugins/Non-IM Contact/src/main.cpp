@@ -125,7 +125,7 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_CLIST_STATUSMODECHANGE, SetLCStatus);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE, MODNAME, PROTOTYPE_VIRTUAL };
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	//load services (the first 5 are the basic ones needed to make a new protocol)
 	CreateProtoServiceFunction(MODNAME, PS_GETCAPS, GetLCCaps);

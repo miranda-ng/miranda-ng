@@ -178,7 +178,7 @@ static int FillDialog(HWND hwnd)
 
 	// fill protocols...
 
-	ProtoEnumAccounts( &protoCount, &accs );
+	Proto_EnumAccounts( &protoCount, &accs );
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
 	for (i = 0; i < protoCount; i++) {

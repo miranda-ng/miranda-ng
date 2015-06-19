@@ -218,7 +218,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = WEATHERPROTONAME;
 	pd.type = (opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	// initialize weather protocol services
 	InitServices();

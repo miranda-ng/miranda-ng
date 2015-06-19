@@ -1288,7 +1288,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 				sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 				char szTemp[500];
 
-				ProtoEnumAccounts(&nCount, &proto);
+				Proto_EnumAccounts(&nCount, &proto);
 
 				for (int i = 0; i < nCount; i++)
 				{

@@ -254,7 +254,7 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, MCONTACT hContact)
 		else if (!_xcscmp(theKey, XSTR(key, "proto")))
 			theValue = mir_a2x(key, GetContactProto(hContact));
 		else if (!_xcscmp(theKey, XSTR(key, "accountname"))) {
-			PROTOACCOUNT *acc = ProtoGetAccount(GetContactProto(hContact));
+			PROTOACCOUNT *acc = Proto_GetAccount(GetContactProto(hContact));
 			if (acc != NULL)
 				theValue = mir_a2x(key, _T2A(acc->tszAccountName));
 		}

@@ -375,8 +375,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = ( pfnInitProto )tlenProtoInit;
 	pd.fnUninit = ( pfnUninitProto )tlenProtoUninit;
 	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM) &pd);
-
+	Proto_RegisterModule(&pd);
 	return 0;
 }
 

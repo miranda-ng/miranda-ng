@@ -76,9 +76,9 @@ static int OnAccListChanged(WPARAM, LPARAM)
 	PROTOACCOUNT** pAccounts;
 	int iRealAccCount, iAccCount = 0;
 
-	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
+	Proto_EnumAccounts(&iRealAccCount, &pAccounts);
 	for (int i = 0; i < iRealAccCount; i++) {
-		if (!IsAccountEnabled(pAccounts[i]))
+		if (!Proto_IsAccountEnabled(pAccounts[i]))
 			continue;
 
 		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);

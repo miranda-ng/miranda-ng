@@ -23,7 +23,6 @@
 #include <m_freeimage.h>
 #include <m_imgsrvc.h>
 #include <m_protocols.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_idle.h>

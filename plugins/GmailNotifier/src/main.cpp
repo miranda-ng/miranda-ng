@@ -95,7 +95,7 @@ extern "C" int __declspec(dllexport) Load()
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = pluginName;
 	pd.type = PROTOTYPE_VIRTUAL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	CreateProtoServiceFunction(pluginName, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(pluginName, PS_GETSTATUS, GetStatus);

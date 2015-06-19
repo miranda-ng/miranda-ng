@@ -167,7 +167,7 @@ int __forceinline GetProtoIndex(char * szName)
 	if (!szName)
 		return -1;
 
-	PROTOACCOUNT *pa = ProtoGetAccount(szName);
+	PROTOACCOUNT *pa = Proto_GetAccount(szName);
 	return (pa == NULL) ? -1 : pa->iOrder;
 }
 

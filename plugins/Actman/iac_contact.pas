@@ -116,7 +116,7 @@ var
   is_chat:boolean;
 begin
   result:=0;
-  proto:=GetContactProtoAcc(hContact);
+  proto:=Proto_GetBaseAccountName(hContact);
   if proto<>nil then
   begin
     is_chat:=IsChat(hContact);

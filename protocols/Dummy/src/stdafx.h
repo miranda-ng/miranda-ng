@@ -47,7 +47,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_message.h>
 #include <m_netlib.h>
 #include <m_options.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>

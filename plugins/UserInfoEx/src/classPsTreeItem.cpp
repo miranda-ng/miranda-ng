@@ -274,21 +274,21 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
  **/
 HICON CPsTreeItem::ProtoIcon()
 {
+	if (!_pszName)
+		return NULL;
+
 	PROTOACCOUNT **pa;
 	int ProtoCount;
-	if (!ProtoEnumAccounts(&ProtoCount, &pa)) {
-		if (_pszName) {
-			for (int i = 0; i < ProtoCount; i++) {
-				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
-					CHAR szIconID[MAX_PATH];
-					mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
-					HICON hIco = IcoLib_GetIcon(szIconID);
-					if (!hIco)
-						hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
+	Proto_EnumAccounts(&ProtoCount, &pa);
+	for (int i = 0; i < ProtoCount; i++) {
+		if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
+			CHAR szIconID[MAX_PATH];
+			mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
+			HICON hIco = IcoLib_GetIcon(szIconID);
+			if (!hIco)
+				hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);
 
-					return hIco;
-				}
-			}
+			return hIco;
 		}
 	}
 	return NULL;

@@ -52,7 +52,6 @@ typedef std::basic_string<TCHAR> tstring;
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_protocols.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>

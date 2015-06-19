@@ -182,7 +182,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		{
 			PROTOCOLDESCRIPTOR **proto;
 			int protoCount, i, cnt = 0;
-			CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
+			Proto_EnumProtocols(&protoCount, &proto);
 			for (i = 0; i < protoCount; i++) {
 				PROTOCOLDESCRIPTOR* pd = proto[i];
 				if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd)) {

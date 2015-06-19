@@ -87,7 +87,7 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	CProtocolData *pProtoData = NULL;
 	CIRCConnection *pIRCConnection = NULL;
 
-	ProtoEnumAccounts(&iCount, &ppAccounts);
+	Proto_EnumAccounts(&iCount, &ppAccounts);
 	for(int i=0;i<iCount;i++)
 	{
 		/**if(ppProtocolDescriptor[i]->type != PROTOTYPE_PROTOCOL)

@@ -20,10 +20,8 @@ begin
     CurWin:=GetFocus;
     if CurWin<>0 then
     begin
-//      j:=WndToContact(WaitFocusedWndChild(GetForegroundwindow){GetFocus});
       j:=WndToContact(CurWin);
-      p:=GetContactProtoAcc(j);
-//      p:=PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,j,0));
+      p:=Proto_GetBaseAccountName(j);
       if DBReadByte(j,p,'ChatRoom',0)=1 then
       begin
         isUnicode:=false;

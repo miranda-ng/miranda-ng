@@ -290,14 +290,14 @@ static int OnOkToExit(WPARAM, LPARAM)
 	// save last protocolstatus
 	int count;
 	PROTOACCOUNT** protos;
-	ProtoEnumAccounts(&count, &protos);
+	Proto_EnumAccounts(&count, &protos);
 
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT *pa = protos[i];
 		if (!IsSuitableProto(pa))
 			continue;
 
-		if (!ProtoGetAccount(pa->szModuleName))
+		if (!Proto_GetAccount(pa->szModuleName))
 			continue;
 
 		char lastName[128], lastMsg[128];

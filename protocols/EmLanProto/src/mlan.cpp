@@ -237,7 +237,7 @@ MCONTACT CMLan::FindContact(in_addr addr, const char* nick, bool add_to_list, bo
 
 	if (add_to_list) {
 		MCONTACT res = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)res, (LPARAM)PROTONAME);
+		Proto_AddToContact(res, PROTONAME);
 		db_set_dw(res, PROTONAME, "ipaddr", addr.S_un.S_addr);
 		db_set_s(res, PROTONAME, "Nick", nick);
 

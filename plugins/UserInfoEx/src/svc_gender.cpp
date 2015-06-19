@@ -55,7 +55,7 @@ BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto)
 
 BYTE GenderOf(MCONTACT hContact)
 {
-	return GenderOf(hContact, DB::Contact::Proto(hContact));
+	return GenderOf(hContact, Proto_GetBaseAccountName(hContact));
 }
 
 /***********************************************************************************************************

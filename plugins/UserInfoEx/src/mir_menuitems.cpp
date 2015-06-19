@@ -543,7 +543,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		mhRoot = pcli->menuProtos[i].pMenu;
 		if ( mhRoot == NULL )
 			break;
-		pAccountName = ProtoGetAccount(pcli->menuProtos[i].szProto);
+		pAccountName = Proto_GetAccount(pcli->menuProtos[i].szProto);
 
 		// create service name main (account module name) and set pointer to end it
 		char text[ 200 ];

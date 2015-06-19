@@ -64,7 +64,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	currDb->MetaSetDefault(cc); // explicitly write default sub to a db
 
 	// Add the MetaContact protocol to the new meta contact
-	CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
+	Proto_AddToContact(hMetaContact, META_PROTO);
 
 	if (tszGroup)
 		db_set_ts(hMetaContact, "CList", "Group", tszGroup);

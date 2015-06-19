@@ -158,7 +158,7 @@ extern "C" int __declspec(dllexport) Load()
 	pd.cbSize = sizeof(pd);
 	pd.szName = MODULENAME;
 	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 
 	//protocol services
 	InitServices();

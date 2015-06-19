@@ -156,7 +156,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	pd.cbSize = sizeof(pd);
 	pd.szName = szGPGModuleName;
 	pd.type = PROTOTYPE_ENCRYPTION;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+	Proto_RegisterModule(&pd);
 	
 	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE, RecvMsgSvc);
 	CreateProtoServiceFunction(szGPGModuleName, PSS_MESSAGE, SendMsgSvc);

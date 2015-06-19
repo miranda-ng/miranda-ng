@@ -167,8 +167,7 @@ public:
 	int UploadFirst()
 	{
 		// create a list of all protocols which support uploading contact information
-		if ( ProtoEnumAccounts(&_numProto, &_pPd))
-			return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
+		Proto_EnumAccounts(&_numProto, &_pPd);
 		return UploadNext();
 	}
 
@@ -290,7 +289,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// get contact's protocol
-		psh._pszPrefix = psh._pszProto = DB::Contact::Proto(wParam);
+		psh._pszPrefix = psh._pszProto = Proto_GetBaseAccountName(wParam);
 		if (psh._pszProto == NULL) {
 			MsgErr(NULL, LPGENT("Could not find contact's protocol. Maybe it is not active!"));
 			return 1;
@@ -317,7 +316,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 			psh._hContact = db_mc_getSub(wParam, i);
 			psh._nSubContact = i;
 			if (psh._hContact) {
-				psh._pszProto = DB::Contact::Proto(psh._hContact);
+				psh._pszProto = Proto_GetBaseAccountName(psh._hContact);
 				if ((INT_PTR)psh._pszProto != CALLSERVICE_NOTFOUND)
 					NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 			}
@@ -561,28 +560,25 @@ void DlgContactInfoInitTreeIcons()
 
 		// avoid pages from loading doubled
 		if (!(bInitIcons & INIT_ICONS_CONTACT)) {
-			LPCSTR pszContactProto = NULL;
-			PROTOACCOUNT **pd;
-			int ProtoCount = 0;
-
 			psh._dwFlags |= PSF_PROTOPAGESONLY_INIT;
 			
 			// enumerate all protocols
-			if (!ProtoEnumAccounts(&ProtoCount, &pd)) {
-				for (i = 0; i < ProtoCount; i++) {
-					// enumerate all contacts
-					for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
-						// compare contact's protocol to the current one, to add
-						pszContactProto = DB::Contact::Proto(psh._hContact);
-						if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
-							// call a notification for the contact to retrieve all protocol specific tree items
-							NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
-							if (psh._pPages) {
-								psh.Free_pPages();
-								psh._dwFlags = PSTVF_INITICONS | PSF_PROTOPAGESONLY;
-							}
-							break;
+			PROTOACCOUNT **pd;
+			int ProtoCount = 0;
+			Proto_EnumAccounts(&ProtoCount, &pd);
+			for (i = 0; i < ProtoCount; i++) {
+				// enumerate all contacts
+				for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
+					// compare contact's protocol to the current one, to add
+					LPCSTR pszContactProto = Proto_GetBaseAccountName(psh._hContact);
+					if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
+						// call a notification for the contact to retrieve all protocol specific tree items
+						NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
+						if (psh._pPages) {
+							psh.Free_pPages();
+							psh._dwFlags = PSTVF_INITICONS | PSF_PROTOPAGESONLY;
 						}
+						break;
 					}
 				}
 			}
@@ -637,10 +633,10 @@ void DlgContactInfoLoadModule()
 
 	PROTOACCOUNT **pAcc;
 	int nAccCount;
-	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
-		for (int i = 0; (i < nAccCount) && !myGlobals.CanChangeDetails; i++)
-			if (IsProtoAccountEnabled(pAcc[i])) // update my contact information on icq server
-				myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, NULL, NULL));
+	Proto_EnumAccounts(&nAccCount, &pAcc);
+	for (int i = 0; (i < nAccCount) && !myGlobals.CanChangeDetails; i++)
+		if (IsProtoAccountEnabled(pAcc[i])) // update my contact information on icq server
+			myGlobals.CanChangeDetails = MIREXISTS(CallProtoService(pAcc[i]->szModuleName, PS_CHANGEINFOEX, NULL, NULL));
 }
 
 static void ResetUpdateInfo(LPPS pPs)
@@ -1554,7 +1550,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					for (int i = 0; i < numSubs; i++) {
 						MCONTACT hSubContact = db_mc_getSub(pPs->hContact, i);
 						if (hSubContact != NULL) {
-							if (ProtoServiceExists(DB::Contact::Proto(hSubContact), PSS_GETINFO)) {
+							if (ProtoServiceExists(Proto_GetBaseAccountName(hSubContact), PSS_GETINFO)) {
 								pPs->infosUpdated = (TAckInfo *)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo) * (pPs->nSubContacts + 1));
 								pPs->infosUpdated[pPs->nSubContacts].hContact = hSubContact;
 								pPs->infosUpdated[pPs->nSubContacts].acks = NULL;

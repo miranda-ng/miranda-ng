@@ -809,7 +809,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								WindowTitle += _T(")");
 							}
 							else {
-								PROTOACCOUNT *acc = ProtoGetAccount(szProto);
+								PROTOACCOUNT *acc = Proto_GetAccount(szProto);
 								WindowTitle += acc->tszAccountName;
 								WindowTitle += _T(")");
 							}
@@ -872,12 +872,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(NULL, g_ProtoStates[(char*)NULL].Status));
 			int numAccs;
 			PROTOACCOUNT **accs;
-			ProtoEnumAccounts(&numAccs, &accs);
+			Proto_EnumAccounts(&numAccs, &accs);
 			for (int i = 0; i < numAccs; i++) {
 				PROTOACCOUNT *p = accs[i];
 				// don't forget to change Recent Message Save loop in the UM_SAM_APPLYANDCLOSE if you're changing something here
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-					PROTOACCOUNT * acc = ProtoGetAccount(p->szModuleName);
+					PROTOACCOUNT * acc = Proto_GetAccount(p->szModuleName);
 					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].Status));
 					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
@@ -928,7 +928,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			// save Recent Messages
 			int numAccs;
 			PROTOACCOUNT **accs;
-			ProtoEnumAccounts(&numAccs, &accs);
+			Proto_EnumAccounts(&numAccs, &accs);
 			for (int i = 0; i < numAccs; i++) {
 				PROTOACCOUNT *p = accs[i];
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {

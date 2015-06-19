@@ -265,12 +265,12 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		}
 	}
 	else if (!mir_tstrcmp(swzRawSpec, _T("account"))) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if ((INT_PTR)szProto == CALLSERVICE_NOTFOUND) {
 			return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
 		}
 		else if (szProto) {
-			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			if (pa && pa->tszAccountName) {
 				_tcsncpy(buff, pa->tszAccountName, bufflen);
 				return true;
@@ -512,7 +512,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 					if (*p) {
 						char *cp = GetContactProto(hContact);
 						if (cp != NULL) {
-							PROTOACCOUNT *acc = ProtoGetAccount(cp);
+							PROTOACCOUNT *acc = Proto_GetAccount(cp);
 							if (acc != NULL) {
 								cp = acc->szProtoName;
 							}

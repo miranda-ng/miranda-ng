@@ -58,7 +58,6 @@
 #include <m_options.h>
 #include <m_popup.h>       // not used
 #include <m_protocols.h>
-#include <m_protomod.h>    // not used
 #include <m_protosvc.h>
 #include <m_skin.h>
 #include <m_system.h>

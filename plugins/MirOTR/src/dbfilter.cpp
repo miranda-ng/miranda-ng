@@ -178,7 +178,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 	if ((hTemp = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hTemp;
 
-	if (!CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME))
+	if (!Proto_IsProtoOnContact(hContact, MODULENAME))
 		return 0;
 
 	lib_cs_lock();
@@ -243,7 +243,7 @@ int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			StatusModeChange((WPARAM)ID_STATUS_OFFLINE, (LPARAM)cws->szModule);
 			return 0;
 		}
-		if (CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME)) {
+		if (Proto_IsProtoOnContact(hContact, MODULENAME)) {
 			// only care about contacts to which this filter is attached
 			FinishSession(hContact);
 		}

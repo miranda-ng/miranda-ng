@@ -1477,7 +1477,7 @@ void Options::init()
 	int protoCount;
 	PROTOACCOUNT **pProtos;
 	ProtocolSettings *lastProto = NULL;
-	ProtoEnumAccounts(&protoCount, &pProtos);
+	Proto_EnumAccounts(&protoCount, &pProtos);
 	for (int i = 0; i < protoCount + 1; i++) {
 		ProtocolSettings *proto;
 		char tmpPath[MAX_PATH];

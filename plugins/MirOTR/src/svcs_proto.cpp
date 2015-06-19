@@ -11,11 +11,11 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 		DEBUGOUTA("'\n");
 
 	if (ccs->wParam & PREF_BYPASS_OTR) // bypass for OTR-messages
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 
 	char *proto = GetContactProto(ccs->hContact);
 	if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	
 	if (!proto || !ccs->hContact)
 		return 1; // error
@@ -27,7 +27,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	// don't filter OTR messages being sent (OTR messages should only happen *after* the otrl_message_sending call below)
 	if(strncmp(oldmessage, "?OTR", 4) == 0) {
 		DEBUGOUT_T("OTR message without PREF_BYPASS_OTR\n");
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	}
 
 	ptrA tmpencode;
@@ -51,7 +51,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	}
 	
 	if (newmessage == NULL)
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		return Proto_ChainSend(wParam, ccs);
 	
 	if(!newmessage[0]){
 		otrl_message_free(newmessage);
@@ -60,7 +60,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	WPARAM oldflags = ccs->wParam;
 	ccs->lParam = (LPARAM)newmessage;
 
-	INT_PTR ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+	INT_PTR ret = Proto_ChainSend(wParam, ccs);
 
 	DEBUGOUTA("OTR - sending raw message: '");
 	DEBUGOUTA((const char*)ccs->lParam);
@@ -82,15 +82,14 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	DEBUGOUTA(pre->szMessage);
 	DEBUGOUTA("'\n");
 
-	if (pre->flags & PREF_BYPASS_OTR)  { // bypass for our inline messages
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
-	}
+	if (pre->flags & PREF_BYPASS_OTR)  // bypass for our inline messages
+		return Proto_ChainRecv(wParam, ccs);
 
 	char *proto = GetContactProto(ccs->hContact);
 	if (!proto || !ccs->hContact)
 		return 1; //error
 	else if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		return Proto_ChainRecv(wParam, ccs);
 
 	char *oldmessage = pre->szMessage;
 	// convert oldmessage to utf-8
@@ -124,7 +123,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		return 1; // discard internal protocol messages
 	}
 	if (newmessage == NULL)
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		return Proto_ChainRecv(wParam, ccs);
 	
 	DWORD oldflags = pre->flags;
 		
@@ -146,7 +145,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		msg_free = mir_free;
 	}
 	pre->szMessage = newmessage;
-	BOOL ret = CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	BOOL ret = Proto_ChainRecv(wParam, ccs);
 /// @todo (White-Tiger#1#03/23/15): why are we doing this?
 	pre->flags = oldflags;
 	pre->szMessage = oldmessage;

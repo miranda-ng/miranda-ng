@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int LoadProtoChains(void);
 int LoadProtoOptions(void);
 
 HANDLE hAckEvent;
@@ -96,19 +95,16 @@ LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos);
 
 void FreeFilesMatrix(TCHAR ***files);
 
-INT_PTR srvProto_IsLoaded(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)Proto_IsProtocolLoaded((char*)lParam);
-}
-
 static PROTO_INTERFACE* defInitProto(const char* szModule, const TCHAR*)
 {
 	return AddDefaultAccount(szModule);
 }
 
-static INT_PTR srvProto_RegisterModule(WPARAM, LPARAM lParam)
+MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 {
-	PROTOCOLDESCRIPTOR *pd = (PROTOCOLDESCRIPTOR*)lParam;
+	if (pd == NULL)
+		return 1;
+
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
 		return 1;
 
@@ -303,7 +299,7 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 0.8.0+ - accounts
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName)
+MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 {
 	if (accName == NULL)
 		return NULL;
@@ -331,26 +327,15 @@ static INT_PTR srvProto_CreateAccount(WPARAM, LPARAM lParam)
 	return (INT_PTR)pa;
 }
 
-static INT_PTR srvProto_GetAccount(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 {
-	return (INT_PTR)Proto_GetAccount((char*)lParam);
+	if (nAccs) *nAccs = accounts.getCount();
+	if (pAccs) *pAccs = accounts.getArray();
 }
 
-static INT_PTR Proto_EnumAccounts(WPARAM wParam, LPARAM lParam)
-{
-	*(int*)wParam = accounts.getCount();
-	*(PROTOACCOUNT***)lParam = accounts.getArray();
-	return 0;
-}
-
-bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa)
+MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa)
 {
 	return pa && ((pa->bIsEnabled && !pa->bDynDisabled) || pa->bOldProto);
-}
-
-static INT_PTR srvProto_IsAccountEnabled(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)Proto_IsAccountEnabled((PROTOACCOUNT*)lParam);
 }
 
 bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa)
@@ -358,22 +343,9 @@ bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa)
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
-static INT_PTR srvProto_IsAccountLocked(WPARAM, LPARAM lParam)
+MIR_APP_DLL(bool) Proto_IsAccountLocked(const char *pszModuleName)
 {
-	return (INT_PTR)Proto_IsAccountLocked(Proto_GetAccount((char*)lParam));
-}
-
-static INT_PTR Proto_BroadcastAck(WPARAM, LPARAM lParam)
-{
-	ACKDATA *ack = (ACKDATA*)lParam;
-	return ProtoBroadcastAck(ack->szModule, ack->hContact, ack->type, ack->result, ack->hProcess, ack->lParam);
-}
-
-static INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
-{
-	*(int*)wParam = protos.getCount();
-	*(PROTOCOLDESCRIPTOR***)lParam = protos.getArray();
-	return 0;
+	return Proto_IsAccountLocked(Proto_GetAccount(pszModuleName));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -475,36 +447,31 @@ INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static INT_PTR srvProto_GetContactBaseAccount(WPARAM wParam, LPARAM)
+{
+	return (INT_PTR)Proto_GetBaseAccountName(wParam);
+}
+
 int LoadProtocolsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	if (LoadProtoChains())
-		return 1;
-
 	qsort(serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
 
+	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
 	hTypeEvent = CreateHookableEvent(ME_PROTO_CONTACTISTYPING);
 	hAccListChanged = CreateHookableEvent(ME_PROTO_ACCLISTCHANGED);
-	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
 
-	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
-	CreateServiceFunction(MS_PROTO_BROADCASTACK, Proto_BroadcastAck);
-	CreateServiceFunction(MS_PROTO_ISPROTOCOLLOADED, srvProto_IsLoaded);
-	CreateServiceFunction(MS_PROTO_REGISTERMODULE, srvProto_RegisterModule);
 	CreateServiceFunction(MS_PROTO_SELFISTYPING, Proto_SelfIsTyping);
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
 
 	CreateServiceFunction(MS_PROTO_RECVMSG, Proto_RecvMessage);
 	CreateServiceFunction(MS_PROTO_AUTHRECV, Proto_AuthRecv);
 
-	CreateServiceFunction("Proto/EnumProtocols", Proto_EnumAccounts);
-	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS, Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_CREATEACCOUNT, srvProto_CreateAccount);
-	CreateServiceFunction(MS_PROTO_GETACCOUNT, srvProto_GetAccount);
 
-	CreateServiceFunction(MS_PROTO_ISACCOUNTENABLED, srvProto_IsAccountEnabled);
-	CreateServiceFunction(MS_PROTO_ISACCOUNTLOCKED, srvProto_IsAccountLocked);
+	// just to make QuickSearch happy
+	CreateServiceFunction("Proto/GetContactBaseAccount", srvProto_GetContactBaseAccount);
 
 	return LoadProtoOptions();
 }

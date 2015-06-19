@@ -128,12 +128,6 @@ __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 }
 
-
-__inline const char* contact_get_account(MCONTACT hContact) {
-	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
-	return uacc;
-}
-
 TCHAR* ProtoGetNickname(const char* proto)
 {
 	CONTACTINFO ci = {sizeof(ci)};

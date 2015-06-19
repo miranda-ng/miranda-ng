@@ -26,7 +26,6 @@
 #include <m_gui.h>
 
 #include <m_protoint.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 
 #include <m_dropbox.h>
