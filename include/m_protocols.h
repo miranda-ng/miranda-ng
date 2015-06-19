@@ -358,7 +358,7 @@ EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountEnabled(const PROTOACCOUNT *pa);
 // lParam = (LPARAM)(char*)szAccountName
 // Returns 1 if an account is locked and not supposed to change status, 0 otherwise
 
-EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountLocked(const char *szModuleName);
+EXTERN_C MIR_APP_DLL(bool) Proto_IsAccountLocked(const PROTOACCOUNT *pa);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the account associated with a contact

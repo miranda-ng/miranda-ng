@@ -349,7 +349,7 @@ function Proto_IsAccountEnabled(proto:PPROTOACCOUNT) : byte; stdcall;
   Returns 1 if an account is locked and not supposed to change status, 0 otherwise
 }
 
-function Proto_IsAccountLocked(proto:PAnsiChar) : byte; stdcall;
+function Proto_IsAccountLocked(proto:PPROTOACCOUNT) : byte; stdcall;
                  external AppDLL name 'Proto_IsAccountLocked';
 
 {

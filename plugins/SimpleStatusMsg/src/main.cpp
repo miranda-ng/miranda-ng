@@ -1487,7 +1487,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 			continue;
 
 		TCHAR szBuffer[256];
-		if (Proto_IsAccountLocked(pa[i]->szModuleName))
+		if (Proto_IsAccountLocked(pa[i]))
 		{
 			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.ptszPopupName = szBuffer;
