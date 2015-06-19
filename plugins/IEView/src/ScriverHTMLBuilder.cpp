@@ -169,9 +169,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		mir_strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
 	}
 	if (format[0] != '\0') {
-		//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
 		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
-		//mir_tstrncat(szResult, str, 500);
 		mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	}
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);

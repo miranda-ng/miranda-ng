@@ -1135,7 +1135,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
 		DBTIMETOSTRINGT dbtts;
-		dbtts.cbDest = sizeof(szTemp) - nIndent - 2;
+		dbtts.cbDest = SIZEOF(szTemp) - nIndent - 2;
 		dbtts.szDest = &szTemp[nIndent];
 		dbtts.szFormat = (TCHAR*)sTimeFormat.c_str();
 
@@ -1168,28 +1168,6 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			}
 			mir_free(msg);
 			break;
-			/*
-							const char *pszData = (const char*)dbei.pBlob;
-							bool bConvertedToUtf8 = false;
-							if (bWriteUTF8Format )// Write UTF-8 format in file ?
-							{
-							int nAnsiLen = mir_strlen((char *) dbei.pBlob)+1;
-							if (nAnsiLen < (int)dbei.cbBlob )
-							{
-							// Message is also encoded in unicode UTF-16/UCS-2, little endian.
-							if (WideCharToMultiByte( CP_UTF8, 0, (wchar_t*)&dbei.pBlob[ nAnsiLen ], nAnsiLen, szTemp, sizeof(szTemp), 0, 0))
-							{
-							pszData = szTemp;
-							bConvertedToUtf8 = true;
-							}
-							}
-							// We need to write in UTF8 format so we have to convert ansi string to UTF8
-							}
-							if ( !bWriteIndentedToFile( hFile, nIndent, pszData, bWriteUTF8Format))
-							{
-							DisplayErrorDialog( _T("Failed to write message to the file :\n"), sFilePath, &dbei);
-							}
-							break;*/
 		}
 		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
