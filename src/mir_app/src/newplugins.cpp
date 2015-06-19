@@ -44,6 +44,18 @@ LIST<pluginEntry>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MUUID miid_last = MIID_LAST;
+MUUID miid_chat = MIID_CHAT;
+MUUID miid_srmm = MIID_SRMM;
+MUUID miid_clist = MIID_CLIST;
+MUUID miid_database = MIID_DATABASE;
+MUUID miid_protocol = MIID_PROTOCOL;
+MUUID miid_servicemode = MIID_SERVICEMODE;
+MUUID miid_crypto = MIID_CRYPTO;
+MUUID miid_ssl = MIID_SSL;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define MAX_MIR_VER ULONG_MAX
 
 static BOOL bModuleInitialized = FALSE;
@@ -188,8 +200,11 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 	return NULL;
 }
 
-EXTERN_C MIR_APP_DLL(int) GetPluginFakeId(const MUUID &uuid, int hLangpack)
+MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack)
 {
+	if (equalUUID(uuid, miid_last))
+		return --sttFakeID;
+
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
 		if (!p->bpi.hInst)
@@ -201,16 +216,6 @@ EXTERN_C MIR_APP_DLL(int) GetPluginFakeId(const MUUID &uuid, int hLangpack)
 
 	return 0;
 }
-
-MUUID miid_last = MIID_LAST;
-MUUID miid_chat = MIID_CHAT;
-MUUID miid_srmm = MIID_SRMM;
-MUUID miid_clist = MIID_CLIST;
-MUUID miid_database = MIID_DATABASE;
-MUUID miid_protocol = MIID_PROTOCOL;
-MUUID miid_servicemode = MIID_SERVICEMODE;
-MUUID miid_crypto = MIID_CRYPTO;
-MUUID miid_ssl = MIID_SSL;
 
 static bool validInterfaceList(MUUID *piface)
 {

@@ -687,12 +687,10 @@ void GetDefaultLang()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C MIR_APP_DLL(int) GetPluginFakeId(const MUUID &uuid, int hLangpack);
-
 MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
 {
 	if (_hLang && pInfo)
-		*(int*)_hLang = GetPluginFakeId(pInfo->uuid, Langpack_MarkPluginLoaded((PLUGININFOEX*)pInfo));
+		*(int*)_hLang = GetPluginLangId(pInfo->uuid, Langpack_MarkPluginLoaded((PLUGININFOEX*)pInfo));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
