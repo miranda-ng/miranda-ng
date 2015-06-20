@@ -727,7 +727,7 @@ CMString CSkypeProto::ChangeTopicForm()
 {
 	CMString caption(FORMAT, _T("[%s] %s"), _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
 	ENTER_STRING pForm = { sizeof(pForm) };
-	pForm.type = ESF_PASSWORD;
+	pForm.type = ESF_MULTILINE;
 	pForm.caption = caption;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
