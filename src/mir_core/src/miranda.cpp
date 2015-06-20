@@ -34,9 +34,10 @@ void CheckLogs();
 void InitLogs();
 void UninitLogs();
 
-void InitWinver();
+void InitHyperlink();
 void InitMetaContacts();
 void InitTimeZones();
+void InitWinver();
 
 int hLangpack = 0;
 HINSTANCE hInst = 0;
@@ -84,6 +85,7 @@ static void LoadCoreModule(void)
 	InitWinver();
 	InitPathUtils();
 	InitLogs();
+	InitHyperlink();
 	InitTimeZones();
 	InitialiseModularEngine();
 	InitMetaContacts();

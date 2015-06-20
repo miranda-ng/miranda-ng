@@ -30,7 +30,6 @@ INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 
 int  InitOpenUrl(void);
 int  InitPathUtils(void);
-int  InitHyperlink(void);
 int  InitColourPicker(void);
 void InitXmlApi(void);
 
@@ -378,7 +377,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
 	InitOpenUrl();
-	InitHyperlink();
 	InitPathUtils();
 	InitColourPicker();
 	InitXmlApi();
