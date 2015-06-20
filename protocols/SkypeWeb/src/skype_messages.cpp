@@ -165,6 +165,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId.c_str(), message, emoteOffset);
 			return;
 		}
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+
 		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
 		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
 		if (isEdited && dbevent != NULL)
