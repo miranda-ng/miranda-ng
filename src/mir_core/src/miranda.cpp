@@ -34,6 +34,7 @@ void CheckLogs();
 void InitLogs();
 void UninitLogs();
 
+void InitColourPicker();
 void InitHyperlink();
 void InitMetaContacts();
 void InitTimeZones();
@@ -85,6 +86,7 @@ static void LoadCoreModule(void)
 	InitWinver();
 	InitPathUtils();
 	InitLogs();
+	InitColourPicker();
 	InitHyperlink();
 	InitTimeZones();
 	InitialiseModularEngine();
