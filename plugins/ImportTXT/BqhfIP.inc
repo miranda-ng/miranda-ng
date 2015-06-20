@@ -96,7 +96,7 @@ begin
           dbei.szModule := PAnsiChar(proto);
           dbei.timestamp := RLInteger(pt + i + $12);
           dbei.timestamp := dbei.timestamp -
-            (Cardinal(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, dbei.timestamp, 0)) - dbei.timestamp); // приводим к GMT
+            (Cardinal(TimeZone_ToLocal(dbei.timestamp)) - dbei.timestamp); // приводим к GMT
           if PByte(pt + i + $1A)^ = $00 then
             dbei.flags := DBEF_READ or DBEF_UTF
           else

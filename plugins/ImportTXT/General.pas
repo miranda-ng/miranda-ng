@@ -476,14 +476,10 @@ end;
 
 function TimeStampToWStr(ts: DWORD): WideString;
 var
-  dbtts: TDBTIMETOSTRING;
   s: WideString;
 begin
   SetLength(s, 20);
-  dbtts.szFormat.w := 'd s';
-  dbtts.szDest.w := PWideChar(s);
-  dbtts.cbDest := 20;
-  CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, ts, int(@dbtts));
+  TimeZone_ToStringW(ts, 'd s', PWideChar(s), 20);
   result := s;
 end;
 

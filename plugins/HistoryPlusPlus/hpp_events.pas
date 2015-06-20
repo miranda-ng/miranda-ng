@@ -236,8 +236,7 @@ const
 // Miranda timestamp to TDateTime
 function TimestampToDateTime(const Timestamp: DWord): TDateTime;
 begin
-  Result := UnixTimeStart +
-    CallService(MS_DB_TIME_TIMESTAMPTOLOCAL,WPARAM(Timestamp),0) / SecondsPerDay;
+  Result := UnixTimeStart + TimeZone_ToLocal(Timestamp) / SecondsPerDay;
 end;
 
 // should probably add function param to use

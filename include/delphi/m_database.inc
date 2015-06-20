@@ -516,54 +516,6 @@ const
 
   MS_DB_EVENT_GETSTRINGT:PAnsiChar = 'DB/Event/GetStringT';
 
-//**************************** Time ********************************
-
-  {
-    wParam : timestamp (dword)
-    lParam : 0
-    Affect : Converts a GMT timestap into local time
-    Returns: Returns the converted value, see notes
-    Notes  : Timestamps have a zereo at midnight 1/1/1970 GMT, this service
-             converts such a value to be based at midnight 1/1/1970 local time.
-             This service does not use a simple conversion based on the current offset
-             between GMT and local. Rather, it figures out whether daylight savings time
-             would have been in place at the time of the stamp and gives the local time as
-             it would have been at the time and date the stamp contains.
-  }
-  MS_DB_TIME_TIMESTAMPTOLOCAL:PAnsiChar = 'DB/Time/TimestampToLocal';
-
-  {
-    wParam : timestamp (dword)
-    lParam : pointer to initalised DBTIMETOSTRING structure
-    Affect : Converts a GMT timestamp to a customisable local time string
-             see notes
-    Returns: Always returns 0
-    notes  : The string is formatted according to thhe current user's locale
-             language and preference.
-
-   szFormat can have the following special chars :
-      t  time without seconds, e.g. hh:mm
-      s  time with seconds, e.g. hh:mm:ss
-      m  time without minutes e.g. hh
-      d  short date, e.g. dd/mm/yyyy
-      D  long date, e.g. d mmmm yyyy
-      I  ISO 8061 Time yyyy-mm-ddThh:mm:ssZ
-
-   all other characters are copied as is.
-  }
-
-type
-  PDBTIMETOSTRING = ^TDBTIMETOSTRING;
-  TDBTIMETOSTRING = record
-    szFormat: TChar; // format string, see above
-    szDest  : TChar; // pointer to dest buffer to store the result
-    cbDest  : int;   // size of the buffer
-  end;
-
-const
-  MS_DB_TIME_TIMESTAMPTOSTRING :PAnsiChar = 'DB/Time/TimestampToString';
-  MS_DB_TIME_TIMESTAMPTOSTRINGT:PAnsiChar = 'DB/Time/TimestampToStringT';
-
 //*************************** Random *******************************
 
   {
