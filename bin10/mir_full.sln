@@ -384,7 +384,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exch
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebView\webview_10.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellExt\shellext_10.vcxproj", "{B27B85B5-0EF1-496D-99D7-0702A98A342A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellExt\shellext.vcxproj", "{B27B85B5-0EF1-496D-99D7-0702A98A342A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinterSpeak", "..\plugins\WinterSpeak\WinterSpeak_10.vcxproj", "{A44F96D0-A850-4A67-9570-0E9298A16E40}"
 EndProject

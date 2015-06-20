@@ -198,14 +198,13 @@ typedef int TSlotDrawTypes;
 typedef int (__stdcall TMenuCommandCallback)(
 	THeaderIPC *pipch,          // IPC header info, already mapped
    HANDLE hWorkThreadEvent,    // event object being waited on on miranda thread
-   HANDLE hAckEvent,           // ack event object that has been created
-   struct TMenuDrawInfo *psd); // command/draw info
+   HANDLE hAckEvent);          // ack event object that has been created
 
 struct TMenuDrawInfo
 {
 	char *szText, *szProfile;
 	int cch;
-	int wID; // should be the same as the menu item's ID
+	UINT wID;
    TSlotDrawTypes fTypes;
    MCONTACT hContact;
 	HICON hStatusIcon; // HICON from Self->ProtoIcons[index].hIcons[status]; Do not DestroyIcon()
@@ -219,7 +218,7 @@ struct TMenuDrawInfo
 void  ipcPrepareRequests(int ipcPacketSize, THeaderIPC *pipch, DWORD fRequests);
 DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC *pipch, DWORD dwTimeoutMsecs);
 TSlotIPC* ipcAlloc(THeaderIPC *pipch, int nSize);
-void ipcFixupAddresses(BOOL FromServer, THeaderIPC *pipch);
+void ipcFixupAddresses(THeaderIPC *pipch);
 
 TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth);
 TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth);

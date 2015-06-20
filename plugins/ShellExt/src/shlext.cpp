@@ -110,7 +110,7 @@ ULONG TShellExt::Release()
 	return ret;
 }
 
-HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE pidlFolder, IDataObject *pdtobj, HKEY hkeyProgID)
+HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE, IDataObject *pdtobj, HKEY)
 {
 	// DObj is a pointer to an instance of IDataObject which is a pointer itself
 	// it contains a pointer to a function table containing the function pointer
@@ -129,7 +129,7 @@ HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE pidlFolder, IDataObject *pdtobj,
 	return S_OK;
 }
 
-HRESULT TShellExt::GetCommandString(UINT_PTR idCmd, UINT uType, UINT *pReserved, LPSTR pszName, UINT cchMax)
+HRESULT TShellExt::GetCommandString(UINT_PTR, UINT, UINT*, LPSTR, UINT)
 {
 	return E_NOTIMPL;
 }
@@ -226,8 +226,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 int __stdcall ClearMRUIPC(
 	THeaderIPC *pipch,       // IPC header info, already mapped
 	HANDLE hWorkThreadEvent, // event object being waited on on miranda thread
-	HANDLE hAckEvent,        // ack event object that has been created
-	TMenuDrawInfo *psd)      // command/draw info
+	HANDLE hAckEvent)        // ack event object that has been created
 {
 	ipcPrepareRequests(IPC_PACKET_SIZE, pipch, REQUEST_CLEARMRU);
 	ipcSendRequest(hWorkThreadEvent, hAckEvent, pipch, 100);
@@ -276,7 +275,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 			char *sz = strtok(LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC) + UINT_PTR(pct->cbStrSection) + 1), "\\");
 			// restore the root
 			TGroupNode *pg = group;
-			unsigned Depth = 0;
+			int Depth = 0;
 			while (sz != NULL) {
 				UINT Hash = murmur_hash(sz);
 				// find this node within
@@ -605,7 +604,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 				lParam->ipch->pClientBaseAddress = lParam->ipch;
 				// fixup all the pointers to be relative to the memory map
 				// the base pointer of the client side version of the mapped file
-				ipcFixupAddresses(false, lParam->ipch);
+				ipcFixupAddresses(lParam->ipch);
 				// store the PID used to create the work event object
 				// that got replied to -- this is needed since each contact
 				// on the final menu maybe on a different instance and another OpenEvent() will be needed.
@@ -653,7 +652,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 
 		HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
 		if (hMap != 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
-			TEnumData ed;
+			TEnumData ed = { 0 };
 			// map the memory to this address space
 			THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 			if (pipch != NULL) {
@@ -771,7 +770,7 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 					if (hReply != 0) {
 						if (psd->fTypes & dtCommand) {
 							if (psd->MenuCommandCallback) 
-								hr = psd->MenuCommandCallback(pipch, hTransfer, hReply, psd);
+								hr = psd->MenuCommandCallback(pipch, hTransfer, hReply);
 						}
 						else {
 							// prepare the buffer

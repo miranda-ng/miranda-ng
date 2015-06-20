@@ -107,7 +107,7 @@ TSlotIPC* ipcAlloc(THeaderIPC *pipch, int nSize)
 	return p;
 }
 
-void ipcFixupAddresses(BOOL FromServer, THeaderIPC *pipch)
+void ipcFixupAddresses(THeaderIPC *pipch)
 {
 	if (pipch->pServerBaseAddress == pipch->pClientBaseAddress)
 		return;
