@@ -28,7 +28,7 @@
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>mir_core.mir</DelayLoadDLLs>
+      <DelayLoadDLLs>mir_core.mir;mir_app.mir</DelayLoadDLLs>
       <ModuleDefinitionFile>src/ShellExt.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
