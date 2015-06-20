@@ -63,7 +63,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	for (int i = iOrder; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, iOrder)) != CALLSERVICE_NOTFOUND) {
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, LPARAM(ccs))) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			return ret;
 		}
@@ -78,7 +78,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	if (pa->bOldProto)
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, -1, (LPARAM)ccs);
 	else
 		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
@@ -91,32 +91,8 @@ MIR_APP_DLL(INT_PTR) Proto_ChainSend(int iOrder, CCSDATA *ccs)
 
 MIR_APP_DLL(INT_PTR) CallContactService(MCONTACT hContact, const char *szProtoService, WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR ret;
 	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
-
-	for (int i = 0; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(hContact, filters[i]->szName, szProtoService, i + 1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
-			//chain was started, exit
-			return ret;
-		}
-	}
-
-	char szProto[40];
-	if (GetProtocolP(hContact, szProto, sizeof(szProto)))
-		return 1;
-
-	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-	if (pa == NULL || pa->ppro == NULL)
-		return 1;
-
-	if (pa->bOldProto)
-		ret = CallProtoServiceInt(hContact, szProto, szProtoService, (WPARAM)(-1), (LPARAM)&ccs);
-	else
-		ret = CallProtoServiceInt(hContact, szProto, szProtoService, wParam, lParam);
-	if (ret == CALLSERVICE_NOTFOUND)
-		ret = 1;
-
-	return ret;
+	return Proto_ChainSend(0, &ccs);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +135,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 		return 1;
 
 	if (pa->bOldProto)
-		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, (WPARAM)(-1), (LPARAM)ccs);
+		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, -1, (LPARAM)ccs);
 	else
 		ret = CallProtoServiceInt(ccs->hContact, szProto, ccs->szProtoService, ccs->wParam, ccs->lParam);
 	if (ret == CALLSERVICE_NOTFOUND)
