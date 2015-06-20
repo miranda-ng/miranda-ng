@@ -240,7 +240,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 	if (nIqId == -1 || pNode == NULL)
 		return false;
 
-	const TCHAR *szType = xmlGetAttrValue(pNode, _T("type"));
+	const TCHAR *szType = XmlGetAttrValue(pNode, _T("type"));
 	if (!szType)
 		return false;
 
@@ -260,24 +260,24 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		pInfo->m_nIqType = nIqType;
 		if (nIqType == JABBER_IQ_TYPE_RESULT) {
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NODE)
-				pInfo->m_pChildNode = xmlGetChild(pNode , 0);
+				pInfo->m_pChildNode = XmlGetChild(pNode , 0);
 
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NAME))
-				pInfo->m_szChildTagName = (TCHAR*)xmlGetName(pInfo->m_pChildNode);
+				pInfo->m_szChildTagName = (TCHAR*)XmlGetName(pInfo->m_pChildNode);
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_XMLNS))
-				pInfo->m_szChildTagXmlns = (TCHAR*)xmlGetAttrValue(pNode, _T("xmlns"));
+				pInfo->m_szChildTagXmlns = (TCHAR*)XmlGetAttrValue(pNode, _T("xmlns"));
 		}
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-			pInfo->m_szTo = (TCHAR*)xmlGetAttrValue(pNode, _T("to"));
+			pInfo->m_szTo = (TCHAR*)XmlGetAttrValue(pNode, _T("to"));
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-			pInfo->m_szFrom = (TCHAR*)xmlGetAttrValue(pNode, _T("from"));
+			pInfo->m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, _T("from"));
 		if (pInfo->m_szFrom && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT))
 			pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom, 3);
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_ID_STR)
-			pInfo->m_szId = (TCHAR*)xmlGetAttrValue(pNode, _T("id"));
+			pInfo->m_szId = (TCHAR*)XmlGetAttrValue(pNode, _T("id"));
 
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
@@ -291,7 +291,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 	for (int i = 0; i < m_arHandlers.getCount(); i++) {
 		CJabberIqPermanentInfo &pInfo = m_arHandlers[i];
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
-		const TCHAR *szType = xmlGetAttrValue(pNode, _T("type"));
+		const TCHAR *szType = XmlGetAttrValue(pNode, _T("type"));
 		if (!szType)
 			return FALSE;
 
@@ -307,12 +307,12 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		if (!(pInfo.m_nIqTypes & iqInfo.m_nIqType))
 			continue;
 
-		HXML pFirstChild = xmlGetChild(pNode , 0);
-		if (!pFirstChild || !xmlGetName(pFirstChild))
+		HXML pFirstChild = XmlGetChild(pNode , 0);
+		if (!pFirstChild || !XmlGetName(pFirstChild))
 			return FALSE;
 
-		const TCHAR *szTagName = xmlGetName(pFirstChild);
-		const TCHAR *szXmlns = xmlGetAttrValue(pFirstChild, _T("xmlns"));
+		const TCHAR *szTagName = XmlGetName(pFirstChild);
+		const TCHAR *szXmlns = XmlGetAttrValue(pFirstChild, _T("xmlns"));
 
 		if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) &&
 			 (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName)))
@@ -321,14 +321,14 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 			iqInfo.m_pChildNode = pFirstChild;
 			iqInfo.m_szChildTagName = (TCHAR*)szTagName;
 			iqInfo.m_szChildTagXmlns = (TCHAR*)szXmlns;
-			iqInfo.m_szId = (TCHAR*)xmlGetAttrValue(pNode, _T("id"));
+			iqInfo.m_szId = (TCHAR*)XmlGetAttrValue(pNode, _T("id"));
 			iqInfo.m_pUserData = pInfo.m_pUserData;
 
 			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-				iqInfo.m_szTo = (TCHAR*)xmlGetAttrValue(pNode, _T("to"));
+				iqInfo.m_szTo = (TCHAR*)XmlGetAttrValue(pNode, _T("to"));
 
 			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-				iqInfo.m_szFrom = (TCHAR*)xmlGetAttrValue(pNode, _T("from"));
+				iqInfo.m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, _T("from"));
 
 			if ((pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
 				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom, 3);

@@ -316,15 +316,15 @@ int GGPROTO::oauth_receivetoken()
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TCHAR *xmlAction = mir_a2t(resp->pData);
-			HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
+			HXML hXml = xmlParseString(xmlAction, 0, _T("result"));
 			if (hXml != NULL) {
-				HXML node = xi.getChildByPath(hXml, _T("oauth_token"), 0);
-				token = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+				HXML node = xmlGetChildByPath(hXml, _T("oauth_token"), 0);
+				token = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 
-				node = xi.getChildByPath(hXml, _T("oauth_token_secret"), 0);
-				token_secret = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+				node = xmlGetChildByPath(hXml, _T("oauth_token_secret"), 0);
+				token_secret = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 
-				xi.destroyNode(hXml);
+				xmlDestroyNode(hXml);
 			}
 			mir_free(xmlAction);
 		}
@@ -385,15 +385,15 @@ int GGPROTO::oauth_receivetoken()
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			TCHAR *xmlAction = mir_a2t(resp->pData);
-			HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
+			HXML hXml = xmlParseString(xmlAction, 0, _T("result"));
 			if (hXml != NULL) {
-				HXML node = xi.getChildByPath(hXml, _T("oauth_token"), 0);
-				token = mir_t2a(xi.getText(node));
+				HXML node = xmlGetChildByPath(hXml, _T("oauth_token"), 0);
+				token = mir_t2a(xmlGetText(node));
 
-				node = xi.getChildByPath(hXml, _T("oauth_token_secret"), 0);
-				token_secret = mir_t2a(xi.getText(node));
+				node = xmlGetChildByPath(hXml, _T("oauth_token_secret"), 0);
+				token_secret = mir_t2a(xmlGetText(node));
 
-				xi.destroyNode(hXml);
+				xmlDestroyNode(hXml);
 			}
 			mir_free(xmlAction);
 		}

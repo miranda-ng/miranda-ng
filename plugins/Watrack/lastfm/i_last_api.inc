@@ -223,9 +223,6 @@ begin
   result:=dst;
 end;
 
-var
-  xmlparser:TXML_API_W;
-
 function FixInfo(Info:pWideChar):pWideChar;
 var
   pc,ppc:pWideChar;
@@ -301,77 +298,73 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
-    CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-    with xmlparser do
-    begin
-      i:=StrLenW(pcw)*SizeOf(WideChar);
-      root:=parseString(pcw,@i,nil);
 
-      actnode:=getChild(getChild(root,0),0); // "artist"
+    i:=StrLenW(pcw)*SizeOf(WideChar);
+    root:=xmlParseString(pcw,@i,nil);
 
-      if data.artist=nil then
-        StrDupW(data.artist,getText(GetNthChild(actnode,'name',0)));
+    actnode:=xmlGetChild(xmlGetChild(root,0),0); // "artist"
 
-      i:=0;
-      repeat
-        node:=GetNthChild(actnode,'image',i);
-        if node=0 then break;
-        if StrCmpW(GetAttrValue(node,'size'),'medium')=0 then
-        begin
-          WideToUTF8(GetText(node),data.image);
-          break;
-        end;
-        inc(i);
-      until false;
+    if data.artist=nil then
+      StrDupW(data.artist,xmlGetText(xmlGetNthChild(actnode,'name',0)));
 
-      // bio
-      p:=StrPosW(pcw,'<content><![CDATA[');
-      if p<>nil then
+    i:=0;
+    repeat
+      node:=xmlGetNthChild(actnode,'image',i);
+      if node=0 then break;
+      if StrCmpW(xmlGetAttrValue(node,'size'),'medium')=0 then
       begin
-        inc(p,18);
-        pp:=StrPosW(p,']]');
-        if pp<> nil then pp^:=#0;
-        data.info:=FixInfo(p);
+        WideToUTF8(xmlGetText(node),data.image);
+        break;
       end;
+      inc(i);
+    until false;
 
-      // similar
-      i:=0;
-      pcw:=pWideChar(@request); pcw^:=#0;
-      node:=GetNthChild(actnode,'similar',0);
-      repeat
-        nnode:=GetNthChild(GetNthChild(node,'artist',i),'name',0);
-        if nnode=0 then break;
-        if pcw<>@request then
-        begin
-          pcw^:=','; inc(pcw);
-          pcw^:=' '; inc(pcw);
-        end;
-          pcw:=StrCopyEW(pcw,GetText(nnode));
-        inc(i);
-      until false;
-      pcw:=#0;
-      StrDupW(data.similar,pWideChar(@request));
-
-      // tags
-      i:=0;
-      pcw:=pWideChar(@request); pcw^:=#0;
-      node:=GetNthChild(actnode,'tags',0);
-      repeat
-        nnode:=GetNthChild(GetNthChild(node,'tag',i),'name',0);
-        if nnode=0 then break;
-        if pcw<>@request then
-        begin
-          pcw^:=','; inc(pcw);
-          pcw^:=' '; inc(pcw);
-        end;
-          pcw:=StrCopyEW(pcw,GetText(nnode));
-        inc(i);
-      until false;
-      pcw:=#0;
-      StrDupW(data.tags,pWideChar(@request));
-      DestroyNode(root);
+    // bio
+    p:=StrPosW(pcw,'<content><![CDATA[');
+    if p<>nil then
+    begin
+      inc(p,18);
+      pp:=StrPosW(p,']]');
+      if pp<> nil then pp^:=#0;
+      data.info:=FixInfo(p);
     end;
+
+    // similar
+    i:=0;
+    pcw:=pWideChar(@request); pcw^:=#0;
+    node:=xmlGetNthChild(actnode,'similar',0);
+    repeat
+      nnode:=xmlGetNthChild(xmlGetNthChild(node,'artist',i),'name',0);
+      if nnode=0 then break;
+      if pcw<>@request then
+      begin
+        pcw^:=','; inc(pcw);
+        pcw^:=' '; inc(pcw);
+      end;
+        pcw:=StrCopyEW(pcw,xmlGetText(nnode));
+      inc(i);
+    until false;
+    pcw:=#0;
+    StrDupW(data.similar,pWideChar(@request));
+
+    // tags
+    i:=0;
+    pcw:=pWideChar(@request); pcw^:=#0;
+    node:=xmlGetNthChild(actnode,'tags',0);
+    repeat
+      nnode:=xmlGetNthChild(xmlGetNthChild(node,'tag',i),'name',0);
+      if nnode=0 then break;
+      if pcw<>@request then
+      begin
+        pcw^:=','; inc(pcw);
+        pcw^:=' '; inc(pcw);
+      end;
+        pcw:=StrCopyEW(pcw,xmlGetText(nnode));
+      inc(i);
+    until false;
+    pcw:=#0;
+    StrDupW(data.tags,pWideChar(@request));
+    xmlDestroyNode(root);
   end;
 end;
 
@@ -424,62 +417,58 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
-    CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-    with xmlparser do
-    begin
-      i:=StrLenW(pcw)*SizeOf(WideChar);
-      root:=parseString(pcw,@i,nil);
 
-      actnode:=getChild(getChild(root,0),0); // "album"
+    i:=StrLenW(pcw)*SizeOf(WideChar);
+    root:=xmlParseString(pcw,@i,nil);
 
-      if data.album=nil then
-        StrDupW(data.album,getText(GetNthChild(actnode,'name',0)));
-      StrDupW(data.release,getText(GetNthChild(actnode,'releasedate',0)));
-      if data.artist=nil then
-        StrDupW(data.artist,getText(GetNthChild(actnode,'artist',0)));
+    actnode:=xmlGetChild(xmlGetChild(root,0),0); // "album"
 
-      i:=0;
-      repeat
-        node:=GetNthChild(actnode,'image',i);
-        if node=0 then break;
-        if StrCmpW(GetAttrValue(node,'size'),'medium')=0 then
-        begin
-          WideToUTF8(GetText(node),data.image);
-          break;
-        end;
-        inc(i);
-      until false;
+    if data.album=nil then
+      StrDupW(data.album,xmlGetText(xmlGetNthChild(actnode,'name',0)));
+    StrDupW(data.release,xmlGetText(xmlGetNthChild(actnode,'releasedate',0)));
+    if data.artist=nil then
+      StrDupW(data.artist,xmlGetText(xmlGetNthChild(actnode,'artist',0)));
 
-      p:=StrPosW(pcw,'<content><![CDATA[');
-      if p<>nil then
+    i:=0;
+    repeat
+      node:=xmlGetNthChild(actnode,'image',i);
+      if node=0 then break;
+      if StrCmpW(xmlGetAttrValue(node,'size'),'medium')=0 then
       begin
-        inc(p,18);
-        pp:=StrPosW(p,']]');
-        if pp<> nil then pp^:=#0;
-        data.info:=FixInfo(p);
+        WideToUTF8(xmlGetText(node),data.image);
+        break;
       end;
+      inc(i);
+    until false;
 
-      // tags
-      i:=0;
-      pcw:=pWideChar(@request); pcw^:=#0;
-      node:=GetNthChild(actnode,'toptags',0);
-      repeat
-        nnode:=GetNthChild(GetNthChild(node,'tag',i),'name',0);
-        if nnode=0 then break;
-        if pcw<>@request then
-        begin
-          pcw^:=','; inc(pcw);
-          pcw^:=' '; inc(pcw);
-        end;
-          pcw:=StrCopyEW(pcw,GetText(nnode));
-        inc(i);
-      until false;
-      pcw:=#0;
-      StrDupW(data.tags,pWideChar(@request));
-
-      DestroyNode(root);
+    p:=StrPosW(pcw,'<content><![CDATA[');
+    if p<>nil then
+    begin
+      inc(p,18);
+      pp:=StrPosW(p,']]');
+      if pp<> nil then pp^:=#0;
+      data.info:=FixInfo(p);
     end;
+
+    // tags
+    i:=0;
+    pcw:=pWideChar(@request); pcw^:=#0;
+    node:=xmlGetNthChild(actnode,'toptags',0);
+    repeat
+      nnode:=xmlGetNthChild(xmlGetNthChild(node,'tag',i),'name',0);
+      if nnode=0 then break;
+      if pcw<>@request then
+      begin
+        pcw^:=','; inc(pcw);
+        pcw^:=' '; inc(pcw);
+      end;
+        pcw:=StrCopyEW(pcw,xmlGetText(nnode));
+      inc(i);
+    until false;
+    pcw:=#0;
+    StrDupW(data.tags,pWideChar(@request));
+
+    xmlDestroyNode(root);
   end;
 end;
 
@@ -532,66 +521,62 @@ begin
   begin
     UTF8ToWide(res,pcw);
     mFreeMem(res);
-    xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
-    CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-    with xmlparser do
-    begin
-      i:=StrLenW(pcw)*SizeOf(WideChar);
-      root:=parseString(pcw,@i,nil);
 
-      actnode:=getChild(getChild(root,0),0); // "track"
-      if data.artist=nil then
-        StrDupW(data.artist,getText(GetNthChild(GetNthChild(actnode,'artist',0),'name',0)));
+    i:=StrLenW(pcw)*SizeOf(WideChar);
+    root:=xmlParseString(pcw,@i,nil);
 
-      anode:=GetNthChild(actnode,'album',i);
+    actnode:=xmlGetChild(xmlGetChild(root,0),0); // "track"
+    if data.artist=nil then
+      StrDupW(data.artist,xmlGetText(xmlGetNthChild(xmlGetNthChild(actnode,'artist',0),'name',0)));
 
-      if data.album=nil then
-        StrDupW(data.album,getText(GetNthChild(anode,'title',0)));
+    anode:=xmlGetNthChild(actnode,'album',i);
 
-      data.trknum:=StrToInt(getAttrValue(anode,'position'));
-      if data.title=nil then
-        StrDupW(data.title,getText(GetNthChild(actnode,'name',0)));
+    if data.album=nil then
+      StrDupW(data.album,xmlGetText(xmlGetNthChild(anode,'title',0)));
 
-      i:=0;
-      repeat
-        node:=GetNthChild(anode,'image',i);
-        if node=0 then break;
-        if StrCmpW(GetAttrValue(node,'size'),'medium')=0 then
-        begin
-          WideToUTF8(GetText(node),data.image);
-          break;
-        end;
-        inc(i);
-      until false;
+    data.trknum:=StrToInt(xmlGetAttrValue(anode,'position'));
+    if data.title=nil then
+      StrDupW(data.title,xmlGetText(xmlGetNthChild(actnode,'name',0)));
 
-      p:=StrPosW(pcw,'<content><![CDATA[');
-      if p<>nil then
+    i:=0;
+    repeat
+      node:=xmlGetNthChild(anode,'image',i);
+      if node=0 then break;
+      if StrCmpW(xmlGetAttrValue(node,'size'),'medium')=0 then
       begin
-        inc(p,18);
-        pp:=StrPosW(p,']]');
-        if pp<> nil then pp^:=#0;
-        data.info:=FixInfo(p);
+        WideToUTF8(xmlGetText(node),data.image);
+        break;
       end;
+      inc(i);
+    until false;
 
-      // tags
-      i:=0;
-      pcw:=pWideChar(@request); pcw^:=#0;
-      node:=GetNthChild(actnode,'toptags',0);
-      repeat
-        anode:=GetNthChild(GetNthChild(node,'tag',i),'name',0);
-        if anode=0 then break;
-        if pcw<>@request then
-        begin
-          pcw^:=','; inc(pcw);
-          pcw^:=' '; inc(pcw);
-        end;
-        pcw:=StrCopyEW(pcw,GetText(anode));
-        inc(i);
-      until false;
-      pcw:=#0;
-      StrDupW(data.tags,pWideChar(@request));
-
-      DestroyNode(root);
+    p:=StrPosW(pcw,'<content><![CDATA[');
+    if p<>nil then
+    begin
+      inc(p,18);
+      pp:=StrPosW(p,']]');
+      if pp<> nil then pp^:=#0;
+      data.info:=FixInfo(p);
     end;
+
+    // tags
+    i:=0;
+    pcw:=pWideChar(@request); pcw^:=#0;
+    node:=xmlGetNthChild(actnode,'toptags',0);
+    repeat
+      anode:=xmlGetNthChild(xmlGetNthChild(node,'tag',i),'name',0);
+      if anode=0 then break;
+      if pcw<>@request then
+      begin
+        pcw^:=','; inc(pcw);
+        pcw^:=' '; inc(pcw);
+      end;
+      pcw:=StrCopyEW(pcw,xmlGetText(anode));
+      inc(i);
+    until false;
+    pcw:=#0;
+    StrDupW(data.tags,pWideChar(@request));
+
+    xmlDestroyNode(root);
   end;
 end;

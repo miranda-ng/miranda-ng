@@ -298,20 +298,20 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	}
 
 	int errorCode = -1;
-	const TCHAR *str = xmlGetAttrValue(errorNode, _T("code"));
+	const TCHAR *str = XmlGetAttrValue(errorNode, _T("code"));
 	if (str != NULL)
 		errorCode = _ttoi(str);
 
-	str = xmlGetText(errorNode);
+	str = XmlGetText(errorNode);
 	if (str == NULL)
-		str = xmlGetText(xmlGetChild(errorNode, _T("text")));
+		str = XmlGetText(XmlGetChild(errorNode, _T("text")));
 	if (str == NULL) {
 		for (int i = 0;; i++) {
-			HXML c = xmlGetChild(errorNode, i);
+			HXML c = XmlGetChild(errorNode, i);
 			if (c == NULL) break;
-			const TCHAR *attr = xmlGetAttrValue(c, _T("xmlns"));
+			const TCHAR *attr = XmlGetAttrValue(c, _T("xmlns"));
 			if (attr && !mir_tstrcmp(attr, _T("urn:ietf:params:xml:ns:xmpp-stanzas"))) {
-				str = xmlGetName(c);
+				str = XmlGetName(c);
 				break;
 			}
 		}
@@ -416,7 +416,7 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 		p << XATTR(_T("to"), to);
 
 	if (extra)
-		xmlAddChild(p, extra);
+		XmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
 	HXML c = p << XCHILDNS(_T("c"), JABBER_FEAT_ENTITY_CAPS) << XATTR(_T("node"), JABBER_CAPS_MIRANDA_NODE)
@@ -465,7 +465,7 @@ void CJabberProto::SendPresenceTo(int status, const TCHAR* to, HXML extra, const
 			szExtCaps.AppendChar(' ');
 			szExtCaps += arrExtCaps[i];
 		}
-		xmlAddAttr(c, _T("ext"), szExtCaps);
+		XmlAddAttr(c, _T("ext"), szExtCaps);
 	}
 
 	if (m_options.EnableAvatars) {
@@ -540,7 +540,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 
 int __stdcall JabberGetPacketID(HXML n)
 {
-	const TCHAR *str = xmlGetAttrValue(n, _T("id"));
+	const TCHAR *str = XmlGetAttrValue(n, _T("id"));
 	if (str)
 		if (!_tcsncmp(str, _T(JABBER_IQID), _countof(JABBER_IQID) - 1))
 			return _ttoi(str + _countof(JABBER_IQID) - 1);
@@ -616,7 +616,7 @@ TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
-	if (LPCTSTR ptszType = xmlGetText(xmlGetChild(node, "TYPE")))
+	if (LPCTSTR ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
 		if (!mir_tstrcmp(ptszType, _T("image/jpeg")) ||
 			 !mir_tstrcmp(ptszType, _T("image/png")) ||
 			 !mir_tstrcmp(ptszType, _T("image/gif")) ||
@@ -872,11 +872,11 @@ BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime)
 {
-	HXML n = xmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
+	HXML n = XmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
 	if (n == NULL)
 		return false;
 
-	const TCHAR *ptszTimeStamp = xmlGetAttrValue(n, _T("stamp"));
+	const TCHAR *ptszTimeStamp = XmlGetAttrValue(n, _T("stamp"));
 	if (ptszTimeStamp == NULL)
 		return false;
 

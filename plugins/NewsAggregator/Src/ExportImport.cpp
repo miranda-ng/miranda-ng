@@ -43,45 +43,45 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR FileName[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName, _countof(FileName));
 				int bytesParsed = 0;
-				HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
+				HXML hXml = xmlParseFile(FileName, &bytesParsed, NULL);
 				if(hXml != NULL) {
 					HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
-					HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
+					HXML node = xmlGetChildByPath(hXml, _T("opml/body/outline"), 0);
 					if ( !node)
-						node = xi.getChildByPath(hXml, _T("body/outline"), 0);
+						node = xmlGetChildByPath(hXml, _T("body/outline"), 0);
 					int count = (int)SendMessage(FeedsImportList, LB_GETCOUNT, 0, 0);
 					int DUPES = 0;
 					if (node) {
 						while (node) {
-							int outlineAttr = xi.getAttrCount(node);
-							int outlineChildsCount = xi.getChildCount(node);
-							TCHAR *xmlUrl = (TCHAR *)xi.getAttrValue(node, _T("xmlUrl"));
+							int outlineAttr = xmlGetAttrCount(node);
+							int outlineChildsCount = xmlGetChildCount(node);
+							TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, _T("xmlUrl"));
 							if (!xmlUrl && !outlineChildsCount) {
 								HXML tmpnode = node;
-								node = xi.getNextNode(node);
+								node = xmlGetNextNode(node);
 								if ( !node) {
 									do {
 										node = tmpnode;
-										node = xi.getParent(node);
+										node = xmlGetParent(node);
 										tmpnode = node;
-										node = xi.getNextNode(node);
+										node = xmlGetNextNode(node);
 										if (node)
 											break;
-									} while (mir_tstrcmpi(xi.getName(node), _T("body")));
+									} while (mir_tstrcmpi(xmlGetName(node), _T("body")));
 								}
 							}
 							else if (!xmlUrl && outlineChildsCount)
-								node = xi.getFirstChild(node);
+								node = xmlGetFirstChild(node);
 							else if (xmlUrl) {
 								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
-									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
-										text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("text"))) {
+										text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if (!text) {
 											isTextUTF = 0;
-											text = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											text = (TCHAR *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
 										} else
 											isTextUTF = 1;
 
@@ -95,11 +95,11 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
-										url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("xmlUrl"))) {
+										url = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !url) {
 											isURLUTF = false;
-											url = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											url = (TCHAR *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
 										} else
 											isURLUTF = true;
 										if (GetContactByURL(url) && NeedToImport) {
@@ -108,11 +108,11 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
-										siteurl = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+									if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("htmlUrl"))) {
+										siteurl = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !siteurl) {
 											isSiteURLUTF = false;
-											siteurl = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											siteurl = (TCHAR *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
 										} else
 											isSiteURLUTF = true;
 										continue;
@@ -122,21 +122,21 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								}
 
 								if (NeedToImport) {
-									HXML parent = xi.getParent(node);
+									HXML parent = xmlGetParent(node);
 									TCHAR tmpgroup[1024];
-									while (mir_tstrcmpi(xi.getName(parent), _T("body"))) {
-										for (int i = 0; i < xi.getAttrCount(parent); i++) {
-											if (!mir_tstrcmpi(xi.getAttrName(parent, i), _T("text"))) {
+									while (mir_tstrcmpi(xmlGetName(parent), _T("body"))) {
+										for (int i = 0; i < xmlGetAttrCount(parent); i++) {
+											if (!mir_tstrcmpi(xmlGetAttrName(parent, i), _T("text"))) {
 												if ( !group)
-													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
+													group = (TCHAR *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
 												else {
-													mir_sntprintf(tmpgroup, _countof(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
+													mir_sntprintf(tmpgroup, _countof(tmpgroup), _T("%s\\%s"), xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
 												break;
 											}
 										}
-										parent = xi.getParent(parent);
+										parent = xmlGetParent(parent);
 									}
 
 									TCHAR *utfgroup = NULL;
@@ -187,22 +187,22 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									mir_free(siteurl);
 
 								HXML tmpnode = node;
-								node = xi.getNextNode(node);
+								node = xmlGetNextNode(node);
 								if ( !node) {
 									do {
 										node = tmpnode;
-										node = xi.getParent(node);
+										node = xmlGetParent(node);
 										tmpnode = node;
-										node = xi.getNextNode(node);
+										node = xmlGetNextNode(node);
 										if (node)
 											break;
 									}
-										while (mir_tstrcmpi(xi.getName(tmpnode), _T("body")));
+										while (mir_tstrcmpi(xmlGetName(tmpnode), _T("body")));
 								}
 							}
 						}
 					}
-					xi.destroyNode(hXml);
+					xmlDestroyNode(hXml);
 					if (hwndList) {
 						DeleteAllItems(hwndList);
 						UpdateList(hwndList);
@@ -241,40 +241,40 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				if (GetOpenFileName(&ofn)) {
 					int bytesParsed = 0;
-					HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
+					HXML hXml = xmlParseFile(FileName, &bytesParsed, NULL);
 					if(hXml != NULL) {
-						HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
+						HXML node = xmlGetChildByPath(hXml, _T("opml/body/outline"), 0);
 						if ( !node)
-							node = xi.getChildByPath(hXml, _T("body/outline"), 0);
+							node = xmlGetChildByPath(hXml, _T("body/outline"), 0);
 						if (node) {
 							while (node) {
-								int outlineAttr = xi.getAttrCount(node);
-								int outlineChildsCount = xi.getChildCount(node);
-								TCHAR *xmlUrl = (TCHAR *)xi.getAttrValue(node, _T("xmlUrl"));
+								int outlineAttr = xmlGetAttrCount(node);
+								int outlineChildsCount = xmlGetChildCount(node);
+								TCHAR *xmlUrl = (TCHAR *)xmlGetAttrValue(node, _T("xmlUrl"));
 								if (!xmlUrl && !outlineChildsCount) {
 									HXML tmpnode = node;
-									node = xi.getNextNode(node);
+									node = xmlGetNextNode(node);
 									if ( !node) {
 										do {
 											node = tmpnode;
-											node = xi.getParent(node);
+											node = xmlGetParent(node);
 											tmpnode = node;
-											node = xi.getNextNode(node);
+											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xi.getName(node), _T("body")));
+										} while (mir_tstrcmpi(xmlGetName(node), _T("body")));
 									}
 								}
 								else if (!xmlUrl && outlineChildsCount)
-									node = xi.getFirstChild(node);
+									node = xmlGetFirstChild(node);
 								else if (xmlUrl) {
 									for (int i = 0; i < outlineAttr; i++) {
-										if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
-											TCHAR *text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+										if (!mir_tstrcmpi(xmlGetAttrName(node, i), _T("text"))) {
+											TCHAR *text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 											bool isTextUTF;
 											if (!text) {
 												isTextUTF = false;
-												text = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+												text = (TCHAR *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
 											} else
 												isTextUTF = true;
 											SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)text);
@@ -287,23 +287,23 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 
 									HXML tmpnode = node;
-									node = xi.getNextNode(node);
+									node = xmlGetNextNode(node);
 									if ( !node) {
 										do {
 											node = tmpnode;
-											node = xi.getParent(node);
+											node = xmlGetParent(node);
 											tmpnode = node;
-											node = xi.getNextNode(node);
+											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xi.getName(tmpnode), _T("body")));
+										} while (mir_tstrcmpi(xmlGetName(tmpnode), _T("body")));
 									}
 								}
 							}
 						}
 						else
 							MessageBox(hwndDlg, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
-						xi.destroyNode(hXml);
+						xmlDestroyNode(hXml);
 						SetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName);
 					}
 					else
@@ -503,11 +503,11 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ofn.lpstrDefExt = _T("");
 
 				if (GetSaveFileName(&ofn)) {
-					HXML hXml = xi.createNode(_T("opml"), NULL, FALSE);
-					xi.addAttr(hXml, _T("version"), _T("1.0"));
-					HXML header = xi.addChild(hXml, _T("head"), NULL);
-					xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
-					header = xi.addChild(hXml, _T("body"), NULL);
+					HXML hXml = xmlCreateNode(_T("opml"), NULL, FALSE);
+					xmlAddAttr(hXml, _T("version"), _T("1.0"));
+					HXML header = xmlAddChild(hXml, _T("head"), NULL);
+					xmlAddChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
+					header = xmlAddChild(hXml, _T("body"), NULL);
 
 					int count = (int)SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
 					for (int i = 0; i < count; i++) {
@@ -526,34 +526,34 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							TCHAR *section = _tcstok(group, _T("\\"));
 							while (section != NULL)
 							{
-								HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
+								HXML existgroup = xmlGetChildByAttrValue(header, _T("outline"), _T("title"), section);
 								if ( !existgroup)
 								{
-									elem = xi.addChild(elem, _T("outline"), NULL);
-									xi.addAttr(elem, _T("title"), section);
-									xi.addAttr(elem, _T("text"), section);
+									elem = xmlAddChild(elem, _T("outline"), NULL);
+									xmlAddAttr(elem, _T("title"), section);
+									xmlAddAttr(elem, _T("text"), section);
 								} else {
 									elem = existgroup;
 								}
 								section = _tcstok(NULL, _T("\\"));
 							}
-							elem = xi.addChild(elem, _T("outline"), NULL);
+							elem = xmlAddChild(elem, _T("outline"), NULL);
 						}
 						else
-							elem = xi.addChild(elem, _T("outline"), NULL);
-						xi.addAttr(elem, _T("text"), title);
-						xi.addAttr(elem, _T("title"), title);
-						xi.addAttr(elem, _T("type"), _T("rss"));
-						xi.addAttr(elem, _T("xmlUrl"), url);
-						xi.addAttr(elem, _T("htmlUrl"), siteurl);
+							elem = xmlAddChild(elem, _T("outline"), NULL);
+						xmlAddAttr(elem, _T("text"), title);
+						xmlAddAttr(elem, _T("title"), title);
+						xmlAddAttr(elem, _T("type"), _T("rss"));
+						xmlAddAttr(elem, _T("xmlUrl"), url);
+						xmlAddAttr(elem, _T("htmlUrl"), siteurl);
 
 						mir_free(title);
 						mir_free(url);
 						mir_free(siteurl);
 						mir_free(group);
 					}
-					xi.toFile(hXml, FileName, 1);
-					xi.destroyNode(hXml);
+					xmlToFile(hXml, FileName, 1);
+					xmlDestroyNode(hXml);
 				}
 			}
 

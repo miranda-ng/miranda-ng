@@ -42,9 +42,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 		}
 		else {
 			TCHAR buf[512];
-			HXML bodyNode = xmlGetChild(node, "body");
+			HXML bodyNode = XmlGetChild(node, "body");
 			if (bodyNode)
-				mir_sntprintf(buf, _T("%s:\n%s\n%s"), pInfo->GetFrom(), xmlGetText(bodyNode), szErrText);
+				mir_sntprintf(buf, _T("%s:\n%s\n%s"), pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
 			else
 				mir_sntprintf(buf, _T("%s:\n%s"), pInfo->GetFrom(), szErrText);
 
@@ -58,10 +58,10 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 BOOL CJabberProto::OnMessageIbb(HXML, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
-	const TCHAR *sid = xmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
-	const TCHAR *seq = xmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
-	if (sid && seq && xmlGetText(pInfo->GetChildNode()))
-		bOk = OnIbbRecvdData(xmlGetText(pInfo->GetChildNode()), sid, seq);
+	const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
+	const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
+	if (sid && seq && XmlGetText(pInfo->GetChildNode()))
+		bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
 
 	return TRUE;
 }
@@ -82,7 +82,7 @@ BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData*, CJabberMessageInfo
 	else { 
 //			TCHAR *conference = NEWTSTR_ALLOCA(from);
 //			if (TCHAR *s = _tcschr(conference, _T('/'))) *s = 0;
-//			XmlNode p("presence"); xmlAddAttr(p, "to", conference); xmlAddAttr(p, "type", "unavailable");
+//			XmlNode p("presence"); XmlAddAttr(p, "to", conference); XmlAddAttr(p, "type", "unavailable");
 //			info->send(p);
 	}
 	return TRUE;

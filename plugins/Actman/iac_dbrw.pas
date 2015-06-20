@@ -389,79 +389,40 @@ begin
     end;
 
     1: begin
-      with xmlparser do
+      tmp:=xmlGetAttrValue(HXML(node),ioOper);
+      if      lstrcmpiw(tmp,ioDelete)=0 then flags:=flags or ACF_DBDELETE
+      else if lstrcmpiw(tmp,ioWrite )=0 then flags:=flags or ACF_DBWRITE;
+      tmp:=xmlGetAttrValue(HXML(node),ioContact);
+      if      lstrcmpiw(tmp,ioCurrent)=0 then flags:=flags or ACF_CURRENT
+      else if lstrcmpiw(tmp,ioResult )=0 then flags:=flags or ACF_RESULT
+      else if lstrcmpiw(tmp,ioParam  )=0 then flags:=flags or ACF_PARAM
+      else if lstrcmpiw(tmp,ioContact)=0 then
       begin
-        tmp:=getAttrValue(HXML(node),ioOper);
-        if      lstrcmpiw(tmp,ioDelete)=0 then flags:=flags or ACF_DBDELETE
-        else if lstrcmpiw(tmp,ioWrite )=0 then flags:=flags or ACF_DBWRITE;
-  //      else if lstrcmpiw(tmp,ioRead)=0 then ;
-        tmp:=getAttrValue(HXML(node),ioContact);
-        if      lstrcmpiw(tmp,ioCurrent)=0 then flags:=flags or ACF_CURRENT
-        else if lstrcmpiw(tmp,ioResult )=0 then flags:=flags or ACF_RESULT
-        else if lstrcmpiw(tmp,ioParam  )=0 then flags:=flags or ACF_PARAM
-        else if lstrcmpiw(tmp,ioContact)=0 then
-        begin
-          dbcontact:=ImportContact(HXML(node));
-        end;
+        dbcontact:=ImportContact(HXML(node));
+      end;
 
-        StrDupW(dbmodule ,getAttrValue(HXML(node),ioModule));
-        StrDupW(dbsetting,getAttrValue(HXML(node),ioSetting));
+      StrDupW(dbmodule ,xmlGetAttrValue(HXML(node),ioModule));
+      StrDupW(dbsetting,xmlGetAttrValue(HXML(node),ioSetting));
 
-        if StrToInt(getAttrValue(HXML(node),ioFileVariable))=1 then flags:=flags or ACF_RW_MODULE;
-        if StrToInt(getAttrValue(HXML(node),ioArgVariable ))=1 then flags:=flags or ACF_RW_SETTING;
-        if StrToInt(getAttrValue(HXML(node),ioVariables   ))=1 then flags:=flags or ACF_RW_VALUE;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioFileVariable))=1 then flags:=flags or ACF_RW_MODULE;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable ))=1 then flags:=flags or ACF_RW_SETTING;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables   ))=1 then flags:=flags or ACF_RW_VALUE;
 	
-        tmp:=getAttrValue(HXML(node),ioType);
-        if      lstrcmpiw(tmp,ioByte )=0 then flags:=flags or ACF_DBBYTE
-        else if lstrcmpiw(tmp,ioWord )=0 then flags:=flags or ACF_DBWORD
-        else if lstrcmpiw(tmp,ioDword)=0 then
-        else if lstrcmpiw(tmp,ioAnsi )=0 then flags:=flags or ACF_DBANSI
-        else                                  flags:=flags or ACF_DBUTEXT;
+      tmp:=xmlGetAttrValue(HXML(node),ioType);
+      if      lstrcmpiw(tmp,ioByte )=0 then flags:=flags or ACF_DBBYTE
+      else if lstrcmpiw(tmp,ioWord )=0 then flags:=flags or ACF_DBWORD
+      else if lstrcmpiw(tmp,ioDword)=0 then
+      else if lstrcmpiw(tmp,ioAnsi )=0 then flags:=flags or ACF_DBANSI
+      else                                  flags:=flags or ACF_DBUTEXT;
 
-        if StrToInt(getAttrValue(HXML(node),ioSaveValue))=1 then
-          flags:=flags or ACF_SAVE;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioSaveValue))=1 then
+        flags:=flags or ACF_SAVE;
 
-        if StrToInt(getAttrValue(HXML(node),ioLast))=1 then
-          flags:=flags or ACF_LAST
-        else
-          StrDupW(dbvalue,getText(HXML(node)));
-      end;
-    end;
-{
-    2: begin
-      pc:=GetParamSectionStr(node,ioOper);
-      if      lstrcmpi(pc,ioDelete)=0 then flags:=flags or ACF_DBDELETE
-      else if lstrcmpi(pc,ioWrite )=0 then flags:=flags or ACF_DBWRITE;
-//      else if lstrcmpiw(tmp,ioRead)=0 then ;
-      pc:=GetParamSectionStr(node,ioContact);
-      if      lstrcmpi(pc,ioCurrent)=0 then flags:=flags or ACF_CURRENT
-      else if lstrcmpi(pc,ioResult )=0 then flags:=flags or ACF_RESULT
-      else if lstrcmpi(pc,ioParam  )=0 then flags:=flags or ACF_PARAM
-      else if lstrcmpi(pc,ioContact)=0 then
-      begin
-        dbcontact:=ImportContactINI(node);
-      end;
-
-      UF8ToWide(GetParamSectionStr(node,ioModule ),dbmodule);
-      UF8ToWide(GetParamSectionStr(node,ioSetting),dbsetting);
-
-      if GetParamSectionInt(node,ioFileVariable)=1 then flags:=flags or ACF_RW_MODULE;
-      if GetParamSectionInt(node,ioArgVariable )=1 then flags:=flags or ACF_RW_SETTING;
-      if GetParamSectionInt(node,ioVariables   )=1 then flags:=flags or ACF_RW_VALUE;
-
-      pc:=GetParamSectionStr(node,ioType);
-      if      lstrcmpi(pc,ioByte )=0 then flags:=flags or ACF_DBBYTE
-      else if lstrcmpi(pc,ioWord )=0 then flags:=flags or ACF_DBWORD
-      else if lstrcmpi(pc,ioDword)=0 then
-      else if lstrcmpi(pc,ioAnsi )=0 then flags:=flags or ACF_DBANSI
-      else                                flags:=flags or ACF_DBUTEXT;
-
-      if GetParamSectionInt(node,ioLast))=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioLast))=1 then
         flags:=flags or ACF_LAST
       else
-        UF8ToWide(GetParamSectionStr(node,'value'),dbvalue); //!!
+        StrDupW(dbvalue,xmlGetText(HXML(node)));
     end;
-}
   end;
 end;
 

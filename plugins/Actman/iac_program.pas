@@ -244,30 +244,27 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        StrDupW(prgname,getText(HXML(node)));
-        StrDupW(args,getAttrValue(HXML(node),ioArgs));
-        if StrToInt(getAttrValue(HXML(node),ioCurrent))=1 then
-          flags:=flags or ACF_CURPATH;
+      StrDupW(prgname,xmlGetText(HXML(node)));
+      StrDupW(args,xmlGetAttrValue(HXML(node),ioArgs));
+      if StrToInt(xmlGetAttrValue(HXML(node),ioCurrent))=1 then
+        flags:=flags or ACF_CURPATH;
 
-        if StrToInt(getAttrValue(HXML(node),ioParallel))=1 then
-          flags:=flags or ACF_PRTHREAD
-        else
-          time:=StrToInt(getAttrValue(HXML(node),ioWait));
+      if StrToInt(xmlGetAttrValue(HXML(node),ioParallel))=1 then
+        flags:=flags or ACF_PRTHREAD
+      else
+        time:=StrToInt(xmlGetAttrValue(HXML(node),ioWait));
 
-        if StrToInt(getAttrValue(HXML(node),ioFileVariable))=1 then
-          flags:=flags or ACF_PRG_PRG;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioFileVariable))=1 then
+        flags:=flags or ACF_PRG_PRG;
 
-        if StrToInt(getAttrValue(HXML(node),ioArgVariable))=1 then
-          flags:=flags or ACF_PRG_ARG;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable))=1 then
+        flags:=flags or ACF_PRG_ARG;
 
-        tmp:=getAttrValue(HXML(node),ioWindow);
-        if      lstrcmpiw(tmp,ioHidden   )=0 then show:=SW_HIDE
-        else if lstrcmpiw(tmp,ioMinimized)=0 then show:=SW_SHOWMINIMIZED
-        else if lstrcmpiw(tmp,ioMaximized)=0 then show:=SW_SHOWMAXIMIZED
-        else                                      show:=SW_SHOWNORMAL;
-      end;
+      tmp:=xmlGetAttrValue(HXML(node),ioWindow);
+      if      lstrcmpiw(tmp,ioHidden   )=0 then show:=SW_HIDE
+      else if lstrcmpiw(tmp,ioMinimized)=0 then show:=SW_SHOWMINIMIZED
+      else if lstrcmpiw(tmp,ioMaximized)=0 then show:=SW_SHOWMAXIMIZED
+      else                                      show:=SW_SHOWNORMAL;
     end;
 {
     2: begin

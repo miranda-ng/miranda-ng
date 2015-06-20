@@ -506,10 +506,10 @@ CMString CJabberProto::ExtractImage(HXML node)
 	LPCTSTR src;
 	CMString link;
 
-	if ((nHtml = xmlGetChild(node, "html")) != NULL &&
-		(nBody = xmlGetChild(nHtml, "body")) != NULL &&
-		(nImg = xmlGetChild(nBody, "img")) != NULL &&
-		(src = xmlGetAttrValue(nImg, _T("src"))) != NULL) {
+	if ((nHtml = XmlGetChild(node, "html")) != NULL &&
+		(nBody = XmlGetChild(nHtml, "body")) != NULL &&
+		(nImg = XmlGetChild(nBody, "img")) != NULL &&
+		(src = XmlGetAttrValue(nImg, _T("src"))) != NULL) {
 
 		CMString strSrc(src);
 		if (strSrc.Left(11).Compare(L"data:image/") == 0) {

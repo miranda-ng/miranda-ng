@@ -57,7 +57,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		CJabberMessageInfo messageInfo;
 
-		LPCTSTR szType = xmlGetAttrValue(node, _T("type"));
+		LPCTSTR szType = XmlGetAttrValue(node, _T("type"));
 		if (szType) {
 			if (!mir_tstrcmpi(szType, _T("normal")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
@@ -75,12 +75,12 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 		else messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
 
 		if (pInfo.m_nMessageTypes & messageInfo.m_nMessageType) {
-			for (int i = xmlGetChildCount(node) - 1; i >= 0; i--) {
+			for (int i = XmlGetChildCount(node) - 1; i >= 0; i--) {
 				// enumerate all children and see whether this node suits handler criteria
-				HXML child = xmlGetChild(node, i);
+				HXML child = XmlGetChild(node, i);
 
-				LPCTSTR szTagName = xmlGetName(child);
-				LPCTSTR szXmlns = xmlGetAttrValue(child, _T("xmlns"));
+				LPCTSTR szTagName = XmlGetName(child);
+				LPCTSTR szXmlns = XmlGetAttrValue(child, _T("xmlns"));
 
 				if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
@@ -88,13 +88,13 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 					messageInfo.m_szChildTagName = szTagName;
 					messageInfo.m_szChildTagXmlns = szXmlns;
 					messageInfo.m_pUserData = pInfo.m_pUserData;
-					messageInfo.m_szFrom = xmlGetAttrValue(node, _T("from")); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
+					messageInfo.m_szFrom = XmlGetAttrValue(node, _T("from")); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
 
 					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
-						messageInfo.m_szId = xmlGetAttrValue(node, _T("id"));
+						messageInfo.m_szId = XmlGetAttrValue(node, _T("id"));
 
 					if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-						messageInfo.m_szTo = xmlGetAttrValue(node, _T("to"));
+						messageInfo.m_szTo = XmlGetAttrValue(node, _T("to"));
 
 					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom, 3);

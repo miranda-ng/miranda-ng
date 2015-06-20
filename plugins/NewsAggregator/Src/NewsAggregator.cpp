@@ -25,7 +25,6 @@ int hLangpack;
 HANDLE hPrebuildMenuHook = NULL;
 HWND hAddFeedDlg;
 MWindowList hChangeFeedDlgList = NULL;
-XML_API xi = {0};
 TCHAR tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
 
@@ -57,7 +56,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getXI(&xi);
 
 	// Add options hook
 	HookEvent(ME_OPT_INITIALISE, OptInit);

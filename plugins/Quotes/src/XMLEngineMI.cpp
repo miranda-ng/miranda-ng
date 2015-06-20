@@ -1,7 +1,5 @@
 #include "StdAfx.h"
 
-XML_API xi;
-
 namespace
 {
 	class CXMLNodeMI : public IXMLNode,
@@ -20,18 +18,18 @@ namespace
 		{
 			if (m_bDestroy)
 			{
-				xi.destroyNode(m_hXML);
+				xmlDestroyNode(m_hXML);
 			}
 		}
 
 		virtual size_t GetChildCount()const
 		{
-			return xi.getChildCount(m_hXML);
+			return xmlGetChildCount(m_hXML);
 		}
 
 		virtual TXMLNodePtr GetChildNode(size_t nIndex)const
 		{
-			HXML h = xi.getChild(m_hXML, (int)nIndex);
+			HXML h = xmlGetChild(m_hXML, (int)nIndex);
 			if (h)
 			{
 				return TXMLNodePtr(new CXMLNodeMI(h));
@@ -45,7 +43,7 @@ namespace
 		virtual tstring GetText()const
 		{
 			tstring sResult;
-			LPCTSTR psz = xi.getText(m_hXML);
+			LPCTSTR psz = xmlGetText(m_hXML);
 			if (psz)
 			{
 				sResult = psz;
@@ -57,7 +55,7 @@ namespace
 		virtual tstring GetName()const
 		{
 			tstring sResult;
-			LPCTSTR psz = xi.getName(m_hXML);
+			LPCTSTR psz = xmlGetName(m_hXML);
 			if (psz)
 			{
 				sResult = psz;
@@ -71,7 +69,7 @@ namespace
 			CXMLNodeMI* pXML = dynamic_cast<CXMLNodeMI*>(pNode.get());
 			if (pXML)
 			{
-				xi.addChild2(pXML->m_hXML, m_hXML);
+				xmlAddChild2(pXML->m_hXML, m_hXML);
 				pXML->m_bDestroy = false;
 				return true;
 			}
@@ -83,13 +81,13 @@ namespace
 
 		virtual bool AddAttribute(const tstring& rsName, const tstring& rsValue)
 		{
-			xi.addAttr(m_hXML, rsName.c_str(), rsValue.c_str());
+			xmlAddAttr(m_hXML, rsName.c_str(), rsValue.c_str());
 			return true;
 		}
 
 		virtual tstring GetAttributeValue(const tstring& rsAttrName)
 		{
-			LPCTSTR pszValue = xi.getAttrValue(m_hXML, rsAttrName.c_str());
+			LPCTSTR pszValue = xmlGetAttrValue(m_hXML, rsAttrName.c_str());
 			return ((NULL != pszValue) ? tstring(pszValue) : tstring());
 		}
 
@@ -98,7 +96,7 @@ namespace
 			// 			struct safe_string
 			// 			{				
 			// 				safe_string(LPTSTR p):m_p(p){}
-			// 				~safe_string(){xi.freeMem(m_p);}
+			// 				~safe_string(){xmlFree(m_p);}
 			// 
 			// 				LPTSTR m_p;
 			// 			};
@@ -112,7 +110,7 @@ namespace
 			// 			};
 
 
-			safe_string<TCHAR> ss(xi.toString(m_hXML, NULL));
+			safe_string<TCHAR> ss(xmlToString(m_hXML, NULL));
 			if (ss.m_p)
 				o << (char*)T2Utf(ss.m_p);
 		}
@@ -160,7 +158,7 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 				mir_safe_string<TCHAR> ss(mir_utf8decodeT(pBuffer));
 				if (ss.m_p)
 				{
-					HXML h = xi.parseString(ss.m_p, &nLen, NULL);
+					HXML h = xmlParseString(ss.m_p, &nLen, NULL);
 					if (h)
 					{
 						pResult = IXMLNode::TXMLNodePtr(new CXMLNodeMI(h, true));
@@ -179,7 +177,7 @@ namespace
 	IXMLNode::TXMLNodePtr create_node(const tstring& rsName, const tstring& rsText, bool bIsDecl)
 	{
 		IXMLNode::TXMLNodePtr pResult;
-		HXML h = xi.createNode(rsName.c_str(), rsText.c_str(), bIsDecl);
+		HXML h = xmlCreateNode(rsName.c_str(), rsText.c_str(), bIsDecl);
 		if (h)
 		{
 			pResult = IXMLNode::TXMLNodePtr(new CXMLNodeMI(h, true));

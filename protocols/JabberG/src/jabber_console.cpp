@@ -83,7 +83,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent);
 void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 {
 	if (node && m_pDlgConsole) {
-		if (xmlGetName(node)) {
+		if (XmlGetName(node)) {
 			if (FilterXml(node, flags)) {
 				StringBuf buf = {0};
 				sttAppendBufRaw(&buf, RTF_HEADER);
@@ -95,20 +95,20 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 			}
 		}
 		else {
-			for (int i=0; i < xmlGetChildCount(node); i++)
-				OnConsoleProcessXml(xmlGetChild(node, i), flags);
+			for (int i=0; i < XmlGetChildCount(node); i++)
+				OnConsoleProcessXml(XmlGetChild(node, i), flags);
 		}
 	}
 }
 
 bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 {
-	for (int i = 0; i < xmlGetAttrCount(node); i++)
-		if (JabberStrIStr(xmlGetAttr(node, i), m_filterInfo.pattern))
+	for (int i = 0; i < XmlGetAttrCount(node); i++)
+		if (JabberStrIStr(XmlGetAttr(node, i), m_filterInfo.pattern))
 			return true;
 
-	for (int i = 0; i < xmlGetChildCount(node); i++)
-		if (RecursiveCheckFilter(xmlGetChild(node, i), flags))
+	for (int i = 0; i < XmlGetChildCount(node); i++)
+		if (RecursiveCheckFilter(XmlGetChild(node, i), flags))
 			return true;
 
 	return false;
@@ -116,9 +116,9 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 bool CJabberProto::FilterXml(HXML node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !mir_tstrcmp(xmlGetName(node), _T("message"))) return false;
-	if (!m_filterInfo.presence && !mir_tstrcmp(xmlGetName(node), _T("presence"))) return false;
-	if (!m_filterInfo.iq && !mir_tstrcmp(xmlGetName(node), _T("iq"))) return false;
+	if (!m_filterInfo.msg && !mir_tstrcmp(XmlGetName(node), _T("message"))) return false;
+	if (!m_filterInfo.presence && !mir_tstrcmp(XmlGetName(node), _T("presence"))) return false;
+	if (!m_filterInfo.iq && !mir_tstrcmp(XmlGetName(node), _T("iq"))) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	mir_cslock lck(m_filterInfo.csPatternLock);
@@ -126,14 +126,14 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 	const TCHAR *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
-		attrValue = xmlGetAttrValue(node, (flags & JCPF_OUT) ? _T("to") : _T("from"));
+		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? _T("to") : _T("from"));
 		if (attrValue)
 			return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		break;
 
 	case TFilterInfo::T_XMLNS:
-		if (xmlGetChildCount(node)) {
-			attrValue = xmlGetAttrValue(xmlGetChild(node, 0), _T("xmlns"));
+		if (XmlGetChildCount(node)) {
+			attrValue = XmlGetAttrValue(XmlGetChild(node, 0), _T("xmlns"));
 			if (attrValue)
 				return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		}
@@ -202,10 +202,10 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	if (flags&JCPF_OUT)	sttAppendBufRaw(buf, "\\highlight4 ");
 	sttAppendBufRaw(buf, "<");
 	sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-	sttAppendBufW(buf, (TCHAR*)xmlGetName(node));
+	sttAppendBufW(buf, (TCHAR*)XmlGetName(node));
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
-	for (int i = 0; i < xmlGetAttrCount(node); i++) {
+	for (int i = 0; i < XmlGetAttrCount(node); i++) {
 		TCHAR *attr = (TCHAR*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
@@ -213,39 +213,39 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 		sttAppendBufRaw(buf, RTF_ENDATTRNAME);
 		sttAppendBufRaw(buf, "=\"");
 		sttAppendBufRaw(buf, RTF_BEGINATTRVAL);
-		sttAppendBufT(buf, (TCHAR*)xmlGetAttr(node, i));
+		sttAppendBufT(buf, (TCHAR*)XmlGetAttr(node, i));
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
 
-	if (xmlGetChild(node) || xmlGetText(node)) {
+	if (XmlGetChild(node) || XmlGetText(node)) {
 		sttAppendBufRaw(buf, ">");
-		if (xmlGetChild(node))
+		if (XmlGetChild(node))
 			sttAppendBufRaw(buf, RTF_ENDTAG);
 	}
 
-	if (xmlGetText(node)) {
-		if (xmlGetChildCount(node)) {
+	if (XmlGetText(node)) {
+		if (XmlGetChildCount(node)) {
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
 			char indentTextLevel[128];
 			mir_snprintf(indentTextLevel, _countof(indentTextLevel), RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
 		}
 
-		sttAppendBufT(buf, xmlGetText(node));
-		if (xmlGetChild(node))
+		sttAppendBufT(buf, XmlGetText(node));
+		if (XmlGetChild(node))
 			sttAppendBufRaw(buf, RTF_ENDTEXT);
 	}
 
-	for (int i = 0; i < xmlGetChildCount(node); i++)
-		sttRtfAppendXml(buf, xmlGetChild(node, i), flags & ~(JCPF_IN | JCPF_OUT), indent + 1);
+	for (int i = 0; i < XmlGetChildCount(node); i++)
+		sttRtfAppendXml(buf, XmlGetChild(node, i), flags & ~(JCPF_IN | JCPF_OUT), indent + 1);
 
-	if (xmlGetChildCount(node) || xmlGetText(node)) {
+	if (XmlGetChildCount(node) || XmlGetText(node)) {
 		sttAppendBufRaw(buf, RTF_BEGINTAG);
 		sttAppendBufRaw(buf, indentLevel);
 		sttAppendBufRaw(buf, "</");
 		sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-		sttAppendBufT(buf, xmlGetName(node));
+		sttAppendBufT(buf, XmlGetName(node));
 		sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 		sttAppendBufRaw(buf, ">");
 	}

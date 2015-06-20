@@ -155,12 +155,9 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        if lstrcmpiw(getAttrValue(HXML(node),ioOper),ioCopy)=1 then
-           flags:=flags or ACF_COPYFROM;
-        Number:=StrToInt(getAttrValue(HXML(node),ioNumber));
-      end;
+      if lstrcmpiw(xmlGetAttrValue(HXML(node),ioOper),ioCopy)=1 then
+         flags:=flags or ACF_COPYFROM;
+      Number:=StrToInt(xmlGetAttrValue(HXML(node),ioNumber));
     end;
   end;
 end;

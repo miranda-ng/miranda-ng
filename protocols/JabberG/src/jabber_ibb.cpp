@@ -52,10 +52,10 @@ BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo)
 		FtHandleIbbRequest(iqNode, FALSE);
 	else if (!mir_tstrcmp(pInfo->GetChildNodeName(), _T("data"))) {
 		BOOL bOk = FALSE;
-		const TCHAR *sid = xmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
-		const TCHAR *seq = xmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
-		if (sid && seq && xmlGetText(pInfo->GetChildNode()))
-			bOk = OnIbbRecvdData(xmlGetText(pInfo->GetChildNode()), sid, seq);
+		const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
+		const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
+		if (sid && seq && XmlGetText(pInfo->GetChildNode()))
+			bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
 
 		if (bOk)
 			m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo));

@@ -147,26 +147,13 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        StrDupW(msgtitle,getAttrValue(HXML(node),ioTitle));
-        StrDupW(msgtext,getText(HXML(node)));
-        boxopts:=StrToInt(getAttrValue(HXML(node),ioType));
+      StrDupW(msgtitle,xmlGetAttrValue(HXML(node),ioTitle));
+      StrDupW(msgtext,xmlGetText(HXML(node)));
+      boxopts:=StrToInt(xmlGetAttrValue(HXML(node),ioType));
 
-        if StrToInt(getAttrValue(HXML(node),ioArgVariable))=1 then flags:=flags or ACF_MSG_TXT;
-        if StrToInt(getAttrValue(HXML(node),ioVariables  ))=1 then flags:=flags or ACF_MSG_TTL;
-      end;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioArgVariable))=1 then flags:=flags or ACF_MSG_TXT;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables  ))=1 then flags:=flags or ACF_MSG_TTL;
     end;
-{
-    2: begin
-      UTF8ToWide(GetParamSectionInt(node,ioTitle),msgtitle);
-      UTF8ToWide(GetParamSectionInt(node,ioText ),msgtext);
-      boxopts:=GetParamSectionInt(node,ioType);
-
-      if GetParamSectionInt(node,ioArgVariable)=1 then flags:=flags or ACF_MSG_TXT;
-      if GetParamSectionInt(node,ioVariables  )=1 then flags:=flags or ACF_MSG_TTL;
-    end;
-}
   end;
 end;
 

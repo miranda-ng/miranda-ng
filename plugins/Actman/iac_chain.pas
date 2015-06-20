@@ -141,37 +141,18 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        StrDupW(actname,getText(HXML(node)));
-        flags:=flags or ACF_BYNAME;
-
-        if StrToInt(getAttrValue(HXML(node),ioNoWait))=1 then
-          flags:=flags or ACF_NOWAIT;
-
-        if StrToInt(getAttrValue(HXML(node),ioKeepOld))=1 then
-          flags:=flags or ACF_KEEPOLD;
-
-        if StrToInt(getAttrValue(HXML(node),ioSameThread))=1 then
-          flags:=flags or ACF_SAMETHREAD;
-      end;
-    end;
-{
-    2: begin
-
-      UF8ToWide(GetParamSectionStr(node,'name',nil),actname);
+      StrDupW(actname,xmlGetText(HXML(node)));
       flags:=flags or ACF_BYNAME;
 
-      if GetParamSectionInt(node,ioNoWait)=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioNoWait))=1 then
         flags:=flags or ACF_NOWAIT;
 
-      if GetParamSectionInt(node,ioKeepOld)=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioKeepOld))=1 then
         flags:=flags or ACF_KEEPOLD;
 
-      if GetParamSectionInt(node,ioSameThread)=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioSameThread))=1 then
         flags:=flags or ACF_SAMETHREAD;
     end;
-}
   end;
 end;
 

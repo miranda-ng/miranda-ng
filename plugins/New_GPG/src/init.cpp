@@ -27,7 +27,7 @@ HFONT bold_font = NULL;
 HANDLE hLoadPubKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
 HGENMENU hSendKey = NULL, hToggleEncryption = NULL;
 RECT key_from_keyserver_rect = {0}, firstrun_rect = {0}, new_key_rect = {0}, key_gen_rect = {0}, load_key_rect = {0}, import_key_rect = {0}, key_password_rect = {0}, load_existing_key_rect = {0};
-XML_API xi = {0};
+
 int hLangpack = 0;
 logtofile debuglog;
 bool gpg_valid = false, gpg_keyexist = false;
@@ -168,7 +168,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 extern "C" int __declspec(dllexport) Load()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	mir_getXI(&xi);	//TODO: check if we have access to api
 	mir_getLP(&pluginInfo);
 	init_vars();
 	CreateServiceFunction("/LoadPubKey",LoadKey);

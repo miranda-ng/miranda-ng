@@ -14,9 +14,6 @@ const
   rtAnsi = 3;
   rtUTF8 = 4;
 
-var
-  xmlparser:TXML_API_W;
-
 const
   IcoLibPrefix = 'action_type_';
 const
@@ -175,22 +172,11 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        if StrToInt(getAttrValue(HXML(node),ioDisabled))=1 then
-          flags:=flags or ACF_DISABLED;
-
-        StrDupW(ActionDescr,getAttrValue(HXML(node),ioName));
-      end;
-    end;
-{
-    2: begin
-      if GetParamSectionInt(node,ioDisabled))=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioDisabled))=1 then
         flags:=flags or ACF_DISABLED;
 
-      UF8ToWide(GetParamSectionStr(node,ioName),ActionDescr);
+      StrDupW(ActionDescr,xmlGetAttrValue(HXML(node),ioName));
     end;
-}
   end;
 end;
 
@@ -335,36 +321,33 @@ var
   is_chat:boolean;
   bufLen:int; 
 begin
-  with xmlparser do
+  proto:=FastWideToAnsiBuf(xmlGetAttrValue(node,ioCProto),tmpbuf);
+  if (proto=nil) or (proto^=#0) then
   begin
-    proto:=FastWideToAnsiBuf(getAttrValue(node,ioCProto),tmpbuf);
-    if (proto=nil) or (proto^=#0) then
-    begin
-      result:=0;
-      exit;
-    end;
-    is_chat:=StrToInt(getAttrValue(node,ioIsChat))<>0;
+    result:=0;
+    exit;
+  end;
+  is_chat:=StrToInt(xmlGetAttrValue(node,ioIsChat))<>0;
 
-    tmp:=getAttrValue(node,ioCUID);
-    if is_chat then
-    begin
-      dbv.szVal.W:=tmp;
-    end
-    else
-    begin
-      FillChar(dbv,SizeOf(TDBVARIANT),0);
-      dbv._type:=StrToInt(getAttrValue(node,ioCUIDType));
-      case dbv._type of
-        DBVT_BYTE  : dbv.bVal:=StrToInt(tmp);
-        DBVT_WORD  : dbv.wVal:=StrToInt(tmp);
-        DBVT_DWORD : dbv.dVal:=StrToInt(tmp);
-        DBVT_ASCIIZ: FastWideToAnsi(tmp,dbv.szVal.A);
-        DBVT_UTF8  : WideToUTF8(tmp,dbv.szVal.A);
-        DBVT_WCHAR : dbv.szVal.W:=tmp;
-        DBVT_BLOB  : begin
-          dbv.pbVal := mir_base64_decode(FastWideToAnsi(tmp,pAnsiChar(dbv.pbVal)),bufLen);
-          dbv.cpbVal := bufLen;
-        end;
+  tmp:=xmlGetAttrValue(node,ioCUID);
+  if is_chat then
+  begin
+    dbv.szVal.W:=tmp;
+  end
+  else
+  begin
+    FillChar(dbv,SizeOf(TDBVARIANT),0);
+    dbv._type:=StrToInt(xmlGetAttrValue(node,ioCUIDType));
+    case dbv._type of
+      DBVT_BYTE  : dbv.bVal:=StrToInt(tmp);
+      DBVT_WORD  : dbv.wVal:=StrToInt(tmp);
+      DBVT_DWORD : dbv.dVal:=StrToInt(tmp);
+      DBVT_ASCIIZ: FastWideToAnsi(tmp,dbv.szVal.A);
+      DBVT_UTF8  : WideToUTF8(tmp,dbv.szVal.A);
+      DBVT_WCHAR : dbv.szVal.W:=tmp;
+      DBVT_BLOB  : begin
+        dbv.pbVal := mir_base64_decode(FastWideToAnsi(tmp,pAnsiChar(dbv.pbVal)),bufLen);
+        dbv.cpbVal := bufLen;
       end;
     end;
   end;

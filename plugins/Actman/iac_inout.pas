@@ -327,36 +327,32 @@ begin
     end;
 
     1: begin
-      with xmlparser do
+      tmp:=xmlGetAttrValue(HXML(node),ioObject);
+      if lstrcmpiw(tmp,ioClipboard)=0 then
       begin
-        tmp:=getAttrValue(HXML(node),ioObject);
-        if lstrcmpiw(tmp,ioClipboard)=0 then
+        flags:=flags or ACF_CLIPBRD;
+        tmp:=xmlGetAttrValue(HXML(node),ioOper);
+        if lstrcmpiw(tmp,ioCopy)=0 then flags:=flags or ACF_COPYTO;
+      end
+      else
+      begin
+        if lstrcmpiw(tmp,ioFile)=0 then
         begin
-          flags:=flags or ACF_CLIPBRD;
-          tmp:=getAttrValue(HXML(node),ioOper);
-          if lstrcmpiw(tmp,ioCopy)=0 then flags:=flags or ACF_COPYTO;
-  //        else if lstrcmpiw(tmp,'paste')=0 then ;
-        end
-        else
-        begin
-          if lstrcmpiw(tmp,ioFile)=0 then
-          begin
 
-            if StrToInt(getAttrValue(HXML(node),ioFileVariable))=1 then
-              flags:=flags or ACF_FILE_PATH;
+          if StrToInt(xmlGetAttrValue(HXML(node),ioFileVariable))=1 then
+            flags:=flags or ACF_FILE_PATH;
 
-            flags:=flags or ACF_FILE;
-            StrDupW(tfile,getAttrValue(HXML(node),ioFile));
-            tmp:=getAttrValue(HXML(node),ioOper);
-            if      lstrcmpiw(tmp,ioWrite )=0 then flags:=flags or ACF_FWRITE
-            else if lstrcmpiw(tmp,ioAppend)=0 then flags:=flags or ACF_FAPPEND;
-            case StrToInt(getAttrValue(HXML(node),ioEnc)) of
-              0: flags:=flags or ACF_ANSI;
-              1: flags:=flags or ACF_UTF8;
-              2: flags:=flags or ACF_UTF8 or ACF_SIGN;
-              3: flags:=flags or 0;
-              4: flags:=flags or ACF_SIGN;
-            end;
+          flags:=flags or ACF_FILE;
+          StrDupW(tfile,xmlGetAttrValue(HXML(node),ioFile));
+          tmp:=xmlGetAttrValue(HXML(node),ioOper);
+          if      lstrcmpiw(tmp,ioWrite )=0 then flags:=flags or ACF_FWRITE
+          else if lstrcmpiw(tmp,ioAppend)=0 then flags:=flags or ACF_FAPPEND;
+          case StrToInt(xmlGetAttrValue(HXML(node),ioEnc)) of
+            0: flags:=flags or ACF_ANSI;
+            1: flags:=flags or ACF_UTF8;
+            2: flags:=flags or ACF_UTF8 or ACF_SIGN;
+            3: flags:=flags or 0;
+            4: flags:=flags or ACF_SIGN;
           end;
         end;
       end;

@@ -41,7 +41,6 @@ PLUGININFOEX pluginInfo = {
 // Other variables
 HINSTANCE hInstance;
 
-XML_API xi;
 SSL_API si;
 CLIST_INTERFACE *pcli;
 int hLangpack;
@@ -328,7 +327,6 @@ static int gg_proto_uninit(PROTO_INTERFACE *proto)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-   mir_getXI(&xi);
    mir_getLP(&pluginInfo);
    mir_getCLI();
 

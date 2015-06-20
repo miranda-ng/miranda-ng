@@ -137,10 +137,10 @@ void CNoteList::LoadXml(HXML hXml)
 	destroy();
 	m_bIsModified = false;
 
-	int count = xmlGetChildCount(hXml);
+	int count = XmlGetChildCount(hXml);
 	for (int i=0; i < count; i++)
 	{
-		CNoteItem *pNote = new CNoteItem(xi.getChild(hXml, i));
+		CNoteItem *pNote = new CNoteItem(xmlGetChild(hXml, i));
 		if (pNote->IsNotEmpty())
 			insert(pNote);
 		else

@@ -112,38 +112,38 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 {
-	HXML x = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
+	HXML x = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 	if (x == NULL)
 		return false;
 
-	HXML y = xmlGetChildByTag(x, _T("field"), _T("var"), _T("from"));
+	HXML y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("from"));
 	if (y == NULL)
 		return false;
-	if ((y = xmlGetChild(y, "value")) == NULL)
+	if ((y = XmlGetChild(y, "value")) == NULL)
 		return false;
 
 	CAPTCHA_FORM_PARAMS param;
-	param.fromjid = xmlGetText(y);
+	param.fromjid = XmlGetText(y);
 
-	if ((y = xmlGetChildByTag(x, _T("field"), _T("var"), _T("sid"))) == NULL)
+	if ((y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("sid"))) == NULL)
 		return false;
-	if ((y = xmlGetChild(y, "value")) == NULL)
+	if ((y = XmlGetChild(y, "value")) == NULL)
 		return false;
-	param.sid = xmlGetText(y);
+	param.sid = XmlGetText(y);
 
-	if ((y = xmlGetChildByTag(x, _T("field"), _T("var"), _T("ocr"))) == NULL)
+	if ((y = XmlGetChildByTag(x, _T("field"), _T("var"), _T("ocr"))) == NULL)
 		return false;
-	param.hint = xmlGetAttrValue (y, _T("label"));
+	param.hint = XmlGetAttrValue (y, _T("label"));
 
-	param.from = xmlGetAttrValue(parentNode, _T("from"));
-	param.to = xmlGetAttrValue(parentNode, _T("to"));
-	param.challenge = xmlGetAttrValue(parentNode, _T("id"));
-	HXML o = xmlGetChild(parentNode, "data");
-	if (o == NULL || xmlGetText(o) == NULL)
+	param.from = XmlGetAttrValue(parentNode, _T("from"));
+	param.to = XmlGetAttrValue(parentNode, _T("to"));
+	param.challenge = XmlGetAttrValue(parentNode, _T("id"));
+	HXML o = XmlGetChild(parentNode, "data");
+	if (o == NULL || XmlGetText(o) == NULL)
 		return false;
 
 	unsigned bufferLen;
-	ptrA buffer((char*)mir_base64_decode( _T2A(xmlGetText(o)), &bufferLen));
+	ptrA buffer((char*)mir_base64_decode( _T2A(XmlGetText(o)), &bufferLen));
 	if (buffer == NULL)
 		return false;
 	

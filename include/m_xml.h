@@ -26,22 +26,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_XML_H__
 
 #include <tchar.h>
-#include <newpluginapi.h>
+#include <m_core.h>
 
 DECLARE_HANDLE(HXML);
 typedef int XML_ELEMENT_POS; // XML_ELEMENT_POS is not interchangeable with simple indexes
 
-typedef enum
+enum XML_ELEMENT_TYPE
 {
 	XML_ELEM_TYPE_CHILD = 0,
 	XML_ELEM_TYPE_ATTRIBUTE = 1,
 	XML_ELEM_TYPE_TEXT = 2,
 	XML_ELEM_TYPE_CLEAR = 3,
-}
-	XML_ELEMENT_TYPE;
+};
 
 /// Enumeration for XML parse errors.
-typedef enum XMLError
+enum XMLError
 {
 	eXMLErrorNone = 0,
 	eXMLErrorMissingEndTag,
@@ -65,105 +64,71 @@ typedef enum XMLError
 	eXMLErrorBase64DecodeIllegalCharacter,
 	eXMLErrorBase64DecodeTruncatedData,
 	eXMLErrorBase64DecodeBufferTooSmall
-} XMLError;
+};
 
-typedef struct
-{
-	size_t cbSize;
+EXTERN_C MIR_APP_DLL(HXML)    xmlCreateNode(LPCTSTR name, LPCTSTR text, char isDeclaration);
+EXTERN_C MIR_APP_DLL(void)    xmlDestroyNode(HXML node);
 
-	HXML    (*createNode)(LPCTSTR name, LPCTSTR text, char isDeclaration);
-	void    (*destroyNode)(HXML node);
+EXTERN_C MIR_APP_DLL(HXML)    xmlParseString(LPCTSTR string, int *datalen, LPCTSTR tag);
+EXTERN_C MIR_APP_DLL(LPTSTR)  xmlToString(HXML node, int *datalen);
 
-	HXML    (*parseString)(LPCTSTR string, int* datalen, LPCTSTR tag);
-	LPTSTR  (*toString)(HXML node, int* datalen);
+EXTERN_C MIR_APP_DLL(HXML)    xmlAddChild(HXML parent, LPCTSTR name, LPCTSTR text);
+EXTERN_C MIR_APP_DLL(void)    xmlAddChild2(HXML child, HXML parent);
+EXTERN_C MIR_APP_DLL(HXML)    xmlCopyNode(HXML parent);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetChild(HXML parent, int number);
+EXTERN_C MIR_APP_DLL(int)     xmlGetChildCount(HXML);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetChildByAttrValue(HXML parent, LPCTSTR name, LPCTSTR attrName, LPCTSTR attrValue);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetFirstChild(HXML parent);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetNthChild(HXML parent, LPCTSTR name, int i);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetNextChild(HXML parent, LPCTSTR name, int *i);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetChildByPath(HXML parent, LPCTSTR path, char createNodeIfMissing);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetNextNode(HXML node);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetName(HXML);
+EXTERN_C MIR_APP_DLL(HXML)    xmlGetParent(HXML);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetText(HXML);
+EXTERN_C MIR_APP_DLL(void)    xmlSetText(HXML, LPCTSTR);
 
-	HXML    (*addChild)(HXML parent, LPCTSTR name, LPCTSTR text);
-	void    (*addChild2)(HXML child, HXML parent);
-	HXML    (*copyNode)(HXML parent);
-	HXML    (*getChild)(HXML parent, int number);
-	int     (*getChildCount)(HXML);
-	HXML    (*getChildByAttrValue)(HXML parent, LPCTSTR name, LPCTSTR attrName, LPCTSTR attrValue);
-	HXML    (*getFirstChild)(HXML parent);
-	HXML    (*getNthChild)(HXML parent, LPCTSTR name, int i);
-	HXML    (*getNextChild)(HXML parent, LPCTSTR name, int *i);
-	HXML    (*getChildByPath)(HXML parent, LPCTSTR path, char createNodeIfMissing);
-	HXML    (*getNextNode)(HXML node);
-	LPCTSTR (*getName)(HXML);
-	HXML    (*getParent)(HXML);
-	LPCTSTR (*getText)(HXML); //=getTextByIndex(HXML, 0)
-	void    (*setText)(HXML, LPCTSTR); //=setTextByIndex(HXML, LPCTSTR, 0)
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttr(HXML, int i);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttrName(HXML, int i);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetAttrValue(HXML, LPCTSTR attrName);
+EXTERN_C MIR_APP_DLL(int)     xmlGetAttrCount(HXML);
+EXTERN_C MIR_APP_DLL(void)    xmlAddAttr(HXML, LPCTSTR attrName, LPCTSTR attrValue);
+EXTERN_C MIR_APP_DLL(void)    xmlAddAttrInt(HXML, LPCTSTR attrName, int attrValue);
 
-	LPCTSTR (*getAttr)(HXML, int i);
-	LPCTSTR (*getAttrName)(HXML, int i);
-	LPCTSTR (*getAttrValue)(HXML, LPCTSTR attrName);
-	int     (*getAttrCount)(HXML);
-	void    (*addAttr)(HXML, LPCTSTR attrName, LPCTSTR attrValue);
-	void    (*addAttrInt)(HXML, LPCTSTR attrName, int attrValue);
+EXTERN_C MIR_APP_DLL(void)    xmlFree(void*);
 
-	void    (*freeMem)(void*);
+// methods added in xml API v2
+EXTERN_C MIR_APP_DLL(char)    xmlIsDeclaration(HXML);
+EXTERN_C MIR_APP_DLL(LPTSTR)  xmlToStringWithFormatting(HXML node, int* datalen);
+EXTERN_C MIR_APP_DLL(HXML)    xmlDeepCopy(HXML);
+EXTERN_C MIR_APP_DLL(void)    xmlSetAttrByIndex(HXML, int i, LPCTSTR value);
+EXTERN_C MIR_APP_DLL(void)    xmlSetAttrByName(HXML, LPCTSTR name, LPCTSTR value);
+EXTERN_C MIR_APP_DLL(HXML)    xmlAddChildEx(HXML parent, LPCTSTR name, char isDeclaration, XML_ELEMENT_POS n);
+EXTERN_C MIR_APP_DLL(void)    xmlAddChildEx2(HXML child, HXML parent, XML_ELEMENT_POS n);
+EXTERN_C MIR_APP_DLL(int)     xmlGetTextCount(HXML);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetTextByIndex(HXML, int i);
+EXTERN_C MIR_APP_DLL(void)    xmlAddText(HXML, LPCTSTR, XML_ELEMENT_POS n);
+EXTERN_C MIR_APP_DLL(void)    xmlSetTextByIndex(HXML, int i, LPCTSTR);
+EXTERN_C MIR_APP_DLL(int)     xmlGetClearCount(HXML);
+EXTERN_C MIR_APP_DLL(LPCTSTR) xmlGetClear(HXML, int i, LPCTSTR *openTag, LPCTSTR *closeTag);
+EXTERN_C MIR_APP_DLL(void)    xmlAddClear(HXML, LPCTSTR lpszValue, LPCTSTR openTag, LPCTSTR closeTag, XML_ELEMENT_POS n);
+EXTERN_C MIR_APP_DLL(void)    xmlSetClear(HXML, int i, LPCTSTR lpszValue);
+EXTERN_C MIR_APP_DLL(int)     xmlGetElementCount(HXML);
+EXTERN_C MIR_APP_DLL(int)     xmlGetElement(HXML, XML_ELEMENT_POS n, XML_ELEMENT_TYPE *type, HXML *child, LPCTSTR *value, LPCTSTR *name, LPCTSTR *openTag, LPCTSTR *closeTag);
 
-	// methods added in XML API v2
-	char    (*isDeclaration)(HXML);
-	LPTSTR  (*toStringWithFormatting)(HXML node, int* datalen);
-	HXML    (*deepCopy)(HXML);
-	void	(*setAttrByIndex)(HXML, int i, LPCTSTR value);
-	void	(*setAttrByName)(HXML, LPCTSTR name, LPCTSTR value);
-	HXML    (*addChildEx)(HXML parent, LPCTSTR name, char isDeclaration, XML_ELEMENT_POS n);
-	void    (*addChildEx2)(HXML child, HXML parent, XML_ELEMENT_POS n);
-	int     (*getTextCount)(HXML);
-	LPCTSTR (*getTextByIndex)(HXML, int i);
-	void    (*addText)(HXML, LPCTSTR, XML_ELEMENT_POS n);
-	void    (*setTextByIndex)(HXML, int i, LPCTSTR);
-	int     (*getClearCount)(HXML);
-	LPCTSTR (*getClear)(HXML, int i, LPCTSTR *openTag, LPCTSTR *closeTag);
-	void    (*addClear)(HXML, LPCTSTR lpszValue, LPCTSTR openTag, LPCTSTR closeTag, XML_ELEMENT_POS n);
-	void    (*setClear)(HXML, int i, LPCTSTR lpszValue);
-	int     (*getElementCount)(HXML);
-	int     (*getElement)(HXML, XML_ELEMENT_POS n, XML_ELEMENT_TYPE *type, HXML *child, LPCTSTR *value, LPCTSTR *name, LPCTSTR *openTag, LPCTSTR *closeTag);
-	// With getElement() it's possible to enumerate all the different contents (attribute, child, text, clear) of the current node. The order is reflecting the order of the original file/string. NOTE: 0 <= i < getElementCount().
-	// type, child, value, name, openTag, closeTag will be filled on return, depending on type:
-	// for XML_ELEM_TYPE_CHILD, child is valid;
-	// for XML_ELEM_TYPE_ATTRIBUTE, name and value are valid;
-	// for XML_ELEM_TYPE_TEXT, value is valid;
-	// for XML_ELEM_TYPE_CLEAR, value, openTag and closeTag are valid.
+EXTERN_C MIR_APP_DLL(void)    xmlDeleteNodeContent(HXML); // forces the deletion of the content of this node and the subtree
+EXTERN_C MIR_APP_DLL(void)    xmlDeleteAttrByIndex(HXML, int i);
+EXTERN_C MIR_APP_DLL(void)    xmlDeleteAttrByName(HXML, LPCTSTR name);
+EXTERN_C MIR_APP_DLL(void)    xmlDeleteText(HXML, int i);
+EXTERN_C MIR_APP_DLL(void)    xmlDeleteClear(HXML, int i);
 
-	void    (*deleteNodeContent)(HXML); // forces the deletion of the content of this node and the subtree
-	void	(*deleteAttrByIndex)(HXML, int i);
-	void	(*deleteAttrByName)(HXML, LPCTSTR name);
-	void	(*deleteText)(HXML, int i);
-	void	(*deleteClear)(HXML, int i);
+EXTERN_C MIR_APP_DLL(HXML)     xmlParseFile(LPCTSTR filename, int *datalen, LPCTSTR tag);
+EXTERN_C MIR_APP_DLL(XMLError) xmlToFile(HXML node, LPCTSTR filename, int withformattiing);
 
-	XML_ELEMENT_POS (*positionOfChildByIndex)(HXML, int i);
-	XML_ELEMENT_POS (*positionOfChildByNode)(HXML, HXML);
-	XML_ELEMENT_POS (*positionOfChildByName)(HXML, LPCTSTR name, int i);
-	XML_ELEMENT_POS (*positionOfText)(HXML, int i);
-	XML_ELEMENT_POS (*positionOfClear)(HXML, int i);
-
-	HXML	(*parseFile)(LPCTSTR filename, int* datalen, LPCTSTR tag);
-	XMLError (*toFile)(HXML node, LPCTSTR filename, int withformattiing);
-}
-	XML_API;
-
-#define XML_API_SIZEOF_V1 (sizeof(size_t)+26*sizeof(void*))
-
-/* every protocol should declare this variable to use the XML API */
-extern XML_API xi;
-
-/*
-a service to obtain the XML API
-
-wParam = 0;
-lParam = (LPARAM)(XML_API*).
-
-returns TRUE if all is Ok, and FALSE otherwise
-*/
-
-#define MS_SYSTEM_GET_XI "Miranda/System/GetXmlApi"
-
-__forceinline int mir_getXI(XML_API* dest)
-{
-	dest->cbSize = sizeof(*dest);
-	return CallService(MS_SYSTEM_GET_XI, 0, (LPARAM)dest);
-}
+EXTERN_C MIR_APP_DLL(XML_ELEMENT_POS) xmlPositionOfChildByIndex(HXML, int i);
+EXTERN_C MIR_APP_DLL(XML_ELEMENT_POS) xmlPositionOfChildByNode(HXML, HXML);
+EXTERN_C MIR_APP_DLL(XML_ELEMENT_POS) xmlPositionOfChildByName(HXML, LPCTSTR name, int i);
+EXTERN_C MIR_APP_DLL(XML_ELEMENT_POS) xmlPositionOfText(HXML, int i);
+EXTERN_C MIR_APP_DLL(XML_ELEMENT_POS) xmlPositionOfClear(HXML, int i);
 
 #endif // M_XML_H__

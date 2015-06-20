@@ -1,7 +1,6 @@
 {$IFDEF BIN_IMPORT_}
 
 var
-  XI: TXML_API_W;
   rhxml: HXML;
   curxml: HXML;
   chldxml: HXML;
@@ -13,28 +12,6 @@ var
 {$ELSE}
 
 begin
-  If ServiceExists(MS_SYSTEM_GET_XI) > 0 then
-  begin
-    XI.cbSize := SizeOf(TXML_API_W);
-    res := LongBool(CallService(MS_SYSTEM_GET_XI, 0, int(@XI)));
-    if not res then
-    begin
-      XI.cbSize := SizeOf(TXML_API_W) - 4;
-      res := LongBool(CallService(MS_SYSTEM_GET_XI, 0, int(@XI)));
-      if not res then
-      begin
-        s := TranslateWideString('Error at initialization XML parser');
-        DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
-        exit;
-      end;
-    end;
-  end
-  else
-  begin
-    s := TranslateWideString('Your version of Miranda don''t support XML parsing');
-    DoMessage(ITXT_THREAD_ERROR, wparam(PWideChar(s)), 0);
-    exit;
-  end;
   if (DContact.hContact = 0) or (DContact.hContact = INVALID_HANDLE_VALUE) then
     if (fContact.hContact <> 0) and (fContact.hContact <> INVALID_HANDLE_VALUE) then
       DContact := fContact;
@@ -47,40 +24,40 @@ begin
     try
       ptxt := UTF8toWide(pFileText, ptxt, SizeOf(WideChar) * FileLen + 2);
       ptxt[FileLen + 1] := #0000;
-      rhxml := XI.parseString(ptxt, @txtlen, 'root');
+      rhxml := xmlparseString(ptxt, @txtlen, 'root');
     finally
       freemem(ptxt);
     end;
     if (rhxml = 0) then
       exit;
-    DoMessage(ITXT_THREAD_MAXPROGRESS, 0, XI.getChildCount(rhxml));
-    chldxml := XI.getFirstChild(rhxml);
-    if XI.getName(chldxml) = 'version' then
+    DoMessage(ITXT_THREAD_MAXPROGRESS, 0, xmlgetChildCount(rhxml));
+    chldxml := xmlgetFirstChild(rhxml);
+    if xmlgetName(chldxml) = 'version' then
     begin
       ic := 0;
-      curxml := XI.getNextChild(rhxml, 'event', @ic);
+      curxml := xmlgetNextChild(rhxml, 'event', @ic);
       while (curxml <> 0) do
       begin
         fillchar(dbei, SizeOf(dbei), 0);
         dbei.cbSize := SizeOf(dbei);
         dbei.szModule := PAnsiChar(proto);
-        if TryStrToInt(XI.getText(XI.getChildByPath(curxml, 'time', false)), tm)
+        if TryStrToInt(xmlgetText(xmlgetChildByPath(curxml, 'time', false)), tm)
         then
           dbei.timestamp := tm;
-        if XI.getText(XI.getChildByPath(curxml, 'incoming', false)) = 'Yes' then
+        if xmlgetText(xmlgetChildByPath(curxml, 'incoming', false)) = 'Yes' then
           dbei.flags := DBEF_READ or DBEF_UTF
         else
           dbei.flags := DBEF_READ or DBEF_UTF or DBEF_SENT;
 
-        if XI.getText(XI.getChildByPath(curxml, 'type', false))^ = '2' then
+        if xmlgetText(xmlgetChildByPath(curxml, 'type', false))^ = '2' then
         begin
-          s := XI.getText(XI.getChildByPath(curxml, 'text', false)) + ': ' +
-            XI.getText(XI.getChildByPath(curxml, 'data', false));
+          s := xmlgetText(xmlgetChildByPath(curxml, 'text', false)) + ': ' +
+            xmlgetText(xmlgetChildByPath(curxml, 'data', false));
           dbei.eventType := EVENTTYPE_URL;
         end
         else
         begin
-          s := XI.getText(XI.getChildByPath(curxml, 'text', false));
+          s := xmlgetText(xmlgetChildByPath(curxml, 'text', false));
           dbei.eventType := EVENTTYPE_MESSAGE;
         end;
         try
@@ -102,7 +79,7 @@ begin
 
         finally
           freemem(tempstr);
-          curxml := XI.getNextChild(rhxml, 'event', @ic);
+          curxml := xmlgetNextChild(rhxml, 'event', @ic);
           DoMessage(ITXT_THREAD_PROGRESS, ic, 0);
         end;
       end;

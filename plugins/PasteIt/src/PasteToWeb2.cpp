@@ -105,22 +105,22 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	error = TranslateT("Error during sending text to web page");
 	if (resCont != NULL)
 	{
-		HXML hXml = xi.parseString(resCont, NULL, _T("methodResponse"));
+		HXML hXml = xmlParseString(resCont, NULL, _T("methodResponse"));
 		if (hXml != NULL)
 		{
-			HXML node = xi.getChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if (node != NULL && !mir_tstrcmp(xi.getText(node), _T("1")))
+			HXML node = xmlGetChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
+			if (node != NULL && !mir_tstrcmp(xmlGetText(node), _T("1")))
 			{
-				node = xi.getChildByPath(hXml, _T("params/param/value/array/data"), 0);
+				node = xmlGetChildByPath(hXml, _T("params/param/value/array/data"), 0);
 				if (node != NULL)
 				{
-					node = xi.getNthChild(node, _T("value"), 1);
+					node = xmlGetNthChild(node, _T("value"), 1);
 					if (node != NULL)
 					{
-						node = xi.getChildByPath(node, _T("string"), 0);
+						node = xmlGetChildByPath(node, _T("string"), 0);
 						if (node != NULL)
 						{
-							char* s = mir_t2a_cp(xi.getText(node), CP_ACP);
+							char* s = mir_t2a_cp(xmlGetText(node), CP_ACP);
 							mir_strncpy(szFileLink, s, _countof(szFileLink));
 							mir_free(s);
 							error = NULL;
@@ -128,7 +128,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 					}
 				}
 			}
-			xi.destroyNode(hXml);
+			xmlDestroyNode(hXml);
 		}
 		mir_free(resCont);
 	}
@@ -145,22 +145,22 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	if (resCont != NULL)
 	{
-		HXML hXml = xi.parseString(resCont, NULL, _T("methodResponse"));
+		HXML hXml = xmlParseString(resCont, NULL, _T("methodResponse"));
 		if (hXml != NULL)
 		{
-			HXML node = xi.getChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if (node != NULL && !mir_tstrcmp(xi.getText(node), _T("1")))
+			HXML node = xmlGetChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
+			if (node != NULL && !mir_tstrcmp(xmlGetText(node), _T("1")))
 			{
-				node = xi.getChildByPath(hXml, _T("params/param/value/array/data"), 0);
+				node = xmlGetChildByPath(hXml, _T("params/param/value/array/data"), 0);
 				if (node != NULL)
 				{
-					node = xi.getNthChild(node, _T("value"), 1);
+					node = xmlGetNthChild(node, _T("value"), 1);
 					if (node != NULL)
 					{
-						node = xi.getChildByPath(node, _T("string"), 0);
+						node = xmlGetChildByPath(node, _T("string"), 0);
 						if (node != NULL)
 						{
-							std::wstring str = xi.getText(node);
+							std::wstring str = xmlGetText(node);
 							std::wstring::size_type pos = str.find(L'\n');
 							if (pos < str.length())
 							{
@@ -225,7 +225,7 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 					}
 				}
 			}
-			xi.destroyNode(hXml);
+			xmlDestroyNode(hXml);
 		}
 		mir_free(resCont);
 	}

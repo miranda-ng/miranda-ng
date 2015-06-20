@@ -706,11 +706,11 @@ int GetJabberInterface(WPARAM w, LPARAM l) //get interface for all jabber accoun
 static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
 	HXML local_node = node;
-	for(int n = 0; n <= xi.getChildCount(node); n++)
+	for(int n = 0; n <= xmlGetChildCount(node); n++)
 	{
-		LPCTSTR str = xi.getText(local_node); 
-		LPCTSTR nodename = xi.getName(local_node);
-		LPCTSTR attr = xi.getAttrValue(local_node, _T("to"));
+		LPCTSTR str = xmlGetText(local_node); 
+		LPCTSTR nodename = xmlGetName(local_node);
+		LPCTSTR attr = xmlGetAttrValue(local_node, _T("to"));
 		if(attr)
 		{
 			MCONTACT hContact = ji->ContactFromJID(attr);
@@ -723,7 +723,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 			if(_tcsstr(str, _T("-----BEGIN PGP MESSAGE-----")) && _tcsstr(str, _T("-----END PGP MESSAGE-----")))
 			{
 				wstring data = str;
-				xi.setText(local_node, _T("This message is encrypted."));
+				xmlSetText(local_node, _T("This message is encrypted."));
 				wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + mir_tstrlen(_T("-----BEGIN PGP MESSAGE-----"));
 				while(data.find(_T("Version: "), p1) != wstring::npos)
 				{
@@ -744,8 +744,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 				wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
 				wstring data2 = data.substr(p1, p2-p1-2);
 				strip_line_term(data2);
-				HXML encrypted_data = xi.addChild(node, _T("x"), data2.c_str());
-				xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
+				HXML encrypted_data = xmlAddChild(node, _T("x"), data2.c_str());
+				xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
 				return FALSE;
 			}
 		}
@@ -892,15 +892,15 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						{
 							std::wstring tmp = data.substr(p1, p2-p1);
 							strip_line_term(tmp);
-							HXML encrypted_data = xi.addChild(node, _T("x"), tmp.c_str());
-							xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
+							HXML encrypted_data = xmlAddChild(node, _T("x"), tmp.c_str());
+							xmlAddAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
 						}
 					}
 					return FALSE;
 				}
 			}
 		}
-		local_node = xi.getChild(node, n);
+		local_node = xmlGetChild(node, n);
 	}
 	return FALSE;
 }
@@ -910,35 +910,35 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
 	HXML local_node = node;
-	for(int n = 0; n <= xi.getChildCount(node); n++)
+	for(int n = 0; n <= xmlGetChildCount(node); n++)
 	{
-		LPCTSTR str = xi.getText(local_node); 
-		LPCTSTR nodename = xi.getName(local_node);
+		LPCTSTR str = xmlGetText(local_node); 
+		LPCTSTR nodename = xmlGetName(local_node);
 		if(nodename)
 		{
 			if(_tcsstr(nodename, _T("x")))
 			{
-				for(int n = 0; n < xi.getAttrCount(local_node); n++)
+				for(int n = 0; n < xmlGetAttrCount(local_node); n++)
 				{
-					LPCTSTR name = xi.getAttrName(local_node, n);
-					LPCTSTR value = xi.getAttrValue(local_node, name);
+					LPCTSTR name = xmlGetAttrName(local_node, n);
+					LPCTSTR value = xmlGetAttrValue(local_node, name);
 					if(_tcsstr(value, _T("jabber:x:signed")))
 					{
 						std::wstring status_str;
 						HXML local_node2 = node;
-						for(int n = 0; n <= xi.getChildCount(node); n++)
+						for(int n = 0; n <= xmlGetChildCount(node); n++)
 						{
-							LPCTSTR nodename2 = xi.getName(local_node2);
+							LPCTSTR nodename2 = xmlGetName(local_node2);
 							if(_tcsstr(nodename2, _T("status")))
 							{
-								LPCTSTR status = xi.getText(local_node2);
+								LPCTSTR status = xmlGetText(local_node2);
 								if(status)
 									status_str = status;
 								break;
 							}
-							local_node2 = xi.getChild(node, n);
+							local_node2 = xmlGetChild(node, n);
 						}
-						LPCTSTR data = xi.getText(local_node);
+						LPCTSTR data = xmlGetText(local_node);
 						wstring sign = _T("-----BEGIN PGP SIGNATURE-----\n\n");
 						wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
 						sign += data;
@@ -1010,7 +1010,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 										{
 											if(!(*p))
 												break;
-											hContact = (*p)->getJabberInterface()->ContactFromJID(xi.getAttrValue(node, _T("from")));
+											hContact = (*p)->getJabberInterface()->ContactFromJID(xmlGetAttrValue(node, _T("from")));
 											if(hContact)
 												hcontact_data[hContact].key_in_prescense = out.substr(p1, p2-p1-1).c_str();
 										}
@@ -1023,7 +1023,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 				}
 			}
 		}
-		local_node = xi.getChild(node, n);
+		local_node = xmlGetChild(node, n);
 	}
 	return FALSE;
 }

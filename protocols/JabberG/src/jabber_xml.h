@@ -28,32 +28,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_xml.h>
 
-void    __fastcall xmlAddChild(HXML, HXML);
-HXML    __fastcall xmlAddChild(HXML, LPCTSTR pszName);
-HXML    __fastcall xmlAddChild(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
-HXML    __fastcall xmlAddChild(HXML, LPCTSTR pszName, int iValue);
+void    __fastcall XmlAddChild(HXML, HXML);
+HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName);
+HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
+HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName, int iValue);
 
-LPCTSTR __fastcall xmlGetAttrValue(HXML, LPCTSTR key);
-HXML    __fastcall xmlGetChild(HXML, int n = 0);
-HXML    __fastcall xmlGetChild(HXML, LPCSTR key);
-HXML    __fastcall xmlGetChild(HXML, LPCTSTR key);
-int     __fastcall xmlGetChildCount(HXML);
-HXML    __fastcall xmlGetChildByTag(HXML, LPCTSTR key, LPCTSTR attrName, LPCTSTR attrValue);
-HXML    __fastcall xmlGetChildByTag(HXML, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue);
-HXML    __fastcall xmlGetNthChild(HXML, LPCTSTR key, int n = 0);
+LPCTSTR __fastcall XmlGetAttrValue(HXML, LPCTSTR key);
+HXML    __fastcall XmlGetChild(HXML, int n = 0);
+HXML    __fastcall XmlGetChild(HXML, LPCSTR key);
+HXML    __fastcall XmlGetChild(HXML, LPCTSTR key);
+int     __fastcall XmlGetChildCount(HXML);
+HXML    __fastcall XmlGetChildByTag(HXML, LPCTSTR key, LPCTSTR attrName, LPCTSTR attrValue);
+HXML    __fastcall XmlGetChildByTag(HXML, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue);
+HXML    __fastcall XmlGetNthChild(HXML, LPCTSTR key, int n = 0);
 
-LPCTSTR __fastcall xmlGetName(HXML);
-LPCTSTR __fastcall xmlGetText(HXML);
+LPCTSTR __fastcall XmlGetName(HXML);
+LPCTSTR __fastcall XmlGetText(HXML);
 
-void    __fastcall xmlAddAttr(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
-void    __fastcall xmlAddAttr(HXML, LPCTSTR pszName, int value);
-void    __fastcall xmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value);
-void    __fastcall xmlAddAttrID(HXML, int id);
+void    __fastcall XmlAddAttr(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
+void    __fastcall XmlAddAttr(HXML, LPCTSTR pszName, int value);
+void    __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value);
+void    __fastcall XmlAddAttrID(HXML, int id);
 
-int     __fastcall xmlGetAttrCount(HXML);
-LPCTSTR __fastcall xmlGetAttr(HXML, int n);
-LPCTSTR __fastcall xmlGetAttrName(HXML, int n);
-LPCTSTR __fastcall xmlGetAttrValue(HXML, LPCTSTR key);
+int     __fastcall XmlGetAttrCount(HXML);
+LPCTSTR __fastcall XmlGetAttr(HXML, int n);
+LPCTSTR __fastcall XmlGetAttrName(HXML, int n);
+LPCTSTR __fastcall XmlGetAttrValue(HXML, LPCTSTR key);
 
 struct XmlNode
 {
@@ -61,7 +61,7 @@ struct XmlNode
 
 	__forceinline XmlNode(LPCTSTR pszString, int* numBytes, LPCTSTR ptszTag)
 	{
-		m_hXml = xi.parseString(pszString, numBytes, ptszTag);
+		m_hXml = xmlParseString(pszString, numBytes, ptszTag);
 	}
 
 	XmlNode(const XmlNode& n);
@@ -107,7 +107,7 @@ struct XATTR
 };
 
 HXML __forceinline operator<<(HXML node, const XATTR& attr)
-{	xmlAddAttr(node, attr.name, attr.value);
+{	XmlAddAttr(node, attr.name, attr.value);
 	return node;
 }
 
@@ -125,7 +125,7 @@ struct XATTRI
 };
 
 HXML __forceinline operator<<(HXML node, const XATTRI& attr)
-{	xmlAddAttr(node, attr.name, attr.value);
+{	XmlAddAttr(node, attr.name, attr.value);
 	return node;
 }
 
@@ -143,7 +143,7 @@ struct XATTRI64
 };
 
 HXML __forceinline operator<<(HXML node, const XATTRI64& attr)
-{	xmlAddAttr(node, attr.name, attr.value);
+{	XmlAddAttr(node, attr.name, attr.value);
 	return node;
 }
 
@@ -159,7 +159,7 @@ struct XATTRID
 };
 
 HXML __forceinline operator<<(HXML node, const XATTRID& attr)
-{	xmlAddAttrID(node, attr.id);
+{	XmlAddAttrID(node, attr.id);
 	return node;
 }
 
@@ -176,7 +176,7 @@ struct XCHILD
 };
 
 HXML __forceinline operator<<(HXML node, const XCHILD& child)
-{	return xmlAddChild(node, child.name, child.value);
+{	return XmlAddChild(node, child.name, child.value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -237,7 +237,7 @@ public:
 		switch (Lookup())
 		{
 			case T_NODE: return m_hXml;
-			case T_NODESET: return xmlGetNthChild(m_hXml, m_szParam, 1);
+			case T_NODESET: return XmlGetNthChild(m_hXml, m_szParam, 1);
 		}
 		return NULL;
 	}
@@ -245,9 +245,9 @@ public:
 	{
 		switch (Lookup())
 		{
-			case T_ATTRIBUTE: return (TCHAR *)xmlGetAttrValue(m_hXml, m_szParam);
-			case T_NODE: return (TCHAR *)xmlGetText(m_hXml);
-			case T_NODESET: return (TCHAR *)xmlGetText(xmlGetNthChild(m_hXml, m_szParam, 1));
+			case T_ATTRIBUTE: return (TCHAR *)XmlGetAttrValue(m_hXml, m_szParam);
+			case T_NODE: return (TCHAR *)XmlGetText(m_hXml);
+			case T_NODESET: return (TCHAR *)XmlGetText(XmlGetNthChild(m_hXml, m_szParam, 1));
 		}
 		return NULL;
 	}
@@ -266,7 +266,7 @@ public:
 	}
 	HXML operator[] (int idx)
 	{
-		return (Lookup() == T_NODESET) ? xmlGetNthChild(m_hXml, m_szParam, idx) : NULL;
+		return (Lookup() == T_NODESET) ? XmlGetNthChild(m_hXml, m_szParam, idx) : NULL;
 	}
 
 	// Write data
@@ -274,7 +274,7 @@ public:
 	{
 		switch (Lookup(true))
 		{
-			case T_ATTRIBUTE: xmlAddAttr(m_hXml, m_szParam, value); break;
+			case T_ATTRIBUTE: XmlAddAttr(m_hXml, m_szParam, value); break;
 			case T_NODE: break; // TODO: set node text
 		}
 	}

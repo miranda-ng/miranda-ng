@@ -174,25 +174,22 @@ begin
   result:=ACF_TYPE_NUMBER;
   if act=0 then
     exit;
-  with xmlparser do
+  
+  tmp:=xmlGetAttrValue(act,ioType);
+  if      lstrcmpiw(tmp,ioCurrent)=0 then result:=ACF_TYPE_CURRENT
+  else if lstrcmpiw(tmp,ioResult )=0 then result:=ACF_TYPE_RESULT
+  else if lstrcmpiw(tmp,ioParam  )=0 then result:=ACF_TYPE_PARAM
+  else if lstrcmpiw(tmp,ioStruct )=0 then
   begin
-    tmp:=getAttrValue(act,ioType);
-    if      lstrcmpiw(tmp,ioCurrent)=0 then result:=ACF_TYPE_CURRENT
-    else if lstrcmpiw(tmp,ioResult )=0 then result:=ACF_TYPE_RESULT
-    else if lstrcmpiw(tmp,ioParam  )=0 then result:=ACF_TYPE_PARAM
-    else if lstrcmpiw(tmp,ioStruct )=0 then
-    begin
-      result:=ACF_TYPE_STRUCT;
-//!!!!      param:=ReadStruct(act);
-    end
-    else
-    begin
-      StrDupW(pWideChar(param),getAttrValue(act,ioValue));
+    result:=ACF_TYPE_STRUCT;
+  end
+  else
+  begin
+    StrDupW(pWideChar(param),xmlGetAttrValue(act,ioValue));
 
-      if      lstrcmpiw(tmp,ioNumber )=0 then result:=ACF_TYPE_NUMBER
-      else if lstrcmpiw(tmp,ioUnicode)=0 then result:=ACF_TYPE_UNICODE
-      else if lstrcmpiw(tmp,ioAnsi   )=0 then result:=ACF_TYPE_STRING;
-    end;
+    if      lstrcmpiw(tmp,ioNumber )=0 then result:=ACF_TYPE_NUMBER
+    else if lstrcmpiw(tmp,ioUnicode)=0 then result:=ACF_TYPE_UNICODE
+    else if lstrcmpiw(tmp,ioAnsi   )=0 then result:=ACF_TYPE_STRING;
   end;
 end;
 {
@@ -329,60 +326,32 @@ begin
       service.w_flags:=0;
       service.l_flags:=0;
 
-      with xmlparser do
-      begin
-        FastWideToAnsi(getAttrValue(HXML(node),ioService),service.service);
-//!!!!        StrDupW(service,getAttrValue(HXML(node),ioService));
-        if StrToInt(getAttrValue(HXML(node),ioVariables))=1 then
-          service.flags:=service.flags or ACF_FLAG_SCRIPT;
+      FastWideToAnsi(xmlGetAttrValue(HXML(node),ioService),service.service);
+      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables))=1 then
+        service.flags:=service.flags or ACF_FLAG_SCRIPT;
 
-        sub:=getNthChild(HXML(node),ioWParam,0);
-        if StrToInt(getAttrValue(sub,ioVariables))=1 then
-          service.w_flags:=service.w_flags or ACF_FLAG_SCRIPT;
-        service.w_flags:=service.w_flags or
-            ReadParam(sub,PWideChar(service.wparam),(service.w_flags and ACF_FLAG_SCRIPT)<>0);
+      sub:=xmlGetNthChild(HXML(node),ioWParam,0);
+      if StrToInt(xmlGetAttrValue(sub,ioVariables))=1 then
+        service.w_flags:=service.w_flags or ACF_FLAG_SCRIPT;
+      service.w_flags:=service.w_flags or
+          ReadParam(sub,PWideChar(service.wparam),(service.w_flags and ACF_FLAG_SCRIPT)<>0);
 
-        sub:=getNthChild(HXML(node),ioLParam,0);
-        if StrToInt(getAttrValue(sub,ioVariables))=1 then
-          service.l_flags:=service.l_flags or ACF_FLAG_SCRIPT;
-        service.l_flags:=service.l_flags or
-            ReadParam(sub,PWideChar(service.lparam),(service.l_flags and ACF_FLAG_SCRIPT)<>0);
+      sub:=xmlGetNthChild(HXML(node),ioLParam,0);
+      if StrToInt(xmlGetAttrValue(sub,ioVariables))=1 then
+        service.l_flags:=service.l_flags or ACF_FLAG_SCRIPT;
+      service.l_flags:=service.l_flags or
+          ReadParam(sub,PWideChar(service.lparam),(service.l_flags and ACF_FLAG_SCRIPT)<>0);
 
-        sub:=getNthChild(HXML(node),ioOutput,0);
-        if StrToInt(getAttrValue(sub,ioFree))=1 then
-          service.flags:=service.flags or ACF_FLAG_FREEMEM;
+      sub:=xmlGetNthChild(HXML(node),ioOutput,0);
+      if StrToInt(xmlGetAttrValue(sub,ioFree))=1 then
+        service.flags:=service.flags or ACF_FLAG_FREEMEM;
 
-        tmp:=getAttrValue(sub,ioType);
-        if      lstrcmpiw(tmp,ioUnicode)=0 then service.flags:=service.flags or ACF_TYPE_UNICODE
-        else if lstrcmpiw(tmp,ioAnsi   )=0 then service.flags:=service.flags or ACF_TYPE_STRING
-        else if lstrcmpiw(tmp,ioStruct )=0 then service.flags:=service.flags or ACF_TYPE_STRUCT
-        else if lstrcmpiw(tmp,ioInt    )=0 then service.flags:=service.flags or ACF_TYPE_NUMBER;
-      end;
+      tmp:=xmlGetAttrValue(sub,ioType);
+      if      lstrcmpiw(tmp,ioUnicode)=0 then service.flags:=service.flags or ACF_TYPE_UNICODE
+      else if lstrcmpiw(tmp,ioAnsi   )=0 then service.flags:=service.flags or ACF_TYPE_STRING
+      else if lstrcmpiw(tmp,ioStruct )=0 then service.flags:=service.flags or ACF_TYPE_STRUCT
+      else if lstrcmpiw(tmp,ioInt    )=0 then service.flags:=service.flags or ACF_TYPE_NUMBER;
     end;
-{
-    2: begin
-      StrDup(service,GetParamSectionStr(node,ioService));
-//!!!!      UTF8ToWide(GetParamSectionStr(node,ioService),service);
-      if GetParamSectionInt(node,ioVariables)=1 then
-        flags:=flags or ACF_SCRIPT_SERVICE;
-
-      if GetParamSectionInt(node,ioWParam+'.'+ioVariables))=1 then
-        flags:=flags or ACF_SCRIPT_PARAM;
-      flags:=flags or ReadParamINI(node,ioWParam+'.',wparam,(flags and ACF_SCRIPT_PARAM)<>0);
-
-      if GetParamSectionInt(node,ioLParam+'.'+ioVariables))=1 then
-        flags2:=flags2 or ACF_SCRIPT_PARAM;
-      flags2:=flags2 or ReadParamINI(node,ioLParam+'.',lparam,(flags2 and ACF_SCRIPT_PARAM)<>0);
-
-      if GetParamSectionInt(node,ioFree)=1 then flags:=flags or ACF_RFREEMEM;
-
-      pc:=GetParamSectionStr(node,ioType);
-      if      lstrcmpi(pñ,ioUnicode)=0 then flags:=flags or ACF_RUNICODE
-      else if lstrcmpi(pñ,ioAnsi   )=0 then flags:=flags or ACF_RSTRING
-      else if lstrcmpi(pñ,ioStruct )=0 then flags:=flags or ACF_RSTRUCT
-//      else if lstrcmpi(pñ,ioInt    )=0 then ;
-    end;
-}
   end;
 end;
 

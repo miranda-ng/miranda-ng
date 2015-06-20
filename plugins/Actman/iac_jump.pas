@@ -293,100 +293,54 @@ begin
     end;
 
     1: begin
-      with xmlparser do
+      sub:=xmlGetNthChild(HXML(node),ioIf,0);
+      if sub<>0 then
       begin
-        sub:=getNthChild(HXML(node),ioIf,0);
-        if sub<>0 then
-        begin
-          tmp:=getAttrValue(sub,ioOper);
-          if      lstrcmpiw(tmp,'math')=0 then flags:=flags or ACF_MATH
-          else if lstrcmpiw(tmp,ioNop )=0 then flags:=flags or ACF_NOP;
+        tmp:=xmlGetAttrValue(sub,ioOper);
+        if      lstrcmpiw(tmp,'math')=0 then flags:=flags or ACF_MATH
+        else if lstrcmpiw(tmp,ioNop )=0 then flags:=flags or ACF_NOP;
 
-          tmp:=getAttrValue(sub,ioCond);
-          if lstrcmpiw(tmp,ioNop)=0 then flags:=flags or ACF_NOP // compatibility
-          else if (flags and ACF_NOP)=0 then
+        tmp:=xmlGetAttrValue(sub,ioCond);
+        if lstrcmpiw(tmp,ioNop)=0 then flags:=flags or ACF_NOP // compatibility
+        else if (flags and ACF_NOP)=0 then
+        begin
+          if flags and ACF_MATH<>0 then
           begin
-            if flags and ACF_MATH<>0 then
-            begin
-              if      lstrcmpiw(tmp,'gt' )=0 then condition:=aeGT
-              else if lstrcmpiw(tmp,'lt' )=0 then condition:=aeLT
-              else if lstrcmpiw(tmp,'eq' )=0 then condition:=aeEQ
-              else if lstrcmpiw(tmp,'xor')=0 then condition:=aeXR
-              else if lstrcmpiw(tmp,'and')=0 then condition:=aeND;
-            end
-            else
-            begin
-              if      lstrcmpiw(tmp,'empty')=0 then condition:=aeEMP
-              else if lstrcmpiw(tmp,'eq'   )=0 then condition:=aeEQU
-              else if lstrcmpiw(tmp,'cont' )=0 then condition:=aeCON
-              else if lstrcmpiw(tmp,'start')=0 then condition:=aeSTR
-              else if lstrcmpiw(tmp,'ends' )=0 then condition:=aeEND;
+            if      lstrcmpiw(tmp,'gt' )=0 then condition:=aeGT
+            else if lstrcmpiw(tmp,'lt' )=0 then condition:=aeLT
+            else if lstrcmpiw(tmp,'eq' )=0 then condition:=aeEQ
+            else if lstrcmpiw(tmp,'xor')=0 then condition:=aeXR
+            else if lstrcmpiw(tmp,'and')=0 then condition:=aeND;
+          end
+          else
+          begin
+            if      lstrcmpiw(tmp,'empty')=0 then condition:=aeEMP
+            else if lstrcmpiw(tmp,'eq'   )=0 then condition:=aeEQU
+            else if lstrcmpiw(tmp,'cont' )=0 then condition:=aeCON
+            else if lstrcmpiw(tmp,'start')=0 then condition:=aeSTR
+            else if lstrcmpiw(tmp,'ends' )=0 then condition:=aeEND;
 
-              if StrToInt(getAttrValue(sub,ioCase))=1 then
-                flags:=flags or ACF_CASE;
-              if StrToInt(getAttrValue(sub,ioBack))=1 then
-                flags:=flags or ACF_BACK;
-            end;
-            if StrToInt(getAttrValue(sub,ioNot))=1 then
-              flags:=flags or ACF_NOT;
-
-            if ((flags and ACF_MATH)<>0) or (condition<>aeEMP) then
-              StrDupW(value,getAttrValue(sub,ioValue));
+            if StrToInt(xmlGetAttrValue(sub,ioCase))=1 then
+              flags:=flags or ACF_CASE;
+            if StrToInt(xmlGetAttrValue(sub,ioBack))=1 then
+              flags:=flags or ACF_BACK;
           end;
-        end;
+          if StrToInt(xmlGetAttrValue(sub,ioNot))=1 then
+            flags:=flags or ACF_NOT;
 
-        sub:=getNthChild(HXML(node),ioPost,0);
-        if sub<>0 then
-        begin
-          tmp:=getAttrValue(sub,ioOper);
-          if      lstrcmpiw(tmp,ioBreak)=0 then flags:=flags or ACF_BREAK
-          else if lstrcmpiw(tmp,ioJump )=0 then StrDupW(actlabel,getAttrValue(sub,ioValue));
+          if ((flags and ACF_MATH)<>0) or (condition<>aeEMP) then
+            StrDupW(value,xmlGetAttrValue(sub,ioValue));
         end;
       end;
-    end;
-{
-    2: begin
-      pc:=GetParamSectionStr(node,ioOper);
-      if      lstrcmpi(pc,'math')=0 then flags:=flags or ACF_MATH
-      else if lstrcmpi(pc,ioNop )=0 then flags:=flags or ACF_NOP;
 
-      pc:=GetParamSectionStr(node,ioCond);
-      if lstrcmpi(pc,ioNop)=0 then flags:=flags or ACF_NOP // compatibility
-      else if (flags and ACF_NOP)=0 then
+      sub:=xmlGetNthChild(HXML(node),ioPost,0);
+      if sub<>0 then
       begin
-        if flags and ACF_MATH<>0 then
-        begin
-          if      lstrcmpi(pc,'gt' )=0 then condition:=aeGT
-          else if lstrcmpi(pc,'lt' )=0 then condition:=aeLT
-          else if lstrcmpi(pc,'eq' )=0 then condition:=aeEQ
-          else if lstrcmpi(pc,'xor')=0 then condition:=aeXR
-          else if lstrcmpi(pc,'and')=0 then condition:=aeND;
-        end
-        else
-        begin
-          if      lstrcmpi(pc,'empty')=0 then condition:=aeEMP
-          else if lstrcmpi(pc,'eq'   )=0 then condition:=aeEQU
-          else if lstrcmpi(pc,'cont' )=0 then condition:=aeCON
-          else if lstrcmpi(pc,'start')=0 then condition:=aeSTR
-          else if lstrcmpi(pc,'ends' )=0 then condition:=aeEND;
-
-          if GetParamSectionInt(node,ioCase)=1 then
-            flags:=flags or ACF_CASE;
-          if GetParamSectionInt(node,ioBack)=1 then
-            flags:=flags or ACF_BACK;
-        end;
-        if GetParamSectionInt(node,ioNot)=1 then
-          flags:=flags or ACF_NOT;
-
-        if ((flags and ACF_MATH)<>0) or (condition<>aeEMP) then
-          UTF8ToWide(GetParamSectionStr(node,ioValue),value);
+        tmp:=xmlGetAttrValue(sub,ioOper);
+        if      lstrcmpiw(tmp,ioBreak)=0 then flags:=flags or ACF_BREAK
+        else if lstrcmpiw(tmp,ioJump )=0 then StrDupW(actlabel,xmlGetAttrValue(sub,ioValue));
       end;
-
-      pc:=GetParamSectionStr(node,ioAction);
-      if      lstrcmpi(pc,ioBreak)=0 then flags:=flags or ACF_BREAK
-      else if lstrcmpi(pc,ioJump )=0 then UTF8ToWide(GetParamSectionStr(node,ioLabel),actlabel);
     end;
-}
   end;
 end;
 

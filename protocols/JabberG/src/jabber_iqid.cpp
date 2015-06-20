@@ -34,20 +34,20 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 	if (iqNode == NULL)
 		return;
 
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if ( mir_tstrcmp(type, _T("result")))
 		return;
 
-	HXML query = xmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
+	HXML query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
 	if (query == NULL)
 		return;
 
 	HXML identity;
-	for (int i = 1; (identity = xmlGetNthChild(query, _T("identity"), i)) != NULL; i++) {
+	for (int i = 1; (identity = XmlGetNthChild(query, _T("identity"), i)) != NULL; i++) {
 		JABBER_DISCO_FIELD tmp = { 
-			xmlGetAttrValue(identity, _T("category")),
-			xmlGetAttrValue(identity, _T("type")),
-			xmlGetAttrValue(identity, _T("name")) };
+			XmlGetAttrValue(identity, _T("category")),
+			XmlGetAttrValue(identity, _T("type")),
+			XmlGetAttrValue(identity, _T("name")) };
 
 		if (!mir_tstrcmp(tmp.category, _T("pubsub")) && !mir_tstrcmp(tmp.type, _T("pep"))) {
 			m_bPepSupported = true;
@@ -62,8 +62,8 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 
 	if (m_ThreadInfo) {
 		HXML feature;
-		for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
-			const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
+		for (int i = 1; (feature = XmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
+			const TCHAR *featureName = XmlGetAttrValue(feature, _T("var"));
 			if (!featureName)
 				continue;
 
@@ -208,21 +208,21 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 
 	HXML queryNode;
 	const TCHAR *type;
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((queryNode = xmlGetChild(iqNode, "query")) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((queryNode = XmlGetChild(iqNode, "query")) == NULL) return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
 		XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultSetAuth, JABBER_IQ_TYPE_SET));
 		HXML query = iq << XQUERY(_T("jabber:iq:auth"));
 		query << XCHILD(_T("username"), m_ThreadInfo->conn.username);
-		if (xmlGetChild(queryNode, "digest") != NULL && m_ThreadInfo->szStreamId) {
+		if (XmlGetChild(queryNode, "digest") != NULL && m_ThreadInfo->szStreamId) {
 			JabberShaStrBuf buf;
 			T2Utf str(m_ThreadInfo->conn.password);
 			char text[200];
 			mir_snprintf(text, _countof(text), "%s%s", m_ThreadInfo->szStreamId, str);
 			query << XCHILD(_T("digest"), _A2T(JabberSha1(text, buf)));
 		}
-		else if (xmlGetChild(queryNode, "password") != NULL)
+		else if (XmlGetChild(queryNode, "password") != NULL)
 			query << XCHILD(_T("password"), m_ThreadInfo->conn.password);
 		else {
 			debugLogA("No known authentication mechanism accepted by the server.");
@@ -230,7 +230,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 			return;
 		}
 
-		if (xmlGetChild(queryNode , "resource") != NULL)
+		if (XmlGetChild(queryNode , "resource") != NULL)
 			query << XCHILD(_T("resource"), m_ThreadInfo->resource);
 
 		m_ThreadInfo->send(iq);
@@ -252,7 +252,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo*)
 	// RECVED: authentication result
 	// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
 	debugLogA("<iq/> iqIdSetAuth");
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
 		ptrT tszNick(getTStringA("Nick"));
@@ -341,13 +341,13 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 	}
 
-	HXML queryNode = xmlGetChild(iqNode , "query");
+	HXML queryNode = XmlGetChild(iqNode , "query");
 	if (queryNode == NULL) {
 		mir_free(szGroupDelimeter);
 		return;
 	}
 
-	if (mir_tstrcmp(xmlGetAttrValue(queryNode, _T("xmlns")), JABBER_FEAT_IQ_ROSTER)) {
+	if (mir_tstrcmp(XmlGetAttrValue(queryNode, _T("xmlns")), JABBER_FEAT_IQ_ROSTER)) {
 		mir_free(szGroupDelimeter);
 		return;
 	}
@@ -363,14 +363,14 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	for (int i=0; ; i++) {
 		BOOL bIsTransport=FALSE;
 
-		HXML itemNode = xmlGetChild(queryNode ,i);
+		HXML itemNode = XmlGetChild(queryNode ,i);
 		if (!itemNode)
 			break;
 
-		if (mir_tstrcmp(xmlGetName(itemNode), _T("item")))
+		if (mir_tstrcmp(XmlGetName(itemNode), _T("item")))
 			continue;
 
-		const TCHAR *str = xmlGetAttrValue(itemNode, _T("subscription"));
+		const TCHAR *str = XmlGetAttrValue(itemNode, _T("subscription"));
 
 		JABBER_SUBSCRIPTION sub;
 		if (str == NULL) sub = SUB_NONE;
@@ -379,13 +379,13 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		else if (!mir_tstrcmp(str, _T("from"))) sub = SUB_FROM;
 		else sub = SUB_NONE;
 
-		const TCHAR *jid = xmlGetAttrValue(itemNode, _T("jid"));
+		const TCHAR *jid = XmlGetAttrValue(itemNode, _T("jid"));
 		if (jid == NULL)
 			continue;
 		if (_tcschr(jid, '@') == NULL)
 			bIsTransport = TRUE;
 
-		const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
+		const TCHAR *name = XmlGetAttrValue(itemNode, _T("name"));
 		TCHAR *nick = (name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid);
 		if (nick == NULL)
 			continue;
@@ -395,8 +395,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		mir_free(item->nick); item->nick = nick;
 
-		HXML groupNode = xmlGetChild(itemNode , "group");
-		replaceStrT(item->group, xmlGetText(groupNode));
+		HXML groupNode = XmlGetChild(itemNode , "group");
+		replaceStrT(item->group, XmlGetText(groupNode));
 
 		// check group delimiters:
 		if (item->group && szGroupDelimeter) {
@@ -472,7 +472,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 				setByte(hContact, "IsTransport", FALSE);
 		}
 
-		const TCHAR *imagepath = xmlGetAttrValue(itemNode, _T("vz:img"));
+		const TCHAR *imagepath = XmlGetAttrValue(itemNode, _T("vz:img"));
 		if (imagepath)
 			httpavatars->insert(new JABBER_HTTP_AVATARS(imagepath, hContact));
 	}
@@ -524,16 +524,16 @@ void CJabberProto::OnIqResultGetRegister(HXML iqNode, CJabberIqInfo*)
 
 	HXML queryNode;
 	const TCHAR *type;
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((queryNode = xmlGetChild(iqNode , "query")) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((queryNode = XmlGetChild(iqNode , "query")) == NULL) return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
 		if (m_hwndAgentRegInput)
-			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 1 /*success*/, (LPARAM)xi.copyNode(iqNode));
+			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 1 /*success*/, (LPARAM)xmlCopyNode(iqNode));
 	}
 	else if (!mir_tstrcmp(type, _T("error"))) {
 		if (m_hwndAgentRegInput) {
-			HXML errorNode = xmlGetChild(iqNode , "error");
+			HXML errorNode = XmlGetChild(iqNode , "error");
 			TCHAR *str = JabberErrorMsg(errorNode);
 			SendMessage(m_hwndAgentRegInput, WM_JABBER_REGINPUT_ACTIVATE, 0 /*error*/, (LPARAM)str);
 			mir_free(str);
@@ -546,8 +546,8 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 	debugLogA("<iq/> iqIdSetRegister");
 
 	const TCHAR *type, *from;
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((from = xmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((from = XmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
 		MCONTACT hContact = HContactFromJID(from);
@@ -559,7 +559,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 	}
 	else if (!mir_tstrcmp(type, _T("error"))) {
 		if (m_hwndRegProgress) {
-			HXML errorNode = xmlGetChild(iqNode , "error");
+			HXML errorNode = XmlGetChild(iqNode , "error");
 			TCHAR *str = JabberErrorMsg(errorNode);
 			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)str);
 			mir_free(str);
@@ -574,8 +574,8 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 	if (hasPhoto)
 		return;
 
-	HXML o = xmlGetChild(n, "BINVAL");
-	LPCTSTR ptszBinval = xmlGetText(o);
+	HXML o = XmlGetChild(n, "BINVAL");
+	LPCTSTR ptszBinval = XmlGetText(o);
 	if (o == NULL || ptszBinval == NULL)
 		return;
 
@@ -636,11 +636,11 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 
 static TCHAR* sttGetText(HXML node, char* tag)
 {
-	HXML n = xmlGetChild(node , tag);
+	HXML n = XmlGetChild(node , tag);
 	if (n == NULL)
 		return NULL;
 
-	return (TCHAR*)xmlGetText(n);
+	return (TCHAR*)XmlGetText(n);
 }
 
 void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
@@ -652,14 +652,14 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	DBVARIANT dbv;
 
 	debugLogA("<iq/> iqIdGetVcard");
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((jid = xmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((jid = XmlGetAttrValue(iqNode, _T("from"))) == NULL) return;
 	int id = JabberGetPacketID(iqNode);
 
 	if (id == m_nJabberSearchID) {
 		m_nJabberSearchID = -1;
 
-		if ((vCardNode = xmlGetChild(iqNode , "vCard")) != NULL) {
+		if ((vCardNode = XmlGetChild(iqNode , "vCard")) != NULL) {
 			if (!mir_tstrcmp(type, _T("result"))) {
 				PROTOSEARCHRESULT  psr = { 0 };
 				psr.cbSize = sizeof(psr);
@@ -708,45 +708,45 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 		hasOrgname = false, hasOrgunit = false, hasRole = false, hasTitle = false, hasDesc = false, hasPhoto = false;
 	int nEmail = 0, nPhone = 0, nYear, nMonth, nDay;
 
-	if ((vCardNode = xmlGetChild(iqNode , "vCard")) != NULL) {
+	if ((vCardNode = XmlGetChild(iqNode , "vCard")) != NULL) {
 		for (int i=0; ; i++) {
-			n = xmlGetChild(vCardNode ,i);
+			n = XmlGetChild(vCardNode ,i);
 			if (!n)
 				break;
-			if (xmlGetName(n) == NULL) continue;
-			if (!mir_tstrcmp(xmlGetName(n), _T("FN"))) {
-				if (xmlGetText(n) != NULL) {
+			if (XmlGetName(n) == NULL) continue;
+			if (!mir_tstrcmp(XmlGetName(n), _T("FN"))) {
+				if (XmlGetText(n) != NULL) {
 					hasFn = true;
-					setTString(hContact, "FullName", xmlGetText(n));
+					setTString(hContact, "FullName", XmlGetText(n));
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("NICKNAME"))) {
-				if (xmlGetText(n) != NULL) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("NICKNAME"))) {
+				if (XmlGetText(n) != NULL) {
 					hasNick = true;
-					setTString(hContact, "Nick", xmlGetText(n));
+					setTString(hContact, "Nick", XmlGetText(n));
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("N"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("N"))) {
 				// First/Last name
 				if (!hasGiven && !hasFamily && !hasMiddle) {
-					if ((m=xmlGetChild(n, "GIVEN")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "GIVEN")) != NULL && XmlGetText(m) != NULL) {
 						hasGiven = true;
-						setTString(hContact, "FirstName", xmlGetText(m));
+						setTString(hContact, "FirstName", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "FAMILY")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "FAMILY")) != NULL && XmlGetText(m) != NULL) {
 						hasFamily = true;
-						setTString(hContact, "LastName", xmlGetText(m));
+						setTString(hContact, "LastName", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "MIDDLE")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "MIDDLE")) != NULL && XmlGetText(m) != NULL) {
 						hasMiddle = true;
-						setTString(hContact, "MiddleName", xmlGetText(m));
+						setTString(hContact, "MiddleName", XmlGetText(m));
 				}	}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("EMAIL"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("EMAIL"))) {
 				// E-mail address(es)
-				if ((m=xmlGetChild(n, "USERID")) == NULL)	// Some bad client put e-mail directly in <EMAIL/> instead of <USERID/>
+				if ((m=XmlGetChild(n, "USERID")) == NULL)	// Some bad client put e-mail directly in <EMAIL/> instead of <USERID/>
 					m = n;
-				if (xmlGetText(m) != NULL) {
+				if (XmlGetText(m) != NULL) {
 					char text[100];
 					if (hContact != NULL) {
 						if (nEmail == 0)
@@ -755,25 +755,25 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 							mir_snprintf(text, _countof(text), "e-mail%d", nEmail - 1);
 					}
 					else mir_snprintf(text, _countof(text), "e-mail%d", nEmail);
-					setTString(hContact, text, xmlGetText(m));
+					setTString(hContact, text, XmlGetText(m));
 
 					if (hContact == NULL) {
 						mir_snprintf(text, _countof(text), "e-mailFlag%d", nEmail);
 						int nFlag = 0;
-						if (xmlGetChild(n, "HOME") != NULL) nFlag |= JABBER_VCEMAIL_HOME;
-						if (xmlGetChild(n, "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
-						if (xmlGetChild(n, "INTERNET") != NULL) nFlag |= JABBER_VCEMAIL_INTERNET;
-						if (xmlGetChild(n, "X400") != NULL) nFlag |= JABBER_VCEMAIL_X400;
+						if (XmlGetChild(n, "HOME") != NULL) nFlag |= JABBER_VCEMAIL_HOME;
+						if (XmlGetChild(n, "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
+						if (XmlGetChild(n, "INTERNET") != NULL) nFlag |= JABBER_VCEMAIL_INTERNET;
+						if (XmlGetChild(n, "X400") != NULL) nFlag |= JABBER_VCEMAIL_X400;
 						setWord(text, nFlag);
 					}
 					nEmail++;
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("BDAY"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("BDAY"))) {
 				// Birthday
-				if (!hasBday && xmlGetText(n) != NULL) {
+				if (!hasBday && XmlGetText(n) != NULL) {
 					if (hContact != NULL) {
-						if (_stscanf(xmlGetText(n), _T("%d-%d-%d"), &nYear, &nMonth, &nDay) == 3) {
+						if (_stscanf(XmlGetText(n), _T("%d-%d-%d"), &nYear, &nMonth, &nDay) == 3) {
 							hasBday = true;
 							setWord(hContact, "BirthYear", (WORD)nYear);
 							setByte(hContact, "BirthMonth", (BYTE) nMonth);
@@ -790,202 +790,202 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 					}
 					else {
 						hasBday = true;
-						setTString("BirthDate", xmlGetText(n));
+						setTString("BirthDate", XmlGetText(n));
 				}	}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("GENDER"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("GENDER"))) {
 				// Gender
-				if (!hasGender && xmlGetText(n) != NULL) {
+				if (!hasGender && XmlGetText(n) != NULL) {
 					if (hContact != NULL) {
-						if (xmlGetText(n)[0] && strchr("mMfF", xmlGetText(n)[0]) != NULL) {
+						if (XmlGetText(n)[0] && strchr("mMfF", XmlGetText(n)[0]) != NULL) {
 							hasGender = true;
-							setByte(hContact, "Gender", (BYTE) toupper(xmlGetText(n)[0]));
+							setByte(hContact, "Gender", (BYTE) toupper(XmlGetText(n)[0]));
 						}
 					}
 					else {
 						hasGender = true;
-						setTString("GenderString", xmlGetText(n));
+						setTString("GenderString", XmlGetText(n));
 				}	}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("ADR"))) {
-				if (!hasHome && xmlGetChild(n, "HOME") != NULL) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("ADR"))) {
+				if (!hasHome && XmlGetChild(n, "HOME") != NULL) {
 					// Home address
 					hasHome = true;
-					if ((m=xmlGetChild(n, "STREET")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "STREET")) != NULL && XmlGetText(m) != NULL) {
 						hasHomeStreet = true;
 						if (hContact != NULL) {
-							if ((o=xmlGetChild(n, "EXTADR")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
-							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+							if ((o=XmlGetChild(n, "EXTADR")) != NULL && XmlGetText(o) != NULL)
+								mir_sntprintf(text, _T("%s\r\n%s"), XmlGetText(m), XmlGetText(o));
+							else if ((o=XmlGetChild(n, "EXTADD")) != NULL && XmlGetText(o) != NULL)
+								mir_sntprintf(text, _T("%s\r\n%s"), XmlGetText(m), XmlGetText(o));
 							else
-								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
+								_tcsncpy_s(text, XmlGetText(m), _TRUNCATE);
 							text[_countof(text)-1] = '\0';
 							setTString(hContact, "Street", text);
 						}
 						else {
-							setTString(hContact, "Street", xmlGetText(m));
-							if ((m=xmlGetChild(n, "EXTADR")) == NULL)
-								m = xmlGetChild(n, "EXTADD");
-							if (m != NULL && xmlGetText(m) != NULL) {
+							setTString(hContact, "Street", XmlGetText(m));
+							if ((m=XmlGetChild(n, "EXTADR")) == NULL)
+								m = XmlGetChild(n, "EXTADD");
+							if (m != NULL && XmlGetText(m) != NULL) {
 								hasHomeStreet2 = true;
-								setTString(hContact, "Street2", xmlGetText(m));
+								setTString(hContact, "Street2", XmlGetText(m));
 					}	}	}
 
-					if ((m=xmlGetChild(n, "LOCALITY")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "LOCALITY")) != NULL && XmlGetText(m) != NULL) {
 						hasHomeLocality = true;
-						setTString(hContact, "City", xmlGetText(m));
+						setTString(hContact, "City", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "REGION")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "REGION")) != NULL && XmlGetText(m) != NULL) {
 						hasHomeRegion = true;
-						setTString(hContact, "State", xmlGetText(m));
+						setTString(hContact, "State", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "PCODE")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "PCODE")) != NULL && XmlGetText(m) != NULL) {
 						hasHomePcode = true;
-						setTString(hContact, "ZIP", xmlGetText(m));
+						setTString(hContact, "ZIP", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "CTRY")) == NULL || xmlGetText(m) == NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
-						m = xmlGetChild(n, "COUNTRY");
-					if (m != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "CTRY")) == NULL || XmlGetText(m) == NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
+						m = XmlGetChild(n, "COUNTRY");
+					if (m != NULL && XmlGetText(m) != NULL) {
 						hasHomeCtry = true;
-						setTString(hContact, "Country", xmlGetText(m));
+						setTString(hContact, "Country", XmlGetText(m));
 				}	}
 
-				if (!hasWork && xmlGetChild(n, "WORK") != NULL) {
+				if (!hasWork && XmlGetChild(n, "WORK") != NULL) {
 					// Work address
 					hasWork = true;
-					if ((m=xmlGetChild(n, "STREET")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "STREET")) != NULL && XmlGetText(m) != NULL) {
 						hasWorkStreet = true;
 						if (hContact != NULL) {
-							if ((o=xmlGetChild(n, "EXTADR")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
-							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+							if ((o=XmlGetChild(n, "EXTADR")) != NULL && XmlGetText(o) != NULL)
+								mir_sntprintf(text, _T("%s\r\n%s"), XmlGetText(m), XmlGetText(o));
+							else if ((o=XmlGetChild(n, "EXTADD")) != NULL && XmlGetText(o) != NULL)
+								mir_sntprintf(text, _T("%s\r\n%s"), XmlGetText(m), XmlGetText(o));
 							else
-								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
+								_tcsncpy_s(text, XmlGetText(m), _TRUNCATE);
 							text[_countof(text)-1] = '\0';
 							setTString(hContact, "CompanyStreet", text);
 						}
 						else {
-							setTString(hContact, "CompanyStreet", xmlGetText(m));
-							if ((m=xmlGetChild(n, "EXTADR")) == NULL)
-								m = xmlGetChild(n, "EXTADD");
-							if (m != NULL && xmlGetText(m) != NULL) {
+							setTString(hContact, "CompanyStreet", XmlGetText(m));
+							if ((m=XmlGetChild(n, "EXTADR")) == NULL)
+								m = XmlGetChild(n, "EXTADD");
+							if (m != NULL && XmlGetText(m) != NULL) {
 								hasWorkStreet2 = true;
-								setTString(hContact, "CompanyStreet2", xmlGetText(m));
+								setTString(hContact, "CompanyStreet2", XmlGetText(m));
 					}	}	}
 
-					if ((m=xmlGetChild(n, "LOCALITY")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "LOCALITY")) != NULL && XmlGetText(m) != NULL) {
 						hasWorkLocality = true;
-						setTString(hContact, "CompanyCity", xmlGetText(m));
+						setTString(hContact, "CompanyCity", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "REGION")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "REGION")) != NULL && XmlGetText(m) != NULL) {
 						hasWorkRegion = true;
-						setTString(hContact, "CompanyState", xmlGetText(m));
+						setTString(hContact, "CompanyState", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "PCODE")) != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "PCODE")) != NULL && XmlGetText(m) != NULL) {
 						hasWorkPcode = true;
-						setTString(hContact, "CompanyZIP", xmlGetText(m));
+						setTString(hContact, "CompanyZIP", XmlGetText(m));
 					}
-					if ((m=xmlGetChild(n, "CTRY")) == NULL || xmlGetText(m) == NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
-						m = xmlGetChild(n, "COUNTRY");
-					if (m != NULL && xmlGetText(m) != NULL) {
+					if ((m=XmlGetChild(n, "CTRY")) == NULL || XmlGetText(m) == NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
+						m = XmlGetChild(n, "COUNTRY");
+					if (m != NULL && XmlGetText(m) != NULL) {
 						hasWorkCtry = true;
-						setTString(hContact, "CompanyCountry", xmlGetText(m));
+						setTString(hContact, "CompanyCountry", XmlGetText(m));
 				}	}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("TEL"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("TEL"))) {
 				// Telephone/Fax/Cellular
-				if ((m=xmlGetChild(n, "NUMBER")) != NULL && xmlGetText(m) != NULL) {
+				if ((m=XmlGetChild(n, "NUMBER")) != NULL && XmlGetText(m) != NULL) {
 					if (hContact != NULL) {
-						if (!hasFax && xmlGetChild(n, "FAX") != NULL) {
+						if (!hasFax && XmlGetChild(n, "FAX") != NULL) {
 							hasFax = true;
-							setTString(hContact, "Fax", xmlGetText(m));
+							setTString(hContact, "Fax", XmlGetText(m));
 						}
-						else if (!hasCell && xmlGetChild(n, "CELL") != NULL) {
+						else if (!hasCell && XmlGetChild(n, "CELL") != NULL) {
 							hasCell = true;
-							setTString(hContact, "Cellular", xmlGetText(m));
+							setTString(hContact, "Cellular", XmlGetText(m));
 						}
 						else if (!hasPhone &&
-							(xmlGetChild(n, "HOME") != NULL || xmlGetChild(n, "WORK") != NULL || xmlGetChild(n, "VOICE") != NULL ||
-							(xmlGetChild(n, "FAX") == NULL &&
-							 xmlGetChild(n, "PAGER") == NULL &&
-							 xmlGetChild(n, "MSG") == NULL &&
-							 xmlGetChild(n, "CELL") == NULL &&
-							 xmlGetChild(n, "VIDEO") == NULL &&
-							 xmlGetChild(n, "BBS") == NULL &&
-							 xmlGetChild(n, "MODEM") == NULL &&
-							 xmlGetChild(n, "ISDN") == NULL &&
-							 xmlGetChild(n, "PCS") == NULL)))
+							(XmlGetChild(n, "HOME") != NULL || XmlGetChild(n, "WORK") != NULL || XmlGetChild(n, "VOICE") != NULL ||
+							(XmlGetChild(n, "FAX") == NULL &&
+							 XmlGetChild(n, "PAGER") == NULL &&
+							 XmlGetChild(n, "MSG") == NULL &&
+							 XmlGetChild(n, "CELL") == NULL &&
+							 XmlGetChild(n, "VIDEO") == NULL &&
+							 XmlGetChild(n, "BBS") == NULL &&
+							 XmlGetChild(n, "MODEM") == NULL &&
+							 XmlGetChild(n, "ISDN") == NULL &&
+							 XmlGetChild(n, "PCS") == NULL)))
 						{
 							hasPhone = true;
-							setTString(hContact, "Phone", xmlGetText(m));
+							setTString(hContact, "Phone", XmlGetText(m));
 						}
 					}
 					else {
 						char text[100];
 						mir_snprintf(text, _countof(text), "Phone%d", nPhone);
-						setTString(text, xmlGetText(m));
+						setTString(text, XmlGetText(m));
 
 						mir_snprintf(text, _countof(text), "PhoneFlag%d", nPhone);
 						int nFlag = 0;
-						if (xmlGetChild(n, "HOME")  != NULL) nFlag |= JABBER_VCTEL_HOME;
-						if (xmlGetChild(n, "WORK")  != NULL) nFlag |= JABBER_VCTEL_WORK;
-						if (xmlGetChild(n, "VOICE") != NULL) nFlag |= JABBER_VCTEL_VOICE;
-						if (xmlGetChild(n, "FAX")   != NULL) nFlag |= JABBER_VCTEL_FAX;
-						if (xmlGetChild(n, "PAGER") != NULL) nFlag |= JABBER_VCTEL_PAGER;
-						if (xmlGetChild(n, "MSG")   != NULL) nFlag |= JABBER_VCTEL_MSG;
-						if (xmlGetChild(n, "CELL")  != NULL) nFlag |= JABBER_VCTEL_CELL;
-						if (xmlGetChild(n, "VIDEO") != NULL) nFlag |= JABBER_VCTEL_VIDEO;
-						if (xmlGetChild(n, "BBS")   != NULL) nFlag |= JABBER_VCTEL_BBS;
-						if (xmlGetChild(n, "MODEM") != NULL) nFlag |= JABBER_VCTEL_MODEM;
-						if (xmlGetChild(n, "ISDN")  != NULL) nFlag |= JABBER_VCTEL_ISDN;
-						if (xmlGetChild(n, "PCS")   != NULL) nFlag |= JABBER_VCTEL_PCS;
+						if (XmlGetChild(n, "HOME")  != NULL) nFlag |= JABBER_VCTEL_HOME;
+						if (XmlGetChild(n, "WORK")  != NULL) nFlag |= JABBER_VCTEL_WORK;
+						if (XmlGetChild(n, "VOICE") != NULL) nFlag |= JABBER_VCTEL_VOICE;
+						if (XmlGetChild(n, "FAX")   != NULL) nFlag |= JABBER_VCTEL_FAX;
+						if (XmlGetChild(n, "PAGER") != NULL) nFlag |= JABBER_VCTEL_PAGER;
+						if (XmlGetChild(n, "MSG")   != NULL) nFlag |= JABBER_VCTEL_MSG;
+						if (XmlGetChild(n, "CELL")  != NULL) nFlag |= JABBER_VCTEL_CELL;
+						if (XmlGetChild(n, "VIDEO") != NULL) nFlag |= JABBER_VCTEL_VIDEO;
+						if (XmlGetChild(n, "BBS")   != NULL) nFlag |= JABBER_VCTEL_BBS;
+						if (XmlGetChild(n, "MODEM") != NULL) nFlag |= JABBER_VCTEL_MODEM;
+						if (XmlGetChild(n, "ISDN")  != NULL) nFlag |= JABBER_VCTEL_ISDN;
+						if (XmlGetChild(n, "PCS")   != NULL) nFlag |= JABBER_VCTEL_PCS;
 						setWord(text, nFlag);
 						nPhone++;
 					}
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("URL"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("URL"))) {
 				// Homepage
-				if (!hasUrl && xmlGetText(n) != NULL) {
+				if (!hasUrl && XmlGetText(n) != NULL) {
 					hasUrl = true;
-					setTString(hContact, "Homepage", xmlGetText(n));
+					setTString(hContact, "Homepage", XmlGetText(n));
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("ORG"))) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("ORG"))) {
 				if (!hasOrgname && !hasOrgunit) {
-					if ((m = xmlGetChild(n, "ORGNAME")) != NULL && xmlGetText(m) != NULL) {
+					if ((m = XmlGetChild(n, "ORGNAME")) != NULL && XmlGetText(m) != NULL) {
 						hasOrgname = true;
-						setTString(hContact, "Company", xmlGetText(m));
+						setTString(hContact, "Company", XmlGetText(m));
 					}
-					if ((m = xmlGetChild(n, "ORGUNIT")) != NULL && xmlGetText(m) != NULL) {	// The real vCard can have multiple <ORGUNIT/> but we will only display the first one
+					if ((m = XmlGetChild(n, "ORGUNIT")) != NULL && XmlGetText(m) != NULL) {	// The real vCard can have multiple <ORGUNIT/> but we will only display the first one
 						hasOrgunit = true;
-						setTString(hContact, "CompanyDepartment", xmlGetText(m));
+						setTString(hContact, "CompanyDepartment", XmlGetText(m));
 					}
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("ROLE"))) {
-				if (!hasRole && xmlGetText(n) != NULL) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("ROLE"))) {
+				if (!hasRole && XmlGetText(n) != NULL) {
 					hasRole = true;
-					setTString(hContact, "Role", xmlGetText(n));
+					setTString(hContact, "Role", XmlGetText(n));
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("TITLE"))) {
-				if (!hasTitle && xmlGetText(n) != NULL) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("TITLE"))) {
+				if (!hasTitle && XmlGetText(n) != NULL) {
 					hasTitle = true;
-					setTString(hContact, "CompanyPosition", xmlGetText(n));
+					setTString(hContact, "CompanyPosition", XmlGetText(n));
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("DESC"))) {
-				if (!hasDesc && xmlGetText(n) != NULL) {
+			else if (!mir_tstrcmp(XmlGetName(n), _T("DESC"))) {
+				if (!hasDesc && XmlGetText(n) != NULL) {
 					hasDesc = true;
-					CMString tszMemo(xmlGetText(n));
+					CMString tszMemo(XmlGetText(n));
 					tszMemo.Replace(_T("\n"), _T("\r\n"));
 					setTString(hContact, "About", tszMemo);
 				}
 			}
-			else if (!mir_tstrcmp(xmlGetName(n), _T("PHOTO")))
+			else if (!mir_tstrcmp(XmlGetName(n), _T("PHOTO")))
 				OnIqResultGetVcardPhoto(n, hContact, hasPhoto);
 	}	}
 
@@ -1118,7 +1118,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 void CJabberProto::OnIqResultSetVcard(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdSetVcard");
-	if (xmlGetAttrValue(iqNode, _T("type")))
+	if (XmlGetAttrValue(iqNode, _T("type")))
 		WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 }
 
@@ -1129,38 +1129,38 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 	int id;
 
 	debugLogA("<iq/> iqIdGetSearch");
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 	if ((id = JabberGetPacketID(iqNode)) == -1) return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
-		if ((queryNode = xmlGetChild(iqNode, "query")) == NULL)
+		if ((queryNode = XmlGetChild(iqNode, "query")) == NULL)
 			return;
 
 		PROTOSEARCHRESULT psr = { 0 };
 		psr.cbSize = sizeof(psr);
 		for (int i = 0;; i++) {
-			HXML itemNode = xmlGetChild(queryNode, i);
+			HXML itemNode = XmlGetChild(queryNode, i);
 			if (!itemNode)
 				break;
 
-			if (!mir_tstrcmp(xmlGetName(itemNode), _T("item"))) {
-				if ((jid = xmlGetAttrValue(itemNode, _T("jid"))) != NULL) {
+			if (!mir_tstrcmp(XmlGetName(itemNode), _T("item"))) {
+				if ((jid = XmlGetAttrValue(itemNode, _T("jid"))) != NULL) {
 					psr.id.t = (TCHAR*)jid;
 					debugLog(_T("Result jid = %s"), jid);
-					if ((n = xmlGetChild(itemNode, "nick")) != NULL && xmlGetText(n) != NULL)
-						psr.nick.t = (TCHAR*)xmlGetText(n);
+					if ((n = XmlGetChild(itemNode, "nick")) != NULL && XmlGetText(n) != NULL)
+						psr.nick.t = (TCHAR*)XmlGetText(n);
 					else
 						psr.nick.t = _T("");
-					if ((n = xmlGetChild(itemNode, "first")) != NULL && xmlGetText(n) != NULL)
-						psr.firstName.t = (TCHAR*)xmlGetText(n);
+					if ((n = XmlGetChild(itemNode, "first")) != NULL && XmlGetText(n) != NULL)
+						psr.firstName.t = (TCHAR*)XmlGetText(n);
 					else
 						psr.firstName.t = _T("");
-					if ((n = xmlGetChild(itemNode, "last")) != NULL && xmlGetText(n) != NULL)
-						psr.lastName.t = (TCHAR*)xmlGetText(n);
+					if ((n = XmlGetChild(itemNode, "last")) != NULL && XmlGetText(n) != NULL)
+						psr.lastName.t = (TCHAR*)XmlGetText(n);
 					else
 						psr.lastName.t = _T("");
-					if ((n = xmlGetChild(itemNode, "email")) != NULL && xmlGetText(n) != NULL)
-						psr.email.t = (TCHAR*)xmlGetText(n);
+					if ((n = XmlGetChild(itemNode, "email")) != NULL && XmlGetText(n) != NULL)
+						psr.email.t = (TCHAR*)XmlGetText(n);
 					else
 						psr.email.t = _T("");
 					psr.flags = PSR_TCHAR;
@@ -1180,7 +1180,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 	HXML queryNode;
 
 	debugLogA("<iq/> iqIdGetExtSearch");
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
@@ -1189,13 +1189,13 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
-		if ((queryNode=xmlGetChild(iqNode , "query")) == NULL) return;
-		if ((queryNode=xmlGetChild(queryNode , "x")) == NULL) return;
+		if ((queryNode=XmlGetChild(iqNode , "query")) == NULL) return;
+		if ((queryNode=XmlGetChild(queryNode , "x")) == NULL) return;
 		for (int i=0; ; i++) {
-			HXML itemNode = xmlGetChild(queryNode ,i);
+			HXML itemNode = XmlGetChild(queryNode ,i);
 			if (!itemNode)
 				break;
-			if (mir_tstrcmp(xmlGetName(itemNode), _T("item")))
+			if (mir_tstrcmp(XmlGetName(itemNode), _T("item")))
 				continue;
 
 			PROTOSEARCHRESULT  psr = { 0 };
@@ -1203,35 +1203,35 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 			psr.flags = PSR_TCHAR;
 
 			for (int j=0; ; j++) {
-				HXML fieldNode = xmlGetChild(itemNode ,j);
+				HXML fieldNode = XmlGetChild(itemNode ,j);
 				if (!fieldNode)
 					break;
 
-				if (mir_tstrcmp(xmlGetName(fieldNode), _T("field")))
+				if (mir_tstrcmp(XmlGetName(fieldNode), _T("field")))
 					continue;
 
-				const TCHAR *fieldName = xmlGetAttrValue(fieldNode, _T("var"));
+				const TCHAR *fieldName = XmlGetAttrValue(fieldNode, _T("var"));
 				if (fieldName == NULL)
 					continue;
 
-				HXML n = xmlGetChild(fieldNode , "value");
+				HXML n = XmlGetChild(fieldNode , "value");
 				if (n == NULL)
 					continue;
 
 				if (!mir_tstrcmp(fieldName, _T("jid"))) {
-					psr.id.t = (TCHAR*)xmlGetText(n);
+					psr.id.t = (TCHAR*)XmlGetText(n);
 					debugLog(_T("Result jid = %s"), psr.id.t);
 				}
 				else if (!mir_tstrcmp(fieldName, _T("nickname")))
-					psr.nick.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.nick.t = (XmlGetText(n) != NULL) ? (TCHAR*)XmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("fn")))
-					psr.firstName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.firstName.t = (XmlGetText(n) != NULL) ? (TCHAR*)XmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("given")))
-					psr.firstName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.firstName.t = (XmlGetText(n) != NULL) ? (TCHAR*)XmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("family")))
-					psr.lastName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.lastName.t = (XmlGetText(n) != NULL) ? (TCHAR*)XmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("email")))
-					psr.email.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.email.t = (XmlGetText(n) != NULL) ? (TCHAR*)XmlGetText(n) : _T("");
 			}
 
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
@@ -1247,7 +1247,7 @@ void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdSetPassword");
 
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
@@ -1263,7 +1263,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> OnIqResultGetVCardAvatar");
 
-	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
+	const TCHAR *from = XmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
 
@@ -1272,15 +1272,15 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	const TCHAR *type;
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 	if (mir_tstrcmp(type, _T("result"))) return;
 
-	HXML vCard = xmlGetChild(iqNode , "vCard");
+	HXML vCard = XmlGetChild(iqNode , "vCard");
 	if (vCard == NULL) return;
-	vCard = xmlGetChild(vCard , "PHOTO");
+	vCard = XmlGetChild(vCard , "PHOTO");
 	if (vCard == NULL) return;
 
-	if (xmlGetChildCount(vCard) == 0) {
+	if (XmlGetChildCount(vCard) == 0) {
 		delSetting(hContact, "AvatarHash");
 		if ( ptrT( getTStringA(hContact, "AvatarSaved")) != NULL) {
 			delSetting(hContact, "AvatarSaved");
@@ -1289,8 +1289,8 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode, CJabberIqInfo*)
 		return;
 	}
 
-	const TCHAR *mimeType = xmlGetText( xmlGetChild(vCard , "TYPE"));
-	HXML n = xmlGetChild(vCard , "BINVAL");
+	const TCHAR *mimeType = XmlGetText( XmlGetChild(vCard , "TYPE"));
+	HXML n = XmlGetChild(vCard , "BINVAL");
 	if (n == NULL)
 		return;
 
@@ -1304,7 +1304,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 
 	debugLogA("<iq/> iqIdResultGetClientAvatar");
 
-	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
+	const TCHAR *from = XmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
 	MCONTACT hContact = HContactFromJID(from);
@@ -1312,17 +1312,17 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	HXML n = NULL;
-	if ((type = xmlGetAttrValue(iqNode, _T("type"))) != NULL && !mir_tstrcmp(type, _T("result"))) {
-		HXML queryNode = xmlGetChild(iqNode , "query");
+	if ((type = XmlGetAttrValue(iqNode, _T("type"))) != NULL && !mir_tstrcmp(type, _T("result"))) {
+		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode != NULL) {
-			const TCHAR *xmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
+			const TCHAR *xmlns = XmlGetAttrValue(queryNode, _T("xmlns"));
 			if (!mir_tstrcmp(xmlns, JABBER_FEAT_AVATAR))
-				n = xmlGetChild(queryNode , "data");
+				n = XmlGetChild(queryNode , "data");
 		}
 	}
 
 	if (n != NULL) {
-		OnIqResultGotAvatar(hContact, n, xmlGetAttrValue(n, _T("mimetype")));
+		OnIqResultGotAvatar(hContact, n, XmlGetAttrValue(n, _T("mimetype")));
 		return;
 	}
 	
@@ -1342,7 +1342,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdResultGetServerAvatar");
 
-	const TCHAR *from = xmlGetAttrValue(iqNode, _T("from"));
+	const TCHAR *from = XmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
 
@@ -1351,18 +1351,18 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 		return;
 
 	HXML n = NULL;
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if (!mir_tstrcmp(type, _T("result"))) {
-		HXML queryNode = xmlGetChild(iqNode , "query");
+		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode != NULL) {
-			const TCHAR *xmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
+			const TCHAR *xmlns = XmlGetAttrValue(queryNode, _T("xmlns"));
 			if (!mir_tstrcmp(xmlns, JABBER_FEAT_SERVER_AVATAR))
-				n = xmlGetChild(queryNode, "data");
+				n = XmlGetChild(queryNode, "data");
 		}
 	}
 
 	if (n != NULL) {
-		OnIqResultGotAvatar(hContact, n, xmlGetAttrValue(n, _T("mimetype")));
+		OnIqResultGotAvatar(hContact, n, XmlGetAttrValue(n, _T("mimetype")));
 		return;
 	}
 	
@@ -1382,7 +1382,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const TCHAR *mimeType)
 {
 	unsigned resultLen;
-	ptrA body((char*)mir_base64_decode( _T2A(xmlGetText(n)), &resultLen));
+	ptrA body((char*)mir_base64_decode( _T2A(XmlGetText(n)), &resultLen));
 	if (body == NULL)
 		return;
 
@@ -1443,7 +1443,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 	// RECVED: list of bookmarks
 	// ACTION: refresh bookmarks dialog
 	debugLogA("<iq/> iqIdGetBookmarks");
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
@@ -1458,24 +1458,24 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 			ListRemoveList(LIST_BOOKMARK);
 
 			HXML itemNode;
-			for (int i = 0; itemNode = xmlGetChild(storageNode, i); i++) {
-				if (LPCTSTR name = xmlGetName(itemNode)) {
-					if (!mir_tstrcmp(name, _T("conference")) && (jid = xmlGetAttrValue(itemNode, _T("jid")))) {
+			for (int i = 0; itemNode = XmlGetChild(storageNode, i); i++) {
+				if (LPCTSTR name = XmlGetName(itemNode)) {
+					if (!mir_tstrcmp(name, _T("conference")) && (jid = XmlGetAttrValue(itemNode, _T("jid")))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
-						item->name = mir_tstrdup(xmlGetAttrValue(itemNode, _T("name")));
+						item->name = mir_tstrdup(XmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("conference"));
 						item->bUseResource = TRUE;
 						item->nick = mir_tstrdup(XPathT(itemNode, "nick"));
 						item->password = mir_tstrdup(XPathT(itemNode, "password"));
 
-						const TCHAR *autoJ = xmlGetAttrValue(itemNode, _T("autojoin"));
+						const TCHAR *autoJ = XmlGetAttrValue(itemNode, _T("autojoin"));
 						if (autoJ != NULL)
 							item->bAutoJoin = (!mir_tstrcmp(autoJ, _T("true")) || !mir_tstrcmp(autoJ, _T("1"))) ? true : false;
 					}
-					else if (!mir_tstrcmp(name, _T("url")) && (jid = xmlGetAttrValue(itemNode, _T("url")))) {
+					else if (!mir_tstrcmp(name, _T("url")) && (jid = XmlGetAttrValue(itemNode, _T("url")))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
 						item->bUseResource = TRUE;
-						item->name = mir_tstrdup(xmlGetAttrValue(itemNode, _T("name")));
+						item->name = mir_tstrdup(XmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("url"));
 					}
 				}
@@ -1533,7 +1533,7 @@ void CJabberProto::OnIqResultSetBookmarks(HXML iqNode, CJabberIqInfo*)
 
 	debugLogA("<iq/> iqIdSetBookmarks");
 
-	const TCHAR *type = xmlGetAttrValue(iqNode, _T("type"));
+	const TCHAR *type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
@@ -1541,7 +1541,7 @@ void CJabberProto::OnIqResultSetBookmarks(HXML iqNode, CJabberIqInfo*)
 		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_REFRESH);
 	}
 	else if (!mir_tstrcmp(type, _T("error"))) {
-		HXML errorNode = xmlGetChild(iqNode, "error");
+		HXML errorNode = XmlGetChild(iqNode, "error");
 		TCHAR *str = JabberErrorMsg(errorNode);
 		MessageBox(NULL, str, TranslateT("Jabber Bookmarks Error"), MB_OK | MB_SETFOREGROUND);
 		mir_free(str);

@@ -174,17 +174,17 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo *pI
 		return;
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML query = xmlGetChild(iqNode , "query");
+		HXML query = XmlGetChild(iqNode , "query");
 		if (query == NULL)
 			pNode->SetInfoRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			HXML feature;
 			int i;
-			for (i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++)
-				pNode->AddFeature(xmlGetAttrValue(feature, _T("var")));
+			for (i = 1; (feature = XmlGetNthChild(query, _T("feature"), i)) != NULL; i++)
+				pNode->AddFeature(XmlGetAttrValue(feature, _T("var")));
 			HXML identity;
-			for (i = 1; (identity = xmlGetNthChild(query, _T("identity"), i)) != NULL; i++)
-				pNode->AddIdentity(xmlGetAttrValue(identity, _T("category")), xmlGetAttrValue(identity, _T("type")), xmlGetAttrValue(identity, _T("name")));
+			for (i = 1; (identity = XmlGetNthChild(query, _T("identity"), i)) != NULL; i++)
+				pNode->AddIdentity(XmlGetAttrValue(identity, _T("category")), XmlGetAttrValue(identity, _T("type")), XmlGetAttrValue(identity, _T("name")));
 
 			pNode->SetInfoRequestId(JABBER_DISCO_RESULT_OK);
 			pNode->SetInfoRequestErrorText(NULL);
@@ -192,7 +192,7 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo *pI
 	}
 	else {
 		if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
-			HXML errorNode = xmlGetChild(iqNode , "error");
+			HXML errorNode = XmlGetChild(iqNode , "error");
 			TCHAR *str = JabberErrorMsg(errorNode);
 			pNode->SetInfoRequestErrorText(str);
 			mir_free(str);
@@ -218,13 +218,13 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo *p
 		return;
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML query = xmlGetChild(iqNode , "query");
+		HXML query = XmlGetChild(iqNode , "query");
 		if (query == NULL)
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
 			HXML item;
-			for (int i = 1; (item = xmlGetNthChild(query, _T("item"), i)) != NULL; i++)
-				pNode->AddChildNode(xmlGetAttrValue(item, _T("jid")), xmlGetAttrValue(item, _T("node")), xmlGetAttrValue(item, _T("name")));
+			for (int i = 1; (item = XmlGetNthChild(query, _T("item"), i)) != NULL; i++)
+				pNode->AddChildNode(XmlGetAttrValue(item, _T("jid")), XmlGetAttrValue(item, _T("node")), XmlGetAttrValue(item, _T("name")));
 
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_OK);
 			pNode->SetItemsRequestErrorText(NULL);
@@ -232,7 +232,7 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo *p
 	}
 	else {
 		if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
-			HXML errorNode = xmlGetChild(iqNode , "error");
+			HXML errorNode = XmlGetChild(iqNode , "error");
 			TCHAR *str = JabberErrorMsg(errorNode);
 			pNode->SetItemsRequestErrorText(str);
 			mir_free(str);
@@ -257,12 +257,12 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo
 
 	mir_cslockfull lck(m_SDManager.cs());
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML query = xmlGetChild(iqNode , "query");
+		HXML query = XmlGetChild(iqNode , "query");
 		if (query) {
 			HXML feature;
-			for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
-				if (!mir_tstrcmp(xmlGetAttrValue(feature, _T("var")), (TCHAR *)pInfo->m_pUserData)) {
-					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), xmlGetAttrValue(iqNode, _T("node")), NULL);
+			for (int i = 1; (feature = XmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
+				if (!mir_tstrcmp(XmlGetAttrValue(feature, _T("var")), (TCHAR *)pInfo->m_pUserData)) {
+					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), XmlGetAttrValue(iqNode, _T("node")), NULL);
 					SendBothRequests(pNode, NULL);
 					break;
 	}	}	}	}
@@ -279,23 +279,23 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInf
 	XmlNode packet(NULL);
 	mir_cslockfull lck(m_SDManager.cs());
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML query = xmlGetChild(iqNode , "query");
+		HXML query = XmlGetChild(iqNode , "query");
 		if (query) {
 			HXML item;
-			for (int i = 1; (item = xmlGetNthChild(query, _T("item"), i)) != NULL; i++) {
-				const TCHAR *szJid = xmlGetAttrValue(item, _T("jid"));
-				const TCHAR *szNode = xmlGetAttrValue(item, _T("node"));
+			for (int i = 1; (item = XmlGetNthChild(query, _T("item"), i)) != NULL; i++) {
+				const TCHAR *szJid = XmlGetAttrValue(item, _T("jid"));
+				const TCHAR *szNode = XmlGetAttrValue(item, _T("node"));
 				CJabberIqInfo *pNewInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
 				pNewInfo->m_pUserData = pInfo->m_pUserData;
 				pNewInfo->SetTimeout(30000);
 
 				XmlNodeIq iq(pNewInfo);
 				iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), szNode);
-				xmlAddChild(packet, iq);
+				XmlAddChild(packet, iq);
 	}	}	}
 	lck.unlock();
 
-	if (xmlGetChild(packet ,0))
+	if (XmlGetChild(packet ,0))
 		m_ThreadInfo->send(packet);
 }
 
@@ -313,10 +313,10 @@ BOOL CJabberProto::SendInfoRequest(CJabberSDNode *pNode, HXML parent)
 		XmlNodeIq iq(pInfo);
 		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
 		if (pNode->GetNode())
-			xmlAddAttr(query, _T("node"), pNode->GetNode());
+			XmlAddAttr(query, _T("node"), pNode->GetNode());
 
 		if (parent)
-			xmlAddChild(parent, iq);
+			XmlAddChild(parent, iq);
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -343,10 +343,10 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, HXML parent)
 		XmlNodeIq iq(pInfo);
 		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
 		if (pNode->GetNode())
-			xmlAddAttr(query, _T("node"), pNode->GetNode());
+			XmlAddAttr(query, _T("node"), pNode->GetNode());
 
 		if (parent)
-			xmlAddChild(parent, iq);
+			XmlAddChild(parent, iq);
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -360,10 +360,10 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode *pNode, HXML parent)
 		XmlNodeIq iq(pInfo);
 		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 		if (pNode->GetNode())
-			xmlAddAttr(query, _T("node"), pNode->GetNode());
+			XmlAddAttr(query, _T("node"), pNode->GetNode());
 
 		if (parent)
-			xmlAddChild(parent, iq);
+			XmlAddChild(parent, iq);
 		else
 			m_ThreadInfo->send(iq);
 	}
@@ -909,7 +909,7 @@ void CJabberDlgDiscovery::btnRefresh_OnClick(CCtrlButton *)
 	}
 	lck.unlock();
 
-	if (xmlGetChild(packet ,0))
+	if (XmlGetChild(packet ,0))
 		m_proto->m_ThreadInfo->send(packet);
 }
 
@@ -1018,7 +1018,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_proto->SendInfoRequest(pNode, packet);
 				}
 			}
-			if (xmlGetChild(packet, 0))
+			if (XmlGetChild(packet, 0))
 				m_proto->m_ThreadInfo->send(packet);
 
 			KillTimer(m_hwnd, AUTODISCO_TIMER);
@@ -1081,7 +1081,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						TreeList_MakeFakeParent(hItem, FALSE);
 					}
 				}
-				if (xmlGetChild(packet))
+				if (XmlGetChild(packet))
 					m_proto->m_ThreadInfo->send(packet);
 			}
 			else if (pHeader->code == NM_CUSTOMDRAW) {
@@ -1282,7 +1282,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 					TreeList_MakeFakeParent(hItem, FALSE);
 				}
 			}
-			if (xmlGetChild(packet))
+			if (XmlGetChild(packet))
 				m_ThreadInfo->send(packet);
 		}
 		break;
@@ -1302,14 +1302,14 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 						TreeList_MakeFakeParent(hNode, FALSE);
 					}
 
-					if (xmlGetChildCount(packet) > 50) {
+					if (XmlGetChildCount(packet) > 50) {
 						m_ThreadInfo->send(packet);
 						packet = XmlNode(NULL);
 					}
 				}
 			}
 
-			if (xmlGetChildCount(packet))
+			if (XmlGetChildCount(packet))
 				m_ThreadInfo->send(packet);
 		}
 		break;

@@ -114,7 +114,8 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_DISCOVERY:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-			TCHAR tszURL[MAX_PATH] = { 0 }, *tszTitle = NULL;
+			TCHAR tszURL[MAX_PATH] = { 0 };
+			const TCHAR *tszTitle = NULL;
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
 				tszTitle = CheckFeed(tszURL, hwndDlg);
 			else
@@ -281,7 +282,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
@@ -436,7 +437,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));

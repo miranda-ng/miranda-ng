@@ -1153,7 +1153,7 @@ retry:
 
 					xmlAction = mir_a2t(e->event.xml_action.data);
 					tag = mir_a2t("events");
-					hXml = xi.parseString(xmlAction, 0, tag);
+					hXml = xmlParseString(xmlAction, 0, tag);
 
 					if (hXml != NULL) {
 						HXML node;
@@ -1161,13 +1161,13 @@ retry:
 						
 						mir_free(tag);
 						tag = mir_a2t("event/type");
-						node = xi.getChildByPath(hXml, tag, 0);
-						type = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+						node = xmlGetChildByPath(hXml, tag, 0);
+						type = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 
 						mir_free(tag);
 						tag = mir_a2t("event/sender");
-						node = xi.getChildByPath(hXml, tag, 0);
-						sender = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+						node = xmlGetChildByPath(hXml, tag, 0);
+						sender = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 						debugLogA("mainthread() (%x): XML Action type: %s.", this, type != NULL ? type : "unknown");
 						// Avatar change notify
 						if (type != NULL && !mir_strcmp(type, "28")) {
@@ -1176,7 +1176,7 @@ retry:
 						}
 						mir_free(type);
 						mir_free(sender);
-						xi.destroyNode(hXml);
+						xmlDestroyNode(hXml);
 					}
 					mir_free(tag);
 					mir_free(xmlAction);
