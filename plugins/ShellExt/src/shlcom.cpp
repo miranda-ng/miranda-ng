@@ -235,7 +235,6 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 
 bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 {
-	bool Result = false;
 	// hide offliners?
 	bool bHideOffline = db_get_b(0, "CList", "HideOffline", 0) == 1;
 	// do they wanna hide the offline people anyway?
@@ -356,10 +355,9 @@ void __cdecl ClearMRUThread(void*)
 }
 
 // this function is called from an APC into the main thread
-void __stdcall ipcService(ULONG_PTR dwParam)
+void __stdcall ipcService(ULONG_PTR)
 {
 	HANDLE hSignal;
-	TSlotIPC *pct;
 	LPSTR szBuf;
 	char szGroupStr[32];
 	DBVARIANT dbv;
@@ -384,7 +382,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 			pMMT->pServerBaseAddress = pMMT->pClientBaseAddress;
 			pMMT->pClientBaseAddress = cloned;
 			memcpy(cloned, pMMT, IPC_PACKET_SIZE);
-			ipcFixupAddresses(true, cloned);
+			ipcFixupAddresses(cloned);
 			DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &cloned->Param, THREAD_SET_CONTEXT, false, 0);
 			mir_forkthread(&IssueTransferThread, cloned);
 			goto Reply;
@@ -402,7 +400,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 		pMMT->pServerBaseAddress = pMMT->pClientBaseAddress;
 		pMMT->pClientBaseAddress = pMMT;
 		// translate to the server space map
-		ipcFixupAddresses(true, pMMT);
+		ipcFixupAddresses(pMMT);
 		// store the address map offset so the caller can retranslate
 		pMMT->pServerBaseAddress = pMMT;
 		// return some options to the client
@@ -426,6 +424,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED)) 
 			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
 
+		TSlotIPC *pct = NULL;
 		int iSlot = 0;
 		// return profile if set
 		if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED)) {
