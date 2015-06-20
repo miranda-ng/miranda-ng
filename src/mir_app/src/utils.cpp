@@ -30,7 +30,6 @@ INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 
 int  InitOpenUrl(void);
 int  InitPathUtils(void);
-int  InitColourPicker(void);
 void InitXmlApi(void);
 
 int  InitCrypt(void);
@@ -378,7 +377,6 @@ int LoadUtilsModule(void)
 
 	InitOpenUrl();
 	InitPathUtils();
-	InitColourPicker();
 	InitXmlApi();
 	InitCrypt();
 	return 0;
