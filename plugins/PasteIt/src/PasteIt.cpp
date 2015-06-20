@@ -53,7 +53,6 @@ PLUGININFOEX pluginInfo = {
 
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
-XML_API xi = { 0 };
 int hLangpack = 0;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -402,7 +401,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
 
 	Icon_Register(hInst, LPGEN("Paste It"), &icon, 1);

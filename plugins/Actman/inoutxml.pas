@@ -31,17 +31,14 @@ var
 begin
   result:=nil;
   if actnode=0 then exit;
-  with xmlparser do
+  pa:=GetLinkByName(FastWideToAnsiBuf(xmlGetAttrValue(actnode,ioClass),buf));
+  if pa<>nil then
   begin
-    pa:=GetLinkByName(FastWideToAnsiBuf(getAttrValue(actnode,ioClass),buf));
-    if pa<>nil then
-    begin
-      result:=pa.Create;
-      result.Load(pointer(actnode),1);
-    end
-    else
-      result:=tBaseAction(1);
-  end;
+    result:=pa.Create;
+    result.Load(pointer(actnode),1);
+  end
+  else
+    result:=tBaseAction(1);
 end;
 
 function Import(list:tMacroList;fname:PWideChar;aflags:dword):integer;
@@ -76,79 +73,72 @@ begin
   BlockRead(f,res^,i);
   CloseHandle(f);
 
-//MessageBoxW(0,res,'SRC',0);
-  xmlparser.cbSize:=SizeOf(TXML_API_W);
-  CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-  with xmlparser do
-  begin
-    root:=parseString(ChangeUnicode(res),@i,nil);
-    nodenum:=0;
-    impact:=imp_yes;
-    repeat
-      actnode:=getNthChild(root,ioAction,nodenum);
-      if actnode=0 then break;
-//??      if StrCmpW(getName(actnode),ioAction)<>0 then break;
-      tmp:=getAttrValue(actnode,ioName);
-      if tmp<>nil then //!!
+  root:=xmlParseString(ChangeUnicode(res),@i,nil);
+  nodenum:=0;
+  impact:=imp_yes;
+  repeat
+    actnode:=xmlGetNthChild(root,ioAction,nodenum);
+    if actnode=0 then break;
+    tmp:=xmlGetAttrValue(actnode,ioName);
+    if tmp<>nil then //!!
+    begin
+      p:=list.GetMacro(tmp);
+      oldid:=$FFFFFFFF;
+      if p<>nil then
       begin
-        p:=list.GetMacro(tmp);
-        oldid:=$FFFFFFFF;
-        if p<>nil then
+        if (impact<>imp_yesall) and (impact<>imp_noall) then
         begin
-          if (impact<>imp_yesall) and (impact<>imp_noall) then
-          begin
-            StrCopyW(buf,TranslateW('Action "$" exists, do you want to rewrite it?'));
-            impact:=ShowQuestion(StrReplaceW(buf,'$',tmp));
-          end;
-          if (impact=imp_yesall) or (impact=imp_yes) then
-          begin
-            oldid:=p^.id;
-            FreeMacro(p);
-          end;
+          StrCopyW(buf,TranslateW('Action "$" exists, do you want to rewrite it?'));
+          impact:=ShowQuestion(StrReplaceW(buf,'$',tmp));
         end;
-        // if new or overwriting then read macro details/actions
-        if (p=nil) or (impact=imp_yesall) or (impact=imp_yes) or (impact=imp_append) then
+        if (impact=imp_yesall) or (impact=imp_yes) then
         begin
-          with List[list.NewMacro()]^ do
-          begin
-            if (p<>nil) and (oldid<>$FFFFFFFF) then // set old id to keep UseAction setting
-            begin
-              flags:=flags or ACF_IMPORT or ACF_OVERLOAD;
-              id:=oldid;
-            end
-            else
-              flags:=flags or ACF_IMPORT;
-            if StrToInt(getAttrValue(actnode,ioVolatile))=1 then flags:=flags or ACF_VOLATILE;
-            StrCopyW(descr,tmp,MacroNameLen-1);
-
-            // reading actions
-            actcnt:=0; // count in file 
-            ActionCount:=0;      // amount of loaded
-            repeat
-              act:=ImportAction(getChild(actnode,actcnt));
-              if act=nil then
-                break;
-              if uint_ptr(act)<>1 then
-              begin
-                arr[ActionCount]:=act;
-                inc(ActionCount);
-              end;
-              inc(actcnt);
-            until false;
-            // moving actions to their place
-            if Actioncount>0 then
-            begin
-              GetMem(ActionList,SizeOf(tBaseAction)*ActionCount);
-              move(arr,ActionList^,SizeOf(tBaseAction)*ActionCount);
-            end;
-            inc(result);
-          end;
+          oldid:=p^.id;
+          FreeMacro(p);
         end;
       end;
-      inc(nodenum);
-    until false;
-    destroyNode(root);
-  end;
+      // if new or overwriting then read macro details/actions
+      if (p=nil) or (impact=imp_yesall) or (impact=imp_yes) or (impact=imp_append) then
+      begin
+        with List[list.NewMacro()]^ do
+        begin
+          if (p<>nil) and (oldid<>$FFFFFFFF) then // set old id to keep UseAction setting
+          begin
+            flags:=flags or ACF_IMPORT or ACF_OVERLOAD;
+            id:=oldid;
+          end
+          else
+            flags:=flags or ACF_IMPORT;
+          if StrToInt(xmlGetAttrValue(actnode,ioVolatile))=1 then flags:=flags or ACF_VOLATILE;
+          StrCopyW(descr,tmp,MacroNameLen-1);
+
+          // reading actions
+          actcnt:=0; // count in file 
+          ActionCount:=0;      // amount of loaded
+          repeat
+            act:=ImportAction(xmlGetChild(actnode,actcnt));
+            if act=nil then
+              break;
+            if uint_ptr(act)<>1 then
+            begin
+              arr[ActionCount]:=act;
+              inc(ActionCount);
+            end;
+            inc(actcnt);
+          until false;
+          // moving actions to their place
+          if Actioncount>0 then
+          begin
+            GetMem(ActionList,SizeOf(tBaseAction)*ActionCount);
+            move(arr,ActionList^,SizeOf(tBaseAction)*ActionCount);
+          end;
+          inc(result);
+        end;
+      end;
+    end;
+    inc(nodenum);
+  until false;
+  xmlDestroyNode(root);
   mFreeMem(res);
 end;
 

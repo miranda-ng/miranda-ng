@@ -981,7 +981,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	else
 		msgType = _T("chat");
 
-	XmlNode m(_T("message")); xmlAddAttr(m, _T("type"), msgType);
+	XmlNode m(_T("message")); XmlAddAttr(m, _T("type"), msgType);
 	if (!isEncrypted)
 		m << XCHILD(_T("body"), msg);
 	else {
@@ -1013,17 +1013,17 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
 		if (!mir_tstrcmp(msgType, _T("groupchat")))
-			xmlAddAttr(m, _T("to"), szClientJid);
+			XmlAddAttr(m, _T("to"), szClientJid);
 		else {
 			id = SerialNext();
-			xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
+			XmlAddAttr(m, _T("to"), szClientJid); XmlAddAttrID(m, id);
 		}
 		m_ThreadInfo->send(m);
 
 		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0, id));
 	}
 	else {
-		xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
+		XmlAddAttr(m, _T("to"), szClientJid); XmlAddAttrID(m, id);
 
 		// message receipts XEP priority
 		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
@@ -1250,7 +1250,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 
-	XmlNode m(_T("message")); xmlAddAttr(m, _T("to"), szClientJid);
+	XmlNode m(_T("message")); XmlAddAttr(m, _T("to"), szClientJid);
 
 	if (jcb & JABBER_CAPS_CHATSTATES) {
 		m << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext());

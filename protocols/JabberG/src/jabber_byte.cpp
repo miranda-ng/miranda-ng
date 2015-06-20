@@ -44,7 +44,7 @@ JABBER_BYTE_TRANSFER::~JABBER_BYTE_TRANSFER()
 	mir_free(iqId);
 	mir_free(sid);
 
-	xi.destroyNode(iqNode);
+	xmlDestroyNode(iqNode);
 
 	// XEP-0065 proxy support
 	mir_free(szProxyHost);
@@ -58,15 +58,15 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 	JABBER_BYTE_TRANSFER *jbt = (JABBER_BYTE_TRANSFER *)pInfo->GetUserData();
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML queryNode = xmlGetChild(iqNode , "query");
+		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode) {
-			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
+			const TCHAR *queryXmlns = XmlGetAttrValue(queryNode, _T("xmlns"));
 			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
-				HXML streamHostNode = xmlGetChild(queryNode , "streamhost");
+				HXML streamHostNode = XmlGetChild(queryNode , "streamhost");
 				if (streamHostNode) {
-					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));
-					const TCHAR *streamHost = xmlGetAttrValue(streamHostNode, _T("host"));
-					const TCHAR *streamPort = xmlGetAttrValue(streamHostNode, _T("port"));
+					const TCHAR *streamJid = XmlGetAttrValue(streamHostNode, _T("jid"));
+					const TCHAR *streamHost = XmlGetAttrValue(streamHostNode, _T("host"));
+					const TCHAR *streamPort = XmlGetAttrValue(streamHostNode, _T("port"));
 					if (streamJid && streamHost && streamPort) {
 						jbt->szProxyHost = mir_tstrdup(streamHost);
 						jbt->szProxyJid = mir_tstrdup(streamJid);
@@ -296,13 +296,13 @@ void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
 	JABBER_BYTE_TRANSFER *jbt = (JABBER_BYTE_TRANSFER *)pInfo->GetUserData();
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		HXML queryNode = xmlGetChild(iqNode , "query");
+		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode) {
-			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
+			const TCHAR *queryXmlns = XmlGetAttrValue(queryNode, _T("xmlns"));
 			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
-				HXML streamHostNode = xmlGetChild(queryNode ,  "streamhost-used");
+				HXML streamHostNode = XmlGetChild(queryNode ,  "streamhost-used");
 				if (streamHostNode) {
-					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));
+					const TCHAR *streamJid = XmlGetAttrValue(streamHostNode, _T("jid"));
 					if (streamJid)
 						jbt->szStreamhostUsed = mir_tstrdup(streamJid);
 	}	}	}	}
@@ -412,7 +412,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 	if (item == NULL)
 		return;
 
-	if (!mir_tstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	if (!mir_tstrcmp(XmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		item->jbt->bStreamActivated = TRUE;
 
 	if (item->jbt->hProxyEvent)
@@ -600,26 +600,26 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	jbt->state = JBT_INIT;
 
 	if (iqNode = jbt->iqNode) {
-		from = xmlGetAttrValue(iqNode, _T("from"));
-		to = xmlGetAttrValue(iqNode, _T("to"));
-		szId = xmlGetAttrValue(iqNode, _T("id"));
+		from = XmlGetAttrValue(iqNode, _T("from"));
+		to = XmlGetAttrValue(iqNode, _T("to"));
+		szId = XmlGetAttrValue(iqNode, _T("id"));
 
-		queryNode = xmlGetChild(iqNode, "query");
+		queryNode = XmlGetChild(iqNode, "query");
 		if (queryNode)
-			sid = xmlGetAttrValue(queryNode, _T("sid"));
+			sid = XmlGetAttrValue(queryNode, _T("sid"));
 	}
 
-	if (szId && from && to && sid && (n = xmlGetChild(queryNode, "streamhost")) != NULL) {
+	if (szId && from && to && sid && (n = XmlGetChild(queryNode, "streamhost")) != NULL) {
 		jbt->iqId = mir_tstrdup(szId);
 		jbt->srcJID = mir_tstrdup(from);
 		jbt->dstJID = mir_tstrdup(to);
 		jbt->sid = mir_tstrdup(sid);
 
 		if ((buffer = (char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE))) {
-			for (i = 1; (n = xmlGetNthChild(queryNode, _T("streamhost"), i)) != NULL; i++) {
-				if ((szHost = xmlGetAttrValue(n, _T("host"))) != NULL &&
-					 (szPort = xmlGetAttrValue(n, _T("port"))) != NULL &&
-					 (str = xmlGetAttrValue(n, _T("jid"))) != NULL) {
+			for (i = 1; (n = XmlGetNthChild(queryNode, _T("streamhost"), i)) != NULL; i++) {
+				if ((szHost = XmlGetAttrValue(n, _T("host"))) != NULL &&
+					 (szPort = XmlGetAttrValue(n, _T("port"))) != NULL &&
+					 (str = XmlGetAttrValue(n, _T("jid"))) != NULL) {
 
 					port = (WORD)_ttoi(szPort);
 					replaceStrT(jbt->streamhostJID, str);

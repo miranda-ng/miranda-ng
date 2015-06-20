@@ -84,25 +84,12 @@ begin
       contact:=LoadContact(DBBranch,node);
 
     1: begin
-      with xmlparser do
-      begin
-        contact:=ImportContact(HXML(node));
-        if StrToInt(getAttrValue(HXML(node),ioKeepOnly))=1 then
-          flags:=flags or ACF_KEEPONLY;
-        if StrToInt(getAttrValue(HXML(node),ioWindow))=1 then
-          flags:=flags or ACF_GETACTIVE;
-      end;
-    end;
-{
-    2: begin
-      contact:=ImportContactINI(node);
-
-      if GetParamSectionInt(node,ioKeepOnly)=1 then
+      contact:=ImportContact(HXML(node));
+      if StrToInt(xmlGetAttrValue(HXML(node),ioKeepOnly))=1 then
         flags:=flags or ACF_KEEPONLY;
-      if GetParamSectionInt(node,ioWindow)=1 then
+      if StrToInt(xmlGetAttrValue(HXML(node),ioWindow))=1 then
         flags:=flags or ACF_GETACTIVE;
     end;
-}
   end;
 end;
 
@@ -112,7 +99,6 @@ var
   cws:TDBVARIANT;
   p1:pAnsiChar;
   p:pWideChar;
-//  tmpbuf:array [0..63] of WideChar;
   is_chat:boolean;
 begin
   result:=0;
@@ -168,14 +154,7 @@ begin
   case fmt of
     0: if (flags and ACF_GETACTIVE)=0 then
       SaveContact(contact,DBBranch,node);
-{
-    1: begin
-        sub:=AddChild(actnode,ioContactWindow,nil);
-        ExportContact(sub,contact);
-//        AddAttrInt(sub,ioNumber,0); // contact
-        if (flags and ACF_KEEPONLY)<>0 then AddAttrInt(sub,ioKeepOnly,1);
-    end;
-}
+
     13: begin
       tTextExport(node).AddFlag('keeponly' ,(flags or ACF_KEEPONLY )<>0);
       tTextExport(node).AddFlag('getactive',(flags or ACF_GETACTIVE)<>0);

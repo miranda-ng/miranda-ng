@@ -377,7 +377,6 @@ int LoadUtilsModule(void)
 
 	InitOpenUrl();
 	InitPathUtils();
-	InitXmlApi();
 	InitCrypt();
 	return 0;
 }

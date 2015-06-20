@@ -109,7 +109,7 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
 		// XEP-0232 support
 		HXML xform;
-		for (int i = 1; (xform = xmlGetNthChild(query, _T("x"), i)) != NULL; i++) {
+		for (int i = 1; (xform = XmlGetNthChild(query, _T("x"), i)) != NULL; i++) {
 			TCHAR *szFormTypeValue = XPath(xform, _T("field[@var='FORM_TYPE']/value"));
 			if (szFormTypeValue && !mir_tstrcmp(szFormTypeValue, _T("urn:xmpp:dataforms:softwareinfo"))) {
 				TCHAR *szTmp = XPath(xform, _T("field[@var='os']/value"));
@@ -142,8 +142,8 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
 		JabberCapsBits jcbCaps = 0;
 		HXML feature;
-		for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
-			const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
+		for (int i = 1; (feature = XmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
+			const TCHAR *featureName = XmlGetAttrValue(feature, _T("var"));
 			if (!featureName)
 				continue;
 

@@ -626,7 +626,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (xmlGetChild(itemsNode, _T("retract"))) {
+	if (XmlGetChild(itemsNode, _T("retract"))) {
 		if (hSelfContact)
 			SetMood(hSelfContact, NULL, NULL);
 		SetMood(hContact, NULL, NULL);
@@ -637,11 +637,11 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 	if (!moodNode) return;
 
 	LPCTSTR moodType = NULL, moodText = NULL;
-	for (int i=0; n = xmlGetChild(moodNode, i); i++) {
-		if (!mir_tstrcmp(xmlGetName(n), _T("text")))
-			moodText = xmlGetText(n);
+	for (int i=0; n = XmlGetChild(moodNode, i); i++) {
+		if (!mir_tstrcmp(XmlGetName(n), _T("text")))
+			moodText = XmlGetText(n);
 		else
-			moodType = xmlGetName(n);
+			moodType = XmlGetName(n);
 	}
 
 	TCHAR *fixedText = JabberStrFixLines(moodText);
@@ -1006,7 +1006,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 	}
 	else hSelfContact = m_proto->HContactFromJID(from);
 
-	if (xmlGetChild(itemsNode, "retract")) {
+	if (XmlGetChild(itemsNode, "retract")) {
 		if (hSelfContact)
 			SetActivity(hSelfContact, NULL, NULL, NULL);
 		SetActivity(hContact, NULL, NULL, NULL);
@@ -1021,12 +1021,12 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 	LPCTSTR szFirstNode = NULL, szSecondNode = NULL;
 
 	HXML n;
-	for (int i=0; n = xmlGetChild(actNode, i); i++) {
-		if (mir_tstrcmp(xmlGetName(n), _T("text"))) {
-			szFirstNode = xmlGetName(n);
-			HXML secondNode = xmlGetChild(n, 0);
-			if (szFirstNode && secondNode && xmlGetName(secondNode))
-				szSecondNode = xmlGetName(secondNode);
+	for (int i=0; n = XmlGetChild(actNode, i); i++) {
+		if (mir_tstrcmp(XmlGetName(n), _T("text"))) {
+			szFirstNode = XmlGetName(n);
+			HXML secondNode = XmlGetChild(n, 0);
+			if (szFirstNode && secondNode && XmlGetName(secondNode))
+				szSecondNode = XmlGetName(secondNode);
 			break;
 		}
 	}

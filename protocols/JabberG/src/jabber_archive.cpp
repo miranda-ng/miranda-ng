@@ -52,24 +52,24 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 
 void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
-	const TCHAR *to = xmlGetAttrValue(iqNode, _T("to"));
-	if (to == NULL || mir_tstrcmp( xmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	const TCHAR *to = XmlGetAttrValue(iqNode, _T("to"));
+	if (to == NULL || mir_tstrcmp( XmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		return;
 
-	HXML list = xmlGetChild(iqNode, "list");
-	if (!list || mir_tstrcmp( xmlGetAttrValue(list, _T("xmlns")), JABBER_FEAT_ARCHIVE))
+	HXML list = XmlGetChild(iqNode, "list");
+	if (!list || mir_tstrcmp( XmlGetAttrValue(list, _T("xmlns")), JABBER_FEAT_ARCHIVE))
 		return;
 
 	MCONTACT hContact = NULL;
 	time_t tmLast = 0;
 
 	for (int nodeIdx = 1; ; nodeIdx++) {
-		HXML itemNode = xmlGetNthChild(list, _T("chat"), nodeIdx);
+		HXML itemNode = XmlGetNthChild(list, _T("chat"), nodeIdx);
 		if (!itemNode)
 			break;
 
-		const TCHAR* start = xmlGetAttrValue(itemNode, _T("start"));
-		const TCHAR* with  = xmlGetAttrValue(itemNode, _T("with"));
+		const TCHAR* start = XmlGetAttrValue(itemNode, _T("start"));
+		const TCHAR* with  = XmlGetAttrValue(itemNode, _T("with"));
 		if (!start || !with)
 			continue;
 
@@ -246,15 +246,15 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 {
-	if ( mir_tstrcmp( xmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	if ( mir_tstrcmp( XmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		return;
 
-	HXML chatNode = xmlGetChild(iqNode, "chat");
-	if (!chatNode || mir_tstrcmp( xmlGetAttrValue(chatNode, _T("xmlns")), JABBER_FEAT_ARCHIVE))
+	HXML chatNode = XmlGetChild(iqNode, "chat");
+	if (!chatNode || mir_tstrcmp( XmlGetAttrValue(chatNode, _T("xmlns")), JABBER_FEAT_ARCHIVE))
 		return;
 
-	const TCHAR* start = xmlGetAttrValue(chatNode, _T("start"));
-	const TCHAR* with  = xmlGetAttrValue(chatNode, _T("with"));
+	const TCHAR* start = XmlGetAttrValue(chatNode, _T("start"));
+	const TCHAR* with  = XmlGetAttrValue(chatNode, _T("with"));
 	if (!start || !with)
 		return;
 
@@ -266,12 +266,12 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 	_tzset();
 
 	for (int nodeIdx = 0; ; nodeIdx++) {
-		HXML itemNode = xmlGetChild(chatNode, nodeIdx);
+		HXML itemNode = XmlGetChild(chatNode, nodeIdx);
 		if (!itemNode)
 			break;
 
 		int from;
-		const TCHAR *itemName = xmlGetName(itemNode);
+		const TCHAR *itemName = XmlGetName(itemNode);
 		if (!mir_tstrcmp(itemName, _T("to")))
 			from = DBEF_SENT;
 		else if (!mir_tstrcmp(itemName, _T("from")))
@@ -279,12 +279,12 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		else
 			continue;
 
-		HXML body = xmlGetChild(itemNode, "body");
+		HXML body = XmlGetChild(itemNode, "body");
 		if (!body)
 			continue;
 
-		const TCHAR *tszBody = xmlGetText(body);
-		const TCHAR *tszSecs = xmlGetAttrValue(itemNode, _T("secs"));
+		const TCHAR *tszBody = XmlGetText(body);
+		const TCHAR *tszSecs = XmlGetAttrValue(itemNode, _T("secs"));
 		if (!tszBody || !tszSecs)
 			continue;
 

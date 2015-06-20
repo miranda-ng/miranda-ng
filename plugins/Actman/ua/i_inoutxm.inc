@@ -1,6 +1,4 @@
 {}
-var
-  xmlparser:TXML_API_W;
 
 const
   ioAction         :PWideChar = 'Action';
@@ -32,27 +30,24 @@ function ImportMenuItems(node:HXML;var MenuItem:tUAMenuItem):integer;
 begin
   result:=0;
 
-  with xmlparser do
+  with MenuItem do
   begin
-    with MenuItem do
-    begin
-      menu_opt:=0;
-    // popup
-      StrDupW(szMenuPopup,getAttrValue(node,ioMenuPopup));
-    // name
-      StrDupW(szMenuNameVars,getAttrValue(node,ioMenuName));
-    // show
-      StrDupW(szMenuShowWhenVars,getAttrValue(node,ioMenuShow));
-    // used
-      if StrToInt(getAttrValue(node,ioMenuUsed))<>0 then
-        menu_opt:=menu_opt or UAF_MENUUSE;
-    // separated
-      if StrToInt(getAttrValue(node,ioMenuSeparated))<>0 then
-        menu_opt:=menu_opt or UAF_MENUSEP;
-    // no translate
-      if StrToInt(getAttrValue(node,ioNoTranslate))<>0 then
-        menu_opt:=menu_opt or UAF_NOTRANS;
-    end;
+    menu_opt:=0;
+  // popup
+    StrDupW(szMenuPopup,xmlGetAttrValue(node,ioMenuPopup));
+  // name
+    StrDupW(szMenuNameVars,xmlGetAttrValue(node,ioMenuName));
+  // show
+    StrDupW(szMenuShowWhenVars,xmlGetAttrValue(node,ioMenuShow));
+  // used
+    if StrToInt(xmlGetAttrValue(node,ioMenuUsed))<>0 then
+      menu_opt:=menu_opt or UAF_MENUUSE;
+  // separated
+    if StrToInt(xmlGetAttrValue(node,ioMenuSeparated))<>0 then
+      menu_opt:=menu_opt or UAF_MENUSEP;
+  // no translate
+    if StrToInt(xmlGetAttrValue(node,ioNoTranslate))<>0 then
+      menu_opt:=menu_opt or UAF_NOTRANS;
   end;
 end;
 
@@ -64,52 +59,44 @@ begin
   result:=0;
   if actnode=0 then exit;
 
-  with xmlparser do
-  begin
-    // we don't need that node as is, just it's child for UA
-//    actnode:=GetNthChild(actnode,ioUA,0);
+  UA.flags:=0;
+  // ----- Common -----
+  if StrToInt(xmlGetAttrValue(actnode,ioTwoState))<>0 then
+    UA.flags:=UA.flags or UAF_2STATE;
 
-    UA.flags:=0;
-    // ----- Common -----
-    if StrToInt(getAttrValue(actnode,ioTwoState))<>0 then
-      UA.flags:=UA.flags or UAF_2STATE;
+  if StrToInt(xmlGetAttrValue(actnode,ioSaveState))<>0 then
+    UA.flags:=UA.flags or UAF_SAVESTATE;
 
-    if StrToInt(getAttrValue(actnode,ioSaveState))<>0 then
-      UA.flags:=UA.flags or UAF_SAVESTATE;
+  if StrToInt(xmlGetAttrValue(actnode,ioHotkey))<>0 then
+    UA.flags:=UA.flags or UAF_REGHOTKEY;
+  if StrToInt(xmlGetAttrValue(actnode,ioToolbar))<>0 then
+    UA.flags:=UA.flags or UAF_REGTTBB;
+  if StrToInt(xmlGetAttrValue(actnode,ioTabSRMM))<>0 then
+    UA.flags:=UA.flags or UAF_REGTABB;
 
-  //      sub:=AddChild(actnode,ioRegister,nil);
-    if StrToInt(getAttrValue(actnode,ioHotkey))<>0 then
-      UA.flags:=UA.flags or UAF_REGHOTKEY;
-    if StrToInt(getAttrValue(actnode,ioToolbar))<>0 then
-      UA.flags:=UA.flags or UAF_REGTTBB;
-    if StrToInt(getAttrValue(actnode,ioTabSRMM))<>0 then
-      UA.flags:=UA.flags or UAF_REGTABB;
+  // ----- Hotkey -----
+  // nothing
 
-    // ----- Hotkey -----
-    // nothing
+  // ----- Modern CList toolbar -----
+  // source - ANSI text
+  sub:=xmlGetNthChild(actnode,ioToolbar,0);
+  WideToAnsi(xmlGetAttrValue(sub,ioTooltip       ),UA.szTTBTooltip       ,MirandaCP);
+  WideToAnsi(xmlGetAttrValue(sub,ioTooltipPressed),UA.szTTBTooltipPressed,MirandaCP);
 
-    // ----- Modern CList toolbar -----
-    // source - ANSI text
-    sub:=GetNthChild(actnode,ioToolbar,0);
-    WideToAnsi(GetAttrValue(sub,ioTooltip       ),UA.szTTBTooltip       ,MirandaCP);
-    WideToAnsi(GetAttrValue(sub,ioTooltipPressed),UA.szTTBTooltipPressed,MirandaCP);
+  // ----- TabSRMM toolbar -----
+  sub:=xmlGetNthChild(actnode,ioTabSRMM,0);
+  StrDupW(UA.szTabBTooltip       ,xmlGetAttrValue(sub,ioTooltip));
+  StrDupW(UA.szTabBTooltipPressed,xmlGetAttrValue(sub,ioTooltipPressed));
 
-    // ----- TabSRMM toolbar -----
-    sub:=GetNthChild(actnode,ioTabSRMM,0);
-    StrDupW(UA.szTabBTooltip       ,getAttrValue(sub,ioTooltip));
-    StrDupW(UA.szTabBTooltipPressed,getAttrValue(sub,ioTooltipPressed));
+  // ----- Menus -----
+  num:=0;
+  repeat
+    sub:=xmlGetNextChild(actnode,ioMenuItem,@num);
+    if sub=0 then break;
 
-    // ----- Menus -----
-    num:=0;
-    repeat
-      sub:=getNextChild(actnode,ioMenuItem,@num);
-      if sub=0 then break;
-
-      i:=StrToInt(getAttrValue(sub,ioType));
-      ImportMenuItems(sub,
-          UA.UAMenuItem[tMenuType(i)]);
-    until false;
-  end;
+    i:=StrToInt(xmlGetAttrValue(sub,ioType));
+    ImportMenuItems(sub,UA.UAMenuItem[tMenuType(i)]);
+  until false;
 end;
 
 function Import(fname:PWideChar;aflags:dword):integer;
@@ -139,50 +126,45 @@ begin
   BlockRead(f,res^,i);
   CloseHandle(f);
 
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
-  CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-  with xmlparser do
-  begin
-    root:=parseString(ChangeUnicode(res),@i,nil);
-    j:=0;
-    repeat
-      actnode:=getNthChild(root,ioAction,j);
-      if actnode=0 then break;
-      // search id by name?
-      pcw:=GetAttrValue(actnode,ioName);
-      ptr:=ptr1;
-      inc(pbyte(ptr),4);
-      for i:=0 to num-1 do
+  root:=xmlParseString(ChangeUnicode(res),@i,nil);
+  j:=0;
+  repeat
+    actnode:=xmlGetNthChild(root,ioAction,j);
+    if actnode=0 then break;
+    // search id by name?
+    pcw:=xmlGetAttrValue(actnode,ioName);
+    ptr:=ptr1;
+    inc(pbyte(ptr),4);
+    for i:=0 to num-1 do
+    begin
+      if (ptr.flags and ACF_SELECTED)<>0 then
       begin
-        if (ptr.flags and ACF_SELECTED)<>0 then
+        if StrCmpw(pcw,ptr.descr)=0 then
         begin
-          if StrCmpw(pcw,ptr.descr)=0 then
+          // delete old UA for overwrited actions
+          if (ptr.flags and ACF_OVERLOAD)<>0 then
           begin
-            // delete old UA for overwrited actions
-            if (ptr.flags and ACF_OVERLOAD)<>0 then
+            for act:=0 to HIGH(UActionList) do
             begin
-              for act:=0 to HIGH(UActionList) do
+              if ptr.id=UActionList[act].dwActID then
               begin
-                if ptr.id=UActionList[act].dwActID then
-                begin
-                  DeleteUAction(act,true);
-                  break;
-                end;
+                DeleteUAction(act,true);
+                break;
               end;
             end;
-            num1:=AddUAction(-1,ptr);
-            ImportUAction(getNthChild(actnode,ioUA,0),UActionList[num1]);
-            break;
           end;
+          num1:=AddUAction(-1,ptr);
+          ImportUAction(xmlGetNthChild(actnode,ioUA,0),UActionList[num1]);
+          break;
         end;
-        inc(ptr);
       end;
-      
-      inc(j);
-    until false;
+      inc(ptr);
+    end;
+    
+    inc(j);
+  until false;
+  xmlDestroyNode(root);
 
-    DestroyNode(root);
-  end;
   CallService(MS_ACT_FREELIST,0,LPARAM(ptr1));
   mFreeMem(res);
   result:=1;
@@ -197,27 +179,24 @@ end;
 
 function ExportMenuItems(node:HXML;const MenuItem:tUAMenuItem):HXML;
 begin
-  with xmlparser do
+  result:=xmlAddChild(node,ioMenuItem,nil);
+  with MenuItem do
   begin
-    result:=AddChild(node,ioMenuItem,nil);
-    with MenuItem do
-    begin
-    // popup
-      if (szMenuPopup<>nil) and (szMenuPopup^<>#0) then
-        AddAttr(result,ioMenuPopup,szMenuPopup);
-    // name
-      if (szMenuNameVars<>nil) and (szMenuNameVars^<>#0) then
-        AddAttr(result,ioMenuName,szMenuNameVars);
-    // show
-      if (szMenuShowWhenVars<>nil) and (szMenuShowWhenVars^<>#0) then
-        AddAttr(result,ioMenuShow,szMenuShowWhenVars);
-    // used
-      AddAttrInt(result,ioMenuUsed,ord((menu_opt AND UAF_MENUUSE)<>0));
-    // separated
-      AddAttrInt(result,ioMenuSeparated,ord((menu_opt AND UAF_MENUSEP)<>0));
-    // no translate
-      AddAttrInt(result,ioNoTranslate,ord((menu_opt AND UAF_NOTRANS)<>0));
-    end;
+  // popup
+    if (szMenuPopup<>nil) and (szMenuPopup^<>#0) then
+      xmlAddAttr(result,ioMenuPopup,szMenuPopup);
+  // name
+    if (szMenuNameVars<>nil) and (szMenuNameVars^<>#0) then
+      xmlAddAttr(result,ioMenuName,szMenuNameVars);
+  // show
+    if (szMenuShowWhenVars<>nil) and (szMenuShowWhenVars^<>#0) then
+      xmlAddAttr(result,ioMenuShow,szMenuShowWhenVars);
+  // used
+    xmlAddAttrInt(result,ioMenuUsed,ord((menu_opt AND UAF_MENUUSE)<>0));
+  // separated
+    xmlAddAttrInt(result,ioMenuSeparated,ord((menu_opt AND UAF_MENUSEP)<>0));
+  // no translate
+    xmlAddAttrInt(result,ioNoTranslate,ord((menu_opt AND UAF_NOTRANS)<>0));
   end;
 end;
 
@@ -229,70 +208,66 @@ var
   actnode,sub:HXML;
   UA:pMyActionItem;
 begin
-  with xmlparser do
+  for i:=0 to HIGH(UActionList) do
   begin
-    for i:=0 to HIGH(UActionList) do
+    if UActionList[i].dwActID=id then
     begin
-      if UActionList[i].dwActID=id then
+      UA:=@UActionList[i];
+      actnode:=xmlGetChildByAttrValue(root,ioAction,ioName,name);
+      if actnode=0 then break;
+      // we don't need that node as is, just it's child for UA
+      actnode:=xmlAddChild(actnode,ioUA,nil);
+
+      // ----- Common -----
+      xmlAddAttrInt(actnode,ioTwoState ,ORD((UA.flags and UAF_2STATE   )<>0));
+      xmlAddAttrInt(actnode,ioSaveState,ORD((UA.flags and UAF_SAVESTATE)<>0));
+
+      xmlAddAttrInt(actnode,ioHotkey ,ORD((UA.flags and UAF_REGHOTKEY)<>0));
+      xmlAddAttrInt(actnode,ioToolbar,ORD((UA.flags and UAF_REGTTBB )<>0));
+      xmlAddAttrInt(actnode,ioTabSRMM,ORD((UA.flags and UAF_REGTABB )<>0));
+
+      // ----- Hotkey -----
+      // nothing
+
+      // ----- Modern CList toolbar -----
+      // source - ANSI text
+      if ((UA.szTTBTooltip       <>nil) and (UA.szTTBTooltip^       <>#0)) or
+         ((UA.szTTBTooltipPressed<>nil) and (UA.szTTBTooltipPressed^<>#0)) then
       begin
-        UA:=@UActionList[i];
-        actnode:=getChildByAttrValue(root,ioAction,ioName,name);
-        if actnode=0 then break;
-        // we don't need that node as is, just it's child for UA
-        actnode:=addChild(actnode,ioUA,nil);
-
-        // ----- Common -----
-        AddAttrInt(actnode,ioTwoState ,ORD((UA.flags and UAF_2STATE   )<>0));
-        AddAttrInt(actnode,ioSaveState,ORD((UA.flags and UAF_SAVESTATE)<>0));
-
-  //      sub:=AddChild(actnode,ioRegister,nil);
-        AddAttrInt(actnode,ioHotkey ,ORD((UA.flags and UAF_REGHOTKEY)<>0));
-        AddAttrInt(actnode,ioToolbar,ORD((UA.flags and UAF_REGTTBB )<>0));
-        AddAttrInt(actnode,ioTabSRMM,ORD((UA.flags and UAF_REGTABB )<>0));
-
-        // ----- Hotkey -----
-        // nothing
-
-        // ----- Modern CList toolbar -----
-        // source - ANSI text
-        if ((UA.szTTBTooltip       <>nil) and (UA.szTTBTooltip^       <>#0)) or
-           ((UA.szTTBTooltipPressed<>nil) and (UA.szTTBTooltipPressed^<>#0)) then
+        sub:=xmlAddChild(actnode,ioToolbar,nil);
+        if (UA.szTTBTooltip<>nil) and (UA.szTTBTooltip^<>#0) then
         begin
-          sub:=AddChild(actnode,ioToolbar,nil);
-          if (UA.szTTBTooltip<>nil) and (UA.szTTBTooltip^<>#0) then
-          begin
-            AnsiToWide(UA.szTTBTooltip,pc,MirandaCP);
-            AddAttr(sub,ioTooltip,pc);
-            mFreeMem(pc);
-          end;
-          if (UA.szTTBTooltipPressed<>nil) and (UA.szTTBTooltipPressed^<>#0) then
-          begin
-            AnsiToWide(UA.szTTBTooltipPressed,pc,MirandaCP);
-            AddAttr(sub,ioTooltipPressed,pc);
-            mFreeMem(pc);
-          end;
+          AnsiToWide(UA.szTTBTooltip,pc,MirandaCP);
+          xmlAddAttr(sub,ioTooltip,pc);
+          mFreeMem(pc);
         end;
-
-        // ----- TabSRMM toolbar -----
-        if ((UA.szTabBTooltip       <>nil) and (UA.szTabBTooltip^       <>#0)) or
-           ((UA.szTabBTooltipPressed<>nil) and (UA.szTabBTooltipPressed^<>#0)) then
+        if (UA.szTTBTooltipPressed<>nil) and (UA.szTTBTooltipPressed^<>#0) then
         begin
-          sub:=AddChild(actnode,ioTabSRMM,nil);
-          if (UA.szTabBTooltip<>nil) and (UA.szTabBTooltip^<>#0) then
-            AddAttr(sub,ioTooltip,UA.szTabBTooltip);
-          if (UA.szTabBTooltipPressed<>nil) and (UA.szTabBTooltipPressed^<>#0) then
-            AddAttr(sub,ioTooltipPressed,UA.szTabBTooltipPressed);
+          AnsiToWide(UA.szTTBTooltipPressed,pc,MirandaCP);
+          xmlAddAttr(sub,ioTooltipPressed,pc);
+          mFreeMem(pc);
         end;
-
-        // ----- Menus -----
-        for lmenu:=main_menu to HIGH(tMenuType) do
-        begin
-          sub:=ExportMenuItems(actnode,UA.UAMenuItem[lmenu]);
-          AddAttrInt(sub,ioType,ORD(lmenu));
-        end;
-
-        break;
       end;
+
+      // ----- TabSRMM toolbar -----
+      if ((UA.szTabBTooltip       <>nil) and (UA.szTabBTooltip^       <>#0)) or
+         ((UA.szTabBTooltipPressed<>nil) and (UA.szTabBTooltipPressed^<>#0)) then
+      begin
+        sub:=xmlAddChild(actnode,ioTabSRMM,nil);
+        if (UA.szTabBTooltip<>nil) and (UA.szTabBTooltip^<>#0) then
+          xmlAddAttr(sub,ioTooltip,UA.szTabBTooltip);
+        if (UA.szTabBTooltipPressed<>nil) and (UA.szTabBTooltipPressed^<>#0) then
+          xmlAddAttr(sub,ioTooltipPressed,UA.szTabBTooltipPressed);
+      end;
+
+      // ----- Menus -----
+      for lmenu:=main_menu to HIGH(tMenuType) do
+      begin
+        sub:=ExportMenuItems(actnode,UA.UAMenuItem[lmenu]);
+        xmlAddAttrInt(sub,ioType,ORD(lmenu));
+      end;
+
+      break;
     end;
   end;
 end;
@@ -306,47 +281,43 @@ var
   ptr,ptr1:pChain;
 begin
   result:=0;
-  xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(TXML_API_W);
-  CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
-  with xmlparser do
+
+  // we need append file, not rewrite
+  i:=GetFSize(fname);
+  if i=0 then exit;
+
+  mGetMem (res ,i+SizeOf(WideChar));
+  FillChar(res^,i+SizeOf(WideChar),0);
+  f:=Reset(fname);
+  BlockRead(f,res^,i);
+  CloseHandle(f);
+  root:=xmlParseString(res,@i,nil);
+  mFreeMem(res);
+
+  num:=CallService(MS_ACT_GETLIST,0,LPARAM(@ptr));
+  if num>0 then
   begin
-    // we need append file, not rewrite
-    i:=GetFSize(fname);
-    if i=0 then exit;
-
-    mGetMem (res ,i+SizeOf(WideChar));
-    FillChar(res^,i+SizeOf(WideChar),0);
-    f:=Reset(fname);
-    BlockRead(f,res^,i);
-    CloseHandle(f);
-    root:=parseString(res,@i,nil);
-    mFreeMem(res);
-
-    num:=CallService(MS_ACT_GETLIST,0,LPARAM(@ptr));
-    if num>0 then
+    ptr1:=ptr;
+    inc(pbyte(ptr),4);
+    for i:=0 to num-1 do
     begin
-      ptr1:=ptr;
-      inc(pbyte(ptr),4);
-      for i:=0 to num-1 do
+      if ((aflags and ACIO_SELECTED)=0) or
+         ((ptr.flags and ACCF_EXPORT)<>0) then
       begin
-        if ((aflags and ACIO_SELECTED)=0) or
-           ((ptr.flags and ACCF_EXPORT)<>0) then
-        begin
-          WriteUAction(root,ptr.id,ptr.descr);
-        end;
-        inc(ptr);
+        WriteUAction(root,ptr.id,ptr.descr);
       end;
-      CallService(MS_ACT_FREELIST,0,LPARAM(ptr1));
+      inc(ptr);
     end;
-
-    res:=toString(root,@i);
-
-    f:=Rewrite(fname);
-    BlockWrite(f,res^,i*SizeOf(WideChar));
-    CloseHandle(f);
-    xmlparser.FreeMem(res);
-    DestroyNode(root);
+    CallService(MS_ACT_FREELIST,0,LPARAM(ptr1));
   end;
+
+  res:=xmlToString(root,@i);
+
+  f:=Rewrite(fname);
+  BlockWrite(f,res^,i*SizeOf(WideChar));
+  CloseHandle(f);
+  xmlFree(res);
+  xmlDestroyNode(root);
   result:=1;
 end;
 

@@ -60,193 +60,125 @@ type
     eXMLErrorBase64DecodeTruncatedData,
     eXMLErrorBase64DecodeBufferTooSmall);
 
-const
-  XML_API_SIZEOF_V1 = SizeOf(size_t)+26*sizeof(dword);
+function  xmlCreateNode(const name, text:PWideChar; IsDeclaration:boolean):HXML; stdcall;
+             external AppDll name 'xmlCreateNode';
+procedure xmlDestroyNode(node:HXML); stdcall;
+             external AppDll name 'xmlDestroyNode';
+                      
+function  xmlParseString(const str:PWideChar; datalen:pint; const tag:PWideChar):HXML; stdcall;
+             external AppDll name 'xmlParseString';
+function  xmlToString(node:HXML;datalen:pint):PWideChar; stdcall;
+             external AppDll name 'xmlToString';
+                      
+function  xmlAddChild(parent:HXML; const name,text:PWideChar):HXML; stdcall;
+             external AppDll name 'xmlAddChild';
+procedure xmlAddChild2(child,parent:HXML); stdcall;
+             external AppDll name 'xmlAddChild2';
+function  xmlCopyNode(parent:HXML):HXML; stdcall;
+             external AppDll name 'xmlCopyNode';
+function  xmlGetChild(parent:HXML;number:int):HXML; stdcall;
+             external AppDll name 'xmlGetChild';
+function  xmlGetChildCount(h:HXML):int; stdcall;
+             external AppDll name 'xmlGetChildCount';
+function  xmlGetChildByAttrValue(parent:HXML; const name,attrName,attrValue:PWideChar):HXML; stdcall;
+             external AppDll name 'xmlGetChildByAttrValue';
+function  xmlGetFirstChild(parent:HXML):HXML; stdcall;
+             external AppDll name 'xmlGetFirstChild';
+function  xmlGetNthChild(parent:HXML; const name:PWideChar; i:int):HXML; stdcall;
+             external AppDll name 'xmlGetNthChild';
+function  xmlGetNextChild(parent:HXML; const name:PWideChar; i:pint):HXML; stdcall;
+             external AppDll name 'xmlGetNextChild';
+function  xmlGetChildByPath(parent:HXML; const path:PWideChar;createNodeIfMissing:boolean):HXML; stdcall;
+             external AppDll name 'xmlGetChildByPath';
+function  xmlGetNextNode(node:HXML):HXML; stdcall;
+             external AppDll name 'xmlGetNextNode';
+function  xmlGetName(h:HXML):PWideChar; stdcall;
+             external AppDll name 'xmlGetName';
+function  xmlGetParent(h:HXML):HXML; stdcall;
+             external AppDll name 'xmlGetParent';
+function  xmlGetText(h:HXML):PWideChar; stdcall;  // = getTextByIndex(HXML, 0)
+             external AppDll name 'xmlGetText';
+procedure xmlSetText(h:HXML;value:PWideChar); stdcall; // = setTextByIndex(HXML, LPCTSTR, 0)
+             external AppDll name 'xmlSetText';
+                      
+function  xmlGetAttr(h:HXML;i:int):PWideChar; stdcall;
+             external AppDll name 'xmlGetAttr';
+function  xmlGetAttrName(h:HXML;i:int):PWideChar; stdcall;
+             external AppDll name 'xmlGetAttrName';
+function  xmlGetAttrValue(h:HXML;const attrName:PWideChar):PWideChar; stdcall;
+             external AppDll name 'xmlGetAttrValue';
+function  xmlGetAttrCount(h:HXML):int; stdcall;
+             external AppDll name 'xmlGetAttrCount';
+procedure xmlAddAttr(h:HXML;const attrName,attrValue:PWideChar); stdcall;
+             external AppDll name 'xmlAddAttr';
+procedure xmlAddAttrInt(h:HXML; const attrName:PWideChar;attrValue:int); stdcall;
+             external AppDll name 'xmlAddAttrInt';
 
-type
-  TXML_API_A = record
-    cbSize             :size_t;
+procedure xmlFree(arg:pointer); stdcall;
+             external AppDll name 'xmlFree';
 
-    createNode         :function(const name, text:PAnsiChar; IsDeclaration:boolean):HXML;cdecl;
-    destroyNode        :procedure(node:HXML);cdecl;
+function  xmlIsDeclaration(node:HXML):boolean; stdcall;
+             external AppDll name 'xmlIsDeclaration';
+function  xmlToStringWithFormatting(node:HXML; var datalen:int):PWideChar; stdcall;
+             external AppDll name 'xmlToStringWithFormatting';
+function  xmlDeepCopy(node:HXML):HXML; stdcall;
+             external AppDll name 'xmlDeepCopy';
+procedure xmlSetAttrByIndex(node:HXML; i:int; value:PWideChar); stdcall;
+             external AppDll name 'xmlSetAttrByIndex';
+procedure xmlSetAttrByName(node:HXML; name:PWideChar; value:PWideChar); stdcall;
+             external AppDll name 'xmlSetAttrByName';
+function  xmlAddChildEx(parent:HXML; name:PWideChar; isDeclaration:boolean; n:XML_ELEMENT_POS):HXML; stdcall;
+             external AppDll name 'xmlAddChildEx';
+procedure xmlAddChildEx2(child:HXML; parent:HXML; n:XML_ELEMENT_POS); stdcall;
+             external AppDll name 'xmlAddChildEx2';
+function  xmlGetTextCount(node:HXML):int; stdcall;
+             external AppDll name 'xmlGetTextCount';
+function  xmlGetTextByIndex(node:HXML; i:int):PWideChar; stdcall;
+             external AppDll name 'xmlGetTextByIndex';
+procedure xmlAddText(node:HXML; txt:PWideChar; n:XML_ELEMENT_POS); stdcall;
+             external AppDll name 'xmlAddText';
+procedure xmlSetTextByIndex(node:HXML; i:int; txt:PWideChar); stdcall;
+             external AppDll name 'xmlSetTextByIndex';
+function  xmlGetClearCount(node:HXML):int; stdcall;
+             external AppDll name 'xmlGetClearCount';
+function  xmlGetClear(node:HXML; i:int; var openTag:PWideChar; var closeTag:PWideChar):PWideChar; stdcall;
+             external AppDll name 'xmlGetClear';
+procedure xmlAddClear(node:HXML; lpszValue:PWideChar; openTag:PWideChar; closeTag:PWideChar; n:XML_ELEMENT_POS); stdcall;
+             external AppDll name 'xmlAddClear';
+procedure xmlSetClear(node:HXML; i:int; lpszValue:PWideChar); stdcall;
+             external AppDll name 'xmlSetClear';
+function  xmlGetElementCount(node:HXML):int; stdcall;
+             external AppDll name 'xmlGetElementCount';
+function  xmlGetElement(node:HXML; n:XML_ELEMENT_POS; var _type:XML_ELEMENT_TYPE; 
+                         var child:HXML;var value:PWideChar; var name:PWideChar;
+                         var openTag:PWideChar; var closeTag:PWideChar):int; stdcall;
+             external AppDll name 'xmlGetElement';
 
-    parseString        :function(const str:PAnsiChar; datalen:pint; const tag:PAnsiChar):HXML;cdecl;
-    toString           :function(node:HXML;datalen:pint):PAnsiChar;cdecl;
+procedure xmlDeleteNodeContent(node:HXML); stdcall; // forces the deletion of the content of this node and the subtree
+             external AppDll name 'xmlDeleteNodeContent';
+procedure xmlDeleteAttrByIndex(node:HXML; i:int); stdcall;
+             external AppDll name 'xmlDeleteAttrByIndex';
+procedure xmlDeleteAttrByName(node:HXML; name:PWideChar); stdcall;
+             external AppDll name 'xmlDeleteAttrByName';
+procedure xmlDeleteText(node:HXML; i:int); stdcall;
+             external AppDll name 'xmlDeleteText';
+procedure xmlDeleteClear(node:HXML; i:int); stdcall;
+             external AppDll name 'xmlDeleteClear';
 
-    addChild           :function(parent:HXML; const name,text:PAnsiChar):HXML;cdecl;
-    addChild2          :procedure(child,parent:HXML);cdecl;
-    copyNode           :function(parent:HXML):HXML;cdecl;
-    getChild           :function(parent:HXML;number:int):HXML;cdecl;
-    getChildCount      :function(h:HXML):int;cdecl;
-    getChildByAttrValue:function(parent:HXML; const name,attrName,attrValue:PAnsiChar):HXML;cdecl;
-    getFirstChild      :function(parent:HXML):HXML;cdecl;
-    getNthChild        :function(parent:HXML; const name:PAnsiChar; i:int):HXML;cdecl;
-    getNextChild       :function(parent:HXML; const name:PAnsiChar; i:pint):HXML;cdecl;
-    getChildByPath     :function(parent:HXML; const path:PAnsiChar;createNodeIfMissing:boolean):HXML;cdecl;
-    getNextNode        :function(node:HXML):HXML;cdecl;
-    getName            :function(h:HXML):PAnsiChar;cdecl;
-    getParent          :function(h:HXML):HXML;cdecl;
-    getText            :function(h:HXML):PAnsiChar;cdecl;  // = getTextByIndex(HXML, 0)
-    setText            :procedure(h:HXML;value:PAnsiChar);cdecl; // = setTextByIndex(HXML, LPCTSTR, 0)
+function  xmlPositionOfChildByIndex(node:HXML; i:int):XML_ELEMENT_POS; stdcall;
+             external AppDll name 'xmlPositionOfChildByIndex';
+function  xmlPositionOfChildByNode(node:HXML; node1:HXML):XML_ELEMENT_POS; stdcall;
+             external AppDll name 'xmlPositionOfChildByNode';
+function  xmlPositionOfChildByName(node:HXML; name:PWideChar; i:int):XML_ELEMENT_POS; stdcall;
+             external AppDll name 'xmlPositionOfChildByName';
+function  xmlPositionOfText(node:HXML; i:int):XML_ELEMENT_POS; stdcall;
+             external AppDll name 'xmlPositionOfText';
+function  xmlPositionOfClear(node:HXML; i:int):XML_ELEMENT_POS; stdcall;
+             external AppDll name 'xmlPositionOfClear';
 
-    getAttr            :function(h:HXML;i:int):PAnsiChar;cdecl;
-    getAttrName        :function(h:HXML;i:int):PAnsiChar;cdecl;
-    getAttrValue       :function(h:HXML;const attrName:PAnsiChar):PAnsiChar;cdecl;
-    getAttrCount       :function(h:HXML):int;cdecl;
-    addAttr            :procedure(h:HXML;const attrName,attrValue:PAnsiChar);cdecl;
-    addAttrInt         :procedure(h:HXML; const attrName:PAnsiChar;attrValue:int);cdecl;
+function  xmlParseFile(filename:PAnsiChar; datalen:pint; tag:PAnsiChar):HXML; stdcall;
+             external AppDll name 'xmlParseFile';
+function  xmlToFile(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError; stdcall;
+             external AppDll name 'xmlToFile';
 
-    freeMem            :procedure(arg:pointer);cdecl;
-
-  	// #if MIRANDA_VER >= 0x0900, methods added in XML API v2
-    isDeclaration         :function(node:HXML):boolean;cdecl;
-    toStringWithFormatting:function(node:HXML; var datalen:int):PAnsiChar;cdecl;
-    deepCopy              :function(node:HXML):HXML;cdecl;
-    setAttrByIndex        :procedure(node:HXML; i:int; value:PAnsiChar);cdecl;
-    setAttrByName         :procedure(node:HXML; name:PAnsiChar; value:PAnsiChar);cdecl;
-    addChildEx            :function(parent:HXML; name:PAnsiChar; isDeclaration:boolean;
-                           n:XML_ELEMENT_POS):HXML;cdecl;
-    addChildEx2           :procedure(child:HXML; parent:HXML; n:XML_ELEMENT_POS);cdecl;
-    getTextCount          :function(node:HXML):int;cdecl;
-    getTextByIndex        :function(node:HXML; i:int):PAnsiChar;cdecl;
-    addText               :procedure(node:HXML; txt:PAnsiChar; n:XML_ELEMENT_POS);cdecl;
-    setTextByIndex        :procedure(node:HXML; i:int; txt:PAnsiChar);cdecl;
-    getClearCount         :function(node:HXML):int;cdecl;
-    getClear              :function(node:HXML; i:int; var openTag:PAnsiChar;
-                           var closeTag:PAnsiChar):PAnsiChar;cdecl;
-    addClear              :procedure(node:HXML; lpszValue:PAnsiChar; openTag:PAnsiChar;
-                           closeTag:PAnsiChar; n:XML_ELEMENT_POS);cdecl;
-    setClear              :procedure(node:HXML; i:int; lpszValue:PAnsiChar);cdecl;
-    getElementCount       :function(node:HXML):int;cdecl;
-    getElement            :function(node:HXML; n:XML_ELEMENT_POS; var _type:XML_ELEMENT_TYPE;
-                           var child:HXML;var value:PAnsiChar; var name:PAnsiChar;
-                           var openTag:PAnsiChar; var closeTag:PAnsiChar):int;cdecl;
-    // With getElement() it's possible to enumerate all the different contents
-    // (attribute,child,text, clear) of the current node. The order is reflecting the order
-    // of the original file/string. NOTE: 0 <= i < getElementCount().
-    // type, child, value, name, openTag, closeTag will be filled on return, depending on type:
-    // for XML_ELEM_TYPE_CHILD    , child is valid;
-    // for XML_ELEM_TYPE_ATTRIBUTE, name and value are valid;
-    // for XML_ELEM_TYPE_TEXT     , value is valid;
-    // for XML_ELEM_TYPE_CLEAR    , value, openTag and closeTag are valid.
-
-    deleteNodeContent:procedure(node:HXML);cdecl; // forces the deletion of the content of this node and the subtree
-    deleteAttrByIndex:procedure(node:HXML; i:int);cdecl;
-    deleteAttrByName :procedure(node:HXML; name:PAnsiChar);cdecl;
-    deleteText       :procedure(node:HXML; i:int);cdecl;
-    deleteClear      :procedure(node:HXML; i:int);cdecl;
-
-    positionOfChildByIndex:function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfChildByNode :function(node:HXML; node1:HXML):XML_ELEMENT_POS;cdecl;
-    positionOfChildByName :function(node:HXML; name:PAnsiChar; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfText        :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfClear       :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-
-    parseFile:function(filename:PAnsiChar; datalen:pint; tag:PAnsiChar):HXML;
-    toFile   :function(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError;
-  end;
-
-  TXML_API_W = record
-    cbSize             :size_t;
-
-    createNode         :function(const name, text:PWideChar; IsDeclaration:boolean):HXML;cdecl;
-    destroyNode        :procedure(node:HXML);cdecl;
-
-    parseString        :function(const str:PWideChar; datalen:pint; const tag:PWideChar):HXML;cdecl;
-    toString           :function(node:HXML;datalen:pint):PWideChar;cdecl;
-
-    addChild           :function(parent:HXML; const name,text:PWideChar):HXML;cdecl;
-    addChild2          :procedure(child,parent:HXML);cdecl;
-    copyNode           :function(parent:HXML):HXML;cdecl;
-    getChild           :function(parent:HXML;number:int):HXML;cdecl;
-    getChildCount      :function(h:HXML):int;cdecl;
-    getChildByAttrValue:function(parent:HXML; const name,attrName,attrValue:PWideChar):HXML;cdecl;
-    getFirstChild      :function(parent:HXML):HXML;cdecl;
-    getNthChild        :function(parent:HXML; const name:PWideChar; i:int):HXML;cdecl;
-    getNextChild       :function(parent:HXML; const name:PWideChar; i:pint):HXML;cdecl;
-    getChildByPath     :function(parent:HXML; const path:PWideChar;createNodeIfMissing:boolean):HXML;cdecl;
-    getNextNode        :function(node:HXML):HXML;cdecl;
-    getName            :function(h:HXML):PWideChar;cdecl;
-    getParent          :function(h:HXML):HXML;cdecl;
-    getText            :function(h:HXML):PWideChar;cdecl;  // = getTextByIndex(HXML, 0)
-    setText            :procedure(h:HXML;value:PWideChar);cdecl; // = setTextByIndex(HXML, LPCTSTR, 0)
-
-    getAttr            :function(h:HXML;i:int):PWideChar;cdecl;
-    getAttrName        :function(h:HXML;i:int):PWideChar;cdecl;
-    getAttrValue       :function(h:HXML;const attrName:PWideChar):PWideChar;cdecl;
-    getAttrCount       :function(h:HXML):int;cdecl;
-    addAttr            :procedure(h:HXML;const attrName,attrValue:PWideChar);cdecl;
-    addAttrInt         :procedure(h:HXML; const attrName:PWideChar;attrValue:int);cdecl;
-
-    freeMem            :procedure(arg:pointer);cdecl;
-
-  	// #if MIRANDA_VER >= 0x0900, methods added in XML API v2
-    isDeclaration         :function(node:HXML):boolean;cdecl;
-    toStringWithFormatting:function(node:HXML; var datalen:int):PWideChar;cdecl;
-    deepCopy              :function(node:HXML):HXML;cdecl;
-    setAttrByIndex        :procedure(node:HXML; i:int; value:PWideChar);cdecl;
-    setAttrByName         :procedure(node:HXML; name:PWideChar; value:PWideChar);cdecl;
-    addChildEx            :function(parent:HXML; name:PWideChar; isDeclaration:boolean;
-                           n:XML_ELEMENT_POS):HXML;cdecl;
-    addChildEx2           :procedure(child:HXML; parent:HXML; n:XML_ELEMENT_POS);cdecl;
-    getTextCount          :function(node:HXML):int;cdecl;
-    getTextByIndex        :function(node:HXML; i:int):PWideChar;cdecl;
-    addText               :procedure(node:HXML; txt:PWideChar; n:XML_ELEMENT_POS);cdecl;
-    setTextByIndex        :procedure(node:HXML; i:int; txt:PWideChar);cdecl;
-    getClearCount         :function(node:HXML):int;cdecl;
-    getClear              :function(node:HXML; i:int; var openTag:PWideChar;
-                           var closeTag:PWideChar):PWideChar;cdecl;
-    addClear              :procedure(node:HXML; lpszValue:PWideChar; openTag:PWideChar;
-                           closeTag:PWideChar; n:XML_ELEMENT_POS);cdecl;
-    setClear              :procedure(node:HXML; i:int; lpszValue:PWideChar);cdecl;
-    getElementCount       :function(node:HXML):int;cdecl;
-    getElement            :function(node:HXML; n:XML_ELEMENT_POS; var _type:XML_ELEMENT_TYPE;
-                           var child:HXML;var value:PWideChar; var name:PWideChar;
-                           var openTag:PWideChar; var closeTag:PWideChar):int;cdecl;
-    // With getElement() it's possible to enumerate all the different contents
-    // (attribute,child,text, clear) of the current node. The order is reflecting the order
-    // of the original file/string. NOTE: 0 <= i < getElementCount().
-    // type, child, value, name, openTag, closeTag will be filled on return, depending on type:
-    // for XML_ELEM_TYPE_CHILD    , child is valid;
-    // for XML_ELEM_TYPE_ATTRIBUTE, name and value are valid;
-    // for XML_ELEM_TYPE_TEXT     , value is valid;
-    // for XML_ELEM_TYPE_CLEAR    , value, openTag and closeTag are valid.
-
-    deleteNodeContent:procedure(node:HXML);cdecl; // forces the deletion of the content of this node and the subtree
-    deleteAttrByIndex:procedure(node:HXML; i:int);cdecl;
-    deleteAttrByName :procedure(node:HXML; name:PWideChar);cdecl;
-    deleteText       :procedure(node:HXML; i:int);cdecl;
-    deleteClear      :procedure(node:HXML; i:int);cdecl;
-
-    positionOfChildByIndex:function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfChildByNode :function(node:HXML; node1:HXML):XML_ELEMENT_POS;cdecl;
-    positionOfChildByName :function(node:HXML; name:PWideChar; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfText        :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-    positionOfClear       :function(node:HXML; i:int):XML_ELEMENT_POS;cdecl;
-
-    parseFile:function(filename:PAnsiChar; datalen:pint; tag:PAnsiChar):HXML;
-    toFile   :function(node:HXML; filename:PAnsiChar; withformattiing:int):XMLError;
-  end;
-
-// every protocol should declare this variable to use the XML API
-//const
-// extern XML_API xi;
-
-const
-{
-a service to obtain the XML API 
-
-wParam = 0;
-lParam = (LPARAM)(XML_API*).
-
-returns TRUE if all is Ok, and FALSE otherwise
-}
-  MS_SYSTEM_GET_XI:PAnsiChar = 'Miranda/System/GetXmlApi';
-(*
-__forceinline int mir_getXI( XML_API* dest )
-{
-  dest->cbSize = sizeof(*dest);
-  return CallService( MS_SYSTEM_GET_XI, 0, (LPARAM)dest );
-}
-*)
 {$ENDIF}

@@ -259,7 +259,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 {
 	int statusToSet = 0;
 
-	const TCHAR *szReason = xmlGetText(reason);
+	const TCHAR *szReason = XmlGetText(reason);
 	if (szReason == NULL) {
 		if (nStatusCode == 322)
 			szReason = TranslateT("because room is now members-only");
@@ -347,7 +347,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = item->jid;
-	gce.ptszText = xmlGetText(reason);
+	gce.ptszText = XmlGetText(reason);
 	CallServiceSync(MS_GC_EVENT, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, (LPARAM)&gce);
 
 	db_unset(HContactFromJID(item->jid), "CList", "Hidden");

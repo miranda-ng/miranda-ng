@@ -342,7 +342,7 @@ begin
     f:=Rewrite(fname);
     BlockWrite(f,res^,i*SizeOf(WideChar));
     CloseHandle(f);
-    xmlparser.FreeMem(res);
+    FreeMem(res);
     DestroyNode(root);
   end;
   result:=1;

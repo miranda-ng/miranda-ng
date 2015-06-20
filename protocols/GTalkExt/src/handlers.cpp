@@ -31,8 +31,6 @@
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-XML_API xi = { 0 };
-
 #include <tchar.h>
 
 GoogleTalkAcc* isGoogle(LPARAM lParam)
@@ -79,17 +77,17 @@ BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 	ULONGLONG maxTid = 0;
 	LPCTSTR sMaxTid = NULL;
 	int unreadCount = 0;
-	for (int i = 0; i < xi.getChildCount(node); i++) {
-		LPCTSTR sTid = xi.getAttrValue(xi.getChild(node, i), ATTRNAME_TID);
+	for (int i = 0; i < xmlGetChildCount(node); i++) {
+		LPCTSTR sTid = xmlGetAttrValue(xmlGetChild(node, i), ATTRNAME_TID);
 		ULONGLONG tid = _tcstoui64(sTid, NULL, 10);
 		if (tid > maxTid) {
 			maxTid = tid;
 			sMaxTid = sTid;
 		}
 
-		HXML senders = xi.getChildByPath(xi.getChild(node, i), NODENAME_SENDERS, FALSE);
-		for (int j = 0; j < xi.getChildCount(senders); j++)
-			if (xi.getAttrValue(xi.getChild(senders, j), ATTRNAME_UNREAD)) {
+		HXML senders = xmlGetChildByPath(xmlGetChild(node, i), NODENAME_SENDERS, FALSE);
+		for (int j = 0; j < xmlGetChildCount(senders); j++)
+			if (xmlGetAttrValue(xmlGetChild(senders, j), ATTRNAME_UNREAD)) {
 				unreadCount++;
 				break;
 			}
@@ -100,7 +98,7 @@ BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 		return FALSE;
 
 	if (!unreadCount) {
-		SetupPseudocontact(jid, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED), acc);
+		SetupPseudocontact(jid, xmlGetAttrValue(node, ATTRNAME_TOTAL_MATCHED), acc);
 		return TRUE;
 	}
 
@@ -108,29 +106,29 @@ BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 
 	if (unreadCount > 5) {
 		CloseNotifications(acc, mailboxUrl, jid, FALSE);
-		UnreadMailNotification(acc, jid, mailboxUrl, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED));
+		UnreadMailNotification(acc, jid, mailboxUrl, xmlGetAttrValue(node, ATTRNAME_TOTAL_MATCHED));
 	}
 	else
-		for (int i = 0; i < xi.getChildCount(node); i++) {
+		for (int i = 0; i < xmlGetChildCount(node); i++) {
 			MAIL_THREAD_NOTIFICATION mtn = { 0 };
-			HXML thread = xi.getChild(node, i);
+			HXML thread = xmlGetChild(node, i);
 
-			mtn.subj = xi.getText(xi.getChildByPath(thread, NODENAME_SUBJECT, FALSE));
-			mtn.snip = xi.getText(xi.getChildByPath(thread, NODENAME_SNIPPET, FALSE));
+			mtn.subj = xmlGetText(xmlGetChildByPath(thread, NODENAME_SUBJECT, FALSE));
+			mtn.snip = xmlGetText(xmlGetChildByPath(thread, NODENAME_SNIPPET, FALSE));
 
 			int threadUnreadCount = 0;
-			HXML senders = xi.getChildByPath(thread, NODENAME_SENDERS, FALSE);
-			for (int j = 0; threadUnreadCount < SENDER_COUNT && j < xi.getChildCount(senders); j++) {
-				HXML sender = xi.getChild(senders, j);
-				if (xi.getAttrValue(sender, ATTRNAME_UNREAD)) {
-					mtn.senders[threadUnreadCount].name = xi.getAttrValue(sender, ATTRNAME_NAME);
-					mtn.senders[threadUnreadCount].addr = xi.getAttrValue(sender, ATTRNAME_ADDRESS);
+			HXML senders = xmlGetChildByPath(thread, NODENAME_SENDERS, FALSE);
+			for (int j = 0; threadUnreadCount < SENDER_COUNT && j < xmlGetChildCount(senders); j++) {
+				HXML sender = xmlGetChild(senders, j);
+				if (xmlGetAttrValue(sender, ATTRNAME_UNREAD)) {
+					mtn.senders[threadUnreadCount].name = xmlGetAttrValue(sender, ATTRNAME_NAME);
+					mtn.senders[threadUnreadCount].addr = xmlGetAttrValue(sender, ATTRNAME_ADDRESS);
 					threadUnreadCount++;
 				}
 			}
 
-			LPCTSTR url = xi.getAttrValue(thread, ATTRNAME_URL);
-			LPCTSTR tid = xi.getAttrValue(thread, ATTRNAME_TID);
+			LPCTSTR url = xmlGetAttrValue(thread, ATTRNAME_URL);
+			LPCTSTR tid = xmlGetAttrValue(thread, ATTRNAME_TID);
 
 			if (ReadCheckbox(0, IDC_STANDARDVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_STANDARD, (LPTSTR)url, mailboxUrl, tid);
@@ -140,10 +138,10 @@ BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 				MakeUrlHex((LPTSTR)url, tid);
 
 			CloseNotifications(acc, url, jid, i);
-			UnreadThreadNotification(acc, jid, url, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED), &mtn);
+			UnreadThreadNotification(acc, jid, url, xmlGetAttrValue(node, ATTRNAME_TOTAL_MATCHED), &mtn);
 		}
 
-	LPCTSTR time = xi.getAttrValue(node, ATTRNAME_RESULT_TIME);
+	LPCTSTR time = xmlGetAttrValue(node, ATTRNAME_RESULT_TIME);
 	WriteJidSetting(LAST_MAIL_TIME_FROM_JID, jid, time);
 	WriteJidSetting(LAST_THREAD_ID_FROM_JID, jid, sMaxTid);
 	return TRUE;
@@ -151,17 +149,17 @@ BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 
 BOOL MailListHandler(IJabberInterface *ji, HXML node, void *)
 {
-	LPCTSTR jidWithRes = xi.getAttrValue(node, ATTRNAME_TO);
+	LPCTSTR jidWithRes = xmlGetAttrValue(node, ATTRNAME_TO);
 	__try {
-		if (!node || mir_tstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
+		if (!node || mir_tstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
 
-		LPCTSTR jid = xi.getAttrValue(node, ATTRNAME_FROM);
+		LPCTSTR jid = xmlGetAttrValue(node, ATTRNAME_FROM);
 		assert(jid);
 
-		node = xi.getChildByPath(node, NODENAME_MAILBOX, FALSE);
+		node = xmlGetChildByPath(node, NODENAME_MAILBOX, FALSE);
 		if (!node) return TRUE; // empty list
 
-		LPCTSTR url = xi.getAttrValue(node, ATTRNAME_URL);
+		LPCTSTR url = xmlGetAttrValue(node, ATTRNAME_URL);
 
 		return InternalListHandler(node, jid, url);
 	}
@@ -176,13 +174,13 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *)
 void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 {
 	HXML child = NULL;
-	HXML node = xi.createNode(NODENAME_IQ, NULL, FALSE);
-	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_GET);
-	xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
+	HXML node = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
+	xmlAddAttr(node, ATTRNAME_TYPE, IQTYPE_GET);
+	xmlAddAttr(node, ATTRNAME_FROM, jidWithRes);
 
 	UINT uID = ji->SerialNext();
 	ptrT jid(ExtractJid(jidWithRes));
-	xi.addAttr(node, ATTRNAME_TO, jid);
+	xmlAddAttr(node, ATTRNAME_TO, jid);
 
 	ptrT
 		lastMailTime(ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
@@ -190,18 +188,18 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 
 	TCHAR id[30];
 	mir_sntprintf(id, JABBER_IQID_FORMAT, uID);
-	xi.addAttr(node, ATTRNAME_ID, id);
+	xmlAddAttr(node, ATTRNAME_ID, id);
 
-	child = xi.addChild(node, NODENAME_QUERY, NULL);
-	xi.addAttr(child, ATTRNAME_XMLNS, NOTIFY_FEATURE_XMLNS);
-	xi.addAttr(child, ATTRNAME_NEWER_THAN_TIME, lastMailTime);
-	xi.addAttr(child, ATTRNAME_NEWER_THAN_TID, lastThreadId);
+	child = xmlAddChild(node, NODENAME_QUERY, NULL);
+	xmlAddAttr(child, ATTRNAME_XMLNS, NOTIFY_FEATURE_XMLNS);
+	xmlAddAttr(child, ATTRNAME_NEWER_THAN_TIME, lastMailTime);
+	xmlAddAttr(child, ATTRNAME_NEWER_THAN_TID, lastThreadId);
 
 	if (ji->SendXmlNode(node))
 		ji->AddTemporaryIqHandler(MailListHandler, JABBER_IQ_TYPE_RESULT, (int)uID, NULL, RESPONSE_TIMEOUT);
 
-	if (child) xi.destroyNode(child);
-	if (node) xi.destroyNode(node);
+	if (child) xmlDestroyNode(child);
+	if (node) xmlDestroyNode(node);
 }
 
 BOOL TimerHandler(IJabberInterface *ji, HXML, void *pUserData)
@@ -213,70 +211,70 @@ BOOL TimerHandler(IJabberInterface *ji, HXML, void *pUserData)
 
 BOOL NewMailHandler(IJabberInterface *ji, HXML node, void *)
 {
-	HXML response = xi.createNode(NODENAME_IQ, NULL, FALSE);
+	HXML response = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
 	__try {
-		xi.addAttr(response, ATTRNAME_TYPE, IQTYPE_RESULT);
+		xmlAddAttr(response, ATTRNAME_TYPE, IQTYPE_RESULT);
 
-		LPCTSTR attr = xi.getAttrValue(node, ATTRNAME_ID);
+		LPCTSTR attr = xmlGetAttrValue(node, ATTRNAME_ID);
 		if (!attr) return FALSE;
-		xi.addAttr(response, ATTRNAME_ID, attr);
+		xmlAddAttr(response, ATTRNAME_ID, attr);
 
-		attr = xi.getAttrValue(node, ATTRNAME_FROM);
-		if (attr) xi.addAttr(response, ATTRNAME_TO, attr);
+		attr = xmlGetAttrValue(node, ATTRNAME_FROM);
+		if (attr) xmlAddAttr(response, ATTRNAME_TO, attr);
 
-		attr = xi.getAttrValue(node, ATTRNAME_TO);
+		attr = xmlGetAttrValue(node, ATTRNAME_TO);
 		if (!attr) return FALSE;
-		xi.addAttr(response, ATTRNAME_FROM, attr);
+		xmlAddAttr(response, ATTRNAME_FROM, attr);
 
 		int bytesSent = ji->SendXmlNode(response);
 		RequestMail(attr, ji);
 		return bytesSent > 0;
 	}
 	__finally {
-		xi.destroyNode(response);
+		xmlDestroyNode(response);
 	}
 }
 
 void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 {
 	HXML child = NULL;
-	HXML node = xi.createNode(NODENAME_IQ, NULL, FALSE);
+	HXML node = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
 
-	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
-	xi.addAttr(node, ATTRNAME_FROM, jidWithResource);
+	xmlAddAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
+	xmlAddAttr(node, ATTRNAME_FROM, jidWithResource);
 
 	ptrT jid(ExtractJid(jidWithResource));
-	xi.addAttr(node, ATTRNAME_TO, jid);
+	xmlAddAttr(node, ATTRNAME_TO, jid);
 
 	TCHAR id[30];
 	mir_sntprintf(id, JABBER_IQID_FORMAT, ji->SerialNext());
-	xi.addAttr(node, ATTRNAME_ID, id);
+	xmlAddAttr(node, ATTRNAME_ID, id);
 
-	child = xi.addChild(node, NODENAME_USERSETTING, NULL);
-	xi.addAttr(child, ATTRNAME_XMLNS, SETTING_FEATURE_XMLNS);
+	child = xmlAddChild(node, NODENAME_USERSETTING, NULL);
+	xmlAddAttr(child, ATTRNAME_XMLNS, SETTING_FEATURE_XMLNS);
 
-	child = xi.addChild(child, NODENAME_MAILNOTIFICATIONS, NULL);
-	xi.addAttr(child, ATTRNAME_VALUE, SETTING_TRUE);
+	child = xmlAddChild(child, NODENAME_MAILNOTIFICATIONS, NULL);
+	xmlAddAttr(child, ATTRNAME_VALUE, SETTING_TRUE);
 
 	ji->SendXmlNode(node);
 
-	if (child) xi.destroyNode(child);
-	if (node) xi.destroyNode(node);
+	if (child) xmlDestroyNode(child);
+	if (node) xmlDestroyNode(node);
 }
 
 BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *)
 {
 	if (!node) return FALSE;
 
-	LPCTSTR jid = xi.getAttrValue(node, ATTRNAME_TO);
+	LPCTSTR jid = xmlGetAttrValue(node, ATTRNAME_TO);
 	assert(jid);
-	node = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
+	node = xmlGetChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
 
-	HXML child = xi.getChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, SETTING_FEATURE_XMLNS);
+	HXML child = xmlGetChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, SETTING_FEATURE_XMLNS);
 	if (child)
 		SetNotificationSetting(jid, ji);
 
-	child = xi.getChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, NOTIFY_FEATURE_XMLNS);
+	child = xmlGetChildByAttrValue(node, NODENAME_FEATURE, ATTRNAME_VAR, NOTIFY_FEATURE_XMLNS);
 	if (child) {
 		ji->AddIqHandler(NewMailHandler, JABBER_IQ_TYPE_SET, NOTIFY_FEATURE_XMLNS, NODENAME_NEW_MAIL);
 		RequestMail(jid, ji);
@@ -291,22 +289,22 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *)
 	if (gta == NULL)
 		return FALSE;
 
-	HXML queryNode = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
+	HXML queryNode = xmlGetChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
 	if (queryNode) {
-		LPCTSTR ptszId = xi.getAttrValue(node, ATTRNAME_ID);
+		LPCTSTR ptszId = xmlGetAttrValue(node, ATTRNAME_ID);
 		if (ptszId)
 			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
-	if (!mir_tstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
+	if (!mir_tstrcmp(xmlGetName(node), _T("presence")) && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
 		if (!gta->m_bGoogleSharedStatus)
 			return FALSE;
 
-		HXML statNode = xi.getChildByPath(node, _T("status"), 0);
-		HXML showNode = xi.getChildByPath(node, _T("show"), 0);
+		HXML statNode = xmlGetChildByPath(node, _T("status"), 0);
+		HXML showNode = xmlGetChildByPath(node, _T("show"), 0);
 		if (statNode) {
-			LPCTSTR status = xi.getText(showNode);
-			LPCTSTR msg = xi.getText(statNode);
+			LPCTSTR status = xmlGetText(showNode);
+			LPCTSTR msg = xmlGetText(statNode);
 			gta->SendIqGoogleSharedStatus(status, msg);
 		}
 	}
@@ -321,7 +319,7 @@ BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *)
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta != NULL) {
-		gta->m_bGoogleSharedStatus = mir_tstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
+		gta->m_bGoogleSharedStatus = mir_tstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
 		gta->m_bGoogleSharedStatusLock = FALSE;
 	}
 	return FALSE;
@@ -332,18 +330,18 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta == NULL)
 		return FALSE;
-	if (mir_tstrcmp(xi.getAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
+	if (mir_tstrcmp(xmlGetAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
 		return FALSE;
 	if (gta->m_bGoogleSharedStatusLock)
 		return TRUE;
 
 	int status;
-	HXML query = xi.getChildByPath(iqNode, NODENAME_QUERY, 0);
-	HXML node = xi.getChildByPath(query, _T("invisible"), 0);
-	if (0 == mir_tstrcmpi(_T("true"), xi.getAttrValue(node, _T("value"))))
+	HXML query = xmlGetChildByPath(iqNode, NODENAME_QUERY, 0);
+	HXML node = xmlGetChildByPath(query, _T("invisible"), 0);
+	if (0 == mir_tstrcmpi(_T("true"), xmlGetAttrValue(node, _T("value"))))
 		status = ID_STATUS_INVISIBLE;
 	else {
-		LPCTSTR txt = xi.getText(xi.getChildByPath(query, _T("show"), 0));
+		LPCTSTR txt = xmlGetText(xmlGetChildByPath(query, _T("show"), 0));
 		if (txt && 0 == mir_tstrcmpi(_T("dnd"), txt))
 			status = ID_STATUS_DND;
 		else if (gta->m_pa->ppro->m_iStatus == ID_STATUS_DND || gta->m_pa->ppro->m_iStatus == ID_STATUS_INVISIBLE)
@@ -360,29 +358,29 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 
 void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
 {
-	HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
-	xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
+	HXML iq = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
+	xmlAddAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 
-	HXML query = xi.addChild(iq, NODENAME_QUERY, NULL);
-	xi.addChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
-	xi.addAttrInt(query, _T("version"), 2);
+	HXML query = xmlAddChild(iq, NODENAME_QUERY, NULL);
+	xmlAddChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
+	xmlAddAttrInt(query, _T("version"), 2);
 
-	xi.addChild(query, _T("status"), msg);
+	xmlAddChild(query, _T("status"), msg);
 	if (!mir_tstrcmp(status, _T("invisible"))) {
-		xi.addChild(query, _T("show"), _T("default"));
-		xi.addAttr(xi.addChild(query, _T("invisible"), 0), _T("value"), _T("true"));
+		xmlAddChild(query, _T("show"), _T("default"));
+		xmlAddAttr(xmlAddChild(query, _T("invisible"), 0), _T("value"), _T("true"));
 	}
 	else {
 		if (!mir_tstrcmp(status, _T("dnd")))
-			xi.addChild(query, _T("show"), _T("dnd"));
+			xmlAddChild(query, _T("show"), _T("dnd"));
 		else
-			xi.addChild(query, _T("show"), _T("default"));
+			xmlAddChild(query, _T("show"), _T("default"));
 
-		xi.addAttr(xi.addChild(query, _T("invisible"), 0), _T("value"), _T("false"));
+		xmlAddAttr(xmlAddChild(query, _T("invisible"), 0), _T("value"), _T("false"));
 	}
 	m_bGoogleSharedStatusLock = TRUE;
 	m_japi->SendXmlNode(iq);
-	xi.destroyNode(iq);
+	xmlDestroyNode(iq);
 }
 
 int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
@@ -395,14 +393,14 @@ int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
 
 	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
 	if (!mir_tstrcmp(fld->category, _T("server")) && !mir_tstrcmp(fld->type, _T("im")) && !mir_tstrcmp(fld->name, _T("Google Talk"))) {
-		HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
-		xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
+		HXML iq = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
+		xmlAddAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 
-		HXML query = xi.addChild(iq, NODENAME_QUERY, NULL);
-		xi.addChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
-		xi.addAttrInt(query, _T("version"), 2);
+		HXML query = xmlAddChild(iq, NODENAME_QUERY, NULL);
+		xmlAddChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
+		xmlAddAttrInt(query, _T("version"), 2);
 		gta->m_japi->SendXmlNode(iq);
-		xi.destroyNode(iq);
+		xmlDestroyNode(iq);
 	}
 	return 0;
 }

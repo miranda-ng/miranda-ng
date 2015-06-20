@@ -706,12 +706,12 @@ private:
 		m_cbServer.ResetContent();
 		if (node) {
 			for (int i=0; ; i++) {
-				HXML n = xmlGetChild(node, i);
+				HXML n = XmlGetChild(node, i);
 				if (!n)
 					break;
 
-				if (!mir_tstrcmp(xmlGetName(n), _T("item")))
-					if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
+				if (!mir_tstrcmp(XmlGetName(n), _T("item")))
+					if (const TCHAR *jid = XmlGetAttrValue(n, _T("jid")))
 						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 							 m_cbServer.AddString(jid);
 			}
@@ -743,7 +743,7 @@ private:
 				TCHAR *buf = mir_a2t(result->pData);
 				XmlNode node(buf, NULL, NULL);
 				if (node) {
-					HXML queryNode = xmlGetChild(node, _T("query"));
+					HXML queryNode = XmlGetChild(node, _T("query"));
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
 				}
@@ -995,21 +995,21 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 	HWND hList = GetDlgItem(rrud.hwndDlg, IDC_ROSTER);
 	if (rrud.bRRAction == RRA_FILLLIST) {
 		_RosterListClear(rrud.hwndDlg);
-		HXML query = xmlGetChild(node , "query");
+		HXML query = XmlGetChild(node , "query");
 		if (query == NULL) return;
 		int i = 1;
 		while (TRUE) {
-			HXML item = xmlGetNthChild(query, _T("item"), i++);
+			HXML item = XmlGetNthChild(query, _T("item"), i++);
 			if (item == NULL)
 				break;
 
-			const TCHAR *jid = xmlGetAttrValue(item, _T("jid"));
+			const TCHAR *jid = XmlGetAttrValue(item, _T("jid"));
 			if (jid == NULL)
 				continue;
 
-			const TCHAR *name = xmlGetAttrValue(item, _T("name"));
-			const TCHAR *subscription = xmlGetAttrValue(item, _T("subscription"));
-			const TCHAR *group = xmlGetText( xmlGetChild(item, "group"));
+			const TCHAR *name = XmlGetAttrValue(item, _T("name"));
+			const TCHAR *subscription = XmlGetAttrValue(item, _T("subscription"));
+			const TCHAR *group = XmlGetText( XmlGetChild(item, "group"));
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
 
@@ -1043,7 +1043,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 	
 	if (rrud.bRRAction == RRA_SYNCROSTER) {
 		SetDlgItemText(rrud.hwndDlg, IDC_UPLOAD, TranslateT("Uploading..."));
-		HXML queryRoster = xmlGetChild(node , "query");
+		HXML queryRoster = XmlGetChild(node , "query");
 		if (!queryRoster)
 			return;
 
@@ -1062,7 +1062,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			ListView_GetItemText(hList, index, 1, name, _countof(name));
 			ListView_GetItemText(hList, index, 2, group, _countof(group));
 			ListView_GetItemText(hList, index, 3, subscr, _countof(subscr));
-			HXML itemRoster = xmlGetChildByTag(queryRoster, "item", "jid", jid);
+			HXML itemRoster = XmlGetChildByTag(queryRoster, "item", "jid", jid);
 			BOOL bRemove = !ListView_GetCheckState(hList,index);
 			if (itemRoster && bRemove) {
 				//delete item
@@ -1072,16 +1072,16 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 			else if (!bRemove) {
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
-					const TCHAR *rosterName = xmlGetAttrValue(itemRoster, _T("name"));
+					const TCHAR *rosterName = XmlGetAttrValue(itemRoster, _T("name"));
 					if ((rosterName != NULL || name[0]!=0) && mir_tstrcmpi(rosterName,name))
 						bPushed=TRUE;
 					if (!bPushed) {
-						rosterName = xmlGetAttrValue(itemRoster, _T("subscription"));
+						rosterName = XmlGetAttrValue(itemRoster, _T("subscription"));
 						if ((rosterName != NULL || subscr[0]!=0) && mir_tstrcmpi(rosterName,subscr))
 							bPushed=TRUE;
 					}
 					if (!bPushed) {
-						const TCHAR *rosterGroup = xmlGetText( xmlGetChild(itemRoster, "group"));
+						const TCHAR *rosterGroup = XmlGetText( XmlGetChild(itemRoster, "group"));
 						if ((rosterGroup != NULL || group[0]!=0) && mir_tstrcmpi(rosterGroup,group))
 							bPushed=TRUE;
 					}
@@ -1231,9 +1231,9 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	char header[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?mso-application progid=\"Excel.Sheet\"?>\n";
 	fwrite(header, 1, sizeof(header) - 1 /* for zero terminator */, fp);
 
-	TCHAR *xtmp = xi.toString(root, NULL);
+	TCHAR *xtmp = xmlToString(root, NULL);
 	fputs(T2Utf(xtmp), fp);
-	xi.freeMem(xtmp);
+	xmlFree(xtmp);
 	fclose(fp);
 }
 
@@ -1275,17 +1275,17 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	int nBytesProcessed = 0;
 	XmlNode node(newBuf, &nBytesProcessed, NULL);
 	if (node) {
-		HXML Workbook = xmlGetChild(node, _T("Workbook"));
+		HXML Workbook = XmlGetChild(node, _T("Workbook"));
 		if (Workbook) {
-			HXML Worksheet = xmlGetChild(Workbook , "Worksheet");
+			HXML Worksheet = XmlGetChild(Workbook , "Worksheet");
 			if (Worksheet) {
-				HXML Table = xmlGetChild(Worksheet , "Table");
+				HXML Table = XmlGetChild(Worksheet , "Table");
 				if (Table) {
 					int index=1;
 					HWND hList=GetDlgItem(hwndDlg, IDC_ROSTER);
 					while (TRUE)
 					{
-						HXML Row = xmlGetNthChild(Table, _T("Row"), index++);
+						HXML Row = XmlGetNthChild(Table, _T("Row"), index++);
 						if (!Row)
 							break;
 
@@ -1294,36 +1294,36 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 						const TCHAR *name=NULL;
 						const TCHAR *group=NULL;
 						const TCHAR *subscr=NULL;
-						HXML Cell = xmlGetNthChild(Row, _T("Cell"), 1);
-						HXML Data = (Cell) ? xmlGetChild(Cell , "Data") : XmlNode();
+						HXML Cell = XmlGetNthChild(Row, _T("Cell"), 1);
+						HXML Data = (Cell) ? XmlGetChild(Cell , "Data") : XmlNode();
 						if (Data)
 						{
-							if (!mir_tstrcmpi(xmlGetText(Data),_T("+"))) bAdd=TRUE;
-							else if (mir_tstrcmpi(xmlGetText(Data),_T("-"))) continue;
+							if (!mir_tstrcmpi(XmlGetText(Data),_T("+"))) bAdd=TRUE;
+							else if (mir_tstrcmpi(XmlGetText(Data),_T("-"))) continue;
 
-							Cell = xmlGetNthChild(Row, _T("Cell"),2);
-							if (Cell) Data=xmlGetChild(Cell , "Data");
+							Cell = XmlGetNthChild(Row, _T("Cell"),2);
+							if (Cell) Data=XmlGetChild(Cell , "Data");
 							else Data = NULL;
 							if (Data)
 							{
-								jid=xmlGetText(Data);
+								jid=XmlGetText(Data);
 								if (!jid || mir_tstrlen(jid)==0) continue;
 							}
 
-							Cell=xmlGetNthChild(Row,_T("Cell"),3);
-							if (Cell) Data=xmlGetChild(Cell , "Data");
+							Cell=XmlGetNthChild(Row,_T("Cell"),3);
+							if (Cell) Data=XmlGetChild(Cell , "Data");
 							else Data = NULL;
-							if (Data) name=xmlGetText(Data);
+							if (Data) name=XmlGetText(Data);
 
-							Cell=xmlGetNthChild(Row,_T("Cell"),4);
-							if (Cell) Data=xmlGetChild(Cell , "Data");
+							Cell=XmlGetNthChild(Row,_T("Cell"),4);
+							if (Cell) Data=XmlGetChild(Cell , "Data");
 							else Data = NULL;
-							if (Data) group=xmlGetText(Data);
+							if (Data) group=XmlGetText(Data);
 
-							Cell=xmlGetNthChild(Row,_T("Cell"),5);
-							if (Cell) Data=xmlGetChild(Cell , "Data");
+							Cell=XmlGetNthChild(Row,_T("Cell"),5);
+							if (Cell) Data=XmlGetChild(Cell , "Data");
 							else Data = NULL;
-							if (Data) subscr=xmlGetText(Data);
+							if (Data) subscr=XmlGetText(Data);
 						}
 						_RosterInsertListItem(hList,jid,name,group,subscr,bAdd);
 	}	}	}	}	}
@@ -2059,12 +2059,12 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 	m_cbServer.ResetContent();
 	if (node) {
 		for (int i = 0;; i++) {
-			HXML n = xmlGetChild(node, i);
+			HXML n = XmlGetChild(node, i);
 			if (!n)
 				break;
 
-			if (!mir_tstrcmp(xmlGetName(n), _T("item")))
-			if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
+			if (!mir_tstrcmp(XmlGetName(n), _T("item")))
+			if (const TCHAR *jid = XmlGetAttrValue(n, _T("jid")))
 			if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 				m_cbServer.AddString(jid);
 		}
@@ -2094,7 +2094,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 			TCHAR *ptszText = mir_a2t(result->pData);
 			XmlNode node(ptszText, NULL, NULL);
 			if (node) {
-				HXML queryNode = xmlGetChild(node, _T("query"));
+				HXML queryNode = XmlGetChild(node, _T("query"));
 				if (queryNode && IsWindow(hwnd)) {
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;

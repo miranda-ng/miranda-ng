@@ -293,37 +293,37 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget, initiator;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("addmember"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("addmember"));
 		if (xml == NULL)
 			return;
 
-		for (int i = 0; i < xi.getChildCount(xml); i++)
+		for (int i = 0; i < xmlGetChildCount(xml); i++)
 		{
-			HXML xmlNode = xi.getNthChild(xml, L"target", i);
+			HXML xmlNode = xmlGetNthChild(xml, L"target", i);
 			if (xmlNode == NULL)
 				break;
 
-			xtarget = mir_t2a(xi.getText(xmlNode));
+			xtarget = mir_t2a(xmlGetText(xmlNode));
 
 			CMStringA target = ParseUrl(xtarget, "8:");
 			AddChatContact(_A2T(chatname), target, target, L"User");
 		}
-		xi.destroyNode(xml);
+		xmlDestroyNode(xml);
 	}
 	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/DeleteMember"))
 	{
 		ptrA xinitiator, xtarget;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("deletemember"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("deletemember"));
 		if (xml != NULL) {
-			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			xinitiator = node != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xi.getChildByPath(xml, _T("target"), 0);
-			xtarget = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xmlNode = xmlGetChildByPath(xml, _T("target"), 0);
+			xtarget = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xi.destroyNode(xml);
+			xmlDestroyNode(xml);
 		}
 		if (xtarget == NULL)
 			return;
@@ -337,15 +337,15 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("topicupdate"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("topicupdate"));
 		if (xml != NULL) {
-			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xi.getChildByPath(xml, _T("value"), 0);
-			value = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xmlNode = xmlGetChildByPath(xml, _T("value"), 0);
+			value = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xi.destroyNode(xml);
+			xmlDestroyNode(xml);
 		}
 
 		CMStringA initiator = ParseUrl(xinitiator, "8:");
@@ -356,20 +356,20 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, xRole;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("roleupdate"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("roleupdate"));
 		if (xml != NULL) {
-			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
+			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
 
-			xmlNode = xi.getChildByPath(xml, _T("target"), 0);
+			xmlNode = xmlGetChildByPath(xml, _T("target"), 0);
 			if (xmlNode != NULL)
 			{
-				HXML xmlId = xi.getChildByPath(xmlNode, _T("id"), 0);
-				HXML xmlRole = xi.getChildByPath(xmlNode, _T("role"), 0);
-				xId = xmlId != NULL ? mir_t2a(xi.getText(xmlId)) : NULL;
-				xRole = xmlRole != NULL ? mir_t2a(xi.getText(xmlRole)) : NULL;
+				HXML xmlId = xmlGetChildByPath(xmlNode, _T("id"), 0);
+				HXML xmlRole = xmlGetChildByPath(xmlNode, _T("role"), 0);
+				xId = xmlId != NULL ? mir_t2a(xmlGetText(xmlId)) : NULL;
+				xRole = xmlRole != NULL ? mir_t2a(xmlGetText(xmlRole)) : NULL;
 			}
-			xi.destroyNode(xml);
+			xmlDestroyNode(xml);
 			
 			CMStringA initiator = ParseUrl(xinitiator, "8:");
 			CMStringA id = ParseUrl(xId, "8:");

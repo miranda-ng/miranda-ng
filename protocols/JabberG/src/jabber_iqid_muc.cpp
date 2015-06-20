@@ -32,7 +32,7 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 	if (m_ThreadInfo && from) {
 		XmlNodeIq iq(_T("set"), SerialNext(), (TCHAR*)from);
 		HXML query = iq << XQUERY(JABBER_FEAT_MUC_OWNER);
-		xmlAddChild(query, node);
+		XmlAddChild(query, node);
 		m_ThreadInfo->send(iq);
 	}
 }
@@ -42,21 +42,21 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdGetMuc");
-	LPCTSTR type = xmlGetAttrValue(iqNode, _T("type"));
+	LPCTSTR type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
-	LPCTSTR from = xmlGetAttrValue(iqNode, _T("from"));
+	LPCTSTR from = XmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
 
 	if (!mir_tstrcmp(type, _T("result"))) {
-		HXML queryNode = xmlGetChild(iqNode , _T("query"));
+		HXML queryNode = XmlGetChild(iqNode , _T("query"));
 		if (queryNode != NULL) {
-			LPCTSTR str = xmlGetAttrValue(queryNode, _T("xmlns"));
+			LPCTSTR str = XmlGetAttrValue(queryNode, _T("xmlns"));
 			if (!mir_tstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
-				HXML xNode = xmlGetChild(queryNode , _T("x"));
+				HXML xNode = XmlGetChild(queryNode , _T("x"));
 				if (xNode != NULL) {
-					str = xmlGetAttrValue(xNode, _T("xmlns"));
+					str = XmlGetAttrValue(xNode, _T("xmlns"));
 					if (!mir_tstrcmp(str, JABBER_FEAT_DATA_FORMS))
 						//LaunchForm(xNode);
 						FormCreateDialog(xNode, _T("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_tstrdup(from));
@@ -99,30 +99,30 @@ static void sttFillJidList(HWND hwndDlg)
 	TCHAR tszItemText[ JABBER_MAX_JID_LEN + 256 ];
 	HXML iqNode = jidListInfo->iqNode;
 	if (iqNode != NULL) {
-		LPCTSTR from = xmlGetAttrValue(iqNode, _T("from"));
+		LPCTSTR from = XmlGetAttrValue(iqNode, _T("from"));
 		if (from != NULL) {
-			HXML queryNode = xmlGetChild(iqNode , _T("query"));
+			HXML queryNode = XmlGetChild(iqNode , _T("query"));
 			if (queryNode != NULL) {
 				lvi.mask = LVIF_TEXT | LVIF_PARAM;
 				lvi.iSubItem = 0;
 				lvi.iItem = 0;
 				for (int i=0; ; i++) {
-					HXML itemNode = xmlGetChild(queryNode ,i);
+					HXML itemNode = XmlGetChild(queryNode ,i);
 					if (!itemNode)
 						break;
 
-					LPCTSTR jid = xmlGetAttrValue(itemNode, _T("jid"));
+					LPCTSTR jid = XmlGetAttrValue(itemNode, _T("jid"));
 					if (jid != NULL) {
 						lvi.pszText = (TCHAR*)jid;
 						if (jidListInfo->type == MUC_BANLIST) {
-							LPCTSTR reason = xmlGetText(xmlGetChild(itemNode , _T("reason")));
+							LPCTSTR reason = XmlGetText(XmlGetChild(itemNode , _T("reason")));
 							if (reason != NULL) {
 								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , jid, reason);
 								lvi.pszText = tszItemText;
 							}
 						}
 						else if (jidListInfo->type == MUC_VOICELIST || jidListInfo->type == MUC_MODERATORLIST) {
-							LPCTSTR nick = xmlGetAttrValue(itemNode, _T("nick"));
+							LPCTSTR nick = XmlGetAttrValue(itemNode, _T("nick"));
 							if (nick != NULL) {
 								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , nick, jid);
 								lvi.pszText = tszItemText;
@@ -252,10 +252,10 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			if ((dat=(JABBER_MUC_JIDLIST_INFO *) lParam) != NULL) {
 				HXML iqNode = dat->iqNode;
 				if (iqNode != NULL) {
-					LPCTSTR from = xmlGetAttrValue(iqNode, _T("from"));
+					LPCTSTR from = XmlGetAttrValue(iqNode, _T("from"));
 					if (from != NULL) {
 						dat->roomJid = mir_tstrdup(from);
-						HXML queryNode = xmlGetChild(iqNode , _T("query"));
+						HXML queryNode = XmlGetChild(iqNode , _T("query"));
 						if (queryNode != NULL) {
 							TCHAR *localFrom = mir_tstrdup(from);
 							mir_sntprintf(title, _countof(title), TranslateT("%s, %d items (%s)"),
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 								(dat->type == MUC_BANLIST) ? TranslateT("Ban List") :
 								(dat->type == MUC_ADMINLIST) ? TranslateT("Admin List") :
 								(dat->type == MUC_OWNERLIST) ? TranslateT("Owner List") :
-								TranslateT("JID List"), xmlGetChildCount(queryNode), localFrom);
+								TranslateT("JID List"), XmlGetChildCount(queryNode), localFrom);
 							mir_free(localFrom);
 						}
 					}
@@ -449,11 +449,11 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	if (iqNode == NULL)
 		return;
 
-	LPCTSTR from  = xmlGetAttrValue(iqNode, _T("from"));
+	LPCTSTR from  = XmlGetAttrValue(iqNode, _T("from"));
 	if (from == NULL)
 		return;
 
-	HXML queryNode = xmlGetChild(iqNode , _T("query"));
+	HXML queryNode = XmlGetChild(iqNode , _T("query"));
 	if (queryNode == NULL)
 		return;
 
@@ -492,7 +492,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 
 void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType)
 {
-	LPCTSTR type = xmlGetAttrValue(iqNode, _T("type"));
+	LPCTSTR type = XmlGetAttrValue(iqNode, _T("type"));
 	if (type == NULL)
 		return;
 
@@ -502,7 +502,7 @@ void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE 
 			jidListInfo->type = listType;
 			jidListInfo->ppro = this;
 			jidListInfo->roomJid = NULL;	// Set in the dialog procedure
-			if ((jidListInfo->iqNode = xi.copyNode(iqNode)) != NULL)
+			if ((jidListInfo->iqNode = xmlCopyNode(iqNode)) != NULL)
 				CallFunctionAsync(JabberMucJidListCreateDialogApcProc, jidListInfo);
 			else
 				mir_free(jidListInfo);
@@ -550,7 +550,7 @@ void CJabberProto::OnIqResultMucGetOwnerList(HXML iqNode, CJabberIqInfo *)
 
 JABBER_MUC_JIDLIST_INFO::~JABBER_MUC_JIDLIST_INFO()
 {
-	xi.destroyNode(iqNode);
+	xmlDestroyNode(iqNode);
 	mir_free(roomJid);
 }
 

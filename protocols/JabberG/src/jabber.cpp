@@ -58,8 +58,6 @@ PLUGININFOEX pluginInfo = {
     {0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde}} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
 };
 
-XML_API  xi;
-
 CLIST_INTERFACE* pcli;
 FI_INTERFACE *FIP = NULL;
 
@@ -182,7 +180,6 @@ static int jabberProtoUninit(CJabberProto *ppro)
 extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
-	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 

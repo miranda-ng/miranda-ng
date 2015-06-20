@@ -60,10 +60,7 @@ CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 	{
 		mir_cslock lck(g_lmParsers);
 		if (!g_pXMLEngine)
-		{
-			mir_getXI(&xi);
 			g_pXMLEngine = TXMLEnginePtr(new CXMLEngineMI);
-		}
 	}
 
 	return g_pXMLEngine;

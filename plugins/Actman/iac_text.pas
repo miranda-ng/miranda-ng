@@ -361,22 +361,12 @@ begin
     end;
 
     1: begin
-      with xmlparser do
-      begin
-        StrDupW(text,getText(HXML(node)));
-        if StrToInt(getAttrValue(HXML(node),ioVariables))=1 then
-          flags:=flags or ACF_TEXTSCRIPT;
-        if StrToInt(getAttrValue(HXML(node),ioPost))=1 then
-          flags:=flags or ACF_POSTPROCESS;
-      end;
-    end;
-{
-    2: begin
-      UTF8ToWide(GetParamSectionInt(node,ioText),text);
-      if GetParamSectionInt(node,ioVariables)=1 then
+      StrDupW(text,xmlGetText(HXML(node)));
+      if StrToInt(xmlGetAttrValue(HXML(node),ioVariables))=1 then
         flags:=flags or ACF_TEXTSCRIPT;
+      if StrToInt(xmlGetAttrValue(HXML(node),ioPost))=1 then
+        flags:=flags or ACF_POSTPROCESS;
     end;
-}
   end;
 end;
 

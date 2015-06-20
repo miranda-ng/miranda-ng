@@ -69,7 +69,7 @@ public:
 		for (int i=0; i < getCount(); i++)
 		{
 			CPepService &pepSvc = (*this)[i];
-			HXML itemsNode = xmlGetChildByTag(eventNode, _T("items"), _T("node"), pepSvc.GetNode());
+			HXML itemsNode = XmlGetChildByTag(eventNode, _T("items"), _T("node"), pepSvc.GetNode());
 			if (itemsNode)
 				pepSvc.ProcessItems(from, itemsNode);
 		}

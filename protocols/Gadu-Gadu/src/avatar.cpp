@@ -84,20 +84,20 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 		//if this url returned xml data (before and after 11.2013 gg convention)
 		TCHAR *xmlAction = mir_a2t(resp->pData);
-		HXML hXml = xi.parseString(xmlAction, 0, _T("result"));
+		HXML hXml = xmlParseString(xmlAction, 0, _T("result"));
 		if (hXml != NULL) {
-			HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
-			const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
+			HXML node = xmlGetChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
+			const TCHAR *blank = (node != NULL) ? xmlGetAttrValue(node, _T("blank")) : NULL;
 			if (blank != NULL && mir_tstrcmp(blank, _T("1"))) {
-				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
-				*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
-				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/bigavatar"), 0); //new gg convention
+				node = xmlGetChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
+				*avatarts = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+				node = xmlGetChildByPath(hXml, _T("users/user/avatars/avatar/bigavatar"), 0); //new gg convention
 				if (node == NULL){
-					node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0); //old gg convention
+					node = xmlGetChildByPath(hXml, _T("users/user/avatars/avatar/originBigAvatar"), 0); //old gg convention
 				}
-				*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+				*avatarurl = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
 			}
-			xi.destroyNode(hXml);
+			xmlDestroyNode(hXml);
 		}
 		mir_free(xmlAction);
 

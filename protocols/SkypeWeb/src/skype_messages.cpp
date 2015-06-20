@@ -199,20 +199,20 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
 		//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 		int iType = 3, iDuration = 0;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
 		if (xml != NULL)
 		{
 
-			ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
+			ptrA type(mir_t2a(xmlGetAttrValue(xml, _T("type"))));
 
 			if (!mir_strcmpi(type, "ended")) iType = 0;
 			else if (!mir_strcmpi(type, "started")) iType = 1;
 
-			HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
-			HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
-			iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
+			HXML xmlNode = xmlGetChildByPath(xml, _T("part"), 0);
+			HXML duration = xmlNode == NULL ? NULL : xmlGetChildByPath(xmlNode, _T("duration"), 0);
+			iDuration = duration != NULL ? atoi(mir_t2a(xmlGetText(duration))) : NULL;
 
-			xi.destroyNode(xml);
+			xmlDestroyNode(xml);
 		}
 		CMStringA text = "";
 		if (iType == 1)
@@ -244,17 +244,17 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
 	{
 		//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("files"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("files"));
 		if (xml != NULL)
 		{
-			for (int i = 0; i < xi.getChildCount(xml); i++)
+			for (int i = 0; i < xmlGetChildCount(xml); i++)
 			{
 				int fileSize;
-				HXML xmlNode = xi.getNthChild(xml, _T("file"), i);
+				HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
 				if (xmlNode == NULL)
 					break;
-				fileSize = atoi(_T2A(xi.getAttrValue(xmlNode, _T("size"))));
-				ptrA fileName(mir_utf8encodeT(xi.getText(xmlNode)));
+				fileSize = atoi(_T2A(xmlGetAttrValue(xmlNode, _T("size"))));
+				ptrA fileName(mir_utf8encodeT(xmlGetText(xmlNode)));
 				if (fileName == NULL || fileSize == NULL)
 					continue;
 
@@ -267,10 +267,10 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
 	{
 		//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
-		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
+		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
 		if (xml != NULL)
 		{
-			CMStringA object(ParseUrl(_T2A(xi.getAttrValue(xml, L"uri")), "/objects/"));
+			CMStringA object(ParseUrl(_T2A(xmlGetAttrValue(xml, L"uri")), "/objects/"));
 			CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object.c_str());
 			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId.c_str(), data.GetBuffer());
 		}

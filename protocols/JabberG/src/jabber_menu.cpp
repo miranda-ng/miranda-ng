@@ -556,9 +556,9 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM hContact, LPARAM)
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrT(getTStringA(hContact, "jid")));
 	if (item != NULL) {
-		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
+		XmlNode p(_T("presence")); XmlAddAttr(p, _T("to"), item->jid);
 		if (item->getTemp()->m_iStatus == ID_STATUS_ONLINE)
-			xmlAddAttr(p, _T("type"), _T("unavailable"));
+			XmlAddAttr(p, _T("type"), _T("unavailable"));
 		m_ThreadInfo->send(p);
 	}
 	return 0;
