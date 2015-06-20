@@ -2,7 +2,7 @@ unit srv_getinfo;
 
 interface
 
-uses wat_api;
+uses m_api, wat_api;
 
 function GetPlayerInfo(var dst:tSongInfo;flags:cardinal):integer;
 {
@@ -42,31 +42,6 @@ uses
   windows,
   common, msninfo, syswin, wrapper, io, winampapi,
   srv_player, srv_format;
-
-//----- Miranda cheat -----
-const
-  CoreDLL = 'mir_core.dll';
-type
-  tmir_free=procedure(para1:pointer); cdecl;
-var
-  mir_free:tmir_free;
-  MMCore:THANDLE;
-
-procedure InitMirandaMM;
-begin
-  MMCore:=LoadLibraryW(CoreDLL);
-  if MMCore<>0 then
-    @mir_free:=GetProcAddress(MMCore,PAnsiChar('mir_free'));
-end;
-
-procedure FreeMirandaMM;
-begin
-  if MMCore<>0 then
-  begin
-    FreeLibrary(MMCore);
-    MMCore:=0;
-  end;
-end;
 
 //----- get player info -----
 
@@ -453,9 +428,4 @@ begin
   mFreeMem(oldtitle);
 end;
 
-initialization
-  InitMirandaMM;
-
-finalization
-  FreeMirandaMM;
 end.
