@@ -38,4 +38,13 @@ const
 type
   mir_time = int_ptr;
 
+function TimeZone_ToLocal(timestamp:DWORD) : DWORD; stdcall;
+              external CoreDll name 'TimeZone_ToLocal';
+
+function TimeZone_ToString(timeVal:mir_time; const szFormat:PAnsiChar; szDest:PAnsiChar; cchDest:size_t) : mir_time; stdcall;
+              external CoreDll name 'TimeZone_ToString';
+
+function TimeZone_ToStringW(timeVal:mir_time; const szFormat:PWideChar; szDest:PWideChar; cchDest:size_t) : mir_time; stdcall;
+              external CoreDll name 'TimeZone_ToStringW';
+
 {$ENDIF}

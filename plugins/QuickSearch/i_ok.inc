@@ -172,12 +172,8 @@ end;
 function TimeToStrW(data:dword):PWideChar;
 var
   strdatetime:array [0..63] of WideChar;
-  dbtts:TDBTIMETOSTRING;
 begin
-  dbtts.cbDest    :=Length(strdatetime);
-  dbtts.szDest.w  :=@strdatetime;
-  dbtts.szFormat.w:='d - t';
-  CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,data,lparam(@dbtts));
+  TimeZone_ToStringW(data, 'd - t', @strdatetime, Length(strdatetime));
   StrDupW(result,strdatetime);
 end;
 

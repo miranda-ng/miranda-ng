@@ -60,7 +60,7 @@ begin
   DT := (D * 24 * 60 * 60) + (Hour * 3600 + Min * 60 + Sec);
   // Приводим к GMT...судя по всему миранда хранит таймштампы в GMT
   if toGMT then
-    Result := DT - (Longword(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, DT, 0)) - DT)
+    Result := DT - (Longword(TimeZone_ToLocal(DT)) - DT)
   else
     Result := DT;
 end;
@@ -69,7 +69,7 @@ function DateTimeToTimeStamp(const DateTime: TDateTime; toGMT: Boolean = true): 
 begin
   Result := Round((DateTime - UnixDateDelta) * SecsPerDay);
   if toGMT then
-    Result := Result - (Dword(CallService(MS_DB_TIME_TIMESTAMPTOLOCAL, Result, 0)) - Result);
+    Result := Result - (Dword(TimeZone_ToLocal(Result)) - Result);
 end;
 
 function ChangeUnicode(str: PWideChar): PWideChar;
