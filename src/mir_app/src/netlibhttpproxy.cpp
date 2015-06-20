@@ -64,12 +64,11 @@ void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck)
 
 static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, const char *buf, int len)
 {
-	NETLIBHTTPREQUEST nlhrSend = { 0 };
 	char szUrl[512];
 
+	NETLIBHTTPREQUEST nlhrSend = { 0 };
 	nlhrSend.cbSize = sizeof(nlhrSend);
 	nlhrSend.nlc = nlc;
-
 	nlhrSend.pData = (char*)buf;
 	nlhrSend.dataLength = len;
 
@@ -260,9 +259,12 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 {
 	bool peek = (flags & MSG_PEEK) != 0;
 
-	if (nlc->dataBufferLen != 0 && (!peek || nlc->dataBufferLen >= len)) {
+	if (nlc->dataBufferLen != 0 && (!peek || nlc->dataBufferLen >= len))
 		return HttpGatewayReadSetResult(nlc, buf, len, peek);
-	}
+
+	NetlibUser *nlu = nlc->nlu;
+	if (GetNetlibHandleType(nlu) != NLH_USER)
+		return SOCKET_ERROR;
 
 	for (int retryCount = 0; retryCount < NETLIBHTTP_RETRYCOUNT;) {
 		if (nlc->nlhpi.szHttpGetUrl == NULL && retryCount == 0) {
@@ -278,10 +280,9 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			}
 
 			nlc->lastPost = GetTickCount();
-			if (nlc->pHttpProxyPacketQueue == NULL && nlc->nlu->user.pfnHttpGatewayWrapSend != NULL) {
-				if (nlc->nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)"", 0, MSG_NOHTTPGATEWAYWRAP, NetlibSend) == SOCKET_ERROR)
+			if (nlc->pHttpProxyPacketQueue == NULL && nlu->user.pfnHttpGatewayWrapSend != NULL)
+				if (nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)"", 0, MSG_NOHTTPGATEWAYWRAP, NetlibSend) == SOCKET_ERROR)
 					return SOCKET_ERROR;
-			}
 		}
 
 		int numPackets = 0;
@@ -304,23 +305,22 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			}
 		}
 		NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, flags | MSG_RAW | MSG_DUMPPROXY, MSG_RAW | MSG_DUMPPROXY);
-		if (nlhrReply == NULL) return SOCKET_ERROR;
+		if (nlhrReply == NULL)
+			return SOCKET_ERROR;
 
-		if (nlc->nlu->user.pfnHttpGatewayUnwrapRecv && !(flags & MSG_NOHTTPGATEWAYWRAP)) {
-			nlhrReply->pData = (char*)nlc->nlu->user.pfnHttpGatewayUnwrapRecv(nlhrReply,
-				(PBYTE)nlhrReply->pData, nlhrReply->dataLength, &nlhrReply->dataLength, mir_realloc);
-		}
+		if (nlu->user.pfnHttpGatewayUnwrapRecv && !(flags & MSG_NOHTTPGATEWAYWRAP))
+			nlhrReply->pData = (char*)nlu->user.pfnHttpGatewayUnwrapRecv(nlhrReply, (PBYTE)nlhrReply->pData, nlhrReply->dataLength, &nlhrReply->dataLength, mir_realloc);
 
 		if (nlhrReply->resultCode >= 300) {
 			int resultCode = nlhrReply->resultCode;
 			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 
 			if (nlc->nlhpi.szHttpGetUrl && resultCode != 404) {
-				NetlibLogf(nlc->nlu, "Error received from proxy, retrying");
+				NetlibLogf(nlu, "Error received from proxy, retrying");
 				continue;
 			}
 			else {
-				NetlibLogf(nlc->nlu, "Error received from proxy, retry attempts exceeded (%u)", retryCount);
+				NetlibLogf(nlu, "Error received from proxy, retry attempts exceeded (%u)", retryCount);
 				SetLastError(ERROR_GEN_FAILURE);
 				return SOCKET_ERROR;
 			}
@@ -431,7 +431,8 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 
 	nlc->nlhpi.combinePackets = 1;
 	memcpy(&nlc->nlhpi, nlhpi, min(nlhpi->cbSize, sizeof(*nlhpi)));
-	if (nlc->nlhpi.combinePackets == 0) nlc->nlhpi.combinePackets = 1;
+	if (nlc->nlhpi.combinePackets == 0)
+		nlc->nlhpi.combinePackets = 1;
 
 	nlc->nlhpi.szHttpGetUrl = mir_strdup(nlc->nlhpi.szHttpGetUrl);
 	nlc->nlhpi.szHttpPostUrl = mir_strdup(nlc->nlhpi.szHttpPostUrl);
@@ -443,8 +444,7 @@ INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam)
 {
 	NetlibUser * nu = (NetlibUser*)wParam;
 	if (GetNetlibHandleType(nu) != NLH_USER) return ERROR_INVALID_PARAMETER;
-	mir_free(nu->szStickyHeaders);
-	nu->szStickyHeaders = mir_strdup((char*)lParam); // pointer is ours
+	replaceStr(nu->szStickyHeaders, (char*)lParam); // pointer is ours
 	return 0;
 }
 

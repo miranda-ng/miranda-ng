@@ -226,7 +226,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 	return NULL;
 }
 
-void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo)
+void NetlibGetConnectionInfo(NetlibConnection *nlc, NETLIBCONNINFO *connInfo)
 {
 	if (!nlc || !connInfo || connInfo->cbSize < sizeof(NETLIBCONNINFO)) return;
 
