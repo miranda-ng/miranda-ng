@@ -52,7 +52,7 @@ struct ProxyAuth
 		mir_free(szServer);
 		mir_free(szMethod);
 	}
-	static int Compare(const ProxyAuth* p1, const ProxyAuth* p2)
+	static int Compare(const ProxyAuth *p1, const ProxyAuth *p2)
 	{ return mir_strcmpi(p1->szServer, p2->szServer); }
 };
 
@@ -78,7 +78,7 @@ struct ProxyAuthList : OBJLIST<ProxyAuth>
 
 	const char* find(const char *szServer)
 	{
-		ProxyAuth * rec = szServer ? OBJLIST<ProxyAuth>::find((ProxyAuth*)&szServer) : NULL;
+		ProxyAuth *rec = szServer ? OBJLIST<ProxyAuth>::find((ProxyAuth*)&szServer) : NULL;
 		return rec ? rec->szMethod : NULL;
 	}
 };
@@ -166,7 +166,7 @@ static char* NetlibHttpFindAuthHeader(NETLIBHTTPREQUEST *nlhrReply, const char *
 	return NULL;
 }
 
-void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc)
+void NetlibConnFromUrl(const char *szUrl, bool secur, NETLIBOPENCONNECTION &nloc)
 {
 	secur = secur || _strnicmp(szUrl, "https", 5) == 0;
 	const char* phost = strstr(szUrl, "://");
@@ -189,7 +189,7 @@ void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc
 	nloc.flags = (secur ? NLOCF_SSL : 0);
 }
 
-static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUser *nlu, NetlibConnection* nlc, const char* szUrl = NULL)
+static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUser *nlu, NetlibConnection *nlc, const char *szUrl = NULL)
 {
 	NETLIBOPENCONNECTION nloc;
 
@@ -199,7 +199,10 @@ static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUse
 		NetlibConnFromUrl(szUrl, false, nloc);
 
 	nloc.flags |= NLOCF_HTTP;
-	if (nloc.flags & NLOCF_SSL) nlhr->flags |= NLHRF_SSL; else nlhr->flags &= ~NLHRF_SSL;
+	if (nloc.flags & NLOCF_SSL)
+		nlhr->flags |= NLHRF_SSL;
+	else
+		nlhr->flags &= ~NLHRF_SSL;
 
 	if (nlc != NULL) {
 		bool httpProxy = !(nloc.flags & NLOCF_SSL) && nlc->proxyType == PROXYTYPE_HTTP;
@@ -248,10 +251,9 @@ struct HttpSecurityContext
 		return m_hNtlmSecurity && m_szProvider && _stricmp(m_szProvider, "Basic");
 	}
 
-	char* Execute(NetlibConnection *nlc, char* szHost, const char* szProvider,
-		const char* szChallenge, unsigned& complete)
+	char* Execute(NetlibConnection *nlc, char *szHost, const char *szProvider, const char *szChallenge, unsigned &complete)
 	{
-		char* szAuthHdr = NULL;
+		char *szAuthHdr = NULL;
 		bool justCreated = false;
 		NetlibUser *nlu = nlc->nlu;
 
@@ -866,7 +868,7 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 	if (nlhr->nlc != NULL && GetNetlibHandleType(nlhr->nlc) != NLH_CONNECTION)
 		nlhr->nlc = NULL;
 
-	NetlibConnection* nlc = NetlibHttpProcessUrl(nlhr, nlu, (NetlibConnection*)nlhr->nlc);
+	NetlibConnection *nlc = NetlibHttpProcessUrl(nlhr, nlu, (NetlibConnection*)nlhr->nlc);
 	if (nlc == NULL)
 		return 0;
 
@@ -1003,7 +1005,7 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 	return output_data;
 }
 
-static int NetlibHttpRecvChunkHeader(NetlibConnection* nlc, bool first, DWORD flags)
+static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD flags)
 {
 	char data[64], *peol1;
 
@@ -1034,7 +1036,7 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection* nlc, bool first, DWORD fl
 	}
 }
 
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect)
+NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, DWORD hflags, DWORD dflags, bool isConnect)
 {
 	int dataLen = -1, i, chunkhdr = 0;
 	bool chunked = false;
