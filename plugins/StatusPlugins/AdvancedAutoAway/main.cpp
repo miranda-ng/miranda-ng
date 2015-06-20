@@ -24,7 +24,7 @@
 #include "advancedautoaway.h"
 #include "../resource.h"
 
-HINSTANCE hInst, hCore = NULL;
+HINSTANCE hInst;
 CLIST_INTERFACE *pcli;
 
 HANDLE hCSModuleLoadedHook;
@@ -38,10 +38,9 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam);
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	if (fdwReason == DLL_PROCESS_ATTACH) {
+	if (fdwReason == DLL_PROCESS_ATTACH)
 		hInst = hinstDLL;
-		hCore = GetModuleHandleA("mir_core.dll");
-	}
+
 	return TRUE;
 }
 

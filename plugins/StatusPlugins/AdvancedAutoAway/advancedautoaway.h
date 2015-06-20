@@ -80,7 +80,7 @@ struct AAMSGSETTING
 	char* msg;
 };
 
-extern HINSTANCE hInst, hCore;
+extern HINSTANCE hInst;
 
 int CompareSettings( const TAAAProtoSetting *p1, const TAAAProtoSetting *p2 );
 
