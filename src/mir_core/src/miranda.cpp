@@ -47,6 +47,26 @@ HANDLE hStackMutex, hThreadQueueEmpty;
 DWORD mir_tls = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
+{
+	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
+	PROCESS_INFORMATION pi;
+	STARTUPINFO si = { 0 };
+	si.cb = sizeof(si);
+	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+	if (wParam) {
+		VARST profilename(_T("%miranda_profilename%"));
+		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+	}
+	else mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+
+	CallService("CloseAction", 0, 0);
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // module init
 
 static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -91,6 +111,8 @@ static void LoadCoreModule(void)
 	InitTimeZones();
 	InitialiseModularEngine();
 	InitMetaContacts();
+
+	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
 	pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(GetModuleHandleA("advapi32"), "SystemFunction036");
 }
