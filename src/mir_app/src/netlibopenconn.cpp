@@ -343,16 +343,19 @@ static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 {
 	DWORD dwOriginalLastError = GetLastError();
 
-	if (nlc->s != INVALID_SOCKET) closesocket(nlc->s);
-	mir_free(nlc->nlhpi.szHttpPostUrl);
-	mir_free(nlc->nlhpi.szHttpGetUrl);
-	mir_free((char*)nlc->nloc.szHost);
-	mir_free(nlc->szProxyServer);
-	NetlibDeleteNestedCS(&nlc->ncsSend);
-	NetlibDeleteNestedCS(&nlc->ncsRecv);
-	CloseHandle(nlc->hOkToCloseEvent);
-	DeleteCriticalSection(&nlc->csHttpSequenceNums);
-	mir_free(nlc);
+	if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
+		if (nlc->s != INVALID_SOCKET)
+			closesocket(nlc->s);
+		mir_free(nlc->nlhpi.szHttpPostUrl);
+		mir_free(nlc->nlhpi.szHttpGetUrl);
+		mir_free((char*)nlc->nloc.szHost);
+		mir_free(nlc->szProxyServer);
+		NetlibDeleteNestedCS(&nlc->ncsSend);
+		NetlibDeleteNestedCS(&nlc->ncsRecv);
+		CloseHandle(nlc->hOkToCloseEvent);
+		DeleteCriticalSection(&nlc->csHttpSequenceNums);
+		mir_free(nlc);
+	}
 	SetLastError(dwOriginalLastError);
 }
 
@@ -674,7 +677,7 @@ static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	nlc->proxyAuthNeeded = false;
 	nlc->proxyType = 0;
-	mir_free(nlc->szProxyServer); nlc->szProxyServer = NULL;
+	replaceStr(nlc->szProxyServer, NULL);
 	if (!my_connect(nlc, nloc)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
@@ -687,7 +690,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 	NETLIBOPENCONNECTION *nloc = &nlc->nloc;
 	NetlibUser *nlu = nlc->nlu;
 
-	mir_free(nlc->szProxyServer); nlc->szProxyServer = NULL;
+	replaceStr(nlc->szProxyServer, NULL);
 
 	bool usingProxy = false, forceHttps = false;
 	if (nlu->settings.useProxy) {
