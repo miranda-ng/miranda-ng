@@ -24,7 +24,8 @@ void CMLua::Load()
 
 	LoadMirandaModules();
 
-	hScriptsLangpack = GetPluginLangId(MIID_LAST, 0);
+	MUUID last = MIID_LAST;
+	hScriptsLangpack = GetPluginLangId(last, 0);
 
 	CLuaLoader loader(this);
 	loader.LoadScripts();
