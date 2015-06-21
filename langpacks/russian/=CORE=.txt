@@ -2577,8 +2577,6 @@ ANSI плагин
 Звуковые файлы
 [WAV files]
 Файлы WAV
-[<unspecified>]
-<не указано>
 [Unspecified]
 Не указано
 [Afghanistan]
@@ -3089,3 +3087,5 @@ ANSI плагин
 Изображения GIF
 [PNG bitmaps]
 Изображения PNG
+[<unspecified>]
+<не указано>

@@ -210,8 +210,6 @@
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 [Other]
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 [Contact]

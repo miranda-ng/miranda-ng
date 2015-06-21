@@ -1415,8 +1415,6 @@
 ;file \src\mir_app\src\sounds.cpp
 [Sound files]
 [WAV files]
-;file \src\mir_app\src\timezones.cpp
-[<unspecified>]
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 [Afghanistan]
@@ -1675,3 +1673,5 @@
 [JPEG bitmaps]
 [GIF bitmaps]
 [PNG bitmaps]
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
