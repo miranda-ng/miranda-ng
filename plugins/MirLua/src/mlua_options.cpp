@@ -22,8 +22,6 @@ void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
 	TCHAR searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
 
-	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
-
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchMask, &fd);
 	if (hFind != INVALID_HANDLE_VALUE)
@@ -105,6 +103,4 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 void CLuaOptions::OnReload(CCtrlBase*)
 {
 	g_mLua->Reload();
-	CLuaLoader loader(g_mLua);
-	loader.LoadScripts();
 }

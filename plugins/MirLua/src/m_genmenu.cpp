@@ -4,6 +4,7 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 {
 	CLISTMENUITEM *pmi = (CLISTMENUITEM*)mir_calloc(sizeof(CLISTMENUITEM));
 	pmi->cbSize = sizeof(CLISTMENUITEM);
+	pmi->hLangpack = hScriptsLangpack;
 
 	lua_pushstring(L, "Flags");
 	lua_gettable(L, -2);
@@ -51,7 +52,7 @@ static int lua_AddMainMenuItem(lua_State *L)
 
 	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
 
-	HGENMENU res = ::Menu_AddMainMenuItem(pmi);
+	HGENMENU res = (HGENMENU)::CallService("CList/AddMainMenuItem", 0, (LPARAM)pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -67,7 +68,7 @@ static int lua_AddContactMenuItem(lua_State *L)
 
 	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
 
-	HGENMENU res = ::Menu_AddContactMenuItem(pmi);
+	HGENMENU res = (HGENMENU)::CallService("CList/AddContactMenuItem", 0, (LPARAM)pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -83,7 +84,7 @@ static int lua_AddTrayMenuItem(lua_State *L)
 
 	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
 
-	HGENMENU res = ::Menu_AddTrayMenuItem(pmi);
+	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;

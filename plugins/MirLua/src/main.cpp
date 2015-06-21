@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
 int hLangpack;
+int hScriptsLangpack;
+
 HINSTANCE g_hInstance;
 
 HANDLE g_hCommonFolderPath;
@@ -75,9 +77,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
 	g_mLua = new CMLua();
-
-	CLuaLoader loader(g_mLua);
-	loader.LoadScripts();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
