@@ -711,15 +711,8 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hwndDlg = hwndDlg;
-			urd.hInstance = hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_FILETRANSFERINFO);
-			urd.pfnResizer = FileTransferDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_FILETRANSFERINFO), FileTransferDlgResizer);
+
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLTRANSFERRED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLSPEED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_CONTACTNAME), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);

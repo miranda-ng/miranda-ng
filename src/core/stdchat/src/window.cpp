@@ -1426,13 +1426,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 		if (!IsIconic(hwndDlg)) {
 			SendMessage(si->hwndStatus, WM_SIZE, 0, 0);
 
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)si;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CHANNEL);
-			urd.pfnResizer = RoomWndResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)si);
 
 			InvalidateRect(si->hwndStatus, NULL, TRUE);
 			RedrawWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);

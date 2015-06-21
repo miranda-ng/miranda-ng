@@ -189,16 +189,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case WM_SIZE:
-		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX)) {
-			UTILRESIZEDIALOG urd;
-			urd.cbSize = sizeof(urd);
-			urd.hwndDlg = m_hwnd;
-			urd.hInstance = m_hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(m_idDialog);
-			urd.lParam = 0;
-			urd.pfnResizer = GlobalDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
+			Utils_ResizeDialog(m_hwnd, m_hInst, MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
 		return TRUE;
 
 	case WM_CLOSE:

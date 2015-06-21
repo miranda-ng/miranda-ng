@@ -73,14 +73,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 
 	case WM_SIZE:
 		if (!IsIconic( hwndDlg )) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_EXTRATEXT_DIALOG);
-			urd.pfnResizer = defaultHelpDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_EXTRATEXT_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -170,15 +163,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0;
-			/* ! uses ANSI version ! */
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CLIST_DIALOG);
-			urd.pfnResizer = clistDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_CLIST_DIALOG), clistDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -512,14 +497,7 @@ static INT_PTR CALLBACK tokenHelpDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_TOKENS_DIALOG);
-			urd.pfnResizer = defaultHelpDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_TOKENS_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -684,16 +662,9 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		break;
 
 	case WM_SIZE:
-		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)dat;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_INPUT_DIALOG);
-			urd.pfnResizer = inputDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		if (!IsIconic(hwndDlg))
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_INPUT_DIALOG), inputDialogResize, (LPARAM)dat);
+		
 		SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		break;
 
@@ -774,15 +745,7 @@ static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 	case WM_SIZE:
 		if (!IsIconic( hwndDlg )) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_HELPINFO_DIALOG);
-			urd.pfnResizer = defaultHelpDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HELPINFO_DIALOG), defaultHelpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -1082,16 +1045,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0;
-			// ! uses ANSI version !
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_HELP_DIALOG);
-			urd.pfnResizer = helpDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HELP_DIALOG), helpDialogResize);
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 
 			RECT rcTabs, rcParent;

@@ -237,16 +237,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hwndDlg = hwndDlg;
-			urd.hInstance = hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_HISTORY);
-			urd.lParam = 0;
-			urd.pfnResizer = HistoryDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_HISTORY), HistoryDlgResizer);
 		return TRUE;
 
 	case WM_COMMAND:

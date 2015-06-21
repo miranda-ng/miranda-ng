@@ -173,15 +173,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_ENTER_STRING);
-			urd.pfnResizer = sttEnterStringResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_ENTER_STRING), sttEnterStringResizer);
 		break;
 
 	case WM_GETMINMAXINFO:

@@ -263,54 +263,43 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case GC_SPLITTERMOVED:
-	{
-		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+		{
+			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
 
-		RECT rc2;
-		GetWindowRect(hwnd, &rc2);
+			RECT rc2;
+			GetWindowRect(hwnd, &rc2);
 
-		if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			POINT pt = { wParam, 0 };
-			ScreenToClient(hwnd, &pt);
+			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
+				RECT rc;
+				GetClientRect(hwnd, &rc);
+				POINT pt = { wParam, 0 };
+				ScreenToClient(hwnd, &pt);
 
-			splitterPos = rc.left + pt.x + 1;
-			if (splitterPos < 150)
-				splitterPos = 150;
-			if (splitterPos > rc2.right - rc2.left - 150)
-				splitterPos = rc2.right - rc2.left - 150;
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
-			db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
+				splitterPos = rc.left + pt.x + 1;
+				if (splitterPos < 150)
+					splitterPos = 150;
+				if (splitterPos > rc2.right - rc2.left - 150)
+					splitterPos = rc2.right - rc2.left - 150;
+				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
+				db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
+			}
+			PostMessage(hwnd, WM_SIZE, 0, 0);
 		}
-		PostMessage(hwnd, WM_SIZE, 0, 0);
-	}
-	break;
+		break;
 
 	case WM_GETMINMAXINFO:
-	{
-		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-		mmi->ptMinTrackSize.x = splitterPos + 150;
-		mmi->ptMinTrackSize.y = 300;
-	}
-	return 0;
+		{
+			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+			mmi->ptMinTrackSize.x = splitterPos + 150;
+			mmi->ptMinTrackSize.y = 300;
+		}
+		return 0;
 
 	case WM_MOVE:
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd;
-
-		memset(&urd, 0, sizeof(urd));
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwnd;
-		urd.lParam = (LPARAM)GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_MAIN);
-		urd.pfnResizer = DialogResize;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-	}
-	break;
+		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_MAIN), DialogResize, GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA));
+		break;
 
 	case WM_DESTROY: // free our shit!
 		if (db_get_b(NULL, modname, "RestoreOnOpen", 1)) {
@@ -402,7 +391,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case MENU_REFRESH_SETS:
-		{
 			TVITEM tvi;
 
 			TCHAR text[FLD_SIZE];
@@ -410,14 +398,15 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			tvi.hItem = TreeView_GetSelection(hwnd2Tree);
 			tvi.pszText = text; // modulename
 			tvi.cchTextMax = _countof(text);
-			if (!TreeView_GetItem(hwnd2Tree, &tvi)) break;
-			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
-			if (mtis && (mtis->type == MODULE))
-				PopulateSettings(mtis->hContact, _T2A(text));
-			else
-				ClearListView();
-		}
-		break;
+			if (TreeView_GetItem(hwnd2Tree, &tvi)) {
+				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
+				if (mtis && (mtis->type == MODULE))
+					PopulateSettings(mtis->hContact, _T2A(text));
+				else
+					ClearListView();
+			}
+			break;
+
 		///////////////////////// // watches
 		case MENU_VIEW_WATCHES:
 			openWatchedVarWindow();

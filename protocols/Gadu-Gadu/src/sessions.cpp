@@ -362,16 +362,8 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 		return 0;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = {0};
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInstance;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_SESSIONS);
-			urd.pfnResizer = sttSessionsDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			return 0;
-		}
+		Utils_ResizeDialog(hwndDlg, hInstance, MAKEINTRESOURCEA(IDD_SESSIONS), sttSessionsDlgResizer);
+		return 0;
 
 	case WM_SETCURSOR:
 		if (LOWORD(lParam) == HTCLIENT && IsOverAction(hwndDlg))

@@ -436,14 +436,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_SIZE:
 		{
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hwndDlg = hwndDlg;
-			urd.hInstance = g_hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_FINDADD);
-			urd.lParam = (LPARAM)dat;
-			urd.pfnResizer = FindAddDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_FINDADD), FindAddDlgResizer, (LPARAM)dat);
 			ReposTinySearchDlg(hwndDlg, dat);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_SIZE, 0, 0);
 			if (dat->notSearchedYet) {

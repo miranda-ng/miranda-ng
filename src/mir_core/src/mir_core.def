@@ -969,3 +969,4 @@ TimeZone_ToLocal @1126
 TimeZone_ToString @1127
 TimeZone_ToStringW @1128
 TimeZone_UtcToLocal @1129
+Utils_ResizeDialog @1130

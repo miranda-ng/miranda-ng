@@ -1151,13 +1151,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bottomScroll = (si.nPos + (int)si.nPage + 5) >= si.nMax;
 			}
 
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)dat;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_MSG);
-			urd.pfnResizer = MessageDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)& urd);
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_MSG), MessageDialogResize, (LPARAM)dat);
 
 			// The statusbar sometimes draws over these 2 controls so
 			// redraw them

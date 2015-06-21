@@ -302,20 +302,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		mmi->ptMinTrackSize.x = rcWindow.right - rcWindow.left - ((rcMain.right - rcMain.left) - DlgParam->minSize.cx);
 		mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcMain.bottom - rcMain.top) - DlgParam->minSize.cy);
 		} break;
-	case WM_SIZE: {
-		UTILRESIZEDIALOG urd = {0};
-
-		urd.cbSize = sizeof(urd);
-		urd.hwndDlg = hDlg;
-		urd.hInstance = hInst;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_MAIN_DLG);
-		urd.pfnResizer = LinklistResizer;
-		urd.lParam = (LPARAM)DlgParam;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+	case WM_SIZE:
+		Utils_ResizeDialog(hDlg, hInst, MAKEINTRESOURCEA(IDD_MAIN_DLG), LinklistResizer, (LPARAM)DlgParam);
 		// To get some scrollbars if needed...
 		RedrawWindow(GetDlgItem(hDlg, IDC_MAIN), NULL, NULL, RDW_INVALIDATE);
 		RedrawWindow(GetDlgItem(hDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
-		} break;
+		break;
+	
 	case DM_LINKSPLITTER: {
 		POINT pt;
 		RECT rc;

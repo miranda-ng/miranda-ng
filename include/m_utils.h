@@ -66,46 +66,38 @@ running, one will be opened to show the URL.
 
 #define MS_UTILS_OPENURL	"Utils/OpenURL"
 
-/* Resizes a dialog by calling a custom routine to move the individual
-controls   v0.1.0.1+
-wParam = 0
-lParam = (LPARAM)(UTILRESIZEDIALOG*)&urd
-Returns 0 on success, or nonzero on failure
-Does not support dialogtemplateex dialog boxes, and will return failure if you
-try to resize one
-The dialog itself should have been resized prior to calling this service
-pfnResizer is called once for each control in the dialog
-pfnResizer should return a combination of one rd_anchorx_ and one rd_anchory
-constant
-*/
-typedef struct {
-	int cbSize;
-	UINT wId;				//control ID
-	RECT rcItem;			//original control rectangle, relative to dialog
-							//modify in-place to specify the new position
-	SIZE dlgOriginalSize;	//size of dialog client area in template
-	SIZE dlgNewSize;		//current size of dialog client area
-} UTILRESIZECONTROL;
-typedef int (*DIALOGRESIZERPROC)(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc);
-typedef struct {
-	int cbSize;
-	HWND hwndDlg;
-	HINSTANCE hInstance;	//module containing the dialog template
-	LPCSTR lpTemplate;		//dialog template
-	LPARAM lParam;			//caller-defined
-	DIALOGRESIZERPROC pfnResizer;
-} UTILRESIZEDIALOG;
-#define RD_ANCHORX_CUSTOM	0	//function did everything required to the x axis, do no more processing
-#define RD_ANCHORX_LEFT 	0	//move the control to keep it constant distance from the left edge of the dialog
-#define RD_ANCHORX_RIGHT	1	//move the control to keep it constant distance from the right edge of the dialog
-#define RD_ANCHORX_WIDTH	2	//size the control to keep it constant distance from both edges of the dialog
-#define RD_ANCHORX_CENTRE	4	//move the control to keep it constant distance from the centre of the dialog
+/////////////////////////////////////////////////////////////////////////////////////////
+// Resizes a dialog by calling a custom routine to move the individual
+// Returns 0 on success, or nonzero on failure
+// Does not support dialogtemplateex dialog boxes, and will return failure if you try to resize one
+// The dialog itself should have been resized prior to calling this service
+// pfnResizer is called once for each control in the dialog
+// pfnResizer should return a combination of one rd_anchorx_ and one rd_anchory constant
+
+#define RD_ANCHORX_CUSTOM	0	// function did everything required to the x axis, do no more processing
+#define RD_ANCHORX_LEFT 	0	// move the control to keep it constant distance from the left edge of the dialog
+#define RD_ANCHORX_RIGHT	1	// move the control to keep it constant distance from the right edge of the dialog
+#define RD_ANCHORX_WIDTH	2	// size the control to keep it constant distance from both edges of the dialog
+#define RD_ANCHORX_CENTRE	4	// move the control to keep it constant distance from the centre of the dialog
 #define RD_ANCHORY_CUSTOM	0
 #define RD_ANCHORY_TOP		0
 #define RD_ANCHORY_BOTTOM	8
 #define RD_ANCHORY_HEIGHT	16
 #define RD_ANCHORY_CENTRE	32
-#define MS_UTILS_RESIZEDIALOG	 "Utils/ResizeDialog"
+
+struct UTILRESIZECONTROL
+{
+	int cbSize;
+	UINT wId;             // control ID
+	RECT rcItem;          // original control rectangle, relative to dialog
+	                      // modify in-place to specify the new position
+	SIZE dlgOriginalSize; // size of dialog client area in template
+	SIZE dlgNewSize;      // current size of dialog client area
+};
+
+typedef int (*DIALOGRESIZERPROC)(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc);
+
+EXTERN_C MIR_CORE_DLL(int) Utils_ResizeDialog(HWND hwndDlg, HINSTANCE hInstance, LPCSTR lpTemplate, DIALOGRESIZERPROC pfnResizer, LPARAM lParam = 0);
 
 /* Gets the name of a country given its number		v0.1.2.0+
 wParam = countryId

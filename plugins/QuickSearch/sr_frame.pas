@@ -62,7 +62,6 @@ end;
 
 function QSFrameProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
-  urd:TUTILRESIZEDIALOG;
   rc:TRECT;
   TI:TTOOLINFOW;
   hwndTooltip:HWND;
@@ -96,14 +95,7 @@ begin
     end;
 
     WM_SIZE: begin
-      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
-      urd.cbSize    :=SizeOf(urd);
-      urd.hwndDlg   :=Dialog;
-      urd.hInstance :=hInstance;
-      urd.lpTemplate:=MAKEINTRESOURCEA(IDD_FRAME);
-      urd.lParam    :=0;
-      urd.pfnResizer:=@QSDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+		Utils_ResizeDialog(Dialog, hInstance, MAKEINTRESOURCEA(IDD_FRAME), @QSDlgResizer);
     end;
 
     WM_ERASEBKGND: begin

@@ -450,16 +450,9 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd = { sizeof(urd) };
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwndDlg;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_LOG);
-		urd.pfnResizer = LogResize;
 		SetWindowPos(hwndDlg, HWND_TOP, rcTabs.left, rcTabs.top, rcTabs.right - rcTabs.left, rcTabs.bottom - rcTabs.top, SWP_SHOWWINDOW);
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-	}
-	break;
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_LOG), LogResize);
+		break;
 
 	case WM_COMMAND:
 		if (!dat)
@@ -868,22 +861,14 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		}
 		break;
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd = { 0 };
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwndDlg;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_CONSOLE);
-		urd.pfnResizer = ConsoleResize;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_CONSOLE), ConsoleResize);
 		GetClientRect(hTabs, &rcTabs);
 		TabCtrl_AdjustRect(hTabs, FALSE, &rcTabs);
 
 		if (pActive)
 			SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 		break;
-	}
+
 	case WM_GETMINMAXINFO:
 	{
 		MINMAXINFO *mmi = (MINMAXINFO *)lParam;

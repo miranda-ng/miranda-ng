@@ -473,15 +473,8 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 
 	case WM_SIZE:
-		if (!IsIconic(hwndDlg)) {
-			// make the dlg resizeable
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_RECEIVE);
-			urd.pfnResizer = RecvDlg_Resize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM) & urd);
-		}
+		if (!IsIconic(hwndDlg)) // make the dlg resizeable
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_RECEIVE), RecvDlg_Resize);
 		break;
 
 	case WM_GETMINMAXINFO:
