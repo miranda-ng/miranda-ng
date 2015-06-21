@@ -2,6 +2,12 @@
 
 static int lua_FormatString(lua_State *L)
 {
+	if (!ServiceExists(MS_VARS_FORMATSTRING))
+	{
+		lua_pushvalue(L, 1);
+		return 1;
+	}
+
 	ptrT format(mir_utf8decodeT(luaL_checkstring(L, 1)));
 	MCONTACT hContact = lua_tointeger(L, 2);
 
