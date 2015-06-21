@@ -33,12 +33,12 @@ static TTBButton* MakeTBButton(lua_State *L)
 
 	lua_pushstring(L, "wParamUp");
 	lua_gettable(L, -2);
-	tbb->wParamUp = CMLua::GetWParam(L, -1);
+	tbb->wParamUp = luaM_towparam(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "lParamUp");
 	lua_gettable(L, -2);
-	tbb->lParamUp = CMLua::GetLParam(L, -1);
+	tbb->lParamUp = luaM_tolparam(L, -1);
 	lua_pop(L, 1);
 
 	// dn state
@@ -54,12 +54,12 @@ static TTBButton* MakeTBButton(lua_State *L)
 
 	lua_pushstring(L, "wParamDown");
 	lua_gettable(L, -2);
-	tbb->wParamDown = CMLua::GetWParam(L, -1);
+	tbb->wParamDown = luaM_towparam(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "lParamDown");
 	lua_gettable(L, -2);
-	tbb->lParamDown = CMLua::GetLParam(L, -1);
+	tbb->lParamDown = luaM_tolparam(L, -1);
 	lua_pop(L, 1);
 
 	return tbb;

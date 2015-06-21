@@ -24,9 +24,6 @@ public:
 	void AddScriptsPath(const char *path);
 	void LoadScript(const char *name);
 
-	static WPARAM GetWParam(lua_State *L, int idx);
-	static LPARAM GetLParam(lua_State *L, int idx);
-
 	static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param);
 };
 
