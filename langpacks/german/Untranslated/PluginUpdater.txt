@@ -1,1 +1,0 @@
-﻿[Install and update plugins and other Miranda NG components.]

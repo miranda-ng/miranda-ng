@@ -101,7 +101,7 @@ B&eenden
 [&Search and replace]
 &Suchen und ersetzen
 [&Fix resident settings]
-
+Vorrübergehende Einträge &entfernen
 [&Delete module]
 Modul &löschen
 [&Watches]
@@ -141,7 +141,7 @@ Nur &ungeladene anzeigen
 [Edit &Dwords in Hex]
 &DWords in Hex bearbeiten
 [&Inline edit]
-
+&Inline bearbeiten
 [&Restore position]
 Position wiederhe&rstellen
 [&Open options]
@@ -204,7 +204,7 @@ Beobachtungsliste
 Beobachtungsliste aktualisieren
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Copy module "%s"]
-
+Modul "%s" kopieren
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Soll Modul "%s" wirklich gelöscht werden?
@@ -213,7 +213,7 @@ Modul aus der Datenbank löschen
 [Delete module from database... Loading]
 Modul aus der Datenbank löschen... Lade
 [Delete from all contacts (including Settings)]
-
+Von allen Kontakten löschen (inkl. Einstell.)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI-Dateien
@@ -224,7 +224,7 @@ Exportieren
 [Couldn't open file for writing]
 Konnte nicht in Datei schreiben
 [Import to "%s"]
-
+In "%s" importieren
 [Import from files]
 Import aus Dateien
 ;file \plugins\DbEditorPP\src\findwindow.cpp
@@ -249,7 +249,7 @@ Gefunden
 [Searching...]
 Suche...
 [Finished. Items found: %d / replaced: %d / deleted: %d]
-
+Beendet. Gefundene Einträge: %d / ersetzt: %d / gelöscht: %d
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Haupticon
@@ -268,7 +268,7 @@ Bekannter Kontakt
 [Open user tree]
 Benutzerzweig öffnen
 [Empty setting]
-
+Leerer Eintrag
 [BLOB setting]
 BLOB-Eintrag
 [Byte setting]
@@ -291,14 +291,14 @@ Benutzerzweig in DBE++ öffnen
 [<UNKNOWN>]
 <UNBEKANNT>
 [[UNLOADED]]
-
+\[UNGELADEN]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
 [Delete resident settings from database?]
-
+Vorrübergehende Einstellungen aus Datenbank löschen?
 [%d orphaned items deleted.]
-
+%d verwaiste Einträge gelöscht.
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Fehler beim Laden der Modulliste
@@ -316,29 +316,29 @@ Kontakte
 Datenbank
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
-
+Modul zu "%s" hinzufügen
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]
 Typ
 [Size]
 Größe
 [Unable to store value in this data type!]
-
+Kann diesen Wert nicht in diesem Datentyp speichern!
 [Are you sure you want to delete setting(s): %d?]
-
+Sind Sie sich sicher, dass Sie diese %d Einstellung(en) löschen wollen?
 [*** encrypted ***]
 *** verschlüsselt ***
 [*** buggy resident ***]
-
+*** Fehlerhaft Vorrübergehend ***
 ;file \plugins\DbEditorPP\src\settingsdlg.cpp
 [Unknown DBVariant type!]
-
+Unbekannter DBVariant-Typ!
 [Edit setting (%s)]
-
+Eintrag bearbeiten (%s)
 [New setting (%s)]
-
+Neuer Eintrag (%s)
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [*** resident ***]
-
+*** Vorrübergehend ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Datenbankeinstellung geändert: \nModul: "%s", Einstellung: "%s"\nNeuer Wert (%s): "%s"
