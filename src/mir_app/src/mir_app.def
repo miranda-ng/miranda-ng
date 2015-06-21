@@ -198,3 +198,5 @@ xmlToFile @195
 xmlToString @196 
 xmlToStringWithFormatting @197 
 KillModuleMenus @198
+Utils_ReplaceVars @199
+Utils_ReplaceVarsW @200

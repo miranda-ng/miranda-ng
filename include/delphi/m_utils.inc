@@ -309,10 +309,9 @@ function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
 procedure Utils_GetRandom(pSrc:pointer; size:size_t); stdcall;
                  external CoreDLL name 'Utils_GetRandom';
 
-//Replace variables in text
-//wParam=(char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
-//lParam=(REPLACEVARSDATA *) data about variables, item with key=0 terminates the list
-//returns new string, use mir_free to destroy
+// Replace variables in text
+// returns new string, use mir_free to destroy
+
 type
   PREPLACEVARSARRAY = ^TREPLACEVARSARRAY;
   TREPLACEVARSARRAY = record
@@ -320,18 +319,10 @@ type
     szValue:TCHAR;
   end;
 
-type
-  TREPLACEVARSDATA = record
-    cbSize   :int;
-    dwFlags  :dword;
-    hContact :TMCONTACT;
-    variables:PREPLACEVARSARRAY;
-  end;
-
-const
-  RVF_UNICODE = 1;
-
-  MS_UTILS_REPLACEVARS:PAnsiChar = 'Utils/ReplaceVars';
+function Utils_ReplaceVars(const pSrc:PAnsiChar; hContact:TMCONTACT = 0; vars:PREPLACEVARSARRAY = nil):PAnsiChar; stdcall;
+                 external CoreDLL name 'Utils_ReplaceVars';
+function Utils_ReplaceVarsW(const pSrc:PWideChar; hContact:TMCONTACT = 0; vars:PREPLACEVARSARRAY = nil):PWideChar; stdcall;
+                 external CoreDLL name 'Utils_ReplaceVarsW';
 
 {
   variables known by the core:

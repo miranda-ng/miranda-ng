@@ -57,12 +57,8 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 		mir_free(ptszHelpFile);
 	}
 	LPTSTR pszDirNameEx;
-	if (ServiceExists(MS_UTILS_REPLACEVARS)) {
-		pszDirNameEx = Utils_ReplaceVarsT(pszDirName);
-		mir_free(pszDirName);
-	}
-	else
-		pszDirNameEx = pszDirName;
+	pszDirNameEx = Utils_ReplaceVarsT(pszDirName);
+	mir_free(pszDirName);
 
 	ShellExecute(NULL, _T("open"), pszFileName, NULL, pszDirNameEx, SW_SHOW);
 	mir_free(pszFileName);

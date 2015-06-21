@@ -226,15 +226,11 @@ end;
 
 function GetDefaultRecPath:pWideChar;
 var
-  dat:TREPLACEVARSDATA;
   mstr,szData:pWideChar;
   buf:array [0..MAX_PATH-1] of WideChar;
 begin
-  FillChar(dat,SizeOf(dat),0);
-  dat.cbSize :=SizeOf(TREPLACEVARSDATA);
-  dat.dwFlags:=RVF_UNICODE;
   szData:='%miranda_userdata%'+'\'+cPluginName;
-  mstr:=pWideChar(CallService(MS_UTILS_REPLACEVARS, WPARAM(szData), LPARAM(@dat)));
+  mstr:=Utils_ReplaceVarsW(szData);
   PathToRelativeW(mstr,buf);
   StrDupW(result,buf);
   mir_free(mstr);

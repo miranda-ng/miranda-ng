@@ -707,38 +707,38 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	if (si->pszLogFileName[0] == 0) {
 		REPLACEVARSARRAY rva[11];
-		rva[0].lptzKey = _T("d");
-		rva[0].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%#d"), tTime));
+		rva[0].key.t = _T("d");
+		rva[0].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%#d"), tTime));
 		// day 01-31
-		rva[1].lptzKey = _T("dd");
-		rva[1].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%d"), tTime));
+		rva[1].key.t = _T("dd");
+		rva[1].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%d"), tTime));
 		// month 1-12
-		rva[2].lptzKey = _T("m");
-		rva[2].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%#m"), tTime));
+		rva[2].key.t = _T("m");
+		rva[2].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%#m"), tTime));
 		// month 01-12
-		rva[3].lptzKey = _T("mm");
-		rva[3].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%m"), tTime));
+		rva[3].key.t = _T("mm");
+		rva[3].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%m"), tTime));
 		// month text short
-		rva[4].lptzKey = _T("mon");
-		rva[4].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%b"), tTime));
+		rva[4].key.t = _T("mon");
+		rva[4].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%b"), tTime));
 		// month text
-		rva[5].lptzKey = _T("month");
-		rva[5].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%B"), tTime));
+		rva[5].key.t = _T("month");
+		rva[5].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%B"), tTime));
 		// year 01-99
-		rva[6].lptzKey = _T("yy");
-		rva[6].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%y"), tTime));
+		rva[6].key.t = _T("yy");
+		rva[6].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%y"), tTime));
 		// year 1901-9999
-		rva[7].lptzKey = _T("yyyy");
-		rva[7].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%Y"), tTime));
+		rva[7].key.t = _T("yyyy");
+		rva[7].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%Y"), tTime));
 		// weekday short
-		rva[8].lptzKey = _T("wday");
-		rva[8].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%a"), tTime));
+		rva[8].key.t = _T("wday");
+		rva[8].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%a"), tTime));
 		// weekday
-		rva[9].lptzKey = _T("weekday");
-		rva[9].lptzValue = mir_tstrdup(ci.MakeTimeStamp(_T("%A"), tTime));
+		rva[9].key.t = _T("weekday");
+		rva[9].value.t = mir_tstrdup(ci.MakeTimeStamp(_T("%A"), tTime));
 		// end of array
-		rva[10].lptzKey = NULL;
-		rva[10].lptzValue = NULL;
+		rva[10].key.t = NULL;
+		rva[10].value.t = NULL;
 
 		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
 		if (g_Settings->pszLogDir[mir_tstrlen(g_Settings->pszLogDir) - 1] == '\\') {
@@ -747,11 +747,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		}
 		else ptszVarPath = g_Settings->pszLogDir;
 
-		REPLACEVARSDATA dat = { sizeof(dat) };
-		dat.dwFlags = RVF_TCHAR;
-		dat.hContact = si->hContact;
-		dat.variables = rva;
-		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszVarPath, (LPARAM)&dat);
+		TCHAR *tszParsedName = Utils_ReplaceVarsT(ptszVarPath, si->hContact, rva);
 		if (ci.OnGetLogName)
 			ci.OnGetLogName(si, tszParsedName);
 		else
@@ -759,7 +755,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		mir_free(tszParsedName);
 
 		for (int i = 0; i < _countof(rva); i++)
-			mir_free(rva[i].lptzValue);
+			mir_free(rva[i].value.t);
 
 		for (TCHAR *p = si->pszLogFileName + 2; *p; ++p)
 			if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|')

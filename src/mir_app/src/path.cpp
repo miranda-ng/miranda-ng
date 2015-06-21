@@ -74,16 +74,16 @@ static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { re
 static __forceinline size_t _xcslen(const char *s1) { return strlen(s1); }
 static __forceinline char *_xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }
 static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
-static __forceinline char *_xstrselect(char *, char *s1, TCHAR*) { return s1; }
-static __forceinline char *_itox(char *, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
-static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }
+static __forceinline const char *_xstrselect(const char*, const char *s1, TCHAR*) { return s1; }
+static __forceinline char *_itox(char*, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
+static __forceinline char *mir_a2x(const char*, const char *s) { return mir_strdup(s); }
 
-static __forceinline char *GetContactNickX(char *, MCONTACT hContact)
+static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 {
 	return mir_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
-static __forceinline char *GetContactIDX(char *, MCONTACT hContact)
+static __forceinline char *GetContactIDX(const char*, MCONTACT hContact)
 {
 	TCHAR *id = GetContactID(hContact);
 	char* res = mir_t2a(id);
@@ -91,7 +91,7 @@ static __forceinline char *GetContactIDX(char *, MCONTACT hContact)
 	return res;
 }
 
-static __forceinline char *GetEnvironmentVariableX(char *variable)
+static __forceinline char *GetEnvironmentVariableX(const char *variable)
 {
 	char result[512];
 	if (GetEnvironmentVariableA(variable, result, _countof(result)))
@@ -99,7 +99,7 @@ static __forceinline char *GetEnvironmentVariableX(char *variable)
 	return NULL;
 }
 
-static __forceinline char *GetProfileDirX(char*)
+static __forceinline char *GetProfileDirX(const char*)
 {
 	return mir_t2a(g_profileDir);
 }
@@ -112,7 +112,7 @@ static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char*)
 	return NULL;
 }
 
-static __forceinline char *GetModulePathX(char *, HMODULE hModule)
+static __forceinline char *GetModulePathX(const char*, HMODULE hModule)
 {
 	char result[MAX_PATH];
 	GetModuleFileNameA(hModule, result, sizeof(result));
@@ -121,7 +121,7 @@ static __forceinline char *GetModulePathX(char *, HMODULE hModule)
 	return mir_strdup(result);
 }
 
-static __forceinline char *GetUserNameX(char *)
+static __forceinline char *GetUserNameX(const char*)
 {
 	char result[128];
 	DWORD size = _countof(result);
@@ -130,12 +130,12 @@ static __forceinline char *GetUserNameX(char *)
 	return NULL;
 }
 
-static __forceinline char *GetProfileNameX(char *)
+static __forceinline char *GetProfileNameX(const char*)
 {
 	return mir_t2a(g_shortProfileName);
 }
 
-static __forceinline char *GetPathVarX(char *, int code)
+static __forceinline char* GetPathVarX(const char*, int code)
 {
 	TCHAR szFullPath[MAX_PATH];
 
@@ -159,23 +159,23 @@ static __forceinline char *GetPathVarX(char *, int code)
 static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return _tcscmp(s1, s2); }
 static __forceinline int _xcsncmp(const TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const TCHAR *s1) { return _tcslen(s1); }
-static __forceinline TCHAR *_xcscpy(TCHAR *s1, const TCHAR *s2) { return _tcscpy(s1, s2); }
-static __forceinline TCHAR *_xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncpy(s1, s2, n); }
-static __forceinline TCHAR *_xstrselect(TCHAR*, char*, TCHAR *s2) { return s2; }
-static __forceinline TCHAR *_itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
-static __forceinline TCHAR *mir_a2x(TCHAR *, char *s) { return mir_a2t(s); }
+static __forceinline TCHAR* _xcscpy(TCHAR *s1, const TCHAR *s2) { return _tcscpy(s1, s2); }
+static __forceinline TCHAR* _xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncpy(s1, s2, n); }
+static __forceinline const TCHAR* _xstrselect(const TCHAR*, const char*, const TCHAR *s2) { return s2; }
+static __forceinline TCHAR* _itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
+static __forceinline TCHAR* mir_a2x(const TCHAR *, const char *s) { return mir_a2t(s); }
 
-static __forceinline TCHAR *GetContactNickX(TCHAR *, MCONTACT hContact)
+static __forceinline TCHAR* GetContactNickX(const TCHAR*, MCONTACT hContact)
 {
-	return mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+	return mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 }
 
-static __forceinline TCHAR *GetContactIDX(TCHAR *, MCONTACT hContact)
+static __forceinline TCHAR* GetContactIDX(const TCHAR*, MCONTACT hContact)
 {
 	return GetContactID(hContact);
 }
 
-static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
+static __forceinline TCHAR* GetEnvironmentVariableX(const TCHAR *variable)
 {
 	TCHAR result[512];
 	if (GetEnvironmentVariable(variable, result, _countof(result)))
@@ -183,7 +183,7 @@ static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
 	return NULL;
 }
 
-static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR*)
+static __forceinline TCHAR* SHGetSpecialFolderPathX(int iCSIDL, TCHAR*)
 {
 	TCHAR result[512];
 	if (SHGetSpecialFolderPath(NULL, result, iCSIDL, FALSE))
@@ -191,12 +191,12 @@ static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR*)
 	return NULL;
 }
 
-static __forceinline TCHAR *GetProfileDirX(TCHAR*)
+static __forceinline TCHAR* GetProfileDirX(const TCHAR*)
 {
 	return mir_tstrdup(g_profileDir);
 }
 
-static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
+static __forceinline TCHAR* GetModulePathX(const TCHAR*, HMODULE hModule)
 {
 	TCHAR result[MAX_PATH];
 	GetModuleFileName(hModule, result, _countof(result));
@@ -205,7 +205,7 @@ static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 	return mir_tstrdup(result);
 }
 
-static __forceinline TCHAR *GetUserNameX(TCHAR *)
+static __forceinline TCHAR* GetUserNameX(const TCHAR*)
 {
 	TCHAR result[128];
 	DWORD size = _countof(result);
@@ -214,12 +214,12 @@ static __forceinline TCHAR *GetUserNameX(TCHAR *)
 	return NULL;
 }
 
-static __forceinline TCHAR *GetProfileNameX(TCHAR *)
+static __forceinline TCHAR* GetProfileNameX(const TCHAR*)
 {
 	return mir_tstrdup(g_shortProfileName);
 }
 
-static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
+static __forceinline TCHAR* GetPathVarX(const TCHAR*, int code)
 {
 	TCHAR szFullPath[MAX_PATH];
 
@@ -241,7 +241,7 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 }
 
 template<typename XCHAR>
-XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, MCONTACT hContact)
+XCHAR *GetInternalVariable(const XCHAR *key, size_t keyLength, MCONTACT hContact)
 {
 	XCHAR *theValue = NULL;
 	XCHAR *theKey = (XCHAR *)_alloca(sizeof(XCHAR) * (keyLength + 1));
@@ -292,25 +292,24 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, MCONTACT hContact)
 }
 
 template<typename XCHAR>
-XCHAR *GetVariableFromArray(REPLACEVARSARRAY *vars, XCHAR *key, size_t keyLength, MCONTACT hContact, bool *bFree)
+XCHAR *GetVariableFromArray(REPLACEVARSARRAY *vars, const XCHAR *key, size_t keyLength, MCONTACT hContact, bool *bFree)
 {
 	*bFree = false;
-	for (REPLACEVARSARRAY *var = vars; var && var->lptzKey; ++var)
-		if ((_xcslen((XCHAR *)var->lptzKey) == keyLength) && !_xcsncmp(key, (XCHAR *)var->lptzKey, keyLength))
-			return (XCHAR *)var->lptzValue;
+	for (REPLACEVARSARRAY *var = vars; var && var->key.a; ++var)
+		if ((_xcslen((XCHAR *)var->key.a) == keyLength) && !_xcsncmp(key, (XCHAR *)var->key.a, keyLength))
+			return (XCHAR *)var->value.a;
 
 	*bFree = true;
 	return GetInternalVariable(key, keyLength, hContact);
 }
 
 template<typename XCHAR>
-XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
+XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *variables)
 {
 	if (!str)
 		return NULL;
 
-	XCHAR *p;
-	XCHAR *varStart = 0;
+	const XCHAR *varStart = 0, *p;
 	size_t length = 0;
 	bool bFree;
 
@@ -319,7 +318,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 			if (varStart) {
 				if (p == varStart)
 					length++;
-				else if (XCHAR *value = GetVariableFromArray(data->variables, varStart, p-varStart, data->hContact, &bFree)) {
+				else if (XCHAR *value = GetVariableFromArray(variables, varStart, p-varStart, hContact, &bFree)) {
 					length += _xcslen(value);
 					if (bFree) mir_free(value);
 				}
@@ -345,7 +344,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 			if (varStart) {
 				if (p == varStart)
 					*q++='%';
-				else if (XCHAR *value = GetVariableFromArray(data->variables, varStart, p-varStart, data->hContact, &bFree)) {
+				else if (XCHAR *value = GetVariableFromArray(variables, varStart, p-varStart, hContact, &bFree)) {
 					_xcscpy(q, value);
 					q += _xcslen(value);
 					if (bFree) mir_free(value);
@@ -374,19 +373,14 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 	return result;
 }
 
-static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact, REPLACEVARSARRAY *vars)
 {
-	REPLACEVARSDATA *data = (REPLACEVARSDATA *)lParam;
-	if (data->dwFlags & RVF_UNICODE)
-		return (INT_PTR)ReplaceVariables<WCHAR>((WCHAR *)wParam, data);
-
-	return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
+	return ReplaceVariables<CHAR>(szData, hContact, vars);
 }
 
-int InitPathUtils(void)
+MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *wszData, MCONTACT hContact, REPLACEVARSARRAY *vars)
 {
-	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
-	return 0;
+	return ReplaceVariables<WCHAR>(wszData, hContact, vars);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

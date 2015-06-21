@@ -102,20 +102,15 @@ int BrowseForFolder(HWND hwnd, TCHAR *szPath)
 
 static REPLACEVARSARRAY sttVarsToReplace[] =
 {
-	{ (TCHAR*)"///", (TCHAR*)"//" },
-	{ (TCHAR*)"//", (TCHAR*)"/" },
-	{ (TCHAR*)"()", (TCHAR*)"" },
+	{ "///", "//" },
+	{ "//", "/" },
+	{ "()", "" },
 	{ NULL, NULL }
 };
 
 static void patchDir(TCHAR *str, size_t strSize)
 {
-	REPLACEVARSDATA dat = { 0 };
-	dat.cbSize = sizeof(dat);
-	dat.dwFlags = RVF_TCHAR;
-	dat.variables = sttVarsToReplace;
-
-	TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)str, (LPARAM)&dat);
+	TCHAR *result = Utils_ReplaceVarsT(str, 0, sttVarsToReplace);
 	if (result) {
 		_tcsncpy(str, result, strSize);
 		mir_free(result);
@@ -139,29 +134,24 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	if (hContact) {
 		hContact = db_mc_tryMeta(hContact);
 
-		REPLACEVARSDATA dat = { 0 };
 		REPLACEVARSARRAY rvaVarsToReplace[4];
-		rvaVarsToReplace[0].lptzKey = _T("nick");
-		rvaVarsToReplace[0].lptzValue = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
-		rvaVarsToReplace[1].lptzKey = _T("userid");
-		rvaVarsToReplace[1].lptzValue = GetContactID(hContact);
-		rvaVarsToReplace[2].lptzKey = _T("proto");
-		rvaVarsToReplace[2].lptzValue = mir_a2t(GetContactProto(hContact));
-		rvaVarsToReplace[3].lptzKey = NULL;
-		rvaVarsToReplace[3].lptzValue = NULL;
+		rvaVarsToReplace[0].key.t = _T("nick");
+		rvaVarsToReplace[0].value.t = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		rvaVarsToReplace[1].key.t = _T("userid");
+		rvaVarsToReplace[1].value.t = GetContactID(hContact);
+		rvaVarsToReplace[2].key.t = _T("proto");
+		rvaVarsToReplace[2].value.t = mir_a2t(GetContactProto(hContact));
+		rvaVarsToReplace[3].key.t = NULL;
+		rvaVarsToReplace[3].value.t = NULL;
 		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
-			RemoveInvalidFilenameChars(rvaVarsToReplace[i].lptzValue);
+			RemoveInvalidFilenameChars(rvaVarsToReplace[i].value.t);
 
-		dat.cbSize = sizeof(dat);
-		dat.dwFlags = RVF_TCHAR;
-		dat.variables = rvaVarsToReplace;
-		dat.hContact = hContact;
-		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)tszTemp, (LPARAM)&dat);
+		TCHAR *result = Utils_ReplaceVarsT(tszTemp, hContact, rvaVarsToReplace);
 		if (result) {
 			_tcsncpy(tszTemp, result, _countof(tszTemp));
 			mir_free(result);
 			for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
-				mir_free(rvaVarsToReplace[i].lptzValue);
+				mir_free(rvaVarsToReplace[i].value.t);
 		}
 	}
 
