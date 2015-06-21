@@ -154,7 +154,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	DWORD digest[4], hash1[4], hash2[4];
 	mir_md5_state_t ctx;
 
-	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
+	Utils_GetRandom(digest, sizeof(digest));
 	mir_snprintf(cnonce, _countof(cnonce), "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	T2Utf uname(info->conn.username), passw(info->conn.password);
@@ -306,7 +306,7 @@ char* TScramAuth::getInitialRequest()
 	T2Utf uname(info->conn.username);
 
 	unsigned char nonce[24];
-	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
+	Utils_GetRandom(nonce, sizeof(nonce));
 	cnonce = mir_base64_encode((PBYTE)nonce, sizeof(nonce));
 
 	char buf[4096];

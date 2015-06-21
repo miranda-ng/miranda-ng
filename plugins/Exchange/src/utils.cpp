@@ -112,12 +112,11 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
-	int len;
 	dbv.type = DBVT_ASCIIZ;
 	if (db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0) {
 		res = 0;
 		size_t tmp = mir_tstrlen(dbv.ptszVal);
-		len = (tmp < size - 1) ? tmp : size - 1;
+		size_t len = (tmp < size - 1) ? tmp : size - 1;
 		_tcsncpy(szResult, dbv.ptszVal, len);
 		szResult[len] = '\0';
 		mir_free(dbv.ptszVal);
@@ -125,7 +124,7 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 	else {
 		res = 1;
 		size_t tmp = mir_tstrlen(szError);
-		len = (tmp < size - 1) ? tmp : size - 1;
+		size_t len = (tmp < size - 1) ? tmp : size - 1;
 		_tcsncpy(szResult, szError, len);
 		szResult[len] = '\0';
 	}

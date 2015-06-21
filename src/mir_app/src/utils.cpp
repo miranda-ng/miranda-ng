@@ -341,26 +341,6 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef BOOL (APIENTRY *PGENRANDOM)(PVOID, ULONG);
-
-static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == 0 || lParam == 0) return 0;
-
-	PGENRANDOM pfnRtlGenRandom = NULL;
-	HMODULE hModule = GetModuleHandleA("advapi32");
-	if (hModule) {
-		pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
-		if (pfnRtlGenRandom) {
-			if (!pfnRtlGenRandom((PVOID)lParam, wParam))
-				pfnRtlGenRandom = NULL;
-		}
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
@@ -368,7 +348,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
-	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
+
 	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 

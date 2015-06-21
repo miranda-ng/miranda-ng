@@ -91,6 +91,8 @@ static void LoadCoreModule(void)
 	InitTimeZones();
 	InitialiseModularEngine();
 	InitMetaContacts();
+
+	pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(GetModuleHandleA("advapi32"), "SystemFunction036");
 }
 
 MIR_CORE_DLL(void) UnloadCoreModule(void)

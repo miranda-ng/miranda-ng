@@ -409,3 +409,15 @@ MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
 		return 1;
 	return CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1) - 2;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+PGENRANDOM pfnRtlGenRandom;
+
+MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
+{
+	if (pszDest != 0 || cbLen != 0 && pfnRtlGenRandom != NULL)
+		pfnRtlGenRandom(pszDest, (ULONG)cbLen);
+	else
+		memset(pszDest, 0, cbLen);
+}

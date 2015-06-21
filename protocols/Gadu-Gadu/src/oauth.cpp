@@ -222,7 +222,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 char* oauth_generate_nonce()
 {
 	char randnum[16];
-	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
+	Utils_GetRandom(randnum, sizeof(randnum));
 
 	CMStringA str(FORMAT, "%ld%s", time(NULL), randnum);
 

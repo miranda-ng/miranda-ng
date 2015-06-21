@@ -41,7 +41,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 			return false;
 
 		WORD num;
-		CallService(MS_UTILS_GETRANDOM, sizeof(WORD), (LPARAM)&num);
+		Utils_GetRandom(&num, sizeof(WORD));
 		*portn = num % *portn;
 	}
 
