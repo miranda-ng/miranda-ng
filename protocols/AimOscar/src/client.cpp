@@ -345,7 +345,7 @@ int CAimProto::aim_send_message(HANDLE hServerConn,unsigned short &seqno,const c
 	char* tlv_buf=(char*)alloca(5+msg_len+8);
 
 	char icbm_cookie[8];
-	CallService(MS_UTILS_GETRANDOM, 8, (LPARAM)icbm_cookie);
+	Utils_GetRandom(icbm_cookie, sizeof(icbm_cookie));
  
 	aim_writegeneric(5,"\x05\x01\x00\x01\x01",tlv_offset,tlv_buf);   // icbm im capabilities
 	aim_writeshort(0x0101,tlv_offset,tlv_buf);                       // icbm im text tag

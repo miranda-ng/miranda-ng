@@ -50,10 +50,9 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
-
 	return 0;
 }
 

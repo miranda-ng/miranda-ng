@@ -311,8 +311,8 @@ function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
   Always returns 0
 }
 
-const
-  MS_UTILS_GETRANDOM:PAnsiChar = 'Utils/GetRandom';
+procedure Utils_GetRandom(pSrc:pointer; size:size_t); stdcall;
+                 external CoreDLL name 'Utils_GetRandom';
 
 //Replace variables in text
 //wParam=(char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)

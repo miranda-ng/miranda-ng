@@ -42,7 +42,8 @@ extern HWND hAPCWindow;
 extern HANDLE hStackMutex, hThreadQueueEmpty;
 extern MIDatabase *currDb;
 
-/**** modules.cpp **********************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+// modules.cpp
 
 struct THookSubscriber
 {
@@ -81,11 +82,19 @@ struct THook
 
 extern LIST<HINSTANCE__> pluginListAddr;
 
-/**** langpack.cpp *********************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+// langpack.cpp
 
 char*  LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const int W);
 TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
-/**** threads.cpp **********************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+// threads.cpp
 
 extern DWORD mir_tls;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// utils.cpp
+
+typedef BOOL(APIENTRY *PGENRANDOM)(PVOID, ULONG);
+extern PGENRANDOM pfnRtlGenRandom;

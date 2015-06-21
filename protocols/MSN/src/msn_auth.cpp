@@ -405,7 +405,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	p += sizeof(MsgrUsrKeyHdr);
 
 	unsigned char iv[8];
-	CallService(MS_UTILS_GETRANDOM, sizeof(iv), (LPARAM)iv);
+	Utils_GetRandom(iv, sizeof(iv));
 
 	memcpy(p, iv, sizeof(iv));
 	p += sizeof(iv);
@@ -423,11 +423,10 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	return mir_base64_encode(userKey, (unsigned)pktsz);
 }
 
-
 CMStringA CMsnProto::HotmailLogin(const char* url)
 {
 	unsigned char nonce[24];
-	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
+	Utils_GetRandom(nonce, sizeof(nonce));
 
 	unsigned key1len;
 	BYTE *key1 = (BYTE*)mir_base64_decode(hotSecretToken, &key1len);

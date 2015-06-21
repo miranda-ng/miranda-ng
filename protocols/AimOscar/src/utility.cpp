@@ -674,7 +674,7 @@ unsigned long char_ip_to_long_ip(char* ip)
 unsigned short get_random(void)
 {
 	unsigned short id;
-	CallService(MS_UTILS_GETRANDOM, sizeof(id), (LPARAM)&id);
+	Utils_GetRandom(&id, sizeof(id));
 	id &= 0x7fff;
 	return id;
 }

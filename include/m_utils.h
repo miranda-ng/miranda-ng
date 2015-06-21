@@ -333,7 +333,7 @@ EXTERN_C MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *pSrc);
 // lParam = (LPARAM)(char*)pszArray - pointer to array to fill with random number
 // Always returns 0
 
-#define MS_UTILS_GETRANDOM "Utils/GetRandom"
+EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Replace variables in text
@@ -440,7 +440,7 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 #define ESF_RICHEDIT  3
 #define ESF_PASSWORD  4
 
-typedef struct
+struct ENTER_STRING
 {
 	int     cbSize;         // structure size
 	int     type;           // one of ESF_* constants
@@ -453,8 +453,7 @@ typedef struct
 	};
 	int     recentCount;    // number of combobox strings to store
 	int     timeout;        // timeout for the form auto-close
-}
-ENTER_STRING;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // enters one string

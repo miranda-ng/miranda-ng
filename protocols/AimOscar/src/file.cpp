@@ -540,7 +540,7 @@ file_transfer::file_transfer(MCONTACT hCont, char* nick, char* cookie)
 	if (cookie)
 		memcpy(icbm_cookie, cookie, 8);
 	else
-		CallService(MS_UTILS_GETRANDOM, 8, (LPARAM)icbm_cookie);
+		Utils_GetRandom(icbm_cookie, 8);
 	
 	hResumeEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 }

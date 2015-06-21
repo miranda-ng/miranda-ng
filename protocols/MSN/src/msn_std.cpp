@@ -63,6 +63,6 @@ TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
 unsigned MSN_GenRandom(void)
 {
 	unsigned rndnum;
-	CallService(MS_UTILS_GETRANDOM, sizeof(rndnum), (LPARAM)&rndnum);
+	Utils_GetRandom(&rndnum, sizeof(rndnum));
 	return rndnum & 0x7FFFFFFF;
 }
