@@ -969,7 +969,7 @@ begin
     ExpandConstant('{cm:LangEnglishDescription}') + ';' +
     '');
 
-    if DirExists(WizardForm.DirEdit.Text) and (FileExists(WizardForm.DirEdit.Text+'\{#MirName}') or FileExists(WizardForm.DirEdit.Text+'\mir_core.dll'))  then
+    if DirExists(WizardForm.DirEdit.Text) and (FileExists(WizardForm.DirEdit.Text+'\{#MirName}') or FileExists(WizardForm.DirEdit.Text+'\Libs\mir_core.mir'))  then
     begin
       SuppressibleMsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbError, MB_OK, MB_OK);
       Result := False;
