@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
+[Shows and allows you to edit your details for all accounts.]
 
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]

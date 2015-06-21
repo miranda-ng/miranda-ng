@@ -75,7 +75,6 @@
 [No new mail message, %d spam(s)]
 [Invalid]
 [Header]
-[Value]
 [Copy Selected]
 [Copy All]
 [Run application]

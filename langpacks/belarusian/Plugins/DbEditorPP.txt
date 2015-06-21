@@ -58,8 +58,6 @@
 Імя
 [Value]
 Значэнне
-[Edit setting (%s)]
-Рэдагаваць наладу (%s)
 [Base]
 Падстава
 [Save value as:]
@@ -202,7 +200,7 @@
 Выдаліць плагін з базы
 [Delete module from database... Loading]
 Выдаленне плагіна з базы... Загрузка
-[Delete module from all contacts (including Setting)]
+[Delete from all contacts (including Settings)]
 Выдаліць з усіх кантактаў (з наладамі)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -234,10 +232,10 @@ INI файлы
 Выдалена
 [Found]
 Знойдзена
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
 [Searching...]
 Пошук...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Галоўны абразок
@@ -285,6 +283,8 @@ INI файлы
 [*** encrypted ***]
 *** зашыфравана ***
 ;file \plugins\DbEditorPP\src\settingsdlg.cpp
+[Edit setting (%s)]
+Рэдагаваць наладу (%s)
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Зменена налада базы: \nПлагін: "%s", налада: "%s"\nНовае значэнне (%s): "%s"

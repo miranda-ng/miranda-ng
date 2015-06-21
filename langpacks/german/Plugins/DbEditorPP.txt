@@ -212,8 +212,8 @@ Soll Modul "%s" wirklich gelöscht werden?
 Modul aus der Datenbank löschen
 [Delete module from database... Loading]
 Modul aus der Datenbank löschen... Lade
-[Delete module from all contacts (including Setting)]
-Modul von allen Kontakten löschen (inkl. Einstell.)
+[Delete from all contacts (including Settings)]
+
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI-Dateien
@@ -295,9 +295,9 @@ Benutzerzweig in DBE++ öffnen
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
-[Fix resident setting deleting them from DB ?]
+[Delete resident settings from database?]
 
-[Deleted orphaned items: %d]
+[%d orphaned items deleted.]
 
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]

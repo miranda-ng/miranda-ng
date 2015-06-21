@@ -2724,9 +2724,6 @@ Allgemeine Icons
 Klangdateien
 [WAV files]
 WAV-Dateien
-;file \src\mir_app\src\timezones.cpp
-[<unspecified>]
-<unspezifiziert>
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 unspezifiziert
@@ -3240,3 +3237,6 @@ JPEG-Bilder
 GIF-Bilder
 [PNG bitmaps]
 PNG-Bilder
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
+<unspezifiziert>

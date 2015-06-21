@@ -212,8 +212,8 @@ Na pewno chcesz usunąć moduł "%s"?
 Usuń moduł z bazy danych
 [Delete module from database... Loading]
 Usuń moduł z bazy danych... ładowanie
-[Delete module from all contacts (including Setting)]
-Usuń moduł ze wszystkich kontaktów (wraz z ustawieniem)
+[Delete from all contacts (including Settings)]
+Usuń ze wszystkich kontaktów (wraz z ustawieniami)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Pliki INI
@@ -295,9 +295,9 @@ Otwórz w edytorze profilu
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?
-[Fix resident setting deleting them from DB ?]
+[Delete resident settings from database?]
 
-[Deleted orphaned items: %d]
+[%d orphaned items deleted.]
 
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]

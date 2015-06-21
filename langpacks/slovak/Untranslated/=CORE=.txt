@@ -846,7 +846,6 @@
 [Status icons]
 [Sound files]
 [WAV files]
-[<unspecified>]
 [Unspecified]
 [Afghanistan]
 [Aland Islands]
@@ -1098,3 +1097,4 @@
 [Zambia]
 [Zimbabwe]
 [PNG bitmaps]
+[<unspecified>]

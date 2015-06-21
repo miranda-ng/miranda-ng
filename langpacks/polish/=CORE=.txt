@@ -2724,9 +2724,6 @@ Główne ikony
 Dźwięki
 [WAV files]
 Pliki WAV
-;file \src\mir_app\src\timezones.cpp
-[<unspecified>]
-<nieokreślony>
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Nieokreślone
@@ -3240,3 +3237,6 @@ Mapa bitowa JPEG
 Mapa bitowa GIF
 [PNG bitmaps]
 Mapa bitowa PNG
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
+<nieokreślony>

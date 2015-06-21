@@ -409,9 +409,6 @@ Krytyczny: nie można edytować obecnego wpisu!\nNie powinno się to zdarzyć!
 Czy na prawdę chcesz skasować obecnie zaznaczony element?\n\t%s\n\t%s
 [Other]
 Inne
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-<Nieokreślony>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 ETA

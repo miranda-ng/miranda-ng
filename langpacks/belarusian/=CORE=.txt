@@ -2654,9 +2654,6 @@ ANSI плагін
 Файлы гукаў
 [WAV files]
 Файлы гукаў
-;file \src\mir_app\src\timezones.cpp
-[<unspecified>]
-<не пазначана>
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Не пазначана
@@ -3168,3 +3165,6 @@ BMP
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
+<не пазначана>

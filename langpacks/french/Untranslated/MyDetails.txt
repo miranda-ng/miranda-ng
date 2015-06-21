@@ -1,4 +1,4 @@
-﻿[Shows and allows you to edit your details for all protocols.]
+﻿[Shows and allows you to edit your details for all accounts.]
 [Global on...]
 [...avatar]
 [...nickname]

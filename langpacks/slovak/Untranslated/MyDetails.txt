@@ -1,4 +1,5 @@
-﻿[Set my nickname]
+﻿[Shows and allows you to edit your details for all accounts.]
+[Set my nickname]
 [General]
 [RTL]
 [Align text to right]

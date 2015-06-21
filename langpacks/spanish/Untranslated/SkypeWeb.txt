@@ -20,6 +20,7 @@
 [Set &role]
 [&Admin]
 [&User]
+[Enter new chatroom topic]
 [Are you sure?]
 [Incoming call]
 [Action]

@@ -1,4 +1,4 @@
-﻿[Plugin updater for Miranda NG.]
+﻿[Install and update plugins and other Miranda NG components.]
 [Updates found!]
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 [Update]

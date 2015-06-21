@@ -13,6 +13,7 @@
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [&Change topic]
 [Kick &user]
+[Enter new chatroom topic]
 [Call information.]
 [Calls]
 [Edited at]

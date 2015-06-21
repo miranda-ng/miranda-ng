@@ -5,8 +5,8 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-Zeigt Ihre Details in der Kontaktliste an und bietet eine Möglichkeit, diese zu verändern.
+[Shows and allows you to edit your details for all accounts.]
+
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Mein Nicknamen setzen

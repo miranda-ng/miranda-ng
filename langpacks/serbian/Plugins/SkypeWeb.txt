@@ -70,6 +70,8 @@ Upozorenje
 
 [&User]
 
+[Enter new chatroom topic]
+
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Potpuno ste sigurni?

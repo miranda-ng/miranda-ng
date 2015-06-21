@@ -5,8 +5,6 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-Показва (в списъка с контакти) и позволява редактиране на подробностите за акаунтите ви във всеки протокол.
 [Set my nickname]
 Задаване на прякор
 [Nickname:]

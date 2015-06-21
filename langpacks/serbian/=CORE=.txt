@@ -2724,9 +2724,6 @@ Glavne ikonice
 Zvučne datoteke
 [WAV files]
 WAV datoteke
-;file \src\mir_app\src\timezones.cpp
-[<unspecified>]
-<nije navedeno>
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Nije navedeno
@@ -3240,3 +3237,6 @@ JPEG slike
 GIF slike
 [PNG bitmaps]
 PNG slike
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
+<nije navedeno>

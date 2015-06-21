@@ -113,8 +113,6 @@ Edad:
 Editar número de teléfono
 [Other]
 Otro
-[<Unspecified>]
-<Sin especificar>
 [Contact]
 Contacto
 [All contacts]
