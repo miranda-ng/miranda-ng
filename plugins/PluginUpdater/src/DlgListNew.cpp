@@ -297,14 +297,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE: // make the dlg resizeable
-		if (!IsIconic(hDlg)) {
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = hInst;
-			urd.hwndDlg = hDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_LIST);
-			urd.pfnResizer = ListDlg_Resize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		if (!IsIconic(hDlg))
+			Utils_ResizeDialog(hDlg, hInst, MAKEINTRESOURCEA(IDD_LIST), ListDlg_Resize);
 		break;
 
 	case WM_GETMINMAXINFO: 

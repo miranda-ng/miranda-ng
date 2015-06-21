@@ -238,18 +238,16 @@ LRESULT CALLBACK WatchSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
-	    hwnd2watchedVarsWindow = hwnd;
+		hwnd2watchedVarsWindow = hwnd;
 		// do the icon
 		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
 		TranslateMenu(GetMenu(hwnd));
 		TranslateMenu(GetSubMenu(GetMenu(hwnd), 0));
 		TranslateDialogDefault(hwnd);
-	
-	    SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
+
+		SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
 
 		ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_VARS), 32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
 
@@ -259,33 +257,23 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		mir_subclassWindow(GetDlgItem(hwnd, IDC_VARS), WatchSubclassProc);
 
 		PopulateWatchedWindow();
-	}
-	return TRUE;
+		return TRUE;
+
 	// for the resize
 	case WM_GETMINMAXINFO:
-	{
-		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-		mmi->ptMinTrackSize.x = 500;
-		mmi->ptMinTrackSize.y = 300;
+		{
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 500;
+			mmi->ptMinTrackSize.y = 300;
+		}
 		return 0;
-	}
+
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd;
-		memset(&urd, 0, sizeof(urd));
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwnd;
-		urd.lParam = 0;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_WATCH_DIAG);
-		urd.pfnResizer = WatchDialogResize;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_WATCH_DIAG), WatchDialogResize);
 		break;
-	}
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case MENU_REMALL_WATCHES:
 			freeAllWatches();
 			break;
@@ -300,14 +288,13 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_VARS:
 			switch (((NMHDR*)lParam)->code) {
 			case NM_DBLCLK:
+				LVHITTESTINFO hti;
+				LVITEM lvi;
 				{
-					LVHITTESTINFO hti;
-					LVITEM lvi;
 					HWND hwndVars = GetDlgItem(hwnd, IDC_VARS);
 					hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
 					if (ListView_SubItemHitTest(hwndVars, &hti) > -1)
@@ -330,21 +317,21 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 				}
 				break;
+
 			case LVN_COLUMNCLICK:
-				{
-					LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
-					ColumnsSortParams params;
-					params.hList = GetDlgItem(hwnd, IDC_VARS);
-					params.column = lv->iSubItem;
-					params.last = lastColumn;
-					ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
-					lastColumn = (params.column == lastColumn) ? -1 : params.column;
-					break;
-				}
+				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
+				ColumnsSortParams params;
+				params.hList = GetDlgItem(hwnd, IDC_VARS);
+				params.column = lv->iSubItem;
+				params.last = lastColumn;
+				ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
+				lastColumn = (params.column == lastColumn) ? -1 : params.column;
+				break;
 			}
 			break;
 		}
 		break;
+
 	case WM_DESTROY:
 		ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_VARS));
 		saveListSettings(GetDlgItem(hwnd, IDC_VARS), csWatchList);
@@ -355,9 +342,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-void openWatchedVarWindow() {
-
+void openWatchedVarWindow()
+{
 	if (!hwnd2watchedVarsWindow) 
 		CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), NULL, WatchDlgProc);
 	else

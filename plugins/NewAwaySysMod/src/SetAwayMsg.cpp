@@ -1273,34 +1273,28 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		return true;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = g_hInstance;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)&g_SetAwayMsgPage;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_SETAWAYMSG);
-			urd.pfnResizer = SetAwayMsgDlgResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		Utils_ResizeDialog(hwndDlg, g_hInstance, MAKEINTRESOURCEA(IDD_SETAWAYMSG), SetAwayMsgDlgResize, (LPARAM)&g_SetAwayMsgPage);
 			
-			// means that we sent WM_SIZE message to apply new settings to the dialog; probably it's somewhat a misuse, but who cares ;-P
-			if (!wParam && !lParam) {
-				int bShow;
-				bShow = g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWMSGTREE) ? SW_SHOW : SW_HIDE;
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_TREE), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SAVEMSG), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SAVEASNEW), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_NEWCATEGORY), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_DELETE), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_MSGSPLITTER), bShow);
-				bShow = g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWCONTACTTREE) ? SW_SHOW : SW_HIDE;
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSTREE), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_IGNOREREQ), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SENDMSG), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSPLITTER), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON), bShow);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_STATIC_REPLYICON), bShow);
-			}
-		} // go through
+		// means that we sent WM_SIZE message to apply new settings to the dialog; probably it's somewhat a misuse, but who cares ;-P
+		if (!wParam && !lParam) {
+			int bShow;
+			bShow = g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWMSGTREE) ? SW_SHOW : SW_HIDE;
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_TREE), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SAVEMSG), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SAVEASNEW), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_NEWCATEGORY), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_DELETE), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_MSGSPLITTER), bShow);
+			bShow = g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWCONTACTTREE) ? SW_SHOW : SW_HIDE;
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSTREE), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_IGNOREREQ), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SENDMSG), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSPLITTER), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON), bShow);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_STATIC_REPLYICON), bShow);
+		}
+		// go through
+	
 	case UM_SAM_KILLTIMER:
 	case WM_LBUTTONDOWN:
 	case WM_MOUSEACTIVATE:

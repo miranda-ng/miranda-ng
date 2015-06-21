@@ -2012,13 +2012,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			GetClientRect(hwndDlg, &rc);
 			int cx = rc.right;
 
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)si;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CHANNEL);
-			urd.pfnResizer = RoomWndResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)si);
 
 			BB_SetButtonsPos(dat);
 

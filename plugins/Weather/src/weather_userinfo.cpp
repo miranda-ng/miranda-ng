@@ -224,15 +224,9 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			RECT rc;
 			HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
 			GetWindowRect(hList, &rc);
-			ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + 
-				(int)LOWORD(lParam) - (rc.right - rc.left));
+			ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + (int)LOWORD(lParam) - (rc.right - rc.left));
 
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hwndDlg = hwndDlg;
-			urd.hInstance = hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_BRIEF);
-			urd.pfnResizer = BriefDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_BRIEF), BriefDlgResizer);
 		}				
 		break;
 

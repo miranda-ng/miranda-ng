@@ -167,7 +167,8 @@ static int sttJidListResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	JABBER_MUC_JIDLIST_INFO* dat = (JABBER_MUC_JIDLIST_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JABBER_MUC_JIDLIST_INFO *dat = (JABBER_MUC_JIDLIST_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -177,7 +178,6 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 
 			TranslateDialogDefault(hwndDlg);
 
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 			GetClientRect(hwndList, &rc);
 			//rc.right -= GetSystemMetrics(SM_CXVSCROLL);
@@ -212,26 +212,16 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			Utils_RestoreWindowPosition(hwndDlg, NULL, dat->ppro->m_szModuleName, "jidListWnd_");
 		}
 		return TRUE;
-	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = {0};
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_JIDLIST);
-			urd.pfnResizer = sttJidListResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
-			RECT listrc;
-			LVCOLUMN lvc;
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
-			GetClientRect(hwndList, &listrc);
-			lvc.mask = LVCF_WIDTH;
-			//listrc.right -= GetSystemMetrics(SM_CXVSCROLL);
-			lvc.cx = listrc.right - 20;
-			SendMessage(hwndList, LVM_SETCOLUMN, 0, (LPARAM)&lvc);
-			break;
-		}
+	case WM_SIZE:
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_JIDLIST), sttJidListResizer);
+
+		RECT listrc;
+		LVCOLUMN lvc;
+		GetClientRect(hwndList, &listrc);
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = listrc.right - 20;
+		SendMessage(hwndList, LVM_SETCOLUMN, 0, (LPARAM)&lvc);
 		break;
 
 	case WM_JABBER_REFRESH:
@@ -388,7 +378,6 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			LVITEM lvi;
 
 			// Free lParam of the displayed list items
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 			int count = ListView_GetItemCount(hwndList);
 			lvi.mask = LVIF_PARAM;
 			lvi.iSubItem = 0;

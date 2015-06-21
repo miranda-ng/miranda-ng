@@ -57,29 +57,11 @@ type
 
   TDIALOGRESIZERPROC = function(hwndDlg: THANDLE; lParam: LPARAM; urc: PUTILRESIZECONTROL): int; cdecl;
 
-  PUTILRESIZEDIALOG = ^TUTILRESIZEDIALOG;
-  TUTILRESIZEDIALOG = record
-    cbSize    : int;
-    hwndDlg   : HWND;
-    hInstance : HINST;
-    lpTemplate: PAnsiChar;
-    lParam    : LPARAM;
-    pfnResizer: TDIALOGRESIZERPROC;
-  end;
-
   PCountryListEntry = ^TCountryListEntry;
   TCountryListEntry = record
     id     : int;
     szName : PAnsiChar;
     ISOcode: array [0..2] of AnsiChar;
-  end;
-
-  PSAVEWINDOWPOS = ^TSAVEWINDOWPOS;
-  TSAVEWINDOWPOS = record
-    hWnd        : HWND;
-    hContact    : TMCONTACT;
-    szModule    : PAnsiChar;        // module name eto store the settings in
-    szNamePrefix: PAnsiChar;        // text to prefix on 'x', 'width', etc
   end;
 
 const
@@ -109,7 +91,9 @@ const
              .pfnResizer should return a combination of one RD_ANCHORx_ and one RD_ANCHORy constant
     Version: v0.1.0.1+
   }
-  MS_UTILS_RESIZEDIALOG:PAnsiChar = 'Utils/ResizeDialog';
+
+function Utils_ResizeDialog(hwndDlg:THANDLE; hInst:HINST; pTemplate:PAnsiChar; pFunc:TDIALOGRESIZERPROC; lParam:LPARAM=0) : int; stdcall;
+                 external CoreDLL name 'Utils_ResizeDialog';
 
   {
     wParam : countryID
@@ -119,6 +103,7 @@ const
              NULL(0) on failure
     Version: v0.1.2.0+
   }
+const
   MS_UTILS_GETCOUNTRYBYNUMBER:PAnsiChar = 'Utils/GetCountryByNumber';
 
   {

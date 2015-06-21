@@ -1557,13 +1557,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			GetClientRect(hwndDlg, &rc);
 
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)dat;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_MSGSPLITNEW);
-			urd.pfnResizer = MessageDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_MSGSPLITNEW), MessageDialogResize, (LPARAM)dat);
 
 			BB_SetButtonsPos(dat);
 

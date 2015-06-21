@@ -154,24 +154,16 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 	case WM_GETMINMAXINFO:
-	{
-		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-		mmi->ptMinTrackSize.x = 610;
-		mmi->ptMinTrackSize.y = 300;
-	}
-	return 0;
+		{
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 610;
+			mmi->ptMinTrackSize.y = 300;
+		}
+		return 0;
+
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd;
-		memset(&urd, 0, sizeof(urd));
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwnd;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_FIND);
-		urd.pfnResizer = FindDialogResize;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-	}
-	break;
+		Utils_ResizeDialog(hwnd, hInst, MAKEINTRESOURCEA(IDD_FIND), FindDialogResize);
+		break;
 
 	case WM_NOTIFY:
 		if (LOWORD(wParam) != IDC_LIST) break;

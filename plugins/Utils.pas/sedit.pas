@@ -1003,7 +1003,6 @@ var
   idchide,idcshow,csize:integer;
 {$IFDEF Miranda}
   pc:PAnsiChar;
-  urd:TUTILRESIZEDIALOG;
 {$ELSE}
   rc,rc1:TRECT;
 {$ENDIF}
@@ -1056,14 +1055,7 @@ begin
 
     WM_SIZE: begin
 {$IFDEF Miranda}
-      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
-      urd.cbSize    :=SizeOf(urd);
-      urd.hwndDlg   :=Dialog;
-      urd.hInstance :=hInstance;
-      urd.lpTemplate:='IDD_STRUCTURE';//MAKEINTRESOURCEA(IDD_STRUCTURE);
-      urd.lParam    :=0;
-      urd.pfnResizer:=@StructEditDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,TLPARAM(@urd));
+      Utils_ResizeDialog(Dialog, hInstance, 'IDD_STRUCTURE', @StructEditDlgResizer);
 {$ELSE}
       GetWindowRect(Dialog,rc);
 

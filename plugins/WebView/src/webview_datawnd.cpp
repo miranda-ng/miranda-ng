@@ -431,24 +431,15 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = { sizeof(urd) };
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_DISPLAY_DATA);
-			urd.pfnResizer = DataDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM) & urd);
-			InvalidateRect(hwndDlg, NULL, TRUE);
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_DISPLAY_DATA), DataDialogResize);
+		InvalidateRect(hwndDlg, NULL, TRUE);
 
-			GetWindowRect(hwndDlg, &rc);
-
-			// global
-			Xposition = rc.left;
-			Yposition = rc.top;
-			WindowHeight = rc.bottom - rc.top;
-			WindowWidth = rc.right - rc.left;
-		}
+		// global
+		GetWindowRect(hwndDlg, &rc);
+		Xposition = rc.left;
+		Yposition = rc.top;
+		WindowHeight = rc.bottom - rc.top;
+		WindowWidth = rc.right - rc.left;
 		break;
 
 	case WM_MOVE:

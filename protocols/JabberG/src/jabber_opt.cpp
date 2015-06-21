@@ -1447,15 +1447,7 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = {0};
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER3);
-			urd.pfnResizer = sttRosterEditorResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_OPT_JABBER3), sttRosterEditorResizer);
 		break;
 
 	case WM_COMMAND:

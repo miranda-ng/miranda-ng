@@ -1897,7 +1897,6 @@ var
   rc:TRECT;
   pt:TPOINT;
   TI:tToolInfoW;
-  urd:TUTILRESIZEDIALOG;
 begin
   result:=0;
   case hMessage of
@@ -1908,8 +1907,6 @@ begin
       UnhookEvent(hAdd);
       UnhookEvent(hDelete);
       UnhookEvent(hChange);
-//      UnhookEvent(hAccount);
-
       UnhookEvent(colorhook);
 
       mainwnd:=0;
@@ -2068,14 +2065,7 @@ begin
 
     WM_SIZE: begin
       SendMessage(StatusBar,WM_SIZE,0,0);
-      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
-      urd.cbSize    :=SizeOf(urd);
-      urd.hwndDlg   :=Dialog;
-      urd.hInstance :=hInstance;
-      urd.lpTemplate:=MAKEINTRESOURCEA(IDD_MAIN);
-      urd.lParam    :=0;
-      urd.pfnResizer:=@FindAddDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+		Utils_ResizeDialog(Dialog, hInstance, MAKEINTRESOURCEA(IDD_MAIN), @FindAddDlgResizer);
     end;
 
     WM_SYSCOMMAND: begin

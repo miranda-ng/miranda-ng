@@ -553,16 +553,8 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_SIZE: // make the dlg resizeable
-		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = { 0 };
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0; // user-defined
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_ICOLIB_IMPORT);
-			urd.pfnResizer = IconDlg_Resize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
+		if (!IsIconic(hwndDlg))
+			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_ICOLIB_IMPORT), IconDlg_Resize);
 		break;
 
 	case WM_CLOSE:

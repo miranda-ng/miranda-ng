@@ -435,18 +435,10 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = {0};
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInstance;
-			urd.hwndDlg = hwndDlg;
-			urd.lpTemplate = dat->bReceiving ? MAKEINTRESOURCEA(IDD_IMAGE_RECV) : MAKEINTRESOURCEA(IDD_IMAGE_SEND);
-			urd.pfnResizer = sttImageDlgResizer;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
-				InvalidateRect(hwndDlg, NULL, FALSE);
-			return 0;
-		}
+		Utils_ResizeDialog(hwndDlg, hInstance, dat->bReceiving ? MAKEINTRESOURCEA(IDD_IMAGE_RECV) : MAKEINTRESOURCEA(IDD_IMAGE_SEND), sttImageDlgResizer);
+		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
+			InvalidateRect(hwndDlg, NULL, FALSE);
+		return 0;
 
 	case WM_SIZING:
 		{

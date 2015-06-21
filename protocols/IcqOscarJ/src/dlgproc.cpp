@@ -437,26 +437,16 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_SIZE:
-		{ // make the dlg resizeable
-			UTILRESIZEDIALOG urd = { 0 };
-
-			if (IsIconic(hwndDlg)) break;
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = 0; // user-defined
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);
-			urd.pfnResizer = ChangeInfoDlg_Resize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-
-			{ // update listview column widths
-				RECT rc;
-
-				GetClientRect(dat->hwndList, &rc);
-				rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-				ListView_SetColumnWidth(dat->hwndList, 0, rc.right / 3);
-				ListView_SetColumnWidth(dat->hwndList, 1, rc.right - rc.right / 3);
-			}
+		if (IsIconic(hwndDlg))
+			break;
+		
+		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO), ChangeInfoDlg_Resize);
+		{
+			RECT rc; // update listview column widths
+			GetClientRect(dat->hwndList, &rc);
+			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+			ListView_SetColumnWidth(dat->hwndList, 0, rc.right / 3);
+			ListView_SetColumnWidth(dat->hwndList, 1, rc.right - rc.right / 3);
 		}
 		break;
 

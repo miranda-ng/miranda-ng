@@ -89,7 +89,6 @@ var
   vhi:TVARHELPINFO;
   cr:integer;
   idshow,idhide:integer;
-  urd:TUTILRESIZEDIALOG;
 begin
   result:=0;
 
@@ -154,14 +153,7 @@ begin
     end;
 
     WM_SIZE: begin
-      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
-      urd.cbSize    :=SizeOf(urd);
-      urd.hwndDlg   :=Dialog;
-      urd.hInstance :=hInstance;
-      urd.lpTemplate:='IDD_EDITCONTROL';
-      urd.lParam    :=0;
-      urd.pfnResizer:=@EditDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+		Utils_ResizeDialog(Dialog, hInstance, 'IDD_EDITCONTROL', @EditDlgResizer);
     end;
 
     WM_COMMAND: begin
@@ -403,7 +395,6 @@ var
   p:pResultText;
   cr:integer;
   idshow,idhide:integer;
-  urd:TUTILRESIZEDIALOG;
 begin
   result:=0;
 
@@ -449,14 +440,7 @@ begin
     end;
 
     WM_SIZE: begin
-      FillChar(urd,SizeOf(TUTILRESIZEDIALOG),0);
-      urd.cbSize    :=SizeOf(urd);
-      urd.hwndDlg   :=Dialog;
-      urd.hInstance :=hInstance;
-      urd.lpTemplate:='IDD_EDITCONTROL';
-      urd.lParam    :=0;
-      urd.pfnResizer:=@EditDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+      Utils_ResizeDialog(Dialog, hInstance, 'IDD_EDITCONTROL', @EditDlgResizer);
     end;
 
     WM_COMMAND: begin

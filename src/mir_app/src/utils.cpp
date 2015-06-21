@@ -349,11 +349,9 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 
 	PGENRANDOM pfnRtlGenRandom = NULL;
 	HMODULE hModule = GetModuleHandleA("advapi32");
-	if (hModule)
-	{
+	if (hModule) {
 		pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
-		if (pfnRtlGenRandom)
-		{
+		if (pfnRtlGenRandom) {
 			if (!pfnRtlGenRandom((PVOID)lParam, wParam))
 				pfnRtlGenRandom = NULL;
 		}
@@ -367,7 +365,6 @@ int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	CreateServiceFunction(MS_UTILS_RESIZEDIALOG, ResizeDialog);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
