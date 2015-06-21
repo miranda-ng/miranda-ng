@@ -132,8 +132,6 @@ extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
 int TryProcessDoubleClick(MCONTACT hContact);
 
-void KillModuleMenus(int hLangpack);
-
 /**** protocols.cpp *********************************************************************/
 
 #define OFFSET_PROTOPOS 200

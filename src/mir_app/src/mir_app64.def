@@ -197,3 +197,4 @@ xmlSetTextByIndex @194
 xmlToFile @195 
 xmlToString @196 
 xmlToStringWithFormatting @197 
+KillModuleMenus @198
