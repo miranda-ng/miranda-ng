@@ -379,4 +379,6 @@ __forceinline HGENMENU MO_GetProtoRootMenu( const char* szProtoName )
 	return ( HGENMENU )CallService( MO_GETPROTOROOTMENU, ( WPARAM )szProtoName, 0 );
 }
 
+EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int hLangpack);
+
 #endif

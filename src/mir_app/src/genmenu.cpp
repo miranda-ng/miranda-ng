@@ -590,7 +590,7 @@ int KillMenuItems(PMO_IntMenuItem pimi, KillMenuItemsParam* param)
 	return FALSE;
 }
 
-void KillModuleMenus(int hLangpack)
+MIR_APP_DLL(void) KillModuleMenus(int hLangpack)
 {
 	if (!bIsGenMenuInited)
 		return;
