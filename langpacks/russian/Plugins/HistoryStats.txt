@@ -831,6 +831,10 @@ HistoryStats - Подтверждение
 HistoryStats - Информация
 [Exclude from statistics]
 Исключить из статистики
+[Copy history]
+Копировать историю
+[Paste history...]
+Вставить историю...
 [History]
 История
 [(Unknown)]
