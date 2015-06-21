@@ -51,6 +51,8 @@ Fraba textu
 Prezívka
 [Unknown error]
 Neznáma chyba
+[Value]
+Hodnota
 [From]
 od
 [Size]

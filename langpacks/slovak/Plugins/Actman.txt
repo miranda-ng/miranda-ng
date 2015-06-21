@@ -19,6 +19,8 @@ Nie
 Pomoc
 [Notes]
 Poznámky
+[Value]
+Hodnota
 [type]
 typ
 [data]
@@ -41,6 +43,8 @@ Chyba
 Varovanie
 [Contact list]
 Zoznam kontaktov
+[value]
+hodnota
 [name]
 meno
 [Time]

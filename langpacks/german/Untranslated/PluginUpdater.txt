@@ -1,3 +1,1 @@
 ﻿[Install and update plugins and other Miranda NG components.]
-[For "Restart" popup setting is always infinity]
-[Deprecated!]

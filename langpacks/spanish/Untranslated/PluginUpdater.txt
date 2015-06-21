@@ -1,4 +1,5 @@
-﻿[Silent mode]
+﻿[Install and update plugins and other Miranda NG components.]
+[Silent mode]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Use defa&ult colors]
 [For "Restart" popup setting is always infinity]

@@ -162,7 +162,6 @@
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 [Other]
-[<Unspecified>]
 [ETA]
 [Proto]
 [Age/Nr.]

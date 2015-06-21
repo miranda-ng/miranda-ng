@@ -409,9 +409,6 @@ Effacer la sélection
 Voulez-vous vraiment effacer les réglages sélectionnés ?\n\t%s\n\t%s
 [Other]
 Autre
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-<non spécifié>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 

@@ -5,8 +5,8 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-Pokazuje i pozwala edytować twoje dane dla wszystkich protokołów.
+[Shows and allows you to edit your details for all accounts.]
+Pokazuje i pozwala edytować twoje dane dla wszystkich kont.
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Ustaw mój nick

@@ -18,6 +18,7 @@
 [Set &role]
 [&Admin]
 [&User]
+[Enter new chatroom topic]
 [Incoming call]
 [Action]
 [Call information.]

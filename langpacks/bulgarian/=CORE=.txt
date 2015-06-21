@@ -2513,8 +2513,6 @@ ANSI приставка
 Файлове със звуци
 [WAV files]
 WAV файлове
-[<unspecified>]
-<Неуточнено>
 [Unspecified]
 Неуточнено
 [Afghanistan]
@@ -3025,3 +3023,5 @@ JPEG изображения
 GIF изображения
 [PNG bitmaps]
 PNG изображения
+[<unspecified>]
+<Неуточнено>

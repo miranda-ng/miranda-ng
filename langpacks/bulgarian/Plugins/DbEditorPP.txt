@@ -193,7 +193,7 @@ BLOB
 Изтриване на модул от базата от данни
 [Delete module from database... Loading]
 Изтриване на модула от базата от данни... Зареждане
-[Delete module from all contacts (including Setting)]
+[Delete from all contacts (including Settings)]
 Изтриване от всички Контакти (и Настройки)
 [INI Files]
 INI файлове

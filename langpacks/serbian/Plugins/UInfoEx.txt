@@ -409,9 +409,6 @@ Izmeni broj telefona
 
 [Other]
 Ostalo
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-<nije navedeno>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 

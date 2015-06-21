@@ -212,7 +212,7 @@ Naziv
 
 [Delete module from database... Loading]
 
-[Delete module from all contacts (including Setting)]
+[Delete from all contacts (including Settings)]
 
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -295,9 +295,9 @@ Koristeći
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 
-[Fix resident setting deleting them from DB ?]
+[Delete resident settings from database?]
 
-[Deleted orphaned items: %d]
+[%d orphaned items deleted.]
 
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]

@@ -1,4 +1,4 @@
-﻿[Shows and allows you to edit your details for all protocols.]
+﻿[Shows and allows you to edit your details for all accounts.]
 [Set my nickname]
 [RTL]
 [Align text to right]

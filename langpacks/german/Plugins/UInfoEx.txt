@@ -409,9 +409,6 @@ Schwerer Fehler: Der gewählte Eintrag kann nicht bearbeitet werden!\nDas sollte
 Soll der gewählte Eintrag wirklich gelöscht werden?\n\t%s\n\t%s
 [Other]
 Sonstige
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-unspezifiziert
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Ausstehende Tage

@@ -5,8 +5,8 @@
 ;  Version: 0.1.2.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
-[Plugin updater for Miranda NG.]
-Plugin-Updater für Miranda NG.
+[Install and update plugins and other Miranda NG components.]
+
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Aktualisierungen gefunden!

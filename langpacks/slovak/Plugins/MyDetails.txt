@@ -5,8 +5,6 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-Zobrazuje a povoľuje upravovanie detailov Vášho profilu pre všetky protokoly.
 [Nickname:]
 Prezívka:
 [Cancel]

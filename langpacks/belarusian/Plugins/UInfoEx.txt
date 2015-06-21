@@ -407,9 +407,6 @@ E-Mail
 Выдаліць абраны запіс?\n\t%s\n\t%s
 [Other]
 Іншае
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-<не пазначана>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Засталося дзён

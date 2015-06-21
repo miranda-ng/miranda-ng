@@ -2419,8 +2419,6 @@ Iconos principales
 Archivos de sonido
 [WAV files]
 Archivos WAV
-[<unspecified>]
-<Sin especificar>
 [Unspecified]
 <Sin especificar>
 [Afghanistan]
@@ -2931,3 +2929,5 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
+[<unspecified>]
+<Sin especificar>
