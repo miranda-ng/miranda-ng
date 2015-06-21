@@ -504,7 +504,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		if (wParam) {			
 			mir_cslock lck(csTips);
 			if (!hwndToolTips)
-				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.dll"), NULL);
+				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
 
 			if (lParam == MBBF_UNICODE) {
 				TOOLINFOW ti;
