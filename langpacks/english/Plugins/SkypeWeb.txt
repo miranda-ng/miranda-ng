@@ -39,6 +39,7 @@
 [Set &role]
 [&Admin]
 [&User]
+[Enter new chatroom topic]
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 ;file \protocols\SkypeWeb\src\skype_events.cpp

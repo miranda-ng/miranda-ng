@@ -5,8 +5,6 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
-Плагин позволяет показывать и редактировать ваши детали для всех протоколов.
 [Set my nickname]
 Мой ник
 [Nickname:]
