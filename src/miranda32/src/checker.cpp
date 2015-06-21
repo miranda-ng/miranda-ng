@@ -214,16 +214,14 @@ bool CheckDlls()
 		// there's smth to delete. init UAC
 		if (!bInit) {
 			// failed? then we need UAC
-			if (!PrepareEscalation()) {
-LBL_Error:	MessageBox(NULL, _T("Miranda failed to delete the obsolete file. Do it manually"), arDlls[i], MB_ICONEXCLAMATION | MB_OK);
+			if (!PrepareEscalation())
 				return false;
-			}
 
 			bInit = true;
 		}
 
 		if (!TryDeleteFile(arDlls[i]))
-			goto LBL_Error;
+			return false;
 	}
 
 	return true;

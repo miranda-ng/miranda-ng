@@ -37,9 +37,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	p[1] = 0;
 	SetCurrentDirectory(tszPath);
 
-	// all dlls must be moved to libs
-	if (!CheckDlls())
-		return 3;
+	// all old dlls must be removed
+	CheckDlls();
 
 	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
