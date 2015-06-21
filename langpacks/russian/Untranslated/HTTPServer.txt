@@ -3,8 +3,6 @@
 [Miranda NG HTTP-Server]
 [Share Current Directory]
 [Failed to share new file]
-[Selected link size is 0]
-[Failed to get access to clipboard]
 [Failed to get close the clipboard]
 [Failed to set clipboard data]
 [ListView_GetItem failed]
