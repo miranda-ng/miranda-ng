@@ -77,5 +77,7 @@ LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
 #define MLUA_VARIABLES	"m_variables"
 LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 
+WPARAM luaM_towparam(lua_State *L, int idx);
+LPARAM luaM_tolparam(lua_State *L, int idx);
 
 #endif //_COMMON_H_
