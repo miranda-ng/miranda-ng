@@ -319,26 +319,6 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
-{
-	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si = {0};
-	si.cb = sizeof(si);
-	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-	if (wParam) {
-		VARST profilename( _T("%miranda_profilename%"));
-		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
-	}
-	else mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
-
-	CallService("CloseAction", 0, 0);
-	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
@@ -348,7 +328,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 
 	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
-	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
 	InitPathUtils();
 	InitCrypt();
