@@ -894,12 +894,8 @@ void registerSystemTokens()
 	registerIntToken(TXTFILE, parseTextFile, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
 	registerIntToken(UPTIME, parseUpTime, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("uptime in seconds"));
 
-	if (!ServiceExists(MS_UTILS_REPLACEVARS))
-		registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("Miranda Core OS")"\t(%xxxxxxx%)\t"LPGEN("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
-	else {
-		registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
-		registerIntToken(USERNAME, parseUserName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("user name"));
-	}
+	registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
+	registerIntToken(USERNAME, parseUserName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("user name"));
 
 	srand((unsigned int)GetTickCount());
 

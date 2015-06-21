@@ -356,47 +356,15 @@ EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
 // %destkop%            -> location of the desktop folder in a user's profile.
 // %mydocuments%        -> location of the "My Documents" shell folder.
 
-typedef struct
+struct REPLACEVARSARRAY
 {
-	union
-	{
-		TCHAR *lptzKey;
-		char *lpszKey;
-		WCHAR *lpwzKey;
-	};
-	union
-	{
-		TCHAR *lptzValue;
-		char *lpszValue;
-		WCHAR *lpwzValue;
-	};
-} REPLACEVARSARRAY;
+	MAllStrings key, value;
+};
 
-typedef struct
-{
-	int cbSize;
-	DWORD dwFlags;
-	MCONTACT hContact;
-	REPLACEVARSARRAY *variables;
-} REPLACEVARSDATA;
+EXTERN_C MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
+EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
 
-#define RVF_UNICODE	1
-#ifdef _UNICODE
-	#define RVF_TCHAR	RVF_UNICODE
-#else
-	#define RVF_TCHAR	0
-#endif
-
-#define MS_UTILS_REPLACEVARS "Utils/ReplaceVars"
-
-__forceinline char* Utils_ReplaceVars(const char *szData) {
-	REPLACEVARSDATA dat = { sizeof(dat) };
-	return (char*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&dat);
-}
-__forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
-	REPLACEVARSDATA dat = { sizeof(dat), RVF_TCHAR };
-	return (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&dat);
-}
+#define Utils_ReplaceVarsT Utils_ReplaceVarsW
 
 #if defined(__cplusplus)
 	#if !defined(M_SYSTEM_CPP_H__)
@@ -406,16 +374,18 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 	struct VARS : public ptrA
 	{
 		__forceinline VARS(const char *str) :
-			ptrA( Utils_ReplaceVars(str))
-			{}
+			ptrA(Utils_ReplaceVars(str))
+		{}
 	};
 
-	struct VARST : public ptrT
+	struct VARSW : public ptrW
 	{
-		__forceinline VARST(const TCHAR *str) :
-			ptrT( Utils_ReplaceVarsT(str))
-			{}
+		__forceinline VARSW(const wchar_t *str) :
+			ptrW(Utils_ReplaceVarsW(str))
+		{}
 	};
+
+	typedef VARSW VARST;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////

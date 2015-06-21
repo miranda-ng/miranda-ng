@@ -146,19 +146,11 @@ function ParseVarString(astr:PAnsiChar;aContact:TMCONTACT=0;extra:PAnsiChar=nil)
 var
   tfi:TFORMATINFO;
   tmp,pc:PAnsiChar;
-  dat:TREPLACEVARSDATA;
 begin
   if (astr=nil) or (astr^=#0) then exit;
 
-  if ServiceExists(MS_UTILS_REPLACEVARS)<>0 then
-  begin
-    FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
-    dat.cbSize :=SizeOf(TREPLACEVARSDATA);
-    pc:=PAnsiChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
-    astr:=pc;
-  end
-  else
-    pc:=nil;
+  pc:=Utils_ReplaceVars(astr);
+  astr:=pc;
 
   if isVarsInstalled then
   begin
@@ -185,20 +177,11 @@ function ParseVarString(astr:PWideChar;aContact:TMCONTACT=0;extra:PWideChar=nil)
 var
   tfi:TFORMATINFO;
   tmp,pc:PWideChar;
-  dat:TREPLACEVARSDATA;
 begin
   if (astr=nil) or (astr^=#0) then exit;
 
-  if ServiceExists(MS_UTILS_REPLACEVARS)<>0 then
-  begin
-    FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
-    dat.cbSize :=SizeOf(TREPLACEVARSDATA);
-    dat.dwflags:=RVF_UNICODE;
-    pc:=PWideChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
-    astr:=pc;
-  end
-  else
-    pc:=nil;
+  pc:=Utils_ReplaceVarsW(astr);
+  astr:=pc;
 
   if isVarsInstalled then
   begin

@@ -689,42 +689,40 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, CHAT_MODULE, "LoggingLimit", 100), 0));
 			Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.bLoggingEnabled);
 
-			if (ServiceExists(MS_UTILS_REPLACEVARS)) {
-				TCHAR tszTooltipText[2048];
+			TCHAR tszTooltipText[2048];
 
-				mir_sntprintf(tszTooltipText, _countof(tszTooltipText),
-					_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
-					_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
-					_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-					// contact vars
-					_T("%nick%"), TranslateT("nick of current contact (if defined)"),
-					_T("%proto%"), TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts"),
-					_T("%accountname%"), TranslateT("user-defined account name of current contact (if defined)."),
-					_T("%userid%"), TranslateT("user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc."),
-					// global vars
-					_T("%miranda_path%"), TranslateT("path to Miranda root folder"),
-					_T("%miranda_profilesdir%"), TranslateT("path to folder containing Miranda profiles"),
-					_T("%miranda_profilename%"), TranslateT("name of current Miranda profile (filename, without extension)"),
-					_T("%miranda_userdata%"), TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
-					_T("%miranda_logpath%"), TranslateT("will return parsed string %miranda_userdata%\\Logs"),
-					_T("%appdata%"), TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
-					_T("%username%"), TranslateT("username for currently logged-on Windows user"),
-					_T("%mydocuments%"), TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
-					_T("%desktop%"), TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
-					_T("%xxxxxxx%"), TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"),
-					// date/time vars
-					_T("%d%"), TranslateT("day of month, 1-31"),
-					_T("%dd%"), TranslateT("day of month, 01-31"),
-					_T("%m%"), TranslateT("month number, 1-12"),
-					_T("%mm%"), TranslateT("month number, 01-12"),
-					_T("%mon%"), TranslateT("abbreviated month name"),
-					_T("%month%"), TranslateT("full month name"),
-					_T("%yy%"), TranslateT("year without century, 01-99"),
-					_T("%yyyy%"), TranslateT("year with century, 1901-9999"),
-					_T("%wday%"), TranslateT("abbreviated weekday name"),
-					_T("%weekday%"), TranslateT("full weekday name"));
-				hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
-			}
+			mir_sntprintf(tszTooltipText, _countof(tszTooltipText),
+				_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
+				_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
+				_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+				// contact vars
+				_T("%nick%"), TranslateT("nick of current contact (if defined)"),
+				_T("%proto%"), TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts"),
+				_T("%accountname%"), TranslateT("user-defined account name of current contact (if defined)."),
+				_T("%userid%"), TranslateT("user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc."),
+				// global vars
+				_T("%miranda_path%"), TranslateT("path to Miranda root folder"),
+				_T("%miranda_profilesdir%"), TranslateT("path to folder containing Miranda profiles"),
+				_T("%miranda_profilename%"), TranslateT("name of current Miranda profile (filename, without extension)"),
+				_T("%miranda_userdata%"), TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
+				_T("%miranda_logpath%"), TranslateT("will return parsed string %miranda_userdata%\\Logs"),
+				_T("%appdata%"), TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
+				_T("%username%"), TranslateT("username for currently logged-on Windows user"),
+				_T("%mydocuments%"), TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
+				_T("%desktop%"), TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
+				_T("%xxxxxxx%"), TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"),
+				// date/time vars
+				_T("%d%"), TranslateT("day of month, 1-31"),
+				_T("%dd%"), TranslateT("day of month, 01-31"),
+				_T("%m%"), TranslateT("month number, 1-12"),
+				_T("%mm%"), TranslateT("month number, 01-12"),
+				_T("%mon%"), TranslateT("abbreviated month name"),
+				_T("%month%"), TranslateT("full month name"),
+				_T("%yy%"), TranslateT("year without century, 01-99"),
+				_T("%yyyy%"), TranslateT("year with century, 1901-9999"),
+				_T("%wday%"), TranslateT("abbreviated weekday name"),
+				_T("%weekday%"), TranslateT("full weekday name"));
+			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
 		}
 		if (hPathTip)
 			SetTimer(hwndDlg, 0, 3000, NULL);

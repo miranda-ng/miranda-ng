@@ -113,18 +113,15 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
-	vars[0].lptzKey = _T("platform");
+	vars[0].key.t = _T("platform");
 #ifdef _WIN64
-	vars[0].lptzValue = _T("64");
+	vars[0].value.t = _T("64");
 #else
-	vars[0].lptzValue = _T("32");
+	vars[0].value.t = _T("32");
 #endif
-	vars[1].lptzKey = vars[1].lptzValue = 0;
+	vars[1].key.t = vars[1].value.t = 0;
 
-	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
-	dat.dwFlags = RVF_TCHAR;
-	dat.variables = vars;
-	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&dat);
+	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 
 	// Download version info
 	FILEURL pFileUrl;

@@ -1070,14 +1070,9 @@ tstring GenerateLogFileName(const tstring& rsLogFilePattern,
 		}
 	}
 
-	if (nFlags&glfnResolveUserProfile)
+	if (nFlags & glfnResolveUserProfile)
 	{
-		REPLACEVARSDATA dat = { 0 };
-		dat.cbSize = sizeof(dat);
-		dat.dwFlags = RVF_TCHAR;
-
-		TCHAR* ptszParsedName = reinterpret_cast<TCHAR*>(CallService(MS_UTILS_REPLACEVARS,
-			reinterpret_cast<WPARAM>(sPath.c_str()), reinterpret_cast<LPARAM>(&dat)));
+		TCHAR* ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
 		if (ptszParsedName)
 		{
 			sPath = ptszParsedName;
