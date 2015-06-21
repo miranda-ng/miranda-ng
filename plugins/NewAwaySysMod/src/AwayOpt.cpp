@@ -552,7 +552,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				IDC_MOREOPTDLG_EVNTURL, LPGENT("URL"),
 				IDC_MOREOPTDLG_EVNTFILE, LPGENT("File")
 			};
-			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.dll"), NULL);
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
 			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;

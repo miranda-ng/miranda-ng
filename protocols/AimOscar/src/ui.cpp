@@ -507,7 +507,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				custColours[1] = background;
 				cc.lStructSize = sizeof(CHOOSECOLOR);
 				cc.hwndOwner = hwndDlg;
-				cc.hInstance = (HWND)GetModuleHandleA("mir_app.dll");
+				cc.hInstance = (HWND)GetModuleHandleA("mir_app.mir");
 				cc.lpCustColors = custColours;
 				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 				if (ChooseColor(&cc)) {

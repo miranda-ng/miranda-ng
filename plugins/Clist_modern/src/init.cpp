@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	mir_getLP(&pluginInfo);
 
 	g_dwMainThreadID = GetCurrentThreadId();
-	g_hMirApp = GetModuleHandleA("mir_app.dll");
+	g_hMirApp = GetModuleHandleA("mir_app.mir");
 
 	CHECKRES(PreLoadContactListModule());
 	CHECKRES(SubclassClistInterface());

@@ -452,8 +452,8 @@ static void CALLBACK FilterSearchTimerFunc(HWND hwnd, UINT, UINT_PTR, DWORD)
 	if (!dat)
 		return;
 
-	if (hFilterSearchWnd == NULL)
-		hFilterSearchWnd = CreateWindowA("STATIC", "Test", WS_OVERLAPPED | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, GetModuleHandleA("mir_app.dll"), 0); // Fake window to keep option page focused
+	if (hFilterSearchWnd == NULL) // Fake window to keep option page focused
+		hFilterSearchWnd = CreateWindowA("STATIC", "Test", WS_OVERLAPPED | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, g_hInst, 0);
 
 	if (FilterPage < dat->arOpd.getCount())
 		FindFilterStrings(TRUE, dat->currentPage == FilterPage, hFilterSearchWnd, dat->arOpd[FilterPage]);
