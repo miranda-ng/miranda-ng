@@ -5,6 +5,8 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
+[Shows and allows you to edit your details for all accounts.]
+Показывает во фрейме ваши данные (ник, аватар, статус) для всех учётных записей и позволяет их редактировать.
 [Set my nickname]
 Мой ник
 [Nickname:]
@@ -122,13 +124,13 @@
 [Listening to]
 Слушаю
 [My details]
-Мои детали
+Мои данные
 [Background]
 Фон
 [Avatar border]
 Граница аватара
 [Show my details]
-Показать мои детали
+Показать мои данные
 [Enable listening to for %s]
 Включить Сейчас слушаю для %s
 [Set my avatar for %s...]
@@ -138,7 +140,7 @@
 [Set my status message for %s...]
 Изменить статусное сообщение для %s...
 [Hide my details]
-Скрыть мои детали
+Скрыть мои данные
 [Previous account]
 Предыдущая учётная запись
 [Next account]

@@ -203,6 +203,8 @@
 Удалить модуль из базы
 [Delete module from database... Loading]
 Удаление модуля из базы... Загрузка
+[Delete from all contacts (including Settings)]
+Удалить из всех контактов (с настройками)
 [INI Files]
 INI файлы
 [All Files]
