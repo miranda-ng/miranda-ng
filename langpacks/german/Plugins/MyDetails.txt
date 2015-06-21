@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
-
+Zeigt Ihre Details in der Kontaktliste an und bietet eine Möglichkeit, diese zu verändern.
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Mein Nicknamen setzen

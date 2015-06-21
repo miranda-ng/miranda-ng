@@ -33,7 +33,7 @@ BBCode-Unterstützung für Anhänge
 [Process stickers as smileys]
 Sticker als Smileys darstellen
 [Shorten links for audio attachments]
-
+Links für Audioanhänge abkürzen
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
@@ -306,7 +306,7 @@ Chat verlassen
 [invite user]
 Benutzer eingeladen
 [returned to chat]
-
+ist ins Chat zurückgekehrt
 [change chat title to]
 Chatthema geändert zu
 [chat action not supported]
