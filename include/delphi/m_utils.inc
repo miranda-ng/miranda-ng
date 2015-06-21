@@ -320,9 +320,9 @@ type
   end;
 
 function Utils_ReplaceVars(const pSrc:PAnsiChar; hContact:TMCONTACT = 0; vars:PREPLACEVARSARRAY = nil):PAnsiChar; stdcall;
-                 external CoreDLL name 'Utils_ReplaceVars';
+                 external AppDLL name 'Utils_ReplaceVars';
 function Utils_ReplaceVarsW(const pSrc:PWideChar; hContact:TMCONTACT = 0; vars:PREPLACEVARSARRAY = nil):PWideChar; stdcall;
-                 external CoreDLL name 'Utils_ReplaceVarsW';
+                 external AppDLL name 'Utils_ReplaceVarsW';
 
 {
   variables known by the core:
