@@ -247,7 +247,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 				if (retVal != 0) {
 					if (errurl) {
 						debugLogA("Starting URL: '%s'", errurl);
-						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)errurl);
+						Utils_OpenUrl(errurl);
 					}
 
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);
@@ -809,33 +809,33 @@ int CMsnProto::MSN_AuthOAuth(void)
 						char *pAccessToken;
 
 						/* Extract access_token from Location can be found */
-						for (int i = 0; i < nlhrReply->headersCount; i++)
+						for (int i = 0; i < nlhrReply->headersCount; i++) {
 							if (!mir_strcmpi(nlhrReply->headers[i].szName, "Location") &&
-								(pAccessToken = strstr(nlhrReply->headers[i].szValue, "access_token=")) && 
-								(pEnd=strchr(pAccessToken+13, '&')))
-							{
+								(pAccessToken = strstr(nlhrReply->headers[i].szValue, "access_token=")) &&
+								(pEnd = strchr(pAccessToken + 13, '&'))) {
 								char *pRefreshToken, *pExpires, szToken[1024];
-								bool bLogin=false;
+								bool bLogin = false;
 
 								*pEnd = 0;
-								pAccessToken+=13;
+								pAccessToken += 13;
 								UrlDecode(pAccessToken);
 								replaceStr(authAccessToken, pAccessToken);
 
 								/* Extract refresh token */
-								if ((pRefreshToken = strstr(pEnd+1, "refresh_token=")) && (pEnd=strchr(pRefreshToken+14, '&'))) {
+								if ((pRefreshToken = strstr(pEnd + 1, "refresh_token=")) && (pEnd = strchr(pRefreshToken + 14, '&'))) {
 									*pEnd = 0;
-									pRefreshToken+=14;
+									pRefreshToken += 14;
 								}
 								replaceStr(authRefreshToken, pRefreshToken);
 
 								/* Extract expire time */
 								time(&authTokenExpiretime);
-								if ((pExpires = strstr(pEnd+1, "expires_in=")) && (pEnd=strchr(pExpires+11, '&'))) {
+								if ((pExpires = strstr(pEnd + 1, "expires_in=")) && (pEnd = strchr(pExpires + 11, '&'))) {
 									*pEnd = 0;
-									pExpires+=11;
-									authTokenExpiretime+=atoi(pExpires);
-								} else authTokenExpiretime+=86400;
+									pExpires += 11;
+									authTokenExpiretime += atoi(pExpires);
+								}
+								else authTokenExpiretime += 86400;
 
 								/* Copy auth Cookies to class for other web requests like contact list fetching to avoid ActiveSync */
 								mir_free(authCookies);
@@ -844,14 +844,15 @@ int CMsnProto::MSN_AuthOAuth(void)
 
 								int loginRet;
 								/* Do Login via Skype login server, if not possible switch to SkypeWebExperience login */
-								if ((loginRet = LoginSkypeOAuth(pRefreshToken))<1) {
-									if (loginRet<0) bLogin=true; else retVal = 0;
-								} else {
+								if ((loginRet = LoginSkypeOAuth(pRefreshToken)) < 1) {
+									if (loginRet < 0) bLogin = true; else retVal = 0;
+								}
+								else {
 									/* SkyLogin succeeded, request required tokens */
 									if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
 										replaceStr(authSSLToken, szToken);
 										replaceStr(authUser, MyOptions.szEmail);
-										authMethod=retVal=1;
+										authMethod = retVal = 1;
 									}
 								}
 								mir_free(authSkypeComToken); authSkypeComToken = NULL;
@@ -866,39 +867,43 @@ int CMsnProto::MSN_AuthOAuth(void)
 									nlhr.dataLength = (int)mir_strlen(nlhr.pData);
 									nlhr.szUrl = "https://skypewebexperience.live.com/v1/User/Initialization";
 									nlhr.nlc = hHttpsConnection;
-								
+
 									/* Request MappingContainer */
 									mHttpsTS = clock();
 									CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 									nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 									mHttpsTS = clock();
-									if (nlhrReply)  {
+									if (nlhrReply) {
 										hHttpsConnection = nlhrReply->nlc;
 
 										if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 											/* Parse JSON stuff for MappingContainer */
 											char *pMappingContainer;
 
-											if ((pMappingContainer = strstr(nlhrReply->pData, "\"MappingContainer\":\"")) && 
-												(pEnd=strchr(pMappingContainer+20, '"')))
-											{
+											if ((pMappingContainer = strstr(nlhrReply->pData, "\"MappingContainer\":\"")) &&
+												(pEnd = strchr(pMappingContainer + 20, '"'))) {
 												*pEnd = 0;
-												pMappingContainer+=20;
+												pMappingContainer += 20;
 												UrlDecode(pMappingContainer);
 												replaceStr(authUIC, pMappingContainer);
 												replaceStr(authUser, MyOptions.szEmail);
 												authMethod = retVal = 2;
-											} else retVal = 0;
-										} else retVal = 0;
-									} else hHttpsConnection = NULL;
+											}
+											else retVal = 0;
+										}
+										else retVal = 0;
+									}
+									else hHttpsConnection = NULL;
 								}
 							}
-					} else {
+						}
+					}
+					else {
 						/* There may be a problem with login, i.e. M$ security measures. Open up browser
 						 * window with same URL in order to let user correct this */
 						if (nlhrReply->resultCode == 200 && nlhrReply->pData && strstr(nlhrReply->pData, "ar/cancel")) {
 							url.Format("https://login.live.com/oauth20_authorize.srf?%s", pszPostParams);
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url.GetString());
+							Utils_OpenUrl(url);
 						}
 						hHttpsConnection = NULL;
 					}

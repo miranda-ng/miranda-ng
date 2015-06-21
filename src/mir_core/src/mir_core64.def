@@ -971,3 +971,5 @@ TimeZone_ToStringW @1128
 TimeZone_UtcToLocal @1129
 Utils_ResizeDialog @1130
 Utils_GetRandom @1131
+Utils_OpenUrl @1132
+Utils_OpenUrlW @1133

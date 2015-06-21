@@ -198,11 +198,9 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			TEXTRANGE tr;
 			tr.chrg = param->chrg;
 			tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
-			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
+			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
-			char *tmp = mir_t2a(tr.lpstrText);
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)tmp);
-			mir_free(tmp);
+			Utils_OpenUrlT(tr.lpstrText);
 			mir_free(tr.lpstrText);
 		}
 		return TRUE;

@@ -928,22 +928,15 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 									MessageBox(hwndDlg, TranslateT("Failed to set clipboard data"), MSG_BOX_TITEL, MB_OK);
 
 								CloseClipboard();
-							} else {
-								CallService(MS_UTILS_OPENURL, 0, (LPARAM)sLink.c_str());
 							}
-						} else {
-							MessageBox(hwndDlg, TranslateT("ListView_GetItem failed"), MSG_BOX_TITEL, MB_OK);
+							else Utils_OpenUrl(sLink.c_str());
 						}
-					} else {
-						MessageBox(hwndDlg, TranslateT("No share selected"), MSG_BOX_TITEL, MB_OK);
+						else MessageBox(hwndDlg, TranslateT("ListView_GetItem failed"), MSG_BOX_TITEL, MB_OK);
 					}
+					else MessageBox(hwndDlg, TranslateT("No share selected"), MSG_BOX_TITEL, MB_OK);
+
 					return TRUE;
 				}
-				/*
-				case IDCANCEL:
-				case IDOK:
-				DestroyWindow(hwndDlg);
-				return TRUE;*/
 			}
 			break;
 		}

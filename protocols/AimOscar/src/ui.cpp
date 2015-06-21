@@ -1090,7 +1090,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWAIMACCOUNTLINK) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.aim.com/redirects/inclient/register.adp");
+			Utils_OpenUrl("http://www.aim.com/redirects/inclient/register.adp");
 			return TRUE;
 		}
 

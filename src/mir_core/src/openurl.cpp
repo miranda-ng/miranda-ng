@@ -65,18 +65,14 @@ static void OpenURLThread(void *arg)
 	delete hUrlInfo;
 }
 
-static INT_PTR OpenURL(WPARAM wParam, LPARAM lParam)
+MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow)
 {
-	if (lParam == 0)
-		return 1;
-
-	TOpenUrlInfo *hUrlInfo = new TOpenUrlInfo((wParam & OUF_UNICODE) ? mir_wstrdup((WCHAR*)lParam) : mir_a2t((char*)lParam), wParam & OUF_NEWWINDOW);
-	forkthread(OpenURLThread, 0, hUrlInfo);
-	return 0;
+	if (pszUrl)
+		forkthread(OpenURLThread, 0, new TOpenUrlInfo(mir_a2t(pszUrl), bOpenInNewWindow));
 }
 
-int InitOpenUrl(void)
+MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow)
 {
-	CreateServiceFunction(MS_UTILS_OPENURL, OpenURL);
-	return 0;
+	if (pszUrl)
+		forkthread(OpenURLThread, 0, new TOpenUrlInfo(mir_wstrdup(pszUrl), bOpenInNewWindow));
 }

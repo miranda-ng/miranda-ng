@@ -172,15 +172,11 @@ void g_MenuUninit(void)
 	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_OPEN_PROFILE], 0);
 }
 
-
 INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM)
 {
-	DWORD dwUin = getContactUin(hContact);
-	char url[256];
-	mir_snprintf(url, _countof(url), "http://www.icq.com/people/%d",dwUin);
-	return CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url);
+	Utils_OpenUrl(CMStringA(FORMAT, "http://www.icq.com/people/%d", getContactUin(hContact)));
+	return 0;
 }
-
 
 int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {

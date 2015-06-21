@@ -71,9 +71,9 @@ void OpenAuthUrl(const char* url)
 		char str[256];
 		mir_snprintf(str, url, user); // XXX: fix me
 		mir_snprintf(str, "http://vi.miranda-ng.org/detail/%s", user);
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)str);
+		Utils_OpenUrl(str);
 	}
-	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://vi.miranda-ng.org/");
+	else Utils_OpenUrl("http://vi.miranda-ng.org/");
 }
 
 void CreateAuthString(char* auth)

@@ -522,7 +522,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		if (HIWORD(wParam) == STN_CLICKED) {
 			switch (LOWORD(wParam)) {
 			case IDC_GETMOREPLUGINS:
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM) "http://miranda-ng.org/downloads/");
+				Utils_OpenUrl("http://miranda-ng.org/downloads/");
 				break;
 
 			case IDC_PLUGINEMAIL:
@@ -531,7 +531,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				char *p = &buf[7];
 				mir_strcpy(buf, "mailto:");
 				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), p, _countof(buf) - 7))
-					CallService(MS_UTILS_OPENURL, 0, (LPARAM)(LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p));
+					Utils_OpenUrl(LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p);
 				break;
 			}
 		}

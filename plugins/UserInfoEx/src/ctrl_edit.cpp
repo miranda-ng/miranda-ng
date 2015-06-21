@@ -31,14 +31,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	This static method returns the pointer of the created object.
  **/
+
 CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE dbType)
 {
-	CEditCtrl *ctrl = NULL;
-
-	ctrl = new CEditCtrl(hDlg, idCtrl, USERINFO, pszSetting);
-	if (ctrl) {
+	CEditCtrl *ctrl = new CEditCtrl(hDlg, idCtrl, USERINFO, pszSetting);
+	if (ctrl)
 		ctrl->_dbType = dbType;
-	}
+
 	return (ctrl);
 }
 
@@ -53,15 +52,14 @@ CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE 
  *
  * @return	This static method returns the pointer of the created object.
  **/
+
 CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, BYTE dbType)
 {
-	CEditCtrl *ctrl = NULL;
-
-	ctrl = new CEditCtrl(hDlg, idCtrl, pszModule, pszSetting);
-	if (ctrl) {
+	CEditCtrl *ctrl = new CEditCtrl(hDlg, idCtrl, pszModule, pszSetting);
+	if (ctrl)
 		ctrl->_dbType = dbType;
-	}
-	return (ctrl);
+
+	return ctrl;
 }
 
 /**
@@ -105,22 +103,21 @@ void CEditCtrl::OnReset()
  *
  * @return	nothing
  **/
+
 BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
-	if (!_Flags.B.hasChanged)
-	{
+	if (!_Flags.B.hasChanged) {
 		DBVARIANT dbv;
 		TCHAR szText[64];
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
-	
-		EnableWindow(_hwnd, 
-			!hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));	
+
+		EnableWindow(_hwnd,
+			!hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));
 
 		MIR_FREE(_pszValue);
-		switch (dbv.type) 
-		{
+		switch (dbv.type) {
 		case DBVT_BYTE:
 			_itot_s(dbv.bVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
@@ -140,13 +137,12 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			break;
 
 		case DBVT_TCHAR:
-			if (dbv.ptszVal)
-			{
+			if (dbv.ptszVal) {
 				SetWindowText(_hwnd, dbv.ptszVal);
 				_pszValue = dbv.ptszVal;
 				break;
 			}
-		
+
 		default:
 			SetWindowText(_hwnd, _T(""));
 			db_free(&dbv);
@@ -165,27 +161,23 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
+
 void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 {
-	if (_Flags.B.hasChanged)
-	{
+	if (_Flags.B.hasChanged) {
 		const char* pszModule = hContact ? _pszModule : pszProto;
 
-		if (_Flags.B.hasCustom || !hContact)
-		{
+		if (_Flags.B.hasCustom || !hContact) {
 			DWORD cch = GetWindowTextLength(_hwnd);
 
-			if (cch > 0)
-			{
+			if (cch > 0) {
 				LPTSTR val = (LPTSTR)mir_alloc((cch + 1) * sizeof(TCHAR));
 
-				if (GetWindowText(_hwnd, val, cch + 1) > 0) 
-				{
+				if (GetWindowText(_hwnd, val, cch + 1) > 0) {
 					DBVARIANT dbv;
 
 					dbv.type = _dbType;
-					switch (_dbType) 
-					{
+					switch (_dbType) {
 					case DBVT_BYTE:
 						dbv.bVal = (BYTE)_tcstol(val, NULL, 10);
 						break;
@@ -206,17 +198,14 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 						dbv.type = DBVT_DELETED;
 
 					}
-					if (dbv.type != DBVT_DELETED)
-					{
-						if (!db_set(hContact, pszModule, _pszSetting, &dbv))
-						{
-							if (!hContact)
-							{
+					if (dbv.type != DBVT_DELETED) {
+						if (!db_set(hContact, pszModule, _pszSetting, &dbv)) {
+							if (!hContact) {
 								_Flags.B.hasCustom = 0;
 								_Flags.B.hasProto = 1;
 							}
 							_Flags.B.hasChanged = 0;
-							
+
 							// save new value
 							MIR_FREE(_pszValue);
 							_pszValue = val;
@@ -227,14 +216,13 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 				MIR_FREE(val);
 			}
 		}
-		if (_Flags.B.hasChanged)
-		{
+		if (_Flags.B.hasChanged) {
 			db_unset(hContact, pszModule, _pszSetting);
 
 			_Flags.B.hasChanged = 0;
 
 			OnInfoChanged(hContact, pszProto);
-		}			
+		}
 		InvalidateRect(_hwnd, NULL, TRUE);
 	}
 }
@@ -246,8 +234,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
  **/
 void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 {
-	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE))
-	{
+	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE)) {
 		const int	cch = GetWindowTextLength(_hwnd);
 
 		_Flags.B.hasChanged = mir_tstrlen(_pszValue) != cch;
@@ -256,13 +243,11 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 		if (!_Flags.B.hasChanged && _Flags.B.hasCustom) {
 			BYTE		need_free = 0;
 			LPTSTR		szText;
-		
-			__try 
-			{
+
+			__try {
 				szText = (LPTSTR)alloca((cch + 1) * sizeof(TCHAR));
 			}
-			__except(EXCEPTION_EXECUTE_HANDLER) 
-			{
+			__except (EXCEPTION_EXECUTE_HANDLER) {
 				szText = (LPTSTR)mir_alloc((cch + 1) * sizeof(TCHAR));
 				need_free = 1;
 			}
@@ -272,9 +257,8 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 				_Flags.B.hasChanged = mir_tstrcmp(_pszValue, szText);
 				if (need_free)
 					MIR_FREE(szText);
-			} else {
-				_Flags.B.hasChanged = 0;
 			}
+			else _Flags.B.hasChanged = 0;
 		}
 		InvalidateRect(_hwnd, NULL, TRUE);
 
@@ -292,74 +276,61 @@ void CEditCtrl::OpenUrl()
 	LPTSTR szUrl;
 	BYTE need_free = 0;
 
-	__try 
-	{
+	__try {
 		szUrl = (LPTSTR)alloca((8 + lenUrl) * sizeof(TCHAR));
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER) 
-	{
+	__except (EXCEPTION_EXECUTE_HANDLER) {
 		szUrl = (LPTSTR)mir_alloc((8 + lenUrl) * sizeof(TCHAR));
 		need_free = 1;
 	}
+
 	if (szUrl && (GetWindowText(_hwnd, szUrl, lenUrl) > 0))
-	{
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szUrl);
-	}
+		Utils_OpenUrlT(szUrl);
+
 	if (need_free)
-	{
 		MIR_FREE(szUrl);
-	}
 }
 
 LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 {
 	if (lnk == NULL)
 		return FALSE;
-	switch (lnk->msg)
-	{
+	
+	switch (lnk->msg) {
 	case WM_SETCURSOR:
-		{
-			SetCursor(LoadCursor(NULL, IDC_HAND));
-			SetWindowLongPtr(GetParent(_hwnd), DWLP_MSGRESULT, TRUE);
-		}
+		SetCursor(LoadCursor(NULL, IDC_HAND));
+		SetWindowLongPtr(GetParent(_hwnd), DWLP_MSGRESULT, TRUE);
 		return TRUE;
 
-	case WM_LBUTTONUP: 
-		{
-			TEXTRANGE tr;
-			BYTE need_free = 0;
+	case WM_LBUTTONUP:
+		TEXTRANGE tr;
+		BYTE need_free = 0;
 
-			// do not call function if user selected some chars of the url string
-			SendMessage(_hwnd, EM_EXGETSEL, NULL, (LPARAM) &tr.chrg);
-			if (tr.chrg.cpMax == tr.chrg.cpMin)
-			{
-				// retrieve the url string
-				tr.chrg = lnk->chrg;
+		// do not call function if user selected some chars of the url string
+		SendMessage(_hwnd, EM_EXGETSEL, NULL, (LPARAM)&tr.chrg);
+		if (tr.chrg.cpMax == tr.chrg.cpMin) {
+			// retrieve the url string
+			tr.chrg = lnk->chrg;
 
-				__try 
-				{
-					tr.lpstrText = (LPTSTR)alloca((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
-				}
-				__except(EXCEPTION_EXECUTE_HANDLER) 
-				{
-					tr.lpstrText = (LPTSTR)mir_alloc((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
-					need_free = 1;
-				}
-				if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0))
-				{
-					if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) 
-					{
-							memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
-							memcpy(tr.lpstrText, _T("mailto:"), (7*sizeof(TCHAR)));
-					}
-
-					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tr.lpstrText);
-				}
-				if (need_free)
-				{
-					MIR_FREE(tr.lpstrText);
-				}
+			__try {
+				tr.lpstrText = (LPTSTR)alloca((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
 			}
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{
+				tr.lpstrText = (LPTSTR)mir_alloc((tr.chrg.cpMax - tr.chrg.cpMin + 8) * sizeof(TCHAR));
+				need_free = 1;
+			}
+			if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0)) {
+				if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
+					memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
+					memcpy(tr.lpstrText, _T("mailto:"), (7 * sizeof(TCHAR)));
+				}
+
+				Utils_OpenUrlT(tr.lpstrText);
+			}
+
+			if (need_free)
+				MIR_FREE(tr.lpstrText);
 		}
 	}
 	return FALSE;

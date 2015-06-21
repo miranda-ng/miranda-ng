@@ -944,7 +944,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 		hippy.AppendFormat("/ppsecure/sha1auth.srf?lc=%d&token=%s", itoa(langpref, passport, 10), ptrA(mir_urlEncode(post)));
 
 		debugLogA("Starting URL: '%s'", hippy);
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)hippy.GetString());
+		Utils_OpenUrl(hippy.GetString());
 	}
 }
 
@@ -984,7 +984,7 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					tData->proto->MsnInvokeMyURL(true, tData->url);
 			}
 			else if (tData->url != NULL)
-				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)tData->url);
+				Utils_OpenUrl(tData->url);
 		}
 		PUDeletePopup(hWnd);
 		break;

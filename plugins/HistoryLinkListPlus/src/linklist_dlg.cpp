@@ -104,7 +104,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (((LPNMHDR)lParam)->code != EN_LINK)
 			break;
 		LPTSTR link;
-		BYTE openNewWindow, mouseEvent;
+		BYTE mouseEvent;
 		ENLINK *pENLink = (ENLINK*)lParam;
 
 		mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
@@ -123,16 +123,11 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg); 
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
-			if (_tcsstr(link, _T("mailto:")) != NULL) {
+			if (_tcsstr(link, _T("mailto:")) != NULL)
 				ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
-			} else {
-				openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
-				if (openNewWindow == 0xFF)
-					openNewWindow = 0;
-				else
-					openNewWindow = OUF_NEWWINDOW;
-
-				CallService(MS_UTILS_OPENURL, openNewWindow | OUF_TCHAR, (LPARAM)link);
+			else {
+				bool openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
+				Utils_OpenUrlT(link);
 			}
 			mir_free(link);
 			break;
@@ -162,13 +157,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (_tcsstr(link, _T("mailto:")) != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
-					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)link);
+					Utils_OpenUrlT(link);
 				break;
 			case IDM_LINK_OPENNEW:
 				if (_tcsstr(link, _T("mailto:")) != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
-					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)link);
+					Utils_OpenUrlT(link);
 				break;
 			case IDM_LINK_COPY: {
 				size_t dataLen;

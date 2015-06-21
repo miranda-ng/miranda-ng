@@ -1067,7 +1067,7 @@ void COtherPrefsDlg::OnInitDialog()
 
 void COtherPrefsDlg::OnUrl(CCtrlButton*)
 {
-	CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://members.chello.se/matrix/index.html");
+	Utils_OpenUrl("http://members.chello.se/matrix/index.html");
 }
 
 void COtherPrefsDlg::OnPerformCombo(CCtrlData*)

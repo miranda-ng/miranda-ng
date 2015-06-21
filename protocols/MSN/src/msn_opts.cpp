@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWMSNACCOUNTLINK) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"https://signup.live.com");
+			Utils_OpenUrl("https://signup.live.com");
 			return TRUE;
 		}
 
@@ -531,7 +531,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWMSNACCOUNTLINK) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"https://signup.live.com");
+			Utils_OpenUrl("https://signup.live.com");
 			return TRUE;
 		}
 

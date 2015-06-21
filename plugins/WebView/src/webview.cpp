@@ -183,8 +183,8 @@ int Doubleclick(WPARAM wParam, LPARAM lParam)
 
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
 	if (action == 0) {
-		ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
-		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (WPARAM)url);
+		ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
+		Utils_OpenUrlT(url);
 
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
 	}
@@ -456,9 +456,9 @@ int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
-	ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
+	ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
 	if (url)
-		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
+		Utils_OpenUrlT(url);
 
 	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE); 
 	return 0;

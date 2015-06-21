@@ -553,11 +553,10 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) 
-		{
+		switch(LOWORD(wParam)) {
 		case IDC_STEP1:
 			// update current data
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://miranda-ng.org/"));
+			Utils_OpenUrl("http://miranda-ng.org/");
 			break;
 
 		case IDC_STEP2: 

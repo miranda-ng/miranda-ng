@@ -28,9 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 
-int  InitOpenUrl(void);
 int  InitPathUtils(void);
-void InitXmlApi(void);
 
 int  InitCrypt(void);
 void UninitCrypt(void);
@@ -352,7 +350,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
-	InitOpenUrl();
 	InitPathUtils();
 	InitCrypt();
 	return 0;

@@ -696,10 +696,10 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcOpenBroadcast");
+
 	CMString tszAudio(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl")));
-	
 	if (!tszAudio.IsEmpty())
-		CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszAudio.GetBuffer());
+		Utils_OpenUrlT(tszAudio);
 	
 	return 0;
 }
@@ -709,14 +709,13 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	debugLogA("CVkProto::SvcVisitProfile");
 	LONG userID = getDword(hContact, "ID", -1);
 	ptrT tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
-	CMString tszUrl("https://vk.com/");
 
+	CMString tszUrl("https://vk.com/");
 	if (tszDomain)
 		tszUrl.Append(tszDomain);
 	else
 		tszUrl.AppendFormat(_T("id%i"), userID);
 	
-	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszUrl.GetBuffer());
-	
+	Utils_OpenUrlT(tszUrl);
 	return 0;
 }

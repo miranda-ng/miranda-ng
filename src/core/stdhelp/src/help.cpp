@@ -41,19 +41,19 @@ static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 
 static INT_PTR IndexCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://wiki.miranda-ng.org"));
+	Utils_OpenUrl("http://wiki.miranda-ng.org");
 	return 0;
 }
 
 static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://miranda-ng.org"));
+	Utils_OpenUrl("http://miranda-ng.org");
 	return 0;
 }
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://trac.miranda-ng.org/newticket"));
+	Utils_OpenUrl("http://trac.miranda-ng.org/newticket");
 	return 0;
 }
 

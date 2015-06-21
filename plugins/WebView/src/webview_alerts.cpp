@@ -41,13 +41,13 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					PUDeletePopup(hWnd);
 				}
 				// open url
-				if ( db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
-					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
+				if (db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
+					Utils_OpenUrlT(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
 				// dismiss
-				if ( db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1))
+				if (db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1))
 					PUDeletePopup(hWnd);
 			}	
 			else if (hContact == NULL)
@@ -56,14 +56,14 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		else if (message == WM_CONTEXTMENU) { // right click
 			if (hContact != NULL) {   
 				// open datA window
-				if ( db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0)) {
+				if (db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0)) {
 					NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
 					mir_forkthread(GetData, (void*)hContact);
 					PUDeletePopup(hWnd);
 				}
 				// open url
-				if ( db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
-					CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
+				if (db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
+					Utils_OpenUrlT(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}

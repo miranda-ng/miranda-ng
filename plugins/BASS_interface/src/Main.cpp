@@ -301,7 +301,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_GETBASS:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.un4seen.com/");
+			Utils_OpenUrl("http://www.un4seen.com/");
 			break;
 		}
 		break;

@@ -335,7 +335,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://miranda-ng.org/addons/category/14");
+			Utils_OpenUrl("http://miranda-ng.org/addons/category/14");
 			break;
 		}
 		if (LOWORD(wParam) == IDC_LOCATION)

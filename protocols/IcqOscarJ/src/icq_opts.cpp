@@ -107,11 +107,11 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_LOOKUPLINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)URL_FORGOT_PASSWORD);
+			Utils_OpenUrl(URL_FORGOT_PASSWORD);
 			return TRUE;
 
 		case IDC_NEWUINLINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)URL_REGISTER);
+			Utils_OpenUrl(URL_REGISTER);
 			return TRUE;
 
 		case IDC_RESETSERVER:

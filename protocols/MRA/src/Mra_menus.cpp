@@ -21,7 +21,7 @@ INT_PTR CMraProto::MraEditProfile(WPARAM, LPARAM)
 
 INT_PTR CMraProto::MraWebSearch(WPARAM, LPARAM)
 {
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_SEARCH_URL);
+	Utils_OpenUrl(MRA_SEARCH_URL);
 	return 0;
 }
 

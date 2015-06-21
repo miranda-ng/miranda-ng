@@ -2562,20 +2562,16 @@ LABEL_SHOWWINDOW:
 						break;
 
 					case ID_SEARCH_GOOGLE:
-						if (pszWord[0]) {
-							TCHAR szURL[4096];
-							mir_sntprintf(szURL, _countof(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
-						}
+						if (pszWord[0])
+							Utils_OpenUrlT(CMString(FORMAT, _T("http://www.google.com/search?q=%s"), pszWord));
+
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
 
 					case ID_SEARCH_WIKIPEDIA:
-						if (pszWord[0]) {
-							TCHAR szURL[4096];
-							mir_sntprintf(szURL, _countof(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)szURL);
-						}
+						if (pszWord[0])
+							Utils_OpenUrlT(CMString(FORMAT, _T("http://en.wikipedia.org/wiki/%s"), pszWord));
+
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
 
@@ -2633,10 +2629,10 @@ LABEL_SHOWWINDOW:
 								ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case ID_NEW:
-									CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tr.lpstrText);
+									Utils_OpenUrlT(tr.lpstrText);
 									break;
 								case ID_CURR:
-									CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
+									Utils_OpenUrlT(tr.lpstrText);
 									break;
 								case ID_COPY:
 									Utils::CopyToClipBoard(tr.lpstrText, hwndDlg);
@@ -2647,7 +2643,7 @@ LABEL_SHOWWINDOW:
 								return TRUE;
 							}
 							if (((ENLINK*)lParam)->msg == WM_LBUTTONUP) {
-								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tr.lpstrText);
+								Utils_OpenUrlT(tr.lpstrText);
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 								mir_free(tr.lpstrText);
 								return TRUE;

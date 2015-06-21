@@ -40,31 +40,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_string.h>
 #endif
 
-//this entire module is v0.1.0.1+
-//this module cannot be redefined by a plugin, because it's not useful for it
-//to be possible
-//There are some more utility services in the database for dealing with time
-//and simple string scrambling, but they are very db-orientated
+/////////////////////////////////////////////////////////////////////////////////////////
+// Opens a URL in the user's default web browser
+//
+// bOpenInNewWindow should be zero to open the URL in the browser window the user
+// last used, or nonzero to open in a new browser window. If there's no browser
+// running, one will be opened to show the URL.
 
-/* Opens a URL in the user's default web browser   v0.1.0.1+
-wParam = OUF_* flags
-lParam = (LPARAM)(const TCHAR*)szUrl
-returns 0 always
-bOpenInNewWindow should be zero to open the URL in the browser window the user
-last used, or nonzero to open in a new browser window. If there's no browser
-running, one will be opened to show the URL.
-*/
+EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow = true);
+EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow = true);
 
-#define OUF_NEWWINDOW   1
-#define OUF_UNICODE     2
-
-#if defined( _UNICODE )
-	#define OUF_TCHAR OUF_UNICODE
-#else
-	#define OUF_TCHAR 0
-#endif
-
-#define MS_UTILS_OPENURL	"Utils/OpenURL"
+#define Utils_OpenUrlT Utils_OpenUrlW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual

@@ -53,7 +53,7 @@ INT_PTR CALLBACK ModernOptHome_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	case WM_COMMAND:
 		switch ( LOWORD(wParam)) {
 		case IDC_BTN_HELP:
-			CallService(MS_UTILS_OPENURL,OUF_TCHAR,(LPARAM)_T("http://miranda-ng.org/"));
+			Utils_OpenUrl("http://miranda-ng.org/");
 			break;
 
 		default:

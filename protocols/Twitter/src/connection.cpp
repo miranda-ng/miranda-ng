@@ -497,10 +497,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_COMMAND:
 		// Get the plugin data (we need the Popup service to do it)
 		url = (std::string *)PUGetPluginData(hwnd);
-		if (url != NULL) {
-			//std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, reinterpret_cast<LPARAM>(url->c_str()));
-		}
+		if (url != NULL)
+			Utils_OpenUrl(url->c_str());
+
 		// Intentionally no break here
 
 	case WM_CONTEXTMENU:

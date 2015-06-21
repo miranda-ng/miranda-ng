@@ -231,7 +231,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			{
 				struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[dat->iPage];
 				if (obj->optObject.lpzHelpUrl)
-					CallService(MS_UTILS_OPENURL,0,(LPARAM)obj->optObject.lpzHelpUrl);
+					Utils_OpenUrl(obj->optObject.lpzHelpUrl);
 			}
 			break;
 

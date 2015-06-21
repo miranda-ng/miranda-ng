@@ -351,7 +351,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 		char *szMsgURL = (char *)mir_alloc(i + 1);
 		if (szMsgURL) {
 			mir_strncpy(szMsgURL, szURL, i + 1);
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szMsgURL);
+			Utils_OpenUrl(szMsgURL);
 			mir_free(szMsgURL);
 		}
 	}

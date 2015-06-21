@@ -70,7 +70,7 @@ static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR szUrl = Get(wParam);
 	if (szUrl) {
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
+		Utils_OpenUrl(szUrl);
 		mir_free(szUrl);
 	}
 	else MessageBox((HWND)lParam, TranslateT("User has no valid homepage"), TranslateT("View Homepage"), MB_OK);
