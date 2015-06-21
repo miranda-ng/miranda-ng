@@ -230,11 +230,11 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableDlgItem(hwndDlg, IDC_KONFIG_3, TRUE);
 		}
 		if (LOWORD(wParam) == IDC_URLNEWACC) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.xfire.com/register/");
+			Utils_OpenUrl("http://www.xfire.com/register/");
 			return TRUE;
 		}
 		if (LOWORD(wParam) == IDC_LOSTPW) {
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"https://secure.xfire.com/lost_password/");
+			Utils_OpenUrl("https://secure.xfire.com/lost_password/");
 			return TRUE;
 		}
 

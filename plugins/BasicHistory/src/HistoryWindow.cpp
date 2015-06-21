@@ -526,7 +526,7 @@ void ClickLink(HWND hwnd, ENLINK *penLink)
 			tr.chrg = penLink->chrg;
 			tr.lpstrText = buf;
 			SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-			CallService(MS_UTILS_OPENURL, (penLink->nmhdr.code == IDM_OPENNEW ? OUF_NEWWINDOW : 0) | OUF_TCHAR, (LPARAM) tr.lpstrText);
+			Utils_OpenUrlT(tr.lpstrText, penLink->nmhdr.code == IDM_OPENNEW);
 		}
 	}
 }

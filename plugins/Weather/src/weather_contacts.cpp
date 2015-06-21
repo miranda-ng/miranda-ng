@@ -25,20 +25,18 @@ the contact.
 
 #include "weather.h"
 
-static void OpenUrl( TCHAR* format, TCHAR* id )
+static void OpenUrl(TCHAR* format, TCHAR* id)
 {
 	TCHAR loc[512];
-
-	GetID( id );
+	GetID(id);
 	mir_sntprintf(loc, _countof(loc), format, id);
-	
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)loc );
+	Utils_OpenUrlT(loc);
 }
 
 //============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
-
 // view weather log for the contact
 // wParam = current contact
+
 INT_PTR ViewLog(WPARAM wParam, LPARAM lParam) 
 {
 	// see if the log path is set
@@ -56,6 +54,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 
 // read complete forecast
 // wParam = current contact
+
 INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam) 
 {
 	TCHAR id[256], loc2[256];

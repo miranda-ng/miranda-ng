@@ -69,7 +69,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_WIN_INBOX_URL                    "https://win.mail.ru/cgi-bin/start"
 #define MRA_PDA_INBOX_URL                    "http://pda.mail.ru/cgi-bin/start"
 #define MRA_EDIT_PROFILE_URL                 "https://win.mail.ru/cgi-bin/userinfo?mra=1"
-#define MRA_SEARCH_URL                       _T("http://go.mail.ru")
+#define MRA_SEARCH_URL                       "http://go.mail.ru"
 
 // used spesialy! added: /domain/user
 #define MRA_BLOGS_URL                        "http://blogs.mail.ru"
@@ -79,8 +79,8 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_WORLD_URL                        "http://my.mail.ru"
 
 // without auth
-#define MRA_REGISTER_URL                     _T("https://win.mail.ru/cgi-bin/signup")
-#define MRA_FORGOT_PASSWORD_URL              _T("https://win.mail.ru/cgi-bin/passremind")
+#define MRA_REGISTER_URL                     "https://win.mail.ru/cgi-bin/signup"
+#define MRA_FORGOT_PASSWORD_URL              "https://win.mail.ru/cgi-bin/passremind"
 
 
 // wParam = hContact

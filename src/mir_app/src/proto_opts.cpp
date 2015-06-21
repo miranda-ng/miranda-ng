@@ -913,7 +913,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_LNK_ADDONS:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://miranda-ng.org/");
+			Utils_OpenUrl("http://miranda-ng.org/");
 			break;
 
 		case IDOK:

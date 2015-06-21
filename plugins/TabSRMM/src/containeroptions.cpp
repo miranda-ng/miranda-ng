@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		}
 
 		case IDC_O_HELP_TITLEFORMAT:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)_T("http://miranda.or.at/TabSRMM/TitleBarFormatting"));
+			Utils_OpenUrl("http://miranda.or.at/TabSRMM/TitleBarFormatting");
 			break;
 
 		case IDOK:

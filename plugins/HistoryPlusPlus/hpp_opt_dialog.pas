@@ -255,7 +255,7 @@ begin
     WM_COMMAND: begin
       case LoWord(wParam) of
         ID_NEEDOPTIONS_LINK: begin
-          CallService(MS_UTILS_OPENURL,TWPARAM(True),TLPARAM(PAnsiChar(URL_NEEDOPTIONS)));
+          Utils_OpenUrl(URL_NEEDOPTIONS);
           Result := 1;
         end;
       else

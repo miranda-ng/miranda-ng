@@ -110,7 +110,7 @@ void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 	size_t size = mir_strlen(TOKEN_AUTH_URL) + 1 + mir_strlen(encodedToken) + mir_strlen(encodedUrl);
 	LPSTR composedUrl = (LPSTR)alloca(size);
 	mir_snprintf(composedUrl, size, TOKEN_AUTH_URL, encodedToken, encodedUrl);
-	CallService(MS_UTILS_OPENURL, 0, (LPARAM)composedUrl);
+	Utils_OpenUrl(composedUrl);
 }
 
 BOOL AuthAndOpen(HANDLE hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
@@ -151,7 +151,7 @@ void OpenUrlThread(void *param)
 
 	HANDLE hUser = FindNetUserHandle(data->acc);
 	if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
-		CallService(MS_UTILS_OPENURL, 0, (LPARAM)data->url);
+		Utils_OpenUrl(data->url);
 	free(data);
 }
 
@@ -196,17 +196,11 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	return TRUE;
 }
 
-static void ShellExecuteThread(PVOID param)
-{
-	CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)param);
-	mir_free(param);
-}
-
 void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 {
 	extern DWORD itlsSettings;
 	if (!ReadCheckbox(0, IDC_AUTHONMAILBOX, (DWORD)TlsGetValue(itlsSettings)) || !OpenUrlWithAuth(acc, mailbox, url))
-		mir_forkthread(ShellExecuteThread, mir_tstrdup(url));
+		Utils_OpenUrlT(url);
 }
 
 void OpenContactInbox(LPCSTR szModuleName)

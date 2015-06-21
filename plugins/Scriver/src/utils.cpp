@@ -400,7 +400,7 @@ void SearchWord(TCHAR * word, int engine)
 			break;
 		}
 
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szURL);
+		Utils_OpenUrl(szURL);
 	}
 }
 

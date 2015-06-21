@@ -64,24 +64,19 @@ type
     ISOcode: array [0..2] of AnsiChar;
   end;
 
-const
-  OUF_NEWWINDOW = 1;
-  OUF_UNICODE   = 2;
   {
-    wParam : OUF_* flag
-    lParam : Pointer to a null terminated string containing Url
     Affect : Open a URL in the user's default web browser, see notes
-    Returns: 0 on success, [non zero on failure]
     Notes  : bOpenInWindow should be zero to open the URL in the browoser window
              the user last used, or nonzero to open in a new browser window,
              if there's no browser running, it will be started to show the URL
-    Version: v0.1.0.1+
   }
-  MS_UTILS_OPENURL:PAnsiChar = 'Utils/OpenURL';
 
+procedure Utils_OpenUrl(const url:PAnsiChar; bOpenInWindow:BYTE=1); stdcall;
+                 external CoreDLL name 'Utils_OpenUrl';
+
+procedure Utils_OpenUrlW(const url:PWideChar; bOpenInWindow:BYTE=1); stdcall;
+                 external CoreDLL name 'Utils_OpenUrlW';
   {
-    wParam : 0
-    lParam : Pointer to an initalised TUTILRESIZEDIALOG structure
     Affect : Resize a dialog by calling a custom routine to move each control, see notes
     Returns: 0 on success, [non zero] on failure
     Notes  : Does not support DIALOGTEMPLATEEX dialogboxes, and will return

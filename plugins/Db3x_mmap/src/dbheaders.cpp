@@ -81,7 +81,7 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 						RegCloseKey(hPathSetting);
 					}
 
-					CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later"));
+					Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later");
 					Sleep(1000);
 					exit(0);
 				}

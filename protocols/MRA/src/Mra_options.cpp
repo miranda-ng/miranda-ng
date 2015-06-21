@@ -20,11 +20,11 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_REGISTER_URL);
+			Utils_OpenUrl(MRA_REGISTER_URL);
 			return TRUE;
 
 		case IDC_LOOKUPLINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_FORGOT_PASSWORD_URL);
+			Utils_OpenUrl(MRA_FORGOT_PASSWORD_URL);
 			return TRUE;
 		}
 		if ((LOWORD(wParam) == IDC_LOGIN || LOWORD(wParam) == IDC_PASSWORD) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
@@ -71,7 +71,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_REGISTER_URL);
+			Utils_OpenUrl(MRA_REGISTER_URL);
 			return TRUE;
 		}
 		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {

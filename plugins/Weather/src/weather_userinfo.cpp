@@ -288,14 +288,14 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			LPNMHDR pNmhdr = (LPNMHDR)lParam;
 			if (pNmhdr->idFrom == IDC_MTEXT && pNmhdr->code == EN_LINK) {
-				ENLINK *enlink = (ENLINK *) lParam;
+				ENLINK *enlink = (ENLINK *)lParam;
 				switch (enlink->msg) {
 				case WM_LBUTTONUP:
 					TEXTRANGE tr;
 					tr.chrg = enlink->chrg;
-					tr.lpstrText = ( LPTSTR )mir_alloc( sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
+					tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM) tr.lpstrText);
+					Utils_OpenUrlT(tr.lpstrText);
 					mir_free(tr.lpstrText);
 					break;
 				}

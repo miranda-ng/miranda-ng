@@ -1400,7 +1400,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				const wchar_t *wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
 				if (wszUrl) {
-					CallService(MS_UTILS_OPENURL, OUF_UNICODE, (LPARAM)wszUrl);
+					Utils_OpenUrlW(wszUrl);
 					mir_free(const_cast<TCHAR *>(wszUrl));
 				}
 			}

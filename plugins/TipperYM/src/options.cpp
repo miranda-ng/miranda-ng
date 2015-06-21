@@ -1840,7 +1840,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					else if (LOWORD(wParam) == IDC_CHK_LOADPROPORTIONS)
 						opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
 					else if (LOWORD(wParam) == IDC_BTN_GETSKINS)
-						CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://miranda-ng.org/addons/category/48");
+						Utils_OpenUrl("http://miranda-ng.org/addons/category/48");
 
 					break;
 				}

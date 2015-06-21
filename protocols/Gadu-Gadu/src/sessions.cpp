@@ -347,7 +347,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						szIP[0] = 0;
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 						mir_sntprintf(szUrl, _countof(szUrl), _T("http://whois.domaintools.com/%s"), szIP);
-						CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)szUrl); 
+						Utils_OpenUrlT(szUrl);
 						break;
 					}
 				}

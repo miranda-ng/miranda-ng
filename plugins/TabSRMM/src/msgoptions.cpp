@@ -331,7 +331,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_HELP_GENERAL:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/UsingSkins");
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/UsingSkins");
 			break;
 
 		case IDC_SKIN_CLOSENOW:
@@ -594,7 +594,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_HELP_GENERAL:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/GeneralSettings");
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/GeneralSettings");
 			break;
 
 		case IDC_RESETWARNINGS:
@@ -953,7 +953,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
 			break;
 		case IDC_MTN_HELP:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/TypingNotifications");
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/TypingNotifications");
 			return 0;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1123,7 +1123,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
 			break;
 		case IDC_HELP_CONTAINERS:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/Containers");
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/Containers");
 			break;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1203,7 +1203,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PLUS_HELP) {
-			CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/AdvancedTweaks");
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/AdvancedTweaks");
 			break;
 		}
 		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...

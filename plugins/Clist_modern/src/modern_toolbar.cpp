@@ -349,7 +349,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 	if (!ServiceExists(MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
 		if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
-			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
+			Utils_OpenUrl(szUrl);
 
 	return 0;
 }

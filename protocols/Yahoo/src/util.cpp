@@ -79,7 +79,7 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 		if (HIWORD(wParam) == STN_CLICKED) {
 			char *szURL = (char*)PUGetPluginData(hWnd);
 			if (szURL != NULL)
-				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szURL);
+				Utils_OpenUrl(szURL);
 
 			PUDeletePopup(hWnd);
 			return 0;

@@ -147,7 +147,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_REGISTERACCOUNT:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)TLEN_REGISTER);
+			Utils_OpenUrl(TLEN_REGISTER);
 			break;
 		}
 		break;
@@ -282,7 +282,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			MarkChanges(1, hwndDlg);
 			break;
 		case IDC_REGISTERACCOUNT:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM) TLEN_REGISTER);
+			Utils_OpenUrl(TLEN_REGISTER);
 			break;
 		case IDC_OFFLINE_MESSAGE_OPTION:
 		case IDC_ALERT_POLICY:

@@ -68,7 +68,7 @@ DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStr
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
 	if (!getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS) || !m_bLoggedIn) { /* Open without web auth. / Not loggedIn. */
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)lpszUrl.c_str());
+		Utils_OpenUrl(lpszUrl);
 		return NO_ERROR;
 	}
 	/* Add to queue. */
@@ -128,7 +128,7 @@ void CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 				pmpsqMPopSessionQueue->bKeyValid = false;
 				szEmail.MakeLower();
 				szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
-				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl.c_str());
+				Utils_OpenUrl(szUrl);
 				debugLogA("Opening URL: %s\n", szUrl);
 			}
 			mir_free(pmpsqi);
@@ -145,7 +145,7 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
 	while (FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
-		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)pmpsqi->lpszUrl);
+		Utils_OpenUrl(pmpsqi->lpszUrl);
 		mir_free(pmpsqi);
 	}
 }

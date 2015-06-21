@@ -84,7 +84,7 @@ int GetRandom(int from, int to)
 	if ((to - from) < 1)
 		return from;
 	unsigned randnum;
-	CallService(MS_UTILS_GETRANDOM, sizeof(randnum), (LPARAM)&randnum);
+	Utils_GetRandom(&randnum, sizeof(randnum));
 	return ((randnum % (to - from + 1)) + from);
 }
 

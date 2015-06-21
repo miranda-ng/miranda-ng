@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					memcpy(tr.lpstrText, "mailto:", 7);
 				}
 
-				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
+				Utils_OpenUrl(tr.lpstrText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_DATA));
 
 				free(tr.lpstrText);
@@ -338,7 +338,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 		case IDC_OPEN_URL:
 			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, _countof(url));
-			CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);  
+			Utils_OpenUrlT(url);  
 			db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;
 

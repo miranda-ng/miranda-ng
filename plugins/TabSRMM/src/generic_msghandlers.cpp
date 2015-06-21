@@ -626,8 +626,9 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			return TRUE;
+		
 		case IDC_SUPPORT:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://miranda.or.at/");
+			Utils_OpenUrl("http://miranda.or.at/");
 			break;
 		}
 		break;

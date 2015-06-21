@@ -913,7 +913,7 @@ void FacebookProto::OpenUrl(std::string url)
 		ForkThread(&FacebookProto::OpenUrlThread, new open_url(browser, data));
 	else
 		// Or use Miranda's service
-		CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
+		Utils_OpenUrlT(data);
 }
 
 void FacebookProto::ReadNotificationWorker(void *p)

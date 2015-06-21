@@ -792,10 +792,9 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 	case IDM_VISIT_PROFILE:
 		hContact = FindUser(cu->m_uid);
-		if (hContact == NULL) {
-			CMString tszUrl(FORMAT, _T("http://vk.com/id%d"), cu->m_uid);
-			CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszUrl.GetBuffer());
-		} else 
+		if (hContact == NULL)
+			Utils_OpenUrlT(CMString(FORMAT, _T("http://vk.com/id%d"), cu->m_uid));
+		else 
 			SvcVisitProfile(hContact, 0);
 		break;
 		

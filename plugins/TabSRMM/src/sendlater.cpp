@@ -783,7 +783,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 
 		case IDC_QMGR_HELP:
-			CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda.or.at/TabSRMM/SendLater"));
+			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/SendLater");
 			break;
 
 			// this handles all commands sent by the context menu

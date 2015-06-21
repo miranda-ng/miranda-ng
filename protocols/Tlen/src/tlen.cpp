@@ -225,8 +225,9 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 	}
 	mir_free(login);
 	mir_free(password);
+	
 	mir_snprintf(szFileName, _countof(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
-	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szFileName);
+	Utils_OpenUrl(szFileName);
 	return 0;
 }
 
