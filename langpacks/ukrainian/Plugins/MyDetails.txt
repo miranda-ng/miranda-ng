@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.12
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
-[Shows and allows you to edit your details for all protocols.]
+[Shows and allows you to edit your details for all accounts.]
 Показує у фреймі ваші дані (нік, аватар, статус) для всіх облікових записів і дозволяє їх редагувати.
 [Set my nickname]
 Мій нік
@@ -124,13 +124,13 @@
 [Listening to]
 Слухаю
 [My details]
-Мої деталі
+Мої дані
 [Background]
 Фон
 [Avatar border]
 Рамка аватару
 [Show my details]
-Показати мої деталі
+Показати мої дані
 [Enable listening to for %s]
 Увімкнути "Слухаю" для %s
 [Set my avatar for %s...]
@@ -140,7 +140,7 @@
 [Set my status message for %s...]
 Змінити статусне повідомлення для %s...
 [Hide my details]
-Сховати мої деталі
+Сховати мої дані
 [Previous account]
 Попередній обліковий запис
 [Next account]

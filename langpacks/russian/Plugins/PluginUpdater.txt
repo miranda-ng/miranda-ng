@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
+[Install and update plugins and other Miranda NG components.]
+Установка и обновление плагинов и других компонентов Miranda NG.
 [Updates found!]
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]

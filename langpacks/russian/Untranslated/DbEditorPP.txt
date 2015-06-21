@@ -1,7 +1,6 @@
 ﻿[&Fix resident settings]
 [&Inline edit]
 [BL&OB]
-[Delete from all contacts (including Settings)]
 [[UNLOADED]]
 [Delete resident settings from database?]
 [%d orphaned items deleted.]

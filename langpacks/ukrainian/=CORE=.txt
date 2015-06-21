@@ -2571,8 +2571,6 @@ ANSI-плагін
 Звукові файли
 [WAV files]
 Файли WAV
-[<unspecified>]
-<не вказано>
 [Unspecified]
 <не вказано>
 [Afghanistan]
@@ -3083,3 +3081,5 @@ ANSI-плагін
 Зображення GIF
 [PNG bitmaps]
 Зображення PNG
+[<unspecified>]
+<не вказано>
