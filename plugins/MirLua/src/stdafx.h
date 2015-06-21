@@ -41,6 +41,8 @@ extern "C"
 
 extern CMLua *g_mLua;
 
+extern int hScriptsLangpack;
+
 extern HINSTANCE g_hInstance;
 
 extern HANDLE g_hCommonFolderPath;

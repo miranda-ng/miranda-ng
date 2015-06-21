@@ -169,8 +169,8 @@ static int lua_Translate(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
-	ptrT value(mir_utf8decodeT(what, NULL));
-	lua_pushstring(L, T2Utf(TranslateTS(value)));
+	ptrT value(mir_utf8decodeT(what));
+	lua_pushstring(L, T2Utf(TranslateW_LP(value, hScriptsLangpack)));
 
 	return 1;
 }

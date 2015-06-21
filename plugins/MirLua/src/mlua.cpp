@@ -23,39 +23,24 @@ void CMLua::Load()
 	lua_pop(L, 1);
 
 	LoadMirandaModules();
+
+	hScriptsLangpack = GetPluginLangId(MIID_LAST, 0);
+
+	CLuaLoader loader(this);
+	loader.LoadScripts();
 }
 
 void CMLua::Unload()
 {
 	if (L)
 		lua_close(L);
+	KillModuleMenus(hScriptsLangpack);
 }
 
 void CMLua::Reload()
 {
-	/*lua_getglobal(L, "m");
-	lua_getfield(L, -1, "OnPreShutdown");
-	if (lua_isfunction(L, -1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		lua_pushlightuserdata(L, NULL);
-		if (lua_pcall(L, 2, 1, 0))
-			printf("%s\n", lua_tostring(L, -1));
-	}
-	lua_pop(L, 1);*/
 	Unload();
-
 	Load();
-	/*lua_getglobal(L, "m");
-	lua_getfield(L, -1, "OnModulesLoaded");
-	if (lua_isfunction(L, -1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		lua_pushlightuserdata(L, NULL);
-		if (lua_pcall(L, 2, 1, 0))
-			printf("%s\n", lua_tostring(L, -1));
-	}
-	lua_pop(L, 1);*/
 }
 
 void CMLua::LoadModule(const char *name, lua_CFunction loader)

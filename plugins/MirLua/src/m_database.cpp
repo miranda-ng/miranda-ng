@@ -111,7 +111,7 @@ static int lua_DeleteModule(lua_State *L)
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
 
-	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
 	lua_pushinteger(L, res);
 
 	return 1;
