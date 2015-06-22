@@ -23,7 +23,7 @@ static const char* szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 
 JSONNode nullNode(JSON_NULL);
 
-bool IsEmpty(TCHAR *str)
+bool IsEmpty(LPCTSTR str)
 {
 	if (str == NULL)
 		return true;
@@ -32,7 +32,7 @@ bool IsEmpty(TCHAR *str)
 	return false;
 }
 
-bool IsEmpty(char *str)
+bool IsEmpty(LPCSTR str)
 {
 	if (str == NULL)
 		return true;

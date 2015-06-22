@@ -90,5 +90,5 @@ HANDLE GetIconHandle(int iCommand);
 
 char* ExpUrlEncode(const char *szUrl, bool strict = false);
 
-bool IsEmpty(TCHAR *str);
-bool IsEmpty(char *str);
+bool IsEmpty(LPCTSTR str);
+bool IsEmpty(LPCSTR str);

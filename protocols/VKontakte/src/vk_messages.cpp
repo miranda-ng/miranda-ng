@@ -246,8 +246,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int action_mid = _ttoi(jnMsg["action_mid"].as_mstring());
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, jnMsg);
-			else
+			else {
+				MCONTACT chatContact = FindChat(chat_id);
+				if (chatContact && getBool(chatContact, "kicked", true))
+					db_unset(chatContact, m_szModuleName, "kicked");
 				AppendChatMessage(chat_id, jnMsg, false);
+			}
 			continue;
 		}
 

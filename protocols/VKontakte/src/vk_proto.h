@@ -640,6 +640,7 @@ private:
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
+	void SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);

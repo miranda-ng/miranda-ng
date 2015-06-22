@@ -142,16 +142,9 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	const JSONNode &jnInfo = jnResponse["info"];
 	if (!jnInfo.isnull()) {
-		CMString tszTitle(jnInfo["title"].as_mstring());
-		if (tszTitle == (cc->m_tszTopic ? cc->m_tszTopic : _T(""))) {		
-			cc->m_tszTopic = mir_tstrdup(tszTitle);
-			setTString(cc->m_hContact, "Nick", tszTitle);
+		if (!jnInfo["title"].isnull())
+			SetChatTitle(cc, jnInfo["title"].as_mstring());
 
-			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.ptszText = tszTitle;
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-		}
 		if (jnInfo["left"].as_int() == 1 || jnInfo["kicked"].as_int() == 1) {
 			setByte(cc->m_hContact, "kicked", (int)true);
 			LeaveChat(cc->m_chatid);
@@ -213,6 +206,9 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_PART };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
 			gce.ptszUID = tszId;
+			gce.dwFlags = GCEF_REMOVECONTACT | GCEF_NOTNOTIFY;
+			gce.time = time(NULL);
+			gce.ptszNick = mir_tstrdup(CMString(FORMAT, _T("%s (https://vk.com/id%s)"), cu.m_tszNick, tszId));
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 			cc->m_users.remove(i);
@@ -258,6 +254,24 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		AppendChatMessage(cc, p.m_uid, p.m_date, p.m_tszBody, p.m_bHistory, p.m_bIsAction);
 	}
 	cc->m_msgs.destroy();
+}
+
+void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic)
+{
+	debugLog(_T("CVkProto::SetChatTitle"));
+	if (!cc)
+		return;
+\
+	if (mir_tstrcmp(cc->m_tszTopic, tszTopic) == 0)
+		return;
+
+	cc->m_tszTopic = mir_tstrdup(tszTopic);
+	setTString(cc->m_hContact, "Nick", tszTopic);
+
+	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
+	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+	gce.ptszText = tszTopic;
+	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -313,8 +327,11 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			else {
 				CMString tszUid;
 				tszUid.AppendFormat(_T("%d"), uid);
-				if (tszUid == tszActionMid)
+				if (tszUid == tszActionMid) {
+					if (cc->m_bHistoryRead)
+						return;
 					tszBody.AppendFormat(_T(" (https://vk.com/id%s) %s"), tszUid, TranslateT("left chat"));
+				}
 				else {
 					int a_uid = 0;
 					int iReadCount = _stscanf(tszActionMid, _T("%d"), &a_uid);
@@ -358,22 +375,18 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			CMString tszTitle = jnMsg["action_text"].as_mstring();
 			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("change chat title to"), tszTitle.IsEmpty() ? _T(" ") : tszTitle);
 
-			if (!bIsHistory && tszTitle != (cc->m_tszTopic ? cc->m_tszTopic : _T(""))) {
-				cc->m_tszTopic = mir_tstrdup(tszTitle);
-				setTString(cc->m_hContact, "Nick", tszTitle);
-
-				GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
-				GCEVENT gce = { sizeof(GCEVENT), &gcd };
-				gce.ptszText = tszTitle;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-			}
+			if (!bIsHistory)
+				SetChatTitle(cc, tszTitle);
 		}
 		else
 			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
 	}
 
-	if (cc->m_bHistoryRead)
+	if (cc->m_bHistoryRead) {
+		if (!jnMsg["title"].isnull())
+			SetChatTitle(cc, jnMsg["title"].as_mstring());
 		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory, bIsAction);
+	}
 	else {
 		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
 		if (cm == NULL)
