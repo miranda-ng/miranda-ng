@@ -33,7 +33,7 @@ Wsparcie BBCode dla załączników
 [Process stickers as smileys]
 Przetwarzaj naklejki jako uśmieszki
 [Shorten links for audio attachments]
-
+Skracaj linki do załączników audio
 [News and event notifications]
 Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
@@ -306,7 +306,7 @@ opuścił/a czat
 [invite user]
 Zaproś użytkownika
 [returned to chat]
-
+powrócił do czatu
 [change chat title to]
 Zmień temat czatu na
 [chat action not supported]
