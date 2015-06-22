@@ -24,11 +24,9 @@ static void ReleaseIconEx(HICON hIcon)
 
 static void IcoLibUpdateMenus()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | CMIM_ICON;
-	mi.hIcon = createDefaultOverlayedIcon(FALSE);
-	Menu_ModifyItem(hMenu, &mi);
-	DestroyIcon(mi.hIcon);
+	HICON hIcon = createDefaultOverlayedIcon(FALSE);
+	Menu_ModifyItem(hMenu, 0, hIcon, 0);
+	DestroyIcon(hIcon);
 }
 
 int IcoLibIconsChanged(WPARAM, LPARAM)

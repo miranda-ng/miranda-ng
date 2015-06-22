@@ -175,19 +175,16 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		if (db_get_b(hContact, szProto, "ChatRoom", 0)) {
 			// still hide it for offline protos
 			if (CallProtoService(szProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
-				CLISTMENUITEM mi = { 0 };
-				mi.flags = CMIM_NAME;
 				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
 					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
 						bEnabledJoin = true;
-						mi.pszName = LPGEN("&Join chat");
+						Menu_ModifyItem(hJoinMenuItem, LPGENT("&Join chat"));
 					}
 				}
 				else {
 					bEnabledJoin = true;
-					mi.pszName = LPGEN("&Open chat window");
+					Menu_ModifyItem(hJoinMenuItem, LPGENT("&Open chat window"));
 				}
-				Menu_ModifyItem(hJoinMenuItem, &mi);
 			}
 			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
 		}

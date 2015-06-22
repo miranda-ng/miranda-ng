@@ -764,12 +764,8 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case EV_PROTO_ONRENAME:
-		if (hMenuRoot) {
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			mi.ptszName = m_tszUserName;
-			Menu_ModifyItem(hMenuRoot, &mi);
-		}
+		if (hMenuRoot)
+			Menu_ModifyItem(hMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

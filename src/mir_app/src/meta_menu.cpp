@@ -249,7 +249,6 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	if (cc == NULL)
 		return 0;
 		
-	CLISTMENUITEM mi = { 0 };
 	Menu_ShowItem(hMenuRoot, false);
 
 	if (cc->IsMeta()) {
@@ -261,11 +260,9 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 		Menu_ShowItem(hMenuAdd, false);
 		Menu_ShowItem(hMenuConvert, false);
 		Menu_ShowItem(hMenuDefault, false);
-		Menu_ShowItem(hMenuDelete, false);
 
-		mi.flags = CMIM_NAME;
-		mi.pszName = LPGEN("Remove from metacontact");
-		Menu_ModifyItem(hMenuDelete, &mi);
+		Menu_ShowItem(hMenuDelete, false);
+		Menu_ModifyItem(hMenuDelete, LPGENT("Remove from metacontact"));
 
 		// show subcontact menu items
 		CMString tszNick;
@@ -276,20 +273,18 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 			}
 
 			MCONTACT hContact = Meta_GetContactHandle(cc, i);
+			LPCTSTR ptszName;
 
 			if (options.menu_contact_label == DNT_UID) {
 				Meta_GetSubNick(hMeta, i, tszNick);
-				mi.ptszName = tszNick.GetBuffer();
+				ptszName = tszNick.GetBuffer();
 			}
-			else mi.ptszName = cli.pfnGetContactDisplayName(hContact, 0);
-
-			mi.flags = CMIF_TCHAR | CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
+			else ptszName = cli.pfnGetContactDisplayName(hContact, 0);
 
 			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
-			mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
-
-			Menu_ModifyItem(hMenuContact[i], &mi);
-			DestroyIcon(mi.hIcon);
+			HICON hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
+			Menu_ModifyItem(hMenuContact[i], ptszName, hIcon, 0);
+			DestroyIcon(hIcon);
 			
 			Menu_ShowItem(hMenuRoot, true);
 		}
@@ -316,9 +311,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	if (cc->IsSub()) {
 		Menu_ShowItem(hMenuDefault, true);
 
-		mi.flags = CMIM_NAME;
-		mi.pszName = LPGEN("Remove from metacontact");
-		Menu_ModifyItem(hMenuDelete, &mi);
+		Menu_ModifyItem(hMenuDelete, LPGENT("Remove from metacontact"));
 		Menu_ShowItem(hMenuDelete, true);
 
 		Menu_ShowItem(hMenuAdd, false);
@@ -346,20 +339,12 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 
 INT_PTR Meta_OnOff(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON;
-
 	bool bToggled = !db_mc_isEnabled();
 	db_set_b(0, META_PROTO, "Enabled", bToggled);
-	if (bToggled) {
-		mi.icolibItem = GetIconHandle(I_MENUOFF);
-		mi.pszName = LPGEN("Toggle metacontacts off");
-	}
-	else {
-		mi.icolibItem = GetIconHandle(I_MENU);
-		mi.pszName = LPGEN("Toggle metacontacts on");
-	}
-	Menu_ModifyItem(hMenuOnOff, &mi);
+	if (bToggled)
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts off"), GetIconHandle(I_MENUOFF));
+	else
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENU));
 
 	db_mc_enable(bToggled);
 	Meta_HideMetaContacts(!bToggled);
@@ -434,11 +419,7 @@ void InitMenus()
 
 	if (!db_mc_isEnabled()) {
 		// modify main menu item
-		mi.flags = CMIM_NAME | CMIM_ICON;
-		mi.icolibItem = GetIconHandle(I_MENU);
-		mi.pszName = LPGEN("Toggle metacontacts on");
-		Menu_ModifyItem(hMenuOnOff, &mi);
-
+		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), GetIconHandle(I_MENU));
 		Meta_HideMetaContacts(true);
 	}
 	else {

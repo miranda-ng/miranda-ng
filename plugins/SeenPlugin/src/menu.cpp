@@ -40,33 +40,31 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
 
-	CLISTMENUITEM cmi = { 0 };
-	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(NULL, S_MOD, "MenuItem", 1))
-		cmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
-	else {
-		cmi.flags = CMIM_NAME | CMIM_FLAGS | CMIM_ICON | CMIF_TCHAR;
-		cmi.hIcon = NULL;
-
-		DBVARIANT dbv;
-		if (!db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
-			cmi.ptszName = ParseString(dbv.ptszVal, (MCONTACT)wparam, 0);
-			db_free(&dbv);
-		}
-		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
-
-		if (!mir_tstrcmp(cmi.ptszName, TranslateT("<unknown>"))) {
-			if (IsWatchedProtocol(szProto))
-				cmi.flags |= CMIF_GRAYED;
-			else
-				cmi.flags |= CMIF_HIDDEN;
-		}
-		else if (db_get_b(NULL, S_MOD, "ShowIcon", 1)) {
-			isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
-			cmi.hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
-		}
+	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(NULL, S_MOD, "MenuItem", 1)) {
+		Menu_ShowItem(hmenuitem, false);
+		return 0;
 	}
 
-	Menu_ModifyItem(hmenuitem, &cmi);
+	LPCTSTR ptszName;
+	ptrT tszStamp(db_get_tsa(NULL, S_MOD, "MenuStamp"));
+	if (tszStamp != NULL)
+		ptszName = ParseString(tszStamp , (MCONTACT)wparam, 0);
+	else
+		ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
+
+	int flags = 0;
+	HICON hIcon = NULL;
+	if (!mir_tstrcmp(ptszName, TranslateT("<unknown>"))) {
+		if (IsWatchedProtocol(szProto))
+			flags |= CMIF_GRAYED;
+		else
+			flags |= CMIF_HIDDEN;
+	}
+	else if (db_get_b(NULL, S_MOD, "ShowIcon", 1)) {
+		isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
+		hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
+	}
+	Menu_ModifyItem(hmenuitem, ptszName, hIcon, flags);
 	return 0;
 }
 

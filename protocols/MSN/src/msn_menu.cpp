@@ -131,14 +131,10 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		int listId = Lists_GetMask(szEmail);
 		bool noChat = !(listId & LIST_FL) || isMe || isChatRoom(hContact);
 
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_NAME;
-		mi.pszName = ((listId & LIST_BL) ? LPGEN("&Unblock") : LPGEN("&Block"));
-		Menu_ModifyItem(hBlockMenuItem, &mi);
+		Menu_ModifyItem(hBlockMenuItem, (listId & LIST_BL) ? LPGENT("&Unblock") : LPGENT("&Block"));
 		Menu_ShowItem(hBlockMenuItem, !noChat);
 
-		mi.pszName = isMe ? LPGEN("Open &Hotmail Inbox") : LPGEN("Send &Hotmail E-mail");
-		Menu_ModifyItem(hOpenInboxMenuItem, &mi);
+		Menu_ModifyItem(hOpenInboxMenuItem, isMe ? LPGENT("Open &Hotmail Inbox") : LPGENT("Send &Hotmail E-mail"));
 		Menu_ShowItem(hOpenInboxMenuItem, emailEnabled);
 
 #ifdef OBSOLETE
@@ -344,14 +340,8 @@ void CMsnProto::MsnRemoveMainMenus(void)
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS;
-	if (!bEnable)
-		mi.flags |= CMIF_GRAYED;
-
 	for (int i = 0; i < _countof(menuItemsMain); i++)
-		if (menuItemsMain[i] != NULL)
-			Menu_ModifyItem(menuItemsMain[i], &mi);
+		Menu_ModifyItem(menuItemsMain[i], NULL, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
 
 	if (bEnable)
 		Menu_ShowItem(menuItemsMain[1], emailEnabled);

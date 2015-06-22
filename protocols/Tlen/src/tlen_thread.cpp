@@ -340,11 +340,9 @@ void __cdecl TlenServerThread(ThreadData *info)
 			info->proto->isOnline = FALSE;
 			info->proto->isConnected = FALSE;
 
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-			Menu_ModifyItem(info->proto->hMenuMUC, &mi);
+			Menu_ModifyItem(info->proto->hMenuMUC, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
 			if (info->proto->hMenuChats != NULL)
-				Menu_ModifyItem(info->proto->hMenuChats, &mi);
+				Menu_ModifyItem(info->proto->hMenuChats, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
 
 			// Set status to offline
 			char *szProto = info->proto->m_szModuleName;

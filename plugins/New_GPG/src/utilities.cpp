@@ -226,11 +226,8 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	void setClistIcon(MCONTACT hContact);
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
-	enc = enc?0:1;
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME;
-	enc?mi.pszName="Turn off GPG encryption":mi.pszName="Turn on GPG encryption";
-	Menu_ModifyItem(hToggleEncryption, &mi);
+
+	Menu_ModifyItem(hToggleEncryption, enc ? LPGENT("Turn off GPG encryption") : LPGENT("Turn on GPG encryption"));
 	return 0;
 }
 
@@ -259,22 +256,21 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 		TCHAR buf[128] = {0};
 		mir_sntprintf(buf, _T("%s: %s"), TranslateT("Send public key"), toUTF16(keyid).c_str());
 		mir_free(keyid);
-		mi2.ptszName = buf;
-		mi2.flags = CMIM_NAME | CMIF_TCHAR;
-		Menu_ModifyItem(hSendKey, &mi2);
+		Menu_ModifyItem(hSendKey, buf);
 	}
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME;
+
+	int flags;
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 	if(!tmp[0])
 	{
 		db_unset(hContact, szGPGModuleName, "GPGEncryption");
-		mi.flags += CMIM_FLAGS | CMIF_GRAYED;
+		flags = CMIF_GRAYED;
 	}
-	else
-		mi.flags = CMIM_NAME | CMIM_FLAGS;
-	mi.pszName = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?"Turn off GPG encryption":"Turn on GPG encryption";
-	Menu_ModifyItem(hToggleEncryption, &mi);
+	else flags = 0;
+
+	Menu_ModifyItem(hToggleEncryption, 
+		db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0) ? _T("Turn off GPG encryption") : _T("Turn on GPG encryption"),
+		INVALID_HANDLE_VALUE, flags);
 	mir_free(tmp);
 	return 0;
 }

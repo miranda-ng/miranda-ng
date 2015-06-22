@@ -121,36 +121,22 @@ const
   }
   MS_CLIST_ADDCONTACTMENUITEM:PAnsiChar = 'CList/AddContactMenuItem';
   MS_CLIST_ADDSTATUSMENUITEM :PAnsiChar = 'CList/AddStatusMenuItem';
-//adds a protocol menu item        v0.9+
   MS_CLIST_ADDPROTOMENUITEM  :PAnsiChar = 'CList/AddProtoMenuItem';
 
-  CMIM_NAME   = $80000000;
-  CMIM_FLAGS  = $40000000;
-  CMIM_ICON   = $20000000;
-  CMIM_HOTKEY = $10000000;
-  CMIM_ALL    = $F0000000;
+{
+  Affect : Modify an existing menu item, see notes
+  Returns: 0 on success, [non zero] on failure
+}
 
-  {
-    wParam : HMENUITEM
-    lParam : Pointer to a initalised TCLISTMENUITEM
-    Affect : Modify an existing menu item, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : hMenuItem will have been returned by MS_CLIST_ADD[MAIN]MENUITEM
-             TCLISTMENUITEM.flags should contain CMIM_* constants (see above)
-             to mark which fields should be updated, if it's not present, they
-             can't be updated -- if flags do not exist for a field it can not
-             be updated.
-    Version: v0.1.0.1+
-  }
-  MS_CLIST_MODIFYMENUITEM:PAnsiChar = 'CList/ModifyMenuItem';
+function Menu_ModifyItem(hMenu:HGENMENU; const name:PWideChar; icon:THANDLE=INVALID_HANDLE_VALUE; flags:int=-1) : int; stdcall;
+             external AppDll name 'Menu_ModifyItem';
 
-  {
-    wParam : (HGENMENU)hMenuItem
-    lParam : (bool) enable = TRUE, disable = FALSE
-    Notes  : changes menu item's visibility
-    Version: v0.94.2+
-  }
-  MS_CLIST_SHOWHIDEMENUITEM:PAnsiChar = 'CList/ShowHideMenuItem';
+{
+  Notes  : changes menu item's visibility
+}
+
+procedure Menu_ShowItem(hMenu:HGENMENU; bShow:BYTE); stdcall;
+             external AppDll name 'Menu_ShowItem';
 
   {
     wParam : TMCONTACT
@@ -160,6 +146,7 @@ const
              to the contact that has them
     Version: v0.1.0.1+
   }
+const
   ME_CLIST_PREBUILDCONTACTMENU:PAnsiChar = 'CList/PreBuildContactMenu';
 
 type

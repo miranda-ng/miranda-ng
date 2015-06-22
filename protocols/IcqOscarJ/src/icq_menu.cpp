@@ -204,13 +204,10 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
-		CLISTMENUITEM clmi = { 0 };
-		clmi.flags = CMIM_ICON;
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)
-			clmi.hIcon = getXStatusIcon(bXStatus, LR_SHARED);
+			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], NULL, getXStatusIcon(bXStatus, LR_SHARED));
 		else
-			clmi.hIcon = Skin_LoadIcon(SKINICON_OTHER_SMALLDOT);
-		Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], &clmi);
+			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], NULL, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	}
 
 	return 0;

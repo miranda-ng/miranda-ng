@@ -2298,11 +2298,9 @@ void CIrcProto::OnIrcDisconnected()
 	memcpy(m_nick, m_pNick, sizeof(m_nick));
 	setTString("Nick", m_pNick);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-	Menu_ModifyItem(hMenuJoin, &mi);
-	Menu_ModifyItem(hMenuList, &mi);
-	Menu_ModifyItem(hMenuNick, &mi);
+	Menu_ModifyItem(hMenuJoin, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+	Menu_ModifyItem(hMenuList, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+	Menu_ModifyItem(hMenuNick, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2329,11 +2327,9 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	bPerformDone = true;
 	nickflag = true;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS;
-	Menu_ModifyItem(hMenuJoin, &mi);
-	Menu_ModifyItem(hMenuList, &mi);
-	Menu_ModifyItem(hMenuNick, &mi);
+	Menu_ModifyItem(hMenuJoin, NULL, INVALID_HANDLE_VALUE, 0);
+	Menu_ModifyItem(hMenuList, NULL, INVALID_HANDLE_VALUE, 0);
+	Menu_ModifyItem(hMenuNick, NULL, INVALID_HANDLE_VALUE, 0);
 
 	int Temp = m_iStatus;
 	m_iStatus = ID_STATUS_ONLINE;

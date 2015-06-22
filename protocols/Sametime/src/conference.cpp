@@ -438,9 +438,8 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLog(_T("CSametimeProto::PrebuildContactMenu() hContact=[%x]"), hContact);
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 1 ? 0 : CMIF_HIDDEN);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hLeaveChatMenuItem, (LPARAM)&mi);
+
+	Menu_ShowItem(hLeaveChatMenuItem, db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 1);
 
 	// if user is already in our meeting, 
 	bool not_present = true;
@@ -460,9 +459,8 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 		db_free(&dbv);
 	}
-	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 && not_present ? 0 : CMIF_HIDDEN);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hCreateChatMenuItem, (LPARAM)&mi);
 
+	Menu_ShowItem(hCreateChatMenuItem, db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 && not_present);
 	return 0;
 }
 
@@ -530,11 +528,3 @@ void CSametimeProto::InitConferenceMenu()
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSametimeProto::PrebuildContactMenu);
 }
-
-void CSametimeProto::DeinitConferenceMenu()
-{
-	debugLog(_T("CSametimeProto::DeinitConferenceMenu()"));
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hLeaveChatMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hCreateChatMenuItem, 0);
-}
-

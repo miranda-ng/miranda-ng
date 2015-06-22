@@ -46,19 +46,10 @@ static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 	Disabled = !Disabled;
 
 	if (PluginConfig.g_bPopupAvail) {
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_ICON | CMIM_NAME;
-
-		if (!Disabled) {
-			mi.pszName = LPGEN("Disable &typing notification");
-			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
-		}
-		else {
-			mi.pszName = LPGEN("Enable &typing notification");
-			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
-		}
-
-		Menu_ModifyItem(hDisableMenu, &mi);
+		if (!Disabled)
+			Menu_ModifyItem(hDisableMenu, LPGENT("Disable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
+		else
+			Menu_ModifyItem(hDisableMenu, LPGENT("Enable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
 	}
 
 	return 0;

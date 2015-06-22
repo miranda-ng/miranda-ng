@@ -146,7 +146,7 @@ extern HMENU hMenu;
 extern int bpStatus;
 extern HANDLE hNetlibUser;
 extern MWindowList hWindowList;
-extern HANDLE hMenuItem1, hMenuItemCountdown;
+extern HGENMENU hMenuItem1, hMenuItemCountdown;
 extern char optionsname[80];
 
 //lets get rid of some warnings

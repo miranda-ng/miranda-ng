@@ -622,10 +622,8 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON;
-
+INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
+{
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = { 0 };
 		nus.cbSize = sizeof(nus);
@@ -644,26 +642,21 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 		if (!hDirectBoundPort) {
 			TCHAR szTemp[200];
 			mir_snprintf(szTemp, TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
-			    nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
+				nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;
 		}
 		dwLocalPortUsed = nlb.wPort;
 		dwLocalIpAddress = nlb.dwInternalIP;
 
-		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER));
-		mi.ptszName = LPGENT("Disable HTTP server");
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENT("Disable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
 	}
 	else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = 0;
-		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-		mi.ptszName = LPGENT("Enable HTTP server");
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENT("Enable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
 	}
 	else return 0; // no changes;
-
-	if (hAcceptConnectionsMenuItem)
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, &mi);
 
 	if (! bShutdownInProgress)
 		db_set_b(NULL, MODULE, "AcceptConnections", hDirectBoundPort != 0);

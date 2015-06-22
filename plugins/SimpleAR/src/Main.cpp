@@ -62,11 +62,10 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 	BOOL fEnabled = !db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 	db_set_b(NULL, protocolname, KEY_ENABLED, fEnabled);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
-	Menu_ModifyItem(hEnableMenu, &mi);
+	if (fEnabled)
+		Menu_ModifyItem(hEnableMenu, LPGENT("Disable Auto&reply"), iconList[0].hIcolib);
+	else
+		Menu_ModifyItem(hEnableMenu, LPGENT("Enable Auto&reply"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -77,11 +76,10 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	db_set_b(hContact, protocolname, "TurnedOn", on);
 	on = !on;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
-	mi.icolibItem = on ? iconList[0].hIcolib : iconList[1].hIcolib;
-	Menu_ModifyItem(hToggle, &mi);
+	if (on) 
+		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
+	else
+		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -89,12 +87,11 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
-	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
-	mi.icolibItem = on ? iconList[0].hIcolib : iconList[1].hIcolib;
-	Menu_ModifyItem(hToggle, &mi);
+	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
+	if (on) 
+		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
+	else
+		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -138,12 +135,10 @@ INT CheckDefaults(WPARAM, LPARAM)
 		gbVarsServiceExist = TRUE;
 
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
-	Menu_ModifyItem(hEnableMenu, &mi);
-
+	if (fEnabled)
+		Menu_ModifyItem(hEnableMenu, LPGENT("Disable Auto&reply"), iconList[0].hIcolib);
+	else
+		Menu_ModifyItem(hEnableMenu, LPGENT("Enable Auto&reply"), iconList[1].hIcolib);
 	return 0;
 }
 

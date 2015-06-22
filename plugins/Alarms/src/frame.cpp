@@ -448,20 +448,13 @@ int ReloadFont(WPARAM, LPARAM)
 
 void FixMainMenu()
 {
-	CLISTMENUITEM mi = { 0 };
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if (options.hide_with_clist || options.auto_showhide)
-			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
-		else {
-			mi.flags = CMIM_NAME | CMIM_FLAGS;
-
-			if (ReminderFrameVisible())
-				mi.pszName = Translate("Hide reminders");
-			else
-				mi.pszName = Translate("Show reminders");
-		}
+			Menu_ModifyItem(hMenuShowReminders, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+		else
+			Menu_ModifyItem(hMenuShowReminders,
+				ReminderFrameVisible() ? LPGENT("Hide reminders") : LPGENT("Show reminders"), INVALID_HANDLE_VALUE, 0);
 	}
-	Menu_ModifyItem(hMenuShowReminders, &mi);
 }
 
 /////////////////////////
@@ -549,7 +542,6 @@ int CreateFrame()
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
 		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_ALL;
 		mi.hIcon = hIconMenuShowHide;
 		mi.pszName = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";

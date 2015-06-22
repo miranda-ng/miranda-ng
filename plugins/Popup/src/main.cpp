@@ -110,22 +110,19 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	LoadActions();
 
-	CLISTMENUITEM mi = { 0 };
+	HICON hIcon;
 	if (PopupOptions.ModuleIsEnabled == TRUE) { // The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
+		hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
 	else { // The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
+		hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuItem, &mi);
-	Menu_ModifyItem(hMenuRoot, &mi);
+	Menu_ModifyItem(hMenuItem, NULL, hIcon);
+	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
 
-	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuItemHistory, &mi);
+	Menu_ModifyItem(hMenuItemHistory, NULL, IcoLib_GetIcon(ICO_HISTORY, 0));
 	return 0;
 }
 
@@ -149,27 +146,23 @@ static int TTBLoaded(WPARAM, LPARAM)
 //===== EnableDisableMenuCommand ========================================================
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
+	HICON hIcon;
 	if (PopupOptions.ModuleIsEnabled) {
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = FALSE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
-		mi.ptszName = LPGENT("Enable Popups");
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
+		Menu_ModifyItem(hMenuItem, LPGENT("Enable Popups"), hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = TRUE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
-		mi.ptszName = LPGENT("Disable Popups");
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
+		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0));
 	}
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	Menu_ModifyItem(hMenuItem, &mi);
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuRoot, &mi);
+
+	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopupOptions.ModuleIsEnabled) ? TTBST_PUSHED : 0);

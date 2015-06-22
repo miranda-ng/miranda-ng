@@ -44,63 +44,13 @@ namespace
 
 	void UpdateMenu(bool bAutoUpdate)
 	{
-		CLISTMENUITEM mi = { 0 };
+		if (bAutoUpdate) // to enable auto-update
+			Menu_ModifyItem(g_hEnableDisableMenu, LPGENT("Auto Update Enabled"), Quotes_GetIconHandle(IDI_ICON_MAIN));
+		else // to disable auto-update
+			Menu_ModifyItem(g_hEnableDisableMenu, LPGENT("Auto Update Disabled"), Quotes_GetIconHandle(IDI_ICON_DISABLED));
 
-		if (bAutoUpdate) { // to enable auto-update
-			mi.pszName = LPGEN("Auto Update Enabled");
-			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-			//opt.AutoUpdate = 1;
-		}
-		else { // to disable auto-update
-			mi.pszName = LPGEN("Auto Update Disabled");
-			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_DISABLED);
-			//opt.AutoUpdate = 0;
-		}
-
-		mi.flags = CMIM_ICON | CMIM_NAME;
-		Menu_ModifyItem(g_hEnableDisableMenu, &mi);
 		CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : 0);
 	}
-
-
-	// 	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
-	// 	{
-	// 		if ((ID_STATUS_ONLINE == wp) || (ID_STATUS_OFFLINE == wp))
-	// 		{
-	// 			bool bAutoUpdate = (ID_STATUS_ONLINE == wp);
-	// 			bool bOldFlag = g_bAutoUpdate;
-	// 
-	// 			if(bAutoUpdate != g_bAutoUpdate)
-	// 			{
-	// 				g_bAutoUpdate = bAutoUpdate;
-	// 				db_set_b(NULL,QUOTES_MODULE_NAME,DB_STR_AUTO_UPDATE,g_bAutoUpdate);
-	// 				if (bOldFlag && !g_bAutoUpdate)
-	// 				{
-	// 					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
-	// 					assert(b);
-	// 				}
-	// 				else if (g_bAutoUpdate && !bOldFlag)
-	// 				{
-	// 					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
-	// 					assert(b && "Failed to reset event");
-	// 
-	// 					const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
-	// 					const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
-	// 					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
-	// 					{
-	// 						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-	// 						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
-	// 					}
-	// 				}
-	// 
-	// 				UpdateMenu(g_bAutoUpdate);
-	// 				//ProtoBroadcastAck(QUOTES_PROTOCOL_NAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,reinterpret_cast<HANDLE>(nOldStatus),g_nStatus);
-	// 			}
-	// 
-	// 		}
-	// 
-	// 		return 0;
-	// 	}
 
 	INT_PTR QuotesMenu_RefreshAll(WPARAM, LPARAM)
 	{

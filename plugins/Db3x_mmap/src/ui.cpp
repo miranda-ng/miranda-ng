@@ -299,11 +299,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 void CDb3Mmap::UpdateMenuItem()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME;
-	mi.icolibItem = iconList[1].hIcolib;
-	mi.pszName = GetMenuTitle();
-	Menu_ModifyItem(hSetPwdMenu, &mi);
+	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(), iconList[1].hIcolib);
 }
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
@@ -316,14 +312,14 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	// main menu item
 	CLISTMENUITEM mi = { 0 };
-	mi.pszName = LPGEN("Database");
+	mi.ptszName = LPGENT("Database");
 	mi.position = 500000000;
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = iconList[0].hIcolib;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.pszName = db->GetMenuTitle();
+	mi.ptszName = db->GetMenuTitle();
 	mi.hParentMenu = hMenuRoot;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);

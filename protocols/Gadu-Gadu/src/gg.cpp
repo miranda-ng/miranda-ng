@@ -212,13 +212,10 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM lParam)
    if (gg == NULL)
       return 0;
 
-   CLISTMENUITEM mi = { 0 };
-   mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_TCHAR;
-   if ( gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) ||
-        gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
-      mi.flags |= CMIF_HIDDEN;
-   mi.ptszName = gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
-   Menu_ModifyItem(gg->hBlockMenuItem, &mi);
+   if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
+      Menu_ShowItem(gg->hBlockMenuItem, false);
+	else
+		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block"));
    return 0;
 }
 

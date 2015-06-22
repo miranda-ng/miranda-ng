@@ -438,17 +438,11 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
-		mi.ptszName = LPGENT("Disable Miss You");
-		mi.icolibItem = iconList[1].hIcolib;
-	}
-	else {
-		mi.ptszName = LPGENT("Enable Miss You");
-		mi.icolibItem = iconList[2].hIcolib;
-	}
-	Menu_ModifyItem(hContactMenu, &mi);
+	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0))
+		Menu_ModifyItem(hContactMenu, LPGENT("Disable Miss You"), iconList[1].hIcolib);
+	else
+		Menu_ModifyItem(hContactMenu, LPGENT("Enable Miss You"), iconList[2].hIcolib);
+
 	Menu_ShowItem(hContactMenu, !db_get_b(hContact, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
 	return 0;
 }

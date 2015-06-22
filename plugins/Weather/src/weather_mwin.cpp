@@ -305,10 +305,8 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 
 int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS |
-		(db_get_dw((MCONTACT)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
-	Menu_ModifyItem(hMwinMenu, &mi);
+	int flags = db_get_dw((MCONTACT)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
+	Menu_ModifyItem(hMwinMenu, NULL, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }
 

@@ -333,13 +333,9 @@ void InitMenuItems()
 
 void DefWebPageChanged()
 {
-	CLISTMENUITEM mi = { 0 };
 	for (int i = 0; i < PasteToWeb::pages; i++) {
-		mi.flags = CMIM_FLAGS;
-		if (Options::instance->defWeb == i)
-			mi.flags |= CMIF_CHECKED;
-
-		Menu_ModifyItem(hWebPageMenus[i], &mi);
+		int flags = (Options::instance->defWeb == i) ? CMIF_CHECKED : 0;
+		Menu_ModifyItem(hWebPageMenus[i], NULL, INVALID_HANDLE_VALUE, flags);
 	}
 }
 

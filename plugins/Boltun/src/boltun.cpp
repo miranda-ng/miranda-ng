@@ -545,25 +545,20 @@ static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 
 static int MessagePrebuild(WPARAM hContact, LPARAM)
 {
-	CLISTMENUITEM clmi = { 0 };
-
 	if (!blInit || (db_get_b(hContact, "CList", "NotOnList", 0) == 1)) {
-		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
-
-		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
-		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
+		Menu_ModifyItem(hMenuItemAutoChat, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+		Menu_ModifyItem(hMenuItemNotToChat, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
 	}
 	else {
-		BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-		BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
+			Menu_ModifyItem(hMenuItemAutoChat, NULL, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+		else
+			Menu_ModifyItem(hMenuItemAutoChat, NULL, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
 
-		clmi.flags = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
-		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
-
-		clmi.flags = CMIM_FLAGS | CMIM_ICON | (boltunnottochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)));
-		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
+		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE))
+			Menu_ModifyItem(hMenuItemNotToChat, NULL, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+		else
+			Menu_ModifyItem(hMenuItemNotToChat, NULL, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
 	}
 	return 0;
 }

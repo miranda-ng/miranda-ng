@@ -146,15 +146,14 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | CMIF_TCHAR;
-	if (chat_room) mi.flags |= CMIF_HIDDEN;
+	if (chat_room)
+		Menu_ShowItem(hMenuToggle, false);
 	else {
-		mi.flags |= (CMIM_NAME | CMIM_ICON);
-		mi.ptszName = (remove ? LPGENT("Enable History") : LPGENT("Disable History"));
-		mi.hIcon = (remove ? hIconKeep : hIconRemove);
+		if (remove)
+			Menu_ModifyItem(hMenuToggle, LPGENT("Enable History"), hIconKeep);
+		else
+			Menu_ModifyItem(hMenuToggle, LPGENT("Disable History"), hIconRemove);
 	}
-	Menu_ModifyItem(hMenuToggle, &mi);
 
 	Menu_ShowItem(hMenuClear, !chat_room && db_event_count(hContact) > 0);
 	return 0;

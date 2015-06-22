@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 int hLangpack;
-HANDLE hSSMenuToggleOnOff;
+HGENMENU hSSMenuToggleOnOff;
 HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = NULL;
@@ -284,16 +284,12 @@ static INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam)
 static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
 {
 	timer = (BYTE)wParam;
-//	if (timer == 2) //commented for now
-//		db_set_b(NULL, "Skin", "UseSound", 0);
-//	else db_set_b(NULL, "Skin", "UseSound", 1);
 	return 0;
 }
 
 static INT_PTR InitMenu()
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ALL;
 	mi.position = 100000000;
 	mi.icolibItem = GetIconHandle(MENU_NAME);
 	mi.pszPopupName = MENU_NAME;
@@ -305,11 +301,11 @@ static INT_PTR InitMenu()
 
 void UpdateMenu()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.pszName = (Enabled == 1 ? DISABLE_SILENCE : ENABLE_SILENCE);
-	mi.flags = CMIM_NAME | CMIM_ALL;
-	mi.icolibItem = (Enabled == 1 ? GetIconHandle(DISABLE_SILENCE) : GetIconHandle(ENABLE_SILENCE));
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSSMenuToggleOnOff, (LPARAM)&mi);
+	if (Enabled == 1)
+		Menu_ModifyItem(hSSMenuToggleOnOff, _T(DISABLE_SILENCE), GetIconHandle(DISABLE_SILENCE));
+	else
+		Menu_ModifyItem(hSSMenuToggleOnOff, _T(ENABLE_SILENCE), GetIconHandle(ENABLE_SILENCE));
+
 	UpdateTTB();
 }
 

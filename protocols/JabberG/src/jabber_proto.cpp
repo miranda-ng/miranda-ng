@@ -1319,12 +1319,8 @@ int __cdecl CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 		break;
 
 	case EV_PROTO_ONRENAME:
-		if (m_hMenuRoot) {
-			CLISTMENUITEM clmi = { 0 };
-			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			clmi.ptszName = m_tszUserName;
-			Menu_ModifyItem(m_hMenuRoot, &clmi);
-		}
+		if (m_hMenuRoot)
+			Menu_ModifyItem(m_hMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

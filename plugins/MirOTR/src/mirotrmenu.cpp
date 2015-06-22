@@ -98,41 +98,30 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 		if (mi.flags & CMIF_NOTNOTPRIVATE && level == TRUST_NOT_PRIVATE) return FALSE;
 
 		if (pcpp->MenuItemHandle == hStatusInfoItem) {
-			size_t len;
 			TCHAR text[128];
-			mi.name.t = text;
-			mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
+
 			switch (level) {
 			case TRUST_PRIVATE:
-				mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
-				mir_tstrncpy(text, TranslateT(LANG_STATUS_PRIVATE), _countof(text));
-				len = mir_tstrlen(text);
-				if (len < _countof(text))
-					mir_sntprintf(text + len, _countof(text) - len, _T(" [v%i]"), context->protocol_version);
+				mir_sntprintf(text, _T("%s [v%i]"), TranslateT(LANG_STATUS_PRIVATE), context->protocol_version);
+				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_PRIVATE));
 				break;
+
 			case TRUST_UNVERIFIED:
-				mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
-				mir_tstrncpy(text, TranslateT(LANG_STATUS_UNVERIFIED), _countof(text));
-				len = mir_tstrlen(text);
-				if (len < _countof(text))
-					mir_sntprintf(text + len, _countof(text) - len, _T(" [v%i]"), context->protocol_version);
+				mir_sntprintf(text, _T("%s [v%i]"), TranslateT(LANG_STATUS_UNVERIFIED), context->protocol_version);
+				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
+
 			case TRUST_FINISHED:
-				mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
-				mi.name.t = TranslateT(LANG_STATUS_FINISHED);
+				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_FINISHED), IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
+
 			default:
-				mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
-				mi.name.t = TranslateT(LANG_STATUS_DISABLED);
+				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
 			}
-			CallService(MO_MODIFYMENUITEM, (WPARAM)hStatusInfoItem, (LPARAM)&mi);
 		}
 		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem) {
-			if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
-				mi.flags |= CMIM_FLAGS | CMIF_CHECKED;
-			else
-				mi.flags = CMIM_FLAGS | (mi.flags &~CMIF_CHECKED);
-			CallService(MO_MODIFYMENUITEM, (WPARAM)hHTMLConvMenuItem, (LPARAM)&mi);
+			int flags = db_get_b(hContact, MODULENAME, "HTMLConv", 0) ? CMIF_CHECKED : 0;
+			Menu_ModifyItem(hHTMLConvMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 		}
 	}
 	return TRUE;

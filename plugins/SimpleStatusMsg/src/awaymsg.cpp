@@ -366,41 +366,34 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 	int iHidden = szProto ? db_get_b(hContact, szProto, "ChatRoom", 0) : 0;
 	int iStatus;
 
-	CLISTMENUITEM clmi = { 0 };
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden) {
 		iHidden = 1;
 		iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
-				clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-				clmi.hIcon = Skin_LoadProtoIcon(szProto, iStatus);
+				HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
 				mir_sntprintf(str, _countof(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-				clmi.ptszName = str;
+				Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
+				IcoLib_ReleaseIcon(hIcon);
 			}
 		}
 	}
-	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
-	IcoLib_ReleaseIcon(clmi.hIcon);
+	else Menu_ShowItem(hAwayMsgMenuItem, false);
 
 	ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden && szMsg != NULL) {
-		clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 		mir_sntprintf(str, _countof(str), TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-		clmi.ptszName = str;
+		Menu_ModifyItem(hCopyMsgMenuItem, str);
 	}
-	Menu_ModifyItem(hCopyMsgMenuItem, &clmi);
+	else Menu_ShowItem(hCopyMsgMenuItem, false);
 
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden && szMsg != NULL && StrFindURL(szMsg) != NULL) {
-		clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 		mir_sntprintf(str, _countof(str), TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-		clmi.ptszName = str;
+		Menu_ModifyItem(hGoToURLMenuItem, str);
 	}
-	Menu_ModifyItem(hGoToURLMenuItem, &clmi);
+	else Menu_ShowItem(hGoToURLMenuItem, false);
 
 	return 0;
 }

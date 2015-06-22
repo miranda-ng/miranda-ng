@@ -164,12 +164,8 @@ static void ShowConsole(int show)
 	if (show)
 		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 
-	if (hMenu) {
-		CLISTMENUITEM mi = { 0 };
-		mi.ptszName = show ? LPGENT("Hide Console") : LPGENT("Show Console");
-		mi.flags = CMIM_NAME | CMIF_TCHAR;
-		Menu_ModifyItem(hMenu, &mi);
-	}
+	if (hMenu)
+		Menu_ModifyItem(hMenu, show ? LPGENT("Hide Console") : LPGENT("Show Console"));
 
 	if (hTTBButt)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, show ? TTBST_PUSHED : 0);

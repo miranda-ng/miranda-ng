@@ -501,15 +501,10 @@ int OnMsgEvent(WPARAM wParam, LPARAM lParam)
 
 static int OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	CLISTMENUITEM clmi = { 0 };
-	clmi.flags = CMIM_NAME | CMIF_TCHAR;
-
 	if (db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
-		clmi.ptszName = TranslateT("Ignore Contact");
+		Menu_ModifyItem(hMenuItemRemove, LPGENT("Ignore Contact"));
 	else
-		clmi.ptszName = TranslateT("Show Contact");
-
-	Menu_ModifyItem(hMenuItemRemove, &clmi);
+		Menu_ModifyItem(hMenuItemRemove, LPGENT("Show Contact"));
 	return 0;
 }
 

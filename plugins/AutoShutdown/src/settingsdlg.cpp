@@ -450,19 +450,17 @@ void SetShutdownMenuItem(bool fActive)
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR;
-	if (hMainMenuItem != NULL) {
-		mi.flags |= CMIM_NAME | CMIM_ICON;
-		Menu_ModifyItem(hMainMenuItem, &mi);
-	}
-	else hMainMenuItem = Menu_AddMainMenuItem(&mi);
+	if (hMainMenuItem != NULL)
+		Menu_ModifyItem(hMainMenuItem, mi.ptszName, mi.icolibItem);
+	else
+		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
-	if (hTrayMenuItem != NULL) {
-		mi.flags |= CMIM_NAME | CMIM_ICON;
-		Menu_ModifyItem(hTrayMenuItem, &mi);
-	}
-	else hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
+	if (hTrayMenuItem != NULL)
+		Menu_ModifyItem(hTrayMenuItem, mi.ptszName, mi.icolibItem);
+	else
+		hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 }
 
 static INT_PTR MenuItemCommand(WPARAM,LPARAM)

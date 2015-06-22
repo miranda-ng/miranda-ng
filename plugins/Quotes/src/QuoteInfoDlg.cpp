@@ -273,12 +273,7 @@ namespace
 {
 	void enable_menu(HGENMENU hMenu, bool bEnable)
 	{
-		CLISTMENUITEM clmi = { 0 };
-		clmi.flags = CMIM_FLAGS;
-		if (false == bEnable)
-			clmi.flags |= CMIF_GRAYED;
-
-		Menu_ModifyItem(hMenu, &clmi);
+		Menu_ModifyItem(hMenu, NULL, INVALID_HANDLE_VALUE, (bEnable) ? 0 : CMIF_GRAYED);
 	}
 }
 

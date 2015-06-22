@@ -198,7 +198,7 @@ struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 
 	int  PrepareCheck(int*);
 
-	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
+	__forceinline LPTSTR GetMenuTitle() const { return m_bUsesPassword ? LPGENT("Change/remove password") : LPGENT("Set password"); }
 
 	void DatabaseCorruption(TCHAR *text);
 	void WriteSignature(DBSignature&);
