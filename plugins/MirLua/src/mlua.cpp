@@ -22,7 +22,8 @@ void CMLua::Load()
 	lua_setfield(L, -2, "cpath");
 	lua_pop(L, 1);
 
-	hScriptsLangpack = GetPluginLangId(MIID_LAST, 0);
+	MUUID muidLast = MIID_LAST;
+	hScriptsLangpack = GetPluginLangId(muidLast, 0);
 
 	CLuaModuleLoader::Load(L);
 	CLuaScriptLoader::Load(L);
