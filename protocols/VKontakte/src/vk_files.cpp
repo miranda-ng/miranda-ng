@@ -201,8 +201,8 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	CMStringA FNamePart = fup->fileName();
 	
 	// Boundary
-	srand(time(NULL));
-	int iboundary = rand();
+	int iboundary;
+	Utils_GetRandom(&iboundary, sizeof(iboundary));
 	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(NULL));
 	// Header
 	header.AppendFormat("multipart/form-data; boundary=%s", boundary);
