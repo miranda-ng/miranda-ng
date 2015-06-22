@@ -19,7 +19,7 @@ var
   IsFreeImagePresent:boolean;
 var
   hMenuInfo   :THANDLE;
-  ssmi,sic,
+  ssmi,
   plStatusHook:THANDLE;
   PopupPresent:bool;
   onttbhook,

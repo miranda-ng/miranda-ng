@@ -45,22 +45,12 @@ end;
 
 procedure ChangeMenuIcons(f1:cardinal);
 var
-  mi:tClistMenuItem;
   p:PAnsiChar;
 begin
-  FillChar(mi,sizeof(mi),0);
-  mi.flags :=CMIM_NAME+CMIM_FLAGS+CMIM_ICON+f1;
   if f1<>0 then
-  begin
-    mi.hIcon   :=IcoLib_GetIcon(IcoBtnDisable,0);
-    mi.szName.a:='Enable WATrack';
-  end
+    Menu_ModifyItem(hMenuDisable, 'Enable WATrack', IcoLib_GetIcon(IcoBtnDisable,0), f1)
   else
-  begin
-    mi.hIcon   :=IcoLib_GetIcon(IcoBtnEnable,0);
-    mi.szName.a:='Disable WATrack';
-  end;
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuDisable,lparam(@mi));
+    Menu_ModifyItem(hMenuDisable, 'Disable WATrack', IcoLib_GetIcon(IcoBtnEnable,0));
 
   if ServiceExists(MS_TTB_SETBUTTONSTATE)<>0 then
   begin
@@ -81,15 +71,10 @@ end;
 
 function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
-  mi:TCListMenuItem;
   ttb:m_api.TTBButton;
 begin
   result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-
-  mi.hIcon:=IcoLib_GetIcon(IcoBtnEnable,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuDisable,tlparam(@mi));
+  Menu_ModifyItem(hMenuDisable, nil, IcoLib_GetIcon(IcoBtnEnable,0));
 
   // toptoolbar
   if ServiceExists(MS_TTB_GETBUTTONOPTIONS)<>0 then

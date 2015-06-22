@@ -4,45 +4,24 @@ var
   hCMenuItemPlay:THANDLE;
 
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
 begin
-  FillChar(mi,SizeOf(mi),0);
   if StrCmp(Proto_GetProtoName(hContact),PluginName)<>0 then
-  begin
-    mi.flags:=CMIM_FLAGS or CMIF_HIDDEN;
-    CallService(MS_CLIST_MODIFYMENUITEM,hCMenuItemPlay,tlparam(@mi));
-  end
+    Menu_ShowItem(hCMenuItemPlay, 0)
   else
   begin
     // play/Stop
-    mi.flags:=CMIM_FLAGS or CMIM_ICON or CMIM_NAME;
     if THANDLE(hContact)<>ActiveContact then
-    begin
-      mi.szName.a:='Start broadcasting';
-      mi.hIcon:=IcoLib_GetIcon(IcoBtnOn,0);
-    end
+      Menu_ModifyItem(hCMenuItemPlay, 'Start broadcasting', IcoLib_GetIcon(IcoBtnOn,0))
     else
-    begin
-      mi.szName.a:='Stop broadcasting';
-      mi.hIcon:=IcoLib_GetIcon(IcoBtnOff,0);
-    end;
-    CallService(MS_CLIST_MODIFYMENUITEM,hCMenuItemPlay,tlparam(@mi));
+      Menu_ModifyItem(hCMenuItemPlay, 'Stop broadcasting', IcoLib_GetIcon(IcoBtnOff,0));
 
     // record
-    mi.flags:=CMIM_FLAGS or CMIM_ICON or CMIM_NAME;
     if Service_RadioRecord(0,1)<>0 then
-    begin
-      mi.szName.a:='Stop record';
-      mi.hIcon:=IcoLib_GetIcon(IcoBtnRecDn,0);
-    end
+      Menu_ModifyItem(hCMenuItemRec, 'Stop record', IcoLib_GetIcon(IcoBtnRecDn,0))
     else
-    begin
-      mi.szName.a:='Start record';
-      mi.hIcon:=IcoLib_GetIcon(IcoBtnRecUp,0);
-    end;
+      Menu_ModifyItem(hCMenuItemRec, 'Start record', IcoLib_GetIcon(IcoBtnRecUp,0));
   end;
-  CallService(MS_CLIST_MODIFYMENUITEM,hCMenuItemRec,tlparam(@mi));
+
   result:=0;
 end;
 

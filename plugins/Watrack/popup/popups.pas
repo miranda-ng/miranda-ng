@@ -312,7 +312,6 @@ end;
 
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
-  mi:TCListMenuItem;
   flag:integer;
 begin
   result:=0;
@@ -333,22 +332,14 @@ begin
       else // like 1
         exit
       end;
-      FillChar(mi,sizeof(mi),0);
-      mi.flags :=CMIM_FLAGS+flag;
-      CallService(MS_CLIST_MODIFYMENUITEM,hMenuInfo,tlparam(@mi));
+      Menu_ModifyItem(hMenuInfo, nil, INVALID_HANDLE_VALUE, flag);
     end;
   end;
 end;
 
 function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
 begin
   result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-  mi.hIcon :=IcoLib_GetIcon(IcoBtnInfo,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuInfo,tlparam(@mi));
   if ActionList<>nil then
   begin
     mFreeMem(ActionList);
@@ -479,7 +470,7 @@ begin
   sid.szDescription.a:='Music Info';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
   mi.szPopupName.a:=PluginShort;
@@ -536,7 +527,6 @@ begin
   CallService(MO_REMOVEMENUITEM,hMenuInfo,0);
   UnhookEvent(plStatusHook);
   DestroyServiceFunction(ssmi);
-  UnhookEvent(sic);
 
   freepopup;
 

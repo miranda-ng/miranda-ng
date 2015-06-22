@@ -515,7 +515,6 @@ end;
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   flag:integer;
-  mi:tClistMenuItem;
   CurTime:dword;
 begin
   result:=0;
@@ -543,22 +542,9 @@ begin
       else // like 1
         exit
       end;
-      FillChar(mi,sizeof(mi),0);
-      mi.flags :=CMIM_FLAGS+flag;
-      CallService(MS_CLIST_MODIFYMENUITEM,hMenuReport,tlparam(@mi));
+      Menu_ModifyItem(hMenuReport, nil, INVALID_HANDLE_VALUE, flag);
     end;
   end;
-end;
-
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
-begin
-  result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-  mi.hIcon :=IcoLib_GetIcon(IcoBtnReport,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuReport,tlparam(@mi));
 end;
 
 // ------------ base interface functions -------------
@@ -594,7 +580,6 @@ begin
   sid.szDescription.a:='Create Report';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi, sizeof(mi), 0);
   mi.szPopupName.a:=PluginShort;
@@ -612,8 +597,6 @@ begin
     SetModStatus(0);
 
   CallService(MO_REMOVEMENUITEM,hMenuReport,0);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
   DestroyServiceFunction(hPackLog);
   DestroyServiceFunction(hMakeReport);
   DestroyServiceFunction(hAddToLog);

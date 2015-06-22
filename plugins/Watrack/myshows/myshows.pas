@@ -29,10 +29,7 @@ type
   end;
 var
   msh_tries,
-//  msh_timeout,
   msh_scrobpos:integer;
-  sic:THANDLE;
-//  slastinf:THANDLE;
   slast:THANDLE;
   MSData:tMyShowsData;
 const
@@ -100,7 +97,6 @@ end;
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   flag:integer;
-  mi:TCListMenuItem;
   timervalue:integer;
 begin
   result:=0;
@@ -142,9 +138,7 @@ begin
       else // like 1
         exit
       end;
-      FillChar(mi,sizeof(mi),0);
-      mi.flags :=CMIM_FLAGS+flag;
-      CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
+      Menu_ModifyItem(hMenuMyShows, nil, INVALID_HANDLE_VALUE, flag);
     end;
 
     WAT_EVENT_PLAYERSTATUS: begin
@@ -164,17 +158,6 @@ end;
 
 {$i i_myshows_dlg.inc}
 
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
-begin
-  result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-  mi.hIcon :=IcoLib_GetIcon(IcoMyShows,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
-end;
-
 (* kinopoisk link, cover, series?
 function SrvMyShowsInfo(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 //var
@@ -193,19 +176,15 @@ begin
 end;
 *)
 function SrvMyShows(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
 begin
-  FillChar(mi,sizeof(mi),0);
-  mi.flags :=CMIM_NAME;
   if odd(msh_on) then
   begin
-    mi.szName.a:='Disable scrobbling';
+    Menu_ModifyItem(hMenuMyShows,'Disable scrobbling');
     msh_on:=msh_on and not 1;
   end
   else
   begin
-    mi.szName.a:='Enable scrobbling';
+    Menu_ModifyItem(hMenuMyShows,'Enable scrobbling');
     msh_on:=msh_on or 1;
     if hTimer<>0 then
     begin
@@ -213,7 +192,6 @@ begin
       hTimer:=0;
     end;
   end;
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
   result:=ord(not odd(msh_on));
 end;
 
@@ -253,9 +231,6 @@ begin
   result:=0;
 end;
 
-var
-  plStatusHook:THANDLE;
-
 function InitProc(aGetStatus:boolean=false):integer;
 begin
 //  slastinf:=CreateServiceFunction(MS_WAT_MYSHOWSINFO,@SrvMyShowsInfo);
@@ -279,9 +254,8 @@ begin
   slast:=CreateServiceFunction(MS_WAT_MYSHOWS,@SrvMyShows);
   if hMenuMyShows=0 then
     CreateMenus;
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
   if (msh_on and 4)=0 then
-    plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+    HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -292,8 +266,6 @@ begin
 ;//    DestroyServiceFunction(slastinf);
 
   DestroyServiceFunction(slast);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
 
   if hTimer<>0 then
   begin

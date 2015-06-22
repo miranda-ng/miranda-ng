@@ -232,45 +232,21 @@ begin
 end;
 
 function TrayPrebuild(wParam:WPARAM;lParam:LPARAM):int; cdecl;
-var
-  mi:tClistMenuItem;
-  playstr:pWideChar;
-  ico:pAnsiChar;
 begin
-  FillChar(mi,sizeof(mi),0);
-
-  mi.flags:=CMIM_NAME or CMIF_UNICODE;
   if PluginStatus=ID_STATUS_ONLINE then
-  begin
-    playstr:='mRadio off';
-  end
+    Menu_ModifyItem(trayprotoh, 'mRadio off')
   else
-  begin
-    playstr:='mRadio on';
-  end;
-  mi.szName.w:=playstr;
-  CallService(MS_CLIST_MODIFYMENUITEM,trayprotoh,tlparam(@mi));
+    Menu_ModifyItem(trayprotoh, 'mRadio on');
 
   if gVolume<0 then
-  begin
-    ico:=IcoBtnOff;
-  end
+    Menu_ModifyItem(traymute, nil, IcoLib_GetIcon(IcoBtnOff,0))
   else
-  begin
-    ico:=IcoBtnOn;
-  end;
-  mi.flags:=CMIM_FLAGS or CMIM_ICON;
-  mi.hIcon:=IcoLib_GetIcon(ico,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,traymute,tlparam(@mi));
-  mi.hIcon:=0;
+    Menu_ModifyItem(traymute, nil, IcoLib_GetIcon(IcoBtnOn,0));
 
-  mi.flags:=CMIM_NAME or CMIF_UNICODE;
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then
-    playstr:='Play'
+    Menu_ModifyItem(trayplay, 'Play')
   else
-    playstr:='Pause';
-  mi.szName.w:=playstr;
-  CallService(MS_CLIST_MODIFYMENUITEM,trayplay,tlparam(@mi));
+    Menu_ModifyItem(trayplay, 'Pause');
 
   MakeStationsMenu();
   result:=0;

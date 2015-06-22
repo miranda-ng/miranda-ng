@@ -17,7 +17,6 @@ const
   IcoLastFM:pAnsiChar = 'WATrack_lasfm';
 var
   lfm_tries:integer;
-  sic:THANDLE;
   slastinf:THANDLE;
   slast:THANDLE;
 const
@@ -81,7 +80,6 @@ end;
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   flag:integer;
-  mi:TCListMenuItem;
 begin
   result:=0;
   case wParam of
@@ -113,9 +111,7 @@ begin
       else // like 1
         exit
       end;
-      FillChar(mi,sizeof(mi),0);
-      mi.flags :=CMIM_FLAGS+flag;
-      CallService(MS_CLIST_MODIFYMENUITEM,hMenuLast,tlparam(@mi));
+      Menu_ModifyItem(hMenuLast, nil, INVALID_HANDLE_VALUE, flag);
     end;
 
     WAT_EVENT_PLAYERSTATUS: begin
@@ -135,17 +131,6 @@ end;
 
 {$i i_last_dlg.inc}
 
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
-begin
-  result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-  mi.hIcon :=IcoLib_GetIcon(IcoLastFM,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuLast,tlparam(@mi));
-end;
-
 function SrvLastFMInfo(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   data:tLastFMInfo;
@@ -160,19 +145,15 @@ begin
 end;
 
 function SrvLastFM(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
 begin
-  FillChar(mi,sizeof(mi),0);
-  mi.flags :=CMIM_NAME;
   if odd(lfm_on) then
   begin
-    mi.szName.a:='Disable scrobbling';
+    Menu_ModifyItem(hMenuLast,'Disable scrobbling');
     lfm_on:=lfm_on and not 1;
   end
   else
   begin
-    mi.szName.a:='Enable scrobbling';
+    Menu_ModifyItem(hMenuLast,'Enable scrobbling');
     lfm_on:=lfm_on or 1;
     if hTimer<>0 then
     begin
@@ -180,7 +161,6 @@ begin
       hTimer:=0;
     end;
   end;
-  CallService(MS_CLIST_MODIFYMENUITEM,hMenuLast,tlparam(@mi));
   result:=ord(not odd(lfm_on));
 end;
 
@@ -220,9 +200,6 @@ begin
   result:=0;
 end;
 
-var
-  plStatusHook:THANDLE;
-
 function InitProc(aGetStatus:boolean=false):integer;
 begin
   slastinf:=CreateServiceFunction(MS_WAT_LASTFMINFO,@SrvLastFMInfo);
@@ -246,9 +223,8 @@ begin
   slast:=CreateServiceFunction(MS_WAT_LASTFM,@SrvLastFM);
   if hMenuLast=0 then
     CreateMenus;
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
   if (lfm_on and 4)=0 then
-    plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+    HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -261,8 +237,6 @@ begin
   CallService(MO_REMOVEMENUITEM,hMenuLast,0);
   hMenuLast:=0;
   DestroyServiceFunction(slast);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
 
   if hTimer<>0 then
   begin
