@@ -25,12 +25,15 @@ void CMLua::Load()
 	MUUID muidLast = MIID_LAST;
 	hScriptsLangpack = GetPluginLangId(muidLast, 0);
 
+	console = new CMLuaConsole(L);
+
 	CLuaModuleLoader::Load(L);
 	CLuaScriptLoader::Load(L);
 }
 
 void CMLua::Unload()
 {
+	delete console;
 	if (L)
 		lua_close(L);
 	KillModuleMenus(hScriptsLangpack);
