@@ -81,7 +81,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 			return;
 		}
 	}
-	
+
 	if (m_proto->InitToxCore())
 	{
 		TCHAR *group = m_group.GetText();
@@ -217,7 +217,7 @@ bool CToxOptionsMultimedia::GetDeviceFullName(GUID guid, TCHAR *deviceName, DWOR
 void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
-	
+
 	DWORD count = 0;
 	TCHAR deviceName[MAX_PATH];
 	DWORD deviceNameLength = _countof(deviceName);
