@@ -5,6 +5,7 @@ class CLuaScriptLoader
 {
 private:
 	lua_State *L;
+	HANDLE hLogger;
 
 	CLuaScriptLoader(lua_State *L);
 
