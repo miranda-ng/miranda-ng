@@ -202,17 +202,17 @@
 [Please select a file to import birthdays from...]
 Выберите файл для импорта дней рождения...
 [Importing birthdays from file: %s]
-Идет импорт в файл %s
+Идёт импорт в файл %s
 [Done importing birthdays]
-Импорт завершен
+Импорт завершён
 [All Files]
 Все файлы
 [Please select a file to export birthdays to...]
 Выберите файл для экспорта дней рождения...
 [Exporting birthdays to file: %s]
-Идет экспорт в файл %s
+Идёт экспорт в файл %s
 [Done exporting birthdays]
-Экспорт завершен
+Экспорт завершён
 [Could not open file to import birthdays]
 Невозможно открыть файл для импорта дней рождения
 [Error]

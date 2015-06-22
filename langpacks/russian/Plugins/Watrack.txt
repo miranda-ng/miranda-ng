@@ -20,7 +20,7 @@ xСтатус будет очищен перед изменением текст
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Использовать плагин "Variables" или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без этого плагина WATrack будет работать быстрее.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-Заменять "_" (подчеркивание) пробелами в тексте, иногда может быть полезно.
+Заменять "_" (подчёркивание) пробелами в тексте, иногда может быть полезно.
 [Check file date and time to tag updates while playing.]
 Проверять дату и время файла, чтобы отслеживать изменение тэгов.
 [Report on some errors.]
@@ -102,7 +102,7 @@ xСтатус будет очищен перед изменением текст
 [Stop Hovered]
 Стоп наведено
 [Next Hovered]
-Вперед наведено
+Вперёд наведено
 [Prev Pushed]
 Назад нажато
 [Play Pushed]
@@ -110,7 +110,7 @@ xСтатус будет очищен перед изменением текст
 [Stop Pushed]
 Стоп нажато
 [Next Pushed]
-Вперед нажато
+Вперёд нажато
 [Volume Down]
 Громкость вниз
 [Volume Up]
@@ -222,7 +222,7 @@ FPS (кадров в секунду), только для видео
 [Keep 'Music' status]
 Оставлять статус "Музыка"
 [Replace underlines with spaces]
-Заменять подчеркивания пробелами
+Заменять подчёркивания пробелами
 [Check file time]
 Проверять время файла
 [Other thread handle check]
@@ -290,7 +290,7 @@ VBR или пусто
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
 Если опция включена, вы можете вставлять информацию о музыке в окно сообщений, нажав горячую клавишу.
 [If this option is "ON", status text will be replaced by music info.]
-Если опция включена, текст статусов будет замещен на информацию о музыке
+Если опция включена, текст статусов будет замещён на информацию о музыке
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 Если опция включена, все настройки сохранятся в INI-файле и сотрутся из базы Miranda, иначе - удалится INI-файл (если был).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
@@ -454,7 +454,7 @@ VBR или нет
 [- track number]
 - номер трека
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
- Время обновления (сек) - обновление информации в статусных сообщениях. Если нуль, автообновление выключено\n Работает, только если xСтатус "Музыка".\n Если плеер выключен или остановлен, xСтатус убирается.\n Если текст пуст, статусное сообщение не меняется.\n Если настройки хранятся в ini файле, они удалятся из базы Miranda, иначе ini файл будет удален.
+ Время обновления (сек) - обновление информации в статусных сообщениях. Если нуль, автообновление выключено\n Работает, только если xСтатус "Музыка".\n Если плеер выключен или остановлен, xСтатус убирается.\n Если текст пуст, статусное сообщение не меняется.\n Если настройки хранятся в ini файле, они удалятся из базы Miranda, иначе ini файл будет удалён.
 ["Variables" module use]
 Использовать "Variables"
 [Acoustic]

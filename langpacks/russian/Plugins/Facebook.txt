@@ -14,7 +14,7 @@
 [Create a new Facebook account]
 Создать новую учётную запись Facebook
 [What's on your mind?]
-О чем вы думаете?
+О чём вы думаете?
 [Wall:]
 Стена:
 [Visibility:]
@@ -182,7 +182,7 @@ Facebook потребовал чистки компьютера и плагин 
 [%s and more (%d)]
 %s и ещё (%d)
 [Contact was removed from your server list.]
-Контакт удален из списка на сервере.
+Контакт удалён из списка на сервере.
 [Error occurred when removing contact from server.]
 Ошибка удаления контакта из списка на сервере.
 [Request for friendship was sent.]

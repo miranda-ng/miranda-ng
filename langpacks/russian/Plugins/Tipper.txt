@@ -308,9 +308,9 @@ xСтатус:
 [Listening to:]
 Слушаю:
 [Copy all items with labels]
-Копировать все с метками
+Копировать всё с метками
 [Copy all items]
-Копировать все
+Копировать всё
 [Copy avatar]
 Копировать аватар
 [<No Label>: ]

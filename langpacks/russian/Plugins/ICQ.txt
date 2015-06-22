@@ -68,7 +68,7 @@
 [Update my contacts' details from the server *]
 Обновлять данные о контактах с сервера *
 [Update contacts' details on the server's list when I change them in mine]
-Обновлять данные о контактах на сервере, когда я их меняю в своем списке
+Обновлять данные о контактах на сервере, когда я их меняю в своём списке
 [ICQ avatars]
 Аватары ICQ
 [Enable avatar support]
@@ -82,7 +82,7 @@
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Невозможно включить/выключить хранение списка контактов на сервере во время подключения к сети ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
-Замечание: Настройки, отмеченные звездочкой, имеют побочные эффекты, которые могут быть не документированы в справке.
+Замечание: Настройки, отмеченные звёздочкой, имеют побочные эффекты, которые могут быть не документированы в справке.
 [Messaging]
 Сообщения
 [Use this codepage for Ansi <-> Unicode translation:]
@@ -126,7 +126,7 @@
 [All users may add me to their Contact List]
 Все пользователи могут добавить меня в свой список контактов
 [I want to be asked when someone wants to add me to their Contact List]
-Требуется мое разрешение
+Требуется моё разрешение
 [Misc Settings]
 Прочие настройки
 [Allow others to view my Online / Offline status from the web (Web Aware)]
@@ -466,7 +466,7 @@ xСтатус "%s"
 [Spambot Detected]
 Обнаружен спамбот
 [Contact deleted & further events blocked.]
-Контакт удален, новые события заблокированы.
+Контакт удалён, новые события заблокированы.
 [Incoming URL:]
 Входящий URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -476,7 +476,7 @@ xСтатус "%s"
 [The contact does not support receiving offline messages.]
 Контакт не поддерживает приём оффлайн сообщений.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Этот пользователь ушел из сети. Попробуйте отправить оффлайн-сообщение.\r\nSNAC(4.1) ошибка x04
+Этот пользователь ушёл из сети. Попробуйте отправить оффлайн-сообщение.\r\nSNAC(4.1) ошибка x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
 Служба отправки сообщений временно недоступна. Попробуйте позже.\r\nSNAC(4.1) Ошибка x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
@@ -520,7 +520,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 [Contact "%s" lost its authorization in the server list.]
 Контакт "%s" потерял авторизацию в списке на сервере.
 [User "%s" was removed from server list.]
-Пользователь "%s" был удален из списка на сервере.
+Пользователь "%s" был удалён из списка на сервере.
 [Secure login failed.\nInvalid server response.]
 Ошибка защищённого входа.\nНеверный ответ сервера.
 [Secure login failed.\nInvalid key length.]
@@ -626,7 +626,7 @@ SNAC(4.1) Ошибка SENDMSG (x%02x)
 [Canary Islands]
 Канарские о-ва
 [Cape Verde]
-о-ва Зеленого Мыса
+о-ва Зелёного Мыса
 [Cayman Islands]
 Каймановы о-ва
 [Central African Republic]
@@ -1328,7 +1328,7 @@ Web Дизайн
 [Finance]
 Финансы
 [High Tech]
-Наукоемкие технологии
+Наукоёмкие технологии
 [Legal]
 Юриспруденция
 [Manufacturing]
@@ -1446,7 +1446,7 @@ Web-службы
 [No description given]
 Без описания
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-Передача файла была отменена, потому что один из выбранных файлов не читается с диска, так как был перемещен или удален.
+Передача файла была отменена, потому что один из выбранных файлов не читается с диска, так как был перемещён или удалён.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Передача файла была отменена, не удалось открыть локальный файл на запись. Скорее всего, вы пытаетесь сохранить файл в папку где нет права на запись.
 [Request authorization]
@@ -1524,7 +1524,7 @@ ID пользователя
 [Unable to connect to ICQ login server]
 Невозможно подключиться к серверу ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (firewall), настройте в нем несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
+Не удалось выделить порт для соединений между клиентами. Все функции ICQ будут доступны, но возможны проблемы с передачей файлов.\n\nЕсли у вас установлен брандмауэр (firewall), настройте в нём несколько портов и укажите их в настройках (Сеть - соединения между пользователями)
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Неудачное подключение.\nПоследовательность входа не удалась по неизвестной причине.\nПопробуйте позже.
 [Your connection with the ICQ server was abortively closed]
@@ -1620,7 +1620,7 @@ ID пользователя
 [Sleeping]
 Сплю
 [Surfing]
-Серфинг
+Сёрфинг
 [Working]
 Работаю
 [Typing]
@@ -1802,7 +1802,7 @@ xСтатус ICQ
 [File transfer negotiation failed for unknown reason.]
 Передача файла не удалась по неизвестной причине.
 [The checksum of file "%s" does not match, the file is probably damaged.]
-Контрольная сумма файла "%s" не совпадает, файл может быть поврежден.
+Контрольная сумма файла "%s" не совпадает, файл может быть повреждён.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Передача файлов прервана (ошибка=%d), поскольку один из файлов более недоступен. Возможно, вы удалили или переместили его.
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]

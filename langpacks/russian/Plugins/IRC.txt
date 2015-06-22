@@ -154,7 +154,7 @@ ID пользователя
 [Hostmask]
 Маска
 [&Clear all]
-&Очистить все
+&Очистить всё
 [Online detection mode]
 Режим определения в сети
 [Basic]
@@ -288,15 +288,15 @@ Wildcard поиск по сети
 [CTCP TIME requested by %s]
 Запрос CTCP TIME от %s
 [DCC: Chat request from %s denied]
-DCC: Запрос чата от %s отклонен
+DCC: Запрос чата от %s отклонён
 [DCC: File transfer request from %s denied]
-DCC: Запрос передачи файла от %s отклонен
+DCC: Запрос передачи файла от %s отклонён
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC: Запрос на реверсную передачу файла от %s отклонен. (Не найден локальный IP)
+DCC: Запрос на реверсную передачу файла от %s отклонён. (Не найден локальный IP)
 [DCC ERROR: Malformed CTCP request from %s [%s]]
 Ошибка DCC: Неверный СТСР-запрос от %s [%s]
 [DCC: File transfer resume request from %s denied]
-DCC: Запрос на продолжение закачки файла от %s отклонен
+DCC: Запрос на продолжение закачки файла от %s отклонён
 [CTCP %s requested by %s]
 СТСР %s запрос от %s
 [CTCP PING reply from %s: %u sec(s)]
@@ -564,7 +564,7 @@ WallOps от %s:\s
 [Di&sconnect]
 Отк&лючиться
 [&Add to ignore list]
-&Добавить в черный список
+&Добавить в чёрный список
 [%s (%s) is requesting a client-to-client chat connection.]
 %s [%s] запрашивает соединение на СТСР-чат
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
@@ -696,7 +696,7 @@ Nickserv убить фантома
 [Give &Op]
 &Режим +o
 [Take O&p]
-Р&ежим -o
+Р&ёжим -o
 [Give &Halfop]
 Реж&им +h
 [Take H&alfop]

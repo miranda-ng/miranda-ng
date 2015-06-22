@@ -230,7 +230,7 @@
 [Creepy]
 (по умолчанию)
 [Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
-Мой хозяин, %nas_mynick%, был %nas_statdesc% начиная с этого дня и даты ?nas_awaysince_date(dddd)... Когда он вернется, я ему передам, чтобы он с вами связался...
+Мой хозяин, %nas_mynick%, был %nas_statdesc% начиная с этого дня и даты ?nas_awaysince_date(dddd)... Когда он вернётся, я ему передам, чтобы он с вами связался...
 [Default messages]
 Сообщения по умолчанию
 [Online]
@@ -240,7 +240,7 @@
 [Away]
 Отсутствую
 [Been gone since %nas_awaysince_time%, will be back later.]
-Отошел в %nas_awaysince_time%, буду позже.
+Отошёл в %nas_awaysince_time%, буду позже.
 [NA]
 Недоступен
 [Give it up, I'm not in!]
@@ -286,9 +286,9 @@
 [New Away System]
 Система сообщений
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
-"отошел в" (время в формате по умолчанию); ?nas_awaysince_time(x) в формате x
+"отошёл в" (время в формате по умолчанию); ?nas_awaysince_time(x) в формате x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
-"отошел в" (дата в формате по умолчанию); ?nas_awaysince_date(x) в формате x
+"отошёл в" (дата в формате по умолчанию); ?nas_awaysince_date(x) в формате x
 [Status description]
 описание статуса
 [Your nick for current protocol]

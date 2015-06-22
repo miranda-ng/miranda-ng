@@ -26,7 +26,7 @@
 [Not secured for NotOnList]
 Не защищать контакты из "Not-In-List"
 [Auto accept RSA key (NOT SECURED)]
-Авт. одобрение RSA (не защищен)
+Авт. одобрение RSA (не защищён)
 [Mode in Context Menu]
 Режим через контекстное меню
 [Key Exchange Timeout:]

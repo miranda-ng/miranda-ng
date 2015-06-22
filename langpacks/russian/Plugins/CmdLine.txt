@@ -54,9 +54,9 @@
 [Current global status: %s.%s]
 Текущий глобальный статус: %s.%s
 [Changed global status to '%s' (previous status was '%s').]
-Изменен глобальный статус на '%s' (предыдущий был '%s').
+Изменён глобальный статус на '%s' (предыдущий был '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
-Изменен '%s' статус на '%s' (предыдущий был '%s').
+Изменён '%s' статус на '%s' (предыдущий был '%s').
 ['%s' doesn't seem to be a valid account.]
 Учётная запись '%s' указана неправильно или не существует.
 [Failed to change status for account '%s' to '%s'.]

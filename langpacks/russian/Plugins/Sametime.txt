@@ -260,7 +260,7 @@ DNS не найден
 [The user is non-existent]
 Нет такого пользователя
 [The data are invalid or corrupted]
-Неверные или поврежденные данные
+Неверные или повреждённые данные
 [The requested feature is not implemented]
 Функция не реализована
 [Not enough resources to perform the operation]

@@ -8,7 +8,7 @@
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Заменяет диалоговые окна (которые имеют лишь кнопку ОК) на всплывающие окна.
 [ASTERISK style]
-Звездочка
+Звёздочка
 [Background color]
 Цвет фона
 [Text color]
@@ -32,7 +32,7 @@
 [Error]
 Ошибка
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-Гм. Что-то пошло не так. Не удается произвести запись в память.\И, как вы уже видите, не сгенерировано никакого исключения...\nПопробуйте отправить сообщение об ошибке
+Гм. Что-то пошло не так. Не удаётся произвести запись в память.\И, как вы уже видите, не сгенерировано никакого исключения...\nПопробуйте отправить сообщение об ошибке
 [MessagePopup]
 Диалоговые окна
 [Popups]

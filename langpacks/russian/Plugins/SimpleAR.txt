@@ -8,7 +8,7 @@
 [Simple Auto Replier.]
 Простой автоответчик.
 [Enable Auto Replier]
-Автоответ включен
+Автоответ включён
 [Reply Message Heading:]
 Заголовок автоответа:
 [Reply Message when]

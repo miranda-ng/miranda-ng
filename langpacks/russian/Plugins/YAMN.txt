@@ -204,7 +204,7 @@ YAMN: сбой подключения
 [Copy Selected]
 Копировать выделенное
 [Copy All]
-Копировать все
+Копировать всё
 [Run application]
 Запустить приложение
 [Delete selected]

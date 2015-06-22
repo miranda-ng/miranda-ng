@@ -56,7 +56,7 @@
 [Default Action]
 Действие по умолчанию
 [Delete All]
-Удалить все
+Удалить всё
 [*** Default Action ***]
 *** Общее действие ***
 [*** System History ***]

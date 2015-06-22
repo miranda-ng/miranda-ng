@@ -48,7 +48,7 @@
 [Advanced]
 Дополнительно
 [Underline type:]
-Тип подчеркивания:
+Тип подчёркивания:
 [Show corrections in submenu]
 Группировать исправления в подменю
 [Show all corrections in context menu (takes more time to show)]
@@ -62,7 +62,7 @@
 [Use dictionaries from other programs]
 Использовать словари из других программ
 [Avoid removing underscores (slows down checking of long texts)]
-Не удалять подчеркивания (замедляет проверку больших текстов)
+Не удалять подчёркивания (замедляет проверку больших текстов)
 [The wrong word can't be empty!]
 Слово с ошибкой не может быть пустым!
 [Wrong Correction]
@@ -120,7 +120,7 @@
 [Always replace with]
 Всегда заменять на
 [Ignore all]
-Игнорировать все
+Игнорировать всё
 [Add to dictionary]
 Добавить в словарь
 [Corrections]

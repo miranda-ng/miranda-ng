@@ -438,13 +438,13 @@ MRIM_CS_SMS_ACK: не найден в очереди
 [Malicious]
 Ехидный
 [Imp]
-Чертенок
+Чертёнок
 [Blind]
 Слепой
 [Disappointed]
 Разочарованный
 [Almost crying]
-Сдерживаю слезы
+Сдерживаю слёзы
 [Fearful]
 Испуган
 [Angry]

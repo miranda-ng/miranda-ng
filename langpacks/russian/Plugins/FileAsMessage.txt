@@ -44,7 +44,7 @@
 [Size: %d bytes]
 Размер: %d байт
 [Request sent. Awaiting of acceptance..]
-Запрос послан. Ждем ответа...
+Запрос послан. Ждём ответа...
 [Sending...]
 Передача...
 [Received successfully]
@@ -80,7 +80,7 @@
 [Canceled by user]
 Отменено пользователем
 [Transfer is in progress. Do you really want to close?]
-Идет передача файла. Прервать?
+Идёт передача файла. Прервать?
 [Play]
 Пуск
 [Pause]

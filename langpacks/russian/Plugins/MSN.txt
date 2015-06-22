@@ -76,7 +76,7 @@
 [Mobile Device (used for SMS)]
 Мобильное устройство (SMS)
 [Spouse/Partner]
-Супруг(а)/Партнер
+Супруг(а)/Партнёр
 [Middle Name]
 Отчество
 [First Name]
@@ -154,7 +154,7 @@ MSN Чат
 [MSN Link Protocol]
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контакт %s был удален с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
+Контакт %s был удалён с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
 [%s protocol]
 Протокол %s
 [Subject: %s]

@@ -52,7 +52,7 @@
 [ZIP support]
 Поддержка ZIP-архивации
 [Enter archive name manually]
-Введите свое имя архива
+Введите своё имя архива
 [Compression level:]
 Уровень сжатия:
 [Upload File Manager]
@@ -222,7 +222,7 @@ FTP файл менеджер
 [You have to fill and enable at least one FTP server in setting.]
 Вы должны добавить хотя бы один FTP сервер в настройках.
 [Clear All]
-Снять все
+Снять всё
 [minutes]
 минут(ы)
 [hours]

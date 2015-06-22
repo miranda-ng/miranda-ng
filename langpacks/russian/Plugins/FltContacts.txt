@@ -20,7 +20,7 @@
 [Hide all contacts]
 Прятать все контакты
 [Hide when a fullscreen app is active]
-Прятать когда приложение развернуто
+Прятать когда приложение развёрнуто
 [Show tooltips*]
 Всплывающие подсказки*
 [ms]

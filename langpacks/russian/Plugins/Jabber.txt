@@ -392,7 +392,7 @@ XML Консоль
 [Frame text]
 Текст фрейма
 [Fatal error, image services not found. Jabber Protocol will be disabled.]
-Критическая ошибка, не найдена служба изображений. Протокол Jabber будет отключен.
+Критическая ошибка, не найдена служба изображений. Протокол Jabber будет отключён.
 [Jabber Activity]
 Занятие Jabber
 [Jabber Mood]
@@ -860,9 +860,9 @@ Jabber ошибка
 [Registration successful]
 Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успешно изменен. Не забудьте обновить ваш пароль в настройках учётной записи Jabber.
+Пароль успешно изменён. Не забудьте обновить ваш пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
-Пароль не может быть изменен
+Пароль не может быть изменён
 [Jabber Bookmarks Error]
 Ошибка закладок Jabber
 [%s, %d items (%s)]
@@ -1486,13 +1486,13 @@ XML для MS Excel (кодировка UTF-8)
 [Privacy list %s set as active]
 Список приватности %s - активный
 [Active privacy list successfully declined]
-Активный список приватности отклонен успешно
+Активный список приватности отклонён успешно
 [Error occurred while setting active list]
 Ошибка при установке списка активным
 [Privacy list %s set as default]
 Список приватности %s - основной
 [Default privacy list successfully declined]
-Стандартный список приватности успешно отклонен
+Стандартный список приватности успешно отклонён
 [Error occurred while setting default list]
 Ошибка при установке списка по умолчанию
 [Allow]
@@ -1980,7 +1980,7 @@ Jabber vCard: редактирование телефона
 [Satisfied]
 Довольный
 [Serious]
-Серьезный
+Серьёзный
 [Shocked]
 Шокирован
 [Shy]
@@ -2144,13 +2144,13 @@ Jabber vCard: редактирование телефона
 [commuting]
 общественный транспорт
 [driving]
-за рулем
+за рулём
 [in a car]
 в автомобиле
 [on a bus]
 в автобусе
 [on a plane]
-в самолете
+в самолёте
 [on a train]
 в поезде
 [on a trip]

@@ -80,7 +80,7 @@
 [Last seen on %x at %X]
 Последнее появление %x в %X
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
-Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
+Код регистрации придёт на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Your password has been set automatically. You can proceed with login now]
 Ваш пароль был установлен автоматически. Теперь вы можете подключиться.
 [Please correctly specify your registration code received by SMS]

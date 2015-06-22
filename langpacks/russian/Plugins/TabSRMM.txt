@@ -346,7 +346,7 @@ ID пользователя в строке состояния
 [Enable sound effects]
 Включить звуковые эффекты
 [Play sounds when minimized]
-Уведомлять когда контейнер свернут
+Уведомлять когда контейнер свёрнут
 [Play sounds when not focused]
 Уведомлять когда контейнер не в фокусе
 [Play sounds for inactive tabs in active containers]
@@ -910,7 +910,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Italic text]
 Курсив
 [Underlined text]
-Подчеркнутый
+Подчёркнутый
 [Strike-through text]
 Перечёркнутый
 [Select font color]
@@ -1032,7 +1032,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Last received: %s at %s]
 Последнее сообщение было получено %s в %s
 [%s has entered text.]
-%s ввел(а) текст.
+%s ввёл(а) текст.
 [%s is typing a message]
 %s набирает сообщение
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
@@ -1070,9 +1070,9 @@ TabSRMM: набирает
 [Message from %s]
 Сообщение от %s
 [signed off.]
-отключен(а).
+отключён(а).
 [signed on and is now %s.]
-подключен(а) (%s).
+подключён(а) (%s).
 [changed status from %s to %s.]
 меняет статус с %s на %s.
 [Most recent unread session]
@@ -1388,13 +1388,13 @@ TabSRMM: набирает
 [Format italic]
 Курсив
 [Format underline]
-Подчеркнутый
+Подчёркнутый
 [Font face]
 Тип шрифта
 [Font color]
 Цвет шрифта
 [Format strike-through]
-Перечеркнутый
+Перечёркнутый
 [Background color]
 Цвет фона
 [Room settings]
@@ -1446,7 +1446,7 @@ TabSRMM: набирает
 [Feature enabled (used as overlay)]
 Возможность включена (используется как оверлей)
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключен.
+Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключён.
 [TabSRMM fatal error]
 Критическая ошибка TabSRMM
 [Message windows - IM]
@@ -1678,7 +1678,7 @@ TabSRMM: %s
 [Show events at the new line (IEView Compatibility Mode)]
 Показывать события в новой строке (Режим совместимости с IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
-Подчеркивать время/ник (Режим совместимости с IEView)
+Подчёркивать время/ник (Режим совместимости с IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Показывать время после ника (Режим совместимости с IEView)
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
@@ -1696,9 +1696,9 @@ TabSRMM: %s
 [Automatically create new message sessions without activating them]
 Автоматически создавать новые вкладки, без активации
 [New windows are minimized (the option above MUST be active)]
-Создавать новые окна свернутыми (опция выше должна быть включена)
+Создавать новые окна свёрнутыми (опция выше должна быть включена)
 [Activate a minimized window when a new tab is created inside it]
-Открыть свернутое окно при создании в нём новой вкладки
+Открыть свёрнутое окно при создании в нём новой вкладки
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Автосмена вкладок при новых сообщениях (без Aero Peek)
 [Remember and set keyboard layout per contact]
@@ -2020,13 +2020,13 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 [Group chat log background]
 Фон журнала чата
 [nick of current contact (if defined)]
-ник текущего контакта (если определен)
+ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
+ID текущего контакта (если определён). Например, UIN для ICQ, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]

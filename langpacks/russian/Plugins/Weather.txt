@@ -294,7 +294,7 @@ INI файл погоды для этой станции не найден (20)
 [HTTP Error: Bad request (400)]
 Ошибка HTTP: Неправильный запрос (400)
 [HTTP Error: Unauthorized (401)]
-Ошибка HTTP: Не разрешен (401)
+Ошибка HTTP: Не разрешён (401)
 [HTTP Error: Payment required (402)]
 Ошибка HTTP: Требуется оплата (402)
 [HTTP Error: Forbidden (403)]
@@ -356,7 +356,7 @@ INI файл погоды для этой станции не найден (20)
 [<Enter station ID here>]
 <Введите ID города>
 [Weather condition was not logged.]
-Журнал погоды не ведется.
+Журнал погоды не ведётся.
 [Get city name from ID]
 Получить название города по ID
 [Weather INI information]
@@ -490,7 +490,7 @@ ID города
 [Update All Weather]
 Обновить погоду
 [Remove Old Data then Update All]
-Удалить данные и обновить все
+Удалить данные и обновить всё
 [Weather Notification]
 Уведомление о погоде
 [Display in a frame]

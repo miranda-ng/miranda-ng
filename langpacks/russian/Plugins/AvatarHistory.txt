@@ -100,7 +100,7 @@
 [Delete avatar log?]
 Удалить записи изменений аватаров?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
-Вы уверены, что хотите удалить этот ярлык аватара?\nБудет удален только ярлык, файл изображения останется!
+Вы уверены, что хотите удалить этот ярлык аватара?\nБудет удалён только ярлык, файл изображения останется!
 [Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
 Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены запись из истории и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько записей в истории!
 [Delete avatar?]

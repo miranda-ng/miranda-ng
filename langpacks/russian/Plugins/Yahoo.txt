@@ -148,7 +148,7 @@ Yahoo Игнор
 [Connection]
 Подключение
 [Ignore List]
-Черный список
+Чёрный список
 [New E-mail available in Inbox]
 Новая почта в папке "Входящие"
 [%s plugin connections]

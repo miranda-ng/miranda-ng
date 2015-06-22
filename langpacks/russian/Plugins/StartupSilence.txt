@@ -52,21 +52,21 @@
 [Toggle Silence OFF TTB]
 Выключен тихий запуск TTB
 [Toggle Silence ON TTB]
-Включен тихий запуск TTB
+Включён тихий запуск TTB
 [Sounds and popups are enabled]
 Звуки и всплывающие окна включены
 [Filtered mode ON]
-Режим фильтрации включен
+Режим фильтрации включён
 [Sounds and popups are disabled temporarily]
 Звуки и всплывающие окна временно выключены
 [Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
 Звуки и всплывающие окна временно выключены.\nРазрешены всплывающие окна от mRadio или Weather и т.д.
 [Silent Startup mode changed to ON]
-Тихий запуск включен
+Тихий запуск включён
 [Silent Startup mode changed to OFF]
 Тихий запуск выключен
 [Silence At Startup is ON]
-Тихий запуск включен
+Тихий запуск включён
 [Silence At Startup is OFF]
 Тихий запуск выключен
 [Toggle Silence At Startup]

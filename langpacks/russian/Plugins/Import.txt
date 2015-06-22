@@ -24,7 +24,7 @@
 [Do not load the import plugin at startup again]
 Не загружать мастер при следующем запуске
 [Import completed]
-Импорт завершен
+Импорт завершён
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Если вам в будущем понадобится этот мастер, отметьте плагин import.dll в настройках (раздел "Плагины").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
@@ -94,7 +94,7 @@ Miranda нашла следующие профили. Выберите проф�
 [Protocol %S is not loaded, skipping account %s creation]
 Протокол %S не загружен, пропускаем создание учётной записи %s
 [Unable to create an account %s of protocol %S]
-Невозможно создать учёиную запись %s протокола %S
+Невозможно создать учётную запись %s протокола %S
 [Failed to add %S contact %s]
 Не удалось добавить %S контакт %s
 [Added %S contact %s, '%s']
@@ -126,7 +126,7 @@ Miranda нашла следующие профили. Выберите проф�
 [Error retrieving current profile, exiting.]
 Ошибка получения текущего профиля, выход.
 [There's no database driver to open the input file, exiting.]
-Недостает драйвера базы для открытия текущего файла, выход.
+Недостаёт драйвера базы для открытия текущего файла, выход.
 [Error loading source file, exiting.]
 Ошибка загрузки исходного файла, выход.
 [Number of contacts in database: %d]

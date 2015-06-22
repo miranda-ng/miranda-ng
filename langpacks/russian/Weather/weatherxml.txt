@@ -391,7 +391,7 @@
 [falling]
 Падает
 [rising]
-Растет
+Растёт
 [steady]
 Не изм.
 [Light Snow / Fog]

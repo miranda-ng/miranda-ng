@@ -8,7 +8,7 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антиспам плагин с капчей и Байесовской фильтрацией.
 [Enabled]
-Включен
+Включён
 [Learned ham messages:]
 Не спамерских сообщений в базе:
 [Learned spam messages:]
@@ -68,7 +68,7 @@
 [times a day]
 раз в день
 [Do not reply to messages with words in this list:]
-Черный список слов во входящих сообщениях:
+Чёрный список слов во входящих сообщениях:
 [Mode:]
 Режим:
 [Case-sensitive]
@@ -102,7 +102,7 @@
 [Contact blocked]
 Контакт заблокирован
 [Contact approved]
-Контакт подтвержден
+Контакт подтверждён
 [Challenge sent]
 Отправлен вопрос
 [Default colors]
@@ -150,17 +150,17 @@ Cообщение временно заблокировано. Напишите 
 [Message blocked due to preview action]
 Сообщение заблокировано для примера
 [Contact approved due to preview action]
-Контакт подтвержден для примера
+Контакт подтверждён для примера
 [Challenge sent to preview contact]
 Отправка контрольного вопроса для примера
 [Contact %s approved.]
-Контакт %s подтвержден.
+Контакт %s подтверждён.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
 Сообщение от %s заблокировано, т.к. превышено максимальное количество контрольных вопросов в день.
 [Message from %s rejected because it reached a maximum for same responses per day.]
 Сообщение от %s заблокировано, т.к. превышено максимальное количество одинаковых сообщений в день.
 [Message from %s dropped because it has a word from black list.]
-Сообщение от %s заблокировано, т.к. содержит слово из черного списка.
+Сообщение от %s заблокировано, т.к. содержит слово из чёрного списка.
 [Message from %s dropped because of high spam score.]
 Сообщение от %s заблокировано, т.к. у него высокая вероятность спама.
 [Sending plain challenge to %s.]

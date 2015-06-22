@@ -80,9 +80,9 @@ xСтатус
 [Extra status logging]
 Журналирование xСтатусов
 [Disable all]
-Отключить все
+Отключить всё
 [Enable all]
-Включить все
+Включить всё
 [Status message notify]
 Сообщения статуса
 [Status message logging]
@@ -334,11 +334,11 @@ xСтатус
 [Status message changed]
 Изменено сообщение статуса
 [Extra status removed]
-xСтатус удален
+xСтатус удалён
 [Extra status message changed]
 Изменено сообщение xСтатуса
 [Extra status changed]
-xСтатус изменен
+xСтатус изменён
 [Extra status message removed]
 Удалено сообщение xСтатуса
 [Enable status notification]

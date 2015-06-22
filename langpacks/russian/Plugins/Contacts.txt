@@ -24,7 +24,7 @@
 [Cancel]
 Отмена
 [&Select All]
-&Выделить все
+&Выделить всё
 [Received contacts]
 Принятые контакты
 [Add to &group:]
