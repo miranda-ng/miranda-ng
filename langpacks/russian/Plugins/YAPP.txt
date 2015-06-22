@@ -140,7 +140,7 @@
 [Sidebar]
 Врезка
 [Title underline]
-Подчеркивание заголовка
+Подчёркивание заголовка
 [Copy title to clipboard]
 Копировать заголовок в буфер обмена
 [Copy message to clipboard]

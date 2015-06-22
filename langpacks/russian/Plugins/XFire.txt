@@ -166,7 +166,7 @@ ID игры должен быть больше 1.
 [Yep, I'm here.]
 Да, я здесь.
 [I've been away since %time%.]
-Отошел в %time%.
+Отошёл в %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

@@ -42,7 +42,7 @@
 [Marital status:]
 Семейное положение:
 [Partner:]
-Партнер:
+Партнёр:
 [Language skills]
 Владение языками
 [Street:]
@@ -172,7 +172,7 @@
 [Statistics:]
 Статистика:
 [with birthday:]
-с днем рождения:
+с днём рождения:
 [female:]
 женщин:
 [male:]
@@ -322,9 +322,9 @@
 [Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Отметьте в списке те модули, которые вы хотите экспортировать для контактов. Для добавления контакта из файла в виде новой записи, необходимо экспортировать хотя бы модуль протокола.
 [Check all]
-Выбрать все
+Выбрать всё
 [Uncheck all]
-Очистить все
+Очистить всё
 [&Export]
 &Экспорт
 [Aries]
@@ -1154,7 +1154,7 @@ INI файл "%s"\nдля сохранения контакта не может 
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Ни один из %d контактов, в ini файле не соответствует выбранному контакту!\nНичего не будет импортировано
 [Import complete]
-Импорт завершен
+Импорт завершён
 [Some basic statistics]
 Статистика
 [Added %d of %d contacts stored in the ini-file.]

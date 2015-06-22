@@ -256,7 +256,7 @@
 [Auto Away]
 Отсутствие
 [I've been away since %time%.]
-Отошел в %time%. Скоро вернусь.
+Отошёл в %time%. Скоро вернусь.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

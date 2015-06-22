@@ -266,7 +266,7 @@ Cтатус-профиль
 [Hidden]
 Скрытый
 [Minimized]
-Свернуто
+Свёрнуто
 [Normal]
 Нормальный
 [Create a status menu item]
@@ -280,7 +280,7 @@ Cтатус-профиль
 [StartupStatus]
 Начальный статус
 [Your default profile will be changed]
-Профиль по умолчанию будет изменен
+Профиль по умолчанию будет изменён
 [There is a maximum of 6 menu items]
 Максимум 6 пунктов меню
 [Pressed toolbar icon]
@@ -288,7 +288,7 @@ Cтатус-профиль
 [Released toolbar icon]
 Отпущенный значок панели
 [I've been away since %time%.]
-Отошел в %time%.
+Отошёл в %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

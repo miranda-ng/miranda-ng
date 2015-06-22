@@ -104,9 +104,9 @@
 [&Watches]
 &Наблюдения
 [&View all]
-&Смотреть все
+&Смотреть всё
 [&Delete all]
-&Удалить все
+&Удалить всё
 [&Export]
 &Экспорт
 [Entire &database]
@@ -126,7 +126,7 @@
 [&Sort by protocol]
 Сортировать по &протоколу
 [Show &all]
-Показать &все
+Показать &всё
 [Show only &loaded]
 Показать только &загруженные
 [Show only &unloaded]
@@ -212,7 +212,7 @@ INI файлы
 [Export to file]
 Экспорт
 [Couldn't open file for writing]
-Не удается открыть файл на запись
+Не удаётся открыть файл на запись
 [Import to "%s"]
 Импортировать в "%s"
 [Import from files]
@@ -238,7 +238,7 @@ INI файлы
 [Searching...]
 Поиск...
 [Finished. Items found: %d / replaced: %d / deleted: %d]
-Поиск завершен, найдено %d / заменено %d / удалено %d элемент(ов)
+Поиск завершён, найдено %d / заменено %d / удалено %d элемент(ов)
 [Main icon]
 Основной значок
 [Closed module]

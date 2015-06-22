@@ -12,7 +12,7 @@
 [Notify in fullscreen mode too]
 Также уведомлять и в полноэкранном режиме
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-Используйте это в том случае, если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
+Используйте это в том случае, если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберёт у вас фокус ввода
 [Notify in contact list]
 Уведомлять в списке контактов
 [Clear pseudocontact history before adding new events]

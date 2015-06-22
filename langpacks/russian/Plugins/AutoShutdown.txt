@@ -18,7 +18,7 @@
 [Shutdown Events]
 События автовыключения
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-&Снова активировать автовыключение с теми же настройками, если Miranda NG была закрыта с включенным автовыключением.
+&Снова активировать автовыключение с теми же настройками, если Miranda NG была закрыта с включённым автовыключением.
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Игнорировать скрытые и временные контакты при наблюдении за всеми контактами не в сети
 [Critical Shutdown Events]
@@ -56,7 +56,7 @@
 [Cancel]
 Отмена
 [Unsaved data in open applications except Miranda NG might get lost.]
-Все несохрарённые данные в других приложениях могут быть утеряны.
+Все несохранённые данные в других приложениях могут быть утеряны.
 [Please click "Cancel" if you would like to abort the process.]
 Если хотите прервать процесс, нажмите "Отмена".
 [&Now!]

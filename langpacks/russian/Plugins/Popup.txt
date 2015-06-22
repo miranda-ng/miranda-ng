@@ -254,7 +254,7 @@ History++ для истории окон
 [Sidebar]
 Врезка
 [Title underline]
-Подчеркивание заголовка
+Подчёркивание заголовка
 [Avatar border]
 Рамка аватара
 [Popup History is disabled]

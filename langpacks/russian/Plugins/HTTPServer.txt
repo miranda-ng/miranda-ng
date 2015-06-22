@@ -20,7 +20,7 @@ IP адрес 2
 [Share name]
 Имя шары
 [Allowed IP]
-Разрешенные IP
+Разрешённые IP
 [HTTP Server statistics view]
 Статистика просмотров HTTP сервера
 [Show HTTP server statistics]
@@ -86,7 +86,7 @@ IP адрес 2
 [Max Downloads]
 Макс. закачки
 [Allowed Mask]
-Разрешенная маска
+Разрешённая маска
 [Real path]
 Реальный путь
 [User]
@@ -110,7 +110,7 @@ IP адрес 2
 [IP Address: ]
 IP-адрес:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
-Ваш внешний IP определен как %d.%d.%d.%d\r\nс: %s
+Ваш внешний IP определён как %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]
 Изменения в меню вступят в силу после перезапуска программы.
 [HTTP Server]

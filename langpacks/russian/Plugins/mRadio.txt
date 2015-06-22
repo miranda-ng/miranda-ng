@@ -128,7 +128,7 @@ URL станции/плейлиста
 [Can't initialize device]
 Не могу инициализировать устройство
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-Не удается подключиться к сети. Пожалуйста, уберите галку 'Работать автономно' в настройках Internet Explorer
+Не удаётся подключиться к сети. Пожалуйста, уберите галку 'Работать автономно' в настройках Internet Explorer
 [Start broadcasting]
 Начало вещания
 [Stop broadcasting]
@@ -144,7 +144,7 @@ URL станции/плейлиста
 [Equalizer presets]
 Предустановки эквалайзера
 [Export All]
-Экспортировать все
+Экспортировать всё
 [Current status]
 Текущий статус
 [Broadcast ON]

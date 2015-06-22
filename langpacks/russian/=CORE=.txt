@@ -58,7 +58,7 @@
 [&Italic]
 &Курсив
 [&Underline]
-&Подчеркнутый
+&Подчёркнутый
 [&Color]
 &Цвет
 [&Background color]
@@ -490,11 +490,11 @@
 [Resume]
 Продолжить
 [Resume all]
-Докачать все
+Докачать всё
 [Overwrite]
 Перезаписать
 [Overwrite all]
-Перезаписать все
+Перезаписать всё
 [Save as...]
 Сохранить как...
 [Auto rename]
@@ -880,9 +880,9 @@
 [Cancel import]
 Отменить импорт
 [Database import complete]
-Импорт базы завершен
+Импорт базы завершён
 [The import has completed from]
-Импорт завершен из
+Импорт завершён из
 [What do you want to do with the file now?]
 Что сделать с файлом?
 [&Recycle]
@@ -1276,7 +1276,7 @@ UIN, E-mail и т.д.
 [Re&ad status message]
 Пр&очитать статусное сообщение
 [I've been away since %time%.]
-Отошел в %time%.
+Отошёл в %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

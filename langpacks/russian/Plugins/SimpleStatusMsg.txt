@@ -202,7 +202,7 @@
 [Simple Status Message]
 Сообщение статуса
 [I've been away since %time%.]
-Отошел в %time%.
+Отошёл в %time%.
 [Give it up, I'm not in!]
 Ну нет меня сейчас, нет...
 [Not right now.]

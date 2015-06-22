@@ -28,7 +28,7 @@
 [Use classic dates]
 Классический формат времени и даты
 [Create reports in subfolders naming as current date]
-Сохранять отчеты в папки, названные по дате
+Сохранять отчёты в папки, названные по дате
 [Generate crash reports]
 Создавать отчёты о проблемах
 [* You need to restart Miranda NG to apply changes]
@@ -82,7 +82,7 @@
 [Crash Report write location is not available]
 Путь для записи отчёта об ошибке недоступен
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
+Miranda NG была завершена аварийно. Отчёт сохранён в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
 [View Version Information (with DLLs)]
 Информация о версиях (с библиотеками)
 [Version Info upload successful.]

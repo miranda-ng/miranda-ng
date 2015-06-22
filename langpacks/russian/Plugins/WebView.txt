@@ -60,7 +60,7 @@
 [Find what:]
 Найти:
 [Search was completed.]
-Поиск завершен.
+Поиск завершён.
 [Add time and date of alert to contact name]
 Добавить время и дату к имени контакта
 [Use 24 hour time format instead of 12 hour]
@@ -110,7 +110,7 @@
 [Co&py all]
 Ко&пировать всё
 [&Select all]
-Выбрать все
+Выбрать всё
 [C&lear all]
 О&чистить всё
 [Auto update disabled]

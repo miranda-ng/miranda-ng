@@ -82,7 +82,7 @@
 [RESULT]
 результат
 [%s has joined.]
-%s вошел.
+%s вошёл.
 [%s has left.]
 %s вышел.
 [The topic is %s.]

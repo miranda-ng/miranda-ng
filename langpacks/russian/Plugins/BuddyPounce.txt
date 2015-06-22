@@ -90,7 +90,7 @@
 [To Online]
 -> В сети
 [To Away]
--> Отошел
+-> Отошёл
 [To NA]
 -> Недоступен
 [To Occupied]

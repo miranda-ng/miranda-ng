@@ -128,7 +128,7 @@
 [Popups]
 Всплывающие окна
 [not detected]
-не определен
+не определён
 [not found]
 не найдено
 [This contact has been absent for an extended period of time.]

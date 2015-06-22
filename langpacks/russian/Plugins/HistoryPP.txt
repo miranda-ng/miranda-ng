@@ -106,9 +106,9 @@ WATrack: запрос запрещён
 [Date/Time:]
 Дата/время:
 [Copy All]
-Копировать все
+Копировать всё
 [&Select All]
-&Выделить все
+&Выделить всё
 [SMS Message]
 Сообщение SMS
 [Other event]
@@ -162,7 +162,7 @@ WATrack: запрос запрещён
 [All Results]
 Все результаты
 [&System History]
-Сис&темная история
+Сис&тёмная история
 [System History]
 Системная история
 [Searching "%s"...]
@@ -170,7 +170,7 @@ WATrack: запрос запрещён
 [Stop]
 Стоп
 [Searching... Please wait.]
-Подождите, идет поиск...
+Подождите, идёт поиск...
 [Preparing search...]
 Подготовка поиска...
 [Searching... %.0n items in %d contacts found]
@@ -398,9 +398,9 @@ Enter для подробностей события
 [Conversation hide]
 Скрыть заголовки бесед
 [Save All]
-Сохранить все
+Сохранить всё
 [Delete All]
-Удалить все
+Удалить всё
 [Events filter]
 Фильтр событий
 [In-place filter wait]
@@ -522,7 +522,7 @@ HTML файл
 [&Additional]
 &Дополнительно
 [&Delete All]
-&Удалить все
+&Удалить всё
 [&Password Protection...]
 &Защита паролем...
 [(time and date)]

@@ -265,7 +265,7 @@
 [Light Rain Mist]
 Слабые дожди, дымка
 [Light Rain Showers]
-Идет слабый дождь
+Идёт слабый дождь
 [Light Rain Snow Mist]
 Слабый дождь со снегом, дымка
 [Light Rain Snow]
@@ -411,7 +411,7 @@
 [Rain]
 Дождь
 [Rising]
-Растет
+Растёт
 [SE]
 ЮВ
 [SSE]

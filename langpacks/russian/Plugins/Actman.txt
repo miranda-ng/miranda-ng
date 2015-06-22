@@ -584,7 +584,7 @@ UTF16+сигнатура
 [Erases contact's history. hContact can be NULL(0) to empty system history]
 Удаляет историю контакта. Если hContact NULL(0), то будет удалена системная история
 [Ignore all]
-Игнорировать все
+Игнорировать всё
 [Ignore messages]
 Игнорировать сообщения
 [Ignore URLs]
@@ -708,7 +708,7 @@ wParam в ANSI
 [Sleeping]
 Сплю
 [Surfing]
-Серфинг
+Сёрфинг
 [Browsing]
 Брожу
 [Working]

@@ -136,7 +136,7 @@
 [<< Details]
 << Детали
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-Ошибка обновления! Архив одного из закачанных компонентов поврежден. Попробуйте повторить попытку позже.
+Ошибка обновления! Архив одного из закачанных компонентов повреждён. Попробуйте повторить попытку позже.
 [%d component(s) was updated]
 %d компонент(ов) было обновлено
 [You need to restart your Miranda to apply installed updates.]

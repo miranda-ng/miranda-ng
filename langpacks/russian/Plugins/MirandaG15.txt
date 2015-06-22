@@ -84,11 +84,11 @@
 [Incoming file transfers]
 Приём файлов
 [Protocol disconnected]
-Протокол отсоединен
+Протокол отсоединён
 [Protocol connected]
-Протокол соединен
+Протокол соединён
 [Protocol status changes]
-Изменен статус протокола
+Изменён статус протокола
 [Show only events from the following protocols:]
 Показывать события только следующих протоколов:
 [Contact signs on]

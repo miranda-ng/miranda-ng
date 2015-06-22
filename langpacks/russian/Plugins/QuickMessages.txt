@@ -56,7 +56,7 @@
 [Enter Value]
 Введите значение
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
-Поздравляю!\r\nВы нажали на кнопку 100 раз!\r\nПроизошло нарушение прав доступа...\r\nИ теперь должна быть запущена функция освобождения ресурсов...\r\nНо нет, произойдет только прерывание :D
+Поздравляю!\r\nВы нажали на кнопку 100 раз!\r\nПроизошло нарушение прав доступа...\r\nИ теперь должна быть запущена функция освобождения ресурсов...\r\nНо нет, произойдёт только прерывание :D
 [You win!]
 Вы выиграли!
 [New Button]
