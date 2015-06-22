@@ -696,13 +696,13 @@ Nickserv убить фантома
 [Give &Op]
 &Режим +o
 [Take O&p]
-Р&ёжим -o
+Р&ежим -o
 [Give &Halfop]
 Реж&им +h
 [Take H&alfop]
 Режи&м -h
 [Give &Voice]
-Режим& +v
+Ре&жим +v
 [Take V&oice]
 Режим -&v
 [&Kick]
