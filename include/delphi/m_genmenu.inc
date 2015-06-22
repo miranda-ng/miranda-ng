@@ -195,10 +195,9 @@ const
 type
   PMO_MenuItem = ^TMO_MenuItem;
   TMO_MenuItem = record
-    cbSize   :int;
-    szName   :TCHAR;
     position :int;
     root     :HGENMENU;
+    szName   :TCHAR;
     flags    :integer;
     hIcon    :HICON;   // or hIcolibItem:THANDLE;
     hotKey   :dword;

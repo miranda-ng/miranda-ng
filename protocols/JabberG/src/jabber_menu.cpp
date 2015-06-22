@@ -188,7 +188,7 @@ void g_MenuInit(void)
 	hChooserMenu = MO_CreateMenuObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
 
 	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.pszName = "Cancel";
+	tmi.name.a = "Cancel";
 	tmi.position = 9999999;
 	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	CallService(MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, (LPARAM)&tmi);
@@ -818,7 +818,7 @@ void CJabberProto::GlobalMenuInit()
 	tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	tmi.ownerdata = this;
 	tmi.position = iChooserMenuPos++;
-	tmi.ptszName = m_tszUserName;
+	tmi.name.t = m_tszUserName;
 	m_hChooseMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, (LPARAM)&tmi);
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -39,7 +39,7 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 	temp[ level ] = 0;
 
 	for (PMO_IntMenuItem pimi = pParent; pimi != NULL; pimi = pimi->next) {
-		Netlib_Logf(NULL, "%sMenu item %08p [%08p]: %S", temp, pimi, pimi->mi.root, pimi->mi.ptszName);
+		Netlib_Logf(NULL, "%sMenu item %08p [%08p]: %S", temp, pimi, pimi->mi.root, pimi->mi.name.t);
 
 		PMO_IntMenuItem submenu = pimi->submenu.first;
 		if (submenu)
@@ -79,9 +79,9 @@ int GetMenuObjbyId(const int id)
 LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
 {
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
-		return pimi->mi.ptszName;
+		return pimi->mi.name.t;
 
-	return TranslateTH(pimi->mi.hLangpack, pimi->mi.ptszName);
+	return TranslateTH(pimi->mi.hLangpack, pimi->mi.name.t);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM)
 // lparam = PMO_MenuItem
 INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	PMO_MenuItem mi = (PMO_MenuItem)lParam;
+	TMO_MenuItem *mi = (TMO_MenuItem*)lParam;
 	if (!bIsGenMenuInited || mi == NULL)
 		return -1;
 
@@ -301,11 +301,11 @@ INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
 // wparam MenuItemHandle
 // lparam PMO_MenuItem
 
-int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
+int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, TMO_MenuItem *pmi)
 {
 	int oldflags;
 
-	if (!bIsGenMenuInited || pmi == NULL || pmi->cbSize != sizeof(TMO_MenuItem))
+	if (!bIsGenMenuInited || pmi == NULL)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
@@ -315,12 +315,12 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 		return -1;
 
 	if (pmi->flags & CMIM_NAME) {
-		FreeAndNil((void**)&pimi->mi.pszName);
+		FreeAndNil((void**)&pimi->mi.name.t);
 
 		if (pmi->flags & CMIF_UNICODE)
-			pimi->mi.ptszName = mir_tstrdup(pmi->ptszName);
+			pimi->mi.name.t = mir_tstrdup(pmi->name.t);
 		else
-			pimi->mi.ptszName = mir_a2t(pmi->pszName);
+			pimi->mi.name.t = mir_a2t(pmi->name.a);
 	}
 
 	if (pmi->flags & CMIM_FLAGS) {
@@ -631,9 +631,9 @@ static int GetNextObjectMenuItemId()
 // lparam = PMO_MenuItem
 // return MenuItemHandle
 
-PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
+PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 {
-	if (!bIsGenMenuInited || pmi == NULL || pmi->cbSize != sizeof(TMO_MenuItem))
+	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
 
 	// old mode
@@ -658,9 +658,9 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	p->hLangpack = pmi->hLangpack;
 
 	if (pmi->flags & CMIF_UNICODE)
-		p->mi.ptszName = mir_tstrdup(pmi->ptszName);
+		p->mi.name.t = mir_tstrdup(pmi->name.t);
 	else
-		p->mi.ptszName = mir_a2u(pmi->pszName);
+		p->mi.name.t = mir_a2u(pmi->name.a);
 
 	if (pmi->hIcon != NULL && !bIconsDisabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
@@ -696,23 +696,20 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 
 int FindRoot(PMO_IntMenuItem pimi, void* param)
 {
-	if (pimi->mi.pszName != NULL)
-		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.ptszName, (TCHAR*)param))
+	if (pimi->mi.name.t != NULL)
+		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.t, (TCHAR*)param))
 			return TRUE;
 
 	return FALSE;
 }
 
-PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
+PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 {
 	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
 
 	int objidx = GetMenuObjbyId((int)menuobjecthandle);
 	if (objidx == -1)
-		return NULL;
-
-	if (pmi->cbSize != sizeof(TMO_MenuItem))
 		return NULL;
 
 	if (pmi->flags & CMIF_ROOTHANDLE)
@@ -740,7 +737,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 			tmi.ownerdata = 0;
 			tmi.root = NULL;
 			// copy pszPopupName
-			tmi.ptszName = (TCHAR*)pmi->root;
+			tmi.name.t = (TCHAR*)pmi->root;
 			if ((oldroot = MO_AddNewMenuItem(menuobjecthandle, &tmi)) != NULL)
 				MO_SetOptionsMenuItem(oldroot, OPT_MENUITEMSETUNIQNAME, (INT_PTR)pmi->root);
 		}
@@ -753,7 +750,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	return MO_AddNewMenuItem(menuobjecthandle, pmi);
 }
 
-static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
+static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 {
 	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
@@ -874,9 +871,9 @@ void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize
 	if (pMenuItem->UniqName)
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->UniqName);
 	else if (pMenuItem->mi.flags & CMIF_UNICODE)
-		mir_snprintf(pszDest, cbDestSize, "{%s}", (char*)_T2A(pMenuItem->mi.ptszName));
+		mir_snprintf(pszDest, cbDestSize, "{%s}", (char*)_T2A(pMenuItem->mi.name.t));
 	else
-		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.pszName);
+		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.name.t);
 }
 
 HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *param)
@@ -894,10 +891,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 		DeleteMenu(hMenu, 0, MF_BYPOSITION);
 
 	for (PMO_IntMenuItem pmi = pRootMenu; pmi != NULL; pmi = pmi->next) {
-		PMO_MenuItem mi = &pmi->mi;
-		if (mi->cbSize != sizeof(TMO_MenuItem))
-			continue;
-
+		TMO_MenuItem *mi = &pmi->mi;
 		if (mi->flags & CMIF_HIDDEN)
 			continue;
 
@@ -933,7 +927,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 				continue;  // find out what value to return if not getting added
 			}
 
-			// mi.pszName
+			// mi.name.t
 			mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
 			if (!db_get_ts(NULL, MenuNameItems, DBString, &dbv)) {
 				if (mir_tstrlen(dbv.ptszVal) > 0)
@@ -976,7 +970,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 		if (pmi->mi.flags & CMIF_DEFAULT)
 			mii.fState |= MFS_DEFAULT;
 
-		mii.dwTypeData = (pmi->CustomName) ? pmi->CustomName : mi->ptszName;
+		mii.dwTypeData = (pmi->CustomName) ? pmi->CustomName : mi->name.t;
 
 		// it's a submenu
 		if (pmi->submenu.first) {
@@ -986,7 +980,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if (GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
+					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1001,7 +995,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if (GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData);
+					mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1228,7 +1222,7 @@ void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 		CallService(FreeService, (WPARAM)p, (LPARAM)p->mi.ownerdata);
 
 	p->signature = 0;
-	FreeAndNil((void**)&p->mi.pszName);
+	FreeAndNil((void**)&p->mi.name.t);
 	FreeAndNil((void**)&p->UniqName);
 	FreeAndNil((void**)&p->CustomName);
 	if (p->hBmp) DeleteObject(p->hBmp);

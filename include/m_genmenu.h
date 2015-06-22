@@ -179,21 +179,15 @@ __forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDMAINMENU					"CList/PreBuildMainMenu"
 
-
 /*GENMENU_MODULE*/
 
 #define SETTING_NOOFFLINEBOTTOM_DEFAULT 0
 
-typedef struct
+struct TMO_MenuItem
 {
-	int cbSize;
-	union
-	{
-		char *pszName;
-		TCHAR *ptszName;
-	};
 	int position;
 	HGENMENU root;
+	MAllStrings name;
 	int flags;
 	union {
 		HICON hIcon;
@@ -202,8 +196,7 @@ typedef struct
 	DWORD hotKey;
 	void *ownerdata;
 	int   hLangpack;
-}
-	TMO_MenuItem,*PMO_MenuItem;
+};
 
 /*
 This structure passed to CheckService.
