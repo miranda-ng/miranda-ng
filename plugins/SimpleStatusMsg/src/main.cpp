@@ -1453,7 +1453,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	if (!iStatusMsgFlags || !iStatusMenuItemCount)
 		return 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	if (!db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;

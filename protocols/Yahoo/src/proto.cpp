@@ -640,7 +640,7 @@ int __cdecl CYahooProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 
 	case EV_PROTO_ONRENAME:
 		if (mainMenuRoot) {
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.ptszName = m_tszUserName;
 			Menu_ModifyItem(mainMenuRoot, &mi);

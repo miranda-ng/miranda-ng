@@ -212,7 +212,7 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM lParam)
    if (gg == NULL)
       return 0;
 
-   CLISTMENUITEM mi = { sizeof(mi) };
+   CLISTMENUITEM mi = { 0 };
    mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_TCHAR;
    if ( gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) ||
         gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
@@ -242,7 +242,7 @@ void GGPROTO::block_init()
    mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
    CreateProtoService(GGS_BLOCKUSER, &GGPROTO::blockuser);
 
-   CLISTMENUITEM mi = { sizeof(mi) };
+   CLISTMENUITEM mi = { 0 };
    mi.flags = CMIF_TCHAR;
    mi.position = -500050000;
    mi.icolibItem = iconList[8].hIcolib;
@@ -266,7 +266,7 @@ void GGPROTO::block_uninit()
 // Menus initialization
 void GGPROTO::menus_init()
 {
-   CLISTMENUITEM mi = { sizeof(mi) };
+   CLISTMENUITEM mi = { 0 };
 
    HGENMENU hGCRoot, hCLRoot, hRoot = MO_GetProtoRootMenu(m_szModuleName);
    if (hRoot == NULL) {

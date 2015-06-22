@@ -991,7 +991,7 @@ void InitList()
 
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = 1000200001;
 		mi.ptszPopupName = LPGENT("Ping");

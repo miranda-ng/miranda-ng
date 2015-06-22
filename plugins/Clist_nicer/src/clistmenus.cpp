@@ -381,7 +381,7 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction", CloseAction);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 200000;
 	mi.pszPopupName = (char *)-1;
 	mi.pszService = "CList/SetContactIgnore";

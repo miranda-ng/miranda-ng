@@ -44,7 +44,7 @@ namespace
 
 	void UpdateMenu(bool bAutoUpdate)
 	{
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 
 		if (bAutoUpdate) { // to enable auto-update
 			mi.pszName = LPGEN("Auto Update Enabled");
@@ -133,7 +133,7 @@ namespace
 
 	void InitMenu()
 	{
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.ptszName = LPGENT("Quotes");
 		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
@@ -187,7 +187,6 @@ namespace
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
 		memset(&mi, 0, sizeof(mi));
-		mi.cbSize = sizeof(mi);
 		mi.pszContactOwner = QUOTES_PROTOCOL_NAME;
 		hMenuRoot = NULL;
 		if (bSubGroups)

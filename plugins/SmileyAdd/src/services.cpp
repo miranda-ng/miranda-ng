@@ -292,7 +292,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		CMString cat;
 		opt.ReadContactCategory(wParam, cat);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.hParentMenu = hContactMenuItem;
 		mi.flags       = CMIF_CHILDPOPUP | CMIM_FLAGS | CMIF_TCHAR;
 		mi.pszService  = MS_SMILEYADD_CUSTOMCATMENU;

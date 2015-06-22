@@ -111,7 +111,7 @@ void g_MenuInit(void)
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	mir_strcpy(str, "ICQ");
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = str;
 
 	// "Request authorization"
@@ -204,7 +204,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
-		CLISTMENUITEM clmi = { sizeof(clmi) };
+		CLISTMENUITEM clmi = { 0 };
 		clmi.flags = CMIM_ICON;
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)
 			clmi.hIcon = getXStatusIcon(bXStatus, LR_SHARED);

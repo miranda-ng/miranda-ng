@@ -24,7 +24,7 @@ static void ReleaseIconEx(HICON hIcon)
 
 static void IcoLibUpdateMenus()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | CMIM_ICON;
 	mi.hIcon = createDefaultOverlayedIcon(FALSE);
 	Menu_ModifyItem(hMenu, &mi);

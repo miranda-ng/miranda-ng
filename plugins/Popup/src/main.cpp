@@ -110,7 +110,7 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	LoadActions();
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (PopupOptions.ModuleIsEnabled == TRUE) { // The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
@@ -149,7 +149,7 @@ static int TTBLoaded(WPARAM, LPARAM)
 //===== EnableDisableMenuCommand ========================================================
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (PopupOptions.ModuleIsEnabled) {
 		// The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
@@ -185,7 +185,7 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 
 void InitMenuItems(void)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	// support new genmenu style
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = HGENMENU_ROOT;

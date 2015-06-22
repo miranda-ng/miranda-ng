@@ -135,7 +135,7 @@ static int HookModulesLoaded(WPARAM, LPARAM)
 	modules[0] = MODULENAME;
 	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, 1);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszName = LPGEN("Contacts");
 	mi.position = -2000009990;  //position in menu
 	mi.pszService = MS_CONTACTS_SEND;

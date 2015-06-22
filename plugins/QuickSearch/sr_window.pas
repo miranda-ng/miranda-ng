@@ -810,7 +810,6 @@ begin
         cmcolumn:=col;
 
         FillChar(mi,SizeOf(mi),0);
-        mi.cbSize:=SizeOf(mi);
         if mnuhandle=0 then
         begin
           mi.flags     :=CMIF_UNICODE;
@@ -836,7 +835,6 @@ begin
     // Due to stupid miranda logic, we need to clear tails at service processing, not earlier
     if doit then
     begin
-      mi.cbSize:=SizeOf(mi);
       mi.flags :=CMIM_FLAGS or CMIF_HIDDEN;
       CallService(MS_CLIST_MODIFYMENUITEM,mnuhandle,LPARAM(@mi));
     end;

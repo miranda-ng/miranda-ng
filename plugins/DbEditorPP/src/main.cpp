@@ -113,7 +113,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	IcoLibRegister();
 
 	// Register menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1900000001;
 	mi.icolibItem = GetIcoLibHandle(ICO_DBE_BUTT);
 	mi.pszPopupName = "Database";
@@ -122,7 +122,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
 	mi.flags = 0;
 	mi.icolibItem = GetIcoLibHandle(ICO_REGUSER);

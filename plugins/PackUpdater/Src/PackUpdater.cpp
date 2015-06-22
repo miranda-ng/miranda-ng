@@ -70,7 +70,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add cheking update menu item
 	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = IcoLib_GetIcon("check_update");
@@ -80,7 +80,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add empty updates folder menu item
 	CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = IcoLib_GetIcon("empty_folder");

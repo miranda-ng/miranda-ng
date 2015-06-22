@@ -327,7 +327,7 @@ int CreateFrame()
 
 		// Create menu item
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = -0x7FFFFFFF;
 		mi.ptszPopupName = LPGENT("My details");
@@ -2240,7 +2240,7 @@ INT_PTR HideFrameFunc(WPARAM, LPARAM)
 
 void FixMainMenu()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIF_TCHAR;
 
 	if (MyDetailsFrameVisible())

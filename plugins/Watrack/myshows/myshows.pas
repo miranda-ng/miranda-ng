@@ -143,7 +143,6 @@ begin
         exit
       end;
       FillChar(mi,sizeof(mi),0);
-      mi.cbSize:=sizeof(mi);
       mi.flags :=CMIM_FLAGS+flag;
       CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
     end;
@@ -171,7 +170,6 @@ var
 begin
   result:=0;
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
   mi.hIcon :=IcoLib_GetIcon(IcoMyShows,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
@@ -199,7 +197,6 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi,sizeof(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_NAME;
   if odd(msh_on) then
   begin
@@ -237,7 +234,6 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
 
   mi.hIcon        :=IcoLib_GetIcon(IcoMyShows,0);

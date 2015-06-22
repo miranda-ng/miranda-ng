@@ -260,7 +260,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
 	mi.hParentMenu = hRoot;

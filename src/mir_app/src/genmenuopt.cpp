@@ -46,7 +46,7 @@ struct MenuItemOptData : public MZeroedObject
 	bool   bShow;
 	int    id;
 
-	PMO_IntMenuItem pimi;
+	TMO_IntMenuItem *pimi;
 };
 
 static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
@@ -160,7 +160,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 
-		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next) {
+		for (TMO_IntMenuItem *p = pimo->m_items.first; p != NULL; p = p->next) {
 			if (p->mi.root != (HGENMENU)-1 && p->mi.root != NULL)
 				continue;
 

@@ -50,7 +50,7 @@ static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_S
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_ROOTPOPUP;
 	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;

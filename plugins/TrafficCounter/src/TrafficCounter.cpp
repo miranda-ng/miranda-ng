@@ -1108,7 +1108,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM wParam,LPARAM lParam)
 
 void Traffic_AddMainMenuItem(void)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
 	mi.hIcon = NULL;

@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// Add cheking update menu item
 	InitCheck();
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 400010000;
 #if MIRANDA_VER >= 0x0A00
 	mi.icolibItem = iconList[0].hIcolib;

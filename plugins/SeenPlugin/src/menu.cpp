@@ -40,7 +40,7 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
 
-	CLISTMENUITEM cmi = { sizeof(cmi) };
+	CLISTMENUITEM cmi = { 0 };
 	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(NULL, S_MOD, "MenuItem", 1))
 		cmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	else {
@@ -74,7 +74,7 @@ void InitMenuitem()
 {
 	CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
-	CLISTMENUITEM cmi = { sizeof(cmi) };
+	CLISTMENUITEM cmi = { 0 };
 	cmi.position = -0x7FFFFFFF;
 	cmi.flags = CMIF_TCHAR;
 	cmi.ptszName = LPGENT("<none>");

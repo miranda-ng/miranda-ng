@@ -241,7 +241,7 @@ void Xfire_gamelist::clearGamelist() {
 //erstellt ein dummyeintrag
 void Xfire_gamelist::createDummyMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 500090001;
 	mi.pszName = Translate("Please wait...");
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));

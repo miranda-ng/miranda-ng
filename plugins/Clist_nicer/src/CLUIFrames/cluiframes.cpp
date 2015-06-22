@@ -580,7 +580,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	if (FramesSysNotStarted)
 		return NULL;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
@@ -594,7 +594,6 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 
 	popuppos += 100000;
 	mi.hIcon = NULL;
-	mi.cbSize = sizeof(mi);
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
@@ -774,7 +773,7 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM)
 	mir_cslock lck(csFrameHook);
 	int pos = id2pos((INT_PTR)wParam);
 	if (pos >= 0 && pos < nFramescount) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		ModifyMItem((WPARAM)contMITitle, (LPARAM)&mi);
@@ -833,7 +832,7 @@ INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM)
 	int pos = id2pos((INT_PTR)wParam);
 
 	if (pos >= 0 && pos < nFramescount) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		Menu_ModifyItem(Frames[pos].MenuHandles.MITitle, &mi);
@@ -1477,7 +1476,7 @@ static int CLUIFramesLoadMainMenu()
 	}
 
 	// create root menu
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = 3000090000;

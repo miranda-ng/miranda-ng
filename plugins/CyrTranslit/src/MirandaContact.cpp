@@ -63,7 +63,7 @@ void MirandaContact::save(MCONTACT hContact, bool bValue)
 
 void MirandaContact::addMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszName = MENU_ITEM_TEXT;
 	mi.flags = 0;
 	mi.position = 65535;
@@ -96,7 +96,7 @@ int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM)
 	MCONTACT hContact = MCONTACT(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS;
 	if ( bIsActive(hContact))
 		mi.flags |= CMIF_CHECKED;

@@ -8,7 +8,6 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   if StrCmp(Proto_GetProtoName(hContact),PluginName)<>0 then
   begin
     mi.flags:=CMIM_FLAGS or CMIF_HIDDEN;
@@ -52,7 +51,6 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize    :=sizeof(mi);
 //  mi.popupPosition:=MenuUserInfoPos;
   mi.pszService:=MS_RADIO_RECORD;
   mi.szName.a  :='Start/Stop Record';

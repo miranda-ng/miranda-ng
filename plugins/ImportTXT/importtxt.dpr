@@ -120,18 +120,14 @@ begin
   SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);
   SrvIWiz := CreateServiceFunction(IMPORT_WIZ_SERVICE, @MainMenuCommand);
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize := sizeof(mi);
-  mi.flags := 0;
   mi.position := 1000090050;
   mi.hIcon := LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT));
   mi.szName.a := 'Import history';
   mi.pszService := IMPORT_TXT_SERVICE;
-  mi.pszContactOwner := nil; // All contacts
   Menu_AddContacTMenuItem(@mi);
 
   mi.position := 500050010;
   mi.pszService := IMPORT_WIZ_SERVICE;
-  mi.pszContactOwner := nil;
   Menu_AddMainMenuItem(@mi);
 
   HookEvent(ME_SYSTEM_MODULESLOADED, @OnModulesLoaded);

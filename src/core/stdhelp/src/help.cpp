@@ -73,7 +73,7 @@ int LoadHelpModule(void)
 	CreateServiceFunction("Help/WebsiteCommand", WebsiteCommand);
 	CreateServiceFunction("Help/BugCommand", BugCommand);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = LPGEN("&Help");
 	mi.popupPosition = 2000090000;

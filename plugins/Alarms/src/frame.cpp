@@ -448,7 +448,7 @@ int ReloadFont(WPARAM, LPARAM)
 
 void FixMainMenu()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if (options.hide_with_clist || options.auto_showhide)
 			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
@@ -548,7 +548,7 @@ int CreateFrame()
 		// create menu item
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_ALL;
 		mi.hIcon = hIconMenuShowHide;
 		mi.pszName = LPGEN("Show reminders");

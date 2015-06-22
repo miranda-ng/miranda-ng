@@ -73,7 +73,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 int IconsChanged(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	
 	mi.hIcon = IcoLib_GetIcon(db_get_b(0, "Popup", "ModuleIsEnabled", 1) ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	mi.flags = CMIM_ICON;
@@ -182,7 +182,7 @@ void InitMenuItems(void)
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags		= CMIF_ROOTHANDLE|CMIF_TCHAR;
 	mi.hParentMenu	= HGENMENU_ROOT;
 

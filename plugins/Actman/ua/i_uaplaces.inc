@@ -377,7 +377,6 @@ begin
   if not res then
   begin
     FillChar(clmi,SizeOf(clmi),0);
-    clmi.cbSize:=SizeOf(clmi);
     if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
       clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
     else
@@ -425,7 +424,6 @@ begin
  // Now Menu Item preparing
 {}{}
   FillChar(clmi,SizeOf(clmi),0);
-  clmi.cbSize:=SizeOf(clmi);
   if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
     clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
   else
@@ -488,7 +486,6 @@ begin
   result:=0;
 
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=SizeOf(mi);
 
   for i:=0 to HIGH(UActionList) do
   begin
@@ -792,8 +789,6 @@ end;
 function OnTabButtonPressed(wParam:WPARAM;lParam:LPARAM):int; cdecl;
 var
   cbcd:pCustomButtonClickData;
-//  tabb:BBButton;
-//  pc:pWideChar;
   i:integer;
 begin
   result:=0;
@@ -807,49 +802,6 @@ begin
     begin
       if cbcd.dwButtonId=dwActID then
       begin
-{
-        FillChar(tabb,SizeOf(tabb),0);
-        tabb.cbSize       :=SizeOf(tabb);
-        tabb.dwButtonID   :=cbcd.dwButtonId;
-        tabb.pszModuleName:=MODULE_NAME;
-        if (flags and UAF_2STATE)<>0 then
-        begin
-          CallService(MS_BB_GETBUTTONSTATE,cbcd.hContact,TLPARAM(@tabb));
-          if IsLocalItem(UActionList[i]) then
-          begin
-            if DBReadByte(hContact,opt_ua,szNameID)<>0 then
-          end
-          else
-          begin
-            if (tabb.bbbFlags and BBSF_PUSHED)<>0 then
-            begin
-              pc:=szTabBTooltipPressed;
-              if pc=nil then pc:=szTabBTooltip;
-              tabb.hIcon:=hIcolibIconPressed;
-            end
-            else
-            begin
-              pc:=szTabBTooltip;
-              tabb.hIcon:=hIcolibIcon;
-            end;
-            if pc=nil then pc:=szActDescr;
-            tabb.szTooltip.w:=pc;
-            tabb.bbbFlags     :=BBBF_ISIMBUTTON or BBBF_ISLSIDEBUTTON or
-                                BBBF_ISCHATBUTTON or BBBF_ISPUSHBUTTON;
-        end
-        else
-        begin
-          tabb.hIcon:=hIcolibIcon;
-          tabb.szTooltip.w:=szTabBTooltip;
-          if tabb.szTooltip.w=nil then tabb.szTooltip.w:=szActDescr;
-          tabb.bbbFlags     :=BBBF_ISIMBUTTON or BBBF_ISLSIDEBUTTON or
-                              BBBF_ISCHATBUTTON;
-        end;
-
-        tabb.iButtonWidth:=0;
-        tabb.dwDefPos    :=(TABTOOLBAR_INITPOS+wSortIndex*10) and $7FFF;
-        CallService(MS_BB_MODIFYBUTTON,0,TLPARAM(@tabb));
-}
         ServiceCallWithFParam(cbcd.hContact,0,cbcd.dwButtonId);
         result:=1;
         break;

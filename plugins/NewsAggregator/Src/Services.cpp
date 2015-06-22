@@ -229,7 +229,7 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 
 void UpdateMenu(bool State)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	if (!State) { // to enable auto-update
 		mi.ptszName = LPGENT("Auto Update Enabled");

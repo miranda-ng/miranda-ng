@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int hLangpack;
 
 #if defined MIR_APP_EXPORTS
-	typedef struct _tagIntMenuItem* HGENMENU;
+	typedef struct TMO_IntMenuItem* HGENMENU;
 #else
 	DECLARE_HANDLE(HGENMENU);
 #endif
@@ -86,8 +86,9 @@ extern int hLangpack;
 // WARNING: do not use Translate(TS) for p(t)szName or p(t)szPopupName as they
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-typedef struct {
-	int cbSize;	            //size in bytes of this structure
+
+struct CLISTMENUITEM
+{
 	union {
 		char*  pszName;      //[TRANSLATED-BY-CORE] text of the menu item
 		TCHAR* ptszName;     //Unicode text of the menu item
@@ -115,8 +116,7 @@ typedef struct {
                            //applies to all contacts. If it applies to multiple but not all
                            //protocols, add multiple menu items or use ME_CLIST_PREBUILDCONTACTMENU
 	int hLangpack;          //plugin's hLangpack (added automatically)
-}
-	CLISTMENUITEM;
+};
 
 #define HGENMENU_ROOT      ((HGENMENU)-1)
 

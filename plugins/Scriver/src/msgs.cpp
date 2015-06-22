@@ -440,14 +440,14 @@ static int MetaContactChanged(WPARAM hMeta, LPARAM)
 	return 0;
 }
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	ReloadGlobals();
 	LoadGlobalIcons();
 	LoadMsgLogIcons();
-	ModuleLoad(0, 0);
+	ModuleLoad(0, 0);																											  
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = Skin_GetIconHandle( SKINICON_EVENT_MESSAGE );
@@ -464,7 +464,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactChanged);
 
 	RestoreUnreadMessageAlerts();
-	Chat_ModulesLoaded(wParam, lParam);
+	OptionsInit();
 	RegisterStatusIcons();
 	return 0;
 }

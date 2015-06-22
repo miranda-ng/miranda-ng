@@ -60,7 +60,7 @@ void CSkypeProto::InitMenus()
 
 	//hChooserMenu = MO_CreateMenuObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
-	CLISTMENUITEM mi = { sizeof(CLISTMENUITEM) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	// Request authorization
@@ -112,7 +112,7 @@ int CSkypeProto::OnInitStatusMenu()
 	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
 	HGENMENU hStatusMunuRoot = MO_GetProtoRootMenu(m_szModuleName);

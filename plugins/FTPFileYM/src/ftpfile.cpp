@@ -91,7 +91,7 @@ void InitMenuItems()
 {
 	TCHAR stzName[256];
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
@@ -102,10 +102,9 @@ void InitMenuItems()
 		hMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.ptszName = stzName;
 
-	CLISTMENUITEM mi2 = { sizeof(mi2) };
+	CLISTMENUITEM mi2 = { 0 };
 	mi2.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
@@ -162,7 +161,6 @@ void InitMenuItems()
 	}
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;

@@ -1320,7 +1320,7 @@ int __cdecl CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 
 	case EV_PROTO_ONRENAME:
 		if (m_hMenuRoot) {
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			clmi.ptszName = m_tszUserName;
 			Menu_ModifyItem(m_hMenuRoot, &clmi);

@@ -52,7 +52,6 @@ type
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
   PCLISTMENUITEM = ^TCLISTMENUITEM;
   TCLISTMENUITEM = record
-    cbSize         : int;     // size in bytes of this structure
     szName         : TChar;   // [TRANSLATED-BY-CORE] text of the menu item
     flags          : dword;
     position       : int;     // approx position on the menu, lower numbers go nearer the top

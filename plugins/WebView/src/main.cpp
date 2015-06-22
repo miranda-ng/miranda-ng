@@ -169,7 +169,7 @@ extern "C" int __declspec(dllexport) Load()
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
 		//value is 0 if menu is enabled

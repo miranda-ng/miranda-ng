@@ -181,7 +181,7 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 	DBVARIANT dbv;
 	if (!getString(hContact, AIM_KEY_SN, &dbv)) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_NAME | CMIM_FLAGS;
 		switch(pd_mode) {
 		case 1:
@@ -218,7 +218,7 @@ void CAimProto::InitMainMenus(void)
 	//Do not put any services below HTML get away message!!!
 	char service_name[200];
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
@@ -266,7 +266,7 @@ void CAimProto::InitContactMenus(void)
 	//Do not put any services below HTML get away message!!!
 	char service_name[200];
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = service_name;
 	mi.pszContactOwner = m_szModuleName;
 

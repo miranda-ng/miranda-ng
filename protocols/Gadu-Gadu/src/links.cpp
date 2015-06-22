@@ -63,7 +63,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < g_Instances.getCount(); i++) {
 		gg = g_Instances[i];
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_FLAGS;
 		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;

@@ -159,7 +159,7 @@ void UpdateGlobalStatusMenus()
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 	clmi.flags = CMIM_FLAGS
 			| (enabled ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
@@ -193,7 +193,7 @@ void RebuildMenu()
 		TCHAR text[512];
 		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000 + i;
 		mi.pszPopupName = (char *) hMainMenuGroup;
 		mi.popupPosition = 500080000 + i;
@@ -245,7 +245,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR text[512];
 			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			clmi.ptszName = text;
 			Menu_ModifyItem(info->hMenu, &clmi);
@@ -298,7 +298,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Add main menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 500080000;
 	mi.ptszName = LPGENT("Listening to");
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
@@ -715,7 +715,7 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 		ProtocolInfo *info = GetProtoInfo(proto);
 		if (info != NULL)
 		{
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_FLAGS
 					| (enabled ? CMIF_CHECKED : 0)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);

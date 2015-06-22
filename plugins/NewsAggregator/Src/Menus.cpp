@@ -23,7 +23,7 @@ HGENMENU hService2[7];
 
 void InitMenu()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = MODULE;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 
@@ -75,7 +75,6 @@ void InitMenu()
 	hService2[6] = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_ICON;
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
 		mi.icolibItem = GetIconHandle("enabled");

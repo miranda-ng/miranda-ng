@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_HELP);

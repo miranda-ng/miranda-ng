@@ -334,7 +334,6 @@ begin
         exit
       end;
       FillChar(mi,sizeof(mi),0);
-      mi.cbSize:=sizeof(mi);
       mi.flags :=CMIM_FLAGS+flag;
       CallService(MS_CLIST_MODIFYMENUITEM,hMenuInfo,tlparam(@mi));
     end;
@@ -347,7 +346,6 @@ var
 begin
   result:=0;
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
   mi.hIcon :=IcoLib_GetIcon(IcoBtnInfo,0);
   CallService(MS_CLIST_MODIFYMENUITEM,hMenuInfo,tlparam(@mi));
@@ -484,7 +482,6 @@ begin
   sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize       :=SizeOf(mi);
   mi.szPopupName.a:=PluginShort;
   mi.hIcon        :=IcoLib_GetIcon(IcoBtnInfo,0);
   mi.szName.a     :='Music Info';

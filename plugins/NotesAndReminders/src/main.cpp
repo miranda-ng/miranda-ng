@@ -182,7 +182,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 
 	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
 	// register menus
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = NULL;
 	mi.ptszPopupName = LPGENT("Notes && Reminders");
 	mi.flags = CMIF_TCHAR;

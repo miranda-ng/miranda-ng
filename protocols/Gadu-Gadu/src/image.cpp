@@ -73,7 +73,7 @@ int GGPROTO::img_init()
 	CreateProtoService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
 
 	// Send image contact menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.position = -2000010000;
 	mi.icolibItem = iconList[11].hIcolib;

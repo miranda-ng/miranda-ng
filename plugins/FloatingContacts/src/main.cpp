@@ -684,7 +684,7 @@ static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
 	OnStatusChanged();
 
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 	clmi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	clmi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
 	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
@@ -717,7 +717,7 @@ static void LoadMenus()
 	// Remove thumb menu item
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));

@@ -220,7 +220,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				}
 			}
 
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIM_FLAGS;
 			Menu_ModifyItem(proto->hMenuMUC, &mi);
 			if (proto->hMenuChats != NULL)

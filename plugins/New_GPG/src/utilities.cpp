@@ -227,7 +227,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
 	enc = enc?0:1;
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME;
 	enc?mi.pszName="Turn off GPG encryption":mi.pszName="Turn on GPG encryption";
 	Menu_ModifyItem(hToggleEncryption, &mi);
@@ -238,7 +238,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = db_mc_tryMeta(w);
 	{
-		CLISTMENUITEM mi2 = { sizeof(mi2) };
+		CLISTMENUITEM mi2 = { 0 };
 		LPSTR proto = GetContactProto(hContact);
 		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string setting;
@@ -263,7 +263,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 		mi2.flags = CMIM_NAME | CMIF_TCHAR;
 		Menu_ModifyItem(hSendKey, &mi2);
 	}
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME;
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 	if(!tmp[0])

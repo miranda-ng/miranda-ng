@@ -46,7 +46,7 @@ static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 	Disabled = !Disabled;
 
 	if (PluginConfig.g_bPopupAvail) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_ICON | CMIM_NAME;
 
 		if (!Disabled) {
@@ -545,7 +545,7 @@ int TN_ModuleInit()
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		if (!Disabled) {
 			mi.pszName = LPGEN("Disable &typing notification");
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));

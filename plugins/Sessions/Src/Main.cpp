@@ -793,7 +793,7 @@ static int PluginInit(WPARAM, LPARAM)
 	Hotkey_Register(&hkd);
 
 	// Main menu
-	CLISTMENUITEM cl = { sizeof(cl) };
+	CLISTMENUITEM cl = { 0 };
 	cl.position = 1000000000;
 	cl.flags = CMIM_ALL;
 
@@ -820,7 +820,6 @@ static int PluginInit(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&cl);
 
 	memset(&cl, 0, sizeof(cl));
-	cl.cbSize = sizeof(cl);
 	cl.flags = CMIM_ICON;
 	cl.icolibItem = iconList[4].hIcolib;
 	Menu_ModifyItem(hmSaveCurrentSession, &cl);

@@ -249,7 +249,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	if (cc == NULL)
 		return 0;
 		
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	Menu_ShowItem(hMenuRoot, false);
 
 	if (cc->IsMeta()) {
@@ -346,7 +346,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 
 INT_PTR Meta_OnOff(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON;
 
 	bool bToggled = !db_mc_isEnabled();
@@ -371,7 +371,7 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 
 void InitMenus()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	// main menu item
 	mi.icolibItem = GetIconHandle(I_MENUOFF);

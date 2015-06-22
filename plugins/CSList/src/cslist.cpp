@@ -238,7 +238,7 @@ void addProtoStatusMenuItem(char *protoName)
 	if (!ServiceExists(buf))
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
 	mi.icolibItem = forms[0].hIcoLibItem;
 	mi.ptszName = _T(MODULENAME);

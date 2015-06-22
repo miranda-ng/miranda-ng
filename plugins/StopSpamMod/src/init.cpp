@@ -148,7 +148,7 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

@@ -90,7 +90,6 @@ begin
 
   // build menu from sorted list
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.Flags :=CMIF_KEEPUNTRANSLATED or CMIF_UNICODE or CMIF_ROOTHANDLE;
   mi.szPopupName:=TChar(trayparent);
   pc:=StrCopyE(@buf,'mRadio/Choose');
@@ -138,7 +137,6 @@ var
   ico:pAnsiChar;
 begin
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize  :=sizeof(mi);
   mi.flags   :=CMIF_UNICODE;
   mi.szName.w:=cPluginName;
   mi.hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
@@ -148,7 +146,6 @@ begin
     trayradioparent:=Menu_AddMainMenuItem(@mi);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize  :=sizeof(mi);
   mi.szPopupName:=TChar(trayradioparent);
 
   if PluginStatus=ID_STATUS_ONLINE then
@@ -241,7 +238,6 @@ var
   ico:pAnsiChar;
 begin
   FillChar(mi,sizeof(mi),0);
-  mi.cbSize:=sizeof(mi);
 
   mi.flags:=CMIM_NAME or CMIF_UNICODE;
   if PluginStatus=ID_STATUS_ONLINE then

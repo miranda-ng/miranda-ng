@@ -133,7 +133,7 @@ extern "C" int __declspec(dllexport) Load()
 	hOptionsInitial = HookEvent(ME_OPT_INITIALISE, OptInit);
 	CreateServiceFunction("GmailMNotifier/MenuCommand", PluginMenuCommand);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
 	mi.hIcon = Skin_LoadProtoIcon(pluginName, ID_STATUS_ONLINE);

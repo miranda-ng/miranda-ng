@@ -34,7 +34,6 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
 
   mi.hIcon        :=IcoLib_GetIcon(IcoBtnEnable,0);
@@ -50,7 +49,6 @@ var
   p:PAnsiChar;
 begin
   FillChar(mi,sizeof(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_NAME+CMIM_FLAGS+CMIM_ICON+f1;
   if f1<>0 then
   begin
@@ -88,7 +86,6 @@ var
 begin
   result:=0;
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
 
   mi.hIcon:=IcoLib_GetIcon(IcoBtnEnable,0);

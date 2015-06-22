@@ -92,7 +92,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 					BOOL fEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLEREPLIER) == 1;
 					db_set_b(NULL, protocolname, KEY_ENABLED, (BYTE)fEnabled);
-					CLISTMENUITEM mi = { sizeof(mi) };
+					CLISTMENUITEM mi = { 0 };
 					mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 					mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
 					mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;

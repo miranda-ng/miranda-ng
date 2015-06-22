@@ -86,7 +86,7 @@ void InitContactMenus()
 {
 	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
 	mi.position = -2000006000;

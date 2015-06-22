@@ -610,7 +610,7 @@ class CContactUpdater : public CContactQueue
 		// reset menu
 		if (hMenuItemRefresh)
 		{
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Refresh contact details");
 			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
@@ -727,7 +727,7 @@ public:
 		// if there are contacts in the queue, change the main menu item to indicate it is meant for canceling.
 		if (hMenuItemRefresh && Size() > 0)
 		{
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME|CMIM_ICON;
 			clmi.pszName = LPGEN("Abort Refreshing Contact Details");
 			clmi.hIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);

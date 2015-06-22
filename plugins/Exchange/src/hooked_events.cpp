@@ -61,7 +61,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	UpdateTimers();
 	CLISTMENUITEM cl = {0};
-	cl.cbSize = sizeof(CLISTMENUITEM);
 	cl.hIcon = hiMailIcon;
 	cl.position = 10000000;
 	cl.pszService = MS_EXCHANGE_CHECKEMAIL;

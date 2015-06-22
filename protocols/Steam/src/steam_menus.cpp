@@ -100,7 +100,7 @@ void CSteamProto::OnInitStatusMenu()
 	mir_strncpy(text, m_szModuleName, 100);
 	char* tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
 	HGENMENU hSteamRoot = MO_GetProtoRootMenu(m_szModuleName);
@@ -139,7 +139,6 @@ void CSteamProto::InitMenus()
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
 	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.flags = CMIF_TCHAR;
 
 	// "Request authorization"
