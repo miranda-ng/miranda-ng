@@ -830,7 +830,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
-	mi.pszContactOwner = (char *)alTop;
+	mi.pszContactOwner = (char*)alTop;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiAlignTop = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIAlignTop = menuid;
@@ -840,7 +840,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Client");
 	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
-	mi.pszContactOwner = (char *)alClient;
+	mi.pszContactOwner = (char*)alClient;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiAlignClient = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIAlignClient = menuid;
@@ -849,7 +849,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Bottom");
 	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
-	mi.pszContactOwner = (char *)alBottom;
+	mi.pszContactOwner = (char*)alBottom;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiAlignBottom = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIAlignBottom = menuid;
@@ -860,7 +860,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.pszName = LPGEN("&Position");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
 	mi.pszService = "";
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = (char*)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiPosRoot = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIPosRoot = menuid;
@@ -870,7 +870,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.pszName = LPGEN("&Up");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = CLUIFRAMESMOVEUP;
-	mi.pszContactOwner = (char *)1;
+	mi.pszContactOwner = (char*)1;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiPosUp = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIPosUp = menuid;
@@ -878,7 +878,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Down");
 	mi.pszService = CLUIFRAMESMOVEDOWN;
-	mi.pszContactOwner = (char *)-1;
+	mi.pszContactOwner = (char*)-1;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiPosDown = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIPosDown = menuid;

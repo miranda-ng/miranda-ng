@@ -676,7 +676,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
-	mi.pszContactOwner = (char *)alTop;
+	mi.pszContactOwner = (char*)alTop;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIAlignTop = menuid;
 	else Frames[framepos].MenuHandles.MIAlignTop = menuid;
@@ -685,7 +685,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Client");
 	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
-	mi.pszContactOwner = (char *)alClient;
+	mi.pszContactOwner = (char*)alClient;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIAlignClient = menuid;
 	else Frames[framepos].MenuHandles.MIAlignClient = menuid;
@@ -694,7 +694,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Bottom");
 	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
-	mi.pszContactOwner = (char *)alBottom;
+	mi.pszContactOwner = (char*)alBottom;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIAlignBottom = menuid;
 	else Frames[framepos].MenuHandles.MIAlignBottom = menuid;
@@ -706,7 +706,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Position");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
 	mi.pszService = "";
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = (char*)0;
 	menuid = pfnAdd(&mi);
 
 	mi.hParentMenu = menuid;
@@ -714,14 +714,14 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Up");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = CLUIFRAMESMOVEUP;
-	mi.pszContactOwner = (char *)1;
+	mi.pszContactOwner = (char*)1;
 	pfnAdd(&mi);
 
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Down");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = CLUIFRAMESMOVEDOWN;
-	mi.pszContactOwner = (char *)-1;
+	mi.pszContactOwner = (char*)-1;
 	pfnAdd(&mi);
 	return 0;
 }

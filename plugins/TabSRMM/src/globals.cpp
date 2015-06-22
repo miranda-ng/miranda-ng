@@ -328,7 +328,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -500050005;
 	mi.hIcon = PluginConfig.g_iconContainer;
-	mi.pszContactOwner = NULL;
 	mi.pszName = LPGEN("&Messaging settings...");
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
@@ -336,7 +335,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (sendLater->isAvail()) {
 		mi.position = -500050006;
 		mi.hIcon = 0;
-		mi.pszContactOwner = NULL;
 		mi.pszName = LPGEN("&Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);

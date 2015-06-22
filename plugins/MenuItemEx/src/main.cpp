@@ -959,8 +959,6 @@ static int PluginInit(WPARAM, LPARAM)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_UNICODE;
-	mi.hIcon = NULL;
-	mi.pszContactOwner = NULL;
 
 	mi.position = 120000;
 	mi.ptszName = LPGENT("Always visible");

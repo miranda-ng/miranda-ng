@@ -197,7 +197,6 @@ extern void Scan4Games(LPVOID lparam);
 INT_PTR RemoveFriend(WPARAM wParam, LPARAM lParam);
 INT_PTR BlockFriend(WPARAM wParam, LPARAM lParam);
 INT_PTR StartThisGame(WPARAM wParam, LPARAM lParam);
-int IconLibChanged(WPARAM wParam, LPARAM lParam);
 void SetAvatar2(LPVOID lparam);
 int ExtraListRebuild(WPARAM wparam, LPARAM lparam);
 
@@ -1113,14 +1112,14 @@ extern "C" __declspec(dllexport) int  Load(void)
 	if (!(XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder)))
 		CreateDirectoryA(AvatarsFolder, NULL);
 
-	//erweiterte Kontextmenüpunkte
+	// erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { 0 };
 	mi.ptszPopupName = _T(protocolname);
 	mi.flags = CMIF_TCHAR;
 
 	char servicefunction[100];
 
-	//gotoprofilemenüpunkt
+	// gotoprofilemenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfile");
 	CreateServiceFunction(servicefunction, GotoProfile);
@@ -1131,102 +1130,77 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.ptszName = LPGENT("&XFire Online Profile");
 	Menu_AddContactMenuItem(&mi);
 
-	//gotoxfireclansitemenüpunkt
+	// gotoxfireclansitemenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoXFireClanSite");
 	CreateServiceFunction(servicefunction, GotoXFireClanSite);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
-	mi.pszContactOwner = protocolname;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.ptszName = LPGENT("XFire &Clan Site");
 	gotoclansite = Menu_AddContactMenuItem(&mi);
 
-	//kopiermenüpunkt
+	// kopiermenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GetIPPort");
 	CreateServiceFunction(servicefunction, GetIPPort);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("C&opy Server Address and Port");
 	copyipport = Menu_AddContactMenuItem(&mi);
 
-	//kopiermenüpunkt
+	// kopiermenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "VoiceIPPort");
 	CreateServiceFunction(servicefunction, GetVIPPort);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Cop&y Voice Server Address and Port");
 	vipport = Menu_AddContactMenuItem(&mi);
 
-	//joinmenüpunkt
+	// joinmenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "JoinGame");
 	CreateServiceFunction(servicefunction, JoinGame);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Join &Game...");
 	joingame = Menu_AddContactMenuItem(&mi);
 
-	//joinmenüpunkt
+	// playmenüpunkt
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "StartThisGame");
 	CreateServiceFunction(servicefunction, StartThisGame);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Play this game...");
 	startthisgame = Menu_AddContactMenuItem(&mi);
 
-	//remove friend
+	// remove friend
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "RemoveFriend");
 	CreateServiceFunction(servicefunction, RemoveFriend);
-	mi.pszService = servicefunction;
 	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Remove F&riend...");
 	removefriend = Menu_AddContactMenuItem(&mi);
 
-	//block user
+	// block user
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "BlockFriend");
 	CreateServiceFunction(servicefunction, BlockFriend);
-	mi.pszService = servicefunction;
-	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Block U&ser...");
 	blockfriend = Menu_AddContactMenuItem(&mi);
 
-	//my fire profile
+	// my fire profile
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfile2");
 	CreateServiceFunction(servicefunction, GotoProfile2);
-	mi.pszService = servicefunction;
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("&My XFire Online Profile");
 	Menu_AddMainMenuItem(&mi);
 
-	//my activity protocol
+	// my activity protocol
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfileAct");
 	CreateServiceFunction(servicefunction, GotoProfileAct);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("&Activity Report");
 	Menu_AddMainMenuItem(&mi);
 
@@ -1234,20 +1208,14 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "ReScanMyGames");
 	CreateServiceFunction(servicefunction, ReScanMyGames);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("&Rescan my games...");
 	Menu_AddMainMenuItem(&mi);
 
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "SetNick");
 	CreateServiceFunction(servicefunction, SetNickDlg);
-	mi.pszService = servicefunction;
-	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
 	mi.ptszName = LPGENT("Set &Nickname");
 	Menu_AddMainMenuItem(&mi);
 
@@ -1268,7 +1236,8 @@ extern "C" __declspec(dllexport) int  Load(void)
 }
 
 //funktion liefert für xstatusid den passenden ico zurück, für tipper zb notwendig
-INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
+INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam)
+{
 	if (lParam == LR_SHARED)
 	{
 		if (wParam > 1)
@@ -1425,18 +1394,14 @@ static void ConnectingThread(LPVOID params)
 
 	if (myClient != NULL&&myClient->client != NULL)
 		myClient->run();
-	else
-	{
+	else {
 		mir_cslock lck(connectingMutex);
 		return;
 	}
 
 	if (myClient->client->connected)
-	{
 		sendonrecieve = TRUE;
-	}
-	else
-	{
+	else {
 		if (db_get_w(NULL, protocolname, "noconnectfailedbox", 0) == 0) MSGBOXE(Translate("Unable to connect to XFire."));
 		wParam = ID_STATUS_OFFLINE;
 	}
@@ -3115,37 +3080,26 @@ void CreateGroup(char*grpn, char*field) {
 INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(modeMsgsMutex);
-	if ((char*)lParam == NULL)
-	{
+	if ((char*)lParam == NULL) {
 		if (wParam == ID_STATUS_ONLINE)
-		{
 			mir_strcpy(statusmessage[0], "");
-		}
-		else if (wParam != ID_STATUS_OFFLINE/*&&db_get_b(NULL,protocolname,"nocustomaway",0)==0*/)
-		{
+		else if (wParam != ID_STATUS_OFFLINE)
 			mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
-		}
 	}
-	else
-	{
+	else {
 		if (wParam == ID_STATUS_ONLINE)
-		{
 			mir_strcpy(statusmessage[0], (char*)lParam);
-		}
 		else if (wParam != ID_STATUS_OFFLINE) {
 			if (db_get_b(NULL, protocolname, "nocustomaway", 0) == 0 && mir_strlen((char*)lParam) > 0) {
 				mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", (char*)lParam);
 				//mir_strcpy(statusmessage[1],( char* )lParam);
 			}
-			else
-				mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
+			else mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
 		}
 	}
 
-	if (myClient != NULL)
-	{
-		if (myClient->client->connected)
-		{
+	if (myClient != NULL) {
+		if (myClient->client->connected) {
 			if (bpStatus == ID_STATUS_ONLINE)
 				myClient->Status(statusmessage[0]);
 			else if (wParam != ID_STATUS_ONLINE&&wParam != ID_STATUS_OFFLINE)
@@ -3155,25 +3109,16 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*static void SendAMAck( LPVOID param )
-{
-ptrT statusMsg( db_get_tsa((HANDLE)param, protocolname, "XStatusMsg"));
-ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)statusMsg);
-}*/
-
 INT_PTR SetNickName(WPARAM newnick, LPARAM lparam)
 {
 	if (newnick == NULL)
-	{
 		return FALSE;
-	}
 
 	if (myClient != NULL)
-		if (myClient->client->connected)
-		{
-		myClient->setNick((char*)newnick);
-		db_set_s(NULL, protocolname, "Nick", (char*)newnick);
-		return TRUE;
+		if (myClient->client->connected) {
+			myClient->setNick((char*)newnick);
+			db_set_s(NULL, protocolname, "Nick", (char*)newnick);
+			return TRUE;
 		}
 	return FALSE;
 }
@@ -3183,32 +3128,32 @@ INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 {
 	if (myClient != NULL)
 		if (myClient->client->connected) {
-		PrefsPacket prefs;
-		for (int i = 0; i < XFIRE_RECVPREFSPACKET_MAXCONFIGS; i++)
-			prefs.config[i] = xfireconfig[i];
+			PrefsPacket prefs;
+			for (int i = 0; i < XFIRE_RECVPREFSPACKET_MAXCONFIGS; i++)
+				prefs.config[i] = xfireconfig[i];
 
-		myClient->client->send(&prefs);
-		return TRUE;
+			myClient->client->send(&prefs);
+			return TRUE;
 		}
 	return FALSE;
 }
 
 int ContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	if (!db_get_b(hContact, protocolname, "DontSendDenyPacket", 0))
-		if (db_get_b(hContact, "CList", "NotOnList", 0))
-		{
-		if (myClient != NULL)
-			if (myClient->client->connected)
-			{
-			DBVARIANT dbv2;
-			if (!db_get(hContact, protocolname, "Username", &dbv2)) {
-				SendDenyInvitationPacket deny;
-				deny.name = dbv2.pszVal;
-				myClient->client->send(&deny);
-			}
+	if (!db_get_b(hContact, protocolname, "DontSendDenyPacket", 0)) {
+		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
+			if (myClient != NULL) {
+				if (myClient->client->connected) {
+					DBVARIANT dbv2;
+					if (!db_get(hContact, protocolname, "Username", &dbv2)) {
+						SendDenyInvitationPacket deny;
+						deny.name = dbv2.pszVal;
+						myClient->client->send(&deny);
+					}
+				}
 			}
 		}
+	}
 	return 0;
 }
 
@@ -3234,24 +3179,15 @@ INT_PTR RemoveFriend(WPARAM hContact, LPARAM lParam)
 {
 	char temp[256];
 	DBVARIANT dbv;
-
-	if (!db_get_s(hContact, protocolname, "Username", &dbv))
-	{
+ 	if (!db_get_s(hContact, protocolname, "Username", &dbv)) {
 		mir_snprintf(temp, _countof(temp), Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
-		if (MessageBoxA(NULL, temp, Translate("Confirm Delete"), MB_YESNO | MB_ICONQUESTION) == IDYES)
-		{
-			if (myClient != NULL)
-			{
-				if (myClient->client->connected)
-				{
+		if (MessageBoxA(NULL, temp, Translate("Confirm Delete"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+			if (myClient != NULL) {
+				if (myClient->client->connected) {
 					SendRemoveBuddyPacket removeBuddy;
-
 					removeBuddy.userid = db_get_dw(hContact, protocolname, "UserId", 0);
-
 					if (removeBuddy.userid != 0)
-					{
 						myClient->client->send(&removeBuddy);
-					}
 				}
 			}
 		}
@@ -3263,15 +3199,10 @@ INT_PTR RemoveFriend(WPARAM hContact, LPARAM lParam)
 INT_PTR BlockFriend(WPARAM hContact, LPARAM lParam)
 {
 	DBVARIANT dbv;
-
-	if (!db_get_s(hContact, protocolname, "Username", &dbv))
-	{
-		if (MessageBox(NULL, TranslateT("Block this user from ever contacting you again?"), TranslateT("Block Confirmation"), MB_YESNO | MB_ICONQUESTION) == IDYES)
-		{
-			if (myClient != NULL)
-			{
-				if (myClient->client->connected)
-				{
+	if (!db_get_s(hContact, protocolname, "Username", &dbv)) {
+		if (MessageBox(NULL, TranslateT("Block this user from ever contacting you again?"), TranslateT("Block Confirmation"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+			if (myClient != NULL) {
+				if (myClient->client->connected) {
 					db_set_b(NULL, "XFireBlock", dbv.pszVal, 1);
 
 					SendDenyInvitationPacket deny;
@@ -3332,8 +3263,8 @@ INT_PTR JoinGame(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-
-int doneQuery(WPARAM wParam, LPARAM lParam) {
+int doneQuery(WPARAM wParam, LPARAM lParam)
+{
 	char temp[256];
 	BuddyListEntry* bud = (BuddyListEntry*)wParam;
 	gServerstats* gameinfo = (gServerstats*)lParam;
@@ -3350,30 +3281,10 @@ int doneQuery(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-static INT_PTR SetNickDlg(WPARAM wParam, LPARAM lParam) {
+static INT_PTR SetNickDlg(WPARAM wParam, LPARAM lParam)
+{
 	return ShowSetNick();
 }
-
-
-int IconLibChanged(WPARAM wParam, LPARAM lParam) {
-	/*int x=0;
-	char temp[255];
-	for(int i=0;i<1024;i++)
-	{
-	if (icocache[i].hicon>0)
-	{
-	//ImageList_ReplaceIcon(hAdvancedStatusIcon,(int)icocache[i].handle,icocache[i].hicon);
-	HANDLE before=icocache[i].handle;
-	icocache[i].handle=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icocache[i].hicon, 0);
-	mir_snprintf(temp, _countof(temp), "before: %d after: %d", before, icocache[i].handle);
-	MessageBoxA(NULL,temp,temp,0);
-	DrawIcon(GetDC(NULL),x,0,(HICON)CallService(MS_SKIN2_GETICONBYHANDLE,0,(LPARAM)icocache[i].handle));
-	x+=32;
-	}
-	}*/
-	return 0;
-}
-
 
 INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
