@@ -127,7 +127,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 			else {
 				bool openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
-				Utils_OpenUrlT(link);
+				Utils_OpenUrlT(link,openNewWindow);
 			}
 			mir_free(link);
 			break;
@@ -157,7 +157,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (_tcsstr(link, _T("mailto:")) != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
-					Utils_OpenUrlT(link);
+					Utils_OpenUrlT(link,false);
 				break;
 			case IDM_LINK_OPENNEW:
 				if (_tcsstr(link, _T("mailto:")) != NULL)

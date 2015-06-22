@@ -2632,7 +2632,7 @@ LABEL_SHOWWINDOW:
 									Utils_OpenUrlT(tr.lpstrText);
 									break;
 								case ID_CURR:
-									Utils_OpenUrlT(tr.lpstrText);
+									Utils_OpenUrlT(tr.lpstrText,false);
 									break;
 								case ID_COPY:
 									Utils::CopyToClipBoard(tr.lpstrText, hwndDlg);

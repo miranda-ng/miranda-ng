@@ -2052,7 +2052,9 @@ LABEL_SHOWWINDOW:
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 						s->wState &= ~STATE_TALK;
 						SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s);
-			}	}	}
+					}
+				}
+			}
 
 			if (uMsg != WM_ACTIVATE)
 				SetFocus(GetDlgItem(hwndDlg,IDC_MESSAGE));
@@ -2175,12 +2177,10 @@ LABEL_SHOWWINDOW:
 					tr.chrg = cr;
 					tr.lpstrText = pszWord;
 					long iRes = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					if (iRes > 0) {
-						int iLen = (int)mir_tstrlen(pszWord)-1;
-						while (iLen >= 0 && _tcschr(szTrimString, pszWord[iLen])) {
+					if (iRes > 0)
+						for (size_t iLen = mir_tstrlen(pszWord)-1;_tcschr(szTrimString, pszWord[iLen]);iLen--)
 							pszWord[iLen] = 0;
-							iLen--;
-				}	}	}
+				}
 
 				uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
 				switch (uID) {
@@ -2268,7 +2268,7 @@ LABEL_SHOWWINDOW:
 								break;
 
 							case ID_CURR:
-								Utils_OpenUrlT(tr.lpstrText);
+								Utils_OpenUrlT(tr.lpstrText,false);
 								break;
 
 							case ID_COPY:
