@@ -33,7 +33,8 @@ extern "C"
 #include "resource.h"
 
 #include "mlua.h"
-#include "mlua_loader.h"
+#include "mlua_module_loader.h"
+#include "mlua_script_loader.h"
 #include "mlua_options.h"
 
 #define MODULE "MirLua"
@@ -55,6 +56,9 @@ extern HANDLE g_hCustomFolderPath;
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
+
+#define MLUA_CORE	"m"
+LUAMOD_API int (luaopen_m)(lua_State *L);
 
 #define MLUA_DATABASE	"m_database"
 LUAMOD_API int (luaopen_m_database)(lua_State *L);

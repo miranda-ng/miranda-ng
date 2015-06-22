@@ -1,12 +1,29 @@
 #include "stdafx.h"
 
-CLuaLoader::CLuaLoader(CMLua *mLua) : mLua(mLua)
+CLuaScriptLoader::CLuaScriptLoader(lua_State *L) : L(L)
 {
 }
 
-void CLuaLoader::LoadScripts(const TCHAR *scriptDir)
+void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 {
-	mLua->AddScriptsPath(ptrA(mir_utf8encodeT(scriptDir)));
+	lua_getglobal(L, "package");
+	lua_getfield(L, -1, "path");
+	const char *oldPath = luaL_checkstring(L, -1);
+	lua_pop(L, 1);
+	lua_pushfstring(L, "%s;%s\\?.lua", oldPath, path);
+	lua_setfield(L, -2, "path");
+	lua_pop(L, 1);
+}
+
+void CLuaScriptLoader::LoadScript(const char *path)
+{
+	if (luaL_dofile(L, path))
+		printf("%s\n", lua_tostring(L, -1));
+}
+
+void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
+{
+	RegisterScriptsFolder(ptrA(mir_utf8encodeT(scriptDir)));
 
 	TCHAR searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
@@ -24,20 +41,21 @@ void CLuaLoader::LoadScripts(const TCHAR *scriptDir)
 				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
 				PathToRelativeT(fullPath, path);
 				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					mLua->LoadScript(T2Utf(path));
+					LoadScript(T2Utf(path));
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
 
-void CLuaLoader::LoadScripts()
+void CLuaScriptLoader::Load(lua_State *L)
 {
 	TCHAR scriptDir[MAX_PATH];
+	CLuaScriptLoader loader(L);
 
 	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
-	LoadScripts(scriptDir);
+	loader.LoadScripts(scriptDir);
 
 	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
-	LoadScripts(scriptDir);
+	loader.LoadScripts(scriptDir);
 }
