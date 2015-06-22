@@ -179,7 +179,6 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	mi.hIcon = hIcons[ICON_MAIN];
 	mi.pszName = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
-	mi.pszContactOwner = NULL;
 	mi.flags = CMIF_NOTOFFLINE;
 	Menu_AddContactMenuItem(&mi);
 	return 0;

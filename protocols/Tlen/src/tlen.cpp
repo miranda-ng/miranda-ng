@@ -260,8 +260,8 @@ int TlenProtocol::PreShutdown(WPARAM wParam, LPARAM lParam)
 
 void TlenProtocol::initMenuItems()
 {
-	char text[_MAX_PATH];
-	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
+	char text[MAX_PATH];
+	strncpy_s(text, m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { 0 };

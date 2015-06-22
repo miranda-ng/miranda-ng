@@ -91,10 +91,10 @@ static int MainInit(WPARAM, LPARAM)
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.ptszName = LPGENT("My details");
-	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
+	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
-	mi.ptszPopupName = (TCHAR *)hMenuRoot;
+	mi.hParentMenu = hMenuRoot;
 	mi.popupPosition = 0;
 	mi.icolibItem = NULL;
 

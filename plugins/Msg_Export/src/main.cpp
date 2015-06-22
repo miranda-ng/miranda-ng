@@ -115,8 +115,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	if (!bReplaceHistory)
 	{
 		CLISTMENUITEM mi = { 0 };
-		mi.flags = 0;
-		mi.pszContactOwner = NULL;    //all contacts
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
 		mi.pszName = LPGEN("Open E&xported History");
