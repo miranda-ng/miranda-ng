@@ -19,7 +19,7 @@ Zaproś użytkownika do czatu
 [Choose one of your contacts to be invited:]
 Wybierz jeden z kontaktów, który chcesz zaprosić:
 [Skypename:]
-Nazwa użytkownika Skype:
+Nazwa Skype:
 [Password:]
 Hasło:
 [Default group:]
