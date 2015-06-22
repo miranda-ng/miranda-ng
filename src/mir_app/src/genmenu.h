@@ -104,12 +104,12 @@ void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize
 
 PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU);
 
-PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi);
-PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi);
+PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi);
+PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi);
 
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
-int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmiparam);
+int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, TMO_MenuItem *pmiparam);
 int MO_ProcessCommand(PMO_IntMenuItem pimi, LPARAM lParam);
 INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey);
 int MO_SetOptionsMenuItem(PMO_IntMenuItem menuobjecthandle, int setting, INT_PTR value);

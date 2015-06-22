@@ -112,12 +112,11 @@ void gg_links_instancemenu_init()
 	CreateServiceFunction(GGS_MENUCHOOSE, gg_menuchoose);
 	hInstanceMenu = MO_CreateMenuObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), 0, GGS_MENUCHOOSE);
 
-	TMO_MenuItem tmi = {0};
-	tmi.cbSize = sizeof(tmi);
-	tmi.pszName = "Cancel";
-	tmi.position = 9999999;
-	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
+	TMO_MenuItem mi = {0};
+	mi.name.a = "Cancel";
+	mi.position = 9999999;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
+	CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&mi);
 }
 
 void gg_links_init()
@@ -131,11 +130,11 @@ void gg_links_init()
 void GGPROTO::links_instance_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
-		TMO_MenuItem tmi = { sizeof(tmi) };
-		tmi.flags = CMIF_TCHAR;
-		tmi.ownerdata = this;
-		tmi.position = g_Instances.getCount();
-		tmi.ptszName = m_tszUserName;
-		hInstanceMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&tmi);
+		TMO_MenuItem mi = { 0 };
+		mi.flags = CMIF_TCHAR;
+		mi.ownerdata = this;
+		mi.position = g_Instances.getCount();
+		mi.name.t = m_tszUserName;
+		hInstanceMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&mi);
 	}
 }
