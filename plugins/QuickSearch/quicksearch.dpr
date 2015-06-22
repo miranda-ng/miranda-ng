@@ -47,14 +47,9 @@ end;
 
 function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
-  mi:TCListMenuItem;
   ttb:TTBButton;
 begin
   result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-  mi.hIcon:=IcoLib_GetIcon(QS_QS,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,MainMenuItem,tlparam(@mi));
 
 // toptoolbar
   if ServiceExists(MS_TTB_GETBUTTONOPTIONS)<>0 then

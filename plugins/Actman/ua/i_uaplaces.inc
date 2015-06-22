@@ -479,25 +479,25 @@ end;
 
 function PreBuildMenu(mtype:tMenuType;hContact:TMCONTACT=0):int;
 var
-  i:integer;
-  mi:TCListMenuItem;
+  mflags,i:integer;
+  hidden:Boolean;
+  icon:HICON;
   p,extra:pWideChar;
 begin
   result:=0;
 
-  FillChar(mi,SizeOf(mi),0);
-
   for i:=0 to HIGH(UActionList) do
   begin
-    mi.flags:=CMIM_FLAGS;
-    p:=nil;
     with UActionList[i] do
     begin
       with UAMenuItem[mtype] do
       begin
         if hMenuItem<>0 then // it means, we process that item here
         begin
-          mi.szName.w:=nil;
+          hidden := false;
+          mflags := 0;
+          icon := HICON(-1);
+
           // Show / hide
           if isVarsInstalled then
           begin
@@ -507,7 +507,8 @@ begin
               if p<>nil then
               begin
                 if StrCmpW(p,'1')<>0 then
-                  mi.flags:=CMIM_FLAGS or CMIF_HIDDEN;
+                  hidden := true;
+                  Menu_ShowItem(hMenuItem, 0);
                 mFreeMem(p);
               end;
             end;
@@ -515,25 +516,22 @@ begin
 
           // change if need to show only
           // (popup can be used by many items, keep unchanged)
-          if (mi.flags and CMIF_HIDDEN)=0 then
+          if not hidden then
           begin
-            //!!!! icon (check for contact menu)
-            mi.flags:=mi.flags or CMIM_ICON or CMIM_FLAGS{ or CMIF_ICONFROMICOLIB};
-
             if (mtype=contact_menu) and IsLocalItem(UActionList[i]) then
             begin
               lastContact:=hContact;
               if ((flags and UAF_2STATE)<>0) and
                  (DBReadByte(hContact,opt_ua,szNameID)<>0) then
               begin
-                mi.flags:=mi.flags or CMIF_CHECKED;
-                mi.hIcon:=hIcolibIconPressed;
+                mflags:=mflags or CMIF_CHECKED;
+                icon:=hIcolibIconPressed;
                 extra:='1';
                 flags:=flags or UAF_PRESSED;
               end
               else
               begin
-                mi.hIcon:=hIcolibIcon;
+                icon:=hIcolibIcon;
                 flags:=flags and not UAF_PRESSED;
                 extra:='0';
               end;
@@ -543,37 +541,36 @@ begin
             begin
               if (flags and (UAF_2STATE+UAF_PRESSED))=(UAF_2STATE+UAF_PRESSED) then
               begin
-                mi.flags:=mi.flags or CMIF_CHECKED;
-                mi.hIcon:=hIcolibIconPressed;
+                mflags:=mflags or CMIF_CHECKED;
+                icon:=hIcolibIconPressed;
                 extra:='1';
               end
               else
               begin
-                mi.hIcon:=hIcolibIcon;
+                icon:=hIcolibIcon;
                 extra:='0';
               end;
             end;
 
             // new name
-            mi.flags:=mi.flags or CMIM_NAME or CMIF_UNICODE;
             if (szMenuNameVars<>nil) and (szMenuNameVars^<>#0) then
             begin
               if (menu_opt and UAF_MNAMVAR)<>0 then
-                mi.szName.w:=ParseVarString(szMenuNameVars,hContact,extra)
+                p:=ParseVarString(szMenuNameVars,hContact,extra)
               else
-                mi.szName.w:=szMenuNameVars;
+                p:=szMenuNameVars;
             end
             else
-              mi.szName.w:=nil;
-            if mi.szName.w=nil then
-              mi.szName.w:=szActDescr;
+              p:=nil;
+            if p=nil then
+              p:=szActDescr;
           end;
 
-          CallService(MS_CLIST_MODIFYMENUITEM,hMenuItem,LPARAM(@mi));
+          Menu_ModifyItem(hMenuItem, p, icon, mflags);
 
-          if (mi.szName.w<>szActDescr) and
-             (mi.szName.w<>szMenuNameVars) then
-            mFreeMem(mi.szName.w);
+          if (p<>szActDescr) and
+             (p<>szMenuNameVars) then
+            mFreeMem(p);
         end;
       end;
     end;

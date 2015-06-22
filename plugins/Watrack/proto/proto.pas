@@ -48,10 +48,7 @@ const
 var
   hSRM,
   hGCI,
-  icchangedhook,
-  hAddUserHook,
-  hContactMenuItem,
-  contexthook:THANDLE;
+  hContactMenuItem: THANDLE;
   ProtoText:pWideChar;
   HistMask:cardinal;
 
@@ -299,15 +296,11 @@ begin
 end;
 
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
 begin
-  FillChar(mi,SizeOf(mi),0);
   if IsMirandaUser(hContact)<=0 then
-    mi.flags:=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST or CMIM_FLAGS or CMIF_HIDDEN
+    Menu_ShowItem(hContactMenuItem, 0)
   else
-    mi.flags:=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST or CMIM_FLAGS;
-  CallService(MS_CLIST_MODIFYMENUITEM,hContactMenuItem,tlparam(@mi));
+    Menu_ShowItem(hContactMenuItem, 1);
   result:=0;
 end;
 
@@ -321,18 +314,6 @@ begin
   Proto_RegisterModule(@desc);
 
   hSRM:=CreateProtoServiceFunction(PluginShort,PSR_MESSAGE ,@ReceiveMessageProcW);
-end;
-
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
-begin
-  result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.flags :=CMIM_ICON;
-
-  mi.hIcon:=IcoLib_GetIcon(IcoBtnContext,0);
-  CallService(MS_CLIST_MODIFYMENUITEM,hContactMenuItem,tlparam(@mi));
 end;
 
 procedure RegisterIcons;
@@ -349,8 +330,6 @@ begin
   sid.szDescription.a:='Context Menu';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-//!!
-  icchangedhook:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 end;
 
 // ------------ base interface functions -------------
@@ -385,18 +364,14 @@ begin
   SetProtocol;
   RegisterContacts;
   hGCI:=CreateServiceFunction(MS_WAT_GETCONTACTINFO,@SendRequest);
-  contexthook :=HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
-  hAddUserHook:=HookEvent(ME_DB_CONTACT_ADDED         ,@HookAddUser);
+  HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
+  HookEvent(ME_DB_CONTACT_ADDED         ,@HookAddUser);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
 begin
   if aSetDisable then
     SetModStatus(0);
-
-  UnhookEvent(hAddUserHook);
-  UnhookEvent(contexthook);
-  UnhookEvent(icchangedhook);
 
   DestroyServiceFunction(hSRM);
   DestroyServiceFunction(hGCI);

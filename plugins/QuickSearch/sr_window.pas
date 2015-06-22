@@ -818,10 +818,7 @@ begin
           mnuhandle:=Menu_AddContactMenuItem(@mi);
         end
         else
-        begin
-          mi.flags :=CMIM_FLAGS;
-          CallService(MS_CLIST_MODIFYMENUITEM,mnuhandle,LPARAM(@mi));
-        end;
+          Menu_ModifyItem(mnuhandle, nil, INVALID_HANDLE_VALUE, 0);
       end;
     end;
 
@@ -834,11 +831,7 @@ begin
     end;
     // Due to stupid miranda logic, we need to clear tails at service processing, not earlier
     if doit then
-    begin
-      mi.flags :=CMIM_FLAGS or CMIF_HIDDEN;
-      CallService(MS_CLIST_MODIFYMENUITEM,mnuhandle,LPARAM(@mi));
-    end;
-
+      Menu_ShowItem(mnuhandle, 0);
   end
   else
     result:=0;
