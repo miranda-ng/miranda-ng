@@ -6,7 +6,7 @@
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
-Instaluj i aktualizuj wtyczki oraz inne komponenty Mirandy NG.
+Instaluje i aktualizuje wtyczki oraz inne komponenty Mirandy NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Znaleziono aktualizacje!
