@@ -369,7 +369,7 @@ void CYahooProto::MenuMainInit(void)
 	mir_strcpy(servicefunction, m_szModuleName);
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = servicefunction;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
@@ -459,7 +459,7 @@ void CYahooProto::MenuContactInit(void)
 	mir_strcpy(servicefunction, m_szModuleName);
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = servicefunction;
 	mi.pszContactOwner = m_szModuleName;
 

@@ -292,7 +292,7 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR InitMenu()
 {
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ALL;
 	mi.position = 100000000;
 	mi.icolibItem = GetIconHandle(MENU_NAME);
@@ -305,7 +305,7 @@ static INT_PTR InitMenu()
 
 void UpdateMenu()
 {
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { 0 };
 	mi.pszName = (Enabled == 1 ? DISABLE_SILENCE : ENABLE_SILENCE);
 	mi.flags = CMIM_NAME | CMIM_ALL;
 	mi.icolibItem = (Enabled == 1 ? GetIconHandle(DISABLE_SILENCE) : GetIconHandle(ENABLE_SILENCE));

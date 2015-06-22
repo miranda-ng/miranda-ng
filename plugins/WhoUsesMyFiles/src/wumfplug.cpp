@@ -223,7 +223,7 @@ static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 	BOOL MajorTo0121 = FALSE;
 	int iResult = 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
 		mi.pszName = LPGEN("Enable WUMF popups");
@@ -496,7 +496,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (WumfOptions.PopupsEnabled == FALSE) { 
 		mi.pszName = LPGEN("Enable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));

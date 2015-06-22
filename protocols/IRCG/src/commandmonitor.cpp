@@ -2298,7 +2298,7 @@ void CIrcProto::OnIrcDisconnected()
 	memcpy(m_nick, m_pNick, sizeof(m_nick));
 	setTString("Nick", m_pNick);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | CMIF_GRAYED;
 	Menu_ModifyItem(hMenuJoin, &mi);
 	Menu_ModifyItem(hMenuList, &mi);
@@ -2329,7 +2329,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	bPerformDone = true;
 	nickflag = true;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS;
 	Menu_ModifyItem(hMenuJoin, &mi);
 	Menu_ModifyItem(hMenuList, &mi);

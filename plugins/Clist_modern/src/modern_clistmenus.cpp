@@ -99,7 +99,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	BOOL bModifyMenu = FALSE;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.pszPopupName = (char *)-1;
 	mi.position = 0;

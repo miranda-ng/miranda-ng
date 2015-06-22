@@ -144,7 +144,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR | CMIM_NAME;
 	if (db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1))
 		mi.ptszName = LPGENT("Disable AuthState icons");
@@ -200,7 +200,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (bContactMenuItem) {
 		hAuthMenuSelected = CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
 		mi.ptszName = LPGENT("Enable AuthState icons");

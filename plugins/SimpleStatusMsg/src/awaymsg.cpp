@@ -366,8 +366,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 	int iHidden = szProto ? db_get_b(hContact, szProto, "ChatRoom", 0) : 0;
 	int iStatus;
 
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.cbSize = sizeof(clmi);
+	CLISTMENUITEM clmi = { 0 };
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden) {
 		iHidden = 1;
@@ -424,7 +423,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	hWindowList2 = WindowList_Create();
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);

@@ -252,11 +252,8 @@ begin
   InitEventFilters;
   ReadEventFilters;
 
+  // create contact item in contact menu
   ZeroMemory(@menuitem,SizeOf(menuItem));
-
-  //create contact item in contact menu
-  menuItem.cbSize := SizeOf(menuItem);
-  menuItem.pszContactOwner := nil;    //all contacts
   menuItem.flags := CMIF_UNICODE;
 
   menuItem.Position := 1000090000;
@@ -461,7 +458,6 @@ begin
   NotifyAllForms(HM_NOTF_ICONS2CHANGED,0,0);
   //change menu icons
   ZeroMemory(@menuitem,SizeOf(menuItem));
-  menuItem.cbSize := SizeOf(menuItem);
   menuItem.flags := CMIM_ICON;
   menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
   CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miContact].Handle, LPARAM(@menuItem));
@@ -491,7 +487,6 @@ begin
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
     ZeroMemory(@menuitem, SizeOf(menuItem));
-    menuItem.cbSize := SizeOf(menuItem);
     menuItem.flags := CMIM_FLAGS;
     if hLast = 0 then
       menuItem.flags := menuItem.flags or CMIF_HIDDEN;

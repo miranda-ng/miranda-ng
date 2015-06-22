@@ -1473,8 +1473,6 @@ void InitGuiElements() {
 
 	CLISTMENUITEM mi;
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-	mi.flags = 0;
 	mi.pszContactOwner = NULL;  //all contacts
 	mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;

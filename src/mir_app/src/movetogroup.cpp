@@ -67,7 +67,7 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 
 static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, bool checked)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
 	mi.popupPosition = param; // param to pszService - only with CMIF_CHILDPOPUP !!!!!!
 	mi.position = pos;
@@ -88,7 +88,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 
 	if (!hMoveToGroupItem) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000;
 		mi.pszName = LPGEN("&Move to group");
 		mi.flags = CMIF_ROOTHANDLE;

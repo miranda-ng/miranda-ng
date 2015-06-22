@@ -320,7 +320,7 @@ void InitTrayMenus(void)
 	MO_SetMenuObjectParam(hTrayMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
 
 	// add exit command to menu
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.pszName = LPGEN("E&xit");

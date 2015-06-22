@@ -44,7 +44,7 @@ int InitMenus(WPARAM wParam, LPARAM lParam)
 		mir_snprintf(szServiceName, _countof(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
 		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
-		CLISTMENUITEM cmi = { sizeof(cmi) };
+		CLISTMENUITEM cmi = { 0 };
 		cmi.flags = CMIF_CHILDPOPUP;
 		cmi.hParentMenu = HGENMENU(wParam);
 		cmi.hIcon = g_hPopupIcon;

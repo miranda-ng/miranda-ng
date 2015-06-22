@@ -271,7 +271,7 @@ DLL_EXPORT int Load(void)
 	srv_reg(EditBitmap);
 	srv_reg(Send2ImageShack);
 	/// menu items
-	CLISTMENUITEM mi={sizeof(mi)};
+	CLISTMENUITEM mi = { 0 };
 	mi.flags=CMIF_ROOTHANDLE|CMIF_TCHAR/*|CMIF_ICONFROMICOLIB*/;
 	mi.hParentMenu=HGENMENU_ROOT;
 	mi.icolibItem=GetIconHandle(ICO_MAINXS);

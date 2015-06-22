@@ -284,7 +284,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	TCHAR szItem[MAX_PATH + 64];
 	mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000060000;
 	mi.popupPosition = 500085000;
 	mi.ptszPopupName = szItem;
@@ -329,7 +329,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	char *pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	HGENMENU hRootMenu, (*fnAddFunc)(CLISTMENUITEM*);
 	if (bIsMain) {

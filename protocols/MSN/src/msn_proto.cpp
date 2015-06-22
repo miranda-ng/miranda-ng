@@ -1232,7 +1232,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 
 	case EV_PROTO_ONRENAME:
 		if (mainMenuRoot) {
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = m_tszUserName;
 			Menu_ModifyItem(mainMenuRoot, &clmi);

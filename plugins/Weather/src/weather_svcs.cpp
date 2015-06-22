@@ -226,7 +226,7 @@ void UpdateMenu(BOOL State)
 	opt.CAutoUpdate = State;
 	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	if (State) { // to enable auto-update
 		mi.pszName = LPGEN("Auto Update Enabled");
@@ -251,7 +251,7 @@ void UpdatePopupMenu(BOOL State)
 	opt.UsePopup = State;
 	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (State)
 	{	// to enable popup
 		mi.pszName = LPGEN("Disable &weather notification");
@@ -285,7 +285,7 @@ INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 // copied and modified form "modified MSN Protocol"
 void AddMenuItems(void)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = WEATHERPROTONAME;
 
 	// contact menu

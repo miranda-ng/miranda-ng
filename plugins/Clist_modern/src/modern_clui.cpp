@@ -336,7 +336,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 {
 	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
 	mi.icolibItem = iconItem[0].hIcolib;
@@ -2335,7 +2335,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
 	HMONITOR hMon = MonitorFromWindow(pcli->hwndContactTree, MONITOR_DEFAULTTONEAREST);
-	MONITORINFO mi = { sizeof(mi) };
+	MONITORINFO mi = { 0 };
 	if (GetMonitorInfo(hMon, &mi))
 		rcWorkArea = mi.rcWork;
 

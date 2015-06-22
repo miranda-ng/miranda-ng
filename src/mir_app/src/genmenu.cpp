@@ -38,10 +38,10 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 	memset(temp, '\t', level);
 	temp[ level ] = 0;
 
-	for (PMO_IntMenuItem pimi = pParent; pimi != NULL; pimi = pimi->next) {
+	for (TMO_IntMenuItem *pimi = pParent; pimi != NULL; pimi = pimi->next) {
 		Netlib_Logf(NULL, "%sMenu item %08p [%08p]: %S", temp, pimi, pimi->mi.root, pimi->mi.name.t);
 
-		PMO_IntMenuItem submenu = pimi->submenu.first;
+		TMO_IntMenuItem *submenu = pimi->submenu.first;
 		if (submenu)
 			DumpMenuItem(submenu, level+1);
 	}
@@ -76,7 +76,7 @@ int GetMenuObjbyId(const int id)
 	return -1;
 }
 
-LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
+LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 {
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.name.t;
@@ -86,20 +86,20 @@ LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, void* param)
+TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func, void* param)
 {
 	if (parent == NULL)
 		return FALSE;
 
-	PMO_IntMenuItem pnext;
-	for (PMO_IntMenuItem pimi = parent; pimi != NULL; pimi = pnext) {
-		PMO_IntMenuItem submenu = pimi->submenu.first;
+	TMO_IntMenuItem *pnext;
+	for (TMO_IntMenuItem *pimi = parent; pimi != NULL; pimi = pnext) {
+		TMO_IntMenuItem *submenu = pimi->submenu.first;
 		pnext = pimi->next;
 		if (func(pimi, param)) // it can destroy the menu item
 			return pimi;
 
 		if (submenu) {
-			PMO_IntMenuItem res = MO_RecursiveWalkMenu(submenu, func, param);
+			TMO_IntMenuItem *res = MO_RecursiveWalkMenu(submenu, func, param);
 			if (res)
 				return res;
 		}
@@ -124,7 +124,7 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 	mis->itemWidth = 0;
 	mis->itemHeight = 0;
 
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mis->itemData);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)mis->itemData);
 	if (pimi == NULL)
 		return FALSE;
 
@@ -150,7 +150,7 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 
 	mir_cslock lck(csMenuHook);
 
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)dis->itemData);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)dis->itemData);
 	if (pimi == NULL || pimi->iconId == -1)
 		return FALSE;
 
@@ -224,7 +224,7 @@ INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 	if (objidx == -1)
 		return FALSE;
 
-	for (PMO_IntMenuItem pimi = g_menus[objidx]->m_items.first; pimi != NULL; pimi = pimi->next) {
+	for (TMO_IntMenuItem *pimi = g_menus[objidx]->m_items.first; pimi != NULL; pimi = pimi->next) {
 		if (pimi->mi.hotKey == 0) continue;
 		if (HIWORD(pimi->mi.hotKey) != vKey) continue;
 		if (!(LOWORD(pimi->mi.hotKey) & MOD_ALT) != !(GetKeyState(VK_MENU) & 0x8000)) continue;
@@ -254,7 +254,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM)
 	mir_cslock lck(csMenuHook);
 
 	TIntMenuObject* pmo = g_menus[objidx];
-	for (PMO_IntMenuItem p = pmo->m_items.first; p != NULL; p = p->next)
+	for (TMO_IntMenuItem *p = pmo->m_items.first; p != NULL; p = p->next)
 		if (!mir_strcmp(p->UniqName, szProto))
 			return (INT_PTR)p;
 
@@ -270,7 +270,7 @@ INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 	if (!bIsGenMenuInited || mi == NULL)
 		return -1;
 
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
 	mir_cslock lck(csMenuHook);
 	if (pimi == NULL)
 		return -1;
@@ -279,7 +279,7 @@ INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int FindDefaultItem(PMO_IntMenuItem pimi, void*)
+static int FindDefaultItem(TMO_IntMenuItem *pimi, void*)
 {
 	if (pimi->mi.flags & (CMIF_GRAYED | CMIF_HIDDEN))
 		return FALSE;
@@ -292,7 +292,7 @@ INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
 	if (!bIsGenMenuInited)
 		return -1;
 
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
 	mir_cslock lck(csMenuHook);
 	return (pimi) ? (INT_PTR)MO_RecursiveWalkMenu(pimi, FindDefaultItem, NULL) : NULL;
 }
@@ -301,7 +301,7 @@ INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
 // wparam MenuItemHandle
 // lparam PMO_MenuItem
 
-int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, TMO_MenuItem *pmi)
+int MO_ModifyMenuItem(TMO_IntMenuItem *menuHandle, TMO_MenuItem *pmi)
 {
 	int oldflags;
 
@@ -310,7 +310,7 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, TMO_MenuItem *pmi)
 
 	mir_cslock lck(csMenuHook);
 
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)menuHandle);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)menuHandle);
 	if (pimi == NULL)
 		return -1;
 
@@ -369,13 +369,13 @@ INT_PTR MO_MenuItemGetOwnerData(WPARAM wParam, LPARAM)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
 	return (pimi) ? (INT_PTR)pimi->mi.ownerdata : -1;
 }
 
-PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU wParam)
+TMO_IntMenuItem *MO_GetIntMenuItem(HGENMENU wParam)
 {
-	PMO_IntMenuItem result = (PMO_IntMenuItem)wParam;
+	TMO_IntMenuItem *result = (TMO_IntMenuItem*)wParam;
 	if (result == NULL || wParam == (HGENMENU)0xffff1234 || wParam == HGENMENU_ROOT)
 		return NULL;
 
@@ -394,7 +394,7 @@ PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU wParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // LOWORD(wparam) menuident
 
-static int FindMenuByCommand(PMO_IntMenuItem pimi, void* pCommand)
+static int FindMenuByCommand(TMO_IntMenuItem *pimi, void* pCommand)
 {
 	return (pimi->iCommand == (int)pCommand);
 }
@@ -404,7 +404,7 @@ int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam)
 	if (!bIsGenMenuInited)
 		return -1;
 
-	PMO_IntMenuItem pimi;
+	TMO_IntMenuItem *pimi;
 	{
 		mir_cslock lck(csMenuHook);
 		int objidx = GetMenuObjbyId(menuID);
@@ -422,7 +422,7 @@ INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam)
 	if (!bIsGenMenuInited)
 		return -1;
 
-	PMO_IntMenuItem pimi = NULL;
+	TMO_IntMenuItem *pimi = NULL;
 	{
 		mir_cslock lck(csMenuHook);
 		for (int i = 0; i < g_menus.getCount(); i++)
@@ -433,12 +433,12 @@ INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam)
 	return (pimi) ? MO_ProcessCommand(pimi, lParam) : FALSE;
 }
 
-int MO_ProcessCommand(PMO_IntMenuItem aHandle, LPARAM lParam)
+int MO_ProcessCommand(TMO_IntMenuItem *aHandle, LPARAM lParam)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
-	PMO_IntMenuItem pimi;
+	TMO_IntMenuItem *pimi;
 	{
 		mir_cslock lck(csMenuHook);
 		if ((pimi = MO_GetIntMenuItem(aHandle)) == NULL)
@@ -451,13 +451,13 @@ int MO_ProcessCommand(PMO_IntMenuItem aHandle, LPARAM lParam)
 	return 1;
 }
 
-int MO_SetOptionsMenuItem(PMO_IntMenuItem aHandle, int setting, INT_PTR value)
+int MO_SetOptionsMenuItem(TMO_IntMenuItem *aHandle, int setting, INT_PTR value)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem(aHandle);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(aHandle);
 	if (pimi == NULL)
 		return -1;
 
@@ -548,7 +548,7 @@ static int FindParent(TMO_IntMenuItem* pimi, void* p)
 INT_PTR MO_RemoveMenuItem(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csMenuHook);
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
 	if (pimi == NULL)
 		return -1;
 
@@ -557,7 +557,7 @@ INT_PTR MO_RemoveMenuItem(WPARAM wParam, LPARAM)
 		pimi->submenu.first = NULL;
 	}
 
-	PMO_IntMenuItem prev = MO_RecursiveWalkMenu(pimi->owner->first, FindParent, pimi);
+	TMO_IntMenuItem *prev = MO_RecursiveWalkMenu(pimi->owner->first, FindParent, pimi);
 	if (prev)
 		prev->next = pimi->next;
 	if (pimi->owner->first == pimi)
@@ -583,7 +583,7 @@ struct KillMenuItemsParam
 	LIST<TMO_IntMenuItem> arItems;
 };
 
-int KillMenuItems(PMO_IntMenuItem pimi, KillMenuItemsParam* param)
+int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 {
 	if (pimi->hLangpack == param->hLangpack)
 		param->arItems.insert(pimi);
@@ -608,7 +608,7 @@ MIR_APP_DLL(void) KillModuleMenus(int hLangpack)
 ///////////////////////////////////////////////////////////////////////////////
 // we presume that this function is being called inside csMenuHook only
 
-static int PackMenuItems(PMO_IntMenuItem pimi, void*)
+static int PackMenuItems(TMO_IntMenuItem *pimi, void*)
 {
 	pimi->iCommand = NextObjectMenuItemId++;
 	return FALSE;
@@ -631,7 +631,7 @@ static int GetNextObjectMenuItemId()
 // lparam = PMO_MenuItem
 // return MenuItemHandle
 
-PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
+TMO_IntMenuItem *MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 {
 	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
@@ -676,7 +676,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 	if (p->mi.root == HGENMENU_ROOT)
 		p->mi.root = NULL;
 
-	PMO_IntMenuItem pRoot = (p->mi.root != NULL) ? MO_GetIntMenuItem(p->mi.root) : NULL;
+	TMO_IntMenuItem *pRoot = (p->mi.root != NULL) ? MO_GetIntMenuItem(p->mi.root) : NULL;
 	if (pRoot)
 		p->owner = &pRoot->submenu;
 	else
@@ -694,7 +694,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 // wparam = MenuObjectHandle
 // lparam = PMO_MenuItem
 
-int FindRoot(PMO_IntMenuItem pimi, void* param)
+int FindRoot(TMO_IntMenuItem *pimi, void* param)
 {
 	if (pimi->mi.name.t != NULL)
 		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.t, (TCHAR*)param))
@@ -703,7 +703,7 @@ int FindRoot(PMO_IntMenuItem pimi, void* param)
 	return FALSE;
 }
 
-PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
+TMO_IntMenuItem *MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 {
 	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
@@ -727,7 +727,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
 		else
 			tszRoot = mir_a2t((char*)pmi->root);
 
-		PMO_IntMenuItem oldroot = MO_RecursiveWalkMenu(g_menus[objidx]->m_items.first, FindRoot, tszRoot);
+		TMO_IntMenuItem *oldroot = MO_RecursiveWalkMenu(g_menus[objidx]->m_items.first, FindRoot, tszRoot);
 		mir_free(tszRoot);
 
 		if (oldroot == NULL) {
@@ -757,7 +757,7 @@ static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 		if (mii.fType != MFT_SEPARATOR) {
-			PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
+			TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
 			if (pimi != NULL)
 				if (pimi->mi.position <= mi->position)
 					return i + 1;
@@ -777,7 +777,7 @@ static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 	return mii.fType;
 }
 
-static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, PMO_IntMenuItem& p)
+static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem* &p)
 {
 	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_DATA | MIIM_TYPE;
@@ -796,7 +796,7 @@ static void InsertSeparator(HMENU hMenu, int uItem)
 
 static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *lpmii)
 {
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)lpmii->dwItemData), p;
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)lpmii->dwItemData), *p;
 	if (pimi == NULL)
 		return;
 
@@ -866,7 +866,7 @@ INT_PTR MO_BuildMenu(WPARAM wParam, LPARAM lParam)
 #define PUTPOSITIONSONMENU
 #endif
 
-void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize)
+void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSize)
 {
 	if (pMenuItem->UniqName)
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->UniqName);
@@ -876,7 +876,7 @@ void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.name.t);
 }
 
-HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *param)
+HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, ListParam *param)
 {
 	if (param == NULL || pRootMenu == NULL)
 		return NULL;
@@ -890,7 +890,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 	while (rootlevel == 0 && GetMenuItemCount(hMenu) > 0)
 		DeleteMenu(hMenu, 0, MF_BYPOSITION);
 
-	for (PMO_IntMenuItem pmi = pRootMenu; pmi != NULL; pmi = pmi->next) {
+	for (TMO_IntMenuItem *pmi = pRootMenu; pmi != NULL; pmi = pmi->next) {
 		TMO_MenuItem *mi = &pmi->mi;
 		if (mi->flags & CMIF_HIDDEN)
 			continue;
@@ -1014,7 +1014,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 /////////////////////////////////////////////////////////////////////////////////////////
 // iconlib in menu
 
-static int MO_ReloadIcon(PMO_IntMenuItem pmi, void*)
+static int MO_ReloadIcon(TMO_IntMenuItem *pmi, void*)
 {
 	if (pmi->hIcolibItem) {
 		HICON newIcon = IcoLib_GetIconByHandle(pmi->hIcolibItem, false);
@@ -1042,7 +1042,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
+static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
 	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName),
 		*descr = GetMenuItemText(pmi);
@@ -1111,7 +1111,7 @@ int TryProcessDoubleClick(MCONTACT hContact)
 	if (iMenuID != -1) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
-		PMO_IntMenuItem pimi = (PMO_IntMenuItem)MO_GetDefaultMenuItem((WPARAM)g_menus[iMenuID]->m_items.first, 0);
+		TMO_IntMenuItem *pimi = (TMO_IntMenuItem*)MO_GetDefaultMenuItem((WPARAM)g_menus[iMenuID]->m_items.first, 0);
 		if (pimi != NULL) {
 			MO_ProcessCommand(pimi, hContact);
 			return 0;
@@ -1154,7 +1154,7 @@ static INT_PTR SRVMO_SetOptionsMenuItem(WPARAM, LPARAM lParam)
 	if (lpop == NULL)
 		return 0;
 
-	return MO_SetOptionsMenuItem((PMO_IntMenuItem)lpop->Handle, lpop->Setting, lpop->Value);
+	return MO_SetOptionsMenuItem((TMO_IntMenuItem*)lpop->Handle, lpop->Setting, lpop->Value);
 }
 
 int InitGenMenu()

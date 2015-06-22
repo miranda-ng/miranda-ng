@@ -299,7 +299,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 void CDb3Mmap::UpdateMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME;
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.pszName = GetMenuTitle();
@@ -315,7 +315,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
 	// main menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszName = LPGEN("Database");
 	mi.position = 500000000;
 	mi.flags = CMIF_ROOTHANDLE;

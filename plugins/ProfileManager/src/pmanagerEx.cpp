@@ -94,7 +94,7 @@ static IconItem iconList[] =
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -500200000;
 	mi.pszPopupName = LPGEN("Database");
 

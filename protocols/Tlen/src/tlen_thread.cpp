@@ -340,7 +340,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			info->proto->isOnline = FALSE;
 			info->proto->isConnected = FALSE;
 
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
 			Menu_ModifyItem(info->proto->hMenuMUC, &mi);
 			if (info->proto->hMenuChats != NULL)

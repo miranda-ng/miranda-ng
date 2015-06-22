@@ -255,7 +255,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FoldersPathChanged(0, 0);
 	}
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.popupPosition = 2000089999;
 	mi.position = 2000089999;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;

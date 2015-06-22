@@ -86,7 +86,7 @@ static int MainInit(WPARAM, LPARAM)
 	InitProtocolData();
 
 	// Add options to menu
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.popupPosition = 500050000;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);

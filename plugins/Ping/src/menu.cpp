@@ -6,7 +6,7 @@ HANDLE hEventMenuBuild;
 void InitMenus()
 {
 	// main menu
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.popupPosition = 500099900;
 	mi.ptszPopupName = LPGENT("Ping");

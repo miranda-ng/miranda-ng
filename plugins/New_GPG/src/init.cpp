@@ -177,7 +177,7 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
    // !!!!!!!! check it later
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -186,7 +186,6 @@ extern "C" int __declspec(dllexport) Load()
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -195,7 +194,6 @@ extern "C" int __declspec(dllexport) Load()
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFd;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -204,7 +202,6 @@ extern "C" int __declspec(dllexport) Load()
 	hSendKey = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -213,7 +210,6 @@ extern "C" int __declspec(dllexport) Load()
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

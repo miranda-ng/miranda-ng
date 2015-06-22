@@ -70,7 +70,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	pUinKey ptr = getUinKey(hContact);
 	int i;
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	ShowStatusIconNotify(hContact);
 

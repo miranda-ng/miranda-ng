@@ -183,7 +183,7 @@ void SvcEMailRebuildMenu()
 
 		if (!ghMenuItem) {
 			// insert contact menuitem
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.position = -2000010000;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EMAIL);
 			mi.pszName = "&E-mail";

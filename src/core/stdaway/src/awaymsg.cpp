@@ -136,7 +136,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	TCHAR str[128];
 	char *szProto = GetContactProto(hContact);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
@@ -173,7 +173,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.pszName = LPGEN("Re&ad status message");

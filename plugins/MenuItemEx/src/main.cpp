@@ -467,7 +467,7 @@ INT_PTR onHide(WPARAM wparam, LPARAM)
 // following 4 functions should be self-explanatory
 void ModifyVisibleSet(int mode, BOOL alpha)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON;
 	mi.hIcon = (mode) ? hIcon[1] : (alpha ? hIcon[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	Menu_ModifyItem(hmenuVis, &mi);
@@ -475,7 +475,7 @@ void ModifyVisibleSet(int mode, BOOL alpha)
 
 void ModifyInvisSet(int mode, BOOL alpha)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON;
 	mi.hIcon = (mode) ? hIcon[2] : (alpha ? hIcon[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	Menu_ModifyItem(hmenuOff, &mi);
@@ -483,7 +483,7 @@ void ModifyInvisSet(int mode, BOOL alpha)
 
 void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
 
 	if (isMetaContact(hContact)) {
@@ -532,7 +532,7 @@ void ModifyStatusMsg(MCONTACT hContact)
 		return;
 	}
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON;
 
 	HICON hIconSMsg = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
@@ -552,7 +552,7 @@ void ModifyCopyIP(MCONTACT hContact)
 		return;
 	}
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON;
 
 	HICON hIconCIP = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
@@ -566,7 +566,7 @@ void ModifyCopyIP(MCONTACT hContact)
 
 void ModifyCopyMirVer(MCONTACT hContact)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON;
 
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
@@ -745,7 +745,7 @@ INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 
 static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
 	mi.popupPosition = param;
 	mi.position = pos;
@@ -758,7 +758,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 
 static void ModifySubmenuItem(HGENMENU hItem, TCHAR *name, int checked, int hidden)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.ptszName = name;
 	mi.flags = CMIM_FLAGS | CMIF_UNICODE;
 	if (checked)
@@ -788,7 +788,7 @@ int BuildMenu(WPARAM wparam, LPARAM)
 	Menu_ShowItem(hmenuHide, bEnabled);
 	if (bEnabled) {
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
 		mi.hIcon = IcoLib_GetIcon(bHidden ? "miex_showil" : "miex_hidefl");
 		mi.ptszName = bHidden ? LPGENT("Show in list") : LPGENT("Hide from list");
@@ -971,7 +971,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 	ModuleLoad(0, 0);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_UNICODE;
 	mi.hIcon = NULL;
 	mi.pszContactOwner = NULL;

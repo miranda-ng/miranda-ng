@@ -26,7 +26,7 @@ void CIrcProto::InitMainMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + mir_snprintf(temp, _countof(temp), m_szModuleName);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = temp;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
@@ -139,7 +139,7 @@ void InitContactMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + mir_snprintf(temp, _countof(temp), "IRC");
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = temp;
 
 	mi.pszName = LPGEN("Channel &settings");

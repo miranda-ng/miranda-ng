@@ -39,7 +39,7 @@ static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 
 int MenuitemUpdate(BOOL bStatus)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (bStatus) {
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
 		mi.pszName = MENUITEM_DISABLE;
@@ -57,7 +57,7 @@ int MenuitemInit(BOOL bStatus)
 {
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
 	mi.pszPopupName = LPGEN("Popups");

@@ -114,7 +114,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	if (!bReplaceHistory)
 	{
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = 0;
 		mi.pszContactOwner = NULL;    //all contacts
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));

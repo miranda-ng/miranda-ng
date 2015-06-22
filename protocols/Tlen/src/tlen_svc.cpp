@@ -1160,7 +1160,7 @@ int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPara
 	case EV_PROTO_ONEXIT:    return PreShutdown(0, 0);
 
 	case EV_PROTO_ONRENAME:
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		mi.ptszName = m_tszUserName;
 		Menu_ModifyItem(hMenuRoot, &mi);

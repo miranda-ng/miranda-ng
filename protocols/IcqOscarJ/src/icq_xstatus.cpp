@@ -780,7 +780,7 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 	BYTE bOldXStatus = getByte(DBSETTING_XSTATUS_ID, 0);
 
 	if (!m_bHideXStatusUI) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		if (bOldXStatus <= XSTATUS_COUNT) {
 			mi.flags = CMIM_FLAGS;
 			Menu_ModifyItem(hXStatusItems[bOldXStatus], &mi);
@@ -859,7 +859,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 
 	mir_snprintf(szItem, _countof(szItem), Translate("%s Custom Status"), m_szModuleName);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszPopupName = szItem;
 	mi.popupPosition = 500084000;
 	mi.position = 2000040000;

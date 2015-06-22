@@ -1062,7 +1062,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled = !opt.TempDisabled);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
 	if (opt.TempDisabled) {
 		mi.ptszName = LPGENT("Enable status notification");
@@ -1080,7 +1080,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 
 void InitMainMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUPT) ? _T("Popups") : NULL;
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;

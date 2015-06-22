@@ -131,7 +131,7 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		int listId = Lists_GetMask(szEmail);
 		bool noChat = !(listId & LIST_FL) || isMe || isChatRoom(hContact);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_NAME;
 		mi.pszName = ((listId & LIST_BL) ? LPGEN("&Unblock") : LPGEN("&Block"));
 		Menu_ModifyItem(hBlockMenuItem, &mi);
@@ -276,7 +276,7 @@ void CMsnProto::MsnInitMainMenu(void)
 	mir_strcpy(servicefunction, m_szModuleName);
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
@@ -344,7 +344,7 @@ void CMsnProto::MsnRemoveMainMenus(void)
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS;
 	if (!bEnable)
 		mi.flags |= CMIF_GRAYED;
@@ -414,7 +414,7 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(servicefunction, "MSN");
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = servicefunction;
 
 	mir_strcpy(tDest, MSN_BLOCK);

@@ -38,7 +38,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 
 static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = flags | CMIF_HIDDEN;
 	mi.position = pos;
 	mi.hIcon = hicon;
@@ -50,7 +50,7 @@ static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, i
 
 static HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_CHILDPOPUP | CMIF_HIDDEN;
 	mi.position = pos;
 	mi.popupPosition = poppos;

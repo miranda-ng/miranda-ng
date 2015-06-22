@@ -174,7 +174,7 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 200011;
 	mi.hIcon = hIcons[ICON_MAIN];
 	mi.pszName = LPGEN("File As Message...");

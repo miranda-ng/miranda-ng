@@ -325,7 +325,7 @@ int LoadCLUIModule(void)
 		db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
 		0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 	mi.position = 2000070000;

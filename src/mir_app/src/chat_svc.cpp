@@ -560,7 +560,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);

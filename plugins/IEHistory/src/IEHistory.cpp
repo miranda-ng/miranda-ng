@@ -75,7 +75,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	/// menu items
-	CLISTMENUITEM menuItem = { sizeof(CLISTMENUITEM) };
+	CLISTMENUITEM menuItem = { 0 };
 	menuItem.ptszName = LPGENT("View &history");
 	menuItem.flags = CMIF_TCHAR;
 	menuItem.position = 1000090000;

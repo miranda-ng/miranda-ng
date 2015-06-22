@@ -62,7 +62,7 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 	BOOL fEnabled = !db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 	db_set_b(NULL, protocolname, KEY_ENABLED, fEnabled);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
 	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
@@ -77,7 +77,7 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	db_set_b(hContact, protocolname, "TurnedOn", on);
 	on = !on;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.icolibItem = on ? iconList[0].hIcolib : iconList[1].hIcolib;
@@ -89,7 +89,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
@@ -138,7 +138,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 		gbVarsServiceExist = TRUE;
 
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
 	mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
@@ -270,7 +270,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 500090000;
 	mi.ptszName = _T("");
 	mi.pszService = protocolname"/ToggleEnable";

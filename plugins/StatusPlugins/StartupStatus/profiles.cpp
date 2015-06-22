@@ -92,7 +92,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	char servicename[128];
 	int i, count;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.popupPosition = 2000100000;
 	mi.flags = CMIF_TCHAR;
 	mcount = 0;

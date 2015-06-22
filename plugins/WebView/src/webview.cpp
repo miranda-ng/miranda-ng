@@ -50,7 +50,7 @@ void ChangeMenuItem1()
 	/*
 	* Enable or Disable auto updates
 	*/
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
@@ -68,7 +68,7 @@ void ChangeMenuItemCountdown()
 	/*
 	* countdown
 	*/
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR  | CMIF_KEEPUNTRANSLATED;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 

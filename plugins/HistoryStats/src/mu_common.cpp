@@ -15,7 +15,7 @@ namespace mu
 		HANDLE addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.ptszName = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
@@ -30,7 +30,7 @@ namespace mu
 		HANDLE addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, DWORD hotKey /* = 0 */, const char* pszContactOwner /* = NULL */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.ptszName = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
@@ -44,7 +44,7 @@ namespace mu
 		int modifyMenuItem(HANDLE hMenuItem, DWORD toModify, const TCHAR* pszName /* = NULL */, DWORD flags /* = 0 */, HICON hIcon /* = NULL */, DWORD hotKey /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.ptszName = (TCHAR*)pszName;
 			mi.flags = toModify | flags | CMIF_TCHAR;
 			mi.hIcon = hIcon;

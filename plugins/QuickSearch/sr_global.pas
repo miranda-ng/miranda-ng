@@ -242,7 +242,6 @@ begin
   if MainMenuItem<>0 then exit;
 
   ZeroMemory(@cmi,sizeof(cmi));
-  cmi.cbSize      :=sizeof(cmi) ;
   cmi.szName.a    :=qs_name;
   cmi.position    :=500050000;
 //    cmi.pszPopupName:=nil;

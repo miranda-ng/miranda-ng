@@ -192,7 +192,7 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CMIF_CHECKED : 0);
 	Menu_ModifyItem(hHideOfflineUsersMenuItem, &mi);
 
@@ -237,7 +237,7 @@ void GroupMenus_Init(void)
 	//add  exit command to menu
 	GroupMenuParam gmp;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1900000;
 	mi.pszService = "CloseAction";
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
@@ -348,7 +348,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 
 	if (gray1 && gray2) gray1 = FALSE;  //should not be cause CLCItems_IsShowOfflineGroup return false if group->hideOffline
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | ((group->hideOffline && !gray1) ? CMIF_CHECKED : 0) | (gray1 ? CMIF_GRAYED : 0);
 	Menu_ModifyItem(hHideOfflineUsersHereMenuItem, &mi);
 
@@ -487,7 +487,7 @@ void InitSubGroupMenus(void)
 	// add exit command to menu
 	GroupMenuParam gmp;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1000;
 	mi.icolibItem = iconItem.hIcolib;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
@@ -515,7 +515,6 @@ void InitSubGroupMenus(void)
 	hShowOfflineUsersHereMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 900001;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";

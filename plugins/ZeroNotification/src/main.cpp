@@ -95,7 +95,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 //Update the name on the menu
 static void UpdateMenuItem()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	if (db_get_b(NULL, "Skin", "UseSound", 1))
 		mi.ptszName = DISABLE_SOUND;
 	else
@@ -240,7 +240,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
 		hSoundMenu = CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 	
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();

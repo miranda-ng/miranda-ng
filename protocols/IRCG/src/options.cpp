@@ -730,7 +730,7 @@ void CConnectPrefsDlg::OnApply()
 	m_proto->m_oldStyleModes = m_oldStyle.GetState();
 	m_proto->m_useServer = m_useServer.GetState();
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS;
 	if (!m_proto->m_useServer)
 		mi.flags |= CMIF_GRAYED;

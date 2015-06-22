@@ -290,9 +290,9 @@ static int IdleChangeEvent(WPARAM, LPARAM lParam)
 int PreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	CLISTMENUITEM miSetMsg = { sizeof(miSetMsg) };
+	CLISTMENUITEM miSetMsg = { 0 };
 	miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
-	CLISTMENUITEM miReadMsg = { sizeof(miReadMsg) };
+	CLISTMENUITEM miReadMsg = { 0 };
 	miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
@@ -325,7 +325,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// if this contact supports sending/receiving messages
 		if ((Flag1 & PF1_IM) == PF1_IM) {
 			int iAutoreply = CContactSettings(g_ProtoStates[szProto].Status, hContact).Autoreply;
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIM_ICON | CMIM_FLAGS | CMIF_TCHAR;
 			switch (iAutoreply) {
 				case VAL_USEDEFAULT: mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)); break;
@@ -341,7 +341,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hAutoreplyUseDefaultContactMenuItem, (LPARAM)&mi);
 		}
 		else { // hide the Autoreply menu item
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEContactMenuItem, (LPARAM)&mi);
 		}
@@ -383,7 +383,7 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 	if (hContact == NULL) {
 		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
 		
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
 		if (SendOnEvent) {
 			mi.ptszName = ENABLE_SOE_COMMAND;
@@ -623,7 +623,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.icolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
@@ -632,7 +632,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	mi.ptszName = LPGENT("Read status message"); // never seen...
@@ -641,7 +640,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
 		memset(&mi, 0, sizeof(mi));
-		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 		mi.ptszName = LPGENT("Set status message"); // will never be shown
 		mi.position = 1000020000;
@@ -650,7 +648,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		memset(&mi, 0, sizeof(mi));
-		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 		mi.hIcon = NULL;
 		mi.pszPopupName = (char*)-1;

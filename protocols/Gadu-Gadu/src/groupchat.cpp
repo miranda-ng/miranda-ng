@@ -59,7 +59,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 	if (gc_enabled) {
 		char service[64];
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.hParentMenu = hRoot;
 

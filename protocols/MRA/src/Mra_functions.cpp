@@ -1060,7 +1060,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			dat->ppro->mraSetStringExW(NULL, szValueName, szBuff);
 			dat->ppro->mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, szBuff);
 
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = (CMIM_NAME | CMIF_UNICODE);
 			mi.ptszName = szBuff;
 			Menu_ModifyItem(dat->ppro->hXStatusMenuItems[dat->dwXStatus], &mi);

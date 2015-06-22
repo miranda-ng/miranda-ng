@@ -46,7 +46,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.icolibItem = icon.hIcolib;
 	mi.pszName = LPGEN("Restart");

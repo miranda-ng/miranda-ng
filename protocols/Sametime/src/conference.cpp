@@ -438,8 +438,7 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLog(_T("CSametimeProto::PrebuildContactMenu() hContact=[%x]"), hContact);
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 1 ? 0 : CMIF_HIDDEN);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hLeaveChatMenuItem, (LPARAM)&mi);
 
@@ -513,7 +512,7 @@ void CSametimeProto::InitConferenceMenu()
 
 	char service[128];
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.pszContactOwner = m_szModuleName;
 	

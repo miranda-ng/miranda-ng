@@ -96,7 +96,7 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 
 void InitMenuItems()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = 1000090000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &History");
@@ -119,7 +119,7 @@ void InitMenuItems()
 void InitTaskMenuItems()
 {
 	if (Options::instance->taskOptions.size() > 0) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		if (hTaskMainMenu == NULL) {
 			mi.position = 500060005;
 			mi.flags = CMIF_ROOTPOPUP;
@@ -132,7 +132,6 @@ void InitTaskMenuItems()
 		std::vector<HGENMENU>::iterator it = taskMenus.begin();
 		for (; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt) {
 			memset(&mi, 0, sizeof(mi));
-			mi.cbSize = sizeof(mi);
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hParentMenu = hTaskMainMenu;
 			mi.ptszName = (TCHAR*)taskIt->taskName.c_str();
@@ -141,7 +140,6 @@ void InitTaskMenuItems()
 
 		for (; it != taskMenus.end(); ++it) {
 			memset(&mi, 0, sizeof(mi));
-			mi.cbSize = sizeof(mi);
 			mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | CMIF_HIDDEN;
 			mi.hParentMenu = hTaskMainMenu;
 			Menu_ModifyItem((HGENMENU)*it, &mi);
@@ -150,7 +148,6 @@ void InitTaskMenuItems()
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
 			memset(&mi, 0, sizeof(mi));
-			mi.cbSize = sizeof(mi);
 			mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.hParentMenu = hTaskMainMenu;
@@ -161,7 +158,7 @@ void InitTaskMenuItems()
 		}
 	}
 	else if (hTaskMainMenu != NULL) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
 		Menu_ModifyItem(hTaskMainMenu, &mi);
 	}

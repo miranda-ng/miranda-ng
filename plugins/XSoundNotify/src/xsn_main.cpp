@@ -176,7 +176,7 @@ static int OnLoadInit(WPARAM, LPARAM)
 {
 	mir_getCI(NULL);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

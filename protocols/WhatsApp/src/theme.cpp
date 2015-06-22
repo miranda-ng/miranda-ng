@@ -51,7 +51,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
@@ -84,7 +84,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 
 void WhatsAppProto::ToggleStatusMenuItems(BOOL bEnable)
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 	clmi.flags = CMIM_FLAGS | ((bEnable) ? 0 : CMIF_GRAYED);
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuRoot, (LPARAM)&clmi);

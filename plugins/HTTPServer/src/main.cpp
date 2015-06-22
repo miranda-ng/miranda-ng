@@ -623,7 +623,7 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 /////////////////////////////////////////////////////////////////////
 
 INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_NAME | CMIM_ICON;
 
 	if (!hDirectBoundPort) {
@@ -924,7 +924,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 		indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
 
 		if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
-			CLISTMENUITEM mi = { sizeof(mi) };
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIF_TCHAR;
 			mi.pszContactOwner = NULL;  //all contacts
 			mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));

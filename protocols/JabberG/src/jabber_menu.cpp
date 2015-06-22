@@ -196,7 +196,7 @@ void g_MenuInit(void)
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 
 	// "Request authorization"
 	mi.pszName = LPGEN("Request authorization");
@@ -357,7 +357,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		if ( ptrT( getTStringA(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid")) != NULL) {
 			Menu_ShowItem(g_hMenuConvert, TRUE);
 
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.pszName = bIsChatRoom ? (char *)LPGEN("&Convert to Contact") : (char *)LPGEN("&Convert to Chat Room");
 			clmi.flags = CMIM_NAME | CMIM_FLAGS;
 			Menu_ModifyItem(g_hMenuConvert, &clmi);
@@ -369,7 +369,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(g_hMenuDirectPresence[0], TRUE);
 	for (int i=0; i < _countof(PresenceModeArray); i++) {
-		CLISTMENUITEM clmi = { sizeof(clmi) };
+		CLISTMENUITEM clmi = { 0 };
 		clmi.flags = CMIM_ICON | CMIM_FLAGS;
 		clmi.hIcon = (HICON)Skin_LoadProtoIcon(m_szModuleName, PresenceModeArray[i].mode);
 		Menu_ModifyItem(g_hMenuDirectPresence[i+1], &clmi);
@@ -415,7 +415,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(g_hMenuResourcesRoot, TRUE);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_ICON | CMIM_FLAGS;
 	mi.icolibItem = m_hProtoIcon;
 	Menu_ModifyItem(g_hMenuResourcesRoot, &mi);
@@ -455,7 +455,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		}
 		if (i < item->arResources.getCount()) {
 			pResourceStatus r(item->arResources[i]);
-			CLISTMENUITEM clmi = { sizeof(clmi) };
+			CLISTMENUITEM clmi = { 0 };
 			clmi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_TCHAR;
 			if (item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r)
 				clmi.flags |= CMIF_CHECKED;
@@ -605,7 +605,7 @@ void CJabberProto::MenuInit()
 	strncpy(text, m_szModuleName, sizeof(text)-1);
 	char* tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
 	HGENMENU hJabberRoot = MO_GetProtoRootMenu(m_szModuleName);
@@ -798,7 +798,7 @@ void CJabberProto::UpdatePriorityMenu(short priority)
 	TCHAR szName[128];
 	mir_sntprintf(szName, TranslateT("Resource priority [%d]"), (int)priority);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR | CMIM_NAME | CMIF_KEEPUNTRANSLATED;
 	mi.ptszName = szName;
 	Menu_ModifyItem(m_hMenuPriorityRoot, &mi);
@@ -923,7 +923,7 @@ void CJabberProto::EnableMenuItems(BOOL bEnable)
 
 void CJabberProto::CheckMenuItems()
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 	clmi.flags = CMIM_FLAGS;
 	if (!m_menuItemsStatus)
 		clmi.flags |= CMIF_GRAYED;
@@ -1151,7 +1151,7 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 			if (g_Instances[i]->m_options.ProcessXMPPLinks)
 				return g_Instances[i];
 
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 
 	int nItems = 0, lastItemId = 0;
 	for (int i = 0; i < g_Instances.getCount(); i++) {

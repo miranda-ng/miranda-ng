@@ -90,7 +90,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (hMainMenuItem)
 			return 0;
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = 500020001;
 		mi.flags = CMIF_TCHAR;
 		mi.icolibItem = icon.hIcolib;

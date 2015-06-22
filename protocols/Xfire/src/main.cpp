@@ -1114,7 +1114,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		CreateDirectoryA(AvatarsFolder, NULL);
 
 	//erweiterte Kontextmenüpunkte
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.ptszPopupName = _T(protocolname);
 	mi.flags = CMIF_TCHAR;
 

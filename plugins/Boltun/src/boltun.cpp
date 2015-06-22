@@ -545,7 +545,7 @@ static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 
 static int MessagePrebuild(WPARAM hContact, LPARAM)
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
+	CLISTMENUITEM clmi = { 0 };
 
 	if (!blInit || (db_get_b(hContact, "CList", "NotOnList", 0) == 1)) {
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
@@ -602,7 +602,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.position = -50010002; //TODO: check the warning
 		mi.pszName = BOLTUN_AUTO_CHAT;
 		mi.pszService = SERV_CONTACT_AUTO_CHAT;

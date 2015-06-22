@@ -264,7 +264,7 @@ void TlenProtocol::initMenuItems()
 	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { sizeof(mi) }, clmi = { sizeof(clmi) };
+	CLISTMENUITEM mi = { 0 }, clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 	mi.pszContactOwner = m_szModuleName;

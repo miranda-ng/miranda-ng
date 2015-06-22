@@ -165,7 +165,7 @@ static void ShowConsole(int show)
 		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 
 	if (hMenu) {
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.ptszName = show ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		Menu_ModifyItem(hMenu, &mi);
@@ -1163,7 +1163,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-		CLISTMENUITEM mi = { sizeof(mi) };
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = hIcons[0];
 		mi.position = 1900000000;

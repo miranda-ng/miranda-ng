@@ -420,7 +420,7 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
 	CreateProtoService(GGS_CONCUR_SESS, &GGPROTO::sessions_view);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hRoot;
 	mi.position = (hMenuRoot) ? 2050000001 : 200003;

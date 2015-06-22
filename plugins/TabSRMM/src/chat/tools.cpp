@@ -598,7 +598,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 void DestroyGCMenu(HMENU *hMenu, int iIndex)
 {
-	MENUITEMINFO mi = { sizeof(mi) };
+	MENUITEMINFO mi = { 0 };
 	mi.fMask = MIIM_SUBMENU;
 	while (GetMenuItemInfo(*hMenu, iIndex, TRUE, &mi)) {
 		if (mi.hSubMenu != NULL)

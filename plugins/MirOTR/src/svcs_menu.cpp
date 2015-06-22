@@ -158,7 +158,7 @@ void InitMenu()
 	CreateServiceFunction(MS_OTR_MENUVERIFY, SVC_VerifyOTR);
 	CreateServiceFunction(MS_OTR_MENUTOGGLEHTML, SVC_ToggleHTMLOTR);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -400000;
 
@@ -179,7 +179,7 @@ void InitMenu()
 
 int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;
 	
 	const char *proto = GetContactProto(hContact);

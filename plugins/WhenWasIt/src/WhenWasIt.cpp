@@ -80,7 +80,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hAddBirthdayWndsList = WindowList_Create();
 
-	CLISTMENUITEM cl = { sizeof(cl) };
+	CLISTMENUITEM cl = { 0 };
 	cl.position = 10000000;
 	cl.pszPopupName = LPGEN("Birthdays (When Was It)");
 

@@ -135,7 +135,7 @@ void CGlobals::reloadSystemModulesChanged()
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
@@ -325,7 +325,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.position = -500050005;
 	mi.hIcon = PluginConfig.g_iconContainer;
 	mi.pszContactOwner = NULL;

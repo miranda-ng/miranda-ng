@@ -303,7 +303,6 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   if IsMirandaUser(hContact)<=0 then
     mi.flags:=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST or CMIM_FLAGS or CMIF_HIDDEN
   else
@@ -330,7 +329,6 @@ var
 begin
   result:=0;
   FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
   mi.flags :=CMIM_ICON;
 
   mi.hIcon:=IcoLib_GetIcon(IcoBtnContext,0);
@@ -377,7 +375,6 @@ begin
   RegisterIcons;
 
   FillChar(mi, sizeof(mi), 0);
-  mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
   mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
   mi.hIcon        :=IcoLib_GetIcon(IcoBtnContext,0);

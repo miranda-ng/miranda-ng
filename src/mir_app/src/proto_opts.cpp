@@ -1018,7 +1018,7 @@ static INT_PTR OptProtosShow(WPARAM, LPARAM)
 
 int OptProtosLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
+	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Accounts...");
