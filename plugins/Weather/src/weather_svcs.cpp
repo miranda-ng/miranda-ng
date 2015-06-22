@@ -226,23 +226,16 @@ void UpdateMenu(BOOL State)
 	opt.CAutoUpdate = State;
 	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
 
-	CLISTMENUITEM mi = { 0 };
-
 	if (State) { // to enable auto-update
-		mi.pszName = LPGEN("Auto Update Enabled");
-		mi.icolibItem = GetIconHandle("main");
+		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Auto Update Enabled"), GetIconHandle("main"));
 		opt.AutoUpdate = 1;
 	}
 	else { // to disable auto-update
-		mi.pszName = LPGEN("Auto Update Disabled");
-		mi.icolibItem = GetIconHandle("disabled");
+		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Auto Update Disabled"), GetIconHandle("disabled"));
 		opt.AutoUpdate = 0;
 	}
 
-	mi.flags = CMIM_ICON | CMIM_NAME;
-	Menu_ModifyItem(hEnableDisableMenu, &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : 0);
-
 }
 
 void UpdatePopupMenu(BOOL State)
@@ -251,20 +244,10 @@ void UpdatePopupMenu(BOOL State)
 	opt.UsePopup = State;
 	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
 
-	CLISTMENUITEM mi = { 0 };
-	if (State)
-	{	// to enable popup
-		mi.pszName = LPGEN("Disable &weather notification");
-		mi.icolibItem = GetIconHandle("popup");
-	}
-	else
-	{	// to disable popup
-		mi.pszName = LPGEN("Enable &weather notification");
-		mi.icolibItem = GetIconHandle("nopopup");
-	}
-
-	mi.flags = CMIM_ICON | CMIM_NAME;
-	Menu_ModifyItem(hEnableDisablePopupMenu, &mi);
+	if (State) // to enable popup
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENT("Disable &weather notification"), GetIconHandle("popup"));
+	else // to disable popup
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENT("Enable &weather notification"), GetIconHandle("nopopup"));
 }
 
 // update the weather auto-update menu item when click on it

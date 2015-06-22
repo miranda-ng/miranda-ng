@@ -467,25 +467,16 @@ INT_PTR onHide(WPARAM wparam, LPARAM)
 // following 4 functions should be self-explanatory
 void ModifyVisibleSet(int mode, BOOL alpha)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON;
-	mi.hIcon = (mode) ? hIcon[1] : (alpha ? hIcon[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-	Menu_ModifyItem(hmenuVis, &mi);
+	Menu_ModifyItem(hmenuVis, NULL, (mode) ? hIcon[1] : (alpha ? hIcon[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 void ModifyInvisSet(int mode, BOOL alpha)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON;
-	mi.hIcon = (mode) ? hIcon[2] : (alpha ? hIcon[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-	Menu_ModifyItem(hmenuOff, &mi);
+	Menu_ModifyItem(hmenuOff, NULL, (mode) ? hIcon[2] : (alpha ? hIcon[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
-
 	if (isMetaContact(hContact)) {
 		MCONTACT hC = db_mc_getMostOnline(hContact);
 		if (!hContact) hC = db_mc_getDefault(hContact);
@@ -499,9 +490,11 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 	}
 
 	HICON hIconCID = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-	mi.hIcon = BindOverlayIcon(hIconCID, "miex_copyid");
-	DestroyIcon(hIconCID);
-	hIconCID = mi.hIcon;
+	{
+		HICON hIcon = BindOverlayIcon(hIconCID, "miex_copyid");
+		DestroyIcon(hIconCID);
+		hIconCID = hIcon;
+	}
 
 	TCHAR buffer[256];
 	char szID[256];
@@ -514,13 +507,12 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 			}
 
 			mir_sntprintf(buffer, _countof(buffer), _T("%s [%S]"), TranslateT("Copy ID"), szID);
-			mi.ptszName = buffer;
+			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
-		else mi.ptszName = LPGENT("Copy ID");
+		else Menu_ModifyItem(hmenuCopyID, LPGENT("Copy ID"), hIconCID);
 	}
-	else mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+	else Menu_ShowItem(hmenuCopyID, false);
 
-	Menu_ModifyItem(hmenuCopyID, &mi);
 	DestroyIcon(hIconCID);
 }
 
@@ -532,15 +524,14 @@ void ModifyStatusMsg(MCONTACT hContact)
 		return;
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON;
-
 	HICON hIconSMsg = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-	mi.hIcon = BindOverlayIcon(hIconSMsg, (StatusMsgExists(hContact) & 2) ? "miex_copysm2" : "miex_copysm1");
-	DestroyIcon(hIconSMsg);
-	hIconSMsg = mi.hIcon;
+	{
+		HICON hIcon = BindOverlayIcon(hIconSMsg, (StatusMsgExists(hContact) & 2) ? "miex_copysm2" : "miex_copysm1");
+		DestroyIcon(hIconSMsg);
+		hIconSMsg = hIcon;
+	}
 
-	Menu_ModifyItem(hmenuStatusMsg, &mi);
+	Menu_ModifyItem(hmenuStatusMsg, NULL, hIconSMsg);
 	DestroyIcon(hIconSMsg);
 }
 
@@ -552,32 +543,30 @@ void ModifyCopyIP(MCONTACT hContact)
 		return;
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON;
-
 	HICON hIconCIP = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-	mi.hIcon = BindOverlayIcon(hIconCIP, "miex_copyip");
-	DestroyIcon(hIconCIP);
-	hIconCIP = mi.hIcon;
+	{
+		HICON hIcon = BindOverlayIcon(hIconCIP, "miex_copyip");
+		DestroyIcon(hIconCIP);
+		hIconCIP = hIcon;
+	}
 
-	Menu_ModifyItem(hmenuCopyIP, &mi);
+	Menu_ModifyItem(hmenuCopyIP, NULL, hIconCIP);
 	DestroyIcon(hIconCIP);
 }
 
 void ModifyCopyMirVer(MCONTACT hContact)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON;
-
+	HICON hMenuIcon = NULL;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 		LPTSTR msg = getMirVer(hContact);
 		if (msg) {
-			mi.hIcon = Finger_GetClientIcon(msg, 1);
+			hMenuIcon = Finger_GetClientIcon(msg, 1);
 			mir_free(msg);
 		}
 	}
-	if (!mi.hIcon) mi.hIcon = hIcon[0];
-	Menu_ModifyItem(hmenuCopyMirVer, &mi);
+	if (!hIcon)
+		hMenuIcon = hIcon[0];
+	Menu_ModifyItem(hmenuCopyMirVer, NULL, hMenuIcon);
 }
 
 INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
@@ -758,14 +747,12 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 
 static void ModifySubmenuItem(HGENMENU hItem, TCHAR *name, int checked, int hidden)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.ptszName = name;
-	mi.flags = CMIM_FLAGS | CMIF_UNICODE;
+	int flags = 0;
 	if (checked)
-		mi.flags |= CMIF_CHECKED;
+		flags |= CMIF_CHECKED;
 	if (hidden)
-		mi.flags |= CMIF_HIDDEN;
-	Menu_ModifyItem(hItem, &mi);
+		flags |= CMIF_HIDDEN;
+	Menu_ModifyItem(hItem, NULL, INVALID_HANDLE_VALUE, flags);
 }
 
 // called when the contact-menu is built
@@ -788,11 +775,10 @@ int BuildMenu(WPARAM wparam, LPARAM)
 	Menu_ShowItem(hmenuHide, bEnabled);
 	if (bEnabled) {
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
-		CLISTMENUITEM mi = { 0 };
-		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_UNICODE;
-		mi.hIcon = IcoLib_GetIcon(bHidden ? "miex_showil" : "miex_hidefl");
-		mi.ptszName = bHidden ? LPGENT("Show in list") : LPGENT("Hide from list");
-		Menu_ModifyItem(hmenuHide, &mi);
+		if (bHidden)
+			Menu_ModifyItem(hmenuHide, LPGENT("Show in list"), IcoLib_GetIcon("miex_showil"));
+		else 
+			Menu_ModifyItem(hmenuHide, LPGENT("Hide from list"), IcoLib_GetIcon("miex_hidefl"));
 	}
 
 	bEnabled = bShowAll || (flags & VF_IGN);
@@ -858,11 +844,11 @@ int BuildMenu(WPARAM wparam, LPARAM)
 		INT_PTR caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 		int apparent = db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0);
 
-		Menu_ShowItem(hmenuVis, caps & PF1_VISLIST);
+		Menu_ShowItem(hmenuVis, (caps & PF1_VISLIST) != 0);
 		if (caps & PF1_VISLIST)
 			ModifyVisibleSet(apparent == ID_STATUS_ONLINE, flags & VF_SAI);
 
-		Menu_ShowItem(hmenuOff, caps & PF1_INVISLIST);
+		Menu_ShowItem(hmenuOff, (caps & PF1_INVISLIST) != 0);
 		if (caps & PF1_INVISLIST)
 			ModifyInvisSet(apparent == ID_STATUS_OFFLINE, flags & VF_SAI);
 	}

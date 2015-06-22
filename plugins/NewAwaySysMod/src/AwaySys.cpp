@@ -47,8 +47,8 @@ HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
 
 int hLangpack;
-HANDLE g_hContactMenuItem, g_hReadStatMenuItem, g_hTopToolbarbutton;
-HGENMENU g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem;
+HANDLE g_hTopToolbarbutton;
+HGENMENU g_hToggleSOEMenuItem, g_hToggleSOEContactMenuItem, g_hContactMenuItem, g_hReadStatMenuItem;
 HGENMENU g_hAutoreplyOnContactMenuItem, g_hAutoreplyOffContactMenuItem, g_hAutoreplyUseDefaultContactMenuItem;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
@@ -290,14 +290,13 @@ static int IdleChangeEvent(WPARAM, LPARAM lParam)
 int PreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	CLISTMENUITEM miSetMsg = { 0 };
-	miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
-	CLISTMENUITEM miReadMsg = { 0 };
-	miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
 	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	TCHAR szSetStr[256], szReadStr[256];
+	szSetStr[0] = szReadStr[0] = 0;
+	HICON hReadMsgIcon = NULL;
+
 	if (szProto) {
 		int i;
 		for (i = _countof(StatusModeList) - 1; i >= 0; i--)
@@ -305,48 +304,44 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 				break;
 
 		// the protocol supports status message sending for current status, or autoreplying
-		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID)))) {
+		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || 
+			((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
 			mir_sntprintf(szSetStr, _countof(szSetStr), TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
-			miSetMsg.ptszName = szSetStr;
-			miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;
-		}
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
 			mir_sntprintf(szReadStr, _countof(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
-			miReadMsg.ptszName = szReadStr;
-			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
-			miReadMsg.hIcon = Skin_LoadProtoIcon(szProto, iContactMode);
+			hReadMsgIcon = Skin_LoadProtoIcon(szProto, iContactMode);
 		}
 	}
 	if (g_hContactMenuItem) {
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hContactMenuItem, (LPARAM)&miSetMsg);
+		if (szSetStr[0] == 0)
+			Menu_ShowItem(g_hContactMenuItem, false);
+		else 
+			Menu_ModifyItem(g_hContactMenuItem, szSetStr, INVALID_HANDLE_VALUE, 0);
 
 		// if this contact supports sending/receiving messages
 		if ((Flag1 & PF1_IM) == PF1_IM) {
 			int iAutoreply = CContactSettings(g_ProtoStates[szProto].Status, hContact).Autoreply;
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIM_ICON | CMIM_FLAGS | CMIF_TCHAR;
+			HANDLE hIcon;
 			switch (iAutoreply) {
-				case VAL_USEDEFAULT: mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)); break;
-				case 0: mi.icolibItem = iconList[0].hIcolib; break;
-				default: iAutoreply = 1; mi.icolibItem = iconList[1].hIcolib; break;
+				case VAL_USEDEFAULT: hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)); break;
+				case 0: hIcon = iconList[0].hIcolib; break;
+				default: iAutoreply = 1; hIcon = iconList[1].hIcolib; break;
 			}
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEContactMenuItem, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | CMIF_TCHAR | (iAutoreply == 1 ? CMIF_CHECKED : 0);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hAutoreplyOnContactMenuItem, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | CMIF_TCHAR | (iAutoreply == 0 ? CMIF_CHECKED : 0);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hAutoreplyOffContactMenuItem, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | CMIF_TCHAR | (iAutoreply == VAL_USEDEFAULT ? CMIF_CHECKED : 0);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hAutoreplyUseDefaultContactMenuItem, (LPARAM)&mi);
+			Menu_ModifyItem(g_hToggleSOEContactMenuItem, NULL, hIcon, 0);
+			Menu_ModifyItem(g_hAutoreplyOnContactMenuItem, NULL, INVALID_HANDLE_VALUE, (iAutoreply == 1) ? CMIF_CHECKED : 0);
+			Menu_ModifyItem(g_hAutoreplyOffContactMenuItem, NULL, INVALID_HANDLE_VALUE, (iAutoreply == 0) ? CMIF_CHECKED : 0);
+			Menu_ModifyItem(g_hAutoreplyUseDefaultContactMenuItem, NULL, INVALID_HANDLE_VALUE, (iAutoreply == VAL_USEDEFAULT) ? CMIF_CHECKED : 0);
 		}
-		else { // hide the Autoreply menu item
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIM_FLAGS | CMIF_TCHAR | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEContactMenuItem, (LPARAM)&mi);
-		}
+		else // hide the Autoreply menu item
+			Menu_ShowItem(g_hToggleSOEContactMenuItem, false);
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hReadStatMenuItem, (LPARAM)&miReadMsg);
+
+	if (szReadStr[0] == 0)
+		Menu_ShowItem(g_hReadStatMenuItem, false);
+	else
+		Menu_ModifyItem(g_hReadStatMenuItem, szReadStr, hReadMsgIcon, 0);
 	return 0;
 }
 
@@ -383,17 +378,10 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 	if (hContact == NULL) {
 		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
 		
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-		if (SendOnEvent) {
-			mi.ptszName = ENABLE_SOE_COMMAND;
-			mi.icolibItem = iconList[1].hIcolib;
-		}
-		else {
-			mi.ptszName = DISABLE_SOE_COMMAND;
-			mi.icolibItem = iconList[0].hIcolib;
-		}
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEMenuItem, (LPARAM)&mi);
+		if (SendOnEvent)
+			Menu_ModifyItem(g_hToggleSOEMenuItem, ENABLE_SOE_COMMAND, iconList[1].hIcolib);
+		else
+			Menu_ModifyItem(g_hToggleSOEMenuItem, DISABLE_SOE_COMMAND, iconList[0].hIcolib);
 
 		if (g_hTopToolbarbutton)
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : 0);

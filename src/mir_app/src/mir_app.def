@@ -200,3 +200,5 @@ xmlToStringWithFormatting @197
 KillModuleMenus @198
 Utils_ReplaceVars @199
 Utils_ReplaceVarsW @200
+Menu_ShowItem @201
+Menu_ModifyItem @202

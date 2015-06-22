@@ -521,14 +521,9 @@ static IconItem iconList[] =
 static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show the main menu
 {
 	if (g_hMenuItem) {
-		TCHAR buf[128] = { 0 };
+		TCHAR buf[128];
 		mir_sntprintf(buf, _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
-
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;
-		mi.ptszName = buf;
-
-		Menu_ModifyItem(g_hMenuItem, &mi);
+		Menu_ModifyItem(g_hMenuItem, buf);
 	}
 	return 0;
 }
@@ -541,7 +536,6 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.hIcon = IcoLib_GetIcon("hidemim");
 	mi.ptszName = LPGENT("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
-
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);

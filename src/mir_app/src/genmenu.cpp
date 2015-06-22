@@ -301,35 +301,27 @@ INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
 // wparam MenuItemHandle
 // lparam PMO_MenuItem
 
-int MO_ModifyMenuItem(TMO_IntMenuItem *menuHandle, TMO_MenuItem *pmi)
+MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon, int iFlags)
 {
-	int oldflags;
-
-	if (!bIsGenMenuInited || pmi == NULL)
+	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
 
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)menuHandle);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
 	if (pimi == NULL)
 		return -1;
 
-	if (pmi->flags & CMIM_NAME) {
-		FreeAndNil((void**)&pimi->mi.name.t);
+	if (ptszName != NULL)
+		replaceStrT(pimi->mi.name.t, ptszName);
 
-		if (pmi->flags & CMIF_UNICODE)
-			pimi->mi.name.t = mir_tstrdup(pmi->name.t);
-		else
-			pimi->mi.name.t = mir_a2t(pmi->name.a);
+	if (iFlags != -1) {
+		int oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
+		pimi->mi.flags = iFlags | oldflags;
 	}
 
-	if (pmi->flags & CMIM_FLAGS) {
-		oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
-		pimi->mi.flags = (pmi->flags & ~CMIM_ALL) | oldflags;
-	}
-
-	if ((pmi->flags & CMIM_ICON) && !bIconsDisabled) {
-		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
+	if (hIcon != INVALID_HANDLE_VALUE && !bIconsDisabled) {
+		HANDLE hIcolibItem = IcoLib_IsManaged((HICON)hIcon);
 		if (hIcolibItem) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			if (hIcon != NULL) {
@@ -340,9 +332,9 @@ int MO_ModifyMenuItem(TMO_IntMenuItem *menuHandle, TMO_MenuItem *pmi)
 			else pimi->iconId = -1, pimi->hIcolibItem = NULL;
 		}
 		else {
-			pimi->mi.hIcon = pmi->hIcon;
-			if (pmi->hIcon != NULL)
-				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, pmi->hIcon);
+			pimi->mi.hIcon = (HICON)hIcon;
+			if (hIcon != NULL)
+				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, (HICON)hIcon);
 			else
 				pimi->iconId = -1;	  //fixme, should remove old icon & shuffle all iconIds
 		}
@@ -351,9 +343,6 @@ int MO_ModifyMenuItem(TMO_IntMenuItem *menuHandle, TMO_MenuItem *pmi)
 			pimi->hBmp = NULL;
 		}
 	}
-
-	if (pmi->flags & CMIM_HOTKEY)
-		pimi->mi.hotKey = pmi->hotKey;
 
 	return 0;
 }
@@ -1166,7 +1155,6 @@ int InitGenMenu()
 	CreateServiceFunction(MO_REMOVEMENUITEM, MO_RemoveMenuItem);
 	CreateServiceFunction(MO_ADDNEWMENUITEM, (MIRANDASERVICE)MO_AddNewMenuItem);
 	CreateServiceFunction(MO_MENUITEMGETOWNERDATA, MO_MenuItemGetOwnerData);
-	CreateServiceFunction(MO_MODIFYMENUITEM, (MIRANDASERVICE)MO_ModifyMenuItem);
 	CreateServiceFunction(MO_GETMENUITEM, MO_GetMenuItem);
 	CreateServiceFunction(MO_GETDEFAULTMENUITEM, MO_GetDefaultMenuItem);
 	CreateServiceFunction(MO_PROCESSCOMMANDBYMENUIDENT, MO_ProcessCommandByMenuIdent);

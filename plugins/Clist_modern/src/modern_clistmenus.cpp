@@ -117,8 +117,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	if (!hFavoriteContactMenu)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
-		mi.flags |= CMIM_FLAGS | CMIM_NAME;
-		Menu_ModifyItem(hFavoriteContactMenu, &mi);
+		Menu_ModifyItem(hFavoriteContactMenu, mi.ptszName);
 		bModifyMenu = TRUE;
 	}
 
@@ -136,29 +135,29 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	int i;
 	for (i = 0; i < _countof(rates); i++) {
-		mi.icolibItem = iconList[i].hIcolib;
-		mi.ptszName = rates[i];
 		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
-		mi.pszService = CLUI_FAVSETRATE;
-		mi.popupPosition = i;
-		if (bModifyMenu && hFavoriteContactMenuItems[i]) {
-			mi.flags |= CMIM_FLAGS | CMIM_ICON;
-			Menu_ModifyItem(hFavoriteContactMenuItems[i], &mi);
+		if (bModifyMenu && hFavoriteContactMenuItems[i])
+			Menu_ModifyItem(hFavoriteContactMenuItems[i], NULL, iconList[i].hIcolib, mi.flags);
+		else {
+			mi.icolibItem = iconList[i].hIcolib;
+			mi.ptszName = rates[i];
+			mi.pszService = CLUI_FAVSETRATE;
+			mi.popupPosition = i;
+			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 		}
-		else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 	}
 
 	mi.hIcon = NULL;
-	mi.ptszName = LPGENT("Show even if offline");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
-	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
-	mi.popupPosition = i + 100000000;
-	mi.position = -100000000;
-	if (bModifyMenu && hShowIfOflineItem) {
-		mi.flags |= CMIM_FLAGS | CMIM_ICON;
-		Menu_ModifyItem(hShowIfOflineItem, &mi);
+	if (bModifyMenu && hShowIfOflineItem)
+		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
+	else {
+		mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
+		mi.popupPosition = i + 100000000;
+		mi.position = -100000000;
+		mi.ptszName = LPGENT("Show even if offline");
+		hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 	}
-	else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 
 	return 0;
 }

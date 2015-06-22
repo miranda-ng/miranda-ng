@@ -12,7 +12,7 @@ namespace mu
 
 	namespace clist
 	{
-		HANDLE addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
+		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CLISTMENUITEM mi = { 0 };
@@ -27,7 +27,7 @@ namespace mu
 			return Menu_AddMainMenuItem(&mi);
 		}
 
-		HANDLE addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, DWORD hotKey /* = 0 */, const char* pszContactOwner /* = NULL */)
+		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, DWORD hotKey /* = 0 */, const char* pszContactOwner /* = NULL */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CLISTMENUITEM mi = { 0 };
@@ -39,17 +39,6 @@ namespace mu
 			mi.hotKey = hotKey;
 			mi.pszContactOwner = const_cast<char*>(pszContactOwner);
 			return Menu_AddContactMenuItem(&mi);
-		}
-
-		int modifyMenuItem(HANDLE hMenuItem, DWORD toModify, const TCHAR* pszName /* = NULL */, DWORD flags /* = 0 */, HICON hIcon /* = NULL */, DWORD hotKey /* = 0 */)
-		{
-			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { 0 };
-			mi.ptszName = (TCHAR*)pszName;
-			mi.flags = toModify | flags | CMIF_TCHAR;
-			mi.hIcon = hIcon;
-			mi.hotKey = hotKey;
-			return CallService(MS_CLIST_MODIFYMENUITEM, reinterpret_cast<WPARAM>(hMenuItem), reinterpret_cast<LPARAM>(&mi));
 		}
 
 		const TCHAR* getContactDisplayName(MCONTACT hContact)

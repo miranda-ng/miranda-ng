@@ -223,20 +223,16 @@ static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 	BOOL MajorTo0121 = FALSE;
 	int iResult = 0;
 
-	CLISTMENUITEM mi = { 0 };
 	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
-		mi.pszName = LPGEN("Enable WUMF popups");
-		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
+		Menu_ModifyItem(hMenuItem, LPGENT("Enable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP)));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		mi.pszName = LPGEN("Disable WUMF popups");
-		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
+		Menu_ModifyItem(hMenuItem, LPGENT("Disable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP)));
 	}
+
 	db_set_b(NULL, MODULENAME, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
-	mi.flags = CMIM_NAME | CMIM_ICON;
-	Menu_ModifyItem(hMenuItem, &mi);
 	return 0;
 }
 

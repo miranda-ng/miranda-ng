@@ -95,13 +95,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 //Update the name on the menu
 static void UpdateMenuItem()
 {
-	CLISTMENUITEM mi = { 0 };
-	if (db_get_b(NULL, "Skin", "UseSound", 1))
-		mi.ptszName = DISABLE_SOUND;
-	else
-		mi.ptszName = ENABLE_SOUND;
-	mi.flags |= CMIM_NAME | CMIF_TCHAR;
-	Menu_ModifyItem(noSoundMenu, &mi);
+	Menu_ModifyItem(noSoundMenu, db_get_b(NULL, "Skin", "UseSound", 1) ? DISABLE_SOUND : ENABLE_SOUND);
 }
 
 //Called when the sound setting in the database is changed

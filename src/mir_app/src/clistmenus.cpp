@@ -439,14 +439,11 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				TMO_IntMenuItem *timiParent = MO_GetIntMenuItem(timi->mi.root);
 				if (timiParent) {
-					CLISTMENUITEM mi2 = { 0 };
-					mi2.flags = CMIM_NAME | CMIF_TCHAR;
-					mi2.ptszName = TranslateTH(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.name.t : LPGENT("Custom status"));
+					LPTSTR ptszName = TranslateTH(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.name.t : LPGENT("Custom status"));
 
 					timiParent = MO_GetIntMenuItem(timi->mi.root);
 
 					MenuItemData it = { 0 };
-
 					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
 						MENUITEMINFO mi = { 0 };
 						TCHAR d[100];
@@ -465,11 +462,12 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 						}
 
 						mi.fState |= (check && !reset ? MFS_CHECKED : MFS_UNCHECKED);
-						mi.dwTypeData = mi2.ptszName;
+						mi.dwTypeData = ptszName;
 						SetMenuItemInfo(it.OwnerMenu, it.position, TRUE, &mi);
 					}
 
-					Menu_ModifyItem(timi->mi.root, &mi2);
+					Menu_ModifyItem(timi->mi.root, ptszName);
+
 					timiParent->iconId = timi->iconId;
 					if (timiParent->hBmp) DeleteObject(timiParent->hBmp);
 					timiParent->hBmp = NULL;
@@ -512,8 +510,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		}
 
 		if (timi->mi.hIcon) {
-			timi->mi.flags |= CMIM_ICON;
-			MO_ModifyMenuItem(timi, &timi->mi);
+			Menu_ModifyItem(timi, NULL, timi->mi.hIcon);
 			if (IconNeedDestroy) {
 				DestroyIcon(timi->mi.hIcon);
 				timi->mi.hIcon = NULL;
@@ -615,31 +612,18 @@ INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Other menu functions
 
-static INT_PTR ShowHideMenuItem(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow)
 {
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
 	if (pimi == NULL)
-		return 1;
+		return;
 
-	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.flags = CMIM_FLAGS + pimi->mi.flags;
-	if (lParam)
-		tmi.flags &= ~CMIF_HIDDEN;
+	int flags = pimi->mi.flags;
+	if (bShow)
+		flags &= ~CMIF_HIDDEN;
 	else
-		tmi.flags |= CMIF_HIDDEN;
-
-	return MO_ModifyMenuItem((TMO_IntMenuItem*)wParam, &tmi);
-}
-
-//wparam MenuItemHandle
-static INT_PTR ModifyCustomMenuItem(WPARAM wParam, LPARAM lParam)
-{
-	TMO_MenuItem tmi;
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-	if (!cli.pfnConvertMenu(mi, &tmi))
-		return 0;
-
-	return MO_ModifyMenuItem((TMO_IntMenuItem*)wParam, &tmi);
+		flags |= CMIF_HIDDEN;
+	Menu_ModifyItem(hMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 }
 
 INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
@@ -890,7 +874,7 @@ void RebuildMenuOrder(void)
 
 		TMO_IntMenuItem *menuHandle = MO_AddNewMenuItem(hStatusMenuObject, &tmi);
 		((StatusMenuExecParam*)tmi.ownerdata)->protoindex = (int)menuHandle;
-		MO_ModifyMenuItem(menuHandle, &tmi);
+		Menu_ModifyItem(menuHandle, tmi.name.t, tmi.hIcon, tmi.flags);
 
 		cli.menuProtos = (MenuProto*)mir_realloc(cli.menuProtos, sizeof(MenuProto)*(cli.menuProtoCount + 1));
 		memset(&(cli.menuProtos[cli.menuProtoCount]), 0, sizeof(MenuProto));
@@ -994,17 +978,14 @@ void RebuildMenuOrder(void)
 
 static int sttRebuildHotkeys(WPARAM, LPARAM)
 {
-	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.flags = CMIM_HOTKEY | CMIM_NAME | CMIF_TCHAR;
-
 	for (int j = 0; j < _countof(statusModeList); j++) {
 		TCHAR buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 		mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
-		tmi.name.t = buf;
-		tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
-		MO_ModifyMenuItem(hStatusMainMenuHandles[j], &tmi);
+		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
+
+		hStatusMainMenuHandles[j]->mi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
 	}
 
 	return 0;
@@ -1031,36 +1012,28 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 
 	int overallStatus = cli.pfnGetAverageMode(NULL);
 
-	TMO_MenuItem tmi = { sizeof(tmi) };
 	if (overallStatus >= ID_STATUS_OFFLINE) {
 		int pos = statustopos(cli.currentStatusMenuItem);
 		if (pos == -1)
 			pos = 0;
 
 		// reset all current possible checked statuses
-		for (int pos2 = 0; pos2 < hStatusMainMenuHandlesCnt; pos2++) {
-			if (pos2 >= 0 && pos2 < hStatusMainMenuHandlesCnt) {
-				tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
-				MO_ModifyMenuItem(hStatusMainMenuHandles[pos2], &tmi);
-			}
-		}
+		for (int pos2 = 0; pos2 < hStatusMainMenuHandlesCnt; pos2++)
+			if (pos2 >= 0 && pos2 < hStatusMainMenuHandlesCnt)
+				Menu_ModifyItem(hStatusMainMenuHandles[pos2], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
 
 		cli.currentStatusMenuItem = overallStatus;
 		pos = statustopos(cli.currentStatusMenuItem);
-		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt) {
-			tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE | CMIF_CHECKED;
-			MO_ModifyMenuItem(hStatusMainMenuHandles[pos], &tmi);
-		}
+		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
+			Menu_ModifyItem(hStatusMainMenuHandles[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE | CMIF_CHECKED);
 	}
 	else {
 		int pos = statustopos(cli.currentStatusMenuItem);
 		if (pos == -1)
 			pos = 0;
 
-		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt) {
-			tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
-			MO_ModifyMenuItem(hStatusMainMenuHandles[pos], &tmi);
-		}
+		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
+			Menu_ModifyItem(hStatusMainMenuHandles[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
 
 		cli.currentStatusMenuItem = 0;
 	}
@@ -1071,18 +1044,14 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				int pos = statustopos((int)ack->hProcess);
 				if (pos == -1)
 					pos = 0;
-				for (pos = 0; pos < _countof(statusModeList); pos++) {
-					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
-					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
-				}
+				for (pos = 0; pos < _countof(statusModeList); pos++)
+					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
 			}
 
 			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos((int)ack->lParam);
-				if (pos >= 0 && pos < _countof(statusModeList)) {
-					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE | CMIF_CHECKED;
-					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
-				}
+				if (pos >= 0 && pos < _countof(statusModeList))
+					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE | CMIF_CHECKED);
 			}
 			break;
 		}
@@ -1250,8 +1219,6 @@ void InitCustomMenus(void)
 	CreateServiceFunction("CList/AddContactMenuItem", AddContactMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDCONTACT, BuildContactMenu);
 
-	CreateServiceFunction(MS_CLIST_SHOWHIDEMENUITEM, ShowHideMenuItem);
-	CreateServiceFunction(MS_CLIST_MODIFYMENUITEM, ModifyCustomMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUMEASUREITEM, MeasureMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUDRAWITEM, DrawMenuItem);
 

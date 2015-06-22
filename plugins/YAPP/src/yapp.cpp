@@ -71,22 +71,6 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int IconsChanged(WPARAM, LPARAM)
-{
-	CLISTMENUITEM mi = { 0 };
-	
-	mi.hIcon = IcoLib_GetIcon(db_get_b(0, "Popup", "ModuleIsEnabled", 1) ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuItem, &mi);
-	Menu_ModifyItem(hMenuRoot, &mi);
-
-	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuItemHistory, &mi);
-
-	return 0;
-}
-
 int TTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
@@ -243,7 +227,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitIcons();
 	InitMenuItems();
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;

@@ -489,16 +489,10 @@ bool CPepGuiService::LaunchSetGui(BYTE bQuiet)
 void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
 {
 	m_hIcolibItem = hIcolibIcon;
-	if (m_szText) mir_free(m_szText);
-	m_szText = text ? mir_tstrdup(text) : NULL;
+	replaceStrT(m_szText, text);
 
-	if (!m_hMenuItem) return;
-
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_TCHAR | CMIM_ICON | CMIM_NAME;
-	mi.icolibItem = m_hIcolibItem;
-	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
-	Menu_ModifyItem(m_hMenuItem, &mi);
+	if (m_hMenuItem)
+		Menu_ModifyItem(m_hMenuItem, m_szText ? m_szText : _T("<advanced status slot>"), m_hIcolibItem);
 }
 
 int CPepGuiService::OnMenuItemClick(WPARAM, LPARAM)

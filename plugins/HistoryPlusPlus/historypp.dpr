@@ -450,23 +450,16 @@ begin
 end;
 
 function OnIcon2Changed(awParam: WPARAM; alParam: LPARAM): Integer; cdecl;
-var
-  menuItem: TCLISTMENUITEM;
 begin
   Result := 0;
   LoadIcons2;
   NotifyAllForms(HM_NOTF_ICONS2CHANGED,0,0);
   //change menu icons
-  ZeroMemory(@menuitem,SizeOf(menuItem));
-  menuItem.flags := CMIM_ICON;
-  menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
-  CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miContact].Handle, LPARAM(@menuItem));
-  CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miSystem].Handle, LPARAM(@menuItem));
-  menuItem.hIcon := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
-  CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miSearch].Handle, LPARAM(@menuItem));
-  menuItem.hIcon := hppIcons[HPP_ICON_TOOL_DELETEALL].handle;
-  CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miEmpty].Handle, LPARAM(@menuItem));
-  CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miSysEmpty].Handle, LPARAM(@menuItem));
+  Menu_ModifyItem(MenuHandles[miContact].Handle, nil, hppIcons[HPP_ICON_CONTACTHISTORY].handle);
+  Menu_ModifyItem(MenuHandles[miSystem].Handle, nil, hppIcons[HPP_ICON_CONTACTHISTORY].handle);
+  Menu_ModifyItem(MenuHandles[miSearch].Handle, nil, hppIcons[HPP_ICON_GLOBALSEARCH].handle);
+  Menu_ModifyItem(MenuHandles[miEmpty].Handle, nil, hppIcons[HPP_ICON_TOOL_DELETEALL].handle);
+  Menu_ModifyItem(MenuHandles[miSysEmpty].Handle, nil, hppIcons[HPP_ICON_TOOL_DELETEALL].handle);
 end;
 
 //the context menu for a contact is about to be built     v0.1.0.1+
@@ -476,37 +469,26 @@ end;
 //contact that has them
 function OnBuildContactMenu(hContact: WPARAM; alParam: LPARAM): Integer; cdecl;
 var
-  menuItem: TCLISTMENUITEM;
   hLast: THandle;
   count: Integer;
-  res: Integer;
+  text: PWideChar;
 begin
   Result := 0;
   count := db_event_count(hContact);
   hLast := db_event_last(hContact);
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
-    ZeroMemory(@menuitem, SizeOf(menuItem));
-    menuItem.flags := CMIM_FLAGS;
     if hLast = 0 then
-      menuItem.flags := menuItem.flags or CMIF_HIDDEN;
-    CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miEmpty].Handle,
-      lParam(@menuitem));
+      Menu_ShowItem(MenuHandles[miEmpty].Handle, 0);
     if ShowHistoryCount then
-    begin
-      menuItem.flags := menuItem.flags or dword(CMIM_NAME) or CMIF_UNICODE;
-      menuItem.szName.w :=
-        pChar(Format('%s [%u]',[TranslateW(MenuHandles[miContact].Name),count]));
-    end
+      text := pWideChar(Format('%s [%u]',[TranslateW(MenuHandles[miContact].Name),count]))
     else if PrevShowHistoryCount then
-    begin
-      menuItem.flags := menuItem.flags or DWord(CMIM_NAME);
-      menuItem.szName.w := TranslateW(MenuHandles[miContact].Name);
-    end;
-    res := CallService(MS_CLIST_MODIFYMENUITEM, MenuHandles[miContact].Handle,
-      lParam(@menuitem));
-    if res = 0 then
-      MenuCount := count;
+      text := TranslateW(MenuHandles[miContact].Name)
+    else
+      text := nil;
+
+    Menu_ModifyItem(MenuHandles[miContact].Handle, text, INVALID_HANDLE_VALUE, 0);
+    MenuCount := count;
     PrevShowHistoryCount := ShowHistoryCount;
   end;
 end;

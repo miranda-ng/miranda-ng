@@ -682,13 +682,12 @@ static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
 	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
+
 	OnStatusChanged();
 
-	CLISTMENUITEM clmi = { 0 };
-	clmi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	clmi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
-	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	Menu_ModifyItem(hMainMenuItemHideAll, &clmi);
+	Menu_ModifyItem(hMainMenuItemHideAll,
+		fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs"),
+		LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE)));
 	return 0;
 }
 

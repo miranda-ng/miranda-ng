@@ -330,7 +330,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		replaceStr(msnExternalIP, tHeader["ClientIP"]);
 		abchMigrated = atol(tHeader["ABCHMigrated"]);
 		langpref = atol(tHeader["lang_preference"]);
-		emailEnabled = atol(tHeader["EmailEnabled"]);
+		emailEnabled = atol(tHeader["EmailEnabled"]) != 0;
 
 		if (!MSN_RefreshContactList()) {
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);

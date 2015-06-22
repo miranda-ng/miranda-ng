@@ -179,9 +179,6 @@ void InitMenu()
 
 int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;
-	
 	const char *proto = GetContactProto(hContact);
 	DWORD pol = CONTACT_DEFAULT_POLICY;
 	

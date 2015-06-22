@@ -159,11 +159,8 @@ void UpdateGlobalStatusMenus()
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	CLISTMENUITEM clmi = { 0 };
-	clmi.flags = CMIM_FLAGS
-			| (enabled ? CMIF_CHECKED : 0)
-			| (opts.enable_sending ? 0 : CMIF_GRAYED);
-	Menu_ModifyItem(proto_items[0].hMenu, &clmi);
+	int flags = (enabled ? CMIF_CHECKED : 0) + (opts.enable_sending ? 0 : CMIF_GRAYED);
+	Menu_ModifyItem(proto_items[0].hMenu, NULL, INVALID_HANDLE_VALUE, flags);
 
 	if (hTTB != NULL)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : 0));
@@ -244,11 +241,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 			TCHAR text[512];
 			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
-
-			CLISTMENUITEM clmi = { 0 };
-			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			clmi.ptszName = text;
-			Menu_ModifyItem(info->hMenu, &clmi);
+			Menu_ModifyItem(info->hMenu, text);
 		}
 		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled))
 		{
@@ -715,11 +708,8 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 		ProtocolInfo *info = GetProtoInfo(proto);
 		if (info != NULL)
 		{
-			CLISTMENUITEM clmi = { 0 };
-			clmi.flags = CMIM_FLAGS
-					| (enabled ? CMIF_CHECKED : 0)
-					| (opts.enable_sending ? 0 : CMIF_GRAYED);
-			Menu_ModifyItem(info->hMenu, &clmi);
+			int flags = (enabled ? CMIF_CHECKED : 0) | (opts.enable_sending ? 0 : CMIF_GRAYED);
+			Menu_ModifyItem(info->hMenu, NULL, INVALID_HANDLE_VALUE, flags);
 
 			SetListeningInfo(proto,(opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
 		}

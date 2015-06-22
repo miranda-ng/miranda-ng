@@ -119,8 +119,8 @@ void InitMenuItems()
 void InitTaskMenuItems()
 {
 	if (Options::instance->taskOptions.size() > 0) {
-		CLISTMENUITEM mi = { 0 };
 		if (hTaskMainMenu == NULL) {
+			CLISTMENUITEM mi = { 0 };
 			mi.position = 500060005;
 			mi.flags = CMIF_ROOTPOPUP;
 			mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
@@ -130,24 +130,15 @@ void InitTaskMenuItems()
 
 		std::vector<TaskOptions>::iterator taskIt = Options::instance->taskOptions.begin();
 		std::vector<HGENMENU>::iterator it = taskMenus.begin();
-		for (; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt) {
-			memset(&mi, 0, sizeof(mi));
-			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			mi.hParentMenu = hTaskMainMenu;
-			mi.ptszName = (TCHAR*)taskIt->taskName.c_str();
-			Menu_ModifyItem((HGENMENU)*it, &mi);
-		}
+		for (; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt)
+			Menu_ModifyItem(*it, taskIt->taskName.c_str());
 
-		for (; it != taskMenus.end(); ++it) {
-			memset(&mi, 0, sizeof(mi));
-			mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | CMIF_HIDDEN;
-			mi.hParentMenu = hTaskMainMenu;
-			Menu_ModifyItem((HGENMENU)*it, &mi);
-		}
+		for (; it != taskMenus.end(); ++it)
+			Menu_ShowItem(*it, false);
 
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
-			memset(&mi, 0, sizeof(mi));
+			CLISTMENUITEM mi = { 0 };
 			mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.hParentMenu = hTaskMainMenu;
@@ -157,11 +148,8 @@ void InitTaskMenuItems()
 			taskMenus.push_back(menu);
 		}
 	}
-	else if (hTaskMainMenu != NULL) {
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
-		Menu_ModifyItem(hTaskMainMenu, &mi);
-	}
+	else if (hTaskMainMenu != NULL)
+		Menu_ShowItem(hTaskMainMenu, false);
 }
 
 IconItem iconList[] =

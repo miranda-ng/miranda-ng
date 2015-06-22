@@ -1231,12 +1231,8 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		break;
 
 	case EV_PROTO_ONRENAME:
-		if (mainMenuRoot) {
-			CLISTMENUITEM clmi = { 0 };
-			clmi.flags = CMIM_NAME | CMIF_TCHAR;
-			clmi.ptszName = m_tszUserName;
-			Menu_ModifyItem(mainMenuRoot, &clmi);
-		}
+		if (mainMenuRoot)
+			Menu_ModifyItem(mainMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

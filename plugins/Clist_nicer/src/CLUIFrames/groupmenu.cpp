@@ -199,24 +199,20 @@ INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 
 static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CMIF_CHECKED : 0);
-	Menu_ModifyItem(hHideOfflineUsersMenuItem, &mi);
+	int flags = (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(hHideOfflineUsersMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 
-	mi.flags = CMIM_FLAGS | (SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) ? CMIF_CHECKED : 0);
-	Menu_ModifyItem(hHideOfflineUsersOutHereMenuItem, &mi);
+	flags = (SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(hHideOfflineUsersOutHereMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 
-	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS ? CMIF_CHECKED : 0);
-	Menu_ModifyItem(hHideEmptyGroupsMenuItem, &mi);
+	flags = (GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(hHideEmptyGroupsMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 
-	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS ? 0 : CMIF_CHECKED);
-	Menu_ModifyItem(hDisableGroupsMenuItem, &mi);
+	flags = (GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS ? 0 : CMIF_CHECKED);
+	Menu_ModifyItem(hDisableGroupsMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
 
-	mi.flags = CMIM_FLAGS;
-	Menu_ModifyItem(hGroupMainMenuItemProxy, &mi);
-
-	mi.flags = CMIM_FLAGS;
-	Menu_ModifyItem(hAppearanceMenuItemProxy, &mi);
+	Menu_ModifyItem(hGroupMainMenuItemProxy, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_ModifyItem(hAppearanceMenuItemProxy, NULL, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }
 
@@ -368,13 +364,8 @@ typedef struct {
 static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
 	ClcGroup *group = (ClcGroup *)wParam;
-	if (group == 0)
-		return 0;
-
-	//contact->group
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS | (group->hideOffline ? CMIF_CHECKED : 0);
-	Menu_ModifyItem(hHideOfflineUsersHereMenuItem, &mi);
+	if (group != 0) // contact->group
+		Menu_ModifyItem(hHideOfflineUsersHereMenuItem, NULL, INVALID_HANDLE_VALUE, group->hideOffline ? CMIF_CHECKED : 0);
 	return 0;
 }
 

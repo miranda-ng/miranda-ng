@@ -231,17 +231,11 @@ void UpdateMenu(bool State)
 {
 	CLISTMENUITEM mi = { 0 };
 
-	if (!State) { // to enable auto-update
-		mi.ptszName = LPGENT("Auto Update Enabled");
-		mi.icolibItem = GetIconHandle("enabled");
-	}
-	else { // to disable auto-update
-		mi.ptszName = LPGENT("Auto Update Disabled");
-		mi.icolibItem = GetIconHandle("disabled");
-	}
+	if (!State) // to enable auto-update
+		Menu_ModifyItem(hService2[0], LPGENT("Auto Update Enabled"), GetIconHandle("enabled"));
+	else  // to disable auto-update
+		Menu_ModifyItem(hService2[0], LPGENT("Auto Update Disabled"), GetIconHandle("disabled"));
 
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-	Menu_ModifyItem(hService2[0], &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);
 }

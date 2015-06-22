@@ -93,10 +93,10 @@ static int TitleBarH = DEFAULT_TITLEBAR_HEIGHT;
 static boolean resizing = FALSE;
 
 // menus
-static HANDLE contMIVisible, contMITitle, contMITBVisible, contMILock, contMIColl, contMIFloating;
-static HANDLE contMIAlignRoot;
-static HANDLE contMIAlignTop, contMIAlignClient, contMIAlignBottom;
-static HANDLE contMIBorder, contMISkinned;
+static HGENMENU contMIVisible, contMITitle, contMITBVisible, contMILock, contMIColl, contMIFloating;
+static HGENMENU contMIAlignRoot;
+static HGENMENU contMIAlignTop, contMIAlignClient, contMIAlignBottom;
+static HGENMENU contMIBorder, contMISkinned;
 static HGENMENU MainMIRoot = (HGENMENU)-1;
 
 // others
@@ -726,11 +726,6 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	return 0;
 }
 
-int ModifyMItem(WPARAM wParam, LPARAM lParam)
-{
-	return CallService(MS_CLIST_MODIFYMENUITEM, wParam, lParam);
-}
-
 static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM)
 {
 	if (FramesSysNotStarted)
@@ -739,52 +734,22 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM)
 	mir_cslock lck(csFrameHook);
 	int pos = id2pos((INT_PTR)wParam);
 	if (pos >= 0 && pos < nFramescount) {
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
-		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
-		ModifyMItem((WPARAM)contMITitle, (LPARAM)&mi);
+		FRAMEWND &p = Frames[pos];
+		Menu_ModifyItem(contMITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP);
+		Menu_ModifyItem(contMIVisible, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.visible ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMILock, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.Locked ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMITBVisible, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.TitleBar.ShowTitleBar ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMIFloating, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.floating ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMIBorder, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.UseBorder ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMISkinned, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.Skinned ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMIAlignTop, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + ((p.align & alTop) ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMIAlignClient, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + ((p.align & alClient) ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(contMIAlignBottom, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + ((p.align & alBottom) ? CMIF_CHECKED : 0));
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].visible) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIVisible, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].Locked) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMILock, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMITBVisible, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].floating) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIFloating, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ((Frames[pos].UseBorder)) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIBorder, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ((Frames[pos].Skinned)) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMISkinned, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alTop) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignTop, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alClient) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignClient, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignBottom, (LPARAM)&mi);
-
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ( !Frames[pos].collapsed) mi.flags |= CMIF_CHECKED;
-		if ((!Frames[pos].visible) || (Frames[pos].Locked) || (pos == CLUIFramesGetalClientFrame())) mi.flags |= CMIF_GRAYED;
-		ModifyMItem((WPARAM)contMIColl, (LPARAM)&mi);
+		int flags = CMIF_CHILDPOPUP + (!p.collapsed ? CMIF_CHECKED : 0);
+		if ((!p.visible) || (p.Locked) || (pos == CLUIFramesGetalClientFrame()))
+			flags |= CMIF_GRAYED;
+		Menu_ModifyItem(contMIColl, NULL, INVALID_HANDLE_VALUE, flags);
 	}
 	return 0;
 }
@@ -798,51 +763,30 @@ INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM)
 	int pos = id2pos((INT_PTR)wParam);
 
 	if (pos >= 0 && pos < nFramescount) {
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
-		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MITitle, &mi);
+		FRAMEWND &p = Frames[pos];
+		Menu_ModifyItem(p.MenuHandles.MITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].visible) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIVisible, &mi);
+		Menu_ModifyItem(p.MenuHandles.MIVisible, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.visible) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(p.MenuHandles.MILock, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.Locked) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(p.MenuHandles.MITBVisible, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.TitleBar.ShowTitleBar) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(p.MenuHandles.MIFloating, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.floating) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(p.MenuHandles.MIBorder, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + ((p.UseBorder)) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(p.MenuHandles.MISkinned, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + ((p.Skinned)) ? CMIF_CHECKED : 0);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].Locked) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MILock, &mi);
+		int flags = CMIF_CHILDPOPUP | ((p.align & alClient) ? CMIF_GRAYED : 0);
+		if (p.align & alTop) flags |= CMIF_CHECKED;
+		Menu_ModifyItem(p.MenuHandles.MIAlignTop, NULL, INVALID_HANDLE_VALUE, flags);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MITBVisible, &mi);
+		Menu_ModifyItem(p.MenuHandles.MIAlignClient, NULL, INVALID_HANDLE_VALUE, CMIF_CHILDPOPUP + (p.align & alClient) ? CMIF_CHECKED : 0);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].floating) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIFloating, &mi);
+		flags = CMIF_CHILDPOPUP | ((p.align & alClient) ? CMIF_GRAYED : 0);
+		if (p.align & alBottom) flags |= CMIF_CHECKED;
+		Menu_ModifyItem(p.MenuHandles.MIAlignBottom, NULL, INVALID_HANDLE_VALUE, flags);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ((Frames[pos].UseBorder)) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIBorder, &mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ((Frames[pos].Skinned)) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MISkinned, &mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((Frames[pos].align & alClient) ? CMIF_GRAYED : 0);
-		if (Frames[pos].align&alTop) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIAlignTop, &mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alClient) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIAlignClient, &mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | ((Frames[pos].align & alClient) ? CMIF_GRAYED : 0);
-		if (Frames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIAlignBottom, &mi);
-
-		mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP;
-		if ( !Frames[pos].collapsed) mi.flags |= CMIF_CHECKED;
-		if ((!Frames[pos].visible) || Frames[pos].Locked || (pos == CLUIFramesGetalClientFrame())) mi.flags |= CMIF_GRAYED;
-		Menu_ModifyItem(Frames[pos].MenuHandles.MIColl, &mi);
+		flags = CMIF_CHILDPOPUP;
+		if ( !p.collapsed) flags |= CMIF_CHECKED;
+		if ((!p.visible) || p.Locked || (pos == CLUIFramesGetalClientFrame())) flags |= CMIF_GRAYED;
+		Menu_ModifyItem(p.MenuHandles.MIColl, NULL, INVALID_HANDLE_VALUE, flags);
 	}
 	return 0;
 }

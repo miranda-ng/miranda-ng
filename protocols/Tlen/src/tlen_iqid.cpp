@@ -220,11 +220,9 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				}
 			}
 
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIM_FLAGS;
-			Menu_ModifyItem(proto->hMenuMUC, &mi);
+			Menu_ModifyItem(proto->hMenuMUC, NULL, INVALID_HANDLE_VALUE, 0);
 			if (proto->hMenuChats != NULL)
-				Menu_ModifyItem(proto->hMenuChats, &mi);
+				Menu_ModifyItem(proto->hMenuChats, NULL, INVALID_HANDLE_VALUE, 0);
 
 			proto->isOnline = TRUE;
 			proto->debugLogA("Status changed via THREADSTART");

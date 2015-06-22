@@ -1062,18 +1062,11 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled = !opt.TempDisabled);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
-	if (opt.TempDisabled) {
-		mi.ptszName = LPGENT("Enable status notification");
-		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_OFF);
-	}
-	else {
-		mi.ptszName = LPGENT("Disable status notification");
-		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_ON);
-	}
+	if (opt.TempDisabled)
+		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Enable status notification"), GetIconHandle(ICO_NOTIFICATION_OFF));
+	else
+		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Disable status notification"), GetIconHandle(ICO_NOTIFICATION_ON));
 
-	Menu_ModifyItem(hEnableDisableMenu, &mi);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? 0 : TTBST_PUSHED);
 	return 0;
 }

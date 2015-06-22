@@ -293,10 +293,8 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 void FacebookProto::ToggleStatusMenuItems(BOOL bEnable)
 {
-	CLISTMENUITEM clmi = { 0 };
-	clmi.flags = CMIM_FLAGS | ((bEnable) ? 0 : CMIF_GRAYED);
-
-	Menu_ModifyItem(m_hMenuRoot, &clmi);
-	Menu_ModifyItem(m_hStatusMind, &clmi);
-	Menu_ModifyItem(m_hMenuServicesRoot, &clmi);
+	int flags = (bEnable) ? 0 : CMIF_GRAYED;
+	Menu_ModifyItem(m_hMenuRoot, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_ModifyItem(m_hStatusMind, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_ModifyItem(m_hMenuServicesRoot, NULL, INVALID_HANDLE_VALUE, flags);
 }

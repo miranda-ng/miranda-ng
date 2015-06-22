@@ -66,7 +66,6 @@ CSametimeProto::~CSametimeProto()
 	debugLog(_T("CSametimeProto::~CSametimeProto() start"));
 
 	DeinitSessionMenu();
-	DeinitConferenceMenu();
 
 	DeinitAwayMsg();
 	UnregisterPopups();

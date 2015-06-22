@@ -195,14 +195,14 @@ void UpdateMenu()
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.ptszName = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
-	mi.hIcon = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
-	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	Menu_ModifyItem(hMenuItem, &mi);
-
-	mi.flags = CMIM_ICON;
-	Menu_ModifyItem(hMenuRoot, &mi);
+	if (isEnabled) {
+		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), IcoLib_GetIcon(ICO_POPUP_ON));
+		Menu_ModifyItem(hMenuRoot, NULL, IcoLib_GetIcon(ICO_POPUP_ON));
+	}
+	else {
+		Menu_ModifyItem(hMenuItem, LPGENT("Enable Popups"), IcoLib_GetIcon(ICO_POPUP_OFF));
+		Menu_ModifyItem(hMenuRoot, NULL, IcoLib_GetIcon(ICO_POPUP_OFF));
+	}
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : 0);

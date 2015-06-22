@@ -780,14 +780,10 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 	BYTE bOldXStatus = getByte(DBSETTING_XSTATUS_ID, 0);
 
 	if (!m_bHideXStatusUI) {
-		CLISTMENUITEM mi = { 0 };
-		if (bOldXStatus <= XSTATUS_COUNT) {
-			mi.flags = CMIM_FLAGS;
-			Menu_ModifyItem(hXStatusItems[bOldXStatus], &mi);
-		}
+		if (bOldXStatus <= XSTATUS_COUNT)
+			Menu_ModifyItem(hXStatusItems[bOldXStatus], NULL, INVALID_HANDLE_VALUE, 0);
 
-		mi.flags = CMIM_FLAGS | CMIF_CHECKED;
-		Menu_ModifyItem(hXStatusItems[bXStatus], &mi);
+		Menu_ModifyItem(hXStatusItems[bXStatus], NULL, INVALID_HANDLE_VALUE, CMIF_CHECKED);
 	}
 
 	if (bXStatus) {

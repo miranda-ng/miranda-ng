@@ -693,7 +693,6 @@ void AddMenuItem()
 	if (hMainMenuItem) return;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_ALL;
 	mi.icolibItem = IcoLib_GetIconHandle("alarms_menu_set");
 	mi.pszName = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";

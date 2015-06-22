@@ -141,8 +141,7 @@ private:
 
 	// Private data //////////////////////////////////////////////////////////////////////
 	
-	HGENMENU m_hMenuRoot;
-	HANDLE  m_hMenuCreateGroup;
+	HGENMENU m_hMenuRoot, m_hMenuCreateGroup;
 
 	HANDLE  update_loop_lock_;
 

@@ -35,6 +35,7 @@
 #include "m_database.h"
 #include "m_options.h"
 #include "m_langpack.h"
+#include "m_skin.h"
 
 #include "resource.h"
 #include "version.h"

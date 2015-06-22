@@ -92,11 +92,11 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 					BOOL fEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLEREPLIER) == 1;
 					db_set_b(NULL, protocolname, KEY_ENABLED, (BYTE)fEnabled);
-					CLISTMENUITEM mi = { 0 };
-					mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-					mi.ptszName = fEnabled ? LPGENT("Disable Auto&reply") : LPGENT("Enable Auto&reply");
-					mi.icolibItem = fEnabled ? iconList[0].hIcolib : iconList[1].hIcolib;
-					Menu_ModifyItem(hEnableMenu, &mi);
+					
+					if (fEnabled)
+						Menu_ModifyItem(hEnableMenu, LPGENT("Disable Auto&reply"), iconList[0].hIcolib);
+					else
+						Menu_ModifyItem(hEnableMenu, LPGENT("Enable Auto&reply"), iconList[1].hIcolib);
 
 					GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, _countof(ptszText));
 					db_set_ts(NULL, protocolname, KEY_HEADING, ptszText);

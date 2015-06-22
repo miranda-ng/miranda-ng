@@ -111,7 +111,6 @@ TMO_IntMenuItem* MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi
 
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
-int MO_ModifyMenuItem(TMO_IntMenuItem *menuHandle, TMO_MenuItem *pmiparam);
 int MO_ProcessCommand(TMO_IntMenuItem *pimi, LPARAM lParam);
 INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey);
 int MO_SetOptionsMenuItem(TMO_IntMenuItem *menuobjecthandle, int setting, INT_PTR value);

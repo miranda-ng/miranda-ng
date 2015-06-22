@@ -265,11 +265,6 @@ typedef struct
 //Useful to get and free ownerdata before delete menu item.
 #define MO_MENUITEMGETOWNERDATA				"MO/MenuItemGetOwnerData"
 
-//wparam MenuItemHandle
-//lparam PMO_MenuItem
-//returns 0 on success,-1 on failure
-#define MO_MODIFYMENUITEM					"MO/ModifyMenuItem"
-
 //wparam=MenuItemHandle
 //lparam=PMO_MenuItem
 //returns 0 and filled PMO_MenuItem structure on success and

@@ -171,7 +171,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	char*       alertsoundname;
 
 	unsigned    langpref;
-	unsigned    emailEnabled;
+	bool        emailEnabled;
 	unsigned    abchMigrated;
 	unsigned    myFlags;
 

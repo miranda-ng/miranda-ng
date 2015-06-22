@@ -101,9 +101,8 @@ static int lua_ModifyMenuItem(lua_State *L)
 
 	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
 
-	INT_PTR res = ::CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)pmi);
+	INT_PTR res = ::Menu_ModifyItem(hMenuItem, pmi->ptszName, pmi->hIcon, pmi->flags);
 	lua_pushinteger(L, res);
-
 	return 1;
 }
 

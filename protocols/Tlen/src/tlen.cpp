@@ -264,9 +264,7 @@ void TlenProtocol::initMenuItems()
 	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { 0 }, clmi = { 0 };
-	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
-
+	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = m_szModuleName;
 	mi.popupPosition = 500090000;
 
@@ -292,7 +290,6 @@ void TlenProtocol::initMenuItems()
 	mi.icolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
 	hMenuMUC = Menu_AddMainMenuItem(&mi);
-	Menu_ModifyItem(hMenuMUC, &clmi);
 
 	mir_strcpy(pSvcName, "/MainMenuInbox");
 	CreateProtoService(pSvcName, &TlenProtocol::MenuHandleInbox);

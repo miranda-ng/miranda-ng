@@ -39,17 +39,10 @@ static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 
 int MenuitemUpdate(BOOL bStatus)
 {
-	CLISTMENUITEM mi = { 0 };
-	if (bStatus) {
-		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-		mi.pszName = MENUITEM_DISABLE;
-	} else {
-		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DISABLED));
-		mi.pszName = MENUITEM_ENABLE;
-	}
-	mi.flags = CMIM_ICON | CMIM_NAME;
-	Menu_ModifyItem(hMenuitemNotify, &mi);
-
+	if (bStatus)
+		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_DISABLE), LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED)));
+	else
+		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_ENABLE), LoadIcon(hInst, MAKEINTRESOURCE(IDI_DISABLED)));
 	return 0;
 }
 
@@ -67,6 +60,5 @@ int MenuitemInit(BOOL bStatus)
 
 	bNotify = bStatus;
 	MenuitemUpdate(bNotify);
-
 	return 0;
 }

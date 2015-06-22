@@ -144,13 +144,10 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!proto)
 		return 0;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_TCHAR | CMIM_NAME;
 	if (db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1))
-		mi.ptszName = LPGENT("Disable AuthState icons");
+		Menu_ModifyItem(hUserMenu, LPGENT("Disable AuthState icons"));
 	else
-		mi.ptszName = LPGENT("Enable AuthState icons");
-	Menu_ModifyItem(hUserMenu, &mi);
+		Menu_ModifyItem(hUserMenu, LPGENT("Enable AuthState icons"));
 
 	Menu_ShowItem(hUserMenu, db_get_b((MCONTACT)hContact, proto, "Auth", 0) || db_get_b((MCONTACT)hContact, proto, "Grant", 0) || !db_get_dw((MCONTACT)hContact, proto, "ServerId", 0));
 	return 0;

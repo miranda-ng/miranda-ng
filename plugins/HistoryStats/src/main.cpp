@@ -37,16 +37,15 @@ bool g_bContactMenuExists = false;
 bool g_bExcludeLock       = false;
 bool g_bConfigureLock     = false;
 
-static HANDLE g_hMenuCreateStatistics = NULL;
-static HANDLE g_hMenuShowStatistics   = NULL;
-static HANDLE g_hMenuConfigure        = NULL;
-static HANDLE g_hMenuToggleExclude    = NULL;
+static HGENMENU g_hMenuCreateStatistics = NULL;
+static HGENMENU g_hMenuShowStatistics   = NULL;
+static HGENMENU g_hMenuConfigure        = NULL;
+static HGENMENU g_hMenuToggleExclude    = NULL;
 
 #if defined(HISTORYSTATS_HISTORYCOPY)
-static HANDLE g_hMenuHistoryCopy    = NULL;
-static HANDLE g_hMenuHistoryPaste   = NULL;
-
-static HANDLE g_hHistoryCopyContact = NULL;
+	static HGENMENU g_hMenuHistoryCopy    = NULL;
+	static HGENMENU g_hMenuHistoryPaste   = NULL;
+	static HGENMENU g_hHistoryCopyContact = NULL;
 #endif
 
 /*
@@ -101,24 +100,16 @@ static INT_PTR SvcSetExclude(WPARAM hContact, LPARAM lParam)
 static void MenuIconsChanged(LPARAM)
 {
 	if (g_hMenuCreateStatistics)
-	{
-		mu::clist::modifyMenuItem(g_hMenuCreateStatistics, CMIM_ICON, NULL, 0, IconLib::getIcon(IconLib::iiMenuCreateStatistics));
-	}
+		Menu_ModifyItem(g_hMenuCreateStatistics, NULL, IconLib::getIcon(IconLib::iiMenuCreateStatistics));
 
 	if (g_hMenuShowStatistics)
-	{
-		mu::clist::modifyMenuItem(g_hMenuShowStatistics, CMIM_ICON, NULL, 0, IconLib::getIcon(IconLib::iiMenuShowStatistics));
-	}
+		Menu_ModifyItem(g_hMenuShowStatistics, NULL, IconLib::getIcon(IconLib::iiMenuShowStatistics));
 
 	if (g_hMenuConfigure)
-	{
-		mu::clist::modifyMenuItem(g_hMenuConfigure, CMIM_ICON, NULL, 0, IconLib::getIcon(IconLib::iiMenuConfigure));
-	}
+		Menu_ModifyItem(g_hMenuConfigure, NULL, IconLib::getIcon(IconLib::iiMenuConfigure));
 
 	if (g_hMenuToggleExclude)
-	{
-		mu::clist::modifyMenuItem(g_hMenuToggleExclude, CMIM_ICON, NULL, 0, IconLib::getIcon(IconLib::iiContactMenu));
-	}
+		Menu_ModifyItem(g_hMenuToggleExclude, NULL, IconLib::getIcon(IconLib::iiContactMenu));
 }
 
 /*
@@ -134,15 +125,11 @@ static INT_PTR MenuCreateStatistics(WPARAM, LPARAM)
 static INT_PTR MenuShowStatistics(WPARAM, LPARAM)
 {
 	if (g_pSettings->canShowStatistics())
-	{
 		g_pSettings->showStatistics();
-	}
 	else
-	{
 		MessageBox(NULL,
 			TranslateT("The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore."),
 			TranslateT("HistoryStats - Warning"), MB_ICONWARNING | MB_OK);
-	}
 
 	return 0;
 }
@@ -311,7 +298,7 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 		if ((!g_pSettings->m_ShowContactMenuPseudo && (!szProto || !(mu::protosvc::getCaps(szProto, PFLAGNUM_2) & ~mu::protosvc::getCaps(szProto, PFLAGNUM_5)))) ||
 			g_pSettings->m_HideContactMenuProtos.find(szProto) != g_pSettings->m_HideContactMenuProtos.end())
 		{
-			mu::clist::modifyMenuItem(g_hMenuToggleExclude, CMIM_FLAGS, NULL, CMIF_HIDDEN);
+			Menu_ShowItem(g_hMenuToggleExclude, false);
 		}
 		else {
 			MirandaSettings db;
@@ -325,13 +312,13 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 				menuState |= CMIF_GRAYED;
 
 			// set menu state
-			mu::clist::modifyMenuItem(g_hMenuToggleExclude, CMIM_FLAGS, NULL, menuState);
+			Menu_ModifyItem(g_hMenuToggleExclude, NULL, INVALID_HANDLE_VALUE, menuState);
 		}
 
 #if defined(HISTORYSTATS_HISTORYCOPY)
 		int menuStateCopy = (g_hHistoryCopyContact && g_hHistoryCopyContact != hContact) ? 0 : CMIF_GRAYED;
 
-		mu::clist::modifyMenuItem(g_hMenuHistoryPaste, CMIM_FLAGS, NULL, menuStateCopy);
+		Menu_ModifyItem(g_hMenuHistoryPaste, CMIM_FLAGS, NULL, menuStateCopy);
 #endif
 	}
 

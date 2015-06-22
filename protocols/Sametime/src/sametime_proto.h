@@ -99,7 +99,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void InitConference();
 	void InitConferenceMenu();
 	void DeinitConference();
-	void DeinitConferenceMenu();
 	void ClearInviteQueue();
 	void TerminateConference(char* name);
 	int __cdecl GcEventHook(WPARAM wParam, LPARAM lParam);
@@ -183,8 +182,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	mwServiceConference* service_conference;
 	mwLoginInfo* my_login_info;
 	mwConference* my_conference;
-	HANDLE hLeaveChatMenuItem;
-	HANDLE hCreateChatMenuItem;
+	HGENMENU hLeaveChatMenuItem, hCreateChatMenuItem;
 
 	// options.cpp
 	SametimeOptions options;

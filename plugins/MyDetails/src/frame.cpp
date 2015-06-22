@@ -2240,15 +2240,7 @@ INT_PTR HideFrameFunc(WPARAM, LPARAM)
 
 void FixMainMenu()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_NAME | CMIF_TCHAR;
-
-	if (MyDetailsFrameVisible())
-		mi.ptszName = LPGENT("Hide my details");
-	else
-		mi.ptszName = LPGENT("Show my details");
-
-	Menu_ModifyItem(hMenuShowHideFrame, &mi);
+	Menu_ModifyItem(hMenuShowHideFrame, MyDetailsFrameVisible() ? LPGENT("Hide my details") : LPGENT("Show my details"));
 }
 
 #include <math.h>

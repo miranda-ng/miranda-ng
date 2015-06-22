@@ -90,12 +90,7 @@ int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM)
 	MCONTACT hContact = MCONTACT(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIM_FLAGS;
-	if ( bIsActive(hContact))
-		mi.flags |= CMIF_CHECKED;
-
-	Menu_ModifyItem(hTransliterateCmdMenuItem, &mi);
+	Menu_ModifyItem(hTransliterateCmdMenuItem, NULL, INVALID_HANDLE_VALUE, bIsActive(hContact) ? CMIF_CHECKED : 0);
 	return 0;
 }
 

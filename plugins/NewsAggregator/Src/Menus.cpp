@@ -74,11 +74,5 @@ void InitMenu()
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
 	hService2[6] = Menu_AddContactMenuItem(&mi);
 
-	memset(&mi, 0, sizeof(mi));
-	mi.flags = CMIM_ICON;
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
-		mi.icolibItem = GetIconHandle("enabled");
-	else
-		mi.icolibItem = GetIconHandle("disabled");
-	Menu_ModifyItem(hService2[0], &mi);
+	Menu_ModifyItem(hService2[0], NULL, GetIconHandle(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? "enabled" : "disabled"));
 }

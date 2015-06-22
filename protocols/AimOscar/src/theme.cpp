@@ -179,37 +179,31 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !bIsChatRoom);
 	Menu_ShowItem(hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && state != 0 && !bIsChatRoom);
 
-	DBVARIANT dbv;
-	if (!getString(hContact, AIM_KEY_SN, &dbv)) {
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_NAME | CMIM_FLAGS;
-		switch(pd_mode) {
-		case 1:
-			mi.pszName = LPGEN("&Block");
-			break;
+	ptrA id(getStringA(hContact, AIM_KEY_SN));
+	if (id == NULL)
+		return 0;
 
-		case 2:
-			mi.pszName = LPGEN("&Unblock");
-			break;
+	switch (pd_mode) {
+	case 1:
+		Menu_ModifyItem(hBlockContextMenuItem, LPGENT("&Block"));
+		break;
 
-		case 3:
-			mi.pszName = (char*)(allow_list.find_id(dbv.pszVal) ? LPGEN("&Block") : LPGEN("&Unblock"));
-			break;
+	case 2:
+		Menu_ModifyItem(hBlockContextMenuItem, LPGENT("&Unblock"));
+		break;
 
-		case 4:
-			mi.pszName = (char*)(block_list.find_id(dbv.pszVal) ? LPGEN("&Unblock") : LPGEN("&Block"));
-			break;
+	case 3:
+		Menu_ModifyItem(hBlockContextMenuItem, allow_list.find_id(id) ? LPGENT("&Block") : LPGENT("&Unblock"));
+		break;
 
-		default:
-			mi.pszName = LPGEN("&Block");
-			mi.flags |= CMIF_HIDDEN;
-			break;
-		}
+	case 4:
+		Menu_ModifyItem(hBlockContextMenuItem, block_list.find_id(id) ? LPGENT("&Unblock") : LPGENT("&Block"));
+		break;
 
-		Menu_ModifyItem(hBlockContextMenuItem, &mi);
-		db_free(&dbv);
+	default:
+		Menu_ShowItem(hBlockContextMenuItem, false);
+		break;
 	}
-   
 	return 0;
 }
 

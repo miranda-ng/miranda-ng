@@ -795,11 +795,10 @@ static int PluginInit(WPARAM, LPARAM)
 	// Main menu
 	CLISTMENUITEM cl = { 0 };
 	cl.position = 1000000000;
-	cl.flags = CMIM_ALL;
 
 	cl.pszName = LPGEN("Save session...");
 	cl.pszPopupName = LPGEN("Sessions Manager");
-	cl.icolibItem = iconList[0].hIcolib;
+	cl.icolibItem = iconList[4].hIcolib;
 	cl.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&cl);
 
@@ -818,12 +817,6 @@ static int PluginInit(WPARAM, LPARAM)
 	cl.icolibItem = iconList[5].hIcolib;
 	cl.position = 10100000;
 	Menu_AddMainMenuItem(&cl);
-
-	memset(&cl, 0, sizeof(cl));
-	cl.flags = CMIM_ICON;
-	cl.icolibItem = iconList[4].hIcolib;
-	Menu_ModifyItem(hmSaveCurrentSession, &cl);
-
 	return 0;
 }
 

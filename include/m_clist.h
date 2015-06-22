@@ -173,32 +173,16 @@ __forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 	return (HGENMENU)CallService("CList/AddProtoMenuItem", 0, (LPARAM)mi);
 }
 
-//modify an existing menu item     v0.1.0.1+
-//wParam = (WPARAM)(HGENMENU)hMenuItem
-//lParam = (LPARAM)(CLISTMENUITEM*)&clmi
-//returns 0 on success, nonzero on failure
-//hMenuItem will have been returned by clist/add*menuItem
-//clmi.flags should contain cmim_ constants below specifying which fields to
-//update. Fields without a mask flag cannot be changed and will be ignored
-#define CMIM_NAME    0x80000000
-#define CMIM_FLAGS   0x40000000
-#define CMIM_ICON    0x20000000
-#define CMIM_HOTKEY  0x10000000
-#define CMIM_ALL     0xF0000000
-#define MS_CLIST_MODIFYMENUITEM         "CList/ModifyMenuItem"
+/////////////////////////////////////////////////////////////////////////////////////////
+// modify an existing menu item 
+// returns 0 on success, nonzero on failure
 
-__forceinline void Menu_ModifyItem(HGENMENU hMenuItem, CLISTMENUITEM *clmi)
-{	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)clmi);
-}
+EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
 
-//changes menu item's visibility     v0.94.2+
-//wParam = (WPARAM)(HGENMENU)hMenuItem
-//lParam = (BOOL) enable = TRUE, disable = FALSE
-#define MS_CLIST_SHOWHIDEMENUITEM       "CList/ShowHideMenuItem"
+/////////////////////////////////////////////////////////////////////////////////////////
+// changes menu item's visibility
 
-__forceinline void Menu_ShowItem(HGENMENU hMenuItem, BOOL bShow)
-{	CallService(MS_CLIST_SHOWHIDEMENUITEM, (WPARAM)hMenuItem, bShow);
-}
+EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
 
 //the context menu for a contact is about to be built     v0.1.0.1+
 //wParam = (MCONTACT)hContact

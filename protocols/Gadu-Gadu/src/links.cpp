@@ -63,18 +63,11 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < g_Instances.getCount(); i++) {
 		gg = g_Instances[i];
 
-		CLISTMENUITEM mi = { 0 };
-		mi.flags = CMIM_FLAGS;
 		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
-			mi.flags |= CMIM_ICON;
-			mi.hIcon = Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus);
+			Menu_ModifyItem(gg->hInstanceMenuItem, NULL, Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus));
 		}
-		else mi.flags |= CMIF_HIDDEN;
-
-		Menu_ModifyItem(gg->hInstanceMenuItem, &mi);
-		if (mi.hIcon)
-			IcoLib_ReleaseIcon(mi.hIcon);
+		else Menu_ShowItem(gg->hInstanceMenuItem, false);
 	}
 
 	if (items > 1) {
