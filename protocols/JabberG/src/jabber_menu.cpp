@@ -282,7 +282,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.pszName = LPGEN("Send Presence");
 	mi.position = -1999901011;
-	mi.pszPopupName = (char *)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.icolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 

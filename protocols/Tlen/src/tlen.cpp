@@ -264,7 +264,7 @@ void TlenProtocol::initMenuItems()
 	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { 0 }, clmi = { sizeof(clmi) };
+	CLISTMENUITEM mi = { 0 }, clmi = { 0 };
 	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 	mi.pszContactOwner = m_szModuleName;
@@ -280,7 +280,6 @@ void TlenProtocol::initMenuItems()
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags = CMIF_CHILDPOPUP;
-	//mi.pszPopupName = (char *)hMenuRoot;
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
 	hMenuChats = NULL;

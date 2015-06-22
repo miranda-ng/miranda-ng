@@ -55,7 +55,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;
-	mi.pszPopupName = (char*)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.pszName = LPGEN("Assign smiley category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 

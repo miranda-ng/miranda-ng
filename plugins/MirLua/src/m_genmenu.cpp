@@ -3,7 +3,6 @@
 static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 {
 	CLISTMENUITEM *pmi = (CLISTMENUITEM*)mir_calloc(sizeof(CLISTMENUITEM));
-	pmi->cbSize = sizeof(CLISTMENUITEM);
 	pmi->hLangpack = hScriptsLangpack;
 
 	lua_pushstring(L, "Flags");

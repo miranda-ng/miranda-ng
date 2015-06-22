@@ -261,11 +261,11 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_VI);
 	mi.ptszName = LPGENT("Version Information");
-	mi.pszPopupName = (char *)-1;
-	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
+	mi.hParentMenu = HGENMENU_ROOT;
+	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
-	mi.pszPopupName = (char *)hMenuRoot;
+	mi.hParentMenu = hMenuRoot;
 	mi.popupPosition = 0;
 
 	mi.position = 2000089995;

@@ -27,14 +27,6 @@ HWND hUpcomingDlg = NULL;
 MWindowList hAddBirthdayWndsList = NULL;
 int hLangpack;
 
-HANDLE hmCheckBirthdays = NULL;
-HANDLE hmBirthdayList = NULL;
-HANDLE hmRefreshDetails = NULL;
-HANDLE hmAddChangeBirthday = NULL;
-HANDLE hmImportBirthdays = NULL;
-HANDLE hmExportBirthdays = NULL;
-
-
 CommonData commonData = { 0 };
 
 CLIST_INTERFACE *pcli;
@@ -87,35 +79,35 @@ extern "C" int __declspec(dllexport) Load(void)
 	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	cl.icolibItem = hCheckMenu;
 	cl.pszName = LPGEN("Check for birthdays");
-	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
+	Menu_AddMainMenuItem(&cl);
 
 	cl.pszService = MS_WWI_LIST_SHOW;
 	cl.pszName = LPGEN("Birthday list");
 	cl.icolibItem = hListMenu;
-	hmBirthdayList = Menu_AddMainMenuItem(&cl);
+	Menu_AddMainMenuItem(&cl);
 
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
 	cl.pszName = LPGEN("Refresh user details");
 	cl.icolibItem = hRefreshUserDetails;
-	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
+	Menu_AddMainMenuItem(&cl);
 
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
 	cl.pszName = LPGEN("Import birthdays");
 	cl.icolibItem = hImportBirthdays;
-	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
+	Menu_AddMainMenuItem(&cl);
 
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	cl.pszName = LPGEN("Export birthdays");
 	cl.icolibItem = hExportBirthdays;
-	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
+	Menu_AddMainMenuItem(&cl);
 
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
 	cl.icolibItem = hAddBirthdayContact;
 	cl.pszName = LPGEN("Add/change user &birthday");
-	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
+	Menu_AddContactMenuItem(&cl);
 
 	// Register hotkeys
 	HOTKEYDESC hotkey = { sizeof(hotkey) };
@@ -130,7 +122,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	hotkey.pszDescription = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
-
 
 	SkinAddNewSoundExT(BIRTHDAY_NEAR_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday near"));
 	SkinAddNewSoundExT(BIRTHDAY_TODAY_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday today"));

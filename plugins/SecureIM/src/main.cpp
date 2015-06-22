@@ -43,7 +43,7 @@ static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, i
 	mi.position = pos;
 	mi.hIcon = hicon;
 	mi.pszName = (char*)name;
-	mi.pszPopupName = (char*)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }

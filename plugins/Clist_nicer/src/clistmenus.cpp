@@ -383,7 +383,7 @@ int InitCustomMenus(void)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 200000;
-	mi.pszPopupName = (char *)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.pszService = "CList/SetContactIgnore";
 	mi.icolibItem = iconItem[1].hIcolib;
 	mi.pszName = LPGEN("&Contact list settings...");

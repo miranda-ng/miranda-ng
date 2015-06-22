@@ -992,7 +992,7 @@ static int PluginInit(WPARAM, LPARAM)
 	hmenuHide = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
-	mi.pszPopupName = (char*)-1; // for Miranda 0.7
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.ptszName = LPGENT("Ignore");
 	mi.pszService = 0;
 	mi.flags |= CMIF_ROOTHANDLE;
