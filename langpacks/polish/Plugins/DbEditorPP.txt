@@ -101,7 +101,7 @@ W&yjdź
 [&Search and replace]
 &Znajdź i zamień
 [&Fix resident settings]
-
+&Napraw ustawienia rezydentne
 [&Delete module]
 &Usuń moduł
 [&Watches]
@@ -141,7 +141,7 @@ Edytuj wartości &Word w Hex
 [Edit &Dwords in Hex]
 Edytuj wartości &Dword w Hex
 [&Inline edit]
-
+&Edytuj inline
 [&Restore position]
 &Przywróć pozycję
 [&Open options]
@@ -204,7 +204,7 @@ Obserwuj okno
 Przeładuj listę obserwowanych
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Copy module "%s"]
-
+Kopiuj moduł "%s"
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Na pewno chcesz usunąć moduł "%s"?
@@ -212,8 +212,13 @@ Na pewno chcesz usunąć moduł "%s"?
 Usuń moduł z bazy danych
 [Delete module from database... Loading]
 Usuń moduł z bazy danych... ładowanie
+<<<<<<< .mine
+[Delete from all contacts (including Settings)]
+Usuń ze wszystkich kontaktów (włączając w to ustawienia)
+=======
 [Delete from all contacts (including Settings)]
 Usuń ze wszystkich kontaktów (wraz z ustawieniami)
+>>>>>>> .r14321
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Pliki INI
@@ -224,7 +229,7 @@ Eksportuj do pliku
 [Couldn't open file for writing]
 Nie udało się otworzyć pliku do zapisu
 [Import to "%s"]
-
+Importuj do "%s"
 [Import from files]
 Importuj z plików
 ;file \plugins\DbEditorPP\src\findwindow.cpp
@@ -241,7 +246,7 @@ Wprowadź tekst do znalezienia w bazie
 [Stop]
 Stop
 [Replaced]
-
+Zamieniono
 [Deleted]
 Usunięte
 [Found]
@@ -268,7 +273,7 @@ Znany kontakt
 [Open user tree]
 Otwórz drzewo użytkownika
 [Empty setting]
-
+Puste ustawienie
 [BLOB setting]
 Ustawienie BLOB
 [Byte setting]
@@ -295,10 +300,17 @@ Otwórz w edytorze profilu
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?
+<<<<<<< .mine
+[Delete resident settings from database?]
+Usunąć ustawienia rezydentne z bazy danych?
+[%d orphaned items deleted.]
+Usunięto %d porzuconych elementów.
+=======
 [Delete resident settings from database?]
 
 [%d orphaned items deleted.]
 
+>>>>>>> .r14321
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
 [Error loading module list]
 Błąd ładowania listy modułów
@@ -323,22 +335,22 @@ Typ
 [Size]
 Rozmiar
 [Unable to store value in this data type!]
-
+Nie można zapisać wartości w tym typie danych!
 [Are you sure you want to delete setting(s): %d?]
-
+Czy napewno chcesz usunąć ustawienie(a): %d?
 [*** encrypted ***]
 *** zaszyfrowane ***
 [*** buggy resident ***]
-
+*** rezydentne zawierające błędy ***
 ;file \plugins\DbEditorPP\src\settingsdlg.cpp
 [Unknown DBVariant type!]
-
+Nieznany typ DBVariant!
 [Edit setting (%s)]
-
+Edytuj ustawienie (%s)
 [New setting (%s)]
-
+Nowe ustawienie (%s)
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [*** resident ***]
-
+*** rezydentne ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Zmieniły się ustawienia profilu: \nModuł: "%s", Ustawienie: "%s"\nNowa wartość (%s): "%s"
