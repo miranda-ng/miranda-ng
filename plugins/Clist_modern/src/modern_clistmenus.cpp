@@ -101,7 +101,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = iconList[bContactRate].hIcolib;
-	mi.pszPopupName = (char *)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.position = 0;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	if (!bContactRate)

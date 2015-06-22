@@ -67,9 +67,6 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 
 CAimProto::~CAimProto()
 {
-	RemoveMainMenus();
-	RemoveContactMenus();
-
 	if (hServerConn)
 		Netlib_CloseHandle(hServerConn);
 	if (hAvatarConn && hAvatarConn != (HANDLE)1)

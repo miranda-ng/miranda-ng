@@ -231,8 +231,10 @@ void CAimProto::InitMainMenus(void)
 		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
-		RemoveMainMenus();
-		hMenuRoot = NULL;
+		if (hMenuRoot) {
+			CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
+			hMenuRoot = NULL;
+		}
 	}
 
 	mi.pszService = service_name;
@@ -284,7 +286,7 @@ void CAimProto::InitContactMenus(void)
 	mi.icolibItem = GetIconHandle("profile");
 	mi.pszName = LPGEN("Read Profile");
 	mi.flags = CMIF_NOTOFFLINE;
-	hReadProfileMenuItem = Menu_AddContactMenuItem(&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/AddToServerList");
 	CreateProtoService("/AddToServerList", &CAimProto::AddToServerList); 
@@ -301,18 +303,4 @@ void CAimProto::InitContactMenus(void)
 	mi.pszName = LPGEN("&Block");
 	mi.flags = CMIF_HIDDEN;
 	hBlockContextMenuItem = Menu_AddContactMenuItem(&mi);
-}
-
-void CAimProto::RemoveMainMenus(void)
-{
-	if (hMenuRoot)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
-}
-
-void CAimProto::RemoveContactMenus(void)
-{
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hHTMLAwayContextMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hReadProfileMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hAddToServerListContextMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockContextMenuItem, 0);
 }

@@ -136,7 +136,6 @@ struct CAimProto : public PROTO<CAimProto>
 	HGENMENU hMenuRoot;
 	HGENMENU hHTMLAwayContextMenuItem;
 	HGENMENU hAddToServerListContextMenuItem;
-	HGENMENU hReadProfileMenuItem;
 	HGENMENU hBlockContextMenuItem;
 	HGENMENU hMainMenu[3];
 
@@ -387,9 +386,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	void   InitMainMenus(void);
 	void   InitContactMenus(void);
-	void   RemoveMainMenus(void);
-	void   RemoveContactMenus(void);
-
+	
 	//////////////////////////////////////////////////////////////////////////////////////
 	// thread.cpp
 

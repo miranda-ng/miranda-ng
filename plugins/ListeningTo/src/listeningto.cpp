@@ -195,7 +195,7 @@ void RebuildMenu()
 
 		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000 + i;
-		mi.pszPopupName = (char *) hMainMenuGroup;
+		mi.hParentMenu = hMainMenuGroup;
 		mi.popupPosition = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.ptszName = text;

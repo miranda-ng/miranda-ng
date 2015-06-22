@@ -752,7 +752,7 @@ static int CLUIFramesGetalClientFrame(void)
 	return -1;
 }
 
-static HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU(*pfnAdd)(CLISTMENUITEM*))
+static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGENMENU(*pfnAdd)(CLISTMENUITEM*))
 {
 	//TMO_MenuItem tmi;
 	HGENMENU menuid;
@@ -762,12 +762,11 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, H
 		return NULL;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.pszPopupName = (char *)root;
+	mi.hParentMenu = root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Visible");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
-	mi.pszContactOwner = (char *)0;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiVisible = menuid;
@@ -775,146 +774,114 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, H
 
 	popuppos += 100000;
 
-	mi.pszPopupName = (char *)root;
-	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Show title");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
-	mi.pszContactOwner = (char *)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiTBVisible = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MITBVisible = menuid;
 
-	mi.pszPopupName = (char *)root;
-	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Locked");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
-	mi.pszContactOwner = (char *)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiLock = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MILock = menuid;
 
-	mi.pszPopupName = (char *)root;
-	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Expanded");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
-	mi.pszContactOwner = (char *)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiColl = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIColl = menuid;
 
-	//floating
-	mi.pszPopupName = (char *)root;
-	mi.popupPosition = frameid;
+	// floating
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Floating mode");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = "Set_Floating";
-	mi.pszContactOwner = (char *)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiFloating = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIFloating = menuid;
 
-	mi.pszPopupName = (char *)root;
-	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Border");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
-	mi.pszContactOwner = (char *)0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiBorder = menuid;
 	else g_pfwFrames[framepos].MenuHandles.MIBorder = menuid;
 
 	popuppos += 100000;
 
-	{
-		//alignment root
-		mi.pszPopupName = (char *)root;
-		mi.popupPosition = frameid;
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Align");
-		mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
-		mi.pszService = "";
-		mi.pszContactOwner = (char *)0;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiAlignRoot = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIAlignRoot = menuid;
+	// alignment root
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Align");
+	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
+	mi.pszService = "";
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiAlignRoot = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIAlignRoot = menuid;
 
-		mi.flags = CMIF_CHILDPOPUP;
-		//align top
-		mi.pszPopupName = (char *)menuid;
-		mi.popupPosition = frameid;
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Top");
-		mi.pszService = CLUIFRAMESSETALIGNALTOP;
-		mi.pszContactOwner = (char *)alTop;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiAlignTop = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIAlignTop = menuid;
+	mi.flags = CMIF_CHILDPOPUP;
+
+	// align top
+	mi.hParentMenu = menuid;
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Top");
+	mi.pszService = CLUIFRAMESSETALIGNALTOP;
+	mi.pszContactOwner = (char *)alTop;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiAlignTop = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIAlignTop = menuid;
 
 
-		//align client
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Client");
-		mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
-		mi.pszContactOwner = (char *)alClient;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiAlignClient = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIAlignClient = menuid;
+	// align client
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Client");
+	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
+	mi.pszContactOwner = (char *)alClient;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiAlignClient = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIAlignClient = menuid;
 
-		//align bottom
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Bottom");
-		mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
-		mi.pszContactOwner = (char *)alBottom;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiAlignBottom = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIAlignBottom = menuid;
+	// align bottom
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Bottom");
+	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
+	mi.pszContactOwner = (char *)alBottom;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiAlignBottom = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIAlignBottom = menuid;
 
-	}
+	// position root
+	mi.hParentMenu = root;
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Position");
+	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
+	mi.pszService = "";
+	mi.pszContactOwner = (char *)0;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiPosRoot = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIPosRoot = menuid;
 
-	{	//position
-		//position root
-		mi.pszPopupName = (char *)root;
-		mi.popupPosition = frameid;
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Position");
-		mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP;
-		mi.pszService = "";
-		mi.pszContactOwner = (char *)0;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiPosRoot = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIPosRoot = menuid;
-		//??????
-		mi.pszPopupName = (char *)menuid;
-		mi.popupPosition = frameid;
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Up");
-		mi.flags = CMIF_CHILDPOPUP;
-		mi.pszService = CLUIFRAMESMOVEUP;
-		mi.pszContactOwner = (char *)1;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiPosUp = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIPosUp = menuid;
+	mi.hParentMenu = menuid;
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Up");
+	mi.flags = CMIF_CHILDPOPUP;
+	mi.pszService = CLUIFRAMESMOVEUP;
+	mi.pszContactOwner = (char *)1;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiPosUp = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIPosUp = menuid;
 
-		mi.popupPosition = frameid;
-		mi.position = popuppos++;
-		mi.pszName = LPGEN("&Down");
-		mi.flags = CMIF_CHILDPOPUP;
-		mi.pszService = CLUIFRAMESMOVEDOWN;
-		mi.pszContactOwner = (char *)-1;
-		menuid = pfnAdd(&mi);
-		if (frameid == -1) _hmiPosDown = menuid;
-		else g_pfwFrames[framepos].MenuHandles.MIPosDown = menuid;
-
-	}
-
+	mi.position = popuppos++;
+	mi.pszName = LPGEN("&Down");
+	mi.pszService = CLUIFRAMESMOVEDOWN;
+	mi.pszContactOwner = (char *)-1;
+	menuid = pfnAdd(&mi);
+	if (frameid == -1) _hmiPosDown = menuid;
+	else g_pfwFrames[framepos].MenuHandles.MIPosDown = menuid;
 	return 0;
 }
 
@@ -1648,7 +1615,7 @@ static int CLUIFramesLoadMainMenu()
 		mi.ptszName = g_pfwFrames[i].TitleBar.tbname ? g_pfwFrames[i].TitleBar.tbname : g_pfwFrames[i].name;
 		mi.pszService = 0;
 		g_pfwFrames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
-		CLUIFramesCreateMenuForFrame(g_pfwFrames[i].id, (int)g_pfwFrames[i].MenuHandles.MainMenuItem, separator, Menu_AddMainMenuItem);
+		CLUIFramesCreateMenuForFrame(g_pfwFrames[i].id, g_pfwFrames[i].MenuHandles.MainMenuItem, separator, Menu_AddMainMenuItem);
 		CLUIFramesModifyMainMenuItems(g_pfwFrames[i].id, 0);
 		CallService(MS_CLIST_FRAMEMENUNOTIFY, (WPARAM)g_pfwFrames[i].id, (LPARAM)g_pfwFrames[i].MenuHandles.MainMenuItem);
 		separator++;
@@ -3564,7 +3531,7 @@ int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
 	/* HOOK */
 	CLUIFramesLoadMainMenu();
-	CLUIFramesCreateMenuForFrame(-1, -1, 000010000, Menu_AddContextFrameMenuItem);
+	CLUIFramesCreateMenuForFrame(-1, HGENMENU_ROOT, 000010000, Menu_AddContextFrameMenuItem);
 	return 0;
 }
 
