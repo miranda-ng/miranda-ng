@@ -2,6 +2,7 @@
 
 CLuaScriptLoader::CLuaScriptLoader(lua_State *L) : L(L)
 {
+	hLogger = mir_createLog(MODULE, _T("MirLua script loader log"), VARST(_T("%miranda_logpath%\\MirLua.txt")), 0);
 }
 
 void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
@@ -18,7 +19,11 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 void CLuaScriptLoader::LoadScript(const char *path)
 {
 	if (luaL_dofile(L, path))
+	{
+		const char *error = lua_tostring(L, -1);
+		mir_writeLogT(hLogger, _T("%s"), ptrT(mir_utf8decodeT(error)));
 		printf("%s\n", lua_tostring(L, -1));
+	}
 }
 
 void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
