@@ -336,5 +336,3 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 	RetrieveUsersInfo();
 }
-
-
