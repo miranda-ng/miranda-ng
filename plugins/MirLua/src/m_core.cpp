@@ -185,7 +185,7 @@ static int lua_ReplaceVariables(lua_State *L)
 	return 1;
 }
 
-luaL_Reg CMLua::coreLib[] =
+luaL_Reg coreApi[] =
 {
 	{ "CreateHookableEvent", lua_CreateHookableEvent },
 	{ "DestroyHookableEvent", lua_DestroyHookableEvent },
@@ -210,3 +210,13 @@ luaL_Reg CMLua::coreLib[] =
 
 	{ NULL, NULL }
 };
+
+LUAMOD_API int luaopen_m(lua_State *L)
+{
+	luaL_newlib(L, coreApi);
+	lua_pushlightuserdata(L, NULL);
+	lua_setfield(L, -2, "NULL");
+	lua_setglobal(L, "m");
+
+	return 1;
+}

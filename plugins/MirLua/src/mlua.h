@@ -5,12 +5,6 @@ class CMLua
 {
 private:
 	lua_State *L;
-	static luaL_Reg coreLib[15];
-
-	void LoadModule(const char *name, lua_CFunction func);
-
-	void LoadCoreModule();
-	void LoadMirandaModules();
 
 	void Load();
 	void Unload();
@@ -20,9 +14,6 @@ public:
 	~CMLua();
 
 	void Reload();
-
-	void AddScriptsPath(const char *path);
-	void LoadScript(const char *name);
 
 	static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param);
 };
