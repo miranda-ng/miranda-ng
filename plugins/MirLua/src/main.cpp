@@ -9,7 +9,6 @@ HANDLE g_hCommonFolderPath;
 HANDLE g_hCustomFolderPath;
 
 CMLua *g_mLua;
-HANDLE hConsole = NULL;
 
 PLUGININFOEX pluginInfo =
 {
@@ -62,33 +61,18 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	if (db_get_b(NULL, MODULE, "ShowConsole", 0))
-	{
-		if (!AttachConsole(ATTACH_PARENT_PROCESS))
-			if (AllocConsole())
-			{
-				freopen("CONOUT$", "w", stdout);
-				hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-				SetConsoleTitle(_T("MirLua Console"));
-			}
-	}
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
 	g_mLua = new CMLua();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (hConsole)
-		CloseHandle(hConsole);
-	FreeConsole();
-
 	delete g_mLua;
 
 	return 0;
