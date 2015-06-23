@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
-CLuaScriptLoader::CLuaScriptLoader(lua_State *L) : L(L)
+CLuaScriptLoader::CLuaScriptLoader(lua_State *L, HANDLE hLogger) : L(L), hLogger(hLogger)
 {
-	hLogger = mir_createLog(MODULE, _T("MirLua script loader log"), VARST(_T("%miranda_logpath%\\MirLua.txt")), 0);
 }
 
 void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
@@ -53,10 +52,10 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 	}
 }
 
-void CLuaScriptLoader::Load(lua_State *L)
+void CLuaScriptLoader::Load(lua_State *L, HANDLE hLogger)
 {
 	TCHAR scriptDir[MAX_PATH];
-	CLuaScriptLoader loader(L);
+	CLuaScriptLoader loader(L, hLogger);
 
 	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	loader.LoadScripts(scriptDir);

@@ -10,7 +10,7 @@ CMLua::CMLua() : L(NULL)
 CMLua::~CMLua()
 {
 	Unload();
-
+	
 	delete console;
 }
 
@@ -29,12 +29,15 @@ void CMLua::Load()
 	MUUID muidLast = MIID_LAST;
 	hScriptsLangpack = GetPluginLangId(muidLast, 0);
 
+	hLogger = mir_createLog(MODULE, _T("MirLua log"), VARST(_T("%miranda_logpath%\\MirLua.txt")), 0);
+
 	CLuaModuleLoader::Load(L);
-	CLuaScriptLoader::Load(L);
+	CLuaScriptLoader::Load(L, hLogger);
 }
 
 void CMLua::Unload()
 {
+	mir_closeLog(hLogger);
 	if (L)
 		lua_close(L);
 	KillModuleMenus(hScriptsLangpack);

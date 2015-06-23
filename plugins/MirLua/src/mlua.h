@@ -5,6 +5,7 @@ class CMLua
 {
 private:
 	lua_State *L;
+	HANDLE hLogger;
 	CMLuaConsole *console;
 
 	void Load();

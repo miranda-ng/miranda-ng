@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+BOOL WINAPI ConsoleHandler(DWORD cEvent)
+{
+	return TRUE;
+}
+
 CMLuaConsole::CMLuaConsole(lua_State *L)
 	: L(L), hConsole(NULL)
 {
@@ -9,9 +14,15 @@ CMLuaConsole::CMLuaConsole(lua_State *L)
 		{
 			if (AllocConsole())
 			{
+				SetConsoleTitle(_T("MirLua Console"));
 				freopen("CONOUT$", "w", stdout);
 				hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-				SetConsoleTitle(_T("MirLua Console"));
+				if (HWND hConsoleWindow = GetConsoleWindow())
+				{
+					HMENU hConsoleMenu = GetSystemMenu(hConsoleWindow, FALSE);
+					DeleteMenu(hConsoleMenu, SC_CLOSE, MF_BYCOMMAND);
+				}
+				SetConsoleCtrlHandler(ConsoleHandler, true);
 			}
 		}
 	}
