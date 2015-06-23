@@ -18,3 +18,4 @@
 [Combination of keys for assignment]
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
+[Hardware HotKeys]

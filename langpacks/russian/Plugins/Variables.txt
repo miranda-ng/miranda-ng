@@ -339,8 +339,6 @@ z, если y равно x, допустимы множественные арг
 y > 0: строка номер y из файла x, y = 0: целый файл, y < 0: строка y от конца файла, y = r: случайная строка
 [uptime in seconds]
 время работы системы в секундах
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-любая переменная среды, определённая в текущей сессии Windows (например, %systemroot%, %allusersprofile% и т.д.)
 [expand environment variable x]
 расширяет переменную окружения x
 [user name]

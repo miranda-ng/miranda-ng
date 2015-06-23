@@ -131,7 +131,7 @@ int initializeOptions(WPARAM wParam, LPARAM)
 	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	OptDlgPg.pszTemplate = MAKEINTRESOURCEA(dlg_options);
 	OptDlgPg.ptszGroup = LPGENT("Customize");
-	OptDlgPg.ptszTitle = LPGENT(__PLUGIN_NAME);
+	OptDlgPg.ptszTitle = LPGENT("Hardware HotKeys");
 	OptDlgPg.pfnDlgProc = OptDlgProc;
 	OptDlgPg.hLangpack = hLangpack;
 	Options_AddPage(wParam, &OptDlgPg);
