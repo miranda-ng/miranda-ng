@@ -178,7 +178,12 @@ begin
       StrCopy(p,opt_flags); DBWriteDWord(0,DBBranch,section,Macro^.flags);
     end;
   end;
+end;
 
+function DoOpenUrl(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+begin
+  Utils_OpenUrl(PAnsiChar(lParam), byte(wParam));
+  result := 0;
 end;
 
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -208,7 +213,6 @@ begin
 
   // cheat
   HookEvent(ME_SYSTEM_MODULESLOADED,@DoAutostart);
-//  DoAutostart(0,0);
 end;
 
 function Load:int; cdecl;
@@ -225,8 +229,9 @@ begin
   CreateServiceFunction(MS_ACT_RUNBYID  ,@ActRun);
   CreateServiceFunction(MS_ACT_RUNBYNAME,@ActRunGroup);
   CreateServiceFunction(MS_ACT_RUNPARAMS,@ActRunParam);
-//!!  CreateServiceFunction(MS_ACT_INOUT    ,@ActInOut);
   CreateServiceFunction(MS_ACT_SELECT   ,@ActSelect);
+
+  CreateServiceFunction('Utils/OpenURL',@DoOpenUrl);
 
   HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
 end;
