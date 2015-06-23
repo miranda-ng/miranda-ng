@@ -1,106 +1,110 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+
+[Apply]
+Použít
+[New]
+Nový
+[Delete]
+Smazat
+[Up]
+Nahoru
+[Down]
+Dolů
+[Test]
+Ověřit
+[Import]
+Importovat
+[Action "$" exists, do you want to rewrite it?]
+
+[Choose action]
+
+[&Yes]
+&Ano
+[&No]
+&Ne
+[A&ppend]
+
+[Yes to &All]
+&Ano všem
+[N&o to All]
+
+[Export]
+Exportovat
+[Reload/Refresh]
+
+[Registered actions]
+
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+
+[Actman settings converted to new version]
 
 [Actions]
 Akce
 [No description]
 Bez popisu
-[New]
-Nový
-[Up]
-Nahoru
-[Down]
-Dolů
 [Reload]
 Načíst znovu
-[Delete]
-Smazat
-[Test]
-Ověřit
-[Export]
-Exportovat
 [Append data to file?]
 
-[Import]
-Importovat
 [Help]
 Nápověda
 [Action]
 Akce
-[Open contact window]
-Otevřít okno kontaktu
-[Contact]
-Kontakt
-[Call service]
-Zavolat službu
-[Service]
-Služba
-[Execute program]
-Spustit program
-[Program]
-Program
-[Insert text]
-Vložit text
-[Text]
-Text
-[Advanced]
-Extra
-[Link to action]
-Odkaz na akci
-[Profile]
-Profil
-[MessageBox]
-Informační okno
-[Message]
-Zpráva
-[Choose contact]
-Zvolit kontakt
-[Keep handle only]
-Zachovat pouze ukazatel
-[Active accounts only]
+[Notes]
+Poznámky
+[INI]
 
-[Dropdown list format]
+[Read]
 
-[Apply format]
+[Write]
 
-[You can use %name%, %uid%, %account% and %group% macros]
-Můžete použít makra %name%, %uid%, %account% a %group%
-[Contacts]
-Kontakty
-[Select contact to open its window]
+[INI file name]
 
-[Result action]
-Výsledná akce
-[Show in popup]
-Zobrazit oznámení
-[Show in messagebox]
-Zobrazit dialogové okno
-[Insert into message]
-Vložit do zprávy
-[Service result]
+[Text Editor]
+Úprava textu
+[Script]
+Skript
+[Wrap Text]
+Zalamovat text
+[C&ancel]
+Z&rušit
+[Section]
 
-[Integer]
+[Parameter]
+parametr
+[Value]
+Hodnota
+[Use LastResult]
 
-[Hexadecimal]
-Hexadecimální
-[String]
-String
-[Structure]
-Struktura
-[Free memory]
+[UTF8 encoding]
 
-[Signed value]
+[Function call]
 
-[wParam type]
-Typ wParam
-[lParam type]
-Typ lParam
+[Function name]
+
+[DLL name]
+
+[Call type]
+
+[Arguments]
+
+[Number of arguments]
+
+[Argument]
+
+[Param]
+Parametr
+[Param type]
+
 [number value]
 číselná hodnota
 [ANSI string]
@@ -115,29 +119,427 @@ poslední výsledek
 parametr
 [structure]
 struktura
-[Service name]
-Název služby
+[Ansi message]
+
+[Ansi caption]
+
+[Structure]
+Struktura
+[Structure editor]
+
+[alias]
+alias
+[type]
+typ
+[length]
+délka
+[data]
+data
+[Data align]
+
+[Native]
+Nativní
+[Packed]
+
+[2 bytes]
+2 bajty
+[4 bytes]
+4 bajty
+[8 bytes]
+8 bajtů
+[Byte]
+Byte
+[Word]
+Word
+[DWord]
+DWord
+[QWord]
+
+[NativeInt]
+
+[Byte Array]
+Pole bajtů
+[Word Array]
+Pole wordů
+[Pointer to bytes]
+Ukazatel na bajty
+[Pointer to words]
+Ukazatel na wordy
+[Last result]
+Poslední výsledek
+[Data length]
+Délka dat
 [Use Variables]
 Použít proměnné
-[Don't use Variables]
+[V]
+v
+[Structure size]
 
-[Miranda service help]
+[Use MMI]
 
+[Structure help]
+Nápověda pro strukturu
 [Name]
 Jméno
-[Alias]
-Alias
 [Plugin]
 Doplněk
+[Descr]
+Popis
+[&Change]
+Z&měnit...
+[Result]
+VÝSLEDEK
+[Result type]
+
+[Free memory]
+
+[DLL Handle Cache]
+
+[Keep to end]
+
+[Close immediately]
+
+[Close for macro]
+
+[Contact]
+Kontakt
+[Choose contact]
+Zvolit kontakt
+[Refresh]
+Aktualizovat
+[Keep handle only]
+Zachovat pouze ukazatel
+[Get from active window]
+
+[Chain]
+
+[Other Action groups]
+
+[not defined]
+nedefinováno
+[Keep old result]
+
+[Same thread]
+
+[Do not wait until the end of execution]
+
+[Program]
+Program
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+
+[Process options]
+
+[Parallel]
+
+[Continued]
+
+[Process time, ms]
+
+[Current path]
+Aktuální cesta
+[Window option]
+
+[Start normal]
+Spustit normálně
+[Start hidden]
+Spustit skrytý
+[Start minimized]
+Spustit minimalizovaný
+[Start maximized]
+Spustit maximalizovaný
+[Program path]
+
+[Program args]
+
+[Service]
+Služba
+[Miranda service help]
+
+[Alias]
+Alias
 [Return]
 
 [Effect]
 Efekt
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 
-[Undefined]
-nedefinováno
-[Manage Jabber Bookmarks]
+[Service:]
+Služba:
+[In/Out]
+Příchozí/odchozí
+[Clipboard]
+Schránka
+[Copy to]
+Zkopírovat do
+[Paste from]
+Vložit z
+[File]
+Soubor
+[Append]
+
+[UTF8+sign]
+
+[UTF16+sign]
+
+[Message window]
+Komunikační okno
+[Autosend]
+
+[Jump]
+
+[Condition]
+Podmínka
+[Math]
+
+[> greater]
+
+[< lesser]
+
+[= equ]
+
+[& and]
+
+[Text]
+Text
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[Opposite order]
+
+[empty]
+Prázdné
+[contains]
+
+[starts with]
+
+[ends with]
+
+[NOT]
+
+[Operation]
+Operace
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+
+[Process script after]
+
+[MessageBox]
+Informační okno
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+
+[Message title]
+Titulek zprávy
+[Message text]
+Text zprávy
+[RTL]
+Psát zprava doleva
+[Right justified text]
+
+[Icons]
+Ikony
+[Error]
+Chyba
+[Question]
+Otázka
+[Warning]
+Upozornění
+[Info]
+Info
+[Buttons]
+Tlačítka
+[OK, Cancel]
+OK, Zrušit
+[Abort, Retry, Ignore]
+Přerušit, Opakovat, Ignorovat
+[Yes, No, Cancel]
+Ano, Ne, Zrušit
+[Yes, No]
+Ano, Ne
+[Retry, Cancel]
+Opakova, Zrušit
+[Database]
+Databáze
+[Contact type]
+
+[Own settings]
+Vlastní nastavení
+[Manual]
+Ručně
+[Module]
+Modul
+[Setting]
+Nastavení
+[Save value]
+
+[Storage]
+
+[LastResult to ]
+
+[LastResult from]
+
+[Slot 0]
+
+[Slot 1]
+
+[Slot 2]
+
+[Slot 3]
+
+[Slot 4]
+
+[Slot 5]
+
+[Slot 6]
+
+[Slot 7]
+
+[Slot 8]
+
+[Slot 9]
+
+[Settings]
+Nastavení
+[Contact list]
+Seznam kontaktů
+[Active accounts only]
+
+[Contact list format]
+
+[You can use %name%, %uid%, %account% and %group% substitutes]
+
+[Service list format]
+
+[value]
+Hodnota
+[name]
+Jméno
+[value (name)]
+
+[name 'value']
+
+[Current Macro]
+
+[Select for FirstRun]
+
+[Mark as Volatile]
+
+[Single instance]
+
+[Scheduler]
+Plánovač
+[Task sample]
+
+[Start]
+Začít
+[Starting after]
+
+[Starting from]
+
+[Start immediately]
+
+[Days]
+Dnů
+[Time]
+Čas
+[Date]
+Datum
+[Repeat]
+Opakovat
+[Repeat, times]
+
+[Interval]
+
+[Break on non-zero result]
+
+[Send event on start time]
+
+[Send event just once]
+
+[Hooks]
+
+[Description]
+Popis
+[hook sample]
+
+[Event]
+
+[Miranda event help]
+
+[Use Actions]
+
+[Action list]
+
+[Where to use]
+
+[TopToolbar]
+Horní lišta
+[TabSRMM toolbar]
+
+[Core Hotkey]
+
+[Main menu]
+Hlavní nabídka
+[Contact menu]
+Nabídka kontaktu
+[Tray menu]
+Nabídka ikony
+[Protocol menus]
+Nabídky účtů
+[Status menu]
+Nabídka stavů
+[Common]
+Obecné
+[2 state button/item]
+
+[Save button/item state]
+
+[Contact related]
+
+[Normal button tooltip]
+
+[Pressed button tooltip]
+
+[Show only if variables return 1]
+
+[Main settings]
+
+[Root popup:]
+
+[Menu item name:]
+
+[Custom settings]
+
+[Separated]
+odloučený/á
+[Do not translate]
+
+[Show window for new/changed profile password]
+
+[int 0, if successful]
+
+[Hide All Titlebars]
+Skrýt záhlaví rámečků
+[Show All Frames]
+Zobrazit všechny rámečky
+[Show All Titlebars]
+Zobrazit záhlaví rámečků
+[will never return the user's custom name]
+
+[will return Unicode instead of AnsiChar]
+
+[will not use the cache]
+
+[Gets the string that the contact list will use to represent a contact]
+
+[int hMenu handle]
+
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
+[Show All Users]
+Zobrazit všechny uživatele
+[Show only Online Users]
+Zobrazit jen online uživatele
+[Toggle status]
+
+[Change 'hide offline contacts' option value]
 
 [Offline]
 Offline
@@ -159,10 +561,206 @@ Neviditelný
 Mám telefon
 [Out to Lunch]
 Jsem na obědě
+[Set global status]
+
+[Switch contact list status]
+
+[Closes Miranda]
+
+[Show or hide netlog console window]
+
+[int Value]
+
+[Returns contact amount, excluding user account]
+
+[Ansi Text]
+
+[Removes all settings for the specified module]
+
+[int 0]
+
+[Import settings/contacts from file]
+
+[Opens or activate database editor]
+
+[Opens or activate user search dialog]
+
+[displays File Transfer window]
+
+[on Desktop]
+
+[parent window handle]
+
+[Show "About..." window]
+
+[Open support (originally - Miranda wiki) page]
+
+[Go to Miranda Homepage]
+
+[Open bug report page]
+
+[System]
+Systém
+[Shows contact history or (wParam=0) system history]
+
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+
+[Show Global history search window. If already opened, bring it to front.]
+
+[Ignore all]
+Ignorovat vše
+[Ignore messages]
+Ignorovat zprávy
+[Ignore URLs]
+Ignorovat adresy
+[Ignore files]
+Ignorovat soubory
+[Ignore User Online]
+
+[Ignore requests]
+&Ignorovat žádosti
+[Ignore 'You were added']
+
+[Ignore Contact]
+Ignorovat kontakt
+[Unignore Contact]
+Zrušit ignorování kontaktu
+[restart in default profile or profile manager]
+
+[restart with current profile]
+
+[Restarts Miranda]
+
+[Station name]
+Název stanice
+[wParam is Handle]
+
+[wParam is Ansi station name]
+
+[wParam is Unicode station name]
+
+[Starting or stopping radio station]
+
+[Stop cycle]
+
+[Start cycle]
+
+[Start/stops the cycling through protocols]
+
+[All protocols]
+
+[Protocol]
+Protokol
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+
+[Shows a dialog to set the avatar for all possible protocols]
+
+[Shows the next protocol in the frame]
+
+[Shows the previous protocol in the frame]
+
+[Open Options dialog]
+
+[Opens the options dialog, optionally at the specified page]
+
+[Check for updates]
+Zjistit aktualizace
+[with confirmation]
+
+[without confirmation]
+
+[Empty updater download folder]
+
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+
+[Enables or disables Popup windows]
+
+[Notify]
+Oznámení
+[YAPP or Popup]
+
+[Popup window]
+Zobrazit text
+[Unicode Text]
+
+[Enables or disables Popup windows (maybe deprecated)]
+
+[result of protocol service call]
+
+[Send a general request through the protocol chain for a contact]
+
+[str, account name]
+
+[Return account name associated to contact (no need to free it)]
+
+[displays the Account Manager]
+
+[Show the dialog to select the contact]
+
+[filter text]
+
+[wParam is unicode]
+
+[wParam is Ansi]
+
+[Reserved]
+Extra č.1
+[Open main QuickSearch window with text filter]
+
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+
+[Send Email to contact]
+
+[struct]
+
+[Returns the received files folder for a contact]
+
+[Open contact received file directory]
+
+[Send file to contact.]
+
+[Opens message window for contact with handle in wparam]
+
+[remove all temporary contacts from db]
+
+[Call avatar option dialog for contact]
+
+[Filename]
+Název souboru
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+
+[Shows contact property window.]
+
+[Open URL in current window]
+
+[0 - Open URL in current window]
+
+[Open URL in default browser]
+
+[With formating]
+
+[Don't use formating]
+
+[Returns a string containing the versioninfo post]
+
+[Show or save (call default action) Modules version Info]
+
+[Show popup or Info window with current music information.]
+
+[log filename]
+
+[report filename]
+
+[int 0, if unsuccessful]
+
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+
+[display birthdays window]
+
+[Manage Jabber Bookmarks]
+
 [text]
 Text
-[int 0, if successful]
-
 [Set status message]
 Nastavit stavové zprávy
 [Set protocol status]
@@ -237,677 +835,21 @@ láska
 
 [Display xStatus detail]
 
-[int hMenu handle]
-
-[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-
-[Show All Users]
-Zobrazit všechny uživatele
-[Show only Online Users]
-Zobrazit jen online uživatele
-[Toggle status]
-
-[Change 'hide offline contacts' option value]
-
-[Set global status]
-
-[Switch contact list status]
-
-[Hide All Titlebars]
-Skrýt záhlaví rámečků
-[Show All Frames]
-Zobrazit všechny rámečky
-[Show All Titlebars]
-Zobrazit záhlaví rámečků
-[will never return the user's custom name]
-
-[will return Unicode instead of AnsiChar]
-
-[will not use the cache]
-
-[Gets the string that the contact list will use to represent a contact]
-
-[Closes Miranda]
-
-[Show or hide netlog console window]
-
-[int Value]
-
-[Returns contact amount, excluding user account]
-
-[Ansi Text]
-
-[Removes all settings for the specified module]
-
-[Show window for new/changed profile password]
-
-[int 0]
-
-[Import settings/contacts from file]
-
-[Opens or activate database editor]
-
-[Opens or activate user search dialog]
-
-[displays File Transfer window]
-
-[on Desktop]
-
-[parent window handle]
-
-[Show "About..." window]
-
-[Open bug report page]
-
-[Open support (originaly - Miranda wiki) page]
-
-[Go to Miranda Homepage]
-
-[System]
-Systém
-[Shows contact history or (wParam=0) system history]
-
-[Erases contact's history. hContact can be NULL(0) to empty system history]
-
-[Show Global history search window. If already opened, bring it to front.]
-
-[Ignore all]
-Ignorovat vše
-[Ignore messages]
-Ignorovat zprávy
-[Ignore URLs]
-Ignorovat adresy
-[Ignore files]
-Ignorovat soubory
-[Ignore User Online]
-
-[Ignore requests]
-&Ignorovat žádosti
-[Ignore 'You were added']
-
-[Ignore Contact]
-Ignorovat kontakt
-[Unignore Contact]
-Zrušit ignorování kontaktu
-[restart in default profile or profile manager]
-
-[restart with current profile]
-
-[Restarts Miranda]
-
-[Station name]
-Název stanice
-[wParam is Handle]
-
-[wParam is Ansi station name]
-
-[wParam is Unicode station name]
-
-[Starting or stopping radio station]
-
-[Stop cycle]
-
-[Start cycle]
-
-[Start/stops the cycling throught protocols]
-
-[All protocols]
-
-[Protocol]
-Protokol
-[signed -2 if proto can't set this, -1 on protocol not found, else 0]
-
-[Shows a dialog to set the avatar for all possible protocols]
-
-[Shows the next protocol in the frame]
-
-[Shows the previous protocol in the frame]
-
-[Opens the options dialog, optionally at the specified page]
-
-[Open Options dialog]
-
-[Check for updates]
-Zjistit aktualizace
-[with confirmation]
-
-[without confirmation]
-
-[Empty updater download folder]
-
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-
-[Enables or disables Popup windows]
-
-[YAPP or Popup]
-
-[Warning]
-Upozornění
-[Notify]
-Oznámení
-[Error]
-Chyba
-[Popup window]
-Zobrazit text
-[YAPP only]
-
-[Unicode Text]
-
-[Enables or disables Popup windows (maybe deprecated)]
-
-[result of protocol service call]
-
-[Send a general request through the protocol chain for a contact]
-
-[str, account name]
-
-[Return account name associated to contact (no need to free it)]
-
-[displays the Account Manager]
-
-[Show the dialog to select the contact]
-
-[filter text]
-
-[wParam is unicode]
-
-[wParam is Ansi]
-
-[Reserved]
-Extra č.1
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-
-[Send Email to contact]
-
-[struct]
-
-[Returns the received files folder for a contact]
-
-[Open contact received file directory]
-
-[Send file to contact.]
-
-[hContact;parameter]
-
-[Opens message window for contact with handle in wparam]
-
-[remove all temporary contacts from db]
-
-[Call avatar option dialog for contact]
-
-[Avatar service (AVS.dll)]
-
-[Filename]
-Název souboru
-[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-
-[Shows contact property window.]
-
-[Open URL in current window]
-
-[Open URL in default browser]
-
-[With formating]
-
-[Don't use formating]
-
-[Returns a string containing the versioninfo post]
-
-[Show or save (call default action) Modules version Info]
-
-[log filename]
-
-[report filename]
-
-[int 0, if unsuccessful]
-
-[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-
-[Show popup or Info window with current music information.]
-
-[WhenWasIt Birthday Reminder (whenwasit.dll)]
-
-[display birthdays window]
-
-[Structure editor]
-
-[alias]
-alias
-[type]
-typ
-[length]
-délka
-[data]
-data
-[Data align]
-
-[Native]
-Nativní
-[Packed]
-
-[2 bytes]
-2 bajty
-[4 bytes]
-4 bajty
-[8 bytes]
-8 bajtů
-[Byte]
-Byte
-[Word]
-Word
-[DWord]
-DWord
-[QWord]
-
-[NativeInt]
-
-[Byte Array]
-Pole bajtů
-[Word Array]
-Pole wordů
-[Pointer to bytes]
-Ukazatel na bajty
-[Pointer to words]
-Ukazatel na wordy
-[Last result]
-Poslední výsledek
-[Parameter]
-parametr
-[Data length]
-Délka dat
-[Structure help]
-Nápověda pro strukturu
-[Descr]
-Popis
-[&Change]
-Z&měnit...
-[C&ancel]
-Z&rušit
-[Process options]
-
-[Parallel]
-
-[Continued]
-
-[Process time, ms]
-
-[Current path]
-Aktuální cesta
-[Window option]
-
-[Start normal]
-Spustit normálně
-[Start hidden]
-Spustit skrytý
-[Start minimized]
-Spustit minimalizovaný
-[Start maximized]
-Spustit maximalizovaný
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-
-[Program path]
-
-[Program args]
-
-[Clipboard]
-Schránka
-[Copy to]
-Zkopírovat do
-[Paste from]
-Vložit z
-[File]
-Soubor
-[Read]
-
-[Write]
-
-[Append]
-
-[UTF8+sign]
-
-[UTF16+sign]
-
-[Message window]
-Komunikační okno
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
-[Text to insert]
-
-[Condition]
-Podmínka
-[NOT]
-
-[Value]
-Hodnota
-[Math]
-
-[Variables]
-Proměnné
-[Result as integer]
-
-[Operation]
-Operace
-[Other Action groups]
-
-[not defined]
+[Undefined]
 nedefinováno
-[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-
-[Macros]
-
-[Own settings]
-Vlastní nastavení
-[Manual]
-Ručně
-[Module]
-Modul
-[Setting]
-Nastavení
-[Unicode]
-UNICODE
-[Message title]
-Titulek zprávy
-[Message text]
-Text zprávy
-[Keep last result]
-Zachovat poslední výsledek
-[Icons]
-Ikony
-[Question]
-Otázka
-[Info]
-Info
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-
-[Buttons]
-Tlačítka
-[OK, Cancel]
-OK, Zrušit
-[Abort, Retry, Ignore]
-Přerušit, Opakovat, Ignorovat
-[Yes, No, Cancel]
-Ano, Ne, Zrušit
-[Yes, No]
-Ano, Ne
-[Retry, Cancel]
-Opakova, Zrušit
-[Scheduler]
-Plánovač
-[Task sample]
-
-[Start]
-Začít
-[Starting after]
-
-[Starting from]
-
-[Start immediately]
-
-[Days]
-Dnů
-[Time]
-Čas
-[Date]
-Datum
-[Repeat]
-Opakovat
-[Repeat, times]
-
-[Interval]
-
-[Break on non-zero result]
-
-[Send event on start time]
-
-[Send event just once]
-
-[Hooks]
-
-[Description]
-Popis
-[hook sample]
-
-[Apply]
-Použít
-[Event]
-
 [Action group list was changed: some was added or deleted]
+
+[contact list]
+Seznam kontaktů
+[The context menu for a contact is about to be built]
 
 [Double click on the contact list]
 
-[The context menu for a contact is about to be built]
+[database driver]
 
 [New contact added to database]
 
 [Contact deleting]
 
-[Use Actions]
-
-[Action list]
-
-[Where to use]
-
-[TopToolbar]
-Horní lišta
-[TabSRMM toolbar]
-
-[Core Hotkey]
-
-[Main menu]
-Hlavní nabídka
-[Contact menu]
-Nabídka kontaktu
-[Tray menu]
-Nabídka ikony
-[Protocol menus]
-Nabídky účtů
-[Status menu]
-Nabídka stavů
-[Common]
-Obecné
-[2 state button/item]
-
-[Save button/item state]
-
-[Contact related]
-
-[Normal button tooltip]
-
-[Pressed button tooltip]
-
-[Separated]
-odloučený/á
-[Root popup:]
-
-[Menu item name:]
-
-[Show only if variables return 1]
-
-[Choose action]
-
-[&Yes]
-&Ano
-[&No]
-&Ne
-[A&ppend]
-
-[Yes to &All]
-&Ano všem
-[N&o to All]
-
-[Action "$" exists, do you want to rewrite it?]
-
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-
-[Packed structure]
-
-[Registered actions]
-
-; Actman30
-[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-
-[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
-
-[Actman settings converted to new version]
-
-[INI]
-
-[INI file name]
-
-[Section]
-
-[Use LastResult]
-
-[UTF8 encoding]
-
-[Function call]
-
-[Function name]
-
-[DLL name]
-
-[Call type]
-
-[Arguments]
-
-[Number of arguments]
-
-[Argument]
-
-[Result]
-VÝSLEDEK
-[DLL Handle Cache]
-
-[Keep to end]
-
-[Close immediately]
-
-[Close for macro]
-
-[Refresh]
-Aktualizovat
-[Get from active window]
-
-[Chain]
-
-[Keep old result]
-
-[Same thread]
-
-[Do not wait until the end of execution]
-
-[In/Out]
-Příchozí/odchozí
-[Autosend]
-
-[Jump]
-
-[> greater]
-
-[< lesser]
-
-[= equ]
-
-[& and]
-
-[Case sensitive]
-Rozlišovat malá a VELKÁ
-[Opposite order]
-
-[empty]
-Prázdné
-[contains]
-
-[starts with]
-
-[ends with]
-
-[Process script after]
-
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
-[RTL]
-Psát zprava doleva
-[Right justified text]
-
-[Database]
-Databáze
-[Contact type]
-
-[Save value]
-
-[Storage]
-
-[LastResult to ]
-
-[LastResult from]
-
-[Slot 0]
-
-[Slot 1]
-
-[Slot 2]
-
-[Slot 3]
-
-[Slot 4]
-
-[Slot 5]
-
-[Slot 6]
-
-[Slot 7]
-
-[Slot 8]
-
-[Slot 9]
-
-[Settings]
-Nastavení
-[Contact list]
-Seznam kontaktů
-[Contact list format]
-
-[You can use %name%, %uid%, %account% and %group% substitutes]
-
-[Service list format]
-
-[value]
-Hodnota
-[name]
-Jméno
-[value (name)]
-
-[name 'value']
-
-[Current Macro]
-
-[Select for FirstRun]
-
-[Mark as Volatile]
-
-[Single instance]
-
-[Miranda event help]
-
-[contact list]
-Seznam kontaktů
-[database driver]
-
-[Main settings]
-
-[Custom settings]
-
-[Do not translate]
-
-; these lines are not present in the sources, but they are present in compiled plugin
-[Param type]
-
-[Text Editor]
-Úprava textu
-[Script]
-Skript
-[Wrap Text]
-Zalamovat text
-[Structure size]
+[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
 

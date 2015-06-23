@@ -127,8 +127,6 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 Šifrování (OTR) nemůže proběhnout při posílání zpráv
 [OTR Information]
 Šifrování (OTR)
-[[OTR INFO] ]
-\[OTR INFO]\s
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]

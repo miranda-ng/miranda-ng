@@ -1,0 +1,7 @@
+﻿[&Inline edit]
+[[UNLOADED]]
+[Delete resident settings from database?]
+[%d orphaned items deleted.]
+[Unable to store value in this data type!]
+[Are you sure you want to delete setting(s): %d?]
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]

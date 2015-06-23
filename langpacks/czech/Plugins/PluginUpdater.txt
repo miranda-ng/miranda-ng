@@ -5,8 +5,8 @@
 ;  Version: 0.1.2.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
-[Plugin updater for Miranda NG.]
-Aktualizátor pro Mirandu NG.
+[Install and update plugins and other Miranda NG components.]
+Aktualizátor pro Mirandu NG. Umožňuje automatickou instalaci a aktualizaci doplňků a dalších komponent.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Nalezeny aktualizace!
@@ -48,8 +48,6 @@ Vývojová verze s debug symboly
 Vlastní verze
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-Aktualizace na stabilní verzi v tuto chvíli není možná z důvodu nekompatibility s aktuální vývojovou verzí!
 [Notifications]
 Upozornění
 [Restart]
@@ -68,7 +66,7 @@ Barvy
 Použít vlastní barvy
 [Use &Windows colors]
 Použít barvy &Windows
-[Use Pop&up colors]
+[Use defa&ult colors]
 Po&užít výchozí barvy
 [Preview]
 Náhled
@@ -166,6 +164,8 @@ Nedělat nic
 hodin
 [days]
 dnů
+[Stable version (incompatible with current development version)]
+
 [Test]
 Ověřit
 [Services]
@@ -182,7 +182,8 @@ Aktualizace selhala
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Informace
-[Plugin Updater HTTP connection]
-Aktualizátor - Spojení pomocí protokolu HTTP
+[Plugin Updater HTTP connections]
+
 [An error occurred while checking for new updates.]
 Nastala chyba při zjišťování aktualizací.
+;file \plugins\PluginUpdater\src\Compat\compat.h

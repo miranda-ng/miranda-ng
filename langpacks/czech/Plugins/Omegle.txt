@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.3
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -107,8 +107,8 @@ Oba mluvíte stejnou řečí.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
-[Unable to get Netlib connection for Omegle]
-Nelze získat Netlib připojení pro Omegle
+[Unable to initialize Netlib for %s.]
+Nelze inicializovat síťovou komunikaci pro %s.
 [Stranger typing]
 Cizinec píše zprávu
 [Stranger stopped typing]

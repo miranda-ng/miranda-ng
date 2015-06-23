@@ -104,8 +104,8 @@ Zpráva přijata: %s - %s
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
-[Unable to get Netlib connection for WhatsApp]
-Nelze získat Netlib připojení pro WhatsApp
+[Unable to initialize Netlib for %s.]
+Nelze inicializovat síťovou komunikaci pro %s.
 [Network connection error.]
 Chyba síťového připojení.
 [Registration failed. Invalid server response.]

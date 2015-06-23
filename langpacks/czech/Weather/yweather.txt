@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+VSV
+[ESE]
+VJV
+[E]
+V
+[East]
+Východní
 [Feel]
 Subj.
-[Forecast Day 1]
-Předpověď na 1. den
 [Forecast Day 1 Condition]
 Předpověď na 1. den - počasí
 [Forecast Day 1 Date]
@@ -16,87 +22,81 @@ Předpověď na 1. den - denní
 Předpověď na 1. den - nejvyšší
 [Forecast Day 1 Low]
 Předpověď na 1. den - nejnižší
-[Heat Index]
-Teplotní index
-[Wind Direction]
-Směr větru
-[Wind Speed]
-Rychlost větru
-[Wind Direction Degrees]
-Směr větru (stupně)
-[Mon]
-Po
-[Tue]
-Út
-[Wed]
-St
-[Thu]
-Čt
+[Forecast Day 1]
+Předpověď na 1. den
 [Fri]
 Pá
+[Heat Index]
+Teplotní index
+[Mon]
+Po
+[Mostly Clear]
+převážně jasno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Sunny]
+převážně slunečno
+[NE]
+SV
+[NNE]
+SSV
+[NNW]
+SSZ
+[NW]
+SZ
+[N]
+S
+[North]
+Severní
+[Northeast]
+Severovýchodní
+[Northwest]
+Severozápadní
+[Partly Cloudy]
+částečně oblačno
+[Partly Sunny]
+částečně slunečno
+[SE]
+JV
+[SSE]
+JJV
+[SSW]
+JJZ
+[SW]
+JZ
+[S]
+J
 [Sat]
 So
+[Scattered Clouds]
+střídavě oblačno
+[South]
+Jižní
+[Southeast]
+Jihovýchodní
+[Southwest]
+Jihozápadní
 [Sun]
 Ne
 [Sunny]
 slunečno
-[Partly Sunny]
-částečně slunečno
-[Mostly Sunny]
-převážně slunečno
-[Partly Cloudy]
-částečně oblačno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Clear]
-převážně jasno
-[N]
-S
-[W]
-Z
-[S]
-J
-[E]
-V
-[NW]
-SZ
-[NE]
-SV
-[SW]
-JZ
-[SE]
-JV
-[NNW]
-SSZ
-[NNE]
-SSV
-[SSW]
-JJZ
-[SSE]
-JJV
-[ENE]
-VSV
-[WSW]
-ZJZ
+[Thu]
+Čt
+[Tue]
+Út
 [WNW]
 ZSZ
-[ESE]
-VJV
-[Scattered Clouds]
-střídavě oblačno
-[North]
-Severní
-[East]
-Východní
-[South]
-Jižní
+[WSW]
+ZJZ
+[W]
+Z
+[Wed]
+St
 [West]
 Západní
-[Northwest]
-Severozápadní
-[Northeast]
-Severovýchodní
-[Southwest]
-Jihozápadní
-[Southeast]
-Jihovýchodní
+[Wind Direction Degrees]
+Směr větru (stupně)
+[Wind Direction]
+Směr větru
+[Wind Speed]
+Rychlost větru

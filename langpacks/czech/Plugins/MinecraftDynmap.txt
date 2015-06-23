@@ -1,0 +1,34 @@
+﻿#muuid {40da5ebd-4f2d-4bea-841c-eab77bee6f4f}
+;============================================================
+;  File: MinecraftDynmap.dll
+;  Plugin: Minecraft Dynmap protocol
+;  Version: 0.0.0.2
+;  Authors: Robert Pösel
+;============================================================
+[Minecraft Dynmap support for Miranda NG.]
+
+;file \protocols\MinecraftDynmap\res\resource.rc
+[Server:]
+Server:
+[Visible name:]
+Viditelné jméno:
+;file \protocols\MinecraftDynmap\src\chat.cpp
+[Server]
+Server
+[You]
+Vy
+;file \protocols\MinecraftDynmap\src\communication.cpp
+[Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
+
+[Set server address to connect.]
+
+;file \protocols\MinecraftDynmap\src\dialogs.cpp
+[Protocol icon]
+Ikona protokolu
+;file \protocols\MinecraftDynmap\src\proto.cpp
+[%s server connection]
+%s - spojení se serverem
+[Unable to initialize Netlib for %s.]
+Nelze inicializovat síťovou komunikaci pro %s.
+[Visible name]
+Zobrazované jméno

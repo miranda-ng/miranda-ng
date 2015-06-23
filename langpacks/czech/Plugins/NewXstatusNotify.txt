@@ -100,7 +100,7 @@ Barvy
 Použít vlastní barvy
 [Use Windows colors]
 Použít barvy Windows
-[Use Popup colors]
+[Use default colors]
 Použít výchozí barvy
 [Popup text]
 Text oznámení

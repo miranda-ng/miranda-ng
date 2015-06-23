@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.3.4
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -86,10 +86,6 @@ Funkci ukládání kontaktů na serveru lze aktivovat nebo deaktivovat pouze po 
 Poznámka: Možnosti označené hvězdičkou nemusí fungovat stoprocentně a autor nenese žádnou odpovědnost za případné škody.
 [Messaging]
 Rozhovor
-[Enable unicode messaging support]
-Aktivovat podporu pro zprávy ve formátu Unicode
-[Send all messages in unicode if possible]
-Odesílat zprávy ve formátu Unicode (pokud to jde)
 [Use this codepage for Ansi <-> Unicode translation:]
 Definice kódování pro převod znaků z a do Unicode:
 [Make me temporarily visible to contacts I send message to]

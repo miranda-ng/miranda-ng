@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Microsoft Network (MSN) protokol pro Mirandu NG.
@@ -60,10 +60,12 @@ Kontakt vás má umístěn ve svém seznamu na serveru
 Aktualizovat
 [Hotmail]
 Hotmail
-[Disable Popup notifications]
-Vypnout standardní upozornění
-[Disable Tray notifications]
-Vypnout upozornění z oblasti oznámení
+[Enable Popup notifications]
+Povolit oznámení
+[Enable Contact List notifications]
+
+[Enable Tray notifications]
+
 [Ignore new messages not in Inbox folder]
 Ignorovat nové zprávy z jiné složky než Doručená pošta
 [Other]
@@ -74,8 +76,6 @@ Zobrazit chybová hlášení jako oznámení
 Zapnout oznámení typu 'Spojení navázáno'
 [Enable 'Contact left channel' popup]
 Zapnout oznámení typu 'Odchod z kanálu'
-[Disable Contact List notifications]
-Vypnout upozornění ze seznamu kontatků
 [Set Nickname]
 Nastavit přezdívku
 [Cancel]
@@ -117,10 +117,6 @@ Přidat
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Diskuse č.
-[Me]
-Já
-[Others]
-Ostatní
 [&Invite user...]
 Pozvat k d&iskusi...
 [&Leave chat session]
@@ -129,17 +125,23 @@ Pozvat k d&iskusi...
 &Detaily uživatele
 [User &history]
 Zobrazit &historii
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
 ;file \protocols\MSN\src\msn_commands.cpp
-[Contact tried to open an audio conference (not currently supported)]
-Kontakt se pokusil začít hlasovou konferenci (aktuálně není podporováno)
 [%I64u bytes]
 %I64u bajtů
+[MSN Alert]
+Upozornění MSN
+[Contact tried to open an audio conference (not currently supported)]
+Kontakt se pokusil začít hlasovou konferenci (aktuálně není podporováno)
 [Accept NetMeeting request from %s?]
 Přijmout NetMeeting požadavek od %s?
 [MSN Protocol]
 Protokol MSN
-[MSN Alert]
-Upozornění MSN
 [Chat session established by my request]
 Spojení navázáno (vlastní žádost)
 [Chat session established by contact request]
@@ -154,6 +156,8 @@ Chcete-li v konverzaci pokračovat, ukončete tuto relaci a vytvořte novou.
 Konverzace probíhá jen s jedním člověkem. Chcete přepnout do klasického komunikačního okna?
 [MSN Chat]
 MSN :: diskuse
+[Others]
+Ostatní
 [Message delivery failed]
 Zpráva nebyla doručena
 ;file \protocols\MSN\src\msn_errors.cpp

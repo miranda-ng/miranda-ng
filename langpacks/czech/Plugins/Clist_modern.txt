@@ -878,11 +878,6 @@ sloupce
 %s, obsahuje %s
 [ layered]
  moderní
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-Pro zpracování PNG obrázků je zapotřebí doplněk Image services
-[Error]
-Chyba
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 (neznámý)

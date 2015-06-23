@@ -120,19 +120,19 @@ Globální avatar
 [Avatar]
 Avatar
 ;file \plugins\AVS\src\services.cpp
-[All Files]
+[All files]
 Všechny soubory
-[Windows Bitmaps]
-obrázky typu BMP
-[JPEG Bitmaps]
-obrázky typu JPEG
-[GIF Bitmaps]
-obrázky typu GIF
-[PNG Bitmaps]
-obrázky typu PNG
-[Flash Animations]
+[Windows bitmaps]
+Obrázky typu BMP
+[JPEG bitmaps]
+Obrázky typu JPEG
+[GIF bitmaps]
+Obrázky typu GIF
+[PNG bitmaps]
+Obrázky typu PNG
+[Flash animations]
 animace typu Flash
-[XML Files]
+[XML files]
 soubory typu XML
 [Grow avatar to fit max allowed protocol size]
 Upravit rozměry na max. velikost danou protokolem

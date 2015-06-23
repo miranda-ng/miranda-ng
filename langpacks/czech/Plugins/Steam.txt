@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.4.1
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -41,9 +41,6 @@ Zadejte heslo pro pokračování.
 ;file \protocols\Steam\src\main.cpp
 [Steam game]
 Steam hra
-;file \protocols\Steam\src\steam_account.cpp
-[Connection token expired. Please login again.]
-Token pro připojení vypršel. Přihlaste se znovu.
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Chci hrát
@@ -69,12 +66,13 @@ Avatary
 [Name]
 Jméno
 ;file \protocols\Steam\src\steam_events.cpp
-[%s connection]
-%s - spojení se serverem
 [Network]
 Sítě
 [Blocked contacts]
 Blokované kontakty
+;file \protocols\Steam\src\steam_login.cpp
+[Connection token expired. Please login again.]
+Token pro připojení vypršel. Přihlaste se znovu.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Volba nabídky Steam
@@ -92,6 +90,8 @@ Protokoly
 Ikona protokolu
 [Gaming icon]
 Herní ikona
+[%s connection]
+%s - spojení se serverem
 [SteamID]
 SteamID
 [You cannot send messages when you are offline.]

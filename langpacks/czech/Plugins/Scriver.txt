@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -337,10 +337,6 @@ Smajlík
 Indikace psaní zprávy
 [Typing notification off]
 Indikace psaní vypnuta
-[Unicode is on]
-Unicode: zapnuto
-[Unicode is off]
-Unicode: vypnuto
 [Sending]
 Odesílání
 [Quote button]
