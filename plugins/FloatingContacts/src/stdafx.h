@@ -2,8 +2,6 @@
 #ifndef __STDHDR_H__
 #define __STDHDR_H__
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <assert.h>
 #include <math.h>
