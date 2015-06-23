@@ -261,7 +261,7 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic)
 	debugLog(_T("CVkProto::SetChatTitle"));
 	if (!cc)
 		return;
-\
+
 	if (mir_tstrcmp(cc->m_tszTopic, tszTopic) == 0)
 		return;
 
