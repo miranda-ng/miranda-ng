@@ -454,12 +454,6 @@ begin
   Result := 0;
   LoadIcons2;
   NotifyAllForms(HM_NOTF_ICONS2CHANGED,0,0);
-  //change menu icons
-  Menu_ModifyItem(MenuHandles[miContact].Handle, nil, hppIcons[HPP_ICON_CONTACTHISTORY].handle);
-  Menu_ModifyItem(MenuHandles[miSystem].Handle, nil, hppIcons[HPP_ICON_CONTACTHISTORY].handle);
-  Menu_ModifyItem(MenuHandles[miSearch].Handle, nil, hppIcons[HPP_ICON_GLOBALSEARCH].handle);
-  Menu_ModifyItem(MenuHandles[miEmpty].Handle, nil, hppIcons[HPP_ICON_TOOL_DELETEALL].handle);
-  Menu_ModifyItem(MenuHandles[miSysEmpty].Handle, nil, hppIcons[HPP_ICON_TOOL_DELETEALL].handle);
 end;
 
 //the context menu for a contact is about to be built     v0.1.0.1+
@@ -479,7 +473,10 @@ begin
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
     if hLast = 0 then
+    begin
       Menu_ShowItem(MenuHandles[miEmpty].Handle, 0);
+      Menu_ShowItem(MenuHandles[miContact].Handle, 0);
+    end;
     if ShowHistoryCount then
       text := pWideChar(Format('%s [%u]',[TranslateW(MenuHandles[miContact].Name),count]))
     else if PrevShowHistoryCount then
@@ -487,7 +484,7 @@ begin
     else
       text := nil;
 
-    Menu_ModifyItem(MenuHandles[miContact].Handle, text, INVALID_HANDLE_VALUE, 0);
+    Menu_ModifyItem(MenuHandles[miContact].Handle, text);
     MenuCount := count;
     PrevShowHistoryCount := ShowHistoryCount;
   end;
