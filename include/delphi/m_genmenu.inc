@@ -374,10 +374,10 @@ const
 }
 
 const 
-  OPT_MENUITEMSETUNIQNAME = 1; // sets uniq name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
-  OPT_MENUOBJECT_SET_FREE_SERVICE = 2; // sets FreeService for menuobject.
-  OPT_MENUOBJECT_SET_ONADD_SERVICE = 3; // sets onAddService for menuobject.
-  OPT_MENUOBJECT_SET_CHECK_SERVICE = 4;
+  MCO_OPT_USERDEFINEDITEMS = 1; // sets uniq name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
+  MCO_OPT_FREE_SERVICE = 2; // sets FreeService for menuobject.
+  MCO_OPT_ONADD_SERVICE = 3; // sets onAddService for menuobject.
+  MCO_OPT_CHECK_SERVICE = 4;
 
 function Menu_ConfigureObject(menu:THANDLE; option:integer; value:PAnsiChar) : integer; stdcall;
               external AppDLL name 'Menu_ConfigureObject';

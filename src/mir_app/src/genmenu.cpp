@@ -86,7 +86,7 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func, void* param)
+TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func, void* param)
 {
 	if (parent == NULL)
 		return FALSE;
