@@ -85,7 +85,7 @@ namespace
 	{
 		CLISTMENUITEM mi = { 0 };
 		mi.ptszName = LPGENT("Quotes");
-		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
+		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
@@ -143,7 +143,7 @@ namespace
 		{
 			mi.pszPopupName = (char *)-1;
 			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-			mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
+			mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 			tstring sProtocolName = quotes_a2t(QUOTES_PROTOCOL_NAME);
 			mi.ptszName = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
 			mi.position = 0;
@@ -154,7 +154,7 @@ namespace
 		mi.flags = CMIF_TCHAR;
 		if (bSubGroups)
 		{
-			mi.flags |= CMIF_CHILDPOPUP;
+			mi.flags |= CMIF_ROOTHANDLE;
 			mi.pszPopupName = (char*)hMenuRoot;
 		}
 

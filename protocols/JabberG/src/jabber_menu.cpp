@@ -422,7 +422,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	char* tDest = text + nModuleNameLength;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = 0;
 	mi.icolibItem = NULL;
 	mi.pszService = text;
@@ -598,7 +598,7 @@ void CJabberProto::MenuInit()
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = m_hProtoIcon;
 		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -611,7 +611,7 @@ void CJabberProto::MenuInit()
 	// "Bookmarks..."
 	CreateProtoService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
 	mir_strcpy(tDest, "/Bookmarks");
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Bookmarks");
 	mi.position = 200001;
@@ -708,7 +708,7 @@ void CJabberProto::MenuInit()
 	mi.pszContactOwner = m_szModuleName;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Resource priority");
-	mi.flags = CMIF_ROOTPOPUP | CMIF_HIDDEN;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
 
 	TCHAR szName[128];
@@ -716,7 +716,7 @@ void CJabberProto::MenuInit()
 	mi.pszService = srvFce;
 	mi.ptszName = szName;
 	mi.position = 2000040000;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hParentMenu = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, _countof(srvFce), "%s/menuSetPriority/0", m_szModuleName);

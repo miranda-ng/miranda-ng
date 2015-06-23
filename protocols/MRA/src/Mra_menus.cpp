@@ -339,7 +339,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		if (hRootMenu == NULL) {
 			mi.ptszName = m_tszUserName;
 			mi.hParentMenu = HGENMENU_ROOT;
-			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hIcon = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
@@ -351,14 +351,14 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	else {
 		fnAddFunc = Menu_AddContactMenuItem;
 		mi.position = lPosition;
-		mi.flags = CMIF_ROOTPOPUP;
+		mi.flags = CMIF_ROOTHANDLE;
 	}
 
 	mi.pszName = LPGEN("Services...");
 	mi.hIcon = g_hMainIcon;
 	hRootMenu = fnAddFunc(&mi);
 
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = hRootMenu;
 	mi.popupPosition = lPopupPosition;
 	mi.pszService = szServiceFunction;

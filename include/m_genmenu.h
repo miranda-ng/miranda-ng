@@ -318,8 +318,8 @@ __forceinline HANDLE MO_CreateMenuObject(LPCSTR szName, LPCSTR szDisplayName, LP
 #define MCO_OPT_USERDEFINEDITEMS 1
 
 // Set FreeService for menuobject. When freeing menuitem it will be called with
-// wParam=MenuItemHandle
-// lParam=mi.ownerdata
+// wParam = MenuItemHandle
+// lParam = mi.ownerdata
 #define MCO_OPT_FREE_SERVICE 2
 
 // Set onAddService for menuobject.

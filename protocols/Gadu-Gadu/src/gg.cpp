@@ -270,7 +270,7 @@ void GGPROTO::menus_init()
       mi.ptszName = m_tszUserName;
       mi.position = 500090000;
       mi.hParentMenu = HGENMENU_ROOT;
-      mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+      mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
       mi.icolibItem = iconList[0].hIcolib;
       hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
    }

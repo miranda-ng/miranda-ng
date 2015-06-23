@@ -195,7 +195,7 @@ void CVkProto::InitMenus()
 	char szService[100];
 
 	// Proto menu
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 	
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_CREATECHAT);
@@ -305,7 +305,7 @@ void CVkProto::InitMenus()
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 		
-	mi.flags |= CMIF_CHILDPOPUP;
+	mi.flags |= CMIF_ROOTHANDLE;
 	mi.hParentMenu = g_hContactMenuItems[CMI_GETSERVERHISTORY];
 
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST1DAY);

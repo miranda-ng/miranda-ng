@@ -292,7 +292,7 @@ INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 void InitMenuItems()
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.ptszName = LPGENT("Paste It");
@@ -300,7 +300,7 @@ void InitMenuItems()
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.hParentMenu = hContactMenu;
 	mi.popupPosition = FROM_CLIPBOARD;
@@ -320,7 +320,7 @@ void InitMenuItems()
 	mi2.hParentMenu = hDefWebMenu;
 	for (int i = 0; i < PasteToWeb::pages; ++i)
 	{
-		mi2.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
+		mi2.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR;
 		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
 		mi2.ptszName = pasteToWebs[i]->GetName();

@@ -258,13 +258,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.popupPosition = 2000089999;
 	mi.position = 2000089999;
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_VI);
 	mi.ptszName = LPGENT("Version Information");
 	mi.hParentMenu = HGENMENU_ROOT;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hMenuRoot;
 	mi.popupPosition = 0;
 

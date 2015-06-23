@@ -122,7 +122,7 @@ void InitTaskMenuItems()
 		if (hTaskMainMenu == NULL) {
 			CLISTMENUITEM mi = { 0 };
 			mi.position = 500060005;
-			mi.flags = CMIF_ROOTPOPUP;
+			mi.flags = CMIF_ROOTHANDLE;
 			mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 			mi.pszName = LPGEN("Execute history task");
 			hTaskMainMenu = Menu_AddMainMenuItem(&mi);
@@ -139,7 +139,7 @@ void InitTaskMenuItems()
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
 			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.hParentMenu = hTaskMainMenu;
 			mi.popupPosition = pos++;

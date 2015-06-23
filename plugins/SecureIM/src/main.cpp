@@ -51,7 +51,7 @@ static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, i
 static HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_CHILDPOPUP | CMIF_HIDDEN;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_HIDDEN;
 	mi.position = pos;
 	mi.popupPosition = poppos;
 	mi.pszName = (char*)name;
@@ -234,7 +234,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	g_hMenu[1] = AddMenuItem(sim302, 110001, g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
 	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
-		g_hMenu[2] = AddMenuItem(sim312[0], 110002, NULL, NULL, CMIF_ROOTPOPUP);
+		g_hMenu[2] = AddMenuItem(sim312[0], 110002, NULL, NULL, CMIF_ROOTHANDLE);
 		g_hMenu[3] = AddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
 		g_hMenu[4] = AddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
 		g_hMenu[5] = AddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
@@ -257,7 +257,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	}
 
 	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
-		g_hMenu[10] = AddMenuItem(sim311[0], 110010, NULL, NULL, CMIF_ROOTPOPUP);
+		g_hMenu[10] = AddMenuItem(sim311[0], 110010, NULL, NULL, CMIF_ROOTHANDLE);
 		g_hMenu[11] = AddSubItem(g_hMenu[10], sim231[0], 110011, 110010, MODULENAME"/MODE_NAT");
 		g_hMenu[12] = AddSubItem(g_hMenu[10], sim231[1], 110012, 110010, MODULENAME"/MODE_PGP");
 		g_hMenu[13] = AddSubItem(g_hMenu[10], sim231[2], 110013, 110010, MODULENAME"/MODE_GPG");

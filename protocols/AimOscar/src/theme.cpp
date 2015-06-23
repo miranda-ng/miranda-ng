@@ -216,7 +216,7 @@ void CAimProto::InitMainMenus(void)
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle("aim");
 		mi.ptszName = m_tszUserName;
 		mi.hParentMenu = HGENMENU_ROOT;
@@ -233,7 +233,7 @@ void CAimProto::InitMainMenus(void)
 
 	mi.pszService = service_name;
 	mi.hParentMenu = hRoot;
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 
 	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/ManageAccount");
 	CreateProtoService("/ManageAccount", &CAimProto::ManageAccount);

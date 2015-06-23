@@ -376,7 +376,7 @@ void CYahooProto::MenuMainInit(void)
 	if (hRoot == NULL) {
 		mi.position = 500015000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_YAHOO);
 		mi.ptszName = m_tszUserName;
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -387,7 +387,7 @@ void CYahooProto::MenuMainInit(void)
 		mainMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = hRoot;
 
 	// Show custom status menu

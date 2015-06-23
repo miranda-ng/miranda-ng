@@ -45,7 +45,7 @@ int InitMenus(WPARAM wParam, LPARAM lParam)
 		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
 		CLISTMENUITEM cmi = { 0 };
-		cmi.flags = CMIF_CHILDPOPUP;
+		cmi.flags = CMIF_ROOTHANDLE;
 		cmi.hParentMenu = HGENMENU(wParam);
 		cmi.hIcon = g_hPopupIcon;
 		cmi.position = 200101;

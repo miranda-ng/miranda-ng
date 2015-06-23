@@ -2094,7 +2094,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.position = 200005;
 	mi.pszContactOwner = m_szModuleName;
 	mi.icolibItem = GetIconHandle(IDI_AGENTS);
-	mi.flags = CMIF_ROOTPOPUP | CMIF_CHILDPOPUP | CMIF_HIDDEN;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_HIDDEN;
 	mi.pszName = LPGEN("Privacy Lists");
 	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -2104,7 +2104,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mir_snprintf(srvFce, _countof(srvFce), "%s/PrivacyLists", m_szModuleName);
 	mi.pszService = srvFce;
 	mi.position = 3000040000;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
 	mi.ptszName = LPGENT("List Editor...");
 	mi.hParentMenu = m_hPrivacyMenuRoot;
@@ -2125,7 +2125,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000040000;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = m_hPrivacyMenuRoot;
 	mi.pszService = srvFce;
 
