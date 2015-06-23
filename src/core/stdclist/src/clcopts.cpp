@@ -35,19 +35,20 @@ struct CheckBoxToStyleEx_t
 	int not;
 }
 
-static const checkBoxToStyleEx[] = {
-	{IDC_DISABLEDRAGDROP, CLS_EX_DISABLEDRAGDROP, 0},
-	{IDC_NOTEDITLABELS, CLS_EX_EDITLABELS, 1},
-	{IDC_SHOWSELALWAYS, CLS_EX_SHOWSELALWAYS, 0},
-	{IDC_TRACKSELECT, CLS_EX_TRACKSELECT, 0},
-	{IDC_SHOWGROUPCOUNTS, CLS_EX_SHOWGROUPCOUNTS, 0},
-	{IDC_HIDECOUNTSWHENEMPTY, CLS_EX_HIDECOUNTSWHENEMPTY, 0},
-	{IDC_DIVIDERONOFF, CLS_EX_DIVIDERONOFF, 0},
-	{IDC_NOTNOTRANSLUCENTSEL, CLS_EX_NOTRANSLUCENTSEL, 1},
-	{IDC_LINEWITHGROUPS, CLS_EX_LINEWITHGROUPS, 0},
-	{IDC_QUICKSEARCHVISONLY, CLS_EX_QUICKSEARCHVISONLY, 0},
-	{IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA, 0},
-	{IDC_NOTNOSMOOTHSCROLLING, CLS_EX_NOSMOOTHSCROLLING, 1}
+static const checkBoxToStyleEx[] =
+{
+	{ IDC_DISABLEDRAGDROP,      CLS_EX_DISABLEDRAGDROP,     0 },
+	{ IDC_NOTEDITLABELS,        CLS_EX_EDITLABELS,          1 },
+	{ IDC_SHOWSELALWAYS,        CLS_EX_SHOWSELALWAYS,       0 },
+	{ IDC_TRACKSELECT,          CLS_EX_TRACKSELECT,         0 },
+	{ IDC_SHOWGROUPCOUNTS,      CLS_EX_SHOWGROUPCOUNTS,     0 },
+	{ IDC_HIDECOUNTSWHENEMPTY,  CLS_EX_HIDECOUNTSWHENEMPTY, 0 },
+	{ IDC_DIVIDERONOFF,         CLS_EX_DIVIDERONOFF,        0 },
+	{ IDC_NOTNOTRANSLUCENTSEL,  CLS_EX_NOTRANSLUCENTSEL,    1 },
+	{ IDC_LINEWITHGROUPS,       CLS_EX_LINEWITHGROUPS,      0 },
+	{ IDC_QUICKSEARCHVISONLY,   CLS_EX_QUICKSEARCHVISONLY,  0 },
+	{ IDC_SORTGROUPSALPHA,      CLS_EX_SORTGROUPSALPHA,     0 },
+	{ IDC_NOTNOSMOOTHSCROLLING, CLS_EX_NOSMOOTHSCROLLING,   1 }
 };
 
 struct CheckBoxValues_t
@@ -56,7 +57,8 @@ struct CheckBoxValues_t
 	TCHAR* szDescr;
 };
 
-static const struct CheckBoxValues_t greyoutValues[] = {
+static const struct CheckBoxValues_t greyoutValues[] =
+{
 	{ GREYF_UNFOCUS,  LPGENT("Not focused")   },
 	{ MODEF_OFFLINE,  LPGENT("Offline")       },
 	{ PF2_ONLINE,     LPGENT("Online")        },
@@ -70,7 +72,8 @@ static const struct CheckBoxValues_t greyoutValues[] = {
 	{ PF2_ONTHEPHONE, LPGENT("On the phone")  }
 };
 
-static const struct CheckBoxValues_t offlineValues[] = {
+static const struct CheckBoxValues_t offlineValues[] =
+{
 	{ MODEF_OFFLINE,  LPGENT("Offline")       },
 	{ PF2_ONLINE,     LPGENT("Online")        },
 	{ PF2_SHORTAWAY,  LPGENT("Away")          },
@@ -86,24 +89,23 @@ static const struct CheckBoxValues_t offlineValues[] = {
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
 {
 	TVINSERTSTRUCT tvis;
-	int i;
-
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (i = 0; i < nValues; i++) {
+	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS( values[i].szDescr );
+		tvis.item.pszText = TranslateTS(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
-		TreeView_InsertItem( hwndTree, &tvis);
-}	}
+		TreeView_InsertItem(hwndTree, &tvis);
+	}
+}
 
 static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 {
 	DWORD flags = 0;
-	TVITEM tvi;
 
+	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem) {
@@ -120,18 +122,17 @@ static LONG CalcMinRowHeight()
 	LONG minHeight = 16;
 	HDC hdc = GetDC(NULL);
 	for (int i = 0; i < FONTID_LAST; i++) {
-		HFONT hFont;
 		LOGFONT lf;
 		COLORREF color;
-		SIZE fontSize;
 		pcli->pfnGetFontSetting(i, &lf, &color);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-		hFont = CreateFontIndirect(&lf);
-		hFont = ( HFONT )SelectObject(hdc, hFont);
+		HFONT hFont = CreateFontIndirect(&lf);
+		hFont = (HFONT)SelectObject(hdc, hFont);
+		SIZE fontSize;
 		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
 		if (fontSize.cy > minHeight)
 			minHeight = fontSize.cy;
-		hFont = ( HFONT )SelectObject(hdc,hFont);
+		hFont = (HFONT)SelectObject(hdc, hFont);
 		DeleteObject(hFont);
 	}
 	ReleaseDC(NULL, hdc);
@@ -156,9 +157,9 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				checkBoxToStyleEx[i].not) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		{
-			UDACCEL accel[2] = { {0, 10} , {2, 50} };
+			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM) & accel);
+			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)& accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0,
 				MAKELONG(db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 		}
@@ -189,6 +190,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, MAKELONG(rowHeight, 0));
 		}
 		return TRUE;
+
 	case WM_SETFOCUS:
 		{
 			LONG minHeight = CalcMinRowHeight();
@@ -200,43 +202,46 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, minHeight));
 		}
 		break;
+
 	case WM_VSCROLL:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NOTNOSMOOTHSCROLLING)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		if (LOWORD(wParam) == IDC_GREYOUT)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
 		if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT
-			|| LOWORD(wParam) == IDC_ROWHEIGHT)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			|| LOWORD(wParam) == IDC_ROWHEIGHT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_GREYOUTOPTS:
 		case IDC_HIDEOFFLINEOPTS:
-			if (((LPNMHDR) lParam)->code == NM_CLICK) {
+			if (((LPNMHDR)lParam)->code == NM_CLICK) {
 				TVHITTESTINFO hti;
-				hti.pt.x = (short) LOWORD(GetMessagePos());
-				hti.pt.y = (short) HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR) lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR) lParam)->hwndFrom, &hti))
+				hti.pt.x = (short)LOWORD(GetMessagePos());
+				hti.pt.y = (short)HIWORD(GetMessagePos());
+				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
+				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
 					if (hti.flags & TVHT_ONITEMSTATEICON) {
 						TVITEM tvi;
 						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 						tvi.hItem = hti.hItem;
-						TreeView_GetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
+						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-						TreeView_SetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
+						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 			}
 			break;
+
 		case 0:
-			if (((LPNMHDR) lParam)->code == PSN_APPLY ) {
+			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				int i;
 				DWORD exStyle = 0;
 				for (i = 0; i < _countof(checkBoxToStyleEx); i++)
@@ -252,23 +257,21 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					else
 						db_set_dw(NULL, "CLC", "GreyoutFlags", 0);
 				}
-				db_set_b(NULL, "CLC", "ShowIdle", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
+				db_set_b(NULL, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
 				db_set_dw(NULL, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
-				db_set_b(NULL, "CLC", "LeftMargin",
-					(BYTE) SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(NULL, "CLC", "ScrollTime",
-					(WORD) SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "GroupIndent",
-					(BYTE) SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
-				db_set_b(NULL, "CLC", "RowHeight", (BYTE) SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "GammaCorrect", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
+				db_set_b(NULL, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
+				db_set_b(NULL, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, "CLC", "GammaCorrect", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
 				pcli->pfnClcOptionsChanged();
 				return TRUE;
 			}
 			break;
 		}
 		break;
+
 	case WM_DESTROY:
 		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), TVSIL_NORMAL));
 		break;
@@ -297,7 +300,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, dbv.pszVal);
 
 				char szPath[MAX_PATH];
-				if ( PathToAbsolute(dbv.pszVal, szPath))
+				if (PathToAbsolute(dbv.pszVal, szPath))
 					SetDlgItemTextA(hwndDlg, IDC_FILENAME, szPath);
 
 				db_free(&dbv);
@@ -315,6 +318,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 		return TRUE;
+
 	case WM_USER + 10:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAME), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
@@ -325,13 +329,15 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SCROLL), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PROPORTIONAL), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 		break;
+
 	case WM_USER + 11:
 		{
 			BOOL b = IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !b);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !b);
-			break;
 		}
+		break;
+
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
 			TCHAR str[MAX_PATH], filter[512];
@@ -358,16 +364,17 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendMessage(hwndDlg, WM_USER + 10, 0, 0);
 		if (LOWORD(wParam) == IDC_WINCOLOUR)
 			SendMessage(hwndDlg, WM_USER + 11, 0, 0);
-		if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+		if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(NULL, "CLC", "UseBitmap", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				db_set_b(NULL, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 				{
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
@@ -385,7 +392,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					char str[MAX_PATH], strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, _countof(str));
-					if ( PathToRelative(str, strrel))
+					if (PathToRelative(str, strrel))
 						db_set_s(NULL, "CLC", "BkBitmap", strrel);
 					else
 						db_set_s(NULL, "CLC", "BkBitmap", str);
@@ -445,8 +452,7 @@ int ClcModernOptInit(WPARAM wParam, LPARAM lParam)
 		MODERNOPT_CTRL_LAST
 	};
 
-	MODERNOPTOBJECT obj = {0};
-
+	MODERNOPTOBJECT obj = { 0 };
 	obj.cbSize = sizeof(obj);
 	obj.dwFlags = MODEROPT_FLG_TCHAR;
 	obj.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

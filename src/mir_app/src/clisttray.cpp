@@ -724,6 +724,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			TranslateMenu(hMenu);
 
 			MENUITEMINFO mi = { 0 };
+			mi.cbSize = sizeof(mi);
 			mi.fMask = MIIM_SUBMENU | MIIM_TYPE;
 			mi.fType = MFT_STRING;
 			mi.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
