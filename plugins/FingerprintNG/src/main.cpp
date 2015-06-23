@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //Start of header
-#include "global.h"
+#include "stdafx.h"
 
 #define LIB_REG		2
 #define LIB_USE		3
