@@ -65,10 +65,10 @@ zmienił(a) klienta na %s
 Wyłącz powiadomienia o zmianie k&lienta
 [Enable c&lient change notification]
 Włącz powiadomienia o zmianie k&lienta
-[Popups]
-Popupy
 [ClientChangeNotify: Client changed]
 Zmiana klienta
+[Popups]
+Popupy
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Błąd #%d

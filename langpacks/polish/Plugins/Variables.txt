@@ -356,8 +356,6 @@ pokazuje czas w formacie "y" po upływie "x" sekund od 1/1/1970
 "y" > 0: linia "y" z pliku "x", "y" = 0: cały plik, "y" < 0: linia "y" licząc od końca, "y" = r: losowa linia
 [uptime in seconds]
 czas działania w sekundach
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [expand environment variable x]
 rozwija zmienną środowiskową "x"
 [user name]
