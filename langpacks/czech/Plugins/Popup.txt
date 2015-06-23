@@ -203,22 +203,24 @@ Celoobrazovkový režim
 [Debug]
 Debug
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
----
-[Send message]
-Poslat zprávu
 [Quick reply]
 Rychlá odpověď
+[Send message]
+Poslat zprávu
 [User details]
 Informace o uživateli
 [Contact menu]
 Menu kontaktu
-[Dismiss popup]
-Zavřít oznámení
+[Add permanently]
+Přidat natrvalo
 [Pin popup]
 Zobrazit trvale
+[Dismiss popup]
+Zavřít oznámení
 [Copy to clipboard]
 Zkopírovat do schránky
+[No overwrite]
+---
 [Action]
 Akce
 ;file \plugins\Popup\src\config.cpp

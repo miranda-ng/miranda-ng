@@ -44,8 +44,8 @@ Přepnout Caps Lock při inverzi velikosti písmen:
 Změnit aktivní rozvržení klávesnice v systému
 [Colors]
 Barvy
-[Popup colors]
-Barvy oznámení
+[Use default colors]
+Použít výchozí barvy
 [Windows colors]
 Barvy Windows
 [Custom colors]

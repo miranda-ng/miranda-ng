@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.3
+;  Version: 0.12.1.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -34,6 +34,10 @@ Automatická synchronizace zpráv
 Použít lokální čas počítače pro příchozí zprávy
 [Always notify as unread for all incoming message]
 Vždy upozornit všechny příchozí zprávy jako nepřečtené
+[Place:]
+Místo:
+[Use hostname]
+
 [Enter password]
 Zadejte heslo
 [Save password]
@@ -66,6 +70,8 @@ Určit &roli
 &Správce
 [&User]
 &Uživatel
+[Enter new chatroom topic]
+
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Opravdu chcete pokračovat?
@@ -122,6 +128,15 @@ Ikona chyby
 Ikona akce
 [Protocols]
 Protokoly
+;file \protocols\SkypeWeb\src\skype_login.cpp
+[Authentication failed. Invalid username.]
+
+[Authentication failed. Bad username or password.]
+
+[Too many failed authentication attempts with given username or IP.]
+
+[Authentication failed. Unknown error.]
+
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Požádat o autorizaci
@@ -136,6 +151,9 @@ Odblokovat kontakt
 [Create new chat]
 Založit novou diskusi
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+;file \protocols\SkypeWeb\src\skype_mslogin.cpp
+[Enter confirmation code]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Sítě

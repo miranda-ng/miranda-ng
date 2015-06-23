@@ -203,10 +203,6 @@ On/ona
 Probíhá aktualizace informací o kontaktech
 [Done refreshing user details]
 Konec aktualizace informací o kontaktech
-[Could not create worker thread. Error#%d - threadID %d]
-Nelze vytvořit pracovní vlákno. Chyba#%d - threadID %d
-[Error]
-Chyba
 [Birthdays files]
 Soubory s narozeninami
 [Please select a file to import birthdays from...]
@@ -225,6 +221,8 @@ Export seznamu narozenin do souboru %s.
 Export seznamu narozenin úspěšně dokončen.
 [Could not open file to import birthdays]
 
+[Error]
+Chyba
 [Warning]
 Upozornění
 [Could not open file to export birthdays]

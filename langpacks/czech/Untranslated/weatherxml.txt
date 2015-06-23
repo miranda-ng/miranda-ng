@@ -1,5 +1,5 @@
-﻿[N/A%]
+﻿[Jun]
 [Latitude]
 [Longitude]
+[N/A%]
 [Observatory]
-[Jun]

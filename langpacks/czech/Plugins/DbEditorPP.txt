@@ -2,42 +2,36 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.2
+;  Version: 4.0.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
 Pokročilý editor databáze.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ search and replace]
-Editor databáze :: Hledání a nahrazení
+[Search and replace]
+Hledání a nahrazení
 [Search for]
 Hledat:
-[Text:]
-Text:
-[In:]
-V:
-[Case sensitive]
-Rozlišovat malá a VELKÁ
-[Module name]
-Název modulu
 [Exact match]
 Přesný výraz
+[&Search]
+&Hledat
+[Module name]
+Název modulu
 [Setting name]
 Název nastavení
 [Setting value]
 Hodnota
-[&Search]
-&Hledat
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[&Cancel]
+&Zrušit
 [Replace with]
 Nahradit
 [Entirely]
 Kompletně
-[Found field]
-Nalezeno pole
 [&Replace]
 Nah&radit
-[&Cancel]
-&Zrušit
 [Restore last opened position]
 Zapamatovat pozici okna
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,10 +54,10 @@ Přidat všem kontaktům (včetně nastavení)
 Zrušit
 [Edit setting]
 Upravit nastavení
-[Value name:]
-Název hodnoty:
-[Value data:]
-Obsah hodnoty:
+[Name]
+Jméno
+[Value]
+Hodnota
 [Base]
 Číselná soustava
 [Hexadecimal]
@@ -88,14 +82,10 @@ Zkopírovat modul do kontaktu
 Zkopírovat modul a nastavení do kontaktu
 [Copy to all contacts (including Settings)]
 Zkopírovat všem kontaktům (včetně nastavení)
-[Import module/settings]
-Importovat modul/nastavení
-[Paste the settings to import here.]
-Zde vložte požadovaný text:
 [Import]
 Importovat
-[Insert &CR/LF]
-Vložit &CR/LF
+[Paste the settings to import here:]
+Zde vložte požadovaný text pro import:
 [Database Editor++]
 Editor databáze ++
 [&Main]
@@ -110,6 +100,8 @@ U&končit
 &Akce
 [&Search and replace]
 Najít a nah&radit...
+[&Fix resident settings]
+Opravit rezidentní nastavení
 [&Delete module]
 &Smazat modul...
 [&Watches]
@@ -148,14 +140,20 @@ Upravovat &Bytes v hexa
 Upravovat &Words v hexa
 [Edit &Dwords in Hex]
 Upravovat &Dwords v hexa
+[&Inline edit]
+
 [&Restore position]
 &Obnovit pozici
 [&Open options]
 Otevřít &nastavení
-[&Edit/rename]
-&Upravit...
-[New]
-Nový
+[&Edit]
+Up&ravit
+[&Copy]
+Z&kopírovat
+[&Delete]
+&Smazat
+[Convert to]
+Zkonvertovat na
 [&Byte]
 &Byte
 [&Word]
@@ -166,30 +164,22 @@ Nový
 &String
 [&Unicode]
 &Unicode
+[New]
+Nový
 [BL&OB]
 BL&OB
-[&Convert to]
-&Konvertovat na
-[Encyption]
-Šifrování
-[View decrypted string]
-Zobrazit dešifrovaný řetězec
-[View encrypted string]
-Zobrazit zašifrovaný řetězec
-[Decrypt string]
-Dešifrovat řetězec
-[Encrypt string]
-Zašifrovat řetězec
 [&Watch]
 Sl&edovat
-[&Delete]
-&Smazat
+[&Refresh]
+A&ktualizovat
 [&Rename]
 Př&ejmenovat
 [Copy to contact]
 &Zkopírovat do kontaktu...
 [Export module]
 &Exportovat modul...
+[&Add module]
+Přid&at modul...
 [&Clone]
 Dup&likovat
 [Export contact]
@@ -200,8 +190,6 @@ Importovat nastavení
 &Ze souboru...
 [From pasted text]
 Z&e schránky...
-[&Add module]
-Přid&at modul...
 [Export settings]
 &Exportovat nastavení
 [Export contacts]
@@ -214,48 +202,17 @@ Importovat kontakty
 Sledování
 [Reload watch list]
 Aktualizovat seznam sledovaných
-;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
-[Cannot Convert!]
-Vybranou položku nelze zkonvertovat.
-[New BYTE value]
-Nová hodnota BYTE
-[Edit BYTE value]
-Změnit hodnotu typu BYTE
-[New WORD value]
-Nová hodnota WORD
-[Edit WORD value]
-Změnit hodnotu typu WORD
-[New DWORD value]
-Nová hodnota DWORD
-[Edit DWORD value]
-Změnit hodnotu typu DWORD
-[New STRING value]
-Nová hodnota STRING
-[Edit STRING value]
-Změnit hodnotu typu STRING
-[New UNICODE value]
-Nová hodnota UNICODE
-[Edit UNICODE value]
-Upravit hodnotu UNICODE
-[New BLOB value]
-Nová hodnota BLOB
-[Edit BLOB value]
-Upravit hodnotu BLOB
-[Couldn't allocate enough memory!]
-Nelze alokovat dostatek paměti!
 ;file \plugins\DbEditorPP\src\copymodule.cpp
-[Settings]
-Nastavení
+[Copy module "%s"]
+Zkopírovat modul "%s"
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Opravdu chcete smazat modul '%s'?
-[Confirm module deletion]
-Potvrzení smazání modulu
 [Delete module from database]
 Smazat modul z databáze
 [Delete module from database... Loading]
 Mazání modulu z databáze... načítání
-[Delete module from all contacts (including Setting)]
+[Delete from all contacts (including Settings)]
 Smazat ode všech kontaktů (včetně nastavení)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -264,48 +221,44 @@ Soubory INI
 Všechny soubory
 [Export to file]
 Exportovat...
-[Error loading module list]
-Chyba při načítání seznamu modulů
 [Couldn't open file for writing]
 Nelze otevřít soubor pro zápis
+[Import to "%s"]
+Importovat do "%s"
 [Import from files]
 Importovat ze souboru
 ;file \plugins\DbEditorPP\src\findwindow.cpp
+[Result]
+VÝSLEDEK
+[Contact]
+Kontakt
+[Module]
+Modul
+[Setting]
+Nastavení
 [Enter a string to search the database for]
 Zadejte prosím požadovaný řetězec pro vyhledávání
 [Stop]
 Zastavit
-[Replaced with]
+[Replaced]
 Nahrazeno
 [Deleted]
 Smazáno
 [Found]
 Nalezeno
-[%s Module "%s" in contact "%s"]
-%s: modul '%s' v kontaktu '%s'
-[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s: položka '%s' v modulu '%s' kontaktu '%s' -> '%s'
-[%s Setting "%s" in module "%s" in contact "%s"]
-%s: položka '%s' v modulu '%s' kontaktu '%s'
-[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s: '%s' v položce '%s' modulu '%s' kontaktu '%s'
 [Searching...]
 Hledání...
-[Error Loading Setting List]
-Chyba při načítání seznamu nastavení
-[Finished. %d items were found, %d items were deleted.]
-Dokončeno. Počet nalezených: %d, počet odstraněných: %d
-[Finished. %d items were found, %d items were replaced.]
-Dokončeno. Počet nalezených: %d, počet nahrazených: %d
-[Finished. %d items were found.]
-Dokončeno. Počet nalezených položek: %d
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Dokončeno. Nalezeno: %d / nahrazeno: %d / odstraněno: %d
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Hlavní ikona
-[Closed known module]
-Známý modul (zavřený)
-[Open known module]
-Známý modul (otevřený)
+[Closed module]
+Zavřený modul
+[Open module]
+Otevřený modul
+[Settings]
+Nastavení
 [Contacts group]
 Skupina kontaktů
 [Unknown contact]
@@ -314,6 +267,8 @@ Neznámý kontakt
 Známý kontakt
 [Open user tree]
 Otevřený strom kontaktu
+[Empty setting]
+Prázdné nastavení
 [BLOB setting]
 Hodnota BLOB
 [Byte setting]
@@ -333,73 +288,57 @@ Ukazatel
 Otevřít editor databáze
 [Open user tree in DBE++]
 Upravit položky v DBE++
+[<UNKNOWN>]
+<neznámý>
+[[UNLOADED]]
+
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
-[Confirm contact delete]
-Potvrzení smazání kontaktu
-;file \plugins\DbEditorPP\src\modules.cpp
+[Delete resident settings from database?]
+
+[%d orphaned items deleted.]
+
+;file \plugins\DbEditorPP\src\modsettingenum.cpp
+[Error loading module list]
+Chyba při načítání seznamu modulů
+[Error loading setting list]
+Chyba při načítání seznamu nastavení
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 Načítání seznamu kontaktů...
 [Loading modules...]
 Načítání modulů...
-[Module tree not found]
-Nebyl nalezen strom modulu
 [Contacts]
 Kontakty
-[HANDLE]
-HANDLE
-[Add module to contact "%s"]
-Přidat modul ke kontaktu '%s'
 ;file \plugins\DbEditorPP\src\options.cpp
 [Database]
 Databáze
+;file \plugins\DbEditorPP\src\renamemodule.cpp
+[Add module to "%s"]
+Přidat modul do "%s"
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Name]
-Jméno
-[Data]
-Obsah
 [Type]
 Typ
 [Size]
 Velikost
+[Unable to store value in this data type!]
+
+[Are you sure you want to delete setting(s): %d?]
+
 [*** encrypted ***]
 *** zašifrováno ***
-[UNICODE]
-UNICODE
-[BLOB]
-BLOB
-[BYTE]
-BYTE
-[WORD]
-WORD
-[DWORD]
-DWORD
-[STRING]
-STRING
-[<unsupported>]
-<nepodporováno>
-[<unknown>]
-<neznámý>
-[Decoded string..]
-Dekódovaný řetězec..
-[Encoded string..]
-Zakódovaný řetězec..
+[*** buggy resident ***]
+*** chybné rezidentní ***
+;file \plugins\DbEditorPP\src\settingsdlg.cpp
+[Unknown DBVariant type!]
+Neznámý typ DBVariant!
+[Edit setting (%s)]
+Upravit nastavení (%s)
+[New setting (%s)]
+Nové nastavení (%s)
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
-[Contact]
-Kontakt
-[Module]
-Modul
-[Setting]
-Nastavení
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota (BYTE): %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota (WORD): %d
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota (DWORD): 0x%X
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota: '%s'
-[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota (UTF8): '%s'
+[*** resident ***]
+*** rezidentní ***
+[Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
+

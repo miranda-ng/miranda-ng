@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -246,10 +246,6 @@ Vyberte, jak zobrazit záznam komunikace. Toto nastavení nebude zohledněno, po
 Formátování odesílaného textu
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Zde je možno zvolit jiné formátování textu, než je v globálních nastaveních. Zvolíte-li "Vždy vypnout", nebude se tomuto kontaktu odesílat formátování nikdy.
-[ANSI codepage]
-Kódová stránka ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Kódová stránka pro ANSI kódování/dekódování při komunikaci bez unicode.
 [Info panel mode]
 Režim info panel
 [Show avatar in message window]
@@ -258,8 +254,6 @@ Zobrazit avatar v komunikačním okně
 Použít soukromý oddělovač
 [Contact is a favorite contact]
 Kontakt je mezi oblíbenými
-[Force ANSI send / receive]
-Vždy odesílat/přijímat v ANSI
 [Ignore sending timeouts]
 Neupozorňovat na vypršení času doručení
 [Load only actual history]
@@ -758,8 +752,6 @@ Poslat více uživatelů&m
 Poslat &všem v kontejneru
 [Send &later]
 Pos&lat později
-[Force &ANSI]
-Vždy poslat jako &ANSI
 [Send unsafe (ignore timeouts)]
 Poslat bez ověření (ignorovat chyby doručení)
 [Send nudge]
@@ -1154,7 +1146,7 @@ Nastavení místnosti...
 [Copy to clipboard]
 Zkopírovat do schránky
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\ul\\b Zpráa stavu:\\ul0\\b0 \\par %s
+\\ul\\b Zpráva stavu:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
 \\par\\par\\ul\\b Zpráva rozšířeného :\\ul0\\b0 \\par\s
 [\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
@@ -1214,8 +1206,6 @@ Přidat tento kontakt do seznamu natrvalo
 Nepřidávat tento kontakt do seznamu
 [Expand or collapse the side bar]
 Zobrazit či skrýt boční lištu
-[Character encoding]
-Kódová stránka
 [Contact not on list. You may add it...]
 Kontakt není v seznamu. Můžete ho přidat...
 [A message failed to send successfully.]
@@ -1338,8 +1328,6 @@ prosinec
 Dnes
 [Yesterday]
 Včera
-[Use default codepage]
-Výchozí kódování
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <žádný skin>

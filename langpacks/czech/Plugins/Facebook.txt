@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.8
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -62,6 +62,8 @@ Upozornění klienta
 Upozornění přátelství
 [Ticker feeds]
 Novinky z panelu
+[Show "On this day" posts at login]
+Zobrazovat příspěvky "V tento den" při přihlášení
 [Use this server for opening links:]
 Pro otevírání odkazů použít tento server:
 [Use balloon notifications in system tray instead of popups]
@@ -220,16 +222,20 @@ Ukázková událost
 [Sample request]
 Ukázkový požadavek
 [Sample newsfeed]
-Ukázková novinka ze zdi
+Ukázková příspěvek ze zdi
 [Sample notification]
 Ukázkové upozornění
 [Sample friendship]
 Ukázkové přátelství
 [Sample ticker]
 Ukázková novinka z panelu
+[Sample on this day]
+Ukázkový příspěvek v tento den
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 samolepku
+[a link]
+odkaz
 [files]
 soubory
 [a file]
@@ -254,11 +260,13 @@ Ve stavu offline nelze odesílat zprávy.
 Kontakt je zpět mezi vašimi přáteli.
 [Contact is no longer on server-list.]
 Kontakt již není mezi vašimi přáteli.
+[On this day]
+V tento den
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
-[Unable to get Netlib connection for Facebook]
-Facebook: Chyba při zpracování síťové komunikace.
+[Unable to initialize Netlib for %s.]
+Nelze inicializovat síťovou komunikaci pro %s.
 [Video call]
 Video hovor
 [Facebook ID must be numeric value.]
@@ -287,6 +295,8 @@ Přejete si zrušit vaše přátelství s '%s'?
 Novinky
 [Friendship events]
 Přátelství
+[On this day posts]
+Příspěvky v tento den
 [Visit profile]
 Zobrazit profil
 [Visit notifications]
@@ -295,12 +305,16 @@ Zobrazit upozornění
 Zobrazit okno pro sdílení stavu
 [Notification]
 Oznámení
-[News Feed]
-Novinky
-[Other Event]
+[Newsfeed event]
+Příspěvek na zdi
+[Other event]
 Ostatní události
-[Friendship Event]
+[Friendship event]
 Přátelství
+[Ticker event]
+Ticker události
+[On this day event]
+Příspěvek v tento den
 [Message read: %s by %s]
 Zpráva byla přečtena: %s - %s
 [Message read: %s]

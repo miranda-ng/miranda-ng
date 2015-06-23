@@ -58,7 +58,7 @@ Barvy
 Použít vlastní barvy
 [Use &Windows colors]
 Použít barvy &Windows
-[Use Pop&up colors]
+[Use defa&ult colors]
 Po&užít výchozí barvy
 [Preview]
 Náhled

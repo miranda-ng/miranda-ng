@@ -409,9 +409,6 @@ CHYBA: nelze upravit tento záznam!\nTo by se dít nemělo!
 Chcete opravdu smazat vybraný záznam?\n\t%s\n\t%s
 [Other]
 Ostatní
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
-[<Unspecified>]
-<Nespecifikováno>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 

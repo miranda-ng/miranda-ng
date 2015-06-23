@@ -3,554 +3,17 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-;file \src\resource.rc
-[Enter account name (for example, My Google)]
-Zadejte název účtu (např. Google)
-[Choose the protocol type]
-Vyberte požadovaný protokol
-[Specify the internal account name (optional)]
-Zadejte interní název účtu (nepovinné)
-[Cancel]
-Zrušit
-[Add contact]
-Přidat kontakt
-[&Add]
-Přid&at
-[&Cancel]
-&Zrušit
-[Send "You were added"]
-Odeslat zprávu o zařazení
-[Send authorization request]
-Odeslat žádost o autorizaci
-[Open contact's chat window]
-Otevřít komunikační okno
-[Custom name:]
-Vlastní jméno:
-[Group:]
-Skupina:
-[Options]
-Možnosti
+;file \src\core\stdauth\res\resource.rc
 [Authorization request]
 Žádost o autorizaci
-[Delete contact]
-Smazání kontaktu
-[&Yes]
-&Ano
-[&No]
-&Ne
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options->Contacts->Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
-[Are you sure you want to delete %s?]
-Opravdu chcete smazat kontakt %s?
-[This will erase all history and settings for this contact!]
-Tímto odstraníte celou historii a nastavení kontaktu!
-[Contact display options]
-Možnosti zobrazení seznamu
-[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-Přetáhnutím změníte způsob zobrazení jména kontaktu:
-[Miranda NG profile manager]
-Miranda NG - správce profilů
-[&Run]
-&Spustit
-[&Exit]
-U&končit
-[Start in service mode with]
-Nouzový režim s doplňkem
-[Find/add contacts]
-Vyhledání kontaktů
-[Search:]
-Prohledat:
-[E-mail address]
-E-mail
-[Name]
-Jméno
-[Nick:]
-Přezdívka:
-[First:]
-Jméno:
-[Last:]
-Příjmení:
-[Advanced]
-Extra
-[Advanced >>]
-Extra >>
-[&Search]
-&Hledat
-[More options]
-Další možnosti
-[Add to list]
-Přidat do seznamu
-[Custom]
-Vlastní
-[Here you can add contacts to your contact list]
-Umožní vyhledat a přidat nalezené do seznamu kontaktů
-[Configure your Miranda NG options]
-Změňte nastavení vaší Mirandy NG
-[Apply]
-Použít
-[Switch to simple options]
-Přepnout do zjednodušeného nastavení
-[Please select a subentry from the list]
-Vyberte prosím ze seznamu jednu z dalších položek.
-[Install database settings]
-Konfigurace databáze
-[Yes]
-Ano
-[No]
-Ne
-[A file containing new database settings has been placed in the Miranda NG directory.]
-Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
-[Do you want to import the settings now?]
-Chcete naimportovat tento konfigurační soubor?
-[No to all]
-Ne všem
-[&View contents]
-Zobrazit o&bsah
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
-[Database setting change]
-Změna konfigurace databáze
-[Database settings are being imported from]
-Importovaný konfigurační soubor
-[This file wishes to change the setting]
-Požadavek na změnu položky
-[to the value]
-na hodnotu
-[Do you want to allow this change?]
-Chcete povolit úpravu této položky?
-[&Allow all further changes to this section]
-&Povolit všechny další úpravy v této sekci
-[Cancel import]
-Zrušit import
-[Database import complete]
-Import databáze dokončen
-[The import has completed from]
-Import nastavení dokončen; z
-[What do you want to do with the file now?]
-Co chcete udělat s tímto souborem?
-[&Recycle]
-Př&esunout do koše
-[&Delete]
-&Smazat
-[&Move/Rename]
-Přesunout/Přej&menovat
-[&Leave]
-Ode&jít
-[Netlib log options]
-Záznam síťové komunikace
-[Show]
-Zobrazit
-[Received bytes]
-Přijatá data
-[Sent bytes]
-Odeslaná data
-[Additional data due to proxy communication]
-Včetně komunikace s proxy
-[SSL traffic]
-Včetně dat SSL
-[Text dumps where available]
-Přednostně textový výpis
-[Auto-detect text]
-Automatická detekce textu
-[Calling modules' names]
-Názvy volajících modulů
-[Log to]
-Soubor
-[OutputDebugString()]
-Funkce OutputDebugString()
-[File]
-Soubor
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
-[Run now]
-Spustit
-[Show this dialog box when Miranda NG starts]
-Zobrazit toto okno při spuštění Mirandy
-[Sounds]
-Zvuky
-[&Change...]
-&Změnit...
-[&Preview]
-&Přehrát
-[Download more sounds]
-Stáhnout další zvuky
-[Sound information]
-Informace o zvuku
-[Location:]
-Umístění:
-[Name:]
-Název:
-[Enable sound events]
-Povolit zvuky
-[Icons]
-Ikony
-[Show category:]
-Kategorie:
-[&Load icon set...]
-&Načíst sadu ikon...
-[&Import icons >>]
-&Importovat ikony >>
-[Download more icons]
-Stáhnout další ikony
-[The following events are being ignored:]
-Následující události budou ignorovány:
-[Messages]
-Zprávy
-[URLs]
-Odkazy
-[Files]
-Soubory
-[Online notification]
-Oznámení o připojení
-[Auth requests]
-Žádosti o autorizaci
-[All events]
-Všechny události
-[None]
----
-[Only the ticked contacts will be shown on the main contact list]
-V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrtnete.
-[Ignore]
-Filtrování
-[Added notification]
-Oznámení o přidání
-[Typing]
-Oznámení o psaní
-[Visibility]
-Viditelnost
-[You are visible to this person even when in invisible mode]
-Vůči dané osobě viditelný i ve stavu 'Neviditelný'
-[You are never visible to this person]
-Vůči dané osobě neviditelný za všech okolností
-[Icon index]
-Přehled ikon
-[Icon library:]
-Soubor s ikonami:
-[Drag icons to main list to assign them:]
-Ikony změníte uchopením a přetáhnutím do hlavního seznamu:
-[Import multiple]
-Importovat hromadně
-[To main icons]
-Do základní sady
-[To]
-Do
-[<< &Import]
-<< &Importovat
-[To default status icons]
-Do sady ikon k zobrazení stavů
-[Logging...]
-Záznam...
-[Outgoing connections]
-Odchozí spojení
-[Use proxy server]
-Použít proxy server
-[Type:]
-Typ:
-[Host:]
-Hostitel:
-[Port:]
-Port:
-[(often %d)]
-(obvykle %d)
-[Use custom login (domain login picked up automatically)]
-Použít vlastní přihlášení (doménové jméno doplněno automaticky)
-[Username:]
-Uživatel:
-[Password:]
-Heslo:
-[Resolve hostnames through proxy]
-Překládat jména hostitelů pomocí proxy
-[Port range:]
-Rozsah portů:
-[Example: 1050-1070, 2000-2010, 2500]
-Příklad: 1050-1070, 2000-2010, 2500
-[Validate SSL certificates]
-Ověřit platnost certifikátů
-[Incoming connections]
-Příchozí spojení
-[Enable UPnP port mapping]
-Povolit mapování portů dle UPnP
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Poznámka: Provedené změny se projeví až po opětovném připojení.
-[Please complete the following form to create a new user profile]
-Po vyplnění následujících položek bude vytvořen nový profil
-[Profile]
-Profil
-[e.g., Workplace]
-např. Práce
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
-[e.g., dbx mmap]
-např. dbx mmap
-[Driver]
-Ovladač
-[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mmap.dll
-[Download more plugins]
-Stáhnout další doplňky
-[Description:]
-Popis:
-[Author(s):]
-Autor:
-[E-mail:]
-E-mail:
-[Homepage:]
-WWW:
-[Unique ID:]
-ID:
-[Copyright:]
-Copyright:
-[Please restart Miranda NG for your changes to take effect.]
-Poznámka: Tato změna vyžaduje restart programu Miranda NG.
-[Fonts and colors]
-Písma a barvy
-[Undo]
-Zpět
-[Reset]
-Reset
-[Export...]
-Exportovat...
-[Color/background]
-Barva pozadí
-[Text effect]
-Efekt textu
-[Text color]
-Barva textu
-[Choose font]
-Vybrat písmo
-[Menu objects]
-Nabídky
-[Menu items]
-Položky nabídky
-[Protocol menus]
-Nabídky účtů
-[Move to the main menu]
-Přesunout do hlavní nabídky
-[Move to the status bar]
-Přesunout do nabídky stavu
-[Warning!\r\nThis menu object not support user defined options.]
-Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
-[Insert separator]
-Vložit oddělovač
-[Service:]
-Služba:
-[Default]
-Výchozí
-[Set]
-Nastavit
-[Disable icons]
-Vypnout ikony
-[Show accounts in the following order,\ndrag to choose another order:]
-Zobrazit účty v tomto pořadí,\npřetáhnutím zvolíte jiné pořadí:
-[Account order and visibility]
-Pořadí účtů a jejich viditelnost
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
-[Key bindings]
-Klávesové zkratky
-[Shortcut:]
-Klávesová zkratka:
-[Add]
-Přidat
-[Remove]
-Odebrat
-[Undo changes]
-Vrátit změny
-[Reset to default]
-Obnovit výchozí
-[Hotkeys]
-Klávesové zkratky
-[Accounts]
-Účty
-[Configure your IM accounts]
-Konfigurace nebo založení účtu
-[Account information:]
-Informace o účtu:
-[Additional:]
-Další možnosti:
-[Configure network...]
-Konfigurovat sítě...
-[Get more protocols...]
-Stáhnout další protokoly...
-[&Add...]
-Přid&at...
-[&Edit]
-Up&ravit
-[&Options]
-M&ožnosti
-[&Upgrade]
-Aktualizovat
-[&Remove...]
-Odst&ranit...
-[Miranda NG is being restarted.\nPlease wait...]
-Restart programu Miranda NG.\nPočkejte prosím...
-[Error console]
-Chybová konzole
-[Error notifications]
-Chybové oznámení
-[Headers:]
-Záhlaví:
-[This font is used to display main section titles or text elements.]
-Používá se k zobrazení textu v záhlaví sekcí nebo odstavců.
-[Normal text:]
-Běžný text:
-[This font is used to display most text elements or section bodies.]
-Používá se k zobrazení většiny textů v programu.
-[Minor notes:]
-Poznámky:
-[This font is used to display various additional notes.]
-Používá se k zobrazení dodatkových textů a poznámek.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
-[Event icon legend:]
-Legenda k vybraným ikonám:
-[Choose events you wish to ignore:]
-Vyberte události, které chcete filtrovat:
-[Font effect]
-Efekt
-[Effect:]
-Efekt:
-[Base color:]
-Základní barva:
-[opacity:]
-průhlednost:
-[Secondary color:]
-Doplňková barva:
-[Select the extra icons to be shown in the contact list:]
-Zvolte doplňkové ikony, které budou zobrazeny v seznamu kontaktů:
-[*only the first %d icons will be shown]
-*bude zobrazeno pouze prvních %d ikon
-[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Můžete vytvořit nebo zrušit skupinu ikon jejich vybráním (CTRL+levé tlačítko) a použitím kontextového menu (pravé tlačítko)
-[Add to existing metacontact]
-Přidat k existujícímu metakontaktu
-[Please select a metacontact:]
-Prosím vyberte metakontakt:
-[Sort alphabetically]
-Seřadit abecedně
-[Editing]
-Úprava
-[Information]
-Informace
-[Contacts]
-Kontakty
-[&Remove]
-Odst&ranit
-[&Set as default]
-&Jako výchozí
-[Move &up]
-Nahor&u
-[Move &down]
-&Dolů
-[Send &offline]
-Poslat offline
-[&Apply]
-&Použít
-[Context menu]
-Kontextová nabídka
-[Use contact's unique ID]
-Použít identifikátor kontaktu
-[Use contact's display name]
-Použít zobrazené jméno
-[Contact labels]
-Popisky kontaktu
-[When I click on a sub in the popup menu...]
-Při kliknutí na podkontakt v kontextové nabídce...
-[Set default and open message window]
-Nastavit jako výchozí a otevřít kom. okno
-[Show subcontact context menu]
-Zobrazit kontextovou nabídku kontaktu
-[Show user information]
-Zobrazit informace o uživateli
-[Contact list]
-Seznam kontaktů
-[Display subcontact nickname]
-Zobrazit přezdívku podkontaktu
-[Display subcontact display name]
-Zobrazit nastavené jméno podkontaktu
-[Lock name to first contact]
-Použít jméno prvního kontaktu
-[Current language:]
-Zvolený jazyk:
-[Last modified using:]
-Určeno pro:
-[Date:]
-Datum:
-[Locale:]
-Lokalizace:
-[Reload langpack]
-Znovu načíst jazyk
-[Download more language packs]
-Stáhnout další jazykové balíčky
-[Tray]
-Oznamovací oblast
-[&Hide/Show]
-Skrýt/Zo&brazit
-[E&xit]
-U&končit
-[Nowhere]
-Nikde
-[&New group]
-&Nová skupina
-[&Hide offline users]
-&Skrýt uživatele offline
-[Hide &offline users out here]
-Skrýt uživatele &offline mimo skupiny
-[Hide &empty groups]
-S&krýt prázdné skupiny
-[Disable &groups]
-Vypnout zobrazení s&kupin
-[Hide Miranda]
-Skrýt Mirandu
-[Group]
-Skupina
-[&New subgroup]
-&Nová podskupina
-[&Hide offline users in here]
-Skrýt uživatele o&ffline
-[&Rename group]
-Př&ejmenovat skupinu
-[&Delete group]
-&Smazat skupinu
-[&Reset to default]
-O&bnovit výchozí
-[find/add]
-najít/přidat
-[&Add to list]
-Přid&at do seznamu
-[User &details]
-&Detaily uživatele
-[Send &message]
-Poslat zp&rávu
-[Log]
-Záznam
-[&Copy]
-Z&kopírovat
-[Co&py all]
-Zko&pírovat vše
-[Select &all]
-Vybr&at vše
-[C&lear log]
-Vy&mazat záznam
-[Open in &new window]
-Otevřít v &novém okně
-[&Open in existing window]
-&Otevřít v aktuálním okně
-[&Copy link]
-Z&kopírovat odkaz
-[Cancel change]
-&Obnovit předchozí
-[Ungroup]
-Zrušit skupinu
-;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autorizovat
 [&Deny]
 O&dmítnout
 [Decide &later]
 &Později
+[User &details]
+&Detaily uživatele
 [Reason:]
 Důvod:
 [Denial reason:]
@@ -561,9 +24,13 @@ Je-li autorizován, přidat mezi kontakty
 Zpráva o zařazení mezi kontakty
 [&Close]
 &Zavřít
+[&Add]
+Přid&at
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Stav: '%s', uživatel: %s
+[&Cancel]
+&Zrušit
 [Retrieving %s message...]
 Zjištění automatické odpovědi ve stavu '%s'...
 [Status messages]
@@ -611,6 +78,8 @@ Barva &pozadí
 Zobrazit pouze tyto události:
 [Actions]
 Akce
+[Messages]
+Zprávy
 [Nick changes]
 Změny přezdívky
 [Users joining]
@@ -621,12 +90,16 @@ Odchody uživatelů
 Změny tématu
 [Status changes]
 Změny stavu
+[Information]
+Informace
 [Disconnects]
 Odpojení
 [User kicks]
 Vykopnutí
 [Notices]
 Poznámky
+[Options]
+Možnosti
 [Log options]
 Možnosti záznamu
 [Log timestamp]
@@ -675,8 +148,12 @@ Pozadí
 Seznam
 [&Message]
 &Zpráva
+[Log]
+Záznam
 [Clear lo&g]
 Vy&mazat záznam
+[Co&py all]
+Zko&pírovat vše
 [Word lookup]
 Vyhledávání slova
 [Wikipedia]
@@ -687,8 +164,12 @@ Adresa
 Otevřít v &novém okně
 [&Open in current browser window]
 &Otevřít v aktuálním okně
+[&Copy link]
+Z&kopírovat odkaz
 [Message]
 Zpráva
+[Undo]
+Zpět
 [Redo]
 Znovu
 [Copy]
@@ -710,6 +191,20 @@ Zavřít ostatní zá&ložky
 [&Open at this position]
 &Otevřít na stejném místě
 ;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+Smazání kontaktu
+[No]
+Ne
+[Yes]
+Ano
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
+[Use Options->Contacts->Ignore to unhide contacts.]
+(Skrytí kontaktů zrušíte v Možnosti->Kontakty->Filtrování.)
+[Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
+[This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
 [Hide offline users]
 Skrýt uživatele offline
 [Hide empty groups]
@@ -732,6 +227,8 @@ Vždy zobrazit stav v tipu
 Vypnout blikání ikon
 [ms delay]
 ms (prodleva)
+[Show]
+Zobrazit
 [icon when statuses differ]
 (v případě, že se stavy liší)
 [Cycle icons every]
@@ -742,6 +239,8 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
+[Contact list]
+Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
@@ -900,6 +399,8 @@ Okno
 Pozadí seznamu kontaktů
 [&Main menu]
 &Hlavní nabídka
+[E&xit]
+U&končit
 [&Status]
 &Stav
 [&Offline\tCtrl+0]
@@ -922,9 +423,39 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
+[Tray]
+Oznamovací oblast
+[&Hide/Show]
+Skrýt/Zo&brazit
+[Nowhere]
+Nikde
+[&New group]
+&Nová skupina
+[&Hide offline users]
+&Skrýt uživatele offline
+[Hide &offline users out here]
+Skrýt uživatele &offline mimo skupiny
+[Hide &empty groups]
+S&krýt prázdné skupiny
+[Disable &groups]
+Vypnout zobrazení s&kupin
+[Hide Miranda]
+Skrýt Mirandu
+[Group]
+Skupina
+[&New subgroup]
+&Nová podskupina
+[&Hide offline users in here]
+Skrýt uživatele o&ffline
+[&Rename group]
+Př&ejmenovat skupinu
+[&Delete group]
+&Smazat skupinu
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Poslat soubory
+[Cancel]
+Zrušit
 [To:]
 Pro:
 [File(s):]
@@ -933,6 +464,8 @@ Soubor(y):
 Vyberte &další...
 [Total size:]
 Celková velikost:
+[Description:]
+Popis:
 [&User menu]
 Nabídka &uživatele
 [Incoming file transfer]
@@ -943,6 +476,8 @@ Nabídka &uživatele
 O&dmítnout
 [From:]
 Od:
+[Date:]
+Datum:
 [Files:]
 Soubory:
 [Save to:]
@@ -981,6 +516,8 @@ Existující soubor
 Velikost:
 [Last modified:]
 Změněno:
+[Type:]
+Typ:
 [Open file]
 Otevřít soubor
 [Open folder]
@@ -1158,6 +695,12 @@ Uložit pozici okna pro každý kontakt zvlášť
 Chování komunikačního okna:
 [Messaging:]
 Rozhovor
+[C&lear log]
+Vy&mazat záznam
+[&Copy]
+Z&kopírovat
+[Select &all]
+Vybr&at vše
 [&Open link]
 &Otevřít odkaz
 [Paste and send]
@@ -1204,6 +747,8 @@ Pohlaví:
 Příjmení:
 [Age:]
 Věk:
+[E-mail:]
+E-mail:
 [Date of birth:]
 Narozeniny:
 [Marital status:]
@@ -1246,6 +791,463 @@ Oddělení:
 Postavení:
 [Website:]
 WWW:
+;file \src\mir_app\res\resource.rc
+[Enter account name (for example, My Google)]
+Zadejte název účtu (např. Google)
+[Choose the protocol type]
+Vyberte požadovaný protokol
+[Specify the internal account name (optional)]
+Zadejte interní název účtu (nepovinné)
+[Add contact]
+Přidat kontakt
+[Send "You were added"]
+Odeslat zprávu o zařazení
+[Send authorization request]
+Odeslat žádost o autorizaci
+[Open contact's chat window]
+Otevřít komunikační okno
+[Custom name:]
+Vlastní jméno:
+[Group:]
+Skupina:
+[&Yes]
+&Ano
+[&No]
+&Ne
+[Contact display options]
+Možnosti zobrazení seznamu
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Přetáhnutím změníte způsob zobrazení jména kontaktu:
+[Miranda NG profile manager]
+Miranda NG - správce profilů
+[Manage your Miranda NG profile]
+Spravovat vaše profily Mirandy NG
+[&Run]
+&Spustit
+[&Exit]
+U&končit
+[Start in service mode with]
+Nouzový režim s doplňkem
+[Find/add contacts]
+Vyhledání kontaktů
+[Search:]
+Prohledat:
+[E-mail address]
+E-mail
+[Name]
+Jméno
+[Nick:]
+Přezdívka:
+[First:]
+Jméno:
+[Last:]
+Příjmení:
+[Advanced]
+Extra
+[Advanced >>]
+Extra >>
+[&Search]
+&Hledat
+[More options]
+Další možnosti
+[Add to list]
+Přidat do seznamu
+[Custom]
+Vlastní
+[Here you can add contacts to your contact list]
+Umožní vyhledat a přidat nalezené do seznamu kontaktů
+[Configure your Miranda NG options]
+Změňte nastavení vaší Mirandy NG
+[Apply]
+Použít
+[Switch to simple options]
+Přepnout do zjednodušeného nastavení
+[Please select a subentry from the list]
+Vyberte prosím ze seznamu jednu z dalších položek.
+[Install database settings]
+Konfigurace databáze
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfigurační soubor?
+[No to all]
+Ne všem
+[&View contents]
+Zobrazit o&bsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database setting change]
+Změna konfigurace databáze
+[Database settings are being imported from]
+Importovaný konfigurační soubor
+[This file wishes to change the setting]
+Požadavek na změnu položky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit úpravu této položky?
+[&Allow all further changes to this section]
+&Povolit všechny další úpravy v této sekci
+[Cancel import]
+Zrušit import
+[Database import complete]
+Import databáze dokončen
+[The import has completed from]
+Import nastavení dokončen; z
+[What do you want to do with the file now?]
+Co chcete udělat s tímto souborem?
+[&Recycle]
+Př&esunout do koše
+[&Delete]
+&Smazat
+[&Move/Rename]
+Přesunout/Přej&menovat
+[&Leave]
+Ode&jít
+[Netlib log options]
+Záznam síťové komunikace
+[Received bytes]
+Přijatá data
+[Sent bytes]
+Odeslaná data
+[Additional data due to proxy communication]
+Včetně komunikace s proxy
+[SSL traffic]
+Včetně dat SSL
+[Text dumps where available]
+Přednostně textový výpis
+[Auto-detect text]
+Automatická detekce textu
+[Calling modules' names]
+Názvy volajících modulů
+[Log to]
+Soubor
+[OutputDebugString()]
+Funkce OutputDebugString()
+[File]
+Soubor
+[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
+Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
+[Run now]
+Spustit
+[Show this dialog box when Miranda NG starts]
+Zobrazit toto okno při spuštění Mirandy
+[Sounds]
+Zvuky
+[&Change...]
+&Změnit...
+[&Preview]
+&Přehrát
+[Download more sounds]
+Stáhnout další zvuky
+[Sound information]
+Informace o zvuku
+[Location:]
+Umístění:
+[Name:]
+Název:
+[Enable sound events]
+Povolit zvuky
+[Icons]
+Ikony
+[Show category:]
+Kategorie:
+[&Load icon set...]
+&Načíst sadu ikon...
+[&Import icons >>]
+&Importovat ikony >>
+[Download more icons]
+Stáhnout další ikony
+[The following events are being ignored:]
+Následující události budou ignorovány:
+[URLs]
+Odkazy
+[Files]
+Soubory
+[Online notification]
+Oznámení o připojení
+[Auth requests]
+Žádosti o autorizaci
+[All events]
+Všechny události
+[None]
+---
+[Only the ticked contacts will be shown on the main contact list]
+V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrtnete.
+[Ignore]
+Filtrování
+[Added notification]
+Oznámení o přidání
+[Typing]
+Oznámení o psaní
+[Visibility]
+Viditelnost
+[You are visible to this person even when in invisible mode]
+Vůči dané osobě viditelný i ve stavu 'Neviditelný'
+[You are never visible to this person]
+Vůči dané osobě neviditelný za všech okolností
+[Icon index]
+Přehled ikon
+[Icon library:]
+Soubor s ikonami:
+[Drag icons to main list to assign them:]
+Ikony změníte uchopením a přetáhnutím do hlavního seznamu:
+[Import multiple]
+Importovat hromadně
+[To main icons]
+Do základní sady
+[To]
+Do
+[<< &Import]
+<< &Importovat
+[To default status icons]
+Do sady ikon k zobrazení stavů
+[Logging...]
+Záznam...
+[Outgoing connections]
+Odchozí spojení
+[Use proxy server]
+Použít proxy server
+[Host:]
+Hostitel:
+[Port:]
+Port:
+[(often %d)]
+(obvykle %d)
+[Use custom login (domain login picked up automatically)]
+Použít vlastní přihlášení (doménové jméno doplněno automaticky)
+[Username:]
+Uživatel:
+[Password:]
+Heslo:
+[Resolve hostnames through proxy]
+Překládat jména hostitelů pomocí proxy
+[Port range:]
+Rozsah portů:
+[Example: 1050-1070, 2000-2010, 2500]
+Příklad: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Ověřit platnost certifikátů
+[Incoming connections]
+Příchozí spojení
+[Enable UPnP port mapping]
+Povolit mapování portů dle UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Poznámka: Provedené změny se projeví až po opětovném připojení.
+[Please complete the following form to create a new user profile]
+Po vyplnění následujících položek bude vytvořen nový profil
+[Profile]
+Profil
+[e.g., Workplace]
+např. Práce
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Zde můžete vybrat i jiný ovladač databáze s větším množstvím funkcí a možností. Pokud si však nejste jisti, ponechte výchozí.
+[e.g., dbx mmap]
+např. dbx mmap
+[Driver]
+Ovladač
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
+Problém: Nelze nalézt žádný ovladač databáze, nemůžete tedy vytvářet nové profily, musíte nejprve sehnat dbx_mmap.dll
+[Download more plugins]
+Stáhnout další doplňky
+[Author(s):]
+Autor:
+[Homepage:]
+WWW:
+[Unique ID:]
+ID:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
+[Fonts and colors]
+Písma a barvy
+[Reset]
+Reset
+[Export...]
+Exportovat...
+[Color/background]
+Barva pozadí
+[Text effect]
+Efekt textu
+[Text color]
+Barva textu
+[Choose font]
+Vybrat písmo
+[Menu objects]
+Nabídky
+[Menu items]
+Položky nabídky
+[Protocol menus]
+Nabídky účtů
+[Move to the main menu]
+Přesunout do hlavní nabídky
+[Move to the status bar]
+Přesunout do nabídky stavu
+[Warning!\r\nThis menu object not support user defined options.]
+Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
+[Insert separator]
+Vložit oddělovač
+[Service:]
+Služba:
+[Default]
+Výchozí
+[Set]
+Nastavit
+[Enable icons]
+Zobrazovat ikony
+[Show accounts in the following order,\ndrag to choose another order:]
+Zobrazit účty v tomto pořadí,\npřetáhnutím zvolíte jiné pořadí:
+[Account order and visibility]
+Pořadí účtů a jejich viditelnost
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
+[Key bindings]
+Klávesové zkratky
+[Shortcut:]
+Klávesová zkratka:
+[Add]
+Přidat
+[Remove]
+Odebrat
+[Undo changes]
+Vrátit změny
+[Reset to default]
+Obnovit výchozí
+[Hotkeys]
+Klávesové zkratky
+[Accounts]
+Účty
+[Configure your IM accounts]
+Konfigurace nebo založení účtu
+[Account information:]
+Informace o účtu:
+[Additional:]
+Další možnosti:
+[Configure network...]
+Konfigurovat sítě...
+[Get more protocols...]
+Stáhnout další protokoly...
+[&Add...]
+Přid&at...
+[&Edit]
+Up&ravit
+[&Options]
+M&ožnosti
+[&Upgrade]
+Aktualizovat
+[&Remove...]
+Odst&ranit...
+[Miranda NG is being restarted.\nPlease wait...]
+Restart programu Miranda NG.\nPočkejte prosím...
+[Error console]
+Chybová konzole
+[Error notifications]
+Chybové oznámení
+[Headers:]
+Záhlaví:
+[This font is used to display main section titles or text elements.]
+Používá se k zobrazení textu v záhlaví sekcí nebo odstavců.
+[Normal text:]
+Běžný text:
+[This font is used to display most text elements or section bodies.]
+Používá se k zobrazení většiny textů v programu.
+[Minor notes:]
+Poznámky:
+[This font is used to display various additional notes.]
+Používá se k zobrazení dodatkových textů a poznámek.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
+[Event icon legend:]
+Legenda k vybraným ikonám:
+[Choose events you wish to ignore:]
+Vyberte události, které chcete filtrovat:
+[Font effect]
+Efekt
+[Effect:]
+Efekt:
+[Base color:]
+Základní barva:
+[opacity:]
+průhlednost:
+[Secondary color:]
+Doplňková barva:
+[Select the extra icons to be shown in the contact list:]
+Zvolte doplňkové ikony, které budou zobrazeny v seznamu kontaktů:
+[*only the first %d icons will be shown]
+*bude zobrazeno pouze prvních %d ikon
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Můžete vytvořit nebo zrušit skupinu ikon jejich vybráním (CTRL+levé tlačítko) a použitím kontextového menu (pravé tlačítko)
+[Add to existing metacontact]
+Přidat k existujícímu metakontaktu
+[Please select a metacontact:]
+Prosím vyberte metakontakt:
+[Sort alphabetically]
+Seřadit abecedně
+[Editing]
+Úprava
+[Contacts]
+Kontakty
+[&Remove]
+Odst&ranit
+[&Set as default]
+&Jako výchozí
+[Move &up]
+Nahor&u
+[Move &down]
+&Dolů
+[Send &offline]
+Poslat offline
+[&Apply]
+&Použít
+[Context menu]
+Kontextová nabídka
+[Use contact's unique ID]
+Použít identifikátor kontaktu
+[Use contact's display name]
+Použít zobrazené jméno
+[Contact labels]
+Popisky kontaktu
+[When I click on a sub in the popup menu...]
+Při kliknutí na podkontakt v kontextové nabídce...
+[Set default and open message window]
+Nastavit jako výchozí a otevřít kom. okno
+[Show subcontact context menu]
+Zobrazit kontextovou nabídku kontaktu
+[Show user information]
+Zobrazit informace o uživateli
+[Display subcontact nickname]
+Zobrazit přezdívku podkontaktu
+[Display subcontact display name]
+Zobrazit nastavené jméno podkontaktu
+[Lock name to first contact]
+Použít jméno prvního kontaktu
+[Current language:]
+Zvolený jazyk:
+[Last modified using:]
+Určeno pro:
+[Locale:]
+Lokalizace:
+[Reload langpack]
+Znovu načíst jazyk
+[Download more language packs]
+Stáhnout další jazykové balíčky
+[&Reset to default]
+O&bnovit výchozí
+[find/add]
+najít/přidat
+[&Add to list]
+Přid&at do seznamu
+[Send &message]
+Poslat zp&rávu
+[Open in &new window]
+Otevřít v &novém okně
+[&Open in existing window]
+&Otevřít v aktuálním okně
+[Cancel change]
+&Obnovit předchozí
+[Ungroup]
+Zrušit skupinu
 ;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s žádá o autorizaci
@@ -1957,15 +1959,46 @@ In&formace o sobě...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je online
-;file \src\mir_core\src\ui_utils.cpp
-[Account]
-Účet
-;file \src\modules\addcontact\addcontact.cpp
+;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Mezi kontakty přidat: %s
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
-;file \src\modules\chat\chat_opts.cpp
+;file \src\mir_app\src\chat_clist.cpp
+[&Join chat]
+&Přidat se do diskuse
+[&Open chat window]
+&Otevřít komunikační okno
+;file \src\mir_app\src\chat_log.cpp
+[%s has joined]
+Příchod: %s
+[You have joined %s]
+Příchod na %s
+[%s has left]
+Odchod: %s
+[%s has disconnected]
+Odpojení: %s
+[%s is now known as %s]
+Změna přezdívky: %s -> %s
+[You are now known as %s]
+Změna vlastní přezdívky: %s
+[%s kicked %s]
+Vykopnutí: %s -> %s
+[Notice from %s: ]
+Poznámka od %s:\s
+[The topic is '%s%s']
+Aktuální téma: '%s%s'
+[ (set by %s on %s)]
+ (nastavil %s na %s)
+[ (set by %s)]
+ (nastavil %s)
+[%s enables '%s' status for %s]
+%s aktivuje stav '%s' pro %s
+[%s disables '%s' status for %s]
+%s deaktivuje stav '%s' pro %s
+[<invalid>]
+<neplatný>
+;file \src\mir_app\src\chat_opts.cpp
 [Others nicknames]
 Ostatní přezdívky
 [Your nickname]
@@ -2016,45 +2049,10 @@ Změna přezdívky
 Odeslání poznámky
 [The topic has been changed]
 Změna tématu diskuse
-;file \src\modules\chat\chat_svc.cpp
-[&Join chat]
-&Přidat se do diskuse
+;file \src\mir_app\src\chat_svc.cpp
 [&Leave chat]
 Op&ustit diskusi
-;file \src\modules\chat\clist.cpp
-[&Open chat window]
-&Otevřít komunikační okno
-;file \src\modules\chat\colorchooser.cpp
-;file \src\modules\chat\log.cpp
-[%s has joined]
-Příchod: %s
-[You have joined %s]
-Příchod na %s
-[%s has left]
-Odchod: %s
-[%s has disconnected]
-Odpojení: %s
-[%s is now known as %s]
-Změna přezdívky: %s -> %s
-[You are now known as %s]
-Změna vlastní přezdívky: %s
-[%s kicked %s]
-Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:\s
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
-[ (set by %s on %s)]
- (nastavil %s na %s)
-[ (set by %s)]
- (nastavil %s)
-[%s enables '%s' status for %s]
-%s aktivuje stav '%s' pro %s
-[%s disables '%s' status for %s]
-%s deaktivuje stav '%s' pro %s
-[<invalid>]
-<neplatný>
-;file \src\modules\chat\tools.cpp
+;file \src\mir_app\src\chat_tools.cpp
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
 [%s speaks in %s]
@@ -2089,8 +2087,8 @@ Poznámka od %s: %s
 Aktuální téma: %s
 [The topic is '%s' (set by %s)]
 Aktuální téma: %s (nastavil %s)
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
+;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistmenus.cpp
 [Custom status]
 Rozšířený stav
 [%s (locked)]
@@ -2099,16 +2097,16 @@ Rozšířený stav
 Nabídka stavů
 [Main menu]
 Hlavní nabídka
-;file \src\modules\clist\clistmod.cpp
+;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Připojování
 [Connecting (attempt %d)]
 Připojování (pokus č.%d)
-;file \src\modules\clist\clistsettings.cpp
+;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
+;file \src\mir_app\src\clisttray.cpp
+;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
 [De&lete]
@@ -2117,7 +2115,8 @@ Vybraný kontakt daného komunikačního systému je uložen na centrálním ser
 Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
-;file \src\modules\clist\contacts.cpp
+;file \src\mir_app\src\colorchooser.cpp
+;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Upravené jméno (nelze přesunout)
 [Nick]
@@ -2140,44 +2139,7 @@ Příjmení Jméno
 '(neznámý kontakt)'
 [Contact names]
 Jména kontaktů
-;file \src\modules\clist\genmenu.cpp
-[Menu icons]
-Nabídky
-;file \src\modules\clist\genmenuopt.cpp
-[Menus]
-Nabídky
-[Customize]
-Vlastní úpravy
-;file \src\modules\clist\groups.cpp
-[New group]
-nová skupina
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
-[Delete group]
-Odstranit skupinu
-[You already have a group with that name. Please enter a unique name for the group.]
-Skupina téhož názvu už existuje. Zadejte prosím jiný název.
-[Rename group]
-Přejmenovat skupinu
-[This group]
-Tato skupina
-;file \src\modules\clist\keyboard.cpp
-[Show/Hide contact list]
-Zobrazit nebo skrýt kontakty
-[Read message]
-Přečíst zprávu
-[Open Options page]
-Okno pro nastavení
-[Open logging options]
-Otevřít záznam
-[Open 'Find user' dialog]
-Okno pro vyhledávání
-;file \src\modules\clist\movetogroup.cpp
-[&Move to group]
-Přesunout do s&kupiny
-[<Root group>]
-<kořenová skupina>
-;file \src\modules\database\database.cpp
+;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s,\nprotože profil s tímto názvem již existuje. Vyřešte prosím tento problém ručně.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2196,7 +2158,7 @@ Tento profil není ve formátu Miranda-IM
 Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení dat z adresáře s profilem.
 [Miranda can't open that profile]
 Vybraný profil nelze otevřít
-;file \src\modules\database\dbini.cpp
+;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Bezpečnostní systémy pro ochranu před škodlivými změnami jsou zapnuty a budete varování před všemi změnami.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2211,62 +2173,18 @@ Tato úprava se považuje za potenciálně nebezpečnou.
 Neznámý druh úpravy; nelze považovat za bezpečné.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
-;file \src\modules\database\dbutils.cpp
+;file \src\mir_app\src\dbutils.cpp
 [Authorization request from %s%s: %s]
 Žádost o autorizaci od %s%s: %s
 [You were added by %s%s]
 %s%s si vás přidal
 [Contacts: ]
 Kontakty:\s
-;file \src\modules\database\profilemanager.cpp
-[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
-[The profile already exists]
-Profil s tímto názvem již existuje
-[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Profil '%s' nelze přesunout do koše. Vyberte prosím jiný.
-[Problem moving profile]
-Chyba při přesunu profilu
-[Unable to create the profile '%s', the error was %x]
-Profil '%s' nelze vytvořit. Chyba: %x
-[Problem creating profile]
-Chyba při vytváření profilu
-[&Create]
-&Vytvořit
-[<In use>]
-<používáno>
-[<Unknown format>]
-<neznámý formát>
-[Are you sure you want to remove profile "%s"?]
-Opravdu si přejete odstranit profil "%s"?
-[&Convert]
-&Zkonvertovat
-[Run]
-Spustit
-[Convert database]
-Zkonvertovat databázi
-[Check database]
-Zkontrolovat databázi
-[Size]
-Velikost
-[Created]
-Vytvořeno
-[Modified]
-Změněno
-[Manage your Miranda NG profile]
-Spravovat vaše profily Mirandy NG
-[My profiles]
-Seznam profilů
-[New profile]
-Nový profil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
+;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]
 Aktivita v chatu
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
-[Extra icons]
-Doplňkové ikony
-;file \src\modules\findadd\findadd.cpp
+;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Zadejte hledaný výraz a zkuste hledat znovu.
 [Search]
@@ -2285,22 +2203,7 @@ Všechny sítě
 Ukazatel
 [&Find/add contacts...]
 &Vyhledat kontakty...
-;file \src\modules\findadd\searchresults.cpp
-[Could not start a search on '%s', there was a problem - is %s connected?]
-V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
-[Could not search on any of the protocols, are you online?]
-Nelze vyhledávat ani v jednom z protokolů. Jste připojeni?
-[Problem with search]
-Chyba při hledání
-[1 %s user found]
-Počet nalezených: 1, síť %s
-[%d %s users found]
-Počet nalezených: %d, síť %s
-[%d users found (]
-Počet nalezených: %d (
-[No users found]
-Počet nalezených: 0
-;file \src\modules\fonts\FontOptions.cpp
+;file \src\mir_app\src\FontOptions.cpp
 [Failed to create file]
 Chyba při vytváření souboru
 [<none>]
@@ -2325,253 +2228,39 @@ Konfigurační soubory
 Textové soubory
 [Error writing file]
 Chyba při zapisování do souboru
+[Customize]
+Vlastní úpravy
 [Sample text]
 Ukázka textu
 [Fonts]
 Písma
-;file \src\modules\fonts\FontService.cpp
+;file \src\mir_app\src\FontService.cpp
 [Headers]
 Záhlaví
 [Generic text]
 Běžný text
 [Small text]
 Poznámky
-;file \src\modules\icolib\skin2opts.cpp
-[Icon sets]
-Sada ikon
-;file \src\modules\ignore\ignore.cpp
-[** All contacts **]
-** všechny kontakty **
-;file \src\modules\langpack\lpopts.cpp
-[(incompatible)]
-(nekompatibilní)
-[Unknown]
-Neznámý
-[built-in]
-interní
-[Languages]
-Jazyky
-;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-Chystáte se odstranit z metakontaktu všechny kontakty.\nTo způsobí smazání celého metakontaktu.\n\nUrčitě chcete pokračovat?
-;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-Buď v databázi není definovaný ani jeden metakontakt,\nnebo žádný z existujících ten vybraný neakceptuje.\n\nChcete zkonvertovat vybraný kontakt na metakontakt?
-[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-Vybraný kontakt je typu 'meta' a do takového nelze přidat další metakontakt.\n\nVyberte prosím jiný.
-[Metacontact conflict]
-Konflikt metakontaktu
-[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
-Tento kontakt je už asociován s metakontaktem.\nKontakt nelze přidat k více metakontaktům najednou.
-[Multiple metacontacts]
-Více metakontaktů
-[No suitable metacontact found]
-Nenalezen příslušný metakontakt
-[a contact]
-kontakt
-[Adding %s...]
-Přidávání %s...
-[Please select a metacontact]
-Prosím vyberte metakontakt
-[No metacontact selected]
-Nebyl vybrán žádný metakontakt
-[Assignment to the metacontact failed.]
-Přiřazení k metakontaktu se nezdařilo.
-[Assignment failure]
-Chyba přiřazování
-;file \src\modules\metacontacts\meta_edit.cpp
-[ID]
-ID
-[Protocol]
-Protokol
-[Send offline]
-Poslat offline
-[Send &online]
-Poslat &online
-[Delete metacontact?]
-Smazat metakontakt?
-;file \src\modules\metacontacts\meta_main.cpp
-[Toggle off]
-Vypnout
-[Toggle on]
-Zapnout
-[Convert to metacontact]
-Zkonvertovat na metakontakt
-[Add to existing]
-Přidat k existujícímu
-[Edit]
-Upravit
-[Set to default]
-Nastavit jako výchozí
-[MetaContacts]
-Metakontakty
-;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the metacontact]
-Během přiřazování kontaktu k metakontaktu se vyskytly problémy.
-[This will remove the metacontact permanently.\n\nProceed anyway?]
-Tímto odstraníte metakontakt natrvalo.\n\nUrčitě chcete pokračovat?
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Remove from metacontact]
-Odstranit z metakontaktu
-[Toggle metacontacts off]
-Vypnout metakontakty
-[Toggle metacontacts on]
-Zapnout metakontakty
-[Add to existing metacontact...]
-Přidat k existujícímu metakontaktu...
-[Edit metacontact...]
-Upravit metakontakt...
-[Set as metacontact default]
-Nastavit jako výchozí
-[Delete metacontact]
-Smazat metakontakt
-[Subcontacts]
-Podkontakty
-;file \src\modules\metacontacts\meta_options.cpp
-[Metacontacts]
-Metakontakty
-;file \src\modules\metacontacts\meta_services.cpp
-[No online contacts found.]
-Nebyly nalezeny žádné online kontakty
-[Select metacontact]
-Výběr metakontaktu
-;file \src\modules\metacontacts\meta_utils.cpp
-[Sender]
-Odesílatel
-[Could not retrieve contact protocol]
-Nelze zjistit protokol kontaktu
-[Assignment error]
-Chyba přiřazování
-[Could not get unique ID of contact]
-Nelze zjistit identifikátor kontaktu
-[Contact is 'not on list' - please add the contact to your contact list before assigning.]
-Kontakt není v seznamu - před přiřazením přidejte prosím kontakt do seznamu.
-[Metacontact is full]
-Metakontakt je plný
-[Could not write contact protocol to metacontact]
-Nelze zapsat protokol kontaktu do metakontaktu
-[Could not write unique ID of contact to metacontact]
-Nelze zapsat identifikátor kontaktu do metakontaktu
-[Could not write nickname of contact to metacontact]
-Nelze zapsat přezdívku kontaktu do metakontaktu
-;file \src\modules\netlib\netliblog.cpp
-[Standard netlib log]
-Výchozí záznam pro netlib
-[No times]
-Bez časového údaje
-[Standard hh:mm:ss times]
-Standardní hh:mm:ss
-[Times in milliseconds]
-V milisekundách
-[Times in microseconds]
-V mikrosekundách
-[(Miranda core logging)]
-Záznam jádra Mirandy
-[Select where log file will be created]
-Zadejte požadovaný soubor pro záznam
-[Select program to be run]
-Vyberte požadovaný program
-;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-<různé>
-[<All connections>]
-<všechna spojení>
-[Network]
-Sítě
-;file \src\modules\options\options.cpp
-[<all modules>]
-1) všechny moduly
-[<core modules>]
-2) jádro Mirandy
-[Loading... %d%%]
-Načítání... %d%%
-[%s options]
-%s nastavení
-[Miranda NG options]
-Miranda - možnosti nastavení
-[&Options...]
-M&ožnosti...
-;file \src\modules\plugins\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' není aktivní. Chcete ho aktivovat?
-[Re-enable Miranda plugin?]
-Chcete znovu aktivovat tento doplněk?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
-[Fatal error]
-Závažná chyba
-[Unable to load plugin in service mode!]
-Nelze načíst doplněk v nouzovém režimu
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
-;file \src\modules\plugins\pluginopts.cpp
-[Plugin]
-Doplněk
-[Version]
-Verze
-[Miranda NG must be restarted to apply changes for these plugins:]
-Miranda NG bude restartována pro aplikování změn těchto pluginů:
-[Do you want to restart it now?]
-Přejete si ji nyní restartovat?
-[Plugins]
-Doplňky
-;file \src\modules\protocols\protoopts.cpp
-[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
-POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
-[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
-[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
-Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
-[Account name must be filled.]
-Je potřeba zadat název účtu.
-[Account error]
-Chyba účtu
-[Account name has to be unique. Please enter unique name.]
-Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
-[Create new account]
-Zřídit nový účet
-[Editing account]
-Upravit účet
-[Upgrading account]
-Aktualizace účtu
-[Account is disabled. Please activate it to access options.]
-Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
-[New account]
-Zřídit účet
-[Remove account]
-Smazat účet
-[Configure...]
-Nastavit...
-[Upgrade account]
-Aktualizovat účet
-[Account ID]
-Identifikátor účtu
-[<unknown>]
-<neznámý>
-[Protocol is not loaded.]
-Protokol není načtený.
-[Rename]
-Přejmenovat
-[Configure]
-Nastavit...
-[Upgrade]
-Povýšit
-[Account %s is being disabled]
-Vypnutí účtu %s
-[Account is online. Disable account?]
-Účet je připojen. Deaktivovat účet?
-[Account %s is being deleted]
-Odstranění účtu %s
-[You need to disable plugin to delete this account]
-Pro smazání tohoto účtu musíte deaktivovat doplněk
-[&Accounts...]
-Účt&y...
-;file \src\modules\skin\hotkey_opts.cpp
+;file \src\mir_app\src\genmenu.cpp
+[Menu icons]
+Nabídky
+;file \src\mir_app\src\genmenuopt.cpp
+[Menus]
+Nabídky
+;file \src\mir_app\src\groups.cpp
+[New group]
+nová skupina
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
+[Delete group]
+Odstranit skupinu
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina téhož názvu už existuje. Zadejte prosím jiný název.
+[Rename group]
+Přejmenovat skupinu
+[This group]
+Tato skupina
+;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Prohlížeč: Zpět
 [Browser: Forward]
@@ -2634,7 +2323,324 @@ Upravit
 Platnost v systému
 [Miranda scope]
 Platnost v Mirandě
-;file \src\modules\skin\skinicons.cpp
+;file \src\mir_app\src\ignore.cpp
+[** All contacts **]
+** všechny kontakty **
+;file \src\mir_app\src\keyboard.cpp
+[Show/Hide contact list]
+Zobrazit nebo skrýt kontakty
+[Read message]
+Přečíst zprávu
+[Open Options page]
+Okno pro nastavení
+[Open logging options]
+Otevřít záznam
+[Open 'Find user' dialog]
+Okno pro vyhledávání
+;file \src\mir_app\src\lpopts.cpp
+[(incompatible)]
+(nekompatibilní)
+[Unknown]
+Neznámý
+[built-in]
+interní
+[Languages]
+Jazyky
+;file \src\mir_app\src\metacontacts.h
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
+Chystáte se odstranit z metakontaktu všechny kontakty.\nTo způsobí smazání celého metakontaktu.\n\nUrčitě chcete pokračovat?
+;file \src\mir_app\src\meta_addto.cpp
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
+Buď v databázi není definovaný ani jeden metakontakt,\nnebo žádný z existujících ten vybraný neakceptuje.\n\nChcete zkonvertovat vybraný kontakt na metakontakt?
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
+Vybraný kontakt je typu 'meta' a do takového nelze přidat další metakontakt.\n\nVyberte prosím jiný.
+[Metacontact conflict]
+Konflikt metakontaktu
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
+Tento kontakt je už asociován s metakontaktem.\nKontakt nelze přidat k více metakontaktům najednou.
+[Multiple metacontacts]
+Více metakontaktů
+[No suitable metacontact found]
+Nenalezen příslušný metakontakt
+[a contact]
+kontakt
+[Adding %s...]
+Přidávání %s...
+[Please select a metacontact]
+Prosím vyberte metakontakt
+[No metacontact selected]
+Nebyl vybrán žádný metakontakt
+[Assignment to the metacontact failed.]
+Přiřazení k metakontaktu se nezdařilo.
+[Assignment failure]
+Chyba přiřazování
+;file \src\mir_app\src\meta_edit.cpp
+[ID]
+ID
+[Protocol]
+Protokol
+[Send offline]
+Poslat offline
+[Send &online]
+Poslat &online
+[Delete metacontact?]
+Smazat metakontakt?
+;file \src\mir_app\src\meta_main.cpp
+[Toggle off]
+Vypnout
+[Toggle on]
+Zapnout
+[Convert to metacontact]
+Zkonvertovat na metakontakt
+[Add to existing]
+Přidat k existujícímu
+[Edit]
+Upravit
+[Set to default]
+Nastavit jako výchozí
+[MetaContacts]
+Metakontakty
+;file \src\mir_app\src\meta_menu.cpp
+[There was a problem in assigning the contact to the metacontact]
+Během přiřazování kontaktu k metakontaktu se vyskytly problémy.
+[This will remove the metacontact permanently.\n\nProceed anyway?]
+Tímto odstraníte metakontakt natrvalo.\n\nUrčitě chcete pokračovat?
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Remove from metacontact]
+Odstranit z metakontaktu
+[Toggle metacontacts off]
+Vypnout metakontakty
+[Toggle metacontacts on]
+Zapnout metakontakty
+[Add to existing metacontact...]
+Přidat k existujícímu metakontaktu...
+[Edit metacontact...]
+Upravit metakontakt...
+[Set as metacontact default]
+Nastavit jako výchozí
+[Delete metacontact]
+Smazat metakontakt
+[Subcontacts]
+Podkontakty
+;file \src\mir_app\src\meta_options.cpp
+[Metacontacts]
+Metakontakty
+;file \src\mir_app\src\meta_services.cpp
+[No online contacts found.]
+Nebyly nalezeny žádné online kontakty
+[Select metacontact]
+Výběr metakontaktu
+;file \src\mir_app\src\meta_utils.cpp
+[Sender]
+Odesílatel
+[Could not retrieve contact protocol]
+Nelze zjistit protokol kontaktu
+[Assignment error]
+Chyba přiřazování
+[Could not get unique ID of contact]
+Nelze zjistit identifikátor kontaktu
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
+Kontakt není v seznamu - před přiřazením přidejte prosím kontakt do seznamu.
+[Metacontact is full]
+Metakontakt je plný
+[Could not write contact protocol to metacontact]
+Nelze zapsat protokol kontaktu do metakontaktu
+[Could not write unique ID of contact to metacontact]
+Nelze zapsat identifikátor kontaktu do metakontaktu
+[Could not write nickname of contact to metacontact]
+Nelze zapsat přezdívku kontaktu do metakontaktu
+;file \src\mir_app\src\movetogroup.cpp
+[&Move to group]
+Přesunout do s&kupiny
+[<Root group>]
+<kořenová skupina>
+;file \src\mir_app\src\netliblog.cpp
+[Standard netlib log]
+Výchozí záznam pro netlib
+[No times]
+Bez časového údaje
+[Standard hh:mm:ss times]
+Standardní hh:mm:ss
+[Times in milliseconds]
+V milisekundách
+[Times in microseconds]
+V mikrosekundách
+[(Miranda core logging)]
+Záznam jádra Mirandy
+[Select where log file will be created]
+Zadejte požadovaný soubor pro záznam
+[Select program to be run]
+Vyberte požadovaný program
+;file \src\mir_app\src\netlibopts.cpp
+[<mixed>]
+<různé>
+[<All connections>]
+<všechna spojení>
+[Network]
+Sítě
+;file \src\mir_app\src\newplugins.cpp
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
+['%s' is disabled, re-enable?]
+'%s' není aktivní. Chcete ho aktivovat?
+[Re-enable Miranda plugin?]
+Chcete znovu aktivovat tento doplněk?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
+[Fatal error]
+Závažná chyba
+[Unable to load plugin in service mode!]
+Nelze načíst doplněk v nouzovém režimu
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
+[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
+Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
+;file \src\mir_app\src\options.cpp
+[<all modules>]
+1) všechny moduly
+[<core modules>]
+2) jádro Mirandy
+[Loading... %d%%]
+Načítání... %d%%
+[%s options]
+%s nastavení
+[Miranda NG options]
+Miranda - možnosti nastavení
+[&Options...]
+M&ožnosti...
+;file \src\mir_app\src\options_ei.cpp
+[Extra icons]
+Doplňkové ikony
+;file \src\mir_app\src\path.cpp
+[Avatars]
+Avatary
+[Avatars root folder]
+Kořenová složka pro avatary
+;file \src\mir_app\src\pluginopts.cpp
+[Plugin]
+Doplněk
+[Version]
+Verze
+[Miranda NG must be restarted to apply changes for these plugins:]
+Miranda NG bude restartována pro aplikování změn těchto pluginů:
+[Do you want to restart it now?]
+Přejete si ji nyní restartovat?
+[Plugins]
+Doplňky
+;file \src\mir_app\src\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
+[The profile already exists]
+Profil s tímto názvem již existuje
+[Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
+Profil '%s' nelze přesunout do koše. Vyberte prosím jiný.
+[Problem moving profile]
+Chyba při přesunu profilu
+[Unable to create the profile '%s', the error was %x]
+Profil '%s' nelze vytvořit. Chyba: %x
+[Problem creating profile]
+Chyba při vytváření profilu
+[&Create]
+&Vytvořit
+[<In use>]
+<používáno>
+[<Unknown format>]
+<neznámý formát>
+[Are you sure you want to remove profile "%s"?]
+Opravdu si přejete odstranit profil "%s"?
+[&Convert]
+&Zkonvertovat
+[Run]
+Spustit
+[Convert database]
+Zkonvertovat databázi
+[Check database]
+Zkontrolovat databázi
+[Size]
+Velikost
+[Created]
+Vytvořeno
+[Modified]
+Změněno
+[My profiles]
+Seznam profilů
+[New profile]
+Nový profil
+;file \src\mir_app\src\proto_opts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
+[Account name must be filled.]
+Je potřeba zadat název účtu.
+[Account error]
+Chyba účtu
+[Account name has to be unique. Please enter unique name.]
+Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
+[Create new account]
+Zřídit nový účet
+[Editing account]
+Upravit účet
+[Upgrading account]
+Aktualizace účtu
+[Account is disabled. Please activate it to access options.]
+Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
+[New account]
+Zřídit účet
+[Remove account]
+Smazat účet
+[Configure...]
+Nastavit...
+[Upgrade account]
+Aktualizovat účet
+[Account ID]
+Identifikátor účtu
+[<unknown>]
+<neznámý>
+[Protocol is not loaded.]
+Protokol není načtený.
+[Rename]
+Přejmenovat
+[Configure]
+Nastavit...
+[Upgrade]
+Povýšit
+[Account %s is being disabled]
+Vypnutí účtu %s
+[Account is online. Disable account?]
+Účet je připojen. Deaktivovat účet?
+[Account %s is being deleted]
+Odstranění účtu %s
+[You need to disable plugin to delete this account]
+Pro smazání tohoto účtu musíte deaktivovat doplněk
+[&Accounts...]
+Účt&y...
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+[Account]
+Účet
+;file \src\mir_app\src\searchresults.cpp
+[Could not start a search on '%s', there was a problem - is %s connected?]
+V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
+[Could not search on any of the protocols, are you online?]
+Nelze vyhledávat ani v jednom z protokolů. Jste připojeni?
+[Problem with search]
+Chyba při hledání
+[1 %s user found]
+Počet nalezených: 1, síť %s
+[%d %s users found]
+Počet nalezených: %d, síť %s
+[%d users found (]
+Počet nalezených: %d (
+[No users found]
+Počet nalezených: 0
+;file \src\mir_app\src\skin2opts.cpp
+[Icon sets]
+Sada ikon
+;file \src\mir_app\src\skinicons.cpp
 [User online]
 Uživatel online
 [Group (open)]
@@ -2713,33 +2719,12 @@ Stavové ikony
 %s ikony
 [Main icons]
 Hlavní ikony
-;file \src\modules\skin\sounds.cpp
+;file \src\mir_app\src\sounds.cpp
 [Sound files]
 Zvukové soubory
 [WAV files]
 Soubory WAV
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-Pro zpracování PNG obrázků je zapotřebí doplněk Image services
-[All bitmaps]
-Všechny bitmapy
-[Windows bitmaps]
-Obrázky typu BMP
-[JPEG bitmaps]
-Obrázky typu JPEG
-[GIF bitmaps]
-Obrázky typu GIF
-[PNG bitmaps]
-Obrázky typu PNG
-;file \src\modules\utils\path.cpp
-[Avatars]
-Avatary
-[Avatars root folder]
-Kořenová složka pro avatary
-;file \src\modules\utils\timezones.cpp
-[<unspecified>]
-<neurčeno>
-;file \src\modules\utils\utils.cpp
+;file \src\mir_app\src\utils.cpp
 [Unspecified]
 <neuvedeno>
 [Afghanistan]
@@ -3240,4 +3225,18 @@ Jemen
 Zambie
 [Zimbabwe]
 Zimbabwe
-;file \src\modules\visibility\visibility.cpp
+;file \src\mir_app\src\visibility.cpp
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Všechny soubory
+[Windows bitmaps]
+Obrázky typu BMP
+[JPEG bitmaps]
+Obrázky typu JPEG
+[GIF bitmaps]
+Obrázky typu GIF
+[PNG bitmaps]
+Obrázky typu PNG
+;file \src\mir_core\src\timezones.cpp
+[<unspecified>]
+<neurčeno>

@@ -38,11 +38,6 @@ Doběh:
 Doplněk AdvaImg nebyl nalezen. Abyste mohli pracovat s obrázky, stáhněte si jej z http://miranda-ng.org/p/AdvaImg/
 [Preview...]
 Náhled...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Knihovna advaimg.dll je buď zastaralá nebo porušená. Stáhněte si aktuální z distribuce Mirandy.
-[Error]
-Chyba
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafické soubory
