@@ -103,7 +103,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.hParentMenu = HGENMENU_ROOT;
 	mi.position = 0;
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	if (!bContactRate)
 		mi.ptszName = FAVMENUROOTNAME;
 	else {
@@ -131,7 +131,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	int i;
 	for (i = 0; i < _countof(rates); i++) {
-		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | ((bContactRate == i) ? CMIF_CHECKED : 0);
 		if (bModifyMenu && hFavoriteContactMenuItems[i])
 			Menu_ModifyItem(hFavoriteContactMenuItems[i], NULL, iconList[i].hIcolib, mi.flags);
 		else {
@@ -144,7 +144,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	}
 
 	mi.hIcon = NULL;
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
 	if (bModifyMenu && hShowIfOflineItem)
 		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
 	else {

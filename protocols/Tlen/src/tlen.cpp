@@ -273,11 +273,11 @@ void TlenProtocol::initMenuItems()
 	mi.ptszName = m_tszUserName;
 	mi.position = -1999901009;
 	mi.hParentMenu = HGENMENU_ROOT;
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_TLEN);
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
 	hMenuChats = NULL;

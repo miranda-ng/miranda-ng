@@ -139,10 +139,6 @@ struct CLISTMENUITEM
 //#define CMIF_ICONFROMICOLIB  2048 // use icolibName instead of hIcon, unused
 #define CMIF_DEFAULT           4096 // this menu item is the default one
 
-// for compatibility. since 0.8.0 they both mean nothing
-#define CMIF_ROOTPOPUP  128   //root item for new popup(save return id for childs)
-#define CMIF_CHILDPOPUP 256   //child for rootpopup menu
-
 __forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddMainMenuItem", 0, (LPARAM)mi);

@@ -740,7 +740,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 	mi.position = pos;
 	mi.ptszName = name;
 	mi.hIcon = icon;
-	mi.flags = CMIF_UNICODE | CMIF_CHILDPOPUP | flag;
+	mi.flags = CMIF_UNICODE | CMIF_ROOTHANDLE | flag;
 	mi.pszService = service;
 	return Menu_AddContactMenuItem(&mi);
 }
