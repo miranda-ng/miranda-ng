@@ -371,6 +371,10 @@ Nie ma żadnych kluczy prywatnych, ani publicznych.
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?
+[Turn off GPG encryption]
+Wyłącz szyfrowanie GPG
+[Turn on GPG encryption]
+Włącz szyfrowanie GPG
 [Target file exists, do you want to replace it?]
 Plik docelowy istnieje, czy chcesz go zamienić?
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]

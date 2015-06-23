@@ -29,3 +29,5 @@ Kombinacja klawiszy do przypisania
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Personalizacja
+[Hardware HotKeys]
+Sprzętowe skróty klawiszowe
