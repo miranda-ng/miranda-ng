@@ -105,7 +105,7 @@ void InitMenuItems()
 	mi.ptszName = stzName;
 
 	CLISTMENUITEM mi2 = { 0 };
-	mi2.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi2.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
@@ -117,7 +117,7 @@ void InitMenuItems()
 		mi.hParentMenu = 0; 
 		if (opt.bUseSubmenu)
 		{
-			mi.flags |= CMIF_ROOTHANDLE | CMIF_ROOTHANDLE;
+			mi.flags |= CMIF_ROOTHANDLE;
 			mi.hParentMenu = hMenu;
 		}
 
@@ -125,7 +125,7 @@ void InitMenuItems()
 		mi.popupPosition = i + 1000;
 		hSubMenu[i] = Menu_AddContactMenuItem(&mi);
 
-		mi.flags |= CMIF_ROOTHANDLE | CMIF_ROOTHANDLE;
+		mi.flags |= CMIF_ROOTHANDLE;
 		mi.hParentMenu = hMainMenu;
 		hMainSubMenu[i] = Menu_AddMainMenuItem(&mi);
 		
@@ -161,7 +161,7 @@ void InitMenuItems()
 	}
 
 	memset(&mi, 0, sizeof(mi));
-	mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File manager");

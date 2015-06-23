@@ -139,7 +139,7 @@ void InitTaskMenuItems()
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
 			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.hParentMenu = hTaskMainMenu;
 			mi.popupPosition = pos++;

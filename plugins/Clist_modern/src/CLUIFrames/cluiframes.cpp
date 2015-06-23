@@ -817,7 +817,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	// alignment root
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Align");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "";
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) _hmiAlignRoot = menuid;
@@ -858,7 +858,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Position");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "";
 	mi.pszContactOwner = (char*)0;
 	menuid = pfnAdd(&mi);
