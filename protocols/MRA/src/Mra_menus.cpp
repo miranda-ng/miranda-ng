@@ -335,7 +335,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	if (bIsMain) {
 		fnAddFunc = Menu_AddProtoMenuItem;
 
-		hRootMenu = MO_GetProtoRootMenu(m_szModuleName);
+		hRootMenu = Menu_GetProtocolRoot(m_szModuleName);
 		if (hRootMenu == NULL) {
 			mi.ptszName = m_tszUserName;
 			mi.hParentMenu = HGENMENU_ROOT;

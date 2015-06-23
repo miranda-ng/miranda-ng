@@ -196,7 +196,7 @@ void CVkProto::InitMenus()
 
 	// Proto menu
 	mi.flags = CMIF_CHILDPOPUP;
-	mi.hParentMenu = MO_GetProtoRootMenu(m_szModuleName);
+	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 	
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_CREATECHAT);
 	mi.pszService = szService;

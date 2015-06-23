@@ -92,15 +92,12 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	}
 	tmi.ownerdata = mmep;
 
+	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hGroupMenuObject, (LPARAM)&tmi);
+
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
-
-	OptParam op;
-	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hGroupMenuObject, (LPARAM)&tmi);
-	op.Setting = OPT_MENUITEMSETUNIQNAME;
-	op.Value = (INT_PTR)buf;
-	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
-	return (INT_PTR)op.Handle;
+	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, buf);
+	return (INT_PTR)hNewItem;
 }
 
 INT_PTR GroupMenuCheckService(WPARAM, LPARAM)
@@ -244,9 +241,9 @@ void InitGroupMenus(void)
 
 	//Group menu
 	hGroupMenuObject = MO_CreateMenuObject("GroupMenu", LPGEN("Group menu"), 0, "CLISTMENUSGroup/ExecService");
-	MO_SetMenuObjectParam(hGroupMenuObject, OPT_USERDEFINEDITEMS, TRUE);
-	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
-	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
+	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
+	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
+	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 
 	// add exit command to menu
 	GroupMenuParam gmp;
@@ -405,15 +402,12 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	}
 	tmi.ownerdata = mmep;
 
+	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hSubGroupMenuObject, (LPARAM)&tmi);
+
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
-
-	OptParam op;
-	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hSubGroupMenuObject, (LPARAM)&tmi);
-	op.Setting = OPT_MENUITEMSETUNIQNAME;
-	op.Value = (INT_PTR)buf;
-	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
-	return (INT_PTR)op.Handle;
+	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, buf);
+	return (INT_PTR)hNewItem;
 }
 
 INT_PTR SubGroupMenuCheckService(WPARAM, LPARAM)
@@ -494,9 +488,9 @@ void InitSubGroupMenus(void)
 
 	// SubGroup menu
 	hSubGroupMenuObject = MO_CreateMenuObject("SubGroupMenu", LPGEN("Subgroup menu"), 0, "CLISTMENUSSubGroup/ExecService");
-	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_USERDEFINEDITEMS, TRUE);
-	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
-	MO_SetMenuObjectParam(hSubGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuonAddService");
+	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
+	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
+	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuonAddService");
 
 	{
 		//add  exit command to menu

@@ -64,7 +64,6 @@ type
 		// or hParentMenu:HGENMENU - valid if CMIF_ROOTHANDLE is set. NULL or (HGENMENU)-1 means the root menu
     popupPosition  : int;     // position of the popup menu on the root menu, ignored
                               // if pszPopupName is NULL(0) or if the popup menu already exists
-    hotKey         : dword;   // keyboard accelerator, same as lParam of WM_HOTKEY, 0 for none
     pszContactOwner: PAnsiChar;   // contact menus only, the protocol module that owns
                               // the contacts to which this to which this menu item
                               // applies, NULL(0) if it applies to all contacts.

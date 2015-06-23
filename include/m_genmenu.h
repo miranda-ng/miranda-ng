@@ -193,7 +193,6 @@ struct TMO_MenuItem
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
-	DWORD hotKey;
 	void *ownerdata;
 	int   hLangpack;
 };
@@ -282,23 +281,6 @@ typedef struct
 //this should be called in WM_KEYDOWN
 #define	MO_PROCESSHOTKEYS					"MO/ProcessHotKeys"
 
-//set uniq name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
-#define OPT_MENUITEMSETUNIQNAME								1
-
-//Set FreeService for menuobject. When freeing menuitem it will be called with
-//wParam=MenuItemHandle
-//lParam=mi.ownerdata
-#define OPT_MENUOBJECT_SET_FREE_SERVICE						2
-
-//Set onAddService for menuobject.
-#define OPT_MENUOBJECT_SET_ONADD_SERVICE					3
-
-//Set menu check service
-#define OPT_MENUOBJECT_SET_CHECK_SERVICE          4
-
-//enable ability user to edit menuitems via options page.
-#define OPT_USERDEFINEDITEMS 1
-
 // szName = unique menu object identifier
 // szDisplayName = menu display name (auto-translated by core)
 // szCheckService = this service called when module build menu(MO_BUILDMENU).
@@ -328,44 +310,50 @@ __forceinline HANDLE MO_CreateMenuObject(LPCSTR szName, LPCSTR szDisplayName, LP
 //call this service.MO_REMOVEMENUOBJECT NOT free it.
 #define MO_REMOVEMENUOBJECT "MO/RemoveMenuObject"
 
-// wparam=0
-// lparam=*lpOptParam
+/////////////////////////////////////////////////////////////////////////////////////////
+// tunes the whold menu object
 // returns TRUE if it processed the command, FALSE otherwise
-#define MO_SRV_SETOPTIONSMENUOBJECT "MO/SetOptionsMenuObject"
 
-typedef struct tagOptParam
-{
-	HANDLE Handle;
-	int Setting;
-	INT_PTR Value;
+// enable ability user to edit menuitems via options page.
+#define MCO_OPT_USERDEFINEDITEMS 1
+
+// Set FreeService for menuobject. When freeing menuitem it will be called with
+// wParam=MenuItemHandle
+// lParam=mi.ownerdata
+#define MCO_OPT_FREE_SERVICE 2
+
+// Set onAddService for menuobject.
+#define MCO_OPT_ONADD_SERVICE 3
+
+// Set menu check service
+#define MCO_OPT_CHECK_SERVICE 4
+
+EXTERN_C MIR_APP_DLL(int) Menu_ConfigureObject(HANDLE hMenu, int iSetting, INT_PTR value);
+
+__forceinline int Menu_ConfigureObject(HANDLE hMenu, int iSetting, LPCSTR pszValue)
+{	return Menu_ConfigureObject(hMenu, iSetting, INT_PTR(pszValue));
 }
-	OptParam,*lpOptParam;
 
-__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, int iValue)
-{
-	OptParam param = { hMenu, iSetting, iValue };
-	CallService(MO_SRV_SETOPTIONSMENUOBJECT, 0, (LPARAM)&param);
+/////////////////////////////////////////////////////////////////////////////////////////
+// tunes a menu item
+// returns TRUE if it processed the command, FALSE otherwise
+
+#define MCI_OPT_UNIQUENAME 1 // a unique name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
+#define MCI_OPT_HOTKEY     2 // DWORD value = MAKELONG(VK_*, VK_SHIFT)
+
+EXTERN_C MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value);
+
+__forceinline int Menu_ConfigureItem(HGENMENU hMenu, int iSetting, LPCSTR pszValue)
+{	return Menu_ConfigureItem(hMenu, iSetting, INT_PTR(pszValue));
 }
-__forceinline void MO_SetMenuObjectParam(HANDLE hMenu, int iSetting, LPCSTR pszValue)
-{
-	OptParam param = { hMenu, iSetting, (INT_PTR)pszValue };
-	CallService(MO_SRV_SETOPTIONSMENUOBJECT, 0, (LPARAM)&param);
-}
 
-//wparam=0
-//lparam=*lpOptParam
-//returns TRUE if it processed the command, FALSE otherwise
-#define MO_SETOPTIONSMENUITEM "MO/SetOptionsMenuItem"
+/////////////////////////////////////////////////////////////////////////////////////////
+// returns HGENMENU of the root item or NULL
 
-//wparam=char* szProtoName
-//lparam=0
-//returns HGENMENU of the root item or NULL
-#define MO_GETPROTOROOTMENU "MO/GetProtoRootMenu"
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProtoName);
 
-__forceinline HGENMENU MO_GetProtoRootMenu( const char* szProtoName )
-{
-	return ( HGENMENU )CallService( MO_GETPROTOROOTMENU, ( WPARAM )szProtoName, 0 );
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// kills all menu items & submenus that belong to the hLangpack given
 
 EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int hLangpack);
 

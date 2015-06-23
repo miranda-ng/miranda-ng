@@ -181,12 +181,9 @@ static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
 
 	tmi.ownerdata = mir_strdup(mi->pszService);
 
-	OptParam op;
-	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM, (WPARAM)hTrayMenuObject, (LPARAM)&tmi);
-	op.Setting = OPT_MENUITEMSETUNIQNAME;
-	op.Value = (INT_PTR)mi->pszService;
-	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
-	return (INT_PTR)op.Handle;
+	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hTrayMenuObject, (LPARAM)&tmi);
+	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, mi->pszService);
+	return (INT_PTR)hNewItem;
 }
 
 INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
@@ -315,9 +312,9 @@ void InitTrayMenus(void)
 
 	// Tray menu
 	hTrayMenuObject = MO_CreateMenuObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
-	MO_SetMenuObjectParam(hTrayMenuObject, OPT_USERDEFINEDITEMS, TRUE);
-	MO_SetMenuObjectParam(hTrayMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
-	MO_SetMenuObjectParam(hTrayMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
+	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
+	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
+	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
 
 	// add exit command to menu
 	CLISTMENUITEM mi = { 0 };

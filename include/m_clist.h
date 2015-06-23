@@ -110,7 +110,6 @@ struct CLISTMENUITEM
 	int popupPosition;      //position of the popup menu on the root menu. Ignored
                            //if pszPopupName is NULL or the popup menu already
                            //existed
-	DWORD hotKey;           //keyboard accelerator, same as lParam of WM_HOTKEY, 0 for none
 	char *pszContactOwner;  //contact menus only. The protocol module that owns
                            //the contacts to which this menu item applies. NULL if it
                            //applies to all contacts. If it applies to multiple but not all

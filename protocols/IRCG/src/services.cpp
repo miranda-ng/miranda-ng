@@ -29,7 +29,7 @@ void CIrcProto::InitMainMenus(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = temp;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		// Root popupmenuitem
 		mi.ptszName = m_tszUserName;
