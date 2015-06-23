@@ -465,18 +465,16 @@ function OnBuildContactMenu(hContact: WPARAM; alParam: LPARAM): Integer; cdecl;
 var
   hLast: THandle;
   count: Integer;
-  text: PWideChar;
+  text:  PWideChar;
 begin
   Result := 0;
   count := db_event_count(hContact);
   hLast := db_event_last(hContact);
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
-    if hLast = 0 then
-    begin
-      Menu_ShowItem(MenuHandles[miEmpty].Handle, 0);
-      Menu_ShowItem(MenuHandles[miContact].Handle, 0);
-    end;
+    Menu_ShowItem(MenuHandles[miEmpty].Handle, byte(hLast <> 0));
+    Menu_ShowItem(MenuHandles[miContact].Handle, byte(hLast <> 0));
+
     if ShowHistoryCount then
       text := pWideChar(Format('%s [%u]',[TranslateW(MenuHandles[miContact].Name),count]))
     else if PrevShowHistoryCount then
