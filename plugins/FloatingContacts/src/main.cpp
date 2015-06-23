@@ -14,7 +14,7 @@ This plugin has been tested to work under Windows ME, 2000 and XP.
 No warranty for any misbehaviour.
 */
 
-#include "stdhdr.h"
+#include "stdafx.h"
 
 #include "../Utils/mir_fonts.h"
 
