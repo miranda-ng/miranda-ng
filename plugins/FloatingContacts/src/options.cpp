@@ -330,7 +330,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
+int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

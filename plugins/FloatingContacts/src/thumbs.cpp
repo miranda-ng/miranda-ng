@@ -190,10 +190,10 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 
 		if (fcOpt.bMoveTogether) {
 			if (bDockedRight)
-				DockThumbs(this, pCurThumb, TRUE);
+				DockThumbs(this, pCurThumb);
 
 			if (bDockedLeft)
-				DockThumbs(pCurThumb, this, FALSE);
+				DockThumbs(pCurThumb, this);
 		}
 
 		// Lower-left
@@ -324,7 +324,7 @@ void ThumbInfo::DeleteContactPos()
 	db_unset(hContact, MODULE, "ThumbsPos");
 }
 
-void ThumbInfo::OnLButtonDown(int nX, int nY)
+void ThumbInfo::OnLButtonDown()
 {
 	if (bEnableTip && fcOpt.bShowTip)
 		KillTip();
@@ -369,7 +369,7 @@ void ThumbInfo::OnLButtonUp()
 	SaveContactsPos();
 }
 
-void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
+void ThumbInfo::OnMouseMove(int nX, int nY)
 {
 	// Position thumb
 	if (bMouseDown) {
@@ -702,7 +702,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 	}
 }
 
-void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight, BOOL bMoveLeft)
+void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight)
 {
 	if (pThumbRight->dockOpt.hwndLeft == NULL && pThumbLeft->dockOpt.hwndRight == NULL) {
 		pThumbRight->dockOpt.hwndLeft = pThumbLeft->hwnd;

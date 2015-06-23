@@ -39,9 +39,9 @@ public:
 	void RefreshContactIcon(int iIcon);
 	void RefreshContactStatus(int idStatus);
 	void DeleteContactPos();
-	void OnLButtonDown(int nX, int nY);
+	void OnLButtonDown();
 	void OnLButtonUp();
-	void OnMouseMove(int nX, int nY, WPARAM wParam);
+	void OnMouseMove(int nX, int nY);
 	void ThumbSelect(BOOL bMouse);
 	void ThumbDeselect(BOOL bMouse);
 	void SetThumbOpacity(BYTE btAlpha);
@@ -52,7 +52,7 @@ public:
 };
 
 void UndockThumbs(ThumbInfo *pThumb1, ThumbInfo *pThumb2);
-void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight, BOOL bMoveLeft);
+void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight);
 
 class ThumbList: public OBJLIST<ThumbInfo>
 {

@@ -41,8 +41,8 @@ private:
 
 	void free();
 
-	bool loadFromFile_pixel(const char *fn, const char *fnAlpha = 0);
-	bool loadFromFile_gradient(const char *fn, const char *fnAlpha = 0);
+	bool loadFromFile_pixel(const char *fn);
+	bool loadFromFile_gradient(const char *fn);
 	bool loadFromFile_png(const char *fn, const char *fnAlpha = 0);
 	bool loadFromFile_default(const char *fn, const char *fnAlpha = 0);
 	void premultipleChannels();
@@ -76,7 +76,7 @@ public:
 	void DrawBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w, int h);
 	void BlendBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w, int h);
 
-	void DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h);
+	void DrawNoAlpha(MyBitmap *bmp, int x, int y);
 
 	void Blend(MyBitmap *bmp, int x, int y, int w, int h);
 	void Draw(MyBitmap *bmp, int x, int y, int w, int h);

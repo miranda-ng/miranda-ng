@@ -532,7 +532,7 @@ void MyBitmap::DrawPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int x
 	}
 }
 
-void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h)
+void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y)
 {
 	if (!(bits && bmp && bmp->bits)) return;
 
@@ -888,7 +888,7 @@ static int hex2dec(char hex)
 	return 0;
 }
 
-bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_pixel(const char *fn)
 {
 	allocate(1, 1);
 	int r, g, b, a = 255;
@@ -900,7 +900,7 @@ bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_gradient(const char *fn)
 {
 	const char *p = fn + mir_strlen("gradient:");
 
@@ -968,10 +968,10 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 	if (bits) free();
 
 	if (!strncmp(fn, "pixel:", mir_strlen("pixel:")))
-		return loadFromFile_pixel(fn, fnAlpha);
+		return loadFromFile_pixel(fn);
 
 	if (!strncmp(fn, "gradient:", mir_strlen("gradient:")))
-		return loadFromFile_gradient(fn, fnAlpha);
+		return loadFromFile_gradient(fn);
 
 	return loadFromFile_default(fn, fnAlpha);
 }

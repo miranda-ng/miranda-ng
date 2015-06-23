@@ -29,8 +29,7 @@ ULONG STDMETHODCALLTYPE CDropTarget::Release()
 	return res;
 }
 
-
-HRESULT STDMETHODCALLTYPE CDropTarget::DragOver(DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
+HRESULT STDMETHODCALLTYPE CDropTarget::DragOver(DWORD, POINTL, DWORD *pdwEffect)
 {
 	*pdwEffect = 0;
 
@@ -42,7 +41,6 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragOver(DWORD fKeyState, POINTL pt, DWOR
 	}
 	return S_OK;
 }
-
 
 HRESULT STDMETHODCALLTYPE CDropTarget::DragEnter(IDataObject *pData, DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
 {
@@ -82,7 +80,7 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragLeave()
 }
 
 
-HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
+HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, DWORD *pdwEffect)
 {
 	FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
