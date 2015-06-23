@@ -7,7 +7,7 @@ private:
 	lua_State *L;
 	HANDLE hLogger;
 
-	CLuaScriptLoader(lua_State *L);
+	CLuaScriptLoader(lua_State *L, HANDLE hLogger);
 
 	void RegisterScriptsFolder(const char *path);
 
@@ -15,7 +15,7 @@ private:
 	void LoadScripts(const TCHAR *scriptDir);
 
 public:
-	static void Load(lua_State *L);
+	static void Load(lua_State *L, HANDLE hLogger = NULL);
 };
 
 #endif //_LUA_SCRIPT_LOADER_H_
