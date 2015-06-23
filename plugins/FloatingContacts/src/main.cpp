@@ -105,7 +105,7 @@ PLUGININFOEX pluginInfoEx =
 	{ 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -113,7 +113,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 ///////////////////////////////////////////////////////
 // Load / unload
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -134,7 +134,7 @@ static LPCTSTR s_fonts[FLT_FONTIDS] =
 ///////////////////////////////////////////////////////
 // Hooked events
 
-static int OnContactDeleted(WPARAM hContact, LPARAM lParam)
+static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
@@ -156,7 +156,7 @@ static int OnContactIconChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnContactDrag(WPARAM hContact, LPARAM lParam)
+static int OnContactDrag(WPARAM hContact, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -180,7 +180,7 @@ static int OnContactDrag(WPARAM hContact, LPARAM lParam)
 	return hNewContact != NULL;
 }
 
-static int OnContactDrop(WPARAM hContact, LPARAM lParam)
+static int OnContactDrop(WPARAM hContact, LPARAM)
 {
 	RECT rcMiranda;
 	RECT rcThumb;
@@ -198,7 +198,7 @@ static int OnContactDrop(WPARAM hContact, LPARAM lParam)
 	return 1;
 }
 
-static int OnContactDragStop(WPARAM hContact, LPARAM lParam)
+static int OnContactDragStop(WPARAM hContact, LPARAM)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL && hNewContact == hContact) {
@@ -209,7 +209,7 @@ static int OnContactDragStop(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
+static int OnSkinIconsChanged(WPARAM, LPARAM)
 {
 	// Get handle to the image list
 	himlMiranda = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
@@ -261,7 +261,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnStatusModeChange(WPARAM wParam, LPARAM lParam)
+static int OnStatusModeChange(WPARAM wParam, LPARAM)
 {
 	for (int i = 0; i < thumbList.getCount(); ++i) {
 		int idStatus = GetContactStatus(thumbList[i].hContact);
@@ -275,7 +275,7 @@ static int OnStatusModeChange(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+static int OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(wParam);
 
@@ -390,11 +390,11 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pThumb) pThumb->OnLButtonDown(LOWORD(lParam), HIWORD(lParam));
+		if (pThumb) pThumb->OnLButtonDown();
 		break;
 
 	case WM_MOUSEMOVE:
-		if (pThumb) pThumb->OnMouseMove(LOWORD(lParam), HIWORD(lParam), wParam);
+		if (pThumb) pThumb->OnMouseMove(LOWORD(lParam), HIWORD(lParam));
 		break;
 
 	case WM_LBUTTONUP:
@@ -678,7 +678,7 @@ static void LoadContacts()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menus
 
-static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
+static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
 	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
@@ -691,7 +691,7 @@ static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM lParam)
+static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb) {
@@ -703,7 +703,7 @@ static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR OnHotKey_HideWhenCListShow(WPARAM wParam, LPARAM lParam)
+static INT_PTR OnHotKey_HideWhenCListShow(WPARAM, LPARAM)
 {
 	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
 	db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
@@ -796,7 +796,7 @@ BOOL HideOnFullScreen()
 	return bFullscreen && fcOpt.bHideWhenFullscreen;
 }
 
-static VOID CALLBACK ToTopTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK ToTopTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (int i = 0; i < thumbList.getCount(); ++i)
 		SetWindowPos(thumbList[i].hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
@@ -858,7 +858,7 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnModulesLoded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoded(WPARAM, LPARAM)
 {
 	HookEvent(ME_CLIST_CONTACTICONCHANGED, OnContactIconChanged);
 	HookEvent(ME_SKIN_ICONSCHANGED, OnSkinIconsChanged);
