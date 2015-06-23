@@ -539,13 +539,7 @@ void ErMsgByLotusCode(STATUS erno)
 static void LNEnableMenuItem(HGENMENU hMenuItem, BOOL bEnable)
 {
 	log_p(L"LNEnableMenuItem: bEnable=%d", bEnable);
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
-	clmi.flags = CMIM_FLAGS;
-	if ( !bEnable )
-		clmi.flags |= CMIF_GRAYED;
-
-	Menu_ModifyItem(hMenuItem, &clmi);
+	Menu_ModifyItem(hMenuItem, NULL, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
 }
 
 
