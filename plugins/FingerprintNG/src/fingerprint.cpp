@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //Start of header
-#include "global.h"
+#include "stdafx.h"
 
 static UINT g_LPCodePage;
 static TCHAR g_szSkinLib[MAX_PATH];

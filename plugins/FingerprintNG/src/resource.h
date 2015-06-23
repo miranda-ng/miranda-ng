@@ -2,10 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by ..\iconpacks\fp_icons.rc
 //
-#define __MAJOR_VERSION                 0
-#define __RELEASE_NUM                   0
-#define __BUILD_NUM                     0
-#define __MINOR_VERSION                 1
 #define IDI_BLANK                       1
 #define IDI_NOTFOUND                    2
 #define IDI_UNDETECTED                  3
