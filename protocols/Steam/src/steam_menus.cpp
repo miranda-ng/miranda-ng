@@ -103,7 +103,7 @@ void CSteamProto::OnInitStatusMenu()
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
-	HGENMENU hSteamRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hSteamRoot)
 	{
 		mi.ptszName = m_tszUserName;

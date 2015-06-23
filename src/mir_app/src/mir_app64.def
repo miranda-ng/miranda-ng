@@ -202,3 +202,6 @@ Utils_ReplaceVars @199
 Utils_ReplaceVarsW @200
 Menu_ShowItem @201
 Menu_ModifyItem @202
+Menu_ConfigureItem @203
+Menu_GetProtocolRoot @204
+Menu_ConfigureObject @205

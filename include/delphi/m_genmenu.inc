@@ -200,7 +200,6 @@ type
     szName   :TCHAR;
     flags    :integer;
     hIcon    :HICON;   // or hIcolibItem:THANDLE;
-    hotKey   :dword;
     ownerdata:^pointer;
     hLangpack:int;
   end;
@@ -370,54 +369,39 @@ const
   MO_MEASUREMENUITEM:PAnsiChar = 'MO/MeasureMenuItem';
 
 {
-  set uniq name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
+  sets an option for the whole menu object
+  returns TRUE if it processed the command, FALSE otherwise
 }
-  OPT_MENUITEMSETUNIQNAME = 1;
-{
-  Set FreeService for menuobject. When freeing menuitem it will be called with
-  wParam=MenuItemHandle
-  lParam=mi.ownerdata
-}
-  OPT_MENUOBJECT_SET_FREE_SERVICE = 2;
 
-{
-  Set onAddService for menuobject.
-}
-  OPT_MENUOBJECT_SET_ONADD_SERVICE = 3;
-
+const 
+  OPT_MENUITEMSETUNIQNAME = 1; // sets uniq name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
+  OPT_MENUOBJECT_SET_FREE_SERVICE = 2; // sets FreeService for menuobject.
+  OPT_MENUOBJECT_SET_ONADD_SERVICE = 3; // sets onAddService for menuobject.
   OPT_MENUOBJECT_SET_CHECK_SERVICE = 4;
 
-//enable ability user to edit menuitems via options page.
-  OPT_USERDEFINEDITEMS = 1;
-
-type
-  POptParam = ^TOptParam;
-  TOptParam = record
-    Handle :THANDLE;
-    Setting:int;
-    Value  :int_ptr;
-  end;
-
-const
-{
-  wparam=0
-  lparam=*lpOptParam
-  returns TRUE if it processed the command, FALSE otherwise
-}
-  MO_SETOPTIONSMENUOBJECT:PAnsiChar = 'MO/SetOptionsMenuObject';
+function Menu_ConfigureObject(menu:THANDLE; option:integer; value:PAnsiChar) : integer; stdcall;
+              external AppDLL name 'Menu_ConfigureObject';
 
 {
   wparam=0
   lparam=*lpOptParam
   returns TRUE if it processed the command, FALSE otherwise
 }
-  MO_SETOPTIONSMENUITEM:PAnsiChar = 'MO/SetOptionsMenuItem';
+
+const 
+  OPT_USERDEFINEDITEMS = 1; // enables ability user to edit menuitems via options page.
+  OPT_HOTKEY = 2;
+
+function Menu_ConfigureItem(menu:THANDLE; option:integer; value:int_ptr) : integer; stdcall;
+              external AppDLL name 'Menu_ConfigureItem';
 
 {
   wparam=char* szProtoName
   lparam=0
   returns HGENMENU of the root item or NULL
 }
-  MO_GETPROTOROOTMENU:PAnsiChar = 'MO/GetProtoRootMenu';
+
+function Menu_GetProtocolRoot(const proto:PAnsiChar) : integer; stdcall;
+              external AppDLL name 'Menu_GetProtocolRoot';
 
 {$ENDIF}

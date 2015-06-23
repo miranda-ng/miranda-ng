@@ -683,14 +683,14 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 		}
 	}
 	if (bEnableTip && fcOpt.bShowTip && idTimer == TIMERID_HOVER_T) {
-		POINT pt;
-		CLCINFOTIP ti = { 0 };
-		ti.cbSize = sizeof(ti);
-
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		fTipTimerActive = FALSE;
+
+		POINT pt;
 		GetCursorPos(&pt);
 		if (abs(pt.x - ptTipSt.x) < 5 && abs(pt.y - ptTipSt.y) < 5) {
+			CLCINFOTIP ti = { 0 };
+			ti.cbSize = sizeof(ti);
 			ti.ptCursor = pt;
 
 			fTipActive = TRUE;

@@ -265,7 +265,7 @@ void GGPROTO::menus_init()
 {
    CLISTMENUITEM mi = { 0 };
 
-   HGENMENU hGCRoot, hCLRoot, hRoot = MO_GetProtoRootMenu(m_szModuleName);
+   HGENMENU hGCRoot, hCLRoot, hRoot = Menu_GetProtocolRoot(m_szModuleName);
    if (hRoot == NULL) {
       mi.ptszName = m_tszUserName;
       mi.position = 500090000;

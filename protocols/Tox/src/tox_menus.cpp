@@ -83,7 +83,7 @@ int CToxProto::OnInitStatusMenu()
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
-	HGENMENU hStatusMunuRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hStatusMunuRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hStatusMunuRoot)
 	{
 		mi.ptszName = m_tszUserName;

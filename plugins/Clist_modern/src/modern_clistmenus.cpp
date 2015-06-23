@@ -121,11 +121,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		bModifyMenu = TRUE;
 	}
 
-	OptParam op;
-	op.Handle = hFavoriteContactMenu;
-	op.Setting = OPT_MENUITEMSETUNIQNAME;
-	op.Value = (INT_PTR)"ModernClistMenu_ContactRate";
-	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
+	Menu_ConfigureObject(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
 
 	mi.hParentMenu = hFavoriteContactMenu;
 	if (!hFavoriteContactMenuItems) {

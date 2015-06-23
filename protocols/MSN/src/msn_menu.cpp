@@ -274,7 +274,7 @@ void CMsnProto::MsnInitMainMenu(void)
 
 	CLISTMENUITEM mi = { 0 };
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;

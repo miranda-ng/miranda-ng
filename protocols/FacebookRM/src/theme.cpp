@@ -215,7 +215,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		CLISTMENUITEM miRoot = { 0 };
 		miRoot.popupPosition = 500085000;

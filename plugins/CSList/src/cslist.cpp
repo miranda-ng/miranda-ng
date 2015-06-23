@@ -229,7 +229,7 @@ void addProtoStatusMenuItem(char *protoName)
 	if (pdescr == NULL)
 		return;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(pdescr->szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(pdescr->szModuleName);
 	if (hRoot == NULL)
 		return;
 

@@ -214,7 +214,7 @@ void CAimProto::InitMainMenus(void)
 
 	CLISTMENUITEM mi = { 0 };
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle("aim");

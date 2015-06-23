@@ -593,7 +593,7 @@ void CJabberProto::MenuInit()
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
-	HGENMENU hJabberRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hJabberRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hJabberRoot == NULL) {
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;

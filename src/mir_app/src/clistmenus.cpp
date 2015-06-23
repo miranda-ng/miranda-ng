@@ -218,7 +218,7 @@ static INT_PTR AddMainMenuItem(WPARAM, LPARAM lParam)
 	}
 	else name = mi->pszName;
 
-	MO_SetOptionsMenuItem(pimi, OPT_MENUITEMSETUNIQNAME, (INT_PTR)name);
+	Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, name);
 	if (needFree) mir_free(name);
 
 	return (INT_PTR)pimi;
@@ -291,7 +291,7 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 			mir_snprintf(buf, "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", mi->ptszName);
 	}
 	else buf[0] = '\0';
-	if (buf[0]) MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
+	if (buf[0]) Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
 	return (INT_PTR)menuHandle;
 }
 
@@ -809,7 +809,7 @@ void RebuildMenuOrder(void)
 	}
 
 	hStatusMenuObject = MO_CreateMenuObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
-	MO_SetOptionsMenuObject(hStatusMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
+	Menu_ConfigureObject(hStatusMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
 
 	hStatusMainMenuHandles = (TMO_IntMenuItem**)mir_calloc(_countof(statusModeList) * sizeof(TMO_IntMenuItem*));
 	hStatusMainMenuHandlesCnt = _countof(statusModeList);
@@ -885,7 +885,7 @@ void RebuildMenuOrder(void)
 
 		char buf[256];
 		mir_snprintf(buf, "RootProtocolIcon_%s", pa->szModuleName);
-		MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
+		Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
 
 		DestroyIcon(ic);
 		pos += 500000;
@@ -918,7 +918,7 @@ void RebuildMenuOrder(void)
 
 			char buf[256];
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, tmi.name.a);
-			MO_SetOptionsMenuItem(hStatusMenuHandles[i].menuhandle[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
+			Menu_ConfigureItem(hStatusMenuHandles[i].menuhandle[j], MCI_OPT_UNIQUENAME, buf);
 
 			IcoLib_ReleaseIcon(tmi.hIcon);
 		}
@@ -945,9 +945,8 @@ void RebuildMenuOrder(void)
 
 			tmi.hIcon = Skin_LoadIcon(skinIconStatusList[j]);
 			tmi.position = pos++;
-			tmi.hotKey = MAKELPARAM(MOD_CONTROL, '0' + j);
 
-			//owner data
+			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 			smep->status = statusModeList[j];
 			tmi.ownerdata = smep;
@@ -955,16 +954,16 @@ void RebuildMenuOrder(void)
 				TCHAR buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf(buf, _T("%s\t%s"),
-					cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+				mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				tmi.name.t = buf;
-				tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
 				hStatusMainMenuHandles[j] = MO_AddNewMenuItem(hStatusMenuObject, &tmi);
+				
+				hStatusMainMenuHandles[j]->hotKey = hotKey;
 			}
 
 			char buf[256];
 			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.name.a);
-			MO_SetOptionsMenuItem(hStatusMainMenuHandles[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
+			Menu_ConfigureItem(hStatusMainMenuHandles[j], MCI_OPT_UNIQUENAME, buf);
 
 			IcoLib_ReleaseIcon(tmi.hIcon);
 			break;
@@ -985,7 +984,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
 
-		hStatusMainMenuHandles[j]->mi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
+		hStatusMainMenuHandles[j]->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
 	}
 
 	return 0;
@@ -1072,7 +1071,6 @@ int fnConvertMenu(CLISTMENUITEM *mi, TMO_MenuItem *pmi)
 	pmi->root = mi->hParentMenu;
 	pmi->flags = mi->flags;
 	pmi->hIcon = mi->hIcon;
-	pmi->hotKey = mi->hotKey;
 	pmi->name.a = mi->pszName;
 	pmi->position = mi->position;
 	pmi->hLangpack = mi->hLangpack;
@@ -1170,7 +1168,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(buf, "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
 	mir_free(p);
 
-	MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
+	Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
 	return (INT_PTR)menuHandle;
 }
 
@@ -1249,13 +1247,13 @@ void InitCustomMenus(void)
 
 	// main menu
 	hMainMenuObject = MO_CreateMenuObject("MainMenu", LPGEN("Main menu"), 0, "MainMenuExecService");
-	MO_SetOptionsMenuObject(hMainMenuObject, OPT_USERDEFINEDITEMS, TRUE);
-	MO_SetOptionsMenuObject(hMainMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataMainMenu");
+	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
+	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataMainMenu");
 
 	// contact menu
 	hContactMenuObject = MO_CreateMenuObject("ContactMenu", LPGEN("Contact menu"), "ContactMenuCheckService", "ContactMenuExecService");
-	MO_SetOptionsMenuObject(hContactMenuObject, OPT_USERDEFINEDITEMS, TRUE);
-	MO_SetOptionsMenuObject(hContactMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataContactMenu");
+	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
+	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataContactMenu");
 
 	// initialize hotkeys
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);

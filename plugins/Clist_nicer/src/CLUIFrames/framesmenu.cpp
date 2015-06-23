@@ -112,6 +112,6 @@ int InitFramesMenus(void)
 
 	// frame menu object
 	hFrameMenuObject = MO_CreateMenuObject("FrameMenu", LPGEN("Frame menu"), "FrameMenuCheckService", "FrameMenuExecService");
-	MO_SetMenuObjectParam(hFrameMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "FrameMenuFreeService");
+	Menu_ConfigureObject(hFrameMenuObject, MCO_OPT_FREE_SERVICE, "FrameMenuFreeService");
 	return 0;
 }

@@ -12,7 +12,7 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */, DWORD hotKey /* = 0 */)
+		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */, int popupPosition /* = 0 */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CLISTMENUITEM mi = { 0 };
@@ -23,11 +23,10 @@ namespace mu
 			mi.pszService = const_cast<char*>(pszService);
 			mi.ptszPopupName = (TCHAR*)pszPopupName;
 			mi.popupPosition = popupPosition;
-			mi.hotKey = hotKey;
 			return Menu_AddMainMenuItem(&mi);
 		}
 
-		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, DWORD hotKey /* = 0 */, const char* pszContactOwner /* = NULL */)
+		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const char* pszContactOwner /* = NULL */)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CLISTMENUITEM mi = { 0 };
@@ -36,7 +35,6 @@ namespace mu
 			mi.position = position;
 			mi.hIcon = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
-			mi.hotKey = hotKey;
 			mi.pszContactOwner = const_cast<char*>(pszContactOwner);
 			return Menu_AddContactMenuItem(&mi);
 		}

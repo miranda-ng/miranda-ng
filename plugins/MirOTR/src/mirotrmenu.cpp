@@ -31,7 +31,6 @@ static INT_PTR AddMirOTRMenuItem(WPARAM, LPARAM lParam)
 	tmi.flags = mi->flags;
 	tmi.hIcon = mi->hIcon;
 	tmi.hIcolibItem = mi->icolibItem;
-	tmi.hotKey = mi->hotKey;
 	tmi.position = mi->position;
 	tmi.name.t = mi->ptszName;
 	tmi.root = mi->root;
@@ -197,9 +196,8 @@ void InitMirOTRMenu(void)
 	CreateServiceFunction(MS_MIROTR_REMOVEMIROTRMENUITEM, RemoveMirOTRMenuItem);
 
 	hMirOTRMenuObject = MO_CreateMenuObject("MirOTRMenu", LPGEN("MirOTR menu"), "MirOTRMenuCheckService", "MirOTRMenuExecService");
-	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_USERDEFINEDITEMS, FALSE);
-	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "MIROTRMENUS/FreeOwnerDataMirOTRMenu");
-	MO_SetMenuObjectParam(hMirOTRMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
+	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_FREE_SERVICE, "MIROTRMENUS/FreeOwnerDataMirOTRMenu");
+	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
 	// menu items
 	MIROTRMENUITEM mi = { 0 };

@@ -54,7 +54,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = text;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;

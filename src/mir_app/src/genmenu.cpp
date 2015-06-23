@@ -225,11 +225,11 @@ INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 		return FALSE;
 
 	for (TMO_IntMenuItem *pimi = g_menus[objidx]->m_items.first; pimi != NULL; pimi = pimi->next) {
-		if (pimi->mi.hotKey == 0) continue;
-		if (HIWORD(pimi->mi.hotKey) != vKey) continue;
-		if (!(LOWORD(pimi->mi.hotKey) & MOD_ALT) != !(GetKeyState(VK_MENU) & 0x8000)) continue;
-		if (!(LOWORD(pimi->mi.hotKey) & MOD_CONTROL) != !(GetKeyState(VK_CONTROL) & 0x8000)) continue;
-		if (!(LOWORD(pimi->mi.hotKey) & MOD_SHIFT) != !(GetKeyState(VK_SHIFT) & 0x8000)) continue;
+		if (pimi->hotKey == 0) continue;
+		if (HIWORD(pimi->hotKey) != vKey) continue;
+		if (!(LOWORD(pimi->hotKey) & MOD_ALT) != !(GetKeyState(VK_MENU) & 0x8000)) continue;
+		if (!(LOWORD(pimi->hotKey) & MOD_CONTROL) != !(GetKeyState(VK_CONTROL) & 0x8000)) continue;
+		if (!(LOWORD(pimi->hotKey) & MOD_SHIFT) != !(GetKeyState(VK_SHIFT) & 0x8000)) continue;
 
 		MO_ProcessCommand(pimi, 0);
 		return TRUE;
@@ -238,14 +238,13 @@ INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 	return FALSE;
 }
 
-INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM)
+MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProto)
 {
-	char *szProto = (char*)wParam;
 	if (szProto == NULL)
 		return 0;
 
 	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
-		return (INT_PTR)cli.pfnGetProtocolMenu(szProto);
+		return cli.pfnGetProtocolMenu(szProto);
 
 	int objidx = GetMenuObjbyId((int)hMainMenuObject);
 	if (objidx == -1)
@@ -256,7 +255,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM)
 	TIntMenuObject* pmo = g_menus[objidx];
 	for (TMO_IntMenuItem *p = pmo->m_items.first; p != NULL; p = p->next)
 		if (!mir_strcmp(p->UniqName, szProto))
-			return (INT_PTR)p;
+			return p;
 
 	return NULL;
 }
@@ -440,25 +439,30 @@ int MO_ProcessCommand(TMO_IntMenuItem *aHandle, LPARAM lParam)
 	return 1;
 }
 
-int MO_SetOptionsMenuItem(TMO_IntMenuItem *aHandle, int setting, INT_PTR value)
+MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(aHandle);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hItem);
 	if (pimi == NULL)
 		return -1;
 
-	if (setting == OPT_MENUITEMSETUNIQNAME) {
-		mir_free(pimi->UniqName);
-		pimi->UniqName = mir_strdup((char*)value);
+	switch (iOption) {
+	case MCI_OPT_UNIQUENAME:
+		replaceStr(pimi->UniqName, (char*)value);
+		return 0;
+
+	case MCI_OPT_HOTKEY:
+		pimi->hotKey = (DWORD)value;
+		return 0;
 	}
 
 	return 1;
 }
 
-int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
+MIR_APP_DLL(int) Menu_ConfigureObject(HANDLE handle, int setting, INT_PTR value)
 {
 	if (!bIsGenMenuInited)
 		return -1;
@@ -471,22 +475,22 @@ int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
 		TIntMenuObject* pmo = g_menus[pimoidx];
 
 		switch (setting) {
-		case OPT_MENUOBJECT_SET_ONADD_SERVICE:
+		case MCO_OPT_ONADD_SERVICE:
 			FreeAndNil((void**)&pmo->onAddService);
 			pmo->onAddService = mir_strdup((char*)value);
 			break;
 
-		case OPT_MENUOBJECT_SET_FREE_SERVICE:
+		case MCO_OPT_FREE_SERVICE:
 			FreeAndNil((void**)&pmo->FreeService);
 			pmo->FreeService = mir_strdup((char*)value);
 			break;
 
-		case OPT_MENUOBJECT_SET_CHECK_SERVICE:
+		case MCO_OPT_CHECK_SERVICE:
 			FreeAndNil((void**)&pmo->CheckService);
 			pmo->CheckService = mir_strdup((char*)value);
 			break;
 
-		case OPT_USERDEFINEDITEMS:
+		case MCO_OPT_USERDEFINEDITEMS:
 			pmo->m_bUseUserDefinedItems = (BOOL)value;
 			break;
 		}
@@ -728,7 +732,7 @@ TMO_IntMenuItem *MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi
 			// copy pszPopupName
 			tmi.name.t = (TCHAR*)pmi->root;
 			if ((oldroot = MO_AddNewMenuItem(menuobjecthandle, &tmi)) != NULL)
-				MO_SetOptionsMenuItem(oldroot, OPT_MENUITEMSETUNIQNAME, (INT_PTR)pmi->root);
+				Menu_ConfigureItem(oldroot, MCI_OPT_UNIQUENAME, (const char*)pmi->root);
 		}
 		pmi->root = oldroot;
 
@@ -1128,24 +1132,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR SRVMO_SetOptionsMenuObject(WPARAM, LPARAM lParam)
-{
-	lpOptParam lpop = (lpOptParam)lParam;
-	if (lpop == NULL)
-		return 0;
-
-	return MO_SetOptionsMenuObject(lpop->Handle, lpop->Setting, lpop->Value);
-}
-
-static INT_PTR SRVMO_SetOptionsMenuItem(WPARAM, LPARAM lParam)
-{
-	lpOptParam lpop = (lpOptParam)lParam;
-	if (lpop == NULL)
-		return 0;
-
-	return MO_SetOptionsMenuItem((TMO_IntMenuItem*)lpop->Handle, lpop->Setting, lpop->Value);
-}
-
 int InitGenMenu()
 {
 	CreateServiceFunction(MO_BUILDMENU, MO_BuildMenu);
@@ -1160,10 +1146,6 @@ int InitGenMenu()
 	CreateServiceFunction(MO_PROCESSCOMMANDBYMENUIDENT, MO_ProcessCommandByMenuIdent);
 	CreateServiceFunction(MO_PROCESSHOTKEYS, (MIRANDASERVICE)MO_ProcessHotKeys);
 	CreateServiceFunction(MO_REMOVEMENUOBJECT, MO_RemoveMenuObject);
-	CreateServiceFunction(MO_GETPROTOROOTMENU, MO_GetProtoRootMenu);
-
-	CreateServiceFunction(MO_SRV_SETOPTIONSMENUOBJECT, SRVMO_SetOptionsMenuObject);
-	CreateServiceFunction(MO_SETOPTIONSMENUITEM, SRVMO_SetOptionsMenuItem);
 
 	bIconsDisabled = db_get_b(NULL, "CList", "DisableMenuIcons", 0) != 0;
 

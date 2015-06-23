@@ -372,7 +372,7 @@ void CYahooProto::MenuMainInit(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = servicefunction;
 
-	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.position = 500015000;
 		mi.hParentMenu = HGENMENU_ROOT;
