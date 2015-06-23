@@ -63,10 +63,10 @@
 Выключить уведомления о смене к&лиента
 [Enable c&lient change notification]
 Включить уведомления о смене к&лиента
-[Popups]
-Всплывающие окна
 [ClientChangeNotify: Client changed]
 Уведомление о смене клиента: Клиент изменился
+[Popups]
+Всплывающие окна
 [Error #%d]
 Ошибка #%d
 [Can't open log file ]

@@ -36,8 +36,8 @@
 [%s (was %s)]
 [Disable c&lient change notification]
 [Enable c&lient change notification]
-[Popups]
 [ClientChangeNotify: Client changed]
+[Popups]
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 [Can't open log file ]
