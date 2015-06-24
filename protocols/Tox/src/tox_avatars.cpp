@@ -112,6 +112,11 @@ INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_FORMATSUPPORTED:
 		return lParam == PA_FORMAT_PNG;
 
+	case AF_MAXSIZE:
+		((POINT*)lParam)->x = 300;
+		((POINT*)lParam)->y = 300;
+		return 0;
+
 	case AF_MAXFILESIZE:
 		return TOX_MAX_AVATAR_SIZE;
 	}
