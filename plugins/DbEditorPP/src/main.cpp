@@ -132,6 +132,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Register hotkeys
 	_A2T text(modFullname);
 	HOTKEYDESC hkd = { sizeof(hkd) };
+	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
 	hkd.ptszDescription = LPGENT("Open Database Editor");
