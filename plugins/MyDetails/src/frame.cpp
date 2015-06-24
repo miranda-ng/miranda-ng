@@ -1407,7 +1407,6 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 		int count = GetMenuItemCount(menu);
 		for (int i = 0; i < count && submenu == NULL; i++) {
 			MENUITEMINFO mii = { 0 };
-
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_STRING;
 
@@ -1660,7 +1659,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				HMENU menu = CreatePopupMenu();
 
 				for (int i = protocols->GetSize() - 1; i >= 0; i--) {
-					MENUITEMINFO mii = { sizeof(mii) };
+					MENUITEMINFO mii = { 0 };
+					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = protocols->Get(i)->description;
@@ -1886,11 +1886,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				MENUITEMINFO mii = { 0 };
-
 				mir_sntprintf(tmp, _countof(tmp), TranslateT("Enable listening to for %s"), proto->description);
 
-				memset(&mii, 0, sizeof(mii));
+				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE;
 				mii.fType = MFT_STRING;

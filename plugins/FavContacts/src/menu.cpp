@@ -413,7 +413,8 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		return MAKELRESULT(1, MNC_SELECT);
 
 	case WM_MENURBUTTONUP:
-		MENUITEMINFO mii = { sizeof(mii) };
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
 		MCONTACT hContact = (MCONTACT)mii.dwItemData;

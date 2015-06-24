@@ -100,7 +100,6 @@ int GroupMenuCheckService(WPARAM, LPARAM)
 
 INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
-
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
 	if (mii == NULL)
 		return 0;

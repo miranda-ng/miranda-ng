@@ -432,15 +432,14 @@ void CAnnivEditCtrl::OnMenuPopup()
 {
 	POINT pt = { 0, 0 };
 	RECT rc;
-	MENUITEMINFO mii;
 	HMENU hMenu;
 	WORD i;
 
 	if (hMenu = CreatePopupMenu()) {
 		SetFocus(_hBtnMenu);
 
-		memset(&mii, 0, sizeof(MENUITEMINFO));
-		mii.cbSize = sizeof(MENUITEMINFO);
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_ID|MIIM_STRING|MIIM_STATE;
 
 		// insert the items

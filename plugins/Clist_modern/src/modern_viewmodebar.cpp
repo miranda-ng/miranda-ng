@@ -1086,7 +1086,8 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						goto clvm_reset_command;
 
 					TCHAR szTemp[256];
-					MENUITEMINFO mii = { sizeof(mii) };
+					MENUITEMINFO mii = { 0 };
+					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_STRING;
 					mii.dwTypeData = szTemp;
 					mii.cch = 256;

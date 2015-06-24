@@ -745,7 +745,8 @@ TMO_IntMenuItem *MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi
 
 static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 {
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
@@ -764,7 +765,8 @@ static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 
 static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
 	return mii.fType;
@@ -772,7 +774,8 @@ static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 
 static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem* &p)
 {
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
 	p = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
@@ -781,7 +784,8 @@ static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem* &p)
 
 static void InsertSeparator(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_SEPARATOR;
 	InsertMenuItem(hMenu, uItem, TRUE, &mii);
@@ -944,7 +948,8 @@ HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, ListParam *par
 
 		int i = WhereToPlace(hMenu, mi);
 
-		MENUITEMINFO mii = { sizeof(mii) };
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		mii.dwItemData = (LPARAM)pmi;
 		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
 		if (pmi->iconId != -1) {

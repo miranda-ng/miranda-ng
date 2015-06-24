@@ -605,15 +605,14 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			if (HIWORD(wParam) == BN_CLICKED) {
 				POINT pt = { 0, 0 };
 				RECT rc;
-				MENUITEMINFO mii;
 				int i, nItems;
 				HMENU hMenu;
 
 				if (!(hMenu = CreatePopupMenu())) return 0;
 				SetFocus((HWND)lParam);
 
-				memset(&mii, 0, sizeof(MENUITEMINFO));
-				mii.cbSize = sizeof(MENUITEMINFO);
+				MENUITEMINFO mii = { 0 };
+				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID|MIIM_STRING|MIIM_FTYPE|MIIM_STATE;
 				mii.fType = MFT_STRING;
 

@@ -189,12 +189,12 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 void DestroyGCMenu(HMENU *hMenu, int iIndex)
 {
-	MENUITEMINFO mi;
-	mi.cbSize = sizeof(mi);
-	mi.fMask = MIIM_SUBMENU;
-	while (GetMenuItemInfo(*hMenu, iIndex, TRUE, &mi)) {
-		if (mi.hSubMenu != NULL)
-			DestroyMenu(mi.hSubMenu);
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
+	mii.fMask = MIIM_SUBMENU;
+	while (GetMenuItemInfo(*hMenu, iIndex, TRUE, &mii)) {
+		if (mii.hSubMenu != NULL)
+			DestroyMenu(mii.hSubMenu);
 		RemoveMenu(*hMenu, iIndex, MF_BYPOSITION);
 	}
 }

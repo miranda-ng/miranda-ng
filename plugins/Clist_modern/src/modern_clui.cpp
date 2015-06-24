@@ -251,7 +251,8 @@ HRESULT CLUI::CreateCluiFrames()
 {
 	g_hMenuMain = GetMenu(pcli->hwndContactList);
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU;
 	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 	SetMenuItemInfo(g_hMenuMain, 0, TRUE, &mii);
@@ -1912,7 +1913,8 @@ LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 	DrawMenuBar(m_hWnd);
 	cliCluiProtocolStatusChanged(0, 0);
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE | MIIM_DATA;
 	mii.dwItemData = MENU_MIRANDAMENU;
 	mii.fType = MFT_OWNERDRAW;

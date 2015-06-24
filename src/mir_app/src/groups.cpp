@@ -480,7 +480,8 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 		pNextField = dbv.ptszVal + 1;
 		hThisMenu = hRootMenu;
 
-		MENUITEMINFO mii = { sizeof(mii) };
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		do {
 			pBackslash = _tcschr(pNextField, '\\');
 			if (pBackslash == NULL) {

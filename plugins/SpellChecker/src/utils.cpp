@@ -1047,8 +1047,8 @@ TCHAR *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 
 void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, TCHAR *name)
 {
-	MENUITEMINFO mii = { sizeof(mii) };
-	mii.cbSize = sizeof(MENUITEMINFO);
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_TYPE;
 	mii.fType = MFT_STRING;
 	mii.hSubMenu = hSubMenu;
@@ -1062,7 +1062,8 @@ void AppendMenuItem(HMENU hMenu, int id, TCHAR *name, HICON hIcon, BOOL checked)
 	ICONINFO iconInfo;
 	GetIconInfo(hIcon, &iconInfo);
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_CHECKMARKS | MIIM_TYPE | MIIM_STATE;
 	mii.fType = MFT_STRING;
 	mii.fState = (checked ? MFS_CHECKED : 0);
@@ -1456,7 +1457,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					continue;
 
 				MENUITEMINFO mii = { 0 };
-				mii.cbSize = sizeof(MENUITEMINFO);
+				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_STATE;
 				GetMenuItemInfo(hMenu, id, FALSE, &mii);
 

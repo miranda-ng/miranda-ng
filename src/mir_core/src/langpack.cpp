@@ -522,7 +522,9 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
 {
 	MUUID *uuid = Langpack_LookupUuid(hLangpack);
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
+
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		TCHAR str[256];
 		mii.fMask = MIIM_TYPE | MIIM_SUBMENU;

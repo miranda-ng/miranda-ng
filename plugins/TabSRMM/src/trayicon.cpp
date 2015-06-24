@@ -191,9 +191,8 @@ void TSAPI FlashTrayIcon(HICON hIcon)
 
 void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
-	MENUITEMINFO	mii = { 0 };
-	TCHAR			szMenuEntry[80];
-	TCHAR			szFinalNick[100];
+	TCHAR szMenuEntry[80];
+	TCHAR	szFinalNick[100];
 
 	if (szNickname == NULL)
 		_tcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
@@ -216,6 +215,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 
 	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
 	if (acc && acc->tszAccountName) {
+		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mir_sntprintf(szMenuEntry, _countof(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
@@ -236,9 +236,10 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...
-				MENUITEMINFO mii2 = { 0 };
 				TCHAR szBuffer[142];
 				int i, c = GetMenuItemCount(PluginConfig.g_hMenuFavorites);
+
+				MENUITEMINFO mii2 = { 0 };
 				mii2.fMask = MIIM_STRING;
 				mii2.cbSize = sizeof(mii2);
 				if (c == 0)

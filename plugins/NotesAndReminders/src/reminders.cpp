@@ -2343,7 +2343,7 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,REMINDERDAT
 	HMENU hMenuLoad = LoadMenu(hinstance, _T("MNU_REMINDERPOPUP"));
 	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
-	MENUITEMINFO mii;
+	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;

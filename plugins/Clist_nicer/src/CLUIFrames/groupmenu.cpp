@@ -108,7 +108,8 @@ INT_PTR GroupMenuCheckService(WPARAM, LPARAM)
 INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO *)wParam;
-	if (mii == NULL) return 0;
+	if (mii == NULL)
+		return 0;
 
 	if (hHideShowMainMenuItem == (HANDLE)lParam) {
 		mii->fMask |= MIIM_STATE;
@@ -418,7 +419,8 @@ INT_PTR SubGroupMenuCheckService(WPARAM, LPARAM)
 INT_PTR SubGroupMenuonAddService(WPARAM wParam, LPARAM)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO *)wParam;
-	if (mii == NULL) return 0;
+	if (mii == NULL)
+		return 0;
 
 	/*
 	if (hHideShowMainMenuItem == (HANDLE)lParam) {

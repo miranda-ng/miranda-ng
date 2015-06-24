@@ -158,20 +158,21 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
 			int iSelection;
-			MENUITEMINFO mii = { 0 };
-			POINT pt;
 			struct NotifyMenuItemExData *nmi = 0;
 			int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
-			BOOL result;
 
+			POINT pt;
 			GetCursorPos(&pt);
+
+			MENUITEMINFO mii = { 0 };
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA;
 			if (iCount > 1)
 				iSelection = TrackPopupMenu(cfg::dat.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
 			else
 				iSelection = GetMenuItemID(cfg::dat.hMenuNotify, 0);
-			result = GetMenuItemInfo(cfg::dat.hMenuNotify, (UINT)iSelection, FALSE, &mii);
+			
+			BOOL result = GetMenuItemInfo(cfg::dat.hMenuNotify, (UINT)iSelection, FALSE, &mii);
 			if (result != 0) {
 				nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
 				if (nmi) {
@@ -260,7 +261,8 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		return NULL;
 
 	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
-		MENUITEMINFO mii = { sizeof(mii) };
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->cle.pszService && !strncmp("SRMsg/ReadMessage", p->cle.pszService, 17)) {
 			// dup check only for msg events

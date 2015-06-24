@@ -139,7 +139,8 @@ INT_PTR FreeOwnerDataMirOTRMenu(WPARAM, LPARAM lParam)
 INT_PTR OnAddMenuItemMirOTRMenu(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (!mii || mii->cbSize != sizeof(MENUITEMINFO)) return 0;
+	if (!mii || mii->cbSize != sizeof(MENUITEMINFO))
+		return 0;
 
 	TMO_MenuItem mi;
 	if (CallService(MO_GETMENUITEM, (WPARAM)lParam, (LPARAM)&mi) == 0) {

@@ -407,11 +407,12 @@ void SearchWord(TCHAR * word, int engine)
 void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 {
 	for (int i = 0; i < IDI_LASTICON - IDI_GOOGLE; i++) {
-		MENUITEMINFO minfo = { sizeof(minfo) };
-		minfo.fMask = MIIM_BITMAP | MIIM_DATA;
-		minfo.hbmpItem = HBMMENU_CALLBACK;
-		minfo.dwItemData = (ULONG_PTR)hImageList;
-		SetMenuItemInfo(hMenu, IDM_SEARCH_GOOGLE + i, FALSE, &minfo);
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_BITMAP | MIIM_DATA;
+		mii.hbmpItem = HBMMENU_CALLBACK;
+		mii.dwItemData = (ULONG_PTR)hImageList;
+		SetMenuItemInfo(hMenu, IDM_SEARCH_GOOGLE + i, FALSE, &mii);
 	}
 }
 
