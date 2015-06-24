@@ -254,22 +254,7 @@ int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 		return 0;
 	}
 
-	UINT hMessage = InterlockedIncrement(&hMessageProcess);
-
-	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
-	param->hContact = hContact;
-	param->hMessage = (HANDLE)hMessage;
-	param->message = mir_strdup(message);
-
-	ptrA token(getStringA("TokenSecret"));
-	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(hContact, "SteamID"));
-	PushRequest(
-		new SendMessageRequest(token, umqid, steamId, message),
-		&CSteamProto::OnMessageSent,
-		param, MessageParamFree);
-
-	return hMessage;
+	return OnSendMessage(hContact, message);
 }
 
 int CSteamProto::SetStatus(int new_status)

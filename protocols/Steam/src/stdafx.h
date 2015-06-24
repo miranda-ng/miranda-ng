@@ -29,6 +29,7 @@
 #include <m_xstatus.h>
 #include <m_extraicons.h>
 #include <m_gui.h>
+#include <m_http.h>
 
 #include <map>
 #include <vector>

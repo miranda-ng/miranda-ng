@@ -5,23 +5,10 @@
 #define STEAM_SEARCH_BYNAME 1002
 #define STEAM_TYPING_TIME 10
 
-struct PasswordParam
-{
-	char password[513];
-	char timestamp[16];
-};
-
 struct SendAuthParam
 {
 	MCONTACT hContact;
 	HANDLE hAuth;
-};
-
-struct SendMessageParam
-{
-	MCONTACT hContact;
-	HANDLE hMessage;
-	char *message;
 };
 
 struct STEAM_SEARCH_RESULT
@@ -39,21 +26,6 @@ enum
 	CMI_JOIN_GAME,
 	SMI_BLOCKED_LIST,
 	CMI_MAX   // this item shall be the last one
-};
-
-enum HTTP_STATUS
-{
-	HTTP_STATUS_NONE = 0,
-	HTTP_STATUS_OK = 200,
-	HTTP_STATUS_FOUND = 302,
-	HTTP_STATUS_BAD_REQUEST = 400,
-	HTTP_STATUS_UNAUTHORIZED = 401,
-	HTTP_STATUS_FORBIDDEN = 403,
-	HTTP_STATUS_NOT_FOUND = 404,
-	HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
-	HTTP_STATUS_TOO_MANY_REQUESTS = 429,
-	HTTP_STATUS_SERVICE_UNAVAILABLE = 503,
-	HTTP_STATUS_INSUFICIENTE_STORAGE = 507
 };
 
 typedef void(CSteamProto::*SteamResponseCallback)(const NETLIBHTTPREQUEST *response);
@@ -183,8 +155,8 @@ protected:
 	void OnSearchByNameFinished(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// messages
+	int OnSendMessage(MCONTACT hContact, const char* message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
-	static void MessageParamFree(void *arg);
 
 	// menus
 	HGENMENU m_hMenuRoot;
