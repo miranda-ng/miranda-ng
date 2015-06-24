@@ -78,16 +78,15 @@ void RequestQueue::Execute(RequestQueueItem *item)
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	if (item->finallyCallback != NULL)
 		item->finallyCallback(item->arg);
-	requests.remove(item);
 	delete item;
 }
 
 unsigned int RequestQueue::AsyncSendThread(void *owner, void *arg)
 {
-	RequestQueue *that = (RequestQueue*)owner;
+	RequestQueue *queue = (RequestQueue*)owner;
 	RequestQueueItem *item = (RequestQueueItem*)arg;
 
-	that->Execute(item);
+	queue->Execute(item);
 
 	return 0;
 }

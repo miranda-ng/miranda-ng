@@ -180,7 +180,7 @@ void CSteamProto::PollingThread(void*)
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 		delete request;
 
-		if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+		if (response == NULL || response->resultCode != HTTP_CODE_OK)
 		{
 			if (response != NULL)
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
@@ -233,7 +233,7 @@ void CSteamProto::PollingThread(void*)
 			debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
 
 			// token has expired
-			if (response->resultCode == HTTP_STATUS_UNAUTHORIZED)
+			if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
 				delSetting("TokenSecret");
 
 			// too low timeout?

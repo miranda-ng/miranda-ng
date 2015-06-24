@@ -524,7 +524,7 @@ void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	ai.hContact = (MCONTACT)arg;
 	GetDbAvatarInfo(ai);
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+	if (response == NULL || response->resultCode != HTTP_CODE_OK)
 	{
 		ptrA steamId(getStringA(ai.hContact, "SteamID"));
 		debugLogA("CSteamProto::OnGotAvatar: failed to get avatar %s", steamId);
@@ -551,7 +551,7 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam*)arg;
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
 		ptrA steamId(getStringA(param->hContact, "SteamID"));
 		debugLogA("CSteamProto::OnFriendAdded: failed to add friend %s", steamId);
@@ -570,7 +570,7 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
 		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", (char*)arg);
 		return;
@@ -579,7 +579,7 @@ void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	if (response == NULL || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
 		MCONTACT hContact = (MCONTACT)arg;
 		ptrA who(getStringA(hContact, "SteamID"));
@@ -591,7 +591,7 @@ void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+	if (response == NULL || response->resultCode != HTTP_CODE_OK)
 	{
 		debugLogA("CSteamProto::OnAuthRequested: failed to request info for %s", (char*)arg);
 		return;
@@ -655,7 +655,7 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+	if (response == NULL || response->resultCode != HTTP_CODE_OK)
 	{
 		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", (char*)arg);
 		return;
@@ -675,7 +675,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 
 void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+	if (response == NULL || response->resultCode != HTTP_CODE_OK)
 	{
 		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", (char*)arg);
 		return;
@@ -695,7 +695,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 
 void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
+	if (response == NULL || response->resultCode != HTTP_CODE_OK)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
 		debugLogA("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s", (char*)arg);

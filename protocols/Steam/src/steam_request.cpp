@@ -35,6 +35,11 @@ static void SteamHttpResponse(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SteamResponseDelegate *delegate = (SteamResponseDelegate*)arg;
 	delegate->Invoke(response);
+}
+
+void SteamResponseDelegateFree(void *arg)
+{
+	SteamResponseDelegate *delegate = (SteamResponseDelegate*)arg;
 	delete delegate;
 }
 
@@ -46,28 +51,28 @@ void CSteamProto::PushRequest(HttpRequest *request)
 void CSteamProto::PushRequest(HttpRequest *request, SteamResponseCallback response)
 {
 	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response);
-	requestQueue->Push(request, SteamHttpResponse, delegate);
+	requestQueue->Push(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
 }
 
 void CSteamProto::PushRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last)
 {
 	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response, arg, last);
-	requestQueue->Push(request, SteamHttpResponse, delegate);
+	requestQueue->Push(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
 }
 
 void CSteamProto::SendRequest(HttpRequest *request)
 {
-	requestQueue->Send(request, NULL, NULL);
+	requestQueue->Send(request);
 }
 
 void CSteamProto::SendRequest(HttpRequest *request, SteamResponseCallback response)
 {
 	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response);
-	requestQueue->Send(request, SteamHttpResponse, delegate);
+	requestQueue->Send(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
 }
 
 void CSteamProto::SendRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last)
 {
 	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response, arg, last);
-	requestQueue->Send(request, SteamHttpResponse, delegate);
+	requestQueue->Send(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
 }
