@@ -11,7 +11,7 @@ private:
 
 	void RegisterScriptsFolder(const char *path);
 
-	void LoadScript(const char *path);
+	void LoadScript(const TCHAR *path, const TCHAR *name);
 	void LoadScripts(const TCHAR *scriptDir);
 
 public:
