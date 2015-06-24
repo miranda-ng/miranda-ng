@@ -496,7 +496,7 @@ begin
         begin
           hidden := false;
           mflags := 0;
-          icon := HICON(-1);
+          icon := HICON(INVALID_HANDLE_VALUE);
 
           // Show / hide
           if isVarsInstalled then
@@ -564,9 +564,9 @@ begin
               p:=nil;
             if p=nil then
               p:=szActDescr;
+            
+            Menu_ModifyItem(hMenuItem, p, icon, mflags);
           end;
-
-          Menu_ModifyItem(hMenuItem, p, icon, mflags);
 
           if (p<>szActDescr) and
              (p<>szMenuNameVars) then
