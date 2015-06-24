@@ -10,23 +10,28 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 	lua_getfield(L, -1, "path");
 	const char *oldPath = luaL_checkstring(L, -1);
 	lua_pop(L, 1);
-	lua_pushfstring(L, "%s;%s\\?.lua", oldPath, path);
+	if (!mir_strlen(oldPath))
+		lua_pushfstring(L, "%s\\?.lua", path);
+	else
+		lua_pushfstring(L, "%s;%s\\?.lua", oldPath, path);
 	lua_setfield(L, -2, "path");
 	lua_pop(L, 1);
 }
 
-void CLuaScriptLoader::LoadScript(const char *path)
+void CLuaScriptLoader::LoadScript(const TCHAR *path, const TCHAR *name)
 {
-	if (luaL_dofile(L, path))
+	if (luaL_dofile(L, T2Utf(path)))
 	{
-		const char *error = lua_tostring(L, -1);
-		mir_writeLogT(hLogger, _T("%s"), ptrT(mir_utf8decodeT(error)));
+		ptrT error(mir_utf8decodeT(lua_tostring(L, -1)));
+		mir_writeLogT(hLogger, _T("  %s:FAIL\n    %s\n"), name, error);
 		printf("%s\n", lua_tostring(L, -1));
 	}
+	else mir_writeLogT(hLogger, _T("  %s:OK\n"), name);
 }
 
 void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 {
+	mir_writeLogT(hLogger, _T("Loading scripts from path %s\n"), scriptDir);
 	RegisterScriptsFolder(ptrA(mir_utf8encodeT(scriptDir)));
 
 	TCHAR searchMask[MAX_PATH];
@@ -45,11 +50,12 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
 				PathToRelativeT(fullPath, path);
 				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					LoadScript(T2Utf(path));
+					LoadScript(fullPath, fd.cFileName);
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
+	mir_writeLogT(hLogger, _T("\n"), scriptDir);
 }
 
 void CLuaScriptLoader::Load(lua_State *L, HANDLE hLogger)
@@ -62,4 +68,6 @@ void CLuaScriptLoader::Load(lua_State *L, HANDLE hLogger)
 
 	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	loader.LoadScripts(scriptDir);
+	
+	mir_writeLogT(hLogger, _T("\n"), scriptDir);
 }

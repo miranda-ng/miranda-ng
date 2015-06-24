@@ -9,6 +9,7 @@ private:
 	CCtrlButton m_reload;
 
 	void LoadScripts(const TCHAR *scriptDir, int iGroup = -1);
+	void LoadScripts();
 
 protected:
 	void OnInitDialog();
@@ -23,6 +24,8 @@ public:
 
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
+
+	static int OnOptionsInit(WPARAM wParam, LPARAM);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData &ctrl, CMOption<T> &option)

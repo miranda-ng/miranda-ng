@@ -38,22 +38,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-int OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Customize");
-	odp.ptszTitle = LPGENT("Scripts");
-	odp.ptszTab = _T("Lua");
-	odp.pDialog = CLuaOptions::CreateOptionsPage();
-	Options_AddPage(wParam, &odp);
-
-	return 0;
-}
-
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
+	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
+
 	return 0;
 }
 

@@ -17,6 +17,18 @@ void CLuaOptions::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szVa
 	ctrl.CreateDbLink(MODULE, szSetting, szValue);
 }
 
+int CLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.ptszGroup = LPGENT("Scripts");
+	odp.ptszTitle = _T("Lua");
+	odp.pDialog = CLuaOptions::CreateOptionsPage();
+	Options_AddPage(wParam, &odp);
+
+	return 0;
+}
+
 void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
 {
 	TCHAR searchMask[MAX_PATH];
@@ -39,14 +51,8 @@ void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
 	}
 }
 
-void CLuaOptions::OnInitDialog()
+void CLuaOptions::LoadScripts()
 {
-	CDlgBase::OnInitDialog();
-
-	m_scripts.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
-	m_scripts.EnableGroupView(TRUE);
-	m_scripts.AddColumn(0, _T("Script"), 300);
-
 	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
@@ -59,6 +65,17 @@ void CLuaOptions::OnInitDialog()
 	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Custom scripts"), relativeScriptDir);
 	m_scripts.AddGroup(1, header);
 	LoadScripts(scriptDir, 1);
+}
+
+void CLuaOptions::OnInitDialog()
+{
+	CDlgBase::OnInitDialog();
+
+	m_scripts.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
+	m_scripts.EnableGroupView(TRUE);
+	m_scripts.AddColumn(0, _T("Script"), 300);
+
+	LoadScripts();
 
 	isScriptListInit = true;
 }
@@ -102,5 +119,9 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CLuaOptions::OnReload(CCtrlBase*)
 {
+	isScriptListInit = false;
+	m_scripts.DeleteAllItems();
+	LoadScripts();
+	isScriptListInit = true;
 	g_mLua->Reload();
 }
