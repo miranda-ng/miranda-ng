@@ -315,7 +315,7 @@ int Proto_AvatarImageProportion(const char *proto)
 void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 {
 	if (ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
-		POINT maxSize = { 0 };
+		POINT maxSize = { 300, 300 };
 		CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXSIZE, (LPARAM)&maxSize);
 		*width = maxSize.x;
 		*height = maxSize.y;
