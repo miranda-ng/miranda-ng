@@ -702,7 +702,8 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
 	const TCHAR	*szMyStatus = (szStatus == NULL) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_ID | MIIM_BITMAP;
 	mii.wID = (UINT)hContact;
 	mii.hbmpItem = HBMMENU_CALLBACK;

@@ -105,7 +105,8 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		return NULL;
 
 	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
-		MENUITEMINFO mii = { sizeof(mii) };
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->cle.pszService &&
 			(!strncmp("SRMsg/ReadMessage", p->cle.pszService, _countof("SRMsg/ReadMessage")) ||
@@ -335,16 +336,13 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	}
 	else if (iCount > 0) {
 		MENUITEMINFO mii = { 0 };
-		struct NotifyMenuItemExData *nmi;
-		TCHAR *szName;
-		int iIcon;
-
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo(g_CluiData.hMenuNotify, iCount - 1, TRUE, &mii);
-		nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
-		iIcon = cli_GetContactIcon(nmi->hContact);
+		
+		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
+		TCHAR *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		int iIcon = cli_GetContactIcon(nmi->hContact);
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc.left += 18;
 		ske_ImageList_DrawEx(g_himlCListClc, nmi->iIcon, hDC, 4, (rc.bottom + rc.top) / 2 - 8, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -488,13 +486,14 @@ static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
 			int iSelection;
-			MENUITEMINFO mii = { 0 };
-			POINT pt;
 			struct NotifyMenuItemExData *nmi = 0;
 			int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
 			BOOL result;
 
+			POINT pt;
 			GetCursorPos(&pt);
+
+			MENUITEMINFO mii = { 0 };
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA;
 			if (iCount > 1)

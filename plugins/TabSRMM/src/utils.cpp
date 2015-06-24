@@ -802,7 +802,7 @@ void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
 // @param uID		the item command id
 // @param pos		zero-based position index
 
-void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos)
+void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos)
 {
 	mii.wID = uID;
 	mii.dwItemData = (ULONG_PTR)hIcon;

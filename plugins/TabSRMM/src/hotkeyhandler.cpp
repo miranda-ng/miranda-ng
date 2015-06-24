@@ -302,7 +302,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 				if (iSelection) {
 					MENUITEMINFO mii = { 0 };
-
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_DATA | MIIM_ID;
 					GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);

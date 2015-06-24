@@ -593,7 +593,8 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	HMENU hMenu = CreatePopupMenu();
 	int iDefault = Meta_GetContactNumber(cc, db_mc_getSrmmSub(cc->contactID));
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING;
 	for (int i = 0; i < cc->nSubs; i++)	{
 		char *szProto = GetContactProto(cc->pSubs[i]);

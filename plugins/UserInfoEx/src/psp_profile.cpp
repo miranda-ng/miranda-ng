@@ -1258,7 +1258,6 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			case NM_RCLICK:
 				{
 					HMENU hMenu = CreatePopupMenu();
-					MENUITEMINFO mii;
 					MCONTACT hContact;
 					LVHITTESTINFO hi;
 					LPLCITEM pItem;
@@ -1274,8 +1273,8 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					pItem = ProfileList_GetItemData(((LPNMHDR)lParam)->hwndFrom, hi.iItem);
 
 					// insert menuitems
-					memset(&mii, 0, sizeof(MENUITEMINFO));
-					mii.cbSize = sizeof(MENUITEMINFO);
+					MENUITEMINFO mii = { 0 };					
+					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID|MIIM_STRING;
 					// insert "Add" Menuitem
 					mii.wID = BTN_ADD_intEREST;

@@ -927,7 +927,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_RBUTTONUP:
 		hToolbarMenu = CreatePopupMenu();
 		for (int i = 0; i < _countof(toolbarButtons); i++) {
-			MENUITEMINFO mii = { sizeof(mii) };
+			MENUITEMINFO mii = { 0 };
+			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 			mii.fType = MFT_STRING;
 			mii.fState = (g_dat.buttonVisibility & (1 << i)) ? MFS_CHECKED : MFS_UNCHECKED;

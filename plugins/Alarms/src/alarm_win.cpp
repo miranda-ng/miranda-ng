@@ -270,15 +270,15 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					ScreenToClient(hwndDlg,&pt_rel);
 
 					HMENU hMenu = CreatePopupMenu();
-					MENUITEMINFO mmi = {0};
-					mmi.cbSize = sizeof(mmi);
-					mmi.fMask = MIIM_ID | MIIM_STRING;
+					MENUITEMINFO mii = { 0 };
+					mii.cbSize = sizeof(mii);
+					mii.fMask = MIIM_ID | MIIM_STRING;
 
 #define AddItem(x)							\
-		mmi.wID++;							\
-		mmi.dwTypeData = TranslateT(x);		\
-		mmi.cch = ( UINT )mir_tstrlen(mmi.dwTypeData);	\
-		InsertMenuItem(hMenu, mmi.wID, FALSE, &mmi);
+		mii.wID++;							\
+		mii.dwTypeData = TranslateT(x);		\
+		mii.cch = ( UINT )mir_tstrlen(mii.dwTypeData);	\
+		InsertMenuItem(hMenu, mii.wID, FALSE, &mii);
 
 					AddItem(LPGEN("5 mins"));
 					AddItem(LPGEN("15 mins"));

@@ -319,8 +319,8 @@ grouploop:
 
 static void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu)
 {
-	MENUITEMINFOA mii;
-	mii.cbSize = sizeof(MENUITEMINFO);
+	MENUITEMINFOA mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_DATA | MIIM_TYPE | MIIM_SUBMENU;
 
 	// go thru each group and create a menu for it adding submenus too.
@@ -398,7 +398,7 @@ static void BuildMenus(TEnumData *lParam)
 	}
 	
 	MENUITEMINFOA mii = { 0 };
-	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_DATA;
 	// add all the contacts that have no group (which maybe all of them)
 	pg = lParam->ipch->ContactsBegin;
@@ -467,7 +467,7 @@ static void BuildMenus(TEnumData *lParam)
 
 	// allocate display info/memory for "Miranda" string
 
-	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.cbSize = sizeof(mii);
 	if (bIsVistaPlus)
 		mii.fMask = MIIM_ID | MIIM_DATA | MIIM_FTYPE | MIIM_SUBMENU | MIIM_STRING | MIIM_BITMAP;
 	else
@@ -738,8 +738,8 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hConta
 HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 {
 	// get the contact information
-	MENUITEMINFOA mii;
-	mii.cbSize = sizeof(MENUITEMINFO);
+	MENUITEMINFOA mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_DATA;
 	if ( !GetMenuItemInfoA(Self->hRootMenu, Self->idCmdFirst + idxCmd, false, &mii))
 		return E_INVALIDARG;

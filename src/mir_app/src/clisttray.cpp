@@ -723,16 +723,16 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			HMENU hMenu = GetSubMenu(hMainMenu, 0);
 			TranslateMenu(hMenu);
 
-			MENUITEMINFO mi = { 0 };
-			mi.cbSize = sizeof(mi);
-			mi.fMask = MIIM_SUBMENU | MIIM_TYPE;
-			mi.fType = MFT_STRING;
-			mi.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-			mi.dwTypeData = TranslateT("&Main menu");
-			InsertMenuItem(hMenu, 1, TRUE, &mi);
-			mi.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-			mi.dwTypeData = TranslateT("&Status");
-			InsertMenuItem(hMenu, 2, TRUE, &mi);
+			MENUITEMINFO mii = { 0 };
+			mii.cbSize = sizeof(mii);
+			mii.fMask = MIIM_SUBMENU | MIIM_TYPE;
+			mii.fType = MFT_STRING;
+			mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+			mii.dwTypeData = TranslateT("&Main menu");
+			InsertMenuItem(hMenu, 1, TRUE, &mii);
+			mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+			mii.dwTypeData = TranslateT("&Status");
+			InsertMenuItem(hMenu, 2, TRUE, &mii);
 			SetMenuDefaultItem(hMenu, ID_TRAY_HIDE, FALSE);
 
 			SetForegroundWindow(msg->hwnd);

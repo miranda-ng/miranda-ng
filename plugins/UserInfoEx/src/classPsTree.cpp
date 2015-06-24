@@ -717,7 +717,6 @@ int CPsTree::EndLabelEdit(const BYTE bSave)
 void CPsTree::PopupMenu()
 {
 	HMENU hPopup;
-	MENUITEMINFO mii;
 	TVHITTESTINFO hti;
 	TVITEM tvi;
 	POINT pt;
@@ -726,7 +725,8 @@ void CPsTree::PopupMenu()
 	// init popup menu
 	if (!(hPopup = CreatePopupMenu()))
 		return;
-	memset(&mii, 0, sizeof(MENUITEMINFO));
+
+	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STRING|MIIM_ID;
 

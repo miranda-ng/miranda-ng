@@ -1833,15 +1833,14 @@ static void InitListView(HWND AHLV)
 
 static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,STICKYNOTE *pNote)
 {
-	HWND hwndListView;
-    HMENU hMenuLoad,FhMenu;
-	MENUITEMINFO mii;
+	HWND hwndListView = (HWND)wParam;
+	if (hwndListView != GetDlgItem(AhWnd,IDC_LISTREMINDERS))
+		return FALSE;
+	
+	HMENU hMenuLoad = LoadMenu(hinstance,"MNU_NOTELISTPOPUP");
+	HMENU FhMenu = GetSubMenu(hMenuLoad,0);
 
-	hwndListView = (HWND)wParam;
-	if (hwndListView != GetDlgItem(AhWnd,IDC_LISTREMINDERS)) return FALSE;
-	hMenuLoad = LoadMenu(hinstance,"MNU_NOTELISTPOPUP");
-	FhMenu = GetSubMenu(hMenuLoad,0);
-
+	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;

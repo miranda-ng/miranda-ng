@@ -379,7 +379,8 @@ BOOL FindMenuHandleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* it
 	if (!itdat)
 		return FALSE;
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
@@ -445,25 +446,25 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 
 					MenuItemData it = { 0 };
 					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
-						MENUITEMINFO mi = { 0 };
 						TCHAR d[100];
 						GetMenuString(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
 
-						mi.cbSize = sizeof(mi);
-						mi.fMask = MIIM_STRING | MIIM_STATE;
+						MENUITEMINFO mii = { 0 };
+						mii.cbSize = sizeof(mii);
+						mii.fMask = MIIM_STRING | MIIM_STATE;
 						if (timi->iconId != -1) {
-							mi.fMask |= MIIM_BITMAP;
+							mii.fMask |= MIIM_BITMAP;
 							if (IsWinVerVistaPlus() && IsThemeActive()) {
 								if (timi->hBmp == NULL)
 									timi->hBmp = ConvertIconToBitmap(NULL, timi->parent->m_hMenuIcons, timi->iconId);
-								mi.hbmpItem = timi->hBmp;
+								mii.hbmpItem = timi->hBmp;
 							}
-							else mi.hbmpItem = HBMMENU_CALLBACK;
+							else mii.hbmpItem = HBMMENU_CALLBACK;
 						}
 
-						mi.fState |= (check && !reset ? MFS_CHECKED : MFS_UNCHECKED);
-						mi.dwTypeData = ptszName;
-						SetMenuItemInfo(it.OwnerMenu, it.position, TRUE, &mi);
+						mii.fState |= (check && !reset ? MFS_CHECKED : MFS_UNCHECKED);
+						mii.dwTypeData = ptszName;
+						SetMenuItemInfo(it.OwnerMenu, it.position, TRUE, &mii);
 					}
 
 					Menu_ModifyItem(timi->mi.root, ptszName);
@@ -657,7 +658,8 @@ BOOL FindMenuHanleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* itd
 
 	BOOL inSub = FALSE;
 
-	MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
