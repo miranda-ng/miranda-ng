@@ -67,6 +67,14 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
+	/*TCHAR *tszMessage = mir_utf8decodeT(szMessage);
+	int len = EscapeXML(tszMessage, _tcslen(tszMessage), NULL, 0);	
+	TCHAR *buff = new TCHAR[len+1];
+	buff[len] = '\0';
+	EscapeXML(tszMessage, _tcslen(tszMessage), buff, len);
+	char *szNewMessage = mir_utf8encodeT(buff);
+	delete[] buff;*/
+
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		SendRequest(new SendActionRequest(m_szRegToken, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
 	else
@@ -223,10 +231,11 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		{
 			CMStringA chours = "", cmins = "", csec = "";
 			int hours = 0, mins = 0, sec = 0;
+
 			if (iDuration != NULL)
 			{
 				hours = iDuration / 3600;
-				mins = iDuration / 60;
+				mins = ((iDuration / 60) - (hours * 60));
 				sec = iDuration % 60;
 			}
 			else

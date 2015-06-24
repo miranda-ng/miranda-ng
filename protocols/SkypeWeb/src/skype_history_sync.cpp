@@ -131,7 +131,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					if (iDuration != NULL)
 					{
 						hours = iDuration / 3600;
-						mins = iDuration / 60;
+						mins = ((iDuration / 60) - (hours * 60));
 						sec = iDuration % 60;
 					}
 					else
