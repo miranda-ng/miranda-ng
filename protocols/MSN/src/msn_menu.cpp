@@ -335,7 +335,7 @@ void CMsnProto::MsnInitMainMenu(void)
 void CMsnProto::MsnRemoveMainMenus(void)
 {
 	if (mainMenuRoot)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)mainMenuRoot, 0);
+		Menu_RemoveItem(mainMenuRoot);
 }
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)
@@ -444,14 +444,14 @@ void MSN_InitContactMenu(void)
 
 void MSN_RemoveContactMenus(void)
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
+	Menu_RemoveItem(hBlockMenuItem);
+	Menu_RemoveItem(hLiveSpaceMenuItem);
 #ifdef OBSOLETE
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);
+	Menu_RemoveItem(hNetmeetingMenuItem);
 	DestroyServiceFunction(hNetMeeting);
 #endif
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hChatInviteMenuItem, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hOpenInboxMenuItem, 0);
+	Menu_RemoveItem(hChatInviteMenuItem);
+	Menu_RemoveItem(hOpenInboxMenuItem);
 
 	DestroyServiceFunction(hBlockCom);
 	DestroyServiceFunction(hSendHotMail);

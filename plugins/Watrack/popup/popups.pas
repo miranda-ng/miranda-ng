@@ -524,7 +524,7 @@ begin
   if aSetDisable then
     SetModStatus(0);
 
-  CallService(MO_REMOVEMENUITEM,hMenuInfo,0);
+  Menu_RemoveItem(hMenuInfo);
   UnhookEvent(plStatusHook);
   DestroyServiceFunction(ssmi);
 

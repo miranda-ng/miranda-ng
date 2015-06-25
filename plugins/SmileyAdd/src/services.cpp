@@ -262,7 +262,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 	}
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)menuHandleArray[i], 0);
+		Menu_RemoveItem((HGENMENU)menuHandleArray[i]);
 	menuHandleArray.destroy();
 
 	return TRUE;
@@ -285,7 +285,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	Menu_ShowItem(hContactMenuItem, haveMenu);
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)menuHandleArray[i], 0);
+		Menu_RemoveItem((HGENMENU)menuHandleArray[i]);
 	menuHandleArray.destroy();
 
 	if (haveMenu) {

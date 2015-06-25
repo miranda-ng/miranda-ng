@@ -111,7 +111,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void SessionStarted();
 	void SessionStopping();
 	void InitSessionMenu();
-	void DeinitSessionMenu();
 	int LogIn(int status, HANDLE hNetlibUser);
 	int LogOut();
 	int SetSessionStatus(int status);
@@ -171,7 +170,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	// sametime_session.cpp
 	bool first_online; // set our status after the first online status comes from the server
-	HANDLE hSessionAnnounceMenuItem;
 	int login_status;
 	bool idle_status;
 	int idle_timerid;

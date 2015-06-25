@@ -596,7 +596,7 @@ begin
   if aSetDisable then
     SetModStatus(0);
 
-  CallService(MO_REMOVEMENUITEM,hMenuReport,0);
+  Menu_RemoveItem(hMenuReport);
   DestroyServiceFunction(hPackLog);
   DestroyServiceFunction(hMakeReport);
   DestroyServiceFunction(hAddToLog);

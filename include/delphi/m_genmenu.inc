@@ -239,17 +239,6 @@ type
     ExecService:PAnsiChar;//called when processmenuitem called
   end;
 
-//used in MO_BUILDMENU
-type
-  PListParam = ^TListParam;
-  TListParam = record
-    rootlevel       :int;
-    MenuObjectHandle:THANDLE;
-    wParam          :WPARAM;
-    lParam          :LPARAM;
-end;
-  tagListParam = TListParam;
-
 type
   PProcessCommandParam = ^TProcessCommandParam;
   TProcessCommandParam = record
@@ -258,69 +247,70 @@ type
     lParam:LPARAM;
   end;
 
-const
 {
-  wparam started hMenu
-  lparam ListParam*
+  Builds a menu from the menu object specified
   result hMenu
 }
-  MO_BUILDMENU:PAnsiChar = 'MO/BuildMenu';
+
+function Menu_Build(parent:HMENU; menuObject:THANDLE; wParam:WPARAM; lParam:LPARAM) : HMENU; stdcall;
+              external AppDLL name 'Menu_Build';
 
 {
-  wparam=MenuItemHandle
-  lparam userdefined
-  returns TRUE if it processed the command, FALSE otherwise
+  Passes custom lParam to the ExecMenuService for the specified menu item
+  returns true if command is processed, false otherwise
 }
-  MO_PROCESSCOMMAND:PAnsiChar = 'MO/ProcessCommand';
+
+function Menu_ProcessCommand(hMenuItem:HGENMENU; lParam:LPARAM) : integer; stdcall;
+              external AppDLL name 'Menu_ProcessCommand';
 
 {
   if menu not known call this
   LOWORD(wparam) menuident (from WM_COMMAND message)
-  returns TRUE if it processed the command, FALSE otherwise
-  Service automatically find right menuobject and menuitem
-  and call MO_PROCESSCOMMAND
+  It automatically finds right menuobject and menuitem and calls Menu_ProcessCommand
+  returns true if command is processed, false otherwise
 }
-  MO_PROCESSCOMMANDBYMENUIDENT:PAnsiChar = 'MO/ProcessCommandByMenuIdent';
+
+function Menu_ProcessCommandById(iCommand:integer; lParam:LPARAM) : integer; stdcall;
+              external AppDLL name 'Menu_ProcessCommandById';
 
 {
-  wparam=0;
-  lparam=PMenuParam;
   returns=MenuObjectHandle on success,-1 on failure
 }
-  MO_CREATENEWMENUOBJECT:PAnsiChar = 'MO/CreateNewMenuObject';
+
+function Menu_AddObject(const name, displayName, checkService, execService:PAnsiChar) : THANDLE; stdcall;
+              external AppDLL name 'Menu_AddObject';
 
 {
-  wparam=MenuObjectHandle
-  lparam=0
   returns 0 on success,-1 on failure
   Note: you must free all ownerdata structures, before you
   call this service.MO_REMOVEMENUOBJECT NOT free it.
 }
-  MO_REMOVEMENUOBJECT:PAnsiChar = 'MO/RemoveMenuObject';
+
+function Menu_RemoveObject(hMenuObject:THANDLE) : integer; stdcall;
+              external AppDLL name 'Menu_RemoveObject';
 
 {
-  wparam=MenuItemHandle
-  lparam=0
   returns 0 on success,-1 on failure.
   You must free ownerdata before this call.
   If MenuItemHandle is root all child will be removed too.
 }
-  MO_REMOVEMENUITEM:PAnsiChar = 'MO/RemoveMenuItem';
+
+function Menu_RemoveItem(hMenuItem:HGENMENU) : integer; stdcall;
+              external AppDLL name 'Menu_RemoveItem';
 
 {
-  wparam=MenuObjectHandle
-  lparam=PMO_MenuItem
   return MenuItemHandle on success,-1 on failure
-  Service supports old menu items (without CMIF_ROOTPOPUP or
-  CMIF_CHILDPOPUP flag).For old menu items needed root will be created automatically.
 }
-  MO_ADDNEWMENUITEM:PAnsiChar = 'MO/AddNewMenuItem';
+
+function Menu_AddItem(hMenuObject:THANDLE; var tmi:TMO_MenuItem) : integer; stdcall;
+              external AppDLL name 'Menu_AddItem';
 
 {
   wparam MenuItemHandle
   returns ownerdata on success,NULL on failure
   Useful to get and free ownerdata before delete menu item.
 }
+const
   MO_MENUITEMGETOWNERDATA:PAnsiChar = 'MO/MenuItemGetOwnerData';
 
 {

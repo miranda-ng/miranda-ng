@@ -189,9 +189,6 @@ int UnloadFavoriteContactMenu()
 	free(hFavoriteContactMenuItems);
 	hFavoriteContactMenuItems = NULL;
 
-	if (hFavoriteContactMenu)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)hFavoriteContactMenu, 0);
-	hFavoriteContactMenu = NULL;
-
+	Menu_RemoveItem(hFavoriteContactMenu); hFavoriteContactMenu = NULL;
 	return 0;
 }

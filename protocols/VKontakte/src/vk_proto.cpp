@@ -375,13 +375,13 @@ void CVkProto::UnInitMenus()
 {
 	debugLogA("CVkProto::UnInitMenus");
 	for (int i = 0; i < PMI_COUNT; i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hProtoMenuItems[i], 0);
+		Menu_RemoveItem(g_hProtoMenuItems[i]);
 	
 	for (int i = 0; i < CHMI_COUNT; i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactHistoryMenuItems[i], 0);
+		Menu_RemoveItem(g_hContactHistoryMenuItems[i]);
 
 	for (int i = 0; i < CMI_COUNT; i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
+		Menu_RemoveItem(g_hContactMenuItems[i]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

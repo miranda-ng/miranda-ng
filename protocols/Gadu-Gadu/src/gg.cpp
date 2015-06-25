@@ -256,7 +256,7 @@ void GGPROTO::block_init()
 
 void GGPROTO::block_uninit()
 {
-   CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockMenuItem, 0);
+   Menu_RemoveItem(hBlockMenuItem);
 }
 
 //////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ void GGPROTO::menus_init()
       hCLRoot = Menu_AddProtoMenuItem(&mi);
 
       if (hMenuRoot)
-         CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
+         Menu_RemoveItem(hMenuRoot);
       hMenuRoot = NULL;
    }
 

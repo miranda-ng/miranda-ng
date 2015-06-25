@@ -158,7 +158,7 @@ int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
 	// Удаляем пункт главного меню.
 	if (hTrafficMainMenuItem)
 	{
-		CallService(MO_REMOVEMENUITEM, (WPARAM)hTrafficMainMenuItem, 0);
+		Menu_RemoveItem(hTrafficMainMenuItem);
 		hTrafficMainMenuItem = NULL;
 	}
 	// Удаляем контекстное меню.

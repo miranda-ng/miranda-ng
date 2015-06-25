@@ -254,7 +254,7 @@ void Xfire_gamelist::createDummyMenuItem()
 //entfernt dummymenueintrag
 void Xfire_gamelist::removeDummyMenuItem()
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)dummymenuitem, 0);
+	Menu_RemoveItem(dummymenuitem);
 }
 
 //säubert die datenbank spiel einträge udn trägt custom spiele vorher nach

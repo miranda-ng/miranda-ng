@@ -374,7 +374,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	}
 
 	if (contact->type == CLCIT_GROUP)
-		if (CallService(MO_PROCESSCOMMANDBYMENUIDENT, LOWORD(wParam), (LPARAM)hwnd))
+		if (Menu_ProcessCommandById(wParam, (LPARAM)hwnd))
 			return 0;
 
 	return 0;

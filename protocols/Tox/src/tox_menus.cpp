@@ -39,7 +39,7 @@ void CToxProto::InitMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::PrebuildContactMenu);
 
-	//hChooserMenu = MO_CreateMenuObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
+	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
@@ -96,7 +96,7 @@ int CToxProto::OnInitStatusMenu()
 	/*else
 	{
 		if (m_hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
+			Menu_RemoveItem(m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}*/
 

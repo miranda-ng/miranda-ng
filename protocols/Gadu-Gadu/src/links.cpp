@@ -71,45 +71,37 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (items > 1) {
-		ListParam param = {0};
-		HMENU hMenu = CreatePopupMenu();
 		POINT pt;
-		int cmd = 0;
-
-		param.MenuObjectHandle = hInstanceMenu;
-		CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
-
 		GetCursorPos(&pt);
-		cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+
+		HMENU hMenu = CreatePopupMenu();
+		Menu_Build(hMenu, hInstanceMenu);
+		int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 		DestroyMenu(hMenu);
 
 		if (cmd)
-			CallService(MO_PROCESSCOMMANDBYMENUIDENT, cmd, (LPARAM)&gg);
+			Menu_ProcessCommandById(cmd, (LPARAM)&gg);
 	}
 
 	if (gg == NULL)
 		return 0;
 
-	if (ServiceExists(MS_MSG_SENDMESSAGE))
-	{
-		MCONTACT hContact = gg->getcontact(uin, 1, 0, NULL);
-		if (hContact != NULL)
-			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
-	}
-
+	MCONTACT hContact = gg->getcontact(uin, 1, 0, NULL);
+	if (hContact != NULL)
+		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	return 0;
 }
 
 void gg_links_instancemenu_init()
 {
 	CreateServiceFunction(GGS_MENUCHOOSE, gg_menuchoose);
-	hInstanceMenu = MO_CreateMenuObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), 0, GGS_MENUCHOOSE);
+	hInstanceMenu = Menu_AddObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), 0, GGS_MENUCHOOSE);
 
 	TMO_MenuItem mi = {0};
 	mi.name.a = "Cancel";
 	mi.position = 9999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&mi);
+	Menu_AddItem(hInstanceMenu, &mi);
 }
 
 void gg_links_init()
@@ -128,6 +120,6 @@ void GGPROTO::links_instance_init()
 		mi.ownerdata = this;
 		mi.position = g_Instances.getCount();
 		mi.name.t = m_tszUserName;
-		hInstanceMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hInstanceMenu, (LPARAM)&mi);
+		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi);
 	}
 }

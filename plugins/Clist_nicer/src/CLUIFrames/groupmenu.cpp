@@ -53,21 +53,10 @@ typedef struct {
 
 static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 {
-	int tick;
-	HMENU hMenu;
-	ListParam param = {0};
-	param.MenuObjectHandle = hGroupMenuObject;
-
-	//hMenu = hMainMenu;
-	hMenu = CreatePopupMenu();
-	//hMenu = wParam;
-	tick = GetTickCount();
-
 	NotifyEventHooks(hPreBuildGroupMenuEvent, 0, 0);
 
-	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
-	//DrawMenuBar((HWND)CallService("CLUI/GetHwnd",0,0));
-	tick = GetTickCount() - tick;
+	HMENU hMenu = CreatePopupMenu();
+	Menu_Build(hMenu, hGroupMenuObject);
 	return (INT_PTR)hMenu;
 }
 
@@ -92,7 +81,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	}
 	tmi.ownerdata = mmep;
 
-	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hGroupMenuObject, (LPARAM)&tmi);
+	HGENMENU hNewItem = Menu_AddItem(hGroupMenuObject, &tmi);
 
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
@@ -241,7 +230,7 @@ void InitGroupMenus(void)
 	InitSubGroupMenus();
 
 	//Group menu
-	hGroupMenuObject = MO_CreateMenuObject("GroupMenu", LPGEN("Group menu"), 0, "CLISTMENUSGroup/ExecService");
+	hGroupMenuObject = Menu_AddObject("GroupMenu", LPGEN("Group menu"), 0, "CLISTMENUSGroup/ExecService");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
@@ -369,16 +358,10 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 
 static INT_PTR BuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
-	ListParam param = {0};
-	param.MenuObjectHandle = hSubGroupMenuObject;
-	param.wParam = wParam;
-
-	HMENU hMenu = CreatePopupMenu();
-	int tick = GetTickCount();
 	NotifyEventHooks(hPreBuildSubGroupMenuEvent, wParam, 0);
 
-	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
-	tick = GetTickCount() - tick;
+	HMENU hMenu = CreatePopupMenu();
+	Menu_Build(hMenu, hSubGroupMenuObject, wParam);
 	return (INT_PTR)hMenu;
 }
 
@@ -402,8 +385,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 		mmep->Param2 = gmp->lParam;
 	}
 	tmi.ownerdata = mmep;
-
-	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hSubGroupMenuObject, (LPARAM)&tmi);
+	HGENMENU hNewItem = Menu_AddItem(hSubGroupMenuObject, &tmi);
 
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
@@ -489,7 +471,7 @@ void InitSubGroupMenus(void)
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU, OnBuildSubGroupMenu);
 
 	// SubGroup menu
-	hSubGroupMenuObject = MO_CreateMenuObject("SubGroupMenu", LPGEN("Subgroup menu"), 0, "CLISTMENUSSubGroup/ExecService");
+	hSubGroupMenuObject = Menu_AddObject("SubGroupMenu", LPGEN("Subgroup menu"), 0, "CLISTMENUSSubGroup/ExecService");
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuonAddService");

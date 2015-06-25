@@ -41,8 +41,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 	fmep->Frameid = mi->popupPosition;
 	fmep->param1 = (INT_PTR)mi->pszContactOwner;
 	tmi.ownerdata = fmep;
-
-	return CallService(MO_ADDNEWMENUITEM, (WPARAM)hFrameMenuObject, (LPARAM)&tmi);
+	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
 }
 
 //called with:
@@ -62,7 +61,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 //true - ok,false ignore
 INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 {
-	PCheckProcParam pcpp = (PCheckProcParam)wParam;
+	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
 	if (pcpp == NULL)
 		return FALSE;
 
@@ -86,14 +85,10 @@ static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR BuildContextFrameMenu(WPARAM wParam, LPARAM lParam)
 {
-	ListParam param = {0};
-	param.MenuObjectHandle = hFrameMenuObject;
-	param.wParam = wParam;
-	param.lParam = lParam;
+	ContextFrameMenuNotify(wParam, -1);
 
 	HMENU hMenu = CreatePopupMenu();
-	ContextFrameMenuNotify(wParam, -1);
-	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
+	Menu_Build(hMenu, hFrameMenuObject, wParam, lParam);
 	return (INT_PTR)hMenu;
 }
 
@@ -111,7 +106,7 @@ int InitFramesMenus(void)
 	hPreBuildFrameMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDFRAMEMENU);
 
 	// frame menu object
-	hFrameMenuObject = MO_CreateMenuObject("FrameMenu", LPGEN("Frame menu"), "FrameMenuCheckService", "FrameMenuExecService");
+	hFrameMenuObject = Menu_AddObject("FrameMenu", LPGEN("Frame menu"), "FrameMenuCheckService", "FrameMenuExecService");
 	Menu_ConfigureObject(hFrameMenuObject, MCO_OPT_FREE_SERVICE, "FrameMenuFreeService");
 	return 0;
 }

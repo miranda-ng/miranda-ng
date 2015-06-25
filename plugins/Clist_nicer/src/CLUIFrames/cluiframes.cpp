@@ -1381,7 +1381,7 @@ static int CLUIFramesLoadMainMenu()
 		return -1;
 
 	if (MainMIRoot != (HANDLE)-1) {
-		CallService(MO_REMOVEMENUITEM, (WPARAM)MainMIRoot, 0);
+		Menu_RemoveItem(MainMIRoot);
 		MainMIRoot = (HGENMENU)-1;
 	}
 
@@ -3012,17 +3012,17 @@ static int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 	WaitForSingleObject(hThreadMFUpdate, 2000);
 	CloseHandle(g_hEventThread);
 
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMITitle, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMITBVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMILock, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIColl, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIFloating, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIAlignRoot, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIAlignTop, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIAlignClient, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIAlignBottom, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)contMIBorder, 0);
+	Menu_RemoveItem(contMIVisible);
+	Menu_RemoveItem(contMITitle);
+	Menu_RemoveItem(contMITBVisible);
+	Menu_RemoveItem(contMILock);
+	Menu_RemoveItem(contMIColl);
+	Menu_RemoveItem(contMIFloating);
+	Menu_RemoveItem(contMIAlignRoot);
+	Menu_RemoveItem(contMIAlignTop);
+	Menu_RemoveItem(contMIAlignClient);
+	Menu_RemoveItem(contMIAlignBottom);
+	Menu_RemoveItem(contMIBorder);
 	return 0;
 }
 

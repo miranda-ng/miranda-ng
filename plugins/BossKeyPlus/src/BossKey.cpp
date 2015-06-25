@@ -543,7 +543,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 
 void BossKeyMenuItemUnInit(void) // Remove menu item
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuItem, 0);
+	Menu_RemoveItem(g_hMenuItem);
 	g_hMenuItem = 0;
 }
 

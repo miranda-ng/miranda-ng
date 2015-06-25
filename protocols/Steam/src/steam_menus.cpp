@@ -104,8 +104,7 @@ void CSteamProto::OnInitStatusMenu()
 	mi.pszService = text;
 
 	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (!hSteamRoot)
-	{
+	if (!hSteamRoot) {
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
@@ -113,10 +112,8 @@ void CSteamProto::OnInitStatusMenu()
 		//mi.icolibItem = NULL;
 		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
-	else
-	{
-		if (m_hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
+	else {
+		Menu_RemoveItem(m_hMenuRoot);
 		m_hMenuRoot = NULL;
 	}
 
@@ -134,7 +131,7 @@ void CSteamProto::OnInitStatusMenu()
 
 void CSteamProto::InitMenus()
 {
-	hChooserMenu = MO_CreateMenuObject("SteamAccountChooser", LPGEN("Steam menu chooser"), 0, "Steam/MenuChoose");
+	hChooserMenu = Menu_AddObject("SteamAccountChooser", LPGEN("Steam menu chooser"), 0, "Steam/MenuChoose");
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
@@ -170,8 +167,8 @@ void CSteamProto::InitMenus()
 
 void CSteamProto::UninitMenus()
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_AUTH_REQUEST], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_BLOCK], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_JOIN_GAME], 0);
+	Menu_RemoveItem(contactMenuItems[CMI_AUTH_REQUEST]);
+	Menu_RemoveItem(contactMenuItems[CMI_BLOCK]);
+	Menu_RemoveItem(contactMenuItems[CMI_JOIN_GAME]);
 }
 

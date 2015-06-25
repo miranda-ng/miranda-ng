@@ -205,3 +205,10 @@ Menu_ModifyItem @202
 Menu_ConfigureItem @203
 Menu_GetProtocolRoot @204
 Menu_ConfigureObject @205
+Menu_Build @206
+Menu_ProcessCommand @207
+Menu_ProcessCommandById @208
+Menu_AddItem @209
+Menu_RemoveItem @210
+Menu_AddObject @211
+Menu_RemoveObject @212
