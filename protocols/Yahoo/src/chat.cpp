@@ -289,7 +289,7 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-		CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who), 0);
+		CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who));
 		break;
 
 	case GC_USER_LOGMENU:
@@ -308,11 +308,11 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData) {
 		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who), 0);
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who));
 			break;
 
 		case 20:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who), 0);
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who));
 			break;
 
 		case 110:

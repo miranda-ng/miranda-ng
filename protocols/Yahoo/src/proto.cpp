@@ -117,7 +117,7 @@ MCONTACT CYahooProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id.t) : mir_utf8encode((char*)psr->id.t);
 	MCONTACT hContact = getbuddyH(id);
 	if (hContact != NULL) {
-		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
+		if (db_get_b(hContact, "CList", "NotOnList")) {
 			debugLogA("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
 			//return 0;
 		}
@@ -256,7 +256,7 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 
 			debugLogA("Rejecting buddy:%s msg: %s", who, u_reason);
 			reject(myid, who, getWord(hContact, "yprotoid", 0), u_reason);
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact);
 		}
 	}
 	return 0;

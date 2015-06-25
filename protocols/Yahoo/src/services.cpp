@@ -89,7 +89,7 @@ int __cdecl CYahooProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 	}
 
 	// he is not a permanent contact!
-	if (db_get_b(hContact, "CList", "NotOnList", 0) != 0) {
+	if (db_get_b(hContact, "CList", "NotOnList") != 0) {
 		debugLogA("[YahooContactDeleted] Not a permanent buddy!!!");
 		return 0;
 	}
@@ -265,7 +265,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR __cdecl CYahooProto::OnEditMyProfile(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnEditMyProfile(WPARAM, LPARAM)
 {
 	OpenURL("http://edit.yahoo.com/config/eval_profile", 1);
 	return 0;
@@ -274,7 +274,7 @@ INT_PTR __cdecl CYahooProto::OnEditMyProfile(WPARAM wParam, LPARAM lParam)
 //=======================================================
 //Show My profile
 //=======================================================
-INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM, LPARAM)
 {
 	DBVARIANT dbv;
 
@@ -294,23 +294,19 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM wParam, LPARAM lParam
 //=======================================================
 //Show Goto mailbox
 //=======================================================
-INT_PTR __cdecl CYahooProto::OnGotoMailboxCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnGotoMailboxCommand(WPARAM, LPARAM)
 {
-	if (getByte("YahooJapan", 0))
-		OpenURL("http://mail.yahoo.co.jp/", 1);
-	else
-		OpenURL("http://mail.yahoo.com/", 1);
-
+	OpenURL(getByte("YahooJapan", 0) ? "http://mail.yahoo.co.jp/" : "http://mail.yahoo.com/", 1);
 	return 0;
 }
 
-INT_PTR __cdecl CYahooProto::OnABCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnABCommand(WPARAM, LPARAM)
 {
 	OpenURL("http://address.yahoo.com/yab/", 1);
 	return 0;
 }
 
-INT_PTR __cdecl CYahooProto::OnCalendarCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnCalendarCommand(WPARAM, LPARAM)
 {
 	OpenURL("http://calendar.yahoo.com/", 1);
 	return 0;
@@ -319,7 +315,7 @@ INT_PTR __cdecl CYahooProto::OnCalendarCommand(WPARAM wParam, LPARAM lParam)
 //=======================================================
 //Refresh Yahoo
 //=======================================================
-INT_PTR __cdecl CYahooProto::OnRefreshCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnRefreshCommand(WPARAM, LPARAM)
 {
 	if (!m_bLoggedIn) {
 		ShowNotification(TranslateT("Yahoo Error"), TranslateT("You need to be connected to refresh your buddy list"), NIIF_ERROR);
@@ -353,12 +349,9 @@ int __cdecl CYahooProto::OnIdleEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR __cdecl CYahooProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::GetUnreadEmailCount(WPARAM, LPARAM)
 {
-	if (!m_bLoggedIn)
-		return 0;
-
-	return m_unreadMessages;
+	return m_bLoggedIn ? m_unreadMessages : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
