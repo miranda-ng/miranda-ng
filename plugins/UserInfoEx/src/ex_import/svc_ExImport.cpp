@@ -272,7 +272,7 @@ INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM lParam)
 	LPTSTR ptszGroup = tszGroup;
 	LPTSTR ptszItem = tszItem;
 
-	HWND hClist = (HWND)CallService(MS_CLUI_GETHWNDTREE,0,0);
+	HWND hClist = pcli->hwndContactTree;
 	// get clist selection
 	hItem = SendMessage(hClist,CLM_GETSELECTION,0,0);
 	hRoot = SendMessage(hClist,CLM_GETNEXTITEM, (WPARAM)CLGN_ROOT, (LPARAM)hItem);
@@ -331,7 +331,7 @@ INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
-	HWND hClist = (HWND)CallService(MS_CLUI_GETHWNDTREE,0,0);
+	HWND hClist = pcli->hwndContactTree;
 	lpStatusMenuExecParam smep = (lpStatusMenuExecParam)Menu_GetItemData((HGENMENU)lParam);
 	ExIm.pszName = mir_strdup(smep->proto);
 	ExIm.Typ = EXIM_ACCOUNT;

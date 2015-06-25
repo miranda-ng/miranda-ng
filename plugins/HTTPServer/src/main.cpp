@@ -49,6 +49,7 @@ HANDLE hNetlibUser;
 HANDLE hDirectBoundPort;
 
 HINSTANCE hInstance = NULL;
+CLIST_INTERFACE *pcli;
 
 string sLogFilePath;
 
@@ -223,7 +224,8 @@ DWORD dwReadIPAddress(char * pszStr, bool &bError) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bReadConfigurationFile() {
+bool bReadConfigurationFile()
+{
 	CLFileShareListAccess clCritSection;
 
 	CLFileShareNode * pclLastNode = NULL;
@@ -326,7 +328,8 @@ bool bReadConfigurationFile() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bWriteConfigurationFile() {
+bool bWriteConfigurationFile()
+{
 	CLFileShareListAccess clCritSection;
 	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
@@ -389,7 +392,8 @@ bool bWriteConfigurationFile() {
 // Developer       : KN, Houdini, changed By Sergio Vieira Rolanski
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
+static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
+{
 	if (!lParam)
 		return 1001;
 
@@ -477,7 +481,8 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam) {
+static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam)
+{
 	if (!lParam)
 		return 1001;
 
@@ -516,7 +521,8 @@ static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR nHttpGetAllShares(WPARAM /*wParam*/, LPARAM /*lParam*/) {/*
+static INT_PTR nHttpGetAllShares(WPARAM /*wParam*/, LPARAM /*lParam*/)
+{/*
  STFileShareInfo ** pTarget = (STFileShareInfo**)lParam;
  CLFileShareNode * pclCur;
 
@@ -539,7 +545,6 @@ static INT_PTR nHttpGetAllShares(WPARAM /*wParam*/, LPARAM /*lParam*/) {/*
 	return 0;
 }
 
-
 /////////////////////////////////////////////////////////////////////
 // Member Function : HandleNewConnection
 // Type            : Global
@@ -553,7 +558,8 @@ static INT_PTR nHttpGetAllShares(WPARAM /*wParam*/, LPARAM /*lParam*/) {/*
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void HandleNewConnection(void *ch) {
+void HandleNewConnection(void *ch)
+{
 	CLHttpUser * pclUser = (CLHttpUser *)ch;
 	pclUser->HandleNewConnection();
 	delete pclUser;
@@ -573,7 +579,8 @@ void HandleNewConnection(void *ch) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP) {
+void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP)
+{
 	in_addr stAddr;
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);
 
@@ -596,7 +603,8 @@ void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
+static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam)
+{
 	//todo: ignore weather protos
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type != ACKTYPE_STATUS ||                       //only send for statuses
@@ -606,7 +614,6 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 	bIsOnline = ((int)ack->lParam != ID_STATUS_AWAY && (int)ack->lParam != ID_STATUS_NA);
 	return 0;
 }
-
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : nToggelAcceptConnections
@@ -679,7 +686,8 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/) {
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
+{
 	hInstance = hinst;
 	return 1;
 }
@@ -698,15 +706,9 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
-	/*
-	STFileShareInfo * pShares = (STFileShareInfo *)5;
-	CallService(MS_HTTP_GET_ALL_SHARES, 0, (LPARAM) &pShares);
-	MirandaFree( pShares );*/
-
-	if (! bReadConfigurationFile()) {
-		//MessageBox( NULL, "Failed to read configuration file : " szConfigFile, MSG_BOX_TITEL, MB_OK );
-
+int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
+{
+	if (!bReadConfigurationFile()) {
 		char szRealPath[MAX_PATH];
 		char szSrvPath[MAX_PATH] = {0};
 		STFileShareInfo share;
@@ -735,7 +737,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 
 		bWriteConfigurationFile();
 	}
-
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -770,7 +771,8 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
+int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
+{
 	{
 		CLFileShareListAccess clCrit;
 		bShutdownInProgress = true;
@@ -802,7 +804,8 @@ int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
+int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
+{
 	while (pclFirstNode) {
 		CLFileShareNode * pclCur = pclFirstNode;
 		pclFirstNode = pclFirstNode->pclNext;
@@ -818,142 +821,143 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 	return 0;
 }
 
-	/////////////////////////////////////////////////////////////////////
-	// Member Function : MirandaPluginInfoEx
-	// Type            : Global
-	// Parameters      : mirandaVersion - ?
-	// Returns         :
-	// Description     :
-	//
-	// References      : -
-	// Remarks         : -
-	// Created         : 020422, 22 April 2002
-	// Developer       : KN, Houdini
-	/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+// Member Function : MirandaPluginInfoEx
+// Type            : Global
+// Parameters      : mirandaVersion - ?
+// Returns         :
+// Description     :
+//
+// References      : -
+// Remarks         : -
+// Created         : 020422, 22 April 2002
+// Developer       : KN, Houdini
+/////////////////////////////////////////////////////////////////////
 
-	extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/) {
-		return &pluginInfo;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/) {
+	return &pluginInfo;
+}
+
+/////////////////////////////////////////////////////////////////////
+// Member Function : Load
+// Type            : Global
+// Parameters      : link - ?
+// Returns         : int
+// Description     :
+//
+// References      : -
+// Remarks         : -
+// Created         : 020422, 22 April 2002
+// Developer       : KN
+/////////////////////////////////////////////////////////////////////
+
+extern "C" __declspec(dllexport) int Load()
+{
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
+	hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
+	if (! hHttpAcceptConnectionsService) {
+		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS"), MSG_BOX_TITEL, MB_OK);
+		return 1;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	// Member Function : Load
-	// Type            : Global
-	// Parameters      : link - ?
-	// Returns         : int
-	// Description     :
-	//
-	// References      : -
-	// Remarks         : -
-	// Created         : 020422, 22 April 2002
-	// Developer       : KN
-	/////////////////////////////////////////////////////////////////////
-
-	extern "C" __declspec(dllexport) int Load() {
-		mir_getLP(&pluginInfo);
-
-		hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
-		if (! hHttpAcceptConnectionsService) {
-			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
-		if (! hHttpAddChangeRemoveService) {
-			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
-		if (! hHttpGetShareService) {
-			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_SHARE"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		hHttpGetAllShares = CreateServiceFunction(MS_HTTP_GET_ALL_SHARES, nHttpGetAllShares);
-		if (! hHttpGetAllShares) {
-			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-
-		hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
-		if (!hEventSystemInit) {
-			MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-		if (!hPreShutdown) {
-			MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_PRESHUTDOWN"), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
-		{
-			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-		mir_tstrncat(szPluginPath, _T("\\HTTPServer\\"), _countof(szPluginPath) - mir_tstrlen(szPluginPath));
-		int err = CreateDirectoryTree(szPluginPath);
-		if((err != 0) && (err != ERROR_ALREADY_EXISTS))
-		{
-			MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
-			return 1;
-		}
-
-		nPluginPathLen = (int)mir_strlen(szPluginPath);
-
-		sLogFilePath = szPluginPath;
-		sLogFilePath += "HTTPServer.log";
-
-		if (! bInitMimeHandling()) {
-			MessageBox(NULL, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
-		}
-
-		nMaxUploadSpeed = db_get_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
-		nMaxConnectionsTotal = db_get_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
-		nMaxConnectionsPerUser = db_get_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
-		bLimitOnlyWhenOnline = db_get_b(NULL, MODULE, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
-		indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
-
-		if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
-			CLISTMENUITEM mi = { 0 };
-			mi.flags = CMIF_TCHAR;
-			mi.pszContactOwner = NULL;  //all contacts
-			mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-			mi.position = 1000085000;
-			mi.pszName = LPGENT("Enable HTTP server");
-			mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
-			hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
-		}
-
-		if (indexCreationMode == INDEX_CREATION_HTML ||
-		    indexCreationMode == INDEX_CREATION_DETECT)
-			if (!LoadIndexHTMLTemplate()) {
-				indexCreationMode = INDEX_CREATION_DISABLE;
-				db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);
-			}
-
-		hEventProtoAck = HookEvent(ME_PROTO_ACK, nProtoAck);
-		return 0;
+	hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
+	if (! hHttpAddChangeRemoveService) {
+		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE"), MSG_BOX_TITEL, MB_OK);
+		return 1;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	// Member Function : Unload
-	// Type            : Global
-	// Parameters      : none
-	// Returns         :
-	// Description     :
-	//
-	// References      : -
-	// Remarks         : -
-	// Created         : 020422, 22 April 2002
-	// Developer       : KN
-	/////////////////////////////////////////////////////////////////////
-
-	extern "C"  __declspec(dllexport) int Unload() {
-		nSystemShutdown(0, 0);
-		if(hwndStatsticView)
-			DestroyWindow(hwndStatsticView);
-		return 0;
+	hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
+	if (! hHttpGetShareService) {
+		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_SHARE"), MSG_BOX_TITEL, MB_OK);
+		return 1;
 	}
+
+	hHttpGetAllShares = CreateServiceFunction(MS_HTTP_GET_ALL_SHARES, nHttpGetAllShares);
+	if (! hHttpGetAllShares) {
+		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES"), MSG_BOX_TITEL, MB_OK);
+		return 1;
+	}
+
+
+	hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	if (!hEventSystemInit) {
+		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
+		return 1;
+	}
+
+	hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	if (!hPreShutdown) {
+		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_PRESHUTDOWN"), MSG_BOX_TITEL, MB_OK);
+		return 1;
+	}
+
+	if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
+	{
+		MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
+		return 1;
+	}
+	mir_tstrncat(szPluginPath, _T("\\HTTPServer\\"), _countof(szPluginPath) - mir_tstrlen(szPluginPath));
+	int err = CreateDirectoryTree(szPluginPath);
+	if((err != 0) && (err != ERROR_ALREADY_EXISTS))
+	{
+		MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
+		return 1;
+	}
+
+	nPluginPathLen = (int)mir_strlen(szPluginPath);
+
+	sLogFilePath = szPluginPath;
+	sLogFilePath += "HTTPServer.log";
+
+	if (!bInitMimeHandling())
+		MessageBox(NULL, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
+
+	nMaxUploadSpeed = db_get_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
+	nMaxConnectionsTotal = db_get_dw(NULL, MODULE, "MaxConnectionsTotal", nMaxConnectionsTotal);
+	nMaxConnectionsPerUser = db_get_dw(NULL, MODULE, "MaxConnectionsPerUser", nMaxConnectionsPerUser);
+	bLimitOnlyWhenOnline = db_get_b(NULL, MODULE, "LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
+	indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
+
+	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
+		CLISTMENUITEM mi = { 0 };
+		mi.flags = CMIF_TCHAR;
+		mi.pszContactOwner = NULL;  //all contacts
+		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+		mi.position = 1000085000;
+		mi.pszName = LPGENT("Enable HTTP server");
+		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
+		hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
+	}
+
+	if (indexCreationMode == INDEX_CREATION_HTML || indexCreationMode == INDEX_CREATION_DETECT)
+		if (!LoadIndexHTMLTemplate()) {
+			indexCreationMode = INDEX_CREATION_DISABLE;
+			db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);
+		}
+
+	hEventProtoAck = HookEvent(ME_PROTO_ACK, nProtoAck);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////
+// Member Function : Unload
+// Type            : Global
+// Parameters      : none
+// Returns         :
+// Description     :
+//
+// References      : -
+// Remarks         : -
+// Created         : 020422, 22 April 2002
+// Developer       : KN
+/////////////////////////////////////////////////////////////////////
+
+extern "C"  __declspec(dllexport) int Unload()
+{
+	nSystemShutdown(0, 0);
+	if(hwndStatsticView)
+		DestroyWindow(hwndStatsticView);
+	return 0;
+}

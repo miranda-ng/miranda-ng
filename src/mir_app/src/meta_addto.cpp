@@ -218,7 +218,6 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 INT_PTR Meta_AddTo(WPARAM hContact, LPARAM)
 {
-	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_METASELECT), clui, &Meta_SelectDialogProc, hContact);
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_METASELECT), cli.hwndContactList, &Meta_SelectDialogProc, hContact);
 	return 0;
 }

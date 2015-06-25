@@ -25,21 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CLUI_H__
 #define M_CLUI_H__ 1
 
-//this module was created in 0.1.1.0
-//you probably shouldn't need to call anything in here. Look in
-//ui/contactlist/m_clist.h instead
-
-//gets the handle for the contact list window
-//wParam = lParam = 0
-//returns the HWND
-//This call has a few very specific purposes internally in Miranda, and
-//shouldn't be gratuitously used. In almost all cases there's another call to
-//do whatever it is you are trying to do.
-#define MS_CLUI_GETHWND     "CLUI/GetHwnd"
-
-//get ContactTree hwnd
-#define MS_CLUI_GETHWNDTREE     "CLUI/GetHwndTree"
-
 //a new group was created. Add it to the list
 //wParam = (WPARAM)(HANDLE)hGroup
 //lParam = newGroup

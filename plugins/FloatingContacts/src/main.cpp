@@ -871,7 +871,7 @@ static int OnModulesLoded(WPARAM, LPARAM)
 	HookEvent(ME_CLIST_STATUSMODECHANGE, OnStatusModeChange);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 
-	hwndMiranda = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	hwndMiranda = pcli->hwndContactList;
 	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
 
 	// No thumbs yet

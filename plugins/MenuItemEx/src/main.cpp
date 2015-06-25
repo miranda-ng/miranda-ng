@@ -15,6 +15,7 @@
 
 const int vf_default = VF_VS | VF_HFL | VF_IGN | VF_CID | VF_SHOWID | VF_RECV | VF_STAT | VF_SMNAME | VF_CIDN | VF_CIP;
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hinstance;
 HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAdded, hmenuAuthReq;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
@@ -429,7 +430,7 @@ INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 	if (flags&PF4_NOCUSTOMAUTH)
 		CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)_T(""));
 	else
-		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), (HWND)CallService(MS_CLUI_GETHWND, 0, 0), AuthReqWndProc, (LPARAM)hContact);
+		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), pcli->hwndContactList, AuthReqWndProc, (LPARAM)hContact);
 
 	return 0;
 }
@@ -1069,6 +1070,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, _countof(iconList));
 	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));

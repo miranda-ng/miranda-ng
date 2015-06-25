@@ -14,6 +14,7 @@ Copyright (C) 2010, 2011 tico-tico
 #include <win2k.h>
 #include <m_cluiframes.h>
 #include <m_clui.h>
+#include <m_clistint.h>
 #include <m_fontservice.h>
 #include <m_button_int.h>
 #include <m_icolib.h>

@@ -15,7 +15,6 @@
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
 #include "Glob.h"
 
 #define MS_SHARE_NEW_FILE "HTTPServer/ShareNewFile"
@@ -1041,7 +1040,7 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 			stNewShare.dwAllowedMask = 0;
 	}
 
-	if (! bShowShareNewFileDlg((HWND)(lParam ? lParam : CallService(MS_CLUI_GETHWND, 0, 0)), &stNewShare))
+	if (!bShowShareNewFileDlg((lParam ? HWND(lParam) : pcli->hwndContactList), &stNewShare))
 		return 0;
 
 	if (stNewShare.dwAllowedIP)

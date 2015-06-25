@@ -347,7 +347,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 	// set windowstate and docked for next startup
 	if (db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0)) {
 		int state = db_get_b(NULL, MODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
-		HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+		HWND hClist = pcli->hwndContactList;
 		BOOL isHidden = !IsWindowVisible(hClist);
 		switch (state) {
 		case SETTING_STATE_HIDDEN:
@@ -448,7 +448,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 	// win size and location
 	if (db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
-		HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+		HWND hClist = pcli->hwndContactList;
 
 		// store in db
 		if (db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)) {

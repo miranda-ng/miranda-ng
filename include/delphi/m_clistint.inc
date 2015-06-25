@@ -539,9 +539,7 @@ type
     pfnSetContactCheckboxes:procedure(cc:PClcContact; checked:int); cdecl;
   end;
 
-{
 var
-  cli : CLIST_INTERFACE;cvar;external;
-}
+  cli : PCLIST_INTERFACE;
 
 {$ENDIF}

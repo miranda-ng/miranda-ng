@@ -40,6 +40,7 @@ HANDLE hHookWeatherError;
 MWindowList hDataWindowList, hWindowList;
 
 HANDLE hUpdateMutex;
+CLIST_INTERFACE *pcli;
 
 unsigned status;
 unsigned old_status;
@@ -176,6 +177,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 extern "C" int __declspec(dllexport) Load(void) 
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	// initialize global variables
 	InitVar();

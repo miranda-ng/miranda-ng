@@ -178,9 +178,10 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR EditContact(WPARAM wParam, LPARAM lParam) {
+INT_PTR EditContact(WPARAM wParam, LPARAM lParam)
+{
 	PINGLIST pl;
-	HWND hwndList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	HWND hwndList = pcli->hwndContactList;
 
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {

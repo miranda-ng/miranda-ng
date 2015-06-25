@@ -166,17 +166,17 @@ INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
 	SendMessage(
-		(HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0),
+		pcli->hwndContactTree,
 		CLM_SETHIDEOFFLINEROOT,
-		!SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_GETHIDEOFFLINEROOT, 0, 0),
+		!SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0),
 		0);
 	return 0;
 }
 
 INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 {
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEEMPTYGROUPS, 0, 0);
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETUSEGROUPS, 1, 0);
+	SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
+	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
 	Clist_CreateGroup(0, 0);
 	return 0;
 };

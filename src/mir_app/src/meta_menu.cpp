@@ -190,7 +190,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 	if (cc->IsMeta()) {
 		// check from recursion - see second half of this function
 		if (!bSkipQuestion && IDYES != 
-			 MessageBox((HWND)CallService(MS_CLUI_GETHWND, 0, 0),
+			MessageBox(cli.hwndContactList,
 				TranslateT("This will remove the metacontact permanently.\n\nProceed anyway?"),
 				TranslateT("Are you sure?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2))
 			return 0;

@@ -1,5 +1,6 @@
 #include "common.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -34,7 +35,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-void CreatePluginServices() {
+void CreatePluginServices()
+{
 	// general
 	CreateServiceFunction(PLUG "/Ping", PluginPing);
 	CreateServiceFunction(PLUG "/DblClick", DblClick);
@@ -79,7 +81,8 @@ int OnShutdown(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM, LPARAM) {
+int OnModulesLoaded(WPARAM, LPARAM)
+{
 	NETLIBUSER nl_user = { 0 };
 	nl_user.cbSize = sizeof(nl_user);
 	nl_user.szSettingsModule = PLUG;
@@ -127,11 +130,10 @@ static IconItem iconList[] =
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	//if(init_raw_ping()) {
-	//MessageBox(0, Translate("Failed to initialize. Plugin disabled."), Translate("Ping Plugin"), MB_OK | MB_ICONERROR);
-	//return 1;
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	use_raw_ping = false;
-	//}
 	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);

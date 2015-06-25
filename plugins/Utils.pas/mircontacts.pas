@@ -401,16 +401,14 @@ function SetCListSelContact(hContact:TMCONTACT):TMCONTACT;
 var
   wnd:HWND;
 begin
-  wnd:=CallService(MS_CLUI_GETHWNDTREE,0,0);
+  wnd:=cli^.hwndContactTree;
   result:=hContact;
-//  hContact:=SendMessage(wnd,CLM_FINDCONTACT  ,hContact,0);
   SendMessage(wnd,CLM_SELECTITEM   ,hContact,0);
-//  SendMessage(wnd,CLM_ENSUREVISIBLE,hContact,0);
 end;
 
 function GetCListSelContact:TMCONTACT;
 begin
-  result:=SendMessageW(CallService(MS_CLUI_GETHWNDTREE,0,0),CLM_GETSELECTION,0,0);
+  result:=SendMessageW(cli^.hwndContactTree,CLM_GETSELECTION,0,0);
 end;
 
 function WndToContact(wnd:HWND):TMCONTACT;

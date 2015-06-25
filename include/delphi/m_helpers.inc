@@ -539,4 +539,7 @@ begin
 	result:=PCRYPTO_PROVIDER(CallService(MS_CRYPTO_GET_PROVIDER, 0, LPARAM(pszName)));
 end;
 
+initialization
+   cli:=PCLIST_INTERFACE(CallService(MS_CLIST_RETRIEVE_INTERFACE,0,0));
+
 {$ENDIF}

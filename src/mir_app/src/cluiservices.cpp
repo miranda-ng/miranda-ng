@@ -25,16 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-static INT_PTR GetHwnd(WPARAM, LPARAM)
-{
-	return (INT_PTR)cli.hwndContactList;
-}
-
-static INT_PTR GetHwndTree(WPARAM, LPARAM)
-{
-	return (INT_PTR)cli.hwndContactTree;
-}
-
 static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 {
 	//CLC does this automatically unless it's a new group
@@ -126,8 +116,6 @@ static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 
 void LoadCluiServices(void)
 {
-	CreateServiceFunction(MS_CLUI_GETHWND, GetHwnd);
-	CreateServiceFunction(MS_CLUI_GETHWNDTREE, GetHwndTree);
 	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
 	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);
 	CreateServiceFunction(MS_CLUI_CONTACTADDED, ContactAdded);

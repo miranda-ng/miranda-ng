@@ -10,6 +10,7 @@ CNudgeElement DefaultNudge;
 CShake shake;
 CNudge GlobalNudge;
 
+CLIST_INTERFACE *pcli;
 int hLangpack = 0;
 
 //========================
@@ -82,7 +83,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 
 void OpenContactList()
 {
-	HWND hWnd = (HWND) CallService(MS_CLUI_GETHWND,0,0);
+	HWND hWnd = pcli->hwndContactList;
 	ShowWindow(hWnd, SW_RESTORE);
 	ShowWindow(hWnd, SW_SHOW);
 }
@@ -320,6 +321,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	LoadIcons();
 

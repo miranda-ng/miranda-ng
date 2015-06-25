@@ -15,6 +15,7 @@
 #include <m_cluiframes.h>
 #include <m_clui.h>
 #include <m_clc.h>
+#include <m_clistint.h>
 #include <m_findadd.h>
 #include <m_langpack.h>
 #include <m_options.h>

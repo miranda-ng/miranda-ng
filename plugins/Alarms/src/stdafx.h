@@ -17,6 +17,7 @@
 #include <m_idle.h>
 #include <m_clui.h>
 #include <m_cluiframes.h>
+#include <m_clistint.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
 #include <win2k.h>

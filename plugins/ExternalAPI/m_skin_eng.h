@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_ske_H_INC
 
 #include <m_clui.h>
+#include <m_clistint.h>
 
 /*defaults*/
 #define DEFAULT_FIT_MODE    FM_STRETCH
@@ -171,13 +172,11 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 	POINT pt={0};
 	RECT rc,r1;
 
-	HWND hwnd=(HWND)CallService(MS_CLUI_GETHWND,0,0);
 	if (!objectID) return 0;
 	GetWindowRect(hwndIn,&r1);
 	pt.x=r1.left;
 	pt.y=r1.top;
-	//ClientToScreen(hwndIn,&pt);
-	GetWindowRect(hwnd,&rc);
+	GetWindowRect(pcli->hwndContactList, &rc);
 	OffsetRect(&rc,-pt.x ,-pt.y);
 	rq.hDC=hdc;
 	rq.rcDestRect=rc;

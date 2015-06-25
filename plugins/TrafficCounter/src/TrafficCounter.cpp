@@ -29,6 +29,7 @@ int NumberOfAccounts;
 HWND TrafficHwnd;
 
 HINSTANCE hInst;
+CLIST_INTERFACE *pcli;
 
 int hLangpack = 0; // Поддержка плагинозависимого перевода.
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
@@ -130,6 +131,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	// Получаем дескриптор языкового пакета.
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);
@@ -297,7 +299,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
 	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
 
-	CreateTrafficWindow((HWND)CallService(MS_CLUI_GETHWND, 0, 0));
+	CreateTrafficWindow(pcli->hwndContactList);
 	UpdateFonts(0, 0);	//Load and create fonts here
 
 	return 0;
@@ -376,7 +378,7 @@ int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rg
 int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 {
 	if (hwnd == (HWND)-1) return 0;
-	if (GetParent(hwnd) == (HWND)CallService(MS_CLUI_GETHWND, 0, 0))
+	if (GetParent(hwnd) == pcli->hwndContactList)
 		return PaintTrafficCounterWindow(hwnd, hDC);
 	else
 		InvalidateRect(hwnd, NULL, FALSE);

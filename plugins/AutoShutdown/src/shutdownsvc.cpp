@@ -146,7 +146,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 				OutputDebugStringA("Not ready to exit. Waiting...\n"); /* tell others, all ascii */
 			}
 			/* shutdown service must be called from main thread anyway */
-			if (!DestroyWindow((HWND)CallService(MS_CLUI_GETHWND,0,0)))
+			if (!DestroyWindow(pcli->hwndContactList))
 				dwErrCode=GetLastError();
 		}
 		break;

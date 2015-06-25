@@ -244,7 +244,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	CloseHandle((HANDLE)wParam);
 
-	HWND parent = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	HWND parent = pcli->hwndContactList;
 	if (parent == NULL) // no clist, no buttons
 		return -1;
 
