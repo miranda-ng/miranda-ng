@@ -26,6 +26,9 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
   <ItemDefinitionGroup>
+    <ClCompile>
+      <DisableSpecificWarnings>4100;4131;4127;4189;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
     <Link>
       <ModuleDefinitionFile>src/zlib.def</ModuleDefinitionFile>
     </Link>
