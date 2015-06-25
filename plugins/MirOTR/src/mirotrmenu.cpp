@@ -16,21 +16,13 @@ MirOTRMenuExecParam,*lpMirOTRMenuExecParam;
 // MirOTR MENU
 ///////////////////////////////////////////
 
-static HGENMENU AddMirOTRMenuItem(CLISTMENUITEM *mi)
+static HGENMENU AddMirOTRMenuItem(TMO_MenuItem *pmi, const char *pszService)
 {
-	TMO_MenuItem tmi = { 0 };
-	tmi.flags = mi->flags;
-	tmi.hIcon = mi->hIcon;
-	tmi.hIcolibItem = mi->icolibItem;
-	tmi.position = mi->position;
-	tmi.name.t = mi->ptszName;
-	tmi.root = mi->hParentMenu;
-
-	// owner data
+	// add owner data
 	lpMirOTRMenuExecParam cmep = ( lpMirOTRMenuExecParam )mir_calloc(sizeof(MirOTRMenuExecParam));
-	cmep->szServiceName = mir_strdup(mi->pszService);
-	tmi.ownerdata = cmep;
-	return Menu_AddItem(hMirOTRMenuObject, &tmi);
+	cmep->szServiceName = mir_strdup(pszService);
+	pmi->ownerdata = cmep;
+	return Menu_AddItem(hMirOTRMenuObject, pmi);
 }
 
 //called with:
@@ -177,45 +169,40 @@ void InitMirOTRMenu(void)
 	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
 	// menu items
-	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_DISABLED | CMIF_TCHAR;
-	mi.ptszName = LPGENT("OTR Status");
-	mi.position = 0;
-	hStatusInfoItem = AddMirOTRMenuItem(&mi);
+	TMO_MenuItem tmi = { 0 };
+	tmi.flags = CMIF_DISABLED | CMIF_TCHAR;
+	tmi.name.t = LPGENT("OTR Status");
+	tmi.position = 0;
+	hStatusInfoItem = AddMirOTRMenuItem(&tmi, NULL);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
-	mi.ptszName = LANG_MENU_START;
-	mi.position = 100001;
-	mi.pszService = MS_OTR_MENUSTART;
-	mi.icolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
-	AddMirOTRMenuItem(&mi);
+	tmi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
+	tmi.name.t = LANG_MENU_START;
+	tmi.position = 100001;
+	tmi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
+	AddMirOTRMenuItem(&tmi, MS_OTR_MENUSTART);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.ptszName = LANG_MENU_REFRESH;
-	mi.position = 100002;
-	mi.pszService = MS_OTR_MENUREFRESH;
-	mi.icolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
-	AddMirOTRMenuItem(&mi);
+	tmi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	tmi.name.t = LANG_MENU_REFRESH;
+	tmi.position = 100002;
+	tmi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
+	AddMirOTRMenuItem(&tmi, MS_OTR_MENUREFRESH);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
-	mi.ptszName = LANG_MENU_STOP;
-	mi.position = 100003;
-	mi.pszService = MS_OTR_MENUSTOP;
-	mi.icolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
-	AddMirOTRMenuItem(&mi);
+	tmi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
+	tmi.name.t = LANG_MENU_STOP;
+	tmi.position = 100003;
+	tmi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
+	AddMirOTRMenuItem(&tmi, MS_OTR_MENUSTOP);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.ptszName = LANG_MENU_VERIFY;
-	mi.position = 200001;
-	mi.pszService = MS_OTR_MENUVERIFY;
-	mi.icolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
-	AddMirOTRMenuItem(&mi);
+	tmi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	tmi.name.t = LANG_MENU_VERIFY;
+	tmi.position = 200001;
+	tmi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
+	AddMirOTRMenuItem(&tmi, MS_OTR_MENUVERIFY);
 
-	mi.flags = CMIF_TCHAR | CMIF_CHECKED;
-	mi.ptszName = LANG_MENU_TOGGLEHTML;
-	mi.position = 300001;
-	mi.pszService = MS_OTR_MENUTOGGLEHTML;
-	hHTMLConvMenuItem = AddMirOTRMenuItem(&mi);
+	tmi.flags = CMIF_TCHAR | CMIF_CHECKED;
+	tmi.name.t = LANG_MENU_TOGGLEHTML;
+	tmi.position = 300001;
+	hHTMLConvMenuItem = AddMirOTRMenuItem(&tmi, MS_OTR_MENUTOGGLEHTML);
 }
 
 void UninitMirOTRMenu(void)
