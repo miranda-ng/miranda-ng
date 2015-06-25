@@ -287,8 +287,8 @@ MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 // Database settings
 
 MIR_CORE_DLL(INT_PTR)  db_get(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
-MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
+MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
+MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
 MIR_CORE_DLL(DWORD)    db_get_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue);
 MIR_CORE_DLL(char*)    db_get_sa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
 MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);

@@ -101,7 +101,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		if (!hContact)
 			break;
 
-		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+		CallService(MS_MSG_SENDMESSAGET, hContact);
 		break;
 	}
 
@@ -140,11 +140,11 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		switch (hook->dwData)
 		{
 		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, hContact);
 			break;
 
 		case 20:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
 			break;
 
 		case 110:

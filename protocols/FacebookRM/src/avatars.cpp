@@ -76,11 +76,11 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 	if (!hContact) {
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
-			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
 	}
 	else if (update_required) {
 		db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0);
 	}
 }
 
@@ -110,9 +110,9 @@ void FacebookProto::UpdateAvatarWorker(void *)
 			bool success = facy.save_url(url + params, ai.filename, nlc);
 
 			if (ai.hContact)
-				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
+				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai);
 			else if (success)
-				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
 		}
 
 		ScopedLock s(avatar_lock_);

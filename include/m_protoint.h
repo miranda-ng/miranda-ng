@@ -115,32 +115,32 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	__forceinline void WindowUnsubscribe(HWND hwnd) {
 		::ProtoWindowRemove(this, hwnd); }
 
-	__forceinline INT_PTR ProtoBroadcastAck(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
+	__forceinline INT_PTR ProtoBroadcastAck(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam = 0) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
 
 	__forceinline INT_PTR delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
 	__forceinline INT_PTR delSetting(MCONTACT hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
 
-	__forceinline bool getBool(const char *name, bool defaultValue) {
+	__forceinline bool getBool(const char *name, bool defaultValue = false) {
 		return db_get_b(NULL, m_szModuleName, name, defaultValue) != 0; }
-	__forceinline bool getBool(MCONTACT hContact, const char *name, bool defaultValue) {
+	__forceinline bool getBool(MCONTACT hContact, const char *name, bool defaultValue = false) {
 		return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0; }
 
 	__forceinline bool isChatRoom(MCONTACT hContact) { return getBool(hContact, "ChatRoom", false); }
 
-	__forceinline int getByte(const char *name, BYTE defaultValue) {
+	__forceinline int getByte(const char *name, BYTE defaultValue = 0) {
 		return db_get_b(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getByte(MCONTACT hContact, const char *name, BYTE defaultValue) {
+	__forceinline int getByte(MCONTACT hContact, const char *name, BYTE defaultValue = 0) {
 		return db_get_b(hContact, m_szModuleName, name, defaultValue); }
 
-	__forceinline int getWord(const char *name, WORD defaultValue) {
+	__forceinline int getWord(const char *name, WORD defaultValue = 0) {
 		return db_get_w(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline int getWord(MCONTACT hContact, const char *name, WORD defaultValue) {
+	__forceinline int getWord(MCONTACT hContact, const char *name, WORD defaultValue = 0) {
 		return db_get_w(hContact, m_szModuleName, name, defaultValue); }
 
-	__forceinline DWORD getDword(const char *name, DWORD defaultValue)  {
+	__forceinline DWORD getDword(const char *name, DWORD defaultValue = 0)  {
 		return db_get_dw(NULL, m_szModuleName, name, defaultValue); }
-	__forceinline DWORD getDword(MCONTACT hContact, const char *name, DWORD defaultValue) {
+	__forceinline DWORD getDword(MCONTACT hContact, const char *name, DWORD defaultValue = 0) {
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline INT_PTR getString(const char *name, DBVARIANT *result) {
