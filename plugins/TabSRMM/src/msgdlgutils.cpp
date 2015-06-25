@@ -1407,7 +1407,7 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 // draw various elements of the message window, like avatar(s), info panel fields
 // and the color formatting menu
 
-int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
+int TSAPI MsgWindowDrawHandler(WPARAM, LPARAM lParam, TWindowData *dat)
 {
 	if (!dat)
 		return 0;
@@ -1604,7 +1604,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		return TRUE;
 	}
 
-	return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+	return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 }
 
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)

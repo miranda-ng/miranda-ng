@@ -298,7 +298,7 @@ void RebuildGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
-	GroupMenuParam gmp = {0};
+	GroupMenuParam gmp = { 0 };
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
 	HGENMENU mhExIm = HGENMENU_ROOT;
@@ -395,7 +395,7 @@ void RebuildSubGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
-	GroupMenuParam gmp = {0};
+	GroupMenuParam gmp = { 0 };
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
 	HGENMENU mhExIm = HGENMENU_ROOT;

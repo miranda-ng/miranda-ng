@@ -187,15 +187,15 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		CallService(MS_USERINFO_SHOWDIALOG, wParam, 0);
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
-		if ( CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)hPopupContact))
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)hPopupContact))
 			break;
 		return FALSE;
 
 	case WM_MEASUREITEM: //Needed by the contact's context menu
-		return CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_DRAWITEM: //Needed by the contact's context menu
-		return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);//FALSE;

@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return TRUE;
 
 	case WM_MEASUREITEM:
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_DRAWITEM:
 		{
@@ -292,7 +292,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 			}
 		}
-		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case M_FILECHOOSEDONE:
 		if (lParam != 0) {

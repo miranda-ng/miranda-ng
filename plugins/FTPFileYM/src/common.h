@@ -33,6 +33,7 @@ using namespace std;
 #include <m_button.h>
 #include <m_clist.h>
 #include <m_utils.h>
+#include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_message.h>

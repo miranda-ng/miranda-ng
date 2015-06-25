@@ -110,7 +110,6 @@ TMO_IntMenuItem* MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi
 
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
-INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey);
 
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
@@ -137,6 +136,5 @@ int GetMenuItembyId(const int objpos, const int id);
 
 int ProtocolOrderOptInit(WPARAM wParam, LPARAM);
 
-INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam);
 void FreeAndNil(void **p);
 #endif

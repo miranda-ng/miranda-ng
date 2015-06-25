@@ -112,10 +112,10 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return FALSE;
 
 	case WM_MEASUREITEM:	//Needed by the contact's context menu
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_DRAWITEM:	//Needed by the contact's context menu
-		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == NM_AVATAR_CHANGED)

@@ -2360,10 +2360,12 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	switch (msg) {
 	case WM_CREATE:
 		return FALSE;
+
 	case WM_MEASUREITEM:
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+
 	case WM_DRAWITEM:
-		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case WM_ENABLE:
 		if (hwnd != 0) InvalidateRect(hwnd, NULL, FALSE);

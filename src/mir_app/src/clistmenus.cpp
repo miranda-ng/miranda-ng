@@ -342,7 +342,7 @@ INT_PTR ContactMenuCheckService(WPARAM wParam, LPARAM)
 	}
 
 	TMO_MenuItem mi;
-	if (MO_GetMenuItem((WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
+	if (Menu_GetItemInfo(pcpp->MenuItemHandle, mi) == 0) {
 		if (mi.flags & CMIF_HIDDEN) return FALSE;
 		if (mi.flags & CMIF_NOTONLIST  && bcp->isOnList) return FALSE;
 		if (mi.flags & CMIF_NOTOFFLIST && !bcp->isOnList) return FALSE;
@@ -681,8 +681,8 @@ static INT_PTR MenuProcessHotkey(WPARAM vKey, LPARAM)
 	prochotkey = true;
 
 	bool res =
-		MO_ProcessHotKeys(hStatusMenuObject, vKey) ||
-		MO_ProcessHotKeys(hMainMenuObject, vKey);
+		Menu_ProcessHotKey(hStatusMenuObject, vKey) ||
+		Menu_ProcessHotKey(hMainMenuObject, vKey);
 
 	prochotkey = false;
 
@@ -695,16 +695,6 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 	RebuildMenuOrder();
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 	return 0;
-}
-
-static INT_PTR MeasureMenuItem(WPARAM, LPARAM lParam)
-{
-	return MO_MeasureMenuItem((LPMEASUREITEMSTRUCT)lParam);
-}
-
-static INT_PTR DrawMenuItem(WPARAM, LPARAM lParam)
-{
-	return MO_DrawMenuItem((LPDRAWITEMSTRUCT)lParam);
 }
 
 int RecursiveDeleteMenu(HMENU hMenu)
@@ -1209,9 +1199,6 @@ void InitCustomMenus(void)
 
 	CreateServiceFunction("CList/AddContactMenuItem", AddContactMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDCONTACT, BuildContactMenu);
-
-	CreateServiceFunction(MS_CLIST_MENUMEASUREITEM, MeasureMenuItem);
-	CreateServiceFunction(MS_CLIST_MENUDRAWITEM, DrawMenuItem);
 
 	CreateServiceFunction(MS_CLIST_MENUGETSTATUS, BuildStatusMenu);
 	CreateServiceFunction(MS_CLIST_MENUPROCESSCOMMAND, MenuProcessCommand);

@@ -229,8 +229,6 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 
 void UpdateMenu(bool State)
 {
-	CLISTMENUITEM mi = { 0 };
-
 	if (!State) // to enable auto-update
 		Menu_ModifyItem(hService2[0], LPGENT("Auto Update Enabled"), GetIconHandle("enabled"));
 	else  // to disable auto-update

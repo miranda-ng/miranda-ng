@@ -382,11 +382,11 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		}
 
 	case WM_MEASUREITEM:
-		CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 		break;
 
 	case WM_DRAWITEM:
-		CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 		break;
 
 	case WM_LBUTTONDOWN:

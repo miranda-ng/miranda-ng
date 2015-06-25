@@ -2442,7 +2442,7 @@ LRESULT CLUI::OnContextMenu(UINT, WPARAM, LPARAM lParam)
 	return FALSE;
 }
 
-LRESULT CLUI::OnMeasureItem(UINT, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnMeasureItem(UINT, WPARAM, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT pmis = (LPMEASUREITEMSTRUCT)lParam;
 	switch (pmis->itemData) {
@@ -2461,10 +2461,10 @@ LRESULT CLUI::OnMeasureItem(UINT, WPARAM wParam, LPARAM lParam)
 		ReleaseDC(m_hWnd, hdc);
 		return TRUE;
 	}
-	return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+	return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 }
 
-LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(pcli->hwndContactTree, 0);
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
@@ -2539,7 +2539,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 		nMirMenuState = dis->itemState;
 	}
 
-	return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+	return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 }
 
 LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)

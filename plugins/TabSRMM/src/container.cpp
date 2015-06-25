@@ -1603,10 +1603,10 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 		}
-		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case WM_MEASUREITEM:
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case DM_QUERYCLIENTAREA:
 		{

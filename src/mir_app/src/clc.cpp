@@ -1277,10 +1277,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return 0;
 
 	case WM_MEASUREITEM:
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_DRAWITEM:
-		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case WM_COMMAND:
 		hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);

@@ -21,7 +21,7 @@ Settings::CharMapper::CharMapper(const Settings& settings)
 	}
 
 	LCID lcid = GetUserDefaultLCID();
-	int  len = LCMapString(
+	LCMapString(
 		lcid, LCMAP_LINGUISTIC_CASING | LCMAP_LOWERCASE,
 		m_CharMap + 1, array_len(m_CharMap) - 1,
 		m_CharMap + 1, array_len(m_CharMap) - 1);

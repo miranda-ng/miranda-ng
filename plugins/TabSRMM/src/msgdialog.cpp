@@ -2570,7 +2570,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				return TRUE;
 			}
 		}
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_NCHITTEST:
 		SendMessage(hwndContainer, WM_NCHITTEST, wParam, lParam);

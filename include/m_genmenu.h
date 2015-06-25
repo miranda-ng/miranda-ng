@@ -7,97 +7,6 @@
 
 extern int hLangpack;
 
-/*
-  Main features:
-  1) Independet from clist,may be used in any module.
-  2) Module defined Exec and Check services.
-  3) Menu with any level of popups,icons for root of popup.
-  4) You may use measure/draw/processcommand even if menuobject is unknown.
-
-  Idea of GenMenu module consists of that,
-  it must be independet and offers only general menu purpose services:
-  MO_CREATENEWMENUOBJECT
-  MO_REMOVEMENUOBJECT
-  MO_ADDNEWMENUITEM
-  MO_REMOVEMENUITEM
-  ...etc
-
-  And then each module that want use and offer to others menu handling
-  must create own services.For example i rewrited mainmenu and
-  contactmenu code in clistmenus.c.If you look at code all functions
-  are very identical, and vary only in check/exec services.
-
-  So template set of function will like this:
-  Remove<NameMenu>Item
-  Add<NameMenu>Item
-  Build<NameMenu>
-  <NameMenu>ExecService
-  <NameMenu>CheckService
-
-  ExecService and CheckService used as callbacks when GenMenu must
-  processcommand for menu item or decide to show or not item.This make
-  GenMenu independet of which params must passed to service when user
-  click on menu,this decide each module.
-						28-04-2003 Bethoven
-
-*/
-
-
-
-/*
-Analog to CLISTMENUITEM,but invented two params root and ownerdata.
-root is used for creating any level popup menus,set to -1 to build
-at first level and root=MenuItemHandle to place items in submenu
-of this item.Must be used two new flags CMIF_ROOTPOPUP and CMIF_CHILDPOPUP
-(defined in m_clist.h)
-
-ownerdata is passed to callback services(ExecService and CheckService)
-when building menu or processed command.
-*/
-
-/*GENMENU_MODULE*/
-/*
-Changes:
-
-28-04-2003
-Moved all general stuff to genmenu.c(m_genmenu.h,genmenu.h),
-so removed all frames stuff.
-
-
-Changes:
-
-28-12-2002
-
-Contact menu item service called with wparam=hcontact,lparam=popupPosition -
-plugin may add different menu items with some service.
-(old behavior wparam=hcontact lparam=0)
-
-
-
-25-11-2002		Full support of runtime build of all menus.
-				Contact		MS_CLIST_ADDCONTACTMENUITEM
-								MS_CLIST_MENUBUILDCONTACT
-								ME_CLIST_PREBUILDCONTACTMENU
-
-				MainMenu		MS_CLIST_ADDMAINMENUITEM
-								MS_CLIST_REMOVEMAINMENUITEM
-								MS_CLIST_MENUBUILDMAIN
-								ME_CLIST_PREBUILDMAINMENU
-
-				FrameMenu	MS_CLIST_ADDCONTEXTFRAMEMENUITEM
-								MS_CLIST_REMOVECONTEXTFRAMEMENUITEM
-								MS_CLIST_MENUBUILDFRAMECONTEXT
-								ME_CLIST_PREBUILDFRAMEMENU
-
-				For All menus may be used
-								MS_CLIST_MODIFYMENUITEM
-
-				All menus supported any level of popups
-				(pszPopupName=(char *)hMenuItem - for make child of popup)
-*/
-
-// SubGroup MENU
-
 // Group MENU
 typedef struct
 {
@@ -250,28 +159,45 @@ EXTERN_C MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem);
 
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pItem);
 
-//wparam MenuItemHandle
-//returns ownerdata on success,NULL on failure
-//Useful to get and free ownerdata before delete menu item.
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves user info from a menu item
+// Returns ownerdata on success, NULL on failure
+// Useful to get and free ownerdata before delete menu item.
 
-#define MO_MENUITEMGETOWNERDATA				"MO/MenuItemGetOwnerData"
+EXTERN_C MIR_APP_DLL(void*) Menu_GetItemData(HGENMENU hMenuItem);
 
-//wparam=MenuItemHandle
-//lparam=PMO_MenuItem
-//returns 0 and filled PMO_MenuItem structure on success and
-//-1 on failure
-#define MO_GETMENUITEM						"MO/GetMenuItem"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves menu item structure by handle.
+// Returns 0 and filled TMO_MenuItem structure on success, or -1 on failure
 
-//wparam=MenuItemHandle
-//lparam=0
-//returns a menu handle on success or NULL on failure
-#define MO_GETDEFAULTMENUITEM				"MO/GetDefaultMenuItem"
+EXTERN_C MIR_APP_DLL(int) Menu_GetItemInfo(HGENMENU hMenuItem, TMO_MenuItem &pInfo);
 
-//wparam=MenuObjectHandle
-//lparam=vKey
-//returns TRUE if it processed the command, FALSE otherwise
-//this should be called in WM_KEYDOWN
-#define	MO_PROCESSHOTKEYS					"MO/ProcessHotKeys"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves a default menu item for the menu passed
+// Returns a menu handle on success or NULL on failure
+
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Tries to process a keystroke
+// returns TRUE if a key was, FALSE otherwise
+// this should be called in WM_KEYDOWN
+
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(HANDLE hMenuObject, int key);
+
+//process a WM_MEASUREITEM message for user context menus   v0.1.1.0+
+//wParam, lParam, return value as for WM_MEASUREITEM
+//This is for displaying the icons by the menu items. If you don't call this
+//and clist/menudrawitem whne drawing a menu returned by one of the three menu
+//services below then it'll work but you won't get any icons
+
+EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
+
+//process a WM_DRAWITEM message for user context menus      v0.1.1.0+
+//wParam, lParam, return value as for WM_MEASUREITEM
+//See comments for clist/menumeasureitem
+
+EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Creates a new menu object

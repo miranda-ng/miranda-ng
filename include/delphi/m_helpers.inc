@@ -57,8 +57,6 @@ function Menu_AddMainMenuItem        (mi:PCLISTMENUITEM):HGENMENU;
 function Menu_AddContactMenuItem     (mi:PCLISTMENUITEM):HGENMENU;
 function Menu_AddStatusMenuItem      (mi:PCLISTMENUITEM):HGENMENU;
 function Menu_AddProtoMenuItem       (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddSubGroupMenuItem    (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddGroupMenuItem       (mi:PCLISTMENUITEM):HGENMENU;
 function Menu_AddTrayMenuItem        (mi:PCLISTMENUITEM):HGENMENU;
 
 function UserInfo_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
@@ -414,18 +412,6 @@ function Menu_AddProtoMenuItem(mi:PCLISTMENUITEM):HGENMENU;
 begin
   mi^.hLangpack:=hLangpack;
   result:=CallService(MS_CLIST_ADDPROTOMENUITEM, 0,LPARAM(mi));
-end;
-
-function Menu_AddSubGroupMenuItem(mi:PCLISTMENUITEM):HGENMENU;
-begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDSUBGROUPMENUITEM, 0,LPARAM(mi));
-end;
-
-function Menu_AddGroupMenuItem(mi:PCLISTMENUITEM):HGENMENU;
-begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDGROUPMENUITEM, 0,LPARAM(mi));
 end;
 
 function Menu_AddTrayMenuItem(mi:PCLISTMENUITEM):HGENMENU;
