@@ -159,8 +159,8 @@ void UpdateGlobalStatusMenus()
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	int flags = (enabled ? CMIF_CHECKED : 0) + (opts.enable_sending ? 0 : CMIF_GRAYED);
-	Menu_ModifyItem(proto_items[0].hMenu, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_SetChecked(proto_items[0].hMenu, enabled);
+	Menu_EnableItem(proto_items[0].hMenu, opts.enable_sending);
 
 	if (hTTB != NULL)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : 0));
@@ -708,8 +708,8 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 		ProtocolInfo *info = GetProtoInfo(proto);
 		if (info != NULL)
 		{
-			int flags = (enabled ? CMIF_CHECKED : 0) | (opts.enable_sending ? 0 : CMIF_GRAYED);
-			Menu_ModifyItem(info->hMenu, NULL, INVALID_HANDLE_VALUE, flags);
+			Menu_EnableItem(info->hMenu, opts.enable_sending);
+			Menu_SetChecked(info->hMenu, enabled);
 
 			SetListeningInfo(proto,(opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
 		}

@@ -450,7 +450,7 @@ void FixMainMenu()
 {
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if (options.hide_with_clist || options.auto_showhide)
-			Menu_ModifyItem(hMenuShowReminders, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+			Menu_EnableItem(hMenuShowReminders, false);
 		else
 			Menu_ModifyItem(hMenuShowReminders,
 				ReminderFrameVisible() ? LPGENT("Hide reminders") : LPGENT("Show reminders"), INVALID_HANDLE_VALUE, 0);

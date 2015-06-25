@@ -278,6 +278,40 @@ MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void Menu_SetItemFlags(HGENMENU hMenuItem, bool bSet, int mask)
+{
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
+	if (pimi == NULL)
+		return;
+
+	int flags = pimi->mi.flags;
+	if (bSet)
+		flags |= mask;
+	else
+		flags &= ~mask;
+
+	mir_cslock lck(csMenuHook);
+	int oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
+	pimi->mi.flags = flags | oldflags;
+}
+
+MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable)
+{
+	Menu_SetItemFlags(hMenuItem, !bEnable, CMIF_GRAYED);
+}
+
+MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow)
+{
+	Menu_SetItemFlags(hMenuItem, !bShow, CMIF_HIDDEN);
+}
+
+MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet)
+{
+	Menu_SetItemFlags(hMenuItem, bSet, CMIF_CHECKED);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon, int iFlags)
 {
 	if (!bIsGenMenuInited)

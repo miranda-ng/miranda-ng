@@ -340,9 +340,9 @@ void __cdecl TlenServerThread(ThreadData *info)
 			info->proto->isOnline = FALSE;
 			info->proto->isConnected = FALSE;
 
-			Menu_ModifyItem(info->proto->hMenuMUC, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+			Menu_EnableItem(info->proto->hMenuMUC, false);
 			if (info->proto->hMenuChats != NULL)
-				Menu_ModifyItem(info->proto->hMenuChats, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+				Menu_EnableItem(info->proto->hMenuChats, false);
 
 			// Set status to offline
 			char *szProto = info->proto->m_szModuleName;

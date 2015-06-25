@@ -269,22 +269,14 @@ int Quotes_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 	return 0;
 }
 
-namespace
-{
-	void enable_menu(HGENMENU hMenu, bool bEnable)
-	{
-		Menu_ModifyItem(hMenu, NULL, INVALID_HANDLE_VALUE, (bEnable) ? 0 : CMIF_GRAYED);
-	}
-}
-
 int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 {
-	enable_menu(g_hMenuEditSettings, false);
-	enable_menu(g_hMenuOpenLogFile, false);
+	Menu_EnableItem(g_hMenuEditSettings, false);
+	Menu_EnableItem(g_hMenuOpenLogFile, false);
 #ifdef CHART_IMPLEMENT
-	enable_menu(g_hMenuChart,false);
+	Menu_EnableItem(g_hMenuChart,false);
 #endif
-	enable_menu(g_hMenuRefresh, false);
+	Menu_EnableItem(g_hMenuRefresh, false);
 
 	MCONTACT hContact = MCONTACT(wp);
 	if (NULL == hContact)
@@ -292,9 +284,9 @@ int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 		return 0;
 	}
 
-	enable_menu(g_hMenuEditSettings, true);
+	Menu_EnableItem(g_hMenuEditSettings, true);
 
-	enable_menu(g_hMenuRefresh, true);
+	Menu_EnableItem(g_hMenuRefresh, true);
 
 	tstring sLogFileName;
 	bool bThereIsLogFile = (true == get_log_file(hContact, sLogFileName))
@@ -302,9 +294,9 @@ int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 	if (true == bThereIsLogFile)
 	{
 #ifdef CHART_IMPLEMENT
-		enable_menu(g_hMenuChart,true);
+		Menu_EnableItem(g_hMenuChart,true);
 #endif
-		enable_menu(g_hMenuOpenLogFile, true);
+		Menu_EnableItem(g_hMenuOpenLogFile, true);
 	}
 
 	return 0;

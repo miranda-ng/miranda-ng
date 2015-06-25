@@ -305,14 +305,8 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 			db.setContact(hContact);
 			db.setModule(con::ModHistoryStats);
 
-			int menuState = db.readBool(con::SettExclude, false) ? CMIF_CHECKED : 0;
-			
-			// avoid collision with options page
-			if (g_bExcludeLock)
-				menuState |= CMIF_GRAYED;
-
-			// set menu state
-			Menu_ModifyItem(g_hMenuToggleExclude, NULL, INVALID_HANDLE_VALUE, menuState);
+			Menu_SetChecked(g_hMenuToggleExclude, db.readBool(con::SettExclude, false));
+			Menu_EnableItem(g_hMenuToggleExclude, !g_bExcludeLock); // avoid collision with options page
 		}
 
 #if defined(HISTORYSTATS_HISTORYCOPY)

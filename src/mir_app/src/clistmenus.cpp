@@ -605,20 +605,6 @@ INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Other menu functions
 
-MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow)
-{
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
-	if (pimi == NULL)
-		return;
-
-	int flags = pimi->mi.flags;
-	if (bShow)
-		flags &= ~CMIF_HIDDEN;
-	else
-		flags |= CMIF_HIDDEN;
-	Menu_ModifyItem(hMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
-}
-
 INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 {
 	WORD cmd = LOWORD(wParam);

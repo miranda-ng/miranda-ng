@@ -904,19 +904,18 @@ void CJabberProto::EnableMenuItems(BOOL bEnable)
 
 void CJabberProto::CheckMenuItems()
 {
-	int flags = (m_menuItemsStatus) ? 0 : CMIF_GRAYED;
+	bool bEnabled = (m_menuItemsStatus != 0);
+	Menu_EnableItem(m_hMenuChangePassword, bEnabled);
+	Menu_EnableItem(m_hMenuGroupchat, bEnabled);
 
-	Menu_ModifyItem(m_hMenuChangePassword, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuGroupchat, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_EnableItem(m_hMenuPrivacyLists, bEnabled);
+	Menu_EnableItem(m_hMenuRosterControl, bEnabled);
+	Menu_EnableItem(m_hMenuServiceDiscovery, bEnabled);
+	Menu_EnableItem(m_hMenuSDMyTransports, bEnabled);
+	Menu_EnableItem(m_hMenuSDTransports, bEnabled);
+	Menu_EnableItem(m_hMenuSDConferences, bEnabled);
 
-	Menu_ModifyItem(m_hMenuPrivacyLists, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuRosterControl, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuServiceDiscovery, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuSDMyTransports, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuSDTransports, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuSDConferences, NULL, INVALID_HANDLE_VALUE, flags);
-
-	bool bEnabled = m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE);
+	bEnabled = m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE);
 	Menu_ShowItem(m_hMenuNotes, bEnabled);
 	Menu_ShowItem(m_hMenuBookmarks, bEnabled);
 

@@ -25,7 +25,7 @@ void __cdecl AvatarDialogThread(void *param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int ShowSaveDialog(HWND hwnd, TCHAR* fn,MCONTACT hContact = NULL);
 
-BOOL ProtocolEnabled(const char *proto);
+bool ProtocolEnabled(const char *proto);
 int FillAvatarListFromDB(HWND list, MCONTACT hContact);
 int FillAvatarListFromFolder(HWND list, MCONTACT hContact);
 int FillAvatarListFromFiles(HWND list, MCONTACT hContact);
@@ -506,7 +506,7 @@ int CleanupAvatarPic(HWND hwnd)
 int PreBuildContactMenu(WPARAM wParam, LPARAM) 
 {
 	char *proto = GetContactProto(wParam);
-	Menu_ShowItem(hMenu, ProtocolEnabled(proto));
+	Menu_ShowItem(hMenu, 0 != ProtocolEnabled(proto));
 	return 0;
 }
 

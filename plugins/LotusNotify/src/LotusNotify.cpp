@@ -534,15 +534,6 @@ void ErMsgByLotusCode(STATUS erno)
 	ErMsgW(error_text_UNICODE);
 }
 
-
-//set menu avainability
-static void LNEnableMenuItem(HGENMENU hMenuItem, BOOL bEnable)
-{
-	log_p(L"LNEnableMenuItem: bEnable=%d", bEnable);
-	Menu_ModifyItem(hMenuItem, NULL, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
-}
-
-
 int check() {
 
 	log_p(L"check: Entering check function. running=%d", running);
@@ -563,10 +554,10 @@ int check() {
 	if(running) {
 		ErMsgT(TranslateT("Now checking Lotus, try again later"));
 		return 1;
-	} else {
-		running = TRUE;
-		LNEnableMenuItem(hMenuHandle, !running);
 	}
+
+	running = TRUE;
+	Menu_EnableItem(hMenuHandle, !running);
 
 	log(L"check: starting checkthread");
 	mir_forkthread(checkthread, NULL);
@@ -830,9 +821,8 @@ void checkthread(void*)
 
 	log(L"checkthread: Terminating Notes thread");
 	running = FALSE;
-	if(currentStatus != ID_STATUS_OFFLINE){
-		LNEnableMenuItem(hMenuHandle, !running);
-	}
+	if(currentStatus != ID_STATUS_OFFLINE)
+		Menu_EnableItem(hMenuHandle, !running);
 	return;
 
 errorblock0:
@@ -845,7 +835,7 @@ errorblock:
 
 	// go offline if connection error occurs and let KeepStatus or other plugin managing reconnection
 	if(!settingKeepConnection && currentStatus!=ID_STATUS_OFFLINE) {
-		LNEnableMenuItem(hMenuHandle,!running);
+		Menu_EnableItem(hMenuHandle,!running);
 		SetStatus(ID_STATUS_OFFLINE,0);
 	}
 
@@ -1547,12 +1537,12 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == ID_STATUS_OFFLINE){
 		// the status has been changed to online (maybe run some more code)
-		LNEnableMenuItem(hMenuHandle, FALSE);
+		Menu_EnableItem(hMenuHandle, FALSE);
 		diffstat = 0;
 
 	} else if (wParam == ID_STATUS_ONLINE){
 		diffstat = 0;
-		//LNEnableMenuItem(hMenuHandle ,TRUE);
+		//Menu_EnableItem(hMenuHandle ,TRUE);
 		//NotifyEventHooks(hCheckEvent,wParam,lParam);
 		// the status has been changed to offline (maybe run some more code)
 		if (currentStatus != ID_STATUS_ONLINE){
@@ -1567,7 +1557,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 			if(check() == 0){
 				if(settingInterval != 0)
 					SetTimer(hTimerWnd, TID, settingInterval * 60000, atTime);
-				LNEnableMenuItem(hMenuHandle, TRUE);
+				Menu_EnableItem(hMenuHandle, TRUE);
 			} else {
 				ProtoBroadcastAck(PLUGINNAME, NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)currentStatus, wParam);
 				return -1;
@@ -1579,7 +1569,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 			retv = SetStatus(ID_STATUS_OFFLINE, lParam);
 		else
 			retv = SetStatus(ID_STATUS_ONLINE, lParam);
-		//LNEnableMenuItem(hMenuHandle ,TRUE);
+		//Menu_EnableItem(hMenuHandle ,TRUE);
 		diffstat = wParam;
 		return retv;
 		// the status has been changed to unknown  (maybe run some more code)
@@ -1663,7 +1653,7 @@ static int modulesloaded(WPARAM, LPARAM)
 				//initialize lotus    //TODO: Lotus can terminate miranda process here with msgbox "Shared Memory from a previous Notes/Domino run has been detected, this process will exit now"
 				startuperror += 4;
 				running = TRUE;
-				LNEnableMenuItem(hMenuHandle, !running);//disable menu cause lotus is not initialized
+				Menu_EnableItem(hMenuHandle, !running);//disable menu cause lotus is not initialized
 
 			} else {
 				log(L"Checking Notes Ini File");
@@ -1745,7 +1735,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
 
-		LNEnableMenuItem(hMenuHandle ,FALSE);
+		Menu_EnableItem(hMenuHandle ,FALSE);
 	}
 
 	//create protocol

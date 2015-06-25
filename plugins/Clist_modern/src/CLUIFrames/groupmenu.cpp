@@ -340,11 +340,11 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 
 	if (gray1 && gray2) gray1 = FALSE;  //should not be cause CLCItems_IsShowOfflineGroup return false if group->hideOffline
 
-	int flags = ((group->hideOffline && !gray1) ? CMIF_CHECKED : 0) | (gray1 ? CMIF_GRAYED : 0);
-	Menu_ModifyItem(hHideOfflineUsersHereMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_EnableItem(hHideOfflineUsersHereMenuItem, !gray1);
+	Menu_SetChecked(hHideOfflineUsersHereMenuItem, group->hideOffline && !gray1);
 
-	flags = ((showOfflineinGroup && !gray2) ? CMIF_CHECKED : 0) | (gray2 ? CMIF_GRAYED : 0);
-	Menu_ModifyItem(hShowOfflineUsersHereMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_EnableItem(hShowOfflineUsersHereMenuItem, !gray2);
+	Menu_SetChecked(hShowOfflineUsersHereMenuItem, showOfflineinGroup && !gray2);
 	return 0;
 }
 

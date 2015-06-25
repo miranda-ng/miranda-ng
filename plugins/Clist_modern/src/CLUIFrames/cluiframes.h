@@ -80,8 +80,8 @@ struct FrameTitleBar
 	HMENU hmenu;
 	HICON hicon;
 
-	BOOLEAN ShowTitleBar;
-	BOOLEAN ShowTitleBarTip;
+	bool ShowTitleBar;
+	bool ShowTitleBarTip;
 	COLORREF BackColour;
 	COLORREF TextColour;
 	int oldstyles;
@@ -105,27 +105,27 @@ struct FRAMEWND
 	int align;
 	int height;
 	int dwFlags;
-	BOOLEAN Locked;
-	BOOLEAN visible;
-	BOOLEAN needhide;
-	BOOLEAN collapsed;
+	bool Locked;
+	bool visible;
+	bool needhide;
+	bool collapsed;
 	int prevvisframe;
 	int HeightWhenCollapsed;
 	FrameTitleBar TitleBar;
 	FrameMenuHandles MenuHandles;
 	int oldstyles;
-	BOOLEAN floating;
 	HWND ContainerWnd;
 	POINT FloatingPos;
 	POINT FloatingSize;
-	BOOLEAN minmaxenabled;
-	BOOLEAN UseBorder;
+	bool floating;
+	bool minmaxenabled;
+	bool UseBorder;
 	int order;
 	DockOpt dockOpt;
 	HWND OwnerWindow;
 	tPaintCallbackProc PaintCallbackProc;
 	sPaintRequest * PaintData;
-	BOOLEAN bQueued;
+	bool bQueued;
 	HRGN UpdateRgn;
 };
 

@@ -730,7 +730,7 @@ void CConnectPrefsDlg::OnApply()
 	m_proto->m_oldStyleModes = m_oldStyle.GetState();
 	m_proto->m_useServer = m_useServer.GetState();
 
-	Menu_ModifyItem(m_proto->hMenuServer, NULL, INVALID_HANDLE_VALUE, (m_proto->m_useServer) ? 0 : CMIF_GRAYED);
+	Menu_EnableItem(m_proto->hMenuServer, m_proto->m_useServer != 0);
 
 	m_proto->m_joinOnInvite = m_autoJoin.GetState();
 	m_proto->m_hideServerWindow = !m_showServer.GetState();

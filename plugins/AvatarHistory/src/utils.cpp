@@ -24,24 +24,24 @@ Avatar History Plugin
 
 #include "stdafx.h"
 
-BOOL ProtocolEnabled(const char *proto)
+bool ProtocolEnabled(const char *proto)
 {
 	if (proto == NULL)
 		return FALSE;
 
 	char setting[256];
 	mir_snprintf(setting, "%sEnabled", proto);
-	return (BOOL) db_get_b(NULL, MODULE_NAME, setting, TRUE);
+	return 0 != db_get_b(NULL, MODULE_NAME, setting, true);
 }
 
-BOOL ContactEnabled(MCONTACT hContact, char *setting, int def)
+bool ContactEnabled(MCONTACT hContact, char *setting, int def)
 {
 	if (hContact == NULL)
-		return FALSE;
+		return false;
 
 	char *proto = GetContactProto(hContact);
 	if (!ProtocolEnabled(proto))
-		return FALSE;
+		return false;
 
 	BYTE globpref = db_get_b(NULL, MODULE_NAME, setting, def);
 	BYTE userpref = db_get_b(hContact, MODULE_NAME, setting, BST_INDETERMINATE);
