@@ -371,6 +371,10 @@ Protokol
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 
+[Turn off GPG encryption]
+
+[Turn on GPG encryption]
+
 [Target file exists, do you want to replace it?]
 
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]

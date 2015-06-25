@@ -65,10 +65,10 @@ Tekst
 
 [Enable c&lient change notification]
 
-[Popups]
-Balončići
 [ClientChangeNotify: Client changed]
 
+[Popups]
+Balončići
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 

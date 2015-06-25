@@ -343,8 +343,6 @@ Z, якщо Y = X, допустимі численні аргументи Y і Z
 Y > 0: рядок номер Y з файлу X, Y = 0: увесь файл, Y < 0: рядок y від кінця файлу, Y = r: випадковий рядок
 [uptime in seconds]
 час роботи системи в секундах
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-будь-яка змінна оточення, визначена в поточній сесії Windows (наприклад, %systemroot%, %allusersprofile% тощо)
 [expand environment variable x]
 розширює змінну оточення X
 [user name]

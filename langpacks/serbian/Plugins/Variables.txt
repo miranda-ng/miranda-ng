@@ -356,8 +356,6 @@ Metakontakti
 
 [uptime in seconds]
 
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
 [expand environment variable x]
 
 [user name]

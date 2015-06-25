@@ -68,7 +68,7 @@
 [&User]
 &Пользователь
 [Enter new chatroom topic]
-Введите новую тему для чат-комнаты
+Введите новую тему комнаты чата
 [Are you sure?]
 Вы уверены?
 [Incoming call]

@@ -354,8 +354,6 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 y > 0: радок нумар y з файла x, y = 0: цэлы файл, y < 0: радок y ад канца файла, y = r: выпадковы радок
 [uptime in seconds]
 час працы сістэмы (секунд)
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
 [expand environment variable x]
 пашырае зменную асяроддзі x
 [user name]

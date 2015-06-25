@@ -5,3 +5,4 @@
 [Extended flag (1xx), Hardware scan code (x23), KeyName]
 [Combine left/right keys Shift, Ctrl, Win, Alt]
 [Combination of keys for assignment]
+[Hardware HotKeys]

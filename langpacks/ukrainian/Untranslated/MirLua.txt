@@ -1,5 +1,2 @@
 ﻿[Extends Miranda NG functionality with lua scripts.]
 [Reload all]
-[Scripts]
-[Common scripts]
-[Custom scripts]

@@ -356,8 +356,6 @@ Formatiert Zeitstempel x (Sekunden seit 1.1.1970) in Zeitformat y
 y > 0: Zeile y aus Datei x, y = 0: komplette Datei, y < 0: Zeile y (von unten) aus Datei x, y = r: Zufallszeile
 [uptime in seconds]
 Laufzeit in Sekunden
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [expand environment variable x]
 Liest Umgebungsvariable x aus
 [user name]

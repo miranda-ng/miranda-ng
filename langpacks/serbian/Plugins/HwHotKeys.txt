@@ -29,3 +29,5 @@ Prikaži/Sakrij spisak kontakata
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Podešavanja
+[Hardware HotKeys]
+

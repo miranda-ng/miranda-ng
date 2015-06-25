@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.4
+;  Version: 0.0.4.5
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
