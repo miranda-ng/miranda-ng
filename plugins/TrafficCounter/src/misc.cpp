@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 InputString - строка для разбора;
 RowItemsList - список найденных элементов.
 Возвращаемое значение - количество элементов в списках. */
+
 WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 {
 	TCHAR *begin, *end;
@@ -32,15 +33,13 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 	// Ищем слева открывающую скобку.
 	begin = _tcschr(InputString, '{');
 	// Если скобка найдена...
-	if (begin)
-	{
+	if (begin) {
 		// Выделяем память под указатели
 		*RowItemsList = (RowItemInfo*)mir_alloc(sizeof(RowItemInfo));
 	}
 	else return 0;
 
-	do
-	{
+	do {
 		// Сразу вслед за ней ищем закрывающую.
 		end = _tcschr(begin, '}');
 
@@ -49,22 +48,20 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 
 		// Разбираем тег.
 		_stscanf(begin + 1, _T("%c%d"),
-				&((*RowItemsList)[c].Alignment),
-				&((*RowItemsList)[c].Interval));
+			&((*RowItemsList)[c].Alignment),
+			&((*RowItemsList)[c].Interval));
 
 		// Ищем далее открывающую скобку - это конец строки, соответствующей тегу.
 		begin = _tcschr(end, '{');
 
-		if (begin)
-		{
+		if (begin) {
 			// Выделяем память под строку.
 			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * (begin - end));
 			// Копируем строку.
 			_tcsncpy((*RowItemsList)[c].String, end + 1, begin - end - 1);
 			(*RowItemsList)[c].String[begin - end - 1] = 0;
 		}
-		else
-		{
+		else {
 			// Выделяем память под строку.
 			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * mir_tstrlen(end));
 			// Копируем строку.
@@ -80,20 +77,19 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 /* Функция возвращает количество дней в указанном месяце указанного года. */
 BYTE DaysInMonth(BYTE Month, WORD Year)
 {
-	switch (Month)
-	{
-		case 1:
-		case 3:
-		case 5:
-		case 7:
-		case 8:
-		case 10:
-		case 12: return 31;
-		case 4:
-		case 6:
-		case 9:
-		case 11: return 30;
-		case 2: return 28 + (BYTE)!((Year % 4) && ( (Year % 100) || !(Year % 400) ));
+	switch (Month) {
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12: return 31;
+	case 4:
+	case 6:
+	case 9:
+	case 11: return 30;
+	case 2: return 28 + (BYTE)!((Year % 4) && ((Year % 100) || !(Year % 400)));
 	}
 	return 0;
 }
@@ -116,41 +112,40 @@ BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year)
 
 /*
 Аргументы:
-	Value - количество байт;
-	Unit - единицы измерения (0 - байты, 1 - килобайты, 2 - мегабайты, 3 - автоматически);
-	Buffer - адрес строки для записи результата;
-	Size - размер буфера.
+Value - количество байт;
+Unit - единицы измерения (0 - байты, 1 - килобайты, 2 - мегабайты, 3 - автоматически);
+Buffer - адрес строки для записи результата;
+Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера.
 */
 size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 {
-	TCHAR Str1[32], szUnit[4] = {' ', 0};
+	TCHAR Str1[32], szUnit[4] = { ' ', 0 };
 	DWORD Divider;
-	NUMBERFMT nf = {0, 1, 3, _T(","), _T(" "), 0};
+	NUMBERFMT nf = { 0, 1, 3, _T(","), _T(" "), 0 };
 	TCHAR *Res; // Промежуточный результат.
 
-	switch (Unit)
-	{
-		case 0: //bytes
-			Divider = 1;
-			nf.NumDigits = 0;
-			szUnit[0] = 0;
-			break;
-		case 1: // KB
-			Divider = 0x400;
-			nf.NumDigits = 2;
-			break;
-		case 2: // MB
-			Divider = 0x100000;
-			nf.NumDigits = 2;
-			break;
-		case 3: // Adaptive
-			nf.NumDigits = 2;
-			if (Value < 0x100000) { Divider = 0x400; szUnit[1] = 'K'; szUnit[2] = 'B'; }
-			else { Divider = 0x100000; szUnit[1] = 'M'; szUnit[2] = 'B'; }
-			break;
-		default:
-			return 0;
+	switch (Unit) {
+	case 0: //bytes
+		Divider = 1;
+		nf.NumDigits = 0;
+		szUnit[0] = 0;
+		break;
+	case 1: // KB
+		Divider = 0x400;
+		nf.NumDigits = 2;
+		break;
+	case 2: // MB
+		Divider = 0x100000;
+		nf.NumDigits = 2;
+		break;
+	case 3: // Adaptive
+		nf.NumDigits = 2;
+		if (Value < 0x100000) { Divider = 0x400; szUnit[1] = 'K'; szUnit[2] = 'B'; }
+		else { Divider = 0x100000; szUnit[1] = 'M'; szUnit[2] = 'B'; }
+		break;
+	default:
+		return 0;
 	}
 
 	mir_sntprintf(Str1, _countof(Str1), _T("%d.%d"), Value / Divider, Value % Divider);
@@ -162,15 +157,11 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, (int)l);
 	mir_tstrcat(Res, szUnit);
 
-	if (Size && Buffer)
-	{
+	if (Size && Buffer) {
 		mir_tstrcpy(Buffer, Res);
 		l = mir_tstrlen(Buffer);
 	}
-	else
-	{
-		l = mir_tstrlen(Res) + 1;
-	}
+	else l = mir_tstrlen(Res) + 1;
 
 	free(Res);
 	return l;
@@ -182,7 +173,8 @@ Duration: интервал времени в секундах;
 Format: строка формата;
 Buffer: адрес буфера, куда функция помещает результат.
 Size - размер буфера. */
-size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size)
+
+size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, size_t Size)
 {
 	size_t Length;
 	DWORD q;
@@ -194,63 +186,48 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 	//SecureZeroMemory(Res, sizeof(TCHAR));
 	Res[0] = 0;
 
-	for (FormatIndex = 0; Format[FormatIndex];)
-	{
+	for (FormatIndex = 0; Format[FormatIndex];) {
 		// Ищем токены. Считается, что токен - только буквы.
 		TokenIndex = 0;
 		q = _istalpha(Format[FormatIndex]);
 		// Копируем символы в аккумулятор до смены флага.
-		do
-		{
+		do {
 			Token[TokenIndex++] = Format[FormatIndex++];
 		} while (q == _istalpha(Format[FormatIndex]));
 		Token[TokenIndex] = 0;
 
 		// Что получили в аккумуляторе?
-		if (!mir_tstrcmp(Token, _T("d")))
-		{
+		if (!mir_tstrcmp(Token, _T("d"))) {
 			q = Duration / (60 * 60 * 24);
 			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60 * 60 * 24;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("h")))
-		{
+		else if (!mir_tstrcmp(Token, _T("h"))) {
 			q = Duration / (60 * 60);
 			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60 * 60;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("hh")))
-		{
+		else if (!mir_tstrcmp(Token, _T("hh"))) {
 			q = Duration / (60 * 60);
 			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q * 60 * 60;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("m")))
-		{
+		else if (!mir_tstrcmp(Token, _T("m"))) {
 			q = Duration / 60;
 			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q * 60;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("mm")))
-		{
+		else if (!mir_tstrcmp(Token, _T("mm"))) {
 			q = Duration / 60;
 			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q * 60;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("s")))
-		{
+		else if (!mir_tstrcmp(Token, _T("s"))) {
 			q = Duration;
 			mir_sntprintf(Token, _countof(Token), _T("%d"), q);
 			Duration -= q;
 		}
-		else
-		if (!mir_tstrcmp(Token, _T("ss")))
-		{
+		else if (!mir_tstrcmp(Token, _T("ss"))) {
 			q = Duration;
 			mir_sntprintf(Token, _countof(Token), _T("%02d"), q);
 			Duration -= q;
@@ -262,15 +239,11 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 		mir_tstrcat(Res, Token);
 	}
 
-	if (Size && Buffer)
-	{
+	if (Size && Buffer) {
 		_tcsncpy(Buffer, Res, Size);
 		Length = mir_tstrlen(Buffer);
 	}
-	else
-	{
-		Length = mir_tstrlen(Res) + 1;
-	}
+	else Length = mir_tstrlen(Res) + 1;
 
 	free(Res);
 	return Length;
@@ -278,7 +251,7 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 
 /* Результат:
 -1 - st1 < st2
- 0 - st1 = st2
+0 - st1 = st2
 +1 - st1 > st2
 */
 signed short int TimeCompare(SYSTEMTIME st1, SYSTEMTIME st2)
@@ -301,6 +274,5 @@ signed short int TimeCompare(SYSTEMTIME st1, SYSTEMTIME st2)
 
 	if (d < 0) return -1;
 	if (d > 0) return +1;
-
 	return 0;
 }
