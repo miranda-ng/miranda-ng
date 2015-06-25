@@ -331,7 +331,7 @@ INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
 	HWND hClist = (HWND)CallService(MS_CLUI_GETHWNDTREE,0,0);
-	lpStatusMenuExecParam smep = (lpStatusMenuExecParam) CallService(MO_MENUITEMGETOWNERDATA, (WPARAM) lParam, NULL);
+	lpStatusMenuExecParam smep = (lpStatusMenuExecParam)Menu_GetUserData((HGENMENU)lParam);
 	ExIm.pszName = mir_strdup(smep->proto);
 	ExIm.Typ = EXIM_ACCOUNT;
 
