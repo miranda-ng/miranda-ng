@@ -65,10 +65,10 @@ Folgende Clients ignorieren (durch Semikolon trennen):
 C&lient Benachrichtigungen deaktivieren
 [Enable c&lient change notification]
 C&lient Benachrichtigungen aktivieren
-[Popups]
-Popups
 [ClientChangeNotify: Client changed]
 ClientChangeNotify: Client geändert
+[Popups]
+Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Fehler #%d

@@ -29,3 +29,5 @@ Lire le message
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Apparence
+[Hardware HotKeys]
+

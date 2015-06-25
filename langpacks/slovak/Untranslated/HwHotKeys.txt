@@ -9,3 +9,4 @@
 [Combine left/right keys Shift, Ctrl, Win, Alt]
 [Combination of keys for assignment]
 [Customize]
+[Hardware HotKeys]

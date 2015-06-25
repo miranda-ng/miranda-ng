@@ -151,6 +151,8 @@
 [GPG public key file]
 [There is no public or private key.]
 [Do you want to toggle encryption for all subcontacts?]
+[Turn off GPG encryption]
+[Turn on GPG encryption]
 [Target file exists, do you want to replace it?]
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
 [File transfer warning]

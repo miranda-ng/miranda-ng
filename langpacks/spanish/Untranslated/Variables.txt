@@ -159,7 +159,6 @@
 [formats timestamp x (seconds since 1/1/1970) in time format y]
 [y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
 [uptime in seconds]
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 [expand environment variable x]
 [user name]
 [text from clipboard]

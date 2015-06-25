@@ -65,10 +65,10 @@
 Выключыць абвесткі пра змену кліента
 [Enable c&lient change notification]
 Уключыць абвесткі пра змену кліента
-[Popups]
-Усплывальныя вокны
 [ClientChangeNotify: Client changed]
 Абвестка пра змену кліента: Кліент змяніўся
+[Popups]
+Усплывальныя вокны
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Памылка #%d

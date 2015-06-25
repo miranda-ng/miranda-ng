@@ -29,3 +29,5 @@ Kombinierte Tasten für Zuordnung
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Customize
+[Hardware HotKeys]
+

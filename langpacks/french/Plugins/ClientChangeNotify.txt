@@ -65,10 +65,10 @@ Aperçu
 
 [Enable c&lient change notification]
 
-[Popups]
-Popups
 [ClientChangeNotify: Client changed]
 
+[Popups]
+Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 
