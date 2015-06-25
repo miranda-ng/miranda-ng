@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "MirLua"
 #define __FILENAME                 "MirLua.dll"
-#define __DESCRIPTION              "Extends Miranda NG functionality with lua scripts."
+#define __DESCRIPTION              "Extends Miranda NG functionality with Lua scripts."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/MirLua/"
