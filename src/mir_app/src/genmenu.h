@@ -101,21 +101,17 @@ extern LIST<TIntMenuObject> g_menus;
 
 #define SEPARATORPOSITIONINTERVAL	100000
 
-//internal usage
-HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem*, ListParam *param);
+// internal usage
 void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSize);
 
 TMO_IntMenuItem* MO_GetIntMenuItem(HGENMENU);
 
-TMO_IntMenuItem* MO_AddNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi);
 TMO_IntMenuItem* MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi);
 
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
-int MO_ProcessCommand(TMO_IntMenuItem *pimi, LPARAM lParam);
 INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey);
 
-INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam);
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
 // function returns TRUE if the walk should be immediately stopped

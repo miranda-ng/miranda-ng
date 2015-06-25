@@ -64,9 +64,10 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
-		if (m_hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
-		m_hMenuRoot = NULL;
+		if (m_hMenuRoot) {
+			Menu_RemoveItem(m_hMenuRoot);
+			m_hMenuRoot = NULL;
+		}
 	}
 
 	mi.flags = CMIF_ROOTHANDLE | (isOnline() ? 0 : CMIF_GRAYED);

@@ -82,7 +82,7 @@ begin
     begin
       mFreeMem(tmp.name);
       DestroyServiceFunction(tmp.service);
-      CallService(MO_REMOVEMENUITEM,tmp.menuitem,0);
+      Menu_RemoveItem(tmp.menuitem);
       mFreeMem(tmp);
       List_Remove(@trayStations,i);
     end;
@@ -281,5 +281,5 @@ begin
   DestroyServiceFunction(srvtrayplaypause);
   DestroyServiceFunction(srvtraystop);
 
-  CallService(MO_REMOVEMENUITEM,trayradioparent,0);
+  Menu_RemoveItem(trayradioparent);
 end;

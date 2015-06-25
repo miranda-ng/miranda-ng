@@ -163,11 +163,8 @@ static INT_PTR BuildTrayMenu(WPARAM, LPARAM)
 {
 	NotifyEventHooks(g_CluiData.hEventPreBuildTrayMenu, 0, 0);
 
-	ListParam param = { 0 };
-	param.MenuObjectHandle = hTrayMenuObject;
-
 	HMENU hMenu = CreatePopupMenu();
-	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
+	Menu_Build(hMenu, hTrayMenuObject);
 	return (INT_PTR)hMenu;
 }
 
@@ -181,7 +178,7 @@ static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
 
 	tmi.ownerdata = mir_strdup(mi->pszService);
 
-	HGENMENU hNewItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hTrayMenuObject, (LPARAM)&tmi);
+	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, &tmi);
 	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, mi->pszService);
 	return (INT_PTR)hNewItem;
 }
@@ -311,7 +308,7 @@ void InitTrayMenus(void)
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY, BuildTrayMenu);
 
 	// Tray menu
-	hTrayMenuObject = MO_CreateMenuObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
+	hTrayMenuObject = Menu_AddObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
@@ -366,10 +363,8 @@ void InitTrayMenus(void)
 
 void UninitTrayMenu()
 {
-	if (hTrayMenuObject) {
-		CallService(MO_REMOVEMENUOBJECT, (WPARAM)hTrayMenuObject, 0);
-		hTrayMenuObject = NULL;
-	}
+	Menu_RemoveObject(hTrayMenuObject);
+	hTrayMenuObject = NULL;
 }
 
 VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)

@@ -244,21 +244,9 @@ begin
   ZeroMemory(@cmi,sizeof(cmi));
   cmi.szName.a    :=qs_name;
   cmi.position    :=500050000;
-//    cmi.pszPopupName:=nil;
-//    cmi.flags       :=0;
   cmi.pszService  :=QS_SHOWSERVICE;
   cmi.hIcon       :=IcoLib_GetIcon(QS_QS,0);
   MainMenuItem    :=Menu_AddMainMenuItem(@cmi);
-
-  begin
-{
-    if (MainMenuItem<>0) then
-    begin
-      CallService(MO_REMOVEMENUITEM,MainMenuItem,0);
-      MainMenuItem:=0;
-    end;
-}
-  end;
 end;
 
 // -------- column functions ---------

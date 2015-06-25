@@ -226,7 +226,7 @@ void CAimProto::InitMainMenus(void)
 	}
 	else {
 		if (hMenuRoot) {
-			CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
+			Menu_RemoveItem(hMenuRoot);
 			hMenuRoot = NULL;
 		}
 	}

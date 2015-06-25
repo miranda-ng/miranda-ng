@@ -127,8 +127,7 @@ int GGPROTO::img_destroy()
 
 	// Destroy list
 	list_destroy(imagedlgs, 1);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hImageMenuItem, 0);
-
+	Menu_RemoveItem(hImageMenuItem);
 	return FALSE;
 }
 

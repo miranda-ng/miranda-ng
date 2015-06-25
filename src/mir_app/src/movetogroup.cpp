@@ -98,7 +98,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	}
 
 	for (i=0; i < lphGroupsItems.getCount(); i++)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)lphGroupsItems[i], 0);
+		Menu_RemoveItem((HGENMENU)lphGroupsItems[i]);
 	lphGroupsItems.destroy();
 
 	ptrT szContactGroup(db_get_tsa(wParam, "CList", "Group"));

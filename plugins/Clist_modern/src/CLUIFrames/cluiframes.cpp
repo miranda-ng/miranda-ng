@@ -1544,7 +1544,7 @@ static int CLUIFramesLoadMainMenu()
 		return -1;
 
 	if (_hmiRoot != HGENMENU_ROOT) {
-		CallService(MO_REMOVEMENUITEM, (WPARAM)_hmiRoot, 0);
+		Menu_RemoveItem(_hmiRoot);
 		_hmiRoot = HGENMENU_ROOT;
 	}
 
@@ -3493,29 +3493,29 @@ int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 	if (!_hmiVisible)
 		return 0;
 
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiTBVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiLock, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiColl, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiFloating, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignTop, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignClient, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignBottom, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiBorder, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignRoot, 0);
+	Menu_RemoveItem(_hmiVisible);
+	Menu_RemoveItem(_hmiTBVisible);
+	Menu_RemoveItem(_hmiLock);
+	Menu_RemoveItem(_hmiColl);
+	Menu_RemoveItem(_hmiFloating);
+	Menu_RemoveItem(_hmiAlignTop);
+	Menu_RemoveItem(_hmiAlignClient);
+	Menu_RemoveItem(_hmiAlignBottom);
+	Menu_RemoveItem(_hmiBorder);
+	Menu_RemoveItem(_hmiAlignRoot);
 
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosUp, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosDown, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosRoot, 0);
+	Menu_RemoveItem(_hmiPosUp);
+	Menu_RemoveItem(_hmiPosDown);
+	Menu_RemoveItem(_hmiPosRoot);
 
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiTBVisible, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiLock, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiColl, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiFloating, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiBorder, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignRoot, 0);
-	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosRoot, 0);
+	Menu_RemoveItem(_hmiVisible);
+	Menu_RemoveItem(_hmiTBVisible);
+	Menu_RemoveItem(_hmiLock);
+	Menu_RemoveItem(_hmiColl);
+	Menu_RemoveItem(_hmiFloating);
+	Menu_RemoveItem(_hmiBorder);
+	Menu_RemoveItem(_hmiAlignRoot);
+	Menu_RemoveItem(_hmiPosRoot);
 	_hmiVisible = 0;
 
 	_AniAva_OnModulesUnload();
@@ -3576,7 +3576,7 @@ static INT_PTR UnloadMainMenu()
 {
 	CLUIFrameOnModulesUnload(0, 0);
 	if (_hmiRoot != HGENMENU_ROOT) {
-		CallService(MO_REMOVEMENUITEM, (WPARAM)_hmiRoot, 0);
+		Menu_RemoveItem(_hmiRoot);
 		_hmiRoot = HGENMENU_ROOT;
 	}
 

@@ -41,7 +41,7 @@ using namespace std;
 class Xfire_gamelist : public Xfire_base {
 private:
 	vector<Xfire_game*> gamelist;
-	HANDLE dummymenuitem;
+	HGENMENU dummymenuitem;
 	unsigned int nextgameid;
 	BOOL ingame;
 	mir_cs gamlistMutex;

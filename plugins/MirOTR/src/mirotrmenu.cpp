@@ -15,9 +15,10 @@ MirOTRMenuExecParam,*lpMirOTRMenuExecParam;
 ////////////////////////////////////////////
 // MirOTR MENU
 ///////////////////////////////////////////
+
 static INT_PTR RemoveMirOTRMenuItem(WPARAM wParam, LPARAM)
 {
-	CallService(MO_REMOVEMENUITEM,wParam,0);
+	Menu_RemoveItem((HGENMENU)wParam);
 	return 0;
 }
 
@@ -39,20 +40,13 @@ static INT_PTR AddMirOTRMenuItem(WPARAM, LPARAM lParam)
 	lpMirOTRMenuExecParam cmep = ( lpMirOTRMenuExecParam )mir_calloc(sizeof(MirOTRMenuExecParam));
 	cmep->szServiceName = mir_strdup( mi->pszService );
 	tmi.ownerdata = cmep;
-	
-	INT_PTR menuHandle = CallService(MO_ADDNEWMENUITEM, (WPARAM) hMirOTRMenuObject, (LPARAM)&tmi );
-
-	return menuHandle;
+	return (INT_PTR)Menu_AddItem(hMirOTRMenuObject, &tmi);
 }
 
 static INT_PTR BuildMirOTRMenu(WPARAM hContact, LPARAM)
 {
-	ListParam param = { 0 };
-	param.MenuObjectHandle = hMirOTRMenuObject;
-	param.wParam = hContact;
 	HMENU hMenu = CreatePopupMenu();
-	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
-
+	Menu_Build(hMenu, hMirOTRMenuObject, hContact);
 	return (INT_PTR)hMenu;
 }
 
@@ -72,9 +66,7 @@ INT_PTR MirOTRMenuExecService(WPARAM wParam,LPARAM lParam)
 // true - ok,false ignore
 INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 {
-	PCheckProcParam pcpp = (PCheckProcParam)wParam;
-	TMO_MenuItem mi;
-
+	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
 	if (pcpp == NULL)
 		return FALSE;
 
@@ -89,6 +81,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
 	TrustLevel level = (TrustLevel)otr_context_get_trust(context);
 
+	TMO_MenuItem mi;
 	if (CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
 		if (mi.flags & CMIF_HIDDEN) return FALSE;
 		if (mi.flags & CMIF_NOTPRIVATE  && level == TRUST_PRIVATE) return FALSE;
@@ -162,7 +155,8 @@ LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		if (CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam)) return TRUE;
 		break;
 	case WM_COMMAND:
-		if (CallService(MO_PROCESSCOMMANDBYMENUIDENT, wParam, GetWindowLongPtr(hwnd, GWLP_USERDATA))) return TRUE;
+		if (Menu_ProcessCommandById(wParam, GetWindowLongPtr(hwnd, GWLP_USERDATA)))
+			return TRUE;
 		break;
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -196,7 +190,7 @@ void InitMirOTRMenu(void)
 	CreateServiceFunction(MS_MIROTR_MENUBUILDMIROTR, BuildMirOTRMenu);
 	CreateServiceFunction(MS_MIROTR_REMOVEMIROTRMENUITEM, RemoveMirOTRMenuItem);
 
-	hMirOTRMenuObject = MO_CreateMenuObject("MirOTRMenu", LPGEN("MirOTR menu"), "MirOTRMenuCheckService", "MirOTRMenuExecService");
+	hMirOTRMenuObject = Menu_AddObject("MirOTRMenu", LPGEN("MirOTR menu"), "MirOTRMenuCheckService", "MirOTRMenuExecService");
 	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_FREE_SERVICE, "MIROTRMENUS/FreeOwnerDataMirOTRMenu");
 	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
@@ -248,7 +242,9 @@ void UninitMirOTRMenu(void)
 {
 	DestroyWindow(hDummyPaintWin);
 	hDummyPaintWin = 0;
+
 	UnregisterClass(_T("MirOTRPopupMenuProcessor"), hInst);
-	if (hMirOTRMenuObject) CallService(MO_REMOVEMENUOBJECT, (WPARAM)hMirOTRMenuObject, 0);
+	
+	Menu_RemoveObject(hMirOTRMenuObject);
 	hMirOTRMenuObject = 0;
 }

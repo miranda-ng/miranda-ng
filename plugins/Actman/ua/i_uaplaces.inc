@@ -278,7 +278,7 @@ begin
   with ActionItem.UAMenuItem[mtype] do
   begin
     if hMenuItem=0 then exit;
-    CallService(MO_REMOVEMENUITEM,hMenuItem,0);
+    Menu_RemoveItem(hMenuItem);
     hMenuItem:=0;
   end;
 
@@ -302,7 +302,7 @@ begin
         break;
       end;
     end;
-    CallService(MO_REMOVEMENUITEM,hMenuRoot,0);
+    Menu_RemoveItem(hMenuRoot);
     ActionItem.UAMenuItem[mtype].hMenuRoot:=0;
   end;
 end;

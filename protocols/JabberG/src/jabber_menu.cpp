@@ -185,13 +185,13 @@ void g_MenuInit(void)
 
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
 
-	hChooserMenu = MO_CreateMenuObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
+	hChooserMenu = Menu_AddObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
 
 	TMO_MenuItem tmi = { sizeof(tmi) };
 	tmi.name.a = "Cancel";
 	tmi.position = 9999999;
 	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	CallService(MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, (LPARAM)&tmi);
+	Menu_AddItem(hChooserMenu, &tmi);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
@@ -330,14 +330,14 @@ void g_MenuUninit(void)
 {
 	DestroyHookableEvent(hStatusMenuInit);
 
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRequestAuth, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuGrantAuth, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRevokeAuth, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuConvert, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRosterAdd, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuLogin, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRefresh, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuAddBookmark, 0);
+	Menu_RemoveItem(g_hMenuRequestAuth);
+	Menu_RemoveItem(g_hMenuGrantAuth);
+	Menu_RemoveItem(g_hMenuRevokeAuth);
+	Menu_RemoveItem(g_hMenuConvert);
+	Menu_RemoveItem(g_hMenuRosterAdd);
+	Menu_RemoveItem(g_hMenuLogin);
+	Menu_RemoveItem(g_hMenuRefresh);
+	Menu_RemoveItem(g_hMenuAddBookmark);
 
 	WindowList_Destroy(hDialogsList);
 }
@@ -604,7 +604,7 @@ void CJabberProto::MenuInit()
 	}
 	else {
 		if (m_hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
+			Menu_RemoveItem(m_hMenuRoot);
 		m_hMenuRoot = NULL;
 	}
 
@@ -800,7 +800,7 @@ void CJabberProto::GlobalMenuInit()
 	tmi.ownerdata = this;
 	tmi.position = iChooserMenuPos++;
 	tmi.name.t = m_tszUserName;
-	m_hChooseMenuItem = (HGENMENU)CallService(MO_ADDNEWMENUITEM, (WPARAM)hChooserMenu, (LPARAM)&tmi);
+	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &tmi);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Hotkeys
@@ -885,14 +885,14 @@ void CJabberProto::GlobalMenuUninit()
 {
 	if (m_phMenuResourceItems) {
 		for (int i = 0; i < m_nMenuResourceItems; i++)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_phMenuResourceItems[i], 0);
+			Menu_RemoveItem(m_phMenuResourceItems[i]);
 		mir_free(m_phMenuResourceItems);
 		m_phMenuResourceItems = NULL;
 	}
 	m_nMenuResourceItems = 0;
 
 	if (m_hMenuRoot)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
+		Menu_RemoveItem(m_hMenuRoot);
 	m_hMenuRoot = NULL;
 }
 
@@ -1141,20 +1141,17 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 	}
 
 	if (nItems > 1) {
-		ListParam param = { 0 };
-		param.MenuObjectHandle = hChooserMenu;
-		HMENU hMenu = CreatePopupMenu();
-		CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
-
 		POINT pt;
 		GetCursorPos(&pt);
 
+		HMENU hMenu = CreatePopupMenu();
+		Menu_Build(hMenu, hChooserMenu);
 		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 		DestroyMenu(hMenu);
 
 		if (res) {
 			CJabberProto* pro = NULL;
-			CallService(MO_PROCESSCOMMANDBYMENUIDENT, res, (LPARAM)&pro);
+			Menu_ProcessCommandById(res, (LPARAM)&pro);
 			return pro;
 		}
 

@@ -234,7 +234,7 @@ begin
   else
     DestroyServiceFunction(slastinf);
 
-  CallService(MO_REMOVEMENUITEM,hMenuLast,0);
+  Menu_RemoveItem(hMenuLast);
   hMenuLast:=0;
   DestroyServiceFunction(slast);
 

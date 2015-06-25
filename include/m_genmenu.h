@@ -200,68 +200,60 @@ struct TMO_MenuItem
 /*
 This structure passed to CheckService.
 */
-typedef struct
+
+struct TCheckProcParam
 {
 	void *MenuItemOwnerData;
 	HGENMENU MenuItemHandle;
-	WPARAM wParam;//from  ListParam.wParam when building menu
-	LPARAM lParam;//from  ListParam.lParam when building menu
-}
-	TCheckProcParam,*PCheckProcParam;
-
-//used in MO_BUILDMENU
-typedef struct tagListParam
-{
-	int rootlevel;
-	HANDLE MenuObjectHandle;
 	WPARAM wParam;
 	LPARAM lParam;
-}
-	ListParam,*lpListParam;
+};
 
-typedef struct
+struct ProcessCommandParam
 {
 	HMENU menu;
 	int ident;
 	LPARAM lParam;
-}
-	ProcessCommandParam,*lpProcessCommandParam;
+};
 
-//wparam started hMenu
-//lparam ListParam*
-//result hMenu
-#define MO_BUILDMENU						"MO/BuildMenu"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Builds a menu from menu object's description
+// Returns hMenu on success or NULL on failure
 
-//wparam=MenuItemHandle
-//lparam userdefined
-//returns TRUE if it processed the command, FALSE otherwise
-#define MO_PROCESSCOMMAND					"MO/ProcessCommand"
+EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, HANDLE hMenuObject, WPARAM wParam = 0, LPARAM lParam = 0);
 
-//if menu not known call this
-//LOWORD(wparam) menuident (from WM_COMMAND message)
-//returns TRUE if it processed the command, FALSE otherwise
-//Service automatically find right menuobject and menuitem
-//and call MO_PROCESSCOMMAND
-#define MO_PROCESSCOMMANDBYMENUIDENT		"MO/ProcessCommandByMenuIdent"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Passes custom lParam to the ExecMenuService for the specified menu item
+// Returns TRUE if command was processed, FALSE otherwise
 
-//wparam=MenuItemHandle
-//lparam=0
-//returns 0 on success,-1 on failure.
-//You must free ownerdata before this call.
-//If MenuItemHandle is root all child will be removed too.
-#define MO_REMOVEMENUITEM					"MO/RemoveMenuItem"
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam);
 
-//wparam=MenuObjectHandle
-//lparam=PMO_MenuItem
-//return MenuItemHandle on success,-1 on failure
-//Service supports old menu items (without CMIF_ROOTPOPUP or
-//CMIF_CHILDPOPUP flag).For old menu items needed root will be created
-//automatically.
-#define MO_ADDNEWMENUITEM					"MO/AddNewMenuItem"
+/////////////////////////////////////////////////////////////////////////////////////////
+// if menu not known call this
+// LOWORD(wparam) menuident (from WM_COMMAND message)
+// It automatically finds right menuobject and menuitem and calls Menu_ProcessCommand
+// returns TRUE if command was processed, FALSE otherwise
+
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes a menu item from genmenu
+// Returns 0 on success,-1 on failure.
+// You must free ownerdata before this call.
+// If MenuItemHandle is root, all children will be removed too.
+
+EXTERN_C MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Adds a menu item to genmenu
+// Returns MenuItemHandle on success, or NULL on failure
+
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pItem);
 
 //wparam MenuItemHandle
 //returns ownerdata on success,NULL on failure
 //Useful to get and free ownerdata before delete menu item.
+
 #define MO_MENUITEMGETOWNERDATA				"MO/MenuItemGetOwnerData"
 
 //wparam=MenuItemHandle
@@ -281,6 +273,8 @@ typedef struct
 //this should be called in WM_KEYDOWN
 #define	MO_PROCESSHOTKEYS					"MO/ProcessHotKeys"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Creates a new menu object
 // szName = unique menu object identifier
 // szDisplayName = menu display name (auto-translated by core)
 // szCheckService = this service called when module build menu(MO_BUILDMENU).
@@ -289,26 +283,17 @@ typedef struct
 // szExecService = this service called when user select menu item.
 //    Service called with params wparam = ownerdata; lparam = lParam from MO_PROCESSCOMMAND
 // 
-// returns = MenuObjectHandle on success,-1 on failure
+// returns = MenuObjectHandle on success, NULL on failure
 
-struct TMenuParam
-{
-	int cbSize;
-	LPCSTR name, CheckService, ExecService;
-};
+EXTERN_C MIR_APP_DLL(HANDLE) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService);
 
-__forceinline HANDLE MO_CreateMenuObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService)
-{
-	TMenuParam param = { sizeof(param), szName, szCheckService, szExecService };
-	return (HANDLE)CallService("MO/CreateNewMenuObject", (WPARAM)szDisplayName, (LPARAM)&param);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes the whole menu object with all submenus
+// returns 0 on success, nonzero on failure
+// Note: you must free all ownerdata structures, before you
+// call this function. Menu_RemoveObject DOES NOT free it.
 
-//wparam=MenuObjectHandle
-//lparam=0
-//returns 0 on success,-1 on failure
-//Note: you must free all ownerdata structures, before you
-//call this service.MO_REMOVEMENUOBJECT NOT free it.
-#define MO_REMOVEMENUOBJECT "MO/RemoveMenuObject"
+EXTERN_C MIR_APP_DLL(int) Menu_RemoveObject(HANDLE hMenuObject);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // tunes the whold menu object

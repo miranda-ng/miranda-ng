@@ -95,7 +95,7 @@ GGPROTO::~GGPROTO()
 	Popup_UnregisterClass(hPopupNotify);
 
 	if (hMenuRoot)
-		CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
+		Menu_RemoveItem(hMenuRoot);
 
 	// Close handles
 	Netlib_CloseHandle(m_hNetlibUser);

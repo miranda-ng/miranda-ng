@@ -1893,7 +1893,7 @@ begin
   case hMessage of
     WM_DESTROY: begin
       if srvhandle<>0 then DestroyServiceFunction(srvhandle);
-      if mnuhandle<>0 then CallService(MO_REMOVEMENUITEM,mnuhandle,0);
+      if mnuhandle<>0 then Menu_RemoveItem(mnuhandle);
 
       UnhookEvent(hAdd);
       UnhookEvent(hDelete);

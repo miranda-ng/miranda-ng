@@ -110,7 +110,7 @@ static int lua_RemoveMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
 
-	INT_PTR res = ::CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuItem, 0);
+	INT_PTR res = ::Menu_RemoveItem(hMenuItem);
 	lua_pushinteger(L, res);
 
 	return 1;

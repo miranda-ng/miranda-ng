@@ -18,12 +18,14 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
-static HANDLE hMainMenuItem = 0, hToolBarItem = 0;
+static HANDLE hToolBarItem = 0;
+static HGENMENU hMainMenuItem = 0;
 HWND hAddDlg;
 
 static IconItem icon = { LPGEN("Add contact"), ICON_ADD, IDI_ADDCONTACT };
@@ -102,7 +104,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (!hMainMenuItem)
 			return 0;
 
-		CallService(MO_REMOVEMENUITEM, (WPARAM)hMainMenuItem, 0);
+		Menu_RemoveItem(hMainMenuItem);
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
 		hMainMenuItem = 0;
 	}

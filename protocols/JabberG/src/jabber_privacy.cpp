@@ -2115,7 +2115,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 {
 	if (bDeleteOld)
 		for (int i = 0; i < m_hPrivacyMenuItems.getCount(); i++)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hPrivacyMenuItems[i], 0);
+			Menu_RemoveItem((HGENMENU)m_hPrivacyMenuItems[i]);
 
 	m_hPrivacyMenuItems.destroy();
 

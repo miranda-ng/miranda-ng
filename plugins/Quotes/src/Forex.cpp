@@ -357,12 +357,6 @@ namespace
 	{
 		return UnhookEvent(h);
 	}
-
-	inline int Quotes_RemoveMenuItem(HGENMENU h)
-	{
-		return CallService(MO_REMOVEMENUITEM, reinterpret_cast<WPARAM>(h), 0);
-	}
-
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)

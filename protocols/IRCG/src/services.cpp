@@ -40,9 +40,10 @@ void CIrcProto::InitMainMenus(void)
 		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
-		if (hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
-		hMenuRoot = NULL;
+		if (hMenuRoot) {
+			Menu_RemoveItem(hMenuRoot);
+			hMenuRoot = NULL;
+		}
 	}
 
 	mi.flags = CMIF_ROOTHANDLE;
@@ -175,10 +176,10 @@ void InitContactMenus(void)
 
 void UninitContactMenus(void)
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuChanSettings, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuWhois, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuDisconnect, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuIgnore, 0);
+	Menu_RemoveItem(hUMenuChanSettings);
+	Menu_RemoveItem(hUMenuWhois);
+	Menu_RemoveItem(hUMenuDisconnect);
+	Menu_RemoveItem(hUMenuIgnore);
 	
 	DestroyServiceFunction(hMenuChanSettings);
 	DestroyServiceFunction(hMenuWhois);

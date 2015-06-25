@@ -47,7 +47,7 @@ INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
 	}
 	while (Count--) {
 		if (pItems[Count]) {
-			CallService(MO_REMOVEMENUITEM, (WPARAM)pItems[Count], 0);
+			Menu_RemoveItem(pItems[Count]);
 			pItems[Count] = NULL;
 		}
 	}

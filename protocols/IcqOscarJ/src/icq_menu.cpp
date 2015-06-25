@@ -164,12 +164,12 @@ void g_MenuInit(void)
 
 void g_MenuUninit(void)
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_REQUEST], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_GRANT], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_REVOKE], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_XSTATUS_DETAILS], 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_OPEN_PROFILE], 0);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_REQUEST]);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_GRANT]);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_REVOKE]);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST]);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS]);
+	Menu_RemoveItem(g_hContactMenuItems[ICMI_OPEN_PROFILE]);
 }
 
 INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM)

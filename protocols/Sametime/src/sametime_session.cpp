@@ -571,11 +571,5 @@ void CSametimeProto::InitSessionMenu()
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
 	mi.pszContactOwner = m_szModuleName;
-	hSessionAnnounceMenuItem = Menu_AddContactMenuItem(&mi);
-}
-
-void CSametimeProto::DeinitSessionMenu()
-{
-	debugLog(_T("CSametimeProto::DeinitSessionMenu()"));
-	CallService(MO_REMOVEMENUITEM, (WPARAM)hSessionAnnounceMenuItem, 0);
+	Menu_AddContactMenuItem(&mi);
 }

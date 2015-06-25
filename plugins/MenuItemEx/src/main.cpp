@@ -745,7 +745,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 	return Menu_AddContactMenuItem(&mi);
 }
 
-static void ModifySubmenuItem(HGENMENU hItem, TCHAR *name, int checked, int hidden)
+static void ModifySubmenuItem(HGENMENU hItem, int checked, int hidden)
 {
 	int flags = 0;
 	if (checked)
@@ -789,13 +789,13 @@ int BuildMenu(WPARAM wparam, LPARAM)
 			if (check)
 				all++;
 
-			ModifySubmenuItem(hIgnoreItem[i], ii[i].name, check, 0);
+			ModifySubmenuItem(hIgnoreItem[i], check, 0);
 
 			if (all == _countof(ii) - 1) // ignor all
 				check = 1;
 			else
 				check = 0;
-			ModifySubmenuItem(hIgnoreItem[0], ii[i].name, check, 0);
+			ModifySubmenuItem(hIgnoreItem[0], check, 0);
 		}
 	}
 
@@ -809,7 +809,7 @@ int BuildMenu(WPARAM wparam, LPARAM)
 			}
 
 			int check = Proto_IsProtoOnContact(wparam, accs[i]->szModuleName);
-			ModifySubmenuItem(hProtoItem[i], accs[i]->tszAccountName, check, hide);
+			ModifySubmenuItem(hProtoItem[i], check, hide);
 		}
 		Menu_ShowItem(hmenuProto, j > 1);
 	}
@@ -864,7 +864,7 @@ int EnumProtoSubmenu(WPARAM, LPARAM)
 		{
 			if (hProtoItem[i])
 			{
-				CallService(MO_REMOVEMENUITEM, (WPARAM)hProtoItem[i], 0);
+				Menu_RemoveItem(hProtoItem[i]);
 				hProtoItem[i] = 0;
 			}
 		}
