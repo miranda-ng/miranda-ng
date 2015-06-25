@@ -2,21 +2,15 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.0.0
+;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
-[Allow you to extend Miranda NG functionality with lua scripts.]
-Поддержка скриптов на языке Lua в Miranda NG.
-[Reload]
-Перегрузить
-[Customize]
-Тонкая настройка
-[Scripts]
-Скрипты
 [Common scripts folder]
 Папка с общими скриптами
 [Custom scripts folder]
 Папка с пользовательскими скриптами
+[Scripts]
+Скрипты
 [Common scripts]
 Общие скрипты
 [Custom scripts]
