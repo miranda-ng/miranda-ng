@@ -5,6 +5,10 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Extends Miranda NG functionality with lua scripts.]
+Расширяет функциональность Miranda NG с помощью скриптов на языке Lua.
+[Reload all]
+Перезагрузить всё
 [Common scripts folder]
 Папка с общими скриптами
 [Custom scripts folder]

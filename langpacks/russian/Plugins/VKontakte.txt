@@ -31,6 +31,8 @@
 Поддержка BB-кодов для вложений
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
+[Shorten links for audio attachments]
+Короткие ссылки для вложений с аудио
 [News and event notifications]
 Новости и уведомления
 [WARNING: Causes excessive network traffic!!!]
