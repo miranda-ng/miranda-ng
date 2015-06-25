@@ -57,7 +57,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 	TrustLevel level = (TrustLevel)otr_context_get_trust(context);
 
 	TMO_MenuItem mi;
-	if (CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
+	if (Menu_GetItemInfo(pcpp->MenuItemHandle, mi) == 0) {
 		if (mi.flags & CMIF_HIDDEN) return FALSE;
 		if (mi.flags & CMIF_NOTPRIVATE  && level == TRUST_PRIVATE) return FALSE;
 		if (mi.flags & CMIF_NOTFINISHED && level == TRUST_FINISHED) return FALSE;
@@ -111,7 +111,7 @@ INT_PTR OnAddMenuItemMirOTRMenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TMO_MenuItem mi;
-	if (CallService(MO_GETMENUITEM, (WPARAM)lParam, (LPARAM)&mi) == 0) {
+	if (Menu_GetItemInfo((HGENMENU)lParam, mi) == 0) {
 		if (mi.flags & CMIF_DISABLED) {
 			mii->fMask |= MIIM_STATE;
 			mii->fState |= MF_DISABLED;
@@ -124,10 +124,10 @@ LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 {
 	switch (message) {
 	case WM_MEASUREITEM:
-		if (CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam)) return TRUE;
+		if (Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam)) return TRUE;
 		break;
 	case WM_DRAWITEM:
-		if (CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam)) return TRUE;
+		if (Menu_DrawItem((LPDRAWITEMSTRUCT)lParam)) return TRUE;
 		break;
 	case WM_COMMAND:
 		if (Menu_ProcessCommandById(wParam, GetWindowLongPtr(hwnd, GWLP_USERDATA)))

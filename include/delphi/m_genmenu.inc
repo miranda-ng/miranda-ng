@@ -86,29 +86,6 @@ plugin may add different menu items with some service.
    (pszPopupName=(AnsiChar *)hMenuItem - for make child of popup)
 }
 
-const
-{
-  builds the SubGroup menu
-  wParam=lParam=0
-  returns a HMENU identifying the menu.
-}
-  MS_CLIST_MENUBUILDSUBGROUP:PAnsiChar = 'CList/MenuBuildSubGroup';
-
-{
-  add a new item to the SubGroup menus
-  wParam=lpGroupMenuParam, params to call when exec menuitem
-  lParam=(LPARAM)(CLISTMENUITEM*)&mi
-}
-  MS_CLIST_ADDSUBGROUPMENUITEM:PAnsiChar = 'CList/AddSubGroupMenuItem';
-
-{
-  the SubGroup menu is about to be built
-  wParam=lParam=0
-}
-  ME_CLIST_PREBUILDSUBGROUPMENU:PAnsiChar = 'CList/PreBuildSubGroupMenu';
-
-// SubGroup MENU
-
 // Group MENU
 type
   PGroupMenuParam = ^TGroupMenuParam;
@@ -119,33 +96,12 @@ type
 
 const
 {
-  builds the Group menu
-  wParam=lParam=0
-  returns a HMENU identifying the menu.
-}
-  MS_CLIST_MENUBUILDGROUP:PAnsiChar = 'CList/MenuBuildGroup';
-
-{
-  add a new item to the Group menus
-  wParam=lpGroupMenuParam, params to call when exec menuitem
-  lParam=(LPARAM)(CLISTMENUITEM*)&mi
-}
-  MS_CLIST_ADDGROUPMENUITEM:PAnsiChar = 'CList/AddGroupMenuItem';
-
-{
   the Group menu is about to be built
   wParam=lParam=0
 }
   ME_CLIST_PREBUILDGROUPMENU:PAnsiChar = 'CList/PreBuildGroupMenu';
 
-
 // TRAY MENU
-{
-  builds the tray menu
-  wParam=lParam=0
-  returns a HMENU identifying the menu.
-}
-  MS_CLIST_MENUBUILDTRAY:PAnsiChar = 'CList/MenuBuildTray';
 
 {
   add a new item to the tray menus
@@ -167,20 +123,6 @@ const
   wParam=lParam=0
 }
   ME_CLIST_PREBUILDSTATUSMENU:PAnsiChar = 'CList/PreBuildStatusMenu';
-
-{
-  add a new item to the status menu
-  wParam=0
-  lParam=(LPARAM)(CLISTMENUITEM*)&mi
-}
-//!!  MS_CLIST_ADDSTATUSMENUITEM = 'CList/AddStatusMenuItem'; // defined in m_clist.inc
-
-{
-  builds the main menu
-  wParam=lParam=0
-  returns a HMENU identifying the menu.
-}
-  MS_CLIST_MENUBUILDMAIN:PAnsiChar = 'CList/MenuBuildMain';
 
 {
   the main menu is about to be built
@@ -306,33 +248,25 @@ function Menu_AddItem(hMenuObject:THANDLE; var tmi:TMO_MenuItem) : integer; stdc
               external AppDLL name 'Menu_AddItem';
 
 {
-  wparam MenuItemHandle
-  returns ownerdata on success,NULL on failure
   Useful to get and free ownerdata before delete menu item.
 }
-const
-  MO_MENUITEMGETOWNERDATA:PAnsiChar = 'MO/MenuItemGetOwnerData';
+
+function Menu_GetItemData(hMenuItem:HGENMENU) : pointer; stdcall;
+              external AppDLL name 'Menu_GetItemData';
 
 {
-  wparam MenuItemHandle
-  lparam PMO_MenuItem
   returns 0 on success,-1 on failure
 }
-  MO_MODIFYMENUITEM:PAnsiChar = 'MO/ModifyMenuItem';
+
+function Menu_GetItemInfo(hMenuItem:HGENMENU; var mi:TMO_MenuItem) : integer; stdcall;
+              external AppDLL name 'Menu_GetItemInfo';
 
 {
-  wparam=MenuItemHandle
-  lparam=PMO_MenuItem
-  returns 0 and filled PMO_MenuItem structure on success and -1 on failure
-}
-  MO_GETMENUITEM:PAnsiChar = 'MO/GetMenuItem';
-
-{
-  wparam=MenuItemHandle
-  lparam=0
   returns a menu handle on success or NULL on failure
 }
-  MO_GETDEFAULTMENUITEM:PAnsiChar = 'MO/GetDefaultMenuItem';
+
+function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall;
+              external AppDLL name 'Menu_GetDefaultItem';
 
 {
   wparam=MenuObjectHandle
@@ -340,23 +274,9 @@ const
   returns TRUE if it processed the command, FALSE otherwise
   this should be called in WM_KEYDOWN
 }
-  MO_PROCESSHOTKEYS:PAnsiChar = 'MO/ProcessHotKeys';
 
-{
-  process a WM_DRAWITEM message
-  wparam=0
-  lparam=LPDRAWITEMSTRUCT
-  returns TRUE if it processed the command, FALSE otherwise
-}
-  MO_DRAWMENUITEM:PAnsiChar = 'MO/DrawMenuItem';
-
-{
-  process a WM_MEASUREITEM message
-  wparam=0
-  lparam=LPMEASUREITEMSTRUCT
-  returns TRUE if it processed the command, FALSE otherwise
-}
-  MO_MEASUREMENUITEM:PAnsiChar = 'MO/MeasureMenuItem';
+function Menu_ProcessHotKey(hMenuObject:THANDLE; vKey:DWORD) : integer; stdcall;
+              external AppDLL name 'Menu_ProcessHotKey';
 
 {
   sets an option for the whole menu object

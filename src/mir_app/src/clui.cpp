@@ -965,12 +965,12 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_MEASUREITEM:
-		if (((LPMEASUREITEMSTRUCT) lParam)->itemData == MENU_MIRANDAMENU) {
-			((LPMEASUREITEMSTRUCT) lParam)->itemWidth = g_IconWidth * 4 / 3;
-			((LPMEASUREITEMSTRUCT) lParam)->itemHeight = 0;
+		if (((LPMEASUREITEMSTRUCT)lParam)->itemData == MENU_MIRANDAMENU) {
+			((LPMEASUREITEMSTRUCT)lParam)->itemWidth = g_IconWidth * 4 / 3;
+			((LPMEASUREITEMSTRUCT)lParam)->itemHeight = 0;
 			return TRUE;
 		}
-		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 
 	case WM_DRAWITEM:
 		{
@@ -1029,7 +1029,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					IcoLib_ReleaseIcon(hIcon);
 					return TRUE;
 				}
-				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 			}
 		}
 		return 0;

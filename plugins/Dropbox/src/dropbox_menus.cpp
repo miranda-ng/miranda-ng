@@ -29,7 +29,7 @@ int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0;
 
-	BOOL bShow = FALSE;
+	bool bShow = false;
 
 	if (HasAccessToken() && !hTransferContact && hContact != GetDefaultContact())
 	{
@@ -41,7 +41,7 @@ int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 			WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 			if (isProtoOnline && (status != ID_STATUS_OFFLINE || canSendOffline))
-				bShow = TRUE;
+				bShow = true;
 		}
 	}
 

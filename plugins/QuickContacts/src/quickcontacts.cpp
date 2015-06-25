@@ -999,9 +999,8 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if(lpdis->CtlID != IDC_USERNAME) 
 			{
 				if (lpdis->CtlType == ODT_MENU)
-					return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
-				else
-					break;
+					return Menu_DrawItem(lpdis);
+				break;
 			}
 
 			// Handle combo
@@ -1094,12 +1093,10 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
 
 			// Handle contact menu
-			if(lpmis->CtlID != IDC_USERNAME) 
-			{
+			if(lpmis->CtlID != IDC_USERNAME) {
 				if (lpmis->CtlType == ODT_MENU)
-					return CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
-				else
-					break;
+					return Menu_MeasureItem(lpmis);
+				break;
 			}
 
 			// Handle combo

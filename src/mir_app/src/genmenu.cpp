@@ -109,13 +109,11 @@ TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// wparam = 0
-// lparam = LPMEASUREITEMSTRUCT
 
-int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
+MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis)
 {
 	if (!bIsGenMenuInited)
-		return -1;
+		return FALSE;
 
 	if (mis == NULL)
 		return FALSE;
@@ -137,13 +135,11 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// wparam = 0
-// lparam = LPDRAWITEMSTRUCT
 
-int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
+MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis)
 {
 	if (!bIsGenMenuInited)
-		return -1;
+		return FALSE;
 
 	if (dis == NULL)
 		return FALSE;
@@ -184,6 +180,8 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 	return TRUE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int MO_RemoveAllObjects()
 {
 	for (int i = 0; i < g_menus.getCount(); i++)
@@ -193,22 +191,20 @@ int MO_RemoveAllObjects()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam = MenuObjectHandle
-// lparam = vKey
 
-INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(HANDLE hMenuObject, int key)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	int objidx = GetMenuObjbyId((int)menuHandle);
+	int objidx = GetMenuObjbyId((int)hMenuObject);
 	if (objidx == -1)
 		return FALSE;
 
 	for (TMO_IntMenuItem *pimi = g_menus[objidx]->m_items.first; pimi != NULL; pimi = pimi->next) {
 		if (pimi->hotKey == 0) continue;
-		if (HIWORD(pimi->hotKey) != vKey) continue;
+		if (HIWORD(pimi->hotKey) != key) continue;
 		if (!(LOWORD(pimi->hotKey) & MOD_ALT) != !(GetKeyState(VK_MENU) & 0x8000)) continue;
 		if (!(LOWORD(pimi->hotKey) & MOD_CONTROL) != !(GetKeyState(VK_CONTROL) & 0x8000)) continue;
 		if (!(LOWORD(pimi->hotKey) & MOD_SHIFT) != !(GetKeyState(VK_SHIFT) & 0x8000)) continue;
@@ -219,6 +215,8 @@ INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProto)
 {
@@ -243,22 +241,22 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProto)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam = MenuItemHandle
-// lparam = PMO_MenuItem
-INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
+
+MIR_APP_DLL(int) Menu_GetItemInfo(HGENMENU hMenuItem, TMO_MenuItem &pInfo)
 {
-	TMO_MenuItem *mi = (TMO_MenuItem*)lParam;
-	if (!bIsGenMenuInited || mi == NULL)
+	if (!bIsGenMenuInited)
 		return -1;
 
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
 	mir_cslock lck(csMenuHook);
 	if (pimi == NULL)
 		return -1;
 
-	*mi = pimi->mi;
+	pInfo = pimi->mi;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int FindDefaultItem(TMO_IntMenuItem *pimi, void*)
 {
@@ -268,19 +266,17 @@ static int FindDefaultItem(TMO_IntMenuItem *pimi, void*)
 	return (pimi->mi.flags & CMIF_DEFAULT) ? TRUE : FALSE;
 }
 
-INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
+MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu)
 {
 	if (!bIsGenMenuInited)
-		return -1;
+		return NULL;
 
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenu);
 	mir_cslock lck(csMenuHook);
-	return (pimi) ? (INT_PTR)MO_RecursiveWalkMenu(pimi, FindDefaultItem, NULL) : NULL;
+	return (pimi) ? MO_RecursiveWalkMenu(pimi, FindDefaultItem, NULL) : NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam MenuItemHandle
-// lparam PMO_MenuItem
 
 MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon, int iFlags)
 {
@@ -329,19 +325,18 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam MenuItemHandle
-// return ownerdata useful to free ownerdata before delete menu item,
-// NULL on error.
 
-INT_PTR MO_MenuItemGetOwnerData(WPARAM wParam, LPARAM)
+MIR_APP_DLL(void*) Menu_GetItemData(HGENMENU hMenuItem)
 {
 	if (!bIsGenMenuInited)
-		return -1;
+		return NULL;
 
 	mir_cslock lck(csMenuHook);
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)wParam);
-	return (pimi) ? (INT_PTR)pimi->mi.ownerdata : -1;
+	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
+	return (pimi) ? pimi->mi.ownerdata : NULL;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 TMO_IntMenuItem *MO_GetIntMenuItem(HGENMENU wParam)
 {
@@ -1105,7 +1100,7 @@ int TryProcessDoubleClick(MCONTACT hContact)
 	if (iMenuID != -1) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
-		TMO_IntMenuItem *pimi = (TMO_IntMenuItem*)MO_GetDefaultMenuItem((WPARAM)g_menus[iMenuID]->m_items.first, 0);
+		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(g_menus[iMenuID]->m_items.first);
 		if (pimi != NULL) {
 			Menu_ProcessCommand(pimi, hContact);
 			return 0;
@@ -1128,20 +1123,14 @@ static VOID CALLBACK PostRegisterIcons(HWND, UINT, UINT_PTR, DWORD)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	posttimerid = SetTimer((HWND)NULL, 0, 5, (TIMERPROC)PostRegisterIcons);
+	posttimerid = SetTimer(NULL, 0, 5, (TIMERPROC)PostRegisterIcons);
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibChanges);
 	return 0;
 }
 
 int InitGenMenu()
 {
-	CreateServiceFunction(MO_MENUITEMGETOWNERDATA, MO_MenuItemGetOwnerData);
-	CreateServiceFunction(MO_GETMENUITEM, MO_GetMenuItem);
-	CreateServiceFunction(MO_GETDEFAULTMENUITEM, MO_GetDefaultMenuItem);
-	CreateServiceFunction(MO_PROCESSHOTKEYS, (MIRANDASERVICE)MO_ProcessHotKeys);
-
 	bIconsDisabled = db_get_b(NULL, "CList", "DisableMenuIcons", 0) != 0;
-
 	bIsGenMenuInited = true;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

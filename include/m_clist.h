@@ -313,18 +313,6 @@ typedef struct {
 //will get the event that will be got if the user clicks the systray icon.
 #define MS_CLIST_GETEVENT     "CList/GetEvent"
 
-//process a WM_MEASUREITEM message for user context menus   v0.1.1.0+
-//wParam, lParam, return value as for WM_MEASUREITEM
-//This is for displaying the icons by the menu items. If you don't call this
-//and clist/menudrawitem whne drawing a menu returned by one of the three menu
-//services below then it'll work but you won't get any icons
-#define MS_CLIST_MENUMEASUREITEM  "CList/MenuMeasureItem"
-
-//process a WM_DRAWITEM message for user context menus      v0.1.1.0+
-//wParam, lParam, return value as for WM_MEASUREITEM
-//See comments for clist/menumeasureitem
-#define MS_CLIST_MENUDRAWITEM     "CList/MenuDrawItem"
-
 //builds the context menu for a specific contact            v0.1.1.0+
 //wParam = (MCONTACT)hContact
 //lParam = 0

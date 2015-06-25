@@ -368,7 +368,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			return FALSE;
 
 		if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
-			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+			return Menu_MeasureItem(lpmis);
 
 		return MenuMeasureItem(lpmis);
 	}
@@ -380,7 +380,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			return FALSE;
 
 		if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
-			return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+			return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 		return MenuDrawItem(lpdis);
 	}

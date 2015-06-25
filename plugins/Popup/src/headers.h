@@ -76,6 +76,7 @@ http://miranda-ng.org/distr/
 #include <m_addcontact.h>
 #include <m_clc.h>
 #include <m_icolib.h>
+#include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_fontservice.h>
 #include <m_avatars.h>

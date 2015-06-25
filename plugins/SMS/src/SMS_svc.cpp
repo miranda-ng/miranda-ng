@@ -54,7 +54,7 @@ int LoadModules(void)
 
 int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
-	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount(wParam));
+	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount(wParam) != 0);
 	return 0;
 }
 

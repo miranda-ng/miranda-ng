@@ -284,12 +284,12 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 
 	case WM_MEASUREITEM:
 		if (!wParam) // if the message was sent by a menu
-			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+			return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
 		break;
 
 	case WM_DRAWITEM:
 		if (!wParam) // if the message was sent by a menu
-			return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
+			return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 		break;
 
 	case WM_CONTEXTMENU:

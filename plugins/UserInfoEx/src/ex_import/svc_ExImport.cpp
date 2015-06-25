@@ -326,12 +326,13 @@ typedef struct
  *
  * @return	always 0
  **/
+
 INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
 	HWND hClist = (HWND)CallService(MS_CLUI_GETHWNDTREE,0,0);
-	lpStatusMenuExecParam smep = (lpStatusMenuExecParam)Menu_GetUserData((HGENMENU)lParam);
+	lpStatusMenuExecParam smep = (lpStatusMenuExecParam)Menu_GetItemData((HGENMENU)lParam);
 	ExIm.pszName = mir_strdup(smep->proto);
 	ExIm.Typ = EXIM_ACCOUNT;
 

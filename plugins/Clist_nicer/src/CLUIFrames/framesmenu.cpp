@@ -66,7 +66,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 		return FALSE;
 
 	TMO_MenuItem mi;
-	if (CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
+	if (Menu_GetItemInfo(pcpp->MenuItemHandle, mi) == 0) {
 		lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mi.ownerdata;
 		if (fmep != NULL) {
 			//pcpp->wParam  -  frameid

@@ -212,3 +212,9 @@ Menu_AddItem @209
 Menu_RemoveItem @210
 Menu_AddObject @211
 Menu_RemoveObject @212
+Menu_GetItemData @213
+Menu_GetDefaultItem @214
+Menu_GetItemInfo @215
+Menu_ProcessHotKey @216
+Menu_DrawItem @217
+Menu_MeasureItem @218
