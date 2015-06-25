@@ -94,12 +94,12 @@ typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 MIR_CORE_DLL(HANDLE)  CreateHookableEvent(const char *name);
 MIR_CORE_DLL(int)     DestroyHookableEvent(HANDLE hEvent);
 MIR_CORE_DLL(int)     SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook);
-MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(int)     NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(int)     NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_CORE_DLL(int)     NotifyEventHooks(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_CORE_DLL(int)     NotifyFastHook(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 
 MIR_CORE_DLL(HANDLE)  HookEvent(const char* name, MIRANDAHOOK hookProc);
-MIR_CORE_DLL(HANDLE)  HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam = 0);
 MIR_CORE_DLL(HANDLE)  HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object);
 MIR_CORE_DLL(HANDLE)  HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
 MIR_CORE_DLL(HANDLE)  HookEventMessage(const char* name, HWND hwnd, UINT message);
@@ -115,16 +115,16 @@ MIR_CORE_DLL(HANDLE)  CreateProtoServiceFunction(const char *szModule, const cha
 MIR_CORE_DLL(int)     DestroyServiceFunction(HANDLE hService);
 MIR_CORE_DLL(int)     ServiceExists(const char *name);
 
-MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam, LPARAM lParam);
-MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam);
+MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);
 
 MIR_CORE_DLL(int)     CallFunctionAsync(void (__stdcall *func)(void *), void *arg);
 MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
 MIR_APP_DLL(int)      ProtoServiceExists(LPCSTR szModule, const char *szService);
-MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT, const char*, WPARAM, LPARAM);
-MIR_APP_DLL(INT_PTR)  CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+MIR_APP_DLL(INT_PTR)  CallContactService(MCONTACT, const char*, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_APP_DLL(INT_PTR)  CallProtoService(LPCSTR szModule, const char *szService, WPARAM wParam = 0, LPARAM lParam = 0);
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions

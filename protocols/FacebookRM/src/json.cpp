@@ -693,7 +693,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 					}
 					else {
-						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL);
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact);
 					}
 
 					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)

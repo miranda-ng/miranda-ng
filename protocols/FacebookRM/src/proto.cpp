@@ -156,7 +156,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 	{
 		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 
-		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, 0))
+		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
 			return flags |= PF1_MODEMSG;
 		else
 			return flags |= PF1_MODEMSGRECV;
@@ -164,7 +164,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE; // | PF2_SHORTAWAY;
 	case PFLAGNUM_3:
-		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, 0))
+		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
 			return PF2_ONLINE; // | PF2_SHORTAWAY;
 		else
 			return 0;
@@ -761,7 +761,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = MCONTACT(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
-	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
+	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != CONTACT_FRIEND))
 		return 0;
 
 	ptrT tname(getTStringA(hContact, FACEBOOK_KEY_NICK));
