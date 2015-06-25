@@ -19,6 +19,7 @@ There is no warranty.
 
 TCHAR szGamePrefix[] = COMMANDPREFIX;
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -151,6 +152,7 @@ static int MainDeInit(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	// ensure datetime picker is loaded
 	INITCOMMONCONTROLSEX ccx;

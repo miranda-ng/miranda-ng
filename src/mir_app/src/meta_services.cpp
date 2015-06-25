@@ -663,7 +663,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 
 	TPMPARAMS tpmp = { 0 };
 	tpmp.cbSize = sizeof(tpmp);
-	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), &tpmp);
+	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, cli.hwndContactList, &tpmp);
 
 	CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuRet), MPCF_CONTACTMENU), (LPARAM)param);
 

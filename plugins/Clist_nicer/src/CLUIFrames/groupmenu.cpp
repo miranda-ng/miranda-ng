@@ -162,24 +162,24 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 
 INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
+	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 	cfg::writeByte("CList", "HideEmptyGroups", (BYTE)newVal);
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEEMPTYGROUPS, newVal, 0);
+	SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 	return 0;
 }
 
 INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), GWL_STYLE) & CLS_USEGROUPS);
+	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 	cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETUSEGROUPS, newVal,0);
+	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal,0);
 	return 0;
 }
 
 INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEOFFLINEROOT,
-		!SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_GETHIDEOFFLINEROOT, 0, 0),
+	SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT,
+		!SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0),
 		0);
 	return 0;
 }
@@ -454,7 +454,7 @@ INT_PTR FreeOwnerDataSubGroupMenu(WPARAM, LPARAM lParam)
 // wparam menu handle to pass to clc.c
 INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM)
 {
-	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), WM_COMMAND, wParam, 0);
+	SendMessage(pcli->hwndContactTree, WM_COMMAND, wParam, 0);
 	return 0;
 }
 

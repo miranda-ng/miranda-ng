@@ -210,7 +210,7 @@ begin
   if ServiceExists(MS_CLIST_FRAMES_ADDFRAME)=0 then
     exit;
   if parent=0 then
-    parent:=CallService(MS_CLUI_GETHWND,0,0);
+    parent:=cli^.hwndContactList;
 
   if FrameWnd=0 then
     FrameWnd:=CreateDialog(hInstance,MAKEINTRESOURCE(IDD_FRAME),parent,@RadioFrameProc);
@@ -236,7 +236,7 @@ begin
     begin
       CallService(MS_CLIST_FRAMES_UPDATEFRAME,FrameId, FU_FMPOS);
 
-      wnd:=CallService(MS_CLUI_GETHWND{MS_CLUI_GETHWNDTREE},0,0);
+      wnd:=cli^.hwndContactList;
       tmp:=SendMessage(wnd,CLM_GETEXSTYLE,0,0);
       SendMessage(wnd,CLM_SETEXSTYLE,tmp or CLS_EX_SHOWSELALWAYS,0);
 

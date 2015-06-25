@@ -81,7 +81,7 @@ void AddWindowToStack(HWND hwnd) {
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &wa_rect, 0);
 	if (options.use_mim_monitor) {
 		RECT clr;
-		GetWindowRect((HWND)CallService(MS_CLUI_GETHWND, 0, 0), &clr);
+		GetWindowRect(pcli->hwndContactList, &clr);
 		HMONITOR hMonitor = MonitorFromRect(&clr, MONITOR_DEFAULTTONEAREST);
 		if (hMonitor) {
 			MONITORINFO mi;

@@ -1187,9 +1187,7 @@ INT_PTR NewAlarmMenuFunc(WPARAM, LPARAM)
 	new_alarm->id = next_alarm_id++;
 	GetPluginTime(&new_alarm->time);
 
-	//New((HWND)CallService(MS_CLUI_GETHWND, 0, 0), *new_alarm, false);
 	New(GetDesktopWindow(), *new_alarm, false);
-
 	return 0;
 }
 

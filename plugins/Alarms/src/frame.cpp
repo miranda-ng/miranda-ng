@@ -264,7 +264,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					}
 					else if (!IsWindowVisible(hwnd) && count > 0) {
 						// we have reminders - show if not linked to clist or if clist is visible
-						if ((!options.hide_with_clist && FrameIsFloating()) || IsWindowVisible((HWND)CallService(MS_CLUI_GETHWND, 0, 0))) {
+						if ((!options.hide_with_clist && FrameIsFloating()) || IsWindowVisible(pcli->hwndContactList)) {
 							CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);						
 							CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, FU_FMREDRAW | FU_FMPOS);
 						}
@@ -275,7 +275,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						SetReminderFrameVisible(false);
 					else if (!IsWindowVisible(hwnd) && count > 0)
 						// we have reminders - show if not linked to clist or if clist is visible
-						if (!options.hide_with_clist || IsWindowVisible((HWND)CallService(MS_CLUI_GETHWND, 0, 0)))
+						if (!options.hide_with_clist || IsWindowVisible(pcli->hwndContactList))
 							SetReminderFrameVisible(true);
 				}
 			}
@@ -320,14 +320,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(hwnd, WMU_FILL_LIST, 0, 0);
 		else if (wParam == ID_FRAME_SHOWHIDE_TIMER && options.hide_with_clist) { // link show/hide with clist
 			// hide if we're visible and clist isn't (possible only when floating if frames are present)
-			if (!IsWindowVisible((HWND)CallService(MS_CLUI_GETHWND, 0, 0)) && IsWindowVisible(hwnd)) {
+			if (!IsWindowVisible(pcli->hwndContactList) && IsWindowVisible(hwnd)) {
 				if (ServiceExists(MS_CLIST_FRAMES_SHFRAME))
 					CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);
 				else
 					SetReminderFrameVisible(false);
 			}
 			// we're not visible but clist is - show depending on hide_with_clist and auto_showhide options
-			if (!IsWindowVisible(hwnd) && IsWindowVisible((HWND)CallService(MS_CLUI_GETHWND, 0, 0))) {
+			if (!IsWindowVisible(hwnd) && IsWindowVisible(pcli->hwndContactList)) {
 				// if not auto show/hide, show (reminders or not) if we're not visible and the clist is
 				// otherwise, show only if there are reminders
 				int count = SendMessage(hwnd_list, LB_GETCOUNT, 0, 0);
@@ -502,7 +502,7 @@ int CreateFrame()
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
 			WS_CHILD | WS_CLIPCHILDREN, 
-			0,0,10,10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL,hInst,NULL);
+			0,0,10,10, pcli->hwndContactList, NULL,hInst,NULL);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
 		Frame.tname = TranslateT("Alarms");
@@ -528,7 +528,7 @@ int CreateFrame()
 
 		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, _T("AlarmsFrameContainer"), TranslateT("Alarms"), 
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
-			0,0,200,100, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL,hInst,NULL);
+			0,0,200,100, pcli->hwndContactList, NULL,hInst,NULL);
 			//0,0,200,100, GetDesktopWindow(), NULL,hInst,NULL);
 	
 		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
@@ -552,7 +552,7 @@ int CreateFrame()
 
 		if (!options.auto_showhide) {
 			if (options.hide_with_clist) {
-				if (IsWindowVisible((HWND)CallService(MS_CLUI_GETHWND, 0, 0))) {
+				if (IsWindowVisible(pcli->hwndContactList)) {
 					ShowWindow(hwnd_frame, SW_SHOW);
 					RefreshReminderFrame();
 				}

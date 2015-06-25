@@ -550,8 +550,7 @@ void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply repl
 	{
 		case 2:
 		{
-			HWND hClist = (HWND) CallService(MS_CLUI_GETHWND, 0, 0);
-			int state = IsWindowVisible(hClist);
+			int state = IsWindowVisible(pcli->hwndContactList);
 			Set2StateReply(reply,  state, 0, LPGEN("Contact list is currently shown."), "", LPGEN("Contact list is currently hidden."), "");
 
 			return;
@@ -560,7 +559,7 @@ void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply repl
 		case 3:
 		{
 			int state = 0;
-			HWND hClist = (HWND) CallService(MS_CLUI_GETHWND, 0, 0);
+			HWND hClist = pcli->hwndContactList;
 
 			switch (Get2StateValue(argv[2]))
 			{
@@ -617,7 +616,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 			CallService("CloseAction", 0, 0);
 
 			//try another quit method
-			HWND hWndMiranda = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+			HWND hWndMiranda = pcli->hwndContactList;
 			PostMessage(hWndMiranda, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 			reply->code = MIMRES_SUCCESS;
@@ -636,7 +635,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 				CallService("CloseAction", 0, 0);
 
 				//try another quit method
-				HWND hWndMiranda = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+				HWND hWndMiranda = pcli->hwndContactList;
 				PostMessage(hWndMiranda, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 				reply->code = MIMRES_SUCCESS;

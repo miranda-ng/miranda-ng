@@ -272,7 +272,7 @@ int CreateFrame()
 
 	if (g_bFramesExist) {
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
-			0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
+			0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
 
 		CLISTFrame Frame = { 0 };
 
@@ -317,7 +317,7 @@ int CreateFrame()
 
 		hwnd_container = CreateWindowEx(WS_EX_TOOLWINDOW, CONTAINER_CLASS_NAME, TranslateT("My details"),
 			(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU) & ~WS_VISIBLE,
-			0, 0, 200, 130, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
+			0, 0, 200, 130, pcli->hwndContactList, NULL, hInst, NULL);
 
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My details"), WS_CHILD | WS_VISIBLE,
 			0, 0, 10, 10, hwnd_container, NULL, hInst, NULL);

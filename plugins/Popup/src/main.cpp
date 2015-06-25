@@ -37,6 +37,7 @@ void UpgradeDb();
 static int OkToExit(WPARAM, LPARAM);
 bool OptionLoaded = false;
 int hLangpack = 0;
+CLIST_INTERFACE *pcli;
 
 //===== Global variables ================================================================
 HMODULE  hUserDll = 0;
@@ -325,6 +326,7 @@ MIRAPI int Load(void)
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
@@ -442,6 +444,5 @@ MIRAPI int Unload(void)
 	UnloadTreeData();
 
 	CloseHandle(hMainThread);
-
 	return 0;
 }

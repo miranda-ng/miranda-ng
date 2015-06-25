@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 char ModuleName[] = "CmdLine";
 HINSTANCE hInstance;
 int hLangpack;
+CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -46,14 +47,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+ 	mir_getCLI();
 
 	if (InitServer())
-	{
 		MessageBox(0, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
-	}
 
 	HookEvents();
-
 	return 0;
 }
 
@@ -64,7 +63,6 @@ extern "C" int __declspec(dllexport) Unload()
 	UnhookEvents();
 
 	DestroyServer();
-
 	return 0;
 }
 

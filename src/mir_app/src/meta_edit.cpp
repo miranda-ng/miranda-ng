@@ -446,7 +446,6 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 INT_PTR Meta_Edit(WPARAM wParam, LPARAM)
 {
-	HWND clui = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_METAEDIT), clui, Meta_EditDialogProc, (LPARAM)wParam);
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_METAEDIT), cli.hwndContactList, Meta_EditDialogProc, (LPARAM)wParam);
 	return 0;
 }

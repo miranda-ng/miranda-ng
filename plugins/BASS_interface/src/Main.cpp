@@ -27,6 +27,7 @@ extern "C" PfnDliHook __pfnDliNotifyHook2 = &delayHook;
 
 HINSTANCE hInst;
 int hLangpack;
+CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -461,7 +462,7 @@ void CreateFrame()
 	RegisterClass(&wndclass);
 
 	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"),
-		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
+		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.tname = TranslateT("Bass Interface");
@@ -609,6 +610,7 @@ static IconItem iconList[] =
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

@@ -131,7 +131,7 @@ void CGlobals::reloadSystemModulesChanged()
 	else db_set_b(0, SRMSGMOD_T, "ieview_installed", 0);
 
 	m_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
-	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	m_hwndClist = pcli->hwndContactList;
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 

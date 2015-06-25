@@ -233,7 +233,7 @@ void WhatsAppProto::AddChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
 	acs.handleType = HANDLE_SEARCHRESULT;
 	acs.szProto = m_szModuleName;
 	acs.psr = &psr;
-	CallService(MS_ADDCONTACT_SHOW, (WPARAM)CallService(MS_CLUI_GETHWND, 0, 0), (LPARAM)&acs);
+	CallService(MS_ADDCONTACT_SHOW, (WPARAM)pcli->hwndContactList, (LPARAM)&acs);
 }
 
 void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)

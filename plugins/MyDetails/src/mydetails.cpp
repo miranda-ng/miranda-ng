@@ -19,6 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -139,6 +140,7 @@ static int MainUninit(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	// Hook event to load messages and show first one
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);

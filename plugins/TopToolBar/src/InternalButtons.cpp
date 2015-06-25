@@ -67,7 +67,7 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);
+	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 
@@ -77,7 +77,7 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM wParam, LPARAM lParam)
 
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);
+	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 
@@ -106,7 +106,7 @@ INT_PTR TTBInternalShowHideOffline(WPARAM wParam, LPARAM lParam)
 
 void InitInternalButtons()
 {
-	hwndContactTree = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
+	hwndContactTree = pcli->hwndContactTree;
 
 	CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide);
 	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);

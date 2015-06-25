@@ -31,9 +31,7 @@ void __cdecl ShakeClistWindow(void *Param)
 
 INT_PTR ShakeClist(WPARAM wParam, LPARAM lParam)
 {
-	HWND hWnd = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-
-	mir_forkthread(ShakeClistWindow, (void*)hWnd);
+	mir_forkthread(ShakeClistWindow, (void*)pcli->hwndContactList);
 	return 0;
 }
 

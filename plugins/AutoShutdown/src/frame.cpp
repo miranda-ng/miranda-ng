@@ -516,7 +516,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 	                                  0, 0,
 	                                  GetSystemMetrics(SM_CXICON)+103,
 	                                  GetSystemMetrics(SM_CYICON)+2,
-	                                  (HWND)CallService(MS_CLUI_GETHWND,0,0),
+	                                  pcli->hwndContactList,
 	                                  NULL,
 	                                  hInst,
 	                                  &fTimeFlags);
@@ -538,7 +538,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 			/* HACKS TO FIX CLUI FRAMES:
 			 * *** why is CLUIFrames is horribly buggy??! *** date: sept 2005, nothing changed until sept 2006
 			 * workaround #1: MS_CLIST_FRAMES_REMOVEFRAME does not finish with destroy cycle (clist_modern, clist_nicer crashes) */
-			SendMessage((HWND)CallService(MS_CLUI_GETHWND,0,0),WM_SIZE,0,0);
+			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 			/* workaround #2: drawing glitch after adding a frame (frame positioned wrongly when hidden) */
 			CallService(MS_CLIST_FRAMES_UPDATEFRAME,hFrame,FU_FMPOS|FU_FMREDRAW);
 			/* workaround #3: MS_CLIST_FRAMES_SETFRAMEOPTIONS does cause redrawing problems */

@@ -31,21 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const
   {
-    wParam : 0
-    lParam : 0
-    Affects: Returns a window handle for the contact list window, see notes
-    Returns: ""
-    Notes  : This call has a very specific purpose internally Miranda
-             and shouldn't be used gratuitously, in almost all cases
-             there's another call to do whatever it is that you're
-             trying to do.
-  }
-  MS_CLUI_GETHWND:PAnsiChar = 'CLUI/GetHwnd';
-
-  //get ContactTree hwnd
-  MS_CLUI_GETHWNDTREE:PAnsiChar = 'CLUI/GetHwndTree';
-
-  {
     wParam : Handle to a group
     lParam : 1 or 0
     Affect : A new group was created, add it to the list, see notes

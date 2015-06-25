@@ -228,7 +228,7 @@ void __cdecl sttCheckStatusThreadProc(void *vp)
 
 		if (!get_list_changed()) {
 			upCount = count;
-			total = index;
+			total = (int)index;
 		}
 		else total = 0;
 	}
@@ -952,7 +952,7 @@ void AttachToClist(bool attach)
 
 void InitList()
 {
-	hwnd_clist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	hwnd_clist = pcli->hwndContactList;
 
 	WNDCLASS wndclass;
 
