@@ -110,7 +110,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 			debugLogA("Last connection closed.");
 			break;
 		}
-		recvResult = CallService(MS_NETLIB_SELECTEX, (WPARAM)0, (LPARAM)&nls);
+		recvResult = CallService(MS_NETLIB_SELECTEX, 0, (LPARAM)&nls);
 
 		/* do the timer check */
 		if (m_id > 0) {

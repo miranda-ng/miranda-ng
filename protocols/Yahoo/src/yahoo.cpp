@@ -261,7 +261,7 @@ MCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, in
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
-	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
 	Proto_AddToContact(hContact, m_szModuleName);
 	setString(hContact, YAHOO_LOGINID, yid);
 	Set_Protocol(hContact, protocol);
@@ -666,7 +666,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 		* Make sure the contact is temporary so we could delete it w/o extra traffic
 		*/
 		db_set_b(hContact, "CList", "NotOnList", 1);
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, hContact);
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
@@ -698,7 +698,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup(TranslateT("Invalid Contact"), TranslateT("The ID you tried to add is invalid."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b(hContact, "CList", "NotOnList", 1);
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact);
 		}
 		break;
 
@@ -708,7 +708,7 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 			ShowPopup(TranslateT("Invalid Contact"), TranslateT("Unknown Error."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
 			db_set_b(hContact, "CList", "NotOnList", 1);
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, hContact);
 		}
 
 		break;
