@@ -130,7 +130,7 @@ var
   HorzSpacing, VertSpacing,
   ButtonWidth, ButtonHeight, ButtonSpacing, ButtonGroupWidth,
   IconTextWidth, IconTextHeight: Integer;
-  TextRect,ContRect: TRect;
+  TextRect: TRect;
 begin
   DialogUnits := GetAveCharSize(Canvas);
   HorzSpacing   := MulDiv(mcSpacing, DialogUnits.X, 8);
@@ -189,10 +189,6 @@ begin
 end;
 
 procedure TEmptyHistoryFrm.SetContact(const Value: TMCONTACT);
-var
-  hContact: TMCONTACT;
-  Proto: AnsiString;
-  i,num: Integer;
 begin
   FContact := Value;
   Image.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);

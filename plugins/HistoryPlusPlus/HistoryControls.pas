@@ -26,7 +26,7 @@ unit HistoryControls;
 interface
 
 uses
-  Windows, Messages, Classes, Forms,
+  Windows, Messages, Classes, Forms, UITypes,
   Controls, StdCtrls, ComCtrls, ExtCtrls, Buttons, Graphics;
 
 type
@@ -189,7 +189,7 @@ type
 procedure THppSpeedButton.Paint{Button};
 begin
   {$IFDEF THEME_7_UP}
-  with ThemeServices do
+  with StyleServices do
     if not Transparent and ThemesEnabled and Assigned(Parent) then
       DrawParentBackground(Parent.Handle, Canvas.Handle, nil, True);
   {$ENDIF}
@@ -215,13 +215,13 @@ var
       Box := tbGroupBoxNormal
     else
       Box := tbGroupBoxDisabled;
-    Details := ThemeServices.GetElementDetails(Box);
+    Details := StyleServices.GetElementDetails(Box);
     with Canvas do
     begin
       if spCaption <> '' then
       begin
         with Details do
-          UxTheme.GetThemeTextExtent(ThemeServices.Theme[Element],Handle,
+          UxTheme.GetThemeTextExtent(StyleServices.Theme[Element],Handle,
             Part,State,PChar(spCaption),Length(spCaption),DT_LEFT, nil,CaptionRect);
         if not UseRightToLeftAlignment then
           OffsetRect(CaptionRect, 8, 0)
@@ -235,11 +235,11 @@ var
       OuterRect.Top := (CaptionRect.Bottom - CaptionRect.Top) div 2;
       with CaptionRect do
         ExcludeClipRect(Handle, Left, Top, Right, Bottom);
-      ThemeServices.DrawElement(Handle, Details, OuterRect);
+      StyleServices.DrawElement(Handle, Details, OuterRect);
 
       SelectClipRgn(Handle, 0);
       if Caption <> '' then
-        ThemeServices.DrawText(Handle, Details, spCaption, CaptionRect, DT_LEFT, 0);
+        StyleServices.DrawText(Handle, Details, spCaption, CaptionRect, DT_LEFT, 0);
     end;
   end;
   {$ENDIF}
@@ -286,7 +286,7 @@ begin
     spCaption := ' '+spCaption+' ';
   Canvas.Font := Self.Font;
   {$IFDEF THEME_7_UP}
-  if ThemeServices.ThemesEnabled then
+  if StyleServices.ThemesEnabled then
     PaintThemedGroupBox
   else
   {$ENDIF}
