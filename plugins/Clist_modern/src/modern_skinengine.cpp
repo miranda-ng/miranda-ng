@@ -2754,8 +2754,8 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM)           // 
 		return 0;
 
 	RECT wnd;
-	BOOL NoCancelPost = 0;
-	BOOL IsAnyQueued = 0;
+	bool NoCancelPost = false;
+	bool IsAnyQueued = false;
 	if (!g_CluiData.mutexOnEdgeSizing)
 		GetWindowRect(pcli->hwndContactList, &wnd);
 	else
@@ -2840,9 +2840,9 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 				}
 			}
 		}
-		else Sync(QueueAllFramesUpdating, 1);
+		else Sync(QueueAllFramesUpdating, true);
 	}
-	else Sync(QueueAllFramesUpdating, 1);
+	else Sync(QueueAllFramesUpdating, true);
 
 	if (!flag_bUpdateQueued || g_flag_bPostWasCanceled)
 		if (PostMessage(pcli->hwndContactList, UM_UPDATE, 0, 0)) {
@@ -3163,7 +3163,7 @@ int ske_ValidateFrameImageProc(RECT *r)                                // Callin
 	}
 	if (IsForceAllPainting) {
 		BitBlt(g_pCachedWindow->hImageDC, 0, 0, g_pCachedWindow->Width, g_pCachedWindow->Height, g_pCachedWindow->hBackDC, 0, 0, SRCCOPY);
-		Sync(QueueAllFramesUpdating, (BYTE)1);
+		Sync(QueueAllFramesUpdating, true);
 	}
 	//-- Validating frames
 	for (int i = 0; i < g_nFramesCount; i++)
@@ -3178,7 +3178,7 @@ int ske_ValidateFrameImageProc(RECT *r)                                // Callin
 		ske_UpdateWindowImageRect(&wnd);
 
 	//-- Clear queue
-	Sync(QueueAllFramesUpdating, 0);
+	Sync(QueueAllFramesUpdating, false);
 	flag_bUpdateQueued = 0;
 	g_flag_bPostWasCanceled = 0;
 	return 1;

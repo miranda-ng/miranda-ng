@@ -218,3 +218,5 @@ Menu_GetItemInfo @215
 Menu_ProcessHotKey @216
 Menu_DrawItem @217
 Menu_MeasureItem @218
+Menu_EnableItem @219
+Menu_SetChecked @220

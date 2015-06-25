@@ -83,9 +83,8 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void WhatsAppProto::ToggleStatusMenuItems(BOOL bEnable)
+void WhatsAppProto::ToggleStatusMenuItems(bool bEnable)
 {
-	int flags = (bEnable) ? 0 : CMIF_GRAYED;
-	Menu_ModifyItem(m_hMenuRoot, NULL, INVALID_HANDLE_VALUE, flags);
-	Menu_ModifyItem(m_hMenuCreateGroup, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_EnableItem(m_hMenuRoot, bEnable);
+	Menu_EnableItem(m_hMenuCreateGroup, bEnable);
 }

@@ -179,6 +179,16 @@ EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszN
 
 EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// enables or disables a menu item
+
+EXTERN_C MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// turns a menu item's check on & off
+
+EXTERN_C MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet);
+
 //the context menu for a contact is about to be built     v0.1.0.1+
 //wParam = (MCONTACT)hContact
 //lParam = 0

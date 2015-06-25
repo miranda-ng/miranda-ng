@@ -93,11 +93,7 @@ static int TitleBarH = DEFAULT_TITLEBAR_HEIGHT;
 static boolean resizing = FALSE;
 
 // menus
-static HGENMENU contMIVisible, contMITitle, contMITBVisible, contMILock, contMIColl, contMIFloating;
-static HGENMENU contMIAlignRoot;
-static HGENMENU contMIAlignTop, contMIAlignClient, contMIAlignBottom;
-static HGENMENU contMIBorder, contMISkinned;
-static HGENMENU MainMIRoot = (HGENMENU)-1;
+static FrameMenuHandles cont = { HGENMENU_ROOT };
 
 // others
 static int ContactListHeight;
@@ -108,7 +104,7 @@ static int oldframeheight = -1;
 static int curdragbar = -1;
 static mir_cs csFrameHook;
 
-static BOOLEAN CLUIFramesFitInSize(void);
+static bool CLUIFramesFitInSize(void);
 HWND hWndExplorerToolBar;
 static int GapBetweenFrames = 1;
 
@@ -133,7 +129,7 @@ static int id2pos(int id)
 	return -1;
 }
 
-int __forceinline btoint(BOOLEAN b)
+int __forceinline btoint(bool b)
 {
 	return (b ? 1 : 0);
 }
@@ -416,26 +412,26 @@ int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	Frames[Frameid].collapsed				= cfg::getByte(CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
+	Frames[Frameid].collapsed = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
 
-	Frames[Frameid].Locked					= cfg::getByte(CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
-	Frames[Frameid].visible					= cfg::getByte(CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar	= cfg::getByte(CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].Locked = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
+	Frames[Frameid].visible = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].height					= cfg::getWord(CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed		= cfg::getWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
-	Frames[Frameid].align					= cfg::getWord(CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
+	Frames[Frameid].height = cfg::getWord(CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed = cfg::getWord(CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
+	Frames[Frameid].align = cfg::getWord(CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
 
-	Frames[Frameid].FloatingPos.x		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingPos.y		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.x		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.y		= DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
 
-	Frames[Frameid].floating			= cfg::getByte(CLUIFrameModule, AS(buf, "Floating", sadd), 0);
-	Frames[Frameid].order				= cfg::getWord(CLUIFrameModule, AS(buf, "Order", sadd), 0);
+	Frames[Frameid].floating = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Floating", sadd), 0);
+	Frames[Frameid].order = cfg::getWord(CLUIFrameModule, AS(buf, "Order", sadd), 0);
 
-	Frames[Frameid].UseBorder			= cfg::getByte(CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
-	Frames[Frameid].Skinned				= cfg::getByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	Frames[Frameid].UseBorder = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
+	Frames[Frameid].Skinned = 0 != cfg::getByte(CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
 	return 0;
 }
 
@@ -574,11 +570,11 @@ int CLUIFramesGetalClientFrame(void)
 
 HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGENMENU (*pfnAdd )( CLISTMENUITEM* ))
 {
-	HGENMENU menuid;
-	int framepos = id2pos(frameid);
-
 	if (FramesSysNotStarted)
 		return NULL;
+
+	int framepos = id2pos(frameid);
+	FrameMenuHandles &fmh = (frameid == -1) ? cont : Frames[framepos].MenuHandles;
 
 	CLISTMENUITEM mi = { 0 };
 	mi.popupPosition = frameid;
@@ -588,9 +584,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&FrameTitle");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_GRAYED;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMITitle = menuid;
-	else Frames[framepos].MenuHandles.MITitle = menuid;
+	fmh.MITitle = pfnAdd(&mi);
 
 	popuppos += 100000;
 
@@ -599,17 +593,13 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Visible");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIVisible = menuid;
-	else Frames[framepos].MenuHandles.MIVisible = menuid;
+	fmh.MIVisible = pfnAdd(&mi);
 
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Show title bar");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMITBVisible = menuid;
-	else Frames[framepos].MenuHandles.MITBVisible = menuid;
+	fmh.MITBVisible = pfnAdd(&mi);
 
 	popuppos += 100000;
 
@@ -617,26 +607,20 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Locked");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMILock = menuid;
-	else Frames[framepos].MenuHandles.MILock = menuid;
+	fmh.MILock = pfnAdd(&mi);
 
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Collapsed");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIColl = menuid;
-	else Frames[framepos].MenuHandles.MIColl = menuid;
+	fmh.MIColl = pfnAdd(&mi);
 
 	// floating
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Floating mode");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "Set_Floating";
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIFloating = menuid;
-	else Frames[framepos].MenuHandles.MIFloating = menuid;
+	fmh.MIFloating = pfnAdd(&mi);
 
 	popuppos += 100000;
 
@@ -644,9 +628,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Border");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIBorder = menuid;
-	else Frames[framepos].MenuHandles.MIBorder = menuid;
+	fmh.MIBorder = pfnAdd(&mi);
 
 	popuppos += 100000;
 
@@ -654,9 +636,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Skinned frame");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETSKINNED;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMISkinned = menuid;
-	else Frames[framepos].MenuHandles.MISkinned = menuid;
+	fmh.MISkinned = pfnAdd(&mi);
 
 	popuppos += 100000;
 
@@ -666,38 +646,30 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.pszName = LPGEN("&Align");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "";
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIAlignRoot = menuid;
-	else Frames[framepos].MenuHandles.MIAlignRoot = menuid;
+	fmh.MIAlignRoot = pfnAdd(&mi);
 
 	mi.flags = CMIF_ROOTHANDLE;
 	// align top
-	mi.hParentMenu = menuid;
+	mi.hParentMenu = fmh.MIAlignRoot;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
 	mi.pszContactOwner = (char*)alTop;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIAlignTop = menuid;
-	else Frames[framepos].MenuHandles.MIAlignTop = menuid;
+	fmh.MIAlignTop = pfnAdd(&mi);
 
 	// align client
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Client");
 	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
 	mi.pszContactOwner = (char*)alClient;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIAlignClient = menuid;
-	else Frames[framepos].MenuHandles.MIAlignClient = menuid;
+	fmh.MIAlignClient = pfnAdd(&mi);
 
 	// align bottom
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Bottom");
 	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
 	mi.pszContactOwner = (char*)alBottom;
-	menuid = pfnAdd(&mi);
-	if (frameid == -1) contMIAlignBottom = menuid;
-	else Frames[framepos].MenuHandles.MIAlignBottom = menuid;
+	fmh.MIAlignBottom = pfnAdd(&mi);
 
 	// position root
 	mi.hParentMenu = root;
@@ -707,7 +679,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "";
 	mi.pszContactOwner = (char*)0;
-	menuid = pfnAdd(&mi);
+	HGENMENU menuid = pfnAdd(&mi);
 
 	mi.hParentMenu = menuid;
 	mi.position = popuppos++;
@@ -735,21 +707,19 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM)
 	int pos = id2pos((INT_PTR)wParam);
 	if (pos >= 0 && pos < nFramescount) {
 		FRAMEWND &p = Frames[pos];
-		Menu_ModifyItem(contMITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
-		Menu_ModifyItem(contMIVisible, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.visible ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMILock, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.Locked ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMITBVisible, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.TitleBar.ShowTitleBar ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMIFloating, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.floating ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMIBorder, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.UseBorder ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMISkinned, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.Skinned ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMIAlignTop, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + ((p.align & alTop) ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMIAlignClient, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + ((p.align & alClient) ? CMIF_CHECKED : 0));
-		Menu_ModifyItem(contMIAlignBottom, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + ((p.align & alBottom) ? CMIF_CHECKED : 0));
+		Menu_ModifyItem(cont.MITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name);
+		Menu_SetChecked(cont.MIVisible, p.visible);
+		Menu_SetChecked(cont.MILock, p.Locked);
+		Menu_SetChecked(cont.MITBVisible, p.TitleBar.ShowTitleBar);
+		Menu_SetChecked(cont.MIFloating, p.floating);
+		Menu_SetChecked(cont.MIBorder, p.UseBorder);
+		Menu_SetChecked(cont.MISkinned, p.Skinned);
+		Menu_SetChecked(cont.MIAlignTop, (p.align & alTop) != 0);
+		Menu_SetChecked(cont.MIAlignClient, (p.align & alClient) != 0);
+		Menu_SetChecked(cont.MIAlignBottom, (p.align & alBottom) != 0);
 
-		int flags = CMIF_ROOTHANDLE + (!p.collapsed ? CMIF_CHECKED : 0);
-		if ((!p.visible) || (p.Locked) || (pos == CLUIFramesGetalClientFrame()))
-			flags |= CMIF_GRAYED;
-		Menu_ModifyItem(contMIColl, NULL, INVALID_HANDLE_VALUE, flags);
+		Menu_SetChecked(cont.MIColl, !p.collapsed);
+		Menu_EnableItem(cont.MIColl, p.visible && !p.Locked && pos != CLUIFramesGetalClientFrame());
 	}
 	return 0;
 }
@@ -764,29 +734,25 @@ INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM)
 
 	if (pos >= 0 && pos < nFramescount) {
 		FRAMEWND &p = Frames[pos];
-		Menu_ModifyItem(p.MenuHandles.MITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
+		Menu_ModifyItem(p.MenuHandles.MITitle, p.TitleBar.tbname ? p.TitleBar.tbname : p.name);
 
-		Menu_ModifyItem(p.MenuHandles.MIVisible, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.visible) ? CMIF_CHECKED : 0);
-		Menu_ModifyItem(p.MenuHandles.MILock, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.Locked) ? CMIF_CHECKED : 0);
-		Menu_ModifyItem(p.MenuHandles.MITBVisible, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.TitleBar.ShowTitleBar) ? CMIF_CHECKED : 0);
-		Menu_ModifyItem(p.MenuHandles.MIFloating, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.floating) ? CMIF_CHECKED : 0);
-		Menu_ModifyItem(p.MenuHandles.MIBorder, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + ((p.UseBorder)) ? CMIF_CHECKED : 0);
-		Menu_ModifyItem(p.MenuHandles.MISkinned, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + ((p.Skinned)) ? CMIF_CHECKED : 0);
+		Menu_SetChecked(p.MenuHandles.MIVisible, p.visible);
+		Menu_SetChecked(p.MenuHandles.MILock, p.Locked);
+		Menu_SetChecked(p.MenuHandles.MITBVisible, p.TitleBar.ShowTitleBar);
+		Menu_SetChecked(p.MenuHandles.MIFloating, p.floating);
+		Menu_SetChecked(p.MenuHandles.MIBorder, p.UseBorder);
+		Menu_SetChecked(p.MenuHandles.MISkinned, p.Skinned);
 
-		int flags = CMIF_ROOTHANDLE | ((p.align & alClient) ? CMIF_GRAYED : 0);
-		if (p.align & alTop) flags |= CMIF_CHECKED;
-		Menu_ModifyItem(p.MenuHandles.MIAlignTop, NULL, INVALID_HANDLE_VALUE, flags);
+		Menu_EnableItem(p.MenuHandles.MIAlignTop, (p.align & alClient) == 0);
+		Menu_SetChecked(p.MenuHandles.MIAlignTop, (p.align & alTop) != 0);
 
-		Menu_ModifyItem(p.MenuHandles.MIAlignClient, NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE + (p.align & alClient) ? CMIF_CHECKED : 0);
+		Menu_SetChecked(p.MenuHandles.MIAlignClient, (p.align & alClient) != 0);
 
-		flags = CMIF_ROOTHANDLE | ((p.align & alClient) ? CMIF_GRAYED : 0);
-		if (p.align & alBottom) flags |= CMIF_CHECKED;
-		Menu_ModifyItem(p.MenuHandles.MIAlignBottom, NULL, INVALID_HANDLE_VALUE, flags);
+		Menu_EnableItem(p.MenuHandles.MIAlignTop, (p.align & alClient) == 0);
+		Menu_SetChecked(p.MenuHandles.MIAlignTop, (p.align & alBottom) != 0);
 
-		flags = CMIF_ROOTHANDLE;
-		if ( !p.collapsed) flags |= CMIF_CHECKED;
-		if ((!p.visible) || p.Locked || (pos == CLUIFramesGetalClientFrame())) flags |= CMIF_GRAYED;
-		Menu_ModifyItem(p.MenuHandles.MIColl, NULL, INVALID_HANDLE_VALUE, flags);
+		Menu_SetChecked(p.MenuHandles.MIColl, !p.collapsed);
+		Menu_EnableItem(p.MenuHandles.MIColl, p.visible && !p.Locked && pos != CLUIFramesGetalClientFrame());
 	}
 	return 0;
 }
@@ -1380,9 +1346,9 @@ static int CLUIFramesLoadMainMenu()
 	if (FramesSysNotStarted)
 		return -1;
 
-	if (MainMIRoot != (HANDLE)-1) {
-		Menu_RemoveItem(MainMIRoot);
-		MainMIRoot = (HGENMENU)-1;
+	if (cont.MainMenuItem != HGENMENU_ROOT) {
+		Menu_RemoveItem(cont.MainMenuItem);
+		cont.MainMenuItem = HGENMENU_ROOT;
 	}
 
 	// create root menu
@@ -1393,7 +1359,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.hParentMenu = HGENMENU_ROOT;
 	mi.pszName = LPGEN("Frames");
 	mi.pszService = 0;
-	MainMIRoot = Menu_AddMainMenuItem(&mi);
+	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
 	int separator = (int)3000200000;
@@ -1401,7 +1367,7 @@ static int CLUIFramesLoadMainMenu()
 		mi.hIcon = Frames[i].TitleBar.hicon;
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.position = separator;
-		mi.hParentMenu = MainMIRoot;
+		mi.hParentMenu = cont.MainMenuItem;
 		mi.ptszName = Frames[i].TitleBar.tbname ? Frames[i].TitleBar.tbname : Frames[i].name;
 		mi.pszService = 0;
 		Frames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
@@ -1418,7 +1384,7 @@ static int CLUIFramesLoadMainMenu()
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = separator++;
-	mi.hParentMenu = MainMIRoot;
+	mi.hParentMenu = cont.MainMenuItem;
 	mi.pszName = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
@@ -1426,7 +1392,6 @@ static int CLUIFramesLoadMainMenu()
 	// create "show all titlebars" menu
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_HELP));
 	mi.position = separator++;
-	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Show all title bars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
@@ -1435,12 +1400,10 @@ static int CLUIFramesLoadMainMenu()
 	// create "hide all titlebars" menu
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_HELP));
 	mi.position = separator++;
-	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Hide all title bars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
-
 	return 0;
 }
 
@@ -1845,7 +1808,7 @@ int CLUIFrameMoveResize(const FRAMEWND *Frame)
 	return 0;
 }
 
-BOOLEAN CLUIFramesFitInSize(void)
+bool CLUIFramesFitInSize(void)
 {
 	int i;
 	int sumheight = 0;
@@ -2920,11 +2883,10 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 				RECT recttb, rectw, border;
 				int temp;
 				int neww, newh;
-				BOOLEAN locked;
 
 				Frames[wParam].oldstyles = GetWindowLongPtr(Frames[wParam].hWnd, GWL_STYLE);
 				Frames[wParam].TitleBar.oldstyles = GetWindowLongPtr(Frames[wParam].TitleBar.hwnd, GWL_STYLE);
-				locked = Frames[wParam].Locked;
+				bool locked = Frames[wParam].Locked;
 				Frames[wParam].Locked = FALSE;
 				Frames[wParam].minmaxenabled = FALSE;
 
@@ -3014,17 +2976,17 @@ static int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 	WaitForSingleObject(hThreadMFUpdate, 2000);
 	CloseHandle(g_hEventThread);
 
-	Menu_RemoveItem(contMIVisible);
-	Menu_RemoveItem(contMITitle);
-	Menu_RemoveItem(contMITBVisible);
-	Menu_RemoveItem(contMILock);
-	Menu_RemoveItem(contMIColl);
-	Menu_RemoveItem(contMIFloating);
-	Menu_RemoveItem(contMIAlignRoot);
-	Menu_RemoveItem(contMIAlignTop);
-	Menu_RemoveItem(contMIAlignClient);
-	Menu_RemoveItem(contMIAlignBottom);
-	Menu_RemoveItem(contMIBorder);
+	Menu_RemoveItem(cont.MIVisible);
+	Menu_RemoveItem(cont.MITitle);
+	Menu_RemoveItem(cont.MITBVisible);
+	Menu_RemoveItem(cont.MILock);
+	Menu_RemoveItem(cont.MIColl);
+	Menu_RemoveItem(cont.MIFloating);
+	Menu_RemoveItem(cont.MIAlignRoot);
+	Menu_RemoveItem(cont.MIAlignTop);
+	Menu_RemoveItem(cont.MIAlignClient);
+	Menu_RemoveItem(cont.MIAlignBottom);
+	Menu_RemoveItem(cont.MIBorder);
 	return 0;
 }
 

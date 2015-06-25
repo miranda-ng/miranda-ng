@@ -125,7 +125,7 @@ private:
 	{	return ::_InterlockedIncrement(&m_iSerial);
 	}
 
-	void ToggleStatusMenuItems(BOOL bEnable);
+	void ToggleStatusMenuItems(bool bEnable);
 
 	/// Avatars //////////////////////////////////////////////////////////////////////////
 

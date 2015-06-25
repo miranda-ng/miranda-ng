@@ -546,8 +546,8 @@ static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 static int MessagePrebuild(WPARAM hContact, LPARAM)
 {
 	if (!blInit || (db_get_b(hContact, "CList", "NotOnList", 0) == 1)) {
-		Menu_ModifyItem(hMenuItemAutoChat, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
-		Menu_ModifyItem(hMenuItemNotToChat, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+		Menu_EnableItem(hMenuItemAutoChat, false);
+		Menu_EnableItem(hMenuItemNotToChat, false);
 	}
 	else {
 		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))

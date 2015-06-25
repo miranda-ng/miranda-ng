@@ -2298,9 +2298,9 @@ void CIrcProto::OnIrcDisconnected()
 	memcpy(m_nick, m_pNick, sizeof(m_nick));
 	setTString("Nick", m_pNick);
 
-	Menu_ModifyItem(hMenuJoin, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
-	Menu_ModifyItem(hMenuList, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
-	Menu_ModifyItem(hMenuNick, NULL, INVALID_HANDLE_VALUE, CMIF_GRAYED);
+	Menu_EnableItem(hMenuJoin, false);
+	Menu_EnableItem(hMenuList, false);
+	Menu_EnableItem(hMenuNick, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
