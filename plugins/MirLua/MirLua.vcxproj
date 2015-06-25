@@ -35,8 +35,6 @@
     <ClCompile Include="src\lua\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\icon.ico" />
+    <None Include="res\*.ico" />
   </ItemGroup>
 </Project>

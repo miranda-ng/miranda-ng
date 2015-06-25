@@ -63,6 +63,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON                ICON                    "icon.ico"
+IDI_OPEN                ICON                    "open.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -74,7 +75,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_SCRIPTS,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,0,0,310,220
+    CONTROL         "",IDC_SCRIPTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,0,0,310,220
     PUSHBUTTON      "Reload all",IDC_RELOAD,234,224,76,14
 END
 
