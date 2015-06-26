@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commonheaders.h>
 
 //////////////////////////////Group MENU/////////////////////////
-HANDLE hGroupMenuObject;
+int hGroupMenuObject;
 HANDLE hPreBuildGroupMenuEvent;
 
 HGENMENU hGroupMainMenuItemProxy;
@@ -314,7 +314,7 @@ void InitGroupMenus(void)
 //////////////////////////////END Group MENU/////////////////////////
 
 //////////////////////////////SubGroup MENU/////////////////////////
-HANDLE hSubGroupMenuObject;
+int hSubGroupMenuObject;
 
 HANDLE hSubGroupMainMenuItemProxy;
 HANDLE hSubGroupStatusMenuItemProxy;

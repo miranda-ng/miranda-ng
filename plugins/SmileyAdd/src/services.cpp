@@ -294,7 +294,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 		CLISTMENUITEM mi = { 0 };
 		mi.hParentMenu = hContactMenuItem;
-		mi.flags       = CMIF_ROOTHANDLE | CMIF_TCHAR;
+		mi.flags       = CMIF_TCHAR;
 		mi.pszService  = MS_SMILEYADD_CUSTOMCATMENU;
 
 		bool nonecheck = true;

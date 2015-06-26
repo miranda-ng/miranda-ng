@@ -26,10 +26,7 @@ void InitMenu()
 	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = MODULE;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
-
-	// adding main menu items
-	mi.ptszPopupName = LPGENT("News Aggregator");
-	// mi.popupPosition = 500099000; !!!!!!!!!!!!!!!!!!!!!!!
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
 
 	mi.position = 10100001;
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))

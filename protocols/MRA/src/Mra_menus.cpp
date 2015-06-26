@@ -286,8 +286,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000060000;
-	// mi.popupPosition = 500085000;
-	mi.ptszPopupName = szItem;
+	mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szItem, 500085000);
 	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
 	mi.pszContactOwner = m_szModuleName;
@@ -338,27 +337,24 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		hRootMenu = Menu_GetProtocolRoot(m_szModuleName);
 		if (hRootMenu == NULL) {
 			mi.ptszName = m_tszUserName;
-			mi.hParentMenu = HGENMENU_ROOT;
-			mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hIcon = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
 
 		mi.position = 20003;
 		mi.hParentMenu = hRootMenu;
-		mi.flags = CMIF_ROOTHANDLE;
 	}
 	else {
 		fnAddFunc = Menu_AddContactMenuItem;
 		mi.position = lPosition;
-		mi.flags = CMIF_ROOTHANDLE;
 	}
 
+	mi.flags = 0;
 	mi.pszName = LPGEN("Services...");
 	mi.hIcon = g_hMainIcon;
 	hRootMenu = fnAddFunc(&mi);
 
-	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = hRootMenu;
 	mi.pszService = szServiceFunction;
 

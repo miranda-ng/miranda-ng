@@ -8,8 +8,8 @@ void InitMenus()
 	// main menu
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	// mi.popupPosition = 500099900; !!!!!!!!!!!!!!!!!!!!
-	mi.ptszPopupName = LPGENT("Ping");
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 500099900);
+
 	mi.position = 2000060000;
 	mi.hIcon = hIconResponding;
 	mi.ptszName = LPGENT("Enable all pings");

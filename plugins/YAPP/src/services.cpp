@@ -194,7 +194,6 @@ static INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam)
 void UpdateMenu()
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
-
 	if (isEnabled) {
 		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), IcoLib_GetIcon(ICO_POPUP_ON));
 		Menu_ModifyItem(hMenuRoot, NULL, IcoLib_GetIcon(ICO_POPUP_ON));

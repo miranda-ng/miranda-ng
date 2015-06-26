@@ -198,7 +198,7 @@ void RebuildMenu()
 		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.ptszName = text;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR
+		mi.flags =  CMIF_TCHAR
 				| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
 				| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
@@ -296,7 +296,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 500080000;
 	mi.ptszName = LPGENT("Listening to");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
@@ -308,7 +308,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Add all protos
 	mi.ptszName = LPGENT("Send to all protocols");
-	mi.flags = CMIF_ROOTHANDLE  | CMIF_TCHAR
+	mi.flags = CMIF_TCHAR
 			| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	proto_items.resize(1);

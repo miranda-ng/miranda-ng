@@ -239,7 +239,7 @@ void addProtoStatusMenuItem(char *protoName)
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = forms[0].hIcoLibItem;
 	mi.ptszName = _T(MODULENAME);
 	mi.position = 2000040000;

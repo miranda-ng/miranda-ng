@@ -34,7 +34,7 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
-  mi.szPopupName.a:=PluginShort;
+  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
 
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnEnable,0);
   mi.szName.a  :='Disable WATrack';

@@ -102,8 +102,8 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 		if ( !db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
-		if ( db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
-			mi.ptszPopupName = LPGENT("Status profiles");
+		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
+			mi.hParentMenu = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
 
 		mi.ptszName = profilename;
 		mi.position = 2000100000 + mcount;

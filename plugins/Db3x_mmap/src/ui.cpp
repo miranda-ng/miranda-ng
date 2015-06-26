@@ -314,7 +314,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.ptszName = LPGENT("Database");
 	mi.position = 500000000;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = iconList[0].hIcolib;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 

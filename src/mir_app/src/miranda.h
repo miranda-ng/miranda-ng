@@ -122,7 +122,7 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 
 /**** clistmenus.cpp ********************************************************************/
 
-extern HANDLE hMainMenuObject, hContactMenuObject, hStatusMenuObject;
+extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
 extern HANDLE hShutdownEvent, hPreShutdownEvent;
 

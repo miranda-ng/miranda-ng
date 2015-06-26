@@ -582,11 +582,11 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.szPopupName.a:=PluginShort;
+  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuReportPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnReport,0);
   mi.szName.a  :='Create WATrack report';
   mi.pszService:=MS_WAT_MAKEREPORT;
-  mi.position  :=MenuReportPos; // !!!!!!!!!!!!!!!!!!!!!
+  mi.position  :=MenuReportPos;
   hMenuReport:=Menu_AddMainMenuItem(@mi);
   plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;

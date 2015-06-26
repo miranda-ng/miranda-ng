@@ -397,12 +397,12 @@ void InitMenus()
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -99000;
-	mi.flags = CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_HIDDEN;
 	mi.icolibItem = 0;
 	mi.pszName = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
-	mi.flags = CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_HIDDEN;
 	mi.hParentMenu = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;

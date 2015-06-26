@@ -272,9 +272,9 @@ DLL_EXPORT int Load(void)
 	srv_reg(Send2ImageShack);
 	/// menu items
 	CLISTMENUITEM mi = { 0 };
-	mi.flags=CMIF_ROOTHANDLE|CMIF_TCHAR/*|CMIF_ICONFROMICOLIB*/;
-	mi.hParentMenu=HGENMENU_ROOT;
-	mi.icolibItem=GetIconHandle(ICO_MAINXS);
+	mi.flags = CMIF_TCHAR;
+	mi.hParentMenu = HGENMENU_ROOT;
+	mi.icolibItem = GetIconHandle(ICO_MAINXS);
 	#define _Menu_AddMainMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddMainMenuItem(&mi);}while(0)
 	#define _Menu_AddContactMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddContactMenuItem(&mi);}while(0)
 	_Menu_AddMainMenuItemEx(LPGENT("Take a screenshot"),MS_SENDSS_OPENDIALOG,1000001);

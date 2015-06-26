@@ -44,10 +44,8 @@ typedef struct  {
 }
 	CListIntMenuItem, *lpCListIntMenuItem;
 
-//new menu sys
-HANDLE hMainMenuObject = 0;
-HANDLE hContactMenuObject = 0;
-HANDLE hStatusMenuObject = 0;
+// new menu sys
+int hMainMenuObject = 0, hContactMenuObject = 0, hStatusMenuObject = 0;
 int UnloadMoveToGroup(void);
 
 int statustopos(int status);
@@ -255,20 +253,14 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
-	if (!(mi->flags & CMIF_ROOTHANDLE)) {
-		//old system
-		tmi.flags |= CMIF_ROOTHANDLE;
-		tmi.root = NULL;
-	}
-
-	//owner data
+	// owner data
 	ContactMenuExecParam *cmep = (ContactMenuExecParam*)mir_calloc(sizeof(ContactMenuExecParam));
 	cmep->szServiceName = mir_strdup(mi->pszService);
 	if (mi->pszContactOwner != NULL)
 		cmep->pszContactOwner = mir_strdup(mi->pszContactOwner);
 	tmi.ownerdata = cmep;
 
-	//may be need to change how UniqueName is formed?
+	// may be need to change how UniqueName is formed?
 	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, &tmi);
 	cmep->pimi = pimi;
 
@@ -798,7 +790,7 @@ void RebuildMenuOrder(void)
 
 		//adding root
 		TMO_MenuItem tmi = { 0 };
-		tmi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE | CMIF_KEEPUNTRANSLATED;
+		tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		tmi.position = pos++;
 		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
@@ -816,7 +808,7 @@ void RebuildMenuOrder(void)
 		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &tmi);
 
 		memset(&tmi, 0, sizeof(tmi));
-		tmi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE | CMIF_KEEPUNTRANSLATED;
+		tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		tmi.root = rootmenu;
 		tmi.position = pos++;
 		tmi.hIcon = ic;
@@ -859,7 +851,7 @@ void RebuildMenuOrder(void)
 
 			// adding
 			memset(&tmi, 0, sizeof(tmi));
-			tmi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+			tmi.flags = CMIF_TCHAR;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				tmi.flags |= CMIF_CHECKED;
 			tmi.root = rootmenu;
@@ -902,7 +894,7 @@ void RebuildMenuOrder(void)
 				continue;
 
 			TMO_MenuItem tmi = { sizeof(tmi) };
-			tmi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+			tmi.flags = CMIF_TCHAR;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				tmi.flags |= CMIF_CHECKED;
 
@@ -982,12 +974,12 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 		// reset all current possible checked statuses
 		for (int pos2 = 0; pos2 < hStatusMainMenuHandlesCnt; pos2++)
 			if (pos2 >= 0 && pos2 < hStatusMainMenuHandlesCnt)
-				Menu_ModifyItem(hStatusMainMenuHandles[pos2], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
+				Menu_ModifyItem(hStatusMainMenuHandles[pos2], NULL, INVALID_HANDLE_VALUE, 0);
 
 		cli.currentStatusMenuItem = overallStatus;
 		pos = statustopos(cli.currentStatusMenuItem);
 		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
-			Menu_ModifyItem(hStatusMainMenuHandles[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE | CMIF_CHECKED);
+			Menu_SetChecked(hStatusMainMenuHandles[pos], true);
 	}
 	else {
 		int pos = statustopos(cli.currentStatusMenuItem);
@@ -995,7 +987,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 			pos = 0;
 
 		if (pos >= 0 && pos < hStatusMainMenuHandlesCnt)
-			Menu_ModifyItem(hStatusMainMenuHandles[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
+			Menu_ModifyItem(hStatusMainMenuHandles[pos], NULL, INVALID_HANDLE_VALUE, 0);
 
 		cli.currentStatusMenuItem = 0;
 	}
@@ -1007,13 +999,13 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				if (pos == -1)
 					pos = 0;
 				for (pos = 0; pos < _countof(statusModeList); pos++)
-					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE);
+					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], NULL, INVALID_HANDLE_VALUE, 0);
 			}
 
 			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos((int)ack->lParam);
 				if (pos >= 0 && pos < _countof(statusModeList))
-					Menu_ModifyItem(hStatusMenuHandles[i].menuhandle[pos], NULL, INVALID_HANDLE_VALUE, CMIF_ROOTHANDLE | CMIF_CHECKED);
+					Menu_SetChecked(hStatusMenuHandles[i].menuhandle[pos], true);
 			}
 			break;
 		}
@@ -1063,47 +1055,14 @@ HGENMENU fnGetProtocolMenu(const char* proto)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
+static INT_PTR AddStatusMenuItem(WPARAM, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-
 	TMO_MenuItem tmi;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 	if (!cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
-	// for new style menus the pszPopupName contains the root menu handle
-	TMO_IntMenuItem *pRoot = NULL;
-	if (mi->flags & CMIF_ROOTHANDLE)
-		pRoot = MO_GetIntMenuItem(mi->hParentMenu);
-
-	// for old style menus the pszPopupName really means the popup name
-	else {
-		MenuProto *mp = FindProtocolMenu(mi->pszContactOwner);
-		if (mp && mi->pszPopupName) {
-			if (mp->pMenu) {
-				TCHAR *ptszName = (mi->flags & CMIF_UNICODE) ? mir_tstrdup(mi->ptszPopupName) : mir_a2t(mi->pszPopupName);
-				pRoot = MO_RecursiveWalkMenu(mp->pMenu->submenu.first, FindRoot, ptszName);
-				mir_free(ptszName);
-			}
-			if (pRoot == NULL) {
-				TMO_MenuItem tmi = { 0 };
-				tmi.flags = (mi->flags & CMIF_UNICODE) | CMIF_ROOTHANDLE;
-				tmi.position = 1001;
-				tmi.root = mp->pMenu;
-				tmi.hIcon = NULL;
-				tmi.name.a = mi->pszPopupName;
-				pRoot = Menu_AddItem(hStatusMenuObject, &tmi);
-			}
-
-			tmi.flags |= CMIF_ROOTHANDLE;
-			tmi.root = pRoot;
-		}
-	}
-
-	if (wParam) {
-		int *res = (int*)wParam;
-		*res = (int)pRoot;
-	}
+	TMO_IntMenuItem *pRoot = MO_GetIntMenuItem(mi->hParentMenu);
 
 	// owner data
 	StatusMenuExecParam *smep = NULL;

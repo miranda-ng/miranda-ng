@@ -155,29 +155,18 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcShowStatistics, MenuShowStatistics);
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
+	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENT("Statistics"), 1910000000) : NULL;
+
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(
-		LPGENT("Create statistics"), // MEMO: implicit translation
-		0,
-		1910000000,
-		IconLib::getIcon(IconLib::iiMenuCreateStatistics),
-		con::SvcCreateStatistics,
-		bInPopup ? LPGENT("Statistics") : NULL);
+		LPGENT("Create statistics"), 0, 1910000000, IconLib::getIcon(IconLib::iiMenuCreateStatistics), con::SvcCreateStatistics, hRoot);
 
 	g_hMenuShowStatistics = mu::clist::addMainMenuItem(
 		LPGENT("Show statistics"), // MEMO: implicit translation
-		0,
-		1910000001,
-		IconLib::getIcon(IconLib::iiMenuShowStatistics),
-		con::SvcShowStatistics,
-		bInPopup ? LPGENT("Statistics") : NULL);
+		0, 1910000001, IconLib::getIcon(IconLib::iiMenuShowStatistics), con::SvcShowStatistics, hRoot);
 
 	g_hMenuConfigure = mu::clist::addMainMenuItem(
 		bInPopup ? LPGENT("Configure...") : LPGENT("Configure statistics..."), // MEMO: implicit translation
-		0,
-		1910000002,
-		IconLib::getIcon(IconLib::iiMenuConfigure),
-		con::SvcConfigure,
-		bInPopup ? LPGENT("Statistics") : NULL);
+		0, 1910000002, IconLib::getIcon(IconLib::iiMenuConfigure), con::SvcConfigure, hRoot);
 }
 
 /*

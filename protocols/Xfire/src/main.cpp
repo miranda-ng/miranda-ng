@@ -1114,7 +1114,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	// erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { 0 };
-	mi.ptszPopupName = _T(protocolname);
+	mi.hParentMenu = Menu_CreateRoot(MO_CONTACT, _T(protocolname), 500090000);
 	mi.flags = CMIF_TCHAR;
 
 	char servicefunction[100];
@@ -1188,6 +1188,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	blockfriend = Menu_AddContactMenuItem(&mi);
 
 	// my fire profile
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(protocolname), 500090000);
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfile2");
 	CreateServiceFunction(servicefunction, GotoProfile2);

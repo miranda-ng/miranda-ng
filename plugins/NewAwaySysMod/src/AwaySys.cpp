@@ -636,14 +636,13 @@ int MirandaLoaded(WPARAM, LPARAM)
 		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		memset(&mi, 0, sizeof(mi));
-		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
+		mi.flags = CMIF_TCHAR;
 		mi.hIcon = NULL;
-		mi.hParentMenu = HGENMENU_ROOT;
 		mi.position = 1000020000;
 		mi.ptszName = LPGENT("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
+		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = g_hToggleSOEContactMenuItem;
 		mi.position = 1000020000;
 

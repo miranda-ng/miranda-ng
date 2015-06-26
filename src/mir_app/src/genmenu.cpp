@@ -67,8 +67,19 @@ void FreeAndNil(void **p)
 	}
 }
 
-int GetMenuObjbyId(const int id)
+int GetMenuObjbyId(int id)
 {
+	switch (id) {
+	case MO_MAIN:    id = hMainMenuObject;    break;
+	case MO_CONTACT: id = hContactMenuObject; break;
+	case MO_STATUS:  id = hStatusMenuObject;  break;
+	case MO_PROTO:
+		if (db_get_b(NULL, "CList", "MoveProtoMenus", true))
+			id = hStatusMenuObject;
+		else
+			id = hMainMenuObject;
+	}
+
 	for (int i = 0; i < g_menus.getCount(); i++)
 		if (g_menus[i]->id == id)
 			return i;
@@ -192,13 +203,13 @@ int MO_RemoveAllObjects()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(HANDLE hMenuObject, int key)
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	int objidx = GetMenuObjbyId((int)hMenuObject);
+	int objidx = GetMenuObjbyId(hMenuObject);
 	if (objidx == -1)
 		return FALSE;
 
@@ -290,9 +301,9 @@ static void Menu_SetItemFlags(HGENMENU hMenuItem, bool bSet, int mask)
 	else
 		flags &= ~mask;
 
+	// we allow to set only first 3 bits
 	mir_cslock lck(csMenuHook);
-	int oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
-	pimi->mi.flags = flags | oldflags;
+	pimi->mi.flags = flags | (pimi->mi.flags & 0xFFFFFFF8);
 }
 
 MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable)
@@ -327,8 +338,9 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 		replaceStrT(pimi->mi.name.t, ptszName);
 
 	if (iFlags != -1) {
-		int oldflags = (pimi->mi.flags & CMIF_ROOTHANDLE);
-		pimi->mi.flags = iFlags | oldflags;
+		// we allow to set only first 3 bits
+		int oldflags = (pimi->mi.flags & 0xFFFFFFF8);
+		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
 
 	if (hIcon != INVALID_HANDLE_VALUE && !bIconsDisabled) {
@@ -480,14 +492,14 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Menu_ConfigureObject(HANDLE handle, int setting, INT_PTR value)
+MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int setting, INT_PTR value)
 {
 	if (!bIsGenMenuInited)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
 
-	int pimoidx = GetMenuObjbyId((int)handle);
+	int pimoidx = GetMenuObjbyId(hMenuObject);
 	int res = pimoidx != -1;
 	if (res) {
 		TIntMenuObject* pmo = g_menus[pimoidx];
@@ -519,7 +531,7 @@ MIR_APP_DLL(int) Menu_ConfigureObject(HANDLE handle, int setting, INT_PTR value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HANDLE) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService)
+MIR_APP_DLL(int) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService)
 {
 	if (!bIsGenMenuInited || szName == NULL)
 		return NULL;
@@ -534,18 +546,18 @@ MIR_APP_DLL(HANDLE) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR s
 	p->ExecService = mir_strdup(szExecService);
 	p->m_hMenuIcons = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 15, 100);
 	g_menus.insert(p);
-	return (HANDLE)p->id;
+	return p->id;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Menu_RemoveObject(HANDLE hMenuObject)
+MIR_APP_DLL(int) Menu_RemoveObject(int hMenuObject)
 {
-	if (!bIsGenMenuInited || hMenuObject == NULL)
+	if (!bIsGenMenuInited || hMenuObject == 0)
 		return -1;
 
 	mir_cslock lck(csMenuHook);
-	int objidx = GetMenuObjbyId((int)hMenuObject);
+	int objidx = GetMenuObjbyId(hMenuObject);
 	if (objidx == -1)
 		return -1;
 
@@ -654,36 +666,46 @@ static int GetNextObjectMenuItemId()
 // Adds new submenu
 // Returns a handle to the newly created root item or NULL
 
-MIR_APP_DLL(HGENMENU) Menu_CreateRoot(HGENMENU hRoot, LPCTSTR ptszName, int position, HANDLE hIcoLib, int hLang)
+static int FindRoot(TMO_IntMenuItem *pimi, void *param)
 {
-	if (hRoot == NULL)
+	if (pimi->mi.name.t != NULL)
+		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.t, (TCHAR*)param))
+			return TRUE;
+
+	return FALSE;
+}
+
+MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib, int hLang)
+{
+	mir_cslock lck(csMenuHook);
+	int objidx = GetMenuObjbyId(hMenuObject);
+	if (objidx == -1)
 		return NULL;
 
+	TMO_IntMenuItem *oldroot = MO_RecursiveWalkMenu(g_menus[objidx]->m_items.first, FindRoot, (void*)ptszName);
+	if (oldroot != NULL)
+		return oldroot;
+
 	TMO_MenuItem tmi = { 0 };
-	tmi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	tmi.flags = CMIF_TCHAR;
 	tmi.hIcolibItem = hIcoLib;
-	tmi.root = hRoot;
 	tmi.hLangpack = hLang;
 	tmi.name.t = (TCHAR*)ptszName;
 	tmi.position = position;
-	return Menu_AddItem(hRoot->owner, &tmi);
+	return Menu_AddItem(hMenuObject, &tmi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds new menu item
 // Returns a handle to the newly created item or NULL
 
-MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pmi)
+MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi)
 {
 	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
 
-	// old mode
-	if (!(pmi->flags & CMIF_ROOTHANDLE))
-		return MO_AddOldNewMenuItem(hMenuObject, pmi);
-
 	mir_cslock lck(csMenuHook);
-	int objidx = GetMenuObjbyId((int)hMenuObject);
+	int objidx = GetMenuObjbyId(hMenuObject);
 	if (objidx == -1)
 		return NULL;
 
@@ -719,10 +741,13 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pmi)
 		p->mi.root = NULL;
 
 	TMO_IntMenuItem *pRoot = (p->mi.root != NULL) ? MO_GetIntMenuItem(p->mi.root) : NULL;
-	if (pRoot)
+	if (pRoot) {
 		p->owner = &pRoot->submenu;
-	else
-		p->owner = &pmo->m_items;
+
+		if (pRoot->iconId == -1)
+			pRoot->iconId = p->iconId;
+	}
+	else p->owner = &pmo->m_items;
 
 	if (!p->owner->first)
 		p->owner->first = p;
@@ -735,62 +760,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pmi)
 /////////////////////////////////////////////////////////////////////////////////////////
 // wparam = MenuObjectHandle
 // lparam = PMO_MenuItem
-
-int FindRoot(TMO_IntMenuItem *pimi, void* param)
-{
-	if (pimi->mi.name.t != NULL)
-		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.t, (TCHAR*)param))
-			return TRUE;
-
-	return FALSE;
-}
-
-TMO_IntMenuItem* MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi)
-{
-	if (!bIsGenMenuInited || pmi == NULL)
-		return NULL;
-
-	int objidx = GetMenuObjbyId((int)menuobjecthandle);
-	if (objidx == -1)
-		return NULL;
-
-	if (pmi->flags & CMIF_ROOTHANDLE)
-		return NULL;
-
-	//is item with popup or not
-	if (pmi->root == 0) {
-		// yes, this without popup
-		pmi->root = NULL; //first level
-	}
-	else { // no, search for needed root and create it if need
-		TCHAR* tszRoot;
-		if (pmi->flags & CMIF_UNICODE)
-			tszRoot = mir_tstrdup((TCHAR*)pmi->root);
-		else
-			tszRoot = mir_a2t((char*)pmi->root);
-
-		TMO_IntMenuItem *oldroot = MO_RecursiveWalkMenu(g_menus[objidx]->m_items.first, FindRoot, tszRoot);
-		mir_free(tszRoot);
-
-		if (oldroot == NULL) {
-			// not found, creating root
-			TMO_MenuItem tmi = *pmi;
-			tmi.flags |= CMIF_ROOTHANDLE;
-			tmi.ownerdata = 0;
-			tmi.root = NULL;
-			// copy pszPopupName
-			tmi.name.t = (TCHAR*)pmi->root;
-			if ((oldroot = Menu_AddItem(menuobjecthandle, &tmi)) != NULL)
-				Menu_ConfigureItem(oldroot, MCI_OPT_UNIQUENAME, (const char*)pmi->root);
-		}
-		pmi->root = oldroot;
-
-		// popup will be created in next commands
-	}
-	pmi->flags |= CMIF_ROOTHANDLE;
-	// add popup(root allready exists)
-	return Menu_AddItem(menuobjecthandle, pmi);
-}
 
 static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 {
@@ -1037,14 +1006,14 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, INT_PTR
 // lparam ListParam*
 // result hMenu
 
-EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, HANDLE hMenuObject, WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, int hMenuObject, WPARAM wParam, LPARAM lParam)
 {
 	if (!bIsGenMenuInited)
 		return NULL;
 
 	mir_cslock lck(csMenuHook);
 
-	int pimoidx = GetMenuObjbyId(int(hMenuObject));
+	int pimoidx = GetMenuObjbyId(hMenuObject);
 	if (pimoidx == -1)
 		return 0;
 

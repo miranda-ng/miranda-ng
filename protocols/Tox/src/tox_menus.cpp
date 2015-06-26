@@ -88,20 +88,13 @@ int CToxProto::OnInitStatusMenu()
 	{
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = Skin_GetIconHandle("main");
-		hStatusMunuRoot = /*m_hMenuRoot = */Menu_AddProtoMenuItem(&mi);
+		hStatusMunuRoot = Menu_AddProtoMenuItem(&mi);
 	}
-	/*else
-	{
-		if (m_hMenuRoot)
-			Menu_RemoveItem(m_hMenuRoot, 0);
-		m_hMenuRoot = NULL;
-	}*/
 
 	mi.hParentMenu = hStatusMunuRoot;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 
 	// Create copy tox id command
 	mir_strcpy(tDest, "/CopyToxID");

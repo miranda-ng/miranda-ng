@@ -145,7 +145,6 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	mi.position = 0xb0000000;
 	mi.icolibItem = g_GetIconHandle(0);
 	mi.pszName = LPGEN("Check &mail (All Account)");
-	mi.pszPopupName = NULL;//YAMN_DBMODULE;
 	mi.pszService = MS_YAMN_FORCECHECK;
 	hMenuItemMain = Menu_AddMainMenuItem(&mi);
 

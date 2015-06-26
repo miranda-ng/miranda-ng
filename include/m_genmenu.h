@@ -13,6 +13,12 @@
 	
 #define HGENMENU_ROOT ((HGENMENU)INVALID_HANDLE_VALUE)
 
+// predefined menu objects
+#define MO_MAIN    (-1)
+#define MO_CONTACT (-2)
+#define MO_PROTO   (-3)
+#define MO_STATUS  (-4)
+
 #define SETTING_NOOFFLINEBOTTOM_DEFAULT 0
 
 struct TMO_MenuItem
@@ -52,7 +58,7 @@ struct ProcessCommandParam
 // Builds a menu from menu object's description
 // Returns hMenu on success or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, HANDLE hMenuObject, WPARAM wParam = 0, LPARAM lParam = 0);
+EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, int hMenuObject, WPARAM wParam = 0, LPARAM lParam = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Passes custom lParam to the ExecMenuService for the specified menu item
@@ -72,13 +78,13 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam);
 // Adds a menu item to genmenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pItem);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds new submenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(HGENMENU hRoot, LPCTSTR ptszName, int position, HANDLE hIcoLib = NULL, int hLang = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib = NULL, int hLang = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process a WM_DRAWITEM message for user context menus      v0.1.1.0+
@@ -131,7 +137,7 @@ EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszN
 // returns TRUE if a key was, FALSE otherwise
 // this should be called in WM_KEYDOWN
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(HANDLE hMenuObject, int key);
+EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Removes a menu item from genmenu
@@ -163,7 +169,7 @@ EXTERN_C MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet);
 // 
 // returns = MenuObjectHandle on success, NULL on failure
 
-EXTERN_C MIR_APP_DLL(HANDLE) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService);
+EXTERN_C MIR_APP_DLL(int) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Removes the whole menu object with all submenus
@@ -171,7 +177,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName,
 // Note: you must free all ownerdata structures, before you
 // call this function. Menu_RemoveObject DOES NOT free it.
 
-EXTERN_C MIR_APP_DLL(int) Menu_RemoveObject(HANDLE hMenuObject);
+EXTERN_C MIR_APP_DLL(int) Menu_RemoveObject(int hMenuObject);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // tunes the whold menu object
@@ -191,10 +197,10 @@ EXTERN_C MIR_APP_DLL(int) Menu_RemoveObject(HANDLE hMenuObject);
 // Set menu check service
 #define MCO_OPT_CHECK_SERVICE 4
 
-EXTERN_C MIR_APP_DLL(int) Menu_ConfigureObject(HANDLE hMenu, int iSetting, INT_PTR value);
+EXTERN_C MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int iSetting, INT_PTR value);
 
-__forceinline int Menu_ConfigureObject(HANDLE hMenu, int iSetting, LPCSTR pszValue)
-{	return Menu_ConfigureObject(hMenu, iSetting, INT_PTR(pszValue));
+__forceinline int Menu_ConfigureObject(int hMenuObject, int iSetting, LPCSTR pszValue)
+{	return Menu_ConfigureObject(hMenuObject, iSetting, INT_PTR(pszValue));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

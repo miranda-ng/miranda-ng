@@ -67,8 +67,8 @@ void RebuildContact()
 {
 	BYTE item = 0;
 
-	HGENMENU mhRoot = HGENMENU_ROOT;
-	HGENMENU mhExIm = HGENMENU_ROOT;
+	HGENMENU mhRoot = NULL;
+	HGENMENU mhExIm = NULL;
 	static HGENMENU hMenuItem[4] = {NULL, NULL, NULL, NULL };
 
 	SvcEMailRebuildMenu();
@@ -86,13 +86,11 @@ void RebuildContact()
 
 	// support new genmenu style
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.hParentMenu = HGENMENU_ROOT;
 
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = HGENMENU_ROOT;
+		mhRoot = mhExIm = NULL;
 		hMenuItem[0] = NULL;
 		break;
 	case 5:
@@ -111,7 +109,7 @@ void RebuildContact()
 		mi.pszName = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[0] = mhExIm;
-		mhRoot = HGENMENU_ROOT;
+		mhRoot = NULL;
 		break;
 	default:
 		//disable Menu
@@ -133,14 +131,14 @@ void RebuildContact()
 
 	// Export
 	mi.pszService = MS_USERINFO_VCARD_EXPORT;
-	mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export user details");
+	mi.pszName = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export user details");
 	mi.position = 1000050200;
 	mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 	hMenuItem[2] = Menu_AddContactMenuItem(&mi);
 
 	// Import
 	mi.pszService = MS_USERINFO_VCARD_IMPORT;
-	mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import user details");
+	mi.pszName = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import user details");
 	mi.position = 1000050300;
 	mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 	hMenuItem[3] = Menu_AddContactMenuItem(&mi);
@@ -159,8 +157,8 @@ void RebuildMain()
 {
 	BYTE item = 0;
 
-	HGENMENU mhRoot = HGENMENU_ROOT;
-	HGENMENU mhExIm = HGENMENU_ROOT;
+	HGENMENU mhRoot = NULL;
+	HGENMENU mhExIm = NULL;
 	static HGENMENU hMenuItem[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 	// load options
@@ -175,14 +173,12 @@ void RebuildMain()
 
 	// support new genmenu style
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.hParentMenu = HGENMENU_ROOT;
 
 	switch (flag)
 	{
 		case 3:
 			//cascade off
-			mhRoot = mhExIm = HGENMENU_ROOT;
+			mhRoot = mhExIm = NULL;
 			hMenuItem[item++] = NULL;
 			break;
 		case 5:
@@ -201,7 +197,7 @@ void RebuildMain()
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
-			mhRoot = HGENMENU_ROOT;
+			mhRoot = NULL;
 			break;
 		default:
 			//disable Menue
@@ -294,8 +290,8 @@ void RebuildGroup()
 	BYTE item = 0;
 	GroupMenuParam gmp = { 0 };
 
-	HGENMENU mhRoot = HGENMENU_ROOT;
-	HGENMENU mhExIm = HGENMENU_ROOT;
+	HGENMENU mhRoot = NULL;
+	HGENMENU mhExIm = NULL;
 	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
 
 	// load options
@@ -316,15 +312,11 @@ void RebuildGroup()
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
-	// support new genmenu style
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.hParentMenu = HGENMENU_ROOT;
-
 	switch (flag)
 	{
 		case 3:
 			//cascade off
-			mhRoot = mhExIm = HGENMENU_ROOT;
+			mhRoot = mhExIm = NULL;
 			hMenuItem[item++] = NULL;
 			break;
 		case 5:
@@ -343,7 +335,7 @@ void RebuildGroup()
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
-			mhRoot = HGENMENU_ROOT;
+			mhRoot = NULL;
 			break;
 		default:
 			//disable Menue
@@ -388,8 +380,8 @@ void RebuildSubGroup()
 	BYTE item = 0;
 	GroupMenuParam gmp = { 0 };
 
-	HGENMENU mhRoot = HGENMENU_ROOT;
-	HGENMENU mhExIm = HGENMENU_ROOT;
+	HGENMENU mhRoot = NULL;
+	HGENMENU mhExIm = NULL;
 	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
 
 	// load options
@@ -410,15 +402,11 @@ void RebuildSubGroup()
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
-	// support new genmenu style
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.hParentMenu = HGENMENU_ROOT;
-
 	switch (flag)
 	{
 		case 3:
 			//cascade off
-			mhRoot = mhExIm = HGENMENU_ROOT;
+			mhRoot = mhExIm = NULL;
 			hMenuItem[item++] = NULL;
 			break;
 		case 5:
@@ -437,7 +425,7 @@ void RebuildSubGroup()
 			mi.pszName = LPGEN("Export/import group");
 			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
-			mhRoot = HGENMENU_ROOT;
+			mhRoot = NULL;
 			break;
 		default:
 			//disable Menue
@@ -450,7 +438,7 @@ void RebuildSubGroup()
 		// Export
 		mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export group");
+		mi.pszName = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
 		mi.position = 1050200;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		gmp.lParam=0;
@@ -460,7 +448,7 @@ void RebuildSubGroup()
 		// Import
 		mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import group");
+		mi.pszName = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 		mi.position = 1050300;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		gmp.lParam=0;
@@ -494,8 +482,8 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 
 	int mProtoCount = pcli->menuProtoCount;
 
-	HGENMENU mhRoot = HGENMENU_ROOT;
-	HGENMENU mhExIm = HGENMENU_ROOT;
+	HGENMENU mhRoot = NULL;
+	HGENMENU mhExIm = NULL;
 
 	// on call by hook or first start
 	if (!lParam || !hMenuItemAccount) {
@@ -538,7 +526,6 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		char* tDest = text + mir_strlen( text );
 
 		// support new genmenu style
-		mi.flags = CMIF_ROOTHANDLE;
 		mi.hParentMenu = mhRoot;
 
 		switch (flag) {

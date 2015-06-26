@@ -71,7 +71,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	mi.hParentMenu = hRoot;
 	mi.position = pos;
 	mi.ptszName = PrepareGroupName(name);
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
@@ -91,7 +91,6 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000;
 		mi.pszName = LPGEN("&Move to group");
-		mi.flags = CMIF_ROOTHANDLE;
 		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 
 		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);

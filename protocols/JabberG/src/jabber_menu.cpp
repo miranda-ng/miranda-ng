@@ -34,7 +34,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MENUITEM_RESOURCES	10
 
 static MWindowList hDialogsList = NULL;
-static HANDLE hChooserMenu, hStatusMenuInit;
+static HANDLE hStatusMenuInit;
+
+static int hChooserMenu;
 static int iChooserMenuPos = 30000;
 
 static HGENMENU g_hMenuRequestAuth;
@@ -282,11 +284,10 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.pszName = LPGEN("Send Presence");
 	mi.position = -1999901011;
-	mi.hParentMenu = HGENMENU_ROOT;
 	mi.icolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
-	mi.flags |= CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags |= CMIF_TCHAR;
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[_countof(buf) - 2] = '0' + i;
@@ -299,13 +300,12 @@ void g_MenuInit(void)
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
 
-	mi.flags &= ~(CMIF_ROOTHANDLE | CMIF_TCHAR);
+	mi.flags &= ~(CMIF_TCHAR);
 
 	// Resource selector
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.pszName = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
-	mi.hParentMenu = HGENMENU_ROOT;
 	mi.icolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
@@ -314,7 +314,6 @@ void g_MenuInit(void)
 	mi.position = -1999901000;
 	mi.hParentMenu = g_hMenuResourcesRoot;
 	mi.icolibItem = g_GetIconHandle(IDI_JABBER);
-	mi.flags |= CMIF_ROOTHANDLE;
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN);
 
@@ -422,9 +421,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	char* tDest = text + nModuleNameLength;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.position = 0;
-	mi.icolibItem = NULL;
 	mi.pszService = text;
 	mi.pszContactOwner = m_szModuleName;
 
@@ -597,8 +593,7 @@ void CJabberProto::MenuInit()
 	if (hJabberRoot == NULL) {
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = m_hProtoIcon;
 		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -611,7 +606,7 @@ void CJabberProto::MenuInit()
 	// "Bookmarks..."
 	CreateProtoService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
 	mir_strcpy(tDest, "/Bookmarks");
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Bookmarks");
 	mi.position = 200001;
@@ -628,7 +623,6 @@ void CJabberProto::MenuInit()
 	// "Service Discovery..."
 	CreateProtoService("/ServiceDiscovery", &CJabberProto::OnMenuHandleServiceDiscovery);
 	mir_strcpy(tDest, "/ServiceDiscovery");
-	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Service Discovery");
 	mi.position = 2000050001;
 	mi.icolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
@@ -708,7 +702,7 @@ void CJabberProto::MenuInit()
 	mi.pszContactOwner = m_szModuleName;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Resource priority");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_HIDDEN;
+	mi.flags = CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
 
 	TCHAR szName[128];
@@ -716,7 +710,7 @@ void CJabberProto::MenuInit()
 	mi.pszService = srvFce;
 	mi.ptszName = szName;
 	mi.position = 2000040000;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hParentMenu = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, _countof(srvFce), "%s/menuSetPriority/0", m_szModuleName);

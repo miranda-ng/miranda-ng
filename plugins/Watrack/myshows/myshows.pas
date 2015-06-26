@@ -212,7 +212,7 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.szPopupName.a:=PluginShort;
+  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', 500050000, 0, 0);
 
   mi.hIcon     :=IcoLib_GetIcon(IcoMyShows,0);
   mi.szName.a  :='Disable scrobbling';

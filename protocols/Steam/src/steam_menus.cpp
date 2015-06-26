@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HANDLE CSteamProto::hChooserMenu;
+int CSteamProto::hChooserMenu;
 HGENMENU CSteamProto::contactMenuItems[CMI_MAX];
 
 template<int(__cdecl CSteamProto::*Service)(WPARAM, LPARAM)>
@@ -108,7 +108,7 @@ void CSteamProto::OnInitStatusMenu()
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		//mi.icolibItem = NULL;
 		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -118,7 +118,7 @@ void CSteamProto::OnInitStatusMenu()
 	}
 
 	mi.hParentMenu = hSteamRoot;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags =  CMIF_TCHAR;
 
 	// Show block list
 	mir_strcpy(tDest, "/BlockList");

@@ -545,7 +545,7 @@ int CreateFrame()
 		mi.hIcon = hIconMenuShowHide;
 		mi.pszName = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
-		mi.pszPopupName = LPGEN("Alarms");
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
 		mi.position = 500010000;
 		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////

@@ -107,8 +107,6 @@ void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSiz
 
 TMO_IntMenuItem* MO_GetIntMenuItem(HGENMENU);
 
-TMO_IntMenuItem* MO_AddOldNewMenuItem(HANDLE menuobjecthandle, TMO_MenuItem *pmi);
-
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
 
@@ -123,8 +121,6 @@ TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void*);
 //general stuff
 int InitGenMenu();
 int UnitGenMenu();
-
-int FindRoot(TMO_IntMenuItem *pimi, void* param);
 
 TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
