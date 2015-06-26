@@ -90,19 +90,22 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
-	if (response == NULL || (response->resultCode != 200 && response->resultCode != 201))
+	if (response == NULL || response->resultCode != 201)
 	{
 		std::string error("Unknown error");
-		if (response->pData != NULL)
+		if (response && response->pData != NULL)
 		{
 			JSONNode root = JSONNode::parse(response->pData);
 			const JSONNode &node = root["errorCode"];
-			error = node.isnull() ? "" : node.as_string();
+			if (!node.isnull())
+				error = node.as_string();
 		}
 		ptrT username(getTStringA(hContact, "Skypename"));
 		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error.c_str());
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.c_str());
 	}
+
+
 }
 
 // preparing message/action to writing into db
