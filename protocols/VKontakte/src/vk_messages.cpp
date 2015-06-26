@@ -134,9 +134,7 @@ int CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
 	debugLogA("CVkProto::MarkMessagesRead (mids)");
-	if (!IsOnline())
-		return;
-	if (mids.IsEmpty())
+	if (!IsOnline() || mids.IsEmpty())
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
@@ -161,9 +159,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 {
 	debugLogA("CVkProto::RetrieveMessagesByIds");
-	if (!IsOnline())
-		return;
-	if (mids.IsEmpty())
+	if (!IsOnline() || mids.IsEmpty())
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
@@ -212,7 +208,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		int uid = jnMsg["user_id"].as_int();
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (!jnFwdMessages.isnull()){
+		if (!jnFwdMessages.isnull()) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -220,7 +216,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (!jnAttachments.isnull()){
+		if (!jnAttachments.isnull()) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;

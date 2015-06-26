@@ -25,20 +25,12 @@ JSONNode nullNode(JSON_NULL);
 
 bool IsEmpty(LPCTSTR str)
 {
-	if (str == NULL)
-		return true;
-	if (str[0] == 0)
-		return true;
-	return false;
+	return (str == NULL || str[0] == 0);
 }
 
 bool IsEmpty(LPCSTR str)
 {
-	if (str == NULL)
-		return true;
-	if (str[0] == 0)
-		return true;
-	return false;
+	return (str == NULL || str[0] == 0);
 }
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
@@ -306,11 +298,9 @@ JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 	debugLogA("CVkProto::CheckJsonResponse");
 	root = JSONNode::parse(reply->pData);
 
-	if (!root)
-		return nullNode;
 	if (!CheckJsonResult(pReq, root))
 		return nullNode;
-	
+
 	return root["response"];
 }
 
@@ -439,10 +429,12 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	szResult.Empty();
 
 	char *pFormBeg = strstr(pBody, "<form ");
-	if (pFormBeg == NULL) return false;
+	if (pFormBeg == NULL) 
+		return false;
 
 	char *pFormEnd = strstr(pFormBeg, "</form>");
-	if (pFormEnd == NULL) return false;
+	if (pFormEnd == NULL) 
+		return false;
 
 	*pFormEnd = 0;
 
@@ -915,10 +907,7 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
 	};
 
-	if (ptszString == NULL)
-		return CMString();
-
-	if (ptszString[0] == '\0')
+	if (IsEmpty(ptszString))
 		return CMString();
 
 	TCHAR *ptszFormat = NULL;

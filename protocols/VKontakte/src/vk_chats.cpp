@@ -35,9 +35,8 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 		return NULL;
 
 	MCONTACT chatContact = FindChat(id);
-	if (chatContact)
-		if (getBool(chatContact, "kicked"))
-			return NULL;
+	if (chatContact && getBool(chatContact, "kicked"))
+		return NULL;
 
 	CVkChatInfo *c = m_chats.find((CVkChatInfo*)&id);
 	if (c != NULL)
@@ -81,7 +80,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	setDword(gci.hContact, "vk_chat_id", id);
 	db_unset(gci.hContact, m_szModuleName, "off");
 
-	if (jnDlg["left"].as_int() == 1) {
+	if (jnDlg["left"].as_bool())  {
 		setByte(gci.hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;
@@ -145,7 +144,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!jnInfo["title"].isnull())
 			SetChatTitle(cc, jnInfo["title"].as_mstring());
 
-		if (jnInfo["left"].as_int() == 1 || jnInfo["kicked"].as_int() == 1) {
+		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool()) {
 			setByte(cc->m_hContact, "kicked", (int)true);
 			LeaveChat(cc->m_chatid);
 			return;
@@ -295,7 +294,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	CMString tszBody(jnMsg["body"].as_mstring());
 	
 	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-	if (!jnFwdMessages.isnull()){
+	if (!jnFwdMessages.isnull()) {
 		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -303,14 +302,14 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	}
 
 	const JSONNode &jnAttachments = jnMsg["attachments"];
-	if (!jnAttachments.isnull()){
+	if (!jnAttachments.isnull()) {
 		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 		tszBody +=  tszAttachmentDescr;
 	}
 
-	if (tszBody.IsEmpty() && !jnMsg["action"].isnull()){
+	if (tszBody.IsEmpty() && !jnMsg["action"].isnull()) {
 		bIsAction = true;
 		CMString tszAction = jnMsg["action"].as_mstring();
 		
@@ -702,9 +701,8 @@ void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg)
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 
 	MCONTACT chatContact = FindChat(chat_id);
-	if (chatContact)
-		if (getBool(chatContact, "off"))
-			return;
+	if (chatContact && getBool(chatContact, "off"))
+		return;
 
 	if (user_id == m_myUserId)
 		LeaveChat(chat_id);

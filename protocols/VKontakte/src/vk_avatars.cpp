@@ -66,6 +66,7 @@ void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
 		return;
 	}
+
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = hContact;
 	SvcGetAvatarInfo(0, (LPARAM)&ai);
