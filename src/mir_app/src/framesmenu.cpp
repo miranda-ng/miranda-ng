@@ -1,26 +1,46 @@
+/*
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org),
+Copyright (c) 2000-12 Miranda IM project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
 #include "stdafx.h"
 
 #include <m_cluiframes.h>
 
-//========================== Frames
-HANDLE hFrameMenuObject;
+static HANDLE hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
 
-//contactmenu exec param(ownerdata)
-//also used in checkservice
-typedef struct{
-	char *szServiceName;
-	int Frameid;
+// contactmenu exec param(ownerdata)
+// also used in checkservice
+struct FrameMenuExecParam
+{
+	ptrA    szServiceName;
+	int     Frameid;
 	INT_PTR param1;
-}FrameMenuExecParam, *lpFrameMenuExecParam;
+};
 
 INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
 {
-	lpFrameMenuExecParam cmep = (lpFrameMenuExecParam)lParam;
-	if (cmep != NULL){
-		mir_free(cmep->szServiceName);
-		mir_free(cmep);
-	}
+	delete (FrameMenuExecParam*)lParam;
 	return 0;
 }
 
@@ -34,10 +54,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 
 	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
 
-	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
-	if (fmep == NULL)
-		return 0;
-
+	FrameMenuExecParam *fmep = new FrameMenuExecParam();
 	fmep->szServiceName = mir_strdup(mi->pszService);
 	fmep->Frameid = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!!!!!!!!!
 	fmep->param1 = (INT_PTR)mi->pszContactOwner;
@@ -45,12 +62,12 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
 }
 
-//called with:
-//wparam - ownerdata
-//lparam - lparam from winproc
+// called with:
+// wparam - ownerdata
+// lparam - lparam from winproc
 INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 {
-	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)wParam;
+	FrameMenuExecParam *fmep = (FrameMenuExecParam*)wParam;
 	if (fmep == NULL)
 		return -1;
 
@@ -67,7 +84,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 
 	TMO_MenuItem mi;
 	if (Menu_GetItemInfo(pcpp->MenuItemHandle, mi) == 0) {
-		lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mi.ownerdata;
+		FrameMenuExecParam *fmep = (FrameMenuExecParam*)mi.ownerdata;
 		if (fmep != NULL) {
 			//pcpp->wParam  -  frameid
 			if (((WPARAM)fmep->Frameid == pcpp->wParam) || fmep->Frameid == -1)
