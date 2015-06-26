@@ -109,6 +109,9 @@ struct FRAMEWND
 	bool visible;
 	bool needhide;
 	bool collapsed;
+	bool floating;
+	bool minmaxenabled;
+	bool UseBorder;
 	int prevvisframe;
 	int HeightWhenCollapsed;
 	FrameTitleBar TitleBar;
@@ -117,9 +120,6 @@ struct FRAMEWND
 	HWND ContainerWnd;
 	POINT FloatingPos;
 	POINT FloatingSize;
-	bool floating;
-	bool minmaxenabled;
-	bool UseBorder;
 	int order;
 	DockOpt dockOpt;
 	HWND OwnerWindow;

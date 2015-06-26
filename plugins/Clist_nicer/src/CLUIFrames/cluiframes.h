@@ -39,7 +39,7 @@ typedef struct
 {
 	int order;
 	int realpos;
-} SortData;
+}SortData;
 
 
 
@@ -90,13 +90,11 @@ struct FRAMEWND
 	int id;
 	HWND hWnd;
 	RECT wndSize;
-	RECT oldWndSize;
 	LPTSTR name;
 	int align;
 	int height;
 	int dwFlags;
 	bool Locked;
-	bool Skinned;
 	bool visible;
 	bool needhide;
 	bool collapsed;
@@ -114,6 +112,8 @@ struct FRAMEWND
 	int order;
 	DockOpt dockOpt;
 	HWND OwnerWindow;
+	bool Skinned;
+	RECT oldWndSize;
 	WNDPROC wndProc;
 };
 
