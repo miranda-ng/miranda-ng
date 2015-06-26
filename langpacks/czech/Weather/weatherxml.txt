@@ -404,3 +404,15 @@ déšť / k ránu sněžení
 déšť (odp.) / sněžení
 [Fair / Windy]
 pěkně / větrno
+[T-Showers Early]
+k ránu přeháňky s hřměním
+[Rain / Freezing Rain]
+déšť / mrznoucí déšť
+[Heavy T-Storms]
+silná bouřka
+[Freezing Drizzle / Windy]
+mrznoucí mrholení / větrno
+[Sand]
+písek
+[Light Rain / Fog]
+slabý déšť / mlha
