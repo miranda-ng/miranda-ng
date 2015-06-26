@@ -387,7 +387,7 @@ MIR_APP_DLL(void*) Menu_GetItemData(HGENMENU hMenuItem)
 TMO_IntMenuItem *MO_GetIntMenuItem(HGENMENU wParam)
 {
 	TMO_IntMenuItem *result = (TMO_IntMenuItem*)wParam;
-	if (result == NULL || wParam == (HGENMENU)0xffff1234 || wParam == HGENMENU_ROOT)
+	if (result == NULL)
 		return NULL;
 
 	__try {
@@ -736,9 +736,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi)
 		}
 		else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
 	}
-
-	if (p->mi.root == HGENMENU_ROOT)
-		p->mi.root = NULL;
 
 	TMO_IntMenuItem *pRoot = (p->mi.root != NULL) ? MO_GetIntMenuItem(p->mi.root) : NULL;
 	if (pRoot) {

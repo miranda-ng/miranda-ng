@@ -107,9 +107,7 @@ void CSteamProto::OnInitStatusMenu()
 	if (!hSteamRoot) {
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
-		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		//mi.icolibItem = NULL;
 		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
