@@ -151,41 +151,5 @@ void CSkypeProto::ProcessNewMessageRes(const JSONNode &node)
 		OnChatEvent(node);
 }
 
-void CSkypeProto::ProcessConversationUpdateRes(const JSONNode&)
-{
-	/*const JSONNode &lastMessage = node, "lastMessage");
-	const JSONNode &properties = node, "properties");
-
-	std::string convLink(mir_t2a(json_as_string(lastMessage, "conversationLink"))));
-	std::string fromLink(mir_t2a(json_as_string(lastMessage, "from"))));
-
-	if (strstr(convLink, "/8:") && IsMe(ContactUrlToName(fromLink)))
-	{
-		ptrA skypename(ContactUrlToName(convLink));
-		MCONTACT hContact = FindContact(skypename);
-
-		if (hContact != NULL)
-		{
-			CMStringA consumptionhorizon(mir_t2a(json_as_string(properties, "consumptionhorizon"))));
-
-			int iStart = 0;
-			CMStringA szToken1 = consumptionhorizon.Tokenize(";", iStart).Trim();
-
-			if (iStart != -1)
-			{
-				CMStringA szToken2 = consumptionhorizon.Tokenize(";", iStart).Trim();
-
-				szToken2.Truncate(szToken2.GetLength() - 3);
-
-				time_t evttime = atoi(szToken2.GetBuffer());
-				db_set_dw(hContact, m_szModuleName, "LastMsgReadTime", evttime);
-
-				//SetSrmmReadStatus(hContact);
-			}
-		}
-	}*/
-}
-
-void CSkypeProto::ProcessThreadUpdateRes(const JSONNode&)
-{
-}
+void CSkypeProto::ProcessConversationUpdateRes(const JSONNode&){}
+void CSkypeProto::ProcessThreadUpdateRes(const JSONNode&){}
