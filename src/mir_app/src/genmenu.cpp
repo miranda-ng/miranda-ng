@@ -651,9 +651,27 @@ static int GetNextObjectMenuItemId()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wparam = MenuObjectHandle
-// lparam = PMO_MenuItem
-// return MenuItemHandle
+// Adds new submenu
+// Returns a handle to the newly created root item or NULL
+
+MIR_APP_DLL(HGENMENU) Menu_CreateRoot(HGENMENU hRoot, LPCTSTR ptszName, int position, HANDLE hIcoLib, int hLang)
+{
+	if (hRoot == NULL)
+		return NULL;
+
+	TMO_MenuItem tmi = { 0 };
+	tmi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	tmi.hIcolibItem = hIcoLib;
+	tmi.root = hRoot;
+	tmi.hLangpack = hLang;
+	tmi.name.t = (TCHAR*)ptszName;
+	tmi.position = position;
+	return Menu_AddItem(hRoot->owner, &tmi);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Adds new menu item
+// Returns a handle to the newly created item or NULL
 
 MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pmi)
 {

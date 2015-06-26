@@ -70,9 +70,15 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds a menu item to genmenu
-// Returns MenuItemHandle on success, or NULL on failure
+// Returns HGENMENU on success, or NULL on failure
 
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pItem);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Adds new submenu
+// Returns HGENMENU on success, or NULL on failure
+
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(HGENMENU hRoot, LPCTSTR ptszName, int position, HANDLE hIcoLib = NULL, int hLang = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process a WM_DRAWITEM message for user context menus      v0.1.1.0+
