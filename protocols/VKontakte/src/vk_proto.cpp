@@ -67,34 +67,34 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
-	m_bMesAsUnread = getBool("MesAsUnread", false);
-	m_bUseLocalTime = getBool("UseLocalTime", false);
-	m_bReportAbuse = getBool("ReportAbuseOnBanUser", false);
-	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser", false);
-	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);
-	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
-	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
+	m_bMesAsUnread = getBool("MesAsUnread");
+	m_bUseLocalTime = getBool("UseLocalTime");
+	m_bReportAbuse = getBool("ReportAbuseOnBanUser");
+	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser");
+	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser");
+	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser");
+	m_bPopUpSyncHistory = getBool("PopUpSyncHistory");
 	m_iMarkMessageReadOn = (MarkMsgReadOn)getByte("MarkMessageReadOn", markOnRead);
-	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
-	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
+	m_bStikersAsSmyles = getBool("StikersAsSmyles");
+	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity");
 	m_iMusicSendMetod = (MusicSendMetod)getByte("MusicSendMetod", sendBroadcastOnly);
 	m_iSyncHistoryMetod = (SyncHistoryMetod)getByte("SyncHistoryMetod", syncOff);
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	db_set_b(NULL, "ListeningTo", szListeningTo, m_iMusicSendMetod == 0 ? 0 : 1);
 	
-	m_bNewsEnabled = getBool("NewsEnabled", false);
+	m_bNewsEnabled = getBool("NewsEnabled");
 	m_iMaxLoadNewsPhoto = getByte("MaxLoadNewsPhoto", 5);
-	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
+	m_bNotificationsEnabled = getBool("NotificationsEnabled");
 	m_bNotificationsMarkAsViewed = getBool("NotificationsMarkAsViewed", true);
-	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled", false);
+	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled");
 	m_iNewsInterval = getDword("NewsInterval", 15);
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
-	m_iIMGBBCSupport = (IMGBBCSypport)getByte("IMGBBCSupport", 0);
-	m_iBBCForNews = (BBCSupport)getByte("BBCForNews", 1);
-	m_iBBCForAttachments = (BBCSupport)getByte("BBCForAttachments", 1);
+	m_iIMGBBCSupport = (IMGBBCSypport)getByte("IMGBBCSupport", imgNo);
+	m_iBBCForNews = (BBCSupport)getByte("BBCForNews", bbcBasic);
+	m_iBBCForAttachments = (BBCSupport)getByte("BBCForAttachments", bbcBasic);
 	m_bUseBBCOnAttacmentsAsNews = getBool("UseBBCOnAttacmentsAsNews", true);
-	m_bNewsAutoClearHistory = getBool("NewsAutoClearHistory", false);
+	m_bNewsAutoClearHistory = getBool("NewsAutoClearHistory");
 	m_iNewsAutoClearHistoryInterval = getDword("NewsAutoClearHistoryInterval", 60*60*24*3);
 
 	m_bNewsFilterPosts = getBool("NewsFilterPosts", true);
@@ -105,8 +105,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNewsSourceGroups = getBool("NewsSourceGroups", true);
 	m_bNewsSourcePages = getBool("NewsSourcePages", true);
 	m_bNewsSourceFollowing = getBool("NewsSourceFollowing", true);
-	m_bNewsSourceIncludeBanned = getBool("NewsSourceIncludeBanned", false);
-	m_bNewsSourceNoReposts = getBool("NewsSourceNoReposts", false);
+	m_bNewsSourceIncludeBanned = getBool("NewsSourceIncludeBanned");
+	m_bNewsSourceNoReposts = getBool("NewsSourceNoReposts");
 
 	m_bNotificationFilterComments = getBool("NotificationFilterComments", true);
 	m_bNotificationFilterLikes = getBool("NotificationFilterLikes", true);
@@ -354,7 +354,7 @@ void CVkProto::InitMenus()
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", -1);
-	bool bisFriend = (getByte(hContact, "Auth", -1) == 0);
+	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
@@ -362,7 +362,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && userID != VK_FEED_USER);
-	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off", false));
+	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off"));
 	Menu_ShowItem(g_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_LOADVKNEWS], userID == VK_FEED_USER);

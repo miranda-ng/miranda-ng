@@ -36,7 +36,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 
 	MCONTACT chatContact = FindChat(id);
 	if (chatContact)
-		if (getBool(chatContact, "kicked", false))
+		if (getBool(chatContact, "kicked"))
 			return NULL;
 
 	CVkChatInfo *c = m_chats.find((CVkChatInfo*)&id);
@@ -510,7 +510,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 				db_set_dw(hContact, "Ignore", "Mask1", 0);
 				RetrieveUserInfo(_ttoi(gch->ptszUID));
 			}
-			CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+			CallService(MS_MSG_SENDMESSAGET, hContact);
 		}
 		break;
 
@@ -638,7 +638,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	if (getBool(hContact, "kicked", false))
+	if (getBool(hContact, "kicked"))
 		return 1;
 	
 	int chat_id = getDword(hContact, "vk_chat_id", -1);
@@ -691,7 +691,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	gcd.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, close_window? SESSION_TERMINATE:SESSION_OFFLINE, (LPARAM)&gce);
 	if (delete_chat)
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact);
 	else
 		setByte(cc->m_hContact, "off", (int)true);
 	m_chats.remove(cc);
@@ -703,7 +703,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg)
 
 	MCONTACT chatContact = FindChat(chat_id);
 	if (chatContact)
-		if (getBool(chatContact, "off", false))
+		if (getBool(chatContact, "off"))
 			return;
 
 	if (user_id == m_myUserId)
@@ -746,7 +746,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	if (!getBool(hContact, "off", false))
+	if (!getBool(hContact, "off"))
 		return 1;
 		
 	int chat_id = getDword(hContact, "vk_chat_id", -1);
@@ -763,7 +763,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 		<< CHAR_PARAM("code", code)
 		<< VER_API);
 
-	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
 
 	return 0;
 }
@@ -800,7 +800,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			db_set_b(hContact, "CList", "NotOnList", 1);
 			db_set_dw(hContact, "Ignore", "Mask1", 0);
 		}
-		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+		CallService(MS_USERINFO_SHOWDIALOG, hContact);
 		break;
 
 	case IDM_VISIT_PROFILE:
@@ -923,8 +923,8 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0)) {
 					if (SendMessage(hwndClist, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-						int uid = ppro->getDword(hContact, "ID", 0);
-						if (uid != NULL) {
+						int uid = ppro->getDword(hContact, "ID");
+						if (uid != 0) {
 							if (!uids.IsEmpty())
 								uids.AppendChar(',');
 							uids.AppendFormat("%d", uid);

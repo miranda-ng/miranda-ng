@@ -33,7 +33,7 @@ void CVkProto::SendMsgAck(void *param)
 	debugLogA("CVkProto::SendMsgAck");
 	TFakeAckParams *ack = (TFakeAckParams*)param;
 	Sleep(100);
-	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->msgid, 0);
+	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->msgid);
 	delete ack;
 }
 
@@ -98,7 +98,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);
-			if (mid > getDword(param->hContact, "lastmsgid", 0))
+			if (mid > getDword(param->hContact, "lastmsgid"))
 				setDword(param->hContact, "lastmsgid", mid);
 			if (m_iMarkMessageReadOn >= markOnReply)
 				MarkMessagesRead(param->hContact);
@@ -108,13 +108,13 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	if (param->iMsgID == -1) {
 		CVkFileUploadParam *fup = (CVkFileUploadParam *)param->iCount;
-		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup, 0);
+		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup);
 		if (!pReq->bNeedsRestart)
 			delete fup;
 		return;
 	}
 	else if (m_bServerDelivery)
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID), 0);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID));
 	if (!pReq->bNeedsRestart) {
 		delete param;
 		pReq->pUserInfo = NULL;
