@@ -173,7 +173,7 @@ static void setListContactIcons(HWND hwndList){
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if(hItem) {
 			//if icon on 0th extracolumn is not set
-			if(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0)) == 0xFF){ 
+			if(SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0)) == EMPTY_EXTRA_ICON){ 
 				//check contact state on/off
 				if (MFENUM_MIRANDACONTACT_STATE_ON == mirandaContactsIter->contactState){
 					//if on - set icon 1 on 0th extracolumn
@@ -239,7 +239,7 @@ static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 			if(iconOn[i] && iImage==0){
 				iconOn[i]=0;
 			}
-			if(iImage!=0xFF){
+			if(iImage!=EMPTY_EXTRA_ICON){
 				childCount[i]++;
 			}
 		}
@@ -248,7 +248,7 @@ static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 
 	//set icons
 	for( i=0; i < _countof(iconOn); i++) {
-		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i,childCount[i]?(iconOn[i]?i+1:0):0xFF));
+		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i,childCount[i]?(iconOn[i]?i+1:0):EMPTY_EXTRA_ICON));
 		if(groupChildCount){
 			groupChildCount[i]+=childCount[i];
 		}
@@ -289,7 +289,7 @@ static void setAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 
 	while(hItem) {
 		int iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if(iOldIcon!=0xFF && iOldIcon!=iImage){
+		if(iOldIcon!=EMPTY_EXTRA_ICON && iOldIcon!=iImage){
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage));
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
@@ -312,7 +312,7 @@ HICON icoHandle_ICON_OFF;
 HICON icoHandle_ICON_FF;
 
 /*
- *	funkcja callback obs³uguj¹ca stronê z opcjami tab 2
+ *	callback function for tab 2 options page
  */
 INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 
@@ -334,10 +334,6 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		//load icons (direct)
 		icoHandle_ICON_OFF = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON_OFF));
 		icoHandle_ICON_FF = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON_FF));
-
-		//TODO load icons (icolib) - no need to use DestroyIcon
-		//HICON icoHandle_ICON_OFF = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)mirfoxData.icoHandle_ICON_OFF);
-		//HICON icoHandle_ICON_FF = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)mirfoxData.icoHandle_ICON_FF);
 
 		//add icons to ImageList list
 		ImageList_AddIcon(hIml, icoHandle_ICON_OFF);
@@ -468,7 +464,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							int iImage = SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0));
 							MFENUM_MIRANDACONTACT_STATE contactState;
 
-							if (iImage == 0xFF){ //TODO impossible??
+							if (iImage == EMPTY_EXTRA_ICON){ //TODO impossible??
 							} else {
 								if (iImage == 1){
 									contactState = MFENUM_MIRANDACONTACT_STATE_ON;

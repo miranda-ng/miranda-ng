@@ -105,7 +105,7 @@ public:
 
 	void updateCsmTimestamp(boost::interprocess::windows_shared_memory& updateCsm, uint16_t processCsmId);
 
-	//dla wszystkich innych rekord�w w csm w statusie W, sprawdza czy rekord w csm nie jest przeterminowany jeli tak to go usuwa
+	//for every other CSM records with 'W' status, check if record is outdated, if yes then delete this record
 	void checkAnotherCsm(boost::interprocess::windows_shared_memory& checkedCsm, uint16_t processCsmId);
 
 	//unload and free shared memory records and structures
