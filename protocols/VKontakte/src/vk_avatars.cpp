@@ -28,14 +28,14 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 
 	FILE *out = _tfopen(ai.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
+		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
 	setByte((MCONTACT)pReq->pUserInfo, "NeedNewAvatar", 0);
-	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
+	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -63,7 +63,7 @@ INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 {
 	if (!hContact) {
-		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
 		return;
 	}
 	PROTO_AVATAR_INFORMATION ai = { 0 };
@@ -85,7 +85,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	pai->format = ProtoGetAvatarFormat(pai->filename);
 
-	if (::_taccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar", 0))
+	if (::_taccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar"))
 		return GAIR_SUCCESS;
 
 	if (IsOnline()) {
@@ -153,7 +153,7 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 
 	if (tszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL);
 	}
 	else {
 		setTString(hContact, "AvatarUrl", tszUrl);
@@ -162,6 +162,6 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		ai.hContact = hContact;
 		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
 		ai.format = ProtoGetAvatarFormat(ai.filename);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
 	}
 }

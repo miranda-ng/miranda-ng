@@ -123,7 +123,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	memio.iLen = reply->dataLength;
 	memio.pBuf = reply->pData;
 	memio.fif = FIF_UNKNOWN; /* detect */
-	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
+	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
 	
 	BITMAP bmp = {0};
 	GetObject(param.bmp, sizeof(bmp), &bmp);

@@ -88,7 +88,7 @@ void CVkProto::OnLoggedOut()
 	m_bOnline = false;
 
 	if (m_pollingConn)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConn, 0);
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConn);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -471,7 +471,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (userid == 0)
 			break;
 		hContact = FindUser(userid, true);
-		if (!getBool(hContact, "ReqAuth", false)) {
+		if (!getBool(hContact, "ReqAuth")) {
 			RetrieveUserInfo(userid);
 			setByte(hContact, "ReqAuth", 1);	
 			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)hContact);		
@@ -501,7 +501,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (!jnResponse)
 		return;
 
-	bool bCleanContacts = getBool("AutoClean", false);
+	bool bCleanContacts = getBool("AutoClean");
 	LIST<void> arContacts(10, PtrKeySortT);
 		
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -533,7 +533,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			LONG userID = getDword(hContact, "ID", -1);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
 		}
 	
 	arContacts.destroy();
@@ -666,7 +666,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		<< VER_API);
 
 	if (m_bRemoveFromClist)
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
 
 	return 0;
 }

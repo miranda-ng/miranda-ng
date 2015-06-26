@@ -233,7 +233,7 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			SetChatStatus(hContact, iStatus);
-		else if (getWord(hContact, "Status", 0) != iStatus)
+		else if (getWord(hContact, "Status") != iStatus)
 			setWord(hContact, "Status", iStatus);
 		
 		if (iStatus == ID_STATUS_OFFLINE) {
@@ -262,7 +262,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	if (!bCreate)
 		return NULL;
 
-	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
 	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
@@ -708,7 +708,7 @@ void CVkProto::ContactTypingThread(void *p)
 	MCONTACT hContact = (MCONTACT)p;
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 	Sleep(5500);
-	CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
+	CallService(MS_PROTO_CONTACTISTYPING, hContact);
 	
 	if (!ServiceExists("MessageState/DummyService")) {
 		Sleep(1500);
@@ -729,7 +729,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 {
-	time_t time = getDword(hContact, "LastMsgReadTime", 0);
+	time_t time = getDword(hContact, "LastMsgReadTime");
 	if (!time)
 		return;
 

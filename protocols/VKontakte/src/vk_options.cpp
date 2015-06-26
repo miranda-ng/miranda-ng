@@ -121,7 +121,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getBool("AutoClean") ? BST_CHECKED : BST_UNCHECKED);
 		
 		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive) ? BST_CHECKED : BST_UNCHECKED);

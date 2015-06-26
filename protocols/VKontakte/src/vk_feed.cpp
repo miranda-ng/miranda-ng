@@ -24,7 +24,7 @@ void CVkProto::AddFeedSpecialUser()
 	MCONTACT hContact = FindUser(VK_FEED_USER);
 	if (!bSpecialContact) {
 		if (hContact)
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
 		return;
 	}
 	
@@ -40,7 +40,7 @@ void CVkProto::AddFeedSpecialUser()
 		setTString(hContact, "Homepage", _T("https://vk.com/feed"));
 	} 
 	
-	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE)
+	if (getWord(hContact, "Status") != ID_STATUS_ONLINE)
 		setWord(hContact, "Status", ID_STATUS_ONLINE);
 	SetMirVer(hContact, 7);
 

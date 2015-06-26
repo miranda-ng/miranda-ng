@@ -82,7 +82,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 {
 	debugLog(_T("CVkProto::SendFileFiled <%s> Error code <%d>"), reason, fup->iErrorCode);
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup, 0);
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup);
 	CMString tszError;
 	switch (fup->iErrorCode) {
 	case VKERR_COULD_NOT_SAVE_FILE:
