@@ -20,7 +20,7 @@ HINSTANCE hinstance;
 HGENMENU hmenuVis, hmenuOff, hmenuHide, hmenuIgnore, hmenuProto, hmenuAdded, hmenuAuthReq;
 HGENMENU hmenuCopyID, hmenuRecvFiles, hmenuStatusMsg, hmenuCopyIP, hmenuCopyMirVer;
 static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
-HICON hIcon[5];
+HICON hIcons[5];
 BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
@@ -468,12 +468,12 @@ INT_PTR onHide(WPARAM wparam, LPARAM)
 // following 4 functions should be self-explanatory
 void ModifyVisibleSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuVis, NULL, (mode) ? hIcon[1] : (alpha ? hIcon[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuVis, NULL, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 void ModifyInvisSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuOff, NULL, (mode) ? hIcon[2] : (alpha ? hIcon[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuOff, NULL, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
@@ -565,8 +565,8 @@ void ModifyCopyMirVer(MCONTACT hContact)
 			mir_free(msg);
 		}
 	}
-	if (!hIcon)
-		hMenuIcon = hIcon[0];
+	if (hMenuIcon == NULL)
+		hMenuIcon = hIcons[0];
 	Menu_ModifyItem(hmenuCopyMirVer, NULL, hMenuIcon);
 }
 
@@ -1045,11 +1045,11 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.pszService = MS_COPYMIRVER;
 	hmenuCopyMirVer = Menu_AddContactMenuItem(&mi);
 
-	hIcon[0] = IcoLib_GetIcon("miex_copymver");
-	hIcon[1] = IcoLib_GetIcon("miex_vis");
-	hIcon[2] = IcoLib_GetIcon("miex_invis");
-	hIcon[3] = MakeHalfAlphaIcon(hIcon[1]);
-	hIcon[4] = MakeHalfAlphaIcon(hIcon[2]);
+	hIcons[0] = IcoLib_GetIcon("miex_copymver");
+	hIcons[1] = IcoLib_GetIcon("miex_vis");
+	hIcons[2] = IcoLib_GetIcon("miex_invis");
+	hIcons[3] = MakeHalfAlphaIcon(hIcons[1]);
+	hIcons[4] = MakeHalfAlphaIcon(hIcons[2]);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildMenu);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
@@ -1083,8 +1083,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyIcon(hIcon[3]);
-	DestroyIcon(hIcon[4]);
+	DestroyIcon(hIcons[3]);
+	DestroyIcon(hIcons[4]);
 	return 0;
 }
 
