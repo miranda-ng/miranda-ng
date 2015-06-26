@@ -70,6 +70,7 @@ static int lua_GetContactSetting(lua_State *L)
 		break;
 	case DBVT_WORD:
 		lua_pushinteger(L, dbv.wVal);
+		break;
 	case DBVT_DWORD:
 		lua_pushnumber(L, dbv.dVal);
 		break;
