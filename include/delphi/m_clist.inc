@@ -69,9 +69,6 @@ type
   end;
 
 const
-  HGENMENU_ROOT = HGENMENU(-1);
-
-const
   CMIF_GRAYED     = 1;
   CMIF_CHECKED    = 2;
   CMIF_HIDDEN     = 4;   // only works on contact menus

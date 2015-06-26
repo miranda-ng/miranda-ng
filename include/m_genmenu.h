@@ -10,8 +10,6 @@
 #else
 	DECLARE_HANDLE(HGENMENU);
 #endif
-	
-#define HGENMENU_ROOT ((HGENMENU)INVALID_HANDLE_VALUE)
 
 // predefined menu objects
 #define MO_MAIN    (-1)
