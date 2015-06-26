@@ -74,6 +74,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 	LONG userID = getDword(hContact, "ID", -1);
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return (HANDLE)0;
+
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 	ForkThread(&CVkProto::SendFileThread, (void *)fup);
 	return (HANDLE)fup;

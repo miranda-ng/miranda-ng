@@ -181,9 +181,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	pReq->m_szParam = szBody;
 	pReq->m_szUrl = szAction;
-	if (!pReq->m_szUrl.IsEmpty()) 
-		if (pReq->m_szUrl[0] == '/')
-			pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
+	if (!pReq->m_szUrl.IsEmpty() && pReq->m_szUrl[0] == '/')
+		pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
 	m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -430,7 +429,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
 
-	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it){
+	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
 		hContact = SetContactInfo((*it));
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);

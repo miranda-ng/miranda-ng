@@ -202,7 +202,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		}
 
 		const JSONNode &jnAttachments = jnItem["attachments"];
-		if (!jnAttachments.isnull()){
+		if (!jnAttachments.isnull()) {
 			if (!tszText.IsEmpty())
 				tszText.AppendChar(_T('\n'));
 			tszText += GetAttachmentDescr(jnAttachments, m_bUseBBCOnAttacmentsAsNews ? m_iBBCForNews : m_iBBCForAttachments);
@@ -408,17 +408,15 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CV
 	CMString tszNotificationTranslate = SpanVKNotificationType(tszType, vkFeedbackType, vkParentType);
 		
 	const JSONNode &jnFeedback = jnItem["feedback"];
-	if (!jnFeedback)
+	const JSONNode &jnParent = jnItem["parent"];
+	
+	if (!jnFeedback || !jnParent)
 		return NULL;
 
 	CVkUserInfo *vkUser = NULL;
 	CMString tszFeedback = GetVkFeedback(jnFeedback, vkFeedbackType, vkUsers, vkUser);
-
-	const JSONNode &jnParent = jnItem["parent"];
-	if (!jnParent)
-		return NULL;
-
 	CVKNewsItem* vkNotification = GetVkParent(jnParent, vkParentType);
+
 	if (!vkNotification)
 		return NULL;
 	
@@ -616,7 +614,7 @@ bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isComme
 
 	if (vkNotificationItem->tszType == _T("mention_comments")
 		|| vkNotificationItem->tszType == _T("mention_comment_photo")
-		|| vkNotificationItem->tszType == _T("mention_comment_video")){
+		|| vkNotificationItem->tszType == _T("mention_comment_video")) {
 		isCommented = true;
 		return m_bNotificationFilterMentions;
 	}

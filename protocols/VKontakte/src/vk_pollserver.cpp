@@ -99,9 +99,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 
 			// skip outgoing messages sent from a client
 			flags = jnChild[2].as_int();
-			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT))
-				if (CheckMid(m_sendIds, msgid))
-					break;
+			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && CheckMid(m_sendIds, msgid))
+				break;
 
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
