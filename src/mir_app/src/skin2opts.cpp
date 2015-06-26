@@ -230,15 +230,15 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 
 	mir_tstrcpy(filter, TranslateT("Icon sets"));
 	if (bAll)
-		mir_tstrcat(filter, _T(" (*.dll;*.icl;*.exe;*.ico)"));
+		mir_tstrcat(filter, _T(" (*.dll;*.mir;*.icl;*.exe;*.ico)"));
 	else
-		mir_tstrcat(filter, _T(" (*.dll)"));
+		mir_tstrcat(filter, _T(" (*.dll;*.mir)"));
 
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (bAll)
-		mir_tstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
+		mir_tstrcpy(pfilter, _T("*.DLL;*.MIR;*.ICL;*.EXE;*.ICO"));
 	else
-		mir_tstrcpy(pfilter, _T("*.DLL"));
+		mir_tstrcpy(pfilter, _T("*.DLL;*.MIR"));
 
 	pfilter += mir_tstrlen(pfilter) + 1;
 	mir_tstrcpy(pfilter, TranslateT("All files"));
