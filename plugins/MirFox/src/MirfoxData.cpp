@@ -216,7 +216,8 @@ MirfoxData::initializeMirfoxData()
 MirfoxData::shouldProtoBeActiveByName(std::string protoName)
 {
 	if (
-			boost::iequals("ExchangeRates", protoName)
+			boost::iequals("MetaContacts", protoName)
+		||	boost::iequals("ExchangeRates", protoName)
 		||	boost::iequals("mTV", protoName)
 		||	boost::iequals("Quotes", protoName)
 		||	boost::iequals("Weather", protoName)
