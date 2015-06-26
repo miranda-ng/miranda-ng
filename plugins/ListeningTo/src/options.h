@@ -42,22 +42,22 @@ Boston, MA 02111-1307, USA.
 
 
 struct Options {
-	BOOL enable_sending;
-	BOOL enable_music;
-	BOOL enable_radio;
-	BOOL enable_video;
-	BOOL enable_others;
+	bool enable_sending;
+	bool enable_music;
+	bool enable_radio;
+	bool enable_video;
+	bool enable_others;
 
 	TCHAR templ[1024];
 	TCHAR unknown[128];
 
-	BOOL override_contact_template;
-	BOOL show_adv_icon;
+	bool override_contact_template;
+	bool show_adv_icon;
 	int adv_icon_slot;
 
-	BOOL get_info_from_watrack;
-	BOOL enable_other_players;
-	BOOL enable_code_injection;
+	bool get_info_from_watrack;
+	bool enable_other_players;
+	bool enable_code_injection;
 	int time_to_pool;
 
 	WORD xstatus_set;

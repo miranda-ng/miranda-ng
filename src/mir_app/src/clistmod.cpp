@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "clc.h"
 
 INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam);
+int InitFramesMenus(void);
 int InitCListEvents(void);
 void UninitCListEvents(void);
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
@@ -504,6 +505,7 @@ int LoadContactListModule2(void)
 
 	InitCListEvents();
 	InitGroupServices();
+	InitFramesMenus();
 	cli.pfnInitTray();
 
 	hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);

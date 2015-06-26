@@ -26,6 +26,7 @@
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_protocols.h>
+#include <m_clist.h>
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_icolib.h>

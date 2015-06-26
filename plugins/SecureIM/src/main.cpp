@@ -53,11 +53,12 @@ static HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCS
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_ROOTHANDLE | CMIF_HIDDEN;
 	mi.position = pos;
-	mi.popupPosition = poppos;
 	mi.pszName = (char*)name;
 	mi.pszPopupName = (char*)rootid;
 	mi.pszService = (char*)service;
-	return Menu_AddContactMenuItem(&mi);
+	HGENMENU res = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, poppos);
+	return res;
 }
 
 static int onModuleLoad(WPARAM, LPARAM)

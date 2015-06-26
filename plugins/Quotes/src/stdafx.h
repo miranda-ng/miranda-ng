@@ -23,6 +23,7 @@
 #include <m_database.h>
 #include <win2k.h>
 #include <m_xml.h>
+#include <m_clist.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_protosvc.h>

@@ -138,8 +138,8 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 			mi.icolibItem = iconList[i].hIcolib;
 			mi.ptszName = rates[i];
 			mi.pszService = CLUI_FAVSETRATE;
-			mi.popupPosition = i;
 			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
+			Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
 		}
 	}
 
@@ -149,10 +149,10 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
 	else {
 		mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
-		mi.popupPosition = i + 100000000;
 		mi.position = -100000000;
 		mi.ptszName = LPGENT("Show even if offline");
 		hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
+		Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, i + 100000000);
 	}
 
 	return 0;

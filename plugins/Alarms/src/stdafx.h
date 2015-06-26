@@ -14,6 +14,7 @@
 #include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_popup.h>
+#include <m_clist.h>
 #include <m_idle.h>
 #include <m_clui.h>
 #include <m_cluiframes.h>

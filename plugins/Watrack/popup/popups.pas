@@ -474,11 +474,11 @@ begin
 
   FillChar(mi,SizeOf(mi),0);
   mi.szPopupName.a:=PluginShort;
-  mi.hIcon        :=IcoLib_GetIcon(IcoBtnInfo,0);
-  mi.szName.a     :='Music Info';
-  mi.pszService   :=MS_WAT_SHOWMUSICINFO;
-  mi.popupPosition:=MenuInfoPos;
-  hMenuInfo       :=Menu_AddMainMenuItem(@mi);
+  mi.hIcon     :=IcoLib_GetIcon(IcoBtnInfo,0);
+  mi.szName.a  :='Music Info';
+  mi.pszService:=MS_WAT_SHOWMUSICINFO;
+  mi.position  :=MenuInfoPos;
+  hMenuInfo:=Menu_AddMainMenuItem(@mi);
 
   ActionList:=nil;
   if ServiceExists(MS_POPUP_ADDPOPUPW)<>0 then

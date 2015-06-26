@@ -8,7 +8,7 @@ void InitMenus()
 	// main menu
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.popupPosition = 500099900;
+	// mi.popupPosition = 500099900; !!!!!!!!!!!!!!!!!!!!
 	mi.ptszPopupName = LPGENT("Ping");
 	mi.position = 2000060000;
 	mi.hIcon = hIconResponding;
@@ -16,9 +16,7 @@ void InitMenus()
 	mi.pszService = PLUG "/EnableAll";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.popupPosition = 500299901;
 	mi.position = 2000060001;
-	mi.popupPosition = 0;
 	mi.hIcon = hIconDisabled;
 	mi.ptszName = LPGENT("Disable all pings");
 	mi.pszService = PLUG "/DisableAll";

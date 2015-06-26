@@ -88,7 +88,7 @@ static int MainInit(WPARAM, LPARAM)
 
 	// Add options to menu
 	CLISTMENUITEM mi = { 0 };
-	mi.popupPosition = 500050000;
+	mi.position = 500050000;
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.ptszName = LPGENT("My details");
@@ -96,7 +96,6 @@ static int MainInit(WPARAM, LPARAM)
 
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hMenuRoot;
-	mi.popupPosition = 0;
 	mi.icolibItem = NULL;
 
 	if (protocols->CanSetAvatars()) {

@@ -1,5 +1,6 @@
-#include <commonheaders.h>
-#include "cluiframes.h"
+#include "stdafx.h"
+
+#include <m_cluiframes.h>
 
 //========================== Frames
 HANDLE hFrameMenuObject;
@@ -11,7 +12,7 @@ typedef struct{
 	char *szServiceName;
 	int Frameid;
 	INT_PTR param1;
-} FrameMenuExecParam, *lpFrameMenuExecParam;
+}FrameMenuExecParam, *lpFrameMenuExecParam;
 
 INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
 {
@@ -25,10 +26,10 @@ INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
 
 static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM *)lParam;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
 	TMO_MenuItem tmi;
-	if (!pcli->pfnConvertMenu(mi, &tmi))
+	if (!cli.pfnConvertMenu(mi, &tmi))
 		return NULL;
 
 	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
@@ -38,7 +39,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 		return 0;
 
 	fmep->szServiceName = mir_strdup(mi->pszService);
-	fmep->Frameid = mi->popupPosition;
+	fmep->Frameid = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!!!!!!!!!
 	fmep->param1 = (INT_PTR)mi->pszContactOwner;
 	tmi.ownerdata = fmep;
 	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
@@ -54,7 +55,6 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	CallService(fmep->szServiceName, lParam, fmep->param1);
-	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 	return 0;
 }
 

@@ -286,7 +286,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000060000;
-	mi.popupPosition = 500085000;
+	// mi.popupPosition = 500085000;
 	mi.ptszPopupName = szItem;
 	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
@@ -360,7 +360,6 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = hRootMenu;
-	mi.popupPosition = lPopupPosition;
 	mi.pszService = szServiceFunction;
 
 	for (size_t i = 0; i < dwCount; i++) {
@@ -369,6 +368,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		mi.icolibItem = pgdiItems[i].hIcolib;
 		mi.pszName = pgdiItems[i].szDescr;
 		hResult[i] = fnAddFunc(&mi);
+		Menu_ConfigureItem(hResult[i], MCI_OPT_EXECPARAM, lPopupPosition);
 	}
 
 	return hRootMenu;

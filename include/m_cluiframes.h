@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CLUIFRAMES_H__
 #define M_CLUIFRAMES_H__ 1
 
-#if !defined(M_GENMENU_H)
-#include "m_genmenu.h"
+#if !defined(M_GENMENU_H__)
+#include <m_genmenu.h>
 #endif
 
 /************************************************************************/

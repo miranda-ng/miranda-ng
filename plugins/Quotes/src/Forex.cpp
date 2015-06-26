@@ -159,17 +159,17 @@ namespace
 		}
 
 		mi.ptszName = LPGENT("Refresh");
-		mi.popupPosition = 0;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 		mi.pszService = "Quotes/RefreshContact";
 		g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
+		Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
 		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 
 		mi.ptszName = LPGENT("Open Log File...");
-		mi.popupPosition = 1;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/OpenLogFile";
 		g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi);
+		Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
 		CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
 
 #ifdef CHART_IMPLEMENT
@@ -182,14 +182,14 @@ namespace
 #endif
 
 		mi.ptszName = LPGENT("Edit Settings...");
-#ifdef CHART_IMPLEMENT
-		mi.popupPosition = 3;
-#else
-		mi.popupPosition = 2;
-#endif
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/EditSettings";
 		g_hMenuEditSettings = Menu_AddContactMenuItem(&mi);
+#ifdef CHART_IMPLEMENT
+		Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 3);
+#else
+		Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 2);
+#endif
 		CreateServiceFunction(mi.pszService, QuotesMenu_EditSettings);
 	}
 

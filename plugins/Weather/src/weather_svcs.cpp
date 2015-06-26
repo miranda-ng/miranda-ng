@@ -323,7 +323,7 @@ void AddMenuItems(void)
 
 	// adding main menu items
 	mi.pszPopupName = LPGEN("Weather");
-	mi.popupPosition = 500099000;
+	// mi.popupPosition = 500099000; !!!!!!!!!!!!!!!!!!!!!
 
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.pszName = LPGEN("Enable/Disable Weather Update");

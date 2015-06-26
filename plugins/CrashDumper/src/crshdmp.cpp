@@ -256,7 +256,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	CLISTMENUITEM mi = { 0 };
-	mi.popupPosition = 2000089999;
+	// mi.popupPosition = 2000089999; !!!!!!!!!!!!!!!!!!!!!!!
 	mi.position = 2000089999;
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_VI);
@@ -266,7 +266,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hMenuRoot;
-	mi.popupPosition = 0;
 
 	mi.position = 2000089995;
 	mi.ptszName = LPGENT("Copy to clipboard");
@@ -286,21 +285,18 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.popupPosition = 1;
 	mi.position = 2000089998;
 	mi.ptszName = LPGENT("Show with DLLs");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
-	Menu_AddMainMenuItem(&mi);
+	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
-	mi.popupPosition = 0;
 	mi.position = 2000089999;
 	mi.ptszName = LPGENT("Upload");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.popupPosition = 0;
 	mi.position = 2000089999;
 	mi.ptszName = LPGENT("Copy link to clipboard");
 	mi.icolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
@@ -315,12 +311,11 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Menu_AddMainMenuItem(&mi);
 	}
 
-	mi.popupPosition = 1;
 	mi.position = 2000099991;
 	mi.ptszName = LPGENT("Open online Version Info");
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
-	Menu_AddMainMenuItem(&mi);
+	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
 	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(hk);

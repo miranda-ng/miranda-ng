@@ -62,8 +62,8 @@ INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 	TMO_MenuItem tmi;
+	CLISTMENUITEM *mi = (CLISTMENUITEM *)lParam;
 	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
@@ -73,7 +73,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(mi->pszService);
-	mmep->Param1 = mi->popupPosition;
+	mmep->Param1 = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!
 	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
 	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
@@ -88,12 +88,6 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, buf);
 	return (INT_PTR)hNewItem;
 }
-
-int GroupMenuCheckService(WPARAM, LPARAM)
-{
-	//not used
-	return 0;
-};
 
 INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 {
@@ -149,7 +143,7 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 
 INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE)&CLS_HIDEEMPTYGROUPS);
+	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 	db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
 	SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 	return 0;
@@ -157,17 +151,15 @@ INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 
 INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
+	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
-	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
+	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal,0);
 	return 0;
 }
 
 INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
-	SendMessage(
-		pcli->hwndContactTree,
-		CLM_SETHIDEOFFLINEROOT,
+	SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT,
 		!SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0),
 		0);
 	return 0;
@@ -199,12 +191,18 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 	return 0;
 }
 
-static IconItemT iconItem = { LPGENT("New group"), "NewGroup", IDI_NEWGROUP2 };
+static IconItemT iconItem[] =
+{ 
+	{ LPGENT("New group"), "NewGroup", IDI_NEWGROUP2 }
+};
 
 void GroupMenus_Init(void)
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list"), &iconItem, 1);
+	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
+}
 
+void InitGroupMenus(void)
+{
 	CreateServiceFunction("CLISTMENUSGroup/ExecService", GroupMenuExecService);
 	CreateServiceFunction("CLISTMENUSGroup/FreeOwnerDataGroupMenu", FreeOwnerDataGroupMenu);
 	CreateServiceFunction("CLISTMENUSGroup/GroupMenuonAddService", GroupMenuonAddService);
@@ -226,7 +224,7 @@ void GroupMenus_Init(void)
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 
-	//add  exit command to menu
+	// add exit command to menu
 	GroupMenuParam gmp;
 
 	CLISTMENUITEM mi = { 0 };
@@ -250,13 +248,13 @@ void GroupMenus_Init(void)
 
 	mi.position = 300000;
 	mi.pszService = "";
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
 	mi.pszName = LPGEN("&Main menu");
 	hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300100;
 	mi.pszService = "";
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
 	mi.pszName = LPGEN("&Status");
 	hGroupStatusMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -274,10 +272,10 @@ void GroupMenus_Init(void)
 
 	mi.flags = 0;
 	mi.position = 100000;
-	mi.icolibItem = iconItem.hIcolib;
+	mi.icolibItem = iconItem[0].hIcolib;
 	mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
 	mi.pszName = LPGEN("&New group");
-	hNewGroupMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
+	hNewGroupMenuItem = (HGENMENU)AddGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	mi.position = 100001;
@@ -375,7 +373,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(mi->pszService);
-	mmep->Param1 = mi->popupPosition;
+	mmep->Param1 = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!
 	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
 	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
@@ -472,7 +470,7 @@ void InitSubGroupMenus(void)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 1000;
-	mi.icolibItem = iconItem.hIcolib;
+	mi.icolibItem = iconItem[0].hIcolib;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 	mi.pszName = LPGEN("&New subgroup");
 	gmp.lParam = 0;

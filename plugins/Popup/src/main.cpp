@@ -201,7 +201,6 @@ void InitMenuItems(void)
 	// Popup History
 	CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
 	mi.position = 1000000000;
-	mi.popupPosition = 1999990000;
 	mi.ptszName = LPGENT("Popup History");
 	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService = MENUCOMMAND_HISTORY;

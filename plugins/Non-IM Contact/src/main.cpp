@@ -144,7 +144,7 @@ extern "C" __declspec(dllexport) int Load()
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 600090000;
 	mi.pszPopupName = LPGEN("&Non-IM Contact");
-	mi.popupPosition = 600090000;
+	// mi.popupPosition = 600090000; !!!!!!!!!!!!!!!!!!!!
 	mi.pszName = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
 	mi.icolibItem = icoList[0].hIcolib;

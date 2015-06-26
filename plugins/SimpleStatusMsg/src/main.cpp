@@ -1463,7 +1463,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	mi.position = 2000200000;
 	Menu_AddStatusMenuItem(&mi);
 
-	mi.popupPosition = 500084000;
+	// mi.popupPosition = 500084000; !!!!!!!!!!!!!!!!!!!!!!!
 	mi.position = 2000040000;
 
 	for (int i = 0; i < count; ++i)

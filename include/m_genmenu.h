@@ -1,94 +1,17 @@
-#ifndef M_GENMENU_H
-#define M_GENMENU_H
+#ifndef M_GENMENU_H__
+#define M_GENMENU_H__
 
-#ifndef M_CLIST_H__
-   #include <m_clist.h>
+#ifndef M_CORE_H__
+#include <m_core.h>
 #endif
 
-extern int hLangpack;
-
-// Group MENU
-typedef struct
-{
-	int wParam;
-	int lParam;
-}
-GroupMenuParam,*lpGroupMenuParam;
-
-//builds the SubGroup menu
-//wParam=lParam=0
-//returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDSUBGROUP							"CList/MenuBuildSubGroup"
-
-//add a new item to the SubGroup menus
-//wParam=lpGroupMenuParam, params to call when exec menuitem
-//lParam=(LPARAM)(CLISTMENUITEM*)&mi
-
-__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
-}
-
-//the SubGroup menu is about to be built
-//wParam=lParam=0
-#define ME_CLIST_PREBUILDSUBGROUPMENU						"CList/PreBuildSubGroupMenu"
-
-// Group MENU
-
-//builds the Group menu
-//wParam=lParam=0
-//returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDGROUP							"CList/MenuBuildGroup"
-
-//add a new item to the Group menus
-//wParam=lpGroupMenuParam, params to call when exec menuitem
-//lParam=(LPARAM)(CLISTMENUITEM*)&mi
-
-__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
-}
-
-//the Group menu is about to be built
-//wParam=lParam=0
-#define ME_CLIST_PREBUILDGROUPMENU						"CList/PreBuildGroupMenu"
-
-// TRAY MENU
-
-//builds the tray menu
-//wParam=lParam=0
-//returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDTRAY						"CList/MenuBuildTray"
-
-//add a new item to the tray menus
-//wParam=0
-//lParam=(LPARAM)(CLISTMENUITEM*)&mi
-
-__forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
-}
-
-//the tray menu is about to be built
-//wParam=lParam=0
-#define ME_CLIST_PREBUILDTRAYMENU					"CList/PreBuildTrayMenu"
-
-// STATUS MENU
-
-//the status menu is about to be built
-//wParam=lParam=0
-#define ME_CLIST_PREBUILDSTATUSMENU "CList/PreBuildStatusMenu"
-
-//builds the main menu
-//wParam=lParam=0
-//returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDMAIN						"CList/MenuBuildMain"
-
-//the main menu is about to be built
-//wParam=lParam=0
-#define ME_CLIST_PREBUILDMAINMENU					"CList/PreBuildMainMenu"
-
-/*GENMENU_MODULE*/
+#if defined MIR_APP_EXPORTS
+	typedef struct TMO_IntMenuItem* HGENMENU;
+#else
+	DECLARE_HANDLE(HGENMENU);
+#endif
+	
+#define HGENMENU_ROOT ((HGENMENU)INVALID_HANDLE_VALUE)
 
 #define SETTING_NOOFFLINEBOTTOM_DEFAULT 0
 
@@ -146,18 +69,28 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam
 EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Removes a menu item from genmenu
-// Returns 0 on success,-1 on failure.
-// You must free ownerdata before this call.
-// If MenuItemHandle is root, all children will be removed too.
-
-EXTERN_C MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Adds a menu item to genmenu
 // Returns MenuItemHandle on success, or NULL on failure
 
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(HANDLE hMenuObject, TMO_MenuItem *pItem);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// process a WM_DRAWITEM message for user context menus      v0.1.1.0+
+// wParam, lParam, return value as for WM_MEASUREITEM
+// See comments for clist/menumeasureitem
+
+EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// enables or disables a menu item
+
+EXTERN_C MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves a default menu item for the menu passed
+// Returns a menu handle on success or NULL on failure
+
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves user info from a menu item
@@ -173,10 +106,19 @@ EXTERN_C MIR_APP_DLL(void*) Menu_GetItemData(HGENMENU hMenuItem);
 EXTERN_C MIR_APP_DLL(int) Menu_GetItemInfo(HGENMENU hMenuItem, TMO_MenuItem &pInfo);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Retrieves a default menu item for the menu passed
-// Returns a menu handle on success or NULL on failure
+// process a WM_MEASUREITEM message for user context menus   v0.1.1.0+
+// wParam, lParam, return value as for WM_MEASUREITEM
+// This is for displaying the icons by the menu items. If you don't call this
+// and clist/menudrawitem whne drawing a menu returned by one of the three menu
+// services below then it'll work but you won't get any icons
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu);
+EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// modify an existing menu item 
+// returns 0 on success, nonzero on failure
+
+EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tries to process a keystroke
@@ -185,19 +127,23 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu);
 
 EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(HANDLE hMenuObject, int key);
 
-//process a WM_MEASUREITEM message for user context menus   v0.1.1.0+
-//wParam, lParam, return value as for WM_MEASUREITEM
-//This is for displaying the icons by the menu items. If you don't call this
-//and clist/menudrawitem whne drawing a menu returned by one of the three menu
-//services below then it'll work but you won't get any icons
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes a menu item from genmenu
+// Returns 0 on success,-1 on failure.
+// You must free ownerdata before this call.
+// If MenuItemHandle is root, all children will be removed too.
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
+EXTERN_C MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem);
 
-//process a WM_DRAWITEM message for user context menus      v0.1.1.0+
-//wParam, lParam, return value as for WM_MEASUREITEM
-//See comments for clist/menumeasureitem
+/////////////////////////////////////////////////////////////////////////////////////////
+// changes menu item's visibility
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis);
+EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// turns a menu item's check on & off
+
+EXTERN_C MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Creates a new menu object
@@ -251,6 +197,7 @@ __forceinline int Menu_ConfigureObject(HANDLE hMenu, int iSetting, LPCSTR pszVal
 
 #define MCI_OPT_UNIQUENAME 1 // a unique name to menuitem(used to store it in database when enabled OPT_USERDEFINEDITEMS)
 #define MCI_OPT_HOTKEY     2 // DWORD value = MAKELONG(VK_*, VK_SHIFT)
+#define MCI_OPT_EXECPARAM  3 // INT_PTR or void*, associated with this item
 
 EXTERN_C MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value);
 
@@ -268,4 +215,5 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProtoName);
 
 EXTERN_C MIR_APP_DLL(void) KillModuleMenus(int hLangpack);
 
-#endif
+#endif // M_GENMENU_H__
+

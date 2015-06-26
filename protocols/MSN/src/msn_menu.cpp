@@ -276,7 +276,7 @@ void CMsnProto::MsnInitMainMenu(void)
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		mi.popupPosition = 500085000;
+		mi.position = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_MSN);

@@ -201,7 +201,6 @@ int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //
 int     GetContactIndex(ClcGroup *group, ClcContact *contact);               //clcidents.c
 int     GetStatusForContact(MCONTACT hContact, char *szProto);                           //clistsettings.c
 int     InitCustomMenus(void);                                                //clistmenus.c
-int     InitFramesMenus(void);                                                //framesmenus.c
 int     LoadMoveToGroup();                                                   //movetogroup.c
 int     LoadStatusBarData();                                                //modern_statusbar.c
 int     MenuModulesLoaded(WPARAM wParam, LPARAM lParam);                              //clistmenu.c

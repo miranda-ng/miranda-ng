@@ -564,7 +564,6 @@ void CSametimeProto::InitSessionMenu()
 
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.popupPosition = 500085001;
 	mi.position = 2000060000;
 	mi.ptszName = LPGENT("Send announcement...");
 	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);

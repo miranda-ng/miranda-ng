@@ -62,8 +62,6 @@ type
     szPopupName    : TChar;   // [TRANSLATED-BY-CORE] name of the popup menu that this item is on, if this
                               // is NULL the iteem is on the root of the menu
 		// or hParentMenu:HGENMENU - valid if CMIF_ROOTHANDLE is set. NULL or (HGENMENU)-1 means the root menu
-    popupPosition  : int;     // position of the popup menu on the root menu, ignored
-                              // if pszPopupName is NULL(0) or if the popup menu already exists
     pszContactOwner: PAnsiChar;   // contact menus only, the protocol module that owns
                               // the contacts to which this to which this menu item
                               // applies, NULL(0) if it applies to all contacts.

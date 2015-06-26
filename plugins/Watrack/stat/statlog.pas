@@ -583,11 +583,11 @@ begin
 
   FillChar(mi, sizeof(mi), 0);
   mi.szPopupName.a:=PluginShort;
-  mi.hIcon        :=IcoLib_GetIcon(IcoBtnReport,0);
-  mi.szName.a     :='Create WATrack report';
-  mi.pszService   :=MS_WAT_MAKEREPORT;
-  mi.popupPosition:=MenuReportPos;
-  hMenuReport :=Menu_AddMainMenuItem(@mi);
+  mi.hIcon     :=IcoLib_GetIcon(IcoBtnReport,0);
+  mi.szName.a  :='Create WATrack report';
+  mi.pszService:=MS_WAT_MAKEREPORT;
+  mi.position  :=MenuReportPos; // !!!!!!!!!!!!!!!!!!!!!
+  hMenuReport:=Menu_AddMainMenuItem(@mi);
   plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 

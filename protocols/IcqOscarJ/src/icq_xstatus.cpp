@@ -857,7 +857,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.pszPopupName = szItem;
-	mi.popupPosition = 500084000;
+	// mi.popupPosition = 500084000; !!!!!!!!!!!!!!!!
 	mi.position = 2000040000;
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {

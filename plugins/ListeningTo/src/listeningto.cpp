@@ -19,6 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -56,10 +57,10 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam);
 int SettingChanged(WPARAM wParam,LPARAM lParam);
 
 INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
-BOOL    ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
+bool    ListeningToEnabled(char *proto, bool ignoreGlobal = false);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam);
-INT_PTR EnableListeningTo(char  *proto = NULL,BOOL enabled = FALSE);
+INT_PTR EnableListeningTo(char  *proto = NULL, bool enabled = false);
 INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam);
 TCHAR*	GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
@@ -112,6 +113,7 @@ static IconItem iconList[] =
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	CoInitialize(NULL);
 
@@ -157,7 +159,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 void UpdateGlobalStatusMenus()
 {
-	BOOL enabled = ListeningToEnabled(NULL, TRUE);
+	bool enabled = ListeningToEnabled(NULL, true);
 
 	Menu_SetChecked(proto_items[0].hMenu, enabled);
 	Menu_EnableItem(proto_items[0].hMenu, opts.enable_sending);
@@ -193,7 +195,7 @@ void RebuildMenu()
 		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000 + i;
 		mi.hParentMenu = hMainMenuGroup;
-		mi.popupPosition = 500080000 + i;
+		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.ptszName = text;
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR
@@ -299,7 +301,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
 	mi.hParentMenu = hMainMenuGroup;
-	mi.popupPosition = 500080000;
+	// mi.popupPosition = 500080000; !!!!!!!!!!!!!!!
 	mi.position = 0;
 	mi.pszService = MS_LISTENINGTO_MAINMENU;
 	mi.hIcon = NULL;
@@ -307,7 +309,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Add all protos
 	mi.ptszName = LPGENT("Send to all protocols");
 	mi.flags = CMIF_ROOTHANDLE  | CMIF_TCHAR
-			| (ListeningToEnabled(NULL, TRUE) ? CMIF_CHECKED : 0)
+			| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	proto_items.resize(1);
 	proto_items[0].hMenu = Menu_AddMainMenuItem(&mi);
@@ -441,14 +443,14 @@ int PreShutdown(WPARAM, LPARAM)
 
 static INT_PTR TopToolBarClick(WPARAM, LPARAM)
 {
-	EnableListeningTo(NULL, !ListeningToEnabled(NULL, TRUE));
+	EnableListeningTo(NULL, !ListeningToEnabled(NULL, true));
 	return 0;
 }
 
 // Toptoolbar hook to put an icon in the toolbar
 int TopToolBarLoaded(WPARAM, LPARAM)
 {
-	BOOL enabled = ListeningToEnabled(NULL, TRUE);
+	BOOL enabled = ListeningToEnabled(NULL, true);
 
 	CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick);
 
@@ -477,7 +479,7 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
+bool ListeningToEnabled(char *proto, bool ignoreGlobal)
 {
 	if (!ignoreGlobal && !opts.enable_sending)
 		return FALSE;
@@ -498,7 +500,7 @@ BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 	{
 		char setting[256];
 		mir_snprintf(setting, "%sEnabled", proto);
-		return (BOOL) db_get_b(NULL, MODULE_NAME, setting, FALSE);
+		return db_get_b(NULL, MODULE_NAME, setting, false) != 0;
 	}
 }
 
@@ -684,7 +686,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 	}
 }
 
-INT_PTR EnableListeningTo(char *proto,BOOL enabled)
+INT_PTR EnableListeningTo(char *proto, bool enabled)
 {
 	if (!loaded)
 		return -1;
@@ -727,12 +729,12 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 
 INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 {
-	return EnableListeningTo((char*)wParam,(BOOL)lParam);
+	return EnableListeningTo((char*)wParam, lParam != 0);
 }
 
 INT_PTR HotkeysEnable(WPARAM,LPARAM lParam)
 {
-	return EnableListeningTo(lParam, TRUE);
+	return EnableListeningTo(lParam, true);
 }
 
 INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam)

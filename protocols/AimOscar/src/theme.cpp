@@ -220,7 +220,6 @@ void CAimProto::InitMainMenus(void)
 		mi.icolibItem = GetIconHandle("aim");
 		mi.ptszName = m_tszUserName;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.popupPosition = 500090000;
 		mi.position = 500090000;
 		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}

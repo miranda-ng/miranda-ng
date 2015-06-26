@@ -502,15 +502,13 @@ extern "C" __declspec(dllexport) int Load(void)
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
 	}
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
-	mi.popupPosition = 1999990000;
+	// mi.popupPosition = 1999990000; !!!!!!!!!!!!!!!!!!!!!!!!!
 	mi.pszPopupName = LPGEN("Popups");
 	hMenuItem =  Menu_AddMainMenuItem(&mi);
 
 	mi.pszName = LPGEN("WUMF: Show connections");
 	mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
 	mi.pszService = MS_WUMF_CONNECTIONSSHOW;
-	mi.popupPosition = 1999990000;
-	mi.pszPopupName = NULL;
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);

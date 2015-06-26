@@ -29,7 +29,7 @@ void InitMenu()
 
 	// adding main menu items
 	mi.ptszPopupName = LPGENT("News Aggregator");
-	mi.popupPosition = 500099000;
+	// mi.popupPosition = 500099000; !!!!!!!!!!!!!!!!!!!!!!!
 
 	mi.position = 10100001;
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))

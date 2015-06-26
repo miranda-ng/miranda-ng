@@ -303,17 +303,15 @@ void InitMenuItems()
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.hParentMenu = hContactMenu;
-	mi.popupPosition = FROM_CLIPBOARD;
 	mi.ptszName = LPGENT("Paste from clipboard");
-	Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_CLIPBOARD);
 
-	mi.popupPosition = FROM_FILE;
 	mi.ptszName = LPGENT("Paste from file");
-	Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_FILE);
 
-	mi.popupPosition = DEF_PAGES_START - 1;
 	mi.ptszName = LPGENT("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
 	CLISTMENUITEM mi2 = { 0 };
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
@@ -324,8 +322,8 @@ void InitMenuItems()
 		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
 		mi2.ptszName = pasteToWebs[i]->GetName();
-		mi2.popupPosition = mi2.position = DEF_PAGES_START + i;
 		hWebPageMenus[i] = Menu_AddContactMenuItem(&mi2);
+		Menu_ConfigureItem(hWebPageMenus[i], MCI_OPT_EXECPARAM, mi2.position = DEF_PAGES_START + i);
 	}
 
 	hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
