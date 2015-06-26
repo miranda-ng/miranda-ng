@@ -20,8 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <windows.h>
 #include <time.h>
-#include <commctrl.h>
-#include <mshtml.h>
 #include <string>
 #include <vector>
 #include <regex>
@@ -50,7 +48,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_clistint.h>
 #include <m_string.h>
 #include <m_json.h>
-#include <m_timezones.h>
 #include <m_gui.h>
 #include <m_imgsrvc.h>
 #include <m_xml.h>

@@ -21,8 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST *response, void *arg);
 
-typedef HRESULT(MarkupCallback)(IHTMLDocument3 *pHtmlDoc, BSTR &message);
-
 struct TRInfo
 {
 	std::string 
@@ -330,8 +328,6 @@ private:
 	CMStringA SelfUrlToName(const char *url);
 	CMStringA GetServerFromUrl(const char *url);
 
-	LPCTSTR ClearText(CMString &value, const TCHAR *message);
-
 	void CALLBACK SkypeUnsetTimer(void*);
 	void CALLBACK SkypeSetTimer(void*);
 
@@ -361,8 +357,5 @@ private:
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
 };
-
-HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message);
-HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message);
 
 #endif //_SKYPE_PROTO_H_

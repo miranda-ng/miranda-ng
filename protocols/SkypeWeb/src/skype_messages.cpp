@@ -104,8 +104,6 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error.c_str());
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.c_str());
 	}
-
-
 }
 
 // preparing message/action to writing into db
