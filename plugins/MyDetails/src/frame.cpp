@@ -329,13 +329,13 @@ int CreateFrame()
 
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.popupPosition = -0x7FFFFFFF;
 		mi.ptszPopupName = LPGENT("My details");
 		mi.position = 1; // 500010000
 		mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.ptszName = LPGENT("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
+		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);
 
 		if (db_get_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) {
 			ShowWindow(hwnd_container, SW_SHOW);

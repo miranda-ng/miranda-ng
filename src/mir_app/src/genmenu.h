@@ -54,6 +54,7 @@ struct TMO_IntMenuItem
 	HBITMAP      hBmp;
 	int          originalPosition;
 	DWORD        hotKey;
+	WPARAM       execParam;
 	int          hLangpack;
 
 	TMO_IntMenuItem *next; // next item in list

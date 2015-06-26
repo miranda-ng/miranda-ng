@@ -36,10 +36,10 @@ begin
   FillChar(mi, sizeof(mi), 0);
   mi.szPopupName.a:=PluginShort;
 
-  mi.hIcon        :=IcoLib_GetIcon(IcoBtnEnable,0);
-  mi.szName.a     :='Disable WATrack';
-  mi.pszService   :=MS_WAT_PLUGINSTATUS;
-  mi.popupPosition:=MenuDisablePos;
+  mi.hIcon     :=IcoLib_GetIcon(IcoBtnEnable,0);
+  mi.szName.a  :='Disable WATrack';
+  mi.pszService:=MS_WAT_PLUGINSTATUS;
+  mi.position  :=MenuDisablePos;
   hMenuDisable:=Menu_AddMainMenuItem(@mi);
 end;
 

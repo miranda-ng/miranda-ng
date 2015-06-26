@@ -92,23 +92,6 @@ tStatusMenuHandles, *lpStatusMenuHandles;
 lpStatusMenuHandles hStatusMenuHandles;
 int hStatusMenuHandlesCnt;
 
-//mainmenu exec param(ownerdata)
-struct MainMenuExecParam
-{
-	char *szServiceName;
-	TCHAR *szMenuName;
-	int Param1;
-};
-
-//contactmenu exec param(ownerdata)
-//also used in checkservice
-struct ContactMenuExecParam
-{
-	char *szServiceName;
-	char *pszContactOwner;//for check proc
-	int param;
-};
-
 struct BuildContactParam
 {
 	char *szProto;
@@ -176,6 +159,13 @@ int fnGetAverageMode(int *pNetProtoCount)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
+struct MainMenuExecParam
+{
+	char *szServiceName;
+	TCHAR *szMenuName;
+	TMO_IntMenuItem *pimi;
+};
+
 static INT_PTR BuildMainMenu(WPARAM, LPARAM)
 {
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
@@ -198,11 +188,11 @@ static INT_PTR AddMainMenuItem(WPARAM, LPARAM lParam)
 
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(mi->pszService);
-	mmep->Param1 = mi->popupPosition;
 	mmep->szMenuName = tmi.name.t;
 	tmi.ownerdata = mmep;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, &tmi);
+	mmep->pimi = pimi;
 
 	char* name;
 	bool needFree = false;
@@ -226,18 +216,14 @@ int MainMenuCheckService(WPARAM, LPARAM)
 	return 0;
 }
 
-//called with:
-//wparam - ownerdata
-//lparam - lparam from winproc
+// called with:
+// wparam - ownerdata
+// lparam - lparam from winproc
 INT_PTR MainMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	MainMenuExecParam *mmep = (MainMenuExecParam*)wParam;
 	if (mmep != NULL) {
-		// bug in help.c, it used wparam as parent window handle without reason.
-		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand"))
-			mmep->Param1 = 0;
-
-		CallService(mmep->szServiceName, mmep->Param1, lParam);
+		CallService(mmep->szServiceName, mmep->pimi->execParam, lParam);
 	}
 	return 1;
 }
@@ -254,6 +240,13 @@ INT_PTR FreeOwnerDataMainMenu(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CONTACT MENU
+
+struct ContactMenuExecParam
+{
+	char *szServiceName;
+	char *pszContactOwner;//for check proc
+	TMO_IntMenuItem *pimi;
+};
 
 static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 {
@@ -273,11 +266,12 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 	cmep->szServiceName = mir_strdup(mi->pszService);
 	if (mi->pszContactOwner != NULL)
 		cmep->pszContactOwner = mir_strdup(mi->pszContactOwner);
-	cmep->param = mi->popupPosition;
 	tmi.ownerdata = cmep;
 
 	//may be need to change how UniqueName is formed?
-	TMO_IntMenuItem *menuHandle = Menu_AddItem(hContactMenuObject, &tmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, &tmi);
+	cmep->pimi = pimi;
+
 	char buf[256];
 	if (mi->pszService)
 		mir_snprintf(buf, "%s/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", (mi->pszService) ? mi->pszService : "");
@@ -288,8 +282,8 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 			mir_snprintf(buf, "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", mi->ptszName);
 	}
 	else buf[0] = '\0';
-	if (buf[0]) Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
-	return (INT_PTR)menuHandle;
+	if (buf[0]) Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
+	return (INT_PTR)pimi;
 }
 
 static INT_PTR BuildContactMenu(WPARAM hContact, LPARAM)
@@ -316,7 +310,7 @@ INT_PTR ContactMenuExecService(WPARAM wParam, LPARAM lParam)
 	if (wParam != 0) {
 		ContactMenuExecParam *cmep = (ContactMenuExecParam*)wParam;
 		//call with wParam = (MCONTACT)hContact, lparam = popupposition
-		CallService(cmep->szServiceName, lParam, cmep->param);
+		CallService(cmep->szServiceName, lParam, cmep->pimi->execParam);
 	}
 	return 0;
 }
@@ -841,9 +835,9 @@ void RebuildMenuOrder(void)
 		}
 		else tmi.name.t = pa->tszAccountName;
 
-		TMO_IntMenuItem *menuHandle = Menu_AddItem(hStatusMenuObject, &tmi);
-		((StatusMenuExecParam*)tmi.ownerdata)->protoindex = (int)menuHandle;
-		Menu_ModifyItem(menuHandle, tmi.name.t, tmi.hIcon, tmi.flags);
+		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &tmi);
+		((StatusMenuExecParam*)tmi.ownerdata)->protoindex = (int)pimi;
+		Menu_ModifyItem(pimi, tmi.name.t, tmi.hIcon, tmi.flags);
 
 		cli.menuProtos = (MenuProto*)mir_realloc(cli.menuProtos, sizeof(MenuProto)*(cli.menuProtoCount + 1));
 		memset(&(cli.menuProtos[cli.menuProtoCount]), 0, sizeof(MenuProto));
@@ -854,7 +848,7 @@ void RebuildMenuOrder(void)
 
 		char buf[256];
 		mir_snprintf(buf, "RootProtocolIcon_%s", pa->szModuleName);
-		Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
+		Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
 
 		DestroyIcon(ic);
 		pos += 500000;
@@ -1128,17 +1122,17 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 		tmi.ownerdata = smep;
 	}
 
-	TMO_IntMenuItem *menuHandle = Menu_AddItem(hStatusMenuObject, &tmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &tmi);
 	if (smep)
-		smep->hMenuItem = menuHandle;
+		smep->hMenuItem = pimi;
 
 	char buf[MAX_PATH + 64];
 	char *p = (pRoot) ? mir_t2a(pRoot->mi.name.t) : NULL;
 	mir_snprintf(buf, "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
 	mir_free(p);
 
-	Menu_ConfigureItem(menuHandle, MCI_OPT_UNIQUENAME, buf);
-	return (INT_PTR)menuHandle;
+	Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
+	return (INT_PTR)pimi;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

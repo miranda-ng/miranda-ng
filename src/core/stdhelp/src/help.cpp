@@ -76,7 +76,7 @@ int LoadHelpModule(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = LPGEN("&Help");
-	mi.popupPosition = 2000090000;
+	// mi.popupPosition = 2000090000; !!!!!!!!!!!!!!!!!!!!
 	mi.position = 2000090000;
 	mi.pszName = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";

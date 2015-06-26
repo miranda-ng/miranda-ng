@@ -122,8 +122,8 @@ void InitMenuItems()
 		}
 
 		mi.icolibItem = iconList[i].hIcolib;
-		mi.popupPosition = i + 1000;
 		hSubMenu[i] = Menu_AddContactMenuItem(&mi);
+		Menu_ConfigureItem(hSubMenu[i], MCI_OPT_EXECPARAM, i + 1000);
 
 		mi.flags |= CMIF_ROOTHANDLE;
 		mi.hParentMenu = hMainMenu;
@@ -131,9 +131,9 @@ void InitMenuItems()
 		
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.popupPosition = mi2.position = i + UploadJob::FTP_RAWFILE;
 		mi2.ptszName = LPGENT("Upload file(s)");		
-		Menu_AddContactMenuItem(&mi2);
+		HGENMENU tmp = Menu_AddContactMenuItem(&mi2);
+		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, mi2.position = i + UploadJob::FTP_RAWFILE);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];
@@ -141,9 +141,9 @@ void InitMenuItems()
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.popupPosition = i + UploadJob::FTP_ZIPFILE;
 		mi2.ptszName = LPGENT("Zip and upload file(s)");
-		Menu_AddContactMenuItem(&mi2);
+		tmp = Menu_AddContactMenuItem(&mi2);
+		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, i + UploadJob::FTP_ZIPFILE);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];
@@ -151,9 +151,9 @@ void InitMenuItems()
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.popupPosition = i + UploadJob::FTP_ZIPFOLDER;
 		mi2.ptszName = LPGENT("Zip and upload folder");
-		Menu_AddContactMenuItem(&mi2);
+		tmp = Menu_AddContactMenuItem(&mi2);
+		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, i + UploadJob::FTP_ZIPFOLDER);
 
 		mi2.pszService = MS_FTPFILE_MAINMENU;
 		mi2.hParentMenu = hMainSubMenu[i];

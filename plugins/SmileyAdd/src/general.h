@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 #include <time.h>
 #include <gdiplus.h>
+#include <m_clist.h>
 #include <commctrl.h>
 #include <richedit.h>
 #include <delayimp.h>

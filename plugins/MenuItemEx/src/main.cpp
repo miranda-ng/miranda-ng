@@ -737,13 +737,15 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
-	mi.popupPosition = param;
 	mi.position = pos;
 	mi.ptszName = name;
 	mi.hIcon = icon;
 	mi.flags = CMIF_UNICODE | CMIF_ROOTHANDLE | flag;
 	mi.pszService = service;
-	return Menu_AddContactMenuItem(&mi);
+	
+	HGENMENU res = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, param);
+	return res;
 }
 
 static void ModifySubmenuItem(HGENMENU hItem, int checked, int hidden)

@@ -337,7 +337,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Add contact menu entry
 	CLISTMENUITEM mi = { 0 };
-	mi.popupPosition = 500085000;
+	// mi.popupPosition = 500085000; !!!!!!!!!!!!!!!!!!!!!
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.icolibItem = iconList[0].hIcolib;

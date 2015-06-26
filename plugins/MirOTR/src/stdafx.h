@@ -27,6 +27,7 @@ using namespace std;
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_message.h>
+#include <m_clist.h>
 #include <m_popup.h>
 #include <m_protosvc.h>
 #include <m_contacts.h>

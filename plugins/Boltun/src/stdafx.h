@@ -29,13 +29,14 @@
 #include <string>
 #include <list>
 
-#include "newpluginapi.h"
-#include "m_clist.h"
-#include "m_system_cpp.h"
-#include "m_database.h"
-#include "m_options.h"
-#include "m_langpack.h"
-#include "m_skin.h"
+#include <newpluginapi.h>
+#include <m_clist.h>
+#include <m_system_cpp.h>
+#include <m_database.h>
+#include <m_genmenu.h>
+#include <m_options.h>
+#include <m_langpack.h>
+#include <m_skin.h>
 
 #include "resource.h"
 #include "version.h"

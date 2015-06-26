@@ -69,17 +69,17 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
-	mi.popupPosition = param; // param to pszService - only with CMIF_ROOTHANDLE !!!!!!
 	mi.position = pos;
 	mi.ptszName = PrepareGroupName(name);
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
-	HANDLE result = Menu_AddContactMenuItem(&mi);
-	mir_free(mi.ptszName);
+	HGENMENU result = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(result, MCI_OPT_EXECPARAM, param);
 
 	lphGroupsItems.insert((HANDLE*)result);
+	mir_free(mi.ptszName);
 }
 
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)

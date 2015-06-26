@@ -93,7 +93,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	int i, count;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.popupPosition = 2000100000;
+	mi.position = 2000100000;
 	mi.flags = CMIF_TCHAR;
 	mcount = 0;
 	count = GetProfileCount(0, 0);

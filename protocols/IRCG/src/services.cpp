@@ -146,28 +146,28 @@ void InitContactMenus(void)
 	mi.pszName = LPGEN("Channel &settings");
 	mi.icolibItem = GetIconHandle(IDI_MANAGER);
 	mir_strcpy(d, IRC_UM_CHANSETTINGS);
-	mi.popupPosition = 500090002;
+	mi.position = 500090002;
 	hUMenuChanSettings = Menu_AddContactMenuItem(&mi);
 	hMenuChanSettings = CreateServiceFunction(temp, IrcMenuChanSettings);
 
 	mi.pszName = LPGEN("&WhoIs info");
 	mi.icolibItem = GetIconHandle(IDI_WHOIS);
 	mir_strcpy(d, IRC_UM_WHOIS);
-	mi.popupPosition = 500090001;
+	mi.position = 500090001;
 	hUMenuWhois = Menu_AddContactMenuItem(&mi);
 	hMenuWhois = CreateServiceFunction(temp, IrcMenuWhois);
 
 	mi.pszName = LPGEN("Di&sconnect");
 	mi.icolibItem = GetIconHandle(IDI_DELETE);
 	mir_strcpy(d, IRC_UM_DISCONNECT);
-	mi.popupPosition = 500090001;
+	mi.position = 500090001;
 	hUMenuDisconnect = Menu_AddContactMenuItem(&mi);
 	hMenuDisconnect = CreateServiceFunction(temp, IrcMenuDisconnect);
 
 	mi.pszName = LPGEN("&Add to ignore list");
 	mi.icolibItem = GetIconHandle(IDI_BLOCK);
 	mir_strcpy(d, IRC_UM_IGNORE);
-	mi.popupPosition = 500090002;
+	mi.position = 500090002;
 	hUMenuIgnore = Menu_AddContactMenuItem(&mi);
 	hMenuIgnore = CreateServiceFunction(temp, IrcMenuIgnore);
 

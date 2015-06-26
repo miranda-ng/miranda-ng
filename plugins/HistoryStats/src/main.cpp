@@ -161,8 +161,7 @@ void AddMainMenu()
 		1910000000,
 		IconLib::getIcon(IconLib::iiMenuCreateStatistics),
 		con::SvcCreateStatistics,
-		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
-		bInPopup ? 1910000000 : 0);
+		bInPopup ? LPGENT("Statistics") : NULL);
 
 	g_hMenuShowStatistics = mu::clist::addMainMenuItem(
 		LPGENT("Show statistics"), // MEMO: implicit translation
@@ -170,8 +169,7 @@ void AddMainMenu()
 		1910000001,
 		IconLib::getIcon(IconLib::iiMenuShowStatistics),
 		con::SvcShowStatistics,
-		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
-		bInPopup ? 1910000000 : 0);
+		bInPopup ? LPGENT("Statistics") : NULL);
 
 	g_hMenuConfigure = mu::clist::addMainMenuItem(
 		bInPopup ? LPGENT("Configure...") : LPGENT("Configure statistics..."), // MEMO: implicit translation
@@ -179,8 +177,7 @@ void AddMainMenu()
 		1910000002,
 		IconLib::getIcon(IconLib::iiMenuConfigure),
 		con::SvcConfigure,
-		bInPopup ? LPGENT("Statistics") : NULL, // MEMO: implicit translation
-		bInPopup ? 1910000000 : 0);
+		bInPopup ? LPGENT("Statistics") : NULL);
 }
 
 /*

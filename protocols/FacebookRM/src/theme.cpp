@@ -218,7 +218,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		CLISTMENUITEM miRoot = { 0 };
-		miRoot.popupPosition = 500085000;
+		miRoot.position = 500085000;
 		miRoot.hParentMenu = HGENMENU_ROOT;
 		miRoot.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
 		miRoot.icolibItem = GetIconHandle("facebook");

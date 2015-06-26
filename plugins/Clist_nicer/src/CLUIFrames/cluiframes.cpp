@@ -36,9 +36,6 @@ void MF_UpdateThread(LPVOID);
 HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 HANDLE g_hEventThread = 0;
 
-//not needed,now use MS_CLIST_FRAMEMENUNOTIFY service
-//HANDLE hPreBuildFrameMenuEvent;//external event from clistmenus
-
 LOGFONT TitleBarLogFont = {0};
 
 extern HINSTANCE g_hInst;
@@ -59,7 +56,6 @@ extern HINSTANCE g_hInst;
 static int UpdateTBToolTip(int framepos);
 INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam);
 int CLUIFrameResizeFloatingFrame(int framepos);
-extern int InitFramesMenus(void);
 static int CLUIFramesReSort();
 
 boolean FramesSysNotStarted = TRUE;
@@ -577,8 +573,6 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : Frames[framepos].MenuHandles;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.popupPosition = frameid;
-
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
@@ -673,7 +667,6 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 
 	// position root
 	mi.hParentMenu = root;
-	mi.popupPosition = frameid;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Position");
 	mi.flags = CMIF_ROOTHANDLE;
@@ -1373,7 +1366,6 @@ static int CLUIFramesLoadMainMenu()
 		Frames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
 		CLUIFramesCreateMenuForFrame(Frames[i].id, Frames[i].MenuHandles.MainMenuItem, separator, Menu_AddMainMenuItem);
 		CLUIFramesModifyMainMenuItems(Frames[i].id, 0);
-		//NotifyEventHooks(hPreBuildFrameMenuEvent,i,(LPARAM)Frames[i].MenuHandles.MainMenuItem);
 		CallService(MS_CLIST_FRAMEMENUNOTIFY, (WPARAM)Frames[i].id, (LPARAM)Frames[i].MenuHandles.MainMenuItem);
 		separator++;
 	}
@@ -3030,7 +3022,6 @@ int LoadCLUIFramesModule(void)
 	GapBetweenFrames = cfg::dat.gapBetweenFrames;
 
 	nFramescount = 0;
-	InitFramesMenus();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CLUIFrameOnModulesLoad);
 	HookEvent(ME_CLIST_PREBUILDFRAMEMENU, CLUIFramesModifyContextMenuForFrame);

@@ -445,8 +445,7 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam)
 	}
 
 	LPCSTR srvname = pimi->parent->ExecService;
-	void *ownerdata = pimi->mi.ownerdata;
-	CallService(srvname, (WPARAM)ownerdata, lParam);
+	CallService(srvname, (WPARAM)pimi->mi.ownerdata, lParam);
 	return true;
 }
 
@@ -469,6 +468,10 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 
 	case MCI_OPT_HOTKEY:
 		pimi->hotKey = (DWORD)value;
+		return 0;
+
+	case MCI_OPT_EXECPARAM:
+		pimi->execParam = value;
 		return 0;
 	}
 

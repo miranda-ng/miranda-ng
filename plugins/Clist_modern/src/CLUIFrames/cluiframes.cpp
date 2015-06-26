@@ -758,7 +758,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = root;
-	mi.popupPosition = frameid;
+	// mi.popupPosition = frameid; !!!!!!!!!!!!!!!!!!!!!!!!!!
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Visible");
 	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
@@ -3525,8 +3525,6 @@ int LoadCLUIFramesModule(void)
 	GapBetweenFrames = db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT);
 
 	g_nFramesCount = 0;
-
-	InitFramesMenus();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CLUIFrameOnModulesLoad);
 	HookEvent(ME_CLIST_PREBUILDFRAMEMENU, CLUIFramesModifyContextMenuForFrame);

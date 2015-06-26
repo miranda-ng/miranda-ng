@@ -194,9 +194,6 @@
     <ClCompile Include="src\CLUIFrames\cluiframes.cpp">
       <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\CLUIFrames\framesmenu.cpp">
-      <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\CLUIFrames\groupmenu.cpp">
       <PrecompiledHeaderFile>../hdr/modern_commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

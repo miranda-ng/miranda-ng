@@ -52,7 +52,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_ROOTHANDLE;
-	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;
 	mi.hParentMenu = HGENMENU_ROOT;

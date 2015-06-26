@@ -98,7 +98,6 @@ void RebuildContact()
 	case 5:
 		//cascade all
 		mi.position = 1000050000;
-		mi.popupPosition = 1000050000;
 		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.pszName = MODULELONGNAME;
 		mhRoot = Menu_AddContactMenuItem(&mi);
@@ -108,7 +107,6 @@ void RebuildContact()
 	case 9:
 		//cascade Ex/Import
 		mi.position = 1000050100;
-		mi.popupPosition = 1000050100;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.pszName = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
@@ -119,7 +117,6 @@ void RebuildContact()
 		//disable Menu
 		return;
 	}
-	mi.popupPosition = NULL;
 
 	// ContactDetailsPS's menuitem
 	mi.hParentMenu = mhRoot;
@@ -191,7 +188,6 @@ void RebuildMain()
 		case 5:
 			//cascade all
 			mi.position = 500050000;
-			mi.popupPosition = 500050000;
 			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddMainMenuItem(&mi);
@@ -201,7 +197,6 @@ void RebuildMain()
 		case 9:
 			//cascade Ex/Import
 			mi.position = 500050000;
-			mi.popupPosition = 500050000;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddMainMenuItem(&mi);
@@ -212,7 +207,6 @@ void RebuildMain()
 			//disable Menue
 			return;
 	}
-	mi.popupPosition = NULL;
 
 	// details dialog
 	{
@@ -336,7 +330,6 @@ void RebuildGroup()
 		case 5:
 			//cascade all
 			mi.position = 250000;
-			mi.popupPosition = 250000;
 			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddGroupMenuItem(0, &mi);
@@ -346,7 +339,6 @@ void RebuildGroup()
 		case 9:
 			//cascade Ex/Import
 			mi.position = 250100;
-			mi.popupPosition = 250100;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
@@ -357,7 +349,6 @@ void RebuildGroup()
 			//disable Menue
 			return;
 	}
-	mi.popupPosition = NULL;
 
 	// VCard's Ex/Import menuitems
 	{	mi.hParentMenu = mhExIm;
@@ -433,7 +424,6 @@ void RebuildSubGroup()
 		case 5:
 			//cascade all
 			mi.position = 1050000;
-			mi.popupPosition = 1050000;
 			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
@@ -443,7 +433,6 @@ void RebuildSubGroup()
 		case 9:
 			//cascade Ex/Import
 			mi.position = 1050100;
-			mi.popupPosition = 1050100;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Export/import group");
 			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
@@ -454,7 +443,6 @@ void RebuildSubGroup()
 			//disable Menue
 			return;
 	}
-	mi.popupPosition = NULL;
 
 	// VCard's Ex/Import menuitems
 	{	mi.hParentMenu = mhExIm;

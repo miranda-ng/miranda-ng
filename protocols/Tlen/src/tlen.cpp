@@ -266,10 +266,7 @@ void TlenProtocol::initMenuItems()
 
 	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = m_szModuleName;
-	mi.popupPosition = 500090000;
 
-	mir_strcpy(text, m_szModuleName);
-	mi.pszService = text;
 	mi.ptszName = m_tszUserName;
 	mi.position = -1999901009;
 	mi.hParentMenu = HGENMENU_ROOT;
@@ -279,6 +276,7 @@ void TlenProtocol::initMenuItems()
 
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
+	mi.pszService = text;
 
 	hMenuChats = NULL;
 

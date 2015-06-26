@@ -33,12 +33,10 @@ var
   mi:TCListMenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
-//  mi.popupPosition:=MenuUserInfoPos;
   mi.pszService:=MS_RADIO_RECORD;
   mi.szName.a  :='Start/Stop Record';
   hCMenuItemRec:=Menu_AddContactMenuItem(@mi);
 
-//!!  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
   mi.hIcon      :=IcoLib_GetIcon(IcoBtnOn,0);
   mi.pszService :=MS_RADIO_PLAYSTOP;
   mi.szName.a   :='Start/Stop broadcasting';

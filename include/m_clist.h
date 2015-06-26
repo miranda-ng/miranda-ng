@@ -31,14 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "statusmodes.h"
 
+#ifndef M_CORE_H__
 #include <m_core.h>
+#endif
 
-extern int hLangpack;
-
-#if defined MIR_APP_EXPORTS
-	typedef struct TMO_IntMenuItem* HGENMENU;
-#else
-	DECLARE_HANDLE(HGENMENU);
+#ifndef M_GENMENU_H__
+#include <m_genmenu.h>
 #endif
 
 //sent when the user asks to change their status
@@ -107,17 +105,12 @@ struct CLISTMENUITEM
 		HGENMENU hParentMenu; // valid if CMIF_ROOTHANDLE is set. NULL or (HGENMENU)-1 means the root menu
 	};
 
-	int popupPosition;      //position of the popup menu on the root menu. Ignored
-                           //if pszPopupName is NULL or the popup menu already
-                           //existed
 	char *pszContactOwner;  //contact menus only. The protocol module that owns
                            //the contacts to which this menu item applies. NULL if it
                            //applies to all contacts. If it applies to multiple but not all
                            //protocols, add multiple menu items or use ME_CLIST_PREBUILDCONTACTMENU
 	int hLangpack;          //plugin's hLangpack (added automatically)
 };
-
-#define HGENMENU_ROOT      ((HGENMENU)-1)
 
 #define CMIF_GRAYED     1
 #define CMIF_CHECKED    2
@@ -167,27 +160,6 @@ __forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 {	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddProtoMenuItem", 0, (LPARAM)mi);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// modify an existing menu item 
-// returns 0 on success, nonzero on failure
-
-EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// changes menu item's visibility
-
-EXTERN_C MIR_APP_DLL(void) Menu_ShowItem(HGENMENU hMenuItem, bool bShow);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// enables or disables a menu item
-
-EXTERN_C MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// turns a menu item's check on & off
-
-EXTERN_C MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet);
 
 //the context menu for a contact is about to be built     v0.1.0.1+
 //wParam = (MCONTACT)hContact
@@ -367,8 +339,89 @@ typedef struct {
 //returns a HMENU. This need not be freed since it's owned by clist
 #define MS_CLIST_MENUGETSTATUS  "CList/MenuGetStatus"
 
+// Group MENU
+typedef struct
+{
+	int wParam;
+	int lParam;
+}
+GroupMenuParam, *lpGroupMenuParam;
 
+//builds the SubGroup menu
+//wParam=lParam=0
+//returns a HMENU identifying the menu.
+#define MS_CLIST_MENUBUILDSUBGROUP							"CList/MenuBuildSubGroup"
 
+//add a new item to the SubGroup menus
+//wParam=lpGroupMenuParam, params to call when exec menuitem
+//lParam=(LPARAM)(CLISTMENUITEM*)&mi
+
+__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+{
+	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
+}
+
+//the SubGroup menu is about to be built
+//wParam=lParam=0
+#define ME_CLIST_PREBUILDSUBGROUPMENU						"CList/PreBuildSubGroupMenu"
+
+// Group MENU
+
+//builds the Group menu
+//wParam=lParam=0
+//returns a HMENU identifying the menu.
+#define MS_CLIST_MENUBUILDGROUP							"CList/MenuBuildGroup"
+
+//add a new item to the Group menus
+//wParam=lpGroupMenuParam, params to call when exec menuitem
+//lParam=(LPARAM)(CLISTMENUITEM*)&mi
+
+__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+{
+	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
+}
+
+//the Group menu is about to be built
+//wParam=lParam=0
+#define ME_CLIST_PREBUILDGROUPMENU						"CList/PreBuildGroupMenu"
+
+// TRAY MENU
+
+//builds the tray menu
+//wParam=lParam=0
+//returns a HMENU identifying the menu.
+#define MS_CLIST_MENUBUILDTRAY						"CList/MenuBuildTray"
+
+//add a new item to the tray menus
+//wParam=0
+//lParam=(LPARAM)(CLISTMENUITEM*)&mi
+
+__forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
+{
+	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
+}
+
+//the tray menu is about to be built
+//wParam=lParam=0
+#define ME_CLIST_PREBUILDTRAYMENU					"CList/PreBuildTrayMenu"
+
+// STATUS MENU
+
+//the status menu is about to be built
+//wParam=lParam=0
+#define ME_CLIST_PREBUILDSTATUSMENU "CList/PreBuildStatusMenu"
+
+//builds the main menu
+//wParam=lParam=0
+//returns a HMENU identifying the menu.
+#define MS_CLIST_MENUBUILDMAIN						"CList/MenuBuildMain"
+
+//the main menu is about to be built
+//wParam=lParam=0
+#define ME_CLIST_PREBUILDMAINMENU					"CList/PreBuildMainMenu"
 
 //processes a menu selection from a menu                    v0.1.1.0+
 //wParam = MAKEWPARAM(LOWORD(wParam from WM_COMMAND), flags)

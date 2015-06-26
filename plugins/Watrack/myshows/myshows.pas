@@ -214,10 +214,10 @@ begin
   FillChar(mi, sizeof(mi), 0);
   mi.szPopupName.a:=PluginShort;
 
-  mi.hIcon        :=IcoLib_GetIcon(IcoMyShows,0);
-  mi.szName.a     :='Disable scrobbling';
-  mi.pszService   :=MS_WAT_MYSHOWS;
-  mi.popupPosition:=500050000;
+  mi.hIcon     :=IcoLib_GetIcon(IcoMyShows,0);
+  mi.szName.a  :='Disable scrobbling';
+  mi.pszService:=MS_WAT_MYSHOWS;
+  mi.position  :=500050000;
   hMenuMyShows:=Menu_AddMainMenuItem(@mi);
 end;
 

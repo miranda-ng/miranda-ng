@@ -189,7 +189,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CLUIFrames\cluiframes.cpp" />
-    <ClCompile Include="src\CLUIFrames\framesmenu.cpp" />
     <ClCompile Include="src\CLUIFrames\groupmenu.cpp" />
     <ClCompile Include="src\Coolsb\coolsblib.cpp" />
     <ClCompile Include="src\Coolsb\coolscroll.cpp" />

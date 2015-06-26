@@ -645,7 +645,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 		mi.hParentMenu = g_hToggleSOEContactMenuItem;
-		mi.popupPosition = 1000020000;
 		mi.position = 1000020000;
 
 		mi.icolibItem = iconList[1].hIcolib;
