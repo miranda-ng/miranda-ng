@@ -120,8 +120,7 @@ int CSkypeProto::OnInitStatusMenu()
 	{
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901006;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = Skin_GetIconHandle("main");
 		hStatusMunuRoot = /*m_hMenuRoot = */Menu_AddProtoMenuItem(&mi);
 	}
@@ -133,7 +132,7 @@ int CSkypeProto::OnInitStatusMenu()
 	m_hMenuRoot = NULL;
 	}*/
 	mi.hParentMenu = hStatusMunuRoot;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 
 
 	mir_strcpy(tDest, "/CreateNewChat");

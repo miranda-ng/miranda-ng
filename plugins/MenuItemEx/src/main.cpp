@@ -740,7 +740,7 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD fl
 	mi.position = pos;
 	mi.ptszName = name;
 	mi.hIcon = icon;
-	mi.flags = CMIF_UNICODE | CMIF_ROOTHANDLE | flag;
+	mi.flags = CMIF_UNICODE | flag;
 	mi.pszService = service;
 	
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
@@ -979,10 +979,8 @@ static int PluginInit(WPARAM, LPARAM)
 	hmenuHide = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
-	mi.hParentMenu = HGENMENU_ROOT;
 	mi.ptszName = LPGENT("Ignore");
 	mi.pszService = 0;
-	mi.flags |= CMIF_ROOTHANDLE;
 	mi.hIcon = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
@@ -997,7 +995,6 @@ static int PluginInit(WPARAM, LPARAM)
 	ood.pszPage = "Ignore";
 	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood);
 
-	mi.pszPopupName = 0;
 	mi.position++;
 	mi.ptszName = LPGENT("Copy to Account");
 	mi.pszService = MS_PROTO;

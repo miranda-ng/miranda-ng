@@ -329,8 +329,8 @@ int CreateFrame()
 
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.ptszPopupName = LPGENT("My details");
-		mi.position = 1; // 500010000
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
+		mi.position = 1;
 		mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.ptszName = LPGENT("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";

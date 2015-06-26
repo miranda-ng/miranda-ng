@@ -473,7 +473,7 @@ begin
   HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
-  mi.szPopupName.a:=PluginShort;
+  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuInfoPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnInfo,0);
   mi.szName.a  :='Music Info';
   mi.pszService:=MS_WAT_SHOWMUSICINFO;

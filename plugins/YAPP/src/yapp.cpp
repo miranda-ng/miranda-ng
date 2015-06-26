@@ -168,18 +168,11 @@ void InitMenuItems(void)
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 
+	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 500010000, IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0));
+
 	CLISTMENUITEM mi = { 0 };
-	mi.flags		= CMIF_ROOTHANDLE|CMIF_TCHAR;
-	mi.hParentMenu	= HGENMENU_ROOT;
-
-	// Build main menu
-	mi.position		= 500010000;
-	mi.ptszName		= LPGENT("Popups");
-	mi.hIcon		= IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
-	hMenuRoot		= Menu_AddMainMenuItem(&mi);
-
-	// Add item to main menu
-	mi.hParentMenu    = (HGENMENU)hMenuRoot;
+	mi.flags = CMIF_TCHAR;
+	mi.hParentMenu = hMenuRoot;
 
 	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService= MS_POPUP_SHOWHISTORY;

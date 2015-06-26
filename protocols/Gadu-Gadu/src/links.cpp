@@ -27,7 +27,7 @@
 #define GGS_PARSELINK "GG/ParseLink"
 #define GGS_MENUCHOOSE "GG/MenuChoose"
 
-static HANDLE hInstanceMenu;
+static int hInstanceMenu;
 
 static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 {

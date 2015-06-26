@@ -322,8 +322,7 @@ void AddMenuItems(void)
 	Menu_AddContactMenuItem(&mi);
 
 	// adding main menu items
-	mi.pszPopupName = LPGEN("Weather");
-	// mi.popupPosition = 500099000; !!!!!!!!!!!!!!!!!!!!!
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
 
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.pszName = LPGEN("Enable/Disable Weather Update");
@@ -348,12 +347,12 @@ void AddMenuItems(void)
 	Menu_AddMainMenuItem(&mi);
 
 	// only run if popup service exists
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.pszName = LPGEN("Weather Notification");
 		mi.icolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.pszPopupName = LPGEN("Popups");
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);

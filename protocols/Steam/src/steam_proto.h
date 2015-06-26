@@ -160,7 +160,7 @@ protected:
 
 	// menus
 	HGENMENU m_hMenuRoot;
-	static HANDLE hChooserMenu;
+	static int hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	int __cdecl AuthRequestCommand(WPARAM, LPARAM);

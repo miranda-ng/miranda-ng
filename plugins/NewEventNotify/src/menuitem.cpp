@@ -51,9 +51,9 @@ int MenuitemInit(BOOL bStatus)
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
 	CLISTMENUITEM mi = { 0 };
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 	mi.position = 1;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-	mi.pszPopupName = LPGEN("Popups");
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);

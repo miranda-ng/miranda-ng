@@ -546,7 +546,7 @@ int TN_ModuleInit()
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.pszPopupName = LPGEN("Popups");
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

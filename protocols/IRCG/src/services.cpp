@@ -34,8 +34,7 @@ void CIrcProto::InitMainMenus(void)
 		// Root popupmenuitem
 		mi.ptszName = m_tszUserName;
 		mi.position = -1999901010;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_MAIN);
 		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -46,7 +45,7 @@ void CIrcProto::InitMainMenus(void)
 		}
 	}
 
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.pszName = LPGEN("&Quick connect");
 	mi.icolibItem = GetIconHandle(IDI_QUICK);
 	mir_strcpy(d, IRC_QUICKCONNECT);

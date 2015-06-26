@@ -292,7 +292,7 @@ static INT_PTR InitMenu()
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 100000000;
 	mi.icolibItem = GetIconHandle(MENU_NAME);
-	mi.pszPopupName = MENU_NAME;
+	mi.pszName = MENU_NAME;
 	mi.pszService = SS_SERVICE_NAME;
 	hSSMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 	UpdateMenu();

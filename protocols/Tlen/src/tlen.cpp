@@ -266,16 +266,7 @@ void TlenProtocol::initMenuItems()
 
 	CLISTMENUITEM mi = { 0 };
 	mi.pszContactOwner = m_szModuleName;
-
-	mi.ptszName = m_tszUserName;
-	mi.position = -1999901009;
-	mi.hParentMenu = HGENMENU_ROOT;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
-	mi.icolibItem = GetIconHandle(IDI_TLEN);
-	hMenuRoot = Menu_AddMainMenuItem(&mi);
-
-	mi.flags = CMIF_ROOTHANDLE;
-	mi.hParentMenu = (HGENMENU)hMenuRoot;
+	mi.hParentMenu = hMenuRoot = Menu_CreateRoot(MO_MAIN, m_tszUserName, -1999901009, GetIconHandle(IDI_TLEN));
 	mi.pszService = text;
 
 	hMenuChats = NULL;

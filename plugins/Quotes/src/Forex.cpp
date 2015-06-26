@@ -84,32 +84,25 @@ namespace
 	void InitMenu()
 	{
 		CLISTMENUITEM mi = { 0 };
-		mi.ptszName = LPGENT("Quotes");
-		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
-		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
+		mi.flags = CMIF_TCHAR;
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 
 		mi.ptszName = LPGENT("Enable/Disable Auto Update");
-		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 		mi.position = 10100001;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = g_pszAutoUpdateCmd;
-		mi.hParentMenu = hMenuRoot;
 		g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
 		UpdateMenu(g_bAutoUpdate);
 
 		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
-		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
 		mi.position = 20100001;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
-		mi.hParentMenu = hMenuRoot;
 		Menu_AddMainMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 
 		mi.ptszName = LPGENT("Currency Converter...");
-		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.position = 20100002;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 		mi.pszService = g_pszCurrencyConverter;
@@ -117,7 +110,6 @@ namespace
 		CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 
 		mi.ptszName = LPGENT("Export All Quotes");
-		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
 		mi.position = 20100003;
@@ -125,7 +117,6 @@ namespace
 		CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 
 		mi.ptszName = LPGENT("Import All Quotes");
-		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
 		mi.position = 20100004;
@@ -136,27 +127,10 @@ namespace
 
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
-		memset(&mi, 0, sizeof(mi));
-		mi.pszContactOwner = QUOTES_PROTOCOL_NAME;
-		hMenuRoot = NULL;
 		if (bSubGroups)
-		{
-			mi.pszPopupName = (char *)-1;
-			mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-			mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
-			tstring sProtocolName = quotes_a2t(QUOTES_PROTOCOL_NAME);
-			mi.ptszName = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
-			mi.position = 0;
-
-			hMenuRoot = Menu_AddContactMenuItem(&mi);
-		}
-
-		mi.flags = CMIF_TCHAR;
-		if (bSubGroups)
-		{
-			mi.flags |= CMIF_ROOTHANDLE;
-			mi.pszPopupName = (char*)hMenuRoot;
-		}
+			mi.hParentMenu = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 20100004, Quotes_GetIconHandle(IDI_ICON_MAIN));
+		else
+			mi.hParentMenu = NULL;
 
 		mi.ptszName = LPGENT("Refresh");
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);

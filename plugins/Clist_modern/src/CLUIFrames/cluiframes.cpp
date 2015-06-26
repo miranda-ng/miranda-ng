@@ -68,7 +68,7 @@ static int       _iNextFrameId = 100;
 static HFONT     _hTitleBarFont = NULL;
 
 // menus
-static FrameMenuHandles cont = { HGENMENU_ROOT };
+static FrameMenuHandles cont = { NULL };
 
 // others
 static int _nContactListHeight = 0;
@@ -760,7 +760,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Visible");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
+	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
 	Menu_ConfigureItem(fmh.MIVisible = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
 
@@ -784,13 +784,13 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	// floating
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Floating mode");
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.pszService = "Set_Floating";
 	Menu_ConfigureItem(fmh.MIFloating = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
 
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Border");
-	mi.flags = CMIF_ROOTHANDLE | CMIF_CHECKED;
+	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
 	Menu_ConfigureItem(fmh.MIBorder = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
 
@@ -799,11 +799,9 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	// alignment root
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Align");
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.pszService = "";
 	fmh.MIAlignRoot = pfnAdd(&mi);
-
-	mi.flags = CMIF_ROOTHANDLE;
 
 	// align top
 	mi.hParentMenu = fmh.MIAlignRoot;
@@ -831,7 +829,6 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Position");
-	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = "";
 	mi.pszContactOwner = (char*)0;
 	fmh.MIPosRoot = pfnAdd(&mi);
@@ -839,7 +836,6 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.hParentMenu = fmh.MIPosRoot;
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Up");
-	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszService = CLUIFRAMESMOVEUP;
 	mi.pszContactOwner = (char*)1;
 	Menu_ConfigureItem(fmh.MIPosUp = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
@@ -1512,14 +1508,13 @@ static int CLUIFramesLoadMainMenu()
 	if (_fCluiFramesModuleNotStarted)
 		return -1;
 
-	if (cont.MainMenuItem != HGENMENU_ROOT) {
+	if (cont.MainMenuItem != NULL) {
 		Menu_RemoveItem(cont.MainMenuItem);
-		cont.MainMenuItem = HGENMENU_ROOT;
+		cont.MainMenuItem = NULL;
 	}
 
 	// create root menu
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_ROOTHANDLE;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.pszName = LPGEN("Frames");
@@ -1529,7 +1524,7 @@ static int CLUIFramesLoadMainMenu()
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
 		mi.hIcon = g_pfwFrames[i].TitleBar.hicon;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+		mi.flags = CMIF_TCHAR;
 		mi.position = separator;
 		mi.hParentMenu = cont.MainMenuItem;
 		mi.ptszName = g_pfwFrames[i].TitleBar.tbname ? g_pfwFrames[i].TitleBar.tbname : g_pfwFrames[i].name;
@@ -1545,7 +1540,7 @@ static int CLUIFramesLoadMainMenu()
 
 	// create "show all frames" menu
 	mi.hIcon = NULL;
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.position = separator++;
 	mi.hParentMenu = cont.MainMenuItem;
 	mi.pszName = LPGEN("Show all frames");
@@ -3387,7 +3382,7 @@ int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
 	/* HOOK */
 	CLUIFramesLoadMainMenu();
-	CLUIFramesCreateMenuForFrame(-1, HGENMENU_ROOT, 000010000, Menu_AddContextFrameMenuItem);
+	CLUIFramesCreateMenuForFrame(-1, NULL, 000010000, Menu_AddContextFrameMenuItem);
 	return 0;
 }
 
@@ -3478,9 +3473,9 @@ int LoadCLUIFramesModule(void)
 static INT_PTR UnloadMainMenu()
 {
 	CLUIFrameOnModulesUnload(0, 0);
-	if (cont.MainMenuItem != HGENMENU_ROOT) {
+	if (cont.MainMenuItem != NULL) {
 		Menu_RemoveItem(cont.MainMenuItem);
-		cont.MainMenuItem = HGENMENU_ROOT;
+		cont.MainMenuItem = NULL;
 	}
 
 	return (INT_PTR)cont.MainMenuItem;

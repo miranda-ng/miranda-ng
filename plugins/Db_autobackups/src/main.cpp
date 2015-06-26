@@ -100,7 +100,7 @@ int ModulesLoad(WPARAM, LPARAM)
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
 	CLISTMENUITEM mi = { 0 };
-	mi.pszPopupName = LPGEN("Database");
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
 
 	mi.pszName = LPGEN("Backup profile");
 	mi.pszService = MS_AB_BACKUP;

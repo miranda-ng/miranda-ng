@@ -12,7 +12,7 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName /* = NULL */)
+		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CLISTMENUITEM mi = { 0 };
@@ -21,7 +21,7 @@ namespace mu
 			mi.position = position;
 			mi.hIcon = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
-			mi.ptszPopupName = (TCHAR*)pszPopupName;
+			mi.hParentMenu = hRoot;
 			return Menu_AddMainMenuItem(&mi);
 		}
 

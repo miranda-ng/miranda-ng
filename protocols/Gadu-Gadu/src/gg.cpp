@@ -269,14 +269,13 @@ void GGPROTO::menus_init()
    if (hRoot == NULL) {
       mi.ptszName = m_tszUserName;
       mi.position = 500090000;
-      mi.hParentMenu = HGENMENU_ROOT;
-      mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+      mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
       mi.icolibItem = iconList[0].hIcolib;
       hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
    }
    else {
       mi.hParentMenu = hRoot;
-      mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+      mi.flags = CMIF_TCHAR;
 
       mi.ptszName = LPGENT("Conference");
       mi.position = 200001;

@@ -72,42 +72,43 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hAddBirthdayWndsList = WindowList_Create();
 
-	CLISTMENUITEM cl = { 0 };
-	cl.position = 10000000;
-	cl.pszPopupName = LPGEN("Birthdays (When Was It)");
+	CLISTMENUITEM mi = { 0 };
+	mi.position = 10000000;
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Birthdays (When Was It)"), mi.position);
 
-	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	cl.icolibItem = hCheckMenu;
-	cl.pszName = LPGEN("Check for birthdays");
-	Menu_AddMainMenuItem(&cl);
+	mi.pszService = MS_WWI_CHECK_BIRTHDAYS;
+	mi.icolibItem = hCheckMenu;
+	mi.pszName = LPGEN("Check for birthdays");
+	Menu_AddMainMenuItem(&mi);
 
-	cl.pszService = MS_WWI_LIST_SHOW;
-	cl.pszName = LPGEN("Birthday list");
-	cl.icolibItem = hListMenu;
-	Menu_AddMainMenuItem(&cl);
+	mi.pszService = MS_WWI_LIST_SHOW;
+	mi.pszName = LPGEN("Birthday list");
+	mi.icolibItem = hListMenu;
+	Menu_AddMainMenuItem(&mi);
 
-	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
-	cl.position = 10100000;
-	cl.pszName = LPGEN("Refresh user details");
-	cl.icolibItem = hRefreshUserDetails;
-	Menu_AddMainMenuItem(&cl);
+	mi.pszService = MS_WWI_REFRESH_USERDETAILS;
+	mi.position = 10100000;
+	mi.pszName = LPGEN("Refresh user details");
+	mi.icolibItem = hRefreshUserDetails;
+	Menu_AddMainMenuItem(&mi);
 
-	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
-	cl.position = 10200000;
-	cl.pszName = LPGEN("Import birthdays");
-	cl.icolibItem = hImportBirthdays;
-	Menu_AddMainMenuItem(&cl);
+	mi.pszService = MS_WWI_IMPORT_BIRTHDAYS;
+	mi.position = 10200000;
+	mi.pszName = LPGEN("Import birthdays");
+	mi.icolibItem = hImportBirthdays;
+	Menu_AddMainMenuItem(&mi);
 
-	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
-	cl.pszName = LPGEN("Export birthdays");
-	cl.icolibItem = hExportBirthdays;
-	Menu_AddMainMenuItem(&cl);
+	mi.pszService = MS_WWI_EXPORT_BIRTHDAYS;
+	mi.pszName = LPGEN("Export birthdays");
+	mi.icolibItem = hExportBirthdays;
+	Menu_AddMainMenuItem(&mi);
 
-	cl.pszService = MS_WWI_ADD_BIRTHDAY;
-	cl.position = 10000000;
-	cl.icolibItem = hAddBirthdayContact;
-	cl.pszName = LPGEN("Add/change user &birthday");
-	Menu_AddContactMenuItem(&cl);
+	mi.hParentMenu = 0;
+	mi.pszService = MS_WWI_ADD_BIRTHDAY;
+	mi.position = 10000000;
+	mi.icolibItem = hAddBirthdayContact;
+	mi.pszName = LPGEN("Add/change user &birthday");
+	Menu_AddContactMenuItem(&mi);
 
 	// Register hotkeys
 	HOTKEYDESC hotkey = { sizeof(hotkey) };

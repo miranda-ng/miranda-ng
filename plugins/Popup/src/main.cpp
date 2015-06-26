@@ -181,8 +181,7 @@ void InitMenuItems(void)
 {
 	CLISTMENUITEM mi = { 0 };
 	// support new genmenu style
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
-	mi.hParentMenu = HGENMENU_ROOT;
+	mi.flags = CMIF_TCHAR;
 
 	// Build main menu
 	mi.position = -1000000000 /*1000001*/;

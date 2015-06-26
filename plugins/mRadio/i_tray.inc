@@ -2,7 +2,7 @@
 var
   doTray:bool;
 var
-  trayradioparent:THANDLE;
+  trayradioparent:HGENMENU;
   trayprotoh:THANDLE;
   trayparent:THANDLE;
   traymute  :THANDLE;
@@ -91,7 +91,7 @@ begin
   // build menu from sorted list
   FillChar(mi,SizeOf(mi),0);
   mi.Flags :=CMIF_KEEPUNTRANSLATED or CMIF_UNICODE or CMIF_ROOTHANDLE;
-  mi.szPopupName:=TChar(trayparent);
+  mi.hParentMenu:=trayparent;
   pc:=StrCopyE(@buf,'mRadio/Choose');
   for i:=0 to trayStations.realCount-1 do
   begin
@@ -146,7 +146,7 @@ begin
     trayradioparent:=Menu_AddMainMenuItem(@mi);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.szPopupName:=TChar(trayradioparent);
+  mi.hParentMenu:=trayradioparent;
 
   if PluginStatus=ID_STATUS_ONLINE then
   begin

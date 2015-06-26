@@ -143,8 +143,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 600090000;
-	mi.pszPopupName = LPGEN("&Non-IM Contact");
-	// mi.popupPosition = 600090000; !!!!!!!!!!!!!!!!!!!!
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
 	mi.pszName = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
 	mi.icolibItem = icoList[0].hIcolib;
@@ -168,7 +167,6 @@ extern "C" __declspec(dllexport) int Load()
 	}
 
 	mi.position = 600090000;
-	mi.pszPopupName = LPGEN("&Non-IM Contact");
 	mi.pszName = LPGEN("&String Maker");
 	mi.pszService = "TestStringReplaceLine";
 	Menu_AddMainMenuItem(&mi);

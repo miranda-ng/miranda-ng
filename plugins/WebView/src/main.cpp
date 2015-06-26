@@ -178,8 +178,7 @@ extern "C" int __declspec(dllexport) Load()
 		/*DISABLE WEBVIEW*/
 		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
 
-		mi.position = 20200001;
-		mi.ptszPopupName = _T(MODULENAME);
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(MODULENAME), 20200001);
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 			mi.ptszName = LPGENT("Auto update disabled");

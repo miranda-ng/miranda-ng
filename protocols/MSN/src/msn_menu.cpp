@@ -277,8 +277,7 @@ void CMsnProto::MsnInitMainMenu(void)
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.position = 500085000;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_MSN);
 		mi.ptszName = m_tszUserName;
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -288,7 +287,7 @@ void CMsnProto::MsnInitMainMenu(void)
 		mainMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_ROOTHANDLE;
+	mi.flags = 0;
 	mi.hParentMenu = hRoot;
 	mi.pszService = servicefunction;
 

@@ -13,7 +13,7 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const TCHAR* pszPopupName = NULL);
+		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot = 0);
 		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, const char* pszContactOwner = NULL);
 		const TCHAR* getContactDisplayName(MCONTACT hContact);
 		const TCHAR* getStatusModeDescription(int nStatusMode);

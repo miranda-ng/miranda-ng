@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_cluiframes.h>
 
-static HANDLE hFrameMenuObject;
+static int hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
 
 // contactmenu exec param(ownerdata)
@@ -52,7 +52,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 	if (!cli.pfnConvertMenu(mi, &tmi))
 		return NULL;
 
-	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
+	tmi.root = mi->hParentMenu;
 
 	FrameMenuExecParam *fmep = new FrameMenuExecParam();
 	fmep->szServiceName = mir_strdup(mi->pszService);

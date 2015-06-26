@@ -698,11 +698,7 @@ void AddMenuItem()
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		mi.pszPopupName = "Alarms";
-
-	GroupMenuParam gmp = {0};
-	Menu_AddGroupMenuItem(&gmp, &mi);
-
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

@@ -264,7 +264,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.pszService = text;
 
 	mi.hParentMenu = hRoot;
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.position = 1001;
 	Menu_AddStatusMenuItem(&mi);
 

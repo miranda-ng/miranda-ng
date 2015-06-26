@@ -993,10 +993,8 @@ void InitList()
 
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		// mi.popupPosition = 1000200001; !!!!!!!!!!!!!
-		mi.ptszPopupName = LPGENT("Ping");
+		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
 		mi.position = 3000320001;
-		mi.hIcon = 0;//LoadIcon( hInst, 0);
 		mi.ptszName = LPGENT("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";
 		Menu_AddMainMenuItem(&mi);

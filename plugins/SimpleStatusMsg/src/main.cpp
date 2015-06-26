@@ -1490,9 +1490,9 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		if (Proto_IsAccountLocked(pa[i]))
 		{
 			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
-			mi.ptszPopupName = szBuffer;
+			mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
 		}
-		else mi.ptszPopupName = pa[i]->tszAccountName;
+		else mi.hParentMenu = Menu_CreateRoot(MO_STATUS, pa[i]->tszAccountName, mi.position);
 		
 		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
 	}

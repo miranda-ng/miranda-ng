@@ -181,10 +181,10 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	RegisterKeyBindings();
 
 	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
+	
 	// register menus
 	CLISTMENUITEM mi = { 0 };
-	mi.pszContactOwner = NULL;
-	mi.ptszPopupName = LPGENT("Notes && Reminders");
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Notes && Reminders"), 1600000000);
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = 1600000000;
@@ -244,13 +244,11 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	Menu_AddMainMenuItem(&mi);
 
 	// register misc
-
 	hkOptInit = HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	hkTopToolbarInit = HookEvent("TopToolBar/ModuleLoaded", OnTopToolBarInit); 
 	UnhookEvent(hkModulesLoaded);
 
 	// init vars and load all data
-
 	InitSettings();
 	CreateMsgWindow();
 	LoadNotes(TRUE);

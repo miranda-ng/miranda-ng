@@ -455,7 +455,7 @@ begin
   if UAMenuItem.hMenuRoot<>0 then
   begin
     clmi.flags:=clmi.flags or CMIF_ROOTHANDLE;
-    clmi.szPopupName.w:=pWideChar(UAMenuItem.hMenuRoot);
+    clmi.hParentMenu:=UAMenuItem.hMenuRoot;
   end;
 
   clmi.pszService:=ActionItem.szNameID;

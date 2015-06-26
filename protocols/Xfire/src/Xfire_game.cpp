@@ -437,8 +437,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 		dbid = pos;
 
 	CLISTMENUITEM mi = { 0 };
-	// mi.popupPosition = 500084000; !!!!!!!!!!!!!!!!!!!!!!!!
-	mi.pszPopupName = Translate("Start game");
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENW("Start game"), 500084000);
 	mi.pszContactOwner = protocolname;
 
 	mir_snprintf(temp, _countof(temp), servicefunction, this->id);

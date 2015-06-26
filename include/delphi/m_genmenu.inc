@@ -86,6 +86,13 @@ plugin may add different menu items with some service.
    (pszPopupName=(AnsiChar *)hMenuItem - for make child of popup)
 }
 
+// predefined menu object codes
+const
+  MO_MAIN = -1;
+  MO_CONTACT = -2;
+  MO_PROTO  = -3;
+  MO_STATUS = -4;
+
 // Group MENU
 type
   PGroupMenuParam = ^TGroupMenuParam;
@@ -194,7 +201,7 @@ type
   result hMenu
 }
 
-function Menu_Build(parent:HMENU; menuObject:THANDLE; wParam:WPARAM; lParam:LPARAM) : HMENU; stdcall;
+function Menu_Build(parent:HMENU; menuObject:integer; wParam:WPARAM; lParam:LPARAM) : HMENU; stdcall;
               external AppDLL name 'Menu_Build';
 
 {
@@ -216,6 +223,14 @@ function Menu_ProcessCommandById(iCommand:integer; lParam:LPARAM) : integer; std
               external AppDLL name 'Menu_ProcessCommandById';
 
 {
+  creates a submenu
+  returns=MenuObjectHandle on success,-1 on failure
+}
+
+function Menu_CreateRoot(menuObject:integer; const name:PWideChar; position:integer; icon:THANDLE; lang:integer) : THANDLE; stdcall;
+              external AppDLL name 'Menu_CreateRoot';
+
+{
   returns=MenuObjectHandle on success,-1 on failure
 }
 
@@ -228,7 +243,7 @@ function Menu_AddObject(const name, displayName, checkService, execService:PAnsi
   call this service.MO_REMOVEMENUOBJECT NOT free it.
 }
 
-function Menu_RemoveObject(hMenuObject:THANDLE) : integer; stdcall;
+function Menu_RemoveObject(hMenuObject:integer) : integer; stdcall;
               external AppDLL name 'Menu_RemoveObject';
 
 {
@@ -244,7 +259,7 @@ function Menu_RemoveItem(hMenuItem:HGENMENU) : integer; stdcall;
   return MenuItemHandle on success,-1 on failure
 }
 
-function Menu_AddItem(hMenuObject:THANDLE; var tmi:TMO_MenuItem) : integer; stdcall;
+function Menu_AddItem(hMenuObject:integer; var tmi:TMO_MenuItem) : integer; stdcall;
               external AppDLL name 'Menu_AddItem';
 
 {
@@ -275,7 +290,7 @@ function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall;
   this should be called in WM_KEYDOWN
 }
 
-function Menu_ProcessHotKey(hMenuObject:THANDLE; vKey:DWORD) : integer; stdcall;
+function Menu_ProcessHotKey(hMenuObject:integer; vKey:DWORD) : integer; stdcall;
               external AppDLL name 'Menu_ProcessHotKey';
 
 {

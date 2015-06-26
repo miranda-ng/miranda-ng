@@ -838,7 +838,6 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 {
 	size_t len = mir_strlen(m_szModuleName);
 	char srvFce[MAX_PATH + 64];
-	char szItem[MAX_PATH + 64];
 	int bXStatusMenuBuilt = 0;
 
 	BYTE bXStatus = getContactXStatus(NULL);
@@ -853,12 +852,13 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	if (m_bHideXStatusUI || m_bHideXStatusMenu)
 		return;
 
-	mir_snprintf(szItem, _countof(szItem), Translate("%s Custom Status"), m_szModuleName);
-
 	CLISTMENUITEM mi = { 0 };
-	mi.pszPopupName = szItem;
-	// mi.popupPosition = 500084000; !!!!!!!!!!!!!!!!
 	mi.position = 2000040000;
+	{
+		TCHAR szItem[MAX_PATH + 64];
+		mir_sntprintf(szItem, _countof(szItem), TranslateT("%s Custom Status"), m_tszUserName);
+		mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szItem, 500084000);
+	}
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
 		mir_snprintf(srvFce, _countof(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
