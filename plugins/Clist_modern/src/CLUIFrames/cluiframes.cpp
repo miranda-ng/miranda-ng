@@ -35,6 +35,7 @@ static const int UNCOLLAPSED_FRAME_SIZE = 0;
 static const int DEFAULT_TITLEBAR_HEIGHT = 18;
 
 void _AniAva_OnModulesUnload();
+void InitGroupMenus(void);
 
 // GLOBALS
 FRAMEWND *g_pfwFrames = NULL;
@@ -3456,6 +3457,7 @@ int LoadCLUIFramesModule(void)
 	GapBetweenFrames = db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT);
 
 	g_nFramesCount = 0;
+	InitGroupMenus();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CLUIFrameOnModulesLoad);
 	HookEvent(ME_CLIST_PREBUILDFRAMEMENU, CLUIFramesModifyContextMenuForFrame);
