@@ -538,12 +538,12 @@ int TN_ModuleInit()
 
 		CLISTMENUITEM mi = { 0 };
 		if (!Disabled) {
-			mi.pszName = LPGEN("Disable &typing notification");
-			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
+			mi.name.a = LPGEN("Disable &typing notification");
+			mi.icolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
 		}
 		else {
-			mi.pszName = LPGEN("Enable &typing notification");
-			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
+			mi.name.a = LPGEN("Enable &typing notification");
+			mi.icolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
 		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);

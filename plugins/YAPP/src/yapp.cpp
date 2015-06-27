@@ -174,14 +174,14 @@ void InitMenuItems(void)
 	mi.flags = CMIF_TCHAR;
 	mi.hParentMenu = hMenuRoot;
 
-	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.icolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService= MS_POPUP_SHOWHISTORY;
-	mi.ptszName = LPGENT("Popup History");
+	mi.name.t = LPGENT("Popup History");
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 
-	mi.hIcon = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.icolibItem = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	mi.pszService = "Popup/EnableDisableMenuCommand";
-	mi.ptszName = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
+	mi.name.t = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

@@ -116,7 +116,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// menu item
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = GetIconHandle(IDI_IMPORT);
-	mi.pszName = LPGEN("&Import...");
+	mi.name.a = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;
 	Menu_AddMainMenuItem(&mi);

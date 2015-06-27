@@ -392,26 +392,22 @@ end;
 
 function Menu_AddMainMenuItem(mi:PCLISTMENUITEM):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDMAINMENUITEM, 0,LPARAM(mi));
+  result:=_AddMainMenuItem(mi, hLangpack);
 end;
 
 function Menu_AddContactMenuItem(mi:PCLISTMENUITEM):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDCONTACTMENUITEM, 0,LPARAM(mi));
+  result:=_AddContactMenuItem(mi, nil, hLangpack);
 end;
 
 function Menu_AddStatusMenuItem(mi:PCLISTMENUITEM):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDSTATUSMENUITEM, 0,LPARAM(mi));
+  result:=_AddStatusMenuItem(mi, nil, hLangpack);
 end;
 
 function Menu_AddProtoMenuItem(mi:PCLISTMENUITEM):HGENMENU;
 begin
-  mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDPROTOMENUITEM, 0,LPARAM(mi));
+  result:=_AddProtoMenuItem(mi, nil, hLangpack);
 end;
 
 function Menu_AddTrayMenuItem(mi:PCLISTMENUITEM):HGENMENU;

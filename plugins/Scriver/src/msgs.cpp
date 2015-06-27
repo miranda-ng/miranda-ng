@@ -445,16 +445,16 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	ReloadGlobals();
 	LoadGlobalIcons();
 	LoadMsgLogIcons();
-	ModuleLoad(0, 0);																											  
+	ModuleLoad(0, 0);
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = Skin_GetIconHandle( SKINICON_EVENT_MESSAGE );
-	mi.pszName = LPGEN("&Message");
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
+	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
-	IcoLib_ReleaseIcon(mi.hIcon);
+	IcoLib_ReleaseIcon((HICON)mi.icolibItem);
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileySettingsChanged);
 	HookEvent(ME_IEVIEW_OPTIONSCHANGED, SmileySettingsChanged);
@@ -548,7 +548,7 @@ int OnLoadModule(void)
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
-	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
@@ -566,11 +566,11 @@ int OnLoadModule(void)
 CREOleCallback  reOleCallback;
 CREOleCallback2 reOleCallback2;
 
-STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj) 
-{ 
-	if (IsEqualIID(riid, IID_IRichEditOleCallback)) { 
-		*ppvObj = this; 
-		AddRef(); 
+STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
+{
+	if (IsEqualIID(riid, IID_IRichEditOleCallback)) {
+		*ppvObj = this;
+		AddRef();
 		return S_OK;
 	}
 	*ppvObj = NULL;

@@ -155,8 +155,8 @@ void SvcHomepageRebuildMenu()
 		// insert contact menuitem
 		CLISTMENUITEM mi = { 0 };
 		mi.position = -2000010000;
-		mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
-		mi.pszName = LPGEN("&Homepage");
+		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_GOTO);
+		mi.name.a = LPGEN("&Homepage");
 		mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
 		ghMenuItem = Menu_AddContactMenuItem(&mi);
 	}

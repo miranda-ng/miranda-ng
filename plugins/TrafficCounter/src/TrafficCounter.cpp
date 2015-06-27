@@ -1050,8 +1050,8 @@ void Traffic_AddMainMenuItem(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
-	mi.hIcon = NULL;
-	mi.pszName = LPGEN("Toggle traffic counter");
+	mi.icolibItem = NULL;
+	mi.name.a = LPGEN("Toggle traffic counter");
 	mi.pszService = "TrafficCounter/ShowHide";
 
 	hTrafficMainMenuItem = Menu_AddMainMenuItem(&mi);

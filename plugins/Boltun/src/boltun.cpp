@@ -599,19 +599,19 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		CLISTMENUITEM mi = { 0 };
 		mi.position = -50010002; //TODO: check the warning
-		mi.pszName = BOLTUN_AUTO_CHAT;
+		mi.name.a = BOLTUN_AUTO_CHAT;
 		mi.pszService = SERV_CONTACT_AUTO_CHAT;
 		hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
 
 		mi.position = -50010001; //TODO: check the warning
-		mi.pszName = BOLTUN_NOT_TO_CHAT;
+		mi.name.a = BOLTUN_NOT_TO_CHAT;
 		mi.pszService = SERV_CONTACT_NOT_TO_CHAT;
 		hMenuItemNotToChat = Menu_AddContactMenuItem(&mi);
 
 		mi.flags = CMIF_NOTOFFLINE;
 		mi.position = -50010000; //TODO: check the warning
-		mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
-		mi.pszName = BOLTUN_START_CHATTING;
+		mi.icolibItem = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
+		mi.name.a = BOLTUN_START_CHATTING;
 		mi.pszService = SERV_CONTACT_START_CHATTING;
 		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
 	}

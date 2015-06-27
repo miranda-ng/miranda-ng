@@ -923,10 +923,9 @@ extern "C" __declspec(dllexport) int Load()
 	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.pszContactOwner = NULL;  //all contacts
-		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+		mi.icolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;
-		mi.pszName = LPGENT("Enable HTTP server");
+		mi.name.a = LPGENT("Enable HTTP server");
 		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
 		hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
 	}

@@ -101,7 +101,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
-	mi.ptszName = LPGENT("Open Folder");
+	mi.name.t = LPGENT("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);
 

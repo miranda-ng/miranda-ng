@@ -75,16 +75,17 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	/// menu items
-	CLISTMENUITEM menuItem = { 0 };
-	menuItem.ptszName = LPGENT("View &history");
-	menuItem.flags = CMIF_TCHAR;
-	menuItem.position = 1000090000;
-	menuItem.hIcon = hIcon;
-	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	Menu_AddContactMenuItem(&menuItem);
+	CLISTMENUITEM mi = { 0 };
+	mi.name.t = LPGENT("View &history");
+	mi.flags = CMIF_TCHAR;
+	mi.position = 1000090000;
+	mi.icolibItem = hIcon;
+	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	Menu_AddContactMenuItem(&mi);
+
 	/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
-	menuItem.ptszName = LPGENT("&System History");
-	Menu_AddMainMenuItem(&menuItem);
+	mi.name.t = LPGENT("&System History");
+	Menu_AddMainMenuItem(&mi);
 
 	HookEvents();
 	return 0;

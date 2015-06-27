@@ -235,18 +235,12 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 #define GGS_BLOCKUSER "/BlockUser"
 void GGPROTO::block_init()
 {
-   char service[64];
-   mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
-   CreateProtoService(GGS_BLOCKUSER, &GGPROTO::blockuser);
-
    CLISTMENUITEM mi = { 0 };
-   mi.flags = CMIF_TCHAR;
    mi.position = -500050000;
    mi.icolibItem = iconList[8].hIcolib;
-   mi.ptszName = LPGENT("&Block");
-   mi.pszService = service;
-   mi.pszContactOwner = m_szModuleName;
-   hBlockMenuItem = Menu_AddContactMenuItem(&mi);
+   mi.name.a = LPGEN("&Block");
+	mi.pszService = GGS_BLOCKUSER;
+	hBlockMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
    ::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
@@ -267,7 +261,7 @@ void GGPROTO::menus_init()
 
    HGENMENU hGCRoot, hCLRoot, hRoot = Menu_GetProtocolRoot(m_szModuleName);
    if (hRoot == NULL) {
-      mi.ptszName = m_tszUserName;
+      mi.name.t = m_tszUserName;
       mi.position = 500090000;
       mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
       mi.icolibItem = iconList[0].hIcolib;
@@ -277,12 +271,12 @@ void GGPROTO::menus_init()
       mi.hParentMenu = hRoot;
       mi.flags = CMIF_TCHAR;
 
-      mi.ptszName = LPGENT("Conference");
+      mi.name.t = LPGENT("Conference");
       mi.position = 200001;
       mi.icolibItem = iconList[14].hIcolib;
       hGCRoot = Menu_AddProtoMenuItem(&mi);
 
-      mi.ptszName = LPGENT("Contact list");
+      mi.name.t = LPGENT("Contact list");
       mi.position = 200002;
       mi.icolibItem = iconList[7].hIcolib;
       hCLRoot = Menu_AddProtoMenuItem(&mi);

@@ -425,7 +425,7 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 	mi.hParentMenu = hRoot;
 	mi.position = (hMenuRoot) ? 2050000001 : 200003;
 	mi.icolibItem = iconList[16].hIcolib;
-	mi.ptszName = LPGENT("Concurrent &sessions");
+	mi.name.t = LPGENT("Concurrent &sessions");
 	mi.pszService = service;
 	Menu_AddProtoMenuItem(&mi);
 }

@@ -25,7 +25,7 @@
 
 #define WM_SHELLNOTIFY 	WM_USER+5
 #define IDI_TRAY		WM_USER+6
-#define pluginName		"GmailMNotifier"
+#define MODULE_NAME		"GmailMNotifier"
 #define _MAX_DOWN_BUFFER 65536
 #define LINK "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&passive=true&Email="
 #define FORMDATA1 "<body onload=document.gmail.submit();><form name=gmail action=https://www.google.com/a/"

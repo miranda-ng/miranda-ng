@@ -46,28 +46,6 @@ const
   }
   MS_CLIST_GETSTATUSMODEDESCRIPTION:PAnsiChar = 'CList/GetStatusModeDescription';
 
-type
-// WARNING: do not use Translate(TS) for p(t)szName or p(t)szPopupName as they
-// are translated by the core, which may lead to double translation.
-// Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-  PCLISTMENUITEM = ^TCLISTMENUITEM;
-  TCLISTMENUITEM = record
-    szName         : TChar;      // [TRANSLATED-BY-CORE] text of the menu item
-    flags          : dword;     
-    position       : int;        // approx position on the menu, lower numbers go nearer the top
-    hIcon          : THANDLE;    // icon to put by the item, if this was *not* loaded from
-                                 // a resource, you can delete it straight after the call
-    pszService     : PAnsiChar;  // name of the service to call when the service is clicked
-    hParentMenu    : THANDLE;    // parent menu hamdle 
-
-    pszContactOwner: PAnsiChar;  // contact menus only, the protocol module that owns
-                                 // the contacts to which this to which this menu item
-                                 // applies, NULL(0) if it applies to all contacts.
-                                 // if it applies to multiple but not all protocols
-                                 // add multiple menu items or use ME_CLIST_PREBUILDCONTACTMENU
-    hLangpack      : int;        // plugin's hLangpack (added automatically)
-  end;
-
 const
   CMIF_GRAYED     = 1;
   CMIF_CHECKED    = 2;
@@ -76,44 +54,38 @@ const
   CMIF_NOTONLINE  = 16;  //          "      online
   CMIF_NOTONLIST  = 32;  // item won't appear on standard contacts
   CMIF_NOTOFFLIST = 64;  // item won't appear on contacts that have the 'NotOnList' setting
-  CMIF_ROOTHANDLE = 384; // means that hParentMenu member is set (since 0.8#26)
   CMIF_UNICODE    = 512; // will return TCHAR* instead of AnsiChar*
   CMIF_KEEPUNTRANSLATED = 1024; // don't translate a menu item
 
   CMIF_DEFAULT = 4096; // this menu item is the default one
 
-// for compatibility. since 0.8.0 they both mean nothing
-  CMIF_ROOTPOPUP  = 128; // root item for new popup (save return id for childs)
-  CMIF_CHILDPOPUP = 256; // child for rootpopup menu
+type
+// WARNING: do not use Translate(TS) for p(t)szName or p(t)szPopupName as they
+// are translated by the core, which may lead to double translation.
+// Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
+  PCLISTMENUITEM = ^TCLISTMENUITEM;
+  TCLISTMENUITEM = record
+    szName         : TChar;      // [TRANSLATED-BY-CORE] text of the menu item
+    flags          : dword;      // combination of CMIF_*
+    position       : int;        // approx position on the menu, lower numbers go nearer the top
+    hIcon          : THANDLE;    // icon to put by the item, if this was *not* loaded from
+                                 // a resource, you can delete it straight after the call
+    pszService     : PAnsiChar;  // name of the service to call when the service is clicked
+    hParentMenu    : THANDLE;    // parent menu hamdle 
+    hLangpack      : int;        // plugin's hLangpack (added automatically)
+  end;
 
-  {
-    wParam : 0
-    lParam : Pointer to a initalised TCLISTMENUITEM structure
-    Affect : Add a new menu item to the main menu, see notes
-    Returns: A handle to the new MENU item or NULL(0) on failure
-    Notes  : The given TCLISTMENUITEM.pszService in is called when the item
-             get clicked with :
-             -
-             wParam = 0, lParam = hwndContactList
-  }
-  MS_CLIST_ADDMAINMENUITEM:PAnsiChar = 'CList/AddMainMenuItem';
+function _AddMainMenuItem(mi:PCLISTMENUITEM; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddMainMenuItem';
 
-  {
-    wParam : 0
-    lParam : Pointer to a initalised TCLISTMENUITEM structure
-    Affect : Add a new item to the user contact menus, see notes
-    Notes  : exactly the same as MS_CLIST_ADDMAINMENUITEM except when an item
-             is selected, the service gets called with wParam=hContact,
-             pszContactOwner is obeyed.
-             -
-             Popup menus are not supported, pszPopupName and popupPosition
-             are ignored. If CTRL is held down when right clicking the menu
-             position numbers will be displayed in brackets after the menu item
-             text, this only works in debug builds!
-  }
-  MS_CLIST_ADDCONTACTMENUITEM:PAnsiChar = 'CList/AddContactMenuItem';
-  MS_CLIST_ADDSTATUSMENUITEM :PAnsiChar = 'CList/AddStatusMenuItem';
-  MS_CLIST_ADDPROTOMENUITEM  :PAnsiChar = 'CList/AddProtoMenuItem';
+function _AddContactMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddContactMenuItem';
+
+function _AddProtoMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddProtoMenuItem';
+
+function _AddStatusMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddStatusMenuItem';
 
 {
   Affect : Modify an existing menu item, see notes

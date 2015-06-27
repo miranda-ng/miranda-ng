@@ -564,7 +564,17 @@ int CLUIFramesGetalClientFrame(void)
 	return -1;
 }
 
-HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGENMENU(*pfnAdd)(CLISTMENUITEM*))
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static HGENMENU addFrameMenuItem(CLISTMENUITEM *pmi, int frameid, bool bMain)
+{
+	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
+	if (pmi->pszService != NULL)
+		Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, frameid);
+	return res;
+}
+
+HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, bool bMain)
 {
 	if (FramesSysNotStarted)
 		return NULL;
@@ -576,114 +586,107 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, HGE
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&FrameTitle");
+	mi.name.a = LPGEN("&FrameTitle");
 	mi.flags = CMIF_GRAYED;
-	fmh.MITitle = pfnAdd(&mi);
+	fmh.MITitle = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
-	mi.hIcon = NULL;
+	mi.icolibItem = NULL;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Visible");
+	mi.name.a = LPGEN("&Visible");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
-	Menu_ConfigureItem(fmh.MIVisible = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIVisible = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Show title bar");
+	mi.name.a = LPGEN("&Show title bar");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
-	Menu_ConfigureItem(fmh.MITBVisible = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MITBVisible = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Locked");
+	mi.name.a = LPGEN("&Locked");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
-	Menu_ConfigureItem(fmh.MILock = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MILock = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Collapsed");
+	mi.name.a = LPGEN("&Collapsed");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
-	Menu_ConfigureItem(fmh.MIColl = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIColl = addFrameMenuItem(&mi, frameid, bMain);
 
 	// floating
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Floating mode");
+	mi.name.a = LPGEN("&Floating mode");
 	mi.flags = 0;
 	mi.pszService = "Set_Floating";
-	fmh.MIFloating = pfnAdd(&mi);
+	fmh.MIFloating = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Border");
+	mi.name.a = LPGEN("&Border");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
-	Menu_ConfigureItem(fmh.MIBorder = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIBorder = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Skinned frame");
+	mi.name.a = LPGEN("&Skinned frame");
 	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETSKINNED;
-	Menu_ConfigureItem(fmh.MISkinned = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MISkinned = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
 
 	// alignment root
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Align");
+	mi.name.a = LPGEN("&Align");
 	mi.flags = 0;
-	mi.pszService = "";
-	fmh.MIAlignRoot = pfnAdd(&mi);
+	mi.pszService = NULL;
+	fmh.MIAlignRoot = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align top
 	mi.hParentMenu = fmh.MIAlignRoot;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Top");
+	mi.name.a = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
-	mi.pszContactOwner = (char*)alTop;
-	Menu_ConfigureItem(fmh.MIAlignTop = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIAlignTop = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align client
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Client");
+	mi.name.a = LPGEN("&Client");
 	mi.pszService = CLUIFRAMESSETALIGNALCLIENT;
-	mi.pszContactOwner = (char*)alClient;
-	Menu_ConfigureItem(fmh.MIAlignClient = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIAlignClient = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align bottom
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Bottom");
+	mi.name.a = LPGEN("&Bottom");
 	mi.pszService = CLUIFRAMESSETALIGNALBOTTOM;
-	mi.pszContactOwner = (char*)alBottom;
-	Menu_ConfigureItem(fmh.MIAlignBottom = pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	fmh.MIAlignBottom = addFrameMenuItem(&mi, frameid, bMain);
 
 	// position root
 	mi.hParentMenu = root;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Position");
-	mi.pszService = "";
-	mi.pszContactOwner = (char*)0;
-	HGENMENU menuid = pfnAdd(&mi);
+	mi.name.a = LPGEN("&Position");
+	mi.pszService = NULL;
+	mi.hParentMenu = addFrameMenuItem(&mi, frameid, bMain);
 
-	mi.hParentMenu = menuid;
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Up");
+	mi.name.a = LPGEN("&Up");
 	mi.pszService = CLUIFRAMESMOVEUP;
-	mi.pszContactOwner = (char*)1;
-	Menu_ConfigureItem(pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
-	mi.pszName = LPGEN("&Down");
+	mi.name.a = LPGEN("&Down");
 	mi.pszService = CLUIFRAMESMOVEDOWN;
-	mi.pszContactOwner = (char*)-1;
-	Menu_ConfigureItem(pfnAdd(&mi), MCI_OPT_EXECPARAM, frameid);
+	addFrameMenuItem(&mi, frameid, bMain);
 	return 0;
 }
 
@@ -1338,21 +1341,21 @@ static int CLUIFramesLoadMainMenu()
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
-	mi.pszName = LPGEN("Frames");
+	mi.name.a = LPGEN("Frames");
 	mi.pszService = 0;
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
 	int separator = (int)3000200000;
 	for (int i = 0; i < nFramescount; i++) {
-		mi.hIcon = Frames[i].TitleBar.hicon;
+		mi.icolibItem = Frames[i].TitleBar.hicon;
 		mi.flags = CMIF_TCHAR;
 		mi.position = separator;
 		mi.hParentMenu = cont.MainMenuItem;
-		mi.ptszName = Frames[i].TitleBar.tbname ? Frames[i].TitleBar.tbname : Frames[i].name;
+		mi.name.t = Frames[i].TitleBar.tbname ? Frames[i].TitleBar.tbname : Frames[i].name;
 		mi.pszService = 0;
 		Frames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
-		CLUIFramesCreateMenuForFrame(Frames[i].id, Frames[i].MenuHandles.MainMenuItem, separator, Menu_AddMainMenuItem);
+		CLUIFramesCreateMenuForFrame(Frames[i].id, Frames[i].MenuHandles.MainMenuItem, separator, true);
 		CLUIFramesModifyMainMenuItems(Frames[i].id, 0);
 		CallService(MS_CLIST_FRAMEMENUNOTIFY, (WPARAM)Frames[i].id, (LPARAM)Frames[i].MenuHandles.MainMenuItem);
 		separator++;
@@ -1365,20 +1368,20 @@ static int CLUIFramesLoadMainMenu()
 	mi.flags = 0;
 	mi.position = separator++;
 	mi.hParentMenu = cont.MainMenuItem;
-	mi.pszName = LPGEN("Show all frames");
+	mi.name.a = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
 
 	// create "show all titlebars" menu
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.position = separator++;
-	mi.pszName = LPGEN("Show all title bars");
+	mi.name.a = LPGEN("Show all title bars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 
 	// create "hide all titlebars" menu
 	mi.position = separator++;
-	mi.pszName = LPGEN("Hide all title bars");
+	mi.name.a = LPGEN("Hide all title bars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
@@ -2938,7 +2941,7 @@ static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, NULL);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);
 	CLUIFramesLoadMainMenu();
-	CLUIFramesCreateMenuForFrame(-1, NULL, 000010000, Menu_AddContextFrameMenuItem);
+	CLUIFramesCreateMenuForFrame(-1, NULL, 000010000, false);
 	return 0;
 }
 

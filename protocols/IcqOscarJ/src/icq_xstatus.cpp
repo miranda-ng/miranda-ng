@@ -837,7 +837,6 @@ INT_PTR CIcqProto::menuXStatus(WPARAM, LPARAM, LPARAM fParam)
 void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 {
 	size_t len = mir_strlen(m_szModuleName);
-	char srvFce[MAX_PATH + 64];
 	int bXStatusMenuBuilt = 0;
 
 	BYTE bXStatus = getContactXStatus(NULL);
@@ -861,23 +860,22 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	}
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
-		mir_snprintf(srvFce, _countof(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
-
+		char srvFce[MAX_PATH + 64];
+		mir_snprintf(srvFce, _countof(srvFce), "/menuXStatus%d", i);
 		mi.position++;
 
 		if (!i) 
-			bXStatusMenuBuilt = ServiceExists(srvFce);
+			bXStatusMenuBuilt = ProtoServiceExists(m_szModuleName, srvFce);
 
 		if (!bXStatusMenuBuilt)
 			CreateProtoServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
 		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;
-		mi.pszName = i ? (char*)nameXStatus[i-1] : (char *)LPGEN("None");
+		mi.name.a = i ? (char*)nameXStatus[i-1] : (char *)LPGEN("None");
 		mi.pszService = srvFce;
-		mi.pszContactOwner = m_szModuleName;
 
-		hXStatusItems[i] = Menu_AddStatusMenuItem(&mi);
+		hXStatusItems[i] = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 		Menu_ShowItem(hXStatusItems[i], !(m_bHideXStatusUI || m_bHideXStatusMenu));
 	}
 }

@@ -117,7 +117,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 1900000001);
 	mi.position = 1900000001;
 	mi.icolibItem = GetIcoLibHandle(ICO_DBE_BUTT);
-	mi.pszName = modFullname;
+	mi.name.a = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 
@@ -125,7 +125,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.position = 1900000001;
 	mi.flags = 0;
 	mi.icolibItem = GetIcoLibHandle(ICO_REGUSER);
-	mi.pszName = LPGEN("Open user tree in DBE++");
+	mi.name.a = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 

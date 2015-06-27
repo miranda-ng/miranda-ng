@@ -200,7 +200,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		CLISTMENUITEM mi = { 0 };
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
-		mi.ptszName = LPGENT("Enable AuthState icons");
+		mi.name.t = LPGENT("Enable AuthState icons");
 		mi.pszService = "AuthState/MenuItem";
 		hUserMenu = Menu_AddContactMenuItem(&mi);
 	}

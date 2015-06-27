@@ -272,7 +272,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	// "Send Tweet..."
 	CreateProtoService("/Tweet", &TwitterProto::OnTweet);
 	mir_strcpy(tDest, "/Tweet");
-	mi.ptszName = LPGENT("Send Tweet...");
+	mi.name.t = LPGENT("Send Tweet...");
 	mi.position = 200001;
 	mi.icolibItem = GetIconHandle("tweet");
 	Menu_AddStatusMenuItem(&mi);

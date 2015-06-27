@@ -331,8 +331,8 @@ int CreateFrame()
 		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
 		mi.position = 1;
-		mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
-		mi.ptszName = LPGENT("Show my details");
+		mi.icolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
+		mi.name.t = LPGENT("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);

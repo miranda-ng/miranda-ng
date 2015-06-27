@@ -187,7 +187,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 500100001;
 	mi.flags = CMIF_TCHAR;
-	mi.ptszName = LPGENT("Quick Contacts...");
+	mi.name.t = LPGENT("Quick Contacts...");
 	mi.pszService = MS_QC_SHOW_DIALOG;
 	Menu_AddMainMenuItem(&mi);
 	return 0;

@@ -2092,23 +2092,20 @@ void CJabberProto::BuildPrivacyMenu()
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 200005;
-	mi.pszContactOwner = m_szModuleName;
 	mi.icolibItem = GetIconHandle(IDI_AGENTS);
 	mi.flags = CMIF_HIDDEN;
-	mi.pszName = LPGEN("Privacy Lists");
+	mi.name.a = LPGEN("Privacy Lists");
 	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/PrivacyLists", &CJabberProto::OnMenuHandlePrivacyLists);
-	char srvFce[MAX_PATH + 64];
-	mir_snprintf(srvFce, _countof(srvFce), "%s/PrivacyLists", m_szModuleName);
-	mi.pszService = srvFce;
+	mi.pszService = "/PrivacyLists";
 	mi.position = 3000040000;
 	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
-	mi.ptszName = LPGENT("List Editor...");
+	mi.name.t = LPGENT("List Editor...");
 	mi.hParentMenu = m_hPrivacyMenuRoot;
-	Menu_AddProtoMenuItem(&mi);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
@@ -2137,7 +2134,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	}
 	mi.position++;
 	mi.icolibItem = Skin_GetIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
-	mi.ptszName = LPGENT("<none>");
+	mi.name.t = LPGENT("<none>");
 	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
 
 	for (CPrivacyList *pList = m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
@@ -2152,7 +2149,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		mi.position++;
 		mi.icolibItem = Skin_GetIconHandle(
 			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
-		mi.ptszName = pList->GetListName();
+		mi.name.t = pList->GetListName();
 		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
 	}
 }

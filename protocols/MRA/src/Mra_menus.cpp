@@ -277,9 +277,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM)
 
 int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 {
-	CHAR szServiceFunction[MAX_PATH * 2], *pszServiceFunctionName, szValueName[MAX_PATH];
-	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
-	pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
+	CHAR szServiceFunction[MAX_PATH], szValueName[MAX_PATH];
 
 	TCHAR szItem[MAX_PATH + 64];
 	mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
@@ -289,7 +287,6 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szItem, 500085000);
 	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
-	mi.pszContactOwner = m_szModuleName;
 
 	CMStringW szStatusTitle;
 
@@ -297,22 +294,22 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	if (getByte(NULL, "xStatusShowAll", MRA_DEFAULT_SHOW_ALL_XSTATUSES))
 		dwCount = MRA_XSTATUS_COUNT;
 	for (DWORD i = 0; i < dwCount; i ++) {
-		mir_snprintf(pszServiceFunctionName, 100, "/menuXStatus%ld", i);
+		mir_snprintf(szServiceFunction, _countof(szServiceFunction), "/menuXStatus%ld", i);
 		mi.position ++;
 		if (i) {
 			mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", i);
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
-				mi.ptszName = (TCHAR*)szStatusTitle.c_str();
+				mi.name.t = (TCHAR*)szStatusTitle.c_str();
 			else
-				mi.ptszName = (TCHAR*)lpcszXStatusNameDef[i];
+				mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
 
 			mi.icolibItem = hXStatusAdvancedStatusIcons[i];
 		}
 		else {
-			mi.ptszName = (TCHAR*)lpcszXStatusNameDef[i];
-			mi.hIcon = NULL;
+			mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
+			mi.icolibItem = NULL;
 		}
-		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi);
+		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
 	return 0;
 }
@@ -325,20 +322,18 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		return NULL;
 
 	char szServiceFunction[MAX_PATH];
-	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
-	char *pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 
 	CLISTMENUITEM mi = { 0 };
 
-	HGENMENU hRootMenu, (*fnAddFunc)(CLISTMENUITEM*);
+	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(CLISTMENUITEM*, const char*, int);
 	if (bIsMain) {
 		fnAddFunc = Menu_AddProtoMenuItem;
 
 		hRootMenu = Menu_GetProtocolRoot(m_szModuleName);
 		if (hRootMenu == NULL) {
-			mi.ptszName = m_tszUserName;
+			mi.name.t = m_tszUserName;
 			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			mi.hIcon = g_hMainIcon;
+			mi.icolibItem = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
 
@@ -351,19 +346,19 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	}
 
 	mi.flags = 0;
-	mi.pszName = LPGEN("Services...");
-	mi.hIcon = g_hMainIcon;
-	hRootMenu = fnAddFunc(&mi);
+	mi.name.a = LPGEN("Services...");
+	mi.icolibItem = g_hMainIcon;
+	hRootMenu = fnAddFunc(&mi, m_szModuleName, hLangpack);
 
 	mi.hParentMenu = hRootMenu;
 	mi.pszService = szServiceFunction;
 
 	for (size_t i = 0; i < dwCount; i++) {
-		mir_strcpy(pszServiceFunctionName, pgdiItems[i].szName);
+		mi.pszService = pgdiItems[i].szName;
 		mi.position = int(lPosition + i);
 		mi.icolibItem = pgdiItems[i].hIcolib;
-		mi.pszName = pgdiItems[i].szDescr;
-		hResult[i] = fnAddFunc(&mi);
+		mi.name.a = pgdiItems[i].szDescr;
+		hResult[i] = fnAddFunc(&mi, m_szModuleName, hLangpack);
 		Menu_ConfigureItem(hResult[i], MCI_OPT_EXECPARAM, lPopupPosition);
 	}
 

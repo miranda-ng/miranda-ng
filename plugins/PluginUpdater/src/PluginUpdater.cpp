@@ -91,7 +91,7 @@ extern "C" __declspec(dllexport) int Load(void)
 #else
 	mi.icolibItem = IcoLib_GetIconHandle("check_update");
 #endif
-	mi.pszName = LPGEN("Check for updates");
+	mi.name.a = LPGEN("Check for updates");
 	mi.pszService = MS_PU_CHECKUPDATES;
 	Menu_AddMainMenuItem(&mi);
 
@@ -100,7 +100,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	mi.position++;
 	mi.icolibItem = iconList[2].hIcolib;
-	mi.pszName = LPGEN("Available components list");
+	mi.name.a = LPGEN("Available components list");
 	mi.pszService = MS_PU_SHOWLIST;
 	Menu_AddMainMenuItem(&mi);
 

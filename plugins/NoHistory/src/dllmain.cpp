@@ -249,15 +249,15 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = -300010;
-	mi.ptszName = LPGENT("Disable History");
+	mi.name.t = LPGENT("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
-	mi.hIcon = hIconRemove;
+	mi.icolibItem = hIconRemove;
 	hMenuToggle = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -300005;
-	mi.ptszName = LPGENT("Clear History");
+	mi.name.t = LPGENT("Clear History");
 	mi.pszService = MS_NOHISTORY_CLEAR;
-	mi.hIcon = hIconClear;
+	mi.icolibItem = hIconClear;
 	hMenuClear = Menu_AddContactMenuItem(&mi);
 
 	// add icon to srmm status icons

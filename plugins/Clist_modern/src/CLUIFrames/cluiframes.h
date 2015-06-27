@@ -62,7 +62,7 @@ struct FrameMenuHandles
 	HGENMENU MainMenuItem;
 	HGENMENU MIVisible, MITitle, MITBVisible, MILock, MIColl, MIFloating, MIAlignRoot;
 	HGENMENU MIAlignTop, MIAlignClient, MIAlignBottom;
-	HGENMENU MIBorder, MIPosRoot, MIPosUp, MIPosDown;
+	HGENMENU MIBorder;
 };
 
 struct FrameTitleBar
@@ -73,9 +73,6 @@ struct FrameTitleBar
 
 	LPTSTR tbname;
 	LPTSTR tooltip;
-
-	char * sztbname;
-	char * sztooltip;
 
 	HMENU hmenu;
 	HICON hicon;
@@ -101,7 +98,6 @@ struct FRAMEWND
 	HWND hWnd;
 	RECT wndSize;
 	LPTSTR name;
-	LPSTR  szName;
 	int align;
 	int height;
 	int dwFlags;

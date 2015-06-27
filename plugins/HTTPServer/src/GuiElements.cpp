@@ -1445,7 +1445,8 @@ void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorB
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void InitGuiElements() {
+void InitGuiElements()
+{
 	INITCOMMONCONTROLSEX stInitCom;
 	stInitCom.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	stInitCom.dwICC = ICC_INTERNET_CLASSES;
@@ -1454,59 +1455,33 @@ void InitGuiElements() {
 	//hMainThread = GetCurrentThread();
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
-
 	sUrlAddress = DBGetString(NULL, MODULE, "UrlAddress", szDefaultUrlAddress);
 	sPageKeyword = DBGetString(NULL, MODULE, "PageKeyword", szDefaultPageKeyword);
 
 	hShareNewFileService = CreateServiceFunction(MS_SHARE_NEW_FILE, nShareNewFile);
-	if (! hShareNewFileService) {
-		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHARE_NEW_FILE"), MSG_BOX_TITEL, MB_OK);
-		return;
-	}
-
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
-	if (! hShowStatisticsViewService) {
-		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW"), MSG_BOX_TITEL, MB_OK);
-		return;
-	}
 
-	CLISTMENUITEM mi;
-	memset(&mi, 0, sizeof(mi));
-	mi.pszContactOwner = NULL;  //all contacts
-	mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+	CLISTMENUITEM mi = { 0 };
+	mi.icolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;
-	mi.ptszName = LPGENT("HTTP Share new file");
+	mi.name.t = LPGENT("HTTP Share new file");
 	mi.pszService = MS_SHARE_NEW_FILE;
-
 	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
-	if (!hShareNewFileMenuItem) {
-		MessageBox(NULL, TranslateT("Failed to add contact menu item"), MSG_BOX_TITEL, MB_OK);
-		return;
-	}
-
 
 	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {
 		mi.position = 1000085005;
 		mi.flags = CMIF_TCHAR;
-		//mi.hIcon=LoadIcon(hInstance,MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-		mi.pszContactOwner = NULL;
-		mi.ptszName = LPGENT("Show HTTP server statistics");
+		mi.name.t = LPGENT("Show HTTP server statistics");
 		mi.pszService = MS_SHOW_STATISTICS_VIEW;
 		hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);
 	}
-
 
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	if (!hEventOptionsInitialize)
 		MessageBox(NULL, _T("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK);
 
 	bShowPopups = db_get_b(NULL, MODULE, "ShowPopups", bShowPopups) != 0;
-	/*
-	#ifdef _DEBUG
-	nShowStatisticsView(0,0);
-	#endif*/
 }
-
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : UninitGuiElements
@@ -1521,6 +1496,7 @@ void InitGuiElements() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void UnInitGuiElements() {
+void UnInitGuiElements()
+{
 	CloseHandle(hMainThread);
 }

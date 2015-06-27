@@ -1161,9 +1161,9 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.hIcon = hIcons[0];
+		mi.icolibItem = hIcons[0];
 		mi.position = 1900000000;
-		mi.ptszName = (IsWindowVisible(hwndConsole)) ? LPGENT("Hide Console") : LPGENT("Show Console");
+		mi.name.t = (IsWindowVisible(hwndConsole)) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.pszService = MS_CONSOLE_SHOW_HIDE;
 		hMenu = Menu_AddMainMenuItem(&mi);
 

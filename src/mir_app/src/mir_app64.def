@@ -221,3 +221,7 @@ Menu_MeasureItem @218
 Menu_EnableItem @219
 Menu_SetChecked @220
 Menu_CreateRoot @221
+Menu_AddContactMenuItem @222 
+Menu_AddMainMenuItem @223
+Menu_AddProtoMenuItem @224
+Menu_AddStatusMenuItem @225

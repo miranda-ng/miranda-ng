@@ -73,8 +73,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = IcoLib_GetIcon("check_update");
-	mi.ptszName = LPGENT("Check for pack updates");
+	mi.icolibItem = IcoLib_GetIcon("check_update");
+	mi.name.t = LPGENT("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 	// Add empty updates folder menu item
@@ -82,8 +82,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	memset(&mi, 0, sizeof(mi));
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = IcoLib_GetIcon("empty_folder");
-	mi.ptszName = LPGENT("Clear pack updates folder");
+	mi.icolibItem = IcoLib_GetIcon("empty_folder");
+	mi.name.t = LPGENT("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);
 

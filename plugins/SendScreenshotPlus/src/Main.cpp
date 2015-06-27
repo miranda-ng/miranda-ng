@@ -274,11 +274,22 @@ DLL_EXPORT int Load(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(ICO_MAINXS);
-	#define _Menu_AddMainMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddMainMenuItem(&mi);}while(0)
-	#define _Menu_AddContactMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddContactMenuItem(&mi);}while(0)
-	_Menu_AddMainMenuItemEx(LPGENT("Take a screenshot"),MS_SENDSS_OPENDIALOG,1000001);
-	_Menu_AddContactMenuItemEx(LPGENT("Send screenshot"),MS_SENDSS_OPENDIALOG,1000000);
-	_Menu_AddContactMenuItemEx(LPGENT("Send desktop screenshot"),MS_SENDSS_SENDDESKTOP,1000001);
+	
+	mi.name.t = LPGENT("Take a screenshot");
+	mi.pszService = MS_SENDSS_OPENDIALOG;
+	mi.position = 1000001;
+	Menu_AddMainMenuItem(&mi);
+
+	mi.name.t = LPGENT("Send screenshot");
+	mi.pszService = MS_SENDSS_OPENDIALOG;
+	mi.position = 1000000;
+	Menu_AddContactMenuItem(&mi);
+
+	mi.name.t = LPGENT("Send desktop screenshot");
+	mi.pszService = MS_SENDSS_SENDDESKTOP;
+	mi.position = 1000001;
+	Menu_AddContactMenuItem(&mi);
+
 	/// hotkey's
 	HOTKEYDESC hkd={sizeof(hkd)};
 	hkd.pszName="Open SendSS+";

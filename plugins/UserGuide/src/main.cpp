@@ -87,8 +87,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_HELP);
-	mi.ptszName = LPGENT("User Guide");
+	mi.icolibItem = Skin_LoadIcon(SKINICON_OTHER_HELP);
+	mi.name.t = LPGENT("User Guide");
 	mi.pszService = "UserGuide/ShowGuide";
 	Menu_AddMainMenuItem(&mi);
 	

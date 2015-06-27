@@ -282,7 +282,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
-	mi.pszName = LPGEN("&Message");
+	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
 

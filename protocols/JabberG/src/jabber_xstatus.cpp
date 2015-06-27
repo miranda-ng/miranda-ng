@@ -471,7 +471,7 @@ void CPepGuiService::RebuildMenu()
 	mi.position = 200010;
 	mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 	mi.icolibItem = m_hIcolibItem;
-	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
+	mi.name.t = m_szText ? m_szText : _T("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi);
 }
 

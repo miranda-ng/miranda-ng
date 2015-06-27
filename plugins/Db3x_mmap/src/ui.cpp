@@ -312,14 +312,14 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 	// main menu item
 	CLISTMENUITEM mi = { 0 };
-	mi.ptszName = LPGENT("Database");
+	mi.name.t = LPGENT("Database");
 	mi.position = 500000000;
 	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = iconList[0].hIcolib;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.ptszName = db->GetMenuTitle();
+	mi.name.t = db->GetMenuTitle();
 	mi.hParentMenu = hMenuRoot;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);

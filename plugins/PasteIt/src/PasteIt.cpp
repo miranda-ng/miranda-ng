@@ -295,7 +295,7 @@ void InitMenuItems()
 	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
 	mi.position = 3000090005;
-	mi.ptszName = LPGENT("Paste It");
+	mi.name.t = LPGENT("Paste It");
 
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
@@ -303,13 +303,13 @@ void InitMenuItems()
 	mi.flags =  CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.hParentMenu = hContactMenu;
-	mi.ptszName = LPGENT("Paste from clipboard");
+	mi.name.t = LPGENT("Paste from clipboard");
 	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_CLIPBOARD);
 
-	mi.ptszName = LPGENT("Paste from file");
+	mi.name.t = LPGENT("Paste from file");
 	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_FILE);
 
-	mi.ptszName = LPGENT("Default web page");
+	mi.name.t = LPGENT("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
@@ -321,7 +321,7 @@ void InitMenuItems()
 		mi2.flags =  CMIF_TCHAR;
 		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
-		mi2.ptszName = pasteToWebs[i]->GetName();
+		mi2.name.t = pasteToWebs[i]->GetName();
 		hWebPageMenus[i] = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(hWebPageMenus[i], MCI_OPT_EXECPARAM, mi2.position = DEF_PAGES_START + i);
 	}

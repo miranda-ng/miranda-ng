@@ -331,14 +331,14 @@ int LoadCLUIModule(void)
 	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 	mi.position = 2000070000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	mi.pszName = LPGEN("De&lete");
+	mi.name.a = LPGEN("De&lete");
 	mi.pszService = "CList/DeleteContactCommand";
 	Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
 	mi.position = 2000050000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
-	mi.pszName = LPGEN("&Rename");
+	mi.name.a = LPGEN("&Rename");
 	mi.pszService = "CList/RenameContactCommand";
 	hRenameMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -346,7 +346,7 @@ int LoadCLUIModule(void)
 	mi.position = -2050000000;
 	mi.flags |= CMIF_NOTONLIST;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	mi.pszName = LPGEN("&Add permanently to list");
+	mi.name.a = LPGEN("&Add permanently to list");
 	mi.pszService = "CList/AddToListContactCommand";
 	Menu_AddContactMenuItem(&mi);
 

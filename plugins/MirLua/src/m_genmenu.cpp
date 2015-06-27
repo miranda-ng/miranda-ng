@@ -15,7 +15,7 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);
-	pmi->ptszName = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
+	pmi->name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Position");
@@ -101,7 +101,7 @@ static int lua_ModifyMenuItem(lua_State *L)
 
 	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
 
-	INT_PTR res = ::Menu_ModifyItem(hMenuItem, pmi->ptszName, pmi->hIcon, pmi->flags);
+	INT_PTR res = ::Menu_ModifyItem(hMenuItem, pmi->name.t, pmi->icolibItem, pmi->flags);
 	lua_pushinteger(L, res);
 	return 1;
 }

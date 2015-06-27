@@ -127,8 +127,8 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("RemovePersonalSettings/RemoveAll",RemoveAllService);
 	memset(&mi, 0, sizeof(mi));
 	mi.position = -0x7FFFFFFF;
-	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName = LPGEN("Remove Personal Settings...");
+	mi.icolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.a = LPGEN("Remove Personal Settings...");
 	mi.pszService="RemovePersonalSettings/RemoveAll";
 	Menu_AddMainMenuItem(&mi);
 

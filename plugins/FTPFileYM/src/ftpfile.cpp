@@ -95,14 +95,14 @@ void InitMenuItems()
 	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
-	mi.ptszName = LPGENT("FTP File");
+	mi.name.t = LPGENT("FTP File");
 
 	hMainMenu = Menu_AddMainMenuItem(&mi);
 	if (opt.bUseSubmenu)
 		hMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
-	mi.ptszName = stzName;
+	mi.name.t = stzName;
 
 	CLISTMENUITEM mi2 = { 0 };
 	mi2.flags =  CMIF_TCHAR;
@@ -127,7 +127,7 @@ void InitMenuItems()
 		
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.ptszName = LPGENT("Upload file(s)");		
+		mi2.name.t = LPGENT("Upload file(s)");		
 		HGENMENU tmp = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, mi2.position = i + UploadJob::FTP_RAWFILE);
 
@@ -137,7 +137,7 @@ void InitMenuItems()
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.ptszName = LPGENT("Zip and upload file(s)");
+		mi2.name.t = LPGENT("Zip and upload file(s)");
 		tmp = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, i + UploadJob::FTP_ZIPFILE);
 
@@ -147,7 +147,7 @@ void InitMenuItems()
 
 		mi2.hParentMenu = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.ptszName = LPGENT("Zip and upload folder");
+		mi2.name.t = LPGENT("Zip and upload folder");
 		tmp = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, i + UploadJob::FTP_ZIPFOLDER);
 
@@ -160,7 +160,7 @@ void InitMenuItems()
 	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
-	mi.ptszName = LPGENT("FTP File manager");
+	mi.name.t = LPGENT("FTP File manager");
 	mi.pszService = MS_FTPFILE_SHOWMANAGER;
 	mi.hParentMenu = hMainMenu;
 	Menu_AddMainMenuItem(&mi);

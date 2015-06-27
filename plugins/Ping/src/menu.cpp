@@ -11,14 +11,14 @@ void InitMenus()
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 500099900);
 
 	mi.position = 2000060000;
-	mi.hIcon = hIconResponding;
-	mi.ptszName = LPGENT("Enable all pings");
+	mi.icolibItem = hIconResponding;
+	mi.name.t = LPGENT("Enable all pings");
 	mi.pszService = PLUG "/EnableAll";
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000060001;
-	mi.hIcon = hIconDisabled;
-	mi.ptszName = LPGENT("Disable all pings");
+	mi.icolibItem = hIconDisabled;
+	mi.name.t = LPGENT("Disable all pings");
 	mi.pszService = PLUG "/DisableAll";
 	Menu_AddMainMenuItem(&mi);
 }

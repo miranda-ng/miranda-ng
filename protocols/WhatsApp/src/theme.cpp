@@ -59,7 +59,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 		mi.position = 500085000;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (isOnline() ? 0 : CMIF_GRAYED);
 		mi.icolibItem = GetIconHandle("whatsApp");
-		mi.ptszName = m_tszUserName;
+		mi.name.t = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
@@ -75,7 +75,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	CreateProtoService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
 	mir_strcpy(tDest, "/CreateGroup");
 	mi.hParentMenu = hRoot;
-	mi.pszName = LPGEN("Create group");
+	mi.name.a = LPGEN("Create group");
 	mi.icolibItem = GetIconHandle("createGroup");
 	m_hMenuCreateGroup = Menu_AddProtoMenuItem(&mi);
 

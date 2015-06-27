@@ -35,7 +35,6 @@ static HANDLE hPreBuildFrameMenuEvent;
 struct FrameMenuExecParam
 {
 	ptrA    szServiceName;
-	INT_PTR param1;
 };
 
 INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
@@ -56,7 +55,6 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 
 	FrameMenuExecParam *fmep = new FrameMenuExecParam();
 	fmep->szServiceName = mir_strdup(mi->pszService);
-	fmep->param1 = (INT_PTR)mi->pszContactOwner;
 	tmi.ownerdata = fmep;
 	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
 }
@@ -70,7 +68,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 	if (fmep == NULL)
 		return -1;
 
-	CallService(fmep->szServiceName, lParam, fmep->param1);
+	CallService(fmep->szServiceName, lParam, 0);
 	return 0;
 }
 

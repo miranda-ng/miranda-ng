@@ -91,14 +91,14 @@ void InitContactMenus()
 
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("reply");
-	mi.ptszName = LPGENT("Reply...");
+	mi.name.t = LPGENT("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("homepage");
-	mi.ptszName = LPGENT("Visit Homepage");
+	mi.name.t = LPGENT("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
 	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);
 	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);

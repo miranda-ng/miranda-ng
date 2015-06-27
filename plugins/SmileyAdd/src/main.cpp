@@ -53,7 +53,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;
-	mi.pszName = LPGEN("Assign smiley category");
+	mi.name.a = LPGEN("Assign smiley category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	DownloadInit();

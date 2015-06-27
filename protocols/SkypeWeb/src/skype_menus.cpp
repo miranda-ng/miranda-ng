@@ -65,7 +65,7 @@ void CSkypeProto::InitMenus()
 
 	// Request authorization
 	mi.pszService = MODULE"/RequestAuth";
-	mi.ptszName = LPGENT("Request authorization");
+	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
 	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
@@ -73,28 +73,28 @@ void CSkypeProto::InitMenus()
 
 	// Grant authorization
 	mi.pszService = MODULE"/GrantAuth";
-	mi.ptszName = LPGENT("Grant authorization");
+	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
 	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnGrantAuth>);
 
 	mi.pszService = MODULE"/GetHistory";
-	mi.ptszName = LPGENT("Get server history");
+	mi.name.t = LPGENT("Get server history");
 	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
 	mi.icolibItem = GetIconHandle("synchistory");
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
 
 	mi.pszService = MODULE"/BlockContact";
-	mi.ptszName = LPGENT("Block contact");
+	mi.name.t = LPGENT("Block contact");
 	mi.position = CMI_POSITION + CMI_BLOCK;
 	mi.icolibItem = GetIconHandle("user_block");
 	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
 
 	mi.pszService = MODULE"/UnblockContact";
-	mi.ptszName = LPGENT("Unblock contact");
+	mi.name.t = LPGENT("Unblock contact");
 	mi.position = CMI_POSITION + CMI_UNBLOCK;
 	mi.icolibItem = GetIconHandle("user_unblock");
 	ContactMenuItems[CMI_UNBLOCK] = Menu_AddContactMenuItem(&mi);
@@ -118,7 +118,7 @@ int CSkypeProto::OnInitStatusMenu()
 	HGENMENU hStatusMunuRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hStatusMunuRoot)
 	{
-		mi.ptszName = m_tszUserName;
+		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = Skin_GetIconHandle("main");
@@ -137,7 +137,7 @@ int CSkypeProto::OnInitStatusMenu()
 
 	mir_strcpy(tDest, "/CreateNewChat");
 	CreateProtoService(tDest, &CSkypeProto::SvcCreateChat);
-	mi.ptszName = LPGENT("Create new chat");
+	mi.name.t = LPGENT("Create new chat");
 	mi.position = SMI_POSITION + SMI_CREATECHAT;
 	mi.icolibItem = GetIconHandle("conference");
 	Menu_AddProtoMenuItem(&mi);

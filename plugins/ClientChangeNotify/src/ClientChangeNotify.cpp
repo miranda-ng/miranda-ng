@@ -331,9 +331,9 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		mi.flags = CMIF_TCHAR;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			mi.ptszName = LPGENT("Disable c&lient change notification");
+			mi.name.t = LPGENT("Disable c&lient change notification");
 		else
-			mi.ptszName = LPGENT("Enable c&lient change notification");
+			mi.name.t = LPGENT("Enable c&lient change notification");
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
 		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);

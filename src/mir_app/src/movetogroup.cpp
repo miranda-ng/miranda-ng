@@ -70,7 +70,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
 	mi.position = pos;
-	mi.ptszName = PrepareGroupName(name);
+	mi.name.t = PrepareGroupName(name);
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
@@ -79,7 +79,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	Menu_ConfigureItem(result, MCI_OPT_EXECPARAM, param);
 
 	lphGroupsItems.insert((HANDLE*)result);
-	mir_free(mi.ptszName);
+	mir_free(mi.name.t);
 }
 
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
@@ -90,7 +90,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	if (!hMoveToGroupItem) {
 		CLISTMENUITEM mi = { 0 };
 		mi.position = 100000;
-		mi.pszName = LPGEN("&Move to group");
+		mi.name.a = LPGEN("&Move to group");
 		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 
 		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);

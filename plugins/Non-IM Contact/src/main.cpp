@@ -144,38 +144,38 @@ extern "C" __declspec(dllexport) int Load()
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 600090000;
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
-	mi.pszName = LPGEN("&Add Non-IM Contact");
+	mi.name.a = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
 	mi.icolibItem = icoList[0].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 600090001;
-	mi.pszName = LPGEN("&View/Edit Files");
+	mi.name.a = LPGEN("&View/Edit Files");
 	mi.pszService = "LoadFilesDlg";
 	Menu_AddMainMenuItem(&mi);
 
 	if (db_get_b(NULL, MODNAME, "Beta", 0)) {
 		mi.position = 600090002;
-		mi.pszName = LPGEN("&Export all Non-IM Contacts");
+		mi.name.a = LPGEN("&Export all Non-IM Contacts");
 		mi.pszService = "ExportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
 
 		mi.position = 600090003;
-		mi.pszName = LPGEN("&Import Non-IM Contacts");
+		mi.name.a = LPGEN("&Import Non-IM Contacts");
 		mi.pszService = "ImportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
 	}
 
 	mi.position = 600090000;
-	mi.pszName = LPGEN("&String Maker");
+	mi.name.a = LPGEN("&String Maker");
 	mi.pszService = "TestStringReplaceLine";
 	Menu_AddMainMenuItem(&mi);
 
+	mi.hParentMenu = NULL;
 	mi.position = -2000080000;
-	mi.pszContactOwner = MODNAME;
-	mi.pszName = LPGEN("E&dit Contact Settings");
+	mi.name.a = LPGEN("E&dit Contact Settings");
 	mi.pszService = "EditLCcontact";
-	Menu_AddContactMenuItem(&mi);
+	Menu_AddContactMenuItem(&mi, MODNAME);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 

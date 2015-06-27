@@ -44,13 +44,13 @@ int InitMenus(WPARAM wParam, LPARAM lParam)
 		mir_snprintf(szServiceName, _countof(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
 		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
-		CLISTMENUITEM cmi = { 0 };
-		cmi.hParentMenu = HGENMENU(wParam);
-		cmi.hIcon = g_hPopupIcon;
-		cmi.position = 200101;
-		cmi.pszName = LPGEN("Open mailbox");
-		cmi.pszService = szServiceName;
-		Menu_AddProtoMenuItem(&cmi);
+		CLISTMENUITEM mi = { 0 };
+		mi.hParentMenu = HGENMENU(wParam);
+		mi.icolibItem = g_hPopupIcon;
+		mi.position = 200101;
+		mi.name.a = LPGEN("Open mailbox");
+		mi.pszService = szServiceName;
+		Menu_AddProtoMenuItem(&mi);
 	}
 	return 0;
 }

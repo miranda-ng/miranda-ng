@@ -98,7 +98,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
 
 	for (int i = 0; i < _countof(iconList); i++) {
-		mi.pszName = iconList[i].szDescr;
+		mi.name.a = iconList[i].szDescr;
 		mi.pszService = iconList[i].szName;
 		mi.icolibItem = iconList[i].hIcolib;
 		if (i == 3)

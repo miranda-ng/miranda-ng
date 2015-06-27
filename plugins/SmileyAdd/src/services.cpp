@@ -306,7 +306,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 			const int ind = i + 3;
 			mi.position = ind;
-			mi.ptszName = (TCHAR*)smc[i].GetDisplayName().c_str();
+			mi.name.t = (TCHAR*)smc[i].GetDisplayName().c_str();
 
 			if (cat == smc[i].GetName()) {
 				mi.flags |= CMIF_CHECKED; 
@@ -320,7 +320,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		}
 
 		mi.position = 1;
-		mi.ptszName = _T("<None>");
+		mi.name.t = _T("<None>");
 		if (cat == _T("<None>")) {
 			mi.flags |= CMIF_CHECKED; 
 			nonecheck = false;
@@ -331,7 +331,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		menuHandleArray.insert(hMenu);
 
 		mi.position = 2;
-		mi.ptszName = LPGENT("Protocol specific");
+		mi.name.t = LPGENT("Protocol specific");
 		if (nonecheck) mi.flags |= CMIF_CHECKED; else mi.flags &= ~CMIF_CHECKED;
 
 		hMenu = Menu_AddContactMenuItem(&mi);

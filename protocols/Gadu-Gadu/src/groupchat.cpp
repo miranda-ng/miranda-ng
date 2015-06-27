@@ -68,7 +68,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		CreateProtoService(GGS_OPEN_CONF, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
-		mi.ptszName = LPGENT("Open &conference...");
+		mi.name.t = LPGENT("Open &conference...");
 		mi.pszService = service;
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
@@ -77,7 +77,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		CreateProtoService(GGS_CLEAR_IGNORED, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;
-		mi.ptszName = LPGENT("&Clear ignored conferences");
+		mi.name.t = LPGENT("&Clear ignored conferences");
 		mi.pszService = service;
 		hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
 	}

@@ -51,8 +51,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.ptszName = LPGENT("Remove Temporary Contacts");
+	mi.icolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Remove Temporary Contacts");
 	mi.pszService = pluginName"/RemoveTempContacts";
 	Menu_AddMainMenuItem(&mi);
 

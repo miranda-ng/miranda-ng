@@ -1120,104 +1120,95 @@ extern "C" __declspec(dllexport) int  Load(void)
 	char servicefunction[100];
 
 	// gotoprofilemenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "GotoProfile");
-	CreateServiceFunction(servicefunction, GotoProfile);
-	mi.pszService = servicefunction;
+	CreateProtoServiceFunction(protocolname, "/GotoProfile", GotoProfile);
+	mi.pszService = "/GotoProfile";
 	mi.position = 500090000;
-	mi.pszContactOwner = protocolname;
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("&XFire Online Profile");
-	Menu_AddContactMenuItem(&mi);
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("&XFire Online Profile");
+	Menu_AddContactMenuItem(&mi, protocolname);
 
 	// gotoxfireclansitemenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "GotoXFireClanSite");
-	CreateServiceFunction(servicefunction, GotoXFireClanSite);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("XFire &Clan Site");
-	gotoclansite = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/GotoXFireClanSite", GotoXFireClanSite);
+	mi.pszService = "/GotoXFireClanSite";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("XFire &Clan Site");
+	gotoclansite = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// kopiermenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "GetIPPort");
-	CreateServiceFunction(servicefunction, GetIPPort);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("C&opy Server Address and Port");
-	copyipport = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/GetIPPort", GetIPPort);
+	mi.pszService = "/GetIPPort";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("C&opy Server Address and Port");
+	copyipport = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// kopiermenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "VoiceIPPort");
-	CreateServiceFunction(servicefunction, GetVIPPort);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Cop&y Voice Server Address and Port");
-	vipport = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/VoiceIPPort", GetVIPPort);
+	mi.pszService = "/VoiceIPPort";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Cop&y Voice Server Address and Port");
+	vipport = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// joinmenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "JoinGame");
-	CreateServiceFunction(servicefunction, JoinGame);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Join &Game...");
-	joingame = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/JoinGame", JoinGame);
+	mi.pszService = "/JoinGame";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Join &Game...");
+	joingame = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// playmenüpunkt
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "StartThisGame");
-	CreateServiceFunction(servicefunction, StartThisGame);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Play this game...");
-	startthisgame = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/StartThisGame", StartThisGame);
+	mi.pszService = "/StartThisGame";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Play this game...");
+	startthisgame = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// remove friend
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "RemoveFriend");
-	CreateServiceFunction(servicefunction, RemoveFriend);
+	CreateProtoServiceFunction(protocolname, "/RemoveFriend", RemoveFriend);
+	mi.pszService = "/RemoveFriend";
 	mi.position = 2000070000;
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Remove F&riend...");
-	removefriend = Menu_AddContactMenuItem(&mi);
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Remove F&riend...");
+	removefriend = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// block user
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "BlockFriend");
-	CreateServiceFunction(servicefunction, BlockFriend);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Block U&ser...");
-	blockfriend = Menu_AddContactMenuItem(&mi);
+	CreateProtoServiceFunction(protocolname, "/BlockFriend", BlockFriend);
+	mi.pszService = "/BlockFriend";
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Block U&ser...");
+	blockfriend = Menu_AddContactMenuItem(&mi, protocolname);
 
+	// main menu items
 	// my fire profile
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(protocolname), 500090000);
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfile2");
 	CreateServiceFunction(servicefunction, GotoProfile2);
 	mi.position = 500090000;
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("&My XFire Online Profile");
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("&My XFire Online Profile");
 	Menu_AddMainMenuItem(&mi);
 
 	// my activity protocol
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "GotoProfileAct");
 	CreateServiceFunction(servicefunction, GotoProfileAct);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("&Activity Report");
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("&Activity Report");
 	Menu_AddMainMenuItem(&mi);
 
 	//rescan my games
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "ReScanMyGames");
 	CreateServiceFunction(servicefunction, ReScanMyGames);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("&Rescan my games...");
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("&Rescan my games...");
 	Menu_AddMainMenuItem(&mi);
 
 	mir_strcpy(servicefunction, protocolname);
 	mir_strcat(servicefunction, "SetNick");
 	CreateServiceFunction(servicefunction, SetNickDlg);
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.ptszName = LPGENT("Set &Nickname");
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.t = LPGENT("Set &Nickname");
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu);
