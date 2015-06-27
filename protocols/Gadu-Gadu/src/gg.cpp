@@ -274,12 +274,12 @@ void GGPROTO::menus_init()
       mi.name.t = LPGENT("Conference");
       mi.position = 200001;
       mi.icolibItem = iconList[14].hIcolib;
-      hGCRoot = Menu_AddProtoMenuItem(&mi);
+      hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
       mi.name.t = LPGENT("Contact list");
       mi.position = 200002;
       mi.icolibItem = iconList[7].hIcolib;
-      hCLRoot = Menu_AddProtoMenuItem(&mi);
+      hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
       if (hMenuRoot)
          Menu_RemoveItem(hMenuRoot);

@@ -463,7 +463,7 @@ void CPepGuiService::RebuildMenu()
 		return;
 
 	char szService[128];
-	mir_snprintf(szService, "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
+	mir_snprintf(szService, "/AdvStatusSet/%s", m_name);
 
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hJabberRoot;
@@ -472,7 +472,7 @@ void CPepGuiService::RebuildMenu()
 	mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 	mi.icolibItem = m_hIcolibItem;
 	mi.name.t = m_szText ? m_szText : _T("<advanced status slot>");
-	m_hMenuItem = Menu_AddProtoMenuItem(&mi);
+	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
 }
 
 bool CPepGuiService::LaunchSetGui(BYTE bQuiet)

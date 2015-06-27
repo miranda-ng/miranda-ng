@@ -268,10 +268,6 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 
 void CMsnProto::MsnInitMainMenu(void)
 {
-	char servicefunction[100];
-	mir_strcpy(servicefunction, m_szModuleName);
-	char* tDest = servicefunction + mir_strlen(servicefunction);
-
 	CLISTMENUITEM mi = { 0 };
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
@@ -289,44 +285,43 @@ void CMsnProto::MsnInitMainMenu(void)
 
 	mi.flags = 0;
 	mi.hParentMenu = hRoot;
-	mi.pszService = servicefunction;
 
 #ifdef OBSOLETE
-	mir_strcpy(tDest, MS_SET_NICKNAME_UI);
-	CreateProtoService(MS_SET_NICKNAME_UI, &CMsnProto::SetNicknameUI);
+	mi.pszService = MS_SET_NICKNAME_UI;
+	CreateProtoService(mi.pszService, &CMsnProto::SetNicknameUI);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle(IDI_MSN);
 	mi.name.a = LPGEN("Set &Nickname");
-	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi);
+	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 #endif
 
-	mir_strcpy(tDest, MSN_INVITE);
-	CreateProtoService(MSN_INVITE, &CMsnProto::MsnInviteCommand);
+	mi.pszService = MSN_INVITE;
+	CreateProtoService(mi.pszService, &CMsnProto::MsnInviteCommand);
 	mi.position = 201002;
 	mi.icolibItem = GetIconHandle(IDI_INVITE);
 	mi.name.a = LPGEN("Create &Chat");
-	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi);
+	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_strcpy(tDest, MS_GOTO_INBOX);
-	CreateProtoService(MS_GOTO_INBOX, &CMsnProto::MsnGotoInbox);
+	mi.pszService = MS_GOTO_INBOX;
+	CreateProtoService(mi.pszService, &CMsnProto::MsnGotoInbox);
 	mi.position = 201003;
 	mi.icolibItem = GetIconHandle(IDI_INBOX);
 	mi.name.a = LPGEN("Display &Hotmail Inbox");
-	menuItemsMain[1] = Menu_AddProtoMenuItem(&mi);
+	menuItemsMain[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_strcpy(tDest, MS_EDIT_PROFILE);
-	CreateProtoService(MS_EDIT_PROFILE, &CMsnProto::MsnEditProfile);
+	mi.pszService = MS_EDIT_PROFILE;
+	CreateProtoService(mi.pszService, &CMsnProto::MsnEditProfile);
 	mi.position = 201004;
 	mi.icolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
-	menuItemsMain[2] = Menu_AddProtoMenuItem(&mi);
+	menuItemsMain[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_strcpy(tDest, MS_EDIT_ALERTS);
-	CreateProtoService(MS_EDIT_ALERTS, &CMsnProto::MsnSetupAlerts);
+	mi.pszService = MS_EDIT_ALERTS;
+	CreateProtoService(mi.pszService, &CMsnProto::MsnSetupAlerts);
 	mi.position = 201004;
 	mi.icolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("Setup Live &Alerts");
-	menuItemsMain[3] = Menu_AddProtoMenuItem(&mi);
+	menuItemsMain[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	MSN_EnableMenuItems(m_iStatus >= ID_STATUS_ONLINE);
 }

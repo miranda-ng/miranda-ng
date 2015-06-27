@@ -514,57 +514,47 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 
 void GGPROTO::import_init(HGENMENU hRoot)
 {
-	// Import from server item
-	char service[64];
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
-	CreateProtoService(GGS_IMPORT_SERVER, &GGPROTO::import_server);
-
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.hParentMenu = hRoot;
+
+	// Import from server item
+	mi.pszService = GGS_IMPORT_SERVER;
+	CreateProtoService(mi.pszService, &GGPROTO::import_server);
 	mi.position = 2000500001;
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.name.t = LPGENT("Import List From &Server");
-	mi.pszService = service;
- 	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
+ 	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Import from textfile
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
-	CreateProtoService(GGS_IMPORT_TEXT, &GGPROTO::import_text);
-
+	mi.pszService = GGS_IMPORT_TEXT;
+	CreateProtoService(mi.pszService, &GGPROTO::import_text);
 	mi.position = 2000500002;
 	mi.icolibItem = iconList[2].hIcolib;
 	mi.name.t = LPGENT("Import List From &Text File...");
-	mi.pszService = service;
-	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Remove from server
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
-	CreateProtoService(GGS_REMOVE_SERVER, &GGPROTO::remove_server);
-
+	mi.pszService = GGS_REMOVE_SERVER;
+	CreateProtoService(mi.pszService, &GGPROTO::remove_server);
 	mi.position = 2000500003;
 	mi.icolibItem = iconList[3].hIcolib;
 	mi.name.t = LPGENT("&Remove List From Server");
-	mi.pszService = service;
-	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[4] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Export to server
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
-	CreateProtoService(GGS_EXPORT_SERVER, &GGPROTO::export_server);
-
+	mi.pszService = GGS_EXPORT_SERVER;
+	CreateProtoService(mi.pszService, &GGPROTO::export_server);
 	mi.position = 2005000001;
 	mi.icolibItem = iconList[4].hIcolib;
 	mi.name.t = LPGENT("Export List To &Server");
-	mi.pszService = service;
-	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[5] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Export to textfile
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
-	CreateProtoService(GGS_EXPORT_TEXT, &GGPROTO::export_text);
-
+	mi.pszService = GGS_EXPORT_TEXT;
+	CreateProtoService(mi.pszService, &GGPROTO::export_text);
 	mi.position = 2005000002;
 	mi.icolibItem = iconList[5].hIcolib;
 	mi.name.t = LPGENT("Export List To &Text File...");
-	mi.pszService = service;
-	hMainMenu[6] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[6] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }

@@ -76,41 +76,35 @@ void CToxProto::UninitMenus()
 
 int CToxProto::OnInitStatusMenu()
 {
-	char text[MAX_PATH];
-	mir_strcpy(text, m_szModuleName);
-	char *tDest = text + mir_strlen(text);
-
-	CLISTMENUITEM mi = { 0 };
-	mi.pszService = text;
-
-	HGENMENU hStatusMunuRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (!hStatusMunuRoot)
+	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
+	if (!hStatusMenuRoot)
 	{
+		CLISTMENUITEM mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = Skin_GetIconHandle("main");
-		hStatusMunuRoot = Menu_AddProtoMenuItem(&mi);
+		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 
-	mi.hParentMenu = hStatusMunuRoot;
-	mi.flags = CMIF_TCHAR;
+	CLISTMENUITEM mi = { 0 };
+	mi.hParentMenu = hStatusMenuRoot;
 
 	// Create copy tox id command
-	mir_strcpy(tDest, "/CopyToxID");
-	CreateProtoService(tDest, &CToxProto::OnCopyToxID);
+	mi.pszService = "/CopyToxID";
+	CreateProtoService(mi.pszService, &CToxProto::OnCopyToxID);
 	mi.name.t = LPGENT("Copy Tox ID");
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
-	Menu_AddProtoMenuItem(&mi);
-
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	
 	// Create group chat command
-	/*mir_strcpy(tDest, "/CreateChatRoom");
-	CreateProtoService(tDest, &CToxProto::OnCreateChatRoom);
+	/*
+	mi.pszService = "/CreateChatRoom";
+	CreateProtoService(mi.pszService, &CToxProto::OnCreateChatRoom);
 	mi.name.t = LPGENT("Create group chat");
 	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
 	mi.icolibItem = Skin_GetIconHandle("conference");
-	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi);*/
+	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi, m_szModuleName);*/
 
 	return 0;
 }

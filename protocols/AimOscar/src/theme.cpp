@@ -209,13 +209,9 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 void CAimProto::InitMainMenus(void)
 {
-	//Do not put any services below HTML get away message!!!
-	char service_name[200];
-
-	CLISTMENUITEM mi = { 0 };
-
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
+		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle("aim");
 		mi.name.t = m_tszUserName;
@@ -229,30 +225,29 @@ void CAimProto::InitMainMenus(void)
 		}
 	}
 
-	mi.pszService = service_name;
+	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hRoot;
-	mi.flags = 0;
 
-	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/ManageAccount");
-	CreateProtoService("/ManageAccount", &CAimProto::ManageAccount);
+	mi.pszService = "/ManageAccount";
+	CreateProtoService(mi.pszService, &CAimProto::ManageAccount);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle("aim");
 	mi.name.a = LPGEN("Manage Account");
-	hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/InstantIdle");
-	CreateProtoService("/InstantIdle",&CAimProto::InstantIdle);
+	mi.pszService = "/InstantIdle";
+	CreateProtoService(mi.pszService, &CAimProto::InstantIdle);
 	mi.position = 201002;
 	mi.icolibItem = GetIconHandle("idle");
 	mi.name.a = LPGEN("Instant Idle");
-	hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(service_name, _countof(service_name), "%s%s", m_szModuleName, "/JoinChatRoom");
-	CreateProtoService("/JoinChatRoom", &CAimProto::JoinChatUI);
+	mi.pszService = "/JoinChatRoom";
+	CreateProtoService(mi.pszService, &CAimProto::JoinChatUI);
 	mi.position = 201003;
 	mi.icolibItem = GetIconHandle("aol");
 	mi.name.a = LPGEN( "Join Chat Room" );
-	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
+	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 void CAimProto::InitContactMenus(void)

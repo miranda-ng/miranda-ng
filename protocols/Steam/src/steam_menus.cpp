@@ -96,15 +96,9 @@ int CSteamProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void CSteamProto::OnInitStatusMenu()
 {
-	char text[200];
-	mir_strncpy(text, m_szModuleName, 100);
-	char* tDest = text + mir_strlen(text);
-
-	CLISTMENUITEM mi = { 0 };
-	mi.pszService = text;
-
 	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hSteamRoot) {
+		CLISTMENUITEM mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -115,16 +109,15 @@ void CSteamProto::OnInitStatusMenu()
 		m_hMenuRoot = NULL;
 	}
 
+	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = hSteamRoot;
-	mi.flags =  CMIF_TCHAR;
 
 	// Show block list
-	mir_strcpy(tDest, "/BlockList");
-	CreateProtoService(tDest, &CSteamProto::OpenBlockListCommand);
+	mi.pszService = "/BlockList";
+	CreateProtoService(mi.pszService, &CSteamProto::OpenBlockListCommand);
 	mi.name.t = LPGENT("Blocked contacts");
 	mi.position = 200000 + SMI_BLOCKED_LIST;
-	//mi.icolibItem = NULL;
-	Menu_AddProtoMenuItem(&mi);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 void CSteamProto::InitMenus()
