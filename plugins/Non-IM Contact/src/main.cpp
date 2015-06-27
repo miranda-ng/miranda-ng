@@ -178,7 +178,6 @@ extern "C" __declspec(dllexport) int Load()
 	Menu_AddContactMenuItem(&mi, MODNAME);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-
 	return 0;
 }
 

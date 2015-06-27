@@ -1003,36 +1003,34 @@ void InitList()
 		else ShowWindow(hpwnd, SW_SHOW);
 	}
 
-	{
-		font_id.cbSize = sizeof(FontIDT);
-		mir_tstrncpy(font_id.group, LPGENT("Ping"), _countof(font_id.group));
-		mir_tstrncpy(font_id.name, LPGENT("List"), _countof(font_id.name));
-		mir_strncpy(font_id.dbSettingsGroup, "PING", _countof(font_id.dbSettingsGroup));
-		mir_strncpy(font_id.prefix, "Font", _countof(font_id.prefix));
-		mir_tstrncpy(font_id.backgroundGroup, _T("Ping"), _countof(font_id.backgroundGroup));
-		mir_tstrncpy(font_id.backgroundName, _T("Background"), _countof(font_id.backgroundName));
-		font_id.order = 0;
-		font_id.flags = FIDF_DEFAULTVALID;
-		font_id.deffontsettings.charset = DEFAULT_CHARSET;
-		font_id.deffontsettings.size = -14;
-		font_id.deffontsettings.style = 0;
-		font_id.deffontsettings.colour = RGB(255, 255, 255);
-		mir_tstrncpy(font_id.deffontsettings.szFace, _T("Tahoma"), _countof(font_id.deffontsettings.szFace));
+	font_id.cbSize = sizeof(FontIDT);
+	mir_tstrncpy(font_id.group, LPGENT("Ping"), _countof(font_id.group));
+	mir_tstrncpy(font_id.name, LPGENT("List"), _countof(font_id.name));
+	mir_strncpy(font_id.dbSettingsGroup, "PING", _countof(font_id.dbSettingsGroup));
+	mir_strncpy(font_id.prefix, "Font", _countof(font_id.prefix));
+	mir_tstrncpy(font_id.backgroundGroup, _T("Ping"), _countof(font_id.backgroundGroup));
+	mir_tstrncpy(font_id.backgroundName, _T("Background"), _countof(font_id.backgroundName));
+	font_id.order = 0;
+	font_id.flags = FIDF_DEFAULTVALID;
+	font_id.deffontsettings.charset = DEFAULT_CHARSET;
+	font_id.deffontsettings.size = -14;
+	font_id.deffontsettings.style = 0;
+	font_id.deffontsettings.colour = RGB(255, 255, 255);
+	mir_tstrncpy(font_id.deffontsettings.szFace, _T("Tahoma"), _countof(font_id.deffontsettings.szFace));
 
-		FontRegisterT(&font_id);
+	FontRegisterT(&font_id);
 
-		bk_col_id.cbSize = sizeof(ColourIDT);
-		mir_tstrncpy(bk_col_id.group, _T("Ping"), _countof(bk_col_id.group));
-		mir_tstrncpy(bk_col_id.name, _T("Background"), _countof(bk_col_id.name));
-		mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));
-		mir_strncpy(bk_col_id.setting, "BgColor", _countof(bk_col_id.setting));
-		bk_col_id.defcolour = RGB(0, 0, 0);
-		ColourRegisterT(&bk_col_id);
+	bk_col_id.cbSize = sizeof(ColourIDT);
+	mir_tstrncpy(bk_col_id.group, _T("Ping"), _countof(bk_col_id.group));
+	mir_tstrncpy(bk_col_id.name, _T("Background"), _countof(bk_col_id.name));
+	mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));
+	mir_strncpy(bk_col_id.setting, "BgColor", _countof(bk_col_id.setting));
+	bk_col_id.defcolour = RGB(0, 0, 0);
+	ColourRegisterT(&bk_col_id);
 
-		HookEvent(ME_FONT_RELOAD, ReloadFont);
+	HookEvent(ME_FONT_RELOAD, ReloadFont);
 
-		ReloadFont(0, 0);
-	}
+	ReloadFont(0, 0);
 
 	start_ping_thread();
 }
