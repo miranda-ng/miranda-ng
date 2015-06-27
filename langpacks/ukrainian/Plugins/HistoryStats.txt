@@ -829,6 +829,10 @@ HistoryStats - Підтвердження
 Інформація HistoryStats
 [Exclude from statistics]
 Виключити зі статистики
+[Copy history]
+Копіювати історію
+[Paste history...]
+Вставити історію...
 [History]
 Історія
 [(Unknown)]

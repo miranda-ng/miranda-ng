@@ -235,6 +235,10 @@ ID ключа:
 Експорт відкритого ключа
 [LOG files]
 Файли журналу
+[Turn off GPG encryption]
+Вимкнути шифрування GPG
+[Turn on GPG encryption]
+Увімкнути шифрування GPG
 [New passwords do not match]
 Нові паролі не збігаються
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
