@@ -358,12 +358,12 @@ void AddMenuItems(void)
 	}
 
 	if ( ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		CreateServiceFunction("Weather/mwin_menu", Mwin_MenuClicked);
+		mi.pszService = "Weather/mwin_menu";
+		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.icolibItem = NULL;
-		mi.flags = 0;
+		mi.hParentMenu = NULL;
 		mi.name.a = LPGEN("Display in a frame");
-		mi.pszService = "Weather/mwin_menu";
 		hMwinMenu = Menu_AddContactMenuItem(&mi);
 	}
 }
