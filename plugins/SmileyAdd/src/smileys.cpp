@@ -292,7 +292,7 @@ void SmileyPackType::Clear(void)
 	errorFound = false;
 }
 
-bool SmileyPackType::LoadSmileyFile(const CMString& filename, bool onlyInfo, bool noerr)
+bool SmileyPackType::LoadSmileyFile(const CMString& filename, const CMString& packname, bool onlyInfo, bool noerr)
 {
 	Clear();
 
@@ -308,9 +308,9 @@ bool SmileyPackType::LoadSmileyFile(const CMString& filename, bool onlyInfo, boo
 	int fh = _topen(modpath.c_str(), _O_BINARY | _O_RDONLY);
 	if (fh == -1) {
 		if (!noerr) {
-			static const TCHAR errmsg[] = LPGENT("Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
+			static const TCHAR errmsg[] = LPGENT("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			TCHAR msgtxt[1024];
-			mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), modpath.c_str());
+			mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), modpath.c_str(), packname);
 			ReportError(msgtxt);
 		}
 
@@ -675,14 +675,14 @@ bool SmileyPackType::LoadSmileyFileXEP(CMString& tbuf, bool onlyInfo, CMString& 
 //
 
 
-bool SmileyPackListType::AddSmileyPack(CMString& filename)
+bool SmileyPackListType::AddSmileyPack(CMString& filename, CMString& packname)
 {
 	bool res = true;
 	if (GetSmileyPack(filename) == NULL)
 	{  //not exist yet, so add
 		SmileyPackType *smileyPack = new SmileyPackType;
 
-		res = smileyPack->LoadSmileyFile(filename, FALSE);
+		res = smileyPack->LoadSmileyFile(filename, packname, FALSE);
 		if (res)
 			m_SmileyPacks.insert(smileyPack);
 		else
@@ -732,8 +732,10 @@ SmileyCategoryType::SmileyCategoryType(SmileyPackListType* pSPS, const CMString&
 
 void SmileyCategoryType::Load(void)
 {
-	if (!opt.UseOneForAll || !IsProto())
-		m_pSmileyPackStore->AddSmileyPack(m_Filename);
+	bool visiblecat = opt.UsePhysProto ? !IsAcc() : !IsPhysProto();
+	bool visible = opt.UseOneForAll ? !IsProto() : visiblecat;
+	if (visible)
+		m_pSmileyPackStore->AddSmileyPack(m_Filename, m_DisplayName);
 }
 
 
