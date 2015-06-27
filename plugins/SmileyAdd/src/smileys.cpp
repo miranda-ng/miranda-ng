@@ -734,8 +734,14 @@ void SmileyCategoryType::Load(void)
 {
 	bool visiblecat = opt.UsePhysProto ? !IsAcc() : !IsPhysProto();
 	bool visible = opt.UseOneForAll ? !IsProto() : visiblecat;
-	if (visible)
-		m_pSmileyPackStore->AddSmileyPack(m_Filename, m_DisplayName);
+
+	if (visible && !m_Filename.IsEmpty()){
+		bool loaded = m_pSmileyPackStore->AddSmileyPack(m_Filename, m_DisplayName);
+		if (!loaded){
+			ClearFilename();
+			SaveSettings();
+		}
+	}
 }
 
 

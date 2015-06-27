@@ -301,7 +301,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		HGENMENU hMenu;
 
 		for (int i=0; i < smc.getCount(); i++) {
-			if (smc[i].IsExt() || (smc[i].IsProto() && opt.UseOneForAll))
+			if (smc[i].IsExt() || (smc[i].IsProto() && opt.UseOneForAll) || smc[i].GetFilename().IsEmpty())
 				continue;
 
 			const int ind = i + 3;
