@@ -1299,8 +1299,8 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		hContact = lParam;
 		{
 			POINT pt = { 0 };
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 			GetCursorPos(&pt);
+			HMENU hMenu = Menu_BuildContactMenu(hContact);
 			HWND hwndSave = GetForegroundWindow();
 			SetForegroundWindow(hwnd);
 			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwnd, NULL);

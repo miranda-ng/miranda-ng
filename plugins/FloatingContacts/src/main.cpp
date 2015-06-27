@@ -322,7 +322,7 @@ static void ShowContactMenu(HWND hwnd, POINT pt)
 {
 	ThumbInfo *pThumb = thumbList.FindThumb(hwnd);
 	if (pThumb != NULL) {
-		hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0);
+		hContactMenu = Menu_BuildContactMenu(pThumb->hContact);
 		if (hContactMenu == NULL)
 			return;
 

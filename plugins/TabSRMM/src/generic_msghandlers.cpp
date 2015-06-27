@@ -559,7 +559,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_PROTOCOL:
-		submenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, dat->hContact, 0);
+		submenu = Menu_BuildContactMenu(dat->hContact);
 		if (lParam == 0)
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
 		else

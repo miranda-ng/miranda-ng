@@ -685,7 +685,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		else if (msg->lParam == (db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
 			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
 				POINT pt;
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+				HMENU hMenu = (HMENU)Menu_GetStatusMenu();
 
 				for (int i = 0; i < cli.trayIconCount; i++) {
 					if ((unsigned)cli.trayIcon[i].id == msg->wParam) {
@@ -727,10 +727,10 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_SUBMENU | MIIM_TYPE;
 			mii.fType = MFT_STRING;
-			mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+			mii.hSubMenu = Menu_GetMainMenu();
 			mii.dwTypeData = TranslateT("&Main menu");
 			InsertMenuItem(hMenu, 1, TRUE, &mii);
-			mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+			mii.hSubMenu = (HMENU)Menu_GetStatusMenu();
 			mii.dwTypeData = TranslateT("&Status");
 			InsertMenuItem(hMenu, 2, TRUE, &mii);
 			SetMenuDefaultItem(hMenu, ID_TRAY_HIDE, FALSE);

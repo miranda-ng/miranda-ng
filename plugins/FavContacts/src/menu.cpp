@@ -421,7 +421,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		if (!CallService(MS_DB_CONTACT_IS, mii.dwItemData, 0))
 			return FALSE;
 
-		HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+		HMENU hMenu = Menu_BuildContactMenu(hContact);
 
 		POINT pt;
 		GetCursorPos(&pt);

@@ -832,12 +832,12 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				if (msg == WM_RBUTTONDOWN) {
 					BOOL a = ((g_StatusBarData.perProtoConfig && p.SBarRightClk) || g_StatusBarData.SBarRightClk);
 					if (a ^ bShift)
-						hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+						hMenu = Menu_GetMainMenu();
 					else
-						hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+						hMenu = (HMENU)Menu_GetStatusMenu();
 				}
 				else {
-					hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+					hMenu = (HMENU)Menu_GetStatusMenu();
 					HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
 					if (hSubMenu)
 						hMenu = hSubMenu;

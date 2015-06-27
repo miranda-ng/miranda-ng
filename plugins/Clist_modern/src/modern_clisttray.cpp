@@ -196,12 +196,12 @@ INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
 
 	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+		mii->hSubMenu = Menu_GetMainMenu();
 	}
 
 	if (hTrayStatusMenuItemProxy == (HGENMENU)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
 	}
 
 	return(TRUE);
@@ -239,7 +239,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	case TIM_CALLBACK:
 		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
 			POINT pt;
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+			HMENU hMenu = (HMENU)Menu_GetStatusMenu();
 			g_mutex_bOnTrayRightClick = 1;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 			SetForegroundWindow(msg->hwnd);
@@ -357,8 +357,8 @@ void InitTrayMenus(void)
 	mi.name.a = LPGEN("&About");
 	Menu_AddTrayMenuItem(&mi);
 
-	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-	hStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	hMainMenu = Menu_GetMainMenu();
+	hStatusMenu = (HMENU)Menu_GetStatusMenu();
 }
 
 void UninitTrayMenu()

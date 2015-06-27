@@ -677,7 +677,7 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 				item.iItem = i;
 				ListView_GetItem(hWnd, &item);
 				hContact = (MCONTACT)item.lParam;
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
+				HMENU hMenu = Menu_BuildContactMenu(hContact);
 				if (hMenu != NULL) {
 					CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU), hContact);
 					DestroyMenu(hMenu);

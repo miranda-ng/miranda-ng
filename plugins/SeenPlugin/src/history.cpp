@@ -222,8 +222,8 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		case IDC_USERMENU:
 			{
 				RECT rc;
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rc);
+				HMENU hMenu = Menu_BuildContactMenu(hContact);
 				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
 				DestroyMenu(hMenu);
 			}

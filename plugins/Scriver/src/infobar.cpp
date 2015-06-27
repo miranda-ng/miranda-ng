@@ -271,7 +271,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_RBUTTONUP:
 		{
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, idat->mwd->hContact, 0);
+			HMENU hMenu = Menu_BuildContactMenu(idat->mwd->hContact);
 
 			POINT pt;
 			GetCursorPos(&pt);

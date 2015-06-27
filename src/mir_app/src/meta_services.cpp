@@ -659,7 +659,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 
 static VOID CALLBACK sttMenuThread(PVOID param)
 {
-	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)param, 0);
+	HMENU hMenu = Menu_BuildContactMenu(MCONTACT(param));
 
 	TPMPARAMS tpmp = { 0 };
 	tpmp.cbSize = sizeof(tpmp);

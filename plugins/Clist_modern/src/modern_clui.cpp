@@ -213,17 +213,15 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 
 INT_PTR CLUI::Service_ShowMainMenu(WPARAM, LPARAM)
 {
-	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 
 INT_PTR CLUI::Service_ShowStatusMenu(WPARAM, LPARAM)
 {
-	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	HMENU hMenu = (HMENU)Menu_GetStatusMenu();
 
 	POINT pt;
 	GetCursorPos(&pt);
@@ -254,10 +252,10 @@ HRESULT CLUI::CreateCluiFrames()
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU;
-	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+	mii.hSubMenu = Menu_GetMainMenu();
 	SetMenuItemInfo(g_hMenuMain, 0, TRUE, &mii);
 
-	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	mii.hSubMenu = (HMENU)Menu_GetStatusMenu();
 	SetMenuItemInfo(g_hMenuMain, 1, TRUE, &mii);
 
 	CreateCLCWindow(pcli->hwndContactList);
@@ -1816,8 +1814,7 @@ LRESULT CLUI::OnUpdate(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 LRESULT CLUI::OnInitMenu(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	if (!CLUI::IsMainMenuInited()) {
-		if (ServiceExists(MS_CLIST_MENUBUILDMAIN))
-			CallService(MS_CLIST_MENUBUILDMAIN, 0, 0);
+		Menu_BuildMainMenu();
 		CLUI::m_fMainMenuInited = TRUE;
 	}
 	return FALSE;

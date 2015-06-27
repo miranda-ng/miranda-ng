@@ -3654,7 +3654,7 @@ procedure THistoryFrm.tbUserMenuClick(Sender: TObject);
 var
   p: TPoint;
 begin
-  UserMenu := CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+  UserMenu := Menu_BuildContactMenu(hContact);
   if UserMenu <> 0 then
   begin
     p := tbUserMenu.ClientToScreen(Point(0, tbUserMenu.Height));

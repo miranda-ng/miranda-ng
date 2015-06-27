@@ -1369,7 +1369,7 @@ begin
   hContact := THandle(Item.Data);
   if hContact = 0 then
     exit;
-  UserMenu := CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+  UserMenu := Menu_BuildContactMenu(hContact);
   if UserMenu <> 0 then
   begin
     UserMenuContact := hContact;

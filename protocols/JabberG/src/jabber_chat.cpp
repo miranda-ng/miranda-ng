@@ -605,7 +605,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 
 				if (MCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
 					gcmi->Item[3].uType = MENU_HMENU;
-					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+					gcmi->Item[3].dwID = (INT_PTR)Menu_BuildContactMenu(hContact);
 					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
 				}
 				else {

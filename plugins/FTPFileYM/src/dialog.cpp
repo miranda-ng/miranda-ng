@@ -245,8 +245,8 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 						if (hContact != NULL)
 						{
 							RECT rc;
-							HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 							GetWindowRect((HWND)lParam, &rc);
+							HMENU hMenu = Menu_BuildContactMenu(hContact);
 							TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
 							DestroyMenu(hMenu);
 						}

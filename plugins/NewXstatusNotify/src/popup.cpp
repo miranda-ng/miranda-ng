@@ -123,8 +123,8 @@ void PopupAction(HWND hWnd, BYTE action)
 		case PCA_OPENMENU:
 		{
 			POINT pt = { 0 };
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 			GetCursorPos(&pt);
+			HMENU hMenu = Menu_BuildContactMenu(hContact);
 			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
 			DestroyMenu(hMenu);
 		}

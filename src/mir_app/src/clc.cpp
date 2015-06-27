@@ -1262,7 +1262,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					return 0;
 				}
 				if (contact->type == CLCIT_CONTACT)
-					hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)contact->hContact, 0);
+					hMenu = Menu_BuildContactMenu(contact->hContact);
 			}
 			else {
 				//call parent for new group/hide offline menu

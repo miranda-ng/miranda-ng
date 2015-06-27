@@ -338,9 +338,9 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_USERMENU:
 			{
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
 				RECT rc;
 				GetWindowRect((HWND)lParam, &rc);
+				HMENU hMenu = Menu_BuildContactMenu(dat->hContact);
 				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
 				DestroyMenu(hMenu);
 			}

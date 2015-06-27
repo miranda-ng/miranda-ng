@@ -127,7 +127,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 		lvi.iSubItem = 0;
 		ListView_GetItem(hList, &lvi);
 		if (lvi.lParam != NULL) {
-			HMENU hCMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)lvi.lParam, NULL);
+			HMENU hCMenu = Menu_BuildContactMenu(lvi.lParam);
 			if (hCMenu != NULL) {
 				POINT p;
 				GetCursorPos(&p);

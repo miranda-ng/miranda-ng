@@ -102,12 +102,12 @@ INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 	}
 	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+		mii->hSubMenu = Menu_GetMainMenu();
 	}
 
 	if (hGroupStatusMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
 	}
 
 	return TRUE;

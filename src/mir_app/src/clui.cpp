@@ -62,9 +62,9 @@ static int CluiModulesLoaded(WPARAM, LPARAM)
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_SUBMENU;
-		mii.hSubMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+		mii.hSubMenu = Menu_GetMainMenu();
 		SetMenuItemInfo(cli.hMenuMain, 0, TRUE, &mii);
-		mii.hSubMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+		mii.hSubMenu = Menu_GetStatusMenu();
 		SetMenuItemInfo(cli.hMenuMain, 1, TRUE, &mii);
 	}
 	return 0;
@@ -876,7 +876,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				RECT rc;
 				POINT pt;
 
-				hMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+				hMenu = Menu_GetStatusMenu();
 				nParts = SendMessage(cli.hwndStatus, SB_GETPARTS, 0, 0);
 				if (nm->dwItemSpec == 0xFFFFFFFE) {
 					nPanel = nParts - 1;
@@ -915,7 +915,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_SUBMENU;
-				mii.hSubMenu = (HMENU)CallService((pos == 0) ? MS_CLIST_MENUGETMAIN : MS_CLIST_MENUGETSTATUS, 0, 0);
+				mii.hSubMenu = (pos == 0) ? Menu_GetMainMenu() : Menu_GetStatusMenu();
 				SetMenuItemInfo(cli.hMenuMain, pos, TRUE, &mii);
 			}
 		}
@@ -955,9 +955,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (PtInRect(&rc, pt)) {
 				HMENU hMenu;
 				if (db_get_b(NULL, "CLUI", "SBarRightClk", 0))
-					hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+					hMenu = Menu_GetMainMenu();
 				else
-					hMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+					hMenu = (HMENU) Menu_GetStatusMenu();
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				return 0;
 			}

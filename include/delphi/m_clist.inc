@@ -87,6 +87,9 @@ function _AddProtoMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer)
 function _AddStatusMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddStatusMenuItem';
 
+function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall;
+             external AppDll name 'Menu_BuildContactMenu';
+
 {
   Affect : Modify an existing menu item, see notes
   Returns: 0 on success, [non zero] on failure
@@ -262,16 +265,6 @@ const
   MS_CLIST_MENUDRAWITEM:PAnsiChar = 'CList/MenuDrawItem';
 
   {
-    wParam : TMCONTACT
-    lParam : 0
-    Affect : Built the context menu for a specific contact
-    Returns: A HMENU handle identifying the menu, this should be DestroyMenu()ed
-             when done.
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_MENUBUILDCONTACT:PAnsiChar = 'CList/MenuBuildContact';
-
-  {
     wParam : 0
     lParam : 0
     Affect : Get the image list handle with all the useful icons in it
@@ -302,22 +295,6 @@ const
   ME_CLIST_CONTACTICONCHANGED:PAnsiChar = 'CList/ContactIconChanged';
 
 //******************************* CLUI only *********************************
-
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Get the handle to Miranda's main menu
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_MENUGETMAIN:PAnsiChar = 'CList/MenuGetMain';
-
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Get a handle to Miranda's status menu
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_MENUGETSTATUS:PAnsiChar = 'CList/MenuGetStatus';
 
   CLISTMENUIDMIN = $4000; // reserved range for clist menu ids
   CLISTMENUIDMAX = $7FFF;
