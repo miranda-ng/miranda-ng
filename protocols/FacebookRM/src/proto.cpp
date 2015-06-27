@@ -41,13 +41,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	// Initialize random seed for this client
 	facy.random_ = ::time(NULL) + PtrToUint(&facy);
 
-	m_hMenuRoot = m_hMenuServicesRoot = m_hStatusMind = NULL;
-
-	m_invisible = false;
-	m_signingOut = false;
 	m_enableChat = DEFAULT_ENABLE_CHATS;
-	m_idleTS = 0;
-	m_pingTS = 0;
 
 	// Load custom locale, if set
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));

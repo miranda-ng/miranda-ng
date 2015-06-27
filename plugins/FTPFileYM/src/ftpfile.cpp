@@ -114,9 +114,7 @@ void InitMenuItems()
 			mir_sntprintf(stzName, _countof(stzName), TranslateT("FTP Server %d"), i + 1);
 
 		mi.flags = CMIF_TCHAR;
-		mi.hParentMenu = 0; 
-		if (opt.bUseSubmenu)
-			mi.hParentMenu = hMenu;
+		mi.hParentMenu = (opt.bUseSubmenu) ? hMenu : 0;
 
 		mi.icolibItem = iconList[i].hIcolib;
 		hSubMenu[i] = Menu_AddContactMenuItem(&mi);

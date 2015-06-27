@@ -62,6 +62,7 @@ void InitMenu()
 	// adding contact menu items
 	mi.hParentMenu = NULL;
 	mi.position = -0x7FFFFFFA;
+
 	mi.icolibItem = GetIconHandle("checkfeed");
 	mi.name.t = LPGENT("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;

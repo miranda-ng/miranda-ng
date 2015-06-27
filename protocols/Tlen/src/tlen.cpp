@@ -287,11 +287,12 @@ void TlenProtocol::initMenuItems()
 	mi.pszService = text;
 	hMenuInbox = Menu_AddMainMenuItem(&mi);
 
+	// contact menu items
 	mi.hParentMenu = NULL;
 
 	// "Send picture"
 	mi.pszService = "/SendPicture";
-	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleSendPicture);
+	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleSendPicture);
 	mi.name.a = LPGEN("Send picture");
 	mi.position = -2000019030;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);
@@ -299,7 +300,7 @@ void TlenProtocol::initMenuItems()
 
 	// "Invite to MUC"
 	mi.pszService = "/ContactMenuMUC";
-	CreateProtoService(pSvcName, &TlenProtocol::MUCContactMenuHandleMUC);
+	CreateProtoService(mi.pszService, &TlenProtocol::MUCContactMenuHandleMUC);
 	mi.name.a = LPGEN("Multi-User Conference");
 	mi.position = -2000019020;
 	mi.icolibItem = GetIconHandle(IDI_MUC);
@@ -307,7 +308,7 @@ void TlenProtocol::initMenuItems()
 
 	// "Invite to voice chat"
 	mi.pszService = "/ContactMenuVoice";
-	CreateProtoService(pSvcName, &TlenProtocol::VoiceContactMenuHandleVoice);
+	CreateProtoService(mi.pszService, &TlenProtocol::VoiceContactMenuHandleVoice);
 	mi.name.a = LPGEN("Voice Chat");
 	mi.position = -2000019010;
 	mi.icolibItem = GetIconHandle(IDI_VOICE);
@@ -315,7 +316,7 @@ void TlenProtocol::initMenuItems()
 
 	// "Request authorization"
 	mi.pszService = "/RequestAuth";
-	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleRequestAuth);
+	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleRequestAuth);
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = -2000001001;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
@@ -323,7 +324,7 @@ void TlenProtocol::initMenuItems()
 
 	// "Grant authorization"
 	mi.pszService = "/GrantAuth";
-	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleGrantAuth);
+	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleGrantAuth);
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = -2000001000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);

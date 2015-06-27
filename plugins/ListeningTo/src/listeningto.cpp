@@ -301,7 +301,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
 	mi.hParentMenu = hMainMenuGroup;
-	// mi.popupPosition = 500080000; !!!!!!!!!!!!!!!
 	mi.position = 0;
 	mi.pszService = MS_LISTENINGTO_MAINMENU;
 	mi.icolibItem = NULL;

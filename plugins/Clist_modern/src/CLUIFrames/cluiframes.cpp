@@ -1494,19 +1494,18 @@ static int CLUIFramesLoadMainMenu()
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
+	mi.hParentMenu = cont.MainMenuItem;
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
 		mi.icolibItem = g_pfwFrames[i].TitleBar.hicon;
 		mi.flags = CMIF_TCHAR;
-		mi.position = separator;
-		mi.hParentMenu = cont.MainMenuItem;
+		mi.position = separator++;
 		mi.name.t = g_pfwFrames[i].TitleBar.tbname ? g_pfwFrames[i].TitleBar.tbname : g_pfwFrames[i].name;
 		mi.pszService = 0;
 		g_pfwFrames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
 		CLUIFramesCreateMenuForFrame(g_pfwFrames[i].id, g_pfwFrames[i].MenuHandles.MainMenuItem, separator, true);
 		CLUIFramesModifyMainMenuItems(g_pfwFrames[i].id, 0);
 		CallService(MS_CLIST_FRAMEMENUNOTIFY, (WPARAM)g_pfwFrames[i].id, (LPARAM)g_pfwFrames[i].MenuHandles.MainMenuItem);
-		separator++;
 	}
 
 	separator += 100000;
@@ -1515,7 +1514,6 @@ static int CLUIFramesLoadMainMenu()
 	mi.icolibItem = NULL;
 	mi.flags = 0;
 	mi.position = separator++;
-	mi.hParentMenu = cont.MainMenuItem;
 	mi.name.a = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);

@@ -288,19 +288,20 @@ void g_MenuInit(void)
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_TCHAR;
+	mi.hParentMenu = g_hMenuDirectPresence[0];
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[_countof(buf) - 2] = '0' + i;
 		mi.pszService = buf;
 		mi.name.t = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
-		mi.hParentMenu = g_hMenuDirectPresence[0];
 		mi.icolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i + 1] = Menu_AddContactMenuItem(&mi);
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
 
 	mi.flags &= ~(CMIF_TCHAR);
+	mi.hParentMenu = NULL;
 
 	// Resource selector
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";

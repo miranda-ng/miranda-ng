@@ -74,8 +74,9 @@ int LoadHelpModule(void)
 	CreateServiceFunction("Help/BugCommand", BugCommand);
 
 	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
+
+	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.position = 2000090000;
 	mi.name.a = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";

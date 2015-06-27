@@ -192,17 +192,17 @@ void InitMenuItems(void)
 	// Add item to main menu
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
-	CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
-	mi.name.t = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");
 	mi.pszService = MENUCOMMAND_SVC;
+	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
+	mi.name.t = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// Popup History
-	CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
+	mi.pszService = MENUCOMMAND_HISTORY;
+	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
 	mi.name.t = LPGENT("Popup History");
 	mi.icolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
-	mi.pszService = MENUCOMMAND_HISTORY;
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }
 

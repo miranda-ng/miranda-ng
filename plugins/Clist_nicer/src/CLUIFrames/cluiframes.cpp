@@ -1346,12 +1346,12 @@ static int CLUIFramesLoadMainMenu()
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
+	mi.hParentMenu = cont.MainMenuItem;
 	int separator = (int)3000200000;
 	for (int i = 0; i < nFramescount; i++) {
 		mi.icolibItem = Frames[i].TitleBar.hicon;
 		mi.flags = CMIF_TCHAR;
 		mi.position = separator;
-		mi.hParentMenu = cont.MainMenuItem;
 		mi.name.t = Frames[i].TitleBar.tbname ? Frames[i].TitleBar.tbname : Frames[i].name;
 		mi.pszService = 0;
 		Frames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
@@ -1367,7 +1367,6 @@ static int CLUIFramesLoadMainMenu()
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.flags = 0;
 	mi.position = separator++;
-	mi.hParentMenu = cont.MainMenuItem;
 	mi.name.a = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
