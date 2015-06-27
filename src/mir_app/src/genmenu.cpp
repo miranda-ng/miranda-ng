@@ -533,7 +533,7 @@ MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int setting, INT_PTR valu
 
 MIR_APP_DLL(int) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCheckService, LPCSTR szExecService)
 {
-	if (!bIsGenMenuInited || szName == NULL)
+	if (szName == NULL || szDisplayName == NULL)
 		return NULL;
 
 	mir_cslock lck(csMenuHook);
