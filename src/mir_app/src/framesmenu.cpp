@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #include <m_cluiframes.h>
+#include "genmenu.h"
 
 static int hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
@@ -34,7 +35,6 @@ static HANDLE hPreBuildFrameMenuEvent;
 struct FrameMenuExecParam
 {
 	ptrA    szServiceName;
-	int     Frameid;
 	INT_PTR param1;
 };
 
@@ -56,7 +56,6 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 
 	FrameMenuExecParam *fmep = new FrameMenuExecParam();
 	fmep->szServiceName = mir_strdup(mi->pszService);
-	fmep->Frameid = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!!!!!!!!!
 	fmep->param1 = (INT_PTR)mi->pszContactOwner;
 	tmi.ownerdata = fmep;
 	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
@@ -82,16 +81,8 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 	if (pcpp == NULL)
 		return FALSE;
 
-	TMO_MenuItem mi;
-	if (Menu_GetItemInfo(pcpp->MenuItemHandle, mi) == 0) {
-		FrameMenuExecParam *fmep = (FrameMenuExecParam*)mi.ownerdata;
-		if (fmep != NULL) {
-			//pcpp->wParam  -  frameid
-			if (((WPARAM)fmep->Frameid == pcpp->wParam) || fmep->Frameid == -1)
-				return TRUE;
-		}
-	}
-	return FALSE;
+	TMO_IntMenuItem *pimi = pcpp->MenuItemHandle;
+	return pimi->execParam == pcpp->wParam || pimi->execParam == -1;
 }
 
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)

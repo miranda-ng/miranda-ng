@@ -2443,21 +2443,19 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_MOUSEMOVE:
 		{
-			char TBcapt[255];
-
 			mir_cslock lck(csFrameHook);
 			int pos = id2pos(Frameid);
 			if (pos != -1) {
 				int oldflags;
+				char TBcapt[255];
 				mir_snprintf(TBcapt, _countof(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
 					Frames[pos].name, Frames[pos].height, Frames[pos].visible, Frames[pos].floating,
 					Frames[pos].FloatingPos.x, Frames[pos].FloatingPos.y,
 					Frames[pos].FloatingSize.x, Frames[pos].FloatingSize.y,
-					Frames[pos].order
-					);
+					Frames[pos].order);
 
 				oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, Frames[pos].id), 0);
-				if (!(oldflags&F_SHOWTBTIP))
+				if (!(oldflags & F_SHOWTBTIP))
 					oldflags |= F_SHOWTBTIP;
 			}
 		}

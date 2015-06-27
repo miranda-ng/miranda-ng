@@ -1207,8 +1207,10 @@ static int _us_DoShowHideFrame(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	int pos = (wParam == 0) ? lParam : id2pos(wParam);
-	if (pos >= 0 && (int)pos < g_nFramesCount) {
+	if (pos >= 0 && pos < g_nFramesCount) {
 		g_pfwFrames[pos].visible = !g_pfwFrames[pos].visible;
+		CLUIFramesStoreFrameSettings(pos);
+
 		if (g_pfwFrames[pos].OwnerWindow != (HWND)-2) {
 			if (g_pfwFrames[pos].OwnerWindow)
 				CLUI_ShowWindowMod(g_pfwFrames[pos].OwnerWindow, (g_pfwFrames[pos].visible &&  g_pfwFrames[pos].collapsed && IsWindowVisible(pcli->hwndContactList)) ? SW_SHOW/*NOACTIVATE*/ : SW_HIDE);
