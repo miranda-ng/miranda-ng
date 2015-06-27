@@ -1946,12 +1946,12 @@ LABEL_SHOWWINDOW:
 		return TRUE;
 
 	case DM_GETCONTEXTMENU:
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CallService(MS_CLIST_MENUBUILDCONTACT, si->hContact, 0));
+		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (LPARAM)Menu_BuildContactMenu(si->hContact));
 		return TRUE;
 
 	case WM_CONTEXTMENU:
 		if (GetParent(hwndDlg) == (HWND)wParam) {
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, si->hContact, 0);
+			HMENU hMenu = Menu_BuildContactMenu(si->hContact);
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwndDlg, NULL);
 			DestroyMenu(hMenu);

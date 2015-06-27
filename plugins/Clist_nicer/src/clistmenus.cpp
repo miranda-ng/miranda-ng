@@ -388,8 +388,8 @@ int InitCustomMenus(void)
 	mi.name.a = LPGEN("&Contact list settings...");
 	Menu_AddContactMenuItem(&mi);
 
-	hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+	hMainStatusMenu = (HMENU)Menu_GetStatusMenu();
+	hMainMenu = Menu_GetMainMenu();
 
 	return 0;
 }

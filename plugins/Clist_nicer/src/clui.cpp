@@ -1440,7 +1440,7 @@ skipbg:
 				case IDC_STBTOPMENU:
 					{
 						RECT rc;
-						HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+						HMENU hMenu = Menu_GetMainMenu();
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBMENU ? rc.top : rc.bottom, 0, hwnd, NULL);
 					}
@@ -1451,7 +1451,7 @@ skipbg:
 				case IDC_TBGLOBALSTATUS:
 					{
 						RECT rc;
-						HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+						HMENU hmenu = (HMENU)Menu_GetStatusMenu();
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBGLOBALSTATUS ? rc.top : rc.bottom, 0, hwnd, NULL);
 					}
@@ -1639,9 +1639,9 @@ buttons_done:
 			if (PtInRect(&rc, pt)) {
 				HMENU hMenu;
 				if (cfg::getByte("CLUI", "SBarRightClk", 0))
-					hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+					hMenu = Menu_GetMainMenu();
 				else
-					hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+					hMenu = (HMENU)Menu_GetStatusMenu();
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				return 0;
 			}
@@ -1917,12 +1917,9 @@ static INT_PTR CLN_ShowAbout(WPARAM, LPARAM)
 
 static INT_PTR CLN_ShowMainMenu(WPARAM, LPARAM)
 {
-	HMENU hMenu;
 	POINT pt;
-
-	hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 
@@ -1931,7 +1928,7 @@ static INT_PTR CLN_ShowStatusMenu(WPARAM, LPARAM)
 	HMENU hMenu;
 	POINT pt;
 
-	hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	hMenu = (HMENU)Menu_GetStatusMenu();
 	GetCursorPos(&pt);
 	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;

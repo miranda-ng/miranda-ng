@@ -1384,7 +1384,7 @@ void MakeHover(HWND hwnd, bool draw, bool *hover, POINT *p, RECT *r)
 
 void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, POINT &p)
 {
-	HMENU submenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	HMENU submenu = Menu_GetStatusMenu();
 
 	p.x = (opts.draw_text_align_right ? data->status_rect.right : data->status_rect.left);
 	p.y = data->status_rect.bottom + 1;
@@ -1399,7 +1399,7 @@ void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, POINT &p)
 
 void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
 {
-	HMENU menu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	HMENU menu = Menu_GetStatusMenu();
 	HMENU submenu = NULL;
 
 	if (menu != NULL) {

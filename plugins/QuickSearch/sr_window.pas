@@ -823,7 +823,7 @@ begin
     end;
 
     GetCursorPos(pt);
-    result:=CallService(MS_CLIST_MENUBUILDCONTACT,hContact,0);
+    result:=Menu_BuildContactMenu(hContact);
     if result<>0 then
     begin
       TrackPopupMenu(result,0,pt.x,pt.y,0,wnd,nil);

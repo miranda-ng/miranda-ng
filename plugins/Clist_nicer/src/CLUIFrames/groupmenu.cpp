@@ -104,12 +104,12 @@ INT_PTR GroupMenuonAddService(WPARAM wParam, LPARAM lParam)
 	}
 	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+		mii->hSubMenu = Menu_GetMainMenu();
 	}
 
 	if (hGroupStatusMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
 	}
 	if (hAppearanceMenuItemProxy == (HANDLE)lParam) {
 		hMenuOldContext = GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 3);
@@ -393,13 +393,13 @@ INT_PTR SubGroupMenuonAddService(WPARAM wParam, LPARAM)
 	if (hSubGroupMainMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
 		//mi.fType = MFT_STRING;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+		mii->hSubMenu = Menu_GetMainMenu();
 	}
 
 	if (hSubGroupStatusMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
 		//mi.fType = MFT_STRING;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
 	}
 	*/
 	return TRUE;

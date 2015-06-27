@@ -316,7 +316,7 @@ static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wPar
 			if (hItem) {
 				MCONTACT hContact = dat->GetItemData(hItem).hContact;
 				if (IsHContactContact(hContact)) {
-					HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+					HMENU hMenu = Menu_BuildContactMenu(hContact);
 					if (hMenu) {
 						ClientToScreen(hWnd, &pt);
 						CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU), hContact);

@@ -143,6 +143,17 @@ int fnGetAverageMode(int *pNetProtoCount)
 	return averageMode;
 }
 
+static int RecursiveDeleteMenu(HMENU hMenu)
+{
+	int cnt = GetMenuItemCount(hMenu);
+	for (int i = 0; i < cnt; i++) {
+		HMENU submenu = GetSubMenu(hMenu, 0);
+		if (submenu) DestroyMenu(submenu);
+		DeleteMenu(hMenu, 0, MF_BYPOSITION);
+	}
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
@@ -153,13 +164,19 @@ struct MainMenuExecParam
 	TMO_IntMenuItem *pimi;
 };
 
-static INT_PTR BuildMainMenu(WPARAM, LPARAM)
+MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void)
 {
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
 	Menu_Build(hMainMenu, hMainMenuObject);
 	DrawMenuBar(cli.hwndContactList);
-	return (INT_PTR)hMainMenu;
+	return hMainMenu;
+}
+
+MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
+{
+	RecursiveDeleteMenu(hMainMenu);
+	return Menu_BuildMainMenu();
 }
 
 MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(CLISTMENUITEM *mi, int _hLang)
@@ -230,6 +247,8 @@ struct ContactMenuExecParam
 	TMO_IntMenuItem *pimi;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *pszProto, int _hLang)
 {
 	TMO_MenuItem tmi;
@@ -266,7 +285,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *psz
 	return pimi;
 }
 
-static INT_PTR BuildContactMenu(WPARAM hContact, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact)
 {
 	NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
@@ -279,26 +300,11 @@ static INT_PTR BuildContactMenu(WPARAM hContact, LPARAM)
 
 	HMENU hMenu = CreatePopupMenu();
 	Menu_Build(hMenu, hContactMenuObject, (WPARAM)&bcp);
-	return (INT_PTR)hMenu;
-}
-
-// called with:
-// wparam - ownerdata
-// lparam - lparam from winproc
-INT_PTR ContactMenuExecService(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam != 0) {
-		ContactMenuExecParam *cmep = (ContactMenuExecParam*)wParam;
-		if (cmep->pszContactOwner && cmep->szServiceName && cmep->szServiceName[0] == '/')
-			ProtoCallService(cmep->pszContactOwner, cmep->szServiceName, lParam, cmep->pimi->execParam);
-		else
-			CallService(cmep->szServiceName, lParam, cmep->pimi->execParam);
-	}
-	return 0;
+	return hMenu;
 }
 
 // true - ok, false ignore
-INT_PTR ContactMenuCheckService(WPARAM wParam, LPARAM)
+static INT_PTR ContactMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
 	if (pcpp == NULL)
@@ -326,7 +332,24 @@ INT_PTR ContactMenuCheckService(WPARAM wParam, LPARAM)
 	return TRUE;
 }
 
-INT_PTR FreeOwnerDataContactMenu(WPARAM, LPARAM lParam)
+// called with:
+// wparam - ContactMenuExecParam*
+// lparam - lparam from winproc
+static INT_PTR ContactMenuExecService(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam != 0) {
+		ContactMenuExecParam *cmep = (ContactMenuExecParam*)wParam;
+		if (cmep->pszContactOwner && cmep->szServiceName && cmep->szServiceName[0] == '/')
+			ProtoCallService(cmep->pszContactOwner, cmep->szServiceName, lParam, cmep->pimi->execParam);
+		else
+			CallService(cmep->szServiceName, lParam, cmep->pimi->execParam);
+	}
+	return 0;
+}
+
+// called with:
+// lparam - ContactMenuExecParam*
+static INT_PTR FreeOwnerDataContactMenu(WPARAM, LPARAM lParam)
 {
 	ContactMenuExecParam *cmep = (ContactMenuExecParam*)lParam;
 	if (cmep != NULL) {
@@ -383,6 +406,16 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(CLISTMENUITEM *mi, const char *pszP
 
 	Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
 	return pimi;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(HMENU) Menu_GetStatusMenu()
+{
+	RecursiveDeleteMenu(hStatusMenu);
+
+	Menu_Build(hStatusMenu, hStatusMenuObject);
+	return hStatusMenu;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -708,33 +741,6 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-int RecursiveDeleteMenu(HMENU hMenu)
-{
-	int cnt = GetMenuItemCount(hMenu);
-	for (int i = 0; i < cnt; i++) {
-		HMENU submenu = GetSubMenu(hMenu, 0);
-		if (submenu) DestroyMenu(submenu);
-		DeleteMenu(hMenu, 0, MF_BYPOSITION);
-	}
-	return 0;
-}
-
-static INT_PTR MenuGetMain(WPARAM, LPARAM)
-{
-	RecursiveDeleteMenu(hMainMenu);
-
-	BuildMainMenu(0, 0);
-	return (INT_PTR)hMainMenu;
-}
-
-static INT_PTR BuildStatusMenu(WPARAM, LPARAM)
-{
-	RecursiveDeleteMenu(hStatusMenu);
-
-	Menu_Build(hStatusMenu, hStatusMenuObject);
-	return (INT_PTR)hStatusMenu;
-}
-
 static INT_PTR SetStatusMode(WPARAM wParam, LPARAM)
 {
 	prochotkey = true;
@@ -964,7 +970,7 @@ void RebuildMenuOrder(void)
 		}
 	}
 
-	BuildStatusMenu(0, 0);
+	Menu_GetStatusMenu();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1138,12 +1144,6 @@ void InitCustomMenus(void)
 
 	CreateServiceFunction(MS_CLIST_SETSTATUSMODE, SetStatusMode);
 
-	CreateServiceFunction(MS_CLIST_MENUGETMAIN, MenuGetMain);
-	CreateServiceFunction(MS_CLIST_MENUBUILDMAIN, BuildMainMenu);
-
-	CreateServiceFunction(MS_CLIST_MENUBUILDCONTACT, BuildContactMenu);
-
-	CreateServiceFunction(MS_CLIST_MENUGETSTATUS, BuildStatusMenu);
 	CreateServiceFunction(MS_CLIST_MENUPROCESSCOMMAND, MenuProcessCommand);
 	CreateServiceFunction(MS_CLIST_MENUPROCESSHOTKEY, MenuProcessHotkey);
 

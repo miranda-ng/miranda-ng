@@ -176,7 +176,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case IDM_M7:	// display contact menu
-		hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,wParam,0);
+		hMenu = Menu_BuildContactMenu(wParam);
 		GetCursorPos(&pt);
 		hPopupContact = (HANDLE)wParam;
 		TrackPopupMenu(hMenu,TPM_LEFTALIGN,pt.x,pt.y,0,hWnd,NULL);

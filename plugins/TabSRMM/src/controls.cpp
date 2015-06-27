@@ -389,15 +389,14 @@ void CMenuBar::invoke(const int id)
 	MCONTACT hContact = dat ? dat->hContact : 0;
 
 	if (index == 3 && hContact != 0) {
-		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0));
+		hMenu = Menu_BuildContactMenu(hContact);
 		m_isContactMenu = true;
 	}
 	else if (index == 0) {
-		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDMAIN, 0, 0));
+		hMenu = Menu_BuildMainMenu();
 		m_isMainMenu = true;
 	}
-	else
-		hMenu = reinterpret_cast<HMENU>(m_TbButtons[index].dwData);
+	else hMenu = reinterpret_cast<HMENU>(m_TbButtons[index].dwData);
 
 	RECT  rcButton;
 	POINT pt;

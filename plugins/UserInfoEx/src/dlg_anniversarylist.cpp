@@ -411,7 +411,7 @@ class CAnnivList
 					{
 						CItemData *pid = pDlg->ItemData(pDlg->_curSel);
 						if (pid) {
-							HMENU hPopup = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)pid->_hContact, 0);
+							HMENU hPopup = Menu_BuildContactMenu(pid->_hContact);
 							if (hPopup) {
 								POINT pt;
 								GetCursorPos(&pt);
