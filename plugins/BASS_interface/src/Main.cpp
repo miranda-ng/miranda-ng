@@ -64,7 +64,6 @@ static BOOL QuietTime, Preview, EnPreview;
 static int Volume;
 static int device = -1;
 static int newBass = 0;
-static HWND ClistHWND;
 
 HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL, hwnd_plugin = NULL;
 COLORREF clBack = 0;
@@ -249,8 +248,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				db_set_b(NULL, ModuleName, OPT_PREVIEW, EnPreview);
 
 				StatMask = 0;
-				for (int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--)
-				{
+				for (int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--) {
 					StatMask <<= 1;
 					if (IsDlgButtonChecked(hwndDlg, i) == BST_CHECKED)
 						StatMask |= 1;
@@ -280,11 +278,11 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_QUIETTIME:
-		{
-			BOOL b = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), b);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), b);
-		}
+			{
+				BOOL b = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), b);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), b);
+			}
 		case IDC_MAXCHANNEL:
 		case IDC_OUTDEVICE:
 		case IDC_CHECKBOX1:
@@ -354,6 +352,8 @@ static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	RECT rc;
+
 	switch (msg) {
 	case WM_CREATE:
 		hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 16, 16, hwnd,
@@ -392,23 +392,17 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SIZE:
-	{
-		RECT rect;
-		GetClientRect(hwnd, &rect);
+		GetClientRect(hwnd, &rc);
 		if (hwndMute)
-			MoveWindow(hwndMute, rect.right - 20, 2, 16, 16, FALSE);
-		SetWindowPos(hwndSlider, 0, 1, rect.top + 1 + (20 - 18) / 2, rect.right - rect.left - 1 - 20, 18, SWP_NOZORDER);
-		InvalidateRect(hwnd, &rect, FALSE);
+			MoveWindow(hwndMute, rc.right - 20, 2, 16, 16, FALSE);
+		SetWindowPos(hwndSlider, 0, 1, rc.top + 1 + (20 - 18) / 2, rc.right - rc.left - 1 - 20, 18, SWP_NOZORDER);
+		InvalidateRect(hwnd, &rc, FALSE);
 		return 0;
-	}
 
 	case WM_ERASEBKGND:
-	{
-		RECT rc;
 		GetClientRect(hwnd, &rc);
 		FillRect((HDC)wParam, &rc, hBkgBrush);
 		return TRUE;
-	}
 
 	case WM_CTLCOLORSTATIC:
 		if ((HWND)lParam == hwndSlider) {
@@ -513,15 +507,14 @@ void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
 		sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
 		if (sndLimSnd > MAXCHAN)
 			sndLimSnd = MAXCHAN;
+		
 		TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
 		TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
 		QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
 		EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
-
 		StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
 
-		ClistHWND = (HWND)CallService("CLUI/GetHwnd", 0, 0);
-		BASS_Init(device, 44100, 0, ClistHWND, NULL);
+		BASS_Init(device, 44100, 0, pcli->hwndContactList, NULL);
 
 		Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
 		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);

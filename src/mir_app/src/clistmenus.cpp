@@ -158,7 +158,7 @@ static INT_PTR BuildMainMenu(WPARAM, LPARAM)
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
 	Menu_Build(hMainMenu, hMainMenuObject);
-	DrawMenuBar((HWND)CallService("CLUI/GetHwnd", 0, 0));
+	DrawMenuBar(cli.hwndContactList);
 	return (INT_PTR)hMainMenu;
 }
 
