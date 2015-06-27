@@ -99,6 +99,8 @@ IPv6 адреса (необов'язково)
 Чат
 [Profiles folder]
 Папка профілів
+[Tox URI scheme]
+Схема Tox URI
 [Action]
 Дія
 [Protocol icon]

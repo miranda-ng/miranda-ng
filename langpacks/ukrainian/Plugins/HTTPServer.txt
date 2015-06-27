@@ -105,6 +105,10 @@ IP-адреса 2
 Завершено
 [Speed]
 Швидкість
+[Selected link size is 0]
+Вибрано посилання на файл нульового розміру
+[Failed to get access to clipboard]
+Не вдалося отримати доступ до буфера обміну
 [No share selected]
 Папка не вибрана
 [Current IP Address: ]

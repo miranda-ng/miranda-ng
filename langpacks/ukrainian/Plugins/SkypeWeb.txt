@@ -67,6 +67,8 @@
 &Адмін
 [&User]
 &Користувач
+[Enter new chatroom topic]
+Введіть нову тему для чат-кімнати
 [Are you sure?]
 Ви впевнені?
 [Incoming call]
