@@ -144,20 +144,18 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 0xb0000000;
 	mi.icolibItem = g_GetIconHandle(0);
-	mi.pszName = LPGEN("Check &mail (All Account)");
+	mi.name.a = LPGEN("Check &mail (All Account)");
 	mi.pszService = MS_YAMN_FORCECHECK;
 	hMenuItemMain = Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Check &mail (This Account)");
-	mi.pszContactOwner = YAMN_DBMODULE;
+	mi.name.a = LPGEN("Check &mail (This Account)");
 	mi.pszService = MS_YAMN_CLISTCONTEXT;
-	hMenuItemCont = Menu_AddContactMenuItem(&mi);
+	hMenuItemCont = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
 	mi.icolibItem = g_GetIconHandle(1);
-	mi.pszName = LPGEN("Launch application");
-	mi.pszContactOwner = YAMN_DBMODULE;
+	mi.name.a = LPGEN("Launch application");
 	mi.pszService = MS_YAMN_CLISTCONTEXTAPP;
-	hMenuItemContApp = Menu_AddContactMenuItem(&mi);
+	hMenuItemContApp = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
 	CheckMenuItems();
 

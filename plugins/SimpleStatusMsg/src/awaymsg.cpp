@@ -421,21 +421,21 @@ int LoadAwayMsgModule(void)
 
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	mi.position = -2000005000;
-	mi.ptszName = LPGENT("Re&ad Away message");
+	mi.name.t = LPGENT("Re&ad Away message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle(IDI_COPY);
-	mi.ptszName = LPGENT("Copy Away message");
+	mi.name.t = LPGENT("Copy Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
 	mi.icolibItem = GetIconHandle(IDI_GOTOURL);
-	mi.ptszName = LPGENT("&Go to URL in Away message");
+	mi.name.t = LPGENT("&Go to URL in Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
 	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);
 

@@ -162,13 +162,13 @@ void InitMenu()
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -400000;
 
-	mi.ptszName = _T(LANG_STOP_OTR);
+	mi.name.t = _T(LANG_STOP_OTR);
 	mi.pszService = MS_OTR_MENUSTOP;
 	mi.icolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 
 	hStopItem = Menu_AddContactMenuItem(&mi);
 	
-	mi.ptszName = _T(LANG_START_OTR);
+	mi.name.t = _T(LANG_START_OTR);
 	mi.pszService = MS_OTR_MENUSTART;
 	mi.icolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 

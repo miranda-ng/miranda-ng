@@ -78,28 +78,28 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	mi.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	mi.icolibItem = hCheckMenu;
-	mi.pszName = LPGEN("Check for birthdays");
+	mi.name.a = LPGEN("Check for birthdays");
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_LIST_SHOW;
-	mi.pszName = LPGEN("Birthday list");
+	mi.name.a = LPGEN("Birthday list");
 	mi.icolibItem = hListMenu;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_REFRESH_USERDETAILS;
 	mi.position = 10100000;
-	mi.pszName = LPGEN("Refresh user details");
+	mi.name.a = LPGEN("Refresh user details");
 	mi.icolibItem = hRefreshUserDetails;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	mi.position = 10200000;
-	mi.pszName = LPGEN("Import birthdays");
+	mi.name.a = LPGEN("Import birthdays");
 	mi.icolibItem = hImportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_EXPORT_BIRTHDAYS;
-	mi.pszName = LPGEN("Export birthdays");
+	mi.name.a = LPGEN("Export birthdays");
 	mi.icolibItem = hExportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
@@ -107,7 +107,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.pszService = MS_WWI_ADD_BIRTHDAY;
 	mi.position = 10000000;
 	mi.icolibItem = hAddBirthdayContact;
-	mi.pszName = LPGEN("Add/change user &birthday");
+	mi.name.a = LPGEN("Add/change user &birthday");
 	Menu_AddContactMenuItem(&mi);
 
 	// Register hotkeys

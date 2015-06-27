@@ -139,7 +139,7 @@ void CGlobals::reloadSystemModulesChanged()
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
-	mi.pszName = LPGEN("&Message");
+	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -327,15 +327,15 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -500050005;
-	mi.hIcon = PluginConfig.g_iconContainer;
-	mi.pszName = LPGEN("&Messaging settings...");
+	mi.icolibItem = PluginConfig.g_iconContainer;
+	mi.name.a = LPGEN("&Messaging settings...");
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (sendLater->isAvail()) {
 		mi.position = -500050006;
-		mi.hIcon = 0;
-		mi.pszName = LPGEN("&Send later job list...");
+		mi.icolibItem = 0;
+		mi.name.a = LPGEN("&Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);
 	}

@@ -105,7 +105,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
 			mi.hParentMenu = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
 
-		mi.ptszName = profilename;
+		mi.name.t = profilename;
 		mi.position = 2000100000 + mcount;
 		mir_snprintf(servicename, _countof(servicename), "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
 		switch(mcount) {

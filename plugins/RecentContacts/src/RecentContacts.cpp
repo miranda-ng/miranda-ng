@@ -462,13 +462,13 @@ int Create_MenuitemShowList(void)
 {
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = icon.hIcolib;
-	mi.pszName = msLastUC_ShowListName;
+	mi.name.a = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 0xFFFFF;
 	mi.icolibItem = icon.hIcolib;
-	mi.pszName = LPGEN("Toggle Ignore");
+	mi.name.a = LPGEN("Toggle Ignore");
 	mi.pszService = V_RECENTCONTACTS_TOGGLE_IGNORE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 	return 0;

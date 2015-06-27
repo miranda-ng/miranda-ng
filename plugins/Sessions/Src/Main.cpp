@@ -797,22 +797,22 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position = 1000000000;
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Sessions Manager"), 1000000000);
 
-	mi.pszName = LPGEN("Save session...");
+	mi.name.a = LPGEN("Save session...");
 	mi.icolibItem = iconList[4].hIcolib;
 	mi.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Load session...");
+	mi.name.a = LPGEN("Load session...");
 	mi.pszService = MS_SESSIONS_OPENMANAGER;
 	mi.icolibItem = iconList[3].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Close session");
+	mi.name.a = LPGEN("Close session");
 	mi.pszService = MS_SESSIONS_CLOSESESSION;
 	mi.icolibItem = 0;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Load last session");
+	mi.name.a = LPGEN("Load last session");
 	mi.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	mi.icolibItem = iconList[5].hIcolib;
 	mi.position = 10100000;

@@ -87,7 +87,7 @@ namespace
 		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 
-		mi.ptszName = LPGENT("Enable/Disable Auto Update");
+		mi.name.t = LPGENT("Enable/Disable Auto Update");
 		mi.position = 10100001;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = g_pszAutoUpdateCmd;
@@ -95,28 +95,28 @@ namespace
 		CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
 		UpdateMenu(g_bAutoUpdate);
 
-		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
+		mi.name.t = LPGENT("Refresh All Quotes\\Rates");
 		mi.position = 20100001;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
 		Menu_AddMainMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 
-		mi.ptszName = LPGENT("Currency Converter...");
+		mi.name.t = LPGENT("Currency Converter...");
 		mi.position = 20100002;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 		mi.pszService = g_pszCurrencyConverter;
 		Menu_AddMainMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 
-		mi.ptszName = LPGENT("Export All Quotes");
+		mi.name.t = LPGENT("Export All Quotes");
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
 		mi.position = 20100003;
 		Menu_AddMainMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 
-		mi.ptszName = LPGENT("Import All Quotes");
+		mi.name.t = LPGENT("Import All Quotes");
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
 		mi.position = 20100004;
@@ -132,14 +132,14 @@ namespace
 		else
 			mi.hParentMenu = NULL;
 
-		mi.ptszName = LPGENT("Refresh");
+		mi.name.t = LPGENT("Refresh");
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 		mi.pszService = "Quotes/RefreshContact";
 		g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
 		Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
 		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 
-		mi.ptszName = LPGENT("Open Log File...");
+		mi.name.t = LPGENT("Open Log File...");
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/OpenLogFile";
 		g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi);
@@ -147,7 +147,7 @@ namespace
 		CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
 
 #ifdef CHART_IMPLEMENT
-		mi.ptszName = LPGENT("Chart...");
+		mi.name.t = LPGENT("Chart...");
 		mi.popupPosition = 2;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/Chart";
@@ -155,7 +155,7 @@ namespace
 		CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
 #endif
 
-		mi.ptszName = LPGENT("Edit Settings...");
+		mi.name.t = LPGENT("Edit Settings...");
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/EditSettings";
 		g_hMenuEditSettings = Menu_AddContactMenuItem(&mi);

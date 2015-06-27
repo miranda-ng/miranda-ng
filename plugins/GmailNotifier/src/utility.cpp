@@ -5,8 +5,8 @@ void BuildList(void)
 	DBVARIANT dbv;
 
 	acc_num = 0;
-	for (MCONTACT hContact = db_find_first(pluginName); hContact; hContact = db_find_next(hContact, pluginName)) {
-		if (!db_get_s(hContact, pluginName, "name", &dbv)) {
+	for (MCONTACT hContact = db_find_first(MODULE_NAME); hContact; hContact = db_find_next(hContact, MODULE_NAME)) {
+		if (!db_get_s(hContact, MODULE_NAME, "name", &dbv)) {
 			acc_num++;
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
 			memset(&acc[acc_num-1], 0, sizeof(Account));
@@ -15,7 +15,7 @@ void BuildList(void)
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 			db_free(&dbv);
 			
-			if (!db_get_s(hContact, pluginName, "Password", &dbv)) {
+			if (!db_get_s(hContact, MODULE_NAME, "Password", &dbv)) {
 				mir_strcpy(acc[acc_num-1].pass, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -42,7 +42,7 @@ BOOL GetBrowser(char *str)
 		strKey = strIE;
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
-	else if (!db_get_s(NULL, pluginName, "OpenUsePrgPath", &dbv)) {
+	else if (!db_get_s(NULL, MODULE_NAME, "OpenUsePrgPath", &dbv)) {
 		mir_strcpy(str, dbv.pszVal);
 		db_free(&dbv);
 		return FALSE;

@@ -244,9 +244,8 @@ void Xfire_gamelist::createDummyMenuItem()
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENW("Start game"), 500084000);
 	mi.position = 500090001;
-	mi.pszName = Translate("Please wait...");
-	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.pszContactOwner = protocolname;
+	mi.name.a = Translate("Please wait...");
+	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	dummymenuitem = Menu_AddMainMenuItem(&mi);
 }
 

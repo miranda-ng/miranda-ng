@@ -122,7 +122,7 @@ static int SRUrlModulesLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = -2000040000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
-	mi.pszName = LPGEN("Web page address (&URL)");
+	mi.name.a = LPGEN("Web page address (&URL)");
 	mi.pszService = MS_URL_SENDURL;
 	hSRUrlMenuItem = Menu_AddContactMenuItem(&mi);
 

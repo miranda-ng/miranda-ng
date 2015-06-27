@@ -41,8 +41,8 @@ static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, i
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = flags | CMIF_HIDDEN;
 	mi.position = pos;
-	mi.hIcon = hicon;
-	mi.pszName = (char*)name;
+	mi.icolibItem = hicon;
+	mi.name.a = (char*)name;
 	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }
@@ -52,7 +52,7 @@ static HGENMENU AddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, LPC
 	CLISTMENUITEM mi = { 0 };
 	mi.flags =  CMIF_HIDDEN;
 	mi.position = pos;
-	mi.pszName = (char*)name;
+	mi.name.a = (char*)name;
 	mi.hParentMenu = hRoot;
 	mi.pszService = (char*)service;
 	HGENMENU res = Menu_AddContactMenuItem(&mi);

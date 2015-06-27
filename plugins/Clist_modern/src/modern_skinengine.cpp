@@ -2983,13 +2983,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 		BitBlt(g_pCachedWindow->hImageDC, rLine.left, rLine.top, rLine.right - rLine.left, rLine.bottom - rLine.top, g_pCachedWindow->hBackDC, rLine.left, rLine.top, SRCCOPY);
 
 		char req[255];
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=Back", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rLine, &rLine, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=Thumb", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rThumb, &rThumb, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar, Frame=%S,Part=UpLineButton", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rUpBtn, &rUpBtn, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
+		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=DownLineButton", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rDnBtn, &rDnBtn, req);
 	}
 
@@ -3019,6 +3019,7 @@ int ske_BltBackImage(HWND destHWND, HDC destDC, RECT *BltClientRect)
 	return BitBlt(destDC, w.left, w.top, (w.right - w.left), (w.bottom - w.top), g_pCachedWindow->hBackDC, (ptChildWnd.x - ptMainWnd.x), (ptChildWnd.y - ptMainWnd.y), SRCCOPY);
 
 }
+
 int ske_ReCreateBackImage(BOOL Erase, RECT *w)
 {
 	RECT wnd = { 0 };
@@ -3112,7 +3113,8 @@ int ske_DrawNonFramedObjects(BOOL Erase, RECT *r)
 	return 0;
 }
 
-int ske_ValidateFrameImageProc(RECT *r)                                // Calling queued frame paint procs and refresh image
+// Calling queued frame paint procs and refresh image
+int ske_ValidateFrameImageProc(RECT *r)
 {
 	RECT wnd = { 0 };
 	BOOL IsNewCache = 0;

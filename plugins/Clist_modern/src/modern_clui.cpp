@@ -341,18 +341,16 @@ HRESULT CLUI::RegisterAvatarMenu()
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
 	mi.icolibItem = iconItem[0].hIcolib;
-	mi.pszName = LPGEN("Show contact &avatar");
+	mi.name.a = LPGEN("Show contact &avatar");
 	mi.pszService = "CList/ShowContactAvatar";
 	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
-	DestroyIcon_protect(mi.hIcon);
 
 	CreateServiceFunction("CList/HideContactAvatar", CLUI::Service_Menu_HideContactAvatar);
 	mi.position = 2000150001;
 	mi.icolibItem = iconItem[1].hIcolib;
-	mi.pszName = LPGEN("Hide contact &avatar");
+	mi.name.a = LPGEN("Hide contact &avatar");
 	mi.pszService = "CList/HideContactAvatar";
 	hHideAvatarMenuItem = Menu_AddContactMenuItem(&mi);
-	DestroyIcon_protect(mi.hIcon);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CLUI::OnEvent_ContactMenuPreBuild);
 	return S_OK;

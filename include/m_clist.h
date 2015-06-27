@@ -77,7 +77,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //the service that is called when the item is clicked is called with
 //wParam = 0, lParam = hwndContactList
 //dividers are inserted every 100000 positions
-//pszContactOwner is ignored for this service.
 //there is a #define PUTPOSITIONSINMENU in clistmenus.c which, when set, will
 //cause the position numbers to be placed in brackets after the menu items
 
@@ -87,25 +86,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CLISTMENUITEM
 {
-	union {
-		char*  pszName;      // [TRANSLATED-BY-CORE] text of the menu item
-		TCHAR* ptszName;     // Unicode text of the menu item
-	};
-	DWORD flags;            // set of CMIF_* flags
-	int position;           // approx position on the menu. lower numbers go nearer the top
-	union {
-		HICON hIcon;         // icon to put by the item. If this was not loaded from
-                           // a resource, you can delete it straight after the call
-		HANDLE icolibItem;   // set CMIF_ICONFROMICOLIB to pass this value
-	};
-	char* pszService;       // name of service to call when the item gets selected
-	HGENMENU hParentMenu;   // HGENMENU_ROOT or NULL means the root menu
-
-	char *pszContactOwner;  // contact menus only. The protocol module that owns
-                           // the contacts to which this menu item applies. NULL if it
-                           // applies to all contacts. If it applies to multiple but not all
-                           // protocols, add multiple menu items or use ME_CLIST_PREBUILDCONTACTMENU
-	int hLangpack;          // plugin's hLangpack (added automatically)
+	MAllStrings name;        // [TRANSLATED-BY-CORE] text of the menu item
+	DWORD       flags;       // set of CMIF_* flags
+	int         position;    // approx position on the menu. lower numbers go nearer the top
+	HANDLE      icolibItem;  // set CMIF_ICONFROMICOLIB to pass this value
+	char*       pszService;  // name of service to call when the item gets selected
+	HGENMENU    hParentMenu; // HGENMENU_ROOT or NULL means the root menu
+	int         hLangpack;   // plugin's hLangpack (added automatically)
 };
 
 #define CMIF_GRAYED     1
@@ -126,10 +113,7 @@ struct CLISTMENUITEM
 #define CMIF_KEEPUNTRANSLATED  1024 // don't translate a menu item
 #define CMIF_DEFAULT           4096 // this menu item is the default one
 
-__forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddMainMenuItem", 0, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(CLISTMENUITEM *mi, int = hLangpack);
 
 //add a new item to the user contact menus
 //identical to clist/addmainmenuitem except when item is selected the service
@@ -140,20 +124,11 @@ __forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
 //displayed in brackets after the menu item text. This only works in debug
 //builds.
 
-__forceinline HGENMENU Menu_AddContactMenuItem(CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddContactMenuItem", 0, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
 
-__forceinline HGENMENU Menu_AddStatusMenuItem(CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddStatusMenuItem", 0, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
 
-__forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
-{	mi->hLangpack = hLangpack;
-	return (HGENMENU)CallService("CList/AddProtoMenuItem", 0, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
 
 //the context menu for a contact is about to be built     v0.1.0.1+
 //wParam = (MCONTACT)hContact

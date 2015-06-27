@@ -631,12 +631,12 @@ int LoadUserInfoModule(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 1000050000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
-	mi.pszName = LPGEN("User &details");
+	mi.name.a = LPGEN("User &details");
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	Menu_AddContactMenuItem(&mi);
 
 	mi.position = 500050000;
-	mi.pszName = LPGEN("View/change my &details...");
+	mi.name.a = LPGEN("View/change my &details...");
 	Menu_AddMainMenuItem(&mi);
 
 	hWindowList = WindowList_Create();

@@ -1730,8 +1730,8 @@ extern "C" int __declspec(dllexport) Load(void)
 		CLISTMENUITEM mi = { 0 };
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_TCHAR;
-		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
-		mi.ptszName = LPGENT("&Check Lotus");
+		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
+		mi.name.t = LPGENT("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
 

@@ -185,23 +185,23 @@ void InitMenuItems(void)
 
 	// Build main menu
 	mi.position = -1000000000 /*1000001*/;
-	mi.ptszName = LPGENT(MODULNAME_PLU);
-	mi.hIcon = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.name.t = LPGENT(MODULNAME_PLU);
+	mi.icolibItem = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
 	CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
-	mi.ptszName = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");
+	mi.name.t = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");
 	mi.pszService = MENUCOMMAND_SVC;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// Popup History
 	CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
 	mi.position = 1000000000;
-	mi.ptszName = LPGENT("Popup History");
-	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.name.t = LPGENT("Popup History");
+	mi.icolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService = MENUCOMMAND_HISTORY;
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }

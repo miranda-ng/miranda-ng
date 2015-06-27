@@ -533,8 +533,8 @@ void BossKeyMenuItemInit(void) // Add menu item
 	CLISTMENUITEM mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
-	mi.hIcon = IcoLib_GetIcon("hidemim");
-	mi.ptszName = LPGENT("Hide");
+	mi.icolibItem = IcoLib_GetIcon("hidemim");
+	mi.name.t = LPGENT("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 

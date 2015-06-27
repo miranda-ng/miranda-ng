@@ -241,7 +241,7 @@ void addProtoStatusMenuItem(char *protoName)
 	CLISTMENUITEM mi = { 0 };
 	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = forms[0].hIcoLibItem;
-	mi.ptszName = _T(MODULENAME);
+	mi.name.t = _T(MODULENAME);
 	mi.position = 2000040000;
 	mi.pszService = buf;
 	mi.hParentMenu = hRoot;

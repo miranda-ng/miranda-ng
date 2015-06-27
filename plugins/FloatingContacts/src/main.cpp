@@ -719,16 +719,16 @@ static void LoadMenus()
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
-	mi.ptszName = LPGENT("Remove thumb");
+	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
+	mi.name.t = LPGENT("Remove thumb");
 	mi.pszService = MODULE "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
 	// Hide all thumbs main menu item
 	CreateServiceFunction(MODULE "/MainHideAllThumbs", OnMainMenu_HideAll);
 
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
-	mi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
+	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE));
+	mi.name.t = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
 	mi.pszService = MODULE "/MainHideAllThumbs";
 	Menu_AddMainMenuItem(&mi);
 

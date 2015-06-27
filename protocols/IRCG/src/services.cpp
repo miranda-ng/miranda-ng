@@ -32,7 +32,7 @@ void CIrcProto::InitMainMenus(void)
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		// Root popupmenuitem
-		mi.ptszName = m_tszUserName;
+		mi.name.t = m_tszUserName;
 		mi.position = -1999901010;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_MAIN);
@@ -46,7 +46,7 @@ void CIrcProto::InitMainMenus(void)
 	}
 
 	mi.flags = 0;
-	mi.pszName = LPGEN("&Quick connect");
+	mi.name.a = LPGEN("&Quick connect");
 	mi.icolibItem = GetIconHandle(IDI_QUICK);
 	mir_strcpy(d, IRC_QUICKCONNECT);
 	mi.position = 201001;
@@ -55,26 +55,26 @@ void CIrcProto::InitMainMenus(void)
 
 	if (m_iStatus != ID_STATUS_OFFLINE) mi.flags |= CMIF_GRAYED;
 
-	mi.pszName = LPGEN("&Join channel");
+	mi.name.a = LPGEN("&Join channel");
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);//GetIconHandle(IDI_JOIN);
 	mir_strcpy(d, IRC_JOINCHANNEL);
 	mi.position = 201002;
 	hMenuJoin = Menu_AddProtoMenuItem(&mi);
 
-	mi.pszName = LPGEN("&Change your nickname");
+	mi.name.a = LPGEN("&Change your nickname");
 	mi.icolibItem = GetIconHandle(IDI_RENAME);
 	mir_strcpy(d, IRC_CHANGENICK);
 	mi.position = 201003;
 	hMenuNick = Menu_AddProtoMenuItem(&mi);
 
-	mi.pszName = LPGEN("Show the &list of available channels");
+	mi.name.a = LPGEN("Show the &list of available channels");
 	mi.icolibItem = GetIconHandle(IDI_LIST);
 	mir_strcpy(d, IRC_SHOWLIST);
 	mi.position = 201004;
 	hMenuList = Menu_AddProtoMenuItem(&mi);
 
 	if (m_useServer) mi.flags &= ~CMIF_GRAYED;
-	mi.pszName = LPGEN("&Show the server window");
+	mi.name.a = LPGEN("&Show the server window");
 	mi.icolibItem = GetIconHandle(IDI_SERVER);
 	mir_strcpy(d, IRC_SHOWSERVER);
 	mi.position = 201005;
@@ -142,28 +142,28 @@ void InitContactMenus(void)
 	CLISTMENUITEM mi = { 0 };
 	mi.pszService = temp;
 
-	mi.pszName = LPGEN("Channel &settings");
+	mi.name.a = LPGEN("Channel &settings");
 	mi.icolibItem = GetIconHandle(IDI_MANAGER);
 	mir_strcpy(d, IRC_UM_CHANSETTINGS);
 	mi.position = 500090002;
 	hUMenuChanSettings = Menu_AddContactMenuItem(&mi);
 	hMenuChanSettings = CreateServiceFunction(temp, IrcMenuChanSettings);
 
-	mi.pszName = LPGEN("&WhoIs info");
+	mi.name.a = LPGEN("&WhoIs info");
 	mi.icolibItem = GetIconHandle(IDI_WHOIS);
 	mir_strcpy(d, IRC_UM_WHOIS);
 	mi.position = 500090001;
 	hUMenuWhois = Menu_AddContactMenuItem(&mi);
 	hMenuWhois = CreateServiceFunction(temp, IrcMenuWhois);
 
-	mi.pszName = LPGEN("Di&sconnect");
+	mi.name.a = LPGEN("Di&sconnect");
 	mi.icolibItem = GetIconHandle(IDI_DELETE);
 	mir_strcpy(d, IRC_UM_DISCONNECT);
 	mi.position = 500090001;
 	hUMenuDisconnect = Menu_AddContactMenuItem(&mi);
 	hMenuDisconnect = CreateServiceFunction(temp, IrcMenuDisconnect);
 
-	mi.pszName = LPGEN("&Add to ignore list");
+	mi.name.a = LPGEN("&Add to ignore list");
 	mi.icolibItem = GetIconHandle(IDI_BLOCK);
 	mir_strcpy(d, IRC_UM_IGNORE);
 	mi.position = 500090002;

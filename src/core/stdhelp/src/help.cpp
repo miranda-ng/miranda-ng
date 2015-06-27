@@ -77,25 +77,25 @@ int LoadHelpModule(void)
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
 	mi.position = 2000090000;
-	mi.pszName = LPGEN("&About...");
+	mi.name.a = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.position = -500050000;
-	mi.pszName = LPGEN("&Support");
+	mi.name.a = LPGEN("&Support");
 	mi.pszService = "Help/IndexCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
 	mi.position = 2000050000;
-	mi.pszName = LPGEN("&Miranda NG homepage");
+	mi.name.a = LPGEN("&Miranda NG homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.position = 2000040000;
-	mi.pszName = LPGEN("&Report bug");
+	mi.name.a = LPGEN("&Report bug");
 	mi.pszService = "Help/BugCommand";
 	Menu_AddMainMenuItem(&mi);
 	return 0;

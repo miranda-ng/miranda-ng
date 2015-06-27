@@ -202,134 +202,134 @@ void CVkProto::InitMenus()
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_CREATECHAT);
 	mi.position = 10009 + PMI_CREATECHAT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
-	mi.pszName = LPGEN("Create new chat");
+	mi.name.a = LPGEN("Create new chat");
 	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_SETSTATUSMSG);
 	mi.position = 10009 + PMI_SETSTATUSMSG;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_STATUS));
-	mi.pszName = LPGEN("Status message");
+	mi.name.a = LPGEN("Status message");
 	g_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_WALLPOST);
 	mi.position = 10009 + PMI_WALLPOST;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.pszName = LPGEN("Send message to my wall");
+	mi.name.a = LPGEN("Send message to my wall");
 	g_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_LOADVKNEWS);
 	mi.position = 10009 + PMI_LOADVKNEWS;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
-	mi.pszName = LPGEN("Load news from VK");
+	mi.name.a = LPGEN("Load news from VK");
 	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi);
 	
 	mir_snprintf(szService, "%s%s", m_szModuleName, PS_VISITPROFILE);
 	mi.position = 10009 + PMI_VISITPROFILE;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
-	mi.pszName = LPGEN("Visit profile");
+	mi.name.a = LPGEN("Visit profile");
 	g_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi);
 
 	// Contact Menu Items
 	mi.hParentMenu = NULL;
-	mi.pszContactOwner = m_szModuleName;
 	mi.flags = CMIF_TCHAR;
 
+	mi.pszService = PS_VISITPROFILE;
 	mi.position = -200001000 + CMI_VISITPROFILE;
-	mi.ptszName = LPGENT("Visit profile");
-	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Visit profile");
+	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_WALLPOST);
+	mi.pszService = PS_WALLPOST;
 	mi.position = -200001000 + CMI_WALLPOST;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.ptszName = LPGENT("Send message to user\'s wall");
-	g_hContactMenuItems[CMI_WALLPOST] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Send message to user\'s wall");
+	g_hContactMenuItems[CMI_WALLPOST] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_ADDASFRIEND);
+	mi.pszService = PS_ADDASFRIEND;
 	mi.position = -200001000 + CMI_ADDASFRIEND;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDADD));
-	mi.ptszName = LPGENT("Add as friend");
-	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Add as friend");
+	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_DELETEFRIEND);
+	mi.pszService = PS_DELETEFRIEND;
 	mi.position = -200001000 + CMI_DELETEFRIEND;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
-	mi.ptszName = LPGENT("Delete from friend list");
-	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Delete from friend list");
+	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_BANUSER);
+	mi.pszService = PS_BANUSER;
 	mi.position = -200001000 + CMI_BANUSER;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_BAN));
-	mi.ptszName = LPGENT("Ban user");
-	g_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Ban user");
+	g_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_REPORTABUSE);
+	mi.pszService = PS_REPORTABUSE;
 	mi.position = -200001000 + CMI_REPORTABUSE;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_ABUSE));
-	mi.ptszName = LPGENT("Report abuse");
-	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Report abuse");
+	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_DESTROYKICKCHAT);
+	mi.pszService = PS_DESTROYKICKCHAT;
 	mi.position = -200001000 + CMI_DESTROYKICKCHAT;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
-	mi.ptszName = LPGENT("Destroy room");
-	g_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Destroy room");
+	g_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_OPENBROADCAST);
+	mi.pszService = PS_OPENBROADCAST;
 	mi.position = -200001000 + CMI_OPENBROADCAST;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_BROADCAST));
-	mi.ptszName = LPGENT("Open broadcast");
-	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Open broadcast");
+	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_LOADVKNEWS);
+	mi.pszService = PS_LOADVKNEWS;
 	mi.position = -200001000 + CMI_LOADVKNEWS;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
-	mi.ptszName = LPGENT("Load news from VK");
-	g_hContactMenuItems[CMI_LOADVKNEWS] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Load news from VK");
+	g_hContactMenuItems[CMI_LOADVKNEWS] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// Sync history menu
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORY);
+	mi.pszService = PS_GETSERVERHISTORY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("Reload messages from vk.com...");
-	g_hContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("Reload messages from vk.com...");
+	g_hContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 		
 	mi.hParentMenu = g_hContactMenuItems[CMI_GETSERVERHISTORY];
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST1DAY);
+	mi.pszService = PS_GETSERVERHISTORYLAST1DAY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST1DAY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for last 1 day");
-	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST1DAY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for last 1 day");
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST1DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST3DAY);
+	mi.pszService = PS_GETSERVERHISTORYLAST3DAY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST3DAY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for last 3 days");
-	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST3DAY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for last 3 days");
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST3DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST7DAY);
+	mi.pszService = PS_GETSERVERHISTORYLAST7DAY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST7DAY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for last week");
-	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST7DAY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for last week");
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST7DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST30DAY);
+	mi.pszService = PS_GETSERVERHISTORYLAST30DAY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST30DAY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for last 30 days");
-	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST30DAY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for last 30 days");
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST30DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST90DAY);
+	mi.pszService = PS_GETSERVERHISTORYLAST90DAY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST90DAY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for last 90 days");
-	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST90DAY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for last 90 days");
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST90DAY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	mi.pszService = PS_GETALLSERVERHISTORY;
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETALLSERVERHISTORY;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("for all time");
-	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
+	mi.name.t = LPGENT("for all time");
+	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)

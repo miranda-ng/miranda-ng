@@ -69,6 +69,7 @@ struct FrameTitleBar
 
 	LPTSTR tbname;
 	LPTSTR tooltip;
+
 	HMENU hmenu;
 	HICON hicon;
 

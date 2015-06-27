@@ -524,7 +524,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.hParentMenu = hRoot;
 	mi.position = 2000500001;
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.ptszName = LPGENT("Import List From &Server");
+	mi.name.t = LPGENT("Import List From &Server");
 	mi.pszService = service;
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
@@ -534,7 +534,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2000500002;
 	mi.icolibItem = iconList[2].hIcolib;
-	mi.ptszName = LPGENT("Import List From &Text File...");
+	mi.name.t = LPGENT("Import List From &Text File...");
 	mi.pszService = service;
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
@@ -544,7 +544,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2000500003;
 	mi.icolibItem = iconList[3].hIcolib;
-	mi.ptszName = LPGENT("&Remove List From Server");
+	mi.name.t = LPGENT("&Remove List From Server");
 	mi.pszService = service;
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
@@ -554,7 +554,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2005000001;
 	mi.icolibItem = iconList[4].hIcolib;
-	mi.ptszName = LPGENT("Export List To &Server");
+	mi.name.t = LPGENT("Export List To &Server");
 	mi.pszService = service;
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
@@ -564,7 +564,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2005000002;
 	mi.icolibItem = iconList[5].hIcolib;
-	mi.ptszName = LPGENT("Export List To &Text File...");
+	mi.name.t = LPGENT("Export List To &Text File...");
 	mi.pszService = service;
 	hMainMenu[6] = Menu_AddProtoMenuItem(&mi);
 }

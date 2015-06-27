@@ -176,8 +176,8 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 200011;
-	mi.hIcon = hIcons[ICON_MAIN];
-	mi.pszName = LPGEN("File As Message...");
+	mi.icolibItem = hIcons[ICON_MAIN];
+	mi.name.a = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.flags = CMIF_NOTOFFLINE;
 	Menu_AddContactMenuItem(&mi);

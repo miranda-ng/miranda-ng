@@ -72,12 +72,11 @@ void InitMenuitem()
 {
 	CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
-	CLISTMENUITEM cmi = { 0 };
-	cmi.position = -0x7FFFFFFF;
-	cmi.flags = CMIF_TCHAR;
-	cmi.ptszName = LPGENT("<none>");
-	cmi.pszService = "LastSeenUserDetails";
-	hmenuitem = Menu_AddContactMenuItem(&cmi);
+	CLISTMENUITEM mi = { 0 };
+	mi.position = -0x7FFFFFFF;
+	mi.name.a = LPGEN("Last seen");
+	mi.pszService = "LastSeenUserDetails";
+	hmenuitem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);
 

@@ -105,7 +105,7 @@ void CSteamProto::OnInitStatusMenu()
 
 	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hSteamRoot) {
-		mi.ptszName = m_tszUserName;
+		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -121,7 +121,7 @@ void CSteamProto::OnInitStatusMenu()
 	// Show block list
 	mir_strcpy(tDest, "/BlockList");
 	CreateProtoService(tDest, &CSteamProto::OpenBlockListCommand);
-	mi.ptszName = LPGENT("Blocked contacts");
+	mi.name.t = LPGENT("Blocked contacts");
 	mi.position = 200000 + SMI_BLOCKED_LIST;
 	//mi.icolibItem = NULL;
 	Menu_AddProtoMenuItem(&mi);
@@ -138,7 +138,7 @@ void CSteamProto::InitMenus()
 
 	// "Request authorization"
 	mi.pszService = MODULE "/AuthRequest";
-	mi.ptszName = LPGENT("Request authorization");
+	mi.name.t = LPGENT("Request authorization");
 	mi.position = -201001000 + CMI_AUTH_REQUEST;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
@@ -146,7 +146,7 @@ void CSteamProto::InitMenus()
 
 	// "Block"
 	mi.pszService = MODULE "/Block";
-	mi.ptszName = LPGENT("Block");
+	mi.name.t = LPGENT("Block");
 	mi.position = -201001001 + CMI_BLOCK;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
@@ -156,7 +156,7 @@ void CSteamProto::InitMenus()
 
 	// "Join to game"
 	mi.pszService = MODULE "/JoinToGame";
-	mi.ptszName = LPGENT("Join to game");
+	mi.name.t = LPGENT("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
 	mi.icolibItem = NULL;
 	contactMenuItems[CMI_JOIN_GAME] = Menu_AddContactMenuItem(&mi);

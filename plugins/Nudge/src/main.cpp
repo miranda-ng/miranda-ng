@@ -341,7 +341,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.icolibItem = iconList[0].hIcolib;
-	mi.ptszName = LPGENT("Send &Nudge");
+	mi.name.t = LPGENT("Send &Nudge");
 	mi.pszService = MS_NUDGE_SEND;
 	g_hContactMenu = Menu_AddContactMenuItem(&mi);
 

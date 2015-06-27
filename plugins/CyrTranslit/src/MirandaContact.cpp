@@ -64,7 +64,7 @@ void MirandaContact::save(MCONTACT hContact, bool bValue)
 void MirandaContact::addMenuItem()
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.pszName = MENU_ITEM_TEXT;
+	mi.name.a = MENU_ITEM_TEXT;
 	mi.position = 65535;
 	mi.pszService = MENU_COMMAND_CALLBACK_SERVICE;
 	hTransliterateCmdMenuItem = Menu_AddContactMenuItem(&mi);

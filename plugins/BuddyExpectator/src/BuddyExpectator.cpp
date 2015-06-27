@@ -615,7 +615,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		mi.flags = CMIF_TCHAR;
 		mi.icolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
-		mi.ptszName = LPGENT("Enable Miss You");
+		mi.name.t = LPGENT("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";
 		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}

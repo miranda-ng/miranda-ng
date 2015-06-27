@@ -68,19 +68,13 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 
 int GGPROTO::img_init()
 {
-	char service[64];
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
-	CreateProtoService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
-
 	// Send image contact menu item
 	CLISTMENUITEM mi = { 0 };
-	mi.flags = CMIF_TCHAR;
 	mi.position = -2000010000;
 	mi.icolibItem = iconList[11].hIcolib;
-	mi.ptszName = LPGENT("&Image");
-	mi.pszService = service;
-	mi.pszContactOwner = m_szModuleName;
-	hImageMenuItem = Menu_AddContactMenuItem(&mi);
+	mi.name.a = LPGEN("&Image");
+	mi.pszService = GGS_SENDIMAGE;
+	hImageMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// Receive image
 	CreateProtoService(GGS_RECVIMAGE, &GGPROTO::img_recvimage);

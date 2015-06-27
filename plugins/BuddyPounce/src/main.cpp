@@ -44,13 +44,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 int MainInit(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.position=10;
-	mi.flags=0;
-	mi.hIcon= LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
-	mi.pszName=LPGEN("&Buddy Pounce");
-	mi.pszService="BuddyPounce/MenuCommand";
-	mi.pszContactOwner=NULL;
-
+	mi.position = 10;
+	mi.icolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
+	mi.name.a = LPGEN("&Buddy Pounce");
+	mi.pszService = "BuddyPounce/MenuCommand";
 	Menu_AddContactMenuItem(&mi);
 	return 0;
 }

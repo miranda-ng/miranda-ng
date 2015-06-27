@@ -694,7 +694,7 @@ void AddMenuItem()
 
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = IcoLib_GetIconHandle("alarms_menu_set");
-	mi.pszName = "Set alarm";
+	mi.name.a = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))

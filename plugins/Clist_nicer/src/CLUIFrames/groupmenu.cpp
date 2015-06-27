@@ -86,7 +86,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	HGENMENU hNewItem = Menu_AddItem(hGroupMenuObject, &tmi);
 
 	char buf[1024];
-	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
+	mir_snprintf(buf, "%s/%s", mi->pszService, mi->name.a);
 	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, buf);
 	return (INT_PTR)hNewItem;
 }
@@ -236,78 +236,78 @@ void InitGroupMenus(void)
 	mi.position = 1900000;
 	mi.pszService = "CloseAction";
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
-	mi.pszName = LPGEN("E&xit");
+	mi.name.a = LPGEN("E&xit");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 500;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
-	mi.pszName = LPGEN("&Hide/show");
+	mi.name.a = LPGEN("&Hide/show");
 	hHideShowMainMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 200000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
-	mi.pszName = LPGEN("&Find/add contacts...");
+	mi.name.a = LPGEN("&Find/add contacts...");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300000;
 	mi.pszService = "";
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU);
-	mi.pszName = LPGEN("&Main menu");
+	mi.name.a = LPGEN("&Main menu");
 	hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300100;
 	mi.pszService = "";
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS);
-	mi.pszName = LPGEN("&Status");
+	mi.name.a = LPGEN("&Status");
 	hGroupStatusMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 390100;
 	mi.icolibItem = iconItem[1].hIcolib;
-	mi.pszName = LPGEN("Appearance");
+	mi.name.a = LPGEN("Appearance");
 	hAppearanceMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 400000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
-	mi.pszName = LPGEN("&Options...");
+	mi.name.a = LPGEN("&Options...");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 500000;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "CLN/About";
-	mi.pszName = LPGEN("&About the contact list...");
+	mi.name.a = LPGEN("&About the contact list...");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.flags = 0;
 	mi.position = 100000;
 	mi.icolibItem = iconItem[0].hIcolib;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&New group");
+	mi.name.a = LPGEN("&New group");
 	hNewGroupMenuItem = (HGENMENU)AddGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 
 	mi.position = 100001;
-	mi.hIcon = NULL;
+	mi.icolibItem = NULL;
 	mi.icolibItem = NULL;
 	mi.pszService = MS_CLIST_SETHIDEOFFLINE;
-	mi.pszName = LPGEN("&Hide offline users");
+	mi.name.a = LPGEN("&Hide offline users");
 	gmp.lParam = 0; gmp.wParam = -1;
 	hHideOfflineUsersMenuItem = (HGENMENU)AddGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 
 	mi.position = 100002;
 	mi.pszService = "CLISTMENUSGroup/HideOfflineRootHelper";
-	mi.pszName = LPGEN("Hide &offline users out here");
+	mi.name.a = LPGEN("Hide &offline users out here");
 	hHideOfflineUsersOutHereMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 100003;
 	mi.pszService = "CLISTMENUSGroup/HideGroupsHelper";
-	mi.pszName = LPGEN("Hide &empty groups");
+	mi.name.a = LPGEN("Hide &empty groups");
 	hHideEmptyGroupsMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 100004;
 	mi.pszService = "CLISTMENUSGroup/UseGroupsHelper";
-	mi.pszName = LPGEN("Disable &groups");
+	mi.name.a = LPGEN("Disable &groups");
 	hDisableGroupsMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 }
 
@@ -369,7 +369,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	HGENMENU hNewItem = Menu_AddItem(hSubGroupMenuObject, &tmi);
 
 	char buf[1024];
-	mir_snprintf(buf, "%s/%s", mi->pszService, mi->pszName);
+	mir_snprintf(buf, "%s/%s", mi->pszService, mi->name.a);
 	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, buf);
 	return (INT_PTR)hNewItem;
 }
@@ -464,16 +464,16 @@ void InitSubGroupMenus(void)
 	mi.position = 1000;
 	mi.icolibItem = iconItem[0].hIcolib;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&New subgroup");
+	mi.name.a = LPGEN("&New subgroup");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_NEWSUBGROUP;
 	hNewSubGroupMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 
 	mi.position = 1001;
-	mi.hIcon = NULL;
+	mi.icolibItem = NULL;
 	mi.icolibItem = NULL;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Hide offline users in here");
+	mi.name.a = LPGEN("&Hide offline users in here");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_GROUPHIDEOFFLINE;
 	hHideOfflineUsersHereMenuItem = (HGENMENU)AddSubGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
@@ -482,7 +482,7 @@ void InitSubGroupMenus(void)
 	mi.position = 900001;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Rename group");
+	mi.name.a = LPGEN("&Rename group");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_RENAMEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
@@ -490,7 +490,7 @@ void InitSubGroupMenus(void)
 	mi.position = 900002;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
-	mi.pszName = LPGEN("&Delete group");
+	mi.name.a = LPGEN("&Delete group");
 	gmp.lParam = 0;
 	gmp.wParam = POPUP_DELETEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);

@@ -90,7 +90,7 @@ begin
 
   // build menu from sorted list
   FillChar(mi,SizeOf(mi),0);
-  mi.Flags :=CMIF_KEEPUNTRANSLATED or CMIF_UNICODE or CMIF_ROOTHANDLE;
+  mi.Flags :=CMIF_KEEPUNTRANSLATED or CMIF_UNICODE;
   mi.hParentMenu:=trayparent;
   pc:=StrCopyE(@buf,'mRadio/Choose');
   for i:=0 to trayStations.realCount-1 do
@@ -156,7 +156,7 @@ begin
   begin
     mi.szName.w  :='mRadio on';
   end;
-  mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
+  mi.flags:=CMIF_UNICODE;
   mi.position  :=0;
   srvtraystop:=CreateServiceFunction('mRadio/TrayProto',@TrayProto);
   mi.pszService:='mRadio/TrayProto';
@@ -167,12 +167,12 @@ begin
 
   if gVolume<0 then
   begin
-    mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE or CMIF_CHECKED;
+    mi.flags:=CMIF_UNICODE or CMIF_CHECKED;
     ico:=IcoBtnOff;
   end
   else
   begin
-    mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
+    mi.flags:=CMIF_UNICODE;
     ico:=IcoBtnOn;
   end;
   mi.hIcon     :=IcoLib_GetIcon(ico,0);
@@ -185,7 +185,7 @@ begin
     traymute:=Menu_AddMainMenuItem(@mi);
 
   mi.hIcon:=0;
-  mi.flags:=CMIF_UNICODE or CMIF_ROOTHANDLE;
+  mi.flags:=CMIF_UNICODE;
   if CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_GET)<>RD_STATUS_PLAYING then
   begin
     playstr:='Play'

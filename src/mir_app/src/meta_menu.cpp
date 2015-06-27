@@ -360,7 +360,7 @@ void InitMenus()
 
 	// main menu item
 	mi.icolibItem = GetIconHandle(I_MENUOFF);
-	mi.pszName = LPGEN("Toggle metacontacts off");
+	mi.name.a = LPGEN("Toggle metacontacts off");
 	mi.pszService = "MetaContacts/OnOff";
 	mi.position = 500010000;
 	hMenuOnOff = Menu_AddMainMenuItem(&mi);
@@ -368,45 +368,45 @@ void InitMenus()
 	// contact menu items
 	mi.icolibItem = GetIconHandle(I_CONVERT);
 	mi.position = -200010;
-	mi.pszName = LPGEN("Convert to metacontact");
+	mi.name.a = LPGEN("Convert to metacontact");
 	mi.pszService = "MetaContacts/Convert";
 	hMenuConvert = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_ADD);
 	mi.position = -200009;
-	mi.pszName = LPGEN("Add to existing metacontact...");
+	mi.name.a = LPGEN("Add to existing metacontact...");
 	mi.pszService = "MetaContacts/AddTo";
 	hMenuAdd = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_EDIT);
 	mi.position = -200010;
-	mi.pszName = LPGEN("Edit metacontact...");
+	mi.name.a = LPGEN("Edit metacontact...");
 	mi.pszService = "MetaContacts/Edit";
 	hMenuEdit = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_SETDEFAULT);
 	mi.position = -200009;
-	mi.pszName = LPGEN("Set as metacontact default");
+	mi.name.a = LPGEN("Set as metacontact default");
 	mi.pszService = "MetaContacts/Default";
 	hMenuDefault = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_REMOVE);
 	mi.position = -200008;
-	mi.pszName = LPGEN("Delete metacontact");
+	mi.name.a = LPGEN("Delete metacontact");
 	mi.pszService = "MetaContacts/Delete";
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -99000;
 	mi.flags = CMIF_HIDDEN;
 	mi.icolibItem = 0;
-	mi.pszName = LPGEN("Subcontacts");
+	mi.name.a = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
 	mi.flags = CMIF_HIDDEN;
 	mi.hParentMenu = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
-		mi.pszName = "";
+		mi.name.a = "";
 
 		char buffer[512];
 		mir_snprintf(buffer, "MetaContacts/MenuFunc%d", i);

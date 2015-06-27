@@ -259,51 +259,51 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 
 	mi.position = 2000089995;
-	mi.pszName = LPGEN("Copy to clipboard");
+	mi.name.a = LPGEN("Copy to clipboard");
 	mi.icolibItem = GetIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089996;
-	mi.pszName = LPGEN("Store to file");
+	mi.name.a = LPGEN("Store to file");
 	mi.icolibItem = GetIconHandle(IDI_VITOFILE);
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089997;
-	mi.pszName = LPGEN("Show");
+	mi.name.a = LPGEN("Show");
 	mi.icolibItem = GetIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089998;
-	mi.pszName = LPGEN("Show with DLLs");
+	mi.name.a = LPGEN("Show with DLLs");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
 	mi.position = 2000089999;
-	mi.pszName = LPGEN("Upload");
+	mi.name.a = LPGEN("Upload");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089999;
-	mi.pszName = LPGEN("Copy link to clipboard");
+	mi.name.a = LPGEN("Copy link to clipboard");
 	mi.icolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
 	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	if (catchcrashes && !needrestart) {
 		mi.position = 2000099990;
-		mi.pszName = LPGEN("Open crash report directory");
+		mi.name.a = LPGEN("Open crash report directory");
 		mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 		mi.pszService = MS_CRASHDUMPER_URL;
 		Menu_AddMainMenuItem(&mi);
 	}
 
 	mi.position = 2000099991;
-	mi.pszName = LPGEN("Open online Version Info");
+	mi.name.a = LPGEN("Open online Version Info");
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);

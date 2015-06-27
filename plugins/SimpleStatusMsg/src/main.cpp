@@ -1459,7 +1459,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		mi.flags |= CMIF_HIDDEN;
 	mi.icolibItem = GetIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	mi.ptszName = LPGENT("Status message...");
+	mi.name.t = LPGENT("Status message...");
 	mi.position = 2000200000;
 	Menu_AddStatusMenuItem(&mi);
 

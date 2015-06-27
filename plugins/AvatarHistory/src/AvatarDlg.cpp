@@ -515,13 +515,13 @@ void InitMenuItem()
 	CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
 	CLISTMENUITEM mi = { 0 };
-	mi.ptszName = LPGENT("View Avatar History");
+	mi.name.t = LPGENT("View Avatar History");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090010;
-	mi.hIcon = createDefaultOverlayedIcon(FALSE);
+	mi.icolibItem = createDefaultOverlayedIcon(FALSE);
 	mi.pszService = MS_AVATARHISTORY_SHOWDIALOG;
 	hMenu = Menu_AddContactMenuItem(&mi);
-	DestroyIcon(mi.hIcon);
+	DestroyIcon((HICON)mi.icolibItem);
 }
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)

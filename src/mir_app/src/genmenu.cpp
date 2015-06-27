@@ -355,7 +355,7 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 			else pimi->iconId = -1, pimi->hIcolibItem = NULL;
 		}
 		else {
-			pimi->mi.hIcon = (HICON)hIcon;
+			pimi->mi.hIcolibItem = (HICON)hIcon;
 			if (hIcon != NULL)
 				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, (HICON)hIcon);
 			else

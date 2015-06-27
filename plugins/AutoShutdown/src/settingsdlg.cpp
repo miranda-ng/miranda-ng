@@ -441,24 +441,24 @@ void SetShutdownMenuItem(bool fActive)
 	if (fActive)
 	{
 		mi.icolibItem = iconList[1].hIcolib;
-		mi.ptszName = LPGENT("Stop automatic &shutdown");
+		mi.name.t = LPGENT("Stop automatic &shutdown");
 	}
 	else
 	{
 		mi.icolibItem = iconList[2].hIcolib;
-		mi.ptszName = LPGENT("Automatic &shutdown...");
+		mi.name.t = LPGENT("Automatic &shutdown...");
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR;
 	if (hMainMenuItem != NULL)
-		Menu_ModifyItem(hMainMenuItem, mi.ptszName, mi.icolibItem);
+		Menu_ModifyItem(hMainMenuItem, mi.name.t, mi.icolibItem);
 	else
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
 	if (hTrayMenuItem != NULL)
-		Menu_ModifyItem(hTrayMenuItem, mi.ptszName, mi.icolibItem);
+		Menu_ModifyItem(hTrayMenuItem, mi.name.t, mi.icolibItem);
 	else
 		hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 }

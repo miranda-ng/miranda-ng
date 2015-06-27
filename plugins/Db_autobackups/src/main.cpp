@@ -102,13 +102,13 @@ int ModulesLoad(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
 
-	mi.pszName = LPGEN("Backup profile");
+	mi.name.a = LPGEN("Backup profile");
 	mi.pszService = MS_AB_BACKUP;
 	mi.icolibItem = iconList[0].hIcolib;
 	mi.position = 500100000;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = LPGEN("Save profile as...");
+	mi.name.a = LPGEN("Save profile as...");
 	mi.pszService = MS_AB_SAVEAS;
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;

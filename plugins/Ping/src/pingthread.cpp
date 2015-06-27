@@ -995,7 +995,7 @@ void InitList()
 		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
 		mi.position = 3000320001;
-		mi.ptszName = LPGENT("Show/Hide &Ping Window");
+		mi.name.t = LPGENT("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";
 		Menu_AddMainMenuItem(&mi);
 

@@ -267,12 +267,12 @@ extern "C" int __declspec(dllexport)Load(void)
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 500090000;
-	mi.ptszName = _T("");
+	mi.name.t = _T("");
 	mi.pszService = protocolname"/ToggleEnable";
 	hEnableMenu = Menu_AddMainMenuItem(&mi);
 
 	mi.position = -0x7FFFFFFF;
-	mi.ptszName = _T("");
+	mi.name.t = _T("");
 	mi.pszService = protocolname"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
 

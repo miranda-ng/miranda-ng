@@ -36,7 +36,7 @@ int UnloadFavoriteContactMenu();
 INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	int k;
-	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
+	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
 	do
 		k = CallService(MS_SYSTEM_OKTOEXIT, 0, 0);
 	while (!k);
@@ -103,19 +103,19 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.flags = CMIF_TCHAR;
 	if (!bContactRate)
-		mi.ptszName = FAVMENUROOTNAME;
+		mi.name.t = FAVMENUROOTNAME;
 	else {
 		TCHAR *str1 = TranslateTS(FAVMENUROOTNAME), *str2 = TranslateTS(rates[bContactRate]);
 		size_t bufsize = (mir_tstrlen(str1) + mir_tstrlen(str2) + 15) * sizeof(TCHAR);
 		TCHAR *name = (TCHAR *)_alloca(bufsize);
 		mir_sntprintf(name, (bufsize / sizeof(TCHAR)), _T("%s (%s)"), str1, str2);
-		mi.ptszName = name;
+		mi.name.t = name;
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 	}
 	if (!hFavoriteContactMenu)
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else {
-		Menu_ModifyItem(hFavoriteContactMenu, mi.ptszName);
+		Menu_ModifyItem(hFavoriteContactMenu, mi.name.t);
 		bModifyMenu = TRUE;
 	}
 
@@ -134,21 +134,21 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 			Menu_ModifyItem(hFavoriteContactMenuItems[i], NULL, iconList[i].hIcolib, mi.flags);
 		else {
 			mi.icolibItem = iconList[i].hIcolib;
-			mi.ptszName = rates[i];
+			mi.name.t = rates[i];
 			mi.pszService = CLUI_FAVSETRATE;
 			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 			Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
 		}
 	}
 
-	mi.hIcon = NULL;
+	mi.icolibItem = NULL;
 	mi.flags = CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
 	if (bModifyMenu && hShowIfOflineItem)
 		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);
 	else {
 		mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 		mi.position = -100000000;
-		mi.ptszName = LPGENT("Show even if offline");
+		mi.name.t = LPGENT("Show even if offline");
 		hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 		Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, i + 100000000);
 	}

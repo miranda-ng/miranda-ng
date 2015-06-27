@@ -1021,7 +1021,7 @@ int OptProtosLoaded(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { 0 };
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
-	mi.pszName = LPGEN("&Accounts...");
+	mi.name.a = LPGEN("&Accounts...");
 	mi.pszService = MS_PROTO_SHOWACCMGR;
 	Menu_AddMainMenuItem(&mi);
 	return 0;

@@ -53,7 +53,7 @@ int MenuitemInit(BOOL bStatus)
 	CLISTMENUITEM mi = { 0 };
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 	mi.position = 1;
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
+	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);

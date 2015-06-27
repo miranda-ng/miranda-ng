@@ -24,52 +24,52 @@ HGENMENU hService2[7];
 void InitMenu()
 {
 	CLISTMENUITEM mi = { 0 };
-	mi.pszContactOwner = MODULE;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
 
 	mi.position = 10100001;
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
-		mi.ptszName = LPGENT("Auto Update Enabled");
+		mi.name.t = LPGENT("Auto Update Enabled");
 	else
-		mi.ptszName = LPGENT("Auto Update Disabled");
+		mi.name.t = LPGENT("Auto Update Disabled");
 	mi.icolibItem = GetIconHandle("main");
 	mi.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	hService2[0] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100001;
-	mi.ptszName = LPGENT("Check All Feeds");
+	mi.name.t = LPGENT("Check All Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
 	hService2[1] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100002;
 	mi.icolibItem = GetIconHandle("addfeed");
-	mi.ptszName = LPGENT("Add Feed");
+	mi.name.t = LPGENT("Add Feed");
 	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
 	hService2[2] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100003;
 	mi.icolibItem = GetIconHandle("importfeeds");
-	mi.ptszName = LPGENT("Import Feeds");
+	mi.name.t = LPGENT("Import Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
 	hService2[3] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100004;
 	mi.icolibItem = GetIconHandle("exportfeeds");
-	mi.ptszName = LPGENT("Export Feeds");
+	mi.name.t = LPGENT("Export Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
 	hService2[4] = Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
+	mi.hParentMenu = NULL;
 	mi.position = -0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("checkfeed");
-	mi.ptszName = LPGENT("Check feed");
+	mi.name.t = LPGENT("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
-	hService2[5] = Menu_AddContactMenuItem(&mi);
+	hService2[5] = Menu_AddContactMenuItem(&mi, MODULE);
 
-	mi.ptszName = LPGENT("Change feed");
+	mi.name.t = LPGENT("Change feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
-	hService2[6] = Menu_AddContactMenuItem(&mi);
+	hService2[6] = Menu_AddContactMenuItem(&mi, MODULE);
 
 	Menu_ModifyItem(hService2[0], NULL, GetIconHandle(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? "enabled" : "disabled"));
 }

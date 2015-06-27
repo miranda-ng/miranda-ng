@@ -91,7 +91,7 @@ static int MainInit(WPARAM, LPARAM)
 	mi.position = 500050000;
 	mi.flags =  CMIF_TCHAR;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
-	mi.ptszName = LPGENT("My details");
+	mi.name.t = LPGENT("My details");
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags =  CMIF_TCHAR;
@@ -100,27 +100,27 @@ static int MainInit(WPARAM, LPARAM)
 
 	if (protocols->CanSetAvatars()) {
 		mi.position = 100001;
-		mi.ptszName = LPGENT("Set my avatar...");
+		mi.name.t = LPGENT("Set my avatar...");
 		CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYAVATARUI, Menu_SetMyAvatarUI);
 		mi.pszService = "MENU_" MS_MYDETAILS_SETMYAVATARUI;
 		Menu_AddMainMenuItem(&mi);
 	}
 
 	mi.position = 100002;
-	mi.ptszName = LPGENT("Set my nickname...");
+	mi.name.t = LPGENT("Set my nickname...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYNICKNAMEUI, Menu_SetMyNicknameUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYNICKNAMEUI;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 100003;
-	mi.ptszName = LPGENT("Set my status message...");
+	mi.name.t = LPGENT("Set my status message...");
 	CreateServiceFunction("MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI, Menu_SetMyStatusMessageUI);
 	mi.pszService = "MENU_" MS_MYDETAILS_SETMYSTATUSMESSAGEUI;
 	Menu_AddMainMenuItem(&mi);
 
 	// Set protocols to show frame
 	mi.position = 200001;
-	mi.ptszName = LPGENT("Show next account");
+	mi.name.t = LPGENT("Show next account");
 	mi.pszService = MS_MYDETAILS_SHOWNEXTPROTOCOL;
 	Menu_AddMainMenuItem(&mi);
 

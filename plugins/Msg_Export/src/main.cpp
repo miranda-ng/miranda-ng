@@ -115,9 +115,9 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	if (!bReplaceHistory)
 	{
 		CLISTMENUITEM mi = { 0 };
-		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
+		mi.icolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
-		mi.pszName = LPGEN("Open E&xported History");
+		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
 		hOpenHistoryMenuItem = Menu_AddContactMenuItem(&mi);
 
