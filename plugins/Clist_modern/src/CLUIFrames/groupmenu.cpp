@@ -225,8 +225,6 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 
 	// add exit command to menu
-	GroupMenuParam gmp;
-
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 1900000;
 	mi.pszService = "CloseAction";
@@ -270,6 +268,7 @@ void InitGroupMenus(void)
 	mi.pszName = LPGEN("&About");
 	AddGroupMenuItem(0, (LPARAM)&mi);
 
+	GroupMenuParam gmp = {};
 	mi.flags = 0;
 	mi.position = 100000;
 	mi.icolibItem = iconItem[0].hIcolib;
