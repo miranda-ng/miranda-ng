@@ -357,13 +357,13 @@ void AddMenuItems(void)
 		UpdatePopupMenu(opt.UsePopup);
 	}
 
-	if ( ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		mi.pszService = "Weather/mwin_menu";
 		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.icolibItem = NULL;
 		mi.hParentMenu = NULL;
 		mi.name.a = LPGEN("Display in a frame");
-		hMwinMenu = Menu_AddContactMenuItem(&mi);
+		hMwinMenu = Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 	}
 }
