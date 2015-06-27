@@ -197,7 +197,7 @@ public:
 
 	const TCHAR* GetButtonSmiley(void) const { return m_ButtonSmiley.c_str(); }
 
-	bool LoadSmileyFile(const CMString& filename, bool onlyInfo, bool noerr = false);
+	bool LoadSmileyFile(const CMString& filename, const CMString& packname, bool onlyInfo, bool noerr = false);
 
 	void Clear(void);
 };
@@ -214,7 +214,7 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmileyPack(CMString& filename);
+	bool AddSmileyPack(CMString& filename, CMString& packname );
 	void ClearAndFreeAll(void);
 	SmileyPackType* GetSmileyPack(CMString& filename);
 };
