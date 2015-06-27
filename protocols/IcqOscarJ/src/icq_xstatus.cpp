@@ -836,9 +836,6 @@ INT_PTR CIcqProto::menuXStatus(WPARAM, LPARAM, LPARAM fParam)
 
 void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 {
-	size_t len = mir_strlen(m_szModuleName);
-	int bXStatusMenuBuilt = 0;
-
 	BYTE bXStatus = getContactXStatus(NULL);
 
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
@@ -867,16 +864,17 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	mi.position = 2000040000;
 	mi.hParentMenu = hRoot;
 
+	int bXStatusMenuBuilt = 0;
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
 		char srvFce[MAX_PATH + 64];
 		mir_snprintf(srvFce, _countof(srvFce), "/menuXStatus%d", i);
 		mi.position++;
 
-		if (!i) 
+		if (!i)
 			bXStatusMenuBuilt = ProtoServiceExists(m_szModuleName, srvFce);
 
 		if (!bXStatusMenuBuilt)
-			CreateProtoServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
+			CreateProtoServiceParam(srvFce, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
 		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;
