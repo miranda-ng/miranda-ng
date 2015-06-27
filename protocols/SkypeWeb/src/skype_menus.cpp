@@ -108,39 +108,25 @@ void CSkypeProto::UninitMenus()
 
 int CSkypeProto::OnInitStatusMenu()
 {
-	char text[MAX_PATH];
-	mir_strcpy(text, m_szModuleName);
-	char *tDest = text + mir_strlen(text);
-
-	CLISTMENUITEM mi = { 0 };
-	mi.pszService = text;
-
-	HGENMENU hStatusMunuRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (!hStatusMunuRoot)
+	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
+	if (!hStatusMenuRoot)
 	{
+		CLISTMENUITEM mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = Skin_GetIconHandle("main");
-		hStatusMunuRoot = /*m_hMenuRoot = */Menu_AddProtoMenuItem(&mi);
+		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 
-	/*else
-	{
-	if (m_hMenuRoot)
-	Menu_RemoveItem(m_hMenuRoot, 0);
-	m_hMenuRoot = NULL;
-	}*/
-	mi.hParentMenu = hStatusMunuRoot;
-	mi.flags = CMIF_TCHAR;
+	CLISTMENUITEM mi = { 0 };
+	mi.hParentMenu = hStatusMenuRoot;
 
-
-	mir_strcpy(tDest, "/CreateNewChat");
-	CreateProtoService(tDest, &CSkypeProto::SvcCreateChat);
-	mi.name.t = LPGENT("Create new chat");
+	mi.pszService = "/CreateNewChat";
+	CreateProtoService(mi.pszService, &CSkypeProto::SvcCreateChat);
+	mi.name.a = LPGEN("Create new chat");
 	mi.position = SMI_POSITION + SMI_CREATECHAT;
 	mi.icolibItem = GetIconHandle("conference");
-	Menu_AddProtoMenuItem(&mi);
-
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	return 0;
 }

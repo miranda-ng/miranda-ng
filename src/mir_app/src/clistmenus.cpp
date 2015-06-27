@@ -543,8 +543,12 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		return 0;
 
 	if (smep->custom) {
-		if (smep->svc && *smep->svc)
-			CallService(smep->svc, 0, (LPARAM)smep->hMenuItem);
+		if (smep->svc && *smep->svc) {
+			if (smep->szProto && *smep->svc == '/')
+				ProtoCallService(smep->szProto, smep->svc, 0, (LPARAM)smep->hMenuItem);
+			else
+				CallService(smep->svc, 0, (LPARAM)smep->hMenuItem);
+		}
 		return 0;
 	}
 
@@ -617,7 +621,7 @@ INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 	if (smep != NULL) {
 		mir_free(smep->szProto);
 		mir_free(smep->svc);
-		mir_free(&smep);
+		mir_free(smep);
 	}
 
 	return (0);

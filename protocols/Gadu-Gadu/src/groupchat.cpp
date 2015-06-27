@@ -57,29 +57,25 @@ int GGPROTO::gc_init()
 void GGPROTO::gc_menus_init(HGENMENU hRoot)
 {
 	if (gc_enabled) {
-		char service[64];
-
 		CLISTMENUITEM mi = { 0 };
 		mi.flags = CMIF_TCHAR;
 		mi.hParentMenu = hRoot;
 
 		// Conferencing
-		mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
-		CreateProtoService(GGS_OPEN_CONF, &GGPROTO::gc_openconf);
+		mi.pszService = GGS_OPEN_CONF;
+		CreateProtoService(mi.pszService, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
 		mi.name.t = LPGENT("Open &conference...");
-		mi.pszService = service;
-		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
+		hMainMenu[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 		// Clear ignored conferences
-		mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
-		CreateProtoService(GGS_CLEAR_IGNORED, &GGPROTO::gc_clearignored);
+		mi.pszService = GGS_CLEAR_IGNORED;
+		CreateProtoService(mi.pszService, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;
 		mi.name.t = LPGENT("&Clear ignored conferences");
-		mi.pszService = service;
-		hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
+		hMainMenu[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	}
 }
 

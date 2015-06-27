@@ -191,43 +191,39 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 		
-	char szService[100];
-
 	CLISTMENUITEM mi = { 0 };
-	mi.pszService = szService;
+	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 
 	// Proto menu
-	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
-	
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_CREATECHAT);
+	mi.pszService = PS_CREATECHAT;
 	mi.position = 10009 + PMI_CREATECHAT;
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	mi.name.a = LPGEN("Create new chat");
-	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
+	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_SETSTATUSMSG);
+	mi.pszService = PS_SETSTATUSMSG;
 	mi.position = 10009 + PMI_SETSTATUSMSG;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_STATUS));
 	mi.name.a = LPGEN("Status message");
-	g_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi);
+	g_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_WALLPOST);
+	mi.pszService = PS_WALLPOST;
 	mi.position = 10009 + PMI_WALLPOST;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_WALL));
 	mi.name.a = LPGEN("Send message to my wall");
-	g_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi);
+	g_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_LOADVKNEWS);
+	mi.pszService = PS_LOADVKNEWS;
 	mi.position = 10009 + PMI_LOADVKNEWS;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
 	mi.name.a = LPGEN("Load news from VK");
-	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi);
+	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	
-	mir_snprintf(szService, "%s%s", m_szModuleName, PS_VISITPROFILE);
+	mi.pszService = PS_VISITPROFILE;
 	mi.position = 10009 + PMI_VISITPROFILE;
 	mi.icolibItem = IcoLib_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
 	mi.name.a = LPGEN("Visit profile");
-	g_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi);
+	g_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Contact Menu Items
 	mi.hParentMenu = NULL;

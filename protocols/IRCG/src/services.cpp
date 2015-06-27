@@ -23,15 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CIrcProto::InitMainMenus(void)
 {
-	char temp[MAXMODULELABELLENGTH];
-	char *d = temp + mir_snprintf(temp, _countof(temp), m_szModuleName);
-
-	CLISTMENUITEM mi = { 0 };
-	mi.pszService = temp;
-
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		// Root popupmenuitem
+		CLISTMENUITEM mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901010;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -45,40 +40,41 @@ void CIrcProto::InitMainMenus(void)
 		}
 	}
 
-	mi.flags = 0;
+	CLISTMENUITEM mi = { 0 };
+	mi.hParentMenu = hRoot;
+
 	mi.name.a = LPGEN("&Quick connect");
 	mi.icolibItem = GetIconHandle(IDI_QUICK);
-	mir_strcpy(d, IRC_QUICKCONNECT);
+	mi.pszService = IRC_QUICKCONNECT;
 	mi.position = 201001;
-	mi.hParentMenu = hRoot;
-	hMenuQuick = Menu_AddProtoMenuItem(&mi);
+	hMenuQuick = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	if (m_iStatus != ID_STATUS_OFFLINE) mi.flags |= CMIF_GRAYED;
 
 	mi.name.a = LPGEN("&Join channel");
 	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);//GetIconHandle(IDI_JOIN);
-	mir_strcpy(d, IRC_JOINCHANNEL);
+	mi.pszService = IRC_JOINCHANNEL;
 	mi.position = 201002;
-	hMenuJoin = Menu_AddProtoMenuItem(&mi);
+	hMenuJoin = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.name.a = LPGEN("&Change your nickname");
 	mi.icolibItem = GetIconHandle(IDI_RENAME);
-	mir_strcpy(d, IRC_CHANGENICK);
+	mi.pszService = IRC_CHANGENICK;
 	mi.position = 201003;
-	hMenuNick = Menu_AddProtoMenuItem(&mi);
+	hMenuNick = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.name.a = LPGEN("Show the &list of available channels");
 	mi.icolibItem = GetIconHandle(IDI_LIST);
-	mir_strcpy(d, IRC_SHOWLIST);
+	mi.pszService = IRC_SHOWLIST;
 	mi.position = 201004;
-	hMenuList = Menu_AddProtoMenuItem(&mi);
+	hMenuList = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	if (m_useServer) mi.flags &= ~CMIF_GRAYED;
 	mi.name.a = LPGEN("&Show the server window");
 	mi.icolibItem = GetIconHandle(IDI_SERVER);
-	mir_strcpy(d, IRC_SHOWSERVER);
+	mi.pszService = IRC_SHOWSERVER;
 	mi.position = 201005;
-	hMenuServer = Menu_AddProtoMenuItem(&mi);
+	hMenuServer = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

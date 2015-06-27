@@ -67,10 +67,6 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	CreateProtoService(PS_JOINCHAT, &FacebookProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
 
-	CreateProtoService("/Mind", &FacebookProto::OnMind);
-	CreateProtoService("/VisitProfile", &FacebookProto::VisitProfile);
-	CreateProtoService("/VisitNotifications", &FacebookProto::VisitNotifications);
-
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &FacebookProto::OnIdleChanged);

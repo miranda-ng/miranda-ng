@@ -2098,8 +2098,8 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService("/PrivacyLists", &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.pszService = "/PrivacyLists";
+	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.position = 3000040000;
 	mi.flags = CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
@@ -2118,7 +2118,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	mir_cslock lck(m_privacyListManager.m_cs);
 
-	char srvFce[MAX_PATH + 64], *svcName = srvFce + mir_strlen(m_szModuleName);
+	char srvFce[MAX_PATH + 64];
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000040000;
@@ -2127,22 +2127,22 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	mi.pszService = srvFce;
 
 	int i = 0;
-	mir_snprintf(srvFce, _countof(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
+	mir_snprintf(srvFce, _countof(srvFce), "/menuPrivacy%d", i);
 	if (i > m_privacyMenuServiceAllocated) {
-		CreateProtoServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
+		CreateProtoServiceParam(srvFce, &CJabberProto::menuSetPrivacyList, i);
 		m_privacyMenuServiceAllocated = i;
 	}
 	mi.position++;
 	mi.icolibItem = Skin_GetIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 	mi.name.t = LPGENT("<none>");
-	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
+	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi, m_szModuleName));
 
 	for (CPrivacyList *pList = m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
 		i++;
-		mir_snprintf(srvFce, _countof(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
+		mir_snprintf(srvFce, _countof(srvFce), "/menuPrivacy%d", i);
 
 		if (i > m_privacyMenuServiceAllocated) {
-			CreateProtoServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
+			CreateProtoServiceParam(srvFce, &CJabberProto::menuSetPrivacyList, i);
 			m_privacyMenuServiceAllocated = i;
 		}
 
@@ -2150,6 +2150,6 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		mi.icolibItem = Skin_GetIconHandle(
 			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 		mi.name.t = pList->GetListName();
-		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
+		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi, m_szModuleName));
 	}
 }
