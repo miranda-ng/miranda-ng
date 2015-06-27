@@ -279,12 +279,21 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 {
 	CHAR szServiceFunction[MAX_PATH], szValueName[MAX_PATH];
 
-	TCHAR szItem[MAX_PATH + 64];
-	mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
+	HGENMENU hRoot;
+	{
+		TCHAR szItem[MAX_PATH + 64];
+		mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
+
+		CLISTMENUITEM mi = { 0 };
+		mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
+		mi.name.t = szItem;
+		mi.position = 10001;
+		hRoot = Menu_AddStatusMenuItem(&mi);
+	}
 
 	CLISTMENUITEM mi = { 0 };
 	mi.position = 2000060000;
-	mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szItem, 500085000);
+	mi.hParentMenu = hRoot;
 	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
 

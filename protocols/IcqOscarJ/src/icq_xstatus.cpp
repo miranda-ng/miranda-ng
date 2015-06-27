@@ -851,13 +851,21 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	if (m_bHideXStatusUI || m_bHideXStatusMenu)
 		return;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.position = 2000040000;
+	HGENMENU hRoot;
 	{
 		TCHAR szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, _countof(szItem), TranslateT("%s Custom Status"), m_tszUserName);
-		mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szItem, 500084000);
+
+		CLISTMENUITEM mi = { 0 };
+		mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
+		mi.name.t = szItem;
+		mi.position = 10001;
+		hRoot = Menu_AddStatusMenuItem(&mi);
 	}
+
+	CLISTMENUITEM mi = { 0 };
+	mi.position = 2000040000;
+	mi.hParentMenu = hRoot;
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
 		char srvFce[MAX_PATH + 64];
