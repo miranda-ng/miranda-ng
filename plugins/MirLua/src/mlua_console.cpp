@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-BOOL WINAPI ConsoleHandler(DWORD cEvent)
+BOOL WINAPI ConsoleHandler(DWORD)
 {
 	return TRUE;
 }
