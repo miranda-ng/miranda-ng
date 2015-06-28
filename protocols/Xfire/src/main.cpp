@@ -1114,7 +1114,9 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	// erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_CONTACT, _T(protocolname), 500090000);
+	mi.position = 500090000;
+	mi.name.a = protocolname;
+	mi.hParentMenu = Menu_AddContactMenuItem(&mi, protocolname);
 	mi.flags = CMIF_TCHAR;
 
 	char servicefunction[100];
@@ -1122,7 +1124,6 @@ extern "C" __declspec(dllexport) int  Load(void)
 	// gotoprofilemenüpunkt
 	CreateProtoServiceFunction(protocolname, "/GotoProfile", GotoProfile);
 	mi.pszService = "/GotoProfile";
-	mi.position = 500090000;
 	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&XFire Online Profile");
 	Menu_AddContactMenuItem(&mi, protocolname);
@@ -1180,8 +1181,8 @@ extern "C" __declspec(dllexport) int  Load(void)
 	// main menu items
 	// my fire profile
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(protocolname), 500090000);
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "GotoProfile2");
+	strncpy_s(servicefunction, protocolname, _TRUNCATE);
+	strncat_s(servicefunction, "GotoProfile2", _TRUNCATE);
 	CreateServiceFunction(servicefunction, GotoProfile2);
 	mi.position = 500090000;
 	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
@@ -1189,23 +1190,23 @@ extern "C" __declspec(dllexport) int  Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	// my activity protocol
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "GotoProfileAct");
+	strncpy_s(servicefunction, protocolname, _TRUNCATE);
+	strncat_s(servicefunction, "GotoProfileAct", _TRUNCATE);
 	CreateServiceFunction(servicefunction, GotoProfileAct);
 	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&Activity Report");
 	Menu_AddMainMenuItem(&mi);
 
 	//rescan my games
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "ReScanMyGames");
+	strncpy_s(servicefunction, protocolname, _TRUNCATE);
+	strncat_s(servicefunction, "ReScanMyGames", _TRUNCATE);
 	CreateServiceFunction(servicefunction, ReScanMyGames);
 	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&Rescan my games...");
 	Menu_AddMainMenuItem(&mi);
 
-	mir_strcpy(servicefunction, protocolname);
-	mir_strcat(servicefunction, "SetNick");
+	strncpy_s(servicefunction, protocolname, _TRUNCATE);
+	strncat_s(servicefunction, "SetNick", _TRUNCATE);
 	CreateServiceFunction(servicefunction, SetNickDlg);
 	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Set &Nickname");
