@@ -50,9 +50,9 @@ static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_S
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2000070050;
-	mi.icolibItem = icon.hIcolib;
+	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Assign smiley category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 

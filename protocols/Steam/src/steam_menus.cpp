@@ -98,7 +98,7 @@ void CSteamProto::OnInitStatusMenu()
 {
 	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hSteamRoot) {
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -109,8 +109,8 @@ void CSteamProto::OnInitStatusMenu()
 		m_hMenuRoot = NULL;
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hSteamRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hSteamRoot;
 
 	// Show block list
 	mi.pszService = "/BlockList";
@@ -126,14 +126,14 @@ void CSteamProto::InitMenus()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	// "Request authorization"
 	mi.pszService = MODULE "/AuthRequest";
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = -201001000 + CMI_AUTH_REQUEST;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRequestCommand>);
 
@@ -141,7 +141,7 @@ void CSteamProto::InitMenus()
 	mi.pszService = MODULE "/Block";
 	mi.name.t = LPGENT("Block");
 	mi.position = -201001001 + CMI_BLOCK;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	contactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::BlockCommand>);
 
@@ -151,7 +151,7 @@ void CSteamProto::InitMenus()
 	mi.pszService = MODULE "/JoinToGame";
 	mi.name.t = LPGENT("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	contactMenuItems[CMI_JOIN_GAME] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::JoinToGameCommand>);
 }

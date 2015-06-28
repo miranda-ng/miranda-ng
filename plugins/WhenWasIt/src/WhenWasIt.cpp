@@ -72,41 +72,41 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hAddBirthdayWndsList = WindowList_Create();
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 10000000;
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Birthdays (When Was It)"), mi.position);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Birthdays (When Was It)"), mi.position);
 
 	mi.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	mi.icolibItem = hCheckMenu;
+	mi.hIcolibItem = hCheckMenu;
 	mi.name.a = LPGEN("Check for birthdays");
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_LIST_SHOW;
 	mi.name.a = LPGEN("Birthday list");
-	mi.icolibItem = hListMenu;
+	mi.hIcolibItem = hListMenu;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_REFRESH_USERDETAILS;
 	mi.position = 10100000;
 	mi.name.a = LPGEN("Refresh user details");
-	mi.icolibItem = hRefreshUserDetails;
+	mi.hIcolibItem = hRefreshUserDetails;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	mi.position = 10200000;
 	mi.name.a = LPGEN("Import birthdays");
-	mi.icolibItem = hImportBirthdays;
+	mi.hIcolibItem = hImportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	mi.name.a = LPGEN("Export birthdays");
-	mi.icolibItem = hExportBirthdays;
+	mi.hIcolibItem = hExportBirthdays;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.hParentMenu = 0;
+	mi.root = 0;
 	mi.pszService = MS_WWI_ADD_BIRTHDAY;
 	mi.position = 10000000;
-	mi.icolibItem = hAddBirthdayContact;
+	mi.hIcolibItem = hAddBirthdayContact;
 	mi.name.a = LPGEN("Add/change user &birthday");
 	Menu_AddContactMenuItem(&mi);
 

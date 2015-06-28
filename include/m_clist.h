@@ -75,40 +75,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GSMDF_UNTRANSLATED   4
 #define MS_CLIST_GETSTATUSMODEDESCRIPTION  "CList/GetStatusModeDescription"
 
-struct CLISTMENUITEM
-{
-	MAllStrings name;        // [TRANSLATED-BY-CORE] text of the menu item
-	DWORD       flags;       // set of CMIF_* flags
-	int         position;    // approx position on the menu. lower numbers go nearer the top
-	HANDLE      icolibItem;  // set CMIF_ICONFROMICOLIB to pass this value
-	char*       pszService;  // name of service to call when the item gets selected
-	HGENMENU    hParentMenu; // HGENMENU_ROOT or NULL means the root menu
-	int         hLangpack;   // plugin's hLangpack (added automatically)
-};
-
-#define CMIF_GRAYED     1
-#define CMIF_CHECKED    2
-#define CMIF_HIDDEN     4    //only works on contact menus
-#define CMIF_NOTOFFLINE 8	  //item won't appear for contacts that are offline
-#define CMIF_NOTONLINE  16	  //          "      online
-#define CMIF_NOTONLIST  32   //item won't appear on standard contacts
-#define CMIF_NOTOFFLIST 64   //item won't appear on contacts that have the 'NotOnList' setting
-
-#define CMIF_UNICODE        512      //will return TCHAR* instead of char*
-#if defined(_UNICODE)
-	#define CMIF_TCHAR       CMIF_UNICODE      //will return TCHAR* instead of char*
-#else
-	#define CMIF_TCHAR       0       //will return char*, as usual
-#endif
-
-#define CMIF_KEEPUNTRANSLATED  1024 // don't translate a menu item
-#define CMIF_DEFAULT           4096 // this menu item is the default one
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
 // adds a new element into main menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(CLISTMENUITEM *mi, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *mi, int = hLangpack);
 
 // gets a handle to the main Miranda menu
 // returns a HMENU. This need not to be freed since it's owned by clist
@@ -127,7 +98,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void);
 // CONTACT MENU
 
 // adds a new element into contact menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
 
 // builds the context menu for a specific contact
 // returns a HMENU identifying the menu. This should be DestroyMenu()ed when
@@ -147,7 +118,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetStatusMenu(void);
 
 // adds an item to a status menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
 
 // the status menu is about to be built
 // wParam = lParam = 0
@@ -157,7 +128,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(CLISTMENUITEM *mi, const c
 // PROTOCOL MENU
 
 // adds an item to status or main menu, according to the option
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(CLISTMENUITEM *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GROUP MENU
@@ -176,9 +147,9 @@ GroupMenuParam, *lpGroupMenuParam;
 
 // add a new item to the Group menus
 // wParam=lpGroupMenuParam, params to call when exec menuitem
-// lParam=(LPARAM)(CLISTMENUITEM*)&mi
+// lParam=(LPARAM)(TMO_MenuItem*)&mi
 
-__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuItem *mi)
 {
 	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
@@ -198,9 +169,9 @@ __forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM
 
 // add a new item to the SubGroup menus
 // wParam=lpGroupMenuParam, params to call when exec menuitem
-// lParam=(LPARAM)(CLISTMENUITEM*)&mi
+// lParam=(LPARAM)(TMO_MenuItem*)&mi
 
-__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuItem *mi)
 {
 	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
@@ -220,9 +191,9 @@ __forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUI
 
 // add a new item to the tray menus
 // wParam=0
-// lParam=(LPARAM)(CLISTMENUITEM*)&mi
+// lParam=(LPARAM)(TMO_MenuItem*)&mi
 
-__forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
+__forceinline HGENMENU Menu_AddTrayMenuItem(TMO_MenuItem *mi)
 {
 	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);

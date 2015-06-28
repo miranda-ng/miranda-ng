@@ -401,9 +401,9 @@ static int PreShutdownHistoryModule(WPARAM, LPARAM)
 
 int LoadHistoryModule(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 1000090000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.name.a = LPGEN("View &history");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	hContactMenu = Menu_AddContactMenuItem(&mi);

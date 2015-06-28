@@ -560,16 +560,16 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	mi.name.a = LPGEN("&Join chat");
 	mi.pszService = "GChat/JoinChat";
 	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000090000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.name.a = LPGEN("&Leave chat");
 	mi.pszService = "GChat/LeaveChat";

@@ -1453,11 +1453,11 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	if (!iStatusMsgFlags || !iStatusMenuItemCount)
 		return 0;
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	if (!db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;
-	mi.icolibItem = GetIconHandle(IDI_CSMSG);
+	mi.hIcolibItem = GetIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	mi.name.t = LPGENT("Status message...");
 	mi.position = 2000200000;
@@ -1490,9 +1490,9 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		if (Proto_IsAccountLocked(pa[i]))
 		{
 			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
-			mi.hParentMenu = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
+			mi.root = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
 		}
-		else mi.hParentMenu = Menu_CreateRoot(MO_STATUS, pa[i]->tszAccountName, mi.position);
+		else mi.root = Menu_CreateRoot(MO_STATUS, pa[i]->tszAccountName, mi.position);
 		
 		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
 	}

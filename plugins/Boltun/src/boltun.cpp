@@ -597,7 +597,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = -50010002; //TODO: check the warning
 		mi.name.a = BOLTUN_AUTO_CHAT;
 		mi.pszService = SERV_CONTACT_AUTO_CHAT;
@@ -610,7 +610,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 		mi.flags = CMIF_NOTOFFLINE;
 		mi.position = -50010000; //TODO: check the warning
-		mi.icolibItem = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
+		mi.hIcolibItem = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
 		mi.name.a = BOLTUN_START_CHATTING;
 		mi.pszService = SERV_CONTACT_START_CHATTING;
 		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);

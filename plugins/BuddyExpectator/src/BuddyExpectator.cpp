@@ -611,9 +611,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	if (options.enableMissYou) {
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = iconList[2].hIcolib;
+		mi.hIcolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
 		mi.name.t = LPGENT("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";

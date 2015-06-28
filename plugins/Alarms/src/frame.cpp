@@ -541,11 +541,11 @@ int CreateFrame()
 		// create menu item
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
-		CLISTMENUITEM mi = { 0 };
-		mi.icolibItem = hIconMenuShowHide;
+		TMO_MenuItem mi = { 0 };
+		mi.hIcolibItem = hIconMenuShowHide;
 		mi.name.a = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
 		mi.position = 500010000;
 		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////

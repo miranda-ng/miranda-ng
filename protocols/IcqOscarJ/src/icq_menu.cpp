@@ -111,7 +111,7 @@ void g_MenuInit(void)
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	mir_strcpy(str, "ICQ");
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = str;
 
 	// "Request authorization"
@@ -119,7 +119,7 @@ void g_MenuInit(void)
 
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = 1000030000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Grant authorization"
@@ -127,7 +127,7 @@ void g_MenuInit(void)
 
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = 1000029999;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	
 	// "Revoke authorization"
@@ -135,7 +135,7 @@ void g_MenuInit(void)
 
 	mi.name.a = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	
 	// "Add to server list"
@@ -143,7 +143,7 @@ void g_MenuInit(void)
 
 	mi.name.a = LPGEN("Add to server list");
 	mi.position = -2049999999;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Show custom status details"
@@ -151,7 +151,7 @@ void g_MenuInit(void)
 
 	mi.name.a = LPGEN("Show custom status details");
 	mi.position = -2000004999;
-	mi.icolibItem = 0;
+	mi.hIcolibItem = 0;
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
 	
 	// "Open ICQ profile"

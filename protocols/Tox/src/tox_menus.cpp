@@ -41,14 +41,14 @@ void CToxProto::InitMenus()
 
 	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	// Request authorization
 	mi.pszService = MODULE"/RequestAuth";
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
-	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnRequestAuth>);
 
@@ -56,7 +56,7 @@ void CToxProto::InitMenus()
 	mi.pszService = MODULE"/GrantAuth";
 	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
-	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 
@@ -64,7 +64,7 @@ void CToxProto::InitMenus()
 	mi.pszService = MODULE"/Audio/Call";
 	mi.name.t = LPGENT("Call");
 	mi.position = -2000020000 + CMI_AUDIO_CALL;
-	mi.icolibItem = GetIconHandle("audio_start");
+	mi.hIcolibItem = GetIconHandle("audio_start");
 	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnSendAudioCall>);
 }
@@ -79,16 +79,16 @@ int CToxProto::OnInitStatusMenu()
 	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hStatusMenuRoot)
 	{
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = Skin_GetIconHandle("main");
+		mi.hIcolibItem = Skin_GetIconHandle("main");
 		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hStatusMenuRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hStatusMenuRoot;
 
 	// Create copy tox id command
 	mi.pszService = "/CopyToxID";
@@ -103,7 +103,7 @@ int CToxProto::OnInitStatusMenu()
 	CreateProtoService(mi.pszService, &CToxProto::OnCreateChatRoom);
 	mi.name.t = LPGENT("Create group chat");
 	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
-	mi.icolibItem = Skin_GetIconHandle("conference");
+	mi.hIcolibItem = Skin_GetIconHandle("conference");
 	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi, m_szModuleName);*/
 
 	return 0;

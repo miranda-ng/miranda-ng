@@ -197,7 +197,7 @@ end;
 
 procedure CreateMenus;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
   sid:TSKINICONDESC;
 begin
   FillChar(sid,SizeOf(TSKINICONDESC),0);
@@ -212,8 +212,7 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', 500050000, 0, 0);
-
+  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', 500050000, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoMyShows,0);
   mi.szName.a  :='Disable scrobbling';
   mi.pszService:=MS_WAT_MYSHOWS;

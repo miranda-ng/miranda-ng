@@ -278,10 +278,10 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	RegisterSRMMFonts();
 	LoadMsgLogIcons();
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);

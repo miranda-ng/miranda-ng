@@ -27,11 +27,10 @@ end;
 
 procedure CreateMenus;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
-  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
-
+  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnEnable,0);
   mi.szName.a  :='Disable WATrack';
   mi.pszService:=MS_WAT_PLUGINSTATUS;

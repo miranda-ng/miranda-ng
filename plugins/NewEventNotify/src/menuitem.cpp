@@ -50,10 +50,10 @@ int MenuitemInit(BOOL bStatus)
 {
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 	mi.position = 1;
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);

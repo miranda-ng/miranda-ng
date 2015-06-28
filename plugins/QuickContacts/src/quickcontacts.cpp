@@ -184,7 +184,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
 	// Add menu item
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 500100001;
 	mi.flags = CMIF_TCHAR;
 	mi.name.t = LPGENT("Quick Contacts...");

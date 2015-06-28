@@ -85,7 +85,7 @@ void RebuildContact()
 	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	switch (flag) {
 	case 3:
@@ -96,7 +96,7 @@ void RebuildContact()
 	case 5:
 		//cascade all
 		mi.position = 1000050000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
 		mhRoot = Menu_AddContactMenuItem(&mi);
 		hMenuItem[0] = mhRoot;
@@ -105,7 +105,7 @@ void RebuildContact()
 	case 9:
 		//cascade Ex/Import
 		mi.position = 1000050100;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[0] = mhExIm;
@@ -117,30 +117,30 @@ void RebuildContact()
 	}
 
 	// ContactDetailsPS's menuitem
-	mi.hParentMenu = mhRoot;
+	mi.root = mhRoot;
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	mi.name.a = LPGEN("User &details");
 	mi.position = 1000050000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	hMenuItem[1] = Menu_AddContactMenuItem(&mi);
 
 	Menu_ConfigureItem(hMenuItem[1], MCI_OPT_HOTKEY, MAKELPARAM(VK_F3, MOD_ALT));
 
 	// VCard's Ex/Import menuitems
-	mi.hParentMenu = mhExIm;
+	mi.root = mhExIm;
 
 	// Export
 	mi.pszService = MS_USERINFO_VCARD_EXPORT;
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export user details");
 	mi.position = 1000050200;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
 	hMenuItem[2] = Menu_AddContactMenuItem(&mi);
 
 	// Import
 	mi.pszService = MS_USERINFO_VCARD_IMPORT;
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import user details");
 	mi.position = 1000050300;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
 	hMenuItem[3] = Menu_AddContactMenuItem(&mi);
 }
 
@@ -172,7 +172,7 @@ void RebuildMain()
 	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	switch (flag) {
 	case 3:
@@ -183,7 +183,7 @@ void RebuildMain()
 	case 5:
 		//cascade all
 		mi.position = 500050000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
 		mhRoot = Menu_AddMainMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
@@ -192,7 +192,7 @@ void RebuildMain()
 	case 9:
 		//cascade Ex/Import
 		mi.position = 500050000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddMainMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
@@ -204,32 +204,32 @@ void RebuildMain()
 	}
 
 	// details dialog
-	mi.hParentMenu = mhRoot;
+	mi.root = mhRoot;
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	mi.name.a = LPGEN("View/change my &details...");
 	mi.position = 500050000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// VCard's Ex/Import menuitems
-	mi.hParentMenu = mhExIm;
+	mi.root = mhExIm;
 
 	// Export
 	mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 500150000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// Import
 	mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 500151000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// reminder
-	mi.hParentMenu = mhRoot;
+	mi.root = mhRoot;
 	const BYTE bRemindMenus =
 		db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
 		db_get_b(NULL, MODNAME, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
@@ -238,13 +238,13 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
 		mi.name.a = LPGEN("Backup birthdays");
 		mi.position = 500253000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 		// Check anniversaries
 		mi.pszService = MS_USERINFO_REMINDER_CHECK;
 		mi.name.a = LPGEN("Check anniversaries");
 		mi.position = 500251000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_SEARCH);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_SEARCH);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 	else {
@@ -256,14 +256,14 @@ void RebuildMain()
 	mi.pszService = MS_USERINFO_REFRESH;
 	mi.name.a = LPGEN("Refresh contact details");
 	mi.position = 500254000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_UPDATE);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_UPDATE);
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 	// anniversary list
 	mi.pszService = MS_USERINFO_REMINDER_LIST;
 	mi.name.a = LPGEN("Anniversary list");
 	mi.position = 500252000;
-	mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 }
 
@@ -300,7 +300,7 @@ void RebuildGroup()
 	char text[200];
 	mir_strcpy(text, "UserInfo");
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
@@ -314,7 +314,7 @@ void RebuildGroup()
 		case 5:
 			//cascade all
 			mi.position = 250000;
-			mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.name.a = MODULELONGNAME;
 			mhRoot = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -323,7 +323,7 @@ void RebuildGroup()
 		case 9:
 			//cascade Ex/Import
 			mi.position = 250100;
-			mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.name.a = LPGEN("Export/import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
@@ -335,20 +335,20 @@ void RebuildGroup()
 	}
 
 	// VCard's Ex/Import menuitems
-	mi.hParentMenu = mhExIm;
+	mi.root = mhExIm;
 
 	// Export
 	mi.pszService = MS_USERINFO_VCARD_EXPORTALL;
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 250200;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
 	hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 
 	// Import
 	mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 250300;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
 	hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 }
 
@@ -389,7 +389,7 @@ void RebuildSubGroup()
 	char text[200];
 	mir_strcpy(text, "UserInfo");
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
@@ -402,7 +402,7 @@ void RebuildSubGroup()
 	case 5:
 		//cascade all
 		mi.position = 1050000;
-		mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
 		mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 		hMenuItem[item++] = mhRoot;
@@ -411,7 +411,7 @@ void RebuildSubGroup()
 	case 9:
 		//cascade Ex/Import
 		mi.position = 1050100;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import group");
 		mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 		hMenuItem[item++] = mhExIm;
@@ -423,14 +423,14 @@ void RebuildSubGroup()
 	}
 
 	// VCard's Ex/Import menuitems
-	mi.hParentMenu = mhExIm;
+	mi.root = mhExIm;
 
 	// Export
 	mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
 	mi.position = 1050200;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
 	gmp.lParam=0;
 	gmp.wParam=TRUE;
 	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -440,7 +440,7 @@ void RebuildSubGroup()
 	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 	mi.position = 1050300;
-	mi.icolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
 	gmp.lParam=0;
 	gmp.wParam=FALSE;
 	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
@@ -502,12 +502,12 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		char text[ 200 ];
 		mir_strcpy(text, pcli->menuProtos[i].szProto);
 	
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.pszService = text;
 		char* tDest = text + mir_strlen( text );
 
 		// support new genmenu style
-		mi.hParentMenu = mhRoot;
+		mi.root = mhRoot;
 
 		switch (flag) {
 		case 3:
@@ -520,7 +520,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		case 5:
 			// cascade all
 			mi.position = 50100;
-			mi.icolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+			mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.name.a = MODULELONGNAME;
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
@@ -529,7 +529,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		case 9:
 			// cascade Ex/Import
 			mi.position = 50100;
-			mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.name.a = LPGEN("Export/import");
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
@@ -541,14 +541,14 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		}
 
 		// VCard's Ex/Import menuitems
-		mi.hParentMenu = mhExIm;
+		mi.root = mhExIm;
 
 		// Export
 		mir_strcpy(tDest, "/ExportAccount");
 		CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 		mi.name.a = LPGEN("&Export xml");
 		mi.position = 50200;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 
 		// Import
@@ -556,7 +556,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 		mi.name.a = LPGEN("&Import xml");
 		mi.position = 50300;
-		mi.icolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 	}
 	return 0;

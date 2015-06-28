@@ -628,9 +628,9 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 1000050000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.a = LPGEN("User &details");
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	Menu_AddContactMenuItem(&mi);

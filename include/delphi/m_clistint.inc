@@ -520,7 +520,6 @@ type
   * version 6 additions (0.8.0.x) - accounts
   *************************************************************************************)
     pfnGetAccountIndexByPos : function (pos:int):int; cdecl;
-    pfnConvertMenu: function( clitem:PCLISTMENUITEM; moitem:PMO_MenuItem):int; cdecl;
 
 	(*************************************************************************************
 	 * version 7 additions (0.11.0.x) - extra images

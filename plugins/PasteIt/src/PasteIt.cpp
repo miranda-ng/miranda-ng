@@ -291,9 +291,9 @@ INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 
 void InitMenuItems()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags =  CMIF_TCHAR;
-	mi.icolibItem = icon.hIcolib;
+	mi.hIcolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.name.t = LPGENT("Paste It");
 
@@ -302,7 +302,7 @@ void InitMenuItems()
 	memset(&mi, 0, sizeof(mi));
 	mi.flags =  CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
-	mi.hParentMenu = hContactMenu;
+	mi.root = hContactMenu;
 	mi.name.t = LPGENT("Paste from clipboard");
 	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_CLIPBOARD);
 
@@ -313,9 +313,9 @@ void InitMenuItems()
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
-	CLISTMENUITEM mi2 = { 0 };
+	TMO_MenuItem mi2 = { 0 };
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
-	mi2.hParentMenu = hDefWebMenu;
+	mi2.root = hDefWebMenu;
 	for (int i = 0; i < PasteToWeb::pages; ++i)
 	{
 		mi2.flags =  CMIF_TCHAR;

@@ -207,7 +207,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnReloadProtoMenus                = fnReloadProtoMenus;
 		cli.pfnGetAccountIndexByPos            = fnGetAccountIndexByPos;
 		cli.pfnGetProtocolMenu                 = fnGetProtocolMenu;
-		cli.pfnConvertMenu                     = fnConvertMenu;
 
 		cli.pfnReloadExtraIcons                = fnReloadExtraIcons;
 		cli.pfnSetAllExtraIcons                = fnSetAllExtraIcons;

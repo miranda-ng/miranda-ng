@@ -436,8 +436,8 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	if (dbid < 0)
 		dbid = pos;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 
 	mir_snprintf(temp, _countof(temp), servicefunction, this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
@@ -446,7 +446,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	CreateServiceFunctionParam(temp, StartGame, this->id);
 	mi.pszService = temp;
 	mi.position = 500090002 + pos;
-	mi.icolibItem = this->hicon ? this->hicon : LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = this->hicon ? this->hicon : LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.a = menuitemtext(this->name);
 	this->menuhandle = Menu_AddMainMenuItem(&mi);
 

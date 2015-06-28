@@ -1159,9 +1159,9 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = hIcons[0];
+		mi.hIcolibItem = hIcons[0];
 		mi.position = 1900000000;
 		mi.name.t = (IsWindowVisible(hwndConsole)) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.pszService = MS_CONSOLE_SHOW_HIDE;

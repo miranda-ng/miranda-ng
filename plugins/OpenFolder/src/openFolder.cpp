@@ -97,10 +97,10 @@ extern "C" int __declspec(dllexport) Load()
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = icon.hIcolib;
+	mi.hIcolibItem = icon.hIcolib;
 	mi.name.t = LPGENT("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);

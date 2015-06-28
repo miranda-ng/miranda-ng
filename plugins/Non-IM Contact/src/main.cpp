@@ -141,12 +141,12 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("TestStringReplaceLine", testStringReplacer);
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 600090000;
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
 	mi.name.a = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
-	mi.icolibItem = icoList[0].hIcolib;
+	mi.hIcolibItem = icoList[0].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 600090001;
@@ -171,7 +171,7 @@ extern "C" __declspec(dllexport) int Load()
 	mi.pszService = "TestStringReplaceLine";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.hParentMenu = NULL;
+	mi.root = NULL;
 	mi.position = -2000080000;
 	mi.name.a = LPGEN("E&dit Contact Settings");
 	mi.pszService = "EditLCcontact";

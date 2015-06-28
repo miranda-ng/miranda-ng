@@ -508,17 +508,17 @@ void CSametimeProto::InitConferenceMenu()
 	CreateProtoService(MS_SAMETIME_MENULEAVECHAT, &CSametimeProto::onMenuLeaveChat);
 	CreateProtoService(MS_SAMETIME_MENUCREATECHAT, &CSametimeProto::onMenuCreateChat);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	
 	mi.name.t = LPGENT("Leave conference");
 	mi.pszService = MS_SAMETIME_MENULEAVECHAT;
-	mi.icolibItem = GetIconHandle(IDI_ICON_LEAVE);
+	mi.hIcolibItem = GetIconHandle(IDI_ICON_LEAVE);
 	hLeaveChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	mi.name.t = LPGENT("Start conference");
 	mi.pszService = MS_SAMETIME_MENUCREATECHAT;
-	mi.icolibItem = GetIconHandle(IDI_ICON_INVITE);
+	mi.hIcolibItem = GetIconHandle(IDI_ICON_INVITE);
 	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSametimeProto::PrebuildContactMenu);

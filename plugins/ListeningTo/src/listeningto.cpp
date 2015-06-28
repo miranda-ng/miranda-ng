@@ -192,9 +192,9 @@ void RebuildMenu()
 		TCHAR text[512];
 		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = 100000 + i;
-		mi.hParentMenu = hMainMenuGroup;
+		mi.root = hMainMenuGroup;
 		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.name.t = text;
@@ -293,17 +293,17 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Add main menu item
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 500080000;
 	mi.name.t = LPGENT("Listening to");
 	mi.flags =  CMIF_TCHAR;
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
-	mi.hParentMenu = hMainMenuGroup;
+	mi.root = hMainMenuGroup;
 	mi.position = 0;
 	mi.pszService = MS_LISTENINGTO_MAINMENU;
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 
 	// Add all protos
 	mi.name.t = LPGENT("Send to all protocols");

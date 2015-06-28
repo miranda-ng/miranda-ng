@@ -311,16 +311,16 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
 	// main menu item
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.name.t = LPGENT("Database");
 	mi.position = 500000000;
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
-	mi.icolibItem = iconList[1].hIcolib;
+	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.t = db->GetMenuTitle();
-	mi.hParentMenu = hMenuRoot;
+	mi.root = hMenuRoot;
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;

@@ -1113,10 +1113,10 @@ extern "C" __declspec(dllexport) int  Load(void)
 		CreateDirectoryA(AvatarsFolder, NULL);
 
 	// erweiterte Kontextmenüpunkte
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 500090000;
 	mi.name.a = protocolname;
-	mi.hParentMenu = Menu_AddContactMenuItem(&mi, protocolname);
+	mi.root = Menu_AddContactMenuItem(&mi, protocolname);
 	mi.flags = CMIF_TCHAR;
 
 	char servicefunction[100];
@@ -1124,42 +1124,42 @@ extern "C" __declspec(dllexport) int  Load(void)
 	// gotoprofilemenüpunkt
 	CreateProtoServiceFunction(protocolname, "/GotoProfile", GotoProfile);
 	mi.pszService = "/GotoProfile";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&XFire Online Profile");
 	Menu_AddContactMenuItem(&mi, protocolname);
 
 	// gotoxfireclansitemenüpunkt
 	CreateProtoServiceFunction(protocolname, "/GotoXFireClanSite", GotoXFireClanSite);
 	mi.pszService = "/GotoXFireClanSite";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("XFire &Clan Site");
 	gotoclansite = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// kopiermenüpunkt
 	CreateProtoServiceFunction(protocolname, "/GetIPPort", GetIPPort);
 	mi.pszService = "/GetIPPort";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("C&opy Server Address and Port");
 	copyipport = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// kopiermenüpunkt
 	CreateProtoServiceFunction(protocolname, "/VoiceIPPort", GetVIPPort);
 	mi.pszService = "/VoiceIPPort";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Cop&y Voice Server Address and Port");
 	vipport = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// joinmenüpunkt
 	CreateProtoServiceFunction(protocolname, "/JoinGame", JoinGame);
 	mi.pszService = "/JoinGame";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Join &Game...");
 	joingame = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// playmenüpunkt
 	CreateProtoServiceFunction(protocolname, "/StartThisGame", StartThisGame);
 	mi.pszService = "/StartThisGame";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Play this game...");
 	startthisgame = Menu_AddContactMenuItem(&mi, protocolname);
 
@@ -1167,25 +1167,25 @@ extern "C" __declspec(dllexport) int  Load(void)
 	CreateProtoServiceFunction(protocolname, "/RemoveFriend", RemoveFriend);
 	mi.pszService = "/RemoveFriend";
 	mi.position = 2000070000;
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Remove F&riend...");
 	removefriend = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// block user
 	CreateProtoServiceFunction(protocolname, "/BlockFriend", BlockFriend);
 	mi.pszService = "/BlockFriend";
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Block U&ser...");
 	blockfriend = Menu_AddContactMenuItem(&mi, protocolname);
 
 	// main menu items
 	// my fire profile
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(protocolname), 500090000);
+	mi.root = Menu_CreateRoot(MO_MAIN, _T(protocolname), 500090000);
 	strncpy_s(servicefunction, protocolname, _TRUNCATE);
 	strncat_s(servicefunction, "GotoProfile2", _TRUNCATE);
 	CreateServiceFunction(servicefunction, GotoProfile2);
 	mi.position = 500090000;
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&My XFire Online Profile");
 	Menu_AddMainMenuItem(&mi);
 
@@ -1193,7 +1193,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	strncpy_s(servicefunction, protocolname, _TRUNCATE);
 	strncat_s(servicefunction, "GotoProfileAct", _TRUNCATE);
 	CreateServiceFunction(servicefunction, GotoProfileAct);
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&Activity Report");
 	Menu_AddMainMenuItem(&mi);
 
@@ -1201,14 +1201,14 @@ extern "C" __declspec(dllexport) int  Load(void)
 	strncpy_s(servicefunction, protocolname, _TRUNCATE);
 	strncat_s(servicefunction, "ReScanMyGames", _TRUNCATE);
 	CreateServiceFunction(servicefunction, ReScanMyGames);
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("&Rescan my games...");
 	Menu_AddMainMenuItem(&mi);
 
 	strncpy_s(servicefunction, protocolname, _TRUNCATE);
 	strncat_s(servicefunction, "SetNick", _TRUNCATE);
 	CreateServiceFunction(servicefunction, SetNickDlg);
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.name.t = LPGENT("Set &Nickname");
 	Menu_AddMainMenuItem(&mi);
 

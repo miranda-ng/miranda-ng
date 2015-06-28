@@ -15,24 +15,24 @@ namespace mu
 		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { 0 };
+			TMO_MenuItem mi = { 0 };
 			mi.name.t = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
-			mi.icolibItem = hIcon;
+			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
-			mi.hParentMenu = hRoot;
+			mi.root = hRoot;
 			return Menu_AddMainMenuItem(&mi);
 		}
 
 		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			CLISTMENUITEM mi = { 0 };
+			TMO_MenuItem mi = { 0 };
 			mi.name.t = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
-			mi.icolibItem = hIcon;
+			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
 			return Menu_AddContactMenuItem(&mi);
 		}

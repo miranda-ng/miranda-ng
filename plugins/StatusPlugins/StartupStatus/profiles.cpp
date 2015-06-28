@@ -92,7 +92,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	char servicename[128];
 	int i, count;
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2000100000;
 	mi.flags = CMIF_TCHAR;
 	mcount = 0;
@@ -103,7 +103,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 			continue;
 
 		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
-			mi.hParentMenu = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
+			mi.root = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
 
 		mi.name.t = profilename;
 		mi.position = 2000100000 + mcount;

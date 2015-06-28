@@ -234,7 +234,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
 		hSoundMenu = CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 	
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();

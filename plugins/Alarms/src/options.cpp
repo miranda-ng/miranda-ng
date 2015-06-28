@@ -692,13 +692,13 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = IcoLib_GetIconHandle("alarms_menu_set");
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = IcoLib_GetIconHandle("alarms_menu_set");
 	mi.name.a = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

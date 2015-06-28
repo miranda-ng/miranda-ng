@@ -336,7 +336,7 @@ end;
 
 function InitProc(aGetStatus:boolean=false):integer;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
 begin
   if aGetStatus then
   begin
@@ -354,7 +354,7 @@ begin
   RegisterIcons;
 
   FillChar(mi, sizeof(mi), 0);
-  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
+  mi.root         :=Menu_CreateRoot(MO_MAIN, 'Watrack', 0, 0, 0);
   mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
   mi.hIcon        :=IcoLib_GetIcon(IcoBtnContext,0);
   mi.szName.a     :='Get user''s Music Info';

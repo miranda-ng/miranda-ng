@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-static CLISTMENUITEM* MakeMenuItem(lua_State *L)
+static TMO_MenuItem* MakeMenuItem(lua_State *L)
 {
-	CLISTMENUITEM *pmi = (CLISTMENUITEM*)mir_calloc(sizeof(CLISTMENUITEM));
+	TMO_MenuItem *pmi = (TMO_MenuItem*)mir_calloc(sizeof(TMO_MenuItem));
 	pmi->hLangpack = hScriptsLangpack;
 
 	lua_pushstring(L, "Flags");
@@ -25,7 +25,7 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 
 	lua_pushstring(L, "Icon");
 	lua_gettable(L, -2);
-	pmi->icolibItem = (HANDLE)lua_touserdata(L, -1);
+	pmi->hIcolibItem = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Service");
@@ -35,7 +35,7 @@ static CLISTMENUITEM* MakeMenuItem(lua_State *L)
 
 	lua_pushstring(L, "Parent");
 	lua_gettable(L, -2);
-	pmi->hParentMenu = (HGENMENU)lua_touserdata(L, -1);
+	pmi->root = (HGENMENU)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	return pmi;
@@ -49,9 +49,9 @@ static int lua_AddMainMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
-	HGENMENU res = (HGENMENU)::CallService("CList/AddMainMenuItem", 0, (LPARAM)pmi);
+	HGENMENU res = Menu_AddMainMenuItem(pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -65,9 +65,9 @@ static int lua_AddContactMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
-	HGENMENU res = (HGENMENU)::CallService("CList/AddContactMenuItem", 0, (LPARAM)pmi);
+	HGENMENU res = Menu_AddContactMenuItem(pmi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -81,7 +81,7 @@ static int lua_AddTrayMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
 	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)pmi);
 	lua_pushlightuserdata(L, res);
@@ -99,9 +99,9 @@ static int lua_ModifyMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<CLISTMENUITEM> pmi(MakeMenuItem(L));
+	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
-	INT_PTR res = ::Menu_ModifyItem(hMenuItem, pmi->name.t, pmi->icolibItem, pmi->flags);
+	INT_PTR res = ::Menu_ModifyItem(hMenuItem, pmi->name.t, pmi->hIcolibItem, pmi->flags);
 	lua_pushinteger(L, res);
 	return 1;
 }

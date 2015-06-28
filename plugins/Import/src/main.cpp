@@ -114,8 +114,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	RegisterIcons();
 
 	// menu item
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = GetIconHandle(IDI_IMPORT);
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = GetIconHandle(IDI_IMPORT);
 	mi.name.a = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;

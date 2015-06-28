@@ -735,11 +735,11 @@ INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 
 static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.t = name;
-	mi.icolibItem = icon;
+	mi.hIcolibItem = icon;
 	mi.flags = CMIF_UNICODE | flag;
 	mi.pszService = service;
 	
@@ -960,7 +960,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 	ModuleLoad(0, 0);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_UNICODE;
 
 	mi.position = 120000;
@@ -981,7 +981,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.t = LPGENT("Ignore");
 	mi.pszService = 0;
-	mi.icolibItem = IcoLib_GetIcon("miex_ignore");
+	mi.hIcolibItem = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
 	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, Skin_LoadIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type);
@@ -998,7 +998,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.t = LPGENT("Copy to Account");
 	mi.pszService = MS_PROTO;
-	mi.icolibItem = IcoLib_GetIcon("miex_protocol");
+	mi.hIcolibItem = IcoLib_GetIcon("miex_protocol");
 	hmenuProto = Menu_AddContactMenuItem(&mi);
 
 	EnumProtoSubmenu(0, 0);
@@ -1008,13 +1008,13 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.t = LPGENT("Send 'You were added'");
 	mi.pszService = MS_ADDED;
-	mi.icolibItem = Skin_LoadIcon(SKINICON_AUTH_ADD);
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_ADD);
 	hmenuAdded = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.name.t = LPGENT("Request authorization");
 	mi.pszService = MS_AUTHREQ;
-	mi.icolibItem = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
@@ -1025,13 +1025,13 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.t = LPGENT("Browse Received Files");
 	mi.pszService = MS_RECVFILES;
-	mi.icolibItem = IcoLib_GetIcon("miex_recfiles");
+	mi.hIcolibItem = IcoLib_GetIcon("miex_recfiles");
 	hmenuRecvFiles = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.name.t = LPGENT("Copy Status Message");
 	mi.pszService = MS_STATUSMSG;
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	hmenuStatusMsg = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;

@@ -271,9 +271,9 @@ DLL_EXPORT int Load(void)
 	srv_reg(EditBitmap);
 	srv_reg(Send2ImageShack);
 	/// menu items
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = GetIconHandle(ICO_MAINXS);
+	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 	
 	mi.name.t = LPGENT("Take a screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;

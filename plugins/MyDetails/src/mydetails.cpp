@@ -87,16 +87,16 @@ static int MainInit(WPARAM, LPARAM)
 	InitProtocolData();
 
 	// Add options to menu
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 500050000;
 	mi.flags =  CMIF_TCHAR;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.t = LPGENT("My details");
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags =  CMIF_TCHAR;
-	mi.hParentMenu = hMenuRoot;
-	mi.icolibItem = NULL;
+	mi.root = hMenuRoot;
+	mi.hIcolibItem = NULL;
 
 	if (protocols->CanSetAvatars()) {
 		mi.position = 100001;

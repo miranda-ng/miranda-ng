@@ -356,41 +356,41 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 
 void InitMenus()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	// main menu item
-	mi.icolibItem = GetIconHandle(I_MENUOFF);
+	mi.hIcolibItem = GetIconHandle(I_MENUOFF);
 	mi.name.a = LPGEN("Toggle metacontacts off");
 	mi.pszService = "MetaContacts/OnOff";
 	mi.position = 500010000;
 	hMenuOnOff = Menu_AddMainMenuItem(&mi);
 
 	// contact menu items
-	mi.icolibItem = GetIconHandle(I_CONVERT);
+	mi.hIcolibItem = GetIconHandle(I_CONVERT);
 	mi.position = -200010;
 	mi.name.a = LPGEN("Convert to metacontact");
 	mi.pszService = "MetaContacts/Convert";
 	hMenuConvert = Menu_AddContactMenuItem(&mi);
 
-	mi.icolibItem = GetIconHandle(I_ADD);
+	mi.hIcolibItem = GetIconHandle(I_ADD);
 	mi.position = -200009;
 	mi.name.a = LPGEN("Add to existing metacontact...");
 	mi.pszService = "MetaContacts/AddTo";
 	hMenuAdd = Menu_AddContactMenuItem(&mi);
 
-	mi.icolibItem = GetIconHandle(I_EDIT);
+	mi.hIcolibItem = GetIconHandle(I_EDIT);
 	mi.position = -200010;
 	mi.name.a = LPGEN("Edit metacontact...");
 	mi.pszService = "MetaContacts/Edit";
 	hMenuEdit = Menu_AddContactMenuItem(&mi);
 
-	mi.icolibItem = GetIconHandle(I_SETDEFAULT);
+	mi.hIcolibItem = GetIconHandle(I_SETDEFAULT);
 	mi.position = -200009;
 	mi.name.a = LPGEN("Set as metacontact default");
 	mi.pszService = "MetaContacts/Default";
 	hMenuDefault = Menu_AddContactMenuItem(&mi);
 
-	mi.icolibItem = GetIconHandle(I_REMOVE);
+	mi.hIcolibItem = GetIconHandle(I_REMOVE);
 	mi.position = -200008;
 	mi.name.a = LPGEN("Delete metacontact");
 	mi.pszService = "MetaContacts/Delete";
@@ -398,12 +398,12 @@ void InitMenus()
 
 	mi.position = -99000;
 	mi.flags = CMIF_HIDDEN;
-	mi.icolibItem = 0;
+	mi.hIcolibItem = 0;
 	mi.name.a = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
 	mi.flags = CMIF_HIDDEN;
-	mi.hParentMenu = hMenuRoot;
+	mi.root = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
 		mi.name.a = "";

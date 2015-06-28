@@ -336,11 +336,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_NUDGE_SHOWMENU, NudgeShowMenu);
 
 	// Add contact menu entry
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	// mi.popupPosition = 500085000; !!!!!!!!!!!!!!!!!!!!!
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.t = LPGENT("Send &Nudge");
 	mi.pszService = MS_NUDGE_SEND;
 	g_hContactMenu = Menu_AddContactMenuItem(&mi);

@@ -460,14 +460,14 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 
 int Create_MenuitemShowList(void)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = icon.hIcolib;
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 0xFFFFF;
-	mi.icolibItem = icon.hIcolib;
+	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Toggle Ignore");
 	mi.pszService = V_RECENTCONTACTS_TOGGLE_IGNORE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);

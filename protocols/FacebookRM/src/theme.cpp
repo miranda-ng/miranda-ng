@@ -107,72 +107,72 @@ void InitContactMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000006000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.name.a = LPGEN("Visit profile");
 	mi.pszService = "FacebookProto/VisitProfile";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitProfile>);
 	g_hContactMenuVisitProfile = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006001;
-	mi.icolibItem = GetIconHandle("friendship");
+	mi.hIcolibItem = GetIconHandle("friendship");
 	mi.name.a = LPGEN("Visit friendship details");
 	mi.pszService = "FacebookProto/VisitFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitFriendship>);
 	g_hContactMenuVisitFriendship = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006002;
-	mi.icolibItem = GetIconHandle("conversation");
+	mi.hIcolibItem = GetIconHandle("conversation");
 	mi.name.a = LPGEN("Visit conversation");
 	mi.pszService = "FacebookProto/VisitConversation";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::VisitConversation>);
 	g_hContactMenuVisitConversation = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006003;
-	mi.icolibItem = GetIconHandle("mind");
+	mi.hIcolibItem = GetIconHandle("mind");
 	mi.name.a = LPGEN("Share status...");
 	mi.pszService = "FacebookProto/Mind";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnMind>);
 	g_hContactMenuPostStatus = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006004;
-	mi.icolibItem = GetIconHandle("poke");
+	mi.hIcolibItem = GetIconHandle("poke");
 	mi.name.a = LPGEN("Poke");
 	mi.pszService = "FacebookProto/Poke";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::Poke>);
 	g_hContactMenuPoke = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006010;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Cancel friendship");
 	mi.pszService = "FacebookProto/CancelFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuAuthRevoke = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006011;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Cancel friendship request");
 	mi.pszService = "FacebookProto/CancelFriendshipRequest";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuAuthCancel = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006012;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	mi.name.a = LPGEN("Request friendship");
 	mi.pszService = "FacebookProto/RequestFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::RequestFriendship>);
 	g_hContactMenuAuthAsk = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006013;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	mi.name.a = LPGEN("Approve friendship");
 	mi.pszService = "FacebookProto/ApproveFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::ApproveFriendship>);
 	g_hContactMenuAuthGrant = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006014;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	mi.name.a = LPGEN("Deny friendship request");
 	mi.pszService = "FacebookProto/DenyFriendship";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::DenyFriendship>);
@@ -210,10 +210,10 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		CLISTMENUITEM miRoot = { 0 };
+		TMO_MenuItem miRoot = { 0 };
 		miRoot.position = 500085000;
 		miRoot.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
-		miRoot.icolibItem = GetIconHandle("facebook");
+		miRoot.hIcolibItem = GetIconHandle("facebook");
 		miRoot.name.t = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&miRoot);
 	}
@@ -224,48 +224,48 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 		}
 	}
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 
 	mi.pszService = "/Mind";
 	CreateProtoService(mi.pszService, &FacebookProto::OnMind);
 	mi.name.a = LPGEN("Share status...");
-	mi.icolibItem = GetIconHandle("mind");
+	mi.hIcolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/VisitProfile";
 	CreateProtoService(mi.pszService, &FacebookProto::VisitProfile);
 	mi.name.a = LPGEN("Visit profile");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/VisitNotifications";
 	CreateProtoService(mi.pszService, &FacebookProto::VisitNotifications);
 	mi.name.a = LPGEN("Visit notifications");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Services...
-	mi.hParentMenu = m_hMenuServicesRoot = Menu_CreateRoot(MO_PROTO, LPGENT("Services..."), mi.position, Skin_GetIconHandle(SKINICON_OTHER_HELP));
+	mi.root = m_hMenuServicesRoot = Menu_CreateRoot(MO_PROTO, LPGENT("Services..."), mi.position, Skin_GetIconHandle(SKINICON_OTHER_HELP));
 
 	mi.pszService = "/RefreshBuddyList";
 	CreateProtoService(mi.pszService, &FacebookProto::RefreshBuddyList);
 	mi.name.a = LPGEN("Refresh Buddy List");
-	mi.icolibItem = GetIconHandle("friendship");
+	mi.hIcolibItem = GetIconHandle("friendship");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckFriendRequests";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckFriendRequests);
 	mi.name.a = LPGEN("Check Friends Requests");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/CheckNewsfeeds";
 	CreateProtoService(mi.pszService, &FacebookProto::CheckNewsfeeds);
 	mi.name.a = LPGEN("Check Newsfeeds");
-	mi.icolibItem = GetIconHandle("newsfeed");
+	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	return 0;
 }

@@ -536,17 +536,17 @@ int TN_ModuleInit()
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");
-			mi.icolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
+			mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
 		}
 		else {
 			mi.name.a = LPGEN("Enable &typing notification");
-			mi.icolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
+			mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

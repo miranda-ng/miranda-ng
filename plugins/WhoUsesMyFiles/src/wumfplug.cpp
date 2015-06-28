@@ -492,22 +492,22 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 1999990000);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 1999990000);
 	if (WumfOptions.PopupsEnabled == FALSE) { 
 		mi.name.a = LPGEN("Enable WUMF popups");
-		mi.icolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
+		mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
 	}
 	else {
 		mi.name.a = LPGEN("Disable WUMF popups");
-		mi.icolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
+		mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
 	}
 
 	mi.pszService = MS_WUMF_SWITCHPOPUP;
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	mi.name.a = LPGEN("WUMF: Show connections");
-	mi.icolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
+	mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
 	mi.pszService = MS_WUMF_CONNECTIONSSHOW;
 	Menu_AddMainMenuItem(&mi);
 

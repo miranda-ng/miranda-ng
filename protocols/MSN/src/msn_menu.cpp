@@ -268,13 +268,13 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 
 void CMsnProto::MsnInitMainMenu(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.position = 500085000;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = GetIconHandle(IDI_MSN);
+		mi.hIcolibItem = GetIconHandle(IDI_MSN);
 		mi.name.t = m_tszUserName;
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
@@ -284,13 +284,13 @@ void CMsnProto::MsnInitMainMenu(void)
 	}
 
 	mi.flags = 0;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 
 #ifdef OBSOLETE
 	mi.pszService = MS_SET_NICKNAME_UI;
 	CreateProtoService(mi.pszService, &CMsnProto::SetNicknameUI);
 	mi.position = 201001;
-	mi.icolibItem = GetIconHandle(IDI_MSN);
+	mi.hIcolibItem = GetIconHandle(IDI_MSN);
 	mi.name.a = LPGEN("Set &Nickname");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 #endif
@@ -298,28 +298,28 @@ void CMsnProto::MsnInitMainMenu(void)
 	mi.pszService = MSN_INVITE;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnInviteCommand);
 	mi.position = 201002;
-	mi.icolibItem = GetIconHandle(IDI_INVITE);
+	mi.hIcolibItem = GetIconHandle(IDI_INVITE);
 	mi.name.a = LPGEN("Create &Chat");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_GOTO_INBOX;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnGotoInbox);
 	mi.position = 201003;
-	mi.icolibItem = GetIconHandle(IDI_INBOX);
+	mi.hIcolibItem = GetIconHandle(IDI_INBOX);
 	mi.name.a = LPGEN("Display &Hotmail Inbox");
 	menuItemsMain[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_EDIT_PROFILE;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnEditProfile);
 	mi.position = 201004;
-	mi.icolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
 	menuItemsMain[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = MS_EDIT_ALERTS;
 	CreateProtoService(mi.pszService, &CMsnProto::MsnSetupAlerts);
 	mi.position = 201004;
-	mi.icolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("Setup Live &Alerts");
 	menuItemsMain[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -398,20 +398,20 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(servicefunction, "MSN");
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = servicefunction;
 
 	mir_strcpy(tDest, MSN_BLOCK);
 	hBlockCom = CreateServiceFunction(servicefunction, MsnMenuBlockCommand);
 	mi.position = -500050000;
-	mi.icolibItem = GetIconHandle(IDI_MSNBLOCK);
+	mi.hIcolibItem = GetIconHandle(IDI_MSNBLOCK);
 	mi.name.a = LPGEN("&Block");
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mir_strcpy(tDest, MSN_VIEW_PROFILE);
 	hViewProfile = CreateServiceFunction(servicefunction, MsnMenuViewProfile);
 	mi.position = -500050003;
-	mi.icolibItem = GetIconHandle(IDI_PROFILE);
+	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);
 	mi.name.a = LPGEN("View &Profile");
 	hLiveSpaceMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -420,7 +420,7 @@ void MSN_InitContactMenu(void)
 	hNetMeeting = CreateServiceFunction(servicefunction, MsnMenuSendNetMeeting);
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.position = -500050002;
-	mi.icolibItem = GetIconHandle(IDI_NETMEETING);
+	mi.hIcolibItem = GetIconHandle(IDI_NETMEETING);
 	mi.name.a = LPGEN("&Start Netmeeting");
 	hNetmeetingMenuItem = Menu_AddContactMenuItem(&mi);
 #endif
@@ -429,7 +429,7 @@ void MSN_InitContactMenu(void)
 	hSendHotMail = CreateServiceFunction(servicefunction, MsnMenuSendHotmail);
 	mi.position = -2000010005;
 	mi.flags = CMIF_HIDDEN;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.name.a = LPGEN("Open &Hotmail Inbox");
 	hOpenInboxMenuItem = Menu_AddContactMenuItem(&mi);
 

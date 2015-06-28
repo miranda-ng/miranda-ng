@@ -991,9 +991,9 @@ void InitList()
 
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
 		mi.position = 3000320001;
 		mi.name.t = LPGENT("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";

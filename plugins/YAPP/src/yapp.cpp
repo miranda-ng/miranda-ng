@@ -170,16 +170,16 @@ void InitMenuItems(void)
 
 	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 500010000, IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0));
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.hParentMenu = hMenuRoot;
+	mi.root = hMenuRoot;
 
-	mi.icolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService= MS_POPUP_SHOWHISTORY;
 	mi.name.t = LPGENT("Popup History");
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 
-	mi.icolibItem = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.hIcolibItem = IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	mi.pszService = "Popup/EnableDisableMenuCommand";
 	mi.name.t = (isEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups"));
 	hMenuItem = Menu_AddMainMenuItem(&mi);

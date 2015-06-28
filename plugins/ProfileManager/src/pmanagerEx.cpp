@@ -94,15 +94,15 @@ static IconItem iconList[] =
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
 
 	for (int i = 0; i < _countof(iconList); i++) {
 		mi.name.a = iconList[i].szDescr;
 		mi.pszService = iconList[i].szName;
-		mi.icolibItem = iconList[i].hIcolib;
+		mi.hIcolibItem = iconList[i].hIcolib;
 		if (i == 3)
-			mi.hParentMenu = NULL;
+			mi.root = NULL;
 		Menu_AddMainMenuItem(&mi);
 	}
 	return 0;

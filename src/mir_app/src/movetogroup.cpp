@@ -30,7 +30,7 @@ LIST<HANDLE> lphGroupsItems(5);
 
 //service
 //wparam - hcontact
-//lparam .popupposition from CLISTMENUITEM
+//lparam .popupposition from TMO_MenuItem
 
 #define MTG_MOVE "MoveToGroup/Move"
 
@@ -67,8 +67,8 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 
 static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, bool checked)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.t = PrepareGroupName(name);
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -88,10 +88,10 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 
 	if (!hMoveToGroupItem) {
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = 100000;
 		mi.name.a = LPGEN("&Move to group");
-		mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 
 		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
 	}

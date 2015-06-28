@@ -174,9 +174,9 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 200011;
-	mi.icolibItem = hIcons[ICON_MAIN];
+	mi.hIcolibItem = hIcons[ICON_MAIN];
 	mi.name.a = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.flags = CMIF_NOTOFFLINE;

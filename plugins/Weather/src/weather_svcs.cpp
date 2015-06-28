@@ -268,64 +268,64 @@ INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 // copied and modified form "modified MSN Protocol"
 void AddMenuItems(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	// contact menu
 	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
 	mi.position = -0x7FFFFFFA;
-	mi.icolibItem = GetIconHandle("update");
+	mi.hIcolibItem = GetIconHandle("update");
 	mi.name.a = LPGEN("Update Weather");
 	mi.pszService = MS_WEATHER_UPDATE;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
 	mi.position = -0x7FFFFFF9;
-	mi.icolibItem = GetIconHandle("update2");
+	mi.hIcolibItem = GetIconHandle("update2");
 	mi.name.a = LPGEN("Remove Old Data then Update");
 	mi.pszService = MS_WEATHER_REFRESH;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
 	mi.position = -0x7FFFFFF8;
-	mi.icolibItem = GetIconHandle("brief");
+	mi.hIcolibItem = GetIconHandle("brief");
 	mi.name.a = LPGEN("Brief Information");
 	mi.pszService = MS_WEATHER_BRIEF;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
 	mi.position = -0x7FFFFFF7;
-	mi.icolibItem = GetIconHandle("read");
+	mi.hIcolibItem = GetIconHandle("read");
 	mi.name.a = LPGEN("Read Complete Forecast");
 	mi.pszService = MS_WEATHER_COMPLETE;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
 	mi.position = -0x7FFFFFF6;
-	mi.icolibItem = GetIconHandle("map");
+	mi.hIcolibItem = GetIconHandle("map");
 	mi.name.a = LPGEN("Weather Map");
 	mi.pszService = MS_WEATHER_MAP;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
 	mi.position = -0x7FFFFFF5;
-	mi.icolibItem = GetIconHandle("log");
+	mi.hIcolibItem = GetIconHandle("log");
 	mi.name.a = LPGEN("View Log");
 	mi.pszService = MS_WEATHER_LOG;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
 	mi.position = -0x7FFFFFF4;
-	mi.icolibItem = GetIconHandle("edit");
+	mi.hIcolibItem = GetIconHandle("edit");
 	mi.name.a = LPGEN("Edit Settings");
 	mi.pszService = MS_WEATHER_EDIT;
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	// adding main menu items
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
 
 	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.name.a = LPGEN("Enable/Disable Weather Update");
-	mi.icolibItem = GetIconHandle("main");
+	mi.hIcolibItem = GetIconHandle("main");
 	mi.position = 10100001;
 	mi.pszService = MS_WEATHER_ENABLED;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
@@ -333,14 +333,14 @@ void AddMenuItems(void)
 
 	CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
 	mi.position = 20100001;
-	mi.icolibItem = GetIconHandle("update");
+	mi.hIcolibItem = GetIconHandle("update");
 	mi.name.a = LPGEN("Update All Weather");
 	mi.pszService = MS_WEATHER_UPDATEALL;
 	Menu_AddMainMenuItem(&mi);
 
 	CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
 	mi.position = 20100002;
-	mi.icolibItem = GetIconHandle("update2");
+	mi.hIcolibItem = GetIconHandle("update2");
 	mi.name.a = LPGEN("Remove Old Data then Update All");
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
@@ -349,9 +349,9 @@ void AddMenuItems(void)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.name.a = LPGEN("Weather Notification");
-		mi.icolibItem = GetIconHandle("popup");
+		mi.hIcolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);
@@ -361,8 +361,8 @@ void AddMenuItems(void)
 		mi.pszService = "Weather/mwin_menu";
 		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
-		mi.icolibItem = NULL;
-		mi.hParentMenu = NULL;
+		mi.hIcolibItem = NULL;
+		mi.root = NULL;
 		mi.name.a = LPGEN("Display in a frame");
 		hMwinMenu = Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 	}

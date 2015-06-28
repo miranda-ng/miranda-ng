@@ -463,7 +463,6 @@ typedef struct
 	 * version 6 additions (0.8.0.x) - accounts
 	 *************************************************************************************/
 	int    (*pfnGetAccountIndexByPos)(int pos);
-	int    (*pfnConvertMenu)(CLISTMENUITEM*, TMO_MenuItem*);
 
 	/*************************************************************************************
 	 * version 7 additions (0.11.0.x) - extra images

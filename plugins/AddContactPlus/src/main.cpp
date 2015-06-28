@@ -92,10 +92,10 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (hMainMenuItem)
 			return 0;
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = 500020001;
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = icon.hIcolib;
+		mi.hIcolibItem = icon.hIcolib;
 		mi.name.t = LPGENT("&Add contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);

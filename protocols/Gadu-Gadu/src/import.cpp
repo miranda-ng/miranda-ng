@@ -514,15 +514,15 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 
 void GGPROTO::import_init(HGENMENU hRoot)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 
 	// Import from server item
 	mi.pszService = GGS_IMPORT_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::import_server);
 	mi.position = 2000500001;
-	mi.icolibItem = iconList[1].hIcolib;
+	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.t = LPGENT("Import List From &Server");
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -530,7 +530,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.pszService = GGS_IMPORT_TEXT;
 	CreateProtoService(mi.pszService, &GGPROTO::import_text);
 	mi.position = 2000500002;
-	mi.icolibItem = iconList[2].hIcolib;
+	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.t = LPGENT("Import List From &Text File...");
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -538,7 +538,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.pszService = GGS_REMOVE_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::remove_server);
 	mi.position = 2000500003;
-	mi.icolibItem = iconList[3].hIcolib;
+	mi.hIcolibItem = iconList[3].hIcolib;
 	mi.name.t = LPGENT("&Remove List From Server");
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -546,7 +546,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.pszService = GGS_EXPORT_SERVER;
 	CreateProtoService(mi.pszService, &GGPROTO::export_server);
 	mi.position = 2005000001;
-	mi.icolibItem = iconList[4].hIcolib;
+	mi.hIcolibItem = iconList[4].hIcolib;
 	mi.name.t = LPGENT("Export List To &Server");
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
@@ -554,7 +554,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.pszService = GGS_EXPORT_TEXT;
 	CreateProtoService(mi.pszService, &GGPROTO::export_text);
 	mi.position = 2005000002;
-	mi.icolibItem = iconList[5].hIcolib;
+	mi.hIcolibItem = iconList[5].hIcolib;
 	mi.name.t = LPGENT("Export List To &Text File...");
 	hMainMenu[6] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }

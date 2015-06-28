@@ -530,10 +530,10 @@ static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show t
 
 void BossKeyMenuItemInit(void) // Add menu item
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
-	mi.icolibItem = IcoLib_GetIcon("hidemim");
+	mi.hIcolibItem = IcoLib_GetIcon("hidemim");
 	mi.name.t = LPGENT("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);

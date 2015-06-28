@@ -443,7 +443,7 @@ end;
 
 function InitProc(aGetStatus:boolean=false):integer;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
   sid:TSKINICONDESC;
 begin
   if aGetStatus then
@@ -472,7 +472,7 @@ begin
   HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi,SizeOf(mi),0);
-  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuInfoPos, 0, 0);
+  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuInfoPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnInfo,0);
   mi.szName.a  :='Music Info';
   mi.pszService:=MS_WAT_SHOWMUSICINFO;

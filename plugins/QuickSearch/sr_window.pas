@@ -787,7 +787,7 @@ end;
 
 function ShowContactMenu(wnd:HWND;hContact:TMCONTACT;col:integer=-1):HMENU;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
   pt:tpoint;
   doit:bool;
 begin
