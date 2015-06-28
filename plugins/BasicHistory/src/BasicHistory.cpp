@@ -85,7 +85,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Open History");
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP;

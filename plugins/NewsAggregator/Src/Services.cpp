@@ -248,7 +248,7 @@ INT_PTR EnableDisable(WPARAM, LPARAM)
 
 int OnToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.name = LPGEN("Enable/disable auto update");
 	ttb.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");

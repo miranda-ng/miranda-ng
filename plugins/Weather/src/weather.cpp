@@ -103,7 +103,7 @@ int WeatherShutdown(WPARAM wParam,LPARAM lParam)
 
 int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.name = LPGEN("Enable/disable auto update");
 	ttb.pszService = MS_WEATHER_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");

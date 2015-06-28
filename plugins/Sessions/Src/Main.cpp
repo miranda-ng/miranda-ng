@@ -721,7 +721,7 @@ INT_PTR BuildFavMenu(WPARAM, LPARAM)
 
 static int CreateButtons(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	ttb.pszService = MS_SESSIONS_OPENMANAGER;

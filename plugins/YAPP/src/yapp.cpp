@@ -75,7 +75,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 int TTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.pszService = "Popup/EnableDisableMenuCommand";
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;

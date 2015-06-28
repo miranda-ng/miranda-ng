@@ -460,7 +460,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 
 int InitTopToolbar(WPARAM,LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;

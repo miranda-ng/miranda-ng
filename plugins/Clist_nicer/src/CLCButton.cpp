@@ -46,7 +46,7 @@ static int g_index = -1;
 static void InitDefaultButtons()
 {
 	for (int i = 0; i < _countof(BTNS); i++) {
-		TTBButton tbb = { sizeof(tbb) };
+		TTBButton tbb = { 0 };
 
 		g_index = i;
 		if (BTNS[i].pszButtonID) {

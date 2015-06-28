@@ -306,8 +306,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 {
 	if ( db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
 		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == NULL) {
-			TTBButton btn = {0};
-			btn.cbSize = sizeof(btn);
+			TTBButton btn = { 0 };
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 			btn.hIconHandleUp = btn.hIconHandleDn = g_GetIconHandle(0);

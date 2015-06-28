@@ -13,8 +13,8 @@
 #define TTBBF_ISSBUTTON      0x0100
 #define TTBBF_ASPUSHBUTTON   0x0200
 
-typedef struct {
-	int cbSize;
+struct TTBButton
+{
 	union {
 		char *pszService;
 		TCHAR *program;
@@ -36,8 +36,7 @@ typedef struct {
 
 	char *pszTooltipUp;
 	char *pszTooltipDn;
-}
-	TTBButton, * lpTTBButton;
+};
 
 //=== EVENTS ===
 /*

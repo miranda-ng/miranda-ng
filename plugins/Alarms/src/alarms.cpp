@@ -123,7 +123,7 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 
 static int InitTopToolbarButton(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";

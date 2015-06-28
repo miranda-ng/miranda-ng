@@ -266,7 +266,6 @@ void CGlobals::hookSystemEvents()
 int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
-	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
 	ttb.name = "TabSRMM session list";

@@ -1400,12 +1400,12 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 
 static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttbb = { sizeof(ttbb) };
-	ttbb.hIconHandleUp = ttbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
-	ttbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = ttbb.pszTooltipUp = LPGEN("Change status message");
-	hTTBButton = TopToolbar_AddButton(&ttbb);
+	TTBButton tbb = { 0 };
+	tbb.hIconHandleUp = tbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
+	tbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
+	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	tbb.name = tbb.pszTooltipUp = LPGEN("Change status message");
+	hTTBButton = TopToolbar_AddButton(&tbb);
 
 	ReleaseIconEx("csmsg");
 	return 0;

@@ -624,9 +624,7 @@ begin
     end;
 
     FillChar(mtButton,SizeOf(mtButton),0);
-    mtButton.cbSize  :=SizeOf(mtButton);
-
-    mtButton.pszService:=TTB_SERVICE_NAME;//SERVICE_WITH_LPARAM_NAME;
+    mtButton.pszService:=TTB_SERVICE_NAME;
     mtButton.lParamUp  :=ActionItem.dwActID;
     mtButton.lParamDown:=ActionItem.dwActID;
 

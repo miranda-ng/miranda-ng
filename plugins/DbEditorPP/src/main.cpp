@@ -98,7 +98,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 
 static int OnTTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = "DBEditorpp/MenuCommand";
 	ttb.name = LPGEN("Database Editor++");
