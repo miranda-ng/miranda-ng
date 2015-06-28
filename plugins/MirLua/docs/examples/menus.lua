@@ -54,4 +54,4 @@ local hChild = genmenu.AddMainMenuItem(menuItem)
 
 --- Modify menu item
 local CMIM_NAME = tonumber("80000000", 16)
-genmenu.ModifyMenuItem(hChild, { Name = "Main menu child", Flags = CMIM_NAME })
+genmenu.ModifyMenuItem(hChild, "Main menu child", hIcon, CMIM_NAME)
