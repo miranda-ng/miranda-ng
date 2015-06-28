@@ -190,6 +190,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, int _hLang)
 	pmi->ownerdata = mmep;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi);
+	if (pimi == NULL)
+		return NULL;
+
 	pimi->hLangpack = _hLang;
 	mmep->pimi = pimi;
 
@@ -256,6 +259,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *psz
 
 	// may be need to change how UniqueName is formed?
 	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, pmi);
+	if (pimi == NULL)
+		return NULL;
+	
 	pimi->hLangpack = _hLang;
 	cmep->pimi = pimi;
 
@@ -383,6 +389,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 	}
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, pmi);
+	if (pimi == NULL)
+		return NULL;
+	
 	pimi->hLangpack = _hLangpack;
 	if (smep)
 		smep->hMenuItem = pimi;
