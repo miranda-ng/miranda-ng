@@ -195,7 +195,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	
 	// register menus
 	TMO_MenuItem mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = 1600000000;
