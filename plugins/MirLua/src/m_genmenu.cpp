@@ -51,7 +51,7 @@ static int lua_AddMainMenuItem(lua_State *L)
 
 	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
-	HGENMENU res = ::Menu_AddMainMenuItem(pmi);
+	HGENMENU res = ::Menu_AddMainMenuItem(pmi, hScriptsLangpack);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -67,7 +67,7 @@ static int lua_AddContactMenuItem(lua_State *L)
 
 	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
-	HGENMENU res = ::Menu_AddContactMenuItem(pmi);
+	HGENMENU res = ::Menu_AddContactMenuItem(pmi, NULL, hScriptsLangpack);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -95,8 +95,6 @@ static int lua_ModifyMenuItem(lua_State *L)
 	ptrT name(mir_utf8decodeT(luaL_checkstring(L, 2)));
 	HANDLE hIcolibItem = lua_touserdata(L, 3);
 	int flags = lua_tointeger(L, 4);
-
-	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
 
 	INT_PTR res = ::Menu_ModifyItem(hMenuItem, name, hIcolibItem, flags);
 	lua_pushinteger(L, res);
