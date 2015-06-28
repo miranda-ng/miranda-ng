@@ -127,10 +127,13 @@ namespace
 
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
-		if (bSubGroups)
-			mi.hParentMenu = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 20100004, Quotes_GetIconHandle(IDI_ICON_MAIN));
-		else
-			mi.hParentMenu = NULL;
+		if (bSubGroups) {
+			CLISTMENUITEM miroot = { 0 };
+			miroot.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+			miroot.name.a = QUOTES_PROTOCOL_NAME;
+			mi.hParentMenu = Menu_AddContactMenuItem(&miroot);
+		}
+		else mi.hParentMenu = NULL;
 
 		mi.name.t = LPGENT("Refresh");
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
