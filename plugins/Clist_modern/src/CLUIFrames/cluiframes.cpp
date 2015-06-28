@@ -751,7 +751,7 @@ static int CLUIFramesGetalClientFrame(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HGENMENU addFrameMenuItem(CLISTMENUITEM *pmi, int frameid, bool bMain)
+static HGENMENU addFrameMenuItem(TMO_MenuItem *pmi, int frameid, bool bMain)
 {
 	HGENMENU res = (bMain) ? Menu_AddMainMenuItem(pmi) : Menu_AddContextFrameMenuItem(pmi);
 	if (pmi->pszService != NULL)
@@ -767,8 +767,8 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	int framepos = id2pos(frameid);
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : g_pfwFrames[framepos].MenuHandles;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = root;
+	TMO_MenuItem mi = { 0 };
+	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
 	mi.flags = CMIF_CHECKED;
@@ -815,7 +815,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	fmh.MIAlignRoot = addFrameMenuItem(&mi, frameid, bMain);
 
 	// align top
-	mi.hParentMenu = fmh.MIAlignRoot;
+	mi.root = fmh.MIAlignRoot;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Top");
 	mi.pszService = CLUIFRAMESSETALIGNALTOP;
@@ -834,11 +834,11 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	fmh.MIAlignBottom = addFrameMenuItem(&mi, frameid, bMain);
 
 	// position root
-	mi.hParentMenu = root;
+	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Position");
 	mi.pszService = NULL;
-	mi.hParentMenu = addFrameMenuItem(&mi, frameid, bMain);
+	mi.root = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Up");
@@ -1487,17 +1487,17 @@ static int CLUIFramesLoadMainMenu()
 	}
 
 	// create root menu
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.name.a = LPGEN("Frames");
 	cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
-	mi.hParentMenu = cont.MainMenuItem;
+	mi.root = cont.MainMenuItem;
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
-		mi.icolibItem = g_pfwFrames[i].TitleBar.hicon;
+		mi.hIcolibItem = g_pfwFrames[i].TitleBar.hicon;
 		mi.flags = CMIF_TCHAR;
 		mi.position = separator++;
 		mi.name.t = g_pfwFrames[i].TitleBar.tbname ? g_pfwFrames[i].TitleBar.tbname : g_pfwFrames[i].name;
@@ -1511,7 +1511,7 @@ static int CLUIFramesLoadMainMenu()
 	separator += 100000;
 
 	// create "show all frames" menu
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.flags = 0;
 	mi.position = separator++;
 	mi.name.a = LPGEN("Show all frames");

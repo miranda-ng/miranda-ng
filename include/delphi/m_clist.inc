@@ -46,47 +46,6 @@ const
   }
   MS_CLIST_GETSTATUSMODEDESCRIPTION:PAnsiChar = 'CList/GetStatusModeDescription';
 
-const
-  CMIF_GRAYED     = 1;
-  CMIF_CHECKED    = 2;
-  CMIF_HIDDEN     = 4;   // only works on contact menus
-  CMIF_NOTOFFLINE = 8;   // item won't appear for contacts that are offline
-  CMIF_NOTONLINE  = 16;  //          "      online
-  CMIF_NOTONLIST  = 32;  // item won't appear on standard contacts
-  CMIF_NOTOFFLIST = 64;  // item won't appear on contacts that have the 'NotOnList' setting
-  CMIF_UNICODE    = 512; // will return TCHAR* instead of AnsiChar*
-  CMIF_KEEPUNTRANSLATED = 1024; // don't translate a menu item
-
-  CMIF_DEFAULT = 4096; // this menu item is the default one
-
-type
-// WARNING: do not use Translate(TS) for p(t)szName or p(t)szPopupName as they
-// are translated by the core, which may lead to double translation.
-// Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-  PCLISTMENUITEM = ^TCLISTMENUITEM;
-  TCLISTMENUITEM = record
-    szName         : TChar;      // [TRANSLATED-BY-CORE] text of the menu item
-    flags          : dword;      // combination of CMIF_*
-    position       : int;        // approx position on the menu, lower numbers go nearer the top
-    hIcon          : THANDLE;    // icon to put by the item, if this was *not* loaded from
-                                 // a resource, you can delete it straight after the call
-    pszService     : PAnsiChar;  // name of the service to call when the service is clicked
-    hParentMenu    : THANDLE;    // parent menu hamdle 
-    hLangpack      : int;        // plugin's hLangpack (added automatically)
-  end;
-
-function _AddMainMenuItem(mi:PCLISTMENUITEM; hlang:integer) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddMainMenuItem';
-
-function _AddContactMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddContactMenuItem';
-
-function _AddProtoMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddProtoMenuItem';
-
-function _AddStatusMenuItem(mi:PCLISTMENUITEM; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddStatusMenuItem';
-
 function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall;
              external AppDll name 'Menu_BuildContactMenu';
 

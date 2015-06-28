@@ -1018,8 +1018,8 @@ static INT_PTR OptProtosShow(WPARAM, LPARAM)
 
 int OptProtosLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("&Accounts...");
 	mi.pszService = MS_PROTO_SHOWACCMGR;

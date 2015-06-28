@@ -2090,21 +2090,21 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 
 void CJabberProto::BuildPrivacyMenu()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 200005;
-	mi.icolibItem = GetIconHandle(IDI_AGENTS);
+	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
 	mi.flags = CMIF_HIDDEN;
 	mi.name.a = LPGEN("Privacy Lists");
-	mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
+	mi.root = Menu_GetProtocolRoot(m_szModuleName);
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
 
 	mi.pszService = "/PrivacyLists";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.position = 3000040000;
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
+	mi.hIcolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
 	mi.name.t = LPGENT("List Editor...");
-	mi.hParentMenu = m_hPrivacyMenuRoot;
+	mi.root = m_hPrivacyMenuRoot;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
@@ -2120,10 +2120,10 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	char srvFce[MAX_PATH + 64];
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2000040000;
 	mi.flags = CMIF_TCHAR;
-	mi.hParentMenu = m_hPrivacyMenuRoot;
+	mi.root = m_hPrivacyMenuRoot;
 	mi.pszService = srvFce;
 
 	int i = 0;
@@ -2133,7 +2133,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		m_privacyMenuServiceAllocated = i;
 	}
 	mi.position++;
-	mi.icolibItem = Skin_GetIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
+	mi.hIcolibItem = Skin_GetIconHandle(m_privacyListManager.GetActiveListName() ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 	mi.name.t = LPGENT("<none>");
 	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi, m_szModuleName));
 
@@ -2147,7 +2147,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		}
 
 		mi.position++;
-		mi.icolibItem = Skin_GetIconHandle(
+		mi.hIcolibItem = Skin_GetIconHandle(
 			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 		mi.name.t = pList->GetListName();
 		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi, m_szModuleName));

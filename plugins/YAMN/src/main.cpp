@@ -141,9 +141,9 @@ void CheckMenuItems()
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 0xb0000000;
-	mi.icolibItem = g_GetIconHandle(0);
+	mi.hIcolibItem = g_GetIconHandle(0);
 	mi.name.a = LPGEN("Check &mail (All Account)");
 	mi.pszService = MS_YAMN_FORCECHECK;
 	hMenuItemMain = Menu_AddMainMenuItem(&mi);
@@ -152,7 +152,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_YAMN_CLISTCONTEXT;
 	hMenuItemCont = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
-	mi.icolibItem = g_GetIconHandle(1);
+	mi.hIcolibItem = g_GetIconHandle(1);
 	mi.name.a = LPGEN("Launch application");
 	mi.pszService = MS_YAMN_CLISTCONTEXTAPP;
 	hMenuItemContApp = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);

@@ -114,7 +114,7 @@ end;
 
 function Load(): int; cdecl;
 var
-  mi: TCListMenuItem;
+  mi:TMO_MenuItem;
 begin
   cp := Langpack_GetDefaultCodePage;
   SrvITxt := CreateServiceFunction(IMPORT_TXT_SERVICE, @ContactMenuCommand);

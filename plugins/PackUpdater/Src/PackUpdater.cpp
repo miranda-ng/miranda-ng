@@ -70,10 +70,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add cheking update menu item
 	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = IcoLib_GetIcon("check_update");
+	mi.hIcolibItem = IcoLib_GetIcon("check_update");
 	mi.name.t = LPGENT("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
@@ -82,7 +82,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	memset(&mi, 0, sizeof(mi));
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = IcoLib_GetIcon("empty_folder");
+	mi.hIcolibItem = IcoLib_GetIcon("empty_folder");
 	mi.name.t = LPGENT("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);

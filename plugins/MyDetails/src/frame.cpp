@@ -327,11 +327,11 @@ int CreateFrame()
 
 		// Create menu item
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
 		mi.position = 1;
-		mi.icolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
+		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.name.t = LPGENT("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);

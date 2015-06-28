@@ -255,56 +255,56 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FoldersPathChanged(0, 0);
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Version Information"), 2000089999, GetIconHandle(IDI_VI));
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 
 	mi.position = 2000089995;
 	mi.name.a = LPGEN("Copy to clipboard");
-	mi.icolibItem = GetIconHandle(IDI_VITOCLIP);
+	mi.hIcolibItem = GetIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089996;
 	mi.name.a = LPGEN("Store to file");
-	mi.icolibItem = GetIconHandle(IDI_VITOFILE);
+	mi.hIcolibItem = GetIconHandle(IDI_VITOFILE);
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089997;
 	mi.name.a = LPGEN("Show");
-	mi.icolibItem = GetIconHandle(IDI_VISHOW);
+	mi.hIcolibItem = GetIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089998;
 	mi.name.a = LPGEN("Show with DLLs");
-	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
+	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Upload");
-	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
+	mi.hIcolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Copy link to clipboard");
-	mi.icolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
+	mi.hIcolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
 	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	if (catchcrashes && !needrestart) {
 		mi.position = 2000099990;
 		mi.name.a = LPGEN("Open crash report directory");
-		mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 		mi.pszService = MS_CRASHDUMPER_URL;
 		Menu_AddMainMenuItem(&mi);
 	}
 
 	mi.position = 2000099991;
 	mi.name.a = LPGEN("Open online Version Info");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 

@@ -1727,10 +1727,10 @@ extern "C" int __declspec(dllexport) Load(void)
 		//function that will be called on menu click
 		hMenuService = CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
 
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 		mi.name.t = LPGENT("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.

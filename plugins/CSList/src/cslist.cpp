@@ -238,13 +238,13 @@ void addProtoStatusMenuItem(char *protoName)
 	if (!ServiceExists(buf))
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags =  CMIF_TCHAR;
-	mi.icolibItem = forms[0].hIcoLibItem;
+	mi.hIcolibItem = forms[0].hIcoLibItem;
 	mi.name.t = _T(MODULENAME);
 	mi.position = 2000040000;
 	mi.pszService = buf;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 	Menu_AddStatusMenuItem(&mi);
 
 	RegisterHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);

@@ -77,13 +77,13 @@ INT_PTR QuotesMenu_EnableDisable(WPARAM, LPARAM)
 
 void InitMenu()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 
 	mi.name.t = LPGENT("Enable/Disable Auto Update");
 	mi.position = 10100001;
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 	mi.pszService = g_pszAutoUpdateCmd;
 	g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
@@ -91,27 +91,27 @@ void InitMenu()
 
 	mi.name.t = LPGENT("Refresh All Quotes\\Rates");
 	mi.position = 20100001;
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 	mi.pszService = "Quotes/RefreshAll";
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 
 	mi.name.t = LPGENT("Currency Converter...");
 	mi.position = 20100002;
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 	mi.pszService = g_pszCurrencyConverter;
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 
 	mi.name.t = LPGENT("Export All Quotes");
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 	mi.pszService = "Quotes/ExportAll";
 	mi.position = 20100003;
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 
 	mi.name.t = LPGENT("Import All Quotes");
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 	mi.pszService = "Quotes/ImportAll";
 	mi.position = 20100004;
 	Menu_AddMainMenuItem(&mi);
@@ -122,22 +122,22 @@ void InitMenu()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
 	if (bSubGroups) {
-		CLISTMENUITEM miroot = { 0 };
-		miroot.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
+		TMO_MenuItem miroot = { 0 };
+		miroot.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		miroot.name.a = QUOTES_PROTOCOL_NAME;
-		mi.hParentMenu = Menu_AddContactMenuItem(&miroot, QUOTES_PROTOCOL_NAME);
+		mi.root = Menu_AddContactMenuItem(&miroot, QUOTES_PROTOCOL_NAME);
 	}
-	else mi.hParentMenu = NULL;
+	else mi.root = NULL;
 
 	mi.name.t = LPGENT("Refresh");
-	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
+	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "Quotes/RefreshContact";
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
 	CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 
 	mi.name.t = LPGENT("Open Log File...");
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.pszService = "Quotes/OpenLogFile";
 	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
@@ -146,14 +146,14 @@ void InitMenu()
 #ifdef CHART_IMPLEMENT
 	mi.name.t = LPGENT("Chart...");
 	mi.popupPosition = 2;
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.pszService = "Quotes/Chart";
 	g_hMenuChart = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
 #endif
 
 	mi.name.t = LPGENT("Edit Settings...");
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.pszService = "Quotes/EditSettings";
 	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 #ifdef CHART_IMPLEMENT

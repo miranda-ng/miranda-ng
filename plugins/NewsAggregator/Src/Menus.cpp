@@ -23,16 +23,16 @@ HGENMENU hService2[7];
 
 void InitMenu()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
 
 	mi.position = 10100001;
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
 		mi.name.t = LPGENT("Auto Update Enabled");
 	else
 		mi.name.t = LPGENT("Auto Update Disabled");
-	mi.icolibItem = GetIconHandle("main");
+	mi.hIcolibItem = GetIconHandle("main");
 	mi.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	hService2[0] = Menu_AddMainMenuItem(&mi);
 
@@ -42,28 +42,28 @@ void InitMenu()
 	hService2[1] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100002;
-	mi.icolibItem = GetIconHandle("addfeed");
+	mi.hIcolibItem = GetIconHandle("addfeed");
 	mi.name.t = LPGENT("Add Feed");
 	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
 	hService2[2] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100003;
-	mi.icolibItem = GetIconHandle("importfeeds");
+	mi.hIcolibItem = GetIconHandle("importfeeds");
 	mi.name.t = LPGENT("Import Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
 	hService2[3] = Menu_AddMainMenuItem(&mi);
 
 	mi.position = 20100004;
-	mi.icolibItem = GetIconHandle("exportfeeds");
+	mi.hIcolibItem = GetIconHandle("exportfeeds");
 	mi.name.t = LPGENT("Export Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
 	hService2[4] = Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
-	mi.hParentMenu = NULL;
+	mi.root = NULL;
 	mi.position = -0x7FFFFFFA;
 
-	mi.icolibItem = GetIconHandle("checkfeed");
+	mi.hIcolibItem = GetIconHandle("checkfeed");
 	mi.name.t = LPGENT("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
 	hService2[5] = Menu_AddContactMenuItem(&mi, MODULE);

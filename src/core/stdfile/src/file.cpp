@@ -336,9 +336,9 @@ static int SRFileProtoAck(WPARAM, LPARAM lParam)
 
 static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000020000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.name.a = LPGEN("&File");
 	mi.pszService = MS_FILE_SENDFILE;
 	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
@@ -434,8 +434,8 @@ int LoadSendRecvFileModule(void)
 {
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("File &transfers...");
 	mi.pszService = "FtMgr/Show"; //MS_PROTO_SHOWFTMGR;

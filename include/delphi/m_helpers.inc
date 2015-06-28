@@ -52,12 +52,12 @@ function  Srmm_GetNthIcon(hContact:TMCONTACT; index:int):pStatusIconData;
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
 function SkinPlaySound  (const name: PAnsiChar): int_ptr;
 
-function Menu_AddContextFrameMenuItem(mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddMainMenuItem        (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddContactMenuItem     (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddStatusMenuItem      (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddProtoMenuItem       (mi:PCLISTMENUITEM):HGENMENU;
-function Menu_AddTrayMenuItem        (mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddContextFrameMenuItem(mi:PMO_MenuItem):HGENMENU;
+function Menu_AddMainMenuItem        (mi:PMO_MenuItem):HGENMENU;
+function Menu_AddContactMenuItem     (mi:PMO_MenuItem):HGENMENU;
+function Menu_AddStatusMenuItem      (mi:PMO_MenuItem):HGENMENU;
+function Menu_AddProtoMenuItem       (mi:PMO_MenuItem):HGENMENU;
+function Menu_AddTrayMenuItem        (mi:PMO_MenuItem):HGENMENU;
 
 function UserInfo_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Options_AddPage (wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
@@ -384,33 +384,33 @@ begin
 end;
 
 
-function Menu_AddContextFrameMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddContextFrameMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   mi^.hLangpack:=hLangpack;
   result:=CallService(MS_CLIST_ADDCONTEXTFRAMEMENUITEM, 0,LPARAM(mi));
 end;
 
-function Menu_AddMainMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddMainMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   result:=_AddMainMenuItem(mi, hLangpack);
 end;
 
-function Menu_AddContactMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddContactMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   result:=_AddContactMenuItem(mi, nil, hLangpack);
 end;
 
-function Menu_AddStatusMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddStatusMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   result:=_AddStatusMenuItem(mi, nil, hLangpack);
 end;
 
-function Menu_AddProtoMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddProtoMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   result:=_AddProtoMenuItem(mi, nil, hLangpack);
 end;
 
-function Menu_AddTrayMenuItem(mi:PCLISTMENUITEM):HGENMENU;
+function Menu_AddTrayMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   mi^.hLangpack:=hLangpack;
   result:=CallService(MS_CLIST_ADDTRAYMENUITEM, 0,LPARAM(mi));

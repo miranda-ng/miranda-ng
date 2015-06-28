@@ -86,18 +86,18 @@ void InitContactMenus()
 {
 	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
 	mi.position = -2000006000;
-	mi.icolibItem = GetIconHandle("reply");
+	mi.hIcolibItem = GetIconHandle("reply");
 	mi.name.t = LPGENT("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006000;
-	mi.icolibItem = GetIconHandle("homepage");
+	mi.hIcolibItem = GetIconHandle("homepage");
 	mi.name.t = LPGENT("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
 	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);

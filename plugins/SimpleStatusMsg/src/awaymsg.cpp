@@ -416,7 +416,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	hWindowList2 = WindowList_Create();
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
@@ -427,14 +427,14 @@ int LoadAwayMsgModule(void)
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
-	mi.icolibItem = GetIconHandle(IDI_COPY);
+	mi.hIcolibItem = GetIconHandle(IDI_COPY);
 	mi.name.t = LPGENT("Copy Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
-	mi.icolibItem = GetIconHandle(IDI_GOTOURL);
+	mi.hIcolibItem = GetIconHandle(IDI_GOTOURL);
 	mi.name.t = LPGENT("&Go to URL in Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
 	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);

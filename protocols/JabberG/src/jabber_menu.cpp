@@ -198,12 +198,12 @@ void g_MenuInit(void)
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
 	// "Request authorization"
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	mi.pszService = "Jabber/ReqAuth";
 	g_hMenuRequestAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleRequestAuth);
@@ -212,7 +212,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/GrantAuth";
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	g_hMenuGrantAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuHandleGrantAuth);
 
@@ -220,7 +220,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/RevokeAuth";
 	mi.name.a = LPGEN("Revoke authorization");
 	mi.position = -2000001002;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	g_hMenuRevokeAuth = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRevokeAuth);
 
@@ -228,7 +228,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/ConvertChatContact";
 	mi.name.a = LPGEN("Convert");
 	mi.position = -1999901004;
-	mi.icolibItem = g_GetIconHandle(IDI_USER2ROOM);
+	mi.hIcolibItem = g_GetIconHandle(IDI_USER2ROOM);
 	g_hMenuConvert = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuConvertChatContact);
 
@@ -236,7 +236,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/AddToRoster";
 	mi.name.a = LPGEN("Add to roster");
 	mi.position = -1999901005;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
 	g_hMenuRosterAdd = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuRosterAdd);
 
@@ -244,7 +244,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/AddToBookmarks";
 	mi.name.a = LPGEN("Add to Bookmarks");
 	mi.position = -1999901006;
-	mi.icolibItem = g_GetIconHandle(IDI_BOOKMARKS);
+	mi.hIcolibItem = g_GetIconHandle(IDI_BOOKMARKS);
 	g_hMenuAddBookmark = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuBookmarkAdd);
 
@@ -252,7 +252,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/TransportLogin";
 	mi.name.a = LPGEN("Login/logout");
 	mi.position = -1999901007;
-	mi.icolibItem = g_GetIconHandle(IDI_LOGIN);
+	mi.hIcolibItem = g_GetIconHandle(IDI_LOGIN);
 	g_hMenuLogin = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuTransportLogin);
 
@@ -260,7 +260,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/TransportGetNicks";
 	mi.name.a = LPGEN("Resolve nicks");
 	mi.position = -1999901008;
-	mi.icolibItem = g_GetIconHandle(IDI_REFRESH);
+	mi.hIcolibItem = g_GetIconHandle(IDI_REFRESH);
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuTransportResolve);
 
@@ -268,7 +268,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/RunCommands";
 	mi.name.a = LPGEN("Commands");
 	mi.position = -1999901009;
-	mi.icolibItem = g_GetIconHandle(IDI_COMMAND);
+	mi.hIcolibItem = g_GetIconHandle(IDI_COMMAND);
 	g_hMenuCommands = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberContactMenuRunCommands);
 
@@ -276,7 +276,7 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/SendNote";
 	mi.name.a = LPGEN("Send Note");
 	mi.position = -1999901010;
-	mi.icolibItem = g_GetIconHandle(IDI_SEND_NOTE);
+	mi.hIcolibItem = g_GetIconHandle(IDI_SEND_NOTE);
 	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, JabberMenuSendNote);
 
@@ -284,44 +284,44 @@ void g_MenuInit(void)
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
 	mi.name.a = LPGEN("Send Presence");
 	mi.position = -1999901011;
-	mi.icolibItem = g_GetIconHandle(IDI_NOTES);
+	mi.hIcolibItem = g_GetIconHandle(IDI_NOTES);
 	g_hMenuDirectPresence[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_TCHAR;
-	mi.hParentMenu = g_hMenuDirectPresence[0];
+	mi.root = g_hMenuDirectPresence[0];
 	for (int i = 0; i < _countof(PresenceModeArray); i++) {
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[_countof(buf) - 2] = '0' + i;
 		mi.pszService = buf;
 		mi.name.t = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
-		mi.icolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
+		mi.hIcolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i + 1] = Menu_AddContactMenuItem(&mi);
 		CreateServiceFunctionParam(mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode);
 	}
 
 	mi.flags &= ~(CMIF_TCHAR);
-	mi.hParentMenu = NULL;
+	mi.root = NULL;
 
 	// Resource selector
 	mi.pszService = "Jabber/ResourceSelectorDummySvc";
 	mi.name.a = LPGEN("Jabber Resource");
 	mi.position = -1999901011;
-	mi.icolibItem = g_GetIconHandle(IDI_JABBER);
+	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesRoot = Menu_AddContactMenuItem(&mi);
 
 	mi.pszService = "Jabber/UseResource_last";
 	mi.name.a = LPGEN("Last Active");
 	mi.position = -1999901000;
-	mi.hParentMenu = g_hMenuResourcesRoot;
-	mi.icolibItem = g_GetIconHandle(IDI_JABBER);
+	mi.root = g_hMenuResourcesRoot;
+	mi.hIcolibItem = g_GetIconHandle(IDI_JABBER);
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN);
 
 	mi.pszService = "Jabber/UseResource_server";
 	mi.name.a = LPGEN("Server's Choice");
 	mi.position = -1999901000;
-	mi.icolibItem = g_GetIconHandle(IDI_NODE_SERVER);
+	mi.hIcolibItem = g_GetIconHandle(IDI_NODE_SERVER);
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER);
 }
@@ -417,7 +417,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	char text[256];
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = text;
 
 	CMString szTmp;
@@ -427,7 +427,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 			CreateProtoServiceParam(text, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES + i);
 			mi.name.a = "";
 			mi.position = i;
-			mi.hParentMenu = g_hMenuResourcesRoot;
+			mi.root = g_hMenuResourcesRoot;
 			m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 		}
 		if (i < item->arResources.getCount()) {
@@ -580,11 +580,11 @@ void CJabberProto::MenuInit()
 {
 	HGENMENU hJabberRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hJabberRoot == NULL) {
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = m_hProtoIcon;
+		mi.hIcolibItem = m_hProtoIcon;
 		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
@@ -594,59 +594,59 @@ void CJabberProto::MenuInit()
 		}
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hJabberRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hJabberRoot;
 
 	// "Bookmarks..."
 	mi.pszService = "/Bookmarks";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleBookmarks);
 	mi.name.a = LPGEN("Bookmarks");
 	mi.position = 200001;
-	mi.icolibItem = GetIconHandle(IDI_BOOKMARKS);
+	mi.hIcolibItem = GetIconHandle(IDI_BOOKMARKS);
 	m_hMenuBookmarks = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Services..."
 	mi.pszService = NULL;
 	mi.name.a = LPGEN("Services...");
 	mi.position = 200003;
-	mi.icolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
+	mi.hIcolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
 	HGENMENU hMenuServicesRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Service Discovery..."
-	mi.hParentMenu = hMenuServicesRoot;
+	mi.root = hMenuServicesRoot;
 	mi.pszService = "/ServiceDiscovery";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscovery);
 	mi.name.a = LPGEN("Service Discovery");
 	mi.position = 2000050001;
-	mi.icolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
+	mi.hIcolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
 	m_hMenuServiceDiscovery = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/MyTransports";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryMyTransports);
 	mi.name.a = LPGEN("Registered Transports");
 	mi.position = 2000050003;
-	mi.icolibItem = GetIconHandle(IDI_TRANSPORTL);
+	mi.hIcolibItem = GetIconHandle(IDI_TRANSPORTL);
 	m_hMenuSDMyTransports = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/Transports";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryTransports);
 	mi.name.a = LPGEN("Local Server Transports");
 	mi.position = 2000050004;
-	mi.icolibItem = GetIconHandle(IDI_TRANSPORT);
+	mi.hIcolibItem = GetIconHandle(IDI_TRANSPORT);
 	m_hMenuSDTransports = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/SD/Conferences";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
 	mi.name.a = LPGEN("Browse chatrooms");
 	mi.position = 2000050005;
-	mi.icolibItem = GetIconHandle(IDI_GROUP);
+	mi.hIcolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuSDConferences = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/Groupchat";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleJoinGroupchat);
 	mi.name.a = LPGEN("Create/Join group chat");
 	mi.position = 2000050006;
-	mi.icolibItem = GetIconHandle(IDI_GROUP);
+	mi.hIcolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuGroupchat = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Change Password..."
@@ -654,7 +654,7 @@ void CJabberProto::MenuInit()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleChangePassword);
 	mi.name.a = LPGEN("Change Password");
 	mi.position = 2000050007;
-	mi.icolibItem = GetIconHandle(IDI_KEYS);
+	mi.hIcolibItem = GetIconHandle(IDI_KEYS);
 	m_hMenuChangePassword = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "Roster editor"
@@ -662,7 +662,7 @@ void CJabberProto::MenuInit()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleRosterControl);
 	mi.name.a = LPGEN("Roster editor");
 	mi.position = 2000050009;
-	mi.icolibItem = GetIconHandle(IDI_AGENTS);
+	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
 	m_hMenuRosterControl = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// "XML Console"
@@ -670,14 +670,14 @@ void CJabberProto::MenuInit()
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleConsole);
 	mi.name.a = LPGEN("XML Console");
 	mi.position = 2000050010;
-	mi.icolibItem = GetIconHandle(IDI_CONSOLE);
+	mi.hIcolibItem = GetIconHandle(IDI_CONSOLE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/Notes";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandleNotes);
 	mi.name.a = LPGEN("Notes");
 	mi.position = 2000050011;
-	mi.icolibItem = GetIconHandle(IDI_NOTES);
+	mi.hIcolibItem = GetIconHandle(IDI_NOTES);
 	m_hMenuNotes = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	BuildPrivacyMenu();
@@ -692,7 +692,7 @@ void CJabberProto::MenuInit()
 
 	mi.pszService = NULL;
 	mi.position = 200006;
-	mi.hParentMenu = hJabberRoot;
+	mi.root = hJabberRoot;
 	mi.name.a = LPGEN("Resource priority");
 	mi.flags = CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
@@ -703,7 +703,7 @@ void CJabberProto::MenuInit()
 	mi.name.t = szName;
 	mi.position = 2000040000;
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-	mi.hParentMenu = m_hMenuPriorityRoot;
+	mi.root = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, _countof(srvFce), "/menuSetPriority/%d", 0);
 	bool needServices = !ProtoServiceExists(m_szModuleName, srvFce);
@@ -720,11 +720,11 @@ void CJabberProto::MenuInit()
 		mir_snprintf(srvFce, _countof(srvFce), "/menuSetPriority/%d", steps[i]);
 		if (steps[i] > 0) {
 			mir_sntprintf(szName, TranslateT("Increase priority by %d"), steps[i]);
-			mi.icolibItem = GetIconHandle(IDI_ARROW_UP);
+			mi.hIcolibItem = GetIconHandle(IDI_ARROW_UP);
 		}
 		else {
 			mir_sntprintf(szName, TranslateT("Decrease priority by %d"), -steps[i]);
-			mi.icolibItem = GetIconHandle(IDI_ARROW_DOWN);
+			mi.hIcolibItem = GetIconHandle(IDI_ARROW_DOWN);
 		}
 
 		if (needServices)

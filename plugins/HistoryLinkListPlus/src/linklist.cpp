@@ -58,9 +58,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
 	mi.name.t = LPGENT("&Create Linklist");
 	mi.pszService = "Linklist/MenuCommand";
 	Menu_AddContactMenuItem(&mi);

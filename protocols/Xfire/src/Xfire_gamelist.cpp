@@ -241,11 +241,11 @@ void Xfire_gamelist::clearGamelist() {
 //erstellt ein dummyeintrag
 void Xfire_gamelist::createDummyMenuItem()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 	mi.position = 500090001;
 	mi.name.a = Translate("Please wait...");
-	mi.icolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.hIcolibItem = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	dummymenuitem = Menu_AddMainMenuItem(&mi);
 }
 

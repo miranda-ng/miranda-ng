@@ -141,17 +141,43 @@ const
 
   SETTING_NOOFFLINEBOTTOM_DEFAULT = 0;
 
+const
+  CMIF_GRAYED     = 1;
+  CMIF_CHECKED    = 2;
+  CMIF_HIDDEN     = 4;   // only works on contact menus
+  CMIF_NOTOFFLINE = 8;   // item won't appear for contacts that are offline
+  CMIF_NOTONLINE  = 16;  //          "      online
+  CMIF_NOTONLIST  = 32;  // item won't appear on standard contacts
+  CMIF_NOTOFFLIST = 64;  // item won't appear on contacts that have the 'NotOnList' setting
+  CMIF_UNICODE    = 512; // will return TCHAR* instead of AnsiChar*
+  CMIF_KEEPUNTRANSLATED = 1024; // don't translate a menu item
+
+  CMIF_DEFAULT = 4096; // this menu item is the default one
+
 type
   PMO_MenuItem = ^TMO_MenuItem;
   TMO_MenuItem = record
-    position :int;
-    root     :HGENMENU;
-    szName   :TCHAR;
-    flags    :integer;
-    hIcon    :HICON;   // or hIcolibItem:THANDLE;
-    ownerdata:^pointer;
-    hLangpack:int;
+    position  :int;
+    pszService:PAnsiChar;
+    root      :HGENMENU;
+    szName    :TCHAR;
+    flags     :integer;
+    hIcon     :HICON;   // or hIcolibItem:THANDLE;
+    ownerdata :^pointer;
+    hLangpack :int;
   end;
+
+function _AddMainMenuItem(mi:PMO_MenuItem; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddMainMenuItem';
+
+function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddContactMenuItem';
+
+function _AddProtoMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddProtoMenuItem';
+
+function _AddStatusMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddStatusMenuItem';
 
 {
 This structure passed to CheckService.

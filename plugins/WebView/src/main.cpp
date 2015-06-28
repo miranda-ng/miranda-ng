@@ -169,7 +169,7 @@ extern "C" int __declspec(dllexport) Load()
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
 		//value is 0 if menu is enabled
@@ -178,8 +178,8 @@ extern "C" int __declspec(dllexport) Load()
 		/*DISABLE WEBVIEW*/
 		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
 
-		mi.hParentMenu = Menu_CreateRoot(MO_MAIN, _T(MODULENAME), 20200001);
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
+		mi.root = Menu_CreateRoot(MO_MAIN, _T(MODULENAME), 20200001);
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 		if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 			mi.name.t = LPGENT("Auto update disabled");
 		else
@@ -191,7 +191,7 @@ extern "C" int __declspec(dllexport) Load()
 		// Update all webview contacts
 		CreateServiceFunction("UpdateAll", UpdateAllMenuCommand);
 		mi.position = 500090002;
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.t = LPGENT("Update all Webview sites");
 		mi.pszService = "UpdateAll";
 		Menu_AddMainMenuItem(&mi);
@@ -199,7 +199,7 @@ extern "C" int __declspec(dllexport) Load()
 		// Mark All Webview Sites As Read
 		CreateServiceFunction("MarkAllSitesRead", MarkAllReadMenuCommand);
 		mi.position = 500090099;
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MARKALLREAD));
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MARKALLREAD));
 		mi.name.t = LPGENT("Mark all Webview sites as read");
 		mi.pszService = "MarkAllSitesRead";
 		Menu_AddMainMenuItem(&mi);
@@ -207,7 +207,7 @@ extern "C" int __declspec(dllexport) Load()
 		// open cache directory
 		CreateServiceFunction("OpenCacheFolder", OpenCacheDir);
 		mi.position = 500090099;
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_FOLDER));
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_FOLDER));
 		mi.name.t = LPGENT("Open cache folder");
 		mi.pszService = "OpenCacheFolder";
 		Menu_AddMainMenuItem(&mi);
@@ -218,7 +218,7 @@ extern "C" int __declspec(dllexport) Load()
 		TCHAR countername[100];
 		mir_sntprintf(countername, _countof(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
-		mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
+		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.t = countername;
 		mi.pszService = "Countdown";
 		hMenuItemCountdown = Menu_AddMainMenuItem(&mi);
@@ -229,44 +229,44 @@ extern "C" int __declspec(dllexport) Load()
 
 	CreateServiceFunction("Open web page", WebsiteMenuCommand);
 	mi.position = 100;
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_URL));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_URL));
 	mi.pszService = "Open web page";
 	mi.name.t = LPGENT("Open web page");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	CreateServiceFunction("OpenClose Window", DataWndMenuCommand);
 	mi.pszService = "OpenClose Window";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SHOW_HIDE));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SHOW_HIDE));
 	mi.name.t = LPGENT("Open/Close window");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	mi.position = 2222220;
 	mi.pszService = "UpdateData";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATE));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATE));
 	mi.name.t = LPGENT("Update data");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	CreateServiceFunction("ContactOptions", CntOptionsMenuCommand);
 	mi.pszService = "ContactOptions";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS));
 	mi.name.t = LPGENT("Contact options");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	CreateServiceFunction("ContactAlertOpts", CntAlertMenuCommand);
 	mi.pszService = "ContactAlertOpts";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT));
 	mi.name.t = LPGENT("Contact alert options");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	CreateServiceFunction("PingWebsite", PingWebsiteMenuCommand);
 	mi.pszService = "PingWebsite";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_PING));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_PING));
 	mi.name.t = LPGENT("Ping web site");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
 	CreateServiceFunction("StopDataProcessing", StpPrcssMenuCommand);
 	mi.pszService = "StopDataProcessing";
-	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_STOP));
+	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_STOP));
 	mi.name.t = LPGENT("Stop data processing");
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 

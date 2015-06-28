@@ -175,12 +175,12 @@ static void InitServices()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void addMenuItem(CLISTMENUITEM &mi)
+static void addMenuItem(TMO_MenuItem &mi)
 {
 	if (g_AddContListMI) {
-		HGENMENU save = mi.hParentMenu; mi.hParentMenu = NULL;
+		HGENMENU save = mi.root; mi.root = NULL;
 		Menu_AddContactMenuItem(&mi);
-		mi.hParentMenu = save;
+		mi.root = save;
 	}
 	Menu_AddMainMenuItem(&mi);
 }
@@ -194,54 +194,54 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
 	
 	// register menus
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = 1600000000;
-	mi.icolibItem = iconList[2].hIcolib;
+	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.t = LPGENT("New &Note");
 	mi.pszService = MODULENAME"/MenuCommandAddNew";
 	addMenuItem(mi);
 
 	mi.position = 1600000001;
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.t = LPGENT("New &Reminder");
 	mi.pszService = MODULENAME"/MenuCommandNewReminder";
 	addMenuItem(mi);
 
 	mi.position = 1600100000;
-	mi.icolibItem = iconList[3].hIcolib;
+	mi.hIcolibItem = iconList[3].hIcolib;
 	mi.name.t = LPGENT("&Show / Hide Notes");
 	mi.pszService = MODULENAME"/MenuCommandShowHide";
 	addMenuItem(mi);
 
 	mi.position = 1600100001;
-	mi.icolibItem = iconList[13].hIcolib;
+	mi.hIcolibItem = iconList[13].hIcolib;
 	mi.name.t = LPGENT("Vie&w Notes");
 	mi.pszService = MODULENAME"/MenuCommandViewNotes";
 	addMenuItem(mi);
 
 	mi.position = 1600100002;
-	mi.icolibItem = iconList[1].hIcolib;
+	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.t = LPGENT("&Delete All Notes");
 	mi.pszService = MODULENAME"/MenuCommandDeleteAll";
 	addMenuItem(mi);
 
 	mi.position = 1600100003;
-	mi.icolibItem = iconList[11].hIcolib;
+	mi.hIcolibItem = iconList[11].hIcolib;
 	mi.name.t = LPGENT("&Bring All to Front");
 	mi.pszService = MODULENAME"/MenuCommandBringAllFront";
 	addMenuItem(mi);
 
 	mi.position = 1600200000;
-	mi.icolibItem = iconList[6].hIcolib;
+	mi.hIcolibItem = iconList[6].hIcolib;
 	mi.name.t = LPGENT("&View Reminders");
 	mi.pszService = MODULENAME"/MenuCommandViewReminders";
 	addMenuItem(mi);
 
 	mi.position = 1600200001;
-	mi.icolibItem = iconList[5].hIcolib;
+	mi.hIcolibItem = iconList[5].hIcolib;
 	mi.name.t = LPGENT("D&elete All Reminders");
 	mi.pszService = MODULENAME"/MenuCommandDeleteReminders";
 	addMenuItem(mi);

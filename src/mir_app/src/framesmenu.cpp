@@ -45,18 +45,12 @@ INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
 
 static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
-
-	TMO_MenuItem tmi;
-	if (!cli.pfnConvertMenu(mi, &tmi))
-		return NULL;
-
-	tmi.root = mi->hParentMenu;
+	TMO_MenuItem *pmi = (TMO_MenuItem*)lParam;
 
 	FrameMenuExecParam *fmep = new FrameMenuExecParam();
-	fmep->szServiceName = mir_strdup(mi->pszService);
-	tmi.ownerdata = fmep;
-	return (INT_PTR)Menu_AddItem(hFrameMenuObject, &tmi);
+	fmep->szServiceName = mir_strdup(pmi->pszService);
+	pmi->ownerdata = fmep;
+	return (INT_PTR)Menu_AddItem(hFrameMenuObject, pmi);
 }
 
 // called with:

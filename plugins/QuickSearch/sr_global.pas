@@ -236,16 +236,16 @@ end;
 
 procedure AddRemoveMenuItemToMainMenu;
 var
-  cmi:TCLISTMENUITEM;
+  mi:TMO_MenuItem;
 begin
   if MainMenuItem<>0 then exit;
 
-  ZeroMemory(@cmi,sizeof(cmi));
-  cmi.szName.a    :=qs_name;
-  cmi.position    :=500050000;
-  cmi.pszService  :=QS_SHOWSERVICE;
-  cmi.hIcon       :=IcoLib_GetIcon(QS_QS,0);
-  MainMenuItem    :=Menu_AddMainMenuItem(@cmi);
+  ZeroMemory(@mi,sizeof(mi));
+  mi.szName.a    :=qs_name;
+  mi.position    :=500050000;
+  mi.pszService  :=QS_SHOWSERVICE;
+  mi.hIcon       :=IcoLib_GetIcon(QS_QS,0);
+  MainMenuItem    :=Menu_AddMainMenuItem(@mi);
 end;
 
 // -------- column functions ---------

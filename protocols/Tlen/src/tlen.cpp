@@ -264,8 +264,8 @@ void TlenProtocol::initMenuItems()
 	strncpy_s(text, m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hMenuRoot = Menu_CreateRoot(MO_MAIN, m_tszUserName, -1999901009, GetIconHandle(IDI_TLEN));
+	TMO_MenuItem mi = { 0 };
+	mi.root = hMenuRoot = Menu_CreateRoot(MO_MAIN, m_tszUserName, -1999901009, GetIconHandle(IDI_TLEN));
 	mi.pszService = text;
 
 	hMenuChats = NULL;
@@ -275,7 +275,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(pSvcName, &TlenProtocol::MUCMenuHandleMUC);
 	mi.name.a = LPGEN("Multi-User Conference");
 	mi.position = 2000050002;
-	mi.icolibItem = GetIconHandle(IDI_MUC);
+	mi.hIcolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
 	hMenuMUC = Menu_AddMainMenuItem(&mi);
 
@@ -283,19 +283,19 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(pSvcName, &TlenProtocol::MenuHandleInbox);
 	mi.name.a = LPGEN("Tlen Mail");
 	mi.position = 2000050003;
-	mi.icolibItem = GetIconHandle(IDI_MAIL);
+	mi.hIcolibItem = GetIconHandle(IDI_MAIL);
 	mi.pszService = text;
 	hMenuInbox = Menu_AddMainMenuItem(&mi);
 
 	// contact menu items
-	mi.hParentMenu = NULL;
+	mi.root = NULL;
 
 	// "Send picture"
 	mi.pszService = "/SendPicture";
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleSendPicture);
 	mi.name.a = LPGEN("Send picture");
 	mi.position = -2000019030;
-	mi.icolibItem = GetIconHandle(IDI_IMAGE);
+	mi.hIcolibItem = GetIconHandle(IDI_IMAGE);
 	hMenuPicture = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Invite to MUC"
@@ -303,7 +303,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(mi.pszService, &TlenProtocol::MUCContactMenuHandleMUC);
 	mi.name.a = LPGEN("Multi-User Conference");
 	mi.position = -2000019020;
-	mi.icolibItem = GetIconHandle(IDI_MUC);
+	mi.hIcolibItem = GetIconHandle(IDI_MUC);
 	hMenuContactMUC = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Invite to voice chat"
@@ -311,7 +311,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(mi.pszService, &TlenProtocol::VoiceContactMenuHandleVoice);
 	mi.name.a = LPGEN("Voice Chat");
 	mi.position = -2000019010;
-	mi.icolibItem = GetIconHandle(IDI_VOICE);
+	mi.hIcolibItem = GetIconHandle(IDI_VOICE);
 	hMenuContactVoice = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Request authorization"
@@ -319,7 +319,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleRequestAuth);
 	mi.name.a = LPGEN("Request authorization");
 	mi.position = -2000001001;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// "Grant authorization"
@@ -327,7 +327,7 @@ void TlenProtocol::initMenuItems()
 	CreateProtoService(mi.pszService, &TlenProtocol::ContactMenuHandleGrantAuth);
 	mi.name.a = LPGEN("Grant authorization");
 	mi.position = -2000001000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi, m_szModuleName);
 }
 

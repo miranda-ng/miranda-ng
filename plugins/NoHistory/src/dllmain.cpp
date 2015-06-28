@@ -245,19 +245,19 @@ void SrmmMenu_Load()
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	// create contact menu item
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = -300010;
 	mi.name.t = LPGENT("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
-	mi.icolibItem = hIconRemove;
+	mi.hIcolibItem = hIconRemove;
 	hMenuToggle = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -300005;
 	mi.name.t = LPGENT("Clear History");
 	mi.pszService = MS_NOHISTORY_CLEAR;
-	mi.icolibItem = hIconClear;
+	mi.hIcolibItem = hIconClear;
 	hMenuClear = Menu_AddContactMenuItem(&mi);
 
 	// add icon to srmm status icons

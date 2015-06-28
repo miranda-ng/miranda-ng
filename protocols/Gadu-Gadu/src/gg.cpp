@@ -235,9 +235,9 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 #define GGS_BLOCKUSER "/BlockUser"
 void GGPROTO::block_init()
 {
-   CLISTMENUITEM mi = { 0 };
+   TMO_MenuItem mi = { 0 };
    mi.position = -500050000;
-   mi.icolibItem = iconList[8].hIcolib;
+   mi.hIcolibItem = iconList[8].hIcolib;
    mi.name.a = LPGEN("&Block");
 	mi.pszService = GGS_BLOCKUSER;
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
@@ -257,28 +257,28 @@ void GGPROTO::block_uninit()
 // Menus initialization
 void GGPROTO::menus_init()
 {
-   CLISTMENUITEM mi = { 0 };
+   TMO_MenuItem mi = { 0 };
 
    HGENMENU hGCRoot, hCLRoot, hRoot = Menu_GetProtocolRoot(m_szModuleName);
    if (hRoot == NULL) {
       mi.name.t = m_tszUserName;
       mi.position = 500090000;
       mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-      mi.icolibItem = iconList[0].hIcolib;
+      mi.hIcolibItem = iconList[0].hIcolib;
       hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
    }
    else {
-      mi.hParentMenu = hRoot;
+      mi.root = hRoot;
       mi.flags = CMIF_TCHAR;
 
       mi.name.t = LPGENT("Conference");
       mi.position = 200001;
-      mi.icolibItem = iconList[14].hIcolib;
+      mi.hIcolibItem = iconList[14].hIcolib;
       hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
       mi.name.t = LPGENT("Contact list");
       mi.position = 200002;
-      mi.icolibItem = iconList[7].hIcolib;
+      mi.hIcolibItem = iconList[7].hIcolib;
       hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
       if (hMenuRoot)

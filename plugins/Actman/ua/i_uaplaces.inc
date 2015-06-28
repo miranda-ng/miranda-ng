@@ -324,7 +324,7 @@ begin
   end;
 end;
 
-function MakeMenuItem(mtype:tMenuType;clmi:PCListMenuItem):THANDLE;
+function MakeMenuItem(mtype:tMenuType;clmi:PMO_MenuItem):THANDLE;
 begin
   case mtype of
     main_menu   : result:=Menu_AddMainMenuItem(clmi);
@@ -342,7 +342,7 @@ var
   extra:pWideChar;
   ActItem:pMyActionItem;
   ActMItem,UAMenuItem:pUAMenuItem;
-  clmi:TCListMenuItem;
+  mi:TMO_MenuItem;
   i:integer;
   res:boolean;
 begin
@@ -376,36 +376,36 @@ begin
   // need to create popup menu
   if not res then
   begin
-    FillChar(clmi,SizeOf(clmi),0);
+    FillChar(mi,SizeOf(mi),0);
     if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
-      clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+      mi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
     else
-      clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
+      mi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
 
     if (UAMenuItem.szMenuPopup<>nil) and (UAMenuItem.szMenuPopup^<>#0) then
     begin
       if (UAMenuItem.menu_opt and UAF_MSUBVAR)<>0 then
-        clmi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
+        mi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
       else
-        clmi.szName.w:=UAMenuItem.szMenuPopup;
+        mi.szName.w:=UAMenuItem.szMenuPopup;
     end
     else
-      clmi.szName.w:=nil;
-    if clmi.szName.w=nil then
-      clmi.szName.w:=ActionItem.szActDescr;
+      mi.szName.w:=nil;
+    if mi.szName.w=nil then
+      mi.szName.w:=ActionItem.szActDescr;
 
-    clmi.hIcon   :=AddRootMenuIcon(clmi.szName.w);
-    clmi.position:=ActionItem.wSortIndex*10;
+    mi.hIcon   :=AddRootMenuIcon(mi.szName.w);
+    mi.position:=ActionItem.wSortIndex*10;
 
     // position in Root Menu
-    inc(clmi.position,GetMenuPosition(0,mtype,
+    inc(mi.position,GetMenuPosition(0,mtype,
         (UAMenuItem.menu_opt and UAF_MENUSEP)<>0));
 
-    UAMenuItem.hMenuRoot:=MakeMenuItem(mtype,@clmi);
+    UAMenuItem.hMenuRoot:=MakeMenuItem(mtype,@mi);
 
-    if (clmi.szName.w<>ActionItem.szActDescr) and
-       (clmi.szName.w<>UAMenuItem.szMenuPopup) then
-      mFreeMem(clmi.szName.w);
+    if (mi.szName.w<>ActionItem.szActDescr) and
+       (mi.szName.w<>UAMenuItem.szMenuPopup) then
+      mFreeMem(mi.szName.w);
 
     for i:=1 to HIGH(arMenuRec) do
     begin
@@ -423,55 +423,55 @@ begin
 
  // Now Menu Item preparing
 {}{}
-  FillChar(clmi,SizeOf(clmi),0);
+  FillChar(mi,SizeOf(mi),0);
   if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
-    clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+    mi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
   else
-    clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
+    mi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
   if (ActionItem.flags and (UAF_2STATE+UAF_PRESSED))<>(UAF_2STATE+UAF_PRESSED) then
   begin
-    clmi.hIcon:=ActionItem.hIcolibIcon;
+    mi.hIcon:=ActionItem.hIcolibIcon;
     extra:='0';
   end
   else
   begin
-    clmi.hIcon:=ActionItem.hIcolibIconPressed;
-    clmi.flags:=clmi.flags or CMIF_CHECKED;
+    mi.hIcon:=ActionItem.hIcolibIconPressed;
+    mi.flags:=mi.flags or CMIF_CHECKED;
     extra:='1';
   end;
 
   if (UAMenuItem.szMenuNameVars<>nil) and (UAMenuItem.szMenuNameVars^<>#0) then
   begin
     if (UAMenuItem.menu_opt and UAF_MNAMVAR)<>0 then
-      clmi.szName.w:=ParseVarString(UAMenuItem.szMenuNameVars,0,extra)
+      mi.szName.w:=ParseVarString(UAMenuItem.szMenuNameVars,0,extra)
     else
-      clmi.szName.w:=UAMenuItem.szMenuNameVars;
+      mi.szName.w:=UAMenuItem.szMenuNameVars;
   end
   else
-    clmi.szName.w:=nil;
-  if clmi.szName.w=nil then
-    clmi.szName.w:=ActionItem.szActDescr;
+    mi.szName.w:=nil;
+  if mi.szName.w=nil then
+    mi.szName.w:=ActionItem.szActDescr;
 
   if UAMenuItem.hMenuRoot<>0 then
   begin
-    clmi.hParentMenu:=UAMenuItem.hMenuRoot;
+    mi.root:=UAMenuItem.hMenuRoot;
   end;
 
-  clmi.pszService:=ActionItem.szNameID;
+  mi.pszService:=ActionItem.szNameID;
   if ActionItem.hMenuService=0 then
     ActionItem.hMenuService:=CreateServiceFunctionParam(
-      clmi.pszService,@ServiceCallWithFParam,ActionItem.dwActID);
+      mi.pszService,@ServiceCallWithFParam,ActionItem.dwActID);
 
-  clmi.position:=ActionItem.wSortIndex*10;
+  mi.position:=ActionItem.wSortIndex*10;
 {}{}
-  inc(clmi.position,GetMenuPosition(UAMenuItem.hMenuRoot,mtype,
+  inc(mi.position,GetMenuPosition(UAMenuItem.hMenuRoot,mtype,
       (UAMenuItem.menu_opt and UAF_MENUSEP)<>0));
 
-  UAMenuItem.hMenuItem:=MakeMenuItem(mtype,@clmi);
+  UAMenuItem.hMenuItem:=MakeMenuItem(mtype,@mi);
   //CallService(MenuServices[mtype],0,LPARAM(@clmi));
-  if (clmi.szName.w<>ActionItem.szActDescr) and
-     (clmi.szName.w<>UAMenuItem.szMenuNameVars) then
-    mFreeMem(clmi.szName.w);
+  if (mi.szName.w<>ActionItem.szActDescr) and
+     (mi.szName.w<>UAMenuItem.szMenuNameVars) then
+    mFreeMem(mi.szName.w);
 {}
 
 end;

@@ -17,20 +17,37 @@
 #define MO_PROTO   (-3)
 #define MO_STATUS  (-4)
 
-#define SETTING_NOOFFLINEBOTTOM_DEFAULT 0
+#define CMIF_GRAYED     1
+#define CMIF_CHECKED    2
+#define CMIF_HIDDEN     4    //only works on contact menus
+#define CMIF_NOTOFFLINE 8	  //item won't appear for contacts that are offline
+#define CMIF_NOTONLINE  16	  //          "      online
+#define CMIF_NOTONLIST  32   //item won't appear on standard contacts
+#define CMIF_NOTOFFLIST 64   //item won't appear on contacts that have the 'NotOnList' setting
+
+#define CMIF_UNICODE        512      //will return TCHAR* instead of char*
+#if defined(_UNICODE)
+#define CMIF_TCHAR       CMIF_UNICODE      //will return TCHAR* instead of char*
+#else
+#define CMIF_TCHAR       0       //will return char*, as usual
+#endif
+
+#define CMIF_KEEPUNTRANSLATED  1024 // don't translate a menu item
+#define CMIF_DEFAULT           4096 // this menu item is the default one
 
 struct TMO_MenuItem
 {
 	int position;
+	const char *pszService;
 	HGENMENU root;
 	MAllStrings name;
-	int flags;
+	int flags; // set of CMIF_* constants
 	union {
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
 	void *ownerdata;
-	int   hLangpack;
+	int hLangpack;
 };
 
 /*

@@ -284,16 +284,16 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		TCHAR szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
 
-		CLISTMENUITEM mi = { 0 };
-		mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
+		TMO_MenuItem mi = { 0 };
+		mi.root = Menu_GetProtocolRoot(m_szModuleName);
 		mi.name.t = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi);
 	}
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2000060000;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 	mi.flags = CMIF_UNICODE;
 	mi.pszService = szServiceFunction;
 
@@ -312,11 +312,11 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 			else
 				mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
 
-			mi.icolibItem = hXStatusAdvancedStatusIcons[i];
+			mi.hIcolibItem = hXStatusAdvancedStatusIcons[i];
 		}
 		else {
 			mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
-			mi.icolibItem = NULL;
+			mi.hIcolibItem = NULL;
 		}
 		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
@@ -332,9 +332,9 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 	char szServiceFunction[MAX_PATH];
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 
-	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(CLISTMENUITEM*, const char*, int);
+	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(TMO_MenuItem*, const char*, int);
 	if (bIsMain) {
 		fnAddFunc = Menu_AddProtoMenuItem;
 
@@ -342,12 +342,12 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		if (hRootMenu == NULL) {
 			mi.name.t = m_tszUserName;
 			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			mi.icolibItem = g_hMainIcon;
+			mi.hIcolibItem = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
 
 		mi.position = 20003;
-		mi.hParentMenu = hRootMenu;
+		mi.root = hRootMenu;
 	}
 	else {
 		fnAddFunc = Menu_AddContactMenuItem;
@@ -356,16 +356,16 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 	mi.flags = 0;
 	mi.name.a = LPGEN("Services...");
-	mi.icolibItem = g_hMainIcon;
+	mi.hIcolibItem = g_hMainIcon;
 	hRootMenu = fnAddFunc(&mi, m_szModuleName, hLangpack);
 
-	mi.hParentMenu = hRootMenu;
+	mi.root = hRootMenu;
 	mi.pszService = szServiceFunction;
 
 	for (size_t i = 0; i < dwCount; i++) {
 		mi.pszService = pgdiItems[i].szName;
 		mi.position = int(lPosition + i);
-		mi.icolibItem = pgdiItems[i].hIcolib;
+		mi.hIcolibItem = pgdiItems[i].hIcolib;
 		mi.name.a = pgdiItems[i].szDescr;
 		hResult[i] = fnAddFunc(&mi, m_szModuleName, hLangpack);
 		Menu_ConfigureItem(hResult[i], MCI_OPT_EXECPARAM, lPopupPosition);

@@ -60,14 +60,14 @@ void CSkypeProto::InitMenus()
 
 	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 
 	// Request authorization
 	mi.pszService = MODULE"/RequestAuth";
 	mi.name.t = LPGENT("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
-	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnRequestAuth>);
 
@@ -75,28 +75,28 @@ void CSkypeProto::InitMenus()
 	mi.pszService = MODULE"/GrantAuth";
 	mi.name.t = LPGENT("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
-	mi.icolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnGrantAuth>);
 
 	mi.pszService = MODULE"/GetHistory";
 	mi.name.t = LPGENT("Get server history");
 	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
-	mi.icolibItem = GetIconHandle("synchistory");
+	mi.hIcolibItem = GetIconHandle("synchistory");
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
 
 	mi.pszService = MODULE"/BlockContact";
 	mi.name.t = LPGENT("Block contact");
 	mi.position = CMI_POSITION + CMI_BLOCK;
-	mi.icolibItem = GetIconHandle("user_block");
+	mi.hIcolibItem = GetIconHandle("user_block");
 	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
 
 	mi.pszService = MODULE"/UnblockContact";
 	mi.name.t = LPGENT("Unblock contact");
 	mi.position = CMI_POSITION + CMI_UNBLOCK;
-	mi.icolibItem = GetIconHandle("user_unblock");
+	mi.hIcolibItem = GetIconHandle("user_unblock");
 	ContactMenuItems[CMI_UNBLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::UnblockContact>);
 }
@@ -111,22 +111,22 @@ int CSkypeProto::OnInitStatusMenu()
 	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hStatusMenuRoot)
 	{
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = Skin_GetIconHandle("main");
+		mi.hIcolibItem = Skin_GetIconHandle("main");
 		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = hStatusMenuRoot;
+	TMO_MenuItem mi = { 0 };
+	mi.root = hStatusMenuRoot;
 
 	mi.pszService = "/CreateNewChat";
 	CreateProtoService(mi.pszService, &CSkypeProto::SvcCreateChat);
 	mi.name.a = LPGEN("Create new chat");
 	mi.position = SMI_POSITION + SMI_CREATECHAT;
-	mi.icolibItem = GetIconHandle("conference");
+	mi.hIcolibItem = GetIconHandle("conference");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	return 0;
 }

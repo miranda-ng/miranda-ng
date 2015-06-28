@@ -73,28 +73,28 @@ int LoadHelpModule(void)
 	CreateServiceFunction("Help/WebsiteCommand", WebsiteCommand);
 	CreateServiceFunction("Help/BugCommand", BugCommand);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
+	TMO_MenuItem mi = { 0 };
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
 
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.position = 2000090000;
 	mi.name.a = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
 	mi.position = -500050000;
 	mi.name.a = LPGEN("&Support");
 	mi.pszService = "Help/IndexCommand";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
 	mi.position = 2000050000;
 	mi.name.a = LPGEN("&Miranda NG homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
 
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.position = 2000040000;
 	mi.name.a = LPGEN("&Report bug");
 	mi.pszService = "Help/BugCommand";

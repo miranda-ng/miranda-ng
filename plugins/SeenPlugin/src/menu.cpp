@@ -72,7 +72,7 @@ void InitMenuitem()
 {
 	CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.name.a = LPGEN("Last seen");
 	mi.pszService = "LastSeenUserDetails";

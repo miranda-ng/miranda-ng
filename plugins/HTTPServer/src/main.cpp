@@ -921,9 +921,9 @@ extern "C" __declspec(dllexport) int Load()
 	indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
 
 	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
-		CLISTMENUITEM mi = { 0 };
+		TMO_MenuItem mi = { 0 };
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;
 		mi.name.a = LPGENT("Enable HTTP server");
 		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;

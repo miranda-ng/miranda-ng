@@ -234,7 +234,7 @@ end;
 // init plugin
 function OnModulesLoad(awParam{0}:WPARAM; alParam{0}:LPARAM):integer; cdecl;
 var
-  menuItem:TCLISTMENUITEM;
+  menuItem:TMO_MenuItem;
 begin
   // register
   hppRegisterGridOptions;

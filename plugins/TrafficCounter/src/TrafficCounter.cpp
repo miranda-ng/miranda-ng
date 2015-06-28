@@ -1047,10 +1047,10 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM wParam, LPARAM lParam)
 
 void Traffic_AddMainMenuItem(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.name.a = LPGEN("Toggle traffic counter");
 	mi.pszService = "TrafficCounter/ShowHide";
 

@@ -30,7 +30,7 @@ end;
 
 procedure CreateMenu;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
 begin
   FillChar(mi, sizeof(mi), 0);
   mi.pszService:=MS_RADIO_RECORD;

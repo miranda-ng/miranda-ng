@@ -260,10 +260,10 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.pszService = text;
 
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1001;
 	Menu_AddStatusMenuItem(&mi);
@@ -274,7 +274,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mir_strcpy(tDest, "/Tweet");
 	mi.name.t = LPGENT("Send Tweet...");
 	mi.position = 200001;
-	mi.icolibItem = GetIconHandle("tweet");
+	mi.hIcolibItem = GetIconHandle("tweet");
 	Menu_AddStatusMenuItem(&mi);
 	return 0;
 }

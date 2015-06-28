@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct  {
 	WORD id;
 	int iconId;
-	CLISTMENUITEM mi;
+	TMO_MenuItem mi;
 }
 	CListIntMenuItem, *lpCListIntMenuItem;
 
@@ -79,15 +79,14 @@ static INT_PTR statusHotkeys[MAX_STATUS_COUNT];
 TMO_IntMenuItem **hStatusMainMenuHandles;
 int  hStatusMainMenuHandlesCnt;
 
-typedef struct
+struct tStatusMenuHandles
 {
 	int protoindex;
 	int protostatus[MAX_STATUS_COUNT];
 	TMO_IntMenuItem *menuhandle[MAX_STATUS_COUNT];
-}
-tStatusMenuHandles, *lpStatusMenuHandles;
+};
 
-lpStatusMenuHandles hStatusMenuHandles;
+tStatusMenuHandles *hStatusMenuHandles;
 int hStatusMenuHandlesCnt;
 
 struct BuildContactParam
@@ -179,38 +178,35 @@ MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 	return Menu_BuildMainMenu();
 }
 
-MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(CLISTMENUITEM *mi, int _hLang)
+MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, int _hLang)
 {
-	TMO_MenuItem tmi;
-	if (!cli.pfnConvertMenu(mi, &tmi))
-		return 0;
-
 	MainMenuExecParam *mmep = (MainMenuExecParam*)mir_alloc(sizeof(MainMenuExecParam));
 	if (mmep == NULL)
 		return 0;
 
 	//we need just one parametr.
-	mmep->szServiceName = mir_strdup(mi->pszService);
-	mmep->szMenuName = tmi.name.t;
-	tmi.ownerdata = mmep;
+	mmep->szServiceName = mir_strdup(pmi->pszService);
+	mmep->szMenuName = pmi->name.t;
+	pmi->ownerdata = mmep;
 
-	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, &tmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi);
 	pimi->hLangpack = _hLang;
 	mmep->pimi = pimi;
 
-	char* name;
+	const char* name;
 	bool needFree = false;
 
-	if (mi->pszService)
-		name = mi->pszService;
-	else if (mi->flags & CMIF_UNICODE) {
-		name = mir_t2a(mi->name.t);
+	if (pmi->pszService)
+		name = pmi->pszService;
+	else if (pmi->flags & CMIF_UNICODE) {
+		name = mir_t2a(pmi->name.t);
 		needFree = true;
 	}
-	else name = mi->name.a;
+	else name = pmi->name.a;
 
 	Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, name);
-	if (needFree) mir_free(name);
+	if (needFree)
+		mir_free((void*)name);
 
 	return pimi;
 }
@@ -249,21 +245,17 @@ struct ContactMenuExecParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *pszProto, int _hLang)
+MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *pszProto, int _hLang)
 {
-	TMO_MenuItem tmi;
-	if (!cli.pfnConvertMenu(mi, &tmi))
-		return 0;
-
 	// owner data
 	ContactMenuExecParam *cmep = (ContactMenuExecParam*)mir_calloc(sizeof(ContactMenuExecParam));
-	cmep->szServiceName = mir_strdup(mi->pszService);
+	cmep->szServiceName = mir_strdup(pmi->pszService);
 	if (pszProto != NULL)
 		cmep->pszContactOwner = mir_strdup(pszProto);
-	tmi.ownerdata = cmep;
+	pmi->ownerdata = cmep;
 
 	// may be need to change how UniqueName is formed?
-	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, &tmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, pmi);
 	pimi->hLangpack = _hLang;
 	cmep->pimi = pimi;
 
@@ -271,15 +263,15 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(CLISTMENUITEM *mi, const char *psz
 		pszProto = "";
 
 	char buf[256];
-	if (mi->pszService) {
-		mir_snprintf(buf, "%s/%s", pszProto, (mi->pszService) ? mi->pszService : "");
+	if (pmi->pszService) {
+		mir_snprintf(buf, "%s/%s", pszProto, (pmi->pszService) ? pmi->pszService : "");
 		Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
 	}
-	else if (mi->name.t) {
-		if (tmi.flags & CMIF_UNICODE)
-			mir_snprintf(buf, "%s/NoService/%S", pszProto, mi->name.t);
+	else if (pmi->name.t) {
+		if (pmi->flags & CMIF_UNICODE)
+			mir_snprintf(buf, "%s/NoService/%S", pszProto, pmi->name.t);
 		else
-			mir_snprintf(buf, "%s/NoService/%s", pszProto, mi->name.a);
+			mir_snprintf(buf, "%s/NoService/%s", pszProto, pmi->name.a);
 		Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
 	}
 	return pimi;
@@ -376,32 +368,28 @@ struct StatusMenuExecParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(CLISTMENUITEM *mi, const char *pszProto, int _hLangpack)
+MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszProto, int _hLangpack)
 {
-	TMO_MenuItem tmi;
-	if (!cli.pfnConvertMenu(mi, &tmi))
-		return 0;
-
-	TMO_IntMenuItem *pRoot = MO_GetIntMenuItem(mi->hParentMenu);
+	TMO_IntMenuItem *pRoot = MO_GetIntMenuItem(pmi->root);
 
 	// owner data
 	StatusMenuExecParam *smep = NULL;
-	if (mi->pszService) {
+	if (pmi->pszService) {
 		smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->custom = TRUE;
-		smep->svc = mir_strdup(mi->pszService);
+		smep->svc = mir_strdup(pmi->pszService);
 		smep->szProto = mir_strdup(pszProto);
-		tmi.ownerdata = smep;
+		pmi->ownerdata = smep;
 	}
 
-	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &tmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, pmi);
 	pimi->hLangpack = _hLangpack;
 	if (smep)
 		smep->hMenuItem = pimi;
 
 	char buf[MAX_PATH + 64];
 	char *p = (pRoot) ? mir_t2a(pRoot->mi.name.t) : NULL;
-	mir_snprintf(buf, "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
+	mir_snprintf(buf, "%s/%s", (p) ? p : "", pmi->pszService ? pmi->pszService : "");
 	mir_free(p);
 
 	Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
@@ -1062,23 +1050,6 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int fnConvertMenu(CLISTMENUITEM *mi, TMO_MenuItem *pmi)
-{
-	if (mi == NULL || pmi == NULL)
-		return FALSE;
-
-	memset(pmi, 0, sizeof(TMO_MenuItem));
-	pmi->root = mi->hParentMenu;
-	pmi->flags = mi->flags;
-	pmi->hIcolibItem = mi->icolibItem;
-	pmi->name.a = mi->name.a;
-	pmi->position = mi->position;
-	pmi->hLangpack = mi->hLangpack;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static MenuProto* FindProtocolMenu(const char *proto)
 {
 	for (int i = 0; i < cli.menuProtoCount; i++)
@@ -1108,7 +1079,7 @@ static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTOCOL MENU
 
-MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(CLISTMENUITEM *mi, const char *pszProto, int _hLangpack)
+MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto, int _hLangpack)
 {
 	if (mi == NULL)
 		return NULL;
@@ -1197,11 +1168,11 @@ void InitCustomMenus(void)
 
 	// add exit command to menu
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	Menu_AddMainMenuItem(&mi);
 
 	cli.currentStatusMenuItem = ID_STATUS_OFFLINE;

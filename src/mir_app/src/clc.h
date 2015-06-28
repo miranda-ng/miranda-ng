@@ -111,7 +111,7 @@ void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 /* clistmenus.c */
 HGENMENU fnGetProtocolMenu(const char*);
 int      fnGetProtocolVisibility(const char* accName);
-int      fnConvertMenu(CLISTMENUITEM*, TMO_MenuItem*);
+int      fnConvertMenu(TMO_MenuItem*, TMO_MenuItem*);
 int      fnGetAverageMode(int *pNetProtoCount);
 
 int      fnGetAccountIndexByPos(int Pos);

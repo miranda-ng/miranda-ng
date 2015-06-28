@@ -289,9 +289,9 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR InitMenu()
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 100000000;
-	mi.icolibItem = GetIconHandle(MENU_NAME);
+	mi.hIcolibItem = GetIconHandle(MENU_NAME);
 	mi.name.a = MENU_NAME;
 	mi.pszService = SS_SERVICE_NAME;
 	hSSMenuToggleOnOff = Menu_AddMainMenuItem(&mi);

@@ -41,7 +41,7 @@ var
   srch:tTrayRadioStation;
   pc:pAnsiChar;
   buf:array [0..63] of AnsiChar;
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
 begin
   trayStations.sortFunc:=@MyStrSort;
 
@@ -91,7 +91,7 @@ begin
   // build menu from sorted list
   FillChar(mi,SizeOf(mi),0);
   mi.Flags :=CMIF_KEEPUNTRANSLATED or CMIF_UNICODE;
-  mi.hParentMenu:=trayparent;
+  mi.root:=trayparent;
   pc:=StrCopyE(@buf,'mRadio/Choose');
   for i:=0 to trayStations.realCount-1 do
   begin
@@ -132,7 +132,7 @@ end;
 
 procedure CreateTrayMenu;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
   playstr:pWideChar;
   ico:pAnsiChar;
 begin
@@ -146,7 +146,7 @@ begin
     trayradioparent:=Menu_AddMainMenuItem(@mi);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.hParentMenu:=trayradioparent;
+  mi.root:=trayradioparent;
 
   if PluginStatus=ID_STATUS_ONLINE then
   begin

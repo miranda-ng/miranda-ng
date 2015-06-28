@@ -99,8 +99,8 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	BOOL bModifyMenu = FALSE;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.icolibItem = iconList[bContactRate].hIcolib;
+	TMO_MenuItem mi = { 0 };
+	mi.hIcolibItem = iconList[bContactRate].hIcolib;
 	mi.flags = CMIF_TCHAR;
 	if (!bContactRate)
 		mi.name.t = FAVMENUROOTNAME;
@@ -121,7 +121,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	Menu_ConfigureItem(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
 
-	mi.hParentMenu = hFavoriteContactMenu;
+	mi.root = hFavoriteContactMenu;
 	if (!hFavoriteContactMenuItems) {
 		hFavoriteContactMenuItems = (HGENMENU *)malloc(sizeof(HANDLE) * _countof(rates));
 		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE) * _countof(rates));
@@ -133,7 +133,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		if (bModifyMenu && hFavoriteContactMenuItems[i])
 			Menu_ModifyItem(hFavoriteContactMenuItems[i], NULL, iconList[i].hIcolib, mi.flags);
 		else {
-			mi.icolibItem = iconList[i].hIcolib;
+			mi.hIcolibItem = iconList[i].hIcolib;
 			mi.name.t = rates[i];
 			mi.pszService = CLUI_FAVSETRATE;
 			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
@@ -141,7 +141,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		}
 	}
 
-	mi.icolibItem = NULL;
+	mi.hIcolibItem = NULL;
 	mi.flags = CMIF_TCHAR | (db_get_b(hContact, "CList", "noOffline", 0) ? CMIF_CHECKED : 0);
 	if (bModifyMenu && hShowIfOflineItem)
 		Menu_ModifyItem(hShowIfOflineItem, NULL, INVALID_HANDLE_VALUE, mi.flags);

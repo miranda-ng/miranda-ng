@@ -69,9 +69,9 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 int GGPROTO::img_init()
 {
 	// Send image contact menu item
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000010000;
-	mi.icolibItem = iconList[11].hIcolib;
+	mi.hIcolibItem = iconList[11].hIcolib;
 	mi.name.a = LPGEN("&Image");
 	mi.pszService = GGS_SENDIMAGE;
 	hImageMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);

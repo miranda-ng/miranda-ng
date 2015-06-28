@@ -381,10 +381,10 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction", CloseAction);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 200000;
 	mi.pszService = "CList/SetContactIgnore";
-	mi.icolibItem = iconItem[1].hIcolib;
+	mi.hIcolibItem = iconItem[1].hIcolib;
 	mi.name.a = LPGEN("&Contact list settings...");
 	Menu_AddContactMenuItem(&mi);
 

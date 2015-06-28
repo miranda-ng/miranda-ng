@@ -611,10 +611,10 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
-	mi.icolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
+	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
 	mi.name.t = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
@@ -631,32 +631,32 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 		mi.name.t = LPGENT("Set status message"); // will never be shown
 		mi.position = 1000020000;
-		mi.icolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MSGICON));
+		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MSGICON));
 		mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
 		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.flags = CMIF_TCHAR;
-		mi.icolibItem = NULL;
+		mi.hIcolibItem = NULL;
 		mi.position = 1000020000;
 		mi.name.t = LPGENT("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.flags = CMIF_TCHAR;
-		mi.hParentMenu = g_hToggleSOEContactMenuItem;
+		mi.root = g_hToggleSOEContactMenuItem;
 		mi.position = 1000020000;
 
-		mi.icolibItem = iconList[1].hIcolib;
+		mi.hIcolibItem = iconList[1].hIcolib;
 		mi.name.t = LPGENT("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
 		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.icolibItem = iconList[0].hIcolib;
+		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.name.t = LPGENT("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
 		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.icolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT));
+		mi.hIcolibItem = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT));
 		mi.name.t = LPGENT("Use the default setting");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
 		g_hAutoreplyUseDefaultContactMenuItem = Menu_AddContactMenuItem(&mi);

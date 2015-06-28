@@ -135,10 +135,10 @@ void CGlobals::reloadSystemModulesChanged()
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
@@ -324,16 +324,16 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -500050005;
-	mi.icolibItem = PluginConfig.g_iconContainer;
+	mi.hIcolibItem = PluginConfig.g_iconContainer;
 	mi.name.a = LPGEN("&Messaging settings...");
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (sendLater->isAvail()) {
 		mi.position = -500050006;
-		mi.icolibItem = 0;
+		mi.hIcolibItem = 0;
 		mi.name.a = LPGEN("&Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);

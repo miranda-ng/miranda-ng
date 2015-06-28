@@ -183,9 +183,9 @@ void SvcEMailRebuildMenu()
 
 		if (!ghMenuItem) {
 			// insert contact menuitem
-			CLISTMENUITEM mi = { 0 };
+			TMO_MenuItem mi = { 0 };
 			mi.position = -2000010000;
-			mi.icolibItem = IcoLib_GetIcon(ICO_BTN_EMAIL);
+			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EMAIL);
 			mi.name.a = "&E-mail";
 			mi.pszService = MS_EMAIL_SENDEMAIL;
 			ghMenuItem = Menu_AddContactMenuItem(&mi);

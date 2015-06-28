@@ -551,7 +551,7 @@ end;
 
 function InitProc(aGetStatus:boolean=false):integer;
 var
-  mi:TCListMenuItem;
+  mi:TMO_MenuItem;
   sid:TSKINICONDESC;
 begin
   if aGetStatus then
@@ -582,7 +582,7 @@ begin
   DestroyIcon(sid.hDefaultIcon);
 
   FillChar(mi, sizeof(mi), 0);
-  mi.hParentMenu:=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuReportPos, 0, 0);
+  mi.root      :=Menu_CreateRoot(MO_MAIN, 'Watrack', MenuReportPos, 0, 0);
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnReport,0);
   mi.szName.a  :='Create WATrack report';
   mi.pszService:=MS_WAT_MAKEREPORT;

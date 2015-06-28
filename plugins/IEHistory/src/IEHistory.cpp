@@ -75,11 +75,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	/// menu items
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.name.t = LPGENT("View &history");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090000;
-	mi.icolibItem = hIcon;
+	mi.hIcolibItem = hIcon;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&mi);
 

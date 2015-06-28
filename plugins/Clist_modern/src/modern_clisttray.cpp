@@ -170,16 +170,11 @@ static INT_PTR BuildTrayMenu(WPARAM, LPARAM)
 
 static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	TMO_MenuItem *pmi = (TMO_MenuItem*)lParam;
+	pmi->ownerdata = mir_strdup(pmi->pszService);
 
-	TMO_MenuItem tmi;
-	if (!pcli->pfnConvertMenu(mi, &tmi))
-		return NULL;
-
-	tmi.ownerdata = mir_strdup(mi->pszService);
-
-	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, &tmi);
-	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, mi->pszService);
+	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, pmi);
+	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, pmi->pszService);
 	return (INT_PTR)hNewItem;
 }
 
@@ -314,45 +309,45 @@ void InitTrayMenus(void)
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
 
 	// add exit command to menu
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 100000;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.name.a = LPGEN("&Hide/show");
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	hTrayHideShowMainMenuItem = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 200000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
 	mi.name.a = LPGEN("&Find/add contacts...");
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 300000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszService = "FakeService_1";
 	mi.name.a = LPGEN("&Main menu");
 	hTrayMainMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 300100;
 	mi.pszService = "FakeService_2";
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
 	mi.name.a = LPGEN("&Status");
 	hTrayStatusMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 400000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
 	mi.name.a = LPGEN("&Options...");
 	Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 500000;
-	mi.icolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "Help/AboutCommand";
 	mi.name.a = LPGEN("&About");
 	Menu_AddTrayMenuItem(&mi);

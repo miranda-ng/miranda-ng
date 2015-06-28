@@ -84,12 +84,12 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// Add cheking update menu item
 	InitCheck();
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 400010000;
 #if MIRANDA_VER >= 0x0A00
-	mi.icolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = iconList[0].hIcolib;
 #else
-	mi.icolibItem = IcoLib_GetIconHandle("check_update");
+	mi.hIcolibItem = IcoLib_GetIconHandle("check_update");
 #endif
 	mi.name.a = LPGEN("Check for updates");
 	mi.pszService = MS_PU_CHECKUPDATES;
@@ -99,7 +99,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitListNew();
 
 	mi.position++;
-	mi.icolibItem = iconList[2].hIcolib;
+	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.a = LPGEN("Available components list");
 	mi.pszService = MS_PU_SHOWLIST;
 	Menu_AddMainMenuItem(&mi);

@@ -179,18 +179,18 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 
 void InitMenuItems(void)
 {
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	// support new genmenu style
 	mi.flags = CMIF_TCHAR;
 
 	// Build main menu
 	mi.position = -1000000000 /*1000001*/;
 	mi.name.t = LPGENT(MODULNAME_PLU);
-	mi.icolibItem = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.hIcolibItem = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
-	mi.hParentMenu = (HGENMENU)hMenuRoot;
+	mi.root = (HGENMENU)hMenuRoot;
 
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
@@ -202,7 +202,7 @@ void InitMenuItems(void)
 	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
 	mi.name.t = LPGENT("Popup History");
-	mi.icolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.hIcolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }
 

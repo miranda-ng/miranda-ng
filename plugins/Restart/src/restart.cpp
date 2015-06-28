@@ -46,9 +46,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = -0x7FFFFFFF;
-	mi.icolibItem = icon.hIcolib;
+	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);

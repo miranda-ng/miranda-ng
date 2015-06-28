@@ -853,16 +853,16 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		TCHAR szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, _countof(szItem), TranslateT("%s Custom Status"), m_tszUserName);
 
-		CLISTMENUITEM mi = { 0 };
-		mi.hParentMenu = Menu_GetProtocolRoot(m_szModuleName);
+		TMO_MenuItem mi = { 0 };
+		mi.root = Menu_GetProtocolRoot(m_szModuleName);
 		mi.name.t = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi);
 	}
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2000040000;
-	mi.hParentMenu = hRoot;
+	mi.root = hRoot;
 
 	int bXStatusMenuBuilt = 0;
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
@@ -877,7 +877,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 			CreateProtoServiceParam(srvFce, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
-		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;
+		mi.hIcolibItem = i ? hXStatusIcons[i-1] : NULL;
 		mi.name.a = i ? (char*)nameXStatus[i-1] : (char *)LPGEN("None");
 		mi.pszService = srvFce;
 

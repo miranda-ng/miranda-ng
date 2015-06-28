@@ -436,29 +436,29 @@ static HGENMENU hMainMenuItem,hTrayMenuItem;
 void SetShutdownMenuItem(bool fActive)
 {
 	/* main menu */
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.position = 2001090000;
 	if (fActive)
 	{
-		mi.icolibItem = iconList[1].hIcolib;
+		mi.hIcolibItem = iconList[1].hIcolib;
 		mi.name.t = LPGENT("Stop automatic &shutdown");
 	}
 	else
 	{
-		mi.icolibItem = iconList[2].hIcolib;
+		mi.hIcolibItem = iconList[2].hIcolib;
 		mi.name.t = LPGENT("Automatic &shutdown...");
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR;
 	if (hMainMenuItem != NULL)
-		Menu_ModifyItem(hMainMenuItem, mi.name.t, mi.icolibItem);
+		Menu_ModifyItem(hMainMenuItem, mi.name.t, mi.hIcolibItem);
 	else
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
 	if (hTrayMenuItem != NULL)
-		Menu_ModifyItem(hTrayMenuItem, mi.name.t, mi.icolibItem);
+		Menu_ModifyItem(hTrayMenuItem, mi.name.t, mi.hIcolibItem);
 	else
 		hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 }

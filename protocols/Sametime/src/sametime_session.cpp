@@ -560,11 +560,11 @@ void CSametimeProto::InitSessionMenu()
 
 	CreateProtoService(MS_SAMETIME_MENUANNOUNCESESSION, &CSametimeProto::SessionAnnounce);
 
-	CLISTMENUITEM mi = { 0 };
+	TMO_MenuItem mi = { 0 };
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000060000;
 	mi.name.t = LPGENT("Send announcement...");
 	mi.pszService = MS_SAMETIME_MENUANNOUNCESESSION;
-	mi.icolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
+	mi.hIcolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
 	Menu_AddContactMenuItem(&mi, m_szModuleName);
 }
