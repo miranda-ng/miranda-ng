@@ -1,0 +1,72 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
+
+;file \plugins\BASS_interface\res\Bass.rc
+[un4seen's bass interface]
+
+[bass.dll loading error]
+
+[Current bass.dll path:]
+
+[Maximum number of bass internal channels:]
+
+[Output device:]
+
+[Volume:]
+
+[Quiet time:]
+
+[download bass library]
+
+[Play only if]
+
+[Offline]
+
+[Online]
+
+[Away]
+
+[NA]
+
+[Occupied]
+
+[DND]
+
+[Free for chat]
+
+[Invisible]
+
+[On the phone]
+
+[Out to lunch]
+
+[Preview]
+
+;file \plugins\BASS_interface\src\Main.cpp
+[un4seen's bass version: %d.%d.%d.%d]
+
+[--default device--]
+
+[Sounds]
+
+[Disable sounds]
+
+[Enable sounds]
+
+[Frame background]
+
+[Bass Interface]
+
+[Bass library]
+
+[Sounds enabled]
+
+[Sounds disabled]
+
+;file \plugins\BASS_interface\src\stdafx.h

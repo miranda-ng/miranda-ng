@@ -1,0 +1,12 @@
+﻿#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
+;============================================================
+;  File: UserGuide.dll
+;  Plugin: User guide
+;  Version: 0.0.0.1
+;  Authors: Yasnovidyashii
+;============================================================
+[This plugin adds the main menu item used to view Miranda NG pack user guide.]
+
+;file \plugins\UserGuide\src\main.cpp
+[User Guide]
+

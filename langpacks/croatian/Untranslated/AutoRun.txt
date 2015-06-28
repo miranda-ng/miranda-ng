@@ -1,0 +1,5 @@
+﻿[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+[Autorun]
+[Launch Miranda NG at system startup]
+[Note: At startup Miranda NG will use current profile]
+[Services]

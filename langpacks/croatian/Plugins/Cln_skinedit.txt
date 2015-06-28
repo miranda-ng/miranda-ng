@@ -1,0 +1,73 @@
+﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Allows inline skin item editing for clist nicer.]
+
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+
+[General]
+
+[Gradient]
+
+[Left to right]
+
+[Right to left]
+
+[Top to bottom]
+
+[Bottom to top]
+
+[Round corners]
+
+[Top-Left]
+
+[Top-Right]
+
+[Bottom-Right]
+
+[Bottom-Left]
+
+[Item colors]
+
+[First color]
+
+[Text color]
+
+[Second color]
+
+[Transparent]
+
+[Alpha (percent)]
+
+[Item margins]
+
+[Item borders]
+
+[Border style]
+
+[3D border (bright / dark)]
+
+[Item ignored]
+
+[Dialog]
+
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
+[<None>]
+
+[Raised]
+
+[Sunken]
+
+[Bumped]
+
+[Etched]
+

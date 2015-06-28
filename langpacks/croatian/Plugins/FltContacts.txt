@@ -1,0 +1,106 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.2
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[Floating Contacts plugin for Miranda.]
+
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+
+[Hide offline contacts]
+
+[Stick together]
+
+[Use fixed width]
+
+[pixels]
+
+[Hide all contacts]
+
+[Hide when a fullscreen app is active]
+
+[Show tooltips*]
+
+[ms]
+
+[Tooltips]
+
+[Miscellaneous]
+
+[0 = Default]
+
+[*requires Tipper plugin]
+
+[Bring to front]
+
+[Bring to front every]
+
+[seconds]
+sekundi
+[Hide when contact list is shown]
+
+[Single click interface]
+sučelje jednim klikom
+[Dim idle contacts]
+
+[Idle contacts]
+
+[Border]
+
+[Draw border]
+
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
+[Background]
+Pozadina
+[Background color:]
+
+[Use background bitmap]
+
+[Stretch to width]
+
+[Stretch to height]
+
+[Tile horizontally]
+
+[Tile vertically]
+
+[Stretch proportionally]
+
+[Opacity:]
+
+;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+
+[Online contacts to whom you have a different visibility]
+
+[Offline contacts]
+
+[Offline contacts to whom you have a different visibility]
+
+[Contacts which are 'not on list']
+
+[Floating contacts]
+
+[Show all thumbs]
+
+[Hide all thumbs]
+
+[Remove thumb]
+
+[Show/Hide all thumbs]
+
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+
+[Contact list]
+lista kontakata
+[Main Features]
+
+[Appearance]
+

@@ -1,0 +1,106 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.10
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[Adds some useful options to a contacts menu.]
+
+;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
+[&Send]
+&Šalji
+[&Cancel]
+&Odustani
+[Shown menu items]
+
+[Visibility]
+
+[Show alpha icons]
+
+[Hide from list]
+
+[Ignore]
+
+[Copy to Account (Ctrl+click for move to Account)]
+
+[Send 'You were added']
+
+[Request Authorization]
+
+[Browse Received Files]
+
+[Copy IP]
+
+[Copy MirVer]
+
+[Copy Status Message]
+
+[Add item name]
+
+[Copy ID]
+
+[Add protocol name]
+
+[Show ID in menu item]
+
+[Trim too long ID]
+
+[* Use Ctrl+click to see popup with the copied text]
+
+[Hide contact on 'Ignore all']
+
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+
+[xStatus title]
+
+[xStatus message]
+
+[Listening to]
+
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+
+[Always visible]
+
+[Never visible]
+
+[Copy to Account]
+
+[Copy xStatus Message]
+
+[All]
+
+[Messages]
+poruke
+[URL]
+
+[Files]
+
+[User Online]
+
+[Authorization]
+
+[You Were Added]
+Dodani ste.
+[Typing Notify]
+
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+
+[Open ignore settings]
+
+[Request authorization]
+
+[MenuItemEx]
+
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+

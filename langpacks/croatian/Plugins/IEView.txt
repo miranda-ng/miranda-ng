@@ -1,0 +1,140 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.5.0.1
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
+
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+kopiraj
+[Copy Link]
+
+[Select All]
+označi sve
+[Save Image As...]
+
+[Print]
+
+[Clear Log]
+
+[Show source]
+
+[Options]
+opcije
+[Enable BBCodes]
+
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+
+[Enable support for Flash files in smileys and BBCodes]
+
+[Replace smileys in user names]
+
+[Hide window border]
+
+[Embed YouTube videos]
+
+[Size:]
+
+[Mode]
+
+[Compatibility Mode]
+
+[Use External CSS]
+
+[Use Templates]
+
+[Background image]
+
+[Scroll with text]
+
+[Template Options]
+
+[Use message grouping]
+
+[Show nicknames]
+
+[Show time]
+
+[Show seconds]
+
+[Show date]
+
+[Use long date format]
+
+[Use relative timestamp]
+
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+
+[Incoming File Transfer]
+
+[URL sent]
+
+[URL received]
+
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+
+[ requested authorization]
+
+[ was added.]
+
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+
+[%s has left.]
+
+[The topic is %s.]
+
+[Error]
+
+;file \plugins\IEView\src\Options.cpp
+[General]
+
+[Message Log]
+
+[Group chats]
+
+[History]
+
+[Default]
+
+[Message sessions]
+
+[IEView]
+
+[Skins]
+
+[Template]
+
+[All Files]
+
+[All Images]
+
+[Style Sheet]
+
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+
+[Yesterday]
+
+[File sent]
+
+[File received]
+
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

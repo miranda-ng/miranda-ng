@@ -1,0 +1,2486 @@
+﻿Miranda Language Pack Version 1
+Language: Croatian (HR)
+Locale: 041A
+Author: Zvonimir Stanecic (Zvonimirek222)
+Author-email: zvonimirek222@yandex.com
+Last-Modified-Using: none
+;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.5
+;============================================================
+[Authorization request]
+Zahtjev za prihvaćanje
+[&Authorize]
+&Prihvati
+[&Deny]
+&Odbij
+[Decide &later]
+Odlučit ću &Kasnije
+[User &details]
+Detalji o &Korisniku
+[Reason:]
+Razlog:
+[Denial reason:]
+Razlog za odbijanje:
+[Add to contact list if authorized]
+Dodaj u listu kontakata ako je autoriziran
+[You were added]
+Dodani ste.
+[&Close]
+&Zatvori
+[&Add]
+&Dodaj
+[%s message for %s]
+%s poruka za %s
+[&Cancel]
+&Odustani
+[Retrieving %s message...]
+Preuzimam %s poruku...]
+[Status messages]
+Statusne poruke
+[Do not reply to requests for this message]
+Ne odgovaraj na zahtjeve za ovu poruku
+[Do not pop up dialog asking for new message]
+Ne izbacuj skočni prozor pitajući za novu poruku
+[By default, use the same message as last time]
+Zadano koristi poruku kao i zadnji put.
+[By default, use this message:]
+Zadano koristi ovu poruku
+[Use %time% for the current time, %date% for the current date]
+Koristi %time% za trenutno vrijeme, %date% za trenutni datum
+[Status messages:]
+Statusne poruke:
+[Change %s message]
+Promijeni %s poruku
+[Closing in %d]
+Zatvaranje za %d
+[&Send]
+&Šalji
+[&Emoticons]
+&Emotikoni
+[&Bold]
+&Podebljano
+[&Italic]
+&Kosa slova
+[&Underline]
+Pod&crtano
+[&Color]
+&Boja
+[&Background color]
+&Boja pozadine
+[&History]
+p&ovijest
+[&Filter]
+&Filtriraj
+[&Room settings]
+Pos&tavke sobe za čavrljanje
+[&Show/Hide nick list]
+Prika&ži/sakrij popis nadimaka
+[Show these events only:]
+Prikaži samo ove događaje:
+[Actions]
+akcije
+[Messages]
+poruke
+[Nick changes]
+promjene nadimka
+[Users joining]
+korisnici se pridružuju
+[Users leaving]
+korisnici napuštaju
+[Topic changes]
+rubrika se mijenja
+[Status changes]
+promjene statusa
+[Information]
+informacija
+[Disconnects]
+odspaja se
+[User kicks]
+korisnik istjeruje
+[Notices]
+obavještava
+[Options]
+opcije
+[Log options]
+opcije zapisnika
+[Log timestamp]
+vrijeme u zapisniku
+[Timestamp]
+vrijeme u satima minutama i sekundama
+[Other name]
+drugo ime
+[Your name]
+vaše ime
+[Enable highlighting]
+omogući oznake
+[Limit log text to (events):]
+ogranići tekst dnevnika na (događaje):
+[Trim to (KB)]
+izreži u (kb)
+[Words to highlight (wildcards allowed)]
+riječi koje treba označiti (wildcards su dozvoljene)
+[Enable logging to disk]
+omogući logiranje na disk
+[Log directory]
+mapa zapisnika
+[Other]
+drugo
+[Add new rooms to group:]
+dodaj nove sobe u grupu
+[Nick list row distance (pixels):]
+lista nadimaka (udaljenost redaka u pikselima)
+[Use same style as in the message log]
+koristi isti stil kao i u dnevnicima poruka
+[Use default colors]
+koristi zadane boje
+[Use custom colors]
+koristi prilagođene boje
+[Popups for the Chat plugin]
+skočni prozori za dodatak čavrljanja
+[Timeout (s)]
+vrijeme nestanka (s))
+[Text]
+tekst
+[Background]
+Pozadina
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Postavljanje vremena nestanka na 0 znači podrazumjevana postavka i -1 znači beskonačno vrijeme)
+[List]
+popis
+[&Message]
+&Poruka
+[Log]
+&Zapisnik
+[Clear lo&g]
+&Očisti zapisnik
+[Co&py all]
+&Kopiraj sve
+[Word lookup]
+&Traženje riječi
+[Wikipedia]
+Wikipedija
+[Link]
+Link
+[Open a &new browser window]
+Otvori &u novom prozoru preglednika
+[&Open in current browser window]
+&Otvori u trenutnom prozoru preglednika
+[&Copy link]
+&Kopiraj link
+[Message]
+Poruka
+[Undo]
+poništi
+[Redo]
+povrati
+[Copy]
+kopiraj
+[Cut]
+izreži
+[Paste]
+zalijepi
+[Select all]
+označi sve
+[Clear]
+očisti
+[Tabs]
+kartice
+[&Close tab]
+&Zatvori karticu
+[C&lose other tabs]
+z&atvori druge kartice
+[&Open at this position]
+Otvori na o&voj poziciji
+[Delete contact]
+izbriši kontakt
+[No]
+ne
+[Yes]
+da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Sort contacts by name]
+sortiraj kontakte po imenu
+[Sort contacts by status]
+sortiraj kontakte po statusu
+[Sort contacts by protocol]
+sortiraj kontakte po protokolu
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[Disable icon blinking]
+onemogući blinkanje ikone
+[ms delay]
+ms stanka
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Contact list]
+lista kontakata
+[System tray icon]
+ikona područja obavijesti
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Contact list sorting]
+sortiranje liste kontakata
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Tool style main window]
+alatni stil glavnog prozora
+[Minimize to tray]
+minimiziraj u područje obavijesti
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Show title bar]
+prikaži naslovnu traku
+[Title bar text:]
+tekst naslovne trake
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Pin to desktop]
+prikvaći na radnu površinu
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: Actman.dll
+;  Plugin: Action manager
+;  Version: 0.3.0.1
+;  Authors: Awkward
+;============================================================
+[Actions]
+akcije
+[Text]
+tekst
+[Contact list]
+lista kontakata
+[text]
+tekst
+[contact list]
+lista kontakata
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.2
+;  Authors: Bartosz 'Dezeath' Bialek
+;============================================================
+[Options]
+opcije
+[Authorization request]
+Zahtjev za prihvaćanje
+[&Add]
+&Dodaj
+[&Cancel]
+&Odustani
+#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
+;============================================================
+;  File: AdvaImg.dll
+;  Plugin: Miranda image services
+;  Version: 0.11.0.2
+;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
+;============================================================
+#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+;============================================================
+;  File: AdvancedAutoAway.dll
+;  Plugin: Advanced Auto Away
+;  Version: 0.8.1.1
+;  Authors: P Boon
+;============================================================
+[Message]
+Poruka
+[Other]
+drugo
+[Use default colors]
+koristi zadane boje
+[Use %time% for the current time, %date% for the current date]
+Koristi %time% za trenutno vrijeme, %date% za trenutni datum
+[seconds]
+sekundi
+[Status messages]
+Statusne poruke
+[Closing in %d]
+Zatvaranje za %d
+#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+;============================================================
+;  File: AIM.dll
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
+;============================================================
+[&Cancel]
+&Odustani
+[&Deny]
+&Odbij
+[Message]
+Poruka
+[User &details]
+Detalji o &Korisniku
+#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Actions]
+akcije
+[Background]
+Pozadina
+[Window]
+prozor
+#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.1
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================
+#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[seconds]
+sekundi
+[Background]
+Pozadina
+#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[Use default colors]
+koristi zadane boje
+[Actions]
+akcije
+#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.95.3.4
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Options]
+opcije
+[Background]
+Pozadina
+#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.10
+;  Authors: Krzysztof Kral
+;============================================================
+[&Copy link]
+&Kopiraj link
+[Copy]
+kopiraj
+[Options]
+opcije
+[Message]
+Poruka
+[Link]
+Link
+[Authorization request]
+Zahtjev za prihvaćanje
+[You were added]
+Dodani ste.
+[Messages]
+poruke
+#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.2
+;  Authors: Jonathan Gordon
+;============================================================
+#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.6
+;  Authors: Yasnovidyashii
+;============================================================
+[Options]
+opcije
+[Use default colors]
+koristi zadane boje
+[Text]
+tekst
+#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+;============================================================
+;  File: ClientChangeNotify.dll
+;  Plugin: Client change notify
+;  Version: 0.1.1.3
+;  Authors: Deathdemon
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.1.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[Delete contact]
+izbriši kontakt
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Yes]
+da
+[No]
+ne
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Sort contacts by name]
+sortiraj kontakte po imenu
+[Sort contacts by status]
+sortiraj kontakte po statusu
+[Sort contacts by protocol]
+sortiraj kontakte po protokolu
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[Disable icon blinking]
+onemogući blinkanje ikone
+[ms delay]
+ms stanka
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Contact list]
+lista kontakata
+[System tray icon]
+ikona područja obavijesti
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Contact list sorting]
+sortiranje liste kontakata
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Tool style main window]
+alatni stil glavnog prozora
+[Minimize to tray]
+minimiziraj u područje obavijesti
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+[Title bar text:]
+tekst naslovne trake
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Show title bar]
+prikaži naslovnu traku
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Pin to desktop]
+prikvaći na radnu površinu
+[List]
+popis
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.1.3
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+[Always on top]
+uvijek na vrhu
+[seconds]
+sekundi
+[Delete contact]
+izbriši kontakt
+[No]
+ne
+[Yes]
+da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Contact list]
+lista kontakata
+[Contact list sorting]
+sortiranje liste kontakata
+[Easy move]
+lako premještanje
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[Disable icon blinking]
+onemogući blinkanje ikone
+[System tray icon]
+ikona područja obavijesti
+[Pin to desktop]
+prikvaći na radnu površinu
+[Show menu bar]
+prikaži traku izbornika
+[Show title bar]
+prikaži naslovnu traku
+[Title bar text:]
+tekst naslovne trake
+[Tool style main window]
+alatni stil glavnog prozora
+[Minimize to tray]
+minimiziraj u područje obavijesti
+[Options]
+opcije
+[Background]
+Pozadina
+[List]
+popis
+[Window]
+prozor
+[Text]
+tekst
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.4
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Delete contact]
+izbriši kontakt
+[No]
+ne
+[Yes]
+da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Contact list]
+lista kontakata
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Disable icon blinking]
+onemogući blinkanje ikone
+[System tray icon]
+ikona područja obavijesti
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Contact list sorting]
+sortiranje liste kontakata
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Title bar text:]
+tekst naslovne trake
+[Pin to desktop]
+prikvaći na radnu površinu
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+[Messages]
+poruke
+[Other]
+drugo
+[Background]
+Pozadina
+[Show title bar]
+prikaži naslovnu traku
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: Command line
+;  Version: 0.0.4.5
+;  Authors: Cristian Libotean
+;============================================================
+#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+[Show]
+prikaži
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
+;============================================================
+;  File: Console.dll
+;  Plugin: Console
+;  Version: 0.0.7.3
+;  Authors: Bio
+;============================================================
+[Text]
+tekst
+[Background]
+Pozadina
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[&Add]
+&Dodaj
+[User &details]
+Detalji o &Korisniku
+[&History]
+p&ovijest
+[&Send]
+&Šalji
+#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.5.2
+;  Authors: borkra
+;============================================================
+[Co&py All]
+&Kopiraj sve
+[Show]
+prikaži
+#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: Crypto++
+;  Version: 1.0.4.8
+;  Authors: Baloo
+;============================================================
+#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[Message]
+Poruka
+[Clear]
+očisti
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+;============================================================
+;  File: CyrTranslit.dll
+;  Plugin: CyrTranslit
+;  Version: 0.1.2.0
+;  Authors: ValeraVi, Ivan Krechetov
+;============================================================
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.3.1
+;  Authors: George Hazan
+;============================================================
+#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 4.0.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[&Cancel]
+&Odustani
+#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.95.3.1
+;  Authors: Miranda-NG project
+;============================================================
+#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+;============================================================
+;  File: Db_autobackups.dll
+;  Plugin: Db autobackuper
+;  Version: 0.0.0.10
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
+;============================================================
+#muuid {b908773a-86f7-4a91-8674-6a20ba0e67d1}
+;============================================================
+;  File: Dropbox.dll
+;  Plugin: Dropbox
+;  Version: 0.12.0.6
+;  Authors: Miranda NG Team
+;============================================================
+#muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
+;============================================================
+;  File: Dummy.dll
+;  Plugin: Dummy protocol
+;  Version: 0.1.0.0
+;  Authors: Robert Pösel
+;============================================================
+#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.2
+;  Authors: kva
+;============================================================
+[Your name]
+vaše ime
+#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[seconds]
+sekundi
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.2.11.3
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[Messages]
+poruke
+[User &details]
+Detalji o &Korisniku
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.1.0.3
+;  Authors: Victor Pavlychko
+;============================================================
+[Show]
+prikaži
+[Background]
+Pozadina
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
+;============================================================
+#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+;============================================================
+;  File: Flags.dll
+;  Plugin: Country flags
+;  Version: 0.1.0.4
+;  Authors: H. Herkenrath
+;============================================================
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.2
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[seconds]
+sekundi
+[Single click interface]
+sučelje jednim klikom
+[Background]
+Pozadina
+[Contact list]
+lista kontakata
+#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+;============================================================
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.2
+;  Authors: Cristian Libotean, Miranda NG Team
+;============================================================
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.6.0.0
+;  Authors: yaho
+;============================================================
+[Other]
+drugo
+[Options]
+opcije
+[Select All]
+označi sve
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Options]
+opcije
+[&Close]
+&Zatvori
+[&Send]
+&Šalji
+[System tray icon]
+ikona područja obavijesti
+[Contact list]
+lista kontakata
+#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.1
+;  Authors: Mixwind
+;============================================================
+[seconds]
+sekundi
+[Other]
+drugo
+#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.1.1.0
+;  Authors: bems
+;============================================================
+#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Plugin: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn, Art Fedorov
+;============================================================
+[&Copy Link]
+&Kopiraj link
+[Authorization request]
+Zahtjev za prihvaćanje
+#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.2.0.4
+;  Authors: Martin Afanasjew
+;============================================================
+[Messages]
+poruke
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[&Copy link]
+&Kopiraj link
+#muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
+;============================================================
+;  File: HwHotKeys.dll
+;  Plugin: Hardware HotKeys
+;  Version: 1.0.0.6
+;  Authors: Eugene f2065
+;============================================================
+[Clear]
+očisti
+#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ protocol
+;  Version: 0.11.3.4
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+[&Send]
+&Šalji
+[&Cancel]
+&Odustani
+[Options]
+opcije
+[Use default colors]
+koristi zadane boje
+[Other]
+drugo
+[Closing in %d]
+Zatvaranje za %d
+;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IEHistory
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Information]
+informacija
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.5.0.1
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[Copy]
+kopiraj
+[Select All]
+označi sve
+[Options]
+opcije
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[Messages]
+poruke
+[You Were Added]
+Dodani ste.
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.95.4.2
+;  Authors: Miranda team
+;============================================================
+[Messages]
+poruke
+[Other]
+drugo
+#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;============================================================
+;  File: ImportTXT.dll
+;  Plugin: ImportTXT
+;  Version: 0.0.1.11
+;  Authors: Abyss
+;============================================================
+#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.3
+;  Authors: Miranda team
+;============================================================
+[&Add]
+&Dodaj
+[Other]
+drugo
+[&Close]
+&Zatvori
+[&Cancel]
+&Odustani
+[&Deny]
+&Odbij
+[Messages]
+poruke
+[Notices]
+obavještava
+#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber protocol
+;  Version: 0.11.0.4
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
+;============================================================
+[Messages]
+poruke
+[Authorization request]
+Zahtjev za prihvaćanje
+[User &details]
+Detalji o &Korisniku
+[Other]
+drugo
+[Status changes]
+promjene statusa
+[Message]
+Poruka
+[messages]
+poruke
+[Copy]
+kopiraj
+#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep status
+;  Version: 0.9.0.2
+;  Authors: P Boon
+;============================================================
+[Message]
+Poruka
+[Other]
+drugo
+[Use default colors]
+koristi zadane boje
+[Use %time% for the current time, %date% for the current date]
+Koristi %time% za trenutno vrijeme, %date% za trenutni datum
+[seconds]
+sekundi
+[Closing in %d]
+Zatvaranje za %d
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[seconds]
+sekundi
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+[Timestamp]
+vrijeme u satima minutama i sekundama
+[&Close]
+&Zatvori
+[link]
+Link
+#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[seconds]
+sekundi
+#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+;============================================================
+;  File: LotusNotify.dll
+;  Plugin: LotusNotify
+;  Version: 0.1.23.0
+;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.10
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[&Send]
+&Šalji
+[&Cancel]
+&Odustani
+[Messages]
+poruke
+[You Were Added]
+Dodani ste.
+#muuid {31aaef41-1411-487e-86e2-c484f4174283}
+;============================================================
+;  File: MessageState.dll
+;  Plugin: Message state
+;  Version: 0.0.1.0
+;  Authors: MikalaiR
+;============================================================
+;#muuid for MimCmd not found, please specify manually!
+;============================================================
+;  File: MimCmd.exe
+;  Plugin: MimCmd
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
+#muuid {40da5ebd-4f2d-4bea-841c-eab77bee6f4f}
+;============================================================
+;  File: MinecraftDynmap.dll
+;  Plugin: Minecraft Dynmap protocol
+;  Version: 0.0.0.2
+;  Authors: Robert Pösel
+;============================================================
+#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.0
+;  Authors: Martin Kleinhans
+;============================================================
+[seconds]
+sekundi
+[Messages]
+poruke
+[Status changes]
+promjene statusa
+[Notices]
+obavještava
+[Contact list]
+lista kontakata
+[Hide offline users]
+sakrij korisnike izvan mreže
+#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;============================================================
+[Options]
+opcije
+#muuid {27d41d81-991f-4dc6-8749-b0321c87e694}
+;============================================================
+;  File: MirLua.dll
+;  Plugin: MirLua
+;  Version: 0.11.0.1
+;  Authors: Miranda NG team
+;============================================================
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.14.1.16
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+[&Cancel]
+&Odustani
+[Yes]
+da
+[No]
+ne
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+;============================================================
+;  File: MobileState.dll
+;  Plugin: Mobile state
+;  Version: 0.0.1.6
+;  Authors: Robert Pösel
+;============================================================
+#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA protocol
+;  Version: 2.1.0.10
+;  Authors: Rozhuk Ivan
+;============================================================
+[Closing in %d]
+Zatvaranje za %d
+[Information]
+informacija
+#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mRadio.dll
+;  Plugin: mRadio Mod
+;  Version: 0.0.2.4
+;  Authors: Awkward
+;============================================================
+#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.2.1
+;  Authors: StDenis
+;============================================================
+#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[&Close]
+&Zatvori
+[User &details]
+Detalji o &Korisniku
+[Copy]
+kopiraj
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Other]
+drugo
+[&Cancel]
+&Odustani
+[User &details]
+Detalji o &Korisniku
+[Contact list]
+lista kontakata
+#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
+;============================================================
+;  File: mTextControl.dll
+;  Plugin: Miranda text control
+;  Version: 0.8.0.1
+;  Authors: Merlin_de, Victor Pavlychko
+;============================================================
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.12
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[seconds]
+sekundi
+[Background]
+Pozadina
+[Contact list]
+lista kontakata
+#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+;============================================================
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.3
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+[Status messages:]
+Statusne poruke:
+[seconds]
+sekundi
+[%s message for %s]
+%s poruka za %s
+[Retrieving %s message...]
+Preuzimam %s poruku...]
+[&Cancel]
+&Odustani
+[Message]
+Poruka
+[Status messages]
+Statusne poruke
+[&Close]
+&Zatvori
+[Closing in %d]
+Zatvaranje za %d
+#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+[Message]
+Poruka
+[Text]
+tekst
+[Background]
+Pozadina
+#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.1.0.2
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[&Close]
+&Zatvori
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.11
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Background]
+Pozadina
+[Text]
+tekst
+[Use custom colors]
+koristi prilagođene boje
+[Use default colors]
+koristi zadane boje
+[Log]
+&Zapisnik
+#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.0.0.11
+;  Authors: sss
+;============================================================
+[Messages]
+poruke
+#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+;============================================================
+;  File: NimContact.dll
+;  Plugin: Non-IM Contact
+;  Version: 0.6.0.3
+;  Authors: Jonathan Gordon
+;============================================================
+[Link]
+Link
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[Clear]
+očisti
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[&Close]
+&Zatvori
+[Undo]
+poništi
+[Seconds]
+sekundi
+#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.2.0.2
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Text]
+tekst
+#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Omegle protocol
+;  Version: 0.1.2.3
+;  Authors: Robert Pösel
+;============================================================
+#muuid {10896143-7249-4b36-a408-6501a6b6035a}
+;============================================================
+;  File: OpenFolder.dll
+;  Plugin: Open Miranda folder
+;  Version: 1.1.0.0
+;  Authors: jarvis, Kreisquadratur
+;============================================================
+#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
+;============================================================
+;  File: OpenSSL.dll
+;  Plugin: OpenSSL SSL API module
+;  Version: 0.1.0.1
+;  Authors: Miranda NG Team
+;============================================================
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.1.0.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Text]
+tekst
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste it
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[List]
+popis
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.1.2.4
+;  Authors: Mataes, George Hazan
+;============================================================
+[Text]
+tekst
+[Other]
+drugo
+#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.10
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[seconds]
+sekundi
+[Text]
+tekst
+[Background]
+Pozadina
+[Actions]
+akcije
+#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
+#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search
+;  Version: 1.4.2.0
+;  Authors: Awkward
+;============================================================
+[Other]
+drugo
+[TimeStamp]
+vrijeme u satima minutama i sekundama
+; these lines are not present in the sources, but they are present in compiled plugin
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.26.0
+;  Authors: Dioksin
+;============================================================
+[Log]
+&Zapisnik
+[Use default colors]
+koristi zadane boje
+[&Add]
+&Dodaj
+[Seconds]
+sekundi
+#muuid {45230488-977b-405b-856d-ea276d7083b7}
+;============================================================
+;  File: Rate.dll
+;  Plugin: Contact`s rate
+;  Version: 0.0.2.1
+;  Authors: Kildor, Thief
+;============================================================
+#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.0.2.1
+;  Authors: ValeraVi, Kildor
+;============================================================
+#muuid {60e94b84-a799-4021-9449-5b838fc06a7c}
+;============================================================
+;  File: RemovePersonalSettings.dll
+;  Plugin: Remove Personal Settings
+;  Version: 0.1.0.4
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
+;============================================================
+;  File: Restart.dll
+;  Plugin: Restart
+;  Version: 0.0.6.0
+;  Authors: eugene.nv
+;============================================================
+#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Select all]
+označi sve
+#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.12.2.1
+;  Authors: Miranda NG Development Team
+;============================================================
+[seconds]
+sekundi
+[Tabs]
+kartice
+[Show title bar]
+prikaži naslovnu traku
+[User &details]
+Detalji o &Korisniku
+[&Emoticons]
+&Emotikoni
+[&Add]
+&Dodaj
+[&History]
+p&ovijest
+[Yes]
+da
+[No]
+ne
+[&Bold]
+&Podebljano
+[&Italic]
+&Kosa slova
+[&Underline]
+Pod&crtano
+[&Color]
+&Boja
+[&Background color]
+&Boja pozadine
+[&Filter]
+&Filtriraj
+[&Room settings]
+Pos&tavke sobe za čavrljanje
+[&Show/hide nick list]
+Prika&ži/sakrij popis nadimaka
+[Show these events only:]
+Prikaži samo ove događaje:
+[Actions]
+akcije
+[Messages]
+poruke
+[Nick changes]
+promjene nadimka
+[Users joining]
+korisnici se pridružuju
+[Users leaving]
+korisnici napuštaju
+[Topic changes]
+rubrika se mijenja
+[Status changes]
+promjene statusa
+[Information]
+informacija
+[Disconnects]
+odspaja se
+[User kicks]
+korisnik istjeruje
+[Notices]
+obavještava
+[Options]
+opcije
+[Other]
+drugo
+[Add new rooms to group:]
+dodaj nove sobe u grupu
+[Log options]
+opcije zapisnika
+[Your name]
+vaše ime
+[Other name]
+drugo ime
+[Timestamp]
+vrijeme u satima minutama i sekundama
+[Log timestamp]
+vrijeme u zapisniku
+[Limit log text to (events):]
+ogranići tekst dnevnika na (događaje):
+[Enable highlighting]
+omogući oznake
+[Words to highlight (wildcards allowed)]
+riječi koje treba označiti (wildcards su dozvoljene)
+[Use same style as in the message log]
+koristi isti stil kao i u dnevnicima poruka
+[Use default colors]
+koristi zadane boje
+[Use custom colors]
+koristi prilagođene boje
+[Text]
+tekst
+[Background]
+Pozadina
+[Timeout (s)]
+vrijeme nestanka (s))
+[Log]
+&Zapisnik
+[Co&py all]
+&Kopiraj sve
+[Word lookup]
+&Traženje riječi
+[&Copy link]
+&Kopiraj link
+[Message]
+Poruka
+[Undo]
+poništi
+[Redo]
+povrati
+[Cut]
+izreži
+[Copy]
+kopiraj
+[Paste]
+zalijepi
+[Clear]
+očisti
+[List]
+popis
+[&Message]
+&Poruka
+[Clear lo&g]
+&Očisti zapisnik
+[Always on top]
+uvijek na vrhu
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+[Text]
+tekst
+[Contact List]
+lista kontakata
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.5.2
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Text]
+tekst
+[seconds]
+sekundi
+#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.9.1
+;  Authors: Merlin
+;============================================================
+[&Close]
+&Zatvori
+[Copy]
+kopiraj
+[Yes]
+da
+[No]
+ne
+[Window]
+prozor
+[Information]
+informacija
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.1
+;  Authors: MaD_CLuSTeR
+;============================================================
+[&Cancel]
+&Odustani
+#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
+;============================================================
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.3
+;  Authors: Sam Kothari, Miranda NG Team
+;============================================================
+#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;============================================================
+;  File: SimpleAR.dll
+;  Plugin: Simple auto replier
+;  Version: 2.0.2.6
+;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
+;============================================================
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.5
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
+;============================================================
+[%s message for %s]
+%s poruka za %s
+[&Cancel]
+&Odustani
+[Retrieving %s message...]
+Preuzimam %s poruku...]
+[Status messages]
+Statusne poruke
+[seconds]
+sekundi
+[Other]
+drugo
+[Cut]
+izreži
+[Copy]
+kopiraj
+[Paste]
+zalijepi
+[Select all]
+označi sve
+[&Close]
+&Zatvori
+[Closing in %d]
+Zatvaranje za %d
+#muuid {2925520b-6677-4658-8bad-5661d13e4692}
+;============================================================
+;  File: SkypeStatusChange.dll
+;  Plugin: Skype status change
+;  Version: 0.0.0.18
+;  Authors: Dioksin
+;============================================================
+#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.12.1.2
+;  Authors: Miranda NG Team
+;============================================================
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.18
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[&Close]
+&Zatvori
+[&Send]
+&Šalji
+[&Cancel]
+&Odustani
+#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.7
+;  Authors: vu1tur
+;============================================================
+[Background]
+Pozadina
+[Messages]
+poruke
+#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.2
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start position
+;  Version: 0.2.0.3
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+[Contact list]
+lista kontakata
+#muuid {7b856b6a-d48f-4f54-b8d6-c8d86d02ffc2}
+;============================================================
+;  File: StartupSilence.dll
+;  Plugin: StartupSilence
+;  Version: 0.2.0.0
+;  Authors: Vladimir Lyubimov
+;============================================================
+#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.47
+;  Authors: P Boon
+;============================================================
+[Message]
+Poruka
+[Other]
+drugo
+[Use default colors]
+koristi zadane boje
+[Use %time% for the current time, %date% for the current date]
+Koristi %time% za trenutno vrijeme, %date% za trenutni datum
+[seconds]
+sekundi
+[Closing in %d]
+Zatvaranje za %d
+#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+[Message]
+Poruka
+#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.11.4.1
+;  Authors: unsane, Robert Pösel
+;============================================================
+#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+;============================================================
+;  File: StopSpam.dll
+;  Plugin: StopSpam+
+;  Version: 0.0.1.4
+;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
+;============================================================
+[Messages]
+poruke
+#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Messages]
+poruke
+#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.4.0.11
+;  Authors: The Miranda developers team and contributors
+;============================================================
+[Actions]
+akcije
+[Messages]
+poruke
+[Nick changes]
+promjene nadimka
+[Users joining]
+korisnici se pridružuju
+[Users leaving]
+korisnici napuštaju
+[Topic changes]
+rubrika se mijenja
+[Status changes]
+promjene statusa
+[Information]
+informacija
+[Disconnects]
+odspaja se
+[User kicks]
+korisnik istjeruje
+[Notices]
+obavještava
+[Options]
+opcije
+[Add new rooms to group:]
+dodaj nove sobe u grupu
+[Enable logging to disk]
+omogući logiranje na disk
+[Log directory]
+mapa zapisnika
+[Your name]
+vaše ime
+[Other name]
+drugo ime
+[List]
+popis
+[&Message]
+&Poruka
+[Log]
+&Zapisnik
+[Clear lo&g]
+&Očisti zapisnik
+[Co&py all]
+&Kopiraj sve
+[Word lookup]
+&Traženje riječi
+[Wikipedia]
+Wikipedija
+[Link]
+Link
+[Open a &new browser window]
+Otvori &u novom prozoru preglednika
+[&Open in current browser window]
+&Otvori u trenutnom prozoru preglednika
+[&Copy link]
+&Kopiraj link
+[Message]
+Poruka
+[Undo]
+poništi
+[Redo]
+povrati
+[Copy]
+kopiraj
+[Cut]
+izreži
+[Paste]
+zalijepi
+[Select all]
+označi sve
+[Clear]
+očisti
+[Tabs]
+kartice
+[&Close tab]
+&Zatvori karticu
+[C&lose other tabs]
+z&atvori druge kartice
+[&Open at this position]
+Otvori na o&voj poziciji
+[&Cancel]
+&Odustani
+[&Send]
+&Šalji
+[&Add]
+&Dodaj
+[seconds]
+sekundi
+[Text]
+tekst
+[Background]
+Pozadina
+[Yes]
+da
+[No]
+ne
+[Show menu bar]
+prikaži traku izbornika
+[Other]
+drugo
+[System tray icon]
+ikona područja obavijesti
+#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.7
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Window]
+prozor
+[Options]
+opcije
+[Other]
+drugo
+[Background]
+Pozadina
+#muuid {748f8934-781a-528d-5208-001265404ab3}
+;============================================================
+;  File: Tlen.dll
+;  Plugin: Tlen protocol
+;  Version: 2.1.0.0
+;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
+;============================================================
+[Options]
+opcije
+[Background]
+Pozadina
+[Text]
+tekst
+#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.4
+;  Authors: Bethoven
+;============================================================
+[Disable groups]
+onemogući grupe
+[Contact list]
+lista kontakata
+#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox protocol
+;  Version: 0.11.1.10
+;  Authors: Miranda NG Team
+;============================================================
+[&Cancel]
+&Odustani
+[User &details]
+Detalji o &Korisniku
+[&History]
+p&ovijest
+#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+[Options]
+opcije
+#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
+;============================================================
+;  File: TranslitSwitcher.dll
+;  Plugin: Switch layout or transliterate
+;  Version: 0.1.0.1
+;  Authors: Mataes, tico-tico, Tim
+;============================================================
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.3.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Use custom colors]
+koristi prilagođene boje
+[Text]
+tekst
+#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.5.0
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+[Use default colors]
+koristi zadane boje
+[Other]
+drugo
+[Yes]
+da
+[No]
+ne
+[User &details]
+Detalji o &Korisniku
+#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
+;============================================================
+;  File: UserGuide.dll
+;  Plugin: User guide
+;  Version: 0.0.0.1
+;  Authors: Yasnovidyashii
+;============================================================
+#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.10
+;  Authors: P Boon
+;============================================================
+#muuid {32579908-724b-467f-adad-22b6359a749a}
+;============================================================
+;  File: VKontakte.dll
+;  Plugin: VKontakte protocol
+;  Version: 0.1.1.8
+;  Authors: Miranda NG Team
+;============================================================
+[Other]
+drugo
+[Link]
+Link
+#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
+;============================================================
+;other strings
+#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+;============================================================
+;  File: Watrack_MPD.dll
+;  Plugin: Watrack MPD
+;  Version: 0.0.0.4
+;  Authors: sss
+;============================================================
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Other]
+drugo
+[Status changes]
+promjene statusa
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[Options]
+opcije
+[seconds]
+sekundi
+[Contact List]
+lista kontakata
+[Information]
+informacija
+;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+;============================================================
+;  File: weatherxml.ini
+;  Module: weather
+;============================================================
+;============================================================
+;  File: wundergrnd_intl.ini
+;  Module: weather
+;============================================================
+[Clear]
+očisti
+;============================================================
+;  File: yweather.ini
+;  Module: weather
+;============================================================
+#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+sekundi
+[Use custom colors]
+koristi prilagođene boje
+[Background]
+Pozadina
+[Text]
+tekst
+[Log]
+&Zapisnik
+[Co&py all]
+&Kopiraj sve
+#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.1.2.14
+;  Authors: Uli Hecht
+;============================================================
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.5
+;  Authors: Cristian Libotean
+;============================================================
+[Show]
+prikaži
+[seconds]
+sekundi
+#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.3
+;  Authors: Nikolay Redko
+;============================================================
+#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Status Changes]
+promjene statusa
+[Authorization request]
+Zahtjev za prihvaćanje
+[Status messages]
+Statusne poruke
+[Messages]
+poruke
+#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;============================================================
+;  File: Xfire.dll
+;  Plugin: Xfire protocol
+;  Version: 0.1.9.0
+;  Authors: dufte
+;============================================================
+[Options]
+opcije
+[Copy]
+kopiraj
+[No]
+ne
+#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.1.2
+;  Authors: Roman Torsten
+;============================================================
+#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo protocol
+;  Version: 0.11.0.2
+;  Authors: Gennady Feldman
+;============================================================
+[&Add]
+&Dodaj
+[&Deny]
+&Odbij
+[&Cancel]
+&Odustani
+[User &details]
+Detalji o &Korisniku
+#muuid {2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}
+;============================================================
+;  File: YahooGroups.dll
+;  Plugin: Yahoo groups
+;  Version: 0.0.1.1
+;  Authors: Cristian Libotean
+;============================================================
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Options]
+opcije
+[Message]
+Poruka
+[Select All]
+označi sve
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.12
+;  Authors: Scott Ellis
+;============================================================
+[Options]
+opcije
+[Background]
+Pozadina
+#muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
+;============================================================
+;  File: YARelay.dll
+;  Plugin: YARelay
+;  Version: 0.1.0.1
+;  Authors: Anar Ibragimoff
+;============================================================
+#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.0.0.5
+;  Authors: bidyut, Maat
+;============================================================
+#muuid {3f1657b1-69cb-4992-9cfc-226c808a5202}
+;============================================================
+;  File: ZeroSwitch.dll
+;  Plugin: Zero switch
+;  Version: 1.0.0.1
+;  Authors: ZERO_BiT
+;============================================================

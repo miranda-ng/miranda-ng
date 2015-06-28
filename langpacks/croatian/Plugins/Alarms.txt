@@ -1,0 +1,190 @@
+﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+
+;file \plugins\Alarms\res\resource.rc
+[New]
+
+[Delete]
+
+[Edit]
+
+[Alarms]
+
+[Use popup plugin]
+
+[Default snooze:]
+
+[minutes]
+
+[Row height:]
+
+[Indent:]
+
+[Reminder frame]
+
+[Auto hide/show]
+
+[Loop sound]
+
+[Period (hours):]
+
+[Hide/show with clist]
+
+[Auto size vertically]
+
+[Transparency (%):]
+
+[Alert window]
+
+[Round corners]
+
+[Don't steal focus unless idle]
+
+[Preview]
+
+[Alarm]
+
+[Cancel]
+
+[Title:]
+
+[Description:]
+
+[Actions]
+akcije
+[Popup window]
+
+[Sound:]
+
+[Run command:]
+
+[Parameters:]
+
+[Alert 1]
+
+[Alert 2]
+
+[Alert 3]
+
+[Speak]
+
+[Occurrence]
+
+[Once]
+
+[Weekly]
+
+[Daily]
+
+[Weekdays]
+
+[Monthly]
+
+[Yearly]
+
+[i'm hiding]
+
+[Date and time]
+
+[Disable next occurrence]
+
+[Don't trigger on startup]
+
+[No reminder]
+
+[Dismiss]
+
+[Snooze]
+
+[Static]
+
+[&Suspend]
+
+[&Edit...]
+
+[&Delete]
+
+[&Options...]
+
+[&New alarm...]
+
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Set alarm]
+
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example alarm]
+
+[Some example text. Example, example, example.]
+
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+
+[1 day]
+
+[1 week]
+
+[Title]
+
+[Background]
+Pozadina
+[Window]
+prozor
+;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+
+[%dm]
+
+[Hide reminders]
+
+[Show reminders]
+
+[Frames]
+
+[Alarm reminders]
+
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set alarm]
+
+[Reminder: Soon]
+
+[Reminder: Very soon]
+
+[Alarm: System tray]
+
+[Menu: Show/Hide reminders]
+
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Please enter a title for this alarm.]
+
+[Error]
+
+[The alarm time you have selected is in the past.]
+
+[Events]
+

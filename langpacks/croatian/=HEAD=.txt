@@ -1,0 +1,6 @@
+﻿Miranda Language Pack Version 1
+Language: Croatian (HR)
+Locale: 041A
+Author: Zvonimir Stanecic (Zvonimirek222)
+Author-email: zvonimirek222@yandex.com
+Last-Modified-Using: none
