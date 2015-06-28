@@ -1,0 +1,44 @@
+﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[Shows ignore state of contact in contact list.]
+
+;file \plugins\IgnoreState\res\ignore.rc
+[Plugin settings]
+
+[Filtered events:]
+
+[Use Miranda ignore settings for All Contacts]
+
+;file \plugins\IgnoreState\src\main.cpp
+[All]
+
+[Messages]
+poruke
+[URL]
+
+[Files]
+
+[User Online]
+
+[Authorization]
+
+[You Were Added]
+Dodani ste.
+[Typing Notify]
+
+[Full Ignore]
+
+[Partial Ignore]
+
+[Message Ignore]
+
+[Ignore State]
+
+;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+

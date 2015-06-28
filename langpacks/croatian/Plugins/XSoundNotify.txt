@@ -1,0 +1,47 @@
+﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.1.2
+;  Authors: Roman Torsten
+;============================================================
+[Provides extended options for sound notifications.]
+
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Account:]
+
+[Nick:]
+
+[Sound:]
+
+[Not set]
+
+[Choose]
+
+[Test play]
+
+[Reset]
+
+[Ignore sound for this contact]
+
+[Cancel]
+
+;file \plugins\XSoundNotify\src\dialog.cpp
+[Custom sound for %s (%s)]
+
+[Sound files]
+
+[WAV files]
+
+;file \plugins\XSoundNotify\src\options.cpp
+[(Unknown contact)]
+
+[Sounds]
+
+[XSound Notify]
+
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Self status]
+
+[Custom contact sound]
+

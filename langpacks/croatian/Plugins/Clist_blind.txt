@@ -1,0 +1,264 @@
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.1.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[A contact list for blind folks.]
+
+;file \plugins\Clist_blind\res\resource.rc
+[Delete contact]
+izbriši kontakt
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Yes]
+da
+[No]
+ne
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Hotkeys]
+
+[Show/Hide:]
+
+[Read message:]
+
+[Web search:]
+
+[URL:]
+
+[Open in new browser window]
+
+[Show options]
+
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Sort contacts by name]
+sortiraj kontakte po imenu
+[Sort contacts by status]
+sortiraj kontakte po statusu
+[Sort contacts by protocol]
+sortiraj kontakte po protokolu
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[Disable icon blinking]
+onemogući blinkanje ikone
+[ms delay]
+ms stanka
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Contact list]
+lista kontakata
+[System tray icon]
+ikona područja obavijesti
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Contact list sorting]
+sortiranje liste kontakata
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Tool style main window]
+alatni stil glavnog prozora
+[Minimize to tray]
+minimiziraj u područje obavijesti
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+[Automatically resize window to height of list]
+
+[maximum]
+
+[% of screen]
+
+[Size upwards]
+
+[Title bar text:]
+tekst naslovne trake
+[Translucency options]
+
+[Fade contact list in/out]
+
+[Transparent contact list]
+
+[Inactive opacity:]
+
+[Active opacity:]
+
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Show title bar]
+prikaži naslovnu traku
+[If window is partially covered, bring to front instead of hiding]
+
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Pin to desktop]
+prikvaći na radnu površinu
+[Items]
+
+['Hide offline' means to hide:]
+
+[Groups]
+
+[Show counts of number of contacts in a group]
+
+[Hide group counts when there are none online]
+
+[Sort groups alphabetically]
+
+[Quick search in open groups only]
+
+[Templates]
+
+[Contact:]
+
+[Group:]
+
+[Divider:]
+
+[Info:]
+
+[Status bar]
+
+[Show status bar]
+
+[Show icons]
+
+[Show protocol names]
+
+[Show status text]
+
+[Right click opens status menu]
+
+[Right click opens Miranda NG menu]
+
+[Make sections equal width]
+
+[Show bevels on panels]
+
+[Show resize grip indicator]
+
+[&Main menu]
+
+[E&xit]
+
+[&Status]
+
+[&Offline\tCtrl+0]
+
+[On&line\tCtrl+1]
+
+[&Away\tCtrl+2]
+
+[&NA\tCtrl+3]
+
+[Occ&upied\tCtrl+4]
+
+[&DND\tCtrl+5]
+
+[&Free for chat\tCtrl+6]
+
+[&Invisible\tCtrl+7]
+
+[On the &phone\tCtrl+8]
+
+[Out to &lunch\tCtrl+9]
+
+[Tray]
+
+[&Hide/Show]
+
+[Nowhere]
+
+[&New group]
+
+[&Hide offline users]
+
+[Hide &offline users out here]
+
+[Hide &empty groups]
+
+[Disable &groups]
+
+[Hide Miranda]
+
+[Group]
+
+[&New subgroup]
+
+[&Hide offline users in here]
+
+[&Rename group]
+
+[&Delete group]
+
+;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+
+[Offline]
+
+[Online]
+
+[Away]
+
+[NA]
+
+[Occupied]
+
+[DND]
+
+[Free for chat]
+
+[Invisible]
+
+[Out to lunch]
+
+[On the phone]
+
+[Group: %name% %count% [%mode%]]
+
+[Divider: %s]
+
+[Info: %s]
+
+[List]
+popis
+;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp
+[Unknown protocol]
+
+[Expanded]
+
+[Collapsed]
+

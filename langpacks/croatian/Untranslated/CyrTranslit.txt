@@ -1,0 +1,2 @@
+﻿[Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
+[&Transliterate]

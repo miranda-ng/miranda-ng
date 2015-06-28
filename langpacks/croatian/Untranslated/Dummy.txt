@@ -1,0 +1,7 @@
+﻿[Dummy protocol for Miranda NG.]
+[Unique ID setting:]
+[Name of setting that holds unique identifier of contacts]
+[Unique ID text:]
+[Visible name of unique identifier of contacts]
+[Restart is required to apply these changes.]
+[Dummy protocol is too dumb to send messages.]

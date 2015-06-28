@@ -1,0 +1,191 @@
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox protocol
+;  Version: 0.11.1.10
+;  Authors: Miranda NG Team
+;============================================================
+[Tox protocol support for Miranda NG.]
+
+;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+
+[Create]
+
+[Import]
+
+[Copy ID]
+
+[Export]
+
+[Name:]
+
+[Password:]
+
+[Default group:]
+
+[Tox]
+
+[Create tox profile]
+
+[Import tox profile]
+
+[Copy Tox ID]
+
+[Export tox profile]
+
+[Connection settings]
+
+[Enable UDP (otherwise force Tox to use TCP)]
+
+[Enable IPv6]
+
+[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+
+[Dns name:]
+
+[Enter password]
+
+[Save password]
+
+[Cancel]
+
+[Tox profile is encrypted. Enter the password to continue.]
+
+[Add]
+
+[IPv4 address/ Host]
+
+[IPv6 address (optional)]
+
+[Port]
+
+[Public key]
+
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Video input device]
+
+[Invite contacts to chat room]
+
+[&Invite]
+
+[&Cancel]
+&Odustani
+[Call]
+
+[End]
+
+[Incoming call]
+
+[Answer]
+
+[Reject]
+
+[From:]
+
+[Date:]
+
+[&User menu]
+
+[User &details]
+Detalji o &Korisniku
+[&History]
+p&ovijest
+[Outgoing call]
+
+[To:]
+
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+
+;file \protocols\Tox\src\tox_events.cpp
+[Profiles folder]
+
+[Tox URI scheme]
+
+[Action]
+
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+
+[Audio call]
+
+[Audio ring]
+
+[Audio start]
+
+[Audio end]
+
+[Protocols]
+
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+
+[Grant authorization]
+
+;file \protocols\Tox\src\tox_multimedia.cpp
+[Incoming call from %s]
+
+[Outgoing call to %s]
+
+[Unable to find input audio device]
+
+[Video call is unsupported]
+
+[Call canceled]
+
+[Unable to find output audio device]
+
+[Call started]
+
+[Call ended]
+
+;file \protocols\Tox\src\tox_netlib.cpp
+[%s connection]
+
+;file \protocols\Tox\src\tox_options.cpp
+[Tox profile]
+
+[All files]
+
+[Select tox profile]
+
+[Save tox profile]
+
+[Add node]
+
+[Change node]
+
+[Enter IPv4]
+
+[Error]
+
+[Enter public key]
+
+[Common nodes]
+
+[User nodes]
+
+[Are you sure?]
+
+[Node deleting]
+
+[Network]
+
+[Account]
+
+[Nodes]
+
+;file \protocols\Tox\src\tox_proto.cpp
+[You cannot add yourself to your contact list]
+
+[Contact already in your contact list]
+
+;file \protocols\Tox\src\tox_search.cpp
+[Query]
+

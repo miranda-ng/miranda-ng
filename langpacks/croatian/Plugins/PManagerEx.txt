@@ -1,0 +1,26 @@
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
+
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+
+[Check Database]
+
+[Load profile]
+
+[Change profile]
+
+[Check database]
+
+[Restart]
+
+[Database]
+
+[Profile manager]
+

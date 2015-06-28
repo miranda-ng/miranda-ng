@@ -1,0 +1,43 @@
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[Prevent Miranda from storing any history.]
+
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+
+[Disable history for this contact]
+
+;file \plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+
+[Clear History]
+
+[Enable History]
+
+[Disable History]
+
+[History Enabled]
+
+[History Disabled]
+
+;file \plugins\NoHistory\src\icons.cpp
+[Disable]
+
+[Enable]
+
+[Clear]
+očisti
+[No History]
+
+;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+
+[History]
+
+[Logging]
+

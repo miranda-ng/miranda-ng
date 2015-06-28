@@ -1,0 +1,49 @@
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Shows a splash at Miranda startup.]
+
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+
+[Show splash]
+
+[Show random splash]
+
+[Play sound]
+
+[Show Miranda Version]
+
+[Enable]
+
+[Prefix:]
+
+[Appearance]
+
+[Display time:]
+
+[ms]
+
+[Fade in:]
+
+[steps]
+
+[Fade out:]
+
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+
+[Preview...]
+
+;file \plugins\SplashScreen\src\options.cpp
+[Graphic files]
+
+[Sound Files]
+
+[Skins]
+
+[Splash Screen]
+

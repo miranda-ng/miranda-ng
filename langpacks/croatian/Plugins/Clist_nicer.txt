@@ -1,0 +1,887 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.4
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
+
+;file \plugins\Clist_nicer\res\resource.rc
+[Clist Nicer exception]
+
+[Copy to clipboard]
+
+[Continue]
+
+[Exit Miranda]
+
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+
+[About CList Nicer+]
+
+[Clist Nicer+]
+
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
+[Version]
+
+[Support and latest version information]
+
+[Delete contact]
+izbriši kontakt
+[No]
+ne
+[Yes]
+da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Contact list]
+lista kontakata
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Disable icon blinking]
+onemogući blinkanje ikone
+[Apply last active view mode]
+
+[Contact list layout]
+
+[Show menu and status buttons]
+
+[Draw sunken edge]
+
+[System tray icon]
+ikona područja obavijesti
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[ms]
+
+[Event area]
+
+[Set base visibility on the frames menu]
+
+[Auto mode]
+
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Do not show system tray icon tooltips on mouse over]
+
+[Groups]
+
+[Draw a line alongside group names]
+
+[Show number of contacts in a group]
+
+[Hide numbers when all offline]
+
+[Sort groups alphabetically]
+
+[Quick search in open groups only]
+
+[No expand/collapse icon]
+
+[Center group names horizontally]
+
+[Alignment]
+
+[Margins (left/right)]
+
+[Row gap]
+
+[Minimum row height:]
+
+[Group row height]
+
+[Indent groups by:]
+
+[Inner row vertical padding]
+
+[Margins and spacing]
+
+[Contact list sorting]
+sortiranje liste kontakata
+[First by]
+
+[Then by]
+
+[Finally by]
+
+[Move events to the top of list or group]
+
+[Do not separate offline contacts]
+
+[Hide as offline]
+
+[Tree hide offline]
+
+[Right align contacts]
+
+[Avatars]
+
+[Show avatars]
+
+[Height]
+
+[Draw a border around avatars]
+
+[Rounded avatars]
+
+[Radius]
+
+[Always align icons and text for missing avatars]
+
+[Avatar alignment]
+
+[Don't request avatars for offline contacts]
+
+[Second text line]
+
+[Display status message when available]
+
+[Show second text line:]
+
+[Show contacts local time]
+
+[Only when timezone differs]
+
+[Icons]
+
+[Show status icons]
+
+[Centered when possible]
+
+[When possible, draw status icons in avatar space]
+
+[Use metacontact protocol icons instead of subcontacts]
+
+[Use overlay icons on avatars]
+
+[Dim idle contacts]
+
+[Replace status icons with xStatus]
+
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Rounded border]
+
+[Border]
+
+[Title bar text:]
+tekst naslovne trake
+[Pin to desktop]
+prikvaći na radnu površinu
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+[Automatically resize window to height of list]
+
+[maximum]
+
+[% of screen]
+
+[Size upwards]
+
+[If window is partially covered, bring to front instead of hiding]
+
+[Always hide on taskbar]
+
+[Client margins]
+
+[Clip border by]
+
+[Gap between frames]
+
+[Translucency options]
+
+[Transparent contact list]
+
+[Inactive opacity:]
+
+[Active opacity:]
+
+[Fade contact list in/out]
+
+[Fully transparent (like TweakUI)]
+
+[Items]
+
+[Show divider between online and offline contacts]
+
+[Hot track items as mouse passes over]
+
+[Disable drag and drop of items]
+
+[Disable rename of items by clicking twice]
+
+[Show selection even when list is not focused]
+
+[Make selection highlight translucent]
+
+[Use full row for selection and hottracking]
+
+[Double click on avatar opens user info]
+
+[Visual]
+
+[Scroll list smoothly]
+
+[Time:]
+
+[milliseconds]
+
+[Hide vertical scroll bar]
+
+[Gray out entire list when:]
+
+[Tree gray out]
+
+[Contact list background]
+
+[Use Windows colors]
+
+[Use background image]
+
+[Stretch to width]
+
+[Stretch to height]
+
+[Tile horizontally]
+
+[Tile vertically]
+
+[Scroll with text]
+
+[Stretch proportionally]
+
+[Use these settings to skin the entire background]
+
+[If you enable this, the background settings will affect the entire contact list frame.]
+
+[Status bar]
+
+[Show status bar]
+
+[Show icons]
+
+[Show protocol names]
+
+[Show status text]
+
+[Right click opens status menu]
+
+[Right click opens Miranda NG menu]
+
+[Make sections equal width]
+
+[Show bevels on panels]
+
+[Show resize grip indicator]
+
+[Draw background skin]
+
+[Show ICQ extended status icons]
+
+[Mark protocols locked from global status changes]
+
+[Available view modes]
+
+[Include protocols]
+
+[New]
+
+[Include groups]
+
+[Include status modes]
+
+[Cancel]
+
+[Apply]
+
+[Sticky contacts]
+
+[Clear all]
+
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+
+[Protocol]
+
+[Group]
+
+[Status mode]
+
+[Automatically clear this view mode after]
+
+[View mode options]
+
+[Editing view mode]
+
+[Last message]
+
+[Per contact skins:]
+
+[< Reload]
+
+[Contact list skin]
+
+[Load this skin on startup]
+
+[Apply skin now]
+
+[Unload skin]
+
+[Make selection shape equal to selected item]
+
+[Blend selection with background]
+
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+
+[Apply group indent values to background drawing]
+
+[Use per protocol/contact skinning]
+
+[Protocol skins override status text colors]
+
+[Set all buttons to skinned mode]
+
+[Use fast gradient drawing]
+
+[Corner radius]
+
+[Skin options]
+
+[Group top padding]
+
+[Frame title bar height]
+
+[Ignore selection for groups]
+
+[Load from skin file]
+
+[Export to skin file]
+
+[Dialog]
+
+[Ignore these events]
+
+[Messages]
+poruke
+[Incoming file transfers]
+
+[URL events]
+
+[Suppress auth requests]
+
+[Suppress added notifications]
+
+[Suppress online notifications]
+
+[Ignore all]
+
+[Ignore none]
+
+[Visibility]
+
+[Appear always online]
+
+[Appear always offline (block contact)]
+
+[Other]
+drugo
+[Hide this contact from the list]
+
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+
+[Display options]
+
+[Show contact with priority]
+
+[Show avatar:]
+
+[Show 2nd line:]
+
+[Draw overlay icon on avatar]
+
+[Show local time]
+
+[&Main menu]
+
+[E&xit]
+
+[&Status]
+
+[&Offline\tCtrl+0]
+
+[On&line\tCtrl+1]
+
+[&Away\tCtrl+2]
+
+[&NA\tCtrl+3]
+
+[Occ&upied\tCtrl+4]
+
+[&DND\tCtrl+5]
+
+[&Free for chat\tCtrl+6]
+
+[&Invisible\tCtrl+7]
+
+[On the &phone\tCtrl+8]
+
+[Out to &lunch\tCtrl+9]
+
+[Tray]
+
+[&Hide/Show]
+
+[Nowhere]
+
+[&New group]
+
+[&Hide offline users]
+
+[Hide &offline users out here]
+
+[Hide &empty groups]
+
+[Disable &groups]
+
+[Hide Miranda]
+
+[&New subgroup]
+
+[&Hide offline users in here]
+
+[&Rename group]
+
+[&Delete group]
+
+[Move marked contacts to this group]
+
+[Appearance]
+
+[Show metacontact protocol icons]
+
+[Show additional buttons]
+
+[Draw sunken frame]
+
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+
+[General]
+
+[Gradient]
+
+[Left to right]
+
+[Right to left]
+
+[Top to bottom]
+
+[Bottom to top]
+
+[Round corners]
+
+[Top-Left]
+
+[Top-Right]
+
+[Bottom-Right]
+
+[Bottom-Left]
+
+[Item colors]
+
+[First color]
+
+[Text color]
+
+[Second color]
+
+[Transparent]
+
+[Alpha (percent)]
+
+[Item margins]
+
+[Item borders]
+
+[Border style]
+
+[3D border (bright / dark)]
+
+[Item ignored]
+
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
+[<None>]
+
+[Raised]
+
+[Sunken]
+
+[Bumped]
+
+[Etched]
+
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+
+[Show/Hide offline contacts]
+
+[Use/Disable groups]
+
+[Find and add contacts]
+
+[Accounts]
+
+[Open preferences]
+
+[Enable/Disable sounds]
+
+[Minimize contact list]
+
+[Status menu]
+
+[Select view mode]
+
+[Setup view modes]
+
+[Clear view mode]
+
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+
+[Offline]
+
+[Online]
+
+[Away]
+
+[NA]
+
+[Occupied]
+
+[DND]
+
+[Free for chat]
+
+[Invisible]
+
+[Out to lunch]
+
+[On the phone]
+
+[Always left]
+
+[Always right]
+
+[Automatic (RTL)]
+
+[Nothing]
+
+[Name]
+
+[Status]
+
+[Message frequency]
+
+[Never]
+
+[Always]
+
+[For RTL only]
+
+[RTL TEXT only]
+
+[When space allows it]
+
+[When needed]
+
+[With nickname - left]
+
+[Far left]
+
+[Far right]
+
+[With nickname - right]
+
+[List layout]
+
+[Background]
+Pozadina
+[Row items]
+
+[Contacts]
+
+[Groups and layout]
+
+[Advanced]
+
+[Skins]
+
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+
+[Revert to default]
+
+[Default (global setting)]
+
+[Show always when available]
+
+[Hide always]
+
+[When space is available]
+
+[When needed by status message]
+
+[Contact list display and ignore options for %s]
+
+[&Contact list settings...]
+
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+
+[Toggle groups]
+
+[Find contacts]
+
+[Toggle sounds]
+
+[Show TabSRMM session list]
+
+[Show TabSRMM menu]
+
+[Sounds are off]
+
+[Reset view mode]
+
+[Configure view modes]
+
+[Setup accounts]
+
+[My contacts]
+
+[Default]
+
+[Overlay icons]
+
+[%s connecting]
+
+[Connecting icons]
+
+[Menu]
+
+[Open main menu]
+
+[Set status modes]
+
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+
+[Parameter mismatch]
+
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+
+[Service failure]
+
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+
+[Warning]
+
+[Standard contacts]
+
+[Online contacts to whom you have a different visibility]
+
+[Offline contacts]
+
+[Contacts which are 'not on list']
+
+[Group member counts]
+
+[Dividers]
+
+[Offline contacts to whom you have a different visibility]
+
+[Frame titles]
+
+[Contact list local time]
+
+[Selected text]
+
+[Hottrack text]
+
+[Quicksearch text]
+
+[Embedded frames border]
+
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+
+[Tool Window]
+
+[Thin border]
+
+[No border]
+
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+
+[Contact list docking]
+
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+
+[And]
+
+[Or]
+
+[Older than]
+
+[Newer than]
+
+[Minutes]
+
+[Hours]
+
+[Days]
+
+[Current view mode: %s]
+
+[Filtering]
+
+[*** All contacts ***]
+
+[Really delete this view mode? This cannot be undone]
+
+[Delete a view mode]
+
+[No view mode]
+
+[A view mode with this name does already exist]
+
+[Duplicate name]
+
+[Setup view modes...]
+
+[Clear current view mode]
+
+[Select a view mode]
+
+[Clear view mode and return to default display]
+
+[View modes]
+
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+
+[&Visible]
+
+[&Show title bar]
+
+[&Locked]
+
+[&Collapsed]
+
+[&Floating mode]
+
+[&Border]
+
+[&Skinned frame]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Frames]
+
+[Show all frames]
+
+[Show all title bars]
+
+[Hide all title bars]
+
+[Lock frame]
+
+[Visible]
+
+[Show title bar]
+prikaži naslovnu traku
+[Skinned frame]
+
+[Floating]
+
+;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
+[Frame menu]
+
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+
+[Group menu]
+
+[&Hide/show]
+
+[&Find/add contacts...]
+
+[&Options...]
+
+[&About the contact list...]
+
+[Subgroup menu]
+

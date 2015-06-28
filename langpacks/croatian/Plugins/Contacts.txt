@@ -1,0 +1,79 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+
+[&Add]
+&Dodaj
+[&User menu]
+
+[User &details]
+Detalji o &Korisniku
+[&History]
+p&ovijest
+[Choose contacts to be send:]
+
+[&Send]
+&Šalji
+[Cancel]
+
+[&Select All]
+
+[Received contacts]
+
+[Add to &group:]
+
+[&Details]
+
+[Close]
+
+[Contacts send error]
+
+[An error has occurred. The protocol reported the following error:]
+
+[Try again]
+
+[Popup]
+
+[Add to List]
+
+[User details]
+
+[Send Message]
+
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+
+[Contacts]
+
+[Incoming Contacts]
+
+[Outgoing Contacts]
+
+;file \plugins\ContactsPlus\src\receive.cpp
+[Nick]
+
+[First Name]
+
+[Last Name]
+
+[Add Contact Permanently to List]
+
+[View User's Details]
+
+[View User's History]
+
+[User Menu]
+
+[Contacts from]
+
+;file \plugins\ContactsPlus\src\send.cpp
+[Send Contacts to]
+

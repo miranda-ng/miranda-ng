@@ -1,0 +1,61 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Support for new options design.]
+
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+
+[Sample page]
+
+[Miranda NG Options]
+
+[Use arrow keys to choose category]
+
+[Cancel]
+
+[Apply]
+
+[Switch to classic options]
+
+[Advanced]
+
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+
+[Miranda NG configuration center]
+
+[Accounts]
+
+[Setup your account information to start messaging.]
+
+[Style]
+
+[Change the look of Miranda NG according to your taste.]
+
+[Contacts]
+
+[Configure behavior of your contact list.]
+
+[Chats]
+
+[Customize look&&feel of your chat windows here.]
+
+[Ignore]
+
+[Ban those users and events, you are annoyed with.]
+
+[Status]
+
+[Set your status messages and idle reporting.]
+
+[Addons]
+
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+

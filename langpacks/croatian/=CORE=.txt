@@ -1,0 +1,402 @@
+﻿;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.5
+;============================================================
+;file \src\core\stdauth\res\resource.rc
+[Authorization request]
+Zahtjev za prihvaćanje
+[&Authorize]
+&Prihvati
+[&Deny]
+&Odbij
+[Decide &later]
+Odlučit ću &Kasnije
+[User &details]
+Detalji o &Korisniku
+[Reason:]
+Razlog:
+[Denial reason:]
+Razlog za odbijanje:
+[Add to contact list if authorized]
+Dodaj u listu kontakata ako je autoriziran
+[You were added]
+Dodani ste.
+[&Close]
+&Zatvori
+[&Add]
+&Dodaj
+;file \src\core\stdaway\res\resource.rc
+[%s message for %s]
+%s poruka za %s
+[&Cancel]
+&Odustani
+[Retrieving %s message...]
+Preuzimam %s poruku...]
+[Status messages]
+Statusne poruke
+[Do not reply to requests for this message]
+Ne odgovaraj na zahtjeve za ovu poruku
+[Do not pop up dialog asking for new message]
+Ne izbacuj skočni prozor pitajući za novu poruku
+[By default, use the same message as last time]
+Zadano koristi poruku kao i zadnji put.
+[By default, use this message:]
+Zadano koristi ovu poruku
+[Use %time% for the current time, %date% for the current date]
+Koristi %time% za trenutno vrijeme, %date% za trenutni datum
+[Status messages:]
+Statusne poruke:
+[Change %s message]
+Promijeni %s poruku
+[Closing in %d]
+Zatvaranje za %d
+;file \src\core\stdchat\res\chat.rc
+[&Send]
+&Šalji
+[&Emoticons]
+&Emotikoni
+[&Bold]
+&Podebljano
+[&Italic]
+&Kosa slova
+[&Underline]
+Pod&crtano
+[&Color]
+&Boja
+[&Background color]
+&Boja pozadine
+[&History]
+p&ovijest
+[&Filter]
+&Filtriraj
+[&Room settings]
+Pos&tavke sobe za čavrljanje
+[&Show/Hide nick list]
+Prika&ži/sakrij popis nadimaka
+[Show these events only:]
+Prikaži samo ove događaje:
+[Actions]
+akcije
+[Messages]
+poruke
+[Nick changes]
+promjene nadimka
+[Users joining]
+korisnici se pridružuju
+[Users leaving]
+korisnici napuštaju
+[Topic changes]
+rubrika se mijenja
+[Status changes]
+promjene statusa
+[Information]
+informacija
+[Disconnects]
+odspaja se
+[User kicks]
+korisnik istjeruje
+[Notices]
+obavještava
+[Options]
+opcije
+[Log options]
+opcije zapisnika
+[Log timestamp]
+vrijeme u zapisniku
+[Timestamp]
+vrijeme u satima minutama i sekundama
+[Other name]
+drugo ime
+[Your name]
+vaše ime
+[Enable highlighting]
+omogući oznake
+[Limit log text to (events):]
+ogranići tekst dnevnika na (događaje):
+[Trim to (KB)]
+izreži u (kb)
+[Words to highlight (wildcards allowed)]
+riječi koje treba označiti (wildcards su dozvoljene)
+[Enable logging to disk]
+omogući logiranje na disk
+[Log directory]
+mapa zapisnika
+[Other]
+drugo
+[Add new rooms to group:]
+dodaj nove sobe u grupu
+[Nick list row distance (pixels):]
+lista nadimaka (udaljenost redaka u pikselima)
+[Use same style as in the message log]
+koristi isti stil kao i u dnevnicima poruka
+[Use default colors]
+koristi zadane boje
+[Use custom colors]
+koristi prilagođene boje
+[Popups for the Chat plugin]
+skočni prozori za dodatak čavrljanja
+[Timeout (s)]
+vrijeme nestanka (s))
+[Text]
+tekst
+[Background]
+Pozadina
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Postavljanje vremena nestanka na 0 znači podrazumjevana postavka i -1 znači beskonačno vrijeme)
+[List]
+popis
+[&Message]
+&Poruka
+[Log]
+&Zapisnik
+[Clear lo&g]
+&Očisti zapisnik
+[Co&py all]
+&Kopiraj sve
+[Word lookup]
+&Traženje riječi
+[Wikipedia]
+Wikipedija
+[Link]
+Link
+[Open a &new browser window]
+Otvori &u novom prozoru preglednika
+[&Open in current browser window]
+&Otvori u trenutnom prozoru preglednika
+[&Copy link]
+&Kopiraj link
+[Message]
+Poruka
+[Undo]
+poništi
+[Redo]
+povrati
+[Copy]
+kopiraj
+[Cut]
+izreži
+[Paste]
+zalijepi
+[Select all]
+označi sve
+[Clear]
+očisti
+[Tabs]
+kartice
+[&Close tab]
+&Zatvori karticu
+[C&lose other tabs]
+z&atvori druge kartice
+[&Open at this position]
+Otvori na o&voj poziciji
+;file \src\core\stdclist\res\resource.rc
+[Delete contact]
+izbriši kontakt
+[No]
+ne
+[Yes]
+da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+sakrij samo sa liste, da biste zadržali njihovu povijest i postavke skrivanja i vidljivosti
+[Use Options->Contacts->Ignore to unhide contacts.]
+Koristite opcije->Kontakti->Ignoriraj da biste otkrili kontakte.
+[Are you sure you want to delete %s?]
+Jeste li sigurni da želite izbrisati %s?
+[This will erase all history and settings for this contact!]
+To će izbrisati svu povijest i postavke za ovaj kontakt!
+[Hide offline users]
+sakrij korisnike izvan mreže
+[Hide empty groups]
+sakrij prazne grupe
+[Disable groups]
+onemogući grupe
+[Ask before deleting contacts]
+pitaj prije brisanja kontakata
+[Sort contacts by name]
+sortiraj kontakte po imenu
+[Sort contacts by status]
+sortiraj kontakte po statusu
+[Sort contacts by protocol]
+sortiraj kontakte po protokolu
+[Single click interface]
+sučelje jednim klikom
+[Always show status in tooltip]
+uvjek pokazuj status u alatnom savjetniku
+[Disable icon blinking]
+onemogući blinkanje ikone
+[ms delay]
+ms stanka
+[Show]
+prikaži
+[icon when statuses differ]
+ikonu kad se statusi razlikuju
+[Cycle icons every]
+cikliraj ikone svaku
+[seconds, when statuses differ]
+sekunde, kad se statusi razlikuju
+[Show multiple icons]
+prikaži višestruke ikone
+[Only when statuses differ]
+samo kad se statusi razlikuju
+[Contact list]
+lista kontakata
+[System tray icon]
+ikona područja obavijesti
+[System tray icon when using multiple protocols]
+ikona u području obavjesti kad se koristi više protokola
+[Contact list sorting]
+sortiranje liste kontakata
+[Window]
+prozor
+[Always on top]
+uvijek na vrhu
+[Tool style main window]
+alatni stil glavnog prozora
+[Minimize to tray]
+minimiziraj u područje obavijesti
+[Show menu bar]
+prikaži traku izbornika
+[Easy move]
+lako premještanje
+[Show title bar]
+prikaži naslovnu traku
+[Title bar text:]
+tekst naslovne trake
+[Show drop shadow (restart required)]
+Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
+[Pin to desktop]
+prikvaći na radnu površinu
+[Hide contact list after it has been idle for]
+Sakrij kontakt listu poslije neaktivnosti od
+[seconds]
+sekundi
+[Automatically resize window to height of list]
+Automatski skaliraj prozor na visinu liste
+[maximum]
+maksimum
+[% of screen]
+% zaslona
+[Size upwards]
+veličina prema gore
+[If window is partially covered, bring to front instead of hiding]
+ako je prozor djelomično prekriven dodaj neka bude ispred umjesto da se skrije
+[Enable docking]
+omogući docking
+[Translucency options]
+opcije translucencije
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
+[Items]
+stavaka
+[Show divider between online and offline contacts]
+prikaži razdjelnik između kontakata na mreži i izvan mreže
+;file \src\core\stdfile\res\resource.rc
+;file \src\core\stdhelp\res\resource.rc
+;file \src\core\stdidle\res\resource.rc
+;file \src\core\stdmsg\res\resource.rc
+;file \src\core\stduihist\res\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
+;file \src\mir_app\res\resource.rc
+;file \src\core\stdauth\src\auth.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
+;file \src\core\stdchat\src\main.cpp
+;file \src\core\stdchat\src\options.cpp
+;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
+;file \src\core\stdemail\src\email.cpp
+;file \src\core\stdfile\src\file.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileopts.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
+;file \src\core\stdhelp\src\about.cpp
+;file \src\core\stdhelp\src\help.cpp
+;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
+;file \src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stdssl\src\netlibssl.cpp
+;file \src\core\stduihist\src\history.cpp
+;file \src\core\stdurl\url.cpp
+;file \src\core\stdurl\urldialogs.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
+;file \src\core\stduseronline\src\useronline.cpp
+;file \src\mir_app\src\addcontact.cpp
+;file \src\mir_app\src\chat_clist.cpp
+;file \src\mir_app\src\chat_log.cpp
+;file \src\mir_app\src\chat_opts.cpp
+;file \src\mir_app\src\chat_svc.cpp
+;file \src\mir_app\src\chat_tools.cpp
+;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistmenus.cpp
+;file \src\mir_app\src\clistmod.cpp
+;file \src\mir_app\src\clistsettings.cpp
+;file \src\mir_app\src\clisttray.cpp
+;file \src\mir_app\src\clui.cpp
+;file \src\mir_app\src\colorchooser.cpp
+;file \src\mir_app\src\contacts.cpp
+;file \src\mir_app\src\database.cpp
+;file \src\mir_app\src\dbini.cpp
+;file \src\mir_app\src\dbutils.cpp
+;file \src\mir_app\src\DefaultExtraIcons.cpp
+;file \src\mir_app\src\extraicons.cpp
+;file \src\mir_app\src\findadd.cpp
+;file \src\mir_app\src\FontOptions.cpp
+;file \src\mir_app\src\FontService.cpp
+;file \src\mir_app\src\genmenu.cpp
+;file \src\mir_app\src\genmenuopt.cpp
+;file \src\mir_app\src\groups.cpp
+;file \src\mir_app\src\hotkey_opts.cpp
+;file \src\mir_app\src\ignore.cpp
+;file \src\mir_app\src\keyboard.cpp
+;file \src\mir_app\src\lpopts.cpp
+;file \src\mir_app\src\metacontacts.h
+;file \src\mir_app\src\meta_addto.cpp
+;file \src\mir_app\src\meta_edit.cpp
+;file \src\mir_app\src\meta_main.cpp
+;file \src\mir_app\src\meta_menu.cpp
+;file \src\mir_app\src\meta_options.cpp
+;file \src\mir_app\src\meta_services.cpp
+;file \src\mir_app\src\meta_utils.cpp
+;file \src\mir_app\src\movetogroup.cpp
+;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\newplugins.cpp
+;file \src\mir_app\src\options.cpp
+;file \src\mir_app\src\options_ei.cpp
+;file \src\mir_app\src\path.cpp
+;file \src\mir_app\src\pluginopts.cpp
+;file \src\mir_app\src\profilemanager.cpp
+;file \src\mir_app\src\proto_opts.cpp
+;file \src\mir_app\src\proto_order.cpp
+;file \src\mir_app\src\proto_ui.cpp
+;file \src\mir_app\src\searchresults.cpp
+;file \src\mir_app\src\skin2opts.cpp
+;file \src\mir_app\src\skinicons.cpp
+;file \src\mir_app\src\sounds.cpp
+;file \src\mir_app\src\utils.cpp
+;file \src\mir_app\src\visibility.cpp
+;file \src\mir_core\src\bitmaps.cpp
+;file \src\mir_core\src\timezones.cpp
