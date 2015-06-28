@@ -317,7 +317,7 @@ void UpdateTTB()
 
 static int CreateTTButtons(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb = {sizeof(ttb)};
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = (Enabled == 1 ? 0 : TTBBF_PUSHED) | TTBBF_VISIBLE | TTBBF_ASPUSHBUTTON;
 	ttb.pszService = SS_SERVICE_NAME;
 	ttb.hIconHandleDn = GetIconHandle(DISABLE_SILENCETTB);

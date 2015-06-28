@@ -453,7 +453,7 @@ int TopToolBarLoaded(WPARAM, LPARAM)
 
 	CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick);
 
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconHandleDn = iconList[0].hIcolib;
 	ttb.hIconHandleUp = iconList[1].hIcolib;
 	ttb.pszService = MS_LISTENINGTO_TTB;

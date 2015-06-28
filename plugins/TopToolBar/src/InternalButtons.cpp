@@ -113,8 +113,7 @@ void InitInternalButtons()
 	CreateServiceFunction(TTBI_SHOWHIDEOFFLINE, TTBInternalShowHideOffline);
 
 	for (int i = 0; i < _countof(stdButtons); i++) {
-		TTBButton ttb = {0};
-		ttb.cbSize = sizeof(ttb);
+		TTBButton ttb = { 0 };
 		ttb.name = stdButtons[i].name;
 		ttb.pszService = stdButtons[i].pszService;
 		ttb.dwFlags = TTBBF_INTERNAL;

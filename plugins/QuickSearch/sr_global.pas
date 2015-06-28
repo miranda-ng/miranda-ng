@@ -223,7 +223,6 @@ begin
   if ServiceExists(MS_TTB_ADDBUTTON)>0 then
   begin
     ZeroMemory(@ttbopt,sizeof(ttbopt));
-    ttbopt.cbSize    :=sizeof(ttbopt);
     ttbopt.pszService:=QS_SHOWSERVICE;
     ttbopt.hIconUp   :=IcoLib_GetIcon(QS_QS,0);
     ttbopt.hIconDn   :=ttbopt.hIconUp;

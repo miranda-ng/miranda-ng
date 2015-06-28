@@ -213,7 +213,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 
 static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To Clipboard");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);

@@ -3,7 +3,6 @@
 static TTBButton* MakeTBButton(lua_State *L)
 {
 	TTBButton *tbb = (TTBButton*)mir_calloc(sizeof(TTBButton));
-	tbb->cbSize = sizeof(TTBButton);
 
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);

@@ -60,7 +60,6 @@ void Modern_InitButtons()
 {
 	for (int i = 0; i < _countof(BTNS); i++) {
 		TTBButton tbb = { 0 };
-		tbb.cbSize = sizeof(tbb);
 
 		if (BTNS[i].pszButtonID) {
 			tbb.name = LPGEN(BTNS[i].pszButtonName);

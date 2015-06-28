@@ -114,7 +114,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 static int CreateButton(WPARAM, LPARAM)
 {
-	TTBButton tbb = { sizeof(tbb) };
+	TTBButton tbb = { 0 };
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Add contact");

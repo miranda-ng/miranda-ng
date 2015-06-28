@@ -129,8 +129,7 @@ int OnOptInitialise(WPARAM w, LPARAM L)
 
 int OnTopToolBarInit(WPARAM w, LPARAM L) 
 {
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(TTBButton);
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 
 	ttb.hIconHandleUp = iconList[14].hIcolib;

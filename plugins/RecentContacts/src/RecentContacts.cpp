@@ -449,7 +449,7 @@ static int OnContactSettingChanged( WPARAM hContact, LPARAM lParam )
 
 int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconHandleUp = icon.hIcolib;
 	ttb.pszService = msLastUC_ShowList;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;

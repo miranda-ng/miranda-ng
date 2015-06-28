@@ -411,7 +411,7 @@ static HANDLE hToolbarButton;
 
 int ToolbarLoaded(WPARAM,LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconHandleUp = iconList[2].hIcolib;
 	ttb.hIconHandleDn = iconList[1].hIcolib;
 	ttb.pszService = "AutoShutdown/MenuCommand";

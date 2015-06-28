@@ -562,7 +562,7 @@ void RegisterCoreHotKeys(void)
 
 static int TopToolbarInit(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.pszService = MS_BOSSKEY_HIDE;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Hide Miranda NG");
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;

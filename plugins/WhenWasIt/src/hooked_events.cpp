@@ -31,7 +31,7 @@ int currentDay;
 
 static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	ttb.hIconHandleUp = hCheckMenu;

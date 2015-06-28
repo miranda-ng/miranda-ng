@@ -132,14 +132,14 @@ void InitMenu()
 	mi.name.t = LPGENT("Refresh");
 	mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "Quotes/RefreshContact";
-	g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
+	g_hMenuRefresh = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
 	CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 
 	mi.name.t = LPGENT("Open Log File...");
 	mi.icolibItem = NULL;
 	mi.pszService = "Quotes/OpenLogFile";
-	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi);
+	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
 	CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
 
@@ -148,14 +148,14 @@ void InitMenu()
 	mi.popupPosition = 2;
 	mi.icolibItem = NULL;
 	mi.pszService = "Quotes/Chart";
-	g_hMenuChart = Menu_AddContactMenuItem(&mi);
+	g_hMenuChart = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
 #endif
 
 	mi.name.t = LPGENT("Edit Settings...");
 	mi.icolibItem = NULL;
 	mi.pszService = "Quotes/EditSettings";
-	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi);
+	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 #ifdef CHART_IMPLEMENT
 	Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 3);
 #else
@@ -166,7 +166,7 @@ void InitMenu()
 
 int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.name = LPGEN("Enable/Disable Quotes Auto Update");
 	ttb.pszService = g_pszAutoUpdateCmd;
 	ttb.pszTooltipUp = LPGEN("Quotes Auto Update Enabled");

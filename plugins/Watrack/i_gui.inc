@@ -5,7 +5,6 @@ var
   ttb:m_api.TTBButton;
 begin
   FillChar(ttb,SizeOf(ttb),0);
-  ttb.cbSize :=SizeOf(ttb);
   ttb.dwFlags:=TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
 
   // plugin status button
@@ -15,11 +14,8 @@ begin
   ttb.hIconDn   :=IcoLib_GetIcon(IcoBtnEnable,0);
   ttb.hIconUp   :=IcoLib_GetIcon(IcoBtnDisable,0);
   ttb.wParamUp  :=1;
-//  ttb.wParamDown    :=0;
   ttb.pszService:=MS_WAT_PLUGINSTATUS;
   ttb.name      :='WATrack status';
-//  ttb.tooltipDn:='Disable Plugin';
-//  ttb.tooltipUp:='Enable Plugin';
   ttbState:=TopToolbar_AddButton(@ttb);
   if ttbState=THANDLE(-1) then
     ttbState:=0

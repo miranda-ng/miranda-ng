@@ -959,7 +959,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
  **/
 void DlgAnniversaryListOnTopToolBarLoaded()
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
 	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);

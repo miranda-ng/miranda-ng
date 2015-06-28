@@ -517,7 +517,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	char service[100];

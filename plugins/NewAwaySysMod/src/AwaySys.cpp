@@ -412,7 +412,7 @@ static int Create_TopToolbar(WPARAM, LPARAM)
 {
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 	if (ServiceExists(MS_TTB_REMOVEBUTTON)) {
-		TTBButton ttbb = { sizeof(ttbb) };
+		TTBButton ttbb = { 0 };
 		ttbb.name = LPGEN("Toggle autoreply on/off");;
 		ttbb.hIconHandleUp = iconList[0].hIcolib;
 		ttbb.hIconHandleDn = iconList[1].hIcolib;

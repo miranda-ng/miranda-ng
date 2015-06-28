@@ -18,7 +18,6 @@ const
 type
   PTTBButton = ^TTBButton;
   TTBButton = record
-    cbSize       :int;
     pszService   :PAnsiChar; // or program for lButtons
     dwFlags      :dword;
     lParamUp     :LPARAM;

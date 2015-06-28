@@ -374,7 +374,6 @@ begin
     UnhookEvent(onttbhook);
   // get info button
   FillChar(ttb,SizeOf(ttb),0);
-  ttb.cbSize    :=SizeOf(ttb);
   ttb.dwFlags   :=TTBBF_VISIBLE{ or TTBBF_SHOWTOOLTIP};
   ttb.hIconUp   :=IcoLib_GetIcon(IcoBtnInfo,0);
   ttb.hIconDn   :=ttb.hIconUp;

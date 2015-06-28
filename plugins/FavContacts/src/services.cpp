@@ -112,7 +112,7 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 
 int ProcessTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.pszTooltipUp = ttb.name = LPGEN("Favorite Contacts");
 	ttb.pszService = MS_FAVCONTACTS_SHOWMENU;
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;

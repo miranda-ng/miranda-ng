@@ -46,7 +46,7 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 // toptoolbar (if plugin is installed)
 static int ToptoolBarHook(WPARAM, LPARAM)
 {
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconHandleUp = icon.hIcolib;
 	ttb.pszService = MS_OPENFOLDER_OPEN;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;

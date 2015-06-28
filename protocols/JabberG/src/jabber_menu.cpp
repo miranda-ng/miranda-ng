@@ -844,7 +844,7 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	if (g_Instances.getCount() == 0)
 		return 0;
 
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat);

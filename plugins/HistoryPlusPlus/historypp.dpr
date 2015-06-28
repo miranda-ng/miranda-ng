@@ -316,18 +316,13 @@ function OnTTBLoaded(awParam: WPARAM; alParam: LPARAM): Integer; cdecl;
 var
   ttb: TTBButton;
 begin
-  if Boolean(ServiceExists(MS_TTB_ADDBUTTON)) then
-  begin
-    ZeroMemory(@ttb,SizeOf(ttb));
-    ttb.cbSize := SizeOf(ttb);
-    ttb.hIconUp := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
-    ttb.pszService := MS_HPP_SHOWGLOBALSEARCH;
-    ttb.dwFlags := TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
-    ttb.name := 'Global History Search';
-    ttb.pszTooltipUp := ttb.name;
-    CallService(MS_TTB_ADDBUTTON,WPARAM(@ttb), 0);
-    UnhookEvent(HookTTBLoaded);
-  end;
+  ZeroMemory(@ttb,SizeOf(ttb));
+  ttb.hIconUp := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
+  ttb.pszService := MS_HPP_SHOWGLOBALSEARCH;
+  ttb.dwFlags := TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
+  ttb.name := 'Global History Search';
+  ttb.pszTooltipUp := ttb.name;
+  CallService(MS_TTB_ADDBUTTON,WPARAM(@ttb), 0);
   Result := 0;
 end;
 

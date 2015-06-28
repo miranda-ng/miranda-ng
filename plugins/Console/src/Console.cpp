@@ -121,7 +121,7 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 {
 	int state = IsWindowVisible(hwndConsole);
 
-	TTBButton ttb = { sizeof(ttb) };
+	TTBButton ttb = { 0 };
 	ttb.hIconHandleUp = LoadIcon(IDI_BTN_UP);
 	ttb.hIconHandleDn = LoadIcon(IDI_BTN_DN);
 	ttb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
