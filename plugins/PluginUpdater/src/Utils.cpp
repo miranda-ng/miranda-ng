@@ -113,6 +113,7 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
+#if MIRANDA_VER >=0x0A00
 	vars[0].key.t = _T("platform");
 #ifdef _WIN64
 	vars[0].value.t = _T("64");
@@ -120,7 +121,15 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	vars[0].value.t = _T("32");
 #endif
 	vars[1].key.t = vars[1].value.t = 0;
-
+#else
+	vars[0].lptzKey = _T("platform");
+#ifdef _WIN64
+	vars[0].lptzValue = _T("64");
+#else
+	vars[0].lptzValue = _T("32");
+#endif
+	vars[1].lptzKey = vars[1].lptzValue = 0;
+#endif
 	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 
 	// Download version info
