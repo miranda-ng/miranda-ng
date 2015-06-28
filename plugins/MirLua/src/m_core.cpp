@@ -1,5 +1,69 @@
 #include "stdafx.h"
 
+static LIST<void> Hooks(1, PtrKeySortT);
+static LIST<void> Events(1, PtrKeySortT);
+static LIST<void> Services(1, PtrKeySortT);
+
+struct HandleRefParam
+{
+	HANDLE h;
+	int ref;
+	lua_State *L;
+	HandleRefParam(HANDLE h) : L(NULL), h(h), ref(0) { }
+	HandleRefParam(lua_State *L, HANDLE h, int ref = 0) : L(L), h(h), ref(ref) { }
+};
+static LIST<void> HookRefs(1, HandleKeySortT);
+static LIST<void> ServiceRefs(1, HandleKeySortT);
+
+void CMLua::KillModuleEventHooks()
+{
+	while (Hooks.getCount())
+	{
+		HANDLE hHook = Hooks[0];
+		Hooks.remove(0);
+		UnhookEvent(hHook);
+	}
+
+	while (Events.getCount())
+	{
+		HANDLE hEvent = Events[0];
+		Events.remove(hEvent);
+		DestroyHookableEvent(hEvent);
+	}
+
+	while (HookRefs.getCount())
+	{
+		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
+		if (param != NULL)
+		{
+			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+			HookRefs.remove(0);
+			delete param;
+		}
+	}
+}
+
+void CMLua::KillModuleServices()
+{
+	while (Services.getCount())
+	{
+		HANDLE hService = Services[0];
+		Services.remove(0);
+		DestroyServiceFunction(hService);
+	}
+
+	while (ServiceRefs.getCount())
+	{
+		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
+		if (param != NULL)
+		{
+			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+			ServiceRefs.remove(0);
+			delete param;
+		}
+	}
+}
+
 static int lua_CreateHookableEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -7,12 +71,16 @@ static int lua_CreateHookableEvent(lua_State *L)
 	HANDLE res = ::CreateHookableEvent(name);
 	lua_pushlightuserdata(L, res);
 
+	Events.insert(res);
+
 	return 1;
 }
 
 static int lua_DestroyHookableEvent(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
+
+	Events.remove(hEvent);
 
 	int res = ::DestroyHookableEvent(hEvent);
 	lua_pushinteger(L, res);
@@ -48,12 +116,25 @@ static int lua_HookEvent(lua_State *L)
 	HANDLE res = ::HookEventObjParam(name, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
+	Hooks.insert(res);
+	HookRefs.insert(new HandleRefParam(L, res, ref));
+
 	return 1;
 }
 
 static int lua_UnhookEvent(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
+
+	Hooks.remove(hEvent);
+
+	HandleRefParam *param = (HandleRefParam*)HookRefs.find(hEvent);
+	if (param != NULL)
+	{
+		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+		HookRefs.remove(param);
+		delete param;
+	}
 
 	int res = ::UnhookEvent(hEvent);
 	lua_pushinteger(L, res);
@@ -75,6 +156,9 @@ static int lua_OnModulesLoaded(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_SYSTEM_MODULESLOADED, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
+	Hooks.insert(res);
+	HookRefs.insert(new HandleRefParam(L, res, ref));
+
 	return 1;
 }
 
@@ -92,6 +176,9 @@ static int lua_OnPreShutdown(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_SYSTEM_PRESHUTDOWN, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
+	Hooks.insert(res);
+	HookRefs.insert(new HandleRefParam(L, res, ref));
+
 	return 1;
 }
 
@@ -108,8 +195,7 @@ static INT_PTR ServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, 
 		printf("%s\n", lua_tostring(L, -1));
 
 	INT_PTR res = (INT_PTR)lua_tointeger(L, 1);
-
-	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
+	lua_pushinteger(L, res);
 
 	return res;
 }
@@ -130,12 +216,25 @@ static int lua_CreateServiceFunction(lua_State *L)
 	HANDLE res = ::CreateServiceFunctionObjParam(name, ServiceFunctionObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
+	Services.insert(res);
+	ServiceRefs.insert(new HandleRefParam(L, res, ref));
+
 	return 1;
 }
 
 static int lua_DestroyServiceFunction(lua_State *L)
 {
 	HANDLE hService = (HANDLE)lua_touserdata(L, 1);
+
+	Services.remove(hService);
+
+	HandleRefParam *param = (HandleRefParam*)ServiceRefs.find(hService);
+	if (param != NULL)
+	{
+		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
+		ServiceRefs.remove(param);
+		delete param;
+	}
 
 	int res = ::DestroyServiceFunction(hService);
 	lua_pushinteger(L, res);
