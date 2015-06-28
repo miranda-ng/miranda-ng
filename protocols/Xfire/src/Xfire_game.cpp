@@ -437,7 +437,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 		dbid = pos;
 
 	CLISTMENUITEM mi = { 0 };
-	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENW("Start game"), 500084000);
+	mi.hParentMenu = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 
 	mir_snprintf(temp, _countof(temp), servicefunction, this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
