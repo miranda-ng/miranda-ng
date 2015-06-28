@@ -102,7 +102,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 		// set status menu
 		if (bSCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
-			Menu_ModifyItem(g_hMenu[2], _A2T(sim312[ptr->status]), g_hICO[ICO_ST_DIS + ptr->status]);
+			Menu_ModifyItem(g_hMenu[2], sim312[ptr->status], g_hICO[ICO_ST_DIS + ptr->status]);
 
 			for (int i = 0; i <= (ptr->mode == MODE_RSAAES ? 1 : 2); i++)
 				Menu_ModifyItem(g_hMenu[3 + i], NULL, (i == ptr->status) ? g_hICO[ICO_ST_DIS + ptr->status] : NULL);
@@ -121,7 +121,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	if (isSecureProto && !isChat && isMiranda) {
 		// set mode menu
 		if (bMCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
-			Menu_ModifyItem(g_hMenu[10], _A2T(sim311[ptr->mode]), g_hICO[ICO_OV_NAT + ptr->mode]);
+			Menu_ModifyItem(g_hMenu[10], sim311[ptr->mode], g_hICO[ICO_OV_NAT + ptr->mode]);
 
 			for (int i = 0; i < MODE_CNT; i++) {
 				if (i == MODE_PGP && ptr->mode != MODE_PGP && !bPGP) continue;
