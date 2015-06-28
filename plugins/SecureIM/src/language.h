@@ -62,20 +62,22 @@ extern LPCSTR sim228;
 extern LPCSTR sim229;
 extern LPCSTR sim230;
 extern LPCSTR sim231[];
+extern LPCWSTR sim231W[];
 extern LPCSTR sim232[];
+extern LPCWSTR sim232W[];
 extern LPCSTR sim233;
 extern LPCSTR sim234;
 
 //Context Menu
-extern LPCSTR sim301;
-extern LPCSTR sim302;
-extern LPCSTR sim306;
-extern LPCSTR sim307;
-extern LPCSTR sim308;
-extern LPCSTR sim309;
-extern LPCSTR sim310;
-extern LPCSTR sim311[];
-extern LPCSTR sim312[];
+extern LPCWSTR sim301;
+extern LPCWSTR sim302;
+extern LPCWSTR sim306;
+extern LPCWSTR sim307;
+extern LPCWSTR sim308;
+extern LPCWSTR sim309;
+extern LPCWSTR sim310;
+extern LPCWSTR sim311[];
+extern LPCWSTR sim312[];
 
 //System messages
 extern LPCSTR sim401;

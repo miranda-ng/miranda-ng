@@ -656,12 +656,12 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		dwLocalPortUsed = nlb.wPort;
 		dwLocalIpAddress = nlb.dwInternalIP;
 
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENT("Disable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Disable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER)));
 	}
 	else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = 0;
-		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENT("Enable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
+		Menu_ModifyItem(hAcceptConnectionsMenuItem, LPGENW("Enable HTTP server"), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
 	}
 	else return 0; // no changes;
 

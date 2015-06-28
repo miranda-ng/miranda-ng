@@ -61,26 +61,28 @@ LPCSTR sim228 = "ANSI";
 LPCSTR sim229 = "UTF8";
 LPCSTR sim230 = LPGEN("Mode");
 LPCSTR sim231[] = { LPGEN("Native"), "PGP", "GPG", "RSA/AES", "RSA" };
+LPCWSTR sim231W[] = { LPGENW("Native"), L"PGP", L"GPG", L"RSA/AES", L"RSA" };
 LPCSTR sim232[] = { LPGEN("Disabled"), LPGEN("Enabled"), LPGEN("Always try") };
+LPCWSTR sim232W[] = { LPGENW("Disabled"), LPGENW("Enabled"), LPGENW("Always try") };
 LPCSTR sim233 = "PUB";
 LPCSTR sim234 = "SHA1";
 
 //Context Menu
-LPCSTR sim301 = LPGEN("Create SecureIM connection");
-LPCSTR sim302 = LPGEN("Disable SecureIM connection");
-LPCSTR sim306 = LPGEN("Load PGP Key");
-LPCSTR sim307 = LPGEN("Unload PGP Key");
-LPCSTR sim308 = LPGEN("Load GPG Key");
-LPCSTR sim309 = LPGEN("Unload GPG Key");
-LPCSTR sim310 = LPGEN("Delete RSA Key");
-LPCSTR sim311[] = { LPGEN("SecureIM mode (Native)"),
-                    LPGEN("SecureIM mode (PGP)"),
-                    LPGEN("SecureIM mode (GPG)"),
-                    LPGEN("SecureIM mode (RSA/AES)"),
-                    LPGEN("SecureIM mode (RSA)") };
-LPCSTR sim312[] = { LPGEN("SecureIM status (disabled)"),
-		    LPGEN("SecureIM status (enabled)"),
-		    LPGEN("SecureIM status (always try)") };
+LPCWSTR sim301 = LPGENW("Create SecureIM connection");
+LPCWSTR sim302 = LPGENW("Disable SecureIM connection");
+LPCWSTR sim306 = LPGENW("Load PGP Key");
+LPCWSTR sim307 = LPGENW("Unload PGP Key");
+LPCWSTR sim308 = LPGENW("Load GPG Key");
+LPCWSTR sim309 = LPGENW("Unload GPG Key");
+LPCWSTR sim310 = LPGENW("Delete RSA Key");
+LPCWSTR sim311[] = { LPGENW("SecureIM mode (Native)"),
+                    LPGENW("SecureIM mode (PGP)"),
+                    LPGENW("SecureIM mode (GPG)"),
+                    LPGENW("SecureIM mode (RSA/AES)"),
+                    LPGENW("SecureIM mode (RSA)") };
+LPCWSTR sim312[] = { LPGENW("SecureIM status (disabled)"),
+		    LPGENW("SecureIM status (enabled)"),
+		    LPGENW("SecureIM status (always try)") };
 
 //System messages
 LPCSTR sim401 = LPGEN("SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");

@@ -82,7 +82,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem
 // Adds new submenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib = NULL, int hLang = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName, int position, HANDLE hIcoLib = NULL, int hLang = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // process a WM_DRAWITEM message for user context menus      v0.1.1.0+
@@ -128,7 +128,7 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
 // modify an existing menu item 
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
+EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const WCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tries to process a keystroke
