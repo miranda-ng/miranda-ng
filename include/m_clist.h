@@ -133,12 +133,11 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const cha
 /////////////////////////////////////////////////////////////////////////////////////////
 // GROUP MENU
 
-typedef struct
+struct GroupMenuParam
 {
 	int wParam;
 	int lParam;
-}
-GroupMenuParam, *lpGroupMenuParam;
+};
 
 // builds the Group menu
 // wParam=lParam=0
@@ -146,12 +145,11 @@ GroupMenuParam, *lpGroupMenuParam;
 #define MS_CLIST_MENUBUILDGROUP							"CList/MenuBuildGroup"
 
 // add a new item to the Group menus
-// wParam=lpGroupMenuParam, params to call when exec menuitem
+// wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
 
-__forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuItem *mi)
+__forceinline HGENMENU Menu_AddGroupMenuItem(GroupMenuParam *gmp, TMO_MenuItem *mi)
 {
-	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
 }
 
@@ -168,12 +166,11 @@ __forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuItem 
 #define MS_CLIST_MENUBUILDSUBGROUP							"CList/MenuBuildSubGroup"
 
 // add a new item to the SubGroup menus
-// wParam=lpGroupMenuParam, params to call when exec menuitem
+// wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
 
-__forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuItem *mi)
+__forceinline HGENMENU Menu_AddSubGroupMenuItem(GroupMenuParam *gmp, TMO_MenuItem *mi)
 {
-	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
 }
 
@@ -195,7 +192,6 @@ __forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, TMO_MenuIt
 
 __forceinline HGENMENU Menu_AddTrayMenuItem(TMO_MenuItem *mi)
 {
-	mi->hLangpack = hLangpack;
 	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
 }
 
@@ -294,7 +290,7 @@ typedef struct {
 	LPARAM lParam;		 //caller defined
 	char *pszService;	 //name of the service to call on activation
 	union {
-		char  *pszTooltip;    //short description of the event to display as a
+		char *pszTooltip;    //short description of the event to display as a
 		TCHAR *ptszTooltip;    //tooltip on the system tray
 	};
 } CLISTEVENT;
