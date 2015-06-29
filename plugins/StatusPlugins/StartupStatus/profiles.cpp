@@ -97,9 +97,9 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	mi.flags = CMIF_TCHAR;
 	mcount = 0;
 	count = GetProfileCount(0, 0);
-	for (i=0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		TCHAR profilename[128];
-		if ( !db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
+		if (!db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
 		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
@@ -132,7 +132,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 			return 0;
 		}
 		mi.pszService = servicename;
-		if ( Menu_AddStatusMenuItem(&mi)) {
+		if (Menu_AddStatusMenuItem(&mi)) {
 			menuprofiles[mcount] = i;
 			mcount += 1;
 		}
