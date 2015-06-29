@@ -73,7 +73,6 @@ void CToxProto::UninitMenus()
 {
 }
 
-
 int CToxProto::OnInitStatusMenu()
 {
 	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
@@ -88,6 +87,7 @@ int CToxProto::OnInitStatusMenu()
 	}
 
 	TMO_MenuItem mi = { 0 };
+	mi.flags = CMIF_TCHAR;
 	mi.root = hStatusMenuRoot;
 
 	// Create copy tox id command
