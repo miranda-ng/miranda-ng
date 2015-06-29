@@ -256,26 +256,20 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	if (hRoot == NULL)
 		return 0;
 
-	char text[200];
-	mir_strcpy(text, m_szModuleName);
-	char *tDest = text + mir_strlen(text);
-
 	TMO_MenuItem mi = { 0 };
-	mi.pszService = text;
-
 	mi.root = hRoot;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1001;
-	Menu_AddStatusMenuItem(&mi);
+	Menu_AddStatusMenuItem(&mi, m_szModuleName);
 
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
-	CreateProtoService("/Tweet", &TwitterProto::OnTweet);
-	mir_strcpy(tDest, "/Tweet");
+	mi.pszService = "/Tweet";
+	CreateProtoService(mi.pszService, &TwitterProto::OnTweet);
 	mi.name.t = LPGENT("Send Tweet...");
 	mi.position = 200001;
 	mi.hIcolibItem = GetIconHandle("tweet");
-	Menu_AddStatusMenuItem(&mi);
+	Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	return 0;
 }
 

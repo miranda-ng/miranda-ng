@@ -69,20 +69,20 @@ void RebuildContact()
 
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[4] = {NULL, NULL, NULL, NULL };
+	static HGENMENU hMenuItem[4] = { NULL, NULL, NULL, NULL };
 
 	SvcEMailRebuildMenu();
 	SvcHomepageRebuildMenu();
 
 	// load options
 	int flag = db_get_b(NULL, MODNAME, SET_MI_CONTACT, MCAS_NOTINITIATED);
-	if (flag == MCAS_NOTINITIATED){
-		flag = MCAS_EXIMPORT|TRUE;
+	if (flag == MCAS_NOTINITIATED) {
+		flag = MCAS_EXIMPORT | TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_CONTACT, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
 	TMO_MenuItem mi = { 0 };
@@ -159,17 +159,17 @@ void RebuildMain()
 
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	static HGENMENU hMenuItem[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
 	// load options
 	int flag = db_get_b(NULL, MODNAME, SET_MI_MAIN, MCAS_NOTINITIATED);
-	if (flag == MCAS_NOTINITIATED){
-		flag = MCAS_ALL|TRUE;
+	if (flag == MCAS_NOTINITIATED) {
+		flag = MCAS_ALL | TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_MAIN, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// support new genmenu style
 	TMO_MenuItem mi = { 0 };
@@ -284,17 +284,17 @@ void RebuildGroup()
 
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
+	static HGENMENU hMenuItem[3] = { NULL, NULL, NULL };
 
 	// load options
 	flag = db_get_b(NULL, MODNAME, SET_MI_GROUP, MCAS_NOTINITIATED);
-	if (flag == MCAS_NOTINITIATED){
-		flag = MCAS_EXIMPORT|TRUE;
+	if (flag == MCAS_NOTINITIATED) {
+		flag = MCAS_EXIMPORT | TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_GROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
@@ -304,34 +304,33 @@ void RebuildGroup()
 	mi.pszService = text;
 	char* tDest = text + mir_strlen(text);
 
-	switch (flag)
-	{
-		case 3:
-			//cascade off
-			mhRoot = mhExIm = NULL;
-			hMenuItem[item++] = NULL;
-			break;
-		case 5:
-			//cascade all
-			mi.position = 250000;
-			mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
-			mi.name.a = MODULELONGNAME;
-			mhRoot = Menu_AddGroupMenuItem(0, &mi);
-			hMenuItem[item++] = mhRoot;
-			mhExIm = mhRoot;
-			break;
-		case 9:
-			//cascade Ex/Import
-			mi.position = 250100;
-			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
-			mi.name.a = LPGEN("Export/import contact");
-			mhExIm = Menu_AddGroupMenuItem(0, &mi);
-			hMenuItem[item++] = mhExIm;
-			mhRoot = NULL;
-			break;
-		default:
-			//disable Menue
-			return;
+	switch (flag) {
+	case 3:
+		//cascade off
+		mhRoot = mhExIm = NULL;
+		hMenuItem[item++] = NULL;
+		break;
+	case 5:
+		//cascade all
+		mi.position = 250000;
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.name.a = MODULELONGNAME;
+		mhRoot = Menu_AddGroupMenuItem(0, &mi);
+		hMenuItem[item++] = mhRoot;
+		mhExIm = mhRoot;
+		break;
+	case 9:
+		//cascade Ex/Import
+		mi.position = 250100;
+		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.name.a = LPGEN("Export/import contact");
+		mhExIm = Menu_AddGroupMenuItem(0, &mi);
+		hMenuItem[item++] = mhExIm;
+		mhRoot = NULL;
+		break;
+	default:
+		//disable Menue
+		return;
 	}
 
 	// VCard's Ex/Import menuitems
@@ -373,17 +372,17 @@ void RebuildSubGroup()
 
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[3] = {NULL, NULL, NULL };
+	static HGENMENU hMenuItem[3] = { NULL, NULL, NULL };
 
 	// load options
 	flag = db_get_b(NULL, MODNAME, SET_MI_SUBGROUP, MCAS_NOTINITIATED);
-	if (flag == MCAS_NOTINITIATED){
-		flag = MCAS_DISABLED|TRUE;
+	if (flag == MCAS_NOTINITIATED) {
+		flag = MCAS_DISABLED | TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_SUBGROUP, flag);
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems (hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
@@ -431,8 +430,8 @@ void RebuildSubGroup()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
 	mi.position = 1050200;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
-	gmp.lParam=0;
-	gmp.wParam=TRUE;
+	gmp.lParam = 0;
+	gmp.wParam = TRUE;
 	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
 
 	// Import
@@ -441,8 +440,8 @@ void RebuildSubGroup()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 	mi.position = 1050300;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
-	gmp.lParam=0;
-	gmp.wParam=FALSE;
+	gmp.lParam = 0;
+	gmp.wParam = FALSE;
 	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
 }
 
@@ -472,18 +471,18 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	// on call by hook or first start
 	if (!lParam || !hMenuItemAccount) {
 		size_t sizeNew = mItems * mProtoCount * sizeof(HGENMENU);
-		hMenuItemAccount = (HGENMENU*) mir_realloc(hMenuItemAccount,sizeNew);
+		hMenuItemAccount = (HGENMENU*)mir_realloc(hMenuItemAccount, sizeNew);
 		// set all bytes 0 to avoid problems
 		memset(hMenuItemAccount, 0, sizeNew);
 	}
 	// on options change
 	else // delete all MenuItems backward (first item second group)
-		RemoveMenuItems (hMenuItemAccount, mItems * mProtoCount);
+		RemoveMenuItems(hMenuItemAccount, mItems * mProtoCount);
 
 	// load options
 	int flag = db_get_b(NULL, MODNAME, SET_MI_ACCOUNT, MCAS_NOTINITIATED);
-	if (flag == MCAS_NOTINITIATED){
-		flag = MCAS_EXIMPORT|TRUE;
+	if (flag == MCAS_NOTINITIATED) {
+		flag = MCAS_EXIMPORT | TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_ACCOUNT, flag);
 	}
 
@@ -495,16 +494,16 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		HGENMENU mhRoot = pcli->menuProtos[i].pMenu, mhExIm;
 		if (mhRoot == NULL)
 			break;
-		
-		PROTOACCOUNT *pAccountName = Proto_GetAccount(pcli->menuProtos[i].szProto);
+
+		PROTOACCOUNT *pa = Proto_GetAccount(pcli->menuProtos[i].szProto);
 
 		// create service name main (account module name) and set pointer to end it
-		char text[ 200 ];
+		char text[200];
 		mir_strcpy(text, pcli->menuProtos[i].szProto);
-	
+
 		TMO_MenuItem mi = { 0 };
 		mi.pszService = text;
-		char* tDest = text + mir_strlen( text );
+		char* tDest = text + mir_strlen(text);
 
 		// support new genmenu style
 		mi.root = mhRoot;
@@ -515,14 +514,14 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mhExIm = mhRoot;
 			// seperator
 			mi.position = 50100;
-			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
+			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 			break;
 		case 5:
 			// cascade all
 			mi.position = 50100;
 			mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.name.a = MODULELONGNAME;
-			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
+			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
 			break;
@@ -531,7 +530,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mi.position = 50100;
 			mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.name.a = LPGEN("Export/import");
-			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
+			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
 			break;
@@ -549,7 +548,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		mi.name.a = LPGEN("&Export xml");
 		mi.position = 50200;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
-		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
+		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 
 		// Import
 		mir_strcpy(tDest, "/ImportAccount");
@@ -557,7 +556,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		mi.name.a = LPGEN("&Import xml");
 		mi.position = 50300;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
-		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
+		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 	}
 	return 0;
 }
