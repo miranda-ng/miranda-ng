@@ -421,9 +421,9 @@ void TwitterProto::SendTweetWorker(void *p)
 		return;
 
 	char *text = static_cast<char*>(p);
-	if (mir_strlen(text) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
+	if (mir_strlen(mir_utf8decodeA(text)) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
 		TCHAR errorPopup[280];
-		mir_sntprintf(errorPopup, _countof(errorPopup), _T("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
+		mir_sntprintf(errorPopup, _countof(errorPopup), TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
 		ShowPopup(errorPopup, 1);
 		return;
 	}
