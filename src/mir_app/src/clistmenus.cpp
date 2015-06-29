@@ -827,48 +827,48 @@ void RebuildMenuOrder(void)
 		HICON ic;
 		TCHAR tbuf[256];
 
-		//adding root
-		CMenuItem tmi;;
-		tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		tmi.position = pos++;
-		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		// adding root
+		CMenuItem mi;
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.position = pos++;
+		mi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
 			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
-			tmi.name.t = tbuf;
+			mi.name.t = tbuf;
 		}
-		else tmi.name.t = pa->tszAccountName;
+		else mi.name.t = pa->tszAccountName;
 
-		//owner data
+		// owner data
 		StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->szProto = mir_strdup(pa->szModuleName);
-		tmi.ownerdata = smep;
+		mi.ownerdata = smep;
 
-		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &tmi);
+		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &mi);
 
-		memset(&tmi, 0, sizeof(tmi));
-		tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		tmi.root = rootmenu;
-		tmi.position = pos++;
-		tmi.hIcon = ic;
+		memset(&mi, 0, sizeof(mi));
+		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.root = rootmenu;
+		mi.position = pos++;
+		mi.hIcon = ic;
 
-		//owner data
+		// owner data
 		smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->szProto = mir_strdup(pa->szModuleName);
-		tmi.ownerdata = smep;
+		mi.ownerdata = smep;
 
 		if (Proto_IsAccountLocked(pa))
-			tmi.flags |= CMIF_CHECKED;
+			mi.flags |= CMIF_CHECKED;
 
-		if ((tmi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
+		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
 			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
-			tmi.name.t = tbuf;
+			mi.name.t = tbuf;
 		}
-		else tmi.name.t = pa->tszAccountName;
+		else mi.name.t = pa->tszAccountName;
 
-		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &tmi);
-		((StatusMenuExecParam*)tmi.ownerdata)->protoindex = (int)pimi;
-		Menu_ModifyItem(pimi, tmi.name.t, tmi.hIcon, tmi.flags);
+		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &mi);
+		((StatusMenuExecParam*)mi.ownerdata)->protoindex = (int)pimi;
+		Menu_ModifyItem(pimi, mi.name.t, mi.hIcon, mi.flags);
 
 		cli.menuProtos = (MenuProto*)mir_realloc(cli.menuProtos, sizeof(MenuProto)*(cli.menuProtoCount + 1));
 		memset(&(cli.menuProtos[cli.menuProtoCount]), 0, sizeof(MenuProto));
@@ -889,14 +889,14 @@ void RebuildMenuOrder(void)
 				continue;
 
 			// adding
-			memset(&tmi, 0, sizeof(tmi));
-			tmi.flags = CMIF_TCHAR;
+			memset(&mi, 0, sizeof(mi));
+			mi.flags = CMIF_TCHAR;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
-				tmi.flags |= CMIF_CHECKED;
-			tmi.root = rootmenu;
-			tmi.position = pos++;
-			tmi.name.t = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
-			tmi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
+				mi.flags |= CMIF_CHECKED;
+			mi.root = rootmenu;
+			mi.position = pos++;
+			mi.name.t = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
+			mi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
 
 			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
@@ -904,17 +904,17 @@ void RebuildMenuOrder(void)
 			smep->status = statusModeList[j];
 			smep->protoindex = i;
 			smep->szProto = mir_strdup(pa->szModuleName);
-			tmi.ownerdata = smep;
+			mi.ownerdata = smep;
 
 			hStatusMenuHandles[i].protoindex = i;
 			hStatusMenuHandles[i].protostatus[j] = statusModeList[j];
-			hStatusMenuHandles[i].menuhandle[j] = Menu_AddItem(hStatusMenuObject, &tmi);
+			hStatusMenuHandles[i].menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi);
 
 			char buf[256];
-			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, tmi.name.a);
+			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
 			Menu_ConfigureItem(hStatusMenuHandles[i].menuhandle[j], MCI_OPT_UNIQUENAME, buf);
 
-			IcoLib_ReleaseIcon(tmi.hIcon);
+			IcoLib_ReleaseIcon(mi.hIcon);
 		}
 	}
 
@@ -932,34 +932,34 @@ void RebuildMenuOrder(void)
 			if (!(flags & statusModePf2List[j]))
 				continue;
 
-			CMenuItem tmi;;
-			tmi.flags = CMIF_TCHAR;
+			CMenuItem mi;
+			mi.flags = CMIF_TCHAR;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
-				tmi.flags |= CMIF_CHECKED;
+				mi.flags |= CMIF_CHECKED;
 
-			tmi.hIcon = Skin_LoadIcon(skinIconStatusList[j]);
-			tmi.position = pos++;
+			mi.hIcon = Skin_LoadIcon(skinIconStatusList[j]);
+			mi.position = pos++;
 
 			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 			smep->status = statusModeList[j];
-			tmi.ownerdata = smep;
+			mi.ownerdata = smep;
 			{
 				TCHAR buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 				mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
-				tmi.name.t = buf;
-				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &tmi);
+				mi.name.t = buf;
+				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi);
 				
 				hStatusMainMenuHandles[j]->hotKey = hotKey;
 			}
 
 			char buf[256];
-			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.name.a);
+			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
 			Menu_ConfigureItem(hStatusMainMenuHandles[j], MCI_OPT_UNIQUENAME, buf);
 
-			IcoLib_ReleaseIcon(tmi.hIcon);
+			IcoLib_ReleaseIcon(mi.hIcon);
 			break;
 		}
 	}
