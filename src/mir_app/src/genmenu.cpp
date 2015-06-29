@@ -686,13 +686,13 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	if (oldroot != NULL)
 		return oldroot;
 
-	CMenuItem tmi;;
-	tmi.flags = CMIF_TCHAR;
-	tmi.hIcolibItem = hIcoLib;
-	tmi.hLangpack = hLang;
-	tmi.name.t = (TCHAR*)ptszName;
-	tmi.position = position;
-	return Menu_AddItem(hMenuObject, &tmi);
+	CMenuItem mi;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcolibItem = hIcoLib;
+	mi.hLangpack = hLang;
+	mi.name.t = (TCHAR*)ptszName;
+	mi.position = position;
+	return Menu_AddItem(hMenuObject, &mi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
