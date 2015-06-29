@@ -99,7 +99,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 
 	BOOL bModifyMenu = FALSE;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = iconList[bContactRate].hIcolib;
 	mi.flags = CMIF_TCHAR;
 	if (!bContactRate)

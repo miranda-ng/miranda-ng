@@ -72,7 +72,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hAddBirthdayWndsList = WindowList_Create();
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 10000000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Birthdays (When Was It)"), mi.position);
 

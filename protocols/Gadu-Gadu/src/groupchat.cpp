@@ -57,7 +57,7 @@ int GGPROTO::gc_init()
 void GGPROTO::gc_menus_init(HGENMENU hRoot)
 {
 	if (gc_enabled) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.root = hRoot;
 

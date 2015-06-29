@@ -291,8 +291,8 @@ INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 
 void InitMenuItems()
 {
-	TMO_MenuItem mi = { 0 };
-	mi.flags =  CMIF_TCHAR;
+	CMenuItem mi;
+	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.name.t = LPGENT("Paste It");
@@ -313,7 +313,7 @@ void InitMenuItems()
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
-	TMO_MenuItem mi2 = { 0 };
+	CMenuItem mi2;
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
 	mi2.root = hDefWebMenu;
 	for (int i = 0; i < PasteToWeb::pages; ++i)

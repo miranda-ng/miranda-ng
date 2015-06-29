@@ -541,7 +541,7 @@ int CreateFrame()
 		// create menu item
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.hIcolibItem = hIconMenuShowHide;
 		mi.name.a = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";

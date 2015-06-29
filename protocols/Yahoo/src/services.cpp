@@ -358,7 +358,7 @@ INT_PTR __cdecl CYahooProto::GetUnreadEmailCount(WPARAM, LPARAM)
 
 void CYahooProto::MenuMainInit(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
@@ -437,11 +437,10 @@ void CYahooProto::MenuMainInit(void)
 
 void CYahooProto::MenuContactInit(void)
 {
-	TMO_MenuItem mi = { 0 };
-
 	// Show Profile
 	CreateProtoService(YAHOO_SHOW_PROFILE, &CYahooProto::OnShowProfileCommand);
 
+	CMenuItem mi;
 	mi.pszService = YAHOO_SHOW_PROFILE;
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle(IDI_PROFILE);

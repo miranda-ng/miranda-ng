@@ -70,7 +70,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add cheking update menu item
 	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = IcoLib_GetIcon("check_update");

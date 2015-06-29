@@ -197,7 +197,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (bContactMenuItem) {
 		hAuthMenuSelected = CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
 		mi.name.t = LPGENT("Enable AuthState icons");

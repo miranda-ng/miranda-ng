@@ -111,7 +111,7 @@ void g_MenuInit(void)
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	mir_strcpy(str, "ICQ");
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.pszService = str;
 
 	// "Request authorization"

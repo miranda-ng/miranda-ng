@@ -289,7 +289,7 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR InitMenu()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 100000000;
 	mi.hIcolibItem = GetIconHandle(MENU_NAME);
 	mi.name.a = MENU_NAME;

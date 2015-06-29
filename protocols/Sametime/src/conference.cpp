@@ -508,7 +508,7 @@ void CSametimeProto::InitConferenceMenu()
 	CreateProtoService(MS_SAMETIME_MENULEAVECHAT, &CSametimeProto::onMenuLeaveChat);
 	CreateProtoService(MS_SAMETIME_MENUCREATECHAT, &CSametimeProto::onMenuCreateChat);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	
 	mi.name.t = LPGENT("Leave conference");

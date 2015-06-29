@@ -514,7 +514,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 
 void GGPROTO::import_init(HGENMENU hRoot)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = hRoot;
 

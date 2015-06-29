@@ -436,7 +436,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	if (dbid < 0)
 		dbid = pos;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 
 	mir_snprintf(temp, _countof(temp), servicefunction, this->id);

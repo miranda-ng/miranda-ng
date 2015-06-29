@@ -278,7 +278,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	RegisterSRMMFonts();
 	LoadMsgLogIcons();
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);

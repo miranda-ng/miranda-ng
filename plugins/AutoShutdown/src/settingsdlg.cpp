@@ -436,7 +436,7 @@ static HGENMENU hMainMenuItem,hTrayMenuItem;
 void SetShutdownMenuItem(bool fActive)
 {
 	/* main menu */
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 2001090000;
 	if (fActive)
 	{

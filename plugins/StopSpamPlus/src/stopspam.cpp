@@ -48,7 +48,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Add deliting temporary contacts
 	hTempRemove = CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

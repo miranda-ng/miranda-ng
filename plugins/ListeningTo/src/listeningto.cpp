@@ -192,7 +192,7 @@ void RebuildMenu()
 		TCHAR text[512];
 		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = 100000 + i;
 		mi.root = hMainMenuGroup;
 		mi.position = 500080000 + i;
@@ -293,7 +293,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Add main menu item
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500080000;
 	mi.name.t = LPGENT("Listening to");
 	mi.flags =  CMIF_TCHAR;

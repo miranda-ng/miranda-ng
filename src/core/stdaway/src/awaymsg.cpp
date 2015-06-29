@@ -167,7 +167,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.name.a = LPGEN("Re&ad status message");

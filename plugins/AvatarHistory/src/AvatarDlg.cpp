@@ -514,7 +514,7 @@ void InitMenuItem()
 {
 	CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.name.t = LPGENT("View Avatar History");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090010;

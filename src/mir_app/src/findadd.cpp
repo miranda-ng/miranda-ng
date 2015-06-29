@@ -1028,7 +1028,7 @@ int LoadFindAddModule(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnSystemModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, FindAddPreShutdown);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500020000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.name.a = LPGEN("&Find/add contacts...");

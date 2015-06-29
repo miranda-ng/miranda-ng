@@ -793,7 +793,7 @@ static int PluginInit(WPARAM, LPARAM)
 	Hotkey_Register(&hkd);
 
 	// Main menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000000000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Sessions Manager"), 1000000000);
 

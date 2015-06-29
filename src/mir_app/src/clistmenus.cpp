@@ -178,7 +178,7 @@ MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 	return Menu_BuildMainMenu();
 }
 
-MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, int _hLang)
+MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 {
 	MainMenuExecParam *mmep = (MainMenuExecParam*)mir_alloc(sizeof(MainMenuExecParam));
 	if (mmep == NULL)
@@ -193,7 +193,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, int _hLang)
 	if (pimi == NULL)
 		return NULL;
 
-	pimi->hLangpack = _hLang;
 	mmep->pimi = pimi;
 
 	const char* name;
@@ -248,7 +247,7 @@ struct ContactMenuExecParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *pszProto, int _hLang)
+MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *pszProto)
 {
 	// owner data
 	ContactMenuExecParam *cmep = (ContactMenuExecParam*)mir_calloc(sizeof(ContactMenuExecParam));
@@ -262,7 +261,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *psz
 	if (pimi == NULL)
 		return NULL;
 	
-	pimi->hLangpack = _hLang;
 	cmep->pimi = pimi;
 
 	if (pszProto == NULL)
@@ -374,7 +372,7 @@ struct StatusMenuExecParam
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszProto, int _hLangpack)
+MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszProto)
 {
 	TMO_IntMenuItem *pRoot = MO_GetIntMenuItem(pmi->root);
 
@@ -385,14 +383,13 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 		smep->custom = TRUE;
 		smep->svc = mir_strdup(pmi->pszService);
 		smep->szProto = mir_strdup(pszProto);
-		pmi->ownerdata = smep;
 	}
+	pmi->ownerdata = smep;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, pmi);
 	if (pimi == NULL)
 		return NULL;
 	
-	pimi->hLangpack = _hLangpack;
 	if (smep)
 		smep->hMenuItem = pimi;
 
@@ -831,7 +828,7 @@ void RebuildMenuOrder(void)
 		TCHAR tbuf[256];
 
 		//adding root
-		TMO_MenuItem tmi = { 0 };
+		CMenuItem tmi;;
 		tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		tmi.position = pos++;
 		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
@@ -935,7 +932,7 @@ void RebuildMenuOrder(void)
 			if (!(flags & statusModePf2List[j]))
 				continue;
 
-			TMO_MenuItem tmi = { sizeof(tmi) };
+			CMenuItem tmi;;
 			tmi.flags = CMIF_TCHAR;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				tmi.flags |= CMIF_CHECKED;
@@ -1088,13 +1085,13 @@ static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTOCOL MENU
 
-MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto, int _hLangpack)
+MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto)
 {
 	if (mi == NULL)
 		return NULL;
 
 	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
-		return Menu_AddStatusMenuItem(mi, pszProto, _hLangpack);
+		return Menu_AddStatusMenuItem(mi, pszProto);
 
 	char szService[100];
 	if (pszProto && mi->pszService && *mi->pszService == '/') {
@@ -1102,7 +1099,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszPro
 		strncat_s(szService, mi->pszService, _TRUNCATE);
 		mi->pszService = szService;
 	}
-	return Menu_AddMainMenuItem(mi, _hLangpack);
+	return Menu_AddMainMenuItem(mi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1177,7 +1174,7 @@ void InitCustomMenus(void)
 
 	// add exit command to menu
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");

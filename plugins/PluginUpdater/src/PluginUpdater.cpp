@@ -86,7 +86,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitCheck();
 
 #if MIRANDA_VER >= 0x0A00
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.name.a = LPGEN("Check for updates");
 	mi.hIcolibItem = iconList[0].hIcolib;
 #else

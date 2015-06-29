@@ -264,7 +264,7 @@ void TlenProtocol::initMenuItems()
 	strncpy_s(text, m_szModuleName, _TRUNCATE);
 	char *pSvcName = text + mir_strlen(text);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hMenuRoot = Menu_CreateRoot(MO_MAIN, m_tszUserName, -1999901009, GetIconHandle(IDI_TLEN));
 	mi.pszService = text;
 

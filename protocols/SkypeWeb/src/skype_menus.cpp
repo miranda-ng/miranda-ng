@@ -60,7 +60,7 @@ void CSkypeProto::InitMenus()
 
 	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
 	// Request authorization
@@ -111,7 +111,7 @@ int CSkypeProto::OnInitStatusMenu()
 	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hStatusMenuRoot)
 	{
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -119,7 +119,7 @@ int CSkypeProto::OnInitStatusMenu()
 		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hStatusMenuRoot;
 
 	mi.pszService = "/CreateNewChat";

@@ -72,31 +72,32 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 
 /* clcutils.c */
 TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
-int   fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
-void  fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
-void  fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);
-void  fnRecalcScrollBar(HWND hwnd, struct ClcData *dat);
-void  fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
-void  fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
-int   fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
-void  fnEndRename(HWND hwnd, struct ClcData *dat, int save);
-void  fnDeleteFromContactList(HWND hwnd, struct ClcData *dat);
-void  fnBeginRenameSelection(HWND hwnd, struct ClcData *dat);
-void  fnCalcEipPosition(struct ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
-int   fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
-int   fnClcStatusToPf2(int status);
-int   fnIsHiddenMode(struct ClcData *dat, int status);
-void  fnHideInfoTip(HWND hwnd, struct ClcData *dat);
-void  fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
+int  fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
+void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
+void fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);
+void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat);
+void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
+void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
+int  fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
+void fnEndRename(HWND hwnd, struct ClcData *dat, int save);
+void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat);
+void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat);
+void fnCalcEipPosition(struct ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);
+int  fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
+int  fnClcStatusToPf2(int status);
+int  fnIsHiddenMode(struct ClcData *dat, int status);
+void fnHideInfoTip(HWND hwnd, struct ClcData *dat);
+void fnNotifyNewContact(HWND hwnd, MCONTACT hContact);
+void fnGetSetting(int i, LOGFONT* lf, COLORREF* colour);
+void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
+void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour);
+void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
+void fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
+void fnSetGroupChildCheckboxes(ClcGroup *group, int checked);
+void fnSetContactCheckboxes(ClcContact *cc, int checked);
+void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem);
+
 DWORD fnGetDefaultExStyle(void);
-void  fnGetSetting(int i, LOGFONT* lf, COLORREF* colour);
-void  fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour);
-void  fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour);
-void  fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
-void  fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
-void  fnSetGroupChildCheckboxes(ClcGroup *group, int checked);
-void  fnSetContactCheckboxes(ClcContact *cc, int checked);
-void  fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem);
 
 int fnGetRowBottomY(struct ClcData *dat, int item);
 int fnGetRowHeight(struct ClcData *dat, int item);
@@ -110,20 +111,19 @@ void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 
 /* clistmenus.c */
 HGENMENU fnGetProtocolMenu(const char*);
-int      fnGetProtocolVisibility(const char* accName);
-int      fnConvertMenu(TMO_MenuItem*, TMO_MenuItem*);
-int      fnGetAverageMode(int *pNetProtoCount);
+int fnGetProtocolVisibility(const char* accName);
+int fnGetAverageMode(int *pNetProtoCount);
 
-int      fnGetAccountIndexByPos(int Pos);
-int      fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
-void     RebuildMenuOrder(void);
+int fnGetAccountIndexByPos(int Pos);
+int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
+void RebuildMenuOrder(void);
 
 INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);
 
 /* clistsettings.c */
 TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode);
-void   fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
-void   fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
+void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
+void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 
 ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact);
 ClcCacheEntry* fnCreateCacheItem (MCONTACT hContact);

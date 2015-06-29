@@ -77,7 +77,7 @@ INT_PTR QuotesMenu_EnableDisable(WPARAM, LPARAM)
 
 void InitMenu()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 
@@ -122,7 +122,7 @@ void InitMenu()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
 	if (bSubGroups) {
-		TMO_MenuItem miroot = { 0 };
+		CMenuItem miroot;
 		miroot.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		miroot.name.a = QUOTES_PROTOCOL_NAME;
 		mi.root = Menu_AddContactMenuItem(&miroot, QUOTES_PROTOCOL_NAME);

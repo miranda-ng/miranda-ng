@@ -43,7 +43,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int MainInit(WPARAM, LPARAM)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 10;
 	mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
 	mi.name.a = LPGEN("&Buddy Pounce");

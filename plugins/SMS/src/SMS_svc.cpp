@@ -28,7 +28,7 @@ int LoadModules(void)
 	char szServiceFunction[MAX_PATH];
 	mir_snprintf(szServiceFunction,_countof(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 300050000;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_SMS);
 	mi.name.t = SMS_SEND_STR;

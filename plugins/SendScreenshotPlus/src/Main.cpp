@@ -270,8 +270,9 @@ DLL_EXPORT int Load(void)
 	srv_reg(SendDesktop);
 	srv_reg(EditBitmap);
 	srv_reg(Send2ImageShack);
-	/// menu items
-	TMO_MenuItem mi = { 0 };
+	
+	// menu items
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 	

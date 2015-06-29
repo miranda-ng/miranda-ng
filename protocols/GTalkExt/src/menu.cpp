@@ -37,14 +37,14 @@ INT_PTR OpenMailboxMenuHandler(WPARAM, LPARAM, LPARAM param)
 
 int InitMenus(WPARAM wParam, LPARAM lParam)
 {
-	GoogleTalkAcc* pga = isGoogle(lParam);
+	GoogleTalkAcc *pga = isGoogle(lParam);
 	if (pga != NULL) {
 		LPCSTR szModuleName = pga->m_japi->GetModuleName();
 		char szServiceName[100];
 		mir_snprintf(szServiceName, _countof(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
 		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.root = HGENMENU(wParam);
 		mi.hIcolibItem = g_hPopupIcon;
 		mi.position = 200101;

@@ -356,7 +356,7 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 
 void InitMenus()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	// main menu item
 	mi.hIcolibItem = GetIconHandle(I_MENUOFF);

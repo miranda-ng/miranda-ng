@@ -235,7 +235,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 #define GGS_BLOCKUSER "/BlockUser"
 void GGPROTO::block_init()
 {
-   TMO_MenuItem mi = { 0 };
+   CMenuItem mi;
    mi.position = -500050000;
    mi.hIcolibItem = iconList[8].hIcolib;
    mi.name.a = LPGEN("&Block");
@@ -257,7 +257,7 @@ void GGPROTO::block_uninit()
 // Menus initialization
 void GGPROTO::menus_init()
 {
-   TMO_MenuItem mi = { 0 };
+   CMenuItem mi;
 
    HGENMENU hGCRoot, hCLRoot, hRoot = Menu_GetProtocolRoot(m_szModuleName);
    if (hRoot == NULL) {

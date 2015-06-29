@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_HELP);

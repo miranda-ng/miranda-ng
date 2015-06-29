@@ -268,7 +268,7 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 
 void CMsnProto::MsnInitMainMenu(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
@@ -398,7 +398,7 @@ void MSN_InitContactMenu(void)
 	mir_strcpy(servicefunction, "MSN");
 	char* tDest = servicefunction + mir_strlen(servicefunction);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.pszService = servicefunction;
 
 	mir_strcpy(tDest, MSN_BLOCK);

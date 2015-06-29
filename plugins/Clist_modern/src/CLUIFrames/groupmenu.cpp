@@ -222,7 +222,7 @@ void InitGroupMenus(void)
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 
 	// add exit command to menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1900000;
 	mi.pszService = "CloseAction";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
@@ -460,7 +460,7 @@ void InitSubGroupMenus(void)
 	// add exit command to menu
 	GroupMenuParam gmp;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000;
 	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";

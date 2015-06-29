@@ -6,7 +6,7 @@ HANDLE hEventMenuBuild;
 void InitMenus()
 {
 	// main menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 500099900);
 

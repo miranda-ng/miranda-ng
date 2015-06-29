@@ -92,7 +92,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	char servicename[128];
 	int i, count;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 2000100000;
 	mi.flags = CMIF_TCHAR;
 	mcount = 0;

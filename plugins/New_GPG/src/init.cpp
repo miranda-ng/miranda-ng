@@ -176,45 +176,36 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
-   // !!!!!!!! check it later
-	TMO_MenuItem mi = { 0 };
-	mi.position=-0x7FFFFFFF;
-	mi.flags=CMIF_TCHAR;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t=LPGENT("Load GPG public key");
-	mi.pszService="/LoadPubKey";
+	CMenuItem mi;
+	mi.position = -0x7FFFFFFF;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Load GPG public key");
+	mi.pszService = "/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 
-	memset(&mi, 0, sizeof(mi));
-	mi.position=-0x7FFFFFFe;
-	mi.flags=CMIF_TCHAR;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t=LPGENT("Toggle GPG encryption");
-	mi.pszService="/ToggleEncryption";
+	mi.position = -0x7FFFFFFe;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Toggle GPG encryption");
+	mi.pszService = "/ToggleEncryption";
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
 
-	memset(&mi, 0, sizeof(mi));
-	mi.position=-0x7FFFFFFd;
-	mi.flags=CMIF_TCHAR;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t=LPGENT("Send public key");
-	mi.pszService="/SendKey";
+	mi.position = -0x7FFFFFFd;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Send public key");
+	mi.pszService = "/SendKey";
 	hSendKey = Menu_AddContactMenuItem(&mi);
 
-	memset(&mi, 0, sizeof(mi));
-	mi.position=-0x7FFFFFFe;
-	mi.flags=CMIF_TCHAR;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t=LPGENT("Export GPG Public keys");
-	mi.pszService="/ExportGPGKeys";
+	mi.position = -0x7FFFFFFe;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Export GPG Public keys");
+	mi.pszService = "/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
 
-	memset(&mi, 0, sizeof(mi));
-	mi.position=-0x7FFFFFFF;
-	mi.flags=CMIF_TCHAR;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t=LPGENT("Import GPG Public keys");
-	mi.pszService="/ImportGPGKeys";
+	mi.position = -0x7FFFFFFF;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.t = LPGENT("Import GPG Public keys");
+	mi.pszService = "/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);
 
 	InitIconLib();

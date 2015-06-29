@@ -1113,7 +1113,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		CreateDirectoryA(AvatarsFolder, NULL);
 
 	// erweiterte Kontextmenüpunkte
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500090000;
 	mi.name.a = protocolname;
 	mi.root = Menu_AddContactMenuItem(&mi, protocolname);

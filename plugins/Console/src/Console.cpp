@@ -1159,7 +1159,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = hIcons[0];
 		mi.position = 1900000000;

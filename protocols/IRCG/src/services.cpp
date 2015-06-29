@@ -26,7 +26,7 @@ void CIrcProto::InitMainMenus(void)
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
 		// Root popupmenuitem
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901010;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -40,7 +40,7 @@ void CIrcProto::InitMainMenus(void)
 		}
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hRoot;
 
 	mi.name.a = LPGEN("&Quick connect");
@@ -135,7 +135,7 @@ void InitContactMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + mir_snprintf(temp, _countof(temp), "IRC");
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.pszService = temp;
 
 	mi.name.a = LPGEN("Channel &settings");

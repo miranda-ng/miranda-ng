@@ -153,7 +153,7 @@ void SvcHomepageRebuildMenu()
 
 	if (!ghMenuItem) {
 		// insert contact menuitem
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = -2000010000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_GOTO);
 		mi.name.a = LPGEN("&Homepage");

@@ -23,7 +23,7 @@ HGENMENU hService2[7];
 
 void InitMenu()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("News Aggregator"), 500099000);
 

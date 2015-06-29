@@ -179,8 +179,7 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 
 void InitMenuItems(void)
 {
-	TMO_MenuItem mi = { 0 };
-	// support new genmenu style
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
 	// Build main menu
@@ -191,7 +190,6 @@ void InitMenuItems(void)
 
 	// Add item to main menu
 	mi.root = (HGENMENU)hMenuRoot;
-
 	mi.pszService = MENUCOMMAND_SVC;
 	CreateServiceFunction(mi.pszService, svcEnableDisableMenuCommand);
 	mi.name.t = PopupOptions.ModuleIsEnabled ? LPGENT("Disable Popups") : LPGENT("Enable Popups");

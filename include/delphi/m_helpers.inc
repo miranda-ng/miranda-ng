@@ -392,22 +392,26 @@ end;
 
 function Menu_AddMainMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  result:=_AddMainMenuItem(mi, hLangpack);
+  mi^.hLangpack:=hLangpack;
+  result:=_AddMainMenuItem(mi);
 end;
 
 function Menu_AddContactMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  result:=_AddContactMenuItem(mi, nil, hLangpack);
+  mi^.hLangpack:=hLangpack;
+  result:=_AddContactMenuItem(mi, nil);
 end;
 
 function Menu_AddStatusMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  result:=_AddStatusMenuItem(mi, nil, hLangpack);
+  mi^.hLangpack:=hLangpack;
+  result:=_AddStatusMenuItem(mi, nil);
 end;
 
 function Menu_AddProtoMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
-  result:=_AddProtoMenuItem(mi, nil, hLangpack);
+  mi^.hLangpack:=hLangpack;
+  result:=_AddProtoMenuItem(mi, nil);
 end;
 
 function Menu_AddTrayMenuItem(mi:PMO_MenuItem):HGENMENU;

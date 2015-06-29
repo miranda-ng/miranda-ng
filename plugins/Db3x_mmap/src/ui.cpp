@@ -311,7 +311,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
 	// main menu item
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.name.t = LPGENT("Database");
 	mi.position = 500000000;
 	mi.flags = CMIF_TCHAR;

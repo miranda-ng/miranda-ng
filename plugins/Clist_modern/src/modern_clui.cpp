@@ -335,7 +335,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 {
 	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
 	mi.hIcolibItem = iconItem[0].hIcolib;

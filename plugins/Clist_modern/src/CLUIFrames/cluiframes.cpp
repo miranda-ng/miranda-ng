@@ -767,7 +767,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	int framepos = id2pos(frameid);
 	FrameMenuHandles &fmh = (frameid == -1) ? cont : g_pfwFrames[framepos].MenuHandles;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
@@ -1487,7 +1487,7 @@ static int CLUIFramesLoadMainMenu()
 	}
 
 	// create root menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.name.a = LPGEN("Frames");

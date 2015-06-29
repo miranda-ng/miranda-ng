@@ -336,8 +336,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_NUDGE_SHOWMENU, NudgeShowMenu);
 
 	// Add contact menu entry
-	TMO_MenuItem mi = { 0 };
-	// mi.popupPosition = 500085000; !!!!!!!!!!!!!!!!!!!!!
+	CMenuItem mi;
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.hIcolibItem = iconList[0].hIcolib;
