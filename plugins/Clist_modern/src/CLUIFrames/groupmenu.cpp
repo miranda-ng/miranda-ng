@@ -70,8 +70,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	mmep->Param1 = 0; // mi->popupPosition; !!!!!!!!!!!!!!!!!!
-	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
+	GroupMenuParam *gmp = (GroupMenuParam*)wParam;
 	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
@@ -366,7 +365,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	TMO_MenuItem *pmi = (TMO_MenuItem*)lParam;
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
+	GroupMenuParam *gmp = (GroupMenuParam*)wParam;
 	if (gmp != NULL) {
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
