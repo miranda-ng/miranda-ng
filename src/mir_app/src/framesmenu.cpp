@@ -49,8 +49,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 
 	FrameMenuExecParam *fmep = new FrameMenuExecParam();
 	fmep->szServiceName = mir_strdup(pmi->pszService);
-	pmi->ownerdata = fmep;
-	return (INT_PTR)Menu_AddItem(hFrameMenuObject, pmi);
+	return (INT_PTR)Menu_AddItem(hFrameMenuObject, pmi, fmep);
 }
 
 // called with:

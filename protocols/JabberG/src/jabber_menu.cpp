@@ -193,7 +193,7 @@ void g_MenuInit(void)
 		mi.name.a = "Cancel";
 		mi.position = 9999999;
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-		Menu_AddItem(hChooserMenu, &mi);
+		Menu_AddItem(hChooserMenu, &mi, NULL);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -784,10 +784,9 @@ void CJabberProto::GlobalMenuInit()
 
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-	mi.ownerdata = this;
 	mi.position = iChooserMenuPos++;
 	mi.name.t = m_tszUserName;
-	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &mi);
+	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &mi, this);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Hotkeys

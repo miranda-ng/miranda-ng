@@ -101,7 +101,7 @@ void gg_links_instancemenu_init()
 	mi.name.a = "Cancel";
 	mi.position = 9999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	Menu_AddItem(hInstanceMenu, &mi);
+	Menu_AddItem(hInstanceMenu, &mi, NULL);
 }
 
 void gg_links_init()
@@ -117,9 +117,8 @@ void GGPROTO::links_instance_init()
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
-		mi.ownerdata = this;
 		mi.position = g_Instances.getCount();
 		mi.name.t = m_tszUserName;
-		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi);
+		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi, this);
 	}
 }

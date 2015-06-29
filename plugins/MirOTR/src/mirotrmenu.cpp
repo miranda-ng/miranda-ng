@@ -21,8 +21,7 @@ static HGENMENU AddMirOTRMenuItem(TMO_MenuItem *pmi, const char *pszService)
 	// add owner data
 	lpMirOTRMenuExecParam cmep = ( lpMirOTRMenuExecParam )mir_calloc(sizeof(MirOTRMenuExecParam));
 	cmep->szServiceName = mir_strdup(pszService);
-	pmi->ownerdata = cmep;
-	return Menu_AddItem(hMirOTRMenuObject, pmi);
+	return Menu_AddItem(hMirOTRMenuObject, pmi, cmep);
 }
 
 //called with:

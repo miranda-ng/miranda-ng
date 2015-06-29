@@ -46,7 +46,6 @@ struct TMO_MenuItem
 		HICON hIcon;
 		HANDLE hIcolibItem;
 	};
-	void *ownerdata;
 	int hLangpack;
 };
 
@@ -104,7 +103,7 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam);
 // Adds a menu item to genmenu
 // Returns HGENMENU on success, or NULL on failure
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pItem, void *pUserData);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds new submenu
