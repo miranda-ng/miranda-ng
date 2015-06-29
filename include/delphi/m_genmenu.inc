@@ -163,7 +163,6 @@ type
     szName    :TCHAR;
     flags     :integer;
     hIcon     :HICON;   // or hIcolibItem:THANDLE;
-    ownerdata :^pointer;
     hLangpack :int;
   end;
 
