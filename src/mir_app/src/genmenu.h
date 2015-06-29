@@ -55,6 +55,7 @@ struct TMO_IntMenuItem
 	int          originalPosition;
 	DWORD        hotKey;
 	WPARAM       execParam;
+	void*        pUserData;
 
 	TMO_IntMenuItem *next; // next item in list
 	TIntMenuObject  *parent;

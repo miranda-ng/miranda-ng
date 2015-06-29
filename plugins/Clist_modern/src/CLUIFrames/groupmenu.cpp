@@ -75,9 +75,8 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}
-	pmi->ownerdata = mmep;
 
-	HGENMENU hNewItem = Menu_AddItem(hGroupMenuObject, pmi);
+	HGENMENU hNewItem = Menu_AddItem(hGroupMenuObject, pmi, mmep);
 
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", pmi->pszService, pmi->name.a);
@@ -370,9 +369,8 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 		mmep->Param1 = gmp->wParam;
 		mmep->Param2 = gmp->lParam;
 	}
-	pmi->ownerdata = mmep;
 
-	HGENMENU hNewItem = Menu_AddItem(hSubGroupMenuObject, pmi);
+	HGENMENU hNewItem = Menu_AddItem(hSubGroupMenuObject, pmi, mmep);
 
 	char buf[1024];
 	mir_snprintf(buf, "%s/%s", pmi->pszService, pmi->name.a);

@@ -379,7 +379,7 @@ MIR_APP_DLL(void*) Menu_GetItemData(HGENMENU hMenuItem)
 
 	mir_cslock lck(csMenuHook);
 	TMO_IntMenuItem *pimi = MO_GetIntMenuItem(hMenuItem);
-	return (pimi) ? pimi->mi.ownerdata : NULL;
+	return (pimi) ? pimi->pUserData : NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -457,7 +457,7 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam)
 	}
 
 	LPCSTR srvname = pimi->parent->ExecService;
-	CallService(srvname, (WPARAM)pimi->mi.ownerdata, lParam);
+	CallService(srvname, (WPARAM)pimi->pUserData, lParam);
 	return true;
 }
 
@@ -692,14 +692,14 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	mi.hLangpack = hLang;
 	mi.name.t = (TCHAR*)ptszName;
 	mi.position = position;
-	return Menu_AddItem(hMenuObject, &mi);
+	return Menu_AddItem(hMenuObject, &mi, NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds new menu item
 // Returns a handle to the newly created item or NULL
 
-MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi)
+MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUserData)
 {
 	if (!bIsGenMenuInited || pmi == NULL)
 		return NULL;
@@ -719,6 +719,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi)
 	p->iconId = -1;
 	p->OverrideShow = TRUE;
 	p->originalPosition = pmi->position;
+	p->pUserData = pUserData;
 
 	if (pmi->flags & CMIF_UNICODE)
 		p->mi.name.t = mir_tstrdup(pmi->name.t);
@@ -885,7 +886,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, INT_PTR
 			TCheckProcParam CheckParam;
 			CheckParam.wParam = wParam;
 			CheckParam.lParam = lParam;
-			CheckParam.MenuItemOwnerData = mi->ownerdata;
+			CheckParam.MenuItemOwnerData = pmi->pUserData;
 			CheckParam.MenuItemHandle = pmi;
 			if (CallService(pmo->CheckService, (WPARAM)&CheckParam, 0) == FALSE)
 				continue;
@@ -1191,7 +1192,7 @@ TIntMenuObject::~TIntMenuObject()
 void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 {
 	if (FreeService)
-		CallService(FreeService, (WPARAM)p, (LPARAM)p->mi.ownerdata);
+		CallService(FreeService, (WPARAM)p, (LPARAM)p->pUserData);
 
 	p->signature = 0;
 	FreeAndNil((void**)&p->mi.name.t);

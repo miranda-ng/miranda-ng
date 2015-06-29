@@ -187,9 +187,8 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
 	mmep->szMenuName = pmi->name.t;
-	pmi->ownerdata = mmep;
 
-	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi, mmep);
 	if (pimi == NULL)
 		return NULL;
 
@@ -254,10 +253,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *psz
 	cmep->szServiceName = mir_strdup(pmi->pszService);
 	if (pszProto != NULL)
 		cmep->pszContactOwner = mir_strdup(pszProto);
-	pmi->ownerdata = cmep;
 
 	// may be need to change how UniqueName is formed?
-	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, pmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hContactMenuObject, pmi, cmep);
 	if (pimi == NULL)
 		return NULL;
 	
@@ -384,9 +382,8 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 		smep->svc = mir_strdup(pmi->pszService);
 		smep->szProto = mir_strdup(pszProto);
 	}
-	pmi->ownerdata = smep;
 
-	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, pmi);
+	TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, pmi, smep);
 	if (pimi == NULL)
 		return NULL;
 	
@@ -842,9 +839,7 @@ void RebuildMenuOrder(void)
 		// owner data
 		StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->szProto = mir_strdup(pa->szModuleName);
-		mi.ownerdata = smep;
-
-		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &mi);
+		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -855,7 +850,6 @@ void RebuildMenuOrder(void)
 		// owner data
 		smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 		smep->szProto = mir_strdup(pa->szModuleName);
-		mi.ownerdata = smep;
 
 		if (Proto_IsAccountLocked(pa))
 			mi.flags |= CMIF_CHECKED;
@@ -866,8 +860,8 @@ void RebuildMenuOrder(void)
 		}
 		else mi.name.t = pa->tszAccountName;
 
-		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &mi);
-		((StatusMenuExecParam*)mi.ownerdata)->protoindex = (int)pimi;
+		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &mi, smep);
+		smep->protoindex = (int)pimi;
 		Menu_ModifyItem(pimi, mi.name.t, mi.hIcon, mi.flags);
 
 		cli.menuProtos = (MenuProto*)mir_realloc(cli.menuProtos, sizeof(MenuProto)*(cli.menuProtoCount + 1));
@@ -904,11 +898,10 @@ void RebuildMenuOrder(void)
 			smep->status = statusModeList[j];
 			smep->protoindex = i;
 			smep->szProto = mir_strdup(pa->szModuleName);
-			mi.ownerdata = smep;
 
 			hStatusMenuHandles[i].protoindex = i;
 			hStatusMenuHandles[i].protostatus[j] = statusModeList[j];
-			hStatusMenuHandles[i].menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi);
+			hStatusMenuHandles[i].menuhandle[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 			char buf[256];
 			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, mi.name.a);
@@ -943,14 +936,13 @@ void RebuildMenuOrder(void)
 			// owner data
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 			smep->status = statusModeList[j];
-			mi.ownerdata = smep;
 			{
 				TCHAR buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 				mir_sntprintf(buf, _T("%s\t%s"), cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				mi.name.t = buf;
-				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi);
+				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
 				hStatusMainMenuHandles[j]->hotKey = hotKey;
 			}

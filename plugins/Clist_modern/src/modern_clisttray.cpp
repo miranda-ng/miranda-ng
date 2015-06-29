@@ -171,9 +171,8 @@ static INT_PTR BuildTrayMenu(WPARAM, LPARAM)
 static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
 {
 	TMO_MenuItem *pmi = (TMO_MenuItem*)lParam;
-	pmi->ownerdata = mir_strdup(pmi->pszService);
 
-	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, pmi);
+	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, pmi, mir_strdup(pmi->pszService));
 	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, pmi->pszService);
 	return (INT_PTR)hNewItem;
 }
