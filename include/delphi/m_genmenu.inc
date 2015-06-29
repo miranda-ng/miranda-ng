@@ -285,7 +285,7 @@ function Menu_RemoveItem(hMenuItem:HGENMENU) : integer; stdcall;
   return MenuItemHandle on success,-1 on failure
 }
 
-function Menu_AddItem(hMenuObject:integer; var tmi:TMO_MenuItem) : integer; stdcall;
+function Menu_AddItem(hMenuObject:integer; var tmi:TMO_MenuItem; pUserData:pointer) : HGENMENU; stdcall;
               external AppDLL name 'Menu_AddItem';
 
 {
