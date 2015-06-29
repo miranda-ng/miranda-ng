@@ -110,6 +110,7 @@ void CSteamProto::OnInitStatusMenu()
 	}
 
 	TMO_MenuItem mi = { 0 };
+	mi.flags = CMIF_TCHAR;
 	mi.root = hSteamRoot;
 
 	// Show block list
@@ -162,4 +163,3 @@ void CSteamProto::UninitMenus()
 	Menu_RemoveItem(contactMenuItems[CMI_BLOCK]);
 	Menu_RemoveItem(contactMenuItems[CMI_JOIN_GAME]);
 }
-
