@@ -692,7 +692,7 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = IcoLib_GetIconHandle("alarms_menu_set");
 	mi.name.a = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";

@@ -492,7 +492,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 1999990000);
 	if (WumfOptions.PopupsEnabled == FALSE) { 
 		mi.name.a = LPGEN("Enable WUMF popups");

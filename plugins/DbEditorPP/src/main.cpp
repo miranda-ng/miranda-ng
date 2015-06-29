@@ -113,7 +113,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	IcoLibRegister();
 
 	// Register menu item
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 1900000001);
 	
 	mi.position = 1900000001;

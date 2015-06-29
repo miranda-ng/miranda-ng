@@ -921,7 +921,7 @@ extern "C" __declspec(dllexport) int Load()
 	indexCreationMode = (eIndexCreationMode) db_get_b(NULL, MODULE, "IndexCreationMode", 2);
 
 	if (db_get_b(NULL, MODULE, "AddAcceptConMenuItem", 1)) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;

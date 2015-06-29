@@ -1727,7 +1727,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		//function that will be called on menu click
 		hMenuService = CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = -0x7FFFFFFF; //on top menu position
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));

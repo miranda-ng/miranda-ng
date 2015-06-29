@@ -66,7 +66,7 @@ static int EMailPreBuildMenu(WPARAM hContact, LPARAM)
 
 int LoadSendRecvEMailModule(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000010000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.name.a = LPGEN("&E-mail");

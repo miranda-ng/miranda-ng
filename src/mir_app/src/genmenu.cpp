@@ -621,7 +621,7 @@ struct KillMenuItemsParam
 
 int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 {
-	if (pimi->hLangpack == param->hLangpack)
+	if (pimi->mi.hLangpack == param->hLangpack)
 		param->arItems.insert(pimi);
 	return FALSE;
 }
@@ -686,7 +686,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	if (oldroot != NULL)
 		return oldroot;
 
-	TMO_MenuItem tmi = { 0 };
+	CMenuItem tmi;;
 	tmi.flags = CMIF_TCHAR;
 	tmi.hIcolibItem = hIcoLib;
 	tmi.hLangpack = hLang;
@@ -719,7 +719,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi)
 	p->iconId = -1;
 	p->OverrideShow = TRUE;
 	p->originalPosition = pmi->position;
-	p->hLangpack = pmi->hLangpack;
 
 	if (pmi->flags & CMIF_UNICODE)
 		p->mi.name.t = mir_tstrdup(pmi->name.t);

@@ -268,7 +268,7 @@ INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 // copied and modified form "modified MSN Protocol"
 void AddMenuItems(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	// contact menu
 	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);

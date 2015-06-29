@@ -611,7 +611,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;

@@ -1461,7 +1461,7 @@ void InitGuiElements()
 	hShareNewFileService = CreateServiceFunction(MS_SHARE_NEW_FILE, nShareNewFile);
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;
 	mi.name.t = LPGENT("HTTP Share new file");

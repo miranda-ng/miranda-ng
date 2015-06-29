@@ -67,7 +67,7 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 
 static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, bool checked)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.t = PrepareGroupName(name);
@@ -88,7 +88,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 
 	if (!hMoveToGroupItem) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = 100000;
 		mi.name.a = LPGEN("&Move to group");
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);

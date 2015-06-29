@@ -245,7 +245,7 @@ void SrmmMenu_Load()
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	// create contact menu item
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = -300010;

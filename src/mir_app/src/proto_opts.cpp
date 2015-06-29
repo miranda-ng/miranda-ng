@@ -1018,7 +1018,7 @@ static INT_PTR OptProtosShow(WPARAM, LPARAM)
 
 int OptProtosLoaded(WPARAM, LPARAM)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("&Accounts...");

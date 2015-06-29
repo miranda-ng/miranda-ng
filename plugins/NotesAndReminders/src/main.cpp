@@ -175,7 +175,7 @@ static void InitServices()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void addMenuItem(TMO_MenuItem &mi)
+static void addMenuItem(CMenuItem &mi)
 {
 	if (g_AddContListMI) {
 		HGENMENU save = mi.root; mi.root = NULL;
@@ -194,7 +194,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
 	
 	// register menus
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
 	mi.flags = CMIF_TCHAR;
 

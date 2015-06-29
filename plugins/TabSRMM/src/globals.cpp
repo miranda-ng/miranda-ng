@@ -135,7 +135,7 @@ void CGlobals::reloadSystemModulesChanged()
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
@@ -324,7 +324,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -500050005;
 	mi.hIcolibItem = PluginConfig.g_iconContainer;
 	mi.name.a = LPGEN("&Messaging settings...");

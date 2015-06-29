@@ -97,7 +97,7 @@ extern "C" int __declspec(dllexport) Load()
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = icon.hIcolib;

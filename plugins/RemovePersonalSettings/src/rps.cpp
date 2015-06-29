@@ -121,16 +121,15 @@ extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 
-	TMO_MenuItem mi;
 	char *strTmp;
 
-	CreateServiceFunction("RemovePersonalSettings/RemoveAll",RemoveAllService);
-	memset(&mi, 0, sizeof(mi));
+	CMenuItem mi;
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.a = LPGEN("Remove Personal Settings...");
 	mi.pszService="RemovePersonalSettings/RemoveAll";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, RemoveAllService);
 
 	// Get ini file name
 	gMirandaDir[0] = '\0';

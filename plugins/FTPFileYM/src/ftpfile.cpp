@@ -91,8 +91,8 @@ void InitMenuItems()
 {
 	TCHAR stzName[256];
 
-	TMO_MenuItem mi = { 0 };
-	mi.flags =  CMIF_TCHAR;
+	CMenuItem mi;
+	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.name.t = LPGENT("FTP File");
@@ -104,7 +104,7 @@ void InitMenuItems()
 	memset(&mi, 0, sizeof(mi));
 	mi.name.t = stzName;
 
-	TMO_MenuItem mi2 = { 0 };
+	CMenuItem mi2;
 	mi2.flags =  CMIF_TCHAR;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 

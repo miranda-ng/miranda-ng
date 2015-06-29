@@ -416,7 +416,7 @@ int LoadAwayMsgModule(void)
 	hWindowList = WindowList_Create();
 	hWindowList2 = WindowList_Create();
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);

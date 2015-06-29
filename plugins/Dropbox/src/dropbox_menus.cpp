@@ -15,7 +15,7 @@ INT_PTR CDropbox::SendFilesToDropboxCommand(void *obj, WPARAM hContact, LPARAM)
 
 void CDropbox::InitializeMenus()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.pszService = MODULE"/SendFilesToDropbox";
 	mi.name.a = LPGEN("Upload files to Dropbox");
 	mi.position = -2000020000 + CMI_SEND_FILES;

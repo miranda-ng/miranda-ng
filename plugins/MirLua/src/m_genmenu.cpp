@@ -1,44 +1,41 @@
 #include "stdafx.h"
 
-static TMO_MenuItem* MakeMenuItem(lua_State *L)
+static void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
-	TMO_MenuItem *pmi = (TMO_MenuItem*)mir_calloc(sizeof(TMO_MenuItem));
-	pmi->hLangpack = hScriptsLangpack;
+	mi.hLangpack = hScriptsLangpack;
 
 	lua_pushstring(L, "Flags");
 	lua_gettable(L, -2);
-	pmi->flags = lua_tointeger(L, -1);
+	mi.flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(pmi->flags & CMIF_UNICODE))
-		pmi->flags |= CMIF_UNICODE;
+	if (!(mi.flags & CMIF_UNICODE))
+		mi.flags |= CMIF_UNICODE;
 
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);
-	pmi->name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
+	mi.name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Position");
 	lua_gettable(L, -2);
-	pmi->position = lua_tointeger(L, -1);
+	mi.position = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Icon");
 	lua_gettable(L, -2);
-	pmi->hIcolibItem = (HANDLE)lua_touserdata(L, -1);
+	mi.hIcolibItem = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Service");
 	lua_gettable(L, -2);
-	pmi->pszService = (char*)lua_tostring(L, -1);
+	mi.pszService = (char*)lua_tostring(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Parent");
 	lua_gettable(L, -2);
-	pmi->root = (HGENMENU)lua_touserdata(L, -1);
+	mi.root = (HGENMENU)lua_touserdata(L, -1);
 	lua_pop(L, 1);
-
-	return pmi;
 }
 
 static int lua_AddMainMenuItem(lua_State *L)
@@ -49,9 +46,10 @@ static int lua_AddMainMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
+	CMenuItem mi;
+	MakeMenuItem(L, mi);
 
-	HGENMENU res = ::Menu_AddMainMenuItem(pmi, hScriptsLangpack);
+	HGENMENU res = ::Menu_AddMainMenuItem(&mi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -65,9 +63,10 @@ static int lua_AddContactMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
+	CMenuItem mi;
+	MakeMenuItem(L, mi);
 
-	HGENMENU res = ::Menu_AddContactMenuItem(pmi, NULL, hScriptsLangpack);
+	HGENMENU res = ::Menu_AddContactMenuItem(&mi, NULL);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -81,9 +80,10 @@ static int lua_AddTrayMenuItem(lua_State *L)
 		return 1;
 	}
 
-	mir_ptr<TMO_MenuItem> pmi(MakeMenuItem(L));
+	CMenuItem mi;
+	MakeMenuItem(L, mi);
 
-	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)pmi);
+	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)&mi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;

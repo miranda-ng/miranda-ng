@@ -148,12 +148,11 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
-	TMO_MenuItem mi = { 0 };
-	mi.position=-0x7FFFFFFF;
-	mi.flags=0;
-	mi.hIcolibItem=Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.a=LPGEN("Remove Temporary Contacts");
-	mi.pszService="/RemoveTmp";
+	CMenuItem mi;
+	mi.position = -0x7FFFFFFF;
+	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
+	mi.name.a = LPGEN("Remove Temporary Contacts");
+	mi.pszService = "/RemoveTmp";
 
 	Menu_AddMainMenuItem(&mi);
 

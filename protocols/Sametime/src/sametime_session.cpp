@@ -560,7 +560,7 @@ void CSametimeProto::InitSessionMenu()
 
 	CreateProtoService(MS_SAMETIME_MENUANNOUNCESESSION, &CSametimeProto::SessionAnnounce);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000060000;
 	mi.name.t = LPGENT("Send announcement...");

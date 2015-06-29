@@ -211,7 +211,7 @@ void CAimProto::InitMainMenus(void)
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.hIcolibItem = GetIconHandle("aim");
 		mi.name.t = m_tszUserName;
@@ -225,7 +225,7 @@ void CAimProto::InitMainMenus(void)
 		}
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hRoot;
 
 	mi.pszService = "/ManageAccount";
@@ -252,7 +252,7 @@ void CAimProto::InitMainMenus(void)
 
 void CAimProto::InitContactMenus(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	CreateProtoService("/GetHTMLAwayMsg",&CAimProto::GetHTMLAwayMsg);
 	mi.pszService = "/GetHTMLAwayMsg";

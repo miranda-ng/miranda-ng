@@ -119,7 +119,7 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 
 static int SRUrlModulesLoaded(WPARAM, LPARAM)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000040000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.name.a = LPGEN("Web page address (&URL)");

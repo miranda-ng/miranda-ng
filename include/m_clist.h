@@ -79,7 +79,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // MAIN MENU
 
 // adds a new element into main menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *mi, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *mi);
 
 // gets a handle to the main Miranda menu
 // returns a HMENU. This need not to be freed since it's owned by clist
@@ -98,7 +98,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void);
 // CONTACT MENU
 
 // adds a new element into contact menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
 
 // builds the context menu for a specific contact
 // returns a HMENU identifying the menu. This should be DestroyMenu()ed when
@@ -118,7 +118,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetStatusMenu(void);
 
 // adds an item to a status menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
 
 // the status menu is about to be built
 // wParam = lParam = 0
@@ -128,7 +128,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const ch
 // PROTOCOL MENU
 
 // adds an item to status or main menu, according to the option
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GROUP MENU

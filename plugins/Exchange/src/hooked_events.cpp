@@ -60,7 +60,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 
 	UpdateTimers();
-	TMO_MenuItem mi = {0};
+	CMenuItem mi;
 	mi.hIcolibItem = hiMailIcon;
 	mi.position = 10000000;
 	mi.pszService = MS_EXCHANGE_CHECKEMAIL;

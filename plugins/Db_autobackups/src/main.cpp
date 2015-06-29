@@ -99,7 +99,7 @@ int ModulesLoad(WPARAM, LPARAM)
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
 
 	mi.name.a = LPGEN("Backup profile");

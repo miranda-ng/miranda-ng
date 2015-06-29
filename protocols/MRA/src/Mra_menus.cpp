@@ -284,14 +284,14 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		TCHAR szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.root = Menu_GetProtocolRoot(m_szModuleName);
 		mi.name.t = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi);
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 2000060000;
 	mi.root = hRoot;
 	mi.flags = CMIF_UNICODE;
@@ -332,9 +332,9 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 	char szServiceFunction[MAX_PATH];
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
-	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(TMO_MenuItem*, const char*, int);
+	HGENMENU hRootMenu, (__stdcall *fnAddFunc)(TMO_MenuItem*, const char*);
 	if (bIsMain) {
 		fnAddFunc = Menu_AddProtoMenuItem;
 
@@ -357,7 +357,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	mi.flags = 0;
 	mi.name.a = LPGEN("Services...");
 	mi.hIcolibItem = g_hMainIcon;
-	hRootMenu = fnAddFunc(&mi, m_szModuleName, hLangpack);
+	hRootMenu = fnAddFunc(&mi, m_szModuleName);
 
 	mi.root = hRootMenu;
 	mi.pszService = szServiceFunction;
@@ -367,7 +367,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		mi.position = int(lPosition + i);
 		mi.hIcolibItem = pgdiItems[i].hIcolib;
 		mi.name.a = pgdiItems[i].szDescr;
-		hResult[i] = fnAddFunc(&mi, m_szModuleName, hLangpack);
+		hResult[i] = fnAddFunc(&mi, m_szModuleName);
 		Menu_ConfigureItem(hResult[i], MCI_OPT_EXECPARAM, lPopupPosition);
 	}
 

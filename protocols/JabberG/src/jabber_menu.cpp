@@ -188,17 +188,18 @@ void g_MenuInit(void)
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
 
 	hChooserMenu = Menu_AddObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
-
-	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.name.a = "Cancel";
-	tmi.position = 9999999;
-	tmi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	Menu_AddItem(hChooserMenu, &tmi);
+	{
+		CMenuItem mi;
+		mi.name.a = "Cancel";
+		mi.position = 9999999;
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
+		Menu_AddItem(hChooserMenu, &mi);
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
 	// "Request authorization"
 	mi.name.a = LPGEN("Request authorization");
@@ -417,7 +418,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	char text[256];
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.pszService = text;
 
 	CMString szTmp;
@@ -580,7 +581,7 @@ void CJabberProto::MenuInit()
 {
 	HGENMENU hJabberRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hJabberRoot == NULL) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -594,7 +595,7 @@ void CJabberProto::MenuInit()
 		}
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hJabberRoot;
 
 	// "Bookmarks..."
@@ -781,12 +782,12 @@ void CJabberProto::GlobalMenuInit()
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Account chooser menu
 
-	TMO_MenuItem tmi = { sizeof(tmi) };
-	tmi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-	tmi.ownerdata = this;
-	tmi.position = iChooserMenuPos++;
-	tmi.name.t = m_tszUserName;
-	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &tmi);
+	CMenuItem mi;
+	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.ownerdata = this;
+	mi.position = iChooserMenuPos++;
+	mi.name.t = m_tszUserName;
+	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &mi);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Hotkeys

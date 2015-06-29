@@ -309,7 +309,7 @@ void InitTrayMenus(void)
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
 
 	// add exit command to menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 900000;
 	mi.pszService = "CloseAction";
 	mi.name.a = LPGEN("E&xit");

@@ -191,7 +191,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 		
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(m_szModuleName);
 
 	// Proto menu

@@ -75,7 +75,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	/// menu items
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.name.t = LPGENT("View &history");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090000;

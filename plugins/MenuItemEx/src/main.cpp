@@ -735,7 +735,7 @@ INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 
 static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.t = name;
@@ -960,7 +960,7 @@ static int PluginInit(WPARAM, LPARAM)
 
 	ModuleLoad(0, 0);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 
 	mi.position = 120000;

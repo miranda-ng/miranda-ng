@@ -265,7 +265,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500090000;
 	mi.name.t = _T("");
 	mi.pszService = protocolname"/ToggleEnable";

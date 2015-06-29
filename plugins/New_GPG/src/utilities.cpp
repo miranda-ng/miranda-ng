@@ -235,7 +235,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = db_mc_tryMeta(w);
 	{
-		TMO_MenuItem mi2 = { 0 };
+		CMenuItem mi2;
 		LPSTR proto = GetContactProto(hContact);
 		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string setting;

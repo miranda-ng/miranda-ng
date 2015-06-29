@@ -94,7 +94,7 @@ static IconItem iconList[] =
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
 
 	for (int i = 0; i < _countof(iconList); i++) {

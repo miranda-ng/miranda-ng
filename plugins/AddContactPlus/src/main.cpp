@@ -92,7 +92,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (hMainMenuItem)
 			return 0;
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = 500020001;
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = icon.hIcolib;

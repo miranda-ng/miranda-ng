@@ -460,7 +460,7 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 
 int Create_MenuitemShowList(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;

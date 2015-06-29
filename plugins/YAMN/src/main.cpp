@@ -141,7 +141,7 @@ void CheckMenuItems()
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 0xb0000000;
 	mi.hIcolibItem = g_GetIconHandle(0);
 	mi.name.a = LPGEN("Check &mail (All Account)");

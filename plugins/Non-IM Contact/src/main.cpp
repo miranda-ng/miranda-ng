@@ -141,7 +141,7 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("TestStringReplaceLine", testStringReplacer);
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 600090000;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Non-IM Contact"), 600090000);
 	mi.name.a = LPGEN("&Add Non-IM Contact");

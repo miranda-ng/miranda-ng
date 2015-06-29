@@ -170,7 +170,7 @@ void InitMenuItems(void)
 
 	hMenuRoot = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 500010000, IcoLib_GetIcon(isEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0));
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = hMenuRoot;
 

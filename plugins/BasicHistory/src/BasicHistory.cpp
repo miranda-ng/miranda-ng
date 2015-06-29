@@ -96,7 +96,7 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 
 void InitMenuItems()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000090000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.name.a = LPGEN("View &History");
@@ -120,7 +120,7 @@ void InitTaskMenuItems()
 {
 	if (Options::instance->taskOptions.size() > 0) {
 		if (hTaskMainMenu == NULL) {
-			TMO_MenuItem mi = { 0 };
+			CMenuItem mi;
 			mi.position = 500060005;
 			mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 			mi.name.a = LPGEN("Execute history task");
@@ -137,7 +137,7 @@ void InitTaskMenuItems()
 
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
-			TMO_MenuItem mi = { 0 };
+			CMenuItem mi;
 			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.root = hTaskMainMenu;

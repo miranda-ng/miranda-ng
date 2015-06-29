@@ -73,7 +73,7 @@ int LoadHelpModule(void)
 	CreateServiceFunction("Help/WebsiteCommand", WebsiteCommand);
 	CreateServiceFunction("Help/BugCommand", BugCommand);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("&Help"), 2000090000);
 
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);

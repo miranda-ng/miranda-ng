@@ -134,9 +134,8 @@ extern "C" int __declspec(dllexport) Load()
 	
 	CreateServiceFunction(MODULE_NAME "/MenuCommand", PluginMenuCommand);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -0x7FFFFFFF;
-	mi.flags = 0;
 	mi.hIcolibItem = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_ONLINE);
 	mi.name.a = LPGEN("&Check all Gmail inboxes");
 	mi.pszService = MODULE_NAME "/MenuCommand";

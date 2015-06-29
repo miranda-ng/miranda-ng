@@ -256,7 +256,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	if (hRoot == NULL)
 		return 0;
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = hRoot;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1001;

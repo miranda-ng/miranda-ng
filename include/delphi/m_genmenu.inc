@@ -167,16 +167,16 @@ type
     hLangpack :int;
   end;
 
-function _AddMainMenuItem(mi:PMO_MenuItem; hlang:integer) : HGENMENU; stdcall;
+function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddMainMenuItem';
 
-function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddContactMenuItem';
 
-function _AddProtoMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+function _AddProtoMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddProtoMenuItem';
 
-function _AddStatusMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar; hlang:integer) : HGENMENU; stdcall;
+function _AddStatusMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddStatusMenuItem';
 
 {

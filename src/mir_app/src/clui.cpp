@@ -326,29 +326,29 @@ int LoadCLUIModule(void)
 		db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
 		0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 
-	CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 	mi.position = 2000070000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.name.a = LPGEN("De&lete");
 	mi.pszService = "CList/DeleteContactCommand";
 	Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, MenuItem_DeleteContact);
 
-	CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
 	mi.position = 2000050000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_RENAME);
 	mi.name.a = LPGEN("&Rename");
 	mi.pszService = "CList/RenameContactCommand";
 	hRenameMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, MenuItem_RenameContact);
 
-	CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
 	mi.position = -2050000000;
 	mi.flags |= CMIF_NOTONLIST;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	mi.name.a = LPGEN("&Add permanently to list");
 	mi.pszService = "CList/AddToListContactCommand";
 	Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, MenuItem_AddContactToList);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MenuItem_PreBuild);
 	return 0;

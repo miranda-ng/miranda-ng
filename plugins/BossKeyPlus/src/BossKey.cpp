@@ -530,7 +530,7 @@ static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show t
 
 void BossKeyMenuItemInit(void) // Add menu item
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
 	mi.hIcolibItem = IcoLib_GetIcon("hidemim");

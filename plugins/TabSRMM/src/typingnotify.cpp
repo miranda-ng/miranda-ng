@@ -536,7 +536,7 @@ int TN_ModuleInit()
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		if (!Disabled) {
 			mi.name.a = LPGEN("Disable &typing notification");
 			mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));

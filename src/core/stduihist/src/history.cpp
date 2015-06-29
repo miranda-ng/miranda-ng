@@ -401,7 +401,7 @@ static int PreShutdownHistoryModule(WPARAM, LPARAM)
 
 int LoadHistoryModule(void)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000090000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.name.a = LPGEN("View &history");

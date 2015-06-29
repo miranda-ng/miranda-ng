@@ -15,7 +15,7 @@ namespace mu
 		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			TMO_MenuItem mi = { 0 };
+			CMenuItem mi;
 			mi.name.t = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
@@ -28,7 +28,7 @@ namespace mu
 		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
-			TMO_MenuItem mi = { 0 };
+			CMenuItem mi;
 			mi.name.t = (TCHAR*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;

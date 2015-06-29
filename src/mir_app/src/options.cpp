@@ -1293,7 +1293,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.position = 1900000000;
 	mi.name.a = LPGEN("&Options...");

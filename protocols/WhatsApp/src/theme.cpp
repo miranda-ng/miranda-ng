@@ -49,7 +49,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.position = 500085000;
 		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (isOnline() ? 0 : CMIF_GRAYED);
 		mi.hIcolibItem = GetIconHandle("whatsApp");
@@ -63,7 +63,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = (isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 

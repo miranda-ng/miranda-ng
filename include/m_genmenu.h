@@ -50,6 +50,17 @@ struct TMO_MenuItem
 	int hLangpack;
 };
 
+#ifdef __cplusplus
+struct CMenuItem : public TMO_MenuItem
+{
+	CMenuItem()
+	{
+		memset(this, 0, sizeof(CMenuItem));
+		this->hLangpack = ::hLangpack;
+	}
+};
+#endif
+
 /*
 This structure passed to CheckService.
 */

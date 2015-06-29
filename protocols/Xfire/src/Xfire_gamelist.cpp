@@ -241,7 +241,7 @@ void Xfire_gamelist::clearGamelist() {
 //erstellt ein dummyeintrag
 void Xfire_gamelist::createDummyMenuItem()
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 	mi.position = 500090001;
 	mi.name.a = Translate("Please wait...");

@@ -628,7 +628,7 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 1000050000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.a = LPGEN("User &details");

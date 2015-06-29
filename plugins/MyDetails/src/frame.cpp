@@ -327,7 +327,7 @@ int CreateFrame()
 
 		// Create menu item
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
 		mi.position = 1;

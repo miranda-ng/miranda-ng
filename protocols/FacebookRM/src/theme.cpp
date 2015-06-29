@@ -107,7 +107,7 @@ void InitContactMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000006000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
 	mi.name.a = LPGEN("Visit profile");
@@ -210,7 +210,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (hRoot == NULL) {
-		TMO_MenuItem miRoot = { 0 };
+		CMenuItem miRoot;
 		miRoot.position = 500085000;
 		miRoot.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
 		miRoot.hIcolibItem = GetIconHandle("facebook");
@@ -224,7 +224,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 		}
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 	mi.root = hRoot;

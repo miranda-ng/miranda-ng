@@ -381,7 +381,7 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction", CloseAction);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 200000;
 	mi.pszService = "CList/SetContactIgnore";
 	mi.hIcolibItem = iconItem[1].hIcolib;

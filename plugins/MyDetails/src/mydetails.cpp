@@ -87,7 +87,7 @@ static int MainInit(WPARAM, LPARAM)
 	InitProtocolData();
 
 	// Add options to menu
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 500050000;
 	mi.flags =  CMIF_TCHAR;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);

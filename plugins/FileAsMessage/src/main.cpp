@@ -174,7 +174,7 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 200011;
 	mi.hIcolibItem = hIcons[ICON_MAIN];
 	mi.name.a = LPGEN("File As Message...");

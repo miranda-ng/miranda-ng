@@ -716,7 +716,7 @@ static void LoadMenus()
 	// Remove thumb menu item
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));

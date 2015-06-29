@@ -447,7 +447,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	LoadMsgLogIcons();
 	ModuleLoad(0, 0);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.position = -2000090000;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);

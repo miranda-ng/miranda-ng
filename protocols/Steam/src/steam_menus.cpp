@@ -98,7 +98,7 @@ void CSteamProto::OnInitStatusMenu()
 {
 	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
 	if (!hSteamRoot) {
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.name.t = m_tszUserName;
 		mi.position = -1999901006;
 		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -109,7 +109,7 @@ void CSteamProto::OnInitStatusMenu()
 		m_hMenuRoot = NULL;
 	}
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = hSteamRoot;
 
@@ -127,7 +127,7 @@ void CSteamProto::InitMenus()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 
 	// "Request authorization"

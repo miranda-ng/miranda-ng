@@ -416,7 +416,7 @@ BOOL GGPROTO::sessions_closedlg()
 
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.root = hRoot;
 	

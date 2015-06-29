@@ -991,7 +991,7 @@ void InitList()
 
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
 		mi.position = 3000320001;

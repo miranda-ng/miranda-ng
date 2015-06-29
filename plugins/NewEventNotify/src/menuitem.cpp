@@ -50,7 +50,7 @@ int MenuitemInit(BOOL bStatus)
 {
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
-	TMO_MenuItem mi = { 0 };
+	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 	mi.position = 1;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));

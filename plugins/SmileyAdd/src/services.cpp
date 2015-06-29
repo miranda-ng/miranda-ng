@@ -292,10 +292,10 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		CMString cat;
 		opt.ReadContactCategory(wParam, cat);
 
-		TMO_MenuItem mi = { 0 };
+		CMenuItem mi;
 		mi.root = hContactMenuItem;
-		mi.flags       = CMIF_TCHAR;
-		mi.pszService  = MS_SMILEYADD_CUSTOMCATMENU;
+		mi.flags = CMIF_TCHAR;
+		mi.pszService = MS_SMILEYADD_CUSTOMCATMENU;
 
 		bool nonecheck = true;
 		HGENMENU hMenu;
