@@ -78,14 +78,12 @@ class CGenMenuOptionsPage : public CDlgBase
 		tvi.pszText = idstr;
 
 		int count = 0;
-		int menupos = GetMenuObjbyId(MenuObjectId);
-		if (menupos == -1)
+		TIntMenuObject *pmo = GetMenuObjbyId(MenuObjectId);
+		if (pmo == NULL)
 			return;
 
-		TIntMenuObject *pimo = g_menus[menupos];
-
 		char MenuNameItems[256];
-		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pimo->pszName);
+		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
 		int runtimepos = 100;
 
 		while (tvi.hItem != NULL) {
@@ -147,20 +145,16 @@ class CGenMenuOptionsPage : public CDlgBase
 	{
 		FreeTreeData();
 
-		int menupos = GetMenuObjbyId(MenuObjectId);
-		if (menupos == -1)
-			return false;
-
-		TIntMenuObject* pimo = g_menus[menupos];
-		if (pimo->m_items.first == NULL)
+		TIntMenuObject *pmo = GetMenuObjbyId(MenuObjectId);
+		if (pmo == NULL || pmo->m_items.first == NULL)
 			return false;
 
 		char menuItemName[256], MenuNameItems[256];
-		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pimo->pszName);
+		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
 
 		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 
-		for (TMO_IntMenuItem *p = pimo->m_items.first; p != NULL; p = p->next) {
+		for (TMO_IntMenuItem *p = pmo->m_items.first; p != NULL; p = p->next) {
 			if (p->mi.root != (HGENMENU)-1 && p->mi.root != NULL)
 				continue;
 
@@ -237,9 +231,9 @@ class CGenMenuOptionsPage : public CDlgBase
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
 		bRebuild = false;
 
-		ShowWindow(m_warning.GetHwnd(), (pimo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
-		m_menuItems.Enable(pimo->m_bUseUserDefinedItems);
-		m_btnInsert.Enable(pimo->m_bUseUserDefinedItems);
+		ShowWindow(m_warning.GetHwnd(), (pmo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
+		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
+		m_btnInsert.Enable(pmo->m_bUseUserDefinedItems);
 		return 1;
 	}
 

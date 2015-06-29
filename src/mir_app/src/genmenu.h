@@ -68,28 +68,28 @@ struct TIntMenuObject : public MZeroedObject
 	TIntMenuObject();
 	~TIntMenuObject();
 
-	char  *pszName;
+	int id;
+	char *pszName;
 	TCHAR *ptszDisplayName;
-	int    id;
 
 	//ExecService
 	//LPARAM lParam;//owner data
 	//WPARAM wParam;//allways lparam from winproc
-	LPCSTR ExecService;
+	char *ExecService;
 
 	//CheckService called when building menu
 	//return false to skip item.
 	//LPARAM lParam;//0
 	//WPARAM wParam;//CheckParam
-	LPCSTR CheckService;//analog to check_proc
+	char *CheckService;//analog to check_proc
 
 	//LPARAM lParam;//ownerdata
 	//WPARAM wParam;//menuitemhandle
-	LPCSTR FreeService;//callback service used to free ownerdata for menuitems
+	char *FreeService;//callback service used to free ownerdata for menuitems
 
 	//LPARAM lParam;//MENUITEMINFO filled with all needed data
 	//WPARAM wParam;//menuitemhandle
-	LPCSTR onAddService;//called just before add MENUITEMINFO to hMenu
+	char *onAddService;//called just before add MENUITEMINFO to hMenu
 
 	TMO_LinkedList m_items;
 	HIMAGELIST m_hMenuIcons;
@@ -128,8 +128,9 @@ BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles 
 LPTSTR GetMenuItemText(TMO_IntMenuItem*);
 
 int GenMenuOptInit(WPARAM wParam, LPARAM);
-int GetMenuObjbyId(const int id);
 int GetMenuItembyId(const int objpos, const int id);
+
+TIntMenuObject* GetMenuObjbyId(const int id);
 
 int ProtocolOrderOptInit(WPARAM wParam, LPARAM);
 
