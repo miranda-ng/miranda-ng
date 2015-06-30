@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "version.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
-
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +111,7 @@ static int msnProtoUninit(CMsnProto* ppro)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

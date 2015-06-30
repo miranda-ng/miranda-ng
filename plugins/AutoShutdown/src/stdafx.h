@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_file.h>
 #include <m_idle.h>
 #include <win2k.h>
-#include <m_clistint.h>
+#include <m_clist.h>
 #include <m_cluiframes.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>

@@ -22,6 +22,7 @@ TCHAR *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = 
 
 list <JabberAccount*> Accounts;
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 HFONT bold_font = NULL;
 HANDLE hLoadPubKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
@@ -167,8 +168,11 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+
 	init_vars();
 	CreateServiceFunction("/LoadPubKey",LoadKey);
 	CreateServiceFunction("/ToggleEncryption",ToggleEncryption);

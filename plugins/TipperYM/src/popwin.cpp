@@ -1626,7 +1626,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								bTitlePainted = true;
 							}
 
-							TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+							TCHAR *swzNick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
 								TCHAR *swzProto = a2t(proto);
 								mir_sntprintf(swzName, _countof(swzName), _T("%s (%s)"), swzNick, swzProto);

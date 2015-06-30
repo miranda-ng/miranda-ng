@@ -37,6 +37,7 @@ const
   stScript     :PWideChar = 'Script';
   stMetacontact:PWideChar = 'Metacontact';
   stEventCount :PWideChar = 'EventCount';
+  stDisplayName:PWideChar = 'Display name';
 
   stSetting    :PWideChar = 'DB setting';
   stOther      :PWideChar = 'Other';
@@ -466,6 +467,7 @@ begin
   CB_AddStrDataW(list,TranslateW(stLastEvent)  ,QSTO_LASTEVENT);
   CB_AddStrDataW(list,TranslateW(stMetacontact),QSTO_METACONTACT);
   CB_AddStrDataW(list,TranslateW(stEventCount) ,QSTO_EVENTCOUNT);
+  CB_AddStrDataW(list,TranslateW(stDisplayName),QSTO_DISPLAYNAME);
 
   SendMessage(list,CB_SETCURSEL,0,0);
 end;

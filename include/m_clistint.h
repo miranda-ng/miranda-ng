@@ -27,7 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <CommCtrl.h>
 
+#ifndef M_CLIST_H__
 #include <m_clist.h>
+#endif 
+
 #include <m_protocols.h>
 #include <m_clc.h>
 
@@ -343,6 +346,8 @@ typedef struct
 	/* clistmod.c */
 	int    (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
 	int    (*pfnShowHide)(WPARAM, LPARAM);
+	
+	#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
 	TCHAR* (*pfnGetStatusModeDescription)(int mode, int flags);
 
 	/* clistsettings.c */
@@ -350,6 +355,10 @@ typedef struct
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);
 	void           (*pfnCheckCacheItem)(ClcCacheEntry*);
 	void           (*pfnFreeCacheItem)(ClcCacheEntry*);
+
+	#define GCDNF_NOMYHANDLE 1 // will never return the user's custom name
+	#define GCDNF_UNICODE    2 // will return TCHAR* instead of char*
+	#define GCDNF_NOCACHE    4 // will not use the cache
 
 	TCHAR* (*pfnGetContactDisplayName)(MCONTACT hContact, int mode);
 	void   (*pfnInvalidateDisplayNameCacheEntry)(MCONTACT hContact);

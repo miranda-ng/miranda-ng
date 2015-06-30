@@ -76,7 +76,7 @@ void MirandaHistory::readContacts()
 			if (!pProtoName)
 				pProtoName = con::ProtoUnknown; // MEMO: alternative would be "break;"
 
-			ext::string curNick = mu::clist::getContactDisplayName(hContact);
+			ext::string curNick = pcli->pfnGetContactDisplayName(hContact, 0);
 
 			// retrieve protocol
 			const ext::a::string curProtoName = pProtoName;

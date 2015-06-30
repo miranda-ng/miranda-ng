@@ -106,7 +106,7 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
-	mir_tstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
+	mir_tstrcpy(ppd.lpzContactName, (char *)pcli->pfnGetContactDisplayName(hContact, 0));
 	mir_tstrcpy(ppd.lpzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
 	ppd.colorText = GetSysColor(COLOR_INFOTEXT);
@@ -241,7 +241,7 @@ void FILEECHO::updateTitle()
 {
 	char newtitle[256], *contactName;
 
-	contactName = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
+	contactName = (char*)pcli->pfnGetContactDisplayName(hContact, 0);
 	if (iState == STATE_OPERATE && chunkCount != 0)
 		mir_snprintf(newtitle, _countof(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else

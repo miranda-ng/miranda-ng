@@ -16,6 +16,7 @@ HGENMENU hChangeSound = NULL;
 MWindowList hChangeSoundDlgList = NULL;
 BYTE isIgnoreSound = 0, isOwnSound = 0;
 
+CLIST_INTERFACE *pcli;
 CHAT_MANAGER *pci;
 
 PLUGININFOEX pluginInfo = {
@@ -77,7 +78,7 @@ void InitSelfSounds()
 
 			TCHAR infobuf[256];
 			mir_sntprintf(infobuf, _countof(infobuf), _T("%s [%s]"), TranslateT("Self status"), protos[i]->tszAccountName);
-			SkinAddNewSoundExT(namebuf, infobuf, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, selfSounds[j].iStatus, GSMDF_TCHAR));
+			SkinAddNewSoundExT(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}
 }
@@ -208,6 +209,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);
 

@@ -105,7 +105,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 			{
 				TCHAR str[256], format[128];
-				TCHAR *contactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
+				TCHAR *contactName = (TCHAR *)pcli->pfnGetContactDisplayName(dat->hContact, 0);
 				char *szProto = GetContactProto(dat->hContact);
 				WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
 			WindowList_Add(hWindowList2, hwndDlg, dat->hContact);
-			contactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
+			contactName = (TCHAR *)pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			GetWindowText(hwndDlg, format, _countof(format));
 			mir_sntprintf(str, _countof(str), format, contactName);
 			SetWindowText(hwndDlg, str);

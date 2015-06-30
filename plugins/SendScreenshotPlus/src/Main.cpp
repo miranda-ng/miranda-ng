@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "Main.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
+CLIST_INTERFACE *pcli;
 HINSTANCE		g_hSendSS;
 MGLOBAL			g_myGlobals;
 HANDLE			g_hNetlibUser=0;//!< Netlib Register User
@@ -250,6 +251,8 @@ ATOM g_clsTargetHighlighter=0;
 DLL_EXPORT int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	INT_PTR result=CallService(MS_IMG_GETINTERFACE,FI_IF_VERSION,(LPARAM)&FIP);
 	if(FIP==NULL || result!=S_OK) {
 		MessageBox(NULL, TranslateT("Image services (AdvaImg) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);

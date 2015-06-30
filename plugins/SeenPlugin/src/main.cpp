@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "seen.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInstance;
 HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
 HANDLE g_hShutdownEvent;
@@ -85,6 +86,7 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(0, TRUE, FALSE, 0);

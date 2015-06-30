@@ -1114,7 +1114,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 
 			// reply to some user blog
 			if (dat->hContact) {
-				szBuff.Format(TranslateT("Reply to %s blog status"), GetContactNameW(dat->hContact));
+				szBuff.Format(TranslateT("Reply to %s blog status"), pcli->pfnGetContactDisplayName(dat->hContact, 0));
 				SetWindowText(hWndDlg, szBuff.c_str());
 			}
 			else SetWindowText(hWndDlg, TranslateT("Set my blog status"));

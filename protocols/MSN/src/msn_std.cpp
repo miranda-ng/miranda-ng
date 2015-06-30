@@ -46,7 +46,7 @@ void CMsnProto::setStringUtf(MCONTACT hContact, const char* name, const char* va
 TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
 {
 	if (hContact)
-		return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(hContact), GCDNF_TCHAR);
+		return (TCHAR*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0);
 
 	CONTACTINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);

@@ -19,8 +19,8 @@
 
 #include "headers.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst = 0;
-
 int hLangpack;
 
 static HMODULE hAdvaimg = NULL;
@@ -275,6 +275,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 

@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			int i = 0;
 			for (; i < 10; i++) {
-				lvI.pszText = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_OFFLINE + i, GSMDF_TCHAR);
+				lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 				ListView_SetCheckState(hwndList, i, options.disable_status[i]);

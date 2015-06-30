@@ -18,6 +18,7 @@
 
 #include "Glob.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInstance = NULL;
 int hLangpack = 0;
 
@@ -187,6 +188,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);

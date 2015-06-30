@@ -79,7 +79,7 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			if (GetContactPhonesCount(hContact)) {
-				SendDlgItemMessage(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
+				SendDlgItemMessage(hwndSendSms, IDC_NAME, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetContactDisplayName(hContact, 0));
 				SendSMSWindowSMSContactAdd(hwndSendSms,hContact);
 			}
 		}

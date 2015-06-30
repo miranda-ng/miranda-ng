@@ -36,16 +36,6 @@ namespace mu
 			mi.pszService = const_cast<char*>(pszService);
 			return Menu_AddContactMenuItem(&mi);
 		}
-
-		const TCHAR* getContactDisplayName(MCONTACT hContact)
-		{
-			return reinterpret_cast<const TCHAR*>(CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_UNICODE));
-		}
-
-		const TCHAR* getStatusModeDescription(int nStatusMode)
-		{
-			return reinterpret_cast<const TCHAR*>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, static_cast<WPARAM>(nStatusMode), GSMDF_UNICODE));
-		}
 	}
 
 	/*

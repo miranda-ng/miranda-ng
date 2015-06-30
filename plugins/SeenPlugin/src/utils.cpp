@@ -253,7 +253,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 			goto LBL_2DigNum;
 
 		case 'n':
-			charPtr = hcontact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcontact, GCDNF_TCHAR) : (wantempty ? _T("") : _T("---"));
+			charPtr = hcontact ? (TCHAR*)pcli->pfnGetContactDisplayName(hcontact, 0) : (wantempty ? _T("") : _T("---"));
 			goto LBL_charPtr;
 
 		case 'N':
@@ -297,7 +297,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 's':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
-				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting | 0x8000), GSMDF_TCHAR), _countof(szdbsetting));
+				_tcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
 				if (!(isetting & 0x8000)) {
 					mir_tstrncat(szdbsetting, _T("/"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
@@ -317,7 +317,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 'o':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
-				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR), _countof(szdbsetting));
+				_tcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting, 0), _countof(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
 					mir_tstrncat(szdbsetting, _T("/"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));

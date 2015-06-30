@@ -132,7 +132,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	}
 
 	case CCNF_STATUS:
-		return mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_UNICODE));
+		return mir_tstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
 
 	case CCNF_INTERNALIP:
 	case CCNF_EXTERNALIP:

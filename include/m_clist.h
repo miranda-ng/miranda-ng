@@ -60,22 +60,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_CLIST_GETSTATUSMODE			"CList/GetStatusMode"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// gets a textual description of the given status mode
-// wParam = status mode, from statusmodes.h
-// lParam = flags, below
-// returns a static buffer of the description of the given status mode
-// returns NULL if the status mode was unknown
-
-#define GSMDF_UNICODE        2   //will return TCHAR* instead of char*
-#if defined(_UNICODE)
-	#define GSMDF_TCHAR       GSMDF_UNICODE      //will return TCHAR* instead of char*
-#else
-	#define GSMDF_TCHAR       0      //will return char*, as usual
-#endif
-#define GSMDF_UNTRANSLATED   4
-#define MS_CLIST_GETSTATUSMODEDESCRIPTION  "CList/GetStatusModeDescription"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
 // adds a new element into main menu
@@ -229,31 +213,6 @@ typedef struct {
 // sense to store all this information in memory, etc.
 
 #define ME_CLIST_DOUBLECLICKED "CList/DoubleClicked"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// gets the string that the contact list will use to represent a contact
-// wParam = (MCONTACT)hContact
-// lParam = flags
-// returns a pointer to the name, will always succeed, even if it needs to
-// return "(Unknown Contact)"
-// this pointer is to a statically allocated buffer which will be overwritten
-// on every call to this service. Callers should make sure that they copy the
-// information before they call this service again.
-
-#define GCDNF_NOMYHANDLE     1      //will never return the user's custom name
-#define GCDNF_UNICODE        2      //will return TCHAR* instead of char*
-#define GCDNF_NOCACHE        4      //will not use the cache
-
-#if defined(_UNICODE)
-	#define GCDNF_TCHAR       GCDNF_UNICODE      //will return TCHAR* instead of char*
-#else
-	#define GCDNF_TCHAR       0      //will return char*, as usual
-#endif
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// even if it's the one that should be displayed.
-// v0.3.0.0+ if using GCDNF_NOMYHANDLE you must free your string
-#define MS_CLIST_GETCONTACTDISPLAYNAME  "CList/GetContactDisplayName"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invalidates the display name cache
@@ -644,5 +603,9 @@ typedef struct {
 #define SETTING_STATE_NORMAL      2
 
 #define SETTING_BRINGTOFRONT_DEFAULT 0
+
+#ifndef M_CLISTINT_H__
+#include <m_clistint.h>
+#endif
 
 #endif // M_CLIST_H__

@@ -693,7 +693,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 			if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
 				CMStringW szEmail, szBuff;
 				mraGetStringW(hContact, "e-mail", szEmail);
-				szBuff.Format(L"%s <%s> - %s", GetContactNameW(hContact), szEmail, TranslateT("invisible status changed"));
+				szBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), szEmail, TranslateT("invisible status changed"));
 				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, szBuff);
 
 				MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
@@ -1261,7 +1261,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							if (wszNick.IsEmpty()) { // set the server-side nick
-								wszNick = GetContactNameW(hContact);
+								wszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 								MraModifyContact(hContact, &dwID, &dwContactFlag, &dwGroupID, &szEmail, &wszNick, &szCustomPhones);
 							}
 						}
@@ -1312,7 +1312,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						SetExtraIcons(hContact);
 						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
-						CMStringW wszCustomName = GetContactNameW(hContact);
+						CMStringW wszCustomName = pcli->pfnGetContactDisplayName(hContact, 0);
 						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_MULTICHAT), -1, szEmail, wszCustomName);
 					}
 					else {

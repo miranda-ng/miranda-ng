@@ -36,6 +36,7 @@ PLUGININFOEX pluginInfo={
 	{0xf93ba59c, 0x4f48, 0x4f2e, {0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3}}
 };
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 HIMAGELIST hIml;
 int hLangpack = 0;
@@ -78,6 +79,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load() 
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	hQSShowDialog = CreateServiceFunction(MS_QC_SHOW_DIALOG, ShowDialog);
 
@@ -407,7 +409,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		}
 
 		// Make contact name
-		TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+		TCHAR *tmp = (TCHAR *) pcli->pfnGetContactDisplayName(hContact, 0);
 		mir_tstrncpy(contact->szname, tmp, _countof(contact->szname));
 
 		PROTOACCOUNT *acc = Proto_GetAccount(pszProto);

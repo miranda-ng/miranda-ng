@@ -63,7 +63,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 			DWORD ann = db_get_dw( NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE );
 			if ( ann & ( 1 << ( ack->lParam - ID_STATUS_OFFLINE ))) {
 				TCHAR buffer[512];
-				mir_sntprintf(buffer, _countof(buffer), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM) ack->lParam,GSMDF_TCHAR));
+				mir_sntprintf(buffer, _countof(buffer), TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(ack->hContact, 0), pcli->pfnGetStatusModeDescription(ack->lParam, 0));
 				ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), ack->hContact);
 	}	}	}
 
@@ -122,7 +122,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TCHAR bufferW[512];
-	mir_sntprintf(bufferW, _countof(bufferW), TranslateT("%s is %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,newStatus,GSMDF_TCHAR));
+	mir_sntprintf(bufferW, _countof(bufferW), TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(wParam, 0), pcli->pfnGetStatusModeDescription(newStatus, 0));
 	ShowOSD(bufferW, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), hContact);
 	return 0;
 }
@@ -184,12 +184,12 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	TCHAR *c1 = 0, *c2 = 0;
 	if ( i1 == 1 )
-		c1 = mir_tstrdup(( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
+		c1 = mir_tstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i1 == 2 )
 		c1 = DbGetEventTextT( &dbe, 0 );
 
 	if ( i2 == 1 )
-		c2 = mir_tstrdup(( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
+		c2 = mir_tstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i2 == 2 )
 		c2 = DbGetEventTextT( &dbe, 0 );
 

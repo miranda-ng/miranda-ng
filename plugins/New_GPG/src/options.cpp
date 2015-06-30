@@ -122,7 +122,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		int i = 1, iRow = 0;
 		for(MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 			if(isContactHaveKey(hContact)) {
-				TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+				TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 				item.mask = LVIF_TEXT;
 				item.iItem = i;
 				item.iSubItem = 0;
@@ -735,7 +735,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			TranslateDialogDefault(hwndDlg);
 			{
 				wstring msg = TranslateT("Load Public GPG Key for ");
-				msg += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, GCDNF_TCHAR);
+				msg += pcli->pfnGetContactDisplayName(hcnt, 0);
 				SetWindowText(hwndDlg, msg.c_str());
 			}
 			if(!hcnt)
@@ -811,7 +811,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							str.append(tmp3);
 							mir_free(tmp3);
 							string msg = Translate("Load Public GPG Key for ");
-							msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
+							msg += _T2A(pcli->pfnGetContactDisplayName(hcnt, 0));
 							msg += " (Key ID: ";
 							msg += hcontact_data[hcnt].key_in_prescense;
 							msg += Translate(" found in presence, and exists in keyring.)");

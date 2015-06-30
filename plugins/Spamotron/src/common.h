@@ -116,13 +116,6 @@ int LogToSystemHistory(char *message, char *origmessage);
 #define POPUP_APPROVED 2
 #define POPUP_CHALLENGE 3
 
-#ifdef _UNICODE
-#define CONTACT_NAME(a) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)a, GCDNF_NOMYHANDLE | GCDNF_UNICODE | GCDNF_NOCACHE)
-#else
-#define CONTACT_NAME(a) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)a, GCDNF_NOMYHANDLE | GCDNF_NOCACHE)
-#endif
-
-
 /* bayes.c */
 
 #include "sqlite3\sqlite3.h"

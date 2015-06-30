@@ -69,8 +69,8 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const TCHAR*
 	TCHAR* snt = mir_a2t(sn);
 
 	MCONTACT hContact = contact_from_sn(sn);
-	TCHAR* nick = hContact ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, 
-		WPARAM(hContact), GCDNF_TCHAR) : snt;
+	TCHAR* nick = hContact ? (TCHAR*)pcli->pfnGetContactDisplayName(
+		WPARAM(hContact), 0) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
 	GCEVENT gce = { sizeof(gce), &gcd };

@@ -257,7 +257,7 @@ void DisplayLastError(const TCHAR *pszError)
 
 const TCHAR* NickFromHandle(MCONTACT hContact)
 {
-	const TCHAR *psz = (const TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+	const TCHAR *psz = pcli->pfnGetContactDisplayName(hContact, 0);
 	if (psz)
 		return psz;
 	return pszNickError;

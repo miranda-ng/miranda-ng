@@ -487,7 +487,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			break;
 
 		case 'n':
-			ptszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+			ptszName = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 			NameLenght = (int)mir_tstrlen(ptszName);
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p)

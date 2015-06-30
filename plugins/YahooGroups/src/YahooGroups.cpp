@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+CLIST_INTERFACE *pcli;
 char ModuleName[] = "YahooGroups";
 HINSTANCE hInstance;
 
@@ -48,6 +49,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	LogInit();
 	
 	currentCodePage = Langpack_GetDefaultCodePage();
@@ -64,7 +67,6 @@ extern "C" int __declspec(dllexport) Unload()
 	DestroyServices();
 
 	UnhookEvents();
-	
 	return 0;
 }
 
@@ -72,9 +74,7 @@ bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
 	if (fdwReason == DLL_PROCESS_ATTACH)
-		{
-			DisableThreadLibraryCalls(hinstDLL);
-		}
+		DisableThreadLibraryCalls(hinstDLL);
 		
 	return TRUE;
 }

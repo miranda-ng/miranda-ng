@@ -170,7 +170,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	/// Taskbar and Window icon
 	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
 	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)GetIcon(ICO_MAINXS));
-	TCHAR *pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
+	TCHAR *pt = mir_tstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
 	if (pt && (m_hContact != 0)) {
 		CMString string;
 		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);

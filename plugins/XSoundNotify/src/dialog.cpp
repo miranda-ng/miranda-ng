@@ -40,7 +40,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 				}
 
-				TCHAR *nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+				TCHAR *nick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 				TCHAR value[100];
 				mir_sntprintf(value, _countof(value), TranslateT("Custom sound for %s (%s)"), nick, uid);
 				SetWindowText(hwndDlg, value);

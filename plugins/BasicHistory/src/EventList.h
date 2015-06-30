@@ -27,7 +27,7 @@ public:
 	virtual bool Compare(const bool isMe, const std::wstring& message, TCHAR *strFind) = 0;
 };
 
-class EventList
+class HistoryEventList
 {
 public:
 	struct EventData
@@ -101,9 +101,9 @@ protected:
 
 	void RebuildGroup(int selected);
 public:
-	EventList();
-	EventList(MCONTACT _hContact, int filter);
-	~EventList();
+	HistoryEventList();
+	HistoryEventList(MCONTACT _hContact, int filter);
+	~HistoryEventList();
 	
 	HWND hWnd;
 	MCONTACT hContact;

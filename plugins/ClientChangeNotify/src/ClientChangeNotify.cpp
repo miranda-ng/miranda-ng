@@ -19,6 +19,7 @@
 
 #include "Common.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE g_hInstance;
 HANDLE    g_hMainThread;
 HGENMENU  g_hTogglePopupsMenuItem;
@@ -167,7 +168,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = NULL;
 	}
-	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)sd->hContact, GCDNF_TCHAR), lengthof(ppd.lptzContactName) - 1);
+	_tcsncpy(ppd.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(sd->hContact, 0), lengthof(ppd.lptzContactName) - 1);
 	_tcsncpy(ppd.lptzText, PopupText, lengthof(ppd.lptzText) - 1);
 	ppd.colorBack = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_BGCOLOUR));
 	ppd.colorText = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_TEXTCOLOUR));
@@ -348,7 +349,8 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, THREAD_SET_CONTEXT, false, 0);

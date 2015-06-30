@@ -428,7 +428,7 @@ int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 {
 	char *tmp, *tmporig;
 	TCHAR msg[MAX_BUFFER_LENGTH];
-	mir_sntprintf(msg, _countof(msg), message, CONTACT_NAME(hContact));
+	mir_sntprintf(msg, _countof(msg), message, pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (_getOptB("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);

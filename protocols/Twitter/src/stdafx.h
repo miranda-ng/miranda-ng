@@ -41,7 +41,6 @@ typedef std::basic_string<TCHAR> tstring;
 #include <m_button.h>
 #include <m_chat.h>
 #include <m_clist.h>
-#include <m_clistint.h>
 #include <m_clui.h>
 #include <m_database.h>
 #include <m_folders.h>

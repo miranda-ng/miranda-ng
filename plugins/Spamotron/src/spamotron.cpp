@@ -1,5 +1,6 @@
 #include "common.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 HANDLE hOptInitialize, hModulesLoaded, hDBContactAdded, hDBEventAdded, hDBEventFilterAdd;
 time_t last_queue_check = 0;
@@ -19,8 +20,6 @@ PLUGININFOEX pluginInfo = {
 	{0x14331048, 0x5a73, 0x4fdb, {0xb9, 0x09, 0x2d, 0x7e, 0x18, 0x25, 0xa0, 0x12}}
 };
 
-
-
 extern int OnOptInitialize(WPARAM wParam, LPARAM lParam);
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -32,18 +31,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	hOptInitialize = HookEvent(ME_OPT_INITIALISE, OnOptInitialize);
-
-	return 0;
-}
-
-int OnDBContactAdded(WPARAM, LPARAM)
-{
-	//MessageBox(NULL, _T("OnDBContactAdded"), _T("Event"), MB_OK);
-	return 0;
-}
-
-int OnDBEventAdded(WPARAM wParam, LPARAM lParam)
-{
 
 	return 0;
 }
@@ -523,6 +510,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	srand((unsigned)time(0));
 	bayesdb = NULL;
 	if (_getOptB("BayesEnabled", defaultBayesEnabled)) {
@@ -536,8 +525,6 @@ extern "C" __declspec(dllexport) int Load()
 	}
 
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hDBContactAdded = HookEvent(ME_DB_CONTACT_ADDED, OnDBContactAdded);
-	hDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, OnDBEventAdded);
 	hDBEventFilterAdd = HookEvent(ME_DB_EVENT_FILTER_ADD, OnDBEventFilterAdd);
 	return 0;
 }

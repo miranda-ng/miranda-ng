@@ -131,7 +131,7 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM)
 			CMStringA szUrl, szEmail;
 			if (GetContactFirstEMail(wParam, FALSE, szEmail)) {
 				szEmail.MakeLower();
-				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA((HANDLE)wParam), szEmail);
+				szUrl.Format("http://cards.mail.ru/event.html?rcptname=%S&rcptemail=%s", pcli->pfnGetContactDisplayName(wParam, 0), szEmail);
 				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
 			}
 		}

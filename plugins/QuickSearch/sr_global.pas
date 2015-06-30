@@ -43,6 +43,7 @@ const //types
   QSTO_LASTEVENT   = 1;
   QSTO_METACONTACT = 2;
   QSTO_EVENTCOUNT  = 3;
+  QSTO_DISPLAYNAME = 4;
 
 const
   COL_ON      = $0001; // Show column
@@ -395,12 +396,8 @@ begin
     StrDupW(title,TranslateW('Nickname'));
     width          :=76;
     flags          :=COL_ON+COL_FILTER;
-    setting_type   :=QST_SERVICE;
-    StrDup(service.service,MS_CLIST_GETCONTACTDISPLAYNAME);
-    service.flags  :=ACF_TYPE_UNICODE;
-    service.w_flags:=ACF_TYPE_PARAM;
-    service.l_flags:=ACF_TYPE_NUMBER;
-    StrDupW(pWideChar(service.lparam),'2'); // 0 for ANSI
+    setting_type   :=QST_OTHER;
+    other          :=QSTO_DISPLAYNAME;
   end;
   inc(i);
 
@@ -740,6 +737,13 @@ begin
         StrCopy(p,so__title); title:=GetUnicode(buf);
         StrCopy(p,so__width); width:=GetWord(buf,20);
         StrCopy(p,so__flags); flags:=GetWord(buf,COL_ON) and not COL_REFRESH;
+
+        if (title='Nickname') then begin
+          setting_type:=QST_OTHER;
+          other:=QSTO_DISPLAYNAME;
+          continue;
+        end;
+
         case setting_type of
           QST_SETTING: begin
             StrCopy(p,so__datatype); datatype:=GetWord(buf,0);

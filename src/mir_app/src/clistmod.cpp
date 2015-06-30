@@ -110,21 +110,6 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr);
 }
 
-static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
-{
-	TCHAR *buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
-
-	if (!(lParam & GSMDF_TCHAR)) {
-		static char szMode[64];
-		char *buf2 = mir_u2a(buf1);
-		strncpy_s(szMode, buf2, _TRUNCATE);
-		mir_free(buf2);
-		return (INT_PTR)szMode;
-	}
-
-	return (INT_PTR)buf1;
-}
-
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *) lParam;
@@ -491,8 +476,6 @@ int LoadContactListModule2(void)
 
 	CreateServiceFunction(MS_CLIST_CONTACTDOUBLECLICKED, ContactDoubleClicked);
 	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);
-	CreateServiceFunction(MS_CLIST_GETSTATUSMODEDESCRIPTION, GetStatusModeDescription);
-	CreateServiceFunction(MS_CLIST_GETCONTACTDISPLAYNAME, GetContactDisplayName);
 	CreateServiceFunction(MS_CLIST_INVALIDATEDISPLAYNAME, InvalidateDisplayName);
 	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);

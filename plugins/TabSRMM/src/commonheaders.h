@@ -61,7 +61,7 @@
 #include <m_icolib.h>
 #include <m_clc.h>
 #include <m_clui.h>
-#include <m_clistint.h>
+#include <m_clist.h>
 #include <m_userinfo.h>
 #include <m_history.h>
 #include <m_addcontact.h>

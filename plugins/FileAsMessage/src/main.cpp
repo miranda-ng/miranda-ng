@@ -15,6 +15,7 @@ PLUGININFOEX pluginInfo =
 	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
 };
 
+CLIST_INTERFACE *pcli;
 MWindowList hFileList;
 HINSTANCE hInst;
 int hLangpack;
@@ -187,6 +188,7 @@ static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	InitCRC32();
 

@@ -27,11 +27,11 @@ Enjoy the code and use it smartly!
 
 #include "common.h"
 
+CLIST_INTERFACE *pcli;
 int hLangpack;
 HINSTANCE hInst;
 
 SMS_SETTINGS ssSMSSettings;
-
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -79,6 +79,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);

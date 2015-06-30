@@ -379,7 +379,7 @@ bool DoTask(TaskOptions& to)
 				if (ret >= 0) {
 					mExp.hContact = contacts[ret];
 					if (to.type == TaskOptions::Import) {
-						EventList::AddImporter(mExp.hContact, to.importType, *it);
+						HistoryEventList::AddImporter(mExp.hContact, to.importType, *it);
 						contactList.push_back(mExp.hContact);
 					}
 					else {

@@ -246,7 +246,7 @@ MCONTACT GetContactFromID(char *szID, char *szProto)
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		char *szHandle = GetContactID(hContact, cProtocol);
 
-		char *tmp = (char*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
+		char *tmp = (char*) pcli->pfnGetContactDisplayName(hContact, 0);
 		strncpy_s(dispName, tmp, _TRUNCATE);
 
 		if ((szHandle) && ((mir_strcmpi(szHandle, szID) == 0) || (mir_strcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))

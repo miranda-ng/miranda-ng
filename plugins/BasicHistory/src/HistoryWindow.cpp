@@ -430,7 +430,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	HWND hWnd = NULL;
 	int start = 0;
 	int end = 0;
-	int count = EventList::GetContactMessageNumber(hContact);
+	int count = HistoryEventList::GetContactMessageNumber(hContact);
 	if (!count)
 		return FALSE;
 	
@@ -482,10 +482,10 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	}
 	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);
 
-	if (EventList::IsImportedHistory(hContact)) {
+	if (HistoryEventList::IsImportedHistory(hContact)) {
 		TCHAR *message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
-			EventList::DeleteImporter(hContact);
+			HistoryEventList::DeleteImporter(hContact);
 	}
 		
 	RebuildEvents(hContact);
@@ -1604,7 +1604,7 @@ void HistoryWindow::EnableWindows(BOOL enable)
 void HistoryWindow::ReloadContacts()
 {
 	HWND contactList = GetDlgItem(hWnd,IDC_LIST_CONTACTS);
-	if (EventList::GetContactMessageNumber(NULL)) {
+	if (HistoryEventList::GetContactMessageNumber(NULL)) {
 		if (hSystem == NULL) {
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_BELOWCONTACTS;
@@ -1620,7 +1620,7 @@ void HistoryWindow::ReloadContacts()
 	}
 
 	for (MCONTACT _hContact = db_find_first(); _hContact; _hContact = db_find_next(_hContact)) {
-		if (EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || !db_mc_isSub(_hContact))) {
+		if (HistoryEventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || !db_mc_isSub(_hContact))) {
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
 			if (hItem == NULL)
 				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)_hContact, 0);
@@ -1964,7 +1964,7 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 					HistoryWindow::RebuildEvents(hContact);
 			}
 			else if (act == IDNO) {
-				EventList::AddImporter(hContact, type, exp.GetFileName());
+				HistoryEventList::AddImporter(hContact, type, exp.GetFileName());
 				if (!changeContact)
 					HistoryWindow::RebuildEvents(hContact);
 			}
@@ -2071,7 +2071,7 @@ void HistoryWindow::Delete(int what)
 	if (areImpMessages) {
 		TCHAR *message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
-			EventList::DeleteImporter(hContact);
+			HistoryEventList::DeleteImporter(hContact);
 			rebuild = true;
 		}
 	}
@@ -2187,7 +2187,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 				_hContact = db_find_next(_hContact);
 			}
 
-			if (!find && EventList::GetContactMessageNumber(NULL)) {
+			if (!find && HistoryEventList::GetContactMessageNumber(NULL)) {
 				_hContact = NULL;
 				find = true;
 			}
@@ -2218,7 +2218,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 		}
 
 		if (hContact != NULL) {
-			if (lastContact == NULL && !EventList::GetContactMessageNumber(NULL)) {
+			if (lastContact == NULL && !HistoryEventList::GetContactMessageNumber(NULL)) {
 				_hContact = db_find_next(hContact);
 				while (_hContact) {
 					HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
@@ -2229,7 +2229,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 				}
 			}
 
-			if (lastContact != NULL || EventList::GetContactMessageNumber(NULL)) {
+			if (lastContact != NULL || HistoryEventList::GetContactMessageNumber(NULL)) {
 				_hContact = lastContact;
 				find = true;
 			}

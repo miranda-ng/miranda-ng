@@ -111,7 +111,7 @@ void CContactList::AddContact(MCONTACT hContact)
 		return;
 
 	int iStatus = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
-	char *szStatus = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, 0);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(iStatus, 0);
 
 	CContactListEntry *psContact = new CContactListEntry();
 
@@ -724,7 +724,7 @@ void CContactList::OnStatusChange(MCONTACT hContact,int iStatus)
 	int iOldStatus = pItemData->iStatus;
 		
 	// Update the list entry
-	char *szStatus = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, 0);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(iStatus, 0);
 	if(szStatus != NULL)
 		pItemData->strStatus =toTstring(szStatus);
 	

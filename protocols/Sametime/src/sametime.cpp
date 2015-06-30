@@ -17,7 +17,7 @@ PLUGININFOEX pluginInfo =
 	{ 0xf1b0ba1b, 0xc91, 0x4313, { 0x85, 0xeb, 0x22, 0x50, 0x69, 0xd4, 0x4d, 0x1 } } // {F1B0BA1B-0C91-4313-85EB-225069D44D01}
 };
 
-
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 LIST<CSametimeProto> g_Instances(1, PtrKeySortT);
 int hLangpack;
@@ -265,6 +265,9 @@ static int sametime_proto_uninit(PROTO_INTERFACE* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.type = PROTOTYPE_PROTOCOL;

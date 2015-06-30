@@ -18,8 +18,8 @@
 */
 #include "variables.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
-
 int hLangpack = 0;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -31,7 +31,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns the extended information about a plugin
 
-PLUGININFOEX pluginInfoEx = {
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -55,7 +56,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP( &pluginInfoEx );
+	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	LoadVarModule();
 	return 0;

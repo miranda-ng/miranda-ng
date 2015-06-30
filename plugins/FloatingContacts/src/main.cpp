@@ -414,7 +414,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 	case WM_REFRESH_CONTACT:
 		if (pThumb) {
-			_tcsncpy(pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR), USERNAME_LEN - 1);
+			_tcsncpy(pThumb->ptszName, pcli->pfnGetContactDisplayName(pThumb->hContact, 0), USERNAME_LEN - 1);
 			pThumb->RefreshContactStatus((int)lParam);
 			pThumb->ResizeThumb();
 		}
@@ -758,7 +758,7 @@ static void LoadContact(MCONTACT hContact)
 
 	DWORD	dwPos = db_get_dw(hContact, MODULE, "ThumbsPos", (DWORD)-1);
 	if (dwPos != -1) {
-		TCHAR	*ptName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, (LPARAM)GCDNF_TCHAR);
+		TCHAR	*ptName = pcli->pfnGetContactDisplayName(hContact, 0);
 		if (ptName != NULL) {
 			int nX = DB_POS_GETX(dwPos);
 			int nY = DB_POS_GETY(dwPos);

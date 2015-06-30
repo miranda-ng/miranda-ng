@@ -24,6 +24,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 char PLUGINNAME[64] = {0}; //init at init_pluginname();
 int hLangpack = 0;
 HINSTANCE hInst;
+CLIST_INTERFACE *pcli;
 
 HINSTANCE hLotusDll;
 HEMREGISTRATION hLotusRegister = 0;
@@ -1365,7 +1366,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wPara
         // Initialize LVITEM members that are common to all items.
         lvI.mask = LVIF_TEXT;
         for(int i = 0; i < STATUS_COUNT; i++) {
-            lvI.pszText =  (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_ONLINE + i, GSMDF_TCHAR);
+            lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
             lvI.iItem = i;
             ListView_InsertItem(hwndList, &lvI);
             ListView_SetCheckState(hwndList, i, settingStatus[i]);
@@ -1694,6 +1695,8 @@ static int preshutdown(WPARAM,LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	Plugin_Terminated = false;
 
 	//if(pluginLink)//strange, but this function is called by Lotus API Extension Manager (instead of MainEntryPoint) probably always with parameter poiter =1
@@ -1709,16 +1712,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 	bMirandaCall=TRUE;
 
-
 	init_pluginname();
 	logRegister();
 	log_p(L"Load: Entering LotusNotify.dll Load() bMirandaCall=%d PLUGINNAME=[%S]", bMirandaCall, PLUGINNAME);
 
-
 	if(!(hCheckEvent = CreateHookableEvent("LotusNotify/Check"))) //check if there is another copy of plugin running
-	{
 		second = TRUE;
-	}
 
 	hCheckHook = HookEvent("LotusNotify/Check", eventCheck); //hook function to menu click event
 
@@ -1738,17 +1737,16 @@ extern "C" int __declspec(dllexport) Load(void)
 		Menu_EnableItem(hMenuHandle ,FALSE);
 	}
 
-	//create protocol
+	// create protocol
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.szName = PLUGINNAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	Proto_RegisterModule(&pd);
 
-	//set all contacts to offline  ///TODO: are that contacts exists ?
-	for(MCONTACT hContact = db_find_first(PLUGINNAME); hContact; hContact = db_find_next(hContact, PLUGINNAME)){
+	// set all contacts to offline
+	for(MCONTACT hContact = db_find_first(PLUGINNAME); hContact; hContact = db_find_next(hContact, PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
-	}
 
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETNAME, GetName);
@@ -1771,10 +1769,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-
 extern "C" int __declspec(dllexport) Unload()
 {
-
 	log(L"Unload: start");
 	Plugin_Terminated = true;
 	mir_cslock lck(checkthreadCS);
@@ -1791,7 +1787,6 @@ extern "C" int __declspec(dllexport) Unload()
 
 	return 0;
 }
-
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
