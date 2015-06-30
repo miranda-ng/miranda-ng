@@ -96,22 +96,9 @@ int CSteamProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void CSteamProto::OnInitStatusMenu()
 {
-	HGENMENU hSteamRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (!hSteamRoot) {
-		CMenuItem mi;
-		mi.name.t = m_tszUserName;
-		mi.position = -1999901006;
-		mi.flags =  CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		Menu_RemoveItem(m_hMenuRoot);
-		m_hMenuRoot = NULL;
-	}
-
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
-	mi.root = hSteamRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 	// Show block list
 	mi.pszService = "/BlockList";

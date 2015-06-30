@@ -579,24 +579,8 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 
 void CJabberProto::MenuInit()
 {
-	HGENMENU hJabberRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hJabberRoot == NULL) {
-		CMenuItem mi;
-		mi.name.t = m_tszUserName;
-		mi.position = -1999901006;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.hIcolibItem = m_hProtoIcon;
-		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		if (m_hMenuRoot) {
-			Menu_RemoveItem(m_hMenuRoot);
-			m_hMenuRoot = NULL;
-		}
-	}
-
 	CMenuItem mi;
-	mi.root = hJabberRoot;
+	mi.root = m_hMenuRoot = Menu_GetProtocolRoot(this);
 
 	// "Bookmarks..."
 	mi.pszService = "/Bookmarks";
@@ -693,7 +677,7 @@ void CJabberProto::MenuInit()
 
 	mi.pszService = NULL;
 	mi.position = 200006;
-	mi.root = hJabberRoot;
+	mi.root = m_hMenuRoot;
 	mi.name.a = LPGEN("Resource priority");
 	mi.flags = CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
@@ -743,7 +727,7 @@ void CJabberProto::MenuInit()
 	m_pepServices.RebuildMenu();
 	CheckMenuItems();
 
-	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)(IJabberInterface*)this);
+	NotifyFastHook(hStatusMenuInit, (WPARAM)m_hMenuRoot, (LPARAM)(IJabberInterface*)this);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -876,10 +860,6 @@ void CJabberProto::GlobalMenuUninit()
 		m_phMenuResourceItems = NULL;
 	}
 	m_nMenuResourceItems = 0;
-
-	if (m_hMenuRoot)
-		Menu_RemoveItem(m_hMenuRoot);
-	m_hMenuRoot = NULL;
 }
 
 void CJabberProto::EnableMenuItems(BOOL bEnable)

@@ -458,7 +458,7 @@ void CPepGuiService::InitGui()
 
 void CPepGuiService::RebuildMenu()
 {
-	HGENMENU hJabberRoot = Menu_GetProtocolRoot(m_proto->m_szModuleName);
+	HGENMENU hJabberRoot = m_proto->m_hMenuRoot;
 	if (hJabberRoot == NULL)
 		return;
 

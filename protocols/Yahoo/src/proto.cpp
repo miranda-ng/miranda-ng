@@ -638,11 +638,6 @@ int __cdecl CYahooProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 		MenuMainInit();
 		break;
 
-	case EV_PROTO_ONRENAME:
-		if (mainMenuRoot)
-			Menu_ModifyItem(mainMenuRoot, m_tszUserName, INVALID_HANDLE_VALUE, CMIF_KEEPUNTRANSLATED);
-		break;
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 

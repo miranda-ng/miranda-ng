@@ -1034,9 +1034,11 @@ static int OnAccListChanged(WPARAM eventCode, LPARAM lParam)
 	switch (eventCode) {
 	case PRAC_CHANGED:
 		if (pa->ppro) {
-			mir_free(pa->ppro->m_tszUserName);
-			pa->ppro->m_tszUserName = mir_tstrdup(pa->tszAccountName);
+			replaceStrT(pa->ppro->m_tszUserName, pa->tszAccountName);
 			pa->ppro->OnEvent(EV_PROTO_ONRENAME, 0, lParam);
+
+			if (pa->ppro->m_hMainMenuItem)
+				Menu_ModifyItem(pa->ppro->m_hMainMenuItem, pa->tszAccountName);
 		}
 	}
 

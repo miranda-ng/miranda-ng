@@ -279,7 +279,6 @@ private:
 
 	HANDLE hYahooNudge;
 
-	HGENMENU mainMenuRoot;
 	HGENMENU hShowProfileMenuItem;
 	HGENMENU menuItemsAll[ 8 ];
 };

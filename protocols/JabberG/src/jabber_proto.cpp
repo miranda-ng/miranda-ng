@@ -1318,11 +1318,6 @@ int __cdecl CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 		MenuInit();
 		break;
 
-	case EV_PROTO_ONRENAME:
-		if (m_hMenuRoot)
-			Menu_ModifyItem(m_hMenuRoot, m_tszUserName);
-		break;
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 

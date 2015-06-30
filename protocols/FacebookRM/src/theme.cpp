@@ -208,25 +208,9 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
-	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hRoot == NULL) {
-		CMenuItem miRoot;
-		miRoot.position = 500085000;
-		miRoot.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
-		miRoot.hIcolibItem = GetIconHandle("facebook");
-		miRoot.name.t = m_tszUserName;
-		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&miRoot);
-	}
-	else {
-		if (m_hMenuRoot) {
-			Menu_RemoveItem(m_hMenuRoot);
-			m_hMenuRoot = NULL;
-		}
-	}
-
 	CMenuItem mi;
 	mi.position = 201001;
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.pszService = "/Mind";
 	CreateProtoService(mi.pszService, &FacebookProto::OnMind);
@@ -275,7 +259,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 void FacebookProto::ToggleStatusMenuItems(bool bEnable)
 {
-	Menu_EnableItem(m_hMenuRoot, bEnable);
+	Menu_EnableItem(m_hMainMenuItem, bEnable);
 	Menu_EnableItem(m_hStatusMind, bEnable);
 	Menu_EnableItem(m_hMenuServicesRoot, bEnable);
 }

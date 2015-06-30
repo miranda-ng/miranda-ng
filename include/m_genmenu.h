@@ -245,7 +245,7 @@ __forceinline int Menu_ConfigureItem(HGENMENU hMenu, int iSetting, LPCSTR pszVal
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns HGENMENU of the root item or NULL
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProtoName);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // kills all menu items & submenus that belong to the hLangpack given

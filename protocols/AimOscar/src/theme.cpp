@@ -209,24 +209,8 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 void CAimProto::InitMainMenus(void)
 {
-	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hRoot == NULL) {
-		CMenuItem mi;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.hIcolibItem = GetIconHandle("aim");
-		mi.name.t = m_tszUserName;
-		mi.position = 500090000;
-		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		if (hMenuRoot) {
-			Menu_RemoveItem(hMenuRoot);
-			hMenuRoot = NULL;
-		}
-	}
-
 	CMenuItem mi;
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.pszService = "/ManageAccount";
 	CreateProtoService(mi.pszService, &CAimProto::ManageAccount);

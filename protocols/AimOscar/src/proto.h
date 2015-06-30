@@ -133,7 +133,6 @@ struct CAimProto : public PROTO<CAimProto>
 	HANDLE hDirectBoundPort;//direct connection listening port
 
 	//Handles for the context menu items
-	HGENMENU hMenuRoot;
 	HGENMENU hHTMLAwayContextMenuItem;
 	HGENMENU hAddToServerListContextMenuItem;
 	HGENMENU hBlockContextMenuItem;

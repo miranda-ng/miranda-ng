@@ -51,7 +51,7 @@ static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, HICON hicon, LPCSTR service
 static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
 	CMenuItem mi;
-	mi.flags =  CMIF_HIDDEN;
+	mi.flags = CMIF_HIDDEN;
 	mi.position = pos;
 	mi.name.a = (char*)name;
 	mi.root = hRoot;

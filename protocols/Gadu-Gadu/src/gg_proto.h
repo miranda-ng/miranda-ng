@@ -243,7 +243,6 @@ struct GGPROTO : public PROTO<GGPROTO>
 		TCHAR *offline;
 	} modemsg;
 	
-	HGENMENU hMenuRoot;
 	HGENMENU hMainMenu[7];
 	HGENMENU hBlockMenuItem, hImageMenuItem, hInstanceMenuItem;
 	HANDLE   hPrebuildMenuHook;

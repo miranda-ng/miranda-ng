@@ -192,7 +192,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 		
 	CMenuItem mi;
-	mi.root = Menu_GetProtocolRoot(m_szModuleName);
+	mi.root = Menu_GetProtocolRoot(this);
 
 	// Proto menu
 	mi.pszService = PS_CREATECHAT;

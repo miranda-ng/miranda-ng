@@ -2095,7 +2095,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
 	mi.flags = CMIF_HIDDEN;
 	mi.name.a = LPGEN("Privacy Lists");
-	mi.root = Menu_GetProtocolRoot(m_szModuleName);
+	mi.root = m_hMenuRoot;
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
 
 	mi.pszService = "/PrivacyLists";
