@@ -1,21 +1,6 @@
 #include "stdafx.h"
 
-static LIST<void> Hooks(1, PtrKeySortT);
-static LIST<void> Events(1, PtrKeySortT);
-static LIST<void> Services(1, PtrKeySortT);
-
-struct HandleRefParam
-{
-	HANDLE h;
-	int ref;
-	lua_State *L;
-	HandleRefParam(HANDLE h) : L(NULL), h(h), ref(0) { }
-	HandleRefParam(lua_State *L, HANDLE h, int ref = 0) : L(L), h(h), ref(ref) { }
-};
-static LIST<void> HookRefs(1, HandleKeySortT);
-static LIST<void> ServiceRefs(1, HandleKeySortT);
-
-void CMLua::KillModuleEventHooks()
+void KillModuleEventHooks()
 {
 	while (Hooks.getCount())
 	{
@@ -43,7 +28,7 @@ void CMLua::KillModuleEventHooks()
 	}
 }
 
-void CMLua::KillModuleServices()
+void KillModuleServices()
 {
 	while (Services.getCount())
 	{

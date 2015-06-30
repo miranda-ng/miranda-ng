@@ -67,9 +67,6 @@ static int lua_ModifyButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
-	mir_free(bbb->pszModuleName);
-	mir_free(bbb->ptszTooltip);
-
 	return 1;
 }
 
@@ -100,6 +97,9 @@ static int lua_OnMsgToolBarLoaded(lua_State *L)
 
 	HANDLE res = ::HookEventObjParam(ME_MSG_TOOLBARLOADED, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
+
+	Hooks.insert(res);
+	HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
 }
@@ -134,8 +134,6 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 
 	int res = (int)lua_tointeger(L, 1);
 
-	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
-
 	return res;
 }
 
@@ -152,6 +150,9 @@ static int lua_OnMsgToolBarButtonPressed(lua_State *L)
 
 	HANDLE res = ::HookEventObjParam(ME_MSG_BUTTONPRESSED, ButtonPressedHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
+
+	Hooks.insert(res);
+	HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
 }
