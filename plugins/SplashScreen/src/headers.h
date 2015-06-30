@@ -30,6 +30,7 @@
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
+#include <m_clist.h>
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_imgsrvc.h>
@@ -41,7 +42,6 @@
 #include "bitmap_funcs.h"
 
 #ifdef _DEBUG
-	#include <m_clist.h>
 	#include <m_skin.h>
 	#include <m_popup.h>
 	#include "debug.h"
