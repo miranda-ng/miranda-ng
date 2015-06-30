@@ -30,6 +30,7 @@ extern PLUGIN_DATA* PopupList[20];
 //---------------------------
 //---Some global variables for the plugin
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 PLUGIN_OPTIONS pluginOptions;
 int hLangpack;
@@ -49,12 +50,6 @@ PLUGININFOEX pluginInfo = {
 
 //---------------------------
 //---Hooks
-
-//---Handles to my hooks, needed to unhook them again
-HANDLE hHookedInit;
-HANDLE hHookedOpt;
-HANDLE hHookedNewEvent;
-HANDLE hHookedDeletedEvent;
 
 //---Called when a new event is added to the database
 //wParam: contact-handle
@@ -113,7 +108,7 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 //---Called when all the modules are loaded
 int HookedInit(WPARAM, LPARAM)
 {
-	hHookedNewEvent = HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
+	HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 	// Plugin sweeper support
 	if (ServiceExists("PluginSweeper/Add"))
 		CallService("PluginSweeper/Add", (WPARAM)MODULE, (LPARAM)MODULE);
@@ -142,10 +137,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-	hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
+	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
+	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	OptionsInit(&pluginOptions);
 	pluginOptions.hInst = hInst;
@@ -155,9 +151,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hHookedNewEvent);
-	UnhookEvent(hHookedOpt);
-	UnhookEvent(hHookedInit);
 	return 0;
 }
 

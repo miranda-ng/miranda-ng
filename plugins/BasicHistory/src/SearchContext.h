@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include "EventList.h"
 
-class SearchContext : public EventList
+class SearchContext : public HistoryEventList
 {
 public:
 	HWND editWindow;

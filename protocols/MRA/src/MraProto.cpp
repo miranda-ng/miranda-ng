@@ -357,7 +357,7 @@ int CMraProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 			for (int i = 0; i < nContacts; i++) {
 				if (IsContactMra(hContactsList[i]))
 					if (mraGetStringW(hContactsList[i], "e-mail", wszEmail))
-						wszData += wszEmail + ';' + GetContactNameW(hContactsList[i]) + ';';
+						wszData += wszEmail + ';' + pcli->pfnGetContactDisplayName(hContactsList[i], 0) + ';';
 			}
 
 			bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);

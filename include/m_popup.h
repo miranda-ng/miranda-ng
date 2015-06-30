@@ -192,12 +192,12 @@ typedef struct
 	HICON lchIcon;
 	union
 	{
-		WCHAR lptzContactName[MAX_CONTACTNAME];
+		TCHAR lptzContactName[MAX_CONTACTNAME];
 		WCHAR lpwzContactName[MAX_CONTACTNAME];
 	};
 	union
 	{
-		WCHAR lptzText[MAX_SECONDLINE];
+		TCHAR lptzText[MAX_SECONDLINE];
 		WCHAR lpwzText[MAX_SECONDLINE];
 	};
 	COLORREF colorBack;

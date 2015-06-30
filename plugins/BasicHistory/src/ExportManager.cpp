@@ -27,7 +27,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "codecvt_CodePage.h"
 
 ExportManager::ExportManager(HWND _hwnd, MCONTACT _hContact, int filter) :
-	EventList(_hContact, filter),
+	HistoryEventList(_hContact, filter),
 	hwnd(_hwnd),
 	oldOnTop(false)
 {

@@ -33,19 +33,6 @@ const
   }
   MS_CLIST_GETSTATUSMODE:PAnsiChar = 'CList/GetStatusMode';
 
-  GSMDF_UNICODE      = 2; // will return TCHAR* instead of AnsiChar*
-  GSMDF_UNTRANSLATED = 4;
-
-  {
-    wParam : status_mode
-    lParam : flags
-    Affect : Get a textual description of the given status mode
-    Returns: pointer to a static buffer of the description of the given status mode
-             or NULL(0) if the mode was unknown.
-    Version: v0.1.0.1+
-  }
-  MS_CLIST_GETSTATUSMODEDESCRIPTION:PAnsiChar = 'CList/GetStatusModeDescription';
-
 function Menu_BuildContactMenu(hContact:TMCONTACT) : HMENU; stdcall;
              external AppDll name 'Menu_BuildContactMenu';
 
@@ -109,24 +96,6 @@ const
     Version: 0.3.0.0
   }
   ME_CLIST_DOUBLECLICKED:PAnsiChar = 'CList/DoubleClicked';
-
-  GCDNF_NOMYHANDLE = 1; // will never return the user's custom name
-  GCDNF_UNICODE    = 2; // will return TCHAR* instead of AnsiChar*
-  GCDNF_NOCACHE    = 4; // will not use the cache
-  {
-    wParam : TMCONTACT
-    lParam : flags
-    Affect : Gets the string that the contact list will use to represent a contact
-    Returns: Always a pointer
-    Notes  : Returns a pointer to the name, will always succeed, even if it needs
-             to return "(Unknown Contact)"
-             -
-             this pointer is a statically allocated buffer which will
-             be overwritten on every call to this service, callers should make
-             sure that they copy the information before they call it again
-    Version: v0.1.2.0+, 0.2.0+ ONLY (0.3a supports the contacts module)
-  }
-  MS_CLIST_GETCONTACTDISPLAYNAME:PAnsiChar = 'CList/GetContactDisplayName';
 
   {
     Invalidates the display name cache

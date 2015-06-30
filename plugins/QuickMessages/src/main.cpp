@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quickmessages.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hinstance;
 int hLangpack;
 
@@ -324,6 +325,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdown);

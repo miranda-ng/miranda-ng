@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+CLIST_INTERFACE *pcli;
 int hLangpack;
 HINSTANCE hInst;
 MWindowList hWindowList;
@@ -231,18 +232,20 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged); 
 	HookEvent(ME_OPT_INITIALISE, BuddyPounceOptInit);
 	HookEvent(ME_PROTO_ACK, MsgAck);
+
 	CreateServiceFunction("BuddyPounce/MenuCommand", BuddyPounceMenuCommand);
+
 	hWindowList = WindowList_Create();
 
 	/*     service funcitons for other devs...					*/
 	CreateServiceFunction("BuddyPounce/AddSimplePounce", AddSimpleMessage); // add a simple pounce to a contact
 	CreateServiceFunction("BuddyPounce/AddToPounce", AddToPounce); // add to the exsisitng pounce, if there isnt 1 then add a new simple pounce.
-	/* ******************************************************** */
-
 	return 0; 
 }
 

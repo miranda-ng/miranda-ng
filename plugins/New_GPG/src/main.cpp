@@ -1296,7 +1296,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 			mir_free(tmp);
 			tmp = new TCHAR [256];
-			mir_sntprintf(tmp, 255*sizeof(TCHAR),TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+			mir_sntprintf(tmp, 255*sizeof(TCHAR),TranslateT("Received key from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete [] tmp;
 		}

@@ -933,7 +933,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
 				if (mir_tstrlen(ps[i]->tszAccName) > 0 && mir_strlen(ps[i]->szName) > 0) {
 					if (db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
-						mir_sntprintf(protoInfoLine, _countof(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
+						mir_sntprintf(protoInfoLine, _countof(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, 0));
 						mir_tstrncat(protoInfo, protoInfoLine, _countof(protoInfo) - mir_tstrlen(protoInfo) - 1);
 					}
 				}

@@ -46,14 +46,11 @@ std::wstring UserInformation::statusString(MCONTACT user)
 //------------------------------------------------------------------------------
 std::wstring UserInformation::statusModeString(MCONTACT user)
 {
-	int status = CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, m_status_info[user], 0);
+	WCHAR *status = pcli->pfnGetStatusModeDescription(m_status_info[user], 0);
+	if (NULL == status)
+		return L"";
 
-    if (NULL == status)
-    {
-        return L"";
-    }
-
-    return reinterpret_cast<WCHAR *>(status);
+	return status;
 }
 
 //------------------------------------------------------------------------------
@@ -66,13 +63,11 @@ void UserInformation::insertName(std::wstring &str, MCONTACT user) const
 //------------------------------------------------------------------------------
 std::wstring UserInformation::nameString(MCONTACT user) const
 {
-	//WCHAR *ret = reinterpret_cast<WCHAR *>(CallService(MS_CLIST_GETCONTACTDISPLAYNAME, reinterpret_cast<unsigned int>(user), 0));
-	char* ret = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, WPARAM(user), 0);
-    if (0 == ret)
-    {
-        return L"";
-    }
-    return TranslateW(mir_a2t_cp(ret, CP_UTF8));
+	WCHAR *ret = pcli->pfnGetContactDisplayName(user, 0);
+	if (0 == ret)
+		return L"";
+
+	return TranslateW(ret);
 }
 
 //==============================================================================

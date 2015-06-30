@@ -45,7 +45,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_chat.h>
 #include <m_genmenu.h>
 #include <m_clc.h>
-#include <m_clistint.h>
 #include <m_string.h>
 #include <m_json.h>
 #include <m_gui.h>

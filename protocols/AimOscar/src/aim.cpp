@@ -22,6 +22,7 @@ char AIM_CAP_MIRANDA[16] = "MirandaA";
 
 int hLangpack;
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInstance;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -100,6 +101,7 @@ static int protoUninit(PROTO_INTERFACE* ppro)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 

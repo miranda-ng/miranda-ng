@@ -19,6 +19,7 @@
 
 // Global variables
 HINSTANCE hInst;
+CLIST_INTERFACE *pcli;
 
 MWindowList hWindowList;
 HCURSOR splitCursor;
@@ -47,6 +48,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 #ifdef DEBUG
 	{

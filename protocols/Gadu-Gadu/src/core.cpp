@@ -834,7 +834,7 @@ retry:
 							gce.ptszUID = id;
 							TCHAR* messageT = mir_utf8decodeT(e->event.msg.message);
 							gce.ptszText = messageT;
-							gce.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
+							gce.ptszNick = (TCHAR*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLog(_T("mainthread() (%x): Conference message to room %s & id %s."), this, chat, id);

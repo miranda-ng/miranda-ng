@@ -299,25 +299,19 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 	dwContacts = i;
 	qsort(pContacts, dwContacts, sizeof(TSlotInfo), SortContact);
 	
-	DBVARIANT dbv;
-	int n, rc;
 	// create an IPC slot for each contact and store display name, etc
 	for (i=0; i < dwContacts; i++) {
-		char *szContact = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pContacts[i].hContact, 0);
+		ptrA szContact(mir_t2a(pcli->pfnGetContactDisplayName(pContacts[i].hContact, 0)));
 		if (szContact != NULL) {
-			n = 0;
-			rc = 1;
-			if (bGroupMode) {
-				rc = db_get_s(pContacts[i].hContact, "CList", "Group", &dbv);
-				if (!rc)
-					n = lstrlenA(dbv.pszVal) + 1;
-			}
+			ptrA szGroup;
+			if (bGroupMode)
+				szGroup = db_get_sa(pContacts[i].hContact, "CList", "Group");
+
 			int cch = lstrlenA(szContact) + 1;
-			TSlotIPC *pct = ipcAlloc(ipch, cch + 1 + n);
-			if (pct == NULL) {
-				db_free(&dbv);
+			TSlotIPC *pct = ipcAlloc(ipch, cch + 1 + lstrlenA(szGroup) + 1);
+			if (pct == NULL)
 				break;
-			}
+
 			// lie about the actual size of the TSlotIPC
 			pct->cbStrSection = cch;
 			LPSTR szSlot = LPSTR(pct) + sizeof(TSlotIPC);
@@ -330,10 +324,9 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			if (ipch->ContactsBegin == NULL)
 				ipch->ContactsBegin = pct;
 			szSlot += cch + 1;
-			if (rc == 0) {
-				pct->hGroup = murmur_hash(dbv.pszVal);
-				lstrcpyA(szSlot, dbv.pszVal);
-				db_free(&dbv);
+			if (szGroup != 0) {
+				pct->hGroup = murmur_hash(szGroup);
+				lstrcpyA(szSlot, szGroup);
 			}
 			else {
 				pct->hGroup = 0;

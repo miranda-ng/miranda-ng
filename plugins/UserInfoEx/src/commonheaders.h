@@ -52,7 +52,7 @@ using namespace std;
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clui.h>
-#include <m_clistint.h>
+#include <m_clist.h>
 #include <m_database.h>
 #include <m_hotkeys.h>
 #include <m_langpack.h>

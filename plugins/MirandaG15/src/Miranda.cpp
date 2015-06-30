@@ -58,6 +58,7 @@ bool g_bInitialized;
 
 // Plugin Information
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInstance;
 int hLangpack;
 
@@ -87,40 +88,43 @@ void UnInit();
 //************************************************************************
 // Exported Functions
 //************************************************************************
-extern "C" {
-	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-	{
-		return &pluginInfoEx;
-	}
-	
-	// Called by Miranda to load the plugin.
-	// We defer initialization until Miranda's module loading process completed and return 0 to
-	// mark success, everything else will cause the plugin to be freed right away.
-	int __declspec(dllexport) Load()
-	{
-		g_bInitialized = false;
-		InitDebug();
-		TRACE(_T("Plugin loaded\n"));
-		// Schedule actual initialization for later
-		HookEvent(ME_SYSTEM_MODULESLOADED, Init);
-		return 0;
-	}
 
-	// Called by Miranda when the plugin should unload itself.
-	int __declspec(dllexport) Unload(void)
-	{
-		if(!g_bInitialized) {
-			TRACE(_T("ERROR: Unload requested, but plugin is not initialized?!\n"));		
-			return 0;
-		}
-		TRACE(_T("-------------------------------------------\nUnloading started\n"));
-		UnInit();
-		TRACE(_T("Unloading successful\n"));
-		TRACE(_T("Cleaning up: "));
-		UnInitDebug();
-		TRACE(_T("OK!\n"));
+EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfoEx;
+}
+	
+// Called by Miranda to load the plugin.
+// We defer initialization until Miranda's module loading process completed and return 0 to
+// mark success, everything else will cause the plugin to be freed right away.
+EXTERN_C int __declspec(dllexport) Load()
+{
+	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
+	
+	g_bInitialized = false;
+	
+	InitDebug();
+	TRACE(_T("Plugin loaded\n"));
+	// Schedule actual initialization for later
+	HookEvent(ME_SYSTEM_MODULESLOADED, Init);
+	return 0;
+}
+
+// Called by Miranda when the plugin should unload itself.
+EXTERN_C int __declspec(dllexport) Unload(void)
+{
+	if(!g_bInitialized) {
+		TRACE(_T("ERROR: Unload requested, but plugin is not initialized?!\n"));		
 		return 0;
 	}
+	TRACE(_T("-------------------------------------------\nUnloading started\n"));
+	UnInit();
+	TRACE(_T("Unloading successful\n"));
+	TRACE(_T("Cleaning up: "));
+	UnInitDebug();
+	TRACE(_T("OK!\n"));
+	return 0;
 }
 
 //************************************************************************

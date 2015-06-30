@@ -25,7 +25,6 @@
 #include <m_system_cpp.h>
 #include <m_protocols.h>
 #include <m_clist.h>
-#include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_clui.h>
 #include <m_genmenu.h>
@@ -178,9 +177,6 @@ extern HANDLE hXStatusAdvancedStatusIcons[];
 void    InitExtraIcons();
 
 CMStringA MraGetSelfVersionString();
-
-#define GetContactNameA(Contact) (LPSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)Contact, 0)
-#define GetContactNameW(Contact) (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)Contact, GCDNF_UNICODE)
 
 #define SetBit(bytes, bitpos) bytes |= (1<<bitpos)
 #define GetBit(bytes, bitpos) ((bytes&(1<<bitpos))? TRUE:FALSE)

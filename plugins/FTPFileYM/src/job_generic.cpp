@@ -241,7 +241,7 @@ void GenericJob::refreshTab(bool bTabChanged)
 		if (this->hContact != NULL)
 		{
 			SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon( GetContactProto(this->hContact), ID_STATUS_ONLINE));
-			SetDlgItemText(uDlg->hwnd, IDC_UP_CONTACT, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)this->hContact, GCDNF_TCHAR));
+			SetDlgItemText(uDlg->hwnd, IDC_UP_CONTACT, (TCHAR *)pcli->pfnGetContactDisplayName(this->hContact, 0));
 		}
 		else
 		{

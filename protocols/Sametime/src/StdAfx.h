@@ -37,7 +37,6 @@ extern "C" {
 #include <mw_session.h>
 #include <mw_cipher.h>
 #include <mw_st_list.h>
-//#include <mw_util.h>
 #include <mw_service.h>
 #include <mw_channel.h>
 #include <mw_srvc_im.h>

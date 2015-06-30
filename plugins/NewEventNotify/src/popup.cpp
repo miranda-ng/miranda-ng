@@ -494,7 +494,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 		_tcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		_tcsncpy(pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(pudw.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
 		_tcsncpy(pudw.lptzText, ptrT(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 

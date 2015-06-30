@@ -117,7 +117,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwFlags = cfg::getDword(hContact, "CList", "CLN_Flags", 0);
 					BYTE bSecondLine = cfg::getByte(hContact, "CList", "CLN_2ndline", -1);
 
-					mir_sntprintf(szTitle, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+					mir_sntprintf(szTitle, TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : pcli->pfnGetContactDisplayName(hContact, 0));
 
 					SetWindowText(hWnd, szTitle);
 					SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_MIRANDA));

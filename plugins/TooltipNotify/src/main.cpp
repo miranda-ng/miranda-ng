@@ -21,7 +21,7 @@ HINSTANCE g_hInstDLL = 0;
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = 0;
 int hLangpack;
-
+CLIST_INTERFACE *pcli;
 
 //================================================================================
 // plugin init/deinit routines
@@ -56,6 +56,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&sPluginInfo);
+	mir_getCLI();
 
 	g_pTooltipNotify = new CTooltipNotify();
 	assert(g_pTooltipNotify!=0);

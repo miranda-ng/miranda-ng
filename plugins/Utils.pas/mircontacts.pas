@@ -570,8 +570,7 @@ begin
     begin
       StrCopyW(buf,format);
       if lName then
-        StrReplaceW(buf,'%name%',
-          PWideChar(CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_UNICODE)));
+        StrReplaceW(buf,'%name%', cli^.pfnGetContactDisplayName(hContact,0));
 
       if lGroup then
       begin

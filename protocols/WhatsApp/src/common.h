@@ -39,7 +39,6 @@ Copyright © 2013-14 Uli Hecht
 #include <m_chat.h>
 #include <m_clc.h>
 #include <m_clist.h>
-#include <m_clistint.h>
 #include <m_clui.h>
 #include <m_database.h>
 #include <m_history.h>

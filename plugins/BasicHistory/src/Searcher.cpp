@@ -311,9 +311,9 @@ bool Searcher::IsInSel(int sel, TCHAR *strFind)
 		return false;
 
 	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
-	EventList::EventData data;
-	for (std::deque<EventList::EventIndex>::iterator it = context->eventList[sel].begin(); it != context->eventList[sel].end(); ++it) {
-		EventList::EventIndex hDbEvent = *it;
+	HistoryEventList::EventData data;
+	for (std::deque<HistoryEventList::EventIndex>::iterator it = context->eventList[sel].begin(); it != context->eventList[sel].end(); ++it) {
+		HistoryEventList::EventIndex hDbEvent = *it;
 		if (context->GetEventData(hDbEvent, data)) {
 			bool isMe = data.isMe;
 			if (onlyIn && isMe || onlyOut && !isMe)

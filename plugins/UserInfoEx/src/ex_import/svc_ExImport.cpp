@@ -52,7 +52,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 				return;
 			}
 			else {
-				disp = (LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ExImContact->hContact, NULL);
+				disp = (LPCSTR)pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL);
 			}
 			break;
 		case EXIM_SUBGROUP:

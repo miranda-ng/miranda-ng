@@ -72,7 +72,6 @@
 #include <m_idle.h>
 #include <m_skin.h>
 #include <m_popup.h>
-#include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_ignore.h>
 #include <m_icolib.h>

@@ -25,7 +25,7 @@ static TCHAR* parseCodeToStatus(ARGUMENTSINFO *ai)
 		return NULL;
 
 	unsigned int status = ttoi(ai->targv[1]);
-	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -376,7 +376,7 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (status == 0)
 		return NULL;
 
-	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
@@ -407,7 +407,7 @@ static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
 	else
 		status = CallProtoService(_T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
 
-	TCHAR *szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, GSMDF_TCHAR);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	return (szStatus != NULL) ? mir_tstrdup(szStatus) : NULL;
 }
 
@@ -700,7 +700,7 @@ static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	TCHAR *ret = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ai->fi->hContact, GCDNF_TCHAR);
+	TCHAR *ret = (TCHAR*)pcli->pfnGetContactDisplayName(ai->fi->hContact, 0);
 	return (ret == NULL) ? NULL : mir_tstrdup(ret);
 }
 

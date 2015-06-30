@@ -46,7 +46,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 					if (db_get_b(hContact, proto->m_szModuleName, "ChatRoom", 0) == 0
 						&& db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 						lvI.lParam = (LPARAM)hContact;
-						lvI.pszText = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+						lvI.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_LST_ANTO), &lvI);
 						lvI.iItem++;
 					}

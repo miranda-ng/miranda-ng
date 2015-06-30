@@ -89,7 +89,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 			mir_free(title);
 	}
 
-	TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+	TCHAR *name = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	if (!options->bSysColors) SelectObject(hdc, g_Options.hfntName);
 	GetTextExtentPoint32(hdc, name, (int)mir_tstrlen(name), &sz);
@@ -301,7 +301,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	}
 
 	if (true) {
-		TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+		TCHAR *name = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 		if (!options->bSysColors)
 			SelectObject(hdcTemp, g_Options.hfntName);

@@ -16,6 +16,7 @@ Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 #include "Common.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hinstance;
 
 HGENMENU hToggle, hEnableMenu;
@@ -261,6 +262,7 @@ IconItemT iconList[] =
 extern "C" int __declspec(dllexport)Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);

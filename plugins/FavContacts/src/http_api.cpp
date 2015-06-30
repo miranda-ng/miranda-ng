@@ -74,7 +74,7 @@ public:
 		for (int i = 0; i < favList.getCount(); ++i)
 		{
 			MCONTACT hContact = favList[i]->getHandle();
-			TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+			TCHAR *name = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 			AVATARCACHEENTRY *avatar = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			int status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 

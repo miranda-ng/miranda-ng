@@ -195,10 +195,11 @@ int ParseStatusParam(char *status)
 
 char *PrettyStatusMode(int status, char *buffer, int size)
 {
-	*buffer = 0;
-	char *data = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, 0);
+	TCHAR *data = pcli->pfnGetStatusModeDescription(status, 0);
 	if (data)
-		strncpy_s(buffer, size, data, _TRUNCATE);
+		strncpy_s(buffer, size, _T2A(data), _TRUNCATE);
+	else 
+		*buffer = 0;
 
 	return buffer;
 }

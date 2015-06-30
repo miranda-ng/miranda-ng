@@ -385,33 +385,22 @@ void MirfoxData::initializeMirandaContacts()
 		logger->log_p(L"initializeMirandaContacts: try to get name for hContact = [" SCNuPTR L"]", mirandaContactsIter->contactHandle);
 
 		if (mirandaContactsIter->mirandaAccountPtr != NULL){
-
-			if ( strcmp(mirandaContactsIter->mirandaAccountPtr->szProtoName, "Twitter") == 0){
-				//hack for Twitter protocol
+			if (strcmp(mirandaContactsIter->mirandaAccountPtr->szProtoName, "Twitter") == 0){
+				// hack for Twitter protocol
 
 				DBVARIANT dbv;
 				if (!db_get_s(mirandaContactsIter->contactHandle, mirandaContactsIter->mirandaAccountPtr->szModuleName, "Username", &dbv, DBVT_WCHAR)) {
 					mirandaContactsIter->contactNameW = std::wstring(dbv.pwszVal);
 					db_free(&dbv);
 				}
-
-			} else {
-				//standard miranda way for another protocols
-
-				mirandaContactsIter->contactNameW =
-						(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)mirandaContactsIter->contactHandle, GCDNF_TCHAR);
-						//get contact's display name from clist
-
 			}
-
+			else // standard miranda way for another protocols
+				mirandaContactsIter->contactNameW = pcli->pfnGetContactDisplayName(mirandaContactsIter->contactHandle, 0);
 		}
 
-		if (mirandaContactsIter->contactNameW.size() == 0){
-			//last chance (if some hack didn't work or mirandaContactsIter->mirandaAccountPtr is NULL)
-			mirandaContactsIter->contactNameW =
-					(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)mirandaContactsIter->contactHandle, GCDNF_TCHAR);
-					//get contact's display name from clist
-		}
+		if (mirandaContactsIter->contactNameW.size() == 0)
+			// last chance (if some hack didn't work or mirandaContactsIter->mirandaAccountPtr is NULL)
+			mirandaContactsIter->contactNameW = pcli->pfnGetContactDisplayName(mirandaContactsIter->contactHandle, 0);
 
 		logger->log_p(L"initializeMirandaContacts: got name for hContact = [" SCNuPTR L"]  is: [%s]", mirandaContactsIter->contactHandle,
 				&(mirandaContactsIter->contactNameW)==NULL ? L"<null>" : mirandaContactsIter->contactNameW.c_str());

@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "EventList.h"
 #include "IExport.h"
 #include "IImport.h"
-class ExportManager : public EventList
+class ExportManager : public HistoryEventList
 {
 private:
 	IExport* exp;

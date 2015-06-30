@@ -133,11 +133,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			else
 				FillAvatarListFromFiles(hwndList, data->hContact);
 
-			TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)data->hContact,GCDNF_TCHAR);
-			if (displayName)
-			{
+			TCHAR *displayName = pcli->pfnGetContactDisplayName(data->hContact, 0);
+			if (displayName) {
 				TCHAR title[MAX_PATH];
-
 				mir_sntprintf(title, _countof(title), TranslateT("Avatar History for %s"), displayName);
 				SetWindowText(hwnd, title);
 			}
@@ -547,7 +545,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	_tcsncpy_s(file, (_tcsrchr(fn, '\\') + 1), _TRUNCATE);
 	ofn.lpstrFile = file;
 
-	TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
+	TCHAR *displayName = pcli->pfnGetContactDisplayName(hContact, 0);
 	TCHAR title[MAX_PATH];
 	if (displayName)
 	{

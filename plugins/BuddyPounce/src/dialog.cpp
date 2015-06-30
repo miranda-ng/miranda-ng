@@ -16,7 +16,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			TCHAR name[300];
-			mir_sntprintf(name, _countof(name), _T("%s (%s)"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), _A2T(szProto));
+			mir_sntprintf(name, _countof(name), _T("%s (%s)"), pcli->pfnGetContactDisplayName(hContact, 0), _A2T(szProto));
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, hContact);
 			if (BPhContact == hContact)
@@ -532,7 +532,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_TIMER:
 		{
 			TCHAR message[1024];
-			mir_sntprintf(message, _countof(message), TranslateT("Pounce being sent to %s in %d seconds"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)spdps->hContact, GCDNF_TCHAR), spdps->timer);
+			mir_sntprintf(message, _countof(message), TranslateT("Pounce being sent to %s in %d seconds"), pcli->pfnGetContactDisplayName(spdps->hContact, 0), spdps->timer);
 			SetDlgItemText(hwnd, LBL_CONTACT, message);
 		}
 		spdps->timer--;
@@ -609,12 +609,12 @@ void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess)
 	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, PounceSentDlgProc, hContact);
 	TCHAR msg[256];
 	if (SentSuccess) {
-		mir_sntprintf(msg, _countof(msg), TranslateT("Message successfully sent to %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		mir_sntprintf(msg, _countof(msg), TranslateT("Message successfully sent to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		SetDlgItemText(hwnd, IDOK, TranslateT("OK"));
 		ShowWindow(GetDlgItem(hwnd, IDCANCEL), 0);
 	}
 	else {
-		mir_sntprintf(msg, _countof(msg), TranslateT("Message failed to send to %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		mir_sntprintf(msg, _countof(msg), TranslateT("Message failed to send to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		SetDlgItemText(hwnd, IDOK, TranslateT("Retry"));
 	}
 	SetDlgItemText(hwnd, LBL_CONTACT, msg);

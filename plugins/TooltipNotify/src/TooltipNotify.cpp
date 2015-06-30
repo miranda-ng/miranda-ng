@@ -861,37 +861,30 @@ BOOL CTooltipNotify::ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 }
 
-
-
 TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize)
 {
-	if((iStatus>=ID_STATUS_OFFLINE) && (iStatus<=ID_STATUS_OUTTOLUNCH))
-	{
-		mir_tstrncpy(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
-	}
-	else
-	{
-		switch(iStatus)
-		{
-			case ID_TTNTF_STATUS_TYPING: 
-				mir_tstrncpy(szStatus, TranslateT("Typing"), iBufSize);
-				break;
+	if (iStatus >= ID_STATUS_OFFLINE && iStatus <= ID_STATUS_OUTTOLUNCH)
+		mir_tstrncpy(szStatus, pcli->pfnGetStatusModeDescription(iStatus, 0), iBufSize);
+	else {
+		switch(iStatus) {
+		case ID_TTNTF_STATUS_TYPING: 
+			mir_tstrncpy(szStatus, TranslateT("Typing"), iBufSize);
+			break;
 
-			case ID_TTNTF_STATUS_IDLE: 
-				mir_tstrncpy(szStatus, TranslateT("Idle"), iBufSize);
-				break;
+		case ID_TTNTF_STATUS_IDLE: 
+			mir_tstrncpy(szStatus, TranslateT("Idle"), iBufSize);
+			break;
 
-			case ID_TTNTF_STATUS_NOT_IDLE: 
-				mir_tstrncpy(szStatus, TranslateT("Not Idle"), iBufSize);
-				break;
+		case ID_TTNTF_STATUS_NOT_IDLE: 
+			mir_tstrncpy(szStatus, TranslateT("Not Idle"), iBufSize);
+			break;
 
-			default:
-				mir_tstrncpy(szStatus, TranslateT("Unknown"), iBufSize);
-				break;
+		default:
+			mir_tstrncpy(szStatus, TranslateT("Unknown"), iBufSize);
+			break;
 		}
 	}
 	return szStatus;
-
 }
 
 TCHAR *CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize)
@@ -906,7 +899,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *
 	const char* szProto = 
 		hContact==0 ? "Proto" : (char*)::GetContactProto(hContact);
 	const TCHAR* szContactName = 
-		(TCHAR *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+		(TCHAR *)::pcli->pfnGetContactDisplayName(hContact, 0);
 
 	memset(szString, 0, iBufSize*sizeof(TCHAR));
 

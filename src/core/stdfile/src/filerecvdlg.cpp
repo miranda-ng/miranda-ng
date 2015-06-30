@@ -136,7 +136,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 
 		REPLACEVARSARRAY rvaVarsToReplace[4];
 		rvaVarsToReplace[0].key.t = _T("nick");
-		rvaVarsToReplace[0].value.t = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		rvaVarsToReplace[0].value.t = mir_tstrdup((TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0));
 		rvaVarsToReplace[1].key.t = _T("userid");
 		rvaVarsToReplace[1].value.t = GetContactID(hContact);
 		rvaVarsToReplace[2].key.t = _T("proto");

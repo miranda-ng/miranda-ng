@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 
 #define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
@@ -240,6 +241,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	hTaskMainMenu = NULL;
 	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&g_hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
@@ -256,7 +258,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 
-	EventList::Init();
+	HistoryEventList::Init();
 	
 	Icon_Register(hInst, LPGEN("History"), iconList, _countof(iconList));
 	return 0;

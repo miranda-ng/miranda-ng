@@ -85,7 +85,7 @@ void SettingsSerializer::readFromDB()
 {
 	clearColumns();
 
-	ext::string defaultNick = mu::clist::getContactDisplayName(0);
+	ext::string defaultNick = pcli->pfnGetContactDisplayName(0, 0);
 	SettingsTree settingsTree;
 
 	// read version tag

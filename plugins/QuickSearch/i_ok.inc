@@ -266,7 +266,6 @@ begin
   mFreeMem(res.text);
   with column^ do
   begin
-
     case setting_type of
       QST_SCRIPT: begin
         res.text:=ParseVarString(script,hContact);
@@ -390,10 +389,15 @@ begin
         end;
       end;
 
-      QST_OTHER: case other of
+      QST_OTHER: 
+        case other of
         QSTO_LASTSEEN: begin
           res.data:=BuildLastSeenTimeInt(hContact,'SeenModule');
-          res.text:=BuildLastSeenTime   (res.data);
+          res.text:=BuildLastSeenTime(res.data);
+        end;
+
+        QSTO_DISPLAYNAME: begin
+          StrDupW(res.text,cli^.pfnGetContactDisplayName(hContact, 0));
         end;
 
         QSTO_LASTEVENT: begin
@@ -419,7 +423,6 @@ begin
           res.text:=int2strw(res.data);
         end;
       end;
-
     end;
   end;
 end;
@@ -573,7 +576,7 @@ begin
   begin
     if ((SBData[i].flags and (QSF_ACCDEL or QSF_ACCOFF))<>0) then
     begin
-      icon:=Skin_LoadProtoIcon(0,ID_STATUS_OFFLINE,0);
+      icon:=Skin_LoadProtoIcon(nil,ID_STATUS_OFFLINE,0);
     end
     else
     begin

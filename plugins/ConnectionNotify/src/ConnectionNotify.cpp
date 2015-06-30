@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 HINSTANCE hInst;
+CLIST_INTERFACE *pcli;
 
 //PLUGINLINK *pluginLink=NULL;
 HANDLE hOptInit = NULL;
@@ -347,7 +348,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		// items. 
 		lvI.mask = LVIF_TEXT;
 		for (int i = 0; i < STATUS_COUNT; i++) {
-			lvI.pszText = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_ONLINE + i, GSMDF_TCHAR);
+			lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
 			lvI.iItem = i;
 			ListView_InsertItem(hwndList, &lvI);
 			ListView_SetCheckState(hwndList, i, settingStatus[i]);
@@ -872,6 +873,8 @@ extern "C" int __declspec(dllexport) Load(void)
 #endif
 
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	hExceptionsMutex = CreateMutex(NULL, FALSE, _T("ExceptionsMutex"));
 
 	LoadSettings();

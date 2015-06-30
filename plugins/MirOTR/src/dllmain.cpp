@@ -1,6 +1,7 @@
 // dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 #include "stdafx.h"
 
+CLIST_INTERFACE *pcli;
 HANDLE hEventWindow;
 HINSTANCE hInst;
 
@@ -59,9 +60,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	DEBUGOUT_T("LOAD MIROTR");
 
-	mir_getLP( &pluginInfo );
-	/* for timezones
-	 mir_getTMI(&tmi);  */
+	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	InitIcons();
 

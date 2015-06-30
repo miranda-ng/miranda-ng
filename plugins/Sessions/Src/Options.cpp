@@ -55,7 +55,7 @@ int OpLoadSessionContacts(WPARAM, LPARAM lparam)
 
 	int i;
 	for (i = 0; session_list_t[i] != 0; i++)
-		SendDlgItemMessage(g_opHdlg, IDC_OPCLIST, LB_ADDSTRING, 0, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)session_list_t[i], GCDNF_TCHAR));
+		SendDlgItemMessage(g_opHdlg, IDC_OPCLIST, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetContactDisplayName(session_list_t[i], 0));
 
 	return i;
 }

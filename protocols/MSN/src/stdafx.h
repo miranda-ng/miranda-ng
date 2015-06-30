@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <newpluginapi.h>
 
 #include <m_clist.h>
-#include <m_clistint.h>
 #include <m_clui.h>
 #include <m_contacts.h>
 #include <m_idle.h>

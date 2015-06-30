@@ -79,9 +79,6 @@ extern SMS_SETTINGS ssSMSSettings;
 #define GET_DLG_ITEM_TEXT_LENGTH(hDlg,nIDDlgItem) SendDlgItemMessage(hDlg,nIDDlgItem,WM_GETTEXTLENGTH,NULL,NULL)
 #define GET_CURRENT_COMBO_DATA(hWndDlg,ControlID) SendDlgItemMessage(hWndDlg,ControlID,CB_GETITEMDATA,SendDlgItemMessage(hWndDlg,ControlID,CB_GETCURSEL,0,0),0)
 
-
-#define GetContactNameW(Contact) (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)Contact,GCDNF_UNICODE)
-
 #define DB_SMS_DeleteValue(Contact,valueName) db_unset(Contact,PROTOCOL_NAMEA,valueName)
 #define DB_SMS_GetDword(Contact,valueName,parDefltValue) db_get_dw(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
 #define DB_SMS_SetDword(Contact,valueName,parValue) db_set_dw(Contact,PROTOCOL_NAMEA,valueName,parValue)

@@ -934,7 +934,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				jid = dbv.pszVal;
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					if (cws->value.type == DBVT_DELETED) {
-						newNick = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_NOMYHANDLE));
+						newNick = mir_strdup((char *) pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE));
 					} else if (cws->value.pszVal != NULL) {
 						newNick = settingToChar(cws);
 					} else {

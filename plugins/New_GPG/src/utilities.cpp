@@ -351,13 +351,13 @@ int onProtoAck(WPARAM w, LPARAM l)
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
 								if(mir_tstrlen(pass) > 0 && bDebugLog)
-									debuglog<<std::string(time_str()+": info: found password in database for key ID: "+keyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
+									debuglog<<std::string(time_str()+": info: found password in database for key ID: "+keyid+", trying to decrypt message from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0))+" with password");
 							}
 							else
 							{
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 								if(mir_tstrlen(pass) > 0 && bDebugLog)
-									debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
+									debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0))+" with password");
 							}
 							if(mir_tstrlen(pass) > 0)
 							{
@@ -367,12 +367,12 @@ int onProtoAck(WPARAM w, LPARAM l)
 							else if(password)
 							{
 								if(bDebugLog)
-									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
+									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0))+" with password");
 								cmd.push_back(L"--passphrase");
 								cmd.push_back(password);
 							}
 							else if (bDebugLog)
-								debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with out password");
+								debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0))+" with out password");
 							mir_free(pass);
 							mir_free(keyid);
 						}
@@ -387,7 +387,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 						while(out.find("public key decryption failed: bad passphrase") != string::npos)
 						{
 							if(bDebugLog)
-								debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" password needed, trying to get one");
+								debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0))+" password needed, trying to get one");
 							if(_terminate)
 								break;
 							{ //save inkey id
@@ -408,7 +408,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 							if(password)
 							{
 								if(bDebugLog)
-									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)));
+									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)));
 								std::vector<wstring> tmp;
 								tmp.push_back(L"--passphrase");
 								tmp.push_back(password);
@@ -1065,7 +1065,7 @@ bool isContactSecured(MCONTACT hContact)
 	if(!gpg_enc)
 	{
 		if(bDebugLog)
-			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
+			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 		return false;
 	}
 	if(!db_mc_isMeta(hContact))
@@ -1075,13 +1075,13 @@ bool isContactSecured(MCONTACT hContact)
 		{
 			mir_free(key);
 			if(bDebugLog)
-				debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
+				debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 			return false;
 		}
 		mir_free(key);
 	}
 	if(bDebugLog)
-		debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
+		debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 	return true;
 }
 
