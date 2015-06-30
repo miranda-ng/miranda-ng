@@ -41,9 +41,9 @@ void CMLua::Unload()
 {
 	mir_writeLogT(hLogger, _T("Unloading lua engine\n"));
 
-	KillModuleMenus(hScriptsLangpack);
-	KillModuleServices();
-	KillModuleEventHooks();
+	::KillModuleMenus(hScriptsLangpack);
+	::KillModuleServices();
+	::KillModuleEventHooks();
 	//KillModuleSubclassing
 
 	if (L)

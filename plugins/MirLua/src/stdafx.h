@@ -59,8 +59,7 @@ extern HANDLE g_hCustomFolderPath;
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
 
-#define MLUA_CORE	"m"
-LUAMOD_API int (luaopen_m)(lua_State *L);
+#include "m_core.h"
 
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);
