@@ -9,8 +9,8 @@ static void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	mi.flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(mi.flags & CMIF_UNICODE))
-		mi.flags |= CMIF_UNICODE;
+	if (!(mi.flags & CMIF_TCHAR))
+		mi.flags |= CMIF_TCHAR;
 
 	lua_pushstring(L, "Name");
 	lua_gettable(L, -2);
@@ -38,9 +38,11 @@ static void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 }
 
-static int lua_AddMainMenuItem(lua_State *L)
+static int lua_AddMenuItem(lua_State *L)
 {
-	if (lua_type(L, 1) != LUA_TTABLE)
+	int hMenuObject = lua_tointeger(L, 1);
+
+	if (lua_type(L, 2) != LUA_TTABLE)
 	{
 		lua_pushlightuserdata(L, 0);
 		return 1;
@@ -49,41 +51,7 @@ static int lua_AddMainMenuItem(lua_State *L)
 	CMenuItem mi;
 	MakeMenuItem(L, mi);
 
-	HGENMENU res = ::Menu_AddMainMenuItem(&mi);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
-}
-
-static int lua_AddContactMenuItem(lua_State *L)
-{
-	if (lua_type(L, 1) != LUA_TTABLE)
-	{
-		lua_pushlightuserdata(L, 0);
-		return 1;
-	}
-
-	CMenuItem mi;
-	MakeMenuItem(L, mi);
-
-	HGENMENU res = ::Menu_AddContactMenuItem(&mi, NULL);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
-}
-
-static int lua_AddTrayMenuItem(lua_State *L)
-{
-	if (lua_type(L, 1) != LUA_TTABLE)
-	{
-		lua_pushlightuserdata(L, 0);
-		return 1;
-	}
-
-	CMenuItem mi;
-	MakeMenuItem(L, mi);
-
-	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)&mi);
+	HGENMENU res = ::Menu_AddItem(hMenuObject, &mi, NULL);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -92,7 +60,7 @@ static int lua_AddTrayMenuItem(lua_State *L)
 static int lua_ModifyMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	ptrT name(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	ptrT name(mir_utf8decodeT(lua_tostring(L, 2)));
 	HANDLE hIcolibItem = lua_touserdata(L, 3);
 	int flags = lua_tointeger(L, 4);
 
@@ -146,9 +114,7 @@ static int lua_RemoveMenuItem(lua_State *L)
 
 static luaL_Reg genmenuApi[] =
 {
-	{ "AddMainMenuItem", lua_AddMainMenuItem },
-	{ "AddContactMenuItem", lua_AddContactMenuItem },
-	{ "AddTrayMenuItem", lua_AddTrayMenuItem },
+	{ "AddMenuItem", lua_AddMenuItem },
 	{ "ModifyMenuItem", lua_ModifyMenuItem },
 	{ "ShowMenuItem", lua_ShowMenuItem },
 	{ "EnableMenuItem", lua_EnableMenuItem },

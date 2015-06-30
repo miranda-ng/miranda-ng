@@ -3,7 +3,7 @@
 bool luaM_checkboolean(lua_State *L, int idx)
 {
 	luaL_checktype(L, 2, LUA_TBOOLEAN);
-	return lua_toboolean(L, idx);
+	return lua_toboolean(L, idx) > 0;
 }
 
 WPARAM luaM_towparam(lua_State *L, int idx)

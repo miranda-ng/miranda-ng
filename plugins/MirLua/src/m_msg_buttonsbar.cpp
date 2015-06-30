@@ -50,8 +50,6 @@ static int lua_AddButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
-	mir_free(bbb->pszModuleName);
-	mir_free(bbb->ptszTooltip);
 
 	return 1;
 }
