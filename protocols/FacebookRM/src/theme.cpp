@@ -225,7 +225,6 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	}
 
 	CMenuItem mi;
-	mi.flags = (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 	mi.root = hRoot;
 
@@ -248,7 +247,9 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Services...
-	mi.root = m_hMenuServicesRoot = Menu_CreateRoot(MO_PROTO, LPGENT("Services..."), mi.position, Skin_GetIconHandle(SKINICON_OTHER_HELP));
+	mi.name.a = LPGEN("Services...");
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
+	mi.root = m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/RefreshBuddyList";
 	CreateProtoService(mi.pszService, &FacebookProto::RefreshBuddyList);
@@ -267,6 +268,8 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.name.a = LPGEN("Check Newsfeeds");
 	mi.hIcolibItem = GetIconHandle("newsfeed");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	ToggleStatusMenuItems(this->isOnline());
 	return 0;
 }
 
