@@ -35,6 +35,7 @@ class CSteamProto : public PROTO<CSteamProto>
 {
 	friend CSteamPasswordEditor;
 	friend CSteamOptionsMain;
+	friend CSteamOptionsBlockList;
 
 public:
 	// PROTO_INTERFACE
