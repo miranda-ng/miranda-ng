@@ -21,12 +21,12 @@ static BBButton* MakeBBButton(lua_State *L)
 	tbb->bbbFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
+	if ((tbb->bbbFlags & BBBF_ANSITOOLTIP))
+		tbb->bbbFlags &= ~BBBF_ANSITOOLTIP;
+
 	lua_pushstring(L, "Tooltip");
 	lua_gettable(L, -2);
-	if ((tbb->bbbFlags & BBBF_ANSITOOLTIP))
-		tbb->pszTooltip = mir_utf8decode((char*)lua_tostring(L, -1), NULL);
-	else
-		tbb->ptszTooltip = mir_utf8decodeT((char*)lua_tostring(L, -1));
+	tbb->ptszTooltip = mir_utf8decodeT((char*)lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Icon");
@@ -50,6 +50,9 @@ static int lua_AddButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
+	mir_free(bbb->pszModuleName);
+	mir_free(bbb->ptszTooltip);
+
 	return 1;
 }
 
@@ -66,6 +69,9 @@ static int lua_ModifyButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
+	mir_free(bbb->pszModuleName);
+	mir_free(bbb->ptszTooltip);
+
 	return 1;
 }
 
@@ -77,6 +83,8 @@ static int lua_RemoveButton(lua_State *L)
 
 	INT_PTR res = ::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbb);
 	lua_pushinteger(L, res);
+
+	mir_free(bbb.pszModuleName);
 
 	return 1;
 }
@@ -111,7 +119,7 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 
 	lua_newtable(L);
 	lua_pushstring(L, "Module");
-	lua_pushstring(L, bcd->pszModule);
+	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
 	lua_settable(L, -3);
 	lua_pushstring(L, "ButtonID");
 	lua_pushinteger(L, bcd->dwButtonId);
