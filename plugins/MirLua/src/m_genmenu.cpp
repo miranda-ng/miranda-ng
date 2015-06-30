@@ -96,6 +96,9 @@ static int lua_ModifyMenuItem(lua_State *L)
 	HANDLE hIcolibItem = lua_touserdata(L, 3);
 	int flags = lua_tointeger(L, 4);
 
+	if (!(flags & CMIF_UNICODE))
+		flags |= CMIF_UNICODE;
+
 	INT_PTR res = ::Menu_ModifyItem(hMenuItem, name, hIcolibItem, flags);
 	lua_pushinteger(L, res);
 	return 1;
