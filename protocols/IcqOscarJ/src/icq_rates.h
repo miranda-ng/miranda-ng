@@ -115,9 +115,6 @@ public:
 	char *szUid;
 };
 
-class rates_queue;
-typedef void (rates_queue::*IcqRateFunc)(void);
-
 //
 // generic item queue (FIFO)
 //
@@ -125,21 +122,23 @@ class rates_queue : public MZeroedObject
 {
 	CIcqProto  *ppro;
 	const char *szDescr;
-	int         duplicates;
+	int duplicates;
+	int scheduledDelay;
 
 	mir_cs csLists;  // we need to be thread safe
 	LIST<rates_queue_item> lstPending;
 	
 protected:
 	void cleanup();
+	void initDelay(int nDelay);
 	void processQueue();
-	void initDelay(int nDelay, IcqRateFunc delaycode);
 
 public:
 	rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates);
 	~rates_queue();
 
 	void putItem(rates_queue_item *pItem, int nMinDelay);
+	void handleDelay();
 
 	int limitLevel; // RML_*
 	int waitLevel;

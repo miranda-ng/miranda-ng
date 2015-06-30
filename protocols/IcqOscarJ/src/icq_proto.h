@@ -532,8 +532,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	int    handleRateItem(rates_queue_item *item, int nQueueType = RQT_DEFAULT, int nMinDelay = 0, BOOL bAllowDelay = TRUE);
 
-	void   __cdecl rateDelayThread(struct rate_delay_args *pArgs);
-
 	//----| icq_server.cpp |--------------------------------------------------------------
 	HANDLE hServerConn;
 	WORD   wListenPort;

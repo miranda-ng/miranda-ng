@@ -299,35 +299,26 @@ rates_queue::~rates_queue()
 	cleanup();
 }
 
-// links to functions that are under Rate Control
-struct rate_delay_args
+static void rateDelayThread(void *param)
 {
-	int nDelay;
-	rates_queue *queue;
-	IcqRateFunc delaycode;
-};
-
-void __cdecl CIcqProto::rateDelayThread(rate_delay_args *pArgs)
-{
-	SleepEx(pArgs->nDelay, TRUE);
-
-	if (g_bTerminated)
-		return;
-
-	(pArgs->queue->*pArgs->delaycode)();
-	SAFE_FREE((void**)&pArgs);
+	rates_queue *pQueue = (rates_queue*)param;
+	pQueue->handleDelay();
 }
 
-void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
+void rates_queue::initDelay(int nDelay)
 {
 	ppro->debugLogA("Rates: Delay %dms", nDelay);
 
-	rate_delay_args *pArgs = (rate_delay_args*)SAFE_MALLOC(sizeof(rate_delay_args)); // This will be freed in the new thread
-	pArgs->queue = this;
-	pArgs->nDelay = nDelay;
-	pArgs->delaycode = delaycode;
+	scheduledDelay = nDelay;
+	mir_forkthread(rateDelayThread, this);
+}
 
-	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::rateDelayThread, pArgs);
+void rates_queue::handleDelay()
+{
+	SleepEx(scheduledDelay, TRUE);
+
+	if (!g_bTerminated)
+		processQueue();
 }
 
 void rates_queue::cleanup()
@@ -340,10 +331,8 @@ void rates_queue::cleanup()
 
 void rates_queue::processQueue()
 {
-	if (!ppro->icqOnline()) {
-		cleanup();
+	if (!ppro->icqOnline())
 		return;
-	}
 
 	// take from queue, execute
 	mir_cslockfull l(csLists);
@@ -359,7 +348,7 @@ void rates_queue::processQueue()
 			l.unlock();
 			rlck.unlock();
 			if (nDelay < 10) nDelay = 10;
-			initDelay(nDelay, &rates_queue::processQueue);
+			initDelay(nDelay);
 			return;
 		}
 	}
@@ -383,7 +372,7 @@ void rates_queue::processQueue()
 		}
 
 		if (nDelay < 10) nDelay = 10;
-		initDelay(nDelay, &rates_queue::processQueue);
+		initDelay(nDelay);
 	}
 	delete item;
 }
@@ -424,7 +413,7 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 
 	if (nDelay < 10) nDelay = 10;
 	if (nDelay < nMinDelay) nDelay = nMinDelay;
-	initDelay(nDelay, &rates_queue::processQueue);
+	initDelay(nDelay);
 }
 
 int CIcqProto::handleRateItem(rates_queue_item *item, int nQueueType, int nMinDelay, BOOL bAllowDelay)
