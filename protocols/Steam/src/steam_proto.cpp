@@ -12,7 +12,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	m_hQueueThread = NULL;
 	m_pollingConnection = NULL;
 	m_hPollingThread = NULL;
-	m_hMenuRoot = NULL;
 
 	// icons
 	wchar_t filePath[MAX_PATH];

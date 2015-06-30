@@ -47,29 +47,13 @@ static WhatsAppProto* GetInstanceByHContact(MCONTACT hContact)
 
 int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
-	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hRoot == NULL) {
-		CMenuItem mi;
-		mi.position = 500085000;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (isOnline() ? 0 : CMIF_GRAYED);
-		mi.hIcolibItem = GetIconHandle("whatsApp");
-		mi.name.t = m_tszUserName;
-		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		if (m_hMenuRoot) {
-			Menu_RemoveItem(m_hMenuRoot);
-			m_hMenuRoot = NULL;
-		}
-	}
-
 	CMenuItem mi;
 	mi.flags = (isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 
 	mi.pszService = "/CreateGroup";
 	CreateProtoService(mi.pszService, &WhatsAppProto::OnCreateGroup);
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 	mi.name.a = LPGEN("Create group");
 	mi.hIcolibItem = GetIconHandle("createGroup");
 	m_hMenuCreateGroup = Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -78,6 +62,5 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 
 void WhatsAppProto::ToggleStatusMenuItems(bool bEnable)
 {
-	Menu_EnableItem(m_hMenuRoot, bEnable);
 	Menu_EnableItem(m_hMenuCreateGroup, bEnable);
 }

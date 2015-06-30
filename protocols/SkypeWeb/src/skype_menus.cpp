@@ -108,19 +108,8 @@ void CSkypeProto::UninitMenus()
 
 int CSkypeProto::OnInitStatusMenu()
 {
-	HGENMENU hStatusMenuRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (!hStatusMenuRoot)
-	{
-		CMenuItem mi;
-		mi.name.t = m_tszUserName;
-		mi.position = -1999901006;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.hIcolibItem = Skin_GetIconHandle("main");
-		hStatusMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-
 	CMenuItem mi;
-	mi.root = hStatusMenuRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.pszService = "/CreateNewChat";
 	CreateProtoService(mi.pszService, &CSkypeProto::SvcCreateChat);

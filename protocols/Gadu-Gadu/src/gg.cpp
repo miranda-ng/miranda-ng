@@ -257,34 +257,21 @@ void GGPROTO::block_uninit()
 // Menus initialization
 void GGPROTO::menus_init()
 {
-   CMenuItem mi;
+	HGENMENU hRoot = Menu_GetProtocolRoot(this);
+	
+	CMenuItem mi;
+	mi.root = hRoot;
+   mi.flags = CMIF_TCHAR;
 
-   HGENMENU hGCRoot, hCLRoot, hRoot = Menu_GetProtocolRoot(m_szModuleName);
-   if (hRoot == NULL) {
-      mi.name.t = m_tszUserName;
-      mi.position = 500090000;
-      mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-      mi.hIcolibItem = iconList[0].hIcolib;
-      hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
-   }
-   else {
-      mi.root = hRoot;
-      mi.flags = CMIF_TCHAR;
+   mi.name.t = LPGENT("Conference");
+   mi.position = 200001;
+   mi.hIcolibItem = iconList[14].hIcolib;
+	HGENMENU hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-      mi.name.t = LPGENT("Conference");
-      mi.position = 200001;
-      mi.hIcolibItem = iconList[14].hIcolib;
-      hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-      mi.name.t = LPGENT("Contact list");
-      mi.position = 200002;
-      mi.hIcolibItem = iconList[7].hIcolib;
-      hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-      if (hMenuRoot)
-         Menu_RemoveItem(hMenuRoot);
-      hMenuRoot = NULL;
-   }
+   mi.name.t = LPGENT("Contact list");
+   mi.position = 200002;
+   mi.hIcolibItem = iconList[7].hIcolib;
+   HGENMENU hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
    gc_menus_init(hGCRoot);
    import_init(hCLRoot);

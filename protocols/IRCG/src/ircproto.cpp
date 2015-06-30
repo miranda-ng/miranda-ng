@@ -146,9 +146,6 @@ CIrcProto::~CIrcProto()
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
-	if (hMenuRoot)
-		Menu_RemoveItem(hMenuRoot);
-
 	mir_free(m_alias);
 
 	CloseHandle(m_evWndCreate);
@@ -837,11 +834,6 @@ int __cdecl CIrcProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 
 	case EV_PROTO_ONMENU:
 		InitMainMenus();
-		break;
-
-	case EV_PROTO_ONRENAME:
-		if (hMenuRoot)
-			Menu_ModifyItem(hMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

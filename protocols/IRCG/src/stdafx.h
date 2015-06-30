@@ -337,7 +337,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	DWORD     m_bConnectRequested;
 	DWORD     m_bConnectThreadRunning;
 
-	HGENMENU hMenuRoot, hMenuQuick, hMenuServer, hMenuJoin, hMenuNick, hMenuList;
+	HGENMENU hMenuQuick, hMenuServer, hMenuJoin, hMenuNick, hMenuList;
 	HANDLE   hNetlibDCC;
 
 	bool  bTempDisableCheck, bTempForceCheck, bEcho;

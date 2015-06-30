@@ -234,7 +234,6 @@ public:
 	bool RunCaptchaForm(std::string imageUrl, std::string &result);
 
 	// Menu items
-	HGENMENU m_hMenuRoot;
 	HGENMENU m_hMenuServicesRoot;
 	HGENMENU m_hStatusMind;
 

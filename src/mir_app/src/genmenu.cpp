@@ -225,13 +225,18 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProto)
+MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 {
-	if (szProto == NULL)
+	if (pThis == NULL)
 		return 0;
 
-	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
-		return cli.pfnGetProtocolMenu(szProto);
+	if (db_get_b(NULL, "CList", "MoveProtoMenus", TRUE)) {
+		if (pThis->m_hMainMenuItem != NULL) {
+			Menu_RemoveItem(pThis->m_hMainMenuItem);
+			pThis->m_hMainMenuItem = NULL;
+		}
+		return cli.pfnGetProtocolMenu(pThis->m_szModuleName);
+	}
 
 	TIntMenuObject *pmo = GetMenuObjbyId(hMainMenuObject);
 	if (pmo == NULL)
@@ -239,10 +244,16 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(const char *szProto)
 
 	mir_cslock lck(csMenuHook);
 	for (TMO_IntMenuItem *p = pmo->m_items.first; p != NULL; p = p->next)
-		if (!mir_strcmp(p->UniqName, szProto))
+		if (!mir_strcmp(p->UniqName, pThis->m_szModuleName))
 			return p;
 
-	return NULL;
+	// create protocol root in the main menu
+	CMenuItem mi;
+	mi.name.t = pThis->m_tszUserName;
+	mi.position = 500090000;
+	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.hIcolibItem = pThis->m_hProtoIcon;
+	return pThis->m_hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

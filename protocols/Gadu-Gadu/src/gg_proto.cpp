@@ -94,9 +94,6 @@ GGPROTO::~GGPROTO()
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupNotify);
 
-	if (hMenuRoot)
-		Menu_RemoveItem(hMenuRoot);
-
 	// Close handles
 	Netlib_CloseHandle(m_hNetlibUser);
 
@@ -761,11 +758,6 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 
 	case EV_PROTO_ONMENU:
 		menus_init();
-		break;
-
-	case EV_PROTO_ONRENAME:
-		if (hMenuRoot)
-			Menu_ModifyItem(hMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

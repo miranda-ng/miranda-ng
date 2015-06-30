@@ -269,22 +269,7 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 void CMsnProto::MsnInitMainMenu(void)
 {
 	CMenuItem mi;
-
-	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hRoot == NULL) {
-		mi.position = 500085000;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.hIcolibItem = GetIconHandle(IDI_MSN);
-		mi.name.t = m_tszUserName;
-		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		MsnRemoveMainMenus();
-		mainMenuRoot = NULL;
-	}
-
-	mi.flags = 0;
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 #ifdef OBSOLETE
 	mi.pszService = MS_SET_NICKNAME_UI;
@@ -324,12 +309,6 @@ void CMsnProto::MsnInitMainMenu(void)
 	menuItemsMain[3] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	MSN_EnableMenuItems(m_iStatus >= ID_STATUS_ONLINE);
-}
-
-void CMsnProto::MsnRemoveMainMenus(void)
-{
-	if (mainMenuRoot)
-		Menu_RemoveItem(mainMenuRoot);
 }
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)

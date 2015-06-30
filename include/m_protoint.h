@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_protosvc.h>
 #include <m_database.h>
+#include <m_genmenu.h>
 #include <m_utils.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +94,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
 	HANDLE      m_hNetlibUser;     // network agent
 	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
+	HGENMENU    m_hMainMenuItem;	 // if protocol menus are displayed in the main menu, this is the root
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers

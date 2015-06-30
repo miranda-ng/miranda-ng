@@ -226,10 +226,10 @@ INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 void addProtoStatusMenuItem(char *protoName)
 {
 	PROTOACCOUNT *pdescr = Proto_GetAccount(protoName);
-	if (pdescr == NULL)
+	if (pdescr == NULL || pdescr->ppro == NULL)
 		return;
 
-	HGENMENU hRoot = Menu_GetProtocolRoot(pdescr->szModuleName);
+	HGENMENU hRoot = Menu_GetProtocolRoot(pdescr->ppro);
 	if (hRoot == NULL)
 		return;
 

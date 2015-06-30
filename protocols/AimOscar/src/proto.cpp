@@ -703,11 +703,6 @@ int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		}
 		break;
 
-	case EV_PROTO_ONRENAME:
-		if (hMenuRoot)
-			Menu_ModifyItem(hMenuRoot, m_tszUserName);
-		break;
-
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 

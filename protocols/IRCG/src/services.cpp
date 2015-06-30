@@ -23,25 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CIrcProto::InitMainMenus(void)
 {
-	HGENMENU hRoot = Menu_GetProtocolRoot(m_szModuleName);
-	if (hRoot == NULL) {
-		// Root popupmenuitem
-		CMenuItem mi;
-		mi.name.t = m_tszUserName;
-		mi.position = -1999901010;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.hIcolibItem = GetIconHandle(IDI_MAIN);
-		hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	}
-	else {
-		if (hMenuRoot) {
-			Menu_RemoveItem(hMenuRoot);
-			hMenuRoot = NULL;
-		}
-	}
-
 	CMenuItem mi;
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 
 	mi.name.a = LPGEN("&Quick connect");
 	mi.hIcolibItem = GetIconHandle(IDI_QUICK);

@@ -151,8 +151,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 CMsnProto::~CMsnProto()
 {
-	MsnRemoveMainMenus();
-
 	MSN_FreeGroups();
 	Threads_Uninit();
 	AvatarQueue_Uninit();
@@ -1228,11 +1226,6 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		char szDbsettings[64];
 		mir_snprintf(szDbsettings, _countof(szDbsettings), "%s_HTTPS", m_szModuleName);
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
-		break;
-
-	case EV_PROTO_ONRENAME:
-		if (mainMenuRoot)
-			Menu_ModifyItem(mainMenuRoot, m_tszUserName);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

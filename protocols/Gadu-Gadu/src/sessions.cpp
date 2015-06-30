@@ -422,7 +422,7 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 	
 	mi.pszService = GGS_CONCUR_SESS;
 	CreateProtoService(mi.pszService, &GGPROTO::sessions_view);
-	mi.position = (hMenuRoot) ? 2050000001 : 200003;
+	mi.position = 200003;
 	mi.hIcolibItem = iconList[16].hIcolib;
 	mi.name.t = LPGENT("Concurrent &sessions");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);

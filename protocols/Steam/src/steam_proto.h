@@ -160,7 +160,6 @@ protected:
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// menus
-	HGENMENU m_hMenuRoot;
 	static int hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
