@@ -1,43 +1,5 @@
 #include "stdafx.h"
 
-static void MakeMenuItem(lua_State *L, CMenuItem &mi)
-{
-	mi.hLangpack = hScriptsLangpack;
-
-	lua_pushstring(L, "Flags");
-	lua_gettable(L, -2);
-	mi.flags = lua_tointeger(L, -1);
-	lua_pop(L, 1);
-
-	if (!(mi.flags & CMIF_UNICODE))
-		mi.flags |= CMIF_UNICODE;
-
-	lua_pushstring(L, "Name");
-	lua_gettable(L, -2);
-	mi.name.t = mir_utf8decodeT((char*)luaL_checkstring(L, -1));
-	lua_pop(L, 1);
-
-	lua_pushstring(L, "Position");
-	lua_gettable(L, -2);
-	mi.position = lua_tointeger(L, -1);
-	lua_pop(L, 1);
-
-	lua_pushstring(L, "Icon");
-	lua_gettable(L, -2);
-	mi.hIcolibItem = (HANDLE)lua_touserdata(L, -1);
-	lua_pop(L, 1);
-
-	lua_pushstring(L, "Service");
-	lua_gettable(L, -2);
-	mi.pszService = (char*)lua_tostring(L, -1);
-	lua_pop(L, 1);
-
-	lua_pushstring(L, "Parent");
-	lua_gettable(L, -2);
-	mi.root = (HGENMENU)lua_touserdata(L, -1);
-	lua_pop(L, 1);
-}
-
 static int lua_AddMainMenuItem(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
