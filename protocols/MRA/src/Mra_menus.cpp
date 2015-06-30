@@ -285,10 +285,10 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
 
 		CMenuItem mi;
-		mi.root = Menu_GetProtocolRoot(m_szModuleName);
+		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);
 		mi.name.t = szItem;
 		mi.position = 10001;
-		hRoot = Menu_AddStatusMenuItem(&mi);
+		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
 
 	CMenuItem mi;
