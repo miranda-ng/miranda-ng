@@ -54,6 +54,7 @@ extern HANDLE hExtraXStatus;
 #define STEAM_WEB_URL "https://steamcommunity.com"
 
 #include "steam_dialogs.h"
+#include "steam_options.h"
 #include "http_request.h"
 #include "request_queue.h"
 #include "api\authorization.h"

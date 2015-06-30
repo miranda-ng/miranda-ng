@@ -30,11 +30,11 @@ int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.ptszGroup = LPGENT("Network");
 
 	odp.ptszTab = LPGENT("Account");
-	odp.pDialog = new CSteamOptionsMain(this, IDD_OPT_MAIN);
+	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Blocked contacts");
-	odp.pDialog = new CSteamOptionsBlockList(this);
+	odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
