@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static void MakeMenuItem(lua_State *L, CMenuItem &mi)
+void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
 	mi.hLangpack = hScriptsLangpack;
 

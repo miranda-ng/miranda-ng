@@ -71,8 +71,7 @@ LUAMOD_API int (luaopen_m_database)(lua_State *L);
 #define MLUA_ICOLIB	"m_icolib"
 LUAMOD_API int (luaopen_m_icolib)(lua_State *L);
 
-#define MLUA_GENMENU	"m_genmenu"
-LUAMOD_API int (luaopen_m_genmenu)(lua_State *L);
+#include "m_genmenu.h"
 
 #define MLUA_MSGBUTTONSBAR	"m_msg_buttonsbar"
 LUAMOD_API int (luaopen_m_msg_buttonsbar)(lua_State *L);
