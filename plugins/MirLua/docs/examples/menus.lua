@@ -55,3 +55,13 @@ local hChild = genmenu.AddMainMenuItem(menuItem)
 --- Modify menu item
 local CMIM_NAME = tonumber("80000000", 16)
 genmenu.ModifyMenuItem(hChild, "Main menu child", hIcon, CMIM_NAME)
+
+
+local hDisabledMenuItem = genmenu.AddMainMenuItem({ Name = "Disabled main menu item" })
+genmenu.EnableMenuItem(hDisabledMenuItem, false)
+
+local hHiddenMenuItem = genmenu.AddMainMenuItem({ Name = "Hidden main menu item" })
+genmenu.ShowMenuItem(hHiddenMenuItem, false)
+
+local hCheckedMenuItem = genmenu.AddMainMenuItem({ Name = "Checked main menu item" })
+genmenu.CheckMenuItem(hCheckedMenuItem, true)
