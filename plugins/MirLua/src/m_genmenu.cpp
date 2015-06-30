@@ -117,9 +117,9 @@ static int lua_ShowMenuItem(lua_State *L)
 static int lua_EnableMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	bool isShow = (HGENMENU)lua_toboolean(L, 2);
+	bool isEnable = (HGENMENU)lua_toboolean(L, 2);
 
-	::Menu_EnableItem(hMenuItem, isShow);
+	::Menu_EnableItem(hMenuItem, isEnable);
 
 	return 0;
 }
