@@ -1,7 +1,7 @@
 --- include m_popup module
 local popup = require('m_popup')
---- include m_genmenu module
-local genmenu = require('m_genmenu')
+--- include m_clist module
+local clist = require('m_clist')
 
 m.CreateServiceFunction('MirLua/ShowPopup', function()
     local popupData =
@@ -15,5 +15,5 @@ m.CreateServiceFunction('MirLua/ShowPopup', function()
   end)
 
 m.OnModulesLoaded(function()
-  genmenu.AddMainMenuItem({ Name = "Show lua popup", Service = 'MirLua/ShowPopup' })
+  clist.AddMainMenuItem({ Name = "Show lua popup", Service = 'MirLua/ShowPopup' })
 end)

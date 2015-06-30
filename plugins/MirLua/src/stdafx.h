@@ -12,8 +12,8 @@
 #include <m_options.h>
 #include <m_gui.h>
 
-#include <m_clist.h>
 #include <m_genmenu.h>
+#include <m_clist.h>
 #include <m_icolib.h>
 
 #include <m_folders.h>
@@ -62,6 +62,9 @@ extern HANDLE g_hCustomFolderPath;
 #define MLUA_CORE	"m"
 LUAMOD_API int (luaopen_m)(lua_State *L);
 
+#define MLUA_CLIST	"m_clist"
+LUAMOD_API int (luaopen_m_clist)(lua_State *L);
+
 #define MLUA_DATABASE	"m_database"
 LUAMOD_API int (luaopen_m_database)(lua_State *L);
 
@@ -83,6 +86,7 @@ LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
 #define MLUA_VARIABLES	"m_variables"
 LUAMOD_API int (luaopen_m_variables)(lua_State *L);
 
+bool luaM_checkboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);
 

@@ -1,5 +1,11 @@
 #include "stdafx.h"
 
+bool luaM_checkboolean(lua_State *L, int idx)
+{
+	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	return lua_toboolean(L, idx);
+}
+
 WPARAM luaM_towparam(lua_State *L, int idx)
 {
 	WPARAM wParam = NULL;

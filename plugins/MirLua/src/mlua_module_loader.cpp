@@ -17,6 +17,7 @@ void CLuaModuleLoader::LoadModules()
 	// load core module
 	luaopen_m(L);
 	// regirter delay loading of miranda modules
+	PreloadModule(MLUA_CLIST, luaopen_m_clist);
 	PreloadModule(MLUA_DATABASE, luaopen_m_database);
 	PreloadModule(MLUA_ICOLIB, luaopen_m_icolib);
 	PreloadModule(MLUA_GENMENU, luaopen_m_genmenu);
