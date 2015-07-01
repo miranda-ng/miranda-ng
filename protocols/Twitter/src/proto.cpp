@@ -252,12 +252,8 @@ INT_PTR TwitterProto::VisitHomepage(WPARAM hContact, LPARAM)
 
 int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
-	HGENMENU hRoot = pcli->pfnGetProtocolMenu(m_szModuleName);
-	if (hRoot == NULL)
-		return 0;
-
 	CMenuItem mi;
-	mi.root = hRoot;
+	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1001;
 	Menu_AddStatusMenuItem(&mi, m_szModuleName);
