@@ -162,7 +162,7 @@ WATrack: запрос запрещён
 [All Results]
 Все результаты
 [&System History]
-Сис&тёмная история
+Сис&темная история
 [System History]
 Системная история
 [Searching "%s"...]
