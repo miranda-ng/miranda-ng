@@ -81,6 +81,7 @@
 #define IDD_COLORCHOOSER                195
 #define IDD_PROFILEMANAGER              197
 #define IDI_MAINMENU                    198
+#define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDD_FINDADD                     201
 #define IDI_USERONLINE                  201
