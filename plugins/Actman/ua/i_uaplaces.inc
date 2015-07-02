@@ -1,14 +1,5 @@
 {}
-(*
-const
-  MenuServices:array [tMenuType] of pAnsiChar = (
-    'CList/AddMainMenuItem'   {MS_CLIST_ADDMAINMENUITEM   },
-    'CList/AddContactMenuItem'{MS_CLIST_ADDCONTACTMENUITEM},
-    'CList/AddTrayMenuItem'   {MS_CLIST_ADDTRAYMENUITEM   },
-    'CList/AddProtoMenuItem'  {MS_CLIST_ADDPROTOMENUITEM  },
-    'CList/AddStatusMenuItem' {MS_CLIST_ADDSTATUSMENUITEM }
-  );
-*)
+
 type
   tuaMenuRec = record
     hMenuRoot:HMENU;
