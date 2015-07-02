@@ -63,3 +63,5 @@ extern HINSTANCE g_hInst;
 extern CLIST_INTERFACE coreCli;
 
 void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
+
+HMENU fnBuildGroupPopupMenu(ClcGroup *group);

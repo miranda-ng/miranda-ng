@@ -117,18 +117,9 @@ void InitMenu()
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
 
-	bool bSubGroups = 1 == ServiceExists(MS_CLIST_MENUBUILDSUBGROUP);
-
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
-	if (bSubGroups) {
-		CMenuItem miroot;
-		miroot.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-		miroot.name.a = QUOTES_PROTOCOL_NAME;
-		mi.root = Menu_AddContactMenuItem(&miroot, QUOTES_PROTOCOL_NAME);
-	}
-	else mi.root = NULL;
-
+	mi.root = Menu_CreateRoot(MO_CONTACT, _T(QUOTES_PROTOCOL_NAME), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	mi.name.t = LPGENT("Refresh");
 	mi.hIcolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "Quotes/RefreshContact";

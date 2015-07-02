@@ -197,7 +197,7 @@ of shutting down
 */
 #define MS_SYSTEM_GETBUILDSTRING "Miranda/GetBuildString"
 
-#ifdef _STATIC
+#ifdef MIR_APP_EXPORTS
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM);
 
 __forceinline INT_PTR Miranda_Terminated(void)

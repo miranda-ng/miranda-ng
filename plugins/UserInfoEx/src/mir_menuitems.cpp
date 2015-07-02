@@ -315,7 +315,7 @@ void RebuildGroup()
 		mi.position = 250000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
-		mhRoot = Menu_AddGroupMenuItem(0, &mi);
+		mhRoot = Menu_AddGroupMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
 		mhExIm = mhRoot;
 		break;
@@ -324,7 +324,7 @@ void RebuildGroup()
 		mi.position = 250100;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
-		mhExIm = Menu_AddGroupMenuItem(0, &mi);
+		mhExIm = Menu_AddGroupMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
 		mhRoot = NULL;
 		break;
@@ -341,14 +341,14 @@ void RebuildGroup()
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 250200;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
-	hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
+	hMenuItem[item++] = Menu_AddGroupMenuItem(&mi);
 
 	// Import
 	mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 250300;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
-	hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
+	hMenuItem[item++] = Menu_AddGroupMenuItem(&mi);
 }
 
 /******************************
@@ -403,7 +403,7 @@ void RebuildSubGroup()
 		mi.position = 1050000;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.name.a = MODULELONGNAME;
-		mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
+		mhRoot = Menu_AddSubGroupMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
 		mhExIm = mhRoot;
 		break;
@@ -412,7 +412,7 @@ void RebuildSubGroup()
 		mi.position = 1050100;
 		mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import group");
-		mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
+		mhExIm = Menu_AddSubGroupMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
 		mhRoot = NULL;
 		break;
@@ -430,9 +430,8 @@ void RebuildSubGroup()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export group");
 	mi.position = 1050200;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_EXPORT);
-	gmp.lParam = 0;
 	gmp.wParam = TRUE;
-	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
+	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&mi, &gmp);
 
 	// Import
 	mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
@@ -440,9 +439,8 @@ void RebuildSubGroup()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 	mi.position = 1050300;
 	mi.hIcolibItem = IcoLib_GetIcon(ICO_BTN_IMPORT);
-	gmp.lParam = 0;
 	gmp.wParam = FALSE;
-	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
+	hMenuItem[item++] = Menu_AddSubGroupMenuItem(&mi, &gmp);
 }
 
 /******************************

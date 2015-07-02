@@ -139,6 +139,7 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
 	pcli->pfnLoadClcOptions = LoadClcOptions;
+	pcli->pfnBuildGroupPopupMenu = fnBuildGroupPopupMenu;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

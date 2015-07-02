@@ -36,3 +36,15 @@ void InitCustomMenus()
 {
 	CreateServiceFunction("CloseAction", CloseAction);
 }
+
+HMENU fnBuildGroupPopupMenu(ClcGroup *group)
+{
+	HMENU hMenu = LoadMenu(pcli->hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hGroupMenu = GetSubMenu(hMenu, 2);
+	RemoveMenu(hMenu, 2, MF_BYPOSITION);
+	DestroyMenu(hMenu);
+	TranslateMenu(hGroupMenu);
+
+	CheckMenuItem(hGroupMenu, POPUP_GROUPHIDEOFFLINE, group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
+	return hGroupMenu;
+}

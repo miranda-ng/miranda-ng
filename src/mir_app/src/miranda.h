@@ -122,6 +122,8 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 
 /**** clistmenus.cpp ********************************************************************/
 
+extern CLIST_INTERFACE cli;
+
 extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
 extern HANDLE hShutdownEvent, hPreShutdownEvent;

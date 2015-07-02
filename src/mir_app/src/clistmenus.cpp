@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "clc.h"
 #include "genmenu.h"
 
+void InitGroupMenus();
+
 #define MS_CLIST_HKSTATUS "Clist/HK/SetStatus"
 
 #define FIRSTCUSTOMMENUITEMID	30000
@@ -1144,6 +1146,9 @@ void InitCustomMenus(void)
 	hContactMenuObject = Menu_AddObject("ContactMenu", LPGEN("Contact menu"), "ContactMenuCheckService", "ContactMenuExecService");
 	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataContactMenu");
+
+	// other menus
+	InitGroupMenus();
 
 	// initialize hotkeys
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);

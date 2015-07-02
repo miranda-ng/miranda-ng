@@ -1543,7 +1543,7 @@ buttons_done:
 				break;
 			case POPUP_SHOWMETAICONS:
 				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
-				pcli->pfnInitAutoRebuild(hwnd);
+				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 				break;
 			case POPUP_FRAME:
 				cfg::dat.dwFlags ^= CLUI_FRAME_CLISTSUNKEN;
@@ -1629,8 +1629,7 @@ buttons_done:
 				}
 			}
 			if (PtInRect(&rc, pt)) {
-				HMENU hMenu;
-				hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDGROUP, 0, 0);
+				HMENU hMenu = Menu_BuildGroupMenu();
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				DestroyTrayMenu(hMenu);
 				return 0;

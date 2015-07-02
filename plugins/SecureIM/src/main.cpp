@@ -234,18 +234,10 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	g_hMenu[0] = MyAddMenuItem(sim301, 110000, g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
 	g_hMenu[1] = MyAddMenuItem(sim302, 110001, g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
-	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
-		g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, NULL, NULL);
-		g_hMenu[3] = MyAddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
-		g_hMenu[4] = MyAddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
-		g_hMenu[5] = MyAddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
-	}
-	else {
-		g_hMenu[2] = 0;
-		g_hMenu[3] = MyAddMenuItem(sim232W[0], 110003, NULL, MODULENAME"/SIM_ST_DIS");
-		g_hMenu[4] = MyAddMenuItem(sim232W[1], 110004, NULL, MODULENAME"/SIM_ST_ENA");
-		g_hMenu[5] = MyAddMenuItem(sim232W[2], 110005, NULL, MODULENAME"/SIM_ST_TRY");
-	}
+	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, NULL, NULL);
+	g_hMenu[3] = MyAddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
+	g_hMenu[4] = MyAddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
+	g_hMenu[5] = MyAddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
 
 	if (bPGPloaded) {
 		g_hMenu[6] = MyAddMenuItem(sim306, 110006, mode2icon(MODE_PGP | SECURED, 2), MODULENAME"/PGP_SET", 0);
@@ -257,20 +249,11 @@ static int onModulesLoaded(WPARAM, LPARAM)
 		g_hMenu[9] = MyAddMenuItem(sim309, 110009, mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
 	}
 
-	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
-		g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, NULL, NULL);
-		g_hMenu[11] = MyAddSubItem(g_hMenu[10], sim231[0], 110011, 110010, MODULENAME"/MODE_NAT");
-		g_hMenu[12] = MyAddSubItem(g_hMenu[10], sim231[1], 110012, 110010, MODULENAME"/MODE_PGP");
-		g_hMenu[13] = MyAddSubItem(g_hMenu[10], sim231[2], 110013, 110010, MODULENAME"/MODE_GPG");
-		g_hMenu[14] = MyAddSubItem(g_hMenu[10], sim231[3], 110014, 110010, MODULENAME"/MODE_RSA");
-	}
-	else {
-		g_hMenu[10] = 0;
-		g_hMenu[11] = MyAddMenuItem(sim231W[0], 110011, NULL, MODULENAME"/MODE_NAT");
-		g_hMenu[12] = MyAddMenuItem(sim231W[1], 110012, NULL, MODULENAME"/MODE_PGP");
-		g_hMenu[13] = MyAddMenuItem(sim231W[2], 110013, NULL, MODULENAME"/MODE_GPG");
-		g_hMenu[14] = MyAddMenuItem(sim231W[3], 110014, NULL, MODULENAME"/MODE_RSA");
-	}
+	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, NULL, NULL);
+	g_hMenu[11] = MyAddSubItem(g_hMenu[10], sim231[0], 110011, 110010, MODULENAME"/MODE_NAT");
+	g_hMenu[12] = MyAddSubItem(g_hMenu[10], sim231[1], 110012, 110010, MODULENAME"/MODE_PGP");
+	g_hMenu[13] = MyAddSubItem(g_hMenu[10], sim231[2], 110013, 110010, MODULENAME"/MODE_GPG");
+	g_hMenu[14] = MyAddSubItem(g_hMenu[10], sim231[3], 110014, 110010, MODULENAME"/MODE_RSA");
 
 	InitSRMMIcons();
 	return 0;
