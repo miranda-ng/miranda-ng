@@ -93,6 +93,21 @@ function  Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
 var
   hLangpack:int = 0;
 
+function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddMainMenuItem';
+
+function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddContactMenuItem';
+
+function _AddProtoMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddProtoMenuItem';
+
+function _AddStatusMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddStatusMenuItem';
+
+function _AddTrayMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
+             external AppDll name 'Menu_AddTrayMenuItem';
+
 //----- CListint -----
 
 function IsHContactGroup(h:TMCONTACT):bool;
@@ -417,7 +432,7 @@ end;
 function Menu_AddTrayMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   mi^.hLangpack:=hLangpack;
-  result:=CallService(MS_CLIST_ADDTRAYMENUITEM, 0,LPARAM(mi));
+  result:=_AddTrayMenuItem(mi);
 end;
 
 

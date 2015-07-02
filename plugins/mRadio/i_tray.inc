@@ -254,14 +254,9 @@ end;
 
 procedure CreateMIMTrayMenu;
 begin
-  doTray:=ServiceExists(MS_CLIST_ADDTRAYMENUITEM)<>0;
-
   CreateTrayMenu();
   MakeStationsMenu();
-  if doTray then
-    HookEvent(ME_CLIST_PREBUILDTRAYMENU,@TrayPrebuild)
-  else
-    HookEvent(ME_CLIST_PREBUILDMAINMENU,@TrayPrebuild)
+  HookEvent(ME_CLIST_PREBUILDTRAYMENU,@TrayPrebuild)
 end;
 
 procedure RemoveTrayItems;

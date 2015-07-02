@@ -111,13 +111,6 @@ const
 // TRAY MENU
 
 {
-  add a new item to the tray menus
-  wParam=0
-  lParam=(LPARAM)(CLISTMENUITEM*)&mi
-}
-  MS_CLIST_ADDTRAYMENUITEM:PAnsiChar = 'CList/AddTrayMenuItem';
-
-{
   the tray menu is about to be built
   wParam=lParam=0
 }
@@ -165,18 +158,6 @@ type
     hIcon     :HICON;   // or hIcolibItem:THANDLE;
     hLangpack :int;
   end;
-
-function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddMainMenuItem';
-
-function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddContactMenuItem';
-
-function _AddProtoMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddProtoMenuItem';
-
-function _AddStatusMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
-             external AppDll name 'Menu_AddStatusMenuItem';
 
 {
 This structure passed to CheckService.
