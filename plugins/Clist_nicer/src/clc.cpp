@@ -22,11 +22,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include <commonheaders.h>
-#include <resource.h>
+#include "stdafx.h"
+#include "resource.h"
 #include <m_userinfo.h>
-#include "../cluiframes/cluiframes.h"
-#include "../coolsb/coolscroll.h"
+#include "cluiframes.h"
+#include "coolscroll.h"
 
 void CSH_Destroy();
 
@@ -94,7 +94,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 
 static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM)
 {
-	if (bMetaEnabled != cfg::dat.bMetaEnabled) {
+	if (BOOL(bMetaEnabled) != cfg::dat.bMetaEnabled) {
 		cfg::dat.bMetaEnabled = (BYTE)bMetaEnabled;
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	}

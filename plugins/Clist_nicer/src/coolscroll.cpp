@@ -43,7 +43,7 @@
 	 with careful thought.
 */
 
-#include <commonheaders.h>
+#include "stdafx.h"
 #include "coolscroll.h"
 #include "userdefs.h"
 #include "coolsb_internal.h"

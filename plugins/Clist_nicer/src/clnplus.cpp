@@ -2,7 +2,7 @@
  * test for gdi+
  */
 
-#include <commonheaders.h>
+#include "stdafx.h"
 #include <shobjidl.h>
 #include "msapi/comptr.h"
 
