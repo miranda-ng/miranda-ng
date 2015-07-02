@@ -6,7 +6,6 @@
 #define IDR_CONTEXT                     180
 #define IDC_DROP                        183
 #define IDD_OPT_HOTKEY                  184
-#define IDR_CLISTMENU                   199
 #define IDC_HYPERLINKHAND               214
 #define IDC_DROPUSER                    215
 #define IDD_OPT_CLUI                    218
