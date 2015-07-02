@@ -48,11 +48,6 @@ LONG g_cxsmIcon, g_cysmIcon;
 
 void  SetDBButtonStates(MCONTACT hContact);
 
-HMENU BuildGroupPopupMenu(ClcGroup* group)
-{
-	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP, (WPARAM)group, 0);
-}
-
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcBroadcast(INTM_AVATARCHANGED, wParam, lParam);
@@ -691,7 +686,7 @@ LBL_Def:
 
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				if (contact->type == CLCIT_GROUP) {
-					hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP, (WPARAM)contact->group, 0);
+					hMenu = Menu_BuildSubGroupMenu(contact->group);
 					ClientToScreen(hwnd, &pt);
 					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->hideOffline ? MF_CHECKED : MF_UNCHECKED);

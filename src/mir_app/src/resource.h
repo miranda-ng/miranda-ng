@@ -585,6 +585,7 @@
 #define IDM_COPYLINK                    40016
 #define POPUP_HIDEMIRANDA               40017
 #define ID_CANCELCHANGE                 40018
+#define POPUP_GROUPSHOWOFFLINE          40019
 #define ID_TRAY_HIDE                    40038
 #define ID_TRAY_EXIT                    40040
 #define POPUP_NEWGROUP                  40050

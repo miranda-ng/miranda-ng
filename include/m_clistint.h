@@ -239,22 +239,21 @@ typedef struct _menuProto
  * CLIST_INTERFACE structure definition
  ***************************************************************************/
 
-typedef struct {
+struct ClcProtoStatus
+{
 	char *szProto;
 	DWORD dwStatus;
-}
-	ClcProtoStatus;
+};
 
-typedef struct
+struct ClcCacheEntryBase
 {
 	MCONTACT hContact;
 	TCHAR* tszName;
 	TCHAR* tszGroup;
 	int    bIsHidden;
-}
-	ClcCacheEntryBase;
+};
 
-typedef struct
+struct CLIST_INTERFACE
 {
 	int version;
 
@@ -487,18 +486,18 @@ typedef struct
 	int    (*pfnGetAverageMode)(int *pNetProtoCount);
 	void   (*pfnInitAutoRebuild)(HWND hwnd);
 	void   (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
-}
-	CLIST_INTERFACE;
+};
 
-extern CLIST_INTERFACE cli, *pcli;
-
-// Miranda 0.4.3.0+
 // retrieves the pointer to a CLIST_INTERFACE structure
 // NOTE: valid only for the clist clone building, not for the regular use
 
 #define MS_CLIST_RETRIEVE_INTERFACE "CList/RetrieveInterface"
 
-__forceinline void mir_getCLI()
-{	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
-}
+#ifndef MIR_APP_EXPORTS
+	extern CLIST_INTERFACE *pcli;
+
+	__forceinline void mir_getCLI()
+	{	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	}
+#endif
 #endif // M_CLISTINT_H__

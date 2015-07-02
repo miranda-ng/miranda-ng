@@ -37,7 +37,6 @@ extern HICON overlayicons[10];
 extern int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
-HMENU BuildGroupPopupMenu(ClcGroup *group);
 ClcContact *CreateClcContact(void);
 CListEvent *fnCreateEvent(void);
 void ReloadThemedOptions();
@@ -192,7 +191,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	// get the clist interface
 	pcli->hInst = g_hInst;
-	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;
 	pcli->pfnCreateClcContact = CreateClcContact;

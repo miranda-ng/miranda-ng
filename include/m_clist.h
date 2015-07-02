@@ -126,41 +126,32 @@ struct GroupMenuParam
 // builds the Group menu
 // wParam=lParam=0
 // returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDGROUP							"CList/MenuBuildGroup"
+EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildGroupMenu(void);
 
 // add a new item to the Group menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
-
-__forceinline HGENMENU Menu_AddGroupMenuItem(GroupMenuParam *gmp, TMO_MenuItem *mi)
-{
-	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *mi, GroupMenuParam *gmp = NULL);
 
 // the Group menu is about to be built
-// wParam=lParam=0
-#define ME_CLIST_PREBUILDGROUPMENU						"CList/PreBuildGroupMenu"
+// wParam = lParam = 0
+#define ME_CLIST_PREBUILDGROUPMENU "CList/PreBuildGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // SUBGROUP MENU
 
 // builds the SubGroup menu
-// wParam=lParam=0
 // returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDSUBGROUP							"CList/MenuBuildSubGroup"
+EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(struct ClcGroup *group);
 
 // add a new item to the SubGroup menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
-
-__forceinline HGENMENU Menu_AddSubGroupMenuItem(GroupMenuParam *gmp, TMO_MenuItem *mi)
-{
-	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
-}
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *mi, GroupMenuParam *gmp = NULL);
 
 // the SubGroup menu is about to be built
-// wParam=lParam=0
-#define ME_CLIST_PREBUILDSUBGROUPMENU						"CList/PreBuildSubGroupMenu"
+// wParam = lParam = 0
+#define ME_CLIST_PREBUILDSUBGROUPMENU "CList/PreBuildSubGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // TRAY MENU
@@ -168,7 +159,7 @@ __forceinline HGENMENU Menu_AddSubGroupMenuItem(GroupMenuParam *gmp, TMO_MenuIte
 // builds the tray menu
 // wParam=lParam=0
 // returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDTRAY						"CList/MenuBuildTray"
+#define MS_CLIST_MENUBUILDTRAY "CList/MenuBuildTray"
 
 // add a new item to the tray menus
 // wParam=0

@@ -105,9 +105,6 @@
     <ClCompile Include="src\CLUIFrames\cluiframes.cpp">
       <Filter>Source Files\CLUIFrames</Filter>
     </ClCompile>
-    <ClCompile Include="src\CLUIFrames\groupmenu.cpp">
-      <Filter>Source Files\CLUIFrames</Filter>
-    </ClCompile>
     <ClCompile Include="src\clnplus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,6 +115,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CLUIFrames\groupmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

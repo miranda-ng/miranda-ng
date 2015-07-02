@@ -64,7 +64,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\M
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern_12.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserInfo", "..\src\core\stduserinfo\stduserinfo_12.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
 	ProjectSection(ProjectDependencies) = postProject
