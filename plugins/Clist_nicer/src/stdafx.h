@@ -22,8 +22,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #undef FASTCALL
 
 #define TSAPI __stdcall
@@ -58,6 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_xstatus.h>
 #include <m_extraicons.h>
 #include <m_string.h>
+#include <m_variables.h>
 
 #include <m_metacontacts.h>
 #include <m_cln_skinedit.h>

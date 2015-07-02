@@ -5,7 +5,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include "afxres.h"
-#include "..\src\include\version.h"
+#include "..\src\version.h"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING

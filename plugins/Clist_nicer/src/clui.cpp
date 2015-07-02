@@ -22,10 +22,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include <commonheaders.h>
+#include "stdafx.h"
 #include <m_findadd.h>
-#include "../cluiframes/cluiframes.h"
-#include "../coolsb/coolscroll.h"
+#include "cluiframes.h"
+#include "coolscroll.h"
 
 #define TM_AUTOALPHA  1
 #define TIMERID_AUTOSIZE 100
