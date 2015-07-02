@@ -1230,11 +1230,6 @@ IDC_DROPUSER            CURSOR                  "cursor_drop_user.cur"
 // Menu
 //
 
-IDR_CLISTMENU MENU
-BEGIN
-    MENUITEM SEPARATOR
-END
-
 IDR_CONTEXT MENU
 BEGIN
     POPUP "Tray"

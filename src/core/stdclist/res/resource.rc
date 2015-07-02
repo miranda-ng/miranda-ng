@@ -464,28 +464,6 @@ IDC_DROPUSER            CURSOR                  "dropuser.cur"
 // Menu
 //
 
-IDR_CLISTMENU MENU 
-BEGIN
-    POPUP "&Main menu"
-    BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_ICQ_EXIT
-    END
-    POPUP "&Status"
-    BEGIN
-        MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED
-        MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE
-        MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY
-        MENUITEM "&NA\tCtrl+3",                 ID_STATUS_NA
-        MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED
-        MENUITEM "&DND\tCtrl+5",                ID_STATUS_DND
-        MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
-        MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
-        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
-        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
-    END
-END
-
 IDR_CONTEXT MENU 
 BEGIN
     POPUP "Tray"
