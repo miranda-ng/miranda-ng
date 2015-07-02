@@ -262,6 +262,7 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	memset(&wndclass, 0, sizeof(wndclass));
+	wndclass.cbSize = sizeof(wndclass);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | ((db_get_b(NULL, "CList", "WindowShadow", 0) == 1) ? CS_DROPSHADOW : 0);
 	wndclass.lpfnWndProc = ContactListWndProc;
 	wndclass.hInstance = cli.hInst;
