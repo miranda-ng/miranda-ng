@@ -71,7 +71,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.t = PrepareGroupName(name);
-	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_SYSTEM | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
