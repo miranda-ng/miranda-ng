@@ -1,5 +1,25 @@
 #include "stdafx.h"
 
+int luaM_print(lua_State *L)
+{
+	CMStringA data;
+	int nargs = lua_gettop(L);
+	for (int i = 1; i <= nargs; ++i)
+		data.AppendFormat("%s   ", lua_tostring(L, i));
+	data.Delete(data.GetLength() - 3, 3);
+
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)data.GetBuffer());
+
+	return 0;
+}
+
+int luaM_atpanic(lua_State *L)
+{
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+
+	return 0;
+}
+
 bool luaM_checkboolean(lua_State *L, int idx)
 {
 	luaL_checktype(L, 2, LUA_TBOOLEAN);

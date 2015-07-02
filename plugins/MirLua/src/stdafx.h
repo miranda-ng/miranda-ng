@@ -11,6 +11,7 @@
 #include <m_database.h>
 #include <m_options.h>
 #include <m_gui.h>
+#include <m_netlib.h>
 
 #include <m_genmenu.h>
 #include <m_clist.h>
@@ -32,10 +33,7 @@ extern "C"
 #include "version.h"
 #include "resource.h"
 
-class CMLuaConsole;
-
 #include "mlua.h"
-#include "mlua_console.h"
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"
 #include "mlua_options.h"
@@ -50,6 +48,8 @@ extern HINSTANCE g_hInstance;
 
 extern HANDLE g_hCommonFolderPath;
 extern HANDLE g_hCustomFolderPath;
+
+extern HANDLE hNetlib;
 
 #ifdef _UNICODE
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATHW L"\\Scripts"
@@ -83,6 +83,9 @@ LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
 
 #define MLUA_VARIABLES	"m_variables"
 LUAMOD_API int (luaopen_m_variables)(lua_State *L);
+
+int luaM_print(lua_State *L);
+int luaM_atpanic(lua_State *L);
 
 bool luaM_checkboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
