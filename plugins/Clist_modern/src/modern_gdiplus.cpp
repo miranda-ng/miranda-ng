@@ -2,13 +2,14 @@
  * test for gdi+
  */
 
-
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 
 #undef Translate	//otherwise will conflict with gdi plus Translate
 #include <gdiplus.h>
 
-#include "hdr/modern_global_structure.h"
+#include "modern_global_structure.h"
+
+#pragma comment(lib, "gdiplus.lib")
 
 using namespace Gdiplus;
 

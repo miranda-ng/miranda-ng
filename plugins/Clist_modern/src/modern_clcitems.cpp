@@ -22,11 +22,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_clc.h"
-#include "hdr/modern_clist.h"
+#include "stdafx.h"
+#include "modern_clc.h"
+#include "modern_clist.h"
 #include "m_metacontacts.h"
-#include "hdr/modern_commonprototypes.h"
+#include "modern_commonprototypes.h"
 
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
@@ -285,7 +285,7 @@ void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClearRowByIndexCache();
 }
 
-__inline BOOL CLCItems_IsShowOfflineGroup(ClcGroup* group)
+BOOL CLCItems_IsShowOfflineGroup(ClcGroup* group)
 {
 	DWORD groupFlags = 0;
 	if (!group) return FALSE;

@@ -1,5 +1,5 @@
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_commonprototypes.h"
+#include "stdafx.h"
+#include "modern_commonprototypes.h"
 #include "m_xpTheme.h"
 
 

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
 */
 
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 
 /*
 #include <windows.h>
@@ -37,9 +37,9 @@ Created by Anton Senko aka ZORG , tweaked by Artem Shpynov aka FYR
 #include <string.h>
 #include <direct.h>
 #include "resource.h"
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 */
-#include "hdr/modern_row.h"
+#include "modern_row.h"
 
 //Futher declaration
 void rowCalculateMinSize(ROWCELL* cell);

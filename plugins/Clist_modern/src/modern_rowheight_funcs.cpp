@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Created by Pescuma, modified by Artem Shpynov
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_rowheight_funcs.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_row.h"
-#include "hdr/modern_clcpaint.h"
+#include "stdafx.h"
+#include "modern_rowheight_funcs.h"
+#include "modern_commonprototypes.h"
+#include "modern_row.h"
+#include "modern_clcpaint.h"
 
 int g_mutex_nCalcRowHeightLock = 0;
 int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item);

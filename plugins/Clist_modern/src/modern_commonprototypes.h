@@ -4,12 +4,12 @@
 #define _COMMONPROTOTYPES
 
 #ifndef commonheaders_h__
-#error "hdr/modern_commonheaders.h have to be including first"
+#error "stdafx.h have to be including first"
 #endif
 
-#include "modern_commonheaders.h"  //TO DO: Move contents of this file to commonheaders.h
+#include "stdafx.h"  //TO DO: Move contents of this file to commonheaders.h
 #include "modern_clist.h"
-#include "CLUIFrames/cluiframes.h"
+#include "cluiframes.h"
 #include "modern_row.h"
 #include "modern_skinengine.h"
 #include "modern_skinselector.h"
@@ -281,7 +281,6 @@ int     cliCompareContacts(const ClcContact *contact1, const ClcContact *contact
 int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status, const char * proto);
-HMENU   cliBuildGroupPopupMenu(ClcGroup *group);
 void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 void    cliCheckCacheItem(ClcCacheEntry *pdnce);
 void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);

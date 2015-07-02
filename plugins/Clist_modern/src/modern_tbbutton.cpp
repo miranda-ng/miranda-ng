@@ -1,7 +1,7 @@
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_commonprototypes.h"
+#include "stdafx.h"
+#include "modern_commonprototypes.h"
 #include "m_skinbutton.h"
-#include "hdr/modern_clcpaint.h"
+#include "modern_clcpaint.h"
 
 #include <m_button_int.h>
 #include <m_toptoolbar.h>
