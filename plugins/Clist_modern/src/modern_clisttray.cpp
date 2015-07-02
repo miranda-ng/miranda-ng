@@ -29,10 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_statusbar.h"
 #include <m_protoint.h>
 
+HGENMENU hTrayMainMenuItemProxy, hTrayStatusMenuItemProxy, hTrayHideShowMainMenuItem;
 int g_mutex_bOnTrayRightClick = 0;
 BOOL g_bMultiConnectionMode = FALSE;
 static HMENU hMainMenu, hStatusMenu;
-static int hTrayMenuObject;
 BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
 BOOL g_trayTooltipActive = FALSE;
 POINT tray_hover_pos = { 0 };
@@ -155,70 +155,6 @@ void DestroyTrayMenu(HMENU hMenu)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Tray menu services
-
-HGENMENU hTrayMainMenuItemProxy, hTrayStatusMenuItemProxy, hTrayHideShowMainMenuItem;
-
-static INT_PTR BuildTrayMenu(WPARAM, LPARAM)
-{
-	NotifyEventHooks(g_CluiData.hEventPreBuildTrayMenu, 0, 0);
-
-	HMENU hMenu = CreatePopupMenu();
-	Menu_Build(hMenu, hTrayMenuObject);
-	return (INT_PTR)hMenu;
-}
-
-static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
-{
-	TMO_MenuItem *pmi = (TMO_MenuItem*)lParam;
-
-	HGENMENU hNewItem = Menu_AddItem(hTrayMenuObject, pmi, mir_strdup(pmi->pszService));
-	Menu_ConfigureItem(hNewItem, MCI_OPT_UNIQUENAME, pmi->pszService);
-	return (INT_PTR)hNewItem;
-}
-
-INT_PTR TrayMenuonAddService(WPARAM wParam, LPARAM lParam)
-{
-	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == NULL)
-		return 0;
-
-	if (hTrayHideShowMainMenuItem == (HGENMENU)lParam) {
-		mii->fMask |= MIIM_STATE;
-		mii->fState |= MFS_DEFAULT;
-	}
-
-	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = Menu_GetMainMenu();
-	}
-
-	if (hTrayStatusMenuItemProxy == (HGENMENU)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
-	}
-
-	return(TRUE);
-}
-
-// called with:
-// wparam - ownerdata
-// lparam - lparam from winproc
-INT_PTR TrayMenuExecService(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam != 0)
-		CallService((char*)wParam, 0, lParam);
-
-	return 1;
-}
-
-INT_PTR FreeOwnerDataTrayMenu(WPARAM, LPARAM lParam)
-{
-	mir_free((char*)lParam);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Tray event handler
 
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
@@ -249,7 +185,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {
-			HMENU hMenu = (HMENU)BuildTrayMenu(0, 0);
+			HMENU hMenu = Menu_BuildTrayMenu();
 			g_mutex_bOnTrayRightClick = 1;
 
 			SetForegroundWindow(msg->hwnd);
@@ -292,20 +228,28 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tray module init
 
+INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
+{
+	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
+	if (mii == NULL)
+		return 0;
+
+	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = Menu_GetMainMenu();
+	}
+
+	if (hTrayStatusMenuItemProxy == (HGENMENU)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
+	}
+
+	return TRUE;
+}
+
 void InitTrayMenus(void)
 {
-	CreateServiceFunction("CLISTMENUSTRAY/ExecService", TrayMenuExecService);
-	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu", FreeOwnerDataTrayMenu);
-	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService", TrayMenuonAddService);
-
-	CreateServiceFunction("CList/AddTrayMenuItem", AddTrayMenuItem);
-	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY, BuildTrayMenu);
-
-	// Tray menu
-	hTrayMenuObject = Menu_AddObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
-	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
-	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
-	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuonAddService");
+	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuOnAddService", TrayMenuOnAddService);
 
 	// add exit command to menu
 	CMenuItem mi;
@@ -315,12 +259,14 @@ void InitTrayMenus(void)
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	Menu_AddTrayMenuItem(&mi);
 
+	mi.flags = CMIF_DEFAULT;
 	mi.position = 100000;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.name.a = LPGEN("&Hide/show");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	hTrayHideShowMainMenuItem = Menu_AddTrayMenuItem(&mi);
 
+	mi.flags = 0;
 	mi.position = 200000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
@@ -352,13 +298,7 @@ void InitTrayMenus(void)
 	Menu_AddTrayMenuItem(&mi);
 
 	hMainMenu = Menu_GetMainMenu();
-	hStatusMenu = (HMENU)Menu_GetStatusMenu();
-}
-
-void UninitTrayMenu()
-{
-	Menu_RemoveObject(hTrayMenuObject);
-	hTrayMenuObject = NULL;
+	hStatusMenu = Menu_GetStatusMenu();
 }
 
 VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)

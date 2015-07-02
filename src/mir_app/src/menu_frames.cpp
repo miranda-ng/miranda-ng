@@ -30,8 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int hFrameMenuObject;
 static HANDLE hPreBuildFrameMenuEvent;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // contactmenu exec param(ownerdata)
 // also used in checkservice
+
 struct FrameMenuExecParam
 {
 	ptrA szServiceName;
@@ -52,9 +54,11 @@ static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 	return (INT_PTR)Menu_AddItem(hFrameMenuObject, pmi, fmep);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // called with:
 // wparam - ownerdata
 // lparam - lparam from winproc
+
 INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	FrameMenuExecParam *fmep = (FrameMenuExecParam*)wParam;
@@ -65,7 +69,6 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// true - ok,false ignore
 INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
@@ -91,9 +94,9 @@ static INT_PTR BuildContextFrameMenu(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-//========================== Frames end
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int InitFramesMenus(void)
+void InitFramesMenus(void)
 {
 	CreateServiceFunction("FrameMenuExecService", FrameMenuExecService);
 	CreateServiceFunction("FrameMenuCheckService", FrameMenuCheckService);
@@ -107,5 +110,4 @@ int InitFramesMenus(void)
 	// frame menu object
 	hFrameMenuObject = Menu_AddObject("FrameMenu", LPGEN("Frame menu"), "FrameMenuCheckService", "FrameMenuExecService");
 	Menu_ConfigureObject(hFrameMenuObject, MCO_OPT_FREE_SERVICE, "FrameMenuFreeService");
-	return 0;
 }

@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_modernopt.h>
 
 int OnLoadLangpack(WPARAM, LPARAM);
+int UnloadFavoriteContactMenu();
 
 int CListMod_HideWindow();
 
@@ -47,7 +48,6 @@ int EventsProcessContactDoubleClick(MCONTACT hContact);
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 
 void InitTrayMenus(void);
-void UninitTrayMenu();
 
 // returns normal icon or combined with status overlay. Needs to be destroyed.
 
@@ -135,8 +135,7 @@ int GetContactIconC(ClcCacheEntry *p)
 
 void UnLoadContactListModule()  //unhooks noncritical events
 {
-	UninitTrayMenu();
-	UninitCustomMenus();
+	UnloadFavoriteContactMenu();
 }
 
 int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
