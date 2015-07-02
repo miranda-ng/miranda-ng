@@ -200,6 +200,7 @@ void g_MenuInit(void)
 	// Contact menu initialization
 
 	CMenuItem mi;
+	mi.flags = CMIF_UNMOVABLE;
 
 	// "Request authorization"
 	mi.name.a = LPGEN("Request authorization");
@@ -434,17 +435,15 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		if (i < item->arResources.getCount()) {
 			pResourceStatus r(item->arResources[i]);
 
-			int flags = 0;
 			HICON hIcon = (HICON)INVALID_HANDLE_VALUE;
-			if (item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r)
-				flags |= CMIF_CHECKED;
+			Menu_SetChecked(m_phMenuResourceItems[i], item->resourceMode == RSMODE_MANUAL && item->m_pManualResource == r);
 
 			if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 				FormatMirVer(r, szTmp);
 				hIcon = Finger_GetClientIcon(szTmp, 0);
 			}
 			szTmp.Format(_T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
-			Menu_ModifyItem(m_phMenuResourceItems[i], szTmp, hIcon, flags);
+			Menu_ModifyItem(m_phMenuResourceItems[i], szTmp, hIcon);
 			DestroyIcon(hIcon);
 		}
 		else Menu_ShowItem(m_phMenuResourceItems[i], FALSE);
@@ -581,6 +580,7 @@ void CJabberProto::MenuInit()
 {
 	CMenuItem mi;
 	mi.root = m_hMenuRoot = Menu_GetProtocolRoot(this);
+	mi.flags = CMIF_UNMOVABLE;
 
 	// "Bookmarks..."
 	mi.pszService = "/Bookmarks";
@@ -679,7 +679,7 @@ void CJabberProto::MenuInit()
 	mi.position = 200006;
 	mi.root = m_hMenuRoot;
 	mi.name.a = LPGEN("Resource priority");
-	mi.flags = CMIF_HIDDEN;
+	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
 
 	TCHAR szName[128];
@@ -687,7 +687,7 @@ void CJabberProto::MenuInit()
 	mi.pszService = srvFce;
 	mi.name.t = szName;
 	mi.position = 2000040000;
-	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.root = m_hMenuPriorityRoot;
 
 	mir_snprintf(srvFce, _countof(srvFce), "/menuSetPriority/%d", 0);
@@ -767,7 +767,7 @@ void CJabberProto::GlobalMenuInit()
 	// Account chooser menu
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.position = iChooserMenuPos++;
 	mi.name.t = m_tszUserName;
 	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &mi, this);

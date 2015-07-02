@@ -2093,7 +2093,7 @@ void CJabberProto::BuildPrivacyMenu()
 	CMenuItem mi;
 	mi.position = 200005;
 	mi.hIcolibItem = GetIconHandle(IDI_AGENTS);
-	mi.flags = CMIF_HIDDEN;
+	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
 	mi.name.a = LPGEN("Privacy Lists");
 	mi.root = m_hMenuRoot;
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
@@ -2101,7 +2101,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.pszService = "/PrivacyLists";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.position = 3000040000;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR;
 	mi.hIcolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
 	mi.name.t = LPGENT("List Editor...");
 	mi.root = m_hPrivacyMenuRoot;
@@ -2122,7 +2122,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	CMenuItem mi;
 	mi.position = 2000040000;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR;
 	mi.root = m_hPrivacyMenuRoot;
 	mi.pszService = srvFce;
 

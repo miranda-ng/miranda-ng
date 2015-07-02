@@ -17,23 +17,25 @@
 #define MO_PROTO   (-3)
 #define MO_STATUS  (-4)
 
-#define CMIF_GRAYED     1
-#define CMIF_CHECKED    2
-#define CMIF_HIDDEN     4    //only works on contact menus
-#define CMIF_NOTOFFLINE 8	  //item won't appear for contacts that are offline
-#define CMIF_NOTONLINE  16	  //          "      online
-#define CMIF_NOTONLIST  32   //item won't appear on standard contacts
-#define CMIF_NOTOFFLIST 64   //item won't appear on contacts that have the 'NotOnList' setting
-
-#define CMIF_UNICODE        512      //will return TCHAR* instead of char*
+#define CMIF_GRAYED            0x0001
+#define CMIF_CHECKED           0x0002
+#define CMIF_HIDDEN            0x0004  // only works on contact menus
+#define CMIF_NOTOFFLINE        0x0008  // item won't appear for contacts that are offline
+#define CMIF_NOTONLINE         0x0010  //          "      online
+#define CMIF_NOTONLIST         0x0020  // item won't appear on standard contacts
+#define CMIF_NOTOFFLIST        0x0040  // item won't appear on contacts that have the 'NotOnList' setting
+#define CMIF_UNMOVABLE         0x0080  // item's position cannot be changed
+#define CMIF_SYSTEM            0x0100  // item's presence & position cannot be changed
+							          
+#define CMIF_UNICODE           0x0200  // will use wchar_t* instead of char*
 #if defined(_UNICODE)
-#define CMIF_TCHAR       CMIF_UNICODE      //will return TCHAR* instead of char*
+#define CMIF_TCHAR CMIF_UNICODE
 #else
-#define CMIF_TCHAR       0       //will return char*, as usual
+#define CMIF_TCHAR 0
 #endif
 
-#define CMIF_KEEPUNTRANSLATED  1024 // don't translate a menu item
-#define CMIF_DEFAULT           4096 // this menu item is the default one
+#define CMIF_KEEPUNTRANSLATED  0x0400 // don't translate a menu item
+#define CMIF_DEFAULT           0x1000 // this menu item is the default one
 
 struct TMO_MenuItem
 {
