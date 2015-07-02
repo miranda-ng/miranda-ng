@@ -20,6 +20,7 @@
 #define IDR_CONTEXT                     180
 #define IDC_DROP                        183
 #define IDI_SENDEMAIL                   193
+#define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDD_OPT_ICONS                   207
 #define IDI_FILE                        207

@@ -268,6 +268,7 @@ int LoadCLUIModule(void)
 	wndclass.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH) (COLOR_3DFACE + 1);
+	wndclass.lpszMenuName = MAKEINTRESOURCE(IDR_CLISTMENU);
 	wndclass.lpszClassName = _T(MIRANDACLASS);
 	wndclass.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
