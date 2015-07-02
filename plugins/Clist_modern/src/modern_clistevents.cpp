@@ -22,11 +22,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 #include "m_clui.h"
-#include "hdr/modern_clist.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_clcpaint.h"
+#include "modern_clist.h"
+#include "modern_commonprototypes.h"
+#include "modern_clcpaint.h"
 
 /**************************************************/
 /*   Notify Event Area Frame implementation       */

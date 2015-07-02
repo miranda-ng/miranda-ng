@@ -26,13 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*       Module responsible for working with contact list control       */
 /************************************************************************/
 
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 #include "m_skin.h"
-#include "hdr/modern_commonprototypes.h"
+#include "modern_commonprototypes.h"
 
-#include "hdr/modern_clc.h"
-#include "hdr/modern_clist.h"
-#include "hdr/modern_clcpaint.h"
+#include "modern_clc.h"
+#include "modern_clist.h"
+#include "modern_clcpaint.h"
 
 #include "m_modernopt.h"
 

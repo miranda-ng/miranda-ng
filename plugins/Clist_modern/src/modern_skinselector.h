@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_MOD_SKIN_SELECTOR_H_INC
 
 #include "newpluginapi.h"
-#include "modern_commonheaders.h"
+#include "stdafx.h"
 
 #define MAXVALUE 20
 

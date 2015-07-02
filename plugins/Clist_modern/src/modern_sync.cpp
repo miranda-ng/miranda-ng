@@ -1,5 +1,5 @@
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_sync.h"
+#include "stdafx.h"
+#include "modern_sync.h"
 
 static INT_PTR SyncCaller(WPARAM proc, LPARAM lParam)
 {

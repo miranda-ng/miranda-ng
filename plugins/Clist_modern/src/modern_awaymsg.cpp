@@ -30,9 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //////////////////////////////////////////////////////////////////////////
 // Module to Request Away Messages
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_awaymsg.h"
-#include "hdr/modern_sync.h"
+#include "stdafx.h"
+#include "modern_awaymsg.h"
+#include "modern_sync.h"
 
 #define AMASKPERIOD 3000
 

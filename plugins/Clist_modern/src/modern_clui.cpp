@@ -22,16 +22,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 
 #include "m_skinbutton.h"
-#include "hdr/modern_skinengine.h"
-#include "hdr/modern_statusbar.h"
+#include "modern_skinengine.h"
+#include "modern_statusbar.h"
 
-#include "hdr/modern_static_clui.h"
+#include "modern_static_clui.h"
 #include <locale.h>
-#include "hdr/modern_clcpaint.h"
-#include "hdr/modern_sync.h"
+#include "modern_clcpaint.h"
+#include "modern_sync.h"
 
 struct PROTOTICKS
 {
@@ -147,7 +147,7 @@ OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE +
 };
 
 //////////////// CLUI CLASS IMPLEMENTATION // ///////////////////////////////
-#include "hdr/modern_clui.h"
+#include "modern_clui.h"
 
 CLUI* CLUI::m_pCLUI = NULL;
 BOOL CLUI::m_fMainMenuInited = FALSE;
@@ -2430,7 +2430,7 @@ LRESULT CLUI::OnContextMenu(UINT, WPARAM, LPARAM lParam)
 		}
 	}
 	if (PtInRect(&rc, pt)) {
-		HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDGROUP, 0, 0);
+		HMENU hMenu = Menu_BuildGroupMenu();
 		TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, m_hWnd, NULL);
 		DestroyTrayMenu(hMenu);
 	}

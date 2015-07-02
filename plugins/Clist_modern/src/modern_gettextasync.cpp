@@ -30,10 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //////////////////////////////////////////////////////////////////////////
 // Module to async parsing of texts
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_gettextasync.h"
+#include "stdafx.h"
+#include "modern_gettextasync.h"
 #include "newpluginapi.h"
-#include "hdr/modern_sync.h"
+#include "modern_sync.h"
 
 int CLUI_SyncSetPDNCE(WPARAM wParam, LPARAM lParam);
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);

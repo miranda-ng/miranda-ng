@@ -1,9 +1,9 @@
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_statusbar.h"
+#include "stdafx.h"
+#include "modern_statusbar.h"
 #include "m_skin_eng.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_clcpaint.h"
-#include "hdr/modern_sync.h"
+#include "modern_commonprototypes.h"
+#include "modern_clcpaint.h"
+#include "modern_sync.h"
 
 BOOL tooltipshoing;
 POINT lastpnt;

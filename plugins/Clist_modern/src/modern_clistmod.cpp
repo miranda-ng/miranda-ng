@@ -22,19 +22,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_clist.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_gettextasync.h"
-#include "hdr/modern_sync.h"
-#include "hdr/modern_clui.h"
+#include "stdafx.h"
+#include "modern_clist.h"
+#include "modern_commonprototypes.h"
+#include "modern_gettextasync.h"
+#include "modern_sync.h"
+#include "modern_clui.h"
 #include <m_modernopt.h>
 
 int OnLoadLangpack(WPARAM, LPARAM);
 
 int CListMod_HideWindow();
 
-void GroupMenus_Init(void);
 int AddMainMenuItem(WPARAM wParam, LPARAM lParam);
 int AddContactMenuItem(WPARAM wParam, LPARAM lParam);
 void UninitCListEvents(void);

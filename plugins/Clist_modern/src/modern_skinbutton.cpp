@@ -26,9 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 This file contains code related to new modern free positioned skinned buttons
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_skinengine.h"
-#include "hdr/modern_clcpaint.h"
+#include "stdafx.h"
+#include "modern_skinengine.h"
+#include "modern_clcpaint.h"
 #include "m_skinbutton.h"
 
 #define MODERNSKINBUTTONCLASS "MirandaModernSkinButtonClass"

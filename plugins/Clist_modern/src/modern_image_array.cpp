@@ -24,9 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 Created by Pescuma
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_image_array.h"
-#include "hdr/modern_commonprototypes.h"
+#include "stdafx.h"
+#include "modern_image_array.h"
+#include "modern_commonprototypes.h"
+
+#pragma comment(lib, "msimg32.lib")
 
 static mir_cs cs;
 

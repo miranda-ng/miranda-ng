@@ -22,14 +22,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_clc.h"
-#include "hdr/modern_commonprototypes.h"
-#include "hdr/modern_defsettings.h"
-#include "hdr/modern_effectenum.h"
-#include "hdr/modern_sync.h"
+#include "stdafx.h"
+#include "modern_clc.h"
+#include "modern_commonprototypes.h"
+#include "modern_defsettings.h"
+#include "modern_effectenum.h"
+#include "modern_sync.h"
 #include <m_modernopt.h>
 #include "m_fontservice.h"
+
+#pragma comment(lib, "shlwapi.lib")
 
 INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

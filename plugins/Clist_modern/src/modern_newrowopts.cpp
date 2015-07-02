@@ -31,8 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /************************************************************************/
 
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_clist.h"
+#include "stdafx.h"
+#include "modern_clist.h"
 
 #define EMPTY_PLACE 255
 #define COLUMNS_PLACE 254

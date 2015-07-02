@@ -28,11 +28,11 @@ Modified by FYR
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module for working with lines text and avatars
 
-#include "hdr/modern_commonheaders.h"
-#include "hdr/modern_cache_funcs.h"
+#include "stdafx.h"
+#include "modern_cache_funcs.h"
 #include "newpluginapi.h"
-#include "./hdr/modern_gettextasync.h"
-#include "hdr/modern_sync.h"
+#include "./modern_gettextasync.h"
+#include "modern_sync.h"
 
 typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact, void *param);
 

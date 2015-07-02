@@ -1,4 +1,4 @@
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 
 #include <stdarg.h>
 #include <stdio.h>

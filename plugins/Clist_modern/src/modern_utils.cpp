@@ -1,4 +1,4 @@
-#include "hdr/modern_commonheaders.h"
+#include "stdafx.h"
 
 BYTE gl_TrimText = 1;
 
