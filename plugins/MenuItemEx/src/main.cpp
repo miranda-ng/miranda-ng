@@ -878,7 +878,7 @@ int EnumProtoSubmenu(WPARAM, LPARAM)
 	for (int i = 0; i < protoCount; i++)
 	{
 		hProtoItem[i] = AddSubmenuItem(hmenuProto, accs[i]->tszAccountName,
-			Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_KEEPUNTRANSLATED,
+			Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_SYSTEM | CMIF_KEEPUNTRANSLATED,
 			MS_PROTO, pos++, (int)accs[i]->szModuleName);
 	}
 	return 0;
