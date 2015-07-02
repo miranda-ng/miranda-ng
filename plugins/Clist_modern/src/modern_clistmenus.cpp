@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_commonprototypes.h"
 
 int LoadFavoriteContactMenu();
-int UnloadFavoriteContactMenu();
 
 #pragma hdrstop
 
@@ -52,11 +51,6 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction", CloseAction);
 	LoadFavoriteContactMenu();
 	return 0;
-}
-
-void UninitCustomMenus(void)
-{
-	UnloadFavoriteContactMenu();
 }
 
 //////////////////////////////////////////////////////////////////////////

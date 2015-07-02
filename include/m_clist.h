@@ -63,7 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // MAIN MENU
 
 // adds a new element into main menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *mi);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi);
 
 // gets a handle to the main Miranda menu
 // returns a HMENU. This need not to be freed since it's owned by clist
@@ -82,7 +82,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void);
 // CONTACT MENU
 
 // adds a new element into contact menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 // builds the context menu for a specific contact
 // returns a HMENU identifying the menu. This should be DestroyMenu()ed when
@@ -102,7 +102,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetStatusMenu(void);
 
 // adds an item to a status menu
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 // the status menu is about to be built
 // wParam = lParam = 0
@@ -112,7 +112,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *mi, const ch
 // PROTOCOL MENU
 
 // adds an item to status or main menu, according to the option
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszProto = NULL);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GROUP MENU
@@ -124,14 +124,11 @@ struct GroupMenuParam
 };
 
 // builds the Group menu
-// wParam=lParam=0
 // returns a HMENU identifying the menu.
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildGroupMenu(void);
 
-// add a new item to the Group menus
-// wParam=GroupMenuParam*, params to call when exec menuitem
-// lParam=(LPARAM)(TMO_MenuItem*)&mi
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *mi, GroupMenuParam *gmp = NULL);
+// adds a new item to the Group menus
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = NULL);
 
 // the Group menu is about to be built
 // wParam = lParam = 0
@@ -144,10 +141,10 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *mi, GroupMenu
 // returns a HMENU identifying the menu.
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(struct ClcGroup *group);
 
-// add a new item to the SubGroup menus
+// adds a new item to the SubGroup menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *mi, GroupMenuParam *gmp = NULL);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = NULL);
 
 // the SubGroup menu is about to be built
 // wParam = lParam = 0
@@ -157,22 +154,15 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *mi, GroupM
 // TRAY MENU
 
 // builds the tray menu
-// wParam=lParam=0
 // returns a HMENU identifying the menu.
-#define MS_CLIST_MENUBUILDTRAY "CList/MenuBuildTray"
+EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildTrayMenu(void);
 
-// add a new item to the tray menus
-// wParam=0
-// lParam=(LPARAM)(TMO_MenuItem*)&mi
-
-__forceinline HGENMENU Menu_AddTrayMenuItem(TMO_MenuItem *mi)
-{
-	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
-}
+// adds a new item to the tray menus
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddTrayMenuItem(TMO_MenuItem *pmi);
 
 // the tray menu is about to be built
-// wParam=lParam=0
-#define ME_CLIST_PREBUILDTRAYMENU					"CList/PreBuildTrayMenu"
+// wParam = lParam = 0
+#define ME_CLIST_PREBUILDTRAYMENU "CList/PreBuildTrayMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sets the service to call when a contact is double-clicked

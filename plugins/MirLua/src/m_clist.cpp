@@ -73,7 +73,7 @@ static int lua_AddTrayMenuItem(lua_State *L)
 
 static int lua_BuildTrayMenu(lua_State *L)
 {
-	HMENU res = (HMENU)::CallService(MS_CLIST_MENUBUILDTRAY);
+	HMENU res = Menu_BuildTrayMenu();
 	lua_pushlightuserdata(L, res);
 
 	return 1;

@@ -226,7 +226,6 @@ void    FreeRowCell();                                                      //Ro
 void    InitGdiPlus();                                                      //gdiplus.cpp
 void    InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int SettingType);  //clistsettings.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
-void    UninitCustomMenus();                                                //clistmenus.c
 void    UnloadAvatarOverlayIcon();                                             //clc.c
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
