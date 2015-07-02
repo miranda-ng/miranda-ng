@@ -2,24 +2,19 @@
 
 CMLua::CMLua() : L(NULL)
 {
-	console = new CMLuaConsole(L);
-	hLogger = mir_createLog(MODULE, _T("MirLua log"), VARST(_T("%miranda_logpath%\\MirLua.txt")), 0);
-
 	Load();
 }
 
 CMLua::~CMLua()
 {
 	Unload();
-	mir_closeLog(hLogger);
-	delete console;
 }
 
 void CMLua::Load()
 {
-	mir_writeLogT(hLogger, _T("Loading lua engine\n"));
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading lua engine");
 	L = luaL_newstate();
-	mir_writeLogT(hLogger, _T("Loading std modules\n"));
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading std modules");
 	luaL_openlibs(L);
 
 	lua_getglobal(L, "package");
@@ -29,17 +24,24 @@ void CMLua::Load()
 	lua_setfield(L, -2, "cpath");
 	lua_pop(L, 1);
 
+	lua_getglobal(L, "_G");
+	lua_pushcclosure(L, luaM_print, 0);
+	lua_setfield(L, -2, "print");
+	lua_pop(L, 1);
+
+	lua_atpanic(L, luaM_atpanic);
+
 	MUUID muidLast = MIID_LAST;
 	hScriptsLangpack = GetPluginLangId(muidLast, 0);
 
-	mir_writeLogT(hLogger, _T("Loading miranda modules\n"));
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading miranda modules");
 	CLuaModuleLoader::Load(L);
-	CLuaScriptLoader::Load(L, hLogger);
+	CLuaScriptLoader::Load(L);
 }
 
 void CMLua::Unload()
 {
-	mir_writeLogT(hLogger, _T("Unloading lua engine\n"));
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Unloading lua engine");
 
 	::KillModuleMenus(hScriptsLangpack);
 	::KillModuleServices();
@@ -66,11 +68,9 @@ int CMLua::HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 	lua_pushnumber(L, wParam);
 	lua_pushnumber(L, lParam);
 	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 
 	int res = (int)lua_tointeger(L, 1);
-
-	//luaL_unref(L, LUA_REGISTRYINDEX, ref);
 
 	return res;
 }

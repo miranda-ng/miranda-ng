@@ -177,7 +177,7 @@ static INT_PTR ServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, 
 	lua_pushnumber(L, wParam);
 	lua_pushnumber(L, lParam);
 	if (lua_pcall(L, 2, 1, 0))
-		printf("%s\n", lua_tostring(L, -1));
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 
 	INT_PTR res = (INT_PTR)lua_tointeger(L, 1);
 	lua_pushinteger(L, res);

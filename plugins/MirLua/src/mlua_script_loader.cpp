@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CLuaScriptLoader::CLuaScriptLoader(lua_State *L, HANDLE hLogger) : L(L), hLogger(hLogger)
+CLuaScriptLoader::CLuaScriptLoader(lua_State *L) : L(L)
 {
 }
 
@@ -18,20 +18,26 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 	lua_pop(L, 1);
 }
 
-void CLuaScriptLoader::LoadScript(const TCHAR *path, const TCHAR *name)
+void CLuaScriptLoader::LoadScript(const TCHAR *path)
 {
+	
 	if (luaL_dofile(L, T2Utf(path)))
 	{
-		ptrT error(mir_utf8decodeT(lua_tostring(L, -1)));
-		mir_writeLogT(hLogger, _T("  %s:FAIL\n    %s\n"), name, error);
-		printf("%s\n", lua_tostring(L, -1));
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		return;
 	}
-	else mir_writeLogT(hLogger, _T("  %s:OK\n"), name);
+
+	TCHAR buf[4096];
+	mir_sntprintf(buf, _T("%s:OK"), path);
+	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)buf);
 }
 
 void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 {
-	mir_writeLogT(hLogger, _T("Loading scripts from path %s\n"), scriptDir);
+	TCHAR buf[4096];
+	mir_sntprintf(buf, _T("Loading scripts from %s"), scriptDir);
+	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)buf);
+
 	RegisterScriptsFolder(ptrA(mir_utf8encodeT(scriptDir)));
 
 	TCHAR searchMask[MAX_PATH];
@@ -50,24 +56,21 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 				mir_sntprintf(fullPath, _T("%s\\%s"), scriptDir, fd.cFileName);
 				PathToRelativeT(fullPath, path);
 				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					LoadScript(fullPath, fd.cFileName);
+					LoadScript(fullPath);
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
-	mir_writeLogT(hLogger, _T("\n"), scriptDir);
 }
 
-void CLuaScriptLoader::Load(lua_State *L, HANDLE hLogger)
+void CLuaScriptLoader::Load(lua_State *L)
 {
 	TCHAR scriptDir[MAX_PATH];
-	CLuaScriptLoader loader(L, hLogger);
+	CLuaScriptLoader loader(L);
 
 	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
 	loader.LoadScripts(scriptDir);
 
 	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	loader.LoadScripts(scriptDir);
-	
-	mir_writeLogT(hLogger, _T("\n"), scriptDir);
 }

@@ -5,11 +5,6 @@ class CMLua
 {
 private:
 	lua_State *L;
-	HANDLE hLogger;
-	CMLuaConsole *console;
-
-	static void KillModuleServices();
-	static void KillModuleEventHooks();
 
 	void Load();
 	void Unload();

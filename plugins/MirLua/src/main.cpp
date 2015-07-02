@@ -8,6 +8,8 @@ HINSTANCE g_hInstance;
 HANDLE g_hCommonFolderPath;
 HANDLE g_hCustomFolderPath;
 
+HANDLE hNetlib = NULL;
+
 CMLua *g_mLua;
 
 PLUGININFOEX pluginInfo =
@@ -54,6 +56,13 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
+	NETLIBUSER nlu = { 0 };
+	nlu.cbSize = sizeof(nlu);
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.ptszDescriptiveName = _T(MODULE);
+	nlu.szSettingsModule = MODULE;
+	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
 	g_mLua = new CMLua();
 
 	return 0;
@@ -62,6 +71,12 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	delete g_mLua;
+
+	if (hNetlib)
+	{
+		Netlib_CloseHandle(hNetlib);
+		hNetlib = NULL;
+	}
 
 	return 0;
 }
