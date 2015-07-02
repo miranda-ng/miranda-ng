@@ -34,7 +34,7 @@ static HANDLE hPreBuildFrameMenuEvent;
 // also used in checkservice
 struct FrameMenuExecParam
 {
-	ptrA    szServiceName;
+	ptrA szServiceName;
 };
 
 INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
@@ -65,7 +65,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//true - ok,false ignore
+// true - ok,false ignore
 INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;

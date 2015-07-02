@@ -587,7 +587,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&FrameTitle");
-	mi.flags = CMIF_GRAYED;
+	mi.flags = CMIF_SYSTEM | CMIF_GRAYED;
 	fmh.MITitle = addFrameMenuItem(&mi, frameid, bMain);
 
 	popuppos += 100000;
@@ -595,13 +595,12 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	mi.hIcolibItem = NULL;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
-	mi.flags = CMIF_CHECKED;
+	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
 	fmh.MIVisible = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Show title bar");
-	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
 	fmh.MITBVisible = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -609,20 +608,18 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Locked");
-	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
 	fmh.MILock = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Collapsed");
-	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
 	fmh.MIColl = addFrameMenuItem(&mi, frameid, bMain);
 
 	// floating
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Floating mode");
-	mi.flags = 0;
+	mi.flags = CMIF_SYSTEM;
 	mi.pszService = "Set_Floating";
 	fmh.MIFloating = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -630,7 +627,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Border");
-	mi.flags = CMIF_CHECKED;
+	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
 	fmh.MIBorder = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -638,7 +635,6 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Skinned frame");
-	mi.flags = CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETSKINNED;
 	fmh.MISkinned = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -648,7 +644,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popuppos, boo
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Align");
-	mi.flags = 0;
+	mi.flags = CMIF_SYSTEM;
 	mi.pszService = NULL;
 	fmh.MIAlignRoot = addFrameMenuItem(&mi, frameid, bMain);
 

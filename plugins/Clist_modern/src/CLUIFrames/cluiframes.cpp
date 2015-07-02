@@ -771,7 +771,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	mi.root = root;
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Visible");
-	mi.flags = CMIF_CHECKED;
+	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
 	fmh.MIVisible = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -795,13 +795,13 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	// floating
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Floating mode");
-	mi.flags = 0;
+	mi.flags = CMIF_SYSTEM;
 	mi.pszService = "Set_Floating";
 	fmh.MIFloating = addFrameMenuItem(&mi, frameid, bMain);
 
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Border");
-	mi.flags = CMIF_CHECKED;
+	mi.flags = CMIF_SYSTEM | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
 	fmh.MIBorder = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -810,7 +810,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid, HGENMENU root, int popupp
 	// alignment root
 	mi.position = popuppos++;
 	mi.name.a = LPGEN("&Align");
-	mi.flags = 0;
+	mi.flags = CMIF_SYSTEM;
 	mi.pszService = NULL;
 	fmh.MIAlignRoot = addFrameMenuItem(&mi, frameid, bMain);
 
@@ -1498,7 +1498,7 @@ static int CLUIFramesLoadMainMenu()
 	int separator = 3000200000;
 	for (int i = 0; i < g_nFramesCount; i++) {
 		mi.hIcolibItem = g_pfwFrames[i].TitleBar.hicon;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_SYSTEM | CMIF_TCHAR;
 		mi.position = separator++;
 		mi.name.t = g_pfwFrames[i].TitleBar.tbname ? g_pfwFrames[i].TitleBar.tbname : g_pfwFrames[i].name;
 		mi.pszService = 0;
@@ -1512,7 +1512,7 @@ static int CLUIFramesLoadMainMenu()
 
 	// create "show all frames" menu
 	mi.hIcolibItem = NULL;
-	mi.flags = 0;
+	mi.flags = CMIF_SYSTEM;
 	mi.position = separator++;
 	mi.name.a = LPGEN("Show all frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;

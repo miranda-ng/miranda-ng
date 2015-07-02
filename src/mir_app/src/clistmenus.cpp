@@ -1106,7 +1106,7 @@ void InitCustomMenus(void)
 	CreateServiceFunction("StatusMenuExecService", StatusMenuExecService);
 	CreateServiceFunction("StatusMenuCheckService", StatusMenuCheckService);
 
-	//free services
+	// free services
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataMainMenu", FreeOwnerDataMainMenu);
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataContactMenu", FreeOwnerDataContactMenu);
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataStatusMenu", FreeOwnerDataStatusMenu);
@@ -1165,7 +1165,6 @@ void InitCustomMenus(void)
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);
 
 	// add exit command to menu
-
 	CMenuItem mi;
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";

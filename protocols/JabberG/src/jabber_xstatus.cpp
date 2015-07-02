@@ -469,7 +469,7 @@ void CPepGuiService::RebuildMenu()
 	mi.root = hJabberRoot;
 	mi.pszService = szService;
 	mi.position = 200010;
-	mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
+	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_HIDDEN;
 	mi.hIcolibItem = m_hIcolibItem;
 	mi.name.t = m_szText ? m_szText : _T("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
