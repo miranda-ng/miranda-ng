@@ -29,23 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma hdrstop
 
-static HMENU hMainMenu, hMainStatusMenu;
-
-void InitIconLibMenuIcons();
 extern IconItemT iconItem[];
-
-void DestroyTrayMenu(HMENU hMenu)
-{
-	int i, cnt;
-
-	cnt = GetMenuItemCount(hMenu);
-	for (i = 0; i < cnt; ++i) {
-		HMENU hSubMenu = GetSubMenu(hMenu, i);
-		if (hSubMenu == hMainStatusMenu || hSubMenu == hMainMenu)
-			RemoveMenu(hMenu, i--, MF_BYPOSITION);
-	}
-	DestroyMenu(hMenu);
-}
+void InitIconLibMenuIcons();
 
 INT_PTR CloseAction(WPARAM, LPARAM)
 {
@@ -384,13 +369,9 @@ int InitCustomMenus(void)
 	CMenuItem mi;
 	mi.position = 200000;
 	mi.pszService = "CList/SetContactIgnore";
-	mi.hIcolibItem = iconItem[1].hIcolib;
+	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.name.a = LPGEN("&Contact list settings...");
 	Menu_AddContactMenuItem(&mi);
-
-	hMainStatusMenu = (HMENU)Menu_GetStatusMenu();
-	hMainMenu = Menu_GetMainMenu();
-
 	return 0;
 }
 

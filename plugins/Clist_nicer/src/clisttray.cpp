@@ -24,9 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define TRAYICON_ID_BASE	100
-#define TIM_CALLBACK	(WM_USER+1857)
-#define TIM_CREATE		(WM_USER+1858)
+#define TRAYICON_ID_BASE 100
 
 extern HIMAGELIST hCListImages;
 

@@ -73,8 +73,6 @@ int EventArea_Create(HWND hCluiWnd);
 
 int ExtraImage_ExtraIDToColumnNum(int extra);
 
-void GroupMenus_Init();
-
 int ModernSkinButtonLoadModule();
 int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
 

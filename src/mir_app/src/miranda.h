@@ -127,6 +127,7 @@ extern CLIST_INTERFACE cli;
 extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
 extern HANDLE hShutdownEvent, hPreShutdownEvent;
+extern HMENU hMainMenu, hStatusMenu;
 
 extern const int statusModeList[ MAX_STATUS_COUNT ];
 extern const int skinIconStatusList[ MAX_STATUS_COUNT ];

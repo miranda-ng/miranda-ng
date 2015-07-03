@@ -1215,6 +1215,7 @@ IDI_MCREMOVE            ICON                    "meta_remove2.ico"
 IDI_MCCONVERT           ICON                    "meta_convert.ico"
 IDI_MCADD               ICON                    "meta_add.ico"
 IDI_MCSETDEFAULT        ICON                    "meta_set_as_default.ico"
+IDI_ADDGROUP            ICON                    "addgroup.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

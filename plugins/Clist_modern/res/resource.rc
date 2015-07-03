@@ -29,7 +29,6 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // remains consistent on all systems.
 IDI_HIDE_AVATAR         ICON                    "hide_avatar.ico"
 IDI_SHOW_AVATAR         ICON                    "show_avatar.ico"
-IDI_NEWGROUP2           ICON                    "addgroup.ico"
 IDI_LISTENING_TO        ICON                    "listening_to.ico"
 IDI_FAVORITE_0          ICON                    "rate_none.ico"
 IDI_FAVORITE_1          ICON                    "rate_low.ico"
@@ -936,37 +935,6 @@ BEGIN
         MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
     END
 END
-
-IDR_CONTEXT MENU
-BEGIN
-    POPUP "Tray"
-    BEGIN
-        MENUITEM "&Hide/Show",                  ID_TRAY_HIDE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_TRAY_EXIT
-    END
-    POPUP "Nowhere"
-    BEGIN
-        MENUITEM "&New group",                  POPUP_NEWGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
-        MENUITEM SEPARATOR
-        MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
-    END
-    POPUP "Group"
-    BEGIN
-        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
-        MENUITEM "&Show offline users in here", POPUP_GROUPSHOWOFFLINE
-        MENUITEM SEPARATOR
-        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete group",               POPUP_DELETEGROUP
-    END
-END
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

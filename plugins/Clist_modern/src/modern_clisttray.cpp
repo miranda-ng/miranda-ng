@@ -29,10 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_statusbar.h"
 #include <m_protoint.h>
 
-HGENMENU hTrayMainMenuItemProxy, hTrayStatusMenuItemProxy, hTrayHideShowMainMenuItem;
 int g_mutex_bOnTrayRightClick = 0;
 BOOL g_bMultiConnectionMode = FALSE;
-static HMENU hMainMenu, hStatusMenu;
 BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
 BOOL g_trayTooltipActive = FALSE;
 POINT tray_hover_pos = { 0 };
@@ -143,17 +141,6 @@ int cliTrayIconPauseAutoHide(WPARAM, LPARAM)
 	return 0;
 }
 
-void DestroyTrayMenu(HMENU hMenu)
-{
-	int cnt = GetMenuItemCount(hMenu);
-	for (int i = 0; i < cnt; ++i) {
-		HMENU hSubMenu = GetSubMenu(hMenu, i);
-		if (hSubMenu && ((hSubMenu == hStatusMenu) || (hSubMenu == hMainMenu)))
-			RemoveMenu(hMenu, i--, MF_BYPOSITION);
-	}
-	DestroyMenu(hMenu);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tray event handler
 
@@ -169,7 +156,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	case TIM_CALLBACK:
 		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
 			POINT pt;
-			HMENU hMenu = (HMENU)Menu_GetStatusMenu();
+			HMENU hMenu = Menu_GetStatusMenu();
 			g_mutex_bOnTrayRightClick = 1;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 			SetForegroundWindow(msg->hwnd);
@@ -183,20 +170,6 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		}
 		else if (msg->lParam == WM_MBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN) {
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
-		}
-		else if (msg->lParam == WM_RBUTTONUP) {
-			HMENU hMenu = Menu_BuildTrayMenu();
-			g_mutex_bOnTrayRightClick = 1;
-
-			SetForegroundWindow(msg->hwnd);
-			SetFocus(msg->hwnd);
-
-			POINT pt;
-			GetCursorPos(&pt);
-			pcli->bTrayMenuOnScreen = TRUE;
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
-			DestroyTrayMenu(hMenu);
-			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 		}
 		else break;
 		*((LRESULT*)lParam) = 0;
@@ -227,79 +200,6 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tray module init
-
-INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
-{
-	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == NULL)
-		return 0;
-
-	if (hTrayMainMenuItemProxy == (HGENMENU)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = Menu_GetMainMenu();
-	}
-
-	if (hTrayStatusMenuItemProxy == (HGENMENU)lParam) {
-		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)Menu_GetStatusMenu();
-	}
-
-	return TRUE;
-}
-
-void InitTrayMenus(void)
-{
-	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuOnAddService", TrayMenuOnAddService);
-
-	// add exit command to menu
-	CMenuItem mi;
-	mi.position = 900000;
-	mi.pszService = "CloseAction";
-	mi.name.a = LPGEN("E&xit");
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
-	Menu_AddTrayMenuItem(&mi);
-
-	mi.flags = CMIF_DEFAULT;
-	mi.position = 100000;
-	mi.pszService = MS_CLIST_SHOWHIDE;
-	mi.name.a = LPGEN("&Hide/show");
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
-	hTrayHideShowMainMenuItem = Menu_AddTrayMenuItem(&mi);
-
-	mi.flags = 0;
-	mi.position = 200000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FINDUSER);
-	mi.pszService = "FindAdd/FindAddCommand";
-	mi.name.a = LPGEN("&Find/add contacts...");
-	Menu_AddTrayMenuItem(&mi);
-
-	mi.position = 300000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
-	mi.pszService = "FakeService_1";
-	mi.name.a = LPGEN("&Main menu");
-	hTrayMainMenuItemProxy = Menu_AddTrayMenuItem(&mi);
-
-	mi.position = 300100;
-	mi.pszService = "FakeService_2";
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
-	mi.name.a = LPGEN("&Status");
-	hTrayStatusMenuItemProxy = Menu_AddTrayMenuItem(&mi);
-
-	mi.position = 400000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
-	mi.pszService = "Options/OptionsCommand";
-	mi.name.a = LPGEN("&Options...");
-	Menu_AddTrayMenuItem(&mi);
-
-	mi.position = 500000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
-	mi.pszService = "Help/AboutCommand";
-	mi.name.a = LPGEN("&About");
-	Menu_AddTrayMenuItem(&mi);
-
-	hMainMenu = Menu_GetMainMenu();
-	hStatusMenu = Menu_GetStatusMenu();
-}
 
 VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {

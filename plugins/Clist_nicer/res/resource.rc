@@ -537,7 +537,6 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ADDGROUP            ICON                    "addgroup.ico"
 IDI_CLIST               ICON                    "clist.ico"
 IDI_DELETE              ICON                    "delete.ico"
 IDI_CLVM_OPTIONS        ICON                    "options_clvm.ico"
@@ -600,47 +599,6 @@ BEGIN
         MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
     END
 END
-
-IDR_CONTEXT MENU
-BEGIN
-    POPUP "Tray"
-    BEGIN
-        MENUITEM "&Hide/Show",                  40038
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_TRAY_EXIT
-    END
-    POPUP "Nowhere"
-    BEGIN
-        MENUITEM "&New group",                  POPUP_NEWGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
-        MENUITEM SEPARATOR
-        MENUITEM SEPARATOR
-        MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
-    END
-    POPUP "Group"
-    BEGIN
-        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
-        MENUITEM SEPARATOR
-        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete group",               POPUP_DELETEGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "Move marked contacts to this group", POPUP_MOVEMARKEDHERE, GRAYED
-    END
-    POPUP "Appearance"
-    BEGIN
-        MENUITEM "Show status icons",           POPUP_SHOWSTATUSICONS
-        MENUITEM "Show metacontact protocol icons", POPUP_SHOWMETAICONS
-        MENUITEM SEPARATOR
-        MENUITEM "Show additional buttons",     POPUP_BUTTONS
-        MENUITEM "Draw sunken frame",           POPUP_FRAME
-    END
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

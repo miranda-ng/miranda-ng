@@ -685,7 +685,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		else if (msg->lParam == (db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
 			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
 				POINT pt;
-				HMENU hMenu = (HMENU)Menu_GetStatusMenu();
+				HMENU hMenu = Menu_GetStatusMenu();
 
 				for (int i = 0; i < cli.trayIconCount; i++) {
 					if ((unsigned)cli.trayIcon[i].id == msg->wParam) {
@@ -719,32 +719,16 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				cli.pfnShowHide(0, 0);
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {
-			HMENU hMainMenu = LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hMenu = GetSubMenu(hMainMenu, 0);
-			TranslateMenu(hMenu);
-
-			MENUITEMINFO mii = { 0 };
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_SUBMENU | MIIM_TYPE;
-			mii.fType = MFT_STRING;
-			mii.hSubMenu = Menu_GetMainMenu();
-			mii.dwTypeData = TranslateT("&Main menu");
-			InsertMenuItem(hMenu, 1, TRUE, &mii);
-			mii.hSubMenu = (HMENU)Menu_GetStatusMenu();
-			mii.dwTypeData = TranslateT("&Status");
-			InsertMenuItem(hMenu, 2, TRUE, &mii);
-			SetMenuDefaultItem(hMenu, ID_TRAY_HIDE, FALSE);
-
+			HMENU hMenu = Menu_BuildTrayMenu();
 			SetForegroundWindow(msg->hwnd);
 			SetFocus(msg->hwnd);
 
 			POINT pt;
 			GetCursorPos(&pt);
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN, pt.x, pt.y, 0, msg->hwnd, NULL);
-
-			RemoveMenu(hMenu, 1, MF_BYPOSITION);
-			RemoveMenu(hMenu, 1, MF_BYPOSITION);
-			DestroyMenu(hMainMenu);
+			cli.bTrayMenuOnScreen = TRUE;
+			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
+			Menu_DestroyNestedMenu(hMenu);
+			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 		}
 		else if (msg->lParam == WM_MOUSEMOVE) {
 			s_LastHoverIconID = msg->wParam;

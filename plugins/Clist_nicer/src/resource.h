@@ -10,13 +10,11 @@
 #define IDD_OPTIONSDIALOG               101
 #define IDD_CLNABOUT                    102
 #define IDD_OPT_CLIST                   126
-#define IDI_ADDGROUP                    143
 #define IDI_CLIST                       146
 #define IDI_OPTIONS                     163
 #define IDI_DELETE                      175
 #define IDI_CLVM_OPTIONS                176
 #define IDI_CLVM_SELECT                 177
-#define IDR_CONTEXT                     180
 #define IDC_DROP                        183
 #define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200

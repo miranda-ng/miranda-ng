@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
+static INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
 {
 	if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
 		DestroyWindow(pcli->hwndContactList);
@@ -35,16 +35,4 @@ INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
 void InitCustomMenus()
 {
 	CreateServiceFunction("CloseAction", CloseAction);
-}
-
-HMENU fnBuildGroupPopupMenu(ClcGroup *group)
-{
-	HMENU hMenu = LoadMenu(pcli->hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-	HMENU hGroupMenu = GetSubMenu(hMenu, 2);
-	RemoveMenu(hMenu, 2, MF_BYPOSITION);
-	DestroyMenu(hMenu);
-	TranslateMenu(hGroupMenu);
-
-	CheckMenuItem(hGroupMenu, POPUP_GROUPHIDEOFFLINE, group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
-	return hGroupMenu;
 }
