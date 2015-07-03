@@ -232,9 +232,11 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 			// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
 			// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
 			// the retweet_count variable to work :(
-			const JSONNode &pUser2 = pStatus["user"];
+			const JSONNode &pRetweet = pStatus["retweeted_status"];
+			const JSONNode &pUser2 = pRetweet["user"];
+
 			std::string retweeteesName = pUser2["screen_name"].as_string(); // the user that is being retweeted
-			std::string retweetText = pUser2["text"].as_string(); // their tweet in all it's untruncated glory
+			std::string retweetText = pRetweet["text"].as_string(); // their tweet in all it's untruncated glory
 
 			// fix "&amp;" in the tweets :(
 			for (size_t pos = 0; (pos = retweetText.find("&amp;", pos)) != std::string::npos; pos++)

@@ -26,11 +26,6 @@ public:
 	TwitterProto(const char*,const TCHAR*);
 	~TwitterProto();
 
-	inline const char * ModuleName() const
-	{
-		return m_szModuleName;
-	}
-
 	//PROTO_INTERFACE
 
 	virtual	MCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);

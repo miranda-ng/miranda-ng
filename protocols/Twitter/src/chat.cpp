@@ -168,7 +168,7 @@ void TwitterProto::SetChatStatus(int status)
 				continue;
 
 			DBVARIANT uid, nick;
-			if (db_get_s(hContact, m_szModuleName, TWITTER_KEY_UN, &uid))
+			if (getString(hContact, TWITTER_KEY_UN, &uid))
 				continue;
 
 			if (!db_get_s(hContact, "CList", "MyHandle", &nick)) {
