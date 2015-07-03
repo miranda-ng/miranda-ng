@@ -217,13 +217,14 @@ INT_PTR TwitterProto::GetStatus(WPARAM, LPARAM)
 	return m_iStatus;
 }
 
-INT_PTR TwitterProto::ReplyToTweet(WPARAM hContact, LPARAM)
+INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)
 {
+	MCONTACT hContact = (MCONTACT) wParam;
 	// TODO: support replying to tweets instead of just users
 	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), 0, tweet_proc, reinterpret_cast<LPARAM>(this));
 
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, m_szModuleName, TWITTER_KEY_UN, &dbv)) {
+	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
 		SendMessage(hDlg, WM_SETREPLY, reinterpret_cast<WPARAM>(dbv.pszVal), 0);
 		db_free(&dbv);
 	}
@@ -233,13 +234,14 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR TwitterProto::VisitHomepage(WPARAM hContact, LPARAM)
+INT_PTR TwitterProto::VisitHomepage(WPARAM wParam, LPARAM)
 {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
 	// TODO: remove this
-	if (!db_get_s(hContact, m_szModuleName, TWITTER_KEY_UN, &dbv)) {
+	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
 		std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
-		db_set_s(hContact, m_szModuleName, "Homepage", url.c_str());
+		setString(hContact, "Homepage", url.c_str());
 
 		Utils_OpenUrl(url.c_str());
 		db_free(&dbv);
@@ -359,8 +361,9 @@ int TwitterProto::OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int TwitterProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
+int TwitterProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
+	MCONTACT hContact = (MCONTACT) wParam;
 	if (IsMyContact(hContact))
 		ShowContactMenus(true);
 
@@ -432,7 +435,7 @@ void TwitterProto::SendTweetWorker(void *p)
 
 void TwitterProto::UpdateSettings()
 {
-	if (db_get_b(0, m_szModuleName, TWITTER_KEY_CHATFEED, 0)) {
+	if (getByte(TWITTER_KEY_CHATFEED)) {
 		if (!in_chat_)
 			OnJoinChat(0, 0);
 	}

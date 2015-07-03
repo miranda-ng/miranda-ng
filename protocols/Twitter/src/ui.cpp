@@ -39,13 +39,13 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		DBVARIANT dbv;
-		if (!db_get_ts(0, proto->ModuleName(), TWITTER_KEY_GROUP, &dbv)) {
+		if (!proto->getTString(TWITTER_KEY_GROUP, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_GROUP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hwndDlg, IDC_GROUP, L"Twitter");
 
-		if (!db_get_s(0, proto->ModuleName(), TWITTER_KEY_UN, &dbv)) {
+		if (!proto->getString(TWITTER_KEY_UN, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -53,7 +53,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		for (size_t i = 0; i < _countof(sites); i++)
 			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(sites[i]));
 
-		if (!db_get_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, &dbv)) {
+		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_SERVER, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -85,10 +85,10 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, _countof(str) - 1);
 			if (str[mir_strlen(str) - 1] != '/')
 				mir_strncat(str, "/", _countof(str) - mir_strlen(str));
-			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
+			proto->setString(TWITTER_KEY_BASEURL, str);
 
 			GetDlgItemText(hwndDlg, IDC_GROUP, tstr, _countof(tstr));
-			db_set_ts(0, proto->ModuleName(), TWITTER_KEY_GROUP, tstr);
+			proto->setTString(TWITTER_KEY_GROUP, tstr);
 
 			return true;
 		}
@@ -174,27 +174,27 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		DBVARIANT dbv;
-		if (!db_get_s(0, proto->ModuleName(), TWITTER_KEY_UN, &dbv)) {
+		if (!proto->getString(TWITTER_KEY_UN, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_UN, dbv.pszVal);
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CHATFEED, db_get_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHATFEED, proto->getByte(TWITTER_KEY_CHATFEED) ? BST_CHECKED : BST_UNCHECKED);
 
 		for (size_t i = 0; i < _countof(sites); i++)
 			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(sites[i]));
 
-		if (!db_get_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, &dbv)) {
+		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_BASEURL, dbv.pszVal);
 			db_free(&dbv);
 		}
 		else SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_SETCURSEL, 0, 0);
 
 		char pollrate_str[32];
-		mir_snprintf(pollrate_str, _countof(pollrate_str), "%d", db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, 80));
+		mir_snprintf(pollrate_str, _countof(pollrate_str), "%d", proto->getDword(TWITTER_KEY_POLLRATE, 80));
 		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
 
-		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, db_get_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, proto->getByte(TWITTER_KEY_TWEET_TO_MSG, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 
 		// Do this last so that any events propagated by pre-filling the form don't
@@ -227,22 +227,22 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_UN, str, _countof(str));
-			db_set_s(0, proto->ModuleName(), TWITTER_KEY_UN, str);
+			proto->setString(TWITTER_KEY_UN, str);
 
 			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, _countof(str) - 1);
 			if (str[mir_strlen(str) - 1] != '/')
 				mir_strncat(str, "/", _countof(str) - mir_strlen(str));
-			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
+			proto->setString(TWITTER_KEY_BASEURL, str);
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED) != 0);
+			proto->setByte(TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED) != 0);
 
 			GetDlgItemTextA(hwndDlg, IDC_POLLRATE, str, _countof(str));
 			int rate = atoi(str);
 			if (rate == 0)
 				rate = 80;
-			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, rate);
+			proto->setDword(TWITTER_KEY_POLLRATE, rate);
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, IsDlgButtonChecked(hwndDlg, IDC_TWEET_MSG) != 0);
+			proto->setByte(TWITTER_KEY_TWEET_TO_MSG, IsDlgButtonChecked(hwndDlg, IDC_TWEET_MSG) != 0);
 
 			proto->UpdateSettings();
 			return true;
@@ -363,12 +363,12 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
-		CheckAndUpdateDlgButton(hwndDlg, IDC_SHOWPOPUPS, db_get_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, 0));
-		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, !db_get_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckAndUpdateDlgButton(hwndDlg, IDC_SHOWPOPUPS, proto->getByte(TWITTER_KEY_POPUP_SHOW, 0));
+		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, !proto->getByte(TWITTER_KEY_POPUP_SIGNON, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		// ***** Get color information
-		back_color = db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, 0);
-		text_color = db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLTEXT, 0);
+		back_color = proto->getDword(TWITTER_KEY_POPUP_COLBACK);
+		text_color = proto->getDword(TWITTER_KEY_POPUP_COLTEXT);
 
 		SendDlgItemMessage(hwndDlg, IDC_COLBACK, CPM_SETCOLOUR, 0, RGB(255, 255, 255));
 		SendDlgItemMessage(hwndDlg, IDC_COLTEXT, CPM_SETCOLOUR, 0, RGB(0, 0, 0));
@@ -384,7 +384,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 
 		// ***** Get timeout information
-		timeout = db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_TIMEOUT, 0);
+		timeout = proto->getDword(TWITTER_KEY_POPUP_TIMEOUT);
 		SetDlgItemTextA(hwndDlg, IDC_TIMEOUT, "5");
 
 		if (timeout == 0)
@@ -445,15 +445,15 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS) != 0);
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
+			proto->setByte(TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS) != 0);
+			proto->setByte(TWITTER_KEY_POPUP_SIGNON, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
 
 			// ***** Write color settings
-			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, get_back_color(hwndDlg, true));
-			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLTEXT, get_text_color(hwndDlg, true));
+			proto->setDword(TWITTER_KEY_POPUP_COLBACK, get_back_color(hwndDlg, true));
+			proto->setDword(TWITTER_KEY_POPUP_COLTEXT, get_text_color(hwndDlg, true));
 
 			// ***** Write timeout setting
-			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_TIMEOUT, get_timeout(hwndDlg));
+			proto->setDword(TWITTER_KEY_POPUP_TIMEOUT, get_timeout(hwndDlg));
 
 			return true;
 		}
@@ -480,7 +480,7 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			GetDlgItemTextA(hwndDlg, IDC_PIN, str, _countof(str));
 
-			db_set_s(0, proto->ModuleName(), TWITTER_KEY_OAUTH_PIN, str);
+			proto->setString(TWITTER_KEY_OAUTH_PIN, str);
 			EndDialog(hwndDlg, wParam);
 			return true;
 		}
