@@ -478,12 +478,12 @@ struct AckBasicSearchParam
 	TCHAR buf[50];
 };
 
-void __cdecl CIrcProto::AckBasicSearch(void* param)
+void __cdecl CIrcProto::AckBasicSearch(void *arg)
 {
+	AckBasicSearchParam *param = (AckBasicSearchParam*)arg;
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.id.t = ((AckBasicSearchParam*)param)->buf;
-	psr.nick.t = ((AckBasicSearchParam*)param)->buf;
+	psr.id.t = psr.nick.t = param->buf;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	delete param;
