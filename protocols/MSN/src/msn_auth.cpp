@@ -901,7 +901,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 					else {
 						/* There may be a problem with login, i.e. M$ security measures. Open up browser
 						 * window with same URL in order to let user correct this */
-						if (nlhrReply->resultCode == 200 && nlhrReply->pData && strstr(nlhrReply->pData, "ar/cancel")) {
+						if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 							url.Format("https://login.live.com/oauth20_authorize.srf?%s", pszPostParams);
 							Utils_OpenUrl(url);
 						}
