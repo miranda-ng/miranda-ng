@@ -1,7 +1,5 @@
 {}
 var
-  doTray:bool;
-var
   trayradioparent:HGENMENU;
   trayprotoh:THANDLE;
   trayparent:THANDLE;
@@ -103,10 +101,7 @@ begin
       mi.position  :=i;
       mi.pszService:=@buf;
       mi.szName.w  :=tmp.name;
-      if doTray then
-        tmp.menuitem:=Menu_AddTrayMenuItem(@mi)
-      else
-        tmp.menuitem:=Menu_AddMainMenuItem(@mi);
+      tmp.menuitem:=Menu_AddTrayMenuItem(@mi);
     end;
   end;
 end;
@@ -140,10 +135,7 @@ begin
   mi.flags   :=CMIF_UNICODE;
   mi.szName.w:=cPluginName;
   mi.hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
-  if doTray then
-    trayradioparent:=Menu_AddTrayMenuItem(@mi)
-  else
-    trayradioparent:=Menu_AddMainMenuItem(@mi);
+  trayradioparent:=Menu_AddTrayMenuItem(@mi);
 
   FillChar(mi, sizeof(mi), 0);
   mi.root:=trayradioparent;
@@ -160,10 +152,7 @@ begin
   mi.position  :=0;
   srvtraystop:=CreateServiceFunction('mRadio/TrayProto',@TrayProto);
   mi.pszService:='mRadio/TrayProto';
-  if doTray then
-    trayprotoh:=Menu_AddTrayMenuItem(@mi)
-  else
-    trayprotoh:=Menu_AddMainMenuItem(@mi);
+  trayprotoh:=Menu_AddTrayMenuItem(@mi);
 
   if gVolume<0 then
   begin
@@ -179,10 +168,7 @@ begin
   mi.szName.w  :='Mute';
   mi.pszService:=MS_RADIO_MUTE;
   mi.position  :=1;
-  if doTray then
-    traymute:=Menu_AddTrayMenuItem(@mi)
-  else
-    traymute:=Menu_AddMainMenuItem(@mi);
+  traymute:=Menu_AddTrayMenuItem(@mi);
 
   mi.hIcon:=0;
   mi.flags:=CMIF_UNICODE;
@@ -198,37 +184,25 @@ begin
   mi.position  :=2;
   srvtrayplaypause:=CreateServiceFunction('mRadio/TrayPlayPause',@TrayPlayPause);
   mi.pszService:='mRadio/TrayPlayPause';
-  if doTray then
-    trayplay:=Menu_AddTrayMenuItem(@mi)
-  else
-    trayplay:=Menu_AddTrayMenuItem(@mi);
+  trayplay:=Menu_AddTrayMenuItem(@mi);
 
   mi.szName.w  :='Stop';
   mi.position  :=3;
   srvtraystop:=CreateServiceFunction('mRadio/TrayStop',@TrayStop);
   mi.pszService:='mRadio/TrayStop';
-  if doTray then
-    Menu_AddTrayMenuItem(@mi)
-  else
-    Menu_AddMainMenuItem(@mi);
+  Menu_AddTrayMenuItem(@mi);
 
   mi.szName.w  :='Quick Open';
   mi.position  :=4;
   mi.pszService:=MS_RADIO_QUICKOPEN;
   mi.hIcon     :=IcoLib_GetIcon(IcoBtnOpen,0);
-  if doTray then
-    Menu_AddTrayMenuItem(@mi)
-  else
-    Menu_AddMainMenuItem(@mi);
+  Menu_AddTrayMenuItem(@mi);
 
   mi.hIcon    :=0;
   mi.szName.w :='Play Station';
   mi.position :=1000;
   mi.pszService:=nil;
-  if doTray then
-    trayparent:=Menu_AddTrayMenuItem(@mi)
-  else
-    trayparent:=Menu_AddMainMenuItem(@mi);
+  trayparent:=Menu_AddTrayMenuItem(@mi);
 end;
 
 function TrayPrebuild(wParam:WPARAM;lParam:LPARAM):int; cdecl;
