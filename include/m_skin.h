@@ -93,6 +93,7 @@ extern int hLangpack;
 #define SKINICON_AUTH_REQUEST        248
 #define SKINICON_AUTH_GRANT          249
 #define SKINICON_AUTH_REVOKE         250
+#define SKINICON_OTHER_GROUPADD      251
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin

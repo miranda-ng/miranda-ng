@@ -17,7 +17,6 @@
 #define IDI_OPTIONS                     163
 #define IDI_RENAME                      173
 #define IDI_DELETE                      175
-#define IDR_CONTEXT                     180
 #define IDC_DROP                        183
 #define IDI_SENDEMAIL                   193
 #define IDR_CLISTMENU                   199
@@ -63,7 +62,6 @@
 #define IDD_OPT_SKIN                    251
 #define IDD_OPT_META_CLC                279
 #define IDI_ACCMGR                      281
-#define IDI_NEWGROUP2                   283
 #define IDD_MODERNOPTS                  288
 #define IDC_DEFAULTSUB                  293
 #define IDC_DROPMETA                    295

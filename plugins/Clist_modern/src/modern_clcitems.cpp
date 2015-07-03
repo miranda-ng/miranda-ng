@@ -285,13 +285,14 @@ void cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 	ClearRowByIndexCache();
 }
 
-BOOL CLCItems_IsShowOfflineGroup(ClcGroup* group)
+bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 {
+	if (!group) return false;
+	if (group->hideOffline) return false;
+
 	DWORD groupFlags = 0;
-	if (!group) return FALSE;
-	if (group->hideOffline) return FALSE;
 	pcli->pfnGetGroupName(group->groupId, &groupFlags);
-	return (groupFlags&GROUPF_SHOWOFFLINE) != 0;
+	return (groupFlags & GROUPF_SHOWOFFLINE) != 0;
 }
 
 MCONTACT SaveSelection(ClcData *dat)

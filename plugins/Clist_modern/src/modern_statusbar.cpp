@@ -834,10 +834,10 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					if (a ^ bShift)
 						hMenu = Menu_GetMainMenu();
 					else
-						hMenu = (HMENU)Menu_GetStatusMenu();
+						hMenu = Menu_GetStatusMenu();
 				}
 				else {
-					hMenu = (HMENU)Menu_GetStatusMenu();
+					hMenu = Menu_GetStatusMenu();
 					HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
 					if (hSubMenu)
 						hMenu = hSubMenu;

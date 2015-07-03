@@ -933,17 +933,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			}
 			if (PtInRect(&rc, pt)) {
-				HMENU hMenu;
-				hMenu = GetSubMenu(LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 1);
-				TranslateMenu(hMenu);
-				CheckMenuItem(hMenu, POPUP_HIDEOFFLINE,
-					db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? MF_CHECKED : MF_UNCHECKED);
-				CheckMenuItem(hMenu, POPUP_HIDEOFFLINEROOT, SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) ? MF_CHECKED : MF_UNCHECKED);
-				CheckMenuItem(hMenu, POPUP_HIDEEMPTYGROUPS,
-					GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS ? MF_CHECKED : MF_UNCHECKED);
-				CheckMenuItem(hMenu, POPUP_DISABLEGROUPS, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS ? MF_UNCHECKED : MF_CHECKED);
-				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-				DestroyMenu(hMenu);
+				HMENU hMenu = Menu_BuildGroupMenu();
+				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
+				Menu_DestroyNestedMenu(hMenu);
 				return 0;
 			}
 			GetWindowRect(cli.hwndStatus, &rc);
@@ -952,7 +944,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (db_get_b(NULL, "CLUI", "SBarRightClk", 0))
 					hMenu = Menu_GetMainMenu();
 				else
-					hMenu = (HMENU) Menu_GetStatusMenu();
+					hMenu = Menu_GetStatusMenu();
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				return 0;
 			}

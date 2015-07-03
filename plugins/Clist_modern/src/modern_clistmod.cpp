@@ -47,8 +47,6 @@ int EventsProcessContactDoubleClick(MCONTACT hContact);
 
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 
-void InitTrayMenus(void);
-
 // returns normal icon or combined with status overlay. Needs to be destroyed.
 
 HICON cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status)
@@ -182,8 +180,7 @@ HRESULT CluiLoadModule()
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS, SetUseGroups);
 
 	InitCustomMenus();
-	InitTrayMenus();
-
+	
 	CLUI::InitClui();
 	return S_OK;
 }

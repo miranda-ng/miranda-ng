@@ -75,7 +75,7 @@ typedef INT_PTR(*PSYNCCALLBACKPROC)(WPARAM, LPARAM);
 
 
 /* CLCItems */
-BOOL CLCItems_IsShowOfflineGroup(ClcGroup* group);
+bool CLCItems_IsShowOfflineGroup(ClcGroup* group);
 
 /* CListMod */
 int CListMod_HideWindow();

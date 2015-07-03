@@ -157,6 +157,9 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, Group
 // returns a HMENU identifying the menu.
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildTrayMenu(void);
 
+// destroys a tray menu
+MIR_APP_DLL(void) Menu_DestroyNestedMenu(HMENU hMenu);
+
 // adds a new item to the tray menus
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddTrayMenuItem(TMO_MenuItem *pmi);
 

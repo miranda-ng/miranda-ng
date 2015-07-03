@@ -56,7 +56,6 @@ int MetaStatusChanged(WPARAM, LPARAM);
 
 HRESULT(WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result);
-void DestroyTrayMenu(HMENU hMenu);
 
 // new sources
 #include <crtdbg.h>
@@ -221,11 +220,9 @@ INT_PTR CLUI::Service_ShowMainMenu(WPARAM, LPARAM)
 
 INT_PTR CLUI::Service_ShowStatusMenu(WPARAM, LPARAM)
 {
-	HMENU hMenu = (HMENU)Menu_GetStatusMenu();
-
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 
@@ -255,7 +252,7 @@ HRESULT CLUI::CreateCluiFrames()
 	mii.hSubMenu = Menu_GetMainMenu();
 	SetMenuItemInfo(g_hMenuMain, 0, TRUE, &mii);
 
-	mii.hSubMenu = (HMENU)Menu_GetStatusMenu();
+	mii.hSubMenu = Menu_GetStatusMenu();
 	SetMenuItemInfo(g_hMenuMain, 1, TRUE, &mii);
 
 	CreateCLCWindow(pcli->hwndContactList);
@@ -283,9 +280,6 @@ m_hDwmapiDll(NULL)
 	hFrameContactTree = NULL;
 
 	CLUIServices_LoadModule();
-
-	// Call InitGroup menus before
-	GroupMenus_Init();
 
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, Service_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, Service_ShowStatusMenu);
@@ -2432,7 +2426,7 @@ LRESULT CLUI::OnContextMenu(UINT, WPARAM, LPARAM lParam)
 	if (PtInRect(&rc, pt)) {
 		HMENU hMenu = Menu_BuildGroupMenu();
 		TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, m_hWnd, NULL);
-		DestroyTrayMenu(hMenu);
+		Menu_DestroyNestedMenu(hMenu);
 	}
 	return FALSE;
 }

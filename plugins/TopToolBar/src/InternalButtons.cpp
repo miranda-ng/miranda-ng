@@ -71,11 +71,9 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TTBInternalStatusMenuButt(WPARAM wParam, LPARAM lParam)
 {
-	HMENU hMenu = (HMENU)Menu_GetStatusMenu();
-
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
 	return 0;
 }
 

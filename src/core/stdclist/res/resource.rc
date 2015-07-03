@@ -486,35 +486,6 @@ BEGIN
     END
 END
 
-IDR_CONTEXT MENU 
-BEGIN
-    POPUP "Tray"
-    BEGIN
-        MENUITEM "&Hide/Show",                  ID_TRAY_HIDE
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_TRAY_EXIT
-    END
-    POPUP "Nowhere"
-    BEGIN
-        MENUITEM "&New group",                  POPUP_NEWGROUP
-        MENUITEM SEPARATOR
-        MENUITEM "&Hide offline users",         POPUP_HIDEOFFLINE
-        MENUITEM "Hide &offline users out here", POPUP_HIDEOFFLINEROOT
-        MENUITEM "Hide &empty groups",          POPUP_HIDEEMPTYGROUPS
-        MENUITEM "Disable &groups",             POPUP_DISABLEGROUPS
-        MENUITEM SEPARATOR
-        MENUITEM "Hide Miranda",                POPUP_HIDEMIRANDA
-    END
-    POPUP "Group"
-    BEGIN
-        MENUITEM "&New subgroup",               POPUP_NEWSUBGROUP
-        MENUITEM "&Hide offline users in here", POPUP_GROUPHIDEOFFLINE
-        MENUITEM SEPARATOR
-        MENUITEM "&Rename group",               POPUP_RENAMEGROUP
-        MENUITEM "&Delete group",               POPUP_DELETEGROUP
-    END
-END
-
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

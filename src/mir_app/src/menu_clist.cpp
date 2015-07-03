@@ -59,7 +59,7 @@ bool prochotkey;
 
 HANDLE hPreBuildMainMenuEvent, hStatusModeChangeEvent, hPreBuildContactMenuEvent;
 
-static HMENU hMainMenu, hStatusMenu = 0;
+HMENU hMainMenu, hStatusMenu;
 const int statusModeList[MAX_STATUS_COUNT] =
 {
 	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED,
