@@ -65,7 +65,7 @@ static int lua_AddTrayMenuItem(lua_State *L)
 	CMenuItem mi;
 	MakeMenuItem(L, mi);
 
-	HGENMENU res = (HGENMENU)::CallService("CList/AddTrayMenuItem", 0, (LPARAM)&mi);
+	HGENMENU res = ::Menu_AddTrayMenuItem(&mi);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
