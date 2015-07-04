@@ -1,3 +1,5 @@
+#include <windows.h>
+
 #define IDD_FONTS               102
 #define IDC_STATIC11            3000
 #define IDC_STATIC12            3002
