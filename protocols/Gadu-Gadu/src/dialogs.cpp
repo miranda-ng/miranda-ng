@@ -695,6 +695,7 @@ struct GGDETAILSDLGDATA
 
 ////////////////////////////////////////////////////////////////////////////////
 // Info Page : Proc
+// lParam: 0 if current user (account owner) details, hContact if on list user details
 static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct GGDETAILSDLGDATA *dat = (struct GGDETAILSDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -797,87 +798,90 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_CITY:
 		case IDC_CITYORIGIN:
 		case IDC_BIRTHYEAR:
-			if (!dat || !dat->hContact || !dat->disableUpdate ||
-			    HIWORD(wParam) != EN_CHANGE)
+			if (HIWORD(wParam) == EN_CHANGE) {
+				if (!dat || dat->hContact || dat->disableUpdate)
+					break;
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
 				break;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
-			break;
+			}
 		case IDC_GENDER:
-			if (!dat || !dat->hContact || !dat->disableUpdate ||
-			    HIWORD(wParam) != CBN_SELCHANGE)
-				break;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
-			break;
-		case IDC_SAVE: // Save user data
-			if (!dat || !dat->hContact || !dat->disableUpdate ||
-			    HIWORD(wParam) != BN_CLICKED)
-				break;
-			{
-			TCHAR text[256];
-			GGPROTO *gg = dat->gg;
-
-			if (!gg->isonline())
-			{
-				MessageBox(NULL,
-					TranslateT("You have to be logged in before you can change your details."),
-					gg->m_tszUserName, MB_OK | MB_ICONSTOP);
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				if (!dat || dat->hContact || dat->disableUpdate)
+					break;
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
 				break;
 			}
+		case IDC_SAVE: // Save current user data
+			if (HIWORD(wParam) == BN_CLICKED) {
+				if (!dat || dat->hContact || dat->disableUpdate)
+					break;
+				{
+				TCHAR text[256];
+				GGPROTO *gg = dat->gg;
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), FALSE);
+				if (!gg->isonline())
+				{
+					MessageBox(NULL,
+						TranslateT("You have to be logged in before you can change your details."),
+						gg->m_tszUserName, MB_OK | MB_ICONSTOP);
+					break;
+				}
 
-			gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), FALSE);
 
-			GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, T2Utf(text));
+				gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
 
-			GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, T2Utf(text));
+				GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, T2Utf(text));
+				GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, T2Utf(text));
 
-			GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_CITY, T2Utf(text));
+				GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, T2Utf(text));
 
-			// Gadu-Gadu Female <-> Male
-			switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
-			case 1:
-				gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_SET_FEMALE);
+				GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_CITY, T2Utf(text));
+
+				// Gadu-Gadu Female <-> Male
+				switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
+				case 1:
+					gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_SET_FEMALE);
+					break;
+				case 2:
+					gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_SET_MALE);
+					break;
+				default:
+					gg_pubdir50_add(req, GG_PUBDIR50_GENDER, "");
+				}
+
+				GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, T2Utf(text));
+
+				GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, T2Utf(text));
+
+				GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, _countof(text));
+				if (mir_tstrlen(text))
+					gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, T2Utf(text));
+
+				// Run update
+				gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
+				gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_detailsdlgproc", 35, "sess_mutex", 1);
+				gg_pubdir50(gg->sess, req);
+				gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 35, 1, "sess_mutex", 1);
+				dat->updating = TRUE;
+
+				gg_pubdir50_free(req);
+				}
 				break;
-			case 2:
-				gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_SET_MALE);
-				break;
-			default:
-				gg_pubdir50_add(req, GG_PUBDIR50_GENDER, "");
 			}
-
-			GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, T2Utf(text));
-
-			GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, T2Utf(text));
-
-			GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, _countof(text));
-			if (mir_tstrlen(text))
-				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, T2Utf(text));
-
-			// Run update
-			gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
-			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_detailsdlgproc", 35, "sess_mutex", 1);
-			gg_pubdir50(gg->sess, req);
-			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 35, 1, "sess_mutex", 1);
-			dat->updating = TRUE;
-
-			gg_pubdir50_free(req);
-			}
-			break;
 		}
 		break;
 
