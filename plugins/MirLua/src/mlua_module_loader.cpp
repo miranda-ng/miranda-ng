@@ -26,6 +26,7 @@ void CLuaModuleLoader::LoadModules()
 	PreloadModule(MLUA_POPUP, luaopen_m_popup);	
 	PreloadModule(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 	PreloadModule(MLUA_VARIABLES, luaopen_m_variables);
+	PreloadModule(MLUA_WINDOWS, luaopen_m_windows);
 }
 
 void CLuaModuleLoader::Load(lua_State *L)
