@@ -63,27 +63,17 @@ class CGenMenuOptionsPage : public CDlgBase
 	int iInitMenuValue;
 	bool bRebuild;
 
-	void SaveTree()
+	TCHAR idstr[100];
+
+	void SaveTreeInternal(HTREEITEM hRootItem, const char *szModule)
 	{
-		int MenuObjectId;
-		if (!GetCurrentMenuObjectID(MenuObjectId))
-			return;
-
-		TCHAR idstr[100];
-
 		TVITEMEX tvi;
-		tvi.hItem = m_menuItems.GetRoot();
+		tvi.hItem = hRootItem;
 		tvi.cchTextMax = _countof(idstr);
 		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
 		tvi.pszText = idstr;
 
 		int count = 0;
-		TIntMenuObject *pmo = GetMenuObjbyId(MenuObjectId);
-		if (pmo == NULL)
-			return;
-
-		char MenuNameItems[256];
-		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
 		int runtimepos = 100;
 
 		while (tvi.hItem != NULL) {
@@ -94,17 +84,19 @@ class CGenMenuOptionsPage : public CDlgBase
 				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
 				mir_snprintf(DBString, _countof(DBString), "%s_visible", menuItemName);
-				db_set_b(NULL, MenuNameItems, DBString, tvi.iImage != 0);
+				db_set_b(NULL, szModule, DBString, tvi.iImage != 0);
 
 				mir_snprintf(DBString, _countof(DBString), "%s_pos", menuItemName);
-				db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
+				db_set_dw(NULL, szModule, DBString, runtimepos);
 
 				mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
-				if (iod->name != NULL && iod->defname != NULL &&
-					mir_tstrcmp(iod->name, iod->defname) != 0)
-					db_set_ts(NULL, MenuNameItems, DBString, iod->name);
+				if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
+					db_set_ts(NULL, szModule, DBString, iod->name);
 				else
-					db_unset(NULL, MenuNameItems, DBString);
+					db_unset(NULL, szModule, DBString);
+
+				if (iod->pimi->submenu.first != NULL)
+					SaveTreeInternal(m_menuItems.GetChild(tvi.hItem), szModule);
 
 				runtimepos += 100;
 			}
@@ -115,6 +107,22 @@ class CGenMenuOptionsPage : public CDlgBase
 			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);
 			count++;
 		}
+	}
+
+	void SaveTree()
+	{
+		int MenuObjectId;
+		if (!GetCurrentMenuObjectID(MenuObjectId))
+			return;
+
+		TIntMenuObject *pmo = GetMenuObjbyId(MenuObjectId);
+		if (pmo == NULL)
+			return;
+
+		char szModule[256];
+		mir_snprintf(szModule, _countof(szModule), "%s_Items", pmo->pszName);
+		CallService(MS_DB_MODULE_DELETE, NULL, (LPARAM)szModule);
+		SaveTreeInternal(m_menuItems.GetRoot(), szModule);
 	}
 
 	void FreeTreeData()
@@ -235,14 +243,14 @@ class CGenMenuOptionsPage : public CDlgBase
 		if (pmo == NULL || pmo->m_items.first == NULL)
 			return false;
 
-		char MenuNameItems[256];
-		mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
+		char szModule[256];
+		mir_snprintf(szModule, _countof(szModule), "%s_Items", pmo->pszName);
 
 		bRebuild = true;
 		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
 		m_menuItems.DeleteAllItems();
 
-		BuildTreeInternal(MenuNameItems, bReread, pmo->m_items.first, NULL);
+		BuildTreeInternal(szModule, bReread, pmo->m_items.first, NULL);
 
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
 		bRebuild = false;
