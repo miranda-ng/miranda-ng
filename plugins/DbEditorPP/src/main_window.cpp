@@ -130,7 +130,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					else if ((mtis->type == CONTACT) && hContact) {
 						if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
 							TCHAR str[MSG_SIZE];
-							mir_sntprintf(text, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
+							mir_sntprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 							if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
 						}
