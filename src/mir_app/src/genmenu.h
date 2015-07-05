@@ -47,7 +47,6 @@ struct TMO_IntMenuItem
 	int          iCommand;
 	int          iconId;          // icon index in the section's image list
 	TMO_MenuItem mi;              // user-defined data
-	BOOL         OverrideShow;
 	char*        UniqName;        // unique name
 	TCHAR*       CustomName;
 	HANDLE       hIcolibItem;     // handle of iconlib item

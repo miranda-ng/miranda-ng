@@ -713,7 +713,6 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->iCommand = GetNextObjectMenuItemId();
 	p->mi = *pmi;
 	p->iconId = -1;
-	p->OverrideShow = TRUE;
 	p->originalPosition = pmi->position;
 	p->pUserData = pUserData;
 
@@ -862,14 +861,14 @@ void GetMenuItemName(TMO_IntMenuItem *pMenuItem, char* pszDest, size_t cbDestSiz
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.name.t);
 }
 
-static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, INT_PTR iRootLevel, WPARAM wParam, LPARAM lParam)
+static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM wParam, LPARAM lParam)
 {
 	if (pRootMenu == NULL)
 		return NULL;
 
 	TIntMenuObject *pmo = pRootMenu->parent;
 
-	if (iRootLevel == 0)
+	if (pRootMenu->mi.root == NULL)
 		while (GetMenuItemCount(hMenu) > 0)
 			DeleteMenu(hMenu, 0, MF_BYPOSITION);
 
@@ -884,53 +883,40 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, INT_PTR
 			CheckParam.lParam = lParam;
 			CheckParam.MenuItemOwnerData = pmi->pUserData;
 			CheckParam.MenuItemHandle = pmi;
-			if (CallService(pmo->CheckService, (WPARAM)&CheckParam, 0) == FALSE)
+			if (CallService(pmo->CheckService, (WPARAM)&CheckParam, 0) == false)
 				continue;
 		}
 
-		/**************************************/
-		if (iRootLevel == 0 && mi->root == NULL && pmo->m_bUseUserDefinedItems) {
-			char DBString[256];
-			DBVARIANT dbv = { 0 };
-			int pos;
-			char MenuNameItems[256];
-			mir_snprintf(MenuNameItems, _countof(MenuNameItems), "%s_Items", pmo->pszName);
+		// if we have to check & apply database settings
+		if (!(mi->flags & CMIF_SYSTEM) && pmo->m_bUseUserDefinedItems) {
+			char szModule[256], szSetting[256];
+			mir_snprintf(szModule, "%s_Items", pmo->pszName);
 
 			char menuItemName[256];
 			GetMenuItemName(pmi, menuItemName, sizeof(menuItemName));
 
 			// check if it visible
-			mir_snprintf(DBString, _countof(DBString), "%s_visible", menuItemName);
-			if (db_get_b(NULL, MenuNameItems, DBString, -1) == -1)
-				db_set_b(NULL, MenuNameItems, DBString, 1);
-
-			pmi->OverrideShow = TRUE;
-			if (!db_get_b(NULL, MenuNameItems, DBString, 1)) {
-				pmi->OverrideShow = FALSE;
-				continue;  // find out what value to return if not getting added
-			}
+			mir_snprintf(szSetting, "%s_visible", menuItemName);
+			if (!db_get_b(NULL, szModule, szSetting, 1))
+				continue;
 
 			// mi.name.t
-			mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
-			if (!db_get_ts(NULL, MenuNameItems, DBString, &dbv)) {
-				if (mir_tstrlen(dbv.ptszVal) > 0)
-					replaceStrT(pmi->CustomName, dbv.ptszVal);
-				db_free(&dbv);
+			mir_snprintf(szSetting, "%s_name", menuItemName);
+			TCHAR *tszCustomName = db_get_tsa(NULL, szModule, szSetting);
+			if (tszCustomName != NULL) {
+				mir_free(pmi->CustomName);
+				pmi->CustomName = tszCustomName;
 			}
 
-			mir_snprintf(DBString, _countof(DBString), "%s_pos", menuItemName);
-			if ((pos = db_get_dw(NULL, MenuNameItems, DBString, -1)) == -1) {
-				db_set_dw(NULL, MenuNameItems, DBString, mi->position);
+			mir_snprintf(szSetting, "%s_pos", menuItemName);
+			int pos = db_get_dw(NULL, szModule, szSetting, -1);
+			if (pos == -1) {
+				db_set_dw(NULL, szModule, szSetting, mi->position);
 				if (pmi->submenu.first)
 					mi->position = 0;
 			}
 			else mi->position = pos;
 		}
-
-		/**************************************/
-
-		if (iRootLevel != (INT_PTR)pmi->mi.root)
-			continue;
 
 		int i = WhereToPlace(hMenu, mi);
 
@@ -970,7 +956,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, INT_PTR
 #endif
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
-			BuildRecursiveMenu(mii.hSubMenu, pmi->submenu.first, LPARAM(pmi), wParam, lParam);
+			BuildRecursiveMenu(mii.hSubMenu, pmi->submenu.first, wParam, lParam);
 		}
 		else {
 			mii.wID = pmi->iCommand;
@@ -1014,7 +1000,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_Build(HMENU parent, int hMenuObject, WPARAM wPa
 		// DumpMenuItem(pmo->m_items.first);
 	#endif
 
-	return BuildRecursiveMenu(parent, pmo->m_items.first, 0, wParam, lParam);
+	return BuildRecursiveMenu(parent, pmo->m_items.first, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
