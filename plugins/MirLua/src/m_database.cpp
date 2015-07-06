@@ -98,8 +98,17 @@ static int lua_GetEvent(lua_State *L)
 	lua_pushstring(L, "Type");
 	lua_pushinteger(L, dbei.eventType);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Text");
-	lua_pushlstring(L, (const char*)dbei.pBlob, dbei.cbBlob);
+	lua_pushstring(L, "Length");
+	lua_pushnumber(L, dbei.cbBlob);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Blob");
+	lua_newtable(L);
+	for (DWORD i = 0; i < dbei.cbBlob; i++)
+	{
+		lua_pushinteger(L, i + 1);
+		lua_pushinteger(L, dbei.pBlob[i]);
+		lua_settable(L, -3);
+	}
 	lua_settable(L, -3);
 
 	mir_free(dbei.pBlob);
