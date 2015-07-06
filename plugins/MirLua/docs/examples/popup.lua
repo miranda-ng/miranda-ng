@@ -4,16 +4,14 @@ local popup = require('m_popup')
 local clist = require('m_clist')
 
 m.CreateServiceFunction('MirLua/ShowPopup', function()
-    local popupData =
-    {
-      Title = 'Title',
-      Text = 'Popup content',
-      hContact = 0,
-      Flags = 1
-    }
-    popup.AddPopup(popupData)
-  end)
-
-m.OnModulesLoaded(function()
-  clist.AddMainMenuItem({ Name = "Show lua popup", Service = 'MirLua/ShowPopup' })
+  local popupData =
+  {
+    Title = 'Title',
+    Text = 'Popup content',
+    hContact = 0,
+    Flags = 1
+  }
+  popup.AddPopup(popupData)
 end)
+
+clist.AddMainMenuItem({ Name = "Show lua popup", Service = 'MirLua/ShowPopup' })

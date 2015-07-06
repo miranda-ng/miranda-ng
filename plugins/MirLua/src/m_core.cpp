@@ -127,46 +127,6 @@ static int lua_UnhookEvent(lua_State *L)
 	return 1;
 }
 
-static int lua_OnModulesLoaded(lua_State *L)
-{
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-	
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	HANDLE res = ::HookEventObjParam(ME_SYSTEM_MODULESLOADED, CMLua::HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
-static int lua_OnPreShutdown(lua_State *L)
-{
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam(ME_SYSTEM_PRESHUTDOWN, CMLua::HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
 static INT_PTR ServiceFunctionObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
@@ -278,8 +238,6 @@ luaL_Reg coreApi[] =
 
 	{ "HookEvent", lua_HookEvent },
 	{ "UnhookEvent", lua_UnhookEvent },
-	{ "OnModulesLoaded", lua_OnModulesLoaded },
-	{ "OnPreShutdown", lua_OnPreShutdown },
 
 	{ "CreateServiceFunction", lua_CreateServiceFunction },
 	{ "DestroyServiceFunction", lua_DestroyServiceFunction },

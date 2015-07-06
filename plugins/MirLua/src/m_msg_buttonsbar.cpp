@@ -84,26 +84,6 @@ static int lua_RemoveButton(lua_State *L)
 	return 1;
 }
 
-static int lua_OnMsgToolBarLoaded(lua_State *L)
-{
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam(ME_MSG_TOOLBARLOADED, CMLua::HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
 int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
@@ -162,8 +142,7 @@ static luaL_Reg msgbuttinsbarApi[] =
 	{ "AddButton", lua_AddButton },
 	{ "ModifyButton", lua_ModifyButton },
 	{ "RemoveButton", lua_RemoveButton },
-	
-	{ "OnMsgToolBarLoaded", lua_OnMsgToolBarLoaded },
+
 	{ "OnMsgToolBarButtonPressed", lua_OnMsgToolBarButtonPressed },
 
 	{ NULL, NULL }

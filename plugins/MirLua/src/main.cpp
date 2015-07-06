@@ -42,6 +42,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
+	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
+	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
+
+	g_mLua = new CMLua();
+
 	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
 
 	return 0;
@@ -53,17 +58,12 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
-	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
-
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = _T(MODULE);
 	nlu.szSettingsModule = MODULE;
 	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	g_mLua = new CMLua();
 
 	return 0;
 }
