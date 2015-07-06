@@ -145,7 +145,7 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 
 	DWORD dwStyle = GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE);
 	Menu_SetChecked(hHideEmptyGroupsMenuItem, (dwStyle & CLS_HIDEEMPTYGROUPS) != 0);
-	Menu_SetChecked(hDisableGroupsMenuItem, (dwStyle & CLS_USEGROUPS) != 0);
+	Menu_SetChecked(hDisableGroupsMenuItem, (dwStyle & CLS_USEGROUPS) == 0);
 	return 0;
 }
 
