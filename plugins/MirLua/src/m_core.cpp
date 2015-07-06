@@ -1,54 +1,5 @@
 #include "stdafx.h"
 
-void KillModuleEventHooks()
-{
-	while (Hooks.getCount())
-	{
-		HANDLE hHook = Hooks[0];
-		Hooks.remove(0);
-		UnhookEvent(hHook);
-	}
-
-	while (Events.getCount())
-	{
-		HANDLE hEvent = Events[0];
-		Events.remove(hEvent);
-		DestroyHookableEvent(hEvent);
-	}
-
-	while (HookRefs.getCount())
-	{
-		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
-		if (param != NULL)
-		{
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			HookRefs.remove(0);
-			delete param;
-		}
-	}
-}
-
-void KillModuleServices()
-{
-	while (Services.getCount())
-	{
-		HANDLE hService = Services[0];
-		Services.remove(0);
-		DestroyServiceFunction(hService);
-	}
-
-	while (ServiceRefs.getCount())
-	{
-		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
-		if (param != NULL)
-		{
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			ServiceRefs.remove(0);
-			delete param;
-		}
-	}
-}
-
 static int lua_CreateHookableEvent(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
@@ -56,7 +7,7 @@ static int lua_CreateHookableEvent(lua_State *L)
 	HANDLE res = ::CreateHookableEvent(name);
 	lua_pushlightuserdata(L, res);
 
-	Events.insert(res);
+	CMLua::Events.insert(res);
 
 	return 1;
 }
@@ -65,7 +16,7 @@ static int lua_DestroyHookableEvent(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
 
-	Events.remove(hEvent);
+	CMLua::Events.remove(hEvent);
 
 	int res = ::DestroyHookableEvent(hEvent);
 	lua_pushinteger(L, res);
@@ -101,8 +52,8 @@ static int lua_HookEvent(lua_State *L)
 	HANDLE res = ::HookEventObjParam(name, CMLua::HookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
 }
@@ -111,13 +62,13 @@ static int lua_UnhookEvent(lua_State *L)
 {
 	HANDLE hEvent = (HANDLE)lua_touserdata(L, 1);
 
-	Hooks.remove(hEvent);
+	CMLua::Hooks.remove(hEvent);
 
-	HandleRefParam *param = (HandleRefParam*)HookRefs.find(hEvent);
+	HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(hEvent);
 	if (param != NULL)
 	{
 		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-		HookRefs.remove(param);
+		CMLua::HookRefs.remove(param);
 		delete param;
 	}
 
@@ -161,8 +112,8 @@ static int lua_CreateServiceFunction(lua_State *L)
 	HANDLE res = ::CreateServiceFunctionObjParam(name, ServiceFunctionObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	Services.insert(res);
-	ServiceRefs.insert(new HandleRefParam(L, res, ref));
+	CMLua::Services.insert(res);
+	CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
 }
@@ -171,13 +122,13 @@ static int lua_DestroyServiceFunction(lua_State *L)
 {
 	HANDLE hService = (HANDLE)lua_touserdata(L, 1);
 
-	Services.remove(hService);
+	CMLua::Services.remove(hService);
 
-	HandleRefParam *param = (HandleRefParam*)ServiceRefs.find(hService);
+	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(hService);
 	if (param != NULL)
 	{
 		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-		ServiceRefs.remove(param);
+		CMLua::ServiceRefs.remove(param);
 		delete param;
 	}
 
@@ -247,6 +198,9 @@ luaL_Reg coreApi[] =
 
 	{ "Translate", lua_Translate },
 	{ "ReplaceVariables", lua_ReplaceVariables },
+
+	{ "OnScriptLoaded", CMLua::OnScriptLoaded },
+	{ "OnScriptUnload", CMLua::OnScriptUnload },
 
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },
