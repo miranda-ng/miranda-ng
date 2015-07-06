@@ -2,16 +2,107 @@
 
 static int lua_FindFirstContact(lua_State *L)
 {
-	MCONTACT hContact = db_find_first(lua_tostring(L, 1));
-	lua_pushinteger(L, hContact);
+	const char *szProto = lua_tostring(L, 1);
+
+	MCONTACT res = db_find_first(szProto);
+	lua_pushinteger(L, res);
 
 	return 1;
 }
 
 static int lua_FindNextContact(lua_State *L)
 {
-	MCONTACT hContact = db_find_next(luaL_checkinteger(L, 1), lua_tostring(L, 2));
-	lua_pushinteger(L, hContact);
+	MCONTACT hContact = lua_tointeger(L, 1);
+	const char *szProto = lua_tostring(L, 2);
+
+	MCONTACT res = db_find_next(hContact, szProto);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetEventCount(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+
+	int res = ::db_event_count(hContact);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetFirstEvent(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+
+	MEVENT res = ::db_event_first(hContact);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetPrevEvent(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	MEVENT hEvent = lua_tointeger(L, 2);
+
+	MEVENT res = ::db_event_prev(hContact, hEvent);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetNextEvent(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	MEVENT hEvent = lua_tointeger(L, 2);
+
+	MEVENT res = ::db_event_next(hContact, hEvent);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetLastEvent(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+
+	MEVENT res = ::db_event_last(hContact);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_GetEvent(lua_State *L)
+{
+	MEVENT hEvent = lua_tointeger(L, 1);
+
+	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	dbei.cbBlob = db_event_getBlobSize(hEvent);
+	dbei.pBlob = (PBYTE)mir_calloc(dbei.cbBlob);
+
+	int res = ::db_event_get(hEvent, &dbei);
+	if (res)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_newtable(L);
+	lua_pushstring(L, "Module");
+	lua_pushstring(L, ptrA(mir_utf8encode(dbei.szModule)));
+	lua_settable(L, -3);
+	lua_pushstring(L, "Timestamp");
+	lua_pushnumber(L, dbei.timestamp);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Type");
+	lua_pushinteger(L, dbei.eventType);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Text");
+	lua_pushlstring(L, (const char*)dbei.pBlob, dbei.cbBlob);
+	lua_settable(L, -3);
+
+	mir_free(dbei.pBlob);
 
 	return 1;
 }
@@ -38,7 +129,7 @@ static int lua_WriteContactSetting(lua_State *L)
 		dbv.pszVal = (char*)lua_tostring(L, 4);
 		dbv.type = DBVT_UTF8;
 		break;
-	
+
 	default:
 		lua_pushinteger(L, 1);
 		return 1;
@@ -122,6 +213,15 @@ static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
 	{ "FindNextContact", lua_FindNextContact },
+
+	{ "GetEventCount", lua_GetEventCount },
+
+	{ "GetFirstEvent", lua_GetFirstEvent },
+	{ "GetPrevEvent", lua_GetPrevEvent },
+	{ "GetNextEvent", lua_GetNextEvent },
+	{ "GetLastEvent", lua_GetLastEvent },
+
+	{ "GetEvent", lua_GetEvent },
 
 	{ "WriteContactSetting", lua_WriteContactSetting },
 	{ "GetContactSetting", lua_GetContactSetting },
