@@ -60,7 +60,8 @@ extern HANDLE hNetlib;
 	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
 
-#include "m_core.h"
+#define MLUA_CORE	"m"
+LUAMOD_API int (luaopen_m)(lua_State *L);
 
 #define MLUA_CLIST	"m_clist"
 LUAMOD_API int (luaopen_m_clist)(lua_State *L);

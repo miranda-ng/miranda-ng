@@ -131,8 +131,8 @@ static int lua_OnMsgToolBarButtonPressed(lua_State *L)
 	HANDLE res = ::HookEventObjParam(ME_MSG_BUTTONPRESSED, ButtonPressedHookEventObjParam, L, ref);
 	lua_pushlightuserdata(L, res);
 
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	return 1;
 }
