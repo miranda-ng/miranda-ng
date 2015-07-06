@@ -79,12 +79,13 @@ std::vector<twitter_user> twitter::get_friends()
 		throw std::exception("unable to parse response");
 
 	for (auto it = root.begin(); it != root.end(); ++it) {
+		const JSONNode &one = *it;
 		twitter_user user;
-		user.username = (*it)["screen_name"].as_string();
-		user.real_name = (*it)["name"].as_string();
-		user.profile_image_url = (*it)["profile_image_url"].as_string();
+		user.username = one["screen_name"].as_string();
+		user.real_name = one["name"].as_string();
+		user.profile_image_url = one["profile_image_url"].as_string();
 
-		const JSONNode &pStatus = (*it)["status"];
+		const JSONNode &pStatus = one["status"];
 		if (pStatus) {
 			user.status.text = pStatus["text"].as_string();
 			user.status.id = str2int(pStatus["id"].as_string());
@@ -219,21 +220,22 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 
 	const JSONNode &pNodes = root.as_array();
 	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
-		const JSONNode &pUser = (*it)["user"];
+		const JSONNode &one = *it,
+			&pUser = one["user"];
 
 		twitter_user u;
 		u.username = pUser["screen_name"].as_string();
 		u.profile_image_url = pUser["profile_image_url"].as_string();
 
 		// the tweet will be truncated unless we take action.  i hate you twitter API
-		const JSONNode &pStatus = (*it)["retweeted_status"];
+		const JSONNode &pStatus = one["retweeted_status"];
 		if (pStatus) {
 			// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
 			// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
 			// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
 			// the retweet_count variable to work :(
-			const JSONNode &pRetweet = pStatus["retweeted_status"];
-			const JSONNode &pUser2 = pRetweet["user"];
+			const JSONNode &pRetweet = one["retweeted_status"],
+				&pUser2 = pRetweet["user"];
 
 			std::string retweeteesName = pUser2["screen_name"].as_string(); // the user that is being retweeted
 			std::string retweetText = pRetweet["text"].as_string(); // their tweet in all it's untruncated glory
@@ -246,7 +248,7 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 		}
 		else {
 			// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
-			std::string rawText = (*it)["text"].as_string();
+			std::string rawText = one["text"].as_string();
 			// ok here i'm trying some way to fix all the "&amp;" things that are showing up
 			// i dunno why it's happening, so i'll just find and replace each occurance :/
 			for (size_t pos = 0; (pos = rawText.find("&amp;", pos)) != std::string::npos; pos++)
@@ -255,8 +257,8 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 			u.status.text = rawText;
 		}
 
-		u.status.id = str2int((*it)["id"].as_string());
-		std::string timestr = (*it)["created_at"].as_string();
+		u.status.id = str2int(one["id"].as_string());
+		std::string timestr = one["created_at"].as_string();
 		u.status.time = parse_time(timestr);
 
 		statuses.push_back(u);
@@ -285,11 +287,12 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 	const JSONNode &pNodes = root.as_array();
 	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
 		twitter_user u;
-		u.username = (*it)["sender_screen_name"].as_string();
+		const JSONNode &one = *it;
+		u.username = one["sender_screen_name"].as_string();
 
-		u.status.text = (*it)["text"].as_string();
-		u.status.id = str2int((*it)["id"].as_string());
-		std::string timestr = (*it)["created_at"].as_string();
+		u.status.text = one["text"].as_string();
+		u.status.id = str2int(one["id"].as_string());
+		std::string timestr = one["created_at"].as_string();
 		u.status.time = parse_time(timestr);
 		messages.push_back(u);
 	}
