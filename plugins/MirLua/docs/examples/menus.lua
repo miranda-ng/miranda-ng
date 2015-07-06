@@ -44,12 +44,10 @@ local hMenuItem = clist.AddContactMenuItem(menuItem)
 genmenu.RemoveMenuItem(hMenuItem)
 
 --- Add root menu item
-local CMIF_ROOTHANDLE = 384
-local hRoot = clist.AddMainMenuItem({ Name = "Main menu root", Flags = CMIF_ROOTHANDLE })
+local hRoot = clist.AddMainMenuItem({ Name = "Main menu root" })
 
 --- Add child menu item
 menuItem.Name = "Main menu child wierd"
-menuItem.Flags = CMIF_ROOTHANDLE
 menuItem.Service = 'Srv/SMI'
 menuItem.Parent = hRoot
 local hChild = clist.AddMainMenuItem(menuItem)
