@@ -1,6 +1,0 @@
-﻿[T-Showers Early]
-[Rain / Freezing Rain]
-[Heavy T-Storms]
-[Freezing Drizzle / Windy]
-[Sand]
-[Light Rain / Fog]
