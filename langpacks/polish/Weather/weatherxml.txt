@@ -46,6 +46,8 @@ wschodnio-północny wschód
 wschodnio-południowy wschód
 [E]
 wschód
+[Fair / Windy]
+Pogodnie / Wietrznie
 [Fair And Windy]
 Jasno i wietrznie
 [Fair]
@@ -92,6 +94,8 @@ Prognoza dzień 9
 Zmienna aktualizacji prognozy
 [Forecast Update]
 Aktualizacja prognozy
+[Freezing Drizzle / Windy]
+marznąca mrzawka / wietrznie
 [Freezing Rain / Windy]
 Deszcz marznący / Wietrznie
 [Full Moon]
@@ -110,6 +114,8 @@ Duże opady śniegu oraz wietrznie
 Intensywne opady śniegu
 [Heavy Snow]
 Ciężkie opady śniegu
+[Heavy T-Storms]
+silne burze z piorunami
 [Isolated T-Storms / Wind]
 Izolowane Burze / Wiatr
 [Isolated T-Storms]
@@ -130,6 +136,8 @@ Lekka mżawka
 Delikatny Marznący Deszcz / Mgła
 [Light Freezing Rain / Windy]
 Delikatny Marznący Deszcz / Wietrznie
+[Light Rain / Fog]
+delikatny deszcz / mgła
 [Light Rain / Wind Early]
 Deszczyk / Wiatr wcześnie
 [Light Rain / Wind]
@@ -152,6 +160,8 @@ Delikatne opady z wyładowaniami atmosferycznymi
 Lekki deszcz
 [Light Showers Rain]
 Lekkie przelotne opady deszczu
+[Light Snow / Fog]
+Przelotne Opady Śniegu / Mgła
 [Light Snow And Windy]
 Lekki śnieżek i wietrznie
 [Light Snow Early]
@@ -222,6 +232,8 @@ Częściowe zachmurzenie
 Małe zachmurzenie
 [Pm Light Rain]
 Popołudniu delikatne opady
+[Pm Rain / Snow]
+Popołudniu Deszcz / Śnieg
 [Pm Rain / Wind]
 popołudniu Deszcz / Wiatr
 [Pm Rain]
@@ -240,8 +252,12 @@ Popołudniu burze z piorunami
 Tendencja
 [Rain / Freezing Rain / Wind]
 Deszcz / Deszcz Marznący / Wiatr
+[Rain / Freezing Rain]
+deszcz / marznący deszcz
 [Rain / Snow / Wind]
 Deszcz/Śnieg/Wiatr
+[Rain / Snow Early]
+Deszcz / Śnieg Wcześnie
 [Rain / Snow Late]
 Deszcz / Śnieg Późno
 [Rain / Snow Showers Early]
@@ -280,6 +296,8 @@ południowo-południowy zachód
 południowy zachód
 [S]
 południe
+[Sand]
+piasek
 [Scattered Showers]
 Rozsiane opady deszczu
 [Scattered Snow Showers]
@@ -296,6 +314,8 @@ Ulewy / Wiatr Późno
 Przelotne opady/Wiatr
 [Showers Early]
 Wcześnie przelotne opady
+[Showers In The Vicinity]
+Ulewy W Okolicy
 [Showers Late]
 Późno przelotne opady
 [Showers Rain]
@@ -342,6 +362,8 @@ Słonecznie / Wiatr
 Słonecznie / Wietrznie
 [Sunny]
 Słonecznie
+[T-Showers Early]
+ulewy i burze / wcześnie
 [T-Storm]
 Burza z piorunami
 [T-Storms Early]
@@ -394,25 +416,3 @@ padający
 Wschodzące
 [steady]
 Stały
-[Light Snow / Fog]
-Przelotne Opady Śniegu / Mgła
-[Showers In The Vicinity]
-Ulewy W Okolicy
-[Rain / Snow Early]
-Deszcz / Śnieg Wcześnie
-[Pm Rain / Snow]
-Popołudniu Deszcz / Śnieg
-[Fair / Windy]
-Pogodnie / Wietrznie
-[T-Showers Early]
-
-[Rain / Freezing Rain]
-
-[Heavy T-Storms]
-
-[Freezing Drizzle / Windy]
-
-[Sand]
-
-[Light Rain / Fog]
-
