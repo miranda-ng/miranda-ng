@@ -38,10 +38,8 @@ WPARAM luaM_towparam(lua_State *L, int idx)
 	case LUA_TNUMBER:
 		wParam = lua_tonumber(L, idx);
 		break;
-	case LUA_TSTRING:
-		wParam = (LPARAM)mir_utf8decode((char*)lua_tostring(L, idx), NULL);
-		break;
 	case LUA_TUSERDATA:
+	case LUA_TLIGHTUSERDATA:
 		wParam = (WPARAM)lua_touserdata(L, idx);
 		break;
 	}
@@ -59,10 +57,8 @@ LPARAM luaM_tolparam(lua_State *L, int idx)
 	case LUA_TNUMBER:
 		lParam = lua_tonumber(L, idx);
 		break;
-	case LUA_TSTRING:
-		lParam = (LPARAM)mir_utf8decode((char*)lua_tostring(L, idx), NULL);
-		break;
 	case LUA_TUSERDATA:
+	case LUA_TLIGHTUSERDATA:
 		lParam = (LPARAM)lua_touserdata(L, idx);
 		break;
 	}
