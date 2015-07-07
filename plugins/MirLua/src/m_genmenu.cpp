@@ -75,7 +75,7 @@ static int lua_ModifyMenuItem(lua_State *L)
 static int lua_ShowMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	bool isShow = lua_toboolean(L, 2) != 0;
+	bool isShow = luaM_toboolean(L, 2);
 
 	::Menu_ShowItem(hMenuItem, isShow);
 
@@ -85,7 +85,7 @@ static int lua_ShowMenuItem(lua_State *L)
 static int lua_EnableMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	bool isEnable = lua_toboolean(L, 2) != 0;
+	bool isEnable = luaM_toboolean(L, 2);
 
 	::Menu_EnableItem(hMenuItem, isEnable);
 
@@ -95,7 +95,7 @@ static int lua_EnableMenuItem(lua_State *L)
 static int lua_CheckMenuItem(lua_State *L)
 {
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	bool isChecked = lua_toboolean(L, 2) != 0;
+	bool isChecked = luaM_toboolean(L, 2);
 
 	::Menu_SetChecked(hMenuItem, isChecked);
 
