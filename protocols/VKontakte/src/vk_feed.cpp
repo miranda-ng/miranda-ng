@@ -154,7 +154,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	if (!tszText.IsEmpty())
 		tszText += _T("\n");
 
-	debugLog(_T("CVkProto::GetVkNewsItem %d %d %s <%s>"), iSourceId, iPostId, vkNewsItem->tszType, tszText);
+	debugLog(_T("CVkProto::GetVkNewsItem %d %d %s"), iSourceId, iPostId, vkNewsItem->tszType);
 
 	if (vkNewsItem->tszType == _T("photo_tag")) {
 		bPostLink = false;
@@ -229,7 +229,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), m_iBBCForNews, vkbbcUrl, vkNewsItem->tszLink);
 	}
 
-	debugLog(_T("CVkProto::GetVkNewsItem %d %d <%s> <%s>"), iSourceId, iPostId, vkNewsItem->tszText, tszText);
+	debugLog(_T("CVkProto::GetVkNewsItem %d %d <\n%s\n>"), iSourceId, iPostId, vkNewsItem->tszText);
 
 	return vkNewsItem;
 }
@@ -324,9 +324,9 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle, m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink));
 	}
 	else if (vkParentType == vkPost) {
-		LONG iOwnerId = jnParent["from_id"].as_int();
+		LONG iToId = jnParent["to_id"].as_int();
 		LONG iId = jnParent["id"].as_int();
-		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
+		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iToId, iId);
 		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/wall%s%s"), vkNotificationItem->tszId, ptszReplyLink ? ptszReplyLink : _T(""));
 		
 		CMString tszText(jnParent["text"].as_mstring());
@@ -536,9 +536,10 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
 {	
 	int compareId = p1->tszId.Compare(p2->tszId);
+	LONG compareUserId = p1->vkUser->m_UserId - p2->vkUser->m_UserId;
 	LONG compareDate = (LONG)p1->tDate - (LONG)p2->tDate;
-
-	return compareId ? compareDate : 0;
+	
+	return compareId ? (compareDate ? compareDate : compareUserId) : 0;
 }
 
 static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
@@ -572,10 +573,15 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 			CVKNewsItem *vkNewsItem = GetVkNewsItem((*it), vkUsers);
 			if (!vkNewsItem)
 				continue;
-			if (vkNews.find(vkNewsItem) == NULL)
+			CVKNewsItem *vkNewsFoundItem = vkNews.find(vkNewsItem);
+			if (vkNewsFoundItem == NULL)
 				vkNews.insert(vkNewsItem);
-			else
-				delete vkNewsItem;
+			else if (vkNewsFoundItem->tszType == _T("wall_photo") && vkNewsItem->tszType == _T("post")) {
+				vkNews.remove(vkNewsFoundItem);
+				vkNews.insert(vkNewsItem);
+			}
+			else 
+				delete vkNewsItem;		
 		}
 
 	for (int i = 0; i < vkNews.getCount(); i++)
