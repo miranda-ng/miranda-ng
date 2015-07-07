@@ -160,6 +160,36 @@ static int lua_CallService(lua_State *L)
 	return 1;
 }
 
+static int lua_Utf8DecodeA(lua_State *L)
+{
+	const char *string = luaL_checkstring(L, 1);
+
+	char *res = mir_utf8decodeA(string);
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
+static int lua_Utf8DecodeW(lua_State *L)
+{
+	const char *string = luaL_checkstring(L, 1);
+
+	wchar_t *res = mir_utf8decodeW(string);
+	lua_pushlightuserdata(L, res);
+
+	return 1;
+}
+
+static int lua_Free(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
+	void *ptr = lua_touserdata(L, 1);
+	
+	mir_free(ptr);
+
+	return 0;
+}
+
 static int lua_Translate(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
@@ -195,6 +225,11 @@ luaL_Reg coreApi[] =
 
 	{ "ServiceExists", lua_ServiceExists },
 	{ "CallService", lua_CallService },
+
+	{ "Utf8DecodeA", lua_Utf8DecodeA },
+	{ "Utf8DecodeW", lua_Utf8DecodeW },
+
+	{ "Free", lua_Free },
 
 	{ "Translate", lua_Translate },
 	{ "ReplaceVariables", lua_ReplaceVariables },

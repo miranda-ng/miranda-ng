@@ -20,9 +20,10 @@ int luaM_atpanic(lua_State *L)
 	return 0;
 }
 
-bool luaM_checkboolean(lua_State *L, int idx)
+bool luaM_toboolean(lua_State *L, int idx)
 {
-	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	if (lua_type(L, idx) == LUA_TNUMBER)
+		return lua_tonumber(L, idx) != 0;
 	return lua_toboolean(L, idx) > 0;
 }
 
