@@ -24,9 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "clc.h"
-
-int InitGenMenu(void);
-int UnitGenMenu(void);
+#include "genmenu.h"
 
 void InitCustomMenus(void);
 void UninitCustomMenus(void);
@@ -250,7 +248,7 @@ void UnloadClcModule()
 	FreeDisplayNameCache();
 
 	UninitCustomMenus();
-	UnitGenMenu();
+	UninitGenMenu();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1245,27 +1243,21 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 			UpdateWindow(hwnd);
 
-			HMENU hMenu = NULL;
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
-				if (contact->type == CLCIT_GROUP) {
+				HMENU hMenu;
+				if (contact->type == CLCIT_GROUP)
 					hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
-					ClientToScreen(hwnd, &pt);
-					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-					DestroyMenu(hMenu);
-					return 0;
-				}
-				if (contact->type == CLCIT_CONTACT)
+				else if (contact->type == CLCIT_CONTACT)
 					hMenu = Menu_BuildContactMenu(contact->hContact);
-			}
-			else {
-				//call parent for new group/hide offline menu
-				SendMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
-			}
-			if (hMenu != NULL) {
+				else
+					return 0;
+
 				ClientToScreen(hwnd, &pt);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				DestroyMenu(hMenu);
 			}
+			else  //call parent for new group/hide offline menu
+				SendMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
 		}
 		return 0;
 

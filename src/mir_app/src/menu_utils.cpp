@@ -1141,7 +1141,7 @@ int InitGenMenu()
 	return 0;
 }
 
-int UnitGenMenu()
+int UninitGenMenu()
 {
 	if (bIsGenMenuInited) {
 		mir_cslock lck(csMenuHook);

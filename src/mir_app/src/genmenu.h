@@ -119,7 +119,7 @@ TMO_IntMenuItem *MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void*);
 
 //general stuff
 int InitGenMenu();
-int UnitGenMenu();
+int UninitGenMenu();
 
 TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
