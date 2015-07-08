@@ -91,7 +91,7 @@
 [Average]
 
 [Maximum]
-
+Maksimum
 [Total (sum of all chats)]
 
 [Show bar graph for chat duration type]

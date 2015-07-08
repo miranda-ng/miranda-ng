@@ -574,34 +574,52 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-[Tray]
-Трэй
-[&Hide/Show]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+&Бачнасць
+[&Show title]
+&Паказваць назву
+[&Locked]
+Замацаваць
+[&Expanded]
+&Пашыраны
+[&Floating mode]
+Плывучы рэжым
+[&Border]
+&Рамка
+[&Align]
+Выраўняць
+[&Top]
+Верх
+[&Client]
+Уручную
+[&Bottom]
+Ніз
+[&Position]
+Становішча
+[&Up]
+&Уверх
+[&Down]
+У&ніз
+[Show all frames]
+Паказаць усе
+[Show all title bars]
+Паказваць назвы
+[Hide all title bars]
+Схаваць назвы
+[Lock frame]
+Замацаваць фрэйм
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
 С&хаваць/паказаць
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртом
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
+[&Find/add contacts...]
+Дадаць &кантакты
+[&Options...]
+&Налады
+[&About]
+Пра праграму
 [&Show offline users in here]
 Паказаць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
@@ -754,6 +772,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 За правы край
 [General]
 Агульнае
+[Tray]
+Трэй
 [List]
 Спіс
 [Window]
@@ -808,17 +828,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-Меню ў трэі
-[&Hide/show]
-С&хаваць/паказаць
-[&Find/add contacts...]
-Дадаць &кантакты
-[&Options...]
-&Налады
-[&About]
-Пра праграму
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show contact &avatar]
 Паказаць аватар
@@ -981,48 +990,3 @@ Angeli-Ka (графіка), FYR (шаблон)
 Фон рэжымаў выгляду
 [View modes]
 Рэжымы выгляду
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-&Бачнасць
-[&Show title]
-&Паказваць назву
-[&Locked]
-Замацаваць
-[&Expanded]
-&Пашыраны
-[&Floating mode]
-Плывучы рэжым
-[&Border]
-&Рамка
-[&Align]
-Выраўняць
-[&Top]
-Верх
-[&Client]
-Уручную
-[&Bottom]
-Ніз
-[&Position]
-Становішча
-[&Up]
-&Уверх
-[&Down]
-У&ніз
-[Show all frames]
-Паказаць усе
-[Show all title bars]
-Паказваць назвы
-[Hide all title bars]
-Схаваць назвы
-[Lock frame]
-Замацаваць фрэйм
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Меню фрэймаў
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Новы гурт
-[Group menu]
-Меню гуртоў
-[Subgroup menu]
-Меню падгуртоў

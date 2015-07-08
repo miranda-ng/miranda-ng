@@ -592,34 +592,52 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+&Visible
+[&Show title]
+
+[&Locked]
+&Verrouillé
+[&Expanded]
+
+[&Floating mode]
+&Mode détaché
+[&Border]
+&Bordure
+[&Align]
+&Aligné
+[&Top]
+&Haut
+[&Client]
+&Client
+[&Bottom]
+&Bas
+[&Position]
+&Position
+[&Up]
+&Vers le Haut
+[&Down]
+&Vers le Bas
+[Show all frames]
+Montrer tous les cadres
+[Show all title bars]
+Montrer toutes les barres de titres
+[Hide all title bars]
+Cacher toutes les barres de titres
+[Lock frame]
+Cadre vérouillé
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
 &Afficher/Cacher
-[Nowhere]
-Autre
-[&New group]
-&Nouveau groupe
-[&Hide offline users]
-&Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes &vides
-[Disable &groups]
-Désactiver les &groupes
-[Hide Miranda]
-Cacher Miranda
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-&Cacher les Hors ligne de ce groupe
+[&Find/add contacts...]
+&Chercher/Ajouter des contacts...
+[&Options...]
+&Paramètres...
+[&About]
+
 [&Show offline users in here]
 &Afficher les contacts hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-&Effacer le groupe
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' ?
@@ -776,6 +794,8 @@ derrière le bord gauche
 derrière le bord droit
 [General]
 Général
+[Tray]
+Tray
 [List]
 Liste
 [Window]
@@ -830,17 +850,6 @@ Ligne
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-
-[&Hide/show]
-&Afficher/Cacher
-[&Find/add contacts...]
-&Chercher/Ajouter des contacts...
-[&Options...]
-&Paramètres...
-[&About]
-
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 
@@ -1007,48 +1016,3 @@ Réinitialiser le mode d'affichage
 
 [View modes]
 Modes d'affichages
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-&Visible
-[&Show title]
-
-[&Locked]
-&Verrouillé
-[&Expanded]
-
-[&Floating mode]
-&Mode détaché
-[&Border]
-&Bordure
-[&Align]
-&Aligné
-[&Top]
-&Haut
-[&Client]
-&Client
-[&Bottom]
-&Bas
-[&Position]
-&Position
-[&Up]
-&Vers le Haut
-[&Down]
-&Vers le Bas
-[Show all frames]
-Montrer tous les cadres
-[Show all title bars]
-Montrer toutes les barres de titres
-[Hide all title bars]
-Cacher toutes les barres de titres
-[Lock frame]
-Cadre vérouillé
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nouveau groupe
-[Group menu]
-
-[Subgroup menu]
-

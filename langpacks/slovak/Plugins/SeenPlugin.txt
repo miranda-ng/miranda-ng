@@ -33,8 +33,6 @@ Odpojený
 Menu užívatela
 [View User's Details]
 Zobraziť informácie o užívatelovi
-[<none>]
-<nič>
 [seconds]
 sekúnd
 [nick]

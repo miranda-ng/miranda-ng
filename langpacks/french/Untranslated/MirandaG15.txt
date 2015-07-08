@@ -63,7 +63,6 @@
 [Expand all groups]
 [Use two columns]
 [Fade out selection rectangle]
-[Chat]
 [Typing notifications]
 [Show typing notifications]
 [Send typing notifications]

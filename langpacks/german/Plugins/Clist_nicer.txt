@@ -464,42 +464,6 @@ Uns&ichtbar\tStrg+7
 Am Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
-[Tray]
-Tray
-[&Hide/Show]
-Zeigen/Ausblenden
-[Nowhere]
-Nirgends
-[&New group]
-&Neue Gruppe
-[&Hide offline users]
-Offline-Kontakte &ausblenden
-[Hide &offline users out here]
-&Offline-Kontakte außerhalb ausblenden
-[Hide &empty groups]
-L&eere Gruppen ausblenden
-[Disable &groups]
-&Gruppen deaktivieren
-[Hide Miranda]
-Miranda ausblenden
-[&New subgroup]
-&Neue Untergruppe
-[&Hide offline users in here]
-Offline-Kontakte &hier ausblenden
-[&Rename group]
-G&ruppe umbenennen
-[&Delete group]
-Gruppe &löschen
-[Move marked contacts to this group]
-Markierte Kontakte in diese Gruppe verschieben
-[Appearance]
-Erscheinungsbild
-[Show metacontact protocol icons]
-Metakontaktprotokollicons zeigen
-[Show additional buttons]
-Zusätzliche Buttons anzeigen
-[Draw sunken frame]
-Eingefallene Ecken benutzen
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Skinelemente
@@ -758,67 +722,7 @@ Hottracktext
 Schnellsuche-Text
 [Embedded frames border]
 Rahmen eigener Elemente
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Titelleiste
-[Tool Window]
-Normaler Rahmen
-[Thin border]
-Dünner Rahmen
-[No border]
-Kein Rahmen
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
-[Contact list docking]
-Kontaktliste andocken
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-Skin laden
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-[Ungrouped contacts]
-Nicht gruppierte Kontakte
-[And]
-Und
-[Or]
-Oder
-[Older than]
-Älter als
-[Newer than]
-Neuer als
-[Minutes]
-Minuten
-[Hours]
-Stunden
-[Days]
-Tage
-[Current view mode: %s]
-aktueller Kontaktfilter: %s
-[Filtering]
-Filtern
-[*** All contacts ***]
-*** Alle Kontakte ***
-[Really delete this view mode? This cannot be undone]
-Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
-[Delete a view mode]
-Kontaktfilter löschen
-[No view mode]
-Kein Kontaktfilter
-[A view mode with this name does already exist]
-Ein Kontaktfilter dieses Namens existiert bereits.
-[Duplicate name]
-Doppelter Name
-[Setup view modes...]
-Kontaktfilter einstellen...
-[Clear current view mode]
-Aktuellen Kontaktfilter aufheben
-[Select a view mode]
-Kontaktfilter auswählen
-[Clear view mode and return to default display]
-Lösche Ansicht und kehre zu Ausgangsanzeige zurück
-[View modes]
-Kontaktfilter
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 Elementtitel
 [&Visible]
@@ -867,21 +771,80 @@ Titelzeile anzeigen
 Skinnbarer Frame
 [Floating]
 Frei bewegend
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Framemenü
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[New group]
-Neue Gruppe
-[Group menu]
-Gruppenmenü
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Titelleiste
+[Tool Window]
+Normaler Rahmen
+[Thin border]
+Dünner Rahmen
+[No border]
+Kein Rahmen
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
+[Contact list docking]
+Kontaktliste andocken
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Skin laden
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+Metakontaktprotokollicons zeigen
+[Show additional buttons]
+Zusätzliche Buttons anzeigen
+[Draw sunken frame]
+Eingefallene Ecken benutzen
 [&Hide/show]
 Zeigen/Ausblenden
 [&Find/add contacts...]
 Kontakte suchen/hinzu&fügen...
+[Appearance]
+Erscheinungsbild
 [&Options...]
 Einstellungen...
 [&About the contact list...]
 Über die Kont&aktliste...
-[Subgroup menu]
-Untergruppenmenü
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Nicht gruppierte Kontakte
+[And]
+Und
+[Or]
+Oder
+[Older than]
+Älter als
+[Newer than]
+Neuer als
+[Minutes]
+Minuten
+[Hours]
+Stunden
+[Days]
+Tage
+[Current view mode: %s]
+aktueller Kontaktfilter: %s
+[Filtering]
+Filtern
+[*** All contacts ***]
+*** Alle Kontakte ***
+[Really delete this view mode? This cannot be undone]
+Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
+[Delete a view mode]
+Kontaktfilter löschen
+[No view mode]
+Kein Kontaktfilter
+[A view mode with this name does already exist]
+Ein Kontaktfilter dieses Namens existiert bereits.
+[Duplicate name]
+Doppelter Name
+[Setup view modes...]
+Kontaktfilter einstellen...
+[Clear current view mode]
+Aktuellen Kontaktfilter aufheben
+[Select a view mode]
+Kontaktfilter auswählen
+[Clear view mode and return to default display]
+Lösche Ansicht und kehre zu Ausgangsanzeige zurück
+[View modes]
+Kontaktfilter

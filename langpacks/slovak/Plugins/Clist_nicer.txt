@@ -167,26 +167,6 @@ Neviditelný
 Telefonujem
 [Out to &lunch\tCtrl+9]
 Na obede
-[&Hide/Show]
-Skryť/Zobraziť
-[&New group]
-Nová skupina
-[&Hide offline users]
-Skryť nepripojených užívatelov
-[Hide &offline users out here]
-Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
-[Hide &empty groups]
-Skryť prázdne skupiny
-[Disable &groups]
-Skryť názvy skupín
-[&New subgroup]
-Nová podskupina
-[&Hide offline users in here]
-Skryť nepripojených užívatelov v tejto skupine
-[&Rename group]
-Premenovať skupinu
-[&Delete group]
-Zmazať skupinu
 [Text color]
 Fraba textu
 [<None>]
@@ -247,8 +227,6 @@ Oddelovače
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Show title bar]
 Zobraziť nadpis
-[New group]
-Nová skupina
 [&Hide/show]
 Skryť/Zobraziť
 [&Find/add contacts...]

@@ -3,8 +3,6 @@
 [Failed to set clipboard data]
 [ListView_GetItem failed]
 [You are browsing from]
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
 [Failed to write some part of the log file]
 [Failed to write xml tail to file ]
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]

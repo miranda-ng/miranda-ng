@@ -39,7 +39,6 @@
 [Chat duration type]
 [Minimum]
 [Average]
-[Maximum]
 [Total (sum of all chats)]
 [Show bar graph for chat duration type]
 [Other information in tooltip]

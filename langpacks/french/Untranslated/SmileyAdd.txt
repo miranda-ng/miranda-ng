@@ -15,7 +15,7 @@
 [Smileys]
 [Off]
 [Protocol specific]
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [%s global smiley pack]
 [Standard]
 [d'Oh!]

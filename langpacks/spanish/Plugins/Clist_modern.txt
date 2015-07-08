@@ -387,32 +387,12 @@ No molestar
 En el &teléfono
 [Out to &lunch\tCtrl+9]
 Salí a comer
-[Tray]
-Bandeja
-[&Hide/Show]
+[&Hide/show]
 &Mostrar/Ocultar
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo Grupo
-[&Hide offline users]
-&Ocultar usuarios fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar grupos
-[Hide Miranda]
-Ocultar Miranda
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar grupo
+[&Find/add contacts...]
+&Buscar/Agregar contactos...
+[&Options...]
+&Opciones
 [Skins]
 Pieles
 [List background]
@@ -459,6 +439,8 @@ En el teléfono
 Nombre
 [General]
 General
+[Tray]
+Bandeja
 [List]
 Lista
 [Window]
@@ -471,14 +453,6 @@ Texto
 Iconos adicionales
 [(Unknown contact)]
 (Contacto desconocido)
-[Tray menu]
-Menú de la bandeja
-[&Hide/show]
-&Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Options...]
-&Opciones
 [Main]
 Principal
 [Angeli-Ka (graphics), FYR (template)]
@@ -589,5 +563,3 @@ Limpiar modo de vista y volver a valores predeterminados de visualización
 Reiniciar modo de vista
 [View modes]
 Modos de vista
-[New group]
-Nuevo grupo

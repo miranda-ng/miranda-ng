@@ -354,8 +354,6 @@ Supprimer
 Services...
 [Refresh Buddy List]
 Actualiser la liste d'amis
-[Services]
-Services
 [Check Friends Requests]
 
 [Check Newsfeeds]

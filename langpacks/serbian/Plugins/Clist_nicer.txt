@@ -464,42 +464,6 @@ Ne&vidljiv\tCtrl+7
 Na &telefonu\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
-&Sakriti/Prikazati
-[Nowhere]
-Nigde
-[&New group]
-&Nova grupa
-[&Hide offline users]
-S&kloniti odsutne
-[Hide &offline users out here]
-Skloniti &odsutne kontakte pri grupi
-[Hide &empty groups]
-Skloniti &prazne grupe
-[Disable &groups]
-Ne koristiti &grupe
-[Hide Miranda]
-Sakriti Miranda prozor
-[&New subgroup]
-&Napravi grupu
-[&Hide offline users in here]
-Skloniti &odsutne kontakte ove grupe
-[&Rename group]
-&Preimenovati grupu
-[&Delete group]
-&Izbrisati grupu
-[Move marked contacts to this group]
-
-[Appearance]
-
-[Show metacontact protocol icons]
-
-[Show additional buttons]
-
-[Draw sunken frame]
-
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 
@@ -758,67 +722,7 @@ Tekst 'pod kursorom'
 Brzo pretraži tekst
 [Embedded frames border]
 
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-
-[Tool Window]
-
-[Thin border]
-
-[No border]
-
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-
-[Contact list docking]
-
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-[Ungrouped contacts]
-
-[And]
-
-[Or]
-
-[Older than]
-
-[Newer than]
-
-[Minutes]
-
-[Hours]
-
-[Days]
-
-[Current view mode: %s]
-
-[Filtering]
-
-[*** All contacts ***]
-
-[Really delete this view mode? This cannot be undone]
-
-[Delete a view mode]
-
-[No view mode]
-
-[A view mode with this name does already exist]
-
-[Duplicate name]
-
-[Setup view modes...]
-
-[Clear current view mode]
-
-[Select a view mode]
-
-[Clear view mode and return to default display]
-
-[View modes]
-
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 
 [&Visible]
@@ -867,21 +771,80 @@ Prikaz naslovne trake
 
 [Floating]
 
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
 
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nova grupa
-[Group menu]
+[Tool Window]
+
+[Thin border]
+
+[No border]
+
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+
+[Contact list docking]
+
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+
+[Show additional buttons]
+
+[Draw sunken frame]
 
 [&Hide/show]
 &Sakriti/Prikazati
 [&Find/add contacts...]
 %Pretraži/dodaj kontakte...
+[Appearance]
+
 [&Options...]
 &Podešavanja...
 [&About the contact list...]
 
-[Subgroup menu]
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+
+[And]
+
+[Or]
+
+[Older than]
+
+[Newer than]
+
+[Minutes]
+
+[Hours]
+
+[Days]
+
+[Current view mode: %s]
+
+[Filtering]
+
+[*** All contacts ***]
+
+[Really delete this view mode? This cannot be undone]
+
+[Delete a view mode]
+
+[No view mode]
+
+[A view mode with this name does already exist]
+
+[Duplicate name]
+
+[Setup view modes...]
+
+[Clear current view mode]
+
+[Select a view mode]
+
+[Clear view mode and return to default display]
+
+[View modes]
 

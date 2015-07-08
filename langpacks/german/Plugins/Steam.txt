@@ -63,8 +63,6 @@ Spielen
 Schwerer Fehler, Bilddienste nicht gefunden. Avatardienste werden deaktiviert.
 [Avatar Service]
 Avatardienst
-[Name]
-Name
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Netzwerk
@@ -83,6 +81,9 @@ Dem Spiel beitreten
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Unbekannter Fehler
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Name
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokolle

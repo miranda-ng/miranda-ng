@@ -46,6 +46,8 @@
 С-Пд-С
 [E]
 С
+[Fair / Windy]
+Ясно / вітряно
 [Fair And Windy]
 Ясно і вітряно
 [Fair]
@@ -92,6 +94,8 @@
 Оновлення прогнозу VAR
 [Forecast Update]
 Оновлення прогнозу
+[Freezing Drizzle / Windy]
+Мряка / вітряно
 [Freezing Rain / Windy]
 Крижаний дощ / вітряно
 [Full Moon]
@@ -110,6 +114,8 @@
 Сильний снігопад
 [Heavy Snow]
 Сильний снігопад
+[Heavy T-Storms]
+Сильні грози
 [Isolated T-Storms / Wind]
 Місцями грози / вітер
 [Isolated T-Storms]
@@ -130,6 +136,8 @@
 Слабкий крижаний дощ / туман
 [Light Freezing Rain / Windy]
 Слабкий крижаний дощ / вітер
+[Light Rain / Fog]
+Слабкий дощ / туман
 [Light Rain / Wind Early]
 Слабкий дощ / вітер у першій половині дня
 [Light Rain / Wind]
@@ -152,6 +160,8 @@
 Слабкий дощ
 [Light Showers Rain]
 Слабкі дощі
+[Light Snow / Fog]
+Слабкий сніг / туман
 [Light Snow And Windy]
 Слабкий сніг і вітряно
 [Light Snow Early]
@@ -222,6 +232,8 @@
 Місцями сонячно
 [Pm Light Rain]
 Слабкий дощ у другій половині дня
+[Pm Rain / Snow]
+Дощ у другій половині дня / сніг
 [Pm Rain / Wind]
 Дощ у другій половині дня / вітер
 [Pm Rain]
@@ -240,8 +252,12 @@
 Тиск: тенденція
 [Rain / Freezing Rain / Wind]
 Дощ / крижаний дощ / вітер
+[Rain / Freezing Rain]
+Дощ / крижаний дощ
 [Rain / Snow / Wind]
 Дощ / сніг / вітер
+[Rain / Snow Early]
+Дощ / сніг у першій половині дня
 [Rain / Snow Late]
 Дощ / сніг у другій половині дня
 [Rain / Snow Showers Early]
@@ -280,6 +296,8 @@
 Пд-З
 [S]
 Пд
+[Sand]
+Пісок
 [Scattered Showers]
 Місцями дощі
 [Scattered Snow Showers]
@@ -296,6 +314,8 @@
 Дощі / вітер
 [Showers Early]
 Зранку дощі
+[Showers In The Vicinity]
+Зливи поблизу
 [Showers Late]
 Дощ у другій половині дня
 [Showers Rain]
@@ -342,6 +362,8 @@
 Сонячно / вітряно
 [Sunny]
 Сонячно
+[T-Showers Early]
+Зливи з громом у першій половині дня
 [T-Storm]
 Гроза
 [T-Storms Early]
@@ -394,25 +416,3 @@
 Зростає
 [steady]
 Не змін.
-[Light Snow / Fog]
-Слабкий сніг / туман
-[Showers In The Vicinity]
-Зливи поблизу
-[Rain / Snow Early]
-Дощ / сніг у першій половині дня
-[Pm Rain / Snow]
-Дощ у другій половині дня / сніг
-[Fair / Windy]
-Ясно / вітряно
-[T-Showers Early]
-Зливи з громом у першій половині дня
-[Rain / Freezing Rain]
-Дощ / крижаний дощ
-[Heavy T-Storms]
-Сильні грози
-[Freezing Drizzle / Windy]
-Мряка / вітряно
-[Sand]
-Пісок
-[Light Rain / Fog]
-Слабкий дощ / туман

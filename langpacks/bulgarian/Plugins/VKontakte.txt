@@ -29,7 +29,7 @@
 Отказ
 [Share]
 Сподели
-[Url:]
+[URL:]
 URL:
 [Protocols]
 Протоколи

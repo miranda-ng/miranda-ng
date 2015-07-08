@@ -23,6 +23,7 @@
 [Unable to initialize Netlib for %s.]
 [%s avatar connection]
 [Twitter (avatars)]
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 [Twitter Icon]
 [Tweet]
 [Reply to Tweet]

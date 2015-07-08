@@ -75,8 +75,8 @@ Popup цветове
 Вписване на потребител
 [<unknown>]
 <неизвестно>
-[<none>]
-<няма>
+[Last seen]
+Последно видян
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -143,8 +143,6 @@ AM/PM
 вместо
 [Contacts]
 Контакти
-[Last seen]
-Последно видян
 [Popups]
 Рopups
 [Sunday]

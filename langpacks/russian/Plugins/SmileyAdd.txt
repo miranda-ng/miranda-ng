@@ -87,6 +87,8 @@ HTTP-подключения SmileyAdd
 Все файлы
 [Protocol specific]
 В соответствии с протоколом
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Не найден набор смайлов %s для категории "%s".\nВыберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой лог.
 [Smiley #%u in file %s for smiley pack %s not found.]

@@ -46,6 +46,8 @@ ONO
 OSO
 [E]
 O
+[Fair / Windy]
+
 [Fair And Windy]
 heiter/windig
 [Fair]
@@ -92,6 +94,8 @@ Vorhersage Tag 9
 Forcast Update VAR
 [Forecast Update]
 Vorhersage aktualisiert
+[Freezing Drizzle / Windy]
+
 [Freezing Rain / Windy]
 Gefrierender Regen/windig
 [Full Moon]
@@ -110,6 +114,8 @@ Starker Schneefall und windig
 Schwerer Schneeschauer
 [Heavy Snow]
 starker Schneefall
+[Heavy T-Storms]
+
 [Isolated T-Storms / Wind]
 Isolierte Gewitter/Wind
 [Isolated T-Storms]
@@ -130,6 +136,8 @@ leichter Niesel
 Leicht gefrierender Regen/Nebel
 [Light Freezing Rain / Windy]
 Leicht gefrierender Regen/Windig
+[Light Rain / Fog]
+
 [Light Rain / Wind Early]
 Leichter Regen/Früher Wind
 [Light Rain / Wind]
@@ -152,6 +160,8 @@ Leichter Regen mit Donner
 Leichter Regen
 [Light Showers Rain]
 Leichte Regenschauer
+[Light Snow / Fog]
+
 [Light Snow And Windy]
 Leichter Schneefall und windig
 [Light Snow Early]
@@ -222,6 +232,8 @@ Teils wolkig
 Teils sonnig
 [Pm Light Rain]
 nachmittags leichter Regen
+[Pm Rain / Snow]
+
 [Pm Rain / Wind]
 Nachmittags Regen / Wind
 [Pm Rain]
@@ -240,8 +252,12 @@ nachmittags Gewitter
 Luftdrucktendenz
 [Rain / Freezing Rain / Wind]
 Regen / Gefrierender Regen / Wind
+[Rain / Freezing Rain]
+
 [Rain / Snow / Wind]
 Schneeregen / Wind
+[Rain / Snow Early]
+
 [Rain / Snow Late]
 Schwerer Regen
 [Rain / Snow Showers Early]
@@ -280,6 +296,8 @@ SSW
 SW
 [S]
 S
+[Sand]
+
 [Scattered Showers]
 vereinzelt Schauer
 [Scattered Snow Showers]
@@ -296,6 +314,8 @@ Leichter Hagel/Nebel
 Schauer/windig
 [Showers Early]
 anfangs Schauer
+[Showers In The Vicinity]
+
 [Showers Late]
 später Schauer
 [Showers Rain]
@@ -342,6 +362,8 @@ Teilweise wolkig/windig
 Sonnig/windig
 [Sunny]
 sonnig
+[T-Showers Early]
+
 [T-Storm]
 Gewitter
 [T-Storms Early]
@@ -394,25 +416,3 @@ fallend
 steigend
 [steady]
 gleichbleibend
-[Light Snow / Fog]
-
-[Showers In The Vicinity]
-
-[Rain / Snow Early]
-
-[Pm Rain / Snow]
-
-[Fair / Windy]
-
-[T-Showers Early]
-
-[Rain / Freezing Rain]
-
-[Heavy T-Storms]
-
-[Freezing Drizzle / Windy]
-
-[Sand]
-
-[Light Rain / Fog]
-

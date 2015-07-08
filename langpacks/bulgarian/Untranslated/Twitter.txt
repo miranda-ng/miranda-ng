@@ -14,4 +14,5 @@
 [Send Tweet...]
 [Unable to initialize Netlib for %s.]
 [Twitter (avatars)]
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 [Reply to Tweet]

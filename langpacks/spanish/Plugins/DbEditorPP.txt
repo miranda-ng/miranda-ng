@@ -43,12 +43,12 @@ Icono principal
 Ajustes
 [Handle]
 Manejar
+[Database]
+Base de datos
 [<UNKNOWN>]
 <DESCONOCIDO>
 [Contacts]
 Contactos
-[Database]
-Base de datos
 [Type]
 Tipo
 [Size]

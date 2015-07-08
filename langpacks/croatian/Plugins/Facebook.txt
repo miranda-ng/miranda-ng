@@ -354,8 +354,6 @@ Detalji o &Korisniku
 
 [Refresh Buddy List]
 
-[Services]
-
 [Check Friends Requests]
 
 [Check Newsfeeds]

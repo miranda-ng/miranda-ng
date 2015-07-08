@@ -421,34 +421,6 @@
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-[Tray]
-Трэй
-[&Hide/Show]
-С&хаваць/паказаць
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртоў
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[Group]
-Гурт
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Адправіць файл(ы)
@@ -1226,6 +1198,34 @@ UIN, E-mail і г.д.
 Аднавіць пераклад
 [Download more language packs]
 Загрузіць дадатковыя пераклады
+[Tray]
+Трэй
+[&Hide/Show]
+С&хаваць/паказаць
+[Nowhere]
+Нідзе
+[&New group]
+Стварыць гурт
+[&Hide offline users]
+Схаваць адключаных
+[Hide &offline users out here]
+Схаваць адключаных па-за гуртоў
+[Hide &empty groups]
+Схаваць пустыя гурты
+[Disable &groups]
+Адключыць гурты
+[Hide Miranda]
+Схаваць спіс кантактаў
+[Group]
+Гурт
+[&New subgroup]
+Стварыць падгурт
+[&Hide offline users in here]
+Схаваць адключаных у гурце
+[&Rename group]
+Пераназваць гурт
+[&Delete group]
+Выдаліць гурт
 [&Reset to default]
 &Скінуць
 [find/add]
@@ -2080,22 +2080,12 @@ URL ад %s
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-xСтатус
-[%s (locked)]
-%s (заблакаваны)
-[Status menu]
-Меню статусаў
-[Main menu]
-Галоўнае меню
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Далучэнне
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Гэты кантакт знаходзіцца ў сістэме абмену імгненнымі паведамленнямі, якая захоўвае спісы кантактаў на серверы. Кантакт будзе выдалены з сервера і з лакальнага спісу пры наступным злучэнні.
@@ -2229,12 +2219,6 @@ Miranda NG не можа адкрыць гэты профіль
 Асноўны тэкст
 [Small text]
 Дадатковы тэкст
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-Меню
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
-Меню
 ;file \src\mir_app\src\groups.cpp
 [New group]
 Новы гурт
@@ -2290,6 +2274,38 @@ Miranda NG не можа адкрыць гэты профіль
 убудаваны
 [Languages]
 Мовы
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+xСтатус
+[%s (locked)]
+%s (заблакаваны)
+[Status menu]
+Меню статусаў
+[Main menu]
+Галоўнае меню
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+Меню фрэймаў
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+Меню гуртоў
+[Subgroup menu]
+Меню падгуртоў
+;file \src\mir_app\src\menu_options.cpp
+[Menus]
+Меню
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+Меню ў трэі
+[&Hide/show]
+С&хаваць/паказаць
+[&Options...]
+&Налады
+[&About]
+Пра праграму
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
+Меню
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Выдаліць метакантакт?
@@ -2445,8 +2461,6 @@ Miranda NG не можа адкрыць гэты профіль
 %s налады
 [Miranda NG options]
 Налады Miranda
-[&Options...]
-&Налады
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 Экстра абразкі

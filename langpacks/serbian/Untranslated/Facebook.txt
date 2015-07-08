@@ -152,6 +152,5 @@
 [Deny friendship request]
 [Services...]
 [Refresh Buddy List]
-[Services]
 [Check Friends Requests]
 [Check Newsfeeds]

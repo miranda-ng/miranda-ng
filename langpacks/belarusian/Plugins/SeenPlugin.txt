@@ -95,8 +95,8 @@
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <невядома>
-[<none>]
-<няма>
+[Last seen]
+Апошняе з'яўленне
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 -- Дата --
@@ -170,8 +170,6 @@
 Зменныя
 [Contacts]
 Кантакты
-[Last seen]
-Апошняе з'яўленне
 [Popups]
 Усплывальныя вокны
 ;file \plugins\SeenPlugin\src\seen.h

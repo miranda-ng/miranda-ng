@@ -266,8 +266,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Службы...
 [Refresh Buddy List]
 Абнавіць спіс сяброў
-[Services]
-Службы
 [Check Friends Requests]
 Праверыць запыты сяброўства
 [Check Newsfeeds]

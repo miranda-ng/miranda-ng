@@ -458,42 +458,6 @@
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-[Tray]
-Трэй
-[&Hide/Show]
-С&хаваць/паказаць
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртом
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
-[Move marked contacts to this group]
-Перамясціць адзначаныя кантакты ў гэты гурт
-[Appearance]
-Знешні выгляд
-[Show metacontact protocol icons]
-Паказваць значкі метакантактаў
-[Show additional buttons]
-Паказваць дадатковыя кнопкі
-[Draw sunken frame]
-Патоплены фрэйм
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Элементы скіна
@@ -748,67 +712,7 @@
 Хуткі пошук
 [Embedded frames border]
 Мяжа фрэймаў
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Загаловак
-[Tool Window]
-Акно прылады
-[Thin border]
-Тонкая рамка
-[No border]
-Без рамкі
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Немагчыма паркаваць спіс кантактаў пры выкарыстанні мяжы і загалоўка па змаўчанні. Выкарыстоўвайце стыль "Без меж" ці "Панэль"
-[Contact list docking]
-Паркоўка
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-Загрузіць і ўжыць
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-[Ungrouped contacts]
-Кантакты па-за гуртамі
-[And]
-І
-[Or]
-ЦІ
-[Older than]
-старэй, чым
-[Newer than]
-навей, чым
-[Minutes]
-Хвілін
-[Hours]
-Гадзін
-[Days]
-Дзён
-[Current view mode: %s]
-Бягучы рэжым выгляду: %s
-[Filtering]
-Фільтраванне
-[*** All contacts ***]
-*** Усе кантакты ***
-[Really delete this view mode? This cannot be undone]
-Сапраўды выдаліць рэжым? Адмена не магчымая!
-[Delete a view mode]
-Выдаленне рэжыму прагляду
-[No view mode]
-Няма рэжыму прагляду
-[A view mode with this name does already exist]
-Рэжым адлюстравання з такім імем ужо прысутнічае
-[Duplicate name]
-Супадальнае імя
-[Setup view modes...]
-Наладзіць рэжымы выгляду...
-[Clear current view mode]
-Сцерці бягучы рэжым выгляду
-[Select a view mode]
-Выбар рэжыму прагляду
-[Clear view mode and return to default display]
-Скінуць рэжым і перайсці ў рэжым па змаўчанні
-[View modes]
-Рэжымы выгляду
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 &Загаловак фрэйма
 [&Visible]
@@ -857,21 +761,80 @@
 Ужываць скін да фрэйма
 [Floating]
 Плывучае
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Меню фрэймаў
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[New group]
-Новы гурт
-[Group menu]
-Меню гуртоў
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Загаловак
+[Tool Window]
+Акно прылады
+[Thin border]
+Тонкая рамка
+[No border]
+Без рамкі
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Немагчыма паркаваць спіс кантактаў пры выкарыстанні мяжы і загалоўка па змаўчанні. Выкарыстоўвайце стыль "Без меж" ці "Панэль"
+[Contact list docking]
+Паркоўка
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Загрузіць і ўжыць
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+Паказваць значкі метакантактаў
+[Show additional buttons]
+Паказваць дадатковыя кнопкі
+[Draw sunken frame]
+Патоплены фрэйм
 [&Hide/show]
 С&хаваць/паказаць
 [&Find/add contacts...]
 Дадаць &кантакты
+[Appearance]
+Знешні выгляд
 [&Options...]
 &Налады
 [&About the contact list...]
 Пра спіс кантактаў...
-[Subgroup menu]
-Меню падгуртоў
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Кантакты па-за гуртамі
+[And]
+І
+[Or]
+ЦІ
+[Older than]
+старэй, чым
+[Newer than]
+навей, чым
+[Minutes]
+Хвілін
+[Hours]
+Гадзін
+[Days]
+Дзён
+[Current view mode: %s]
+Бягучы рэжым выгляду: %s
+[Filtering]
+Фільтраванне
+[*** All contacts ***]
+*** Усе кантакты ***
+[Really delete this view mode? This cannot be undone]
+Сапраўды выдаліць рэжым? Адмена не магчымая!
+[Delete a view mode]
+Выдаленне рэжыму прагляду
+[No view mode]
+Няма рэжыму прагляду
+[A view mode with this name does already exist]
+Рэжым адлюстравання з такім імем ужо прысутнічае
+[Duplicate name]
+Супадальнае імя
+[Setup view modes...]
+Наладзіць рэжымы выгляду...
+[Clear current view mode]
+Сцерці бягучы рэжым выгляду
+[Select a view mode]
+Выбар рэжыму прагляду
+[Clear view mode and return to default display]
+Скінуць рэжым і перайсці ў рэжым па змаўчанні
+[View modes]
+Рэжымы выгляду

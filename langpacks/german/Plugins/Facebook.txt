@@ -354,8 +354,6 @@ Freundschaftsanfrage ablehnen
 Dienste...
 [Refresh Buddy List]
 Freundesliste aktualisieren
-[Services]
-Dienste
 [Check Friends Requests]
 Freundschaftsanfragen überprüfen
 [Check Newsfeeds]

@@ -127,8 +127,6 @@ HTTP-сервер
 Мережа
 [HTTP Share new file]
 HTTP Новий розшарений файл
-[Failed to add contact menu item]
-Помилка додавання у головне меню
 [Share removed]
 Шару видалено
 [Failed to open or create log file]

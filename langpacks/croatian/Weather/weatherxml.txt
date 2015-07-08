@@ -46,6 +46,8 @@
 
 [E]
 
+[Fair / Windy]
+
 [Fair And Windy]
 
 [Fair]
@@ -92,6 +94,8 @@
 
 [Forecast Update]
 
+[Freezing Drizzle / Windy]
+
 [Freezing Rain / Windy]
 
 [Full Moon]
@@ -109,6 +113,8 @@
 [Heavy Snow Shower]
 
 [Heavy Snow]
+
+[Heavy T-Storms]
 
 [Isolated T-Storms / Wind]
 
@@ -129,6 +135,8 @@
 [Light Freezing Rain / Fog]
 
 [Light Freezing Rain / Windy]
+
+[Light Rain / Fog]
 
 [Light Rain / Wind Early]
 
@@ -151,6 +159,8 @@
 [Light Rain]
 
 [Light Showers Rain]
+
+[Light Snow / Fog]
 
 [Light Snow And Windy]
 
@@ -222,6 +232,8 @@
 
 [Pm Light Rain]
 
+[Pm Rain / Snow]
+
 [Pm Rain / Wind]
 
 [Pm Rain]
@@ -240,7 +252,11 @@
 
 [Rain / Freezing Rain / Wind]
 
+[Rain / Freezing Rain]
+
 [Rain / Snow / Wind]
+
+[Rain / Snow Early]
 
 [Rain / Snow Late]
 
@@ -280,6 +296,8 @@
 
 [S]
 
+[Sand]
+
 [Scattered Showers]
 
 [Scattered Snow Showers]
@@ -295,6 +313,8 @@
 [Showers / Wind]
 
 [Showers Early]
+
+[Showers In The Vicinity]
 
 [Showers Late]
 
@@ -341,6 +361,8 @@
 [Sunny / Windy]
 
 [Sunny]
+
+[T-Showers Early]
 
 [T-Storm]
 
@@ -393,26 +415,4 @@
 [rising]
 
 [steady]
-
-[Light Snow / Fog]
-
-[Showers In The Vicinity]
-
-[Rain / Snow Early]
-
-[Pm Rain / Snow]
-
-[Fair / Windy]
-
-[T-Showers Early]
-
-[Rain / Freezing Rain]
-
-[Heavy T-Storms]
-
-[Freezing Drizzle / Windy]
-
-[Sand]
-
-[Light Rain / Fog]
 

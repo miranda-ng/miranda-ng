@@ -63,8 +63,6 @@ en lecture
 Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
 [Avatar Service]
 
-[Name]
-Nom
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Réseau
@@ -83,6 +81,9 @@ Demander l'autorisation
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Erreur inconnue
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Nom
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protocoles

@@ -8,12 +8,12 @@
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
-Fontovi
 [General settings]
 
 [Show softkey labels]
 
+[Fonts]
+Fontovi
 [Event log:]
 
 [Sample]
@@ -57,8 +57,6 @@ Spisak kontakata:
 [Lock the screen]
 
 [Skip driver missing notification]
-
-[Notifications]
 
 [Notification screen title]
 
@@ -132,8 +130,6 @@ naznake
 
 [Cut off channel names after]
 
-[Contact list]
-Spisak kontakata
 [Show the contacts protocols]
 
 [Hide offline users]
@@ -165,8 +161,6 @@ Sakrij odsutne
 [Use two columns]
 
 [Fade out selection rectangle]
-
-[Chat]
 
 [Typing notifications]
 
@@ -215,7 +209,11 @@ Sakrij odsutne
 
 [Appearance]
 
+[Notifications]
+
 [Chat sessions]
 
+[Contact list]
+Spisak kontakata
 [No device attached]
 

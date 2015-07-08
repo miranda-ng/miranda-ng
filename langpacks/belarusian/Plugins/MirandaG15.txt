@@ -8,12 +8,12 @@
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Плагін дадае магчымасць выкарыстання  Miranda NG на ВК-экране разнастайных прылад Logitech.
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
-Шрыфты
 [General settings]
 Агульныя налады
 [Show softkey labels]
 Паказваць подпісі кнопак
+[Fonts]
+Шрыфты
 [Event log:]
 Лог падзей:
 [Sample]
@@ -52,8 +52,6 @@
 Заблакаваць экран
 [Skip driver missing notification]
 Прапусціць заўвагі пра адсутны драйвер
-[Notifications]
-Абвесткі
 [Notification screen title]
 Загаловак вакна абвесткі
 [Hide it]
@@ -126,8 +124,6 @@
 Выключэнні
 [Cut off channel names after]
 Выдаляць назвы каналаў пасля
-[Contact list]
-Спіс кантактаў
 [Show the contacts protocols]
 Паказваць пратаколы кантактаў
 [Hide offline users]
@@ -160,8 +156,6 @@
 Вык. два слупкі
 [Fade out selection rectangle]
 Паступова зацямняць вылучэнне
-[Chat]
-Чат
 [Typing notifications]
 Набірае тэкст
 [Show typing notifications]
@@ -207,7 +201,11 @@
 ;file \plugins\MirandaG15\src\CConfig.cpp
 [Appearance]
 Знешні выгляд
+[Notifications]
+Абвесткі
 [Chat sessions]
 Гутаркі
+[Contact list]
+Спіс кантактаў
 [No device attached]
 Няма прылады

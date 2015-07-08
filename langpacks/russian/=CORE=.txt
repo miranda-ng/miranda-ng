@@ -2221,12 +2221,22 @@ xСтатус
 Меню статусов
 [Main menu]
 Главное меню
+[Frame menu]
+Меню фреймов
+[Group menu]
+Меню групп
+[Subgroup menu]
+Меню подгрупп
 [Menus]
 Меню
+[Tray menu]
+Меню в трее
 [&Hide/show]
 С&крыть/Показать
 [&Options...]
 &Настройки...
+[&About]
+О &программе
 [Menu icons]
 Меню
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
@@ -2555,6 +2565,8 @@ ANSI плагин
 Незагружаемый плагин
 [Frames]
 Фреймы
+[Add group]
+Добавить группу
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
