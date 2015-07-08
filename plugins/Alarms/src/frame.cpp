@@ -505,7 +505,7 @@ int CreateFrame()
 			0,0,10,10, pcli->hwndContactList, NULL,hInst,NULL);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
-		Frame.tname = TranslateT("Alarms");
+		Frame.tname = _T("Alarms");
 		Frame.hWnd = hwnd_plugin;
 		Frame.align = alBottom;
 		Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
