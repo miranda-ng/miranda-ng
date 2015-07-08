@@ -7,12 +7,12 @@
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Плагин добавляет возможность использования Miranda NG на ЖК-экране различных устройств Logitech.
-[Fonts]
-Шрифты
 [General settings]
 Общие настройки
 [Show softkey labels]
 Показывать подписи кнопок
+[Fonts]
+Шрифты
 [Event log:]
 Журнал событий:
 [Sample]
@@ -51,8 +51,6 @@
 Заблокировать экран
 [Skip driver missing notification]
 Пропустить уведомление об отсутствии драйвера
-[Notifications]
-Уведомления
 [Notification screen title]
 Заголовок окна уведомления
 [Hide it]
@@ -125,8 +123,6 @@
 Исключения:
 [Cut off channel names after]
 Обрезать имена каналов после
-[Contact list]
-Список контактов
 [Show the contacts protocols]
 Показывать протоколы контактов
 [Hide offline users]
@@ -159,8 +155,6 @@
 Использовать две колонки
 [Fade out selection rectangle]
 Постепенно затемнять выделение
-[Chat]
-Чат
 [Typing notifications]
 Уведомления о наборе текста
 [Show typing notifications]
@@ -205,7 +199,11 @@
 Когда в фоне
 [Appearance]
 Внешний вид
+[Notifications]
+Уведомления
 [Chat sessions]
 Беседы
+[Contact list]
+Список контактов
 [No device attached]
 Не присоединено

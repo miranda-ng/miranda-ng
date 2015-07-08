@@ -52,7 +52,7 @@
 [User Logged In]
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
-[<none>]
+[Last seen]
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 [year (4 digits)]
@@ -91,7 +91,6 @@
 [instead of]
 [Last Seen Variables]
 [Contacts]
-[Last seen]
 [Popups]
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]

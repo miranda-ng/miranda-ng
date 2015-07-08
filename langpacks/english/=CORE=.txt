@@ -215,20 +215,6 @@
 [&Invisible\tCtrl+7]
 [On the &phone\tCtrl+8]
 [Out to &lunch\tCtrl+9]
-[Tray]
-[&Hide/Show]
-[Nowhere]
-[&New group]
-[&Hide offline users]
-[Hide &offline users out here]
-[Hide &empty groups]
-[Disable &groups]
-[Hide Miranda]
-[Group]
-[&New subgroup]
-[&Hide offline users in here]
-[&Rename group]
-[&Delete group]
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 [Cancel]
@@ -623,6 +609,20 @@
 [Locale:]
 [Reload langpack]
 [Download more language packs]
+[Tray]
+[&Hide/Show]
+[Nowhere]
+[&New group]
+[&Hide offline users]
+[Hide &offline users out here]
+[Hide &empty groups]
+[Disable &groups]
+[Hide Miranda]
+[Group]
+[&New subgroup]
+[&Hide offline users in here]
+[&Rename group]
+[&Delete group]
 [&Reset to default]
 [find/add]
 [&Add to list]
@@ -1074,17 +1074,11 @@
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-[%s (locked)]
-[Status menu]
-[Main menu]
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 [Connecting (attempt %d)]
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 [De&lete]
@@ -1158,10 +1152,6 @@
 [Headers]
 [Generic text]
 [Small text]
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
 ;file \src\mir_app\src\groups.cpp
 [New group]
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1214,6 +1204,25 @@
 [Unknown]
 [built-in]
 [Languages]
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+[%s (locked)]
+[Status menu]
+[Main menu]
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+[Subgroup menu]
+;file \src\mir_app\src\menu_options.cpp
+[Menus]
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+[&Hide/show]
+[&Options...]
+[&About]
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 ;file \src\mir_app\src\meta_addto.cpp
@@ -1301,7 +1310,6 @@
 [Loading... %d%%]
 [%s options]
 [Miranda NG options]
-[&Options...]
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 ;file \src\mir_app\src\path.cpp
@@ -1402,6 +1410,7 @@
 [Running core plugin]
 [Non-loadable plugin]
 [Frames]
+[Add group]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
