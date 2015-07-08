@@ -52,6 +52,7 @@
 [%s avatar connection]
 [Twitter (avatars)]
 [%s Protocol]
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 [Tweet]

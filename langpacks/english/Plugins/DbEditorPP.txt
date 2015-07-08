@@ -149,6 +149,7 @@
 [Handle]
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
+[Database]
 [Open user tree in DBE++]
 [<UNKNOWN>]
 [[UNLOADED]]
@@ -164,7 +165,6 @@
 [Loading modules...]
 [Contacts]
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 ;file \plugins\DbEditorPP\src\settinglist.cpp

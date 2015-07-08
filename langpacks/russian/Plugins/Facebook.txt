@@ -339,8 +339,6 @@ Facebook потребовал чистки компьютера и плагин 
 Службы...
 [Refresh Buddy List]
 Обновить список друзей
-[Services]
-Службы
 [Check Friends Requests]
 Проверить запросы дружбы
 [Check Newsfeeds]

@@ -36,7 +36,6 @@
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
-[Name]
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 [Blocked contacts]
@@ -48,6 +47,8 @@
 [Join to game]
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 [Protocol icon]

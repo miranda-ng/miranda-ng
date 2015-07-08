@@ -7,9 +7,9 @@
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
 [General settings]
 [Show softkey labels]
+[Fonts]
 [Event log:]
 [Sample]
 [Message log:]
@@ -32,7 +32,6 @@
 [If the screensaver is active:]
 [Lock the screen]
 [Skip driver missing notification]
-[Notifications]
 [Notification screen title]
 [Hide it]
 [Show the plugin name]
@@ -69,7 +68,6 @@
 [Don't skip when replying]
 [Exceptions:]
 [Cut off channel names after]
-[Contact list]
 [Show the contacts protocols]
 [Hide offline users]
 [Use ignore settings]
@@ -86,7 +84,6 @@
 [Expand all groups]
 [Use two columns]
 [Fade out selection rectangle]
-[Chat]
 [Typing notifications]
 [Show typing notifications]
 [Send typing notifications]
@@ -111,5 +108,7 @@
 ;file \plugins\MirandaG15\src\CConfig.cpp
 [MirandaG15]
 [Appearance]
+[Notifications]
 [Chat sessions]
+[Contact list]
 [No device attached]

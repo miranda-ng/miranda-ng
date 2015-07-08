@@ -90,7 +90,7 @@
 [Mark users you want to invite to a new chat]
 [New chat's title:]
 [Share]
-[Url:]
+[URL:]
 [Only for friends]
 [Attention]
 ;file \protocols\VKontakte\src\misc.cpp

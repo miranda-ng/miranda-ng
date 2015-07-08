@@ -457,42 +457,6 @@
 На &телефоне\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обед&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-С&крыть/Показать
-[Nowhere]
-Нигде
-[&New group]
-Со&здать группу
-[&Hide offline users]
-&Скрыть отключённых
-[Hide &offline users out here]
-Скрыть &отключённых вне группы
-[Hide &empty groups]
-Скрыть &пустые группы
-[Disable &groups]
-Отключить &группы
-[Hide Miranda]
-Скрыть список контактов
-[&New subgroup]
-&Создать подгруппу
-[&Hide offline users in here]
-&Скрыть отключённых в группе
-[&Rename group]
-&Переименовать группу
-[&Delete group]
-&Удалить группу
-[Move marked contacts to this group]
-Переместить отмеченные контакты в эту группу
-[Appearance]
-Внешний вид
-[Show metacontact protocol icons]
-Показывать значки метаконтактов
-[Show additional buttons]
-Показывать дополнительные кнопки
-[Draw sunken frame]
-Утопленный фрейм
 [Skin items]
 Элементы скина
 [General]
@@ -743,62 +707,6 @@
 Быстрый поиск
 [Embedded frames border]
 Граница фреймов
-[Title bar]
-Заголовок
-[Tool Window]
-Окно инструмента
-[Thin border]
-Тонкая рамка
-[No border]
-Без рамки
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Невозможно парковать список контактов при использовании границы и заголовка по умолчанию. Используйте стиль "Без границ" или "Панель"
-[Contact list docking]
-Парковка списка контактов
-[Load and apply]
-Загрузить и применить
-[Ungrouped contacts]
-Контакты вне групп
-[And]
-И
-[Or]
-ИЛИ
-[Older than]
-старше, чем
-[Newer than]
-новее, чем
-[Minutes]
-минут(ы)
-[Hours]
-Часов
-[Days]
-Дней
-[Current view mode: %s]
-Текущий режим вида: %s
-[Filtering]
-Фильтрация
-[*** All contacts ***]
-*** Все контакты ***
-[Really delete this view mode? This cannot be undone]
-Действительно удалить режим? Отмена не возможна!
-[Delete a view mode]
-Удаление режима просмотра
-[No view mode]
-Нет режима просмотра
-[A view mode with this name does already exist]
-Режим отображения с таким именем уже присутствует
-[Duplicate name]
-Совпадающее имя
-[Setup view modes...]
-Настроить режимы вида...
-[Clear current view mode]
-Очистить текущий режим вида
-[Select a view mode]
-Выбор режима просмотра
-[Clear view mode and return to default display]
-Сбросить режим и перейти в режим по умолчанию
-[View modes]
-Режимы вида
 [&FrameTitle]
 &Заголовок фрейма
 [&Visible]
@@ -847,19 +755,75 @@
 Применять скин к фрейму
 [Floating]
 Плавающее
-[Frame menu]
-Меню фреймов
-[New group]
-Новая группа
-[Group menu]
-Меню групп
+[Title bar]
+Заголовок
+[Tool Window]
+Окно инструмента
+[Thin border]
+Тонкая рамка
+[No border]
+Без рамки
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Невозможно парковать список контактов при использовании границы и заголовка по умолчанию. Используйте стиль "Без границ" или "Панель"
+[Contact list docking]
+Парковка списка контактов
+[Load and apply]
+Загрузить и применить
+[Show metacontact protocol icons]
+Показывать значки метаконтактов
+[Show additional buttons]
+Показывать дополнительные кнопки
+[Draw sunken frame]
+Утопленный фрейм
 [&Hide/show]
 С&крыть/Показать
 [&Find/add contacts...]
 Добавить &контакты...
+[Appearance]
+Внешний вид
 [&Options...]
 &Настройки...
 [&About the contact list...]
 О &списке контактов...
-[Subgroup menu]
-Меню подгрупп
+[Ungrouped contacts]
+Контакты вне групп
+[And]
+И
+[Or]
+ИЛИ
+[Older than]
+старше, чем
+[Newer than]
+новее, чем
+[Minutes]
+минут(ы)
+[Hours]
+Часов
+[Days]
+Дней
+[Current view mode: %s]
+Текущий режим вида: %s
+[Filtering]
+Фильтрация
+[*** All contacts ***]
+*** Все контакты ***
+[Really delete this view mode? This cannot be undone]
+Действительно удалить режим? Отмена не возможна!
+[Delete a view mode]
+Удаление режима просмотра
+[No view mode]
+Нет режима просмотра
+[A view mode with this name does already exist]
+Режим отображения с таким именем уже присутствует
+[Duplicate name]
+Совпадающее имя
+[Setup view modes...]
+Настроить режимы вида...
+[Clear current view mode]
+Очистить текущий режим вида
+[Select a view mode]
+Выбор режима просмотра
+[Clear view mode and return to default display]
+Сбросить режим и перейти в режим по умолчанию
+[View modes]
+Режимы вида
