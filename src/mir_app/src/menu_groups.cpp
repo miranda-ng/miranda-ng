@@ -79,7 +79,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *g
 INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
-		GroupMenuExecParam * mmep = (GroupMenuExecParam *)wParam;
+		GroupMenuExecParam *mmep = (GroupMenuExecParam *)wParam;
 		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
@@ -92,7 +92,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 {
-	GroupMenuExecParam * mmep = (GroupMenuExecParam *)lParam;
+	GroupMenuExecParam *mmep = (GroupMenuExecParam *)lParam;
 	if (mmep != NULL) {
 		mir_free(mmep->szServiceName);
 		mir_free(mmep);
@@ -203,7 +203,7 @@ static INT_PTR SubGroupMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam * CParam = (TCheckProcParam*)wParam;
 	if (CParam) {
-		SubGroupMenuExecParam * mmep = (SubGroupMenuExecParam *)(CParam->MenuItemOwnerData);
+		SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam *)(CParam->MenuItemOwnerData);
 		if (mmep)
 			mmep->Param2 = CParam->lParam;
 	}
@@ -217,7 +217,7 @@ static INT_PTR SubGroupMenuCheckService(WPARAM wParam, LPARAM)
 static INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != 0) {
-		SubGroupMenuExecParam * mmep = (SubGroupMenuExecParam *)wParam;
+		SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam *)wParam;
 		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
@@ -232,7 +232,7 @@ static INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR FreeOwnerDataSubGroupMenu(WPARAM, LPARAM lParam)
 {
-	SubGroupMenuExecParam * mmep = (SubGroupMenuExecParam *)lParam;
+	SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam *)lParam;
 	if (mmep != NULL) {
 		mir_free(mmep->szServiceName);
 		mir_free(mmep);
