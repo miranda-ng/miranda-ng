@@ -592,34 +592,52 @@ Ne&vidljiv\tCtrl+7
 Na &telefonu\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+
+[&Show title]
+
+[&Locked]
+
+[&Expanded]
+
+[&Floating mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Show all frames]
+
+[Show all title bars]
+
+[Hide all title bars]
+
+[Lock frame]
+
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
 &Sakriti/Prikazati
-[Nowhere]
-Nigde
-[&New group]
-&Nova grupa
-[&Hide offline users]
-S&kloniti odsutne
-[Hide &offline users out here]
-Skloniti &odsutne kontakte pri grupi
-[Hide &empty groups]
-Skloniti &prazne grupe
-[Disable &groups]
-Ne koristiti &grupe
-[Hide Miranda]
-Sakriti Miranda prozor
-[&New subgroup]
-&Napravi grupu
-[&Hide offline users in here]
-Skloniti &odsutne kontakte ove grupe
+[&Find/add contacts...]
+%Pretraži/dodaj kontakte...
+[&Options...]
+&Podešavanja...
+[&About]
+
 [&Show offline users in here]
 
-[&Rename group]
-&Preimenovati grupu
-[&Delete group]
-&Izbrisati grupu
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 
@@ -776,6 +794,8 @@ Naziv
 
 [General]
 Uopšteno
+[Tray]
+Tray
 [List]
 Spisak
 [Window]
@@ -830,17 +850,6 @@ Dodatne ikonice
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Nepoznat kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-
-[&Hide/show]
-&Sakriti/Prikazati
-[&Find/add contacts...]
-%Pretraži/dodaj kontakte...
-[&Options...]
-&Podešavanja...
-[&About]
-
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 
@@ -1006,49 +1015,4 @@ Pronađi korisnika
 [View mode background]
 
 [View modes]
-
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-
-[&Show title]
-
-[&Locked]
-
-[&Expanded]
-
-[&Floating mode]
-
-[&Border]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
-[Lock frame]
-
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nova grupa
-[Group menu]
-
-[Subgroup menu]
 

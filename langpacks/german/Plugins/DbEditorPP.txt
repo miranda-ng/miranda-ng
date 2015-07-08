@@ -286,6 +286,8 @@ Handle
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Öffne Datenbank-Editor++
+[Database]
+Datenbank
 [Open user tree in DBE++]
 Benutzerzweig in DBE++ öffnen
 [<UNKNOWN>]
@@ -312,8 +314,6 @@ Lade Module...
 [Contacts]
 Kontakte
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
-Datenbank
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Modul zu "%s" hinzufügen

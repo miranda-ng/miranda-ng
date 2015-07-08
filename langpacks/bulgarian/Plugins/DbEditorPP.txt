@@ -243,6 +243,8 @@ INI файлове
 Познат контакт
 [Open Database Editor]
 Отваряне на Database Editor++
+[Database]
+База от данни
 [Open user tree in DBE++]
 Отваряне на контакта в DBE++
 [<UNKNOWN>]
@@ -259,8 +261,6 @@ INI файлове
 Зареждане на модулите...
 [Contacts]
 Контакти
-[Database]
-База от данни
 [Add module to "%s"]
 Добавяне на модул към "%s"
 [Type]

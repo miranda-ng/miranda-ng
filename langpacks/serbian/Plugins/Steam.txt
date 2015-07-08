@@ -63,8 +63,6 @@ Otkazivanje
 
 [Avatar Service]
 
-[Name]
-Naziv
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Mreža
@@ -83,6 +81,9 @@ Zatraži autorizaciju
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Naziv
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 

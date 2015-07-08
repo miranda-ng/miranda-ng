@@ -7,12 +7,12 @@
 ;============================================================
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Додає можливість використання Miranda NG на РК-екрані різних пристроїв Logitech.
-[Fonts]
-Шрифти
 [General settings]
 Загальне
 [Show softkey labels]
 Показувати підписи кнопок
+[Fonts]
+Шрифти
 [Event log:]
 Журнал подій:
 [Sample]
@@ -49,8 +49,6 @@
 Заблокувати екран
 [Skip driver missing notification]
 Пропускати сповіщення про відсутність драйвера
-[Notifications]
-Сповіщення
 [Notification screen title]
 Заголовок вікна сповіщення
 [Hide it]
@@ -123,8 +121,6 @@
 Винятки:
 [Cut off channel names after]
 Обмежити імена каналів до
-[Contact list]
-Список контактів
 [Show the contacts protocols]
 Показувати протоколи контактів
 [Hide offline users]
@@ -157,8 +153,6 @@
 Використовувати дві колонки
 [Fade out selection rectangle]
 Поступово затемнювати виділення
-[Chat]
-Чат
 [Typing notifications]
 Повідомлення про набір тексту
 [Show typing notifications]
@@ -203,7 +197,11 @@
 Коли у фоні
 [Appearance]
 Зовнішній вигляд
+[Notifications]
+Сповіщення
 [Chat sessions]
 Бесіди
+[Contact list]
+Список контактів
 [No device attached]
 Не приєднано

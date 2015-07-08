@@ -33,8 +33,6 @@ Menú del usuario
 Ver detalles del usuario
 [<unknown>]
 <desconocido>
-[<none>]
-<Nada>
 [minutes]
 minutos
 [seconds]

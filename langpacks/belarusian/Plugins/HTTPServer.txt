@@ -140,8 +140,6 @@ HTTP Сервер
 Сеціва
 [HTTP Share new file]
 HTTP Новы агульны файл
-[Failed to add contact menu item]
-Немагчыма дадаць элемент у меню кантакта
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Агульнае выдалена

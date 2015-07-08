@@ -427,40 +427,6 @@ URL събития
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-Показване/Скриване
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
-[Move marked contacts to this group]
-Преместване на маркираните контакти в групата
-[Appearance]
-Външен вид
-[Show additional buttons]
-Показване на допълнителни бутони
-[Draw sunken frame]
-Вградена рамка
 [Skin items]
 Елементи на облика
 [General]
@@ -703,60 +669,6 @@ URL събития
 Бързо търсен текст
 [Embedded frames border]
 Граница на рамките
-[Title bar]
-Заглавна лента
-[Thin border]
-Тънка рамка
-[No border]
-Без рамка
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
-[Contact list docking]
-Загнездване на списъка
-[Load and apply]
-Зареждане и прилагане
-[Ungrouped contacts]
-Негрупирани контакти
-[And]
-И
-[Or]
-Или
-[Older than]
-По-стари от
-[Newer than]
-По-нови от
-[Minutes]
-Минути
-[Hours]
-Часове
-[Days]
-Дни
-[Current view mode: %s]
-Текущ режим за преглед: %s
-[Filtering]
-Филтриране
-[*** All contacts ***]
-*** Всички контакти ***
-[Really delete this view mode? This cannot be undone]
-Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
-[Delete a view mode]
-Изтриване на режим за преглед
-[No view mode]
-Няма зададен режим за преглед
-[A view mode with this name does already exist]
-Вече съществува режим за преглед с въведеното име
-[Duplicate name]
-Повтарящо се име
-[Setup view modes...]
-Настройване на режимите за преглед...
-[Clear current view mode]
-Изчистване на текущия режим за преглед
-[Select a view mode]
-Изберете режим за преглед
-[Clear view mode and return to default display]
-Изчистване на режима за преглед и връщане към стандартния
-[View modes]
-Режими за преглед
 [&FrameTitle]
 Заглавие на рамката
 [&Visible]
@@ -805,19 +717,71 @@ URL събития
 Облицована рамка
 [Floating]
 Плаващо
-[Frame menu]
-Меню на рамките
-[New group]
-Нова група
-[Group menu]
-Меню на групите
+[Title bar]
+Заглавна лента
+[Thin border]
+Тънка рамка
+[No border]
+Без рамка
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
+[Contact list docking]
+Загнездване на списъка
+[Load and apply]
+Зареждане и прилагане
+[Show additional buttons]
+Показване на допълнителни бутони
+[Draw sunken frame]
+Вградена рамка
 [&Hide/show]
 Показване/Скриване
 [&Find/add contacts...]
 Търсене/Добавяне на контакти
+[Appearance]
+Външен вид
 [&Options...]
 Настройки...
 [&About the contact list...]
 Относно списъка с контакти...
-[Subgroup menu]
-Меню на подгрупите
+[Ungrouped contacts]
+Негрупирани контакти
+[And]
+И
+[Or]
+Или
+[Older than]
+По-стари от
+[Newer than]
+По-нови от
+[Minutes]
+Минути
+[Hours]
+Часове
+[Days]
+Дни
+[Current view mode: %s]
+Текущ режим за преглед: %s
+[Filtering]
+Филтриране
+[*** All contacts ***]
+*** Всички контакти ***
+[Really delete this view mode? This cannot be undone]
+Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
+[Delete a view mode]
+Изтриване на режим за преглед
+[No view mode]
+Няма зададен режим за преглед
+[A view mode with this name does already exist]
+Вече съществува режим за преглед с въведеното име
+[Duplicate name]
+Повтарящо се име
+[Setup view modes...]
+Настройване на режимите за преглед...
+[Clear current view mode]
+Изчистване на текущия режим за преглед
+[Select a view mode]
+Изберете режим за преглед
+[Clear view mode and return to default display]
+Изчистване на режима за преглед и връщане към стандартния
+[View modes]
+Режими за преглед

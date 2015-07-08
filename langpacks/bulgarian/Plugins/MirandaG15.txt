@@ -5,10 +5,10 @@
 ;  Version: 0.1.2.0
 ;  Authors: Martin Kleinhans
 ;============================================================
-[Fonts]
-Шрифтове
 [General settings]
 Основни настройки
+[Fonts]
+Шрифтове
 [Sample]
 Пример
 [Contact list:]
@@ -21,8 +21,6 @@
 Заслуги
 [About]
 Относно
-[Notifications]
-Уведомявания
 [events]
 събития
 [seconds]
@@ -41,11 +39,13 @@
 Промяна на състояние
 [Notices]
 Известия
-[Contact list]
-Списък с контакти
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Do nothing]
 Нищо
 [Appearance]
 Външен вид
+[Notifications]
+Уведомявания
+[Contact list]
+Списък с контакти

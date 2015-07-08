@@ -95,8 +95,8 @@ Pregled detalja o korisniku
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <nepoznato>
-[<none>]
-<ništa>
+[Last seen]
+
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 
@@ -172,8 +172,6 @@ Protokol
 
 [Contacts]
 Kontakti
-[Last seen]
-
 [Popups]
 Balončići
 ;file \plugins\SeenPlugin\src\seen.h

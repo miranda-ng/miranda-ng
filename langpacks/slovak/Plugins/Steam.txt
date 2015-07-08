@@ -15,9 +15,9 @@ Kontakty
 Storno
 [Save password]
 Uložiť heslo
-[Name]
-Meno
 [Network]
 Sieť
 [Unknown error]
 Neznáma chyba
+[Name]
+Meno

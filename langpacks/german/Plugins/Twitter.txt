@@ -96,6 +96,8 @@ Kann Netlib-Verbindung für %s nicht initialisieren.
 Twitter (Avatare)
 [%s Protocol]
 %s-Protokoll
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 Twittericon

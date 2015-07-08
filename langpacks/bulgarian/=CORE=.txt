@@ -415,34 +415,6 @@ Wikipedia
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-Показване/Скриване
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[Group]
-Група
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
 [Send file(s)]
 Изпрати файл(ове)
 [Cancel]
@@ -1183,6 +1155,34 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Презареждане на пакета
 [Download more language packs]
 Сваляне на още езикови пакети
+[Tray]
+Трей
+[&Hide/Show]
+Показване/Скриване
+[Nowhere]
+Никъде
+[&New group]
+Нова група
+[&Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide &offline users out here]
+Скриване на контактите "Извън линия" тук
+[Hide &empty groups]
+Скриване на празните групи
+[Disable &groups]
+Без групи
+[Hide Miranda]
+Скриване на Miranda
+[Group]
+Група
+[&New subgroup]
+Нова подгрупа
+[&Hide offline users in here]
+Скриване на контактите "Извън линия" тук
+[&Rename group]
+Преименуване на групата
+[&Delete group]
+Изтриване на групата
 [&Reset to default]
 Стандарт
 [&Add to list]
@@ -1977,14 +1977,6 @@ URL
 Темата е "%s"
 [The topic is '%s' (set by %s)]
 Темата е "%s" (зададена от %s)
-[Custom status]
-Персонално състояние
-[%s (locked)]
-%s (заключен)
-[Status menu]
-Меню на състоянието
-[Main menu]
-Главно меню
 [Connecting]
 Свързване
 [Connecting (attempt %d)]
@@ -2101,10 +2093,6 @@ URL
 Основен текст
 [Small text]
 Малък текст
-[Menu icons]
-Икони в менютата
-[Menus]
-Менюта
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2195,6 +2183,32 @@ Win +\s
 Вграден
 [Languages]
 Езици
+[Custom status]
+Персонално състояние
+[%s (locked)]
+%s (заключен)
+[Status menu]
+Меню на състоянието
+[Main menu]
+Главно меню
+[Frame menu]
+Меню на рамките
+[Group menu]
+Меню на групите
+[Subgroup menu]
+Меню на подгрупите
+[Menus]
+Менюта
+[Tray menu]
+Трей меню
+[&Hide/show]
+Показване/Скриване
+[&Options...]
+Настройки...
+[&About]
+Относно
+[Menu icons]
+Икони в менютата
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Ще бъдат премахнати всички контакти добавени в метаконтакта.\nТова ще изтрие метаконтакта.\n\nНаистина ли го желаете?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
@@ -2311,8 +2325,6 @@ Win +\s
 %s настройки
 [Miranda NG options]
 Настройки на Miranda NG
-[&Options...]
-Настройки...
 [Extra icons]
 Допълнителни икони
 [Avatars]

@@ -252,6 +252,8 @@ INI файлы
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Рэдактар базы
+[Database]
+Профіль
 [Open user tree in DBE++]
 Рэдактары базы
 [<UNKNOWN>]
@@ -272,8 +274,6 @@ INI файлы
 [Contacts]
 Кантакты
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
-Профіль
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Type]

@@ -94,8 +94,8 @@ Alle Dateien
 [Protocol specific]
 protokollspezifisch
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Smileypack %s nicht gefunden.\nKorrektes Smileypack in den Miranda-Einstellungen unter 'Customize -> Smileys' auswählen!
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Das verwendete Smileypack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog.
 [Smiley #%u in file %s for smiley pack %s not found.]

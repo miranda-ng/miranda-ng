@@ -341,8 +341,6 @@
 Служби...
 [Refresh Buddy List]
 Оновити список друзів
-[Services]
-Служби
 [Check Friends Requests]
 Перевірити запити дружби
 [Check Newsfeeds]

@@ -1,4 +1,4 @@
-﻿[Extends Miranda NG functionality with lua scripts.]
+﻿[Extends Miranda NG functionality with Lua scripts.]
 [Reload all]
 [Common scripts folder]
 [Custom scripts folder]

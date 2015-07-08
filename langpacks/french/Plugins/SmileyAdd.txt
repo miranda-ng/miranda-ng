@@ -94,7 +94,7 @@ Tous les fichiers
 [Protocol specific]
 
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.

@@ -587,34 +587,50 @@ xСтатус: xПовідомлення
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
+[&Visible]
+&Показувати
+[&Show title]
+&Показувати назву
+[&Locked]
+&Закріпити
+[&Expanded]
+&Розширений
+[&Floating mode]
+&Плаваючий режим
+[&Border]
+&Рамка
+[&Align]
+&Вирівнювання
+[&Top]
+&Верх
+[&Client]
+&Вручну
+[&Bottom]
+&Низ
+[&Position]
+&Позиція
+[&Up]
+&Вгору
+[&Down]
+В&низ
+[Show all frames]
+Показати всі фрейми
+[Show all title bars]
+Показати назви
+[Hide all title bars]
+Сховати назви
+[Lock frame]
+Закріпити фрейм
+[&Hide/show]
 С&ховати/Показати
-[Nowhere]
-Ніде
-[&New group]
-&Створити групу
-[&Hide offline users]
-Сховати &відключених у групі
-[Hide &offline users out here]
-Сховати &відключених поза групою
-[Hide &empty groups]
-Сховати порожні групи
-[Disable &groups]
-Вимкнути &групи
-[Hide Miranda]
-Сховати список контактів
-[&New subgroup]
-С&творити підгрупу
-[&Hide offline users in here]
-Сховати &відключених у групі
+[&Find/add contacts...]
+Додати &контакти...
+[&Options...]
+&Налаштування...
+[&About]
+Про &програму
 [&Show offline users in here]
 Показати відключених у групі
-[&Rename group]
-&Перейменувати групу
-[&Delete group]
-&Видалити групу
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Хочете конвертувати '%s' в метаконтакт і додати до нього '%s'?
 [Converting to metacontact]
@@ -769,6 +785,8 @@ xСтатус: xПовідомлення
 За правий край
 [General]
 Загальне
+[Tray]
+Трей
 [List]
 Список
 [Window]
@@ -817,16 +835,6 @@ xСтатус: xПовідомлення
 Рядок
 [(Unknown contact)]
 (Невідомий контакт)
-[Tray menu]
-Меню в треї
-[&Hide/show]
-С&ховати/Показати
-[&Find/add contacts...]
-Додати &контакти...
-[&Options...]
-&Налаштування...
-[&About]
-Про &програму
 [Show avatar]
 Показати аватар
 [Hide avatar]
@@ -973,45 +981,3 @@ Angeli-Ka (графіка), FYR (шаблон)
 Фон режимів перегляду
 [View modes]
 Режими перегляду
-[&Visible]
-&Показувати
-[&Show title]
-&Показувати назву
-[&Locked]
-&Закріпити
-[&Expanded]
-&Розширений
-[&Floating mode]
-&Плаваючий режим
-[&Border]
-&Рамка
-[&Align]
-&Вирівнювання
-[&Top]
-&Верх
-[&Client]
-&Вручну
-[&Bottom]
-&Низ
-[&Position]
-&Позиція
-[&Up]
-&Вгору
-[&Down]
-В&низ
-[Show all frames]
-Показати всі фрейми
-[Show all title bars]
-Показати назви
-[Hide all title bars]
-Сховати назви
-[Lock frame]
-Закріпити фрейм
-[Frame menu]
-Меню фреймів
-[New group]
-Створити групу
-[Group menu]
-Меню груп
-[Subgroup menu]
-Меню підгруп

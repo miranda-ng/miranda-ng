@@ -419,34 +419,6 @@ No molestar
 En el &teléfono\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Salí a comer\tCtrl+9
-[Tray]
-Bandeja
-[&Hide/Show]
-&Mostrar/Ocultar
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo Grupo
-[&Hide offline users]
-&Ocultar usuarios Fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar &grupos
-[Hide Miranda]
-Ocultar Miranda
-[Group]
-Grupo
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar Grupo
 [Send file(s)]
 Enviar archivo(s)
 [Cancel]
@@ -1177,6 +1149,34 @@ Local
 Recargar langpack
 [Download more language packs]
 Descargar más paquetes de idioma
+[Tray]
+Bandeja
+[&Hide/Show]
+&Mostrar/Ocultar
+[Nowhere]
+En ninguna parte
+[&New group]
+&Nuevo Grupo
+[&Hide offline users]
+&Ocultar usuarios Fuera de línea
+[Hide &offline users out here]
+Ocultar usuarios fuera de línea fuera de aquí
+[Hide &empty groups]
+Ocu&ltar grupos vacíos
+[Disable &groups]
+Desactivar &grupos
+[Hide Miranda]
+Ocultar Miranda
+[Group]
+Grupo
+[&New subgroup]
+&Nuevo subgrupo
+[&Hide offline users in here]
+Ocul&tar usuarios fuera de línea aquí
+[&Rename group]
+&Renombrar grupo
+[&Delete group]
+El&iminar Grupo
 [&Reset to default]
 Restablecer valores predeterminados
 [find/add]
@@ -1975,14 +1975,6 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
-[Custom status]
-Estado personalizado
-[%s (locked)]
-%s (bloqueado)
-[Status menu]
-Menú de estado
-[Main menu]
-Menú principal
 [Connecting]
 Conectando
 [(Unknown contact)]
@@ -2103,10 +2095,6 @@ Cabeceras
 Texto genérico
 [Small text]
 Texto pequeño
-[Menu icons]
-Iconos de menú
-[Menus]
-Menús
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2165,6 +2153,24 @@ Desconocido
 construido
 [Languages]
 Idiomas
+[Custom status]
+Estado personalizado
+[%s (locked)]
+%s (bloqueado)
+[Status menu]
+Menú de estado
+[Main menu]
+Menú principal
+[Menus]
+Menús
+[Tray menu]
+Menú de la bandeja
+[&Hide/show]
+&Mostrar/Ocultar
+[&Options...]
+&Opciones
+[Menu icons]
+Iconos de menú
 [Protocol]
 Protocolo
 [Edit]
@@ -2221,8 +2227,6 @@ Cargando... %d%%
 %s opciones
 [Miranda NG options]
 Miranda NG opciones
-[&Options...]
-&Opciones
 [Extra icons]
 Iconos adicionales
 [Avatars]

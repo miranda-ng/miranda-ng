@@ -551,34 +551,50 @@ ms между две мигания
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
+[&Visible]
+Видима
+[&Show title]
+Показване на името
+[&Locked]
+Заключена
+[&Expanded]
+Разгърнато
+[&Floating mode]
+Плаващ режим
+[&Border]
+Рамка
+[&Align]
+Подреждане
+[&Top]
+Горе
+[&Client]
+Клиент
+[&Bottom]
+Долу
+[&Position]
+Позиция
+[&Up]
+Нагоре
+[&Down]
+Надолу
+[Show all frames]
+Показване на всички рамки
+[Show all title bars]
+Показване на всички заглавни ленти
+[Hide all title bars]
+Скриване на всички заглавни ленти
+[Lock frame]
+Заключване на рамката
+[&Hide/show]
 Показване/Скриване
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
+[&Find/add contacts...]
+Търсене/Добавяне на контакти
+[&Options...]
+Настройки...
+[&About]
+Относно
 [&Show offline users in here]
 Показване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
 [Converting to metacontact]
@@ -721,6 +737,8 @@ Modern contact list
 Зад десния ръб
 [General]
 Основни
+[Tray]
+Трей
 [List]
 Списък
 [Window]
@@ -767,16 +785,6 @@ Modern contact list
 Ред
 [(Unknown contact)]
 (Непознат контакт)
-[Tray menu]
-Трей меню
-[&Hide/show]
-Показване/Скриване
-[&Find/add contacts...]
-Търсене/Добавяне на контакти
-[&Options...]
-Настройки...
-[&About]
-Относно
 [Show avatar]
 Показване на аватара
 [Hide avatar]
@@ -919,45 +927,3 @@ Angeli-Ka (изображения), FYR (шаблон)
 Анулиране на режима за преглед
 [View modes]
 Режими за преглед
-[&Visible]
-Видима
-[&Show title]
-Показване на името
-[&Locked]
-Заключена
-[&Expanded]
-Разгърнато
-[&Floating mode]
-Плаващ режим
-[&Border]
-Рамка
-[&Align]
-Подреждане
-[&Top]
-Горе
-[&Client]
-Клиент
-[&Bottom]
-Долу
-[&Position]
-Позиция
-[&Up]
-Нагоре
-[&Down]
-Надолу
-[Show all frames]
-Показване на всички рамки
-[Show all title bars]
-Показване на всички заглавни ленти
-[Hide all title bars]
-Скриване на всички заглавни ленти
-[Lock frame]
-Заключване на рамката
-[Frame menu]
-Меню на рамките
-[New group]
-Нова група
-[Group menu]
-Меню на групите
-[Subgroup menu]
-Меню на подгрупите

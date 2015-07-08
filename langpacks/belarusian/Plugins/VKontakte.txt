@@ -60,7 +60,7 @@
 Загаловак новага пакою:
 [Share]
 Падзяліцца
-[Url:]
+[URL:]
 Спасылка:
 ;file \protocols\VKontakte\src\misc.cpp
 [Status icon]

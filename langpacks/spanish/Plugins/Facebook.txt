@@ -235,8 +235,6 @@ Aprobar amistad
 Servicios...
 [Refresh Buddy List]
 Refrescar lista de amigos
-[Services]
-Servicios
 [Check Friends Requests]
 Comprobar solicitudes de amistad
 [Check Newsfeeds]

@@ -455,42 +455,6 @@
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-С&ховати/Показати
-[Nowhere]
-Ніде
-[&New group]
-&Створити групу
-[&Hide offline users]
-С&ховати відключених
-[Hide &offline users out here]
-Сховати &відключених поза групою
-[Hide &empty groups]
-Сховати порожні групи
-[Disable &groups]
-Вимкнути &групи
-[Hide Miranda]
-Сховати список контактів
-[&New subgroup]
-С&творити підгрупу
-[&Hide offline users in here]
-Сховати &відключених у групі
-[&Rename group]
-&Перейменувати групу
-[&Delete group]
-&Видалити групу
-[Move marked contacts to this group]
-Перемістити позначені контакти в цю групу
-[Appearance]
-Зовнішній вигляд
-[Show metacontact protocol icons]
-Показувати значки метаконтактів
-[Show additional buttons]
-Показувати додаткові кнопки
-[Draw sunken frame]
-Утоплений фрейм
 [Skin items]
 Елементи скіна
 [General]
@@ -741,62 +705,6 @@
 Швидкий пошук
 [Embedded frames border]
 Межа фреймів
-[Title bar]
-Заголовок
-[Tool Window]
-Вікно як панель інструментів
-[Thin border]
-Тонка рамка
-[No border]
-Без рамки
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Неможливо паркувати список контактів при використанні кордону і заголовка за замовчанням. Використовуйте стиль "Без кордонів" або "Панель".
-[Contact list docking]
-Дозволити парковку вікна
-[Load and apply]
-Завантажити та застосувати
-[Ungrouped contacts]
-Контакти поза групами
-[And]
-І
-[Or]
-АБО
-[Older than]
-старіші, ніж
-[Newer than]
-новіші, ніж
-[Minutes]
-хвилин
-[Hours]
-годин
-[Days]
-днів
-[Current view mode: %s]
-Поточний режим перегляду: %s
-[Filtering]
-Фільтрація
-[*** All contacts ***]
-*** Усі контакти ***
-[Really delete this view mode? This cannot be undone]
-Справді видалити режим? Результат цієї дії є незворотним!
-[Delete a view mode]
-Видалення режиму перегляду
-[No view mode]
-Немає режиму перегляду
-[A view mode with this name does already exist]
-Режим перегляду з таким ім'ям уже існує
-[Duplicate name]
-Таке ім'я вже є
-[Setup view modes...]
-Налаштувати режими перегляду...
-[Clear current view mode]
-Очистити поточний режим перегляду
-[Select a view mode]
-Вибір режиму перегляду
-[Clear view mode and return to default display]
-Скинути режим і перейти до режиму за замовчанням
-[View modes]
-Режими перегляду
 [&FrameTitle]
 &Заголовок фрейму
 [&Visible]
@@ -845,19 +753,75 @@
 Застосовувати скін до фрейму
 [Floating]
 Плаваюче
-[Frame menu]
-Меню фреймів
-[New group]
-Створити групу
-[Group menu]
-Меню груп
+[Title bar]
+Заголовок
+[Tool Window]
+Вікно як панель інструментів
+[Thin border]
+Тонка рамка
+[No border]
+Без рамки
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Неможливо паркувати список контактів при використанні кордону і заголовка за замовчанням. Використовуйте стиль "Без кордонів" або "Панель".
+[Contact list docking]
+Дозволити парковку вікна
+[Load and apply]
+Завантажити та застосувати
+[Show metacontact protocol icons]
+Показувати значки метаконтактів
+[Show additional buttons]
+Показувати додаткові кнопки
+[Draw sunken frame]
+Утоплений фрейм
 [&Hide/show]
 &Сховати/Показати
 [&Find/add contacts...]
 Додати &контакти...
+[Appearance]
+Зовнішній вигляд
 [&Options...]
 &Налаштування...
 [&About the contact list...]
 Про список контактів...
-[Subgroup menu]
-Меню підгруп
+[Ungrouped contacts]
+Контакти поза групами
+[And]
+І
+[Or]
+АБО
+[Older than]
+старіші, ніж
+[Newer than]
+новіші, ніж
+[Minutes]
+хвилин
+[Hours]
+годин
+[Days]
+днів
+[Current view mode: %s]
+Поточний режим перегляду: %s
+[Filtering]
+Фільтрація
+[*** All contacts ***]
+*** Усі контакти ***
+[Really delete this view mode? This cannot be undone]
+Справді видалити режим? Результат цієї дії є незворотним!
+[Delete a view mode]
+Видалення режиму перегляду
+[No view mode]
+Немає режиму перегляду
+[A view mode with this name does already exist]
+Режим перегляду з таким ім'ям уже існує
+[Duplicate name]
+Таке ім'я вже є
+[Setup view modes...]
+Налаштувати режими перегляду...
+[Clear current view mode]
+Очистити поточний режим перегляду
+[Select a view mode]
+Вибір режиму перегляду
+[Clear view mode and return to default display]
+Скинути режим і перейти до режиму за замовчанням
+[View modes]
+Режими перегляду

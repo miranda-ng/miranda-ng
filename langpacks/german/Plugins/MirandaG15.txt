@@ -8,12 +8,12 @@
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Stellt ein interface zur Verfügung, um Miranda per LCD von gängigen Logitech-Geräten zu steuern.
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
-Schriften
 [General settings]
 Generelle Einstellungen
 [Show softkey labels]
 Softkeybeschreibungen anzeigen
+[Fonts]
+Schriften
 [Event log:]
 Ereignisverlauf:
 [Sample]
@@ -58,8 +58,6 @@ Wenn Bildschirmschoner aktiv ist:
 Bildschirm sperren
 [Skip driver missing notification]
 Benachrichtigung nach fehlenden Treibern überspringen
-[Notifications]
-Benachrichtigungen
 [Notification screen title]
 Benachrichtigungstitel
 [Hide it]
@@ -132,8 +130,6 @@ Beim Antworten nicht überspringen
 Ausnahmen:
 [Cut off channel names after]
 Channelnamen abschneiden nach
-[Contact list]
-Kontaktliste
 [Show the contacts protocols]
 Protokolle der Kontakte anzeigen
 [Hide offline users]
@@ -166,8 +162,6 @@ Alle Gruppen öffnen
 Zwei Spalten verwenden
 [Fade out selection rectangle]
 Auswahl-Rechteck ausblenden
-[Chat]
-Chat
 [Typing notifications]
 Tipp-Benachrichtigungen
 [Show typing notifications]
@@ -215,7 +209,11 @@ Wenn im Hintergrund
 MirandaG15
 [Appearance]
 Erscheinungsbild
+[Notifications]
+Benachrichtigungen
 [Chat sessions]
 Chatsitzungen
+[Contact list]
+Kontaktliste
 [No device attached]
 Keinem Gerät zugeordnet

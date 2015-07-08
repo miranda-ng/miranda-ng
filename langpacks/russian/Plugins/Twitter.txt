@@ -89,6 +89,8 @@ URL:
 Twitter (аватары)
 [%s Protocol]
 Протокол %s
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+Все знают, что максимальная длина твита - 140 символов, почему вы пытаетесь запихнуть сюда %d символов?
 [Twitter Icon]
 Значок Twitter
 [Tweet]

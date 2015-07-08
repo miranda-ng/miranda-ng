@@ -138,13 +138,7 @@
 
 [Network]
 
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
-
-[Failed to add contact menu item]
 
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]

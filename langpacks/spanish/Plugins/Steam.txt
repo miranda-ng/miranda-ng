@@ -21,14 +21,14 @@ Usar avatares grandes
 Cancelar
 [Save password]
 Guardar contraseña
-[Name]
-Nombre
 [Network]
 Red
 [Request authorization]
 Solicitar autorización
 [Unknown error]
 Error desconocido
+[Name]
+Nombre
 [Protocols]
 Protocolos
 [You cannot send messages when you are offline.]

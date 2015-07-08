@@ -95,8 +95,8 @@ Envoyer un message instantané
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <inconnu>
-[<none>]
-<aucun>
+[Last seen]
+
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 
@@ -172,8 +172,6 @@ Utiliser
 
 [Contacts]
 Contacts
-[Last seen]
-
 [Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h

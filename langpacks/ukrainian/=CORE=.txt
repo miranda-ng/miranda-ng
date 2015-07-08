@@ -417,34 +417,6 @@
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
-[Tray]
-Трей
-[&Hide/Show]
-С&ховати/Показати
-[Nowhere]
-Ніде
-[&New group]
-&Створити групу
-[&Hide offline users]
-С&ховати відключених
-[Hide &offline users out here]
-Сховати &відключених поза групою
-[Hide &empty groups]
-Сховати порожні групи
-[Disable &groups]
-Вимкнути &групи
-[Hide Miranda]
-Сховати список контактів
-[Group]
-Група
-[&New subgroup]
-С&творити підгрупу
-[&Hide offline users in here]
-Сховати &відключених у групі
-[&Rename group]
-&Перейменувати групу
-[&Delete group]
-&Видалити групу
 [Send file(s)]
 Надіслати файл(и)
 [Cancel]
@@ -1217,6 +1189,34 @@ UIN, E-mail тощо
 Перезавантажити мовний пакет
 [Download more language packs]
 Завантажити додаткові переклади
+[Tray]
+Трей
+[&Hide/Show]
+С&ховати/Показати
+[Nowhere]
+Ніде
+[&New group]
+&Створити групу
+[&Hide offline users]
+С&ховати відключених
+[Hide &offline users out here]
+Сховати &відключених поза групою
+[Hide &empty groups]
+Сховати порожні групи
+[Disable &groups]
+Вимкнути &групи
+[Hide Miranda]
+Сховати список контактів
+[Group]
+Група
+[&New subgroup]
+С&творити підгрупу
+[&Hide offline users in here]
+Сховати &відключених у групі
+[&Rename group]
+&Перейменувати групу
+[&Delete group]
+&Видалити групу
 [&Reset to default]
 Скинути на стандартне
 [find/add]
@@ -2027,14 +2027,6 @@ URL від %s
 Тема: %s
 [The topic is '%s' (set by %s)]
 Тема %s (встановив %s)
-[Custom status]
-xСтатус
-[%s (locked)]
-%s (заблокований)
-[Status menu]
-Меню статусів
-[Main menu]
-Головне меню
 [Connecting]
 З'єднання
 [Connecting (attempt %d)]
@@ -2165,10 +2157,6 @@ Ctrl+Знайти додає контакт
 Звичайний текст
 [Small text]
 Дрібний текст
-[Menu icons]
-Значки меню
-[Menus]
-Меню
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2219,6 +2207,32 @@ Miranda
 вбудований
 [Languages]
 Локалізації
+[Custom status]
+xСтатус
+[%s (locked)]
+%s (заблокований)
+[Status menu]
+Меню статусів
+[Main menu]
+Головне меню
+[Frame menu]
+Меню фреймів
+[Group menu]
+Меню груп
+[Subgroup menu]
+Меню підгруп
+[Menus]
+Меню
+[Tray menu]
+Меню в треї
+[&Hide/show]
+С&ховати/Показати
+[&Options...]
+&Налаштування...
+[&About]
+Про &програму
+[Menu icons]
+Значки меню
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Ви збираєтеся очистити всі контакти цього метаконтакту.\nМетаконтакт буде видалено.\n\nПродовжити?
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
@@ -2365,8 +2379,6 @@ Miranda
 Параметри %s
 [Miranda NG options]
 Налаштування Miranda NG
-[&Options...]
-&Налаштування...
 [Extra icons]
 Додаткові значки
 [Avatars]

@@ -13,8 +13,6 @@ Muestra
 Lista de contactos:
 [About]
 Acerca de...
-[Notifications]
-Notificaciones
 [events]
 eventos
 [seconds]
@@ -29,13 +27,13 @@ Mensajes
 Cambios de estado
 [Notices]
 Avisos
-[Contact list]
-Lista de contactos
 [Hide offline users]
 Ocultar usuarios fuera de línea
-[Chat]
-Chat
 [Do nothing]
 No hacer nada
 [Appearance]
 Apariencia
+[Notifications]
+Notificaciones
+[Contact list]
+Lista de contactos

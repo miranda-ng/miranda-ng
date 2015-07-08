@@ -286,6 +286,8 @@ Contact connu
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 
+[Database]
+
 [Open user tree in DBE++]
 Ouvrir dans DataBase Editor
 [<UNKNOWN>]
@@ -312,8 +314,6 @@ Chargement des modules...
 [Contacts]
 Contacts
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
-
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 

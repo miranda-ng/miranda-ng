@@ -95,7 +95,7 @@ tekst
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 
-[<none>]
+[Last seen]
 
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
@@ -171,8 +171,6 @@ sekundi
 [Last Seen Variables]
 
 [Contacts]
-
-[Last seen]
 
 [Popups]
 

@@ -95,8 +95,8 @@ Kontakt hat sich angemeldet
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <unbekannt>
-[<none>]
-<keine>
+[Last seen]
+Zuletzt gesehen
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 -- Datum --
@@ -172,8 +172,6 @@ anstatt
 Zuletzt-gesehen-Variablen
 [Contacts]
 Kontakte
-[Last seen]
-Zuletzt gesehen
 [Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h

@@ -63,8 +63,6 @@
 
 [Avatar Service]
 
-[Name]
-
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 
@@ -82,6 +80,9 @@
 
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
+
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
 
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]

@@ -29,14 +29,14 @@
 Играе
 [Avatar Service]
 Услуга за аватари
-[Name]
-Име
 [Network]
 Мрежа
 [Request authorization]
 Молба за упълномощаване
 [Unknown error]
 Непозната грешка
+[Name]
+Име
 [Protocols]
 Протоколи
 [Protocol icon]

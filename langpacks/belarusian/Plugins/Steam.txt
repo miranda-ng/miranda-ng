@@ -35,8 +35,6 @@
 Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
 [Avatar Service]
 Служба аватар
-[Name]
-Імя
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Сеціва
@@ -47,6 +45,9 @@
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Невядомая памылка
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Імя
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Пратаколы

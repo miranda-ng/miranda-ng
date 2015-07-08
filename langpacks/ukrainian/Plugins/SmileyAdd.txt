@@ -87,8 +87,6 @@ HTTP-з'єднання SmileyAdd
 Усі файли
 [Protocol specific]
 Згідно з протоколом
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Набір смайлів %s не знайдено.\nВиберіть набір смайлів: Налаштування -> Тонке налаштування -> Смайли.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Проблеми з завантаженням набору смайлів (необхідно виправити).\nПодробиці дивіться в мережевому журналі.
 [Smiley #%u in file %s for smiley pack %s not found.]

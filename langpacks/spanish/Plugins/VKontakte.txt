@@ -35,7 +35,7 @@ Presentar
 Cancelar
 [Share]
 Compartir
-[Url:]
+[URL:]
 URL:
 [Captcha form icon]
 Formulario Captcha icono

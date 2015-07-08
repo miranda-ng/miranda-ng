@@ -138,14 +138,8 @@ Um die Änderungen zu übernehmen, ist ein Neustart von Miranda NG erforderlich
 HTTP-Server
 [Network]
 Netzwerk
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
 HTTP Datei freigeben
-[Failed to add contact menu item]
-
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Freigabe entfernt

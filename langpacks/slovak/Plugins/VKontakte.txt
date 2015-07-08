@@ -17,7 +17,7 @@ Podrobne
 Inštrukcie:
 [Cancel]
 Storno
-[Url:]
+[URL:]
 URL:
 [Error]
 Chyba

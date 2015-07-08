@@ -592,34 +592,52 @@ Uns&ichtbar\tStrg+7
 Am Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
-[Tray]
-Tray
-[&Hide/Show]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+Sichtbar
+[&Show title]
+Titel anzeigen
+[&Locked]
+&Gesperrt
+[&Expanded]
+&Ausgeklappt
+[&Floating mode]
+&Frei beweglicher Modus
+[&Border]
+&Rand
+[&Align]
+&Ausrichtung
+[&Top]
+&Oben
+[&Client]
+Mitte, &Kontakte
+[&Bottom]
+&Unten
+[&Position]
+&Position
+[&Up]
+A&uf
+[&Down]
+&Ab
+[Show all frames]
+Alle Frames anzeigen
+[Show all title bars]
+Alle Titelleisten anzeigen
+[Hide all title bars]
+Alle Titelleisten verstecken
+[Lock frame]
+Keine Größenänderung
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
 Zeigen/&Ausblenden
-[Nowhere]
-Nirgends
-[&New group]
-&Neue Gruppe
-[&Hide offline users]
-Offline-Kontakte &ausblenden
-[Hide &offline users out here]
-&Offline-Kontakte außerhalb ausblenden
-[Hide &empty groups]
-L&eere Gruppen ausblenden
-[Disable &groups]
-&Gruppen deaktivieren
-[Hide Miranda]
-Miranda ausblenden
-[&New subgroup]
-&Neue Untergruppe
-[&Hide offline users in here]
-Offline-Kontakte &hier ausblenden
+[&Find/add contacts...]
+Kontakte suchen/hinzu&fügen...
+[&Options...]
+&Einstellungen...
+[&About]
+&Über
 [&Show offline users in here]
 Offline-Kontakte hier an&zeigen
-[&Rename group]
-G&ruppe umbenennen
-[&Delete group]
-Gruppe &löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
@@ -776,6 +794,8 @@ Hinter linken Rand
 Hinter rechten Rand
 [General]
 Allgemein
+[Tray]
+Tray
 [List]
 Liste
 [Window]
@@ -830,17 +850,6 @@ Zeilengestaltung
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Unbekannter Kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-Traymenü
-[&Hide/show]
-Zeigen/&Ausblenden
-[&Find/add contacts...]
-Kontakte suchen/hinzu&fügen...
-[&Options...]
-&Einstellungen...
-[&About]
-&Über
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 Avatar anzeigen
@@ -1007,48 +1016,3 @@ Kontaktfilter aufheben
 Kontaktfilter Hintergrund
 [View modes]
 Kontaktfilter
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-Sichtbar
-[&Show title]
-Titel anzeigen
-[&Locked]
-&Gesperrt
-[&Expanded]
-&Ausgeklappt
-[&Floating mode]
-&Frei beweglicher Modus
-[&Border]
-&Rand
-[&Align]
-&Ausrichtung
-[&Top]
-&Oben
-[&Client]
-Mitte, &Kontakte
-[&Bottom]
-&Unten
-[&Position]
-&Position
-[&Up]
-A&uf
-[&Down]
-&Ab
-[Show all frames]
-Alle Frames anzeigen
-[Show all title bars]
-Alle Titelleisten anzeigen
-[Hide all title bars]
-Alle Titelleisten verstecken
-[Lock frame]
-Keine Größenänderung
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Framemenü
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Neue Gruppe
-[Group menu]
-Gruppenmenü
-[Subgroup menu]
-Untergruppenmenü

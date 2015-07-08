@@ -273,6 +273,8 @@ Unicode
 ID користувача
 [Open Database Editor]
 Відкрити редактор бази
+[Database]
+Профіль
 [Open user tree in DBE++]
 Відкрити в редакторі бази
 [<UNKNOWN>]
@@ -289,8 +291,6 @@ ID користувача
 Завантаження модулів...
 [Contacts]
 Контакти
-[Database]
-Профіль
 [Add module to "%s"]
 Додати модуль до "%s"
 [Type]

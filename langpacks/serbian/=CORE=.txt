@@ -423,34 +423,6 @@ Ne&vidljiv\tCtrl+7
 Na &telefonu\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
-&Sakriti/Prikazati
-[Nowhere]
-Nigde
-[&New group]
-&Nova grupa
-[&Hide offline users]
-S&kloniti odsutne
-[Hide &offline users out here]
-Skloniti &odsutne kontakte pri grupi
-[Hide &empty groups]
-Skloniti &prazne grupe
-[Disable &groups]
-Ne koristiti &grupe
-[Hide Miranda]
-Sakriti Miranda prozor
-[Group]
-Grupa
-[&New subgroup]
-&Napravi grupu
-[&Hide offline users in here]
-Skloniti &odsutne kontakte ove grupe
-[&Rename group]
-&Preimenovati grupu
-[&Delete group]
-&Izbrisati grupu
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Šalji datoteke
@@ -1232,6 +1204,34 @@ Jezik:
 Osvežiti jezički paket
 [Download more language packs]
 Preuzimanje jezičkih paketa
+[Tray]
+Tray
+[&Hide/Show]
+&Sakriti/Prikazati
+[Nowhere]
+Nigde
+[&New group]
+&Nova grupa
+[&Hide offline users]
+S&kloniti odsutne
+[Hide &offline users out here]
+Skloniti &odsutne kontakte pri grupi
+[Hide &empty groups]
+Skloniti &prazne grupe
+[Disable &groups]
+Ne koristiti &grupe
+[Hide Miranda]
+Sakriti Miranda prozor
+[Group]
+Grupa
+[&New subgroup]
+&Napravi grupu
+[&Hide offline users in here]
+Skloniti &odsutne kontakte ove grupe
+[&Rename group]
+&Preimenovati grupu
+[&Delete group]
+&Izbrisati grupu
 [&Reset to default]
 &Vratiti na standardno
 [find/add]
@@ -2088,15 +2088,6 @@ Tema je '%s'
 [The topic is '%s' (set by %s)]
 Tema je '%s' (od strane: %s)
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-Poseban status
-[%s (locked)]
-%s (zaključano)
-[Status menu]
-Izbor statusa
-[Main menu]
-Glavni meni
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Povezivanje
@@ -2105,7 +2096,6 @@ Povezivanje (pokušaj br. %d)
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Nepoznat kontakt)
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Kontakt je registrovan na IM serveru sa centralizovanom korisničkom bazom. Biće uklonjen sa servera i sa lokalnog spiska kontakata po sledećem povezivanju na mrežu sa koje je server.
@@ -2241,12 +2231,6 @@ Zaglavlja
 Bazični tekst
 [Small text]
 Dodatni tekst
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-Ikonice menija
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
-Meniji
 ;file \src\mir_app\src\groups.cpp
 [New group]
 Nova grupa
@@ -2346,6 +2330,38 @@ Nepoznati
 predefinisani
 [Languages]
 Jezici
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+Poseban status
+[%s (locked)]
+%s (zaključano)
+[Status menu]
+Izbor statusa
+[Main menu]
+Glavni meni
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+
+[Subgroup menu]
+
+;file \src\mir_app\src\menu_options.cpp
+[Menus]
+Meniji
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+
+[&Hide/show]
+&Sakriti/Prikazati
+[&Options...]
+&Podešavanja...
+[&About]
+
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
+Ikonice menija
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Ovim se uklanjaju svi kontakti u vezi sa navedenim metakontaktom.\nTakođe, metakontakt će biti izbrisan.\nNastaviti?
@@ -2507,8 +2523,6 @@ Učitavam... %d%%
 %s podešavanja
 [Miranda NG options]
 Miranda NG podešavanja
-[&Options...]
-&Podešavanja...
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 Dodatne ikonice
@@ -2699,6 +2713,8 @@ Pokrenuti jezgarni plug-inovi
 Jezgarni plug-inovi koji se ne učitavaju
 [Frames]
 Okviri
+[Add group]
+
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]

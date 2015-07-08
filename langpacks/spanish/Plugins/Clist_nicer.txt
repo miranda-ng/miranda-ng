@@ -251,34 +251,6 @@ No molestar
 En el &teléfono
 [Out to &lunch\tCtrl+9]
 Salí a comer
-[Tray]
-Bandeja
-[&Hide/Show]
-&Mostrar/Ocultar
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo grupo
-[&Hide offline users]
-&Ocultar usuarios fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar grupos
-[Hide Miranda]
-Ocultar Miranda
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar grupo
-[Appearance]
-Apariencia
 [Skin items]
 Ítems de piel
 [General]
@@ -415,6 +387,18 @@ Texto seleccionado
 Texto rondado
 [Quicksearch text]
 Búsqueda rápida de texto
+[Frames]
+Marcos
+[Show title bar]
+Mostrar barra de título
+[&Hide/show]
+&Mostrar/Ocultar
+[&Find/add contacts...]
+&Buscar/Agregar contactos...
+[Appearance]
+Apariencia
+[&Options...]
+&Opciones
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -451,15 +435,3 @@ Elija un modo de vista
 Limpiar modo de vista y volver a valores predeterminados de visualización
 [View modes]
 Modos de vista
-[Frames]
-Marcos
-[Show title bar]
-Mostrar barra de título
-[New group]
-Nuevo grupo
-[&Hide/show]
-&Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Options...]
-&Opciones

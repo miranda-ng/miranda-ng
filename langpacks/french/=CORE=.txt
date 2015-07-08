@@ -423,34 +423,6 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
-&Afficher/Cacher
-[Nowhere]
-Autre
-[&New group]
-Nouveau groupe
-[&Hide offline users]
-Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes vides
-[Disable &groups]
-Désactiver les groupes
-[Hide Miranda]
-Cacher Miranda
-[Group]
-Groupe
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-Cacher les Hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-Effacer le groupe
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Envoi de fichier(s)
@@ -1232,6 +1204,34 @@ Locale :
 
 [Download more language packs]
 Télécharger plus de pack de traduction
+[Tray]
+Tray
+[&Hide/Show]
+&Afficher/Cacher
+[Nowhere]
+Autre
+[&New group]
+Nouveau groupe
+[&Hide offline users]
+Cacher les contacts hors ligne
+[Hide &offline users out here]
+Cacher les &Hors ligne de ce groupe
+[Hide &empty groups]
+Cacher les groupes vides
+[Disable &groups]
+Désactiver les groupes
+[Hide Miranda]
+Cacher Miranda
+[Group]
+Groupe
+[&New subgroup]
+&Nouveau sous-groupe
+[&Hide offline users in here]
+Cacher les Hors ligne de ce groupe
+[&Rename group]
+&Renommer le groupe
+[&Delete group]
+Effacer le groupe
 [&Reset to default]
 &Paramètres par défaut
 [find/add]
@@ -2088,15 +2088,6 @@ Le sujet est '%s'
 [The topic is '%s' (set by %s)]
 Le sujet est '%s' (defini par %s)
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-États personnalisés
-[%s (locked)]
-%s (verrouillé)
-[Status menu]
-Menu états
-[Main menu]
-Menu principal
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Connexion...
@@ -2105,7 +2096,6 @@ Connexion...
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ce contact est sur un système de messagerie instantanée gardant les listes de contacts sur un serveur central. Le contact sera supprimé du serveur et de votre liste de contacts lors de votre prochaine connexion.
@@ -2241,12 +2231,6 @@ Polices
 
 [Small text]
 Petit texte
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-Menus
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
-Menus
 ;file \src\mir_app\src\groups.cpp
 [New group]
 Nouveau groupe
@@ -2346,6 +2330,38 @@ Inconnu
 
 [Languages]
 Langages
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+États personnalisés
+[%s (locked)]
+%s (verrouillé)
+[Status menu]
+Menu états
+[Main menu]
+Menu principal
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+
+[Subgroup menu]
+
+;file \src\mir_app\src\menu_options.cpp
+[Menus]
+Menus
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+
+[&Hide/show]
+&Afficher/Cacher
+[&Options...]
+&Paramètres...
+[&About]
+
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
+Menus
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Vous êtes sur le point d'enlever tous les contacts liés à ce metacontact.\nCeci supprimera le metacontact.\n\nVoulez-vous vraiment continuer ?
@@ -2507,8 +2523,6 @@ Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'
 %s options
 [Miranda NG options]
 Options de Miranda NG
-[&Options...]
-&Paramètres...
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 Icônes d'accès rapide
@@ -2699,6 +2713,8 @@ Déplacer vers le groupe
 
 [Frames]
 Cadres
+[Add group]
+
 [Request authorization]
 Demander l'autorisation
 [Grant authorization]

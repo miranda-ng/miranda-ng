@@ -92,8 +92,6 @@ HTTP далучэнне SmileyAdd
 [Protocol specific]
 У адпаведнасці з пратаколам
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Набор смайлаў %s не знойдзены.\nВыбярыце набор смайлаў: Налады -> Тонкая налада -> Смайлы.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
 [Smiley #%u in file %s for smiley pack %s not found.]

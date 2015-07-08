@@ -174,7 +174,7 @@ Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 Titel des neuen Chats:
 [Share]
 Teilen
-[Url:]
+[URL:]
 URL:
 [Only for friends]
 Nur für Freunde

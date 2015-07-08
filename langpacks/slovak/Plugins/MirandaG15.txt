@@ -17,7 +17,7 @@ Udalosti
 sekúnd
 [Incoming URL]
 Prichádzajúca URL
-[Contact list]
-Zoznam kontaktov
 [Hide offline users]
 Skryť nepripojených užívateľov
+[Contact list]
+Zoznam kontaktov

@@ -464,42 +464,6 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-[Tray]
-Tray
-[&Hide/Show]
-&Afficher/Cacher
-[Nowhere]
-Autre
-[&New group]
-&Nouveau groupe
-[&Hide offline users]
-&Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes &vides
-[Disable &groups]
-Désactiver les &groupes
-[Hide Miranda]
-Cacher Miranda
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-&Cacher les Hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-&Effacer le groupe
-[Move marked contacts to this group]
-Déplacer les contacts marqués de ce groupe
-[Appearance]
-Apparence
-[Show metacontact protocol icons]
-Voir l'icône du metacontact
-[Show additional buttons]
-Voir boutons supplémentaires
-[Draw sunken frame]
-
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Éléments du skin
@@ -758,67 +722,7 @@ Texte sous souris
 Texte en recherche rapide
 [Embedded frames border]
 Bordure cadres fusionnés
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Barre de titre
-[Tool Window]
-Fenêtre outils
-[Thin border]
-Bords fins
-[No border]
-Sans bordure
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
-[Contact list docking]
-
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-Charger et appliquer
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-[Ungrouped contacts]
-Contacts non-groupés
-[And]
-Et
-[Or]
-Ou
-[Older than]
-Plus vieux que
-[Newer than]
-Plus récent que
-[Minutes]
-Minutes
-[Hours]
-Heures
-[Days]
-Jours
-[Current view mode: %s]
-Mode actuel : %s
-[Filtering]
-Filtres
-[*** All contacts ***]
-*** Tous les contacts ***
-[Really delete this view mode? This cannot be undone]
-Effacer ce mode d'affichage? Ne pourra pas être récupérer
-[Delete a view mode]
-Effacer un mode d'affichage
-[No view mode]
-Aucun mode d'affichage
-[A view mode with this name does already exist]
-Un mode d'affichage existe déjà avec ce nom
-[Duplicate name]
-Nom en double
-[Setup view modes...]
-Configurer les modes d'affichages
-[Clear current view mode]
-Réinitialiser le mode d'affichage
-[Select a view mode]
-Sélectionner un mode d'affichage
-[Clear view mode and return to default display]
-Réinitialiser le mode d'affichage et retourner à l'affichage par défaut
-[View modes]
-Modes d'affichages
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 &Titre du Cadre
 [&Visible]
@@ -867,21 +771,80 @@ Afficher la barre de titre
 Image skinée
 [Floating]
 Flottant
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Barre de titre
+[Tool Window]
+Fenêtre outils
+[Thin border]
+Bords fins
+[No border]
+Sans bordure
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
+[Contact list docking]
 
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nouveau groupe
-[Group menu]
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Charger et appliquer
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+Voir l'icône du metacontact
+[Show additional buttons]
+Voir boutons supplémentaires
+[Draw sunken frame]
 
 [&Hide/show]
 &Afficher/Cacher
 [&Find/add contacts...]
 &Chercher/Ajouter des contacts...
+[Appearance]
+Apparence
 [&Options...]
 &Paramètres...
 [&About the contact list...]
 À propos de l&a liste de contact...
-[Subgroup menu]
-
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Contacts non-groupés
+[And]
+Et
+[Or]
+Ou
+[Older than]
+Plus vieux que
+[Newer than]
+Plus récent que
+[Minutes]
+Minutes
+[Hours]
+Heures
+[Days]
+Jours
+[Current view mode: %s]
+Mode actuel : %s
+[Filtering]
+Filtres
+[*** All contacts ***]
+*** Tous les contacts ***
+[Really delete this view mode? This cannot be undone]
+Effacer ce mode d'affichage? Ne pourra pas être récupérer
+[Delete a view mode]
+Effacer un mode d'affichage
+[No view mode]
+Aucun mode d'affichage
+[A view mode with this name does already exist]
+Un mode d'affichage existe déjà avec ce nom
+[Duplicate name]
+Nom en double
+[Setup view modes...]
+Configurer les modes d'affichages
+[Clear current view mode]
+Réinitialiser le mode d'affichage
+[Select a view mode]
+Sélectionner un mode d'affichage
+[Clear view mode and return to default display]
+Réinitialiser le mode d'affichage et retourner à l'affichage par défaut
+[View modes]
+Modes d'affichages
