@@ -354,8 +354,6 @@ Odrzuć prośbę o dodanie do znajomych
 Usługi...
 [Refresh Buddy List]
 Odśwież listę kontaktów
-[Services]
-Usługi
 [Check Friends Requests]
 Sprawdź zaproszenia do grona znajomych
 [Check Newsfeeds]

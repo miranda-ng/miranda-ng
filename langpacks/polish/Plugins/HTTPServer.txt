@@ -138,14 +138,8 @@ Musisz zrestartować Mirandę, by dokonać zmian w menu głównym
 Serwer HTTP
 [Network]
 Protokoły
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-Błąd tworzenia CreateServiceFunction MS_SHARE_NEW_FILE
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-Błąd tworzenia CreateServiceFunction MS_SHOW_STATISTICS_VIEW
 [HTTP Share new file]
 HTTP udostępnij plik
-[Failed to add contact menu item]
-Nie udało się dodać elementu w menu kontaktu
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Usunięto udział

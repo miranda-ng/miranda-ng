@@ -63,8 +63,6 @@ Gra
 Błąd krytyczny, nie znaleziono usługi obrazów. Usługa awatarów zostanie wyłączona
 [Avatar Service]
 Usługa awatarów
-[Name]
-Nazwa
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Sieć
@@ -83,6 +81,9 @@ Dołącz do gry
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Nieznany błąd
+;file \protocols\Steam\src\steam_options.cpp
+[Name]
+Nazwa
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły

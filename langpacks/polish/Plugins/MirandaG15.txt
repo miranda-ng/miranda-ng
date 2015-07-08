@@ -8,12 +8,12 @@
 [Provides an interface to use Miranda from the LCD of various Logitech devices.]
 Dostarcza interfejs obsługi Mirandy z poziomu wyświetlaczy różnych urządzeń Logitech.
 ;file \plugins\MirandaG15\res\MirandaG15.rc
-[Fonts]
-Czcionki
 [General settings]
 Ustawienia ogólne
 [Show softkey labels]
 Pokazuj etykiety klawiszy programowalnych
+[Fonts]
+Czcionki
 [Event log:]
 Dziennik zdarzeń:
 [Sample]
@@ -58,8 +58,6 @@ Gdy wygaszacz ekranu jest aktywny:
 Zablokuj ekran
 [Skip driver missing notification]
 Ignoruj powiadomienie o brakującym sterowniku
-[Notifications]
-Powiadomienia
 [Notification screen title]
 Tytuł okna powiadomienia
 [Hide it]
@@ -132,8 +130,6 @@ Nie ignoruj podczas odpowiadania
 Wyjątki:
 [Cut off channel names after]
 Ucinaj nazwy kanałów po
-[Contact list]
-Lista kontaktów
 [Show the contacts protocols]
 Pokazuj protokoły kontaktów
 [Hide offline users]
@@ -166,8 +162,6 @@ Rozwiń wszystkie grupy
 Używaj dwóch kolumn
 [Fade out selection rectangle]
 Efekt fade out dla kwadratu oznaczającego wybór
-[Chat]
-Czat
 [Typing notifications]
 Powiadomienia o pisaniu
 [Show typing notifications]
@@ -215,7 +209,11 @@ Gdy w tle
 MirandaG15
 [Appearance]
 Personalizacja
+[Notifications]
+Powiadomienia
 [Chat sessions]
 Sesje rozmowy
+[Contact list]
+Lista kontaktów
 [No device attached]
 Brak podłączonych urządzeń

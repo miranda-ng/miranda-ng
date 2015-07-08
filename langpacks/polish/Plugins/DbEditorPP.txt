@@ -286,6 +286,8 @@ Uchwyt
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Otwórz edytor profilu
+[Database]
+Profil
 [Open user tree in DBE++]
 Otwórz w edytorze profilu
 [<UNKNOWN>]
@@ -312,8 +314,6 @@ Wczytywanie modułów...
 [Contacts]
 Kontakty
 ;file \plugins\DbEditorPP\src\options.cpp
-[Database]
-Profil
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Dodaj moduł do "%s"
