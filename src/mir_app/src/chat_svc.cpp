@@ -206,58 +206,63 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 	if (mi == NULL)
 		return GC_NEWSESSION_ERROR;
 
-	// create a new session and set the defaults
-	SESSION_INFO *si = ci.SM_AddSession(gcw->ptszID, gcw->pszModule);
-	if (si != NULL) {
-		si->dwItemData = gcw->dwItemData;
-		if (gcw->iType != GCW_SERVER)
-			si->wStatus = ID_STATUS_ONLINE;
-		si->iType = gcw->iType;
-		si->dwFlags = gcw->dwFlags;
-		si->ptszName = mir_tstrdup(gcw->ptszName);
-		si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
-		si->iSplitterX = g_Settings->iSplitterX;
-		si->iSplitterY = g_Settings->iSplitterY;
-		si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
-		si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
-		si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
 
-		if (mi->bColor) {
-			si->iFG = 4;
-			si->bFGSet = TRUE;
-		}
-		if (mi->bBkgColor) {
-			si->iBG = 2;
-			si->bBGSet = TRUE;
-		}
-
-		TCHAR szTemp[256];
-		if (si->iType == GCW_SERVER)
-			mir_sntprintf(szTemp, _T("Server: %s"), si->ptszName);
-		else
-			_tcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
-		si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
-		db_set_s(si->hContact, si->pszModule, "Topic", "");
-		db_unset(si->hContact, "CList", "StatusMsg");
-		if (si->ptszStatusbarText)
-			db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
-		else
-			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
-
-		if (ci.OnCreateSession)
-			ci.OnCreateSession(si, mi);
-	}
-	else if (si = ci.SM_FindSession(gcw->ptszID, gcw->pszModule)) {
+	// try to restart a session first
+	SESSION_INFO *si = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
+	if (si != NULL) { 
 		ci.UM_RemoveAll(&si->pUsers);
 		ci.TM_RemoveAll(&si->pStatuses);
 
 		si->iStatusCount = 0;
 		si->nUsersInNicklist = 0;
+		si->pMe = NULL;
 
 		if (ci.OnReplaceSession)
 			ci.OnReplaceSession(si);
+		return 0;
+	}
+	
+	// create a new session and set the defaults
+	if ((si = ci.SM_AddSession(gcw->ptszID, gcw->pszModule)) == NULL)
+		return GC_NEWSESSION_ERROR;
+
+	si->dwItemData = gcw->dwItemData;
+	if (gcw->iType != GCW_SERVER)
+		si->wStatus = ID_STATUS_ONLINE;
+	si->iType = gcw->iType;
+	si->dwFlags = gcw->dwFlags;
+	si->ptszName = mir_tstrdup(gcw->ptszName);
+	si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
+	si->iSplitterX = g_Settings->iSplitterX;
+	si->iSplitterY = g_Settings->iSplitterY;
+	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
+	si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
+	si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
+
+	if (mi->bColor) {
+		si->iFG = 4;
+		si->bFGSet = TRUE;
+	}
+	if (mi->bBkgColor) {
+		si->iBG = 2;
+		si->bBGSet = TRUE;
 	}
 
+	TCHAR szTemp[256];
+	if (si->iType == GCW_SERVER)
+		mir_sntprintf(szTemp, _T("Server: %s"), si->ptszName);
+	else
+		_tcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
+	si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
+	db_set_s(si->hContact, si->pszModule, "Topic", "");
+	db_unset(si->hContact, "CList", "StatusMsg");
+	if (si->ptszStatusbarText)
+		db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+	else
+		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
+
+	if (ci.OnCreateSession)
+		ci.OnCreateSession(si, mi);
 	return 0;
 }
 
