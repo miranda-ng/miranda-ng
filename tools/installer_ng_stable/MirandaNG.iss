@@ -168,7 +168,7 @@ Name: "messagewin"; Description: "{cm:MessageWin}"; Types: extended regular mini
 Name: "messagewin\stdmsg"; Description: "{cm:StdMsg}"; Types: minimal; Flags: exclusive 
 Name: "messagewin\scriver"; Description: "{cm:Scriver}"; Types: custom; Flags: exclusive 
 Name: "messagewin\tabsrmm"; Description: "{cm:Tabsrmm}"; Types: extended regular; Flags: exclusive 
-Name: "dbx_mmap"; Description: "{cm:Dbx_Mmap}"; Types: extended regular minimal; Flags: fixed 
+Name: "dbx_mmap"; Description: "{cm:Dbx_Mmap}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang"; Description: "{cm:Lang}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang\russian"; Description: "{cm:LangRussian}"; Flags: exclusive 
 Name: "lang\czech"; Description: "{cm:LangCzech}"; Flags: exclusive 
