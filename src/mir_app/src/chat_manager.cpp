@@ -65,9 +65,6 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 	if (!pszID || !pszModule)
 		return NULL;
 
-	if (ci.SM_FindSession(pszID, pszModule))
-		return NULL;
-
 	SESSION_INFO *node = (SESSION_INFO*)mir_calloc(g_cbSession);
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
