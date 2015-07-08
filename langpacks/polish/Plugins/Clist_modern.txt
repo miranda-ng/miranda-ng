@@ -592,34 +592,52 @@ N&iewidoczny\tCtrl+7
 Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Na &obiedzie\tCtrl+9
-[Tray]
-Zasobnik
-[&Hide/Show]
-&Ukryj/Pokaż
-[Nowhere]
-Nigdzie
-[&New group]
-&Nowa grupa
-[&Hide offline users]
-&Ukryj rozłączonych
-[Hide &offline users out here]
-Ukryj &rozłączonych poza tą grupą
-[Hide &empty groups]
-Ukryj &puste grupy
-[Disable &groups]
-Wyłącz &grupy
-[Hide Miranda]
-Ukryj Mirandę
-[&New subgroup]
-&Nowa podgrupa
-[&Hide offline users in here]
-&Ukryj rozłączonych tutaj
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
+&Widoczny
+[&Show title]
+&Pokaż tytuł ramki
+[&Locked]
+&Zablokowany
+[&Expanded]
+&Rozszerzony
+[&Floating mode]
+Tryb &pływający
+[&Border]
+&Obramowanie
+[&Align]
+&Wyrównanie
+[&Top]
+&Góra
+[&Client]
+&Klient
+[&Bottom]
+&Dół
+[&Position]
+&Pozycja
+[&Up]
+&Góra
+[&Down]
+&Dół
+[Show all frames]
+Pokaż wszystkie ramki
+[Show all title bars]
+Pokaż wszystkie paski tytułów
+[Hide all title bars]
+Ukryj wszystkie paski tytułów
+[Lock frame]
+Zablokuj ramkę
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
+&Ukryj/pokaż
+[&Find/add contacts...]
+&Szukaj/dodaj kontakty
+[&Options...]
+&Opcje...
+[&About]
+&Informacje
 [&Show offline users in here]
 &Pokaż rozłączonych tutaj
-[&Rename group]
-&Zmień nazwę grupy
-[&Delete group]
-&Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s"?
@@ -776,6 +794,8 @@ Za lewą krawędzią
 Za prawą krawędzią
 [General]
 Ogólne
+[Tray]
+Zasobnik
 [List]
 Lista
 [Window]
@@ -830,17 +850,6 @@ Ułożenie wiersza
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-Menu zasobnika
-[&Hide/show]
-&Ukryj/pokaż
-[&Find/add contacts...]
-&Szukaj/dodaj kontakty
-[&Options...]
-&Opcje...
-[&About]
-&Informacje
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 Pokaż awatar
@@ -1007,48 +1016,3 @@ Resetuj tryb widoku
 Tło trybu widoku
 [View modes]
 Tryby widoku
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-&Widoczny
-[&Show title]
-&Pokaż tytuł ramki
-[&Locked]
-&Zablokowany
-[&Expanded]
-&Rozszerzony
-[&Floating mode]
-Tryb &pływający
-[&Border]
-&Obramowanie
-[&Align]
-&Wyrównanie
-[&Top]
-&Góra
-[&Client]
-&Klient
-[&Bottom]
-&Dół
-[&Position]
-&Pozycja
-[&Up]
-&Góra
-[&Down]
-&Dół
-[Show all frames]
-Pokaż wszystkie ramki
-[Show all title bars]
-Pokaż wszystkie paski tytułów
-[Hide all title bars]
-Ukryj wszystkie paski tytułów
-[Lock frame]
-Zablokuj ramkę
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Menu ramki
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nowa grupa
-[Group menu]
-Menu grupy
-[Subgroup menu]
-Menu podgrupy

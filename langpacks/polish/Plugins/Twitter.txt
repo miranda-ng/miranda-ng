@@ -96,6 +96,8 @@ Połączenie awatarów %s
 Twitter (awatary)
 [%s Protocol]
 Protokół %s
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+Nie szalej! Każdy wie, że maksymalna długość tweeta to 140 znaków, a ty próbujesz zmieścić tam $d znaków?
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 Ikona Twittera

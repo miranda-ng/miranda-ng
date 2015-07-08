@@ -95,8 +95,8 @@ Użytkownik zalogowany
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <nieznany>
-[<none>]
-<brak>
+[Last seen]
+Ostatnio widziany
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
 -- Data --
@@ -172,8 +172,6 @@ zamiast
 Zmienne
 [Contacts]
 Kontakty
-[Last seen]
-Ostatnio widziany
 [Popups]
 Popupy
 ;file \plugins\SeenPlugin\src\seen.h

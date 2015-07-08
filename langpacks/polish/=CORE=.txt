@@ -423,34 +423,6 @@ N&iewidoczny\tCtrl+7
 Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Poszedłem na &obiad\tCtrl+9
-[Tray]
-Zasobnik
-[&Hide/Show]
-&Pokaż/Ukryj
-[Nowhere]
-Nigdzie
-[&New group]
-&Nowa grupa
-[&Hide offline users]
-&Ukryj rozłączonych
-[Hide &offline users out here]
-Ukryj &rozłączonych tutaj
-[Hide &empty groups]
-Ukryj &puste grupy
-[Disable &groups]
-Wyłącz &grupy
-[Hide Miranda]
-Ukryj Mirandę
-[Group]
-Grupa
-[&New subgroup]
-&Nowa podgrupa
-[&Hide offline users in here]
-&Ukryj rozłączonych tutaj
-[&Rename group]
-&Zmień nazwę grupy
-[&Delete group]
-&Usuń grupę
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Wyślij plik(i)
@@ -1232,6 +1204,34 @@ Język:
 Załaduj pakiet językowy ponownie
 [Download more language packs]
 Pobierz więcej tłumaczeń
+[Tray]
+Zasobnik
+[&Hide/Show]
+&Pokaż/Ukryj
+[Nowhere]
+Nigdzie
+[&New group]
+&Nowa grupa
+[&Hide offline users]
+&Ukryj rozłączonych
+[Hide &offline users out here]
+Ukryj &rozłączonych tutaj
+[Hide &empty groups]
+Ukryj &puste grupy
+[Disable &groups]
+Wyłącz &grupy
+[Hide Miranda]
+Ukryj Mirandę
+[Group]
+Grupa
+[&New subgroup]
+&Nowa podgrupa
+[&Hide offline users in here]
+&Ukryj rozłączonych tutaj
+[&Rename group]
+&Zmień nazwę grupy
+[&Delete group]
+&Usuń grupę
 [&Reset to default]
 &Przywróć domyślne
 [find/add]
@@ -2088,15 +2088,6 @@ Temat to "%s"
 [The topic is '%s' (set by %s)]
 Temat to "%s" (ustawiony przez %s)
 ;file \src\mir_app\src\clcitems.cpp
-;file \src\mir_app\src\clistmenus.cpp
-[Custom status]
-Niestandardowy status
-[%s (locked)]
-%s (zablokowane)
-[Status menu]
-Menu statusu
-[Main menu]
-Menu główne
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Łączenie
@@ -2105,7 +2096,6 @@ Menu główne
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
-;file \src\mir_app\src\clisttray.cpp
 ;file \src\mir_app\src\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ten kontakt należy do sieci, która przechowuje swoją listę kontaktów na centralnym serwerze. Kontakt zostanie usunięty z serwera i twojej listy kontaktów kiedy ponownie połączysz się z tą siecią.
@@ -2241,12 +2231,6 @@ Nagłówki
 Ogólny tekst
 [Small text]
 Mały tekst
-;file \src\mir_app\src\genmenu.cpp
-[Menu icons]
-Ikony menu
-;file \src\mir_app\src\genmenuopt.cpp
-[Menus]
-Menu
 ;file \src\mir_app\src\groups.cpp
 [New group]
 Nowa grupa
@@ -2346,6 +2330,38 @@ Nieznany
 wbudowany
 [Languages]
 Języki
+;file \src\mir_app\src\menu_clist.cpp
+[Custom status]
+Niestandardowy status
+[%s (locked)]
+%s (zablokowane)
+[Status menu]
+Menu statusu
+[Main menu]
+Menu główne
+;file \src\mir_app\src\menu_frames.cpp
+[Frame menu]
+Menu ramki
+;file \src\mir_app\src\menu_groups.cpp
+[Group menu]
+Menu grupy
+[Subgroup menu]
+Menu podgrupy
+;file \src\mir_app\src\menu_options.cpp
+[Menus]
+Menu
+;file \src\mir_app\src\menu_tray.cpp
+[Tray menu]
+Menu zasobnika
+[&Hide/show]
+&Ukryj/pokaż
+[&Options...]
+&Opcje...
+[&About]
+&Informacje
+;file \src\mir_app\src\menu_utils.cpp
+[Menu icons]
+Ikony menu
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Zamierzasz usunąć wszystkie kontakty skojarzone z tym metakontaktem.\nTo usunie metakontakt.\n\nKontynuować mimo to?
@@ -2507,8 +2523,6 @@ Wczytywanie... %d%%
 %s opcje
 [Miranda NG options]
 Opcje Mirandy NG
-[&Options...]
-&Opcje...
 ;file \src\mir_app\src\options_ei.cpp
 [Extra icons]
 Dodatkowe ikony
@@ -2699,6 +2713,8 @@ Uruchomiona wtyczka rdzenia
 Nie uruchamialne wtyczki
 [Frames]
 Ramki
+[Add group]
+Dodaj grupę
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]

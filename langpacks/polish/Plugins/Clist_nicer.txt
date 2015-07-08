@@ -464,42 +464,6 @@ N&iewidoczny\tCtrl+7
 Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Na &obiedzie\tCtrl+9
-[Tray]
-Zasobnik
-[&Hide/Show]
-&Pokaż/Ukryj
-[Nowhere]
-Nigdzie
-[&New group]
-&Nowa grupa
-[&Hide offline users]
-&Ukryj rozłączonych
-[Hide &offline users out here]
-Ukryj &rozłączonych poza tą grupą
-[Hide &empty groups]
-Ukryj &puste grupy
-[Disable &groups]
-Wyłącz &grupy
-[Hide Miranda]
-Ukryj Mirandę
-[&New subgroup]
-&Nowa podgrupa
-[&Hide offline users in here]
-&Ukryj rozłączonych tutaj
-[&Rename group]
-&Zmień nazwę grupy
-[&Delete group]
-&Usuń grupę
-[Move marked contacts to this group]
-Przenieś zaznaczone kontakty do tej grupy
-[Appearance]
-Personalizacja
-[Show metacontact protocol icons]
-Pokazuj ikony protokołu metakontaktów
-[Show additional buttons]
-Pokaż dodatkowe przyciski
-[Draw sunken frame]
-Rysuj zatopioną ramkę
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Elementy skórki
@@ -758,67 +722,7 @@ Zaznaczony tekst
 Tekst szybkiego szukania
 [Embedded frames border]
 Kolor granicy ramek
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Nagłówek okna
-[Tool Window]
-Styl okna narzędziowego
-[Thin border]
-Wąskie obramowanie
-[No border]
-Bez obramowanie
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
-[Contact list docking]
-Dokowanie listy
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-Wczytaj i zastosuj
-;file \plugins\Clist_nicer\src\viewmodes.cpp
-[Ungrouped contacts]
-Niepogrupowane kontakty
-[And]
-I
-[Or]
-Lub
-[Older than]
-Starsze niż
-[Newer than]
-Nowsze niż
-[Minutes]
-Minuty
-[Hours]
-Godzin
-[Days]
-Dni
-[Current view mode: %s]
-Aktualny tryb widoku: %s
-[Filtering]
-Filtrowanie
-[*** All contacts ***]
-*** Wszystkie kontakty ***
-[Really delete this view mode? This cannot be undone]
-Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
-[Delete a view mode]
-Usuwanie trybu widoku
-[No view mode]
-Brak trybu widoku
-[A view mode with this name does already exist]
-Tryb widoku o podanej nazwie już istnieje
-[Duplicate name]
-Zduplikowana nazwa
-[Setup view modes...]
-Ustaw tryby widoku...
-[Clear current view mode]
-Wyczyść obecny tryb widoku
-[Select a view mode]
-Wybierz tryb widoku
-[Clear view mode and return to default display]
-Wyczyść tryb widoku i przywróć domyślne wyświetlanie
-[View modes]
-Tryby widoku
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\cluiframes.cpp
 [&FrameTitle]
 &Nazwa ramki
 [&Visible]
@@ -867,21 +771,80 @@ Pokaż pasek tytułu
 Skórkowalna ramka
 [Floating]
 Pływający
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-Menu ramki
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
-[New group]
-Nowa grupa
-[Group menu]
-Menu grupy
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Nagłówek okna
+[Tool Window]
+Styl okna narzędziowego
+[Thin border]
+Wąskie obramowanie
+[No border]
+Bez obramowanie
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
+[Contact list docking]
+Dokowanie listy
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Wczytaj i zastosuj
+;file \plugins\Clist_nicer\src\groupmenu.cpp
+[Show metacontact protocol icons]
+Pokazuj ikony protokołu metakontaktów
+[Show additional buttons]
+Pokaż dodatkowe przyciski
+[Draw sunken frame]
+Rysuj zatopioną ramkę
 [&Hide/show]
 &Ukryj/pokaż
 [&Find/add contacts...]
 &Znajdź/dodaj kontakt
+[Appearance]
+Personalizacja
 [&Options...]
 &Opcje...
 [&About the contact list...]
 &O liście kontaktów...
-[Subgroup menu]
-Menu podgrupy
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Niepogrupowane kontakty
+[And]
+I
+[Or]
+Lub
+[Older than]
+Starsze niż
+[Newer than]
+Nowsze niż
+[Minutes]
+Minuty
+[Hours]
+Godzin
+[Days]
+Dni
+[Current view mode: %s]
+Aktualny tryb widoku: %s
+[Filtering]
+Filtrowanie
+[*** All contacts ***]
+*** Wszystkie kontakty ***
+[Really delete this view mode? This cannot be undone]
+Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
+[Delete a view mode]
+Usuwanie trybu widoku
+[No view mode]
+Brak trybu widoku
+[A view mode with this name does already exist]
+Tryb widoku o podanej nazwie już istnieje
+[Duplicate name]
+Zduplikowana nazwa
+[Setup view modes...]
+Ustaw tryby widoku...
+[Clear current view mode]
+Wyczyść obecny tryb widoku
+[Select a view mode]
+Wybierz tryb widoku
+[Clear view mode and return to default display]
+Wyczyść tryb widoku i przywróć domyślne wyświetlanie
+[View modes]
+Tryby widoku

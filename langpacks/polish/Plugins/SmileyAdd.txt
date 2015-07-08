@@ -94,8 +94,8 @@ Wszystkie pliki
 [Protocol specific]
 Specyficzne dla protokołu
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczkę emotikon Opcje -> Personalizacja -> Emotikony.
+[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+Nie znaleziono paczki emotikon %s dla kategorii "%s".\nWybierz właściwą paczkę w Opcje -> Personalizacja -> Emotikony.
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Wystąpiły problemy z wczytaniem paczki emotikon (powinny już działać).\nPo szczegóły zajrzyj do dziennika.
 [Smiley #%u in file %s for smiley pack %s not found.]
