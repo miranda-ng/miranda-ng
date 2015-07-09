@@ -861,7 +861,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetCurrentDirectoryA(mir_path);
 			tmp = mir_a2t(mir_path);
 			mir_free(mir_path);
-			mir_realloc(path, (mir_tstrlen(path)+128)*sizeof(TCHAR));
+			//mir_realloc(path, (mir_tstrlen(path)+128)*sizeof(TCHAR));
 			TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH), *gpg_lang_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 			mir_tstrcpy(gpg_path, tmp);
 			mir_tstrcat(gpg_path, _T("\\GnuPG\\gpg.exe"));
@@ -873,6 +873,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				gpg_exists = true;
 				mir_tstrcpy(path, _T("GnuPG\\gpg.exe"));
 			}
+			else
+				mir_tstrcpy(path, gpg_path);
 			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;
 			if(gpg_exists && !lang_exists)
