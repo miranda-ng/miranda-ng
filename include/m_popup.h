@@ -498,7 +498,7 @@ typedef struct
 	DWORD dwFlags;			// set of PNF_* flags
 	char lpzGroup[MAXMODULELABELLENGTH];
 	char lpzName[MAXMODULELABELLENGTH];
-	HICON lchIcon;			// this will be registered in icolib
+	HANDLE lchIcoLib;			// gotten from icolib
 	COLORREF colorBack;		// this will be registered in fontservice
 	COLORREF colorText;		// this will be registered in fontservice
 	int iSeconds;			// default timeout
