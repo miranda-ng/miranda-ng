@@ -35,11 +35,11 @@ IconItem gdiContactMenuItems[CONTACT_MENU_ITEMS_COUNT] =
 
 IconItem gdiExtraStatusIconsItems[ADV_ICON_MAX] =
 {
-   { ADV_ICON_DELETED_STR,		ADV_ICON_DELETED_ID,		IDI_DELETED     },
-   { ADV_ICON_NOT_ON_SERVER_STR,	ADV_ICON_NOT_ON_SERVER_ID,	IDI_AUTHGRANT   },
-   { ADV_ICON_NOT_AUTHORIZED_STR,	ADV_ICON_NOT_AUTHORIZED_ID,	IDI_AUTHRUGUEST },
-   { ADV_ICON_PHONE_STR,		ADV_ICON_PHONE_ID,		IDI_MRA_PHONE   },
-   { ADV_ICON_BLOGSTATUS_STR,		ADV_ICON_BLOGSTATUS_ID,		IDI_BLOGSTATUS  }
+   { ADV_ICON_DELETED_STR,        ADV_ICON_DELETED_ID,        IDI_DELETED      },
+   { ADV_ICON_NOT_ON_SERVER_STR,	 ADV_ICON_NOT_ON_SERVER_ID,  IDI_AUTHGRANT    },
+   { ADV_ICON_NOT_AUTHORIZED_STR, ADV_ICON_NOT_AUTHORIZED_ID, IDI_AUTHRUGUEST  },
+   { ADV_ICON_PHONE_STR,          ADV_ICON_PHONE_ID,          IDI_MRA_PHONE    },
+   { ADV_ICON_BLOGSTATUS_STR,     ADV_ICON_BLOGSTATUS_ID,     IDI_BLOGSTATUS   }
 };
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,6 @@ void InitXStatusIcons()
 	SKINICONDESC sid = { 0 };
 	sid.section.t = LPGENT("Protocols")_T("/")LPGENT("MRA")_T("/")LPGENT("Custom Status");
 	sid.defaultFile.t = szBuff;
-	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_TCHAR;
 
 	hXStatusAdvancedStatusIcons[0] = NULL;

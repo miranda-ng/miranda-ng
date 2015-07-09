@@ -35,5 +35,4 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown);
 BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday);
 
 /* Skin */
-HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDesc,HINSTANCE hInst,WORD idRes,BOOL fLarge);
 void AddHotkey();

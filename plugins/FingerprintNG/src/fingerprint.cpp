@@ -85,7 +85,6 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	sid.description.t = mask->szClientDescription;
 	sid.defaultFile.t = destfile;
 	sid.iDefaultIndex = -mask->iIconIndex;
-	sid.cx = sid.cy = 16;
 	mask->hIcolibItem = IcoLib_AddIcon(&sid);
 }
 

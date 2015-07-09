@@ -45,8 +45,7 @@ namespace mu
 	namespace icolib
 	{
 		bool _available();
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex, int cx = 16, int cy = 16);
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, HICON hDefaultIcon, int cx = 16, int cy = 16);
+		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex);
 		HICON getIcon(const char* szIconName);
 	}
 

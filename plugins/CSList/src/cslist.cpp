@@ -130,7 +130,6 @@ extern "C" __declspec(dllexport) int Load()
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.t = tszFile;
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.cx = sid.cy = 16;
 	sid.section.t = _T(MODULENAME);
 
 	for (int i = 0; i < _countof(forms); i++) {

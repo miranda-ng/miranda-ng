@@ -213,7 +213,6 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = section;
-	sid.cx = sid.cy = 16;
 	sid.pszName = setting;
 	sid.description.a = notification->lpzName;
 	sid.hDefaultIcon = notification->lchIcon;

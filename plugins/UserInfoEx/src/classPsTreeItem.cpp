@@ -319,8 +319,6 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 
 		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR;
-		sid.cx = GetSystemMetrics(SM_CXSMICON);
-		sid.cy = GetSystemMetrics(SM_CYSMICON);
 		sid.pszName = (LPSTR)pszIconName;
 		sid.description.t = _ptszLabel;
 		sid.section.t = LPGENT(SECT_TREE);

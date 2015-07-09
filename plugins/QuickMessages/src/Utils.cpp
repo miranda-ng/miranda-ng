@@ -235,7 +235,6 @@ static HANDLE AddIcon(char* szIcoName)
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.section.a = "Quick Messages";
-	sid.cx = sid.cy = 16;
 	sid.description.a = szIcoName;
 	sid.pszName = szIcoName;
 	sid.defaultFile.t = tszPath;
