@@ -978,7 +978,6 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp)+1));
 					mir_tstrcpy(password, tmp);
 				}
-				mir_free(tmp);
 				mir_free(inkeyid);
 				DestroyWindow(hwndDlg);
 			}
