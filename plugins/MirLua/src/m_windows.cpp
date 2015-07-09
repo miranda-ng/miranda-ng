@@ -2,11 +2,12 @@
 
 static int lua_MessageBox(lua_State *L)
 {
-	ptrT text(mir_utf8decodeT(lua_tostring(L, 1)));
-	ptrT caption(mir_utf8decodeT(lua_tostring(L, 2)));
-	UINT flags = lua_tointeger(L, 3);
+	HWND hwnd = (HWND)lua_touserdata(L, 1);
+	ptrT text(mir_utf8decodeT(lua_tostring(L, 2)));
+	ptrT caption(mir_utf8decodeT(lua_tostring(L, 3)));
+	UINT flags = lua_tointeger(L, 4);
 
-	int res = ::MessageBox(NULL, text, caption, flags);
+	int res = ::MessageBox(hwnd, text, caption, flags);
 	lua_pushinteger(L, res);
 
 	return 1;
