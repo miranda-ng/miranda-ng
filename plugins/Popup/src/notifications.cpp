@@ -46,7 +46,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_WARN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.lchIcoLib = GetIconHandle(IDI_MB_WARN);
 	notification.colorBack = RGB(210, 210, 150);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 10;
@@ -54,7 +54,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Notification", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_INFO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.lchIcoLib = GetIconHandle(IDI_MB_INFO);
 	notification.colorBack = RGB(230, 230, 230);
 	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 7;
@@ -62,7 +62,7 @@ void LoadNotifications()
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Error", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.lchIcoLib = GetIconHandle(IDI_MB_STOP);
 	notification.colorBack = RGB(191, 0, 0);
 	notification.colorText = RGB(255, 245, 225);
 	notification.iSeconds = -1;
@@ -176,6 +176,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	ptd->pszTreeRoot = mir_a2t(notification->lpzGroup);
 	ptd->pszDescription = mir_a2t(notification->lpzName);
 	ptd->notification = *notification;
+	ptd->hIcoLib = notification->lchIcoLib;
 	if (!ptd->notification.lpzLAction) ptd->notification.lpzLAction = POPUP_ACTION_NOTHING;
 	if (!ptd->notification.lpzRAction) ptd->notification.lpzRAction = POPUP_ACTION_DISMISS;
 	LoadNotificationSettings(ptd, "PopupNotifications");
@@ -206,17 +207,6 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(colourid.setting, _countof(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
 	ColourRegister(&colourid);
-
-	char section[MAXMODULELABELLENGTH], setting[MAXMODULELABELLENGTH];
-	mir_snprintf(section, _countof(section), "Popups/%s", notification->lpzGroup);
-	mir_snprintf(setting, MODULNAME"_%s_%s", notification->lpzGroup, notification->lpzName);
-
-	SKINICONDESC sid = { 0 };
-	sid.section.a = section;
-	sid.pszName = setting;
-	sid.description.a = notification->lpzName;
-	sid.hDefaultIcon = notification->lchIcon;
-	IcoLib_AddIcon(&sid);
 
 	gTreeData.insert(ptd);
 	return (HANDLE)ptd;
@@ -257,9 +247,7 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	mir_snprintf(colourid.name, _countof(colourid.name), "%s (colors only)", ptd->notification.lpzName);
 	ppd->colorBack = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
 
-	char setting[MAXMODULELABELLENGTH];
-	mir_snprintf(setting, MODULNAME"_%s_%s", ptd->notification.lpzGroup, ptd->notification.lpzName);
-	ppd->lchIcon = IcoLib_GetIcon(setting);
+	ppd->lchIcon = IcoLib_GetIconByHandle(ptd->hIcoLib);
 }
 
 bool IsValidNotification(HANDLE hNotification)

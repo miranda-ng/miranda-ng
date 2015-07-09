@@ -46,17 +46,17 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 
-		SendDlgItemMessage(hwnd, IDC_ICO_AUTO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_DEF, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_FAVORITE, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FAV, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_FULLSCREEN, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0), 0);
-		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_OPT_BLOCK, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_AUTO, STM_SETICON, (WPARAM)LoadIconEx(IDI_ACT_OK), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_FAVORITE, STM_SETICON, (WPARAM)LoadIconEx(IDI_OPT_FAVORITE), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_FULLSCREEN, STM_SETICON, (WPARAM)LoadIconEx(IDI_OPT_FULLSCREEN), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_BLOCK, STM_SETICON, (WPARAM)LoadIconEx(IDI_OPT_BLOCK), 0);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 5);
 			ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_DEF, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FAV, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_FULLSCREEN, 0));
-			ImageList_AddIcon(hIml, IcoLib_GetIcon(ICO_OPT_BLOCK, 0));
+			ImageList_AddIcon(hIml, LoadIconEx(IDI_ACT_OK));
+			ImageList_AddIcon(hIml, LoadIconEx(IDI_OPT_FAVORITE));
+			ImageList_AddIcon(hIml, LoadIconEx(IDI_OPT_FULLSCREEN));
+			ImageList_AddIcon(hIml, LoadIconEx(IDI_OPT_BLOCK));
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRACOLUMNS, 4 /*_countof(sttIcons)*/, 0);
 			sttResetListOptions(GetDlgItem(hwnd, IDC_LIST));

@@ -129,8 +129,9 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
 			for (int i = 0; i < arPopupHistory.getCount(); ++i)
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
-			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 1));
+
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(IDI_HISTORY, false));
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_HISTORY, true));
 
 			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
 				logType = LOG_HPP;
@@ -413,6 +414,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			ieWindow.hwnd = hwndLog;
 			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		}
+		Window_FreeIcon_IcoLib(hwnd);
 	}
 	return FALSE; // DefWindowProc(hwnd, msg, wParam, lParam);
 }

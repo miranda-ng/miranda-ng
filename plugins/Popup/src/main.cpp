@@ -114,16 +114,16 @@ static int IconsChanged(WPARAM, LPARAM)
 	HICON hIcon;
 	if (PopupOptions.ModuleIsEnabled == TRUE) { // The module is enabled.
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
+		hIcon = LoadIconEx(IDI_POPUP, 0);
 	}
 	else { // The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
+		hIcon = LoadIconEx(IDI_NOPOPUP, 0);
 	}
 	Menu_ModifyItem(hMenuItem, NULL, hIcon);
 	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
 
-	Menu_ModifyItem(hMenuItemHistory, NULL, IcoLib_GetIcon(ICO_HISTORY, 0));
+	Menu_ModifyItem(hMenuItemHistory, NULL, LoadIconEx(IDI_HISTORY, 0));
 	return 0;
 }
 
@@ -136,8 +136,8 @@ static int TTBLoaded(WPARAM, LPARAM)
 	if (PopupOptions.ModuleIsEnabled)
 		ttb.dwFlags |= TTBBF_PUSHED;
 	ttb.name = LPGEN("Toggle Popups");
-	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_TB_POPUP_OFF);
-	ttb.hIconHandleDn = IcoLib_GetIconHandle(ICO_TB_POPUP_ON);
+	ttb.hIconHandleUp = GetIconHandle(IDI_NOPOPUP);
+	ttb.hIconHandleDn = GetIconHandle(IDI_POPUP);
 	ttb.pszTooltipUp = LPGEN("Enable Popups");
 	ttb.pszTooltipDn = LPGEN("Disable Popups");
 	hTTButton = TopToolbar_AddButton(&ttb);
@@ -153,14 +153,14 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		// The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = FALSE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
-		Menu_ModifyItem(hMenuItem, LPGENT("Enable Popups"), hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0));
+		Menu_ModifyItem(hMenuItem, LPGENT("Enable Popups"), hIcon = LoadIconEx(IDI_NOPOPUP));
 	}
 	else {
 		// The module is disabled.
 		// The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopupOptions.ModuleIsEnabled = TRUE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
-		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0));
+		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), hIcon = LoadIconEx(IDI_POPUP));
 	}
 
 	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
@@ -185,7 +185,7 @@ void InitMenuItems(void)
 	// Build main menu
 	mi.position = -1000000000 /*1000001*/;
 	mi.name.t = LPGENT(MODULNAME_PLU);
-	mi.hIcolibItem = IcoLib_GetIcon(PopupOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF, 0);
+	mi.hIcolibItem = LoadIconEx(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
 	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
@@ -200,7 +200,7 @@ void InitMenuItems(void)
 	CreateServiceFunction(mi.pszService, svcShowHistory);
 	mi.position = 1000000000;
 	mi.name.t = LPGENT("Popup History");
-	mi.hIcolibItem = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.hIcolibItem = LoadIconEx(IDI_HISTORY, 0);
 	hMenuItemHistory = Menu_AddMainMenuItem(&mi);
 }
 
