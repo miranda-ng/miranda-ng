@@ -69,10 +69,6 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi);
 // returns a HMENU. This need not to be freed since it's owned by clist
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetMainMenu(void);
 
-// rebuilds the main menu
-// returns a HMENU identifying the menu.
-EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // the main menu is about to be built
 // wParam = lParam = 0

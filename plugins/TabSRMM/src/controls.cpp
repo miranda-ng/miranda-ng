@@ -393,7 +393,7 @@ void CMenuBar::invoke(const int id)
 		m_isContactMenu = true;
 	}
 	else if (index == 0) {
-		hMenu = Menu_BuildMainMenu();
+		hMenu = Menu_GetMainMenu();
 		m_isMainMenu = true;
 	}
 	else hMenu = reinterpret_cast<HMENU>(m_TbButtons[index].dwData);
