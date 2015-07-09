@@ -128,10 +128,10 @@ http://miranda-ng.org/distr/
 #include "avatars_gif.h"
 #include "popup_gdiplus.h"
 
-#define PU_MODULCLASS				"PopupCLASS"		//temp DB modul for this plugin
-#define MODULNAME					"Popup"
-#define MODULNAME_LONG				"Popup Plus"
-#define MODULNAME_PLU				"Popups"
+#define PU_MODULCLASS  "PopupCLASS" // temp DB modul for this plugin
+#define MODULNAME      "Popup"
+#define MODULNAME_LONG "Popup Plus"
+#define MODULNAME_PLU  "Popups"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 

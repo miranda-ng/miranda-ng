@@ -361,7 +361,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			// Skin List reload button
 			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RELOAD, 0));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_RELOAD));
 			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
 
 			// Skin Option List
@@ -544,7 +544,7 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			HFONT hfnt = (HFONT)SelectObject(mydc, fonts.title);
 			GetClientRect(hwnd, &rc);
 			FillRect(mydc, &rc, hbr);
-			DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, IcoLib_GetIcon(ICO_POPUP_ON, 0), 16, 16, 0, hbr, DI_NORMAL);
+			DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, LoadIconEx(IDI_POPUP), 16, 16, 0, hbr, DI_NORMAL);
 			SetBkMode(mydc, TRANSPARENT);
 			GetClientRect(hwnd, &rc);
 			rc.left += 30; //  10+16+4 -- icon

@@ -26,43 +26,66 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static IconItem iconList[] =
 {
 	// toolbar
-	{ LPGEN("Popups are enabled"), ICO_TB_POPUP_ON, IDI_POPUP },
-	{ LPGEN("Popups are disabled"), ICO_TB_POPUP_OFF, IDI_NOPOPUP },
+	{ LPGEN("Popups are enabled"), "TBButton_ToogleUp", IDI_POPUP },
+	{ LPGEN("Popups are disabled"), "TBButton_ToogleDOWN", IDI_NOPOPUP },
 
 	// common popup
-	{ LPGEN("Popups are enabled"), ICO_POPUP_ON, IDI_POPUP },
-	{ LPGEN("Popups are disabled"), ICO_POPUP_OFF, IDI_NOPOPUP },
-	{ LPGEN("With \"favorite\" overlay"), ICO_FAV, IDI_PU_FAVOURITE },
-	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN, IDI_PU_FULLSCREEN },
-	{ LPGEN("Popup History"), ICO_HISTORY, IDI_HISTORY },
+	{ LPGEN("Popups are enabled"), "enabled", IDI_POPUP },
+	{ LPGEN("Popups are disabled"), "disabled", IDI_NOPOPUP },
+	{ LPGEN("With \"favorite\" overlay"), "favourite", IDI_PU_FAVOURITE },
+	{ LPGEN("With \"fullscreen\" overlay"), "fullscreen", IDI_PU_FULLSCREEN },
+	{ LPGEN("Popup History"), "history", IDI_HISTORY },
+
+	// notifications
+	{ LPGEN("Information"), "info", IDI_MB_INFO },
+	{ LPGEN("Warning"), "warning", IDI_MB_WARN },
+	{ LPGEN("Error"), "error", IDI_MB_STOP },
 
 	// option
-	{ LPGEN("Refresh skin list"), ICO_OPT_RELOAD, IDI_RELOAD },
-	{ LPGEN("Popup placement"), ICO_OPT_RESIZE, IDI_RESIZE },
-	{ LPGEN("OK"), ICO_OPT_OK, IDI_ACT_OK },
-	{ LPGEN("Cancel"), ICO_OPT_CANCEL, IDI_ACT_CLOSE },
-	{ LPGEN("Popup group"), ICO_OPT_GROUP, IDI_OPT_GROUP },
-	{ LPGEN("Show default"), ICO_OPT_DEF, IDI_ACT_OK },
-	{ LPGEN("Favorite contact"), ICO_OPT_FAV, IDI_OPT_FAVORITE },
-	{ LPGEN("Show in fullscreen"), ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
-	{ LPGEN("Blocked contact"), ICO_OPT_BLOCK, IDI_OPT_BLOCK },
+	{ LPGEN("Refresh skin list"), "opt_reload", IDI_RELOAD },
+	{ LPGEN("Popup placement"), "opt_resize", IDI_RESIZE },
+	{ LPGEN("OK"), "opt_ok", IDI_ACT_OK },
+	{ LPGEN("Cancel"), "opt_cancel", IDI_ACT_CLOSE },
+	{ LPGEN("Popup group"), "opt_group", IDI_OPT_GROUP },
+	{ LPGEN("Show default"), "opt_default", IDI_ACT_OK },
+	{ LPGEN("Favorite contact"), "opt_favorite", IDI_OPT_FAVORITE },
+	{ LPGEN("Show in fullscreen"), "opt_fullscreen", IDI_OPT_FULLSCREEN },
+	{ LPGEN("Blocked contact"), "opt_block", IDI_OPT_BLOCK },
 
 	// action
-	{ LPGEN("Quick reply"), ICO_ACT_REPLY, IDI_ACT_REPLY },
-	{ LPGEN("Pin popup"), ICO_ACT_PIN, IDI_ACT_PIN },
-	{ LPGEN("Pinned popup"), ICO_ACT_PINNED, IDI_ACT_PINNED },
-	{ LPGEN("Send message"), ICO_ACT_MESS, IDI_ACT_MESSAGE },
-	{ LPGEN("User details"), ICO_ACT_INFO, IDI_ACT_INFO },
-	{ LPGEN("Contact menu"), ICO_ACT_MENU, IDI_ACT_MENU },
-	{ LPGEN("Add contact permanently"), ICO_ACT_ADD, IDI_ACT_ADD },
-	{ LPGEN("Dismiss popup"), ICO_ACT_CLOSE, IDI_ACT_CLOSE },
-	{ LPGEN("Copy to clipboard"), ICO_ACT_COPY, IDI_ACT_COPY }
+	{ LPGEN("Quick reply"), "act_reply", IDI_ACT_REPLY },
+	{ LPGEN("Pin popup"), "act_pin", IDI_ACT_PIN },
+	{ LPGEN("Pinned popup"), "act_pinned", IDI_ACT_PINNED },
+	{ LPGEN("Send message"), "act_message", IDI_ACT_MESSAGE },
+	{ LPGEN("User details"), "act_info", IDI_ACT_INFO },
+	{ LPGEN("Contact menu"), "act_menu", IDI_ACT_MENU },
+	{ LPGEN("Add contact permanently"), "act_add", IDI_ACT_ADD },
+	{ LPGEN("Dismiss popup"), "act_close", IDI_ACT_CLOSE },
+	{ LPGEN("Copy to clipboard"), "act_copy", IDI_ACT_COPY }
 };
 
 void InitIcons()
 {
-	Icon_Register(hInst, SECT_TOLBAR, iconList, 2);
-	Icon_Register(hInst, SECT_POPUP, iconList + 2, 5);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 7, 9);
-	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 16, 9);
+	Icon_Register(hInst, SECT_TOLBAR, iconList, 2, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP, iconList + 2, 8, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_OPT, iconList + 10, 9, MODULNAME);
+	Icon_Register(hInst, SECT_POPUP SECT_POPUP_ACT, iconList + 19, 9, MODULNAME);
+}
+
+HICON LoadIconEx(int iconId, bool big)
+{
+	for (int i = 0; i < _countof(iconList); i++)
+		if (iconList[i].defIconID == iconId)
+			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
+	
+	return NULL;
+}
+
+HANDLE GetIconHandle(int iconId)
+{
+	for (int i = 0; i < _countof(iconList); i++)
+		if (iconList[i].defIconID == iconId)
+			return iconList[i].hIcolib;
+
+	return NULL;
 }

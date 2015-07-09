@@ -40,6 +40,7 @@ struct POPUPTREEDATA
 	int timeoutValue;
 	char leftAction[MAXMODULELABELLENGTH];
 	char rightAction[MAXMODULELABELLENGTH];
+	HANDLE hIcoLib;
 	COLORREF colorBack;			//really needed ??
 	COLORREF colorText;			//really needed ??
 };

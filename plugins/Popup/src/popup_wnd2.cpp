@@ -578,7 +578,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_REPLY, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_REPLY, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Quick reply");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_REPLY;
@@ -587,7 +587,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MESS, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_MESSAGE, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Send message");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_MESSAGE;
@@ -596,7 +596,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultUsr && IsActionEnabled("General/User details")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_INFO, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_INFO, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/User details");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_DETAILS;
@@ -605,7 +605,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultUsr && IsActionEnabled("General/Contact menu")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MENU, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_MENU, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Contact menu");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_MENU;
@@ -614,7 +614,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultUsr && db_get_b(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_ADD, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_ADD, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_ADD;
@@ -623,7 +623,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED, iconSize) : IcoLib_GetIcon(ICO_ACT_PIN, iconSize);
+			m_actions[iAction].actionA.lchIcon = m_bIsPinned ? LoadIconEx(IDI_ACT_PINNED, iconSize) : LoadIconEx(IDI_ACT_PIN, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Pin popup");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_PIN;
@@ -632,7 +632,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_CLOSE, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_CLOSE, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Dismiss popup");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_DISMISS;
@@ -641,7 +641,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 
 		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
-			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_COPY, iconSize);
+			m_actions[iAction].actionA.lchIcon = LoadIconEx(IDI_ACT_COPY, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Copy to clipboard");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_COPY;
@@ -982,7 +982,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			m_bIsPinned = !m_bIsPinned;
 			{
 				bool iconSize = PopupOptions.actions&ACT_LARGE ? TRUE : FALSE;
-				PUModifyActionIcon(m_hwnd, wParam, lParam, m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED, iconSize) : IcoLib_GetIcon(ICO_ACT_PIN, iconSize));
+				PUModifyActionIcon(m_hwnd, wParam, lParam, m_bIsPinned ? LoadIconEx(IDI_ACT_PINNED, iconSize) : LoadIconEx(IDI_ACT_PIN, iconSize));
 			}
 			break;
 

@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HWND hCtrl = GetDlgItem(hwnd, IDC_SHOWHISTORY);
 			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)Translate("Popup History"), 0);
-			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
+			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(IDI_HISTORY));
 
 			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.EnableHistory);
 			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.EnableHistory);
