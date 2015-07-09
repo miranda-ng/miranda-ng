@@ -1537,7 +1537,6 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 	TCHAR fileFull[MAX_PATH] = { 0 };
 
 	SKINICONDESC sid = { 0 };
-	sid.cx = sid.cy = 16;
 	sid.section.a = szSectionName;
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_TCHAR;

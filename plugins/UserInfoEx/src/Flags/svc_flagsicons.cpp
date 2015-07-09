@@ -283,84 +283,41 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 
 void InitIcons()
 {
-	/* all those flag icons storing in a large 24bit opaque bitmap to reduce file size */
+	// all those flag icons storing in a large 24bit opaque bitmap to reduce file size
 	FIBITMAP *dib = LoadResource(IDB_FLAGSPNG, _T("PNG"));
 	if (dib == NULL)
 		return;
 
-	UINT bit = ILC_COLOR32, bitDest = ILC_COLOR32;
+	if (FIP->FI_GetBPP(dib) != ILC_COLOR32)
+		if (NULL == (dib = ConvertTo(dib, ILC_COLOR32, 0)))
+			return;
 
-	if (FIP->FI_GetBPP(dib) != bit)
-	if (NULL == (dib = ConvertTo(dib, bit, 0)))
-		return;
-
-	//create new dib
-	FIBITMAP *dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, bit, 0, 0, 0);
+	// create new dib
+	FIBITMAP *dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, ILC_COLOR32, 0, 0, 0);
 	if (dib_ico == NULL) {
 		FIP->FI_Unload(dib);
 		return;
 	}
 
-/*
-	//	res = FIP->FI_IsTransparent(dib_ico);
-	if (bit < 32) {
-		//disable transparency
-		FIP->FI_SetTransparent(dib, FALSE);
-		FIP->FI_SetTransparent(dib_ico, FALSE);
-	}
-*/
-
 	UINT h = FIP->FI_GetHeight(dib_ico);
 	UINT w = FIP->FI_GetWidth(dib_ico);
 	UINT t = ((h - FIP->FI_GetHeight(dib)) / 2) + 1;
 	UINT b = t + FIP->FI_GetHeight(dib);
-	HBITMAP hbmMask = 0;
 
-	//copy dib to new dib_ico (centered)
+	// copy dib to new dib_ico (centered)
 	if (FIP->FI_Paste(dib_ico, dib, 0, t - 1, 255 + 1)) {
 		FIP->FI_Unload(dib);	dib = NULL;
-		switch (bitDest) {
-		case 8:
-		case 16:
-		case 24:
-			{//transparency by 1bit monocrome icon mask (for bit < 32)
-				FIBITMAP *dib_mask;
-				if (NULL == (dib_mask = FIP->FI_Allocate(w, h, 1, 0, 0, 0))) {
-					FIP->FI_Unload(dib_ico);
-					return;
-				}
-				for(unsigned y = 0; y < h; y++)
-					for(unsigned x = 0; x < w; x++) {
-						BYTE value = ((y<t || y >= b) ? 0 : 1);
-						FIP->FI_SetPixelIndex(dib_mask, x, y, &value);
-					}
-				hbmMask = FIP->FI_CreateHBITMAPFromDIB(dib_mask);
-				FIP->FI_Unload(dib_mask);
 
-				//convert to target resolution
-				if (!hbmMask || !(dib_ico = ConvertTo(dib_ico, bitDest, 0))) {
-					FIP->FI_Unload(dib_ico);
-					if (hbmMask) DeleteObject(hbmMask);
-					return;
-				}
-			} break;
-			case 32:
-			{//transparency by alpha schannel
-				//Calculate the number of bytes per pixel (3 for 24-bit or 4 for 32-bit)
-				int bytespp = FIP->FI_GetLine(dib_ico) / w;
-				//set alpha schannel
-				for(unsigned y = 0; y < h; y++) {
-					BYTE *bits = FIP->FI_GetScanLine(dib_ico, y);
-					for(unsigned x = 0; x < w; x++) {
-						bits[FI_RGBA_ALPHA] = (y<t || y>=b)? 0:255;
-						// jump to next pixel
-						bits += bytespp;
-					}
-				}
-			} break;
-			default:
-				FIP->FI_Unload(dib_ico);
-				return;
+		// Calculate the number of bytes per pixel (3 for 24-bit or 4 for 32-bit)
+		int bytespp = FIP->FI_GetLine(dib_ico) / w;
+		// set alpha schannel
+		for (unsigned y = 0; y < h; y++) {
+			BYTE *bits = FIP->FI_GetScanLine(dib_ico, y);
+			for (unsigned x = 0; x < w; x++) {
+				bits[FI_RGBA_ALPHA] = (y < t || y >= b) ? 0 : 255;
+				// jump to next pixel
+				bits += bytespp;
+			}
 		}
 	}
 	else {
@@ -371,17 +328,14 @@ void InitIcons()
 
 	HBITMAP hScrBM = FIP->FI_CreateHBITMAPFromDIB(dib_ico);
 	FIP->FI_Unload(dib_ico);
-
-	if (!hScrBM) {
-		DeleteObject(hbmMask);
+	if (!hScrBM)
 		return;
-	}
 
-	//create ImageList
-	HIMAGELIST himl = ImageList_Create(16, 16, bitDest | ILC_MASK, 0, nCountriesCount);
-	ImageList_Add(himl, hScrBM, hbmMask);
-	DeleteObject(hScrBM);	hScrBM  = NULL;
-	DeleteObject(hbmMask);	hbmMask = NULL;
+	// create ImageList
+	HIMAGELIST himl = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, nCountriesCount);
+	ImageList_Add(himl, hScrBM, NULL);
+	DeleteObject(hScrBM);
+	hScrBM = NULL;
 
 	if (himl != NULL) {
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
@@ -389,9 +343,7 @@ void InitIcons()
 			char szId[20];
 			SKINICONDESC sid = { 0 };
 			sid.section.t = LPGENT("Country flags");
-			sid.pszName = szId;			// name to refer to icon when playing and in db
-			sid.cx = GetSystemMetrics(SM_CXSMICON); 
-			sid.cy = GetSystemMetrics(SM_CYSMICON);
+			sid.pszName = szId; // name to refer to icon when playing and in db
 			sid.flags = SIDF_SORTED | SIDF_TCHAR;
 
 			for (int i=0; i < nCountriesCount; i++) {
@@ -404,14 +356,15 @@ void InitIcons()
 				index = CountryNumberToIndex(countries[i].id);
 
 				phIconHandles[index] = IcoLib_AddIcon(&sid);
-				if (sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
+				if (sid.hDefaultIcon != NULL)
+					DestroyIcon(sid.hDefaultIcon);
 				mir_free(sid.description.t); sid.description.t = NULL;
 			}
 		}
 		ImageList_Destroy(himl);
 	}
 
-	/* create services */
+	// create services
 	CreateServiceFunction(MS_FLAGS_LOADFLAGICON,ServiceLoadFlagIcon);
 	CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON,ServiceCreateMergedFlagIcon);
 }
@@ -419,10 +372,10 @@ void InitIcons()
 void UninitIcons()
 {
 	for(int i=0;i<nCountriesCount;++i) {
-		/* create identifier */
+		// create identifier
 		char szId[20];
 		mir_snprintf(szId, _countof(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 		IcoLib_RemoveIcon(szId);
 	}
-	mir_free(phIconHandles);  /* does NULL check */
+	mir_free(phIconHandles);  // does NULL check
 }

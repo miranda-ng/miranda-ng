@@ -204,23 +204,6 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 
 /************************* Skin ***********************************/
 
-HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDesc,HINSTANCE hInst,WORD idRes,BOOL fLarge)
-{
-	TCHAR szFileName[MAX_PATH];
-	GetModuleFileName(hInst,szFileName,_countof(szFileName));
-
-	SKINICONDESC sid = { 0 };
-	sid.pszName = (char*)pszDbName;
-	sid.section.t = (TCHAR*)pszSection;
-	sid.description.t = (TCHAR*)pszDesc;
-	sid.defaultFile.t = szFileName;
-	sid.iDefaultIndex = -idRes;
-	sid.cx = GetSystemMetrics(fLarge?SM_CXICON:SM_CXSMICON);
-	sid.cy = GetSystemMetrics(fLarge?SM_CYICON:SM_CYSMICON);
-	sid.flags = SIDF_SORTED | SIDF_ALL_TCHAR;
-	return IcoLib_AddIcon(&sid);
-}
-
 void AddHotkey()
 {
 	HOTKEYDESC hkd = {0};

@@ -34,7 +34,6 @@ static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaul
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.section.a = LPGEN("WhenWasIt");
-	sid.cx = sid.cy = 16;
 	sid.description.a = description;
 	sid.pszName = name;
 	sid.defaultFile.t = tszPath;

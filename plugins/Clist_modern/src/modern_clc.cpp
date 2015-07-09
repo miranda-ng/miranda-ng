@@ -1638,7 +1638,6 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	GetModuleFileName(g_hInst, szMyPath, _countof(szMyPath));
 
 	SKINICONDESC sid = { 0 };
-	sid.cx = sid.cy = 16;
 	sid.defaultFile.t = szMyPath;
 	sid.flags = SIDF_PATH_TCHAR;
 

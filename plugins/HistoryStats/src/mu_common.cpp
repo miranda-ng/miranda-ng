@@ -90,7 +90,7 @@ namespace mu
 			return true;
 		}
 
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex, int cx /* = 16 */, int cy /* = 16 */)
+		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex)
 		{
 			SKINICONDESC sid = { 0 };
 			sid.section.t = const_cast<TCHAR*>(szSection);
@@ -98,23 +98,6 @@ namespace mu
 			sid.pszName = const_cast<char*>(szIconName);
 			sid.defaultFile.a = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
-			sid.cx = cx;
-			sid.cy = cy;
-			sid.flags = SIDF_TCHAR;
-			IcoLib_AddIcon(&sid);
-		}
-
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, HICON hDefaultIcon, int cx /* = 16 */, int cy /* = 16 */)
-		{
-			SKINICONDESC sid = { 0 };
-			sid.section.t = const_cast<TCHAR*>(szSection);
-			sid.description.t = const_cast<TCHAR*>(szDescription);
-			sid.pszName = const_cast<char*>(szIconName);
-			sid.defaultFile.a = NULL;
-			sid.iDefaultIndex = 0;
-			sid.hDefaultIcon = hDefaultIcon;
-			sid.cx = cx;
-			sid.cy = cy;
 			sid.flags = SIDF_TCHAR;
 			IcoLib_AddIcon(&sid);
 		}
