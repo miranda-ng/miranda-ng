@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 UINT_PTR CVkProto::m_timer;
+mir_cs CVkProto::m_csTimer;
+
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
@@ -49,8 +51,10 @@ void CVkProto::ConnectionFailed(int iReason)
 
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
+	mir_cslock lck(csInstances);
 	for (int i = 0; i < vk_Instances.getCount(); i++)
 		if (vk_Instances[i]->IsOnline()) {
+			vk_Instances[i]->debugLogA("Tic timer for %i - %s", i, vk_Instances[i]->m_szModuleName);
 			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
 			vk_Instances[i]->RetrieveUsersInfo(true);
 			vk_Instances[i]->RetrieveUnreadEvents();			
@@ -59,11 +63,15 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 static void CALLBACK VKSetTimer(void*)
 {
+	mir_cslock lck(CVkProto::m_csTimer);
+	if (CVkProto::m_timer)
+		return;
 	CVkProto::m_timer = SetTimer(NULL, 0, 60000, TimerProc);
 }
 
 static void CALLBACK VKUnsetTimer(void*)
 {
+	mir_cslock lck(CVkProto::m_csTimer);
 	if (CVkProto::m_timer)
 		KillTimer(NULL, CVkProto::m_timer);
 	CVkProto::m_timer = 0;
@@ -78,8 +86,10 @@ void CVkProto::OnLoggedIn()
 	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
-	if (!m_timer)
-		CallFunctionAsync(VKSetTimer, this);
+	CallFunctionAsync(VKSetTimer, this);
+
+	db_unset(NULL, m_szModuleName, "LastNewsReqTime");
+	db_unset(NULL, m_szModuleName, "LastNotificationsReqTime");
 }
 
 void CVkProto::OnLoggedOut()
@@ -94,8 +104,11 @@ void CVkProto::OnLoggedOut()
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	bool bOnline = false;
-	for (int i = 0; i < vk_Instances.getCount(); i++)
-		bOnline = bOnline || vk_Instances[i]->IsOnline();
+	{
+		mir_cslock lck(csInstances);
+		for (int i = 0; i < vk_Instances.getCount(); i++)
+			bOnline = bOnline || vk_Instances[i]->IsOnline();
+	}
 	if (!bOnline)
 		CallFunctionAsync(VKUnsetTimer, this);
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

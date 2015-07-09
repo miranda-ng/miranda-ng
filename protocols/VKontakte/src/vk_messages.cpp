@@ -126,6 +126,13 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 int CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnDbEventRead");
+	if (!hContact)
+		return 0;
+
+	CMString szProto(ptrA(db_get_sa(hContact, "Protocol", "p")));
+	if (szProto.IsEmpty() || szProto != m_szModuleName)
+		return 0;
+
 	if (m_iMarkMessageReadOn == markOnRead)
 		MarkMessagesRead(hContact);
 	return 0;

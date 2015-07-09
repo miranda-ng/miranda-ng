@@ -488,6 +488,10 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 	debugLogA("CVkProto::RetrieveUnreadNews");
 	if (!IsOnline())
 		return;
+
+	time_t tLastNewsReqTime = getDword("LastNewsReqTime", time(NULL) - 24 * 60 * 60);
+	if (time(NULL) - tLastNewsReqTime < 3 * 60)
+		return;
 		
 	CMStringA szFilter;
 	szFilter = m_bNewsFilterPosts ? "post" : "";
@@ -523,14 +527,16 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		return;
 	}
 			
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews))
 		<< INT_PARAM("count", 100)
 		<< INT_PARAM("return_banned", m_bNewsSourceIncludeBanned ? 1 : 0)
 		<< INT_PARAM("max_photos", m_iMaxLoadNewsPhoto)
 		<< INT_PARAM("start_time", tLastNewsTime + 1)
 		<< CHAR_PARAM("filters", szFilter)
 		<< CHAR_PARAM("source_ids", szSource)
-		<< VER_API);
+		<< VER_API;
+
+	setDword("LastNewsReqTime", (DWORD)time(NULL));
 }
 
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
@@ -554,6 +560,7 @@ static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsIte
 void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNews %d", reply->resultCode);
+	db_unset(NULL, m_szModuleName, "LastNewsReqTime");
 	if (reply->resultCode != 200)
 		return;
 
@@ -602,14 +609,20 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	if (!IsOnline())
 		return;
 
+	time_t tLastNotificationsReqTime = getDword("LastNotificationsReqTime", time(NULL) - 24 * 60 * 60);
+	if (time(NULL) - tLastNotificationsReqTime < 3 * 60)
+		return;
+
 	CMString code;
 	code.AppendFormat(_T("return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s"),
 		(LONG)(tLastNotificationsTime + 1),
 		m_bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications))
 		<< TCHAR_PARAM("code", code)		
-		<< VER_API);	
+		<< VER_API;	
+
+	setDword("LastNotificationsReqTime", (DWORD)time(NULL));
 }
 
 bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
@@ -648,6 +661,7 @@ void CVkProto::NotificationMarkAsViewed()
 void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNotifications %d", reply->resultCode);
+	db_unset(NULL, m_szModuleName, "LastNotificationsReqTime");
 	if (reply->resultCode != 200)
 		return;
 
