@@ -80,6 +80,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CVkProto;
 extern LIST<CVkProto> vk_Instances;
+extern mir_cs csInstances;
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);

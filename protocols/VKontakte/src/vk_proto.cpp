@@ -30,6 +30,7 @@ static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHtt
 }
 
 LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
+mir_cs csInstances;
 static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
@@ -125,7 +126,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
-	vk_Instances.insert(this);
+	{
+		mir_cslock lck(csInstances);
+		vk_Instances.insert(this);
+	}
 }
 
 CVkProto::~CVkProto()
@@ -139,7 +143,10 @@ CVkProto::~CVkProto()
 		Popup_UnregisterClass(m_hPopupClassError);
 	if (m_hPopupClassNotification)
 		Popup_UnregisterClass(m_hPopupClassNotification);
-	vk_Instances.remove(this);
+	{
+		mir_cslock lck(csInstances);
+		vk_Instances.remove(this);
+	}
 }
 
 int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
