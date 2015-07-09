@@ -379,7 +379,7 @@ lista kontakata
 [Text Files]
 
 [All Files]
-
+sve datoteke
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 
@@ -432,7 +432,7 @@ lista kontakata
 [INI Version]
 
 [Items]
-
+stavaka
 [Display Name]
 
 [File Name]

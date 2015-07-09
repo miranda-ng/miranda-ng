@@ -212,7 +212,7 @@ sekundi
 [Done importing birthdays]
 
 [All Files]
-
+sve datoteke
 [Please select a file to export birthdays to...]
 
 [Exporting birthdays to file: %s]

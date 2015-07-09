@@ -50,7 +50,6 @@
 [Database]
 [Total size]
 [Miranda Databases (*.dat)]
-[All Files]
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 [%s\\Backup of %s]
 [%s\\Backup (%d) of %s]

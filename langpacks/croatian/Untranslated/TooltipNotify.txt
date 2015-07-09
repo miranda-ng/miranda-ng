@@ -25,7 +25,6 @@
 [Auto positioning]
 [Transparent input]
 [Preview]
-[Translucency options]
 [Transparent tooltip]
 [Contacts]
 [Idle]

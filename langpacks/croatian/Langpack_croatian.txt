@@ -273,6 +273,204 @@ prikvaći na radnu površinu
 Sakrij kontakt listu poslije neaktivnosti od
 [seconds]
 sekundi
+[Automatically resize window to height of list]
+Automatski skaliraj prozor na visinu liste
+[maximum]
+maksimum
+[% of screen]
+% zaslona
+[Size upwards]
+veličina prema gore
+[If window is partially covered, bring to front instead of hiding]
+ako je prozor djelomično prekriven dodaj neka bude ispred umjesto da se skrije
+[Enable docking]
+omogući docking
+[Translucency options]
+opcije translucencije
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
+[Items]
+stavaka
+[Show divider between online and offline contacts]
+prikaži razdjelnik između kontakata na mreži i izvan mreže
+[All files]
+sve datoteke
+[Panama]
+Panama
+[Papua New Guinea]
+Papua nova gvineja
+[Paraguay]
+Paragvaj
+[Peru]
+Peru
+[Philippines]
+Filipini
+[Pitcairn Islands]
+Pitcairnovi otoci
+[Poland]
+Poljska
+[Portugal]
+Portugal
+[Puerto Rico]
+Porto riko
+[Qatar]
+Katar
+[Reunion]
+Reunion
+[Romania]
+Rumunjska
+[Russia]
+Rusija
+[Rwanda]
+Ruanda
+[Saint Barthelemy]
+Sveti bartolomej
+[Saint Helena, Ascension and Tristan da Cunha]
+Sveta helena, Uzdizanje i Tristan da cunha
+[Saint Kitts and Nevis]
+Sveti Kitts i Nevis
+[Saint Lucia]
+Sveta lucija
+[Saint Martin (French part)]
+Sveti martin (francuski dio)
+[Saint Pierre and Miquelon]
+Sveti pjer i mikelon
+[Saint Vincent and the Grenadines]
+Sveti vincent i Grenadini
+[Samoa]
+Samoa
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sveti toma i princip
+[Saudi Arabia]
+Saudijska arabija
+[Senegal]
+Senegal
+[Serbia]
+Srbija
+[Seychelles]
+sejšeli
+[Sierra Leone]
+sijera leone
+[Singapore]
+Singapur
+[Sint Maarten (Dutch part)]
+sint maarten (nizozemski dio)
+[Slovakia]
+slovačka
+[Slovenia]
+slovenski
+[Solomon Islands]
+solomonovi otoci
+[Somalia]
+somalija
+[South Africa]
+južna afrika
+[South Georgia and the South Sandwich Islands]
+južna džordžija i južno sendvičevo otočje
+[South Sudan]
+južni sudan
+[Spain]
+španjolska
+[Sri Lanka]
+šri lanka
+[Sudan]
+sudan
+[Suriname]
+surinam
+[Svalbard and Jan Mayen]
+svalbard i jan majen
+[Swaziland]
+svaziland
+[Sweden]
+švedska
+[Switzerland]
+švicarska
+[Syria]
+sirija
+[Taiwan]
+tajvan
+[Tajikistan]
+tadžikistan
+[Tanzania]
+tanzanija
+[Thailand]
+tajland
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+trinidad i tobago
+[Tunisia]
+tunis
+[Turkey]
+turska
+[Turkmenistan]
+Turkmenistan
+[Turks and Caicos Islands]
+turks &kaikos otoci
+[Tuvalu]
+tuvalu
+[Uganda]
+uganda
+[Ukraine]
+ukrajina
+[United Arab Emirates]
+ujedinjeni arapski emirati
+[United Kingdom]
+ujedinjeno kraljevstvo
+[United States]
+sjedinjene američke države
+[United States Minor Outlying Islands]
+sjedinjene države mali rubni otoci
+[Uruguay]
+urugvaj
+[Uzbekistan]
+uzbekistan
+[Vanuatu]
+vanuatu
+[Vatican City]
+vatikan
+[Venezuela]
+venecuela
+[Vietnam]
+vijetnam
+[Virgin Islands (British)]
+djevičanski otoci britanski teritorij
+[Virgin Islands (United States)]
+djevičanski otoci (sjedinjene države)
+[Wallis and Futuna]
+valis i futuna
+[Western Sahara]
+zapadna sahara
+[Yemen]
+jemen
+[Zambia]
+zambija
+[Zimbabwe]
+zimbabve
+[All Files]
+sve datoteke
+[Windows bitmaps]
+windows bitmapovi
+[JPEG bitmaps]
+jpeg bitmapovi
+[GIF bitmaps]
+gif bitmapovi
+[PNG bitmaps]
+png bitmapovi
+[<unspecified>]
+nespecificirano
 #muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: Actman.dll
@@ -415,6 +613,16 @@ akcije
 opcije
 [Background]
 Pozadina
+[All files]
+sve datoteke
+[Windows bitmaps]
+windows bitmapovi
+[JPEG bitmaps]
+jpeg bitmapovi
+[GIF bitmaps]
+gif bitmapovi
+[PNG bitmaps]
+png bitmapovi
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -452,6 +660,8 @@ poruke
 ;  Version: 0.0.3.0
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
+[All Files]
+sve datoteke
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
 ;  File: BossKey.dll
@@ -576,18 +786,40 @@ minimiziraj u područje obavijesti
 Sakrij kontakt listu poslije neaktivnosti od
 [seconds]
 sekundi
+[Automatically resize window to height of list]
+Automatski skaliraj prozor na visinu liste
+[maximum]
+maksimum
+[% of screen]
+% zaslona
+[Size upwards]
+veličina prema gore
 [Title bar text:]
 tekst naslovne trake
+[Translucency options]
+opcije translucencije
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
 [Show menu bar]
 prikaži traku izbornika
 [Easy move]
 lako premještanje
 [Show title bar]
 prikaži naslovnu traku
+[If window is partially covered, bring to front instead of hiding]
+ako je prozor djelomično prekriven dodaj neka bude ispred umjesto da se skrije
 [Show drop shadow (restart required)]
 Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
 [Pin to desktop]
 prikvaći na radnu površinu
+[Items]
+stavaka
 [List]
 popis
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
@@ -601,6 +833,14 @@ popis
 uvijek na vrhu
 [seconds]
 sekundi
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
 [Delete contact]
 izbriši kontakt
 [No]
@@ -627,8 +867,20 @@ pitaj prije brisanja kontakata
 lista kontakata
 [Contact list sorting]
 sortiranje liste kontakata
+[Automatically resize window to height of list]
+Automatski skaliraj prozor na visinu liste
+[maximum]
+maksimum
+[% of screen]
+% zaslona
+[Size upwards]
+veličina prema gore
 [Easy move]
 lako premještanje
+[Items]
+stavaka
+[Show divider between online and offline contacts]
+prikaži razdjelnik između kontakata na mreži i izvan mreže
 [Single click interface]
 sučelje jednim klikom
 [Always show status in tooltip]
@@ -649,6 +901,8 @@ tekst naslovne trake
 alatni stil glavnog prozora
 [Minimize to tray]
 minimiziraj u područje obavijesti
+[Translucency options]
+opcije translucencije
 [Options]
 opcije
 [Background]
@@ -732,6 +986,30 @@ Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
 Sakrij kontakt listu poslije neaktivnosti od
 [seconds]
 sekundi
+[Automatically resize window to height of list]
+Automatski skaliraj prozor na visinu liste
+[maximum]
+maksimum
+[% of screen]
+% zaslona
+[Size upwards]
+veličina prema gore
+[If window is partially covered, bring to front instead of hiding]
+ako je prozor djelomično prekriven dodaj neka bude ispred umjesto da se skrije
+[Translucency options]
+opcije translucencije
+[Transparent contact list]
+transparentna lista kontakata
+[Inactive opacity:]
+neaktivan opacity
+[Active opacity:]
+aktivan opacity
+[Fade contact list in/out]
+fejduj kontakt listu in/out
+[Items]
+stavaka
+[Show divider between online and offline contacts]
+prikaži razdjelnik između kontakata na mreži i izvan mreže
 [Messages]
 poruke
 [Other]
@@ -778,6 +1056,8 @@ prikaži
 tekst
 [Background]
 Pozadina
+[All Files]
+sve datoteke
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -836,6 +1116,8 @@ očisti
 ;  Version: 0.95.3.1
 ;  Authors: George Hazan
 ;============================================================
+[All Files]
+sve datoteke
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
@@ -845,6 +1127,8 @@ očisti
 ;============================================================
 [&Cancel]
 &Odustani
+[All Files]
+sve datoteke
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -859,6 +1143,8 @@ očisti
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[All files]
+sve datoteke
 #muuid {b908773a-86f7-4a91-8674-6a20ba0e67d1}
 ;============================================================
 ;  File: Dropbox.dll
@@ -986,6 +1272,8 @@ opcije
 ikona područja obavijesti
 [Contact list]
 lista kontakata
+[All Files]
+sve datoteke
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
@@ -1022,6 +1310,8 @@ Zahtjev za prihvaćanje
 ;  Version: 0.2.0.4
 ;  Authors: Martin Afanasjew
 ;============================================================
+[Maximum]
+<<<<<<< .mine
 [Messages]
 poruke
 #muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
@@ -1040,6 +1330,8 @@ poruke
 ;============================================================
 [&Copy link]
 &Kopiraj link
+[All files]
+sve datoteke
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -1068,6 +1360,136 @@ koristi zadane boje
 drugo
 [Closing in %d]
 Zatvaranje za %d
+[Panama]
+Panama
+[Papua New Guinea]
+Papua nova gvineja
+[Paraguay]
+Paragvaj
+[Peru]
+Peru
+[Philippines]
+Filipini
+[Poland]
+Poljska
+[Portugal]
+Portugal
+[Puerto Rico]
+Porto riko
+[Qatar]
+Katar
+[Reunion]
+Reunion
+[Romania]
+Rumunjska
+[Russia]
+Rusija
+[Rwanda]
+Ruanda
+[Saint Kitts and Nevis]
+Sveti Kitts i Nevis
+[Saint Lucia]
+Sveta lucija
+[Saint Pierre and Miquelon]
+Sveti pjer i mikelon
+[Saint Vincent and the Grenadines]
+Sveti vincent i Grenadini
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sveti toma i princip
+[Saudi Arabia]
+Saudijska arabija
+[Senegal]
+Senegal
+[Seychelles]
+sejšeli
+[Sierra Leone]
+sijera leone
+[Singapore]
+Singapur
+[Slovakia]
+slovačka
+[Slovenia]
+slovenski
+[Solomon Islands]
+solomonovi otoci
+[Somalia]
+somalija
+[South Africa]
+južna afrika
+[Spain]
+španjolska
+[Sri Lanka]
+šri lanka
+[Sudan]
+sudan
+[Suriname]
+surinam
+[Swaziland]
+svaziland
+[Sweden]
+švedska
+[Switzerland]
+švicarska
+[Syria]
+sirija
+[Taiwan]
+tajvan
+[Tajikistan]
+tadžikistan
+[Tanzania]
+tanzanija
+[Thailand]
+tajland
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+trinidad i tobago
+[Tunisia]
+tunis
+[Turkey]
+turska
+[Turkmenistan]
+Turkmenistan
+[Turks and Caicos Islands]
+turks &kaikos otoci
+[Tuvalu]
+tuvalu
+[Uganda]
+uganda
+[Ukraine]
+ukrajina
+[United Arab Emirates]
+ujedinjeni arapski emirati
+[United Kingdom]
+ujedinjeno kraljevstvo
+[Uruguay]
+urugvaj
+[Uzbekistan]
+uzbekistan
+[Vanuatu]
+vanuatu
+[Vatican City]
+vatikan
+[Venezuela]
+venecuela
+[Vietnam]
+vijetnam
+[Wallis and Futuna]
+valis i futuna
+[Yemen]
+jemen
+[Serbia]
+Srbija
+[Zambia]
+zambija
+[Zimbabwe]
+zimbabve
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -1097,6 +1519,8 @@ kopiraj
 označi sve
 [Options]
 opcije
+[All Files]
+sve datoteke
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;============================================================
 ;  File: IgnoreState.dll
@@ -1119,6 +1543,8 @@ Dodani ste.
 poruke
 [Other]
 drugo
+[All Files]
+sve datoteke
 #muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
 ;============================================================
 ;  File: ImportTXT.dll
@@ -1198,6 +1624,8 @@ Zatvaranje za %d
 ;============================================================
 [seconds]
 sekundi
+[All Files]
+sve datoteke
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -1211,6 +1639,8 @@ vrijeme u satima minutama i sekundama
 &Zatvori
 [link]
 Link
+[All files]
+sve datoteke
 #muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;============================================================
 ;  File: ListeningTo.dll
@@ -1282,10 +1712,10 @@ poruke
 promjene statusa
 [Notices]
 obavještava
-[Contact list]
-lista kontakata
 [Hide offline users]
 sakrij korisnike izvan mreže
+[Contact list]
+lista kontakata
 #muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
 ;============================================================
 ;  File: MirFox.dll
@@ -1299,7 +1729,7 @@ opcije
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.0.1
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 #muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
@@ -1367,6 +1797,8 @@ informacija
 Detalji o &Korisniku
 [Copy]
 kopiraj
+[All files]
+sve datoteke
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
@@ -1468,6 +1900,10 @@ tekst
 koristi prilagođene boje
 [Use default colors]
 koristi zadane boje
+[All files]
+sve datoteke
+[All Files]
+sve datoteke
 [Log]
 &Zapisnik
 #muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
@@ -1570,6 +2006,8 @@ tekst
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
+[All Files]
+sve datoteke
 [List]
 popis
 #muuid {968def4a-bc60-4266-ac08-754ce721db5f}
@@ -1830,6 +2268,8 @@ uvijek na vrhu
 tekst
 [Contact List]
 lista kontakata
+[All files]
+sve datoteke
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
@@ -1935,6 +2375,8 @@ Zatvaranje za %d
 ;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[All files]
+sve datoteke
 #muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: SMS.dll
@@ -2151,6 +2593,8 @@ prikaži traku izbornika
 drugo
 [System tray icon]
 ikona područja obavijesti
+[All files]
+sve datoteke
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -2162,6 +2606,8 @@ ikona područja obavijesti
 prozor
 [Options]
 opcije
+[Items]
+stavaka
 [Other]
 drugo
 [Background]
@@ -2186,6 +2632,8 @@ tekst
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
+[Translucency options]
+opcije translucencije
 #muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
 ;  File: TopToolBar.dll
@@ -2210,6 +2658,8 @@ lista kontakata
 Detalji o &Korisniku
 [&History]
 p&ovijest
+[All files]
+sve datoteke
 #muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
@@ -2318,6 +2768,10 @@ opcije
 sekundi
 [Contact List]
 lista kontakata
+[All Files]
+sve datoteke
+[Items]
+stavaka
 [Information]
 informacija
 ;============================================================
@@ -2375,6 +2829,8 @@ tekst
 prikaži
 [seconds]
 sekundi
+[All Files]
+sve datoteke
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
@@ -2408,6 +2864,8 @@ poruke
 opcije
 [Copy]
 kopiraj
+[All Files]
+sve datoteke
 [No]
 ne
 #muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
@@ -2452,6 +2910,8 @@ opcije
 Poruka
 [Select All]
 označi sve
+[All Files]
+sve datoteke
 #muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
 ;  File: YAPP.dll

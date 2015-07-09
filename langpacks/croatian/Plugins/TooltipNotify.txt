@@ -61,7 +61,7 @@
 [Preview]
 
 [Translucency options]
-
+opcije translucencije
 [Transparent tooltip]
 
 [Contacts]

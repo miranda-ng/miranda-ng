@@ -186,7 +186,6 @@
 [Executable Files]
 [Select GnuPG Executable]
 [ASC files]
-[All files]
 [Open Key File]
 [Save Private Key File]
 [Save Public Key File]

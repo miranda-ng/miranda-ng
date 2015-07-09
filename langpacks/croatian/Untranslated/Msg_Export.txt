@@ -62,7 +62,6 @@
 [UIN]
 [You have not applied the changes, do you wish to apply them first?]
 [Executable files]
-[All files]
 [Failed to get the shells allocator!]
 [Failed to Allocate buffer space]
 [Select Destination Directory]

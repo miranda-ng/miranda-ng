@@ -172,7 +172,7 @@ drugo
 [Miranda NG database]
 
 [All Files]
-
+sve datoteke
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 

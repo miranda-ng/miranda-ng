@@ -101,7 +101,6 @@
 [Delete module from database... Loading]
 [Delete from all contacts (including Settings)]
 [INI Files]
-[All Files]
 [Export to file]
 [Couldn't open file for writing]
 [Import to "%s"]

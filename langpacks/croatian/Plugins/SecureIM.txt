@@ -391,7 +391,7 @@ lista kontakata
 [ASC files]
 
 [All files]
-
+sve datoteke
 [Open Key File]
 
 [Save Private Key File]

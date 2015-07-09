@@ -38,7 +38,6 @@
 [&Open in Browser]
 [Miranda NG HTTP-Server]
 [Share Current Directory]
-[All files]
 [Specify a file to share]
 [Failed to share new file]
 [Max Downloads]

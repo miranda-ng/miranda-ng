@@ -340,7 +340,7 @@ označi sve
 [Executables]
 
 [All Files]
-
+sve datoteke
 [Select executable used for notification]
 
 [Dialog box error]

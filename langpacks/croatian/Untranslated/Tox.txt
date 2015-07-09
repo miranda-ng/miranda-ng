@@ -64,7 +64,6 @@
 [Call ended]
 [%s connection]
 [Tox profile]
-[All files]
 [Select tox profile]
 [Save tox profile]
 [Add node]

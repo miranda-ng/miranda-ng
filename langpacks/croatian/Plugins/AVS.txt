@@ -121,15 +121,15 @@ Pozadina
 
 ;file \plugins\AVS\src\services.cpp
 [All files]
-
+sve datoteke
 [Windows bitmaps]
-
+windows bitmapovi
 [JPEG bitmaps]
-
+jpeg bitmapovi
 [GIF bitmaps]
-
+gif bitmapovi
 [PNG bitmaps]
-
+png bitmapovi
 [Flash animations]
 
 [XML files]

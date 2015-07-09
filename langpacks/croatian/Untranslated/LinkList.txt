@@ -65,5 +65,4 @@
 [Processing list...]
 [No messages found!\nPlease change current filter options.]
 [RTF file]
-[All files]
 [Save RTF File]

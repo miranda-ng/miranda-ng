@@ -35,13 +35,13 @@ uvijek na vrhu
 [seconds]
 sekundi
 [Fade contact list in/out]
-
+fejduj kontakt listu in/out
 [Transparent contact list]
-
+transparentna lista kontakata
 [Inactive opacity:]
-
+neaktivan opacity
 [Active opacity:]
-
+aktivan opacity
 [Show avatars]
 
 [Animate avatars]
@@ -231,13 +231,13 @@ sortiranje liste kontakata
 [Bring to front if covered]
 
 [Automatically resize window to height of list]
-
+Automatski skaliraj prozor na visinu liste
 [maximum]
-
+maksimum
 [% of screen]
-
+% zaslona
 [Size upwards]
-
+veličina prema gore
 [Behavior]
 
 [Lock manual resize]
@@ -275,9 +275,9 @@ lako premještanje
 [and minimum]
 
 [Items]
-
+stavaka
 [Show divider between online and offline contacts]
-
+prikaži razdjelnik između kontakata na mreži i izvan mreže
 [Hot track items as mouse passes over]
 
 [Disable drag and drop of items]
@@ -389,7 +389,7 @@ alatni stil glavnog prozora
 [Minimize to tray]
 minimiziraj u područje obavijesti
 [Translucency options]
-
+opcije translucencije
 [Enable drop shadow (restart required)]
 
 [Frames]
@@ -592,33 +592,51 @@ opcije
 
 [Out to &lunch\tCtrl+9]
 
-[Tray]
+;file \plugins\Clist_modern\src\cluiframes.cpp
+[&Visible]
 
-[&Hide/Show]
+[&Show title]
 
-[Nowhere]
+[&Locked]
 
-[&New group]
+[&Expanded]
 
-[&Hide offline users]
+[&Floating mode]
 
-[Hide &offline users out here]
+[&Border]
 
-[Hide &empty groups]
+[&Align]
 
-[Disable &groups]
+[&Top]
 
-[Hide Miranda]
+[&Client]
 
-[&New subgroup]
+[&Bottom]
 
-[&Hide offline users in here]
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Show all frames]
+
+[Show all title bars]
+
+[Hide all title bars]
+
+[Lock frame]
+
+;file \plugins\Clist_modern\src\groupmenu.cpp
+[&Hide/show]
+
+[&Find/add contacts...]
+
+[&Options...]
+
+[&About]
 
 [&Show offline users in here]
-
-[&Rename group]
-
-[&Delete group]
 
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
@@ -776,6 +794,8 @@ Pozadina
 
 [General]
 
+[Tray]
+
 [List]
 popis
 [Window]
@@ -829,17 +849,6 @@ tekst
 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
-
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-
-[&Hide/show]
-
-[&Find/add contacts...]
-
-[&Options...]
-
-[&About]
 
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
@@ -1006,49 +1015,4 @@ tekst
 [View mode background]
 
 [View modes]
-
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-
-[&Show title]
-
-[&Locked]
-
-[&Expanded]
-
-[&Floating mode]
-
-[&Border]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
-[Lock frame]
-
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
-[New group]
-
-[Group menu]
-
-[Subgroup menu]
 

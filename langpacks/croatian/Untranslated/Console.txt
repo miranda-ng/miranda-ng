@@ -27,6 +27,5 @@
 [Miranda Console]
 [Services]
 [Text Files (*.txt)]
-[All Files]
 [Save selection to file]
 [Save log to file]
