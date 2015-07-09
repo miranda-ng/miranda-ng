@@ -151,6 +151,6 @@ Link
 [RTF file]
 
 [All files]
-
+sve datoteke
 [Save RTF File]
 

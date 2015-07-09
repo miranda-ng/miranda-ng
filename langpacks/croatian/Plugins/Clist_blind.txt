@@ -91,25 +91,25 @@ Sakrij kontakt listu poslije neaktivnosti od
 [seconds]
 sekundi
 [Automatically resize window to height of list]
-
+Automatski skaliraj prozor na visinu liste
 [maximum]
-
+maksimum
 [% of screen]
-
+% zaslona
 [Size upwards]
-
+veličina prema gore
 [Title bar text:]
 tekst naslovne trake
 [Translucency options]
-
+opcije translucencije
 [Fade contact list in/out]
-
+fejduj kontakt listu in/out
 [Transparent contact list]
-
+transparentna lista kontakata
 [Inactive opacity:]
-
+neaktivan opacity
 [Active opacity:]
-
+aktivan opacity
 [Show menu bar]
 prikaži traku izbornika
 [Easy move]
@@ -117,13 +117,13 @@ lako premještanje
 [Show title bar]
 prikaži naslovnu traku
 [If window is partially covered, bring to front instead of hiding]
-
+ako je prozor djelomično prekriven dodaj neka bude ispred umjesto da se skrije
 [Show drop shadow (restart required)]
 Prikaži ispuštajuću sjenku (potrebno je ponovno pokretanje)
 [Pin to desktop]
 prikvaći na radnu površinu
 [Items]
-
+stavaka
 ['Hide offline' means to hide:]
 
 [Groups]

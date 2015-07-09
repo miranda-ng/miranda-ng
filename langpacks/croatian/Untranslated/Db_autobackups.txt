@@ -27,7 +27,6 @@
 [Database backups]
 [Miranda NG databases]
 [Compressed Miranda NG databases]
-[All files]
 [Backup folder]
 [path to Miranda root folder]
 [path to folder containing Miranda profiles]

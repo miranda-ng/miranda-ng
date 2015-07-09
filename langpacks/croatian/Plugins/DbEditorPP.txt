@@ -218,7 +218,7 @@
 [INI Files]
 
 [All Files]
-
+sve datoteke
 [Export to file]
 
 [Couldn't open file for writing]

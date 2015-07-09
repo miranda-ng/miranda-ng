@@ -220,7 +220,7 @@ koristi zadane boje
 [Sound files]
 
 [All files]
-
+sve datoteke
 [Wave files]
 
 [Status]
@@ -361,7 +361,7 @@ koristi zadane boje
 
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
-
+sve datoteke
 [Log]
 &Zapisnik
 [This is status message]

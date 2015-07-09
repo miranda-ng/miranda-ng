@@ -145,7 +145,7 @@ kopiraj
 [Executable files]
 
 [All files]
-
+sve datoteke
 [Failed to get the shells allocator!]
 
 [Failed to Allocate buffer space]

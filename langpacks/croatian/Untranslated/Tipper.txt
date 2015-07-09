@@ -37,7 +37,6 @@
 [Value on a new line]
 [Parse Tipper variables first]
 [Preset items:]
-[Items]
 [Substitutions]
 [Add]
 [Remove]

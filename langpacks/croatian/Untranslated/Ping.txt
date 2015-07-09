@@ -46,7 +46,6 @@
 [Hosts...]
 [Ping]
 [Text Files (*.txt)]
-[All Files]
 [Open log file]
 [<none>]
 [<all>]

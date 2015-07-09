@@ -68,7 +68,7 @@
 [Compressed Miranda NG databases]
 
 [All files]
-
+sve datoteke
 [Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp

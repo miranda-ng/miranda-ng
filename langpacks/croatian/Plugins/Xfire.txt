@@ -172,7 +172,7 @@ kopiraj
 
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
-
+sve datoteke
 [Please wait, game.ini will be currently parsed...]
 
 [XFire Options]

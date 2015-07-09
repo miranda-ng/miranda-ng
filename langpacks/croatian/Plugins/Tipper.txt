@@ -89,7 +89,7 @@ opcije
 [Preset items:]
 
 [Items]
-
+stavaka
 [Substitutions]
 
 [Add]

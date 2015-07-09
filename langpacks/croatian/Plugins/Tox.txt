@@ -152,7 +152,7 @@ p&ovijest
 [Tox profile]
 
 [All files]
-
+sve datoteke
 [Select tox profile]
 
 [Save tox profile]

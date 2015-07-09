@@ -207,7 +207,7 @@ sekundi
 [Keyboard Notify Theme]
 
 [All Files]
-
+sve datoteke
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 
 [\n; End of automatically generated Keyboard Notify Theme file\n]

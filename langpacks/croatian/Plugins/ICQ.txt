@@ -894,31 +894,31 @@ Zatvaranje za %d
 [Palau]
 
 [Panama]
-
+Panama
 [Papua New Guinea]
-
+Papua nova gvineja
 [Paraguay]
-
+Paragvaj
 [Peru]
-
+Peru
 [Philippines]
-
+Filipini
 [Poland]
-
+Poljska
 [Portugal]
-
+Portugal
 [Puerto Rico]
-
+Porto riko
 [Qatar]
-
+Katar
 [Reunion]
-
+Reunion
 [Romania]
-
+Rumunjska
 [Russia]
-
+Rusija
 [Rwanda]
-
+Ruanda
 [Samoa (USA)]
 
 [Samoa, Western]
@@ -926,109 +926,109 @@ Zatvaranje za %d
 [Saint Helena]
 
 [Saint Kitts and Nevis]
-
+Sveti Kitts i Nevis
 [Saint Lucia]
-
+Sveta lucija
 [Saint Pierre and Miquelon]
-
+Sveti pjer i mikelon
 [Saint Vincent and the Grenadines]
-
+Sveti vincent i Grenadini
 [San Marino]
-
+San Marino
 [Sao Tome and Principe]
-
+Sveti toma i princip
 [Saudi Arabia]
-
+Saudijska arabija
 [Scotland]
 
 [Senegal]
-
+Senegal
 [Seychelles]
-
+sejšeli
 [Sierra Leone]
-
+sijera leone
 [Singapore]
-
+Singapur
 [Slovakia]
-
+slovačka
 [Slovenia]
-
+slovenski
 [Solomon Islands]
-
+solomonovi otoci
 [Somalia]
-
+somalija
 [South Africa]
-
+južna afrika
 [Spain]
-
+španjolska
 [Spain, Canary Islands]
 
 [Sri Lanka]
-
+šri lanka
 [Sudan]
-
+sudan
 [Suriname]
-
+surinam
 [Swaziland]
-
+svaziland
 [Sweden]
-
+švedska
 [Switzerland]
-
+švicarska
 [Syria]
-
+sirija
 [Taiwan]
-
+tajvan
 [Tajikistan]
-
+tadžikistan
 [Tanzania]
-
+tanzanija
 [Thailand]
-
+tajland
 [Timor, East]
 
 [Togo]
-
+Togo
 [Tokelau]
-
+Tokelau
 [Tonga]
-
+Tonga
 [Trinidad and Tobago]
-
+trinidad i tobago
 [Tunisia]
-
+tunis
 [Turkey]
-
+turska
 [Turkey, Republic of Northern Cyprus]
 
 [Turkmenistan]
-
+Turkmenistan
 [Turks and Caicos Islands]
-
+turks &kaikos otoci
 [Tuvalu]
-
+tuvalu
 [Uganda]
-
+uganda
 [Ukraine]
-
+ukrajina
 [United Arab Emirates]
-
+ujedinjeni arapski emirati
 [United Kingdom]
-
+ujedinjeno kraljevstvo
 [Uruguay]
-
+urugvaj
 [USA]
 
 [Uzbekistan]
-
+uzbekistan
 [Vanuatu]
-
+vanuatu
 [Vatican City]
-
+vatikan
 [Venezuela]
-
+venecuela
 [Vietnam]
-
+vijetnam
 [Virgin Islands (UK)]
 
 [Virgin Islands (USA)]
@@ -1036,21 +1036,21 @@ Zatvaranje za %d
 [Wales]
 
 [Wallis and Futuna]
-
+valis i futuna
 [Yemen]
-
+jemen
 [Yugoslavia]
 
 [Serbia]
-
+Srbija
 [Kosovo, Republic of]
 
 [Montenegro]
 
 [Zambia]
-
+zambija
 [Zimbabwe]
-
+zimbabve
 [50's]
 
 [60's]

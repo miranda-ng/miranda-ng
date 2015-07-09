@@ -157,7 +157,6 @@
 [Time left to next check [s]: %d]
 [New Account]
 [Executables]
-[All Files]
 [Select executable used for notification]
 [Dialog box error]
 [Failed]

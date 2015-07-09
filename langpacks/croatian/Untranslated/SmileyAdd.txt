@@ -37,7 +37,6 @@
 [Top]
 [Bottom]
 [Smiley packs]
-[All files]
 [Protocol specific]
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]

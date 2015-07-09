@@ -78,7 +78,6 @@
 [Parameter:]
 [Add a new game]
 [Searching games...]
-[All Files]
 [Please wait, game.ini will be currently parsed...]
 [XFire Options]
 [Please choose one game in the list!]

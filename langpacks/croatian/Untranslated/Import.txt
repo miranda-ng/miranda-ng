@@ -77,7 +77,6 @@
 [The given file does not exist. Please check that you have entered the name correctly.]
 [Miranda Import]
 [Miranda NG database]
-[All Files]
 [Skipping duplicate group %s.]
 [Import...]
 [Finish]

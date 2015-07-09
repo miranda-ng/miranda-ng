@@ -52,7 +52,7 @@
 [Mind Files]
 
 [All Files]
-
+sve datoteke
 [Boltun/Auto Chat]
 
 [Boltun/Not to Chat]

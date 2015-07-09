@@ -979,7 +979,6 @@
 [abbreviated weekday name]
 [full weekday name]
 [Variables]
-[All files]
 [Select folder]
 [No markers]
 [Show as icons]

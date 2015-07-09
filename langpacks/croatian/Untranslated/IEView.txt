@@ -50,7 +50,6 @@
 [IEView]
 [Skins]
 [Template]
-[All Files]
 [All Images]
 [Style Sheet]
 [Today]

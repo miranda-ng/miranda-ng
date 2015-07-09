@@ -96,7 +96,6 @@
 [Please select a file to import birthdays from...]
 [Importing birthdays from file: %s]
 [Done importing birthdays]
-[All Files]
 [Please select a file to export birthdays to...]
 [Exporting birthdays to file: %s]
 [Done exporting birthdays]

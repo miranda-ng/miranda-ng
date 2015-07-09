@@ -20,7 +20,6 @@
 [Don't use "I don't understand"-like answers]
 [Message sessions]
 [Mind Files]
-[All Files]
 [Boltun/Auto Chat]
 [Boltun/Not to Chat]
 [Boltun/Start Chatting]

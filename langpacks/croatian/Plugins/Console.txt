@@ -70,7 +70,7 @@ Pozadina
 [Text Files (*.txt)]
 
 [All Files]
-
+sve datoteke
 [Save selection to file]
 
 [Save log to file]

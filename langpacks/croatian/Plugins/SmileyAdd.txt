@@ -89,7 +89,7 @@
 [Smiley packs]
 
 [All files]
-
+sve datoteke
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 
