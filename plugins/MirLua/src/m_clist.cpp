@@ -19,7 +19,7 @@ static int lua_AddMainMenuItem(lua_State *L)
 
 static int lua_BuildMainMenu(lua_State *L)
 {
-	HMENU res = ::Menu_BuildMainMenu();
+	HMENU res = ::Menu_GetMainMenu();
 	lua_pushlightuserdata(L, res);
 
 	return 1;

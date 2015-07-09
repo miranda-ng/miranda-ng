@@ -167,19 +167,15 @@ struct MainMenuExecParam
 	TMO_IntMenuItem *pimi;
 };
 
-MIR_APP_DLL(HMENU) Menu_BuildMainMenu(void)
+MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 {
+	RecursiveDeleteMenu(hMainMenu);
+
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
 	Menu_Build(hMainMenu, hMainMenuObject);
 	DrawMenuBar(cli.hwndContactList);
 	return hMainMenu;
-}
-
-MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
-{
-	RecursiveDeleteMenu(hMainMenu);
-	return Menu_BuildMainMenu();
 }
 
 MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
@@ -793,10 +789,10 @@ void RebuildMenuOrder(void)
 {
 	BYTE bHideStatusMenu = db_get_b(NULL, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
 
-	//clear statusmenu
+	// clear statusmenu
 	RecursiveDeleteMenu(hStatusMenu);
 
-	//status menu
+	// status menu
 	if (hStatusMenuObject != 0) {
 		Menu_RemoveObject(hStatusMenuObject);
 		mir_free(hStatusMainMenuHandles);

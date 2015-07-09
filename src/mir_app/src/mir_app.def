@@ -226,7 +226,6 @@ Menu_AddMainMenuItem @223
 Menu_AddProtoMenuItem @224
 Menu_AddStatusMenuItem @225
 Menu_BuildContactMenu @226
-Menu_BuildMainMenu @227
 Menu_GetMainMenu @228
 Menu_GetStatusMenu @229
 Menu_BuildSubGroupMenu @230

@@ -1808,7 +1808,7 @@ LRESULT CLUI::OnUpdate(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 LRESULT CLUI::OnInitMenu(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	if (!CLUI::IsMainMenuInited()) {
-		Menu_BuildMainMenu();
+		Menu_GetMainMenu();
 		CLUI::m_fMainMenuInited = TRUE;
 	}
 	return FALSE;
