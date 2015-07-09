@@ -1,5 +1,17 @@
 #include "stdafx.h"
 
+static int lua_MessageBox(lua_State *L)
+{
+	ptrT text(mir_utf8decodeT(lua_tostring(L, 1)));
+	ptrT caption(mir_utf8decodeT(lua_tostring(L, 2)));
+	UINT flags = lua_tointeger(L, 3);
+
+	int res = ::MessageBox(NULL, text, caption, flags);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 static int lua_ShellExecute(lua_State *L)
 {
 	ptrT command(mir_utf8decodeT(lua_tostring(L, 1)));
@@ -14,6 +26,8 @@ static int lua_ShellExecute(lua_State *L)
 
 static luaL_Reg winApi[] =
 {
+	{ "MessageBox", lua_MessageBox },
+
 	{ "ShellExecute", lua_ShellExecute },
 
 	{ NULL, NULL }
