@@ -292,7 +292,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 		msgTime = now;
 
 	CMString tszBody(jnMsg["body"].as_mstring());
-	
+
 	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 	if (!jnFwdMessages.isnull()) {
 		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, bbcNo);
@@ -306,16 +306,14 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
-		tszBody +=  tszAttachmentDescr;
+		tszBody += tszAttachmentDescr;
 	}
 
-	if (tszBody.IsEmpty() && !jnMsg["action"].isnull()) {
+	if (!jnMsg["action"].isnull()) {
 		bIsAction = true;
 		CMString tszAction = jnMsg["action"].as_mstring();
 		
-		if (tszAction.IsEmpty())
-			tszBody = _T("...");
-		else if (tszAction == _T("chat_create")) {
+		if (tszAction == _T("chat_create")) {
 			CMString tszActionText = jnMsg["action_text"].as_mstring();
 			tszBody.AppendFormat(_T("%s \"%s\""), TranslateT("create chat"), tszActionText.IsEmpty() ? _T(" ") : tszActionText);
 		}
@@ -377,6 +375,8 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			if (!bIsHistory)
 				SetChatTitle(cc, tszTitle);
 		}
+		else if (tszAction == _T("chat_photo_update"))
+			tszBody.Replace(TranslateT("Attachments:"), TranslateT("changed chat cover:"));
 		else
 			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
 	}
