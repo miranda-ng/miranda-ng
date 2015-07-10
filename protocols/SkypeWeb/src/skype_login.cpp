@@ -26,6 +26,12 @@ void CSkypeProto::Login()
 	requestQueue->Start();
 	int tokenExpires(getDword("TokenExpiresIn", 0));
 	ptrA login(getStringA(SKYPE_SETTINGS_ID));
+	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
+	if (login == NULL || password == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		return;
+	}	
 	HistorySynced = isTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
@@ -34,7 +40,7 @@ void CSkypeProto::Login()
 		if (strstr(login, "@"))
 			SendRequest(new LoginMSRequest(), &CSkypeProto::OnMSLoginFirst);
 		else
-			SendRequest(new LoginOAuthRequest(login, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest(login, password), &CSkypeProto::OnLoginOAuth);
 	}
 }
 

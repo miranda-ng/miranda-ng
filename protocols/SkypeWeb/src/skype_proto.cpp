@@ -66,7 +66,7 @@ CSkypeProto::~CSkypeProto()
 	delete requestQueue;
 	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = NULL;
-
+	CloseHandle(m_hTrouterEvent);
 	if (m_hCallHook)
 		DestroyHookableEvent(m_hCallHook);
 	if (m_hPopupClassCall)

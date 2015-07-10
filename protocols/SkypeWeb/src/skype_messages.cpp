@@ -183,8 +183,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			CMStringA msg;
 			dbei.cbBlob = db_event_getBlobSize(dbevent);
-			mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-			dbei.pBlob = blob;
+			dbei.pBlob = mir_ptr<BYTE>((PBYTE)mir_alloc(dbei.cbBlob));
 
 			db_event_get(dbevent, &dbei);
 
@@ -265,7 +264,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 				HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
 				if (xmlNode == NULL)
 					break;
-				fileSize = atoi(_T2A(xmlGetAttrValue(xmlNode, _T("size"))));
+				fileSize = _ttoi(xmlGetAttrValue(xmlNode, _T("size")));
 				ptrA fileName(mir_utf8encodeT(xmlGetText(xmlNode)));
 				if (fileName == NULL || fileSize == NULL)
 					continue;
