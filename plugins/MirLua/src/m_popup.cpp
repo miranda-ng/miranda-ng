@@ -19,6 +19,21 @@ static POPUPDATAT* MakePopupData(lua_State *L)
 	ppd->lchContact = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
+	lua_pushstring(L, "ColorBack");
+	lua_gettable(L, -2);
+	ppd->colorBack = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_pushstring(L, "ColorText");
+	lua_gettable(L, -2);
+	ppd->colorText = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_pushstring(L, "Seconds");
+	lua_gettable(L, -2);
+	ppd->iSeconds = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
 	return ppd;
 }
 
@@ -64,6 +79,16 @@ static POPUPDATA2* MakePopupData2(lua_State *L)
 	lua_pushstring(L, "hContact");
 	lua_gettable(L, -2);
 	ppd->lchContact = lua_tointeger(L, -1);
+	lua_pop(L, 1);
+
+	lua_pushstring(L, "ColorBack");
+	lua_gettable(L, -2);
+	ppd->colorBack = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_pushstring(L, "ColorText");
+	lua_gettable(L, -2);
+	ppd->colorText = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "hEvent");
