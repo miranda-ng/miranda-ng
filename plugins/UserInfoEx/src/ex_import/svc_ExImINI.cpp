@@ -163,15 +163,13 @@ static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file
  **/
 int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
-	FILE* file;
-	errno_t err;
 	DB::CEnumList Modules;
-	SYSTEMTIME now;
-	MCONTACT hContact;
 
 	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, NULL))
 	{
-		if ((err = fopen_s(&file, pszFileName, "wt")) != NULL)
+		FILE *file;
+		errno_t err = fopen_s(&file, pszFileName, "wt");
+		if (err != NULL)
 		{
 			MsgErr(NULL, 
 				LPGENT("The ini-file \"%s\"\nfor saving contact information could not be opened."),
@@ -182,11 +180,10 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		SetCursor(LoadCursor(NULL, IDC_WAIT));
 
 		// write header
+		SYSTEMTIME now;
 		GetLocalTime(&now);
-		fprintf(file, 
-			";DATE = %04d-%02d-%02d %02d:%02d:%02d\n\n",
-			now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond
-		);
+		fprintf(file, ";DATE = %04d-%02d-%02d %02d:%02d:%02d\n\n",
+			now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond);
 
 		if (Modules.getCount() == 0)
 		{
@@ -200,7 +197,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			ExportContact(NULL, &Modules, file);
 			fprintf(file, "\n\n");
 			// Contacts
-			for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			{
 				ExportContact(hContact, &Modules, file);
 				fprintf(file, "\n\n");
@@ -208,9 +205,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		}
 		// export only one contact
 		else 
-		{
 			ExportContact(ExImContact->hContact, &Modules, file);
-		}
 
 		fclose(file);
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
@@ -243,13 +238,13 @@ LPSTR strnrchr(LPSTR string, int ch, DWORD len)
  **/
 static DWORD ImportreadLine(FILE* file, LPSTR &str)
 {
-	CHAR c;
 	DWORD l = 0;
-	BYTE bComment = 0;
+	bool bComment = false;
 
 	str[0] = 0;
 	while (!feof(file)) {
-		switch (c = fgetc(file)) {
+		int c = fgetc(file);
+		switch (c) {
 			case EOF:
 				// reading error
 				if (ferror(file)) {
@@ -263,25 +258,26 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
 			case '\n':
 				// ignore empty lines
 				if (l == 0) { 
-					bComment = 0;
+					bComment = false;
 					continue;
 				}
 				return l;
 			
 			case ';':
 				// found a comment line
-				bComment |= l == 0;
+				bComment |= (l == 0);
+				// fall through
 			case '\t':
 			case ' ':
 				// ignore space and tab at the beginning of the line
-				if (l == 0) break;
-			
+				if (l == 0)
+					break;
+				// fall through
 			default:
 				if (!bComment) {
 					str = mir_strncat_c(str, c);
 					l++;
 				}
-				break;
 		}
 	}
 	return 0;

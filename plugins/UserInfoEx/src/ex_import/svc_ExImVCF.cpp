@@ -439,7 +439,7 @@ void CLineBuffer::fputEncoded(FILE *outFile)
  **/
 int CLineBuffer::fgetEncoded(FILE *inFile)
 {
-	CHAR c;
+	int c;
 	CHAR hex[3];
 	WORD wAdd = 0;
 
@@ -654,6 +654,7 @@ CVCardFileVCF::CVCardFileVCF()
 	_pszBaseProto = NULL;
 	_hasUtf8 = 0;
 	_useUtf8 = FALSE;
+	_cbRew = 0;
 }
 
 /**
@@ -1115,16 +1116,18 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
 {
 	LPSTR here;
-	
+	int c;
+
 	// read setting (size is never larger than MAX_SETTING, error otherwise!)
-	for (here = szVCFSetting; here - szVCFSetting < cchSetting && EOF != (*here = fgetc(_pFile)); here++) {
+	for (here = szVCFSetting; here - szVCFSetting < cchSetting && EOF != (c = fgetc(_pFile)); here++) {
 		// end of the setting string
-		if (*here == ':') {
+		if (c == ':') {
 			*here = 0;
 			break;
 		}
+		*here = c;
 		// end of line before value?
-		if (*here == '\n')
+		if (c == '\n')
 			return 0;
 	}
 	// ignore line if setting was not read correctly

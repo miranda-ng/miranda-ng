@@ -143,14 +143,13 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 	LPEXPORTDATA pDat = (LPEXPORTDATA)GetUserData(hDlg);
 
 	switch (uMsg) {
-	
 		case WM_INITDIALOG:
 		{
-			HWND hTree;
 			BYTE bImagesLoaded = 0;
 
 			// get tree handle and set treeview style
-			if (!(hTree = GetDlgItem(hDlg, IDC_TREE))) break;
+			HWND hTree = GetDlgItem(hDlg, IDC_TREE);
+			if (!hTree) break;
 			SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree, GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			// init the datastructure
@@ -162,9 +161,6 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 			// set icons
 			{
-				HICON hIcon;
-				HIMAGELIST hImages;
-				OSVERSIONINFO osvi;
 				const ICONCTRL idIcon[] = {
 					{ ICO_DLG_EXPORT,	WM_SETICON,		NULL		},
 					{ ICO_DLG_EXPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
@@ -175,20 +171,19 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview
+				OSVERSIONINFO osvi;
 				osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-				GetVersionEx(&osvi);
-				if ((hImages = ImageList_Create(
-						GetSystemMetrics(SM_CXSMICON),
-						GetSystemMetrics(SM_CYSMICON),
-						((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16)|ILC_MASK,
-						0, 1)
-					) != NULL)
-				{
-					SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
+				if (GetVersionEx(&osvi)) {
+					HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),
+							((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16)|ILC_MASK,0, 1);
+					if (hImages != NULL)
+					{
+						SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
 
-					bImagesLoaded 
-						= ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != NULL) && 0 == ImageList_AddIcon(hImages, hIcon))
-						&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != NULL) && 1 == ImageList_AddIcon(hImages, hIcon)));
+						HICON hIcon;
+						bImagesLoaded = ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != NULL) && 0 == ImageList_AddIcon(hImages, hIcon))
+							&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != NULL) && 1 == ImageList_AddIcon(hImages, hIcon)));
+					}
 				}
 			}
 			// do the translation stuff

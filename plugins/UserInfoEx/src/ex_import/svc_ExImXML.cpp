@@ -88,14 +88,9 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
  **/
 int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
-	FILE *xmlfile;
 	DB::CEnumList Modules;
-	LONG cbHeader;
-	SYSTEMTIME now;
-	DWORD result;
-	MCONTACT hContact;
 
-	result = (DWORD)DialogBox(ghInst, 
+	DWORD result = (DWORD) DialogBox(ghInst, 
 							MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY),
 							NULL, DlgProc_DataHistory);
 	if (LOWORD(result) != IDOK)
@@ -109,13 +104,14 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, NULL)) 
 	{
 
-		xmlfile = fopen(pszFileName, "wt");
+		FILE *xmlfile = fopen(pszFileName, "wt");
 		if (!xmlfile)
 		{
 			MsgErr(NULL, LPGENT("Can't create xml file!\n%S"), pszFileName);
 			return 1;
 		}
 		
+		SYSTEMTIME now;
 		GetLocalTime(&now);
 
 		// write xml header raw as it is without using the tinyxml api
@@ -125,7 +121,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			0xefU, 0xbbU, 0xbfU, now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond
 		);
 		// remember the header's size
-		cbHeader = ftell(xmlfile);
+		LONG cbHeader = ftell(xmlfile);
 
 		CExImContactXML vContact(this);
 
@@ -151,7 +147,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 				vContact.Export(xmlfile, &Modules);
 			}
 			// loop for all other contact
-			for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			{
 				switch (ExImContact->Typ)
 				{
@@ -218,6 +214,8 @@ CFileXml::CFileXml()
 	_numEventsTodo			= 0;
 	_numEventsDone			= 0;
 	_numEventsDuplicated	= 0;
+	_hContactToWorkOn		= INVALID_CONTACT_ID;
+	_wExport				= 0;
 }
 
 /**
@@ -249,19 +247,16 @@ int CFileXml::ImportOwner(TiXmlElement* xContact)
  **/
 int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 {
-	TiXmlElement *xContact;
 	CExImContactXML vContact(this);
-	int result;
-	LPTSTR pszNick;
 
 	// import contacts
-	for (xContact = xmlParent->FirstChildElement(); xContact != NULL; xContact = xContact->NextSiblingElement()) {
+	for (TiXmlElement *xContact = xmlParent->FirstChildElement(); xContact != NULL; xContact = xContact->NextSiblingElement()) {
 		if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT)) {
 			// update progressbar and abort if user clicked cancel
-			pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
+			LPTSTR pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
 			// user clicked abort button
 			if (_progress.UpdateContact(LPGENT("Contact: %s (%S)"), pszNick, xContact->Attribute("proto"))) {
-				result = vContact.LoadXmlElemnt(xContact);
+				int result = vContact.LoadXmlElemnt(xContact);
 				switch (result) {
 					case ERROR_OK:
 						// init contact class and import if matches the user desires
@@ -296,7 +291,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 		}
 		// import owner contact
 		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_strcmpi(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
-			result = vContact.Import();
+			int result = vContact.Import();
 			switch (result) {
 				case ERROR_OK:
 					_numContactsDone++;
@@ -321,21 +316,18 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
  **/
 DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
 {
-	DWORD dwCount = 0;
-	TiXmlNode *xContact;
-
 	try {
+		DWORD dwCount = 0;
 		// count contacts in file for progress bar
-		for (xContact = xmlParent->FirstChild(); xContact != NULL; xContact = xContact->NextSibling()) {
-			if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT) || !mir_strcmpi(xContact->Value(), XKEY_OWNER)) {
+		for (TiXmlNode *xContact = xmlParent->FirstChild(); xContact != NULL; xContact = xContact->NextSibling())
+			if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT) || !mir_strcmpi(xContact->Value(), XKEY_OWNER))
 				dwCount += CountContacts(xContact->ToElement()) + 1;
-			}
-		}
+
+		return dwCount;
 	}
 	catch(...) {
 		return 0;
 	}
-	return dwCount;
 }
 
 /**
@@ -348,19 +340,18 @@ DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
  **/
 int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 {
-	TiXmlDocument doc;
-	TiXmlElement *xmlCard = NULL;
-
 	try {
 		_hContactToWorkOn = hContact;
 		// load xml file
+		TiXmlDocument doc;
 		if (!doc.LoadFile(pszFileName)) {
 			MsgErr(NULL, LPGENT("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
 				pszFileName, doc.ErrorId(), doc.ErrorDesc());
 			return 1;
 		}
 		// is xmlfile a XMLCard ?
-		if ((xmlCard = doc.FirstChildElement("XMLCard")) == NULL) {
+		TiXmlElement *xmlCard = doc.FirstChildElement("XMLCard");
+		if (xmlCard == NULL) {
 			MsgErr(NULL, LPGENT("The selected file is no valid XMLCard"));
 			return 1;
 		}
@@ -427,10 +418,10 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 				_numEventsDuplicated);
 			
 		}
+		return 0;
 	}	
 	catch(...) {
 		MsgErr(NULL, LPGENT("FATAL: An exception was thrown while importing contacts from xmlCard!"));
 		return 1;
 	}
-	return 0;
 }

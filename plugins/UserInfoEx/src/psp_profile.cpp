@@ -676,13 +676,13 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 				lvi.stateMask = LVIS_FOCUSED | LVIS_SELECTED;
 				lvi.iItem = pList->labelEdit.iItem;
 
-				if (wParam == VK_TAB && !pList->labelEdit.iSubItem) {
+				if (!pList->labelEdit.iSubItem) {
 					lvi.iSubItem = 1;
 					lvi.state = LVIS_FOCUSED | LVIS_SELECTED;
 					ProfileList_EndLabelEdit(pList->hList, TRUE);
 				}
 				else {
-					UINT iSubItem = (wParam == VK_TAB) ? 0 : pList->labelEdit.iSubItem;
+					UINT iSubItem = 0;
 
 					lvi.iSubItem = 0;
 					lvi.state = 0;

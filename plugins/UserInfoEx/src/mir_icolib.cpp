@@ -193,7 +193,7 @@ void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, BYTE numCtrls)
 			case STM_SETICON:
 			case STM_SETIMAGE:
 				ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
-
+				// fall through
 			case BM_SETIMAGE:
 				SendMessage(hCtrl, pCtrl[i].Message, IMAGE_ICON, (LPARAM)hIcon);
 			}
