@@ -166,7 +166,7 @@ static int lua_GetContactSetting(lua_State *L)
 	switch (dbv.type)
 	{
 	case DBVT_BYTE:
-		lua_pushboolean(L, dbv.bVal);
+		lua_pushinteger(L, dbv.bVal);
 		break;
 	case DBVT_WORD:
 		lua_pushinteger(L, dbv.wVal);
