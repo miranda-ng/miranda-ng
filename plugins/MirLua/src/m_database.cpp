@@ -218,6 +218,66 @@ static int lua_DeleteModule(lua_State *L)
 	return 1;
 }
 
+typedef struct
+{
+	int  arrlen;
+	char **pszSettingName;
+}
+enumDBSettingsParam;
+
+static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
+{
+	if (szSetting)
+	{
+		enumDBSettingsParam* p = (enumDBSettingsParam*)lParam;
+
+		p->arrlen++;
+		p->pszSettingName = (char**)mir_realloc(p->pszSettingName, p->arrlen * sizeof(char*));
+		p->pszSettingName[p->arrlen - 1] = mir_strdup(szSetting);
+	}
+	return 0;
+}
+
+static int lua_EnumSettings(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+
+	if (!lua_isfunction(L, 3))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 3);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	enumDBSettingsParam param = { 0, NULL };
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.pfnEnumProc = SettingsEnumProc;
+	dbces.szModule = szModule;
+	dbces.ofsSettings = 0;
+	dbces.lParam = (LPARAM)&param;
+	INT_PTR res = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+
+	for (int i = 0; i < param.arrlen; i++)
+	{
+		lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+		lua_pushstring(L, mir_utf8encode(param.pszSettingName[i]));
+		if (lua_pcall(L, 1, 0, 0))
+			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+
+		mir_free(param.pszSettingName[i]);
+	}
+	mir_free(param.pszSettingName);
+
+	luaL_unref(L, LUA_REGISTRYINDEX, ref);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
@@ -237,6 +297,8 @@ static luaL_Reg databaseApi[] =
 	{ "DeleteContactSetting", lua_DeleteContactSetting },
 
 	{ "DeleteModule", lua_DeleteModule },
+
+	{ "EnumSettings", lua_EnumSettings },
 
 	{ NULL, NULL }
 };
