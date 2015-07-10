@@ -35,6 +35,8 @@ extern "C"
 #include "resource.h"
 
 #include "mlua.h"
+#include "mlua_module.h"
+#include "mlua_m_clist.h"
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"
 #include "mlua_options.h"
