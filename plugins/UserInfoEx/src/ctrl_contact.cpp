@@ -341,22 +341,25 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			noRecursion = 1;
 			{
 				TCHAR szText[MAXDATASIZE], *pText, *pArea, *pNumber;
-				int isValid = 1;
+				bool isValid = true;
 				GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText));
-				if (szText[0] != '+') isValid = 0;
+				if (szText[0] != '+')
+					isValid = false;
 				if (isValid) {
-					int i, country = _tcstol(szText + 1, &pText, 10);
+					int country = _tcstol(szText + 1, &pText, 10);
 					if (pText - szText > 4)
-						isValid = 0;
+						isValid = false;
 					else {
+						int i;
 						for (i = SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETCOUNT, 0, 0) - 1; i >= 0; i--) {
 							if (country == SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETITEMDATA, i, 0)) {
 								SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_SETCURSEL, i, 0);
 								break;
 							}
 						}
+						if (i < 0)
+							isValid = false;
 					}
-					if (i < 0) isValid = 0;
 				}
 				if (isValid) {
 					pArea = pText + _tcscspn(pText, _T("0123456789"));
