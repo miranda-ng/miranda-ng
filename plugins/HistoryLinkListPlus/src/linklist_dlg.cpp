@@ -142,7 +142,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (mouseEvent == 0x01)
 				EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);	
 			TranslateMenu(hSubMenu);
-			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 2) * sizeof(TCHAR));
+			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 4) * sizeof(TCHAR));
 			if (link == NULL)
 				break;
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg); 
@@ -166,17 +166,15 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					Utils_OpenUrlT(link);
 				break;
 			case IDM_LINK_COPY: {
-				size_t dataLen;
-				HGLOBAL hData;
 				if (!OpenClipboard(hDlg))
 					break;
 				EmptyClipboard();
 
-				dataLen = (mir_tstrlen(link) + 1) * sizeof(TCHAR);
-				hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
-				_tcscpy_s((LPTSTR)GlobalLock(hData), dataLen / 2, link);
+				size_t dataLen = ((mir_tstrlen(link) + 1) * sizeof(TCHAR));
+				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
+				memcpy((LPTSTR)GlobalLock(hData), link, dataLen);
 				GlobalUnlock(hData);
-				SetClipboardData(CF_TEXT, hData);
+				SetClipboardData(CF_UNICODETEXT, hData);
 				CloseClipboard();
 				} break;
 			case IDM_SHOWMESSAGE:
