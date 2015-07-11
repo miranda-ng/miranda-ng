@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef GENMENU_H
 #define GENMENU_H
-//general menu object module
-#include "m_genmenu.h"
 
 /* genmenu structs */
 
