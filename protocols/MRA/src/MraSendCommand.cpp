@@ -80,7 +80,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 	LPSTR lpszMessageRTF = NULL;
 	size_t dwMessageConvertedSize = lpwszMessage.GetLength()*sizeof(WCHAR), dwMessageRTFSize = 0;
 
-	if ( MraIsMessageFlashAnimation(lpwszMessage))
+	if (MraIsMessageFlashAnimation(lpwszMessage))
 		dwFlags |= MESSAGE_FLAG_FLASH;
 
 	// pack auth message
@@ -96,20 +96,20 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 	else if (dwFlags & MESSAGE_FLAG_FLASH) {
 		dwFlags |= MESSAGE_FLAG_RTF;
 
-		DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
-		char lpbRTFData[10000];
+		CMStringA lpszBuf(mir_u2a(lpwszMessage));
 
 		OutBuffer buf;
 		buf.SetUL(4);
-		buf.SetLPS(lpbRTFData);// сообщение что у собеседника плохая версия :)
+		buf.SetLPS(lpszBuf);// сообщение что у собеседника плохая версия :)
 		buf.SetUL(4);
-		buf.SetUL(dwBackColour);
-		buf.SetLPS(lpbRTFData);// сам мульт ANSI
+		buf.SetUL(getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR));
+		buf.SetLPS(lpszBuf);// сам мульт ANSI
 		buf.SetLPSW(lpwszMessage);// сам мульт UNICODE
 
-		DWORD dwRTFDataSize = (DWORD)buf.Len();
-		if (compress2((LPBYTE)lpbRTFData, &dwRTFDataSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
-			lpszMessageRTF = mir_base64_encode((LPBYTE)lpbRTFData, dwRTFDataSize);
+		DWORD dwBufSize = (buf.Len() + 128);
+		lpszBuf.Truncate(dwBufSize);
+		if (compress2((LPBYTE)(LPCSTR)lpszBuf, &dwBufSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
+			lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpszBuf, dwBufSize);
 			dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 		}
 	}
@@ -118,7 +118,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		// Only if message is simple text message or RTF or ALARM
 		if (dwFlags & MESSAGE_FLAG_RTF) { // add RFT part
 			CMStringA lpbRTFData; lpbRTFData.Truncate(lpwszMessage.GetLength()*16 + 4096);
-			if ( !MraConvertToRTFW(lpwszMessage, lpbRTFData)) {
+			if (!MraConvertToRTFW(lpwszMessage, lpbRTFData)) {
 				DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 				
 				OutBuffer buf;
