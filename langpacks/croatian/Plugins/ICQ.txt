@@ -682,183 +682,183 @@ Zatvaranje za %d
 [Dominica]
 
 [Dominican Republic]
-
+Dominikanska republika
 [Ecuador]
-
+Ekvador
 [Egypt]
-
+Egipat
 [El Salvador]
-
+El Salvador
 [Equatorial Guinea]
-
+Ekvatorijalna gvineja
 [Eritrea]
-
+Eritreja
 [Estonia]
-
+Estonija
 [Ethiopia]
-
+Etiopija
 [Europe]
 
 [Faroe Islands]
-
+Farski otoci
 [Falkland Islands]
 
 [Fiji]
-
+Fidži
 [Finland]
-
+Finska
 [France]
-
+Francuska
 [French Antilles]
 
 [French Guiana]
-
+Francuska gvajana
 [French Polynesia]
-
+Francuska polinezija
 [Gabon]
-
+Gabon
 [Gambia]
-
+Gambija
 [Georgia]
-
+Gruzija
 [Germany]
-
+Njemačka
 [Ghana]
-
+Gana
 [Gibraltar]
-
+Gibraltar
 [Greece]
-
+Grčka
 [Greenland]
-
+Grenland
 [Grenada]
-
+Grenada
 [Guadeloupe]
-
+Gvadalupa
 [Guam, US Territory of]
 
 [Guatemala]
-
+gvatemala
 [Guinea]
-
+gvineja
 [Guinea-Bissau]
-
+gvinea bisao
 [Guyana]
-
+giana
 [Haiti]
-
+Haiti
 [Honduras]
-
+Honduras
 [Hong Kong]
-
+Hong Kong
 [Hungary]
-
+Mađarska
 [Iceland]
-
+Island
 [India]
-
+Indija
 [Indonesia]
-
+Indonezija
 [Iran]
-
+Iran
 [Iraq]
-
+Irak
 [Ireland]
-
+Irska
 [Israel]
-
+Izrael
 [Italy]
-
+Italija
 [Jamaica]
-
+Jamajka
 [Japan]
-
+Japan
 [Jordan]
-
+Jordan
 [Kazakhstan]
-
+Kazahstan
 [Kenya]
-
+Kenija
 [Kiribati]
-
+Kiribati
 [Korea, North]
 
 [Korea, South]
 
 [Kuwait]
-
+Kuvajt
 [Kyrgyzstan]
-
+Kirgistan
 [Laos]
-
+Laos
 [Latvia]
-
+Letonija
 [Lebanon]
-
+Libanon
 [Lesotho]
-
+Lesoto
 [Liberia]
-
+Liberija
 [Libya]
-
+Libija
 [Liechtenstein]
-
+Lihtenštajn
 [Lithuania]
-
+Litva
 [Luxembourg]
-
+Luksemburg
 [Macau]
-
+Makao
 [Macedonia, Republic of]
 
 [Madagascar]
-
+Madagaskar
 [Malawi]
-
+Malawi
 [Malaysia]
-
+Malezija
 [Maldives]
-
+Maldivi
 [Mali]
-
+Mali
 [Malta]
-
+malta
 [Marshall Islands]
-
+Maršalovi otoci
 [Martinique]
-
+Martinik
 [Mauritania]
-
+Mauritania
 [Mauritius]
-
+Mauricijus
 [Mayotte]
-
+Majot
 [Mexico]
-
+Meksiko
 [Micronesia, Federated States of]
-
+Federativne države mikronezije
 [Moldova]
-
+Moldavija
 [Monaco]
-
+Monako
 [Mongolia]
-
+Mongolija
 [Montserrat]
-
+Moncerat
 [Morocco]
-
+Maroko
 [Mozambique]
-
+Mozambik
 [Myanmar]
-
+Myanmar (burma)
 [Namibia]
-
+Namibija
 [Nauru]
-
+Nauru
 [Nepal]
-
+Nepal
 [Netherlands]
-
+Nizozemska
 [Netherlands Antilles]
 
 [St. Maarten]
@@ -872,27 +872,27 @@ Zatvaranje za %d
 [Netherlands (St. Eustatius Island)]
 
 [New Caledonia]
-
+Nova kaledonija
 [New Zealand]
-
+Novi zeland
 [Nicaragua]
-
+Nikaragva
 [Niger]
-
+Niger
 [Nigeria]
-
+Nigerija
 [Niue]
-
+Niue
 [Northern Mariana Islands, US Territory of]
 
 [Norway]
-
+norveška
 [Oman]
-
+Oman
 [Pakistan]
-
+Pakistan
 [Palau]
-
+Palau
 [Panama]
 Panama
 [Papua New Guinea]
@@ -1046,7 +1046,7 @@ Srbija
 [Kosovo, Republic of]
 
 [Montenegro]
-
+Crna gora
 [Zambia]
 zambija
 [Zimbabwe]

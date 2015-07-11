@@ -596,7 +596,6 @@
 [Maltese]
 [Moldavian]
 [Mongolian]
-[Nauru]
 [Navajo; Navaho]
 [Ndebele, South; South Ndebele]
 [Ndebele, North; North Ndebele]
