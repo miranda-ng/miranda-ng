@@ -92,8 +92,6 @@
 [Tlen Mail]
 [Send picture]
 [Voice Chat]
-[Request authorization]
-[Grant authorization]
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 [Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
 [Error while setting avatar on Tlen account (no response)]

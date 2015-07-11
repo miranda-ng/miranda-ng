@@ -44,7 +44,6 @@
 [General]
 [Message Log]
 [Group chats]
-[History]
 [Default]
 [Message sessions]
 [IEView]

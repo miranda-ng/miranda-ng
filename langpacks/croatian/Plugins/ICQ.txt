@@ -159,7 +159,7 @@ opcije
 [Note]
 
 [Warning]
-
+Upozorenje
 [Error]
 
 [Fatal]
@@ -558,29 +558,29 @@ Zatvaranje za %d
 
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
-
+Avganistan
 [Albania]
-
+Albanija
 [Algeria]
-
+Alžir
 [Andorra]
-
+Andora
 [Angola]
-
+Angola
 [Anguilla]
-
+Angvila
 [Antigua and Barbuda]
-
+Antigva i barbuda
 [Argentina]
-
+Argentina
 [Armenia]
-
+Armenija
 [Aruba]
-
+Aruba
 [Ascension Island]
 
 [Australia]
-
+Australija
 [Australia, Antarctic Territory]
 
 [Australia, Christmas Island]
@@ -590,97 +590,97 @@ Zatvaranje za %d
 [Australia, Norfolk Island]
 
 [Austria]
-
+Austrija
 [Azerbaijan]
-
+Azerbejdžan
 [Bahamas]
-
+Bahami
 [Bahrain]
-
+Bahrein
 [Bangladesh]
-
+Bangladeš
 [Barbados]
-
+Barbados
 [Belarus]
-
+Bjelorusija
 [Belgium]
-
+belgija
 [Belize]
-
+Belize
 [Benin]
-
+Benin
 [Bermuda]
-
+Bermuda
 [Bhutan]
-
+Butan
 [Bolivia]
-
+Bolivija
 [Bosnia and Herzegovina]
-
+Bosna i Hercegovina
 [Botswana]
-
+Bocvana
 [Brazil]
-
+Brazil
 [British Virgin Islands]
 
 [Brunei]
-
+Brunei
 [Bulgaria]
-
+Bugarska
 [Burkina Faso]
-
+Burkina Faso
 [Burundi]
-
+Burundi
 [Cambodia]
-
+Kambodža
 [Cameroon]
-
+Kamerun
 [Canada]
-
+Kanada
 [Canary Islands]
 
 [Cape Verde]
-
+Cape Verde
 [Cayman Islands]
-
+Kajmanski otoci
 [Central African Republic]
-
+Srednjoafrička republika
 [Chad]
-
+Čad
 [Chile]
-
+Čile
 [China]
-
+Kina
 [Colombia]
-
+Kolumbija
 [Comoros]
-
+Komori
 [Congo, Democratic Republic of the]
-
+Demokratska republika kongo
 [Congo, Republic of the]
-
+Republika kongo
 [Cook Islands]
-
+Kukovi otoci
 [Costa Rica]
-
+Kosta rika
 [Cote d'Ivoire]
-
+Cote d'Ivoire
 [Croatia]
-
+Hrvatska
 [Cuba]
-
+Kuba
 [Greek, Republic of South Cyprus]
 
 [Czech Republic]
-
+češka
 [Denmark]
-
+danska
 [Diego Garcia]
 
 [Djibouti]
-
+džibuti
 [Dominica]
-
+dominika
 [Dominican Republic]
 Dominikanska republika
 [Ecuador]
@@ -864,7 +864,7 @@ Nizozemska
 [St. Maarten]
 
 [Curacao]
-
+Kurakao
 [Netherlands (Bonaire Island)]
 
 [Netherlands (Saba Island)]
@@ -1467,11 +1467,11 @@ zimbabve
 
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 [Revoke authorization]
-
+Odbaci autorizaciju
 [Add to server list]
 
 [Show custom status details]

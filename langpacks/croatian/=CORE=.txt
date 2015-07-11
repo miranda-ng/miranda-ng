@@ -2640,235 +2640,235 @@ sve datoteke
 [Could not start a search on '%s', there was a problem - is %s connected?]
 
 [Could not search on any of the protocols, are you online?]
-
+Nije moguće traženje na bilo kojem od protokola. Jeste li na mreži?
 [Problem with search]
-
+Problem sa traženjem
 [1 %s user found]
-
+1 %s korisnik je pronađen
 [%d %s users found]
-
+%d %s pronađenih korisnika
 [%d users found (]
-
+%d pronađenih korisnika (
 [No users found]
-
+Nema pronađenih korisnika
 ;file \src\mir_app\src\skin2opts.cpp
 [Icon sets]
-
+Setovi ikona
 ;file \src\mir_app\src\skinicons.cpp
 [User online]
-
+Korisnik je na mreži
 [Group (open)]
-
+Grupa je otvorena
 [Group (closed)]
-
+Grupa je zattvorena
 [User details]
-
+Pojedinosti o korisniku
 [History]
-
+Povijest
 [Down arrow]
-
+Strelica dolje
 [Find user]
-
+Pronađi korisnika
 [Search all]
-
+Traži sve
 [Tick]
-
+Kvačica
 [No tick]
-
+nema kvačice
 [Help]
-
+Pomoć
 [Miranda website]
-
+Web stranica mirande
 [Small dot]
-
+Mala točka
 [Filled blob]
-
+popunjeni blob
 [Empty blob]
-
+prazni blob
 [Unicode plugin]
-
+unicode kodirani dodatak
 [ANSI plugin]
-
+Dodatak u kodiranju ansi
 [Running plugin]
-
+Pokrenuti Dodatak
 [Unloaded plugin]
-
+Ugašen dodatak
 [Show/Hide]
-
+Prikaži / Sakrij
 [Exit]
-
+Izlaz
 [Join chat]
-
+Uđi u čavrljanje
 [Leave chat]
-
+Napusti čavrljanje
 [Move to group]
-
+Premjesti na grupu
 [On]
-
+Uključen
 [Off]
-
+isključen
 [Running core plugin]
-
+Pokrenut glavni dodatak
 [Non-loadable plugin]
-
+Dodatak koji nije moguće pokrenuti
 [Frames]
-
+Okviri
 [Add group]
-
+Dodaj grupu
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 [Revoke authorization]
-
+Odbaci autorizaciju
 [Warning]
-
+Upozorenje
 [Always visible]
-
+Uvijek vidljiv
 [Always invisible]
-
+Uvjek nevidljiv
 [Locked status]
-
+Zaključani status
 [Status icons]
-
+Statusne ikone
 [%s icons]
-
+%s Ikone
 [Main icons]
-
+Glavne ikone
 ;file \src\mir_app\src\sounds.cpp
 [Sound files]
-
+zvučne datoteke
 [WAV files]
-
+WAV datoteke
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
-
+Nespecificirano
 [Afghanistan]
-
+Avganistan
 [Aland Islands]
-
+Alandski otoci
 [Albania]
-
+Albanija
 [Algeria]
-
+Alžir
 [American Samoa]
-
+Američka samoa
 [Andorra]
-
+Andora
 [Angola]
-
+Angola
 [Anguilla]
-
+Angvila
 [Antarctica]
-
+Anktarktika
 [Antigua and Barbuda]
-
+Antigva i barbuda
 [Argentina]
-
+Argentina
 [Armenia]
-
+Armenija
 [Aruba]
-
+Aruba
 [Australia]
-
+Australija
 [Austria]
-
+Austrija
 [Azerbaijan]
-
+Azerbejdžan
 [Bahamas]
-
+Bahami
 [Bahrain]
-
+Bahrein
 [Bangladesh]
-
+Bangladeš
 [Barbados]
-
+Barbados
 [Belarus]
-
+Bjelorusija
 [Belgium]
-
+belgija
 [Belize]
-
+Belize
 [Benin]
-
+Benin
 [Bermuda]
-
+Bermuda
 [Bhutan]
-
+Butan
 [Bolivia]
-
+Bolivija
 [Bonaire, Sint Eustatius and Saba]
-
+Boner, Sveti evstatije i sava
 [Bosnia and Herzegovina]
-
+Bosna i Hercegovina
 [Botswana]
-
+Bocvana
 [Bouvet Island]
-
+Buvetov otok
 [Brazil]
-
+Brazil
 [British Indian Ocean Territory]
-
+Britanski teritorij indijskog oceana
 [Brunei]
-
+Brunei
 [Bulgaria]
-
+Bugarska
 [Burkina Faso]
-
+Burkina Faso
 [Burundi]
-
+Burundi
 [Cambodia]
-
+Kambodža
 [Cameroon]
-
+Kamerun
 [Canada]
-
+Kanada
 [Cape Verde]
-
+Cape Verde
 [Cayman Islands]
-
+Kajmanski otoci
 [Central African Republic]
-
+Srednjoafrička republika
 [Chad]
-
+Čad
 [Chile]
-
+Čile
 [China]
-
+Kina
 [Christmas Island]
-
+Božični otok
 [Cocos (Keeling) Islands]
-
+Kokosovi otoci
 [Colombia]
-
+Kolumbija
 [Comoros]
-
+Komori
 [Congo, Republic of the]
-
+Republika kongo
 [Congo, Democratic Republic of the]
-
+Demokratska republika kongo
 [Cook Islands]
-
+Kukovi otoci
 [Costa Rica]
-
+Kosta rika
 [Cote d'Ivoire]
-
+Cote d'Ivoire
 [Croatia]
-
+Hrvatska
 [Cuba]
-
+Kuba
 [Curacao]
-
+Kurakao
 [Cyprus]
-
+cipar
 [Czech Republic]
-
+češka
 [Denmark]
-
+danska
 [Djibouti]
-
+džibuti
 [Dominica]
-
+dominika
 [Dominican Republic]
 Dominikanska republika
 [East Timor]

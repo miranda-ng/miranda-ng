@@ -11,7 +11,7 @@
 [[img] BBCode support for image]
 
 [off]
-
+isključen
 [for original size images]
 
 [for preview max 130px*130px]
@@ -318,7 +318,7 @@ Link
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
-
+Upozorenje
 [I'm back]
 
 [You've been kicked by ]

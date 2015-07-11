@@ -242,9 +242,9 @@ tekst
 [Password is too short!]
 
 [ON]
-
+Uključen
 [Off]
-
+isključen
 [Keyrings loaded.]
 
 [Keyrings not loaded!]

@@ -13,7 +13,6 @@
 [Try again]
 [Popup]
 [Add to List]
-[User details]
 [Send Message]
 [Contacts received from]
 [Contacts]

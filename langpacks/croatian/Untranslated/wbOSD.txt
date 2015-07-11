@@ -22,6 +22,5 @@
 [Show when my status is:]
 [%s is %s]
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-[Help]
 [Miranda NG is great and this is a long message.]
 [Plugins]

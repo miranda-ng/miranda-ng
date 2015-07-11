@@ -23,7 +23,6 @@
 [Tokens]
 [Input]
 [Cancel]
-[Help]
 [Variables Help]
 [Open String Formatting Help]
 [Services]

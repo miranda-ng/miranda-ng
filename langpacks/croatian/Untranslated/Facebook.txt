@@ -12,7 +12,6 @@
 [Attach contacts:]
 [Share]
 [Cancel]
-[User details]
 [Contacts]
 [Default group:]
 [Automatically set 'Ignore status change' flag]

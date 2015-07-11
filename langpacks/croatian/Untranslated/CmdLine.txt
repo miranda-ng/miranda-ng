@@ -92,4 +92,3 @@
 [Could not create CommandLine listening server!]
 [You can only run one instance of CmdLine plugin.]
 [Notify]
-[Warning]

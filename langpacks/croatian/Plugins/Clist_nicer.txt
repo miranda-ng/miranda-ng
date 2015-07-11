@@ -695,7 +695,7 @@ Pozadina
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 
 [Warning]
-
+Upozorenje
 [Standard contacts]
 
 [Online contacts to whom you have a different visibility]
@@ -754,7 +754,7 @@ Pozadina
 [&Down]
 
 [Frames]
-
+Okviri
 [Show all frames]
 
 [Show all title bars]

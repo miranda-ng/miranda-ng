@@ -261,7 +261,7 @@ koristi zadane boje
 [Cascade:]
 
 [Off]
-
+isključen
 [Export/import items]
 
 [Contact menu]
@@ -387,7 +387,7 @@ koristi zadane boje
 [Delete an existing anniversary]
 
 [Unspecified]
-
+Nespecificirano
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
 
@@ -541,7 +541,7 @@ ne
 [Custom phone]
 
 [Down arrow]
-
+Strelica dolje
 [Add]
 
 [Edit]

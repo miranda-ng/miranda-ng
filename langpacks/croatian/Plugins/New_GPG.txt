@@ -213,7 +213,7 @@
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 
 [Warning]
-
+Upozorenje
 [Wrong GPG binary location found in system.\nPlease choose another location]
 
 [This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]

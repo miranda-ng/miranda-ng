@@ -58,8 +58,6 @@
 [Enable UTF8 autodetection]
 [Add server]
 [Auto]
-[On]
-[Off]
 [Host address]
 [Server description]
 [Network]

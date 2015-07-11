@@ -125,7 +125,7 @@ opcije
 [Port:]
 
 [User details]
-
+Pojedinosti o korisniku
 [Copy]
 kopiraj
 [Enter Password]

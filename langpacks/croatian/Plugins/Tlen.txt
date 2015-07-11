@@ -202,9 +202,9 @@ tekst
 [Voice Chat]
 
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 ;file \protocols\Tlen\src\tlen_avatar.cpp
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 

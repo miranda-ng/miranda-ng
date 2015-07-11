@@ -30,7 +30,6 @@
 [Disable sounds]
 [Enable sounds]
 [Minimize contact list]
-[Exit]
 [Default]
 [TopToolBar background]
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]

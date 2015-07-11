@@ -24,7 +24,7 @@ poruke
 [Files]
 
 [User Online]
-
+Korisnik je na mreži
 [Authorization]
 
 [You Were Added]

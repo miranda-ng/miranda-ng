@@ -35,7 +35,7 @@
 [Cancel]
 
 [User details]
-
+Pojedinosti o korisniku
 [Contacts]
 
 [Default group:]

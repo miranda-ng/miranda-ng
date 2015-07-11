@@ -801,7 +801,7 @@ Detalji o &Korisniku
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
-
+Statusne ikone
 [transport]
 
 [Notes]
@@ -923,11 +923,11 @@ Detalji o &Korisniku
 [Jabber account chooser]
 
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 [Revoke authorization]
-
+Odbaci autorizaciju
 [Convert]
 
 [Add to Bookmarks]

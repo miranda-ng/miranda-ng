@@ -89,7 +89,6 @@
 [Stop]
 [Play]
 [Frame background]
-[OFF]
 [Volume]
 [Device list]
 [Equalizer]

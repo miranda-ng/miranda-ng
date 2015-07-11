@@ -269,7 +269,7 @@ lako premještanje
 [Show automatically]
 
 [Always visible]
-
+Uvijek vidljiv
 [Dock to sides]
 
 [and minimum]
@@ -393,7 +393,7 @@ opcije translucencije
 [Enable drop shadow (restart required)]
 
 [Frames]
-
+Okviri
 [Gaps between frames:]
 
 [Gaps after captions:]
@@ -948,7 +948,7 @@ tekst
 [Show offline contacts]
 
 [Find user]
-
+Pronađi korisnika
 [Use/Disable groups]
 
 [Use groups]

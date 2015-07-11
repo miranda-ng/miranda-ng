@@ -220,7 +220,7 @@ vrijeme u satima minutama i sekundama
 [Do you really want to delete selected contacts?]
 
 [Warning]
-
+Upozorenje
 [One or more contacts in same Meta already. Try to convert anyway?]
 
 [Editing of column ]
@@ -236,7 +236,7 @@ vrijeme u satima minutama i sekundama
 [deleted]
 
 [off]
-
+isključen
 [active]
 
 [Colorize]

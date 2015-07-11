@@ -893,7 +893,7 @@ poruke
 [Paste history...]
 
 [History]
-
+Povijest
 ;file \plugins\HistoryStats\src\mirandacontact.cpp
 ;file \plugins\HistoryStats\src\mirandahistory.cpp
 [(Unknown)]

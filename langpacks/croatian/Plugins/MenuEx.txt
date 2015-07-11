@@ -29,7 +29,7 @@
 [Send 'You were added']
 
 [Request Authorization]
-
+Zahtjevaj autorizaciju
 [Browse Received Files]
 
 [Copy IP]
@@ -68,7 +68,7 @@
 [Show in list]
 
 [Always visible]
-
+Uvijek vidljiv
 [Never visible]
 
 [Copy to Account]
@@ -84,7 +84,7 @@ poruke
 [Files]
 
 [User Online]
-
+Korisnik je na mreži
 [Authorization]
 
 [You Were Added]
@@ -98,7 +98,7 @@ Dodani ste.
 [Open ignore settings]
 
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [MenuItemEx]
 
 ;file \plugins\MenuItemEx\src\options.cpp

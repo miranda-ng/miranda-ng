@@ -38,6 +38,6 @@ očisti
 [** All contacts **]
 
 [History]
-
+Povijest
 [Logging]
 

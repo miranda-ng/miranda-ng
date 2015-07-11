@@ -52,8 +52,6 @@
 [Audio start]
 [Audio end]
 [Protocols]
-[Request authorization]
-[Grant authorization]
 [Incoming call from %s]
 [Outgoing call to %s]
 [Unable to find input audio device]

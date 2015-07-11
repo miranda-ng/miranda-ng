@@ -30,9 +30,9 @@
 [Custom sound for %s (%s)]
 
 [Sound files]
-
+zvučne datoteke
 [WAV files]
-
+WAV datoteke
 ;file \plugins\XSoundNotify\src\options.cpp
 [(Unknown contact)]
 

@@ -5,7 +5,6 @@
 [All]
 [URL]
 [Files]
-[User Online]
 [Authorization]
 [Typing Notify]
 [Full Ignore]

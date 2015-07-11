@@ -11,5 +11,4 @@
 [Enable]
 [No History]
 [** All contacts **]
-[History]
 [Logging]

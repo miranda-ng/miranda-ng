@@ -4,4 +4,3 @@
 [Yahoo Groups]
 [Plugins]
 [Notify]
-[Warning]

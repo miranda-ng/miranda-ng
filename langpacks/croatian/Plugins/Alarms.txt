@@ -151,7 +151,7 @@ prozor
 [Show reminders]
 
 [Frames]
-
+Okviri
 [Alarm reminders]
 
 ;file \plugins\Alarms\src\icons.cpp

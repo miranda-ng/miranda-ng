@@ -61,7 +61,7 @@ promjene statusa
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 
 [Help]
-
+Pomoć
 [Miranda NG is great and this is a long message.]
 
 [Plugins]

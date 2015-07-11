@@ -146,8 +146,6 @@
 [%d seconds]
 [Read status message]
 [Set status message]
-[On]
-[Off]
 [Use the default setting]
 [NewAwaySys: Incoming status message request]
 [Miranda NG autoreply >\r\n%extratext%]

@@ -15,6 +15,5 @@
 [AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 [Preview...]
 [Graphic files]
-[Sound Files]
 [Skins]
 [Splash Screen]

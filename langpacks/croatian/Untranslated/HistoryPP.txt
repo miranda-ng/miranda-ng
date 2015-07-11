@@ -340,7 +340,6 @@
 [Co&py]
 [Select &All]
 [Send &Message]
-[User Details]
 [Enable SmileyAdd support]
 [Always RTL]
 [Always LTR]

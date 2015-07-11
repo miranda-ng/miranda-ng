@@ -26,4 +26,3 @@
 [Delete All]
 [*** Default Action ***]
 [*** System History ***]
-[History]

@@ -135,9 +135,9 @@ drugo
 [Auto]
 
 [On]
-
+Uključen
 [Off]
-
+isključen
 [Host address]
 
 [Server description]
