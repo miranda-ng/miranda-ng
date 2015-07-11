@@ -165,7 +165,7 @@ static int lua_Utf8DecodeA(lua_State *L)
 	const char *string = luaL_checkstring(L, 1);
 
 	char *res = mir_utf8decodeA(string);
-	lua_pushlightuserdata(L, res);
+	lua_pushstring(L, res);
 
 	return 1;
 }
