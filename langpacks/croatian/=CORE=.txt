@@ -2870,219 +2870,219 @@ sve datoteke
 [Dominica]
 
 [Dominican Republic]
-
+Dominikanska republika
 [East Timor]
-
+Istočni timor
 [Ecuador]
-
+Ekvador
 [Egypt]
-
+Egipat
 [El Salvador]
-
+El Salvador
 [Equatorial Guinea]
-
+Ekvatorijalna gvineja
 [Eritrea]
-
+Eritreja
 [Estonia]
-
+Estonija
 [Ethiopia]
-
+Etiopija
 [Falkland Islands (Malvinas)]
-
+Falklandovo otočje
 [Faroe Islands]
-
+Farski otoci
 [Fiji]
-
+Fidži
 [Finland]
-
+Finska
 [France]
-
+Francuska
 [French Guiana]
-
+Francuska gvajana
 [French Polynesia]
-
+Francuska polinezija
 [French Southern and Antarctic Lands]
-
+Francuske južne i anktartičke zemlje
 [Gabon]
-
+Gabon
 [Gambia]
-
+Gambija
 [Georgia]
-
+Gruzija
 [Germany]
-
+Njemačka
 [Ghana]
-
+Gana
 [Gibraltar]
-
+Gibraltar
 [Greece]
-
+Grčka
 [Greenland]
-
+Grenland
 [Grenada]
-
+Grenada
 [Guadeloupe]
-
+Gvadalupa
 [Guam]
-
+Guam
 [Guatemala]
-
+gvatemala
 [Guernsey]
-
+Guernsey
 [Guinea]
-
+gvineja
 [Guinea-Bissau]
-
+gvinea bisao
 [Guyana]
-
+giana
 [Haiti]
-
+Haiti
 [Heard Island and McDonald Islands]
-
+Heard Island and McDonald Islands
 [Honduras]
-
+Honduras
 [Hong Kong]
-
+Hong Kong
 [Hungary]
-
+Mađarska
 [Iceland]
-
+Island
 [India]
-
+Indija
 [Indonesia]
-
+Indonezija
 [Iran]
-
+Iran
 [Iraq]
-
+Irak
 [Ireland]
-
+Irska
 [Isle of Man]
-
+Isle of Man
 [Israel]
-
+Izrael
 [Italy]
-
+Italija
 [Jamaica]
-
+Jamajka
 [Japan]
-
+Japan
 [Jersey]
-
+Jersey
 [Jordan]
-
+Jordan
 [Kazakhstan]
-
+Kazahstan
 [Kenya]
-
+Kenija
 [Kiribati]
-
+Kiribati
 [North Korea]
-
+Sjeverna koreja
 [South Korea]
-
+Južna koreja
 [Kuwait]
-
+Kuvajt
 [Kyrgyzstan]
-
+Kirgistan
 [Laos]
-
+Laos
 [Latvia]
-
+Letonija
 [Lebanon]
-
+Libanon
 [Lesotho]
-
+Lesoto
 [Liberia]
-
+Liberija
 [Libya]
-
+Libija
 [Liechtenstein]
-
+Lihtenštajn
 [Lithuania]
-
+Litva
 [Luxembourg]
-
+Luksemburg
 [Macau]
-
+Makao
 [Macedonia]
-
+Makedonija
 [Madagascar]
-
+Madagaskar
 [Malawi]
-
+Malawi
 [Malaysia]
-
+Malezija
 [Maldives]
-
+Maldivi
 [Mali]
-
+Mali
 [Malta]
-
+malta
 [Marshall Islands]
-
+Maršalovi otoci
 [Martinique]
-
+Martinik
 [Mauritania]
-
+Mauritania
 [Mauritius]
-
+Mauricijus
 [Mayotte]
-
+Majot
 [Mexico]
-
+Meksiko
 [Micronesia, Federated States of]
-
+Federativne države mikronezije
 [Moldova]
-
+Moldavija
 [Monaco]
-
+Monako
 [Mongolia]
-
+Mongolija
 [Montenegro]
-
+Crna gora
 [Montserrat]
-
+Moncerat
 [Morocco]
-
+Maroko
 [Mozambique]
-
+Mozambik
 [Myanmar]
-
+Myanmar (burma)
 [Namibia]
-
+Namibija
 [Nauru]
-
+Nauru
 [Nepal]
-
+Nepal
 [Netherlands]
-
+Nizozemska
 [New Caledonia]
-
+Nova kaledonija
 [New Zealand]
-
+Novi zeland
 [Nicaragua]
-
+Nikaragva
 [Niger]
-
+Niger
 [Nigeria]
-
+Nigerija
 [Niue]
-
+Niue
 [Norfolk Island]
-
+Norfolkovo otočje
 [Northern Mariana Islands]
-
+Sjeverni Marijanini otoci
 [Norway]
-
+norveška
 [Oman]
-
+Oman
 [Pakistan]
-
+Pakistan
 [Palau]
-
+Palau
 [Palestinian Territories]
-
+Palestinski teritoriji
 [Panama]
 Panama
 [Papua New Guinea]
