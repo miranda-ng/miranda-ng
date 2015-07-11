@@ -484,9 +484,9 @@ popis
 [User menu]
 
 [User details]
-
+Pojedinosti o korisniku
 [History]
-
+Povijest
 [Send]
 
 [Look up '%s':]

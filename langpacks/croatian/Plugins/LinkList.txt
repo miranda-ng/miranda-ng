@@ -131,7 +131,7 @@ Link
 [&Create Linklist]
 
 [History]
-
+Povijest
 [Processing history...]
 
 [Could not create window!]

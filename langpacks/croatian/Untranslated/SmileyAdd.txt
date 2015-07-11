@@ -33,7 +33,6 @@
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 [Smileys]
 [Customize]
-[Off]
 [Top]
 [Bottom]
 [Smiley packs]

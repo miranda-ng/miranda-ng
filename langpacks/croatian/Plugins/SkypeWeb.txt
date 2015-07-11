@@ -55,7 +55,7 @@
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
-
+Upozorenje
 [&Invite user...]
 
 [&Leave chat session]
@@ -139,9 +139,9 @@
 
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 [Get server history]
 
 [Block contact]

@@ -77,7 +77,6 @@
 [Find Previous]
 [Plus in export]
 [Minus in export]
-[History]
 [All events]
 [Default history events]
 [History for %s]

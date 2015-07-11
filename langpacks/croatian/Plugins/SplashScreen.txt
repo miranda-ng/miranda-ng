@@ -42,7 +42,7 @@
 [Graphic files]
 
 [Sound Files]
-
+zvučne datoteke
 [Skins]
 
 [Splash Screen]

@@ -323,9 +323,9 @@ Statusne poruke
 [Set status message]
 
 [On]
-
+Uključen
 [Off]
-
+isključen
 [Use the default setting]
 
 [NewAwaySys: Incoming status message request]

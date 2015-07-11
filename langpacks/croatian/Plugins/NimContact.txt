@@ -97,7 +97,7 @@ Link
 [filename()]
 
 [Help]
-
+Pomoć
 [Copy / Export contact]
 
 [&Export Non-IM Contact]

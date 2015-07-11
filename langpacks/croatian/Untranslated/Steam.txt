@@ -29,7 +29,6 @@
 [Blocked contacts]
 [Connection token expired. Please login again.]
 [Steam menu chooser]
-[Request authorization]
 [Join to game]
 [Unknown error]
 [Name]

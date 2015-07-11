@@ -27,6 +27,5 @@
 [Time search]
 [Time:]
 [Search finished. No more entries...]
-[History]
 [View &history]
 [&System History]

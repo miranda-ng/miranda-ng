@@ -301,6 +301,232 @@ stavaka
 prikaži razdjelnik između kontakata na mreži i izvan mreže
 [All files]
 sve datoteke
+[Could not search on any of the protocols, are you online?]
+Nije moguće traženje na bilo kojem od protokola. Jeste li na mreži?
+[Problem with search]
+Problem sa traženjem
+[1 %s user found]
+1 %s korisnik je pronađen
+[%d %s users found]
+%d %s pronađenih korisnika
+[%d users found (]
+%d pronađenih korisnika (
+[No users found]
+Nema pronađenih korisnika
+[Icon sets]
+Setovi ikona
+[User online]
+Korisnik je na mreži
+[Group (open)]
+Grupa je otvorena
+[Group (closed)]
+Grupa je zattvorena
+[User details]
+Pojedinosti o korisniku
+[History]
+Povijest
+[Down arrow]
+Strelica dolje
+[Find user]
+Pronađi korisnika
+[Search all]
+Traži sve
+[Tick]
+Kvačica
+[No tick]
+nema kvačice
+[Help]
+Pomoć
+[Miranda website]
+Web stranica mirande
+[Small dot]
+Mala točka
+[Filled blob]
+popunjeni blob
+[Empty blob]
+prazni blob
+[Unicode plugin]
+unicode kodirani dodatak
+[ANSI plugin]
+Dodatak u kodiranju ansi
+[Running plugin]
+Pokrenuti Dodatak
+[Unloaded plugin]
+Ugašen dodatak
+[Show/Hide]
+Prikaži / Sakrij
+[Exit]
+Izlaz
+[Join chat]
+Uđi u čavrljanje
+[Leave chat]
+Napusti čavrljanje
+[Move to group]
+Premjesti na grupu
+[On]
+Uključen
+[Off]
+isključen
+[Running core plugin]
+Pokrenut glavni dodatak
+[Non-loadable plugin]
+Dodatak koji nije moguće pokrenuti
+[Frames]
+Okviri
+[Add group]
+Dodaj grupu
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
+[Revoke authorization]
+Odbaci autorizaciju
+[Warning]
+Upozorenje
+[Always visible]
+Uvijek vidljiv
+[Always invisible]
+Uvjek nevidljiv
+[Locked status]
+Zaključani status
+[Status icons]
+Statusne ikone
+[%s icons]
+%s Ikone
+[Main icons]
+Glavne ikone
+[Sound files]
+zvučne datoteke
+[WAV files]
+WAV datoteke
+[Unspecified]
+Nespecificirano
+[Afghanistan]
+Avganistan
+[Aland Islands]
+Alandski otoci
+[Albania]
+Albanija
+[Algeria]
+Alžir
+[American Samoa]
+Američka samoa
+[Andorra]
+Andora
+[Angola]
+Angola
+[Anguilla]
+Angvila
+[Antarctica]
+Anktarktika
+[Antigua and Barbuda]
+Antigva i barbuda
+[Argentina]
+Argentina
+[Armenia]
+Armenija
+[Aruba]
+Aruba
+[Australia]
+Australija
+[Austria]
+Austrija
+[Azerbaijan]
+Azerbejdžan
+[Bahamas]
+Bahami
+[Bahrain]
+Bahrein
+[Bangladesh]
+Bangladeš
+[Barbados]
+Barbados
+[Belarus]
+Bjelorusija
+[Belgium]
+belgija
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Butan
+[Bolivia]
+Bolivija
+[Bonaire, Sint Eustatius and Saba]
+Boner, Sveti evstatije i sava
+[Bosnia and Herzegovina]
+Bosna i Hercegovina
+[Botswana]
+Bocvana
+[Bouvet Island]
+Buvetov otok
+[Brazil]
+Brazil
+[British Indian Ocean Territory]
+Britanski teritorij indijskog oceana
+[Brunei]
+Brunei
+[Bulgaria]
+Bugarska
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodža
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cape Verde]
+Cape Verde
+[Cayman Islands]
+Kajmanski otoci
+[Central African Republic]
+Srednjoafrička republika
+[Chad]
+Čad
+[Chile]
+Čile
+[China]
+Kina
+[Christmas Island]
+Božični otok
+[Cocos (Keeling) Islands]
+Kokosovi otoci
+[Colombia]
+Kolumbija
+[Comoros]
+Komori
+[Congo, Republic of the]
+Republika kongo
+[Congo, Democratic Republic of the]
+Demokratska republika kongo
+[Cook Islands]
+Kukovi otoci
+[Costa Rica]
+Kosta rika
+[Cote d'Ivoire]
+Cote d'Ivoire
+[Croatia]
+Hrvatska
+[Cuba]
+Kuba
+[Curacao]
+Kurakao
+[Cyprus]
+cipar
+[Czech Republic]
+češka
+[Denmark]
+danska
+[Djibouti]
+džibuti
+[Dominica]
+dominika
 [Dominican Republic]
 Dominikanska republika
 [East Timor]
@@ -694,8 +920,12 @@ nespecificirano
 ;============================================================
 [Actions]
 akcije
+[Help]
+Pomoć
 [Text]
 tekst
+[Warning]
+Upozorenje
 [Contact list]
 lista kontakata
 [text]
@@ -773,6 +1003,8 @@ akcije
 Pozadina
 [Window]
 prozor
+[Frames]
+Okviri
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
@@ -816,6 +1048,8 @@ Pozadina
 koristi zadane boje
 [Actions]
 akcije
+[History]
+Povijest
 #muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;============================================================
 ;  File: AVS.dll
@@ -844,6 +1078,8 @@ png bitmapovi
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
+[History]
+Povijest
 [&Copy link]
 &Kopiraj link
 [Copy]
@@ -1091,6 +1327,8 @@ maksimum
 veličina prema gore
 [Easy move]
 lako premještanje
+[Always visible]
+Uvijek vidljiv
 [Items]
 stavaka
 [Show divider between online and offline contacts]
@@ -1117,6 +1355,8 @@ alatni stil glavnog prozora
 minimiziraj u područje obavijesti
 [Translucency options]
 opcije translucencije
+[Frames]
+Okviri
 [Options]
 opcije
 [Background]
@@ -1127,6 +1367,8 @@ popis
 prozor
 [Text]
 tekst
+[Find user]
+Pronađi korisnika
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;============================================================
 ;  File: Clist_nicer.dll
@@ -1230,6 +1472,10 @@ poruke
 drugo
 [Background]
 Pozadina
+[Warning]
+Upozorenje
+[Frames]
+Okviri
 [Show title bar]
 prikaži naslovnu traku
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
@@ -1246,6 +1492,8 @@ prikaži naslovnu traku
 ;  Version: 0.0.4.5
 ;  Authors: Cristian Libotean
 ;============================================================
+[Warning]
+Upozorenje
 #muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
 ;============================================================
 ;  File: ConnectionNotify.dll
@@ -1287,6 +1535,8 @@ Detalji o &Korisniku
 p&ovijest
 [&Send]
 &Šalji
+[User details]
+Pojedinosti o korisniku
 #muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
@@ -1312,6 +1562,8 @@ prikaži
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
+[Warning]
+Upozorenje
 [Message]
 Poruka
 [Clear]
@@ -1398,6 +1650,8 @@ sekundi
 ;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[User details]
+Pojedinosti o korisniku
 [Messages]
 poruke
 [User &details]
@@ -1517,6 +1771,8 @@ drugo
 &Kopiraj link
 [Authorization request]
 Zahtjev za prihvaćanje
+[User Details]
+Pojedinosti o korisniku
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -1528,6 +1784,8 @@ Zahtjev za prihvaćanje
 <<<<<<< .mine
 [Messages]
 poruke
+[History]
+Povijest
 #muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
@@ -1535,6 +1793,8 @@ poruke
 ;  Version: 0.1.0.1
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
+[History]
+Povijest
 #muuid {67848b07-83d2-49e9-8844-7e3de268e304}
 ;============================================================
 ;  File: HTTPServer.dll
@@ -1568,12 +1828,120 @@ očisti
 &Odustani
 [Options]
 opcije
+[Warning]
+Upozorenje
 [Use default colors]
 koristi zadane boje
 [Other]
 drugo
 [Closing in %d]
 Zatvaranje za %d
+[Afghanistan]
+Avganistan
+[Albania]
+Albanija
+[Algeria]
+Alžir
+[Andorra]
+Andora
+[Angola]
+Angola
+[Anguilla]
+Angvila
+[Antigua and Barbuda]
+Antigva i barbuda
+[Argentina]
+Argentina
+[Armenia]
+Armenija
+[Aruba]
+Aruba
+[Australia]
+Australija
+[Austria]
+Austrija
+[Azerbaijan]
+Azerbejdžan
+[Bahamas]
+Bahami
+[Bahrain]
+Bahrein
+[Bangladesh]
+Bangladeš
+[Barbados]
+Barbados
+[Belarus]
+Bjelorusija
+[Belgium]
+belgija
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Butan
+[Bolivia]
+Bolivija
+[Bosnia and Herzegovina]
+Bosna i Hercegovina
+[Botswana]
+Bocvana
+[Brazil]
+Brazil
+[Brunei]
+Brunei
+[Bulgaria]
+Bugarska
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodža
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cape Verde]
+Cape Verde
+[Cayman Islands]
+Kajmanski otoci
+[Central African Republic]
+Srednjoafrička republika
+[Chad]
+Čad
+[Chile]
+Čile
+[China]
+Kina
+[Colombia]
+Kolumbija
+[Comoros]
+Komori
+[Congo, Democratic Republic of the]
+Demokratska republika kongo
+[Congo, Republic of the]
+Republika kongo
+[Cook Islands]
+Kukovi otoci
+[Costa Rica]
+Kosta rika
+[Cote d'Ivoire]
+Cote d'Ivoire
+[Croatia]
+Hrvatska
+[Cuba]
+Kuba
+[Czech Republic]
+češka
+[Denmark]
+danska
+[Djibouti]
+džibuti
+[Dominica]
+dominika
 [Dominican Republic]
 Dominikanska republika
 [Ecuador]
@@ -1738,6 +2106,8 @@ Nauru
 Nepal
 [Netherlands]
 Nizozemska
+[Curacao]
+Kurakao
 [New Caledonia]
 Nova kaledonija
 [New Zealand]
@@ -1890,6 +2260,12 @@ Crna gora
 zambija
 [Zimbabwe]
 zimbabve
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
+[Revoke authorization]
+Odbaci autorizaciju
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -1906,6 +2282,8 @@ zimbabve
 ;============================================================
 [Information]
 informacija
+[History]
+Povijest
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -1919,6 +2297,8 @@ kopiraj
 označi sve
 [Options]
 opcije
+[History]
+Povijest
 [All Files]
 sve datoteke
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
@@ -1930,6 +2310,8 @@ sve datoteke
 ;============================================================
 [Messages]
 poruke
+[User Online]
+Korisnik je na mreži
 [You Were Added]
 Dodani ste.
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
@@ -1967,6 +2349,10 @@ drugo
 &Zatvori
 [&Cancel]
 &Odustani
+[On]
+Uključen
+[Off]
+isključen
 [&Deny]
 &Odbij
 [Messages]
@@ -1986,6 +2372,14 @@ poruke
 Zahtjev za prihvaćanje
 [User &details]
 Detalji o &Korisniku
+[Status icons]
+Statusne ikone
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
+[Revoke authorization]
+Odbaci autorizaciju
 [Nauru]
 Nauru
 [Other]
@@ -2041,6 +2435,8 @@ vrijeme u satima minutama i sekundama
 &Zatvori
 [link]
 Link
+[History]
+Povijest
 [All files]
 sve datoteke
 #muuid {f981f3f5-035a-444f-9892-ca722c195ada}
@@ -2074,10 +2470,18 @@ tekst
 &Šalji
 [&Cancel]
 &Odustani
+[Request Authorization]
+Zahtjevaj autorizaciju
+[Always visible]
+Uvijek vidljiv
 [Messages]
 poruke
+[User Online]
+Korisnik je na mreži
 [You Were Added]
 Dodani ste.
+[Request authorization]
+Zahtjevaj autorizaciju
 #muuid {31aaef41-1411-487e-86e2-c484f4174283}
 ;============================================================
 ;  File: MessageState.dll
@@ -2170,8 +2574,14 @@ ne
 ;============================================================
 [Closing in %d]
 Zatvaranje za %d
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
 [Information]
 informacija
+[Warning]
+Upozorenje
 #muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;============================================================
 ;  File: mRadio.dll
@@ -2179,6 +2589,8 @@ informacija
 ;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
+[OFF]
+isključen
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -2193,6 +2605,8 @@ informacija
 ;  Version: 3.1.0.3
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
+[Help]
+Pomoć
 [&Close]
 &Zatvori
 [User &details]
@@ -2201,6 +2615,8 @@ Detalji o &Korisniku
 kopiraj
 [All files]
 sve datoteke
+[History]
+Povijest
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
@@ -2261,6 +2677,10 @@ Preuzimam %s poruku...]
 Poruka
 [Status messages]
 Statusne poruke
+[On]
+Uključen
+[Off]
+isključen
 [&Close]
 &Zatvori
 [Closing in %d]
@@ -2302,6 +2722,8 @@ tekst
 koristi prilagođene boje
 [Use default colors]
 koristi zadane boje
+[Sound files]
+zvučne datoteke
 [All files]
 sve datoteke
 [All Files]
@@ -2315,6 +2737,8 @@ sve datoteke
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
+[Warning]
+Upozorenje
 [Messages]
 poruke
 #muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
@@ -2326,6 +2750,8 @@ poruke
 ;============================================================
 [Link]
 Link
+[Help]
+Pomoć
 #muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
 ;============================================================
 ;  File: NoHistory.dll
@@ -2335,6 +2761,8 @@ Link
 ;============================================================
 [Clear]
 očisti
+[History]
+Povijest
 #muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;============================================================
 ;  File: NotesReminders.dll
@@ -2437,14 +2865,20 @@ drugo
 ;  Version: 2.1.1.10
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[History]
+Povijest
 [seconds]
 sekundi
+[User details]
+Pojedinosti o korisniku
 [Text]
 tekst
 [Background]
 Pozadina
 [Actions]
 akcije
+[Warning]
+Upozorenje
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;============================================================
 ;  File: QuickContacts.dll
@@ -2477,6 +2911,10 @@ akcije
 drugo
 [TimeStamp]
 vrijeme u satima minutama i sekundama
+[Warning]
+Upozorenje
+[off]
+isključen
 ; these lines are not present in the sources, but they are present in compiled plugin
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
@@ -2657,6 +3095,10 @@ popis
 &Poruka
 [Clear lo&g]
 &Očisti zapisnik
+[User details]
+Pojedinosti o korisniku
+[History]
+Povijest
 [Always on top]
 uvijek na vrhu
 #muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
@@ -2668,6 +3110,10 @@ uvijek na vrhu
 ;============================================================
 [Text]
 tekst
+[ON]
+Uključen
+[Off]
+isključen
 [Contact List]
 lista kontakata
 [All files]
@@ -2698,6 +3144,10 @@ kopiraj
 da
 [No]
 ne
+[Help]
+Pomoć
+[Down arrow]
+Strelica dolje
 [Window]
 prozor
 [Information]
@@ -2770,6 +3220,12 @@ Zatvaranje za %d
 ;  Version: 0.12.1.2
 ;  Authors: Miranda NG Team
 ;============================================================
+[Warning]
+Upozorenje
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -2777,6 +3233,8 @@ Zatvaranje za %d
 ;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Off]
+isključen
 [All files]
 sve datoteke
 #muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
@@ -2817,6 +3275,8 @@ poruke
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
+[Sound Files]
+zvučne datoteke
 #muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
 ;============================================================
 ;  File: StartPosition.dll
@@ -2868,6 +3328,8 @@ Poruka
 ;  Version: 0.11.4.1
 ;  Authors: unsane, Robert Pösel
 ;============================================================
+[Request authorization]
+Zahtjevaj autorizaciju
 #muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
@@ -2989,8 +3451,12 @@ Pozadina
 da
 [No]
 ne
+[Off]
+isključen
 [Show menu bar]
 prikaži traku izbornika
+[Help]
+Pomoć
 [Other]
 drugo
 [System tray icon]
@@ -3027,6 +3493,10 @@ opcije
 Pozadina
 [Text]
 tekst
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
 #muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
@@ -3045,6 +3515,8 @@ opcije translucencije
 ;============================================================
 [Disable groups]
 onemogući grupe
+[Exit]
+Izlaz
 [Contact list]
 lista kontakata
 #muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
@@ -3060,6 +3532,10 @@ lista kontakata
 Detalji o &Korisniku
 [&History]
 p&ovijest
+[Request authorization]
+Zahtjevaj autorizaciju
+[Grant authorization]
+Autoriziraj
 [All files]
 sve datoteke
 #muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
@@ -3098,12 +3574,18 @@ tekst
 ;============================================================
 [Use default colors]
 koristi zadane boje
+[Off]
+isključen
+[Unspecified]
+Nespecificirano
 [Other]
 drugo
 [Yes]
 da
 [No]
 ne
+[Down arrow]
+Strelica dolje
 [User &details]
 Detalji o &Korisniku
 #muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
@@ -3120,6 +3602,8 @@ Detalji o &Korisniku
 ;  Version: 0.2.3.10
 ;  Authors: P Boon
 ;============================================================
+[Help]
+Pomoć
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
@@ -3127,10 +3611,14 @@ Detalji o &Korisniku
 ;  Version: 0.1.1.8
 ;  Authors: Miranda NG Team
 ;============================================================
+[off]
+isključen
 [Other]
 drugo
 [Link]
 Link
+[Warning]
+Upozorenje
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -3157,6 +3645,8 @@ Link
 drugo
 [Status changes]
 promjene statusa
+[Help]
+Pomoć
 #muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;============================================================
 ;  File: Weather.dll
@@ -3233,6 +3723,8 @@ prikaži
 sekundi
 [All Files]
 sve datoteke
+[Warning]
+Upozorenje
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
@@ -3264,6 +3756,8 @@ poruke
 ;============================================================
 [Options]
 opcije
+[User details]
+Pojedinosti o korisniku
 [Copy]
 kopiraj
 [All Files]
@@ -3277,6 +3771,10 @@ ne
 ;  Version: 1.0.1.2
 ;  Authors: Roman Torsten
 ;============================================================
+[Sound files]
+zvučne datoteke
+[WAV files]
+WAV datoteke
 #muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
@@ -3299,6 +3797,8 @@ Detalji o &Korisniku
 ;  Version: 0.0.1.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[Warning]
+Upozorenje
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;============================================================
 ;  File: YAMN.dll

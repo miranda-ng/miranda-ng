@@ -166,7 +166,7 @@
 [Minus in export]
 
 [History]
-
+Povijest
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 

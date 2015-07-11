@@ -42,7 +42,6 @@
 [csv()]
 [file()]
 [filename()]
-[Help]
 [Copy / Export contact]
 [&Export Non-IM Contact]
 [Co&py Non-IM Contact]

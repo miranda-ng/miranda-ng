@@ -60,7 +60,6 @@
 [Avatars]
 [Contact changed avatar]
 [Contact removed avatar]
-[History]
 [Avatar Overlay]
 [Do nothing]
 [Close popup]

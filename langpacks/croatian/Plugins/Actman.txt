@@ -56,7 +56,7 @@ akcije
 [Append data to file?]
 
 [Help]
-
+Pomoć
 [Action]
 
 [Notes]
@@ -340,7 +340,7 @@ tekst
 [Question]
 
 [Warning]
-
+Upozorenje
 [Info]
 
 [Buttons]

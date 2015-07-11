@@ -9,8 +9,6 @@
 [Ignore sound for this contact]
 [Cancel]
 [Custom sound for %s (%s)]
-[Sound files]
-[WAV files]
 [(Unknown contact)]
 [Sounds]
 [XSound Notify]

@@ -56,7 +56,6 @@
 [Name:]
 [IP:]
 [Port:]
-[User details]
 [Enter Password]
 [Join]
 [Set Nickname]

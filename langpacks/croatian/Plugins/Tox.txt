@@ -125,9 +125,9 @@ p&ovijest
 
 ;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Incoming call from %s]
 

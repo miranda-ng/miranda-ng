@@ -81,7 +81,7 @@
 [Customize]
 
 [Off]
-
+isključen
 [Top]
 
 [Bottom]

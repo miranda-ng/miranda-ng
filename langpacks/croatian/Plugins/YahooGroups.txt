@@ -21,4 +21,4 @@
 [Notify]
 
 [Warning]
-
+Upozorenje

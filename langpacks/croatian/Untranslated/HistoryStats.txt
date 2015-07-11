@@ -420,7 +420,6 @@
 [Exclude from statistics]
 [Copy history]
 [Paste history...]
-[History]
 [(Unknown)]
 [(none)]
 [none]

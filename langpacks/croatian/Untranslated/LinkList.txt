@@ -56,7 +56,6 @@
 [Search filter]
 [no settings]
 [&Create Linklist]
-[History]
 [Processing history...]
 [Could not create window!]
 [Could not allocate memory!]

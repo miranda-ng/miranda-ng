@@ -253,9 +253,9 @@ Zatvaranje za %d
 [Request authorization for all]
 
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Grant authorization]
-
+Autoriziraj
 [&Send E-Mail]
 
 [&Send postcard]
@@ -320,7 +320,7 @@ informacija
 [Question]
 
 [Warning]
-
+Upozorenje
 [Error]
 
 [NewMail]

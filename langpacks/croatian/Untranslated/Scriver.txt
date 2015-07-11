@@ -175,8 +175,6 @@
 [Quote]
 [Smiley]
 [User menu]
-[User details]
-[History]
 [Send]
 [Look up '%s':]
 [No word to look up]

@@ -99,7 +99,6 @@
 [Log when contact changes status message]
 [Log when contact removes status message]
 [Log status message when opening message window]
-[Sound files]
 [Wave files]
 [Status]
 [Sound file]

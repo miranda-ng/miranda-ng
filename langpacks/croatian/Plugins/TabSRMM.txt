@@ -767,7 +767,7 @@ ne
 [BBCode]
 
 [Off]
-
+isključen
 [This contact]
 
 [Global setting]
@@ -897,7 +897,7 @@ prikaži traku izbornika
 [Save current window position as default]
 
 [Help]
-
+Pomoć
 [About TabSRMM...]
 
 ;file \plugins\TabSRMM\src\buttonsbar.cpp

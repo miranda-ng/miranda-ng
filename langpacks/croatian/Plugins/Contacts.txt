@@ -45,7 +45,7 @@ p&ovijest
 [Add to List]
 
 [User details]
-
+Pojedinosti o korisniku
 [Send Message]
 
 ;file \plugins\ContactsPlus\src\main.cpp

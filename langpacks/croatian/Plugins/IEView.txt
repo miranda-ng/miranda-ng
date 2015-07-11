@@ -110,7 +110,7 @@ opcije
 [Group chats]
 
 [History]
-
+Povijest
 [Default]
 
 [Message sessions]

@@ -188,7 +188,7 @@
 [Frame background]
 
 [OFF]
-
+isključen
 [Volume]
 
 [Device list]

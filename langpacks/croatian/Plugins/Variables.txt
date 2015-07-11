@@ -58,7 +58,7 @@
 [Cancel]
 
 [Help]
-
+Pomoć
 [Variables Help]
 
 [Open String Formatting Help]

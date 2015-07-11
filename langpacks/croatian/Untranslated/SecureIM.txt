@@ -114,8 +114,6 @@
 [Nickname]
 [Name]
 [Password is too short!]
-[ON]
-[Off]
 [Keyrings loaded.]
 [Keyrings not loaded!]
 [PGP SDK v%i.%i.%i found.]

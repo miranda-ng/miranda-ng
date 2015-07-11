@@ -694,7 +694,7 @@ Zahtjev za prihvaćanje
 [Send &Message]
 
 [User Details]
-
+Pojedinosti o korisniku
 [Enable SmileyAdd support]
 
 [Always RTL]

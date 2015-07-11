@@ -75,7 +75,7 @@
 [Steam menu chooser]
 
 [Request authorization]
-
+Zahtjevaj autorizaciju
 [Join to game]
 
 ;file \protocols\Steam\src\steam_messages.cpp

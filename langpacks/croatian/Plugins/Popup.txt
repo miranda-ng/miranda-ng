@@ -21,7 +21,7 @@
 [Size && Position]
 
 [History]
-
+Povijest
 [Enable popup history]
 
 [Store last]
@@ -208,7 +208,7 @@ sekundi
 [Send message]
 
 [User details]
-
+Pojedinosti o korisniku
 [Contact menu]
 
 [Add permanently]
@@ -401,7 +401,7 @@ akcije
 [Error]
 
 [Warning]
-
+Upozorenje
 [Notify]
 
 ;file \plugins\Popup\src\skin.cpp
