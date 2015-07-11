@@ -100,7 +100,7 @@ DWORD MraTextToRTFData(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessag
 
 bool MraIsMessageFlashAnimation(const CMStringW &lpwszMessage)
 {
-	int iStart = lpwszMessage.Find(_T("<SMILE>id = flas"));
+	int iStart = lpwszMessage.Find(_T("<SMILE>id=flas"));
 	if (iStart != -1)
 		if (lpwszMessage.Find(_T("'</SMILE>"), iStart) != -1)
 			return true;
