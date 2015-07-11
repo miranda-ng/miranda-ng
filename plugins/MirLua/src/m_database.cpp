@@ -98,6 +98,9 @@ static int lua_GetEvent(lua_State *L)
 	lua_pushstring(L, "Type");
 	lua_pushinteger(L, dbei.eventType);
 	lua_settable(L, -3);
+	lua_pushstring(L, "Flags");
+	lua_pushinteger(L, dbei.flags);
+	lua_settable(L, -3);
 	lua_pushstring(L, "Length");
 	lua_pushnumber(L, dbei.cbBlob);
 	lua_settable(L, -3);
@@ -218,6 +221,47 @@ static int lua_DeleteModule(lua_State *L)
 	return 1;
 }
 
+static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
+{
+	DBCONTACTWRITESETTING *pDBCWS = (DBCONTACTWRITESETTING*)lua_tointeger(L, 1);
+
+	lua_newtable(L);
+	lua_pushstring(L, "Module");
+	lua_pushstring(L, pDBCWS->szModule);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Setting");
+	lua_pushstring(L, pDBCWS->szSetting);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Value");
+	switch (pDBCWS->value.type)
+	{
+		case DBVT_BYTE:
+			lua_pushinteger(L, pDBCWS->value.bVal);
+			break;
+		case DBVT_WORD:
+			lua_pushinteger(L, pDBCWS->value.wVal);
+			break;
+		case DBVT_DWORD:
+			lua_pushnumber(L, pDBCWS->value.dVal);
+			break;
+		case DBVT_ASCIIZ:
+			lua_pushstring(L, ptrA(mir_utf8encode(pDBCWS->value.pszVal)));
+			break;
+		case DBVT_UTF8:
+			lua_pushstring(L, pDBCWS->value.pszVal);
+			break;
+		case DBVT_WCHAR:
+			lua_pushstring(L, ptrA(mir_utf8encodeW(pDBCWS->value.pwszVal)));
+			break;
+		default:
+			lua_pushvalue(L, 4);
+			return 1;
+	}
+	lua_settable(L, -3);
+
+	return 1;
+}
+
 typedef struct
 {
 	int  arrlen;
@@ -299,6 +343,8 @@ static luaL_Reg databaseApi[] =
 	{ "DeleteModule", lua_DeleteModule },
 
 	{ "EnumSettings", lua_EnumSettings },
+
+	{ "DecodeDBCONTACTWRITESETTING", lua_DecodeDBCONTACTWRITESETTING },
 
 	{ NULL, NULL }
 };
