@@ -90,7 +90,7 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 
 		if (!hIcon && item->default_file) {
 			IconSourceItem_Release(item->default_icon);
-			item->default_icon = GetIconSourceItem(item->default_file, item->default_indx, item->cx, item->cy);
+			item->default_icon = GetIconSourceItem(item->default_file->file, item->default_indx, item->cx, item->cy);
 			if (item->default_icon) {
 				HICON hRefIcon = IconSourceItem_GetIcon(item->default_icon);
 				if (hRefIcon) {
@@ -132,8 +132,8 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 			if (!hIcon)
 				continue;
 
-			SAFE_FREE((void**)&item->temp_file);
-			SafeDestroyIcon(&item->temp_icon);
+			replaceStrT(item->temp_file, NULL);
+			SafeDestroyIcon(item->temp_icon);
 
 			item->temp_file = mir_tstrdup(path);
 			item->temp_icon = hIcon;
@@ -169,8 +169,8 @@ static void UndoChanges(int iconIndx, int cmd)
 	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
 		item->temp_reset = FALSE;
 	else {
-		SAFE_FREE((void**)&item->temp_file);
-		SafeDestroyIcon(&item->temp_icon);
+		replaceStrT(item->temp_file, NULL);
+		SafeDestroyIcon(item->temp_icon);
 	}
 
 	if (cmd == ID_RESET)
@@ -442,7 +442,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (!(file = OpenFileDlg(GetParent(hwndDlg), str, TRUE)))
 					break;
 				SetDlgItemText(hwndDlg, IDC_ICONSET, file);
-				SAFE_FREE((void**)&file);
+				mir_free(file);
 			}
 			break;
 
@@ -754,7 +754,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						lvi.lParam = indx;
 						ListView_InsertItem(hPreview, &lvi);
 						if (hIcon != item->temp_icon)
-							SafeDestroyIcon(&hIcon);
+							SafeDestroyIcon(hIcon);
 					}
 				}
 			}
@@ -789,7 +789,8 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				if (hIcon)
 					ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
-				if (hIcon != iconList[lvi.lParam]->temp_icon) SafeDestroyIcon(&hIcon);
+				if (hIcon != iconList[lvi.lParam]->temp_icon)
+					SafeDestroyIcon(hIcon);
 			}
 			ListView_RedrawItems(hPreview, 0, count);
 		}
@@ -804,13 +805,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ListView_GetItem(hPreview, &lvi);
 			{
 				mir_cslock lck(csIconList);
-				IcolibItem *item = iconList[lvi.lParam];
 
-				SAFE_FREE((void**)&item->temp_file);
-				SafeDestroyIcon(&item->temp_icon);
+				IcolibItem *item = iconList[lvi.lParam];
+				SafeDestroyIcon(item->temp_icon);
 
 				TCHAR *path = (TCHAR*)lParam;
-				item->temp_file = mir_tstrdup(path);
+				replaceStrT(item->temp_file, path);
 				item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
 				item->temp_reset = FALSE;
 			}
@@ -836,7 +836,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR filename[MAX_PATH];
 
 				PathToRelativeT(file, filename);
-				SAFE_FREE((void**)&file);
+				mir_free(file);
 
 				MySetCursor(IDC_WAIT);
 				LoadSubIcons(htv, filename, TreeView_GetSelection(htv));
@@ -909,7 +909,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						else if (item->temp_file) {
 							db_set_ts(NULL, "SkinIcons", item->name, item->temp_file);
 							IconSourceItem_Release(item->source_small);
-							SafeDestroyIcon(&item->temp_icon);
+							SafeDestroyIcon(item->temp_icon);
 						}
 					}
 				}
@@ -966,10 +966,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 
 			if (bNeedRebuild) {
-				{
-					mir_cslock lck(csIconList);
-					bNeedRebuild = FALSE;
-				}
+				bNeedRebuild = FALSE;
 				SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
 			}
 		}
@@ -983,12 +980,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
 				IcolibItem *item = iconList[indx];
 
-				SAFE_FREE((void**)&item->temp_file);
-				SafeDestroyIcon(&item->temp_icon);
+				replaceStrT(item->temp_file, NULL);
+				SafeDestroyIcon(item->temp_icon);
 			}
 		}
 
-		SAFE_FREE((void**)&dat);
+		mir_free(dat);
 		break;
 	}
 
