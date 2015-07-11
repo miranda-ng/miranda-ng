@@ -928,7 +928,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 			mii.fMask |= MIIM_BITMAP;
 			if (IsWinVerVistaPlus() && IsThemeActive()) {
 				if (pmi->hBmp == NULL)
-					pmi->hBmp = ConvertIconToBitmap(NULL, pmi->parent->m_hMenuIcons, pmi->iconId);
+					pmi->hBmp = ConvertIconToBitmap(pmi->parent->m_hMenuIcons, pmi->iconId);
 				mii.hbmpItem = pmi->hBmp;
 			}
 			else mii.hbmpItem = HBMMENU_CALLBACK;

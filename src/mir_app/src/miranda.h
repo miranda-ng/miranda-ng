@@ -173,7 +173,7 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
 
-HBITMAP ConvertIconToBitmap(HICON hIcon, HIMAGELIST hIml, int iconId);
+HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId);
 
 ///////////////////////////////////////////////////////////////////////////////
 

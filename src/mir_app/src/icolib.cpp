@@ -151,13 +151,12 @@ static int BytesPerScanLine(int PixelsPerScanline, int BitsPerPixel, int Alignme
 static int InitializeBitmapInfoHeader(HBITMAP bitmap, BITMAPINFOHEADER* bi)
 {
 	DIBSECTION DS;
-	int bytes;
-
 	DS.dsBmih.biSize = 0;
-	bytes = GetObject(bitmap, sizeof(DS), &DS);
-	if (bytes == 0) return 1; // Failure
-	else if ((bytes >= (sizeof(DS.dsBm) + sizeof(DS.dsBmih))) &&
-		(DS.dsBmih.biSize >= DWORD(sizeof(DS.dsBmih))))
+	int bytes = GetObject(bitmap, sizeof(DS), &DS);
+	if (bytes == 0) // Failure
+		return 1;
+
+	if ((bytes >= (sizeof(DS.dsBm) + sizeof(DS.dsBmih))) && (DS.dsBmih.biSize >= DWORD(sizeof(DS.dsBmih))))
 		*bi = DS.dsBmih;
 	else {
 		memset(bi, 0, sizeof(BITMAPINFOHEADER));
@@ -174,39 +173,39 @@ static int InitializeBitmapInfoHeader(HBITMAP bitmap, BITMAPINFOHEADER* bi)
 	return 0; // Success
 }
 
-static int InternalGetDIBSizes(HBITMAP bitmap, int* InfoHeaderSize, int* ImageSize)
+static int InternalGetDIBSizes(HBITMAP bitmap, int *InfoHeaderSize, int *ImageSize)
 {
 	BITMAPINFOHEADER bi;
-
-	if (InitializeBitmapInfoHeader(bitmap, &bi)) return 1; // Failure
+	if (InitializeBitmapInfoHeader(bitmap, &bi)) // Failure
+		return 1;
+	
+	*InfoHeaderSize = sizeof(bi);
 	if (bi.biBitCount > 8) {
-		*InfoHeaderSize = sizeof(BITMAPINFOHEADER);
 		if ((bi.biCompression & BI_BITFIELDS) != 0)
 			*InfoHeaderSize += 12;
 	}
 	else {
 		if (bi.biClrUsed == 0)
-			*InfoHeaderSize = sizeof(BITMAPINFOHEADER) +
-			sizeof(RGBQUAD) * (int)(1 << bi.biBitCount);
+			*InfoHeaderSize += sizeof(RGBQUAD) * (int)(1 << bi.biBitCount);
 		else
-			*InfoHeaderSize = sizeof(BITMAPINFOHEADER) +
-			sizeof(RGBQUAD) * bi.biClrUsed;
+			*InfoHeaderSize += sizeof(RGBQUAD) * bi.biClrUsed;
 	}
 	*ImageSize = bi.biSizeImage;
 	return 0; // Success
 }
 
-static int InternalGetDIB(HBITMAP bitmap, HPALETTE palette, void* bitmapInfo, void* Bits)
+static int InternalGetDIB(HBITMAP bitmap, HPALETTE palette, void *bitmapInfo, void *Bits)
 {
-	HPALETTE oldPal = 0;
-
 	if (InitializeBitmapInfoHeader(bitmap, (BITMAPINFOHEADER*)bitmapInfo)) return 1; // Failure
 
 	HDC DC = CreateCompatibleDC(0);
+	HPALETTE oldPal;
 	if (palette) {
 		oldPal = SelectPalette(DC, palette, FALSE);
 		RealizePalette(DC);
 	}
+	else oldPal = NULL;
+
 	int result = GetDIBits(DC, bitmap, 0, ((BITMAPINFOHEADER*)bitmapInfo)->biHeight, Bits, (BITMAPINFO*)bitmapInfo, DIB_RGB_COLORS) == 0;
 
 	if (oldPal) SelectPalette(DC, oldPal, FALSE);

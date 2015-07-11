@@ -472,19 +472,19 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 
-					MenuItemData it = { 0 };
+					MenuItemData it = {};
 					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
 						TCHAR d[100];
 						GetMenuString(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
 
-						MENUITEMINFO mii = { 0 };
+						MENUITEMINFO mii = {};
 						mii.cbSize = sizeof(mii);
 						mii.fMask = MIIM_STRING | MIIM_STATE;
 						if (pimi->iconId != -1) {
 							mii.fMask |= MIIM_BITMAP;
 							if (IsWinVerVistaPlus() && IsThemeActive()) {
 								if (pimi->hBmp == NULL)
-									pimi->hBmp = ConvertIconToBitmap(NULL, pimi->parent->m_hMenuIcons, pimi->iconId);
+									pimi->hBmp = ConvertIconToBitmap(pimi->parent->m_hMenuIcons, pimi->iconId);
 								mii.hbmpItem = pimi->hBmp;
 							}
 							else mii.hbmpItem = HBMMENU_CALLBACK;
