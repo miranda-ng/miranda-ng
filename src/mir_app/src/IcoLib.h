@@ -38,8 +38,8 @@ struct SectionItem
 
 struct IconSourceFile
 {
-	TCHAR*       file;
-	int          ref_count;
+	int ref_count;
+	TCHAR file[MAX_PATH];
 };
 
 struct IconSourceItem
@@ -59,22 +59,22 @@ struct IconSourceItem
 
 struct IcolibItem
 {
-	char*        name;
-	SectionItem* section;
-	int          orderID;
-	TCHAR*       description;
-	TCHAR*       default_file;
-	int          default_indx;
-	int          cx, cy;
-	int          hLangpack;
+	char*           name;
+	SectionItem*    section;
+	int             orderID;
+	TCHAR*          description;
+	IconSourceFile* default_file;
+	int             default_indx;
+	int             cx, cy;
+	int             hLangpack;
 
 	IconSourceItem* source_small;
 	IconSourceItem* source_big;
 	IconSourceItem* default_icon;
 
-	TCHAR*       temp_file;
-	HICON        temp_icon;
-	BOOL         temp_reset;
+	TCHAR*          temp_file;
+	HICON           temp_icon;
+	BOOL            temp_reset;
 
 	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, description); }
 };
@@ -83,8 +83,7 @@ struct IcolibItem
 
 UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HICON *phicon, UINT flags);
 
-void __fastcall SAFE_FREE(void** p);
-void __fastcall SafeDestroyIcon(HICON* icon);
+void __fastcall SafeDestroyIcon(HICON &icon);
 
 int   IconSourceItem_Release(IconSourceItem* &pitem);
 int   IconSourceItem_ReleaseIcon(IconSourceItem *item);

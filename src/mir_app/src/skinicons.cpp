@@ -270,9 +270,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 			GetModuleFileName(NULL, szPath, _countof(szPath));
 
-			//
 			// Queried protocol isn't in list, adding
-			//
 			TCHAR tszSection[MAX_PATH];
 			mir_sntprintf(tszSection, _countof(tszSection), _T(PROTOCOLS_PREFIX)_T("/%s"), pa->tszAccountName);
 
@@ -301,10 +299,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 				}
 			}
 
-			//
 			// Add global icons to list
-			//
-
 			int lowidx, highidx;
 			if (caps2 == 0)
 				lowidx = statusIndx, highidx = statusIndx + 1;

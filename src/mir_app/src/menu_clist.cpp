@@ -38,15 +38,6 @@ void InitTrayMenus(void);
 
 #define FIRSTCUSTOMMENUITEMID	30000
 #define MENU_CUSTOMITEMMAIN		0x80000000
-//#define MENU_CUSTOMITEMCONTEXT	0x40000000
-//#define MENU_CUSTOMITEMFRAME	0x20000000
-
-typedef struct  {
-	WORD id;
-	int iconId;
-	TMO_MenuItem mi;
-}
-	CListIntMenuItem, *lpCListIntMenuItem;
 
 // new menu sys
 int hMainMenuObject = 0, hContactMenuObject = 0, hStatusMenuObject = 0;
