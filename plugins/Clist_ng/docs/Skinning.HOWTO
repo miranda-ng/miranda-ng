@@ -1,0 +1,58 @@
+
+Purpose of this document: Describe the skinning system of clist_nicer+, 
+provide help for some common problems when using the various skinning options.
+
+First of all: While adding a lot of possibilites to skin the contact list, 
+clist_nicer+ skinning is still not as advanced as it is in clist_modern. 
+Some effects (like glassy transparency on borders) isn't possible without 
+converting the plugin to a "layered" application, which I don't want at 
+the moment. The advantage is that clist_nicer+ still supports the "old way" 
+of skinning and can, in fact, work without any skinning at all. 
+
+It allows a very broad range of look - from pure classic look where everything 
+looks to fit the operating systems theme up to a system where various elements 
+of the contact list are skinned with partial transparent .PNG images.
+
+Beginning with version 0.5.1.15, quite a few changes were introduced in
+clist_nicer+ skinning system.
+
+1. Rounded window corners and border clipping.
+----------------------------------------------
+
+	This feature was changed. Previously, it was using a window region to cut
+	certain areas from the clist window making it appear "rounded". Now, this
+	feature is implemented by color keying. This means that you need to activate
+	the "full transparent" mode to use rounded window corners or clip away parts
+	of the border. If you don't you will see strange purple window edges (this
+	is, because the color key for transparency is by default set to "magic magenta"
+	(RGB(255, 0, 255)).
+   
+2. Window frame/border style
+-----------------------------
+
+	It is no longer necessary to use the "clip border" option to get rid of the
+	window border. In fact, it is not recommended. A new option has been added
+	to Options->Contact List->Window. A combo box allows to choose from 4 
+	border styles:
+	
+	* Normal (normal title bar, thick window frame)
+	* Tool style window (toolwindow title bar, thinner window frame)
+	* Thin border (no title bar, 1pixel thin black border)
+	* No border (NOTHING).
+		
+3. Fully transparent contact lists:
+-----------------------------------
+
+	This is one of clist_nicers special features. It is still available. In order
+	to make the contact list fully transparent, you'll have to:
+	
+	* DISABLE the options "Rounded window" and "Clip border by" (set the latter to
+	  0). If you don't do this, you won't get a fully transparent clist.
+	* ENABLE the "Fully transparent (like TweakUI)" option.
+	* On the "Background" page, set a background color to any value you want (the
+	  color should match your desktop background color theme for best results).
+	* Also, you should activate the "Use these settings to skin the entire background"
+	  option.
+	* Set the window border style to "None".	  
+	
+   
