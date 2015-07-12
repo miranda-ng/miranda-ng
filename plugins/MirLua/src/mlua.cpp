@@ -36,6 +36,10 @@ void CMLua::Load()
 	lua_getglobal(L, "_G");
 	lua_pushcclosure(L, luaM_print, 0);
 	lua_setfield(L, -2, "print");
+	lua_pushcclosure(L, luaM_toansi, 0);
+	lua_setfield(L, -2, "a");
+	lua_pushcclosure(L, luaM_toucs2, 0);
+	lua_setfield(L, -2, "u");
 	lua_pop(L, 1);
 
 	lua_atpanic(L, luaM_atpanic);

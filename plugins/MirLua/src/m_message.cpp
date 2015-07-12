@@ -2,11 +2,11 @@
 
 static int lua_Paste(lua_State *L)
 {
-	MCONTACT hContect = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_checkinteger(L, 1);
 	ptrT text(mir_utf8decodeT(luaL_checkstring(L, 2)));
 
 	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
-	mwid.hContact = luaL_checkinteger(L, 1);
+	mwid.hContact = hContact;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
@@ -26,11 +26,11 @@ static int lua_Paste(lua_State *L)
 
 static int lua_Send(lua_State *L)
 {
-	MCONTACT hContect = luaL_checkinteger(L, 1);
+	MCONTACT hContact = luaL_checkinteger(L, 1);
 	ptrT text(mir_utf8decodeT(luaL_checkstring(L, 2)));
 
 	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
-	mwid.hContact = luaL_checkinteger(L, 1);
+	mwid.hContact = hContact;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowData mwd = { sizeof(MessageWindowData) };
