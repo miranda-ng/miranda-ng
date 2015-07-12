@@ -95,6 +95,9 @@ LUAMOD_API int (luaopen_m_windows)(lua_State *L);
 int luaM_print(lua_State *L);
 int luaM_atpanic(lua_State *L);
 
+int luaM_toansi(lua_State *L);
+int luaM_toucs2(lua_State *L);
+
 bool luaM_toboolean(lua_State *L, int idx);
 WPARAM luaM_towparam(lua_State *L, int idx);
 LPARAM luaM_tolparam(lua_State *L, int idx);

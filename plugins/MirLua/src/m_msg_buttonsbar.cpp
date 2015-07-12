@@ -137,6 +137,27 @@ static int lua_OnMsgToolBarButtonPressed(lua_State *L)
 	return 1;
 }
 
+static int lua_DecodeCustomButtonClickData(lua_State *L)
+{
+	CustomButtonClickData *bcd = (CustomButtonClickData*)lua_tointeger(L, 1);
+
+	lua_newtable(L);
+	lua_pushstring(L, "Module");
+	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
+	lua_settable(L, -3);
+	lua_pushstring(L, "ButtonID");
+	lua_pushinteger(L, bcd->dwButtonId);
+	lua_settable(L, -3);
+	lua_pushstring(L, "hContact");
+	lua_pushinteger(L, bcd->hContact);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Flags");
+	lua_pushinteger(L, bcd->flags);
+	lua_settable(L, -3);
+
+	return 1;
+}
+
 static luaL_Reg msgbuttinsbarApi[] =
 {
 	{ "AddButton", lua_AddButton },
@@ -144,6 +165,7 @@ static luaL_Reg msgbuttinsbarApi[] =
 	{ "RemoveButton", lua_RemoveButton },
 
 	{ "OnMsgToolBarButtonPressed", lua_OnMsgToolBarButtonPressed },
+	{ "DecodeCustomButtonClickData", lua_DecodeCustomButtonClickData },
 
 	{ NULL, NULL }
 };

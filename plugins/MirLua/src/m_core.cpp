@@ -162,30 +162,21 @@ static int lua_CallService(lua_State *L)
 
 static int lua_Utf8DecodeA(lua_State *L)
 {
-	const char *string = luaL_checkstring(L, 1);
-
-	char *res = mir_utf8decodeA(string);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
+	return luaM_toansi(L);
 }
 
 static int lua_Utf8DecodeW(lua_State *L)
 {
-	const char *string = luaL_checkstring(L, 1);
-
-	wchar_t *res = mir_utf8decodeW(string);
-	lua_pushlightuserdata(L, res);
-
-	return 1;
+	return luaM_toucs2(L);
 }
 
 static int lua_Free(lua_State *L)
 {
-	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
-	void *ptr = lua_touserdata(L, 1);
-	
-	mir_free(ptr);
+	if (lua_type(L, 1) == LUA_TLIGHTUSERDATA)
+	{
+		void *ptr = lua_touserdata(L, 1);
+		mir_free(ptr);
+	}
 
 	return 0;
 }

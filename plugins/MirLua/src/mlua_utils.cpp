@@ -38,6 +38,32 @@ int luaM_atpanic(lua_State *L)
 	return 0;
 }
 
+int luaM_toansi(lua_State *L)
+{
+	const char* value = luaL_checkstring(L, 1);
+	int codepage = luaL_optinteger(L, 2, Langpack_GetDefaultCodePage());
+
+	ptrA string(mir_strdup(value));
+	lua_pushstring(L, mir_utf8decodecp(string, codepage, NULL));
+
+	return 1;
+}
+
+int luaM_toucs2(lua_State *L)
+{
+	const char* value = luaL_checkstring(L, 1);
+
+	ptrW unicode(mir_utf8decodeW(value));
+	size_t length = mir_wstrlen(unicode) * sizeof(wchar_t);
+
+	ptrA string((char*)mir_calloc(length + 1));
+	memcpy(string, unicode, length);
+
+	lua_pushlstring(L, string, length + 1);
+
+	return 1;
+}
+
 bool luaM_toboolean(lua_State *L, int idx)
 {
 	if (lua_type(L, idx) == LUA_TNUMBER)
@@ -55,6 +81,9 @@ WPARAM luaM_towparam(lua_State *L, int idx)
 		break;
 	case LUA_TNUMBER:
 		wParam = lua_tonumber(L, idx);
+		break;
+	case LUA_TSTRING:
+		wParam = (WPARAM)lua_tostring(L, idx);
 		break;
 	case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
@@ -74,6 +103,9 @@ LPARAM luaM_tolparam(lua_State *L, int idx)
 		break;
 	case LUA_TNUMBER:
 		lParam = lua_tonumber(L, idx);
+		break;
+	case LUA_TSTRING:
+		lParam = (LPARAM)lua_tostring(L, idx);
 		break;
 	case LUA_TUSERDATA:
 	case LUA_TLIGHTUSERDATA:
