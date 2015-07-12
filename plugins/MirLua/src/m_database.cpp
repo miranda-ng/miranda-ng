@@ -198,70 +198,6 @@ static int lua_GetContactSetting(lua_State *L)
 	return 1;
 }
 
-static int lua_DeleteContactSetting(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-	LPCSTR szSetting = luaL_checkstring(L, 3);
-
-	INT_PTR res = db_unset(hContact, szModule, szSetting);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
-
-static int lua_DeleteModule(lua_State *L)
-{
-	MCONTACT hContact = lua_tointeger(L, 1);
-	LPCSTR szModule = luaL_checkstring(L, 2);
-
-	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
-	lua_pushinteger(L, res);
-
-	return 1;
-}
-
-static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
-{
-	DBCONTACTWRITESETTING *pDBCWS = (DBCONTACTWRITESETTING*)lua_tointeger(L, 1);
-
-	lua_newtable(L);
-	lua_pushstring(L, "Module");
-	lua_pushstring(L, pDBCWS->szModule);
-	lua_settable(L, -3);
-	lua_pushstring(L, "Setting");
-	lua_pushstring(L, pDBCWS->szSetting);
-	lua_settable(L, -3);
-	lua_pushstring(L, "Value");
-	switch (pDBCWS->value.type)
-	{
-		case DBVT_BYTE:
-			lua_pushinteger(L, pDBCWS->value.bVal);
-			break;
-		case DBVT_WORD:
-			lua_pushinteger(L, pDBCWS->value.wVal);
-			break;
-		case DBVT_DWORD:
-			lua_pushnumber(L, pDBCWS->value.dVal);
-			break;
-		case DBVT_ASCIIZ:
-			lua_pushstring(L, ptrA(mir_utf8encode(pDBCWS->value.pszVal)));
-			break;
-		case DBVT_UTF8:
-			lua_pushstring(L, pDBCWS->value.pszVal);
-			break;
-		case DBVT_WCHAR:
-			lua_pushstring(L, ptrA(mir_utf8encodeW(pDBCWS->value.pwszVal)));
-			break;
-		default:
-			lua_pushvalue(L, 4);
-			return 1;
-	}
-	lua_settable(L, -3);
-
-	return 1;
-}
-
 typedef struct
 {
 	int  arrlen;
@@ -322,6 +258,110 @@ static int lua_EnumSettings(lua_State *L)
 	return 1;
 }
 
+static int lua_DeleteContactSetting(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+	LPCSTR szSetting = luaL_checkstring(L, 3);
+
+	INT_PTR res = db_unset(hContact, szModule, szSetting);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int lua_DeleteModule(lua_State *L)
+{
+	MCONTACT hContact = lua_tointeger(L, 1);
+	LPCSTR szModule = luaL_checkstring(L, 2);
+
+	INT_PTR res = ::CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
+static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+{
+	lua_State *L = (lua_State*)obj;
+
+	int ref = param;
+	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+
+	lua_pushnumber(L, wParam);
+
+	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
+	
+
+	if (lua_pcall(L, 2, 1, 0))
+		printf("%s\n", lua_tostring(L, -1));
+
+	int res = (int)lua_tointeger(L, 1);
+
+	return res;
+}
+
+static int lua_OnContactSettingChanged(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = ::HookEventObjParam(ME_DB_CONTACT_SETTINGCHANGED, SettingsChangedHookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
+
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+
+	return 1;
+}
+
+static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
+{
+	DBCONTACTWRITESETTING *pDBCWS = (DBCONTACTWRITESETTING*)lua_tointeger(L, 1);
+
+	lua_newtable(L);
+	lua_pushstring(L, "Module");
+	lua_pushstring(L, pDBCWS->szModule);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Setting");
+	lua_pushstring(L, pDBCWS->szSetting);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Value");
+	switch (pDBCWS->value.type)
+	{
+		case DBVT_BYTE:
+			lua_pushinteger(L, pDBCWS->value.bVal);
+			break;
+		case DBVT_WORD:
+			lua_pushinteger(L, pDBCWS->value.wVal);
+			break;
+		case DBVT_DWORD:
+			lua_pushnumber(L, pDBCWS->value.dVal);
+			break;
+		case DBVT_ASCIIZ:
+			lua_pushstring(L, ptrA(mir_utf8encode(pDBCWS->value.pszVal)));
+			break;
+		case DBVT_UTF8:
+			lua_pushstring(L, pDBCWS->value.pszVal);
+			break;
+		case DBVT_WCHAR:
+			lua_pushstring(L, ptrA(mir_utf8encodeW(pDBCWS->value.pwszVal)));
+			break;
+		default:
+			lua_pushvalue(L, 4);
+			return 1;
+	}
+	lua_settable(L, -3);
+
+	return 1;
+}
+
 static luaL_Reg databaseApi[] =
 {
 	{ "FindFirstContact", lua_FindFirstContact },
@@ -337,13 +377,14 @@ static luaL_Reg databaseApi[] =
 	{ "GetEvent", lua_GetEvent },
 
 	{ "WriteContactSetting", lua_WriteContactSetting },
+	
 	{ "GetContactSetting", lua_GetContactSetting },
-	{ "DeleteContactSetting", lua_DeleteContactSetting },
-
-	{ "DeleteModule", lua_DeleteModule },
-
 	{ "EnumSettings", lua_EnumSettings },
 
+	{ "DeleteContactSetting", lua_DeleteContactSetting },
+	{ "DeleteModule", lua_DeleteModule },
+
+	{ "OnContactSettingChanged", lua_OnContactSettingChanged },
 	{ "DecodeDBCONTACTWRITESETTING", lua_DecodeDBCONTACTWRITESETTING },
 
 	{ NULL, NULL }
