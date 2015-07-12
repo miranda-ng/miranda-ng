@@ -612,18 +612,19 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 	TLEN_LIST_ITEM *item;
 	char msgType[16];
 
+	char* msg = mir_utf8decodeA(msgRAW);
 	int id = TlenSerialNext(this);
 
-	if (!mir_strcmp(msgRAW, "<alert>")) {
+	if (!mir_strcmp(msg, "<alert>")) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
-	else if (!mir_strcmp(msgRAW, "<image>")) {
+	else if (!mir_strcmp(msg, "<image>")) {
 		TlenSend(this, "<message to='%s' type='%s' crc='%x' idt='%d'/>", dbv.pszVal, "pic", 0x757f044, id);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
 	else {
-		char *msgEnc = TlenTextEncode(msgRAW);
+		char *msgEnc = TlenTextEncode(msg);
 		if (msgEnc != NULL) {
 			if (TlenListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL)
 				mir_strcpy(msgType, "groupchat");
@@ -651,6 +652,7 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 		mir_free(msgEnc);
 	}
 
+	mir_free(msg);
 	db_free(&dbv);
 	return id;
 }

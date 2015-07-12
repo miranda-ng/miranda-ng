@@ -712,11 +712,15 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 								msgTime = time(NULL);
 							}
 						}
+						char* localMessage_Utf8 = mir_utf8encode(localMessage);
+
 						PROTORECVEVENT recv = { 0 };
 						recv.timestamp = (DWORD) msgTime;
-						recv.szMessage = localMessage;
+						recv.szMessage = localMessage_Utf8;
 						recv.lParam = 0;
 						ProtoChainRecvMsg(hContact, &recv);
+
+						mir_free(localMessage_Utf8);
 						mir_free(localMessage);
 					}
 				}
@@ -931,12 +935,14 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 		TlenStringAppend(&str, &strSize, "\r\n\r\n%s", body);
 
 		localMessage = TlenTextDecode(str);
+		char* localMessage_Utf8 = mir_utf8encode(localMessage);
 
 		PROTORECVEVENT recv = { 0 };
 		recv.timestamp = (DWORD) time(NULL);
-		recv.szMessage = localMessage;
+		recv.szMessage = localMessage_Utf8;
 		ProtoChainRecvMsg(hContact, &recv);	
 
+		mir_free(localMessage_Utf8);
 		mir_free(localMessage);
 		mir_free(str);
 	}
@@ -1016,11 +1022,14 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						db_set_b(hContact, info->proto->m_szModuleName, "bChat", TRUE);
 						mir_free(str);
 						localMessage = TlenTextDecode(bNode->text);
+						char* localMessage_Utf8 = mir_utf8encode(localMessage);
 
 						PROTORECVEVENT recv = { 0 };
 						recv.timestamp = (DWORD) timestamp;
-						recv.szMessage = localMessage;
+						recv.szMessage = localMessage_Utf8;
 						ProtoChainRecvMsg(hContact, &recv);
+
+						mir_free(localMessage_Utf8);
 						mir_free(localMessage);
 					}
 				}
