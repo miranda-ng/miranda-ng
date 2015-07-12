@@ -1,0 +1,31 @@
+<html>
+<body>
+<pre>
+<h1>Erstellungsprotokoll</h1>
+<h3>
+--------------------Konfiguration: coolsb - Win32 Debug--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der temporären Datei  "c:\temp\RSPCFBF.tmp" mit Inhalten
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fp"Debug/coolsb.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\tabsrmm\trunk\miranda\plugins\clist_nicer\coolsb\coolscroll.cpp"
+"C:\tabsrmm\trunk\miranda\plugins\clist_nicer\coolsb\coolsblib.cpp"
+]
+Creating command line "cl.exe @c:\temp\RSPCFBF.tmp" 
+Erstellen der Befehlzeile "link.exe -lib /nologo /out:"Debug\coolsb.lib"  .\Debug\coolscroll.obj .\Debug\coolsblib.obj "
+<h3>Ausgabefenster</h3>
+Kompilierung läuft...
+coolscroll.cpp
+c:\tabsrmm\trunk\miranda\plugins\clist_nicer\coolsb\coolscroll.cpp(49) : fatal error C1083: Include-Datei kann nicht geöffnet werden: 'commonheaders.h': No such file or directory
+coolsblib.cpp
+c:\tabsrmm\trunk\miranda\plugins\clist_nicer\coolsb\coolsblib.cpp(32) : fatal error C1083: Include-Datei kann nicht geöffnet werden: 'commonheaders.h': No such file or directory
+Fehler beim Ausführen von cl.exe.
+
+
+
+<h3>Ergebnisse</h3>
+coolsb.lib - 2 Fehler, 0 Warnung(en)
+</pre>
+</body>
+</html>

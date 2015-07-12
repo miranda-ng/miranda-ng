@@ -1,0 +1,46 @@
+#define VERSION_STRING "0.1.0.0"
+#define VER_MAJOR 0
+#define VER_MINOR 1
+#define VER_REVISION 0
+#define VER_BUILD 0
+
+
+#if defined(_WIN64)
+	#define RES_FILE_DESC "Clist NG Unicode (x86_amd64)"
+#else
+	#define RES_FILE_DESC "Clist NG Unicode (x86)"
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR,VER_MINOR,VER_REVISION,VER_BUILD
+ PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_REVISION,VER_BUILD
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "CompanyName", "Miranda IM project"
+            VALUE "FileDescription", RES_FILE_DESC
+            VALUE "FileVersion", VERSION_STRING
+            VALUE "InternalName", "clist NG"
+            VALUE "LegalCopyright", "Copyright (C) 2004-2010"
+            VALUE "LegalTrademarks", "Licensed under the Gnu general public license V2 or any later version."
+            VALUE "OriginalFilename", "clist_ng.dll"
+            VALUE "ProductName", "Contact list plugin for Miranda IM"
+            VALUE "ProductVersion", VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END

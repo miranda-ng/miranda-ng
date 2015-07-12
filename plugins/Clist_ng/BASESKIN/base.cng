@@ -1,0 +1,1443 @@
+[SkinInfo]
+Version=5
+Name=Base Skin for Clist NG
+
+; Frameless metrics describe the window metrics for the fully skinned mode where
+; no default window border or title bar is visible.
+; These values are left, right, top and bottom paddings.
+
+[FramelessMetrics]
+CLeft=0
+CRight=0
+CTop=0
+CBottom=2
+StatusBarHeight=22
+CaptionHeight=26
+LeftBorderWidth=5
+RightBorderWidth=5
+BottomBorderWidth=3
+
+; normal metrics, when a normal window border and title bar is present.
+
+[Metrics]
+CLeft=2
+CRight=2
+CTop=0
+CBottom=0
+
+[Settings]
+DefaultWindowStyle=3
+ButtonHeight=22
+
+[Buttonset]
+Top=24
+Left=0
+Right=0
+Bottom=0
+
+; Skinning the contact list items with IMAGES
+
+; 2. Image items
+; --------------
+;
+; image items are separated from the normal item definitions. This allows to
+; use a single image for multiple items. Images are optional, because the skinning
+; engine can work without them and draw skin items in a traditional way, using gradients
+; and such.
+;
+; images have to be 32bit PNG images - other formats are not supported. They can be
+; partially transparent using per-pixel alpha values.
+
+; Image item definitions MUST start with a $ character. The name is free - you can use
+; any name you want. The image filenames are RELATIVE to the location of the .cln file,
+; so the best solution would be to place them in the same directory as this skin definition
+; and then
+;
+; To define the contents of an image item, you can use either:
+;
+; Image=foo.png      (use a separate image for this item)
+;
+; OR
+;
+; Glyph=left,top,right,bottom       (extract the contents of the image from the $glyphs
+;                                    item at the specified coordinates)
+;
+; sizing margins:
+;
+; sizing margins have to be specified as Left, Right, Top and Bottom. These margins
+; divide the image into 9 parts. The corner parts are rendered without stretching
+; or shrinking, other parts of the image are stretched to make it fit the target
+; area. Sizing margins are only valid and used when ALL 4 margin values are specified.
+;
+; ALPHA is a constant alpha value which is applied AFTER per pixel alpha values- this
+; can be used to make a non-transparent image translucent. Alpha values are in percent,
+; so the valid range is from 0 (completely transparent) to 100 (completely opaque).
+;
+; assign images to actual skin item(s).
+;
+; This is done with the ItemX=Itemname value. X is a 0-based index number, so the first
+; assignment has to be Item0=foo, the 2nd Item1=bar and so on. Itemname refers to one of
+; the skin item names listed at the beginning of this document, WITHOUT the % character.
+;
+; FillColor
+; This is a color value, which, if present, will be used to fill the inner part of the
+; target area. This can speed up rendering significantly and should be used when an image
+; item is covered by other parts and only the margins of the image are important.
+
+; $Window is a SPECIAL item - it is used to skin the contact list background and nothing
+; else. You can name it whatever you want, but you MUST assign it to the CLUI item.
+; Since clist_nicer+ is NOT a layered skinning engine, this picture should not use
+; partially transparent pixels. It can still use fully transparent pixels for implementing
+; rounded window corners.
+; Also, set the colorkey to a "rare" color (magenta #ff00ff is always a good choice) and
+; activate the full transparency option.
+; FillColor can be used to fill the inner part of the divided image with a solid color
+; this can speed up painting significantly.
+
+[$Window]
+Image=back.png
+Left=5
+Right=5
+Top=25
+Bottom=5
+Item0=CLUIAero
+Item1=CLUI
+Alpha=100
+Colorkey=ff00ff
+
+[$CluiClient]
+Glyph=1,108,33,126
+Right=3
+Top=3
+Bottom=3
+Left=3
+Alpha=80
+Item0=CLUIClient
+
+[$Frametitle]
+Glyph=0,0,37,24
+Item0=Frame titlebars
+Left=5
+Top=5
+Right=5
+Bottom=5
+Alpha=100
+
+[$Button]
+Glyph=1,62,35,82
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=100
+Item0=UI button normal
+
+[$Buttonhover]
+Glyph=0,85,36,105
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=100
+Item0=UI button hover
+
+[$Buttonpressed]
+Glyph=0,107,34,127
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=100
+Item0=UI button pressed
+
+[$FrameSkin]
+Glyph=0,129,38,140
+Right=3
+Top=3
+Bottom=3
+Left=3
+Alpha=100
+Item0=Frame border no titlebar
+FillColor=ffffff
+
+[$FrameSkinTB]
+Glyph=0,26,37,34
+Right=3
+Top=1
+Bottom=4
+Left=3
+Alpha=100
+Item0=Frame border with titlebar
+FillColor=ffffff
+
+[$Avatar]
+Glyph=88,24,107,39
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=80
+;Item0=Avatarframe
+
+[$Avataroffline]
+Glyph=88,0,107,20
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=50
+;Item0=Avatarframe offline
+
+; This is an independent image item. It is not connected to any skin item and can be used for
+; the buttons. Useful for things like defining a graphical window caption in skinned mode or
+; just give one single button a different look.
+
+[@BtnNormal]
+Glyph=64,0,83,20
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=50
+
+[@BtnHover]
+Glyph=64,22,83,42
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=100
+
+[@BtnPushed]
+Glyph=64,44,83,64
+Right=4
+Top=4
+Bottom=4
+Left=4
+Alpha=100
+
+[$Thumb]
+Glyph=0,142,17,158
+Right=6
+Top=5
+Bottom=5
+Left=5
+Alpha=100
+Item0=Scrollbar thumb
+
+[$Thumbpressed]
+Glyph=0,159,17,175
+Right=6
+Top=5
+Bottom=5
+Left=5
+Alpha=100
+Item0=Scrollbar thumb pressed
+Item1=Scrollbar thumb hovered
+
+[$Scrollback]
+Glyph=18,142,35,155
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=100
+Item0=Scrollbar backgroundupper
+Item1=Scrollbar backgroundlower
+Item2=Scrollbar button
+Item3=Scrollbar button pressed
+Item4=Scrollbar button hovered
+
+[$ScrollArrowUp]
+Glyph=18,167,28,175
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=100
+Item0=Scrollbar arrow up
+
+[$ScrollArrowDown]
+Glyph=18,157,28,165
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=100
+Item0=Scrollbar arrow down
+
+[$Groups]
+Glyph=0,215,31,233
+Left=5
+Right=5
+Top=5
+Bottom=5
+Item0=Expanded Group
+
+[$Selection]
+Glyph=63,65,84,87
+Alpha=50
+Left=3
+Top=3
+Right=3
+Bottom=3
+Item0=Selection
+
+[$Hottrack]
+Glyph=63,87,84,109
+Alpha=50
+Left=3
+Top=3
+Right=3
+Bottom=3
+Item0=Hottracked
+
+; all contacts share the same background image (could be different though) - even/odd rows
+; can be implemented on the background+ page by using the appropriate item(s).
+
+[$Contacts]
+Glyph=0,36,36,59
+Alpha=85
+left=1
+top=1
+right=1
+bottom=1
+Item0=Online
+Item1=Offline
+Item2=Away
+Item3=DND
+Item4=NA
+Item5=Occupied
+Item6=Invisible
+Item7=Free for chat
+Item8=Out to lunch
+Item9=On the phone
+;Fillcolor=DCDACE
+
+; Glyphs
+; ------
+; this is a special image item. It contains glyphs which can be used as image items.
+; This item is optional unless you are using button glyphs.
+
+; using a single image for all glpyhs may look strange at the first glance, but has a lot
+; of advantages performance-wise (people who have been working on mods for games may know
+; these technique for creating textures and collecting them in a single image file).
+
+[$glyphs]
+Image=glyphs.png
+Alpha=100
+
+; button definitions
+; * there can be as many buttons as you want
+; * name MUST start with a !
+; * to make room for the buttons, set the client margins on the Options->Contact List->Window
+;   page (left, top, bottom, right) and MAKE SURE TO EXPORT the skin definition from the
+;   Background+ page after you have set them. Doing so will export quite a few important
+;   settings to the skin file.
+
+; The Pressed, Normal and Hover properties represent image items for the different button states
+; You can re-use image items of course, but if needed, every button can have its own
+;
+; xOff/yOff -> offset values from the left/top edge of the clist window. Use negative
+; values to specify offsets from the right or bottom
+;
+; Width/Height -> dimensions of the button
+
+; Action: can be one of:
+;
+; cln_* 	constants to replicate the clist_nicer+ internal toolbar buttons. See below for
+;   			valid cln_ constants.
+
+; Service:      execute a normal service
+; ProtoService: execute a protocol service. Requires a contact selection on the list.
+; Database:     Set a database value (see below for more info)
+
+; Service = Service to execute on push (depends on the Action property whether it will
+; be considered a normal or protocol service);
+
+; PassContact -  must bei either w or l (if set, handle of currently selected contact
+;				 will be passed in either wParam or lParam)
+;				 if this is set for a button definion and you press the button without
+;				 a valid contact list selection, you will receive an error.
+;
+; Tip: 		  - set the tooltip for the button
+; Toggle - 	  - 0/1 value. if 1, button is a toggle button which will stay pressed until you
+;          		click it again
+
+; Here are the constants for the predefined buttons (you have to put them in the Action=
+; property).
+
+; CLN_topmenu  -> the miranda menu
+; CLN_online   -> toggle hide offline
+; CLN_groups   -> toggle group mode
+; CLN_findadd  -> find and add contacts
+; CLN_options  -> open options
+; CLN_sound	   -> toggle sounds
+; CLN_minimize -> minimize the clist
+; CLN_topstatus -> open status menu
+; CLN_slist	    -> tabsrmm session list
+; CLN_menu	    -> tabsrmm traycontext menu
+; CLN_CLVM_select -> select a view mode (dropdown menu)
+; CLN_CLVM_options -> configure view modes
+; CLN_CLVM_reset   -> clear currently selected view mode
+
+; the button definitions start here
+; ---------------------------------
+
+[!CloseButton]
+Width=12
+Height=12
+xoff=-18
+yoff=6
+NormalGlyph=51,0,62,11
+HoverGlyph=51,12,62,23
+PressedGlyph=51,24,62,35
+Action=cln_minimize
+FramelessOnly=1
+FakeTitleButton=1
+
+[!ButtonOnlineOffline]
+Width=20
+Height=20
+xoff=4
+yoff=2
+Normal=BtnNormal
+Pressed=BtnPushed
+Hover=BtnHover
+NormalGlyph=40,81,53,96
+PressedGlyph=40,65,53,80
+HoverGlyph=40,97,53,112
+Action=cln_online
+Toggle=1
+
+[!ButtonGroups]
+Width=20
+Height=20
+xoff=26
+yoff=2
+Normal=BtnNormal
+Pressed=BtnPushed
+Hover=BtnHover
+NormalGlyph=40,130,53,145
+PressedGlyph=40,114,53,129
+HoverGlyph=40,130,53,145
+Action=cln_groups
+Toggle=1
+
+[!ButtonOptions]
+Width=20
+Height=20
+xoff=48
+yoff=2
+Normal=BtnNormal
+Pressed=BtnPushed
+Hover=BtnHover
+NormalGlyph=40,147,53,162
+PressedGlyph=40,147,53,162
+HoverGlyph=40,147,53,162
+Action=cln_options
+
+[!ButtonFind]
+Width=20
+Height=20
+xoff=-48
+yoff=2
+Normal=BtnNormal
+Pressed=BtnPushed
+Hover=BtnHover
+NormalGlyph=39,48,54,63
+PressedGlyph=39,48,54,63
+HoverGlyph=39,48,54,63
+Action=cln_findadd
+Tip=Find contacts
+
+[!ButtonMenu]
+Width=18
+Height=14
+xoff=5
+yoff=4
+NormalGlyph=39,36,54,45
+PressedGlyph=39,36,54,45
+HoverGlyph=39,36,54,45
+Action=cln_topmenu
+Tip=Open main menu
+FramelessOnly=1
+FakeTitleButton=1
+
+[!ButtonMinimize]
+Width=12
+Height=12
+xoff=-36
+yoff=6
+NormalGlyph=39,0,50,11
+PressedGlyph=39,24,50,35
+HoverGlyph=39,12,50,23
+Action=cln_minimize
+Tip=Minimize
+FramelessOnly=1
+FakeTitleButton=1
+
+[!ButtonStatus]
+Width=20
+Height=20
+xoff=-26
+yoff=2
+Pressed=BtnPushed
+Normal=BtnNormal
+Hover=BtnHover
+NormalGlyph=38,48,48,58
+PressedGlyph=38,48,48,58
+HoverGlyph=38,48,48,58
+Action=cln_topstatus
+Tip=Status menu
+
+[!ButtonSound]
+Width=20
+Height=20
+xoff=70
+yoff=2
+Pressed=BtnPushed
+Normal=BtnNormal
+Hover=BtnHover
+NormalGlyph=66,130,81,144
+PressedGlyph=66,114,81,128
+HoverGlyph=66,130,81,144
+Action=cln_sound
+Tip=Toggle sounds
+Toggle=1
+
+; A button which modifies a database value on push/release
+;
+; special entries for such a button:
+;
+; Action:   must be "database"
+; Module:   The module name. It can be $c in which case it will be replaced by the
+;           protocol of the currently selected contact.
+;           in this case, a contact must be selected when you use the button, otherwise.
+;           using the button will result in an error message.
+;
+; Setting:  the db setting to change
+;
+; dbonpush: The db value. You MUST prefix it with b, w, d or s to specify the type
+;           of setting (byte, word, dword, string)
+;
+; dbonrelease: same as above, only valid if button is set to a toggle button
+;              if button is set to be a toggle button (Toggle=1) and no dbonrelease
+;              is present, releasing the button to unpressed state will DELETE the
+;              specified database value. Be careful :)
+;
+; Contact:     if set to any numeric value != 0, then it will modify the value under
+;              the record of the currently selected contact, otherwise it will modify
+;              the global db value if no contact is selected in the clist.
+
+[Offline]
+ColorHigh=14079702
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=80
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Online]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Away]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[DND]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[NA]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Occupied]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Free for chat]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Invisible]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[On the phone]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Out to lunch]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=9
+[Idle]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Expanded Group]
+ColorHigh=33023
+ColorLow=33023
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=9
+Flags=68
+[Collapsed Group]
+ColorHigh=12632256
+ColorLow=12632256
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=9
+Flags=68
+[Empty Group]
+ColorHigh=12046066
+ColorLow=7783902
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=80
+Alpha2=80
+Corner=0
+Gradient=9
+Flags=68
+[First contact of a group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Single item in group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Last contact of a group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[First contact of NON-group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Single item in NON-group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Last contact of NON-group]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Even Contact Positions]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Odd Contact Positions]
+ColorHigh=15658734
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=80
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Selection]
+ColorHigh=16744576
+ColorLow=16744576
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=9
+Flags=68
+[Hottracked]
+ColorHigh=8454143
+ColorLow=8454143
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=9
+Flags=68
+[Frame titlebars]
+ColorHigh=0
+ColorLow=0
+Textcolor=16777215
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Event area]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Status Bar]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[UI Button - pressed]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[UI Button - not pressed]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[UI Button - mouseover]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Status floater]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Frame border no titlebar]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=1
+Top=1
+Right=1
+Bottom=1
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=32
+[Frame border with titlebar]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=1
+Top=1
+Right=1
+Bottom=1
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=0
+Flags=32
+[Avatarframe]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=32
+[Avatarframe offline]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=32
+[AIM_1]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[ICQ]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[IRC]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[JABBER]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[JABBER_1]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[JABBER_2]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[MetaContacts]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[mPhantomUser]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[mRadio]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[MSN]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[MSN_SC]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[TV]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Twitter_1]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Weather]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[YAHOO]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=1
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+
+[Font0]
+Name=Segoe UI Semibold
+Size=9
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font1]
+Name=Segoe UI Semibold
+Size=9
+Style=2
+Set=0
+Color=0
+Flags=297
+[Font2]
+Name=Segoe UI
+Size=9
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font3]
+Name=Segoe UI
+Size=9
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font4]
+Name=Segoe UI
+Size=9
+Style=1
+Set=0
+Color=0
+Flags=297
+[Font5]
+Name=Segoe UI
+Size=9
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font6]
+Name=Ubuntu
+Size=8
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font7]
+Name=Ubuntu
+Size=8
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font8]
+Name=Ubuntu
+Size=8
+Style=0
+Set=0
+Color=16580
+Flags=297
+[Font9]
+Name=Segoe UI Semibold
+Size=10
+Style=0
+Set=0
+Color=16777215
+Flags=297
+[Font10]
+Name=Segoe UI Semibold
+Size=9
+Style=0
+Set=0
+Color=0
+Flags=297
+[Font11]
+Name=Ubuntu
+Size=8
+Style=0
+Set=0
+Color=255
+Flags=297
+[Even rows]
+ColorHigh=16777215
+ColorLow=16777215
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=9
+Flags=68
+[Odd rows]
+ColorHigh=16771304
+ColorLow=16771304
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=90
+Alpha2=90
+Corner=0
+Gradient=9
+Flags=68
+[Hottracked]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[UI Button pressed]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[UI Button normal]
+ColorHigh=12632256
+ColorLow=12632256
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=100
+Alpha2=100
+Corner=0
+Gradient=0
+Flags=65
+[UI Button hover]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1
+[Frame border no titlebar]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=1
+Top=1
+Right=1
+Bottom=1
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=32
+[Frame border with titlebar]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=32
+[MSN_1]
+ColorHigh=0
+ColorLow=0
+Textcolor=0
+Ignored=0
+Left=0
+Top=0
+Right=0
+Bottom=0
+Alpha=1
+Alpha2=1
+Corner=0
+Gradient=0
+Flags=1

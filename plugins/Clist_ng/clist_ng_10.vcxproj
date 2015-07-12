@@ -1,0 +1,682 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>clist_NG</ProjectName>
+    <ProjectGuid>{A7FED55C-53E1-44B9-B4D6-3A9015839856}</ProjectGuid>
+    <RootNamespace>clist_nicer</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Configuration)64\Plugins\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Configuration)64\Plugins\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/clist.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\plugins\ExternalAPI;..\..\include;.\agg\include;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4100;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;gdiplus.lib;d2d1.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/clist.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>..\..\plugins\ExternalAPI;..\..\include;.\agg\include;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4100;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OmitFramePointers>true</OmitFramePointers>
+      <MinimalRebuild>true</MinimalRebuild>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;gdiplus.lib;d2d1.lib;delayimp.lib;d2d1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27X86%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x6c540000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\plugins\ExternalAPI;..\..\include;.\agg\include;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PreprocessorDefinitions>_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <DisableSpecificWarnings>4100;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;_AMD64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;gdiplus.lib;d2d1.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\plugins\ExternalAPI;..\..\include;.\agg\include;.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>_WIN64;NDEBUG;WIN32;_WINDOWS;_USRDLL;CLIST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <WarningLevel>Level4</WarningLevel>
+      <DisableSpecificWarnings>4100;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;_AMD64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;gdiplus.lib;d2d1.lib;d2d1.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AGG\src\agg_arc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_arrowhead.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_bezier_arc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_bspline.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_curves.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_font_win32_tt.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_gsv_text.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_image_filters.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_line_aa_basics.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_line_profile_aa.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_rounded_rect.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_sqrt_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_trans_affine.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_trans_double_path.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_trans_single_path.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_trans_warp_magnifier.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_bspline.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_contour.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_dash.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_markers_term.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_smooth_poly1.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vcgen_stroke.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vpgen_clip_polygon.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vpgen_clip_polyline.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\agg_vpgen_segmentator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="AGG\src\platform\win32\agg_win32_bmp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\cluiframes.cpp" />
+    <ClCompile Include="CLUIFrames\movetogroup.cpp" />
+    <ClCompile Include="coolsb\coolsblib.cpp" />
+    <ClCompile Include="coolsb\coolscroll.cpp" />
+    <ClCompile Include="skineditor\skinedit.cpp" />
+    <ClCompile Include="SRC\clc.cpp" />
+    <ClCompile Include="SRC\CLCButton.cpp" />
+    <ClCompile Include="SRC\clcitems.cpp" />
+    <ClCompile Include="SRC\clcmsgs.cpp" />
+    <ClCompile Include="SRC\clcopts.cpp" />
+    <ClCompile Include="SRC\clcpaint.cpp" />
+    <ClCompile Include="SRC\clcutils.cpp" />
+    <ClCompile Include="SRC\clistevents.cpp" />
+    <ClCompile Include="SRC\clistmenus.cpp" />
+    <ClCompile Include="SRC\clistmod.cpp" />
+    <ClCompile Include="SRC\clistopts.cpp" />
+    <ClCompile Include="SRC\clisttray.cpp" />
+    <ClCompile Include="SRC\clui.cpp" />
+    <ClCompile Include="SRC\cluiopts.cpp" />
+    <ClCompile Include="SRC\cluiservices.cpp" />
+    <ClCompile Include="SRC\commonheaders.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="SRC\contact.cpp" />
+    <ClCompile Include="SRC\Docking.cpp" />
+    <ClCompile Include="SRC\extBackg.cpp" />
+    <ClCompile Include="SRC\gfx.cpp" />
+    <ClCompile Include="SRC\init.cpp" />
+    <ClCompile Include="SRC\rowheight_funcs.cpp" />
+    <ClCompile Include="SRC\skin.cpp" />
+    <ClCompile Include="SRC\statusbar.cpp" />
+    <ClCompile Include="SRC\statusfloater.cpp" />
+    <ClCompile Include="SRC\utils.cpp" />
+    <ClCompile Include="SRC\viewmodes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AGG\include\agg_alpha_mask_u8.h" />
+    <ClInclude Include="AGG\include\agg_arc.h" />
+    <ClInclude Include="AGG\include\agg_array.h" />
+    <ClInclude Include="AGG\include\agg_arrowhead.h" />
+    <ClInclude Include="AGG\include\agg_basics.h" />
+    <ClInclude Include="AGG\include\agg_bezier_arc.h" />
+    <ClInclude Include="AGG\include\agg_bitset_iterator.h" />
+    <ClInclude Include="AGG\include\agg_blur.h" />
+    <ClInclude Include="AGG\include\agg_bounding_rect.h" />
+    <ClInclude Include="AGG\include\agg_bspline.h" />
+    <ClInclude Include="AGG\include\agg_clip_liang_barsky.h" />
+    <ClInclude Include="AGG\include\agg_color_gray.h" />
+    <ClInclude Include="AGG\include\agg_color_rgba.h" />
+    <ClInclude Include="AGG\include\agg_config.h" />
+    <ClInclude Include="AGG\include\agg_conv_adaptor_vcgen.h" />
+    <ClInclude Include="AGG\include\agg_conv_adaptor_vpgen.h" />
+    <ClInclude Include="AGG\include\agg_conv_bspline.h" />
+    <ClInclude Include="AGG\include\agg_conv_clip_polygon.h" />
+    <ClInclude Include="AGG\include\agg_conv_clip_polyline.h" />
+    <ClInclude Include="AGG\include\agg_conv_close_polygon.h" />
+    <ClInclude Include="AGG\include\agg_conv_concat.h" />
+    <ClInclude Include="AGG\include\agg_conv_contour.h" />
+    <ClInclude Include="AGG\include\agg_conv_curve.h" />
+    <ClInclude Include="AGG\include\agg_conv_dash.h" />
+    <ClInclude Include="AGG\include\agg_conv_gpc.h" />
+    <ClInclude Include="AGG\include\agg_conv_marker.h" />
+    <ClInclude Include="AGG\include\agg_conv_marker_adaptor.h" />
+    <ClInclude Include="AGG\include\agg_conv_segmentator.h" />
+    <ClInclude Include="AGG\include\agg_conv_shorten_path.h" />
+    <ClInclude Include="AGG\include\agg_conv_smooth_poly1.h" />
+    <ClInclude Include="AGG\include\agg_conv_stroke.h" />
+    <ClInclude Include="AGG\include\agg_conv_transform.h" />
+    <ClInclude Include="AGG\include\agg_conv_unclose_polygon.h" />
+    <ClInclude Include="AGG\include\agg_curves.h" />
+    <ClInclude Include="AGG\include\agg_dda_line.h" />
+    <ClInclude Include="AGG\include\agg_ellipse.h" />
+    <ClInclude Include="AGG\include\agg_ellipse_bresenham.h" />
+    <ClInclude Include="AGG\include\agg_embedded_raster_fonts.h" />
+    <ClInclude Include="AGG\include\agg_font_cache_manager.h" />
+    <ClInclude Include="AGG\include\agg_font_freetype.h" />
+    <ClInclude Include="AGG\include\agg_font_win32_tt.h" />
+    <ClInclude Include="AGG\include\agg_gamma_functions.h" />
+    <ClInclude Include="AGG\include\agg_gamma_lut.h" />
+    <ClInclude Include="AGG\include\agg_glyph_raster_bin.h" />
+    <ClInclude Include="AGG\include\agg_gradient_lut.h" />
+    <ClInclude Include="AGG\include\agg_gsv_text.h" />
+    <ClInclude Include="AGG\include\agg_image_accessors.h" />
+    <ClInclude Include="AGG\include\agg_image_filters.h" />
+    <ClInclude Include="AGG\include\agg_line_aa_basics.h" />
+    <ClInclude Include="AGG\include\agg_math.h" />
+    <ClInclude Include="AGG\include\agg_math_stroke.h" />
+    <ClInclude Include="AGG\include\agg_path_length.h" />
+    <ClInclude Include="AGG\include\agg_path_storage.h" />
+    <ClInclude Include="AGG\include\agg_path_storage_integer.h" />
+    <ClInclude Include="AGG\include\agg_pattern_filters_rgba.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_amask_adaptor.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_gray.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_rgb.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_rgba.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_rgb_packed.h" />
+    <ClInclude Include="AGG\include\agg_pixfmt_transposer.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_cells_aa.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_compound_aa.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_outline.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_outline_aa.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_scanline_aa.h" />
+    <ClInclude Include="AGG\include\agg_rasterizer_sl_clip.h" />
+    <ClInclude Include="AGG\include\agg_renderer_base.h" />
+    <ClInclude Include="AGG\include\agg_renderer_markers.h" />
+    <ClInclude Include="AGG\include\agg_renderer_mclip.h" />
+    <ClInclude Include="AGG\include\agg_renderer_outline_aa.h" />
+    <ClInclude Include="AGG\include\agg_renderer_outline_image.h" />
+    <ClInclude Include="AGG\include\agg_renderer_primitives.h" />
+    <ClInclude Include="AGG\include\agg_renderer_raster_text.h" />
+    <ClInclude Include="AGG\include\agg_renderer_scanline.h" />
+    <ClInclude Include="AGG\include\agg_rendering_buffer.h" />
+    <ClInclude Include="AGG\include\agg_rendering_buffer_dynarow.h" />
+    <ClInclude Include="AGG\include\agg_rounded_rect.h" />
+    <ClInclude Include="AGG\include\agg_scanline_bin.h" />
+    <ClInclude Include="AGG\include\agg_scanline_boolean_algebra.h" />
+    <ClInclude Include="AGG\include\agg_scanline_p.h" />
+    <ClInclude Include="AGG\include\agg_scanline_storage_aa.h" />
+    <ClInclude Include="AGG\include\agg_scanline_storage_bin.h" />
+    <ClInclude Include="AGG\include\agg_scanline_u.h" />
+    <ClInclude Include="AGG\include\agg_shorten_path.h" />
+    <ClInclude Include="AGG\include\agg_simul_eq.h" />
+    <ClInclude Include="AGG\include\agg_span_allocator.h" />
+    <ClInclude Include="AGG\include\agg_span_converter.h" />
+    <ClInclude Include="AGG\include\agg_span_gouraud.h" />
+    <ClInclude Include="AGG\include\agg_span_gouraud_gray.h" />
+    <ClInclude Include="AGG\include\agg_span_gouraud_rgba.h" />
+    <ClInclude Include="AGG\include\agg_span_gradient.h" />
+    <ClInclude Include="AGG\include\agg_span_gradient_alpha.h" />
+    <ClInclude Include="AGG\include\agg_span_image_filter.h" />
+    <ClInclude Include="AGG\include\agg_span_image_filter_gray.h" />
+    <ClInclude Include="AGG\include\agg_span_image_filter_rgb.h" />
+    <ClInclude Include="AGG\include\agg_span_image_filter_rgba.h" />
+    <ClInclude Include="AGG\include\agg_span_interpolator_adaptor.h" />
+    <ClInclude Include="AGG\include\agg_span_interpolator_linear.h" />
+    <ClInclude Include="AGG\include\agg_span_interpolator_persp.h" />
+    <ClInclude Include="AGG\include\agg_span_interpolator_trans.h" />
+    <ClInclude Include="AGG\include\agg_span_pattern_gray.h" />
+    <ClInclude Include="AGG\include\agg_span_pattern_rgb.h" />
+    <ClInclude Include="AGG\include\agg_span_pattern_rgba.h" />
+    <ClInclude Include="AGG\include\agg_span_solid.h" />
+    <ClInclude Include="AGG\include\agg_span_subdiv_adaptor.h" />
+    <ClInclude Include="AGG\include\agg_trans_affine.h" />
+    <ClInclude Include="AGG\include\agg_trans_bilinear.h" />
+    <ClInclude Include="AGG\include\agg_trans_double_path.h" />
+    <ClInclude Include="AGG\include\agg_trans_perspective.h" />
+    <ClInclude Include="AGG\include\agg_trans_single_path.h" />
+    <ClInclude Include="AGG\include\agg_trans_viewport.h" />
+    <ClInclude Include="AGG\include\agg_trans_warp_magnifier.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_bspline.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_contour.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_dash.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_markers_term.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_smooth_poly1.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_stroke.h" />
+    <ClInclude Include="AGG\include\agg_vcgen_vertex_sequence.h" />
+    <ClInclude Include="AGG\include\agg_vertex_sequence.h" />
+    <ClInclude Include="AGG\include\agg_vpgen_clip_polygon.h" />
+    <ClInclude Include="AGG\include\agg_vpgen_clip_polyline.h" />
+    <ClInclude Include="AGG\include\agg_vpgen_segmentator.h" />
+    <ClInclude Include="AGG\include\platform\agg_platform_support.h" />
+    <ClInclude Include="AGG\include\platform\win32\agg_win32_bmp.h" />
+    <ClInclude Include="AGG\include\util\agg_color_conv.h" />
+    <ClInclude Include="AGG\include\util\agg_color_conv_rgb16.h" />
+    <ClInclude Include="AGG\include\util\agg_color_conv_rgb8.h" />
+    <ClInclude Include="CLUIFrames\cluiframes.h" />
+    <ClInclude Include="coolsb\coolsb_internal.h" />
+    <ClInclude Include="coolsb\coolsblib.h" />
+    <ClInclude Include="coolsb\coolscroll.h" />
+    <ClInclude Include="coolsb\userdefs.h" />
+    <ClInclude Include="INCLUDE\clc.h" />
+    <ClInclude Include="INCLUDE\clist.h" />
+    <ClInclude Include="INCLUDE\clui.h" />
+    <ClInclude Include="INCLUDE\commonheaders.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="INCLUDE\gfx.h" />
+    <ClInclude Include="INCLUDE\m_cln_skinedit.h" />
+    <ClInclude Include="INCLUDE\resource.h" />
+    <ClInclude Include="INCLUDE\rowheight_funcs.h" />
+    <ClInclude Include="INCLUDE\skin.h" />
+    <ClInclude Include="INCLUDE\utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="baseskin\back.png" />
+    <None Include="baseskin\base.cng" />
+    <None Include="baseskin\glyphs.png" />
+    <None Include="res\accounts.ico" />
+    <None Include="res\addgoupp.ico" />
+    <None Include="res\arrow-down.ico" />
+    <None Include="res\overlay\away.ico" />
+    <None Include="res\blank.ico" />
+    <None Include="res\overlay\chat.ico" />
+    <None Include="res\connecting.ico" />
+    <None Include="res\delete.ico" />
+    <None Include="res\overlay\dnd.ico" />
+    <None Include="res\dragcopy.cur" />
+    <None Include="res\dropuser.cur" />
+    <None Include="res\find.ico" />
+    <None Include="res\groups.ico" />
+    <None Include="res\hyperlin.cur" />
+    <None Include="res\invisible.ico" />
+    <None Include="res\overlay\invisible.ico" />
+    <None Include="res\overlay\lunch.ico" />
+    <None Include="res\menu.ico" />
+    <None Include="res\minimize.ico" />
+    <None Include="res\overlay\NA.ico" />
+    <None Include="res\notick.ico" />
+    <None Include="res\notick1.ico" />
+    <None Include="res\overlay\occupied.ico" />
+    <None Include="res\overlay\offline.ico" />
+    <None Include="res\online.ico" />
+    <None Include="res\overlay\online.ico" />
+    <None Include="res\options.ico" />
+    <None Include="res\options_clvm.ico" />
+    <None Include="res\overlay\phone.ico" />
+    <None Include="res\rename.ico" />
+    <None Include="res\slist.ico" />
+    <None Include="res\sounds_off.ico" />
+    <None Include="res\sounds_on.ico" />
+    <None Include="res\tabsrmm_menu.ico" />
+    <None Include="res\visible.ico" />
+    <None Include="docs\CHANGELOG" />
+    <None Include="docs\license.txt" />
+    <None Include="docs\README" />
+    <None Include="docs\Skinning.HOWTO" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
