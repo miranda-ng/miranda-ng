@@ -5,7 +5,25 @@ int luaM_print(lua_State *L)
 	CMStringA data;
 	int nargs = lua_gettop(L);
 	for (int i = 1; i <= nargs; ++i)
-		data.AppendFormat("%s   ", lua_tostring(L, i));
+	{
+		switch (lua_type(L, i))
+		{
+		case LUA_TNIL:
+			data.AppendFormat("%s   ", "nil");
+			break;
+		case LUA_TBOOLEAN:
+		case LUA_TNUMBER:
+		case LUA_TSTRING:
+			data.AppendFormat("%s   ", lua_tostring(L, i));
+			break;
+		case LUA_TTABLE:
+			data.AppendFormat("%s   ", "table");
+			break;
+		default:
+			data.AppendFormat("0x%p   ", lua_topointer(L, i));
+			break;
+		}
+	}
 	data.Delete(data.GetLength() - 3, 3);
 
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)data.GetBuffer());
