@@ -163,6 +163,6 @@ void CLUI::Redraw()
 }
 
 int 							MTG_OnmodulesLoad			(WPARAM wParam,LPARAM lParam);
-//void 							InitGroupMenus				();
+void 							InitGroupMenus				();
 
 #endif /* __CLUI_H_ */

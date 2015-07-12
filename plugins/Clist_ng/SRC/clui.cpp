@@ -118,7 +118,7 @@ struct CluiTopButton top_buttons[] = {
 	(HWND) - 1, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-IconItemT iconItem[] = {
+IconItemT myIcons[] = {
 	{ LPGENT("Toggle show online/offline"), "CLN_online", IDI_HIDEOFFLINE },
 	{ LPGENT("Toggle groups"), "CLN_groups", IDI_HIDEGROUPS },
 	{ LPGENT("Find contacts"), "CLN_findadd", IDI_FINDANDADD },
@@ -326,7 +326,7 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Default"),iconItem, _countof(iconItem));
+	Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Default"),myIcons, _countof(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
@@ -1975,7 +1975,7 @@ void CLUI::loadModule(void)
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaChanged);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaChanged);
 
-//	InitGroupMenus();
+	InitGroupMenus();
 
 	wndclass.style = 0;
 	wndclass.lpfnWndProc = eventAreaWndProc;
