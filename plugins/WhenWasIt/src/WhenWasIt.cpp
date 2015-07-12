@@ -144,9 +144,6 @@ extern "C" int __declspec(dllexport) Unload()
 	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hAddBirthdayWndsList);
 
-	Log("%s", "Killing timers ...");
-	KillTimers();
-
 	Log("%s", "Unhooking events ...");
 	UnhookEvents();
 
