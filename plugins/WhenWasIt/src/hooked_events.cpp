@@ -24,10 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define EXCLUDE_HIDDEN  1
 #define EXCLUDE_IGNORED 2
-UINT_PTR hCheckTimer = NULL;
-UINT_PTR hDateChangeTimer = NULL;
+static UINT_PTR hCheckTimer = NULL;
+static UINT_PTR hDateChangeTimer = NULL;
+static int currentDay = 0;
 
-int currentDay;
 
 static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 {
@@ -145,31 +145,22 @@ int RefreshContactListIcons(MCONTACT hContact)
 
 int UpdateTimers()
 {
-	if (hCheckTimer) {
-		KillTimer(NULL, hCheckTimer);
-		hCheckTimer = NULL;
-	}
-
-	long interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
-	interval *= 1000 * 60 * 60; //go from miliseconds to hours
+	UINT interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
+	interval *= (1000 * 60 * 60); //go from miliseconds to hours
 	hCheckTimer = SetTimer(NULL, 0, interval, OnCheckTimer);
 	if (!hDateChangeTimer)
-		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, OnDateChangeTimer);
+		hDateChangeTimer = SetTimer(NULL, 0, (1000 * DATE_CHANGE_CHECK_INTERVAL), OnDateChangeTimer);
 
 	return 0;
 }
 
 int KillTimers()
 {
-	if (hCheckTimer) {
-		KillTimer(NULL, hCheckTimer);
-		hCheckTimer = NULL;
-	}
+	KillTimer(NULL, hCheckTimer);
+	hCheckTimer = NULL;
 
-	if (hDateChangeTimer) {
-		KillTimer(NULL, hDateChangeTimer);
-		hDateChangeTimer = NULL;
-	}
+	KillTimer(NULL, hDateChangeTimer);
+	hDateChangeTimer = NULL;
 
 	return 0;
 }
