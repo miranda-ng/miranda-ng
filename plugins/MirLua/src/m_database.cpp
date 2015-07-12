@@ -291,7 +291,39 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 	lua_pushnumber(L, wParam);
 
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	
+	lua_newtable(L);
+	lua_pushstring(L, "Module");
+	lua_pushstring(L, dbcws->szModule);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Setting");
+	lua_pushstring(L, dbcws->szSetting);
+	lua_settable(L, -3);
+	lua_pushstring(L, "Value");
+	switch (dbcws->value.type)
+	{
+	case DBVT_BYTE:
+		lua_pushinteger(L, dbcws->value.bVal);
+		break;
+	case DBVT_WORD:
+		lua_pushinteger(L, dbcws->value.wVal);
+		break;
+	case DBVT_DWORD:
+		lua_pushnumber(L, dbcws->value.dVal);
+		break;
+	case DBVT_ASCIIZ:
+		lua_pushstring(L, ptrA(mir_utf8encode(dbcws->value.pszVal)));
+		break;
+	case DBVT_UTF8:
+		lua_pushstring(L, dbcws->value.pszVal);
+		break;
+	case DBVT_WCHAR:
+		lua_pushstring(L, ptrA(mir_utf8encodeW(dbcws->value.pwszVal)));
+		break;
+	default:
+		lua_pushvalue(L, 4);
+		return 1;
+	}
+	lua_settable(L, -3);
 
 	if (lua_pcall(L, 2, 1, 0))
 		printf("%s\n", lua_tostring(L, -1));
