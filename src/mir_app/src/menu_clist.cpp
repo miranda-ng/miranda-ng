@@ -955,6 +955,9 @@ void RebuildMenuOrder(void)
 static int sttRebuildHotkeys(WPARAM, LPARAM)
 {
 	for (int j = 0; j < _countof(statusModeList); j++) {
+		if (hStatusMainMenuHandles[j] == NULL)
+			continue;
+
 		TCHAR buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
