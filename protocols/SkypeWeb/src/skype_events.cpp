@@ -136,3 +136,43 @@ int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 	return 0;
 }
+
+//Timers
+
+mir_cs timerLock;
+mir_cs CSkypeProto::accountsLock;
+
+void CSkypeProto::ProcessTimer()
+{
+	if (IsOnline())
+	{
+		PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
+		SendPresence(false);
+		if (!m_hTrouterThread)
+			SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
+	}
+}
+
+static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
+	mir_cslock lck(CSkypeProto::accountsLock);
+	for (int i = 0; i < Accounts.getCount(); i++)
+	{
+		Accounts[i]->ProcessTimer();
+	}
+}
+
+void CSkypeProto::SkypeSetTimer(void*)
+{
+	mir_cslock lck(timerLock);
+	if (!CSkypeProto::m_timer)
+		CSkypeProto::m_timer = SetTimer(NULL, 0, 600000, TimerProc);
+}
+
+void CSkypeProto::SkypeUnsetTimer(void*)
+{
+	mir_cslock lck(timerLock);
+	if (CSkypeProto::m_timer)
+		KillTimer(NULL, CSkypeProto::m_timer);
+	CSkypeProto::m_timer = 0;
+}

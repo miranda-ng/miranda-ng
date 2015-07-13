@@ -59,6 +59,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb", LPGEN("Incoming call canceled sound"));
 
 	m_hTrouterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	SkypeSetTimer(this);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -73,6 +75,7 @@ CSkypeProto::~CSkypeProto()
 		Popup_UnregisterClass(m_hPopupClassCall);
 	if (m_hPopupClassNotify)
 		Popup_UnregisterClass(m_hPopupClassNotify);
+	SkypeUnsetTimer(this);
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
@@ -125,9 +128,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *skypename = lastName + mir_strlen(lastName) + 1;
 
-	char *newSkypename = (dbei.flags & DBEF_UTF) ? mir_utf8decodeA(skypename) : skypename;
-	MCONTACT hContact = AddContact(newSkypename);
-	mir_free(newSkypename);
+	MCONTACT hContact = AddContact(skypename);
 	return hContact;
 }
 
@@ -229,8 +230,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("expires");
 		}
 		requestQueue->Stop();
-
-		SkypeUnsetTimer(this);
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;

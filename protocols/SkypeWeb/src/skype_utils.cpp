@@ -660,40 +660,10 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 
 INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 {
+	mir_cslock lck(accountsLock);
 	for (int i = 0; i < Accounts.getCount(); i++)
 		if (Accounts[i]->IsOnline())
 			return Accounts[i]->ParseSkypeUriService(wParam, lParam);
 
 	return 1;
-}
-
-void CSkypeProto::ProcessTimer()
-{
-	if (IsOnline())
-	{
-		PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
-		SendPresence(false);
-		if (!m_hTrouterThread)
-			SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
-	}
-}
-
-static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
-{
-	for (int i = 0; i < Accounts.getCount(); i++)
-	{
-		Accounts[i]->ProcessTimer();
-	}
-}
-
-void CSkypeProto::SkypeSetTimer(void*)
-{
-	CSkypeProto::m_timer = SetTimer(NULL, 0, 600000, TimerProc);
-}
-
-void CSkypeProto::SkypeUnsetTimer(void*)
-{
-	if (CSkypeProto::m_timer)
-		KillTimer(NULL, CSkypeProto::m_timer);
-	CSkypeProto::m_timer = 0;
 }

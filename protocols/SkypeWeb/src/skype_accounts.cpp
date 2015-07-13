@@ -26,6 +26,7 @@ int CSkypeProto::CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2)
 
 CSkypeProto* CSkypeProto::InitAccount(const char *protoName, const wchar_t *userName)
 {
+	mir_cslock lck(accountsLock);
 	CSkypeProto *proto = new CSkypeProto(protoName, userName);
 	Accounts.insert(proto);
 	return proto;
@@ -33,6 +34,7 @@ CSkypeProto* CSkypeProto::InitAccount(const char *protoName, const wchar_t *user
 
 int CSkypeProto::UninitAccount(CSkypeProto *proto)
 {
+	mir_cslock lck(accountsLock);
 	Accounts.remove(proto);
 	delete proto;
 	return 0;
@@ -40,6 +42,7 @@ int CSkypeProto::UninitAccount(CSkypeProto *proto)
 
 CSkypeProto* CSkypeProto::GetContactAccount(MCONTACT hContact)
 {
+	mir_cslock lck(accountsLock);
 	for (int i = 0; i < Accounts.getCount(); i++)
 		if (mir_strcmpi(GetContactProto(hContact), Accounts[i]->m_szModuleName) == 0)
 			return Accounts[i];
