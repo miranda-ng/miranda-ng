@@ -95,90 +95,24 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 					CMStringA msg(FORMAT, "%s\n%s %s:\n%s", mir_utf8decodeA(dbMsgText), Translate("Edited at"), T2Utf(time), mir_utf8decodeA(message));
 					db_event_delete(hContact, dbevent);
-					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId.c_str(), mir_utf8encode(msg.GetBuffer()), emoteOffset);
+					AddDbEvent(EVENTTYPE_MESSAGE, hContact, dbEventTimestamp, flags, mir_utf8encode(&msg.GetBuffer()[emoteOffset]), clientMsgId.c_str());
 				}
-				else AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), message, emoteOffset);
+				else AddDbEvent(EVENTTYPE_MESSAGE, hContact, timestamp, flags, &message[emoteOffset], clientMsgId.c_str());
 			}
 			else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
 			{
-				//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
-				//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
-
-				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
-				int iType = 3, iDuration = 0;
-				CMStringA skypename(ContactUrlToName(from.c_str()));
-				HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
-				if (xml != NULL)
-				{
-
-					ptrA type(mir_t2a(xmlGetAttrValue(xml, _T("type"))));
-
-					if (!mir_strcmpi(type, "ended")) iType = 0;
-					else if (!mir_strcmpi(type, "started")) iType = 1;
-					HXML xmlNode = xmlGetChildByPath(xml, _T("part"), 0);
-					HXML duration = xmlNode == NULL ? NULL : xmlGetChildByPath(xmlNode, _T("duration"), 0);
-					iDuration = duration != NULL ? atoi(mir_t2a(xmlGetText(duration))) : NULL;
-
-					xmlDestroyNode(xml);
-				}
-				CMStringA text = "";
-				if (iType == 1)
-					text.Append(Translate("Call started"));
-				else if (iType == 0)
-				{
-					CMStringA chours = "", cmins = "", csec = "";
-					int hours = 0, mins = 0, sec = 0;
-					if (iDuration != NULL)
-					{
-						hours = iDuration / 3600;
-						mins = ((iDuration / 60) - (hours * 60));
-						sec = iDuration % 60;
-					}
-					else
-						hours = mins = sec = 0;
-
-					chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
-					cmins.AppendFormat(mins < 10 ? "0%d" : "%d", mins);
-					csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
-					text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
-				}
-				AddCallInfoToDb(hContact, timestamp, flags, clientMsgId.c_str(), text.GetBuffer());
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 			}
 			else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
 			{
-				//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
-				HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("files"));
-				if (xml != NULL)
-				{
-					for (int i = 0; i < xmlGetChildCount(xml); i++)
-					{
-						int fileSize; CMStringA msg = "";
-						HXML xmlNode = xmlGetNthChild(xml, L"file", i);
-						if (xmlNode == NULL)
-							break;
-						fileSize = atoi(_T2A(xmlGetAttrValue(xmlNode, L"size")));
-						ptrA fileName(mir_t2a(xmlGetText(xmlNode)));
-						if (fileName == NULL || fileSize == NULL)
-							continue;
-
-						msg.Empty();
-						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
-						AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), msg.GetBuffer());
-					}
-				}
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 			}
 			else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
 			{
 				//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
-				HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
-				if (xml != NULL)
-				{
-					CMStringA object(ParseUrl(_T2A(xmlGetAttrValue(xml, L"uri")), "/objects/"));
-					CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object.c_str());
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 
-					AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), data.GetBuffer());
-				}
-			} //Picture
+			}
 		}
 		else if (conversationLink.find("/19:") != -1)
 		{

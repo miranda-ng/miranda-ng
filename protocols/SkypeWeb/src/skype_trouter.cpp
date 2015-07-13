@@ -191,7 +191,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 			{
 				MCONTACT hContact = AddContact(uid.c_str(), true);
 
-				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId.c_str(), gp.c_str());
+				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(NULL), DBEF_READ, gp.c_str(), callId.c_str());
 				SkinPlaySound("skype_inc_call");
 
 				CLISTEVENT cle = { sizeof(cle) };

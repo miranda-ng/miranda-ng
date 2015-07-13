@@ -240,9 +240,7 @@ private:
 	mir_cs messageSyncLock;
 
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
-	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
-	MEVENT AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp);
-	MEVENT AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content);
+	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);

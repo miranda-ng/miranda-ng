@@ -52,44 +52,18 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 	return NULL;
 }
 
-MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset)
+MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid)
 {
-	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
-		return hDbEvent;
-	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
-	size_t messageIdLength = mir_strlen(messageId);
-	size_t cbBlob = messageLength + messageIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, &content[emoteOffset], messageLength);
-	memcpy(pBlob + messageLength, messageId, messageIdLength);
-
-	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, (DWORD)cbBlob, pBlob);
-}
-
-MEVENT CSkypeProto::AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content)
-{
-	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
+	if (MEVENT hDbEvent = GetMessageFromDb(hContact, uid, timestamp))
 		return hDbEvent;
 	size_t messageLength = mir_strlen(content) + 1;
-	size_t messageIdLength = mir_strlen(messageId);
+	size_t messageIdLength = mir_strlen(uid);
 	size_t cbBlob = messageLength + messageIdLength;
 	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
 	memcpy(pBlob, content, messageLength);
-	memcpy(pBlob + messageLength, messageId, messageIdLength);
+	memcpy(pBlob + messageLength, uid, messageIdLength);
 
-	return AddEventToDb(hContact, SKYPE_DB_EVENT_TYPE_CALL_INFO, timestamp, flags, (DWORD)cbBlob, pBlob);
-}
-
-MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp)
-{
-	size_t callIdLength = mir_strlen(callId);
-	size_t messageLength = mir_strlen(gp) + 1;
-	size_t cbBlob = messageLength + callIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, gp, messageLength);
-	memcpy(pBlob + messageLength, callId, callIdLength);
-
-	return AddEventToDb(hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL, timestamp, flags, (DWORD)cbBlob, pBlob);
+	return AddEventToDb(hContact, type, timestamp, flags, (DWORD)cbBlob, pBlob);
 }
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
@@ -102,16 +76,4 @@ MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, 
 	dbei.pBlob = pBlob;
 	dbei.flags = flags;
 	return db_event_add(hContact, &dbei);
-}
-
-time_t CSkypeProto::GetLastMessageTime(MCONTACT hContact)
-{
-	MEVENT hDbEvent = db_event_last(hContact);
-	if (hDbEvent != NULL)
-	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		db_event_get(hDbEvent, &dbei);
-		return dbei.timestamp;
-	}
-	return 0;
 }
