@@ -44,7 +44,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 						HXML xmlName = xmlGetChildByPath(xmlPart, _T("name"), 0);
 						if (xmlName != NULL)
 						{
-							text.AppendFormat(Translate("%s %s this call. \n"), mir_t2a(xmlGetText(xmlName)), bType ? Translate("enter") : Translate("left"));
+							text.AppendFormat(Translate("%s %s this call. \n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enter") : Translate("left"));
 							xmlDestroyNode(xmlName);
 						}
 						xmlDestroyNode(xmlPart);
@@ -68,7 +68,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 					if (xmlNode != NULL)
 					{
 						fileSize = _ttoi(ptrT((TCHAR*)xmlGetAttrValue(xmlNode, _T("size"))));
-						ptrA fileName(mir_utf8encodeT(xmlGetText(xmlNode)));
+						ptrA fileName(mir_utf8encodeT(ptrT((TCHAR*)xmlGetText(xmlNode))));
 						if (fileName != NULL)
 						{
 							CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
@@ -89,7 +89,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("URIObject"));
 			if (xml != NULL)
 			{
-				text.Append(mir_t2a(xmlGetText(xml)));
+				text.Append(_T2A(xmlGetText(xml)));
 				xmlDestroyNode(xml);
 			}
 			pszText = mir_strdup(text.GetBuffer());
