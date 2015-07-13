@@ -24,7 +24,7 @@ public:
 	PollRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", server)
 	{
-		timeout = INFINITE;
+		timeout = 60000;
 		flags |= NLHRF_PERSISTENT;
 		Headers
 			<< CHAR_VALUE("Connection", "keep-alive")
