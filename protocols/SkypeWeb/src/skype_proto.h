@@ -101,6 +101,7 @@ public:
 	void ProcessTimer();
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetCallEventText(WPARAM, LPARAM lParam);
+	static mir_cs accountsLock;
 
 private:
 	char *password;
@@ -121,6 +122,7 @@ private:
 		m_hPopupClassNotify;
 
 	// accounts
+
 	ptrA m_szServer, m_szRegToken, m_szTokenSecret, m_szEndpointId, m_szSelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);

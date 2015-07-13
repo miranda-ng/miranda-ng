@@ -128,9 +128,6 @@ void CSkypeProto::OnLoginSuccess()
 		m_szServer = mir_strdup(SKYPE_ENDPOINTS_HOST);
 	SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
 	PushRequest(new GetProfileRequest(m_szTokenSecret), &CSkypeProto::LoadProfile);
-
-	if (!m_timer)
-		SkypeSetTimer(this);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
