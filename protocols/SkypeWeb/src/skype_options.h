@@ -35,6 +35,7 @@ protected:
 
 	void OnInitDialog();
 	void OnApply();
+	void OnUsehostnameCheck(CCtrlCheck*);
 
 public:
 	static CDlgBase *CreateAccountManagerPage(void *param, HWND owner)

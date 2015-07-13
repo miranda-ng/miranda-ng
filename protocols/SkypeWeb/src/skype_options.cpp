@@ -34,6 +34,7 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 1);
 	CreateLink(m_place, "Place", _T(""));
 	CreateLink(m_usehostname, "UseHostName", DBVT_BYTE, 0);
+	m_usehostname.OnChange = Callback(this, &CSkypeOptionsMain::OnUsehostnameCheck);
 }
 
 void CSkypeOptionsMain::OnInitDialog()
@@ -42,6 +43,7 @@ void CSkypeOptionsMain::OnInitDialog()
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
+	m_place.Enable(!m_proto->getBool("UseHostName", false));
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
@@ -76,4 +78,9 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	return 0;
+}
+
+void CSkypeOptionsMain::OnUsehostnameCheck(CCtrlCheck* p)
+{
+	m_place.Enable(!m_usehostname.GetState());
 }
