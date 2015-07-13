@@ -25,9 +25,55 @@ static int lua_ShellExecute(lua_State *L)
 	return 0;
 }
 
+static int lua_GetIniValue(lua_State *L)
+{
+	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
+	ptrT section(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	ptrT key(mir_utf8decodeT(luaL_checkstring(L, 3)));
+
+	if (lua_isinteger(L, 4))
+	{
+		int default = lua_tointeger(L, 4);
+
+		UINT res = ::GetPrivateProfileInt(section, key, default, path);
+		lua_pushinteger(L, res);
+
+		return 1;
+	}
+
+	ptrT default(mir_utf8decodeT(lua_tostring(L, 4)));
+
+	TCHAR value[MAX_PATH] = { 0 };
+	if (!::GetPrivateProfileString(section, key, default, value, _countof(value), path))
+	{
+		lua_pushvalue(L, 4);
+	}
+
+	ptrA res(mir_utf8encodeT(value));
+	lua_pushstring(L, res);
+
+	return 1;
+}
+
+static int lua_SetIniValue(lua_State *L)
+{
+	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
+	ptrT section(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	ptrT key(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrT value(mir_utf8decodeT(lua_tostring(L, 4)));
+
+	bool res = ::WritePrivateProfileString(section, key, value, path) != 0;
+	lua_pushboolean(L, res);
+
+	return 1;
+}
+
 static luaL_Reg winApi[] =
 {
 	{ "MessageBox", lua_MessageBox },
+
+	{ "GetIniValue", lua_GetIniValue },
+	{ "SetIniValue", lua_SetIniValue },
 
 	{ "ShellExecute", lua_ShellExecute },
 
