@@ -67,14 +67,18 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 					HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
 					if (xmlNode != NULL)
 					{
-						fileSize = _ttoi(xmlGetAttrValue(xmlNode, _T("size")));
+						fileSize = _ttoi(ptrT((TCHAR*)xmlGetAttrValue(xmlNode, _T("size"))));
 						ptrA fileName(mir_utf8encodeT(xmlGetText(xmlNode)));
-						if (fileName == NULL || fileSize == NULL)
-							continue;
-						CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
-						text.AppendFormat("%s\n", msg);
+						if (fileName != NULL)
+						{
+							CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
+							text.AppendFormat("%s\n", msg);
+						}
+
+						xmlDestroyNode(xmlNode);
 					}
 				}
+				xmlDestroyNode(xml);
 			}
 			pszText = mir_strdup(text.GetBuffer());
 			break;
@@ -86,6 +90,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 			if (xml != NULL)
 			{
 				text.Append(mir_t2a(xmlGetText(xml)));
+				xmlDestroyNode(xml);
 			}
 			pszText = mir_strdup(text.GetBuffer());
 			break;
@@ -108,7 +113,6 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 		TCHAR *pwszText = _A2T(pszText);
 		nRetVal = (INT_PTR)mir_tstrdup(pwszText);
 	}
-
 	else if (pEvent->datatype == DBVT_ASCIIZ)
 		nRetVal = (INT_PTR)mir_strdup(pszText);
 
