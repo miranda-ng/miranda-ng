@@ -42,7 +42,7 @@ public:
 class SendActionRequest : public HttpRequest
 {
 public:
-	SendActionRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
+	SendActionRequest(const char *regToken, const char *username, const char *selfusername, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
@@ -51,14 +51,14 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		CMStringA content;
-		content.AppendFormat("%s %s", username, message);
+		content.AppendFormat("%s %s", selfusername, message);
 
 		JSONNode node(JSON_NODE);
 		node.push_back(JSONNode("clientmessageid", (long)timestamp));
 		node.push_back(JSONNode("messagetype", "RichText"));
 		node.push_back(JSONNode("contenttype", "text"));
 		node.push_back(JSONNode("content", content));
-		node.push_back(JSONNode("skypeemoteoffset", (int)(mir_strlen(username) + 1)));
+		node.push_back(JSONNode("skypeemoteoffset", (int)(mir_strlen(selfusername) + 1)));
 
 		Body << VALUE(node.write().c_str());
 	}

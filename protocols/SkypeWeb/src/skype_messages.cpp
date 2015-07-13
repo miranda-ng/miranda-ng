@@ -76,7 +76,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	delete[] buff;*/
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(m_szRegToken, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendActionRequest(m_szRegToken, username, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
 	else
 		SendRequest(new SendMessageRequest(m_szRegToken, username, param->hMessage, szMessage, m_szServer), &CSkypeProto::OnMessageSent, param);
 
