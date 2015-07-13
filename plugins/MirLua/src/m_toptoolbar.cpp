@@ -90,10 +90,32 @@ static int lua_RemoveButton(lua_State *L)
 	return 1;
 }
 
+static int lua_OnTopToolBarLoaded(lua_State *L)
+{
+	if (!lua_isfunction(L, 1))
+	{
+		lua_pushlightuserdata(L, NULL);
+		return 1;
+	}
+
+	lua_pushvalue(L, 1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	HANDLE res = ::HookEventObjParam(ME_TTB_MODULELOADED, CMLua::HookEventObjParam, L, ref);
+	lua_pushlightuserdata(L, res);
+
+	CMLua::Hooks.insert(res);
+	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
+
+	return 1;
+}
+
 static luaL_Reg toptoolbarApi[] =
 {
 	{ "AddButton", lua_AddButton },
 	{ "RemoveButton", lua_RemoveButton },
+
+	{ "OnTopToolBarLoaded", lua_OnTopToolBarLoaded },
 
 	{ NULL, NULL }
 };
