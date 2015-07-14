@@ -56,17 +56,14 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 	const JSONNode &items = root.as_array();
 	for (size_t i = 0; i < items.size(); i++)
 	{
-		const JSONNode &item = items.at(i);
+		const JSONNode &item = items[i];
 		const JSONNode &ContactCards = item["ContactCards"];
 		const JSONNode &Skype = ContactCards["Skype"];
 
-		CMStringA displayName(Skype["DisplayName"].as_string().c_str());
-		CMStringA nick(Skype["SkypeName"].as_string().c_str());
-
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
-		psr.id.a = nick.GetBuffer();
-		psr.nick.a = displayName.GetBuffer();
+		psr.id.a = mir_strdup(Skype["SkypeName"].as_string().c_str());
+		psr.nick.a = mir_strdup(Skype["DisplayName"].as_string().c_str());
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 	
