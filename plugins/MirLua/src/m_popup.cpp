@@ -6,12 +6,12 @@ static POPUPDATAT* MakePopupData(lua_State *L)
 
 	lua_pushstring(L, "ContactName");
 	lua_gettable(L, -2);
-	mir_tstrcpy(ppd->lptzContactName, mir_utf8decodeT(lua_tostring(L, -1)));
+	mir_tstrcpy(ppd->lptzContactName, ptrT(mir_utf8decodeT(lua_tostring(L, -1))));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "Text");
 	lua_gettable(L, -2);
-	mir_tstrcpy(ppd->lptzText, mir_utf8decodeT(luaL_checkstring(L, -1)));
+	mir_tstrcpy(ppd->lptzText, ptrT(mir_utf8decodeT(luaL_checkstring(L, -1))));
 	lua_pop(L, 1);
 
 	lua_pushstring(L, "hContact");
