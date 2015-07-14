@@ -75,6 +75,11 @@ void CMLua::Reload()
 	Load();
 }
 
+void CMLua::Reload(const TCHAR* path)
+{
+	CLuaScriptLoader::Reload(g_mLua->L, path);
+}
+
 void CMLua::KillModuleEventHooks()
 {
 	while (Hooks.getCount())

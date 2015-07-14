@@ -64,6 +64,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // remains consistent on all systems.
 IDI_ICON                ICON                    "icon.ico"
 IDI_OPEN                ICON                    "open.ico"
+IDI_RELOAD              ICON                    "reload.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

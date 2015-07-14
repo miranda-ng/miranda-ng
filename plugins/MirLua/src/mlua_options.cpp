@@ -65,6 +65,7 @@ void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
 				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
 					m_scripts.SetCheckState(iItem, TRUE);
 				m_scripts.SetItem(iItem, 1, _T(""), 0);
+				m_scripts.SetItem(iItem, 2, _T(""), 1);
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
@@ -93,12 +94,13 @@ void CLuaOptions::OnInitDialog()
 
 	m_scripts.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 	m_scripts.EnableGroupView(TRUE);
-	m_scripts.AddColumn(0, _T("Script"), 440);
+	m_scripts.AddColumn(0, _T("Script"), 420);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
-	HICON icon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPEN));
-	ImageList_AddIcon(hImageList, icon);
+	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPEN)));
+	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_RELOAD)));
 
 	LoadScripts();
 
@@ -160,6 +162,16 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		else
 			FoldersGetCustomPathT(g_hCustomFolderPath, path, _countof(path), VARST(CUSTOM_SCRIPTS_PATHT));
 		ShellExecute(m_hwnd, NULL, lvi.pszText, NULL, path, SW_SHOWNORMAL);
+	}
+	else if (lvi.iSubItem == 2)
+	{
+		TCHAR path[MAX_PATH];
+		if (lvi.iGroupId == 0)
+			FoldersGetCustomPathT(g_hCommonFolderPath, path, _countof(path), VARST(COMMON_SCRIPTS_PATHT));
+		else
+			FoldersGetCustomPathT(g_hCustomFolderPath, path, _countof(path), VARST(CUSTOM_SCRIPTS_PATHT));
+		mir_sntprintf(path, _T("%s\\%s"), path, lvi.pszText);
+		g_mLua->Reload(path);
 	}
 	mir_free(lvi.pszText);
 }
