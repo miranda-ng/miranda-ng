@@ -636,7 +636,6 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 			psr.id.t = mir_tstrdup(szJid);
 			psr.nick.t = mir_tstrdup(szJid);
 			psr.flags = PSR_TCHAR;
-
 			ADDCONTACTSTRUCT acs;
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = m_szModuleName;

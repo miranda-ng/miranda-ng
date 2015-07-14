@@ -71,7 +71,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 						ptrA fileName(mir_utf8encodeT(ptrT((TCHAR*)xmlGetText(xmlNode))));
 						if (fileName != NULL)
 						{
-							CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
+							CMStringA msg(FORMAT, Translate("File transfer:\n\tFile name: %s\n\tSize: %d bytes"), fileName, fileSize);
 							text.AppendFormat("%s\n", msg);
 						}
 
@@ -128,20 +128,20 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 	{
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-	{
-		icon = IcoLib_GetIconByHandle(GetIconHandle("inc_call"));
-		break;
-	}
+		{
+			icon = IcoLib_GetIconByHandle(GetIconHandle("inc_call"));
+			break;
+		}
 	case SKYPE_DB_EVENT_TYPE_ACTION:
-	{
-		icon = IcoLib_GetIconByHandle(GetIconHandle("me_action"));
-		break;
-	}
+		{
+			icon = IcoLib_GetIconByHandle(GetIconHandle("me_action"));
+			break;
+		}
 	default:
-	{
-		icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		break;
-	}
+		{
+			icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+			break;
+		}
 	}
 
 	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
