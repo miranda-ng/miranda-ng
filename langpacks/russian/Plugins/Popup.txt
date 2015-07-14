@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.10
+;  Version: 2.1.1.11
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -269,6 +269,12 @@ History++ для истории окон
 С наложением "Избранный"
 [With "fullscreen" overlay]
 С наложением "Полный экран"
+[Information]
+Информация
+[Warning]
+Предупреждение
+[Error]
+Ошибка
 [Refresh skin list]
 Обновить список
 [Popup placement]
@@ -383,10 +389,6 @@ History++ для истории окон
 Не удалось выполнить GetClassInfoExW из класса EDIT.
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 Не удалось зарегистрировать класс custom edit box window.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n
-[Error]
-Ошибка
-[Warning]
-Предупреждение
 [Notify]
 Уведомление
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -303,6 +303,8 @@ Cоздать комнату чата
 вернулся
 [change chat title to]
 установил(а) тему
+[changed chat cover:]
+изменил обложку чата:
 [chat action not supported]
 действие не поддерживается
 [Unknown]
