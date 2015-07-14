@@ -137,16 +137,12 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			type = LINK_URL;
 		}
 
-		if (isLink && wordlen <= (LINK_MAX - _mstrlen(_T("http://")))) {
-			if (_tcsstr(wordsearch, _T("www.")) != NULL && _tcsstr(wordsearch, _T("http://")) == NULL) {
-				_tcsncpy_s(link, _T("http://"), _mstrlen(_T("http://")));
-				// Link longer than defined max -> cut link to max
-				if (wordlen > (LINK_MAX - _mstrlen(_T("http://"))))
-					_tcsncpy_s((link + _mstrlen(_T("http://"))), (_countof(link) - _mstrlen(_T("http://"))), word, LINK_MAX - _mstrlen(_T("http://")));
-				else
-					_tcsncpy_s((link + _mstrlen(_T("http://"))), (_countof(link) - _mstrlen(_T("http://"))), word, wordlen);
+		if (isLink && wordlen <= LINK_MAX) {
+			if (_tcsstr(wordsearch, _T("www.")) != NULL && _tcsstr(wordsearch, _T("http://")) == NULL && _tcsstr(wordsearch, _T("https://")) == NULL) {
+				_tcsncpy_s(link, _T("http://"), LINK_MAX);
+				_tcsncat_s(link, word, LINK_MAX);
 			} else {
-				_tcsncpy_s(link, word, ((wordlen > LINK_MAX) ? LINK_MAX : wordlen));
+				_tcsncpy_s(link, word, LINK_MAX);
 			}
 
 			TimeZone_ToStringT(dbei->timestamp, _T("d-t"), dbdate, _countof(dbdate));
