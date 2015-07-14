@@ -63,6 +63,30 @@ void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
 	}
 }
 
+void CLuaScriptLoader::UnloadScript(const TCHAR *path)
+{
+	const TCHAR* p = _tcsrchr(path, '\\') + 1;
+	size_t length = mir_tstrlen(p) - 3;
+
+	ptrT name((TCHAR*)mir_alloc(sizeof(TCHAR) * length));
+	mir_tstrncpy(name, p, length);
+
+	T2Utf moduleName(name);
+
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
+	lua_pushnil(L);
+	lua_setfield(L, -2, moduleName);
+	lua_pop(L, 1);
+	lua_pushnil(L);
+	lua_setglobal(L, moduleName);
+}
+
+void CLuaScriptLoader::ReloadScript(const TCHAR *path)
+{
+	UnloadScript(path);
+	LoadScript(path);
+}
+
 void CLuaScriptLoader::Load(lua_State *L)
 {
 	TCHAR scriptDir[MAX_PATH];
@@ -73,4 +97,10 @@ void CLuaScriptLoader::Load(lua_State *L)
 
 	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
 	loader.LoadScripts(scriptDir);
+}
+
+void CLuaScriptLoader::Reload(lua_State *L, const TCHAR *path)
+{
+	CLuaScriptLoader loader(L);
+	loader.ReloadScript(path);
 }

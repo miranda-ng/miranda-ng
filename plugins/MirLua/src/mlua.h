@@ -34,6 +34,7 @@ public:
 	~CMLua();
 
 	void Reload();
+	void Reload(const TCHAR* path);
 
 	static int OnScriptLoaded(lua_State *L);
 	static int OnScriptUnload(lua_State *L);
