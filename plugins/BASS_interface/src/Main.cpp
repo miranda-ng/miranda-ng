@@ -459,7 +459,7 @@ void CreateFrame()
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
-	Frame.tname = _T("Bass Interface");
+	Frame.tname = TranslateT("Bass Interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;

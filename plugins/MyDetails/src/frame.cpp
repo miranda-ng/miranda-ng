@@ -277,7 +277,7 @@ int CreateFrame()
 		CLISTFrame Frame = { 0 };
 
 		Frame.cbSize = sizeof(Frame);
-		Frame.tname = _T("My details");
+		Frame.tname = TranslateT("My details");
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
