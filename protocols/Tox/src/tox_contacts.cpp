@@ -367,9 +367,6 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		{
 			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 			proto->setDword(hContact, "LastEventDateTS", time(NULL));
-
-			// pause outgoing transfers
-			proto->PauseOutgoingTransfers(friendNumber);
 		}
 	}
 }
