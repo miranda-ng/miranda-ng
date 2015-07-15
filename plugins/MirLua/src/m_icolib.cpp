@@ -2,17 +2,18 @@
 
 static int lua_AddIcon(lua_State *L)
 {
+	const char* name = luaL_checkstring(L, 1);
+	const char* description = luaL_checkstring(L, 2);
+	const char* section = luaL_optstring(L, 3, MODULE);
+
 	TCHAR filePath[MAX_PATH];
 	GetModuleFileName(g_hInstance, filePath, _countof(filePath));
 
-	char iconName[MAX_PATH];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
-
 	SKINICONDESC si = { 0 };
-	si.flags = SIDF_PATH_TCHAR;
-	si.pszName = iconName;
-	si.description.a = mir_utf8decode((char*)luaL_checkstring(L, 2), NULL);
-	si.section.a = lua_isnone(L, 3) ? MODULE : mir_utf8decode((char*)luaL_checkstring(L, 3), NULL);
+	si.flags = SIDF_ALL_TCHAR;
+	si.pszName = ptrA(mir_utf8decodeA(name));
+	si.description.t = ptrT(mir_utf8decodeT(description));
+	si.section.t = ptrT(mir_utf8decodeT(section));
 	si.defaultFile.t = filePath;
 	si.iDefaultIndex = -IDI_ICON;
 
@@ -24,10 +25,9 @@ static int lua_AddIcon(lua_State *L)
 
 static int lua_GetIcon(lua_State *L)
 {
-	char iconName[MAX_PATH];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, luaL_checkstring(L, 1));
+	const char* name = luaL_checkstring(L, 1);
 
-	HANDLE res = ::IcoLib_GetIconHandle(iconName);
+	HANDLE res = ::IcoLib_GetIconHandle(name);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -40,11 +40,7 @@ static int lua_RemoveIcon(lua_State *L)
 	if (lua_isuserdata(L, 1))
 		::IcoLib_RemoveIconByHandle(lua_touserdata(L, 1));
 	else if (lua_isstring(L, 1))
-	{
-		char iconName[MAX_PATH];
-		mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, lua_tostring(L, 1));
-		::IcoLib_RemoveIcon(iconName);
-	}
+		::IcoLib_RemoveIcon(luaL_checkstring(L, 1));
 	else
 		res = 1;
 
