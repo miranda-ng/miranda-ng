@@ -205,30 +205,18 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	else if (!mir_strcmpi(messageType.c_str(), "Event/SkypeVideoMessage")) {}
 	else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
 	{
-		//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
-		//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
-		//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 	}
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
-	{
-		
-		//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
-		
+	{		
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 	}
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
 	{
-		//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
 	}
 	else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
-
-	//if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
-	//{
-	//	PushRequest(new MarkMessageReadRequest(skypename, m_szRegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, m_szServer));
-	//}
 }
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
