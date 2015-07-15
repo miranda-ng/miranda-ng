@@ -128,12 +128,13 @@ void InitTrayMenus(void)
 
 	mi.position = 300000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
-	mi.pszService = NULL;
+	mi.pszService = "MainMenu/Command";
 	mi.name.a = LPGEN("&Main menu");
 	hTrayMainMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
 	mi.position = 300100;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_STATUS); // eternity #004
+	mi.pszService = "GlobalStatus/Command";
 	mi.name.a = LPGEN("&Status");
 	hTrayStatusMenuItemProxy = Menu_AddTrayMenuItem(&mi);
 
