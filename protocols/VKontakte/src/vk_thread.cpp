@@ -337,23 +337,29 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	tszValue = jnItem["status"].as_mstring();
 	CMString tszOldStatus(ptrT(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
-	if (tszValue != tszOldStatus) {
+	if (tszValue != tszOldStatus)
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue);
-		db_unset(hContact, m_szModuleName, "AudioUrl");
-		const JSONNode &jnAudio = jnItem["status_audio"];
-		if (!jnAudio.isnull()) {
-			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue);
-			tszValue = jnAudio["url"].as_mstring();
-			db_set_ts(hContact, m_szModuleName, "AudioUrl", tszValue);
+
+	CMString tszOldListeningTo(ptrT(db_get_tsa(hContact, m_szModuleName, "ListeningTo")));
+	const JSONNode &jnAudio = jnItem["status_audio"];
+	if (!jnAudio.isnull()) {
+		CMString tszListeningTo(FORMAT, _T("%s - %s"), jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());	
+		if (tszListeningTo != tszOldListeningTo) {
+			setTString(hContact, "ListeningTo", tszListeningTo);
+			setTString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
 		}
-		else if (tszValue[0] == TCHAR(9835) && tszValue.GetLength() > 2)
-			db_set_ts(hContact, m_szModuleName, "ListeningTo", &(tszValue.GetBuffer())[2]);
-		else
-			db_unset(hContact, m_szModuleName, "ListeningTo");
+	}
+	else if (tszValue[0] == TCHAR(9835) && tszValue.GetLength() > 2) {
+		setTString(hContact, "ListeningTo", &(tszValue.GetBuffer())[2]);
+		db_unset(hContact, m_szModuleName, "AudioUrl");
+	}
+	else {
+		db_unset(hContact, m_szModuleName, "ListeningTo");
+		db_unset(hContact, m_szModuleName, "AudioUrl");
 	}
 
-	tszValue = jnItem["about"].as_mstring();
 
+	tszValue = jnItem["about"].as_mstring();
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "About", tszValue);
 
