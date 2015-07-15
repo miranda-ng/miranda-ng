@@ -134,8 +134,6 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *skypename = lastName + mir_strlen(lastName) + 1;
 
-	debugLogA(__FUNCTION__  " %s", mir_utf8decodeA(skypename));
-
 	MCONTACT hContact = AddContact(skypename);
 	return hContact;
 }
