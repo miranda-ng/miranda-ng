@@ -235,3 +235,4 @@ Menu_BuildGroupMenu @233
 Menu_AddTrayMenuItem @234
 Menu_BuildTrayMenu @235
 Menu_DestroyNestedMenu @236
+KillModuleIcons @237

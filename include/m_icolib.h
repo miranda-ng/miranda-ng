@@ -126,6 +126,10 @@ MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
 
 #define ME_SKIN2_ICONSCHANGED "Skin2/IconsChanged"
 
+///////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void)   KillModuleIcons(int hLangpack);
+
 #if defined(__cplusplus)
 }
 #endif

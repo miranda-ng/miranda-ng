@@ -102,10 +102,6 @@ __forceinline char* Utf8DecodeA(const char* src)
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
 
-/**** skin2icons.cpp *******************************************************************/
-
-void   KillModuleIcons(int hLangpack);
-
 /**** skinicons.cpp ********************************************************************/
 
 extern int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
