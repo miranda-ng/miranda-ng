@@ -62,26 +62,24 @@ HICON LoadSkinnedDBEIcon(int icon)
 	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }
 
-static PROTOACCOUNT **protocols = NULL;
-static int protoCount = 0;
-
 HIMAGELIST LoadIcons()
 {
 	HICON hIcon;
 	HIMAGELIST hil = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, _countof(dbeIcons), 5);
-
-	if (!hil) return NULL;
+	if (!hil)
+		return NULL;
 
 	for(int i = 0; i < _countof(dbeIcons); i++)
 		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
 
+	int protoCount = 0;
+	PROTOACCOUNT **protocols = NULL;
 	Proto_EnumAccounts(&protoCount, &protocols);
 
 	for (int i = 0; i < protoCount; i++) {
-		if (!Proto_IsProtocolLoaded(protocols[i]->szModuleName))
+		if (!Proto_GetAccount(protocols[i]->szModuleName))
 			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_OFFLINE));
-		else
-		if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
+		else if (hIcon = Skin_LoadProtoIcon(protocols[i]->szModuleName, ID_STATUS_ONLINE))
 			ImageList_AddIcon(hil, hIcon);
 		else
 			ImageList_AddIcon(hil, LoadSkinnedDBEIcon(ICO_ONLINE));
@@ -90,18 +88,19 @@ HIMAGELIST LoadIcons()
 	return hil;
 }
 
-
 int GetProtoIconIndex(const char *szProto)
 {
 	if (szProto && szProto[0]) {
-		if (protoCount && protocols) {
-			for (int i = 0; i < protoCount; i++) {
-				if (!mir_strcmp(protocols[i]->szModuleName, szProto))
-					return i + _countof(dbeIcons);
-			}
-			if (Proto_IsProtocolLoaded(szProto))
-				return _countof(dbeIcons) - 2; // ICO_ONLINE;
-		}
+		int protoCount = 0;
+		PROTOACCOUNT **protocols = NULL;
+		Proto_EnumAccounts(&protoCount, &protocols);
+
+		for (int i = 0; i < protoCount; i++)
+			if (!mir_strcmp(protocols[i]->szModuleName, szProto))
+				return i + _countof(dbeIcons);
+
+		if (Proto_GetAccount(szProto))
+			return _countof(dbeIcons) - 2; // ICO_ONLINE;
 	}
 	return _countof(dbeIcons) - 1; // ICO_OFFLINE;
 }

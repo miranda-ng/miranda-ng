@@ -122,7 +122,7 @@ char* NickFromHContact(MCONTACT hContact)
 		szProto[0] = 0;
 
 		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
-			loaded = Proto_IsProtocolLoaded(szProto) ? 1 : 0;
+			loaded = Proto_GetAccount(szProto) ? 1 : 0;
 
 		if (!szProto[0] || db_get_static(hContact, szProto, "Nick", name, _countof(name))) 
 			mir_strncpy(name, "(UNKNOWN)", _countof(name));
