@@ -1,0 +1,5 @@
+﻿[%s %s this call. \n]
+[enter]
+[Incoming call.]
+[File transfer information.]
+[Uri object.]

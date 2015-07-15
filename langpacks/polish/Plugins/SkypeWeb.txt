@@ -76,12 +76,32 @@ Wprowadź nowy temat pokoju
 [Are you sure?]
 Jesteś pewien?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Incoming call]
-Połączenie przychodzące
+[%s %s this call. \n]
+%s %s ta rozmowa. \n
+[enter]
+wprowadź
+[left]
+Lewa
+[File transfer]
+Transfer pliku
+[File name]
+Nazwa Pliku
+[Size]
+Rozmiar
+[bytes]
+bajty
+[Incoming call.]
+Rozmowa przychodząca.
 [Action]
 Akcja
 [Call information.]
 Informacje o rozmowie.
+[File transfer information.]
+Informacje o transferze pliku.
+[Uri object.]
+Obiekt URI
+[Incoming call]
+Połączenie przychodzące
 [Calls]
 Rozmowy
 [Notifications]
@@ -91,22 +111,6 @@ Błędy
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 edytowana
-[Call started]
-Rozmowa rozpoczęta
-[Call ended]
-Rozmowa zakończona
-[Duration]
-Czas trwania
-[File transfer]
-Transfer pliku
-[File name]
-Nazwa Pliku
-[Size]
-Rozmiar
-[bytes]
-bajty
-[Image]
-Obraz
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
