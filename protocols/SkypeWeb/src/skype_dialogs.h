@@ -74,5 +74,27 @@ public:
 	CSkypeInviteDlg(CSkypeProto *proto);
 };
 
+class CSkypeGCCreateDlg : public CSkypeDlgBase
+{
+private:
+	typedef CSkypeDlgBase CSuper;
+	CCtrlButton m_ok;
+	CCtrlButton m_cancel;
+	CCtrlClc    m_clc;
+
+protected:
+
+	void OnInitDialog();
+	void btnOk_OnOk(CCtrlButton*);
+	void FilterList(CCtrlClc*);
+	void ResetListOptions(CCtrlClc*);
+
+
+public:
+
+	std::vector<MCONTACT> m_hContacts;
+	CSkypeGCCreateDlg(CSkypeProto *proto);
+};
+
 
 #endif //_SKYPE_DIALOGS_H_

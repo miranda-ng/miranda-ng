@@ -285,10 +285,6 @@ private:
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
 
-	static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	static void ResetOptions(HWND hwndDlg);
-	static void FilterContacts(HWND hwndDlg, CSkypeProto *ppro);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	//polling
