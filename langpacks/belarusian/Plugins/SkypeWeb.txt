@@ -56,15 +56,8 @@
 [Are you sure?]
 Вы ўпэўнены?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Action]
-Дзеянне
-[Notifications]
-Абвесткі
-[Errors]
-Памылкі
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Duration]
-Працягласць
+[left]
+злева
 [File transfer]
 Перадача файла
 [File name]
@@ -73,6 +66,13 @@
 Памер
 [bytes]
 байт
+[Action]
+Дзеянне
+[Notifications]
+Абвесткі
+[Errors]
+Памылкі
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Абразок пратаколу

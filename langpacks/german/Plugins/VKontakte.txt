@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.8
+;  Version: 0.1.1.9
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -309,6 +309,8 @@ Benutzer eingeladen
 ist ins Chat zurückgekehrt
 [change chat title to]
 Chatthema geändert zu
+[changed chat cover:]
+
 [chat action not supported]
 Chataktion nicht unterstützt
 [Unknown]

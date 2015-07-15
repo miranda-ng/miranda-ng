@@ -81,11 +81,11 @@ Jesteś pewien?
 [enter]
 wprowadź
 [left]
-Lewa
+lewa
 [File transfer]
 Transfer pliku
 [File name]
-Nazwa Pliku
+Nazwa pliku
 [Size]
 Rozmiar
 [bytes]

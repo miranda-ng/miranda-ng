@@ -115,6 +115,7 @@
 [Popups are disabled]
 [With "favorite" overlay]
 [With "fullscreen" overlay]
+[Information]
 [Refresh skin list]
 [Popup placement]
 [Popup group]

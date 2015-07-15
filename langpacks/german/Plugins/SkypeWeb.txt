@@ -76,12 +76,32 @@ Neues Thema für diesen Chatraum eingeben
 [Are you sure?]
 Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Incoming call]
-Eingehender Anruf
+[%s %s this call. \n]
+
+[enter]
+
+[left]
+
+[File transfer]
+Dateiübertragung
+[File name]
+Dateiname
+[Size]
+Größe
+[bytes]
+
+[Incoming call.]
+Eingehender Anruf.
 [Action]
 Aktion
 [Call information.]
 Anrufinformation.
+[File transfer information.]
+
+[Uri object.]
+
+[Incoming call]
+Eingehender Anruf
 [Calls]
 Aufrufe
 [Notifications]
@@ -91,22 +111,6 @@ Fehler
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
-[Call started]
-Anruf begonnen
-[Call ended]
-Anruf beendet
-[Duration]
-Dauer
-[File transfer]
-Dateiübertragung
-[File name]
-Dateiname
-[Size]
-Größe
-[bytes]
-Bytes
-[Image]
-Bild
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
