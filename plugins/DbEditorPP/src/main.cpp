@@ -512,7 +512,7 @@ int ApplyProtoFilter(MCONTACT hContact)
 	char szProto[FLD_SIZE];
 
 	if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
-		loaded = Proto_IsProtocolLoaded(szProto) ? 1 : 0;
+		loaded = Proto_GetAccount(szProto) ? 1 : 0;
 
 	if ((loaded && g_Mode == MODE_UNLOADED) || (!loaded && g_Mode == MODE_LOADED))
 		return 1;
