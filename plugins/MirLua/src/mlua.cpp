@@ -59,7 +59,8 @@ void CMLua::Unload()
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Unloading lua engine");
 
 	NotifyEventHooks(hUnloadEvent);
-
+	
+	::KillModuleIcons(hScriptsLangpack);
 	::KillModuleMenus(hScriptsLangpack);
 	CMLua::KillModuleServices();
 	CMLua::KillModuleEventHooks();
