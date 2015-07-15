@@ -921,7 +921,6 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_PREVIEW:
 			if (((LPNMHDR)lParam)->code == LVN_GETINFOTIP) {
-				IcolibItem *item;
 				NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
 				LVITEM lvi;
 				lvi.mask = LVIF_PARAM;
@@ -929,11 +928,11 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ListView_GetItem(pInfoTip->hdr.hwndFrom, &lvi);
 
 				if (lvi.lParam < iconList.getCount()) {
-					item = iconList[lvi.lParam];
+					IcolibItem *item = iconList[lvi.lParam];
 					if (item->temp_file)
 						_tcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
 					else if (item->default_file)
-						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file, item->default_indx);
+						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file->file, item->default_indx);
 				}
 			}
 			if (bNeedRebuild) {
