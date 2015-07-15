@@ -3,17 +3,17 @@
 static int lua_AddIcon(lua_State *L)
 {
 	const char* name = luaL_checkstring(L, 1);
-	const char* description = luaL_checkstring(L, 2);
-	const char* section = luaL_optstring(L, 3, MODULE);
+	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
 
 	TCHAR filePath[MAX_PATH];
 	GetModuleFileName(g_hInstance, filePath, _countof(filePath));
 
 	SKINICONDESC si = { 0 };
 	si.flags = SIDF_ALL_TCHAR;
-	si.pszName = ptrA(mir_utf8decodeA(name));
-	si.description.t = ptrT(mir_utf8decodeT(description));
-	si.section.t = ptrT(mir_utf8decodeT(section));
+	si.pszName = mir_utf8decodeA(name);
+	si.description.t = description;
+	si.section.t = section;
 	si.defaultFile.t = filePath;
 	si.iDefaultIndex = -IDI_ICON;
 
