@@ -44,7 +44,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 						HXML xmlName = xmlGetChildByPath(xmlPart, _T("name"), 0);
 						if (xmlName != NULL)
 						{
-							text.AppendFormat(Translate("%s %s this call. \n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enter") : Translate("left"));
+							text.AppendFormat(Translate("%s %s this call.\n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enters") : Translate("leaves"));
 							xmlDestroyNode(xmlName);
 						}
 						xmlDestroyNode(xmlPart);
