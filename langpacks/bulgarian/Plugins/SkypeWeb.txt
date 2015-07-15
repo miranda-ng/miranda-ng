@@ -39,18 +39,8 @@
 Потребител
 [Are you sure?]
 Сигурни ли сте?
-[Incoming call]
-Входящо обаждане
-[Action]
-Действие
-[Notifications]
-Уведомявания
-[Errors]
-Грешки
-[Call started]
-Начало на разговора
-[Call ended]
-Край на разговора
+[left]
+ляво
 [File transfer]
 Прехвърляне на файл
 [File name]
@@ -59,6 +49,16 @@
 Размер
 [bytes]
 байта
+[Incoming call.]
+Входящо обаждане.
+[Action]
+Действие
+[Incoming call]
+Входящо обаждане
+[Notifications]
+Уведомявания
+[Errors]
+Грешки
 [Protocol icon]
 Икона на протокола
 [Protocols]

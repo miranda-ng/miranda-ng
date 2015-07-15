@@ -76,26 +76,11 @@ Upozorenje
 [Are you sure?]
 
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[Incoming call]
+[%s %s this call. \n]
 
-[Action]
+[enter]
 
-[Call information.]
-
-[Calls]
-
-[Notifications]
-
-[Errors]
-
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Edited at]
-
-[Call started]
-
-[Call ended]
-
-[Duration]
+[left]
 
 [File transfer]
 
@@ -105,7 +90,26 @@ Upozorenje
 
 [bytes]
 
-[Image]
+[Incoming call.]
+
+[Action]
+
+[Call information.]
+
+[File transfer information.]
+
+[Uri object.]
+
+[Incoming call]
+
+[Calls]
+
+[Notifications]
+
+[Errors]
+
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Edited at]
 
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]

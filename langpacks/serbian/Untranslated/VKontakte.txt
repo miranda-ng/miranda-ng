@@ -139,6 +139,7 @@
 [invite user]
 [returned to chat]
 [change chat title to]
+[changed chat cover:]
 [chat action not supported]
 [Enter new chat title]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.10
+;  Version: 2.1.1.11
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Miscellaneous]
@@ -59,6 +59,12 @@ Texto
 Fondo
 [Border]
 Borde
+[Information]
+Información
+[Warning]
+Advertencia
+[Error]
+Error
 [Cancel]
 Cancelar
 [Actions]
@@ -93,9 +99,5 @@ Ancho
 Vista previa de la piel
 [Use Windows colors]
 Usar colores de Windows
-[Error]
-Error
-[Warning]
-Advertencia
 [Notify]
 Notificar
