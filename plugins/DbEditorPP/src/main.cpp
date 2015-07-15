@@ -5,8 +5,8 @@ HINSTANCE hInst = NULL;
 MIDatabase *g_db;
 
 HANDLE hTTBButt = NULL;
-BOOL bServiceMode = FALSE;
-BOOL usePopups;
+bool g_bServiceMode = false;
+bool g_bUsePopups;
 
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
@@ -63,11 +63,11 @@ int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		settingChanged(hContact, cws->szModule, cws->szSetting, &(cws->value));
 
 	// watch list
-	if (!hwnd2watchedVarsWindow && !usePopups)
+	if (!hwnd2watchedVarsWindow && !g_bUsePopups)
 		return 0;
 
 	if (WatchedArrayIndex(hContact, cws->szModule, cws->szSetting, 0) >= 0) {
-		if (usePopups) popupWatchedVar(hContact, cws->szModule, cws->szSetting);
+		if (g_bUsePopups) popupWatchedVar(hContact, cws->szModule, cws->szSetting);
 		PopulateWatchedWindow();
 	}
 
@@ -138,7 +138,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
-	usePopups = db_get_b(NULL, modname, "UsePopUps", 0);
+	g_bUsePopups = db_get_b(NULL, modname, "UsePopUps", 0) != 0;
 
 	// Load the name order
 	for (int i = 0; i < NAMEORDERCOUNT; i++)
@@ -152,7 +152,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-	if (bServiceMode)
+	if (g_bServiceMode)
 		CallService("DBEditorpp/MenuCommand", 0, 0);
 	return 0;
 }
@@ -167,7 +167,7 @@ int PreShutdown(WPARAM, LPARAM)
 INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	IcoLibRegister();
-	bServiceMode = TRUE;
+	g_bServiceMode = true;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
 

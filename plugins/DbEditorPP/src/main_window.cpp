@@ -60,12 +60,12 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-	{
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-		SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
-	}
-	return TRUE;
+		{
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
+		}
+		return TRUE;
 
 	case WM_LBUTTONDOWN:
 		SetCapture(hwnd);
@@ -91,18 +91,18 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch (msg) {
 	case WM_RBUTTONDOWN:
-	{
-		TVHITTESTINFO hti;
-		hti.pt.x = (short)LOWORD(GetMessagePos());
-		hti.pt.y = (short)HIWORD(GetMessagePos());
-		ScreenToClient(hwnd, &hti.pt);
+		{
+			TVHITTESTINFO hti;
+			hti.pt.x = (short)LOWORD(GetMessagePos());
+			hti.pt.y = (short)HIWORD(GetMessagePos());
+			ScreenToClient(hwnd, &hti.pt);
 
-		if (TreeView_HitTest(hwnd, &hti)) {
-			if (hti.flags&TVHT_ONITEM)
-				TreeView_SelectItem(hwnd, hti.hItem);
+			if (TreeView_HitTest(hwnd, &hti)) {
+				if (hti.flags&TVHT_ONITEM)
+					TreeView_SelectItem(hwnd, hti.hItem);
+			}
 		}
-	}
-	break;
+		break;
 
 	case WM_CHAR:
 		if (GetKeyState(VK_CONTROL) & 0x8000 && wParam == 6)
@@ -122,7 +122,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				MCONTACT hContact = mtis->hContact;
 				if (wParam == VK_DELETE) {
 					if ((mtis->type) & MODULE) {
-						if (deleteModule(hContact,_T2A(text), 1)) {
+						if (deleteModule(hContact, _T2A(text), 1)) {
 							mir_free(mtis);
 							TreeView_DeleteItem(hwnd, tvi.hItem);
 						}
@@ -172,20 +172,20 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		else if (wParam == VK_F3)
 			newFindWindow();
 		else
-		if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
-			
-			char setting[FLD_SIZE];
-			int idx = ListView_GetSelectionMark(hwnd);
-			if (idx == -1 ) return 0;
-			ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
+			if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
 
-			if (wParam == VK_F2)
-				editSetting(info.hContact, info.module, setting);
-			else if (wParam == VK_DELETE)
-				DeleteSettingsFromList(info.hContact, info.module, setting);
+				char setting[FLD_SIZE];
+				int idx = ListView_GetSelectionMark(hwnd);
+				if (idx == -1) return 0;
+				ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
 
-			return 0;
-		}
+				if (wParam == VK_F2)
+					editSetting(info.hContact, info.module, setting);
+				else if (wParam == VK_DELETE)
+					DeleteSettingsFromList(info.hContact, info.module, setting);
+
+				return 0;
+			}
 		break;
 	}
 	return mir_callNextSubclass(hwnd, SettingListSubclassProc, msg, wParam, lParam);
@@ -205,7 +205,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// image list
 			hImg = LoadIcons();
-			
+
 			// do the icon
 			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
 			SetWindowText(hwnd, TranslateT("Database Editor++"));
@@ -218,10 +218,10 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			// module tree
 			mir_subclassWindow(hwnd2Tree, ModuleTreeSubclassProc);
 			TreeView_SetImageList(hwnd2Tree, hImg, TVSIL_NORMAL);
-			
+
 			//setting list
 			mir_subclassWindow(hwnd2List, SettingListSubclassProc);
-			ListView_SetExtendedListViewStyle(hwnd2List, 32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP ); //LVS_EX_GRIDLINES
+			ListView_SetExtendedListViewStyle(hwnd2List, 32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP); //LVS_EX_GRIDLINES
 			loadListSettings(hwnd2List, csSettingList);
 			ListView_SetImageList(hwnd2List, hImg, LVSIL_SMALL);
 
@@ -232,10 +232,10 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			Utils_RestoreWindowPosition(hwnd, NULL, modname, "Main_");
 			if (db_get_b(NULL, modname, "Maximized", 0))
-				ShowWindow(hwnd,SW_SHOWMAXIMIZED);
+				ShowWindow(hwnd, SW_SHOWMAXIMIZED);
 
 			g_Inline = !db_get_b(NULL, modname, "DontAllowInLineEdit", 1);
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED: MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
 
 			g_Mode = MODE_ALL;
 			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_CHECKED);
@@ -304,7 +304,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY: // free our shit!
 		if (db_get_b(NULL, modname, "RestoreOnOpen", 1)) {
 			HTREEITEM item;
-			
+
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
 				int type = MODULE;
 				TCHAR text[FLD_SIZE];
@@ -356,35 +356,37 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (wp.flags == WPF_RESTORETOMAXIMIZED) {
 				db_set_b(NULL, modname, "Maximized", 1);
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
-			} else
-				db_set_b(NULL, modname, "Maximized", 0);
+			}
+			else db_set_b(NULL, modname, "Maximized", 0);
+			
 			Utils_SaveWindowPosition(hwnd, NULL, modname, "Main_");
 			ShowWindow(hwnd, SW_HIDE);
 		}
-		
+
 		saveListSettings(hwnd2List, csSettingList);
 		ClearListView();
-		
+
 		freeTree(0);
 
 		hwnd2mainWindow = NULL;
 		hwnd2Tree = NULL;
 		hwnd2List = NULL;
-	
+
 		if (hImg) {
 			ImageList_Destroy(hImg);
 			hImg = NULL;
 		}
-	
-   		FreeResidentSettings();
-		
-		if (bServiceMode)
+
+		FreeResidentSettings();
+
+		if (g_bServiceMode)
 			PostQuitMessage(0);
 		return 0;
 
 	case WM_COMMAND:
 		if (GetKeyState(VK_ESCAPE) & 0x8000)
 			return TRUE; // this needs to be changed to c if htere is a label edit happening..
+
 		switch (LOWORD(wParam)) {
 		case MENU_REFRESH_MODS:
 			refreshTree(1);
@@ -407,7 +409,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-		///////////////////////// // watches
+			///////////////////////// // watches
 		case MENU_VIEW_WATCHES:
 			openWatchedVarWindow();
 			break;
@@ -490,15 +492,15 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_SAVE_POSITION:
-		{
-			BOOL save = !db_get_b(NULL, modname, "RestoreOnOpen", 1);
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
-			db_set_b(NULL, modname, "RestoreOnOpen", (byte)save);
-		}
-		break;
+			{
+				BOOL save = !db_get_b(NULL, modname, "RestoreOnOpen", 1);
+				CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
+				db_set_b(NULL, modname, "RestoreOnOpen", (byte)save);
+			}
+			break;
 		case MENU_INLINE_EDIT:
 			g_Inline = !g_Inline;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED: MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
 		case MENU_SORT_ORDER:
 			g_Order = !g_Order;
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
@@ -541,6 +543,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
-void openMainWindow() {
+void openMainWindow()
+{
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), 0, MainDlgProc);
 }

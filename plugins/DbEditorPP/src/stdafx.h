@@ -182,10 +182,10 @@ extern MCONTACT hRestore;
 
 extern MIDatabase *g_db;
 
-extern BOOL bServiceMode;
-extern BOOL usePopups;
+extern bool g_bServiceMode;
+extern bool g_bUsePopups;
 
-#define NAMEORDERCOUNT	8
+#define NAMEORDERCOUNT	9
 
 #define MODE_UNLOADED	1
 #define MODE_LOADED		2
