@@ -607,7 +607,7 @@ MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 		IcoLib_RemoveIcon_Internal(i);
 }
 
-void KillModuleIcons(int hLangpack)
+MIR_APP_DLL(void) KillModuleIcons(int hLangpack)
 {
 	if (!bModuleInitialized)
 		return;
