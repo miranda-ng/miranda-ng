@@ -100,17 +100,23 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 
 MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	debugLogA("CSkypeProto::AddToList");
+	debugLogA(__FUNCTION__);
 
 	if (psr->id.a == NULL)
 		return NULL;
-
-	MCONTACT hContact = AddContact(psr->id.a);
+	MCONTACT hContact;
+	
+	if (psr->flags & PSR_UNICODE)
+		hContact = AddContact(mir_utf8encodeT(psr->id.t));
+	else 
+		hContact = AddContact(psr->id.a);
+		
 	return hContact;
 }
 
 MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
+	debugLogA(__FUNCTION__);
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
@@ -127,6 +133,8 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	char *firstName = nick + mir_strlen(nick) + 1;
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *skypename = lastName + mir_strlen(lastName) + 1;
+
+	debugLogA(__FUNCTION__  " %s", mir_utf8decodeA(skypename));
 
 	MCONTACT hContact = AddContact(skypename);
 	return hContact;
