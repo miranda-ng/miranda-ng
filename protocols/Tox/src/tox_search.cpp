@@ -192,7 +192,6 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		std::string address = match[1];
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_UTF8;
 		psr.id.a = mir_strdup(query.c_str());
 
 		ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
