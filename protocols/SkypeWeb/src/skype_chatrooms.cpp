@@ -178,7 +178,12 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		switch (gch->dwData)
 		{
 		case 10: {
-			MCONTACT hContact = (MCONTACT)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GC_INVITE), NULL, InviteDlgProc, (LPARAM)this);
+			CSkypeInviteDlg dlg(this);
+			if(!dlg.DoModal())
+			{
+				break;
+			}
+			MCONTACT hContact = dlg.m_hContact;
 			if (hContact != NULL)
 			{
 				ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
@@ -666,43 +671,6 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 	}
 	return FALSE;
-}
-
-INT_PTR CSkypeProto::InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			CSkypeProto *ppro = (CSkypeProto*)lParam;
-			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
-			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
-				if (ppro->isChatRoom(hContact)) continue;
-				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
-				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
-			}
-			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-
-		case IDOK:
-			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
-			if (idx != -1)
-				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
-			else
-				EndDialog(hwndDlg, 0);
-			return TRUE;
-		}
-	}
-
-	return 0;
 }
 
 void CSkypeProto::FilterContacts(HWND hwndDlg, CSkypeProto *ppro)

@@ -55,4 +55,24 @@ public:
 	}
 };
 
+class CSkypeInviteDlg : public CSkypeDlgBase
+{
+private:
+	typedef CSkypeDlgBase CSuper;
+	CCtrlButton m_ok;
+	CCtrlButton m_cancel;
+	CCtrlCombo  m_combo;
+
+protected:
+
+	void OnInitDialog();
+	void btnOk_OnOk(CCtrlButton*);
+
+public:
+	MCONTACT m_hContact;
+
+	CSkypeInviteDlg(CSkypeProto *proto);
+};
+
+
 #endif //_SKYPE_DIALOGS_H_
