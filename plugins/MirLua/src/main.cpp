@@ -42,8 +42,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hCommonFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
-	g_hCustomFolderPath = FoldersRegisterCustomPathT("MirLua", Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
+	g_hCommonFolderPath = FoldersRegisterCustomPathT(MODULE, Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
+	g_hCustomFolderPath = FoldersRegisterCustomPathT(MODULE, Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
 
 	g_mLua = new CMLua();
 

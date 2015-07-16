@@ -4,32 +4,32 @@ static POPUPDATAT* MakePopupData(lua_State *L)
 {
 	POPUPDATAT *ppd = (POPUPDATAT*)mir_calloc(sizeof(POPUPDATAT));
 
-	lua_pushstring(L, "ContactName");
+	lua_pushliteral(L, "ContactName");
 	lua_gettable(L, -2);
 	mir_tstrcpy(ppd->lptzContactName, ptrT(mir_utf8decodeT(lua_tostring(L, -1))));
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Text");
+	lua_pushliteral(L, "Text");
 	lua_gettable(L, -2);
 	mir_tstrcpy(ppd->lptzText, ptrT(mir_utf8decodeT(luaL_checkstring(L, -1))));
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "hContact");
+	lua_pushliteral(L, "hContact");
 	lua_gettable(L, -2);
 	ppd->lchContact = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "ColorBack");
+	lua_pushliteral(L, "ColorBack");
 	lua_gettable(L, -2);
 	ppd->colorBack = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "ColorText");
+	lua_pushliteral(L, "ColorText");
 	lua_gettable(L, -2);
 	ppd->colorText = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Seconds");
+	lua_pushliteral(L, "Seconds");
 	lua_gettable(L, -2);
 	ppd->iSeconds = lua_tointeger(L, -1);
 	lua_pop(L, 1);
@@ -58,7 +58,7 @@ static POPUPDATA2* MakePopupData2(lua_State *L)
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_calloc(sizeof(POPUPDATA2));
 	ppd->cbSize = sizeof(POPUPDATA2);
 
-	lua_pushstring(L, "Flags");
+	lua_pushliteral(L, "Flags");
 	lua_gettable(L, -2);
 	ppd->flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
@@ -66,42 +66,42 @@ static POPUPDATA2* MakePopupData2(lua_State *L)
 	if (!(ppd->flags & PU2_TCHAR))
 		ppd->flags |= PU2_TCHAR;
 
-	lua_pushstring(L, "Title");
+	lua_pushliteral(L, "Title");
 	lua_gettable(L, -2);
 	ppd->lptzTitle = mir_utf8decodeT(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Text");
+	lua_pushliteral(L, "Text");
 	lua_gettable(L, -2);
 	ppd->lptzText = mir_utf8decodeT(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "hContact");
+	lua_pushliteral(L, "hContact");
 	lua_gettable(L, -2);
 	ppd->lchContact = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "ColorBack");
+	lua_pushliteral(L, "ColorBack");
 	lua_gettable(L, -2);
 	ppd->colorBack = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "ColorText");
+	lua_pushliteral(L, "ColorText");
 	lua_gettable(L, -2);
 	ppd->colorText = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "hEvent");
+	lua_pushliteral(L, "hEvent");
 	lua_gettable(L, -2);
 	ppd->lchEvent = lua_touserdata(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Timestamp");
+	lua_pushliteral(L, "Timestamp");
 	lua_gettable(L, -2);
 	ppd->dwTimestamp = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Timeout");
+	lua_pushliteral(L, "Timeout");
 	lua_gettable(L, -2);
 	ppd->iSeconds = lua_tointeger(L, -1);
 	lua_pop(L, 1);

@@ -21,7 +21,13 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 void CLuaScriptLoader::LoadScript(const TCHAR *path)
 {
 	
-	if (luaL_dofile(L, T2Utf(path)))
+	if (luaL_loadfile(L, T2Utf(path)))
+	{
+		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+		return;
+	}
+
+	if (lua_pcall(L, 0, 1, 0))
 	{
 		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 		return;
@@ -30,6 +36,14 @@ void CLuaScriptLoader::LoadScript(const TCHAR *path)
 	TCHAR buf[4096];
 	mir_sntprintf(buf, _T("%s:OK"), path);
 	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)buf);
+
+	if (lua_istable(L, -1))
+	{
+		lua_pushliteral(L, "Load");
+		lua_gettable(L, -2);
+		if (lua_isfunction(L, -1) && lua_pcall(L, 0, 0, 0))
+			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	}
 }
 
 void CLuaScriptLoader::LoadScripts(const TCHAR *scriptDir)
@@ -77,6 +91,7 @@ void CLuaScriptLoader::UnloadScript(const TCHAR *path)
 	lua_pushnil(L);
 	lua_setfield(L, -2, moduleName);
 	lua_pop(L, 1);
+
 	lua_pushnil(L);
 	lua_setglobal(L, moduleName);
 }

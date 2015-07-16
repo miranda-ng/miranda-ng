@@ -6,17 +6,17 @@ static BBButton* MakeBBButton(lua_State *L)
 	tbb->cbSize = sizeof(BBButton);
 	tbb->dwDefPos = 100;
 
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_gettable(L, -2);
 	tbb->pszModuleName = mir_utf8decode((char*)luaL_checkstring(L, -1), NULL);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "ButtonID");
+	lua_pushliteral(L, "ButtonID");
 	lua_gettable(L, -2);
 	tbb->dwButtonID = luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Flags");
+	lua_pushliteral(L, "Flags");
 	lua_gettable(L, -2);
 	tbb->bbbFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
@@ -24,12 +24,12 @@ static BBButton* MakeBBButton(lua_State *L)
 	if ((tbb->bbbFlags & BBBF_ANSITOOLTIP))
 		tbb->bbbFlags &= ~BBBF_ANSITOOLTIP;
 
-	lua_pushstring(L, "Tooltip");
+	lua_pushliteral(L, "Tooltip");
 	lua_gettable(L, -2);
 	tbb->ptszTooltip = mir_utf8decodeT((char*)lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	lua_pushstring(L, "Icon");
+	lua_pushliteral(L, "Icon");
 	lua_gettable(L, -2);
 	tbb->hIcon = (HANDLE)lua_touserdata(L, -1);
 	lua_pop(L, 1);
@@ -96,16 +96,16 @@ int ButtonPressedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPAR
 	CustomButtonClickData *bcd = (CustomButtonClickData*)lParam;
 
 	lua_newtable(L);
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
 	lua_settable(L, -3);
-	lua_pushstring(L, "ButtonID");
+	lua_pushliteral(L, "ButtonID");
 	lua_pushinteger(L, bcd->dwButtonId);
 	lua_settable(L, -3);
-	lua_pushstring(L, "hContact");
+	lua_pushliteral(L, "hContact");
 	lua_pushinteger(L, bcd->hContact);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Flags");
+	lua_pushliteral(L, "Flags");
 	lua_pushinteger(L, bcd->flags);
 	lua_settable(L, -3);
 
@@ -142,16 +142,16 @@ static int lua_DecodeCustomButtonClickData(lua_State *L)
 	CustomButtonClickData *bcd = (CustomButtonClickData*)lua_tointeger(L, 1);
 
 	lua_newtable(L);
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_pushstring(L, ptrA(mir_utf8encode(bcd->pszModule)));
 	lua_settable(L, -3);
-	lua_pushstring(L, "ButtonID");
+	lua_pushliteral(L, "ButtonID");
 	lua_pushinteger(L, bcd->dwButtonId);
 	lua_settable(L, -3);
-	lua_pushstring(L, "hContact");
+	lua_pushliteral(L, "hContact");
 	lua_pushinteger(L, bcd->hContact);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Flags");
+	lua_pushliteral(L, "Flags");
 	lua_pushinteger(L, bcd->flags);
 	lua_settable(L, -3);
 

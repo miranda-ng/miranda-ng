@@ -27,9 +27,9 @@ void CMLua::Load()
 	luaL_openlibs(L);
 
 	lua_getglobal(L, "package");
-	lua_pushstring(L, "");
+	lua_pushliteral(L, "");
 	lua_setfield(L, -2, "path");
-	lua_pushstring(L, "");
+	lua_pushliteral(L, "");
 	lua_setfield(L, -2, "cpath");
 	lua_pop(L, 1);
 
