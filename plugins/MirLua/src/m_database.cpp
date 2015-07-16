@@ -89,22 +89,22 @@ static int lua_GetEvent(lua_State *L)
 	}
 
 	lua_newtable(L);
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_pushstring(L, ptrA(mir_utf8encode(dbei.szModule)));
 	lua_settable(L, -3);
-	lua_pushstring(L, "Timestamp");
+	lua_pushliteral(L, "Timestamp");
 	lua_pushnumber(L, dbei.timestamp);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Type");
+	lua_pushliteral(L, "Type");
 	lua_pushinteger(L, dbei.eventType);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Flags");
+	lua_pushliteral(L, "Flags");
 	lua_pushinteger(L, dbei.flags);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Length");
+	lua_pushliteral(L, "Length");
 	lua_pushnumber(L, dbei.cbBlob);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Blob");
+	lua_pushliteral(L, "Blob");
 	lua_newtable(L);
 	for (DWORD i = 0; i < dbei.cbBlob; i++)
 	{
@@ -292,13 +292,13 @@ static int SettingsChangedHookEventObjParam(void *obj, WPARAM wParam, LPARAM lPa
 
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	lua_newtable(L);
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_pushstring(L, dbcws->szModule);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Setting");
+	lua_pushliteral(L, "Setting");
 	lua_pushstring(L, dbcws->szSetting);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Value");
+	lua_pushliteral(L, "Value");
 	switch (dbcws->value.type)
 	{
 	case DBVT_BYTE:
@@ -358,13 +358,13 @@ static int lua_DecodeDBCONTACTWRITESETTING(lua_State *L)
 	DBCONTACTWRITESETTING *pDBCWS = (DBCONTACTWRITESETTING*)lua_tointeger(L, 1);
 
 	lua_newtable(L);
-	lua_pushstring(L, "Module");
+	lua_pushliteral(L, "Module");
 	lua_pushstring(L, pDBCWS->szModule);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Setting");
+	lua_pushliteral(L, "Setting");
 	lua_pushstring(L, pDBCWS->szSetting);
 	lua_settable(L, -3);
-	lua_pushstring(L, "Value");
+	lua_pushliteral(L, "Value");
 	switch (pDBCWS->value.type)
 	{
 		case DBVT_BYTE:

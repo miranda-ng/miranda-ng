@@ -24,6 +24,7 @@ void CLuaModuleLoader::LoadModules()
 	PreloadModule(MLUA_MESSAGE, luaopen_m_message);
 	PreloadModule(MLUA_MSGBUTTONSBAR, luaopen_m_msg_buttonsbar);
 	PreloadModule(MLUA_POPUP, luaopen_m_popup);
+	PreloadModule(MLUA_PROTOCOLS, luaopen_m_protocols);
 	PreloadModule(MLUA_TOPTOOLBAR, luaopen_m_toptoolbar);
 	PreloadModule(MLUA_VARIABLES, luaopen_m_variables);
 	PreloadModule(MLUA_WINDOWS, luaopen_m_windows);

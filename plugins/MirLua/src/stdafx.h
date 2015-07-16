@@ -17,6 +17,7 @@
 #include <m_clist.h>
 #include <m_icolib.h>
 #include <m_message.h>
+#include <m_protocols.h>
 
 #include <m_folders.h>
 #include <m_msg_buttonsbar.h>
@@ -82,6 +83,9 @@ LUAMOD_API int (luaopen_m_msg_buttonsbar)(lua_State *L);
 
 #define MLUA_POPUP	"m_popup"
 LUAMOD_API int (luaopen_m_popup)(lua_State *L);
+
+#define MLUA_PROTOCOLS	"m_protocols"
+LUAMOD_API int (luaopen_m_protocols)(lua_State *L);
 
 #define MLUA_TOPTOOLBAR	"m_toptoolbar"
 LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
