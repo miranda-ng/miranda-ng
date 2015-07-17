@@ -123,9 +123,10 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
+int CVkProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 {
 	debugLogA("CVkProto::OnDbEventRead");
+	MCONTACT hContact = db_event_getContact(hDbEvent);
 	if (!hContact)
 		return 0;
 
