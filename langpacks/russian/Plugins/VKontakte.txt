@@ -305,6 +305,8 @@ Cоздать комнату чата
 установил(а) тему
 [changed chat cover:]
 изменил обложку чата:
+[deleted chat cover]
+обложка чата удалена
 [chat action not supported]
 действие не поддерживается
 [Unknown]
