@@ -377,6 +377,8 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 		}
 		else if (tszAction == _T("chat_photo_update"))
 			tszBody.Replace(TranslateT("Attachments:"), TranslateT("changed chat cover:"));
+		else if (tszAction == _T("chat_photo_remove"))
+			tszBody = TranslateT("deleted chat cover");
 		else
 			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
 	}
