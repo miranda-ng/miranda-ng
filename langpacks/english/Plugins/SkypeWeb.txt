@@ -43,13 +43,10 @@
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call. \n]
-[enter]
-[left]
-[File transfer]
-[File name]
-[Size]
-[bytes]
+[%s %s this call.\n]
+[enters]
+[leaves]
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
 [Incoming call.]
 [Action]
 [Call information.]

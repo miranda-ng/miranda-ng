@@ -71,20 +71,14 @@
 Введите новую тему комнаты чата
 [Are you sure?]
 Вы уверены?
-[%s %s this call. \n]
-%s %s звонок. \n
-[enter]
-начал(а)
-[left]
-закончил(а)
-[File transfer]
-Передача файла
-[File name]
-Имя файла
-[Size]
-Размер
-[bytes]
-байт
+[%s %s this call.\n]
+%s %s вызов.\n
+[enters]
+начинает
+[leaves]
+завершает
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
+Передача файлов:\n\tНазвание: %s\n\tРазмер: %d Байт
 [Incoming call.]
 Входящий звонок.
 [Action]
