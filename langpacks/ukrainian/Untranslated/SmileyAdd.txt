@@ -1,2 +1,1 @@
-﻿[Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
-[d'Oh!]
+﻿[d'Oh!]
