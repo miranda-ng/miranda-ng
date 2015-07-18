@@ -48,44 +48,18 @@ int CLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void CLuaOptions::LoadScripts(const TCHAR *scriptDir, int iGroup)
-{
-	TCHAR searchMask[MAX_PATH];
-	mir_sntprintf(searchMask, _T("%s\\%s"), scriptDir, _T("*.lua"));
-
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(searchMask, &fd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				int iItem = m_scripts.AddItem(fd.cFileName, -1, NULL, iGroup);
-				if (db_get_b(NULL, MODULE, _T2A(fd.cFileName), 1))
-					m_scripts.SetCheckState(iItem, TRUE);
-				m_scripts.SetItem(iItem, 1, _T(""), 0);
-				m_scripts.SetItem(iItem, 2, _T(""), 1);
-			}
-		} while (FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
-}
-
 void CLuaOptions::LoadScripts()
 {
-	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
-	FoldersGetCustomPathT(g_hCommonFolderPath, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
-	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
-	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
-	m_scripts.AddGroup(0, header);
-	LoadScripts(scriptDir, 0);
-
-	FoldersGetCustomPathT(g_hCustomFolderPath, scriptDir, _countof(scriptDir), VARST(CUSTOM_SCRIPTS_PATHT));
-	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
-	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Custom scripts"), relativeScriptDir);
-	m_scripts.AddGroup(1, header);
-	LoadScripts(scriptDir, 1);
+	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
+	{
+		CMLuaScript* script = g_mLua->Scripts[i];
+		TCHAR* fileName = NEWTSTR_ALLOCA(script->GetFileName());
+		int iItem = m_scripts.AddItem(fileName, -1, (LPARAM)script, script->GetGroup());
+		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
+			m_scripts.SetCheckState(iItem, TRUE);
+		m_scripts.SetItem(iItem, 1, _T(""), 0);
+		m_scripts.SetItem(iItem, 2, _T(""), 1);
+	}
 }
 
 void CLuaOptions::OnInitDialog()
@@ -93,14 +67,21 @@ void CLuaOptions::OnInitDialog()
 	CDlgBase::OnInitDialog();
 
 	m_scripts.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
-	m_scripts.EnableGroupView(TRUE);
-	m_scripts.AddColumn(0, _T("Script"), 420);
-	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	HIMAGELIST hImageList = m_scripts.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_OPEN)));
 	ImageList_AddIcon(hImageList, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_RELOAD)));
+
+	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
+	FoldersGetCustomPathT(g_hCommonScriptFolder, scriptDir, _countof(scriptDir), VARST(COMMON_SCRIPTS_PATHT));
+	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
+	mir_sntprintf(header, _T("%s (%s)"), TranslateT("Common scripts"), relativeScriptDir);
+	m_scripts.AddGroup(0, header);
+	m_scripts.EnableGroupView(TRUE);
+
+	m_scripts.AddColumn(0, _T("Script"), 420);
+	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
 
@@ -151,27 +132,20 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	if (lvi.iItem == -1) return;
 	lvi.pszText = (LPTSTR)mir_calloc(MAX_PATH * sizeof(TCHAR));
 	lvi.cchTextMax = MAX_PATH;
-	lvi.mask = LVIF_GROUPID | LVIF_TEXT;
+	lvi.mask = LVIF_GROUPID | LVIF_TEXT | LVIF_PARAM;
 	evt->treeviewctrl->GetItem(&lvi);
 	lvi.iSubItem = evt->nmlvia->iSubItem;
+
+	CMLuaScript* script = (CMLuaScript*)lvi.lParam;
+
 	if (lvi.iSubItem == 1)
 	{
-		TCHAR path[MAX_PATH];
-		if (lvi.iGroupId == 0)
-			FoldersGetCustomPathT(g_hCommonFolderPath, path, _countof(path), VARST(COMMON_SCRIPTS_PATHT));
-		else
-			FoldersGetCustomPathT(g_hCustomFolderPath, path, _countof(path), VARST(CUSTOM_SCRIPTS_PATHT));
-		ShellExecute(m_hwnd, NULL, lvi.pszText, NULL, path, SW_SHOWNORMAL);
+		ShellExecute(m_hwnd, NULL, lvi.pszText, NULL, script->GetFilePath(), SW_SHOWNORMAL);
 	}
 	else if (lvi.iSubItem == 2)
 	{
-		TCHAR path[MAX_PATH];
-		if (lvi.iGroupId == 0)
-			FoldersGetCustomPathT(g_hCommonFolderPath, path, _countof(path), VARST(COMMON_SCRIPTS_PATHT));
-		else
-			FoldersGetCustomPathT(g_hCustomFolderPath, path, _countof(path), VARST(CUSTOM_SCRIPTS_PATHT));
-		mir_sntprintf(path, _T("%s\\%s"), path, lvi.pszText);
-		g_mLua->Reload(path);
+		script->Unload();
+		script->Load();
 	}
 	mir_free(lvi.pszText);
 }
@@ -180,7 +154,8 @@ void CLuaOptions::OnReload(CCtrlBase*)
 {
 	isScriptListInit = false;
 	m_scripts.DeleteAllItems();
+	g_mLua->Unload();
+	g_mLua->Load();
 	LoadScripts();
 	isScriptListInit = true;
-	g_mLua->Reload();
 }

@@ -23,7 +23,6 @@ private:
 	CCtrlScriptList m_scripts;
 	CCtrlButton m_reload;
 
-	void LoadScripts(const TCHAR *scriptDir, int iGroup = -1);
 	void LoadScripts();
 
 protected:

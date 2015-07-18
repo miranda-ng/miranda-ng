@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <m_core.h>
@@ -35,7 +36,10 @@ extern "C"
 #include "version.h"
 #include "resource.h"
 
+class CMLuaScript;
+
 #include "mlua.h"
+#include "mlua_script.h"
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"
 #include "mlua_options.h"
@@ -48,17 +52,14 @@ extern int hScriptsLangpack;
 
 extern HINSTANCE g_hInstance;
 
-extern HANDLE g_hCommonFolderPath;
-extern HANDLE g_hCustomFolderPath;
+extern HANDLE g_hCommonScriptFolder;
 
 extern HANDLE hNetlib;
 
 #ifdef _UNICODE
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATHW L"\\Scripts"
-	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATAW L"\\Scripts"
 #else
 	#define COMMON_SCRIPTS_PATHT MIRANDA_PATH "\\Scripts"
-	#define CUSTOM_SCRIPTS_PATHT MIRANDA_USERDATA "\\Scripts"
 #endif
 
 #define MLUA_CORE	"m"
