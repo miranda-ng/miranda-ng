@@ -71,20 +71,24 @@
 Введіть нову тему для чат-кімнати
 [Are you sure?]
 Ви впевнені?
-[File transfer]
-Передача файлу
-[File name]
-Ім'я файлу
-[Size]
-Розмір
-[bytes]
-байт
+[%s %s this call.\n]
+%s %s дзвінок.\n
+[enters]
+починає
+[leaves]
+завершує
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
+Передача файлів:\n\tНазва: %s\n\tРозмір: %d байт
 [Incoming call.]
 Вхідний дзвінок.
 [Action]
 Дія
 [Call information.]
 Інформація про дзвінок.
+[File transfer information.]
+Інформація про передачу файлу.
+[Uri object.]
+Об'єкт URI.
 [Incoming call]
 Вхідний дзвінок
 [Calls]

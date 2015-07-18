@@ -305,6 +305,10 @@
 повернувся
 [change chat title to]
 встановив(ла) тему
+[changed chat cover:]
+змінив обкладинку чату:
+[deleted chat cover]
+видалив обкладинку чату
 [chat action not supported]
 дія не підтримується
 [Unknown]

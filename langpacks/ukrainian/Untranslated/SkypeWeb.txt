@@ -1,5 +1,0 @@
-﻿[%s %s this call. \n]
-[enter]
-[left]
-[File transfer information.]
-[Uri object.]

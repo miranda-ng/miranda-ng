@@ -2559,6 +2559,8 @@ ANSI-плагін
 Неможливо запустити
 [Frames]
 Фрейми
+[Add group]
+Додати групу
 [Request authorization]
 Запитати авторизацію
 [Grant authorization]
