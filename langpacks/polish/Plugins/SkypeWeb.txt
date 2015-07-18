@@ -76,20 +76,14 @@ Wprowadź nowy temat pokoju
 [Are you sure?]
 Jesteś pewien?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call. \n]
-%s %s ta rozmowa. \n
-[enter]
-wprowadź
-[left]
-lewa
-[File transfer]
-Transfer pliku
-[File name]
-Nazwa pliku
-[Size]
-Rozmiar
-[bytes]
-bajty
+[%s %s this call.\n]
+%s %s ta rozmowa.
+[enters]
+dołącza
+[leaves]
+odchodzi
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
+Transfer pliku:\n\tNazwa pliku: %s\n\tRozmiar: %d bajtów
 [Incoming call.]
 Rozmowa przychodząca.
 [Action]
