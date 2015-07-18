@@ -501,6 +501,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case MENU_INLINE_EDIT:
 			g_Inline = !g_Inline;
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
+			break;
 		case MENU_SORT_ORDER:
 			g_Order = !g_Order;
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
