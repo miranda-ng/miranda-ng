@@ -62,15 +62,19 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 		break;
 
 	case DBVT_WCHAR:
-		if (!value) value = mir_u2t(dbv.pwszVal);
+		if (!value)
+			value = mir_u2t(dbv.pwszVal);
+		// fall through
 	case DBVT_UTF8:
-		if (!value) value = mir_utf8decodeT(dbv.pszVal);
+		if (!value)
+			value = mir_utf8decodeT(dbv.pszVal);
+		// fall through
 	case DBVT_ASCIIZ:
-		if (!value) value = mir_a2t(dbv.pszVal);
+		if (!value)
+			value = mir_a2t(dbv.pszVal);
 
 		if (mir_tstrlen(value) < 11)
 			val = _tcstoul(value, NULL, NULL);
-		break;
 	}
 
 	switch (toType) {
@@ -530,6 +534,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 
 					case _T('0'):
 						i = 1;
+						// fall through
 					case _T('1'):
 					case _T('2'):
 					case _T('3'):
@@ -625,7 +630,6 @@ void EditLabel(int item, int subitem)
 	if (db_get_s(info.hContact, info.module, setting, &dbv, 0))
 		return;
 
-	info.hContact = info.hContact;
 	mir_strcpy(info.setting, setting);
 	info.subitem = subitem;
 

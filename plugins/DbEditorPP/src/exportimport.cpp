@@ -384,17 +384,17 @@ void importSettings(MCONTACT hContact, char *utf8)
 				switch (type) {
 				case 'b':
 				case 'B':
-					if (sscanf((end + 2), "%u", &value) == 1)
+					if (sscanf(end + 2, "%u", &value) == 1)
 						db_set_b(hContact, module, setting, (BYTE)value);
 					break;
 				case 'w':
 				case 'W':
-					if (sscanf((end + 2), "%u", &value) == 1)
+					if (sscanf(end + 2, "%u", &value) == 1)
 						db_set_w(hContact, module, setting, (WORD)value);
 					break;
 				case 'd':
 				case 'D':
-					if (sscanf((end + 2), "%u", &value) == 1)
+					if (sscanf(end + 2, "%u", &value) == 1)
 						db_set_dw(hContact, module, setting, (DWORD)value);
 					break;
 				case 's':
@@ -414,6 +414,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 							memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 						}
 					}
+					// fall through - write it to database
 				case 'u':
 				case 'U':
 					db_set_utf(hContact, module, setting, (end + 2));
