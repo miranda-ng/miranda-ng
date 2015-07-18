@@ -14,14 +14,11 @@ class CMLua
 {
 private:
 	lua_State *L;
-	HANDLE hLoadedEvent;
-	HANDLE hUnloadEvent;
 
 	static void KillModuleEventHooks();
 	static void KillModuleServices();
-
-	void Load();
-	void Unload();
+	
+	
 
 public:
 	static LIST<void> Hooks;
@@ -30,14 +27,13 @@ public:
 	static LIST<void> HookRefs;
 	static LIST<void> ServiceRefs;
 
+	LIST<CMLuaScript> Scripts;
+
 	CMLua();
 	~CMLua();
 
-	void Reload();
-	void Reload(const TCHAR* path);
-
-	static int OnScriptLoaded(lua_State *L);
-	static int OnScriptUnload(lua_State *L);
+	void Load();
+	void Unload();
 
 	static int HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param);
 };

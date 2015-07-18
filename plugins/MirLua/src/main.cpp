@@ -5,12 +5,11 @@ int hScriptsLangpack;
 
 HINSTANCE g_hInstance;
 
-HANDLE g_hCommonFolderPath;
-HANDLE g_hCustomFolderPath;
+CMLua *g_mLua;
+
+HANDLE g_hCommonScriptFolder;
 
 HANDLE hNetlib = NULL;
-
-CMLua *g_mLua;
 
 PLUGININFOEX pluginInfo =
 {
@@ -42,10 +41,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hCommonFolderPath = FoldersRegisterCustomPathT(MODULE, Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
-	g_hCustomFolderPath = FoldersRegisterCustomPathT(MODULE, Translate("Custom scripts folder"), CUSTOM_SCRIPTS_PATHT);
+	g_hCommonScriptFolder = FoldersRegisterCustomPathT(MODULE, Translate("Common scripts folder"), COMMON_SCRIPTS_PATHT);
 
 	g_mLua = new CMLua();
+	g_mLua->Load();
 
 	HookEvent(ME_OPT_INITIALISE, CLuaOptions::OnOptionsInit);
 

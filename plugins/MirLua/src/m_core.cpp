@@ -225,9 +225,6 @@ luaL_Reg coreApi[] =
 	{ "Translate", lua_Translate },
 	{ "ReplaceVariables", lua_ReplaceVariables },
 
-	{ "OnScriptLoaded", CMLua::OnScriptLoaded },
-	{ "OnScriptUnload", CMLua::OnScriptUnload },
-
 	{ "NULL", NULL },
 	{ "INVALID_HANDLE_VALUE", NULL },
 

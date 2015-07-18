@@ -6,12 +6,13 @@ LIST<void> CMLua::Services(1, PtrKeySortT);
 LIST<void> CMLua::HookRefs(1, HandleKeySortT);
 LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
 
-CMLua::CMLua() : L(NULL)
+static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 {
-	hLoadedEvent = CreateHookableEvent("Lua/Script/Loaded");
-	hUnloadEvent = CreateHookableEvent("Lua/Script/Unload");
+	return mir_strcmpi(p1->GetModuleName(), p2->GetModuleName());
+}
 
-	Load();
+CMLua::CMLua() : L(NULL), Scripts(10, CompareScripts)
+{
 }
 
 CMLua::~CMLua()
@@ -50,15 +51,19 @@ void CMLua::Load()
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Loading miranda modules");
 	CLuaModuleLoader::Load(L);
 	CLuaScriptLoader::Load(L);
-
-	NotifyEventHooks(hLoadedEvent);
 }
 
 void CMLua::Unload()
 {
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)"Unloading lua engine");
 
-	NotifyEventHooks(hUnloadEvent);
+	while (int last = Scripts.getCount())
+	{
+		CMLuaScript* script = g_mLua->Scripts[last - 1];
+		Scripts.remove(script);
+		script->Unload();
+		delete script;
+	}
 	
 	::KillModuleIcons(hScriptsLangpack);
 	::KillModuleMenus(hScriptsLangpack);
@@ -68,17 +73,6 @@ void CMLua::Unload()
 
 	if (L)
 		lua_close(L);
-}
-
-void CMLua::Reload()
-{
-	Unload();
-	Load();
-}
-
-void CMLua::Reload(const TCHAR* path)
-{
-	CLuaScriptLoader::Reload(g_mLua->L, path);
 }
 
 void CMLua::KillModuleEventHooks()
@@ -128,46 +122,6 @@ void CMLua::KillModuleServices()
 			delete param;
 		}
 	}
-}
-
-int CMLua::OnScriptLoaded(lua_State *L)
-{
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam("Lua/Script/Loaded", CMLua::HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
-}
-
-int CMLua::OnScriptUnload(lua_State *L)
-{
-	if (!lua_isfunction(L, 1))
-	{
-		lua_pushlightuserdata(L, NULL);
-		return 1;
-	}
-
-	lua_pushvalue(L, 1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	HANDLE res = ::HookEventObjParam("Lua/Script/Unload", CMLua::HookEventObjParam, L, ref);
-	lua_pushlightuserdata(L, res);
-
-	Hooks.insert(res);
-	HookRefs.insert(new HandleRefParam(L, res, ref));
-
-	return 1;
 }
 
 int CMLua::HookEventObjParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
