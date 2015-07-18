@@ -311,6 +311,8 @@ powrócił do czatu
 Zmień temat czatu na
 [changed chat cover:]
 zmieniono okładkę czatu:
+[deleted chat cover]
+usunięto okładkę czatu
 [chat action not supported]
 Akcja czatu niewspierana
 [Unknown]
