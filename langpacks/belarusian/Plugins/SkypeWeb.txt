@@ -56,16 +56,8 @@
 [Are you sure?]
 Вы ўпэўнены?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[left]
-злева
-[File transfer]
-Перадача файла
-[File name]
-Імя файла
-[Size]
-Памер
-[bytes]
-байт
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
+Перадача файла:\n\tІмя файла: %s\n\tПамер: %d байт
 [Action]
 Дзеянне
 [Notifications]

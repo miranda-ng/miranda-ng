@@ -76,19 +76,13 @@ Neues Thema für diesen Chatraum eingeben
 [Are you sure?]
 Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call. \n]
+[%s %s this call.\n]
 
-[enter]
+[enters]
 
-[left]
+[leaves]
 
-[File transfer]
-Dateiübertragung
-[File name]
-Dateiname
-[Size]
-Größe
-[bytes]
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
 
 [Incoming call.]
 Eingehender Anruf.

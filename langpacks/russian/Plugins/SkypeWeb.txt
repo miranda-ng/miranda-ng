@@ -78,7 +78,7 @@
 [leaves]
 завершает
 [File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-Передача файлов:\n\tНазвание: %s\n\tРазмер: %d Байт
+Передача файлов:\n\tИмя: %s\n\tРазмер: %d байт
 [Incoming call.]
 Входящий звонок.
 [Action]

@@ -76,20 +76,14 @@ Avertissement
 [Are you sure?]
 Etes-vous sûr?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call. \n]
+[%s %s this call.\n]
 
-[enter]
+[enters]
 
-[left]
+[leaves]
 
-[File transfer]
-Transfert de fichiers
-[File name]
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
 
-[Size]
-Taille
-[bytes]
-octets
 [Incoming call.]
 
 [Action]

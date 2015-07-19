@@ -76,19 +76,13 @@ Upozorenje
 [Are you sure?]
 
 ;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call. \n]
+[%s %s this call.\n]
 
-[enter]
+[enters]
 
-[left]
+[leaves]
 
-[File transfer]
-
-[File name]
-
-[Size]
-
-[bytes]
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
 
 [Incoming call.]
 

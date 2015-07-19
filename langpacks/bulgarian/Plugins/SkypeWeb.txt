@@ -39,16 +39,8 @@
 Потребител
 [Are you sure?]
 Сигурни ли сте?
-[left]
-ляво
-[File transfer]
-Прехвърляне на файл
-[File name]
-Име на файла
-[Size]
-Размер
-[bytes]
-байта
+[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
+Прехвърляне на файл:\n\tИме на файла: %s\n\tРазмер: %d байта
 [Incoming call.]
 Входящо обаждане.
 [Action]
