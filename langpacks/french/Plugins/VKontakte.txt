@@ -311,6 +311,8 @@ Lien
 
 [changed chat cover:]
 
+[deleted chat cover]
+
 [chat action not supported]
 
 [Unknown]

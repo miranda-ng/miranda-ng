@@ -13,9 +13,5 @@ Heslo:
 Uložiť heslo
 [Warning]
 Varovanie
-[Size]
-Veľkosť
-[bytes]
-bytov
 [Network]
 Sieť

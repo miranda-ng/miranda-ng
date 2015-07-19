@@ -23,14 +23,6 @@ Advertencia
 &Invitar usuario...
 [&Leave chat session]
 &Abandonar sesión de charla
-[left]
-izquierda
-[File transfer]
-Transferencia de archivos
-[Size]
-Tamaño
-[bytes]
-bytes
 [Notifications]
 Notificaciones
 [Errors]

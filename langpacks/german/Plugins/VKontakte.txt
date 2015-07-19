@@ -311,6 +311,8 @@ ist ins Chat zurückgekehrt
 Chatthema geändert zu
 [changed chat cover:]
 
+[deleted chat cover]
+
 [chat action not supported]
 Chataktion nicht unterstützt
 [Unknown]
