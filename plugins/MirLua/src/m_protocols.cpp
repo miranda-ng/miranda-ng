@@ -25,6 +25,38 @@ static int lua_GetProto(lua_State *L)
 	return 1;
 }
 
+static int lua_ProtoIterator(lua_State *L)
+{
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+	int count = lua_tointeger(L, lua_upvalueindex(2));
+	PROTOCOLDESCRIPTOR** protos = (PROTOCOLDESCRIPTOR**)lua_touserdata(L, lua_upvalueindex(3));
+
+	if (i < count)
+	{
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+		MapToTable(L, protos[i]);
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int lua_AllProtos(lua_State *L)
+{
+	int count;
+	PROTOCOLDESCRIPTOR** protos;
+	Proto_EnumProtocols(&count, &protos);
+
+	lua_pushinteger(L, 0);
+	lua_pushinteger(L, count);
+	lua_pushlightuserdata(L, protos);
+	lua_pushcclosure(L, lua_ProtoIterator, 3);
+
+	return 1;
+}
+
 static int lua_EnumProtos(lua_State *L)
 {
 	if (!lua_isfunction(L, 1))
@@ -94,6 +126,38 @@ static int lua_GetAccount(lua_State *L)
 	return 1;
 }
 
+static int lua_AccountIterator(lua_State *L)
+{
+	int i = lua_tointeger(L, lua_upvalueindex(1));
+	int count = lua_tointeger(L, lua_upvalueindex(2));
+	PROTOACCOUNT** accounts = (PROTOACCOUNT**)lua_touserdata(L, lua_upvalueindex(3));
+
+	if (i < count)
+	{
+		lua_pushinteger(L, (i + 1));
+		lua_replace(L, lua_upvalueindex(1));
+		MapToTable(L, accounts[i]);
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int lua_AllAccounts(lua_State *L)
+{
+	int count;
+	PROTOACCOUNT** accounts;
+	Proto_EnumAccounts(&count, &accounts);
+
+	lua_pushinteger(L, 0);
+	lua_pushinteger(L, count);
+	lua_pushlightuserdata(L, accounts);
+	lua_pushcclosure(L, lua_AccountIterator, 3);
+
+	return 1;
+}
+
 static int lua_EnumAccounts(lua_State *L)
 {
 	if (!lua_isfunction(L, 1))
@@ -126,9 +190,11 @@ static int lua_EnumAccounts(lua_State *L)
 static luaL_Reg protocolsApi[] =
 {
 	{ "GetProto", lua_GetProto },
+	{ "AllProtos", lua_AllProtos },
 	{ "EnumProtos", lua_EnumProtos },
 
 	{ "GetAccount", lua_GetAccount },
+	{ "AllAccounts", lua_AllAccounts },
 	{ "EnumAccounts", lua_EnumAccounts },
 
 	{ NULL, NULL }
