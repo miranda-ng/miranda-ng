@@ -20,7 +20,7 @@ void CLuaScriptLoader::RegisterScriptsFolder(const char *path)
 
 void CLuaScriptLoader::LoadScript(const TCHAR *path, int iGroup)
 {
-	CMLuaScript *script = new CMLuaScript(L, path, 0);
+	CMLuaScript *script = new CMLuaScript(L, path, iGroup);
 	g_mLua->Scripts.insert(script);
 
 	if (script->Load())
