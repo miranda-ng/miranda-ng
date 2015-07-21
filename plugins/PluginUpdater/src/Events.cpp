@@ -51,7 +51,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		OnFoldersChanged(0, 0);
 	}
 	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)), _countof(tszRoot));
+		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\" DEFAULT_UPDATES_FOLDER)), _countof(tszRoot));
 
 	int iRestartCount = db_get_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
