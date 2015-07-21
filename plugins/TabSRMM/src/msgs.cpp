@@ -741,12 +741,12 @@ struct {
 	int nItems;
 }
 static ICONBLOCKS[] = {
-	{ LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons, _countof(_deficons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons, _countof(_toolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons, _countof(_exttoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons, _countof(_chattoolbaricons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons, _countof(_logicons) },
-	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon, _countof(_trayIcon) }
+	{ LPGEN("Message Sessions") "/" LPGEN("Default"), _deficons, _countof(_deficons) },
+	{ LPGEN("Message Sessions") "/" LPGEN("Toolbar"), _toolbaricons, _countof(_toolbaricons) },
+	{ LPGEN("Message Sessions") "/" LPGEN("Toolbar"), _exttoolbaricons, _countof(_exttoolbaricons) },
+	{ LPGEN("Message Sessions") "/" LPGEN("Toolbar"), _chattoolbaricons, _countof(_chattoolbaricons) },
+	{ LPGEN("Message Sessions") "/" LPGEN("Message Log"), _logicons, _countof(_logicons) },
+	{ LPGEN("Message Sessions") "/" LPGEN("Animated Tray"), _trayIcon, _countof(_trayIcon) }
 };
 
 static int GetIconPackVersion(HMODULE hDLL)
@@ -812,7 +812,7 @@ static int TSAPI SetupIconLibConfig()
 		}
 	}
 
-	sid.section.a = LPGEN("Message Sessions")"/"LPGEN("Default");
+	sid.section.a = LPGEN("Message Sessions") "/" LPGEN("Default");
 	sid.pszName = "tabSRMM_clock_symbol";
 	sid.description.a = LPGEN("Clock symbol (for the info panel clock)");
 	sid.iDefaultIndex = -IDI_CLOCK;
