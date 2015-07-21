@@ -41,7 +41,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 
-	Icon_Register(g_hInstance, LPGEN("Database")"/"LPGEN("Database backups"), iconList, _countof(iconList));
+	Icon_Register(g_hInstance, LPGEN("Database") "/" LPGEN("Database backups"), iconList, _countof(iconList));
 
 	return 0;
 }
