@@ -61,9 +61,13 @@ bool CMLuaScript::Load()
 
 	lua_pushliteral(L, "Load");
 	lua_gettable(L, -2);
-	if (lua_isfunction(L, -1) && lua_pcall(L, 0, 0, 0))
-		CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
-	lua_pop(L, 1);
+	if (lua_isfunction(L, -1))
+	{
+		if (lua_pcall(L, 0, 0, 0))
+			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
+	}
+	else
+		lua_pop(L, 1);
 
 	lua_pushliteral(L, "Unload");
 	lua_gettable(L, -2);
