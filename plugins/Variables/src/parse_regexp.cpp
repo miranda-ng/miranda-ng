@@ -89,6 +89,6 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 
 void registerRegExpTokens()
 {
-	registerIntToken(REGEXPCHECK, parseRegExpCheck, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y)\t"LPGEN("(ANSI input only) the number of substring matches found in y with pattern x"));
-	registerIntToken(REGEXPSUBSTR, parseRegExpSubstr, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y,z)\t"LPGEN("(ANSI input only) substring match number z found in subject y with pattern x"));
+	registerIntToken(REGEXPCHECK, parseRegExpCheck, TRF_FUNCTION, LPGEN("Regular Expressions") "\t(x,y)\t" LPGEN("(ANSI input only) the number of substring matches found in y with pattern x"));
+	registerIntToken(REGEXPSUBSTR, parseRegExpSubstr, TRF_FUNCTION, LPGEN("Regular Expressions") "\t(x,y,z)\t" LPGEN("(ANSI input only) substring match number z found in subject y with pattern x"));
 }

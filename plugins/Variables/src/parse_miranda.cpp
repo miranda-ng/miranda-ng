@@ -741,37 +741,37 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 void registerMirandaTokens()
 {
 	// global vars
-	registerIntToken(_T("miranda_path"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to Miranda root folder"));
-	registerIntToken(_T("miranda_profilesdir"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to folder containing Miranda profiles"));
-	registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("name of current Miranda profile (filename, without extension)"));
-	registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"));
-	registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache"));
-	registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs"));
+	registerIntToken(_T("miranda_path"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to Miranda root folder"));
+	registerIntToken(_T("miranda_profilesdir"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("path to folder containing Miranda profiles"));
+	registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("name of current Miranda profile (filename, without extension)"));
+	registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"));
+	registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache"));
+	registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global") "\t" LPGEN("will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs"));
 
 	// OS vars
-	registerIntToken(_T("appdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
-	registerIntToken(_T("username"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("username for currently logged-on Windows user"));
-	registerIntToken(_T("mydocuments"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
-	registerIntToken(_T("desktop"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
+	registerIntToken(_T("appdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
+	registerIntToken(_T("username"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("username for currently logged-on Windows user"));
+	registerIntToken(_T("mydocuments"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"My Documents\" folder for currently logged-on Windows user"));
+	registerIntToken(_T("desktop"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS") "\t" LPGEN("\"Desktop\" folder for currently logged-on Windows user"));
 
-	registerIntToken(CODETOSTATUS, parseCodeToStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("translates status code x into a status description"));
-	registerIntToken(CONTACT, parseContact, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z)\t"LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
-	registerIntToken(CONTACTCOUNT, parseContactCount, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("number of contacts with property y described by x, example: (unregistered,nick)"));
-	registerIntToken(MIR_CONTACTINFO, parseContactInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of contact x"));
-	registerIntToken(DBPROFILENAME, parseDBProfileName, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("database profile name"));
-	registerIntToken(DBPROFILEPATH, parseDBProfilePath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("database profile path"));
-	registerIntToken(DBSETTING, parseDBSetting, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("database setting z of module y of contact x and return w if z doesn't exist (w is optional)"));
-	registerIntToken(DBEVENT, parseDbEvent, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("get event for contact x (optional), according to y,z,w, see documentation"));
-	registerIntToken(LSTIME, parseLastSeenTime, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("get last seen time of contact x in format y (y is optional)"));
-	registerIntToken(LSDATE, parseLastSeenDate, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("get last seen date of contact x in format y (y is optional)"));
-	registerIntToken(LSSTATUS, parseLastSeenStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("get last seen status of contact x"));
-	registerIntToken(MIRANDAPATH, parseMirandaPath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("path to the Miranda NG executable"));
-	registerIntToken(MYSTATUS, parseMyStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("current status description of protocol x (without x, the global status is retrieved)"));
-	registerIntToken(PROTOINFO, parseProtoInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of protocol ID x"));
-	registerIntToken(SUBJECT, parseSpecialContact, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("retrieves the subject, depending on situation"));
-	registerIntToken(TRANSLATE, parseTranslate, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("translates x"));
-	registerIntToken(VERSIONSTRING, parseVersionString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the version of Miranda"));
-	registerIntToken(CONTACT_NAME, parseContactNameString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the contact display name"));
-	registerIntToken(MIR_DATE, parseMirDateString, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("get the date and time (using Miranda format)"));
-	registerIntToken(SRVEXISTS, parseMirSrvExists, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("TRUE if service function exists"));
+	registerIntToken(CODETOSTATUS, parseCodeToStatus, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("translates status code x into a status description"));
+	registerIntToken(CONTACT, parseContact, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y,z)\t" LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
+	registerIntToken(CONTACTCOUNT, parseContactCount, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y)\t" LPGEN("number of contacts with property y described by x, example: (unregistered,nick)"));
+	registerIntToken(MIR_CONTACTINFO, parseContactInfo, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y)\t" LPGEN("info property y of contact x"));
+	registerIntToken(DBPROFILENAME, parseDBProfileName, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("database profile name"));
+	registerIntToken(DBPROFILEPATH, parseDBProfilePath, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("database profile path"));
+	registerIntToken(DBSETTING, parseDBSetting, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y,z,w)\t" LPGEN("database setting z of module y of contact x and return w if z doesn't exist (w is optional)"));
+	registerIntToken(DBEVENT, parseDbEvent, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y,z,w)\t" LPGEN("get event for contact x (optional), according to y,z,w, see documentation"));
+	registerIntToken(LSTIME, parseLastSeenTime, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y)\t" LPGEN("get last seen time of contact x in format y (y is optional)"));
+	registerIntToken(LSDATE, parseLastSeenDate, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y)\t" LPGEN("get last seen date of contact x in format y (y is optional)"));
+	registerIntToken(LSSTATUS, parseLastSeenStatus, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("get last seen status of contact x"));
+	registerIntToken(MIRANDAPATH, parseMirandaPath, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("path to the Miranda NG executable"));
+	registerIntToken(MYSTATUS, parseMyStatus, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("current status description of protocol x (without x, the global status is retrieved)"));
+	registerIntToken(PROTOINFO, parseProtoInfo, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x,y)\t" LPGEN("info property y of protocol ID x"));
+	registerIntToken(SUBJECT, parseSpecialContact, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("retrieves the subject, depending on situation"));
+	registerIntToken(TRANSLATE, parseTranslate, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("translates x"));
+	registerIntToken(VERSIONSTRING, parseVersionString, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("get the version of Miranda"));
+	registerIntToken(CONTACT_NAME, parseContactNameString, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("get the contact display name"));
+	registerIntToken(MIR_DATE, parseMirDateString, TRF_FIELD, LPGEN("Miranda Related") "\t" LPGEN("get the date and time (using Miranda format)"));
+	registerIntToken(SRVEXISTS, parseMirSrvExists, TRF_FUNCTION, LPGEN("Miranda Related") "\t(x)\t" LPGEN("TRUE if service function exists"));
 }

@@ -177,16 +177,16 @@ static TCHAR *parseSub(ARGUMENTSINFO *ai)
 
 void registerMathTokens()
 {
-	registerIntToken(ADD, parseAdd, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y ,...)\t"LPGEN("x + y + ..."));
-	registerIntToken(DIV, parseDiv, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x divided by y"));
-	registerIntToken(HEX, parseHex, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("converts decimal value x to hex value and padds to length y"));
-	registerIntToken(MOD, parseMod, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x modulo y (remainder of x divided by y)"));
-	registerIntToken(MUL, parseMul, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x times y"));
-	registerIntToken(MULDIV, parseMuldiv, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,z)\t"LPGEN("x times y divided by z"));
-	registerIntToken(MIN, parseMin, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("minimum value of (decimal) arguments"));
-	registerIntToken(MAX, parseMax, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("maximum value of (decimal) arguments"));
-	registerIntToken(NUM, parseNum, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("pads decimal value x to length y with zeros"));
-	registerIntToken(RAND, parseRand, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t()\t"LPGEN("random number"));
-	registerIntToken(SUB, parseSub, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("x - y - ..."));
+	registerIntToken(ADD, parseAdd, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y ,...)\t" LPGEN("x + y + ..."));
+	registerIntToken(DIV, parseDiv, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y)\t" LPGEN("x divided by y"));
+	registerIntToken(HEX, parseHex, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y)\t" LPGEN("converts decimal value x to hex value and padds to length y"));
+	registerIntToken(MOD, parseMod, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y)\t" LPGEN("x modulo y (remainder of x divided by y)"));
+	registerIntToken(MUL, parseMul, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y)\t" LPGEN("x times y"));
+	registerIntToken(MULDIV, parseMuldiv, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y,z)\t" LPGEN("x times y divided by z"));
+	registerIntToken(MIN, parseMin, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y,...)\t" LPGEN("minimum value of (decimal) arguments"));
+	registerIntToken(MAX, parseMax, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y,...)\t" LPGEN("maximum value of (decimal) arguments"));
+	registerIntToken(NUM, parseNum, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y)\t" LPGEN("pads decimal value x to length y with zeros"));
+	registerIntToken(RAND, parseRand, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t()\t" LPGEN("random number"));
+	registerIntToken(SUB, parseSub, TRF_FUNCTION, LPGEN("Mathematical Functions") "\t(x,y,...)\t" LPGEN("x - y - ..."));
 	srand((unsigned int)GetTickCount());
 }
