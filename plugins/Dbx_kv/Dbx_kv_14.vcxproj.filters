@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{60d2ae39-2690-4258-aa90-e825ef024b81}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a2637eb4-34a4-4341-9c84-0e0ecfdc0f35}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e5e10389-c0d7-4cf8-8442-6714f0d5aff1}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files\hamsterdb">
+      <UniqueIdentifier>{74e7bd75-7fa5-4c0b-b9a1-62066a38f420}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dbcontacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbevents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbintf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbmodulechain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbsettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbcrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1base\error.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1base\util.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1errorinducer\errorinducer.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1globals\globals.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1mem\mem.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1os\os.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\1os\os_win32.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\2page\page.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3blob_manager\blob_manager.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3blob_manager\blob_manager_disk.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3blob_manager\blob_manager_inmem.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_check.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_cursor.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_erase.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_find.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_index.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_insert.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_stats.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_update.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3btree\btree_visit.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3changeset\changeset.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3journal\journal.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\3page_manager\page_manager.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4cursor\cursor.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4db\db.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4db\db_local.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4db\db_remote.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4env\env_remote.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4env\env_local.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4env\env.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4txn\txn_cursor.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4txn\txn_local.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\4txn\txn_remote.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hamsterdb\src\5hamsterdb\hamsterdb.cc">
+      <Filter>Source Files\hamsterdb</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dbintf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_db_int.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hamsterdb\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\dbx_kv.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
