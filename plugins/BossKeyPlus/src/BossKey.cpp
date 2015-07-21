@@ -671,7 +671,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 		tr.tszTokenString = _T("bosskeyname");
 		tr.parseFunctionT = VariablesBossKey;
-		tr.szHelpText = LPGEN("BossKey")"\t"LPGEN("get the BossKey name");
+		tr.szHelpText = LPGEN("BossKey") "\t" LPGEN("get the BossKey name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 	}
 
