@@ -171,7 +171,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			int hMessage = atoi(clientMsgId.c_str());
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, &content.c_str()[emoteOffset], clientMsgId.c_str());
+			AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, &message[emoteOffset], clientMsgId.c_str());
 			return;
 		}
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
