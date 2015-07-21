@@ -57,7 +57,7 @@ static IconItem iconList[] =
 void InitIcons(void)
 {
 	Icon_Register(hInstance, "Protocols/AIM", iconList, 14, "AIM");
-	Icon_Register(hInstance, "Protocols/AIM/"LPGEN("Profile Editor"), iconList+14, 14, "AIM");
+	Icon_Register(hInstance, "Protocols/AIM/" LPGEN("Profile Editor"), iconList+14, 14, "AIM");
 }
 
 HICON LoadIconEx(const char *name, bool big)
