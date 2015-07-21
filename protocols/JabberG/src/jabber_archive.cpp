@@ -296,7 +296,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		dbei.cbBlob = (DWORD)mir_strlen(szEventText);
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = szEventText;
-		dbei.timestamp = tmStart + _ttol(tszSecs) - timezone;
+		dbei.timestamp = TimeZone_ToLocal(tmStart + _ttol(tszSecs));
 		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 	}
