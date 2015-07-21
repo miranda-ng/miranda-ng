@@ -874,30 +874,30 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai)
 
 void registerSystemTokens()
 {
-	registerIntToken(COMPUTERNAME, parseComputerName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("computer name"));
-	registerIntToken(CPULOAD, parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("CPU load of process x (without extension) (x is optional)"));
-	registerIntToken(CDATE, parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current date in format y (y is optional)"));
-	registerIntToken(CTIME, parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current time in format y (y is optional)"));
-	registerIntToken(DIRECTORY, parseDirectory, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("the directory y directories above x"));
-	registerIntToken(DIRECTORY2, parseDirectory2, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("strips y directories from x"));
-	registerIntToken(DIFFTIME, parseDiffTime, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("number of seconds between date x and y (x and y in format: M/d/yy H:m:s)"));
-	registerIntToken(DIREXISTS, parseDirExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if directory x exists"));
-	registerIntToken(FILEEXISTS, parseFileExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if file x exists"));
-	registerIntToken(FINDWINDOW, parseFindWindow, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("window title of first window of class x"));
-	registerIntToken(LISTDIR, parseListDir, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y,z)\t"LPGEN("shows files and directories of directory x, with filter y, separated by z (y and z optional)"));
+	registerIntToken(COMPUTERNAME, parseComputerName, TRF_FIELD, LPGEN("System Functions") "\t" LPGEN("computer name"));
+	registerIntToken(CPULOAD, parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("CPU load of process x (without extension) (x is optional)"));
+	registerIntToken(CDATE, parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions") "\t(y)\t" LPGEN("current date in format y (y is optional)"));
+	registerIntToken(CTIME, parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions") "\t(y)\t" LPGEN("current time in format y (y is optional)"));
+	registerIntToken(DIRECTORY, parseDirectory, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("the directory y directories above x"));
+	registerIntToken(DIRECTORY2, parseDirectory2, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("strips y directories from x"));
+	registerIntToken(DIFFTIME, parseDiffTime, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("number of seconds between date x and y (x and y in format: M/d/yy H:m:s)"));
+	registerIntToken(DIREXISTS, parseDirExists, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("TRUE if directory x exists"));
+	registerIntToken(FILEEXISTS, parseFileExists, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("TRUE if file x exists"));
+	registerIntToken(FINDWINDOW, parseFindWindow, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("window title of first window of class x"));
+	registerIntToken(LISTDIR, parseListDir, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y,z)\t" LPGEN("shows files and directories of directory x, with filter y, separated by z (y and z optional)"));
 #ifndef WINE
-	registerIntToken(PROCESSRUNNING, parseProcessRunning, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if process x is running"));
+	registerIntToken(PROCESSRUNNING, parseProcessRunning, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("TRUE if process x is running"));
 #endif
-	registerIntToken(REGISTRYVALUE, parseRegistryValue, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("value y from registry key x (REG_SZ (string) values only)"));
-	registerIntToken(TIMESTAMP2DATE, parseTimestamp2Date, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in date format y"));
-	registerIntToken(TIMESTAMP2TIME, parseTimestamp2Time, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in time format y"));
-	registerIntToken(TXTFILE, parseTextFile, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
-	registerIntToken(UPTIME, parseUpTime, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("uptime in seconds"));
+	registerIntToken(REGISTRYVALUE, parseRegistryValue, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("value y from registry key x (REG_SZ (string) values only)"));
+	registerIntToken(TIMESTAMP2DATE, parseTimestamp2Date, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("formats timestamp x (seconds since 1/1/1970) in date format y"));
+	registerIntToken(TIMESTAMP2TIME, parseTimestamp2Time, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("formats timestamp x (seconds since 1/1/1970) in time format y"));
+	registerIntToken(TXTFILE, parseTextFile, TRF_FUNCTION, LPGEN("System Functions") "\t(x,y)\t" LPGEN("y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
+	registerIntToken(UPTIME, parseUpTime, TRF_FIELD, LPGEN("System Functions") "\t" LPGEN("uptime in seconds"));
 
-	registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
-	registerIntToken(USERNAME, parseUserName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("user name"));
+	registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("System Functions") "\t(x)\t" LPGEN("expand environment variable x"));
+	registerIntToken(USERNAME, parseUserName, TRF_FIELD, LPGEN("System Functions") "\t" LPGEN("user name"));
 
 	srand((unsigned int)GetTickCount());
 
-	registerIntToken(CLIPBOARD, parseClipboard, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("text from clipboard"));
+	registerIntToken(CLIPBOARD, parseClipboard, TRF_FIELD, LPGEN("System Functions") "\t" LPGEN("text from clipboard"));
 }

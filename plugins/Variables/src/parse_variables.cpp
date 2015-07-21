@@ -98,9 +98,9 @@ static TCHAR *parseGet(ARGUMENTSINFO *ai)
 
 void registerVariablesTokens()
 {
-	registerIntToken(GET, parseGet, TRF_FUNCTION, LPGEN("Variables")"\t(x)\t"LPGEN("variable set by put(s) with name x"));
-	registerIntToken(PUT, parsePut, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("x, and stores y as variable named x"));//TRF_UNPARSEDARGS);
-	registerIntToken(PUTS, parsePuts, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("only stores y as variables x"));//TRF_UNPARSEDARGS);
+	registerIntToken(GET, parseGet, TRF_FUNCTION, LPGEN("Variables") "\t(x)\t" LPGEN("variable set by put(s) with name x"));
+	registerIntToken(PUT, parsePut, TRF_FUNCTION, LPGEN("Variables") "\t(x,y)\t" LPGEN("x, and stores y as variable named x"));//TRF_UNPARSEDARGS);
+	registerIntToken(PUTS, parsePuts, TRF_FUNCTION, LPGEN("Variables") "\t(x,y)\t" LPGEN("only stores y as variables x"));//TRF_UNPARSEDARGS);
 }
 
 void unregisterVariablesTokens()
