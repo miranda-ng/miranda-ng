@@ -74,7 +74,7 @@ static IconItem iconList[] =
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, _countof(iconList), "VKontakte");
+	Icon_Register(hInst, LPGEN("Protocols") "/" LPGEN("VKontakte"), iconList, _countof(iconList), "VKontakte");
 }
 
 HANDLE GetIconHandle(int iCommand)
