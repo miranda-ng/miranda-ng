@@ -525,10 +525,10 @@ static IconItem sharedIconList4[] =
 
 void g_IconsInit()
 {
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber"),                       sharedIconList1, _countof(sharedIconList1), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber")"/"LPGEN("Dialogs"),    sharedIconList2, _countof(sharedIconList2), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Discovery"), sharedIconList3, _countof(sharedIconList3), GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Privacy"),   sharedIconList4, _countof(sharedIconList4), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols") "/" LPGEN("Jabber"),                       sharedIconList1, _countof(sharedIconList1), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols") "/" LPGEN("Jabber") "/" LPGEN("Dialogs"),    sharedIconList2, _countof(sharedIconList2), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols") "/" LPGEN("Dialogs") "/" LPGEN("Discovery"), sharedIconList3, _countof(sharedIconList3), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols") "/" LPGEN("Dialogs") "/" LPGEN("Privacy"),   sharedIconList4, _countof(sharedIconList4), GLOBAL_SETTING_PREFIX);
 }
 
 HANDLE g_GetIconHandle(int iconId)
