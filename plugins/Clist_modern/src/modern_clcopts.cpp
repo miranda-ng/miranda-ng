@@ -57,10 +57,10 @@ struct FontOptionsList {
 	char size;
 };
 
-#define CLCGROUP			LPGENT("Contact list")_T("/")LPGENT("Contact names")
-#define CLCLINESGROUP		LPGENT("Contact list")_T("/")LPGENT("Row items")
-#define CLCFRAMESGROUP		LPGENT("Contact list")_T("/")LPGENT("Frame texts")
-#define CLCCOLOURSGROUP		LPGENT("Contact list")_T("/")LPGENT("Special colors")
+#define CLCGROUP			LPGENT("Contact list") _T("/") LPGENT("Contact names")
+#define CLCLINESGROUP		LPGENT("Contact list") _T("/") LPGENT("Row items")
+#define CLCFRAMESGROUP		LPGENT("Contact list") _T("/") LPGENT("Frame texts")
+#define CLCCOLOURSGROUP		LPGENT("Contact list") _T("/") LPGENT("Special colors")
 
 #define DEFAULT_COLOUR		RGB(0, 0, 0)
 #define DEFAULT_GREYCOLOUR	RGB(128, 128, 128)
