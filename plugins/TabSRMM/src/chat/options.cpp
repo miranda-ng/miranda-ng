@@ -337,8 +337,8 @@ static IconItem _logicons[] =
 // add icons to the skinning module
 void Chat_AddIcons(void)
 {
-	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat windows"), _icons, _countof(_icons));
-	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat log"), _logicons, _countof(_logicons));
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat windows"), _icons, _countof(_icons));
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons));
 	pci->MM_IconsChanged();
 }
 
