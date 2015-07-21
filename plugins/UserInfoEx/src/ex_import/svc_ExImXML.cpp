@@ -117,7 +117,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		// write xml header raw as it is without using the tinyxml api
 		fprintf(xmlfile, 
 			"%c%c%c<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
-			"<XMLCard ver=\""XMLCARD_VERSION"\" ref=\"%04d-%02d-%02d %02d:%02d:%02d\">\n",
+			"<XMLCard ver=\"" XMLCARD_VERSION "\" ref=\"%04d-%02d-%02d %02d:%02d:%02d\">\n",
 			0xefU, 0xbbU, 0xbfU, now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond
 		);
 		// remember the header's size
