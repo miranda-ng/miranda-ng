@@ -1777,13 +1777,13 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		tr.flags = TRF_FREEMEM | TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
 		tr.tszTokenString = _T("winampsong");
 		tr.parseFunctionT = ParseWinampSong;
-		tr.szHelpText = LPGEN("External Applications")"\t"LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
+		tr.szHelpText = LPGEN("External Applications") "\t" LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		if (db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) != 0) {
 			tr.tszTokenString = _T("date");
 			tr.parseFunctionT = ParseDate;
-			tr.szHelpText = LPGEN("Miranda Related")"\t"LPGEN("get the date (Simple Status Message compatible)");
+			tr.szHelpText = LPGEN("Miranda Related") "\t" LPGEN("get the date (Simple Status Message compatible)");
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}
 	}
