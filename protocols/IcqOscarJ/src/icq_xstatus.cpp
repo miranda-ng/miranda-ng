@@ -891,7 +891,7 @@ void InitXStatusIcons()
 	TCHAR lib[2*MAX_PATH] = {0};
 
 	SKINICONDESC sid = { 0 };
-	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/"LPGEN("Custom Status");
+	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/" LPGEN("Custom Status");
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.defaultFile.t = InitXStatusIconLibrary(lib, _countof(lib));
 
