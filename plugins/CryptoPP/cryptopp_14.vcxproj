@@ -261,7 +261,7 @@
     <ResourceCompile Include="src\GPGw\gpg.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="crypto\cryptlib_12.vcxproj">
+    <ProjectReference Include="crypto\cryptlib_14.vcxproj">
       <Project>{290c5ed4-71a7-4040-ad26-4820cf7a9e60}</Project>
     </ProjectReference>
   </ItemGroup>

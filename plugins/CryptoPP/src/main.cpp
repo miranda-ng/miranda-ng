@@ -2,7 +2,7 @@
 
 int hLangpack;
 LPCSTR szModuleName = MODULENAME;
-LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING_DOTS")";
+LPCSTR szVersionStr = MODULENAME" DLL (" __VERSION_STRING_DOTS ")";
 HINSTANCE g_hInst;
 
 HANDLE hPGPPRIV = NULL;
