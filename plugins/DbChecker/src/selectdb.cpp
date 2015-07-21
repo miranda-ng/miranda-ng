@@ -99,7 +99,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 			return lvi.iItem;
 	}
 
-	_stat st;
+	struct _stat st;
 	if (_tstat(filename, &st) == -1)
 		return -1;
 
