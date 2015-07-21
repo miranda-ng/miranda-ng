@@ -874,7 +874,7 @@ std::string FacebookProto::PrepareUrl(std::string url) {
 	// Transform absolute URL to relative
 	if (isAbsoluteUrl) {
 		// Check and ignore special subdomains
-		std::string subdomain = utils::text::source_get_value(&url, 2, "://", "."FACEBOOK_SERVER_DOMAIN);
+		std::string subdomain = utils::text::source_get_value(&url, 2, "://", "." FACEBOOK_SERVER_DOMAIN);
 		if (subdomain == "developers")
 			return url;
 		

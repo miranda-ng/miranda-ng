@@ -323,7 +323,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				std::string description = share["description"].as_string();
 				std::string link = share["uri"].as_string();
 
-				if (link.find("l."FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
+				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link
 					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
 				}
