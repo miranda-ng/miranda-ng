@@ -120,7 +120,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
 	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
 	if (TTBButtons == 1 && hTTBarloaded != NULL) {
-		Icon_Register(hInst, "Toolbar/"MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
+		Icon_Register(hInst, "Toolbar/" MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
 		RemoveTTButtons();
 		CreateTTButtons(0,0);
 	}
