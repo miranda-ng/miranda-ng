@@ -222,7 +222,7 @@
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
-    <ProjectReference Include="curl\lib\vc6libcurl_12.vcxproj">
+    <ProjectReference Include="curl\lib\vc6libcurl_14.vcxproj">
       <Project>{01f9e227-06f5-4bed-907f-402ca7dfafe6}</Project>
     </ProjectReference>
   </ItemGroup>
