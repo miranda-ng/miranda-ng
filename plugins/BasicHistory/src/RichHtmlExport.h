@@ -26,7 +26,7 @@ private:
 	std::wstring folder;
 	std::wstring folderName;
 	std::string baseProto;
-	stdext::hash_set<std::wstring> smileys;
+	std::unordered_set<std::wstring> smileys;
 	std::wstring ReplaceSmileys(bool isMe, const std::wstring &msg, bool &isUrl);
 public:
 	virtual const TCHAR* GetExt()

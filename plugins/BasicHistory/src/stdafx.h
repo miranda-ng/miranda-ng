@@ -24,7 +24,7 @@
 #include <shellapi.h>
 
 #include <map>
-#include <hash_set>
+#include <unordered_set>
 #include <vector>
 #include <queue>
 #include <locale>
