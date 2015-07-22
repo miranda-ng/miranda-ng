@@ -113,7 +113,7 @@ EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack);
 
 #pragma warning(disable:4505)
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallack(const char *name, const char *description, const char *descIcon,
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon,
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0, int = hLangpack);
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon = NULL,

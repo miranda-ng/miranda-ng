@@ -394,7 +394,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int hLangpack)
 	}
 }
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallack(const char *name, const char *description, const char *descIcon, 
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon, 
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
 	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int hLangpack)
 {

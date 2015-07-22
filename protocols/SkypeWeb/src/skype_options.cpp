@@ -80,7 +80,7 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void CSkypeOptionsMain::OnUsehostnameCheck(CCtrlCheck* p)
+void CSkypeOptionsMain::OnUsehostnameCheck(CCtrlCheck*)
 {
 	m_place.Enable(!m_usehostname.GetState());
 }

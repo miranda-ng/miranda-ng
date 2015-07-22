@@ -114,13 +114,13 @@ static bool CheckContactsServiceSupport(const char* szProto)
 static int HookPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	int bVisible = FALSE;
+	bool bVisible = false;
 
 	if (szProto && CheckContactsServiceSupport(szProto)) {
 		// known protocol, protocol supports contacts sending
 		// check the selected contact if it supports contacts receive
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, hContact))
-			bVisible = TRUE;
+			bVisible = true;
 	}
 
 	// update contact menu item's visibility

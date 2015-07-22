@@ -1223,8 +1223,8 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	Icon_Register(hinstance, LPGEN("Protocols") "/" LPGEN("XFire"), &icon, 1);
 
-	hExtraIcon1 = ExtraIcon_RegisterCallack("xfire_game", LPGEN("XFire game icon"), "", NULL, ExtraImageApply1);
-	hExtraIcon2 = ExtraIcon_RegisterCallack("xfire_voice", LPGEN("XFire voice icon"), "", NULL, ExtraImageApply2);
+	hExtraIcon1 = ExtraIcon_RegisterCallback("xfire_game", LPGEN("XFire game icon"), "", NULL, ExtraImageApply1);
+	hExtraIcon2 = ExtraIcon_RegisterCallback("xfire_voice", LPGEN("XFire voice icon"), "", NULL, ExtraImageApply2);
 	return 0;
 }
 
