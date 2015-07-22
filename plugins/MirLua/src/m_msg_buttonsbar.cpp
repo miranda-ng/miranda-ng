@@ -50,7 +50,6 @@ static int lua_AddButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
 	lua_pushinteger(L, res);
 
-
 	return 1;
 }
 
@@ -79,7 +78,7 @@ static int lua_RemoveButton(lua_State *L)
 	INT_PTR res = ::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbb);
 	lua_pushinteger(L, res);
 
-	mir_free(bbb.pszModuleName);
+	//mir_free(bbb.pszModuleName);
 
 	return 1;
 }
