@@ -139,19 +139,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="foobar2000\foobar2000_component_client\foobar2000_component_client_12.vcxproj">
+    <ProjectReference Include="foobar2000\foobar2000_component_client\foobar2000_component_client_14.vcxproj">
       <Project>{71ad2674-065b-48f5-b8b0-e1f9d3892081}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="foobar2000\helpers\foobar2000_sdk_helpers_12.vcxproj">
+    <ProjectReference Include="foobar2000\helpers\foobar2000_sdk_helpers_14.vcxproj">
       <Project>{ee47764e-a202-4f85-a767-abdab4aff35f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="foobar2000\SDK\foobar2000_SDK_12.vcxproj">
+    <ProjectReference Include="foobar2000\SDK\foobar2000_SDK_14.vcxproj">
       <Project>{e8091321-d79d-4575-86ef-064ea1a4a20d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="pfc\pfc_12.vcxproj">
+    <ProjectReference Include="pfc\pfc_14.vcxproj">
       <Project>{ebfffb4e-261d-44d3-b89c-957b31a0bf9c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

@@ -333,7 +333,7 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="src\glib\glib_12.vcxproj">
+    <ProjectReference Include="src\glib\glib_14.vcxproj">
       <Project>{12bca020-eabf-429e-876a-a476bc9c10c0}</Project>
     </ProjectReference>
   </ItemGroup>
