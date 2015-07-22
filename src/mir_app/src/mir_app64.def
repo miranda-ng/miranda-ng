@@ -247,3 +247,7 @@ KillModuleExtraIcons @245
 KillModuleFonts @246
 KillModuleHotkeys @247
 KillModuleSounds @248
+??0CProtoIntDlgBase@@QEAA@$$QEAV0@@Z @249 NONAME
+??0PROTO_INTERFACE@@QEAA@$$QEAU0@@Z @250 NONAME
+??4CProtoIntDlgBase@@QEAAAEAV0@$$QEAV0@@Z @251 NONAME
+??4PROTO_INTERFACE@@QEAAAEAU0@$$QEAU0@@Z @252 NONAME
