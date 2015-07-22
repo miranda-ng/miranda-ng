@@ -238,7 +238,7 @@ Menu_DestroyNestedMenu @236
 ExtraIcon_SetIcon @237
 ExtraIcon_SetIconByName @238
 ExtraIcon_Clear @239
-ExtraIcon_RegisterCallack @240
+ExtraIcon_RegisterCallback @240
 ExtraIcon_RegisterIcolib @241
 KillModuleIcons @242
 KillModuleColours @243 

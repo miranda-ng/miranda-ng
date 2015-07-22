@@ -304,7 +304,7 @@ void DefaultExtraIcons_Load()
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
 	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male");
-	hExtraProto = ExtraIcon_RegisterCallack("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
+	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
 
 	for (int i = 0; i < _countof(infos); i++) {

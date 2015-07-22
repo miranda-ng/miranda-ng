@@ -971,6 +971,6 @@ void InitFingerModule()
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 
-	hExtraIcon = ExtraIcon_RegisterCallack("Client", LPGEN("Fingerprint"), "client_Miranda_unknown",
+	hExtraIcon = ExtraIcon_RegisterCallback("Client", LPGEN("Fingerprint"), "client_Miranda_unknown",
 		OnExtraIconListRebuild, OnExtraImageApply, OnExtraIconClick);
 }
