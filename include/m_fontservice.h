@@ -316,7 +316,4 @@ EXTERN_C MIR_APP_DLL(void) KillModuleFonts(int hLangpack);
 EXTERN_C MIR_APP_DLL(void) KillModuleColours(int hLangpack);
 EXTERN_C MIR_APP_DLL(void) KillModuleEffects(int hLangpack);
 
-EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int hLangpack);
-EXTERN_C MIR_APP_DLL(void) KillModuleSounds(int hLangpack);
-
 #endif // _FONT_SERVICE_API_INC
