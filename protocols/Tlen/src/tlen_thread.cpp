@@ -407,7 +407,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	if (p != NULL) {
 		iqId = TlenSerialNext(proto->threadData->proto);
 		TlenIqAdd(proto, iqId, IQ_PROC_NONE, TlenIqResultAuth);
-		TlenSend(proto, "<iq type='set' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
+		TlenSend(proto, "<iq type='set' id='" TLEN_IQID "%d'><query xmlns='jabber:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
 		mir_free(p);
 	}
 	mir_free(str);

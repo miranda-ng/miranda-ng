@@ -66,9 +66,9 @@ int TlenRunSearch(TlenProtocol *proto) {
 		iqId = proto->searchID;
 		TlenIqAdd(proto, iqId, IQ_PROC_GETSEARCH, TlenIqResultSearch);
 		if (proto->searchIndex == 0) {
-			TlenSend(proto, "<iq type='get' id='"TLEN_IQID"%d' to='tuba'><query xmlns='jabber:iq:search'>%s</query></iq>", iqId, proto->searchQuery);
+			TlenSend(proto, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'>%s</query></iq>", iqId, proto->searchQuery);
 		} else {
-			TlenSend(proto, "<iq type='get' id='"TLEN_IQID"%d' to='tuba'><query xmlns='jabber:iq:search'>%s<f>%d</f></query></iq>", iqId, proto->searchQuery, proto->searchIndex * TLEN_MAX_SEARCH_RESULTS_PER_PAGE);
+			TlenSend(proto, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'>%s<f>%d</f></query></iq>", iqId, proto->searchQuery, proto->searchIndex * TLEN_MAX_SEARCH_RESULTS_PER_PAGE);
 		}
 		proto->searchIndex ++;
 	}
@@ -476,14 +476,14 @@ int TlenProtocol::GetInfo(MCONTACT hContact, int infoType)
 	if (hContact == NULL) {
 		iqId = TlenSerialNext(this);
 		TlenIqAdd(this, iqId, IQ_PROC_NONE, TlenIqResultVcard);
-		TlenSend(this, "<iq type='get' id='"TLEN_IQID"%d' to='tuba'><query xmlns='jabber:iq:register'></query></iq>", iqId);
+		TlenSend(this, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:register'></query></iq>", iqId);
 	} else {
 		if (db_get(hContact, m_szModuleName, "jid", &dbv)) return 1;
 		if ((nick=TlenNickFromJID(dbv.pszVal)) != NULL) {
 			if ((pNick=TlenTextEncode(nick)) != NULL) {
 				iqId = TlenSerialNext(this);
 				TlenIqAdd(this, iqId, IQ_PROC_NONE, TlenIqResultVcard);
-				TlenSend(this, "<iq type='get' id='"TLEN_IQID"%d' to='tuba'><query xmlns='jabber:iq:search'><i>%s</i></query></iq>", iqId, pNick);
+				TlenSend(this, "<iq type='get' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:search'><i>%s</i></query></iq>", iqId, pNick);
 				mir_free(pNick);
 			}
 			mir_free(nick);
@@ -639,14 +639,14 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 				else if (!mir_strcmp(msgType, "privchat"))
 					TlenSend(this, "<m to='%s'><b n='6' s='10' f='0' c='000000'>%s</b></m>", dbv.pszVal, msgEnc);
 				else
-					TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
+					TlenSend(this, "<message to='%s' type='%s' id='" TLEN_IQID "%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 
 				forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 			}
 			else {
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
 					item->idMsgAckPending = id;
-				TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
+				TlenSend(this, "<message to='%s' type='%s' id='" TLEN_IQID "%d'><body>%s</body><x xmlns='jabber:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 			}
 		}
 		mir_free(msgEnc);
