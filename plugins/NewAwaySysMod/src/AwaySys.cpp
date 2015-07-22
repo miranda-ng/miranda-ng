@@ -453,15 +453,15 @@ struct
 }
 static Variables[] =
 {
-	{ VAR_AWAYSINCE_TIME, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_AWAYSINCE_DATE, LPGEN("New Away System")"\t(x)\t"LPGEN("Away since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_STATDESC, LPGEN("New Away System")"\t"LPGEN("Status description"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_MYNICK, LPGEN("New Away System")"\t"LPGEN("Your nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_REQUESTCOUNT, LPGEN("New Away System")"\t"LPGEN("Number of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_MESSAGENUM, LPGEN("New Away System")"\t"LPGEN("Number of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_TIMEPASSED, LPGEN("New Away System")"\t"LPGEN("Time passed until request"), TRF_FIELD | TRF_FUNCTION },
-	{ VAR_PREDEFINEDMESSAGE, LPGEN("New Away System")"\t(x)\t"LPGEN("Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
-	{ VAR_PROTOCOL, LPGEN("New Away System")"\t"LPGEN("Current protocol name"), TRF_FIELD | TRF_FUNCTION }
+	{ VAR_AWAYSINCE_TIME, LPGEN("New Away System") "\t(x)\t" LPGEN("Away since time in default format; ?nas_awaysince_time(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_AWAYSINCE_DATE, LPGEN("New Away System") "\t(x)\t" LPGEN("Away since date in default format; ?nas_awaysince_date(x) in format x"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_STATDESC, LPGEN("New Away System") "\t" LPGEN("Status description"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MYNICK, LPGEN("New Away System") "\t" LPGEN("Your nick for current protocol"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_REQUESTCOUNT, LPGEN("New Away System") "\t" LPGEN("Number of status message requests from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_MESSAGENUM, LPGEN("New Away System") "\t" LPGEN("Number of messages from the contact"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_TIMEPASSED, LPGEN("New Away System") "\t" LPGEN("Time passed until request"), TRF_FIELD | TRF_FUNCTION },
+	{ VAR_PREDEFINEDMESSAGE, LPGEN("New Away System") "\t(x)\t" LPGEN("Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)"), TRF_FUNCTION },
+	{ VAR_PROTOCOL, LPGEN("New Away System") "\t" LPGEN("Current protocol name"), TRF_FIELD | TRF_FUNCTION }
 };
 
 INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)

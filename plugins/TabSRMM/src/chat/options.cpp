@@ -60,32 +60,32 @@ struct ColorOptionsList
 static ColorOptionsList _clrs[] = {
 	{ 0, LPGENT("Message Sessions"), LPGENT("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR },
 	{ 1, LPGENT("Message Sessions"), LPGENT("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
-	{ 0, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 1, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 2, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
-	{ 3, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 4, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 5, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
-	{ 0, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), LPGENT("Panel background low"), "ipfieldsbg", 0x62caff },
-	{ 1, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), LPGENT("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
-	{ 0, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Toolbar background high"), "tbBgHigh", 0 },
-	{ 1, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Toolbar background low"), "tbBgLow", 0 },
-	{ 2, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Window fill color"), "fillColor", 0 },
-	{ 3, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Text area borders"), "cRichBorders", 0 },
-	{ 4, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
-	{ 4, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
+	{ 0, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 1, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 2, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
+	{ 3, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 4, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 5, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), LPGENT("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
+	{ 0, LPGENT("Message Sessions") _T("/") LPGENT("Info Panel"), LPGENT("Panel background low"), "ipfieldsbg", 0x62caff },
+	{ 1, LPGENT("Message Sessions") _T("/") LPGENT("Info Panel"), LPGENT("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
+	{ 0, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Toolbar background high"), "tbBgHigh", 0 },
+	{ 1, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Toolbar background low"), "tbBgLow", 0 },
+	{ 2, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Window fill color"), "fillColor", 0 },
+	{ 3, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Text area borders"), "cRichBorders", 0 },
+	{ 4, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
+	{ 4, LPGENT("Message Sessions") _T("/") LPGENT("Common colors"), LPGENT("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
 };
 
 static ColorOptionsList _tabclrs[] = {
-	{ 0, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
-	{ 1, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
-	{ 2, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
-	{ 3, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
+	{ 0, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
+	{ 1, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
+	{ 2, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
+	{ 3, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
 
-	{ 4, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
-	{ 5, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
-	{ 6, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
-	{ 7, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
+	{ 4, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
+	{ 5, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
+	{ 6, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
+	{ 7, LPGENT("Message Sessions") _T("/") LPGENT("Tabs"), LPGENT("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
 };
 
 extern LOGFONT lfDefault;
@@ -509,8 +509,8 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), _countof(fid.backgroundGroup));
-		_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), _countof(fid.group));
+		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), _countof(fid.backgroundGroup));
+		_tcsncpy(fid.group, LPGENT("Message Sessions") _T("/") LPGENT("Single Messaging"), _countof(fid.group));
 		switch (i) {
 		case MSGFONTID_MYMSG:
 		case 1:
@@ -557,8 +557,8 @@ void RegisterFontServiceFonts()
 
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), _countof(fid.group));
-	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), _countof(fid.backgroundGroup));
+	_tcsncpy(fid.group, LPGENT("Message Sessions") _T("/") LPGENT("Info Panel"), _countof(fid.group));
+	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions") _T("/") LPGENT("Info Panel"), _countof(fid.backgroundGroup));
 	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
@@ -581,7 +581,7 @@ void RegisterFontServiceFonts()
 		FontRegisterT(&fid);
 	}
 
-	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), _countof(cid.group));
+	_tcsncpy(cid.group, LPGENT("Message Sessions") _T("/") LPGENT("Group chats"), _countof(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, _countof(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
 		mir_snprintf(szTemp, "NickColor%d", i);

@@ -1508,12 +1508,12 @@ void g_XstatusIconsInit()
 		mir_tstrcpy(p + 1, _T("..\\Icons\\xstatus_jabber.dll"));
 
 	TCHAR szSection[100];
-	mir_tstrcpy(szSection, _T("Protocols/Jabber/")LPGENT("Moods"));
+	mir_tstrcpy(szSection, _T("Protocols/Jabber/") LPGENT("Moods"));
 
 	for (int i = 1; i < _countof(g_arrMoods); i++)
 		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateTS(g_arrMoods[i].szName));
 
-	mir_tstrcpy(szSection, _T("Protocols/Jabber/")LPGENT("Activities"));
+	mir_tstrcpy(szSection, _T("Protocols/Jabber/") LPGENT("Activities"));
 	for (int k = 0; k < _countof(g_arrActivities); k++) {
 		if (g_arrActivities[k].szFirst)
 			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szFirst, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));

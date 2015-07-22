@@ -101,7 +101,7 @@ void InitXStatusIcons()
 	GetModuleFileName((g_hDLLXStatusIcons != NULL) ? g_hDLLXStatusIcons : g_hInstance, szBuff, _countof(szBuff));
 
 	SKINICONDESC sid = { 0 };
-	sid.section.t = LPGENT("Protocols")_T("/")LPGENT("MRA")_T("/")LPGENT("Custom Status");
+	sid.section.t = LPGENT("Protocols")_T("/") LPGENT("MRA") _T("/") LPGENT("Custom Status");
 	sid.defaultFile.t = szBuff;
 	sid.flags = SIDF_ALL_TCHAR;
 
