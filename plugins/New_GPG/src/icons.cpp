@@ -40,9 +40,9 @@ void setClistIcon(MCONTACT hContact)
 	extern HANDLE g_hCLIcon;
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 	const char *szIconId = (enabled) ? "secured" : NULL;
-	ExtraIcon_SetIcon(g_hCLIcon, hContact, szIconId);
+	ExtraIcon_SetIconByName(g_hCLIcon, hContact, szIconId);
 	if(hMC != hContact)
-		ExtraIcon_SetIcon(g_hCLIcon, hMC, szIconId);
+		ExtraIcon_SetIconByName(g_hCLIcon, hMC, szIconId);
 }
 
 void setSrmmIcon(MCONTACT h)

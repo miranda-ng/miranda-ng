@@ -357,7 +357,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	CreateServiceFunction(MODULENAME"/MODE_GPG", Service_ModeGPG);
 	CreateServiceFunction(MODULENAME"/MODE_RSA", Service_ModeRSAAES);
 
-	g_hCLIcon = ExtraIcon_Register(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
+	g_hCLIcon = ExtraIcon_RegisterCallack(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
 
 	return 0;
 }

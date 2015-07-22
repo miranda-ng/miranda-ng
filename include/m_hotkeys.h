@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HOTKEYS_H__
 #define M_HOTKEYS_H__ 1
 
+#include <m_core.h>
+
 #define HKD_UNICODE 0x0001
 
 #if defined(_UNICODE)
@@ -110,5 +112,7 @@ use it for own purposes.
 */
 
 #define ME_HOTKEYS_CHANGED       "CoreHotkeys/Changed"
+
+EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(int hLangpack);
 
 #endif // M_HOTKEYS_H__

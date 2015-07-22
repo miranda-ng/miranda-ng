@@ -214,8 +214,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	InitIconLib();
 
-	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
-
+	g_hCLIcon = ExtraIcon_RegisterCallack(szGPGModuleName, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
 	return 0;
 }
 

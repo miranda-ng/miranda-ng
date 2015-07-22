@@ -301,19 +301,19 @@ static int ProtocolOnClick(WPARAM wParam, LPARAM, LPARAM)
 
 void DefaultExtraIcons_Load()
 {
-	hExtraChat = ExtraIcon_Register("chat_activity", LPGEN("Chat activity"), "ChatActivity");
-	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
-	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
-	hExtraProto = ExtraIcon_Register("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
+	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
+	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
+	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male");
+	hExtraProto = ExtraIcon_RegisterCallack("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
 
 	for (int i = 0; i < _countof(infos); i++) {
 		Info &p = infos[i];
 		p.hIcolib = Skin_GetIconHandle(p.iSkinIcon);
 		if (p.OnClick)
-			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p);
+			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p);
 		else
-			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, Skin_GetIconName(p.iSkinIcon));
+			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon));
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {

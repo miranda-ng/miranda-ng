@@ -2037,7 +2037,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 
 					case IDM_OPENEXISTING:
-						Utils_OpenUrlT(tszUrl,false);
+						Utils_OpenUrlT(tszUrl, false);
 						break;
 
 					case IDM_COPYLINK:

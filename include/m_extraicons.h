@@ -24,6 +24,8 @@ Boston, MA 02111-1307, USA.
 #ifndef __M_EXTRAICONS_H__
 #define __M_EXTRAICONS_H__
 
+#include <m_core.h>
+
 #ifndef EXTRA_ICON_COUNT
 #define EXTRA_ICON_COUNT 10
 #endif
@@ -71,15 +73,12 @@ To register a new extra icon, you have to call MS_EXTRAICON_REGISTER passing the
 
 */
 
-#define MIID_EXTRAICONSSERVICE { 0x62d80749, 0xf169, 0x4592, { 0xb4, 0x4d, 0x3d, 0xd6, 0xde, 0x9d, 0x50, 0xc5 } }
-
-
 #define EXTRAICON_TYPE_CALLBACK 0 	// Similar to old clist callbacks, it fires 2 notifications
 #define EXTRAICON_TYPE_ICOLIB 1 	// This extra icon will use only icons registered with icolib. No callbacks
 									// needed. Just call MS_EXTRAICON_SET_ICON passing the name of the extraicon to set one.
 
-
-typedef struct {
+struct EXTRAICON_INFO
+{
 	int cbSize;
 	int type;						// One of EXTRAICON_TYPE_*
 	const char *name;				// Internal name. More than one plugin can register extra icons with the same name
@@ -108,117 +107,21 @@ typedef struct {
 	MIRANDAHOOKPARAM OnClick;
 
 	LPARAM onClickParam;
+};
 
-} EXTRAICON_INFO;
-
-
-// Register an extra icon
-// wParam = (EXTRAICON_INFO *) Extra icon info
-// lParam = 0
-// Return: (HANDLE) id of extra icon on success, 0 on error
-#define MS_EXTRAICON_REGISTER "ExtraIcon/Register"
-
-
-typedef struct {
-	int cbSize;
-	HANDLE hExtraIcon;      // Value returned by MS_EXTRAICON_REGISTER
-	MCONTACT hContact;        // Contact to set the extra icon
-	union {                 // The icon to be set. This depends on the type of the extra icon:
-		HANDLE hImage;       // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
-		                     // or the icolib icon handle (if EXTRAICON_TYPE_ICOLIB)
-		const char *icoName; // Name of the icon registered with icolib (if EXTRAICON_TYPE_ICOLIB)
-	};
-} EXTRAICON;
-
-// Set an extra icon icon
-// wParam = (EXTRAICON *) Extra icon
-// Return: 0 on success
-#define MS_EXTRAICON_SET_ICON "ExtraIcon/SetIcon"
-
-// Set an extra icon by icolib icon's name
-// wParam = (EXTRAICON *) Extra icon
-// Return: 0 on success
-#define MS_EXTRAICON_SET_ICON_BY_NAME "ExtraIcon/SetIconByName"
-
-#ifndef _NO_WRAPPERS
-#ifdef __cplusplus
-
-extern int hLangpack;
+EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack);
 
 #pragma warning(disable:4505)
 
-static HANDLE ExtraIcon_Register(
-	const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOK RebuildIcons,
-	MIRANDAHOOK ApplyIcon,
-	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
-{
-	if (!ServiceExists(MS_EXTRAICON_REGISTER))
-		return NULL;
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallack(const char *name, const char *description, const char *descIcon,
+	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0, int = hLangpack);
 
-	EXTRAICON_INFO ei = { sizeof(ei) };
-	ei.type = EXTRAICON_TYPE_CALLBACK;
-	ei.name = name;
-	ei.description = description;
-	ei.descIcon = descIcon;
-	ei.RebuildIcons = RebuildIcons;
-	ei.ApplyIcon = ApplyIcon;
-	ei.OnClick = OnClick;
-	ei.onClickParam = onClickParam;
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon = NULL,
+	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0, int = hLangpack);
 
-	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, hLangpack);
-}
+EXTERN_C MIR_APP_DLL(int) ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE hImage);
+EXTERN_C MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName);
 
-static HANDLE ExtraIcon_Register(
-	const char *name, const char *description, const char *descIcon = NULL,
-	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
-{
-	if (!ServiceExists(MS_EXTRAICON_REGISTER))
-		return NULL;
-
-	EXTRAICON_INFO ei = { sizeof(ei) };
-	ei.type = EXTRAICON_TYPE_ICOLIB;
-	ei.name = name;
-	ei.description = description;
-	ei.descIcon = descIcon;
-	ei.OnClick = OnClick;
-	ei.onClickParam = onClickParam;
-
-	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, hLangpack);
-}
-
-static int ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE hImage)
-{
-	EXTRAICON ei = { sizeof(ei) };
-	ei.hExtraIcon = hExtraIcon;
-	ei.hContact = hContact;
-	ei.hImage = hImage;
-
-	return CallService(MS_EXTRAICON_SET_ICON, (WPARAM) &ei, 0);
-}
-
-static int ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName)
-{
-	EXTRAICON ei = { sizeof(ei) };
-	ei.hExtraIcon = hExtraIcon;
-	ei.hContact = hContact;
-	ei.icoName = icoName;
-
-	return CallService(MS_EXTRAICON_SET_ICON_BY_NAME, (WPARAM) &ei, 0);
-}
-
-static int ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
-{
-	EXTRAICON ei = { sizeof(ei) };
-	ei.hExtraIcon = hExtraIcon;
-	ei.hContact = hContact;
-	ei.icoName = NULL;
-
-	return CallService(MS_EXTRAICON_SET_ICON, (WPARAM) &ei, 0);
-}
-
-#endif
-#endif
-
+EXTERN_C MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact);
 
 #endif // __M_EXTRAICONS_H__

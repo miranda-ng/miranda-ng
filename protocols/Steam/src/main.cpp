@@ -51,18 +51,15 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// extra statuses
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
-	hExtraXStatus = ExtraIcon_Register("steam_game", LPGEN("Steam game"), iconName);
+	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), iconName);
 
 	CSteamProto::InitMenus();
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	CSteamProto::UninitProtoInstances();
-
 	CSteamProto::UninitMenus();
-
 	return 0;
 }

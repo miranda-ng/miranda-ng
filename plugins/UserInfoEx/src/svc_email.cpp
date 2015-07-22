@@ -127,7 +127,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get(wParam);
-	ExtraIcon_SetIcon(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : 0);
+	ExtraIcon_SetIconByName(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : 0);
 	mir_free(val);
 	return 0;
 }
@@ -228,7 +228,7 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("email", LPGEN("E-mail (uinfoex)"), ICO_BTN_EMAIL);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("email", LPGEN("E-mail (uinfoex)"), ICO_BTN_EMAIL);
 	}
 	else { // E-mail uncheckt
 		if (hChangedHook) {

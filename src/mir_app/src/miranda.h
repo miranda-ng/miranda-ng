@@ -55,18 +55,6 @@ extern LIST<DATABASELINK> arDbPlugins;
 int  InitIni(void);
 void UninitIni(void);
 
-/**** extraicons.cpp *******************************************************************/
-
-void KillModuleExtraIcons(int hLangpack);
-
-/**** fontService.cpp ******************************************************************/
-
-void KillModuleFonts(int hLangpack);
-void KillModuleColours(int hLangpack);
-void KillModuleEffects(int hLangpack);
-void KillModuleHotkeys(int hLangpack);
-void KillModuleSounds(int hLangpack);
-
 /**** miranda.cpp **********************************************************************/
 
 extern HINSTANCE g_hInst;

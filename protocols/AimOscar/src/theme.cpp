@@ -164,8 +164,8 @@ void add_ES_icons(CAimProto* ppro)
 
 void InitExtraIcons(void)
 {
-	hExtraAT = ExtraIcon_Register("aimaccounttype", LPGEN("AIM Account Type"), "AIM_aol");
-	hExtraES = ExtraIcon_Register("aimextstatus", LPGEN("AIM Extended Status"), "AIM_hiptop");
+	hExtraAT = ExtraIcon_RegisterIcolib("aimaccounttype", LPGEN("AIM Account Type"), "AIM_aol");
+	hExtraES = ExtraIcon_RegisterIcolib("aimextstatus", LPGEN("AIM Extended Status"), "AIM_hiptop");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

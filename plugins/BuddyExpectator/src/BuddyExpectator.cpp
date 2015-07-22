@@ -424,7 +424,7 @@ INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
 	}
 	else {
 		db_set_b(hContact, MODULE_NAME, "MissYou", 1);
-		ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
+		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 	}
 
 	return 0;
@@ -451,7 +451,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 int onExtraImageApplying(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0))
-		ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
+		ExtraIcon_SetIconByName(hExtraIcon, hContact, "enabled_icon");
 
 	return 0;
 }
@@ -696,7 +696,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	onIconsChanged(0, 0);
 
-	hExtraIcon = ExtraIcon_Register("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
+	hExtraIcon = ExtraIcon_RegisterIcolib("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
 
 	return 0;
 }

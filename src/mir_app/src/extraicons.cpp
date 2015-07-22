@@ -209,7 +209,7 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void KillModuleExtraIcons(int hLangpack)
+MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack)
 {
 	LIST<ExtraIcon> arDeleted(1);
 
@@ -345,79 +345,19 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 ///////////////////////////////////////////////////////////////////////////////
 // Services
 
-INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
+static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int hLangpack)
 {
-	if (wParam == 0)
-		return 0;
-
-	EXTRAICON_INFO *ei = (EXTRAICON_INFO *)wParam;
-	if (ei->cbSize < sizeof(EXTRAICON_INFO))
-		return 0;
-	if (ei->type != EXTRAICON_TYPE_CALLBACK && ei->type != EXTRAICON_TYPE_ICOLIB)
-		return 0;
-	if (IsEmpty(ei->name) || IsEmpty(ei->description))
-		return 0;
-	if (ei->type == EXTRAICON_TYPE_CALLBACK && (ei->ApplyIcon == NULL || ei->RebuildIcons == NULL))
-		return 0;
-
-	ptrT tszDesc(mir_a2t(ei->description));
-	TCHAR *desc = TranslateTH(lParam, tszDesc);
-
-	BaseExtraIcon *extra = GetExtraIconByName(ei->name);
-	if (extra != NULL) {
-		if (ei->type != extra->getType() || ei->type != EXTRAICON_TYPE_ICOLIB)
-			return 0;
-
-		// Found one, now merge it
-		if (mir_tstrcmpi(extra->getDescription(), desc)) {
-			CMString newDesc = extra->getDescription();
-			newDesc += _T(" / ");
-			newDesc += desc;
-			extra->setDescription(newDesc.c_str());
-		}
-
-		if (!IsEmpty(ei->descIcon))
-			extra->setDescIcon(ei->descIcon);
-
-		if (ei->OnClick != NULL)
-			extra->setOnClick(ei->OnClick, ei->onClickParam);
-
-		if (extra->getSlot() > 0) {
-			if (clistRebuildAlreadyCalled)
-				extra->rebuildIcons();
-			if (clistApplyAlreadyCalled)
-				extraIconsByHandle[extra->getID() - 1]->applyIcons();
-		}
-
-		return extra->getID();
-	}
-
-	int id = registeredExtraIcons.getCount() + 1;
-
-	switch (ei->type) {
-	case EXTRAICON_TYPE_CALLBACK:
-		extra = new CallbackExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon,
-			ei->RebuildIcons, ei->ApplyIcon, ei->OnClick, ei->onClickParam);
-		break;
-	case EXTRAICON_TYPE_ICOLIB:
-		extra = new IcolibExtraIcon(id, ei->name, desc, ei->descIcon == NULL ? "" : ei->descIcon, ei->OnClick,
-			ei->onClickParam);
-		break;
-	default:
-		return 0;
-	}
-
 	char setting[512];
-	mir_snprintf(setting, "Position_%s", ei->name);
+	mir_snprintf(setting, "Position_%s", name);
 	extra->setPosition(db_get_w(NULL, MODULE_NAME, setting, 1000));
 
-	mir_snprintf(setting, "Slot_%s", ei->name);
+	mir_snprintf(setting, "Slot_%s", name);
 	int slot = db_get_w(NULL, MODULE_NAME, setting, 1);
 	if (slot == (WORD)-1)
 		slot = -1;
 	extra->setSlot(slot);
 
-	extra->hLangpack = (int)lParam;
+	extra->hLangpack = hLangpack;
 
 	registeredExtraIcons.insert(extra);
 	extraIconsByHandle.insert(extra);
@@ -452,40 +392,112 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 				extra->applyIcons();
 		}
 	}
-
-	return id;
 }
 
-INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM)
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallack(const char *name, const char *description, const char *descIcon, 
+	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int hLangpack)
 {
-	if (wParam == 0)
+	// EXTRAICON_TYPE_CALLBACK 
+	if (IsEmpty(name) || IsEmpty(description))
+		return 0;
+
+	if (ApplyIcon == NULL || RebuildIcons == NULL)
+		return 0;
+
+	// no way to merge
+	if (GetExtraIconByName(name) != NULL)
+		return 0;
+
+	ptrT tszDesc(mir_a2t(description));
+	TCHAR *desc = TranslateTH(hLangpack, tszDesc);
+
+	int id = registeredExtraIcons.getCount() + 1;
+	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
+	EI_PostCreate(extra, name, hLangpack);
+	return (HANDLE)id;
+}
+
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon,
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int hLangpack)
+{
+	if (IsEmpty(name) || IsEmpty(description))
+		return 0;
+
+	ptrT tszDesc(mir_a2t(description));
+	TCHAR *desc = TranslateTH(hLangpack, tszDesc);
+
+	BaseExtraIcon *extra = GetExtraIconByName(name);
+	if (extra != NULL) {
+		if (extra->getType() != EXTRAICON_TYPE_ICOLIB)
+			return 0;
+
+		// Found one, now merge it
+		if (mir_tstrcmpi(extra->getDescription(), desc)) {
+			CMString newDesc = extra->getDescription();
+			newDesc += _T(" / ");
+			newDesc += desc;
+			extra->setDescription(newDesc.c_str());
+		}
+
+		if (!IsEmpty(descIcon))
+			extra->setDescIcon(descIcon);
+
+		if (OnClick != NULL)
+			extra->setOnClick(OnClick, onClickParam);
+
+		if (extra->getSlot() > 0) {
+			if (clistRebuildAlreadyCalled)
+				extra->rebuildIcons();
+			if (clistApplyAlreadyCalled)
+				extraIconsByHandle[extra->getID() - 1]->applyIcons();
+		}
+
+		return (HANDLE)extra->getID();
+	}
+
+	int id = registeredExtraIcons.getCount() + 1;
+	extra = new IcolibExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, OnClick, onClickParam);
+	EI_PostCreate(extra, name, hLangpack);
+	return (HANDLE)id;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE hImage)
+{
+	if (hExtraIcon == NULL || hContact == NULL)
 		return -1;
 
-	EXTRAICON *ei = (EXTRAICON*)wParam;
-	if (ei->cbSize < sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
-		return -1;
-
-	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);
+	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIcon((int)ei->hExtraIcon, ei->hContact, ei->hImage);
+	return extra->setIcon((int)hExtraIcon, hContact, hImage);
 }
 
-INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM)
+MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName)
 {
-	if (wParam == 0)
+	if (hExtraIcon == NULL || hContact == NULL)
 		return -1;
 
-	EXTRAICON *ei = (EXTRAICON*)wParam;
-	if (ei->cbSize < sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
-		return -1;
-
-	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);
+	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIconByName((int)ei->hExtraIcon, ei->hContact, ei->icoName);
+	return extra->setIconByName((int)hExtraIcon, hContact, icoName);
+}
+
+MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
+{
+	if (hExtraIcon == NULL || hContact == NULL)
+		return -1;
+
+	ExtraIcon *extra = GetExtraIcon(hExtraIcon);
+	if (extra == NULL)
+		return -1;
+
+	return extra->setIcon((int)hExtraIcon, hContact, NULL);
 }
 
 static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM)
@@ -509,10 +521,6 @@ void LoadExtraIconsModule()
 	clistSlotCount = LOWORD(ret);
 
 	// Services
-	CreateServiceFunction(MS_EXTRAICON_REGISTER, ExtraIcon_Register);
-	CreateServiceFunction(MS_EXTRAICON_SET_ICON, ExtraIcon_SetIcon);
-	CreateServiceFunction(MS_EXTRAICON_SET_ICON_BY_NAME, &ExtraIcon_SetIconByName);
-
 	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, svcExtraIcon_Add);
 
 	hEventExtraClick = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);

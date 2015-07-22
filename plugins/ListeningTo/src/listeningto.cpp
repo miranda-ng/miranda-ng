@@ -145,8 +145,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, _countof(iconList));
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
-
+	hExtraIcon = ExtraIcon_RegisterIcolib(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
 	return 0;
 }
 
@@ -911,7 +910,7 @@ void HasNewListeningInfo()
 
 void SetExtraIcon(MCONTACT hContact, BOOL set)
 {
-	ExtraIcon_SetIcon(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
+	ExtraIcon_SetIconByName(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
 }
 
 int SettingChanged(WPARAM hContact,LPARAM lParam)
