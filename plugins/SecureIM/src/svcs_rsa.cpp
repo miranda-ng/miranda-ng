@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-pRSA_EXPORT exp = NULL;
+pRSA_EXPORT mir_exp = NULL;
 RSA_IMPORT imp =
 {
 	rsa_inject,
@@ -45,7 +45,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	if (db_get(ptr->hContact, MODULENAME, "rsa_pub", &dbv) == 0) {
 		k = 1;
 		PBYTE buf = (PBYTE)alloca(sigLen); int len;
-		exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)buf, &len);
+		mir_exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)buf, &len);
 		sha_old = mir_strdup(to_hex(buf, len));
 		db_free(&dbv);
 	}
@@ -148,8 +148,8 @@ void sttGenerateRSA(LPVOID)
 	char priv_key[4096]; int priv_len;
 	char pub_key[4096]; int pub_len;
 
-	exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
-	exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
+	mir_exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
+	mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
 
 	db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
 	db_set_blob(NULL, MODULENAME, "rsa_pub", pub_key, pub_len);
@@ -163,7 +163,7 @@ BYTE loadRSAkey(pUinKey ptr)
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 		if (db_get(ptr->hContact, MODULENAME, "rsa_pub", &dbv) == 0) {
-			ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx, dbv.pbVal, dbv.cpbVal);
+			ptr->keyLoaded = mir_exp->rsa_set_pubkey(ptr->cntx, dbv.pbVal, dbv.cpbVal);
 			Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
 			db_free(&dbv);
 		}

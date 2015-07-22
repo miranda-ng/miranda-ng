@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				}
 				if (ptr->keyLoaded) {
 					LPSTR buffer = (LPSTR)alloca(RSASIZE);
-					exp->rsa_export_pubkey(ptr->cntx, buffer);
+					mir_exp->rsa_export_pubkey(ptr->cntx, buffer);
 					if (!SaveExportRSAKeyDlg(hDlg, buffer, 0))
 						msgbox(hDlg, sim114, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				}
@@ -329,9 +329,9 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				createRSAcntx(ptr);
 				LPSTR pub = (LPSTR)alloca(RSASIZE);
 				if (!LoadImportRSAKeyDlg(hDlg, pub, 0)) return TRUE;
-				if (exp->rsa_import_pubkey(ptr->cntx, pub)) {
+				if (mir_exp->rsa_import_pubkey(ptr->cntx, pub)) {
 					int len;
-					exp->rsa_get_pubkey(ptr->cntx, (PBYTE)pub, &len);
+					mir_exp->rsa_get_pubkey(ptr->cntx, (PBYTE)pub, &len);
 					db_set_blob(ptr->hContact, MODULENAME, "rsa_pub", pub, len);
 
 					setListViewPUB(hLV, idx, 1);
@@ -525,7 +525,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		case IDC_RSA_EXP:
 		{
 			LPSTR pub = (LPSTR)alloca(RSASIZE);
-			exp->rsa_export_keypair(CPP_MODE_RSA, NULL, pub, NULL);
+			mir_exp->rsa_export_keypair(CPP_MODE_RSA, NULL, pub, NULL);
 			if (!SaveExportRSAKeyDlg(hDlg, pub, 0))
 				msgbox(hDlg, sim114, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 		}
@@ -537,7 +537,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), NULL, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
 				LPSTR priv = (LPSTR)alloca(RSASIZE);
-				exp->rsa_export_keypair(CPP_MODE_RSA, priv, NULL, passphrase);
+				mir_exp->rsa_export_keypair(CPP_MODE_RSA, priv, NULL, passphrase);
 				if (!SaveExportRSAKeyDlg(hDlg, priv, 1))
 					msgbox(hDlg, sim112, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 			}
@@ -553,7 +553,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			LPSTR passphrase = (LPSTR)alloca(RSASIZE);
 			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), NULL, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
-				if (!exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
+				if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
 					msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				else // обновить SHA1 значение
 					RefreshProtoDlg(hDlg);
@@ -1025,7 +1025,7 @@ void RefreshProtoDlg(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITON), false);
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITOFF), false);
 
-	BYTE sha[64]; int len; exp->rsa_get_keyhash(CPP_MODE_RSA, NULL, NULL, (PBYTE)&sha, &len);
+	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, NULL, NULL, (PBYTE)&sha, &len);
 	LPSTR txt = mir_strdup(to_hex(sha, len));
 	SetDlgItemText(hDlg, IDC_RSA_SHA, txt);
 	mir_free(txt);
@@ -1216,7 +1216,7 @@ void ApplyGeneralSettings(HWND hDlg)
 	GetDlgItemText(hDlg, IDC_KET, timeout, 5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
 	db_set_w(0, MODULENAME, "ket", tmp);
-	exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
+	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
 	mir_itoa(tmp, timeout, 10);
 	SetDlgItemText(hDlg, IDC_KET, timeout);
 
@@ -1445,7 +1445,7 @@ void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 		pUinKey ptr = (pUinKey)getListViewParam(hLV, iItem);
 		if (db_get(ptr->hContact, MODULENAME, "rsa_pub", &dbv) == 0) {
 			int len;
-			exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)str, &len);
+			mir_exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)str, &len);
 			sha = mir_strdup(to_hex((PBYTE)str, len));
 			db_free(&dbv);
 		}
