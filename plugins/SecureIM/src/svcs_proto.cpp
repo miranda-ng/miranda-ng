@@ -99,7 +99,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		}
 		else {
 			createRSAcntx(ptr);
-			exp->rsa_disabled(ptr->cntx);
+			mir_exp->rsa_disabled(ptr->cntx);
 			deleteRSAcntx(ptr);
 		}
 		SAFE_FREE(ptr->msgSplitted);
@@ -188,11 +188,11 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		}
 		createRSAcntx(ptr);
 		loadRSAkey(ptr);
-		if (exp->rsa_get_state(ptr->cntx) == 0)
+		if (mir_exp->rsa_get_state(ptr->cntx) == 0)
 			showPopupKR(ptr->hContact);
 
 		{
-			LPSTR szOldMsg = exp->rsa_recv(ptr->cntx, szEncMsg);
+			LPSTR szOldMsg = mir_exp->rsa_recv(ptr->cntx, szEncMsg);
 			if (!szOldMsg)
 				return 1; // don't display it ...
 
@@ -334,7 +334,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 				resetRSAcntx(ptr);
 				loadRSAkey(ptr);
-				exp->rsa_connect(ptr->cntx);
+				mir_exp->rsa_connect(ptr->cntx);
 
 				showPopupKS(ccs->hContact);
 				ShowStatusIconNotify(ccs->hContact);
@@ -515,7 +515,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		// contact is offline
 		if (stat == ID_STATUS_OFFLINE) {
 			if (ptr->cntx) {
-				if (exp->rsa_get_state(ptr->cntx) != 0)
+				if (mir_exp->rsa_get_state(ptr->cntx) != 0)
 					resetRSAcntx(ptr);
 			}
 			else createRSAcntx(ptr);
@@ -530,7 +530,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 
 			// шлем шифрованное в оффлайн
-			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
+			mir_exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			showPopupSM(ptr->hContact);
 			return returnNoError(ccs->hContact);
 		}
@@ -538,7 +538,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		// SecureIM connection with this contact is disabled
 		if (stid == STATUS_DISABLED) {
 			if (ptr->cntx) {
-				exp->rsa_disabled(ptr->cntx);
+				mir_exp->rsa_disabled(ptr->cntx);
 				deleteRSAcntx(ptr);
 			}
 
@@ -552,7 +552,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		// разорвать соединение
 		if (ssig == SiG_DEIN) {
 			if (ptr->cntx) {
-				exp->rsa_disconnect(ptr->cntx);
+				mir_exp->rsa_disconnect(ptr->cntx);
 				deleteRSAcntx(ptr);
 			}
 			ShowStatusIconNotify(ptr->hContact);
@@ -561,8 +561,8 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		}
 
 		// соединение установлено
-		if (ptr->cntx && exp->rsa_get_state(ptr->cntx) == 7) {
-			exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
+		if (ptr->cntx && mir_exp->rsa_get_state(ptr->cntx) == 7) {
+			mir_exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			ShowStatusIconNotify(ptr->hContact);
 			showPopupSM(ptr->hContact);
 			return returnNoError(ccs->hContact);
@@ -582,7 +582,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		if (ssig == SiG_INIT) {
 			createRSAcntx(ptr);
 			loadRSAkey(ptr);
-			exp->rsa_connect(ptr->cntx);
+			mir_exp->rsa_connect(ptr->cntx);
 			showPopupKS(ccs->hContact);
 			ShowStatusIconNotify(ccs->hContact);
 			return returnNoError(ccs->hContact);

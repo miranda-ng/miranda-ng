@@ -15,7 +15,7 @@ int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			showPopupDC(hContact);	// show popup "Disabled"
 			ShowStatusIconNotify(hContact); // change icon in CL
 		}
-		else if (ptr->mode == MODE_RSAAES && exp->rsa_get_state(ptr->cntx) == 7) {
+		else if (ptr->mode == MODE_RSAAES && mir_exp->rsa_get_state(ptr->cntx) == 7) {
 			deleteRSAcntx(ptr);
 			showPopupDC(hContact);	// show popup "Disabled"
 			ShowStatusIconNotify(hContact); // change icon in CL

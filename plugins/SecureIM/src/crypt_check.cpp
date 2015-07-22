@@ -52,7 +52,7 @@ BYTE isContactSecured(MCONTACT hContact)
 		break;
 
 	case MODE_RSAAES:
-		if (exp->rsa_get_state(p->cntx) == 7) res |= SECURED;
+		if (mir_exp->rsa_get_state(p->cntx) == 7) res |= SECURED;
 		break;
 
 	case MODE_RSA:

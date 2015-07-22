@@ -1,7 +1,7 @@
 #ifndef __SVCS_RSA_H__
 #define __SVCS_RSA_H__
 
-extern pRSA_EXPORT exp;
+extern pRSA_EXPORT mir_exp;
 extern RSA_IMPORT imp;
 extern BOOL rsa_4096;
 

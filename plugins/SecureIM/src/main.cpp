@@ -79,24 +79,24 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 	// RSA/AES
 	Sent_NetLog("rsa_init");
-	rsa_init(&exp, &imp);
+	rsa_init(&mir_exp, &imp);
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
 
 	if (db_get(0, MODULENAME, "rsa_priv", &dbv) == 0) {
-		exp->rsa_set_keypair(CPP_MODE_RSA_4096, dbv.pbVal, dbv.cpbVal);
+		mir_exp->rsa_set_keypair(CPP_MODE_RSA_4096, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 		rsa_4096 = 1;
 	}
 	else if (db_get(0, MODULENAME, "rsa_priv_4096", &dbv) == 0) {
-		exp->rsa_set_keypair(CPP_MODE_RSA_4096 | CPP_MODE_RSA_BER, dbv.pbVal, dbv.cpbVal);
+		mir_exp->rsa_set_keypair(CPP_MODE_RSA_4096 | CPP_MODE_RSA_BER, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 
 		char priv_key[4096]; int priv_len;
 		char pub_key[4096]; int pub_len;
 
-		exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
+		mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
 		db_set_blob(NULL, MODULENAME, "rsa_priv", priv_key, priv_len);
 		db_set_blob(NULL, MODULENAME, "rsa_pub", &pub_key, pub_len);
 		db_unset(NULL, MODULENAME, "rsa_priv_2048");
@@ -107,7 +107,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	if (!rsa_4096)
 		mir_forkthread(sttGenerateRSA, NULL);
 
-	exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
+	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
 
 	Sent_NetLog("pgp_init");
 
