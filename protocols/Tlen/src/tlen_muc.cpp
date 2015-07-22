@@ -221,7 +221,7 @@ INT_PTR TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 	if (!isOnline)
 		return 1;
 
-	TlenSend(this, "<p to='c' tp='c' id='"TLEN_IQID"%d'/>", TlenSerialNext(this));
+	TlenSend(this, "<p to='c' tp='c' id='" TLEN_IQID "%d'/>", TlenSerialNext(this));
 	return 0;
 }
 

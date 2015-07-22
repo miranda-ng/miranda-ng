@@ -301,7 +301,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		if (LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED) {
 			char *str = NULL;
 			int strSize;
-			TlenStringAppend(&str, &strSize, "<iq type='set' id='"TLEN_IQID"%d' to='tuba'><query xmlns='jabber:iq:register'>", TlenSerialNext(data->proto));
+			TlenStringAppend(&str, &strSize, "<iq type='set' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:register'>", TlenSerialNext(data->proto));
 			FetchField(hwndDlg, IDC_FIRSTNAME, "first", &str, &strSize);
 			FetchField(hwndDlg, IDC_LASTNAME, "last", &str, &strSize);
 			FetchField(hwndDlg, IDC_NICKNAME, "nick", &str, &strSize);

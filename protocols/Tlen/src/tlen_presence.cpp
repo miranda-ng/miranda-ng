@@ -93,7 +93,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						if (!item->infoRequested) {
 							int iqId = TlenSerialNext(proto);
 							item->infoRequested = TRUE;
-							TlenSend( proto, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:info' to='%s'></query></iq>", iqId, from);
+							TlenSend( proto, "<iq type='get' id='" TLEN_IQID "%d'><query xmlns='jabber:iq:info' to='%s'></query></iq>", iqId, from);
 						}
 						if (proto->tlenOptions.enableVersion && !item->versionRequested) {
 							item->versionRequested = TRUE;
