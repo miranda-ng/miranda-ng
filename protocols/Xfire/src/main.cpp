@@ -904,42 +904,42 @@ static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		tr.szTokenString = "xfiregame";
 		tr.parseFunction = Varxfiregame;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Current Game");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "myxfiregame";
 		tr.parseFunction = Varmyxfiregame;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Game");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("My Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "xfireserverip";
 		tr.parseFunction = Varxfireserverip;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("ServerIP");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "myxfireserverip";
 		tr.parseFunction = Varmyxfireserverip;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current ServerIP");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("My Current ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "xfirevoice";
 		tr.parseFunction = Varxfirevoice;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "myxfirevoice";
 		tr.parseFunction = Varmyxfirevoice;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Voice");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("My Current Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "xfirevoiceip";
 		tr.parseFunction = Varxfirevoiceip;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice ServerIP");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.szTokenString = "myxfirevoiceip";
 		tr.parseFunction = Varmyxfirevoiceip;
-		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Voice ServerIP");
+		tr.szHelpText = LPGEN("XFire") "\t" LPGEN("My Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 	}
 
@@ -1221,7 +1221,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		XFireLog("Wasn't able to get GetExtendedUdpTable function");
 	}
 
-	Icon_Register(hinstance, LPGEN("Protocols")"/"LPGEN("XFire"), &icon, 1);
+	Icon_Register(hinstance, LPGEN("Protocols") "/" LPGEN("XFire"), &icon, 1);
 
 	hExtraIcon1 = ExtraIcon_Register("xfire_game", LPGEN("XFire game icon"), "", NULL, ExtraImageApply1);
 	hExtraIcon2 = ExtraIcon_Register("xfire_voice", LPGEN("XFire voice icon"), "", NULL, ExtraImageApply2);

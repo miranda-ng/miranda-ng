@@ -326,13 +326,13 @@ static void CacheClientIcons()
 
 static void InitIcoLib()
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Default"),myIcons, _countof(myIcons));
+	Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Default"), myIcons, _countof(myIcons));
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
 		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -345,7 +345,7 @@ static void InitIcoLib()
 		TCHAR szDescr[128];
 		mir_sntprintf(szDescr, _countof(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list")_T("/")LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 

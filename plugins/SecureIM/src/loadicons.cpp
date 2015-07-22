@@ -12,34 +12,34 @@ struct
 static icons[] =
 {
 	// Contact List
-	{ IDI_CL_DIS, TBL_IEC, IEC_CL_DIS, MODULENAME"/"LPGEN("Contact List"), "sim_cl_dis", LPGEN("Connection Disabled") },
-	{ IDI_CL_EST, TBL_IEC, IEC_CL_EST, MODULENAME"/"LPGEN("Contact List"), "sim_cl_est", LPGEN("Connection Established") },
+	{ IDI_CL_DIS, TBL_IEC, IEC_CL_DIS, MODULENAME "/" LPGEN("Contact List"), "sim_cl_dis", LPGEN("Connection Disabled") },
+	{ IDI_CL_EST, TBL_IEC, IEC_CL_EST, MODULENAME "/" LPGEN("Contact List"), "sim_cl_est", LPGEN("Connection Established") },
 
 	// Contact Menu
-	{ IDI_CM_DIS, TBL_ICO, ICO_CM_DIS, MODULENAME"/"LPGEN("Contact Menu"), "sim_cm_dis", LPGEN("Disable Secure Connection") },
-	{ IDI_CM_EST, TBL_ICO, ICO_CM_EST, MODULENAME"/"LPGEN("Contact Menu"), "sim_cm_est", LPGEN("Establish Secure Connection") },
+	{ IDI_CM_DIS, TBL_ICO, ICO_CM_DIS, MODULENAME "/" LPGEN("Contact Menu"), "sim_cm_dis", LPGEN("Disable Secure Connection") },
+	{ IDI_CM_EST, TBL_ICO, ICO_CM_EST, MODULENAME "/" LPGEN("Contact Menu"), "sim_cm_est", LPGEN("Establish Secure Connection") },
 
 	// Message Window
-	{ IDI_MW_DIS, TBL_ICO, ICO_MW_DIS, MODULENAME"/"LPGEN("Message Window"), "sim_mw_dis", LPGEN("Connection Disabled") },
-	{ IDI_MW_EST, TBL_ICO, ICO_MW_EST, MODULENAME"/"LPGEN("Message Window"), "sim_mw_est", LPGEN("Connection Established") },
+	{ IDI_MW_DIS, TBL_ICO, ICO_MW_DIS, MODULENAME "/" LPGEN("Message Window"), "sim_mw_dis", LPGEN("Connection Disabled") },
+	{ IDI_MW_EST, TBL_ICO, ICO_MW_EST, MODULENAME "/" LPGEN("Message Window"), "sim_mw_est", LPGEN("Connection Established") },
 
 	// popup's
-	{ IDI_PU_DIS, TBL_POP, POP_PU_DIS, MODULENAME"/"LPGEN("Popups"), "sim_pu_dis", LPGEN("Secure Connection Disabled") },
-	{ IDI_PU_EST, TBL_POP, POP_PU_EST, MODULENAME"/"LPGEN("Popups"), "sim_pu_est", LPGEN("Secure Connection Established") },
-	{ IDI_PU_PRC, TBL_POP, POP_PU_PRC, MODULENAME"/"LPGEN("Popups"), "sim_pu_prc", LPGEN("Secure Connection In Process") },
-	{ IDI_PU_MSG, TBL_POP, POP_PU_MSR, MODULENAME"/"LPGEN("Popups"), "sim_pu_msr", LPGEN("Recv Secured Message") },
-	{ IDI_PU_MSG, TBL_POP, POP_PU_MSS, MODULENAME"/"LPGEN("Popups"), "sim_pu_mss", LPGEN("Sent Secured Message") },
+	{ IDI_PU_DIS, TBL_POP, POP_PU_DIS, MODULENAME "/" LPGEN("Popups"), "sim_pu_dis", LPGEN("Secure Connection Disabled") },
+	{ IDI_PU_EST, TBL_POP, POP_PU_EST, MODULENAME "/" LPGEN("Popups"), "sim_pu_est", LPGEN("Secure Connection Established") },
+	{ IDI_PU_PRC, TBL_POP, POP_PU_PRC, MODULENAME "/" LPGEN("Popups"), "sim_pu_prc", LPGEN("Secure Connection In Process") },
+	{ IDI_PU_MSG, TBL_POP, POP_PU_MSR, MODULENAME "/" LPGEN("Popups"), "sim_pu_msr", LPGEN("Recv Secured Message") },
+	{ IDI_PU_MSG, TBL_POP, POP_PU_MSS, MODULENAME "/" LPGEN("Popups"), "sim_pu_mss", LPGEN("Sent Secured Message") },
 
 	// statuses
-	{ IDI_ST_DIS, TBL_ICO, ICO_ST_DIS, MODULENAME"/"LPGEN("Menu State"), "sim_st_dis", LPGEN("Disabled") },
-	{ IDI_ST_ENA, TBL_ICO, ICO_ST_ENA, MODULENAME"/"LPGEN("Menu State"), "sim_st_ena", LPGEN("Enabled") },
-	{ IDI_ST_TRY, TBL_ICO, ICO_ST_TRY, MODULENAME"/"LPGEN("Menu State"), "sim_st_try", LPGEN("Always Try") },
+	{ IDI_ST_DIS, TBL_ICO, ICO_ST_DIS, MODULENAME "/" LPGEN("Menu State"), "sim_st_dis", LPGEN("Disabled") },
+	{ IDI_ST_ENA, TBL_ICO, ICO_ST_ENA, MODULENAME "/" LPGEN("Menu State"), "sim_st_ena", LPGEN("Enabled") },
+	{ IDI_ST_TRY, TBL_ICO, ICO_ST_TRY, MODULENAME "/" LPGEN("Menu State"), "sim_st_try", LPGEN("Always Try") },
 
 	// overlay
-	{ IDI_OV_NAT, TBL_ICO, ICO_OV_NAT, MODULENAME"/"LPGEN("Overlays"), "sim_ov_nat", LPGEN("Native mode") },
-	{ IDI_OV_PGP, TBL_ICO, ICO_OV_PGP, MODULENAME"/"LPGEN("Overlays"), "sim_ov_pgp", LPGEN("PGP mode") },
-	{ IDI_OV_GPG, TBL_ICO, ICO_OV_GPG, MODULENAME"/"LPGEN("Overlays"), "sim_ov_gpg", LPGEN("GPG mode") },
-	{ IDI_OV_RSA, TBL_ICO, ICO_OV_RSA, MODULENAME"/"LPGEN("Overlays"), "sim_ov_rsa", LPGEN("RSA/AES mode") },
+	{ IDI_OV_NAT, TBL_ICO, ICO_OV_NAT, MODULENAME "/" LPGEN("Overlays"), "sim_ov_nat", LPGEN("Native mode") },
+	{ IDI_OV_PGP, TBL_ICO, ICO_OV_PGP, MODULENAME "/" LPGEN("Overlays"), "sim_ov_pgp", LPGEN("PGP mode") },
+	{ IDI_OV_GPG, TBL_ICO, ICO_OV_GPG, MODULENAME "/" LPGEN("Overlays"), "sim_ov_gpg", LPGEN("GPG mode") },
+	{ IDI_OV_RSA, TBL_ICO, ICO_OV_RSA, MODULENAME "/" LPGEN("Overlays"), "sim_ov_rsa", LPGEN("RSA/AES mode") },
 };
 
 HINSTANCE LoadIconsPack(const char* szIconsPack)

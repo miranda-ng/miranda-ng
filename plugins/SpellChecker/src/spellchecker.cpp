@@ -143,7 +143,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
-		sid.section.t = LPGENT("Spell Checker")_T("/")LPGENT("Flags");
+		sid.section.t = LPGENT("Spell Checker") _T("/") LPGENT("Flags");
 
 		// Get language flags
 		for (int i = 0; i < languages.getCount(); i++) {
