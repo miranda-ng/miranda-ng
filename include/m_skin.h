@@ -220,6 +220,10 @@ __forceinline INT_PTR SkinPlaySoundFile(const TCHAR *ptszFileName)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+EXTERN_C MIR_APP_DLL(void) KillModuleSounds(int hLangpack);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // sent when the icons DLL has been changed in the options dialog, and everyone
 // should re-make their image lists
 // wParam = lParam = 0
