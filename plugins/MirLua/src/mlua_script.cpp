@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
-CMLuaScript::CMLuaScript(lua_State *L, const TCHAR* path, int iGroup) : L(L)
+CMLuaScript::CMLuaScript(lua_State *L, const TCHAR* path, int iGroup)
+	: L(L), unloadRef(0)
 {
 	mir_tstrcpy(filePath, path);
 
@@ -83,10 +84,10 @@ bool CMLuaScript::Load()
 
 void CMLuaScript::Unload()
 {
-	if (isLoaded)
+	if (isLoaded && unloadRef)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
-		if (lua_pcall(L, 0, 0, 0))
+		if (lua_isfunction(L, -1) && lua_pcall(L, 0, 0, 0))
 			CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)lua_tostring(L, -1));
 		luaL_unref(L, LUA_REGISTRYINDEX, unloadRef);
 		isLoaded = false;
