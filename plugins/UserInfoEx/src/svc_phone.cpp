@@ -94,7 +94,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 		case PHONE_SMS:     icoName = ICO_BTN_CELLULAR;  break;
 		default:            icoName = NULL;
 	}
-	ExtraIcon_SetIcon(ghExtraIconSvc, hContact, icoName);
+	ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
 	return 0;
 }
 
@@ -146,7 +146,7 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("sms", LPGEN("Phone (uinfoex)"), ICO_BTN_CELLULAR);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("sms", LPGEN("Phone (uinfoex)"), ICO_BTN_CELLULAR);
 	}
 	else {
 		if (hChangedHook) {

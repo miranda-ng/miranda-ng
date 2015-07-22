@@ -123,7 +123,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
-	hExtraXStatus = ExtraIcon_Register("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
+	hExtraXStatus = ExtraIcon_RegisterIcolib("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
 	g_MenuInit();
 	return 0;

@@ -55,7 +55,7 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void KillModuleSounds(int hLangpack)
+MIR_APP_DLL(void) KillModuleSounds(int hLangpack)
 {
 	for (int i = arSounds.getCount()-1; i >= 0; i--) {
 		SoundItem& p = arSounds[i];

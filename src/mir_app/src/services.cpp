@@ -325,7 +325,7 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleFonts(int hLangpack)
+MIR_APP_DLL(void) KillModuleFonts(int hLangpack)
 {
 	for (int i = font_id_list.getCount() - 1; i >= 0; i--)
 		if (font_id_list[i].hLangpack == hLangpack)
@@ -400,7 +400,7 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleColours(int hLangpack)
+MIR_APP_DLL(void) KillModuleColours(int hLangpack)
 {
 	for (int i = colour_id_list.getCount() - 1; i >= 0; i--)
 		if (colour_id_list[i].hLangpack == hLangpack)
@@ -493,7 +493,7 @@ INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleEffects(int hLangpack)
+MIR_APP_DLL(void) KillModuleEffects(int hLangpack)
 {
 	for (int i = effect_id_list.getCount() - 1; i >= 0; i--)
 		if (effect_id_list[i].hLangpack == hLangpack)

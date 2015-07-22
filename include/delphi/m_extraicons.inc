@@ -81,38 +81,4 @@ type
     onClickParam:LPARAM;
   end;
 
-const
-// Register an extra icon
-// wParam = (EXTRAICON_INFO *) Extra icon info
-// lParam = 0
-// Return: (HANDLE) id of extra icon on success, 0 on error
-  MS_EXTRAICON_REGISTER:PAnsiChar = 'ExtraIcon/Register';
-
-type
-  TEXTRAICON = record
-    cbSize    :int;
-    hExtraIcon:THANDLE;   // Value returned by MS_EXTRAICON_REGISTER
-    hContact  :TMCONTACT; // Contact to set the extra icon
-    // The icon to be set. This depends on the type of the extra icon:
-	  case boolean of
-      false:(hImage :THANDLE);   // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
-                                 // or the icolib icon handle (if EXTRAICON_TYPE_ICOLIB)
-      true :(icoName:PAnsiChar); // Name of the icon registered with icolib (if EXTRAICON_TYPE_ICOLIB)
-  end;
-
-const
-{
-  Set an extra icon icon
-  wParam = (EXTRAICON *) Extra icon
-  Return: 0 on success
-}
-  MS_EXTRAICON_SET_ICON:PAnsiChar = 'ExtraIcon/SetIcon';
-
-{
-  Set an extra icon by icolib icon's name
-  wParam = (EXTRAICON *) Extra icon
-  Return: 0 on success
-}
-  MS_EXTRAICON_SET_ICON_BY_NAME:PAnsiChar = 'ExtraIcon/SetIconByName';
-
 {$ENDIF}

@@ -66,7 +66,7 @@ int AddIcons()
 	mir_snprintf(description, _countof(description), Translate("More than %d days to birthday"), cDTB - 1);
 	hDTBMore = AddIcon("DTBMore", description, tszPath, IDI_DTBMORE);
 
-	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", LPGEN("WhenWasIt birthday reminder"), "MenuCheck");
+	hWWIExtraIcons = ExtraIcon_RegisterIcolib("WhenWasIt", LPGEN("WhenWasIt birthday reminder"), "MenuCheck");
 	return 0;
 }
 

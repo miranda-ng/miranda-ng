@@ -74,7 +74,7 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (hasMobileClient(wParam, lParam))
-		ExtraIcon_SetIcon(hExtraIcon, wParam, "mobile_icon");
+		ExtraIcon_SetIconByName(hExtraIcon, wParam, "mobile_icon");
 	else
 		ExtraIcon_Clear(hExtraIcon, wParam);
 
@@ -115,8 +115,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Icon_Register(g_hInst, "Mobile State", &icon, 1);
 
 	// Extra icons
-	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
-
+	hExtraIcon = ExtraIcon_RegisterIcolib("mobilestate", LPGEN("Mobile State"), "mobile_icon");
 	return 0;
 }
 

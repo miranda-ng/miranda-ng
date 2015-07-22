@@ -56,7 +56,7 @@ static void CALLBACK SetExtraImage(MCONTACT hContact)
 	else {
 		char szId[20];
 		mir_snprintf(szId, _countof(szId), (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber);
-		ExtraIcon_SetIcon(hExtraIcon, hContact, szId);
+		ExtraIcon_SetIconByName(hExtraIcon, hContact, szId);
 	}
 }
 
@@ -200,7 +200,7 @@ void InitExtraImg(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ExtraImgSettingChanged);
 
 	/* Extra Image */
-	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"), "flags_0");
+	hExtraIcon = ExtraIcon_RegisterIcolib("flags_extra", LPGEN("Country flag"), "flags_0");
 	if (bShowExtraIcon)
 		EnsureExtraImages();
 }

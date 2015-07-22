@@ -212,8 +212,8 @@ extern "C" int __declspec(dllexport) Load()
 	g_IconsInit();
 	g_XstatusIconsInit();
 	// Init extra icons
-	hExtraActivity = ExtraIcon_Register("activity", LPGEN("Jabber Activity"), "jabber_dancing");
-	hExtraMood = ExtraIcon_Register("mood", LPGEN("Jabber Mood"), "jabber_contemplative");
+	hExtraActivity = ExtraIcon_RegisterIcolib("activity", LPGEN("Jabber Activity"), "jabber_dancing");
+	hExtraMood = ExtraIcon_RegisterIcolib("mood", LPGEN("Jabber Mood"), "jabber_contemplative");
 	g_MenuInit();
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();

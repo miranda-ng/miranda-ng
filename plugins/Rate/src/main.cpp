@@ -85,7 +85,7 @@ static void setExtraIcon(MCONTACT hContact, int bRate = -1, BOOL clear = TRUE)
 	}
 
 	if (icon != NULL || clear)
-		ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
+		ExtraIcon_SetIconByName(hExtraIcon, hContact, icon);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,8 +127,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, _countof(iconList));
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
-
+	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "rate_high");
    return 0;
 }
 

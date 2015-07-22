@@ -103,7 +103,7 @@ int onExtraImageApplying(WPARAM hContact, LPARAM lParam)
 	case icon_auth:   icon = "auth_icon";  break;
 	default:          icon = NULL;  break;
 	}
-	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)hContact, icon);
+	ExtraIcon_SetIconByName(hExtraIcon, (MCONTACT)hContact, icon);
 	return 0;
 }
 
@@ -209,7 +209,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Icon_Register(g_hInst, "Auth State", iconList, _countof(iconList));
 
 	// extra icons
-	hExtraIcon = ExtraIcon_Register("authstate", LPGEN("Auth State"), "authgrant_icon");
+	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth State"), "authgrant_icon");
 
 	return 0;
 }

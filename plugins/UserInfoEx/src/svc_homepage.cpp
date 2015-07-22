@@ -93,7 +93,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE)
-		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, (val) ? ICO_BTN_GOTO : NULL);
+		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, (val) ? ICO_BTN_GOTO : NULL);
 	MIR_FREE(val);
 	return 0;
 }
@@ -188,7 +188,7 @@ bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("homepage", LPGEN("Homepage (uinfoex)"), ICO_BTN_GOTO);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("homepage", LPGEN("Homepage (uinfoex)"), ICO_BTN_GOTO);
 	}
 	else {
 		if (hChangedHook) {

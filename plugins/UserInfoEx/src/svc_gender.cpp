@@ -78,7 +78,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 			case 'F':  icoName = ICO_COMMON_FEMALE; break;
 			default:   icoName = NULL;
 		}
-		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, icoName);
+		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
 	}
 	return 0;
 }
@@ -117,7 +117,7 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (g_eiGender) { // Gender checked or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
+			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
 
 		// hook events
 		if (hChangedHook == NULL) 
