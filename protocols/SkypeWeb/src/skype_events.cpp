@@ -42,7 +42,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					time_t time = jEdit["time"].as_int();
 					tm* _tm = localtime(&time);
 					char szTime[MAX_PATH];
-					strftime(szTime, 0, "%X %x", _tm);
+					strftime(szTime, sizeof(szTime), "%X %x", _tm);
 
 					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string());
 				}
