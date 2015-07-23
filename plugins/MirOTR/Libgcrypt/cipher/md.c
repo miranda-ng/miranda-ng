@@ -1121,7 +1121,7 @@ md_start_debug ( gcry_md_hd_t md, const char *suffix )
       return;
     }
   idx++;
-  snprintf (buf, DIM(buf)-1, "dbgmd-%05d.%.10s", idx, suffix );
+  _snprintf (buf, DIM(buf)-1, "dbgmd-%05d.%.10s", idx, suffix );
   md->ctx->debug = fopen(buf, "w");
   if ( !md->ctx->debug )
     log_debug("md debug: can't open %s\n", buf );

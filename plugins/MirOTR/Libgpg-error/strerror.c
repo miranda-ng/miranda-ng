@@ -103,25 +103,25 @@ system_strerror_r (int no, char *buf, size_t buflen)
    already thread-safe.  */
 
 static int
-system_strerror_r (int no, char *buf, size_t buflen)
+system_strerror_r(int no, char *buf, size_t buflen)
 {
-  char *errstr = strerror (no);
+	char *errstr = strerror(no);
 
-  if (!errstr)
-    {
-      int saved_errno = errno;
+	if (!errstr)
+	{
+		int saved_errno = errno;
 
-      if (saved_errno != EINVAL)
-	snprintf (buf, buflen, "strerror failed: %i\n", errno);
-      return saved_errno;
-    }
-  else
-    {
-      size_t errstr_len = strlen (errstr) + 1;
-      size_t cpy_len = errstr_len < buflen ? errstr_len : buflen;
-      memcpy (buf, errstr, cpy_len);
-      return cpy_len == errstr_len ? 0 : ERANGE;
-    }
+		if (saved_errno != EINVAL)
+			_snprintf(buf, buflen, "strerror failed: %i\n", errno);
+		return saved_errno;
+	}
+	else
+	{
+		size_t errstr_len = strlen(errstr) + 1;
+		size_t cpy_len = errstr_len < buflen ? errstr_len : buflen;
+		memcpy(buf, errstr, cpy_len);
+		return cpy_len == errstr_len ? 0 : ERANGE;
+	}
 }
 #endif
 
