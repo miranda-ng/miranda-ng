@@ -38,9 +38,6 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 		dbei.pBlob = blob;
 		db_event_get(hDbEvent, &dbei);
 
-		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION && dbei.eventType != SKYPE_DB_EVENT_TYPE_CALL_INFO && dbei.eventType != SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO && dbei.eventType != SKYPE_DB_EVENT_TYPE_URIOBJ)
-			continue;
-
 		size_t cbLen = mir_strlen((char*)dbei.pBlob);
 		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0)
 			return hDbEvent;
@@ -64,6 +61,50 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 	memcpy(pBlob + messageLength, uid, messageIdLength);
 
 	return AddEventToDb(hContact, type, timestamp, flags, (DWORD)cbBlob, pBlob);
+}
+
+MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = db_event_getBlobSize(hEvent);	
+	dbei.pBlob = mir_ptr<BYTE>((PBYTE)mir_alloc(dbei.cbBlob));
+	db_event_get(hEvent, &dbei);
+
+	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
+	if (jMsg)
+	{
+		if (jMsg["edits"])
+		{
+			JSONNode jEdit;
+			jEdit.push_back(JSONNode("time", (long)edit_time));
+			jEdit.push_back(JSONNode("text", szContent));
+
+			jMsg["edits"].push_back(jEdit);
+		}
+	}
+	else
+	{
+		jMsg = JSONNode();
+		JSONNode jOriginalMsg;
+		JSONNode jEdits(JSON_ARRAY);
+		JSONNode jEdit;
+
+		jOriginalMsg.set_name("original_message");
+		jOriginalMsg.push_back(JSONNode("time", (long)dbei.timestamp));
+		jOriginalMsg.push_back(JSONNode("text", (char*)dbei.pBlob));
+		jMsg.push_back(jOriginalMsg);
+
+		jEdit.push_back(JSONNode("time", (long)edit_time));
+		jEdit.push_back(JSONNode("text", szContent));
+
+		jEdits.push_back(jEdit);
+		jEdits.set_name("edits");
+		jMsg.push_back(jEdits);
+
+
+	}
+	int r = db_event_delete(hContact, hEvent);	
+	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, DBEF_UTF, jMsg.write().c_str(), szUid);
 }
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)

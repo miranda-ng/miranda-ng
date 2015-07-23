@@ -23,8 +23,7 @@ typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST
 
 struct TRInfo
 {
-	std::string 
-				socketIo,
+	std::string socketIo,
 				connId,
 				st,
 				se,
@@ -56,18 +55,12 @@ public:
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
-
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
-
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-
 	virtual	int       __cdecl SetStatus(int iNewStatus);
-
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
-
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
 	// accounts
@@ -100,7 +93,7 @@ public:
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 	void ProcessTimer();
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
-	static INT_PTR GetCallEventText(WPARAM, LPARAM lParam);
+	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
 	static mir_cs accountsLock;
 
 private:
@@ -241,6 +234,7 @@ private:
 
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
+	MEVENT AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time);
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
