@@ -620,6 +620,7 @@
 #include <string.h>
 #define strdup _strdup
 #define stricmp _stricmp
+#define snprintf _snprintf
 #ifdef _WIN64
 #	define __x86_64__ 1
 #else
