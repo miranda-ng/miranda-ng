@@ -1129,6 +1129,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	HWND hwndTab = GetParent(hwndDlg), hwndContainer;
 	POINT pt, tmp, cur;
 	RECT rc;
+	TNewWindowData *newData;
 
 	if (dat == 0) {
 		if (msg == WM_ACTIVATE || msg == WM_SETFOCUS)
@@ -1143,296 +1144,296 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		newData = (TNewWindowData*)lParam;
+
+		dat = (TWindowData*)mir_calloc(sizeof(TWindowData));
+		if (newData->iTabID >= 0) {
+			dat->pContainer = newData->pContainer;
+			m_pContainer = dat->pContainer;
+			hwndContainer = m_pContainer->hwnd;
+		}
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+
+		if (Utils::rtf_ctable == 0)
+			Utils::RTF_CTableInit();
+
+		dat->dwFlags |= MWF_INITMODE;
+		dat->bType = SESSIONTYPE_IM;
+		dat->fInsertMode = FALSE;
+		dat->fLimitedUpdate = false;
+		dat->Panel = new CInfoPanel(dat);
+
+		newData->item.lParam = (LPARAM)hwndDlg;
+		TabCtrl_SetItem(hwndTab, newData->iTabID, &newData->item);
+		dat->iTabID = newData->iTabID;
+		dat->hwnd = hwndDlg;
+
+		DM_ThemeChanged(dat);
+
+		pszIDCSAVE_close = TranslateT("Close session");
+		pszIDCSAVE_save = TranslateT("Save and close session");
+
+		dat->hContact = newData->hContact;
+		dat->cache = CContactCache::getContactCache(dat->hContact);
+		dat->cache->updateState();
+		dat->cache->setWindowData(hwndDlg, dat);
+		M.AddWindow(hwndDlg, dat->hContact);
+		BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
+		CProxyWindow::add(dat);
+		dat->szProto = const_cast<char *>(dat->cache->getProto());
+		dat->bIsMeta = dat->cache->isMeta();
+		if (dat->bIsMeta)
+			dat->cache->updateMeta();
+
+		dat->cache->updateUIN();
+
+		if (dat->hContact && dat->szProto != NULL) {
+			dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
+			_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
+		}
+		else dat->wStatus = ID_STATUS_OFFLINE;
+
+		for (int i = 0; i < _countof(btnControls); i++)
+			CustomizeButton(GetDlgItem(hwndDlg, btnControls[i]));
+
+		GetMYUIN(dat);
+		GetClientIcon(dat);
+
+		CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+			hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL));
+		dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, _T("Static"), _T(""), SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
+		mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
+
+		dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
+		dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
+		dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
+
+		dat->hQueuedEvents = (MEVENT*)mir_calloc(sizeof(MEVENT)* EVENT_QUEUE_SIZE);
+		dat->iEventQueueSize = EVENT_QUEUE_SIZE;
+		dat->iCurrentQueueError = -1;
+
+		// message history limit
+		// hHistoryEvents holds up to n event handles
+		dat->maxHistory = M.GetDword(dat->hContact, "maxhist", M.GetDword("maxhist", 0));
+		dat->curHistory = 0;
+		if (dat->maxHistory)
+			dat->hHistoryEvents = (MEVENT*)mir_alloc(dat->maxHistory * sizeof(MEVENT));
+		else
+			dat->hHistoryEvents = NULL;
+
+		if (dat->bIsMeta)
+			SendMessage(hwndDlg, DM_UPDATEMETACONTACTINFO, 0, 0);
+		else
+			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
+		dat->bTabFlash = FALSE;
+		dat->mayFlashTab = FALSE;
+		GetMyNick(dat);
+
+		dat->multiSplitterX = (int)M.GetDword(SRMSGMOD, "multisplit", 150);
+		dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
+		SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
+		dat->iLastEventType = 0xffffffff;
+
+		// load log option flags...
+		dat->dwFlags = dat->pContainer->theme.dwFlags;
+
+		// consider per-contact message setting overrides
+		if (dat->hContact && M.GetDword(dat->hContact, "mwmask", 0))
+			LoadLocalFlags(dat);
+
+		DM_InitTip(dat);
+		dat->Panel->getVisibility();
+
+		dat->dwFlagsEx |= M.GetByte(dat->hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
+		dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
+		dat->iInputAreaHeight = -1;
+		SetMessageLog(dat);
+		if (dat->hContact)
+			dat->Panel->loadHeight();
+
+		dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
+
+		Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, SW_HIDE);
+
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTER), &rc);
+		pt.y = (rc.top + rc.bottom) / 2;
+		pt.x = 0;
+		ScreenToClient(hwndDlg, &pt);
+		dat->originalSplitterY = pt.y;
+		if (dat->splitterY == -1)
+			dat->splitterY = dat->originalSplitterY + 60;
+
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &rc);
+		dat->minEditBoxSize.cx = rc.right - rc.left;
+		dat->minEditBoxSize.cy = rc.bottom - rc.top;
+
+		BB_InitDlgButtons(dat);
+		SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
+
+		SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CANCELADD, BUTTONSETASFLATBTN, TRUE, 0);
+
+		SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
+		SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
+		SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
+
+		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
+
+		for (int i = 0; i < _countof(tooltips); i++)
+			SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
+
+		SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
+			TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
+
+		SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
+
+		SetDlgItemText(hwndDlg, IDC_RETRY, TranslateT("Retry"));
 		{
-			TNewWindowData *newData = (TNewWindowData*)lParam;
-
-			dat = (TWindowData*)mir_calloc(sizeof(TWindowData));
-			if (newData->iTabID >= 0) {
-				dat->pContainer = newData->pContainer;
-				m_pContainer = dat->pContainer;
-				hwndContainer = m_pContainer->hwnd;
-			}
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-
-			if (Utils::rtf_ctable == 0)
-				Utils::RTF_CTableInit();
-
-			dat->dwFlags |= MWF_INITMODE;
-			dat->bType = SESSIONTYPE_IM;
-			dat->fInsertMode = FALSE;
-			dat->fLimitedUpdate = false;
-			dat->Panel = new CInfoPanel(dat);
-
-			newData->item.lParam = (LPARAM)hwndDlg;
-			TabCtrl_SetItem(hwndTab, newData->iTabID, &newData->item);
-			dat->iTabID = newData->iTabID;
-			dat->hwnd = hwndDlg;
-
-			DM_ThemeChanged(dat);
-
-			pszIDCSAVE_close = TranslateT("Close session");
-			pszIDCSAVE_save = TranslateT("Save and close session");
-
-			dat->hContact = newData->hContact;
-			dat->cache = CContactCache::getContactCache(dat->hContact);
-			dat->cache->updateState();
-			dat->cache->setWindowData(hwndDlg, dat);
-			M.AddWindow(hwndDlg, dat->hContact);
-			BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
-			CProxyWindow::add(dat);
-			dat->szProto = const_cast<char *>(dat->cache->getProto());
-			dat->bIsMeta = dat->cache->isMeta();
-			if (dat->bIsMeta)
-				dat->cache->updateMeta();
-
-			dat->cache->updateUIN();
-
-			if (dat->hContact && dat->szProto != NULL) {
-				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-				_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
-			}
-			else dat->wStatus = ID_STATUS_OFFLINE;
-
-			for (int i = 0; i < _countof(btnControls); i++)
-				CustomizeButton(GetDlgItem(hwndDlg, btnControls[i]));
-
-			GetMYUIN(dat);
-			GetClientIcon(dat);
-
-			CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-				hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL));
-			dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, _T("Static"), _T(""), SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
-			mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
-
-			dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
-			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
-			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
-
-			dat->hQueuedEvents = (MEVENT*)mir_calloc(sizeof(MEVENT)* EVENT_QUEUE_SIZE);
-			dat->iEventQueueSize = EVENT_QUEUE_SIZE;
-			dat->iCurrentQueueError = -1;
-
-			// message history limit
-			// hHistoryEvents holds up to n event handles
-			dat->maxHistory = M.GetDword(dat->hContact, "maxhist", M.GetDword("maxhist", 0));
-			dat->curHistory = 0;
-			if (dat->maxHistory)
-				dat->hHistoryEvents = (MEVENT*)mir_alloc(dat->maxHistory * sizeof(MEVENT));
-			else
-				dat->hHistoryEvents = NULL;
-
-			if (dat->bIsMeta)
-				SendMessage(hwndDlg, DM_UPDATEMETACONTACTINFO, 0, 0);
-			else
-				SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
-			dat->bTabFlash = FALSE;
-			dat->mayFlashTab = FALSE;
-			GetMyNick(dat);
-
-			dat->multiSplitterX = (int)M.GetDword(SRMSGMOD, "multisplit", 150);
-			dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-			SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
-			dat->iLastEventType = 0xffffffff;
-
-			// load log option flags...
-			dat->dwFlags = dat->pContainer->theme.dwFlags;
-
-			// consider per-contact message setting overrides
-			if (dat->hContact && M.GetDword(dat->hContact, "mwmask", 0))
-				LoadLocalFlags(dat);
-
-			DM_InitTip(dat);
-			dat->Panel->getVisibility();
-
-			dat->dwFlagsEx |= M.GetByte(dat->hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-			dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
-			dat->iInputAreaHeight = -1;
-			SetMessageLog(dat);
-			if (dat->hContact)
-				dat->Panel->loadHeight();
-
-			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
-
-			Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, SW_HIDE);
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTER), &rc);
-			pt.y = (rc.top + rc.bottom) / 2;
-			pt.x = 0;
-			ScreenToClient(hwndDlg, &pt);
-			dat->originalSplitterY = pt.y;
-			if (dat->splitterY == -1)
-				dat->splitterY = dat->originalSplitterY + 60;
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &rc);
-			dat->minEditBoxSize.cx = rc.right - rc.left;
-			dat->minEditBoxSize.cy = rc.bottom - rc.top;
-
-			BB_InitDlgButtons(dat);
-			SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CANCELADD, BUTTONSETASFLATBTN, TRUE, 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
-			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
-			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
-
-			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
-
-			for (int i = 0; i < _countof(tooltips); i++)
-				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
-
-			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-				TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
-			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
-
-			SetDlgItemText(hwndDlg, IDC_RETRY, TranslateT("Retry"));
-
 			UINT _ctrls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
 			for (int i = 0; i < _countof(_ctrls); i++) {
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
 			}
+		}
 
-			SetDlgItemText(hwndDlg, IDC_CANCELSEND, TranslateT("Cancel"));
-			SetDlgItemText(hwndDlg, IDC_MSGSENDLATER, TranslateT("Send later"));
+		SetDlgItemText(hwndDlg, IDC_CANCELSEND, TranslateT("Cancel"));
+		SetDlgItemText(hwndDlg, IDC_MSGSENDLATER, TranslateT("Send later"));
 
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
-			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
 
-			dat->bActualHistory = M.GetByte(dat->hContact, "ActualHistory", 0);
+		dat->bActualHistory = M.GetByte(dat->hContact, "ActualHistory", 0);
 
-			/* OnO: higligh lines to their end */
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+		/* OnO: higligh lines to their end */
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETLANGOPTIONS, 0, SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETLANGOPTIONS, 0, SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
 
-			// add us to the tray list (if it exists)
-			if (PluginConfig.g_hMenuTrayUnread != 0 && dat->hContact != 0 && dat->szProto != NULL)
-				UpdateTrayMenu(0, dat->wStatus, dat->szProto, dat->szStatus, dat->hContact, FALSE);
+		// add us to the tray list (if it exists)
+		if (PluginConfig.g_hMenuTrayUnread != 0 && dat->hContact != 0 && dat->szProto != NULL)
+			UpdateTrayMenu(0, dat->wStatus, dat->szProto, dat->szStatus, dat->hContact, FALSE);
 
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_AUTOURLDETECT, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXLIMITTEXT, 0, 0x80000000);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_AUTOURLDETECT, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXLIMITTEXT, 0, 0x80000000);
 
-			// subclassing stuff
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), MessageEditSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CONTACTPIC), AvatarSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTER), SplitterSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MULTISPLITTER), SplitterSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PANELSPLITTER), SplitterSubclassProc);
+		// subclassing stuff
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), MessageEditSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CONTACTPIC), AvatarSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTER), SplitterSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MULTISPLITTER), SplitterSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PANELSPLITTER), SplitterSubclassProc);
 
-			// load old messages from history (if wanted...)
-			dat->cache->updateStats(TSessionStats::INIT_TIMER);
-			if (dat->hContact) {
-				FindFirstEvent(dat);
-				dat->nMax = dat->cache->getMaxMessageLength();
+		// load old messages from history (if wanted...)
+		dat->cache->updateStats(TSessionStats::INIT_TIMER);
+		if (dat->hContact) {
+			FindFirstEvent(dat);
+			dat->nMax = dat->cache->getMaxMessageLength();
+		}
+		LoadContactAvatar(dat);
+		SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
+		LoadOwnAvatar(dat);
+
+		// restore saved msg if any...
+		if (dat->hContact) {
+			ptrT tszSavedMsg(db_get_tsa(dat->hContact, SRMSGMOD, "SavedMsg"));
+			if (tszSavedMsg != 0) {
+				SETTEXTEX stx = { ST_DEFAULT, 1200 };
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
+				SendQueue::UpdateSaveAndSendButton(dat);
+				if (m_pContainer->hwndActive == hwndDlg)
+					UpdateReadChars(dat);
 			}
-			LoadContactAvatar(dat);
-			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
-			LoadOwnAvatar(dat);
+		}
+		if (newData->szInitialText) {
+			if (newData->isWchar)
+				SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
+			else
+				SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
+			int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
+			PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
+			if (len)
+				EnableSendButton(dat, TRUE);
+		}
 
-			// restore saved msg if any...
-			if (dat->hContact) {
-				ptrT tszSavedMsg(db_get_tsa(dat->hContact, SRMSGMOD, "SavedMsg"));
-				if (tszSavedMsg != 0) {
-					SETTEXTEX stx = { ST_DEFAULT, 1200 };
-					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
-					SendQueue::UpdateSaveAndSendButton(dat);
-					if (m_pContainer->hwndActive == hwndDlg)
-						UpdateReadChars(dat);
-				}
+		for (MEVENT hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hdbEvent, &dbei);
+			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+				dat->lastMessage = dbei.timestamp;
+				DM_UpdateLastMessage(dat);
+				break;
 			}
-			if (newData->szInitialText) {
-				if (newData->isWchar)
-					SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
-				else
-					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
-				int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
-				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
-				if (len)
-					EnableSendButton(dat, TRUE);
-			}
+		}
 
-			for (MEVENT hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				db_event_get(hdbEvent, &dbei);
-				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-					dat->lastMessage = dbei.timestamp;
-					DM_UpdateLastMessage(dat);
-					break;
-				}
-			}
-
-			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-
+		SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		{
 			WNDCLASS wndClass = { 0 };
 			GetClassInfo(g_hInst, _T("RICHEDIT50W"), &wndClass);
 			mir_subclassWindowFull(GetDlgItem(hwndDlg, IDC_LOG), MessageLogSubclassProc, wndClass.lpfnWndProc);
-
-			SetWindowPos(hwndDlg, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), newData->iActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
-			LoadSplitter(dat);
-			ShowPicture(dat, TRUE);
-
-			if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || !newData->iActivate || m_pContainer->dwFlags & CNT_DEFERREDTABSELECT) {
-				dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
-				SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
-				dat->mayFlashTab = true;
-
-				DBEVENTINFO dbei = { 0 };
-				dbei.eventType = EVENTTYPE_MESSAGE;
-				FlashOnClist(hwndDlg, dat, dat->hDbEventFirst, &dbei);
-
-				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-				m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
-				dat->dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
-			}
-
-			if (newData->iActivate) {
-				m_pContainer->hwndActive = hwndDlg;
-				ShowWindow(hwndDlg, SW_SHOW);
-				SetActiveWindow(hwndDlg);
-				SetForegroundWindow(hwndDlg);
-			}
-			else if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
-				dat->dwFlags |= MWF_DEFERREDSCROLL;
-				ShowWindow(hwndDlg, SW_SHOWNOACTIVATE);
-				m_pContainer->hwndActive = hwndDlg;
-				m_pContainer->dwFlags |= CNT_DEFERREDCONFIGURE;
-			}
-			PostMessage(hwndContainer, DM_UPDATETITLE, dat->hContact, 0);
-
-			DM_RecalcPictureSize(dat);
-			dat->dwLastActivity = GetTickCount() - 1000;
-			m_pContainer->dwLastActivity = dat->dwLastActivity;
-
-			if (dat->hwndHPP)
-				mir_subclassWindow(dat->hwndHPP, HPPKFSubclassProc);
-
-			dat->dwFlags &= ~MWF_INITMODE;
-			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN, 0);
-
-			// show a popup if wanted...
-			if (newData->bWantPopup) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				newData->bWantPopup = FALSE;
-				db_event_get(newData->hdbEvent, &dbei);
-				tabSRMM_ShowPopup(dat->hContact, newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto());
-			}
-			if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
-				m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
-				m_pContainer->hwndActive = hwndDlg;
-				return FALSE;
-			}
-			return newData->iActivate != 0;
 		}
+
+		SetWindowPos(hwndDlg, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), newData->iActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
+		LoadSplitter(dat);
+		ShowPicture(dat, TRUE);
+
+		if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED || !newData->iActivate || m_pContainer->dwFlags & CNT_DEFERREDTABSELECT) {
+			dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
+			SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
+			dat->mayFlashTab = true;
+
+			DBEVENTINFO dbei = { 0 };
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			FlashOnClist(hwndDlg, dat, dat->hDbEventFirst, &dbei);
+
+			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
+			dat->dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
+		}
+
+		if (newData->iActivate) {
+			m_pContainer->hwndActive = hwndDlg;
+			ShowWindow(hwndDlg, SW_SHOW);
+			SetActiveWindow(hwndDlg);
+			SetForegroundWindow(hwndDlg);
+		}
+		else if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
+			dat->dwFlags |= MWF_DEFERREDSCROLL;
+			ShowWindow(hwndDlg, SW_SHOWNOACTIVATE);
+			m_pContainer->hwndActive = hwndDlg;
+			m_pContainer->dwFlags |= CNT_DEFERREDCONFIGURE;
+		}
+		PostMessage(hwndContainer, DM_UPDATETITLE, dat->hContact, 0);
+
+		DM_RecalcPictureSize(dat);
+		dat->dwLastActivity = GetTickCount() - 1000;
+		m_pContainer->dwLastActivity = dat->dwLastActivity;
+
+		if (dat->hwndHPP)
+			mir_subclassWindow(dat->hwndHPP, HPPKFSubclassProc);
+
+		dat->dwFlags &= ~MWF_INITMODE;
+		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN, 0);
+
+		// show a popup if wanted...
+		if (newData->bWantPopup) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			newData->bWantPopup = FALSE;
+			db_event_get(newData->hdbEvent, &dbei);
+			tabSRMM_ShowPopup(dat->hContact, newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto());
+		}
+		if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
+			m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
+			m_pContainer->hwndActive = hwndDlg;
+			return FALSE;
+		}
+		return newData->iActivate != 0;
 
 	case WM_ERASEBKGND:
 		RECT rcClient, rcWindow;
