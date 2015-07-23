@@ -180,25 +180,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
 		if (isEdited && dbevent != NULL)
 		{
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			CMStringA msg;
-			dbei.cbBlob = db_event_getBlobSize(dbevent);
-			dbei.pBlob = mir_ptr<BYTE>((PBYTE)mir_alloc(dbei.cbBlob));
-
-			db_event_get(dbevent, &dbei);
-
-			time_t dbEventTimestamp = dbei.timestamp;
-
-			char *dbMsgText = NEWSTR_ALLOCA((char *)dbei.pBlob);
-
-			TCHAR time[64];
-			_locale_t locale = _create_locale(LC_ALL, "");
-			_tcsftime_l(time, sizeof(time), L"%X %x", localtime(&timestamp), locale);
-			_free_locale(locale);
-
-			msg.AppendFormat("%s\n%s %s:\n%s", mir_utf8decodeA(dbMsgText), Translate("Edited at"), T2Utf(time), mir_utf8decodeA(message));
-			db_event_delete(hContact, dbevent);
-			AddDbEvent(EVENTTYPE_MESSAGE, hContact, dbEventTimestamp, DBEF_UTF, ptrA(mir_utf8encode(msg.GetBuffer())), skypeEditedId.c_str());
+			AppendDBEvent(hContact, dbevent, message, skypeEditedId.c_str(), timestamp);
 		}
 		else OnReceiveMessage(clientMsgId.c_str(), conversationLink.c_str(), timestamp, message, emoteOffset);
 	}

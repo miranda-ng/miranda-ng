@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
+INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 {
 	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
 
@@ -27,6 +27,40 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 	
 	switch (pEvent->dbei->eventType)
 	{
+	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
+		{
+			CMStringA text; 
+			JSONNode jMsg = JSONNode::parse((char*)pEvent->dbei->pBlob);
+			if (jMsg)
+			{
+				text.AppendFormat(Translate("Original message:\n\t%s\n"), jMsg["original_message"]["text"].as_string());
+				JSONNode &jEdits = jMsg["edits"];
+				for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
+				{
+					const JSONNode &jEdit = *it;
+
+					time_t time = jEdit["time"].as_int();
+					tm* _tm = localtime(&time);
+					char szTime[MAX_PATH];
+					strftime(szTime, 0, "%X %x", _tm);
+
+					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string());
+				}
+				
+			}
+			else 
+			{
+#ifdef _DEBUG
+				text = (char*)pEvent->dbei->pBlob;
+#else
+				text = Translate("Invalid data!");
+#endif
+			}
+
+			pszText = mir_utf8decodeA(text);
+			break;
+		}
+
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
 			CMStringA text;
@@ -52,7 +86,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 				}
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text.GetBuffer());
+			pszText = mir_strdup(text);
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
@@ -80,7 +114,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 				}
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text.GetBuffer());
+			pszText = mir_strdup(text);
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
@@ -92,7 +126,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 				text.Append(_T2A(xmlGetText(xml)));
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text.GetBuffer());
+			pszText = mir_strdup(text);
 			break;
 
 		}
@@ -153,23 +187,27 @@ void CSkypeProto::InitDBEvents()
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	dbEventType.iconService = MODULE"/GetEventIcon";
-	dbEventType.textService = MODULE"/GetCallText";
+	dbEventType.iconService = MODULE "/GetEventIcon";
+	dbEventType.textService = MODULE "/GetEventText";
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE;
+	dbEventType.descr = Translate("Edited message");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL_INFO;
-	dbEventType.descr = Translate("Call information.");
+	dbEventType.descr = Translate("Call information");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
-	dbEventType.descr = Translate("File transfer information.");
+	dbEventType.descr = Translate("File transfer information");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
-	dbEventType.descr = Translate("Uri object.");
+	dbEventType.descr = Translate("URI object");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
