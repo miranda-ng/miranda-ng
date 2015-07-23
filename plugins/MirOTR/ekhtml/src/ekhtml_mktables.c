@@ -111,7 +111,7 @@ static void print_charmap(char *name, EKHTML_CHARMAP_TYPE (*cmap_func)(char)){
     int ch;
     char sbuf[256];
     
-    sprintf(sbuf, "0x%%0%dx ", EKHTML_CHARMAP_LEN * 2);
+    sprintf(sbuf, "0x%%0%dx ", (int)EKHTML_CHARMAP_LEN * 2);
     printf("#ifdef EKHTML_USE_TABLES\n");
     printf("const %s %s[256] = {\n", EKHTML_CHARMAP_TYPE_S, name);
     for(ch=0; ch < 256; ch++){

@@ -292,7 +292,7 @@ gcry_mpi_copy (const gcry_mpi_t a)
 void
 gcry_mpi_snatch (gcry_mpi_t w, const gcry_mpi_t u)
 {
-  return _gcry_mpi_snatch (w, u);
+  _gcry_mpi_snatch (w, u);
 }
 
 gcry_mpi_t
@@ -675,8 +675,9 @@ _gcry_mpi_get_const (int no)
     case 3: return _gcry_mpi_const (MPI_C_THREE);
     case 4: return _gcry_mpi_const (MPI_C_FOUR);
     case 8: return _gcry_mpi_const (MPI_C_EIGHT);
-    default: log_bug("unsupported GCRYMPI_CONST_ macro used\n");
     }
+  log_bug("unsupported GCRYMPI_CONST_ macro used\n");
+  return NULL;
 }
 
 gcry_error_t

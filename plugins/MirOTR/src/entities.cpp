@@ -317,7 +317,7 @@ static size_t putc_utf8(unsigned long cp, char *buffer)
 	return 0;
 }
 
-static _Bool parse_entity(const char *current, char **to,
+static bool parse_entity(const char *current, char **to,
 	const char **from, size_t maxlen)
 {
 	const char *end = (const char *)memchr(current, ';', maxlen);
@@ -328,7 +328,7 @@ static _Bool parse_entity(const char *current, char **to,
 		char *tail = NULL;
 		errno = 0;
 
-		_Bool hex = current[2] == 'x' || current[2] == 'X';
+		bool hex = current[2] == 'x' || current[2] == 'X';
 
 		unsigned long cp = strtoul(
 			current + (hex ? 3 : 2), &tail, hex ? 16 : 10);

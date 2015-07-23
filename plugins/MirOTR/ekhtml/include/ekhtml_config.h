@@ -96,9 +96,6 @@
 /* Miranda NG modifications */
 #define GPGRT_ENABLE_ES_MACROS 1
 #include <string.h>
-#define strdup _strdup
-#define stricmp _stricmp
-#define snprintf _snprintf
 #ifdef _WIN64
 #	define __x86_64__ 1
 #else

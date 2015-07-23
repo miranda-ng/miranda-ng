@@ -147,9 +147,9 @@ static void handle_starttag(ekhtml_parser_t *parser, char *curp,
     /* Formulate real attribute callback data from the 'offset' 
        pointer values */
     for(attr=sstate->attrs;attr;attr=attr->next){
-        attr->name.str = curp + (int)attr->name.str;
+        attr->name.str = curp + (size_t)attr->name.str;
         if(!attr->isBoolean)
-            attr->val.str = curp + (int)attr->val.str;
+            attr->val.str = curp + (size_t)attr->val.str;
     }
     
     cback(parser->cbdata, &str, sstate->attrs);
@@ -254,7 +254,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
             /* There be dragons here -- watch out -- see comment @ top 
                of file */
             startstate->curattr->name.len = 
-                workp - (curp + (int)startstate->curattr->name.str);
+                workp - (curp + (size_t)startstate->curattr->name.str);
             if(*workp == '='){
                 startstate->mode = EKHTML_STMODE_BEGVALUE;
                 workp++;  /* Skip the equals sign */
@@ -331,7 +331,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
                 for(;workp != endp && *workp != '>' && *workp != '<'; workp++){
                     if(*workp == startstate->quote){
                         startstate->curattr->val.len = 
-                            workp - (curp + (int)startstate->curattr->val.str);
+                            workp - (curp + (size_t)startstate->curattr->val.str);
                         scroll_attribute(startstate);
                         startstate->mode = EKHTML_STMODE_BEGNAME;
                         workp++;  /* Skip the quote */
@@ -350,7 +350,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
                 break;
             
             startstate->curattr->val.len = 
-                workp - (curp + (int)startstate->curattr->val.str);
+                workp - (curp + (size_t)startstate->curattr->val.str);
             scroll_attribute(startstate);
             
             if(*workp == '>' || *workp == '<') {
