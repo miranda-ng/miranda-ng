@@ -527,14 +527,14 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		return;
 	}
 			
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews))
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews)
 		<< INT_PARAM("count", 100)
 		<< INT_PARAM("return_banned", m_bNewsSourceIncludeBanned ? 1 : 0)
 		<< INT_PARAM("max_photos", m_iMaxLoadNewsPhoto)
 		<< INT_PARAM("start_time", tLastNewsTime + 1)
 		<< CHAR_PARAM("filters", szFilter)
 		<< CHAR_PARAM("source_ids", szSource)
-		<< VER_API;
+		<< VER_API);
 
 	setDword("LastNewsReqTime", (DWORD)time(NULL));
 }
@@ -618,9 +618,9 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		(LONG)(tLastNotificationsTime + 1),
 		m_bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications))
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
 		<< TCHAR_PARAM("code", code)		
-		<< VER_API;	
+		<< VER_API);	
 
 	setDword("LastNotificationsReqTime", (DWORD)time(NULL));
 }

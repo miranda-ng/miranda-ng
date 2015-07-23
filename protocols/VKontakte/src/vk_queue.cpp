@@ -98,7 +98,7 @@ void CVkProto::WorkerThread(void*)
 
 	char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 
-	CMStringA szAccessScore = ptrA(getStringA("AccessScore"));
+	CMStringA szAccessScore(ptrA(getStringA("AccessScore")));
 	if (szAccessScore != Score) {
 		setString("AccessScore", Score);
 		delSetting("AccessToken");
