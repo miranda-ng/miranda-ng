@@ -258,10 +258,6 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_sntprintf(newTitle, _countof(newTitle), oldTitle, name);
 			SetWindowText(hwndDlg, newTitle);
 
-			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, _countof(oldTitle));
-			mir_sntprintf(newTitle, _countof(newTitle), oldTitle, name);
-			SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
-
 			//////////////////////////////////////////////////////////////////////
 			LOGFONT lf;
 			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_NAME, WM_GETFONT, 0, 0);
