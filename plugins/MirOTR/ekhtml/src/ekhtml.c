@@ -90,8 +90,7 @@ static void ekhtml_buffer_grow(ekhtml_parser_t *parser){
     newsize = parser->nalloced + EKHTML_BLOCKSIZE;
     
     if((newbuf = realloc(parser->buf, newsize)) == NULL){
-        fprintf(stderr, "BAD! Can't allocate %d bytes in ekhtml_buffer_grow\n",
-                newsize);
+        fprintf(stderr, "BAD! Can't allocate %d bytes in ekhtml_buffer_grow\n", (int)newsize);
         fflush(stderr); /* Just in case someone changes the buffering scheme */
     }
 
@@ -279,7 +278,7 @@ ekhtml_parser_startendcb_add(ekhtml_parser_t *parser, const char *tag,
     }
 
 
-    newtag = strdup(tag);
+    newtag = _strdup(tag);
     for(cp=newtag; *cp; cp++)
         *cp = toupper(*cp);
     

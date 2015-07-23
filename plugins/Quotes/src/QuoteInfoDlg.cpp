@@ -11,43 +11,33 @@ extern HGENMENU g_hMenuRefresh;
 
 #define WINDOW_PREFIX_INFO "Quote Info"
 
+MCONTACT g_hContact;
 
-namespace
+inline bool IsMyContact(MCONTACT hContact)
 {
-	MCONTACT g_hContact;
+	CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
+	return (NULL != pProvider);
+}
 
-	inline bool IsMyContact(MCONTACT hContact)
-	{
-		CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
-		return (NULL != pProvider);
-	}
+inline MCONTACT get_contact(HWND hWnd)
+{
+	return MCONTACT(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+}
 
-	inline MCONTACT get_contact(HWND hWnd)
-	{
-		return MCONTACT(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-	}
+bool get_fetch_time(time_t& rTime, MCONTACT hContact)
+{
+	rTime = db_get_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FETCH_TIME, -1);
+	return (rTime != -1);
+}
 
+INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		assert(hContact);
 
-	bool get_fetch_time(time_t& rTime, MCONTACT hContact)
-	{
-		DBVARIANT dbv;
-		if (db_get(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
-			return false;
-
-		rTime = dbv.dVal;
-		return true;
-	}
-
-	INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg)
+		TranslateDialogDefault(hdlg);
 		{
-		case WM_INITDIALOG:
-		{
-			assert(hContact);
-
-			TranslateDialogDefault(hdlg);
-
 			tstring sDescription = GetContactName(hContact);
 			::SetDlgItemText(hdlg, IDC_STATIC_QUOTE_NAME, sDescription.c_str());
 
@@ -91,29 +81,25 @@ namespace
 			::SetDlgItemText(hdlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 		}
 		return TRUE;
-		case WM_NOTIFY:
-		{
-			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
-			switch (pNMHDR->code)
-			{
-			case NM_CLICK:
-				if (IDC_SYSLINK_PROVIDER == wParam)
-				{
-					PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-					::ShellExecute(hdlg, _T("open"), pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
-				}
-				break;
+
+	case WM_NOTIFY:
+		LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
+		switch (pNMHDR->code) {
+		case NM_CLICK:
+			if (IDC_SYSLINK_PROVIDER == wParam) {
+				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
+				::ShellExecute(hdlg, _T("open"), pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
 			}
+			break;
 		}
 		break;
-		}
-		return FALSE;
 	}
+	return FALSE;
+}
 
-	INT_PTR CALLBACK QuoteInfoDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		return QuoteInfoDlgProcImpl(g_hContact, hdlg, msg, wParam, lParam);
-	}
+INT_PTR CALLBACK QuoteInfoDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return QuoteInfoDlgProcImpl(g_hContact, hdlg, msg, wParam, lParam);
 }
 
 int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
@@ -142,13 +128,8 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
 INT_PTR QuotesMenu_EditSettings(WPARAM wp, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wp);
-	if (NULL == hContact)
-	{
-		return 0;
-	}
-
-	ShowSettingsDlg(hContact);
-
+	if (NULL != hContact)
+		ShowSettingsDlg(hContact);
 	return 0;
 }
 
@@ -165,15 +146,11 @@ INT_PTR QuotesMenu_OpenLogFile(WPARAM wp, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wp);
 	if (NULL == hContact)
-	{
 		return 0;
-	}
 
 	tstring sLogFileName;
 	if ((true == get_log_file(hContact, sLogFileName)) && (false == sLogFileName.empty()))
-	{
 		::ShellExecute(NULL, _T("open"), sLogFileName.c_str(), NULL, NULL, SW_SHOWNORMAL);
-	}
 
 	return 0;
 }
@@ -182,70 +159,61 @@ INT_PTR QuotesMenu_RefreshContact(WPARAM wp, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wp);
 	if (NULL == hContact)
-	{
 		return 0;
-	}
 
 	CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
 	if (!pProvider)
-	{
 		return 0;
-	}
 
 	pProvider->RefreshContact(hContact);
-
 	return 0;
 }
 
-namespace
+static INT_PTR CALLBACK QuoteInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR CALLBACK QuoteInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		MCONTACT hContact = NULL;
-		switch (msg) {
-		case WM_INITDIALOG:
-		{
-			hContact = MCONTACT(lParam);
-			MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
-			assert(hWL);
-			WindowList_Add(hWL, hdlg, hContact);
+	MCONTACT hContact = NULL;
+	MWindowList hWL;
 
-			::SetWindowLongPtr(hdlg, GWLP_USERDATA, hContact);
-			Utils_RestoreWindowPositionNoSize(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
-			::ShowWindow(hdlg, SW_SHOW);
-		}
+	switch (msg) {
+	case WM_INITDIALOG:
+		hContact = MCONTACT(lParam);
+		hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+		assert(hWL);
+		WindowList_Add(hWL, hdlg, hContact);
+
+		::SetWindowLongPtr(hdlg, GWLP_USERDATA, hContact);
+		Utils_RestoreWindowPositionNoSize(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
+		::ShowWindow(hdlg, SW_SHOW);
 		break;
-		case WM_CLOSE:
-			DestroyWindow(hdlg);
-			return FALSE;
-		case WM_DESTROY:
-		{
-			MCONTACT hContact = get_contact(hdlg);
-			if (hContact)
-			{
-				SetWindowLongPtr(hdlg, GWLP_USERDATA, 0);
 
-				MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
-				assert(hWL);
-				WindowList_Remove(hWL, hdlg);
-				Utils_SaveWindowPosition(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
-			}
+	case WM_CLOSE:
+		DestroyWindow(hdlg);
+		return FALSE;
+
+	case WM_DESTROY:
+		hContact = get_contact(hdlg);
+		if (hContact) {
+			SetWindowLongPtr(hdlg, GWLP_USERDATA, 0);
+
+			hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, false);
+			assert(hWL);
+			WindowList_Remove(hWL, hdlg);
+			Utils_SaveWindowPosition(hdlg, hContact, QUOTES_MODULE_NAME, WINDOW_PREFIX_INFO);
 		}
 		return FALSE;
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDOK)
-			{
-				::DestroyWindow(hdlg);
-				return FALSE;
-			}
 
-		default:
-			hContact = get_contact(hdlg);
-			break;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK) {
+			::DestroyWindow(hdlg);
+			return FALSE;
 		}
 
-		return QuoteInfoDlgProcImpl(hContact, hdlg, msg, wParam, lParam);
+	default:
+		hContact = get_contact(hdlg);
+		break;
 	}
+
+	return QuoteInfoDlgProcImpl(hContact, hdlg, msg, wParam, lParam);
 }
 
 int Quotes_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)

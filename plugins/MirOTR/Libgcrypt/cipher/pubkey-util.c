@@ -391,7 +391,7 @@ _gcry_pk_util_preparse_sigval (gcry_sexp_t s_sig, const char **algo_names,
     }
 
   for (i=0; algo_names[i]; i++)
-    if (!stricmp (name, algo_names[i]))
+    if (!_stricmp (name, algo_names[i]))
       break;
   if (!algo_names[i])
     {
@@ -562,7 +562,7 @@ _gcry_pk_util_preparse_encval (gcry_sexp_t sexp, const char **algo_names,
     parsed_flags |= PUBKEY_FLAG_LEGACYRESULT;
 
   for (i=0; algo_names[i]; i++)
-    if (!stricmp (name, algo_names[i]))
+    if (!_stricmp (name, algo_names[i]))
       break;
   if (!algo_names[i])
     {

@@ -153,7 +153,7 @@ spec_from_name (const char *name)
 
   for (idx=0; (spec = digest_list[idx]); idx++)
     {
-      if (!stricmp (name, spec->name))
+      if (!_stricmp (name, spec->name))
         return spec;
     }
 
@@ -175,7 +175,7 @@ spec_from_oid (const char *oid)
       if (oid_specs)
         {
           for (j = 0; oid_specs[j].oidstring; j++)
-            if (!stricmp (oid, oid_specs[j].oidstring))
+            if (!_stricmp (oid, oid_specs[j].oidstring))
               return spec;
         }
     }
@@ -198,7 +198,7 @@ search_oid (const char *oid, gcry_md_oid_spec_t *oid_spec)
   if (spec && spec->oids)
     {
       for (i = 0; spec->oids[i].oidstring; i++)
-	if (!stricmp (oid, spec->oids[i].oidstring))
+	if (!_stricmp (oid, spec->oids[i].oidstring))
 	  {
 	    if (oid_spec)
 	      *oid_spec = spec->oids[i];
@@ -1141,7 +1141,7 @@ md_stop_debug( gcry_md_hd_t md )
 
 #ifdef HAVE_U64_TYPEDEF
   {  /* a kludge to pull in the __muldi3 for Solaris */
-    volatile u32 a = (u32)(ulong)md;
+    volatile u32 a = (u32)md;
     volatile u64 b = 42;
     volatile u64 c;
     c = a * b;
