@@ -513,7 +513,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
 
           status = RegQueryValueEx (hKey, "ProductType", 0, NULL,
                                     szValue, &dwSize);
-          if (status == ERROR_SUCCESS && stricmp (szValue, "WinNT"))
+          if (status == ERROR_SUCCESS && _stricmp(szValue, "WinNT"))
             {
               /* Note: There are (at least) three cases for ProductType:
                  WinNT = NT Workstation, ServerNT = NT Server, LanmanNT =
@@ -602,8 +602,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
       char szDevice[50];
 
       /* Check whether we can access this device.  */
-      snprintf (szDevice, sizeof szDevice, "\\\\.\\PhysicalDrive%d",
-                drive_no);
+      _snprintf(szDevice, sizeof szDevice, "\\\\.\\PhysicalDrive%d", drive_no);
       hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
                             NULL, OPEN_EXISTING, 0, NULL);
       if (hDevice == INVALID_HANDLE_VALUE)

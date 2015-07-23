@@ -1574,7 +1574,7 @@ compute_keygrip (gcry_md_hd_t md, gcry_sexp_t keyparms)
 
           raw = mpi_get_opaque (values[idx], &n);
           n = (n + 7)/8;
-          snprintf (buf, sizeof buf, "(1:%c%u:", names[idx], n);
+          _snprintf (buf, sizeof buf, "(1:%c%u:", names[idx], n);
           _gcry_md_write (md, buf, strlen (buf));
           _gcry_md_write (md, raw, n);
           _gcry_md_write (md, ")", 1);
@@ -1590,7 +1590,7 @@ compute_keygrip (gcry_md_hd_t md, gcry_sexp_t keyparms)
               rc = gpg_err_code_from_syserror ();
               goto leave;
             }
-          snprintf (buf, sizeof buf, "(1:%c%u:", names[idx], rawmpilen);
+          _snprintf (buf, sizeof buf, "(1:%c%u:", names[idx], rawmpilen);
           _gcry_md_write (md, buf, strlen (buf));
           _gcry_md_write (md, rawmpi, rawmpilen);
           _gcry_md_write (md, ")", 1);

@@ -341,7 +341,7 @@ _gcry_log_printmpi (const char *text, gcry_mpi_t mpi)
       char prefix[30];
 
       p = mpi_get_opaque (mpi, &nbits);
-      snprintf (prefix, sizeof prefix, " [%u bit]", nbits);
+      _snprintf (prefix, sizeof prefix, " [%u bit]", nbits);
       do_printhex (text? text:" ", prefix, p, (nbits+7)/8);
     }
   else

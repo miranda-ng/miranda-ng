@@ -45,11 +45,11 @@ _gcry_mpi_point_log (const char *name, mpi_point_t point, mpi_ec_t ctx)
 
   if (!point)
     {
-      snprintf (buf, sizeof buf - 1, "%s.*", name);
+      _snprintf (buf, sizeof buf - 1, "%s.*", name);
       log_mpidump (buf, NULL);
       return;
     }
-  snprintf (buf, sizeof buf - 1, "%s.X", name);
+  _snprintf (buf, sizeof buf - 1, "%s.X", name);
 
   if (ctx)
     {
