@@ -161,7 +161,8 @@ void gtaRenewText(MCONTACT hContact)
 
 void gtaShutdown()
 {
-	SetEvent(hgtaWakeupEvent);
+	if (hgtaWakeupEvent)
+		SetEvent(hgtaWakeupEvent);
 }
 
 void InitCacheAsync()

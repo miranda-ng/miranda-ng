@@ -1331,8 +1331,10 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	ImageArray_Clear(&dat->avatar_cache);
 	DeleteDC(dat->avatar_cache.hdc);
 	ImageArray_Free(&dat->avatar_cache, FALSE);
-	if (dat->himlHighlight)
+	if (dat->himlHighlight) {
 		ImageList_Destroy(dat->himlHighlight);
+		dat->himlHighlight = NULL;
+	}
 
 	RowHeights_Free(dat);
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
