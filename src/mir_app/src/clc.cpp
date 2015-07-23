@@ -1304,8 +1304,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (!dat->fontInfo[i].changed)
 				DeleteObject(dat->fontInfo[i].hFont);
 
-		if (dat->himlHighlight)
+		if (dat->himlHighlight) {
 			ImageList_Destroy(dat->himlHighlight);
+			dat->himlHighlight = NULL;
+		}
 		if (dat->hwndRenameEdit)
 			DestroyWindow(dat->hwndRenameEdit);
 		if (dat->hBmpBackground)

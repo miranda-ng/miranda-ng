@@ -57,7 +57,7 @@ MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProto
 MIR_APP_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
 {
 	char buf[4096];
-	int res = _vsnprintf(buf, sizeof(buf), szFormat, args);
+	int res = _vsnprintf(buf, _countof(buf), szFormat, args);
 	CallService(MS_NETLIB_LOG, (WPARAM)(pThis ? pThis->m_hNetlibUser : NULL), (LPARAM)((res != -1) ? buf : CMStringA().FormatV(szFormat, args)));
 }
 

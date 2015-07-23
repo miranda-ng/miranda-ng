@@ -1009,7 +1009,8 @@ int AniAva_InitModule()
 
 void _AniAva_OnModulesUnload()
 {
-	SetEvent(s_hExitEvent);
+	if (s_hExitEvent)
+		SetEvent(s_hExitEvent);
 }
 
 int AniAva_UnloadModule()
