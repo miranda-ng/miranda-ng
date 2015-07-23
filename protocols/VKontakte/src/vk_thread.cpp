@@ -147,21 +147,21 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				}
 			}
 			else {
-				AsyncHttpRequest *pReq = new AsyncHttpRequest();
-				pReq->requestType = REQUEST_GET;
-				pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-				pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
-				pReq->AddHeader("Referer", m_prevUrl);
-				pReq->Redirect(reply);
-				if (!pReq->m_szUrl.IsEmpty()) {
-					if (pReq->m_szUrl[0] == '/')
-						pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
-					ApplyCookies(pReq);
-					m_prevUrl = pReq->m_szUrl;
+				AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest();
+				pRedirectReq->requestType = REQUEST_GET;
+				pRedirectReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+				pRedirectReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
+				pRedirectReq->AddHeader("Referer", m_prevUrl);
+				pRedirectReq->Redirect(reply);
+				if (!pRedirectReq->m_szUrl.IsEmpty()) {
+					if (pRedirectReq->m_szUrl[0] == '/')
+						pRedirectReq->m_szUrl = VK_LOGIN_DOMAIN + pRedirectReq->m_szUrl;
+					ApplyCookies(pRedirectReq);
+					m_prevUrl = pRedirectReq->m_szUrl;
 				}
-				pReq->m_bApiReq = false;
-				pReq->bIsMainConn = true;
-				Push(pReq);
+				pRedirectReq->m_bApiReq = false;
+				pRedirectReq->bIsMainConn = true;
+				Push(pRedirectReq);
 			}
 		}
 		else 
@@ -599,7 +599,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (!jnResponse.isnull()) {
-			CMString tszNick = ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
+			CMString tszNick(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
 			if (tszNick.IsEmpty())
 				tszNick = TranslateT("(Unknown contact)");
 			CMString msgformat, msg;
@@ -697,7 +697,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 		return 1;
 
 	CMString formatstr = TranslateT("Are you sure to report abuse on %s?"),
-		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
+		tszNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))),
 		ptszMsg;
 	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
 	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
