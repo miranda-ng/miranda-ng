@@ -72,7 +72,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Folders", "..\plugins\Folde
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList", "..\plugins\HistoryLinkListPlus\linklist.vcxproj", "{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistorySweeperLight", "..\plugins\HistorySweeperLight\historysweeperlight_10.vcxproj", "{9DE1F0B0-B9D1-4681-82E7-13CC3E047445}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistorySweeperLight", "..\plugins\HistorySweeperLight\historysweeperlight.vcxproj", "{9DE1F0B0-B9D1-4681-82E7-13CC3E047445}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEView", "..\plugins\IEView\ieview_10.vcxproj", "{B988F96C-F87A-484C-AB15-D0674B22F291}"
 EndProject
