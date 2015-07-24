@@ -1,4 +1,4 @@
-#include "gmail.h"
+#include "stdafx.h"
 
 int OpenBrowser(WPARAM hContact, LPARAM lParam)
 {

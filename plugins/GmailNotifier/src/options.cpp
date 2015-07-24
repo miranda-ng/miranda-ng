@@ -1,4 +1,4 @@
-#include "gmail.h"
+#include "stdafx.h"
 
 static void SaveButton(HWND hwndDlg,HWND hwndCombo, int curIndex) {
 	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, _countof(acc[curIndex].name))) {

@@ -1,6 +1,7 @@
-#include "gmail.h"
+#include "stdafx.h"
 
-//		#include <stdio.h>
+#pragma comment(lib, "Wininet.lib")
+
 
 void CheckMailInbox(Account *curAcc)
 {

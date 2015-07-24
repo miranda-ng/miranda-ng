@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <wininet.h>
 #include <time.h>
@@ -81,7 +79,7 @@ INT_PTR Notifying(WPARAM, LPARAM);
 INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 BOOL GetBrowser(char *);
-void CheckMailInbox(Account *);
+//void CheckMailInbox(Account *);
 void NotifyUser(Account *);
 int OptInit(WPARAM, LPARAM);
 void Check_ThreadFunc(void *);
