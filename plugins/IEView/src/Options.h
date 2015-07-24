@@ -23,7 +23,7 @@ class Options;
 #ifndef OPTIONS_INCLUDED
 #define OPTIONS_INCLUDED
 //#include "FontList.h"
-#include "ieview_common.h"
+#include "stdafx.h"
 
 #define DBS_BASICFLAGS  		  	"GeneralFlags"
 

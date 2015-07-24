@@ -23,7 +23,7 @@ class Template;
 #ifndef TEMPLATE_INCLUDED
 #define TEMPLATE_INCLUDED
 
-#include "ieview_common.h"
+#include "stdafx.h"
 
 class TokenDef {
 public:

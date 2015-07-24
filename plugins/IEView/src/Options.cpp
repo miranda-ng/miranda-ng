@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "ieview_common.h"
+#include "stdafx.h"
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 HANDLE hHookOptionsChanged;
