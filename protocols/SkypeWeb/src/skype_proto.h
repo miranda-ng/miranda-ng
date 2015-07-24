@@ -23,6 +23,8 @@ typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST
 
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
+	friend CSkypeGCCreateDlg;
+
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////

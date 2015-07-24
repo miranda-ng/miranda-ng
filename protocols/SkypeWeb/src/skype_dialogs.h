@@ -57,8 +57,10 @@ protected:
 
 public:
 
-	std::vector<MCONTACT> m_hContacts;
+	LIST<char> m_ContactsList;
+
 	CSkypeGCCreateDlg(CSkypeProto *proto);
+	~CSkypeGCCreateDlg();
 };
 
 
