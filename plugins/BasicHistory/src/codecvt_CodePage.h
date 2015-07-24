@@ -42,12 +42,12 @@ public:
 	}
 
 protected:
-	virtual result do_in(mbstate_t& _State, const _Byte *_First1, const _Byte *_Last1, const _Byte *& _Mid1, _Elem *_First2, _Elem *_Last2, _Elem *& _Mid2) const
+	virtual result do_in(mbstate_t&, const _Byte *, const _Byte *, const _Byte *&, _Elem *, _Elem *, _Elem *&) const
 	{	// convert bytes [_First1, _Last1) to [_First2, _Last)
 		return (_Mybase::error);	// not implemented
 	}
 
-	virtual result do_out(mbstate_t& _State, const _Elem *_First1, const _Elem *_Last1, const _Elem *& _Mid1, _Byte *_First2, _Byte *_Last2, _Byte *& _Mid2) const
+	virtual result do_out(mbstate_t&, const _Elem *_First1, const _Elem *_Last1, const _Elem *& _Mid1, _Byte *_First2, _Byte *_Last2, _Byte *& _Mid2) const
 	{	// convert [_First1, _Last1) to bytes [_First2, _Last)
 		_Mid1 = _First1;
 		_Mid2 = _First2;
@@ -76,7 +76,7 @@ protected:
 		return (_Mybase::ok);
 	}
 
-	virtual int do_length(const mbstate_t& _State, const _Byte *_First1, const _Byte *_Last1, size_t _Count) const _THROW0()
+	virtual int do_length(const mbstate_t&, const _Byte *, const _Byte *, size_t _Count) const _THROW0()
 	{	// return min(_Count, converted length of bytes [_First1, _Last1))
 		return (int)_Count;	// not implemented
 	}

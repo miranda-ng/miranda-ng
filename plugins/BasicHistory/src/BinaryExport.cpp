@@ -101,7 +101,7 @@ bool BinaryExport::ReadString(std::wstring &str)
 	return true;
 }
 
-void BinaryExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
+void BinaryExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring&)
 {
 	BinaryFileHeader header;
 	memset(&header, 0, sizeof(BinaryFileHeader));
@@ -126,11 +126,11 @@ void BinaryExport::WriteFooter()
 {
 }
 
-void BinaryExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
+void BinaryExport::WriteGroup(bool, const std::wstring&, const std::wstring&, const std::wstring&)
 {
 }
 
-void BinaryExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
+void BinaryExport::WriteMessage(bool, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring &message, const DBEVENTINFO& dbei)
 {
 	if (dbei.timestamp >= lTime) {
 		BinaryFileMessageHeader header;

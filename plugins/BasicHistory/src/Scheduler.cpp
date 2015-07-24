@@ -864,7 +864,7 @@ void GetZipFileTime(const TCHAR *file, uLong *dt)
 
 /* calculate the CRC32 of a file,
    because to encrypt a file, we need known the CRC32 of the file before */
-bool GetFileCrc(const TCHAR* filenameinzip, unsigned char* buf, unsigned long size_buf, unsigned long* result_crc)
+bool GetFileCrc(const TCHAR* filenameinzip, unsigned char* buf, unsigned long, unsigned long* result_crc)
 {
 	unsigned long calculate_crc = 0;
 	bool error = true;
@@ -1258,7 +1258,7 @@ void CreatePath(const TCHAR *szDir)
 	CreateDirectory( szTestDir, NULL );
 }
 
-INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam)
+INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(Options::instance->criticalSection);
 	int taskNr = (int)wParam;

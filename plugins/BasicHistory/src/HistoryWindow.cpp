@@ -292,7 +292,7 @@ void HistoryWindow::Focus()
 	SendMessage(hWnd,DM_HREBUILD,0,0);
 }
 
-int HistoryWindow::FontsChanged(WPARAM wParam, LPARAM lParam)
+int HistoryWindow::FontsChanged(WPARAM, LPARAM)
 {
 	for (std::map<MCONTACT, HistoryWindow*>::iterator it = windows.begin(); it != windows.end(); ++it)
 	{
@@ -428,8 +428,6 @@ void HistoryWindow::OptionsSearchingChanged()
 INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 {
 	HWND hWnd = NULL;
-	int start = 0;
-	int end = 0;
 	int count = HistoryEventList::GetContactMessageNumber(hContact);
 	if (!count)
 		return FALSE;
@@ -715,7 +713,6 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 				if (msgFilter->msg == WM_RBUTTONUP) {
 					POINT clicked;
-					LPNMITEMACTIVATE nmlv = (LPNMITEMACTIVATE)lParam;
 					HWND window = historyWindow->editWindow;
 					POINTL p;
 					POINT scrool;
@@ -930,7 +927,6 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 				clicked.y = info.pt.y = nmlv->ptAction.y;
 				ClientToScreen(window, &clicked);
 				int newSel = SendMessage(window, LVM_SUBITEMHITTEST, 0, (LPARAM)&info);
-				int curSel = historyWindow->selected;
 
 				if (newSel >= 0) { 
 					HMENU hPopupMenu = CreatePopupMenu();
@@ -1328,7 +1324,7 @@ void HistoryWindow::FillHistoryThread(void* param)
 	SetFocus(hwndList);
 }
 
-void HistoryWindow::AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico)
+void HistoryWindow::AddGroup(bool, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico)
 {
 	TCHAR msg[256];
 	msg[0] = 0;
@@ -1537,7 +1533,6 @@ void HistoryWindow::SelectEventGroup(int sel)
 		UpdateWindow(editWindow);
 
 	if (isStartSelect && !Options::instance->messagesNewOnTop) {
-		HWND h = SetFocus(editWindow);
 		CHARRANGE ch;
 		ch.cpMin = ch.cpMax = MAXLONG;
 		SendMessage(editWindow, EM_EXSETSEL, 0, (LPARAM)&ch);
@@ -1582,7 +1577,6 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 		return 1;
 
 	case WM_LBUTTONUP:
-		HWND hwndCapture = GetCapture();
 		ReleaseCapture();
 		SendMessage(hwndParent, WM_SIZE, 0, 0);
 		RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
