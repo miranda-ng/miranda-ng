@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
-PROTO<CSkypeProto>(protoName, userName), password(NULL)
+PROTO<CSkypeProto>(protoName, userName), m_PopupClasses(1)
 {
 	m_hProtoIcon = Icons[0].Handle;
 
@@ -42,8 +42,6 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
-	//HookProtoEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::ProcessSrmmEvent);
-
 	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -65,16 +63,25 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 
 CSkypeProto::~CSkypeProto()
 {
+	requestQueue->Stop();
 	delete requestQueue;
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
-	CloseHandle(m_hTrouterEvent);
+
+	if (m_pollingConnection)
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
+	if (m_TrouterConnection)
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
+
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
+	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
+
 	if (m_hCallHook)
 		DestroyHookableEvent(m_hCallHook);
-	if (m_hPopupClassCall)
-		Popup_UnregisterClass(m_hPopupClassCall);
-	if (m_hPopupClassNotify)
-		Popup_UnregisterClass(m_hPopupClassNotify);
+
+	for (int i = 0; i < m_PopupClasses.getCount(); i++)
+	{
+		Popup_UnregisterClass(m_PopupClasses[i]);
+	}
+	
 	SkypeUnsetTimer(this);
 }
 
@@ -292,15 +299,7 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	debugLogA(__FUNCTION__);
-
 	isTerminated = true;
-	if (m_pollingConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-	if (m_TrouterConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
-	SkypeUnsetTimer(this);
-
 	requestQueue->Stop();
-
 	return 0;
 }

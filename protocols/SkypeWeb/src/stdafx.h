@@ -67,6 +67,7 @@ extern LIST<CSkypeProto> Accounts;
 #include "skype_menus.h"
 #include "skype_dialogs.h"
 #include "skype_options.h"
+#include "skype_trouter.h"
 #include "http_request.h"
 #include "requests\login.h"
 #include "requests\profile.h"
