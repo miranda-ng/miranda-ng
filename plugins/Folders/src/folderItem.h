@@ -18,8 +18,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #ifndef M_FOLDERS_FOLDER_ITEM_H
 #define M_FOLDERS_FOLDER_ITEM_H
 
