@@ -72,7 +72,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FltContacts", "..\plugins\F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Folders", "..\plugins\Folders\folders.vcxproj", "{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList", "..\plugins\HistoryLinkListPlus\linklist_14.vcxproj", "{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList", "..\plugins\HistoryLinkListPlus\linklist.vcxproj", "{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistorySweeperLight", "..\plugins\HistorySweeperLight\historysweeperlight_14.vcxproj", "{9DE1F0B0-B9D1-4681-82E7-13CC3E047445}"
 EndProject

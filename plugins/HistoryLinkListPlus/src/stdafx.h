@@ -20,11 +20,10 @@
 #ifndef _LINKLIST_H
 #define _LINKLIST_H
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <richedit.h>
 #include <commctrl.h>
+#include <crtdbg.h>
 
 #include <newpluginapi.h>
 #include <m_clist.h>
