@@ -64,7 +64,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Flags", "..\plugins\Country
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSList", "..\plugins\CSList\cslist.vcxproj", "{2AD2FF74-06E1-4BD8-984A-526F3C6315B3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Db_autobackups", "..\plugins\Db_autobackups\db_autobackups_12.vcxproj", "{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Db_autobackups", "..\plugins\Db_autobackups\db_autobackups.vcxproj", "{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\FavContacts\favcontacts.vcxproj", "{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}"
 EndProject
