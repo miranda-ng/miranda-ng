@@ -16,7 +16,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "Common.h"
+#include "stdafx.h"
 
 #define IGNOREEVENT_MAX  4
 #define IDI_SMALLDOT   211

@@ -140,7 +140,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alarms", "..\plugins\Alarms
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroNotify", "..\plugins\ZeroNotification\Zero Notification_10.vcxproj", "{E37561EB-B9C5-4215-9FF9-DB559916FBA2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyboardNotify", "..\plugins\KeyboardNotify\KeyboardNotify_10.vcxproj", "{A9265E36-7F2D-440C-BF3E-F447FDB6200F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyboardNotify", "..\plugins\KeyboardNotify\KeyboardNotify.vcxproj", "{A9265E36-7F2D-440C-BF3E-F447FDB6200F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddContactPlus", "..\plugins\AddContactPlus\addcontactplus.vcxproj", "{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}"
 EndProject
