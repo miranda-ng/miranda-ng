@@ -21,23 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST *response, void *arg);
 
-struct TRInfo
-{
-	std::string socketIo,
-				connId,
-				st,
-				se,
-				instance,
-				ccid,
-				sessId,
-				sig,
-				url;
-};
-
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
-	friend CSkypePasswordEditor;
-
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -97,29 +82,33 @@ public:
 	static mir_cs accountsLock;
 
 private:
-	char *password;
 	RequestQueue *requestQueue;
-	bool isTerminated;
+
+	bool isTerminated,
+		HistorySynced;
 	std::map<std::string, std::string> cookies;
-	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread, m_TrouterConnection, m_hTrouterEvent, m_hCallHook;
 	static std::map<std::tstring, std::tstring> languages;
 
-	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-	bool HistorySynced;
+	HANDLE m_pollingConnection,
+		m_hPollingThread,
+		m_hTrouterThread,
+		m_TrouterConnection,
+		m_hTrouterEvent,
+		m_hCallHook;
 
 	TRInfo TRouter;
 
-	HANDLE
-		m_hPopupClassCall,
-		m_hPopupClassNotify;
+	LIST <void> m_PopupClasses;
 
 	// accounts
 
-	ptrA m_szServer, m_szRegToken, m_szTokenSecret, m_szEndpointId, m_szSelfSkypeName;
+	ptrA m_szServer,
+		m_szRegToken,
+		m_szTokenSecret,
+		m_szEndpointId,
+		m_szSelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
-
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);

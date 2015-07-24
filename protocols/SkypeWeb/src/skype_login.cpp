@@ -235,6 +235,13 @@ void CSkypeProto::SendPresence(bool isLogin)
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 {
+	if (response == NULL || response->pData == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
 	SendRequest(new SetStatusRequest(m_szRegToken, MirandaToSkypeStatus(m_iDesiredStatus), m_szServer), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
@@ -248,6 +255,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 		mir_free(skypenames[i]);
 	skypenames.destroy();
 
+
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
@@ -257,9 +265,6 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	if (getBool("AutoSync", true))
 		PushRequest(new SyncHistoryFirstRequest(m_szRegToken, 100, m_szServer), &CSkypeProto::OnSyncHistory);
 
-	if (response == NULL || response->pData == NULL)
-		return;
-
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
 		setString("SelfEndpointName", SelfUrlToName(root["selfLink"].as_string().c_str()));
@@ -267,7 +272,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == NULL || response->pData == NULL)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);

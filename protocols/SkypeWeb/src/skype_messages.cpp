@@ -141,11 +141,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	std::string composeTime = node["composetime"].as_string();
 	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime.c_str());
 
-	std::string conversationLink = node["conversationLink"].as_string();
-	std::string fromLink = node["from"].as_string();
-
-	CMStringA skypename(ContactUrlToName(conversationLink.c_str()));
-	CMStringA from(ContactUrlToName(fromLink.c_str()));
+	CMStringA skypename(ContactUrlToName(node["conversationLink"].as_string().c_str()));
+	CMStringA from(ContactUrlToName(node["from"].as_string().c_str()));
 
 	std::string content = node["content"].as_string();
 	int emoteOffset = node["skypeemoteoffset"].as_int();
@@ -182,7 +179,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		{
 			AppendDBEvent(hContact, dbevent, message, skypeEditedId.c_str(), timestamp);
 		}
-		else OnReceiveMessage(clientMsgId.c_str(), conversationLink.c_str(), timestamp, message, emoteOffset);
+		else OnReceiveMessage(clientMsgId.c_str(), node["conversationLink"].as_string().c_str(), timestamp, message, emoteOffset);
 	}
 	else if (!mir_strcmpi(messageType.c_str(), "Event/SkypeVideoMessage")) {}
 	else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))

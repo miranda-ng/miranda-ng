@@ -231,7 +231,7 @@ void CSkypeProto::InitPopups()
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 30;
 	ppc.PluginWindowProc = PopupDlgProcCall;
-	m_hPopupClassCall = Popup_RegisterClass(&ppc);
+	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
 	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
@@ -241,7 +241,7 @@ void CSkypeProto::InitPopups()
 	ppc.colorBack = RGB(255, 255, 255);
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 5;
-	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
+	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
 	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
@@ -251,7 +251,7 @@ void CSkypeProto::InitPopups()
 	ppc.colorBack = RGB(255, 255, 255);
 	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = -1;
-	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
+	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 }
 
 int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
@@ -300,7 +300,7 @@ void CSkypeProto::SkypeSetTimer(void*)
 void CSkypeProto::SkypeUnsetTimer(void*)
 {
 	mir_cslock lck(timerLock);
-	if (CSkypeProto::m_timer)
+	if (CSkypeProto::m_timer && Accounts.getCount() == 0)
 		KillTimer(NULL, CSkypeProto::m_timer);
 	CSkypeProto::m_timer = 0;
 }
