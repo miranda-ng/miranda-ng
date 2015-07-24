@@ -18,7 +18,7 @@
 
    */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define MS_SKINENG_DRAWICONEXFIX "SkinEngine/DrawIconEx_Fix"
 

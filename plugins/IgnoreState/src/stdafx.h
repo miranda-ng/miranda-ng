@@ -22,8 +22,6 @@
 #ifndef COMMHEADERS_H
 #define COMMHEADERS_H
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <commctrl.h>
 

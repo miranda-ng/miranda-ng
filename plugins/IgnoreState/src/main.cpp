@@ -18,7 +18,7 @@
 
    */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 HINSTANCE g_hInst;
 
@@ -74,7 +74,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-inline BOOL checkState(int type)
+BOOL checkState(int type)
 {
 	return ((currentFilter >> (type - 1)) & 1);
 }
