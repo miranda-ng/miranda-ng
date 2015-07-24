@@ -40,9 +40,8 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					const JSONNode &jEdit = *it;
 
 					time_t time = jEdit["time"].as_int();
-					tm* _tm = localtime(&time);
 					char szTime[MAX_PATH];
-					strftime(szTime, sizeof(szTime), "%X %x", _tm);
+					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
 
 					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string());
 				}
