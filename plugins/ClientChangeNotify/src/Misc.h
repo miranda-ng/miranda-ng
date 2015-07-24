@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "Common.h"
+#include "stdafx.h"
 extern BOOL bPopupExists;
 
 __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsErrorMsg = false, int Timeout = 0)

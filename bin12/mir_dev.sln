@@ -148,7 +148,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddContactPlus", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugins\SimpleStatusMsg\simplestatusmsg_12.vcxproj", "{D3D80E27-D099-41EC-AFB2-A891A33F1608}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "..\plugins\ClientChangeNotify\ClientChangeNotify_12.vcxproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "..\plugins\ClientChangeNotify\ClientChangeNotify.vcxproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListeningTo", "..\plugins\ListeningTo\listeningto_12.vcxproj", "{5FAA475D-0593-454F-8601-0D7150DCA4A0}"
 EndProject
