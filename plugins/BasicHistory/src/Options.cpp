@@ -1291,7 +1291,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 	ComboBox_LimitText(hwndCB, 127);
 }
 
-unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int defCp, const std::wstring& defName, std::wstring& name)
+unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int, const std::wstring& defName, std::wstring& name)
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
 	if (selCpIdx < 0) {
@@ -1607,7 +1607,6 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			HWND time = GetDlgItem(hwndDlg, IDC_TRIGER_TIME);
 			HWND name = GetDlgItem(hwndDlg, IDC_TASK_NAME);
 			HWND active = GetDlgItem(hwndDlg, IDC_TASK_ACTIVE);
-			HWND star = GetDlgItem(hwndDlg, IDC_TASK_STAR);
 			HWND password = GetDlgItem(hwndDlg, IDC_PASSWORD);
 			HWND expImp = GetDlgItem(hwndDlg, IDC_EXPIMP);
 

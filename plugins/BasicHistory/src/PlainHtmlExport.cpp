@@ -28,7 +28,7 @@ PlainHtmlExport::~PlainHtmlExport()
 extern std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = NULL);
 extern std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl);
 
-void PlainHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
+void PlainHtmlExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring& encoding)
 {
 	EXP_FILE << _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
 	EXP_FILE << _T("<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=") << encoding << _T("\">\n");
@@ -71,7 +71,7 @@ void PlainHtmlExport::WriteFooter()
 	EXP_FILE << _T("<div class=mes></div>\n</body></html>\n");
 }
 
-void PlainHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
+void PlainHtmlExport::WriteGroup(bool, const std::wstring &time, const std::wstring&, const std::wstring&)
 {
 	TCHAR buf[256];
 	EXP_FILE << _T("<div class=mes id=session>\n");
@@ -80,7 +80,7 @@ void PlainHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std:
 	EXP_FILE << _T("</div>\n");
 }
 
-void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
+void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));

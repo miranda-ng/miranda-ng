@@ -363,7 +363,7 @@ void RichHtmlExport::WriteFooter()
 	EXP_FILE << _T("<div class=mes id=bottom></div>\n</body></html>\n");
 }
 
-void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
+void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring&, const std::wstring &eventText)
 {
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
@@ -381,7 +381,7 @@ void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::
 	++groupId;
 }
 
-void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
+void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));

@@ -24,7 +24,7 @@ TxtExport::~TxtExport()
 {
 }
 
-void TxtExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
+void TxtExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring&)
 {
 	TCHAR* start = TranslateT("###");
 	EXP_FILE << start << "\n" << start << _T(" ") << TranslateT("History Log") << _T("\n");
@@ -55,11 +55,11 @@ void TxtExport::WriteFooter()
 {
 }
 
-void TxtExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
+void TxtExport::WriteGroup(bool, const std::wstring&, const std::wstring&, const std::wstring&)
 {
 }
 
-void TxtExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
+void TxtExport::WriteMessage(bool, const std::wstring &longDate, const std::wstring&, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
 	EXP_FILE << "\n[" << longDate << "] " << user << ":\n" << message << "\n";
 }

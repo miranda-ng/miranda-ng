@@ -54,7 +54,7 @@ PLUGININFOEX pluginInfo = {
 	{0xe25367a2, 0x51ae, 0x4044, {0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -62,7 +62,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 int hLangpack = 0;
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -74,7 +74,7 @@ void DeinitScheduler();
 int DoLastTask(WPARAM, LPARAM);
 INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam);
 
-int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool bHasHistory = db_event_last(hContact) != NULL;
 	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
@@ -84,7 +84,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
+int ToolbarModuleLoaded(WPARAM,LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
@@ -178,7 +178,7 @@ HICON LoadIconEx(int iconId, bool big)
 	return 0;
 }
 
-INT_PTR ShowContactHistory(WPARAM hContact, LPARAM lParam)
+INT_PTR ShowContactHistory(WPARAM hContact, LPARAM)
 {
 	HistoryWindow::Open(hContact);
 	return 0;
@@ -197,7 +197,7 @@ int HistoryContactDelete(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMenuItems();
 	

@@ -65,7 +65,7 @@ int DatExport::WriteString(const std::wstring &str)
 	return conv;
 }
 
-void DatExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
+void DatExport::WriteHeader(const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring&, const std::string&, const std::wstring&)
 {
 	MCHeader header;
 	memset(&header, 0, sizeof(MCHeader));
@@ -86,11 +86,11 @@ void DatExport::WriteFooter()
 	memBuf.shrink_to_fit();
 }
 
-void DatExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText)
+void DatExport::WriteGroup(bool, const std::wstring&, const std::wstring&, const std::wstring&)
 {
 }
 
-void DatExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO& dbei)
+void DatExport::WriteMessage(bool, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring &message, const DBEVENTINFO& dbei)
 {
 	DBEVENTINFO86 header;
 	header.cbSize = sizeof(DBEVENTINFO86);

@@ -292,7 +292,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	return ret;
 }
 
-void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico)
+void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int)
 {
 	if (exp == NULL)
 		return;
