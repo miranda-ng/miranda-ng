@@ -7,7 +7,7 @@ modify it as they wish with no restriction.
 There is no warranty.
 */
 
-#include "gmail.h"
+#include "stdafx.h"
 #include "version.h"
 
 HINSTANCE hInst;
