@@ -23,7 +23,7 @@ class IEView;
 #ifndef IEVIEW_INCLUDED
 #define IEVIEW_INCLUDED
 
-#include "ieview_common.h"
+#include "stdafx.h"
 #include "HTMLBuilder.h"
 //#include "SmileyWindow.h"
 

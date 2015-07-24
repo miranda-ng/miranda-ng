@@ -76,7 +76,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList", "..\plugins\Hist
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistorySweeperLight", "..\plugins\HistorySweeperLight\historysweeperlight.vcxproj", "{9DE1F0B0-B9D1-4681-82E7-13CC3E047445}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEView", "..\plugins\IEView\ieview_12.vcxproj", "{B988F96C-F87A-484C-AB15-D0674B22F291}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEView", "..\plugins\IEView\ieview.vcxproj", "{B988F96C-F87A-484C-AB15-D0674B22F291}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IgnoreState", "..\plugins\IgnoreState\ignore_12.vcxproj", "{214F211F-1A2B-4F79-8993-B8DEE2EF7441}"
 EndProject

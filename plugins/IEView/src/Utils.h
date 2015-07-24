@@ -23,7 +23,7 @@ class Utils;
 #ifndef UTILS_INCLUDED
 #define UTILS_INCLUDED
 
-#include "ieview_common.h"
+#include "stdafx.h"
 
 class Utils {
 private:

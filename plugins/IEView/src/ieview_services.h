@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef IEVIEW_SERVICES_INCLUDED
 #define IEVIEW_SERVICES_INCLUDED
 
-#include "ieview_common.h"
+#include "stdafx.h"
 
 extern INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam);
 extern INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam);
