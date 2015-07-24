@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 ============================================================================ */
 
-#include "HwHotKeys.h"
+#include "stdafx.h"
 
 // тут описаны известные имена кнопок по аппаратным сканкодам (KbdLLHookStruct.scanCode & 0xFF) и ((LOBYTE(KbdLLHookStruct.flags)&1) 
 // и по VK-кодам (KbdLLHookStruct.vkCode)

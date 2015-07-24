@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 ============================================================================ */
 
-#include "HwHotKeys.h"
+#include "stdafx.h"
 
 LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://msdn.microsoft.com/en-us/library/windows/desktop/ms644985%28v=vs.85%29.aspx
 {
