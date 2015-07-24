@@ -73,13 +73,21 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
 	if (jMsg)
 	{
-		if (jMsg["edits"])
+		JSONNode &jEdits = jMsg["edits"];
+		if (jEdits)
 		{
+			for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
+			{
+				const JSONNode &jEdit = *it;
+
+				if (jEdit["time"].as_int() == edit_time)
+					return hEvent;
+			}
 			JSONNode jEdit;
 			jEdit.push_back(JSONNode("time", (long)edit_time));
 			jEdit.push_back(JSONNode("text", szContent));
 
-			jMsg["edits"].push_back(jEdit);
+			jEdits.push_back(jEdit);
 		}
 	}
 	else
