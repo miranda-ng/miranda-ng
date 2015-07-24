@@ -89,7 +89,7 @@
 [Feel]
 Температура з урахуванням вітру
 [First Quarter]
-Перша чверть Місяця
+Перша чверть
 [Fog]
 Туман
 [Forecast Day 1 Condition]
@@ -219,7 +219,7 @@
 [Ice Pellets]
 Сніг з утворенням льоду
 [Last Quarter]
-Остання чверть Місяця
+Остання чверть
 [Latitude]
 Широта
 [Light Blowing Snow]
@@ -367,7 +367,7 @@
 [N]
 Пн
 [New Moon]
-Молодий Місяць
+Новий Місяць
 [North]
 Північ
 [Northeast]
@@ -547,11 +547,11 @@
 [W]
 З
 [Waning Crescent]
-Щербатий Місяць
+Убуваючий серп
 [Waning Gibbous]
-Щербатий Місяць
+Убуваючий Місяць
 [Waxing Crescent]
-Зростаючий Місяць
+Зростаючий серп
 [Waxing Gibbous]
 Зростаючий Місяць
 [Wednesday]

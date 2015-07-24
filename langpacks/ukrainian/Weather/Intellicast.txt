@@ -23,17 +23,17 @@
 [Sunny]
 Сонячно
 [Waning Crescent]
-Щербатий Місяць
+Убуваючий серп
 [Waning Gibbous]
-Щербатий Місяць
+Убуваючий Місяць
 [Waxing Crescent]
-Зростаючий Місяць
+Зростаючий серп
 [Waxing Gibbous]
 Зростаючий Місяць
 [Last Quarter]
-Остання чверть Місяця
+Остання чверть
 [First Quarter]
-Перша чверть Місяця
+Перша чверть
 [Partly Sunny]
 Місцями сонячно
 [Mostly Sunny]

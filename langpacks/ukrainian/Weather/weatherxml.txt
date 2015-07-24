@@ -61,7 +61,7 @@
 [Few Snow Showers]
 Слабкий сніг
 [First Quarter]
-Перша чверть Місяця
+Перша чверть
 [Fog / Windy]
 Туман / вітер
 [Fog And Windy]
@@ -123,7 +123,7 @@
 [Jun]
 Червень
 [Last Quarter]
-Остання чверть Місяця
+Остання чверть
 [Latitude]
 Широта
 [Light Drizzle And Fog]
@@ -213,7 +213,7 @@
 [N]
 Пн
 [New Moon]
-Молодий Місяць
+Новий Місяць
 [Night]
 Ніч
 [Observatory]
@@ -393,11 +393,11 @@
 [W]
 З
 [Waning Crescent]
-Щербатий Місяць
+Убуваючий серп
 [Waning Gibbous]
-Щербатий Місяць
+Убуваючий Місяць
 [Waxing Crescent]
-Зростаючий Місяць
+Зростаючий серп
 [Waxing Gibbous]
 Зростаючий Місяць
 [Wind Direction DEG]
