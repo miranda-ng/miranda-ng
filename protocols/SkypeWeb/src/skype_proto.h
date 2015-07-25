@@ -100,8 +100,12 @@ private:
 
 	TRInfo TRouter;
 
-	LIST <void> m_PopupClasses;
+	LIST<void> m_PopupClasses;
 
+	LIST<CSkypeInviteDlg> m_InviteDialogs;
+	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
+	mir_cs m_InviteDialogsLock;
+	mir_cs m_GCCreateDialogsLock;
 	// accounts
 
 	ptrA m_szServer,
@@ -314,6 +318,7 @@ private:
 	time_t GetLastMessageTime(MCONTACT hContact);
 	CMString RunConfirmationCode();
 	CMString ChangeTopicForm();
+	void CloseDialogs();
 	//events
 	void InitDBEvents();
 	int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);

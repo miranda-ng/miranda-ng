@@ -17,8 +17,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-//CSkypeInvideDlg
+void CSkypeProto::CloseDialogs()
+{
+	{
+		mir_cslock lck(m_GCCreateDialogsLock);
+		for (int i = 0; i < m_GCCreateDialogs.getCount(); i++)
+			m_GCCreateDialogs[i]->Close();
+	}
 
+	{
+		mir_cslock lck(m_InviteDialogsLock);
+		for (int i = 0; i < m_InviteDialogs.getCount(); i++)
+			m_InviteDialogs[i]->Close();
+	}
+}
+
+//CSkypeInvideDlg
 CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
 	CSkypeDlgBase(proto, IDD_GC_INVITE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT)
 {
@@ -43,9 +57,8 @@ void CSkypeInviteDlg::btnOk_OnOk(CCtrlButton*)
 }
 
 //CSkypeGCCreateDlg
-
 CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
-CSkypeDlgBase(proto, IDD_GC_CREATE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
+	CSkypeDlgBase(proto, IDD_GC_CREATE, false), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
 {
 	m_ok.OnClick = Callback(this, &CSkypeGCCreateDlg::btnOk_OnOk);
 }
