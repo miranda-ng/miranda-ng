@@ -268,7 +268,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdLine", "..\plugins\CmdLi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MimCmd", "..\plugins\MimCmd\MimCmd.vcxproj", "{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFileYM\ftpfile_14.vcxproj", "{73482497-9F57-4819-A9AB-5D841A9F072D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFileYM\ftpfile.vcxproj", "{73482497-9F57-4819-A9AB-5D841A9F072D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt_14.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
 EndProject
@@ -352,7 +352,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pu_stub", "..\plugins\Plugi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything_14.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\plugins\FTPFileYM\curl\lib\vc6libcurl_14.vcxproj", "{01F9E227-06F5-4BED-907F-402CA7DFAFE6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\libs\libcurl\libcurl.vcxproj", "{01F9E227-06F5-4BED-907F-402CA7DFAFE6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_14.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject

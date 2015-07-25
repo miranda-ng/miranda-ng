@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 int DB::setByteF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iValue)
 {
