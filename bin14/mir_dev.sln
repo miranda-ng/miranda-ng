@@ -82,7 +82,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IgnoreState", "..\plugins\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuEx", "..\plugins\MenuItemEx\menuex.vcxproj", "{210DD88D-649B-4695-8C5F-898A4F60A8CE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mTextControl", "..\plugins\mTextControl\mtextcontrol_14.vcxproj", "{E26D2311-C164-48CF-BA24-5CEDA873D1B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mTextControl", "..\plugins\mTextControl\mtextcontrol.vcxproj", "{E26D2311-C164-48CF-BA24-5CEDA873D1B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewXstatusNotify", "..\plugins\NewXstatusNotify\NewXstatusNotify_14.vcxproj", "{D726A7E5-CF4C-4CF2-A2D3-073DECEC0260}"
 EndProject
