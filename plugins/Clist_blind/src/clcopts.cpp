@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def);
 
-
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
 #define DBFONTF_UNDERLINE  4
@@ -89,12 +88,10 @@ static const struct CheckBoxValues_t offlineValues[] = {
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
 {
 	TVINSERTSTRUCT tvis;
-	int i;
-
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (i = 0; i < nValues; i++) {
+	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateTS( values[i].szDescr );
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -135,13 +132,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
 			for (i = 0; i < _countof(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id,
-				(exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag *
-				checkBoxToStyleEx[i].not) ? BST_CHECKED : BST_UNCHECKED);
+					(exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag *
+						checkBoxToStyleEx[i].not) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		{
 			UDACCEL accel[2] = { {0, 10} , {2, 50} };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM) & accel);
+			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)& accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0,
 				MAKELONG(db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 		}
@@ -180,36 +177,36 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		if (LOWORD(wParam) == IDC_GREYOUT)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
 		if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		if ((LOWORD(wParam) == IDC_T_CONTACT || LOWORD(wParam) == IDC_T_GROUP || LOWORD(wParam) == IDC_T_DIVIDER || LOWORD(wParam) == IDC_T_INFO)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_GREYOUTOPTS:
 		case IDC_HIDEOFFLINEOPTS:
-			if (((LPNMHDR) lParam)->code == NM_CLICK) {
+			if (((LPNMHDR)lParam)->code == NM_CLICK) {
 				TVHITTESTINFO hti;
-				hti.pt.x = (short) LOWORD(GetMessagePos());
-				hti.pt.y = (short) HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR) lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR) lParam)->hwndFrom, &hti))
+				hti.pt.x = (short)LOWORD(GetMessagePos());
+				hti.pt.y = (short)HIWORD(GetMessagePos());
+				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
+				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
 					if (hti.flags & TVHT_ONITEMSTATEICON) {
 						TVITEM tvi;
 						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 						tvi.hItem = hti.hItem;
-						TreeView_GetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
+						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-						TreeView_SetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
+						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 			}
 			break;
 		case 0:
-			if (((LPNMHDR) lParam)->code == PSN_APPLY ) {
+			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				int i;
 				DWORD exStyle = 0;
 				for (i = 0; i < _countof(checkBoxToStyleEx); i++)
@@ -225,15 +222,15 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					else
 						db_set_dw(NULL, "CLC", "GreyoutFlags", 0);
 				}
-				db_set_b(NULL, "CLC", "ShowIdle", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
+				db_set_b(NULL, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
 				db_set_dw(NULL, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
 				db_set_b(NULL, "CLC", "LeftMargin",
-					(BYTE) SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+					(BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
 				db_set_w(NULL, "CLC", "ScrollTime",
-					(WORD) SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+					(WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, "CLC", "GroupIndent",
-					(BYTE) SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
+					(BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 
 				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, _countof(tmp));
 				db_set_ts(NULL, "CLC", "TemplateContact", tmp);
