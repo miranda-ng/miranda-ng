@@ -39,7 +39,6 @@ extern int g_IconWidth, g_IconHeight;
 
 void   fnClcOptionsChanged(void);
 void   fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam);
-HMENU  fnBuildGroupPopupMenu(ClcGroup* group);
 void   fnInitAutoRebuild(HWND hWnd);
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

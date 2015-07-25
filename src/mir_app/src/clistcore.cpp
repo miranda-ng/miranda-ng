@@ -74,7 +74,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnClcOptionsChanged               = fnClcOptionsChanged;
 		cli.pfnClcBroadcast                    = fnClcBroadcast;
 		cli.pfnContactListControlWndProc       = fnContactListControlWndProc;
-		cli.pfnBuildGroupPopupMenu             = fnBuildGroupPopupMenu;
 
 		cli.pfnRegisterFileDropping            = fnRegisterFileDropping;
 		cli.pfnUnregisterFileDropping          = fnUnregisterFileDropping;

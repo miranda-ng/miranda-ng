@@ -23,6 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+void SafeDestroyIcon(HICON hIcon)
+{
+	if (hIcon != NULL)
+		if (!IcoLib_IsManaged(hIcon))
+			::DestroyIcon(hIcon);
+}
+
 struct StatusIconChild : public MZeroedObject
 {
 	~StatusIconChild()
@@ -36,15 +43,6 @@ struct StatusIconChild : public MZeroedObject
 	HICON  hIcon, hIconDisabled;
 	int    flags;
 	TCHAR *tszTooltip;
-
-	void SafeDestroyIcon(HICON hIcon)
-	{
-		if (hIcon == NULL)
-			return;
-
-		if (!IcoLib_IsManaged(hIcon))
-			::DestroyIcon(hIcon);
-	}
 };
 
 struct StatusIconMain : public MZeroedObject
@@ -105,7 +103,7 @@ INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
 		pc->hContact = hContact;
 		p->arChildren.insert(pc);
 	}
-	else pc->SafeDestroyIcon(pc->hIcon);
+	else SafeDestroyIcon(pc->hIcon);
 
 	pc->flags = sid->flags;
 	pc->hIcon = sid->hIcon;
@@ -193,11 +191,11 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleSrmmIcons(int hLangpack)
+void KillModuleSrmmIcons(int _hLang)
 {
-	for (int i=arIcons.getCount()-1; i >= 0; i--) {
+	for (int i = arIcons.getCount()-1; i >= 0; i--) {
 		StatusIconMain &p = arIcons[i];
-		if (p.hLangpack == hLangpack)
+		if (p.hLangpack == _hLang)
 			arIcons.remove(i);
 	}
 }

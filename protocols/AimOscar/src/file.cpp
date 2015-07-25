@@ -248,7 +248,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 			}
 			else if (type == 0x0205)
 			{
-				oft2* recv_ft = (oft2*)packetRecv.buffer;
+				recv_ft = (oft2*)packetRecv.buffer;
 				recv_ft->type = _htons(0x0106);
 				
 				ft->pfts.currentFileProgress = _htonl(recv_ft->recv_bytes);

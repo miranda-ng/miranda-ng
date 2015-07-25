@@ -339,45 +339,30 @@ static LRESULT clcOnHitTest(ClcData *, HWND hwnd, UINT, WPARAM wParam, LPARAM lP
 	return DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
 }
 
-static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
+static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
 	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
-	if (hit == -1)	return 0;
-	if (contact->type == CLCIT_CONTACT && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), contact->hContact))	return 0;
-
-	switch (LOWORD(wParam)) {
-	case POPUP_NEWSUBGROUP:
-		if (contact->type != CLCIT_GROUP)
+	if (hit != -1) {
+		switch (LOWORD(wParam)) {
+		case POPUP_NEWSUBGROUP:
+			if (contact->type == CLCIT_GROUP) {
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
+				CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
+			}
 			return 0;
-		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-		CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
-		return 0;
-	case POPUP_RENAMEGROUP:
-		pcli->pfnBeginRenameSelection(hwnd, dat);
-		return 0;
-	case POPUP_DELETEGROUP:
-		if (contact->type == CLCIT_GROUP)
-			CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
-		return 0;
-	case POPUP_GROUPSHOWOFFLINE:
-		if (contact->type == CLCIT_GROUP) {
-			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+
+		case POPUP_GROUPSHOWOFFLINE:
+			if (contact->type == CLCIT_GROUP) {
+				CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
+				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+			}
+			return 0;
 		}
-		return 0;
-	case POPUP_GROUPHIDEOFFLINE:
-		if (contact->type == CLCIT_GROUP)
-			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
-		return 0;
 	}
 
-	if (contact->type == CLCIT_GROUP)
-		if (Menu_ProcessCommandById(wParam, (LPARAM)hwnd))
-			return 0;
-
-	return 0;
+	return corecli.pfnContactListControlWndProc(hwnd, WM_COMMAND, wParam, lParam);
 }
 
 static LRESULT clcOnSize(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

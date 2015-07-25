@@ -59,12 +59,6 @@ void fnClcOptionsChanged(void)
 	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
 }
 
-// stub. does nothing
-HMENU fnBuildGroupPopupMenu(ClcGroup *group)
-{
-	return Menu_BuildSubGroupMenu(group);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // standard CLC services
 
@@ -1246,7 +1240,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
 				HMENU hMenu;
 				if (contact->type == CLCIT_GROUP)
-					hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
+					hMenu = Menu_BuildSubGroupMenu(contact->group);
 				else if (contact->type == CLCIT_CONTACT)
 					hMenu = Menu_BuildContactMenu(contact->hContact);
 				else
@@ -1272,28 +1266,31 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (hit == -1)
 			break;
 		if (contact->type == CLCIT_CONTACT)
-			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)contact->hContact))
+			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), contact->hContact))
 				break;
-		switch (LOWORD(wParam)) {
-		case POPUP_NEWSUBGROUP:
-			if (contact->type != CLCIT_GROUP)
+
+		if (contact->type == CLCIT_GROUP) {
+			switch (LOWORD(wParam)) {
+			case POPUP_NEWSUBGROUP:
+				if (contact->type != CLCIT_GROUP)
+					break;
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+				CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
 				break;
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-			CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
-			break;
-		case POPUP_RENAMEGROUP:
-			cli.pfnBeginRenameSelection(hwnd, dat);
-			break;
-		case POPUP_DELETEGROUP:
-			if (contact->type != CLCIT_GROUP)
+			case POPUP_RENAMEGROUP:
+				cli.pfnBeginRenameSelection(hwnd, dat);
 				break;
-			CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
-			break;
-		case POPUP_GROUPHIDEOFFLINE:
-			if (contact->type != CLCIT_GROUP)
+			case POPUP_DELETEGROUP:
+				if (contact->type == CLCIT_GROUP)
+					CallService(MS_CLIST_GROUPDELETE, contact->groupId, 0);
 				break;
-			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
-			break;
+			case POPUP_GROUPHIDEOFFLINE:
+				if (contact->type == CLCIT_GROUP)
+					CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
+				break;
+			}
+
+			Menu_ProcessCommandById(wParam, (LPARAM)hwnd);
 		}
 		break;
 
