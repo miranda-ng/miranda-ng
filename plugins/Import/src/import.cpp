@@ -151,27 +151,6 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, TCHAR *pwsz
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char *szModuleName, DWORD uin, int addUnknown)
-{
-	MCONTACT hContact = HContactFromNumericID(szModuleName, "UIN", uin);
-	if (hContact == NULL) {
-		AddMessage(LPGENT("Ignored event from/to self"));
-		return INVALID_CONTACT_ID;
-	}
-
-	if (hContact != INVALID_CONTACT_ID)
-		return hContact;
-
-	if (!addUnknown)
-		return INVALID_CONTACT_ID;
-
-	hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
-	Proto_AddToContact(hContact, szModuleName);
-	db_set_dw(hContact, szModuleName, "UIN", uin);
-	AddMessage(LPGENT("Added contact %u (found in history)"), uin);
-	return hContact;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CopySettingsEnum(const char *szSetting, LPARAM lParam)
@@ -264,7 +243,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 
 		hwndCombo = CreateWindowEx(WS_EX_CLIENTEDGE, WC_COMBOBOX, _T(""), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
-			r.left+3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, 0, hInst, NULL);
+			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, 0, hInst, NULL);
 
 		// copy a font from listview
 		HFONT hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
@@ -545,7 +524,7 @@ static MCONTACT MapContact(MCONTACT hSrc)
 	return (pDestContact == NULL) ? INVALID_CONTACT_ID : pDestContact->dstID;
 }
 
-static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
+static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id, const TCHAR *pszUserID, TCHAR *nick, TCHAR *group)
 {
 	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (Proto_AddToContact(hContact, szProto) != 0) {
@@ -631,7 +610,7 @@ static int ImportGroup(const char* szSettingName, LPARAM lParam)
 {
 	int *pnGroups = (int*)lParam;
 
-	TCHAR* tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
+	TCHAR *tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
 	if (tszGroup != NULL) {
 		if (CreateGroup(tszGroup + 1, NULL))
 			pnGroups[0]++;
@@ -848,7 +827,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
-	hDst = AddContact(hdlgProgress, pda->pa->szModuleName, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
+	hDst = AddContact(pda->pa->szModuleName, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
 	if (hDst == INVALID_CONTACT_ID) {
 		AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->pa->szModuleName, pszUniqueID);
 		return INVALID_CONTACT_ID;
@@ -896,7 +875,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 		else {
 			if (cc->IsSub())
 				return;
-			
+
 			bIsMeta = cc->IsMeta();
 		}
 
@@ -928,8 +907,8 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			// check protocols during system history import
 			if (hDst == NULL) {
 				bSkipAll = true;
-				for (int i = 0; i < protoCount; i++) {
-					if (!mir_strcmp(dbei.szModule, protocol[i]->szModuleName)) {
+				for (int k = 0; k < protoCount; k++) {
+					if (!mir_strcmp(dbei.szModule, protocol[k]->szModuleName)) {
 						bSkipAll = false;
 						break;
 					}
@@ -1013,7 +992,8 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareModules(const char *p1, const char *p2)
-{	return mir_strcmpi(p1, p2);
+{
+	return mir_strcmpi(p1, p2);
 }
 
 void MirandaImport(HWND hdlg)

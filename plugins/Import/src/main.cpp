@@ -47,13 +47,13 @@ PLUGININFOEX pluginInfo =
 	{0x2d77a746, 0xa6, 0x4343, {0xbf, 0xc5, 0xf8, 0x8, 0xcd, 0xd7, 0x72, 0xea}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-static INT_PTR ImportCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR ImportCommand(WPARAM, LPARAM)
 {
 	if (IsWindow(hwndWizard)) {
 		SetForegroundWindow(hwndWizard);
@@ -67,7 +67,7 @@ static INT_PTR ImportCommand(WPARAM wParam,LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns an information about a plugin
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -80,7 +80,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT,
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	if (db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0))
 		return 0;
@@ -96,7 +96,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnExit(WPARAM wParam, LPARAM lParam)
+static int OnExit(WPARAM, LPARAM)
 {
 	if (hwndWizard)
 		SendMessage(hwndWizard, WM_CLOSE, 0, 0);

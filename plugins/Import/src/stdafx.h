@@ -99,7 +99,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 int CreateGroup(const TCHAR* name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
-extern HWND hdlgProgress, hwndAccMerge;
+extern HWND hwndAccMerge;
 extern int nImportOptions;
 extern TCHAR importFile[];
 extern time_t dwSinceDate;

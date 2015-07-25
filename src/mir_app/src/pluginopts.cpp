@@ -75,9 +75,9 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	dat->stdPlugin = 0;
 	if (pi.Interfaces) {
 		MUUID *piface = pi.Interfaces;
-		for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
-			int idx = getDefaultPluginIdx( piface[i] );
-			if (idx != -1 ) {
+		for (int i = 0; !equalUUID(miid_last, piface[i]); i++) {
+			int idx = getDefaultPluginIdx(piface[i]);
+			if (idx != -1) {
 				dat->stdPlugin |= (1 << idx);
 				break;
 			}
@@ -94,7 +94,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	it.mask = LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = (hInst != NULL) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-	if (bNoCheckbox|| hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
+	if (bNoCheckbox || hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
 		it.iImage += 2;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
@@ -177,7 +177,7 @@ static void RemoveAllItems(HWND hwnd)
 		mir_free(dat->description);
 		mir_free(dat->homepage);
 		mir_free(dat);
-		lvi.iItem ++;
+		lvi.iItem++;
 	}
 }
 
@@ -189,7 +189,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, _T("Plugins"), exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
-LBL_Error:
+	LBL_Error:
 		Plugin_UnloadDyn(pPlug);
 		return false;
 	}
@@ -219,7 +219,7 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_CHAR:
 		if (wParam == '\b') {
 			if (szFilter.GetLength() > 0)
@@ -266,7 +266,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		ListView_SubItemHitTest(hwnd, &hi);
 		// Dynamically load/unload a plugin
 		if ((hi.iSubItem == 0) && (hi.flags & LVHT_ONITEMICON)) {
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 			lvi.stateMask = -1;
 			lvi.iItem = hi.iItem;
@@ -305,7 +305,7 @@ static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 static TCHAR *latin2t(const char *p)
 {
 	if (p == NULL)
-		return mir_tstrdup( _T(""));
+		return mir_tstrdup(_T(""));
 
 	return mir_a2t_cp(p, 1250);
 }
@@ -398,10 +398,10 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 									PluginListItemData *dat2 = (PluginListItemData*)dt.lParam;
 									if (dat2->stdPlugin & dat->stdPlugin) {// mask differs
 										// the lParam is unset, so when the check is unset the clist block doesnt trigger
-										int lParam = dat2->stdPlugin;
+										int iSave = dat2->stdPlugin;
 										dat2->stdPlugin = 0;
 										ListView_SetItemState(hwndList, iRow, 0x1000, LVIS_STATEIMAGEMASK);
-										dat2->stdPlugin = lParam;
+										dat2->stdPlugin = iSave;
 									}
 								}
 							}
@@ -422,7 +422,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					lvi.iItem = hdr->iItem;
 					if (ListView_GetItem(hwndList, &lvi)) {
 						PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-						
+
 						TCHAR buf[1024];
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : _T(""));
@@ -447,8 +447,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							uuidToString(dat->uuid, szUID, sizeof(szUID));
 							SetDlgItemTextA(hwndDlg, IDC_PLUGINPID, sel ? szUID : "");
 						}
-						else
-							SetDlgItemText(hwndDlg, IDC_PLUGINPID, sel ? TranslateT("<none>") : _T(""));
+						else SetDlgItemText(hwndDlg, IDC_PLUGINPID, sel ? TranslateT("<none>") : _T(""));
 					}
 				}
 			}
