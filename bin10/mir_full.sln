@@ -374,7 +374,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spamotron\Spamotron_10.vcxproj", "{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify_10.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirFox", "..\plugins\MirFox\MirFoxNG_10.vcxproj", "{3E9DA555-4C7B-463C-AD5C-214073DE29D6}"
 EndProject
