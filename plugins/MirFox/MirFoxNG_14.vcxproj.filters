@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\Icons">
       <UniqueIdentifier>{1c80c049-5a46-461a-9ed6-a38585edc02e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MirFoxCommons">
+      <UniqueIdentifier>{84d5bf57-2278-4e67-9ac2-0a8db963d870}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\popup_notify.ico">
@@ -61,6 +64,18 @@
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\MirFoxCommons\MirFoxCommons_logger.h">
+      <Filter>MirFoxCommons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MirFoxCommons\MirFoxCommons_messageQueueBySM.h">
+      <Filter>MirFoxCommons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MirFoxCommons\MirFoxCommons_pch.h">
+      <Filter>MirFoxCommons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MirFoxCommons\MirFoxCommons_sharedMemory.h">
+      <Filter>MirFoxCommons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\common.cpp">
@@ -80,6 +95,18 @@
     </ClCompile>
     <ClCompile Include="src\MirfoxMiranda.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MirFoxCommons\MirFoxCommons_logger.cpp">
+      <Filter>MirFoxCommons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MirFoxCommons\MirFoxCommons_messageQueueBySM.cpp">
+      <Filter>MirFoxCommons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MirFoxCommons\MirFoxCommons_pch.cpp">
+      <Filter>MirFoxCommons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MirFoxCommons\MirFoxCommons_sharedMemory.cpp">
+      <Filter>MirFoxCommons</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
