@@ -348,19 +348,16 @@ const TCHAR *policy_to_string(OtrlPolicy policy) {
 	switch (policy) {
 		case OTRL_POLICY_NEVER:
 			return TranslateT(LANG_POLICY_NEVER);
-			break;
 		case OTRL_POLICY_OPPORTUNISTIC:
 			return TranslateT(LANG_POLICY_OPP);
-			break;
 		case OTRL_POLICY_MANUAL:
 		case OTRL_POLICY_MANUAL_MOD:
 			return TranslateT(LANG_POLICY_MANUAL);
-			break;
 		case OTRL_POLICY_ALWAYS:
 			return TranslateT(LANG_POLICY_ALWAYS);
-			break;
+		default:
+			return TranslateT(LANG_POLICY_DEFAULT);
 	}
-	return TranslateT(LANG_POLICY_DEFAULT);
 }
 
 OtrlPolicy policy_from_string(const TCHAR *polstring) {

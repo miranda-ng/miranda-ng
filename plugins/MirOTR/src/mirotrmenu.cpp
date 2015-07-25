@@ -85,10 +85,8 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
 			}
 		}
-		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem) {
-			int flags = db_get_b(hContact, MODULENAME, "HTMLConv", 0) ? CMIF_CHECKED : 0;
-			Menu_ModifyItem(hHTMLConvMenuItem, NULL, INVALID_HANDLE_VALUE, flags);
-		}
+		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem) 
+			Menu_SetChecked(hHTMLConvMenuItem, db_get_b(hContact, MODULENAME, "HTMLConv", 0) != 0);
 	}
 	return TRUE;
 }
@@ -201,6 +199,7 @@ void InitMirOTRMenu(void)
 	mi.flags = CMIF_TCHAR | CMIF_CHECKED;
 	mi.name.t = LANG_MENU_TOGGLEHTML;
 	mi.position = 300001;
+	mi.hIcolibItem = 0;
 	hHTMLConvMenuItem = AddMirOTRMenuItem(&mi, MS_OTR_MENUTOGGLEHTML);
 }
 

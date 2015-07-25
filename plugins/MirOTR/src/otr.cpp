@@ -64,7 +64,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM 
 		GenKeyData *data = (GenKeyData *)mir_calloc(sizeof(GenKeyData));
 		data->dialog = hWndDlg;
 		data->proto = (char*)lParam;
-		CloseHandle((HANDLE)_beginthreadex(0, 0, generate_key_thread, (void*)data, 0, 0));
+		CloseHandle((HANDLE)_beginthreadex(0, 0, generate_key_thread, data, 0, 0));
 	}break;
 	case WMU_ENDDIALOG:
 		EndDialog(hWndDlg, 0);
@@ -72,6 +72,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_DESTROY:
 		SetClassLongPtr(hWndDlg, GCLP_HICON, 0);
 		IcoLib_Release(ICON_OTR, 1);
+		mir_free((char*)lParam);
 	}
 	return FALSE;
 }
@@ -103,7 +104,10 @@ extern "C" {
 	* desired. */
 	void otr_gui_create_privkey(void *opdata, const char *account_name, const char *protocol) {
 		DEBUGOUT_T("OTR_GUI_CREATE_PRIVKEY\n");
-		if (opdata) protocol = GetContactProto((MCONTACT)opdata);
+		if (opdata) {
+			mir_free((char*)protocol);
+			protocol = mir_strdup(GetContactProto((MCONTACT)opdata));
+		}
 		if (!protocol) return;
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), 0, GenKeyDlgBoxProc, (LPARAM)protocol);
 
