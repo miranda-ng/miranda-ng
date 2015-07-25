@@ -21,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "stdafx.h"
 
 extern HIMAGELIST himlCListClc;
@@ -51,7 +52,7 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 			oldLum += 20;
 			newCol =
 				RGB(GetRValue(dat->hotTextColour) * oldLum / newLum, GetGValue(dat->hotTextColour) * oldLum / newLum,
-				GetBValue(dat->hotTextColour) * oldLum / newLum);
+					GetBValue(dat->hotTextColour) * oldLum / newLum);
 		}
 		else if (newLum <= oldLum) {
 			int r, g, b;
@@ -92,15 +93,15 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 static int GetStatusOnlineness(int status)
 {
 	switch (status) {
-		case ID_STATUS_FREECHAT:    return 110;
-		case ID_STATUS_ONLINE:      return 100;
-		case ID_STATUS_OCCUPIED:    return 60;
-		case ID_STATUS_ONTHEPHONE:  return 50;
-		case ID_STATUS_DND:         return 40;
-		case ID_STATUS_AWAY:        return 30;
-		case ID_STATUS_OUTTOLUNCH:  return 20;
-		case ID_STATUS_NA:          return 10;
-		case ID_STATUS_INVISIBLE:   return 5;
+	case ID_STATUS_FREECHAT:    return 110;
+	case ID_STATUS_ONLINE:      return 100;
+	case ID_STATUS_OCCUPIED:    return 60;
+	case ID_STATUS_ONTHEPHONE:  return 50;
+	case ID_STATUS_DND:         return 40;
+	case ID_STATUS_AWAY:        return 30;
+	case ID_STATUS_OUTTOLUNCH:  return 20;
+	case ID_STATUS_NA:          return 10;
+	case ID_STATUS_INVISIBLE:   return 5;
 	}
 	return 0;
 }
@@ -141,7 +142,7 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
 	RECT clRect;
-	int y, indent, index, fontHeight;
+	int indent, index, fontHeight;
 	struct ClcGroup *group;
 	HFONT hOldFont;
 	LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -160,7 +161,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		rcPaint = &clRect;
 	if (IsRectEmpty(rcPaint))
 		return;
-	y = -dat->yScroll;
+
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
 	HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
@@ -184,9 +185,6 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		FillRect(hdcMem, rcPaint, hBrush);
 		DeleteObject(hBrush);
 		if (dat->hBmpBackground) {
-			int x, y;
-			int destw, desth;
-
 			// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
 			SetStretchBltMode(hdcMem, HALFTONE);
 
@@ -194,9 +192,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
 			HDC hdcBmp = CreateCompatibleDC(hdcMem);
 			SelectObject(hdcBmp, dat->hBmpBackground);
-			y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
+			int y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
 			int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
 			int maxy = dat->backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : y + 1;
+			int destw, desth;
 			switch (dat->backgroundBmpUse & CLBM_TYPE) {
 			case CLB_STRETCH:
 				if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
@@ -242,12 +241,14 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			for (; y < maxy; y += desth) {
 				if (y < rcPaint->top - desth)
 					continue;
-				for (x = 0; x < maxx; x += destw)
+				for (int x = 0; x < maxx; x += destw)
 					StretchBlt(hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
 			}
 			DeleteDC(hdcBmp);
 		}
 	}
+
+	int y = -dat->yScroll;
 	group = &dat->list;
 	group->scanIndex = 0;
 	indent = 0;
@@ -260,16 +261,17 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			group->scanIndex++;
 			continue;
 		}
+
+		ClcContact *cc = group->cl.items[group->scanIndex];
 		if (y > rcPaint->top - dat->rowHeight) {
 			int iImage = -1;
-			int selected = index == dat->selection && (dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd)
-				&& group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER;
-			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER && dat->iHotTrack == index;
+			int selected = index == dat->selection && (dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd) && cc->type != CLCIT_DIVIDER;
+			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && cc->type != CLCIT_DIVIDER && dat->iHotTrack == index;
 			SIZE textSize, countsSize = { 0 }, spaceSize = { 0 };
 			int width, checkboxWidth;
 			TCHAR *szCounts = NULL;
 
-			//alternating grey
+			// alternating grey
 			if (style & CLS_GREYALTERNATE && index & 1) {
 				RECT rc;
 				rc.top = y;
@@ -279,38 +281,33 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				FillRect(hdcMem, &rc, hBrushAlternateGrey);
 			}
 
-			//setup
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP)
+			// setup
+			if (cc->type == CLCIT_GROUP)
 				ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_INFO) {
-				if (group->cl.items[group->scanIndex]->flags & CLCIIF_GROUPFONT)
+			else if (cc->type == CLCIT_INFO) {
+				if (cc->flags & CLCIIF_GROUPFONT)
 					ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
 				else
 					ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_DIVIDER)
+			else if (cc->type == CLCIT_DIVIDER)
 				ChangeToFont(hdcMem, dat, FONTID_DIVIDERS, &fontHeight);
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST)
+			else if (cc->type == CLCIT_CONTACT && cc->flags & CONTACTF_NOTONLIST)
 				ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT &&
-				((group->cl.items[group->scanIndex]->flags & CONTACTF_INVISTO
-				&& GetRealStatus(group->cl.items[group->scanIndex], status) != ID_STATUS_INVISIBLE)
-				|| (group->cl.items[group->scanIndex]->flags & CONTACTF_VISTO
-				&& GetRealStatus(group->cl.items[group->scanIndex], status) == ID_STATUS_INVISIBLE)
-				)
-				) {
-					// the contact is in the always visible list and the proto is invisible
-					// the contact is in the always invisible and the proto is in any other mode
-					ChangeToFont(hdcMem, dat, group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
-				}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && !(group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE))
+			else if (cc->type == CLCIT_CONTACT &&
+				((cc->flags & CONTACTF_INVISTO && GetRealStatus(cc, status) != ID_STATUS_INVISIBLE) || (cc->flags & CONTACTF_VISTO && GetRealStatus(cc, status) == ID_STATUS_INVISIBLE))) {
+				// the contact is in the always visible list and the proto is invisible
+				// the contact is in the always invisible and the proto is in any other mode
+				ChangeToFont(hdcMem, dat, cc->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
+			}
+			else if (cc->type == CLCIT_CONTACT && !(cc->flags & CONTACTF_ONLINE))
 				ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 			else
 				ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
-			GetTextExtentPoint32(hdcMem, group->cl.items[group->scanIndex]->szText, (int)mir_tstrlen(group->cl.items[group->scanIndex]->szText), &textSize);
+			GetTextExtentPoint32(hdcMem, cc->szText, (int)mir_tstrlen(cc->szText), &textSize);
 			width = textSize.cx;
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				szCounts = pcli->pfnGetGroupCountsText(dat, group->cl.items[group->scanIndex]);
+			if (cc->type == CLCIT_GROUP) {
+				szCounts = pcli->pfnGetGroupCountsText(dat, cc);
 				if (szCounts[0]) {
 					GetTextExtentPoint32(hdcMem, _T(" "), 1, &spaceSize);
 					ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
@@ -319,14 +316,12 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				}
 			}
 
-			if ((style & CLS_CHECKBOXES && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) ||
-				(style & CLS_GROUPCHECKBOXES && group->cl.items[group->scanIndex]->type == CLCIT_GROUP) ||
-				(group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->flags & CLCIIF_CHECKBOX))
+			if ((style & CLS_CHECKBOXES && cc->type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && cc->type == CLCIT_GROUP) || (cc->type == CLCIT_INFO && cc->flags & CLCIIF_CHECKBOX))
 				checkboxWidth = dat->checkboxSize + 2;
 			else
 				checkboxWidth = 0;
 
-			//background
+			// background
 			if (selected) {
 				int x = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace - 2;
 				ImageList_DrawEx(dat->himlHighlight, 0, hdcMem, x, y, min(width + 5, clRect.right - x), dat->rowHeight, CLR_NONE, CLR_NONE,
@@ -336,7 +331,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			else if (hottrack)
 				SetHotTrackColour(hdcMem, dat);
 
-			//checkboxes
+			// checkboxes
 			if (checkboxWidth) {
 				RECT rc;
 				HANDLE hTheme = OpenThemeData(hwnd, L"BUTTON");
@@ -344,56 +339,49 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				rc.right = rc.left + dat->checkboxSize;
 				rc.top = y + ((dat->rowHeight - dat->checkboxSize) >> 1);
 				rc.bottom = rc.top + dat->checkboxSize;
-				DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
+				DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, cc->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
 				CloseThemeData(hTheme);
 			}
 
-			//icon
-			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP)
-				iImage = group->cl.items[group->scanIndex]->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT)
-				iImage = group->cl.items[group->scanIndex]->iImage;
+			// icon
+			if (cc->type == CLCIT_GROUP)
+				iImage = cc->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+			else if (cc->type == CLCIT_CONTACT)
+				iImage = cc->iImage;
 			if (iImage != -1) {
-				/*COLORREF colourFg=dat->selBkColour;
-				int mode=ILD_NORMAL;
-				if(selected) mode=ILD_SELECTED;
-				else if(hottrack) {mode=ILD_FOCUS; colourFg=dat->hotTextColour;}
-				else if(group->cl.items[group->scanIndex]->type==CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags&CONTACTF_NOTONLIST) {colourFg=dat->fontInfo[FONTID_NOTONLIST].colour; mode=ILD_BLEND50;}
-				ImageList_DrawEx(himlCListClc,iImage,hdcMem,dat->leftMargin+indent*dat->groupIndent+checkboxWidth,y+((dat->rowHeight-16)>>1),0,0,CLR_NONE,colourFg,mode);
-				*/
 				// this doesnt use CLS_CONTACTLIST since the colour prolly wont match anyway
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
 				if (hottrack) {
 					colourFg = dat->hotTextColour;
 				}
-				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST) {
+				else if (cc->type == CLCIT_CONTACT && cc->flags & CONTACTF_NOTONLIST) {
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
-				if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && dat->showIdle
-					&& (group->cl.items[group->scanIndex]->flags & CONTACTF_IDLE)
-					&& GetRealStatus(group->cl.items[group->scanIndex], ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				if (cc->type == CLCIT_CONTACT && dat->showIdle
+					&& (cc->flags & CONTACTF_IDLE)
+					&& GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					mode = ILD_SELECTED;
 				ImageList_DrawEx(himlCListClc, iImage, hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth,
 					y + ((dat->rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
 			}
 
-			//text
-			if (group->cl.items[group->scanIndex]->type == CLCIT_DIVIDER) {
+			// text
+			if (cc->type == CLCIT_DIVIDER) {
 				RECT rc;
 				rc.top = y + (dat->rowHeight >> 1);
 				rc.bottom = rc.top + 2;
 				rc.left = dat->leftMargin + indent * dat->groupIndent;
 				rc.right = rc.left + ((clRect.right - rc.left - textSize.cx) >> 1) - 3;
 				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
-				TextOut(hdcMem, rc.right + 3, y + ((dat->rowHeight - fontHeight) >> 1), group->cl.items[group->scanIndex]->szText,
-					(int)mir_tstrlen(group->cl.items[group->scanIndex]->szText));
+				TextOut(hdcMem, rc.right + 3, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText,
+					(int)mir_tstrlen(cc->szText));
 				rc.left = rc.right + 6 + textSize.cx;
 				rc.right = clRect.right;
 				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 			}
-			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+			else if (cc->type == CLCIT_GROUP) {
 				RECT rc;
 				if (szCounts[0]) {
 					fontHeight = dat->fontInfo[FONTID_GROUPS].fontHeight;
@@ -411,13 +399,13 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					else if (hottrack)
 						SetHotTrackColour(hdcMem, dat);
 					rc.right--;
-					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, group->cl.items[group->scanIndex]->szText,
-						(int)mir_tstrlen(group->cl.items[group->scanIndex]->szText), NULL);
+					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText,
+						(int)mir_tstrlen(cc->szText), NULL);
 				}
 				else
 					TextOut(hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace,
-						y + ((dat->rowHeight - fontHeight) >> 1), group->cl.items[group->scanIndex]->szText,
-						(int)mir_tstrlen(group->cl.items[group->scanIndex]->szText));
+						y + ((dat->rowHeight - fontHeight) >> 1), cc->szText,
+						(int)mir_tstrlen(cc->szText));
 				if (dat->exStyle & CLS_EX_LINEWITHGROUPS) {
 					rc.top = y + (dat->rowHeight >> 1);
 					rc.bottom = rc.top + 2;
@@ -428,7 +416,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				}
 			}
 			else {
-				TCHAR *szText = group->cl.items[group->scanIndex]->szText;
+				TCHAR *szText = cc->szText;
 				RECT rc;
 				rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace;
 				rc.top = y + ((dat->rowHeight - fontHeight) >> 1);
@@ -437,8 +425,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				DrawText(hdcMem, szText, -1, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 			}
 			if (selected) {
-				if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
-					TCHAR *szText = group->cl.items[group->scanIndex]->szText;
+				if (cc->type != CLCIT_DIVIDER) {
+					TCHAR *szText = cc->szText;
 					RECT rc;
 					int qlen = (int)mir_tstrlen(dat->szQuickSearch);
 					SetTextColor(hdcMem, dat->quickSearchColour);
@@ -451,11 +439,11 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				}
 			}
 
-			//extra icons
+			// extra icons
 			for (iImage = 0; iImage < dat->extraColumnsCount; iImage++) {
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
-				if (group->cl.items[group->scanIndex]->iExtraImage[iImage] == 0xFF)
+				if (cc->iExtraImage[iImage] == 0xFF)
 					continue;
 				if (selected)
 					mode = ILD_SELECTED;
@@ -463,30 +451,29 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					mode = ILD_FOCUS;
 					colourFg = dat->hotTextColour;
 				}
-				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST) {
+				else if (cc->type == CLCIT_CONTACT && cc->flags & CONTACTF_NOTONLIST) {
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
-				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[iImage], hdcMem,
+				ImageList_DrawEx(dat->himlExtraColumns, cc->iExtraImage[iImage], hdcMem,
 					clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - iImage), y + ((dat->rowHeight - 16) >> 1), 0, 0,
 					CLR_NONE, colourFg, mode);
 			}
 		}
 		index++;
 		y += dat->rowHeight;
-		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {
-			group = group->cl.items[group->scanIndex]->group;
+		if (cc->type == CLCIT_GROUP && cc->group->expanded) {
+			group = cc->group;
 			indent++;
 			group->scanIndex = 0;
 			continue;
 		}
 		group->scanIndex++;
 	}
-	if (dat->iInsertionMark != -1) {    //insertion mark
-		HBRUSH hBrush;
+	
+	// insertion mark
+	if (dat->iInsertionMark != -1) {
 		POINT pts[8];
-		HRGN hRgn;
-
 		pts[0].x = dat->leftMargin;
 		pts[0].y = dat->iInsertionMark * dat->rowHeight - dat->yScroll - 4;
 		pts[1].x = pts[0].x + 2;
@@ -503,17 +490,16 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		pts[6].y = pts[5].y;
 		pts[7].x = pts[0].x;
 		pts[7].y = pts[4].y;
-		hRgn = CreatePolygonRgn(pts, _countof(pts), ALTERNATE);
-		hBrush = CreateSolidBrush(dat->fontInfo[FONTID_CONTACTS].colour);
+		HRGN hRgn = CreatePolygonRgn(pts, _countof(pts), ALTERNATE);
+		HBRUSH hBrush = CreateSolidBrush(dat->fontInfo[FONTID_CONTACTS].colour);
 		FillRgn(hdcMem, hRgn, hBrush);
 		DeleteObject(hBrush);
 		DeleteObject(hRgn);
 	}
 	if (!grey)
-		BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right - rcPaint->left, rcPaint->bottom - rcPaint->top, hdcMem, rcPaint->left, rcPaint->top,
-		SRCCOPY);
-	SelectObject(hdcMem,hOldBitmap);
-	SelectObject(hdcMem,hOldFont);
+		BitBlt(hdc, rcPaint->left, rcPaint->top, rcPaint->right - rcPaint->left, rcPaint->bottom - rcPaint->top, hdcMem, rcPaint->left, rcPaint->top, SRCCOPY);
+	SelectObject(hdcMem, hOldBitmap);
+	SelectObject(hdcMem, hOldFont);
 	DeleteDC(hdcMem);
 	if (hBrushAlternateGrey)
 		DeleteObject(hBrushAlternateGrey);
@@ -525,8 +511,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		bmih.biHeight = -clRect.bottom;
 		bmih.biPlanes = 1;
 		bmih.biWidth = clRect.right;
-		PBYTE bits = (PBYTE) malloc(4 * bmih.biWidth * -bmih.biHeight);
-		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *) & bmih, DIB_RGB_COLORS);
+		PBYTE bits = (PBYTE)malloc(4 * bmih.biWidth * -bmih.biHeight);
+		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *)& bmih, DIB_RGB_COLORS);
 		COLORREF greyColour = GetSysColor(COLOR_3DFACE);
 		int greyRed = GetRValue(greyColour) * 2;
 		int greyGreen = GetGValue(greyColour) * 2;
@@ -540,7 +526,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			bits[i + 1] = divide3[bits[i + 1] + greyGreen];
 			bits[i + 2] = divide3[bits[i + 2] + greyRed];
 		}
-		SetDIBitsToDevice(hdc, 0, 0, clRect.right, clRect.bottom, 0, 0, 0, clRect.bottom, bits, (BITMAPINFO *) & bmih, DIB_RGB_COLORS);
+		SetDIBitsToDevice(hdc, 0, 0, clRect.right, clRect.bottom, 0, 0, 0, clRect.bottom, bits, (BITMAPINFO *)& bmih, DIB_RGB_COLORS);
 		free(bits);
 	}
 	DeleteObject(hBmpOsb);

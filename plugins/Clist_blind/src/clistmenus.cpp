@@ -21,11 +21,12 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "stdafx.h"
 
-INT_PTR CloseAction(WPARAM,LPARAM)
+INT_PTR CloseAction(WPARAM, LPARAM)
 {
-	if (CallService(MS_SYSTEM_OKTOEXIT,0,0))
+	if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
 		DestroyWindow(pcli->hwndContactList);
 
 	return 0;
@@ -33,5 +34,5 @@ INT_PTR CloseAction(WPARAM,LPARAM)
 
 void InitCustomMenus()
 {
-	CreateServiceFunction( "CloseAction", CloseAction );
+	CreateServiceFunction("CloseAction", CloseAction);
 }

@@ -34,7 +34,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 void RebuildEntireList(HWND hwnd, ClcData *dat);
 void RebuildEntireListInternal(HWND hwnd, ClcData *dat, BOOL call_orig);
 void SetGroupExpand(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newState);
-void ScrollTo( HWND hwnd, ClcData *dat, int desty, int noSmooth );
+void ScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 void RecalcScrollBar(HWND hwnd, ClcData *dat);
 void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL);
 int GetRowHeight(ClcData *dat, int item);
@@ -43,7 +43,7 @@ void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 /////////////////////////////////////////////////////////////////////////////////////////
 // external functions
 
-void InitCustomMenus( void );
+void InitCustomMenus(void);
 void PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
@@ -85,7 +85,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when number of accounts has been changed
@@ -221,28 +221,23 @@ int CopyData(StringHelper *str, const TCHAR *text, size_t len)
 
 	totalSize = str->used + len + 1;
 
-	if (totalSize > str->allocated)
-	{
+	if (totalSize > str->allocated) {
 		totalSize += DATA_BLOCK - (totalSize % DATA_BLOCK);
 
-		if (str->text != NULL)
-		{
-			TCHAR *tmp = (TCHAR *) mir_realloc(str->text, sizeof(TCHAR) * totalSize);
+		if (str->text != NULL) {
+			TCHAR *tmp = (TCHAR *)mir_realloc(str->text, sizeof(TCHAR) * totalSize);
 
-			if (tmp == NULL)
-			{
+			if (tmp == NULL) {
 				mir_free(str->text);
 				return -1;
 			}
 
 			str->text = tmp;
 		}
-		else
-		{
-			str->text = (TCHAR *) mir_alloc(sizeof(TCHAR) * totalSize);
+		else {
+			str->text = (TCHAR *)mir_alloc(sizeof(TCHAR) * totalSize);
 
-			if (str->text == NULL)
-			{
+			if (str->text == NULL) {
 				return -2;
 			}
 		}
@@ -264,21 +259,18 @@ TCHAR * ParseText(const TCHAR *text,
 {
 	size_t length = mir_tstrlen(text);
 	size_t nextPos = 0;
-	StringHelper ret = {0};
+	StringHelper ret = { 0 };
 	size_t i;
 
 	// length - 1 because a % in last char will be a % and point
-	for (i = 0 ; i < length - 1 ; i++)
-	{
-		if (text[i] == _T('%'))
-		{
+	for (i = 0; i < length - 1; i++) {
+		if (text[i] == _T('%')) {
 			BOOL found = FALSE;
 
 			if (CopyData(&ret, &text[nextPos], i - nextPos))
 				return NULL;
 
-			if (text[i + 1] == _T('%'))
-			{
+			if (text[i + 1] == _T('%')) {
 				if (CopyData(&ret, _T("%"), 1))
 					return NULL;
 
@@ -286,18 +278,15 @@ TCHAR * ParseText(const TCHAR *text,
 
 				found = TRUE;
 			}
-			else
-			{
+			else {
 				size_t size = min(variablesSize, dataSize);
 				size_t j;
 
 				// See if can find it
-				for(j = 0 ; j < size ; j++)
-				{
+				for (j = 0; j < size; j++) {
 					size_t vlen = mir_tstrlen(variables[j]);
 
-					if (_tcsnicmp(&text[i], variables[j], vlen) == 0)
-					{
+					if (_tcsnicmp(&text[i], variables[j], vlen) == 0) {
 						if (CopyData(&ret, data[j], mir_tstrlen(data[j])))
 							return NULL;
 
@@ -328,13 +317,10 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_NCCREATE:
-		{
-			break;
-		}
+		break;
+
 	case WM_CREATE:
-		{
-			break;
-		}
+		break;
 	}
 	return coreCli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
@@ -346,12 +332,12 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	switch (msg) {
 	case WM_CREATE:
-		dat = (ClcData*)mir_calloc( sizeof(ClcData));
-		SetWindowLongPtr(hwnd, 0, (LONG_PTR) dat);
+		dat = (ClcData*)mir_calloc(sizeof(ClcData));
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
 		dat->hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
-			0, 0, 0, 0, hwnd, NULL, g_hInst,0);
+			0, 0, 0, 0, hwnd, NULL, g_hInst, 0);
 		dat->need_rebuild = FALSE;
 
 		GetClientRect(hwnd, &r);
@@ -390,13 +376,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			nmkey.hdr.code = NM_KEYDOWN;
 			nmkey.nVKey = key;
 			nmkey.uFlags = 0;
-			if ( SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nmkey))
+			if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nmkey))
 				return -2;
 		}
 		return -1;
 
 	case WM_COMMAND:
-		if ((HANDLE) lParam != dat->hwnd_list || HIWORD(wParam) != LBN_SELCHANGE)
+		if ((HANDLE)lParam != dat->hwnd_list || HIWORD(wParam) != LBN_SELCHANGE)
 			break;
 
 		dat->selection = SendMessage(dat->hwnd_list, LB_GETCURSEL, 0, 0);
@@ -419,7 +405,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 }
 
 TCHAR status_name[128];
-TCHAR *GetStatusName(struct ClcContact *item)
+TCHAR* GetStatusName(struct ClcContact *item)
 {
 	int status;
 
@@ -441,7 +427,7 @@ TCHAR *GetStatusName(struct ClcContact *item)
 
 
 TCHAR status_message[256];
-TCHAR *GetStatusMessage(struct ClcContact *item)
+TCHAR* GetStatusMessage(struct ClcContact *item)
 {
 	status_message[0] = _T('\0');
 	if (item->hContact == NULL || item->proto == NULL)
@@ -460,30 +446,26 @@ TCHAR *GetStatusMessage(struct ClcContact *item)
 
 
 TCHAR proto_name[128];
-TCHAR *GetProtoName(struct ClcContact *item)
+TCHAR* GetProtoName(struct ClcContact *item)
 {
-	PROTOACCOUNT *acc;
-#ifdef UNICODE
+	#ifdef UNICODE
 	char description[128];
-#endif
+	#endif
 
 	proto_name[0] = '\0';
-	if (item->hContact == NULL || item->proto == NULL)
-	{
+	if (item->hContact == NULL || item->proto == NULL) {
 		mir_tstrncpy(proto_name, TranslateT("Unknown protocol"), _countof(proto_name));
 		return proto_name;
 	}
 
-	acc = Proto_GetAccount(item->proto);
-
-	if (acc == NULL)
-	{
-#ifdef UNICODE
-		CallProtoService(item->proto, PS_GETNAME, sizeof(description),(LPARAM) description);
+	PROTOACCOUNT *acc = Proto_GetAccount(item->proto);
+	if (acc == NULL) {
+		#ifdef UNICODE
+		CallProtoService(item->proto, PS_GETNAME, sizeof(description), (LPARAM)description);
 		mir_sntprintf(proto_name, _countof(proto_name), L"%S", description);
-#else
-		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name),(LPARAM) proto_name);
-#endif
+		#else
+		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name), (LPARAM)proto_name);
+		#endif
 		return proto_name;
 	}
 
@@ -495,16 +477,12 @@ TCHAR *GetProtoName(struct ClcContact *item)
 void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 {
 	ClcData *dat = (ClcData*)tmp_dat;
-	struct ClcGroup *group;
-	struct ClcContact *item;
 	TCHAR tmp[1024];
 	TCHAR count[128];
 	TCHAR template_contact[1024];
 	TCHAR template_group[1024];
 	TCHAR template_divider[1024];
 	TCHAR template_info[1024];
-	TCHAR *text;
-	size_t size;
 	int selection = dat->selection;
 	BOOL has_focus = (GetFocus() == dat->hwnd_list || GetFocus() == hwnd);
 
@@ -522,17 +500,16 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	SendMessage(dat->hwnd_list, LB_RESETCONTENT, 0, 0);
 
 	// Set font
-	SendMessage(dat->hwnd_list, WM_SETFONT, (WPARAM) dat->fontInfo[FONTID_CONTACTS].hFont, 0);
+	SendMessage(dat->hwnd_list, WM_SETFONT, (WPARAM)dat->fontInfo[FONTID_CONTACTS].hFont, 0);
 
 	// Add all items to the list
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
-	text = tmp;
-	size = _countof(tmp);
-	while(1)
-	{
-		if (group->scanIndex == group->cl.count)
-		{
+	
+	TCHAR *text = tmp;
+	size_t size = _countof(tmp);
+	while (true) {
+		if (group->scanIndex == group->cl.count) {
 			group = group->parent;
 			if (group == NULL)
 				break;
@@ -542,13 +519,12 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 			continue;
 		}
 
-		item = group->cl.items[group->scanIndex];
+		ClcContact *item = group->cl.items[group->scanIndex];
 		text[0] = _T('\0');
-		switch(item->type)
-		{
+		switch (item->type) {
 		case CLCIT_GROUP:
 			{
-				TCHAR *szCounts = pcli->pfnGetGroupCountsText((ClcData*)dat, item);
+				TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, item);
 				const TCHAR *t[] = {
 					_T("%name%"),
 					_T("%count%"),
@@ -559,19 +535,19 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 					count,
 					item->group->expanded ? TranslateT("Expanded") : TranslateT("Collapsed")
 				};
-				TCHAR *txt;
 
 				if (szCounts[0] != '\0')
 					mir_sntprintf(count, _countof(count), _T("%s "), szCounts);
 				else
 					count[0] = _T('\0');
 
-				txt = ParseText(template_group, t, _countof(t), v, _countof(v));
+				TCHAR *txt = ParseText(template_group, t, _countof(t), v, _countof(v));
 				if (txt != NULL)
-					mir_tstrncpy(text, txt, (int)size);
+					mir_tstrncpy(text, txt, size);
 				mir_free(txt);
-				break;
 			}
+			break;
+
 		case CLCIT_CONTACT:
 			{
 				const TCHAR *t[] = {
@@ -589,26 +565,23 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 
 				TCHAR *txt = ParseText(template_contact, t, _countof(t), v, _countof(v));
 				if (txt != NULL)
-					mir_tstrncpy(text, txt, (int)size);
+					mir_tstrncpy(text, txt, size);
 				mir_free(txt);
-				break;
 			}
+			break;
+
 		case CLCIT_DIVIDER:
-			{
-				mir_sntprintf(text, size, template_divider, item->szText);
-				break;
-			}
+			mir_sntprintf(text, size, template_divider, item->szText);
+			break;
+
 		case CLCIT_INFO:
-			{
-				mir_sntprintf(text, size, template_info, item->szText);
-				break;
-			}
+			mir_sntprintf(text, size, template_info, item->szText);
+			break;
 		}
 
-		SendMessage(dat->hwnd_list, LB_ADDSTRING, 0, (LPARAM) tmp);
+		SendMessage(dat->hwnd_list, LB_ADDSTRING, 0, (LPARAM)tmp);
 
-		if (item->type == CLCIT_GROUP && item->group->expanded)
-		{
+		if (item->type == CLCIT_GROUP && item->group->expanded) {
 			group = item->group;
 			text[0] = _T(' ');
 			text[1] = _T(' ');
