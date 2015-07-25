@@ -394,7 +394,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\V
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_12.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15_12.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_12.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
 EndProject

@@ -3,7 +3,7 @@
 
 #include "CScreen.h"
 #include "CEventLog.h"
-#include "CLCDBar.h"
+#include "LCDFramework\CLCDBar.h"
 
 class CEventScreen : public CScreen
 {

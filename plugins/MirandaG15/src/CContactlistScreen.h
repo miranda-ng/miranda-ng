@@ -3,7 +3,7 @@
 
 #include "CScreen.h"
 #include "CContactList.h"
-#include "CLCDBar.h"
+#include "LCDFramework\CLCDBar.h"
 
 class CContactlistScreen : public CScreen
 {

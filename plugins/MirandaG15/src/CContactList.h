@@ -1,7 +1,7 @@
 #ifndef _CCONTACTLIST_H_
 #define _CCONTACTLIST_H_
 
-#include "CLCDList.h"
+#include "LCDFramework\CLCDList.h"
 
 class CContactListEntry
 {

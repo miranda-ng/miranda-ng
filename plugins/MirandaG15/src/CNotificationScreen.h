@@ -2,10 +2,10 @@
 #define _CNOTIFICATIONSCREEN_H_
 
 #include "CScreen.h"
-#include "CLCDLabel.h"
-#include "CLCDTextLog.h"
-#include "CLCDBar.h"
-#include "CLCDInput.h"
+#include "LCDFramework\CLCDLabel.h"
+#include "LCDFramework\CLCDTextLog.h"
+#include "LCDFramework\CLCDBar.h"
+#include "LCDFramework\CLCDInput.h"
 
 class CNotificationEntry
 {
