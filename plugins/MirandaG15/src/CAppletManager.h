@@ -1,7 +1,7 @@
 #ifndef _COUTPUTMANAGER_H_
 #define _COUTPUTMANAGER_H_
 
-#include "CLCDOutputManager.h"
+#include "LCDFramework\CLCDOutputManager.h"
 
 #include "CProtocolData.h"
 #include "CIRCHistory.h"
@@ -14,7 +14,7 @@
 #include "CCreditsScreen.h"
 #include "CScreensaverScreen.h"
 
-#include "CLCDConnectionLogitech.h"
+#include "LCDFramework\CLCDConnectionLogitech.h"
 
 struct SMessageJob
 {

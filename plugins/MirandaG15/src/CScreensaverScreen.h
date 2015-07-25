@@ -2,7 +2,7 @@
 #define _CSCREENSAVERSSCREEN_H_
 
 #include "CScreen.h"
-#include "CLCDLabel.h"
+#include "LCDFramework\CLCDLabel.h"
 
 class CScreensaverScreen : public CScreen
 {

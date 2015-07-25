@@ -2,7 +2,7 @@
 #define _CCREDITSSCREEN_H_
 
 #include "CScreen.h"
-#include "CLCDLabel.h"
+#include "LCDFramework\CLCDLabel.h"
 
 class CCreditsScreen : public CScreen
 {

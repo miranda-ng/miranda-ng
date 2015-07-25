@@ -1,8 +1,8 @@
 #ifndef _CSCREEN_H_
 #define _CSCREEN_H_
 
-#include "CLCDScreen.h"
-#include "CLCDBitmap.h"
+#include "LCDFramework\CLCDScreen.h"
+#include "LCDFramework\CLCDBitmap.h"
 //#include "CLCDLabel.h"
 
 class CScreen : public CLCDScreen

@@ -1,7 +1,7 @@
 #ifndef _CEVENTLOG_H_
 #define _CEVENTLOG_H_
 
-#include "CLCDList.h"
+#include "LCDFramework\CLCDList.h"
 
 class CEventLogEntry
 {
