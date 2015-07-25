@@ -319,9 +319,12 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
 {
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
-	if (jid && isOnline())
+	if (jid && isOnline()) {
 		m_pConnection->sendQueryLastOnline((char*)jid);
-
+		m_pConnection->sendGetPicture((char*)jid, "image");
+		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
+	}
+	
 	return 0;
 }
 

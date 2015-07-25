@@ -31,7 +31,11 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 
 		PROTORECVEVENT recv = { 0 };
 		recv.szMessage = const_cast<char*>(msg.c_str());
-		recv.timestamp = time(NULL);
+		if (getByte(WHATSAPP_KEY_USE_REMOTE_TIME, 0))
+			recv.timestamp = pMsg.timestamp;
+		else
+			recv.timestamp = time(NULL);
+
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 
