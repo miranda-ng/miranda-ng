@@ -661,12 +661,12 @@ INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 	if (!(cmd >= CLISTMENUIDMIN && cmd <= CLISTMENUIDMAX))
 		return 0; // DO NOT process ids outside from clist menu id range		v0.7.0.27+
 
-	//process old menu sys
+	// process old menu sys
 	if (HIWORD(wParam) & MPCF_CONTACTMENU)
-		return MO_ProcessCommandBySubMenuIdent((int)hContactMenuObject, LOWORD(wParam), lParam);
+		return MO_ProcessCommandBySubMenuIdent(hContactMenuObject, cmd, lParam);
 
-	//unknown old menu
-	return Menu_ProcessCommandById(LOWORD(wParam), lParam);
+	// unknown old menu
+	return Menu_ProcessCommandById(cmd, lParam);
 }
 
 BOOL FindMenuHanleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* itdat)

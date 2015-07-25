@@ -267,7 +267,7 @@ struct CLIST_INTERFACE
 	/* clc.h */
 	void  (*pfnClcOptionsChanged)(void);
 	void  (*pfnClcBroadcast)(int, WPARAM, LPARAM);
-	HMENU (*pfnBuildGroupPopupMenu)(struct ClcGroup*);
+	HMENU (*pfnBuildGroupPopupMenu)(struct ClcGroup*); // unused
 
 	LRESULT (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
