@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "common.h"
+#include "stdafx.h"
 
 int idOptionControls[4][3] = {
 	IDC_ASTERISK_FG, IDC_ASTERISK_BG, IDC_TIMEOUT1,
