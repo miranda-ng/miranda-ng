@@ -19,8 +19,6 @@
 #ifndef MSG_EXP_GLOB_H
 #define MSG_EXP_GLOB_H
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <Windows.h>
 #include <windowsx.h>
 #include <Richedit.h>
