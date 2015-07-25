@@ -16,7 +16,7 @@
 
 //#define STRICT
 
-#include "headers.h"
+#include "stdafx.h"
 
 class CEnumFormatEtc : public IEnumFORMATETC
 {

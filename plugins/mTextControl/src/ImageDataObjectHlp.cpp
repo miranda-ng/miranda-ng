@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //imagedataobject
 //code taken partly from public example on the internet, source unknown.
 
-#include "headers.h"
+#include "stdafx.h"
 
 struct EMFCACHE
 {

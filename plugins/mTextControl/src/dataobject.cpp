@@ -10,7 +10,7 @@
 
 //#define STRICT
 
-#include "headers.h"
+#include "stdafx.h"
 
 const ULONG MAX_FORMATS = 100;
 

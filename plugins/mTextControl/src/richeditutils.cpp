@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 class CREOleCallback : public IRichEditOleCallback
 {
