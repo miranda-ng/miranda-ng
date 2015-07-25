@@ -1,4 +1,4 @@
-#include "menuex.h"
+#include "stdafx.h"
 
 extern HINSTANCE hinstance;
 

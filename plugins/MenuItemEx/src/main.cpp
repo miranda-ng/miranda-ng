@@ -1,4 +1,4 @@
-#include "menuex.h"
+#include "stdafx.h"
 
 #define MS_SETINVIS   "MenuEx/SetInvis"
 #define MS_SETVIS     "MenuEx/SetVis"
