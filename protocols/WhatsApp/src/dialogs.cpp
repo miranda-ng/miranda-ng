@@ -6,7 +6,7 @@
 class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
 	CCtrlEdit m_pw1, m_pw2, m_cc, m_login, m_nick, m_group;
-	CCtrlCheck m_ssl, m_autorun;
+	CCtrlCheck m_ssl, m_autorun, m_remoteTime;
 	CCtrlButton m_request, m_register;
 
 public:
@@ -16,6 +16,7 @@ public:
 		m_pw1(this, IDC_PW),
 		m_pw2(this, IDC_PW2),
 		m_ssl(this, IDC_SSL),
+		m_remoteTime(this, IDC_REMOTE_TIME),
 		m_nick(this, IDC_NICK),
 		m_group(this, IDC_DEFGROUP),
 		m_login(this, IDC_LOGIN),
@@ -24,6 +25,7 @@ public:
 		m_register(this, IDC_BUTTON_REGISTER)
 	{
 		CreateLink(m_ssl, WHATSAPP_KEY_SSL, DBVT_BYTE, false);
+		CreateLink(m_remoteTime, WHATSAPP_KEY_USE_REMOTE_TIME, DBVT_BYTE, false);
 		CreateLink(m_autorun, WHATSAPP_KEY_AUTORUNCHATS, DBVT_BYTE, true);
 
 		CreateLink(m_cc, WHATSAPP_KEY_CC, _T(""));

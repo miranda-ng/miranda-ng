@@ -15,6 +15,7 @@
 #define WHATSAPP_KEY_REG_CODE                "RegistrationCode"
 #define WHATSAPP_KEY_SSL                     "UseSSL"
 #define WHATSAPP_KEY_AUTORUNCHATS            "AutoRunChats"
+#define WHATSAPP_KEY_USE_REMOTE_TIME         "UseRemoteTime"
 
 #define WHATSAPP_KEY_EVENT_CLIENT_ENABLE            "EventClientEnable"
 #define WHATSAPP_KEY_EVENT_OTHER_ENABLE             "EventOtherEnable"
