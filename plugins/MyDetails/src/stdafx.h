@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
