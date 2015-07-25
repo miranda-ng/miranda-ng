@@ -63,8 +63,10 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 	FindClose(hFind);
 }
 
-INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM)
 {
+	TCHAR filename[MAX_PATH];
+
 	switch(message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -81,7 +83,6 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
-		TCHAR filename[MAX_PATH];
 		GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
 		if (_taccess(filename, 4))
 			SendMessage(GetParent(hwndDlg), WIZM_DISABLEBUTTON, 1, 0);
@@ -94,7 +95,6 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			break;
 
 		case IDOK:
-			TCHAR filename[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
 			if (_taccess(filename, 4)) {
 				MessageBox(hwndDlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
@@ -154,7 +154,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 //=======================================================================================
 // Import options dialog
 
-INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM)
 {
 	switch (message) {
 	case WM_INITDIALOG:
@@ -216,7 +216,7 @@ static const UINT InControls[] = { IDC_IN_MSG, IDC_IN_URL, IDC_IN_FT, IDC_IN_OTH
 static const UINT OutControls[] = { IDC_OUT_MSG, IDC_OUT_URL, IDC_OUT_FT, IDC_OUT_OTHER };
 static const UINT SysControls[] = { IDC_CONTACTS, IDC_SYSTEM };
 
-INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM)
 {
 	switch (message) {
 	case WM_INITDIALOG:
@@ -298,9 +298,6 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 		case IDC_SINCE:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DATETIMEPICKER), IsDlgButtonChecked(hwndDlg, IDC_SINCE));
 			break;
-
-			if (HIWORD(wParam) != STN_CLICKED)
-				break;
 
 		case IDC_ALL:
 		case IDC_INCOMING:
