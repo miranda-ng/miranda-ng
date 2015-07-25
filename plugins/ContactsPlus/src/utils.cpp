@@ -145,14 +145,14 @@ void UpdateDialogAddButton(HWND hwndDlg, MCONTACT hContact)
 }
 
 
-HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char *szTip)
+HICON InitMButton(HWND hDlg, int idButton, int idIcon, TCHAR *szTip)
 {
 	HWND hButton = GetDlgItem(hDlg, idButton);
-	HICON hIcon = (HICON)LoadImageA(GetModuleHandle(NULL), szIcon, IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	HICON hIcon = Skin_LoadIcon(idIcon);
 
 	SendMessage(hButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 	SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
-	SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)szTip, 0);
+	SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)szTip, BATF_TCHAR);
 	return hIcon;
 }
 

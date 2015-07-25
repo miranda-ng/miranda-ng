@@ -38,7 +38,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact);
 void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart);
 void UpdateDialogAddButton(HWND hwndDlg, MCONTACT hContact);
 
-HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip);
+HICON InitMButton(HWND hDlg, int idButton, int idIcon, TCHAR *szTip);
 
 void DialogAddContactExecute(HWND hwndDlg, MCONTACT hNewContact);
 

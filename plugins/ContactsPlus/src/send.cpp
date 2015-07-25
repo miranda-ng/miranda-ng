@@ -234,10 +234,10 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		wndData = new TSendContactsData(lParam);
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 		// new dlg init 
-		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, MAKEINTRESOURCEA(IDI_ADDCONTACT), LPGEN("Add Contact Permanently to List"));
-		wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, MAKEINTRESOURCEA(IDI_USERDETAILS), LPGEN("View User's Details"));
-		wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, MAKEINTRESOURCEA(IDI_HISTORY), LPGEN("View User's History"));
-		wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, MAKEINTRESOURCEA(IDI_DOWNARROW), LPGEN("User Menu"));
+		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGENT("Add Contact Permanently to List"));
+		wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGENT("View User's Details"));
+		wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGENT("View User's History"));
+		wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGENT("User Menu"));
 
 		SendMessage(hwndDlg, DM_UPDATETITLE, 0, 0);
 		// new dialog init done
@@ -461,8 +461,6 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_DESTROY:
-		for (int i = 0; i < _countof(wndData->hIcons); i++)
-			DestroyIcon(wndData->hIcons[i]);
 		WindowList_Remove(g_hSendWindowList, hwndDlg);
 		delete wndData;
 		break;
