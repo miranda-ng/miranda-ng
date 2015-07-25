@@ -52,7 +52,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons_XP", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Tlen", "..\protocols\Tlen\proto_tlen\Proto_Tlen.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_mRadio", "..\plugins\mRadio\proto_mradio\Proto_mRadio_14.vcxproj", "{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_mRadio", "..\plugins\mRadio\proto_mradio\Proto_mRadio.vcxproj", "{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_NewsAggregator", "..\plugins\NewsAggregator\proto_newsaggregator\Proto_NewsAggregator_14.vcxproj", "{B97882DC-7462-41DB-A390-BDFCE5295265}"
 EndProject
