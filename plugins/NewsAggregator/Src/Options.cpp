@@ -115,13 +115,12 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			TCHAR *tszTitle = NULL;
+			const TCHAR *tszTitle = NULL;
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
-				tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				tszTitle = CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 			SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-			mir_free(tszTitle);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 		}
@@ -283,9 +282,8 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 			}
@@ -439,9 +437,8 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 			}
