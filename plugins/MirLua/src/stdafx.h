@@ -83,8 +83,7 @@ LUAMOD_API int (luaopen_m_hotkeys)(lua_State *L);
 #define MLUA_MESSAGE	"m_message"
 LUAMOD_API int (luaopen_m_message)(lua_State *L);
 
-#define MLUA_MSGBUTTONSBAR	"m_msg_buttonsbar"
-LUAMOD_API int (luaopen_m_msg_buttonsbar)(lua_State *L);
+#include "m_msg_buttonsbar.h"
 
 #define MLUA_POPUP	"m_popup"
 LUAMOD_API int (luaopen_m_popup)(lua_State *L);
