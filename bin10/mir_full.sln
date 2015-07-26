@@ -358,7 +358,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\B
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\Non-IM Contact\nimcontact_10.vcxproj", "{A556E0B5-73A1-4676-BA1F-133820DE7D5A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\Non-IM Contact\nimcontact.vcxproj", "{A556E0B5-73A1-4676-BA1F-133820DE7D5A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify_10.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject

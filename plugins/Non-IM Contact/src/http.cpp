@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
    from the web using netlib
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 char *szInfo;
 char *szData;

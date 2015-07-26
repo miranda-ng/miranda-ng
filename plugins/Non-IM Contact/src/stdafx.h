@@ -4,8 +4,6 @@
 #ifndef COMMONHEADERS
 #define COMMONHEADERS
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <commctrl.h>
 #include <winsock.h>

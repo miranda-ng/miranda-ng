@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 
 INT_PTR exportContacts(WPARAM wParam, LPARAM lParam)
 {
