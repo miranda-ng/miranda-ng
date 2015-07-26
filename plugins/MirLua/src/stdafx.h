@@ -91,8 +91,7 @@ LUAMOD_API int (luaopen_m_popup)(lua_State *L);
 #define MLUA_PROTOCOLS	"m_protocols"
 LUAMOD_API int (luaopen_m_protocols)(lua_State *L);
 
-#define MLUA_TOPTOOLBAR	"m_toptoolbar"
-LUAMOD_API int (luaopen_m_toptoolbar)(lua_State *L);
+#include "m_toptoolbar.h"
 
 #define MLUA_VARIABLES	"m_variables"
 LUAMOD_API int (luaopen_m_variables)(lua_State *L);
