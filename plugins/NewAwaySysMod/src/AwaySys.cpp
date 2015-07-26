@@ -29,7 +29,7 @@
   was no point in rewriting it all.
 */
 
-#include "Common.h"
+#include "stdafx.h"
 #include "m_genmenu.h"
 #include "m_idle.h"
 #include "m_statusplugins.h"

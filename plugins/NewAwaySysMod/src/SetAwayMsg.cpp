@@ -20,7 +20,7 @@
 */
 
 
-#include "Common.h"
+#include "stdafx.h"
 #include "m_button.h"
 #include "m_icolib.h"
 #include "ContactList.h"

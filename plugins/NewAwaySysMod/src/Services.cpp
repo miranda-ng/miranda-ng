@@ -18,7 +18,7 @@
 */
 
 
-#include "Common.h"
+#include "stdafx.h"
 #include "Properties.h"
 #include "m_NewAwaySys.h"
 

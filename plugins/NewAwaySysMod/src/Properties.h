@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "stdafx.h"
 #include "MsgTree.h"
 #include "ContactList.h"
 #include "statusmodes.h"
