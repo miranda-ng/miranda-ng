@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 static void SetListGroupIcons(HWND hwndList,HANDLE hFirstItem,HANDLE hParentItem,int *groupChildCount)
 {
