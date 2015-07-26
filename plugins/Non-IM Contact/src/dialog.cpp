@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define NIM_HELP_TEXT TranslateT("String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n\
 file(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\n\

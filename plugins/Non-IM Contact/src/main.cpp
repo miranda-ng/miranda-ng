@@ -2,7 +2,7 @@
 //	Includes
 //=====================================================
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #include "Version.h"
 

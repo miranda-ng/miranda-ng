@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static UINT_PTR timerId = 0;
 
