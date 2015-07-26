@@ -276,7 +276,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashDumper", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbEditorPP", "..\plugins\DbeditorPP\dbeditorpp.vcxproj", "{9C6040B8-1173-40FA-A3DB-DE044CCD8250}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\OpenFolder\openfolder.vcxproj", "{8D233B9A-2744-4B62-94FC-7872FDDA4683}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\OpenFolder\openFolder.vcxproj", "{8D233B9A-2744-4B62-94FC-7872FDDA4683}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyDetails\mydetails.vcxproj", "{A4855451-6447-437C-B024-B36C3C7901EA}"
 EndProject
