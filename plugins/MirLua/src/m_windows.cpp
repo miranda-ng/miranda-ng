@@ -118,7 +118,7 @@ static int lua_FindIterator(lua_State *L)
 		lua_pushlightuserdata(L, hFind);
 		lua_replace(L, lua_upvalueindex(1));
 
-		return lua_FindFileIterator(L);
+		return lua_FindIterator(L);
 	}
 
 	lua_newtable(L);
