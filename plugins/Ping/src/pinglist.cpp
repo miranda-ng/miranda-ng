@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 PINGLIST list_items;
 mir_cs list_cs;
@@ -183,7 +183,7 @@ void read_ping_addresses()
 }
 
 
-INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam)
+INT_PTR LoadPingList(WPARAM, LPARAM)
 {
 	mir_cslock lck(list_cs);
 	read_ping_addresses();
@@ -193,7 +193,7 @@ INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam)
 
 // wParam is zero
 // lParam is zero
-INT_PTR SavePingList(WPARAM wParam, LPARAM lParam)
+INT_PTR SavePingList(WPARAM, LPARAM)
 {
 	mir_cslock lck(list_cs);
 	write_ping_addresses();
@@ -203,7 +203,7 @@ INT_PTR SavePingList(WPARAM wParam, LPARAM lParam)
 
 // wParam is address of a PINGLIST structure to replace the current one
 // lParam is zero
-INT_PTR SetPingList(WPARAM wParam, LPARAM lParam)
+INT_PTR SetPingList(WPARAM wParam, LPARAM)
 {
 	PINGLIST *pli = (PINGLIST *)wParam;
 
@@ -216,7 +216,7 @@ INT_PTR SetPingList(WPARAM wParam, LPARAM lParam)
 
 // wParam is address of a PINGLIST structure to replace the current one
 // lParam is zero
-INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM lParam)
+INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM)
 {
 	PINGLIST *pli = (PINGLIST *)wParam;
 
@@ -231,7 +231,7 @@ INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ClearPingList(WPARAM wParam, LPARAM lParam)
+INT_PTR ClearPingList(WPARAM, LPARAM)
 {
 	mir_cslock lck(list_cs);
 	list_items.clear();
