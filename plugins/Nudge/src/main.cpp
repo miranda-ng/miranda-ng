@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 int nProtocol = 0;
 static HANDLE hPopupClass;
@@ -194,13 +194,13 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -246,7 +246,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
+static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
 	BBButton bbd = { sizeof(bbd) };
 	bbd.pszModuleName = "Nudge";
@@ -441,7 +441,7 @@ int Preview()
 	return 0;
 }
 
-void Nudge_ShowPopup(CNudgeElement *n, MCONTACT hContact, TCHAR * Message)
+void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, TCHAR * Message)
 {
 	hContact = db_mc_tryMeta(hContact);
 	TCHAR *lpzContactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);

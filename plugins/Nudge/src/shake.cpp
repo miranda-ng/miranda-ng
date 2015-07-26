@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 void CShake::Load(void)
 {
@@ -29,13 +29,13 @@ void __cdecl ShakeClistWindow(void *Param)
 	shake.ShakeClist(hWnd);
 }
 
-INT_PTR ShakeClist(WPARAM wParam, LPARAM lParam)
+INT_PTR ShakeClist(WPARAM, LPARAM)
 {
 	mir_forkthread(ShakeClistWindow, (void*)pcli->hwndContactList);
 	return 0;
 }
 
-INT_PTR ShakeChat(WPARAM wParam, LPARAM lParam)
+INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 {
 	if (((HANDLE)wParam) == NULL) return -1;
 

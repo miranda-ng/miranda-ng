@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 CNudgeElement* ActualNudge = NULL;
 
@@ -170,8 +170,6 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 
 static void PopulateProtocolList(HWND hWnd)
 {
-	bool useOne = IsDlgButtonChecked(hWnd, IDC_USEBYPROTOCOL) == BST_UNCHECKED;
-
 	HWND hLstView = GetDlgItem(hWnd, IDC_PROTOLIST);
 
 	TreeView_DeleteAllItems(hLstView);
@@ -377,7 +375,7 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int NudgeOptInit(WPARAM wParam, LPARAM lParam)
+int NudgeOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;

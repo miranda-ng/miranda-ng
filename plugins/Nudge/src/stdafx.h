@@ -3,8 +3,6 @@
 // are changed infrequently
 //
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
