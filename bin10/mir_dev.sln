@@ -417,7 +417,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQ
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tox", "..\protocols\Tox\Tox.vcxproj", "{BCFAB658-326E-466D-995B-E76636C1DEA4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenSSL\OpenSSL_10.vcxproj", "{6C0C35E7-6522-403C-BB60-9805CDB9E52F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenSSL\OpenSSL.vcxproj", "{6C0C35E7-6522-403C-BB60-9805CDB9E52F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwHotKeys\HwHotKeys.vcxproj", "{639E2B3A-64F2-4152-B5BB-12468E5D60B6}"
 EndProject
