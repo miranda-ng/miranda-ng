@@ -18,7 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int LoadSslModule(void);
 void UnloadSslModule(void);
@@ -40,13 +40,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0xb649702c, 0x13de, 0x408a, { 0xb6, 0xc2, 0xfb, 0x8f, 0xed, 0x2a, 0x2c, 0x90 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
