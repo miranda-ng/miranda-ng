@@ -19,7 +19,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	*/
 
-#include "common.h"
+#include "stdafx.h"
 
 void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const TCHAR *stzText, PLUGINDATA *pdp)
 {
