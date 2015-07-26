@@ -238,7 +238,7 @@ LUAMOD_API int luaopen_m(lua_State *L)
 	lua_setfield(L, -2, "NULL");
 	lua_pushlightuserdata(L, INVALID_HANDLE_VALUE);
 	lua_setfield(L, -2, "INVALID_HANDLE_VALUE");
-	lua_setglobal(L, "m");
+	lua_setglobal(L, MLUA_CORE);
 
 	return 1;
 }
