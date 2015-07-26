@@ -392,7 +392,7 @@ void CContactList::DeleteItem(CContactListEntry *pEntry)
 //************************************************************************
 // Called to delete the specified group
 //************************************************************************
-void CContactList::DeleteGroup(CContactListGroup *pGroup)
+void CContactList::DeleteGroup(CContactListGroup*)
 {
 }
 
@@ -404,7 +404,6 @@ void CContactList::DrawEntry(CLCDGfx *pGfx,CContactListEntry *pEntry,bool bSelec
 	if(pEntry == NULL)
 		return;
 
-	int iOffset = 0;
 	tstring strText = _T("");
 	if(pEntry->iMessages > 0) {
 		strText = _T("[");
@@ -805,7 +804,6 @@ void CContactList::OnContactDeleted(MCONTACT hContact)
 	RemoveContact(hContact);
 
 	// Decrease the membercount of the old group, and check if it needs to be deleted
-	int res = 0;
 	tstring strGroup = GetContactGroupPath(hContact);
 	if(!strGroup.empty())
 	{
@@ -1000,11 +998,8 @@ void CContactList::InitializeGroupObjects()
 {
 	UninitializeGroupObjects();
 
-	int res = 0;
 	CContactListGroup *pGroup = NULL;
 	
-	
-	HANDLE hMetaContact = NULL;
 	char *szProto = NULL;
 	for(MCONTACT hContact =  db_find_first();hContact != NULL;hContact = db_find_next(hContact))
 	{

@@ -158,21 +158,21 @@ void CScreensaverScreen::OnSizeChanged()
 //************************************************************************
 // Called when an LCD-button is pressed
 //************************************************************************
-void CScreensaverScreen::OnLCDButtonDown(int iButton)
+void CScreensaverScreen::OnLCDButtonDown(int)
 {
 }
 
 //************************************************************************
 // Called when an LCD-button event is repeated
 //************************************************************************
-void CScreensaverScreen::OnLCDButtonRepeated(int iButton)
+void CScreensaverScreen::OnLCDButtonRepeated(int)
 {
 }
 
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CScreensaverScreen::OnLCDButtonUp(int iButton)
+void CScreensaverScreen::OnLCDButtonUp(int)
 {
 }
 

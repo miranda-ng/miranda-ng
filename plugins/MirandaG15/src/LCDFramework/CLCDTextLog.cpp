@@ -301,8 +301,6 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 	int i = 0;
 	tstring strLine = _T("");
 	tstring strWord = _T("");
-	SIZE sizeWord = {0, 0};
-	SIZE sizeChar = {0, 0};
 	SIZE sizeLine =  {0, 0};
 
 	int *piExtents = new int[strString.length()];

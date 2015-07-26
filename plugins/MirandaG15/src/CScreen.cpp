@@ -158,7 +158,7 @@ void CScreen::UpdateButtons()
 //************************************************************************
 // Called when an event is received
 //************************************************************************
-void CScreen::OnEventReceived(CEvent *pEvent)
+void CScreen::OnEventReceived(CEvent*)
 {
 }
 

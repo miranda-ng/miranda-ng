@@ -175,7 +175,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					int iSize = GetSystemMetrics(SM_CXSMICON);
 					int x = rc.left - iSize - 5;
 					for (int i = 0; i < _countof(SettingsList); i++) {
-						if (lpNMCD->nmcd.lItemlParam == dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
+						if (lpNMCD->nmcd.lItemlParam == (LPARAM)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
 							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(NULL, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
 							x -= iSize + 1;
 						}
@@ -256,7 +256,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 	return CallWindowProc(dat->OrigParentProc, hWnd, Msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CMsgTree *dat = CWndUserData(GetParent(hWnd)).GetMsgTree();
 	switch (Msg) {
@@ -390,15 +390,14 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_BITMAP | MIIM_DATA | MIIM_STATE | MIIM_CHECKMARKS;
 					mii.hbmpItem = HBMMENU_CALLBACK;
-					int i;
-					for (i = 0; i < _countof(MenuItems); i++) { // set icons
+					for (int i = 0; i < _countof(MenuItems); i++) { // set icons
 						mii.dwItemData = MenuItems[i].IconID;
 						SetMenuItemInfo(hPopupMenu, MenuItems[i].ItemID, false, &mii);
 					}
 					mii.fMask = MIIM_STATE;
 					mii.fState = MFS_CHECKED;
-					for (i = 0; i < _countof(SettingsList); i++) // set checkmarks
-						if (TreeCtrl->Value[Order].ID == dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
+					for (int i = 0; i < _countof(SettingsList); i++) // set checkmarks
+						if (TreeCtrl->Value[Order].ID == (int)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
 							SetMenuItemInfo(hPopupMenu, SettingsList[i].MenuItemID, false, &mii);
 
 					int MenuResult = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, ht.pt.x, ht.pt.y, 0, hWnd, NULL);
@@ -515,7 +514,7 @@ int CMsgTree::GetDefMsg(int iMode)
 {
 	for (int i = 0; i < _countof(SettingsList); i++)
 		if (SettingsList[i].Status == iMode)
-			return MsgTreePage.GetValue(SettingsList[i].DBSetting);
+			return (int)MsgTreePage.GetValue(SettingsList[i].DBSetting);
 
 	return 0;
 }
@@ -524,10 +523,10 @@ void CMsgTree::SetDefMsg(int iMode, int ID)
 {
 	for (int i = 0; i < _countof(SettingsList); i++) {
 		if (SettingsList[i].Status == iMode) {
-			if (MsgTreePage.GetValue(SettingsList[i].DBSetting) != ID) {
+			if ((int)MsgTreePage.GetValue(SettingsList[i].DBSetting) != ID) {
 				RECT rc;
 				COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
-				int OrderOld = TreeCtrl->IDToOrder(MsgTreePage.GetValue(SettingsList[i].DBSetting));
+				int OrderOld = TreeCtrl->IDToOrder((int)MsgTreePage.GetValue(SettingsList[i].DBSetting));
 				if (OrderOld >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->Value[OrderOld].hItem, &rc, false))
 					InvalidateRect(hTreeView, &rc, true); // refresh icons of previous default tree item
 
@@ -652,10 +651,10 @@ CTreeItem* CMsgTree::AddMessage()
 	return TreeItem;
 }
 
-CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem* Item) // Item is 'int ID' if MTGN_BYID flag is set; returns CBaseTreeItem* or NULL
+CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem *Item) // Item is 'int ID' if MTGN_BYID flag is set; returns CBaseTreeItem* or NULL
 {
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
-	CBaseTreeItem* TreeItem = Item;
+	CBaseTreeItem *TreeItem = Item;
 	if (Flags & MTGN_BYID) {
 		int Order = TreeCtrl->IDToOrder((int)Item);
 		_ASSERT(Order != -1);
@@ -671,6 +670,7 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem* Item) // Item is 
 		case MTGN_PREV: TVFlag = TVGN_PREVIOUS; break;
 		default: _ASSERT(0);
 	}
+	
 	int Order = TreeCtrl->hItemToOrder(TreeView_GetNextItem(hTreeView, TreeItem ? TreeItem->hItem : NULL, TVFlag));
 	if (Order == -1)
 		return NULL;

@@ -147,7 +147,7 @@ COptPage& COptPage::operator = (const COptPage& Page)
 }
 
 
-int COptItem::GetIntDBVal(CString &sModule, int bSigned, CString *sDBSettingPrefix)
+int COptItem::GetIntDBVal(CString &sModule, int bSigned, CString*)
 { // default procedure for reading value from DB; used only for integral types
 	if (sDBSetting != NULL)
 	{
@@ -161,7 +161,7 @@ int COptItem::GetIntDBVal(CString &sModule, int bSigned, CString *sDBSettingPref
 	return GetDefValue();
 }
 
-void COptItem::SetIntDBVal(CString &sModule, int Value, CString *sDBSettingPrefix)
+void COptItem::SetIntDBVal(CString &sModule, int Value, CString*)
 { // default procedure for writing value to the DB; used only for integral types
 	if (sDBSetting != NULL && !ReadOnly)
 	{

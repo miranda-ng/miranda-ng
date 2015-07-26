@@ -19,7 +19,7 @@ CLCDConnection::~CLCDConnection()
 //************************************************************************
 // Initializes the connection to the LCD
 //************************************************************************
-bool CLCDConnection::Initialize(tstring strAppletName,bool bAutostart, bool bConfigDialog)
+bool CLCDConnection::Initialize(tstring, bool, bool)
 {
 	return false;
 }
@@ -51,7 +51,7 @@ int CLCDConnection::GetConnectionState()
 //************************************************************************
 // Returns the state of the specified Button
 //************************************************************************
-bool CLCDConnection::GetButtonState(int iButton)
+bool CLCDConnection::GetButtonState(int)
 {
 	return false;
 }
@@ -59,7 +59,7 @@ bool CLCDConnection::GetButtonState(int iButton)
 //************************************************************************
 // returns the id of the specified button
 //************************************************************************
-int CLCDConnection::GetButtonId(int iButton) {
+int CLCDConnection::GetButtonId(int) {
 	return 0;
 }
 
@@ -82,14 +82,14 @@ bool CLCDConnection::Draw()
 //************************************************************************
 // Temporarily brings the applet to foreground
 //************************************************************************
-void CLCDConnection::SetAlert(bool bAlert)
+void CLCDConnection::SetAlert(bool)
 {
 }
 
 //************************************************************************
 // Activates the applet on the LCD
 //************************************************************************
-void CLCDConnection::SetAsForeground(bool bSetAsForeground)
+void CLCDConnection::SetAsForeground(bool)
 {
 }
 
@@ -139,7 +139,7 @@ PBYTE CLCDConnection::GetPixelBuffer()
 //************************************************************************
 // Get the pointer to the pixel buffer
 //************************************************************************
-CLCDDevice* CLCDConnection::GetAttachedDevice(int iIndex)
+CLCDDevice* CLCDConnection::GetAttachedDevice(int)
 {
 	return NULL;
 }
@@ -147,27 +147,31 @@ CLCDDevice* CLCDConnection::GetAttachedDevice(int iIndex)
 //************************************************************************
 // Connects to the specified LCD
 //************************************************************************
-bool CLCDConnection::Connect(int iIndex) {
+bool CLCDConnection::Connect(int )
+{
 	return false;
 }
 
 //************************************************************************
 // Connects to the specified LCD
 //************************************************************************
-bool CLCDConnection::Disconnect() {
+bool CLCDConnection::Disconnect()
+{
 	return false;
 }
 
 //************************************************************************
 // Toggles the automatic reconnection
 //************************************************************************
-void CLCDConnection::SetReconnect(bool bSet) {
+void CLCDConnection::SetReconnect(bool bSet)
+{
 	m_bReconnect = bSet;
 }
 
 //************************************************************************
 // returns a pointer to the current device
 //************************************************************************
-CLCDDevice* CLCDConnection::GetConnectedDevice() {
+CLCDDevice* CLCDConnection::GetConnectedDevice()
+{
 	return NULL;
 }

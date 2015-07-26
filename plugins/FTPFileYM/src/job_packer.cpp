@@ -228,7 +228,7 @@ Cleanup:
 	return result;
 }
 
-uLong PackerJob::getFileTime(TCHAR *file, tm_zip *tmzip, uLong *dt)
+uLong PackerJob::getFileTime(TCHAR *file, tm_zip*, uLong *dt)
 {
 	FILETIME ftLocal;
 	HANDLE hFind;

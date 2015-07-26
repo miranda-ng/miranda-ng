@@ -53,7 +53,7 @@ bool CLCDTextObject::Shutdown()
 //************************************************************************
 // draws the textobject
 //************************************************************************
-bool CLCDTextObject::Draw(CLCDGfx *pGfx)
+bool CLCDTextObject::Draw(CLCDGfx*)
 {
 	return true;
 }

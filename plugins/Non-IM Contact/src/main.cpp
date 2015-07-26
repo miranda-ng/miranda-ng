@@ -24,7 +24,7 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x2e0d2ae3, 0xe123, 0x4607, {0x85, 0x39, 0xd4, 0x44, 0x8d, 0x67, 0x5d, 0xdb} }
 };
 
-INT_PTR doubleClick(WPARAM wParam, LPARAM lParam)
+INT_PTR doubleClick(WPARAM wParam, LPARAM)
 {
 	char program[MAX_PATH], params[MAX_PATH];
 	int shellEXEerror = 0;
@@ -77,7 +77,7 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 // Description : Sets plugin info
 //=====================================================
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -89,13 +89,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 // Description :
 //=====================================================
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	hInst = hinst;
 	return TRUE;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	NetlibInit();
 	return 0;

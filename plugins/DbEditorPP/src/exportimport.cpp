@@ -64,9 +64,7 @@ void exportModule(MCONTACT hContact, const char *module, FILE *file)
 	setting = settinglist.first;
 	while (setting) {
 		DBVARIANT dbv;
-		
 		if (!db_get_s(hContact, module, setting->name, &dbv, 0)) {
-
 			switch (dbv.type) {
 			case DBVT_BYTE:
 				fprintf(file, "\n%s=b%s", setting->name, _ultoa(dbv.bVal, tmp, 10));
@@ -78,15 +76,11 @@ void exportModule(MCONTACT hContact, const char *module, FILE *file)
 				fprintf(file, "\n%s=d%s", setting->name, _ultoa(dbv.dVal, tmp, 10));
 				break;
 			case DBVT_BLOB:
-			{
-				ptrA data(StringFromBlob(dbv.pbVal, dbv.cpbVal));
-				fprintf(file, "\n%s=n%s", setting->name, data);
+				fprintf(file, "\n%s=n%s", setting->name, ptrA(StringFromBlob(dbv.pbVal, dbv.cpbVal)));
 				break;
-			}
 			case DBVT_WCHAR:
 			case DBVT_ASCIIZ:
 			case DBVT_UTF8:
-			{   
 				char *str = (dbv.type == DBVT_WCHAR) ? mir_utf8encodeW(dbv.pwszVal) : dbv.pszVal;
 
 				if (strchr(str, '\r')) {
@@ -95,15 +89,15 @@ void exportModule(MCONTACT hContact, const char *module, FILE *file)
 					end.Replace("\r", "\\r");
 					end.Replace("\n", "\\n");
 					fprintf(file, "\n%s=g%s", setting->name, end.c_str());
-				} else {
+				}
+				else {
 					fprintf(file, "\n%s=%c", setting->name, (dbv.type == DBVT_ASCIIZ) ? 's' : 'u');
 					fputs(str, file);
 				}
-				if (str != dbv.pszVal) 
+				if (str != dbv.pszVal)
 					mir_free(str);
 				break;
 			}
-			} // switch
 			db_free(&dbv);
 		}
 		setting = (ModSetLinkLinkItem *)setting->next;

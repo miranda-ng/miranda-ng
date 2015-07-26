@@ -32,7 +32,7 @@ struct READAWAYMSGDATA
 
 MWindowList g_hReadWndList = NULL;
 
-static int ReadAwayMsgDlgResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int ReadAwayMsgDlgResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_READAWAYMSG_MSG:

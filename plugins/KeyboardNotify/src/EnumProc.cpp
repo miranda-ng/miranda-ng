@@ -27,7 +27,6 @@ extern PROCESS_LIST ProcessList;
 BOOL areThereProcessesRunning(void)
 {
 	HANDLE         hSnapShot = NULL;
-	LPDWORD        lpdwPIDs  = NULL;
 	PROCESSENTRY32 procentry;
 	BOOL           bFlag;
 

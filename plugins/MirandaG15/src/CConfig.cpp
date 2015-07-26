@@ -246,7 +246,7 @@ void CConfig::OnConnectionChanged() {
 	FillDeviceBox(CConfig::hDeviceBox);
 }
 
-int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
+int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position    = 847000000;

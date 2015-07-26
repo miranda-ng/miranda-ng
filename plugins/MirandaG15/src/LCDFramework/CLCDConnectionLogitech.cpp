@@ -2,14 +2,14 @@
 #include "CLCDConnectionLogitech.h"
 #include "CLCDOutputManager.h"
 
-DWORD WINAPI softButtonCallback(IN int device,
+DWORD WINAPI softButtonCallback(IN int,
 	IN DWORD dwButtons,
 	IN const PVOID pContext) {
 	((CLCDConnectionLogitech*)pContext)->OnSoftButtonCB(dwButtons);
 	return 0;
 }
 
-DWORD WINAPI notificationCallback(IN int connection,
+DWORD WINAPI notificationCallback(IN int,
 	IN const PVOID pContext,
 	IN DWORD notificationCode,
 	IN DWORD notifyParm1,
@@ -359,7 +359,7 @@ void CLCDConnectionLogitech::OnSoftButtonCB(DWORD state) {
 	m_dwButtonState = state;
 }
 
-void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD notifyParm2, DWORD notifyParm3, DWORD notifyParm4) {
+void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD, DWORD, DWORD) {
 	CLgLCDDevice *device;
 
 	switch (notificationCode) {
@@ -559,12 +559,9 @@ void CLCDConnectionLogitech::SetAlert(bool bAlert)
 void CLCDConnectionLogitech::SetAsForeground(bool bSetAsForeground)
 {
 	// TODO: Activate when 1.02 is out
-	DWORD dwSet = bSetAsForeground ? LGLCD_LCD_FOREGROUND_APP_YES : LGLCD_LCD_FOREGROUND_APP_NO;
 	m_bSetAsForeground = bSetAsForeground;
 	if (LGLCD_INVALID_DEVICE != m_hDevice)
-	{
 		lgLcdSetAsLCDForegroundApp(m_hDevice, bSetAsForeground);
-	}
 }
 
 //************************************************************************

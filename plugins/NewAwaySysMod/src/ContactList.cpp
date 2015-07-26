@@ -51,7 +51,6 @@ void LoadCListModule()
 	HookEvent(ME_SKIN_ICONSCHANGED, CLIconsChanged);
 }
 
-
 static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CCList *dat = CWndUserData(hWnd).GetCList();
@@ -151,8 +150,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 	return CallWindowProc(dat->OrigParentProc, hWnd, Msg, wParam, lParam);
 }
 
-
-static LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	TVITEM tvi;
 	CCList *dat = CWndUserData(GetParent(hWnd)).GetCList();
@@ -464,7 +462,7 @@ void CCList::SetInfoIcon(HTREEITEM hItem, HICON hIcon)
 	TreeView_SetItem(hTreeView, &tvi);
 }
 
-static int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	CCList *dat = (CCList*)lParamSort;
 	if (IsHContactInfo(dat->Items[lParam1].hContact)) // Info items precede all other items
@@ -689,13 +687,13 @@ CCLItemData& CCList::GetItemData(HTREEITEM hItem)
 	return Items[tvi.lParam];
 }
 
-HTREEITEM CCList::TreeView_GetLastChild(HWND hTreeView, HTREEITEM hItem)
+HTREEITEM CCList::TreeView_GetLastChild(HWND hTree, HTREEITEM hItem)
 {
-	HTREEITEM hPrevItem = TreeView_GetChild(hTreeView, hItem);
+	HTREEITEM hPrevItem = TreeView_GetChild(hTree, hItem);
 	hItem = hPrevItem;
 	while (hItem) { // find last sibling
 		hPrevItem = hItem;
-		hItem = TreeView_GetNextSibling(hTreeView, hPrevItem);
+		hItem = TreeView_GetNextSibling(hTree, hPrevItem);
 	}
 	return hPrevItem;
 }

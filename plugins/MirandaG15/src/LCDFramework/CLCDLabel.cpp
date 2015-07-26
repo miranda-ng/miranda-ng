@@ -137,9 +137,7 @@ void CLCDLabel::UpdateCutOffIndex()
 		return;
 
 	int iWidth = GetWidth();
-	SIZE sizeChar = {0, 0};
 	SIZE sizeLine =  {0, 0};
-	SIZE sizeWord = {0,0};
 	SIZE sizeCutOff = {0, 0};
 
 	int iAvailableLines = GetHeight()/m_iFontHeight;

@@ -267,7 +267,7 @@ BOOL checkUnopenEvents()
 static void __cdecl FlashThreadFunction(void *)
 {
 	BOOL bEvent = FALSE;
-	DWORD dwEventStarted, dwFlashStarted;
+	DWORD dwEventStarted, dwFlashStarted = 0;
 	BYTE data, unchangedLeds;
 
 	while (TRUE) {
@@ -418,7 +418,7 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 // ** Checks for pending events. If it finds any, it pings the FlashThread to keep the LEDs flashing.
 // **
 
-static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK ReminderTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	int nIndex;
 	CLISTEVENT *pCLEvent;
@@ -471,7 +471,7 @@ static INT_PTR StartBlinkService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR EventsWereOpenedService(WPARAM wParam, LPARAM lParam)
+static INT_PTR EventsWereOpenedService(WPARAM wParam, LPARAM)
 {
 	if ((unsigned int)wParam > nExternCount)
 		nExternCount = 0;
@@ -491,7 +491,7 @@ static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 }
 
 
-INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
+INT_PTR NormalizeSequenceService(WPARAM, LPARAM lParam)
 {
 	TCHAR strAux[MAX_PATH + 1], *strIn = (TCHAR*)lParam;
 
@@ -741,15 +741,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

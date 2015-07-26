@@ -43,13 +43,13 @@ PLUGININFOEX pluginInfo =
 	{0xb25e8c7b, 0x292b, 0x495a, {0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -105,7 +105,7 @@ void RemoveAllEvents(MCONTACT hContact)
 	}
 }
 
-void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	RemoveReadEvents();
 }
@@ -132,7 +132,7 @@ int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 	return 0;
 }
 
-INT_PTR ServiceClear(WPARAM hContact, LPARAM lParam)
+INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 {
 	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		RemoveAllEvents(hContact);
@@ -140,7 +140,7 @@ INT_PTR ServiceClear(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	char *proto = GetContactProto(hContact);
@@ -159,7 +159,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceToggle(WPARAM hContact, LPARAM lParam)
+INT_PTR ServiceToggle(WPARAM hContact, LPARAM)
 {
 	int remove = db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) != 0;
 	remove = !remove;
@@ -176,7 +176,7 @@ INT_PTR ServiceToggle(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int WindowEvent(WPARAM wParam, LPARAM lParam)
+int WindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwd = (MessageWindowEventData *)lParam;
 	MCONTACT hContact = mwd->hContact;
@@ -242,7 +242,7 @@ void SrmmMenu_Load()
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	// create contact menu item
 	CMenuItem mi;

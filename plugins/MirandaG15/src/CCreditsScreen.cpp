@@ -225,21 +225,21 @@ void CCreditsScreen::OnSizeChanged()
 //************************************************************************
 // Called when an LCD-button is pressed
 //************************************************************************
-void CCreditsScreen::OnLCDButtonDown(int iButton)
+void CCreditsScreen::OnLCDButtonDown(int)
 {
 }
 
 //************************************************************************
 // Called when an LCD-button event is repeated
 //************************************************************************
-void CCreditsScreen::OnLCDButtonRepeated(int iButton)
+void CCreditsScreen::OnLCDButtonRepeated(int)
 {
 }
 
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CCreditsScreen::OnLCDButtonUp(int iButton)
+void CCreditsScreen::OnLCDButtonUp(int)
 {
 }
 

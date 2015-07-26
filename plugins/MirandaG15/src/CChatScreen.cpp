@@ -775,7 +775,7 @@ void CChatScreen::OnLCDButtonRepeated(int iButton)
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CChatScreen::OnLCDButtonUp(int iButton)
+void CChatScreen::OnLCDButtonUp(int)
 {
 	
 }

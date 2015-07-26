@@ -55,13 +55,13 @@ static PLUGININFOEX pluginInfoEx =
 
 //------------ BASIC STAFF ------------//
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {	
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -199,7 +199,7 @@ void InitTabsrmmButton()
 
 //------------ MENU & BUTTON HANDLERS ------------//
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	bool bIsContact = false;
 
@@ -333,7 +333,7 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode)
 
 //------------ MIRANDA SERVICES ------------//
 
-INT_PTR UploadService(WPARAM wParam, LPARAM lParam) 
+INT_PTR UploadService(WPARAM, LPARAM lParam) 
 {
 	FTPUPLOAD* ftpu = (FTPUPLOAD *)lParam;
 	if (ftpu == NULL || ftpu->cbSize != sizeof(FTPUPLOAD))
@@ -346,7 +346,7 @@ INT_PTR UploadService(WPARAM wParam, LPARAM lParam)
 	return 0; 
 }
 
-INT_PTR ShowManagerService(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowManagerService(WPARAM, LPARAM) 
 {
 	manDlg = Manager::getInstance();
 	manDlg->init();
@@ -360,7 +360,7 @@ INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 	return UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);
 }
 
-INT_PTR MainMenuService(WPARAM wParam, LPARAM lParam) 
+INT_PTR MainMenuService(WPARAM wParam, LPARAM) 
 {
 	int ftpNum = wParam & (1|2|4);
 	int mode = wParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
@@ -382,7 +382,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int Shutdown(WPARAM wParam, LPARAM lParam) 
+int Shutdown(WPARAM, LPARAM) 
 {
 	deleteTimer.deinit();
 

@@ -30,9 +30,9 @@ static LIST<CAniSmileyObject> regAniSmileys(10, CompareAniSmiley);
 static UINT_PTR timerId;
 static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD);
 
-static void CALLBACK sttMainThreadCallback( PVOID )
+static void CALLBACK sttMainThreadCallback(PVOID)
 {
-	if (timerId == 0xffffffff) 
+	if (timerId == 0xffffffff)
 		timerId = SetTimer(NULL, 0, 100, (TIMERPROC)timerProc);
 }
 
@@ -40,7 +40,7 @@ static void CALLBACK sttMainThreadCallback( PVOID )
 class CAniSmileyObject : public ISmileyBase
 {
 private:
-	typedef enum { animStdOle, animDrctRichEd, animHpp } AnimType; 
+	typedef enum { animStdOle, animDrctRichEd, animHpp } AnimType;
 
 	POINTL      m_rectOrig;
 	SIZEL       m_rectExt;
@@ -53,7 +53,7 @@ private:
 
 	long        m_counter;
 	unsigned    m_richFlags;
-	long        m_lastObjNum; 
+	long        m_lastObjNum;
 
 	AnimType    m_animtype;
 	bool        m_allowAni;
@@ -63,7 +63,7 @@ public:
 	{
 		m_allowAni = false;
 		m_animtype = ishpp ? animHpp : animStdOle;
-		m_bkg      = clr;
+		m_bkg = clr;
 
 		m_rectOrig.x = 0;
 		m_rectOrig.y = 0;
@@ -108,7 +108,7 @@ public:
 	{
 		regAniSmileys.remove(this);
 
-		if (timerId && (timerId+1) && regAniSmileys.getCount() == 0) {
+		if (timerId && (timerId + 1) && regAniSmileys.getCount() == 0) {
 			KillTimer(NULL, timerId);
 			timerId = 0;
 		}
@@ -124,11 +124,11 @@ public:
 		if (SendMessage(m_hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 			return;
 
-		REOBJECT reObj = {0};
-		reObj.cbStruct  = sizeof(REOBJECT);
+		REOBJECT reObj = { 0 };
+		reObj.cbStruct = sizeof(REOBJECT);
 
 		HRESULT hr = RichEditOle->GetObject(m_lastObjNum, &reObj, REO_GETOBJ_NO_INTERFACES);
-		if (hr == S_OK && reObj.dwUser == (DWORD)(ISmileyBase*)this && reObj.clsid == CLSID_NULL) 
+		if (hr == S_OK && reObj.dwUser == (DWORD)this && reObj.clsid == CLSID_NULL)
 			m_richFlags = reObj.dwFlags;
 		else {
 			long objectCount = RichEditOle->GetObjectCount();
@@ -136,7 +136,7 @@ public:
 				HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
 				if (FAILED(hr)) continue;
 
-				if (reObj.dwUser == (DWORD)(ISmileyBase*)this && reObj.clsid == CLSID_NULL) {
+				if (reObj.dwUser == (DWORD)this && reObj.clsid == CLSID_NULL) {
 					m_lastObjNum = i;
 					m_richFlags = reObj.dwFlags;
 					break;
@@ -163,20 +163,20 @@ public:
 		HANDLE hOld = SelectObject(hdcMem, hBmp);
 
 		RECT rc;
-		rc.left   = m_rectExt.cx - m_sizeExtent.cx;
-		rc.top    = m_rectExt.cy - m_sizeExtent.cy;
-		rc.right  = rc.left + m_sizeExtent.cx;
+		rc.left = m_rectExt.cx - m_sizeExtent.cx;
+		rc.top = m_rectExt.cy - m_sizeExtent.cy;
+		rc.right = rc.left + m_sizeExtent.cx;
 		rc.bottom = rc.top + m_sizeExtent.cy;
 
-		HBRUSH hbr = CreateSolidBrush(m_bkg); 
+		HBRUSH hbr = CreateSolidBrush(m_bkg);
 		RECT frc = { 0, 0, m_rectExt.cx, m_rectExt.cy };
 		FillRect(hdcMem, &frc, hbr);
 		DeleteObject(hbr);
 
-		m_img->DrawInternal(hdcMem, rc.left, rc.top, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1); 
+		m_img->DrawInternal(hdcMem, rc.left, rc.top, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1);
 
 		if (m_richFlags & REO_SELECTED) {
-			HBRUSH hbr = CreateSolidBrush(m_bkg ^ 0xFFFFFF); 
+			HBRUSH hbr = CreateSolidBrush(m_bkg ^ 0xFFFFFF);
 			FrameRect(hdcMem, &rc, hbr);
 			DeleteObject(hbr);
 		}
@@ -186,13 +186,13 @@ public:
 
 		BitBlt(hdc, m_rectOrig.x, m_rectOrig.y, m_rectExt.cx, m_rectExt.cy, hdcMem, 0, 0, SRCCOPY);
 
-		SelectObject(hdcMem, hOld);    
-		DeleteObject(hBmp);	
+		SelectObject(hdcMem, hOld);
+		DeleteObject(hBmp);
 		DeleteDC(hdcMem);
 	}
 
 	void DrawOnRichEdit(void)
-	{ 
+	{
 		HDC hdc = GetDC(m_hwnd);
 		if (RectVisible(hdc, &m_orect)) {
 			RECT crct;
@@ -201,13 +201,13 @@ public:
 			HRGN hrgnOld = CreateRectRgnIndirect(&crct);
 			int res = GetClipRgn(hdc, hrgnOld);
 
-			HRGN hrgn = CreateRectRgnIndirect(&crct); 
-			SelectClipRgn(hdc, hrgn); 
+			HRGN hrgn = CreateRectRgnIndirect(&crct);
+			SelectClipRgn(hdc, hrgn);
 			DeleteObject(hrgn);
 
 			DoDirectDraw(hdc);
 
-			SelectClipRgn(hdc, res < 1 ? NULL : hrgnOld); 
+			SelectClipRgn(hdc, res < 1 ? NULL : hrgnOld);
 			DeleteObject(hrgnOld);
 		}
 		else {
@@ -220,7 +220,7 @@ public:
 
 	void DrawOnHPP(void)
 	{
-		FVCNDATA_NMHDR nmh = {0};
+		FVCNDATA_NMHDR nmh = { 0 };
 		nmh.code = NM_FIREVIEWCHANGE;
 		nmh.hwndFrom = m_hwnd;
 
@@ -241,7 +241,7 @@ public:
 		case FVCA_CUSTOMDRAW:
 			m_rectExt.cy = nmh.rcRect.bottom - nmh.rcRect.top;
 			m_rectExt.cx = nmh.rcRect.right - nmh.rcRect.left;
-			m_rectOrig.x = nmh.rcRect.left; 
+			m_rectOrig.x = nmh.rcRect.left;
 			m_rectOrig.y = nmh.rcRect.top;
 
 			m_bkg = nmh.clrBackground;
@@ -328,9 +328,9 @@ public:
 		return ISmileyBase::Close(dwSaveOption);
 	}
 
-	STDMETHOD(Draw)(DWORD dwAspect, LONG, void*, DVTARGETDEVICE*, HDC, 
+	STDMETHOD(Draw)(DWORD dwAspect, LONG, void*, DVTARGETDEVICE*, HDC,
 		HDC hdc, LPCRECTL pRectBounds, LPCRECTL /* pRectWBounds */,
-		BOOL (__stdcall *)(ULONG_PTR), ULONG_PTR) 
+		BOOL(__stdcall *)(ULONG_PTR), ULONG_PTR)
 	{
 		if (dwAspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
 		if (pRectBounds == NULL) return E_INVALIDARG;
@@ -339,13 +339,13 @@ public:
 
 		if (m_img == NULL) return E_FAIL;
 
-		m_sizeExtent.cx = pRectBounds->right  - pRectBounds->left;
+		m_sizeExtent.cx = pRectBounds->right - pRectBounds->left;
 		m_sizeExtent.cy = pRectBounds->bottom - pRectBounds->top;
 
 		m_rectExt = m_sizeExtent;
 
 		switch (m_animtype) {
-		case animDrctRichEd: 
+		case animDrctRichEd:
 			{
 				m_rectExt.cy = pRectBounds->bottom - m_rectOrig.y;
 				RECT frc = { 0, 0, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1 };
@@ -354,7 +354,7 @@ public:
 				HDC hdcMem = CreateCompatibleDC(hdc);
 				HANDLE hOld = SelectObject(hdcMem, hBmp);
 
-				HBRUSH hbr = CreateSolidBrush(m_bkg); 
+				HBRUSH hbr = CreateSolidBrush(m_bkg);
 				FillRect(hdcMem, &frc, hbr);
 				DeleteObject(hbr);
 
@@ -362,8 +362,8 @@ public:
 
 				BitBlt(hdc, pRectBounds->left, pRectBounds->top, frc.right, frc.bottom, hdcMem, 0, 0, SRCCOPY);
 
-				SelectObject(hdcMem, hOld);    
-				DeleteObject(hBmp);	
+				SelectObject(hdcMem, hOld);
+				DeleteObject(hBmp);
 				DeleteDC(hdcMem);
 			}
 			GetDrawingProp();
@@ -373,19 +373,19 @@ public:
 			m_orect = *(LPRECT)pRectBounds;
 
 		default:
-			m_img->DrawInternal(hdc, pRectBounds->left, pRectBounds->top, 
+			m_img->DrawInternal(hdc, pRectBounds->left, pRectBounds->top,
 				m_sizeExtent.cx - 1, m_sizeExtent.cy - 1);
 			break;
 		}
 
-		m_allowAni  = true;
+		m_allowAni = true;
 		m_visible = true;
 
 		return S_OK;
 	}
 
 	STDMETHOD(SetExtent)(DWORD dwDrawAspect, SIZEL* psizel)
-	{ 
+	{
 		HRESULT hr = ISmileyBase::SetExtent(dwDrawAspect, psizel);
 		if (hr == S_OK) m_rectExt = m_sizeExtent;
 		return hr;
@@ -400,20 +400,19 @@ ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
 	return obj;
 }
 
-static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD) 
+static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (int i=0; i < regAniSmileys.getCount(); i++)
+	for (int i = 0; i < regAniSmileys.getCount(); i++)
 		regAniSmileys[i]->ProcessTimerTick();
 }
 
 void DestroyAniSmileys(void)
 {
-	if (timerId && (timerId+1)) {
+	if (timerId && (timerId + 1)) {
 		KillTimer(NULL, timerId);
 		timerId = 0;
 	}
 
-	for (int i=0; i < regAniSmileys.getCount(); i++)
+	for (int i = 0; i < regAniSmileys.getCount(); i++)
 		delete regAniSmileys[i];
 }
-

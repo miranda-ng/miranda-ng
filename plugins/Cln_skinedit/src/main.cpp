@@ -366,14 +366,6 @@ static void SetChangedStatusItemFlag(WPARAM wParam, HWND hwndDlg)
 	}
 }
 
-static BOOL isValidItem(void)
-{
-	if (StatusItems[LastModifiedItem]->statusID == ID_EXTBKSEPARATOR)
-		return FALSE;
-
-	return TRUE;
-}
-
 // updates the struct with the changed dlg item
 static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 {
@@ -858,12 +850,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
  * unimplemented
 */
 
-static BOOL CALLBACK SkinEdit_ImageItemEditProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	return FALSE;
-}
-
-static INT_PTR SkinEdit_FillByCurrentSel(WPARAM wParam, LPARAM lParam)
+static INT_PTR SkinEdit_FillByCurrentSel(WPARAM wParam, LPARAM)
 {
 	if (wParam)
 		FillOptionDialogByCurrentSel((HWND)wParam);
@@ -876,7 +863,7 @@ static INT_PTR SkinEdit_FillByCurrentSel(WPARAM wParam, LPARAM lParam)
  * expects a SKINDESCRIPTON * in lParam
 */
 
-static INT_PTR SkinEdit_Invoke(WPARAM wParam, LPARAM lParam)
+static INT_PTR SkinEdit_Invoke(WPARAM, LPARAM lParam)
 {
 	SKINDESCRIPTION *psd = (SKINDESCRIPTION *)lParam;
 	TCITEM tci = {0};
@@ -917,19 +904,13 @@ static int LoadModule()
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
-	return 0;
-}
-
-static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	ModulesLoaded(wParam, lParam);
 	return 0;
 }
 
@@ -939,7 +920,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	return(LoadModule());
 }
 
-static int ShutdownProc(WPARAM wParam, LPARAM lParam)
+static int ShutdownProc(WPARAM, LPARAM)
 {
 	if (hSvc_invoke)
 		DestroyServiceFunction(hSvc_invoke);
@@ -953,7 +934,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return ShutdownProc(0, 0);
 }
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	DisableThreadLibraryCalls(g_hInst);

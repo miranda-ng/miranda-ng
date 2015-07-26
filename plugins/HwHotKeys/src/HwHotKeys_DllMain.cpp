@@ -67,7 +67,7 @@ CHAR key_name_buffer[150]; // буфер куда печатается имя кнопки в настройках. ANS
 
 // ============================================================================
 
-BOOL APIENTRY DllMain( HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain( HMODULE hModule, DWORD, LPVOID)
 {
 	hInstance = hModule;
 	return TRUE;

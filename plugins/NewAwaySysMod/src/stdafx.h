@@ -282,7 +282,7 @@ int IsAnICQProto(char *szProto);
 
 // Client.cpp
 void InitUpdateMsgs();
-void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg);
+void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg);
 int GetRecentGroupID(int iMode);
 TCString VariablesEscape(TCString Str);
 

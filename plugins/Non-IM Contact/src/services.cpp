@@ -18,7 +18,7 @@ int db_get_static(MCONTACT hContact, const char *szModule, const char *szSetting
 // GetCaps
 //=======================================================
 
-INT_PTR GetLCCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR GetLCCaps(WPARAM wParam, LPARAM)
 {
 	if (wParam == PFLAGNUM_1)
 		return 0;
@@ -41,7 +41,7 @@ INT_PTR GetLCName(WPARAM wParam, LPARAM lParam)
 //=======================================================
 // BPLoadIcon
 //=======================================================
-INT_PTR LoadLCIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR LoadLCIcon(WPARAM wParam, LPARAM)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL) {
 		if (wParam & PLIF_ICOLIBHANDLE)
@@ -63,7 +63,7 @@ INT_PTR LoadLCIcon(WPARAM wParam, LPARAM lParam)
 // SetFStatus			
 //=======================================================
 
-int SetLCStatus(WPARAM wParam, LPARAM lParam)
+int SetLCStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = LCStatus;
 	LCStatus = wParam;
@@ -114,7 +114,7 @@ int SetLCStatus(WPARAM wParam, LPARAM lParam)
 // GetStatus
 //=======================================================
 
-INT_PTR GetLCStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR GetLCStatus(WPARAM, LPARAM)
 {
 	if ((LCStatus >= ID_STATUS_ONLINE) && (LCStatus <= ID_STATUS_OUTTOLUNCH))
 		return LCStatus;

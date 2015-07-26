@@ -190,7 +190,7 @@ void SaveSettings(HWND hwndDlg)
 	Srmm_ModifyIcon(NULL, &sid);
 }
 
-INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-int HSOptInitialise(WPARAM wParam, LPARAM lParam)
+int HSOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-INT_PTR exportContacts(WPARAM wParam, LPARAM lParam)
+INT_PTR exportContacts(WPARAM, LPARAM)
 {
 	char fn[MAX_PATH];
 	if (!Openfile(fn, 0))
@@ -101,7 +101,7 @@ int savehtml(char* outFile)
 
 void readFile(HWND hwnd)
 {
-	int lineNumber, fileLength = 0, width = 0;
+	int lineNumber, fileLength = 0;
 	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH], fn[8];
 	int fileNumber = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 	mir_snprintf(fn, "fn%d", fileNumber);
@@ -275,7 +275,6 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDCANCEL:
 			DestroyWindow(hwnd);
 			break;
-			return TRUE;
 		}
 		break;
 

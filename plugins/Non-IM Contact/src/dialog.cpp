@@ -49,7 +49,6 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					SetDlgItemText(hwnd, IDC_TIMER_INT, _T("1"));
 			}
 			break;
-			return TRUE;
 		}
 		break;
 
@@ -95,7 +94,7 @@ braceList[VARS] =
 };
 int braceOrder[MAX_BRACES] = { 0 };
 
-INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -114,7 +113,7 @@ INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -218,7 +217,7 @@ INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam)
+static int CALLBACK PropSheetProc(HWND, UINT uMsg, LPARAM lParam)
 {
 	if (uMsg == PSCB_PRECREATE) {
 		// Remove the DS_CONTEXTHELP style from the
@@ -299,7 +298,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	PropertySheetA(&psh);
 }
 
-INT_PTR addContact(WPARAM wParam, LPARAM lParam)
+INT_PTR addContact(WPARAM, LPARAM)
 {
 	char tmp[256];
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -313,7 +312,7 @@ INT_PTR addContact(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR editContact(WPARAM wParam, LPARAM lParam)
+INT_PTR editContact(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	char tmp[256];

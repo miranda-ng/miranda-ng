@@ -173,7 +173,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	unsigned int iMode = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+	int iMode = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 	int i;
 	for (i = _countof(StatusModeList) - 1; i >= 0; i--)
 		if (iMode == StatusModeList[i].Status)
@@ -217,7 +217,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (IsAnICQProto(szProto))
 		UIN = db_get_dw(hContact, szProto, "UIN", 0);
 
-	int SendCount = AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
+	int SendCount = (int)AutoreplyOptData.GetValue(IDC_REPLYDLG_SENDCOUNT);
 	if ((AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTSENDTOICQ) && UIN) || // an icq contact
 		 (SendCount != -1 && db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) >= SendCount))
 		return 0;

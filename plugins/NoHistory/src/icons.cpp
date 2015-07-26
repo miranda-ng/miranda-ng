@@ -9,7 +9,7 @@ static IconItem iconList[] =
 	{ LPGEN("Clear"),   "clear",  IDI_HCLEAR  },
 };
 
-int ReloadIcons(WPARAM wParam, LPARAM lParam)
+int ReloadIcons(WPARAM, LPARAM)
 {
 	hIconRemove	= IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	hIconKeep	= IcoLib_GetIconByHandle(iconList[1].hIcolib);

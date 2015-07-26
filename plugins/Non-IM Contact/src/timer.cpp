@@ -9,7 +9,7 @@ static UINT_PTR timerId = 0;
 // Description : called when the timer interval occurs
 //=====================================================
 
-void timerFunc(void *di)
+void timerFunc(void*)
 {
 	char text[512], fn[16], szFileName[MAX_PATH], temp[MAX_PATH];
 

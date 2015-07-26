@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -479,7 +479,7 @@ void ExportContact(MCONTACT hContact)
 	}
 }
 
-INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
+INT_PTR ImportContacts(WPARAM, LPARAM)
 {
 	MCONTACT hContact;
 	char name[256] = "", program[256] = "", programparam[256] = "", group[256] = "", line[2001] = "";

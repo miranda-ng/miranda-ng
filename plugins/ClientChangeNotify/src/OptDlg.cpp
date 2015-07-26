@@ -166,7 +166,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
+int OptionsDlgInit(WPARAM wParam, LPARAM)
 {
 	if (bPopupExists) {
 		OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };

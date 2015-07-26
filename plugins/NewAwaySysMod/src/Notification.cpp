@@ -66,7 +66,7 @@ static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 
 void ShowLog(TCString &LogFilePath)
 {
-	int Result = (int)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
+	INT_PTR Result = (INT_PTR)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) {
 		TCHAR szError[64];
 		mir_sntprintf(szError, _countof(szError), TranslateT("Error #%d"), Result);

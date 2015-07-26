@@ -35,13 +35,13 @@ void __cdecl UpdateMsgsThreadProc(void *)
 	Proto_EnumAccounts(&numAccs, &accs);
 
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_Terminated()) {
-		DWORD MinUpdateTimeDifference = g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
+		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
 		for (int i = 0; i < numAccs; i++) {
 			PROTOACCOUNT *p = accs[i];
 			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND && !IsAnICQProto(p->szModuleName)) {
 				int Status = CallProtoService(p->szModuleName, PS_GETSTATUS, 0, 0);
 				if (Status < ID_STATUS_OFFLINE || Status > ID_STATUS_OUTTOLUNCH) {
-					Status = g_ProtoStates[p->szModuleName].Status;
+					Status = g_ProtoStates[p->szModuleName].m_status;
 				}
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[p->szModuleName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference) {
 					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName));
@@ -63,7 +63,7 @@ static void __stdcall DummyAPCFunc(ULONG_PTR)
 
 void InitUpdateMsgs()
 {
-	int UpdateMsgs = g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGS);
+	int UpdateMsgs = (int)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGS);
 	if (g_hUpdateMsgsThread && !UpdateMsgs) {
 		_ASSERT(WaitForSingleObject(g_hUpdateMsgsThread, 0) == WAIT_TIMEOUT);
 		SetEvent(g_hTerminateUpdateMsgsThread);
@@ -79,7 +79,7 @@ void InitUpdateMsgs()
 }
 
 
-void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
+void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 {
 	TCString CurMsg(Msg);
 	if (szProto) {
@@ -109,7 +109,8 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 	{
 		int Status;
 		char *Setting;
-	} StatusSettings[] = {
+	}
+	StatusDbSettings[] = {
 		ID_STATUS_OFFLINE, "Off",
 		ID_STATUS_ONLINE, "On",
 		ID_STATUS_AWAY, "Away",
@@ -123,10 +124,10 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 		ID_STATUS_IDLE, "Idl"
 	};
 
-	for (int i = 0; i < _countof(StatusSettings); i++) {
-		if (iMode == StatusSettings[i].Status) {
-			db_set_ts(NULL, "SRAway", CString(StatusSettings[i].Setting) + "Msg", CurMsg);
-			db_set_ts(NULL, "SRAway", CString(StatusSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
+	for (int i = 0; i < _countof(StatusDbSettings); i++) {
+		if (iMode == StatusDbSettings[i].Status) {
+			db_set_ts(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Msg", CurMsg);
+			db_set_ts(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
 			break;
 		}
 	}

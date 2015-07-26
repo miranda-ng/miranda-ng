@@ -156,7 +156,7 @@ static LRESULT CALLBACK CListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LP
 	return CallWindowProc(g_OrigCListProc, hWnd, Msg, wParam, lParam);
 }
 
-static int SetAwayMsgDlgResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+int SetAwayMsgDlgResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	COptPage *SetAwayMsgPage = (COptPage*)lParam;
 	int bShowMsgTree = SetAwayMsgPage->GetValue(IDS_SAWAYMSG_SHOWMSGTREE), X;
@@ -302,8 +302,7 @@ void SetExtraIcon(CCList *CList, int nColumn, HTREEITEM hItem, int nIcon)
 	CList->SetExtraImage(hItem, nColumn, nIcon);
 }
 
-
-void SetCListGroupIcons(SetAwayMsgData *dat, CCList *CList)
+void SetCListGroupIcons(CCList *CList)
 {
 	_ASSERT(CList);
 	HTREEITEM hItem = CList->GetNextItem(MCLGN_LAST, NULL); // start from last item, so every item is processed before its parents
@@ -484,7 +483,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
 			int Status = 0;
-			Status = g_ProtoStates[dat->szProtocol].Status;
+			Status = g_ProtoStates[dat->szProtocol].m_status;
 			HICON hTitleIcon = Skin_LoadProtoIcon(szProto, Status);
 			HICON hTitleIconBig = Skin_LoadProtoIcon(szProto, Status, true);
 
@@ -565,8 +564,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// init message tree
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT) && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM)) {
-				char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
-				int ID = GetRecentGroupID((szProto || !dat->hInitContact) ? g_ProtoStates[szProto].Status : ID_STATUS_AWAY);
+				char *szInitProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
+				int ID = GetRecentGroupID((szInitProto || !dat->hInitContact) ? g_ProtoStates[szInitProto].m_status : ID_STATUS_AWAY);
 				CBaseTreeItem* pTreeItem = MsgTree->GetNextItem(MTGN_CHILD | MTGN_BYID, (CBaseTreeItem*)g_Messages_RecentRootID);
 				while (pTreeItem) {
 					if (pTreeItem->Flags & TIF_GROUP) {
@@ -661,7 +660,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								hCurItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_ANY | MCLGN_MULTILEVEL, hCurItem);
 							}
 						}
-						SetCListGroupIcons(dat, CList);
+						SetCListGroupIcons(CList);
 						UpdateCheckboxesState(CList);
 					}
 				}
@@ -669,22 +668,22 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			case MCLN_SELCHANGED:
 				{
-					PNMCLIST nm = (PNMCLIST)lParam;
+					PNMCLIST pnm = (PNMCLIST)lParam;
 					TCString BtnTitle(TranslateT("OK"));
 					if (CList)
 						UpdateCheckboxesState(CList);
 
 					bool bOnlyInfo;
-					bool bLeaveOldMessage = nm->OldSelection == nm->NewSelection; // OldSelection == NewSelection when we send MCLN_SELCHANGED from UM_SAM_PROTOSTATUSCHANGED; seems that it's better to leave old message then
-					int nOldContacts = GetSelContactsNum(CList, nm->OldSelection);
-					int nNewContacts = GetSelContactsNum(CList, nm->NewSelection, &bOnlyInfo);
+					bool bLeaveOldMessage = pnm->OldSelection == pnm->NewSelection; // OldSelection == NewSelection when we send MCLN_SELCHANGED from UM_SAM_PROTOSTATUSCHANGED; seems that it's better to leave old message then
+					int nOldContacts = GetSelContactsNum(CList, pnm->OldSelection);
+					int nNewContacts = GetSelContactsNum(CList, pnm->NewSelection, &bOnlyInfo);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_SAWAYMSG_IGNOREREQ), !bOnlyInfo);
 					if (CList) {
 						if (SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_GETMODIFY, 0, 0)) {
 							int i, j;
-							for (i = nm->OldSelection->GetSize() - 1; i >= 0; i--) {
-								for (j = nm->NewSelection->GetSize() - 1; j >= 0; j--)
-									if ((*nm->NewSelection)[j] == (*nm->OldSelection)[i])
+							for (i = pnm->OldSelection->GetSize() - 1; i >= 0; i--) {
+								for (j = pnm->NewSelection->GetSize() - 1; j >= 0; j--)
+									if ((*pnm->NewSelection)[j] == (*pnm->OldSelection)[i])
 										break;
 								if (j < 0)
 									break;
@@ -695,14 +694,14 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							// there's at least one item in the old selection that is not present in the new one
 							if (i >= 0 && nOldContacts) {
 								if ((nOldContacts == 1) || MessageBox(hwndDlg, TranslateT("Do you want to apply the message?"), TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDYES)
-									ApplySelContactsMessage(dat, CList, nm->OldSelection);
+									ApplySelContactsMessage(dat, CList, pnm->OldSelection);
 							}
 							else if (nOldContacts)
 								bLeaveOldMessage = true; // don't change the edit control text yet - we're still writing...
 						}
 					}
 					else if (nOldContacts && !nNewContacts)
-						ApplySelContactsMessage(dat, CList, nm->OldSelection);
+						ApplySelContactsMessage(dat, CList, pnm->OldSelection);
 
 					// determine the right new message and window title for the edit control now
 					TCString Message;
@@ -710,8 +709,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (CList) {
 						bool MessageDetermined = false;
 						bool StatusDetermined = false;
-						for (int i = 0; i < nm->NewSelection->GetSize(); i++) {
-							HTREEITEM hItem = (*nm->NewSelection)[i];
+						for (int i = 0; i < pnm->NewSelection->GetSize(); i++) {
+							HTREEITEM hItem = (*pnm->NewSelection)[i];
 							MCONTACT hContact;
 							char *szProto;
 							int ItemType = CList->GetItemType(hItem);
@@ -725,7 +724,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								szProto = (char*)CList->GetItemParam(hItem);
 
 							if (ItemType == MCLCIT_CONTACT || ItemType == MCLCIT_INFO) {
-								int CurStatus = g_ProtoStates[szProto].Status;
+								int CurStatus = g_ProtoStates[szProto].m_status;
 								if (!MessageDetermined) {
 									TCString CurMessage((ItemType == MCLCIT_CONTACT) ? CContactSettings(0, hContact).GetMsgFormat(GMF_PERSONAL) : CProtoSettings(szProto).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL));
 									if (CurMessage == NULL)
@@ -751,7 +750,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						}
 					}
 					else if (nNewContacts) {
-						Status = g_ProtoStates[dat->szProtocol].Status;
+						Status = g_ProtoStates[dat->szProtocol].m_status;
 						Message = dat->hInitContact ? CContactSettings(0, dat->hInitContact).GetMsgFormat(GMF_PERSONAL) : CProtoSettings(dat->szProtocol).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL);
 					}
 
@@ -767,11 +766,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						MCONTACT hContact = NULL;
 						char *szProto = NULL;
 						if (CList) {
-							for (int i = 0; i < nm->NewSelection->GetSize(); i++) {
-								HTREEITEM hItem = (*nm->NewSelection)[i];
+							for (int i = 0; i < pnm->NewSelection->GetSize(); i++) {
+								HTREEITEM hItem = (*pnm->NewSelection)[i];
 								int ItemType = CList->GetItemType(hItem);
 								if (ItemType == MCLCIT_CONTACT) {
-									hContact = CList->GethContact((*nm->NewSelection)[i]);
+									hContact = CList->GethContact((*pnm->NewSelection)[i]);
 									break;
 								}
 								if (ItemType == MCLCIT_INFO) {
@@ -869,7 +868,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			CList->SetExtraImageList(hil);
 
 			HTREEITEM hSelItem;
-			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(NULL, g_ProtoStates[(char*)NULL].Status));
+			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(NULL, g_ProtoStates[(char*)NULL].m_status));
 			int numAccs;
 			PROTOACCOUNT **accs;
 			Proto_EnumAccounts(&numAccs, &accs);
@@ -878,7 +877,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				// don't forget to change Recent Message Save loop in the UM_SAM_APPLYANDCLOSE if you're changing something here
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					PROTOACCOUNT * acc = Proto_GetAccount(p->szModuleName);
-					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].Status));
+					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, Skin_LoadProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].m_status));
 					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
 				}
@@ -891,9 +890,9 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 					if ((Flag1 & PF1_IM) == PF1_IM || Flag1 & PF1_INDIVMODEMSG) { // check if the protocol supports message sending/receiving or individual status messages before adding this contact
-						HTREEITEM hItem = CList->AddContact(hContact);
+						HTREEITEM hNewItem = CList->AddContact(hContact);
 						if (dat->hInitContact == hContact)
-							hSelItem = hItem;
+							hSelItem = hNewItem;
 					}
 				}
 			}
@@ -905,7 +904,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				SetExtraIcon(CList, EXTRACOLUMN_IGNORE, hItem, -1);
 				SetExtraIcon(CList, EXTRACOLUMN_REPLY, hItem, -1);
 			}
-			SetCListGroupIcons(dat, CList);
+			SetCListGroupIcons(CList);
 			CList->SetRedraw(true); // SetRedraw must be before SelectItem - otherwise SelectItem won't change scrollbar position to make the selected contact visible
 			CList->SelectItem(hSelItem); // must be selected after setting all extra icons, to set checkboxes properly
 		}
@@ -935,7 +934,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					TCString Message(CProtoSettings(p->szModuleName).GetMsgFormat(GMF_PERSONAL)); // yes, we don't specify GMF_TEMPORARY here, because we don't need to save it
 					if (Message != NULL)
 						CProtoSettings(p->szModuleName).SetMsgFormat(SMF_LAST, Message); // if the user set a message for this protocol, save it to the recent messages
-					ChangeProtoMessages(p->szModuleName, g_ProtoStates[p->szModuleName].Status, TCString(NULL)); // and actual setting of a status message for the protocol
+					ChangeProtoMessages(p->szModuleName, g_ProtoStates[p->szModuleName].m_status, TCString(NULL)); // and actual setting of a status message for the protocol
 				}
 			}
 			TCString Message(CProtoSettings().GetMsgFormat(GMF_PERSONAL));
@@ -979,7 +978,6 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 			else { // it's a contact's autoreply setting
 				while (hItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_CONTACT | MCLGN_MULTILEVEL, hItem)) {
-					MCONTACT hContact = CList->GethContact(hItem);
 					if (CList->GethContact(hItem) == wParam) { // we found the item
 						SetExtraIcon(CList, EXTRACOLUMN_REPLY, hItem, -1); // update it
 						break;
@@ -996,14 +994,13 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			while (hItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_CONTACT | MCLGN_INFO | MCLGN_MULTILEVEL, hItem)) {
 				if (CList->GetItemType(hItem) == MCLCIT_INFO) {
 					char *szProto = (char*)CList->GetItemParam(hItem);
-					if (!wParam || !mir_strcmp(szProto, (char*)wParam)) {
-						CList->SetInfoIcon(hItem, Skin_LoadProtoIcon(szProto, g_ProtoStates[szProto].Status));
-					}
+					if (!wParam || !mir_strcmp(szProto, (char*)wParam))
+						CList->SetInfoIcon(hItem, Skin_LoadProtoIcon(szProto, g_ProtoStates[szProto].m_status));
 				}
 				SetExtraIcon(CList, EXTRACOLUMN_IGNORE, hItem, -1);
 				SetExtraIcon(CList, EXTRACOLUMN_REPLY, hItem, -1);
 			}
-			SetCListGroupIcons(dat, CList);
+			SetCListGroupIcons(CList);
 		}
 		nm.hdr.code = MCLN_SELCHANGED;
 		nm.hdr.hwndFrom = GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSTREE);
@@ -1047,7 +1044,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (Selection->GetSize() == 1)
 						CList->EnsureVisible((*Selection)[0]);
 
-					SetCListGroupIcons(dat, CList);
+					SetCListGroupIcons(CList);
 				}
 				break;
 
@@ -1061,7 +1058,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						SetExtraIcon(CList, EXTRACOLUMN_REPLY, (*Selection)[i], ReplyIcon);
 					if (Selection->GetSize() == 1)
 						CList->EnsureVisible((*Selection)[0]);
-					SetCListGroupIcons(dat, CList);
+					SetCListGroupIcons(CList);
 				}
 				break;
 
@@ -1322,7 +1319,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					SetClassLong(hTreeView, GCLP_HCURSOR, NULL);
 					hCursor = LoadCursor(NULL, IDC_HAND); // set mouse cursor to a hand when hovering over items or their extra images
 				}
-				else SetClassLong(hTreeView, GCLP_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
+				else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(NULL, IDC_ARROW));
 
 				if (!hCursor)
 					hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -1330,7 +1327,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				SetCursor(hCursor);
 				return true;
 			}
-			else SetClassLong(hTreeView, GCLP_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
+			else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(NULL, IDC_ARROW));
 		}
 		break;
 
