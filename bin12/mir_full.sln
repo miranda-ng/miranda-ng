@@ -300,7 +300,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restart", "..\plugins\Resta
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficCounter", "..\plugins\TrafficCounter\TrafficCounter_12.vcxproj", "{885010EA-D008-4E38-85D4-487693F0BA00}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\PackUpdater\PackUpdater_12.vcxproj", "{20413125-4D68-4751-8062-DDA026DDABF1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\PackUpdater\PackUpdater.vcxproj", "{20413125-4D68-4751-8062-DDA026DDABF1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickContacts", "..\plugins\QuickContacts\quickcontacts_12.vcxproj", "{7FC00D59-03D3-4A6C-AEFE-67349C9C9E10}"
 EndProject
