@@ -398,7 +398,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\libs\libcurl\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_12.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys_12.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\HistoryStats\historystats.vcxproj", "{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}"
 EndProject
