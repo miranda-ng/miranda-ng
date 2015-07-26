@@ -58,7 +58,9 @@ void CLuaOptions::LoadScripts()
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
 		m_scripts.SetItem(iItem, 1, _T(""), 0);
+#ifdef DEBUG
 		m_scripts.SetItem(iItem, 2, _T(""), 1);
+#endif
 	}
 }
 
@@ -81,7 +83,9 @@ void CLuaOptions::OnInitDialog()
 
 	m_scripts.AddColumn(0, _T("Script"), 420);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+#ifdef DEBUG
 	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+#endif
 
 	LoadScripts();
 
@@ -109,7 +113,7 @@ INT_PTR CLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 	{
 		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
-		if (lpnmHdr->idFrom == m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED)
+		if (lpnmHdr->idFrom == (UINT_PTR)m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED)
 		{
 			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
 			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK)
@@ -142,11 +146,13 @@ void CLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	{
 		ShellExecute(m_hwnd, NULL, lvi.pszText, NULL, script->GetFilePath(), SW_SHOWNORMAL);
 	}
+#ifdef DEBUG
 	else if (lvi.iSubItem == 2)
 	{
 		script->Unload();
 		script->Load();
 	}
+#endif
 	mir_free(lvi.pszText);
 }
 
