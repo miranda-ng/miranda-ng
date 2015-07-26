@@ -7,7 +7,7 @@ modify it as they wish with no restriction.
 There is no warranty.
 */
 
-#include "Common.h"
+#include "stdafx.h"
 
 #define SRV_LOAD_PM    "Database/LoadPM"
 #define SRV_CHANGE_PM  "Database/ChangePM"

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "general.h"
+#include "stdafx.h"
 
 ISmileyBase* CreateSmileyObject(SmileyType* sml);
 ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp);

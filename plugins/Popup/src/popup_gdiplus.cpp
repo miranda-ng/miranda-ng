@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* 99% of this code was adopted from clist_modern by FYR */
 
-#include "headers.h"
+#include "stdafx.h"
 
 #undef Translate
 

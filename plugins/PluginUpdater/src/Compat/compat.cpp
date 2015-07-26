@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
   This file contains some compatibility functions for Miranda IM
 */
 
-#include "Common.h"
+#include "stdafx.h"
 
 PLUGINLINK *pluginLink;
 MM_INTERFACE mmi;

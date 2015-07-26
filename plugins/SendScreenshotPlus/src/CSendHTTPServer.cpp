@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //---------------------------------------------------------------------------
-#include "global.h"
+#include "stdafx.h"
 
 INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
 //INT_PTR (*CallService)(const char *,WPARAM,LPARAM);
