@@ -23,7 +23,7 @@
   @version  1.07.00
   */
 
-#include "..\general.h"
+#include "..\stdafx.h"
 
 std::map<CMString, WCPattern *> WCPattern::compiledWCPatterns;
 std::map<CMString, std::pair<CMString, unsigned long> > WCPattern::registeredWCPatterns;

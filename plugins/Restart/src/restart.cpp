@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 int hLangpack;

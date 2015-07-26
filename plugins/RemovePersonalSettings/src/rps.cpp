@@ -25,38 +25,8 @@ Created by Pescuma
 Based on work by nullbie
 
 */
-#define _CRT_SECURE_NO_WARNINGS
-#define _CRT_NONSTDC_NO_DEPRECATE
 
-#include <windows.h>
-#include <io.h>
-#include <stdio.h>
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_langpack.h>
-#include <m_protocols.h>
-#include <m_protosvc.h>
-#include <m_utils.h>
-#include <m_database.h>
-
-#include "version.h"
-
-#define MIID_REMOVEPERSONALSETTINGS { 0x5eaec989, 0x8ff, 0x4820, { 0xb8, 0x6c, 0x2b, 0x6e, 0xf0, 0x8e, 0x33, 0x73 } }
-
-#define INI_FILE_NAME  "RemovePersonalSettings.ini"
-
-#define PLUGINDISABLELIST "PluginDisable"
-
-#define METACONTACTS_PROTOCOL_NAME "MetaContacts"
-
-#define NOTICE_TEXT LPGEN("All your personal settings will be erased!\n\
-Make sure you are running this from a copy of your profile (and not over the original one).\n\
-Running this will erase files/folders under Miranda main folder.\n\n\
-Are you sure you want to remove all your personal settings?\n\n\
-(You cannot say that I don't told you about the risks :P)")
-
-#define MSGBOX_TITLE LPGEN("Remove Personal Settings")
+#include "stdafx.h"
 
 HINSTANCE hInst;
 char gIniFile[MAX_PATH];

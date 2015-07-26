@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "stdafx.h"
 
 TCHAR* ptszMessage[6]={0};
 INT lastIndex=-1;

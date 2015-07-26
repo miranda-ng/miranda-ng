@@ -13,7 +13,7 @@
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
 */
-#include "global.h"
+#include "stdafx.h"
 
 CSendHost_Imgur::CSendHost_Imgur(HWND Owner, MCONTACT hContact, bool bAsync)
 	: CSend(Owner,hContact,bAsync)

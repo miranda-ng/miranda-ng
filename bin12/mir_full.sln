@@ -24,7 +24,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mmap", "..\plugins\Db3x
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaImg\AdvaImg_12.vcxproj", "{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scriver", "..\plugins\Scriver\scriver_12.vcxproj", "{B8928210-546C-4AE3-956B-E2B724E6B8E5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scriver", "..\plugins\Scriver\scriver.vcxproj", "{B8928210-546C-4AE3-956B-E2B724E6B8E5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModernOpt", "..\plugins\ModernOpt\modernopt.vcxproj", "{153DD132-084C-4DE4-8F40-A088BCB22723}"
 EndProject
@@ -88,23 +88,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewXstatusNotify", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nudge", "..\plugins\Nudge\nudge.vcxproj", "{8190CFAA-3B73-43D8-9101-8368E21F1864}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Popup", "..\plugins\Popup\Popup_12.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Popup", "..\plugins\Popup\Popup.vcxproj", "{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickMessages", "..\plugins\QuickMessages\quickmessages_12.vcxproj", "{DD76B998-ED0D-4BFD-9660-3ADC3A334872}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickMessages", "..\plugins\QuickMessages\quickmessages.vcxproj", "{DD76B998-ED0D-4BFD-9660-3ADC3A334872}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickReplies", "..\plugins\QuickReplies\quickreplies_12.vcxproj", "{27CA5499-B3F2-4FB6-8414-651819B0B96C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickReplies", "..\plugins\QuickReplies\quickreplies.vcxproj", "{27CA5499-B3F2-4FB6-8414-651819B0B96C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rate", "..\plugins\Rate\rate_12.vcxproj", "{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rate", "..\plugins\Rate\rate.vcxproj", "{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM", "..\plugins\SecureIM\secureim_12.vcxproj", "{4ADADECA-99D7-410D-8127-CB27210DCC6A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SeenPlugin", "..\plugins\SeenPlugin\seenplugin_12.vcxproj", "{EFD45F48-63D5-48AE-96CD-8ADB3545A4EE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SeenPlugin", "..\plugins\SeenPlugin\seenplugin.vcxproj", "{EFD45F48-63D5-48AE-96CD-8ADB3545A4EE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sessions", "..\plugins\Sessions\Sessions_12.vcxproj", "{37C2B9A4-63EF-49E8-BF23-677B5EBD73E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sessions", "..\plugins\Sessions\Sessions.vcxproj", "{37C2B9A4-63EF-49E8-BF23-677B5EBD73E9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleAR", "..\plugins\SimpleAR\SimpleAR_12.vcxproj", "{06C44834-7B7A-4074-A6D8-7F163B3FF707}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleAR", "..\plugins\SimpleAR\SimpleAR.vcxproj", "{06C44834-7B7A-4074-A6D8-7F163B3FF707}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmileyAdd", "..\plugins\SmileyAdd\SmileyAdd_12.vcxproj", "{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmileyAdd", "..\plugins\SmileyAdd\SmileyAdd.vcxproj", "{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SplashScreen", "..\plugins\SplashScreen\splashscreen_12.vcxproj", "{5A6095F4-B037-4DA8-8410-8004A90C961A}"
 EndProject
@@ -146,7 +146,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyboardNotify", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddContactPlus", "..\plugins\AddContactPlus\addcontactplus.vcxproj", "{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugins\SimpleStatusMsg\simplestatusmsg_12.vcxproj", "{D3D80E27-D099-41EC-AFB2-A891A33F1608}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugins\SimpleStatusMsg\simplestatusmsg.vcxproj", "{D3D80E27-D099-41EC-AFB2-A891A33F1608}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "..\plugins\ClientChangeNotify\ClientChangeNotify.vcxproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
 EndProject
@@ -154,7 +154,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListeningTo", "..\plugins\L
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "..\protocols\Omegle\omegle.vcxproj", "{D5E2FEC1-B29A-476C-BD41-469FE282EE0F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts_12.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "..\protocols\Twitter\twitter.vcxproj", "{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}"
 EndProject
@@ -272,7 +272,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendScreenshotPlus\SendSS_12.vcxproj", "{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendScreenshotPlus\SendSS.vcxproj", "{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbEditorPP", "..\plugins\DbeditorPP\dbeditorpp.vcxproj", "{9C6040B8-1173-40FA-A3DB-DE044CCD8250}"
 EndProject
@@ -292,17 +292,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpamMod", "..\plugins\S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Watrack_MPD", "..\plugins\watrack_mpd\watrack_mpd_12.vcxproj", "{A7D9DFA5-C34F-4B98-BEE8-5140EFCD2E8C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginUpdater", "..\plugins\PluginUpdater\PluginUpdater_12.vcxproj", "{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginUpdater", "..\plugins\PluginUpdater\PluginUpdater.vcxproj", "{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PManagerEx", "..\plugins\ProfileManager\pmanagerEx_12.vcxproj", "{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PManagerEx", "..\plugins\ProfileManager\pmanagerEx.vcxproj", "{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restart", "..\plugins\Restart\Restart_12.vcxproj", "{18195F68-A747-8643-050C-C5101DA658FD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restart", "..\plugins\Restart\Restart.vcxproj", "{18195F68-A747-8643-050C-C5101DA658FD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficCounter", "..\plugins\TrafficCounter\TrafficCounter_12.vcxproj", "{885010EA-D008-4E38-85D4-487693F0BA00}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\PackUpdater\PackUpdater.vcxproj", "{20413125-4D68-4751-8062-DDA026DDABF1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickContacts", "..\plugins\QuickContacts\quickcontacts_12.vcxproj", "{7FC00D59-03D3-4A6C-AEFE-67349C9C9E10}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickContacts", "..\plugins\QuickContacts\quickcontacts.vcxproj", "{7FC00D59-03D3-4A6C-AEFE-67349C9C9E10}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tlen", "..\protocols\Tlen\tlen_12.vcxproj", "{F3208C96-3C21-46AA-8695-C794E28CDC34}"
 EndProject
@@ -350,7 +350,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPServer", "..\plugins\HT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pu_stub", "..\plugins\PluginUpdater\pu_stub\pu_stub_12.vcxproj", "{121D2EA6-9D3C-43F6-AC5C-44BDBF93E3E0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything_12.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\libs\libcurl\libcurl.vcxproj", "{01F9E227-06F5-4BED-907F-402CA7DFAFE6}"
 EndProject
@@ -368,7 +368,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\Y
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay_12.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange_12.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wbOSD", "..\plugins\wbOSD\wbOSD_12.vcxproj", "{DA450122-7F0B-45DA-9EAA-421887AD8450}"
 EndProject
@@ -396,7 +396,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_12.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
 EndProject

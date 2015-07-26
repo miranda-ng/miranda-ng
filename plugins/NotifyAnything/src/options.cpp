@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 NASettings g_settings;
 

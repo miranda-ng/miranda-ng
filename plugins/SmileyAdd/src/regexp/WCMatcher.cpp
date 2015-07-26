@@ -1,4 +1,4 @@
-#include "..\general.h"
+#include "..\stdafx.h"
 
 const int WCMatcher::MATCH_ENTIRE_STRING = 0x01;
 

@@ -13,7 +13,7 @@
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
 */
-#include "global.h"
+#include "stdafx.h"
 
 CSendHost_UploadPie::CSendHost_UploadPie(HWND Owner, MCONTACT hContact, bool bAsync, int expire)
 	: m_expire(expire), CSend(Owner,hContact,bAsync)

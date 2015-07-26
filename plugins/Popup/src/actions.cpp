@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "headers.h"
+#include "stdafx.h"
 
 static int ActionsSortFunc(const POPUPACTION *p1, const POPUPACTION *p2)
 {

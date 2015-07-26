@@ -1,5 +1,4 @@
-#include "RecentContacts.h"
-#include "resource.h"
+#include "stdafx.h"
 
 extern HINSTANCE hInst;
 void LoadDBSettings();

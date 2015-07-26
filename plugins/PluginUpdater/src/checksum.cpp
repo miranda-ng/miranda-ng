@@ -2,7 +2,7 @@
 // Checksum Tool
 // By Bio (C) 2012
 
-#include "common.h"
+#include "stdafx.h"
 
 // Return codes
 #define RESULT_OK			0
