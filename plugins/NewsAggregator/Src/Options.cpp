@@ -497,7 +497,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_REMOVE:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 				TCHAR nick[MAX_PATH], url[MAX_PATH];
-				int sel = ListView_GetSelectionMark(hwndList);
+				sel = ListView_GetSelectionMark(hwndList);
 				ListView_GetItemText(hwndList, sel, 0, nick, _countof(nick));
 				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
 
@@ -567,7 +567,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case LVN_ITEMCHANGED:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			int sel = ListView_GetSelectionMark(hwndList);
+			sel = ListView_GetSelectionMark(hwndList);
 			if (sel == -1) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);

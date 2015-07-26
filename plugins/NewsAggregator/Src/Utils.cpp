@@ -378,7 +378,7 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &messa
 	if (SUCCEEDED(hr) && pHtmlDocRoot) {
 		IPersistStreamInit *pPersistStreamInit = NULL;
 
-		HRESULT hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
+		hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
 		if (SUCCEEDED(hr)) {
 			// Initialize the root document to a default state -- ready for parsing.
 			pPersistStreamInit->InitNew();

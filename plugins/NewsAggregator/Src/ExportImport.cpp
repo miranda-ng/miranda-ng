@@ -85,9 +85,9 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										} else
 											isTextUTF = 1;
 
-										for (int i = 0; i < count; i++) {
+										for (int j = 0; j < count; j++) {
 											TCHAR item[MAX_PATH];
-											SendMessage(FeedsImportList, LB_GETTEXT, (WPARAM)i, (LPARAM)item);
+											SendMessage(FeedsImportList, LB_GETTEXT, (WPARAM)j, (LPARAM)item);
 											if (!mir_tstrcmpi(item, text)) {
 												NeedToImport = TRUE;
 												break;
