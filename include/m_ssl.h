@@ -27,20 +27,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <newpluginapi.h>
 
-DECLARE_HANDLE(HSSL);
+#if !defined(HSSL_DEFINED)
+	DECLARE_HANDLE(HSSL);
+#endif
 
-typedef struct
+typedef HSSL (__cdecl *pfnConnect)(SOCKET s, const char* host, int verify);
+typedef BOOL (__cdecl *pfnPending)(HSSL ssl);
+typedef int  (__cdecl *pfnRead)(HSSL ssl, char *buf, int num, int peek);
+typedef int  (__cdecl *pfnWrite)(HSSL ssl, const char *buf, int num);
+typedef void (__cdecl *pfnShutdown)(HSSL ssl);
+typedef void (__cdecl *pfnSfree)(HSSL ssl);
+
+struct SSL_API
 {
 	int cbSize;
 
-    HSSL    ( *connect ) ( SOCKET s, const char* host, int verify );
-    BOOL    ( *pending ) ( HSSL ssl );
-    int     ( *read )    ( HSSL ssl, char *buf, int num, int peek );
-    int     ( *write )   ( HSSL ssl, const char *buf, int num );
-    void    ( *shutdown )( HSSL ssl );
-    void    ( *sfree )   ( HSSL ssl );
-}
-	SSL_API;
+	pfnConnect  connect;
+	pfnPending  pending;
+	pfnRead     read;
+	pfnWrite    write;
+	pfnShutdown shutdown;
+	pfnSfree    sfree;
+};
 
 /* every protocol should declare this variable to use the SSL API */
 extern SSL_API si;
@@ -56,7 +64,7 @@ returns TRUE if all is Ok, and FALSE otherwise
 
 #define MS_SYSTEM_GET_SI "Miranda/System/GetSslApi"
 
-__forceinline INT_PTR mir_getSI( SSL_API* dest )
+__forceinline INT_PTR mir_getSI(SSL_API* dest)
 {
 	dest->cbSize = sizeof(*dest);
 	return CallService(MS_SYSTEM_GET_SI, 0, (LPARAM)dest);

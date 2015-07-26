@@ -37,36 +37,37 @@ static bool bSslInitDone;
 
 /* OpenSSL dynamic imports */
 
-typedef void ( *pfnRAND_screen)(void);
-typedef int ( *pfnSSL_library_init ) (void );
-typedef int ( *pfnCRYPTO_set_mem_functions )(void *(*m)(size_t),void *(*r)(void *,size_t), void (*f)(void *));
-typedef void ( *pfnSSL_load_error_strings )(void );
-typedef void ( *pfnSSL_free )(SSL *ssl);
-typedef int ( *pfnSSL_connect )(SSL *ssl);
-typedef int ( *pfnSSL_read )(SSL *ssl,void *buf,int num);
-typedef int ( *pfnSSL_set_fd )(SSL *s, int fd);
-typedef int ( *pfnSSL_peek )(SSL *ssl,void *buf,int num);
-typedef int ( *pfnSSL_pending )(const SSL *s);
-typedef int ( *pfnSSL_write )(SSL *ssl,const void *buf,int num);
-typedef SSL * ( *pfnSSL_new )(SSL_CTX *ctx);
-typedef int ( *pfnSSL_shutdown )(SSL *s);
-typedef void ( *pfnSSL_CTX_free )(SSL_CTX *);
-typedef SSL_CTX * ( *pfnSSL_CTX_new )(const SSL_METHOD *meth);
-typedef long ( *pfnSSL_CTX_ctrl )(SSL_CTX *ctx,int cmd, long larg, void *parg);
-typedef int ( *pfnSSL_get_error )(const SSL *s,int ret_code);
+typedef void(*pfnRAND_screen)(void);
+typedef int(*pfnSSL_library_init) (void);
+typedef int(*pfnCRYPTO_set_mem_functions)(void *(*m)(size_t), void *(*r)(void *, size_t), void(*f)(void *));
+typedef void(*pfnSSL_load_error_strings)(void);
+typedef void(*pfnSSL_free)(SSL *ssl);
+typedef int(*pfnSSL_connect)(SSL *ssl);
+typedef int(*pfnSSL_read)(SSL *ssl, void *buf, int num);
+typedef int(*pfnSSL_set_fd)(SSL *s, int fd);
+typedef int(*pfnSSL_peek)(SSL *ssl, void *buf, int num);
+typedef int(*pfnSSL_pending)(const SSL *s);
+typedef int(*pfnSSL_write)(SSL *ssl, const void *buf, int num);
+typedef SSL * (*pfnSSL_new)(SSL_CTX *ctx);
+typedef int(*pfnSSL_shutdown)(SSL *s);
+typedef void(*pfnSSL_CTX_free)(SSL_CTX *);
+typedef SSL_CTX * (*pfnSSL_CTX_new)(const SSL_METHOD *meth);
+typedef long(*pfnSSL_CTX_ctrl)(SSL_CTX *ctx, int cmd, long larg, void *parg);
+typedef int(*pfnSSL_get_error)(const SSL *s, int ret_code);
 
-typedef const SSL_CIPHER * ( *pfnSSL_get_current_cipher )(const SSL *s);
-typedef const char * ( *pfnSSL_CIPHER_get_name )(const SSL_CIPHER *c);
+typedef const SSL_CIPHER * (*pfnSSL_get_current_cipher)(const SSL *s);
+typedef const char * (*pfnSSL_CIPHER_get_name)(const SSL_CIPHER *c);
 
-typedef STACK_OF(X509) * ( *pfnSSL_get_peer_cert_chain )(const SSL *s);
-typedef X509 * ( *pfnSSL_get_peer_certificate )(const SSL *s);
-typedef void ( *pfnCRYPTO_free )(void *ptr);
-typedef void ( *pfnX509_free )(X509 *x509);
-typedef int ( *pfni2d_X509 )(X509 *x, unsigned char **out);
+typedef STACK_OF(X509) * (*pfnSSL_get_peer_cert_chain)(const SSL *s);
+typedef X509 * (*pfnSSL_get_peer_certificate)(const SSL *s);
+typedef void(*pfnCRYPTO_free)(void *ptr);
+typedef void(*pfnX509_free)(X509 *x509);
+typedef int(*pfni2d_X509)(X509 *x, unsigned char **out);
 
-typedef const SSL_METHOD * ( *pfnSSLv23_client_method )(void);
+typedef const SSL_METHOD * (*pfnSSLv23_client_method)(void);
 
-static struct LIBOPENSSL {
+static struct LIBOPENSSL
+{
 	pfnRAND_screen				RAND_screen;
 	pfnSSL_connect				SSL_connect;
 	pfnSSL_free					SSL_free;
@@ -100,17 +101,18 @@ static struct LIBOPENSSL {
 
 /* Crypt32 dynamic imports */
 
-typedef BOOL (WINAPI *pfnCertGetCertificateChain)(HCERTCHAINENGINE, PCCERT_CONTEXT, LPFILETIME, HCERTSTORE, PCERT_CHAIN_PARA, DWORD, LPVOID, PCCERT_CHAIN_CONTEXT*);
-typedef VOID (WINAPI *pfnCertFreeCertificateChain)(PCCERT_CHAIN_CONTEXT);
-typedef BOOL (WINAPI *pfnCertFreeCertificateContext)(PCCERT_CONTEXT);
-typedef BOOL (WINAPI *pfnCertVerifyCertificateChainPolicy)(LPCSTR, PCCERT_CHAIN_CONTEXT, PCERT_CHAIN_POLICY_PARA, PCERT_CHAIN_POLICY_STATUS);
-typedef HCERTSTORE (WINAPI *pfnCertOpenStore)(LPCSTR, DWORD, HCRYPTPROV_LEGACY, DWORD, const void *);
+typedef BOOL(WINAPI *pfnCertGetCertificateChain)(HCERTCHAINENGINE, PCCERT_CONTEXT, LPFILETIME, HCERTSTORE, PCERT_CHAIN_PARA, DWORD, LPVOID, PCCERT_CHAIN_CONTEXT*);
+typedef VOID(WINAPI *pfnCertFreeCertificateChain)(PCCERT_CHAIN_CONTEXT);
+typedef BOOL(WINAPI *pfnCertFreeCertificateContext)(PCCERT_CONTEXT);
+typedef BOOL(WINAPI *pfnCertVerifyCertificateChainPolicy)(LPCSTR, PCCERT_CHAIN_CONTEXT, PCERT_CHAIN_POLICY_PARA, PCERT_CHAIN_POLICY_STATUS);
+typedef HCERTSTORE(WINAPI *pfnCertOpenStore)(LPCSTR, DWORD, HCRYPTPROV_LEGACY, DWORD, const void *);
 
-typedef BOOL (WINAPI *pfnCertCloseStore)(HCERTSTORE, DWORD);
-typedef BOOL (WINAPI *pfnCertAddCertificateContextToStore)(HCERTSTORE, PCCERT_CONTEXT, DWORD, PCCERT_CONTEXT*);
-typedef PCCERT_CONTEXT (WINAPI *pfnCertCreateCertificateContext)(DWORD, const BYTE *,DWORD);
+typedef BOOL(WINAPI *pfnCertCloseStore)(HCERTSTORE, DWORD);
+typedef BOOL(WINAPI *pfnCertAddCertificateContextToStore)(HCERTSTORE, PCCERT_CONTEXT, DWORD, PCCERT_CONTEXT*);
+typedef PCCERT_CONTEXT(WINAPI *pfnCertCreateCertificateContext)(DWORD, const BYTE *, DWORD);
 
-static struct LIBCRYPT {
+static struct LIBCRYPT
+{
 	pfnCertGetCertificateChain		CertGetCertificateChain;
 	pfnCertFreeCertificateChain		CertFreeCertificateChain;
 	pfnCertFreeCertificateContext	CertFreeCertificateContext;
@@ -122,23 +124,22 @@ static struct LIBCRYPT {
 } g_Crypt;
 
 
-typedef enum
+enum SocketState
 {
 	sockOpen,
 	sockClosed,
 	sockError
-} SocketState;
+};
 
 struct SslHandle
 {
 	SOCKET s;
 
 	SSL_CTX *ctx;
-	SSL	*session;
+	SSL *session;
 
 	SocketState state;
 };
-
 
 void SslLog(const char *fmt, ...)
 {
@@ -152,7 +153,8 @@ void SslLog(const char *fmt, ...)
 	CallServiceSync(MS_NETLIB_LOG, (WPARAM)NULL, (LPARAM)szText);
 }
 
-static void SSL_library_unload(void) {
+static void SSL_library_unload(void)
+{
 	/* Load Library Pointers */
 	if (!bSslInitDone) return;
 
@@ -174,12 +176,10 @@ static bool SSL_library_load(void)
 
 	WaitForSingleObject(g_hSslMutex, INFINITE);
 
-	if (!bSslInitDone)
-	{
+	if (!bSslInitDone) {
 		g_hOpenSSLCrypto = LoadLibraryA("libeay32.dll");
 		g_hOpenSSL = LoadLibraryA("ssleay32.dll");
-		if (g_hOpenSSL && g_hOpenSSLCrypto)
-		{
+		if (g_hOpenSSL && g_hOpenSSLCrypto) {
 			// load function pointers
 			#define LOAD_FN(struc,lib, name) struc.##name = (pfn##name)GetProcAddress(lib, #name);
 			LOAD_FN(g_OpenSSL, g_hOpenSSLCrypto, RAND_screen);
@@ -212,8 +212,7 @@ static bool SSL_library_load(void)
 			LOAD_FN(g_OpenSSL, g_hOpenSSLCrypto, i2d_X509);
 
 			HINSTANCE hCrypt = LoadLibraryA("crypt32.dll");
-			if (hCrypt)
-			{
+			if (hCrypt) {
 				LOAD_FN(g_Crypt, hCrypt, CertGetCertificateChain);
 				LOAD_FN(g_Crypt, hCrypt, CertFreeCertificateChain);
 				LOAD_FN(g_Crypt, hCrypt, CertFreeCertificateContext);
@@ -231,7 +230,8 @@ static bool SSL_library_load(void)
 			// FIXME check errors
 
 			bSslInitDone = true;
-		} else {
+		}
+		else {
 			SSL_library_unload();
 		}
 	}
@@ -251,8 +251,7 @@ const char* SSL_GetCipherName(SslHandle *ssl)
 static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
 	TCHAR szMsgBuf[256];
-	switch (scRet)
-	{
+	switch (scRet) {
 	case 0:
 	case ERROR_NOT_READY:
 		return;
@@ -286,11 +285,8 @@ void NetlibSslFree(SslHandle *ssl)
 	if (ssl == NULL) return;
 
 	/* Delete Context */
-	if (ssl->session) g_OpenSSL.SSL_free (ssl->session);
-	if (ssl->ctx) g_OpenSSL.SSL_CTX_free (ssl->ctx);
-	ssl->session = NULL;
-	ssl->ctx = NULL;
-
+	if (ssl->session) g_OpenSSL.SSL_free(ssl->session);
+	if (ssl->ctx) g_OpenSSL.SSL_CTX_free(ssl->ctx);
 	memset(ssl, 0, sizeof(SslHandle));
 	mir_free(ssl);
 }
@@ -344,7 +340,8 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 	return true;
 }
 
-static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509) {
+static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
+{
 	int len;
 	unsigned char * buf = NULL;
 	PCCERT_CONTEXT pCertContext = NULL;
@@ -361,7 +358,7 @@ static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509) {
 static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 {
 	/* convert the active certificate chain provided in the handshake of 'session' into
-	   the format used by CryptAPI.
+		the format used by CryptAPI.
 	*/
 	PCCERT_CONTEXT anchor = NULL;
 	// create cert store
@@ -387,7 +384,8 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 
 				// return primary cert; MUST be freed by caller which will free the associated store
 				anchor = primary_cert;
-			} else {
+			}
+			else {
 				if (primary_cert) g_Crypt.CertFreeCertificateContext(primary_cert);
 			}
 
@@ -412,10 +410,10 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 		szOID_SGC_NETSCAPE
 	};
 
-	CERT_CHAIN_PARA          ChainPara = {0};
-	HTTPSPolicyCallbackData  polHttps = {0};
-	CERT_CHAIN_POLICY_PARA   PolicyPara = {0};
-	CERT_CHAIN_POLICY_STATUS PolicyStatus = {0};
+	CERT_CHAIN_PARA          ChainPara = { 0 };
+	HTTPSPolicyCallbackData  polHttps = { 0 };
+	CERT_CHAIN_POLICY_PARA   PolicyPara = { 0 };
+	CERT_CHAIN_POLICY_STATUS PolicyStatus = { 0 };
 	PCCERT_CHAIN_CONTEXT     pChainContext = NULL;
 	PCCERT_CONTEXT           pServerCert = NULL;
 	DWORD scRet;
@@ -424,8 +422,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	pServerCert = SSL_CertChainToCryptAnchor(ssl->session);
 
-	if (pServerCert == NULL)
-	{
+	if (pServerCert == NULL) {
 		scRet = SEC_E_WRONG_PRINCIPAL;
 		goto cleanup;
 	}
@@ -435,8 +432,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 	if (!g_Crypt.CertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore,
-	     &ChainPara, 0, NULL, &pChainContext))
-	{
+		&ChainPara, 0, NULL, &pChainContext)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
@@ -452,14 +448,12 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
 
 	if (!g_Crypt.CertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext,
-		&PolicyPara, &PolicyStatus))
-	{
+		&PolicyPara, &PolicyStatus)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
 
-	if (PolicyStatus.dwError)
-	{
+	if (PolicyStatus.dwError) {
 		scRet = PolicyStatus.dwError;
 		goto cleanup;
 	}
@@ -477,13 +471,13 @@ cleanup:
 	return scRet == SEC_E_OK;
 }
 
-SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
+SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 {
 	/* negotiate SSL session, verify cert, return NULL if failed */
 	bool res = SSL_library_load();
 	if (!res)
 		return NULL;
-	
+
 	SslHandle *ssl = (SslHandle*)mir_calloc(sizeof(SslHandle));
 	ssl->s = s;
 	res = ClientConnect(ssl, host);
@@ -495,19 +489,17 @@ SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 		res = VerifyCertificate(ssl, host, dwFlags);
 	}
 
-	if(res) {
+	if (res)
 		return ssl;
-	}
-	else {
-		NetlibSslFree(ssl);
-		return NULL;
-	}
+
+	NetlibSslFree(ssl);
+	return NULL;
 }
 
 void NetlibSslShutdown(SslHandle *ssl)
 {
 	/* Close SSL session, but keep socket open */
-	if (ssl==NULL || ssl->session == NULL)
+	if (ssl == NULL || ssl->session == NULL)
 		return;
 
 	g_OpenSSL.SSL_shutdown(ssl->session);
@@ -528,14 +520,14 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 	if (err <= 0) {
 		int err2 = g_OpenSSL.SSL_get_error(ssl->session, err);
 		switch (err2) {
-			case SSL_ERROR_ZERO_RETURN:
-				SslLog("SSL connection gracefully closed");
-				ssl->state = sockClosed;
-				break;
-			default:
-				SslLog("SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
-				ssl->state = sockError;
-				return SOCKET_ERROR;
+		case SSL_ERROR_ZERO_RETURN:
+			SslLog("SSL connection gracefully closed");
+			ssl->state = sockClosed;
+			break;
+		default:
+			SslLog("SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
+			ssl->state = sockError;
+			return SOCKET_ERROR;
 		}
 		return 0;
 	}
@@ -550,38 +542,38 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	if (num <= 0) return 0;
 
 	int err = g_OpenSSL.SSL_write(ssl->session, buf, num);
-	if (err <= 0) {
-		int err2 = g_OpenSSL.SSL_get_error(ssl->session, err);
-		switch (err2) {
-			case SSL_ERROR_ZERO_RETURN:
-				SslLog("SSL connection gracefully closed");
-				ssl->state = sockClosed;
-				break;
-			default:
-				SslLog("SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
-				ssl->state = sockError;
-				return SOCKET_ERROR;
-		}
-		return 0;
+	if (err > 0)
+		return err;
+	
+	int err2 = g_OpenSSL.SSL_get_error(ssl->session, err);
+	switch (err2) {
+	case SSL_ERROR_ZERO_RETURN:
+		SslLog("SSL connection gracefully closed");
+		ssl->state = sockClosed;
+		break;
+	default:
+		SslLog("SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
+		ssl->state = sockError;
+		return SOCKET_ERROR;
 	}
-	return err;
+	return 0;
 }
 
 static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 {
-	SSL_API* si = (SSL_API*)lParam;
-	if (si == NULL) return FALSE;
-
-	if (si->cbSize != sizeof(SSL_API))
+	SSL_API* pSsl = (SSL_API*)lParam;
+	if (pSsl == NULL)
 		return FALSE;
 
-	si->connect = (HSSL (__cdecl *)(SOCKET, const char *, int))NetlibSslConnect;
-	si->pending = (BOOL (__cdecl *)(HSSL))NetlibSslPending;
-	si->read = (int  (__cdecl *)(HSSL, char *, int, int))NetlibSslRead;
-	si->write = (int  (__cdecl *)(HSSL, const char *, int))NetlibSslWrite;
-	si->shutdown = (void (__cdecl *)(HSSL))NetlibSslShutdown;
-	si->sfree = (void (__cdecl *)(HSSL))NetlibSslFree;
+	if (pSsl->cbSize != sizeof(SSL_API))
+		return FALSE;
 
+	pSsl->connect = NetlibSslConnect;
+	pSsl->pending = NetlibSslPending;
+	pSsl->read = NetlibSslRead;
+	pSsl->write = NetlibSslWrite;
+	pSsl->shutdown = NetlibSslShutdown;
+	pSsl->sfree = NetlibSslFree;
 	return TRUE;
 }
 
@@ -589,7 +581,6 @@ int LoadSslModule(void)
 {
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
 	g_hSslMutex = CreateMutex(NULL, FALSE, NULL);
-
 	return 0;
 }
 

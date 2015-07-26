@@ -65,6 +65,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "version.h"
 
+#define HSSL_DEFINED
+typedef struct SslHandle *HSSL;
+
 #include "m_ssl.h"
 #include "m_netlib.h"
 
