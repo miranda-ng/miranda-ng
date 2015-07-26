@@ -174,7 +174,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libgcrypt", "..\plugins\Mir
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "..\plugins\MirOTR\ekhtml\ekhtml_14.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify_14.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho_14.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject

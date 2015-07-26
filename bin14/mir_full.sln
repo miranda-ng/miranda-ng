@@ -174,7 +174,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr", "..\plugins\MirOTR
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR_14.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify_14.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho_14.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject
