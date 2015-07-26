@@ -558,7 +558,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			ti.hwnd = hwndDlg;
 			for (int i = 0; i < _countof(Tooltips); i++) {
-				ti.uId = (UINT)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
+				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
 				ti.lpszText = TranslateTS(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}

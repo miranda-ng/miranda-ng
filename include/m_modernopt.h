@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define MODEROPT_FLG_TCHAR		0
 #endif
 
-typedef enum {
+enum {
 	MODERNOPT_TYPE_SECTIONPAGE,
 	MODERNOPT_TYPE_SUBSECTIONPAGE,
 	MODERNOPT_TYPE_IGNOREOBJECT,
@@ -53,7 +53,7 @@ typedef enum {
 	MODERNOPT_TYPE_COUNT
 };
 
-typedef enum {
+enum {
 	MODERNOPT_PAGE_HOME,
 	MODERNOPT_PAGE_ACCOUNTS,
 	MODERNOPT_PAGE_SKINS,
@@ -68,7 +68,8 @@ typedef enum {
 
 #define MODERNOPT_CTRL_LAST		0
 
-typedef struct {
+struct MODERNOPTOBJECT
+{
 	int			cbSize;
 	DWORD		dwFlags;
 	int			iType;
@@ -101,7 +102,7 @@ typedef struct {
 	// Selector type page
 	char		*lpzThemeExtension;
 	char		*lpzThemeModuleName;
-} MODERNOPTOBJECT;
+};
 
 #define MS_MODERNOPT_ADDOBJECT		"ModernOpt/AddObject"
 
