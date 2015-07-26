@@ -1,4 +1,4 @@
-#include "openFolder.h"
+#include "stdafx.h"
 
 int hLangpack = 0;
 HINSTANCE hInst;
@@ -21,7 +21,7 @@ PLUGININFOEX pluginInfoEx =
 
 static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -61,14 +61,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-HICON LoadIconExEx(const char* IcoLibName, int NonIcoLibIcon)
+HICON LoadIconExEx(const char* IcoLibName, int)
 {
 	char szSettingName[64];
 	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
 	return IcoLib_GetIcon(szSettingName);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
