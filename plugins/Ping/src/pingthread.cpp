@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int upCount, total = 0;
 
@@ -75,7 +75,7 @@ void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_stat
 	}
 }
 
-void __cdecl sttCheckStatusThreadProc(void *vp)
+void __cdecl sttCheckStatusThreadProc(void*)
 {
 	clock_t start_t = clock(), end_t;
 	while (!get_thread_finished())
@@ -258,7 +258,7 @@ bool FrameIsFloating() {
 	return (CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0);
 }
 
-int FillList(WPARAM wParam, LPARAM lParam) {
+int FillList(WPARAM, LPARAM) {
 
 	if (options.logging)
 		CallService(PLUG "/Log", (WPARAM)_T("ping address list reload"), 0);
@@ -293,7 +293,7 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR PingPlugShowWindow(WPARAM wParam, LPARAM lParam)
+INT_PTR PingPlugShowWindow(WPARAM, LPARAM)
 {
 	if (hpwnd)
 	{
@@ -307,10 +307,10 @@ INT_PTR PingPlugShowWindow(WPARAM wParam, LPARAM lParam)
 
 #define TIMER_ID		11042
 void CALLBACK TimerProc(
-	HWND hwnd,         // handle to window
-	UINT uMsg,         // WM_TIMER message
-	UINT_PTR idEvent,  // timer identifier
-	DWORD dwTime       // current system time
+	HWND ,             // handle to window
+	UINT,              // WM_TIMER message
+	UINT_PTR,          // timer identifier
+	DWORD              // current system time
 	)
 {
 	if (frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME))

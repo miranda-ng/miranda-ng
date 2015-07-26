@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
@@ -24,13 +24,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0x760ea901, 0xc0c2, 0x446c, { 0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e } }
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -66,7 +66,7 @@ void CreatePluginServices()
 
 }
 
-int OnShutdown(WPARAM wParam, LPARAM lParam) {
+int OnShutdown(WPARAM, LPARAM) {
 	graphs_cleanup();
 
 	UnhookEvent(hFillListEvent);

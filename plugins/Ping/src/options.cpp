@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 PingOptions options;
 
@@ -164,7 +164,7 @@ PINGLIST temp_list;
 PINGADDRESS add_edit_addr;
 
 // host edit
-INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) {
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);

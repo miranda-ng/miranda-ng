@@ -1,7 +1,3 @@
-#ifndef _COMMON_H
-#define _COMMON_H
-
-#define _CRT_SECURE_NO_DEPRECATE
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
@@ -133,5 +129,3 @@ extern mir_cs thread_finished_cs, list_changed_cs, data_list_cs;
 extern PINGLIST data_list;
 
 int ReloadIcons(WPARAM, LPARAM);
-
-#endif

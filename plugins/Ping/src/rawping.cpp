@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 USHORT ip_checksum(USHORT* buffer, int size)
 {

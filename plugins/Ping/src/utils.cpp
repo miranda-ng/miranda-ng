@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -134,7 +134,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam) {
+INT_PTR PingDisableAll(WPARAM, LPARAM) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
@@ -145,7 +145,7 @@ INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR PingEnableAll(WPARAM wParam, LPARAM lParam) {
+INT_PTR PingEnableAll(WPARAM, LPARAM) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
@@ -158,7 +158,7 @@ INT_PTR PingEnableAll(WPARAM wParam, LPARAM lParam) {
 }
 
 
-INT_PTR ToggleEnabled(WPARAM wParam, LPARAM lParam) {
+INT_PTR ToggleEnabled(WPARAM wParam, LPARAM) {
 	int retval = 0;
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
@@ -178,7 +178,7 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR EditContact(WPARAM wParam, LPARAM lParam)
+INT_PTR EditContact(WPARAM wParam, LPARAM)
 {
 	PINGLIST pl;
 	HWND hwndList = pcli->hwndContactList;
@@ -200,7 +200,7 @@ INT_PTR EditContact(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR DblClick(WPARAM wParam, LPARAM lParam) {
+INT_PTR DblClick(WPARAM wParam, LPARAM) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
