@@ -12,6 +12,8 @@ int luaM_print(lua_State *L)
 			data.AppendFormat("%s   ", "nil");
 			break;
 		case LUA_TBOOLEAN:
+			data.AppendFormat("%s   ", lua_toboolean(L, i) ? "true" : "false");
+			break;
 		case LUA_TNUMBER:
 		case LUA_TSTRING:
 			data.AppendFormat("%s   ", lua_tostring(L, i));
