@@ -33,19 +33,10 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 		mir_free(tszData);
 		mir_free(szData);
 		if (hXml != NULL) {
-			LPCTSTR codepage = NULL;
 			int childcount = 0;
 			HXML node;
-			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml"))) {
-				for (int i = 0; xmlGetAttrCount(hXml); i++) {
-					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
-					if (!mir_tstrcmpi(szAttrName, _T("encoding"))) {
-						codepage = xmlGetAttrValue(hXml, szAttrName);
-						break;
-					}
-				}
+			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml")))
 				node = xmlGetChild(hXml, childcount);
-			}
 			else
 				node = hXml;
 			while (node) {
@@ -58,13 +49,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								return mir_tstrdup(buf);
-							}
-							else
-								return mir_tstrdup(xmlGetText(child));
+							return xmlGetText(child);
 						}
 					}
 				}
@@ -75,13 +60,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								return buf;
-							}
-							else
-								return xmlGetText(child);
+							return xmlGetText(child);
 						}
 					}
 				}
@@ -203,19 +182,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 
 		CMString szValue;
 		if (hXml != NULL) {
-			LPCTSTR codepage = NULL;
 			int childcount = 0;
 			HXML node;
-			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml"))) {
-				for (int i = 0; xmlGetAttrCount(hXml); i++) {
-					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
-					if (!mir_tstrcmpi(szAttrName, _T("encoding"))) {
-						codepage = xmlGetAttrValue(hXml, szAttrName);
-						break;
-					}
-				}
+			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml")))
 				node = xmlGetChild(hXml, childcount);
-			}
 			else
 				node = hXml;
 			while (node) {
@@ -241,38 +211,17 @@ void CheckCurrentFeed(MCONTACT hContact)
 						HXML child = xmlGetChild(chan, j);
 						LPCTSTR childName = xmlGetName(child);
 						if (!mir_tstrcmpi(childName, _T("title"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
 						}
 						else if (!mir_tstrcmpi(childName, _T("link"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Homepage", ClearText(szValue, szChildText));
 						}
 						else if (!mir_tstrcmpi(childName, _T("description"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText) {
 								ClearText(szValue, szChildText);
 								db_set_ts(hContact, MODULE, "About", szValue);
@@ -280,50 +229,22 @@ void CheckCurrentFeed(MCONTACT hContact)
 							}
 						}
 						else if (!mir_tstrcmpi(childName, _T("language"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
 						}
 						else if (!mir_tstrcmpi(childName, _T("managingEditor"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "e-mail", ClearText(szValue, szChildText));
 						}
 						else if (!mir_tstrcmpi(childName, _T("category"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
 						}
 						else if (!mir_tstrcmpi(childName, _T("copyright"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText)
 								db_set_s(hContact, "UserInfo", "MyNotes", _T2A(ClearText(szValue, szChildText)));
 						}
@@ -358,14 +279,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							}
 						}
 						else if (!mir_tstrcmpi(childName, _T("lastBuildDate"))) {
-							LPCTSTR szChildText = NULL;
-							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-								TCHAR buf[MAX_PATH];
-								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
-								szChildText = buf;
-							}
-							else
-								szChildText = xmlGetText(child);
+							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText) {
 								TCHAR *lastupdtime = (TCHAR *)xmlGetText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 0);
@@ -384,40 +298,31 @@ void CheckCurrentFeed(MCONTACT hContact)
 							for (int z = 0; z < xmlGetChildCount(child); z++) {
 								HXML itemval = xmlGetChild(child, z);
 								LPCTSTR itemName = xmlGetName(itemval);
-								LPCTSTR value = NULL;
-								if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
-									TCHAR buf[MAX_PATH];
-									MultiByteToWideChar(20866, 0, _T2A(xmlGetText(itemval)), -1, buf, _countof(buf));
-									value = buf;
-								}
-								else
-									value = xmlGetText(itemval);
-
 								// We only use the first tag for now and ignore the rest.
 								if (!mir_tstrcmpi(itemName, _T("title")))
-									ClearText(title, value);
+									ClearText(title, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("link")))
-									ClearText(link, value);
+									ClearText(link, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("pubDate")) || !mir_tstrcmpi(itemName, _T("date"))) {
 									if (stamp == 0)
-										stamp = DateToUnixTime(value, 0);
+										stamp = DateToUnixTime(xmlGetText(itemval), 0);
 								}
 								else if (!mir_tstrcmpi(itemName, _T("description")) || !mir_tstrcmpi(itemName, _T("encoded")))
-									ClearText(descr, value);
+									ClearText(descr, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("author")) || !mir_tstrcmpi(itemName, _T("creator")))
-									ClearText(author, value);
+									ClearText(author, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("comments")))
-									ClearText(comments, value);
+									ClearText(comments, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("guid")))
-									ClearText(guid, value);
+									ClearText(guid, xmlGetText(itemval));
 
 								else if (!mir_tstrcmpi(itemName, _T("category")))
-									ClearText(category, value);
+									ClearText(category, xmlGetText(itemval));
 							}
 
 							XmlToMsg(hContact, title, link, descr, author, comments, guid, category, stamp);
