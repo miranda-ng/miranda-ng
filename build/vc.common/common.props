@@ -85,6 +85,7 @@
     <ClCompile>
     </ClCompile>
     <Link>
+      <AdditionalLibraryDirectories>..\..\..\boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
 
@@ -92,6 +93,7 @@
     <ClCompile>
     </ClCompile>
     <Link>
+      <AdditionalLibraryDirectories>..\..\..\boost\stage64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
