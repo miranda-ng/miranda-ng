@@ -22,7 +22,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 #include <m_popup.h>
 
 #define SECURITY_WIN32
@@ -248,7 +248,7 @@ const char* SSL_GetCipherName(SslHandle *ssl)
 	return g_OpenSSL.SSL_CIPHER_get_name(g_OpenSSL.SSL_get_current_cipher(ssl->session));
 }
 
-static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = false)
+static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
 	TCHAR szMsgBuf[256];
 	switch (scRet)
@@ -301,7 +301,7 @@ BOOL NetlibSslPending(SslHandle *ssl)
 	return ssl && ssl->session && (g_OpenSSL.SSL_pending(ssl->session) > 0);
 }
 
-static bool ClientConnect(SslHandle *ssl, const char *host)
+static bool ClientConnect(SslHandle *ssl, const char*)
 {
 	SSL_METHOD * meth;
 
