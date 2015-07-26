@@ -33,20 +33,18 @@ public:
 	COptItem() {}
 	COptItem(int DlgItemID, char *szDBSetting, int nValueSize, int lParam = 0, bool ReadOnly = false):
 		DlgItemID(DlgItemID), nValueSize(nValueSize), sDBSetting(szDBSetting), lParam(lParam), Enabled(true), ReadOnly(ReadOnly), Modified(false) {}
-/*	COptItem(const COptItem &Item): DlgItemID(Item.DlgItemID), nValueSize(Item.nValueSize),
-		sDBSetting(Item.szDBSetting), lParam(Item.lParam), Enabled(Item.Enabled) {};*/
 	virtual ~COptItem() {}
 
-	virtual void DBToMem(CString &sModule, CString *sDBSettingPrefix = NULL) {Modified = false;}
-	virtual void MemToDB(CString &sModule, CString *sDBSettingPrefix = NULL) {Modified = false;}
-	virtual void WndToMem(HWND hWnd) {}
+	virtual void DBToMem(CString&, CString* = NULL) { Modified = false; }
+	virtual void MemToDB(CString&, CString* = NULL) { Modified = false; }
+	virtual void WndToMem(HWND) {}
 	virtual void MemToWnd(HWND hWnd) {EnableWindow(GetDlgItem(hWnd, DlgItemID), Enabled);}
 	void DBToMemToWnd(CString &sModule, HWND hWnd, CString *sDBSettingPrefix = NULL) {DBToMem(sModule, sDBSettingPrefix); MemToWnd(hWnd);}
 	void WndToMemToDB(HWND hWnd, CString &sModule, CString *sDBSettingPrefix = NULL) {WndToMem(hWnd); MemToDB(sModule, sDBSettingPrefix);}
 	virtual void CleanDBSettings(CString &sModule, CString *sDBSettingPrefix = NULL) {db_unset(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting);}; // TODO: also set Value to DefValue?
 
-	virtual void SetValue(int Value) {Modified = true;}
-	virtual void SetDefValue(int DefValue) {}
+	virtual void SetValue(int) {Modified = true;}
+	virtual void SetDefValue(int) {}
 	virtual int GetValue() {return 0;}
 	virtual int GetDefValue() {return 0;}
 	int GetDBValue(CString &sModule, CString *sDBSettingPrefix = NULL) {DBToMem(sModule, sDBSettingPrefix); return GetValue();}

@@ -141,7 +141,7 @@ int findLine(char* FileContents[], const char* string, int linesInFile, int star
 	return -1;
 }
 
-int findChar(char* FileContents[], const char* string, int linesInFile, int startLine, int *positionInOldString, int startChar, int startEnd) // 0=start, 1=end for startEnd
+int findChar(char* FileContents[], const char* string, int startLine, int *positionInOldString, int startChar, int startEnd) // 0=start, 1=end for startEnd
 {
 	char tmp[5];
 	int i = getNumber(&string[*positionInOldString]);
@@ -486,7 +486,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 					startLine = tempInt;
 					if (!endChar)
 						endChar = (int)mir_strlen(fileContents[startLine]);
-					tempInt = findChar(fileContents, oldString, linesInFile, startLine, &positionInOldString, startChar, 0);
+					tempInt = findChar(fileContents, oldString, startLine, &positionInOldString, startChar, 0);
 					if (tempInt == -1)
 						return ERROR_NO_LINE_AFTER_VAR_F;
 					startChar = tempInt;
@@ -502,7 +502,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 
 				positionInOldString += 2;
 				endLine = tempInt;
-				tempInt = findChar(fileContents, oldString, linesInFile, startLine, &positionInOldString, startChar, 1);
+				tempInt = findChar(fileContents, oldString, startLine, &positionInOldString, startChar, 1);
 				if (tempInt == -1)
 					return ERROR_NO_LINE_AFTER_VAR_F;
 				endChar = tempInt;

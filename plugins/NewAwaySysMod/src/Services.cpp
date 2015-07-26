@@ -36,13 +36,13 @@ struct NAS_PROTOINFOv1
 
 __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode = false) // just a helper function that sets the status and handles szProto==NULL correctly
 {
-	g_ProtoStates[szProto].Status = Status;
+	g_ProtoStates[szProto].m_status = Status;
 	if (szProto)
 		CallProtoService(szProto, PS_SETSTATUS, Status, 0);
 	else if (!bNoClistSetStatusMode) { // global status
 		g_fNoProcessing = true;
 		CallService(MS_CLIST_SETSTATUSMODE, Status, 0);
-		_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].Status == Status);
+		_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == Status);
 		g_fNoProcessing = false;
 	}
 }
@@ -66,7 +66,7 @@ INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and
 	g_fNoProcessing = true;
 	CallService(MS_CLIST_SETSTATUSMODE, wParam, 0);
 
-	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].Status == wParam);
+	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == wParam);
 	g_fNoProcessing = false;
 	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (TCHAR*)_A2T((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
 	ChangeProtoMessages(NULL, wParam, TCString());
@@ -97,7 +97,7 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 			else pi->szMsg = NULL;
 
 			if (!pi->status)
-				pi->status = g_ProtoStates[pi->szProto].Status;
+				pi->status = g_ProtoStates[pi->szProto].m_status;
 		}
 		else pi->szMsg = NULL;
 
@@ -134,7 +134,7 @@ int SetState(WPARAM wParam, LPARAM lParam, int Widechar)
 		if (pi->status)
 			PSSetStatus(pi->szProto, pi->status, Flags & PIF_NO_CLIST_SETSTATUSMODE);
 		else
-			pi->status = g_ProtoStates[pi->szProto].Status;
+			pi->status = g_ProtoStates[pi->szProto].m_status;
 
 		CProtoSettings(pi->szProto).SetMsgFormat((Flags & PIF_NOTTEMPORARY) ? SMF_PERSONAL : SMF_TEMPORARY, Widechar ? pi->wszMsg : _A2T(pi->szMsg));
 		if (pi->szMsg || !(Flags & PIF_NO_CLIST_SETSTATUSMODE))

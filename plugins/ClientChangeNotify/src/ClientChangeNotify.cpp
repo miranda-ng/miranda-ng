@@ -42,13 +42,13 @@ PLUGININFOEX pluginInfo = {
 	{0xb68a8906, 0x748b, 0x435d, {0x93, 0xe, 0x21, 0xcc, 0x6e, 0x8f, 0x3b, 0x3f}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	g_hInstance = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -82,7 +82,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 }
 
 
-void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
+void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA*)
 {
 	MCONTACT hContact = (MCONTACT)CallService(MS_POPUP_GETCONTACT, (WPARAM)hWnd, 0);
 	switch (Action) {
@@ -266,13 +266,13 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR srvTogglePopups(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvTogglePopups(WPARAM, LPARAM)
 {
 	g_PopupOptPage.SetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY, !g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY));
 	return 0;
 }
 
-static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
+static int PrebuildMainMenu(WPARAM, LPARAM)
 {
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
 	if (bPopupExists) {
@@ -284,7 +284,7 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -304,7 +304,7 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+static int ModuleLoad(WPARAM, LPARAM)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
@@ -312,7 +312,7 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int MirandaLoaded(WPARAM wParam, LPARAM lParam)
+int MirandaLoaded(WPARAM, LPARAM)
 {
 	ModuleLoad(0, 0);
 	COptPage PopupOptPage(g_PopupOptPage);

@@ -121,7 +121,7 @@ int HookedInit(WPARAM, LPARAM)
 }
 
 //---Called when an options dialog has to be created
-int HookedOptions(WPARAM wParam, LPARAM lParam)
+int HookedOptions(WPARAM wParam, LPARAM)
 {
 	OptionsAdd(hInst, wParam);
 	return 0;
@@ -130,7 +130,7 @@ int HookedOptions(WPARAM wParam, LPARAM lParam)
 //---------------------------
 //---Exported Functions
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -154,7 +154,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;

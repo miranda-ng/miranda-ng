@@ -211,7 +211,7 @@ void CEventScreen::OnLCDButtonRepeated(int iButton)
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CEventScreen::OnLCDButtonUp(int iButton)
+void CEventScreen::OnLCDButtonUp(int)
 {
 	
 }

@@ -89,7 +89,7 @@ void UnInit();
 // Exported Functions
 //************************************************************************
 
-EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -132,7 +132,7 @@ EXTERN_C int __declspec(dllexport) Unload(void)
 //
 // EntryPoint of the DLL
 //************************************************************************
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInstance = hinstDLL;
 	return TRUE;
@@ -145,7 +145,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 // This is where the main plugin initialization happens and the
 // connection to the LCD is established,
 //************************************************************************
-int Init(WPARAM wParam,LPARAM lParam)
+int Init(WPARAM, LPARAM)
 {
 	g_AppletManager = new CAppletManager();
 	// Memoryleak Detection

@@ -100,7 +100,7 @@ private:
 #define ILI_SETTINGS 22
 #define ILI_STATUS_OTHER 23
 
-static int Icons[] = {
+static unsigned Icons[] = {
 	SKINICON_EVENT_MESSAGE | IL_SKINICON, SKINICON_EVENT_URL | IL_SKINICON, SKINICON_EVENT_FILE | IL_SKINICON,
 	ID_STATUS_ONLINE | IL_PROTOICON, ID_STATUS_AWAY | IL_PROTOICON, ID_STATUS_NA | IL_PROTOICON, ID_STATUS_OCCUPIED | IL_PROTOICON, ID_STATUS_DND | IL_PROTOICON, ID_STATUS_FREECHAT | IL_PROTOICON, ID_STATUS_INVISIBLE | IL_PROTOICON, ID_STATUS_ONTHEPHONE | IL_PROTOICON, ID_STATUS_OUTTOLUNCH | IL_PROTOICON,
 	IDI_DOT, IDI_MSGICON, IDI_IGNORE, IDI_SOE_ENABLED, IDI_SOE_DISABLED, IDI_NEWMESSAGE, IDI_NEWCATEGORY, IDI_SAVE, IDI_SAVEASNEW, IDI_DELETE, IDI_SETTINGS, IDI_STATUS_OTHER
@@ -148,33 +148,33 @@ class CProtoStates;
 class CProtoState
 {
 public:
-	CProtoState(const char* szProto, CProtoStates* Parent): szProto(szProto), Parent(Parent), Status(szProto, Parent), AwaySince(szProto, Parent) {}
+	CProtoState(const char* szProto, CProtoStates* Parent): m_szProto(szProto), m_parent(Parent), m_status(szProto, Parent), m_awaySince(szProto, Parent) {}
 
 	class CStatus
 	{
 	public:
-		CStatus(const char* szProto, CProtoStates* GrandParent): szProto(szProto), GrandParent(GrandParent), Status(ID_STATUS_OFFLINE) {}
+		CStatus(const char* szProto, CProtoStates* GrandParent): m_szProto(szProto), m_grandParent(GrandParent), m_status(ID_STATUS_OFFLINE) {}
 		CStatus& operator = (int Status);
-		operator int() {return Status;}
+		operator int() {return m_status;}
 		friend class CProtoState;
 	private:
-		int Status;
-		CString szProto;
-		CProtoStates* GrandParent;
-	} Status;
+		int m_status;
+		CString m_szProto;
+		CProtoStates* m_grandParent;
+	} m_status;
 
 	class CAwaySince
 	{
 	public:
-		CAwaySince(const char* szProto, CProtoStates* GrandParent): szProto(szProto), GrandParent(GrandParent) {Reset();}
+		CAwaySince(const char* szProto, CProtoStates* GrandParent): m_szProto(szProto), m_grandParent(GrandParent) {Reset();}
 		void Reset();
-		operator LPSYSTEMTIME() {return &AwaySince;}
+		operator LPSYSTEMTIME() {return &m_awaySince;}
 		friend class CProtoState;
 	private:
-		SYSTEMTIME AwaySince;
-		CString szProto;
-		CProtoStates* GrandParent;
-	} AwaySince;
+		SYSTEMTIME m_awaySince;
+		CString m_szProto;
+		CProtoStates* m_grandParent;
+	} m_awaySince;
 
 	class CCurStatusMsg
 	{
@@ -206,7 +206,7 @@ public:
 	{ // we use temporary messages to keep user-defined per-protocol messages intact, when changing messages through MS_NAS_SETSTATE, or when autoaway becomes active etc.. temporary messages are automatically resetted when protocol status changes
 	public:
 		CTempMsg(): iIsSet(0) {}
-		CTempMsg& operator = (TCString Msg) {this->Msg = Msg; iIsSet = true; return *this;}
+		CTempMsg& operator = (TCString _Msg) {this->Msg = _Msg; iIsSet = true; return *this;}
 		operator TCString()
 		{
 			_ASSERT(iIsSet);
@@ -220,20 +220,20 @@ public:
 		TCString Msg;
 	} TempMsg;
 
-	void SetParent(CProtoStates* Parent)
+	void SetParent(CProtoStates* _Parent)
 	{
-		this->Parent = Parent;
-		Status.GrandParent = Parent;
-		AwaySince.GrandParent = Parent;
+		m_parent = _Parent;
+		m_status.m_grandParent = _Parent;
+		m_awaySince.m_grandParent = _Parent;
 	}
 
-	CString &GetProto() {return szProto;}
+	CString &GetProto() {return m_szProto;}
 
 //NightFox: fix?
 //private:
 public:
-	CString szProto;
-	CProtoStates *Parent;
+	CString m_szProto;
+	CProtoStates *m_parent;
 };
 
 
@@ -361,11 +361,11 @@ public:
 	{
 	public:
 		CStatus(int iStatus = 0, const char *szProto = NULL): Status(iStatus), szProto(szProto) {}
-		CStatus& operator = (int Status) {this->Status = Status; return *this;}
+		CStatus& operator = (int _Status) {this->Status = _Status; return *this;}
 		operator int()
 		{
 			if (!Status)
-				Status = g_ProtoStates[szProto].Status;
+				Status = g_ProtoStates[szProto].m_status;
 			return Status;
 		}
 	private:
@@ -403,10 +403,10 @@ __inline CString ContactStatusToDBSetting(int Status, const char *Prefix, int Mo
 
 class CContactSettings
 {
-	MCONTACT hContact;
+	MCONTACT m_hContact;
 
 public:
-	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus, hContact), hContact(_hContact)
+	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus, _hContact), m_hContact(_hContact)
 	{
 		Ignore.Parent = this;
 		Autoreply.Parent = this;
@@ -414,7 +414,7 @@ public:
 
 	CString ContactStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
 	{
-		return ::ContactStatusToDBSetting((hContact != INVALID_CONTACT_ID) ? Status : NULL, Prefix, MoreOpt_PerStatusID, hContact);
+		return ::ContactStatusToDBSetting((m_hContact != INVALID_CONTACT_ID) ? Status : NULL, Prefix, MoreOpt_PerStatusID, m_hContact);
 	}
 
 	class CIgnore
@@ -423,7 +423,7 @@ public:
 		CIgnore& operator = (const int Value)
 		{
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
-			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
+			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
 			if (Value)
 				db_set_b(hContact, MOD_NAME, Setting, 1);
 			else
@@ -433,7 +433,7 @@ public:
 
 		operator int() 
 		{
-			return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, 
+			return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MOD_NAME,
 				Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);
 		}
 
@@ -448,7 +448,7 @@ public:
 		CAutoreply& operator = (const int Value)
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
-			MCONTACT hContact = (Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL;
+			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
 			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
 				return *this;
 
@@ -458,13 +458,13 @@ public:
 				db_unset(hContact, MOD_NAME, Setting);
 			return *this;
 		}
-		operator int() {return db_get_b((Parent->hContact != INVALID_CONTACT_ID) ? Parent->hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
 		int IncludingParents(const char *szProtoOverride = NULL) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
-			_ASSERT((Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
+			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int Value = *this;
 			if (Value == VAL_USEDEFAULT) {
-				const char *szProto = (Parent->hContact && Parent->hContact != INVALID_CONTACT_ID) ? GetContactProto(Parent->hContact) : szProtoOverride;
+				const char *szProto = (Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) ? GetContactProto(Parent->m_hContact) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
 			return Value;
@@ -474,7 +474,7 @@ public:
 			switch ((int)*this) {
 				case VAL_USEDEFAULT: return 0; break;
 				case 0: return 1; break;
-				default: return Parent->hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY; break;
+				default: return Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY; break;
 			}
 		}
 		int Toggle() {return *this = GetNextToggleValue();}
@@ -486,14 +486,14 @@ public:
 	class CStatus
 	{
 	public:
-		CStatus(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus), hContact(_hContact) {}
-		CStatus& operator = (int Status) {this->Status = Status; return *this;}
+		CStatus(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus), m_hContact(_hContact) {}
+		CStatus& operator = (int _Status) {this->Status = _Status; return *this;}
 		operator int()
 		{
 			if (!Status) {
-				_ASSERT(hContact != INVALID_CONTACT_ID);
-				char *szProto = hContact ? GetContactProto(hContact) : NULL;
-				Status = (szProto || !hContact) ? g_ProtoStates[szProto].Status : ID_STATUS_AWAY;
+				_ASSERT(m_hContact != INVALID_CONTACT_ID);
+				char *szProto = m_hContact ? GetContactProto(m_hContact) : NULL;
+				Status = (szProto || !m_hContact) ? g_ProtoStates[szProto].m_status : ID_STATUS_AWAY;
 			}
 			return Status;
 		}
@@ -501,7 +501,7 @@ public:
 		friend class CAutoreply;
 	private:
 		int Status;
-		MCONTACT hContact;
+		MCONTACT m_hContact;
 	} Status;
 
 	void SetMsgFormat(int Flags, TCString Message);

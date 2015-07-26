@@ -27,7 +27,7 @@
 HGENMENU hMenuitemNotify;
 BOOL bNotify;
 
-static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
+static INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 {
 	bNotify = !bNotify;
 	MenuitemUpdate(bNotify);

@@ -51,7 +51,7 @@ void DeleteTimer::stop()
 	}
 }
 
-void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) 
 {
 	mir_cslock lock(DBEntry::mutexDB);
 

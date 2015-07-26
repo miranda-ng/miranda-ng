@@ -314,7 +314,6 @@ void CLCDGfx::DrawText(int nX, int nY, LPCTSTR sText)
 //************************************************************************
 void CLCDGfx::DrawText(int nX,int nY,int nWidth,tstring strText)
 {
-	SIZE sizeChar = {0, 0};
 	SIZE sizeLine =  {0, 0};
 	SIZE sizeCutOff = {0, 0};
 
@@ -489,10 +488,7 @@ void CLCDGfx::EndDraw(void)
 			memset(m_pLcdBitmapBits,0x00,m_nHeight * m_nWidth);
 			SLCDPixel *pPixel = NULL;
 			vector<SLCDPixel*>::iterator iter = m_LMovingPixels.begin();
-			int iPosition = 0;
 			int iIndex = 0,iMoved = 0;
-
-			double dTest = sin(3.14/2);
 
 			while(iter != m_LMovingPixels.end())
 			{

@@ -311,7 +311,7 @@ void CAppletManager::OnScreenExpired(CLCDScreen *pScreen)
 //************************************************************************
 // the update timer's callback function
 //************************************************************************
-VOID CALLBACK CAppletManager::UpdateTimer(HWND hwnd,UINT uMsg,UINT_PTR idEvent,DWORD dwTime)
+VOID CALLBACK CAppletManager::UpdateTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	CAppletManager::GetInstance()->Update();
 }
@@ -974,10 +974,9 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 //************************************************************************
 tstring CAppletManager::StripIRCFormatting(tstring strText)
 {
-	tstring::size_type end = 0, start = 0, i = 0;
+	tstring::size_type start = 0, i = 0;
 	tstring strEntity = _T("");
 	tstring strReplace = _T("");
-	tstring::size_type len = strText.length();
 
 	while(i < strText.length())
 	{
@@ -1147,7 +1146,7 @@ CIRCHistory *CAppletManager::CreateIRCHistoryByName(tstring strProtocol,tstring 
 //************************************************************************
 // inbound chat event hook function
 //************************************************************************
-int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
+int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	GCDEST *gcd;
@@ -1451,7 +1450,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 //************************************************************************
 // message window event hook function
 //************************************************************************
-int CAppletManager::HookMessageWindowEvent(WPARAM wParam, LPARAM lParam)
+int CAppletManager::HookMessageWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	CEvent Event;
@@ -1601,7 +1600,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 // protocoll ack hook function
 //************************************************************************
-int CAppletManager::HookProtoAck(WPARAM wParam, LPARAM lParam)
+int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *) lParam;
   
@@ -1705,7 +1704,7 @@ int CAppletManager::HookProtoAck(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 // contact added hook function
 //************************************************************************
-int CAppletManager::HookContactAdded(WPARAM wParam, LPARAM lParam)
+int CAppletManager::HookContactAdded(WPARAM wParam, LPARAM)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_ADDED;
@@ -1718,7 +1717,7 @@ int CAppletManager::HookContactAdded(WPARAM wParam, LPARAM lParam)
 //************************************************************************
 // contact deleted hook function
 //************************************************************************
-int CAppletManager::HookContactDeleted(WPARAM wParam, LPARAM lParam)
+int CAppletManager::HookContactDeleted(WPARAM wParam, LPARAM)
 {
 	CEvent Event;
 	Event.eType = EVENT_CONTACT_DELETED;

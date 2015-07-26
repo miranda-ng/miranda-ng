@@ -613,7 +613,6 @@ void CLCDInput::UpdateOffsets(int iModified)
 	int iMaxChars = 0;
 
 	SIZE sizeWord = {0, 0};
-	SIZE sizeChar = {0, 0};
 	SIZE sizeLine =  {0, 0};
 	SelectObject(hDC, m_hFont);   
 

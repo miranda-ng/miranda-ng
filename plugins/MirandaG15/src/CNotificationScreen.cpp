@@ -333,7 +333,7 @@ void CNotificationScreen::OnLCDButtonRepeated(int iButton)
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CNotificationScreen::OnLCDButtonUp(int iButton)
+void CNotificationScreen::OnLCDButtonUp(int)
 {
 	
 }

@@ -244,7 +244,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-int Options::InitOptions(WPARAM wParam, LPARAM lParam)
+int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;

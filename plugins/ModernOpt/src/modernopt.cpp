@@ -451,7 +451,7 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 
 ////////////////////////////////////////////////////////////////////////////////
 // Services
-static INT_PTR svcModernOpt_Impl(WPARAM wParam, LPARAM lParam)
+static INT_PTR svcModernOpt_Impl(WPARAM, LPARAM)
 {
 	if (!hwndModernOpt) {
 		ModernOptionsData *dat = new ModernOptionsData;

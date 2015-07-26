@@ -18,7 +18,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0x621f886b, 0xa7f6, 0x457f, {0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;

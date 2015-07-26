@@ -343,7 +343,7 @@ void previewFlashing(BOOL buttonState)
 }
 
 
-static void PreviewThread(void *dummy)
+static void PreviewThread(void*)
 {
 	if (wStartDelay > 0)
 		Sleep(wStartDelay * 1000);

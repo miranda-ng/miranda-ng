@@ -260,7 +260,7 @@ void CLCDScreen::OnExpiration()
 //************************************************************************
 // Called when an LCD-button is pressed
 //************************************************************************
-void CLCDScreen::OnLCDButtonDown(int iButton)
+void CLCDScreen::OnLCDButtonDown(int)
 {
 
 }
@@ -268,7 +268,7 @@ void CLCDScreen::OnLCDButtonDown(int iButton)
 //************************************************************************
 // Called when an LCD-button event is repeated
 //************************************************************************
-void CLCDScreen::OnLCDButtonRepeated(int iButton)
+void CLCDScreen::OnLCDButtonRepeated(int)
 {
 
 }
@@ -276,7 +276,7 @@ void CLCDScreen::OnLCDButtonRepeated(int iButton)
 //************************************************************************
 // Called when an LCD-button is released
 //************************************************************************
-void CLCDScreen::OnLCDButtonUp(int iButton)
+void CLCDScreen::OnLCDButtonUp(int)
 {
 
 }

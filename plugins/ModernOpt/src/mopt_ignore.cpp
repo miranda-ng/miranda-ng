@@ -30,7 +30,7 @@ static HWND g_hwndModernOptIgnore = NULL;
 
 void ModernOptIgnore_AddItem(MODERNOPTOBJECT *obj)
 {
-	if ( g_hwndModernOptIgnore )
+	if (g_hwndModernOptIgnore)
 		SendMessage(g_hwndModernOptIgnore, WM_APP, 0, (LPARAM)obj);
 }
 

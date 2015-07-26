@@ -149,9 +149,7 @@ void CContactlistScreen::OnConfigChanged()
 //************************************************************************
 void CContactlistScreen::OnEventReceived(CEvent *pEvent)
 {
-	int iStatus = 0;
-	switch(pEvent->eType)
-	{
+	switch(pEvent->eType) {
 	case EVENT_SIGNED_ON:
 	case EVENT_SIGNED_OFF:
 	case EVENT_STATUS:

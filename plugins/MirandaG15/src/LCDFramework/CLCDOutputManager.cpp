@@ -197,8 +197,6 @@ bool CLCDOutputManager::Update()
 {
 	ASSERT(m_bInitialized);
 
-	DWORD dwElapsed = GetTickCount() - m_dwLastUpdate;
-
 	// Update the active screen
 	if(m_pActiveScreen != NULL)
 	{
@@ -379,14 +377,14 @@ void CLCDOutputManager::SetButtonRepeatDelay(DWORD dwDelay)
 //************************************************************************
 // Called when a screen has been deactivated
 //************************************************************************
-void CLCDOutputManager::OnScreenDeactivated(CLCDScreen *pScreen)
+void CLCDOutputManager::OnScreenDeactivated(CLCDScreen*)
 {	
 }
 
 //************************************************************************
 // Called when a screen has expired
 //************************************************************************
-void CLCDOutputManager::OnScreenExpired(CLCDScreen *pScreen)
+void CLCDOutputManager::OnScreenExpired(CLCDScreen*)
 {	
 }
 
@@ -421,7 +419,7 @@ void CLCDOutputManager::OnLCDButtonUp(int iButton)
 //************************************************************************
 // Called when the connection state has changed
 //************************************************************************
-void CLCDOutputManager::OnConnectionChanged(int iConnectionState)
+void CLCDOutputManager::OnConnectionChanged(int)
 {
 }
 
@@ -442,12 +440,15 @@ void CLCDOutputManager::OnLCDDisconnected()
 //************************************************************************
 // Called by the LCDManager to open a config dialog
 //************************************************************************
-DWORD WINAPI CLCDOutputManager::configDialogCallback(IN int connection,IN const PVOID pContext) {
-	return CLCDOutputManager::GetInstance()->OnConfigDialogRequest(connection,pContext);
+DWORD WINAPI CLCDOutputManager::configDialogCallback(IN int connection,IN const PVOID pContext)
+{
+	return CLCDOutputManager::GetInstance()->OnConfigDialogRequest(connection, pContext);
 }
+
 //************************************************************************
 // Called when a config dialog is requested
 //************************************************************************
-DWORD CLCDOutputManager::OnConfigDialogRequest(int connection, const PVOID pContext) {
+DWORD CLCDOutputManager::OnConfigDialogRequest(int, const PVOID)
+{
 	return 0;
 }

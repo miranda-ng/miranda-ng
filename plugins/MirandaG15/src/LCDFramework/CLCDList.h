@@ -53,12 +53,12 @@ public:
 		return m_pParent->GetPreviousEntry(this);
 	}
 
-	virtual CListEntry<T,G> *GetNextEntry(CListEntry<T,G> *pEntry)
+	virtual CListEntry<T,G> *GetNextEntry(CListEntry<T,G>*)
 	{
 		return NULL;
 	}
 
-	virtual CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G> *pEntry)
+	virtual CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G>*)
 	{
 		return NULL;
 	}
@@ -83,11 +83,11 @@ public:
 		m_pRoot = pRoot;
 	}
 
-	virtual void DeleteItem(T Entry)
+	virtual void DeleteItem(T)
 	{
 	}
 
-	virtual void DeleteGroup(G Group)
+	virtual void DeleteGroup(G)
 	{
 	}
 
@@ -170,7 +170,6 @@ public:
 
 	bool empty()
 	{
-		bool b = m_Entrys.empty();
 		return m_Entrys.empty();
 	}
 
@@ -196,8 +195,6 @@ public:
 	void Clear()
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListItem<T,G> *pItem = NULL;
-		CListContainer<T,G> *pContainer = NULL;
 
 		while(iter != m_Entrys.end())
 		{
@@ -605,8 +602,7 @@ public:
 		SelectObject(pGfx->GetHDC(),m_hFont);
 
 		POINT ptPrevViewportOrg = { 0, 0 };
-		HRGN hRgn = NULL;
-		int iHeight = 0,iLimit=0;
+		int iHeight = 0;
 		int iYOffset = 0, iXOffset=0;
 		int iColWidth = (GetWidth()- (m_iColumns-1)*3)/m_iColumns;
 		int iSpace = GetHeight() - (GetHeight()/m_iEntryHeight)*m_iEntryHeight;
@@ -783,7 +779,6 @@ public:
 			{
 				m_Position = pEntry;
 				
-				int iPerPage = (GetHeight()/m_iEntryHeight)*m_iColumns;
 				if(m_Position->GetIndex() < m_iStartIndex)
 					m_iStartIndex--;
 				return true;
@@ -904,7 +899,7 @@ protected:
 	//************************************************************************
 	// Called to delete the specified entry
 	//************************************************************************
-	virtual void DeleteEntry(T Entry)
+	virtual void DeleteEntry(T)
 	{
 
 	}
@@ -912,7 +907,7 @@ protected:
 	//************************************************************************
 	// Called to delete the specified group
 	//************************************************************************
-	virtual void DeleteGroup(G Group)
+	virtual void DeleteGroup(G)
 	{
 
 	}
@@ -920,14 +915,14 @@ protected:
 	//************************************************************************
 	// Called to draw the specified entry
 	//************************************************************************
-	virtual void DrawEntry(CLCDGfx *pGfx,T Entry, bool bSelected)
+	virtual void DrawEntry(CLCDGfx*, T, bool)
 	{
 	}
 	
 	//************************************************************************
 	// Called to draw the specified entry
 	//************************************************************************
-	virtual void DrawGroup(CLCDGfx *pGfx,G Group, bool bOpen, bool bSelected)
+	virtual void DrawGroup(CLCDGfx*, G, bool, bool)
 	{
 	}
 

@@ -205,7 +205,7 @@ void ShutdownAction(void)
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 }
 
-int OnWindowEvent(WPARAM wParam, LPARAM lParam)
+int OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData* msgEvData = (MessageWindowEventData*)lParam;
 	switch (msgEvData->uType) {

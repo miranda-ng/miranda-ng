@@ -72,7 +72,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0xb2dd9270, 0xce5e, 0x11df, { 0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	g_hInstance = hinstDLL;
 	return TRUE;
@@ -80,7 +80,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY, MIID_LAST }; // TODO: add MIID_WHOISREADING here if there'll be any some time in future..
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -200,7 +200,7 @@ static StatusModeList[] = {
 int StatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	LogMessage("MS_CLIST_SETSTATUSMODE called. szProto=%s, Status=%d", lParam ? (char*)lParam : "NULL", wParam);
-	g_ProtoStates[(char*)lParam].Status = wParam;
+	g_ProtoStates[(char*)lParam].m_status = wParam;
 	// let's check if we handle this thingy
 	if (g_fNoProcessing) { // we're told not to do anything
 		g_fNoProcessing = false; // take it off
@@ -272,7 +272,7 @@ int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (Startu
 			i + 1, ps[i]->cbSize, ps[i]->szName ? (char*)ps[i]->szName : "NULL", ps[i]->status, ps[i]->lastStatus, ps[i]->szMsg ? ps[i]->szMsg : _T("NULL"));
 		if (ps[i]->status != ID_STATUS_DISABLED) {
 			if (ps[i]->status != ID_STATUS_CURRENT)
-				g_ProtoStates[ps[i]->szName].Status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
+				g_ProtoStates[ps[i]->szName].m_status = (ps[i]->status == ID_STATUS_LAST) ? ps[i]->lastStatus : ps[i]->status;
 
 			CProtoSettings(ps[i]->szName).SetMsgFormat(SMF_TEMPORARY, ps[i]->szMsg ? ps[i]->szMsg : CProtoSettings(ps[i]->szName).GetMsgFormat(GMF_LASTORDEFAULT));
 		}
@@ -322,7 +322,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 
 		// if this contact supports sending/receiving messages
 		if ((Flag1 & PF1_IM) == PF1_IM) {
-			int iAutoreply = CContactSettings(g_ProtoStates[szProto].Status, hContact).Autoreply;
+			int iAutoreply = CContactSettings(g_ProtoStates[szProto].m_status, hContact).Autoreply;
 			HANDLE hIcon;
 			switch (iAutoreply) {
 				case VAL_USEDEFAULT: hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)); break;
@@ -373,10 +373,10 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 {
 	// used only for the global setting
-	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].Status, hContact).Autoreply.Toggle();
+	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].m_status, hContact).Autoreply.Toggle();
 
 	if (hContact == NULL) {
-		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].Status).Autoreply;
+		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].m_status).Autoreply;
 		
 		if (SendOnEvent)
 			Menu_ModifyItem(g_hToggleSOEMenuItem, ENABLE_SOE_COMMAND, iconList[1].hIcolib);
@@ -392,25 +392,25 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 
 INT_PTR srvAutoreplyOn(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 1;
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = 1;
 	return 0;
 }
 
 INT_PTR srvAutoreplyOff(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = 0;
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = 0;
 	return 0;
 }
 
 INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].Status, hContact).Autoreply = VAL_USEDEFAULT;
+	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = VAL_USEDEFAULT;
 	return 0;
 }
 
 static int Create_TopToolbar(WPARAM, LPARAM)
 {
-	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
+	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].m_status).Autoreply;
 	if (ServiceExists(MS_TTB_REMOVEBUTTON)) {
 		TTBButton ttbb = { 0 };
 		ttbb.name = LPGEN("Toggle autoreply on/off");;
@@ -470,15 +470,15 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
 	if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_STATDESC)) {
-		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].Status, 0);
+		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].m_status, 0);
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
@@ -503,7 +503,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		SYSTEMTIME st;
 		GetLocalTime(&st);
 		SystemTimeToFileTime(&st, (LPFILETIME)&ul_Now);
-		SystemTimeToFileTime(g_ProtoStates[VarParseData.szProto].AwaySince, (LPFILETIME)&ul_AwaySince);
+		SystemTimeToFileTime(g_ProtoStates[VarParseData.szProto].m_awaySince, (LPFILETIME)&ul_AwaySince);
 		ul_Now.QuadPart -= ul_AwaySince.QuadPart;
 		ul_Now.QuadPart /= 10000000; // now it's in seconds
 		Result.GetBuffer(256);
@@ -609,7 +609,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 	g_hReadWndList = WindowList_Create();
 	
-	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
+	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].m_status).Autoreply;
 
 	CMenuItem mi;
 	mi.position = 1000020000;

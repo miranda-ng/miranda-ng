@@ -174,13 +174,13 @@ void HookAPI()
 	CloseHandle(hModuleSnap);
 }
 
-int HookedInit(WPARAM wParam, LPARAM lParam)
+int HookedInit(WPARAM, LPARAM)
 {
 	HookAPI();
 	return 0;
 }
 
-int HookedOptions(WPARAM wParam, LPARAM lParam)
+int HookedOptions(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
@@ -225,12 +225,12 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;

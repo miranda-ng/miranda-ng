@@ -190,7 +190,7 @@ static void SetAllContactIcons(HWND hwndList)
 	}
 }
 
-INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	static HICON hIcons[IGNOREEVENT_MAX+2];
 	static HANDLE hItemAll, hItemUnknown;

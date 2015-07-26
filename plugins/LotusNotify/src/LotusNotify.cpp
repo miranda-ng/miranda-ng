@@ -571,13 +571,11 @@ int check() {
 //before pure lotus notes api functions call
 void checkthread(void*)
 {
-
 	STATUS      error = NOERROR;
 	char		fullpath[255];
 	DBHANDLE    db_handle = NULLHANDLE;     /* database handle */
-    TCHAR       buffer[NSF_INFO_SIZE] = TEXT(""); /* database info buffer */
-    TCHAR       title[NSF_INFO_SIZE] = TEXT("");  /* database title */
-	char        UserName [MAXUSERNAME + 1];
+	TCHAR       buffer[NSF_INFO_SIZE] = TEXT(""); /* database info buffer */
+	char        UserName[MAXUSERNAME + 1];
 	HANDLE      hTable;
 
 	DWORD		noteID = 0L;
@@ -607,44 +605,46 @@ void checkthread(void*)
 	}
 	log_p(L"checkthread: OSPathNetConstruct: %S", fullpath);
 
-	if (error = (NSFDbOpen1) (fullpath, &db_handle)) {
-		if(mir_strcmp(settingServerSec, "") != 0) {
+	if (error = (NSFDbOpen1)(fullpath, &db_handle)) {
+		if (mir_strcmp(settingServerSec, "") != 0) {
 			if (error = (OSPathNetConstruct1)(NULL, settingServerSec, settingDatabase, fullpath)) {
 				goto errorblock;
-			} else {
-				if (error = (NSFDbOpen1) (fullpath, &db_handle)) {
+			}
+			else {
+				if (error = (NSFDbOpen1)(fullpath, &db_handle)) {
 					goto errorblock;
 				}
 			}
-		} else {
+		}
+		else {
 			goto errorblock;
 		}
 	}
 	assert(db_handle);
 	log(L"checkthread: DBOpened");
 
-	if(error = (SECKFMGetUserName1) (UserName)) {
+	if (error = (SECKFMGetUserName1)(UserName)) {
 		goto errorblock0;
 	}
 	assert(UserName);
 	log_p(L"checkthread: Username: %S", UserName);
 
-   /* Get the unread list */
-	if(error = (NSFDbGetUnreadNoteTable1) (db_handle,UserName,(WORD) mir_strlen(UserName),TRUE,&hTable)) {
+	/* Get the unread list */
+	if (error = (NSFDbGetUnreadNoteTable1)(db_handle, UserName, (WORD)mir_strlen(UserName), TRUE, &hTable)) {
 		goto errorblock0;
 	}
 	log(L"checkthread: Unread Table got");
 
 	//error = IDTableCopy (hTable, &hOriginalTable);
 	//IDDestroyTable (hTable);
-	if(error = (NSFDbUpdateUnread1) (db_handle, hTable)){
+	if (error = (NSFDbUpdateUnread1)(db_handle, hTable)) {
 		goto errorblock;
 	}
 	log(L"checkthread: Unread Table updated");
 	assert(hTable);
 
 
-    while((IDScan1)(hTable, fFirst, &noteID)) {
+	while ((IDScan1)(hTable, fFirst, &noteID)) {
 
 		WORD Att;
 		BLOCKID bhAttachment;
@@ -654,9 +654,9 @@ void checkthread(void*)
 		TIMEDATE     retModified;     /* modified timedate      */
 		WORD         retNoteClass;    /* note class             */
 		TIMEDATE     sendDate;
-		char strLink[4*16];
+		char strLink[4 * 16];
 
-		if (Plugin_Terminated || Miranda_Terminated()){
+		if (Plugin_Terminated || Miranda_Terminated()) {
 			log_p(L"checkthread: Plugin_Terminated (=%d) OR Miranda_Terminated()", Plugin_Terminated);
 			break;
 		}
@@ -665,26 +665,26 @@ void checkthread(void*)
 
 		fFirst = FALSE;
 		assert(noteID);
-		if(!getEl(noteID))
+		if (!getEl(noteID))
 			addNewId(noteID);
 		else
 			(getEl(noteID))->again = TRUE;
 
-		if(!settingOnceOnly && (getEl(noteID))->again == TRUE){
+		if (!settingOnceOnly && (getEl(noteID))->again == TRUE) {
 			//don't show again and note was not showed (ID not on list)
 			continue;
 		}
 
 		log(L"checkthread: skiped-don't show again and note was not showed (ID not on list)");
 
-		if(settingOnceOnly && settingNonClickedOnly && (getEl(noteID))->clicked == TRUE){
+		if (settingOnceOnly && settingNonClickedOnly && (getEl(noteID))->clicked == TRUE) {
 			//show again, but only not clicked (id added to list on Left Button click)
 			continue;
 		}
 
 		log(L"checkthread: skiped-show again, but only not clicked (id added to list on Left Button click)");
 
-		if(settingNewest && settingNewestID >= noteID){
+		if (settingNewest && settingNewestID >= noteID) {
 			//only newest option enabled, so if old id don't show it
 			continue;
 		}
@@ -692,53 +692,53 @@ void checkthread(void*)
 		log(L"checkthread: skiped-only newest option enabled, so if old id don't show it");
 
 		// remember newest id depending on options set
-		if(settingNewest&&settingEvenNonClicked&&(noteID > settingNewestID) )
-			db_set_dw(NULL, PLUGINNAME, "LNNewestID", settingNewestID=noteID);
+		if (settingNewest&&settingEvenNonClicked && (noteID > settingNewestID))
+			db_set_dw(NULL, PLUGINNAME, "LNNewestID", settingNewestID = noteID);
 
 		//if(((!settingOnceOnly||(settingOnceOnly&&settingNonClickedOnly))&&existElem(noteID))||(settingNewest&&settingNewestID>=noteID))
-			//continue;
+		//continue;
 
-	    if (error = (NSFNoteOpen1) (db_handle, noteID, 0, &note_handle)) {
+		if (error = (NSFNoteOpen1)(db_handle, noteID, 0, &note_handle)) {
 			continue;
 		}
 
 		log_p(L"checkthread: Opened Note: %d", noteID);
 
 		(NSFDbGetNoteInfo1)(db_handle,      /* DBHANDLE */
-						  noteID,			/* NOTEID   */
-						  &retNoteOID,		/* out: OID */
-						  &retModified,		/* out:     */
-						  &retNoteClass) ;
+			noteID,			/* NOTEID   */
+			&retNoteOID,		/* out: OID */
+			&retModified,		/* out:     */
+			&retNoteClass);
 		memset(strLink, 0, sizeof(strLink));
 		mir_snprintf(strLink, "%.8lX%.8lX%.8lX%.8lX",
-						retNoteOID.File.Innards[1],
-						retNoteOID.File.Innards[0],
-						retNoteOID.Note.Innards[1],
-						retNoteOID.Note.Innards[0]
-					);
+			retNoteOID.File.Innards[1],
+			retNoteOID.File.Innards[0],
+			retNoteOID.Note.Innards[1],
+			retNoteOID.Note.Innards[0]
+			);
 
 		log_p(L"checkthread: got noteInfo, built link: %S", strLink);
 
-		field_len = (NSFItemGetText1) (note_handle, MAIL_FROM_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = (NSFItemGetText1)(note_handle, MAIL_FROM_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
 		(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_from_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(TCHAR));
 		field_from_UNICODE[field_len] = '\0';
 
-		(NSFItemGetTime1) (note_handle,MAIL_POSTEDDATE_ITEM,&sendDate);
+		(NSFItemGetTime1)(note_handle, MAIL_POSTEDDATE_ITEM, &sendDate);
 		error = (ConvertTIMEDATEToText1)(NULL, NULL, &sendDate, field_date, MAXALPHATIMEDATE, &field_len);
 		field_date[field_len] = '\0';
 
-		field_len = (NSFItemGetText1) (note_handle, MAIL_SUBJECT_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = (NSFItemGetText1)(note_handle, MAIL_SUBJECT_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
 		(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_subject_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(TCHAR));
 		field_subject_UNICODE[field_len] = '\0';
 
-		field_len = (NSFItemGetText1) (note_handle, MAIL_SENDTO_ITEM, field_lotus_LMBCS, (WORD)sizeof (field_lotus_LMBCS));
+		field_len = (NSFItemGetText1)(note_handle, MAIL_SENDTO_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
 		(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_to_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(TCHAR));
 		field_to_UNICODE[field_len] = '\0';
 
-		field_len = (NSFItemGetText1) (note_handle, MAIL_COPYTO_ITEM, field_lotus_LMBCS, (WORD)sizeof (field_lotus_LMBCS));
+		field_len = (NSFItemGetText1)(note_handle, MAIL_COPYTO_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
 		(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_copy_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(TCHAR));
 		field_copy_UNICODE[field_len] = '\0';
@@ -748,24 +748,24 @@ void checkthread(void*)
 		memset(msgFrom, 0, sizeof(msgFrom));
 		memset(msgSubject, 0, sizeof(msgSubject));
 
-		if(mir_wstrlen(field_from_UNICODE) < 512 && mir_wstrlen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
-			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );
+		if (mir_wstrlen(field_from_UNICODE) < 512 && mir_wstrlen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
+			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/") - 3);
 		else
 			_tcsncpy_s(msgFrom, field_from_UNICODE, _TRUNCATE);
 
-	    for (Att = 0; (MailGetMessageAttachmentInfo1)(note_handle, Att,&bhAttachment, NULL, &cSize, NULL, NULL, NULL, NULL); Att++)
+		for (Att = 0; (MailGetMessageAttachmentInfo1)(note_handle, Att, &bhAttachment, NULL, &cSize, NULL, NULL, NULL, NULL); Att++)
 			attSize += cSize;
 
-		#ifdef _DEBUG
+#ifdef _DEBUG
 		log_p(L"checkthread: MAIL INFO: date=[%S], from=[%s], to=[%s], cc=[%s], sub=[%s], attSize=[%d]"
-			,field_date
-			,field_from_UNICODE
-			,field_to_UNICODE
-			,field_copy_UNICODE
-			,field_subject_UNICODE
-			,attSize
-		);
-		#else
+			, field_date
+			, field_from_UNICODE
+			, field_to_UNICODE
+			, field_copy_UNICODE
+			, field_subject_UNICODE
+			, attSize
+			);
+#else
 		//do not put private user data into log
 		log_p(L"checkthread: MAIL INFO (sizes): date=[%S], from=[%d], to=[%d], cc=[%d], sub=[%d], attSize=[%d]"
 			,field_date
@@ -774,45 +774,46 @@ void checkthread(void*)
 			,mir_wstrlen(field_copy_UNICODE)
 			,mir_wstrlen(field_subject_UNICODE)
 			,attSize
-		);
-		#endif
+			);
+#endif
 
 
-		if(attSize){
+		if (attSize) {
 			WCHAR field_attachments_UNICODE[MAX_FIELD];
 			mir_sntprintf(field_attachments_UNICODE, _countof(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
-			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE );
-		} else {
-			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE );
+			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
+		}
+		else {
+			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE);
 		}
 
 		//check if this is not filtered msg
-		if(    ! checkFilters(field_from_UNICODE, 0)
-			&& ! checkFilters(field_subject_UNICODE, 1)
-			&& ! checkFilters(field_to_UNICODE, 2)
-			&& ! checkFilters(field_copy_UNICODE, 2))
-		{
+		if (!checkFilters(field_from_UNICODE, 0)
+			&& !checkFilters(field_subject_UNICODE, 1)
+			&& !checkFilters(field_to_UNICODE, 2)
+			&& !checkFilters(field_copy_UNICODE, 2)) {
 			log(L"checkthread: filters checked - positive");
 			///TODO eliminate popups with blank fields
-			showMsg(msgFrom,msgSubject,noteID,strLink);
+			showMsg(msgFrom, msgSubject, noteID, strLink);
 			SkinPlaySound("LotusNotify");
-		} else {
+		}
+		else {
 			log(L"checkthread: filters checked - negative");
 		}
 
-		if (error = (NSFNoteClose1) (note_handle)) {
+		if (error = (NSFNoteClose1)(note_handle)) {
 			continue;
 		}
 		log_p(L"checkthread: Close note id: %d", noteID);
 
-    }
+	}
 
-	if(error = (IDDestroyTable1) (hTable)){
+	if (error = (IDDestroyTable1)(hTable)) {
 		goto errorblock0;
 	}
 	log(L"checkthread: Table destroyed");
 
-	if (error = (NSFDbClose1) (db_handle)){
+	if (error = (NSFDbClose1)(db_handle)) {
 		goto errorblock;
 	}
 	log(L"checkthread: DB closed");
@@ -822,22 +823,22 @@ void checkthread(void*)
 
 	log(L"checkthread: Terminating Notes thread");
 	running = FALSE;
-	if(currentStatus != ID_STATUS_OFFLINE)
+	if (currentStatus != ID_STATUS_OFFLINE)
 		Menu_EnableItem(hMenuHandle, !running);
 	return;
 
 errorblock0:
 	log(L"checkthread: errorblock0");
-	(NSFDbClose1) (db_handle);
+	(NSFDbClose1)(db_handle);
 errorblock:
 	log_p(L"checkthread: errorblock. error=%d", error);
 	ErMsgByLotusCode(error);
 	//NotesTerm();
 
 	// go offline if connection error occurs and let KeepStatus or other plugin managing reconnection
-	if(!settingKeepConnection && currentStatus!=ID_STATUS_OFFLINE) {
-		Menu_EnableItem(hMenuHandle,!running);
-		SetStatus(ID_STATUS_OFFLINE,0);
+	if (!settingKeepConnection && currentStatus != ID_STATUS_OFFLINE) {
+		Menu_EnableItem(hMenuHandle, !running);
+		SetStatus(ID_STATUS_OFFLINE, 0);
 	}
 
 	running = FALSE;
@@ -846,7 +847,7 @@ errorblock:
 
 
 //hooked notification from service that listning to check lotus
-static int eventCheck(WPARAM,LPARAM)
+static int eventCheck(WPARAM, LPARAM)
 {
 	log(L"check event...");
 	check();
@@ -867,10 +868,10 @@ void CALLBACK atTime(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	log(L"atTime: start");
 	BOOL b = KillTimer(hTimerWnd, idEvent);
-	if(currentStatus != ID_STATUS_OFFLINE) {
+	if (currentStatus != ID_STATUS_OFFLINE) {
 		//if status lets to check
 		check();
-		if(settingInterval != 0){
+		if (settingInterval != 0) {
 			log_p(L"atTime: SetTimer settingInterval=%d", settingInterval * 60000);
 			SetTimer(hTimerWnd, TID, settingInterval * 60000, atTime);
 		}
@@ -880,11 +881,11 @@ void CALLBACK atTime(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 void decodeServer(char *tmp)
 {
-	if (strstr(tmp,"CN=") && strstr(tmp,"OU=") && strstr(tmp,"O=")) {
+	if (strstr(tmp, "CN=") && strstr(tmp, "OU=") && strstr(tmp, "O=")) {
 		//if lotus convention
-		while(strrep(tmp,"CN=",""));
-		while(strrep(tmp,"OU=",""));
-		while(strrep(tmp,"O=",""));
+		while (strrep(tmp, "CN=", ""));
+		while (strrep(tmp, "OU=", ""));
+		while (strrep(tmp, "O=", ""));
 	}
 }
 
@@ -892,7 +893,7 @@ void decodeServer(char *tmp)
 //fill combo in options dlgbox with all known servers
 void fillServersList(HWND hwndDlg)
 {
-	HANDLE    hServerList=NULLHANDLE;
+	HANDLE    hServerList = NULLHANDLE;
 	BYTE far *pServerList;            /* Pointer to start of Server List */
 	WORD      wServerCount;           /* Number of servers in list. */
 	WORD far *pwServerLength;         /* Index to array of servername lens */
@@ -902,31 +903,31 @@ void fillServersList(HWND hwndDlg)
 	LPSTR     szServerString = ServerString;
 	USHORT i;
 
-	if(!hLotusDll) {
+	if (!hLotusDll) {
 		return;
 	}
 
 	error = (NSGetServerList1)(NULL, &hServerList);
 	if (error == NOERROR) {
 
-		pServerList  = (BYTE far *)(OSLockObject1)(hServerList);
-		wServerCount = (WORD) *pServerList;
+		pServerList = (BYTE far *)(OSLockObject1)(hServerList);
+		wServerCount = (WORD)*pServerList;
 
 		pwServerLength = (WORD *)(pServerList + sizeof(WORD));
 
-		pServerName = (BYTE far *) pServerList + sizeof(wServerCount) +((wServerCount) * sizeof(WORD));
+		pServerName = (BYTE far *) pServerList + sizeof(wServerCount) + ((wServerCount)* sizeof(WORD));
 
-		for (i=0; i<wServerCount; pServerName+=pwServerLength[i], i++)
-		{
-			memmove (szServerString, pServerName, pwServerLength[i]);
+		for (i = 0; i < wServerCount; pServerName += pwServerLength[i], i++) {
+			memmove(szServerString, pServerName, pwServerLength[i]);
 			szServerString[pwServerLength[i]] = '\0';
 			decodeServer(ServerString);
 			SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szServerString);
 		}
-		(OSUnlockObject1) (hServerList);
-		(OSMemFree1) (hServerList);
+		(OSUnlockObject1)(hServerList);
+		(OSMemFree1)(hServerList);
 
-	} else {
+	}
+	else {
 		ErMsgByLotusCode(error);
 	}
 
@@ -937,12 +938,12 @@ void fillServersList(HWND hwndDlg)
 //gets default settings from notes.ini file
 void lookupLotusDefaultSettings(HWND hwndDlg)
 {
-	char tmp[MAXENVVALUE+1];
+	char tmp[MAXENVVALUE + 1];
 	// Get the info from the .ini file
-	if(hLotusDll) {
-		if ((OSGetEnvironmentString1) ("MailFile", tmp, MAXENVVALUE)) //path to mail file
+	if (hLotusDll) {
+		if ((OSGetEnvironmentString1)("MailFile", tmp, MAXENVVALUE)) //path to mail file
 			SetDlgItemTextA(hwndDlg, IDC_DATABASE, tmp); //and set fields in opt. dialog
-		if ((OSGetEnvironmentString1) ("MailServer", tmp, MAXENVVALUE)) //server name
+		if ((OSGetEnvironmentString1)("MailServer", tmp, MAXENVVALUE)) //server name
 		{
 			decodeServer(tmp);
 			SetDlgItemTextA(hwndDlg, IDC_SERVER, tmp);
@@ -959,45 +960,45 @@ void LoadSettings()
 	settingKeepConnection = db_get_b(NULL, PLUGINNAME, "LNKeepConnection", 1);
 
 	DBVARIANT dbv;
-	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)){
+	if (!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)) {
 		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, _countof(settingDatabase));
 		db_free(&dbv);
 	}
-	if(!db_get_s(NULL, PLUGINNAME, "LNServer", &dbv)) {
+	if (!db_get_s(NULL, PLUGINNAME, "LNServer", &dbv)) {
 		strncpy_s(settingServer, _countof(settingServer), dbv.pszVal, _countof(settingServer));
 		db_free(&dbv);
 	}
-	if(!db_get_s(NULL, PLUGINNAME, "LNServerSec", &dbv)) {
+	if (!db_get_s(NULL, PLUGINNAME, "LNServerSec", &dbv)) {
 		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, _countof(settingServerSec));
 		db_free(&dbv);
 	}
-	if(!db_get(NULL, PLUGINNAME, "LNPassword", &dbv)) {
+	if (!db_get(NULL, PLUGINNAME, "LNPassword", &dbv)) {
 		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, _countof(settingPassword));
 		db_free(&dbv);
 	}
-	if(!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ)) {
+	if (!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ)) {
 		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, _countof(settingCommand));
 		db_free(&dbv);
 	}
-	if(!db_get_s(NULL, PLUGINNAME, "LNParameters", &dbv, DBVT_ASCIIZ)) {
+	if (!db_get_s(NULL, PLUGINNAME, "LNParameters", &dbv, DBVT_ASCIIZ)) {
 		strncpy_s(settingParameters, _countof(settingParameters), dbv.pszVal, _countof(settingParameters));
 		db_free(&dbv);
 	}
 
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSender",&dbv)) {
+	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterSender", &dbv)) {
 		_tcsncpy_s(settingFilterSender, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject",&dbv)) {
+	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject", &dbv)) {
 		_tcsncpy_s(settingFilterSubject, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterTo",&dbv)) {
+	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterTo", &dbv)) {
 		_tcsncpy_s(settingFilterTo, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 
-	settingOnceOnly = db_get_b  (NULL, PLUGINNAME, "LNOnceOnly",0);
+	settingOnceOnly = db_get_b(NULL, PLUGINNAME, "LNOnceOnly", 0);
 
 	settingNonClickedOnly = db_get_b(NULL, PLUGINNAME, "LNNonClickedOnly", 1);
 	settingShowError = db_get_b(NULL, PLUGINNAME, "LNShowError", 1);
@@ -1009,8 +1010,8 @@ void LoadSettings()
 	settingNewestID = (DWORD)db_get_dw(NULL, PLUGINNAME, "LNNewestID", 0);
 	settingIniAnswer = db_get_b(NULL, PLUGINNAME, "LNIniAnswer", 0);
 	settingIniCheck = db_get_b(NULL, PLUGINNAME, "LNIniCheck", 0);
-	
-	for(int i = 0; i < STATUS_COUNT; i++) {
+
+	for (int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, "LNStatus%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
@@ -1020,459 +1021,435 @@ void LoadSettings()
 
 void SaveSettings(HWND hwndDlg)
 {
-    char buff[128];
-    GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
-    db_set_s(NULL, PLUGINNAME, "LNServer", settingServer );
-    db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
-    db_set_s(NULL, PLUGINNAME, "LNPassword", settingPassword);
-    db_set_s(NULL, PLUGINNAME, "LNDatabase", settingDatabase);
-    db_set_dw (NULL, PLUGINNAME, "LNInterval", settingInterval);
-    db_set_dw (NULL, PLUGINNAME, "LNInterval1", settingInterval1);
-    db_set_b(NULL, PLUGINNAME, "LNKeepConnection", settingKeepConnection);
-    db_set_s(NULL, PLUGINNAME, "LNCommand", settingCommand );
-    db_set_s(NULL, PLUGINNAME, "LNParameters", settingParameters);
-    db_set_b(NULL, PLUGINNAME, "LNOnceOnly", settingOnceOnly);
-    db_set_b(NULL, PLUGINNAME, "LNNonClickedOnly", settingNonClickedOnly);
-    db_set_b(NULL, PLUGINNAME, "LNShowError", settingShowError);
-    db_set_b(NULL, PLUGINNAME, "LNSetColours", settingSetColours);
-    db_set_dw(NULL, PLUGINNAME, "LNBgColor", (DWORD)settingBgColor);
-    db_set_dw(NULL, PLUGINNAME, "LNFgColor", (DWORD)settingFgColor);
-    db_set_b(NULL, PLUGINNAME, "LNNewest", settingNewest);
-    db_set_b(NULL, PLUGINNAME, "LNEvenNonClicked", settingEvenNonClicked);
-    db_set_b(NULL, PLUGINNAME, "LNIniCheck", settingIniCheck);
-    db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
+	char buff[128];
+	GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
+	db_set_s(NULL, PLUGINNAME, "LNServer", settingServer);
+	db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
+	db_set_s(NULL, PLUGINNAME, "LNPassword", settingPassword);
+	db_set_s(NULL, PLUGINNAME, "LNDatabase", settingDatabase);
+	db_set_dw(NULL, PLUGINNAME, "LNInterval", settingInterval);
+	db_set_dw(NULL, PLUGINNAME, "LNInterval1", settingInterval1);
+	db_set_b(NULL, PLUGINNAME, "LNKeepConnection", settingKeepConnection);
+	db_set_s(NULL, PLUGINNAME, "LNCommand", settingCommand);
+	db_set_s(NULL, PLUGINNAME, "LNParameters", settingParameters);
+	db_set_b(NULL, PLUGINNAME, "LNOnceOnly", settingOnceOnly);
+	db_set_b(NULL, PLUGINNAME, "LNNonClickedOnly", settingNonClickedOnly);
+	db_set_b(NULL, PLUGINNAME, "LNShowError", settingShowError);
+	db_set_b(NULL, PLUGINNAME, "LNSetColours", settingSetColours);
+	db_set_dw(NULL, PLUGINNAME, "LNBgColor", (DWORD)settingBgColor);
+	db_set_dw(NULL, PLUGINNAME, "LNFgColor", (DWORD)settingFgColor);
+	db_set_b(NULL, PLUGINNAME, "LNNewest", settingNewest);
+	db_set_b(NULL, PLUGINNAME, "LNEvenNonClicked", settingEvenNonClicked);
+	db_set_b(NULL, PLUGINNAME, "LNIniCheck", settingIniCheck);
+	db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
 
-    for(int i = 0; i < STATUS_COUNT ; i++){
-        mir_snprintf(buff, "LNStatus%d", i);
-        settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
-        db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
-    }
+	for (int i = 0; i < STATUS_COUNT; i++) {
+		mir_snprintf(buff, "LNStatus%d", i);
+		settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
+		db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
+	}
 
-    settingFilterSender[0] = 0;
-    for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, 0); i++){
-        TCHAR text[512] = TEXT("");
-        SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterSender, _countof(settingFilterSender), text);
-        _tcscat_s(settingFilterSender, _countof(settingFilterSender), TEXT(";"));
-    }
-    db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
+	settingFilterSender[0] = 0;
+	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, 0); i++) {
+		TCHAR text[512] = TEXT("");
+		SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETLBTEXT, (WPARAM)i, (LPARAM)text);
+		_tcscat_s(settingFilterSender, _countof(settingFilterSender), text);
+		_tcscat_s(settingFilterSender, _countof(settingFilterSender), TEXT(";"));
+	}
+	db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
-    settingFilterSubject[0] = 0;
-    for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++){
-        TCHAR text[512] = TEXT("");
-        SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterSubject, _countof(settingFilterSubject), text);
-        _tcscat_s(settingFilterSubject, _countof(settingFilterSubject), TEXT(";"));
-    }
-    db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
+	settingFilterSubject[0] = 0;
+	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++) {
+		TCHAR text[512] = TEXT("");
+		SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETLBTEXT, (WPARAM)i, (LPARAM)text);
+		_tcscat_s(settingFilterSubject, _countof(settingFilterSubject), text);
+		_tcscat_s(settingFilterSubject, _countof(settingFilterSubject), TEXT(";"));
+	}
+	db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
-    settingFilterTo[0] = 0;
-    for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++){
-        TCHAR text[512] = TEXT("");
-        SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-        _tcscat_s(settingFilterTo, _countof(settingFilterTo), text);
-        _tcscat_s(settingFilterTo, _countof(settingFilterTo), TEXT(";"));
-    }
-    db_set_ts(NULL, PLUGINNAME, "LNFilterTo", settingFilterTo);
+	settingFilterTo[0] = 0;
+	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++) {
+		TCHAR text[512] = TEXT("");
+		SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETLBTEXT, (WPARAM)i, (LPARAM)text);
+		_tcscat_s(settingFilterTo, _countof(settingFilterTo), text);
+		_tcscat_s(settingFilterTo, _countof(settingFilterTo), TEXT(";"));
+	}
+	db_set_ts(NULL, PLUGINNAME, "LNFilterTo", settingFilterTo);
 }
 
 //callback function to speak with user interactions in options page
 INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    static bool bInit = false;
+	static bool bInit = false;
 
-    int i;
-    char text[MAXENVVALUE];
-    switch(msg)
-    {
-    case WM_INITDIALOG://initialize dialog, so set properties from db.
-        bInit = true;
-        TranslateDialogDefault(hwndDlg);//translate miranda function
-        LoadSettings();
-        CheckDlgButton(hwndDlg, IDC_BUTTON_CHECK, settingIniCheck ? BST_CHECKED : BST_UNCHECKED);
-        SetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer);
-        SetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec);
-        SetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase);
-        SetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword);
-        SetDlgItemInt(hwndDlg, IDC_INTERVAL, settingInterval,FALSE);
-        CheckDlgButton(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR, settingKeepConnection ? BST_CHECKED : BST_UNCHECKED);
-        bInit = false;
-        break;
+	int i;
+	char text[MAXENVVALUE];
+	switch (msg) {
+	case WM_INITDIALOG://initialize dialog, so set properties from db.
+		bInit = true;
+		TranslateDialogDefault(hwndDlg);//translate miranda function
+		LoadSettings();
+		CheckDlgButton(hwndDlg, IDC_BUTTON_CHECK, settingIniCheck ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer);
+		SetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec);
+		SetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase);
+		SetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword);
+		SetDlgItemInt(hwndDlg, IDC_INTERVAL, settingInterval, FALSE);
+		CheckDlgButton(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR, settingKeepConnection ? BST_CHECKED : BST_UNCHECKED);
+		bInit = false;
+		break;
 
-    case WM_COMMAND://user changed something, so get changes to variables
-        if (!bInit)
-        {
-            switch (HIWORD(wParam))
-            {
-            case EN_CHANGE:     // text is modified in an edit ctrl
-            case BN_CLICKED:    // a checkbox is modified
-                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-                break;
-            }
-        }
-        switch(LOWORD(wParam))
-        {
-        case IDC_BUTTON_DETECT:
-            lookupLotusDefaultSettings(hwndDlg);
-            GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
-            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
-            break;
-        case IDC_BUTTON_CHECK:
-            settingIniCheck = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BUTTON_CHECK);
-            checkNotesIniFile(TRUE);
-            break;
-        case IDC_DATABASE:
-            GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
-            break;
-        case IDC_SERVER:
-            switch(HIWORD(wParam))
-            {
-            case CBN_SELCHANGE:
-                i=SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_GETCURSEL,0,0);
-                SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
-                SetDlgItemTextA(hwndDlg,IDC_SERVER,text);
-                if (!bInit)
-                {
-                    PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-                }
-                break;
+	case WM_COMMAND://user changed something, so get changes to variables
+		if (!bInit) {
+			switch (HIWORD(wParam)) {
+			case EN_CHANGE:     // text is modified in an edit ctrl
+			case BN_CLICKED:    // a checkbox is modified
+				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			}
+		}
+		switch (LOWORD(wParam)) {
+		case IDC_BUTTON_DETECT:
+			lookupLotusDefaultSettings(hwndDlg);
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, _countof(settingServer));
+			GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
+			break;
+		case IDC_BUTTON_CHECK:
+			settingIniCheck = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BUTTON_CHECK);
+			checkNotesIniFile(TRUE);
+			break;
+		case IDC_DATABASE:
+			GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
+			break;
+		case IDC_SERVER:
+			switch (HIWORD(wParam)) {
+			case CBN_SELCHANGE:
+				i = SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_GETCURSEL, 0, 0);
+				SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_GETLBTEXT, (WPARAM)i, (LPARAM)text);
+				SetDlgItemTextA(hwndDlg, IDC_SERVER, text);
+				if (!bInit) {
+					PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				}
+				break;
 
-            case CBN_DROPDOWN:
-                SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_RESETCONTENT ,0, 0);
-                fillServersList(hwndDlg);
-                SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)settingServer);
-                SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_SELECTSTRING , -1, (LPARAM)settingServer);
-                break;
-            }
-            break;
-        case IDC_SERVERSEC:
-            GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, _countof(settingServerSec));
-            break;
-        case IDC_PASSWORD:
-            GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, _countof(settingPassword));
-            break;
-        case IDC_INTERVAL:
-            settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE);
-            break;
-        case IDC_KEEP_CONNEXION_ON_ERROR:
-            settingKeepConnection = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR);
-            break;
-        }
-        break;
+			case CBN_DROPDOWN:
+				SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_RESETCONTENT, 0, 0);
+				fillServersList(hwndDlg);
+				SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)settingServer);
+				SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_SELECTSTRING, -1, (LPARAM)settingServer);
+				break;
+			}
+			break;
+		case IDC_SERVERSEC:
+			GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, _countof(settingServerSec));
+			break;
+		case IDC_PASSWORD:
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, _countof(settingPassword));
+			break;
+		case IDC_INTERVAL:
+			settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE);
+			break;
+		case IDC_KEEP_CONNEXION_ON_ERROR:
+			settingKeepConnection = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR);
+			break;
+		}
+		break;
 
-    case WM_NOTIFY://apply changes so write it to db
-        switch(((LPNMHDR)lParam)->idFrom)
-        {
-        case 0:
-            switch (((LPNMHDR)lParam)->code)
-            {
-            case PSN_RESET:
-                LoadSettings();
-                return TRUE;
+	case WM_NOTIFY://apply changes so write it to db
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				LoadSettings();
+				return TRUE;
 
-            case PSN_APPLY:
-                SaveSettings(hwndDlg);
-                return TRUE;
-            }
-            break;
-        } //id from
+			case PSN_APPLY:
+				SaveSettings(hwndDlg);
+				return TRUE;
+			}
+			break;
+		} //id from
 
-        break; //switch(msg)
+		break; //switch(msg)
 
-    }
-    return FALSE;
+	}
+	return FALSE;
 }
 
 INT_PTR CALLBACK DlgProcLotusNotifyPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    static bool bInit = false;
+	static bool bInit = false;
 
-    switch(msg)
-    {
-    case WM_INITDIALOG://initialize dialog, so set properties from db.
-        bInit = true;
-        TranslateDialogDefault(hwndDlg);//translate miranda function
-        LoadSettings();
+	switch (msg) {
+	case WM_INITDIALOG://initialize dialog, so set properties from db.
+		bInit = true;
+		TranslateDialogDefault(hwndDlg);//translate miranda function
+		LoadSettings();
 
-        CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
-        SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
-        EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours!=0);
-        SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
-        EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours!=0);
+		CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours != 0);
+		SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours != 0);
 
-        SetDlgItemInt(hwndDlg, IDC_INTERVAL1, settingInterval1,TRUE);
-        CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly ? BST_CHECKED : BST_UNCHECKED);
-        CheckDlgButton(hwndDlg, IDC_NONCLICKEDONLY, settingNonClickedOnly ? BST_CHECKED : BST_UNCHECKED);
-        EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly!=0);
-        CheckDlgButton(hwndDlg, IDC_SHOWERROR, settingShowError ? BST_CHECKED : BST_UNCHECKED);
-        CheckDlgButton(hwndDlg, IDC_NEWEST, settingNewest ? BST_CHECKED : BST_UNCHECKED);
-        CheckDlgButton(hwndDlg, IDC_REMEMBEREVENNONCLICKED, settingEvenNonClicked ? BST_CHECKED : BST_UNCHECKED);
-        EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest!=0);
-        SetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand);
-        SetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters);
+		SetDlgItemInt(hwndDlg, IDC_INTERVAL1, settingInterval1, TRUE);
+		CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NONCLICKEDONLY, settingNonClickedOnly ? BST_CHECKED : BST_UNCHECKED);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly != 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWERROR, settingShowError ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NEWEST, settingNewest ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_REMEMBEREVENNONCLICKED, settingEvenNonClicked ? BST_CHECKED : BST_UNCHECKED);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest != 0);
+		SetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand);
+		SetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters);
 
-        bInit = FALSE;
-        break;
+		bInit = FALSE;
+		break;
 
-    case WM_COMMAND://user changed something, so get changes to variables
-        if (!bInit)
-        {
-            switch (HIWORD(wParam))
-            {
-            case EN_CHANGE:         // text is modified in an edit ctrl
-            case BN_CLICKED:        // a checkbox is modified
-            case CPN_COLOURCHANGED: // a color has changed
-                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-                break;
-            }
-        }
-        switch(LOWORD(wParam))
-        {
-        case IDC_SETCOLOURS:
-            settingSetColours=IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
-            EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours );
-            EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours);
-            break;
-        case IDC_BGCOLOR:
-            settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
-            break;
-        case IDC_FGCOLOR:
-            settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0);
-            break;
-        case IDC_INTERVAL1:
-            settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE);
-            break;
-        case IDC_ONCEONLY:
-            settingOnceOnly=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
-            EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly);
-            break;
-        case IDC_NONCLICKEDONLY:
-            settingNonClickedOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NONCLICKEDONLY);
-            break;
-        case IDC_SHOWERROR:
-            settingShowError = (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWERROR);
-            break;
-        case IDC_NEWEST:
-            settingNewest =(BYTE) IsDlgButtonChecked(hwndDlg, IDC_NEWEST);
-            EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest);
-            break;
-        case IDC_REMEMBEREVENNONCLICKED:
-            settingEvenNonClicked = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED);
-            break;
-        case IDC_COMMAND:
-            GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, _countof(settingCommand));
-            break;
-        case IDC_PARAMETERS:
-            GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, _countof(settingParameters));
-            break;
-        case IDC_BUTTON_CLEAR:
-            deleteElements();
-            break;
-        }
-        break;
+	case WM_COMMAND://user changed something, so get changes to variables
+		if (!bInit) {
+			switch (HIWORD(wParam)) {
+			case EN_CHANGE:         // text is modified in an edit ctrl
+			case BN_CLICKED:        // a checkbox is modified
+			case CPN_COLOURCHANGED: // a color has changed
+				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			}
+		}
+		switch (LOWORD(wParam)) {
+		case IDC_SETCOLOURS:
+			settingSetColours = IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours);
+			break;
+		case IDC_BGCOLOR:
+			settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
+			break;
+		case IDC_FGCOLOR:
+			settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0);
+			break;
+		case IDC_INTERVAL1:
+			settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE);
+			break;
+		case IDC_ONCEONLY:
+			settingOnceOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly);
+			break;
+		case IDC_NONCLICKEDONLY:
+			settingNonClickedOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NONCLICKEDONLY);
+			break;
+		case IDC_SHOWERROR:
+			settingShowError = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWERROR);
+			break;
+		case IDC_NEWEST:
+			settingNewest = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NEWEST);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest);
+			break;
+		case IDC_REMEMBEREVENNONCLICKED:
+			settingEvenNonClicked = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED);
+			break;
+		case IDC_COMMAND:
+			GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, _countof(settingCommand));
+			break;
+		case IDC_PARAMETERS:
+			GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, _countof(settingParameters));
+			break;
+		case IDC_BUTTON_CLEAR:
+			deleteElements();
+			break;
+		}
+		break;
 
-    case WM_NOTIFY://apply changes so write it to db
-        switch(((LPNMHDR)lParam)->idFrom)
-        {
-        case 0:
-            {
-                switch (((LPNMHDR)lParam)->code)
-                {
-                case PSN_RESET:
-                    LoadSettings();
-                    return TRUE;
-                case PSN_APPLY:
-                    SaveSettings(hwndDlg);
+	case WM_NOTIFY://apply changes so write it to db
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			{
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_RESET:
+					LoadSettings();
+					return TRUE;
+				case PSN_APPLY:
+					SaveSettings(hwndDlg);
 
-                    return TRUE;
-                    break;
-                }
-                //KillTimer(hTimerWnd,TID);
-                //if(settingInterval!=0)
-                //	SetTimer(hTimerWnd, TID, settingInterval*60000, (TIMERPROC)atTime);
+					return TRUE;
+					break;
+				}
+				//KillTimer(hTimerWnd,TID);
+				//if(settingInterval!=0)
+				//	SetTimer(hTimerWnd, TID, settingInterval*60000, (TIMERPROC)atTime);
 
-                break;
-            } //case 0
-        } //id from
+				break;
+			} //case 0
+		} //id from
 
-        break; //switch(msg)
+		break; //switch(msg)
 
-    }
-    return FALSE;
+	}
+	return FALSE;
 }
 
 INT_PTR CALLBACK DlgProcLotusNotifyMiscOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    static bool bInit = false;
+	static bool bInit = false;
 
-    HWND hwndList;
-    TCHAR buff[512];
-    char tmp[255];
-    int index, size;
-    TCHAR* strptr;
-    LVITEM lvI={0};
-    LVCOLUMN lvc={0};
-    switch(msg)
-    {
-    case WM_INITDIALOG://initialize dialog, so set properties from db.
-        bInit = true;
-        TranslateDialogDefault(hwndDlg);//translate miranda function
-        LoadSettings();
+	HWND hwndList;
+	TCHAR buff[512];
+	char tmp[255];
+	int index, size;
+	TCHAR* strptr;
+	LVITEM lvI = { 0 };
+	LVCOLUMN lvc = { 0 };
+	switch (msg) {
+	case WM_INITDIALOG://initialize dialog, so set properties from db.
+		bInit = true;
+		TranslateDialogDefault(hwndDlg);//translate miranda function
+		LoadSettings();
 
-        //fill filter combos
+		//fill filter combos
 
-        _tcsncpy_s(buff, settingFilterSender, _TRUNCATE);
-        while(strptr = _tcschr(buff, TEXT(';'))) {
-            TCHAR tmp[512] = TEXT("");
-            _tcsncpy_s(tmp, buff, (strptr-buff));
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER , CB_ADDSTRING, 0, (LPARAM)tmp);
-            _tcsncpy_s(buff, strptr + 1, _TRUNCATE);
-        }
+		_tcsncpy_s(buff, settingFilterSender, _TRUNCATE);
+		while (strptr = _tcschr(buff, TEXT(';'))) {
+			TCHAR tmp[512] = TEXT("");
+			_tcsncpy_s(tmp, buff, (strptr - buff));
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
+			_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
+		}
 
-        _tcsncpy_s(buff, settingFilterSubject, _TRUNCATE);
-        while(strptr = _tcschr(buff, TEXT(';'))) {
-            TCHAR tmp[512] = TEXT("");
-            _tcsncpy_s(tmp, buff, (strptr-buff));
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT , CB_ADDSTRING, 0, (LPARAM)tmp);
-            _tcsncpy_s(buff, strptr + 1, _TRUNCATE);
-        }
+		_tcsncpy_s(buff, settingFilterSubject, _TRUNCATE);
+		while (strptr = _tcschr(buff, TEXT(';'))) {
+			TCHAR tmp[512] = TEXT("");
+			_tcsncpy_s(tmp, buff, (strptr - buff));
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
+			_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
+		}
 
-        _tcsncpy_s(buff, settingFilterTo, _TRUNCATE);
-        while(strptr = _tcschr(buff, TEXT(';'))) {
-            TCHAR tmp[512] = TEXT("");
-            _tcsncpy_s(tmp, buff, (strptr-buff));
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_TO , CB_ADDSTRING, 0, (LPARAM)tmp);
-            _tcsncpy_s(buff, strptr + 1, _TRUNCATE);
-        }
+		_tcsncpy_s(buff, settingFilterTo, _TRUNCATE);
+		while (strptr = _tcschr(buff, TEXT(';'))) {
+			TCHAR tmp[512] = TEXT("");
+			_tcsncpy_s(tmp, buff, (strptr - buff));
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
+			_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
+		}
 
-        // initialise and fill listbox
-        hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
-        ListView_DeleteAllItems(hwndList);
+		// initialise and fill listbox
+		hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
+		ListView_DeleteAllItems(hwndList);
 
-        SendMessage(hwndList,LVM_SETEXTENDEDLISTVIEWSTYLE, 0,LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-        // Initialize the LVCOLUMN structure.
-        // The mask specifies that the format, width, text, and
-        // subitem members of the structure are valid.
-        lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-        lvc.fmt = LVCFMT_LEFT;
+		// Initialize the LVCOLUMN structure.
+		// The mask specifies that the format, width, text, and
+		// subitem members of the structure are valid.
+		lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+		lvc.fmt = LVCFMT_LEFT;
 
-        lvc.iSubItem = 0;
-        lvc.pszText = TranslateT("Status");
-        lvc.cx = 120;     // width of column in pixels
-        ListView_InsertColumn(hwndList, 0, &lvc);
+		lvc.iSubItem = 0;
+		lvc.pszText = TranslateT("Status");
+		lvc.cx = 120;     // width of column in pixels
+		ListView_InsertColumn(hwndList, 0, &lvc);
 
-        // Some code to create the list-view control.
-        // Initialize LVITEM members that are common to all items.
-        lvI.mask = LVIF_TEXT;
-        for(int i = 0; i < STATUS_COUNT; i++) {
-            lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
-            lvI.iItem = i;
-            ListView_InsertItem(hwndList, &lvI);
-            ListView_SetCheckState(hwndList, i, settingStatus[i]);
-        }
+		// Some code to create the list-view control.
+		// Initialize LVITEM members that are common to all items.
+		lvI.mask = LVIF_TEXT;
+		for (int i = 0; i < STATUS_COUNT; i++) {
+			lvI.pszText = pcli->pfnGetStatusModeDescription(ID_STATUS_ONLINE + i, 0);
+			lvI.iItem = i;
+			ListView_InsertItem(hwndList, &lvI);
+			ListView_SetCheckState(hwndList, i, settingStatus[i]);
+		}
 
-        bInit = false;
-        break;
+		bInit = false;
+		break;
 
-    case WM_COMMAND://user changed something, so get changes to variables
-        if (!bInit && (HIWORD(wParam) == EN_CHANGE))
-        {
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-        }
-        switch(LOWORD(wParam))
-        {
-        case IDC_BUTTON_ADD_SENDER_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, _countof(tmp));
-            if (strlen(tmp) > 0)
-            {
-                SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
-                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            }
-            break;
-        case IDC_BUTTON_REMOVE_SENDER_FILTER:
-            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETCURSEL,0,0);
-            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_DELETESTRING, index, 0);
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_SETCURSEL, min(index, size-1), 0);
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            break;
-        case IDC_BUTTON_ADD_SUBJECT_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, _countof(tmp));
-            if (strlen(tmp) > 0)
-            {
-                SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
-                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            }
-            break;
-        case IDC_BUTTON_REMOVE_SUBJECT_FILTER:
-            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETCURSEL,0,0);
-            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_DELETESTRING, index, 0);
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_SETCURSEL, min(index, size-1), 0);
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            break;
-        case IDC_BUTTON_ADD_TO_FILTER:
-            GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, _countof(tmp));
-            if (strlen(tmp) > 0)
-            {
-                SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
-                PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            }
-            break;
-        case IDC_BUTTON_REMOVE_TO_FILTER:
-            index = SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETCURSEL,0,0);
-            size = SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_DELETESTRING, index, 0);
-            SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_SETCURSEL, min(index, size-1), 0);
-            PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-            break;
-        }
-        break;
+	case WM_COMMAND://user changed something, so get changes to variables
+		if (!bInit && (HIWORD(wParam) == EN_CHANGE)) {
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
+		switch (LOWORD(wParam)) {
+		case IDC_BUTTON_ADD_SENDER_FILTER:
+			GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, _countof(tmp));
+			if (strlen(tmp) > 0) {
+				SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
+				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
+		case IDC_BUTTON_REMOVE_SENDER_FILTER:
+			index = SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCURSEL, 0, 0);
+			size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_DELETESTRING, index, 0);
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_SETCURSEL, min(index, size - 1), 0);
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_BUTTON_ADD_SUBJECT_FILTER:
+			GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, _countof(tmp));
+			if (strlen(tmp) > 0) {
+				SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
+				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
+		case IDC_BUTTON_REMOVE_SUBJECT_FILTER:
+			index = SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCURSEL, 0, 0);
+			size = SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_DELETESTRING, index, 0);
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_SETCURSEL, min(index, size - 1), 0);
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_BUTTON_ADD_TO_FILTER:
+			GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, _countof(tmp));
+			if (strlen(tmp) > 0) {
+				SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
+				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
+		case IDC_BUTTON_REMOVE_TO_FILTER:
+			index = SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCURSEL, 0, 0);
+			size = SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_DELETESTRING, index, 0);
+			SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_SETCURSEL, min(index, size - 1), 0);
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
 
-    case WM_NOTIFY://apply changes so write it to db
-        if (bInit)
-        {
-            break;
-        }
-        switch(((LPNMHDR)lParam)->idFrom)
-        {
-        case 0:
-            switch (((LPNMHDR)lParam)->code)
-            {
-            case PSN_RESET:
-                LoadSettings();
-                return TRUE;
+	case WM_NOTIFY://apply changes so write it to db
+		if (bInit) {
+			break;
+		}
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				LoadSettings();
+				return TRUE;
 
-            case PSN_APPLY:
-                SaveSettings(hwndDlg);
-                return TRUE;
-            }
+			case PSN_APPLY:
+				SaveSettings(hwndDlg);
+				return TRUE;
+			}
 
-            break;
-        } //id from
+			break;
+		} //id from
 
-        if (GetDlgItem(hwndDlg, IDC_STATUS) == ((LPNMHDR) lParam)->hwndFrom){
-            switch (((LPNMHDR) lParam)->code)
-            {
-            case LVN_ITEMCHANGED:
-                {
-                    NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-                    if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK){
-                        SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0 );
-                    }
-                    break;
+		if (GetDlgItem(hwndDlg, IDC_STATUS) == ((LPNMHDR)lParam)->hwndFrom) {
+			switch (((LPNMHDR)lParam)->code) {
+			case LVN_ITEMCHANGED:
+				{
+					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
+					break;
 
-                }
-                break;
-            }
-        }
-        break; //switch(msg)
+				}
+				break;
+			}
+		}
+		break; //switch(msg)
 
-    }
-    return FALSE;
+	}
+	return FALSE;
 }
 
 
 //options page on miranda called
-int LotusNotifyOptInit(WPARAM wParam,LPARAM)
+int LotusNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -1480,18 +1457,18 @@ int LotusNotifyOptInit(WPARAM wParam,LPARAM)
 	odp.ptszTitle = LPGENT(__PLUGIN_NAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-    odp.ptszTab = LPGENT("Connection");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_CONECTION);
-    odp.pfnDlgProc = DlgProcLotusNotifyConnectionOpts;
-    Options_AddPage(wParam, &odp);
+	odp.ptszTab = LPGENT("Connection");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_CONECTION);
+	odp.pfnDlgProc = DlgProcLotusNotifyConnectionOpts;
+	Options_AddPage(wParam, &odp);
 
-    odp.ptszTab = LPGENT("Popup");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_POPUP);
-    odp.pfnDlgProc = DlgProcLotusNotifyPopupOpts;
-    Options_AddPage(wParam, &odp);
+	odp.ptszTab = LPGENT("Popup");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_POPUP);
+	odp.pfnDlgProc = DlgProcLotusNotifyPopupOpts;
+	Options_AddPage(wParam, &odp);
 
-    odp.ptszTab = LPGENT("Miscellaneous");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_MISC);
+	odp.ptszTab = LPGENT("Miscellaneous");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_MISC);
 	odp.pfnDlgProc = DlgProcLotusNotifyMiscOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;
@@ -1501,11 +1478,11 @@ int LotusNotifyOptInit(WPARAM wParam,LPARAM)
 //gives protocol avainable statuses
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	if(wParam == PFLAGNUM_1)
+	if (wParam == PFLAGNUM_1)
 		return 0;
-	if(wParam == PFLAGNUM_2)
+	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE; // add the possible statuses here.
-	if(wParam == PFLAGNUM_3)
+	if (wParam == PFLAGNUM_3)
 		return 0;
 	return 0;
 }
@@ -1524,49 +1501,52 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	UINT id;
 
-	switch(wParam & 0xFFFF) {
-		case PLI_ONLINE:
-		case PLI_PROTOCOL: id=IDI_ICON1; break; // IDI_TM is the main icon for the protocol
-		case PLI_OFFLINE: id=IDI_ICON2; break;
-		default: return 0;
+	switch (wParam & 0xFFFF) {
+	case PLI_ONLINE:
+	case PLI_PROTOCOL: id = IDI_ICON1; break; // IDI_TM is the main icon for the protocol
+	case PLI_OFFLINE: id = IDI_ICON2; break;
+	default: return 0;
 	}
-	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON), 0);
+	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 
 INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == ID_STATUS_OFFLINE){
+	if (wParam == ID_STATUS_OFFLINE) {
 		// the status has been changed to online (maybe run some more code)
 		Menu_EnableItem(hMenuHandle, FALSE);
 		diffstat = 0;
 
-	} else if (wParam == ID_STATUS_ONLINE){
+	}
+	else if (wParam == ID_STATUS_ONLINE) {
 		diffstat = 0;
 		//Menu_EnableItem(hMenuHandle ,TRUE);
 		//NotifyEventHooks(hCheckEvent,wParam,lParam);
 		// the status has been changed to offline (maybe run some more code)
-		if (currentStatus != ID_STATUS_ONLINE){
-			if(startuperror){
+		if (currentStatus != ID_STATUS_ONLINE) {
+			if (startuperror) {
 				int cnt;
-				for(cnt=0; cnt<=4; cnt++)
-					if(startuperror >> cnt & 1)
+				for (cnt = 0; cnt <= 4; cnt++)
+					if (startuperror >> cnt & 1)
 						ErMsgT(TranslateTS(startuperrors[cnt]));
 				return 1;
 			}
 
-			if(check() == 0){
-				if(settingInterval != 0)
+			if (check() == 0) {
+				if (settingInterval != 0)
 					SetTimer(hTimerWnd, TID, settingInterval * 60000, atTime);
 				Menu_EnableItem(hMenuHandle, TRUE);
-			} else {
+			}
+			else {
 				ProtoBroadcastAck(PLUGINNAME, NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)currentStatus, wParam);
 				return -1;
 			}
 		}
-	} else {
+	}
+	else {
 		int retv = 0;
-		if(settingStatus[wParam - ID_STATUS_ONLINE])
+		if (settingStatus[wParam - ID_STATUS_ONLINE])
 			retv = SetStatus(ID_STATUS_OFFLINE, lParam);
 		else
 			retv = SetStatus(ID_STATUS_ONLINE, lParam);
@@ -1576,8 +1556,8 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 		// the status has been changed to unknown  (maybe run some more code)
 	}
 	//broadcast the message
-	if(currentStatus != wParam)
-		ProtoBroadcastAck(PLUGINNAME,NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)currentStatus, wParam);
+	if (currentStatus != wParam)
+		ProtoBroadcastAck(PLUGINNAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)currentStatus, wParam);
 	currentStatus = wParam;
 
 	return 0;
@@ -1587,7 +1567,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 void checkEnvPath(TCHAR *path)
 {
 	TCHAR *cur;
-	TCHAR nowy[2048]={0};
+	TCHAR nowy[2048] = { 0 };
 	TCHAR *found;
 	int len;
 
@@ -1596,16 +1576,16 @@ void checkEnvPath(TCHAR *path)
 	_tcslwr(path);
 	cur = _tgetenv(_T("PATH"));
 	_tcslwr(cur);
-	found = _tcsstr(cur,path);
+	found = _tcsstr(cur, path);
 	len = (int)mir_tstrlen(path);
-	if(found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len+1] == ';' || found[len+1] == 0)))) {
+	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0)))) {
 		return;
 	}
 
 	assert(mir_tstrlen(path) + mir_tstrlen(cur) + 1 < _countof(nowy));
 	_tcsncpy_s(nowy, _T("PATH="), _TRUNCATE);
 	_tcscat_s(nowy, cur);
-	if(cur[mir_tstrlen(cur)-1]!=';')
+	if (cur[mir_tstrlen(cur) - 1] != ';')
 		_tcscat_s(nowy, _T(";"));
 	_tcscat_s(nowy, path);
 	_tcscat_s(nowy, _T(";"));
@@ -1625,38 +1605,40 @@ INT_PTR GetStatus(WPARAM, LPARAM)
 static int modulesloaded(WPARAM, LPARAM)
 {
 	int cnt;
-	TCHAR path[255] = {0};
+	TCHAR path[255] = { 0 };
 
 	log(L"Modules loaded, lets start LN...");
 
 	GetLotusPath(path, sizeof(path));
 	checkEnvPath(path);
 	_tcscat_s(path, _countof(path), _T("nnotes.dll"));
-	assert(mir_tstrlen(path)>0);
+	assert(mir_tstrlen(path) > 0);
 
 	log_p(L"Loading dll: %s", path);
 
 	hLotusDll = LoadLibrary(path);
 	assert(hLotusDll);
-	if(hLotusDll != NULL) {
+	if (hLotusDll != NULL) {
 
 		log(L"Loading LN Functions");
 
-		if(!HookLotusFunctions()) {
+		if (!HookLotusFunctions()) {
 			FreeLibrary(hLotusDll);
 			startuperror += 1;
-		} else {
+		}
+		else {
 
 			log(L"Initializing Lotus");
 
-			if((NotesInitExtended1) (0, NULL)){
+			if ((NotesInitExtended1)(0, NULL)) {
 
 				//initialize lotus    //TODO: Lotus can terminate miranda process here with msgbox "Shared Memory from a previous Notes/Domino run has been detected, this process will exit now"
 				startuperror += 4;
 				running = TRUE;
 				Menu_EnableItem(hMenuHandle, !running);//disable menu cause lotus is not initialized
 
-			} else {
+			}
+			else {
 				log(L"Checking Notes Ini File");
 				if (!checkNotesIniFile(FALSE)) {
 					startuperror += 16;
@@ -1664,14 +1646,14 @@ static int modulesloaded(WPARAM, LPARAM)
 			}
 		}
 
-	} else {
+	}
+	else {
 		startuperror += 2;
 	}
 
-	assert(startuperror==0);
-	for(cnt=0; cnt<=4; cnt++)
-	{
-		if(startuperror >> cnt & 1)
+	assert(startuperror == 0);
+	for (cnt = 0; cnt <= 4; cnt++) {
+		if (startuperror >> cnt & 1)
 			ErMsgT(TranslateTS(startuperrors[cnt]));
 	}
 
@@ -1680,11 +1662,11 @@ static int modulesloaded(WPARAM, LPARAM)
 
 
 //function hooks before unload
-static int preshutdown(WPARAM,LPARAM)
+static int preshutdown(WPARAM, LPARAM)
 {
 	Plugin_Terminated = true;
 	deleteElements();
-	if(hLotusDll){
+	if (hLotusDll) {
 		(NotesTerm1)();
 		FreeLibrary(hLotusDll);
 	}
@@ -1700,28 +1682,28 @@ extern "C" int __declspec(dllexport) Load(void)
 	Plugin_Terminated = false;
 
 	//if(pluginLink)//strange, but this function is called by Lotus API Extension Manager (instead of MainEntryPoint) probably always with parameter poiter =1
-	if(bMirandaCall){
-		STATUS rc = EMRegister1 (EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
-		if(rc){
+	if (bMirandaCall) {
+		STATUS rc = EMRegister1(EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
+		if (rc) {
 			//Extension magager don't know who we are :(
-			startuperror+=8;
+			startuperror += 8;
 			// Get the info from the .ini file
 		}
 		//log_p(L"Load: Registered Ext. Mngr. res=%d", rc);
 		return rc;
 	}
-	bMirandaCall=TRUE;
+	bMirandaCall = TRUE;
 
 	init_pluginname();
 	logRegister();
 	log_p(L"Load: Entering LotusNotify.dll Load() bMirandaCall=%d PLUGINNAME=[%S]", bMirandaCall, PLUGINNAME);
 
-	if(!(hCheckEvent = CreateHookableEvent("LotusNotify/Check"))) //check if there is another copy of plugin running
+	if (!(hCheckEvent = CreateHookableEvent("LotusNotify/Check"))) //check if there is another copy of plugin running
 		second = TRUE;
 
 	hCheckHook = HookEvent("LotusNotify/Check", eventCheck); //hook function to menu click event
 
-	if(!second) //if its first plugin instance
+	if (!second) //if its first plugin instance
 	{
 		//function that will be called on menu click
 		hMenuService = CreateServiceFunction("LotusNotify/MenuCommand", PluginMenuCommand);
@@ -1734,7 +1716,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
 
-		Menu_EnableItem(hMenuHandle ,FALSE);
+		Menu_EnableItem(hMenuHandle, FALSE);
 	}
 
 	// create protocol
@@ -1745,7 +1727,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Proto_RegisterModule(&pd);
 
 	// set all contacts to offline
-	for(MCONTACT hContact = db_find_first(PLUGINNAME); hContact; hContact = db_find_next(hContact, PLUGINNAME))
+	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact; hContact = db_find_next(hContact, PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);
@@ -1756,7 +1738,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadSettings(); //read from db to variables
 
-	SkinAddNewSoundExT("LotusNotify", LPGENT("Lotus Notify") , LPGENT("New Lotus document detected"));
+	SkinAddNewSoundExT("LotusNotify", LPGENT("Lotus Notify"), LPGENT("New Lotus document detected"));
 
 	hOptInit = HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
 	assert(hOptInit);
@@ -1791,19 +1773,17 @@ extern "C" int __declspec(dllexport) Unload()
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 #ifdef _WIN64
-	#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
+#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
 #endif
 	return &pluginInfo;
 }
 
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_LOTUSNOTIFY, MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_LOTUSNOTIFY, MIID_PROTOCOL, MIID_LAST };
 
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {
-	switch (dwReason)
-	{
+	switch (dwReason) {
 	case DLL_PROCESS_ATTACH:
 		/* Save the instance handle */
 		Plugin_Terminated = false;

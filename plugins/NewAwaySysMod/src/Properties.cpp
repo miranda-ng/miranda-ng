@@ -55,26 +55,26 @@ CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
 		return *this; // ignore status change if the new status is unknown
 
 	bool bModified = false;
-	if (szProto) {
-		if (this->Status != Status) {
-			this->Status = Status;
-			(*GrandParent)[szProto].AwaySince.Reset();
-			ResetSettingsOnStatusChange(szProto, true, Status);
+	if (m_szProto) {
+		if (this->m_status != Status) {
+			this->m_status = Status;
+			(*m_grandParent)[m_szProto].m_awaySince.Reset();
+			ResetSettingsOnStatusChange(m_szProto, true, Status);
 			bModified = true;
 		}
-		if ((*GrandParent)[szProto].TempMsg.IsSet()) {
-			(*GrandParent)[szProto].TempMsg.Unset();
+		if ((*m_grandParent)[m_szProto].TempMsg.IsSet()) {
+			(*m_grandParent)[m_szProto].TempMsg.Unset();
 			bModified = true;
 		}
 	}
 	else { // global status change
 		int bStatusModified = false;
-		for (int i = 0; i < GrandParent->GetSize(); i++) {
-			CProtoState &State = (*GrandParent)[i];
+		for (int i = 0; i < m_grandParent->GetSize(); i++) {
+			CProtoState &State = (*m_grandParent)[i];
 			if (!db_get_b(NULL, State.GetProto(), "LockMainStatus", 0)) { // if the protocol isn't locked
-				if (State.Status != Status) {
-					State.Status.Status = Status; // "Status.Status" - changing Status directly to prevent recursive calls to the function
-					State.AwaySince.Reset();
+				if (State.m_status != Status) {
+					State.m_status.m_status = Status; // "Status.Status" - changing Status directly to prevent recursive calls to the function
+					State.m_awaySince.Reset();
 					bModified = true;
 					bStatusModified = true;
 				}
@@ -83,24 +83,24 @@ CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
 					bModified = true;
 				}
 				if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RESETPROTOMSGS))
-					CProtoSettings(State.szProto, Status).SetMsgFormat(SMF_PERSONAL, NULL);
+					CProtoSettings(State.m_szProto, Status).SetMsgFormat(SMF_PERSONAL, NULL);
 			}
 		}
 		if (bStatusModified)
 			ResetSettingsOnStatusChange(NULL, true, Status);
 	}
 	if (bModified && g_SetAwayMsgPage.GetWnd())
-		SendMessage(g_SetAwayMsgPage.GetWnd(), UM_SAM_PROTOSTATUSCHANGED, (WPARAM)(char*)szProto, 0);
+		SendMessage(g_SetAwayMsgPage.GetWnd(), UM_SAM_PROTOSTATUSCHANGED, (WPARAM)(char*)m_szProto, 0);
 	return *this;
 }
 
 void CProtoState::CAwaySince::Reset()
 {
-	GetLocalTime(&AwaySince);
+	GetLocalTime(&m_awaySince);
 
-	if (GrandParent && !szProto)
-		for (int i = 0; i < GrandParent->GetSize(); i++)
-			GetLocalTime((*GrandParent)[i].AwaySince);
+	if (m_grandParent && !m_szProto)
+		for (int i = 0; i < m_grandParent->GetSize(); i++)
+			GetLocalTime((*m_grandParent)[i].m_awaySince);
 }
 
 
@@ -110,16 +110,16 @@ void CContactSettings::SetMsgFormat(int Flags, TCString Message)
 		// if Message == NULL, then the function deletes the message.
 		CString DBSetting(StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL));
 		if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON) && GetMsgFormat(SMF_PERSONAL) != (const TCHAR*)Message)
-			ResetContactSettingsOnStatusChange(hContact);
+			ResetContactSettingsOnStatusChange(m_hContact);
 
 		if (Message != NULL)
-			db_set_ts(hContact, MOD_NAME, DBSetting, Message);
+			db_set_ts(m_hContact, MOD_NAME, DBSetting, Message);
 		else
-			db_unset(hContact, MOD_NAME, DBSetting);
+			db_unset(m_hContact, MOD_NAME, DBSetting);
 	}
 
 	if (Flags & (SMF_LAST | SMF_TEMPORARY)) {
-		_ASSERT(!hContact);
+		_ASSERT(!m_hContact);
 		CProtoSettings().SetMsgFormat(Flags & (SMF_LAST | SMF_TEMPORARY), Message);
 	}
 }
@@ -135,16 +135,16 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 		*pOrder = -1;
 
 	if (Flags & GMF_PERSONAL) // try getting personal message (it overrides global)
-		Message = db_get_s(hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (TCHAR*)NULL);
+		Message = db_get_s(m_hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (TCHAR*)NULL);
 
 	if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL | GMF_TEMPORARY) && Message.IsEmpty()) {
-		char *szProto = szProtoOverride ? szProtoOverride : (hContact ? GetContactProto(hContact) : NULL);
+		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? GetContactProto(m_hContact) : NULL);
 
 		// we mustn't pass here by GMF_TEMPORARY flag, as otherwise we'll handle GMF_TEMPORARY | GMF_PERSONAL combination incorrectly, 
 		// which is supposed to get only per-contact messages, and at the same time also may be used with NULL contact to get the global status message
 		if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL))
 			Message = CProtoSettings(szProto).GetMsgFormat(Flags, pOrder);
-		else if (!hContact) { // handle global temporary message too
+		else if (!m_hContact) { // handle global temporary message too
 			if (g_ProtoStates[szProto].TempMsg.IsSet())
 				Message = g_ProtoStates[szProto].TempMsg;
 		}
@@ -158,7 +158,7 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		ResetSettingsOnStatusChange(szProto);
 
 	if (Flags & SMF_TEMPORARY) {
-		_ASSERT(!Status || Status == g_ProtoStates[szProto].Status);
+		_ASSERT(!Status || Status == g_ProtoStates[szProto].m_status);
 		g_ProtoStates[szProto].TempMsg = (szProto || Message != NULL) ? Message : CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT);
 	}
 
@@ -259,7 +259,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		*pOrder = -1;
 
 	if (Flags & GMF_TEMPORARY) {
-		_ASSERT(!Status || Status == g_ProtoStates[szProto].Status);
+		_ASSERT(!Status || Status == g_ProtoStates[szProto].m_status);
 		if (g_ProtoStates[szProto].TempMsg.IsSet()) {
 			Message = g_ProtoStates[szProto].TempMsg;
 			Flags &= ~GMF_PERSONAL; // don't allow personal message to overwrite our NULL temporary message

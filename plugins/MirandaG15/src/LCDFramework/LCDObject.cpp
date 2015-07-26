@@ -123,7 +123,7 @@ bool CLCDObject::Update()
 //************************************************************************
 // Draw the object
 //************************************************************************
-bool CLCDObject::Draw(CLCDGfx *pGfx)
+bool CLCDObject::Draw(CLCDGfx*)
 {
 	return true;
 }
@@ -131,7 +131,6 @@ bool CLCDObject::Draw(CLCDGfx *pGfx)
 //************************************************************************
 // Called when the size of the object changed
 //************************************************************************
-void CLCDObject::OnSizeChanged(SIZE OldSize)
+void CLCDObject::OnSizeChanged(SIZE)
 {
-
 }
