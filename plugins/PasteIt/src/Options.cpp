@@ -759,7 +759,7 @@ void Options::SetCodepageCB(HWND hwndCB, unsigned int codepage)
 	}
 }
 
-int Options::InitOptions(WPARAM wParam, LPARAM lParam)
+int Options::InitOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;

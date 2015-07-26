@@ -55,7 +55,7 @@ static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
 int hLangpack = 0;
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD, LPVOID)
 {
 	hInst = hModule;
 	return TRUE;
@@ -268,7 +268,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	bool bIsContact = false;
 
@@ -358,7 +358,7 @@ void InitTabsrmmButton()
 	}
 }
 
-int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
+int WindowEvent(WPARAM, MessageWindowEventData* lParam)
 {
 	if (lParam->uType == MSG_WINDOW_EVT_OPEN)
 	{
@@ -383,7 +383,7 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMenuItems();
 	InitTabsrmmButton();

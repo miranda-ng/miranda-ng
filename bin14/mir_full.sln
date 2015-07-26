@@ -270,7 +270,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MimCmd", "..\plugins\MimCmd
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFileYM\ftpfile.vcxproj", "{73482497-9F57-4819-A9AB-5D841A9F072D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt_14.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendScreenshotPlus\SendSS_14.vcxproj", "{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}"
 EndProject
