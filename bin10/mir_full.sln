@@ -306,7 +306,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xfire", "..\protocols\Xfire
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobileState", "..\plugins\MobileState\mobilestate.vcxproj", "{AE677E3A-DAC5-42FD-8762-47370C57639B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoHistory\NoHistory_10.vcxproj", "{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoHistory\NoHistory.vcxproj", "{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders_10.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
 EndProject
