@@ -1,26 +1,14 @@
 #include "stdafx.h"
 
-struct HandleTBBParam
-{
-	HANDLE h;
-	TTBButton* tbb;
-	HandleTBBParam(HANDLE h, TTBButton* tbb) : h(h), tbb(tbb) { }
-};
-
-static LIST<void> TBButtons(1, HandleKeySortT);
+static LIST<void> TBButtons(1, PtrKeySortT);
 
 void KillModuleTTBButton()
 {
 	while (TBButtons.getCount())
 	{
-		HandleTBBParam* param = (HandleTBBParam*)TBButtons[0];
-		::CallService(MS_TTB_REMOVEBUTTON, (WPARAM)param->h, 0);
+		HANDLE hTTButton = TBButtons[0];
+		::CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 		TBButtons.remove(0);
-		mir_free(param->tbb->name);
-		mir_free(param->tbb->pszTooltipUp);
-		mir_free(param->tbb->pszTooltipDn);
-		mir_free(param->tbb);
-		delete param;
 	}
 }
 
@@ -106,14 +94,12 @@ static int lua_AddButton(lua_State *L)
 	lua_pushlightuserdata(L, res);
 
 	if (res != INVALID_HANDLE_VALUE)
-		TBButtons.insert(new HandleTBBParam(res, tbb));
-	else
-	{
-		mir_free(tbb->name);
-		mir_free(tbb->pszTooltipUp);
-		mir_free(tbb->pszTooltipDn);
-		mir_free(tbb);
-	}
+		TBButtons.insert(res);
+
+	mir_free(tbb->name);
+	mir_free(tbb->pszTooltipUp);
+	mir_free(tbb->pszTooltipDn);
+	mir_free(tbb);
 
 	return 1;
 }
@@ -126,18 +112,7 @@ static int lua_RemoveButton(lua_State *L)
 	lua_pushinteger(L, res);
 
 	if (!res)
-	{
-		HandleTBBParam* param = (HandleTBBParam*)TBButtons.find(&hTTButton);
-		if (param)
-		{
-			TBButtons.remove(param);
-			mir_free(param->tbb->name);
-			mir_free(param->tbb->pszTooltipUp);
-			mir_free(param->tbb->pszTooltipDn);
-			mir_free(param->tbb);
-			delete param;
-		}
-	}
+		TBButtons.remove(hTTButton);
 
 	return 1;
 }
