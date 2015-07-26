@@ -305,7 +305,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\amdproto_10.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugins\NewsAggregator\NewsAggregator_10.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugins\NewsAggregator\NewsAggregator.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quotes", "..\plugins\Quotes\Forex_10.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
 EndProject
