@@ -32,14 +32,14 @@ public:
 	int GetDefMsg(int iMode);
 	void SetDefMsg(int iMode, int ID);
 	void Save();
-	void UpdateItem(int ID); // updates item title, and expanded/collapsed state for groups; set SetModified to TRUE to change Modified flag of the tree
+	void UpdateItem(int ID); // updates item title, and expanded/collapsed state for groups; set SetModified to TRUE to change m_bModified flag of the tree
 	bool DeleteSelectedItem(); // returns true if the item was deleted
 	CTreeItem* AddCategory();
 	CTreeItem* AddMessage();
 	CBaseTreeItem* GetNextItem(int Flags, CBaseTreeItem* Item); // Item is 'int ID' if MTGN_BYID flag is set; returns CBaseTreeItem* or NULL
 	void EnsureVisible(HTREEITEM hItem) {TreeView_EnsureVisible(hTreeView, hItem);}
 	bool GetModified() {return MsgTreePage.GetModified();}
-	void SetModified(bool Modified) {MsgTreePage.SetModified(Modified);}
+	void SetModified(bool m_bModified) {MsgTreePage.SetModified(m_bModified);}
 
 	friend LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 	friend LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);

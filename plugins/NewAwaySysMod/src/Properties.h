@@ -327,14 +327,14 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator = (const int Value)
+		CAutoreply& operator = (const int m_value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
-			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
+			if (db_get_b(NULL, MOD_NAME, Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
-			if (Value != VAL_USEDEFAULT)
-				db_set_b(NULL, MOD_NAME, Setting, Value != 0);
+			if (m_value != VAL_USEDEFAULT)
+				db_set_b(NULL, MOD_NAME, Setting, m_value != 0);
 			else
 				db_unset(NULL, MOD_NAME, Setting);
 			return *this;
@@ -349,8 +349,8 @@ public:
 		int IncludingParents() // takes into account global data also, if per-protocol setting is not defined
 		{
 			_ASSERT(Parent->szProto);
-			int Value = *this;
-			return (Value == VAL_USEDEFAULT) ? CProtoSettings(NULL).Autoreply : Value;
+			int m_value = *this;
+			return (m_value == VAL_USEDEFAULT) ? CProtoSettings(NULL).Autoreply : m_value;
 		}
 		friend class CProtoSettings;
 	private:
@@ -420,11 +420,11 @@ public:
 	class CIgnore
 	{
 	public:
-		CIgnore& operator = (const int Value)
+		CIgnore& operator = (const int m_value)
 		{
       CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
-			if (Value)
+			if (m_value)
 				db_set_b(hContact, MOD_NAME, Setting, 1);
 			else
 				db_unset(hContact, MOD_NAME, Setting);
@@ -445,15 +445,15 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator = (const int Value)
+		CAutoreply& operator = (const int m_value)
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
-			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == Value)
+			if (db_get_b(hContact, MOD_NAME, Setting, VAL_USEDEFAULT) == m_value)
 				return *this;
 
-			if (Value != VAL_USEDEFAULT)
-				db_set_b(hContact, MOD_NAME, Setting, Value != 0);
+			if (m_value != VAL_USEDEFAULT)
+				db_set_b(hContact, MOD_NAME, Setting, m_value != 0);
 			else
 				db_unset(hContact, MOD_NAME, Setting);
 			return *this;
@@ -462,12 +462,12 @@ public:
 		int IncludingParents(const char *szProtoOverride = NULL) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
 			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
-			int Value = *this;
-			if (Value == VAL_USEDEFAULT) {
+			int m_value = *this;
+			if (m_value == VAL_USEDEFAULT) {
 				const char *szProto = (Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) ? GetContactProto(Parent->m_hContact) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
-			return Value;
+			return m_value;
 		}
 		int GetNextToggleValue()
 		{

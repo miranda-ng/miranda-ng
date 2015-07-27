@@ -146,9 +146,9 @@ int GetRecentGroupID(int iMode)
 	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM))
 		return g_Messages_RecentRootID;
 
-	for (int Order = 0; Order < TreeCtrl->Value.GetSize(); Order++) // find a group named accordingly to the current status
-		if (TreeCtrl->Value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->Value[Order].Flags & TIF_GROUP && !mir_tstrcmpi(TreeCtrl->Value[Order].Title, iMode ? pcli->pfnGetStatusModeDescription(iMode, 0) : MSGTREE_RECENT_OTHERGROUP))
-			return TreeCtrl->Value[Order].ID;
+	for (int Order = 0; Order < TreeCtrl->m_value.GetSize(); Order++) // find a group named accordingly to the current status
+		if (TreeCtrl->m_value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->m_value[Order].Flags & TIF_GROUP && !mir_tstrcmpi(TreeCtrl->m_value[Order].Title, iMode ? pcli->pfnGetStatusModeDescription(iMode, 0) : MSGTREE_RECENT_OTHERGROUP))
+			return TreeCtrl->m_value[Order].ID;
 
 	return -1;
 }

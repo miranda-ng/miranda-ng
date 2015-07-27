@@ -232,7 +232,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 
 	int i;
 	for (i = _countof(StatusModeList) - 1; i >= 0; i--)
-		if (wParam == StatusModeList[i].Status)
+		if ((int)wParam == StatusModeList[i].Status)
 			break;
 	if (i < 0)
 		return 0;
@@ -524,9 +524,9 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
 		TreeCtrl->DBToMem(CString(MOD_NAME));
 
-		for (int i = 0; i < TreeCtrl->Value.GetSize(); i++) {
-			if (!(TreeCtrl->Value[i].Flags & TIF_GROUP) && !mir_tstrcmpi(TreeCtrl->Value[i].Title, ai->targv[1])) {
-				Result = TreeCtrl->Value[i].User_Str1;
+		for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
+			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_tstrcmpi(TreeCtrl->m_value[i].Title, ai->targv[1])) {
+				Result = TreeCtrl->m_value[i].User_Str1;
 				break;
 			}
 		}

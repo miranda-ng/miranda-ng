@@ -217,9 +217,9 @@ int SetAwayMsgDlgResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 }
 
-__inline int DBValueToReplyIcon(int Value)
+__inline int DBValueToReplyIcon(int m_value)
 {
-	switch (Value) {
+	switch (m_value) {
 		case VAL_USEDEFAULT: return EXTRAIMGLIST_DOT;
 		case 0: return EXTRAIMGLIST_AUTOREPLY_OFF;
 		default: return EXTRAIMGLIST_AUTOREPLY_ON;
@@ -452,7 +452,7 @@ static Buttons[] =
 };
 
 struct {
-	int DlgItemID;
+	int m_dlgItemID;
 	TCHAR* Text;
 } Tooltips[] = {
 	IDC_SAWAYMSG_IGNOREREQ, LPGENT("Don't send the status message to selected contact(s)"),
@@ -612,7 +612,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			for (int i = 0; i < _countof(Tooltips); i++) {
-				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
+				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].m_dlgItemID);
 				ti.lpszText = TranslateTS(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}
@@ -711,8 +711,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						bool StatusDetermined = false;
 						for (int i = 0; i < pnm->NewSelection->GetSize(); i++) {
 							HTREEITEM hItem = (*pnm->NewSelection)[i];
-							MCONTACT hContact;
-							char *szProto;
+							MCONTACT hContact = 0;
+							char *szProto = NULL;
 							int ItemType = CList->GetItemType(hItem);
 							if (ItemType == MCLCIT_CONTACT) {
 								hContact = CList->GethContact(hItem);

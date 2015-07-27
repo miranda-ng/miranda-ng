@@ -182,26 +182,26 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		TreeCtrl->DBToMem(CString(MOD_NAME));
 		int RecentGroupID = GetRecentGroupID(Status);
 		if (RecentGroupID == -1) { // we didn't find the group, it also means that we're using per status messages; so we need to create it
-			TreeCtrl->Value.AddElem(CTreeItem(Status ? pcli->pfnGetStatusModeDescription(Status, 0) : MSGTREE_RECENT_OTHERGROUP, g_Messages_RecentRootID, RecentGroupID = TreeCtrl->GenerateID(), TIF_GROUP));
+			TreeCtrl->m_value.AddElem(CTreeItem(Status ? pcli->pfnGetStatusModeDescription(Status, 0) : MSGTREE_RECENT_OTHERGROUP, g_Messages_RecentRootID, RecentGroupID = TreeCtrl->GenerateID(), TIF_GROUP));
 			TreeCtrl->SetModified(true);
 		}
 		int i;
 		// try to find an identical message in the same group (to prevent saving multiple identical messages), 
 		// or at least if we'll find an identical message somewhere else, then we'll use its title for our new message
 		TCString Title(_T(""));
-		for (i = 0; i < TreeCtrl->Value.GetSize(); i++) {
-			if (!(TreeCtrl->Value[i].Flags & TIF_GROUP) && TreeCtrl->Value[i].User_Str1 == (const TCHAR*)Message) {
-				if (TreeCtrl->Value[i].ParentID == RecentGroupID) { // found it in the same group
+		for (i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
+			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && TreeCtrl->m_value[i].User_Str1 == (const TCHAR*)Message) {
+				if (TreeCtrl->m_value[i].ParentID == RecentGroupID) { // found it in the same group
 					int GroupOrder = TreeCtrl->IDToOrder(RecentGroupID);
-					TreeCtrl->Value.MoveElem(i, (GroupOrder >= 0) ? (GroupOrder + 1) : 0); // now move it to the top of recent messages list
+					TreeCtrl->m_value.MoveElem(i, (GroupOrder >= 0) ? (GroupOrder + 1) : 0); // now move it to the top of recent messages list
 					TreeCtrl->SetModified(true);
 					break; // no reason to search for anything else
 				}
 				if (Title.IsEmpty()) // it's not in the same group, but at least we'll use its title
-					Title = TreeCtrl->Value[i].Title;
+					Title = TreeCtrl->m_value[i].Title;
 			}
 		}
-		if (i == TreeCtrl->Value.GetSize()) { // we didn't find an identical message in the same group, so we'll add our new message here
+		if (i == TreeCtrl->m_value.GetSize()) { // we didn't find an identical message in the same group, so we'll add our new message here
 			if (Title.IsEmpty()) { // didn't find a title for our message either
 				if (Message.GetLen() > MRM_MAX_GENERATED_TITLE_LEN)
 					Title = Message.Left(MRM_MAX_GENERATED_TITLE_LEN - 3) + _T("...");
@@ -218,17 +218,17 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 				Title.ReleaseBuffer();
 			}
 			int GroupOrder = TreeCtrl->IDToOrder(RecentGroupID);
-			TreeCtrl->Value.InsertElem(CTreeItem(Title, RecentGroupID, TreeCtrl->GenerateID(), 0, Message), (GroupOrder >= 0) ? (GroupOrder + 1) : 0);
+			TreeCtrl->m_value.InsertElem(CTreeItem(Title, RecentGroupID, TreeCtrl->GenerateID(), 0, Message), (GroupOrder >= 0) ? (GroupOrder + 1) : 0);
 			TreeCtrl->SetModified(true);
 		}
 
 		// now clean up here
 		int MRMNum = 0;
 		int MaxMRMNum = g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT);
-		for (i = 0; i < TreeCtrl->Value.GetSize(); i++) {
-			if (TreeCtrl->Value[i].ParentID == RecentGroupID) { // found a child of our group
-				if (TreeCtrl->Value[i].Flags & TIF_GROUP || ++MRMNum > MaxMRMNum) { // what groups are doing here?! :))
-					TreeCtrl->Value.RemoveElem(i);
+		for (i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
+			if (TreeCtrl->m_value[i].ParentID == RecentGroupID) { // found a child of our group
+				if (TreeCtrl->m_value[i].Flags & TIF_GROUP || ++MRMNum > MaxMRMNum) { // what groups are doing here?! :))
+					TreeCtrl->m_value.RemoveElem(i);
 					TreeCtrl->SetModified(true);
 					i--;
 				}
@@ -237,10 +237,10 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 
 		// if we're saving recent messages per status, then remove any messages that were left at the recent messages' root
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM)) {
-			for (i = 0; i < TreeCtrl->Value.GetSize(); i++) {
-				if (TreeCtrl->Value[i].ParentID == g_Messages_RecentRootID) {
-					if (!(TreeCtrl->Value[i].Flags & TIF_GROUP)) {
-						TreeCtrl->Value.RemoveElem(i);
+			for (i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
+				if (TreeCtrl->m_value[i].ParentID == g_Messages_RecentRootID) {
+					if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP)) {
+						TreeCtrl->m_value.RemoveElem(i);
 						TreeCtrl->SetModified(true);
 						i--;
 					}
@@ -284,9 +284,9 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 				Message = NULL; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later
 				int RecentGroupID = GetRecentGroupID(Status);
 				if (RecentGroupID != -1) {
-					for (int i = 0; i < TreeCtrl->Value.GetSize(); i++) { // find first message in the group
-						if (TreeCtrl->Value[i].ParentID == RecentGroupID && !(TreeCtrl->Value[i].Flags & TIF_GROUP)) {
-							Message = TreeCtrl->Value[i].User_Str1;
+					for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) { // find first message in the group
+						if (TreeCtrl->m_value[i].ParentID == RecentGroupID && !(TreeCtrl->m_value[i].Flags & TIF_GROUP)) {
+							Message = TreeCtrl->m_value[i].User_Str1;
 							if (pOrder)
 								*pOrder = i;
 							break;
@@ -325,7 +325,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 
 			int Order = TreeCtrl->IDToOrder(DefMsgID); // this will return -1 in any case if something goes wrong
 			if (Order >= 0)
-				Message = TreeCtrl->Value[Order].User_Str1;
+				Message = TreeCtrl->m_value[Order].User_Str1;
 
 			if (pOrder)
 				*pOrder = Order;
