@@ -22,22 +22,6 @@ Boston, MA 02111-1307, USA.
 PlugOptions opts;
 POPUP_OPTIONS PopupOptions = {0};
 
-void LoadOptions()
-{
-	PopupOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
-	PopupOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	PopupOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	PopupOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-
-	opts.bUpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	opts.bOnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
-	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
-	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
-}
-
 int GetUpdateMode()
 {
 	int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, -1);
@@ -64,9 +48,6 @@ int GetUpdateMode()
 
 TCHAR* GetDefaultUrl()
 {
-#if MIRANDA_VER < 0x0A00
-	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
-#else
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
 		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
@@ -77,22 +58,24 @@ TCHAR* GetDefaultUrl()
 	default:
 		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
 	}
-#endif
 }
 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, opts.bUpdateOnStartup ? BST_CHECKED : BST_UNCHECKED);
+		if (opts.bUpdateOnStartup) {
+			CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP,  BST_CHECKED);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), TRUE);
+		}
 		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, opts.bOnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), opts.bUpdateOnStartup);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, opts.bUpdateOnPeriod ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), opts.bUpdateOnPeriod);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), opts.bUpdateOnPeriod);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bUpdateOnPeriod);
+		if (opts.bUpdateOnPeriod) {
+			CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, BST_CHECKED);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), TRUE);
+		}
 		CheckDlgButton(hwndDlg, IDC_SILENTMODE, opts.bSilentMode ? BST_CHECKED : BST_UNCHECKED);
 		if (db_get_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NEEDRESTARTLABEL), SW_SHOW);
@@ -137,14 +120,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					url = GetDefaultUrl();
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 		}
-	}
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_UPDATEONSTARTUP:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
-
+			// fall through
 		case IDC_SILENTMODE:
 		case IDC_ONLYONCEADAY:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

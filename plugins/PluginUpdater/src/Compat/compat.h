@@ -91,15 +91,6 @@ static iconList[] =
 	{ "plg_list",     LPGEN("Component list"),              IDI_PLGLIST }
 };
 
-__forceinline INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
-{
-	return CallService("Opt/OpenOptions", 0, (LPARAM)ood);
-}
-
-__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
-{
-	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
-}
 
 char *bin2hex(const void *pData, size_t len, char *dest);
 char *rtrim(char *str);
@@ -109,36 +100,44 @@ void InitIcoLib();
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 
-__forceinline HANDLE Skin_AddIcon(SKINICONDESC *si)
-{	return (HANDLE)CallService("Skin2/Icons/AddIcon", 0, (LPARAM)si);
+__forceinline INT_PTR Options_Open(OPENOPTIONSDIALOG *ood) {
+	return CallService(MS_OPT_OPENOPTIONS, 0, (LPARAM)ood);
 }
 
-__forceinline HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size=0)
-{	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, size, (LPARAM)hIcolibIcon);
+__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp) {
+	return CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)odp);
 }
 
-__forceinline HANDLE Skin_GetIconHandle(const char *szIconName)
-{	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
+__forceinline HANDLE IcoLib_AddIcon(SKINICONDESC *si) {
+	return (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)si);
 }
 
-__forceinline HICON Skin_GetIcon(const char *szIconName, int size=0)
-{	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
+__forceinline HICON IcoLib_GetIconByHandle(HANDLE hIcolibIcon, int size=0) {
+	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, size, (LPARAM)hIcolibIcon);
 }
 
-__forceinline void Skin_ReleaseIcon(const char* szIconName)
-{	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
+__forceinline HANDLE IcoLib_GetIconHandle(const char *szIconName) {
+	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
 }
 
-__forceinline void Skin_ReleaseIcon(HICON hIcon)
-{	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+__forceinline HICON IcoLib_GetIcon(const char *szIconName, int size=0) {
+	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
 }
 
-__forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
-{	return (HGENMENU)CallService("CList/AddMainMenuItem", 0, (LPARAM)mi);
+__forceinline void IcoLib_ReleaseIcon(const char* szIconName) {
+	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
 }
 
-__forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
-{	return CallService("CoreHotkeys/Register", 0, (LPARAM)hk);
+__forceinline void IcoLib_ReleaseIcon(HICON hIcon) {
+	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+}
+
+__forceinline HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi) {
+	return (HGENMENU)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)mi);
+}
+
+__forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk) {
+	return CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)hk);
 }
 
 __forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
@@ -146,33 +145,3 @@ __forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
 }
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
-
-
-
-template <size_t _Size>
-inline int mir_snprintf(char(&buffer)[_Size], const char* fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	return mir_vsnprintf(buffer, _Size, fmt, args);
-}
-
-template <size_t _Size>
-inline int mir_snwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	return mir_vsnwprintf(buffer, _Size, fmt, args);
-}
-
-template <size_t _Size>
-inline int mir_vsnprintf(char(&buffer)[_Size], const char* fmt, va_list va)
-{
-	return mir_vsnprintf(buffer, _Size, fmt, va);
-}
-
-template <size_t _Size>
-inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, va_list va)
-{
-	return mir_vsnwprintf(buffer, _Size, fmt, va);
-}
