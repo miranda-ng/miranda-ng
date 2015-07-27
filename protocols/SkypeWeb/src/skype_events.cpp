@@ -137,7 +137,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
 		{
-			pszText = mir_strdup(CMStringA(FORMAT, "Unknown event, please send this text for developer: \"%s\"", (char*)pEvent->dbei->pBlob));
+			pszText = mir_strdup(CMStringA(FORMAT, Translate("Unknown event, please send this text for developer: \"%s\""), (char*)pEvent->dbei->pBlob));
 			break;
 		}
 	default:
