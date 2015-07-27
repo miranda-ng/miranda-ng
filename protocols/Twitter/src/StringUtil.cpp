@@ -86,3 +86,13 @@ std::string& replaceAll(std::string& context, const std::string& from, const std
 	}
 	return context;
 }
+
+std::string& htmlEntitiesDecode(std::string& context)
+{
+	replaceAll(context, "&amp;", "&");
+	replaceAll(context, "&quot;", "\"");
+	replaceAll(context, "&lt;", "<");
+	replaceAll(context, "&gt;", ">");
+
+	return context;
+}

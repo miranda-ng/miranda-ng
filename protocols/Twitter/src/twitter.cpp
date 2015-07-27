@@ -240,19 +240,17 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 			std::string retweeteesName = pUser2["screen_name"].as_string(); // the user that is being retweeted
 			std::string retweetText = pRetweet["text"].as_string(); // their tweet in all it's untruncated glory
 
-			// fix "&amp;" in the tweets :(
-			for (size_t pos = 0; (pos = retweetText.find("&amp;", pos)) != std::string::npos; pos++)
-				retweetText.replace(pos, 5, "&");
+			// fix html entities in the text
+			htmlEntitiesDecode(retweetText);
 
 			u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
 		}
 		else {
-			// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
+			// if it's not truncated, then the twitter API returns the native RT correctly anyway,
 			std::string rawText = one["text"].as_string();
-			// ok here i'm trying some way to fix all the "&amp;" things that are showing up
-			// i dunno why it's happening, so i'll just find and replace each occurance :/
-			for (size_t pos = 0; (pos = rawText.find("&amp;", pos)) != std::string::npos; pos++)
-				rawText.replace(pos, 5, "&");
+			
+			// fix html entities in the text
+			htmlEntitiesDecode(rawText);
 
 			u.status.text = rawText;
 		}

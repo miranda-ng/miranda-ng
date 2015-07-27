@@ -30,6 +30,8 @@ tstring GetWord(const tstring& str, unsigned index, bool getRest = false);
 
 std::string& replaceAll(std::string& context, const std::string& from, const std::string& to);
 
+std::string& htmlEntitiesDecode(std::string& context);
+
 inline std::string WideToUTF8(const std::wstring& str)
 {
 	return (char*)ptrA(mir_utf8encodeW(str.c_str()));
