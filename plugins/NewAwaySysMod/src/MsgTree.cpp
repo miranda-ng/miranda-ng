@@ -78,7 +78,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					int Order = TreeCtrl->hItemToOrder(pnmtv->itemNew.hItem);
 					_ASSERT(Order != -1);
 					if (Order != -1) {
-						nm.ItemOld = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+						nm.ItemOld = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 						nm.hdr.code = MTN_BEGINDRAG;
 						nm.hdr.hwndFrom = dat->hTreeView;
 						nm.hdr.idFrom = GetDlgCtrlID(dat->hTreeView);
@@ -102,13 +102,13 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					if (pnmtv->itemOld.hItem) {
 						int Order = TreeCtrl->IDToOrder(pnmtv->itemOld.lParam);
 						if (Order != -1) {
-							nm.ItemOld = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+							nm.ItemOld = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 						}
 					}
 					if (pnmtv->itemNew.hItem) {
 						int Order = TreeCtrl->IDToOrder(pnmtv->itemNew.lParam);
 						if (Order != -1) {
-							nm.ItemNew = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+							nm.ItemNew = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 						}
 					}
 					nm.hdr.code = MTN_SELCHANGED;
@@ -132,10 +132,10 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 						COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 						int Order = TreeCtrl->IDToOrder(ptvdi->item.lParam);
 						if (Order >= 0) {
-							TreeCtrl->Value[Order].Title = ptvdi->item.pszText;
+							TreeCtrl->m_value[Order].Title = ptvdi->item.pszText;
 							TreeCtrl->SetModified(true);
 							NMMSGTREE nm = { 0 };
-							nm.ItemNew = &TreeCtrl->Value[Order];
+							nm.ItemNew = &TreeCtrl->m_value[Order];
 							nm.hdr.code = MTN_ITEMRENAMED;
 							nm.hdr.hwndFrom = dat->hTreeView;
 							nm.hdr.idFrom = GetDlgCtrlID(dat->hTreeView);
@@ -226,8 +226,8 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 				int OrderOld = TreeCtrl->hItemToOrder(dat->hDragItem);
 				int OrderNew = TreeCtrl->hItemToOrder(hti.hItem);
 				_ASSERT(OrderOld != -1 && OrderNew != -1);
-				nm.ItemOld = (OrderOld <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OrderOld)] : (CBaseTreeItem*)&TreeCtrl->Value[OrderOld];
-				nm.ItemNew = (OrderNew <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OrderNew)] : (CBaseTreeItem*)&TreeCtrl->Value[OrderNew];
+				nm.ItemOld = (OrderOld <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OrderOld)] : (CBaseTreeItem*)&TreeCtrl->m_value[OrderOld];
+				nm.ItemNew = (OrderNew <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OrderNew)] : (CBaseTreeItem*)&TreeCtrl->m_value[OrderNew];
 				nm.hdr.code = MTN_ENDDRAG;
 				nm.hdr.hwndFrom = dat->hTreeView;
 				nm.hdr.idFrom = GetDlgCtrlID(dat->hTreeView);
@@ -262,9 +262,9 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 	switch (Msg) {
 	case UM_MSGTREE_UPDATE: // returns TRUE if updated
 		{
-			bool Modified = dat->MsgTreePage.GetModified();
+			bool m_bModified = dat->MsgTreePage.GetModified();
 			TCString WndTitle;
-			if (Modified) {
+			if (m_bModified) {
 				WndTitle.GetBuffer(256);
 				HWND hCurWnd = hWnd;
 				do {
@@ -272,12 +272,12 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				} while (hCurWnd && !GetWindowText(hCurWnd, WndTitle, 256));
 				WndTitle.ReleaseBuffer();
 			}
-			if (!Modified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead."), WndTitle + _T(" - ") + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
+			if (!m_bModified || MessageBox(GetParent(hWnd), TCString(TranslateT("You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in \"")) + WndTitle + TranslateT("\" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead."), WndTitle + _T(" - ") + TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO) == IDNO) {
 				COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 				TCString OldTitle, OldMsg, NewTitle, NewMsg;
 				int OldOrder = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hWnd)));
 				if (OldOrder != -1) {
-					CBaseTreeItem* ItemOld = (OldOrder <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OldOrder)] : (CBaseTreeItem*)&TreeCtrl->Value[OldOrder];
+					CBaseTreeItem* ItemOld = (OldOrder <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(OldOrder)] : (CBaseTreeItem*)&TreeCtrl->m_value[OldOrder];
 					OldTitle = ItemOld->Title;
 					if (!(ItemOld->Flags & TIF_ROOTITEM))
 						OldMsg = ((CTreeItem*)ItemOld)->User_Str1;
@@ -288,7 +288,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				NMMSGTREE nm = { 0 };
 				int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hWnd)));
 				if (Order != -1) {
-					nm.ItemNew = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+					nm.ItemNew = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 					NewTitle = nm.ItemNew->Title;
 					if (!(nm.ItemNew->Flags & TIF_ROOTITEM))
 						NewMsg = ((CTreeItem*)nm.ItemNew)->User_Str1;
@@ -368,7 +368,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				int Order = TreeCtrl->IDToOrder(tvi.lParam);
 				if (Order >= 0) {
 					HMENU hMenu;
-					if (TreeCtrl->Value[Order].Flags & TIF_GROUP)
+					if (TreeCtrl->m_value[Order].Flags & TIF_GROUP)
 						hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MSGTREE_CATEGORYMENU));
 					else
 						hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MSGTREE_MESSAGEMENU));
@@ -397,7 +397,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 					mii.fMask = MIIM_STATE;
 					mii.fState = MFS_CHECKED;
 					for (int i = 0; i < _countof(SettingsList); i++) // set checkmarks
-						if (TreeCtrl->Value[Order].ID == (int)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
+						if (TreeCtrl->m_value[Order].ID == (int)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
 							SetMenuItemInfo(hPopupMenu, SettingsList[i].MenuItemID, false, &mii);
 
 					int MenuResult = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, ht.pt.x, ht.pt.y, 0, hWnd, NULL);
@@ -496,7 +496,7 @@ CBaseTreeItem* CMsgTree::GetSelection() // returns NULL if there's nothing selec
 	int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hTreeView)));
 	if (Order == -1)
 		return NULL;
-	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 }
 
 bool CMsgTree::SetSelection(int ID, int Flags) // set ID = -1 to unselect; returns TRUE on unselect and on successful select
@@ -506,7 +506,7 @@ bool CMsgTree::SetSelection(int ID, int Flags) // set ID = -1 to unselect; retur
 	if (Order == -1 && ID != -1)
 		return false;
 
-	TreeView_SelectItem(hTreeView, (Order == -1) ? NULL : ((Order <= TREECTRL_ROOTORDEROFFS) ? TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : TreeCtrl->Value[Order].hItem));
+	TreeView_SelectItem(hTreeView, (Order == -1) ? NULL : ((Order <= TREECTRL_ROOTORDEROFFS) ? TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : TreeCtrl->m_value[Order].hItem));
 	return true;
 }
 
@@ -527,19 +527,19 @@ void CMsgTree::SetDefMsg(int iMode, int ID)
 				RECT rc;
 				COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
 				int OrderOld = TreeCtrl->IDToOrder((int)MsgTreePage.GetValue(SettingsList[i].DBSetting));
-				if (OrderOld >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->Value[OrderOld].hItem, &rc, false))
+				if (OrderOld >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->m_value[OrderOld].hItem, &rc, false))
 					InvalidateRect(hTreeView, &rc, true); // refresh icons of previous default tree item
 
 				int OrderNew = TreeCtrl->IDToOrder(ID);
-				if (OrderNew >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->Value[OrderNew].hItem, &rc, false))
+				if (OrderNew >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->m_value[OrderNew].hItem, &rc, false))
 					InvalidateRect(hTreeView, &rc, true); // refresh new default item icons
 
 				MsgTreePage.SetValue(SettingsList[i].DBSetting, ID);
 				NMMSGTREE nm = { 0 };
 				if (OrderOld >= 0)
-					nm.ItemOld = &TreeCtrl->Value[OrderOld];
+					nm.ItemOld = &TreeCtrl->m_value[OrderOld];
 				if (OrderNew >= 0)
-					nm.ItemNew = &TreeCtrl->Value[OrderNew];
+					nm.ItemNew = &TreeCtrl->m_value[OrderNew];
 				nm.hdr.code = MTN_DEFMSGCHANGED;
 				nm.hdr.hwndFrom = hTreeView;
 				nm.hdr.idFrom = GetDlgCtrlID(hTreeView);
@@ -563,7 +563,7 @@ void CMsgTree::UpdateItem(int ID) // updates item title, and expanded/collapsed 
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
 	int Order = TreeCtrl->IDToOrder(ID);
 	if (Order != -1) {
-		CBaseTreeItem* TreeItem = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+		CBaseTreeItem* TreeItem = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 		TCString NewTitle;
 		TVITEM tvi;
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT;
@@ -592,7 +592,7 @@ bool CMsgTree::DeleteSelectedItem() // returns true if the item was deleted
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
 	int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hTreeView)));
 	_ASSERT(Order >= 0);
-	CTreeItem *SelectedItem = &TreeCtrl->Value[Order];
+	CTreeItem *SelectedItem = &TreeCtrl->m_value[Order];
 
 	//NightFox: fix for langpack and fix cut char space in text
 	if (MessageBox(GetParent(hTreeView),
@@ -658,7 +658,7 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem *Item) // Item is 
 	if (Flags & MTGN_BYID) {
 		int Order = TreeCtrl->IDToOrder((int)Item);
 		_ASSERT(Order != -1);
-		TreeItem = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+		TreeItem = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 	}
 
 	int TVFlag = 0;
@@ -675,5 +675,5 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem *Item) // Item is 
 	if (Order == -1)
 		return NULL;
 
-	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];
+	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 }

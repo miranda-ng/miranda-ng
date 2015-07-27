@@ -84,17 +84,17 @@ bool COptPage::GetModified()
 	return false;
 }
 
-void COptPage::SetModified(bool Modified)
+void COptPage::SetModified(bool m_bModified)
 {
 	_ASSERT(sModule != "");
 	for (int i = 0; i < Items.GetSize(); i++)
-		Items[i]->SetModified(Modified);
+		Items[i]->SetModified(m_bModified);
 }
 
-COptItem *COptPage::Find(int DlgItemID)
+COptItem *COptPage::Find(int m_dlgItemID)
 {
 	for (int i = 0; i < Items.GetSize(); i++)
-		if (Items[i]->GetID() == DlgItemID)
+		if (Items[i]->GetID() == m_dlgItemID)
 			return Items[i];
 
 	_ASSERT(0);
@@ -127,14 +127,14 @@ int COptItem::GetIntDBVal(const CString &sModule, int bSigned, CString*)
 	return (int)GetDefValue();
 }
 
-void COptItem::SetIntDBVal(const CString &sModule, int Value, CString*)
+void COptItem::SetIntDBVal(const CString &sModule, int m_value, CString*)
 { // default procedure for writing value to the DB; used only for integral types
-	if (sDBSetting != NULL && !ReadOnly) {
+	if (sDBSetting != NULL && !m_bReadOnly) {
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 
 		DBVARIANT dbv;
 		dbv.type = nValueSize;
-		dbv.dVal = Value;
+		dbv.dVal = m_value;
 		db_set(NULL, sModule, sDBSetting, &dbv);
 	}
 }
@@ -150,67 +150,67 @@ TCString COptItem::GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix
 
 void COptItem::SetStrDBVal(const CString &sModule, TCString &Str, CString *sDBSettingPrefix)
 {
-	if (sDBSetting != NULL && !ReadOnly) {
+	if (sDBSetting != NULL && !m_bReadOnly) {
 		db_set_ts(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
 	}
 }
 
 void COptItem_Checkbox::DBToMem(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (ValueMask)
-		Value = (GetIntDBVal(sModule, false, sDBSettingPrefix) & ValueMask) ? BST_CHECKED : BST_UNCHECKED;
+	if (m_valueMask)
+		m_value = (GetIntDBVal(sModule, false, sDBSettingPrefix) & m_valueMask) ? BST_CHECKED : BST_UNCHECKED;
 	else
-		Value = GetIntDBVal(sModule, false, sDBSettingPrefix);
+		m_value = GetIntDBVal(sModule, false, sDBSettingPrefix);
 
 	COptItem::DBToMem(sModule, sDBSettingPrefix);
 }
 
 void COptItem_Checkbox::MemToDB(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (ValueMask) {
-		if (Value == BST_CHECKED)
-			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) | ValueMask, sDBSettingPrefix);
+	if (m_valueMask) {
+		if (m_value == BST_CHECKED)
+			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) | m_valueMask, sDBSettingPrefix);
 		else
-			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) & ~ValueMask, sDBSettingPrefix);
+			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) & ~m_valueMask, sDBSettingPrefix);
 	}
-	else SetIntDBVal(sModule, Value, sDBSettingPrefix);
+	else SetIntDBVal(sModule, m_value, sDBSettingPrefix);
 
 	COptItem::MemToDB(sModule, sDBSettingPrefix);
 }
 
 void COptItem_Checkbox::WndToMem(HWND hWnd)
 {
-	Value = IsDlgButtonChecked(hWnd, DlgItemID);
-	// tri-state checkboxes in combination with ValueMask != 0 are not supported ;)
-	_ASSERT(!ValueMask || Value != BST_INDETERMINATE);
+	m_value = IsDlgButtonChecked(hWnd, m_dlgItemID);
+	// tri-state checkboxes in combination with m_valueMask != 0 are not supported ;)
+	_ASSERT(!m_valueMask || m_value != BST_INDETERMINATE);
 	COptItem::WndToMem(hWnd);
 }
 
 void COptItem_Checkbox::MemToWnd(HWND hWnd)
 {
-	CheckDlgButton(hWnd, DlgItemID, Value ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hWnd, m_dlgItemID, m_value ? BST_CHECKED : BST_UNCHECKED);
 	COptItem::MemToWnd(hWnd);
 }
 
 void COptItem_BitDBSetting::DBToMem(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (ValueMask)
-		Value = (GetIntDBVal(sModule, false, sDBSettingPrefix) & ValueMask) != 0;
+	if (m_valueMask)
+		m_value = (GetIntDBVal(sModule, false, sDBSettingPrefix) & m_valueMask) != 0;
 	else
-		Value = GetIntDBVal(sModule, false, sDBSettingPrefix);
+		m_value = GetIntDBVal(sModule, false, sDBSettingPrefix);
 
 	COptItem::DBToMem(sModule, sDBSettingPrefix);
 }
 
 void COptItem_BitDBSetting::MemToDB(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (ValueMask) {
-		if (Value)
-			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) | ValueMask, sDBSettingPrefix);
+	if (m_valueMask) {
+		if (m_value)
+			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) | m_valueMask, sDBSettingPrefix);
 		else
-			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) & ~ValueMask, sDBSettingPrefix);
+			SetIntDBVal(sModule, GetIntDBVal(sModule, false, sDBSettingPrefix) & ~m_valueMask, sDBSettingPrefix);
 	}
-	else SetIntDBVal(sModule, Value, sDBSettingPrefix);
+	else SetIntDBVal(sModule, m_value, sDBSettingPrefix);
 
 	COptItem::MemToDB(sModule, sDBSettingPrefix);
 }
@@ -224,8 +224,8 @@ int COptItem_TreeCtrl::IDToOrder(int ID)
 		if (RootItems[i].ID == ID)
 			return ROOT_INDEX_TO_ORDER(i);
 
-	for (int i = 0; i < Value.GetSize(); i++)
-		if (Value[i].ID == ID)
+	for (int i = 0; i < m_value.GetSize(); i++)
+		if (m_value[i].ID == ID)
 			return i;
 
 	return -1;
@@ -237,8 +237,8 @@ int COptItem_TreeCtrl::hItemToOrder(HTREEITEM hItem)
 		if (RootItems[i].hItem == hItem)
 			return ROOT_INDEX_TO_ORDER(i);
 
-	for (int i = 0; i < Value.GetSize(); i++)
-		if (Value[i].hItem == hItem)
+	for (int i = 0; i < m_value.GetSize(); i++)
+		if (m_value[i].hItem == hItem)
 			return i;
 
 	return -1;
@@ -278,7 +278,7 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 		char Flags = (pData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL && !(pData->TreeCtrl->TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)) ? 0 : db_get_b(NULL, pData->sModule,
 			pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_FLAGS + (szSetting + Len), 0);
 		if (ParentID >= 0 && Order >= 0) {
-			CTreeItem &pItem = pData->TreeCtrl->Value.SetAtGrow(Order);
+			CTreeItem &pItem = pData->TreeCtrl->m_value.SetAtGrow(Order);
 			pItem.ID = ID;
 			pItem.ParentID = ParentID;
 			pItem.Flags = Flags;
@@ -297,7 +297,7 @@ void COptItem_TreeCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	if (!sDBSettingPrefix)
 		sDBSettingPrefix = &sEmptyString;
 
-	Value.RemoveAll();
+	m_value.RemoveAll();
 	sTreeReadEnumData pData(this, sModule, *sDBSettingPrefix);
 
 	DBCONTACTENUMSETTINGS dbEnum;
@@ -306,13 +306,13 @@ void COptItem_TreeCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	dbEnum.pfnEnumProc = TreeReadEnum;
 	dbEnum.szModule = sModule;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
-	if (!Value.GetSize()) {
-		Value = DefValue;
+	if (!m_value.GetSize()) {
+		m_value = m_defValue;
 	}
 	else {
-		for (int i = 0; i < Value.GetSize(); i++) {
-			if (Value[i].Title == NULL) {
-				Value.RemoveElem(i);
+		for (int i = 0; i < m_value.GetSize(); i++) {
+			if (m_value[i].Title == NULL) {
+				m_value.RemoveElem(i);
 				i--;
 			}
 		}
@@ -322,25 +322,25 @@ void COptItem_TreeCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 
 void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (!ReadOnly && Modified) {
+	if (!m_bReadOnly && m_bModified) {
 		if (!sDBSettingPrefix)
 			sDBSettingPrefix = &sEmptyString;
 
 		CleanDBSettings(sModule, sDBSettingPrefix);
-		for (int i = 0; i < Value.GetSize(); i++) {
+		for (int i = 0; i < m_value.GetSize(); i++) {
 			CString StrID;
-			_itoa(Value[i].ID, StrID.GetBuffer(64), 10);
+			_itoa(m_value[i].ID, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, Value[i].Title);
+			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, m_value[i].Title);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL))
-				db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_PARENT + StrID, Value[i].ParentID);
+				db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_PARENT + StrID, m_value[i].ParentID);
 
 			db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_ORDER + StrID, i);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) || TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)
-				db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[i].Flags);
+				db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, m_value[i].Flags);
 
-			if (User_Str1_DBName != NULL && Value[i].User_Str1 != NULL)
-				db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, Value[i].User_Str1);
+			if (User_Str1_DBName != NULL && m_value[i].User_Str1 != NULL)
+				db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, m_value[i].User_Str1);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}
@@ -348,29 +348,29 @@ void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 
 void COptItem_TreeCtrl::WndToMem(HWND hWnd)
 { // only need to gather info of items state (expanded/collapsed, checked/unchecked)
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
-	for (int i = 0; i < Value.GetSize(); i++) {
-		DWORD State = TreeView_GetItemState(hTreeView, Value[i].hItem, TVIS_EXPANDED | TVIS_STATEIMAGEMASK);
-		int OldFlags = Value[i].Flags;
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
+	for (int i = 0; i < m_value.GetSize(); i++) {
+		DWORD State = TreeView_GetItemState(hTreeView, m_value[i].hItem, TVIS_EXPANDED | TVIS_STATEIMAGEMASK);
+		int OldFlags = m_value[i].Flags;
 		if (State & TVIS_EXPANDED)
-			Value[i].Flags |= TIF_EXPANDED;
+			m_value[i].Flags |= TIF_EXPANDED;
 		else
-			Value[i].Flags &= ~TIF_EXPANDED;
+			m_value[i].Flags &= ~TIF_EXPANDED;
 
 		if (TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES && (State >> 12) - 1)
-			Value[i].Flags |= TIF_ENABLED;
+			m_value[i].Flags |= TIF_ENABLED;
 		else
-			Value[i].Flags &= ~TIF_ENABLED;
+			m_value[i].Flags &= ~TIF_ENABLED;
 
-		if (Value[i].Flags != OldFlags)
-			Modified = true;
+		if (m_value[i].Flags != OldFlags)
+			m_bModified = true;
 	}
 	COptItem::WndToMem(hWnd);
 }
 
 void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 {
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	if (TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES) { // have to set this in run-time as it's specified in MSDN
 		LONG_PTR Style = GetWindowLongPtr(hTreeView, GWL_STYLE);
 		SetWindowLongPtr(hTreeView, GWL_STYLE, Style & ~TVS_CHECKBOXES);
@@ -396,30 +396,30 @@ void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 			RootItems[i].hItem = TreeView_InsertItem(hTreeView, &tvIn);
 		}
 	}
-	for (int i = 0; i < Value.GetSize(); i++)
-		Value[i].hItem = RootItems[0].hItem; // put an item to first group in case of some strange error
+	for (int i = 0; i < m_value.GetSize(); i++)
+		m_value[i].hItem = RootItems[0].hItem; // put an item to first group in case of some strange error
 
-	for (int i = 0; i < Value.GetSize(); i++) {
+	for (int i = 0; i < m_value.GetSize(); i++) {
 		tvIn.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
-		tvIn.item.state = tvIn.item.stateMask = (Value[i].Flags & TIF_GROUP) ? (TVIS_BOLD | ((Value[i].Flags & TIF_EXPANDED) ? TVIS_EXPANDED : 0)) : 0;
+		tvIn.item.state = tvIn.item.stateMask = (m_value[i].Flags & TIF_GROUP) ? (TVIS_BOLD | ((m_value[i].Flags & TIF_EXPANDED) ? TVIS_EXPANDED : 0)) : 0;
 		if (TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES) {
 			tvIn.item.stateMask |= TVIS_STATEIMAGEMASK;
-			tvIn.item.state |= INDEXTOSTATEIMAGEMASK((Value[i].Flags & TIF_ENABLED) ? 2 : 1);
+			tvIn.item.state |= INDEXTOSTATEIMAGEMASK((m_value[i].Flags & TIF_ENABLED) ? 2 : 1);
 		}
-		tvIn.item.pszText = Value[i].Title;
-		int Order = IDToOrder(Value[i].ParentID);
+		tvIn.item.pszText = m_value[i].Title;
+		int Order = IDToOrder(m_value[i].ParentID);
 		if (Order != -1) {
-			tvIn.hParent = (Order <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : Value[Order].hItem;
+			tvIn.hParent = (Order <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : m_value[Order].hItem;
 			tvIn.hInsertAfter = TVI_LAST;
-			tvIn.item.lParam = Value[i].ID;
-			Value[i].hItem = TreeView_InsertItem(hTreeView, &tvIn);
+			tvIn.item.lParam = m_value[i].ID;
+			m_value[i].hItem = TreeView_InsertItem(hTreeView, &tvIn);
 		}
 		else { // found an orphan item; probably it's better just to delete it
-			Value.RemoveElem(i);
+			m_value.RemoveElem(i);
 			i--;
 		}
 	}
-	TreeView_SelectItem(hTreeView, (SelectOrder >= 0) ? Value[SelectOrder].hItem : ((SelectOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(SelectOrder)].hItem : NULL));
+	TreeView_SelectItem(hTreeView, (SelectOrder >= 0) ? m_value[SelectOrder].hItem : ((SelectOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(SelectOrder)].hItem : NULL));
 	SendMessage(hTreeView, WM_SETREDRAW, true, 0);
 	SCROLLBARINFO sbi;
 	sbi.cbSize = sizeof(sbi);
@@ -494,7 +494,7 @@ void COptItem_TreeCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 
 int COptItem_TreeCtrl::GetSelectedItemID(HWND hWnd)
 {
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	TVITEM tvi = { 0 };
 	tvi.hItem = TreeView_GetSelection(hTreeView);
 	if (!tvi.hItem)
@@ -510,19 +510,19 @@ void COptItem_TreeCtrl::Delete(HWND hWnd, int ID)
 	int SelectedOrder = IDToOrder(ID);
 	_ASSERT(SelectedOrder >= 0);
 	RecursiveDelete(hWnd, SelectedOrder);
-	Modified = true;
+	m_bModified = true;
 }
 
 void COptItem_TreeCtrl::RecursiveDelete(HWND hWnd, int i)
 {
-	if (Value[i].Flags & TIF_GROUP)
-		for (int j = i + 1; j < Value.GetSize(); j++)
-			if (Value[j].ParentID == Value[i].ID)
+	if (m_value[i].Flags & TIF_GROUP)
+		for (int j = i + 1; j < m_value.GetSize(); j++)
+			if (m_value[j].ParentID == m_value[i].ID)
 				RecursiveDelete(hWnd, j--);
 
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
-	TreeView_DeleteItem(hTreeView, Value[i].hItem);
-	Value.RemoveElem(i);
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
+	TreeView_DeleteItem(hTreeView, m_value[i].hItem);
+	m_value.RemoveElem(i);
 }
 
 CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
@@ -530,7 +530,7 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 // returns a pointer to the newly inserted item info
 {
 	_ASSERT(!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) || !(Item.Flags & TIF_GROUP));
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	TVITEM tvi;
 	int SelOrder = -1;
 	Item.ParentID = RootItems[0].ID;
@@ -547,15 +547,15 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 			SelOrder = -1;
 		}
 		else {
-			if (Value[SelOrder].Flags & TIF_GROUP) {
-				Item.ParentID = Value[SelOrder].ID;
-				tvIn.hParent = Value[SelOrder].hItem;
+			if (m_value[SelOrder].Flags & TIF_GROUP) {
+				Item.ParentID = m_value[SelOrder].ID;
+				tvIn.hParent = m_value[SelOrder].hItem;
 			}
 			else {
-				Item.ParentID = Value[SelOrder].ParentID;
-				int Order = IDToOrder(Value[SelOrder].ParentID);
-				tvIn.hParent = (Order <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : Value[Order].hItem;
-				tvIn.hInsertAfter = Value[SelOrder].hItem;
+				Item.ParentID = m_value[SelOrder].ParentID;
+				int Order = IDToOrder(m_value[SelOrder].ParentID);
+				tvIn.hParent = (Order <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : m_value[Order].hItem;
+				tvIn.hInsertAfter = m_value[SelOrder].hItem;
 			}
 		}
 	}
@@ -567,11 +567,11 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 	}
 	tvIn.item.pszText = Item.Title;
 	tvIn.item.lParam = Item.ID = GenerateID();
-	Value.InsertElem(Item, SelOrder + 1);
-	Value[SelOrder + 1].hItem = TreeView_InsertItem(hTreeView, &tvIn);
-	TreeView_SelectItem(hTreeView, Value[SelOrder + 1].hItem);
-	Modified = true;
-	return &Value[SelOrder + 1];
+	m_value.InsertElem(Item, SelOrder + 1);
+	m_value[SelOrder + 1].hItem = TreeView_InsertItem(hTreeView, &tvIn);
+	TreeView_SelectItem(hTreeView, m_value[SelOrder + 1].hItem);
+	m_bModified = true;
+	return &m_value[SelOrder + 1];
 }
 
 int COptItem_TreeCtrl::RecursiveMove(int ItemOrder, int ParentID, int InsertAtOrder)
@@ -579,12 +579,12 @@ int COptItem_TreeCtrl::RecursiveMove(int ItemOrder, int ParentID, int InsertAtOr
 // InsertAtOrder must be >= 0 too.
 {
 	int ItemsMoved = 1;
-	Value.MoveElem(ItemOrder, InsertAtOrder);
-	Value[InsertAtOrder].ParentID = ParentID;
-	if (Value[InsertAtOrder].Flags & TIF_GROUP) { // need to ensure that no items were left before their group by an order.
-		int GroupID = Value[InsertAtOrder].ID;
+	m_value.MoveElem(ItemOrder, InsertAtOrder);
+	m_value[InsertAtOrder].ParentID = ParentID;
+	if (m_value[InsertAtOrder].Flags & TIF_GROUP) { // need to ensure that no items were left before their group by an order.
+		int GroupID = m_value[InsertAtOrder].ID;
 		for (int i = ItemOrder; i < InsertAtOrder; i++) { // if ItemOrder > InsertAtOrder then there is simply nothing to do
-			if (Value[i].ParentID == GroupID) {
+			if (m_value[i].ParentID == GroupID) {
 				int CurrentItemsMoved = RecursiveMove(i, GroupID, InsertAtOrder);
 				ItemsMoved += CurrentItemsMoved;
 				InsertAtOrder -= CurrentItemsMoved;
@@ -601,7 +601,7 @@ void COptItem_TreeCtrl::MoveItem(HWND hWnd, HTREEITEM hItem, HTREEITEM hMoveTo)
 	if (hItem == hMoveTo)
 		return;
 
-	HWND hTreeView = GetDlgItem(hWnd, DlgItemID);
+	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
@@ -620,23 +620,23 @@ void COptItem_TreeCtrl::MoveItem(HWND hWnd, HTREEITEM hItem, HTREEITEM hMoveTo)
 	if (ItemOrder <= TREECTRL_ROOTORDEROFFS)
 		return; // can't move root items
 	
-	if (Value[ItemOrder].Flags & TIF_GROUP) { // need to check for a case when trying to move a group to its own subgroup.
+	if (m_value[ItemOrder].Flags & TIF_GROUP) { // need to check for a case when trying to move a group to its own subgroup.
 		int Order = MoveToOrder;
 		while (Order >= 0) {
-			Order = IDToOrder(Value[Order].ParentID);
+			Order = IDToOrder(m_value[Order].ParentID);
 			if (Order == ItemOrder)
 				return;
 		}
 	}
 	// well, everything is ok, we really can move that item.
 	WndToMem(hWnd); // save groups state (expanded/collapsed)
-	if (MoveToOrder != -1 && ((MoveToOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(MoveToOrder)].Flags : Value[MoveToOrder].Flags) & TIF_GROUP) // if the destination is a group, then move the item to that group
-		RecursiveMove(ItemOrder, (MoveToOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(MoveToOrder)].ID : Value[MoveToOrder].ID, (MoveToOrder >= 0) ? ((ItemOrder < MoveToOrder) ? MoveToOrder : (MoveToOrder + 1)) : 0);
+	if (MoveToOrder != -1 && ((MoveToOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(MoveToOrder)].Flags : m_value[MoveToOrder].Flags) & TIF_GROUP) // if the destination is a group, then move the item to that group
+		RecursiveMove(ItemOrder, (MoveToOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(MoveToOrder)].ID : m_value[MoveToOrder].ID, (MoveToOrder >= 0) ? ((ItemOrder < MoveToOrder) ? MoveToOrder : (MoveToOrder + 1)) : 0);
 	else // else place the item after the destination item
-		RecursiveMove(ItemOrder, (MoveToOrder == -1) ? 0 : Value[MoveToOrder].ParentID, (ItemOrder < MoveToOrder) ? MoveToOrder : (MoveToOrder + 1)); // when TREECTRL_FLAG_IS_SINGLE_LEVEL, we always have a root item with ID = 0.
+		RecursiveMove(ItemOrder, (MoveToOrder == -1) ? 0 : m_value[MoveToOrder].ParentID, (ItemOrder < MoveToOrder) ? MoveToOrder : (MoveToOrder + 1)); // when TREECTRL_FLAG_IS_SINGLE_LEVEL, we always have a root item with ID = 0.
 
 	MemToWnd(hWnd); // update the tree
-	Modified = true;
+	m_bModified = true;
 }
 
 
@@ -660,7 +660,7 @@ int ListReadEnum(const char *szSetting, LPARAM lParam)
 	int Len = pData->sDBSettingPrefix.GetLen() + pData->ListCtrl->sDBSetting.GetLen() + _countof(LISTITEM_DBSTR_TEXT) - 1;
 	if (!strncmp(szSetting, pData->sDBSettingPrefix + pData->ListCtrl->sDBSetting + LISTITEM_DBSTR_TEXT, Len) && isdigit(szSetting[Len])) {
 		int ID = atol(szSetting + Len);
-		pData->ListCtrl->Value.SetAtGrow(ID).Text = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, _T(""));
+		pData->ListCtrl->m_value.SetAtGrow(ID).Text = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, _T(""));
 	}
 	return 0;
 }
@@ -670,7 +670,7 @@ void COptItem_ListCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	if (!sDBSettingPrefix)
 		sDBSettingPrefix = &sEmptyString;
 
-	Value.RemoveAll();
+	m_value.RemoveAll();
 	sListReadEnumData pData(this, sModule, *sDBSettingPrefix);
 	DBCONTACTENUMSETTINGS dbEnum;
 	dbEnum.lParam = (LPARAM)&pData;
@@ -678,12 +678,12 @@ void COptItem_ListCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	dbEnum.pfnEnumProc = ListReadEnum;
 	dbEnum.szModule = sModule;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
-	if (!Value.GetSize())
-		Value = DefValue;
+	if (!m_value.GetSize())
+		m_value = m_defValue;
 	else {
-		for (int i = 0; i < Value.GetSize(); i++) {
-			if (Value[i].Text == NULL) {
-				Value.RemoveElem(i);
+		for (int i = 0; i < m_value.GetSize(); i++) {
+			if (m_value[i].Text == NULL) {
+				m_value.RemoveElem(i);
 				i--;
 			}
 		}
@@ -693,17 +693,17 @@ void COptItem_ListCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 
 void COptItem_ListCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (!ReadOnly && Modified) {
+	if (!m_bReadOnly && m_bModified) {
 		if (!sDBSettingPrefix)
 			sDBSettingPrefix = &sEmptyString;
 
 		CleanDBSettings(sModule, sDBSettingPrefix);
 
-		for (int i = 0; i < Value.GetSize(); i++) {
+		for (int i = 0; i < m_value.GetSize(); i++) {
 			CString StrID;
 			_itoa(i, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, Value[i].Text);
+			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, m_value[i].Text);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}
@@ -717,12 +717,12 @@ void COptItem_ListCtrl::WndToMem(HWND hWnd)
 
 void COptItem_ListCtrl::MemToWnd(HWND hWnd)
 {
-	HWND hListView = GetDlgItem(hWnd, DlgItemID);
+	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
 	SendMessage(hListView, WM_SETREDRAW, false, 0);
 	SendMessage(hListView, LB_RESETCONTENT, 0, 0);
 
-	for (int i = 0; i < Value.GetSize(); i++)
-		SendMessage(hListView, LB_INSERTSTRING, -1, (LPARAM)(TCHAR*)Value[i].Text);
+	for (int i = 0; i < m_value.GetSize(); i++)
+		SendMessage(hListView, LB_INSERTSTRING, -1, (LPARAM)(TCHAR*)m_value[i].Text);
 
 	SendMessage(hListView, WM_SETREDRAW, true, 0);
 	COptItem::MemToWnd(hWnd);
@@ -765,30 +765,30 @@ void COptItem_ListCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 
 int COptItem_ListCtrl::GetSelectedItemID(HWND hWnd)
 {
-	int Res = SendDlgItemMessage(hWnd, DlgItemID, LB_GETCURSEL, 0, 0);
+	int Res = SendDlgItemMessage(hWnd, m_dlgItemID, LB_GETCURSEL, 0, 0);
 	return (Res == LB_ERR) ? -1 : Res; // i know that LB_ERR = -1 ;)
 }
 
 int COptItem_ListCtrl::SetSelectedItemID(HWND hWnd, int ID)
 {
-	int Res = SendDlgItemMessage(hWnd, DlgItemID, LB_SETCURSEL, ID, 0);
+	int Res = SendDlgItemMessage(hWnd, m_dlgItemID, LB_SETCURSEL, ID, 0);
 	return (Res == LB_ERR) ? -1 : Res;
 }
 
 void COptItem_ListCtrl::Delete(HWND hWnd, int ID)
 {
 	_ASSERT(ID >= 0);
-	HWND hListView = GetDlgItem(hWnd, DlgItemID);
+	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
 	int Res = SendMessage(hListView, LB_DELETESTRING, ID, 0);
 	_ASSERT(Res != LB_ERR);
-	Value.RemoveElem(ID);
-	Modified = true;
+	m_value.RemoveElem(ID);
+	m_bModified = true;
 }
 
 void COptItem_ListCtrl::ModifyItem(HWND hWnd, int ID, CListItem &Item)
 { // changes the text of item with the specified ID
 	_ASSERT(ID >= 0);
-	HWND hListView = GetDlgItem(hWnd, DlgItemID);
+	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
 	SendMessage(hListView, WM_SETREDRAW, false, 0);
 	int CurSel = SendMessage(hListView, LB_GETCURSEL, 0, 0);
 	int TopIndex = SendMessage(hListView, LB_GETTOPINDEX, 0, 0);
@@ -799,18 +799,18 @@ void COptItem_ListCtrl::ModifyItem(HWND hWnd, int ID, CListItem &Item)
 	SendMessage(hListView, LB_SETCURSEL, CurSel, 0);
 	SendMessage(hListView, LB_SETTOPINDEX, TopIndex, 0);
 	SendMessage(hListView, WM_SETREDRAW, true, 0);
-	Value[ID].Text = Item.Text;
-	Modified = true;
+	m_value[ID].Text = Item.Text;
+	m_bModified = true;
 }
 
 CListItem* COptItem_ListCtrl::InsertItem(HWND hWnd, int ID, CListItem &Item)
 // returns a pointer to the newly inserted item info
 // ID is position at which to insert the item; -1 = add to the end of the list
 {
-	HWND hListView = GetDlgItem(hWnd, DlgItemID);
+	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
 	int Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(TCHAR*)(Item.Text)); // LB_INSERTSTRING doesn't sort the lists even with LBS_SORT style
 	_ASSERT(Res != LB_ERR && Res != LB_ERRSPACE);
-	int i = Value.AddElem(Item);
-	Modified = true;
-	return &Value[i];
+	int i = m_value.AddElem(Item);
+	m_bModified = true;
+	return &m_value[i];
 }
