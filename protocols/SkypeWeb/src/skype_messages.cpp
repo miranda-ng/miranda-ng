@@ -65,16 +65,6 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	ptrA username(getStringA(hContact, "Skypename"));
 
-	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
-
-	/*TCHAR *tszMessage = mir_utf8decodeT(szMessage);
-	int len = EscapeXML(tszMessage, _tcslen(tszMessage), NULL, 0);	
-	TCHAR *buff = new TCHAR[len+1];
-	buff[len] = '\0';
-	EscapeXML(tszMessage, _tcslen(tszMessage), buff, len);
-	char *szNewMessage = mir_utf8encodeT(buff);
-	delete[] buff;*/
-
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		SendRequest(new SendActionRequest(m_szRegToken, username, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
 	else
@@ -97,7 +87,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			JSONNode root = JSONNode::parse(response->pData);
 			const JSONNode &node = root["errorCode"];
-			if (!node.isnull())
+			if (node)
 				error = node.as_string();
 		}
 		ptrT username(getTStringA(hContact, "Skypename"));
@@ -133,13 +123,10 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 
 void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 {
-	std::string clientMsgId = node["clientmessageid"].as_string();
-	std::string skypeEditedId = node["skypeeditedid"].as_string();
+	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_string().c_str() : node["skypeeditedid"].as_string().c_str();
 
 	bool isEdited = node["skypeeditedid"];
-
-	std::string composeTime = node["composetime"].as_string();
-	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime.c_str());
+	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(node["composetime"].as_string().c_str());
 
 	CMStringA skypename(ContactUrlToName(node["conversationLink"].as_string().c_str()));
 	CMStringA from(ContactUrlToName(node["from"].as_string().c_str()));
@@ -149,53 +136,60 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	ptrA message(RemoveHtml(content.c_str()));
 
-	std::string messageType= node["messagetype"].as_string();
+	std::string messageType = node["messagetype"].as_string();
 	MCONTACT hContact = AddContact(skypename, true);
 
 	if (HistorySynced)
 		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-	if (!mir_strcmpi(messageType.c_str(), "Control/Typing"))
+	if (messageType == "Control/Typing")
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
 
-	else if (!mir_strcmpi(messageType.c_str(), "Control/ClearTyping"))
+	else if (messageType == "Control/ClearTyping")
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	else if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
+	else if (messageType == "Text" || messageType == "RichText")
 	{
 		if (IsMe(from))
 		{
-			int hMessage = atoi(clientMsgId.c_str());
+			long hMessage = atol(szMessageId);
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, &message[emoteOffset], clientMsgId.c_str());
+			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, szMessageId);
+
+			AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, 
+				timestamp, DBEF_UTF | DBEF_SENT, &message[emoteOffset], szMessageId);
+
 			return;
 		}
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
+		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, szMessageId);
+		MEVENT dbevent = GetMessageFromDb(hContact, szMessageId);
 		if (isEdited && dbevent != NULL)
 		{
-			AppendDBEvent(hContact, dbevent, message, skypeEditedId.c_str(), timestamp);
+			AppendDBEvent(hContact, dbevent, message, szMessageId, timestamp);
 		}
-		else OnReceiveMessage(clientMsgId.c_str(), node["conversationLink"].as_string().c_str(), timestamp, message, emoteOffset);
+		else OnReceiveMessage(szMessageId, node["conversationLink"].as_string().c_str(), timestamp, message, emoteOffset);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "Event/SkypeVideoMessage")) {}
-	else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
+	else if (messageType == "Event/SkypeVideoMessage") {}
+	else if (messageType == "Event/Call")
 	{
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
+	else if (messageType == "RichText/Files")
 	{		
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
-	else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
+	else if (messageType == "RichText/UriObject")
 	{
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
+	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
+	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
+	else
+	{
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
+	}
 }
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
