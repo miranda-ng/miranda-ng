@@ -22,6 +22,22 @@ Boston, MA 02111-1307, USA.
 HANDLE hNetlibUser = NULL, hPipe = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////
+void LoadOptions()
+{
+	PopupOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
+	PopupOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	PopupOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
+	PopupOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+
+	opts.bUpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	opts.bOnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
+	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
+	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
+	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
+}
+
 #if MIRANDA_VER >= 0x0A00
 IconItemT iconList[] =
 {
@@ -121,6 +137,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	vars[0].value.t = _T("32");
 #endif
 	vars[1].key.t = vars[1].value.t = 0;
+	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 #else
 	vars[0].lptzKey = _T("platform");
 #ifdef _WIN64
@@ -129,8 +146,8 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	vars[0].lptzValue = _T("32");
 #endif
 	vars[1].lptzKey = vars[1].lptzValue = 0;
+	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&vars);
 #endif
-	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 
 	// Download version info
 	FILEURL pFileUrl;
