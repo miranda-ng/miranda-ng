@@ -21,7 +21,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 {
 	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
 	std::string selfLink = node["selfLink"].as_string();
-	CMStringA skypename(ContactUrlToName(selfLink.c_str()));
+	CMStringA skypename(UrlToSkypename(selfLink.c_str()));
 	if (skypename.IsEmpty())
 		return;
 
@@ -111,11 +111,11 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 
 	if (selfLink.find("/8:") != std::string::npos)
 	{
-		skypename = ContactUrlToName(selfLink.c_str());
+		skypename = UrlToSkypename(selfLink.c_str());
 	}
 	else if (selfLink.find("/1:") != std::string::npos)
 	{
-		skypename = SelfUrlToName(selfLink.c_str());
+		skypename = UrlToSkypename(selfLink.c_str());
 	}
 
 	if (!skypename.IsEmpty())

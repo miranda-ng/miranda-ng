@@ -552,19 +552,18 @@ CMStringA CSkypeProto::GetStringChunk(const char *haystack, const char *start, c
 	return CMStringA(sstart, send - sstart);
 }
 
-CMStringA CSkypeProto::ContactUrlToName(const char *url)
+CMStringA CSkypeProto::UrlToSkypename(const char *url)
 {
-	return ParseUrl(url, "/8:");
-}
+	CMStringA szResult;
 
-CMStringA CSkypeProto::SelfUrlToName(const char *url)
-{
-	return ParseUrl(url, "/1:");
-}
+	if (strstr(url, "/1:"))
+		szResult = ParseUrl(url, "/1:");
+	else if (strstr(url, "/8:"))
+		szResult = ParseUrl(url, "/8:");
+	else if (strstr(url, "/19:"))
+		szResult = ParseUrl(url, "/19:");
 
-CMStringA CSkypeProto::ChatUrlToName(const char *url)
-{
-	return ParseUrl(url, "/19:");
+	return szResult;
 }
 
 CMStringA CSkypeProto::GetServerFromUrl(const char *url)

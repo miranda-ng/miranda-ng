@@ -88,18 +88,16 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 		TRouter.se,
 		TRouter.sig,
 		TRouter.instance,
-		TRouter.ccid), &CSkypeProto::OnGetTrouter, NULL);
+		TRouter.ccid), &CSkypeProto::OnGetTrouter);
 }
 
-void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
+void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
 		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
-
-	bool isHealth = p != NULL;
 
 	CMStringA data(response->pData);
 	int iStart = 0;
@@ -110,7 +108,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 	else 
 		SetEvent(m_hTrouterEvent);
 
-	if (!isHealth)
+	if (time(NULL) - (TRouter.lastRegistrationTime - 120) <= 0)
 		SendRequest(new RegisterTrouterRequest(m_szTokenSecret, TRouter.url.c_str(), TRouter.sessId.c_str()));
 }
 
@@ -124,7 +122,7 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 		TRouter.sig,
 		TRouter.instance,
 		TRouter.ccid),
-		&CSkypeProto::OnGetTrouter, (void *)1);
+		&CSkypeProto::OnGetTrouter);
 }
 
 void CSkypeProto::TRouterThread(void*)

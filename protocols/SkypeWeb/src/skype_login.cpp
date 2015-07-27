@@ -267,7 +267,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
-		setString("SelfEndpointName", SelfUrlToName(root["selfLink"].as_string().c_str()));
+		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)

@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // incoming message flow
 int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
-	CMStringA skypename(ContactUrlToName(url));
+	CMStringA skypename(UrlToSkypename(url));
 	debugLogA("Incoming message from %s", skypename);
 
 	MCONTACT hContact = AddContact(skypename, true);
@@ -128,8 +128,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	bool isEdited = node["skypeeditedid"];
 	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(node["composetime"].as_string().c_str());
 
-	CMStringA skypename(ContactUrlToName(node["conversationLink"].as_string().c_str()));
-	CMStringA from(ContactUrlToName(node["from"].as_string().c_str()));
+	CMStringA skypename(UrlToSkypename(node["conversationLink"].as_string().c_str()));
+	CMStringA from(UrlToSkypename(node["from"].as_string().c_str()));
 
 	std::string content = node["content"].as_string();
 	int emoteOffset = node["skypeemoteoffset"].as_int();

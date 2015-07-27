@@ -76,43 +76,53 @@ public:
 	void __cdecl SearchBasicThread(void* id);
 
 	////////////////////////////////////////////
-	static UINT_PTR m_timer;
-	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
-	void ProcessTimer();
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
-	static mir_cs accountsLock;
 
 private:
+
+	static UINT_PTR m_timer, m_trouterTimer;
+
+	//---Accounts
+	static LIST<CSkypeProto> CSkypeProto::Accounts; 
+	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
+	//---/
+
 	RequestQueue *requestQueue;
 
 	bool isTerminated,
-		HistorySynced;
+		 HistorySynced;
 	std::map<std::string, std::string> cookies;
 	static std::map<std::tstring, std::tstring> languages;
 
 	HANDLE m_pollingConnection,
-		m_hPollingThread,
-		m_hTrouterThread,
-		m_TrouterConnection,
-		m_hTrouterEvent,
-		m_hCallHook;
+		   m_hPollingThread,
+		   m_hTrouterThread,
+		   m_TrouterConnection,
+		   m_hTrouterEvent,
+		   m_hCallHook;
 
 	TRInfo TRouter;
 
 	LIST<void> m_PopupClasses;
-
+	
+	//dialogs
 	LIST<CSkypeInviteDlg> m_InviteDialogs;
 	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
+
+	//locks
 	mir_cs m_InviteDialogsLock;
 	mir_cs m_GCCreateDialogsLock;
-	// accounts
+	mir_cs messageSyncLock;
+	static mir_cs accountsLock;
+	static mir_cs timerLock;
+	
 
 	ptrA m_szServer,
-		m_szRegToken,
-		m_szTokenSecret,
-		m_szEndpointId,
-		m_szSelfSkypeName;
+		 m_szRegToken,
+		 m_szTokenSecret,
+		 m_szEndpointId,
+		 m_szSelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
@@ -170,7 +180,7 @@ private:
 
 	void OnCreateTrouter(const NETLIBHTTPREQUEST *response);
 	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
-	void OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p);
+	void OnGetTrouter(const NETLIBHTTPREQUEST *response);
 	void OnHealth(const NETLIBHTTPREQUEST *response);
 	void OnTrouterEvent(const JSONNode &body, const JSONNode &headers);
 	void __cdecl TRouterThread(void*);
@@ -225,7 +235,6 @@ private:
 	void OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p);
 
 	// messages
-	mir_cs messageSyncLock;
 
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
@@ -307,13 +316,15 @@ private:
 
 	void SetSrmmReadStatus(MCONTACT hContact);
 
-	CMStringA ChatUrlToName(const char *url);
-	CMStringA ContactUrlToName(const char *url);
-	CMStringA SelfUrlToName(const char *url);
+	CMStringA UrlToSkypename(const char *url);
 	CMStringA GetServerFromUrl(const char *url);
 
+	//---Timers
 	void CALLBACK SkypeUnsetTimer(void*);
 	void CALLBACK SkypeSetTimer(void*);
+	void ProcessTimer();
+	static void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD);
+	//---/
 
 	time_t GetLastMessageTime(MCONTACT hContact);
 	CMString RunConfirmationCode();
