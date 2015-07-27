@@ -43,8 +43,8 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	{
 		const JSONNode &message = conversations.at(i);
 
-		std::string clientMsgId = message["clientmessageid"].as_string();
-		std::string skypeEditedId = message["skypeeditedid"].as_string();
+		CMStringA szMessageId = message["clientmessageid"] ? message["clientmessageid"].as_string().c_str() : message["skypeeditedid"].as_string().c_str();
+
 		std::string messageType = message["messagetype"].as_string();
 		std::string from = message["from"].as_string();
 		std::string content = message["content"].as_string();
@@ -60,38 +60,42 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-		int flags = DBEF_UTF;
+		int iFlags = DBEF_UTF;
 
 		if (!markAllAsUnread)
-			flags |= DBEF_READ;
+			iFlags |= DBEF_READ;
 
 		if (IsMe(skypename))
-			flags |= DBEF_SENT;
+			iFlags |= DBEF_SENT;
 
 		if (strstr(conversationLink.c_str(), "/8:"))
 		{
-			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
+			if (messageType == "Text" || messageType == "RichText")
 			{
 				ptrA message(RemoveHtml(content.c_str()));
-				MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
+				MEVENT dbevent = GetMessageFromDb(hContact, szMessageId);
 
 				if (isEdited && dbevent != NULL)
 				{
-					AppendDBEvent(hContact, dbevent, message, clientMsgId.c_str(), timestamp);
+					AppendDBEvent(hContact, dbevent, message, szMessageId, timestamp);
 				}
-				else AddDbEvent(EVENTTYPE_MESSAGE, hContact, timestamp, flags, &message[emoteOffset], clientMsgId.c_str());
+				else AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, iFlags, &message[emoteOffset], szMessageId);
 			}
-			else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
+			else if (messageType == "Event/Call")
 			{
-				AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, iFlags, content.c_str(), szMessageId);
 			}
-			else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
+			else if (messageType == "RichText/Files")
 			{
-				AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, iFlags, content.c_str(), szMessageId);
 			}
-			else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
+			else if (messageType == "RichText/UriObject")
 			{
-				AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), clientMsgId.c_str());
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, iFlags, content.c_str(), szMessageId);
+			}
+			else
+			{
+				AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, iFlags, content.c_str(), szMessageId);
 			}
 		}
 		else if (conversationLink.find("/19:") != -1)

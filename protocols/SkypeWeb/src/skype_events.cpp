@@ -33,7 +33,8 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			JSONNode jMsg = JSONNode::parse((char*)pEvent->dbei->pBlob);
 			if (jMsg)
 			{
-				text.AppendFormat(Translate("Original message:\n\t%s\n"), jMsg["original_message"]["text"].as_string());
+				JSONNode &jOriginalMsg = jMsg["original_message"];
+				text.AppendFormat(Translate("Original message:\n\t%s\n"), jOriginalMsg["text"].as_string().c_str());
 				JSONNode &jEdits = jMsg["edits"];
 				for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
 				{
@@ -43,16 +44,16 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					char szTime[MAX_PATH];
 					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
 
-					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string());
+					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string().c_str());
 				}
 				
 			}
 			else 
 			{
 #ifdef _DEBUG
-				text = (char*)pEvent->dbei->pBlob;
+				text = mir_strdup((char*)pEvent->dbei->pBlob);
 #else
-				text = Translate("Invalid data!");
+				text = mir_utf8encode(Translate("Invalid data!"));
 #endif
 			}
 
@@ -131,7 +132,12 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
 		{
-			pszText = Translate("Incoming call.");
+			pszText = Translate("Incoming call");
+			break;
+		}
+	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
+		{
+			pszText = mir_strdup(CMStringA(FORMAT, "Unknown event, please send this text for developer: \"%s\"", (char*)pEvent->dbei->pBlob));
 			break;
 		}
 	default:
@@ -207,6 +213,10 @@ void CSkypeProto::InitDBEvents()
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
 	dbEventType.descr = Translate("URI object");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
+	dbEventType.descr = Translate("Unknown event");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
