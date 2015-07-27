@@ -12,6 +12,7 @@ struct TRInfo
 		sessId,
 		sig,
 		url;
+	time_t lastRegistrationTime;
 };
 
 #endif //_SKYPE_TROUTER_H_

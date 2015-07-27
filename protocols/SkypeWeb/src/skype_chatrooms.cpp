@@ -127,7 +127,7 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 		std::string conversationLink = lastMessage["conversationLink"].as_string();
 		if (conversationLink.find("/19:") != -1)
 		{
-			CMStringA skypename(ChatUrlToName(conversationLink.c_str()));
+			CMStringA skypename(UrlToSkypename(conversationLink.c_str()));
 			CMString topic(threadProperties["topic"].as_mstring());
 			SendRequest(new GetChatInfoRequest(m_szRegToken, skypename, m_szServer), &CSkypeProto::OnGetChatInfo, topic.Detach());
 		}
@@ -277,7 +277,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	//std::string skypeEditedId = node["skypeeditedid"].as_string();
 
 	std::string fromLink = node["from"].as_string();
-	CMStringA from(ContactUrlToName(fromLink.c_str()));
+	CMStringA from(UrlToSkypename(fromLink.c_str()));
 
 	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
 
@@ -285,7 +285,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	int emoteOffset = node["skypeemoteoffset"].as_int();
 
 	std::string conversationLink = node["conversationLink"].as_string();
-	CMStringA chatname(ChatUrlToName(conversationLink.c_str()));
+	CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
 
 	CMString topic(node["threadtopic"].as_mstring());
 	if (FindChatRoom(chatname) == NULL)
@@ -453,13 +453,13 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 	if (!properties["capabilities"] || properties["capabilities"].empty())
 		return;
 
-	CMStringA chatId(ChatUrlToName(root["messages"].as_string().c_str()));
+	CMStringA chatId(UrlToSkypename(root["messages"].as_string().c_str()));
 	StartChatRoom(_A2T(chatId), topic);
 	for (size_t i = 0; i < members.size(); i++)
 	{
 		const JSONNode &member = members.at(i);
 
-		CMStringA username(ContactUrlToName(member["userLink"].as_string().c_str()));
+		CMStringA username(UrlToSkypename(member["userLink"].as_string().c_str()));
 		std::string role = member["role"].as_string();
 		if (!IsChatContact(_A2T(chatId), username))
 			AddChatContact(_A2T(chatId), username, username, _A2T(role.c_str()), true);

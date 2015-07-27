@@ -137,7 +137,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
 		{
-			pszText = mir_strdup(CMStringA(FORMAT, Translate("Unknown event, please send this text for developer: \"%s\""), (char*)pEvent->dbei->pBlob));
+			pszText = mir_strdup(CMStringA(FORMAT, Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)pEvent->dbei->pBlob)));
 			break;
 		}
 	default:
@@ -146,14 +146,24 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	}
 
-
-	if (pEvent->datatype == DBVT_TCHAR)
+	switch(pEvent->datatype)
 	{
-		TCHAR *pwszText = _A2T(pszText);
-		nRetVal = (INT_PTR)mir_tstrdup(pwszText);
+	case DBVT_TCHAR:
+		{
+			nRetVal = (INT_PTR)mir_tstrdup(_A2T(pszText));
+			break;
+		}
+	case DBVT_ASCIIZ:
+		{
+			nRetVal = (INT_PTR)mir_strdup(pszText);
+			break;
+		}
+	case DBVT_UTF8:
+		{
+			nRetVal = (INT_PTR)mir_utf8encode(pszText);
+			break;
+		}
 	}
-	else if (pEvent->datatype == DBVT_ASCIIZ)
-		nRetVal = (INT_PTR)mir_strdup(pszText);
 
 	return nRetVal;
 }
@@ -277,7 +287,7 @@ int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 //Timers
 
-mir_cs timerLock;
+mir_cs CSkypeProto::timerLock;
 mir_cs CSkypeProto::accountsLock;
 
 void CSkypeProto::ProcessTimer()
@@ -291,9 +301,9 @@ void CSkypeProto::ProcessTimer()
 	}
 }
 
-static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	mir_cslock lck(CSkypeProto::accountsLock);
+	mir_cslock lck(accountsLock);
 	for (int i = 0; i < Accounts.getCount(); i++)
 	{
 		Accounts[i]->ProcessTimer();
@@ -303,14 +313,14 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 void CSkypeProto::SkypeSetTimer(void*)
 {
 	mir_cslock lck(timerLock);
-	if (!CSkypeProto::m_timer)
-		CSkypeProto::m_timer = SetTimer(NULL, 0, 600000, TimerProc);
+	if (!m_timer)
+		m_timer = SetTimer(NULL, 0, 600000, TimerProc);
 }
 
 void CSkypeProto::SkypeUnsetTimer(void*)
 {
 	mir_cslock lck(timerLock);
-	if (CSkypeProto::m_timer && Accounts.getCount() == 0)
-		KillTimer(NULL, CSkypeProto::m_timer);
-	CSkypeProto::m_timer = 0;
+	if (m_timer && Accounts.getCount() == 0)
+		KillTimer(NULL, m_timer);
+	m_timer = 0;
 }

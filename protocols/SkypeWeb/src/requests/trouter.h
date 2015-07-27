@@ -118,7 +118,7 @@ public:
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid.c_str())
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
-			<< INT_VALUE("t", time(NULL) * 1000);
+			<< LONG_VALUE("t", time(NULL) * 1000);
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
@@ -146,7 +146,7 @@ public:
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid.c_str())
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
-			<< INT_VALUE("t", time(NULL) * 1000);
+			<< LONG_VALUE("t", time(NULL) * 1000);
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");

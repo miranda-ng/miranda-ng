@@ -31,6 +31,13 @@ struct INT_VALUE : public VALUE
 		: VALUE(_name), iValue(_value) { }
 };
 
+struct LONG_VALUE : public VALUE
+{
+	LONGLONG llValue;
+	__forceinline LONG_VALUE(LPCSTR _name, LONGLONG _value)
+		: VALUE(_name), llValue(_value) { }
+};
+
 struct CHAR_VALUE : public VALUE
 {
 	LPCSTR szValue;
@@ -92,6 +99,12 @@ protected:
 		HttpRequestUrl &operator<<(const INT_VALUE &param)
 		{
 			request.AddUrlParameter("%s=%i", param.szName, param.iValue);
+			return *this;
+		}
+
+		HttpRequestUrl &operator<<(const LONG_VALUE &param)
+		{
+			request.AddUrlParameter("%s=%lld", param.szName, param.llValue);
 			return *this;
 		}
 

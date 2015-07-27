@@ -51,11 +51,11 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		std::string conversationLink = message["conversationLink"].as_string();
 		int emoteOffset = message["skypeemoteoffset"].as_int();
 		time_t timestamp = IsoToUnixTime(message["composetime"].as_string().c_str());
-		CMStringA skypename(ContactUrlToName(from.c_str()));
+		CMStringA skypename(UrlToSkypename(from.c_str()));
 
 		bool isEdited = message["skypeeditedid"];
 
-		MCONTACT hContact = FindContact(ContactUrlToName(conversationLink.c_str()));
+		MCONTACT hContact = FindContact(UrlToSkypename(conversationLink.c_str()));
 			  
 		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
@@ -100,7 +100,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		}
 		else if (conversationLink.find("/19:") != -1)
 		{
-			CMStringA chatname(ChatUrlToName(conversationLink.c_str()));
+			CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
 			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
 				AddMessageToChat(_A2T(chatname), _A2T(skypename), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
@@ -143,7 +143,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		if (conversationLink.find("/8:") != -1)
 		{
-			CMStringA skypename(ContactUrlToName(conversationLink.c_str()));
+			CMStringA skypename(UrlToSkypename(conversationLink.c_str()));
 			MCONTACT hContact = FindContact(skypename);
 			if (hContact == NULL)
 				continue;
