@@ -28,22 +28,6 @@ Based on work by nullbie
 
 #include "stdafx.h"
 
-#define MIID_REMOVEPERSONALSETTINGS { 0x5eaec989, 0x8ff, 0x4820, { 0xb8, 0x6c, 0x2b, 0x6e, 0xf0, 0x8e, 0x33, 0x73 } }
-
-#define INI_FILE_NAME  "RemovePersonalSettings.ini"
-
-#define PLUGINDISABLELIST "PluginDisable"
-
-#define METACONTACTS_PROTOCOL_NAME "MetaContacts"
-
-#define NOTICE_TEXT LPGEN("All your personal settings will be erased!\n\
-Make sure you are running this from a copy of your profile (and not over the original one).\n\
-Running this will erase files/folders under Miranda main folder.\n\n\
-Are you sure you want to remove all your personal settings?\n\n\
-(You cannot say that I don't told you about the risks :P)")
-
-#define MSGBOX_TITLE LPGEN("Remove Personal Settings")
-
 HINSTANCE hInst;
 char gIniFile[MAX_PATH];
 char gMirandaDir[MAX_PATH];
@@ -87,14 +71,14 @@ BOOL isMetaContact(MCONTACT hContact);
 
 
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD ,LPVOID )
 {
 	hInst=hinstDLL;
 	return TRUE;
 }
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -156,7 +140,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 }
 
 
-INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
+INT_PTR RemoveAllService(WPARAM, LPARAM)
 {
 	if (gIniFile[0] == '\0') {
 		MessageBox(NULL, TranslateT("Configuration file could not be found!"), TranslateT(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
@@ -226,7 +210,6 @@ void RemoveUsers()
 		MEVENT hDbEvent = db_event_first(0);
 
 		while(hDbEvent != NULL) {
-			int ret = db_event_delete(0, hDbEvent);
 			hDbEvent = db_event_first(0);
 		}
 
@@ -627,7 +610,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 	return 0;
 }
 
-int ModuleEnumProc(const char *szName, DWORD ofsModuleName, LPARAM lParam)
+int ModuleEnumProc(const char *szName, DWORD, LPARAM lParam)
 {
 	return EnumProc(szName, lParam);
 }
