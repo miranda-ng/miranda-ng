@@ -30,3 +30,19 @@
 #include <m_database.h>
 
 #include "version.h"
+
+#define MIID_REMOVEPERSONALSETTINGS { 0x5eaec989, 0x8ff, 0x4820, { 0xb8, 0x6c, 0x2b, 0x6e, 0xf0, 0x8e, 0x33, 0x73 } }
+
+#define INI_FILE_NAME  "RemovePersonalSettings.ini"
+
+#define PLUGINDISABLELIST "PluginDisable"
+
+#define METACONTACTS_PROTOCOL_NAME "MetaContacts"
+
+#define NOTICE_TEXT LPGEN("All your personal settings will be erased!\n\
+Make sure you are running this from a copy of your profile (and not over the original one).\n\
+Running this will erase files/folders under Miranda main folder.\n\n\
+Are you sure you want to remove all your personal settings?\n\n\
+(You cannot say that I don't told you about the risks :P)")
+
+#define MSGBOX_TITLE LPGEN("Remove Personal Settings")
