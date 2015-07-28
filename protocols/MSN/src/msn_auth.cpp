@@ -903,7 +903,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 						 * window with same URL in order to let user correct this */
 						if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 							url.Format("https://login.live.com/oauth20_authorize.srf?%s", pszPostParams);
-							Utils_OpenUrl(url);
+							MSN_ShowPopup(TranslateT("MSN Protocol"),TranslateT(MSN_LOGIN_OAUTH),MSN_ALLOW_MSGBOX,url);
 						}
 						hHttpsConnection = NULL;
 					}

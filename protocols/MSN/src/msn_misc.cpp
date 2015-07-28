@@ -967,6 +967,26 @@ void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 	MSN_ShowPopup(m_tszUserName, tBuffer, MSN_ALLOW_MSGBOX | MSN_SHOW_ERROR, NULL);
 }
 
+void HandlePopupData(PopupData *tData)  {
+	if (tData != NULL) {
+		if (tData->flags & MSN_HOTMAIL_POPUP) {
+			MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
+			if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+			if (tData->flags & MSN_ALLOW_ENTER)
+				tData->proto->MsnInvokeMyURL(true, tData->url);
+		}
+		else if (tData->url != NULL)
+			Utils_OpenUrl(tData->url);
+	}
+}
+
+void RemovePopupData(PopupData *tData) {
+	if (tData != NULL && (tData->flags & MSN_HOTMAIL_POPUP)) {
+		MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
+		if (hContact)
+			CallService(MS_CLIST_REMOVEEVENT, hContact, 1);
+	}
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin window proc
 
@@ -976,25 +996,12 @@ LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	switch (msg) {
 	case WM_COMMAND:
-		if (tData != NULL) {
-			if (tData->flags & MSN_HOTMAIL_POPUP) {
-				MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
-				if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
-				if (tData->flags & MSN_ALLOW_ENTER)
-					tData->proto->MsnInvokeMyURL(true, tData->url);
-			}
-			else if (tData->url != NULL)
-				Utils_OpenUrl(tData->url);
-		}
+		HandlePopupData(tData);
 		PUDeletePopup(hWnd);
 		break;
 
 	case WM_CONTEXTMENU:
-		if (tData != NULL && tData->flags & MSN_HOTMAIL_POPUP) {
-			MCONTACT hContact = tData->proto->MSN_HContactFromEmail(tData->proto->MyOptions.szEmail, NULL);
-			if (hContact)
-				CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
-		}
+		RemovePopupData(tData);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -1062,8 +1069,12 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		if (pud->flags & MSN_ALLOW_MSGBOX) {
 			TCHAR szMsg[MAX_SECONDLINE + MAX_CONTACTNAME];
 			mir_sntprintf(szMsg, _countof(szMsg), _T("%s:\n%s"), pud->title, pud->text);
-			MessageBox(NULL, szMsg, TranslateT("MSN Protocol"),
-				MB_OK | (iserr ? MB_ICONERROR : MB_ICONINFORMATION));
+			int ret = MessageBox(NULL, szMsg, TranslateT("MSN Protocol"),
+				MB_YESNO | (iserr ? MB_ICONERROR : MB_ICONINFORMATION));
+			if (ret == IDYES)
+				HandlePopupData(pud);
+			else
+				RemovePopupData(pud);
 		}
 		mir_free(pud->title);
 		mir_free(pud->text);
