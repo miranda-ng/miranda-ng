@@ -139,6 +139,10 @@ private:
 	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const TCHAR *ptszFileName);
 
 	// requests
+
+	void InitNetwork();
+	void UnInitNetwork();
+
 	void PushRequest(HttpRequest *request);
 	void PushRequest(HttpRequest *request, SkypeResponseCallback response);
 	void PushRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);

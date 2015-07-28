@@ -132,7 +132,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
 		{
-			pszText = Translate("Incoming call");
+			pszText = mir_strdup(Translate("Incoming call"));
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
@@ -150,7 +150,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	{
 	case DBVT_TCHAR:
 		{
-			nRetVal = (INT_PTR)mir_tstrdup(_A2T(pszText));
+			nRetVal = (INT_PTR)mir_a2t(pszText);
 			break;
 		}
 	case DBVT_ASCIIZ:

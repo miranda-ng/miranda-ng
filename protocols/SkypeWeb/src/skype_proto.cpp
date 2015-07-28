@@ -22,22 +22,15 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 {
 	m_hProtoIcon = Icons[0].Handle;
 
-	wchar_t name[128];
-	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = name;
-	nlu.szSettingsModule = m_szModuleName;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	InitNetwork();
+
 	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
-
-	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);
-	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATAR, &CSkypeProto::SvcGetMyAvatar);
-	CreateProtoService(PS_SETMYAVATAR, &CSkypeProto::SvcSetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO,  &CSkypeProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS,  &CSkypeProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATAR,    &CSkypeProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR,    &CSkypeProto::SvcSetMyAvatar);
 
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
@@ -50,7 +43,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	db_set_resident(m_szModuleName, "LastAuthRequestTime");
 
 	//hooks
-	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
+	m_hCallHook = CreateHookableEvent(MODULE "/IncomingCall");
 
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
@@ -65,13 +58,9 @@ CSkypeProto::~CSkypeProto()
 {
 	requestQueue->Stop();
 	delete requestQueue;
+	
+	UnInitNetwork();
 
-	if (m_pollingConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-	if (m_TrouterConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
-
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
 
 	if (m_hCallHook)
