@@ -108,8 +108,11 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	else 
 		SetEvent(m_hTrouterEvent);
 
-	if (time(NULL) - (TRouter.lastRegistrationTime - 120) <= 0)
+	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600)
+	{
 		SendRequest(new RegisterTrouterRequest(m_szTokenSecret, TRouter.url.c_str(), TRouter.sessId.c_str()));
+		TRouter.lastRegistrationTime = time(NULL);
+	}
 }
 
 void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)

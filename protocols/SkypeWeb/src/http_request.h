@@ -192,6 +192,13 @@ protected:
 			return *this;
 		}
 
+		HttpRequestBody & operator<<(const LONG_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%lld", param.szName, param.llValue);
+			return *this;
+		}
+
 		HttpRequestBody & operator<<(const CHAR_VALUE &param)
 		{
 			AppendSeparator();
