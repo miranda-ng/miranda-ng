@@ -210,6 +210,7 @@ void RemoveUsers()
 		MEVENT hDbEvent = db_event_first(0);
 
 		while(hDbEvent != NULL) {
+			db_event_delete(0, hDbEvent); 
 			hDbEvent = db_event_first(0);
 		}
 
