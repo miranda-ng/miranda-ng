@@ -20,21 +20,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
+int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp,  int emoteOffset, bool isRead)
 {
-	CMStringA skypename(UrlToSkypename(url));
-	debugLogA("Incoming message from %s", skypename);
-
-	MCONTACT hContact = AddContact(skypename, true);
-	if (hContact == NULL)
-		return 0;
-
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = timestamp;
-	recv.szMessage = content;
+	recv.szMessage = mir_strdup(szContent);
 	recv.lParam = emoteOffset;
-	recv.pCustomData = (void*)messageId;
-	recv.cbCustomDataSize = (DWORD)mir_strlen(messageId);
+	recv.pCustomData = (void*)mir_strdup(szMessageId);
+	recv.cbCustomDataSize = (DWORD)mir_strlen(szMessageId);
 
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
@@ -70,6 +63,8 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	else
 		SendRequest(new SendMessageRequest(m_szRegToken, username, param->hMessage, szMessage, m_szServer), &CSkypeProto::OnMessageSent, param);
 
+	m_OutMessages.insert((void*)param->hMessage);
+
 	return param->hMessage;
 }
 
@@ -80,19 +75,33 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
-	if (response == NULL || response->resultCode != 201)
+	if (response != NULL)
 	{
-		std::string error("Unknown error");
-		if (response && response->pData != NULL)
+		if (response->resultCode == 201)
 		{
-			JSONNode root = JSONNode::parse(response->pData);
-			const JSONNode &node = root["errorCode"];
-			if (node)
-				error = node.as_string();
+			if (m_OutMessages.getIndex(hMessage) != -1)
+			{
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
+				m_OutMessages.remove(hMessage);
+			}
 		}
-		ptrT username(getTStringA(hContact, "Skypename"));
-		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error.c_str());
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.c_str());
+		else
+		{
+			std::string strError = Translate("Unknown error!");
+
+			if (response->pData != NULL)
+			{
+				JSONNode jRoot = JSONNode::parse(response->pData);
+				const JSONNode &jErr = jRoot["errorCode"];
+
+				if(jErr)
+				{
+					strError = jErr.as_string();
+				}
+			}
+
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)strError.c_str());
+		}
 	}
 }
 
@@ -124,71 +133,80 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 {
 	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_string().c_str() : node["skypeeditedid"].as_string().c_str();
+	CMStringA szConversationName(UrlToSkypename(node["conversationLink"].as_string().c_str()));
+	CMStringA szFromSkypename(UrlToSkypename(node["from"].as_string().c_str()));
 
-	bool isEdited = node["skypeeditedid"];
+	std::string strMessageType = node["messagetype"].as_string();
+	std::string strContent = node["content"].as_string();
+	ptrA szClearedContent(RemoveHtml(strContent.c_str()));
+
+	bool bEdited = node["skypeeditedid"];
 	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(node["composetime"].as_string().c_str());
 
-	CMStringA skypename(UrlToSkypename(node["conversationLink"].as_string().c_str()));
-	CMStringA from(UrlToSkypename(node["from"].as_string().c_str()));
+	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
-	std::string content = node["content"].as_string();
-	int emoteOffset = node["skypeemoteoffset"].as_int();
-
-	ptrA message(RemoveHtml(content.c_str()));
-
-	std::string messageType = node["messagetype"].as_string();
-	MCONTACT hContact = AddContact(skypename, true);
+	MCONTACT hContact = AddContact(szConversationName, true);
 
 	if (HistorySynced)
 		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-	if (messageType == "Control/Typing")
+	if (strMessageType == "Control/Typing")
+	{
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
-
-	else if (messageType == "Control/ClearTyping")
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-
-	else if (messageType == "Text" || messageType == "RichText")
-	{
-		if (IsMe(from))
-		{
-			long hMessage = atol(szMessageId);
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, szMessageId);
-
-			AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, 
-				timestamp, DBEF_UTF | DBEF_SENT, &message[emoteOffset], szMessageId);
-
-			return;
-		}
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-
-		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, szMessageId);
-		MEVENT dbevent = GetMessageFromDb(hContact, szMessageId);
-		if (isEdited && dbevent != NULL)
-		{
-			AppendDBEvent(hContact, dbevent, message, szMessageId, timestamp);
-		}
-		else OnReceiveMessage(szMessageId, node["conversationLink"].as_string().c_str(), timestamp, message, emoteOffset);
 	}
-	else if (messageType == "Event/SkypeVideoMessage") {}
-	else if (messageType == "Event/Call")
+	else if (strMessageType == "Control/ClearTyping")
 	{
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
-	else if (messageType == "RichText/Files")
+	else if (strMessageType == "Text" || strMessageType == "RichText")
+	{
+		if (IsMe(szFromSkypename))
+		{
+			HANDLE hMessage = (HANDLE)atol(szMessageId);
+			if (m_OutMessages.getIndex(hMessage) != -1)
+			{
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
+				m_OutMessages.remove(hMessage);
+			}
+			else
+			{
+				AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, 
+					timestamp, DBEF_UTF | DBEF_SENT, &szClearedContent[nEmoteOffset], szMessageId);
+			}
+		}
+		else
+		{
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+			MEVENT hDbEvent = GetMessageFromDb(hContact, szMessageId);
+
+			if (bEdited && hDbEvent != NULL)
+			{
+				AppendDBEvent(hContact, hDbEvent, szClearedContent, szMessageId, timestamp);
+			}
+			else 
+			{
+				OnReceiveMessage(hContact, szClearedContent, szMessageId, timestamp, nEmoteOffset);
+			}
+		}
+	}
+	else if (strMessageType == "Event/Call")
+	{
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+	}
+	else if (strMessageType == "RichText/Files")
 	{		
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	else if (messageType == "RichText/UriObject")
+	else if (strMessageType == "RichText/UriObject")
 	{
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
+	//else if (messageType == "Event/SkypeVideoMessage") {}
 	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
 	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
 	else
 	{
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, content.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
 }
 

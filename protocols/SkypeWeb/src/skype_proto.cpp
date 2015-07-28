@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CSkypeProto>(protoName, userName), m_PopupClasses(1), m_InviteDialogs(1), m_GCCreateDialogs(1)
+	PROTO<CSkypeProto>(protoName, userName), m_PopupClasses(1), m_InviteDialogs(1), m_GCCreateDialogs(1), m_OutMessages(3, PtrKeySortT)
 {
 	m_hProtoIcon = Icons[0].Handle;
 

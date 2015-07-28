@@ -105,7 +105,7 @@ private:
 	TRInfo TRouter;
 
 	LIST<void> m_PopupClasses;
-	
+	LIST<void> m_OutMessages;
 	//dialogs
 	LIST<CSkypeInviteDlg> m_InviteDialogs;
 	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
@@ -239,7 +239,7 @@ private:
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
 	MEVENT AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, const char *szUid, time_t edit_time);
-	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
+	int OnReceiveMessage(MCONTACT hContact, const char *szContent, const char *szMessageId, time_t timestamp,  int emoteOffset = 0, bool isRead = false);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
@@ -323,7 +323,7 @@ private:
 	void CALLBACK SkypeUnsetTimer(void*);
 	void CALLBACK SkypeSetTimer(void*);
 	void ProcessTimer();
-	static void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD);
+	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 	//---/
 
 	time_t GetLastMessageTime(MCONTACT hContact);
