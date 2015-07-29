@@ -338,12 +338,12 @@ inline void JSONNode::decRef(void){ //decrements internal's counter, deletes it 
 	}
 #endif
 #ifdef JSON_WRITER
-	inline json_string JSONNode::write(void){
+	inline json_string JSONNode::write(void) const {
 		JSON_CHECK_INTERNAL();
 		JSON_ASSERT_SAFE(type() == JSON_NODE || type() == JSON_ARRAY, JSON_TEXT("Writing a non-writable node"), return JSON_TEXT(""););
 		return internal -> Write(0xFFFFFFFF, true);
 	}
-	inline json_string JSONNode::write_formatted(void){
+	inline json_string JSONNode::write_formatted(void) const {
 		JSON_CHECK_INTERNAL();
 		JSON_ASSERT_SAFE(type() == JSON_NODE || type() == JSON_ARRAY, JSON_TEXT("Writing a non-writable node"), return JSON_TEXT(""););
 		return internal -> Write(0, true);
