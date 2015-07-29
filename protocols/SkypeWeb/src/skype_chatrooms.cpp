@@ -228,7 +228,6 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		}
 
 		break;
-
 	}
 	}
 	return 0;
