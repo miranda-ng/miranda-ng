@@ -48,11 +48,12 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("clientmessageid", (long)timestamp));
-		node.push_back(JSONNode("messagetype", "RichText"));
-		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", message));
+		JSONNode node;
+		node 
+			<< JSONNode("clientmessageid", (long)timestamp) 
+			<< JSONNode("messagetype", "RichText") 
+			<< JSONNode("contenttype", "text")
+			<< JSONNode("content", message);
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -70,11 +71,12 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("clientmessageid", (long)timestamp));
-		node.push_back(JSONNode("messagetype", "RichText"));
-		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", message));
-		node.push_back(JSONNode("skypeemoteoffset", 4));
+		node 
+			<< JSONNode("clientmessageid", (long)timestamp)
+			<< JSONNode("messagetype", "RichText")
+			<< JSONNode("contenttype", "text")
+			<< JSONNode("content", message)
+			<< JSONNode("skypeemoteoffset", 4);
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -93,19 +95,18 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		JSONNode node(JSON_NODE);
-		JSONNode members(JSON_ARRAY);
-
-		members.set_name("members");
+		JSONNode node;
+		JSONNode members(JSON_ARRAY); members.set_name("members");
 
 		for (int i = 0; i < skypenames.getCount(); i++)
 		{
-			JSONNode member(JSON_NODE);
-			member.push_back(JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]).GetBuffer()));
-			member.push_back(JSONNode("role", !mir_strcmpi(skypenames[i], selfname) ? "Admin" : "User"));
-			members.push_back(member);
+			JSONNode member;
+			member 
+				<< JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]).GetBuffer())
+				<< JSONNode("role", !mir_strcmpi(skypenames[i], selfname) ? "Admin" : "User");
+			members << member;
 		}
-		node.push_back(members);
+		node << members;
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -137,9 +138,9 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		JSONNode node(JSON_NODE);
+		JSONNode node;
 
-		node.push_back(JSONNode("role", role));
+		node << JSONNode("role", role);
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -169,8 +170,8 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode(propname, value));
+		JSONNode node;
+		node << JSONNode(propname, value);
 
 		Body << VALUE(node.write().c_str());
 	}

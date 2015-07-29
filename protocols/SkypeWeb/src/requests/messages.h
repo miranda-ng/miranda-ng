@@ -29,11 +29,12 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("clientmessageid", (long)timestamp));
-		node.push_back(JSONNode("messagetype", "RichText"));
-		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", message));
+		JSONNode node;
+		node 
+			<< JSONNode("clientmessageid", (long)timestamp)
+			<< JSONNode("messagetype", "RichText")
+			<< JSONNode("contenttype", "text")
+			<< JSONNode("content", message);
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -53,12 +54,13 @@ public:
 		CMStringA content;
 		content.AppendFormat("%s %s", selfusername, message);
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("clientmessageid", (long)timestamp));
-		node.push_back(JSONNode("messagetype", "RichText"));
-		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", content));
-		node.push_back(JSONNode("skypeemoteoffset", (int)(mir_strlen(selfusername) + 1)));
+		JSONNode node;
+		node 
+			<< JSONNode("clientmessageid", (long)timestamp)
+			<< JSONNode("messagetype", "RichText")
+			<< JSONNode("contenttype", "text")
+			<< JSONNode("content", content)
+			<< JSONNode("skypeemoteoffset", (int)(mir_strlen(selfusername) + 1));
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -75,13 +77,14 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
+		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("clientmessageid", (long)time(NULL)));
-		node.push_back(JSONNode("messagetype", state));
-		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", ""));
+		JSONNode node;
+		node
+			<< JSONNode("clientmessageid", (long)time(NULL))
+			<< JSONNode("messagetype", state)
+			<< JSONNode("contenttype", "text")
+			<< JSONNode("content", "");
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -101,7 +104,7 @@ public:
 		//"lastReadMessageTimestamp;modificationTime;lastReadMessageId"
 
 		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp).GetBuffer()));
+		node << JSONNode("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp));
 
 		Body << VALUE(node.write().c_str());
 	}

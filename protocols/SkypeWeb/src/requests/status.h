@@ -30,7 +30,7 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("status", status));
+		node << JSONNode("status", status);
 
 		Body << VALUE(node.write().c_str());
 	}

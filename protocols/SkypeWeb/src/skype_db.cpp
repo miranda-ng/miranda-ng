@@ -84,34 +84,36 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 					return hEvent;
 			}
 			JSONNode jEdit;
-			jEdit.push_back(JSONNode("time", (long)edit_time));
-			jEdit.push_back(JSONNode("text", szContent));
+			jEdit 
+				<< JSONNode("time", (long)edit_time)
+				<< JSONNode("text", szContent);
 
-			jEdits.push_back(jEdit);
+			jEdits << jEdit;
 		}
 	}
 	else
 	{
 		jMsg = JSONNode();
-		JSONNode jOriginalMsg;
-		JSONNode jEdits(JSON_ARRAY);
+		JSONNode jOriginalMsg; jOriginalMsg.set_name("original_message");
+		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
 		JSONNode jEdit;
 
-		jOriginalMsg.set_name("original_message");
-		jOriginalMsg.push_back(JSONNode("time", (long)dbei.timestamp));
-		jOriginalMsg.push_back(JSONNode("text", (char*)dbei.pBlob));
-		jMsg.push_back(jOriginalMsg);
+		jOriginalMsg
+			<< JSONNode("time", (long)dbei.timestamp)
+			<< JSONNode("text", (char*)dbei.pBlob);
 
-		jEdit.push_back(JSONNode("time", (long)edit_time));
-		jEdit.push_back(JSONNode("text", szContent));
+		jMsg << jOriginalMsg;
 
-		jEdits.push_back(jEdit);
-		jEdits.set_name("edits");
-		jMsg.push_back(jEdits);
+		jEdit 
+			<< JSONNode("time", (long)edit_time)
+			<< JSONNode("text", szContent);
+
+		jEdits << jEdit;	
+		jMsg << jEdits;
 
 
 	}
-	int r = db_event_delete(hContact, hEvent);	
+	db_event_delete(hContact, hEvent);	
 	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, DBEF_UTF, jMsg.write().c_str(), szUid);
 }
 

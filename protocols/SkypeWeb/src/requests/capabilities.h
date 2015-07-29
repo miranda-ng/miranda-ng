@@ -29,24 +29,24 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		JSONNode privateInfo(JSON_NODE);
-		privateInfo.set_name("privateInfo");
-		privateInfo.push_back(JSONNode("epname", hostname));
+		JSONNode privateInfo; privateInfo.set_name("privateInfo");
+		privateInfo << JSONNode("epname", hostname);
 
-		JSONNode publicInfo(JSON_NODE);
-		publicInfo.set_name("publicInfo");
-		publicInfo.push_back(JSONNode("capabilities", "Audio|Video"));
-		publicInfo.push_back(JSONNode("typ", 125));
-		publicInfo.push_back(JSONNode("skypeNameVersion", "Miranda NG Skype"));
-		publicInfo.push_back(JSONNode("nodeInfo", "xx"));
-		publicInfo.push_back(JSONNode("version", g_szMirVer));
+		JSONNode publicInfo; publicInfo.set_name("publicInfo");
+		publicInfo 
+			<< JSONNode("capabilities", "Audio|Video")
+			<< JSONNode("typ", 125)
+			<< JSONNode("skypeNameVersion", "Miranda NG Skype")
+			<< JSONNode("nodeInfo", "xx")
+			<< JSONNode("version", g_szMirVer);
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("id", "messagingService"));
-		node.push_back(JSONNode("type", "EndpointPresenceDoc"));
-		node.push_back(JSONNode("selfLink", "uri"));
-		node.push_back(privateInfo);
-		node.push_back(publicInfo);
+		JSONNode node;
+		node
+			<< JSONNode("id", "messagingService") 
+			<< JSONNode("type", "EndpointPresenceDoc")
+			<< JSONNode("selfLink", "uri")
+			<< privateInfo 
+			<< publicInfo;
 
 		Body << VALUE(node.write().c_str());
 	}

@@ -38,12 +38,11 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< CHAR_VALUE("X-Skypetoken", token);
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("sr", sr));
+		JSONNode node;
+		node << JSONNode("sr", sr);
 
 		Body << VALUE(node.write().c_str());
 	}
-	//{"sr":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","issuer":"edf","sp":"connect","st":"1430236511619","se":"1430318082619","sig":"nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA"}
 };
 
 class RegisterTrouterRequest : public HttpRequest
@@ -56,29 +55,31 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml")
 			<< CHAR_VALUE("X-Skypetoken", token);
 
-		JSONNode clientDescription(JSON_NODE);
-		clientDescription.set_name("clientDescription");
-		clientDescription.push_back(JSONNode("aesKey", ""));
-		clientDescription.push_back(JSONNode("languageId", "en-US"));
-		clientDescription.push_back(JSONNode("platform", "SWX"));
-		clientDescription.push_back(JSONNode("templateKey", "SkypeWeb_1.0"));
+		JSONNode clientDescription; clientDescription.set_name("clientDescription");
+		clientDescription 
+			<< JSONNode("aesKey", "")
+			<< JSONNode("languageId", "en-US")
+			<< JSONNode("platform", "SWX")
+			<< JSONNode("templateKey", "SkypeWeb_1.0");
 
-		JSONNode TRouter(JSON_NODE);
-		TRouter.push_back(JSONNode("context", ""));
-		TRouter.push_back(JSONNode("path", trouterUrl));
-		TRouter.push_back(JSONNode("ttl", 3600));
+		JSONNode TRouter;
+		TRouter 
+			<< JSONNode("context", "")
+			<< JSONNode("path", trouterUrl)
+			<< JSONNode("ttl", 3600);
 
-		JSONNode TROUTER (JSON_ARRAY); TROUTER.set_name("TROUTER");
-		TROUTER.push_back(TRouter);
+		JSONNode TRouters(JSON_ARRAY); TRouters.set_name("TROUTER");
+		TRouters << TRouter;
 
-		JSONNode transports(JSON_NODE); transports.set_name("transports");
-		transports.push_back(TROUTER);
+		JSONNode transports; transports.set_name("transports");
+		transports << TRouters;
 
-		JSONNode node(JSON_NODE);
-		node.push_back(JSONNode("registrationId", id));
-		node.push_back(JSONNode("nodeId", ""));
-		node.push_back(clientDescription);
-		node.push_back(transports);
+		JSONNode node;
+		node 
+			<< JSONNode("registrationId", id)
+			<< JSONNode("nodeId", "")
+			<< clientDescription
+			<< transports;
 
 		Body << VALUE(node.write().c_str());
 	}
