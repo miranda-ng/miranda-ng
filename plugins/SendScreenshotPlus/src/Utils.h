@@ -44,7 +44,7 @@ extern HWND g_hCapture;
 extern HBITMAP g_hBitmap, g_hbmMask;
 
 //---------------------------------------------------------------------------
-int				ComboBox_SelectItemData(HWND hwndCtl, int indexStart, LPARAM data);
+int				ComboBox_SelectItemData(HWND hwndCtl, LPARAM data);
 
 size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);

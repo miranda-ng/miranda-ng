@@ -31,18 +31,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 //---------------------------------------------------------------------------
 CSendDropbox::CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync)
-: CSend(Owner, hContact, bAsync){
-/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
+	: CSend(Owner, hContact, bAsync)
+{
+	/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND/* | SS_DLG_DELETEAFTERSSEND*/;
 	m_pszSendTyp = LPGENT("Dropbox transfer");
 }
 
-CSendDropbox::~CSendDropbox(){
+CSendDropbox::~CSendDropbox()
+{
 }
 
 //---------------------------------------------------------------------------
-int CSendDropbox::Send() {
-	if(!m_bAsync){
+
+int CSendDropbox::Send()
+{
+	if (!m_bAsync) {
 		SendThread();
 		return 1;
 	}
@@ -52,22 +56,23 @@ int CSendDropbox::Send() {
 
 //---------------------------------------------------------------------------
 
-
-void CSendDropbox::SendThread() {
-/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
-	INT_PTR ret=0;
-	if(!m_hContact)
+void CSendDropbox::SendThread()
+{
+	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
+	INT_PTR ret = 0;
+	if (!m_hContact)
 		SetContact(db_find_first("Dropbox"));
-	if(m_hContact)
+	if (m_hContact)
 		ret = CallService(MS_DROPBOX_SEND_FILE, (WPARAM)m_hContact, (LPARAM)m_pszFile);
-	if(!ret) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."),TranslateTS(m_pszSendTyp),ret);
+	if (!ret) {
+		Error(LPGENT("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateTS(m_pszSendTyp), ret);
 		Exit(ACKRESULT_FAILED); return;
 	}
-	m_bSilent=true;
+	m_bSilent = true;
 	Exit(ACKRESULT_SUCCESS);
 }
 
-void CSendDropbox::SendThreadWrapper(void * Obj) {
+void CSendDropbox::SendThreadWrapper(void * Obj)
+{
 	reinterpret_cast<CSendDropbox*>(Obj)->SendThread();
 }

@@ -30,36 +30,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 void mir_stradd(char* &pszDest, const char* pszSrc)
 {
-	if(!pszSrc)
+	if (!pszSrc)
 		return;
 
-	if(!pszDest)
+	if (!pszDest)
 		pszDest = mir_strdup(pszSrc);
 	else {
-		size_t lenDest  = mir_strlen(pszDest);
-		size_t lenSrc   = mir_strlen(pszSrc);
+		size_t lenDest = mir_strlen(pszDest);
+		size_t lenSrc = mir_strlen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
-		pszDest  = (char *) mir_realloc(pszDest, sizeof(char)* lenNew);
+		pszDest = (char *)mir_realloc(pszDest, sizeof(char)* lenNew);
 
 		mir_strcpy(pszDest + lenDest, pszSrc);
-		pszDest[lenNew-1] = 0;
+		pszDest[lenNew - 1] = 0;
 	}
 }
 
 void mir_wstradd(wchar_t* &pszDest, const wchar_t* pszSrc)
 {
-	if(!pszSrc)
+	if (!pszSrc)
 		return;
 
-	if(!pszDest)
+	if (!pszDest)
 		pszDest = mir_wstrdup(pszSrc);
 	else {
-		size_t lenDest  = mir_wstrlen(pszDest);
-		size_t lenSrc   = mir_wstrlen(pszSrc);
+		size_t lenDest = mir_wstrlen(pszDest);
+		size_t lenSrc = mir_wstrlen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
-		pszDest  = (wchar_t *) mir_realloc(pszDest, sizeof(wchar_t)*lenNew);
+		pszDest = (wchar_t *)mir_realloc(pszDest, sizeof(wchar_t)*lenNew);
 
 		mir_wstrcpy(pszDest + lenDest, pszSrc);
-		pszDest[lenNew-1] = 0;
+		pszDest[lenNew - 1] = 0;
 	}
 }

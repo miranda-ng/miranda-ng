@@ -31,16 +31,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 //---------------------------------------------------------------------------
 CSendFile::CSendFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-: CSend(Owner, hContact, true){
-	m_EnableItem		= SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
-	m_pszSendTyp		= LPGENT("File transfer");
+	: CSend(Owner, hContact, true)
+{
+	m_EnableItem = SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
+	m_pszSendTyp = LPGENT("File transfer");
 }
 
-CSendFile::~CSendFile(){
+CSendFile::~CSendFile()
+{
 }
 
 //---------------------------------------------------------------------------
-int CSendFile::Send() {
+int CSendFile::Send()
+{
 	svcSendFileExit();
 	return 0;
 }
