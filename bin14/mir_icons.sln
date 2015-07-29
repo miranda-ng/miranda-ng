@@ -4,7 +4,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_14.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\SecureIM_icons\secureim_icons_14.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\SecureIM_icons\secureim_icons.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags_14.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
 EndProject
