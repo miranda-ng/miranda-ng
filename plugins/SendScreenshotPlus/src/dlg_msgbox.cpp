@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define MODNAME SZ_SENDSS
 #define ICO_COMMON_MAIN 0xFFFF
 #define ICO_DLG_DETAILS 0xFFFF
-HICON Skin_GetIcon_SendSS(unsigned short id, BOOL big=0)
+
+HICON Skin_GetIcon_SendSS(unsigned short id)
 {
 	if(id==0xFFFF)
 		return GetIcon(ICO_MAIN);
@@ -81,7 +82,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 		hIcon = pMsgBox->hiMsg;
 		break;
 
-	// default windows icons
+		// default windows icons
 	case MB_ICON_ERROR:
 	case MB_ICON_QUESTION:
 	case MB_ICON_WARNING:
@@ -92,7 +93,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 		}
 		break;
 
-	// no icon
+		// no icon
 	default:
 		hIcon = NULL;
 	}
@@ -210,7 +211,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					// set infobar's logo icon
 					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON,
-						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)IcoLib_GetIcon(ICO_DLG_DETAILS,TRUE)));
+						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)IcoLib_GetIcon(ICO_DLG_DETAILS)));
 
 					// enable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
@@ -240,43 +241,43 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (HDC hDC = GetDC(hDlg)) {
 					POINT mpt = { 0, 0 };
 					RECT ws = { 0, 0, 0, 0 };
-					int txtWidth=0, txtHeight=0, needX, needY;
+					int txtWidth = 0, txtHeight = 0, needX, needY;
 					RECT rcDlg;
 					SIZE ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
 					// get message text width and height
-					if(pMsgBox->ptszMsg) for (rs=h=pMsgBox->ptszMsg; ; ++h) {
-						if (*h=='\n' || !*h) {
-							GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+					if (pMsgBox->ptszMsg) for (rs = h = pMsgBox->ptszMsg;; ++h) {
+						if (*h == '\n' || !*h) {
+							GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 							if (ts.cx > txtWidth)
 								txtWidth = ts.cx;
 							txtHeight += ts.cy;
 							if (!*h)
 								break;
-							rs = h+1;
+							rs = h + 1;
 						}
 					}
 					// increase width if info text requires more
-					if((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText){
+					if ((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText) {
 						int multiline = 0;
-						RECT rcico; GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
-						rcico.right = rcico.right*100/66; // padding
-						for(rs=h=pMsgBox->ptszInfoText; ; ++h) {
-							if (*h=='\n' || !*h) {
-								GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+						RECT rcico; GetClientRect(GetDlgItem(hDlg, ICO_DLGLOGO), &rcico);
+						rcico.right = rcico.right * 100 / 66; // padding
+						for (rs = h = pMsgBox->ptszInfoText;; ++h) {
+							if (*h == '\n' || !*h) {
+								GetTextExtentPoint32(hDC, rs, h - rs, &ts);
 								ts.cx += rcico.right;
 								if (ts.cx > txtWidth)
 									txtWidth = ts.cx;
 								if (!*h)
 									break;
-								rs = h+1;
+								rs = h + 1;
 								++multiline;
 							}
 						}
-						if(!multiline)
-							SetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE)|SS_CENTERIMAGE);
+						if (!multiline)
+							SetWindowLongPtr(GetDlgItem(hDlg, TXT_NAME), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg, TXT_NAME), GWL_STYLE) | SS_CENTERIMAGE);
 					}
 					ReleaseDC(hDlg, hDC);
 
@@ -285,8 +286,8 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
 					needX = txtWidth - (ws.right - ws.left) - icoWidth;
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
-					rcDlg.left -= needX/2; rcDlg.right += needX/2;
-					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
+					rcDlg.left -= needX / 2; rcDlg.right += needX / 2;
+					rcDlg.top -= (needY - InfoBarHeight) / 2; rcDlg.bottom += (needY - InfoBarHeight) / 2;
 
 					// resize dialog window
 					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
@@ -492,7 +493,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 * this set call function in wait stait and do not freece miranda main thread
 * the window is outside the desktop
 */
-static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -597,7 +598,8 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 *
 * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
 **/
-static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+
+LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case UM_POPUPACTION:
@@ -645,7 +647,7 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 * @return	The function returns the ID of the clicked button (IDOK, IDCANCEL, ...)
 *			or -1 on error.
 **/
-INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
+INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 {
 	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
 
@@ -705,7 +707,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	mir_vsntprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 
-	MSGBOX mb = {0};
+	MSGBOX mb = { 0 };
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);

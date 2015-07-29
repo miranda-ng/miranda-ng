@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "stdafx.h"
 
-INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
+INT_PTR(*g_MirCallService)(const char *, WPARAM, LPARAM) = NULL;
 //INT_PTR (*CallService)(const char *,WPARAM,LPARAM);
 
 
@@ -37,11 +37,11 @@ INT_PTR (*g_MirCallService)(const char *, WPARAM, LPARAM)=NULL;
 CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
-	m_EnableItem		= SS_DLG_DESCRIPTION ; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp		= LPGENT("HTTPServer transfer");
-	m_pszFileName		= NULL;
-	m_fsi_pszSrvPath	= NULL;
-	m_fsi_pszRealPath	= NULL;
+	m_EnableItem = SS_DLG_DESCRIPTION; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
+	m_pszSendTyp = LPGENT("HTTPServer transfer");
+	m_pszFileName = NULL;
+	m_fsi_pszSrvPath = NULL;
+	m_fsi_pszRealPath = NULL;
 }
 
 CSendHTTPServer::~CSendHTTPServer()
@@ -54,7 +54,7 @@ CSendHTTPServer::~CSendHTTPServer()
 //---------------------------------------------------------------------------
 int CSendHTTPServer::Send()
 {
-	if(!m_hContact) return 1;
+	if (!m_hContact) return 1;
 	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, TRUE, 0) != 0) {
 		Error(LPGENT("Could not start the HTTP Server plugin."));
 		Exit(ACKRESULT_FAILED);
@@ -71,11 +71,10 @@ int CSendHTTPServer::Send()
 	replaceStr(m_fsi_pszRealPath, _T2A(m_pszFile));
 
 	memset(&m_fsi, 0, sizeof(m_fsi));
-	m_fsi.lStructSize	= sizeof(STFileShareInfo);
-	m_fsi.pszSrvPath	= m_fsi_pszSrvPath;
-	m_fsi.nMaxDownloads	= -1;					// -1 = infinite
-	m_fsi.pszRealPath	= m_fsi_pszRealPath;
-	//m_fsi.dwOptions		= NULL;					//OPT_SEND_LINK only work on single chat;
+	m_fsi.lStructSize = sizeof(STFileShareInfo);
+	m_fsi.pszSrvPath = m_fsi_pszSrvPath;
+	m_fsi.nMaxDownloads = -1;					// -1 = infinite
+	m_fsi.pszRealPath = m_fsi_pszRealPath;
 
 	//start Send thread
 	mir_forkthread(&CSendHTTPServer::SendThreadWrapper, this);
@@ -96,14 +95,14 @@ void CSendHTTPServer::SendThread()
 	}
 	else {
 		//original plugin
-		m_fsi.dwOptions  = OPT_SEND_LINK;
+		m_fsi.dwOptions = OPT_SEND_LINK;
 
 		//send DATA and wait for reply
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 	}
 
 	if (ret != 0) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the HTTP Server plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(LPGENT("%s (%i):\nCould not add a share to the HTTP Server plugin."), TranslateTS(m_pszSendTyp), ret);
 		Exit(ret); return;
 	}
 

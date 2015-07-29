@@ -29,23 +29,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "stdafx.h"
 
-
 //---------------------------------------------------------------------------
+
 CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-: CSend(Owner, hContact, true){
-	m_EnableItem		= 0 ; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp		= LPGENT("FTPFile transfer");
-	m_pszFileName		= NULL;
+	: CSend(Owner, hContact, true)
+{
+	m_EnableItem = 0; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
+	m_pszSendTyp = LPGENT("FTPFile transfer");
+	m_pszFileName = NULL;
 }
 
-CSendFTPFile::~CSendFTPFile(){
+CSendFTPFile::~CSendFTPFile()
+{
 	mir_free(m_pszFileName);
 }
 
 //---------------------------------------------------------------------------
 int CSendFTPFile::Send()
 {
-	if(!m_hContact) return 1;
+	if (!m_hContact) return 1;
 	/*********************************************************************************************
 	 * Send file (files) to the FTP server and copy file URL
 	 * to message log or clipboard (according to plugin setting)
@@ -58,20 +60,21 @@ int CSendFTPFile::Send()
 	 ********************************************************************************************/
 	mir_free(m_pszFileName);
 	m_pszFileName = GetFileNameA(m_pszFile);
-	size_t size = sizeof(char)*(mir_strlen(m_pszFileName)+2);
+	size_t size = sizeof(char)*(mir_strlen(m_pszFileName) + 2);
 	m_pszFileName = (char*)mir_realloc(m_pszFileName, size);
-	m_pszFileName[size-1] = NULL;
+	m_pszFileName[size - 1] = NULL;
 
 	//start Send thread
 	mir_forkthread(&CSendFTPFile::SendThreadWrapper, this);
 	return 0;
 }
 
-void CSendFTPFile::SendThread() {
+void CSendFTPFile::SendThread()
+{
 
-	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName,1);
+	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName, 1);
 	if (ret != 0) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(LPGENT("%s (%i):\nCould not add a share to the FTP File plugin."), TranslateTS(m_pszSendTyp), ret);
 		Exit(ret); return;
 	}
 
@@ -84,7 +87,8 @@ void CSendFTPFile::SendThread() {
 	Exit(ACKRESULT_FAILED);
 }
 
-void	CSendFTPFile::SendThreadWrapper(void * Obj) {
+void	CSendFTPFile::SendThreadWrapper(void * Obj)
+{
 	reinterpret_cast<CSendFTPFile*>(Obj)->SendThread();
 }
 
