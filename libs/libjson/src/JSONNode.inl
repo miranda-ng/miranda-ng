@@ -148,6 +148,12 @@ inline void JSONNode::push_back(const JSONNode & child){
 	internal -> push_back(child);
 }
 
+inline JSONNode& JSONNode::operator<<(const JSONNode &node)
+{
+	push_back(node);
+	return *this;
+}
+
 inline void JSONNode::reserve(json_index_t size){
 	makeUniqueInternal();
 	internal -> reserve(size);
