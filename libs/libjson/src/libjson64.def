@@ -148,8 +148,8 @@ EXPORTS
 ?swap@JSONNode@@QEAAXAEAV1@@Z @145 NONAME
 ?toUTF8@JSONWorker@@CA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@E@Z @146 NONAME
 ?type@JSONNode@@QEBAEXZ @147 NONAME
-?write@JSONNode@@QEAA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @148 NONAME
-?write_formatted@JSONNode@@QEAA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @149 NONAME
+?write@JSONNode@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @148 NONAME
+?write_formatted@JSONNode@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @149 NONAME
 json_as_array @150
 json_as_bool @151
 json_as_float @152
@@ -193,3 +193,4 @@ json_type @189
 json_write @190
 json_write_formatted @191
 ??6JSONNode@@QEAAAEAV0@AEBV0@@Z @192 NONAME
+??4JSONWorker@@QEAAAEAV0@$$QEAV0@@Z @193 NONAME

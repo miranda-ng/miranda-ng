@@ -424,8 +424,8 @@ public:
 	#endif
 
 	#ifdef JSON_WRITER
-		json_string write(void);
-		json_string write_formatted(void);
+		json_string write(void) const;
+		json_string write_formatted(void) const;
 	#endif
 
 	#ifdef JSON_DEBUG
