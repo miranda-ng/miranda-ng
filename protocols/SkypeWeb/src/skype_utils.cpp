@@ -522,9 +522,6 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	if (szJid == NULL)
 		return 1;
 
-	// skip //
-	for (++szJid; *szJid == _T('/'); ++szJid);
-
 	// empty jid?
 	if (!*szJid)
 		return 1;
@@ -569,17 +566,18 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		MCONTACT hContact = FindContact(_T2A(szJid));
 		if (hContact == NULL)
 		{
-			PROTOSEARCHRESULT psr = { 0 };
+			PROTOSEARCHRESULT psr;
+			psr.cbSize = sizeof(psr);
 			psr.id.t = mir_tstrdup(szJid);
 			psr.nick.t = mir_tstrdup(szJid);
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 
 			ADDCONTACTSTRUCT acs;
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = m_szModuleName;
 			acs.psr = &psr;
 
-			CallServiceSync(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;
 	}
