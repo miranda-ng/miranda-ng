@@ -50,11 +50,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			}
 			else 
 			{
-#ifdef _DEBUG
-				text = mir_strdup((char*)pEvent->dbei->pBlob);
-#else
 				text = mir_utf8encode(Translate("Invalid data!"));
-#endif
 			}
 
 			pszText = mir_utf8decodeA(text);
@@ -186,6 +182,21 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 			icon = IcoLib_GetIconByHandle(GetIconHandle("me_action"));
 			break;
 		}
+	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
+		{
+			icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+			break;
+		}
+	case SKYPE_DB_EVENT_TYPE_URIOBJ:
+		{
+			icon = Skin_LoadIcon(SKINICON_EVENT_URL);
+			break;
+		}
+	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
+		{
+			icon = Skin_LoadIcon(SKINICON_WARNING);
+			break;
+		}
 	default:
 		{
 			icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
@@ -198,6 +209,8 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::InitDBEvents()
 {
+	db_set_resident(m_szModuleName, "LastAuthRequestTime");
+
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
@@ -235,45 +248,6 @@ void CSkypeProto::InitDBEvents()
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
 
-void CSkypeProto::InitPopups()
-{
-	TCHAR desc[256];
-	char name[256];
-	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
-
-	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Calls"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Call");
-	ppc.ptszDescription = desc;
-	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("inc_call"));
-	ppc.colorBack = RGB(255, 255, 255);
-	ppc.colorText = RGB(0, 0, 0);
-	ppc.iSeconds = 30;
-	ppc.PluginWindowProc = PopupDlgProcCall;
-	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
-
-	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.ptszDescription = desc;
-	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notify"));
-	ppc.colorBack = RGB(255, 255, 255);
-	ppc.colorText = RGB(0, 0, 0);
-	ppc.iSeconds = 5;
-	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
-
-	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
-	ppc.ptszDescription = desc;
-	ppc.pszName = name;
-	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("error"));
-	ppc.colorBack = RGB(255, 255, 255);
-	ppc.colorText = RGB(0, 0, 0);
-	ppc.iSeconds = -1;
-	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
-}
-
 int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
 {
 	debugLogA(__FUNCTION__);
@@ -283,44 +257,4 @@ int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
 		SetSrmmReadStatus(event->hContact);
 
 	return 0;
-}
-
-//Timers
-
-mir_cs CSkypeProto::timerLock;
-mir_cs CSkypeProto::accountsLock;
-
-void CSkypeProto::ProcessTimer()
-{
-	if (IsOnline())
-	{
-		PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
-		SendPresence(false);
-		if (!m_hTrouterThread)
-			SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
-	}
-}
-
-void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
-{
-	mir_cslock lck(accountsLock);
-	for (int i = 0; i < Accounts.getCount(); i++)
-	{
-		Accounts[i]->ProcessTimer();
-	}
-}
-
-void CSkypeProto::SkypeSetTimer(void*)
-{
-	mir_cslock lck(timerLock);
-	if (!m_timer)
-		m_timer = SetTimer(NULL, 0, 600000, TimerProc);
-}
-
-void CSkypeProto::SkypeUnsetTimer(void*)
-{
-	mir_cslock lck(timerLock);
-	if (m_timer && Accounts.getCount() == 0)
-		KillTimer(NULL, m_timer);
-	m_timer = 0;
 }

@@ -14,10 +14,11 @@ void CSkypeProto::InitNetwork()
 
 void CSkypeProto::UnInitNetwork()
 {
-	if (m_pollingConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-	if (m_TrouterConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
-
+	ShutdownConnections();
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
+}
+
+void CSkypeProto::ShutdownConnections()
+{
+	Netlib_Shutdown(m_hNetlibUser);
 }

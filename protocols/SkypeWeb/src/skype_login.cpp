@@ -64,10 +64,10 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 	if (response->resultCode != 200)
 	{
 		int error = 0;
-		if (!json["status"].isnull())
+		if (json["status"])
 		{
 			const JSONNode &status = json["status"];
-			if (!status["code"].isnull())
+			if (status["code"])
 			{
 				switch(status["code"].as_int())
 				{
@@ -91,7 +91,7 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 					}
 				default: 
 					{
-						ShowNotification(_T("Skype"), !status["text"].isnull() ? status["text"].as_mstring().GetBuffer() : TranslateT("Authentication failed. Unknown error."), NULL, 1);
+						ShowNotification(_T("Skype"), status["text"] ? status["text"].as_mstring() : TranslateT("Authentication failed. Unknown error."), NULL, 1);
 						error = LOGIN_ERROR_UNKNOWN;
 					}
 				}

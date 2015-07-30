@@ -64,6 +64,7 @@ public:
 
 	//popups
 	void InitPopups();
+	void UninitPopups();
 
 	// languages
 	static void InitLanguages();
@@ -81,7 +82,7 @@ public:
 
 private:
 
-	static UINT_PTR m_timer, m_trouterTimer;
+	static UINT_PTR m_timer;
 
 	//---Accounts
 	static LIST<CSkypeProto> CSkypeProto::Accounts; 
@@ -92,6 +93,7 @@ private:
 
 	bool isTerminated,
 		 HistorySynced;
+
 	std::map<std::string, std::string> cookies;
 	static std::map<std::tstring, std::tstring> languages;
 
@@ -99,8 +101,9 @@ private:
 		   m_hPollingThread,
 		   m_hTrouterThread,
 		   m_TrouterConnection,
-		   m_hTrouterEvent,
-		   m_hCallHook;
+		   m_hTrouterEvent;
+
+	static HANDLE m_hCallEvent;
 
 	TRInfo TRouter;
 
@@ -142,6 +145,7 @@ private:
 
 	void InitNetwork();
 	void UnInitNetwork();
+	void ShutdownConnections();
 
 	void PushRequest(HttpRequest *request);
 	void PushRequest(HttpRequest *request, SkypeResponseCallback response);
@@ -267,6 +271,8 @@ private:
 
 	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
 	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
 
@@ -274,8 +280,8 @@ private:
 
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
 
-	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
+
+
 	void OnChatEvent(const JSONNode &node);
 	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
 	char *GetChatUsers(const TCHAR *chat_id);
@@ -299,7 +305,7 @@ private:
 	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
-	bool IsOnline();
+	inline bool IsOnline();
 	bool IsMe(const char *skypeName);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
@@ -353,7 +359,7 @@ private:
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{
-		CSkypeProto *proto = CSkypeProto::GetContactAccount((MCONTACT)wParam);
+		CSkypeProto *proto = GetContactAccount((MCONTACT)wParam);
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
 };

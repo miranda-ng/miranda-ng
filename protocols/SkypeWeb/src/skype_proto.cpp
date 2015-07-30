@@ -40,10 +40,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
-	db_set_resident(m_szModuleName, "LastAuthRequestTime");
-
 	//hooks
-	m_hCallHook = CreateHookableEvent(MODULE "/IncomingCall");
+	if (!m_hCallEvent) m_hCallEvent = CreateHookableEvent(MODULE "/IncomingCall");
 
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
@@ -60,16 +58,11 @@ CSkypeProto::~CSkypeProto()
 	delete requestQueue;
 	
 	UnInitNetwork();
+	UninitPopups();
 
 	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
 
-	if (m_hCallHook)
-		DestroyHookableEvent(m_hCallHook);
-
-	for (int i = 0; i < m_PopupClasses.getCount(); i++)
-	{
-		Popup_UnregisterClass(m_PopupClasses[i]);
-	}
+	if (m_hCallEvent && Accounts.getCount() == 0) DestroyHookableEvent(m_hCallEvent);
 	
 	SkypeUnsetTimer(this);
 }
@@ -290,5 +283,6 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	debugLogA(__FUNCTION__);
 	isTerminated = true;
 	requestQueue->Stop();
+	ShutdownConnections();
 	return 0;
 }
