@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+HANDLE CSkypeProto::m_hCallEvent;
+
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
@@ -225,7 +227,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
-	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
+	NotifyEventHooks(m_hCallEvent, (WPARAM)cle->hContact, (LPARAM)0);
 	return 0;
 }
 
@@ -242,7 +244,7 @@ INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
 	}
 
 	if (wParam == 1)
-		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
+		NotifyEventHooks(m_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 
 	return 0;
 }
