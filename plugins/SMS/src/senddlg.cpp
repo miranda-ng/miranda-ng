@@ -502,7 +502,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 return FALSE;
 }
 
-INT_PTR CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM)
 {
 	switch(msg){
 	case WM_INITDIALOG:
@@ -531,7 +531,7 @@ INT_PTR CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 	return FALSE;
 } 
 
-INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM)
 {
 	switch(msg){
 	case WM_INITDIALOG:
@@ -722,7 +722,7 @@ void SendSMSWindowNumberSet(HWND hWndDlg, LPWSTR lpwszPhone, size_t dwPhoneSize)
 }
 
 //
-void SendSMSWindowAsSentSet(HWND hWndDlg)
+void SendSMSWindowAsSentSet(HWND)
 {
 //	LVITEM lvi;
 //	char szPhone[MAX_PHONE_LEN];

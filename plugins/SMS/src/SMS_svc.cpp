@@ -52,14 +52,14 @@ int LoadModules(void)
 	return 0;
 }
 
-int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
+int SmsRebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount(wParam) != 0);
 	return 0;
 }
 
 //This function called when user clicked Menu.
-int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
+int SendSMSMenuCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwndSendSms;
 
@@ -89,7 +89,7 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 
 
 //This function used to popup a read SMS window after the user clicked on the received SMS message.
-int ReadMsgSMS(WPARAM wParam,LPARAM lParam)
+int ReadMsgSMS(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
@@ -110,7 +110,7 @@ int ReadMsgSMS(WPARAM wParam,LPARAM lParam)
 }
 
 //This function used to popup a read SMS window after the user clicked on the received SMS confirmation.
-int ReadAckSMS(WPARAM wParam,LPARAM lParam)
+int ReadAckSMS(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
