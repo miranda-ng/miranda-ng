@@ -25,7 +25,7 @@ All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 //This function gets HWND of the window, the number, and the message.
 void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwPhoneSize,LPWSTR lpwszMessage,size_t dwMessageSize)

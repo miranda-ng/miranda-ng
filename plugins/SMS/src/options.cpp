@@ -25,7 +25,7 @@ All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 WORD wSMSSignControlsList[] = { IDC_BEGIN, IDC_END, IDC_SIGNATURE, IDC_SIGNGROUP };
 
