@@ -1,6 +1,6 @@
 /*
+Paste It plugin
 Copyright (C) 2011 Krzysztof Kral
-Copyright (C) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
+#include "StdAfx.h"
 
 Options *Options::instance;
 
@@ -341,7 +341,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 			OptsLoginData d;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_PASTEBIN_LOGIN), hwndDlg, DlgProcOptsLogin, (LPARAM)&d) == IDOK)
 			{
-				PastebinCom *web = (PastebinCom*)pasteToWebs[optsPagesData->lastPage];
+				PasteToWeb1 *web = (PasteToWeb1*)pasteToWebs[optsPagesData->lastPage];
 				Edit_SetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), web->GetUserKey(d.user, d.password).c_str());
 			}
 		}
