@@ -374,7 +374,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartPosition", "..\plugins\StartPosition\StartPosition_10.vcxproj", "{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMS", "..\plugins\SMS\sms_10.vcxproj", "{A3EA507E-C77E-4966-9AEE-51442AF96E4D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMS", "..\plugins\SMS\sms.vcxproj", "{A3EA507E-C77E-4966-9AEE-51442AF96E4D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPServer", "..\plugins\HTTPServer\HTTPServer_10.vcxproj", "{F7A70398-AFA0-4A58-B645-85268F9517DE}"
 EndProject
