@@ -272,35 +272,32 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnChatEvent(const JSONNode &node)
 {
-	//std::string clientMsgId = node["clientmessageid"].as_string();
-	//std::string skypeEditedId = node["skypeeditedid"].as_string();
+	//CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_string().c_str() : node["skypeeditedid"].as_string().c_str();
+	CMStringA szConversationName(UrlToSkypename(node["conversationLink"].as_string().c_str()));
+	CMStringA szFromSkypename(UrlToSkypename(node["from"].as_string().c_str()));
 
-	std::string fromLink = node["from"].as_string();
-	CMStringA from(UrlToSkypename(fromLink.c_str()));
+	CMString szTopic(node["threadtopic"].as_mstring());
 
 	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
 
-	std::string content = node["content"].as_string();
-	int emoteOffset = node["skypeemoteoffset"].as_int();
+	std::string strContent = node["content"].as_string();
+	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
-	std::string conversationLink = node["conversationLink"].as_string();
-	CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
-
-	CMString topic(node["threadtopic"].as_mstring());
-	if (FindChatRoom(chatname) == NULL)
-		SendRequest(new GetChatInfoRequest(m_szRegToken, chatname, m_szServer), &CSkypeProto::OnGetChatInfo, topic.Detach());
+	
+	if (FindChatRoom(szConversationName) == NULL)
+		SendRequest(new GetChatInfoRequest(m_szRegToken, szConversationName, m_szServer), &CSkypeProto::OnGetChatInfo, szTopic.Detach());
 
 	std::string messageType = node["messagetype"].as_string();
-	if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
+	if (messageType == "Text" || messageType == "RichText")
 	{
-		AddMessageToChat(_A2T(chatname), _A2T(from), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp);
+		AddMessageToChat(_A2T(szConversationName), _A2T(szFromSkypename), strContent.c_str(), nEmoteOffset != NULL, nEmoteOffset, timestamp);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/AddMember"))
+	else if (messageType == "ThreadActivity/AddMember")
 	{
 		ptrA xinitiator, xtarget, initiator;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("addmember"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("addmember"));
 		if (xml == NULL)
 			return;
 
@@ -313,16 +310,16 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			xtarget = mir_t2a(xmlGetText(xmlNode));
 
 			CMStringA target = ParseUrl(xtarget, "8:");
-			AddChatContact(_A2T(chatname), target, target, L"User");
+			AddChatContact(_A2T(szConversationName), target, target, L"User");
 		}
 		xmlDestroyNode(xml);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/DeleteMember"))
+	else if (messageType == "ThreadActivity/DeleteMember")
 	{
 		ptrA xinitiator, xtarget;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("deletemember"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("deletemember"));
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
 			xinitiator = node != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
@@ -337,14 +334,14 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 		CMStringA target = ParseUrl(xtarget, "8:");
 		CMStringA initiator = ParseUrl(xinitiator, "8:");
-		RemoveChatContact(_A2T(chatname), target, target, true, initiator);
+		RemoveChatContact(_A2T(szConversationName), target, target, true, initiator);
 
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/TopicUpdate"))
+	else if (messageType.c_str() == "ThreadActivity/TopicUpdate")
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
-		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("topicupdate"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("topicupdate"));
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
@@ -356,14 +353,14 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		}
 
 		CMStringA initiator = ParseUrl(xinitiator, "8:");
-		RenameChat(chatname, value);
-		ChangeChatTopic(chatname, value, initiator);
+		RenameChat(szConversationName, value);
+		ChangeChatTopic(szConversationName, value, initiator);
 	}
-	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/RoleUpdate"))
+	else if (messageType == "ThreadActivity/RoleUpdate")
 	{
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, xRole;
-		HXML xml = xmlParseString(ptrT(mir_a2t(content.c_str())), 0, _T("roleupdate"));
+		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, _T("roleupdate"));
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, _T("initiator"), 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
@@ -381,7 +378,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			CMStringA initiator = ParseUrl(xinitiator, "8:");
 			CMStringA id = ParseUrl(xId, "8:");
 
-			GCDEST gcd = { m_szModuleName, _A2T(chatname), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
+			GCDEST gcd = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			ptrT tszId(mir_a2t(id));
 			ptrT tszRole(mir_a2t(xRole));
