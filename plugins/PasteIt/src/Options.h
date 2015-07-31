@@ -1,6 +1,6 @@
 /*
-Paste It plugin
 Copyright (C) 2011 Krzysztof Kral
+Copyright (C) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-#include "PasteToWeb.h"
+#ifndef _OPTIONS_H_
+#define _OPTIONS_H_
 
 class WebOptions
 {
@@ -70,3 +70,4 @@ public:
 	WebOptions* webOptions[PasteToWeb::pages];
 };
 
+#endif //_OPTIONS_H_

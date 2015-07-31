@@ -1,13 +1,6 @@
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
-#pragma once
-
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
-// Windows Header Files:
 #include <windows.h>
 #include <winsock.h>
 #include <Shlobj.h>
@@ -28,17 +21,28 @@
 #include <m_options.h>
 #include <m_utils.h>
 #include <m_chat.h>
+#include <m_http.h>
+#include <m_string.h>
 
 #include <m_msg_buttonsbar.h>
 
-#include "PasteToWeb.h"
-#include "PasteToWeb1.h"
-#include "PasteToWeb2.h"
 #include "version.h"
 #include "resource.h"
-#include "Options.h"
+
+#include "http_request.h"
+#include "paste_to_web.h"
+#include "pastebin_com.h"
+#include "wklej_to.h"
+#include "privnote_com.h"
+
+#include "options.h"
 
 extern HINSTANCE hInst;
+extern HANDLE g_hNetlibUser;
 extern PasteToWeb* pasteToWebs[PasteToWeb::pages];
 
 #define MODULE				"PasteIt"
+
+#include "..\..\..\miranda-private-keys\PasteIt\pastebin.h"
+
+#endif //_COMMON_H_
