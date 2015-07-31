@@ -76,7 +76,7 @@ TServiceToMainThreadItem;
 static BOOL bServiceMode = FALSE;
 static mir_cs csHooks, csServices;
 static DWORD  mainThreadId;
-static int    hookId = 1;
+static int    sttHookId = 1;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -115,7 +115,7 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 
 	THook *newItem = (THook*)mir_alloc(sizeof(THook));
 	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[MAXMODULELABELLENGTH - 1] = 0;
-	newItem->id = hookId++;
+	newItem->id = sttHookId++;
 	newItem->subscriberCount = 0;
 	newItem->subscriber = NULL;
 	newItem->pfnHook = NULL;
@@ -643,8 +643,8 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 		idx--;
 
 	HINSTANCE result = pluginListAddr[idx];
-	if (result < hInst && codePtr > hInst)
-		result = hInst;
+	if (result < g_hInst && codePtr > g_hInst)
+		result = g_hInst;
 	else if (idx == 0 && codePtr < (void*)result)
 		result = NULL;
 

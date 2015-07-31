@@ -640,6 +640,8 @@ MIR_CORE_DLL(BOOL)    IsFullScreen();
 MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
 MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
+MIR_CORE_DLL(BOOL)    GetOSDisplayString(TCHAR *buf, size_t bufSize);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves the hLangpack of a plugin by its HINSTANCE
 // returns hLangpack if found, or 0 if error occurred

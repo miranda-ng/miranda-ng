@@ -223,18 +223,18 @@ static void LoadLangPackFile(FILE *fp, char *line)
 				if (p)
 					*p = '\\';
 
-				FILE *fp = _tfopen(tszFileName, _T("r"));
-				if (fp) {
+				FILE *fpNew = _tfopen(tszFileName, _T("r"));
+				if (fpNew) {
 					line[0] = 0;
-					fgets(line, LANGPACK_BUF_SIZE, fp);
+					fgets(line, LANGPACK_BUF_SIZE, fpNew);
 
 					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf')
-						fseek(fp, 3, SEEK_SET);
+						fseek(fpNew, 3, SEEK_SET);
 					else
-						fseek(fp, 0, SEEK_SET);
+						fseek(fpNew, 0, SEEK_SET);
 
-					LoadLangPackFile(fp, line);
-					fclose(fp);
+					LoadLangPackFile(fpNew, line);
+					fclose(fpNew);
 				}
 			}
 			else if (!memcmp(line + 1, "muuid", 5)) {
@@ -508,19 +508,19 @@ MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char *pszStr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(char*) TranslateA_LP(const char *str, int hLangpack)
+MIR_CORE_DLL(char*) TranslateA_LP(const char *str, int _hLangpack)
 {
-	return (char*)LangPackTranslateString(Langpack_LookupUuid(hLangpack), str, FALSE);
+	return (char*)LangPackTranslateString(Langpack_LookupUuid(_hLangpack), str, FALSE);
 }
 
-MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR *str, int hLangpack)
+MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR *str, int _hLangpack)
 {
-	return (WCHAR*)LangPackTranslateString(Langpack_LookupUuid(hLangpack), (LPCSTR)str, TRUE);
+	return (WCHAR*)LangPackTranslateString(Langpack_LookupUuid(_hLangpack), (LPCSTR)str, TRUE);
 }
 
-MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
+MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
 {
-	MUUID *uuid = Langpack_LookupUuid(hLangpack);
+	MUUID *uuid = Langpack_LookupUuid(_hLangpack);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -542,7 +542,7 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
 		}
 
 		if (mii.hSubMenu != NULL)
-			TranslateMenu_LP(mii.hSubMenu, hLangpack);
+			TranslateMenu_LP(mii.hSubMenu, _hLangpack);
 	}
 }
 
@@ -556,16 +556,10 @@ static void TranslateWindow(MUUID *pUuid, HWND hwnd)
 		SetWindowText(hwnd, result);
 }
 
-struct LANGPACKTRANSLATEDIALOG
-{
-	HWND hwndDlg;
-	int  hLangpack;
-};
-
 static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 {
-	int hLangpack = (int)lParam;
-	MUUID *uuid = Langpack_LookupUuid(hLangpack);
+	int _hLangpack = (int)lParam;
+	MUUID *uuid = Langpack_LookupUuid(_hLangpack);
 
 	TCHAR szClass[32];
 	GetClassName(hwnd, szClass, _countof(szClass));
@@ -578,10 +572,10 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, int hLangpack)
+MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, int _hLangpack)
 {
-	TranslateWindow(Langpack_LookupUuid(hLangpack), hDlg);
-	EnumChildWindows(hDlg, TranslateDialogEnumProc, hLangpack);
+	TranslateWindow(Langpack_LookupUuid(_hLangpack), hDlg);
+	EnumChildWindows(hDlg, TranslateDialogEnumProc, _hLangpack);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -683,8 +677,8 @@ void GetDefaultLang()
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
-	} else
-		db_set_ts(NULL, "Langpack", "Current", _T("default"));
+	}
+	else db_set_ts(NULL, "Langpack", "Current", _T("default"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

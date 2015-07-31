@@ -37,7 +37,7 @@ int  InitPathUtils(void);
 
 HINSTANCE ProtoGetInstance(const char *szModuleName);
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
 extern HWND hAPCWindow;
 extern HANDLE hStackMutex, hThreadQueueEmpty;
 extern MIDatabase *currDb;
