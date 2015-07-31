@@ -25,7 +25,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Cursor
 //
 
-IDC_HYPERLINKHAND       CURSOR                  "res/cursor_hyperlink.cur"
+IDC_HYPERLINKHAND       CURSOR                  "cursor_hyperlink.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
