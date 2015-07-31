@@ -19,7 +19,6 @@
 **
 ** This amalgamation was generated on 2009-04-15 12:44:27 UTC.
 */
-#define _CRT_SECURE_NO_WARNINGS
 
 #define SQLITE_CORE 1
 #define SQLITE_AMALGAMATION 1

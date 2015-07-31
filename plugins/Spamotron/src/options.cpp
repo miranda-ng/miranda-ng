@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 TCHAR currentResponse[256] = {0};
 

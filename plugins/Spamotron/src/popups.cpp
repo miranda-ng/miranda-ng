@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 extern BOOL _saveDlgItemInt(HWND hDialog, int controlID, char* option);
 
