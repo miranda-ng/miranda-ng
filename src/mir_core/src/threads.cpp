@@ -73,11 +73,11 @@ MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter()
 	return pMirandaExceptFilter;
 }
 
-MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter)
+MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter _mirandaExceptFilter)
 {
 	pfnExceptionFilter oldOne = pMirandaExceptFilter;
-	if (pMirandaExceptFilter != 0)
-		pMirandaExceptFilter = pMirandaExceptFilter;
+	if (_mirandaExceptFilter != 0)
+		pMirandaExceptFilter = _mirandaExceptFilter;
 	return oldOne;
 }
 

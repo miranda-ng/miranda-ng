@@ -81,17 +81,17 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 	case WM_GETDLGCODE:
 		if (lParam) {
-			MSG *msg = (MSG *)lParam;
-			if (msg->message == WM_KEYDOWN) {
-				if (msg->wParam == VK_TAB)
+			MSG *pMsg = (MSG *)lParam;
+			if (pMsg->message == WM_KEYDOWN) {
+				if (pMsg->wParam == VK_TAB)
 					return 0;
-				if (msg->wParam == VK_ESCAPE)
+				if (pMsg->wParam == VK_ESCAPE)
 					return 0;
 			}
-			else if (msg->message == WM_CHAR) {
-				if (msg->wParam == '\t')
+			else if (pMsg->message == WM_CHAR) {
+				if (pMsg->wParam == '\t')
 					return 0;
-				if (msg->wParam == 27)
+				if (pMsg->wParam == 27)
 					return 0;
 			}
 		}
@@ -267,7 +267,7 @@ void InitHyperlink(void)
 	WNDCLASS wcl = { 0 };
 	wcl.lpfnWndProc = HyperlinkWndProc;
 	wcl.cbWndExtra = sizeof(struct HyperlinkWndData*);
-	wcl.hInstance = hInst;
+	wcl.hInstance = g_hInst;
 	wcl.lpszClassName = WNDCLASS_HYPERLINK;
 	wcl.style = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS | CS_PARENTDC;
 	RegisterClass(&wcl);  /* automatically unregistered on exit */

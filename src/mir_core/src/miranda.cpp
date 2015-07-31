@@ -41,7 +41,7 @@ void InitTimeZones();
 void InitWinver();
 
 int hLangpack = 0;
-HINSTANCE hInst = 0;
+HINSTANCE g_hInst = 0;
 
 HANDLE hStackMutex, hThreadQueueEmpty;
 DWORD mir_tls = 0;
@@ -52,8 +52,8 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 {
 	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
 	PROCESS_INFORMATION pi;
-	STARTUPINFO si = { 0 };
-	si.cb = sizeof(si);
+	STARTUPINFO startupInfo = { 0 };
+	startupInfo.cb = sizeof(startupInfo);
 	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 	if (wParam) {
 		VARST profilename(_T("%miranda_profilename%"));
@@ -62,7 +62,7 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 	else mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
-	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &pi);
 	return 0;
 }
 
@@ -135,7 +135,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
-		hInst = hinstDLL;
+		g_hInst = hinstDLL;
 		mir_tls = TlsAlloc();
 		LoadCoreModule();
 	}
