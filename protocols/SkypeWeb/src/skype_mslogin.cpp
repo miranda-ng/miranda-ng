@@ -76,7 +76,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 	{
 		if (match[1] == "i5600")
 		{
-			CMStringA cookies;
+			CMStringA szCookies;
 			for (int i = 0; i < response->headersCount; i++)
 			{
 				if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
@@ -86,7 +86,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 				content = response->headers[i].szValue;
 				if (std::regex_search(content, match, regex))
 					if (!std::string(match[2]).empty() && std::string(match[2]) != " ")
-						cookies.AppendFormat("%s=%s;", std::string(match[1]).c_str(), std::string(match[2]).c_str());
+						szCookies.AppendFormat("%s=%s;", std::string(match[1]).c_str(), std::string(match[2]).c_str());
 			}
 
 			CMStringA url(GetStringChunk(szContent, "urlPost:'", "'"));
@@ -95,7 +95,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 
 			ptrA code(mir_utf8encodeT(RunConfirmationCode()));
 
-			SendRequest(new LoginMSRequest(url.c_str(), ptrA(getStringA(SKYPE_SETTINGS_ID)), cookies.c_str(), ppft.c_str(), code), &CSkypeProto::OnMSLoginEnd);
+			SendRequest(new LoginMSRequest(url.c_str(), ptrA(getStringA(SKYPE_SETTINGS_ID)), szCookies.c_str(), ppft.c_str(), code), &CSkypeProto::OnMSLoginEnd);
 			return;
 		}
 	}
