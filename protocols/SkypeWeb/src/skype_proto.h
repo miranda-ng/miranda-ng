@@ -305,7 +305,10 @@ private:
 	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
-	inline bool IsOnline();
+	__forceinline bool IsOnline()
+	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
+	}
+
 	bool IsMe(const char *skypeName);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
