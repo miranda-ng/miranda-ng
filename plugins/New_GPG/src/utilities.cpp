@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 void ShowExportKeysDlg();
 void ShowLoadPublicKeyDialog();
@@ -119,7 +119,7 @@ TCHAR *GetFilePath(TCHAR *WindowTittle, TCHAR *szExt, TCHAR *szExtDesc, bool sav
 	return str;
 }
 
-void GetFolderPath(TCHAR *WindowTittle, char *szSetting)
+void GetFolderPath(TCHAR *WindowTittle, char*)
 {
 	BROWSEINFO pbi = {0};
 	pbi.lpszTitle = WindowTittle;
@@ -148,7 +148,7 @@ INT_PTR LoadKey(WPARAM w, LPARAM)
 	return 0;
 }
 
-INT_PTR SendKey(WPARAM w, LPARAM l)
+INT_PTR SendKey(WPARAM w, LPARAM)
 {
 	MCONTACT hContact = db_mc_tryMeta(w);
 	char *szMessage;
@@ -199,7 +199,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	return 0;
 }
 
-INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
+INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)w;
 	BYTE enc;
@@ -231,7 +231,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	return 0;
 }
 
-int OnPreBuildContactMenu(WPARAM w, LPARAM l)
+int OnPreBuildContactMenu(WPARAM w, LPARAM)
 {
 	MCONTACT hContact = db_mc_tryMeta(w);
 	{
@@ -280,11 +280,9 @@ list<wstring> transfers;
 
 DWORD file_msg_state = -1;
 
-int onProtoAck(WPARAM w, LPARAM l)
+int onProtoAck(WPARAM, LPARAM l)
 {
 	ACKDATA *ack=(ACKDATA*)l;
-	CCSDATA *ccs=(CCSDATA*)ack->lParam;
-
 	if(ack->type == ACKTYPE_FILE)
 	{
 		switch(ack->result)
@@ -586,13 +584,10 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 				return Proto_ChainSend(w, ccs);
 		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
-		DWORD flags = (DWORD)ccs->wParam; //check for PFTS_UNICODE here
-		int i;
-//		if(flags & PFTS_UNICODE) //this does not work ....
 		if(StriStr(ccs->szProtoService, "/sendfilew"))
 		{
 			TCHAR **file=(TCHAR **)ccs->lParam;
-			for(i = 0; file[i]; i++)
+			for(int i = 0; file[i]; i++)
 			{
 				if(!boost::filesystem::exists(file[i]))
 					return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
@@ -607,7 +602,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		else
 		{
 			char **file = (char**) ccs->lParam;
-			for(i = 0; file[i]; i++)
+			for(int i = 0; file[i]; i++)
 			{
 				if(!boost::filesystem::exists(file[i]))
 					return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
@@ -659,7 +654,7 @@ int ComboBoxAddStringUtf(HWND hCombo, const TCHAR *szString, DWORD data)
 }
 
 
-int GetJabberInterface(WPARAM w, LPARAM l) //get interface for all jabber accounts, options later
+int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
 {
 	extern list <JabberAccount*> Accounts;
 	void AddHandlers();
@@ -699,7 +694,7 @@ int GetJabberInterface(WPARAM w, LPARAM l) //get interface for all jabber accoun
 	return 0;
 }
 
-static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
+static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 {
 	HXML local_node = node;
 	for(int n = 0; n <= xmlGetChildCount(node); n++)
@@ -903,12 +898,11 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 
 //boost::mutex sign_file_mutex;
 
-static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, void *pUserData)
+static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
 {
 	HXML local_node = node;
 	for(int n = 0; n <= xmlGetChildCount(node); n++)
 	{
-		LPCTSTR str = xmlGetText(local_node); 
 		LPCTSTR nodename = xmlGetName(local_node);
 		if(nodename)
 		{
@@ -1024,7 +1018,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 	return FALSE;
 }
 
-static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface *ji, HXML node, void *pUserData)
+static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, HXML, void*)
 {
 	return FALSE;
 }
@@ -1146,7 +1140,7 @@ bool isGPGValid()
 		tmp = mir_tstrdup(path);
 		mir_free(path);
 	}
-	DWORD len = MAX_PATH;
+
 	if(gpg_exists)
 	{
 		db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
@@ -1551,7 +1545,7 @@ INT_PTR ExportGpGKeys(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
+INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 {
 	TCHAR *p = GetFilePath(_T("Choose file to import keys from"), _T("*"), _T("Any file"));
 	if(!p || !p[0])
@@ -1742,7 +1736,6 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 						string output;
 						DWORD exitcode;
 						{
-							MCONTACT hcnt = hContact;
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 							path = ptmp;
 							mir_free(ptmp);
@@ -1933,66 +1926,45 @@ void strip_tags(std::wstring &str)
 	boost::algorithm::erase_all(str, outclosetag);
 }
 
-
-static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	char *inkeyid = NULL;
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
+	switch (msg) {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		file_msg_state = -1;
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-      case IDC_IGNORE:
-		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
-		  {
-			  db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
-			  bSameAction = true;
-		  }
-		  DestroyWindow(hwndDlg);
-		  break;
+		return TRUE;
 
-	  case IDC_DECRYPT:
-		  file_msg_state = 1;
-		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
-		  {
-			  db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
-			  bFileTransfers = true;
-			  db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
-			  bSameAction = false;
-		  }
-			  
-		  DestroyWindow(hwndDlg);
-		  break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_IGNORE:
+			if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
+			{
+				db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
+				bSameAction = true;
+			}
+			DestroyWindow(hwndDlg);
+			break;
 
-	  default:
+		case IDC_DECRYPT:
+			file_msg_state = 1;
+			if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
+			{
+				db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
+				bFileTransfers = true;
+				db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
+				bSameAction = false;
+			}
+
+			DestroyWindow(hwndDlg);
+			break;
+		}
 		break;
-      }
-      
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
 	}
-    break;
-  case WM_CLOSE:
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-	  }
-	  break;
-  }
-  return FALSE;
+	return FALSE;
 }
 
 
@@ -2002,56 +1974,37 @@ void ShowEncryptedFileMsgBox()
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), NULL, DlgProcEncryptedFileMsgBox);
 }
 
-
-static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
+	switch (msg) {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-      case IDC_OK:
-		  if(IsDlgButtonChecked(hwndDlg, IDC_PUBLIC))
-			  ExportGpGKeysFunc(0);
-		  else if(IsDlgButtonChecked(hwndDlg, IDC_PRIVATE))
-			  ExportGpGKeysFunc(1);
-		  else if(IsDlgButtonChecked(hwndDlg, IDC_ALL))
-			  ExportGpGKeysFunc(2);
-		  DestroyWindow(hwndDlg);
-		  break;
+		return TRUE;
 
-	  case IDC_CANCEL:
-		  DestroyWindow(hwndDlg);
-		  break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_OK:
+			if(IsDlgButtonChecked(hwndDlg, IDC_PUBLIC))
+				ExportGpGKeysFunc(0);
+			else if(IsDlgButtonChecked(hwndDlg, IDC_PRIVATE))
+				ExportGpGKeysFunc(1);
+			else if(IsDlgButtonChecked(hwndDlg, IDC_ALL))
+				ExportGpGKeysFunc(2);
+			DestroyWindow(hwndDlg);
+			break;
 
-	  default:
+		case IDC_CANCEL:
+			DestroyWindow(hwndDlg);
+			break;
+		}
+
 		break;
-      }
-      
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
 	}
-    break;
-  case WM_CLOSE:
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-	  }
-	  break;
-  }
-  return FALSE;
+	return FALSE;
 }
 
 void ShowExportKeysDlg()
@@ -2059,118 +2012,102 @@ void ShowExportKeysDlg()
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), NULL, DlgProcExportKeys);
 }
 
-static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
+	switch (msg) {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      switch (LOWORD(wParam))
-      {
-      case IDC_OK:
-		  //TODO: show some prgress
-		  {
-			  std::string old_pass, new_pass;
-			  extern TCHAR key_id_global[17];
-			  TCHAR buf[256] = {0};
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, _countof(buf));
-			  new_pass = toUTF8(buf);
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, _countof(buf));
-			  if(new_pass != toUTF8(buf))
-			  {
-				  MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
-				  //key_id_global[0] = 0;
-				  break;
-			  }
-			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, _countof(buf));
-			  old_pass = toUTF8(buf);
-			  bool old_pass_match = false;
-			  TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-			  if(!mir_tstrcmp(pass,buf))
-				  old_pass_match = true;
-			  mir_free(pass);
-			  if(!old_pass_match)
-			  {
-				  if(key_id_global[0])
-				  {
-					  string dbsetting = "szKey_";
-					  dbsetting += toUTF8(key_id_global);
-					  dbsetting += "_Password";
-					  pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-					  if(!mir_tstrcmp(pass,buf))
-						  old_pass_match = true;
-					  mir_free(pass);
-				  }
-			  }
-			  if(!old_pass_match)
-			  {
-				  if(MessageBox(hwndDlg, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
-				  {
-					  //key_id_global[0] = 0;
-					  break;
-				  }
-			  }
-			  std::vector<std::wstring> cmd;
-			  TCHAR tmp2[MAX_PATH] = {0};
-			  string output;
-			  DWORD exitcode;
-			  cmd.push_back(L"--edit-key");
-			  cmd.push_back(key_id_global);
-			  cmd.push_back(L"passwd");
-			  gpg_execution_params_pass params(cmd, old_pass, new_pass);
-			  pxResult result;
-			  params.out = &output;
-			  params.code = &exitcode;
-			  params.result = &result;
-			  boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
-			  if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
-			  {
-				  gpg_thread.~thread();
-				  if(params.child)
-					  boost::process::terminate(*(params.child));
-				  if(bDebugLog)
-					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-				  DestroyWindow(hwndDlg);
-				  break;
-			  }
-			  if(result == pxNotFound)
-				  break;
-			  //if(result == pxSuccess)
-			  //TODO: save to db
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_OK:
+			//TODO: show some prgress
+			{
+				std::string old_pass, new_pass;
+				extern TCHAR key_id_global[17];
+				TCHAR buf[256] = {0};
+				GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, _countof(buf));
+				new_pass = toUTF8(buf);
+				GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, _countof(buf));
+				if(new_pass != toUTF8(buf))
+				{
+					MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
+					//key_id_global[0] = 0;
+					break;
+				}
+				GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, _countof(buf));
+				old_pass = toUTF8(buf);
+				bool old_pass_match = false;
+				TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+				if(!mir_tstrcmp(pass,buf))
+					old_pass_match = true;
+				mir_free(pass);
+				if(!old_pass_match)
+				{
+					if(key_id_global[0])
+					{
+						string dbsetting = "szKey_";
+						dbsetting += toUTF8(key_id_global);
+						dbsetting += "_Password";
+						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
+						if(!mir_tstrcmp(pass,buf))
+							old_pass_match = true;
+						mir_free(pass);
+					}
+				}
+				if(!old_pass_match)
+				{
+					if(MessageBox(hwndDlg, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
+					{
+						//key_id_global[0] = 0;
+						break;
+					}
+				}
+				std::vector<std::wstring> cmd;
+				string output;
+				DWORD exitcode;
+				cmd.push_back(L"--edit-key");
+				cmd.push_back(key_id_global);
+				cmd.push_back(L"passwd");
+				gpg_execution_params_pass params(cmd, old_pass, new_pass);
+				pxResult result;
+				params.out = &output;
+				params.code = &exitcode;
+				params.result = &result;
+				boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
+				if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
+				{
+					gpg_thread.~thread();
+					if(params.child)
+						boost::process::terminate(*(params.child));
+					if(bDebugLog)
+						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					DestroyWindow(hwndDlg);
+					break;
+				}
+				if(result == pxNotFound)
+					break;
+				//if(result == pxSuccess)
+				//TODO: save to db
 
 
-		  }
-		  DestroyWindow(hwndDlg);
-		  break;
-	  default:
+			}
+			DestroyWindow(hwndDlg);
+			break;
+		}
 		break;
-      }
-      
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		extern TCHAR key_id_global[17];
+		key_id_global[0] = 0;
+		break;
 	}
-    break;
-  case WM_CLOSE:
-	  DestroyWindow(hwndDlg);
-	  break;
-  case WM_DESTROY:
-	  {
-		  extern TCHAR key_id_global[17];
-		  key_id_global[0] = 0;
-	  }
-	  break;
-  }
-  return FALSE;
+	return FALSE;
 }
 
 void ShowChangePasswdDlg()
@@ -2180,7 +2117,6 @@ void ShowChangePasswdDlg()
 	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), NULL, DlgProcChangePasswd);
 	SetForegroundWindow(hwndPaaswdDlg);
 }
-
 
 void clean_temp_dir()
 {

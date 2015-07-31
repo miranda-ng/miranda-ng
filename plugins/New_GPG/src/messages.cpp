@@ -14,7 +14,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 wstring new_key;
 MCONTACT new_key_hcnt = NULL;
@@ -24,7 +24,7 @@ int returnNoError(MCONTACT hContact);
 
 std::list<HANDLE> sent_msgs;
 
-void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags, DWORD timestamp)
+void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWORD timestamp)
 {		
 	DWORD dbflags = DBEF_UTF;
 	{ //check for gpg related data
@@ -578,14 +578,13 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 			return Proto_ChainRecv(w, ccs);
-		boost::thread *thr = new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, (DWORD)ccs->wParam, pre->timestamp));
+		
+		new boost::thread(boost::bind(RecvMsgSvc_func, ccs->hContact, str, msg, (DWORD)ccs->wParam, pre->timestamp));
 		return 0;
 }
 
 void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 {
-	bool isansi = false;
-	DWORD dbflags = DBEF_UTF;
 	wstring str = toUTF16(msg);
 	if(bStripTags && bAppendTags)
 	{
@@ -840,8 +839,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
-						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
-						//TODO: wait for message
+						new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 						return 0;
 					}
 				}
@@ -875,9 +873,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 								CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
-								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
-								//mir_free((char*)dbei->pBlob);
-								//TODO: wait for message
+								new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 								return 0;
 							}
 						}
@@ -928,8 +924,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	return 0;
 }
 
-
-static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	char *inkeyid = NULL;
 	switch (msg)
@@ -938,7 +933,6 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
 			new_key_hcnt_mutex.unlock();
-			TCHAR *tmp = NULL;
 
 			SetWindowPos(hwndDlg, 0, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);

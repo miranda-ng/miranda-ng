@@ -492,6 +492,7 @@ BEGIN
     CONTROL         "Move to the main menu",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,11,111,128,8
     CONTROL         "Move to the status bar",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,11,123,130,8
     LTEXT           "Warning!\r\nThis menu object not support user defined options.",IDC_NOTSUPPORTWARNING,10,140,136,32,NOT WS_VISIBLE
+    PUSHBUTTON      "Insert submenu",IDC_INSERTSUBMENU,39,163,97,14,WS_DISABLED
     PUSHBUTTON      "Insert separator",IDC_INSERTSEPARATOR,39,180,97,14,WS_DISABLED
     LTEXT           "Service:",IDC_STATIC,4,201,29,8
     EDITTEXT        IDC_GENMENU_SERVICE,36,199,108,14,ES_AUTOHSCROLL | ES_READONLY

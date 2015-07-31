@@ -17,7 +17,8 @@
 #ifndef COMMONHEADERS_H
 #define COMMONHEADERS_H
 
-#define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable:4512 4267 4127)
+
 #define _SCL_SECURE_NO_WARNINGS
 
 //windows

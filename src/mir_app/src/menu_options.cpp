@@ -257,7 +257,8 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		ShowWindow(m_warning.GetHwnd(), (pmo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
-		m_btnInsert.Enable(pmo->m_bUseUserDefinedItems);
+		m_btnInsSeparator.Enable(pmo->m_bUseUserDefinedItems);
+		m_btnInsMenu.Enable(pmo->m_bUseUserDefinedItems);
 		return 1;
 	}
 
@@ -275,7 +276,7 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
 	CCtrlEdit m_customName, m_service;
-	CCtrlButton m_btnInsert, m_btnReset, m_btnSet, m_btnDefault;
+	CCtrlButton m_btnInsSeparator, m_btnInsMenu, m_btnReset, m_btnSet, m_btnDefault;
 	CCtrlBase m_warning;
 
 public:
@@ -286,7 +287,8 @@ public:
 		m_radio1(this, IDC_RADIO1),
 		m_radio2(this, IDC_RADIO2),
 		m_enableIcons(this, IDC_DISABLEMENUICONS),
-		m_btnInsert(this, IDC_INSERTSEPARATOR),
+		m_btnInsSeparator(this, IDC_INSERTSEPARATOR),
+		m_btnInsMenu(this, IDC_INSERTSUBMENU),
 		m_btnReset(this, IDC_RESETMENU),
 		m_btnSet(this, IDC_GENMENU_SET),
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
@@ -297,14 +299,15 @@ public:
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
-		m_btnInsert.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsert_Clicked);
+		m_btnInsSeparator.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsSep_Clicked);
+		m_btnInsMenu.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsMenu_Clicked);
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
 		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND | MTREE_MULTISELECT);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
-		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemDrag);
+		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 
 		m_customName.SetSilent();
 		m_service.SetSilent();
@@ -360,7 +363,7 @@ public:
 		FreeTreeData();
 	}
 
-	void btnInsert_Clicked(CCtrlButton*)
+	void btnInsSep_Clicked(CCtrlButton*)
 	{
 		HTREEITEM hti = m_menuItems.GetSelection();
 		if (hti == NULL)
@@ -375,6 +378,34 @@ public:
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
 		PD->name = mir_tstrdup(STR_SEPARATOR);
+		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
+
+		TVINSERTSTRUCT tvis = { 0 };
+		tvis.item.lParam = (LPARAM)PD;
+		tvis.item.pszText = PD->name;
+		tvis.item.iImage = tvis.item.iSelectedImage = 1;
+		tvis.hInsertAfter = hti;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		m_menuItems.InsertItem(&tvis);
+
+		NotifyChange();
+	}
+
+	void btnInsMenu_Clicked(CCtrlButton*)
+	{
+		HTREEITEM hti = m_menuItems.GetSelection();
+		if (hti == NULL)
+			return;
+
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
+		tvi.hItem = hti;
+		if (!m_menuItems.GetItem(&tvi))
+			return;
+
+		MenuItemOptData *PD = new MenuItemOptData();
+		PD->id = -1;
+		PD->name = TranslateT("New submenu");
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = { 0 };
@@ -485,7 +516,7 @@ public:
 		m_customName.Enable(true);
 	}
 
-	void onMenuItemDrag(CCtrlTreeView::TEventInfo *evt)
+	void onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
 	{
 		MenuItemOptData *p = (MenuItemOptData*)evt->nmtv->itemNew.lParam;
 		if (p->pimi == NULL)

@@ -14,7 +14,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 extern HINSTANCE hInst;
 
@@ -37,7 +37,7 @@ BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
 	return state;
 }
 
-int GpgOptInit(WPARAM wParam,LPARAM lParam)
+int GpgOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -195,7 +195,6 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		  void setClistIcon(MCONTACT hContact);
 		  void setSrmmIcon(MCONTACT hContact);
 		  { //gpg execute block
-			  TCHAR tmp2[MAX_PATH] = {0};
 			  TCHAR *ptmp;
 			  char *tmp;
 			  bool keep = false;

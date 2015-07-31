@@ -14,7 +14,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "commonheaders.h"
+#include "stdafx.h"
+
+#pragma comment(lib, "shlwapi.lib")
 
 extern HFONT bold_font;
 extern bool bAutoExchange;
@@ -317,7 +319,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  }
 			  if(result == pxNotFound)
 				  break;
-			  string::size_type s = 0;
+
 			  boost::algorithm::erase_all(out, "\r");
 			  {
 				  char buf[64];
@@ -768,12 +770,10 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					break;
 				case IDC_CHANGE_PASSWD:
 					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, _countof(key_id_global));
-//					extern void ShowChangePasswdDlg();
-//					ShowChangePasswdDlg();
+
 					//temporary code follows
 					std::vector<std::wstring> cmd;
 					std::string old_pass, new_pass;
-					TCHAR tmp2[MAX_PATH] = {0};
 					string output;
 					DWORD exitcode;
 					cmd.push_back(L"--edit-key");
@@ -845,7 +845,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
   return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	TCHAR *tmp = NULL;
   switch (msg)
@@ -1279,11 +1279,11 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
   return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	static MCONTACT hContact = INVALID_CONTACT_ID;
 	void ImportKey();
-	TCHAR *tmp = NULL;
+
 	switch (msg)
 	{
 	case WM_INITDIALOG:
@@ -1342,7 +1342,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 	return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
   switch (msg)
   {
@@ -1895,7 +1895,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
   return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = INVALID_CONTACT_ID;
 
@@ -2006,7 +2006,6 @@ void ShowImportKeyDialog()
 
 void FirstRun()
 {
-	DWORD pid = 0;
 	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		return;
 	ShowSetDirsDialog();
@@ -2065,7 +2064,7 @@ void InitCheck()
 		string out;
 		DWORD code;
 		pxResult result;
-		wstring::size_type p = 0, p2 = 0, stop = 0;
+		wstring::size_type p = 0, p2 = 0;
 		{
 			std::vector<wstring> cmd;
 			cmd.push_back(L"--batch");
