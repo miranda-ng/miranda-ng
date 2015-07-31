@@ -14,7 +14,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 //global variables
 bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
@@ -48,14 +48,14 @@ PLUGININFOEX pluginInfo={
 	{ 0x4227c050, 0x8d97, 0x48d2, { 0x91, 0xec, 0x6a, 0x95, 0x2b, 0x3d, 0xab, 0x94 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -105,7 +105,7 @@ void init_vars()
 	bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, _T("Arial"));
 }
 
-static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	int GpgOptInit(WPARAM wParam,LPARAM lParam);
 	int OnPreBuildContactMenu(WPARAM w, LPARAM l);

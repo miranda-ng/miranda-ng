@@ -14,7 +14,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 //thx gpg module from Harald Treder, Zakhar V. Bardymov
 
 
@@ -168,9 +168,7 @@ bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration
 	return ret;
 }
 
-
-
-pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result, boost::process::child *_child, string &old_pass, string &new_pass)
+pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *result, boost::process::child *_child)
 {
 	if(!gpg_valid)
 		return pxNotConfigured;
@@ -191,7 +189,6 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, string *aoutp
 	using namespace boost::process;
 	using namespace boost::process::initializers;
 	using namespace boost::iostreams;
-
 
 	std::vector<std::wstring> argv;
 	std::vector<std::wstring> env;
@@ -339,5 +336,5 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, string *aoutp
 void pxEexcute_passwd_change_thread(void *param)
 {
 	gpg_execution_params_pass *params = (gpg_execution_params_pass*)param;
-	pxResult result = pxExecute_passwd_change(params->args, params->out, params->code, params->result, params->child, params->old_pass, params->new_pass);
+	pxExecute_passwd_change(params->args, params->result, params->child);
 }

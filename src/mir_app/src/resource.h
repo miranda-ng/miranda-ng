@@ -334,7 +334,8 @@
 #define IDC_DOBDAY                      1226
 #define IDC_DOBMONTH                    1227
 #define IDC_WEBPAGE                     1228
-#define IDC_DOBYEAR                     1228
+#define IDC_DOBYEAR                     1229
+#define IDC_INSERTSUBMENU               1230
 #define IDC_UPDATING                    1231
 #define IDC_NAMEORDER                   1234
 #define IDC_RECONNECTREQD               1239

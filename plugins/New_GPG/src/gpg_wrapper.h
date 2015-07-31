@@ -33,7 +33,6 @@ typedef enum {
 pxResult;
 
 pxResult pxExecute(std::vector<std::string> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result);
-pxResult pxExecute_passwd_change(std::vector<std::string> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result, string &old_pass, string &new_pass);
 
 struct gpg_execution_params
 {
