@@ -101,7 +101,6 @@ LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr);
 LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr);
 DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info);
 
-void GetOSDisplayString(CMString& buffer);
 void GetInternetExplorerVersion(CMString& buffer);
 void GetProcessorString(CMString& buffer);
 void GetFreeMemoryString(CMString& buffer);
