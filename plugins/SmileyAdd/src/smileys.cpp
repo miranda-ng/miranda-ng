@@ -985,8 +985,6 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	const CMString& defaultFile = GetSmileyCategory(tname)->GetFilename();
 
-	unsigned lpcp = Langpack_GetDefaultCodePage();
-
 	PROTOCOLDESCRIPTOR **proto;
 	int protoCount = 0;
 	Proto_EnumProtocols(&protoCount, &proto);

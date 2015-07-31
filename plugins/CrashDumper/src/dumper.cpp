@@ -207,7 +207,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 					timebuf, "<unknown>", TEXT(""));
 
 				GetLinkedModulesInfo(path, ubuffer);
-				ubuffer.Append(TEXT("\r\n"));
+				ubuffer.Append(_T("\r\n"));
 
 				++ucount;
 			}
@@ -442,33 +442,34 @@ static void GetIconStrings(CMString& buffer)
 void PrintVersionInfo(CMString& buffer, unsigned flags)
 {
 	GetProcessorString(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	GetFreeMemoryString(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	TCHAR tszOsVer[200];
 	GetOSDisplayString(tszOsVer, _countof(tszOsVer));
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(tszOsVer);
+	buffer.Append(_T("\r\n"));
 
 	GetInternetExplorerVersion(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	GetAdminString(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	GetLanguageString(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
 	if (flags & VI_FLAG_PRNVAR) {
 		GetFreeDiskString(profpathfull, buffer);
-		buffer.Append(TEXT("\r\n"));
+		buffer.Append(_T("\r\n"));
 	}
 
 	buffer.AppendFormat(TEXT("\r\nMiranda NG Version: %s"), vertxt);
 	GetWow64String(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	TCHAR path[MAX_PATH], mirtime[30];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -497,7 +498,7 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	mir_free(profpathfull);
 
 	GetLanguagePackString(buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	// buffer.AppendFormat(TEXT("Nightly: %s\r\n"), _tcsstr(vertxt, TEXT("alpha")) ? TEXT("Yes") : TEXT("No")); 
 	// buffer.AppendFormat(TEXT("Unicode: %s\r\n"), _tcsstr(vertxt, TEXT("Unicode")) ? TEXT("Yes") : TEXT("No")); 
@@ -579,7 +580,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 	int crashpos = buffer.GetLength();
 
 	ReadableExceptionInfo(exc_ptr->ExceptionRecord, buffer);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	const HANDLE hProcess = GetCurrentProcess();
 
@@ -664,7 +665,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 			lineFileName, Line.LineNumber, name);
 	}
 	SymCleanup(hProcess);
-	buffer.Append(TEXT("\r\n"));
+	buffer.Append(_T("\r\n"));
 
 	PrintVersionInfo(buffer, VI_FLAG_PRNDLL);
 
