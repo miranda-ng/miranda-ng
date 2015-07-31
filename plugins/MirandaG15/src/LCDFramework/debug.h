@@ -14,7 +14,7 @@ extern void UnInitDebug();
 #define TRACE _trace
 extern void _trace(TCHAR *fmt, ...);
 #else
-inline void _trace(LPCTSTR fmt, ...) { }
+inline void _trace(LPCTSTR, ...) { }
 #define TRACE  1 ? (void)0 : _trace
 #endif
 
