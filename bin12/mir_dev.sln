@@ -372,7 +372,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wbOSD", "..\plugins\wbOSD\w
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_GPG\new_gpg_12.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spamotron\Spamotron_12.vcxproj", "{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Spamotron", "..\plugins\Spamotron\Spamotron.vcxproj", "{DBB261B4-E433-4DFF-8A5D-6C3B5B5F4FF4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\LotusNotify\LotusNotify.vcxproj", "{0E046380-14CA-4C23-A807-8C678519A605}"
 EndProject

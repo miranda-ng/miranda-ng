@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "io.h"
 
 #define DELIMS " ,.;!?@-\\/+&\x0D\x0A"
