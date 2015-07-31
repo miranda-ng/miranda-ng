@@ -19,11 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
-bool CSkypeProto::IsOnline()
-{
-	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
-}
-
 void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
 {
 	time_t time = getDword(hContact, "LastMsgReadTime", 0);
