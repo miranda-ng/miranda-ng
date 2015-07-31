@@ -124,9 +124,9 @@ void GetLinkedModulesInfo(TCHAR *moduleName, CMString &buffer)
 			IMAGE_DIRECTORY_ENTRY_IMPORT, &tableSize);
 		if (importData) {
 			while (importData->Name) {
-				char* moduleName = (char*)ImageRvaToVa(nthdrs, dllAddr, importData->Name, NULL);
-				if (!SearchPathA(NULL, moduleName, NULL, NULL, 0, NULL))
-					buffer.AppendFormat(format, moduleName);
+				char *szImportModule = (char*)ImageRvaToVa(nthdrs, dllAddr, importData->Name, NULL);
+				if (!SearchPathA(NULL, szImportModule, NULL, NULL, 0, NULL))
+					buffer.AppendFormat(format, szImportModule);
 
 				importData++; //go to next record
 			}
@@ -447,7 +447,8 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	GetFreeMemoryString(buffer);
 	buffer.Append(TEXT("\r\n"));
 
-	GetOSDisplayString(buffer);
+	TCHAR tszOsVer[200];
+	GetOSDisplayString(tszOsVer, _countof(tszOsVer));
 	buffer.Append(TEXT("\r\n"));
 
 	GetInternetExplorerVersion(buffer);
