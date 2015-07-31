@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfo = {
 	{0xcf97fd5d, 0xb911, 0x47a8, {0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -56,7 +56,7 @@ int		OnModulesLoaded		(WPARAM wParam,LPARAM lParam);
 int		OnPreShutdown		(WPARAM wParam,LPARAM lParam);
 void	VersionConversions();
 
-BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 {
 	switch(dwReason) {
 	case DLL_PROCESS_ATTACH:
