@@ -1,353 +1,310 @@
-#define APSTUDIO_READONLY_SYMBOLS 0
-#define IDB_BACK 1
-#define IDB_CHAT 2
-#define IDB_CLIST 3
-#define IDB_DOWN 4
-#define IDB_EDIT 5
-#define IDB_HISTORY 6
-#define IDB_MINUS 7
-#define IDB_OPEN 8
-#define IDB_PLUS 9
-#define IDB_PREV 10
-#define IDB_REPLY 11
-#define IDB_SEND 12
-#define IDB_UP 13
-#define IDI_NOTICK 14
-#define IDI_TICK 15
-#define IDB_NEXT 16
-#define IDB_STATUS_OFFLINE 17
-#define IDB_STATUS_ONLINE 18
-#define IDB_STATUS_AWAY 19
-#define IDB_STATUS_NA 20
-#define IDB_STATUS_OCCUPIED 21
-#define IDB_STATUS_DND 22
-#define IDB_STATUS_INVISIBLE 23
-#define IDB_STATUS_FFC 24
-#define IDB_EVENT_INFO 25
-#define IDB_EVENT_CON 26
-#define IDB_EVENT_USER 27
-#define IDB_EVENT_MSG 28
-#define IDB_EVENT_INFO_LARGE 29
-#define IDB_EVENT_CON_LARGE 30
-#define IDB_EVENT_USER_LARGE 31
-#define IDB_EVENT_MSG_LARGE 32
-#define IDD_FONTS 102
-#define IDC_STATIC11 3000
-#define IDC_STATIC12 3002
-#define IDC_GRP3 3024
-#define IDC_SHOW_LABELS 3001
-#define IDC_STATIC13 3003
-#define IDC_SAMPLE1 3004
-#define IDC_CHOOSEFONT1 3005
-#define IDC_STATIC15 3006
-#define IDC_SAMPLE2 3007
-#define IDC_CHOOSEFONT2 3008
-#define IDC_STATIC17 3009
-#define IDC_SAMPLE3 3010
-#define IDC_CHOOSEFONT3 3011
-#define IDC_STATIC14 3012
-#define IDC_SAMPLE4 3013
-#define IDC_CHOOSEFONT4 3014
-#define IDC_STATIC16 3015
-#define IDC_SAMPLE5 3016
-#define IDC_CHOOSEFONT5 3017
-#define IDC_CONTROL_BACKLIGHTS 3018
-#define IDC_STC2 3019
-#define IDC_HOOK_VOLUMEWHEEL 3020
-#define IDC_TIMESTAMP_SECONDS 3021
-#define IDC_TRANSITIONS 3022
-#define IDC_CREDITS 3023
-#define IDC_STC6 3025
-#define IDC_STC7 3026
-#define IDC_STC8 3027
-#define IDC_STC9 3028
-#define IDC_STC10 3029
-#define IDC_DEVICE 3151
-#define IDC_DEVICE_STATIC 3150
-#define IDC_STC14 103
-#define IDC_SCREENSAVER_LOCK 3998
-#define IDC_SKIP_DRIVER_ERROR 3040
-#define IDD_NOTIFICATIONS 103
-#define IDC_STATIC18 4000
-#define IDC_STATIC19 4007
-#define IDC_NOTIFY_TITLEHIDE 4008
-#define IDC_NOTIFY_TITLENAME 4009
-#define IDC_NOTIFY_TITLEINFO 4010
-#define IDC_STATIC20 4001
-#define IDC_STATIC22 4004
-#define IDC_NOTIFY_LOGSIZE 4002
-#define IDC_NOTIFY_DURATION 4005
-#define IDC_STATIC21 4003
-#define IDC_STATIC23 4006
-#define IDC_STATIC24 4011
-#define IDC_NOTIFY_MESSAGES 4014
-#define IDC_NOTIFY_SIGNOFF 4016
-#define IDC_NOTIFY_STATUS 4017
-#define IDC_NOTIFY_URL 4023
-#define IDC_NOTIFY_CONTACTS 4018
-#define IDC_NOTIFY_FILE 4019
-#define IDC_NOTIFY_PROTO_SIGNOFF 4020
-#define IDC_NOTIFY_PROTO_SIGNON 4021
-#define IDC_NOTIFY_PROTO_STATUS 4022
-#define IDC_STATIC25 4012
-#define IDC_NOTIFY_SIGNON 4015
-#define IDC_PROTOCOLS 4013
-#define IDC_NOTIFY_SKIP_MESSAGES 4024
-#define IDC_STC3 4030
-#define IDC_NOTIFY_SKIP_STATUS 4025
-#define IDC_GRP1 4026
-#define IDC_NOTIFY_SKIP_SIGNON 4027
-#define IDC_NOTIFY_SKIP_SIGNOFF 4028
-#define IDC_NOTIFY_TIMESTAMPS 4029
-#define IDC_NOTIFY_IRC_MESSAGES 4031
-#define IDC_NOTIFY_IRC_USERS 4032
-#define IDC_NOTIFY_IRC_EMOTES 4033
-#define IDC_NOTIFY_IRC_STATUS 4034
-#define IDC_STC4 4035
-#define IDC_NOTIFY_IRC_NOTICES 4036
-#define IDC_NOTIFY_IRC_CHANNEL 4037
-#define IDC_NOTIFY_NICKCUTOFF 4038
-#define IDC_NOTIFY_NICKCUTOFF_OFFSET 4039
-#define IDC_STC11 4040
-#define IDC_NOTIFY_SHOWPROTO 4045
-#define IDC_NOTIFY_NO_SKIP_REPLY 4041
-#define IDC_STC12 4042
-#define IDC_STC13 104
-#define IDC_NOTIFY_CHANNELCUTOFF 105
-#define IDC_NOTIFY_CHANNELCUTOFF_OFFSET 106
-#define IDD_CLIST 1001
-#define IDC_STATIC9 2000
-#define IDC_CLIST_SHOWPROTO 2001
-#define IDC_CLIST_HIDEOFFLINE 2002
-#define IDC_CLIST_USEIGNORE 2003
-#define IDC_CLIST_USEGROUPS 2004
-#define IDC_STATIC10 2005
-#define IDC_CLIST_DRAWLINES 2006
-#define IDC_CLIST_COUNTERS 2007
-#define IDC_CLIST_POSITION 2008
-#define IDC_STC1 2009
-#define IDC_CLIST_GA_NONE 2010
-#define IDC_CLIST_GA_COLLAPSE 2011
-#define IDC_STC5 2014
-#define IDC_CLIST_PROTOFILTER 2013
-#define IDC_GRP2 2015
-#define IDC_CLIST_GA_EXPAND 2012
-#define IDC_CLIST_COLUMNS 2016
-#define IDC_CLIST_SELECTION 2999
-#define IDD_CHAT 100
-#define IDC_STATIC1 1000
-#define IDC_SESSION_SHOWTYPING 1001
-#define IDC_SESSION_SENDTYPING 1002
-#define IDC_STATIC2 1003
-#define IDC_STATIC3 1004
-#define IDC_MAXIMIZED_TITLE 1005
-#define IDC_MAXIMIZED_LABELS 1006
-#define IDC_STATIC4 1007
-#define IDC_SESSION_LOADDB 1008
-#define IDC_SESSION_MARKREAD 1009
-#define IDC_SESSION_SCROLL_MAXIMIZED 1010
-#define IDC_STATIC6 1011
-#define IDC_SESSION_LOGSIZE 1012
-#define IDC_STATIC5 1013
-#define IDC_STATIC8 1014
-#define IDC_SESSION_SCROLLNONE 1015
-#define IDC_SESSION_SCROLLFIRST 1016
-#define IDC_SESSION_SCROLLLAST 1017
-#define IDC_STATIC7 1018
-#define IDC_SESSION_SYMBOLS 1019
-#define IDC_SESSION_SENDRETURN 1020
-#define IDC_SESSION_REPLY_MAXIMIZED 1021
-#define IDC_SESSION_TIMESTAMPS 1022
-#define IDC_SESSION_CLOSE 1051
-#define IDC_SESSION_CLOSETIMER 1052
-#define IDC_STC16 1053
-#define IDC_GRP4 1050
-#include "..\src\resource.h"
-IDB_BACK BITMAP DISCARDABLE "back.bmp"
-IDB_CHAT BITMAP DISCARDABLE "chat.bmp"
-IDB_CLIST BITMAP DISCARDABLE "clist.bmp"
-IDB_DOWN BITMAP DISCARDABLE "down.bmp"
-IDB_EDIT BITMAP DISCARDABLE "edit.bmp"
-IDB_HISTORY BITMAP DISCARDABLE "hist.bmp"
-IDB_MINUS BITMAP DISCARDABLE "minus.bmp"
-IDB_OPEN BITMAP DISCARDABLE "open.bmp"
-IDB_PLUS BITMAP DISCARDABLE "plus.bmp"
-IDB_PREV BITMAP DISCARDABLE "prev.bmp"
-IDB_REPLY BITMAP DISCARDABLE "reply.bmp"
-IDB_SEND BITMAP DISCARDABLE "send.bmp"
-IDB_UP BITMAP DISCARDABLE "up.bmp"
-IDI_NOTICK ICON DISCARDABLE "notick.ico"
-IDI_TICK ICON DISCARDABLE "tick.ico"
-IDB_NEXT BITMAP DISCARDABLE "next.bmp"
-IDB_STATUS_OFFLINE BITMAP DISCARDABLE "status/off.bmp"
-IDB_STATUS_ONLINE BITMAP DISCARDABLE "status/on.bmp"
-IDB_STATUS_AWAY BITMAP DISCARDABLE "status/away.bmp"
-IDB_STATUS_NA BITMAP DISCARDABLE "status/na.bmp"
-IDB_STATUS_OCCUPIED BITMAP DISCARDABLE "status/occ.bmp"
-IDB_STATUS_DND BITMAP DISCARDABLE "status/dnd.bmp"
-IDB_STATUS_INVISIBLE BITMAP DISCARDABLE "status/invis.bmp"
-IDB_STATUS_FFC BITMAP DISCARDABLE "status/ffc.bmp"
-IDB_EVENT_INFO BITMAP DISCARDABLE "events/info.bmp"
-IDB_EVENT_CON BITMAP DISCARDABLE "events/conn.bmp"
-IDB_EVENT_USER BITMAP DISCARDABLE "events/user.bmp"
-IDB_EVENT_MSG BITMAP DISCARDABLE "events/msg.bmp"
-IDB_EVENT_INFO_LARGE BITMAP DISCARDABLE "events/info_large.bmp"
-IDB_EVENT_CON_LARGE BITMAP DISCARDABLE "events/conn_large.bmp"
-IDB_EVENT_USER_LARGE BITMAP DISCARDABLE "events/user_large.bmp"
-IDB_EVENT_MSG_LARGE BITMAP DISCARDABLE "events/msg_large.bmp"
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
 
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
 
-IDD_FONTS DIALOGEX 0,0,302,244
-FONT 8,"MS Shell Dlg",400,0,1
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BACK                BITMAP                  "back.bmp"
+IDB_CHAT                BITMAP                  "chat.bmp"
+IDB_CLIST               BITMAP                  "clist.bmp"
+IDB_DOWN                BITMAP                  "down.bmp"
+IDB_EDIT                BITMAP                  "edit.bmp"
+IDB_HISTORY             BITMAP                  "hist.bmp"
+IDB_MINUS               BITMAP                  "minus.bmp"
+IDB_OPEN                BITMAP                  "open.bmp"
+IDB_PLUS                BITMAP                  "plus.bmp"
+IDB_PREV                BITMAP                  "prev.bmp"
+IDB_REPLY               BITMAP                  "reply.bmp"
+IDB_SEND                BITMAP                  "send.bmp"
+IDB_UP                  BITMAP                  "up.bmp"
+IDB_NEXT                BITMAP                  "next.bmp"
+IDB_STATUS_OFFLINE      BITMAP                  "status/off.bmp"
+IDB_STATUS_ONLINE       BITMAP                  "status/on.bmp"
+IDB_STATUS_AWAY         BITMAP                  "status/away.bmp"
+IDB_STATUS_NA           BITMAP                  "status/na.bmp"
+IDB_STATUS_OCCUPIED     BITMAP                  "status/occ.bmp"
+IDB_STATUS_DND          BITMAP                  "status/dnd.bmp"
+IDB_STATUS_INVISIBLE    BITMAP                  "status/invis.bmp"
+IDB_STATUS_FFC          BITMAP                  "status/ffc.bmp"
+IDB_EVENT_INFO          BITMAP                  "events/info.bmp"
+IDB_EVENT_CON           BITMAP                  "events/conn.bmp"
+IDB_EVENT_USER          BITMAP                  "events/user.bmp"
+IDB_EVENT_MSG           BITMAP                  "events/msg.bmp"
+IDB_EVENT_INFO_LARGE    BITMAP                  "events/info_large.bmp"
+IDB_EVENT_CON_LARGE     BITMAP                  "events/conn_large.bmp"
+IDB_EVENT_USER_LARGE    BITMAP                  "events/user_large.bmp"
+IDB_EVENT_MSG_LARGE     BITMAP                  "events/msg_large.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_NOTICK              ICON                    "notick.ico"
+IDI_TICK                ICON                    "tick.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FONTS DIALOGEX 0, 0, 302, 244
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-  CONTROL "General settings",IDC_STATIC11,"Button",0x50000007,0,0,300,111
-  CONTROL "Show softkey labels",IDC_SHOW_LABELS,"Button",0x50010003,6,22,118,13
-  CONTROL "Fonts",IDC_STATIC12,"Button",0x50000007,0,112,300,85
-  CONTROL "Event log:",IDC_STATIC13,"Static",0x50020000,10,121,72,9
-  CONTROL "Sample",IDC_SAMPLE1,"Static",0x50820201,10,131,72,13
-  CONTROL "...",IDC_CHOOSEFONT1,"Button",0x50010000,88,131,18,13
-  CONTROL "Message log:",IDC_STATIC15,"Static",0x50020000,10,147,72,9
-  CONTROL "Sample",IDC_SAMPLE2,"Static",0x50820201,10,156,72,13
-  CONTROL "...",IDC_CHOOSEFONT2,"Button",0x50010000,88,156,18,13
-  CONTROL "Contact list:",IDC_STATIC17,"Static",0x50020000,10,171,72,9
-  CONTROL "Sample",IDC_SAMPLE3,"Static",0x50820201,10,180,72,13
-  CONTROL "...",IDC_CHOOSEFONT3,"Button",0x50010000,88,180,18,13
-  CONTROL "Titles:",IDC_STATIC14,"Static",0x50020000,130,121,72,9
-  CONTROL "Sample",IDC_SAMPLE4,"Static",0x50820201,130,131,72,13
-  CONTROL "...",IDC_CHOOSEFONT4,"Button",0x50010000,208,131,18,13
-  CONTROL "Notifications:",IDC_STATIC16,"Static",0x50020000,130,147,72,9
-  CONTROL "Sample",IDC_SAMPLE5,"Static",0x50820201,130,156,72,13
-  CONTROL "...",IDC_CHOOSEFONT5,"Button",0x50010000,208,156,18,13
-  CONTROL "Turn off backlights",IDC_CONTROL_BACKLIGHTS,"Button",0x50010003,14,60,126,9
-  CONTROL "If the applet is active:",IDC_STC2,"Static",0x50000000,6,79,124,9
-  CONTROL "Use the VolumeWheel to scroll up and down (might affect system performance)",IDC_HOOK_VOLUMEWHEEL,"Button",0x50010003,14,88,266,9
-  CONTROL "Show seconds in timestamps",IDC_TIMESTAMP_SECONDS,"Button",0x50010003,6,33,124,9
-  CONTROL "Use transition effects when changing screens",IDC_TRANSITIONS,"Button",0x50010003,14,97,164,9
-  CONTROL "Credits",IDC_CREDITS,"Button",0x50010000,110,230,90,11
-  CONTROL "About",IDC_GRP3,"Button",0x50000007,0,199,300,44
-  CONTROL "Mirandag15 + TrillianG15",IDC_STC6,"Static",0x50000201,80,204,136,8
-  CONTROL "For updates and news check the thread on http://www.g15forums.com",IDC_STC7,"Static",0x50000001,2,212,292,9
-  CONTROL "Or visit http://www.mkleinhans.de",IDC_STC8,"Static",0x50000001,2,221,290,8
-  CONTROL "mail@mkleinhans.de",IDC_STC9,"Static",0x50000000,232,232,66,9
-  CONTROL "© 2006 by Martin Kleinhans",IDC_STC10,"Static",0x50000000,2,232,90,9
-  CONTROL "",IDC_DEVICE,"ComboBox",0x50010003,42,9,80,11
-  CONTROL "Device:",IDC_DEVICE_STATIC,"Static",0x50000000,8,11,32,9
-  CONTROL "If the screensaver is active:",IDC_STC14,"Static",0x50000000,6,51,124,9
-  CONTROL "Lock the screen",IDC_SCREENSAVER_LOCK,"Button",0x50010003,14,70,126,9
-  CONTROL "Skip driver missing notification",IDC_SKIP_DRIVER_ERROR,"Button",0x50010003,6,42,112,9
+    GROUPBOX        "General settings",IDC_STATIC11,0,0,300,111
+    CONTROL         "Show softkey labels",IDC_SHOW_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,22,289,13
+    GROUPBOX        "Fonts",IDC_STATIC12,0,112,300,85
+    LTEXT           "Event log:",IDC_STATIC13,10,121,72,9
+    CTEXT           "Sample",IDC_SAMPLE1,10,131,72,13,SS_CENTERIMAGE | WS_BORDER
+    PUSHBUTTON      "...",IDC_CHOOSEFONT1,88,131,18,13
+    LTEXT           "Message log:",IDC_STATIC15,10,147,72,9
+    CTEXT           "Sample",IDC_SAMPLE2,10,156,72,13,SS_CENTERIMAGE | WS_BORDER
+    PUSHBUTTON      "...",IDC_CHOOSEFONT2,88,156,18,13
+    LTEXT           "Contact list:",IDC_STATIC17,10,171,72,9
+    CTEXT           "Sample",IDC_SAMPLE3,10,180,72,13,SS_CENTERIMAGE | WS_BORDER
+    PUSHBUTTON      "...",IDC_CHOOSEFONT3,88,180,18,13
+    LTEXT           "Titles:",IDC_STATIC14,130,121,72,9
+    CTEXT           "Sample",IDC_SAMPLE4,130,131,72,13,SS_CENTERIMAGE | WS_BORDER
+    PUSHBUTTON      "...",IDC_CHOOSEFONT4,208,131,18,13
+    LTEXT           "Notifications:",IDC_STATIC16,130,147,72,9
+    CTEXT           "Sample",IDC_SAMPLE5,130,156,72,13,SS_CENTERIMAGE | WS_BORDER
+    PUSHBUTTON      "...",IDC_CHOOSEFONT5,208,156,18,13
+    CONTROL         "Turn off backlights",IDC_CONTROL_BACKLIGHTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,60,281,9
+    LTEXT           "If the applet is active:",IDC_STC2,6,79,289,9,NOT WS_GROUP
+    CONTROL         "Use the VolumeWheel to scroll up and down (might affect system performance)",IDC_HOOK_VOLUMEWHEEL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,88,281,9
+    CONTROL         "Show seconds in timestamps",IDC_TIMESTAMP_SECONDS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,33,289,9
+    CONTROL         "Use transition effects when changing screens",IDC_TRANSITIONS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,97,281,9
+    PUSHBUTTON      "Credits",IDC_CREDITS,110,230,90,11
+    GROUPBOX        "About",IDC_GRP3,0,199,300,44
+    CTEXT           "Mirandag15 + TrillianG15",IDC_STC6,80,204,136,8,SS_CENTERIMAGE | NOT WS_GROUP
+    CTEXT           "For updates and news check the thread on http://www.g15forums.com",IDC_STC7,2,212,292,9,NOT WS_GROUP
+    CTEXT           "Or visit http://www.mkleinhans.de",IDC_STC8,2,221,290,8,NOT WS_GROUP
+    LTEXT           "mail@mkleinhans.de",IDC_STC9,232,232,66,9,NOT WS_GROUP
+    LTEXT           "© 2006 by Martin Kleinhans",IDC_STC10,2,232,90,9,NOT WS_GROUP
+    COMBOBOX        IDC_DEVICE,80,9,128,11,CBS_DROPDOWNLIST | WS_TABSTOP
+    RTEXT           "Device:",IDC_DEVICE_STATIC,8,11,63,9,NOT WS_GROUP
+    LTEXT           "If the screensaver is active:",IDC_STC14,6,51,289,9,NOT WS_GROUP
+    CONTROL         "Lock the screen",IDC_SCREENSAVER_LOCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,70,281,9
+    CONTROL         "Skip driver missing notification",IDC_SKIP_DRIVER_ERROR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,42,289,9
 END
 
-IDD_NOTIFICATIONS DIALOGEX 0,0,304,240
-FONT 8,"MS Shell Dlg",400,0,1
+IDD_NOTIFICATIONS DIALOGEX 0, 0, 304, 240
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-  CONTROL "General settings",IDC_STATIC18,"Button",0x50000007,0,0,160,80
-  CONTROL "Notification screen title",IDC_STATIC19,"Button",0x50000007,0,81,160,43
-  CONTROL "Hide it",IDC_NOTIFY_TITLEHIDE,"Button",0x50010009,12,88,114,13
-  CONTROL "Show the plugin name",IDC_NOTIFY_TITLENAME,"Button",0x50010009,12,99,114,11
-  CONTROL "Show a short event summary",IDC_NOTIFY_TITLEINFO,"Button",0x50010009,12,110,114,11
-  CONTROL "Size of the log",IDC_STATIC20,"Static",0x50020000,6,22,84,9
-  CONTROL "Notification duration",IDC_STATIC22,"Static",0x50020000,6,33,86,11
-  CONTROL "",IDC_NOTIFY_LOGSIZE,"Edit",0x50012080,102,20,22,11,0x00000200
-  CONTROL "",IDC_NOTIFY_DURATION,"Edit",0x50012080,102,33,22,11,0x00000200
-  CONTROL "events",IDC_STATIC21,"Static",0x50020000,126,22,24,13
-  CONTROL "seconds",IDC_STATIC23,"Static",0x50020000,126,35,30,11
-  CONTROL "Notification types",IDC_STATIC24,"Button",0x50000007,0,125,300,113
-  CONTROL "Incoming messages",IDC_NOTIFY_MESSAGES,"Button",0x50010003,94,138,94,13
-  CONTROL "Contact signs off",IDC_NOTIFY_SIGNOFF,"Button",0x50010003,194,166,100,13
-  CONTROL "Contact changes status",IDC_NOTIFY_STATUS,"Button",0x50010003,194,177,100,13
-  CONTROL "Incoming URL",IDC_NOTIFY_URL,"Button",0x50010003,194,132,100,13
-  CONTROL "Contact list events",IDC_NOTIFY_CONTACTS,"Button",0x50010003,194,188,100,13
-  CONTROL "Incoming file transfers",IDC_NOTIFY_FILE,"Button",0x50010003,194,144,100,13
-  CONTROL "Protocol disconnected",IDC_NOTIFY_PROTO_SIGNOFF,"Button",0x50010003,194,199,102,13
-  CONTROL "Protocol connected",IDC_NOTIFY_PROTO_SIGNON,"Button",0x50010003,194,210,102,13
-  CONTROL "Protocol status changes",IDC_NOTIFY_PROTO_STATUS,"Button",0x50010003,194,221,102,11
-  CONTROL "Show only events from the following protocols:",IDC_STATIC25,"Static",0x50020000,6,134,86,28
-  CONTROL "Contact signs on",IDC_NOTIFY_SIGNON,"Button",0x50010003,194,155,98,13
-  CONTROL "",IDC_PROTOCOLS,"SysTreeView32",0x50810001,6,162,84,70
-  CONTROL "Incoming messages",IDC_NOTIFY_SKIP_MESSAGES,"Button",0x50010003,174,38,122,9
-  CONTROL "When a chat session is active, skip the following notifications for that contact:",IDC_STC3,"Static",0x50000000,168,9,128,28
-  CONTROL "Contact changes status",IDC_NOTIFY_SKIP_STATUS,"Button",0x50010003,174,48,122,9
-  CONTROL "Chat session specific",IDC_GRP1,"Button",0x50000007,164,0,136,124
-  CONTROL "Contact signs on",IDC_NOTIFY_SKIP_SIGNON,"Button",0x50010003,174,59,102,9
-  CONTROL "Contact signs off",IDC_NOTIFY_SKIP_SIGNOFF,"Button",0x50010003,174,70,102,9
-  CONTROL "Show timestamps",IDC_NOTIFY_TIMESTAMPS,"Button",0x50010003,6,9,102,9
-  CONTROL "Messages",IDC_NOTIFY_IRC_MESSAGES,"Button",0x50010003,110,162,74,9
-  CONTROL "User events",IDC_NOTIFY_IRC_USERS,"Button",0x50010003,110,184,76,9
-  CONTROL "Emotes",IDC_NOTIFY_IRC_EMOTES,"Button",0x50010003,110,195,76,9
-  CONTROL "Status changes",IDC_NOTIFY_IRC_STATUS,"Button",0x50010003,110,206,76,9
-  CONTROL "Special IRC events:",IDC_STC4,"Static",0x50000000,110,151,64,9
-  CONTROL "Notices",IDC_NOTIFY_IRC_NOTICES,"Button",0x50010003,110,173,74,9
-  CONTROL "Channel events",IDC_NOTIFY_IRC_CHANNEL,"Button",0x50010003,110,217,76,9
-  CONTROL "Cut off nicknames after",IDC_NOTIFY_NICKCUTOFF,"Button",0x50010003,4,46,90,9
-  CONTROL "",IDC_NOTIFY_NICKCUTOFF_OFFSET,"Edit",0x50012080,102,46,22,11,0x00000200
-  CONTROL "chars",IDC_STC11,"Static",0x50020000,126,48,30,9
-  CONTROL "Show protocol labels",IDC_NOTIFY_SHOWPROTO,"Button",0x50010003,4,68,92,9
-  CONTROL "Don't skip when replying",IDC_NOTIFY_NO_SKIP_REPLY,"Button",0x50010003,174,99,122,11
-  CONTROL "Exceptions:",IDC_STC12,"Static",0x50000000,170,88,88,9
-  CONTROL "chars",IDC_STC13,"Static",0x50020000,126,59,30,9
-  CONTROL "Cut off channel names after",IDC_NOTIFY_CHANNELCUTOFF,"Button",0x50010003,4,57,90,9
-  CONTROL "",IDC_NOTIFY_CHANNELCUTOFF_OFFSET,"Edit",0x50012080,102,57,22,11,0x00000200
+    GROUPBOX        "General settings",IDC_STATIC18,0,0,160,80
+    GROUPBOX        "Notification screen title",IDC_STATIC19,0,81,160,43
+    CONTROL         "Hide it",IDC_NOTIFY_TITLEHIDE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,88,114,13
+    CONTROL         "Show the plugin name",IDC_NOTIFY_TITLENAME,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,99,114,11
+    CONTROL         "Show a short event summary",IDC_NOTIFY_TITLEINFO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,110,114,11
+    LTEXT           "Size of the log",IDC_STATIC20,6,22,84,9
+    LTEXT           "Notification duration",IDC_STATIC22,6,33,86,11
+    EDITTEXT        IDC_NOTIFY_LOGSIZE,102,20,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_NOTIFY_DURATION,102,33,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "events",IDC_STATIC21,126,22,24,13
+    LTEXT           "seconds",IDC_STATIC23,126,35,30,11
+    GROUPBOX        "Notification types",IDC_STATIC24,0,125,300,113
+    CONTROL         "Incoming messages",IDC_NOTIFY_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,94,138,94,13
+    CONTROL         "Contact signs off",IDC_NOTIFY_SIGNOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,166,100,13
+    CONTROL         "Contact changes status",IDC_NOTIFY_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,177,100,13
+    CONTROL         "Incoming URL",IDC_NOTIFY_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,132,100,13
+    CONTROL         "Contact list events",IDC_NOTIFY_CONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,188,100,13
+    CONTROL         "Incoming file transfers",IDC_NOTIFY_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,144,100,13
+    CONTROL         "Protocol disconnected",IDC_NOTIFY_PROTO_SIGNOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,199,102,13
+    CONTROL         "Protocol connected",IDC_NOTIFY_PROTO_SIGNON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,210,102,13
+    CONTROL         "Protocol status changes",IDC_NOTIFY_PROTO_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,221,102,11
+    LTEXT           "Show only events from the following protocols:",IDC_STATIC25,6,134,86,28
+    CONTROL         "Contact signs on",IDC_NOTIFY_SIGNON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,155,98,13
+    CONTROL         "",IDC_PROTOCOLS,"SysTreeView32",TVS_HASBUTTONS | WS_BORDER | WS_TABSTOP,6,162,84,70
+    CONTROL         "Incoming messages",IDC_NOTIFY_SKIP_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,38,122,9
+    LTEXT           "When a chat session is active, skip the following notifications for that contact:",IDC_STC3,168,9,128,28,NOT WS_GROUP
+    CONTROL         "Contact changes status",IDC_NOTIFY_SKIP_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,48,122,9
+    GROUPBOX        "Chat session specific",IDC_GRP1,164,0,136,124
+    CONTROL         "Contact signs on",IDC_NOTIFY_SKIP_SIGNON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,59,102,9
+    CONTROL         "Contact signs off",IDC_NOTIFY_SKIP_SIGNOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,70,102,9
+    CONTROL         "Show timestamps",IDC_NOTIFY_TIMESTAMPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,9,102,9
+    CONTROL         "Messages",IDC_NOTIFY_IRC_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,162,74,9
+    CONTROL         "User events",IDC_NOTIFY_IRC_USERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,184,76,9
+    CONTROL         "Emotes",IDC_NOTIFY_IRC_EMOTES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,195,76,9
+    CONTROL         "Status changes",IDC_NOTIFY_IRC_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,206,76,9
+    LTEXT           "Special IRC events:",IDC_STC4,110,151,64,9,NOT WS_GROUP
+    CONTROL         "Notices",IDC_NOTIFY_IRC_NOTICES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,173,74,9
+    CONTROL         "Channel events",IDC_NOTIFY_IRC_CHANNEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,110,217,76,9
+    CONTROL         "Cut off nicknames after",IDC_NOTIFY_NICKCUTOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,46,90,9
+    EDITTEXT        IDC_NOTIFY_NICKCUTOFF_OFFSET,102,46,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "chars",IDC_STC11,126,48,30,9
+    CONTROL         "Show protocol labels",IDC_NOTIFY_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,68,92,9
+    CONTROL         "Don't skip when replying",IDC_NOTIFY_NO_SKIP_REPLY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,99,122,11
+    LTEXT           "Exceptions:",IDC_STC12,170,88,88,9,NOT WS_GROUP
+    LTEXT           "chars",IDC_STC13,126,59,30,9
+    CONTROL         "Cut off channel names after",IDC_NOTIFY_CHANNELCUTOFF,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,57,90,9
+    EDITTEXT        IDC_NOTIFY_CHANNELCUTOFF_OFFSET,102,57,22,11,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
 END
 
-IDD_CLIST DIALOGEX 0,0,304,179
-FONT 8,"MS Shell Dlg",400,0,1
+IDD_CLIST DIALOGEX 0, 0, 304, 179
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-  CONTROL "General settings",IDC_STATIC9,"Button",0x50000007,0,0,174,135
-  CONTROL "Show the contacts protocols",IDC_CLIST_SHOWPROTO,"Button",0x50010003,6,11,154,13
-  CONTROL "Hide offline users",IDC_CLIST_HIDEOFFLINE,"Button",0x50010003,6,22,156,13
-  CONTROL "Use ignore settings",IDC_CLIST_USEIGNORE,"Button",0x50010003,6,33,160,13
-  CONTROL "Use groups/subgroups",IDC_CLIST_USEGROUPS,"Button",0x50010003,6,44,158,13
-  CONTROL "Grouped mode",IDC_STATIC10,"Button",0x50000007,0,136,300,39
-  CONTROL "Draw tree lines",IDC_CLIST_DRAWLINES,"Button",0x50010003,4,145,162,13
-  CONTROL "Show counters behind group names",IDC_CLIST_COUNTERS,"Button",0x50010003,4,158,168,13
-  CONTROL "Reset selection",IDC_CLIST_POSITION,"Button",0x50010003,14,90,146,11
-  CONTROL "When opening the contact list screen:",IDC_STC1,"Static",0x50000000,6,81,156,9
-  CONTROL "Don't change group states",IDC_CLIST_GA_NONE,"Button",0x50010009,14,101,146,9
-  CONTROL "Collapse all groups",IDC_CLIST_GA_COLLAPSE,"Button",0x50010009,14,112,152,9
-  CONTROL "Show only contacts from the following protocols:",IDC_STC5,"Static",0x50020000,192,9,94,24
-  CONTROL "",IDC_CLIST_PROTOFILTER,"SysTreeView32",0x50810001,192,35,94,91
-  CONTROL "Protocol filter",IDC_GRP2,"Button",0x50000007,176,0,122,135
-  CONTROL "Expand all groups",IDC_CLIST_GA_EXPAND,"Button",0x50010009,14,123,136,9
-  CONTROL "Use two columns",IDC_CLIST_COLUMNS,"Button",0x50010003,6,55,160,13
-  CONTROL "Fade out selection rectangle",IDC_CLIST_SELECTION,"Button",0x50010003,6,66,160,13
+    GROUPBOX        "General settings",IDC_STATIC9,0,0,174,135
+    CONTROL         "Show the contacts protocols",IDC_CLIST_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,11,160,13
+    CONTROL         "Hide offline users",IDC_CLIST_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,22,160,13
+    CONTROL         "Use ignore settings",IDC_CLIST_USEIGNORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,33,160,13
+    CONTROL         "Use groups/subgroups",IDC_CLIST_USEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,44,160,13
+    GROUPBOX        "Grouped mode",IDC_STATIC10,0,136,300,39
+    CONTROL         "Draw tree lines",IDC_CLIST_DRAWLINES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,145,286,13
+    CONTROL         "Show counters behind group names",IDC_CLIST_COUNTERS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,158,286,13
+    CONTROL         "Reset selection",IDC_CLIST_POSITION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,152,11
+    LTEXT           "When opening the contact list screen:",IDC_STC1,6,81,160,9,NOT WS_GROUP
+    CONTROL         "Don't change group states",IDC_CLIST_GA_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,101,152,9
+    CONTROL         "Collapse all groups",IDC_CLIST_GA_COLLAPSE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,112,152,9
+    LTEXT           "Show only contacts from the following protocols:",IDC_STC5,192,9,94,24
+    CONTROL         "",IDC_CLIST_PROTOFILTER,"SysTreeView32",TVS_HASBUTTONS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,192,35,94,91
+    GROUPBOX        "Protocol filter",IDC_GRP2,176,0,122,135
+    CONTROL         "Expand all groups",IDC_CLIST_GA_EXPAND,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,123,152,9
+    CONTROL         "Use two columns",IDC_CLIST_COLUMNS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,55,160,13
+    CONTROL         "Fade out selection rectangle",IDC_CLIST_SELECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,66,160,13
 END
 
-IDD_CHAT DIALOGEX 0,0,302,193
-FONT 8,"MS Shell Dlg",400,0,1
+IDD_CHAT DIALOGEX 0, 0, 302, 193
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-  CONTROL "Typing notifications",IDC_STATIC1,"Button",0x50000007,160,105,140,33
-  CONTROL "Show typing notifications",IDC_SESSION_SHOWTYPING,"Button",0x50010003,168,114,126,11
-  CONTROL "Send typing notifications",IDC_SESSION_SENDTYPING,"Button",0x50010003,168,125,128,11
-  CONTROL "Maximizing",IDC_STATIC2,"Button",0x50000007,0,105,156,33
-  CONTROL "When maximized:",IDC_STATIC3,"Static",0x50020000,4,116,66,9
-  CONTROL "Hide title",IDC_MAXIMIZED_TITLE,"Button",0x50010003,62,114,70,13
-  CONTROL "Hide labels",IDC_MAXIMIZED_LABELS,"Button",0x50010003,62,125,68,11
-  CONTROL "General settings",IDC_STATIC4,"Button",0x50000007,0,1,300,67
-  CONTROL "Show only new messages",IDC_SESSION_LOADDB,"Button",0x50010003,6,9,144,13
-  CONTROL "Mark incoming messages as read",IDC_SESSION_MARKREAD,"Button",0x50010003,6,20,148,13
-  CONTROL "Maximized scrolling",IDC_SESSION_SCROLL_MAXIMIZED,"Button",0x50010003,6,42,148,11
-  CONTROL "Size of the log:",IDC_STATIC6,"Static",0x50020000,6,55,84,9
-  CONTROL "",IDC_SESSION_LOGSIZE,"Edit",0x50012080,96,53,30,11,0x00000200
-  CONTROL "events",IDC_STATIC5,"Static",0x50020000,132,55,24,9
-  CONTROL "On incoming messages:",IDC_STATIC8,"Static",0x50020000,156,11,132,11
-  CONTROL "Do nothing",IDC_SESSION_SCROLLNONE,"Button",0x50010009,168,20,90,13
-  CONTROL "Scroll to the first line",IDC_SESSION_SCROLLFIRST,"Button",0x50010009,168,31,108,13
-  CONTROL "Scroll to the last line",IDC_SESSION_SCROLLLAST,"Button",0x50010009,168,42,90,13
-  CONTROL "Replying",IDC_STATIC7,"Button",0x50000007,0,142,300,48
-  CONTROL "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",0x50010003,6,151,264,13
-  CONTROL "Send messages with Enter, insert line breaks with Ctrl+Enter",IDC_SESSION_SENDRETURN,"Button",0x50010003,6,162,284,13
-  CONTROL "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",0x50010003,6,173,274,13
-  CONTROL "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",0x50010003,6,31,148,11
-  CONTROL "Close chat after",IDC_SESSION_CLOSE,"Button",0x50010003,8,84,98,8
-  CONTROL "",IDC_SESSION_CLOSETIMER,"Edit",0x50010000,112,83,30,11,0x00000200
-  CONTROL "seconds",IDC_STC16,"Static",0x50000000,146,84,30,8
-  CONTROL "When in background",IDC_GRP4,"Button",0x50000007,0,72,300,30
+    GROUPBOX        "Typing notifications",IDC_STATIC1,160,105,140,33
+    CONTROL         "Show typing notifications",IDC_SESSION_SHOWTYPING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,114,126,11
+    CONTROL         "Send typing notifications",IDC_SESSION_SENDTYPING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,125,126,11
+    GROUPBOX        "Maximizing",IDC_STATIC2,0,105,156,33
+    LTEXT           "When maximized:",IDC_STATIC3,4,116,66,9
+    CONTROL         "Hide title",IDC_MAXIMIZED_TITLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,114,70,13
+    CONTROL         "Hide labels",IDC_MAXIMIZED_LABELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,125,68,11
+    GROUPBOX        "General settings",IDC_STATIC4,0,1,300,67
+    CONTROL         "Show only new messages",IDC_SESSION_LOADDB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,9,144,13
+    CONTROL         "Mark incoming messages as read",IDC_SESSION_MARKREAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,20,148,13
+    CONTROL         "Maximized scrolling",IDC_SESSION_SCROLL_MAXIMIZED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,42,148,11
+    RTEXT           "Size of the log:",IDC_STATIC6,6,55,84,9
+    EDITTEXT        IDC_SESSION_LOGSIZE,96,53,30,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "events",IDC_STATIC5,132,55,24,9
+    LTEXT           "On incoming messages:",IDC_STATIC8,156,11,132,11
+    CONTROL         "Do nothing",IDC_SESSION_SCROLLNONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,20,126,13
+    CONTROL         "Scroll to the first line",IDC_SESSION_SCROLLFIRST,
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,31,126,13
+    CONTROL         "Scroll to the last line",IDC_SESSION_SCROLLLAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,168,42,126,13
+    GROUPBOX        "Replying",IDC_STATIC7,0,142,300,48
+    CONTROL         "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,151,288,13
+    CONTROL         "Send messages with Enter, insert line breaks with Ctrl+Enter",IDC_SESSION_SENDRETURN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,162,288,13
+    CONTROL         "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,173,288,13
+    CONTROL         "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,31,148,11
+    CONTROL         "Close chat after",IDC_SESSION_CLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,84,98,8
+    EDITTEXT        IDC_SESSION_CLOSETIMER,112,83,30,12,NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "seconds",IDC_STC16,146,84,30,8,NOT WS_GROUP
+    GROUPBOX        "When in background",IDC_GRP4,0,72,300,30
 END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FONTS, DIALOG
+    BEGIN
+        VERTGUIDE, 6
+        VERTGUIDE, 14
+        VERTGUIDE, 80
+        VERTGUIDE, 88
+        VERTGUIDE, 106
+        VERTGUIDE, 130
+        VERTGUIDE, 202
+        VERTGUIDE, 208
+        VERTGUIDE, 226
+        VERTGUIDE, 295
+    END
+
+    IDD_CLIST, DIALOG
+    BEGIN
+        VERTGUIDE, 6
+        VERTGUIDE, 14
+        VERTGUIDE, 166
+        VERTGUIDE, 292
+    END
+
+    IDD_CHAT, DIALOG
+    BEGIN
+        VERTGUIDE, 6
+        VERTGUIDE, 168
+        VERTGUIDE, 294
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
