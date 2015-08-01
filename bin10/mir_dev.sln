@@ -345,7 +345,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFileYM\ftpfile.vcxproj", "{73482497-9F57-4819-A9AB-5D841A9F072D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_10.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\BuddyPounce\buddypounce.vcxproj", "{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}"
 EndProject
