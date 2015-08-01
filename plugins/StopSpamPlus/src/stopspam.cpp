@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 HANDLE hFunc, hTempRemove, hLoadHook;
 int hLangpack;

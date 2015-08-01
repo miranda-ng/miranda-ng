@@ -112,7 +112,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeepStatus", "..\plugins\St
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupStatus", "..\plugins\StatusPlugins\StartupStatus\StartupStatus_10.vcxproj", "{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpam", "..\plugins\StopSpamPlus\stopspam_10.vcxproj", "{3E6CEC79-5E93-4607-B10E-498586ECF6A6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpam", "..\plugins\StopSpamPlus\stopspam.vcxproj", "{3E6CEC79-5E93-4607-B10E-498586ECF6A6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tipper", "..\plugins\TipperYM\tipper_ym_10.vcxproj", "{2C818919-A38F-44FF-BD91-A6A204AC592A}"
 EndProject
