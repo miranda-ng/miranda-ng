@@ -122,7 +122,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TooltipNotify", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TranslitSwitcher", "..\plugins\TranslitSwitcher\TranslitSwitcher.vcxproj", "{82F96271-4136-4B0E-AB6F-040DE7A4DD1E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserGuide", "..\plugins\UserGuide\UserGuide_12.vcxproj", "{92E3BDEE-DD17-4619-AD61-70C0ADE04217}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserGuide", "..\plugins\UserGuide\UserGuide.vcxproj", "{92E3BDEE-DD17-4619-AD61-70C0ADE04217}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserInfoEx\UInfoEx_12.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
 EndProject
