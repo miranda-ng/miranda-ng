@@ -364,7 +364,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay_10.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
 EndProject
