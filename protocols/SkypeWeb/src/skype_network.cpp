@@ -19,12 +19,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::InitNetwork()
 {
-	wchar_t name[128];
-	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
-	NETLIBUSER nlu = { 0 };
+	NETLIBUSER nlu;
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = name;
+	nlu.ptszDescriptiveName = CMString(FORMAT, TranslateT("%s connection"), m_tszUserName).GetBuffer();
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }

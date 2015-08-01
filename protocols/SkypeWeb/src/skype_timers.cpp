@@ -40,14 +40,14 @@ void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	}
 }
 
-void CSkypeProto::SkypeSetTimer(void*)
+void CSkypeProto::SkypeSetTimer()
 {
 	mir_cslock lck(timerLock);
 	if (!m_timer)
 		m_timer = SetTimer(NULL, 0, 600000, TimerProc);
 }
 
-void CSkypeProto::SkypeUnsetTimer(void*)
+void CSkypeProto::SkypeUnsetTimer()
 {
 	mir_cslock lck(timerLock);
 	if (m_timer && Accounts.getCount() == 0)

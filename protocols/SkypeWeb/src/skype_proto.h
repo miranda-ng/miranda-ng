@@ -38,7 +38,7 @@ public:
 
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-	virtual  int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
@@ -117,6 +117,7 @@ private:
 	mir_cs m_InviteDialogsLock;
 	mir_cs m_GCCreateDialogsLock;
 	mir_cs messageSyncLock;
+	mir_cs m_StatusLock;
 	static mir_cs accountsLock;
 	static mir_cs timerLock;
 	
@@ -275,12 +276,8 @@ private:
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
 	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
-
 	void OnLoadChats(const NETLIBHTTPREQUEST *response);
-
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
-
-
 
 	void OnChatEvent(const JSONNode &node);
 	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
@@ -305,7 +302,7 @@ private:
 	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
-	void CSkypeProto::FreeCharList(LIST<char> lst);
+	static void CSkypeProto::FreeCharList(LIST<char> lst);
 
 	__forceinline bool IsOnline()
 	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
@@ -335,8 +332,8 @@ private:
 	CMStringA GetServerFromUrl(const char *url);
 
 	//---Timers
-	void CALLBACK SkypeUnsetTimer(void*);
-	void CALLBACK SkypeSetTimer(void*);
+	void CALLBACK SkypeUnsetTimer();
+	void CALLBACK SkypeSetTimer();
 	void ProcessTimer();
 	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 	//---/

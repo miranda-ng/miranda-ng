@@ -337,7 +337,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		RemoveChatContact(_A2T(szConversationName), target, target, true, initiator);
 
 	}
-	else if (messageType.c_str() == "ThreadActivity/TopicUpdate")
+	else if (messageType == "ThreadActivity/TopicUpdate")
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
