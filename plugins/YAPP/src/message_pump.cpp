@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 unsigned message_pump_thread_id = 0;
 int num_popups = 0;
