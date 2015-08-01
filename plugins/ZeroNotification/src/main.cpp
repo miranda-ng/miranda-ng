@@ -9,7 +9,7 @@ Miranda can be found here:
 http://miranda-ng.org/
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 
