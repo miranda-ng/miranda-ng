@@ -7,7 +7,7 @@ This plugin tries to become miranda's standard OSD ;-)
 Distributed under GNU's GPL 2 or later
 */
 
-#include "wbOSD.h"
+#include "stdafx.h"
 
 TCHAR szClassName[]	= _T("wbOSD");
 const static osdmsg defstr={_T(""), 0, RGB(0, 0, 0), 0, 0};

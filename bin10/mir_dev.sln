@@ -361,7 +361,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARel
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wbOSD", "..\plugins\wbOSD\wbOSD_10.vcxproj", "{DA450122-7F0B-45DA-9EAA-421887AD8450}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wbOSD", "..\plugins\wbOSD\wbOSD.vcxproj", "{DA450122-7F0B-45DA-9EAA-421887AD8450}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "New_GPG", "..\plugins\New_GPG\new_gpg.vcxproj", "{F29D0C8D-141A-43CF-86B2-34A04653F8D4}"
 EndProject
