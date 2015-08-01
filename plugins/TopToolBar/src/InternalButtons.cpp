@@ -1,5 +1,5 @@
 
-#include "common.h"
+#include "stdafx.h"
 
 #define TTBI_GROUPSHOWHIDE		"TTBInternal/GroupShowHide"
 #define TTBI_SOUNDSONOFF		"TTBInternal/SoundsOnOFF"

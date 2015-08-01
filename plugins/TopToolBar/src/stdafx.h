@@ -2,8 +2,6 @@
 #define TTB_COMMON_H
 
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <commctrl.h>
 #include <stddef.h>

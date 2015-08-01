@@ -1,5 +1,5 @@
 
-#include "common.h"
+#include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
