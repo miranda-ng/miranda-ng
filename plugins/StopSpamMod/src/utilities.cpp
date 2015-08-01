@@ -16,7 +16,7 @@
 */
 
 
-#include "headers.h"
+#include "stdafx.h"
 
 tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue)
 {

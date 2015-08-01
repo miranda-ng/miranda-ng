@@ -16,7 +16,7 @@
 */
 
 
-#include "headers.h"
+#include "stdafx.h"
 
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_ADDED, w, l)
 {
