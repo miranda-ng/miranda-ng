@@ -30,7 +30,7 @@ Copyright:
 ===============================================================================
 */
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
