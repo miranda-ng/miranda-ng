@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 #define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
 #define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"

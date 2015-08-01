@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 contain code for saving/loading options from the database.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 static BOOL opt_startup;
 int RedrawFrame(WPARAM wParam, LPARAM lParam);

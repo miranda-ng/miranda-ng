@@ -24,7 +24,7 @@ as required for a Miranda protocol. Also, it contains functions for
 building/changing the weather menu items.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 static HGENMENU hEnableDisablePopupMenu;
 static HGENMENU hEnableDisableMenu;

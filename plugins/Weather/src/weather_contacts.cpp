@@ -23,7 +23,7 @@ include the links, edit settings, and loading weather information for
 the contact.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 static void OpenUrl(TCHAR* format, TCHAR* id)
 {

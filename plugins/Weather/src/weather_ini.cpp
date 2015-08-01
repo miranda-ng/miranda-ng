@@ -25,7 +25,7 @@ weather ini files and store them into memory.  Also containing
 code for unloading and getting weather data from the ini settings.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 HWND hWndSetup;
 

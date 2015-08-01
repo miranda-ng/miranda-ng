@@ -23,7 +23,7 @@ This file contain the source related loading, obtaining, and
 saving individual weather data for a weather contact.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 //============  LOAD WEATHER INFO FROM A CONTACT  ============
 // get station ID from DB

@@ -25,7 +25,7 @@ information, including the one shows in user detail and the brief
 information
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 //============  CONTACT INFORMATION  ============
 

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 to the contact list.  Contain code for both name and ID search.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 // variables used for weather_addstn.c
 static int searchId = -1;
