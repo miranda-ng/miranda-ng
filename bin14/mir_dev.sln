@@ -296,7 +296,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PManagerEx", "..\plugins\Pr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restart", "..\plugins\Restart\Restart.vcxproj", "{18195F68-A747-8643-050C-C5101DA658FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficCounter", "..\plugins\TrafficCounter\TrafficCounter_14.vcxproj", "{885010EA-D008-4E38-85D4-487693F0BA00}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TrafficCounter", "..\plugins\TrafficCounter\TrafficCounter.vcxproj", "{885010EA-D008-4E38-85D4-487693F0BA00}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\PackUpdater\PackUpdater.vcxproj", "{20413125-4D68-4751-8062-DDA026DDABF1}"
 EndProject
