@@ -7,7 +7,7 @@ modify it as they wish with no restriction.
 There is no warranty.
 */
 
-#include "Common.h"
+#include "stdafx.h"
 
 static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

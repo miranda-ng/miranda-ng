@@ -7,7 +7,7 @@ modify it as they wish with no restriction.
 There is no warranty.
 */
 
-#include "Common.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 int hLangpack;
