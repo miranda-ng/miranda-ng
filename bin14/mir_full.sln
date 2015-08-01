@@ -106,7 +106,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleAR", "..\plugins\Simp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmileyAdd", "..\plugins\SmileyAdd\SmileyAdd.vcxproj", "{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SplashScreen", "..\plugins\SplashScreen\splashscreen_14.vcxproj", "{5A6095F4-B037-4DA8-8410-8004A90C961A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SplashScreen", "..\plugins\SplashScreen\splashscreen.vcxproj", "{5A6095F4-B037-4DA8-8410-8004A90C961A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedAutoAway", "..\plugins\StatusPlugins\AdvancedAutoAway\AdvancedAutoAway_14.vcxproj", "{66503A70-B1E8-4545-B4FF-2108DFB40C72}"
 EndProject
