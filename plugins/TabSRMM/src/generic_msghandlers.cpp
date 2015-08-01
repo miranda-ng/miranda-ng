@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return TRUE;
 		
 		case IDC_SUPPORT:
-			Utils_OpenUrl("http://miranda.or.at/");
+			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM");
 			break;
 		}
 		break;
