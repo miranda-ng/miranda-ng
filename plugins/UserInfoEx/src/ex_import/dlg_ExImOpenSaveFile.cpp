@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 #define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda NG\\PlacesBar")
 #define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")

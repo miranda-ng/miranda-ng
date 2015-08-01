@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 0
-#define _CRT_SECURE_NO_WARNINGS
 
 /***********************************************************************************************************
  * standard windows includes

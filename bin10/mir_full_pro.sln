@@ -122,7 +122,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TranslitSwitcher", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserGuide", "..\plugins\UserGuide\UserGuide.vcxproj", "{92E3BDEE-DD17-4619-AD61-70C0ADE04217}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserInfoEx\UInfoEx_10.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserInfoEx\UInfoEx.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variables", "..\plugins\Variables\Variables_10.vcxproj", "{3038EF69-85BE-4D92-9864-CD6A5EBB558A}"
 EndProject

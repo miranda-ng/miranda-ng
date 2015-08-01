@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * System Includes:
  **/
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 /**
 * The CEvent structure describes the next anniversary to remind of.

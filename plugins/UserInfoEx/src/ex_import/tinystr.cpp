@@ -42,7 +42,7 @@ Copyright:
 ===============================================================================
  */
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 #ifndef TIXML_USE_STL
 
