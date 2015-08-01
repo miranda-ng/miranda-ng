@@ -26,7 +26,7 @@
 //
 // chat module exports and functions to load/unload the plugin.
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 HANDLE g_hWindowList;
 HMENU  g_hMenu = NULL;

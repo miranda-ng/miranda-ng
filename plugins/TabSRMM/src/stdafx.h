@@ -26,8 +26,8 @@
 //
 // global include file, used to build the precompiled header.
 
-#ifndef __COMMONHEADERS_H
-#define __COMMONHEADERS_H
+#ifndef __stdafx_H
+#define __stdafx_H
 
 #include <windows.h>
 #include <windowsx.h>
@@ -287,4 +287,4 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat
 
 #define IS_EXTKEY(a) (a & (1 << 24))
 
-#endif /* __COMMONHEADERS_H */
+#endif /* __stdafx_H */

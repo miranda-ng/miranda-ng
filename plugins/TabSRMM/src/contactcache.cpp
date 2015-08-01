@@ -29,7 +29,7 @@
 // the contact cache provides various services to the message window(s)
 // it also abstracts meta contacts.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 

@@ -38,7 +38,7 @@
 // ) client icon in status bar
 // ) close tab/window on send and the "hide container feature"
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static TCHAR* getMenuEntry(int i)
 {

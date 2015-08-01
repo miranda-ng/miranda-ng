@@ -26,7 +26,7 @@
 //
 // Helper functions for the message dialog.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #ifndef SHVIEW_THUMBNAIL
 #define SHVIEW_THUMBNAIL 0x702D

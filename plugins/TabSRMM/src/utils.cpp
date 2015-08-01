@@ -26,7 +26,7 @@
 //
 // generic utility functions
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #include <string>
 

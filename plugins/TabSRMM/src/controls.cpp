@@ -26,7 +26,7 @@
 //
 // Menu and status bar control(s) for the container window.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static    WNDPROC OldStatusBarproc = 0;
 

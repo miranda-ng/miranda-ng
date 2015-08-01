@@ -28,7 +28,7 @@
 // calling them directly instead of using SendMessage() is faster.
 // also contains various callback functions for custom buttons
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Save message log for given session as RTF document

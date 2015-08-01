@@ -26,7 +26,7 @@
 //
 // dialog to manage containers (attaching sessions to containers etc.)
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

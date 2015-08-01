@@ -26,7 +26,7 @@
 //
 // implements the message dialog window.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 

@@ -26,7 +26,7 @@
 //
 // Import and export theme settings between files and the database
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define CURRENT_THEME_VERSION 5
 #define THEME_COOKIE 25099837

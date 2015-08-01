@@ -26,7 +26,7 @@
 //
 // implements the richedit based message log and the template parser
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 struct TCpTable cpTable[] = {
 	{ 874, LPGENT("Thai") },

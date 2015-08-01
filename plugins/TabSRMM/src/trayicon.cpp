@@ -26,7 +26,7 @@
 //
 // The code that creates and animates the tray icon.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static BOOL    isAnimThreadRunning = TRUE;
 static HANDLE  hTrayAnimThread = 0;

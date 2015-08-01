@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define BBSF_IMBUTTON		(1<<0)
 #define BBSF_CHATBUTTON		(1<<1)

@@ -29,7 +29,7 @@
 // view mode (ieview/default)
 // text formatting
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define UPREF_ACTION_APPLYOPTIONS 1
 #define UPREF_ACTION_REMAKELOG 2

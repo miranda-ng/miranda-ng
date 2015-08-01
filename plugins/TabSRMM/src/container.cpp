@@ -27,7 +27,7 @@
 // implements the "Container" window which acts as a toplevel window
 // for message sessions.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define CONTAINER_KEY "TAB_ContainersW"
 #define CONTAINER_SUBKEY "containerW"

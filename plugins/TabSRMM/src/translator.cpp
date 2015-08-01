@@ -26,7 +26,7 @@
 //
 // handles pretranslated strings
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 TOptionListGroup m_lvGroupsModPlus[] =
 {

@@ -26,7 +26,7 @@
 //
 // plugin loading functions and global exports.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 HINSTANCE g_hInst;
 LOGFONT lfDefault = { 0 };

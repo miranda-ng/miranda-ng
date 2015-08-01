@@ -26,7 +26,7 @@
 //
 // Implements a queued, asynchronous sending system for tabSRMM.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 SendQueue *sendQueue = 0;
 

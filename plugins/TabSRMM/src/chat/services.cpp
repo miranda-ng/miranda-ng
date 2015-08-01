@@ -26,7 +26,7 @@
 //
 // This implements the services that form the group chat API
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup)
 {

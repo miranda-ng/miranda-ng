@@ -26,7 +26,7 @@
 //
 // A skinnable button class for tabSRMM.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define PBS_PUSHDOWNPRESSED 6
 

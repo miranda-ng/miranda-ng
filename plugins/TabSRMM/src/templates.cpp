@@ -26,7 +26,7 @@
 //
 // Simple editor for the message log templates
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 /*
 * hardcoded default set of templates for both LTR and RTL.
