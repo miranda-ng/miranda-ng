@@ -318,7 +318,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quotes", "..\plugins\Quotes\Forex.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "..\plugins\Weather\weather_10.vcxproj", "{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "..\plugins\Weather\weather.vcxproj", "{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ping", "..\plugins\Ping\ping.vcxproj", "{F31BD1B6-EE9D-4F76-A047-F8AEADC26086}"
 EndProject

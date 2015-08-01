@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012 Miranda NG team (http://miranda-ng.org)
+Copyright (C) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -15,4 +15,4 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "weather.h"
+#include "stdafx.h"

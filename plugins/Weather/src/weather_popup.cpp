@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
    options, popup display, and the code for popup process.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 // variables for weather_popup.c
 static HANDLE hPopupContact;

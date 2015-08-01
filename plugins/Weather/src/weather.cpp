@@ -24,7 +24,7 @@ upgrading, support for plugin uninsaller, and anything that doesn't
 belong to any other file.
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 //============  GLOBAL VARIABLES  ============
 

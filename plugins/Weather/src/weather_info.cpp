@@ -25,7 +25,7 @@ ini files, as well as function that are used for debug purpose
 regrading the loading of ini contents
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 //============  INI INFORMATION  ============
 

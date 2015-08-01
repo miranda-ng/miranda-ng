@@ -24,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //============  THE INCLUDES  ===========
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <share.h>
 #include <time.h>
 #include <windows.h>

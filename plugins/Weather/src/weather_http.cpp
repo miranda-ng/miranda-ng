@@ -23,7 +23,7 @@ This file contain the source related to downloading weather info
 from the web using netlib
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 HANDLE hNetlibUser, hNetlibHttp;
 

@@ -24,7 +24,7 @@ information, both automatic (by timer) and manually (by selecting
 menu items).
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 UPDATELIST *UpdateListHead;
 UPDATELIST *UpdateListTail;

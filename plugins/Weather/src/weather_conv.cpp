@@ -23,7 +23,7 @@ This file contain the source related unit conversion, icon assignment,
 string conversions, display text parsing, etc
 */
 
-#include "weather.h"
+#include "stdafx.h"
 
 //============  SOME HELPER FUNCTIONS  ============
 
