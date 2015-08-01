@@ -19,6 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
+void CSkypeProto::FreeCharList(LIST<char> lst)
+{
+	for (int i = 0; i < lst.getCount(); i++)
+		mir_free(lst[i]);
+}
+
 void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
 {
 	time_t time = getDword(hContact, "LastMsgReadTime", 0);

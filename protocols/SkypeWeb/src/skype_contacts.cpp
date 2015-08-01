@@ -287,7 +287,6 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	ptrA token(getStringA("TokenSecret"));
 	if (skypenames.getCount() > 0)
 	{
 		int i = 0;
@@ -297,19 +296,17 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 			for (; i < skypenames.getCount() && users.getCount() < 25; i++)
 				users.insert(skypenames[i]);
 
-			PushRequest(new GetContactsInfoRequest(token, users), &CSkypeProto::LoadContactsInfo);
+			PushRequest(new GetContactsInfoRequest(m_szTokenSecret, users), &CSkypeProto::LoadContactsInfo);
 
-			for (int j = 0; j < users.getCount(); j++)
-				mir_free(users[j]);
+			FreeCharList(users);
 			users.destroy();
 		}
 		while(i < skypenames.getCount());
 
-		for (i = 0; i < skypenames.getCount(); i++)
-			mir_free(skypenames[i]);
+		FreeCharList(skypenames);
 		skypenames.destroy();
 	}
-	PushRequest(new GetContactsAuthRequest(token), &CSkypeProto::LoadContactsAuth);
+	PushRequest(new GetContactsAuthRequest(m_szTokenSecret), &CSkypeProto::LoadContactsAuth);
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
