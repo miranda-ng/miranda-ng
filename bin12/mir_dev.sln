@@ -128,7 +128,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserI
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variables", "..\plugins\Variables\Variables.vcxproj", "{3038EF69-85BE-4D92-9864-CD6A5EBB558A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt_12.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRA", "..\protocols\MRA\Mra.vcxproj", "{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}"
 EndProject
