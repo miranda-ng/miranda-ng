@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 
 using namespace std;
@@ -33,7 +31,7 @@ using namespace std;
 #include "version.h"
 #include "resource.h"
 #include "utilities.h"
-#include "utf8.h"
+#include "include\utf8.h"
 
 extern HINSTANCE hInst;
 extern HANDLE hStopSpamLogDirH;
