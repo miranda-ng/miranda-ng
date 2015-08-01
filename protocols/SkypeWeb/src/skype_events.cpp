@@ -16,25 +16,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
+#define INVALID_DATA Translate("Invalid data!")
 
 INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 {
 	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
 
-	INT_PTR nRetVal = 0;
+	CMStringA szText; 
 
-	ptrA pszText;
-	
 	switch (pEvent->dbei->eventType)
 	{
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
 		{
-			CMStringA text; 
+			
 			JSONNode jMsg = JSONNode::parse((char*)pEvent->dbei->pBlob);
 			if (jMsg)
 			{
 				JSONNode &jOriginalMsg = jMsg["original_message"];
-				text.AppendFormat(Translate("Original message:\n\t%s\n"), jOriginalMsg["text"].as_string().c_str());
+				szText.AppendFormat(Translate("Original message:\n\t%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
 				JSONNode &jEdits = jMsg["edits"];
 				for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
 				{
@@ -44,22 +43,19 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					char szTime[MAX_PATH];
 					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
 
-					text.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, jEdit["text"].as_string().c_str());
+					szText.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
 				}
 				
 			}
 			else 
 			{
-				text = mir_utf8encode(Translate("Invalid data!"));
+				szText = INVALID_DATA;
 			}
-
-			pszText = mir_utf8decodeA(text);
 			break;
 		}
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			CMStringA text;
 			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("partlist"));
 			if (xml != NULL)
 			{
@@ -72,9 +68,19 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					if (xmlPart != NULL)
 					{
 						HXML xmlName = xmlGetChildByPath(xmlPart, _T("name"), 0);
+						HXML xmlDuration = xmlGetChildByPath(xmlPart, _T("duration"), 0);
+						time_t callDuration = 0;
+						if (xmlDuration != NULL)
+						{
+							callDuration = _ttol(ptrT((TCHAR*)xmlGetText(xmlDuration)));
+							xmlDestroyNode(xmlDuration);
+						}
 						if (xmlName != NULL)
 						{
-							text.AppendFormat(Translate("%s %s this call.\n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enters") : Translate("leaves"));
+							char szTime[MAX_PATH];
+							strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
+
+							szText.AppendFormat(Translate("%s %s this call (%s).\n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enters") : Translate("leaves"), szTime);
 							xmlDestroyNode(xmlName);
 						}
 						xmlDestroyNode(xmlPart);
@@ -82,27 +88,29 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 				}
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text);
+			else
+			{
+				szText = INVALID_DATA;
+			}
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			CMStringA text;
 			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("files"));
 			if (xml != NULL)
 			{
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
 				{
-					size_t fileSize = 0;
+					long fileSize = 0;
 					HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
 					if (xmlNode != NULL)
 					{
-						fileSize = _ttoi(ptrT((TCHAR*)xmlGetAttrValue(xmlNode, _T("size"))));
+						fileSize = _ttol(ptrT((TCHAR*)xmlGetAttrValue(xmlNode, _T("size"))));
 						ptrA fileName(mir_utf8encodeT(ptrT((TCHAR*)xmlGetText(xmlNode))));
 						if (fileName != NULL)
 						{
 							CMStringA msg(FORMAT, Translate("File transfer:\n\tFile name: %s\n\tSize: %d bytes"), fileName, fileSize);
-							text.AppendFormat("%s\n", msg);
+							szText.AppendFormat("%s\n", msg);
 						}
 
 						xmlDestroyNode(xmlNode);
@@ -110,35 +118,40 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 				}
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text);
+			else
+			{
+				szText = INVALID_DATA;
+			}
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			CMStringA text;
 			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, _T("URIObject"));
 			if (xml != NULL)
 			{
-				text.Append(_T2A(xmlGetText(xml)));
+				szText.Append(_T2A(xmlGetText(xml)));
 				xmlDestroyNode(xml);
 			}
-			pszText = mir_strdup(text);
+			else 
+			{
+				szText = INVALID_DATA;
+			}
 			break;
 
 		}
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
 		{
-			pszText = mir_strdup(Translate("Incoming call"));
+			szText = Translate("Incoming call");
 			break;
 		}
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
 		{
-			pszText = mir_strdup(CMStringA(FORMAT, Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)pEvent->dbei->pBlob)));
+			szText.Format(Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)pEvent->dbei->pBlob));
 			break;
 		}
 	default:
 		{
-			pszText = mir_strdup((char*)pEvent->dbei->pBlob);
+			szText = (char*)pEvent->dbei->pBlob;
 		}
 	}
 
@@ -146,22 +159,21 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	{
 	case DBVT_TCHAR:
 		{
-			nRetVal = (INT_PTR)mir_a2t(pszText);
-			break;
+			return (INT_PTR)mir_a2t(szText);
 		}
 	case DBVT_ASCIIZ:
 		{
-			nRetVal = (INT_PTR)mir_strdup(pszText);
-			break;
+			return (INT_PTR)szText.Detach();
 		}
 	case DBVT_UTF8:
 		{
-			nRetVal = (INT_PTR)mir_utf8encode(pszText);
-			break;
+			return (INT_PTR)mir_utf8encode(szText);
+		}
+	default:
+		{
+			return NULL;
 		}
 	}
-
-	return nRetVal;
 }
 
 INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)

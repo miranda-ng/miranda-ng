@@ -29,8 +29,6 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 	if (hContact == NULL)
 		return;
 
-	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
-	//"privateInfo": {"epname": "Skype"}
 	const JSONNode &publicInfo = node["publicInfo"];
 	const JSONNode &privateInfo = node["privateInfo"];
 	CMStringA MirVer = "";
@@ -107,16 +105,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 
 	std::string selfLink = node["selfLink"].as_string();
 	std::string status = node["status"].as_string();
-	CMStringA skypename;
-
-	if (selfLink.find("/8:") != std::string::npos)
-	{
-		skypename = UrlToSkypename(selfLink.c_str());
-	}
-	else if (selfLink.find("/1:") != std::string::npos)
-	{
-		skypename = UrlToSkypename(selfLink.c_str());
-	}
+	CMStringA skypename = UrlToSkypename(selfLink.c_str());
 
 	if (!skypename.IsEmpty())
 	{
@@ -127,8 +116,9 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 			m_iDesiredStatus = iNewStatus;
 			m_iStatus = iNewStatus;
 			if (old_status != iNewStatus)
+			{
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
-			return;
+			}
 		}
 		else
 		{
@@ -141,7 +131,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 
 void CSkypeProto::ProcessNewMessageRes(const JSONNode &node)
 {
-	debugLogA("CSkypeProto::ProcessNewMessageRes");
+	debugLogA(__FUNCTION__);
 
 	std::string conversationLink = node["conversationLink"].as_string();
 

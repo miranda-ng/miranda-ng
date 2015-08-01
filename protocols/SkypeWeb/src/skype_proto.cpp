@@ -49,7 +49,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 
 	m_hTrouterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	SkypeSetTimer(this);
+	SkypeSetTimer();
 }
 
 CSkypeProto::~CSkypeProto()
@@ -64,7 +64,7 @@ CSkypeProto::~CSkypeProto()
 
 	if (m_hCallEvent && Accounts.getCount() == 0) DestroyHookableEvent(m_hCallEvent);
 	
-	SkypeUnsetTimer(this);
+	SkypeUnsetTimer();
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
@@ -203,6 +203,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		break;
 	}
 
+	mir_cslock lck(m_StatusLock);
+
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
 	int old_status = m_iStatus;
@@ -212,10 +214,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		isTerminated = true;
-		if (m_pollingConnection)
-			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-		if (m_TrouterConnection)
-			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
+		requestQueue->Stop();
+		ShutdownConnections();
 
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
@@ -224,7 +224,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("endpointId");
 			delSetting("expires");
 		}
-		requestQueue->Stop();
+		
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;

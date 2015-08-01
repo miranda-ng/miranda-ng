@@ -101,8 +101,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		else if (conversationLink.find("/19:") != -1)
 		{
 			CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
-			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
+			if (messageType == "Text" || messageType == "RichText")
+			{
 				AddMessageToChat(_A2T(chatname), _A2T(skypename), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
+			}
 		}
 	}
 }
@@ -135,22 +137,23 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	{
 		const JSONNode &conversation = conversations.at(i);
 		const JSONNode &lastMessage = conversation["lastMessage"];
-		if (!lastMessage)
-			continue;
-
-		std::string conversationLink = lastMessage["conversationLink"].as_string();
-		time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string().c_str()));
-
-		if (conversationLink.find("/8:") != -1)
+		if (lastMessage)
 		{
-			CMStringA skypename(UrlToSkypename(conversationLink.c_str()));
-			MCONTACT hContact = FindContact(skypename);
-			if (hContact == NULL)
-				continue;
+			std::string strConversationLink = lastMessage["conversationLink"].as_string();
 
-			if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
+			if (strConversationLink.find("/8:") != -1)
 			{
-				PushRequest(new GetHistoryRequest(m_szRegToken, skypename, 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
+				CMStringA szSkypename = UrlToSkypename(strConversationLink.c_str());
+				time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string().c_str()));
+
+				MCONTACT hContact = FindContact(szSkypename);
+				if (hContact != NULL)
+				{
+					if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
+					{
+						PushRequest(new GetHistoryRequest(m_szRegToken, szSkypename, 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
+					}
+				}
 			}
 		}
 	}

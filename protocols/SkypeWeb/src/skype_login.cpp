@@ -251,10 +251,9 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
 	SendRequest(new CreateContactsSubscriptionRequest(m_szRegToken, skypenames, m_szServer));
-	for (int i = 0; i < skypenames.getCount(); i++)
-		mir_free(skypenames[i]);
-	skypenames.destroy();
 
+	FreeCharList(skypenames);
+	skypenames.destroy();
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 

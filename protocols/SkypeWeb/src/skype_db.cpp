@@ -109,7 +109,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 			<< JSONNode("text", szContent);
 
 		jEdits << jEdit;	
-		jMsg << jEdits;
+		jMsg   << jEdits;
 
 
 	}
@@ -119,12 +119,13 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = this->m_szModuleName;
+	DBEVENTINFO dbei;
+	dbei.cbSize    = sizeof(dbei);
+	dbei.szModule  = m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
-	dbei.cbBlob = cbBlob;
-	dbei.pBlob = pBlob;
-	dbei.flags = flags;
+	dbei.cbBlob    = cbBlob;
+	dbei.pBlob     = pBlob;
+	dbei.flags     = flags;
 	return db_event_add(hContact, &dbei);
 }

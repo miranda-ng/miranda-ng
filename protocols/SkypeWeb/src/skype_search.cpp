@@ -26,11 +26,11 @@ HANDLE CSkypeProto::SearchBasic(const TCHAR* id)
 void CSkypeProto::SearchBasicThread(void* id)
 {
 	debugLogA("CSkypeProto::OnSearchBasicThread");
-	if (!IsOnline())
-		return;
-
-	ptrA string(mir_urlEncode(T2Utf((TCHAR *)id)));
-	SendRequest(new GetSearchRequest(m_szTokenSecret, string), &CSkypeProto::OnSearch);
+	if (IsOnline())
+	{
+		ptrA szString(mir_urlEncode(T2Utf((TCHAR*)id)));
+		SendRequest(new GetSearchRequest(m_szTokenSecret, szString), &CSkypeProto::OnSearch);
+	}
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)

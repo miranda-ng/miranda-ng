@@ -64,8 +64,7 @@ CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
 }
 CSkypeGCCreateDlg::~CSkypeGCCreateDlg()
 {
-	for (int i = 0; i < m_ContactsList.getCount(); i++)
-		mir_free(m_ContactsList[i]);
+	CSkypeProto::FreeCharList(m_ContactsList);
 	m_ContactsList.destroy();
 }
 

@@ -29,6 +29,7 @@ IconInfo CSkypeProto::Icons[] =
 	{ LPGENT("Error icon"),           "error",            IDI_ERRORICON     },
 	{ LPGENT("Action icon"),          "me_action",        IDI_ACTION_ME     }
 };
+
 void CSkypeProto::InitIcons()
 {
 	TCHAR szFile[MAX_PATH];

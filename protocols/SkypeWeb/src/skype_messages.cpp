@@ -206,8 +206,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
 	//else if (messageType == "Event/SkypeVideoMessage") {}
-	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
-	//else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
+	//else if (messageType.c_str() == "RichText/Contacts") {}
+	//else if (messageType.c_str() == "RichText/Location") {}
 	else
 	{
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);

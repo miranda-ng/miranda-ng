@@ -592,7 +592,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	{
 		return 1;
 	}
-	return 1; /* parse failed */
+	return 1;
 }
 
 INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
