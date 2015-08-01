@@ -46,23 +46,24 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 		case EXIM_GROUP:
 			mir_strncpy(pszFileName, Translate("all Contacts"), cchFileName);
 			return;
+
 		case EXIM_CONTACT:
 			if (ExImContact->hContact == NULL) {
 				mir_strncpy(pszFileName, Translate("Owner"), cchFileName);
 				return;
 			}
-			else {
-				disp = (LPCSTR)pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL);
-			}
+			
+			disp = temp = mir_t2a(pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL));
 			break;
+
 		case EXIM_SUBGROUP:
 			temp = mir_t2a(ExImContact->ptszName);
 			disp = temp;
 			break;
+
 		case EXIM_ACCOUNT:
 			PROTOACCOUNT* acc = Proto_GetAccount(ExImContact->pszName);
-			temp = mir_t2a(acc->tszAccountName);
-			disp = temp;
+			disp = temp = mir_t2a(acc->tszAccountName);
 			break;
 	}
 
