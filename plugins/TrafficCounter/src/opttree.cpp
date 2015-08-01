@@ -21,7 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name);
 HTREEITEM OptTree_AddItem(HWND hwndTree, TCHAR *name, LPARAM lParam, int iconIndex);
