@@ -10,7 +10,7 @@
  */
 
 
-#include "../../yamn.h"
+#include "../../stdafx.h"
 
 #define ERRORSTR_MAXLEN	1024	//in wide-chars
 

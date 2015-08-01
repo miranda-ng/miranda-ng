@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>YAMN</ProjectName>
+    <ProjectGuid>{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}</ProjectGuid>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\browser\*.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\*.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\*.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\*.cpp">
+      <PrecompiledHeaderFile>..\..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\browser\*.h" />
+    <ClInclude Include="src\mails\*.h" />
+    <ClInclude Include="src\proto\*.h" />
+    <ClInclude Include="src\proto\pop3\*.h" />
+  </ItemGroup>
+</Project>

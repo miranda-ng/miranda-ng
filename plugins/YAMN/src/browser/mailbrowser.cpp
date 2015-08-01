@@ -10,7 +10,7 @@
  * put it back to uncommented and compile again :)
  */
 
-#include "../yamn.h" 
+#include "../stdafx.h" 
 
 #define	TIMER_FLASHING 0x09061979
 #define MAILBROWSER_MINXSIZE	200		//min size of mail browser window

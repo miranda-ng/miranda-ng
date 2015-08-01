@@ -1,4 +1,4 @@
-#include "yamn.h"
+#include "stdafx.h"
 
 static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
 {

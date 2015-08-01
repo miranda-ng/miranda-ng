@@ -5,7 +5,7 @@
  * (c) majvan 2002-2004
  */
 
-#include "yamn.h"
+#include "stdafx.h"
 
 // Initializes a SWMRG structure. This structure must be 
 // initialized before any writer or reader threads attempt
