@@ -305,6 +305,8 @@ private:
 	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
+	void CSkypeProto::FreeCharList(LIST<char> lst);
+
 	__forceinline bool IsOnline()
 	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
 	}
