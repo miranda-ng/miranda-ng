@@ -290,7 +290,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Msg_Export", "..\plugins\Ms
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpamMod", "..\plugins\StopSpamMod\stopspam_mod.vcxproj", "{0FF6989B-880A-4C3F-B69D-AFF93296044D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Watrack_MPD", "..\plugins\watrack_mpd\watrack_mpd_14.vcxproj", "{A7D9DFA5-C34F-4B98-BEE8-5140EFCD2E8C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Watrack_MPD", "..\plugins\watrack_mpd\watrack_mpd.vcxproj", "{A7D9DFA5-C34F-4B98-BEE8-5140EFCD2E8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginUpdater", "..\plugins\PluginUpdater\PluginUpdater.vcxproj", "{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}"
 EndProject
