@@ -390,7 +390,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinterSpeak", "..\plugins\W
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\VKontakte\vk.vcxproj", "{BF6E1942-7E42-4564-9DF5-FD0A00D71173}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_14.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
 EndProject

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //HELPME: need new icons for TTB bottons
 
-#include "StartupSilence.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 int hLangpack;
