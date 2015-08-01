@@ -1,4 +1,4 @@
-#include "wumf.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 WUMF_OPTIONS WumfOptions = { 0 };

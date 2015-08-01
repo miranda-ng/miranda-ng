@@ -178,7 +178,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho_14.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf_14.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryptoPP", "..\plugins\CryptoPP\cryptopp_14.vcxproj", "{4AC1E062-0236-4E49-AA04-F732043D2DCF}"
 EndProject

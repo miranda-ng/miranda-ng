@@ -1,4 +1,4 @@
-#include "wumf.h"
+#include "stdafx.h"
 
 #define MAX_CHARS 4096
 #define WS_WINDOW_STYLE WS_OVERLAPPED
