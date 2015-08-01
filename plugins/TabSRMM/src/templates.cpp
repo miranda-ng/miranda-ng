@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_VARIABLESHELP:
-			Utils_OpenUrl("http://wiki.miranda.or.at/TabSRMM/Templates");
+			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates");
 			break;
 
 		case IDC_EDITTEMPLATE:
