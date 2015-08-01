@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 HANDLE hhkShow=0, hhkUpdate=0, hhkRemove=0;
 

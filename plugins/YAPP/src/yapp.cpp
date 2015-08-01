@@ -1,7 +1,7 @@
 // popups2.cpp : Defines the entry point for the DLL application.
 //
 
-#include "common.h"
+#include "stdafx.h"
 
 HMODULE hInst = 0;
 bool bShutdown = false;
