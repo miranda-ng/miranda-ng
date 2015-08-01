@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "variables.h"
+#include "stdafx.h"
 
 // this is for get and put(s)
 static mir_cs csVarRegister;

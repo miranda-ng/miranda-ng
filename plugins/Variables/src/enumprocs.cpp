@@ -21,7 +21,7 @@
 // EnumProc.c
 //
 
-#include "variables.h"
+#include "stdafx.h"
 
 typedef struct {
 	DWORD          dwPID;
