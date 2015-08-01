@@ -2,7 +2,6 @@
 #ifndef __YAMN_H
 #define __YAMN_H
 
-#define _CRT_SECURE_NO_WARNINGS
 #define VC_EXTRALEAN
 
 #include <windows.h>

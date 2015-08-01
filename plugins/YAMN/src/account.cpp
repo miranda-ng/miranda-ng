@@ -6,7 +6,7 @@
  * (c) majvan 2002-2004
  */
 
-#include "yamn.h"
+#include "stdafx.h"
 
 //Account status CS
 //When we check some account, thread should change status of account to idle, connecting etc.

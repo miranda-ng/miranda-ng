@@ -7,7 +7,7 @@
  * (c) majvan 2002-2004
  */
 
-#include "yamn.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 

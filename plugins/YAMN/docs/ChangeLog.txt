@@ -221,7 +221,7 @@ Time for release.
 0.0.0.3
 ============
 + Now account are shown as a contact.
-+ Source code modification and use of yamn.h
++ Source code modification and use of stdafx.h
 + Wait the event moduleloaded before loading the icons (support icolib).
 
 0.0.0.2
