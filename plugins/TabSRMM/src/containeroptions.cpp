@@ -26,7 +26,7 @@
 //
 // The dialog to customize per container options
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static void MY_CheckDlgButton(HWND hWnd, UINT id, int iCheck)
 {

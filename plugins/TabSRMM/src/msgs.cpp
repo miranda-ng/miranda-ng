@@ -27,7 +27,7 @@
 // Load, setup and shutdown the plugin
 // core plugin messaging services (single IM chats only).
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 

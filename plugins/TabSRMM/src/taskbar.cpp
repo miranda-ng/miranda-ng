@@ -51,7 +51,7 @@
 // Each proxy window has a CThumbIM or CThumbMUC object which represents
 // the actual thumbnail bitmap.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 /**
  * maps MUC event types to icon names for retrieving the "big" icons

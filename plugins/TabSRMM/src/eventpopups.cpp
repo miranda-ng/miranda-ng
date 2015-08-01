@@ -34,7 +34,7 @@
 // 	Date: 18.07.02 13:59 / Update: 16.09.02 17:45
 // 	Copyright: (C) 2002 Starzinger Michael
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions);
 

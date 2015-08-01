@@ -26,7 +26,7 @@
 //
 // the contact switch bar on the left (or right) side
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	{

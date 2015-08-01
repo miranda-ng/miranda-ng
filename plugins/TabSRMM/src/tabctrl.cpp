@@ -27,7 +27,7 @@
 // a custom tab control, skinable, aero support, single/multi row, button
 // tabs support, proper rendering for bottom row tabs and more.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static WNDPROC		OldTabControlClassProc;
 

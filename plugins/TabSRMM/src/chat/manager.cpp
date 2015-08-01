@@ -24,7 +24,7 @@
 //
 // (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 {

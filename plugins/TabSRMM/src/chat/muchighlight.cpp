@@ -26,7 +26,7 @@
 //
 // highlighter class for multi user chats
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 void CMUCHighlight::cleanup()
 {

@@ -27,7 +27,7 @@
 // Implements the richedit-based message history display for the group
 // chat window.
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 /*
  * The code for streaming the text is to a large extent copied from

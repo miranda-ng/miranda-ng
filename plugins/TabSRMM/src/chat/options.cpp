@@ -26,7 +26,7 @@
 //
 // group chat options and generic font handling
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2

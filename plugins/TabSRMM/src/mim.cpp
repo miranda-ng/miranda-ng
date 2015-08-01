@@ -27,7 +27,7 @@
 // wraps some parts of Miranda API
 // Also, OS dependent stuff (visual styles api etc.)
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 PDTTE  CMimAPI::m_pfnDrawThemeTextEx = 0;
 DEFICA CMimAPI::m_pfnDwmExtendFrameIntoClientArea = 0;

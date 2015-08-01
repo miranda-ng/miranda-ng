@@ -26,7 +26,7 @@
 //
 // This implements the group chat dialog window
 
-#include "..\commonheaders.h"
+#include "..\stdafx.h"
 
 // externs...
 extern LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

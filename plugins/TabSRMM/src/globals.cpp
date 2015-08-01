@@ -27,7 +27,7 @@
 // Plugin configuration variables and functions. Implemented as a class
 // though there will always be only a single instance.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 void Chat_ModulesLoaded();
 

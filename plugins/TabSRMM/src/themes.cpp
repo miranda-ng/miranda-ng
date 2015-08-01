@@ -27,7 +27,7 @@
 // Implements the skinning engine and most parts of the aero support in
 // tabSRMM 3.x+
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static SKINDESC my_default_skin[] = {
 	IDR_SKIN_AERO, _T("tabskin_aero.png"),

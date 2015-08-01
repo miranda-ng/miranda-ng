@@ -26,7 +26,7 @@
 //
 // the info area for both im and chat sessions
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 TCHAR *xStatusDescr[] =
 {

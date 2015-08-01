@@ -34,7 +34,7 @@
 //    c) send later job management. Periodically process the queue of open
 //	   deferred send jobs.
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static UINT 	WM_TASKBARCREATED;
 static HANDLE 	hSvcHotkeyProcessor = 0;

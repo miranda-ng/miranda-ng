@@ -26,7 +26,7 @@
 //
 // Implementation of the option pages
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
 

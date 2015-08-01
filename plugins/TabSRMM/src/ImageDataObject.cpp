@@ -29,7 +29,7 @@
 //
 // originally part of the smileyadd plugin for Miranda NG
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 extern void ReleaseRichEditOle(IRichEditOle *ole)
 {

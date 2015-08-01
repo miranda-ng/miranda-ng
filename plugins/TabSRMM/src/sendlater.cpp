@@ -26,7 +26,7 @@
 //
 // the sendlater class implementation
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 CSendLater *sendLater = 0;
 
