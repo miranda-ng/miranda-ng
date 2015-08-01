@@ -364,7 +364,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\No
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups_12.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay_12.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
 EndProject
