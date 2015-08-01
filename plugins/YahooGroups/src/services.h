@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_YAHOOGROUPS_SERVICES_H
 #define M_YAHOOGROUPS_SERVICES_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define MS_YAHOOGROUPS_MOVE  "YahooGroups/Groups/MoveToOfficialGroups"
 #define MS_YAHOOGROUPS_RESET "YahooGroups/Groups/Reset"

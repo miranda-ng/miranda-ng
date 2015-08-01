@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_YAHOOGROUPS_DLGHANDLERS_H
 #define M_YAHOOGROUPS_DLGHANDLERS_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

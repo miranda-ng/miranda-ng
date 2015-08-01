@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_YAHOOGROUPS_UTILS_H
 #define M_YAHOOGROUPS_UTILS_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 //#define USE_LOG
 #define LOG_FILE "yahoogroups.log"
