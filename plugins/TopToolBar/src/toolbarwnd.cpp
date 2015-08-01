@@ -1,5 +1,5 @@
 
-#include "common.h"
+#include "stdafx.h"
 
 COLORREF bkColour;
 HBITMAP hBmpBackground, hBmpSeparator;

@@ -1,5 +1,5 @@
 
-#include "common.h"
+#include "stdafx.h"
 
 pfnCustomProc g_CustomProc = NULL;
 LPARAM g_CustomProcParam = 0;
