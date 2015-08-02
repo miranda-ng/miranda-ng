@@ -26,6 +26,8 @@
 
 #define NETLIB_USER_AGENT "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"
 
+typedef HANDLE MCONTACT;
+
 template<class T> class mir_ptr
 {
 	T *data;
@@ -140,8 +142,18 @@ __forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk) {
 	return CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)hk);
 }
 
-__forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
-{	return CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)ptszPath);
+__forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath) {
+	return CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)ptszPath);
 }
+
+__forceinline TCHAR *Utils_ReplaceVarsT(const TCHAR *szData, MCONTACT hContact, REPLACEVARSARRAY *variables) {
+	REPLACEVARSDATA vars;
+	vars.cbSize = sizeof(vars);
+	vars.dwFlags = RVF_TCHAR;
+	vars.hContact = hContact;
+	vars.variables = variables;
+	return (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&vars);
+}
+
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
