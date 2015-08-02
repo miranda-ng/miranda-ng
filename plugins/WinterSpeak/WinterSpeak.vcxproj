@@ -27,6 +27,7 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <Link>
+      <AdditionalDependencies>spchwrap.lib;%(AdditionalDependencies)</AdditionalDependencies> 
       <AdditionalLibraryDirectories>src\SAPI 4.0\Lib;$(CommonLibDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5FAA475D-0593-454F-8601-0D7150DCA4A0}</ProjectGuid>
+    <ProjectName>ListeningTo</ProjectName>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="..\utils\mir_buffer.h" />
+    <ClInclude Include="..\utils\mir_options.h" />
+    <ClInclude Include="..\utils\utf8_helpers.h" />
+    <ClInclude Include="src\players\foobar.h" />
+    <ClInclude Include="src\players\generic.h" />
+    <ClInclude Include="src\players\itunes.h" />
+    <ClInclude Include="src\players\mradio.h" />
+    <ClInclude Include="src\players\player.h" />
+    <ClInclude Include="src\players\watrack.h" />
+    <ClInclude Include="src\players\winamp.h" />
+    <ClInclude Include="src\players\wmp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\utils\mir_options.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\players\foobar.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\generic.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\itunes.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\mradio.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\player.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\watrack.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\winamp.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\wmp.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+</Project>

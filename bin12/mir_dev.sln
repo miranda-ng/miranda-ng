@@ -150,7 +150,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "..\plugins\ClientChangeNotify\ClientChangeNotify.vcxproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListeningTo", "..\plugins\ListeningTo\listeningto_12.vcxproj", "{5FAA475D-0593-454F-8601-0D7150DCA4A0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListeningTo", "..\plugins\ListeningTo\listeningto.vcxproj", "{5FAA475D-0593-454F-8601-0D7150DCA4A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "..\protocols\Omegle\omegle.vcxproj", "{D5E2FEC1-B29A-476C-BD41-469FE282EE0F}"
 EndProject
