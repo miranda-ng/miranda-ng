@@ -177,13 +177,13 @@ void CSteamProto::PollingThread(void*)
 	{
 		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
 		//request->nlc = m_pollingConnection;
-		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
+		HttpResponse *response = request->Send(m_hNetlibUser);
 		delete request;
 
 		if (response == NULL || response->resultCode != HTTP_CODE_OK)
 		{
 			if (response != NULL)
-				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+				delete response;
 
 			errors++;
 			continue;
@@ -245,7 +245,7 @@ void CSteamProto::PollingThread(void*)
 			breaked = true;
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+		delete response;
 	}
 
 	setDword("MessageID", messageId);

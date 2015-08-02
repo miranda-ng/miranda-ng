@@ -1,7 +1,7 @@
 #ifndef _REQUEST_QUEUE_H_
 #define _REQUEST_QUEUE_H_
 
-typedef void(*HttpResponseCallback)(const NETLIBHTTPREQUEST *response, void *arg);
+typedef void(*HttpResponseCallback)(const HttpResponse *response, void *arg);
 typedef void(*HttpFinallyCallback)(void *arg);
 
 struct RequestQueueItem
