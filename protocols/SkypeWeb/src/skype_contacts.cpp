@@ -282,7 +282,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 					}
 				}
 
-				if (type == "skype" || type == "msn") skypenames.insert(mir_strdup(skypename.c_str()));
+				if (type == "skype") skypenames.insert(mir_strdup(skypename.c_str()));
 			}
 		}
 	}
@@ -294,7 +294,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		{
 			LIST<char> users(1);
 			for (; i < skypenames.getCount() && users.getCount() <= 50; i++)
-				users.insert(skypenames[i]);
+				users.insert(mir_strdup(skypenames[i]));
 
 			PushRequest(new GetContactsInfoRequest(m_szTokenSecret, users), &CSkypeProto::LoadContactsInfo);
 
