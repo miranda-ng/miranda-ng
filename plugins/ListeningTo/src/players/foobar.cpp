@@ -17,7 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#include "..\commons.h"
+#include "..\stdafx.h"
 
 static TCHAR *wcs[] = {
 		_T("{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}/1"),	// Foobar 0.9.1

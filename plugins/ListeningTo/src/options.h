@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __OPTIONS_H__
 
 
-#include "commons.h"
+#include "stdafx.h"
 
 #include <windows.h>
 

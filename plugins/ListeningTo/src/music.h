@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __MUSIC_H__
 
 
-#include "commons.h"
+#include "stdafx.h"
 
 
 // Players
