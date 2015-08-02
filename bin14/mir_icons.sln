@@ -6,9 +6,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\SecureIM_icons\secureim_icons.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags_14.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\Flags\spellchecker_flags.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika", "..\plugins\SpellChecker\Flags-Angelika\flags-angelika_14.vcxproj", "{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika", "..\plugins\SpellChecker\Flags-Angelika\flags-angelika.vcxproj", "{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_14.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
