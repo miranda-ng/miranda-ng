@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "stdafx.h"
 #include "TextToSpeech.h"
 
 //------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;

@@ -1,4 +1,4 @@
-#include "Common.h"
+#include "stdafx.h"
 #include "SpeechApi40aLexicon.h"
 
 #include <windows.h>
@@ -10,7 +10,7 @@
 #include <ObjError.h>
 #include <Ole2Ver.h>
 
-#include <speech.h>
+#include "SAPI 4.0\Include\speech.h"
 //#include <spchwrap.h>
 
 

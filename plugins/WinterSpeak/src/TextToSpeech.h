@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "stdafx.h"
 #include <string>
 #include <vector>
 
