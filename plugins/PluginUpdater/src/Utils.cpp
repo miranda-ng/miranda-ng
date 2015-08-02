@@ -137,7 +137,6 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	vars[0].value.t = _T("32");
 #endif
 	vars[1].key.t = vars[1].value.t = 0;
-	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 #else
 	vars[0].lptzKey = _T("platform");
 #ifdef _WIN64
@@ -146,8 +145,8 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	vars[0].lptzValue = _T("32");
 #endif
 	vars[1].lptzKey = vars[1].lptzValue = 0;
-	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&vars);
 #endif
+	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
 
 	// Download version info
 	FILEURL pFileUrl;
