@@ -33,20 +33,39 @@ enum SKYPE_DB_EVENT_TYPE
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
-class pass_ptr
+class pass_ptrA
 {
 	char* data;
 
 public:
-	__inline explicit pass_ptr() : data(NULL) {}
-	__inline explicit pass_ptr(char* _p) : data(_p) {}
-	__inline ~pass_ptr() { zero(); mir_free(data); }
+	__inline explicit pass_ptrA() : data(NULL) {}
+	__inline explicit pass_ptrA(char* _p) : data(_p) {}
+	__inline ~pass_ptrA() { zero(); mir_free(data); }
 	__inline char* operator = (char * _p) { if (data){ zero(); mir_free(data); } data = _p; return data; }
 	__inline char* operator->() const { return data; }
 	__inline operator char *() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 	__inline char * detach() { char *res = data; data = NULL; return res; }
-	__inline void zero(){ if (data) SecureZeroMemory(data, mir_strlen(data)); }
+	__inline void zero() { if (data) SecureZeroMemory(data, mir_strlen(data)); }
 };
+
+class pass_ptrW
+{
+	WCHAR* data;
+
+public:
+	__inline explicit pass_ptrW() : data(NULL) {}
+	__inline explicit pass_ptrW(WCHAR* _p) : data(_p) {}
+	__inline ~pass_ptrW() { zero(); mir_free(data); }
+	__inline WCHAR* operator = (WCHAR * _p) { if (data){ zero(); mir_free(data); } data = _p; return data; }
+	__inline WCHAR* operator->() const { return data; }
+	__inline operator WCHAR *() const { return data; }
+	__inline operator INT_PTR() const { return (INT_PTR)data; }
+	__inline WCHAR * detach() { WCHAR *res = data; data = NULL; return res; }
+	__inline void zero() { if (data) SecureZeroMemory(data, (mir_wstrlen(data)*sizeof(TCHAR))); }
+};
+
+typedef pass_ptrW pass_ptrT;
+
 
 #endif //_SKYPE_DB_H_
