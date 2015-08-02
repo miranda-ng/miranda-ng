@@ -62,7 +62,7 @@ public:
 	__inline operator WCHAR *() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 	__inline WCHAR * detach() { WCHAR *res = data; data = NULL; return res; }
-	__inline void zero() { if (data) SecureZeroMemory(data, (mir_wstrlen(data)*sizeof(TCHAR))); }
+	__inline void zero() { if (data) SecureZeroMemory(data, (mir_wstrlen(data)*sizeof(WCHAR))); }
 };
 
 typedef pass_ptrW pass_ptrT;
