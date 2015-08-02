@@ -52,15 +52,21 @@ void CSkypeOptionsMain::OnInitDialog()
 
 void CSkypeOptionsMain::OnApply()
 {
-	ptrA tszNewSkypename(m_skypename.GetTextA()), tszNewPassword(m_password.GetTextA()),
-		tszOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)), tszOldPassword(m_proto->getStringA("Password"));
-	if (mir_strcmpi(tszNewSkypename, tszOldSkypename) || mir_strcmp(tszNewPassword, tszOldPassword))
+	ptrA szNewSkypename(m_skypename.GetTextA()),
+		 szNewPassword(m_password.GetTextA()),
+		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)),
+		 szOldPassword(m_proto->getStringA("Password"));
+
+	if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
-	m_proto->setString(SKYPE_SETTINGS_ID, tszNewSkypename);
-	m_proto->setString("Password", tszNewPassword);
+	m_proto->setString(SKYPE_SETTINGS_ID, szNewSkypename);
+	m_proto->setString("Password", szNewPassword);
 	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
+
+	SecureZeroMemory(szNewPassword, mir_strlen(szNewPassword));
+	SecureZeroMemory(szOldPassword, mir_strlen(szOldPassword));
 }
 
 /////////////////////////////////////////////////////////////////////////////////
