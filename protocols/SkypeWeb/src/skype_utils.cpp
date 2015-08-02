@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
-void CSkypeProto::FreeCharList(LIST<char> lst)
+void CSkypeProto::FreeCharList(const LIST<char> &lst)
 {
 	for (int i = 0; i < lst.getCount(); i++)
 		mir_free(lst[i]);
@@ -423,7 +423,7 @@ bool CSkypeProto::IsMe(const char *skypeName)
 	return (!mir_strcmpi(skypeName, m_szSelfSkypeName) || !mir_strcmp(skypeName, ptrA(getStringA("SelfEndpointName"))));
 }
 
-char *CSkypeProto::MirandaToSkypeStatus(int status)
+const char *CSkypeProto::MirandaToSkypeStatus(int status)
 {
 	switch (status)
 	{

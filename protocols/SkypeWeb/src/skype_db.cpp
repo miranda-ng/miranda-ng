@@ -129,3 +129,44 @@ MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, 
 	dbei.flags     = flags;
 	return db_event_add(hContact, &dbei);
 }
+
+void CSkypeProto::InitDBEvents()
+{
+	db_set_resident(m_szModuleName, "LastAuthRequestTime");
+
+	// custom event
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	dbEventType.iconService = MODULE "/GetEventIcon";
+	dbEventType.textService = MODULE "/GetEventText";
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE;
+	dbEventType.descr = Translate("Edited message");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
+	dbEventType.descr = Translate("Action");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL_INFO;
+	dbEventType.descr = Translate("Call information");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
+	dbEventType.descr = Translate("File transfer information");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
+	dbEventType.descr = Translate("URI object");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
+	dbEventType.descr = Translate("Unknown event");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+	dbEventType.descr = Translate("Incoming call");
+	dbEventType.flags |= DETF_NONOTIFY;
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+}

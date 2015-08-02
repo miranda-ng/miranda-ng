@@ -302,7 +302,7 @@ private:
 	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
-	static void CSkypeProto::FreeCharList(LIST<char> lst);
+	static void CSkypeProto::FreeCharList(const LIST<char> &lst);
 
 	__forceinline bool IsOnline()
 	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
@@ -316,7 +316,7 @@ private:
 	CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
 
 	int SkypeToMirandaStatus(const char *status);
-	char *MirandaToSkypeStatus(int status);
+	const char *MirandaToSkypeStatus(int status);
 
 	void ShowNotification(const TCHAR *message, MCONTACT hContact = NULL);
 	void ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact = NULL, int type = 0);
