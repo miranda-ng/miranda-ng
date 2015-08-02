@@ -54,7 +54,7 @@ void CSkypeOptionsMain::OnApply()
 {
 	ptrA szNewSkypename(m_skypename.GetTextA()),	 
 		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
-	pass_ptr szNewPassword(m_password.GetTextA()),
+	pass_ptrA szNewPassword(m_password.GetTextA()),
 			szOldPassword(m_proto->getStringA("Password"));
 
 	if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
