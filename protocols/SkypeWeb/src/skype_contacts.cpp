@@ -293,7 +293,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		do
 		{
 			LIST<char> users(1);
-			for (; i < skypenames.getCount() && users.getCount() < 25; i++)
+			for (; i < skypenames.getCount() && users.getCount() <= 50; i++)
 				users.insert(skypenames[i]);
 
 			PushRequest(new GetContactsInfoRequest(m_szTokenSecret, users), &CSkypeProto::LoadContactsInfo);
