@@ -26,7 +26,7 @@ void CSkypeProto::Login()
 	requestQueue->Start();
 	int tokenExpires(getDword("TokenExpiresIn", 0));
 	ptrA szLogin(getStringA(SKYPE_SETTINGS_ID));
-	ptrA szPassword(getStringA(SKYPE_SETTINGS_PASSWORD));
+	pass_ptr szPassword(getStringA(SKYPE_SETTINGS_PASSWORD));
 	if (szLogin == NULL || szPassword == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -42,7 +42,6 @@ void CSkypeProto::Login()
 		else
 			SendRequest(new LoginOAuthRequest(szLogin, szPassword), &CSkypeProto::OnLoginOAuth);
 	}
-	SecureZeroMemory(szPassword, mir_strlen(szPassword));
 }
 
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)

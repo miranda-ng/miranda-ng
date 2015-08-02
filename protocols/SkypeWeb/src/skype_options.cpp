@@ -45,17 +45,17 @@ void CSkypeOptionsMain::OnInitDialog()
 	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
 	m_place.Enable(!m_proto->getBool("UseHostName", false));
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
-	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
+	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 128, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
 }
 
 
 void CSkypeOptionsMain::OnApply()
 {
-	ptrA szNewSkypename(m_skypename.GetTextA()),
-		 szNewPassword(m_password.GetTextA()),
-		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)),
-		 szOldPassword(m_proto->getStringA("Password"));
+	ptrA szNewSkypename(m_skypename.GetTextA()),	 
+		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
+	pass_ptr szNewPassword(m_password.GetTextA()),
+			szOldPassword(m_proto->getStringA("Password"));
 
 	if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
@@ -64,9 +64,6 @@ void CSkypeOptionsMain::OnApply()
 	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
-
-	SecureZeroMemory(szNewPassword, mir_strlen(szNewPassword));
-	SecureZeroMemory(szOldPassword, mir_strlen(szOldPassword));
 }
 
 /////////////////////////////////////////////////////////////////////////////////
