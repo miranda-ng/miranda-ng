@@ -1,4 +1,0 @@
-DESCRIPTION  'Miranda ListeningTo Winamp Plugin'
-
-EXPORTS
-	winampGetGeneralPurposePlugin
