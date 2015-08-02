@@ -12,7 +12,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_14.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_12_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_14_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z1", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_14.vcxproj", "{E04B8ECA-A066-41BA-AE8C-DB172424DD82}"
 EndProject
