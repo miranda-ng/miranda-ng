@@ -61,29 +61,41 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			{
 				ptrA type(mir_t2a(xmlGetAttrValue(xml, _T("type"))));
 				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
+				time_t callDuration = 0;
 
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
 				{
-					HXML xmlPart = xmlGetNthChild(xml, _T("part"), i);
+					HXML xmlPart = xmlGetNthChild(xml, _T("part"), i);		
 					if (xmlPart != NULL)
 					{
-						HXML xmlName = xmlGetChildByPath(xmlPart, _T("name"), 0);
 						HXML xmlDuration = xmlGetChildByPath(xmlPart, _T("duration"), 0);
-						time_t callDuration = 0;
+						
 						if (xmlDuration != NULL)
 						{
 							callDuration = _ttol(ptrT((TCHAR*)xmlGetText(xmlDuration)));
 							xmlDestroyNode(xmlDuration);
-						}
-						if (xmlName != NULL)
-						{
-							char szTime[MAX_PATH];
-							strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
-
-							szText.AppendFormat(Translate("%s %s this call (%s).\n"), _T2A(xmlGetText(xmlName)), bType ? Translate("enters") : Translate("leaves"), szTime);
-							xmlDestroyNode(xmlName);
+							xmlDestroyNode(xmlPart);
+							break;
 						}
 						xmlDestroyNode(xmlPart);
+					}
+				}
+
+				if (bType)
+				{
+					szText = Translate("Call");
+				}
+				else 
+				{
+					if (callDuration == 0)
+					{
+						szText = Translate("Call missed");
+					}
+					else
+					{
+						char szTime[100];
+						strftime(szTime, sizeof(szTime), "%X", gmtime(&callDuration));
+						szText.Format(Translate("Call ended (%s)"), szTime);
 					}
 				}
 				xmlDestroyNode(xml);
@@ -101,16 +113,15 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			{
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
 				{
-					long fileSize = 0;
+					LONGLONG fileSize = 0;
 					HXML xmlNode = xmlGetNthChild(xml, _T("file"), i);
 					if (xmlNode != NULL)
 					{
 						fileSize = _ttol(ptrT((TCHAR*)xmlGetAttrValue(xmlNode, _T("size"))));
-						ptrA fileName(mir_utf8encodeT(ptrT((TCHAR*)xmlGetText(xmlNode))));
+						char *fileName = _T2A(ptrT((TCHAR*)xmlGetText(xmlNode)));
 						if (fileName != NULL)
 						{
-							CMStringA msg(FORMAT, Translate("File transfer:\n\tFile name: %s\n\tSize: %d bytes"), fileName, fileSize);
-							szText.AppendFormat("%s\n", msg);
+							szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
 						}
 
 						xmlDestroyNode(xmlNode);
