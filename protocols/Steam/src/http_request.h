@@ -1,6 +1,51 @@
 ﻿#ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
+class HttpResponse : public NETLIBHTTPREQUEST, public MZeroedObject
+{
+public:
+	const NETLIBHTTPREQUEST* request;
+
+	HttpResponse(const NETLIBHTTPREQUEST* response, const NETLIBHTTPREQUEST* request = NULL)
+	{
+		request = request;
+		if (response)
+		{
+			cbSize = response->cbSize;
+			requestType = response->requestType;
+			flags = response->flags;
+			szUrl = mir_strdup(response->szUrl);
+			headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER) * response->headersCount);
+			headersCount = response->headersCount;
+			for (int i = 0; i < headersCount; i++)
+			{
+				headers[i].szName = mir_strdup(response->headers[i].szName);
+				headers[i].szValue = mir_strdup(response->headers[i].szValue);
+			}
+			pData = (char*)mir_alloc(response->dataLength);
+			dataLength = response->dataLength;
+			memcpy(pData, response->pData, dataLength);
+			resultCode = response->resultCode;
+			szResultDescr = mir_strdup(response->szResultDescr);
+			nlc = response->nlc;
+			timeout = response->timeout;
+		}
+	}
+
+	~HttpResponse()
+	{
+		for (int i = 0; i < headersCount; i++)
+		{
+			mir_free(headers[i].szName);
+			mir_free(headers[i].szValue);
+		}
+		mir_free(szUrl);
+		mir_free(headers);
+		mir_free(pData);
+		mir_free(szResultDescr);
+	}
+};
+
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 private:
@@ -81,7 +126,7 @@ public:
 			mir_free(pData);
 	}
 
-	NETLIBHTTPREQUEST* Send(HANDLE hConnection)
+	HttpResponse* Send(HANDLE hConnection)
 	{
 		szUrl = m_url.GetBuffer();
 
@@ -89,8 +134,14 @@ public:
 		mir_snprintf(message, _countof(message), "Send request to %s", szUrl);
 		CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
+		NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
+		HttpResponse* result = new HttpResponse(response, this);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+
+		return result;
 	}
 };
+
+
 
 #endif //_HTTP_REQUEST_H_

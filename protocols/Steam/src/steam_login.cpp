@@ -160,11 +160,11 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		std::string captchaId = node["captcha_gid"].as_string();
 
 		GetCaptchaRequest *request = new GetCaptchaRequest(captchaId.c_str());
-		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
+		HttpResponse *response = request->Send(m_hNetlibUser);
 		delete request;
 
 		CSteamCaptchaDialog captchaDialog(this, (BYTE*)response->pData, response->dataLength);
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+		delete response;
 		if (!captchaDialog.DoModal())
 		{
 			delSetting("CaptchaId");

@@ -314,7 +314,8 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 		DBVARIANT dbv;
 		if (!getWString("DefaultGroup", &dbv))
 		{
-			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+			if(Clist_GroupExists(dbv.ptszVal))
+				db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}

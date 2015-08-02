@@ -31,7 +31,7 @@ public:
 	}
 };
 
-static void SteamHttpResponse(const NETLIBHTTPREQUEST *response, void *arg)
+static void SteamHttpResponse(const HttpResponse *response, void *arg)
 {
 	SteamResponseDelegate *delegate = (SteamResponseDelegate*)arg;
 	delegate->Invoke(response);

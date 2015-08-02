@@ -72,10 +72,9 @@ void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, voi
 
 void RequestQueue::Execute(RequestQueueItem *item)
 {
-	NETLIBHTTPREQUEST *response = item->request->Send(hConnection);
+	HttpResponse *response = item->request->Send(hConnection);
 	if (item->responseCallback != NULL)
 		item->responseCallback(response, item->arg);
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	if (item->finallyCallback != NULL)
 		item->finallyCallback(item->arg);
 	delete item;
