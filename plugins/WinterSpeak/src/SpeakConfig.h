@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "stdafx.h"
 #include "ConfigDatabase.h"
 #include "TextToSpeech.h"
 
