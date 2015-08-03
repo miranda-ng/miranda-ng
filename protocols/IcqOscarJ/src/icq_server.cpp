@@ -321,7 +321,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 			icq_serverDisconnect();
 		}
 		else { // Rates management
-			mir_cslock l(m_ratesMutex);
+			mir_cslock r(m_ratesMutex);
 			m_rates->packetSent(pPacket);
 		}
 	}
@@ -387,8 +387,6 @@ void CIcqProto::icq_login(const char* szPassword)
 
 	// User password
 	stsi->wPassLen = mir_strlen(szPassword);
-	if (stsi->wPassLen > 8)
-		stsi->wPassLen = 8;
 	null_strcpy(stsi->szPass, szPassword, stsi->wPassLen);
 
 	// Randomize sequence
