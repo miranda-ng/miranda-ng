@@ -38,7 +38,7 @@ class pass_ptrA : public mir_ptr<char>
 public:
 	__inline explicit pass_ptrA() : mir_ptr(){}
 	__inline explicit pass_ptrA(char* _p) : mir_ptr(_p) {}
-	__inline ~pass_ptrA() { zero(); mir_ptr::~mir_ptr(); }
+	__inline ~pass_ptrA() { zero(); }
 	__inline void zero() 
 	{ char *data = mir_ptr::operator char *();
 	  if (data) SecureZeroMemory(data, mir_strlen(data)); 
@@ -51,7 +51,7 @@ class pass_ptrW : public mir_ptr<WCHAR>
 public:
 	__inline explicit pass_ptrW() : mir_ptr(){}
 	__inline explicit pass_ptrW(WCHAR* _p) : mir_ptr(_p) {}
-	__inline ~pass_ptrW() { zero(); mir_ptr::~mir_ptr(); }
+	__inline ~pass_ptrW() { zero(); }
 	__inline void zero() 
 	{ WCHAR *_data = mir_ptr::operator WCHAR *();
 	  if (_data) SecureZeroMemory(_data, mir_wstrlen(_data)*sizeof(WCHAR));
