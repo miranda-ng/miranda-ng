@@ -6485,7 +6485,7 @@ char *yahoo_ft7dc_send(int id, const char *buddy, YList *files)
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE *)buddy, strlen(buddy));
 	
-	snprintf(ft_token, 32, "%lu", time(NULL));
+	snprintf(ft_token, 32, "%lu", (long)time(NULL));
 	mir_md5_append(&ctx, (BYTE *)ft_token, strlen(ft_token));
 	mir_md5_finish(&ctx, result);
 	to_y64((unsigned char *)ft_token, result, 16);

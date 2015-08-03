@@ -13,6 +13,8 @@
 #ifndef _YAHOO_YAHOO_H_
 #define _YAHOO_YAHOO_H_
 
+#pragma warning(disable:4302 4311 4312)
+
 #include <windows.h>
 #include <shlwapi.h>
 
