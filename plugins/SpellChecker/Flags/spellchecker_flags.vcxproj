@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3B8B2642-716E-437C-B341-279B08FDC2C0}</ProjectGuid>
     <ProjectName>SpellChecker_Flags</ProjectName>
+    <TargetName>Flags_icons</TargetName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
