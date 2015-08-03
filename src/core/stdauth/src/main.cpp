@@ -19,7 +19,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int LoadSendRecvAuthModule(void);
 
@@ -40,13 +40,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0x8d0a046d, 0x8ea9, 0x4c55, {0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
