@@ -33,33 +33,5 @@ enum SKYPE_DB_EVENT_TYPE
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
-class pass_ptrA : public mir_ptr<char>
-{
-public:
-	__inline explicit pass_ptrA() : mir_ptr(){}
-	__inline explicit pass_ptrA(char* _p) : mir_ptr(_p) {}
-	__inline ~pass_ptrA() { zero(); }
-	__inline char* operator = (char *_p){ zero(); mir_ptr::operator=(_p); }
-	__inline void zero() 
-	{ char *_data = mir_ptr::operator char *();
-	  if (_data) SecureZeroMemory(_data, mir_strlen(_data)); 
-	}
-};
-
-class pass_ptrW : public mir_ptr<WCHAR>
-{
-public:
-	__inline explicit pass_ptrW() : mir_ptr(){}
-	__inline explicit pass_ptrW(WCHAR* _p) : mir_ptr(_p) {}
-	__inline ~pass_ptrW() { zero(); }
-	__inline WCHAR* operator = (WCHAR *_p){ zero(); mir_ptr::operator=(_p); }
-	__inline void zero() 
-	{ WCHAR *_data = mir_ptr::operator WCHAR *();
-	  if (_data) SecureZeroMemory(_data, mir_wstrlen(_data)*sizeof(WCHAR));
-	}
-};
-
-typedef pass_ptrW pass_ptrT;
-
 
 #endif //_SKYPE_DB_H_
