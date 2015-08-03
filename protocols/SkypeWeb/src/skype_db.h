@@ -33,36 +33,29 @@ enum SKYPE_DB_EVENT_TYPE
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
-class pass_ptrA
+class pass_ptrA : public mir_ptr<char>
 {
-	char* data;
-
 public:
-	__inline explicit pass_ptrA() : data(NULL) {}
-	__inline explicit pass_ptrA(char* _p) : data(_p) {}
-	__inline ~pass_ptrA() { zero(); mir_free(data); }
-	__inline char* operator = (char * _p) { zero(); mir_free(data); data = _p; return data; }
-	__inline char* operator->() const { return data; }
-	__inline char* detach() { char *res = data; data = NULL; return res; }
-	__inline operator char*() const { return data; }
-	__inline operator INT_PTR() const { return (INT_PTR)data; }
-	__inline void zero() { if (data) SecureZeroMemory(data, mir_strlen(data)); }
+	__inline explicit pass_ptrA() : mir_ptr(){}
+	__inline explicit pass_ptrA(char* _p) : mir_ptr(_p) {}
+	__inline ~pass_ptrA() { zero(); mir_ptr::~mir_ptr(); }
+	__inline void zero() 
+	{ char *data = mir_ptr::operator char *();
+	  if (data) SecureZeroMemory(data, mir_strlen(data)); 
+	}
 };
 
-class pass_ptrW
+class pass_ptrW : public mir_ptr<WCHAR>
 {
-	WCHAR* data;
 
 public:
-	__inline explicit pass_ptrW() : data(NULL) {}
-	__inline explicit pass_ptrW(WCHAR* _p) : data(_p) {}
-	__inline ~pass_ptrW() { zero(); mir_free(data); }
-	__inline WCHAR* operator = (WCHAR * _p) { zero(); mir_free(data); data = _p; return data; }
-	__inline WCHAR* operator->() const { return data; }
-	__inline WCHAR* detach() { WCHAR *res = data; data = NULL; return res; }
-	__inline operator WCHAR*() const { return data; }
-	__inline operator INT_PTR() const { return (INT_PTR)data; }
-	__inline void zero() { if (data) SecureZeroMemory(data, (mir_wstrlen(data)*sizeof(WCHAR))); }
+	__inline explicit pass_ptrW() : mir_ptr(){}
+	__inline explicit pass_ptrW(WCHAR* _p) : mir_ptr(_p) {}
+	__inline ~pass_ptrW() { zero(); mir_ptr::~mir_ptr(); }
+	__inline void zero() 
+	{ WCHAR *_data = mir_ptr::operator WCHAR *();
+	  if (_data) SecureZeroMemory(_data, mir_wstrlen(_data)*sizeof(WCHAR));
+	}
 };
 
 typedef pass_ptrW pass_ptrT;
