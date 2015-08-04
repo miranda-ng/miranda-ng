@@ -383,6 +383,8 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			tszBody.AppendFormat(_T(": %s (%s)"), TranslateT("chat action not supported"), tszAction);
 	}
 
+	tszBody.Replace(_T("%"), _T("%%"));
+
 	if (cc->m_bHistoryRead) {
 		if (!jnMsg["title"].isnull())
 			SetChatTitle(cc, jnMsg["title"].as_mstring());
