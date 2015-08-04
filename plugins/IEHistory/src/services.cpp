@@ -35,7 +35,7 @@ int DestroyServices()
 	return 0;
 }
 
-INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM)
 {
 	Log("%s", "Entering function " __FUNCTION__);
 	HWND historyDlg;
