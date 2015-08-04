@@ -457,19 +457,13 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_PREV:
-		{
-			int finished = LoadPrev(hWnd);
-			//EnableWindow(GetDlgItem(hWnd, IDC_PREV), !finished);
-			//EnableWindow(GetDlgItem(hWnd, IDC_NEXT), TRUE);
+			LoadPrev(hWnd);
 			break;
-		}
+
 		case IDC_NEXT:
-		{
-			int finished = LoadNext(hWnd);
-			//EnableWindow(GetDlgItem(hWnd, IDC_NEXT), !finished);
-			//EnableWindow(GetDlgItem(hWnd, IDC_PREV), TRUE);
+			LoadNext(hWnd);
 			break;
-		}
+
 		case IDC_SEARCH:
 			HWND hSearch = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_SEARCH), hWnd, SearchDlgProc);
 			if (hSearch == NULL) {

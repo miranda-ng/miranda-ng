@@ -35,7 +35,7 @@ int UnhookEvents()
 	return 0;
 }
 
-int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
+int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;

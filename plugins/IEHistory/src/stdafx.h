@@ -56,12 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "events.h"
 #include "dlgHandlers.h"
 
-static FILE* fopen_s2(const char* file,const char* mode){
-	FILE* ret=NULL; fopen_s(&ret,file,mode);
-	return ret;
-}
-#define fopen fopen_s2
-#define mir_strcat strcat_s
+#define _strcat strcat_s
 #define _vsnprintf _vsnprintf_s
 #define snprintf _snprintf_s
 #define snwprintf _snwprintf_s
