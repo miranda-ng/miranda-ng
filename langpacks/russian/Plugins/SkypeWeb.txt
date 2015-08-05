@@ -75,16 +75,30 @@
 Изменённое сообщение
 [Action]
 Действие
+[Call information]
+Информация о звонке
+[File transfer information]
+Информация о передаче файла
+[URI object]
+URI объект
 [Unknown event]
 Неизвестное событие
 [Incoming call]
 Входящий звонок
+[Invalid data!]
+Неверные данные!
 [Original message:\n\t%s\n]
 Исходное сообщение:\n\t%s\n
 [Edited at %s:\n\t%s\n]
 Изменено в %s:\n\t%s\n
+[Call]
+Звонок
+[Call missed]
+Звонок пропущен
+[Call ended (%s)]
+Звонок завершён (%s)
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Передача файлов:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
+Передача файла:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
 [Unknown event, please send this text for developer: "%s"]
 Неизвестное событие, пожалуйста, отправьте этот текст разработчику: "%s"
 [Protocol icon]

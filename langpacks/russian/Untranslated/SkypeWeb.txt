@@ -1,7 +1,0 @@
-﻿[Call information]
-[File transfer information]
-[URI object]
-[Invalid data!]
-[Call]
-[Call missed]
-[Call ended (%s)]
