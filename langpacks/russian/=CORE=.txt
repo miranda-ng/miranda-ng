@@ -1047,6 +1047,8 @@
 В панели статусов
 [Warning!\r\nThis menu object not support user defined options.]
 Внимание!\r\nЭтот вид меню не поддаётся настройке.
+[Insert submenu]
+Вставить вложенное меню
 [Insert separator]
 Вставить разделитель
 [Service:]
@@ -2227,6 +2229,8 @@ xСтатус
 Меню групп
 [Subgroup menu]
 Меню подгрупп
+[New submenu]
+Новое вложенное меню
 [Menus]
 Меню
 [Tray menu]

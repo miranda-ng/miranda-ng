@@ -253,16 +253,6 @@ URL доп. информации
 К старым
 [To default]
 По умолчанию
-[Enable/disable auto update]
-Вкл/Выкл автообновление
-[Auto Update Enabled]
-Автообновление включено
-[Auto Update Disabled]
-Автообновление выключено
-[Weather Condition Changed]
-Weather: Погода изменилась
-[Weather Alert Issued]
-Weather: Погодное предупреждение
 [N/A]
 Недоступен
 [Invalid ID format, missing "/" (10)]
@@ -343,6 +333,16 @@ INI файл погоды для этой станции не найден (20)
 Не указан URL для полного прогноза погоды. Укажите его в настройках.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
+[Enable/disable auto update]
+Вкл/Выкл автообновление
+[Auto Update Enabled]
+Автообновление включено
+[Auto Update Disabled]
+Автообновление выключено
+[Weather Condition Changed]
+Weather: Погода изменилась
+[Weather Alert Issued]
+Weather: Погодное предупреждение
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
 [%s is now the default weather station]
