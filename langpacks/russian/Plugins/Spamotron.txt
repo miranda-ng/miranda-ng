@@ -115,16 +115,6 @@
 Предпросмотр
 [Bayes database path]
 Расположение базы Байеса
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Cообщение временно заблокировано. Напишите "%response%" без кавычек.
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Сообщение временно заблокировано. Сколько будет %mathexpr%?
-[Verified.]
-Одобрено.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Запрос авторизации временно заблокирован. Напишите "%response%" без кавычек.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Запрос авторизации временно заблокирован. Сколько будет %mathexpr%?
 [Simple]
 Простой
 [Math expression]
@@ -171,5 +161,15 @@ Cообщение временно заблокировано. Напишите 
 Отправка случайного контрольного вопроса %s.
 [Sending math expression challenge to %s.]
 Отправка математического контрольного вопроса %s.
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Cообщение временно заблокировано. Напишите "%response%" без кавычек.
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Сообщение временно заблокировано. Сколько будет %mathexpr%?
+[Verified.]
+Одобрено.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Запрос авторизации временно заблокирован. Напишите "%response%" без кавычек.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Запрос авторизации временно заблокирован. Сколько будет %mathexpr%?
 [Their message was]
 Сообщение было

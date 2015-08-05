@@ -15,11 +15,11 @@
 Нет мигания в трее:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Скрыть "вкл/выкл звук" в главном меню (требуется перезапуск)
-[Disable &Sounds]
-Запретить &звуки
-[Enable &Sounds]
-Разрешить &звуки
 [Zero Notifications]
 Запрет уведомлений
 [Plugins]
 Плагины
+[Disable &Sounds]
+Запретить &звуки
+[Enable &Sounds]
+Разрешить &звуки

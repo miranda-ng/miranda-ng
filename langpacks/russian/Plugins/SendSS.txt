@@ -115,8 +115,6 @@
 Отмена
 [Ignore]
 Игнорировать
-[SendScreenshot - Error]
-SendScreenshot - Ошибка
 [Main Icon]
 Главный значок
 [Target Cursor]
@@ -165,6 +163,8 @@ HTTP подключение SendSS
 Отправить скриншот экрана
 [Open SendSS+]
 Открыть SendSS+
+[SendScreenshot - Error]
+SendScreenshot - Ошибка
 [Credits]
 Кредиты
 [Drag&Drop the target on the desired window.]

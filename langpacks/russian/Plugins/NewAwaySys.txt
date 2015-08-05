@@ -323,18 +323,6 @@
 Использовать по умолчанию
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Входящий запрос статусного сообщения
-[Miranda NG autoreply >\r\n%extratext%]
-Автоответ Miranda NG >\r\n%extratext%
-[extended status]
-расширенный статус
-[Away System]
-Система сообщений
-[Status]
-Статус
-[Popups]
-Всплывающие окна
-[Variables plugin is not installed]
-Плагин Variables неустановлен
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы изменили несколько деревьев сразу.\r\nХотите сохранить изменения в "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
@@ -371,3 +359,15 @@ NewAwaySys: Входящий запрос статусного сообщени�
 Все учётные записи
 [Closing in %d]
 Закрыть (%d)
+[Miranda NG autoreply >\r\n%extratext%]
+Автоответ Miranda NG >\r\n%extratext%
+[extended status]
+расширенный статус
+[Away System]
+Система сообщений
+[Status]
+Статус
+[Popups]
+Всплывающие окна
+[Variables plugin is not installed]
+Плагин Variables неустановлен

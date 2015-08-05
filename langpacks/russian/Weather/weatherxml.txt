@@ -112,6 +112,8 @@
 Сильный снегопад
 [Heavy Snow]
 Сильный снегопад
+[Heavy T-Storm]
+Сильная гроза
 [Heavy T-Storms]
 Сильные грозы
 [Isolated T-Storms / Wind]
@@ -136,6 +138,8 @@
 Слабый ледяной дождь / ветрено
 [Light Rain / Fog]
 Слабый дождь / туман
+[Light Rain / Freezing Rain]
+Слабый дождь / ледяной дождь
 [Light Rain / Wind Early]
 Слабый дождь / ветер в первой половине дня
 [Light Rain / Wind]
