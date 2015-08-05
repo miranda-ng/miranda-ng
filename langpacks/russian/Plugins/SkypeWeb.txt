@@ -84,7 +84,7 @@
 [Edited at %s:\n\t%s\n]
 Изменено в %s:\n\t%s\n
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Передача файла:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
+Передача файлов:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
 [Unknown event, please send this text for developer: "%s"]
 Неизвестное событие, пожалуйста, отправьте этот текст разработчику: "%s"
 [Protocol icon]
