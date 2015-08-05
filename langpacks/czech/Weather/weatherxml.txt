@@ -46,6 +46,8 @@ VSV
 VJV
 [E]
 V
+[Fair / Windy]
+pěkně / větrno
 [Fair And Windy]
 pěkně / větrno
 [Fair]
@@ -92,6 +94,8 @@ Předpověď na 9. den
 Aktualizace předpovědi VAR
 [Forecast Update]
 Aktualizace předpovědi
+[Freezing Drizzle / Windy]
+mrznoucí mrholení / větrno
 [Freezing Rain / Windy]
 mrznoucí déšť / větrno
 [Full Moon]
@@ -110,6 +114,8 @@ silné sněžení / větrno
 silná sněhová přeháňka
 [Heavy Snow]
 silné sněžení
+[Heavy T-Storms]
+silná bouřka
 [Isolated T-Storms / Wind]
 ojedinělé bouřky / vítr
 [Isolated T-Storms]
@@ -130,6 +136,8 @@ slabé mrholení
 slabý mrznoucí déšť/hustá mlha
 [Light Freezing Rain / Windy]
 slabý mrznoucí déšť/větrno
+[Light Rain / Fog]
+slabý déšť / mlha
 [Light Rain / Wind Early]
 slabý déšť/k ránu vítr
 [Light Rain / Wind]
@@ -152,6 +160,8 @@ slabý déšť s hřměním
 slabý déšť
 [Light Showers Rain]
 slabé přeháňky a déšť
+[Light Snow / Fog]
+slabé sněžení / mlha
 [Light Snow And Windy]
 slabé sněžení / větrno
 [Light Snow Early]
@@ -222,6 +232,8 @@ zataženo
 částečně slunečno
 [Pm Light Rain]
 slabý déšť (odp.)
+[Pm Rain / Snow]
+déšť (odp.) / sněžení
 [Pm Rain / Wind]
 déšť/vítr (odp.)
 [Pm Rain]
@@ -240,8 +252,12 @@ bouřky (odp.)
 Tlaková tendence
 [Rain / Freezing Rain / Wind]
 déšť/mrznoucí déšť/vítr
+[Rain / Freezing Rain]
+déšť / mrznoucí déšť
 [Rain / Snow / Wind]
 déšť / sněžení / vítr
+[Rain / Snow Early]
+déšť / k ránu sněžení
 [Rain / Snow Late]
 déšť / později sněžení
 [Rain / Snow Showers Early]
@@ -280,6 +296,8 @@ JJZ
 JZ
 [S]
 J
+[Sand]
+písek
 [Scattered Showers]
 proměnlivé přeháňky
 [Scattered Snow Showers]
@@ -296,6 +314,8 @@ přeháňky / později vítr
 přeháňky / vítr
 [Showers Early]
 k ránu přeháňky
+[Showers In The Vicinity]
+přeháňky v okolí
 [Showers Late]
 později přeháňky
 [Showers Rain]
@@ -342,6 +362,8 @@ slunečno/vítr
 slunečno/větrno
 [Sunny]
 slunečno
+[T-Showers Early]
+k ránu přeháňky s hřměním
 [T-Storm]
 bouřka
 [T-Storms Early]
@@ -394,25 +416,11 @@ klesá
 stoupá
 [steady]
 ustálený
-[Light Snow / Fog]
-slabé sněžení / mlha
-[Showers In The Vicinity]
-přeháňky v okolí
-[Rain / Snow Early]
-déšť / k ránu sněžení
-[Pm Rain / Snow]
-déšť (odp.) / sněžení
-[Fair / Windy]
-pěkně / větrno
-[T-Showers Early]
-k ránu přeháňky s hřměním
-[Rain / Freezing Rain]
-déšť / mrznoucí déšť
-[Heavy T-Storms]
+[Heavy T-Storm]
 silná bouřka
-[Freezing Drizzle / Windy]
-mrznoucí mrholení / větrno
-[Sand]
-písek
-[Light Rain / Fog]
-slabý déšť / mlha
+[Light Rain / Freezing Rain]
+slabý déšť / mrznoucí déšť
+[T-Showers]
+přeháňky / hřmění
+[Ice Crystals]
+ledové krystaly
