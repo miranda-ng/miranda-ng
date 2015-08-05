@@ -209,3 +209,7 @@
 [falling]
 [rising]
 [steady]
+[Heavy T-Storm]
+[Light Rain / Freezing Rain]
+[T-Showers]
+[Ice Crystals]
