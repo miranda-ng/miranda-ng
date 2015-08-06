@@ -455,66 +455,6 @@
 &Телефоную\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Обід&аю\tCtrl+9
-[Skin items]
-Елементи скіна
-[General]
-Загальне
-[Gradient]
-Градієнт
-[Left to right]
-Зліва направо
-[Right to left]
-Справа наліво
-[Top to bottom]
-Зверху вниз
-[Bottom to top]
-Знизу вгору
-[Round corners]
-Заокруглені кути
-[Top-Left]
-Верхній лівий
-[Top-Right]
-Верхній правий
-[Bottom-Right]
-Нижній правий
-[Bottom-Left]
-Нижній лівий
-[Item colors]
-Кольори
-[First color]
-Перший колір
-[Text color]
-Колір тексту
-[Second color]
-Другий колір
-[Transparent]
-Прозорий
-[Alpha (percent)]
-Альфа (%)
-[Item margins]
-Поля
-[Item borders]
-Кордони
-[Border style]
-Стиль рамки
-[3D border (bright / dark)]
-3D-рамка
-[Item ignored]
-Пункт ігнорується
-[Not yet supported]
-Не підтримується
-[Copy from]
-Копіювати з
-[<None>]
-<немає>
-[Raised]
-Підведений
-[Sunken]
-Утоплений
-[Bumped]
-Опуклий
-[Etched]
-Гравірований
 [Show menu]
 Меню
 [Show/Hide offline contacts]
@@ -595,6 +535,8 @@
 По правому краю
 [With nickname - right]
 Праворуч від ніка
+[General]
+Загальне
 [List layout]
 Розташування списку
 [Background]

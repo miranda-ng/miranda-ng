@@ -1043,6 +1043,8 @@
 У панелі статусів
 [Warning!\r\nThis menu object not support user defined options.]
 Увага!\r\nНа цей пункт меню налаштування не діють.
+[Insert submenu]
+Вставити вкладене меню
 [Insert separator]
 Вставити роздільник
 [Service:]
@@ -2221,6 +2223,8 @@ xСтатус
 Меню груп
 [Subgroup menu]
 Меню підгруп
+[New submenu]
+Нове вкладене меню
 [Menus]
 Меню
 [Tray menu]

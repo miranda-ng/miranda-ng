@@ -15,11 +15,11 @@
 Без блимання в треї:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Сховати "Увімк./вимк. звук" у головному меню (потрібен перезапуск)
-[Disable &Sounds]
-Заборонити звуки
-[Enable &Sounds]
-Дозволити звуки
 [Zero Notifications]
 Заборона сповіщень
 [Plugins]
 Плагіни
+[Disable &Sounds]
+Заборонити звуки
+[Enable &Sounds]
+Дозволити звуки

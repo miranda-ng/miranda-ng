@@ -131,8 +131,6 @@
 Скасувати
 [Ignore]
 Ігнорувати
-[SendScreenshot - Error]
-Помилка SendSS
 [Main Icon]
 Головний значок
 [Target Cursor]
@@ -183,6 +181,8 @@ HTTP-з'єднання SendSS
 Надіслати знімок усього екрану
 [Open SendSS+]
 Відкрити SendSS
+[SendScreenshot - Error]
+Помилка SendSS
 [Credits]
 Автори
 [Drag&Drop the target on the desired window.]

@@ -253,16 +253,6 @@ URL додаткової інформації
 До старих
 [To default]
 За замовчанням
-[Enable/disable auto update]
-Увімк./вимк. автооновлення
-[Auto Update Enabled]
-Автооновлення ввімкнено
-[Auto Update Disabled]
-Автооновлення вимкнено
-[Weather Condition Changed]
-Weather: Погода змінилася
-[Weather Alert Issued]
-Weather: Погодне попередження
 [N/A]
 Недоступний
 [Invalid ID format, missing "/" (10)]
@@ -343,6 +333,16 @@ INI-файл погоди для цієї станції не знайдений
 Не вказано URL повного прогнозу погоди. Вкажіть його в налаштуваннях.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не вказано URL карти погоди. Вкажіть його в налаштуваннях.
+[Enable/disable auto update]
+Увімк./вимк. автооновлення
+[Auto Update Enabled]
+Автооновлення ввімкнено
+[Auto Update Disabled]
+Автооновлення вимкнено
+[Weather Condition Changed]
+Weather: Погода змінилася
+[Weather Alert Issued]
+Weather: Погодне попередження
 [Current weather information for %s.]
 Поточна інформація про погоду для %s.
 [%s is now the default weather station]

@@ -107,6 +107,8 @@
 &Скасувати
 [Add]
 Додати
+[MSN Protocol]
+Протокол MSN
 [Chat #]
 Чат #
 [&Invite user...]
@@ -131,8 +133,6 @@
 Контакт намагався відкрити аудіоконференцію (не підтримується)
 [Accept NetMeeting request from %s?]
 Прийняти запит NetMeeting від %s?
-[MSN Protocol]
-Протокол MSN
 [Chat session established by my request]
 Сесія встановлена за моїм запитом
 [Chat session established by contact request]
@@ -275,3 +275,5 @@ HTTPS-з'єднання %s
 Конвертувати в чат
 [Chat session dropped due to inactivity]
 Сесія скинута через неактивність
+[Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
+Не вдалося авторизуватися в MSN, можливо, необхідно ввести капчу. Бажаєте авторизуватися через браузер?\n\nВи не авторизуєтеся в Miranda таким чином, але виконаєте вимогу одноразово ввести капчу (імовірно, викликану зміною IP-адреси) або прийняти нові умови обслуговування.\n\nТакож зверніть увагу: протокол MSN не підтримує двофакторну авторизацію.
