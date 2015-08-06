@@ -58,8 +58,6 @@
 [Failed to save file]
 [History was saved successfully in file\r\n]
 [Failed to create history dialog]
-;file \plugins\Msg_Export\src\Glob.h
-[Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
@@ -86,6 +84,8 @@
 [History]
 [General]
 [Additional]
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]

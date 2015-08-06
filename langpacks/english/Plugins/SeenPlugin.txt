@@ -92,7 +92,7 @@
 [Last Seen Variables]
 [Contacts]
 [Popups]
-;file \plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 [%i(%r)%bWas %o]
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]

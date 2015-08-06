@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 [General]
 [Gradient]
@@ -32,7 +32,7 @@
 [Item ignored]
 [Dialog]
 [Not yet supported]
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 [<None>]
 [Raised]

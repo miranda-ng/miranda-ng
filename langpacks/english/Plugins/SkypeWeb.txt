@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -42,22 +42,23 @@
 [Enter new chatroom topic]
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
-;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call.\n]
-[enters]
-[leaves]
-[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-[Incoming call.]
+;file \protocols\SkypeWeb\src\skype_db.cpp
+[Edited message]
 [Action]
-[Call information.]
-[File transfer information.]
-[Uri object.]
+[Call information]
+[File transfer information]
+[URI object]
+[Unknown event]
 [Incoming call]
-[Calls]
-[Notifications]
-[Errors]
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Edited at]
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Invalid data!]
+[Original message:\n\t%s\n]
+[Edited at %s:\n\t%s\n]
+[Call]
+[Call missed]
+[Call ended (%s)]
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+[Unknown event, please send this text for developer: "%s"]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 [Create new chat icon]
@@ -82,12 +83,18 @@
 [Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Unknown error!]
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
+;file \protocols\SkypeWeb\src\skype_network.cpp
+[%s connection]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
+;file \protocols\SkypeWeb\src\skype_popups.cpp
+[Notifications]
+[Errors]
+[Calls]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
 [Incoming call sound]
 [Incoming call canceled sound]
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
