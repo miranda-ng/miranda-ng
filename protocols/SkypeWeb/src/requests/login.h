@@ -26,19 +26,19 @@ public:
 	{
 		CMStringA user(username); user.MakeLower();
 
-		CMStringA str(::FORMAT, "%s\nskyper\n%s", user, password);
+		pass_ptrA str(CMStringA(::FORMAT, "%s\nskyper\n%s", user, password).Detach());
 
 		BYTE digest[16];
 
-		mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
+		mir_md5_hash((BYTE*)((char*)str), mir_strlen(str), digest);
 
-		ptrA hash(mir_base64_encode(digest, sizeof(digest)));
+		pass_ptrA hash(mir_base64_encode(digest, sizeof(digest)));
 
 		Body
 			<< CHAR_VALUE("scopes", "client")
 			<< CHAR_VALUE("clientVersion", ptrA(mir_urlEncode("0/7.4.85.102/259/")))
 			<< CHAR_VALUE("username", ptrA(mir_urlEncode(user)))
-			<< CHAR_VALUE("passwordHash", ptrA(mir_urlEncode(hash)));
+			<< CHAR_VALUE("passwordHash", pass_ptrA(mir_urlEncode(hash)));
 	}
 };
 
