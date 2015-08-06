@@ -131,13 +131,7 @@
 [Show user detail]
 [To old setting]
 [To default]
-;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-[Auto Update Enabled]
-[Auto Update Disabled]
-[Weather Condition Changed]
-[Weather Alert Issued]
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 [Invalid ID format, missing "/" (10)]
 [Invalid service (11)]
@@ -179,6 +173,12 @@
 [Here is a list of custom variables that are currently available]
 [The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+[Auto Update Enabled]
+[Auto Update Disabled]
+[Weather Condition Changed]
+[Weather Alert Issued]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]

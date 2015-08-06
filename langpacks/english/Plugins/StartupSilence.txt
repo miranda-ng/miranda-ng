@@ -26,7 +26,7 @@
 [Allow mRadio or Weather popups, etc.]
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
-;file \plugins\StartupSilence\src\StartupSilence.h
+;file \plugins\StartupSilence\src\stdafx.h
 [Silence at startup]
 [Toggle Silence OFF]
 [Toggle Silence ON]

@@ -536,6 +536,7 @@
 [Move to the main menu]
 [Move to the status bar]
 [Warning!\r\nThis menu object not support user defined options.]
+[Insert submenu]
 [Insert separator]
 [Service:]
 [Default]
@@ -1215,6 +1216,7 @@
 [Group menu]
 [Subgroup menu]
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
 [Menus]
 ;file \src\mir_app\src\menu_tray.cpp
 [Tray menu]

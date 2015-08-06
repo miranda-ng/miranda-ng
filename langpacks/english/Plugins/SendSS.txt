@@ -90,8 +90,6 @@
 [No]
 [Abort]
 [Ignore]
-;file \plugins\SendScreenshotPlus\src\global.h
-[SendScreenshot - Error]
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 [Target Cursor]
@@ -121,6 +119,8 @@
 [Send screenshot]
 [Send desktop screenshot]
 [Open SendSS+]
+;file \plugins\SendScreenshotPlus\src\stdafx.h
+[SendScreenshot - Error]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp

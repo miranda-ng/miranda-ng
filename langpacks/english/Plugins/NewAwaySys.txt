@@ -169,13 +169,6 @@
 [Off]
 [Use the default setting]
 [NewAwaySys: Incoming status message request]
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-[extended status]
-[Away System]
-[Status]
-[Popups]
-[Variables plugin is not installed]
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
@@ -201,3 +194,10 @@
 [available autoreply only]
 [all accounts]
 [Closing in %d]
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+[extended status]
+[Away System]
+[Status]
+[Popups]
+[Variables plugin is not installed]

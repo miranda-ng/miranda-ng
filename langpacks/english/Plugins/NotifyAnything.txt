@@ -19,8 +19,6 @@
 [Debug]
 [Log to file]
 [Message debugging]
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 [N/A: Failed to format error message]
@@ -29,4 +27,6 @@
 ;file \plugins\NotifyAnything\src\options.cpp
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 [Invalid port number]
+[NotifyAnything]
 [Plugins]
+;file \plugins\NotifyAnything\src\stdafx.h

@@ -22,4 +22,4 @@
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
-;file \plugins\RecentContacts\src\RecentContacts.h
+;file \plugins\RecentContacts\src\stdafx.h
