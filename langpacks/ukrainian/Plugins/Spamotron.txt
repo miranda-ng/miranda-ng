@@ -115,16 +115,6 @@
 Тест
 [Bayes database path]
 Розташування бази Байєса
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Повідомлення тимчасово заблоковано. Напишіть "%response%" без лапок.
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Повідомлення тимчасово заблоковано. Скільки буде %mathexpr%?
-[Verified.]
-Схвалено.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Запит авторизації тимчасово заблокований. Напишіть "%response%" без лапок.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Запит авторизації тимчасово заблокований. Скільки буде %mathexpr%?
 [Simple]
 Простий
 [Math expression]
@@ -171,5 +161,15 @@
 Відправка випадкового контрольного питання %s.
 [Sending math expression challenge to %s.]
 Відправка контрольного питання %s.
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Повідомлення тимчасово заблоковано. Напишіть "%response%" без лапок.
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Повідомлення тимчасово заблоковано. Скільки буде %mathexpr%?
+[Verified.]
+Схвалено.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Запит авторизації тимчасово заблокований. Напишіть "%response%" без лапок.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Запит авторизації тимчасово заблокований. Скільки буде %mathexpr%?
 [Their message was]
 Повідомлення було

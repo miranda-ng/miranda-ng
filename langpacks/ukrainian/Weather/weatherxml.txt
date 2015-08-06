@@ -114,8 +114,12 @@
 Сильний снігопад
 [Heavy Snow]
 Сильний снігопад
+[Heavy T-Storm]
+Сильна гроза
 [Heavy T-Storms]
 Сильні грози
+[Ice Crystals]
+Іній
 [Isolated T-Storms / Wind]
 Місцями грози / вітер
 [Isolated T-Storms]
@@ -138,6 +142,8 @@
 Слабкий крижаний дощ / вітер
 [Light Rain / Fog]
 Слабкий дощ / туман
+[Light Rain / Freezing Rain]
+Слабкий дощ / крижаний дощ
 [Light Rain / Wind Early]
 Слабкий дощ / вітер у першій половині дня
 [Light Rain / Wind]
@@ -364,6 +370,8 @@
 Сонячно
 [T-Showers Early]
 Зливи з громом у першій половині дня
+[T-Showers]
+Зливи з громом
 [T-Storm]
 Гроза
 [T-Storms Early]

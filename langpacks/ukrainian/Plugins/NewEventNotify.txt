@@ -77,6 +77,26 @@
 Вимкнути для прочитаних
 [Popups]
 Спливаючі вікна
+[Event Notify]
+Події
+[Received %d contacts.]
+Отримано %d контактів.
+[ added you to the contact list]
+ додав вас до свого списку
+[ requested authorization]
+ запитує авторизацію
+[This is a sample message event :-)]
+Це приклад повідомлення :-)
+[This is a sample URL event ;-)]
+Це приклад URL ;-)
+[This is a sample file event :-D]
+Це приклад вхідного файлу :-D
+[This is a sample other event ;-D]
+Це приклад інших подій ;-D
+[Plugin Test]
+Тест плагіна
+[[b]Number of new message(s): %d[/b]\n]
+\[b]Кількість нових повідомлень: %d[/b]\n
 [Contacts]
 Контакти
 [You were added!]
@@ -99,23 +119,3 @@
 Увімк. сповіщення про події
 [Disable new event notification]
 Вимк. сповіщення про події
-[Event Notify]
-Події
-[Received %d contacts.]
-Отримано %d контактів.
-[ added you to the contact list]
- додав вас до свого списку
-[ requested authorization]
- запитує авторизацію
-[This is a sample message event :-)]
-Це приклад повідомлення :-)
-[This is a sample URL event ;-)]
-Це приклад URL ;-)
-[This is a sample file event :-D]
-Це приклад вхідного файлу :-D
-[This is a sample other event ;-D]
-Це приклад інших подій ;-D
-[Plugin Test]
-Тест плагіна
-[[b]Number of new message(s): %d[/b]\n]
-\[b]Кількість нових повідомлень: %d[/b]\n

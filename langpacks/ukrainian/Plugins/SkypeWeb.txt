@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -71,34 +71,36 @@
 Введіть нову тему для чат-кімнати
 [Are you sure?]
 Ви впевнені?
-[%s %s this call.\n]
-%s %s дзвінок.\n
-[enters]
-починає
-[leaves]
-завершує
-[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-Передача файлів:\n\tНазва: %s\n\tРозмір: %d байт
-[Incoming call.]
-Вхідний дзвінок.
+[Edited message]
+Відредаговане повідомлення
 [Action]
 Дія
-[Call information.]
-Інформація про дзвінок.
-[File transfer information.]
-Інформація про передачу файлу.
-[Uri object.]
-Об'єкт URI.
+[Call information]
+Інформація про дзвінок
+[File transfer information]
+Інформація про передачу файлу
+[URI object]
+Об'єкт URI
+[Unknown event]
+Невідома подія
 [Incoming call]
 Вхідний дзвінок
-[Calls]
-Дзвінки
-[Notifications]
-Сповіщення
-[Errors]
-Помилки
-[Edited at]
-Відредаговане о
+[Invalid data!]
+Неправильні дані!
+[Original message:\n\t%s\n]
+Початкове повідомлення:\n\t%s\n
+[Edited at %s:\n\t%s\n]
+Відредаговане о %s:\n\t%s\n
+[Call]
+Дзвінок
+[Call missed]
+Дзвінок пропущений
+[Call ended (%s)]
+Дзвінок завершено (%s)
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+Передача файлу:\n\tНазва: %s \n\tРозмір: %lld байт \n
+[Unknown event, please send this text for developer: "%s"]
+Невідома подія, будь ласка, надішліть авторові плагіна цей текст: "%s"
 [Protocol icon]
 Значок протоколу
 [Create new chat icon]
@@ -139,12 +141,20 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
+[Unknown error!]
+Невідома помилка!
 [Enter confirmation code]
 Введіть код підтвердження
-[Network]
-Мережа
 [%s connection]
 З'єднання %s
+[Network]
+Мережа
+[Notifications]
+Сповіщення
+[Errors]
+Помилки
+[Calls]
+Дзвінки
 [Incoming call sound]
 Вхідний дзвінок
 [Incoming call canceled sound]

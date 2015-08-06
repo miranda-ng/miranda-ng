@@ -1,2 +1,2 @@
-﻿[NotifyAnything]
-[Notify Anything]
+﻿[Notify Anything]
+[NotifyAnything]

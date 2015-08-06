@@ -81,10 +81,6 @@
 Інше
 [Choose appropriate accounts for import]
 Пошук відповідних облікових записів
-[Ignored event from/to self]
-Пропуск події від самого себе
-[Added contact %u (found in history)]
-Додано контакт %u (знайдено в історії)
 [<New account>]
 <Новий обліковий запис>
 [Old account]

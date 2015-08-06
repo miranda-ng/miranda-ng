@@ -321,18 +321,6 @@
 Використовувати за замовчанням
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Вхідний запит статусного повідомлення
-[Miranda NG autoreply >\r\n%extratext%]
-Автовідповідь Miranda NG >\r\n%extratext%
-[extended status]
-розширений статус
-[Away System]
-Статусні повідомлення
-[Status]
-Статус
-[Popups]
-Спливаючі вікна
-[Variables plugin is not installed]
-Плагін Variables не встановлений
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Ви змінили одразу кілька дерев повідомлень.\r\nЗберегти зміни в діалозі "
 [" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
@@ -369,3 +357,15 @@ NewAwaySys: Вхідний запит статусного повідомлен�
 усі облікові записи
 [Closing in %d]
 Закрити (%d)
+[Miranda NG autoreply >\r\n%extratext%]
+Автовідповідь Miranda NG >\r\n%extratext%
+[extended status]
+розширений статус
+[Away System]
+Статусні повідомлення
+[Status]
+Статус
+[Popups]
+Спливаючі вікна
+[Variables plugin is not installed]
+Плагін Variables не встановлений

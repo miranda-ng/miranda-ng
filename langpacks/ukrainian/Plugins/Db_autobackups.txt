@@ -51,10 +51,6 @@
 Резервування профілю...
 [Error]
 Помилка
-[Backup profile]
-Резервувати профіль
-[Save profile as...]
-Зберегти профіль як...
 [Database]
 База даних
 [Database backups]
@@ -67,6 +63,10 @@
 Усі файли
 [Backup folder]
 Папка резервування
+[Backup profile]
+Резервувати профіль
+[Save profile as...]
+Зберегти профіль як...
 [path to Miranda root folder]
 шлях до папки програми
 [path to folder containing Miranda profiles]
