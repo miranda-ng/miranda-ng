@@ -127,7 +127,6 @@ void CSkypeProto::OnLoginSuccess()
 	if (m_szServer == NULL)
 		m_szServer = mir_strdup(SKYPE_ENDPOINTS_HOST);
 	SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
-	PushRequest(new GetProfileRequest(m_szTokenSecret), &CSkypeProto::LoadProfile);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
@@ -194,7 +193,6 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 	m_szRegToken = getStringA("registrationToken");
 	m_szEndpointId = getStringA("endpointId");
 	SendRequest(new CreateSubscriptionsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnSubscriptionsCreated);
-	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 }
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
@@ -251,22 +249,24 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
 	SendRequest(new CreateContactsSubscriptionRequest(m_szRegToken, skypenames, m_szServer));
-
 	FreeCharList(skypenames);
 	skypenames.destroy();
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
-	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(m_szTokenSecret, m_szSelfSkypeName, NULL), &CSkypeProto::LoadContactList);
-
 	SendRequest(new LoadChatsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnLoadChats);
+	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
+	PushRequest(new GetContactListRequest(m_szTokenSecret, m_szSelfSkypeName, NULL), &CSkypeProto::LoadContactList);
+	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
+	
 	if (getBool("AutoSync", true))
 		PushRequest(new SyncHistoryFirstRequest(m_szRegToken, 100, m_szServer), &CSkypeProto::OnSyncHistory);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
 		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
+
+	PushRequest(new GetProfileRequest(m_szTokenSecret), &CSkypeProto::LoadProfile);
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
