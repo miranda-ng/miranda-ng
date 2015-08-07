@@ -17,13 +17,5 @@ Tree grey out
 Use Windows colours
 [Protocol skins override status text colors]
 Protocol skins override status text colours
-[Item colors]
-Item colours
-[First color]
-First colour
-[Text color]
-Text colour
-[Second color]
-Second colour
 [Minimize contact list]
 Minimise contact list

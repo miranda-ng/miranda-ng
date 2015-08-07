@@ -95,10 +95,6 @@ Establecer mensaje de estado
 Encendido
 [Off]
 Apagado
-[Status]
-Estado
-[Popups]
-Ventanas emergentes
 [&Close]
 &Cerrar
 [Apply]
@@ -107,3 +103,7 @@ Aplicar
 para
 [Closing in %d]
 Cerrando en %d
+[Status]
+Estado
+[Popups]
+Ventanas emergentes

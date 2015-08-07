@@ -34,4 +34,4 @@
 Паказаць кантакт
 [Show Recent Contacts]
 Паказаць апошнія кантакты
-;file \plugins\RecentContacts\src\RecentContacts.h
+;file \plugins\RecentContacts\src\stdafx.h

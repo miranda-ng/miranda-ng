@@ -32,9 +32,6 @@
 
 [Message debugging]
 
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 
@@ -49,5 +46,8 @@
 
 [Invalid port number]
 
+[NotifyAnything]
+
 [Plugins]
 
+;file \plugins\NotifyAnything\src\stdafx.h

@@ -330,19 +330,6 @@ isključen
 
 [NewAwaySys: Incoming status message request]
 
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-
-[extended status]
-
-[Away System]
-
-[Status]
-
-[Popups]
-
-[Variables plugin is not installed]
-
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 
@@ -389,3 +376,16 @@ isključen
 
 [Closing in %d]
 Zatvaranje za %d
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+
+[extended status]
+
+[Away System]
+
+[Status]
+
+[Popups]
+
+[Variables plugin is not installed]
+

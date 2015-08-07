@@ -174,7 +174,7 @@ Zuletzt-gesehen-Variablen
 Kontakte
 [Popups]
 Popups
-;file \plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n ist %s (%u)
 [%i(%r)%bWas %o]

@@ -61,11 +61,11 @@ Telefonuje
 Na obede
 [Re&ad %s message]
 Čítať %s správu
-[Status]
-Stav
 [&Close]
 Zavrieť
 [Apply]
 Aplikovať
 [Closing in %d]
 Zavrieť (za %d s)
+[Status]
+Stav

@@ -45,7 +45,7 @@ u toku
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Događaji
-;file \plugins\StartupSilence\src\StartupSilence.h
+;file \plugins\StartupSilence\src\stdafx.h
 [Silence at startup]
 
 [Toggle Silence OFF]

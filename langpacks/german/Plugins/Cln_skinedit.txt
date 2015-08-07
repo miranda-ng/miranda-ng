@@ -7,7 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Erlaubt das Bearbeiten der Skinelemente für Clist_Nicer
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Skinelemente
 [General]
@@ -58,7 +58,7 @@ Element ignorieren
 Dialog
 [Not yet supported]
 Noch nicht unterstützt
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 Kopieren von
 [<None>]

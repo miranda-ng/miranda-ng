@@ -114,6 +114,9 @@ Identyfikator Live
 &Anuluj
 [Add]
 Dodaj
+;file \protocols\MSN\src\msn_auth.cpp
+[MSN Protocol]
+Protokół MSN
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Czat #
@@ -140,8 +143,6 @@ Alert MSN
 Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
 [Accept NetMeeting request from %s?]
 Przyjąć wywołanie NetMeeting od %s?
-[MSN Protocol]
-Protokół MSN
 [Chat session established by my request]
 Nawiązano sesję czatu z twojej prośby
 [Chat session established by contact request]
@@ -296,3 +297,6 @@ Konwertuj do czatu
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Porzucono sesję czatu z powodu bezczynności
+;file \protocols\MSN\src\stdafx.h
+[Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
+

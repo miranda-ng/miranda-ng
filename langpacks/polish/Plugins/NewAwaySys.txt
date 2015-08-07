@@ -330,19 +330,6 @@ Wył.
 Użyj ustawień domyślnych
 [NewAwaySys: Incoming status message request]
 NewAwaySys: przychodząca prośba o opis
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-Autoodpowiedź >\r\n%extratext%
-[extended status]
-xStatus
-[Away System]
-Away system
-[Status]
-Status
-[Popups]
-Popupy
-[Variables plugin is not installed]
-Wtyczka Variables nie jest zainstalowana
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Dokonałeś zmian w wielu drzewach opisów naraz.\r\nCzy na pewno chcesz pozostawić te zmiany w
@@ -389,3 +376,16 @@ Dostępne tylko w trybie autoodpowiedzi
 Wszystkie konta
 [Closing in %d]
 Zamykanie w %d
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+Autoodpowiedź >\r\n%extratext%
+[extended status]
+xStatus
+[Away System]
+Away system
+[Status]
+Status
+[Popups]
+Popupy
+[Variables plugin is not installed]
+Wtyczka Variables nie jest zainstalowana

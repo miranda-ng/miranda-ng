@@ -79,29 +79,6 @@ Keine Popups für gelesene Nachrichten
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Kontakte
-[You were added!]
-Sie wurden hinzugefügt!
-[Requests your authorization]
-Erbittet Ihre Autorisation
-[ICQ Web pager]
-ICQ Web pager
-[ICQ Email express]
-ICQ-E-Mail-Express
-[SMS Message]
-SMS-Nachricht
-[SMS Confirmation]
-SMS-Bestätigung
-[Unknown Event]
-Unbekanntes Ereignis
-[Notify of new events]
-Ereignis-Benachrichtigung
-[Enable new event notification]
-Ereignismeldungen aktivieren
-[Disable new event notification]
-Ereignismeldungen deaktivieren
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Ereignismeldungen
@@ -124,3 +101,26 @@ Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 Plugin Test
 [[b]Number of new message(s): %d[/b]\n]
 \[b]Anzahl neuer Nachrichten: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Kontakte
+[You were added!]
+Sie wurden hinzugefügt!
+[Requests your authorization]
+Erbittet Ihre Autorisation
+[ICQ Web pager]
+ICQ Web pager
+[ICQ Email express]
+ICQ-E-Mail-Express
+[SMS Message]
+SMS-Nachricht
+[SMS Confirmation]
+SMS-Bestätigung
+[Unknown Event]
+Unbekanntes Ereignis
+[Notify of new events]
+Ereignis-Benachrichtigung
+[Enable new event notification]
+Ereignismeldungen aktivieren
+[Disable new event notification]
+Ereignismeldungen deaktivieren

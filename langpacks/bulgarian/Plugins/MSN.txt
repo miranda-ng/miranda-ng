@@ -107,6 +107,8 @@ Live ID
 Отказ
 [Add]
 Добавяне
+[MSN Protocol]
+MSN протокол
 [Chat #]
 Чат №
 [&Invite user...]
@@ -123,8 +125,6 @@ MSN уведовяване
 Контактът опита да стартира гласов разговор (не се поддържа)
 [Accept NetMeeting request from %s?]
 Приемате ли молбата NetMeeting от %s?
-[MSN Protocol]
-MSN протокол
 [Chat session established by my request]
 Установен е разговор по моя заявка
 [Chat session established by contact request]

@@ -330,19 +330,6 @@ Aus
 Standardeinstellung verwenden
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Eingehende Statusnachrichtenanfrage
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-Miranda-NG-Autoantwort >\r\n%extratext%
-[extended status]
-erweiterter Status
-[Away System]
-Abwesenheitssystem
-[Status]
-Status
-[Popups]
-Popups
-[Variables plugin is not installed]
-Variables-Plugin ist nicht installiert.
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Sie haben viele Einstellungen in der Nachrichtenbaumstruktur vorgenommen.\r\nMöchten Sie die Einstellungen beibehalten in "
@@ -389,3 +376,16 @@ nur Autoantwort verfügbar
 alle konten
 [Closing in %d]
 In %d schließen
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+Miranda-NG-Autoantwort >\r\n%extratext%
+[extended status]
+erweiterter Status
+[Away System]
+Abwesenheitssystem
+[Status]
+Status
+[Popups]
+Popups
+[Variables plugin is not installed]
+Variables-Plugin ist nicht installiert.

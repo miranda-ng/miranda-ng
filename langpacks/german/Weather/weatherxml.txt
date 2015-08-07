@@ -114,7 +114,11 @@ Starker Schneefall und windig
 Schwerer Schneeschauer
 [Heavy Snow]
 starker Schneefall
+[Heavy T-Storm]
+
 [Heavy T-Storms]
+
+[Ice Crystals]
 
 [Isolated T-Storms / Wind]
 Isolierte Gewitter/Wind
@@ -137,6 +141,8 @@ Leicht gefrierender Regen/Nebel
 [Light Freezing Rain / Windy]
 Leicht gefrierender Regen/Windig
 [Light Rain / Fog]
+
+[Light Rain / Freezing Rain]
 
 [Light Rain / Wind Early]
 Leichter Regen/Früher Wind
@@ -363,6 +369,8 @@ Sonnig/windig
 [Sunny]
 sonnig
 [T-Showers Early]
+
+[T-Showers]
 
 [T-Storm]
 Gewitter

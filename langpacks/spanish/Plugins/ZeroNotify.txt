@@ -15,11 +15,11 @@ No parpadear CList cuando:
 No parpadear bandeja del sistema cuando:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Oculta la opción de menú "alternar sonido"
-[Disable &Sounds]
-Deshabilitar &sonidos
-[Enable &Sounds]
-Habilitar &sonidos
 [Zero Notifications]
 Cero Notificaciones
 [Plugins]
 Plugins
+[Disable &Sounds]
+Deshabilitar &sonidos
+[Enable &Sounds]
+Habilitar &sonidos

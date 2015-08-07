@@ -35,7 +35,7 @@
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Падзеі
-;file \plugins\StartupSilence\src\StartupSilence.h
+;file \plugins\StartupSilence\src\stdafx.h
 [Silence at startup]
 Ціхі запуск
 [Toggle Silence OFF]

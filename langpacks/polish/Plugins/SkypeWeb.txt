@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -75,36 +75,38 @@ Wprowadź nowy temat pokoju
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Jesteś pewien?
-;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call.\n]
-%s %s ta rozmowa.
-[enters]
-dołącza
-[leaves]
-odchodzi
-[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-Transfer pliku:\n\tNazwa pliku: %s\n\tRozmiar: %d bajtów
-[Incoming call.]
-Rozmowa przychodząca.
+;file \protocols\SkypeWeb\src\skype_db.cpp
+[Edited message]
+
 [Action]
 Akcja
-[Call information.]
-Informacje o rozmowie.
-[File transfer information.]
-Informacje o transferze pliku.
-[Uri object.]
+[Call information]
+Informacje o rozmowie
+[File transfer information]
+Informacje o transferze pliku
+[URI object]
 Obiekt URI
+[Unknown event]
+Nieznane zdarzenie
 [Incoming call]
 Połączenie przychodzące
-[Calls]
-Rozmowy
-[Notifications]
-Powiadomienia
-[Errors]
-Błędy
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Edited at]
-edytowana
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Invalid data!]
+
+[Original message:\n\t%s\n]
+
+[Edited at %s:\n\t%s\n]
+edytowana %s:\n\t%s\n
+[Call]
+
+[Call missed]
+
+[Call ended (%s)]
+
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+Transfer pliku:\n\tNazwa pliku: %s \n\tRozmiar: %lld bajtów \n
+[Unknown event, please send this text for developer: "%s"]
+
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -149,15 +151,25 @@ Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Unknown error!]
+
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 Wprowadź kod weryfikacyjny
+;file \protocols\SkypeWeb\src\skype_network.cpp
+[%s connection]
+Połączenie %s
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły
+;file \protocols\SkypeWeb\src\skype_popups.cpp
+[Notifications]
+Powiadomienia
+[Errors]
+Błędy
+[Calls]
+Rozmowy
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-Połączenie %s
 [Incoming call sound]
 Dźwięk rozmowy przychodzącej
 [Incoming call canceled sound]

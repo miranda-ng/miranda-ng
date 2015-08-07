@@ -32,9 +32,6 @@ Jouer des sons
 
 [Message debugging]
 
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 
@@ -49,5 +46,8 @@ Erreur
 
 [Invalid port number]
 
+[NotifyAnything]
+
 [Plugins]
 Plugins
+;file \plugins\NotifyAnything\src\stdafx.h

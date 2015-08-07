@@ -253,14 +253,6 @@ Popup заглавие
 Към старите настройки
 [To default]
 Стандарт
-[Enable/disable auto update]
-Вкл / Изкл на автоматично обновяване
-[Auto Update Enabled]
-Автообновяването е включено
-[Auto Update Disabled]
-Автообновяването е изключено
-[Weather Condition Changed]
-Промяна на метеорологичните условия
 [N/A]
 НД
 [Invalid ID format, missing "/" (10)]
@@ -343,6 +335,14 @@ HTTP грешка: Gateway timeout (504)
 Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[Enable/disable auto update]
+Вкл / Изкл на автоматично обновяване
+[Auto Update Enabled]
+Автообновяването е включено
+[Auto Update Disabled]
+Автообновяването е изключено
+[Weather Condition Changed]
+Промяна на метеорологичните условия
 [Current weather information for %s.]
 Текуща атмосферна информация за %s.
 [%s is now the default weather station]

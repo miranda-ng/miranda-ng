@@ -7,7 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Edytor skórek dla Clist_nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Elementy skórki
 [General]
@@ -58,7 +58,7 @@ Ignorowane
 Okno
 [Not yet supported]
 Jeszcze nie obsługiwane
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 Kopiuj z
 [<None>]

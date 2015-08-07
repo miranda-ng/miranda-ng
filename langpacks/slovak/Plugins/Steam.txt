@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.4.1
-;  Authors: unsane, Robert Pösel
+;  Version: 0.11.4.2
+;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Username:]
 Užív. meno:

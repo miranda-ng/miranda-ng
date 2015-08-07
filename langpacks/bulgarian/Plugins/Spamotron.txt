@@ -113,16 +113,6 @@ Flood защита
 Образец
 [Bayes database path]
 Път до Бейс базата от данни
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Трябва да докажете че не сте бот. Отговорете с "%response%" (без кавичките). /English: Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Трябва да докажете че не сте бот. Отговорете с резултата на израза %mathexpr%. /English: Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.
-[Verified.]
-Потвърдено. /English: Verified.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с "%response%" (без кавичките). /English: Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с резултата на израза %mathexpr%. /English: Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
 [Simple]
 Лесен
 [Math expression]
@@ -169,5 +159,15 @@ Round-robin
 Изпращане на произволно запитване до %s.
 [Sending math expression challenge to %s.]
 Изпращане на математически израз до %s.
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Трябва да докажете че не сте бот. Отговорете с "%response%" (без кавичките). /English: Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Трябва да докажете че не сте бот. Отговорете с резултата на израза %mathexpr%. /English: Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.
+[Verified.]
+Потвърдено. /English: Verified.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с "%response%" (без кавичките). /English: Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с резултата на израза %mathexpr%. /English: Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
 [Their message was]
 Съобщението беше

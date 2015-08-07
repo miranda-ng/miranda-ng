@@ -174,7 +174,7 @@ Zmienne
 Kontakty
 [Popups]
 Popupy
-;file \plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n jest %s (%u)
 [%i(%r)%bWas %o]

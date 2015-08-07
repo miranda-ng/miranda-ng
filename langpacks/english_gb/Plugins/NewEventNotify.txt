@@ -5,7 +5,7 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Requests your authorization]
-Requests your authorisation
 [ requested authorization]
  requested authorisation
+[Requests your authorization]
+Requests your authorisation

@@ -1058,6 +1058,8 @@ Przenieś do menu głównego
 Przenieś do paska statusu
 [Warning!\r\nThis menu object not support user defined options.]
 Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika.
+[Insert submenu]
+
 [Insert separator]
 Wstaw separator
 [Service:]
@@ -2348,6 +2350,8 @@ Menu grupy
 [Subgroup menu]
 Menu podgrupy
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+
 [Menus]
 Menu
 ;file \src\mir_app\src\menu_tray.cpp

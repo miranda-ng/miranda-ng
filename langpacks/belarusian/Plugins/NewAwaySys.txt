@@ -312,19 +312,6 @@
 Выкарыстоўваць па змаўчанні
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Уваходны запыт статуснага паведамлення
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-Аўтаадказ Miranda NG >\r\n%extratext%
-[extended status]
-пашыраны статус
-[Away System]
-Сістэма паведамленняў
-[Status]
-Статус
-[Popups]
-Усплывальныя вокны
-[Variables plugin is not installed]
-Плагін зменных не ўсталяваны
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
 [You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
 Вы змянілі некалькі дрэў адразу.\r\n Вы жадаеце захаваць змены ў "
@@ -359,3 +346,16 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 на працягу
 [Closing in %d]
 Зачыніць (%d)
+;file \plugins\NewAwaySysMod\src\stdafx.h
+[Miranda NG autoreply >\r\n%extratext%]
+Аўтаадказ Miranda NG >\r\n%extratext%
+[extended status]
+пашыраны статус
+[Away System]
+Сістэма паведамленняў
+[Status]
+Статус
+[Popups]
+Усплывальныя вокны
+[Variables plugin is not installed]
+Плагін зменных не ўсталяваны

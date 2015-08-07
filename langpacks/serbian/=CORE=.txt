@@ -1058,6 +1058,8 @@ U glavni meni
 U status traku
 [Warning!\r\nThis menu object not support user defined options.]
 Upozorenje!\r\nNavedeni objekat u meniju ne podržava zadatu opciju.
+[Insert submenu]
+
 [Insert separator]
 Ubaci razdelnik
 [Service:]
@@ -2348,6 +2350,8 @@ Glavni meni
 [Subgroup menu]
 
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+
 [Menus]
 Meniji
 ;file \src\mir_app\src\menu_tray.cpp

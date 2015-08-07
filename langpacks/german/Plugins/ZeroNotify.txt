@@ -16,13 +16,13 @@ Kein Blinken (Liste), wenn:
 Kein Blinken (Tray), wenn:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Menüpunkt verstecken (erfordert Neustart von Miranda)
-;file \plugins\ZeroNotification\src\common.h
-[Disable &Sounds]
-Klänge deaktivieren
-[Enable &Sounds]
-Klänge aktivieren
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Keine Benachrichtigungen
 [Plugins]
 Plugins
+;file \plugins\ZeroNotification\src\stdafx.h
+[Disable &Sounds]
+Klänge deaktivieren
+[Enable &Sounds]
+Klänge aktivieren

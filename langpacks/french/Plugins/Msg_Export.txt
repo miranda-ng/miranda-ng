@@ -109,9 +109,6 @@ Surligner un contact
 
 [Failed to create history dialog]
 
-;file \plugins\Msg_Export\src\Glob.h
-[Miranda NG (Message Export Plugin)]
-
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Ouvrir l'historique &exporté
@@ -161,6 +158,9 @@ Historique
 [General]
 Général
 [Additional]
+
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
 
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]

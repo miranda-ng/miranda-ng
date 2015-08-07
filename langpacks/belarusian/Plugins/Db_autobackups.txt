@@ -51,11 +51,6 @@
 Профіль зарэзерваваны
 [Error]
 Памылка
-;file \plugins\Db_autobackups\src\headers.h
-[Backup profile]
-Рэзерваваць профіль
-[Save profile as...]
-Захаваць профіль як...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Профіль
@@ -69,6 +64,10 @@
 Усе файлы
 [Backup folder]
 Тэчка рэзервавання
+[Backup profile]
+Рэзерваваць профіль
+[Save profile as...]
+Захаваць профіль як...
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 шлях да тэчкі праграмы
@@ -98,3 +97,4 @@
 Абярыце тэчку для рэзервовых копій
 [Error creating backup folder]
 Памылка пры стварэнні тэчкі для рэзервовага капіравання
+;file \plugins\Db_autobackups\src\stdafx.h

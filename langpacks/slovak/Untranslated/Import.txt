@@ -33,8 +33,6 @@
 [URLs]
 [Other]
 [Choose appropriate accounts for import]
-[Ignored event from/to self]
-[Added contact %u (found in history)]
 [<New account>]
 [Old account]
 [New account]

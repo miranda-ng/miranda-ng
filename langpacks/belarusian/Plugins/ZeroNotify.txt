@@ -16,13 +16,13 @@
 Няма мігцення ў трэі:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Схаваць "укл/выкл гук" у галоўным меню (патрабуецца перазапуск)
-;file \plugins\ZeroNotification\src\common.h
-[Disable &Sounds]
-Забараніць гукі
-[Enable &Sounds]
-Дазволіць гукі
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Забарона абвестак
 [Plugins]
 Плагіны
+;file \plugins\ZeroNotification\src\stdafx.h
+[Disable &Sounds]
+Забараніць гукі
+[Enable &Sounds]
+Дазволіць гукі

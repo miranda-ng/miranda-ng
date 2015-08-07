@@ -79,29 +79,6 @@ Nie wyświetlaj popupów dla przeczytanych wiadomości
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popupy
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Kontakty
-[You were added!]
-Zostałeś dodany!
-[Requests your authorization]
-Prośba o twoją autoryzację
-[ICQ Web pager]
-Strona WWW ICQ
-[ICQ Email express]
-Adres e-mail ICQ
-[SMS Message]
-Wiadomość SMS
-[SMS Confirmation]
-Potwierdzenie SMS
-[Unknown Event]
-Nieznane zdarzenie
-[Notify of new events]
-Powiadamiaj o nowych zdarzeniach
-[Enable new event notification]
-Włącz powiadomienia o nowych zdarzeniach
-[Disable new event notification]
-Wyłącz powiadomienia o nowych zdarzeniach
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Powiadomienia
@@ -124,3 +101,26 @@ To jest przykładowe powiadomienie o innym zdarzeniu ;-D
 Test wtyczki
 [[b]Number of new message(s): %d[/b]\n]
 \[b]Liczba nowych wiadomości: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Kontakty
+[You were added!]
+Zostałeś dodany!
+[Requests your authorization]
+Prośba o twoją autoryzację
+[ICQ Web pager]
+Strona WWW ICQ
+[ICQ Email express]
+Adres e-mail ICQ
+[SMS Message]
+Wiadomość SMS
+[SMS Confirmation]
+Potwierdzenie SMS
+[Unknown Event]
+Nieznane zdarzenie
+[Notify of new events]
+Powiadamiaj o nowych zdarzeniach
+[Enable new event notification]
+Włącz powiadomienia o nowych zdarzeniach
+[Disable new event notification]
+Wyłącz powiadomienia o nowych zdarzeniach

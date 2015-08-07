@@ -79,29 +79,6 @@ Pas de popup pour les contacts RSS
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Contacts
-[You were added!]
-Vous avez été ajouté !
-[Requests your authorization]
-Demande votre autorisation
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-
-[SMS Confirmation]
-
-[Unknown Event]
-Évènement inconnu
-[Notify of new events]
-Notification de nouveaux évènements
-[Enable new event notification]
-Activer la notification d'un nouvel évènement
-[Disable new event notification]
-Désactiver la notification d'un nouvel évènement
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Notification d'évènements
@@ -124,3 +101,26 @@ Ceci est un exemple d'évènement  ;-D
 
 [[b]Number of new message(s): %d[/b]\n]
 \[b]Nombre de nouveaux messages: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Contacts
+[You were added!]
+Vous avez été ajouté !
+[Requests your authorization]
+Demande votre autorisation
+[ICQ Web pager]
+
+[ICQ Email express]
+
+[SMS Message]
+
+[SMS Confirmation]
+
+[Unknown Event]
+Évènement inconnu
+[Notify of new events]
+Notification de nouveaux évènements
+[Enable new event notification]
+Activer la notification d'un nouvel évènement
+[Disable new event notification]
+Désactiver la notification d'un nouvel évènement

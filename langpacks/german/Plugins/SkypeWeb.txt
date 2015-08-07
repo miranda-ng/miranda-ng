@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -75,36 +75,38 @@ Neues Thema für diesen Chatraum eingeben
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Sind Sie sich sicher?
-;file \protocols\SkypeWeb\src\skype_events.cpp
-[%s %s this call.\n]
+;file \protocols\SkypeWeb\src\skype_db.cpp
+[Edited message]
 
-[enters]
-
-[leaves]
-
-[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-
-[Incoming call.]
-Eingehender Anruf.
 [Action]
 Aktion
-[Call information.]
-Anrufinformation.
-[File transfer information.]
+[Call information]
+Anrufinformation
+[File transfer information]
 
-[Uri object.]
+[URI object]
 
+[Unknown event]
+Unbekanntes Ereignis
 [Incoming call]
 Eingehender Anruf
-[Calls]
-Aufrufe
-[Notifications]
-Benachrichtigungen
-[Errors]
-Fehler
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Edited at]
-Bearbeitet um
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Invalid data!]
+
+[Original message:\n\t%s\n]
+
+[Edited at %s:\n\t%s\n]
+Bearbeitet um %s:\n\t%s\n
+[Call]
+
+[Call missed]
+
+[Call ended (%s)]
+
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+
+[Unknown event, please send this text for developer: "%s"]
+
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
@@ -149,15 +151,25 @@ Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Unknown error!]
+
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 Bestätigungscode eingeben
+;file \protocols\SkypeWeb\src\skype_network.cpp
+[%s connection]
+%s-Verbindung
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk
+;file \protocols\SkypeWeb\src\skype_popups.cpp
+[Notifications]
+Benachrichtigungen
+[Errors]
+Fehler
+[Calls]
+Aufrufe
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-%s-Verbindung
 [Incoming call sound]
 Eingehender-Anruf-Klang
 [Incoming call canceled sound]

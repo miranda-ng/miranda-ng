@@ -47,8 +47,6 @@
 Съобщения
 [Accounts]
 Акаунти
-[StopSpam]
-StopSpam
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Без повече спам! Добре дошли са само изпратените от хора съобщения!\r\n\r\nКомуникацията ви с потребители от списъка с контакти няма да бъде възпрепятствана от приставката, но първите съобщенията от непознати потребители няма да ви бъдат предоставяни, но няма и да бъдат игнорирани. Вие ще получите даденото съобщение при условие, че потребителят даде (еднократно) правилен отговор на въпрос, предварително определен от вас.
 [StopSpam automatic message:\r\n]
@@ -57,5 +55,7 @@ StopSpam
 Не е в списъка
 [Complete]
 Завършен
+[StopSpam]
+StopSpam
 [Remove Temporary Contacts]
 Премахване на временните контакти

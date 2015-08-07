@@ -1058,6 +1058,8 @@ Déplacer au menu principal
 Déplacer dans la barre de status
 [Warning!\r\nThis menu object not support user defined options.]
         -={ Avertissement }=-\r\nCe menu ne peut être modifié.
+[Insert submenu]
+
 [Insert separator]
 Insérer un séparateur
 [Service:]
@@ -2348,6 +2350,8 @@ Menu principal
 [Subgroup menu]
 
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+
 [Menus]
 Menus
 ;file \src\mir_app\src\menu_tray.cpp

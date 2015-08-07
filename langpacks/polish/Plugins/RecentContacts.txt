@@ -36,4 +36,4 @@ Ignoruj kontakt
 Pokaż kontakt
 [Show Recent Contacts]
 Pokaż ostatnie kontakty
-;file \plugins\RecentContacts\src\RecentContacts.h
+;file \plugins\RecentContacts\src\stdafx.h

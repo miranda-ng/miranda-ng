@@ -109,9 +109,6 @@ Błąd zapisywania pliku
 Historia zapisana pomyślnie w pliku\r\n
 [Failed to create history dialog]
 Nie udało się utworzyć okna historii
-;file \plugins\Msg_Export\src\Glob.h
-[Miranda NG (Message Export Plugin)]
-Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Otwórz e&ksportowaną historię
@@ -162,6 +159,9 @@ Historia
 Ogólne
 [Additional]
 Dodatkowe
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
+Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 Brak nicka

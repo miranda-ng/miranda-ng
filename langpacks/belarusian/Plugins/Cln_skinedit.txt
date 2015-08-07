@@ -7,7 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Дазваляе рэдагаваць скуры для clist nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Элементы скіна
 [General]
@@ -58,7 +58,7 @@
 Гутарка
 [Not yet supported]
 Не падтрымліваецца
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 Капіяваць з
 [<None>]

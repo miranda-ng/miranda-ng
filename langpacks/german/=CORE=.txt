@@ -1058,6 +1058,8 @@ In das Hauptmenü setzen
 In die Statusleiste setzen
 [Warning!\r\nThis menu object not support user defined options.]
 Warnung!\r\nDieses Menüobjekt kann nicht vom Benutzer angepasst werden!
+[Insert submenu]
+
 [Insert separator]
 Trennlinie einfügen
 [Service:]
@@ -2348,6 +2350,8 @@ Gruppenmenü
 [Subgroup menu]
 Untergruppenmenü
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+
 [Menus]
 Menüs
 ;file \src\mir_app\src\menu_tray.cpp

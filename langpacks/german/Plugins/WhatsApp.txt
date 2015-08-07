@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.14
+;  Version: 0.1.2.15
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -16,6 +16,8 @@ Nickname
 Standardgruppe:
 [Use SSL connection (port 443)]
 SSL-Verbindung verwenden (Port 443)
+[Use remote message timestamps]
+
 [Automatically open group chats]
 Gruppenchats automatisch öffnen
 [Registration]

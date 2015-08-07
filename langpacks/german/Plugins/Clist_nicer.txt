@@ -464,68 +464,6 @@ Uns&ichtbar\tStrg+7
 Am Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-Skinelemente
-[General]
-Allgemein
-[Gradient]
-Farbverlauf
-[Left to right]
-Links > Rechts
-[Right to left]
-Rechts > Links
-[Top to bottom]
-Oben > Unten
-[Bottom to top]
-Unten > Oben
-[Round corners]
-Runde Ecken
-[Top-Left]
-Oben links
-[Top-Right]
-Oben rechts
-[Bottom-Right]
-Unten rechts
-[Bottom-Left]
-Unten links
-[Item colors]
-Elementfarben
-[First color]
-Erste Farbe
-[Text color]
-Textfarbe
-[Second color]
-Zweite Farbe
-[Transparent]
-Transparent
-[Alpha (percent)]
-Alpha (Prozent)
-[Item margins]
-Elementabstände
-[Item borders]
-Elementränder
-[Border style]
-Rahmenform
-[3D border (bright / dark)]
-3D-Rahmen (hell/dunkel)
-[Item ignored]
-Element ignorieren
-[Not yet supported]
-Noch nicht unterstützt
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-Kopieren von
-[<None>]
-<Keine>
-[Raised]
-Angehoben
-[Sunken]
-Eingelassen
-[Bumped]
-Hervorstehen
-[Etched]
-Eingestochen
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Hauptmenü
@@ -608,6 +546,8 @@ Ganz links
 Ganz rechts
 [With nickname - right]
 Mit Nickname rechts
+[General]
+Allgemein
 [List layout]
 Kontaktlistenaussehen
 [Background]

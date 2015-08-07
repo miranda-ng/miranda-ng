@@ -114,7 +114,11 @@
 
 [Heavy Snow]
 
+[Heavy T-Storm]
+
 [Heavy T-Storms]
+
+[Ice Crystals]
 
 [Isolated T-Storms / Wind]
 
@@ -137,6 +141,8 @@
 [Light Freezing Rain / Windy]
 
 [Light Rain / Fog]
+
+[Light Rain / Freezing Rain]
 
 [Light Rain / Wind Early]
 
@@ -363,6 +369,8 @@
 [Sunny]
 
 [T-Showers Early]
+
+[T-Showers]
 
 [T-Storm]
 
