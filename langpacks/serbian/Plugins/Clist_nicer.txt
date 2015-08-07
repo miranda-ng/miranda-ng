@@ -464,68 +464,6 @@ Ne&vidljiv\tCtrl+7
 Na &telefonu\tCtrl+8
 [Out to &lunch\tCtrl+9]
 N&a ručku\tCtrl+9
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-
-[General]
-Uopšteno
-[Gradient]
-
-[Left to right]
-
-[Right to left]
-
-[Top to bottom]
-
-[Bottom to top]
-
-[Round corners]
-
-[Top-Left]
-
-[Top-Right]
-
-[Bottom-Right]
-
-[Bottom-Left]
-
-[Item colors]
-
-[First color]
-
-[Text color]
-Boja teksta
-[Second color]
-
-[Transparent]
-
-[Alpha (percent)]
-
-[Item margins]
-
-[Item borders]
-
-[Border style]
-
-[3D border (bright / dark)]
-
-[Item ignored]
-
-[Not yet supported]
-
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-
-[<None>]
-<ništa>
-[Raised]
-
-[Sunken]
-
-[Bumped]
-
-[Etched]
-
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 
@@ -608,6 +546,8 @@ Status
 
 [With nickname - right]
 
+[General]
+Uopšteno
 [List layout]
 
 [Background]

@@ -32,9 +32,6 @@ Analizuj
 Zapisuj w pliku
 [Message debugging]
 Debugowanie wiadomości
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-Powiadamiaj o wszystkim
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 Notify Anything
@@ -49,5 +46,8 @@ Błąd
 Plik dziennika (*.log)\0*.log\0Plik tekstowy (*.txt)\0*.txt\0Wszystkie pliki (*.*)\0*.*\0
 [Invalid port number]
 Nieprawidłowy numer portu
+[NotifyAnything]
+Powiadamiaj o wszystkim
 [Plugins]
 Wtyczki
+;file \plugins\NotifyAnything\src\stdafx.h

@@ -1058,6 +1058,8 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Warning!\r\nThis menu object not support user defined options.]
 
+[Insert submenu]
+
 [Insert separator]
 
 [Service:]
@@ -2348,6 +2350,8 @@ sve datoteke
 [Subgroup menu]
 
 ;file \src\mir_app\src\menu_options.cpp
+[New submenu]
+
 [Menus]
 
 ;file \src\mir_app\src\menu_tray.cpp

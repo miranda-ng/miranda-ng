@@ -79,29 +79,6 @@ Izmeni
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Balončići
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Kontakti
-[You were added!]
-
-[Requests your authorization]
-
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-
-[SMS Confirmation]
-
-[Unknown Event]
-
-[Notify of new events]
-
-[Enable new event notification]
-
-[Disable new event notification]
-
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 
@@ -123,4 +100,27 @@ Kontakti
 [Plugin Test]
 
 [[b]Number of new message(s): %d[/b]\n]
+
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Kontakti
+[You were added!]
+
+[Requests your authorization]
+
+[ICQ Web pager]
+
+[ICQ Email express]
+
+[SMS Message]
+
+[SMS Confirmation]
+
+[Unknown Event]
+
+[Notify of new events]
+
+[Enable new event notification]
+
+[Disable new event notification]
 

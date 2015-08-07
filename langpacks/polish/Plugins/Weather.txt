@@ -256,18 +256,7 @@ Pokaż dane użytkownika
 Do poprzednich ustawień
 [To default]
 Do domyślnych
-;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-Włącz/Wyłącz auto-aktualizacje
-[Auto Update Enabled]
-Auto-aktualizacja włączona
-[Auto Update Disabled]
-Auto-aktualizacja wyłączona
-[Weather Condition Changed]
-Warunki pogodowe uległy zmianie
-[Weather Alert Issued]
-Ogłoszono alarm pogodowy
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 Niedostępny
 [Invalid ID format, missing "/" (10)]
@@ -350,6 +339,17 @@ Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dost
 Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+Włącz/Wyłącz auto-aktualizacje
+[Auto Update Enabled]
+Auto-aktualizacja włączona
+[Auto Update Disabled]
+Auto-aktualizacja wyłączona
+[Weather Condition Changed]
+Warunki pogodowe uległy zmianie
+[Weather Alert Issued]
+Ogłoszono alarm pogodowy
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktualne informacje o pogodzie dla miejscowości %s.

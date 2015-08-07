@@ -16,7 +16,6 @@
 [Group top padding]
 [Ignore selection for groups]
 [Suppress auth requests]
-[Etched]
 [Overlay icons]
 [Connecting icons]
 [Service failure]

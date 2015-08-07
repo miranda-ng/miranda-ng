@@ -83,10 +83,6 @@ drugo
 [Choose appropriate accounts for import]
 
 ;file \plugins\Import\src\import.cpp
-[Ignored event from/to self]
-
-[Added contact %u (found in history)]
-
 [<New account>]
 
 [Old account]

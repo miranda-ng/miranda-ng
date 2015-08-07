@@ -254,16 +254,7 @@
 Да старых
 [To default]
 Па змаўчанні
-;file \plugins\Weather\src\weather.cpp
-[Auto Update Enabled]
-Аўтаабнаўленне ўключана
-[Auto Update Disabled]
-Аўтаабнаўленне выключана
-[Weather Condition Changed]
-Weather: Надвор'е змянілася
-[Weather Alert Issued]
-Weather: Заўвага
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 Недасяжны
 [Invalid ID format, missing "/" (10)]
@@ -344,6 +335,15 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
+;file \plugins\Weather\src\weather.cpp
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
+[Weather Condition Changed]
+Weather: Надвор'е змянілася
+[Weather Alert Issued]
+Weather: Заўвага
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Бягучая інфармацыя пра надвор'е для %s

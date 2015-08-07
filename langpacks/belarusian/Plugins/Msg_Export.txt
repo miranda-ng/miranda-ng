@@ -87,9 +87,6 @@ UTF8 у новых файлах
 Падсвятленне сінтаксісу
 [Failed to create file]
 Памылка стварэння файла
-;file \plugins\Msg_Export\src\Glob.h
-[Miranda NG (Message Export Plugin)]
-Miranda NG (Плагін экспарту паведамленняў)
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Экспартаваная гісторыя
@@ -132,6 +129,9 @@ Miranda NG (Плагін экспарту паведамленняў)
 Агульнае
 [Additional]
 Дадаткова
+;file \plugins\Msg_Export\src\stdafx.h
+[Miranda NG (Message Export Plugin)]
+Miranda NG (Плагін экспарту паведамленняў)
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 Без_Мянушкі

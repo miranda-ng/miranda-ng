@@ -458,68 +458,6 @@
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-Элементы скіна
-[General]
-Агульнае
-[Gradient]
-Градыент
-[Left to right]
-Злева направа
-[Right to left]
-Справа налева
-[Top to bottom]
-Зверху ўніз
-[Bottom to top]
-Знізу ўгару
-[Round corners]
-Закругленыя куты
-[Top-Left]
-Левы верхні
-[Top-Right]
-Правы верхні
-[Bottom-Right]
-Правы ніжні
-[Bottom-Left]
-Левы ніжні
-[Item colors]
-Колеры
-[First color]
-Першы колер
-[Text color]
-Тэкст(колер)
-[Second color]
-Другі колер
-[Transparent]
-Празрыста
-[Alpha (percent)]
-Альфа (адсотак)
-[Item margins]
-Палі
-[Item borders]
-Межы
-[Border style]
-Стыль рамкі
-[3D border (bright / dark)]
-3D рамка
-[Item ignored]
-Пункт ігнаруецца
-[Not yet supported]
-Не падтрымліваецца
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-Капіяваць з
-[<None>]
-<Няма>
-[Raised]
-Прыпадняты
-[Sunken]
-Патоплены
-[Bumped]
-Выпуклы
-[Etched]
-Вытраўлены
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Меню
@@ -602,6 +540,8 @@
 Па правым краі
 [With nickname - right]
 Справа ад мянушкі
+[General]
+Агульнае
 [List layout]
 Размяшчэнне спісу
 [Background]

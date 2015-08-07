@@ -53,11 +53,6 @@
 
 [Error]
 
-;file \plugins\Db_autobackups\src\headers.h
-[Backup profile]
-
-[Save profile as...]
-
 ;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 
@@ -70,6 +65,10 @@
 [All files]
 sve datoteke
 [Backup folder]
+
+[Backup profile]
+
+[Save profile as...]
 
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
@@ -102,3 +101,4 @@ sve datoteke
 
 [Error creating backup folder]
 
+;file \plugins\Db_autobackups\src\stdafx.h

@@ -79,23 +79,6 @@
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Усплывальныя вокны
-;file \plugins\NewEventNotify\src\neweventnotify.h
-[Contacts]
-Кантакты
-[You were added!]
-Вас дадалі
-[Requests your authorization]
-Запыт вашай аўтарызацыі
-[SMS Message]
-Паведамленне SMS
-[Unknown Event]
-Невядомая падзея
-[Notify of new events]
-Паведамляць пра новыя падзеі
-[Enable new event notification]
-Укл. абвесткі пра падзеі
-[Disable new event notification]
-Выкл. абвесткі пра падзеі
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Падзеі
@@ -118,3 +101,20 @@
 Тэст плагіна
 [[b]Number of new message(s): %d[/b]\n]
 \[b]Колькасць новых паведамленняў: %d[/b]\n
+;file \plugins\NewEventNotify\src\stdafx.h
+[Contacts]
+Кантакты
+[You were added!]
+Вас дадалі
+[Requests your authorization]
+Запыт вашай аўтарызацыі
+[SMS Message]
+Паведамленне SMS
+[Unknown Event]
+Невядомая падзея
+[Notify of new events]
+Паведамляць пра новыя падзеі
+[Enable new event notification]
+Укл. абвесткі пра падзеі
+[Disable new event notification]
+Выкл. абвесткі пра падзеі

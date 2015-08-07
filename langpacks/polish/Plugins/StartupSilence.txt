@@ -45,7 +45,7 @@ Zezwól na popupy mRadio, pogody, itd.
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Zdarzenia
-;file \plugins\StartupSilence\src\StartupSilence.h
+;file \plugins\StartupSilence\src\stdafx.h
 [Silence at startup]
 Cichy start
 [Toggle Silence OFF]

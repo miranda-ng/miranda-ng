@@ -32,7 +32,6 @@
 Запіс у файл
 [Message debugging]
 Адладка паведамленняў
-;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
 [N/A: Failed to format error message]
 N/A: Памылка фармату паведамлення, з памылкай
@@ -47,3 +46,4 @@ N/A: Памылка фармату паведамлення, код памылк
 Няслушны нумар порта
 [Plugins]
 Плагіны
+;file \plugins\NotifyAnything\src\stdafx.h

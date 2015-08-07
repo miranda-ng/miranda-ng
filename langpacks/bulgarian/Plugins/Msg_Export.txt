@@ -75,8 +75,6 @@ UTF8 за нови файлове
 Записването на файла се провали
 [History was saved successfully in file\r\n]
 Историята е успешно записана във файла\r\n
-[Miranda NG (Message Export Plugin)]
-Miranda NG (приставка Message Export)
 [Open E&xported History]
 Отваряне на изнесената история
 [No contacts found to export]
@@ -115,6 +113,8 @@ UIN
 Основни
 [Additional]
 Допълнителни
+[Miranda NG (Message Export Plugin)]
+Miranda NG (приставка Message Export)
 [No_Nick]
 Без–Прякор
 [No_Group]

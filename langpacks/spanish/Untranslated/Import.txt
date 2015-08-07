@@ -29,8 +29,6 @@
 [Select items to import:]
 [Only since:]
 [Choose appropriate accounts for import]
-[Ignored event from/to self]
-[Added contact %u (found in history)]
 [Old account]
 [Protocol %S is not loaded, skipping account %s creation]
 [Unable to create an account %s of protocol %S]

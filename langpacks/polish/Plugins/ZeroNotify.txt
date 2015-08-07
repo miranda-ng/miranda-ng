@@ -16,13 +16,13 @@ Brak pow. na liście:
 Brak pow. w zasobniku:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Ukryj opcję przełączania dźwięku w menu (wymaga restartu Mirandy)
-;file \plugins\ZeroNotification\src\common.h
-[Disable &Sounds]
-Wyłącz &dźwięki
-[Enable &Sounds]
-Włącz &dźwięki
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Zero powiadomień
 [Plugins]
 Wtyczki
+;file \plugins\ZeroNotification\src\stdafx.h
+[Disable &Sounds]
+Wyłącz &dźwięki
+[Enable &Sounds]
+Włącz &dźwięki

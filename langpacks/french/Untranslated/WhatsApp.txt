@@ -1,5 +1,6 @@
 ﻿[Default group:]
 [Use SSL connection (port 443)]
+[Use remote message timestamps]
 [Automatically open group chats]
 [Registration]
 [SMS code]

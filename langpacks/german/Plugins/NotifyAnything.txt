@@ -32,9 +32,6 @@ Debug
 In Datei speichern
 [Message debugging]
 Nachrichtendebugging
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 Notify Anything
@@ -49,5 +46,8 @@ Fehler
 Verlauf (*.log)\0*.log\0Text (*.txt)\0*.txt\0Alle Dateien (*.*)\0*.*\0
 [Invalid port number]
 Ungültige Portnummer
+[NotifyAnything]
+NotifyAnything
 [Plugins]
 Plugins
+;file \plugins\NotifyAnything\src\stdafx.h

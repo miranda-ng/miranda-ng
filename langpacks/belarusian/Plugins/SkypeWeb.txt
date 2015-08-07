@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -55,16 +55,10 @@
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Вы ўпэўнены?
-;file \protocols\SkypeWeb\src\skype_events.cpp
-[File transfer:\n\tFile name: %s\n\tSize: %d bytes]
-Перадача файла:\n\tІмя файла: %s\n\tПамер: %d байт
+;file \protocols\SkypeWeb\src\skype_db.cpp
 [Action]
 Дзеянне
-[Notifications]
-Абвесткі
-[Errors]
-Памылкі
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+;file \protocols\SkypeWeb\src\skype_events.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Абразок пратаколу
@@ -82,12 +76,20 @@
 Стварыць чат
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
+;file \protocols\SkypeWeb\src\skype_network.cpp
+[%s connection]
+Злучэнне %s
+[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+Перадача файла:\n\tІмя файла: %s \n\tПамер: %lld байт \n
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва
+;file \protocols\SkypeWeb\src\skype_popups.cpp
+[Notifications]
+Абвесткі
+[Errors]
+Памылкі
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-Злучэнне %s
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 ;file \protocols\SkypeWeb\src\skype_utils.cpp
 [Message read: %s]

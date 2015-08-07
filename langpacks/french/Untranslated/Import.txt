@@ -8,8 +8,6 @@
 [Imports contacts only, doesn't import any message history.]
 [Custom schema: you can choose what to import.]
 [Choose appropriate accounts for import]
-[Ignored event from/to self]
-[Added contact %u (found in history)]
 [Old account]
 [Protocol %S is not loaded, skipping account %s creation]
 [Unable to create an account %s of protocol %S]

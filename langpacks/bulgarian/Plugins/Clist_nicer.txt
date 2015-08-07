@@ -427,64 +427,6 @@ URL събития
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-[Skin items]
-Елементи на облика
-[General]
-Основни
-[Gradient]
-Градиент
-[Left to right]
-Отляво надясно
-[Right to left]
-Отдясно наляво
-[Top to bottom]
-Отгоре надолу
-[Bottom to top]
-Отдолу нагоре
-[Round corners]
-Закръглени ъгли
-[Top-Left]
-Горе вляво
-[Top-Right]
-Горе вдясно
-[Bottom-Right]
-Долу вдясно
-[Bottom-Left]
-Долу вляво
-[Item colors]
-Цветове на елемента
-[First color]
-Първи цвят
-[Text color]
-Цвят на текста
-[Second color]
-Втори цвят
-[Transparent]
-Прозрачно
-[Alpha (percent)]
-Коефициент на прозрачност (%)
-[Item margins]
-Ръбове на елемента
-[Item borders]
-Рамка на елемента
-[Border style]
-Стил на рамката
-[3D border (bright / dark)]
-3D рамка (светло/тъмно)
-[Item ignored]
-Игнорирани елементи
-[Not yet supported]
-Не се поддържа
-[Copy from]
-Копирай от
-[<None>]
-<Няма>
-[Raised]
-Повдигнато
-[Sunken]
-Вградено
-[Bumped]
-Двойно изпъкнало
 [Show menu]
 Главно меню
 [Show/Hide offline contacts]
@@ -565,6 +507,8 @@ URL събития
 Далеч вдясно
 [With nickname - right]
 С прякора вдясно
+[General]
+Основни
 [List layout]
 Изглед на списъка
 [Background]

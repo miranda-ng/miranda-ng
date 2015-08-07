@@ -16,13 +16,13 @@
 
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 
-;file \plugins\ZeroNotification\src\common.h
-[Disable &Sounds]
-
-[Enable &Sounds]
-
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 
 [Plugins]
+
+;file \plugins\ZeroNotification\src\stdafx.h
+[Disable &Sounds]
+
+[Enable &Sounds]
 

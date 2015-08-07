@@ -163,9 +163,6 @@ Ne
 
 [Ignore]
 Ignorisati
-;file \plugins\SendScreenshotPlus\src\global.h
-[SendScreenshot - Error]
-
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 
@@ -222,6 +219,9 @@ Strelica na dole
 [Send desktop screenshot]
 
 [Open SendSS+]
+
+;file \plugins\SendScreenshotPlus\src\stdafx.h
+[SendScreenshot - Error]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]

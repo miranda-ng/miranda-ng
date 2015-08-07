@@ -464,68 +464,6 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-Éléments du skin
-[General]
-Général
-[Gradient]
-Gradient
-[Left to right]
-De gauche à droite
-[Right to left]
-De droite à gauche
-[Top to bottom]
-Haut en bas
-[Bottom to top]
-Bas en haut
-[Round corners]
-Coins arrondis
-[Top-Left]
-Haut-gauche
-[Top-Right]
-Haut-droit
-[Bottom-Right]
-Bas-droite
-[Bottom-Left]
-Bas-gauche
-[Item colors]
-Couleurs de l'élément
-[First color]
-Couleur principale
-[Text color]
-Couleur du texte
-[Second color]
-Couleur secondaire
-[Transparent]
-Transparent
-[Alpha (percent)]
-Alpha (pourcent)
-[Item margins]
-Marges de l'élément
-[Item borders]
-Bordures de l'élément
-[Border style]
-Style des bordures
-[3D border (bright / dark)]
-Bordures 3D (clair/foncé)
-[Item ignored]
-Éléments ignorés
-[Not yet supported]
-Pas encore supporté
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-
-[<None>]
-<aucun>
-[Raised]
-
-[Sunken]
-
-[Bumped]
-
-[Etched]
-
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Afficher le menu
@@ -608,6 +546,8 @@ Complètement à gauche
 Complètement à droite
 [With nickname - right]
 Avec le pseudo - droite
+[General]
+Général
 [List layout]
 Arrangement de la liste
 [Background]

@@ -256,18 +256,7 @@ Voir détails utilisateur
 Anciens réglages
 [To default]
 Par défaut
-;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-
-[Auto Update Enabled]
-
-[Auto Update Disabled]
-
-[Weather Condition Changed]
-Conditions météo changées
-[Weather Alert Issued]
-Alerte météo publiée
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 
 [Invalid ID format, missing "/" (10)]
@@ -350,6 +339,17 @@ Voici la liste des variables actuellement disponibles :
 L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
+[Weather Condition Changed]
+Conditions météo changées
+[Weather Alert Issued]
+Alerte météo publiée
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Information météo en cours pour %s.

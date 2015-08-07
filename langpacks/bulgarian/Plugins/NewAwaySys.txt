@@ -133,10 +133,6 @@ URL
 Включено
 [Off]
 Изкл.
-[Status]
-Състояние
-[Popups]
-Рopups
 [&Close]
 Затваряне
 [Apply]
@@ -147,3 +143,7 @@ URL
 Всички акаунти
 [Closing in %d]
 Затваряне след %d
+[Status]
+Състояние
+[Popups]
+Рopups

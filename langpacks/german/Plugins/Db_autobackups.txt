@@ -53,11 +53,6 @@ Datenbank gesichert
 Datenbank wird gerade gesichert...
 [Error]
 Fehler
-;file \plugins\Db_autobackups\src\headers.h
-[Backup profile]
-Sicherheitskopie des Profils erstellen
-[Save profile as...]
-Profil speichern unter...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Datenbank
@@ -71,6 +66,10 @@ Komprimierte Miranda-NG-Datenbanken
 Alle Dateien
 [Backup folder]
 Sicherungsordner
+[Backup profile]
+Sicherheitskopie des Profils erstellen
+[Save profile as...]
+Profil speichern unter...
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
@@ -102,3 +101,4 @@ Minuten
 Backup-Verzeichnis auswählen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
+;file \plugins\Db_autobackups\src\stdafx.h

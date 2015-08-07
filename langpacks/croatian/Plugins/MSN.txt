@@ -114,6 +114,9 @@ drugo
 &Odustani
 [Add]
 
+;file \protocols\MSN\src\msn_auth.cpp
+[MSN Protocol]
+
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 
@@ -139,8 +142,6 @@ Detalji o &Korisniku
 [Contact tried to open an audio conference (not currently supported)]
 
 [Accept NetMeeting request from %s?]
-
-[MSN Protocol]
 
 [Chat session established by my request]
 
@@ -295,4 +296,7 @@ lista kontakata
 
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
+
+;file \protocols\MSN\src\stdafx.h
+[Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
 

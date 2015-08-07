@@ -105,9 +105,6 @@
 Скасаваць
 [Ignore]
 Ігнараваць
-;file \plugins\SendScreenshotPlus\src\global.h
-[SendScreenshot - Error]
-SendScreenshot - Памылка
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Галоўны абразок
@@ -149,6 +146,9 @@ HTTP далучэнне SendSS
 Адправіць скрыншот экрана
 [Open SendSS+]
 Адчыніць SendSS+
+;file \plugins\SendScreenshotPlus\src\stdafx.h
+[SendScreenshot - Error]
+SendScreenshot - Памылка
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Аўтары

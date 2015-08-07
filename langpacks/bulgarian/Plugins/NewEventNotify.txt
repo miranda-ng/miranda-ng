@@ -41,16 +41,6 @@ URL
 Редактиране
 [Popups]
 Рopups
-[Contacts]
-Контакти
-[You were added!]
-Вие бяхте добавен!
-[Requests your authorization]
-Желае упълномощаване от ваша страна
-[SMS Message]
-SMS съобщение
-[Unknown Event]
-Неизвестно събитие
 [ requested authorization]
  заявено упълномощаване
 [This is a sample message event :-)]
@@ -63,3 +53,13 @@ SMS съобщение
 Пример за друго събитие ;-D
 [[b]Number of new message(s): %d[/b]\n]
 [b]Брой нови съобщения: %d[/b]\n
+[Contacts]
+Контакти
+[You were added!]
+Вие бяхте добавен!
+[Requests your authorization]
+Желае упълномощаване от ваша страна
+[SMS Message]
+SMS съобщение
+[Unknown Event]
+Неизвестно събитие

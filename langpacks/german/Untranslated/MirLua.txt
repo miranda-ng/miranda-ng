@@ -2,4 +2,3 @@
 [Reload all]
 [Scripts]
 [Common scripts]
-[Custom scripts]

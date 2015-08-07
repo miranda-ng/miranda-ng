@@ -117,17 +117,6 @@ Aperçu
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 
-;file \plugins\Spamotron\src\common.h
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-
-[Verified.]
-
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
 
@@ -176,6 +165,17 @@ Popups
 [Sending random challenge to %s.]
 
 [Sending math expression challenge to %s.]
+
+;file \plugins\Spamotron\src\stdafx.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+
+[Verified.]
+
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 
 ;file \plugins\Spamotron\src\utils.cpp
 [Their message was]

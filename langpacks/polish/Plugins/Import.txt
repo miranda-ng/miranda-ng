@@ -83,10 +83,6 @@ Inne
 [Choose appropriate accounts for import]
 Wybierz odpowiednie konta, by dokonać importowania
 ;file \plugins\Import\src\import.cpp
-[Ignored event from/to self]
-Ignorowanie zdarzenia od/do siebie
-[Added contact %u (found in history)]
-Dodano kontakt %u (znaleziony w historii)
 [<New account>]
 <Nowe konto>
 [Old account]

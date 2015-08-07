@@ -163,9 +163,6 @@ Nein
 Abbrechen
 [Ignore]
 Ignorieren
-;file \plugins\SendScreenshotPlus\src\global.h
-[SendScreenshot - Error]
-SendScreenshot - Fehler
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
 Haupticon
@@ -223,6 +220,9 @@ Screenshot senden
 Desktop-Screenshot senden
 [Open SendSS+]
 SendSS+ öffnen
+;file \plugins\SendScreenshotPlus\src\stdafx.h
+[SendScreenshot - Error]
+SendScreenshot - Fehler
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Danksagung

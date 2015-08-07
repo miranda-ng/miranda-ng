@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.1.2
+;  Version: 0.12.2.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Cancel]
@@ -23,10 +23,6 @@ Advertencia
 &Invitar usuario...
 [&Leave chat session]
 &Abandonar sesión de charla
-[Notifications]
-Notificaciones
-[Errors]
-Errores
 [Protocols]
 Protocolos
 [Request authorization]
@@ -35,5 +31,9 @@ Solicitar autorización
 Conceder autorización
 [Network]
 Red
+[Notifications]
+Notificaciones
+[Errors]
+Errores
 [Message read: %s]
 Leer mensaje: %s

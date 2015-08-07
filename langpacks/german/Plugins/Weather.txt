@@ -256,18 +256,7 @@ Kontaktdetails anzeigen
 Auf alte Einstellungen
 [To default]
 Auf Standard
-;file \plugins\Weather\src\weather.cpp
-[Enable/disable auto update]
-Automatische Aktualisierung (de-)aktivieren
-[Auto Update Enabled]
-Autom. Aktualisierung aktiviert
-[Auto Update Disabled]
-Autom. Aktualisierung deaktiviert
-[Weather Condition Changed]
-Wetterlage hat sich geändert
-[Weather Alert Issued]
-Wetteralarm ausgelöst
-;file \plugins\Weather\src\weather.h
+;file \plugins\Weather\src\stdafx.h
 [N/A]
 N/A
 [Invalid ID format, missing "/" (10)]
@@ -350,6 +339,17 @@ Hier ist eine Liste von Variablen, die momentan verfügbar sind
 Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
 [The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+Automatische Aktualisierung (de-)aktivieren
+[Auto Update Enabled]
+Autom. Aktualisierung aktiviert
+[Auto Update Disabled]
+Autom. Aktualisierung deaktiviert
+[Weather Condition Changed]
+Wetterlage hat sich geändert
+[Weather Alert Issued]
+Wetteralarm ausgelöst
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Momentane Wetter-Informationen für %s.

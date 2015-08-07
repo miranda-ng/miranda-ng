@@ -3,6 +3,6 @@
 [No CList blink when:]
 [No SysTray blink when:]
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
+[Zero Notifications]
 [Disable &Sounds]
 [Enable &Sounds]
-[Zero Notifications]

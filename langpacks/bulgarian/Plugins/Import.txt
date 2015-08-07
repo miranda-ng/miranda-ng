@@ -71,10 +71,6 @@ URL адреси
 Обмен на файлове
 [Other]
 Друго
-[Ignored event from/to self]
-Пропуснато събитие от/към мен
-[Added contact %u (found in history)]
-Добавен контакт %u (открит в историята)
 [<New account>]
 <Нов акаунт>
 [Old account]

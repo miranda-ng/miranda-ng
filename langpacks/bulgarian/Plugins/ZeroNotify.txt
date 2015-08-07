@@ -15,11 +15,11 @@
 Без мигане в трея:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Скриване на елемента "Вкл./Изкл. на звука" от менюто (изисква рестартиране на Miranda)
-[Disable &Sounds]
-Изключване на звука
-[Enable &Sounds]
-Включване на звука
 [Zero Notifications]
 Zero Notifications
 [Plugins]
 Приставки
+[Disable &Sounds]
+Изключване на звука
+[Enable &Sounds]
+Включване на звука

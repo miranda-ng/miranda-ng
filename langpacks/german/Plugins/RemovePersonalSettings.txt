@@ -8,13 +8,14 @@
 [Remove personal settings to allow you to send a profile to other user(s) without sending personal data.]
 Entfernt persönliche Einstellungen, um anderen Benutzern ein Profil ohne persönliche Daten zu schicken.
 ;file \plugins\RemovePersonalSettings\src\rps.cpp
-[All your personal settings will be erased!\nMake sure you are running this from a copy of your profile (and not over the original one).\nRunning this will erase files/folders under Miranda main folder.\n\nAre you sure you want to remove all your personal settings?\n\n(You cannot say that I don't told you about the risks :P)]
-Alle Ihre persönlichen Einstellungen werden gelöscht!\nStellen Sie sicher, dass Sie dies auf einer Kopie Ihres Profils ausführen (und nicht auf dem Original).\nDies wird Dateien/Verzeichnisse unterhalb des Miranda-Hauptverzeichnisses löschen.\n\nSind Sie sich sicher, dass Sie alle Ihre persönlichen Einstellungen löschen wollen?\n\n(Sie können nicht sagen man hätte Sie nicht über die Risiken aufgeklärt. :P )
-[Remove Personal Settings]
-Persönliche Einstellungen entfernen
 [Remove Personal Settings...]
 Persönliche Einstellungen entfernen...
 [Configuration file could not be found!]
 Einstellungsdatei konnte nicht gefunden werden.
 [Settings are deleted now.]
 Einstellungen wurden gelöscht.
+;file \plugins\RemovePersonalSettings\src\stdafx.h
+[All your personal settings will be erased!\nMake sure you are running this from a copy of your profile (and not over the original one).\nRunning this will erase files/folders under Miranda main folder.\n\nAre you sure you want to remove all your personal settings?\n\n(You cannot say that I don't told you about the risks :P)]
+Alle Ihre persönlichen Einstellungen werden gelöscht!\nStellen Sie sicher, dass Sie dies auf einer Kopie Ihres Profils ausführen (und nicht auf dem Original).\nDies wird Dateien/Verzeichnisse unterhalb des Miranda-Hauptverzeichnisses löschen.\n\nSind Sie sich sicher, dass Sie alle Ihre persönlichen Einstellungen löschen wollen?\n\n(Sie können nicht sagen man hätte Sie nicht über die Risiken aufgeklärt. :P )
+[Remove Personal Settings]
+Persönliche Einstellungen entfernen

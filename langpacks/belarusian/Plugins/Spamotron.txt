@@ -117,17 +117,6 @@
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Размяшчэнне базы Байеса
-;file \plugins\Spamotron\src\common.h
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Паведамленне часова заблакавана. Напішыце "%response%" без двукоссяў.
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Паведамленне часова заблакавана. Колькі будзе %mathexpr%?
-[Verified.]
-Ухвалена.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Запыт аўтарызацыі часова заблакаваны. Напішыце "%response%" без двукоссяў.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Запыт аўтарызацыі часова заблакаваны. Колькі будзе %mathexpr%?
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
 Просты
@@ -177,6 +166,17 @@
 Адпраўка выпадковага пытання %s.
 [Sending math expression challenge to %s.]
 Адпраўка кантрольнага пытання %s.
+;file \plugins\Spamotron\src\stdafx.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Паведамленне часова заблакавана. Напішыце "%response%" без двукоссяў.
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Паведамленне часова заблакавана. Колькі будзе %mathexpr%?
+[Verified.]
+Ухвалена.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Запыт аўтарызацыі часова заблакаваны. Напішыце "%response%" без двукоссяў.
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Запыт аўтарызацыі часова заблакаваны. Колькі будзе %mathexpr%?
 ;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
 Паведамленне было

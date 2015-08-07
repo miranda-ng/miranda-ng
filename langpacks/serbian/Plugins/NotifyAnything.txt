@@ -32,9 +32,6 @@ Port:
 
 [Message debugging]
 
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
 
@@ -49,5 +46,8 @@ Greška
 
 [Invalid port number]
 
+[NotifyAnything]
+
 [Plugins]
 Plug-inovi
+;file \plugins\NotifyAnything\src\stdafx.h

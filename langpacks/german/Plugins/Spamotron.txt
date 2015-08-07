@@ -117,17 +117,6 @@ Vorschau
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Bayes-Datenbank-Pfad
-;file \plugins\Spamotron\src\common.h
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit "%response%" (ohne Anführungszeichen).
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit dem Ergebnis der Rechenaufgabe %mathexpr%.
-[Verified.]
-Verifiziert.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit "%response%" (ohne Anführungszeichen).
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit dem Ergebnis der Rechenaufgabe %mathexpr%.
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
 Einfach
@@ -177,6 +166,17 @@ Sende Rundlauf-Anfrage an %s.
 Sende zufällige Anfrage an %s.
 [Sending math expression challenge to %s.]
 Sende mathematische Sicherheitsabfrage an %s.
+;file \plugins\Spamotron\src\stdafx.h
+[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit "%response%" (ohne Anführungszeichen).
+[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit dem Ergebnis der Rechenaufgabe %mathexpr%.
+[Verified.]
+Verifiziert.
+[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit "%response%" (ohne Anführungszeichen).
+[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+Spam-o-tron hat Ihre Autorisierungsanfrage zurückgestellt. Bitte antworten Sie zunächst mit dem Ergebnis der Rechenaufgabe %mathexpr%.
 ;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
 Seine Nachricht war

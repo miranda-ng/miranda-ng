@@ -7,7 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Cln_skinedit\res\skinedit.rc
 [Skin items]
 Éléments du skin
 [General]
@@ -58,7 +58,7 @@ Bordures 3D (clair/foncé)
 Dialogue
 [Not yet supported]
 Pas encore supporté
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Cln_skinedit\src\main.cpp
 [Copy from]
 
 [<None>]
