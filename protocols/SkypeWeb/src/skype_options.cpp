@@ -42,7 +42,7 @@ void CSkypeOptionsMain::OnInitDialog()
 	CSkypeDlgBase::OnInitDialog();
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
-	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
+	m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
 	m_place.Enable(!m_proto->getBool("UseHostName", false));
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 128, 0);
@@ -56,7 +56,6 @@ void CSkypeOptionsMain::OnApply()
 		 szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
 	pass_ptrA szNewPassword(m_password.GetTextA()),
 			szOldPassword(m_proto->getStringA("Password"));
-
 	if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
 	m_proto->setString(SKYPE_SETTINGS_ID, szNewSkypename);

@@ -135,7 +135,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		{
 			time_t lastEventTime = db_get_dw(hContact, m_szModuleName, "LastAuthRequestTime", 0);
 
-			if (lastEventTime == 0 || lastEventTime < eventTime)
+			if (lastEventTime == 0 || lastEventTime <= eventTime)
 			{
 				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
