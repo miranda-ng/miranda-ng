@@ -127,15 +127,15 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 			break;
 
 		std::string skypename = item["sender"].as_string();
-		std::string reason = root["greeting"].as_string();
-		time_t eventTime = IsoToUnixTime(root["event_time_iso"].as_string().c_str());
+		std::string reason = item["greeting"].as_string();
+		time_t eventTime = IsoToUnixTime(item["event_time_iso"].as_string().c_str());
 
 		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact)
 		{
 			time_t lastEventTime = db_get_dw(hContact, m_szModuleName, "LastAuthRequestTime", 0);
 
-			if (lastEventTime == 0 || lastEventTime <= eventTime)
+			if (lastEventTime < eventTime)
 			{
 				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
