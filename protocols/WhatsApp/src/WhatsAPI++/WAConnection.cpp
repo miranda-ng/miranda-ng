@@ -122,8 +122,7 @@ WAConnection::WAConnection(const std::string &user, const std::string &resource,
 
 WAConnection::~WAConnection()
 {
-	std::map<string, IqResultHandler*>::iterator it;
-	for (it = this->pending_server_requests.begin(); it != this->pending_server_requests.end(); it++)
+	for (auto it = pending_server_requests.begin(); it != pending_server_requests.end(); ++it)
 		delete it->second;
 }
 
