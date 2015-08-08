@@ -165,7 +165,7 @@ int LoadStdPlugins()
 			return 1;
 	}
 
-	if (pluginDefault[13].pImpl == NULL)
+	if (pluginDefault[12].pImpl == NULL)
 		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), _T("Miranda NG"), MB_OK | MB_ICONWARNING);
 
 	return 0;
@@ -594,7 +594,7 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
 			p->pclass |= PCLASS_LOADED;
-			pluginDefault[11].pImpl = p;
+			pluginDefault[10].pImpl = p;
 
 			LoadExtraIconsModule();
 			return true;
@@ -618,7 +618,7 @@ static pluginEntry* getCListModule(TCHAR *exe)
 			return p;
 	}
 
-	MuuidReplacement& stdClist = pluginDefault[11];
+	MuuidReplacement& stdClist = pluginDefault[10];
 	if (LoadCorePlugin(stdClist)) {
 		mir_sntprintf(tszFullPath, _countof(tszFullPath), _T("%s\\Core\\%s.dll"), exe, stdClist.stdplugname);
 		if (loadClistModule(tszFullPath, stdClist.pImpl))
