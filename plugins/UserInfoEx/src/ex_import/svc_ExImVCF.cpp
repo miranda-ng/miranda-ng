@@ -670,10 +670,7 @@ CVCardFileVCF::CVCardFileVCF()
  **/
 size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew)
 {
-	UINT i;
-	WORD wAdd = 0;
-
-	for (i = 0; i < nList; i++) {
+	for (UINT i = 0; i < nList; i++) {
 		if (pList[i].nID == iID) {
 			return (_clVal + pList[i].ptszTranslated);
 		}

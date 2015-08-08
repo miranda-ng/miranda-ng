@@ -524,7 +524,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
  * return:	0 on success, 1 otherwise
  **/
 
-int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE bNew)
+int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE)
 {
 	Clear();
 	switch(bOld) {

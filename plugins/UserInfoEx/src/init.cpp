@@ -226,7 +226,7 @@ extern "C" int __declspec(dllexport) Load(void)
  *
  * @return	TRUE
  **/
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH)
 		ghInst = hinst;
