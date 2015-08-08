@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int iBreakSounds = 0;
 
-static int AutoAwaySound(WPARAM, LPARAM lParam)
+static int AutoAwaySound(WPARAM, LPARAM)
 {
 	return iBreakSounds;
 }

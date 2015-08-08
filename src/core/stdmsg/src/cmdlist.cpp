@@ -27,7 +27,7 @@ static UINT_PTR timerId;
 
 void MessageFailureProcess(TMsgQueue *item, const char* err);
 
-static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 {
 	LIST<TMsgQueue> arTimedOut(1);
 	{

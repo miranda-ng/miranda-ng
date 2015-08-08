@@ -313,7 +313,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 /****************************************************************************************/
 
-int CluiOptInit(WPARAM wParam, LPARAM lParam)
+int CluiOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
@@ -332,7 +332,7 @@ int CluiOptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CluiModernOptInit(WPARAM wParam, LPARAM lParam)
+int CluiModernOptInit(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{

@@ -384,7 +384,7 @@ static int HistoryContactDelete(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(hContactMenu, db_event_last(hContact) != NULL);
 	return 0;

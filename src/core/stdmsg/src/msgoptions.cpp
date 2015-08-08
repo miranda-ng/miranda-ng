@@ -46,7 +46,7 @@ static const fontOptionsList[] =
 	{ LPGENT("Other events"),      RGB(90, 90, 160),   _T("Arial"),    0, -12},
 };
 
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
+static BYTE MsgDlgGetFontDefaultCharset(const TCHAR*)
 {
   return DEFAULT_CHARSET;
 }
@@ -579,7 +579,7 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int ModernOptInitialise(WPARAM wParam, LPARAM lParam)
+static int ModernOptInitialise(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{
