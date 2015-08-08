@@ -431,8 +431,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageState", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirLua", "..\plugins\MirLua\MirLua.vcxproj", "{27D41D81-991F-4DC6-8749-B0321C87E694}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUrl", "..\src\core\stdurl\stdurl_10.vcxproj", "{769FAC86-C761-11E1-A66F-0BE76188709B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1968,14 +1966,6 @@ Global
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|Win32.Build.0 = Release|Win32
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.ActiveCfg = Release|x64
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.Build.0 = Release|x64
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|Win32.Build.0 = Debug|Win32
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|x64.ActiveCfg = Debug|x64
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Debug|x64.Build.0 = Debug|x64
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|Win32.ActiveCfg = Release|Win32
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|Win32.Build.0 = Release|Win32
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|x64.ActiveCfg = Release|x64
-		{769FAC86-C761-11E1-A66F-0BE76188709B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
