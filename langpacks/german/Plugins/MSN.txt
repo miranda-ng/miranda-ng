@@ -144,9 +144,9 @@ Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [Accept NetMeeting request from %s?]
 NetMeeting-Anfrage von %s akzeptieren?
 [Chat session established by my request]
-Die Chatsitzung wurde durch mich eingeleitet
+Die Chatsitzung wurde von mir eingeleitet
 [Chat session established by contact request]
-Die Chatsitzung wurde durch den Gegenüber eingeleitet
+Die Chatsitzung wurde vom Gegenüber eingeleitet
 [Contact left channel]
 Die Chatsitzung wurde beendet
 [This conversation has been inactive, participants will be removed.]
@@ -299,4 +299,4 @@ In Chat umwandeln
 Die Chatsitzung wurde wegen Inaktivität beendet
 ;file \protocols\MSN\src\stdafx.h
 [Automatic authentication to MSN failed, possibly due to Captcha-Authentication. Do you want to open a browser window to do a manual login?\n\nThis will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha that gets asked due to location change or to accept new TOS, which are required only once.\n\nAlso please note that MSN protocol doesn't support two-factor authentication.]
-
+Automatische Autorisierung bei MSN fehlgeschlagen, vermutlich wegen Captcha-Authentifizierung. Möchten Sie ein Browserfenster öffnen um sich manuell anzumelden? Das wird Sie nicht in Miranda in MSN anmelden, aber es erlaubt Ihnen, potentielle Probleme zu beheben, beispielsweise ein Captcha, das durch einen Ortswechsel angezeigt wird, oder die neuen TOS zu akzeptieren, was nur einmal erforderlich ist.\n\Beachten Sie auch, dass MSN keine Zwei-Faktor-Authentifizierung unterstützt.

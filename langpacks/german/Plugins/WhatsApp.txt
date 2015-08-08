@@ -17,7 +17,7 @@ Standardgruppe:
 [Use SSL connection (port 443)]
 SSL-Verbindung verwenden (Port 443)
 [Use remote message timestamps]
-
+Serverseitige Nachrichtenzeitstempel verwenden
 [Automatically open group chats]
 Gruppenchats automatisch öffnen
 [Registration]

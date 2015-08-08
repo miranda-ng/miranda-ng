@@ -97,7 +97,7 @@ Twitter (Avatare)
 [%s Protocol]
 %s-Protokoll
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
-
+Die maximale Grüße eines Tweets ist 140 Zeichen, und Sie verwenden %d Zeichen.
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 Twittericon

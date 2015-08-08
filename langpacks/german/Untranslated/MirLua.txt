@@ -1,4 +1,0 @@
-﻿[Extends Miranda NG functionality with Lua scripts.]
-[Reload all]
-[Scripts]
-[Common scripts]

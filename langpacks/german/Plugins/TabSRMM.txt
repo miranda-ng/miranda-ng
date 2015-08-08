@@ -739,7 +739,7 @@ Button-Leiste immer auf voller Breite halten
 [Save this picture as...]
 Bild speichern unter...
 [&Message log settings]
-Nachrichtenverlaufseinstellungen
+&Nachrichtenverlaufseinstellungen
 [&Global...]
 &Global...
 [&For this contact...]
@@ -781,13 +781,13 @@ Favoriten
 [Show the tray icon]
 Systemtray-Icon anzeigen
 [Disable all event notifications]
-Alle Ereignisbenachrichtigungen unterbinden
+Alle Ereignisbenachrichtigungen deaktivieren
 [Don't create windows automatically]
-Keine Nachrichtenfenster automatisch erzeugen
+Fenster nicht automatisch erzeugen
 [Hide all message containers]
 Alle Nachrichtenfenster verbergen
 [Restore all message containers]
-Verborgene Nachrichtenfenster zeigen
+Alle Nachrichtenfenster widerherstellen
 [Don't play sounds]
 Keine Klänge abspielen
 [Be "super quiet"]
@@ -1005,9 +1005,9 @@ aktiviert
 [Sending typing notifications is %s.]
 Senden von Tippbenachrichtigungen ist %s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Sitzungsliste:\nKlicke links für eine Liste der offenen Sitzungen.\Klick rechts für den Zugang zu Favoriten und schnell konfigurieren Meldungsfenster & Verhalten.
+Sitzungsliste:\nLinksklick für eine Liste offener Sitzungen.\nRechtsklick für den Zugang zu Favoriten und um das Verhalten des Nachrichtenfensters schnell einzustellen.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand in die Zwischenablage kopiert.
+Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand verwaltet.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Eine Ihrer Popupaktionen ist auf "Ereignis verwerfen" gesetzt.\nBeachten Sie, dass diese Option unerwünschte Nebeneffekte haben könnte, da sie das Ereignis aus der Ungelesen-Warteschlange ENTFERNT.\nDies kann dazu führen, dass Ereignisse nicht als "neu" angezeigt werden. Wenn Sie dieses Verhalten nicht wollen, überprüfen Sie bitte die Ereignisbenachrichtigungen-Einstellungen.
