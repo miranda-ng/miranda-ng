@@ -222,7 +222,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdIdle", "..\src\core\stdi
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUIHist", "..\src\core\stduihist\stduihist_10.vcxproj", "{DADAC956-3A54-440A-8B56-A07234DEE861}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUIHist", "..\src\core\stduihist\stduihist.vcxproj", "{DADAC956-3A54-440A-8B56-A07234DEE861}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
