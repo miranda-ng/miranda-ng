@@ -68,6 +68,7 @@ extern char g_szMirVer[];
 #include "skype_options.h"
 #include "skype_trouter.h"
 #include "skype_db.h"
+#include "skype_utils.h"
 #include "http_request.h"
 #include "requests\login.h"
 #include "requests\profile.h"

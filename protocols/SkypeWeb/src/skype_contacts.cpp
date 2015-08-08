@@ -140,23 +140,12 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
 
+				DB_AUTH_BLOB blob(hContact, NULL, NULL, NULL, skypename.c_str(), reason.c_str());
+
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = time(NULL);
-				pre.lParam = (DWORD)(sizeof(DWORD) * 2 + skypename.size() + reason.size() + 5);
-
-				/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
-				PBYTE pBlob, pCurBlob;
-				pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
-
-				*((PDWORD)pCurBlob) = 0;
-				pCurBlob += sizeof(DWORD);
-				*((PDWORD)pCurBlob) = (DWORD)hContact;
-				pCurBlob += sizeof(DWORD);
-				pCurBlob += 3;
-				mir_strcpy((char*)pCurBlob, skypename.c_str());
-				pCurBlob += skypename.size() + 1;
-				mir_strcpy((char*)pCurBlob, reason.c_str());
-				pre.szMessage = (char*)pBlob;
+				pre.lParam = blob.size();
+				pre.szMessage = blob;
 
 				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 			}
