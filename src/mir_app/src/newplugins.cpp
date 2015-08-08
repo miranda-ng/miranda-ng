@@ -131,19 +131,18 @@ static bool isPluginBanned(const MUUID& u1)
 static MuuidReplacement pluginDefault[] =
 {
 	{ MIID_UIUSERINFO, _T("stduserinfo"),   NULL }, // 0
-	{ MIID_SRURL,      _T("stdurl"),        NULL }, // 1
-	{ MIID_SREMAIL,    _T("stdemail"),      NULL }, // 2
-	{ MIID_SRAUTH,     _T("stdauth"),       NULL }, // 3
-	{ MIID_SRFILE,     _T("stdfile"),       NULL }, // 4
-	{ MIID_UIHELP,     _T("stdhelp"),       NULL }, // 5
-	{ MIID_UIHISTORY,  _T("stduihist"),     NULL }, // 6
-	{ MIID_IDLE,       _T("stdidle"),       NULL }, // 7
-	{ MIID_AUTOAWAY,   _T("stdautoaway"),   NULL }, // 8
-	{ MIID_USERONLINE, _T("stduseronline"), NULL }, // 9
-	{ MIID_SRAWAY,     _T("stdaway"),       NULL }, // 10
-	{ MIID_CLIST,      _T("stdclist"),      NULL }, // 11
-	{ MIID_CHAT,       _T("stdchat"),       NULL }, // 12
-	{ MIID_SRMM,       _T("stdmsg"),        NULL }  // 13
+	{ MIID_SREMAIL,    _T("stdemail"),      NULL }, // 1
+	{ MIID_SRAUTH,     _T("stdauth"),       NULL }, // 2
+	{ MIID_SRFILE,     _T("stdfile"),       NULL }, // 3
+	{ MIID_UIHELP,     _T("stdhelp"),       NULL }, // 4
+	{ MIID_UIHISTORY,  _T("stduihist"),     NULL }, // 5
+	{ MIID_IDLE,       _T("stdidle"),       NULL }, // 6
+	{ MIID_AUTOAWAY,   _T("stdautoaway"),   NULL }, // 7
+	{ MIID_USERONLINE, _T("stduseronline"), NULL }, // 8
+	{ MIID_SRAWAY,     _T("stdaway"),       NULL }, // 9
+	{ MIID_CLIST,      _T("stdclist"),      NULL }, // 10
+	{ MIID_CHAT,       _T("stdchat"),       NULL }, // 11
+	{ MIID_SRMM,       _T("stdmsg"),        NULL }  // 12
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)
