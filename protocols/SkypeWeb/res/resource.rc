@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral (Default) resources
+// Нейтральный (по умолчанию) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
@@ -35,12 +35,12 @@ IDI_CALL                ICON                    "Icons\\call.ico"
 IDI_NOTIFY              ICON                    "Icons\\notify.ico"
 IDI_ACTION_ME           ICON                    "Icons\\me.ico"
 IDI_ERRORICON           ICON                    "Icons\\error.ico"
-#endif    // Neutral (Default) resources
+#endif    // Нейтральный (по умолчанию) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Русский (Россия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -71,12 +71,12 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian (Russia) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// Английский resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -137,14 +137,15 @@ BEGIN
     RTEXT           "Default group:",IDC_STATIC,13,51,62,12
     EDITTEXT        IDC_GROUP,79,49,219,12,ES_AUTOHSCROLL
     GROUPBOX        "Others",IDC_STATIC,5,79,298,65
-    CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,285,10
+    CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,176,10
     CONTROL         "Use local time for received messages",IDC_LOCALTIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,285,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,176,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,112,285,10
     EDITTEXT        IDC_PLACE,79,124,109,14,ES_AUTOHSCROLL
     RTEXT           "Place:",IDC_STATIC,13,127,62,9
     CONTROL         "Use hostname",IDC_USEHOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,196,126,102,10
+    CONTROL         "Use BB-codes",IDC_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,196,89,102,10
 END
 
 IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
@@ -213,7 +214,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English resources
+#endif    // Английский resources
 /////////////////////////////////////////////////////////////////////////////
 
 

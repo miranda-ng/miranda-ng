@@ -23,7 +23,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
 
 	CMStringA szText; 
-
+	bool bUseBB = db_get_b(NULL, pEvent->dbei->szModule, "UseBBCodes", 1);
 	switch (pEvent->dbei->eventType)
 	{
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
@@ -33,7 +33,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			if (jMsg)
 			{
 				JSONNode &jOriginalMsg = jMsg["original_message"];
-				szText.AppendFormat(Translate("Original message:\n\t%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
+				szText.AppendFormat(bUseBB ? Translate("[b]Original message:[/b]\n%s\n") : Translate("Original message:\n%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
 				JSONNode &jEdits = jMsg["edits"];
 				for (auto it = jEdits.begin(); it != jEdits.end(); ++it)
 				{
@@ -43,7 +43,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					char szTime[MAX_PATH];
 					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
 
-					szText.AppendFormat(Translate("Edited at %s:\n\t%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
+					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(jEdit["text"].as_string().c_str()));
 				}
 				
 			}

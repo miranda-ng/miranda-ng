@@ -26,7 +26,8 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	m_autosync(this, IDC_AUTOSYNC),
 	m_localtime(this, IDC_LOCALTIME),
 	m_allasunread(this, IDC_MESASUREAD),
-	m_usehostname(this, IDC_USEHOST)
+	m_usehostname(this, IDC_USEHOST),
+	m_usebb(this, IDC_BBCODES)
 {
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);
@@ -34,6 +35,7 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 1);
 	CreateLink(m_place, "Place", _T(""));
 	CreateLink(m_usehostname, "UseHostName", DBVT_BYTE, 0);
+	CreateLink(m_usebb, "UseBBCodes", DBVT_BYTE, 1);
 	m_usehostname.OnChange = Callback(this, &CSkypeOptionsMain::OnUsehostnameCheck);
 }
 
