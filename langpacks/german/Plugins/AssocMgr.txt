@@ -24,7 +24,7 @@ Typ
 [Description]
 Beschreibung
 [URLs on websites]
-URLs auf webseiten
+URLs auf Webseiten
 [File types]
 Dateitypen
 [File association error]

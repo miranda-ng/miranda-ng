@@ -6,15 +6,15 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
-
+Erweitert die Funktionalität von Miranda NG um Lua-Skripte.
 ;file \plugins\MirLua\res\resource.rc
 [Reload all]
-
+Alle neu laden
 ;file \plugins\MirLua\src\main.cpp
 [Common scripts folder]
 Gemeinsames Skripte-Verzeichnis
 ;file \plugins\MirLua\src\mlua_options.cpp
 [Scripts]
-
+Skripte
 [Common scripts]
-
+Gemeinsame Skripte

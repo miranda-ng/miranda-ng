@@ -310,9 +310,9 @@ ist ins Chat zurückgekehrt
 [change chat title to]
 Chatthema geändert zu
 [changed chat cover:]
-
+hat Chatcover geändert:
 [deleted chat cover]
-
+hat Chatcover gelöscht
 [chat action not supported]
 Chataktion nicht unterstützt
 [Unknown]
