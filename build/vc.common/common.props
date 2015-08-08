@@ -34,7 +34,7 @@
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wtsapi32.lib;netapi32.lib;pdh.lib;shlwapi.lib;Strmiids.lib;gdiplus.lib;dbghelp.lib;Setupapi.lib;msimg32.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CommonLibDir)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>false</GenerateMapFile>

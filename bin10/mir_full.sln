@@ -217,7 +217,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdHelp", "..\src\core\stdh
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdIdle", "..\src\core\stdidle\stdidle_10.vcxproj", "{36C40BA6-E0B5-438A-919C-6A991933B313}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdIdle", "..\src\core\stdidle\stdidle.vcxproj", "{36C40BA6-E0B5-438A-919C-6A991933B313}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
