@@ -208,7 +208,7 @@ if (ExImContact->Typ == EXIM_ACCOUNT ||
 /*********************************
  * Ex/import All (MainMenu)
  *********************************/
-INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam)
+INT_PTR svcExIm_MainExport_Service(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -217,7 +217,7 @@ INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam)
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
 }
 
-INT_PTR svcExIm_MainImport_Service(WPARAM wParam, LPARAM lParam)
+INT_PTR svcExIm_MainImport_Service(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -262,7 +262,7 @@ INT_PTR svcExIm_ContactImport_Service(WPARAM hContact, LPARAM lParam)
   *
  * @return	always 0
  **/
-INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM lParam)
+INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM)
 {
 	ExImParam ExIm;
 	INT_PTR hItem = 0, hRoot = 0, hParent = 0;
@@ -328,7 +328,7 @@ typedef struct
  * @return	always 0
  **/
 
-INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
+INT_PTR svcExIm_Account_Service(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));

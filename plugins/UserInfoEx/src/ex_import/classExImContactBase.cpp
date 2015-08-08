@@ -283,7 +283,6 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 {
 	// getting dbeditor++ NickFromHContact(hContact)
 	static char name[512] = "";
-	char* ret = 0;
 
 	if (_hContact){
 		int loaded = _pszUIDKey ? 1 : 0;

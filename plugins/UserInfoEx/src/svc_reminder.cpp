@@ -372,7 +372,7 @@ static BYTE NotifyWithSound(const CEvent &evt)
 static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify)
 {
 	int numAnniversaries = 0;
-	int Diff;
+	int Diff = 0;
 	MAnnivDate mta;
 	CMString tszMsg;
 

@@ -1372,7 +1372,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 					case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
 						{
-							HFONT hoFont = (HFONT)SelectObject(cd->nmcd.hdc, pList->hFont);
+//							HFONT hoFont = (HFONT)SelectObject(cd->nmcd.hdc, pList->hFont);
 
 							ListView_GetSubItemRect(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec, cd->iSubItem, LVIR_BOUNDS, &rc);
 							if (cd->iSubItem == 0) {

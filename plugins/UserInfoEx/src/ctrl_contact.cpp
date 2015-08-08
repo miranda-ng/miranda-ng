@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			if (noRecursion) break;
 			noRecursion = 1;
 			{
-				TCHAR szText[MAXDATASIZE], *pText, *pArea, *pNumber;
+				TCHAR szText[MAXDATASIZE], *pText = 0, *pArea, *pNumber;
 				bool isValid = true;
 				GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText));
 				if (szText[0] != '+')
@@ -1180,7 +1180,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		cbex->bLocked = 1;
 			
 		if ((BYTE)lParam == TRUE) {
-			int i = (int)wParam;
+			i = (int)wParam;
 
 			cbex->iSelectedItem = (int)wParam;
 			while (i < cbex->numItems) {

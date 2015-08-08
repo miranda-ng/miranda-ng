@@ -41,7 +41,7 @@ static LIST<MsgWndData> gMsgWndList(10, NumericKeySortT);
  * service functions
  ***********************************************************************************************************/
 
-static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM)
 {
 	WORD countryNumber;
 	char *pszProto = GetContactProto(wParam);
@@ -124,7 +124,7 @@ void UpdateStatusIcons()
 }
 
 //hookProc ME_MSG_WINDOWEVENT
-static int OnMsgWndEvent(WPARAM wParam, LPARAM lParam)
+static int OnMsgWndEvent(WPARAM, LPARAM lParam)
 {
 	MsgWndData *msgwnd;
 	MessageWindowEventData *msgwe = (MessageWindowEventData*)lParam;
@@ -153,7 +153,7 @@ static int OnMsgWndEvent(WPARAM wParam, LPARAM lParam)
 }
 
 // hookProc ME_SKIN2_ICONSCHANGED
-static int OnStatusIconsChanged(WPARAM wParam, LPARAM lParam)
+static int OnStatusIconsChanged(WPARAM, LPARAM)
 {
 	UpdateStatusIcons();
 	return 0;
@@ -215,7 +215,6 @@ void SvcFlagsLoadModule()
 
 	// get local langID for descIcon (try to use user local Flag as icon)
 	DWORD langid = 0;
-	int r = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER, (LPTSTR)&langid, sizeof(langid) / sizeof(TCHAR));
 	if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER, langid, 0))
 		langid = 1;
 

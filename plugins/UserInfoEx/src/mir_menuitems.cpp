@@ -65,8 +65,6 @@ INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
  **/
 void RebuildContact()
 {
-	BYTE item = 0;
-
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;
 	static HGENMENU hMenuItem[4] = { NULL, NULL, NULL, NULL };
@@ -302,7 +300,6 @@ void RebuildGroup()
 
 	CMenuItem mi;
 	mi.pszService = text;
-	char* tDest = text + mir_strlen(text);
 
 	switch (flag) {
 	case 3:
@@ -459,7 +456,7 @@ void RebuildSubGroup()
  *
  * @return	always 0
  **/
-INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
+INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 {
 	const BYTE mItems = 3;				// menuitems to create
 	BYTE item = 0;

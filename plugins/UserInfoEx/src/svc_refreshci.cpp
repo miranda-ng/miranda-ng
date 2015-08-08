@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define HM_PROTOACK	(WM_USER+100)
 
-typedef INT_PTR	(*PUpdCallback) (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, PVOID UserData);
+typedef INT_PTR	(*PUpdCallback) (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, void *UserData);
 
 /***********************************************************************************************************
  * class CUpdProgress
@@ -206,7 +206,7 @@ public:
 	 *
 	 *
 	 **/
-	CUpdProgress(PVOID data)
+	CUpdProgress(void *data)
 	{
 		_hWnd = NULL;
 		_pFnCallBack = NULL;
@@ -276,7 +276,7 @@ public:
 	 *
 	 *
 	 **/
-	CDlgUpdProgress(PVOID data)
+	CDlgUpdProgress(void *data)
 		: CUpdProgress(data)
 	{
 	}
@@ -393,7 +393,7 @@ public:
 	 *
 	 *
 	 **/
-	CPopupUpdProgress(PVOID data)
+	CPopupUpdProgress(void *data)
 		: CUpdProgress(data)
 	{
 		_szText = NULL;
@@ -504,7 +504,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	This method returns 0.
 	 **/
-	static int DlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, CContactUpdater* u) 
+	static int DlgProc(HWND, UINT uMsg, WPARAM wParam, LPARAM, CContactUpdater* u) 
 	{
 		switch (uMsg) 
 		{
@@ -546,7 +546,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	int __cdecl OnProtoAck(WPARAM wParam, ACKDATA *ack)
+	int __cdecl OnProtoAck(WPARAM, ACKDATA *ack)
 	{
 		if (ack && ack->cbSize == sizeof(ACKDATA) && ack->hContact == _hContact && ack->type == ACKTYPE_GETINFO)
 		{
@@ -621,7 +621,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	virtual void Callback(MCONTACT hContact, PVOID param)
+	virtual void Callback(MCONTACT hContact, PVOID)
 	{
 		LPSTR	pszProto	= Proto_GetBaseAccountName(hContact);
 
@@ -777,7 +777,7 @@ static BOOL IsMirandaOnline()
  *
  * @return	This service function always returns 0.
  **/
-static INT_PTR RefreshService(WPARAM wParam, LPARAM lParam)
+static INT_PTR RefreshService(WPARAM, LPARAM)
 {
 	try
 	{
@@ -818,7 +818,7 @@ static INT_PTR RefreshService(WPARAM wParam, LPARAM lParam)
  *
  *
  **/
-static int OnContactAdded(WPARAM hContact, LPARAM lParam)
+static int OnContactAdded(WPARAM hContact, LPARAM)
 {
 	try
 	{

@@ -788,7 +788,7 @@ public:
 	virtual void Print(FILE* cfile, int depth) const;
 
 	virtual void StreamOut(TIXML_OSTREAM * out) const;
-	virtual void FormattedStreamOut(TIXML_OSTREAM * stream, int depth) const {}
+	virtual void FormattedStreamOut(TIXML_OSTREAM *, int) const {}
 
 	// [internal use]
 	// Set the document pointer so the attribute can report errors.

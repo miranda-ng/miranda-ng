@@ -39,7 +39,6 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
 			if (pCtrlList) {
 				TCHAR szAddr[MAX_PATH];
-				MCONTACT hContact = lParam;
 				LPIDSTRLIST pList;
 				UINT nList;
 
@@ -186,7 +185,6 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (pCtrlList)
 			{
 				TCHAR szAddr[MAX_PATH];
-				MCONTACT hContact = lParam;
 				LPIDSTRLIST pList;
 				UINT nList;
 

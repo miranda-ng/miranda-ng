@@ -837,12 +837,11 @@ void CPsTree::OnIconsChanged()
 BYTE CPsTree::OnInfoChanged()
 {
 	PSHNOTIFY pshn;
-	int i;
 	BYTE bChanged = 0;
 
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_INFOCHANGED;
-	for (i = 0; i < _numItems; i++) {
+	for (int i = 0; i < _numItems; i++) {
 		pshn.hdr.hwndFrom = _pItems[i]->Wnd();
 		if (pshn.hdr.hwndFrom != NULL) {
 			pshn.lParam = (LPARAM)_pItems[i]->hContact();
@@ -922,11 +921,9 @@ void CPsTree::OnSelChanged(LPNMTREEVIEW lpnmtv)
 void CPsTree::OnCancel()
 {
 	PSHNOTIFY pshn;
-	int i;
-
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_RESET;
-	for (i = 0; i < _numItems; i++) {
+	for (int i = 0; i < _numItems; i++) {
 		pshn.hdr.hwndFrom = _pItems[i]->Wnd();
 		if (pshn.hdr.hwndFrom && (_pItems[i]->Flags() & PSPF_CHANGED)) {
 			pshn.lParam = (LPARAM)_pItems[i]->hContact();
@@ -945,12 +942,10 @@ void CPsTree::OnCancel()
 int CPsTree::OnApply()
 {
 	CPsTreeItem *pti = CurrentItem();
-	PSHNOTIFY pshn;
-	int i;
-
 	if (pti == NULL)
 		return 1;
 
+	PSHNOTIFY pshn;
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_KILLACTIVE;
 	pshn.hdr.hwndFrom = pti->Wnd();
@@ -958,12 +953,11 @@ int CPsTree::OnApply()
 		return 1;
 	// save everything to database
 	pshn.hdr.code = PSN_APPLY;
-	for (i = 0; i < _numItems; i++) {
+	for (int i = 0; i < _numItems; i++) {
 		if (_pItems[i] && _pItems[i]->Wnd() && _pItems[i]->Flags() & PSPF_CHANGED) {
 			pshn.lParam = (LPARAM)_pItems[i]->hContact();
 			pshn.hdr.hwndFrom = _pItems[i]->Wnd();
 			if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-				CPsTreeItem *pti;
 				if (pti = CurrentItem())
 					ShowWindow(pti->Wnd(), SW_HIDE);
 				_curItem = i;

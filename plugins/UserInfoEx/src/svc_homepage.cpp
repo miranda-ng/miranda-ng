@@ -125,7 +125,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 * @return	always 0
 **/
 
-static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
+static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
 	Menu_ShowItem(ghMenuItem, val != 0);

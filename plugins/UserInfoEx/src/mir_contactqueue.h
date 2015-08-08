@@ -63,7 +63,7 @@ public:
 	void RemoveAll(MCONTACT hContact);
 
 	// This function removes all queue items for the hContact considering the correct parameter.
-	void RemoveAllConsiderParam(MCONTACT hContact, PVOID param);
+	void RemoveAllConsiderParam(MCONTACT hContact, void *param);
 
 	/**
 	 * This method adds the desired new item.
@@ -75,7 +75,7 @@ public:
 	 * @retval		TRUE			- The item is added to the queue successfully.
 	 * @retval		FALSE			- The item is not added to the queue.
 	 **/
-	BOOL Add(int waitTime, MCONTACT hContact, PVOID param = NULL);
+	BOOL Add(int waitTime, MCONTACT hContact, void *param = NULL);
 
 	/**
 	 * This method adds the desired new item only, if the queue does not yet contain
@@ -88,7 +88,7 @@ public:
 	 * @retval		TRUE			- The item is added to the queue successfully.
 	 * @retval		FALSE			- The item is not added to the queue.
 	 **/
-	BOOL AddIfDontHave(int waitTime, MCONTACT hContact, PVOID param = NULL);
+	BOOL AddIfDontHave(int waitTime, MCONTACT hContact, void *param = NULL);
 
 	/**
 	 * This method removes all existing queue items for the contact and adds a new queue item
@@ -101,7 +101,7 @@ public:
 	 *
 	 * @return		nothing
 	 **/
-	BOOL AddUnique(int waitTime, MCONTACT hContact, PVOID param = NULL);
+	BOOL AddUnique(int waitTime, MCONTACT hContact, void *param = NULL);
 
 	/**
 	 * This method removes all existing queue items for the contact with the same parameter as @e param
@@ -114,7 +114,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	BOOL AddUniqueConsiderParam	(int waitTime, MCONTACT hContact, PVOID param = NULL);
+	BOOL AddUniqueConsiderParam	(int waitTime, MCONTACT hContact, void *param = NULL);
 
 	// This method resumes the worker thread and immitiatly goes on with the next entry.
 	void ContinueWithNext();
@@ -162,7 +162,7 @@ private:
 	 * @retval		TRUE		- The item is added to the queue successfully.
 	 * @retval		FALSE		- The item is not added to the queue.
 	 **/
-	BOOL InternalAdd(int waitTime, MCONTACT hContact, PVOID param);
+	BOOL InternalAdd(int waitTime, MCONTACT hContact, void *param);
 
 	void Remove(int idx);
 };

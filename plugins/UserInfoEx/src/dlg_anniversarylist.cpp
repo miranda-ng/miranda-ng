@@ -289,7 +289,6 @@ class CAnnivList
 		switch (uMsg) {
 		case WM_INITDIALOG:
 			{
-				int i = 0;
 				HWND hCtrl;
 				HICON hIcon;
 				RECT rc;

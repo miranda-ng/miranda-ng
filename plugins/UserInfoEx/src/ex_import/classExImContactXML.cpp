@@ -398,7 +398,7 @@ BYTE CExImContactXML::ExportEvents()
 	if (dwNumEvents == 0)
 		return FALSE;
 
-	DWORD cbEventBuf = 0, dwNumEventsAdded = 0;
+	DWORD dwNumEventsAdded = 0;
 
 	// read out all events for the current contact
 	for (MEVENT hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(_hContact, hDbEvent)) {

@@ -153,7 +153,6 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 	if (!_Flags.B.hasChanged && _pList != NULL)
 	{
 		DBVARIANT dbv;
-		LPIDSTRLIST pItem = NULL;
 		int iVal = CB_ERR;
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;

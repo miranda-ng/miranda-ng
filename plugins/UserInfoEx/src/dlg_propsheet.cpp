@@ -241,7 +241,7 @@ static int SortProc(CPsTreeItem **item1, CPsTreeItem **item2)
 * @retval	0 on success
 * @retval	1 on failure
 **/
-static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	// update some cached settings
 	myGlobals.ShowPropsheetColours = db_get_b(NULL, MODNAME, SET_PROPSHEET_SHOWCOLOURS, TRUE);
@@ -397,7 +397,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 *
 * @return	0
 **/
-static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
+static int OnDeleteContact(WPARAM wParam, LPARAM)
 {
 	HWND hWnd = WindowList_Find(g_hWindowList, wParam);
 	if (hWnd != NULL)
@@ -411,7 +411,7 @@ static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 *
 * @return	0
 **/
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM, LPARAM)
 {
 	WindowList_BroadcastAsync(g_hWindowList, WM_DESTROY, 0, 0);
 	return 0;
@@ -1187,7 +1187,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case HM_PROTOACK:
 	{
 		ACKDATA *ack = (ACKDATA *)lParam;
-		int i, iSubContact;
+		int i, iSubContact = 0;
 
 		if (!ack->hContact && ack->type == ACKTYPE_STATUS)
 			return DlgProc(hDlg, M_CHECKONLINE, NULL, NULL);

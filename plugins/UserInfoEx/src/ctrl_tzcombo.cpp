@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, int index, LPARAM lParam)
+static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, int, LPARAM lParam)
 {
 	if (pTimeZone && pTimeZone->ptszDisplay)
 	{
@@ -144,7 +144,7 @@ void CTzCombo::Release()
  *
  * @return	_Flags.B.hasChanged member
  **/
-BOOL CTzCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
+BOOL CTzCombo::OnInfoChanged(MCONTACT hContact, LPCSTR)
 {
 	if (!_Flags.B.hasChanged) {
 		LPTIME_ZONE_INFORMATION pTimeZone;

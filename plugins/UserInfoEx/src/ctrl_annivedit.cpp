@@ -615,7 +615,7 @@ BOOL CAnnivEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 	return bChanged;
 }
 
-void CAnnivEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
+void CAnnivEditCtrl::OnApply(MCONTACT hContact, LPCSTR)
 {
 	DBWriteBirthDay(hContact);
 	DBWriteAnniversaries(hContact);

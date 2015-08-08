@@ -61,7 +61,7 @@ BYTE Delete(MCONTACT hContact)
 /**
  * This function trys to guess, when an ICQ contact was added to database.
  **/
-DWORD	WhenAdded(DWORD dwUIN, LPCSTR pszProto)
+DWORD	WhenAdded(DWORD dwUIN, LPCSTR)
 {
 	DBEVENTINFO	dbei = { sizeof(dbei) };
 	for (MEVENT edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(NULL, edbe)) {
@@ -106,7 +106,7 @@ void	Delete(MCONTACT hContact, LPCSTR pszModule)
 * @retval	TRUE		- always true
 **/
 
-static int IsEmptyEnumProc(LPCSTR pszSetting, LPARAM lParam)
+static int IsEmptyEnumProc(LPCSTR, LPARAM)
 {
 	return 1;
 }
@@ -700,7 +700,7 @@ bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 
 } /* namespace Events */
 
-int CEnumList::EnumProc(LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam)
+int CEnumList::EnumProc(LPCSTR pszName, DWORD, LPARAM lParam)
 {
 	if (pszName)
 		((CEnumList*)lParam)->Insert(pszName);
