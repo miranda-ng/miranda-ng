@@ -73,7 +73,7 @@ static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-static int ackevent(WPARAM wParam, LPARAM lParam)
+static int ackevent(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (pAck && pAck->type == ACKTYPE_MESSAGE) {

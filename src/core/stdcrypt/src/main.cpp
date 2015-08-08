@@ -39,13 +39,13 @@ PLUGININFOEX pluginInfo = {
 	{ 0xd3637189, 0xa5a5, 0x41f5, {0xbc, 0x72, 0x67, 0xa2, 0xf8, 0xaf, 0x1b, 0x6f}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

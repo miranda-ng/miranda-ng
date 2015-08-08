@@ -46,7 +46,7 @@ int CListModernOptInit(WPARAM wParam, LPARAM lParam);
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll stub
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	return TRUE;
@@ -69,7 +69,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe2 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -82,7 +82,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST,
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when number of accounts has been changed
 
-static int OnAccountsChanged(WPARAM wParam, LPARAM lParam)
+static int OnAccountsChanged(WPARAM, LPARAM)
 {
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	return 0;
@@ -92,7 +92,7 @@ static int OnAccountsChanged(WPARAM wParam, LPARAM lParam)
 // called when all modules got loaded
 
 static int OnModernOptsInit(WPARAM wParam, LPARAM lParam);
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MODERNOPT_INITIALIZE, OnModernOptsInit);
 	RegisterCListFonts();
@@ -122,7 +122,7 @@ static int OnModernOptsInit(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // menu status services
 
-static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
 	return pcli->currentDesiredStatusMode;
 }

@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WIN32_LEAN_AND_MEAN
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 #include <windowsx.h>
 #include <ole2.h>

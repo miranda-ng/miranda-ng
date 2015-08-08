@@ -43,7 +43,7 @@ static clistFontDescr[] =
 	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL }
 };
 
-static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
+static int FS_FontsChanged(WPARAM, LPARAM)
 {
 	pcli->pfnClcOptionsChanged();
 	return 0;

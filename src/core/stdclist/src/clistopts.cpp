@@ -235,7 +235,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 /****************************************************************************************/
 
-int CListOptInit(WPARAM wParam, LPARAM lParam)
+int CListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -1000000000;
@@ -248,7 +248,7 @@ int CListOptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CListModernOptInit(WPARAM wParam, LPARAM lParam)
+int CListModernOptInit(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{

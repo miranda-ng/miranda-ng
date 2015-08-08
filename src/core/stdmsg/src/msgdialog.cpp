@@ -66,7 +66,7 @@ static int RTL_Detect(const TCHAR *ptszText)
 	return 0;
 }
 
-int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
+int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char*)
 {
 	if (hContact == NULL)
 		return NULL;

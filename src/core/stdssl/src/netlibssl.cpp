@@ -62,7 +62,7 @@ struct SslHandle
 	SocketState state;
 };
 
-static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = false)
+static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
 	TCHAR szMsgBuf[256];
 	switch (scRet) {
