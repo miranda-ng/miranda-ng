@@ -274,7 +274,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdc
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist_10.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
