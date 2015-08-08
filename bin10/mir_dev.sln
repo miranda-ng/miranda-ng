@@ -227,7 +227,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserOnline", "..\src\cor
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stdaway\stdaway_10.vcxproj", "{C14D6E0D-810E-4599-A6E0-17298AFA0501}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stdaway\stdaway.vcxproj", "{C14D6E0D-810E-4599-A6E0-17298AFA0501}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
