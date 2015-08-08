@@ -76,7 +76,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAuth", "..\src\core\stda
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdEmail", "..\src\core\stdemail\stdemail_14.vcxproj", "{A5B558C6-C767-11E1-A335-F6EB6188709B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdEmail", "..\src\core\stdemail\stdemail.vcxproj", "{A5B558C6-C767-11E1-A335-F6EB6188709B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
