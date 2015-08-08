@@ -118,6 +118,7 @@ private:
 	mir_cs m_GCCreateDialogsLock;
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
+	mir_cs m_AppendMessageLock;
 	static mir_cs accountsLock;
 	static mir_cs timerLock;
 	
