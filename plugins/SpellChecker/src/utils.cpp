@@ -35,19 +35,7 @@ void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 	cf.dwEffects = CFE_UNDERLINE;
 	cf.bUnderlineType = opts.underline_type + CFU_UNDERLINEDOUBLE;
 
-	OSVERSIONINFOEX osvi = { 0 };
-	BOOL bOsVersionInfoEx;
-
-	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-
-	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
-	if (!bOsVersionInfoEx) {
-		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
-			return;
-	}
-
-	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion == 6 && osvi.dwMinorVersion >= 2)
+	if (IsWinVer8Plus())
 		cf.bUnderlineColor = 0x06;
 	else
 		cf.bUnderlineColor = 0x05;
