@@ -37,6 +37,8 @@
 Место:
 [Use hostname]
 Использовать имя хоста
+[Use BB-codes]
+Использовать BB-коды
 [Enter password]
 Введите пароль
 [Save password]
@@ -87,10 +89,14 @@ URI объект
 Входящий звонок
 [Invalid data!]
 Неверные данные!
-[Original message:\n\t%s\n]
-Исходное сообщение:\n\t%s\n
-[Edited at %s:\n\t%s\n]
-Изменено в %s:\n\t%s\n
+[[b]Original message:[/b]\n%s\n]
+[b]Оригинальное сообщение:[/b]\n%s\n
+[Original message:\n%s\n]
+Оригинальное сообщение:\n%s\n
+[[b]Edited at %s:[/b]\n%s\n]
+[b]Отредактировано в %s:[/b]\n%s\n
+[Edited at %s:\n%s\n]
+Отредактировано в %s:\n%s\n
 [Call]
 Звонок
 [Call missed]
@@ -143,6 +149,8 @@ URI объект
 Создать новый чат
 [Unknown error!]
 Неизвестная ошибка!
+[Network error!]
+Ошибка сети!
 [Enter confirmation code]
 Введите код подтверждения
 [%s connection]
