@@ -67,7 +67,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 {
 	mir_cslock lck(m_AppendMessageLock);
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.cbBlob = db_event_getBlobSize(hEvent);	
+	dbei.cbBlob = db_event_getBlobSize(hEvent);
 	dbei.pBlob = mir_ptr<BYTE>((PBYTE)mir_alloc(dbei.cbBlob));
 	db_event_get(hEvent, &dbei);
 
