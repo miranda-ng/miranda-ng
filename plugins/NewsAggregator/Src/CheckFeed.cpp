@@ -37,7 +37,8 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 			int childcount = 0;
 			HXML node;
 			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml"))) {
-				for (int i = 0; xmlGetAttrCount(hXml); i++) {
+				int attrcount = xmlGetAttrCount(hXml);
+				for (int i = 0; i < attrcount; i++) {
 					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
 					if (!mir_tstrcmpi(szAttrName, _T("encoding"))) {
 						codepage = xmlGetAttrValue(hXml, szAttrName);
@@ -207,7 +208,8 @@ void CheckCurrentFeed(MCONTACT hContact)
 			int childcount = 0;
 			HXML node;
 			if (!mir_tstrcmpi(xmlGetName(hXml), _T("xml"))) {
-				for (int i = 0; xmlGetAttrCount(hXml); i++) {
+				int attrcount = xmlGetAttrCount(hXml);
+				for (int i = 0; i < attrcount; i++) {
 					LPCTSTR szAttrName = xmlGetAttrName(hXml, i);
 					if (!mir_tstrcmpi(szAttrName, _T("encoding"))) {
 						codepage = xmlGetAttrValue(hXml, szAttrName);
