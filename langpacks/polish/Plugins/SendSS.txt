@@ -78,7 +78,7 @@ Kopiuj
 [Copy BBCode]
 Kopiuj BBCode
 [Copy BBCode w/ link]
-Kopiuj BBcode w/ link
+Kopiuj BBCode w/ link
 [%s requires a valid contact!]
 %s wymaga poprawnego kontaktu!
 [Error]

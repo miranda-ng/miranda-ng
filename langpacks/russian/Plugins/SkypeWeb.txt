@@ -37,8 +37,8 @@
 Место:
 [Use hostname]
 Использовать имя хоста
-[Use BB-codes]
-Использовать BB-коды
+[Use BBCode]
+Использовать BBCode
 [Enter password]
 Введите пароль
 [Save password]
