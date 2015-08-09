@@ -118,12 +118,9 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char *firstName = nick + mir_strlen(nick) + 1;
-	char *lastName = firstName + mir_strlen(firstName) + 1;
-	char *skypename = lastName + mir_strlen(lastName) + 1;
-
-	MCONTACT hContact = AddContact(skypename);
+	DB_AUTH_BLOB blob(dbei.pBlob);
+	
+	MCONTACT hContact = AddContact(blob.get_id());
 	return hContact;
 }
 

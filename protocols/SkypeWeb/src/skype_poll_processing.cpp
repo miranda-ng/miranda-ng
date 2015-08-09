@@ -22,8 +22,6 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
 	std::string selfLink = node["selfLink"].as_string();
 	CMStringA skypename(UrlToSkypename(selfLink.c_str()));
-	if (skypename.IsEmpty())
-		return;
 
 	MCONTACT hContact = FindContact(skypename);
 	if (hContact == NULL)
@@ -31,61 +29,48 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 
 	const JSONNode &publicInfo = node["publicInfo"];
 	const JSONNode &privateInfo = node["privateInfo"];
-	CMStringA MirVer = "";
+	CMStringA MirVer;
 	if (publicInfo)
 	{
 		std::string skypeNameVersion = publicInfo["skypeNameVersion"].as_string();
 		std::string version = publicInfo["version"].as_string();
 		std::string typ = publicInfo["typ"].as_string();
-		if (!typ.empty())
+		int iTyp = atoi(typ.c_str());
+		switch (iTyp)
 		{
-			int iTyp = atoi(typ.c_str());
-			switch (iTyp)
-			{
-			case 17:
-				MirVer.Append("Skype (Android)");
+		case 0:
+		case 1:
+			MirVer.AppendFormat("Skype (Web) %s", ParseUrl(version.c_str(), "/"));
+			break;
+		case 10:
+			MirVer.AppendFormat("Skype (XBOX) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 17:
+			MirVer.AppendFormat("Skype (Android) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 16:
+			MirVer.AppendFormat("Skype (iOS) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 12:
+			MirVer.AppendFormat("Skype (WinRT) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 15:
+			MirVer.AppendFormat("Skype (WP) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 13:
+			MirVer.AppendFormat("Skype (OSX) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
 				break;
-			case 16:
-				MirVer.Append("Skype (iOS)");
-				break;
-			case 12:
-				MirVer.Append("Skype (WinRT)");
-				break;
-			case 15:
-				MirVer.Append("Skype (WP)");
-				break;
-			case 13:
-				MirVer.Append("Skype (OSX)");
-				break;
-			case 11:
-				MirVer.Append("Skype (Windows)");
-				break;
-			case 14:
-				MirVer.Append("Skype (Linux)");
-				break;
-			case 10:
-				MirVer.Append("Skype (XBOX)");
-				break;
-			case 1:
-				MirVer.Append("Skype (Web)");
-				break;
-			case 125:
-				MirVer.Append("Miranda NG Skype");
-				break;
-			default:
-				{
-					if (!mir_strcmpi(typ.c_str(), "website"))
-						MirVer.Append("Skype (Outlook)");
-					else
-						MirVer.Append("Skype (Unknown)");
-					break;
-				}
-			}
-			MirVer.AppendChar(' ');
-			if (iTyp == 125)
-				MirVer.Append(version.c_str());
-			else
-				MirVer.Append(ParseUrl(skypeNameVersion.c_str(), "/"));
+		case 11:
+			MirVer.AppendFormat("Skype (Windows) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 14:
+			MirVer.AppendFormat("Skype (Linux) %s", ParseUrl(skypeNameVersion.c_str(), "/"));
+			break;
+		case 125:
+			MirVer.AppendFormat("Miranda NG Skype %s", version.c_str());
+			break;
+		default:
+				MirVer.Append("Skype (Unknown)");
 		}
 	}
 	if (privateInfo != NULL)
