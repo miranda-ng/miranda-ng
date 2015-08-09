@@ -35,6 +35,21 @@ MIR_CORE_DLL(BOOL) IsWinVer7Plus()
 	return dwWinVer >= _WIN32_WINNT_WIN7;
 }
 
+MIR_CORE_DLL(BOOL) IsWinVer8Plus()
+{
+	return dwWinVer >= _WIN32_WINNT_WIN8;
+}
+
+MIR_CORE_DLL(BOOL) IsWinVer81Plus()
+{
+	return dwWinVer >= _WIN32_WINNT_WINBLUE;
+}
+
+MIR_CORE_DLL(BOOL) IsWinVer10Plus()
+{
+	return dwWinVer >= _WIN32_WINNT_WIN10;
+}
+
 MIR_CORE_DLL(BOOL) IsFullScreen()
 {
 	RECT rcScreen = { 0 };

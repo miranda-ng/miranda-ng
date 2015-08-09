@@ -635,6 +635,9 @@ MIR_CORE_DLL(void)    KillModuleSubclassing(HMODULE hInst);
 
 MIR_CORE_DLL(BOOL)    IsWinVerVistaPlus();
 MIR_CORE_DLL(BOOL)    IsWinVer7Plus();
+MIR_CORE_DLL(BOOL)    IsWinVer8Plus();
+MIR_CORE_DLL(BOOL)    IsWinVer81Plus();
+MIR_CORE_DLL(BOOL)    IsWinVer10Plus();
 
 MIR_CORE_DLL(BOOL)    IsFullScreen();
 MIR_CORE_DLL(BOOL)    IsWorkstationLocked();

@@ -54,6 +54,18 @@ File created by Christian Kostner, and tweaked a bit by Richard Hughes*/
 #define BIGI(x) x##LL
 #endif
 
+#ifndef _WIN32_WINNT_WIN8
+#define _WIN32_WINNT_WIN8     0x0602 // Windows 8
+#endif
+
+#ifndef _WIN32_WINNT_WINBLUE
+#define _WIN32_WINNT_WINBLUE  0x0603 // Windows 8.1
+#endif
+
+#ifndef _WIN32_WINNT_WIN10
+#define _WIN32_WINNT_WIN10    0x0A00 // Windows 10
+#endif
+
 // collapsible groups for Vista
 #ifndef LVGS_COLLAPSIBLE
 	#define LVGS_COLLAPSIBLE        0x00000008

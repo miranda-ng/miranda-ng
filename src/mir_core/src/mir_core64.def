@@ -973,3 +973,7 @@ Utils_ResizeDialog @1130
 Utils_GetRandom @1131
 Utils_OpenUrl @1132
 Utils_OpenUrlW @1133
+GetOSDisplayString @1134
+IsWinVer10Plus @1135
+IsWinVer81Plus @1136
+IsWinVer8Plus @1137
