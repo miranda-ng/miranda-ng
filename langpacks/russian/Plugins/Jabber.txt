@@ -1345,10 +1345,6 @@ Jabber ошибка
 Изменения вступят в силу при следующем входе в сеть Jabber.
 [Jabber Protocol Option]
 Настройки протокола Jabber
-[Confirm password]
-Введите пароль
-[Passwords do not match.]
-Пароли не совпадают.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Эта операция удалит вашу учётную запись, ростер и всю информацию, хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Account removal warning]

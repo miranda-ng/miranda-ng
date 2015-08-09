@@ -974,13 +974,6 @@
 [Are you sure you want to delete this history item?]
 [Delete history]
 [View &history]
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-[Web page address (&URL)]
-[URL]
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-[Send timed out]
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 [Edit phone number]
@@ -1383,6 +1376,7 @@
 ;file \src\mir_app\src\skin2opts.cpp
 [Icon sets]
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
 [User online]
 [Group (open)]
 [Group (closed)]

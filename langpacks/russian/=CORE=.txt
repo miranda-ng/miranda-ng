@@ -1855,16 +1855,6 @@ Miranda не смогла загрузить встроенную систему
 Удалить историю
 [View &history]
 &История
-[URL from %s]
-URL от %s
-[Web page address (&URL)]
-Ссылка (&URL)
-[URL]
-Ссылка
-[Send URL to]
-Отправить URL
-[Send timed out]
-Время отправки истекло
 [Edit E-Mail address]
 Редактировать адрес e-mail
 [Edit phone number]
@@ -2511,6 +2501,8 @@ ID учётной записи
 Пользователи не найдены
 [Icon sets]
 Наборы значков
+[URL]
+Ссылка
 [User online]
 Пользователь в сети
 [Group (open)]

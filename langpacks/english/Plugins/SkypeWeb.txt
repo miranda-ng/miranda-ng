@@ -22,6 +22,7 @@
 [Always notify as unread for all incoming message]
 [Place:]
 [Use hostname]
+[Use BB-codes]
 [Enter password]
 [Save password]
 [Enter the password to continue.]
@@ -52,8 +53,10 @@
 [Incoming call]
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [Invalid data!]
-[Original message:\n\t%s\n]
-[Edited at %s:\n\t%s\n]
+[[b]Original message:[/b]\n%s\n]
+[Original message:\n%s\n]
+[[b]Edited at %s:[/b]\n%s\n]
+[Edited at %s:\n%s\n]
 [Call]
 [Call missed]
 [Call ended (%s)]
@@ -84,6 +87,7 @@
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
+[Network error!]
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 ;file \protocols\SkypeWeb\src\skype_network.cpp
