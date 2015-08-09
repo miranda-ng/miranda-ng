@@ -1831,16 +1831,49 @@ void CJabberProto::OnProcessIq(HXML node)
 	}
 }
 
+ThreadData *m_regInfo;
+void CJabberProto::SetRegConfig(HXML node, void *from)
+{
+	if (m_regInfo && from) {
+		TCHAR text[MAX_PATH];
+		mir_sntprintf(text, MAX_PATH, _T("%s@%S"), m_regInfo->conn.username, m_regInfo->conn.server);
+		XmlNodeIq iq(_T("set"), SerialNext(), (TCHAR*)from);
+		iq << XATTR(_T("from"), text);
+		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
+		XmlAddChild(query, node);
+		m_regInfo->send(iq);
+	}
+}
+
 void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 {
-	const TCHAR *type;
-
 	if (!XmlGetName(node) || mir_tstrcmp(XmlGetName(node), _T("iq"))) return;
-	if ((type = XmlGetAttrValue(node, _T("type"))) == NULL) return;
+	LPCTSTR type = XmlGetAttrValue(node, _T("type"));
+	if (type == NULL)
+		return;
 
 	int id = JabberGetPacketID(node);
 
+	LPCTSTR from = XmlGetAttrValue(node, _T("from"));
+	if (from == NULL)
+		return;
+
 	if (!mir_tstrcmp(type, _T("result"))) {
+		HXML queryNode = XmlGetChild(node, _T("query"));
+		if (queryNode != NULL) {
+			LPCTSTR str = XmlGetAttrValue(queryNode, _T("xmlns"));
+			if (!mir_tstrcmp(str, JABBER_FEAT_REGISTER)) {
+				HXML xNode = XmlGetChild(queryNode, _T("x"));
+				if (xNode != NULL) {
+					str = XmlGetAttrValue(xNode, _T("xmlns"));
+					if (!mir_tstrcmp(str, JABBER_FEAT_DATA_FORMS)) {
+						m_regInfo = info;
+						FormCreateDialog(xNode, _T("Jabber register new user"), &CJabberProto::SetRegConfig, mir_tstrdup(from));
+						return;
+					}
+				}
+			}
+		}
 		// RECVED: result of the request for registration mechanism
 		// ACTION: send account registration information
 		if (id == iqIdRegGetReg) {

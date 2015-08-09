@@ -731,6 +731,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	BOOL   OnProcessJingle(HXML node);
 	void   OnProcessIq(HXML node);
+	void   SetRegConfig(HXML node, void *from);
 	void   OnProcessRegIq(HXML node, ThreadData *info);
 	void   OnPingReply(HXML node, CJabberIqInfo *pInfo);
 
