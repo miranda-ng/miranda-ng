@@ -115,12 +115,13 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			const TCHAR *tszTitle = NULL;
+			TCHAR *tszTitle = NULL;
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
-				tszTitle = CheckFeed(tszURL, hwndDlg);
+				tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 			SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
+			mir_free(tszTitle);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 		}
@@ -282,8 +283,9 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
+				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 			}
@@ -437,8 +439,9 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				const TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
+				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 			}
@@ -497,7 +500,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_REMOVE:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 				TCHAR nick[MAX_PATH], url[MAX_PATH];
-				sel = ListView_GetSelectionMark(hwndList);
+				int sel = ListView_GetSelectionMark(hwndList);
 				ListView_GetItemText(hwndList, sel, 0, nick, _countof(nick));
 				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
 
@@ -567,7 +570,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case LVN_ITEMCHANGED:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			sel = ListView_GetSelectionMark(hwndList);
+			int sel = ListView_GetSelectionMark(hwndList);
 			if (sel == -1) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
