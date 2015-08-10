@@ -8,7 +8,7 @@
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
 [[img] BBCode support for image]
-Поддержка BB-кода [img] для изображений
+Поддержка тега [img] для изображений
 [off]
 отключена
 [for original size images]
@@ -18,7 +18,7 @@
 [for preview max 604px*604px]
 для предпросмотра в 604px*604px
 [BBCode support on news and event notifications]
-Поддержка BB-кодов для новостей и уведомлений
+Поддержка BBCode для новостей и уведомлений
 [basic ([b], [i], [u], [s])]
 базовая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
@@ -28,7 +28,7 @@
 [Other]
 Другое
 [BBCode support on attachments]
-Поддержка BB-кодов для вложений
+Поддержка BBCode для вложений
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [Shorten links for audio attachments]

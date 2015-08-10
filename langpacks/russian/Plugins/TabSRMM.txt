@@ -608,7 +608,7 @@ Cтатусы для автоматического создания вклад�
 [Message grouping]
 Группировка сообщений
 [Support BBCode]
-Поддержка BB-кодов
+Поддержка BBCode
 [Misc]
 Прочее
 [RTL is default text direction]
@@ -762,7 +762,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Send text formatting]
 Отправка форматирования текста
 [BBCode]
-ВВ-коды ([b][i][u])
+BBCode ([b][i][u])
 [Off]
 Откл.
 [This contact]
@@ -1640,7 +1640,7 @@ TabSRMM: %s
 [Enable "Paste and send" feature]
 Включить функцию "вставить и отправить"
 [Allow BBCode formatting in outgoing messages]
-Разрешить BB-коды для исходящих сообщений
+Разрешить BBCode для исходящих сообщений
 [Automatically split long messages (experimental, use with care)]
 Автоматически разделять длинные сообщения (экспериментально)
 [Log status changes]
@@ -1670,7 +1670,7 @@ TabSRMM: %s
 [Simple text formatting (*bold*, etc.)]
 Простое форматирование (*жирный* и т.п.)
 [Support BBCode formatting]
-Поддержка BB-кодов
+Поддержка BBCode
 [Place a separator in the log after a window lost its foreground status]
 Ставить разделитель в журнале после того, как окно теряет фокус
 [Only place a separator when an incoming event is announced with a popup]

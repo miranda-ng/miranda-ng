@@ -222,7 +222,7 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 [Popup window]
 Всплывающее окно
 [Message with [img] BBCode]
-Сообщение с [img] BB-кодом
+Сообщение с тегом [img]
 [You need to specify your registration e-mail first.]
 Необходимо указать ваш e-mail.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]

@@ -90,11 +90,11 @@ URI объект
 [Invalid data!]
 Неверные данные!
 [[b]Original message:[/b]\n%s\n]
-[b]Оригинальное сообщение:[/b]\n%s\n
+\[b]Оригинальное сообщение:[/b]\n%s\n
 [Original message:\n%s\n]
 Оригинальное сообщение:\n%s\n
 [[b]Edited at %s:[/b]\n%s\n]
-[b]Отредактировано в %s:[/b]\n%s\n
+\[b]Отредактировано в %s:[/b]\n%s\n
 [Edited at %s:\n%s\n]
 Отредактировано в %s:\n%s\n
 [Call]
