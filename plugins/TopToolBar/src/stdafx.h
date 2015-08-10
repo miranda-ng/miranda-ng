@@ -144,6 +144,5 @@ void DeleteSeparator(int i);
 void DeleteLBut(int i);
 void InsertLBut(int i);
 
-int OnModulesLoad(WPARAM, LPARAM);
 
 #endif

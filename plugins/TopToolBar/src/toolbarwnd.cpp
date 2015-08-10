@@ -239,7 +239,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
+INT_PTR OnEventFire(WPARAM wParam, LPARAM)
 {
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	CloseHandle((HANDLE)wParam);

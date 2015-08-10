@@ -61,7 +61,7 @@ int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBInternalMainMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -69,7 +69,7 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TTBInternalStatusMenuButt(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -77,7 +77,7 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TTBInternalGroupShowHide(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBInternalGroupShowHide(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
@@ -85,14 +85,14 @@ INT_PTR TTBInternalGroupShowHide(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TTBInternalSoundsOnOff(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBInternalSoundsOnOff(WPARAM, LPARAM)
 {
 	int newVal = !(db_get_b(NULL, "Skin", "UseSound", 1));
 	db_set_b(NULL, "Skin", "UseSound", (BYTE)newVal);
 	return 0;
 }
 
-INT_PTR TTBInternalShowHideOffline(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBInternalShowHideOffline(WPARAM, LPARAM)
 {
 	CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);
 	return 0;
