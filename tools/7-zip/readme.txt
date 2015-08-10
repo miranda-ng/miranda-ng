@@ -1,7 +1,7 @@
-7-Zip 15.05 beta
+7-Zip 15.06 beta
 ----------------
 
-7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / XP / Vista / 7 / 8 / 10. 
+7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / 2012/ XP / Vista / 7 / 8 / 10. 
 
 7-Zip Copyright (C) 1999-2015 Igor Pavlov.
 
@@ -10,7 +10,7 @@ The main features of 7-Zip:
   - High compression ratio in the new 7z format
   - Supported formats:
      - Packing / unpacking: 7z, XZ, BZIP2, GZIP, TAR, ZIP and WIM.
-     - Unpacking only: AR, ARJ, CAB, CHM, CPIO, CramFS, DMG, FAT, HFS, ISO, LZH, LZMA, 
+     - Unpacking only: AR, ARJ, CAB, CHM, CPIO, CramFS, DMG, FAT, HFS, IHEX, ISO, LZH, LZMA, 
                        MBR, MSI, NSIS, NTFS, RAR, RPM, SquashFS, UDF, UEFI, VHD, WIM, XAR and Z.
   - Fast compression and decompression
   - Self-extracting capability for 7z format
