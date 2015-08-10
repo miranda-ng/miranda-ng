@@ -358,7 +358,7 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 // wparam = hTTBButton
 // lparam = 0
 //return = state
-INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBGetState(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(wParam);

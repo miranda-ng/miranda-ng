@@ -23,6 +23,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 	if (b->dwFlags & TTBBF_ISSEPARATOR) {
 		tvis.item.pszText = _T("------------------");
 		index = -1;
+		tmp = 0;
 	}
 	else {
 		if (b->hIconHandleUp) {
@@ -539,7 +540,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int TTBOptInit(WPARAM wParam, LPARAM lParam)
+int TTBOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
