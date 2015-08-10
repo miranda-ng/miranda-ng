@@ -11,7 +11,7 @@
  * and for answering some of my questions during development of this plugin.
  */
 
-#include "yahoo.h"
+#include "stdafx.h"
 #include "resource.h"
 
 #include <m_langpack.h>

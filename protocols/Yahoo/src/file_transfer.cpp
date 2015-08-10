@@ -13,7 +13,7 @@
 #include <time.h>
 #include <sys/stat.h>
 
-#include "yahoo.h"
+#include "stdafx.h"
 #include <m_protosvc.h>
 #include "file_transfer.h"
 

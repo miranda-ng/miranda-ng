@@ -14,7 +14,7 @@
 /*
  * Miranda headers
  */
-#include "yahoo.h"
+#include "stdafx.h"
 #include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_skin.h>
