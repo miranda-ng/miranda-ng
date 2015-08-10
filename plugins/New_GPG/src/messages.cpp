@@ -791,10 +791,13 @@ int HookSendMsg(WPARAM w, LPARAM l)
 {
 	if(!l)
 		return 0;
-	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
+	MessageWindowEvent *ev = (MessageWindowEvent*)l;
+	DBEVENTINFO * dbei = ev->dbei;
+	if(!dbei)
+		return 0;
 	if(dbei->eventType != EVENTTYPE_MESSAGE)
 		return 0;
-	MCONTACT hContact = (MCONTACT)w;
+	MCONTACT hContact = ev->hContact;
 	if(dbei->flags & DBEF_SENT)
 	{
 		if(isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
