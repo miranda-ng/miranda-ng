@@ -71,6 +71,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	case ERR_SERVER_BUSY:
 	case ERR_SERVER_UNAVAILABLE:
+	case ERR_TIMEDOUT:
 		MSN_ShowError("MSN Services are too busy, please try to connect later");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
 		return 1;
