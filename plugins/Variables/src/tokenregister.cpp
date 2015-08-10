@@ -96,7 +96,7 @@ int deRegisterToken(TCHAR *token)
 	return 0;
 }
 
-INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
+INT_PTR registerToken(WPARAM, LPARAM lParam)
 {
 	DWORD hash;
 	int idx;
@@ -164,7 +164,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		return NULL;
 
 	INT_PTR callRes = 0;
-	TCHAR *temp = NULL, *res = NULL;
+	TCHAR *res = NULL;
 
 	mir_cslock lck(csRegister);
 

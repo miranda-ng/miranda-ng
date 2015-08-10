@@ -158,7 +158,7 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseRand(ARGUMENTSINFO *ai)
+static TCHAR *parseRand(ARGUMENTSINFO *)
 {
 	return itot(rand());
 }

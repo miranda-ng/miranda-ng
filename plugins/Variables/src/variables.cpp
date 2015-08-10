@@ -381,7 +381,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 /*
 	MS_VARS_FORMATSTRING
 */
-static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
+static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 {
  	INT_PTR res;
  	int i;

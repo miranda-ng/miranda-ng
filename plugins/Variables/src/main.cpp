@@ -22,7 +22,7 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
