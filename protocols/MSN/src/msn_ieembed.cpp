@@ -114,6 +114,70 @@ void IEEmbedSink::SetSecureLockIcon(long) {}
 void IEEmbedSink::FileDownload(VARIANT_BOOL*) {}
 
 
+static LRESULT CALLBACK IEEmbedServerWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	IEEmbed **view = (IEEmbed **)GetWindowLongPtr(GetParent(GetParent(GetParent(hwnd))), GWLP_USERDATA);
+	if (view && *view) {
+		switch (message) {
+		/*
+		case WM_KEYUP:
+			if (LOWORD(wParam) == VK_ESCAPE && !(GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
+				SendMessage(GetParent(GetParent(GetParent(hwnd))), WM_COMMAND, IDCANCEL, 0);
+			break; */
+		
+		case WM_KEYDOWN:
+			(*view)->translateAccelerator(message, wParam, lParam);
+			break;
+		
+			/*
+		case WM_SETFOCUS:
+			RECT rcWindow;
+			POINT cursor;
+			GetWindowRect(hwnd, &rcWindow);
+			GetCursorPos(&cursor);
+			if (cursor.y <= rcWindow.bottom && cursor.y >= rcWindow.top && cursor.x <= rcWindow.right && cursor.x >= rcWindow.left)
+				view->mouseActivate();
+
+			if (view->setFocus((HWND)wParam))
+				return TRUE;
+			break;
+			*/
+		
+		}
+		return CallWindowProc((*view)->getServerWndProc(), hwnd, message, wParam, lParam);
+	}
+	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+static LRESULT CALLBACK IEEmbedDocWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	IEEmbed **view = (IEEmbed **)GetWindowLongPtr(GetParent(GetParent(hwnd)), GWLP_USERDATA);
+	if (view && *view) {
+		WNDPROC oldWndProc = (*view)->getDocWndProc();
+		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)oldWndProc);
+			(*view)->setServerWndProc((WNDPROC)SetWindowLongPtr((HWND)lParam, GWLP_WNDPROC, (LONG_PTR)IEEmbedServerWindowProcedure));
+		}
+		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
+	}
+	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+static LRESULT CALLBACK IEEmbedWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	IEEmbed **view = (IEEmbed **)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+	if (view && *view) {
+		WNDPROC oldWndProc = (*view)->getMainWndProc();
+		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)oldWndProc);
+			(*view)->setDocWndProc((WNDPROC)SetWindowLongPtr((HWND)lParam, GWLP_WNDPROC, (LONG_PTR)IEEmbedDocWindowProcedure));
+		}
+		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
+	}
+	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+
 IEEmbed::IEEmbed(HWND _parent)
 {
 	MSG msg;
@@ -147,6 +211,8 @@ IEEmbed::IEEmbed(HWND _parent)
 					MessageBox(NULL, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
 			}
 		}
+		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)IEEmbedWindowProcedure));
+		SetFocus(hwnd);
 	}
 
 	pWebBrowser->put_RegisterAsDropTarget(VARIANT_FALSE);
@@ -252,6 +318,36 @@ STDMETHODIMP IEEmbed::ShowObject(void) { return E_NOTIMPL; }
 STDMETHODIMP IEEmbed::OnShowWindow(BOOL) { return E_NOTIMPL; }
 STDMETHODIMP IEEmbed::RequestNewObjectLayout(void) { return E_NOTIMPL; }
 
+
+void IEEmbed::setMainWndProc(WNDPROC wndProc)
+{
+	mainWndProc = wndProc;
+}
+
+WNDPROC IEEmbed::getMainWndProc()
+{
+	return mainWndProc;
+}
+
+void IEEmbed::setDocWndProc(WNDPROC wndProc)
+{
+	docWndProc = wndProc;
+}
+
+WNDPROC IEEmbed::getDocWndProc()
+{
+	return docWndProc;
+}
+
+void IEEmbed::setServerWndProc(WNDPROC wndProc)
+{
+	serverWndProc = wndProc;
+}
+
+WNDPROC IEEmbed::getServerWndProc()
+{
+	return serverWndProc;
+}
 
 void IEEmbed::write(const wchar_t *text)
 {
@@ -362,4 +458,16 @@ char *IEEmbed::GetHTMLDoc() {
 		}
 	}
 	return pszRet;
+}
+
+void IEEmbed::translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CComPtr<IOleInPlaceActiveObject> pIOIPAO;
+	if (SUCCEEDED(pWebBrowser.QueryInterface(&pIOIPAO))) {
+		MSG msg;
+		msg.message = uMsg;
+		msg.wParam = wParam;
+		msg.lParam = lParam;
+		pIOIPAO->TranslateAccelerator(&msg);
+	}
 }

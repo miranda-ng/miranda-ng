@@ -730,6 +730,8 @@ void CMsnProto::SaveAuthTokensDB(void)
 }
 
 typedef struct {
+	/* Internal */
+	IEEmbed *pEmbed;
 	/* Input */
 	CMsnProto *pProto;
 	NETLIBHTTPREQUEST *nlhr;
@@ -737,8 +739,6 @@ typedef struct {
 	/* Output */
 	char *pszURL;
 	char *pszCookies;
-	/* Internal */
-	IEEmbed *pEmbed;
 } IEAUTH_PARAM;
 
 LRESULT CALLBACK AuthWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -755,9 +755,9 @@ LRESULT CALLBACK AuthWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case WM_CREATE:
 		{
 			IEAUTH_PARAM *pAuth = (IEAUTH_PARAM*)((LPCREATESTRUCT)lParam)->lpCreateParams;
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pAuth);
 			pAuth->pEmbed = new IEEmbed(hwnd);
 			WCHAR *pwszCookies = mir_a2u(pAuth->nlhr->headers[1].szValue);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pAuth);
 			pAuth->pEmbed->addCookie(pwszCookies);
 			pAuth->pEmbed->navigate(AUTH_URL);
 			mir_free(pwszCookies);
@@ -966,7 +966,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 						 * window in order to let user login there. May also be used for 2-factor auth */
 						if (nlhrReply2->resultCode == 200 && nlhrReply2->pData) {
 							UINT uThreadId;
-							IEAUTH_PARAM param = {this, &nlhr, nlhrReply2, NULL, NULL, NULL};
+							IEAUTH_PARAM param = {NULL, this, &nlhr, nlhrReply2, NULL, NULL};
 
 							bAskingForAuth = true;
 							WaitForSingleObject(ForkThreadEx(&CMsnProto::msn_IEAuthThread, &param, &uThreadId), INFINITE);

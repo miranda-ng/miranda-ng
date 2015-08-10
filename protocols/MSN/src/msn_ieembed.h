@@ -77,9 +77,9 @@ public:
 	STDMETHODIMP_(void)FileDownload(VARIANT_BOOL*);
 };
 
-class IEEmbed :public IDispatch, public IOleClientSite, public IOleInPlaceSite //, public IDocHostUIHandler
+class IEEmbed :public IDispatch, public IOleClientSite, public IOleInPlaceSite
 {
-public:
+private:
 	HWND parent;
 	HWND hwnd;
 	int m_cRef;
@@ -88,7 +88,9 @@ public:
 	CComPtr<IConnectionPoint> m_pConnectionPoint;
 	CComPtr<IWebBrowser2> pWebBrowser;
 	IEEmbedSink *sink;
+	WNDPROC  mainWndProc, docWndProc, serverWndProc;
 
+public:
 	// IUnknown
 	STDMETHODIMP QueryInterface(REFIID riid, PVOID *ppv);
 	STDMETHODIMP_(ULONG) AddRef(void);
@@ -128,6 +130,13 @@ public:
 	IEEmbed(HWND _parent);
 	virtual ~IEEmbed();
 
+	void    setMainWndProc(WNDPROC);
+	WNDPROC getMainWndProc();
+	void    setDocWndProc(WNDPROC);
+	WNDPROC getDocWndProc();
+	void    setServerWndProc(WNDPROC);
+	WNDPROC getServerWndProc();
+
 	void	ResizeBrowser();
 	void    navigate(const wchar_t *);
 	void	navigate(char *url);
@@ -136,5 +145,6 @@ public:
 	void    addCookie(const wchar_t *cookieString);
 	BSTR    getCookies();
 	char*	GetHTMLDoc();
+	void	translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 #endif
