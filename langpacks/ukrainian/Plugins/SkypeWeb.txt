@@ -37,6 +37,8 @@
 Місце:
 [Use hostname]
 Використ. ім'я хоста
+[Use BBCode]
+Підтримка BBCode
 [Enter password]
 Введіть пароль
 [Save password]
@@ -87,10 +89,14 @@
 Вхідний дзвінок
 [Invalid data!]
 Неправильні дані!
-[Original message:\n\t%s\n]
-Початкове повідомлення:\n\t%s\n
-[Edited at %s:\n\t%s\n]
-Відредаговане о %s:\n\t%s\n
+[[b]Original message:[/b]\n%s\n]
+[b]Початкове повідомлення:[/b]\n%s\n
+[Original message:\n%s\n]
+Початкове повідомлення:\n%s\n
+[[b]Edited at %s:[/b]\n%s\n]
+[b]Відредаговане о %s:[/b]\n%s\n
+[Edited at %s:\n%s\n]
+Відредаговане о %s:\n%s\n
 [Call]
 Дзвінок
 [Call missed]
@@ -143,6 +149,8 @@
 Створити новий чат
 [Unknown error!]
 Невідома помилка!
+[Network error!]
+Помилка мережі!
 [Enter confirmation code]
 Введіть код підтвердження
 [%s connection]

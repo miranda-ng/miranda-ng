@@ -224,7 +224,7 @@
 [Popup window]
 Спливаюче вікно
 [Message with [img] BBCode]
-Повідомлення з BB-кодом [img]
+Повідомлення з тегом [img]
 [You need to specify your registration e-mail first.]
 Необхідно вказати свій E-mail.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]

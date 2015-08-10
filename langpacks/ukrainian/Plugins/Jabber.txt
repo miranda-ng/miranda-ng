@@ -1349,10 +1349,6 @@ xHTML-формат повідомлень чату
 Зміни наберуть чинності при наступному вході в мережу Jabber.
 [Jabber Protocol Option]
 Налаштування протоколу Jabber
-[Confirm password]
-Введіть пароль
-[Passwords do not match.]
-Паролі не збігаються.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Ця операція видалить ваш обліковий запис, ростер і всю інформацію, що зберігається на сервері. Ви дійсно хочете видалити обліковий запис?
 [Account removal warning]

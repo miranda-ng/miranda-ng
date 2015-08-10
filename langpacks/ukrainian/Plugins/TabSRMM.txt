@@ -606,7 +606,7 @@ ID користувача в панелі статусу
 [Message grouping]
 Групування повідомлень
 [Support BBCode]
-Підтримка BB-кодів
+Підтримка BBCode
 [Misc]
 Інше
 [RTL is default text direction]
@@ -760,7 +760,7 @@ Esc закриває сесію (інакше - згортає)
 [Send text formatting]
 Відправка форматування тексту
 [BBCode]
-BB-коди ([b][i][u])
+BBCode ([b][i][u])
 [Off]
 Вимк.
 [This contact]
@@ -1638,7 +1638,7 @@ TabSRMM: %s
 [Enable "Paste and send" feature]
 Увімкнути функцію "Вставити й надіслати"
 [Allow BBCode formatting in outgoing messages]
-Дозволити BB-коди для вихідних повідомлень
+Дозволити BBCode для вихідних повідомлень
 [Automatically split long messages (experimental, use with care)]
 Автоматично розділяти довгі повідомлення (експериментально)
 [Log status changes]
@@ -1668,7 +1668,7 @@ TabSRMM: %s
 [Simple text formatting (*bold*, etc.)]
 Просте форматування (*жирний* тощо)
 [Support BBCode formatting]
-Підтримка BB-кодів
+Підтримка BBCode
 [Place a separator in the log after a window lost its foreground status]
 Ставити роздільник у журналі після того, як вікно втрачає фокус
 [Only place a separator when an incoming event is announced with a popup]
