@@ -193,12 +193,6 @@ const char MSN_USER_AGENT[] =           NETLIB_USER_AGENT;
 
 extern const char sttVoidUid[];
 
-#define MSN_LOGIN_OAUTH LPGEN("Automatic authentication to MSN failed, possibly due to Captcha-Authentication. \
-Do you want to open a browser window to do a manual login?\n\n\
-This will not log you in to MSN in Miranda, but it allows you to fix potential problems like entering a captcha \
-that gets asked due to location change or to accept new TOS, which are required only once.\n\n\
-Also please note that MSN protocol doesn't support two-factor authentication.")
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN plugin functions
 
