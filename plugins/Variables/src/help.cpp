@@ -37,7 +37,7 @@ static HWND hwndHelpDialog = NULL;
 
 static HICON hHelpIcon = NULL;
 
-static int defaultHelpDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc) {
+static int defaultHelpDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc) {
 
 	switch(urc->wId) {
 	case IDC_ABOUT:
@@ -101,7 +101,7 @@ void ResetCList(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 
-static int clistDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int clistDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_ABOUT:
@@ -222,7 +222,6 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 	if (tr == NULL) {
 		return NULL;
 	}
-	char *cat = NULL;
 	char *helpText = mir_strdup(tr->szHelpText);
 	if (helpText == NULL) {
 		return NULL;
@@ -320,7 +319,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	return desc;
 }
 
-static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
 	TOKENREGISTEREX *tr1 = (TOKENREGISTEREX *)lParam1;
 	TOKENREGISTEREX *tr2 = (TOKENREGISTEREX *)lParam2;
@@ -342,7 +341,7 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lPar
 	return mir_tstrcmp(tr1->tszTokenString, tr2->tszTokenString);
 }
 
-static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	/* hwndDlg must be a child of the help dialog */
 	switch(msg) {
@@ -553,7 +552,7 @@ struct INPUTDLGDATA
 
 static int iFrameX, iFrameY;
 
-static int inputDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int inputDialogResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	INPUTDLGDATA *dat = (INPUTDLGDATA *)lParam;
 
@@ -735,7 +734,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 }
 
 // help info dialog
-static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM,LPARAM)
 {
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -755,9 +754,8 @@ static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 }
 
 // the parent page (tabs)
-static int helpDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int helpDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	INPUTDLGDATA *dat = (INPUTDLGDATA *)lParam;
 	switch(urc->wId) {
 	case IDC_OK:
 	case IDC_CANCEL:
@@ -1162,7 +1160,7 @@ INT_PTR showHelpService(WPARAM wParam, LPARAM lParam)
 	return showHelpExService(0, (LPARAM)vhs);
 }
 
-INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
+INT_PTR getSkinItemService(WPARAM, LPARAM lParam)
 {
 	int item = lParam;
 	if (item == 0)
@@ -1181,7 +1179,7 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)NULL;
 }
 
-int iconsChanged(WPARAM wParam, LPARAM lParam)
+int iconsChanged(WPARAM, LPARAM)
 {
 	hHelpIcon = NULL;
 	return 0;
