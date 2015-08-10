@@ -32,7 +32,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gad
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Yahoo", "..\protocols\Yahoo\Yahoo_10.vcxproj", "{E42870DB-9FED-44E7-9C93-4E64D0C87F51}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Yahoo", "..\protocols\Yahoo\Yahoo.vcxproj", "{E42870DB-9FED-44E7-9C93-4E64D0C87F51}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\IcqOscarJ\icqoscar8.vcxproj", "{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}"
 EndProject

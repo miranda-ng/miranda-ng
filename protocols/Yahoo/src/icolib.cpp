@@ -10,7 +10,7 @@
  * I want to thank Robert Rainwater and George Hazan for their code and support
  * and for answering some of my questions during development of this plugin.
  */
-#include "yahoo.h"
+#include "stdafx.h"
 #include <m_langpack.h>
 #include <win2k.h>
 #include "m_icolib.h"
