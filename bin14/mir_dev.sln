@@ -297,7 +297,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackUpdater", "..\plugins\P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickContacts", "..\plugins\QuickContacts\quickcontacts.vcxproj", "{7FC00D59-03D3-4A6C-AEFE-67349C9C9E10}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tlen", "..\protocols\Tlen\tlen_14.vcxproj", "{F3208C96-3C21-46AA-8695-C794E28CDC34}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tlen", "..\protocols\Tlen\tlen.vcxproj", "{F3208C96-3C21-46AA-8695-C794E28CDC34}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobileState", "..\plugins\MobileState\mobilestate.vcxproj", "{AE677E3A-DAC5-42FD-8762-47370C57639B}"
 EndProject
