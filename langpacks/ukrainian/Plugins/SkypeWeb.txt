@@ -90,11 +90,11 @@
 [Invalid data!]
 Неправильні дані!
 [[b]Original message:[/b]\n%s\n]
-[b]Початкове повідомлення:[/b]\n%s\n
+\[b]Початкове повідомлення:[/b]\n%s\n
 [Original message:\n%s\n]
 Початкове повідомлення:\n%s\n
 [[b]Edited at %s:[/b]\n%s\n]
-[b]Відредаговане о %s:[/b]\n%s\n
+\[b]Відредаговане о %s:[/b]\n%s\n
 [Edited at %s:\n%s\n]
 Відредаговане о %s:\n%s\n
 [Call]

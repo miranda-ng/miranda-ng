@@ -26,9 +26,9 @@
 [Enable BBCodes]
 Поддержка BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Поддерживаются [b][i][u][s][img][size][color][url] BBкоды
+Поддерживаются теги [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
-Поддержка flash (*.swf) файлов в смайлах и BBкодах
+Поддержка flash (*.swf) файлов в смайлах и тегах BBCode
 [Replace smileys in user names]
 Смайлы в именах
 [Hide window border]
