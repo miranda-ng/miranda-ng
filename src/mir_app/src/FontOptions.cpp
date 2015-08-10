@@ -225,9 +225,6 @@ void OptionsChanged()
 	NotifyEventHooks(hColourReloadEvent, 0, 0);
 }
 
-TOOLINFO ti;
-int x, y;
-
 UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM, LPARAM lParam)
 {
 	if (uiMsg == WM_INITDIALOG) {
@@ -324,7 +321,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 	return NULL;
 }
 
-static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName, int hLangpack)
+static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName, int _hLang)
 {
 	TCHAR itemName[1024];
 	TCHAR* sectionName;
@@ -343,7 +340,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 		if (sectionName = _tcschr(sectionName, '/'))
 			*sectionName = 0;
 
-		pItemName = TranslateTH(hLangpack, pItemName);
+		pItemName = TranslateTH(_hLang, pItemName);
 
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if (!sectionName || !hItem) {
@@ -551,7 +548,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i, selCount;
+	int selCount;
 	LOGFONT lf;
 
 	static HBRUSH hBkgColourBrush = 0;
@@ -569,14 +566,14 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		effect_id_list_w2 = effect_id_list;
 		effect_id_list_w3 = effect_id_list;
 
-		for (i = 0; i < font_id_list_w2.getCount(); i++) {
+		for (int i = 0; i < font_id_list_w2.getCount(); i++) {
 			FontInternal& F = font_id_list_w2[i];
 			// sync settings with database
 			UpdateFontSettings(&F, &F.value);
 			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), F.group, F.hLangpack);
 		}
 
-		for (i = 0; i < colour_id_list_w2.getCount(); i++) {
+		for (int i = 0; i < colour_id_list_w2.getCount(); i++) {
 			ColourInternal& C = colour_id_list_w2[i];
 
 			// sync settings with database
@@ -584,7 +581,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			sttFsuiCreateSettingsTreeNode(GetDlgItem(hwndDlg, IDC_FONTGROUP), C.group, C.hLangpack);
 		}
 
-		for (i = 0; i < effect_id_list_w2.getCount(); i++) {
+		for (int i = 0; i < effect_id_list_w2.getCount(); i++) {
 			EffectInternal& E = effect_id_list_w2[i];
 
 			// sync settings with database
@@ -879,7 +876,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (selCount = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELCOUNT, 0, 0)) {
 					int *selItems = (int *)mir_alloc(font_id_list_w2.getCount() * sizeof(int));
 					SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELITEMS, (WPARAM)selCount, (LPARAM)selItems);
-					for (i = 0; i < selCount; i++) {
+					for (int i = 0; i < selCount; i++) {
 						FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 						if (IsBadReadPtr(itemData, sizeof(FSUIListItemData))) continue; // prevent possible problems with corrupted itemData
 
@@ -954,12 +951,12 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 
 				if (ChooseFont(&cf)) {
-					for (i = 0; i < selCount; i++) {
-						FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
-						if (itemData->font_id < 0)
+					for (int i = 0; i < selCount; i++) {
+						FSUIListItemData *pItem = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
+						if (pItem->font_id < 0)
 							continue;
 
-						FontInternal& F1 = font_id_list_w2[itemData->font_id];
+						FontInternal& F1 = font_id_list_w2[pItem->font_id];
 						F1.value.size = (char)lf.lfHeight;
 						F1.value.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 						F1.value.charset = lf.lfCharSet;
@@ -991,7 +988,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				FONTEFFECT es = E.value;
 				if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSE_FONT_EFFECT), hwndDlg, ChooseEffectDlgProc, (LPARAM)&es)) {
 					for (int i = 0; i < selCount; i++) {
-						FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
+						itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 						if (itemData->effect_id < 0)
 							continue;
 
@@ -1026,7 +1023,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (selCount = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELCOUNT, 0, 0)) {
 				int *selItems = (int *)mir_alloc(selCount * sizeof(int));
 				SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELITEMS, (WPARAM)selCount, (LPARAM)selItems);
-				for (i = 0; i < selCount; i++) {
+				for (int i = 0; i < selCount; i++) {
 					FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 					if (itemData->colour_id < 0) continue;
 					colour_id_list_w2[itemData->colour_id].value = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
@@ -1046,7 +1043,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (font_id_list_w2.getCount() && (selCount = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELCOUNT, 0, 0))) {
 				int *selItems = (int *)mir_alloc(font_id_list_w2.getCount() * sizeof(int));
 				SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETSELITEMS, (WPARAM)selCount, (LPARAM)selItems);
-				for (i = 0; i < selCount; i++) {
+				for (int i = 0; i < selCount; i++) {
 					FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 					if (IsBadReadPtr(itemData, sizeof(FSUIListItemData))) continue; // prevent possible problems with corrupted itemData
 
@@ -1124,19 +1121,19 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			colour_id_list = colour_id_list_w2;
 			effect_id_list = effect_id_list_w2;
 
-			for (i = 0; i < font_id_list_w2.getCount(); i++) {
+			for (int i = 0; i < font_id_list_w2.getCount(); i++) {
 				FontInternal& F = font_id_list_w2[i];
 				sttSaveFontData(hwndDlg, F);
 			}
 
-			for (i = 0; i < colour_id_list_w2.getCount(); i++) {
+			for (int i = 0; i < colour_id_list_w2.getCount(); i++) {
 				ColourInternal& C = colour_id_list_w2[i];
 
 				strncpy_s(str, C.setting, _TRUNCATE);
 				db_set_dw(NULL, C.dbSettingsGroup, str, C.value);
 			}
 
-			for (i = 0; i < effect_id_list_w2.getCount(); i++) {
+			for (int i = 0; i < effect_id_list_w2.getCount(); i++) {
 				EffectInternal& E = effect_id_list_w2[i];
 
 				mir_snprintf(str, "%sEffect", E.setting);
@@ -1160,7 +1157,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 
 			case TVN_DELETEITEM:
-				TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
+				treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
 				if (treeItem) {
 					mir_free(treeItem->groupName);
 					mir_free(treeItem->paramName);
