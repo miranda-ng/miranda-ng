@@ -24,11 +24,11 @@
 [Options]
 Налаштування
 [Enable BBCodes]
-Підтримка BB-кодів
+Підтримка BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Підтримуються BB-коди: [b][i][u][s][img][size][color][url]
+Підтримуються теги: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
-Підтримка flash-файлів (*.swf) у смайлах і BB-кодах
+Підтримка flash-файлів (*.swf) у смайлах і тегах BBCode
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]

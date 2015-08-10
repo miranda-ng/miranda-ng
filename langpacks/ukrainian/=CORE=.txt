@@ -1853,16 +1853,6 @@ UIN, E-mail тощо
 Видалити історію
 [View &history]
 Історія
-[URL from %s]
-URL від %s
-[Web page address (&URL)]
-Надіслати &URL
-[URL]
-Посилання
-[Send URL to]
-Надіслати URL
-[Send timed out]
-Час надсилання вичерпано
 [Edit E-Mail address]
 Змінити адресу E-mail
 [Edit phone number]
@@ -2505,6 +2495,8 @@ ID облікового запису
 Користувачів не знайдено
 [Icon sets]
 Набори значків
+[URL]
+Посилання
 [User online]
 Користувач у мережі
 [Group (open)]
