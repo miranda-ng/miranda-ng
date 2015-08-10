@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _TLEN_IQ_H_
 
 #include "tlen_xml.h"
-#include "tlen.h"
+#include "stdafx.h"
 
 typedef void (*TLEN_IQ_PFUNC)(TlenProtocol *proto, XmlNode *iqNode);
 

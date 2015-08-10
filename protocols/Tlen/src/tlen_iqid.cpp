@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "tlen.h"
+#include "stdafx.h"
 #include "resource.h"
 #include "tlen_list.h"
 #include "tlen_iq.h"
