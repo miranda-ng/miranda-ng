@@ -145,7 +145,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			SetChatTitle(cc, jnInfo["title"].as_mstring());
 
 		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool()) {
-			setByte(cc->m_hContact, "kicked", (int)true);
+			setByte(cc->m_hContact, "kicked", jnInfo["kicked"].as_bool());
 			LeaveChat(cc->m_chatid);
 			return;
 		}
@@ -644,6 +644,9 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (getBool(hContact, "kicked"))
 		return 1;
 	
+	if (!getBool(hContact, "off"))
+		return 1;
+
 	int chat_id = getDword(hContact, "vk_chat_id", -1);
 	
 	if (chat_id == -1)
