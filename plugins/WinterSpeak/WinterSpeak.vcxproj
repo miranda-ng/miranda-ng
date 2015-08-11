@@ -26,6 +26,9 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
     <Link>
       <AdditionalDependencies>spchwrap.lib;%(AdditionalDependencies)</AdditionalDependencies> 
       <AdditionalLibraryDirectories>src\SAPI 4.0\Lib;$(CommonLibDir)</AdditionalLibraryDirectories>
