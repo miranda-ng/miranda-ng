@@ -363,7 +363,7 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 		MsnContact &cont = proto->m_arContacts[i];
 		if (!(cont.list & (LIST_FL | LIST_LL))) {
 			cii.pszText = (TCHAR*)cont.email;
-			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);
+			hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);
 
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (cont.list & LIST_LL) ? 1 : 0));
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (cont.list & LIST_FL) ? 2 : 0));
@@ -424,7 +424,7 @@ static void SaveListItem(MCONTACT hContact, const char* szEmail, int list, int i
 	if (iNewValue == 0) {
 		if (list & LIST_FL) {
 			DeleteParam param = { proto, hContact };
-			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
+			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
 			return;
 		}
 

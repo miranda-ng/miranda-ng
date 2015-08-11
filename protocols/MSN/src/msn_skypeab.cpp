@@ -70,15 +70,14 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
 			if (root == NULL) return false;
 
 			JSONNode *items = json_as_array(root), *item;
-			for (size_t i = 0; i < json_size(items); i++)
-			{
+			for (size_t i = 0; i < json_size(items); i++) {
 				int lstId = LIST_FL;
 				ptrT nick;
 
@@ -91,8 +90,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 				char szWLId[128];
 				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, pszNick, true, false);
-				if (hContact)
-				{
+				if (hContact) {
 					if (!json_as_bool(json_get(item, "authorized"))) lstId = LIST_PL;
 					if (!json_as_bool(json_get(item, "blocked"))) lstId = LIST_BL;
 					Lists_Add(lstId, NETID_SKYPE, skypename, NULL, pszNick, NULL);
@@ -104,7 +102,8 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 			MSN_SKYABGetProfiles((const char*)post);
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -125,15 +124,14 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
 			if (root == NULL) return false;
 
 			JSONNode *items = json_as_array(root), *item, *node;
-			for (size_t i = 0; i < json_size(items); i++)
-			{
+			for (size_t i = 0; i < json_size(items); i++) {
 				item = json_at(items, i);
 				if (item == NULL)
 					break;
@@ -145,21 +143,21 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
-				if (hContact)
-				{
-					if (value=get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
-					if (value=get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
-					if (value=get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
-					if (value=get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
-					if (value=get_json_str(item, "city")) setTString(hContact, "City", value);
-					if (value=get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
+				if (hContact) {
+					if (value = get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
+					if (value = get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
+					if (value = get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
+					if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
+					if (value = get_json_str(item, "city")) setTString(hContact, "City", value);
+					if (value = get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
 				}
 			}
 			json_delete(items);
 			bRet = true;
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -179,12 +177,12 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT item(nlhrReply->pData);
-			JSONNode *node;
-			if (item == NULL) return false;
+			if (item == NULL)
+				return false;
 
 			ptrA skypename(mir_t2a(ptrT(json_as_string(json_get(item, "username")))));
 			ptrT value;
@@ -192,45 +190,46 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 			mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 			MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
-			if (hContact)
-			{
-				if (value=get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
-				if (value=get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
-				if (value=get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
-				if (value=get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_ttoi(value) == 1 ? 'M' : 'F'));
-				if (value=get_json_str(item, "birthday")) {
+			if (hContact) {
+				if (value = get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
+				if (value = get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
+				if (value = get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
+				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_ttoi(value) == 1 ? 'M' : 'F'));
+				if (value = get_json_str(item, "birthday")) {
 					int d, m, y;
 					_stscanf(value, _T("%d-%d-%d"), &y, &m, &d);
 					setWord(hContact, "BirthYear", y);
 					setByte(hContact, "BirthDay", d);
 					setByte(hContact, "BirthMonth", m);
 				}
-				if (value=get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
-				if (value=get_json_str(item, "province")) setTString(hContact, "State", value);
-				if (value=get_json_str(item, "city")) setTString(hContact, "City", value);
-				if (value=get_json_str(item, "homepage")) setTString(hContact, "Homepage", value);
-				if (value=get_json_str(item, "about")) setTString(hContact, "About", value);
-				if ((node = json_get(item, "emails")) && !json_empty(node))
-				{
-					JSONNode *items = json_as_array(node), *item;
-					char szName[16];
-					for (size_t i = 0; i < min(json_size(items), 3); i++)
-					{
-						if (!(item = json_at(items, i))) break;
-						sprintf(szName, "e-mail%d", i);
-						setTString(hContact, szName, ptrT(json_as_string(item)));
+				if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
+				if (value = get_json_str(item, "province")) setTString(hContact, "State", value);
+				if (value = get_json_str(item, "city")) setTString(hContact, "City", value);
+				if (value = get_json_str(item, "homepage")) setTString(hContact, "Homepage", value);
+				if (value = get_json_str(item, "about")) setTString(hContact, "About", value);
+
+				JSONNode *node = json_get(item, "emails");
+				if (node && !node->empty()) {
+					int num = 0;
+					for (auto it = node->begin(); it != node->end(); ++it, ++num) {
+						if (num == 3)
+							break;
+
+						char szName[16];
+						sprintf(szName, "e-mail%d", num);
+						setStringUtf(hContact, szName, (*it).as_string().c_str());
 					}
-					json_delete(items);
 				}
-				if (value=get_json_str(item, "phoneMobile")) setTString(hContact, "Cellular", value);
-				if (value=get_json_str(item, "phone")) setTString(hContact, "Phone", value);
-				if (value=get_json_str(item, "phoneOffice")) setTString(hContact, "CompanyPhone", value);
-				if (value=get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
+				if (value = get_json_str(item, "phoneMobile")) setTString(hContact, "Cellular", value);
+				if (value = get_json_str(item, "phone")) setTString(hContact, "Phone", value);
+				if (value = get_json_str(item, "phoneOffice")) setTString(hContact, "CompanyPhone", value);
+				if (value = get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
 			}
 			bRet = true;
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -256,11 +255,12 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 		bRet = true;
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -283,11 +283,12 @@ bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 		bRet = true;
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -308,11 +309,12 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 		bRet = true;
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -339,11 +341,12 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 		bRet = true;
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -369,19 +372,17 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 	mHttpsTS = clock();
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
-	if (nlhrReply)  {
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
-			if (root == NULL)
-			{
+			if (root == NULL) {
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
 				return false;
 			}
 
 			JSONNode *items = json_as_array(root);
-			for (size_t i = 0; i < json_size(items); i++)
-			{
+			for (size_t i = 0; i < json_size(items); i++) {
 				JSONNode *item = json_at(items, i);
 				JSONNode *ContactCards = json_get(item, "ContactCards");
 				JSONNode *Skype = json_get(ContactCards, "Skype");
@@ -400,7 +401,8 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 			bRet = true;
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
-	} else hHttpsConnection = NULL;
+	}
+	else hHttpsConnection = NULL;
 	return bRet;
 }
 
@@ -431,7 +433,5 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 	}
 };
-
-
 
 */

@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+HINSTANCE g_hInst;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ OBJLIST<CMsnProto> g_Instances(1, sttCompareProtocols);
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
-		hInst = hinstDLL;
+		g_hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
 	}
 	return TRUE;

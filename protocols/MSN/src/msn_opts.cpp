@@ -47,7 +47,7 @@ static IconItem iconList[] =
 
 void MsnInitIcons(void)
 {
-	Icon_Register(hInst, "Protocols/MSN", iconList, _countof(iconList), "MSN");
+	Icon_Register(g_hInst, "Protocols/MSN", iconList, _countof(iconList), "MSN");
 }
 
 HICON LoadIconEx(const char* name, bool big)
@@ -625,7 +625,7 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN);
 	odp.ptszTitle = m_tszUserName;
 	odp.ptszGroup = LPGENT("Network");
@@ -655,7 +655,7 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGRUI),
+	return (INT_PTR)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ACCMGRUI),
 		(HWND)lParam, DlgProcAccMgrUI, (LPARAM)this);
 }
 
