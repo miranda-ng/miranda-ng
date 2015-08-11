@@ -52,7 +52,7 @@ CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDB
  * @return	nothing
  **/
 CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount)
-: CBaseCtrl(hDlg, idCtrl, pszSetting)
+	: CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;
 	_pList = pList;
@@ -60,10 +60,8 @@ CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPID
 	_bDataType = bDBDataType;
 
 	// fill in data
-	if (_pList && (_nList > 0))
-	{
-		for (int i = 0; i < _nList; i++)
-		{
+	if (_pList && (_nList > 0)) {
+		for (int i = 0; i < _nList; i++) {
 			AddItem(_pList[i].ptszTranslated, (LPARAM)&_pList[i]);
 		}
 	}
@@ -82,11 +80,9 @@ int CCombo::Find(int nID) const
 	int i;
 	LPIDSTRLIST pd;
 
-	for (i = ComboBox_GetCount(_hwnd) - 1; i >= 0; i--)
-	{
+	for (i = ComboBox_GetCount(_hwnd) - 1; i >= 0; i--) {
 		pd = (LPIDSTRLIST)ComboBox_GetItemData(_hwnd, i);
-		if (PtrIsValid(pd) && (pd->nID == nID))
-		{
+		if (PtrIsValid(pd) && (pd->nID == nID)) {
 			break;
 		}
 	}
@@ -117,10 +113,8 @@ int CCombo::Find(LPTSTR ptszItemLabel) const
 INT_PTR CCombo::AddItem(LPCTSTR pszText, LPARAM lParam)
 {
 	INT_PTR added = ComboBox_AddString(_hwnd, pszText);
-	if (SUCCEEDED(added)) 
-	{
-		if (PtrIsValid(lParam) && FAILED(ComboBox_SetItemData(_hwnd, added, lParam)))
-		{
+	if (SUCCEEDED(added)) {
+		if (PtrIsValid(lParam) && FAILED(ComboBox_SetItemData(_hwnd, added, lParam))) {
 			ComboBox_DeleteString(_hwnd, added);
 			added = CB_ERR;
 		}
@@ -150,22 +144,19 @@ void CCombo::Release()
  **/
 BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
-	if (!_Flags.B.hasChanged && _pList != NULL)
-	{
+	if (!_Flags.B.hasChanged && _pList != NULL) {
 		DBVARIANT dbv;
 		int iVal = CB_ERR;
 
-		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;
+		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
-		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));	
+		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0));
 
-		if (_Flags.B.hasCustom || _Flags.B.hasProto || _Flags.B.hasMeta)
-		{
-			switch (dbv.type) 
-			{
-			case DBVT_BYTE:		iVal = Find((int)dbv.bVal);		break;
-			case DBVT_WORD:		iVal = Find((int)dbv.wVal);		break;
-			case DBVT_DWORD:	iVal = Find((int)dbv.dVal);		break;
+		if (_Flags.B.hasCustom || _Flags.B.hasProto || _Flags.B.hasMeta) {
+			switch (dbv.type) {
+			case DBVT_BYTE: iVal = Find((int)dbv.bVal); break;
+			case DBVT_WORD: iVal = Find((int)dbv.wVal); break;
+			case DBVT_DWORD: iVal = Find((int)dbv.dVal); break;
 			case DBVT_TCHAR:
 				iVal = Find(TranslateTS(dbv.ptszVal));
 				if (iVal == CB_ERR) {
@@ -174,15 +165,14 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 				}
 			}
 		}
-		if (iVal == CB_ERR)
-		{
+		if (iVal == CB_ERR) {
 			// unspecified
 			iVal = Find(_pList[0].nID);
 		}
 		db_free(&dbv);
 		ComboBox_SetCurSel(_hwnd, iVal);
 		_curSel = ComboBox_GetCurSel(_hwnd);
-		SendMessage(GetParent(_hwnd), WM_COMMAND, MAKEWPARAM( (WORD)this->_idCtrl, (WORD)CBN_SELCHANGE), (LPARAM)_hwnd);
+		SendMessage(GetParent(_hwnd), WM_COMMAND, MAKEWPARAM((WORD)this->_idCtrl, (WORD)CBN_SELCHANGE), (LPARAM)_hwnd);
 	}
 	return _Flags.B.hasChanged;
 }
@@ -197,19 +187,15 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
  **/
 void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 {
-	if (_Flags.B.hasChanged)
-	{
+	if (_Flags.B.hasChanged) {
 		LPCSTR pszModule = hContact ? USERINFO : pszProto;
 
-		if ((_Flags.B.hasCustom || !hContact) && (_curSel != CB_ERR))
-		{
+		if ((_Flags.B.hasCustom || !hContact) && (_curSel != CB_ERR)) {
 			LPIDSTRLIST pd;
 
 			pd = (LPIDSTRLIST)SendMessage(_hwnd, CB_GETITEMDATA, _curSel, 0);
-			if (pd != NULL)
-			{
-				switch (_bDataType)
-				{
+			if (pd != NULL) {
+				switch (_bDataType) {
 				case DBVT_BYTE:
 					db_set_b(hContact, pszModule, _pszSetting, pd->nID);
 					break;
@@ -223,18 +209,16 @@ void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 				case DBVT_WCHAR:
 					db_set_s(hContact, pszModule, _pszSetting, (LPSTR)pd->pszText);
 				}
-				if (!hContact)
-				{
-					_Flags.B.hasCustom = 0;
-					_Flags.B.hasProto = 1;
+				if (!hContact) {
+					_Flags.B.hasCustom = false;
+					_Flags.B.hasProto = true;
 				}
-				_Flags.B.hasChanged = 0;
+				_Flags.B.hasChanged = false;
 			}
 		}
-		if (_Flags.B.hasChanged)
-		{
+		if (_Flags.B.hasChanged) {
 			db_unset(hContact, pszModule, _pszSetting);
-			_Flags.B.hasChanged = 0;
+			_Flags.B.hasChanged = false;
 			OnInfoChanged(hContact, pszProto);
 		}
 		InvalidateRect(_hwnd, NULL, TRUE);
@@ -244,24 +228,19 @@ void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 /**
  * The user changed combobox selection, so mark it changed.
  *
- * @return	nothing
  **/
 void CCombo::OnChangedByUser(WORD wChangedMsg)
 {
-	if (wChangedMsg == CBN_SELCHANGE)
-	{
+	if (wChangedMsg == CBN_SELCHANGE) {
 		int c = ComboBox_GetCurSel(_hwnd);
 
-		if (_curSel != c)
-		{
-			if (!_Flags.B.hasChanged)
-			{
-				_Flags.B.hasChanged = 1;
-				_Flags.B.hasCustom = 1;
+		if (_curSel != c) {
+			if (!_Flags.B.hasChanged) {
+				_Flags.B.hasChanged = _Flags.B.hasCustom = true;
 				SendMessage(GetParent(GetParent(_hwnd)), PSM_CHANGED, 0, 0);
 			}
 			_curSel = c;
 		}
 	}
 }
-	
+

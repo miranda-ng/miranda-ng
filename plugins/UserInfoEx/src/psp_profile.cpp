@@ -748,6 +748,7 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	LPLISTCTRL pList;
+	LVHITTESTINFO hi;
 
 	switch (msg) {
 	case WM_KEYDOWN:
@@ -802,13 +803,8 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 		}
 	case WM_MOUSEMOVE:
 		if (PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd))) {
-			HDC hDC;
 			RECT rchWnd, rcItem;
 			SIZE textSize;
-			LVHITTESTINFO hi;
-			TOOLINFO ti;
-			BYTE bReposition;
-			LPLCITEM pItem;
 
 			hi.pt.x = GET_X_LPARAM(lParam);
 			hi.pt.y = GET_Y_LPARAM(lParam);
@@ -816,22 +812,27 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 			// show tip only if pointer is over an item
 			if (pList->iHotItem != hi.iItem || pList->iHotSubItem != hi.iSubItem) {
-				bReposition = pList->iHotItem != -1 || pList->iHotSubItem != -1;
+				bool bReposition = pList->iHotItem != -1 || pList->iHotSubItem != -1;
 				pList->iHotItem = hi.iItem;
 				pList->iHotSubItem = hi.iSubItem;
 
+				TOOLINFO ti = { 0 };
+				LPLCITEM pItem;
 				if ((hi.flags & LVHT_ONITEMLABEL) && PtrIsValid(pItem = ProfileList_GetItemData(hwnd, hi.iItem))) {
 					GetWindowRect(hwnd, &rchWnd);
 					ListView_GetSubItemRect(hwnd, hi.iItem, hi.iSubItem, LVIR_BOUNDS, &rcItem);
+
 					// calculate size of text on the screen
-					if ((hDC = GetDC(GetParent(hwnd)))) {
+					HDC hDC = GetDC(GetParent(hwnd));
+					if (hDC != NULL) {
 						SelectObject(hDC, (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, NULL, NULL));
 						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], (int)mir_tstrlen(pItem->pszText[hi.iSubItem]), &textSize);
 						ReleaseDC(GetParent(hwnd), hDC);
 					}
+					else textSize.cx = textSize.cy = 0;
+
 					// show tip only for text that is larger than te listview can display
 					if (textSize.cx > rchWnd.right - rchWnd.left || textSize.cx > rcItem.right - rcItem.left) {
-						memset(&ti, 0, sizeof(TOOLINFO));
 						ti.cbSize = sizeof(TOOLINFO);
 						ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
 						ti.hinst = ghInst;
@@ -877,13 +878,10 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 		// begin label edit
 	case WM_LBUTTONDBLCLK:
 		{
-			LVHITTESTINFO hi;
-
 			hi.pt.x = GET_X_LPARAM(lParam);
 			hi.pt.y = GET_Y_LPARAM(lParam);
-			if (ListView_SubItemHitTest(hwnd, &hi)) {
+			if (ListView_SubItemHitTest(hwnd, &hi))
 				ProfileList_BeginLabelEdit(hwnd, hi.iItem, hi.iSubItem);
-			}
 			return TRUE;
 		}
 
@@ -1025,6 +1023,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 {
 	HWND hList = GetDlgItem(hDlg, LIST_PROFILE);
 	LPLISTCTRL pList;
+	LVHITTESTINFO hi;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -1259,7 +1258,6 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				{
 					HMENU hMenu = CreatePopupMenu();
 					MCONTACT hContact;
-					LVHITTESTINFO hi;
 					LPLCITEM pItem;
 					POINT pt;
 
@@ -1353,7 +1351,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 							return TRUE;
 						}
 						// draw selected item
-						if ((cd->nmcd.uItemState & CDIS_SELECTED) || (pList->labelEdit.iItem == cd->nmcd.dwItemSpec)) {
+						if ((cd->nmcd.uItemState & CDIS_SELECTED) || (pList->labelEdit.iItem == (int)cd->nmcd.dwItemSpec)) {
 							SetTextColor(cd->nmcd.hdc, GetSysColor(COLOR_HIGHLIGHTTEXT));
 							FillRect(cd->nmcd.hdc, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
 						}

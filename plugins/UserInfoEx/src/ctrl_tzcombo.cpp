@@ -173,10 +173,10 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 			//use new core tz interface
 			TimeZone_StoreListResult(hContact, NULL, _hwnd, TZF_PLF_CB);
 			if (!hContact) {
-				_Flags.B.hasCustom = 0;
-				_Flags.B.hasProto = 1;
+				_Flags.B.hasCustom = false;
+				_Flags.B.hasProto = true;
 			}
-			_Flags.B.hasChanged = 0;
+			_Flags.B.hasChanged = false;
 		}
 
 		if (_Flags.B.hasChanged)
@@ -185,7 +185,7 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 			db_unset(hContact, USERINFO, SET_CONTACT_TIMEZONEINDEX);
 			db_unset(hContact, pszModule, SET_CONTACT_TIMEZONE);
 
-			_Flags.B.hasChanged = 0;
+			_Flags.B.hasChanged = false;
 			OnInfoChanged(hContact, pszProto);
 		}
 		InvalidateRect(_hwnd, NULL, TRUE);
@@ -204,8 +204,7 @@ void CTzCombo::OnChangedByUser(WORD wChangedMsg)
 
 		if (_curSel != c) {
 			if (!_Flags.B.hasChanged) {
-				_Flags.B.hasChanged = 1;
-				_Flags.B.hasCustom = 1;
+				_Flags.B.hasChanged = _Flags.B.hasCustom = true;
 				SendMessage(GetParent(GetParent(_hwnd)), PSM_CHANGED, 0, 0);
 			}
 			_curSel = c;

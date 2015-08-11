@@ -718,7 +718,6 @@ void CPsTree::PopupMenu()
 {
 	HMENU hPopup;
 	TVHITTESTINFO hti;
-	TVITEM tvi;
 	POINT pt;
 	int iItem, i;
 
@@ -728,17 +727,18 @@ void CPsTree::PopupMenu()
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_STRING|MIIM_ID;
+	mii.fMask = MIIM_STRING | MIIM_ID;
 
 	// get cursor postion
 	GetCursorPos(&pt);
 	hti.pt = pt;
 	ScreenToClient(_hWndTree, &hti.pt);
 
-	tvi.mask = TVIF_PARAM|TVIF_CHILDREN;
+	TVITEM tvi = { 0 };
+	tvi.mask = TVIF_PARAM | TVIF_CHILDREN;
 	// find treeitem under cursor
 	TreeView_HitTest(_hWndTree, &hti);
-	if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+	if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 		tvi.hItem = hti.hItem;
 		TreeView_GetItem(_hWndTree, &tvi);
 
@@ -747,7 +747,7 @@ void CPsTree::PopupMenu()
 			mii.wID = 32001;
 			InsertMenuItem(hPopup, 0, FALSE, &mii);
 		}
-		
+
 		// do not allow hiding groups
 		if (tvi.cChildren) {
 			mii.fMask |= MIIM_STATE;
@@ -779,7 +779,7 @@ void CPsTree::PopupMenu()
 			InsertMenuItem(hPopup, 1, TRUE, &mii);
 			InsertMenuItem(hPopup, ++i, TRUE, &mii);
 		}
-		mii.fMask &= ~(MIIM_FTYPE|MIIM_STATE);
+		mii.fMask &= ~(MIIM_FTYPE | MIIM_STATE);
 		mii.dwTypeData = TranslateT("Reset to defaults");
 		mii.wID = 32004;
 		InsertMenuItem(hPopup, ++i, TRUE, &mii);
@@ -787,22 +787,18 @@ void CPsTree::PopupMenu()
 	// show the popup menu
 	iItem = TrackPopupMenu(hPopup, TPM_RETURNCMD, pt.x, pt.y, 0, _hWndTree, NULL);
 	DestroyMenu(hPopup);
-	
+
 	switch (iItem) {
-		// hide the item
-	case 32000:
+	case 32000: // hide the item
 		HideItem(tvi.lParam);
 		break;
-		// rename the item
-	case 32001:
+	case 32001: // rename the item
 		BeginLabelEdit(tvi.hItem);
 		break;
-		// reset current tree
-	case 32004:
+	case 32004: // reset current tree
 		DBResetState();
 		break;
-		// show a hidden item
-	default:
+	default: // show a hidden item
 		if ((iItem -= 100) >= 0 && ShowItem(iItem, NULL))
 			AddFlags(PSTVF_STATE_CHANGED | PSTVF_POS_CHANGED);
 		break;
@@ -863,9 +859,9 @@ BYTE CPsTree::OnInfoChanged()
  * return:	nothing
  **/
 BYTE CPsTree::OnSelChanging()
-{	 
+{
 	CPsTreeItem *pti = CurrentItem();
-	
+
 	if (pti != NULL) {
 		TreeView_SetItemState(_hWndTree, pti->Hti(), 0, TVIS_SELECTED);
 		if (pti->Wnd() != NULL) {

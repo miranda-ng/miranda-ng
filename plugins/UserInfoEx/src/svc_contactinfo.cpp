@@ -89,7 +89,6 @@ static FORCEINLINE INT_PTR VarToVarCI(const DBVARIANT *dbv, CONTACTINFO *ci)
 static FORCEINLINE INT_PTR GCIVar(CONTACTINFO *ci, LPCSTR pszSetting)
 {
 	DBVARIANT dbv;
-	
 	if (DB::Setting::Get(ci->hContact, ci->szProto, pszSetting, &dbv, CI_TCHAR(ci)) == 0) {
 		if (VarToVarCI(&dbv, ci)) {
 			// On a error, we need to make sure, read data is cleared out!
@@ -102,7 +101,7 @@ static FORCEINLINE INT_PTR GCIVar(CONTACTINFO *ci, LPCSTR pszSetting)
 }
 
 /**
-* This function tries to read a setting from a certain module (e.g. USERINFO) and if failed it 
+* This function tries to read a setting from a certain module (e.g. USERINFO) and if failed it
 * tries once again with the baseprotocol of the contact (e.g. ICQ). If nothing was found anyway
 * and this is an metacontact it can have a look into subcontacts to retrieve the information.
 * This depends on the settings the user did.
@@ -119,7 +118,6 @@ static FORCEINLINE INT_PTR GCIVar(CONTACTINFO *ci, LPCSTR pszSetting)
 static FORCEINLINE INT_PTR GCIVarEx(CONTACTINFO *ci, LPCSTR pszSetting)
 {
 	DBVARIANT dbv;
-
 	if (DB::Setting::GetEx(ci->hContact, USERINFO, ci->szProto, pszSetting, &dbv, CI_TCHAR(ci)) == 0) {
 		if (VarToVarCI(&dbv, ci)) {
 			// On a error, we need to make sure, read data is cleared out!
@@ -132,7 +130,7 @@ static FORCEINLINE INT_PTR GCIVarEx(CONTACTINFO *ci, LPCSTR pszSetting)
 }
 
 /**
-* This function tries to read a Language from a certain module (e.g. USERINFO) and if failed it 
+* This function tries to read a Language from a certain module (e.g. USERINFO) and if failed it
 * tries once again with the baseprotocol of the contact (e.g. ICQ). If nothing was found anyway
 * and this is an metacontact it can have a look into subcontacts to retrieve the information.
 * This depends on the settings the user did.
@@ -149,7 +147,7 @@ static FORCEINLINE INT_PTR GCIVarEx(CONTACTINFO *ci, LPCSTR pszSetting)
 static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 {
 	if (0 == GCIVarEx(ci, pszSetting)) {
-		if (ci->type!= CNFT_ASCIIZ) {
+		if (ci->type != CNFT_ASCIIZ) {
 			//lang was safed in database as code
 			LPIDSTRLIST pList;
 			UINT nList, i, res = 0;
@@ -160,16 +158,16 @@ static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 				default:         return 1;
 			}
 			GetLanguageList(&nList, &pList);
-			for(i = 0; i<nList; i++) {
-				if (pList[i].nID == res)	{
+			for (i = 0; i < nList; i++) {
+				if (pList[i].nID == (int)res) {
 					//use untranslate string (pszText member)
-					ci->pszVal = (ci->dwFlag & CNF_UNICODE) ? (LPTSTR) mir_a2u(pList[i].pszText) : (LPTSTR) mir_strdup(pList[i].pszText);
+					ci->pszVal = (ci->dwFlag & CNF_UNICODE) ? (LPTSTR)mir_a2u(pList[i].pszText) : (LPTSTR)mir_strdup(pList[i].pszText);
 					ci->type = (ci->pszVal != NULL) ? CNFT_ASCIIZ : 0;
 					return 0;
 				}
 			} /*end for*/
-			ci->type	= 0;
-			ci->pszVal	= NULL;
+			ci->type = 0;
+			ci->pszVal = NULL;
 		}
 	}
 	else ci->type = 0;
@@ -178,7 +176,7 @@ static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 }
 
 /**
-* This function read a setting from the baseprotocol of the contact (e.g. ICQ). 
+* This function read a setting from the baseprotocol of the contact (e.g. ICQ).
 *
 * @warning	ci MUST NOT be NULL!
 *
@@ -192,8 +190,8 @@ static FORCEINLINE INT_PTR GCILangEx(CONTACTINFO *ci, LPCSTR pszSetting)
 static FORCEINLINE INT_PTR GCIStr(CONTACTINFO *ci, LPCSTR pszSetting)
 {
 	const BYTE type = CI_TCHAR(ci);
+
 	DBVARIANT dbv;
-	
 	if (DB::Setting::Get(ci->hContact, ci->szProto, pszSetting, &dbv, type) == 0) {
 		if (DB::Variant::dbv2String(&dbv, type) == 0)
 			ci->pszVal = dbv.ptszVal;
@@ -236,21 +234,21 @@ static FORCEINLINE INT_PTR GCIFirstLast(CONTACTINFO *ci)
 			cbf = mir_wstrlen(dbvf.pwszVal);
 			cbl = mir_wstrlen(dbvl.pwszVal);
 
-			ci->pszVal = (LPTSTR) mir_alloc((cbf + cbl + 2) * sizeof(WCHAR));
+			ci->pszVal = (LPTSTR)mir_alloc((cbf + cbl + 2) * sizeof(WCHAR));
 			if (ci->pszVal)
-				mir_snwprintf((LPWSTR) ci->pszVal, cbf + cbl + 2, L"%s %s", dbvf.pwszVal, dbvl.pwszVal);
+				mir_snwprintf((LPWSTR)ci->pszVal, cbf + cbl + 2, L"%s %s", dbvf.pwszVal, dbvl.pwszVal);
 
 			db_free(&dbvf);
 			db_free(&dbvl);
 		}
 		// set firstname as result
 		else if (dbvf.type == DBVT_WCHAR) {
-			ci->pszVal = (LPTSTR) dbvf.pwszVal;
+			ci->pszVal = (LPTSTR)dbvf.pwszVal;
 			db_free(&dbvl);
 		}
 		// set lastname as result
 		else if (dbvl.type == DBVT_WCHAR) {
-			ci->pszVal = (LPTSTR) dbvl.pwszVal;
+			ci->pszVal = (LPTSTR)dbvl.pwszVal;
 			db_free(&dbvf);
 		}
 		else {
@@ -265,21 +263,21 @@ static FORCEINLINE INT_PTR GCIFirstLast(CONTACTINFO *ci)
 			cbf = mir_strlen(dbvf.pszVal);
 			cbl = mir_strlen(dbvl.pszVal);
 
-			ci->pszVal = (LPTSTR) mir_alloc((cbf + cbl + 2) * sizeof(CHAR));
+			ci->pszVal = (LPTSTR)mir_alloc((cbf + cbl + 2) * sizeof(CHAR));
 			if (ci->pszVal)
-				mir_snprintf((LPSTR) ci->pszVal, cbf + cbl + 2, "%s %s", dbvf.pszVal, dbvl.pszVal);
+				mir_snprintf((LPSTR)ci->pszVal, cbf + cbl + 2, "%s %s", dbvf.pszVal, dbvl.pszVal);
 
 			db_free(&dbvf);
 			db_free(&dbvl);
 		}
 		// set firstname as result
 		else if (dbvf.type == DBVT_ASCIIZ) {
-			ci->pszVal = (LPTSTR) dbvf.pszVal;
+			ci->pszVal = (LPTSTR)dbvf.pszVal;
 			db_free(&dbvl);
 		}
 		// set lastname as result
 		else if (dbvl.type == DBVT_ASCIIZ) {
-			ci->pszVal = (LPTSTR) dbvl.pszVal;
+			ci->pszVal = (LPTSTR)dbvl.pszVal;
 			db_free(&dbvf);
 		}
 		else {
@@ -309,14 +307,14 @@ static FORCEINLINE INT_PTR GCICountry(CONTACTINFO *ci, LPCSTR pszSetting)
 			// country id was safed in database as code
 			UINT res = 0;
 			switch (ci->type) {
-				case CNFT_WORD:		res = ci->wVal;	break;
-				case CNFT_DWORD:	res = ci->dVal;	break;
-				default:			return 1;
+			case CNFT_WORD:		res = ci->wVal;	break;
+			case CNFT_DWORD:	res = ci->dVal;	break;
+			default:			return 1;
 			}
 
 			LPSTR szCountry = res ? (LPSTR)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, res, 0) : NULL;
 			if (szCountry)
-				ci->pszVal = (ci->dwFlag & CNF_UNICODE) ? (LPTSTR) mir_a2u(szCountry) : (LPTSTR) mir_strdup(szCountry);
+				ci->pszVal = (ci->dwFlag & CNF_UNICODE) ? (LPTSTR)mir_a2u(szCountry) : (LPTSTR)mir_strdup(szCountry);
 			else
 				ci->pszVal = NULL;
 
@@ -335,12 +333,12 @@ static FORCEINLINE INT_PTR GCICountry(CONTACTINFO *ci, LPCSTR pszSetting)
  * @param	wParam		- not used
  * @param	lParam		- pointer to a CONTACTINFO structure which tells what information is desired
  *
- * @retval	0 - if contact information was found and read correctly 
+ * @retval	0 - if contact information was found and read correctly
  * @retval	1 - if any error occured or setting was not found
  **/
-INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam) 
+INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 {
-	CONTACTINFO *ci = (CONTACTINFO*) lParam;
+	CONTACTINFO *ci = (CONTACTINFO*)lParam;
 	INT_PTR result;
 
 	if (ci && ci->cbSize == sizeof(CONTACTINFO) && (ci->szProto != NULL || (ci->szProto = Proto_GetBaseAccountName(ci->hContact)) != NULL)) {
@@ -591,7 +589,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 				result = GCIVar(ci, (LPCSTR)result);
 			break;
 
-		case CNF_DISPLAYUID:	
+		case CNF_DISPLAYUID:
 			if (!GCIVar(ci, "display_uid"))
 				result = 0;
 			else {
@@ -602,7 +600,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case CNF_DISPLAYNC:
-		case CNF_DISPLAY:		
+		case CNF_DISPLAY:
 			for (int i = 0; i < NAMEORDERCOUNT; i++) {
 				switch (gNameOrder[i]) {
 				case 0: // custom name
@@ -701,7 +699,7 @@ static INT_PTR GetContactSettingStrExService(WPARAM wParam, LPARAM lParam)
 static int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact == NULL) {
-		DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*) lParam;
+		DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
 		if (!mir_strcmp(pdbcws->szModule, "Contact") && !mir_strcmp(pdbcws->szSetting, "NameOrder"))
 			memcpy(gNameOrder, pdbcws->value.pbVal, pdbcws->value.cpbVal);
 	}

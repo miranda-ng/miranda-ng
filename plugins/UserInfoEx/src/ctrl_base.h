@@ -60,22 +60,22 @@ union CCtrlFlags
 	WORD W;
 	struct CBits 
 	{
-		BYTE	hasChanged	: 1;
-		BYTE	hasProto		: 1;
-		BYTE	hasCustom	 : 1;
-		BYTE	hasMeta		 : 1;
-		BYTE	bit_04	: 1;
-		BYTE	bit_05	: 1;
-		BYTE	bit_06	: 1;
-		BYTE	bit_07	: 1;
-		BYTE	bit_08	: 1;
-		BYTE	bit_09	: 1;
-		BYTE	bit_10	: 1;
-		BYTE	bit_11	: 1;
-		BYTE	bit_12	: 1;
-		BYTE	bit_13	: 1;
-		BYTE	bit_14	: 1;
-		BYTE	bit_15	: 1;
+		bool	hasChanged : 1;
+		bool	hasProto : 1;
+		bool	hasCustom : 1;
+		bool	hasMeta : 1;
+		bool	bit_04 : 1;
+		bool	bit_05 : 1;
+		bool	bit_06 : 1;
+		bool	bit_07 : 1;
+		bool	bit_08 : 1;
+		bool	bit_09 : 1;
+		bool	bit_10 : 1;
+		bool	bit_11 : 1;
+		bool	bit_12 : 1;
+		bool	bit_13 : 1;
+		bool	bit_14 : 1;
+		bool	bit_15 : 1;
 	} B;
 };
 
