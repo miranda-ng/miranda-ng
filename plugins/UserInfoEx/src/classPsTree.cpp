@@ -790,22 +790,22 @@ void CPsTree::PopupMenu()
 	
 	switch (iItem) {
 		// hide the item
-		case 32000:
-			HideItem(tvi.lParam);
-			break;
+	case 32000:
+		HideItem(tvi.lParam);
+		break;
 		// rename the item
-		case 32001:
-			BeginLabelEdit(tvi.hItem);
-			break;
+	case 32001:
+		BeginLabelEdit(tvi.hItem);
+		break;
 		// reset current tree
-		case 32004:
-			DBResetState();
-			break;
+	case 32004:
+		DBResetState();
+		break;
 		// show a hidden item
-		default:
-			if ((iItem -= 100) >= 0 && ShowItem(iItem, NULL))
-				AddFlags(PSTVF_STATE_CHANGED|PSTVF_POS_CHANGED);
-			break;
+	default:
+		if ((iItem -= 100) >= 0 && ShowItem(iItem, NULL))
+			AddFlags(PSTVF_STATE_CHANGED | PSTVF_POS_CHANGED);
+		break;
 	}
 }
 

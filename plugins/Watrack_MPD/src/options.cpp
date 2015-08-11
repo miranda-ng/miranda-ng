@@ -16,7 +16,7 @@
 
 #include "stdafx.h"
 
-static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
   switch (msg)
   {

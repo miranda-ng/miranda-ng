@@ -28,18 +28,15 @@ void InitHistoryDialog(void);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Handles the messages sent by clicking the contact's menu item
 
-INT_PTR MenuitemClicked(WPARAM wparam, LPARAM)
+INT_PTR MenuitemClicked(WPARAM hContact, LPARAM)
 {
-	ShowHistory((MCONTACT)wparam, 0);
+	ShowHistory(hContact, 0);
 	return 0;
 }
 
-int BuildContactMenu(WPARAM wparam, LPARAM)
+int BuildContactMenu(WPARAM hContact, LPARAM)
 {
-	int id = -1, isetting;
-	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
-
 	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(NULL, S_MOD, "MenuItem", 1)) {
 		Menu_ShowItem(hmenuitem, false);
 		return 0;
@@ -48,9 +45,9 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 	LPCTSTR ptszName;
 	ptrT tszStamp(db_get_tsa(NULL, S_MOD, "MenuStamp"));
 	if (tszStamp != NULL)
-		ptszName = ParseString(tszStamp , (MCONTACT)wparam, 0);
+		ptszName = ParseString(tszStamp , hContact);
 	else
-		ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
+		ptszName = ParseString(DEFAULT_MENUSTAMP, hContact);
 
 	int flags = 0;
 	HICON hIcon = NULL;
@@ -61,7 +58,7 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 			flags |= CMIF_HIDDEN;
 	}
 	else if (db_get_b(NULL, S_MOD, "ShowIcon", 1)) {
-		isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
+		int isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
 		hIcon = Skin_LoadProtoIcon(szProto, isetting | 0x8000);
 	}
 	Menu_ModifyItem(hmenuitem, ptszName, hIcon, flags);

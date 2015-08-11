@@ -8,8 +8,6 @@ BOOL IsNt50()
 {
 	WORD wOsVersion = LOWORD(GetVersion());
 	BYTE bMajorVer = LOBYTE(wOsVersion);
-	BYTE bMinorVer = HIBYTE(wOsVersion);
-
 	return (bMajorVer>=5);
 }
 

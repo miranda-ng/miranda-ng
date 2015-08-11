@@ -278,7 +278,6 @@ void RebuildGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
-	GroupMenuParam gmp = { 0 };
 
 	HGENMENU mhRoot = NULL;
 	HGENMENU mhExIm = NULL;

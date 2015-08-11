@@ -54,18 +54,18 @@ PLUGININFOEX pluginInfoEx =
 	{0x8392df1d, 0x9090, 0x4f8e, {0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00}}
 };
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-int ReloadFont(WPARAM wParam, LPARAM lParam)
+int ReloadFont(WPARAM, LPARAM)
 {
 	LOGFONT logFont;
 	if (hFontTitle) DeleteObject(hFontTitle);
@@ -91,7 +91,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 }
 
 // hack to hide tip when clist hides from timeout
-int SettingChanged(WPARAM hContact, LPARAM lParam)
+int SettingChanged(WPARAM, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
 	if (mir_strcmp(dcws->szModule, "CList") != 0 || mir_strcmp(dcws->szSetting, "State") != 0)
@@ -115,7 +115,7 @@ int EventDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ReloadSkinFolder(WPARAM wParam, LPARAM lParam)
+int ReloadSkinFolder(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 	return 0;
@@ -270,7 +270,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int Shutdown(WPARAM wParam, LPARAM lParam)
+int Shutdown(WPARAM, LPARAM)
 {
 	if (hFramesSBShow) UnhookEvent(hFramesSBShow);
 	if (hFramesSBHide) UnhookEvent(hFramesSBHide);

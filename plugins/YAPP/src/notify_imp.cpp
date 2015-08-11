@@ -4,7 +4,8 @@ HANDLE hhkShow=0, hhkUpdate=0, hhkRemove=0;
 
 //struct 
 
-int Popup2Show(WPARAM wParam, LPARAM lParam) {
+int Popup2Show(WPARAM, LPARAM lParam)
+{
 
 	HANDLE hNotify = (HANDLE)lParam;
 
@@ -16,49 +17,53 @@ int Popup2Show(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR svcPopup2Show(WPARAM wParam, LPARAM lParam) {
-    return Popup2Show(wParam, lParam);
+INT_PTR svcPopup2Show(WPARAM wParam, LPARAM lParam)
+{
+	return Popup2Show(wParam, lParam);
 }
 
-int Popup2Update(WPARAM wParam, LPARAM lParam) {
+int Popup2Update(WPARAM, LPARAM lParam)
+{
 	HANDLE hNotify = (HANDLE)lParam;
 	PostMPMessage(MUM_NMUPDATE, (WPARAM)hNotify, 0);
 	return 0;
 }
 
-int AvatarChanged(WPARAM wParam, LPARAM lParam) {
+int AvatarChanged(WPARAM, LPARAM)
+{
 	PostMPMessage(MUM_NMAVATAR, 0, 0);
 	return 0;
 }
 
-
-INT_PTR svcPopup2Update(WPARAM wParam, LPARAM lParam) {
-    return Popup2Update(wParam, lParam);
+INT_PTR svcPopup2Update(WPARAM wParam, LPARAM lParam)
+{
+	return Popup2Update(wParam, lParam);
 }
 
-int Popup2Remove(WPARAM wParam, LPARAM lParam) {
+int Popup2Remove(WPARAM, LPARAM lParam)
+{
 	HANDLE hNotify = (HANDLE)lParam;
 	PostMPMessage(MUM_NMREMOVE, (WPARAM)hNotify, 0);
 	return 0;
 }
 
-INT_PTR svcPopup2Remove(WPARAM wParam, LPARAM lParam) {
-    return Popup2Remove(wParam, lParam);
+INT_PTR svcPopup2Remove(WPARAM wParam, LPARAM lParam)
+{
+	return Popup2Remove(wParam, lParam);
 }
 
-INT_PTR svcPopup2DefaultActions(WPARAM wParam, LPARAM lParam)
+INT_PTR svcPopup2DefaultActions(WPARAM wParam, LPARAM)
 {
 	//PopupWindow *wnd = (PopupWindow *)MNotifyGetDWord((HANDLE)lParam, "Popup2/data", (DWORD)NULL);
 	//if (!wnd) return 0;
-	switch (wParam)
-	{
-		case 0:
+	switch (wParam) {
+	case 0:
 		{ // send message
 			//if (wnd->lchContact) CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)wnd->lchContact, 0);
 			//SendMessage(wnd->lchMain, UM_DESTROYPOPUP, 0, 0);
 			break;
 		}
-		case 1:
+	case 1:
 		{ // dismiss popup
 			//SendMessage(wnd->lchMain, UM_DESTROYPOPUP, 0, 0);
 			break;
@@ -67,13 +72,12 @@ INT_PTR svcPopup2DefaultActions(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
-/* To change options use MNotifySet*(hNotify, ....) Apply/Cancel is implemented in notify.dll */
+	/* To change options use MNotifySet*(hNotify, ....) Apply/Cancel is implemented in notify.dll */
 	HANDLE hNotify = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg)
-	{
-		case WM_USER+100:
+	switch (msg) {
+	case WM_USER + 100:
 		{
 			// This will be extendet to handle array of handles for multiselect lParam
 			// will be HANDLE * and wParam wil; store amount of handles passed
@@ -82,21 +86,21 @@ INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			return TRUE;
 		}
 
-		case WM_COMMAND:
-			// This in different from Miranda options!
-			SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-			break;
+	case WM_COMMAND:
+		// This in different from Miranda options!
+		SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
+		break;
 	}
 	return FALSE;
 }
 
-int NotifyOptionsInitialize(WPARAM wParam,LPARAM lParam)
+int NotifyOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.pszTitle = LPGEN("YAPP Popups");
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcPopups;
 	CallService(MS_NOTIFY_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 	return 0;
@@ -105,7 +109,7 @@ int NotifyOptionsInitialize(WPARAM wParam,LPARAM lParam)
 HANDLE hEventNotifyOptInit, hEventNotifyModulesLoaded;
 HANDLE hAvChangeEvent;
 
-int NotifyModulesLoaded(WPARAM wParam,LPARAM lParam)
+int NotifyModulesLoaded(WPARAM, LPARAM)
 {
 	hEventNotifyOptInit = HookEvent(ME_NOTIFY_OPT_INITIALISE, NotifyOptionsInitialize);
 	hAvChangeEvent = HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
@@ -113,7 +117,8 @@ int NotifyModulesLoaded(WPARAM wParam,LPARAM lParam)
 }
 
 HANDLE hServicesNotify[4];
-void InitNotify() {
+void InitNotify()
+{
 	hhkShow = HookEvent(ME_NOTIFY_SHOW, Popup2Show);
 	hhkUpdate = HookEvent(ME_NOTIFY_UPDATE, Popup2Update);
 	hhkRemove = HookEvent(ME_NOTIFY_REMOVE, Popup2Remove);
@@ -127,7 +132,8 @@ void InitNotify() {
 	hEventNotifyModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, NotifyModulesLoaded);
 }
 
-void DeinitNotify() {
+void DeinitNotify()
+{
 	UnhookEvent(hhkShow);
 	UnhookEvent(hhkUpdate);
 	UnhookEvent(hhkRemove);

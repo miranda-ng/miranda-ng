@@ -66,13 +66,13 @@ void Smileys_FreeParse(SMILEYPARSEINFO parseInfo)
 // Similar to DrawText win32 api function
 // Pass uFormat | DT_CALCRECT to calc rectangle to be returned by lpRect
 // parseInfo is optional (pass NULL and it will be calculated and deleted inside function
-int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SMILEYPARSEINFO parseInfo)
+int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, SMILEYPARSEINFO parseInfo)
 {
 	if (nCount == -1)
 		nCount = (int)mir_tstrlen(lpString);
 
 	if (uFormat & DT_CALCRECT) {
-		SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
+		SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, (lpRect->right - lpRect->left));
 		lpRect->bottom = text_size.cy;
 
 		if (text_size.cx < lpRect->right - lpRect->left) {
@@ -91,7 +91,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
 
 	RECT rc = *lpRect;
-	SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
+	SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, (lpRect->right - lpRect->left));
 
 	if (text_size.cx < rc.right - rc.left) {
 		if (uFormat & DT_RIGHT)
@@ -100,11 +100,11 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 			rc.right = rc.left + text_size.cx;
 	}
 
-	DrawTextSmiley(hDC, rc, lpString, nCount, parseInfo, uFormat, parseInfo->max_height);
+	DrawTextSmiley(hDC, rc, lpString, nCount, parseInfo, uFormat);
 	return text_size.cy;
 }
 
-SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_smiley_height, int max_width)
+SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_width)
 {
 	SIZE text_size = { 0 };
 	int text_height;
@@ -178,7 +178,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 	return text_size;
 }
 
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat, int max_smiley_height)
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat)
 {
 	if (szText == NULL)
 		return;
@@ -423,13 +423,13 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 	return plText;
 }
 
-int DrawTextExt(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, LPCSTR lpProto, SMILEYPARSEINFO spi)
+int DrawTextExt(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, SMILEYPARSEINFO spi)
 {
 	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL) {
 		if (opt.iSmileyAddFlags & SMILEYADD_RESIZE)
 			uFormat |= DT_RESIZE_SMILEYS;
 
-		return Smileys_DrawText(hdc, lpString, nCount, lpRect, uFormat, lpProto, spi);
+		return Smileys_DrawText(hdc, lpString, nCount, lpRect, uFormat, spi);
 	}
 
 	if (uFormat & DT_CALCRECT)

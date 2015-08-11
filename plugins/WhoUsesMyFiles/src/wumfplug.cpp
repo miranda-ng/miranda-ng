@@ -185,7 +185,7 @@ void ShowThePreview()
 	ShowThePopup(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k\\setup.exe"));
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -220,9 +220,6 @@ static INT_PTR WumfShowConnections(WPARAM,LPARAM)
 
 static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 {
-	BOOL MajorTo0121 = FALSE;
-	int iResult = 0;
-
 	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
 		Menu_ModifyItem(hMenuItem, LPGENT("Enable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP)));

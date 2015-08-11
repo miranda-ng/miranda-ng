@@ -27,7 +27,7 @@ CLIST_INTERFACE *pcli;
 // plugin init/deinit routines
 //================================================================================
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInstDLL = hInstDLL;
 	return TRUE;
@@ -48,7 +48,7 @@ static PLUGININFOEX sPluginInfo =
 	{0x5906a545, 0xf31a, 0x4726, {0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &sPluginInfo;
 }

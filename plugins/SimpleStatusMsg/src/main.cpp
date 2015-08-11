@@ -47,13 +47,13 @@ PLUGININFOEX pluginInfo = {
 	{0x768ce156, 0x34ac, 0x45a3, {0xb5, 0x3b, 0x0, 0x83, 0xc4, 0x76, 0x15, 0xc4}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	g_hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -146,7 +146,7 @@ static TCHAR *GetWinampSong(void)
 	return res;
 }
 
-TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
+TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 {
 	int i, count = 0, len;
 	TCHAR substituteStr[1024], *msg = mir_tstrdup(in);
@@ -859,7 +859,7 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, TCHA
 	}
 }
 
-INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 {
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
@@ -935,7 +935,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowStatusMessageDialog(WPARAM, LPARAM lParam)
 {
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
@@ -985,7 +985,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
+int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 {
 	if (Miranda_Terminated())
 		return 0;
@@ -1167,7 +1167,7 @@ static INT_PTR ChangeStatusMsg(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
+static int ProcessProtoAck(WPARAM , LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (!ack || !ack->szModule)
@@ -1245,7 +1245,7 @@ int SetStartupStatus(int i)
 	return 0;
 }
 
-VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 {
 	int prev_status_mode = -1, status_mode, temp_status_mode = ID_STATUS_OFFLINE, i;
 	BOOL globalstatus = TRUE;
@@ -1279,14 +1279,11 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWO
 	if (db_get_b(NULL, "SimpleStatusMsg", "StartupPopupDlg", 1) && accounts->statusMsgFlags)
 	{
 		if (globalstatus)
-		{
-			ChangeStatusMessage((WPARAM)status_mode, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
-		}
-		else
-		{
+			ChangeStatusMessage(status_mode, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
+		else {
 			// pseudo-currentDesiredStatusMode ;-)
 			db_set_w(NULL, "SimpleStatusMsg", "StartupStatus", (WORD)temp_status_mode);
-			ChangeStatusMessage((WPARAM)ID_STATUS_CURRENT, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
+			ChangeStatusMessage(ID_STATUS_CURRENT, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
 		}
 		return;
 	}
@@ -1299,14 +1296,11 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWO
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 			continue;
 
-//		if (db_get_b(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
-//			continue;
-
 		SetStartupStatus(i);
 	}
 }
 
-VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 {
 	BOOL found = FALSE;
 	int i;
@@ -1336,7 +1330,7 @@ VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD
 	SetStartupStatus(i);
 }
 
-VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	MIRANDA_IDLE_INFO mii = {0};
 	mii.cbSize = sizeof(mii);
@@ -1398,7 +1392,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 	}
 }
 
-static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
+static int AddTopToolbarButton(WPARAM, LPARAM)
 {
 	TTBButton tbb = { 0 };
 	tbb.hIconHandleUp = tbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
@@ -1425,7 +1419,7 @@ void RegisterHotkey(void)
 	Hotkey_Register(&hkd);
 }
 
-static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
+static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 {
 #ifdef _DEBUG
 	log2file("ChangeStatusMsgPrebuild()");
@@ -1559,7 +1553,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static int CSStatusChange(WPARAM wParam, LPARAM lParam)
+static int CSStatusChange(WPARAM wParam, LPARAM)
 {
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	int status_mode, CSProtoCount;
@@ -1711,7 +1705,7 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 	return 0;
 }
 
-static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
+static int OnAccListChanged(WPARAM, LPARAM)
 {
 #ifdef _DEBUG
 	log2file("OnAccListChanged()");

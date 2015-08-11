@@ -40,7 +40,7 @@ void StripBBCodesInPlace(wchar_t *text)
 	}
 }
 
-static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
+static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
 {
 	if (bShutdown)
 		return -1;
@@ -81,7 +81,7 @@ static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
+static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 {
 	if (bShutdown)
 		return -1;
@@ -159,7 +159,7 @@ void ShowPopup(PopupData &pd_in)
 	else PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
 }
 
-static INT_PTR GetContact(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetContact(WPARAM wParam, LPARAM)
 {
 	HWND hwndPop = (HWND)wParam;
 	MCONTACT hContact;
@@ -175,7 +175,7 @@ static INT_PTR GetContact(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)hContact;
 }
 
-static INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetOpaque(WPARAM wParam, LPARAM)
 {
 	HWND hwndPop = (HWND)wParam;
 	void *data = 0;
@@ -207,7 +207,7 @@ void UpdateMenu()
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : 0);
 }
 
-INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam)
+INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 {
 	switch(wParam) {
 	case PUQS_ENABLEPOPUPS:
@@ -235,7 +235,7 @@ INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam)
+static INT_PTR TogglePopups(WPARAM, LPARAM)
 {
 	BYTE val = db_get_b(0, "Popup", "ModuleIsEnabled", 1);
 	db_set_b(0, "Popup", "ModuleIsEnabled", !val);
@@ -314,7 +314,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 
 //=====Popup/ShowHistory
 
-INT_PTR Popup_ShowHistory(WPARAM wParam, LPARAM lParam)
+INT_PTR Popup_ShowHistory(WPARAM, LPARAM)
 {
 	if (!hHistoryWindow)
 		hHistoryWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LST_HISTORY), NULL, DlgProcHistLst);
@@ -325,7 +325,7 @@ INT_PTR Popup_ShowHistory(WPARAM wParam, LPARAM lParam)
 
 LIST<POPUPCLASS> arClasses(3);
 
-static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
+static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPCLASS *pc = (POPUPCLASS*)mir_alloc( sizeof(POPUPCLASS));
 	memcpy(pc, (PVOID)lParam, sizeof(POPUPCLASS));
@@ -356,7 +356,7 @@ static void FreePopupClass(POPUPCLASS *pc)
 	mir_free(pc);
 }
 
-static INT_PTR UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
+static INT_PTR UnregisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPCLASS *pc = (POPUPCLASS*)lParam;
 	if (pc == NULL)

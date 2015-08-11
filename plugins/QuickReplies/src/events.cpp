@@ -34,7 +34,7 @@ INT_PTR QuickRepliesService(WPARAM, LPARAM)
 
 static IconItem icon = { LPGEN("Button"), "qr_button", IDI_QICON };
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	UnhookEvent(hOnModulesLoaded);
 
@@ -73,7 +73,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	char key[64];
-	int index = 0;
 	int count = 0;
 	HMENU hMenu = NULL;
 	char buttonName[32];
@@ -151,7 +150,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_BB_REMOVEBUTTON))
 	{

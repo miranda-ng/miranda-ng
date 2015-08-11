@@ -159,7 +159,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, TCHAR *name, LPARAM lParam, int iconInd
 	return result;
 }
 
-BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, BOOL *result, int idcTree, OPTTREE_OPTION *options, int optionCount)
+BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, BOOL*, int idcTree, OPTTREE_OPTION *options, int optionCount)
 {
 	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
 

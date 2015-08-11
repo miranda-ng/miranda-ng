@@ -93,10 +93,10 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			ppd.lchIcon = Skin_LoadProtoIcon(NULL, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
-			_tcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL, 0), MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
-			_tcsncpy(ppd.lptzText, ParseString(szstamp, NULL, 0), MAX_SECONDLINE);
+			_tcsncpy(ppd.lptzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
 
 			PUAddPopupT(&ppd);
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);

@@ -55,17 +55,13 @@ PLUGININFOEX pluginInfo = {
 
 // Main tlen server connection thread global variables
 
-BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hModule, DWORD, LPVOID)
 {
-#ifdef _DEBUG
-	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-
 	hInst = hModule;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -111,7 +107,7 @@ static void TlenRegisterIcons()
 	Icon_Register(hInst, "Protocols/Tlen", iconList, _countof(iconList), "TLEN");
 }
 
-int TlenProtocol::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int TlenProtocol::PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
@@ -136,7 +132,7 @@ int TlenProtocol::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM hContact, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
@@ -148,7 +144,7 @@ INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM hContact, LPARAM lPara
 	return 0;
 }
 
-INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM hContact, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
@@ -160,14 +156,14 @@ INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TlenProtocol::ContactMenuHandleSendPicture(WPARAM hContact, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleSendPicture(WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL && isOnline)
 		SendPicture(this, hContact);
 	return 0;
 }
 
-INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 {
 	char szFileName[ MAX_PATH ];
 	DBVARIANT dbv;
@@ -231,7 +227,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int TlenProtocol::OnModulesLoaded(WPARAM, LPARAM)
 {
 	char str[128];
 	/* Set all contacts to offline */
@@ -252,7 +248,7 @@ int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 
-int TlenProtocol::PreShutdown(WPARAM wParam, LPARAM lParam)
+int TlenProtocol::PreShutdown(WPARAM, LPARAM)
 {
 	debugLogA("TLEN TlenPreShutdown");
 	return 0;

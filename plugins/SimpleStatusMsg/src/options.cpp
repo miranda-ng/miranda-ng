@@ -438,9 +438,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						}
 						else if (data->status_msg[i].flags[j] & STATUS_LAST_MSG)
 						{
-							char setting[80];
 							DBVARIANT dbv, dbv2;
 
+							char setting[80];
 							if (i)
 								mir_snprintf(setting, "Last%sMsg", accounts->pa[k]->szModuleName);
 							else
@@ -1189,7 +1189,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 	return FALSE;
 }
 
-static BOOL IsHistoryMsgsFound(HWND hwndDlg, int histMax)
+static BOOL IsHistoryMsgsFound(HWND, int histMax)
 {
 	char szSetting[16];
 	DBVARIANT dbv;
@@ -1662,7 +1662,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 	return FALSE;
 }
 
-int InitOptions(WPARAM wParam, LPARAM lParam)
+int InitOptions(WPARAM wParam, LPARAM)
 {
 	if (accounts->statusCount == 0)
 		return 0;

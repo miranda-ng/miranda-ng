@@ -317,7 +317,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			GetTextExtentPoint32(hdcMem, cc->szText, (int)mir_tstrlen(cc->szText), &textSize);
 			width = textSize.cx;
 
-			TCHAR *ptszGroupCount;
+			TCHAR *ptszGroupCount = NULL;
 			if (cc->type == CLCIT_GROUP) {
 				ptszGroupCount = pcli->pfnGetGroupCountsText(dat, cc);
 				if (*ptszGroupCount) {

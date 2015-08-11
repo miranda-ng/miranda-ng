@@ -63,6 +63,6 @@ public:
 	int Size() const;
 };
 
-extern CBirthdays &birthdays;
+extern CBirthdays birthdays;
 
 #endif //M_WWI_BIRTHDAYS_H

@@ -42,18 +42,18 @@ PLUGININFOEX pluginInfo={
 	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5}}
 };
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain(HMODULE hModule, DWORD, LPVOID)
 {
 	hInst = hModule;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-int ReloadFont(WPARAM wParam, LPARAM lParam) 
+int ReloadFont(WPARAM, LPARAM) 
 {
 	LOGFONT log_font;
 	if (hFontFirstLine) DeleteObject(hFontFirstLine);
@@ -185,7 +185,7 @@ void InitMenuItems(void)
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	MNotifyGetLink();
 
@@ -203,7 +203,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PreShutdown(WPARAM wParam, LPARAM lParam)
+int PreShutdown(WPARAM, LPARAM)
 {
 	bShutdown = true;
 	DeinitMessagePump();

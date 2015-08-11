@@ -298,7 +298,7 @@ void Stat_ReadFile(BYTE n)
 	LARGE_INTEGER Size;
 	DWORD BytesRead;
 	TCHAR FileName[MAX_PATH], *pszPath;
-	SYSTEMTIME stNow, stLast = { 0 };
+	SYSTEMTIME stNow;
 
 	pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\statistics"));
 	CreateDirectoryTreeT(pszPath);
@@ -608,7 +608,8 @@ DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE Su
 			}
 
 			IndexM++; IndexP++; // Переходим к следующей записи.
-			if (IndexM == ProtoList[a].NumberOfRecords) break;
+			if (IndexM == ProtoList[a].NumberOfRecords)
+				break;
 
 			// Когда остановиться?
 			switch (Interval) {

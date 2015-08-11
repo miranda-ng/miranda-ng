@@ -30,31 +30,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 static HGENMENU hAwayMsgMenuItem, hCopyMsgMenuItem, hGoToURLMenuItem;
 static MWindowList hWindowList, hWindowList2;
 
-static char *StrNormNewlineA(char *szStr)
-{
-	if (szStr == NULL)
-		return NULL;
-
-	int nCR = 0;
-	for (int i = 0; szStr[i]; i++)
-		if (szStr[i] != 0x0D && szStr[i + 1] == 0x0A)
-			nCR++;
-
-	if (!nCR)
-		return mir_strdup(szStr);
-
-	char *szNewStr = (char *)mir_alloc(mir_strlen(szStr) + nCR + 1), *pszStr = szNewStr;
-	while (*szStr) {
-		if (*szStr == 0x0A)
-			*pszStr++ = 0x0D;
-		*pszStr++ = *szStr++;
-	}
-	*pszStr++ = 0;
-
-	return szNewStr;
-}
-
-
 static TCHAR *StrNormNewline(TCHAR *tszStr)
 {
 	if (tszStr == NULL)
@@ -339,7 +314,7 @@ static char *StrFindURL(char *pszStr)
 	return pszURL;
 }
 
-static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM)
 {
 	ptrA szMsg(db_get_sa(wParam, "CList", "StatusMsg"));
 
@@ -359,7 +334,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
+static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	TCHAR str[128];
 	char *szProto = GetContactProto(hContact);

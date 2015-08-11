@@ -114,12 +114,12 @@ PLUGININFOEX pluginInfoEx =
 	{0x82181510, 0x5dfa, 0x49d7, {0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
     return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	DisableThreadLibraryCalls(hInst);
@@ -157,7 +157,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
+int TrafficCounterShutdown(WPARAM, LPARAM)
 {
 	KillTimer(TrafficHwnd, TIMER_REDRAW);
 	KillTimer(TrafficHwnd, TIMER_NOTIFY_TICK);
@@ -185,7 +185,7 @@ int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ModuleLoad(WPARAM wParam, LPARAM lParam)
+int ModuleLoad(WPARAM, LPARAM)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
@@ -193,7 +193,7 @@ int ModuleLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
+int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 {
 	DBVARIANT dbv;
 
@@ -370,7 +370,7 @@ int TrafficSend(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT*, HRGN, DWORD, void*)
 {
 	return TrafficCounter_Draw(hWnd, hDC);
 }
@@ -1033,7 +1033,7 @@ void CreateTrafficWindow(HWND hCluiWnd)
 	UpdateNotifyTimer();
 }
 
-INT_PTR MenuCommand_TrafficShowHide(WPARAM wParam, LPARAM lParam)
+INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 {
 	unOptions.FrameIsVisible = !unOptions.FrameIsVisible;
 	if (Traffic_FrameID == NULL)
@@ -1150,7 +1150,7 @@ void DestroyProtocolList(void)
 	mir_free(ProtoList);
 }
 
-int ProtocolAckHook(WPARAM wParam, LPARAM lParam)
+int ProtocolAckHook(WPARAM, LPARAM lParam)
 {
 	ACKDATA* pAck = (ACKDATA*)lParam;
 	WORD i;
@@ -1178,7 +1178,7 @@ int ProtocolAckHook(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int UpdateFonts(WPARAM wParam, LPARAM lParam)
+int UpdateFonts(WPARAM, LPARAM)
 {
 	LOGFONT logfont;
 	//if no font service
@@ -1208,11 +1208,9 @@ void UpdateTrafficWindowSize(void)
 
 unsigned short int TrafficWindowHeight(void)
 {
-	BYTE HeightLineTime = (unOptions.DrawProtoIcon) ? 16 : TrafficFontHeight,
-		i, ActProto;
-	WORD MaxWndHeight;
+	int ActProto, MaxWndHeight;
 
-	for (i = 0, ActProto = unOptions.ShowOverall + unOptions.ShowSummary; i < NumberOfAccounts; i++)
+	for (int i = 0, ActProto = unOptions.ShowOverall + unOptions.ShowSummary; i < NumberOfAccounts; i++)
 		ActProto += ProtoList[i].Visible && ProtoList[i].Enabled;
 
 	// ¬ысота строки минимум 16 пикселей (дл€ иконки).

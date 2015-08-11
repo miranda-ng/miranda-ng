@@ -119,7 +119,7 @@ int NotifyMissedContactBirthday(MCONTACT hContact, time_t now, int daysAfter)
 //the timer functions call this service with lParam = 1
 //lParam = 0 - force check, lParam - 1 do not force it.
 
-INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam)
+INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 {
 	bBirthdayFound = 0; //no birthdays have been found in the given interval
 
@@ -158,7 +158,7 @@ INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ShowListService(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowListService(WPARAM, LPARAM)
 {
 	if (!hBirthdaysDlg)
 		hBirthdaysDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_BIRTHDAYS), NULL, DlgProcBirthdays);
@@ -167,11 +167,11 @@ INT_PTR ShowListService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR AddBirthdayService(WPARAM hContact, LPARAM lParam)
+INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
 {
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if (!hWnd)
-		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, (LPARAM)hContact);
+		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, hContact);
 
 	return ShowWindow(hWnd, SW_SHOW);
 }
@@ -187,7 +187,7 @@ void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 	PUAddPopupT(&pd);
 }
 
-void __cdecl RefreshUserDetailsWorkerThread(void *param)
+void __cdecl RefreshUserDetailsWorkerThread(void*)
 {
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
 	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
@@ -203,17 +203,13 @@ void __cdecl RefreshUserDetailsWorkerThread(void *param)
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done refreshing user details"), hRefreshUserDetails);
 }
 
-INT_PTR RefreshUserDetailsService(WPARAM wParam, LPARAM lParam)
+INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 {
-	HANDLE result = mir_forkthread(RefreshUserDetailsWorkerThread, 0);
-
-	if ((result != NULL) && (result != INVALID_HANDLE_VALUE))
-		CloseHandle(result);
-
+	mir_forkthread(RefreshUserDetailsWorkerThread, 0);
 	return 0;
 }
 
-INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
+INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 {
 	TCHAR fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
@@ -238,7 +234,7 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
+INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 {
 	TCHAR fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
@@ -288,7 +284,6 @@ int DoImport(TCHAR *fileName)
 			delAccount[0] = _T('\0');
 			TCHAR *delProto = _tcsrchr(buffer, _T('@'));
 			if (delProto) {
-				int tmp2 = delProto[0];
 				delProto[0] = _T('\0');
 
 				TCHAR *szHandle = buffer;

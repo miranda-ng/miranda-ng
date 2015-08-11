@@ -194,7 +194,7 @@ void setOwnStatusOnCList(TlenProtocol *proto, int status, char *statusMsg)
 	}
 }
 
-static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
+static void TlenSendPresenceTo(TlenProtocol *proto, int status, char*)
 {
 	char *showBody, *statusMsg, *presenceType;
 	char *ptr = NULL;

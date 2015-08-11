@@ -401,7 +401,7 @@ void AddEventsCustomControl(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESF
 	}
 }
 
-void AddEventsDefault(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESFILTER MatchesFilter)
+void AddEventsDefault(HWND hWnd, int, TCHAR *filter, SIG_MATCHESFILTER MatchesFilter)
 {
 	HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
 	TCHAR buffer[1024];

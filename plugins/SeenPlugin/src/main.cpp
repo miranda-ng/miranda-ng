@@ -131,7 +131,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	hInstance = hinst;
 	return 1;

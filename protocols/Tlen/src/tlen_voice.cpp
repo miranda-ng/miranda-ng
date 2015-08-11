@@ -45,7 +45,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft);
 static void TlenVoiceSendParse(TLEN_FILE_TRANSFER *ft);
 static void TlenVoiceReceivingConnection(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
 
-static void CALLBACK TlenVoicePlaybackCallback(HWAVEOUT hwo, UINT uMsg, DWORD* dwInstance, DWORD dwParam1, DWORD dwParam2)
+static void CALLBACK TlenVoicePlaybackCallback(HWAVEOUT hwo, UINT uMsg, DWORD* dwInstance, DWORD dwParam1, DWORD)
 {
 	if (uMsg == WOM_DONE) {
 		TLEN_VOICE_CONTROL *control = (TLEN_VOICE_CONTROL *)dwInstance;
@@ -360,7 +360,7 @@ void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft)
 	TlenP2PFreeFileTransfer(ft);
 }
 
-static void TlenVoiceReceivingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenVoiceReceivingConnection(HANDLE hConnection, DWORD, void * pExtra)
 {
 	HANDLE slisten;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
@@ -673,7 +673,7 @@ int TlenVoiceCancelAll(TlenProtocol *proto)
 	return 0;
 }
 
-INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM)
 {
 	if (!isOnline)
 		return 1;

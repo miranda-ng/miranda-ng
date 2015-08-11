@@ -671,7 +671,7 @@ TCHAR *ByteToLanguage(MCONTACT hContact, const char *szModuleName, const char *s
 	return 0;
 }
 
-INT_PTR ServiceAddTranslation(WPARAM wParam, LPARAM lParam) 
+INT_PTR ServiceAddTranslation(WPARAM, LPARAM lParam) 
 {
 	if (!lParam) return 1;
 

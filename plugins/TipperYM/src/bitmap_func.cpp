@@ -178,6 +178,7 @@ void CreateFromBitmaps(bool bServiceTip)
 				rcWidth = opt.iSidebarWidth;
 				rcHeight = skin.iHeight;
 			}
+			else rcWidth = rcHeight = 0;
 
 			// bitmap size
 			iBmpWidth = fii->FI_GetWidth(fib);

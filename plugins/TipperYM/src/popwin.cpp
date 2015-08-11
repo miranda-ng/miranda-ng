@@ -583,7 +583,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					tr.top = opt.iPadding;
 					tr.bottom = tr.top + pwd->iTitleHeight - opt.iPadding;
 					UINT uTextFormat = DT_TOP | DT_LEFT | DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | DT_NOPREFIX;
-					DrawTextExt(hdc, pwd->swzTitle, -1, &tr, uTextFormat, NULL, pwd->spiTitle);
+					DrawTextExt(hdc, pwd->swzTitle, -1, &tr, uTextFormat, pwd->spiTitle);
 				}
 			}
 
@@ -694,7 +694,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						DrawIconExAlpha(hdc, opt.iPadding, tr.top + (pwd->rows[i].iValueHeight - 16) / 2, pwd->rows[i].hIcon, 16, 16, 0, NULL, DI_NORMAL, false);
 
 					UINT uFormat = opt.iValueValign | opt.iValueHalign | DT_WORDBREAK | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | DT_NOPREFIX;
-					DrawTextExt(hdc, pwd->rows[i].swzValue, -1, &tr, uFormat, NULL, pwd->rows[i].spi);
+					DrawTextExt(hdc, pwd->rows[i].swzValue, -1, &tr, uFormat, pwd->rows[i].spi);
 				}
 			}
 
@@ -1149,7 +1149,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					smr.right -= opt.iPadding;
 
 				if (hFontTitle) SelectObject(hdc, (HGDIOBJ)hFontTitle);
-				DrawTextExt(hdc, pwd->swzTitle, -1, &smr, DT_CALCRECT | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX, NULL, pwd->spiTitle);
+				DrawTextExt(hdc, pwd->swzTitle, -1, &smr, DT_CALCRECT | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX, pwd->spiTitle);
 
 				iWidth += opt.iPadding + opt.iTitleIndent + smr.right;
 				pwd->iTitleHeight = opt.iPadding + smr.bottom;
@@ -1221,7 +1221,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							bStatusMsg = true;
 					}
 
-					DrawTextExt(hdc, pwd->rows[i].swzValue, -1, &smr, DT_CALCRECT | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX, NULL, pwd->rows[i].spi);
+					DrawTextExt(hdc, pwd->rows[i].swzValue, -1, &smr, DT_CALCRECT | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX, pwd->rows[i].spi);
 				}
 				else smr.left = smr.right = 0;
 

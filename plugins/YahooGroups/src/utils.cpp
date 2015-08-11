@@ -20,51 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int LogInit()
-{
-#ifdef USE_LOG
-	//FILE *fout = fopen(LOG_FILE, "wt");
-	//fclose(fout);
-	Log("********************** Miranda started **********************");
-#endif
-	return 0;
-}
-
-int Log(char *format, ...)
-{
-#ifdef USE_LOG
-	char		str[4096];
-	va_list	vararg;
-	int tBytes;
-	FILE *fout = fopen(LOG_FILE, "at");
-	if (!fout)
-		{
-//			MessageBox(0, "can't open file", NULL, MB_OK);
-			return -1;
-		}
-	time_t tNow = time(NULL);
-	struct tm *now = localtime(&tNow);
-	strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
-	fputs(str, fout);
-	va_start(vararg, format);
-	
-	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
-	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
-
-	va_end(vararg);
-	if (str[mir_strlen(str) - 1] != '\n')
-		{
-			mir_strcat(str, "\n");
-		}
-	fputs(str, fout);
-	fclose(fout);
-#endif
-	return 0;
-}
-
 int Info(char *title, char *format, ...)
 {
 	char str[4096];
@@ -73,9 +28,8 @@ int Info(char *title, char *format, ...)
 	va_start(vararg, format);
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
+		str[tBytes] = 0;
+
 	va_end(vararg);
 	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
 }
