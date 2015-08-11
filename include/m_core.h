@@ -280,10 +280,14 @@ MIR_CORE_DLL(char*)    mir_strncat(char *dest, const char *src, size_t len);
 MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t len);
 
 MIR_CORE_DLL(int)      mir_strcmp(const char *p1, const char *p2);
+MIR_CORE_DLL(int)      mir_strncmp(const char *p1, const char *p2, size_t n);
 MIR_CORE_DLL(int)      mir_wstrcmp(const wchar_t *p1, const wchar_t *p2);
+MIR_CORE_DLL(int)      mir_wstrncmp(const wchar_t *p1, const wchar_t *p2, size_t n);
 
 MIR_CORE_DLL(int)      mir_strcmpi(const char *p1, const char *p2);
+MIR_CORE_DLL(int)      mir_strncmpi(const char *p1, const char *p2, size_t n);
 MIR_CORE_DLL(int)      mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2);
+MIR_CORE_DLL(int)      mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n);
 
 MIR_CORE_DLL(char*)    mir_strdup(const char* str);
 MIR_CORE_DLL(wchar_t*) mir_wstrdup(const wchar_t* str);
@@ -419,15 +423,17 @@ typedef union {
 	#define mir_t2u_cp(s,c) mir_wstrdup(s)
 	#define mir_u2t_cp(s,c) mir_wstrdup(s)
 
-	#define mir_tstrlen  mir_wstrlen
-	#define mir_tstrcpy  mir_wstrcpy
-	#define mir_tstrncpy mir_wstrncpy
-	#define mir_tstrcat  mir_wstrcat
-	#define mir_tstrncat mir_wstrncat
-	#define mir_tstrcmp  mir_wstrcmp
-	#define mir_tstrcmpi mir_wstrcmpi
-	#define mir_tstrdup  mir_wstrdup
-	#define mir_tstrndup mir_wstrndup
+	#define mir_tstrlen   mir_wstrlen
+	#define mir_tstrcpy   mir_wstrcpy
+	#define mir_tstrncpy  mir_wstrncpy
+	#define mir_tstrcat   mir_wstrcat
+	#define mir_tstrncat  mir_wstrncat
+	#define mir_tstrcmp   mir_wstrcmp
+	#define mir_tstrcmpi  mir_wstrcmpi
+	#define mir_tstrncmp  mir_wstrncmp
+	#define mir_tstrncmpi mir_wstrncmpi
+	#define mir_tstrdup   mir_wstrdup
+	#define mir_tstrndup  mir_wstrndup
 
 	#define replaceStrT replaceStrW
 	#define bin2hexT    bin2hexW
@@ -455,15 +461,17 @@ typedef union {
 	#define mir_t2u_cp(s,c) mir_a2u_cp(s,c)
 	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
 
-	#define mir_tstrlen  mir_strlen
-	#define mir_tstrcpy  mir_strcpy
-	#define mir_tstrncpy mir_strncpy
-	#define mir_tstrcat  mir_strcat
-	#define mir_tstrncat mir_strncat
-	#define mir_tstrcmp  mir_strcmp
-	#define mir_tstrcmpi mir_strcmpi
-	#define mir_tstrdup  mir_strdup
-	#define mir_tstrndup mir_strndup
+	#define mir_tstrlen   mir_strlen
+	#define mir_tstrcpy   mir_strcpy
+	#define mir_tstrncpy  mir_strncpy
+	#define mir_tstrcat   mir_strcat
+	#define mir_tstrncat  mir_strncat
+	#define mir_tstrcmp   mir_strcmp
+	#define mir_tstrcmpi  mir_strcmpi
+	#define mir_tstrncmp  mir_strncmp
+	#define mir_tstrncmpi mir_strncmpi
+	#define mir_tstrdup   mir_strdup
+	#define mir_tstrndup  mir_strndup
 
 	#define replaceStrT replaceStr
 	#define bin2hexT    bin2hex

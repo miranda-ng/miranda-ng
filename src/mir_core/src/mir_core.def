@@ -977,3 +977,7 @@ GetOSDisplayString @1134
 IsWinVer10Plus @1135
 IsWinVer81Plus @1136
 IsWinVer8Plus @1137
+mir_strncmp @1138
+mir_strncmpi @1139
+mir_wstrncmp @1140
+mir_wstrncmpi @1141
