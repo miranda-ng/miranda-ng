@@ -33,7 +33,7 @@ static TCHAR tszRtfBreaks[] = _T(" \\\n\r");
 static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
 	const TCHAR *pszText = Text;
-	int iIndex = 1, i = 0;
+	int iIndex = 1;
 
 	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
 	TCHAR szRed[10], szGreen[10], szBlue[10];
@@ -46,7 +46,7 @@ static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst
 
 	const TCHAR *p2 = _tcsstr(p1, _T("\\red"));
 
-	for (i = 0; i < iCount; i++)
+	for (int i = 0; i < iCount; i++)
 		pDst[i] = -1;
 
 	while (p2 && p2 < pEnd) {
