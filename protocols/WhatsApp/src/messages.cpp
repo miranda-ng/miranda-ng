@@ -125,7 +125,9 @@ void WhatsAppProto::onMessageStatusUpdate(const FMessage &fmsg)
 		return;
 
 	int msgId = atoi(fmsg.key.id.substr(delim+1).c_str());
-	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
+
+	if (fmsg.status == FMessage::STATUS_RECEIVED_BY_SERVER)
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
 
 	time_t ts = atol(fmsg.key.id.substr(0, delim).c_str());
 
