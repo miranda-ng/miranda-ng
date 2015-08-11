@@ -142,8 +142,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		GetJabberInterface(0,0);
 
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
-	//HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
-	HookEvent(ME_MSG_PRECREATEEVENT, HookSendMsg);
+	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
 	if(bJabberAPI && bIsMiranda09)
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
 
