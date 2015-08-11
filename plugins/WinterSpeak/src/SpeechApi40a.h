@@ -75,7 +75,7 @@ class SpeechApi40a : public TextToSpeech
 	//--------------------------------------------------------------------------
 	// Description : load the speech api with the specified voice
 	//--------------------------------------------------------------------------
-	bool loadWithVoice(std::wstring &voice);
+	bool loadWithVoice(const std::wstring &voice);
 
 	ITTSCentralW        *m_tts_central;
 	ITTSAttributesA     *m_tts_attribs;

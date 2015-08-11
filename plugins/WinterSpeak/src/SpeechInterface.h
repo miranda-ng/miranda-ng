@@ -15,7 +15,7 @@ class SpeechInterface
     // Parameters  : engine - the name of the engine to create
     // Returns     : an instance of the text to speech engine
 	//--------------------------------------------------------------------------
-    TextToSpeech * createTts(std::wstring &engine) const;
+    TextToSpeech * createTts(const std::wstring &engine) const;
 
 	//--------------------------------------------------------------------------
 	// Description : configure the tts object

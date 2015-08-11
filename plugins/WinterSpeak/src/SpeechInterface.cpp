@@ -14,7 +14,7 @@ SpeechInterface::~SpeechInterface()
 }
 
 //------------------------------------------------------------------------------
-TextToSpeech * SpeechInterface::createTts(std::wstring &engine) const
+TextToSpeech * SpeechInterface::createTts(const std::wstring &engine) const
 {
 	TextToSpeech *tts = 0;
 

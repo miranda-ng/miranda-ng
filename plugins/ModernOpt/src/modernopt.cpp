@@ -236,8 +236,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			break;
 
 		case IDC_BTN_EXPERT:
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BTN_APPLY)))
-			{
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BTN_APPLY))) {
 				int idResult = MessageBox(hwndDlg,
 					TranslateT("You have some unsaved changes here.\n Do you wish to apply settings before switching?"),
 					_T("Miranda NG"), MB_ICONQUESTION | MB_YESNOCANCEL);
@@ -245,23 +244,22 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 				sttNotifyPages(dat, (idResult == IDYES) ? PSN_APPLY : PSN_RESET);
 			}
 
-			{	Utils_SaveWindowPosition(hwndDlg, NULL, "Options", "");
-				g_iSectionRestore = dat->iSection;
+			Utils_SaveWindowPosition(hwndDlg, NULL, "Options", "");
+			g_iSectionRestore = dat->iSection;
+			{	
 				struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[dat->iPage];
-				if (obj->optObject.lpzClassicGroup || obj->optObject.lpzClassicPage)
-				{
-					OPENOPTIONSDIALOG ood = {0};
+				if (obj->optObject.lpzClassicGroup || obj->optObject.lpzClassicPage) {
+					OPENOPTIONSDIALOG ood = { 0 };
 					ood.cbSize = sizeof(ood);
 					ood.pszGroup = obj->optObject.lpzClassicGroup;
 					ood.pszPage = obj->optObject.lpzClassicPage;
 					ood.pszTab = obj->optObject.lpzClassicTab;
-					HWND hwndOpt = Options_OpenPage(&ood);
-					PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+					Options_OpenPage(&ood);
 				}
-				else {
-					CallService("Options/OptionsCommand", 0, 0);
-					PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			}	}
+				else CallService("Options/OptionsCommand", 0, 0);
+
+				PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+			}
 			break;
 
 		case IDOK:

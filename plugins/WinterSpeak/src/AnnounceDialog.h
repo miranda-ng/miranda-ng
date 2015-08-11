@@ -4,7 +4,9 @@
 
 class AnnounceDialog : public MirandaDialog
 {
-  public:
+	AnnounceDialog& operator=(const AnnounceDialog&);
+
+public:
 	AnnounceDialog(AnnounceDatabase &db);
 	~AnnounceDialog();
 
@@ -13,10 +15,10 @@ class AnnounceDialog : public MirandaDialog
 	// Return      : true - update the systems configuration
 	//               false - do nothing
 	//--------------------------------------------------------------------------
-    static INT_PTR CALLBACK process(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+	static INT_PTR CALLBACK process(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
 
-  private:
-    void command(HWND window, int control);
+private:
+	void command(HWND window, int control);
 
 	//--------------------------------------------------------------------------
 	// Description : load/save settings to the miranda database
@@ -24,7 +26,6 @@ class AnnounceDialog : public MirandaDialog
 	void load(HWND window);
 	void save(HWND window);
 
-    static AnnounceDialog *m_instance;
+	static AnnounceDialog *m_instance;
 	AnnounceDatabase      &m_db;
 };
-
