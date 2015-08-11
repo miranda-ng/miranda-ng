@@ -30,17 +30,16 @@
 
 namespace xfirelib {
 
-  class OtherLoginPacket : public XFireRecvPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new OtherLoginPacket(); }
+	class OtherLoginPacket : public XFireRecvPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new OtherLoginPacket(); }
 
-    int getPacketId() { return XFIRE_OTHER_LOGIN; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
-  };
+		int getPacketId() { return XFIRE_OTHER_LOGIN; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
+	};
 };
-
 
 #endif

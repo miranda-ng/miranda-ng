@@ -26,52 +26,54 @@
 #include <string.h>
 #include <iostream>
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  int ClientInformationPacket::getPacketContent(char *packet) {
-	int index = 0;
-	int skins = 2;
-	int i;
+namespace xfirelib
+{
+	int ClientInformationPacket::getPacketContent(char *packet)
+	{
+		int index = 0;
+		int skins = 2;
+		int i;
 
-	index = XFireUtils::addAttributName(packet,index, "skin");/*add skin*/
-	packet[index++] = 0x04;
-	packet[index++] = 0x01;
-	packet[index++] = (char)skins;
-	packet[index++] = 0x00;
-	packet[index++] = mir_strlen("Standard");
-	packet[index++] = 0x00;
-	
-	memcpy(packet+index,"Standard",mir_strlen("Standard"));/*add first skin name*/
-	index += mir_strlen("Standard");
-	
-	packet[index++] = mir_strlen("XFire");
-	packet[index++] = 0x00;
-	
-	memcpy(packet+index,"XFire",mir_strlen("XFire"));/*add second skin name*/
-	index += mir_strlen("XFire");	
-
-	VariableValue val;
-	val.setName( "version" );
-	index += val.writeName( packet, index );
-	//index = XFireUtils::addAttributName(packet,index, "version");/*add version of skins*/
-	packet[index++] = 0x04;
-	packet[index++] = 0x02;
-	packet[index++] = (char)skins;
-	packet[index++] = 0x00;
-	
-	for(i = 0;i < skins;i++){/*(forEachSkin){ 01 00 00 00 }*/
+		index = XFireUtils::addAttributName(packet, index, "skin");/*add skin*/
+		packet[index++] = 0x04;
 		packet[index++] = 0x01;
+		packet[index++] = (char)skins;
 		packet[index++] = 0x00;
+		packet[index++] = mir_strlen("Standard");
 		packet[index++] = 0x00;
+
+		memcpy(packet + index, "Standard", mir_strlen("Standard"));/*add first skin name*/
+		index += mir_strlen("Standard");
+
+		packet[index++] = mir_strlen("XFire");
 		packet[index++] = 0x00;
+
+		memcpy(packet + index, "XFire", mir_strlen("XFire"));/*add second skin name*/
+		index += mir_strlen("XFire");
+
+		VariableValue val;
+		val.setName("version");
+		index += val.writeName(packet, index);
+		//index = XFireUtils::addAttributName(packet,index, "version");/*add version of skins*/
+		packet[index++] = 0x04;
+		packet[index++] = 0x02;
+		packet[index++] = (char)skins;
+		packet[index++] = 0x00;
+
+		for (i = 0; i < skins; i++) {/*(forEachSkin){ 01 00 00 00 }*/
+			packet[index++] = 0x01;
+			packet[index++] = 0x00;
+			packet[index++] = 0x00;
+			packet[index++] = 0x00;
+		}
+		length = index;
+		return index;
 	}
-	length = index;
-	return index;
-  }
 
-  int ClientInformationPacket::getPacketAttributeCount() {
-    return 2;
-  }
-
+	int ClientInformationPacket::getPacketAttributeCount()
+	{
+		return 2;
+	}
 }

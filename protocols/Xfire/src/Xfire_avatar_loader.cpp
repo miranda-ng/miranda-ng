@@ -1,17 +1,20 @@
 #include "stdafx.h"
 #include "Xfire_avatar_loader.h"
 
-Xfire_avatar_loader::Xfire_avatar_loader(xfirelib::Client* client) {
+Xfire_avatar_loader::Xfire_avatar_loader(xfirelib::Client* client)
+{
 	threadrunning = FALSE;
 	this->client = client;
 }
 
-Xfire_avatar_loader::~Xfire_avatar_loader() {
+Xfire_avatar_loader::~Xfire_avatar_loader()
+{
 	//liste leeren, damit der laufende thread abgebrochen wird
 	list.clear();
 }
 
-void Xfire_avatar_loader::loadThread(void *arg) {
+void Xfire_avatar_loader::loadThread(void *arg)
+{
 	Xfire_avatar_loader *loader = (Xfire_avatar_loader*)arg;
 
 	//kein loader, dann abbruch
@@ -21,7 +24,7 @@ void Xfire_avatar_loader::loadThread(void *arg) {
 	mir_cslock lck(loader->avatarMutex);
 	loader->threadrunning = TRUE;
 
-	while (1){
+	while (1) {
 		//keinen avatarload auftrag mehr
 		if (!loader->list.size())
 			break;
@@ -33,9 +36,8 @@ void Xfire_avatar_loader::loadThread(void *arg) {
 		GetBuddyInfo buddyinfo;
 		buddyinfo.userid = process.userid;
 		if (loader->client)
-			if (loader->client->connected)
-			{
-			loader->client->send(&buddyinfo);
+			if (loader->client->connected) {
+				loader->client->send(&buddyinfo);
 			}
 			else //nicht mehr verbunden? dann liste leeren und schleife abbrechen
 			{

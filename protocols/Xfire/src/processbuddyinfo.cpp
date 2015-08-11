@@ -13,21 +13,8 @@ db_set_w(xsa->hContact, "ContactPhoto", "Format", av.type);
 
 extern HANDLE	 XFireAvatarFolder;
 
-//vom Yahoo plugin
-/*int avt_hash(const char *key, DWORD ksize)
+void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, char* username)
 {
-const char *p = key;
-int h = *p;
-long l = 1;
-
-if (h)
-for (p += 1; l < ksize; p++, l++)
-h = (h << 5) - h + *p;
-
-return h;
-}*/
-
-void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, char* username) {
 	char temp[255] = "";
 	char filename[1024] = "";
 	BOOL dl = FALSE;
@@ -84,8 +71,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 	}
 
 
-	if (dl != FALSE)
-	{
+	if (dl != FALSE) {
 		if (hcontact) //buddyavatar setzen
 		{
 			db_set_dw(hcontact, "ContactPhoto", "XFireAvatarId", buddyinfo->avatarid);

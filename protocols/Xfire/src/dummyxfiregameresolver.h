@@ -26,42 +26,41 @@
 #include "xfiregame.h"
 #include "xfiregameresolver.h"
 #include "xdebug.h"
-#include <string>
 
 namespace xfirelib {
 
-  struct DummyXFireGame;
-  class DummyXFireGameResolver : public XFireGameResolver {
-  public:
-    XFireGame *resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet);
+	struct DummyXFireGame;
+	class DummyXFireGameResolver : public XFireGameResolver {
+	public:
+		XFireGame *resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet);
 
-  };
+	};
 
 
-  class DummyXFireGame : public XFireGame {
-  public:
-    // TODO !!!!!!!!!!!!! this->packet = packet should NOT be used !!
-    // we need to create a copy of packet, because it will be deleted as soon
-    // as all listeners are notified !!!
-    void init(int gameid, std::string gamename, BuddyListGamesPacket *packet, int iterator) {
-      this->gameid = gameid;
-      this->gamename = gamename;
-      this->packet = packet;
-        
-      memcpy(ip,packet->ips->at(iterator),4);
-      port = packet->ports->at(iterator);
-      XDEBUG(( "init .. %d / %s\n", gameid, gamename.c_str() ));
-    }
+	class DummyXFireGame : public XFireGame {
+	public:
+		// TODO !!!!!!!!!!!!! this->packet = packet should NOT be used !!
+		// we need to create a copy of packet, because it will be deleted as soon
+		// as all listeners are notified !!!
+		void init(int gameid, std::string gamename, BuddyListGamesPacket *packet, int iterator) {
+			this->gameid = gameid;
+			this->gamename = gamename;
+			this->packet = packet;
 
-    int getGameId() { return gameid; }
-    std::string getGameName() { return gamename; }
+			memcpy(ip,packet->ips->at(iterator),4);
+			port = packet->ports->at(iterator);
+			XDEBUG(( "init .. %d / %s\n", gameid, gamename.c_str() ));
+		}
 
-    BuddyListGamesPacket *packet;
-    int gameid;
-    char ip[4];
-    long port;
-    std::string gamename;
-  };
+		int getGameId() { return gameid; }
+		std::string getGameName() { return gamename; }
+
+		BuddyListGamesPacket *packet;
+		int gameid;
+		char ip[4];
+		long port;
+		std::string gamename;
+	};
 
 };
 

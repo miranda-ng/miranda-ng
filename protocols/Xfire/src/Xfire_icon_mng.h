@@ -30,7 +30,6 @@
 #define _XFIRE_ICON_MNG
 
 #include "Xfire_base.h"
-#include <vector>
 
 const char IconsdllName[] = "Icons.dll";
 

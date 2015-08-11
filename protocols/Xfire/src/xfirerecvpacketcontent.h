@@ -27,19 +27,17 @@
 #include "xfirepacketcontent.h"
 
 namespace xfirelib {
-  
-  class XFireRecvPacketContent : public XFirePacketContent {
-  public:
-    XFireRecvPacketContent() : XFirePacketContent() { }
-    virtual ~XFireRecvPacketContent() { }
 
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; }
-    int getPacketSize() { return 0; }
-  };
+	class XFireRecvPacketContent : public XFirePacketContent {
+	public:
+		XFireRecvPacketContent() : XFirePacketContent() { }
+		virtual ~XFireRecvPacketContent() { }
 
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; }
+		int getPacketSize() { return 0; }
+	};
 };
-
 
 #endif
 

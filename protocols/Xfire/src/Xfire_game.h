@@ -32,7 +32,6 @@
 #define _XFIRE_GAME
 
 #include "Xfire_base.h"
-#include <vector>
 
 using namespace std;
 

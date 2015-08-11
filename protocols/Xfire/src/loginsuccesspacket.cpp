@@ -25,50 +25,53 @@
 #include "xdebug.h"
 #include "loginsuccesspacket.h"
 
-namespace xfirelib {
+namespace xfirelib
+{
+	void LoginSuccessPacket::parseContent(char *buf, int, int numberOfAtts)
+	{
+		int read = 0;
+		for (int i = 0; i < numberOfAtts; i++) {
+			VariableValue *val = new VariableValue();
+			read += val->readName(buf, read);
+			XDEBUG(("Read Variable Name: %s\n", val->getName().c_str()));
+			if (val->getName() == "userid") {
+				read++; // ignore 02
+				read += val->readValue(buf, read, 3);
+				read++; // ignore 00
+				XDEBUG2("My userid: %lu\n", val->getValueAsLong());
+				this->myuid = val->getValueAsLong();
+			}
+			else if (val->getName() == "sid") {
+				read++; // ignore 03
+				read += val->readValue(buf, read, 16);
+				//XDEBUG(( "My SID: %u\n", val->getValue() ));
+			}
+			else if (val->getName() == "nick") {
+				//int lengthLength = (int)val->getValueAsLong();
+				read++; // ignore 01
+				//read+=val->readValue(buf, read, -1, 1);
 
-  void LoginSuccessPacket::parseContent(char *buf, int length, int numberOfAtts) {
+				unsigned int l = (unsigned char)buf[read++];  //dufte - nick wird benötigt
+				XDEBUG2("Nick Length: %d\n", l);
+				read++;
+				read += val->readValue(buf, read, l);
+				XDEBUG2("Nick Length: %s\n", val->getValue());
 
-    int read = 0;
-    for(int i = 0 ; i < numberOfAtts ; i++) {
-      VariableValue *val = new VariableValue();
-      read += val->readName(buf, read);
-      XDEBUG(( "Read Variable Name: %s\n", val->getName().c_str() ));
-      if (val->getName() == "userid") {
-	read++; // ignore 02
-	read += val->readValue(buf, read, 3);
-	read++; // ignore 00
-	XDEBUG2( "My userid: %lu\n", val->getValueAsLong() );
-	this->myuid=val->getValueAsLong();
-      } else if (val->getName() == "sid") {
-	read++; // ignore 03
-	read+=val->readValue(buf, read, 16);
-	//XDEBUG(( "My SID: %u\n", val->getValue() ));
-      } else if (val->getName() == "nick") {
-	//int lengthLength = (int)val->getValueAsLong();
-	read++; // ignore 01
-	//read+=val->readValue(buf, read, -1, 1);
+				this->nick = std::string(val->getValue(), l);
 
-	unsigned int l = (unsigned char)buf[read++];  //dufte - nick wird benötigt
-	XDEBUG2( "Nick Length: %d\n", l );
-    read++;
-    read += val->readValue(buf,read,l);
-	XDEBUG2( "Nick Length: %s\n", val->getValue() );
-
-	this->nick=std::string(val->getValue(),l);
-
-      } else if (val->getName() == "status") {
-	read+=5; // ignore everything
-      } else if (val->getName() == "dlset") {
-	read+=3; // ignore everything
-      } else {
-	i = numberOfAtts; 
-	// If we find something we don't know .. we stop parsing the 
-	// packet.. who cares about the rest...
-      }
-      delete val;
-    }
-  }
-
-
+			}
+			else if (val->getName() == "status") {
+				read += 5; // ignore everything
+			}
+			else if (val->getName() == "dlset") {
+				read += 3; // ignore everything
+			}
+			else {
+				i = numberOfAtts;
+				// If we find something we don't know .. we stop parsing the 
+				// packet.. who cares about the rest...
+			}
+			delete val;
+		}
+	}
 };

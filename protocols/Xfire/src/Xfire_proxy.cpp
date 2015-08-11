@@ -6,8 +6,8 @@ extern HANDLE hNetlib;
 HANDLE hBindPort = NULL;
 HANDLE netlibcon = NULL;
 
-
-void FromServerToClient(LPVOID lParam) {
+void FromServerToClient(LPVOID lParam)
+{
 	char buf[1024] = { 0 };
 
 	HANDLE hConnection = (HANDLE)lParam;
@@ -25,7 +25,7 @@ void FromServerToClient(LPVOID lParam) {
 }
 
 //xfireclient baut verbindung auf
-void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra)
+void XfireclientConnecting(HANDLE hConnection, DWORD, void*)
 {
 	char buf[1024] = { 0 };
 
@@ -46,16 +46,14 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra)
 	//schleife behandelt empfangende daten
 	do {
 		int cbRead = Netlib_Recv(hConnection, buf, sizeof(buf), 0);
-		if (cbRead == SOCKET_ERROR)
-		{
+		if (cbRead == SOCKET_ERROR) {
 			Netlib_CloseHandle(hConnection);
 			Netlib_CloseHandle(netlibcon);
 			break;
 		}
 
 		if (cbRead) {
-			if (!Netlib_Send(netlibcon, buf, cbRead, 0))
-			{
+			if (!Netlib_Send(netlibcon, buf, cbRead, 0)) {
 				Netlib_CloseHandle(hConnection);
 				Netlib_CloseHandle(netlibcon);
 				break;
@@ -65,7 +63,7 @@ void XfireclientConnecting(HANDLE hConnection, DWORD, void* extra)
 }
 
 //inits nachdem alle module geladen wurden
-int AfterSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
+int AfterSystemModulesLoaded(WPARAM, LPARAM)
 {
 	//init netlib handle
 	NETLIBUSER nlu = { 0 };

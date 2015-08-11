@@ -24,19 +24,14 @@
 #ifndef __XFIREGAME_H
 #define __XFIREGAME_H
 
-#include <string>
-
 namespace xfirelib {
 
-  class XFireGame {
-  public:
-    virtual ~XFireGame() { }
-    virtual int getGameId() = 0;
-    virtual std::string getGameName() = 0;
-  };
-
-
+	class XFireGame {
+	public:
+		virtual ~XFireGame() { }
+		virtual int getGameId() = 0;
+		virtual std::string getGameName() = 0;
+	};
 };
-
 
 #endif

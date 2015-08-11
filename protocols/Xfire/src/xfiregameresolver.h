@@ -25,28 +25,26 @@
 
 #include "buddylistgamespacket.h"
 #include "xfiregame.h"
-#include <string>
 
 namespace xfirelib {
-  /**
-   * This is a virtual class which users of the library can
-   * subclass so they can use their own gameid <-> XFireGame object
-   * resolver (Implementors might want to consider that their application
-   * also requires backward converting .. from game to gameid since
-   * SendGameStatusPacket requires a gameid.
-   */
-  class XFireGameResolver {
-  public:
-    virtual ~XFireGameResolver() { }
+	/**
+	* This is a virtual class which users of the library can
+	* subclass so they can use their own gameid <-> XFireGame object
+	* resolver (Implementors might want to consider that their application
+	* also requires backward converting .. from game to gameid since
+	* SendGameStatusPacket requires a gameid.
+	*/
+	class XFireGameResolver {
+	public:
+		virtual ~XFireGameResolver() { }
 
-    /**
-     * this method should resolve the gameid 
-     * and return a new XFireGame object or NULL if it was not resolvable.
-     * (if more information is needed, it can be taken from packet->xxx[iterator])
-     */
-    virtual XFireGame *resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet) = 0;
-  };
-
+		/**
+		* this method should resolve the gameid 
+		* and return a new XFireGame object or NULL if it was not resolvable.
+		* (if more information is needed, it can be taken from packet->xxx[iterator])
+		*/
+		virtual XFireGame *resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet) = 0;
+	};
 };
 
 #endif

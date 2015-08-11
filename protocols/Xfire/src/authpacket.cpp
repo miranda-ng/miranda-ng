@@ -26,22 +26,26 @@
 #include "xfireparse.h"
 #include "variablevalue.h"
 
-namespace xfirelib {
-  using namespace std;
+namespace xfirelib
+{
+	using namespace std;
 
-  AuthPacket::AuthPacket() : XFireRecvPacketContent() {
-    salt = 0;
-  }
-  AuthPacket::~AuthPacket() {
-    delete salt;
-  }
+	AuthPacket::AuthPacket() : XFireRecvPacketContent()
+	{
+		salt = 0;
+	}
 
-  void AuthPacket::parseContent(char *buf, int length, int numberOfAtts) {
-	
-    //XFireParse parse;
-    salt = new VariableValue();
-    //parse.readVariableValue(buf, 0, length, salt);
-    salt->readVariableValue(buf, 0, length);
-  }
+	AuthPacket::~AuthPacket()
+	{
+		delete salt;
+	}
 
+	void AuthPacket::parseContent(char *buf, int length, int)
+	{
+
+		//XFireParse parse;
+		salt = new VariableValue();
+		//parse.readVariableValue(buf, 0, length, salt);
+		salt->readVariableValue(buf, 0, length);
+	}
 };

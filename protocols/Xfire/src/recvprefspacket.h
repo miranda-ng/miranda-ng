@@ -47,35 +47,33 @@ struct xfireconfigitem {
 
 namespace xfirelib {
 
-  //packet mit den preferences
-  class RecvPrefsPacket : public XFireRecvPacketContent {
-  public:
-    virtual ~RecvPrefsPacket() { }
-    int getPacketId() { return XFIRE_RECVPREFSPACKET; }
+	//packet mit den preferences
+	class RecvPrefsPacket : public XFireRecvPacketContent {
+	public:
+		virtual ~RecvPrefsPacket() { }
+		int getPacketId() { return XFIRE_RECVPREFSPACKET; }
 
-    XFirePacketContent *newPacket() { return new RecvPrefsPacket(); }
-    void parseContent(char *buf, int length, int numberOfAtts);
+		XFirePacketContent *newPacket() { return new RecvPrefsPacket(); }
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-	//array vorbereiten, eventuell auf 32 bytes aufstocken, man weis ja nie was kommt
-	xfire_prefitem config[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
-  };
+		//array vorbereiten, eventuell auf 32 bytes aufstocken, man weis ja nie was kommt
+		xfire_prefitem config[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
+	};
 
-  //packet zum setzen neuer preferences
-  class PrefsPacket : public XFireSendPacketContent {
-   public:
-    virtual ~PrefsPacket() { }
+	//packet zum setzen neuer preferences
+	class PrefsPacket : public XFireSendPacketContent {
+	public:
+		virtual ~PrefsPacket() { }
 
-    XFirePacketContent *newPacket() { return new PrefsPacket; }
-    int getPacketId() { return XFIRE_SENDPREFSPACKET; }
+		XFirePacketContent *newPacket() { return new PrefsPacket; }
+		int getPacketId() { return XFIRE_SENDPREFSPACKET; }
 
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 1; }
-    int getPacketSize() { return 1024; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 1; }
+		int getPacketSize() { return 1024; }
 
-    xfire_prefitem config[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
-  };
-
+		xfire_prefitem config[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
+	};
 };
-
 
 #endif

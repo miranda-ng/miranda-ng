@@ -30,23 +30,20 @@
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 
-#include <string>
-
 namespace xfirelib {
 
-  class XFirePrefPacket : public XFireSendPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new XFirePrefPacket(); }
+	class XFirePrefPacket : public XFireSendPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new XFirePrefPacket(); }
 
-    int getPacketId() { return 10; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount();
-    int getPacketSize() { return 1000; };
-    void parseContent(char *buf, int length, int numberOfAtts) { };
-  private:
-    int length;
-  };
-
+		int getPacketId() { return 10; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount();
+		int getPacketSize() { return 1000; };
+		void parseContent(char*, int, int) { };
+	private:
+		int length;
+	};
 };
 
 #endif

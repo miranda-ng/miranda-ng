@@ -28,21 +28,22 @@
 
 //packet liest neue nicks ein
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  void RecvBuddyChangedNick::parseContent(char *buf, int length, int numberOfAtts) {
-    VariableValue val;
-    int index = 0;
-    index +=2; // Ignore 02 01 02 ??
-    index += val.readValue(buf,index,4);
-    userid = val.getValueAsLong();
-	index +=2; // Ignore 0d 01
-	int l = (unsigned char)buf[index++];
-	index++;
-	index += val.readValue(buf,index,l);
-	string stringvalue = string(val.getValue(),l);
-	this->newnick=stringvalue;
-  }
-
+namespace xfirelib
+{
+	void RecvBuddyChangedNick::parseContent(char *buf, int, int)
+	{
+		VariableValue val;
+		int index = 0;
+		index += 2; // Ignore 02 01 02 ??
+		index += val.readValue(buf, index, 4);
+		userid = val.getValueAsLong();
+		index += 2; // Ignore 0d 01
+		int l = (unsigned char)buf[index++];
+		index++;
+		index += val.readValue(buf, index, l);
+		string stringvalue = string(val.getValue(), l);
+		this->newnick = stringvalue;
+	}
 };

@@ -27,35 +27,33 @@
 
 #define XFIRE_CLANINVITATION_ID 165
 
-#include <string>
-
 #include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class ClanInvitationPacket : public XFireRecvPacketContent {
-  public:
-    ClanInvitationPacket();
-    virtual ~ClanInvitationPacket();
+	class ClanInvitationPacket : public XFireRecvPacketContent {
+	public:
+		ClanInvitationPacket() {}
+		virtual ~ClanInvitationPacket() {}
 
-    XFirePacketContent* newPacket() { return new ClanInvitationPacket(); }
+		XFirePacketContent* newPacket() { return new ClanInvitationPacket(); }
 
-    virtual int getPacketId() { return XFIRE_CLANINVITATION_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    virtual void parseContent(char *buf, int length, int numberOfAtts);
+		virtual int getPacketId() { return XFIRE_CLANINVITATION_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		virtual void parseContent(char *buf, int length, int numberOfAtts);
 
-	//maximal 10 inv, mehr wird denk ich äh nich aufeinmal auftreten
-	string clanname[10];
-	string invitefrom[10];
-	string invitefromusername[10];
-	string invitemsg[10];
+		//maximal 10 inv, mehr wird denk ich äh nich aufeinmal auftreten
+		string clanname[10];
+		string invitefrom[10];
+		string invitefromusername[10];
+		string invitemsg[10];
 
-	int numberOfInv;
-  };
+		int numberOfInv;
+	};
 };
 
 #endif

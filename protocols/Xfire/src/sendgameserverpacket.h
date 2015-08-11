@@ -29,21 +29,18 @@
 #define XFIRE_GAME_SERVER_PACKET 04
 
 namespace xfirelib {
-  class SendGameServerPacket : public XFireSendPacketContent {
-  public:
-    virtual ~SendGameServerPacket() { }
-    int getPacketId() { return XFIRE_GAME_SERVER_PACKET; }
+	class SendGameServerPacket : public XFireSendPacketContent {
+	public:
+		virtual ~SendGameServerPacket() { }
+		int getPacketId() { return XFIRE_GAME_SERVER_PACKET; }
 
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 3; }
-    int getPacketSize() { return 1024; }
-	
-	long port;
-    char ip[4];
-  private:
-    
-  };
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 3; }
+		int getPacketSize() { return 1024; }
 
+		long port;
+		char ip[4];
+	};
 };
 
 #endif //_SENDGAMESERVERPACKET_H_

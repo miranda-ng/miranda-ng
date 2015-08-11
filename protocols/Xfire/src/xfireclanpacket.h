@@ -25,37 +25,32 @@
 #ifndef __XFIRECLANPACKET_H
 #define __XFIRECLANPACKET_H
 
-#include <string>
 #include "xfirerecvpacketcontent.h"
 
 #define XFIRE_CLAN_PACKET 158
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  /**
-   * beinhaltet, clanid, name und weburl-zusatz
-   * 
-   */
-  class XFireClanPacket : public XFireRecvPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new XFireClanPacket(); }
+	/**
+	* beinhaltet, clanid, name und weburl-zusatz
+	* 
+	*/
+	class XFireClanPacket : public XFireRecvPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new XFireClanPacket(); }
 
+		int getPacketId() { return XFIRE_CLAN_PACKET; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 3; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    int getPacketId() { return XFIRE_CLAN_PACKET; }
-    int getPacketContent(char *buf) { return 0;}
-    int getPacketAttributeCount() { return 3; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
-
-    string name[10];
-	string url[10];
-	long clanid[10];
-	int count;
-
-  private:
-  };
-
+		string name[10];
+		string url[10];
+		long clanid[10];
+		int count;
+	};
 };
 
 

@@ -194,10 +194,10 @@ typedef struct {
 		TCHAR *tszMsg;
 	}; // pointer to the status message _format_ (i.e. it's an unparsed message containing variables, in any case. NAS takes care of parsing) (may be NULL - means that there's no specific message for this protocol - then the global status message will be used)
 	/*
-		Be aware that MS_NAS_GETSTATE allocates memory for szMsg through Miranda's
-		memory management interface (MS_SYSTEM_GET_MMI). And MS_NAS_SETSTATE
-		expects szMsg to be allocated through the same service. MS_NAS_SETSTATE deallocates szMsg.
-		*/
+	Be aware that MS_NAS_GETSTATE allocates memory for szMsg through Miranda's
+	memory management interface (MS_SYSTEM_GET_MMI). And MS_NAS_SETSTATE
+	expects szMsg to be allocated through the same service. MS_NAS_SETSTATE deallocates szMsg.
+	*/
 	WORD status; // status mode. 0 means current (NAS will overwrite 0 with the current status mode)
 	// for MS_NAS_GETSTATE if the specified status is not 0, MS_NAS_GETSTATE will return the default/last status message (depends on settings) - i.e. the same message that will be shown by default when user changes status to the specified one. please note that, for example, if current status mode is ID_STATUS_AWAY, then status messages returned by MS_NAS_GETSTATE for status=0 and status=ID_STATUS_AWAY may be different! for status=ID_STATUS_AWAY it always returns the default/last status message, and for status=0 it returns _current_ status message.
 	int Flags;

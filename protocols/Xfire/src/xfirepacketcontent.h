@@ -26,22 +26,20 @@
 #include "monitoredobj.h"
 
 namespace xfirelib {
-  struct Client;
+	struct Client;
 
-  class XFirePacketContent : public MonitoredObj {
-  public:
-    XFirePacketContent();
-    virtual ~XFirePacketContent() { }
-    virtual XFirePacketContent* newPacket() = 0;
+	class XFirePacketContent : public MonitoredObj {
+	public:
+		XFirePacketContent();
+		virtual ~XFirePacketContent() { }
+		virtual XFirePacketContent* newPacket() = 0;
 
-    virtual int getPacketContent(char *buf) = 0;
-    virtual int getPacketId() = 0;
-    virtual int getPacketAttributeCount() = 0;
-    virtual int getPacketSize() = 0;
-    virtual void parseContent(char *buf, int length, int numberOfAtts) = 0;
-  };
-
+		virtual int getPacketContent(char *buf) = 0;
+		virtual int getPacketId() = 0;
+		virtual int getPacketAttributeCount() = 0;
+		virtual int getPacketSize() = 0;
+		virtual void parseContent(char *buf, int length, int numberOfAtts) = 0;
+	};
 };
-
 
 #endif

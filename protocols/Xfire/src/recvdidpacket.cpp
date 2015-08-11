@@ -26,10 +26,10 @@
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-
-  void RecvDidPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    XDEBUG(("This is the useless DID packet, it's really useless\n"));
-  }
-
+namespace xfirelib
+{
+	void RecvDidPacket::parseContent(char*, int, int)
+	{
+		XDEBUG(("This is the useless DID packet, it's really useless\n"));
+	}
 };

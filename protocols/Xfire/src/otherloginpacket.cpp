@@ -27,11 +27,12 @@
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  void OtherLoginPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    XINFO(("Someone login in with the same account that we have\n"));
-  }
-
+namespace xfirelib
+{
+	void OtherLoginPacket::parseContent(char*, int, int)
+	{
+		XINFO(("Someone login in with the same account that we have\n"));
+	}
 };

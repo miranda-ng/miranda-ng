@@ -27,27 +27,26 @@
 #include "xfirepacketcontent.h"
 
 namespace xfirelib {
-  struct PacketReader;
-  struct XFirePacketContent;
+	struct PacketReader;
+	struct XFirePacketContent;
 
-  class XFirePacket {
-  public:
-    XFirePacket(PacketReader *reader);
-    XFirePacket(XFirePacketContent *content);
-    ~XFirePacket();
+	class XFirePacket {
+	public:
+		XFirePacket(PacketReader *reader);
+		XFirePacket(XFirePacketContent *content);
+		~XFirePacket();
 
-    int getSendBuffer(void *buf);
-    void recvPacket(Socket *socket);
-    void sendPacket(Socket *socket);
-	void sendPacket2(Socket *socket);
+		int getSendBuffer(void *buf);
+		void recvPacket(Socket *socket);
+		void sendPacket(Socket *socket);
+		void sendPacket2(Socket *socket);
 
-    XFirePacketContent *getContent() { return content; }
-  private:
-    PacketReader *reader;
+		XFirePacketContent *getContent() { return content; }
+	private:
+		PacketReader *reader;
 
-    XFirePacketContent *content;
-  };
+		XFirePacketContent *content;
+	};
 };
-
 
 #endif

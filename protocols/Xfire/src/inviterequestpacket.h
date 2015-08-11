@@ -23,38 +23,33 @@
 #ifndef __INVITEREQUESTPACKET_H
 #define __INVITEREQUESTPACKET_H
 
-#include <string>
 #include "xfirerecvpacketcontent.h"
 
 #define XFIRE_PACKET_INVITE_REQUEST_PACKET 138
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  /**
-   * Received when someone invites you to his buddylist
-   * (For sending invitations see InviteBuddyPacket)
-   */
-  class InviteRequestPacket : public XFireRecvPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new InviteRequestPacket(); }
+	/**
+	* Received when someone invites you to his buddylist
+	* (For sending invitations see InviteBuddyPacket)
+	*/
+	class InviteRequestPacket : public XFireRecvPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new InviteRequestPacket(); }
 
 
-    int getPacketId() { return XFIRE_PACKET_INVITE_REQUEST_PACKET; }
-    int getPacketContent(char *buf) { return 0;}
-    int getPacketAttributeCount() { return 3; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
+		int getPacketId() { return XFIRE_PACKET_INVITE_REQUEST_PACKET; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 3; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    string name;
-    string nick;
-    string msg;
-
-  private:
-  };
-
+		string name;
+		string nick;
+		string msg;
+	};
 };
-
 
 #endif
 

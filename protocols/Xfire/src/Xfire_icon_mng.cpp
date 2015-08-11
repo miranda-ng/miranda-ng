@@ -2,7 +2,8 @@
 #include "Xfire_icon_mng.h"
 
 //liefert den handle eines icons zurück
-HANDLE Xfire_icon_mng::getGameIconHandle(unsigned int gameid) {
+HANDLE Xfire_icon_mng::getGameIconHandle(unsigned int gameid)
+{
 	Xfire_icon_cache entry = { 0 };
 
 	//icon im cache dann zurückliefern
@@ -14,11 +15,10 @@ HANDLE Xfire_icon_mng::getGameIconHandle(unsigned int gameid) {
 }
 
 //liefert den index des icons zurück
-unsigned int Xfire_icon_mng::getGameIconId(unsigned int gameid) {
-	for (unsigned int i = 0; i < iconcache.size(); i++)
-	{
-		if (iconcache.at(i).gameid == gameid)
-		{
+unsigned int Xfire_icon_mng::getGameIconId(unsigned int gameid)
+{
+	for (unsigned int i = 0; i < iconcache.size(); i++) {
+		if (iconcache.at(i).gameid == gameid) {
 			return i;
 		}
 	}
@@ -26,16 +26,18 @@ unsigned int Xfire_icon_mng::getGameIconId(unsigned int gameid) {
 }
 
 //gameicon mit hilfe von id zurückliefern
-HICON Xfire_icon_mng::getGameIconFromId(unsigned int id) {
+HICON Xfire_icon_mng::getGameIconFromId(unsigned int id)
+{
 	//id nur im bereich zurückliefern
-	if (id>iconcache.size() - 1)
+	if (id > iconcache.size() - 1)
 		return NULL;
 
 	return iconcache.at(id).hicon;
 }
 
 //liefert das hicon zurück
-HICON Xfire_icon_mng::getGameIcon(unsigned int gameid) {
+HICON Xfire_icon_mng::getGameIcon(unsigned int gameid)
+{
 	Xfire_icon_cache entry = { 0 };
 
 	//icon im cache dann zurückliefern
@@ -46,7 +48,8 @@ HICON Xfire_icon_mng::getGameIcon(unsigned int gameid) {
 }
 
 //liefert den icon eintrag zurück
-Xfire_icon_cache Xfire_icon_mng::getGameIconEntry(unsigned int gameid) {
+Xfire_icon_cache Xfire_icon_mng::getGameIconEntry(unsigned int gameid)
+{
 	Xfire_icon_cache entry = { 0 };
 
 	//icon im cache dann zurückliefern
@@ -57,15 +60,14 @@ Xfire_icon_cache Xfire_icon_mng::getGameIconEntry(unsigned int gameid) {
 }
 
 //sucht nach dem spielicon im cache
-BOOL Xfire_icon_mng::getIconfromCache(unsigned int gameid, Xfire_icon_cache* out) {
+BOOL Xfire_icon_mng::getIconfromCache(unsigned int gameid, Xfire_icon_cache* out)
+{
 	//kein ziel, keine prüfung
 	if (out == NULL)
 		return FALSE;
 
-	for (unsigned int i = 0; i < iconcache.size(); i++)
-	{
-		if (iconcache.at(i).gameid == gameid)
-		{
+	for (unsigned int i = 0; i < iconcache.size(); i++) {
+		if (iconcache.at(i).gameid == gameid) {
 			*out = iconcache.at(i);
 			return TRUE;
 		}
@@ -76,12 +78,11 @@ BOOL Xfire_icon_mng::getIconfromCache(unsigned int gameid, Xfire_icon_cache* out
 }
 
 //dekonstruktor
-Xfire_icon_mng::~Xfire_icon_mng() {
+Xfire_icon_mng::~Xfire_icon_mng()
+{
 	//geladene icons wieder freigeben
-	for (unsigned int i = 0; i < iconcache.size(); i++)
-	{
-		if (iconcache.at(i).hicon)
-		{
+	for (unsigned int i = 0; i < iconcache.size(); i++) {
+		if (iconcache.at(i).hicon) {
 			DestroyIcon(iconcache.at(i).hicon);
 			iconcache.at(i).hicon = NULL;
 		}
@@ -96,12 +97,14 @@ Xfire_icon_mng::~Xfire_icon_mng() {
 }
 
 //konstruktor
-Xfire_icon_mng::Xfire_icon_mng() {
+Xfire_icon_mng::Xfire_icon_mng()
+{
 	hIconDll = NULL;
 }
 
 //erzeugt aus HICON ein Handle, welches in Miranda in der Clist angewendet werden kann
-HANDLE Xfire_icon_mng::createIconHandle(HICON hicon) {
+HANDLE Xfire_icon_mng::createIconHandle(HICON hicon)
+{
 	if (!hicon)
 		return NULL;
 
@@ -109,7 +112,8 @@ HANDLE Xfire_icon_mng::createIconHandle(HICON hicon) {
 }
 
 //eigentliche laderoutine
-Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
+Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid)
+{
 	Xfire_icon_cache entry = { 0 };
 
 	//shortname
@@ -122,8 +126,7 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 	entry.gameid = gameid;
 
 	//Icons.dll noch nicht geladen?!?
-	if (!hIconDll)
-	{
+	if (!hIconDll) {
 		//versuch die Icons.dll zuladen
 		char path[MAX_PATH] = "";
 		if (!getIconPath(path))
@@ -175,7 +178,8 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 }
 
 //icon vom xfire server laden
-HICON Xfire_icon_mng::downloadIcon(char* shortname) {
+HICON Xfire_icon_mng::downloadIcon(char* shortname)
+{
 	//nur vom internetladen, wenn die option aktiv ist
 	if (!db_get_b(NULL, protocolname, "xfiresitegameico", 0))
 		return NULL;
@@ -193,8 +197,7 @@ HICON Xfire_icon_mng::downloadIcon(char* shortname) {
 	strcat_s(url, 255, ".gif");
 
 	//verscuhe das icon aus dem inet zulasen
-	if (GetWWWContent2(url, NULL, FALSE, &buf, &size))
-	{
+	if (GetWWWContent2(url, NULL, FALSE, &buf, &size)) {
 		//aus dem buffer ein hicon erzeugen
 		HICON hicon = this->createHICONfromdata(buf, size);
 		//speicher freigeben
@@ -207,9 +210,9 @@ HICON Xfire_icon_mng::downloadIcon(char* shortname) {
 }
 
 //setzt alle handles der icons neu
-int Xfire_icon_mng::resetIconHandles() {
-	for (unsigned int i = 0; i < iconcache.size(); i++)
-	{
+int Xfire_icon_mng::resetIconHandles()
+{
+	for (unsigned int i = 0; i < iconcache.size(); i++) {
 		iconcache.at(i).handle = this->createIconHandle(iconcache.at(i).hicon);
 	}
 	return 0;

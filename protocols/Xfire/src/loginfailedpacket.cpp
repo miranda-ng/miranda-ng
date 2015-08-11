@@ -20,19 +20,17 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-
-
 #include "stdafx.h"
 #include "loginfailedpacket.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
 
-namespace xfirelib {
-	using namespace std;
-	using namespace xfirelib;
+using namespace std;
 
-  void LoginFailedPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    cout << "Login failed, incorrect username or password" << endl;
-  }
-
+namespace xfirelib
+{
+	void LoginFailedPacket::parseContent(char*, int, int)
+	{
+		cout << "Login failed, incorrect username or password" << endl;
+	}
 };

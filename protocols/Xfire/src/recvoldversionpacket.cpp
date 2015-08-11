@@ -26,17 +26,18 @@
 
 #include "variablevalue.h"
 #include "xdebug.h"
-#include <vector>
-#include <string>
 
-namespace xfirelib {
-  class RecvOldVersionPacket;
+namespace xfirelib
+{
+	class RecvOldVersionPacket;
 
-  RecvOldVersionPacket::RecvOldVersionPacket() : XFireRecvPacketContent() {
-  }
+	RecvOldVersionPacket::RecvOldVersionPacket() : XFireRecvPacketContent()
+	{
+	}
 
-  void RecvOldVersionPacket::parseContent(char *buf, int length, int numberOfAtts) {
-	  //aktuelle version
-	  this->newversion=buf[12];
-  }
+	void RecvOldVersionPacket::parseContent(char *buf, int, int)
+	{
+		//aktuelle version
+		this->newversion = buf[12];
+	}
 };

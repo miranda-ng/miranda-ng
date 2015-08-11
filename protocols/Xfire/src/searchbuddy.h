@@ -30,26 +30,23 @@
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 
-#include <string>
-
 namespace xfirelib {
 
-  class SearchBuddy : public XFireSendPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new SearchBuddy(); }
+	class SearchBuddy : public XFireSendPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new SearchBuddy(); }
 
-    int getPacketId() { return 0xC; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount();
-    int getPacketSize() { return 1000; };
-    void parseContent(char *buf, int length, int numberOfAtts) { };
-	void searchfor(std::string s) { searchstring=s; }
+		int getPacketId() { return 0xC; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount();
+		int getPacketSize() { return 1000; };
+		void parseContent(char*, int, int) { };
+		void searchfor(std::string s) { searchstring=s; }
 
-  private:
-    int length;
-	std::string searchstring;
-  };
-
+	private:
+		int length;
+		std::string searchstring;
+	};
 };
 
 #endif

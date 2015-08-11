@@ -28,16 +28,14 @@
 #define XFIRE_RECVDIDPACKET 144
 
 namespace xfirelib {
-  class RecvDidPacket : public XFireRecvPacketContent {
-  public:
-    virtual ~RecvDidPacket() { }
-    int getPacketId() { return XFIRE_RECVDIDPACKET; }
+	class RecvDidPacket : public XFireRecvPacketContent {
+	public:
+		virtual ~RecvDidPacket() { }
+		int getPacketId() { return XFIRE_RECVDIDPACKET; }
 
-    XFirePacketContent *newPacket() { return new RecvDidPacket(); }
-    void parseContent(char *buf, int length, int numberOfAtts);
-  };
-
+		XFirePacketContent *newPacket() { return new RecvDidPacket(); }
+		void parseContent(char *buf, int length, int numberOfAtts);
+	};
 };
-
 
 #endif

@@ -5,7 +5,7 @@
 #include "baseProtocol.h"
 
 #include <m_popup.h>
-#include <string>
+
 using std::string;
 
 //****************************
@@ -25,14 +25,14 @@ typedef struct _PEB_LDR_DATA {
 	PVOID Reserved2[3];
 	LIST_ENTRY InMemoryOrderModuleList;
 } PEB_LDR_DATA,
-*PPEB_LDR_DATA;
+	*PPEB_LDR_DATA;
 typedef struct _RTL_USER_PROCESS_PARAMETERS {
 	BYTE Reserved1[16];
 	PVOID Reserved2[10];
 	UNICODE_STRING ImagePathName;
 	UNICODE_STRING CommandLine;
 } RTL_USER_PROCESS_PARAMETERS,
-*PRTL_USER_PROCESS_PARAMETERS;
+	*PRTL_USER_PROCESS_PARAMETERS;
 typedef struct _PEB {
 	BYTE Reserved1[2];
 	BYTE BeingDebugged;
@@ -47,7 +47,7 @@ typedef struct _PEB {
 	PVOID Reserved7[1];
 	ULONG SessionId;
 } PEB,
-*PPEB;
+	*PPEB;
 typedef struct
 {
 	ULONG AllocationSize;

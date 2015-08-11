@@ -25,17 +25,14 @@
 
 #include "xfirepacket.h"
 
-
 namespace xfirelib {
-  struct XFirePacket;
+	struct XFirePacket;
 
-  class PacketListener {
-  public:
-    virtual ~PacketListener() { }
-    virtual void receivedPacket(XFirePacket *packet) = 0;
-  };
-
+	class PacketListener {
+	public:
+		virtual ~PacketListener() { }
+		virtual void receivedPacket(XFirePacket *packet) = 0;
+	};
 };
-
 
 #endif

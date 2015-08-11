@@ -31,8 +31,6 @@
 #ifndef __SENDTYPINGPACKET_H
 #define __SENDTYPINGPACKET_H
 
-
-
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 #include <string.h>
@@ -40,40 +38,38 @@
 
 namespace xfirelib {
 
-class SendTypingPacket : public XFireSendPacketContent {
-public:
-SendTypingPacket() {
-imindex = 0;
-}
-virtual ~SendTypingPacket() { }
+	class SendTypingPacket : public XFireSendPacketContent {
+	public:
+		SendTypingPacket() {
+			imindex = 0;
+		}
+		virtual ~SendTypingPacket() { }
 
-void init(Client *client, string username);
-void setSid(const char *sid);
+		void init(Client *client, string username);
+		void setSid(const char *sid);
 
-XFirePacketContent* newPacket() { return new SendTypingPacket(); }
+		XFirePacketContent* newPacket() { return new SendTypingPacket(); }
 
-int getPacketId() { return 2; }
-int getPacketContent(char *buf);
-int getPacketAttributeCount() {return 2;};
-int getPacketSize() { return 1024; };
+		int getPacketId() { return 2; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() {return 2;};
+		int getPacketSize() { return 1024; };
 
-/**
-* SID of the user to who the message should be sent.
-*/
-char sid[16];
-/**
-* A running counter for each buddy. (will be initialized to 0 by default.. and..
-* shouldn't be a problem to leave it 0)
-*/
-long imindex;
+		/**
+		* SID of the user to who the message should be sent.
+		*/
+		char sid[16];
+		/**
+		* A running counter for each buddy. (will be initialized to 0 by default.. and..
+		* shouldn't be a problem to leave it 0)
+		*/
+		long imindex;
 
-protected:
-void initIMIndex();
+	protected:
+		void initIMIndex();
 
-static std::map<std::string,int> imindexes;
-
-};
-
+		static std::map<std::string,int> imindexes;
+	};
 };
 
 #endif 

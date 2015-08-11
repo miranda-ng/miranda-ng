@@ -32,7 +32,6 @@
 #include "client.h"
 #include "Xfire_base.h"
 #include "getbuddyinfo.h"
-#include <vector>
 
 using namespace xfirelib;
 

@@ -33,24 +33,7 @@
 #include "xdebug.h"
 
 extern HANDLE hNetlib;
-//convert buf to hexstring
-/*char* tohex(unsigned char*buf,int size) {
-	static char buffer[1024*10]="";
 
-	mir_strcpy(buffer,"");
-
-	for(int i=0;i<size;i++)
-	{
-	if (i%16==0&&i!=0)
-	mir_snprintf(buffer, "%s\n%02x ", buffer, buf[i]);
-	else
-	mir_snprintf(buffer, "%s%02x ", buffer, buf[i]);
-	}
-
-	return buffer;
-	}*/
-
-//von icqproto kopiert
 void EnableDlgItem(HWND hwndDlg, UINT control, int state)
 {
 	EnableWindow(GetDlgItem(hwndDlg, control), state);
@@ -63,8 +46,7 @@ BOOL str_replace(char*src, char*find, char*rep)
 	string strpath = src;
 	int pos = strpath.find(find);
 
-	if (pos > -1)
-	{
+	if (pos > -1) {
 		char *temp = new char[mir_strlen(src) + mir_strlen(rep) + 1];
 
 		mir_strcpy(temp, src);
@@ -82,7 +64,7 @@ BOOL str_replace(char*src, char*find, char*rep)
 }
 
 /* popup darstellen */
-int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, HICON hicon)
+int displayPopup(HWND, LPCSTR lpText, LPCSTR lpCaption, UINT uType, HICON hicon)
 {
 	static signed char	bUsePopups = -1;
 	static BOOL			bIconsNotLoaded = TRUE;
@@ -128,7 +110,6 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, HICON h
 char*menuitemtext(char*mtext)
 {
 	static char temp[256] = "";
-	int anz = 0;
 	int j = 0;
 
 	if (!mtext)
@@ -140,11 +121,9 @@ char*menuitemtext(char*mtext)
 		return mtext;
 
 	//alle & zeichen zählen
-	for (int i = 0; i < size; i++, j++)
-	{
+	for (int i = 0; i < size; i++, j++) {
 		temp[j] = mtext[i];
-		if (mtext[i] == '&')
-		{
+		if (mtext[i] == '&') {
 			j++;
 			temp[j] = '&';
 		}
@@ -157,8 +136,7 @@ char*menuitemtext(char*mtext)
 
 void Message(LPVOID msg)
 {
-	switch (db_get_b(NULL, protocolname, "nomsgbox", 0))
-	{
+	switch (db_get_b(NULL, protocolname, "nomsgbox", 0)) {
 	case 1:
 		return;
 	case 2:
@@ -184,11 +162,9 @@ void Message(LPVOID msg)
 void MessageE(LPVOID msg)
 {
 	static BOOL already = FALSE;
-	switch (db_get_b(NULL, protocolname, "nomsgbox", 0))
-	{
+	switch (db_get_b(NULL, protocolname, "nomsgbox", 0)) {
 	case 0:
-		if (!already)
-		{
+		if (!already) {
 			already = TRUE; //keine doppelte fehlernachrichten
 			Message(msg);
 			already = FALSE;
@@ -211,12 +187,10 @@ char* GetLaunchPath(char*launch)
 	if (launch == NULL)
 		return temp;
 
-	strncpy(temp, launch, XFIRE_MAX_STATIC_STRING_LEN -1);
+	strncpy(temp, launch, XFIRE_MAX_STATIC_STRING_LEN - 1);
 
-	while (*p != 0 && *f != 0)
-	{
-		if (tolower(*p) == *f)
-		{
+	while (*p != 0 && *f != 0) {
+		if (tolower(*p) == *f) {
 			f++;
 		}
 		else
@@ -225,15 +199,13 @@ char* GetLaunchPath(char*launch)
 		p++;
 	}
 
-	if (*f == 0)
-	{
+	if (*f == 0) {
 		*p = 0;
 	}
 	else
 		return temp;
 
-	if (strrchr(temp, '\\'))
-	{
+	if (strrchr(temp, '\\')) {
 		*(strrchr(temp, '\\')) = 0;
 	}
 
@@ -255,7 +227,8 @@ unsigned short r(unsigned short data)
 }
 
 //simple und hoffetnlich schnelle teamspeakdetection
-BOOL FindTeamSpeak(DWORD*pid, int*vid) {
+BOOL FindTeamSpeak(DWORD*pid, int*vid)
+{
 	BOOL found = FALSE;
 	if (pid == NULL)
 		return FALSE;
@@ -267,13 +240,11 @@ BOOL FindTeamSpeak(DWORD*pid, int*vid) {
 	//	XFireLog("Scanning for voiceprograms...");
 
 
-	while (Process32Next(hSnapShot, processInfo) != FALSE)
-	{
+	while (Process32Next(hSnapShot, processInfo) != FALSE) {
 		if (processInfo->th32ProcessID != 0) {
 			int size = mir_tstrlen(processInfo->szExeFile);
 
-			if (size == 13)
-			{
+			if (size == 13) {
 				if ((processInfo->szExeFile[0] == 'T' || processInfo->szExeFile[0] == 't') &&
 					processInfo->szExeFile[1] == 'e'&&
 					processInfo->szExeFile[2] == 'a'&&
@@ -282,16 +253,14 @@ BOOL FindTeamSpeak(DWORD*pid, int*vid) {
 					processInfo->szExeFile[5] == 'p'&&
 					processInfo->szExeFile[6] == 'e'&&
 					processInfo->szExeFile[7] == 'a'&&
-					processInfo->szExeFile[8] == 'k')
-				{
+					processInfo->szExeFile[8] == 'k') {
 					*pid = processInfo->th32ProcessID;
 					found = TRUE;
 					*vid = 32;
 					break;
 				}
 			}
-			else if (size == 12)
-			{
+			else if (size == 12) {
 				if ((processInfo->szExeFile[0] == 'V' || processInfo->szExeFile[0] == 'v') &&
 					processInfo->szExeFile[1] == 'e'&&
 					processInfo->szExeFile[2] == 'n'&&
@@ -299,23 +268,20 @@ BOOL FindTeamSpeak(DWORD*pid, int*vid) {
 					processInfo->szExeFile[4] == 'r'&&
 					processInfo->szExeFile[5] == 'i'&&
 					processInfo->szExeFile[6] == 'l'&&
-					processInfo->szExeFile[7] == 'o')
-				{
+					processInfo->szExeFile[7] == 'o') {
 					*pid = processInfo->th32ProcessID;
 					found = TRUE;
 					*vid = 33;
 					break;
 				}
 			}
-			else if (size == 10)
-			{
+			else if (size == 10) {
 				if ((processInfo->szExeFile[0] == 'm' || processInfo->szExeFile[0] == 'M') &&
 					processInfo->szExeFile[1] == 'u'&&
 					processInfo->szExeFile[2] == 'm'&&
 					processInfo->szExeFile[3] == 'b'&&
 					processInfo->szExeFile[4] == 'l'&&
-					processInfo->szExeFile[5] == 'e')
-				{
+					processInfo->szExeFile[5] == 'e') {
 					*pid = processInfo->th32ProcessID;
 					found = TRUE;
 					*vid = 34;
@@ -328,12 +294,10 @@ BOOL FindTeamSpeak(DWORD*pid, int*vid) {
 	return found;
 }
 
-#include <vector>
-
 #define maxuppackets 4
 
 //funktion liefer ip/port einer verbindung
-BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*ip1, char*ip2, char*ip3, char*ip4, long*port)
+BOOL GetServerIPPort(DWORD pid, char*, unsigned long localaddr, char*ip1, char*ip2, char*ip3, char*ip4, long*port)
 {
 	static std::vector<int> localport;
 	static const int hdrInclude = 1;
@@ -343,8 +307,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 
 	//DUMP("***Suche IP/Port***","");
 
-	if (pid != lastpid)
-	{
+	if (pid != lastpid) {
 		lastip = lastport = 0;
 		lastpid = pid;
 	}
@@ -357,11 +320,9 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
-	if (ret == NO_ERROR)
-	{
+	if (ret == NO_ERROR) {
 		BOOL notfound = TRUE;
-		for (unsigned int i = 0; i < ptab->dwNumEntries; i++)
-		{
+		for (unsigned int i = 0; i < ptab->dwNumEntries; i++) {
 			if (ptab->table[i].dwOwningPid == pid) //spiel gefunden
 			{
 				localport.push_back(ptab->table[i].dwLocalPort);
@@ -378,8 +339,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 			return FALSE; //dann erstmal schluss
 		}
 	}
-	else
-	{
+	else {
 		XFireLog("GetExtendedUdpTable error!");
 		return FALSE;
 	}
@@ -390,8 +350,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	//socker erstellen
 	SOCKET s;
 	s = socket(AF_INET, SOCK_RAW, IPPROTO_UDP);
-	if (s == INVALID_SOCKET)
-	{
+	if (s == INVALID_SOCKET) {
 		//DUMP("Kann Rawsocket nicht erstellen. Error: %d",WSAGetLastError());
 		XFireLog("unable to create raw socket %d", WSAGetLastError());
 		closesocket(s);
@@ -405,8 +364,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	msockaddr.sin_port = 0;
 
 	//socket an nw binden
-	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR)
-	{
+	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR) {
 		//DUMP("Kann Rawsocket nicht binden. Error: %d",WSAGetLastError());
 		XFireLog("unable to bind raw socket %d", WSAGetLastError());
 		closesocket(s);
@@ -416,8 +374,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	//wir wollen alles was da reinkommt haben
 	static int I = 1;
 	static DWORD b;
-	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR)
-	{
+	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
 		//DUMP("IOCTL Error","");
 		/*closesocket(s);
 		return FALSE;*/
@@ -428,13 +385,13 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	//socket soll timeout auswerfen, wenn nix kommt, damit der gamethread nicht hängt
 	//DUMP("timeout>>>","");
 	static int timeout = 200;
-	if (setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout) == SOCKET_ERROR))
-	{
+	if (setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout) == SOCKET_ERROR)) {
 		XFireLog("setsockopt(SO_RCVTIMEO) error %d", WSAGetLastError());
 	}
 
 	//updstruct, nur mit wichtigen sachen
-	struct mpacket {
+	struct mpacket
+	{
 		unsigned char ipv;
 		char dmp[11]; //dummy
 		//srcip, serverip
@@ -446,7 +403,8 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 		unsigned int ipdst;
 		char temp[1024];
 	};
-	struct mpacket2 {
+	struct mpacket2
+	{
 		unsigned char ipv;
 		char dmp[11]; //dummy
 		//srcip, serverip
@@ -458,7 +416,8 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 		unsigned char ip4;
 		char temp[1024];
 	};
-	struct udp {
+	struct udp
+	{
 		//srcport
 		u_short srcport;
 		//dstport
@@ -473,8 +432,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	for (int I = 0; I < maxuppackets; I++) //maximal 4 packete, das reicht
 	{
 		int msize = recv(s, (char*)&temp, sizeof(mpacket), 0);
-		if (msize == SOCKET_ERROR)
-		{
+		if (msize == SOCKET_ERROR) {
 			XFireLog("recv() error %d", WSAGetLastError());
 		}
 		else if (msize) //empfangen
@@ -496,8 +454,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 			DUMP("Dump Udp##############","");*/
 
 
-			for (unsigned int i = 0; i < localport.size(); i++)
-			{
+			for (unsigned int i = 0; i < localport.size(); i++) {
 				//DUMP("destport %d ==",temp2->dstport);
 				//DUMP("== %d",localport.at(i));
 				if (temp2->dstport == localport.at(i)/*FIX: für XP SP3 ->*/ && temp4->srcip != localaddr) //ist das ziel des packets, gleich dem port des spiels
@@ -511,8 +468,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 
 					//DUMP("SourceIP %d",temp4->srcip);
 					//DUMP("SourcePort %d",temp2->srcport);
-					if (lastip != temp4->srcip || temp2->srcport != lastport)
-					{
+					if (lastip != temp4->srcip || temp2->srcport != lastport) {
 						lastport = temp2->srcport; //fixed port wechsel, damit dieser auch mitgetielt wird, wenn zb vorher nur serverinfos angefordert wurden
 						lastip = temp4->srcip;
 						closesocket(s);
@@ -545,7 +501,7 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 
 //funktion liefert ip/port einer verbindung, dupliziert für teamspeak/ventrilo, wegen static vals
 //TODO: eventuell umbauen, damit es für beide genutzt werden kann
-BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*ip1, char*ip2, char*ip3, char*ip4, long*port)
+BOOL GetServerIPPort2(DWORD pid, char*, unsigned long localaddr, char*ip1, char*ip2, char*ip3, char*ip4, long*port)
 {
 	static std::vector<int> localport;
 	static const int hdrInclude = 1;
@@ -553,8 +509,7 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 	static int lastpid = 0;
 	static int lastport = 0;
 
-	if (pid != lastpid)
-	{
+	if (pid != lastpid) {
 		lastip = lastport = 0;
 		lastpid = pid;
 	}
@@ -567,11 +522,9 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
-	if (ret == NO_ERROR)
-	{
+	if (ret == NO_ERROR) {
 		BOOL notfound = TRUE;
-		for (unsigned int i = 0; i < ptab->dwNumEntries; i++)
-		{
+		for (unsigned int i = 0; i < ptab->dwNumEntries; i++) {
 			if (ptab->table[i].dwOwningPid == pid) //spiel gefunden
 			{
 				localport.push_back(ptab->table[i].dwLocalPort);
@@ -582,8 +535,7 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 		}
 		if (notfound) //kein port gefunden
 		{
-			if (lastip != 0)
-			{
+			if (lastip != 0) {
 				lastip = 0;
 				lastport = 0;
 				return TRUE;
@@ -608,8 +560,7 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 	msockaddr.sin_port = 0;
 
 	//socket an nw binden
-	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR)
-	{
+	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR) {
 		closesocket(s);
 		return FALSE;
 	}
@@ -617,8 +568,7 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 	//wir wollen alles was da reinkommt haben
 	static int I = 1;
 	DWORD b;
-	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR)
-	{
+	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
 		/*closesocket(s);
 		return FALSE;*/
 		//unter bestimmten umständen schlägt es hier fehl, dann lass trotzdem ip weiter erkennen
@@ -630,7 +580,8 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 	setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
 
 	//updstruct, nur mit wichtigen sachen
-	struct mpacket {
+	struct mpacket
+	{
 		unsigned char ipv;
 		char dmp[11]; //dummy
 		//srcip, serverip
@@ -642,7 +593,8 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 		unsigned int ipdst;
 		char temp[1024];
 	};
-	struct mpacket2 {
+	struct mpacket2
+	{
 		unsigned char ipv;
 		char dmp[11]; //dummy
 		//srcip, serverip
@@ -654,7 +606,8 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 		unsigned char ip4;
 		char temp[1024];
 	};
-	struct udp {
+	struct udp
+	{
 		//srcport
 		u_short srcport;
 		//dstport
@@ -679,21 +632,20 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 			for (unsigned int i = 0; i < localport.size(); i++)
 				if (temp2->dstport == localport.at(i)/*FIX: für XP SP3 ->*/ && temp4->srcip != localaddr) //ist das ziel des packets, gleich dem port des spiels
 				{
-				*port = r(temp2->srcport); //ja dann serverdaten an gamethread übermitteln
-				*ip1 = temp.ip1;
-				*ip2 = temp.ip2;
-				*ip3 = temp.ip3;
-				*ip4 = temp.ip4;
-				closesocket(s); //socket zumachn
+					*port = r(temp2->srcport); //ja dann serverdaten an gamethread übermitteln
+					*ip1 = temp.ip1;
+					*ip2 = temp.ip2;
+					*ip3 = temp.ip3;
+					*ip4 = temp.ip4;
+					closesocket(s); //socket zumachn
 
-				if (lastip != temp4->srcip || temp2->srcport != lastport)
-				{
-					lastport = temp2->srcport; //fixed port wechsel, damit dieser auch mitgetielt wird, wenn zb vorher nur serverinfos angefordert wurden
-					lastip = temp4->srcip;
-					return TRUE;
-				}
+					if (lastip != temp4->srcip || temp2->srcport != lastport) {
+						lastport = temp2->srcport; //fixed port wechsel, damit dieser auch mitgetielt wird, wenn zb vorher nur serverinfos angefordert wurden
+						lastip = temp4->srcip;
+						return TRUE;
+					}
 
-				return FALSE;
+					return FALSE;
 				}
 			/*	else if (temp4->srcip==localaddr && temp2->srcport==localport.at(i)) //gesendete gamepackets
 				{
@@ -719,10 +671,8 @@ char * getItem(char * string, char delim, int count)
 	static char item[255];
 	char i = 0;
 
-	while (*string != '\0'&&count > 0)
-	{
-		if (*string == delim)
-		{
+	while (*string != '\0'&&count > 0) {
+		if (*string == delim) {
 			item[i] = 0;
 			i = 0;
 			count--;
@@ -739,8 +689,7 @@ char * getItem(char * string, char delim, int count)
 	if (count > 1)
 		item[0] = 0;
 
-	for (unsigned int i = 0; i < mir_strlen(item); i++)
-	{
+	for (unsigned int i = 0; i < mir_strlen(item); i++) {
 		item[i] = tolower(item[i]);
 	}
 
@@ -775,20 +724,16 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 		return TRUE;
 
 	//prüfe und lade nötige funktionen
-	if (_ZwQueryInformationProcess == NULL)
-	{
+	if (_ZwQueryInformationProcess == NULL) {
 		_ZwQueryInformationProcess = (pZwQueryInformationProcess)GetProcAddress(hNt, "ZwQueryInformationProcess");
-		if (_ZwQueryInformationProcess == NULL)
-		{
+		if (_ZwQueryInformationProcess == NULL) {
 			LocalFree(UserPool);
 			return TRUE;
 		}
 	}
-	if (_ZwReadVirtualMemory == NULL)
-	{
+	if (_ZwReadVirtualMemory == NULL) {
 		_ZwReadVirtualMemory = (pZwReadVirtualMemory)GetProcAddress(hNt, "ZwReadVirtualMemory");
-		if (_ZwReadVirtualMemory == NULL)
-		{
+		if (_ZwReadVirtualMemory == NULL) {
 			LocalFree(UserPool);
 			return TRUE;
 		}
@@ -810,8 +755,7 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	pBaseAddress = proc_params->CommandLine.Buffer;
 
 	//keine commandline?!
-	if (uSize == 0 || pBaseAddress == NULL)
-	{
+	if (uSize == 0 || pBaseAddress == NULL) {
 		LocalFree(UserPool);
 		return FALSE;
 	}
@@ -823,8 +767,7 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	//in ansi umwandeln
 	int correctsize = WideCharToMultiByte(CP_OEMCP, 0, buffer, -1, NULL, 0, NULL, NULL);
 
-	if (correctsize == 0)
-	{
+	if (correctsize == 0) {
 		LocalFree(UserPool);
 		return FALSE;
 	}
@@ -834,8 +777,7 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	buffer2[correctsize - 1] = 0;
 
 
-	for (unsigned int i = 0; i < mir_strlen(buffer2); i++)
-	{
+	for (unsigned int i = 0; i < mir_strlen(buffer2); i++) {
 		buffer2[i] = tolower(buffer2[i]);
 	}
 
@@ -851,49 +793,46 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	string cmdline = buffer2;
 
 	if (mustcontain)
-		if (cmdline.find(mustcontain) != string::npos)
-		{
+		if (cmdline.find(mustcontain) != string::npos) {
 			delete[] buffer;
 			delete[] buffer2;
 			LocalFree(UserPool);
 			return TRUE;
 		}
-		else
-		{
+		else {
 			delete[] buffer;
 			delete[] buffer2;
 			LocalFree(UserPool);
 			return FALSE;
 		}
 
-	int count = 1;
-	if (mustnotcontain)
-	{
-		char*str = getItem(mustnotcontain, ';', count);
-		do {
-			if (cmdline.find(str) != string::npos)
-			{
-				delete[] buffer;
-				delete[] buffer2;
-				LocalFree(UserPool);
-				return FALSE;
-			}
-			count++;
-			str = getItem(mustnotcontain, ';', count);
-		} while (*str != 0);
-	}
+		int count = 1;
+		if (mustnotcontain) {
+			char*str = getItem(mustnotcontain, ';', count);
+			do {
+				if (cmdline.find(str) != string::npos) {
+					delete[] buffer;
+					delete[] buffer2;
+					LocalFree(UserPool);
+					return FALSE;
+				}
+				count++;
+				str = getItem(mustnotcontain, ';', count);
+			} while (*str != 0);
+		}
 
-	//_ZwClose(hProcess);
-	LocalFree(UserPool);
-	delete[] buffer;
-	delete[] buffer2;
+		//_ZwClose(hProcess);
+		LocalFree(UserPool);
+		delete[] buffer;
+		delete[] buffer2;
 
-	return TRUE;
+		return TRUE;
 }
 
 #define RECV_BUFFER_SIZE 6144
 
-BOOL CheckWWWContent(char*address) {
+BOOL CheckWWWContent(char*address)
+{
 	Netlib_Logf(hNetlib, "Check Url %s ...", address);
 
 	//netlib request
@@ -921,11 +860,10 @@ BOOL CheckWWWContent(char*address) {
 }
 
 
-BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf, unsigned int* size) {
-	if (dontoverwrite == TRUE)
-	{
-		if (GetFileAttributesA(filename) != 0xFFFFFFFF)
-		{
+BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf, unsigned int* size)
+{
+	if (dontoverwrite == TRUE) {
+		if (GetFileAttributesA(filename) != 0xFFFFFFFF) {
 			Netlib_Logf(hNetlib, "%s already exists, no overwrite.", filename);
 			return TRUE;
 		}
@@ -949,19 +887,15 @@ BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf
 			return FALSE;
 		}
 		//keine daten für mich
-		else if (nlhrReply->dataLength < 1 || nlhrReply->pData == NULL)
-		{
+		else if (nlhrReply->dataLength < 1 || nlhrReply->pData == NULL) {
 			Netlib_Logf(hNetlib, "No data received.");
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 			return FALSE;
 		}
-		else
-		{
-			if (tobuf == NULL)
-			{
+		else {
+			if (tobuf == NULL) {
 				FILE * f = fopen(filename, "wb");
-				if (f == NULL)
-				{
+				if (f == NULL) {
 					Netlib_Logf(hNetlib, "Cannot open %s for binary write mode.", filename);
 					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 					return FALSE;
@@ -969,10 +903,8 @@ BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf
 				fwrite(nlhrReply->pData, nlhrReply->dataLength, 1, f);
 				fclose(f);
 			}
-			else
-			{
-				if (*tobuf == NULL)
-				{
+			else {
+				if (*tobuf == NULL) {
 					*tobuf = new char[nlhrReply->dataLength + 1];
 					memcpy_s(*tobuf, nlhrReply->dataLength, nlhrReply->pData, nlhrReply->dataLength);
 					//0 terminieren
@@ -985,15 +917,15 @@ BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
-	else
-	{
+	else {
 		Netlib_Logf(hNetlib, "No valid Netlib Request.", filename);
 		return FALSE;
 	}
 	return TRUE;
 }
 //eigener www downloader, da winet exceptions erzeugt
-BOOL GetWWWContent(char*host, char* request, char*filename, BOOL dontoverwrite) {
+BOOL GetWWWContent(char*host, char* request, char*filename, BOOL dontoverwrite)
+{
 	char add[1024] = "http://";
 	mir_strcat(add, host);
 	mir_strcat(add, request);
@@ -1013,11 +945,11 @@ unsigned int getfilesize(char*path)
 }
 
 //funktion soll erst in der userini suchen, danach in der xfire_games.ini
-DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKeyName, __in   LPCSTR lpDefault, __out  LPSTR lpReturnedString, __in   DWORD nSize, __in   LPCSTR lpFileName) {
+DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKeyName, __in   LPCSTR lpDefault, __out  LPSTR lpReturnedString, __in   DWORD nSize, __in   LPCSTR lpFileName)
+{
 	//xfire_games.ini
 	int size = mir_strlen(lpFileName);
-	if (size > 15)
-	{
+	if (size > 15) {
 		char*file = (char*)lpFileName;
 		int ret = 0;
 		*(file + size - 14) = 'u';
@@ -1026,25 +958,21 @@ DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKey
 		*(file + size - 11) = 'r';
 		ret = GetPrivateProfileStringA(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
 		if (ret)
-		{
 			return ret;
-		}
-		else
-		{
-			*(file + size - 14) = 'f';
-			*(file + size - 13) = 'i';
-			*(file + size - 12) = 'r';
-			*(file + size - 11) = 'e';
-			return GetPrivateProfileStringA(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
-		}
+
+		*(file + size - 14) = 'f';
+		*(file + size - 13) = 'i';
+		*(file + size - 12) = 'r';
+		*(file + size - 11) = 'e';
+		return GetPrivateProfileStringA(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
 	}
 	return GetPrivateProfileStringA(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
 }
 
 
-BOOL mySleep(int ms, HANDLE evt) {
-	switch (WaitForSingleObject(evt, ms))
-	{
+BOOL mySleep(int ms, HANDLE evt)
+{
+	switch (WaitForSingleObject(evt, ms)) {
 	case WAIT_TIMEOUT:
 		return FALSE;
 	case WAIT_ABANDONED:
@@ -1053,6 +981,4 @@ BOOL mySleep(int ms, HANDLE evt) {
 	default:
 		return TRUE;
 	}
-
-	return FALSE;
 }

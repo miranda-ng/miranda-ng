@@ -3,12 +3,10 @@
 #include "stdafx.h"
 #include "setnickname.h"
 
-INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
 
@@ -18,11 +16,9 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			db_free(&dbv);
 		}
 		return TRUE;
-	}
+
 	case WM_COMMAND:
-	{
-		if (LOWORD(wParam) == IDOK)
-		{
+		if (LOWORD(wParam) == IDOK) {
 			char nick[255];
 			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, nick, _countof(nick));
 
@@ -31,16 +27,15 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			EndDialog(hwndDlg, TRUE);
 			return TRUE;
 		}
-		else if (LOWORD(wParam) == IDCANCEL)
-		{
+		else if (LOWORD(wParam) == IDCANCEL) {
 			EndDialog(hwndDlg, FALSE);
 			return FALSE;
 		}
 	}
-	}
 	return FALSE;
 }
 
-BOOL ShowSetNick() {
+BOOL ShowSetNick()
+{
 	return DialogBox(hinstance, MAKEINTRESOURCE(IDD_SETNICKNAME), NULL, DlgNickProc);
 }

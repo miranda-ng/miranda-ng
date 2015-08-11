@@ -25,61 +25,57 @@
 #include "buddylistonlinepacket.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
-#include <vector>
 #include "xdebug.h"
 #include <iostream>
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  void BuddyListOnlinePacket::parseContent(char *buf, int length, int numberOfAtts) {
-	DUMPPACKET("BuddyListOnlinePacket")
-    XINFO(( "Got List of buddys that are online\n" ));
-    int index = 0;
-    // friends
-    VariableValue userid;
-    userids = new vector<long>;
+namespace xfirelib
+{
+	void BuddyListOnlinePacket::parseContent(char *buf, int, int)
+	{
+		DUMPPACKET("BuddyListOnlinePacket")
+			XINFO(("Got List of buddys that are online\n"));
+		int index = 0;
+		// friends
+		VariableValue userid;
+		userids = new vector<long>;
 
-    /* auskommentiert, wird nicht mehr gesendet 2.3.11
-	index += userid.readName(buf,index);
-	*/
-	index ++; // Ignore 01
-    index ++; // Ignore 04
-    index ++; // Ignore 02
-	
+		/* auskommentiert, wird nicht mehr gesendet 2.3.11
+	  index += userid.readName(buf,index);
+	  */
+		index++; // Ignore 01
+		index++; // Ignore 04
+		index++; // Ignore 02
 
-    int numberOfIds = (unsigned char)buf[index];
-    index++;
-    index++;//ignore 00
-    for(int i = 0 ; i < numberOfIds ; i++) {
-      index += userid.readValue(buf,index,4);
-      userids->push_back(userid.getValueAsLong());
-      XINFO2( "UserID: %ld\n", userid.getValueAsLong() );
-    }
 
-    VariableValue sid;
-    sids = new vector<char *>;
-    /* auskommentiert, wird nicht mehr gesendet 2.3.11
-	index += sid.readName(buf,index); */
+		int numberOfIds = (unsigned char)buf[index];
+		index++;
+		index++;//ignore 00
+		for (int i = 0; i < numberOfIds; i++) {
+			index += userid.readValue(buf, index, 4);
+			userids->push_back(userid.getValueAsLong());
+			XINFO2("UserID: %ld\n", userid.getValueAsLong());
+		}
 
-	index ++; // Ignore 03
-    index ++; // Ignore 04
-    index ++; // Ignore 03
-	
+		VariableValue sid;
+		sids = new vector<char *>;
+		/* auskommentiert, wird nicht mehr gesendet 2.3.11
+	  index += sid.readName(buf,index); */
 
-    numberOfIds = (unsigned char)buf[index];
-    index++;
-    index++;//ignore 00
-    for(int i = 0 ; i < numberOfIds ; i++) {
-      index += userid.readValue(buf,index,16);
-      char *sid = new char[16];
-      memcpy(sid,userid.getValue(),16);
-      sids->push_back(sid);
-      //for(int loop = 0; loop < userid.getValueLength();loop++){
-      //      XINFO(( "SID: %d\n", userid.getValue()[loop] ));
-      //}
-    }
+		index++; // Ignore 03
+		index++; // Ignore 04
+		index++; // Ignore 03
 
-  }
 
+		numberOfIds = (unsigned char)buf[index];
+		index++;
+		index++;//ignore 00
+		for (int i = 0; i < numberOfIds; i++) {
+			index += userid.readValue(buf, index, 16);
+			char *sid = new char[16];
+			memcpy(sid, userid.getValue(), 16);
+			sids->push_back(sid);
+		}
+	}
 };

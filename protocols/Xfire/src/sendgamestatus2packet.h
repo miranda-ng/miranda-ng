@@ -30,27 +30,26 @@
 
 namespace xfirelib {
 
-  class SendGameStatus2Packet : public SendGameStatusPacket {
-  public:
-    virtual ~SendGameStatus2Packet() { }
-	SendGameStatus2Packet();
-    int getPacketId() { return XFIRE_GAME_STATUS2_PACKET; }
+	class SendGameStatus2Packet : public SendGameStatusPacket {
+	public:
+		virtual ~SendGameStatus2Packet() { }
+		SendGameStatus2Packet();
+		int getPacketId() { return XFIRE_GAME_STATUS2_PACKET; }
 
-	int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 3; }
-    int getPacketSize() { return 1024; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 3; }
+		int getPacketSize() { return 1024; }
 
-	//gamestatus2 packet ready gemacht
-	long gameid;
-    char ip[4];
-    long port;
+		//gamestatus2 packet ready gemacht
+		long gameid;
+		char ip[4];
+		long port;
 
-  protected:
-    virtual std::string getGameAttributeName() { return "vid"; }
-    virtual std::string getIPAttributeName() { return "vip"; }
-    virtual std::string getPortAttributeName() { return "vport"; }
-  };
-
+	protected:
+		virtual std::string getGameAttributeName() { return "vid"; }
+		virtual std::string getIPAttributeName() { return "vip"; }
+		virtual std::string getPortAttributeName() { return "vport"; }
+	};
 };
 
 #endif

@@ -29,7 +29,6 @@
 	#include <pthread.h>
 #endif
 
-#include <string>
 #include "packetreader.h"
 #include "xfirepacketcontent.h"
 #include "packetlistener.h"
@@ -37,59 +36,59 @@
 #include "xfiregameresolver.h"
 
 namespace xfirelib {
-  struct BuddyList;
+	struct BuddyList;
 
-class Client : public PacketListener {
- public:
-  Client();
-  ~Client();
-  //proxy hinzugefügt dufte
-  void connect(std::string username, std::string password,int useproxy=0,string proxyip="",int proxyport=0);
-  /**
-   * Sends a XFirePacketContent (does NOT delete content)
-   * Returns true if sent successfully.
-   */
-  bool send(XFirePacketContent *content);
+	class Client : public PacketListener {
+	public:
+		Client();
+		~Client();
+		//proxy hinzugefügt dufte
+		void connect(std::string username, std::string password,int useproxy=0,string proxyip="",int proxyport=0);
+		/**
+		* Sends a XFirePacketContent (does NOT delete content)
+		* Returns true if sent successfully.
+		*/
+		bool send(XFirePacketContent *content);
 
-  BuddyList *getBuddyList() { return buddyList; }
-  void addPacketListener(PacketListener *packetListener);
-  void disconnect();
-  void sendMessage(string username, string message);
-  void sendNickChange(string nick);
-  XFireGameResolver *getGameResolver();
-  void setGameResolver(XFireGameResolver *resolver) {
-    delete this->gameResolver;
-    this->gameResolver = resolver;
-  }
+		BuddyList *getBuddyList() { return buddyList; }
+		void addPacketListener(PacketListener *packetListener);
+		void disconnect();
+		void sendMessage(string username, string message);
+		void sendNickChange(string nick);
+		XFireGameResolver *getGameResolver();
+		void setGameResolver(XFireGameResolver *resolver) {
+			delete this->gameResolver;
+			this->gameResolver = resolver;
+		}
 
-  BOOL gotBudduyList;
-  BOOL connected;
-  char protocolVersion;
-  char localaddr[18];
-  unsigned long llocaladdr;
+		BOOL gotBudduyList;
+		BOOL connected;
+		char protocolVersion;
+		char localaddr[18];
+		unsigned long llocaladdr;
 
- protected:
-  void receivedPacket( XFirePacket *packet );
-  void startThreads();
+	protected:
+		void receivedPacket( XFirePacket *packet );
+		void startThreads();
 #ifndef NO_PTHREAD
-  static void *startReadThread(void *ptr);
-  static void *startSendPingThread(void *ptr);
+		static void *startReadThread(void *ptr);
+		static void *startSendPingThread(void *ptr);
 #else
-  static void startReadThread(LPVOID lParam);
-  static void startSendPingThread(LPVOID lParam);
+		static void startReadThread(LPVOID lParam);
+		static void startSendPingThread(LPVOID lParam);
 #endif
- private:
-  XFireGameResolver *gameResolver;
-  PacketReader *packetReader;
-  std::string *username;
-  std::string *password;
-  Socket *socket;
-  BuddyList *buddyList;
+	private:
+		XFireGameResolver *gameResolver;
+		PacketReader *packetReader;
+		std::string *username;
+		std::string *password;
+		Socket *socket;
+		BuddyList *buddyList;
 #ifndef NO_PTHREAD
-  pthread_t readthread;
-  pthread_t sendpingthread;
+		pthread_t readthread;
+		pthread_t sendpingthread;
 #endif
-};
+	};
 
 };
 

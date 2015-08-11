@@ -27,43 +27,42 @@
 
 #include <windows.h>
 
-namespace xfirelib {
+namespace xfirelib
+{
+	SendGameStatusPacket::SendGameStatusPacket()
+	{
+		ip[0] = ip[1] = ip[2] = ip[3] = 0;
+		port = 0;
+	}
 
-  SendGameStatusPacket::SendGameStatusPacket() {
-    ip[0] = ip[1] = ip[2] = ip[3] = 0;
-    port = 0;
-  }
+	int SendGameStatusPacket::getPacketContent(char *buf)
+	{
+		VariableValue val;
 
-  int SendGameStatusPacket::getPacketContent(char *buf) {
-	
-    VariableValue val;
+		val.setName(getGameAttributeName());
 
-    val.setName( getGameAttributeName() );
+		val.setValueFromLong(gameid, 4);
 
-    val.setValueFromLong(gameid,4);
-    
-    int index = 0;
-    index += val.writeName(buf, index);
-    buf[index++] = 02;
-    index += val.writeValue(buf, index);
+		int index = 0;
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
 
-    val.setName( getIPAttributeName() );
+		val.setName(getIPAttributeName());
 
-	//BUG: hab ,4 hinzugefügt, führte und vista zum crash - dufte
-    val.setValue(ip,4);
-    val.setValueLength(4);
+		//BUG: hab ,4 hinzugefügt, führte und vista zum crash - dufte
+		val.setValue(ip, 4);
+		val.setValueLength(4);
 
-    index += val.writeName(buf, index);
-    buf[index++] = 02;
-    index += val.writeValue(buf, index);
-    val.setName( getPortAttributeName() );
-    val.setValueFromLong(port,4);
-    index += val.writeName(buf, index);
-    buf[index++] = 02;
-    index += val.writeValue(buf, index);
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
+		val.setName(getPortAttributeName());
+		val.setValueFromLong(port, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
 
-    return index;
-  }
-
-
+		return index;
+	}
 };

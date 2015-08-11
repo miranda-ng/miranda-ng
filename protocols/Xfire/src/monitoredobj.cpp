@@ -24,18 +24,21 @@
 
 //alle string klassen entfernt, da die stringklasse instabil ist - dufte
 
-namespace xfirelib {
-  int MonitoredObj::id = 0;
-  MonitoredObj::MonitoredObj() {
-    this->myid = id++;
-  }
+namespace xfirelib
+{
+	int MonitoredObj::id = 0;
+	MonitoredObj::MonitoredObj()
+	{
+		this->myid = id++;
+	}
 
-  MonitoredObj::~MonitoredObj() {
-  }
+	MonitoredObj::~MonitoredObj()
+	{
+	}
 
-  int MonitoredObj::getTotalObjectCount() {
-    int total = 0;
-    return total;
-  }
-
+	int MonitoredObj::getTotalObjectCount()
+	{
+		int total = 0;
+		return total;
+	}
 };

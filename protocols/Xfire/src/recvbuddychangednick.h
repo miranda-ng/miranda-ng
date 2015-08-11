@@ -27,26 +27,23 @@
 //packet liest neue nicks ein
 
 #include "xfirerecvpacketcontent.h"
-#include <string>
 
 #define XFIRE_RECVBUDDYCHANGEDNICK 161
 
 namespace xfirelib {
-  class RecvBuddyChangedNick : public XFireRecvPacketContent {
-  public:
-    virtual ~RecvBuddyChangedNick() { }
-    int getPacketId() { return XFIRE_RECVBUDDYCHANGEDNICK; }
+	class RecvBuddyChangedNick : public XFireRecvPacketContent {
+	public:
+		virtual ~RecvBuddyChangedNick() { }
+		int getPacketId() { return XFIRE_RECVBUDDYCHANGEDNICK; }
 
-    XFirePacketContent *newPacket() { return new RecvBuddyChangedNick(); }
-    void parseContent(char *buf, int length, int numberOfAtts);
+		XFirePacketContent *newPacket() { return new RecvBuddyChangedNick(); }
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    long userid;
+		long userid;
 
-    std::string newnick;
-	void* entry; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
-  };
-
+		std::string newnick;
+		void* entry; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
+	};
 };
-
 
 #endif

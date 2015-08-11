@@ -23,9 +23,6 @@
 #ifndef __BUDDYLIST_H
 #define __BUDDYLIST_H
 
-#include <iostream>
-#include <vector>
-
 #include "buddylistnamespacket.h"
 #include "clanbuddylistnamespacket.h"
 #include "buddylistgamespacket.h"
@@ -67,33 +64,33 @@ namespace xfirelib {
 	};
 
 
-  class BuddyListEntry {
-  public:
-	  BuddyListEntry();
-	  ~BuddyListEntry();
-	  bool isOnline();
+	class BuddyListEntry {
+	public:
+		BuddyListEntry();
+		~BuddyListEntry();
+		bool isOnline();
 
-	  void setSid(const char *sid);
+		void setSid(const char *sid);
 
-	  long userid;
-	  char sid[16];
-	  string nick;
-	  string username;
-	  string statusmsg;
-	  string gameinfo;
-	  long game;
-	  long game2;
-	  MCONTACT hcontact;
-	  int clanid;
+		long userid;
+		char sid[16];
+		string nick;
+		string username;
+		string statusmsg;
+		string gameinfo;
+		long game;
+		long game2;
+		MCONTACT hcontact;
+		int clanid;
 
-	  //lastpopup
-	  char* lastpopup;
+		//lastpopup
+		char* lastpopup;
 
-	  XFireGame *gameObj;
-	  XFireGame *game2Obj;
-  };
+		XFireGame *gameObj;
+		XFireGame *game2Obj;
+	};
 
-  typedef BuddyListEntry *PBuddyListEntry;
+	typedef BuddyListEntry *PBuddyListEntry;
 };
 
 

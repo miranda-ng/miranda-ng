@@ -31,13 +31,13 @@
 
 namespace xfirelib {
 
-  class BuddyListGames2Packet : public BuddyListGamesPacket {
-  public:
-    BuddyListGames2Packet();
-    XFirePacketContent* newPacket() { return new BuddyListGames2Packet(); }
-    virtual int getPacketId() { return XFIRE_BUDDYS_GAMES2_ID; }
-    virtual void parseContent(char *buf, int length, int numberOfAtts);
-  };
+	class BuddyListGames2Packet : public BuddyListGamesPacket {
+	public:
+		BuddyListGames2Packet();
+		XFirePacketContent* newPacket() { return new BuddyListGames2Packet(); }
+		virtual int getPacketId() { return XFIRE_BUDDYS_GAMES2_ID; }
+		virtual void parseContent(char *buf, int length, int numberOfAtts);
+	};
 
 };
 

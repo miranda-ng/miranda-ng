@@ -24,115 +24,101 @@
 
 #include "stdafx.h"
 
-#include <vector>
-#include <string>
-
 #include "claninvitationpacket.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-	using namespace std;
+using namespace std;
 
-	ClanInvitationPacket::ClanInvitationPacket() {
-	}
-	ClanInvitationPacket::~ClanInvitationPacket() {
-	}
-
-	void ClanInvitationPacket::parseContent(char *buf, int length, int numberOfAtts) {
+namespace xfirelib
+{
+	void ClanInvitationPacket::parseContent(char *buf, int, int)
+	{
 		int index = 0;
 		numberOfInv = 0;
 		VariableValue val;
 
-		index+=0x3; //einige bytes überspringen
+		index += 0x3; //einige bytes überspringen
 
-		numberOfInv=buf[index];
-		XDEBUG2("Invs %d\n",numberOfInv);
+		numberOfInv = buf[index];
+		XDEBUG2("Invs %d\n", numberOfInv);
 
-		index+=2; // überspring 0
+		index += 2; // überspring 0
 
 		//clan id's überspringen, wird eh nicht gebraucht
-		for(int i=0;i<numberOfInv;i++)
-			index+=4;
+		for (int i = 0; i < numberOfInv; i++)
+			index += 4;
 
 		index++; // 0x72 überspringen
 
-		index+=4; // weitere bytes überspringen
+		index += 4; // weitere bytes überspringen
 
 		//clanidnamen überspringen
-		for(int i=0;i<numberOfInv;i++)
-		{
+		for (int i = 0; i < numberOfInv; i++) {
 			int length = (unsigned char)buf[index++];
 			index++;
-			index += val.readValue(buf,index,length);
-			string stringvalue = string(val.getValue(),length);
-			XDEBUG2("Clanidnames von %s\n",stringvalue.c_str());
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			XDEBUG2("Clanidnames von %s\n", stringvalue.c_str());
 		}
 
 		//weitere 5 bytes überspringen
-		index+=5;
+		index += 5;
 
-		for(int i=0;i<numberOfInv;i++)
-		{
+		for (int i = 0; i < numberOfInv; i++) {
 			int length = (unsigned char)buf[index++];
 			index++;
-			index += val.readValue(buf,index,length);
-			string stringvalue = string(val.getValue(),length);
-			XDEBUG2("Inv von %s\n",stringvalue.c_str());
-			clanname[i]=stringvalue;
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			XDEBUG2("Inv von %s\n", stringvalue.c_str());
+			clanname[i] = stringvalue;
 		}
 
 		//weitere 5 bytes skippen
-		index+=5;
+		index += 5;
 
 		//weitere leere bytes skippen, weis nich was für einen sinn haben
-		for(int i=0;i<numberOfInv;i++)
-			index+=4;
+		for (int i = 0; i < numberOfInv; i++)
+			index += 4;
 
 		//weitere 5 bytes skippen
-		index+=5;
+		index += 5;
 
 		//usernames auslesen
-		for(int i=0;i<numberOfInv;i++)
-		{
+		for (int i = 0; i < numberOfInv; i++) {
 			int length = (unsigned char)buf[index++];
 			index++;
-			index += val.readValue(buf,index,length);
-			string stringvalue = string(val.getValue(),length);
-			XDEBUG2("Usernames von %s\n",stringvalue.c_str());
-			invitefromusername[i]=stringvalue;
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			XDEBUG2("Usernames von %s\n", stringvalue.c_str());
+			invitefromusername[i] = stringvalue;
 		}
 
 		//nochmal weitere 5 bytes skippen
-		index+=5;
+		index += 5;
 
 		//nicks auslesen
-		for(int i=0;i<numberOfInv;i++)
-		{
+		for (int i = 0; i < numberOfInv; i++) {
 			int length = (unsigned char)buf[index++];
 			index++;
-			index += val.readValue(buf,index,length);
-			string stringvalue = string(val.getValue(),length);
-			XDEBUG2("Nicks von %s\n",stringvalue.c_str());
-			invitefrom[i]=stringvalue;
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			XDEBUG2("Nicks von %s\n", stringvalue.c_str());
+			invitefrom[i] = stringvalue;
 		}
 
 		//nochmal weitere 5 bytes skippen
-		index+=5;
+		index += 5;
 
 		//einladungen auslesen
-		for(int i=0;i<numberOfInv;i++)
-		{
+		for (int i = 0; i < numberOfInv; i++) {
 			int length = (unsigned char)buf[index++];
 			index++;
-			index += val.readValue(buf,index,length);
-			string stringvalue = string(val.getValue(),length);
-			XDEBUG2("Nicks von %s\n",stringvalue.c_str());
-			invitemsg[i]=stringvalue;
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			XDEBUG2("Nicks von %s\n", stringvalue.c_str());
+			invitemsg[i] = stringvalue;
 		}
-
 	}
-
-
 };

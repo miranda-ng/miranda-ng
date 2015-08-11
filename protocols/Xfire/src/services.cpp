@@ -30,17 +30,16 @@
 
 #include "baseProtocol.h"
 
-BOOL IsContactMySelf(std::string buddyusername) {
+BOOL IsContactMySelf(std::string buddyusername)
+{
 	DBVARIANT dbv;
 
 	//nur wenn option aktiv, sonst immer FALSE
 	if (!db_get_b(NULL, protocolname, "skipmyself", 0))
 		return FALSE;
 
-	if (!db_get(NULL, protocolname, "login", &dbv))
-	{
-		if (!mir_strcmpi(dbv.pszVal, buddyusername.c_str()))
-		{
+	if (!db_get(NULL, protocolname, "login", &dbv)) {
+		if (!mir_strcmpi(dbv.pszVal, buddyusername.c_str())) {
 			db_free(&dbv);
 			return TRUE;
 		}
@@ -64,15 +63,12 @@ INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam)
 }
 
 //liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
-int mBotNotify(WPARAM wparam, LPARAM lparam) {
-
-	if (wparam) {
+int mBotNotify(WPARAM wparam, LPARAM)
+{
+	if (wparam)
 		CallService(MBOT_TRIGGER, (WPARAM)"xfireingame", 1);
-	}
 	else
-	{
 		CallService(MBOT_TRIGGER, (WPARAM)"xfireingame", 0);
-	}
 
 	return 0;
 }

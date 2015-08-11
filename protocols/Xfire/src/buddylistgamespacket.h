@@ -25,36 +25,32 @@
 
 #define XFIRE_BUDDYS_GAMES_ID 135
 
-#include <vector>
-#include <string>
-
 #include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
-
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class BuddyListGamesPacket : public XFireRecvPacketContent {
-  public:
-    BuddyListGamesPacket();
-    virtual ~BuddyListGamesPacket();
+	class BuddyListGamesPacket : public XFireRecvPacketContent {
+	public:
+		BuddyListGamesPacket();
+		virtual ~BuddyListGamesPacket();
 
-    XFirePacketContent* newPacket() { return new BuddyListGamesPacket(); }
+		XFirePacketContent* newPacket() { return new BuddyListGamesPacket(); }
 
-    virtual int getPacketId() { return XFIRE_BUDDYS_GAMES_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    virtual void parseContent(char *buf, int length, int numberOfAtts);
+		virtual int getPacketId() { return XFIRE_BUDDYS_GAMES_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		virtual void parseContent(char *buf, int length, int numberOfAtts);
 
-    vector<char *> *ips;
-    vector<long> *ports;
-    vector<long> *gameids;
-    vector<long> *gameids2;
-    vector<char *> *sids;
-	int type;
-  };
+		vector<char *> *ips;
+		vector<long> *ports;
+		vector<long> *gameids;
+		vector<long> *gameids2;
+		vector<char *> *sids;
+		int type;
+	};
 };
 
 

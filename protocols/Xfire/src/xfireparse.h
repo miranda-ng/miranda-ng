@@ -27,10 +27,10 @@
 #include "variablevalue.h"
 namespace xfirelib {
 
-class XFireParse {
- public:
-	XFireParse();
-};
+	class XFireParse {
+	public:
+		XFireParse();
+	};
 
 };
 
