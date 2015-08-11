@@ -70,7 +70,7 @@ void ChangeMenuItemCountdown()
 }
 
 /*****************************************************************************/
-static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, int FontType, LPARAM lParam)
+static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX*, int, LPARAM lParam)
 {
 	if (!IsWindow((HWND) lParam))
 		return FALSE;
@@ -113,7 +113,7 @@ void BGclrLoop()
 }
 
 /*****************************************************************************/
-void StartUpdate(void *dummy)
+void StartUpdate(void*)
 {
 	StartUpDelay = 1;
 	Sleep(((db_get_dw(NULL, MODULENAME, START_DELAY_KEY, 0)) * SECOND));
@@ -125,7 +125,7 @@ void StartUpdate(void *dummy)
 }
 
 /*****************************************************************************/
-void ContactLoop(void *dummy)
+void ContactLoop(void*)
 {
 	if (StartUpDelay == 0) {
 		for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
@@ -138,7 +138,7 @@ void ContactLoop(void *dummy)
 }
 
 /*****************************************************************************/
-INT_PTR MarkAllReadMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR MarkAllReadMenuCommand(WPARAM, LPARAM)
 {
 	ChangeContactStatus(1);
 	return 0;
@@ -164,7 +164,7 @@ void InitialiseGlobals(void)
 }
 
 /*****************************************************************************/
-int Doubleclick(WPARAM wParam, LPARAM lParam)
+int Doubleclick(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	char *szProto = GetContactProto(hContact);
@@ -222,7 +222,6 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	DWORD  italic = 0;
 	DWORD  underline = 0;
 
-	int len = GetWindowTextLength(GetDlgItem(hWindow, IDC_DATA));
 	SetDlgItemText(hWindow, IDC_DATA, _T(""));
 
 	CHARFORMAT2 cfFM;
@@ -291,7 +290,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 
 /*****************************************************************************/
 
-static int OptInitialise(WPARAM wParam, LPARAM lParam)
+static int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -359,7 +358,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 }
 
 /*****************************************************************************/
-INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
@@ -395,14 +394,14 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR UpdateAllMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR UpdateAllMenuCommand(WPARAM, LPARAM)
 {
 	mir_forkthread(ContactLoop, NULL);
 	return 0;
 }
 
 /*****************************************************************************/
-INT_PTR AutoUpdateMCmd(WPARAM wParam, LPARAM lParam)
+INT_PTR AutoUpdateMCmd(WPARAM, LPARAM)
 {
 	if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 		db_set_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0);
@@ -422,7 +421,7 @@ INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 }
 
 /*****************************************************************************/
-int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
+int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 {
 	int ontop = 0;
 	int done = 0;
@@ -443,7 +442,7 @@ int OnTopMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
 }
 
 /*****************************************************************************/
-INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
@@ -455,7 +454,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int UpdateMenuCommand(WPARAM wParam, LPARAM lParam, MCONTACT singlecontact)
+int UpdateMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 {
 	mir_forkthread(GetData, (void*)singlecontact);
 	return 0;
@@ -499,7 +498,7 @@ INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 }
 
 /*****************************************************************************/
-INT_PTR CountdownMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR CountdownMenuCommand(WPARAM, LPARAM)
 {
 	return 0;
 }

@@ -201,8 +201,6 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 	case WM_COMMAND:
-	{
-		WORD wNotifyCode = HIWORD(wParam);
 		switch (LOWORD(wParam))
 		{
 		case IDC_BTNOK:
@@ -210,7 +208,6 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		break;
-	}
 	}
 	return 0;
 }

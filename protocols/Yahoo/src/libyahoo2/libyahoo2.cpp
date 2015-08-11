@@ -3167,7 +3167,7 @@ static void yahoo_process_ignore(struct yahoo_input_data *yid, struct yahoo_pack
 	}
 }
 
-static void yahoo_process_stealth(struct yahoo_input_data *yid, struct yahoo_packet *pkt)
+static void yahoo_process_stealth(struct yahoo_input_data*, struct yahoo_packet *pkt)
 {
 	//struct yahoo_data *yd = yid->yd;
 	char *who = NULL;
@@ -3187,7 +3187,7 @@ static void yahoo_process_stealth(struct yahoo_input_data *yid, struct yahoo_pac
 	NOTICE(("got %s stealth info for %s with value: %d", pkt->service == YAHOO_SERVICE_STEALTH_PERM ? "permanent": "session" , who, status == 1));
 }
 
-static void yahoo_process_voicechat(struct yahoo_input_data *yid, struct yahoo_packet *pkt)
+static void yahoo_process_voicechat(struct yahoo_input_data*, struct yahoo_packet *pkt)
 {
 	char *who = NULL;
 	char *me = NULL;
@@ -3564,7 +3564,7 @@ static void yahoo_process_ping(struct yahoo_input_data *yid, struct yahoo_packet
 	YAHOO_CALLBACK(ext_yahoo_got_ping)(yid->yd->client_id, errormsg);
 }
 
-static void yahoo_process_yab_update(struct yahoo_input_data *yid, struct yahoo_packet *pkt)
+static void yahoo_process_yab_update(struct yahoo_input_data*, struct yahoo_packet *pkt)
 {
 	char *who=NULL,*yentry=NULL;
 	int  svc=0;
@@ -4340,7 +4340,7 @@ static void yahoo_process_pager_connection(struct yahoo_input_data *yid, int ove
 	}
 }
 
-static void yahoo_process_ft_connection(struct yahoo_input_data *yid, int over)
+static void yahoo_process_ft_connection(struct yahoo_input_data*, int)
 {
 }
 
@@ -4676,7 +4676,7 @@ static void (*yahoo_process_connection[])(struct yahoo_input_data *, int over) =
 	yahoo_process_search_connection
 };
 
-int yahoo_read_ready(int id, INT_PTR fd, void *data)
+int yahoo_read_ready(int, INT_PTR fd, void *data)
 {
 	struct yahoo_input_data *yid = (struct yahoo_input_data *) data;
 	struct yahoo_server_settings *yss;
@@ -5138,7 +5138,7 @@ void yahoo_get_list(int id)
 	}
 }
 
-static void _yahoo_http_connected(int id, INT_PTR fd, int error, void *data)
+static void _yahoo_http_connected(int, INT_PTR fd, int, void *data)
 {
 	struct yahoo_input_data *yid = (struct yahoo_input_data *) data;
 	if (fd <= 0) {
@@ -5942,7 +5942,7 @@ void yahoo_webcam_invite(int id, const char *who)
 	yahoo_packet_free(pkt);
 }
 
-static void yahoo_search_internal(int id, int t, const char *text, int g, int ar, int photo, int yahoo_only, int startpos, int total)
+static void yahoo_search_internal(int id, int t, const char *text, int g, int, int photo, int yahoo_only, int startpos, int total)
 {
 	struct yahoo_data *yd = find_conn_by_id(id);
 	struct yahoo_input_data *yid;

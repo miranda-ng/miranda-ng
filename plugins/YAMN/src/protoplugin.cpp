@@ -157,7 +157,7 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 	return 1;
 }
 
-INT_PTR UnregisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
+INT_PTR UnregisterProtocolPluginSvc(WPARAM wParam,LPARAM)
 {
 	HYAMNPROTOPLUGIN Plugin=(HYAMNPROTOPLUGIN)wParam;
 

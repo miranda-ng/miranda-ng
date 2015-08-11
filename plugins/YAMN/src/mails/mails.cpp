@@ -199,27 +199,23 @@ INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam)
 	if (MailVersion != YAMN_MAILDATAVERSION)
 		return NULL;
 
-//now we have all data to memory persisting, so no loading is needed
+	// now we have all data to memory persisting, so no loading is needed
 	return (INT_PTR)Mail->MailData;
 }
 
-INT_PTR UnloadMailDataSvc(WPARAM wParam,LPARAM)
+INT_PTR UnloadMailDataSvc(WPARAM, LPARAM)
 {
-	HYAMNMAIL Mail=(HYAMNMAIL)wParam;
-
-//now we should delete structure from memory, but it will be made in future YAMN version
 	return 1;
 }
 
-INT_PTR SaveMailDataSvc(WPARAM wParam,LPARAM lParam)
+INT_PTR SaveMailDataSvc(WPARAM, LPARAM lParam)
 {
-	HYAMNMAIL Mail=(HYAMNMAIL)wParam;
 	DWORD MailVersion=(DWORD)lParam;
 
 	if (MailVersion != YAMN_MAILDATAVERSION)
 		return (INT_PTR)-1;
 
-//now we have all data to memory persisting, so no saving is needed
+	// now we have all data to memory persisting, so no saving is needed
 	return (INT_PTR)0;
 }
 

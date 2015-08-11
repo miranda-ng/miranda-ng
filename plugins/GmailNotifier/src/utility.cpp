@@ -42,9 +42,12 @@ BOOL GetBrowser(char *str)
 		strKey = strIE;
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
-	else if (!db_get_s(NULL, MODULE_NAME, "OpenUsePrgPath", &dbv)) {
-		mir_strcpy(str, dbv.pszVal);
-		db_free(&dbv);
+	else {
+		if (!db_get_s(NULL, MODULE_NAME, "OpenUsePrgPath", &dbv)) {
+			mir_strcpy(str, dbv.pszVal);
+			db_free(&dbv);
+		}
+		else *str = 0;
 		return FALSE;
 	}
 

@@ -122,7 +122,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 // ActualAccount- handle of account, whose mails are show
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // returns one of UPDATE_XXX value (not implemented yet)
-int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount, struct CMailNumbers *MN);
+int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount);
 
 //Adds new mails to ListView and if any new, shows multi popup (every new message is new popup window created by popup plugin)
 // hListView- handle of listview window
@@ -131,7 +131,7 @@ int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount, struct CMai
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // nflags- flags what to do when new mail arrives
 // returns one of UPDATE_XXX value (not implemented yet)
-int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, struct CMailNumbers *MailNumbers, DWORD nflags);
+int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags);
 
 //Window callback procedure for popup window (created by popup plugin)
 LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -401,9 +401,9 @@ int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags)
 	else	RunPopups = FALSE;
 
 	if (RunMailBrowser)
-		ChangeExistingMailStatus(GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount, &MN);
+		ChangeExistingMailStatus(GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount);
 	if (RunMailBrowser || RunPopups)
-		AddNewMailsToListView(hDlg == NULL ? NULL : GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount, &MN, nflags);
+		AddNewMailsToListView(hDlg == NULL ? NULL : GetDlgItem(hDlg, IDC_LISTMAILS), ActualAccount, nflags);
 
 	if (RunMailBrowser)
 	{
@@ -452,7 +452,7 @@ int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags)
 	return 1;
 }
 
-int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount, struct CMailNumbers *MN)
+int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount)
 {
 	int i, in;
 	LVITEMW item;
@@ -482,7 +482,7 @@ int ChangeExistingMailStatus(HWND hListView, HACCOUNT ActualAccount, struct CMai
 }
 
 void MimeDateToLocalizedDateTime(char *datein, WCHAR *dateout, int lendateout);
-int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, struct CMailNumbers *MN, DWORD nflags)
+int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 {
 	HYAMNMAIL msgq;
 	POPUPDATAT NewMailPopup = { 0 };
@@ -901,7 +901,6 @@ LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 	case UM_FREEPLUGINDATA:{
 		PYAMN_MAILSHOWPARAM mpd = (PYAMN_MAILSHOWPARAM)PUGetPluginData(hWnd);
-		MCONTACT hContact = 0;
 		if ((mpd) && (INT_PTR)mpd != -1)free(mpd);
 		return FALSE;
 	}
@@ -1574,7 +1573,6 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (wParam == SIZE_RESTORED) {
 			HWND hList = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			HWND hEdit = GetDlgItem(hDlg, IDC_EDITBODY);
-			BOOL changeX = LOWORD(lParam) != HeadSizeX;
 			BOOL isBodyShown = ((PYAMN_MAILSHOWPARAM)(GetWindowLongPtr(hDlg, DWLP_USER)))->mail->Flags & YAMN_MSG_BODYRECEIVED;
 			HeadSizeX = LOWORD(lParam);	//((LPRECT)lParam)->right-((LPRECT)lParam)->left;
 			HeadSizeY = HIWORD(lParam);	//((LPRECT)lParam)->bottom-((LPRECT)lParam)->top;
@@ -2117,7 +2115,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_BTNDEL:
 		{
 			LVITEMW item;
-			HYAMNMAIL FirstMail = NULL, ActualMail;
+			HYAMNMAIL ActualMail;
 			HANDLE ThreadRunningEV;
 			DWORD Total = 0;
 

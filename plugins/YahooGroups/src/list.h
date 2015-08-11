@@ -48,6 +48,6 @@ class CGroupsList
 		char *operator [](int index);
 };
 
-extern CGroupsList &availableGroups;
+extern CGroupsList availableGroups;
 
 #endif //M_VIUPLOADER_LIST_H

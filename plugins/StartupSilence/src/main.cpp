@@ -31,7 +31,6 @@ HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = NULL;
 HANDLE Buttons = NULL;
-INT_PTR CALLBACK DlgProcOptions(HWND, UINT, WPARAM, LPARAM);
 int InitializeOptions(WPARAM wParam,LPARAM lParam);
 int DisablePopup(WPARAM wParam, LPARAM lParam);
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
@@ -77,13 +76,13 @@ PLUGININFOEX pluginInfo={
 	{0x7b856b6a, 0xd48f, 0x4f54, {0xb8, 0xd6, 0xc8, 0xd8, 0x6d, 0x2, 0xff, 0xc2}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -93,7 +92,7 @@ INT_PTR StartupSilence()
 	InitSettings();
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	mir_forkthread((pThreadFunc)AdvSt, NULL);
-	CreateServiceFunction(SS_SERVICE_NAME, SturtupSilenceEnabled);
+	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
 	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 	IsMenu();
 	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
@@ -115,7 +114,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
 	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
@@ -127,7 +126,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int DisablePopup(WPARAM wParam, LPARAM lParam)
+int DisablePopup(WPARAM wParam, LPARAM)
 {
 	if (DefEnabled == 1 && DefPopup == 0)      //All popups are blocked
 		return 1;
@@ -261,7 +260,7 @@ static INT_PTR AdvSt()
 	return 0;
 }
 
-static INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam)
+INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 {
 	db_set_b(NULL, MODULE_NAME, EnabledComp, !Enabled);
 	LoadSettings();
@@ -281,7 +280,7 @@ static INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam)
+INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 {
 	timer = (BYTE)wParam;
 	return 0;
@@ -315,7 +314,7 @@ void UpdateTTB()
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  0 : TTBST_PUSHED));
 }
 
-static int CreateTTButtons(WPARAM wParam, LPARAM lParam)
+static int CreateTTButtons(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.dwFlags = (Enabled == 1 ? 0 : TTBBF_PUSHED) | TTBBF_VISIBLE | TTBBF_ASPUSHBUTTON;
@@ -345,26 +344,11 @@ HANDLE GetIconHandle(char *szIcon)
 	return IcoLib_GetIconHandle(szSettingName);
 }
 
-int InitializeOptions(WPARAM wParam,LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
-	odp.pszGroup = LPGEN("Events");//FIXME: move to...Group?
-	odp.pszTitle = MENU_NAME;
-	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_INITDIALOG: {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		static BOOL initDlg=FALSE;
 		LoadSettings();
 		SetDlgItemText(hwndDlg,  IDC_HST, mir_a2t(hostname));
 		CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -387,7 +371,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED : BST_UNCHECKED);
-		}
 		break;
 
 	case WM_COMMAND:
@@ -470,9 +453,20 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		break;
-	case WM_NOTIFY:
-	case WM_DESTROY:
-		break;
 	}
 	return FALSE;
+}
+
+int InitializeOptions(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
+	odp.pszGroup = LPGEN("Events");//FIXME: move to...Group?
+	odp.pszTitle = MENU_NAME;
+	odp.groupPosition = 910000000;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOptions;
+	Options_AddPage(wParam, &odp);
+	return 0;
 }

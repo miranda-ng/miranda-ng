@@ -72,7 +72,7 @@ extern "C" __declspec(dllexport) int Unload()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	hI = hinst;
 	return TRUE;

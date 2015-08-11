@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-int OpenBrowser(WPARAM hContact, LPARAM lParam)
+int OpenBrowser(WPARAM hContact, LPARAM)
 {
 	char *proto = GetContactProto(hContact);
 	if (proto && !mir_strcmp(proto, MODULE_NAME)) {

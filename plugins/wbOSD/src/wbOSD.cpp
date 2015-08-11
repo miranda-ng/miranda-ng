@@ -233,8 +233,6 @@ LRESULT	CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	default:
 		return DefWindowProc (hwnd,	message, wParam, lParam);
 	}
-
-	return 0;
 }
 
 INT_PTR OSDAnnounce(WPARAM wParam, LPARAM lParam)
@@ -243,7 +241,7 @@ INT_PTR OSDAnnounce(WPARAM wParam, LPARAM lParam)
 	return SendMessage(hwnd, WM_USER+1, wParam, lParam);
 }
 
-int pluginShutDown(WPARAM wparam,LPARAM lparam)
+int pluginShutDown(WPARAM, LPARAM)
 {
 	logmsg("pluginShutDown");
 	if (hwnd) {
@@ -255,7 +253,7 @@ int pluginShutDown(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-int MainInit(WPARAM wparam,LPARAM lparam)
+int MainInit(WPARAM, LPARAM)
 {
 	logmsg("MainInit");
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);

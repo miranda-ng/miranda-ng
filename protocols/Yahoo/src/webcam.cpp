@@ -24,24 +24,22 @@
 #include <m_message.h>
 
 /* WEBCAM callbacks */
-void ext_yahoo_got_webcam_image(int id, const char *who,
-	const unsigned char *image, unsigned int image_size, unsigned int real_size,
-	unsigned int timestamp)
+void ext_yahoo_got_webcam_image(int, const char*, const unsigned char*, unsigned int, unsigned int, unsigned int)
 {
 	LOG(("ext_yahoo_got_webcam_image"));
 }
 
-void ext_yahoo_webcam_viewer(int id, const char *who, int connect)
+void ext_yahoo_webcam_viewer(int, const char*, int)
 {
 	LOG(("ext_yahoo_webcam_viewer"));
 }
 
-void ext_yahoo_webcam_closed(int id, const char *who, int reason)
+void ext_yahoo_webcam_closed(int, const char*, int)
 {
 	LOG(("ext_yahoo_webcam_closed"));
 }
 
-void ext_yahoo_webcam_data_request(int id, int send)
+void ext_yahoo_webcam_data_request(int, int)
 {
 	LOG(("ext_yahoo_webcam_data_request"));
 }
@@ -53,7 +51,7 @@ void ext_yahoo_webcam_invite(int id, const char *me, const char *from)
 	GETPROTOBYID(id)->ext_got_im(me, from, 0, Translate("[miranda] Got webcam invite. (not currently supported)"), 0, 0, 0, -1);
 }
 
-void ext_yahoo_webcam_invite_reply(int id, const char *me, const char *from, int accept)
+void ext_yahoo_webcam_invite_reply(int, const char*, const char*, int)
 {
 	LOG(("ext_yahoo_webcam_invite_reply"));
 }

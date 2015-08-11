@@ -83,7 +83,7 @@ class CExchangeServer{
 		int Check(int bNoEmailsNotify = FALSE);
 };
 
-extern CExchangeServer &exchangeServer;
+extern CExchangeServer exchangeServer;
 
 int ShowMessage(TCHAR *message, int cUnreadEmails);
 int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails);

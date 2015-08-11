@@ -69,7 +69,7 @@ INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -160,7 +160,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam
 }
 
 
-int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam)
+int YAMNOptInitSvc(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = YAMNVar.hInst;
@@ -195,7 +195,7 @@ int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam)
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
-BOOL DlgEnableAccountStatus(HWND hDlg,WPARAM wParam,LPARAM lParam)
+BOOL DlgEnableAccountStatus(HWND hDlg, WPARAM wParam, LPARAM)
 {
 	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST0),(BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST1),(BOOL)wParam);
@@ -210,7 +210,8 @@ BOOL DlgEnableAccountStatus(HWND hDlg,WPARAM wParam,LPARAM lParam)
 	EnableWindow(GetDlgItem(hDlg,IDC_CHECKST9),(BOOL)wParam);
 	return TRUE;
 }
-BOOL DlgEnableAccountPopup(HWND hDlg,WPARAM wParam,LPARAM lParam)
+
+BOOL DlgEnableAccountPopup(HWND hDlg, WPARAM wParam, LPARAM)
 {
 	EnableWindow(GetDlgItem(hDlg,IDC_CHECKPOP),(BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg,IDC_EDITPOPS),(IsDlgButtonChecked(hDlg,IDC_CHECKPOP)==BST_CHECKED) && wParam);
@@ -233,7 +234,7 @@ BOOL DlgEnableAccountPopup(HWND hDlg,WPARAM wParam,LPARAM lParam)
 	return TRUE;
 }
 
-BOOL DlgEnableAccount(HWND hDlg,WPARAM wParam,LPARAM lParam)
+BOOL DlgEnableAccount(HWND hDlg, WPARAM wParam, LPARAM)
 {
 	EnableWindow(GetDlgItem(hDlg,IDC_CHECK),(BOOL)wParam);
 	EnableWindow(GetDlgItem(hDlg,IDC_EDITSERVER),wParam);
@@ -511,7 +512,7 @@ BOOL DlgShowAccount(HWND hDlg,WPARAM wParam,LPARAM lParam)
 	return TRUE;
 }
 
-BOOL DlgShowAccountColors(HWND hDlg,WPARAM wParam,LPARAM lParam)
+BOOL DlgShowAccountColors(HWND hDlg, WPARAM, LPARAM lParam)
 {
 	HPOP3ACCOUNT ActualAccount=(HPOP3ACCOUNT)lParam;
 #ifdef DEBUG_SYNCHRO
@@ -576,74 +577,60 @@ BOOL DlgSetItemTextW(HWND hDlg,WPARAM wParam,const WCHAR* str)
 	return TRUE;
 }
 
-INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	static HPOP3ACCOUNT ActualAccount;
-	switch(msg)
-	{
-		case WM_INITDIALOG:
+	switch(msg) {
+	case WM_INITDIALOG:
+		ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput);
+		if (ActualAccount != NULL)
 		{
-			ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput);
-			if (ActualAccount != NULL)
-			{
-				DlgShowAccountStatus(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-				DlgEnableAccountStatus(hDlg,TRUE,TRUE);
-			}
-			else
-			{
-				CheckDlgButton(hDlg,IDC_CHECKST0,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST1,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST2,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST3,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST4,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST5,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST6,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST7,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST8,BST_CHECKED);
-				CheckDlgButton(hDlg,IDC_CHECKST9,BST_CHECKED);
-			}
-			TranslateDialogDefault(hDlg);
-			SendMessage(GetParent(hDlg),PSM_UNCHANGED,(WPARAM)hDlg,0);
-			return TRUE;
+			DlgShowAccountStatus(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
+			DlgEnableAccountStatus(hDlg,TRUE,TRUE);
+		}
+		else
+		{
+			CheckDlgButton(hDlg,IDC_CHECKST0,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST1,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST2,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST3,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST4,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST5,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST6,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST7,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST8,BST_CHECKED);
+			CheckDlgButton(hDlg,IDC_CHECKST9,BST_CHECKED);
+		}
+		TranslateDialogDefault(hDlg);
+		SendMessage(GetParent(hDlg),PSM_UNCHANGED,(WPARAM)hDlg,0);
+		return TRUE;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDOK:
+			Check0 = (IsDlgButtonChecked(hDlg,IDC_CHECKST0)==BST_CHECKED);
+			Check1 = (IsDlgButtonChecked(hDlg,IDC_CHECKST1)==BST_CHECKED);
+			Check2 = (IsDlgButtonChecked(hDlg,IDC_CHECKST2)==BST_CHECKED);
+			Check3 = (IsDlgButtonChecked(hDlg,IDC_CHECKST3)==BST_CHECKED);
+			Check4 = (IsDlgButtonChecked(hDlg,IDC_CHECKST4)==BST_CHECKED);
+			Check5 = (IsDlgButtonChecked(hDlg,IDC_CHECKST5)==BST_CHECKED);
+			Check6 = (IsDlgButtonChecked(hDlg,IDC_CHECKST6)==BST_CHECKED);
+			Check7 = (IsDlgButtonChecked(hDlg,IDC_CHECKST7)==BST_CHECKED);
+			Check8 = (IsDlgButtonChecked(hDlg,IDC_CHECKST8)==BST_CHECKED);
+			Check9 = (IsDlgButtonChecked(hDlg,IDC_CHECKST9)==BST_CHECKED);
+			WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_CHANGESTATUSOPTION,0,0);
+			EndDialog(hDlg,0);
+			DestroyWindow(hDlg);
+			break;
+
+		case IDCANCEL:
+			EndDialog(hDlg,0);
+			DestroyWindow(hDlg);
 			break;
 		}
-		case WM_COMMAND:
-		{
-		
-			WORD wNotifyCode = HIWORD(wParam);
-			switch(LOWORD(wParam))
-			{
-				case IDOK:
-					Check0 = (IsDlgButtonChecked(hDlg,IDC_CHECKST0)==BST_CHECKED);
-					Check1 = (IsDlgButtonChecked(hDlg,IDC_CHECKST1)==BST_CHECKED);
-					Check2 = (IsDlgButtonChecked(hDlg,IDC_CHECKST2)==BST_CHECKED);
-					Check3 = (IsDlgButtonChecked(hDlg,IDC_CHECKST3)==BST_CHECKED);
-					Check4 = (IsDlgButtonChecked(hDlg,IDC_CHECKST4)==BST_CHECKED);
-					Check5 = (IsDlgButtonChecked(hDlg,IDC_CHECKST5)==BST_CHECKED);
-					Check6 = (IsDlgButtonChecked(hDlg,IDC_CHECKST6)==BST_CHECKED);
-					Check7 = (IsDlgButtonChecked(hDlg,IDC_CHECKST7)==BST_CHECKED);
-					Check8 = (IsDlgButtonChecked(hDlg,IDC_CHECKST8)==BST_CHECKED);
-					Check9 = (IsDlgButtonChecked(hDlg,IDC_CHECKST9)==BST_CHECKED);
-					WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_CHANGESTATUSOPTION,0,0);
-					EndDialog(hDlg,0);
-					DestroyWindow(hDlg);
-					break;
-				
-				case IDCANCEL:
-					EndDialog(hDlg,0);
-					DestroyWindow(hDlg);
-					break;
-				
-				default:
-                        break;
-			}
-		}
-		default:
-			break;
 	}
 	return FALSE;
 }
-
 
 INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
@@ -1429,7 +1416,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 						case PSN_APPLY:
 						{
 							TCHAR Text[MAX_PATH];
-							BOOL Translated,NewAcc=FALSE,CheckPopup,CheckPopupW;
+							BOOL Translated,CheckPopup,CheckPopupW;
 							BOOL CheckNPopup,CheckNPopupW,CheckFPopup,CheckFPopupW;
 							BOOL CheckPopN;
 							UINT Time,TimeN,TimeF;

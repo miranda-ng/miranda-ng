@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0x1202e6a, 0xc1b3, 0x42e5, {0x83, 0x8a, 0x3e, 0x49, 0x7b, 0x31, 0xf3, 0x8e}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst=hinstDLL;
 	return TRUE;
@@ -223,7 +223,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }

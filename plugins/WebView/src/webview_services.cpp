@@ -109,7 +109,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-int SiteDeleted(WPARAM wParam, LPARAM lParam)
+int SiteDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
@@ -159,7 +159,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 }
 
 /*****************************************************************************/
-INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	FILE *pfile = fopen("psite.bat", "r");
 	if (pfile == NULL) {
@@ -233,7 +233,7 @@ INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 // SetStatus
 // =======================================================
 
-INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR SetStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = bpStatus;
 
@@ -265,7 +265,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 // GetStatus
 // =======================================================
 
-INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStatus(WPARAM, LPARAM)
 {
 	if (bpStatus == ID_STATUS_ONLINE)
 		return ID_STATUS_ONLINE;
@@ -284,7 +284,7 @@ INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
 // BPLoadIcon
 // =======================================================
 
-INT_PTR BPLoadIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR BPLoadIcon(WPARAM wParam, LPARAM)
 {
 	UINT id;
 
@@ -314,7 +314,7 @@ static void __cdecl BasicSearchTimerProc(void *pszNick)
 	searchId = -1;
 }
 
-INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam)
+INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 {
 	static TCHAR buf[300];
 
@@ -333,7 +333,7 @@ INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
+INT_PTR AddToList(WPARAM, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *) lParam;
 	DBVARIANT dbv;
@@ -460,7 +460,7 @@ INT_PTR GetInfo(WPARAM, LPARAM)
 }
 
 /*****************************************************************************/
-void AckFunc(void *dummy)
+void AckFunc(void*)
 {
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
 		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);

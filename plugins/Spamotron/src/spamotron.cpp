@@ -22,7 +22,7 @@ PLUGININFOEX pluginInfo = {
 
 extern int OnOptInitialize(WPARAM wParam, LPARAM lParam);
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -40,7 +40,6 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	char *msgblob;
-	POPUPDATAT ppdp = {0};
 	char protoOption[256] = {0};
 	int buflen = MAX_BUFFER_LENGTH;
 	TCHAR buf[MAX_BUFFER_LENGTH];
@@ -502,7 +501,7 @@ void RemoveNotOnListSettings()
 	}
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

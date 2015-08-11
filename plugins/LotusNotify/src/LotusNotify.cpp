@@ -574,7 +574,6 @@ void checkthread(void*)
 	STATUS      error = NOERROR;
 	char		fullpath[255];
 	DBHANDLE    db_handle = NULLHANDLE;     /* database handle */
-	TCHAR       buffer[NSF_INFO_SIZE] = TEXT(""); /* database info buffer */
 	char        UserName[MAXUSERNAME + 1];
 	HANDLE      hTable;
 
@@ -864,10 +863,10 @@ INT_PTR PluginMenuCommand(WPARAM wParam, LPARAM lParam)
 
 
 //window timer callback function, called on timer event
-void CALLBACK atTime(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK atTime(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	log(L"atTime: start");
-	BOOL b = KillTimer(hTimerWnd, idEvent);
+	KillTimer(hTimerWnd, idEvent);
 	if (currentStatus != ID_STATUS_OFFLINE) {
 		//if status lets to check
 		check();
@@ -1497,7 +1496,7 @@ INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 
 
 //gives icon for proto module
-INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR TMLoadIcon(WPARAM wParam, LPARAM)
 {
 	UINT id;
 
@@ -1770,7 +1769,7 @@ extern "C" int __declspec(dllexport) Unload()
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 #ifdef _WIN64
 #error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
@@ -1780,8 +1779,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_LOTUSNOTIFY, MIID_PROTOCOL, MIID_LAST };
 
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID )
 {
 	switch (dwReason) {
 	case DLL_PROCESS_ATTACH:

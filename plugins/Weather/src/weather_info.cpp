@@ -103,7 +103,7 @@ columns[] =
 };
 
 
-INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 {
 	switch (msg) 
 	{

@@ -26,9 +26,7 @@ HICON hiMailIcon = NULL;
 HWND hEmailsDlg = NULL;
 int hLangpack=0;
 
-CExchangeServer &exchangeServer = CExchangeServer();
-
-//PLUGINLINK *pluginLink;
+CExchangeServer exchangeServer;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),

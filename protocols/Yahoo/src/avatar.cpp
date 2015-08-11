@@ -41,7 +41,7 @@ int YAHOO_avt_hash(const char *key, DWORD len)
 
 /**************** Send Avatar ********************/
 
-void upload_avt(int id, INT_PTR fd, int error, void *data)
+void upload_avt(int, INT_PTR fd, int error, void *data)
 {
 	struct yahoo_file_info *sf = (struct yahoo_file_info*) data;
 	unsigned long size = 0;
@@ -250,7 +250,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
 }
 
-void CYahooProto::ext_got_picture(const char *me, const char *who, const char *pic_url, int cksum, int type)
+void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_url, int cksum, int type)
 {
 	MCONTACT hContact = 0;
 
@@ -446,7 +446,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 	LOG(("ext_yahoo_got_picture exiting"));
 }
 
-void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int cksum)
+void CYahooProto::ext_got_picture_checksum(const char*, const char *who, int cksum)
 {
 	LOG(("ext_yahoo_got_picture_checksum for %s checksum: %d", who, cksum));
 
@@ -482,7 +482,7 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 	}
 }
 
-void CYahooProto::ext_got_picture_update(const char *me, const char *who, int buddy_icon)
+void CYahooProto::ext_got_picture_update(const char*, const char *who, int buddy_icon)
 {
 	LOG(("ext_got_picture_update for %s buddy_icon: %d", who, buddy_icon));
 
@@ -498,7 +498,7 @@ void CYahooProto::ext_got_picture_update(const char *me, const char *who, int bu
 	reset_avatar(hContact);
 }
 
-void CYahooProto::ext_got_picture_status(const char *me, const char *who, int buddy_icon)
+void CYahooProto::ext_got_picture_status(const char*, const char *who, int buddy_icon)
 {
 	MCONTACT hContact = 0;
 
@@ -516,7 +516,7 @@ void CYahooProto::ext_got_picture_status(const char *me, const char *who, int bu
 	reset_avatar(hContact);
 }
 
-void CYahooProto::ext_got_picture_upload(const char *me, const char *url, unsigned int ts)
+void CYahooProto::ext_got_picture_upload(const char*, const char *url, unsigned int ts)
 {
 	int cksum = 0;
 	DBVARIANT dbv;
@@ -782,7 +782,7 @@ lParam=(const char *)Avatar file name
 return=0 for sucess
 */
 
-INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR* tszFile = (TCHAR*)lParam;
 	TCHAR  tszMyFile[MAX_PATH + 1];

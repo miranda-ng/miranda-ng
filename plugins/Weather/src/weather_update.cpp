@@ -302,7 +302,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 
 // update a single station
 // wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam) 
+INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM) 
 {
 	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue	
@@ -320,7 +320,7 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 
 // update a single station with removing the old data
 // wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam) 
+INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM) 
 {
 	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue, and also remove old data
@@ -338,7 +338,7 @@ INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam)
 
 // update all weather thread
 // this thread update each weather station from the queue
-void UpdateThreadProc(LPVOID hWnd) 
+void UpdateThreadProc(LPVOID) 
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 	if (ThreadRunning) {
@@ -359,7 +359,7 @@ void UpdateThreadProc(LPVOID hWnd)
 }
 
 // the "Update All" menu item in main menu
-INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR UpdateAllInfo(WPARAM, LPARAM)
 {
 	if (!ThreadRunning)
 		UpdateAll(FALSE, FALSE);
@@ -367,7 +367,8 @@ INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam)
 }
 
 // the "Update All" menu item in main menu and remove the old data
-INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam) {
+INT_PTR UpdateAllRemove(WPARAM, LPARAM)
+{
 	if (!ThreadRunning)
 		UpdateAll(FALSE, TRUE);
 	return 0;
@@ -586,7 +587,7 @@ int GetWeatherData(MCONTACT hContact)
 //============  UPDATE TIMERS  ============
 
 // main auto-update timer
-void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD) 
 {
 	// only run if it is not current updating and the auto update option is enabled
 	if ( !ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && (opt.NoProtoCondition || status == ID_STATUS_ONLINE))	
@@ -595,7 +596,7 @@ void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 // temporary timer for first run
 // when this is run, it kill the old startup timer and create the permenant one above
-void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD) 
 {
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;

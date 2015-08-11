@@ -462,7 +462,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 /*****************************************************************************/
 
-int DataDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc)
+int DataDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_OPEN_URL:
@@ -497,7 +497,7 @@ void SavewinSettings(void)
 }
 
 /*****************************************************************************/
-void ValidatePosition(HWND hwndDlg)
+void ValidatePosition(HWND)
 {
 	RECT r;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &r, 0);

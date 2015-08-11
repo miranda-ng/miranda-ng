@@ -323,7 +323,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 	else
 		setWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
 
-	setWord(hContact, "YStatus", stat);
+	setDword(hContact, "YStatus", stat);
 	setWord(hContact, "YAway", away);
 	setWord(hContact, "Mobile", mobile);
 
@@ -953,7 +953,7 @@ void CYahooProto::ext_system_message(const char *me, const char *who, const char
 	ShowPopup((who != NULL) ? tszWho : TranslateT("Yahoo System Message"), tszMsg, NULL);
 }
 
-void CYahooProto::ext_got_identities(const char *nick, const char *fname, const char *lname, YList * ids)
+void CYahooProto::ext_got_identities(const char*, const char *fname, const char *lname, YList*)
 {
 	LOG(("[ext_got_identities] First Name: %s, Last Name: %s", fname, lname));
 
@@ -1296,7 +1296,7 @@ struct connect_callback_data {
 
 void ext_yahoo_remove_handler(int id, unsigned int tag);
 
-static void connect_complete(void *data, int source, yahoo_input_condition condition)
+static void connect_complete(void *data, int source, yahoo_input_condition)
 {
 	struct connect_callback_data *ccd = (connect_callback_data*)data;
 	int error = 0;//, err_size = sizeof(error);
@@ -1596,7 +1596,7 @@ void ext_yahoo_buddy_added(int id, char *myid, char *who, char *group, int statu
 	GETPROTOBYID(id)->ext_buddy_added(myid, who, group, status, auth);
 }
 
-void ext_yahoo_buddy_group_changed(int id, char *myid, char *who, char *old_group, char *new_group)
+void ext_yahoo_buddy_group_changed(int, char*, char *who, char *old_group, char *new_group)
 {
 	LOG(("[ext_yahoo_buddy_group_changed] %s has been moved from group: %s to: %s", who, old_group, new_group));
 }

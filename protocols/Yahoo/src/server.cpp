@@ -13,7 +13,7 @@
 #include "stdafx.h"
 #include <time.h>
 
-int PASCAL send(SOCKET s, const char FAR *buf, int len, int flags)
+int PASCAL send(SOCKET s, const char FAR *buf, int len, int)
 {
 	int rlen = Netlib_Send((HANDLE)s, buf, len, 0);
 
@@ -30,7 +30,7 @@ int PASCAL send(SOCKET s, const char FAR *buf, int len, int flags)
 	return len;
 }
 
-int PASCAL recv(SOCKET s, char FAR *buf, int len, int flags)
+int PASCAL recv(SOCKET s, char FAR *buf, int len, int)
 {
 	int RecvResult = Netlib_Recv((HANDLE)s, buf, len, (len == 1) ? MSG_NODUMP : 0);
 

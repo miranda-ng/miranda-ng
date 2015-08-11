@@ -21,7 +21,7 @@
 
 #include <commctrl.h>
 
-static INT_PTR CALLBACK YahooUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK YahooUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:

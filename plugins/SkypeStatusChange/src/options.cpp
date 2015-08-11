@@ -26,7 +26,7 @@ enum ETreeCheckBoxState
 	TCBS_DISABLE_CHECKED = 4,
 };
 
-HTREEITEM tree_insert_item(HWND hDlg, HWND hwndTree, TCHAR *pName, HTREEITEM htiParent, ETreeCheckBoxState nState, CTreeItemData *pData)
+HTREEITEM tree_insert_item(HWND hwndTree, TCHAR *pName, HTREEITEM htiParent, ETreeCheckBoxState nState, CTreeItemData *pData)
 {
 	TVINSERTSTRUCT tvi = { 0 };
 	tvi.hParent = htiParent;
@@ -39,7 +39,7 @@ HTREEITEM tree_insert_item(HWND hDlg, HWND hwndTree, TCHAR *pName, HTREEITEM hti
 	return TreeView_InsertItem(hwndTree,&tvi);
 }
 
-void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
+void InitProtocolTree(HWND hwndTreeCtrl)
 {
 	int cAccounts = 0;
 	PROTOACCOUNT** ppAccount;
@@ -55,7 +55,7 @@ void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
 		pItemData->m_pszModule = pAccount->szModuleName;
 
 		bool bProtocolExcluded = g_Options.IsProtocolExcluded(pAccount->szModuleName);
-		HTREEITEM hti = tree_insert_item(hDlg,hwndTreeCtrl,pAccount->tszAccountName,TVI_ROOT,((true == bProtocolExcluded) ? TCBS_CHECKED : TCBS_UNCHECKED),pItemData);
+		HTREEITEM hti = tree_insert_item(hwndTreeCtrl,pAccount->tszAccountName,TVI_ROOT,((true == bProtocolExcluded) ? TCBS_CHECKED : TCBS_UNCHECKED),pItemData);
 		if (hti)
 		{
 			int nStatusBits = CallProtoService(pAccount->szModuleName,PS_GETCAPS,PFLAGNUM_2,0);
@@ -78,7 +78,7 @@ void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
 				else
 					nState = TCBS_UNCHECKED;
 			}
-			tree_insert_item(hDlg,hwndTreeCtrl,TranslateTS(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
+			tree_insert_item(hwndTreeCtrl,TranslateTS(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
 			for(size_t k = 0; k < _countof(g_aStatusCode); ++k) {
 				const CMirandaStatus2SkypeStatus& m2s = g_aStatusCode[k];
 				unsigned long statusFlags = Proto_Status2Flag(m2s.m_nMirandaStatus);
@@ -101,7 +101,7 @@ void InitProtocolTree(HWND hDlg,HWND hwndTreeCtrl)
 							nState = TCBS_UNCHECKED;
 					}
 
-					tree_insert_item(hDlg,hwndTreeCtrl,TranslateTS(m2s.m_ptszStatusName),hti,nState,pItemData);
+					tree_insert_item(hwndTreeCtrl,TranslateTS(m2s.m_ptszStatusName),hti,nState,pItemData);
 				}
 			}
 
@@ -245,7 +245,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 			HIMAGELIST hImage = get_image_list();
 			if (hImage)
 				TreeView_SetImageList(hwndTreeCtrl,hImage,TVSIL_STATE);
-			InitProtocolTree(hdlg,hwndTreeCtrl);
+			InitProtocolTree(hwndTreeCtrl);
 		}
 		CheckDlgButton(hdlg, IDC_CHECK_SYNCK_STATUS_MSG, (g_Options.GetSyncStatusMsgFlag()) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_STATUSES, (g_Options.GetSyncStatusStateFlag()) ? BST_CHECKED : BST_UNCHECKED);				
@@ -303,7 +303,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 	return FALSE;
 }
 
-int SSC_OptInitialise(WPARAM wp, LPARAM lp)
+int SSC_OptInitialise(WPARAM wp, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;

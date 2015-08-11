@@ -11,7 +11,6 @@ HANDLE hBayesFolder;
 
 int CheckBayes()
 {
-	FOLDERSGETDATA fgd = {0};
 	char bayesdb_fullpath[MAX_PATH];
 	char bayesdb_tmp[MAX_PATH];
 

@@ -111,7 +111,7 @@ string hash(string& b)
 	return ::hash((PBYTE)b.data(), b.length());
 }
 
-string hash(PBYTE b, int l)
+string hash(PBYTE b, size_t l)
 {
 	BYTE h[RSA_KEYSIZE];
 	RSA_CalculateDigest(h, b, l);
@@ -129,7 +129,7 @@ string hash128(LPSTR b)
 	return hash128((PBYTE)b, strlen(b));
 }
 
-string hash128(PBYTE b, int l)
+string hash128(PBYTE b, size_t l)
 {
 	BYTE h[RIPEMD128::DIGESTSIZE];
 	RIPEMD128().CalculateDigest(h, b, l);
@@ -147,7 +147,7 @@ string hash256(LPSTR b)
 	return hash256((PBYTE)b, strlen(b));
 }
 
-string hash256(PBYTE b, int l)
+string hash256(PBYTE b, size_t l)
 {
 	BYTE h[RIPEMD256::DIGESTSIZE];
 	RIPEMD256().CalculateDigest(h, b, l);
