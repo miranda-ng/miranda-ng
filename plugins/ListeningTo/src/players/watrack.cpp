@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 static WATrack *instance = NULL;
 
-int NewStatusCallback(WPARAM wParam, LPARAM lParam) 
+int NewStatusCallback(WPARAM wParam, LPARAM lParam)
 {
 	if (!loaded)
 		return 0;
@@ -30,7 +30,6 @@ int NewStatusCallback(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 WATrack::WATrack()
 {
 	name = _T("WATrack");
@@ -38,23 +37,18 @@ WATrack::WATrack()
 	hNewStatusHook = NULL;
 }
 
-
-
 WATrack::~WATrack()
 {
-	if (hNewStatusHook != NULL) 
-	{
+	if (hNewStatusHook != NULL) {
 		UnhookEvent(hNewStatusHook);
 		hNewStatusHook = NULL;
 	}
 	instance = NULL;
 }
 
-
 void WATrack::EnableDisable()
 {
-	if (!ServiceExists(MS_WAT_GETMUSICINFO))
-	{
+	if (!ServiceExists(MS_WAT_GETMUSICINFO)) {
 		enabled = FALSE;
 		return;
 	}
@@ -63,65 +57,45 @@ void WATrack::EnableDisable()
 		hNewStatusHook = HookEvent(ME_WAT_NEWSTATUS, NewStatusCallback);
 }
 
-
 void WATrack::NewStatus(int event, int value)
 {
-	EnterCriticalSection(&cs);
-
-	if (event == WAT_EVENT_PLUGINSTATUS && value != 0)
 	{
-		FreeData();
+		mir_cslock lck(cs);
+		if (event == WAT_EVENT_PLUGINSTATUS && value != 0)
+			FreeData();
+		else
+			GetData();
 	}
-	else
-	{
-		GetData();
-	}
-
-	LeaveCriticalSection(&cs);
 
 	NotifyInfoChanged();
 }
 
-
 void WATrack::GetData()
 {
-
-
 	SONGINFO *si = NULL;
-
-	int playing = CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM) &si);
-
-
+	int playing = CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&si);
 
 	FreeData();
 
 	// See if something is playing
-	if (playing ==  WAT_RES_NOTFOUND
-		|| si == NULL
-		|| si->status != 1
-		|| ( IsEmpty(si->artist) && IsEmpty(si->title)) )
-	{
+	if (playing == WAT_RES_NOTFOUND || si == NULL || si->status != 1 || (IsEmpty(si->artist) && IsEmpty(si->title)))
 		return;
-	}
 
 	// Copy new data
-
 	listening_info.ptszAlbum = DUP(si->album);
 	listening_info.ptszArtist = DUP(si->artist);
 	listening_info.ptszTitle = DUP(si->title);
 	listening_info.ptszYear = DUP(si->year);
 
-	if (si->track > 0)
-	{
-		listening_info.ptszTrack = (TCHAR*) mir_alloc(10 * sizeof(TCHAR));
+	if (si->track > 0) {
+		listening_info.ptszTrack = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
 		_itot(si->track, listening_info.ptszTrack, 10);
 	}
 
 	listening_info.ptszGenre = DUP(si->genre);
 
-	if (si->total > 0)
-	{
-		listening_info.ptszLength = (TCHAR*) mir_alloc(10 * sizeof(TCHAR));
+	if (si->total > 0) {
+		listening_info.ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
 
 		int s = si->total % 60;
 		int m = (si->total / 60) % 60;

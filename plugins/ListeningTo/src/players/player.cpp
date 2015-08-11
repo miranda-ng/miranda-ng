@@ -24,13 +24,11 @@ extern void HasNewListeningInfo();
 Player::Player() : name(_T("Player")), enabled(FALSE), needPoll(FALSE)
 {
 	memset(&listening_info, 0, sizeof(listening_info));
-	InitializeCriticalSection(&cs);
 }
 
 Player::~Player()
 {
 	FreeData();
-	DeleteCriticalSection(&cs);
 }
 
 void Player::NotifyInfoChanged()
@@ -41,48 +39,23 @@ void Player::NotifyInfoChanged()
 
 BOOL Player::GetListeningInfo(LISTENINGTOINFO *lti)
 {
-	EnterCriticalSection(&cs);
+	mir_cslock lck(cs);
 
-	BOOL ret;
 	if (listening_info.cbSize == 0)
-	{
-		ret = FALSE;
-	}
-	else 
-	{
-		if (lti != NULL)
-			CopyListeningInfo(lti, &listening_info);
-		ret = TRUE;
-	}
+		return false;
 
-	LeaveCriticalSection(&cs);
-
-	return ret;
+	if (lti != NULL)
+		CopyListeningInfo(lti, &listening_info);
+	return true;
 }
 
 void Player::FreeData()
 {
-	EnterCriticalSection(&cs);
+	mir_cslock lck(cs);
 
 	if (listening_info.cbSize != 0)
 		FreeListeningInfo(&listening_info);
-
-	LeaveCriticalSection(&cs);
 }
-
-LISTENINGTOINFO * Player::LockListeningInfo()
-{
-	EnterCriticalSection(&cs);
-
-	return &listening_info;
-}
-
-void Player::ReleaseListeningInfo()
-{
-	LeaveCriticalSection(&cs);
-}
-
-
 
 ExternalPlayer::ExternalPlayer()
 {
@@ -101,8 +74,7 @@ ExternalPlayer::~ExternalPlayer()
 HWND ExternalPlayer::FindWindow()
 {
 	HWND hwnd = NULL;
-	for(int i = 0; i < num_window_classes; i++)
-	{
+	for (int i = 0; i < num_window_classes; i++) {
 		hwnd = ::FindWindow(window_classes[i], NULL);
 		if (hwnd != NULL)
 			break;
@@ -154,7 +126,7 @@ void CodeInjectionPlayer::InjectCode()
 
 
 	// Get the dll path
-	char dll_path[1024] = {0};
+	char dll_path[1024] = { 0 };
 	if (!GetModuleFileNameA(hInst, dll_path, _countof(dll_path)))
 		return;
 
@@ -179,33 +151,30 @@ void CodeInjectionPlayer::InjectCode()
 	// Do the code injection
 	unsigned long pid;
 	GetWindowThreadProcessId(hwnd, &pid);
-	HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION 
-									| PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, pid);
+	HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION
+		| PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, pid);
 	if (hProcess == NULL)
 		return;
 
-	char *_dll = (char *) VirtualAllocEx(hProcess, NULL, len+1, MEM_COMMIT, PAGE_READWRITE );
-	if (_dll == NULL)
-	{
+	char *_dll = (char *)VirtualAllocEx(hProcess, NULL, len + 1, MEM_COMMIT, PAGE_READWRITE);
+	if (_dll == NULL) {
 		CloseHandle(hProcess);
 		return;
 	}
-	WriteProcessMemory(hProcess, _dll, dll_path, len+1, NULL);
+	WriteProcessMemory(hProcess, _dll, dll_path, len + 1, NULL);
 
 	HMODULE hKernel32 = GetModuleHandleA("kernel32");
 	HANDLE hLoadLibraryA = GetProcAddress(hKernel32, "LoadLibraryA");
 	DWORD threadId;
-	HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE) hLoadLibraryA, 
-										_dll, 0, &threadId);
-	if (hThread == NULL)
-	{
-		VirtualFreeEx(hProcess, _dll, len+1, MEM_RELEASE);
+	HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)hLoadLibraryA, _dll, 0, &threadId);
+	if (hThread == NULL) {
+		VirtualFreeEx(hProcess, _dll, len + 1, MEM_RELEASE);
 		CloseHandle(hProcess);
 		return;
 	}
 	WaitForSingleObject(hThread, INFINITE);
 	CloseHandle(hThread);
-	VirtualFreeEx(hProcess, _dll, len+1, MEM_RELEASE);
+	VirtualFreeEx(hProcess, _dll, len + 1, MEM_RELEASE);
 	CloseHandle(hProcess);
 }
 

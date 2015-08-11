@@ -38,12 +38,10 @@ ITunes::ITunes()
 	ret = NULL;
 }
 
-
 void ITunes::FindWindow()
 {
 	hwnd = ::FindWindow(_T("iTunes"), _T("iTunes"));
 }
-
 
 void ITunes::FreeTempData()
 {
@@ -53,13 +51,11 @@ void ITunes::FreeTempData()
 	RELEASE(track);
 	RELEASE(iTunesApp);
 
-	if (ret != NULL)
-	{
+	if (ret != NULL) {
 		SysFreeString(ret);
 		ret = NULL;
 	}
 }
-
 
 #define CALL(_F_) hr = _F_; if (FAILED(hr)) return FALSE
 
@@ -73,60 +69,56 @@ BOOL ITunes::InitAndGetFilename()
 	if (hwnd == NULL)
 		return FALSE;
 
-	CALL( CoCreateInstance(CLSID_iTunesApp, NULL, CLSCTX_LOCAL_SERVER, __uuidof(iTunesApp), (void **)&iTunesApp));
+	CALL(CoCreateInstance(CLSID_iTunesApp, NULL, CLSCTX_LOCAL_SERVER, __uuidof(iTunesApp), (void **)&iTunesApp));
 
 	ITPlayerState state;
-	CALL( iTunesApp->get_PlayerState(&state));
+	CALL(iTunesApp->get_PlayerState(&state));
 	if (state == ITPlayerStateStopped)
 		return FALSE;
 
-	CALL( iTunesApp->get_CurrentTrack(&track));
+	CALL(iTunesApp->get_CurrentTrack(&track));
 	if (track == NULL)
 		return FALSE;
 
-	CALL( track->QueryInterface(__uuidof(file), (void **)&file));
+	CALL(track->QueryInterface(__uuidof(file), (void **)&file));
 
-	CALL( file->get_Location(&ret));
+	CALL(file->get_Location(&ret));
 
 	return !IsEmpty(ret);
 }
-
 
 BOOL ITunes::FillCache()
 {
 	HRESULT hr;
 	long lret;
 
-	CALL( track->get_Album(&ret));
+	CALL(track->get_Album(&ret));
 	listening_info.ptszAlbum = U2T(ret);
 
-	CALL( track->get_Artist(&ret));
+	CALL(track->get_Artist(&ret));
 	listening_info.ptszArtist = U2T(ret);
 
-	CALL( track->get_Name(&ret));
+	CALL(track->get_Name(&ret));
 	listening_info.ptszTitle = U2T(ret);
 
-	CALL( track->get_Year(&lret));
-	if (lret > 0)
-	{
-		listening_info.ptszYear = (TCHAR*) mir_alloc(10 * sizeof(TCHAR));
+	CALL(track->get_Year(&lret));
+	if (lret > 0) {
+		listening_info.ptszYear = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
 		_itot(lret, listening_info.ptszYear, 10);
 	}
 
-	CALL( track->get_TrackNumber(&lret));
-	if (lret > 0)
-	{
-		listening_info.ptszTrack = (TCHAR*) mir_alloc(10 * sizeof(TCHAR));
+	CALL(track->get_TrackNumber(&lret));
+	if (lret > 0) {
+		listening_info.ptszTrack = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
 		_itot(lret, listening_info.ptszTrack, 10);
 	}
 
-	CALL( track->get_Genre(&ret));
+	CALL(track->get_Genre(&ret));
 	listening_info.ptszGenre = U2T(ret);
 
-	CALL( track->get_Duration(&lret));
-	if (lret > 0)
-	{
-		listening_info.ptszLength = (TCHAR*) mir_alloc(10 * sizeof(TCHAR));
+	CALL(track->get_Duration(&lret));
+	if (lret > 0) {
+		listening_info.ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
 
 		int s = lret % 60;
 		int m = (lret / 60) % 60;
@@ -140,15 +132,14 @@ BOOL ITunes::FillCache()
 
 	listening_info.ptszType = mir_tstrdup(_T("Music"));
 
-	if (listening_info.ptszTitle == NULL)
-	{
+	if (listening_info.ptszTitle == NULL) {
 		// Get from filename
 		WCHAR *p = wcsrchr(filename, '\\');
 		if (p != NULL)
 			p++;
 		else
 			p = filename;
-		
+
 		listening_info.ptszTitle = mir_u2t(p);
 
 		TCHAR *pt = _tcsrchr(listening_info.ptszTitle, '.');
@@ -164,13 +155,11 @@ BOOL ITunes::FillCache()
 	return TRUE;
 }
 
-
 BOOL ITunes::GetListeningInfo(LISTENINGTOINFO *lti)
 {
 	FreeData();
 
-	if (InitAndGetFilename() && lstrcmp(filename, ret) != 0)
-	{
+	if (InitAndGetFilename() && lstrcmp(filename, ret) != 0) {
 		// Fill the data cache
 		wcscpy(filename, ret);
 
