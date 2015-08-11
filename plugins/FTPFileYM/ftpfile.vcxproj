@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <AdditionalIncludeDirectories>..\..\libs\libcurl\include\curl\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

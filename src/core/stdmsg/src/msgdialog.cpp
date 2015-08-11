@@ -441,18 +441,16 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	SrmmWindowData *pdat = (SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-
 	switch (msg) {
 	case WM_NCHITTEST:
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-	{
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-		SetCursor(rc.right > rc.bottom ? hCurSplitNS : hCurSplitWE);
-	}
+		{
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			SetCursor(rc.right > rc.bottom ? hCurSplitNS : hCurSplitWE);
+		}
 		return TRUE;
 
 	case WM_LBUTTONDOWN:
