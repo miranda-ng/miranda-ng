@@ -63,6 +63,8 @@
 #endif
 #endif
 
+extern SSL_API sslApi;
+
 /**
  * Zwalnia pamięć zajmowaną przez informację o zdarzeniu.
  *
@@ -2433,7 +2435,7 @@ struct gg_event *gg_watch_fd(struct gg_session *sess)
 		{
 			gg_debug_session(sess, GG_DEBUG_MISC, "// gg_watch_fd() GG_STATE_TLS_NEGOTIATION\n");
 
-			sess->ssl = si.connect(sess->fd, 0, 0);
+			sess->ssl = sslApi.connect(sess->fd, 0, 0);
 
 			if (sess->ssl == NULL) {
 				gg_debug_session(sess, GG_DEBUG_MISC, "// gg_watch_fd() TLS negotiation failed\n");

@@ -50,9 +50,6 @@ struct SSL_API
 	pfnSfree    sfree;
 };
 
-/* every protocol should declare this variable to use the SSL API */
-extern SSL_API si;
-
 /*
 a service to obtain the SSL API
 
@@ -64,7 +61,7 @@ returns TRUE if all is Ok, and FALSE otherwise
 
 #define MS_SYSTEM_GET_SI "Miranda/System/GetSslApi"
 
-__forceinline INT_PTR mir_getSI(SSL_API* dest)
+__forceinline INT_PTR mir_getSI(SSL_API *dest)
 {
 	dest->cbSize = sizeof(*dest);
 	return CallService(MS_SYSTEM_GET_SI, 0, (LPARAM)dest);

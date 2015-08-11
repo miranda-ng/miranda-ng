@@ -69,6 +69,8 @@
 #  include <openssl/rand.h>
 #endif
 
+extern SSL_API sslApi;
+
 /**
  * Poziom rejestracji informacji odpluskwiających. Zmienna jest maską bitową
  * składającą się ze stałych \c GG_DEBUG_...
@@ -323,7 +325,7 @@ int gg_read(struct gg_session *sess, char *buf, int length)
 {
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		return si.read(sess->ssl, buf, length, 0);
+		return sslApi.read(sess->ssl, buf, length, 0);
 #elif GG_CONFIG_HAVE_OPENSSL
 	if (sess->ssl != NULL) {
 		for (;;) {
@@ -373,7 +375,7 @@ static int gg_write_common(struct gg_session *sess, const char *buf, int length)
 {
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		return si.write(sess->ssl, buf, length);
+		return sslApi.write(sess->ssl, buf, length);
 #elif GG_CONFIG_HAVE_OPENSSL
 	if (sess->ssl != NULL) {
 		for (;;) {
@@ -1064,7 +1066,7 @@ void gg_logoff(struct gg_session *sess)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		si.shutdown(sess->ssl);
+		sslApi.shutdown(sess->ssl);
 #elif GG_CONFIG_HAVE_OPENSSL
 	if (sess->ssl != NULL)
 		SSL_shutdown(sess->ssl);
@@ -1110,7 +1112,7 @@ void gg_free_session(struct gg_session *sess)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		si.sfree(sess->ssl);
+		sslApi.sfree(sess->ssl);
 #elif GG_CONFIG_HAVE_OPENSSL
 	if (sess->ssl != NULL)
 		SSL_free(sess->ssl);

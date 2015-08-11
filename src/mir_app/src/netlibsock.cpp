@@ -31,8 +31,6 @@ INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
 {
 	NetlibConnection *nlc = (NetlibConnection*)wParam;
 	NETLIBBUFFER *nlb = (NETLIBBUFFER*)lParam;
-	INT_PTR result;
-
 	if (nlb == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
@@ -41,6 +39,7 @@ INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
 	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
 		return SOCKET_ERROR;
 
+	int result;
 	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW)) {
 		if (!(nlb->flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend) {
 			NetlibDumpData(nlc, (PBYTE)nlb->buf, nlb->len, 1, nlb->flags);
@@ -51,7 +50,7 @@ INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
 	else {
 		NetlibDumpData(nlc, (PBYTE)nlb->buf, nlb->len, 1, nlb->flags);
 		if (nlc->hSsl)
-			result = si.write(nlc->hSsl, nlb->buf, nlb->len);
+			result = sslApi.write(nlc->hSsl, nlb->buf, nlb->len);
 		else
 			result = send(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
 	}
@@ -81,7 +80,7 @@ INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
 		recvResult = NetlibHttpGatewayRecv(nlc, nlb->buf, nlb->len, nlb->flags);
 	else {
 		if (nlc->hSsl)
-			recvResult = si.read(nlc->hSsl, nlb->buf, nlb->len, (nlb->flags & MSG_PEEK) != 0);
+			recvResult = sslApi.read(nlc->hSsl, nlb->buf, nlb->len, (nlb->flags & MSG_PEEK) != 0);
 		else
 			recvResult = recv(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
 	}
@@ -108,7 +107,7 @@ static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
 			return 0;
 		}
 		FD_SET(nlcCheck->s, fd);
-		if (si.pending(nlcCheck->hSsl))
+		if (sslApi.pending(nlcCheck->hSsl))
 			pending++;
 	}
 	return 1;
@@ -179,7 +178,7 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 		conn = (NetlibConnection*)nls->hReadConns[j];
 		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
 
-		if (si.pending(conn->hSsl))
+		if (sslApi.pending(conn->hSsl))
 			nls->hReadStatus[j] = TRUE;
 		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == NULL && conn->dataBuffer == NULL)
 			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != NULL);

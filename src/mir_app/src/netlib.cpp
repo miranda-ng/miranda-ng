@@ -42,7 +42,7 @@ static int CompareNetlibUser(const NetlibUser* p1, const NetlibUser* p2)
 LIST<NetlibUser> netlibUser(5, CompareNetlibUser);
 mir_cs csNetlibUser;
 
-SSL_API si;
+SSL_API sslApi;
 
 void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings)
 {
@@ -236,8 +236,8 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 
 	NetlibLogf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
 	if (nlc->hSsl) {
-		if (!noShutdown) si.shutdown(nlc->hSsl);
-		si.sfree(nlc->hSsl);
+		if (!noShutdown) sslApi.shutdown(nlc->hSsl);
+		sslApi.sfree(nlc->hSsl);
 		nlc->hSsl = NULL;
 	}
 	closesocket(nlc->s);
@@ -391,7 +391,7 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 			{
 				NetlibConnection *nlc = (NetlibConnection*)wParam;
 				if (!nlc->termRequested) {
-					if (nlc->hSsl) si.shutdown(nlc->hSsl);
+					if (nlc->hSsl) sslApi.shutdown(nlc->hSsl);
 					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
 					if (nlc->s2 != INVALID_SOCKET) shutdown(nlc->s2, 2);
 					nlc->termRequested = true;

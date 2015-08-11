@@ -338,4 +338,6 @@ const char *ggdebug_eventtype(gg_event *e);
 
 #include "gg_proto.h"
 
+extern SSL_API sslApi;
+
 #endif
