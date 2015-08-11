@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "plugins.h"
 #include "profilemanager.h"
 #include "langpack.h"
+#include "netlib.h"
 
 void LoadExtraIconsModule();
 
@@ -200,7 +201,7 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 	return NULL;
 }
 
-MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack)
+MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 {
 	if (equalUUID(uuid, miid_last))
 		return --sttFakeID;
@@ -211,7 +212,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int hLangpack)
 			continue;
 
 		if (equalUUID(p->bpi.pluginInfo->uuid, uuid))
-			return p->hLangpack = (hLangpack) ? hLangpack : --sttFakeID;
+			return p->hLangpack = (_hLang) ? _hLang : --sttFakeID;
 	}
 
 	return 0;
@@ -246,7 +247,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	return TRUE;
 }
 
-int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI)
+int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkTypeAPI)
 {
 	HINSTANCE h = LoadLibrary(plugin);
 	if (h == NULL)
@@ -272,7 +273,7 @@ LBL_Error:
 			bpi->Interfaces = pFunc();
 	}
 
-	PLUGININFOEX* pi = bpi->InfoEx(mirandaVersion);
+	PLUGININFOEX* pi = bpi->InfoEx(dwMirVer);
 	if (!checkPI(bpi, pi))
 		goto LBL_Error;
 
@@ -333,17 +334,17 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleServices(p->bpi.hInst);
 	}
 
-	int hLangpack = p->hLangpack;
-	if (hLangpack != 0) {
-		KillModuleMenus(hLangpack);
-		KillModuleFonts(hLangpack);
-		KillModuleColours(hLangpack);
-		KillModuleEffects(hLangpack);
-		KillModuleIcons(hLangpack);
-		KillModuleHotkeys(hLangpack);
-		KillModuleSounds(hLangpack);
-		KillModuleExtraIcons(hLangpack);
-		KillModuleSrmmIcons(hLangpack);
+	int _hLang = p->hLangpack;
+	if (_hLang != 0) {
+		KillModuleMenus(_hLang);
+		KillModuleFonts(_hLang);
+		KillModuleColours(_hLang);
+		KillModuleEffects(_hLang);
+		KillModuleIcons(_hLang);
+		KillModuleHotkeys(_hLang);
+		KillModuleSounds(_hLang);
+		KillModuleExtraIcons(_hLang);
+		KillModuleSrmmIcons(_hLang);
 	}
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
@@ -733,7 +734,7 @@ int LoadSslModule(void)
 			return 1;
 	}
 
-	mir_getSI(&si);
+	mir_getSI(&sslApi);
 	return 0;
 }
 

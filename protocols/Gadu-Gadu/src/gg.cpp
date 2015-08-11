@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 // Other variables
 HINSTANCE hInstance;
 
-SSL_API si;
+SSL_API sslApi;
 CLIST_INTERFACE *pcli;
 int hLangpack;
 LIST<GGPROTO> g_Instances(1, PtrKeySortT);
@@ -181,7 +181,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 static int gg_modulesloaded(WPARAM wParam, LPARAM lParam)
 {
    // Get SSL API
-   mir_getSI(&si);
+   mir_getSI(&sslApi);
 
    // File Association Manager support
    gg_links_init();

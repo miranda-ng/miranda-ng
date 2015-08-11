@@ -882,7 +882,7 @@ INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam)
 	const char *szHost = sp ? sp->host : nlc->nloc.szHost;
 
 	NetlibLogf(nlc->nlu, "(%d %s) Starting SSL negotiation", nlc->s, szHost);
-	nlc->hSsl = si.connect(nlc->s, szHost, nlc->nlu->settings.validateSSL);
+	nlc->hSsl = sslApi.connect(nlc->s, szHost, nlc->nlu->settings.validateSSL);
 
 	if (nlc->hSsl == NULL)
 		NetlibLogf(nlc->nlu, "(%d %s) Failure to negotiate SSL connection", nlc->s, szHost);

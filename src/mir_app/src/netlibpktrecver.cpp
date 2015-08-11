@@ -75,7 +75,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 	}
 	
 	if (nlprParam->dwTimeout != INFINITE) {
-		if (!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
+		if (!sslApi.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
 			*nlprParam = nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}
