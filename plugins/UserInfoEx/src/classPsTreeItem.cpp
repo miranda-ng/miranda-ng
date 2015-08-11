@@ -281,7 +281,7 @@ HICON CPsTreeItem::ProtoIcon()
 	int ProtoCount;
 	Proto_EnumAccounts(&ProtoCount, &pa);
 	for (int i = 0; i < ProtoCount; i++) {
-		if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
+		if (!mir_tstrncmpi(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
 			CHAR szIconID[MAX_PATH];
 			mir_snprintf(szIconID, _countof(szIconID), "core_status_%s1", pa[i]->szModuleName);
 			HICON hIco = IcoLib_GetIcon(szIconID);

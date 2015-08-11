@@ -112,8 +112,8 @@ public:
 	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = NULL, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
 
 	// setting values
-	void	SetDate(SYSTEMTIME &st);
-	void	SetDate(MAnnivDate &mda);
+	void	SetDate(const SYSTEMTIME &st);
+	void	SetDate(const MAnnivDate &mda);
 
 	BYTE operator == (const SYSTEMTIME &st) { return IsEqual(st); };
 	BYTE operator == (const MAnnivDate &mda) { return IsEqual(mda); };

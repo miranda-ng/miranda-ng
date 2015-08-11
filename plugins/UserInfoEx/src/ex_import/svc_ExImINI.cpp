@@ -325,7 +325,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 	LPSTR pszLine = strLine;
 
 	// check Module and filter "Protocol"
-	if (!pszModule || !*pszModule || mir_strncmp(pszModule,"Protocol",8) == 0)
+	if (!pszModule || !*pszModule || mir_strncmp(pszModule, "Protocol", 8) == 0)
 		return 1;
 	if ((end = value = mir_strchr(pszLine, '=')) == NULL)
 		return 1;
