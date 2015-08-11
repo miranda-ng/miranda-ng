@@ -112,7 +112,7 @@ INT_PTR CMsnProto::MsnEditProfile(WPARAM, LPARAM)
 
 INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
 		LPARAM(new InviteChatParam(NULL, NULL, this)));
 	return 0;
 }
@@ -253,7 +253,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 {
-	HWND hwndSetNickname = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
+	HWND hwndSetNickname = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
 		NULL, DlgProcSetNickname, (LPARAM)this);
 
 	SetForegroundWindow(hwndSetNickname);

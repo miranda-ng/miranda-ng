@@ -172,13 +172,14 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 				}
 
 				char id[MSN_GUID_LEN];
-				if (!db_get_static(hContact, m_szModuleName, "ID", id, sizeof(id))) {
-					int netId = Lists_GetNetId(email);
+				if (!db_get_static(hContact, m_szModuleName, "ID", id, _countof(id))) {
+					int netId2 = Lists_GetNetId(email);
 					if (leaveHotmail)
-						res = MSN_ABAddRemoveContact(id, netId, false);
+						res = MSN_ABAddRemoveContact(id, netId2, false);
 					else
 						res = MSN_ABAddDelContactGroup(id, NULL, "ABContactDelete");
-					if (res) AddDelUserContList(email, flags, netId, true);
+					if (res)
+						AddDelUserContList(email, flags, netId2, true);
 
 					delSetting(hContact, "GroupID");
 					delSetting(hContact, "ID");
@@ -206,10 +207,10 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 				else res = (res1 == 0);
 
 				if (res) {
-					DBVARIANT dbv;
-					if (!db_get_utf(hContact, "CList", "Group", &dbv)) {
-						MSN_MoveContactToGroup(hContact, dbv.pszVal);
-						db_free(&dbv);
+					DBVARIANT dbv2;
+					if (!db_get_utf(hContact, "CList", "Group", &dbv2)) {
+						MSN_MoveContactToGroup(hContact, dbv2.pszVal);
+						db_free(&dbv2);
 					}
 
 					char szContactID[100];

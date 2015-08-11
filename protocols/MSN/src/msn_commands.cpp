@@ -133,19 +133,18 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	memcpy(msg, msgb, msgBytes);
 	msg[msgBytes] = 0;
 
-	debugLogA("Message:\n%s", msg);
+	debugLogA("Message:\n%s", msg);					                                                            
 
 	MimeHeaders tHeader;
 	char* msgBody = tHeader.readFromBuffer(msg);
 
 	if (sdgMsg) {
 		if (tHeader["Ack-Id"]) {
-			CMStringA buf;
-
-			buf.AppendFormat("Ack-Id: %s\r\n", tHeader["Ack-Id"]);
-			if (msnRegistration) buf.AppendFormat("Registration: %s\r\n", msnRegistration);
-			buf.AppendFormat("\r\n");
-			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", mir_strlen(buf), buf);
+			CMStringA szBody;
+			szBody.AppendFormat("Ack-Id: %s\r\n", tHeader["Ack-Id"]);
+			if (msnRegistration) szBody.AppendFormat("Registration: %s\r\n", msnRegistration);
+			szBody.AppendFormat("\r\n");
+			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", mir_strlen(szBody), szBody);
 		}
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;
@@ -1160,7 +1159,7 @@ LBL_InvalidCommand:
 									ProtoChainRecvMsg(hContact, &pre);
 								}
 								else {
-									DBEVENTINFO dbei = { 0 };
+									memset(&dbei, 0, sizeof(dbei));
 									dbei.cbSize = sizeof(dbei);
 									dbei.eventType = EVENTTYPE_MESSAGE;
 									dbei.flags = DBEF_SENT | DBEF_UTF;
@@ -1251,14 +1250,12 @@ LBL_InvalidCommand:
 			}
 			else if (!mir_strcmp(data.typeId, "MSGR\\THREAD")) {
 				MimeHeaders tHeader;
-				char *msgBody = tHeader.readFromBuffer(info->mData);
-				ezxml_t xmli;
-
-				if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
-				{
+				char *szBody = tHeader.readFromBuffer(info->mData);
+				ezxml_t xmli = ezxml_parse_str(szBody, mir_strlen(szBody));
+				if (xmli) {
 					MSN_ChatStart(xmli);
 					ezxml_free(xmli);
-				}				
+				}
 			}
 		}
 		break;

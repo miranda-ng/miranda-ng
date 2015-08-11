@@ -432,12 +432,8 @@ wchar_t* MimeHeaders::decode(const char* val)
 		switch (*enc) {
 		case 'b':
 		case 'B':
-		{
-			char* dec = (char*)mir_base64_decode(fld, 0);
-			mir_strcpy(fld, dec);
-			mir_free(dec);
+			mir_strcpy(fld, ptrA((char*)mir_base64_decode(fld, 0)));
 			break;
-		}
 
 		case 'q':
 		case 'Q':
@@ -445,21 +441,19 @@ wchar_t* MimeHeaders::decode(const char* val)
 			break;
 		}
 
-		if (_stricmp(cp, "UTF-8") == 0) {
+		if (_stricmp(cp, "UTF-8") == 0)
 			sz = utf8toutf16(fld, resp);
-			ssz -= sz; resp += sz;
-		}
 		else {
-			int sz = MultiByteToWideChar(FindCP(cp), 0, fld, -1, resp, (int)ssz);
+			sz = MultiByteToWideChar(FindCP(cp), 0, fld, -1, resp, (int)ssz);
 			if (sz == 0)
 				sz = MultiByteToWideChar(CP_ACP, 0, fld, -1, resp, (int)ssz);
-			ssz -= --sz; resp += sz;
+			sz--;
 		}
+		ssz -= sz; resp += sz;
 		p = pe + 2;
 	}
 
 	utf8toutf16(p, resp);
-
 	return res;
 }
 
