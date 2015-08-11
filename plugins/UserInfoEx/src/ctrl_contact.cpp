@@ -303,7 +303,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					GetDlgItemText(hDlg, EDIT_CATEGORY, cbi->pszCat, cbi->ccCat);
 
 					// save SMS flag
-					if (IsDlgButtonChecked(hDlg, CHECK_SMS) != ((cbi->wFlags & CBEXIF_SMS) == CBEXIF_SMS))
+					if ((int)IsDlgButtonChecked(hDlg, CHECK_SMS) != ((cbi->wFlags & CBEXIF_SMS) == CBEXIF_SMS))
 						cbi->wFlags ^= CBEXIF_SMS;
 				}
 				//fall through

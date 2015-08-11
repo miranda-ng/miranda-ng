@@ -42,7 +42,7 @@ CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE 
 }
 
 /**
- * This function creates a CEditCtrl object. 
+ * This function creates a CEditCtrl object.
  *
  * @param	hDlg			- HWND of the owning propertysheet page
  * @param	idCtrl			- the ID of the dialog control to associate with this class's instance
@@ -86,7 +86,7 @@ void CEditCtrl::Release()
 }
 
 /*
- * 
+ *
  *
  */
 void CEditCtrl::OnReset()
@@ -110,7 +110,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		DBVARIANT dbv;
 		TCHAR szText[64];
 
-		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;
+		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
 
 		EnableWindow(_hwnd,
@@ -148,7 +148,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			db_free(&dbv);
 			break;
 		}
-		_Flags.B.hasChanged = 0;
+		_Flags.B.hasChanged = false;
 	}
 	return _Flags.B.hasChanged;
 }
@@ -201,10 +201,10 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 					if (dbv.type != DBVT_DELETED) {
 						if (!db_set(hContact, pszModule, _pszSetting, &dbv)) {
 							if (!hContact) {
-								_Flags.B.hasCustom = 0;
-								_Flags.B.hasProto = 1;
+								_Flags.B.hasCustom = false;
+								_Flags.B.hasProto = true;
 							}
-							_Flags.B.hasChanged = 0;
+							_Flags.B.hasChanged = false;
 
 							// save new value
 							MIR_FREE(_pszValue);
@@ -219,7 +219,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 		if (_Flags.B.hasChanged) {
 			db_unset(hContact, pszModule, _pszSetting);
 
-			_Flags.B.hasChanged = 0;
+			_Flags.B.hasChanged = false;
 
 			OnInfoChanged(hContact, pszProto);
 		}
@@ -235,30 +235,31 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 {
 	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE)) {
-		const int	cch = GetWindowTextLength(_hwnd);
+		DWORD cch = GetWindowTextLength(_hwnd);
 
 		_Flags.B.hasChanged = mir_tstrlen(_pszValue) != cch;
 		_Flags.B.hasCustom = (cch > 0);
 
 		if (!_Flags.B.hasChanged && _Flags.B.hasCustom) {
-			BYTE		need_free = 0;
-			LPTSTR		szText;
+			BYTE need_free = 0;
+			LPTSTR szText;
 
 			__try {
 				szText = (LPTSTR)alloca((cch + 1) * sizeof(TCHAR));
 			}
-			__except (EXCEPTION_EXECUTE_HANDLER) {
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{
 				szText = (LPTSTR)mir_alloc((cch + 1) * sizeof(TCHAR));
 				need_free = 1;
 			}
 
 			if (szText != NULL) {
 				GetWindowText(_hwnd, szText, cch + 1);
-				_Flags.B.hasChanged = mir_tstrcmp(_pszValue, szText);
+				_Flags.B.hasChanged = mir_tstrcmp(_pszValue, szText) != 0;
 				if (need_free)
 					MIR_FREE(szText);
 			}
-			else _Flags.B.hasChanged = 0;
+			else _Flags.B.hasChanged = false;
 		}
 		InvalidateRect(_hwnd, NULL, TRUE);
 
@@ -279,7 +280,8 @@ void CEditCtrl::OpenUrl()
 	__try {
 		szUrl = (LPTSTR)alloca((8 + lenUrl) * sizeof(TCHAR));
 	}
-	__except (EXCEPTION_EXECUTE_HANDLER) {
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
 		szUrl = (LPTSTR)mir_alloc((8 + lenUrl) * sizeof(TCHAR));
 		need_free = 1;
 	}
@@ -295,7 +297,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 {
 	if (lnk == NULL)
 		return FALSE;
-	
+
 	switch (lnk->msg) {
 	case WM_SETCURSOR:
 		SetCursor(LoadCursor(NULL, IDC_HAND));
