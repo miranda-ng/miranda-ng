@@ -96,7 +96,7 @@ struct ProtocolInfo
 };
 
 ProtocolInfo *GetProtoInfo(char *proto);
-int m_log(const TCHAR *function, const TCHAR *fmt, ...);
+void m_log(const TCHAR *function, const TCHAR *fmt, ...);
 
 
 static bool IsEmpty(const char *str)

@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -33,7 +33,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {F981F3F5-035A-444F-9892-CA722C195ADA}
-	{0xf981f3f5, 0x35a, 0x444f, {0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda}}
+	{ 0xf981f3f5, 0x35a, 0x444f, { 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } }
 };
 
 HINSTANCE hInst;
@@ -52,26 +52,26 @@ std::vector<ProtocolInfo> proto_items;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 int PreShutdown(WPARAM wParam, LPARAM lParam);
-int PreBuildContactMenu(WPARAM wParam,LPARAM lParam);
+int PreBuildContactMenu(WPARAM wParam, LPARAM lParam);
 int TopToolBarLoaded(WPARAM wParam, LPARAM lParam);
-int SettingChanged(WPARAM wParam,LPARAM lParam);
+int SettingChanged(WPARAM wParam, LPARAM lParam);
 
 INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
 bool    ListeningToEnabled(char *proto, bool ignoreGlobal = false);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
-INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam);
+INT_PTR EnableListeningTo(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(char  *proto = NULL, bool enabled = false);
-INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam);
+INT_PTR GetTextFormat(WPARAM wParam, LPARAM lParam);
 TCHAR*	GetParsedFormat(LISTENINGTOINFO *lti);
-INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
-INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
-INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam);
-INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam);
+INT_PTR GetParsedFormat(WPARAM wParam, LPARAM lParam);
+INT_PTR GetOverrideContactOption(WPARAM wParam, LPARAM lParam);
+INT_PTR GetUnknownText(WPARAM wParam, LPARAM lParam);
+INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam);
 void    SetExtraIcon(MCONTACT hContact, BOOL set);
 void    SetListeningInfos(LISTENINGTOINFO *lti = NULL);
-INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam);
-INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam);
-INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam);
+INT_PTR HotkeysEnable(WPARAM wParam, LPARAM lParam);
+INT_PTR HotkeysDisable(WPARAM wParam, LPARAM lParam);
+INT_PTR HotkeysToggle(WPARAM wParam, LPARAM lParam);
 
 TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai);
 TCHAR* VariablesParseType(ARGUMENTSINFO *ai);
@@ -93,13 +93,13 @@ TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai);
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -164,7 +164,7 @@ void UpdateGlobalStatusMenus()
 	Menu_EnableItem(proto_items[0].hMenu, opts.enable_sending);
 
 	if (hTTB != NULL)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : 0));
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTB, (LPARAM)(enabled ? TTBST_PUSHED : 0));
 }
 
 
@@ -181,8 +181,7 @@ void RebuildMenu()
 {
 	std::sort(proto_items.begin(), proto_items.end(), compareFunc());
 
-	for (unsigned int i = 1; i < proto_items.size(); i++)
-	{
+	for (unsigned int i = 1; i < proto_items.size(); i++) {
 		ProtocolInfo *info = &proto_items[i];
 
 		if (info->hMenu != NULL)
@@ -197,9 +196,9 @@ void RebuildMenu()
 		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.name.t = text;
-		mi.flags =  CMIF_TCHAR
-				| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
-				| (opts.enable_sending ? 0 : CMIF_GRAYED);
+		mi.flags = CMIF_TCHAR
+			| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
+			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
 		info->hMenu = Menu_AddMainMenuItem(&mi);
 	}
@@ -213,10 +212,10 @@ void RegisterProtocol(char *proto, TCHAR *account)
 		return;
 
 	size_t id = proto_items.size();
-	proto_items.resize(id+1);
+	proto_items.resize(id + 1);
 
 	strncpy(proto_items[id].proto, proto, _countof(proto_items[id].proto));
-	proto_items[id].proto[_countof(proto_items[id].proto)-1] = 0;
+	proto_items[id].proto[_countof(proto_items[id].proto) - 1] = 0;
 
 	mir_tstrncpy(proto_items[id].account, account, _countof(proto_items[id].account));
 
@@ -229,29 +228,24 @@ void RegisterProtocol(char *proto, TCHAR *account)
 
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT *proto = (PROTOACCOUNT *) lParam;
+	PROTOACCOUNT *proto = (PROTOACCOUNT *)lParam;
 	if (proto == NULL)
 		return 0;
 
 	ProtocolInfo *info = GetProtoInfo(proto->szModuleName);
-	if (info != NULL)
-	{
-		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED)
-		{
+	if (info != NULL) {
+		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED) {
 			mir_tstrncpy(info->account, proto->tszAccountName, _countof(info->account));
 
 			TCHAR text[512];
 			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 			Menu_ModifyItem(info->hMenu, text);
 		}
-		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled))
-		{
+		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled)) {
 			Menu_RemoveItem(info->hMenu);
 
-			for(std::vector<ProtocolInfo>::iterator it = proto_items.begin(); it != proto_items.end(); ++it)
-			{
-				if (&(*it) == info)
-				{
+			for (std::vector<ProtocolInfo>::iterator it = proto_items.begin(); it != proto_items.end(); ++it) {
+				if (&(*it) == info) {
 					proto_items.erase(it);
 					break;
 				}
@@ -260,10 +254,8 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			RebuildMenu();
 		}
 	}
-	else
-	{
-		if (wParam == PRAC_ADDED || (wParam == PRAC_CHECKED && proto->bIsEnabled))
-		{
+	else {
+		if (wParam == PRAC_ADDED || (wParam == PRAC_CHECKED && proto->bIsEnabled)) {
 			RegisterProtocol(proto->szModuleName, proto->tszAccountName);
 			RebuildMenu();
 		}
@@ -295,7 +287,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CMenuItem mi;
 	mi.position = 500080000;
 	mi.name.t = LPGENT("Listening to");
-	mi.flags =  CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
@@ -307,8 +299,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Add all protos
 	mi.name.t = LPGENT("Send to all protocols");
 	mi.flags = CMIF_TCHAR
-			| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
-			| (opts.enable_sending ? 0 : CMIF_GRAYED);
+		| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
+		| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	proto_items.resize(1);
 	proto_items[0].hMenu = Menu_AddMainMenuItem(&mi);
 	proto_items[0].proto[0] = 0;
@@ -320,7 +312,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Add each proto
 	PROTOACCOUNT **protos;
 	int count;
-	Proto_EnumAccounts(&count,&protos);
+	Proto_EnumAccounts(&count, &protos);
 
 	for (int i = 0; i < count; i++)
 		if (protos[i]->bIsEnabled)
@@ -334,7 +326,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Variables support
 	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
-		TOKENREGISTER tr = {0};
+		TOKENREGISTER tr = { 0 };
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_MIRANDA;
 		tr.flags = TRF_FREEMEM | TRF_PARSEFUNC | TRF_FIELD | TRF_TCHAR;
@@ -342,56 +334,56 @@ int ModulesLoaded(WPARAM, LPARAM)
 		tr.tszTokenString = _T("listening_info");
 		tr.parseFunctionT = VariablesParseInfo;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Listening info as set in the options");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_type");
 		tr.parseFunctionT = VariablesParseType;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Media type: Music, Video, etc.");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_artist");
 		tr.parseFunctionT = VariablesParseArtist;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Artist name");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_album");
 		tr.parseFunctionT = VariablesParseAlbum;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Album name");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_title");
 		tr.parseFunctionT = VariablesParseTitle;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song name");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_track");
 		tr.parseFunctionT = VariablesParseTrack;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Track number");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_year");
 		tr.parseFunctionT = VariablesParseYear;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song year");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_genre");
 		tr.parseFunctionT = VariablesParseGenre;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song genre");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_length");
 		tr.parseFunctionT = VariablesParseLength;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Song length");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		tr.tszTokenString = _T("listening_player");
 		tr.parseFunctionT = VariablesParsePlayer;
 		tr.szHelpText = LPGEN("Listening info") "\t" LPGEN("Player name");
-		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
+		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 	}
 
 	// Hotkeys support
-	HOTKEYDESC hkd = {0};
+	HOTKEYDESC hkd = { 0 };
 	hkd.cbSize = sizeof(hkd);
 	hkd.pszSection = LPGEN("Listening to");
 
@@ -424,8 +416,7 @@ int PreShutdown(WPARAM, LPARAM)
 {
 	loaded = FALSE;
 
-	if (hTimer != NULL)
-	{
+	if (hTimer != NULL) {
 		KillTimer(NULL, hTimer);
 		hTimer = NULL;
 	}
@@ -464,7 +455,7 @@ int TopToolBarLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam)
+INT_PTR MainMenuClicked(WPARAM wParam, LPARAM)
 {
 	if (!loaded)
 		return -1;
@@ -482,32 +473,28 @@ bool ListeningToEnabled(char *proto, bool ignoreGlobal)
 	if (!ignoreGlobal && !opts.enable_sending)
 		return FALSE;
 
-	if (proto == NULL || proto[0] == 0)
-	{
+	if (proto == NULL || proto[0] == 0) {
 		// Check all protocols
-		for (unsigned int i = 1; i < proto_items.size(); ++i)
-		{
-			if (!ListeningToEnabled(proto_items[i].proto, TRUE))
-			{
+		for (unsigned int i = 1; i < proto_items.size(); ++i) {
+			if (!ListeningToEnabled(proto_items[i].proto, TRUE)) {
 				return FALSE;
 			}
 		}
 		return TRUE;
 	}
-	else
-	{
+	else {
 		char setting[256];
 		mir_snprintf(setting, "%sEnabled", proto);
 		return db_get_b(NULL, MODULE_NAME, setting, false) != 0;
 	}
 }
 
-INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam)
+INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM)
 {
 	if (!loaded)
 		return -1;
 
-	return ListeningToEnabled((char *)wParam) ;
+	return ListeningToEnabled((char *)wParam);
 }
 
 ProtocolInfo *GetProtoInfo(char *proto)
@@ -525,29 +512,25 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 		return;
 
 	if (ProtoServiceExists(proto, PS_SET_LISTENINGTO))
-		CallProtoService(proto, PS_SET_LISTENINGTO, 0, (LPARAM) lti);
+		CallProtoService(proto, PS_SET_LISTENINGTO, 0, (LPARAM)lti);
 
 	else if (ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX)) {
 		if (opts.xstatus_set == IGNORE_XSTATUS)
 			return;
 
 		int status;
-		CUSTOM_STATUS ics = {0};
+		CUSTOM_STATUS ics = { 0 };
 		ics.cbSize = sizeof(CUSTOM_STATUS);
 		ics.status = &status;
 
 		// Set or reset?
-		if (lti == NULL)
-		{
+		if (lti == NULL) {
 			// Reset -> only if is still in music xstatus
 			ics.flags = CSSF_MASK_STATUS;
-			if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
-			{
-				if (opts.xstatus_set == SET_XSTATUS)
-				{
+			if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) || status != XSTATUS_MUSIC) {
+				if (opts.xstatus_set == SET_XSTATUS) {
 					ProtocolInfo *pi = GetProtoInfo(proto);
-					if (pi != NULL)
-					{
+					if (pi != NULL) {
 						pi->old_xstatus = 0;
 						pi->old_xstatus_name[0] = _T('\0');
 						pi->old_xstatus_message[0] = _T('\0');
@@ -556,8 +539,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				return;
 			}
 
-			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC)
-			{
+			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC) {
 				// Set text to nothing
 				TCHAR *fr[] = {
 					_T("listening"), opts.nothing
@@ -568,76 +550,65 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				Buffer<TCHAR> msg;
 				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
-				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 				ics.ptszName = name.str;
 				ics.ptszMessage = msg.str;
 
-				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 			}
-			else if (opts.xstatus_set == CHECK_XSTATUS)
-			{
+			else if (opts.xstatus_set == CHECK_XSTATUS) {
 				status = 0;
 				ics.flags = CSSF_MASK_STATUS;
 
-				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 			}
-			else
-			{
+			else {
 				// Set to old text
 				ProtocolInfo *pi = GetProtoInfo(proto);
-				if (pi != NULL)
-				{
-					ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+				if (pi != NULL) {
+					ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 					ics.status = &pi->old_xstatus;
 					ics.ptszName = pi->old_xstatus_name;
 					ics.ptszMessage = pi->old_xstatus_message;
 				}
-				else
-				{
+				else {
 					status = 0;
 					ics.flags = CSSF_MASK_STATUS;
 				}
 
-				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 
-				if (pi != NULL)
-				{
+				if (pi != NULL) {
 					pi->old_xstatus = 0;
 					pi->old_xstatus_name[0] = _T('\0');
 					pi->old_xstatus_message[0] = _T('\0');
 				}
 			}
 		}
-		else
-		{
+		else {
 			// Set it
-			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC)
-			{
+			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC) {
 				ics.flags = CSSF_MASK_STATUS;
-				if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
+				if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) || status != XSTATUS_MUSIC)
 					return;
 			}
-			else if (opts.xstatus_set == CHECK_XSTATUS)
-			{
+			else if (opts.xstatus_set == CHECK_XSTATUS) {
 				ics.flags = CSSF_MASK_STATUS;
-				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC && status != 0)
+				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) && status != XSTATUS_MUSIC && status != 0)
 					return;
 			}
-			else
-			{
+			else {
 				// Store old data
 				ics.flags = CSSF_MASK_STATUS;
-				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC)
-				{
+				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) && status != XSTATUS_MUSIC) {
 					ProtocolInfo *pi = GetProtoInfo(proto);
-					if (pi != NULL)
-					{
-						ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+					if (pi != NULL) {
+						ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 						ics.status = &pi->old_xstatus;
 						ics.ptszName = pi->old_xstatus_name;
 						ics.ptszMessage = pi->old_xstatus_message;
 
-						CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+						CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 					}
 				}
 			}
@@ -661,23 +632,21 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 			status = XSTATUS_MUSIC;
-			ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+			ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 			ics.status = &status;
 			ics.ptszName = name.str;
 			ics.ptszMessage = msg.str;
 
-			CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+			CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 
 			mir_free(fr[1]);
 		}
 	}
-	else if (db_get_b(0,MODULE_NAME,"UseStatusMessage",1) && ProtoServiceExists(proto, PS_SETAWAYMSG))
-	{
+	else if (db_get_b(0, MODULE_NAME, "UseStatusMessage", 1) && ProtoServiceExists(proto, PS_SETAWAYMSG)) {
 		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 		if (lti == NULL)
 			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
-		else
-		{
+		else {
 			ptrT fr(GetParsedFormat(lti));
 			CallProtoService(proto, PS_SETAWAYMSG, status, fr);
 		}
@@ -689,14 +658,12 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 	if (!loaded)
 		return -1;
 
-	if (proto == NULL || proto[0] == 0)
-	{
+	if (proto == NULL || proto[0] == 0) {
 		// For all protocols
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
 			EnableListeningTo(proto_items[i].proto, enabled);
 	}
-	else
-	{
+	else {
 		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
 			return 0;
 
@@ -706,12 +673,11 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 
 		// Modify menu info
 		ProtocolInfo *info = GetProtoInfo(proto);
-		if (info != NULL)
-		{
+		if (info != NULL) {
 			Menu_EnableItem(info->hMenu, opts.enable_sending);
 			Menu_SetChecked(info->hMenu, enabled);
 
-			SetListeningInfo(proto,(opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
+			SetListeningInfo(proto, (opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
 		}
 
 		// Set all protos info
@@ -720,37 +686,37 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 
 	StartTimer();
 
-	NotifyEventHooks(hEnableStateChangedEvent, (WPARAM) proto, (LPARAM) enabled);
+	NotifyEventHooks(hEnableStateChangedEvent, (WPARAM)proto, (LPARAM)enabled);
 
 	return 0;
 }
 
-INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
+INT_PTR EnableListeningTo(WPARAM wParam, LPARAM lParam)
 {
 	return EnableListeningTo((char*)wParam, lParam != 0);
 }
 
-INT_PTR HotkeysEnable(WPARAM,LPARAM lParam)
+INT_PTR HotkeysEnable(WPARAM, LPARAM lParam)
 {
 	return EnableListeningTo(lParam, true);
 }
 
-INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam)
+INT_PTR HotkeysDisable(WPARAM, LPARAM lParam)
 {
 	return EnableListeningTo(lParam, FALSE);
 }
 
-INT_PTR HotkeysToggle(WPARAM,LPARAM lParam)
+INT_PTR HotkeysToggle(WPARAM, LPARAM lParam)
 {
 	return EnableListeningTo(lParam, !ListeningToEnabled((char *)lParam, TRUE));
 }
 
-INT_PTR GetTextFormat(WPARAM,LPARAM)
+INT_PTR GetTextFormat(WPARAM, LPARAM)
 {
 	if (!loaded)
 		return NULL;
 
-	return ( INT_PTR )mir_tstrdup(opts.templ);
+	return (INT_PTR)mir_tstrdup(opts.templ);
 }
 
 TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
@@ -775,20 +741,20 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 	return ret.detach();
 }
 
-INT_PTR GetParsedFormat(WPARAM,LPARAM lParam)
+INT_PTR GetParsedFormat(WPARAM, LPARAM lParam)
 {
-	return ( INT_PTR )GetParsedFormat((LISTENINGTOINFO *) lParam);
+	return (INT_PTR)GetParsedFormat((LISTENINGTOINFO *)lParam);
 }
 
-INT_PTR GetOverrideContactOption(WPARAM,LPARAM)
+INT_PTR GetOverrideContactOption(WPARAM, LPARAM)
 {
-	return ( INT_PTR )opts.override_contact_template;
+	return (INT_PTR)opts.override_contact_template;
 }
 
 
-INT_PTR GetUnknownText(WPARAM,LPARAM)
+INT_PTR GetUnknownText(WPARAM, LPARAM)
 {
-	return ( INT_PTR )opts.unknown;
+	return (INT_PTR)opts.unknown;
 }
 
 void SetListeningInfos(LISTENINGTOINFO *lti)
@@ -812,7 +778,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 	}
 }
 
-static void CALLBACK GetInfoTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+static void CALLBACK GetInfoTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (hTimer != NULL) {
 		KillTimer(NULL, hTimer);
@@ -847,28 +813,21 @@ void StartTimer()
 	// See if any protocol want Listening info
 	BOOL want = FALSE;
 
-	if (opts.enable_sending)
-	{
-		if (!players[WATRACK]->enabled)
-		{
+	if (opts.enable_sending) {
+		if (!players[WATRACK]->enabled) {
 			// See if any player needs it
 			BOOL needPoll = FALSE;
-			for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++)
-			{
-				if (players[i]->needPoll)
-				{
+			for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++) {
+				if (players[i]->needPoll) {
 					needPoll = TRUE;
 					break;
 				}
 			}
 
-			if (needPoll)
-			{
+			if (needPoll) {
 				// Now see protocols
-				for (unsigned int i = 1; i < proto_items.size(); ++i)
-				{
-					if (ListeningToEnabled(proto_items[i].proto))
-					{
+				for (unsigned int i = 1; i < proto_items.size(); ++i) {
+					if (ListeningToEnabled(proto_items[i].proto)) {
 						want = TRUE;
 						break;
 					}
@@ -877,20 +836,16 @@ void StartTimer()
 		}
 	}
 
-	if (want)
-	{
+	if (want) {
 		if (hTimer == NULL)
 			hTimer = SetTimer(NULL, NULL, opts.time_to_pool * 1000, GetInfoTimer);
 	}
-	else
-	{
-		if (hTimer != NULL)
-		{
+	else {
+		if (hTimer != NULL) {
 			KillTimer(NULL, hTimer);
 			hTimer = NULL;
 
 			// To be sure that no one was left behind
-//			m_log(_T("StartTimer"), _T("To be sure that no one was left behind"));
 			SetListeningInfos();
 		}
 	}
@@ -898,8 +853,7 @@ void StartTimer()
 
 void HasNewListeningInfo()
 {
-	if (hTimer != NULL)
-	{
+	if (hTimer != NULL) {
 		KillTimer(NULL, hTimer);
 		hTimer = NULL;
 	}
@@ -913,7 +867,7 @@ void SetExtraIcon(MCONTACT hContact, BOOL set)
 	ExtraIcon_SetIconByName(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
 }
 
-int SettingChanged(WPARAM hContact,LPARAM lParam)
+int SettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact == NULL)
 		return 0;
@@ -934,18 +888,18 @@ int SettingChanged(WPARAM hContact,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam)
+INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == NULL)
 		return -1;
 
 	if (lParam == LISTENINGTO_ANSI) {
-		CharToWchar data((char *) wParam);
-		((GenericPlayer *) players[GENERIC])->NewData(data, mir_wstrlen(data));
+		CharToWchar data((char *)wParam);
+		((GenericPlayer *)players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 	else {
-		WCHAR *data = (WCHAR *) wParam;
-		((GenericPlayer *) players[GENERIC])->NewData(data, mir_wstrlen(data));
+		WCHAR *data = (WCHAR *)wParam;
+		((GenericPlayer *)players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 
 	return 0;
@@ -957,8 +911,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 		return NULL;
 
 	LISTENINGTOINFO *lti = GetListeningInfo();
-	if (lti == NULL)
-	{
+	if (lti == NULL) {
 		ai->flags = AIF_FALSE;
 		return mir_tstrdup(_T(""));
 	}
@@ -986,16 +939,16 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 	\
 	LISTENINGTOINFO *lti = GetListeningInfo(); \
 	if (lti == NULL) \
-	{ \
+			{ \
 		ai->flags = AIF_FALSE; \
 		return mir_tstrdup(_T("")); \
-	} \
-	else if (IsEmpty(lti->__field__))  \
+			} \
+				else if (IsEmpty(lti->__field__))  \
 	{ \
 		ai->flags = AIF_FALSE; \
 		return mir_tstrdup(opts.unknown); \
 	} \
-	else \
+				else \
 	{ \
 		ai->flags = AIF_DONTPARSE; \
 		TCHAR *ret = mir_tstrdup(lti->__field__); \

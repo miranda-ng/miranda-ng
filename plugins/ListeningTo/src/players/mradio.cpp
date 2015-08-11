@@ -35,12 +35,12 @@ void MRadio::EnableDisable()
 int MRadio::GetData()
 {
 	for (MCONTACT hContact = db_find_first("mRadio"); hContact; hContact = db_find_next(hContact, "mRadio")) {
-		WORD status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE); 
+		WORD status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE);
 		if (status != ID_STATUS_ONLINE)
 			continue;
 
 		DBVARIANT dbv;
-		if (!db_get_s(hContact, "mRadio", "Nick", &dbv)) {	
+		if (!db_get_s(hContact, "mRadio", "Nick", &dbv)) {
 			listening_info.cbSize = sizeof(listening_info);
 			listening_info.dwFlags = LTI_TCHAR;
 			listening_info.ptszArtist = mir_tstrdup(_T("Radio"));
@@ -58,12 +58,10 @@ int MRadio::GetData()
 
 BOOL MRadio::GetListeningInfo(LISTENINGTOINFO *lti)
 {
-	FreeData();	
+	FreeData();
 
-	if (enabled) 
-	{
-		if (CallService(MS_RADIO_COMMAND, MRC_STATUS, RD_STATUS_GET) == RD_STATUS_PLAYING)
-		{
+	if (enabled) {
+		if (CallService(MS_RADIO_COMMAND, MRC_STATUS, RD_STATUS_GET) == RD_STATUS_PLAYING) {
 			if (!GetData())
 				FreeData();
 		}

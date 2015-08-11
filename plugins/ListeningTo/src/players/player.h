@@ -22,7 +22,7 @@ class Player
 {
 protected:
 	LISTENINGTOINFO listening_info;
-	CRITICAL_SECTION cs;
+	mir_cs cs;
 
 	void NotifyInfoChanged();
 
@@ -34,13 +34,11 @@ public:
 	Player();
 	virtual ~Player();
 
+	__forceinline mir_cs& GetLock() { return cs; }
+	__forceinline LISTENINGTOINFO* GetInfo() { return &listening_info; }
+
 	virtual BOOL GetListeningInfo(LISTENINGTOINFO *lti);
-
 	virtual void FreeData();
-
-	// Helpers to write to this object's listening info
-	virtual LISTENINGTOINFO * LockListeningInfo();
-	virtual void ReleaseListeningInfo();
 
 	// Called everytime options change
 	virtual void EnableDisable() {}

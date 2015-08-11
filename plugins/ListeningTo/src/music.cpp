@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 Player *players[NUM_PLAYERS];
 static LISTENINGTOINFO current = {0};
 
-void InitMusic() 
+void InitMusic()
 {
 	players[WATRACK] = new WATrack();
 	players[GENERIC] = new GenericPlayer();
@@ -33,23 +33,19 @@ void InitMusic()
 	players[MRADIO] = new MRadio();
 }
 
-
 void FreeMusic()
 {
-	for(int i = 0; i < NUM_PLAYERS; i++)
-	{
+	for (int i = 0; i < NUM_PLAYERS; i++) {
 		delete players[i];
 		players[i] = NULL;
 	}
 }
 
-
 void EnableDisablePlayers()
 {
-	for(int i = 0; i < NUM_PLAYERS; i++)
+	for (int i = 0; i < NUM_PLAYERS; i++)
 		players[i]->EnableDisable();
 }
-
 
 void FreeListeningInfo(LISTENINGTOINFO *lti)
 {
@@ -88,55 +84,43 @@ BOOL Equals(const LISTENINGTOINFO *lti1, const LISTENINGTOINFO *lti2)
 	if (lti1->cbSize != lti2->cbSize)
 		return FALSE;
 
-	return mir_tstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0 
-		&& mir_tstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0 
-		&& mir_tstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0 
-		&& mir_tstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0 
-		&& mir_tstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0 
-		&& mir_tstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0 
-		&& mir_tstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0 
-		&& mir_tstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0 
+	return mir_tstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0
+		&& mir_tstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0
+		&& mir_tstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0
+		&& mir_tstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0
+		&& mir_tstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0
+		&& mir_tstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0
+		&& mir_tstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0
+		&& mir_tstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0
 		&& mir_tstrcmpi(lti1->ptszType, lti2->ptszType) == 0;
 }
 
 
 int ChangedListeningInfo()
 {
-//	m_log(_T("ChangedListeningInfo"), _T("Start"));
-
 	BOOL changed = FALSE;
 	BOOL playing = FALSE;
 
 	int first = (players[WATRACK]->enabled ? WATRACK : GENERIC);
 	int last = (players[WATRACK]->enabled ? WATRACK + 1 : NUM_PLAYERS);
-	for (int i = first; i < last; i++) 
-	{
+	for (int i = first; i < last; i++) {
 		if (!players[i]->enabled)
 			continue;
 
-		LISTENINGTOINFO lti = {0};
+		LISTENINGTOINFO lti = { 0 };
 		if (!players[i]->GetListeningInfo(&lti))
 			continue;
 
-		if (!IsTypeEnabled(&lti))
-		{
+		if (!IsTypeEnabled(&lti)) {
 			FreeListeningInfo(&lti);
 			continue;
 		}
 
 		playing = TRUE;
 
-//		m_log(_T("ChangedListeningInfo"), _T("Has : %s : %d"), players[i]->name, lti.cbSize);
-
 		if (Equals(&current, &lti))
-		{
-//			m_log(_T("ChangedListeningInfo"), _T("Is equals"));
 			FreeListeningInfo(&lti);
-		}
-		else
-		{
-//			m_log(_T("ChangedListeningInfo"), _T("Is different"));
-
+		else {
 			FreeListeningInfo(&current);
 
 			memcpy(&current, &lti, sizeof(current));
@@ -147,8 +131,7 @@ int ChangedListeningInfo()
 		break;
 	}
 
-	if (!playing && current.cbSize != 0)
-	{
+	if (!playing && current.cbSize != 0) {
 		FreeListeningInfo(&current);
 		changed = 1;
 	}

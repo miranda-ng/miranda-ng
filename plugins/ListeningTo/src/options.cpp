@@ -35,44 +35,44 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 static INT_PTR CALLBACK FormatDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
-static OptPageControl optionsControls[] = { 
-	{ &opts.enable_sending,				CONTROL_CHECKBOX,	IDC_ENABLE_SEND,				"EnableSend", TRUE },
-	{ &opts.enable_music,				CONTROL_CHECKBOX,	IDC_ENABLE_MUSIC,				"EnableMusic", TRUE },
-	{ &opts.enable_radio,				CONTROL_CHECKBOX,	IDC_ENABLE_RADIO,				"EnableRadio", TRUE },
-	{ &opts.enable_video,				CONTROL_CHECKBOX,	IDC_ENABLE_VIDEO,				"EnableVideo", TRUE },
-	{ &opts.enable_others,				CONTROL_CHECKBOX,	IDC_ENABLE_OTHERS,				"EnableOthers", TRUE },
-	{ &opts.xstatus_set,				CONTROL_RADIO,		IDC_SET_XSTATUS,				"XStatusSet", 0, SET_XSTATUS },
-	{ &opts.xstatus_set,				CONTROL_RADIO,		IDC_CHECK_XSTATUS,				"XStatusSet", 0, CHECK_XSTATUS },
-	{ &opts.xstatus_set,				CONTROL_RADIO,		IDC_CHECK_XSTATUS_MUSIC,		"XStatusSet", 0, CHECK_XSTATUS_MUSIC },
-	{ &opts.xstatus_set,				CONTROL_RADIO,		IDC_IGNORE_XSTATUS,				"XStatusSet", 0, IGNORE_XSTATUS },
-	{ &opts.override_contact_template,	CONTROL_CHECKBOX,	IDC_OVERRIDE_CONTACTS_TEMPLATE,	"OverrideContactsTemplate", FALSE},
-	{ &opts.show_adv_icon,				CONTROL_CHECKBOX,	IDC_SHOW_ADV_ICON,				"ShowAdvancedIcon", FALSE},
-	{ &opts.adv_icon_slot,				CONTROL_COMBO,		IDC_ADV_ICON,					"AdvancedIconSlot", 1}
+static OptPageControl optionsControls[] = {
+	{ &opts.enable_sending, CONTROL_CHECKBOX, IDC_ENABLE_SEND, "EnableSend", TRUE },
+	{ &opts.enable_music, CONTROL_CHECKBOX, IDC_ENABLE_MUSIC, "EnableMusic", TRUE },
+	{ &opts.enable_radio, CONTROL_CHECKBOX, IDC_ENABLE_RADIO, "EnableRadio", TRUE },
+	{ &opts.enable_video, CONTROL_CHECKBOX, IDC_ENABLE_VIDEO, "EnableVideo", TRUE },
+	{ &opts.enable_others, CONTROL_CHECKBOX, IDC_ENABLE_OTHERS, "EnableOthers", TRUE },
+	{ &opts.xstatus_set, CONTROL_RADIO, IDC_SET_XSTATUS, "XStatusSet", 0, SET_XSTATUS },
+	{ &opts.xstatus_set, CONTROL_RADIO, IDC_CHECK_XSTATUS, "XStatusSet", 0, CHECK_XSTATUS },
+	{ &opts.xstatus_set, CONTROL_RADIO, IDC_CHECK_XSTATUS_MUSIC, "XStatusSet", 0, CHECK_XSTATUS_MUSIC },
+	{ &opts.xstatus_set, CONTROL_RADIO, IDC_IGNORE_XSTATUS, "XStatusSet", 0, IGNORE_XSTATUS },
+	{ &opts.override_contact_template, CONTROL_CHECKBOX, IDC_OVERRIDE_CONTACTS_TEMPLATE, "OverrideContactsTemplate", FALSE },
+	{ &opts.show_adv_icon, CONTROL_CHECKBOX, IDC_SHOW_ADV_ICON, "ShowAdvancedIcon", FALSE },
+	{ &opts.adv_icon_slot, CONTROL_COMBO, IDC_ADV_ICON, "AdvancedIconSlot", 1 }
 };
 
-static OptPageControl formatControls[] = { 
-	{ &opts.templ,					CONTROL_TEXT,		IDC_TEMPLATE,			"Template", (DWORD) _T("%artist% - %title%") },
-	{ &opts.unknown,				CONTROL_TEXT,		IDC_UNKNOWN,			"Unknown", (DWORD) LPGENT("<Unknown>"), 0, 0, 128 },
-	{ &opts.xstatus_name,			CONTROL_TEXT,		IDC_XSTATUS_NAME,		"XStatusName", (DWORD) LPGENT("Listening to") },
-	{ &opts.xstatus_message,		CONTROL_TEXT,		IDC_XSTATUS_MESSAGE,	"XStatusMessage", (DWORD) _T("%listening%") },
-	{ &opts.nothing,				CONTROL_TEXT,		IDC_NOTHING,			"Nothing", (DWORD) LPGENT("<Nothing is playing now>"), 0, 0, 128 }
+static OptPageControl formatControls[] = {
+	{ &opts.templ, CONTROL_TEXT, IDC_TEMPLATE, "Template", (DWORD)_T("%artist% - %title%") },
+	{ &opts.unknown, CONTROL_TEXT, IDC_UNKNOWN, "Unknown", (DWORD)LPGENT("<Unknown>"), 0, 0, 128 },
+	{ &opts.xstatus_name, CONTROL_TEXT, IDC_XSTATUS_NAME, "XStatusName", (DWORD)LPGENT("Listening to") },
+	{ &opts.xstatus_message, CONTROL_TEXT, IDC_XSTATUS_MESSAGE, "XStatusMessage", (DWORD)_T("%listening%") },
+	{ &opts.nothing, CONTROL_TEXT, IDC_NOTHING, "Nothing", (DWORD)LPGENT("<Nothing is playing now>"), 0, 0, 128 }
 };
 
-static OptPageControl playersControls[] = { 
-	{ NULL,							CONTROL_CHECKBOX,	IDC_WATRACK,		"GetInfoFromWATrack", FALSE },
-	{ &opts.time_to_pool,			CONTROL_SPIN,		IDC_POLL_TIMER,		"TimeToPool", (WORD) 5, IDC_POLL_TIMER_SPIN, (WORD) 1, (WORD) 255 },
-	{ NULL,							CONTROL_CHECKBOX,	IDC_WINAMP,			"EnableWinamp", TRUE },
-	{ NULL,							CONTROL_CHECKBOX,	IDC_ITUNES,			"EnableITunes", TRUE },
-	{ NULL,							CONTROL_CHECKBOX,	IDC_WMP,			"EnableWMP", TRUE },
-	{ NULL,							CONTROL_CHECKBOX,	IDC_FOOBAR,			"EnableFoobar", TRUE },
-	{ NULL,							CONTROL_CHECKBOX,	IDC_MRADIO,			"EnableMRadio", TRUE },
-	{ &opts.enable_other_players,	CONTROL_CHECKBOX,	IDC_OTHER,			"EnableOtherPlayers", TRUE },
-	{ &opts.enable_code_injection,	CONTROL_CHECKBOX,	IDC_CODE_INJECTION,	"EnableCodeInjection", TRUE }
+static OptPageControl playersControls[] = {
+	{ NULL, CONTROL_CHECKBOX, IDC_WATRACK, "GetInfoFromWATrack", FALSE },
+	{ &opts.time_to_pool, CONTROL_SPIN, IDC_POLL_TIMER, "TimeToPool", (WORD)5, IDC_POLL_TIMER_SPIN, (WORD)1, (WORD)255 },
+	{ NULL, CONTROL_CHECKBOX, IDC_WINAMP, "EnableWinamp", TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_ITUNES, "EnableITunes", TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_WMP, "EnableWMP", TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_FOOBAR, "EnableFoobar", TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_MRADIO, "EnableMRadio", TRUE },
+	{ &opts.enable_other_players, CONTROL_CHECKBOX, IDC_OTHER, "EnableOtherPlayers", TRUE },
+	{ &opts.enable_code_injection, CONTROL_CHECKBOX, IDC_CODE_INJECTION, "EnableCodeInjection", TRUE }
 };
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
+int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -113,12 +113,10 @@ void InitOptions()
 	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 }
 
-
 void DeInitOptions()
 {
 	UnhookEvent(hOptHook);
 }
-
 
 void LoadOptions()
 {
@@ -127,12 +125,10 @@ void LoadOptions()
 	LoadOpts(playersControls, _countof(playersControls), MODULE_NAME);
 }
 
-
 BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 {
 	if (lti == NULL)
 		return TRUE;
-
 
 	if (lti->dwFlags & LTI_UNICODE) {
 		if (mir_tstrcmpi(lti->ptszType, LPGENT("Music")) == 0)
@@ -143,9 +139,7 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 			return opts.enable_video;
 		return opts.enable_others;
 	}
-	else
-
-	{
+	else {
 		if (strcmpi(lti->pszType, "Music") == 0)
 			return opts.enable_music;
 		if (strcmpi(lti->pszType, "Radio") == 0)
@@ -178,9 +172,9 @@ static void OptionsEnableDisableCtrls(HWND hwndDlg)
 }
 
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL ret;
+	BOOL ret = FALSE;
 	if (msg != WM_INITDIALOG)
 		ret = SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
@@ -194,19 +188,19 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			// Init combo
 			int total = EXTRA_ICON_COUNT, first = 0;
 
-			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("1"));
-			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("2"));
+			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_T("1"));
+			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_T("2"));
 
 			if (total > 0) {
 				TCHAR tmp[10];
 				for (int i = first; i <= total; i++)
-					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _itot(i - first + 3, tmp, 10));
+					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_itot(i - first + 3, tmp, 10));
 			}
 		}
 
 		ret = SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 		OptionsEnableDisableCtrls(hwndDlg);
-		break;
+		return TRUE;
 
 	case WM_NOTIFY:
 		{
@@ -215,7 +209,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				RebuildMenu();
 				StartTimer();
 			}
-
 		}
 		break;
 
@@ -233,15 +226,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return ret;
 }
 
-
 int playerDlgs[] = {
-	WINAMP, IDC_WINAMP, 
-	WMP, IDC_WMP, 
+	WINAMP, IDC_WINAMP,
+	WMP, IDC_WMP,
 	ITUNES, IDC_ITUNES,
 	FOOBAR, IDC_FOOBAR,
 	MRADIO, IDC_MRADIO
 };
-
 
 static void PlayersEnableDisableCtrls(HWND hwndDlg)
 {
@@ -253,8 +244,8 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 
 	BOOL needPoll = FALSE;
 	for (int i = 0; i < _countof(playerDlgs); i += 2) {
-		EnableWindow(GetDlgItem(hwndDlg, playerDlgs[i+1]), enabled);
-		if (players[playerDlgs[i]]->needPoll && IsDlgButtonChecked(hwndDlg, playerDlgs[i+1]))
+		EnableWindow(GetDlgItem(hwndDlg, playerDlgs[i + 1]), enabled);
+		if (players[playerDlgs[i]]->needPoll && IsDlgButtonChecked(hwndDlg, playerDlgs[i + 1]))
 			needPoll = TRUE;
 	}
 
@@ -267,7 +258,7 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_CODE_INJECTION), enabled);
 }
 
-static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL ret = SaveOptsDlgProc(playersControls, _countof(playersControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
@@ -295,8 +286,7 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return ret;
 }
 
-static INT_PTR CALLBACK FormatDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK FormatDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return SaveOptsDlgProc(formatControls, _countof(formatControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
-
