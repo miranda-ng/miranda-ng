@@ -22,9 +22,12 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	switch (wParam)
 	{
 	case AF_MAXSIZE:
-		((POINT*)lParam)->x = 96;
-		((POINT*)lParam)->y = 96;
+		((POINT*)lParam)->x = 150;
+		((POINT*)lParam)->y = 150;
 		return 0;
+
+	case AF_MAXFILESIZE:
+		return 32000;
 
 	case AF_PROPORTION:
 		return PIP_SQUARE;
