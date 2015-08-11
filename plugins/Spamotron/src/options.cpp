@@ -95,7 +95,6 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 	PROTOACCOUNT **pd;
 	TCHAR pName[256] = {0};
 	char protoOption[256] = {0};
-	char protoName[256] = {0};
 	HWND hProtocolsList = GetDlgItem(optDlg, IDC_OPT_PROTOCOLS);
 	LVITEM lvi = {0};
 	LVCOLUMN lvc = {0};
@@ -553,7 +552,7 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 
 extern INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int OnOptInitialize(WPARAM wParam, LPARAM lParam)
+int OnOptInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

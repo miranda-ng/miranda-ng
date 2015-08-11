@@ -94,9 +94,7 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 // name = the string to store in the "name" field
 void ResetDataItem(WIDATAITEM *Item, const TCHAR *name)
 {
-	TCHAR str[] = _T("ID Search - Station Name");
-	Item->Name = ( TCHAR* )mir_alloc( sizeof(str));
-	mir_tstrcpy(Item->Name, str);
+	Item->Name = mir_tstrdup(name);
 	Item->Start = _T("");
 	Item->End = _T("");
 	Item->Unit = _T("");

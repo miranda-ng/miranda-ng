@@ -71,7 +71,7 @@ void WINAPI DeleteErrorString(LPVOID String);
 // len- length of source string
 // mboxsize- adreess to integer, that receives size of mailbox
 // mails- adreess to integer, that receives number of mails
-void ExtractStat(char *stream, int len, int *mboxsize, int *mails);
+void ExtractStat(char *stream, int *mboxsize, int *mails);
 
 //Extracts mail ID on mailbox
 // stream- source string
@@ -156,7 +156,7 @@ CPOP3Account::~CPOP3Account()
 		delete InternetQueries;
 }
 
-HACCOUNT WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN Plugin, DWORD CAccountVersion)
+HACCOUNT WINAPI CreatePOP3Account(HYAMNPROTOPLUGIN, DWORD)
 {
 	//First, we should check whether CAccountVersion matches.
 	//But this is internal plugin, so YAMN's CAccount structure and our CAccount structure are
@@ -386,7 +386,7 @@ DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
 	return 0;
 }
 
-HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD MailDataVersion)
+HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account, DWORD)
 {
 	HYAMNMAIL NewMail;
 	//First, we should check whether MAILDATA matches.
@@ -642,7 +642,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		DebugLog(DecodeFile,"<--------Account checking-------->\n");
 		DebugLog(DecodeFile,"<Extracting stat>\n");
 #endif
-		ExtractStat(DataRX, MyClient->NetClient->Rcv, &mboxsize, &msgs);
+		ExtractStat(DataRX, &mboxsize, &msgs);
 #ifdef DEBUG_DECODE
 		DebugLog(DecodeFile,"<MailBoxSize>%d</MailBoxSize>\n",mboxsize);
 		DebugLog(DecodeFile,"<Msgs>%d</Msgs>\n",msgs);
@@ -1141,7 +1141,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 #ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting stat>\n");
 #endif
-			ExtractStat(DataRX, MyClient->NetClient->Rcv, &mboxsize, &msgs);
+			ExtractStat(DataRX, &mboxsize, &msgs);
 #ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<MailBoxSize>%d</MailBoxSize>\n",mboxsize);
 			DebugLog(DecodeFile,"<Msgs>%d</Msgs>\n",msgs);
@@ -1357,7 +1357,7 @@ void __cdecl DeleteMailsPOP3(void *param)
 	return;
 }
 
-void ExtractStat(char *stream, int len, int *mboxsize, int *mails)
+void ExtractStat(char *stream, int *mboxsize, int *mails)
 {
 	char *finder = stream;
 	while (WS(finder) || ENDLINE(finder)) finder++;

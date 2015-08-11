@@ -163,7 +163,6 @@ LPSTR __cdecl _gpg_encrypt(LPCSTR message, LPCSTR keyid)
 {
 	char buffer[ciphertextsize];
 	char *encmessage = 0;
-	int encmessagelen;
 	gpgResult gpgresult;
 
 	if(strlen(keyid))
@@ -174,7 +173,7 @@ LPSTR __cdecl _gpg_encrypt(LPCSTR message, LPCSTR keyid)
 		if(gpgresult!=gpgSuccess)
 			return 0;
 
-		encmessagelen = strlen(buffer)+1;
+		size_t encmessagelen = strlen(buffer)+1;
 		encmessage = (char *) LocalAlloc(LPTR,encmessagelen);
 		memcpy(encmessage, buffer, encmessagelen);
 	}
@@ -192,7 +191,6 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 	char *storedpassphrase;
 	char passphrase[passphrasesize];
 	char *decmessage = 0;
-	int decmessagelen;
 	gpgResult gpgresult;
 
 	const char *begin = strstr(message, txtbeginpgpmessage);
@@ -254,7 +252,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 
 		memset(passphrase, 0, sizeof(passphrase));
 
-		decmessagelen = strlen(buffer)+1;
+		size_t decmessagelen = strlen(buffer)+1;
 		decmessage = (char *) LocalAlloc(LPTR,decmessagelen);
 		memcpy(decmessage, buffer, decmessagelen);
 	}
@@ -356,7 +354,6 @@ BOOL ShowSelectExecDlg(LPSTR path)
 
 BOOL ShowSelectHomeDlg(LPSTR path)
 {
-	int i;
 	OPENFILENAME ofn;
 
 	ofn.lpstrFile = GetEnvValue("GNUPGHOME");
@@ -387,7 +384,8 @@ BOOL ShowSelectHomeDlg(LPSTR path)
 	ofn.lpstrTitle = "Open Public Keyring";
 	if (!GetOpenFileName(&ofn)) return FALSE;
 
-	for(i=strlen(path);i && path[i]!='\\';i--);
+	int i;
+	for(i = (int)strlen(path);i && path[i]!='\\';i--);
 	path[i] = 0;
 
 	return TRUE;

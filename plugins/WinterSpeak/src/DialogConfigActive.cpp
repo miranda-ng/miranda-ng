@@ -96,7 +96,7 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam) {
 	switch (((LPNMHDR)lParam)->code) {
 		case CLN_NEWCONTACT:
 		case CLN_LISTREBUILT:
-			SetAllContactIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hwndDlg);
+			SetAllContactIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
 			//fall through
 		case CLN_CONTACTMOVED:
 			SetListGroupIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
@@ -187,7 +187,7 @@ void DialogConfigActive::load(HWND window)
 		ConfigDatabase::ActiveUsersMap active_users = m_db.getActiveUsers();
 		this->InitialiseItem(listview, hItemUnknown, active_users[0].message, active_users[0].status);
 	}
-	this->SetAllContactIcons(listview, window);
+	this->SetAllContactIcons(listview);
 	this->SetListGroupIcons(GetDlgItem(window, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 
 }
@@ -249,7 +249,7 @@ void DialogConfigActive::InitialiseItem(HWND hwndList, HANDLE hItem, bool messag
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, 2));
 }
 
-void DialogConfigActive::SetAllContactIcons(HWND hwndList, HWND window) {
+void DialogConfigActive::SetAllContactIcons(HWND hwndList) {
 	ConfigDatabase::ActiveUsersMap active_users = m_db.getActiveUsers();
 	ConfigDatabase::ActiveUsersMap::const_iterator iter;
 	for (iter = active_users.begin(); iter != active_users.end(); ++iter)

@@ -36,7 +36,7 @@ static PLUGININFOEX pluginInfoEx =
 	{ 0x243955e0, 0x75d9, 0x4cc3, { 0x9b, 0x28, 0x6f, 0x9c, 0x5a, 0xf4, 0x53, 0x2d } }
 };
 
-INT_PTR GetCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
 	if (wParam == PFLAGNUM_2 && opt.ShowCustomIcon)
 		return PF2_ONLINE | PF2_LIGHTDND | PF2_SHORTAWAY;
@@ -44,7 +44,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStatus(WPARAM, LPARAM)
 {
 	return ID_STATUS_ONLINE;
 }
@@ -55,7 +55,7 @@ INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;

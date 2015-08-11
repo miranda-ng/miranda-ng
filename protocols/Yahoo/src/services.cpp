@@ -79,7 +79,7 @@ void CYahooProto::BroadcastStatus(int s)
 //=======================================================
 //Contact deletion event
 //=======================================================
-int __cdecl CYahooProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
+int __cdecl CYahooProto::OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	debugLogA("[YahooContactDeleted]");
 
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-INT_PTR __cdecl CYahooProto::SetCustomStatCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::SetCustomStatCommand(WPARAM, LPARAM)
 {
 	if (!m_bLoggedIn) {
 		ShowNotification(TranslateT("Yahoo Error"), TranslateT("You need to be connected to set the custom message"), NIIF_ERROR);
@@ -243,7 +243,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 //=======================================================
 // Show buddy profile
 //=======================================================
-INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM)
 {
 	char tUrl[4096];
 	DBVARIANT dbv;
@@ -326,7 +326,7 @@ INT_PTR __cdecl CYahooProto::OnRefreshCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-int __cdecl CYahooProto::OnIdleEvent(WPARAM wParam, LPARAM lParam)
+int __cdecl CYahooProto::OnIdleEvent(WPARAM, LPARAM lParam)
 {
 	BOOL bIdle = (lParam & IDF_ISIDLE);
 

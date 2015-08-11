@@ -55,7 +55,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam)
+INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM)
 {
 	register int i;
 

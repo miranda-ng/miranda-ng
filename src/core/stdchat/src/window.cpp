@@ -277,7 +277,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_CHAR:
 		{
-			BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 			BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
 			BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
 
@@ -2162,8 +2161,6 @@ LABEL_SHOWWINDOW:
 				if (iCharIndex < 0)
 					break;
 					
-				long iLineIndex = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
-				long iChars = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LINEINDEX, (WPARAM)iLineIndex, 0);
 				long start = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
 				long end = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
 

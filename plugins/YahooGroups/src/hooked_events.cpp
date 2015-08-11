@@ -40,13 +40,11 @@ int UnhookEvents()
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	int autoMove = db_get_b(NULL, ModuleName, "MoveAutomatically", 0);
 	if (autoMove)
-	{
 		YahooGroupsMoveService(0,0);
-	}
 	
 	return 0;
 }

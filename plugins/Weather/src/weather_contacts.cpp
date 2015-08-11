@@ -55,7 +55,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 // read complete forecast
 // wParam = current contact
 
-INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam) 
+INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 {
 	TCHAR id[256], loc2[256];
 	GetStationID(wParam, id, _countof(id));
@@ -73,7 +73,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam)
 
 // load weather map
 // wParam = current contact
-INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam) 
+INT_PTR WeatherMap(WPARAM wParam, LPARAM) 
 {
 	TCHAR id[256], loc2[256];
 	GetStationID(wParam, id, _countof(id));
@@ -95,7 +95,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam)
 
 // show edit settings dialog
 // wParam = current contact
-INT_PTR EditSettings(WPARAM wParam, LPARAM lParam) 
+INT_PTR EditSettings(WPARAM wParam, LPARAM)
 {
 	HWND hEditDlg = WindowList_Find(hWindowList, wParam);
 
@@ -426,7 +426,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 // when a contact is deleted, make sure some other contact take over the default station
 // wParam = deleted contact
-int ContactDeleted(WPARAM wParam, LPARAM lParam) 
+int ContactDeleted(WPARAM wParam, LPARAM) 
 {
 	if (!IsMyContact(wParam))
 		return 0; 

@@ -32,7 +32,7 @@ static HGENMENU hEnableDisableMenu;
 //============  MIRANDA PROTOCOL SERVICES  ============
 
 // protocol service function for setting weather protocol status
-INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam)
+INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM)
 {
 	new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 
@@ -51,7 +51,7 @@ INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam)
 }
 
 // get capabilities protocol service function
-INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 {
 	INT_PTR ret = 0;
 
@@ -96,13 +96,13 @@ INT_PTR WeatherGetName(WPARAM wParam,LPARAM lParam)
 }
 
 // protocol service function to get the current status of the protocol
-INT_PTR WeatherGetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR WeatherGetStatus(WPARAM, LPARAM)
 {
 	return status;
 }
 
 // protocol service function to get the icon of the protocol
-INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM)
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
@@ -126,7 +126,7 @@ INT_PTR WeatherGetInfo(WPARAM,LPARAM lParam)
 static const TCHAR *statusStr[] = { _T("Light"), _T("Fog"), _T("SShower"), _T("Snow"), _T("RShower"), _T("Rain"), _T("PCloudy"), _T("Cloudy"), _T("Sunny"), _T("NA") };
 static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
-INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
@@ -187,7 +187,7 @@ static void __cdecl WeatherGetAwayMsgThread(void *hContact)
 	else ProtoBroadcastAck(WEATHERPROTONAME, (MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-static INT_PTR WeatherGetAwayMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
 {
 	CCSDATA* ccs = (CCSDATA*)lParam;
 	if (ccs == NULL)
@@ -258,7 +258,7 @@ INT_PTR EnableDisableCmd(WPARAM wParam,LPARAM lParam)
 }
 
 // update the weather popup menu item when click on it
-INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
+INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 {
 	UpdatePopupMenu(!opt.UsePopup);
 	return 0;

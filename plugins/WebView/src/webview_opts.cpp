@@ -86,7 +86,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 }
 
 /*****************************************************************************/
-static int CALLBACK EnumFontScriptsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX * lpntme, int FontType, LPARAM lParam)
+static int CALLBACK EnumFontScriptsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX*, int, LPARAM lParam)
 {
 	if (SendMessage((HWND) lParam, CB_FINDSTRINGEXACT, -1, (LPARAM) lpelfe->elfScript) == CB_ERR)
 	{

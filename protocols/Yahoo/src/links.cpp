@@ -72,7 +72,7 @@ static char* get_buddy(TCHAR ** arg)
 	send message:   ymsgr:sendim?ID&m=MESSAGE
 	add chatroom:   ymsgr:chat?ROOM
 	*/
-static INT_PTR ServiceParseYmsgrLink(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR*)lParam;
 	if (arg == NULL) return 1; /* sanity check */

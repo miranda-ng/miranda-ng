@@ -74,18 +74,18 @@ static const PLUGININFOEX pluginInfoEx =
 	{0x6b612a34, 0xdcf2, 0x4e32, {0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD) 
 {
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID) 
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-int WeatherShutdown(WPARAM wParam,LPARAM lParam) 
+int WeatherShutdown(WPARAM, LPARAM) 
 {
 	KillTimer(NULL, timerId);		// kill update timer
 
@@ -101,7 +101,7 @@ int WeatherShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+int OnToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.name = LPGEN("Enable/disable auto update");
@@ -117,7 +117,7 @@ int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 
 // weather protocol initialization function
 // run after the event ME_SYSTEM_MODULESLOADED occurs
-int WeatherInit(WPARAM wParam,LPARAM lParam) 
+int WeatherInit(WPARAM, LPARAM) 
 {
 	// initialize netlib
 	NetlibInit();

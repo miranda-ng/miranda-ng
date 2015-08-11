@@ -765,7 +765,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 }
 
 /*****************************************************************************/
-int DataWndAlertCommand(WPARAM wParam, LPARAM lParam)
+int DataWndAlertCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	if ( WindowList_Find(hWindowList, hContact))

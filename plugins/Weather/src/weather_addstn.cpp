@@ -32,7 +32,7 @@ static TCHAR name1[256];
 
 // protocol service function for adding a new contact onto contact list
 // lParam = PROTOSEARCHRESULT
-INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam) 
+INT_PTR WeatherAddToList(WPARAM, LPARAM lParam) 
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 	if(!psr || !psr->email.t)
@@ -136,7 +136,7 @@ BOOL CheckSearch() {
 static TCHAR sID[32];
 
 // A timer process for the ID search (threaded)
-static void __cdecl BasicSearchTimerProc(LPVOID hWnd) 
+static void __cdecl BasicSearchTimerProc(LPVOID) 
 {
 	int result;
 	// search only when it's not current updating weather.
@@ -152,7 +152,7 @@ static void __cdecl BasicSearchTimerProc(LPVOID hWnd)
 
 // the service function for ID search
 // lParam = ID search string
-INT_PTR WeatherBasicSearch(WPARAM wParam, LPARAM lParam) 
+INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam) 
 {
 	if (searchId != -1) return 0;   //only one search at a time
 	_tcsncpy(sID, ( TCHAR* )lParam, _countof(sID));
@@ -166,7 +166,7 @@ INT_PTR WeatherBasicSearch(WPARAM wParam, LPARAM lParam)
 // ============ NAME SEARCH  ============
 
 // name search timer process (threaded)
-static void __cdecl NameSearchTimerProc(LPVOID hWnd) 
+static void __cdecl NameSearchTimerProc(LPVOID) 
 {
 	// search only when it's not current updating weather.
 	if (CheckSearch())
@@ -180,7 +180,7 @@ static void __cdecl NameSearchTimerProc(LPVOID hWnd)
 	searchId = -1;
 }
 
-static INT_PTR CALLBACK WeatherSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK WeatherSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:

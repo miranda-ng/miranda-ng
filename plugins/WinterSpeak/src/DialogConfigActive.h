@@ -34,7 +34,7 @@ class DialogConfigActive : public MirandaDialog
     void selectAllUsers(HWND window, bool state);
 	void ResetListOptions(HWND listview);
 	void InitialiseItem(HWND hwndList, HANDLE hItem, bool message, bool status);
-	void SetAllContactIcons(HWND listview, HWND window);
+	void SetAllContactIcons(HWND listview);
 	void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage);
 	void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int iImage);
 	void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount);

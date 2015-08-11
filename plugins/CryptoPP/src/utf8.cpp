@@ -45,13 +45,13 @@ LPSTR __cdecl utf8encode(LPCWSTR str)
 LPWSTR __cdecl utf8decode(LPCSTR str)
 {
 
-	int i, len;
+	int i;
 	LPSTR p;
 	//	LPWSTR wszOut;
 
 	if (str == NULL) return NULL;
 
-	len = strlen(str) + 1;
+	size_t len = strlen(str) + 1;
 
 	SAFE_FREE(wszOut);
 	if ((wszOut = (LPWSTR)malloc(len*sizeof(WCHAR))) == NULL)

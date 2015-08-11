@@ -141,7 +141,7 @@ extern "C" int __declspec(dllexport) Unload(void)
  * MirandaPluginInfoEx - Sets plugin info
  * Parameters: (DWORD mirandaVersion)
  */
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

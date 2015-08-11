@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 {
 	if (wParam == PFLAGNUM_4)
 		return PF4_NOCUSTOMAUTH;
@@ -20,12 +20,12 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_GetStatus(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_GetStatus(WPARAM, LPARAM)
 {
 	return YAMN_STATUS;	
 }
 
-static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM)
 {	
 	int newstatus = (wParam != ID_STATUS_OFFLINE)?ID_STATUS_ONLINE:ID_STATUS_OFFLINE;
 	if (newstatus != YAMN_STATUS) {
@@ -43,7 +43,7 @@ static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_LoadIcon(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_LoadIcon(WPARAM wParam, LPARAM)
 {
 	if ( LOWORD( wParam ) == PLI_PROTOCOL )
 		return (INT_PTR)CopyIcon(g_LoadIconEx(0)); // noone cares about other than PLI_PROTOCOL
@@ -51,7 +51,7 @@ static INT_PTR Service_LoadIcon(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)(HICON)NULL;
 }
  
-INT_PTR ClistContactDoubleclicked(WPARAM wParam, LPARAM lParam)
+INT_PTR ClistContactDoubleclicked(WPARAM, LPARAM lParam)
 {
 	ContactDoubleclicked(((CLISTEVENT*)lParam)->lParam, lParam);
 	return 0;
@@ -63,7 +63,7 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 {
 	char *szProto = GetContactProto(wParam);
 	if ( mir_strcmp(szProto, YAMN_DBMODULE))
@@ -166,7 +166,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM lParam)
+static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
 	if ( mir_strcmp(szProto, YAMN_DBMODULE))
@@ -221,11 +221,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam) 
-{
-}
-
-/*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
+/*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM)
 {
 	char *szProto = GetContactProto(wParam);
 	if ( mir_strcmp(szProto, YAMN_DBMODULE))
@@ -285,8 +281,6 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 	bih.biHeight = IconSizeY;
 	bih.biWidth = IconSizeX; 
 	
-	int widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
-
 	RECT rc;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;

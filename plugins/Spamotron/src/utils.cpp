@@ -161,7 +161,6 @@ int get_response_id(const TCHAR* strvar)
 	const char *error;
 	int erroroffs, rc;
 	TCHAR *_str, *_strvar;
-	int opts = 0;
 	TCHAR regex[] = _T("^%response([#-_]([0-9]+))?%$");
 	int ovector[9];
 

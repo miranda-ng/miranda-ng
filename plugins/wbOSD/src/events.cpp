@@ -99,7 +99,6 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT) wParam;
-	WORD oldStatus = LOWORD(lParam);
 	WORD newStatus = HIWORD(lParam);
 	DWORD ann=db_get_dw(NULL,THIS_MODULE,"announce", DEFAULT_ANNOUNCE);
 

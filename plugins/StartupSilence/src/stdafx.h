@@ -30,7 +30,7 @@ void IsMenu();
 void UpdateMenu();
 void UpdateTTB();
 
-INT_PTR SturtupSilenceEnabled(WPARAM wParam, LPARAM lParam);
+INT_PTR StartupSilenceEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
 
 #define MODULE_NAME "StartupSilence"

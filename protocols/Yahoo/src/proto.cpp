@@ -138,7 +138,7 @@ MCONTACT CYahooProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-MCONTACT __cdecl CYahooProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbEvent)
+MCONTACT __cdecl CYahooProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	debugLogA("[YahooAddToListByEvent]");
 	if (!m_bLoggedIn)
@@ -292,7 +292,7 @@ int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CYahooProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR __cdecl CYahooProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -480,7 +480,7 @@ void __cdecl CYahooProto::get_status_thread(void *param)
 		db_free(&dbv);
 	}
 	else {
-		int status = getWord(hContact, "YStatus", (WORD)YAHOO_STATUS_OFFLINE);
+		int status = getDword(hContact, "YStatus", YAHOO_STATUS_OFFLINE);
 		sm = yahoo_status_code(yahoo_status(status));
 		if (sm) sm = strdup(sm); /* we need this to go global FREE later */
 	}
@@ -589,7 +589,7 @@ int __cdecl CYahooProto::SetAwayMsg(int status, const TCHAR* msg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_GETMYAWAYMSG
 
-INT_PTR __cdecl CYahooProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CYahooProto::GetMyAwayMsg(WPARAM, LPARAM lParam)
 {
 	if (!m_bLoggedIn || !m_startMsg)
 		return 0;
@@ -733,7 +733,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR CYahooProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR CYahooProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_YAHOOACCOUNT),
 		(HWND)lParam, first_run_dialog, (LPARAM)this);

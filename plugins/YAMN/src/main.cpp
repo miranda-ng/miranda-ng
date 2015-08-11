@@ -83,7 +83,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	YAMNVar.hInst = hinstDLL;
 	return TRUE;
@@ -91,7 +91,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -176,7 +176,7 @@ static IconItem iconList[] =
 	{ LPGEN("Connect Fail"),       "YAMN_ConnectFail", IDI_BADCONNECT },
 };
 
-static void LoadIcons()
+void LoadIcons()
 {
 	Icon_Register(YAMNVar.hInst, "YAMN", iconList, _countof(iconList));
 }

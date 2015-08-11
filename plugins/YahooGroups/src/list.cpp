@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CGroupsList &availableGroups = CGroupsList();
+CGroupsList availableGroups;
 
 void CGroupsList::Enlarge(int amount)
 {

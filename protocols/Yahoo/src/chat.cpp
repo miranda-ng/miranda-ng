@@ -48,45 +48,8 @@ struct InviteChatReqParam
 };
 
 INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void CALLBACK ConferenceRequestCB(PVOID dwParam);
 
-/* Conference handlers */
-void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
-{
-	char z[1024];
-	mir_snprintf(z, _countof(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
-	LOG(("[ext_yahoo_got_conf_invite] %s", z));
-
-	CYahooProto* ppro = getProtoById(id);
-	if (!ppro) return;
-
-	bool freeList = true;
-	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
-	if (!cm) {
-		if (mir_strcmp(who, me)) {
-			cm = new CYahooProto::ChatRoom(room, members);
-			ppro->m_chatrooms.insert(cm);
-
-			InviteChatReqParam* req = new InviteChatReqParam(room, who, msg, ppro);
-			CallFunctionAsync(ConferenceRequestCB, req);
-			freeList = false;
-		}
-		else {
-			cm = new CYahooProto::ChatRoom(room, NULL);
-			ppro->m_chatrooms.insert(cm);
-			ppro->ChatStart(room);
-
-			yahoo_conference_logon(id, NULL, members, room);
-		}
-	}
-
-	if (freeList) {
-		for (YList *l = members; l; l = l->next) free(l->data);
-		y_list_free(members);
-	}
-}
-
-void ext_yahoo_conf_userdecline(int id, const char *me, const char *who, const char *room, const char *msg)
+void ext_yahoo_conf_userdecline(int id, const char*, const char *who, const char *room, const char *msg)
 {
 	TCHAR info[1024];
 	TCHAR *whot = mir_utf8decodeT(who);
@@ -97,7 +60,7 @@ void ext_yahoo_conf_userdecline(int id, const char *me, const char *who, const c
 	mir_free(whot);
 }
 
-void ext_yahoo_conf_userjoin(int id, const char *me, const char *who, const char *room)
+void ext_yahoo_conf_userjoin(int id, const char*, const char *who, const char *room)
 {
 	CYahooProto* ppro = getProtoById(id);
 	if (!ppro) return;
@@ -113,7 +76,7 @@ void ext_yahoo_conf_userjoin(int id, const char *me, const char *who, const char
 	ppro->ChatEvent(room, who, GC_EVENT_JOIN);
 }
 
-void ext_yahoo_conf_userleave(int id, const char *me, const char *who, const char *room)
+void ext_yahoo_conf_userleave(int id, const char*, const char *who, const char *room)
 {
 	CYahooProto* ppro = getProtoById(id);
 	if (!ppro) return;
@@ -133,7 +96,7 @@ void ext_yahoo_conf_userleave(int id, const char *me, const char *who, const cha
 	ppro->ChatEvent(room, who, GC_EVENT_PART);
 }
 
-void ext_yahoo_conf_message(int id, const char *me, const char *who, const char *room, const char *msg, int utf8)
+void ext_yahoo_conf_message(int id, const char*, const char *who, const char *room, const char *msg, int utf8)
 {
 	TCHAR *msgt = utf8 ? mir_utf8decodeT(msg) : mir_a2t(msg);
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_MESSAGE, msgt);
@@ -141,29 +104,30 @@ void ext_yahoo_conf_message(int id, const char *me, const char *who, const char 
 }
 
 /* chat handlers */
-void ext_yahoo_chat_cat_xml(int id, const char *xml)
+void ext_yahoo_chat_cat_xml(int, const char*)
 {}
 
-void ext_yahoo_chat_join(int id, const char *me, const char *room, const char * topic, YList *members, INT_PTR fd)
+void ext_yahoo_chat_join(int, const char*, const char*, const char*, YList *members, INT_PTR)
 {
 	for (YList *l = members; l; l = l->next) free(l->data);
 	y_list_free(members);
 }
 
-void ext_yahoo_chat_userjoin(int id, const char *me, const char *room, struct yahoo_chat_member *who)
+void ext_yahoo_chat_userjoin(int, const char*, const char*, struct yahoo_chat_member*)
 {}
 
-void ext_yahoo_chat_userleave(int id, const char *me, const char *room, const char *who)
+void ext_yahoo_chat_userleave(int, const char*, const char*, const char*)
 {}
 
-void ext_yahoo_chat_message(int id, const char *me, const char *who, const char *room, const char *msg, int msgtype, int utf8)
+void ext_yahoo_chat_message(int, const char*, const char*, const char*, const char*, int, int)
 {}
 
-void ext_yahoo_chat_yahoologout(int id, const char *me)
+void ext_yahoo_chat_yahoologout(int, const char*)
 {
 	LOG(("got chat logout"));
 }
-void ext_yahoo_chat_yahooerror(int id, const char *me)
+
+void ext_yahoo_chat_yahooerror(int, const char*)
 {
 	LOG(("got chat error"));
 }
@@ -603,12 +567,6 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-static void CALLBACK ConferenceRequestCB(PVOID pParam)
-{
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ),
-		NULL, ChatRequestDialog, (LPARAM)pParam);
-}
-
 INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	char room[128];
@@ -618,4 +576,45 @@ INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL,
 		InviteToChatDialog, LPARAM(param));
 	return 0;
+}
+
+void CALLBACK ConferenceRequestCB(PVOID pParam)
+{
+	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ), NULL, ChatRequestDialog, (LPARAM)pParam);
+}
+
+/* Conference handlers */
+void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
+{
+	char z[1024];
+	mir_snprintf(z, _countof(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
+	LOG(("[ext_yahoo_got_conf_invite] %s", z));
+
+	CYahooProto* ppro = getProtoById(id);
+	if (!ppro) return;
+
+	bool freeList = true;
+	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
+	if (!cm) {
+		if (mir_strcmp(who, me)) {
+			cm = new CYahooProto::ChatRoom(room, members);
+			ppro->m_chatrooms.insert(cm);
+
+			InviteChatReqParam* req = new InviteChatReqParam(room, who, msg, ppro);
+			CallFunctionAsync(ConferenceRequestCB, req);
+			freeList = false;
+		}
+		else {
+			cm = new CYahooProto::ChatRoom(room, NULL);
+			ppro->m_chatrooms.insert(cm);
+			ppro->ChatStart(room);
+
+			yahoo_conference_logon(id, NULL, members, room);
+		}
+	}
+
+	if (freeList) {
+		for (YList *l = members; l; l = l->next) free(l->data);
+		y_list_free(members);
+	}
 }

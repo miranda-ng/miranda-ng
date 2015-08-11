@@ -291,7 +291,7 @@ void UpdateMwinData(MCONTACT hContact)
 }
 
 
-INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
+INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 {
 	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == NULL;
 	if (addwnd)
@@ -302,7 +302,7 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 }
 
 
-int BuildContactMenu(WPARAM wparam,LPARAM lparam)
+int BuildContactMenu(WPARAM wparam,LPARAM)
 {
 	int flags = db_get_dw((MCONTACT)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
 	Menu_ModifyItem(hMwinMenu, NULL, INVALID_HANDLE_VALUE, flags);
@@ -310,7 +310,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 }
 
 
-int RedrawFrame(WPARAM wParam, LPARAM lParam)
+int RedrawFrame(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hMwinWindowList, WM_REDRAWWIN, 0, 0);
 	return 0;

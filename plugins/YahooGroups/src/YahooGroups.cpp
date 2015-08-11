@@ -41,7 +41,7 @@ PLUGININFOEX pluginInfo = {
 	{0x2f3fe8b9, 0x7327, 0x4008, {0xa6, 0x0d, 0x93, 0xf0, 0xf4, 0xf7, 0xf0, 0xf1}}
 };
 	
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD) 
 {
 	return &pluginInfo;
 }
@@ -70,7 +70,7 @@ extern "C" int __declspec(dllexport) Unload()
 	return 0;
 }
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	hInstance = hinstDLL;
 	if (fdwReason == DLL_PROCESS_ATTACH)

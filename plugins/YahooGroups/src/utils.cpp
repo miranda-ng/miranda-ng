@@ -226,18 +226,13 @@ TCHAR *GetContactName(MCONTACT hContact, char *szProto)
 	//_debug_message("	contact name %s", ctInfo.pszVal);
 	TCHAR *buffer;
 	if (!ret)
-		{
-			buffer = _tcsdup(ctInfo.pszVal);
-		}
+		buffer = _tcsdup(ctInfo.pszVal);
+
 	mir_free(ctInfo.pszVal);
 	if (!ret)
-		{
-			return buffer;
-		}
-		else{
-			return NULL;
-		}
-	return buffer;
+		return buffer;
+
+	return NULL;
 }
 
 void GetContactProtocol(MCONTACT hContact, char *szProto, int size)
@@ -306,12 +301,9 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 		}
 	mir_free(ctInfo.pszVal);
 	if (!ret)
-		{
-			return buffer;
-		}
-		else{
-			return NULL;
-		}
+		return buffer;
+
+	return NULL;
 }
 
 MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
