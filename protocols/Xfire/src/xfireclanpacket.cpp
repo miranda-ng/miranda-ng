@@ -26,54 +26,50 @@
 
 #include "xfireclanpacket.h"
 #include "variablevalue.h"
-#include <string>
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  void XFireClanPacket::parseContent(char *buf, int nlength, int numberOfAtts) {
-    VariableValue val;
-	int index = 0;
-	int length = 0;
-	string stringvalue;
-
-	index += 3; // ersten 5 bytes skippen
-
-	this->count=(char)buf[index];
-
-	index += 2;
-
-	for(int i=0;i<this->count;i++)
+namespace xfirelib
+{
+	void XFireClanPacket::parseContent(char *buf, int, int)
 	{
-		index += val.readValue(buf,index,2); //clanid lesen
-		this->clanid[i] = val.getValueAsLong();
+		VariableValue val;
+		int index = 0;
+		int length = 0;
+		string stringvalue;
+
+		index += 3; // ersten 5 bytes skippen
+
+		this->count = (char)buf[index];
+
 		index += 2;
+
+		for (int i = 0; i < this->count; i++) {
+			index += val.readValue(buf, index, 2); //clanid lesen
+			this->clanid[i] = val.getValueAsLong();
+			index += 2;
+		}
+
+		index += 5; // 7 bytes skippen
+
+		for (int i = 0; i < this->count; i++) {
+			length = (unsigned char)buf[index++]; //clannamen lesen
+			index++;
+			index += val.readValue(buf, index, length);
+			stringvalue = string(val.getValue(), length);
+
+			this->name[i] = stringvalue;
+		}
+
+		index += 5; // 5 skippen
+
+		for (int i = 0; i < this->count; i++) {
+			length = (unsigned char)buf[index++]; //url anhängsel auslesen
+			index++;
+			index += val.readValue(buf, index, length);
+			stringvalue = string(val.getValue(), length);
+
+			this->url[i] = stringvalue;
+		}
 	}
-
-	index += 5; // 7 bytes skippen
-
-	for(int i=0;i<this->count;i++)
-	{
-		length = (unsigned char)buf[index++]; //clannamen lesen
-		index++;
-		index += val.readValue(buf,index,length);
-		stringvalue = string(val.getValue(),length);
-
-		this->name[i] = stringvalue;
-	}
-
-	index += 5; // 5 skippen
-
-	for(int i=0;i<this->count;i++)
-	{
-		length = (unsigned char)buf[index++]; //url anhängsel auslesen
-		index++;
-		index += val.readValue(buf,index,length);
-		stringvalue = string(val.getValue(),length);
-
-		this->url[i] = stringvalue;
-	}
-
-  }
-
-};
+}

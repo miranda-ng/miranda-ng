@@ -23,22 +23,21 @@
 #include "stdafx.h"
 
 #include "xdebug.h"
-#include <string.h>
-#include <iostream>
 #include "xfireutils.h"
-
-
-namespace xfirelib {
 
 using namespace std;
 
-  XFireUtils::XFireUtils() {
-  }
+namespace xfirelib
+{
+	XFireUtils::XFireUtils()
+	{
+	}
 
-  int XFireUtils::addAttributName(char *packet,int packet_length, char *att){
-    XDEBUG3( "Adding %d chars at position %d\n",mir_strlen(att),packet_length);
-	packet[packet_length] = (char)mir_strlen(att);//set att length
-	memcpy(packet+packet_length+1,att,mir_strlen(att)); //set attname
-	return packet_length+1+mir_strlen(att);
-  }
+	int XFireUtils::addAttributName(char *packet, int packet_length, char *att)
+	{
+		XDEBUG3("Adding %d chars at position %d\n", mir_strlen(att), packet_length);
+		packet[packet_length] = (char)mir_strlen(att);//set att length
+		memcpy(packet + packet_length + 1, att, mir_strlen(att)); //set attname
+		return packet_length + 1 + mir_strlen(att);
+	}
 };

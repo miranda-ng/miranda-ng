@@ -35,8 +35,6 @@
 #include "sendgamestatus2packet.h"
 #include "Xfire_base.h"
 
-#include <vector>
-
 /* tsr definitionen für teamspeak 2 */
 struct TtsrServerInfo
 {

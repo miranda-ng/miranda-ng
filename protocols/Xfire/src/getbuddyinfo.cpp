@@ -32,25 +32,27 @@
 	getestet mit clanbuddy's >270 members
 */
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  int GetBuddyInfo::getPacketContent(char *packet) {
-	int index = 0;
+namespace xfirelib
+{
+	int GetBuddyInfo::getPacketContent(char *packet)
+	{
+		int index = 0;
 
-	VariableValue val;
-	val.setValueFromLong(userid,4);
+		VariableValue val;
+		val.setValueFromLong(userid, 4);
 
-	packet[index++] = 0x01;
-	packet[index++] = 0x02;
-	index += val.writeValue(packet, index);
+		packet[index++] = 0x01;
+		packet[index++] = 0x02;
+		index += val.writeValue(packet, index);
 
-	length = index;
-	return index;
-  }
+		length = index;
+		return index;
+	}
 
-  int GetBuddyInfo::getPacketAttributeCount() {
-    return 1;
-  }
-
+	int GetBuddyInfo::getPacketAttributeCount()
+	{
+		return 1;
+	}
 }

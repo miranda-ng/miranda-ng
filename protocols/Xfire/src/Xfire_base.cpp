@@ -4,15 +4,15 @@
 #include "variables.h"
 
 //rechnet die einzelnen chars des strings zusammen
-BYTE Xfire_base::accStringByte(char* str){
+BYTE Xfire_base::accStringByte(char* str)
+{
 	BYTE temp = 0;
 
 	//keins tirng? bye bye
 	if (str == NULL)
 		return 0;
 
-	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
-	{
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++) {
 		temp += str[i];
 	}
 
@@ -27,8 +27,7 @@ void Xfire_base::strtolower(char*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
-	{
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++) {
 		str[i] = tolower(str[i]);
 	}
 }
@@ -40,8 +39,7 @@ void Xfire_base::strtolowerT(TCHAR*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)mir_tstrlen(str); i++)
-	{
+	for (unsigned int i = 0; i < (int)mir_tstrlen(str); i++) {
 		str[i] = tolower(str[i]);
 	}
 }
@@ -54,8 +52,7 @@ void Xfire_base::strtoupper(char*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
-	{
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++) {
 		str[i] = toupper(str[i]);
 	}
 }
@@ -114,8 +111,7 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, char**to)
 
 	//wert aus der dblesen
 	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	if (!db_get_s(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get_s(NULL, protocolname, temp, &dbv)) {
 		//string setzen
 		setString(dbv.pszVal, to);
 		//dbval wieder freigeben
@@ -132,8 +128,7 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, int id, char**to
 
 	//wert aus der dblesen
 	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	if (!db_get_s(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get_s(NULL, protocolname, temp, &dbv)) {
 		//string setzen
 		setString(dbv.pszVal, to);
 		//dbval wieder freigeben
@@ -150,8 +145,7 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, char**to)
 
 	//wert aus der dblesen
 	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	if (!db_get_utf(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get_utf(NULL, protocolname, temp, &dbv)) {
 		//string setzen
 		setString(dbv.pszVal, to);
 		//dbval wieder freigeben
@@ -168,8 +162,7 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, int id, char
 
 	//wert aus der dblesen
 	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	if (!db_get_utf(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get_utf(NULL, protocolname, temp, &dbv)) {
 		//string setzen
 		setString(dbv.pszVal, to);
 		//dbval wieder freigeben
@@ -287,8 +280,7 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid)
 	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
 
 	//eintrag entfernen
-	if (!db_get(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get(NULL, protocolname, temp, &dbv)) {
 		db_free(&dbv);
 		db_unset(NULL, protocolname, temp);
 
@@ -308,8 +300,7 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid, int id)
 	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
 
 	//eintrag entfernen
-	if (!db_get(NULL, protocolname, temp, &dbv))
-	{
+	if (!db_get(NULL, protocolname, temp, &dbv)) {
 		db_free(&dbv);
 		db_unset(NULL, protocolname, temp);
 
@@ -319,10 +310,10 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid, int id)
 }
 
 //sucht innerhalb eines strings ein anderen string und liefert true zurück wenn gefunden
-BOOL Xfire_base::inString(char*str, char*search, char**pos) {
+BOOL Xfire_base::inString(char*str, char*search, char**pos)
+{
 	//leere pointer?, dann FALSE zurück
-	if (str == NULL || search == NULL)
-	{
+	if (str == NULL || search == NULL) {
 		//poszeiger, falls übergeben, auf NULL setzen
 		if (pos) *pos = NULL;
 		return FALSE;
@@ -330,8 +321,7 @@ BOOL Xfire_base::inString(char*str, char*search, char**pos) {
 
 	//ist der gesuchte string größer, wie der string wo gesucht werden soll? dann FALSE zurück
 	unsigned int sizeofsearch = mir_strlen(search);
-	if (sizeofsearch > mir_strlen(str))
-	{
+	if (sizeofsearch > mir_strlen(str)) {
 		//poszeiger, falls übergeben, auf NULL setzen
 		if (pos) *pos = NULL;
 		return FALSE;
@@ -340,8 +330,7 @@ BOOL Xfire_base::inString(char*str, char*search, char**pos) {
 	char* src = str;
 	char* s = search;
 
-	while (*src != 0)
-	{
+	while (*src != 0) {
 		if (*src == *s) //gleich, dann zum nächsten buchstaben springen
 			s++;
 		else if (*s == 0) //string ende erreicht? dann true
@@ -367,20 +356,19 @@ BOOL Xfire_base::inString(char*str, char*search, char**pos) {
 	return FALSE;
 }
 
-void Xfire_base::strreplace(char*search, char*replace, char**data) {
+void Xfire_base::strreplace(char*search, char*replace, char**data)
+{
 	if (replace == NULL)
 		replace = "";
 
 	//leere pointer?, dann zurück
-	if (search == NULL || data == NULL || *data == NULL)
-	{
+	if (search == NULL || data == NULL || *data == NULL) {
 		return;
 	}
 
 	char* pos = NULL;
 	//gesuchten string suchen
-	if (this->inString(*data, search, &pos))
-	{
+	if (this->inString(*data, search, &pos)) {
 		//gefunden? dann replace
 		*pos = 0;
 		char* newdata = NULL;
@@ -403,7 +391,8 @@ void Xfire_base::strreplace(char*search, char*replace, char**data) {
 }
 
 //stringvergleich mit wildcards
-BOOL Xfire_base::wildcmp(const TCHAR *search, const TCHAR *text) {
+BOOL Xfire_base::wildcmp(const TCHAR *search, const TCHAR *text)
+{
 	//keine gültigen strings, dann abbruch
 	if (search == NULL || text == NULL || *text == 0 || *search == 0)
 		return FALSE;
@@ -413,8 +402,7 @@ BOOL Xfire_base::wildcmp(const TCHAR *search, const TCHAR *text) {
 
 	do {
 		//wilcard gefunden?
-		if (*search == '*')
-		{
+		if (*search == '*') {
 			//wildcardmodus an
 			wildc = 1;
 			//nächsten suchzeichen
@@ -429,14 +417,12 @@ BOOL Xfire_base::wildcmp(const TCHAR *search, const TCHAR *text) {
 			return FALSE;
 
 		//kein wildcardmodus
-		if (!wildc)
-		{
+		if (!wildc) {
 			//nächstes suchzeichen
 			search++;
 		}
 		//wenn suchzeichen und textzeichen gleich ist
-		else if (*search == *text)
-		{
+		else if (*search == *text) {
 			//den wildcardmodus abschalten
 			wildc = 0;
 			//nächstes suchzeichen
@@ -460,13 +446,15 @@ BOOL Xfire_base::wildcmp(const TCHAR *search, const TCHAR *text) {
 }
 
 //wrapper wenn nur gameid angegeben
-BOOL Xfire_base::getIniValue(unsigned int gameid, const char* valname, char*out, int sizeofout) {
+BOOL Xfire_base::getIniValue(unsigned int gameid, const char* valname, char*out, int sizeofout)
+{
 	return Xfire_base::getIniValue(gameid, 0, valname, out, sizeofout);
 }
 
 
 //läd einen eintrag aus der ini
-BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char* valname, char*out, int sizeofout) {
+BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char* valname, char*out, int sizeofout)
+{
 	//kein ziel oder kein variablenname, dann FALSE zurück
 	if (!out || !valname)
 		return FALSE;
@@ -495,7 +483,8 @@ BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char
 	return FALSE;
 }
 
-BOOL Xfire_base::getIniPath(char*path) {
+BOOL Xfire_base::getIniPath(char*path)
+{
 	//kein ziel abbruch
 	if (!path)
 		return FALSE;
@@ -504,7 +493,8 @@ BOOL Xfire_base::getIniPath(char*path) {
 	return TRUE;
 }
 
-BOOL Xfire_base::getIconPath(char*path) {
+BOOL Xfire_base::getIconPath(char*path)
+{
 	//kein ziel abbruch
 	if (!path)
 		return FALSE;
@@ -512,13 +502,13 @@ BOOL Xfire_base::getIconPath(char*path) {
 	return TRUE;
 }
 
-BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize){
+BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize)
+{
 	//kein ziel
 	if (!out)
 		return FALSE;
 
-	if (!getIniValue(gameid, "LongName", out, outsize))
-	{
+	if (!getIniValue(gameid, "LongName", out, outsize)) {
 		//customnamen laden, wenn vorhanden
 		DBVARIANT dbv;
 		char dbstr[XFIRE_MAXSIZEOFGAMENAME];
@@ -535,7 +525,8 @@ BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize){
 }
 
 //wandelt einen buffer mit größe in ein hicon mit hilfe von gdi+ um
-HICON Xfire_base::createHICONfromdata(LPVOID data, unsigned int size) {
+HICON Xfire_base::createHICONfromdata(LPVOID data, unsigned int size)
+{
 	//zielspeichern anlegen
 	HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, size);
 	if (buffer) {
@@ -544,8 +535,7 @@ HICON Xfire_base::createHICONfromdata(LPVOID data, unsigned int size) {
 			memcpy(data2, data, size);
 
 			IStream* stream = NULL;
-			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK)
-			{
+			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK) {
 				HICON hicon = NULL;
 				Gdiplus::Bitmap image(stream);
 
@@ -565,7 +555,8 @@ HICON Xfire_base::createHICONfromdata(LPVOID data, unsigned int size) {
 }
 
 //wandelt einen buffer mit größe in ein hicon mit hilfe von gdi+ um
-HBITMAP Xfire_base::createHBITMAPfromdata(LPVOID data, unsigned int size) {
+HBITMAP Xfire_base::createHBITMAPfromdata(LPVOID data, unsigned int size)
+{
 	//zielspeichern anlegen
 	HGLOBAL buffer = GlobalAlloc(GMEM_MOVEABLE, size);
 	if (buffer) {
@@ -574,8 +565,7 @@ HBITMAP Xfire_base::createHBITMAPfromdata(LPVOID data, unsigned int size) {
 			memcpy(data2, data, size);
 
 			IStream* stream = NULL;
-			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK)
-			{
+			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK) {
 				HBITMAP hbitmap = NULL;
 				Gdiplus::Bitmap image(stream);
 
@@ -595,7 +585,8 @@ HBITMAP Xfire_base::createHBITMAPfromdata(LPVOID data, unsigned int size) {
 }
 
 //prüft ob processid noch gültig is
-BOOL Xfire_base::isValidPid(DWORD pid) {
+BOOL Xfire_base::isValidPid(DWORD pid)
+{
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
 
 	if (pid == NULL)
@@ -607,16 +598,16 @@ BOOL Xfire_base::isValidPid(DWORD pid) {
 	cProcesses = cbNeeded / sizeof(DWORD);
 
 	for (unsigned int i = 0; i < cProcesses; i++)
-		if (aProcesses[i] == pid)
-		{
-		return TRUE;
+		if (aProcesses[i] == pid) {
+			return TRUE;
 		}
 
 	return FALSE;
 }
 
 //sucht nach einen process und liefert die pid
-BOOL Xfire_base::getPidByProcessName(TCHAR *name, DWORD *pid) {
+BOOL Xfire_base::getPidByProcessName(TCHAR *name, DWORD *pid)
+{
 	if (pid == NULL || name == NULL)
 		return FALSE;
 
@@ -624,11 +615,9 @@ BOOL Xfire_base::getPidByProcessName(TCHAR *name, DWORD *pid) {
 	PROCESSENTRY32* processInfo = new PROCESSENTRY32;
 	processInfo->dwSize = sizeof(PROCESSENTRY32);
 
-	while (Process32Next(hSnapShot, processInfo) != FALSE)
-	{
+	while (Process32Next(hSnapShot, processInfo) != FALSE) {
 		if (processInfo->th32ProcessID != 0) {
-			if (mir_tstrcmpi(processInfo->szExeFile, name) == 0)
-			{
+			if (mir_tstrcmpi(processInfo->szExeFile, name) == 0) {
 				*pid = processInfo->th32ProcessID;
 				CloseHandle(hSnapShot);
 				return TRUE;

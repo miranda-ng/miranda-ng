@@ -24,26 +24,21 @@
 #define __MONITOREDOBJ_H
 
 #include <typeinfo>
-#include <string>
 #include "xdebug.h"
 #include <map>
 
 namespace xfirelib {
-  class MonitoredObj {
-  public:
-    MonitoredObj();
-    ~MonitoredObj();
-    int getTotalObjectCount();
-    
-    std::string classname;
-    int myid;
-    static std::map<std::string,int> instances;
-    static int id;
-  };
+	class MonitoredObj {
+	public:
+		MonitoredObj();
+		~MonitoredObj();
+		int getTotalObjectCount();
 
-
+		std::string classname;
+		int myid;
+		static std::map<std::string,int> instances;
+		static int id;
+	};
 };
-
-
 
 #endif

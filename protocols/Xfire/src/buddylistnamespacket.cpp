@@ -21,84 +21,85 @@
  */
 
 #include "stdafx.h"
-#include <vector>
-#include <string>
 
 #include "buddylistnamespacket.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  BuddyListNamesPacket::BuddyListNamesPacket() {
-    usernames = 0;
-    nicks = 0;
-    userids = 0;
-  }
-  BuddyListNamesPacket::~BuddyListNamesPacket() {
-    delete usernames;
-    delete nicks;
-    delete userids;
-  }
-
-  void BuddyListNamesPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    int index = 0;
-	//prüfe ob das packet mit 0x7 anfängt um eventuell crashes zufixen
-	if (buf[0]!=0x7)
+namespace xfirelib
+{
+	BuddyListNamesPacket::BuddyListNamesPacket()
 	{
-		usernames = new vector<string>;
-		nicks = new vector<string>;
-		userids = new vector<long>;
-		return;
+		usernames = 0;
+		nicks = 0;
+		userids = 0;
+	}
+	BuddyListNamesPacket::~BuddyListNamesPacket()
+	{
+		delete usernames;
+		delete nicks;
+		delete userids;
 	}
 
-    // friends
-    VariableValue friends;
-    index += friends.readName(buf,index);
-    index ++; // Ignore 04
-	index ++; // Ignore 01, dufte skip 1
+	void BuddyListNamesPacket::parseContent(char *buf, int, int)
+	{
+		int index = 0;
+		//prüfe ob das packet mit 0x7 anfängt um eventuell crashes zufixen
+		if (buf[0] != 0x7) {
+			usernames = new vector<string>;
+			nicks = new vector<string>;
+			userids = new vector<long>;
+			return;
+		}
 
-    usernames = new vector<string>;
-    index = readStrings(usernames,buf,index);
+		// friends
+		VariableValue friends;
+		index += friends.readName(buf, index);
+		index++; // Ignore 04
+		index++; // Ignore 01, dufte skip 1
 
-    index += friends.readName(buf,index);
-    index ++; // Ignore 04
-	index ++; // Ignore 01, dufte skip 1
+		usernames = new vector<string>;
+		index = readStrings(usernames, buf, index);
 
-    nicks = new vector<string>;
-    index = readStrings(nicks,buf,index);
+		index += friends.readName(buf, index);
+		index++; // Ignore 04
+		index++; // Ignore 01, dufte skip 1
 
-    index += friends.readName(buf,index);
-    index ++; // Ignore 04
-	index ++; // Ignore 01, dufte skip 1
+		nicks = new vector<string>;
+		index = readStrings(nicks, buf, index);
 
-    index += friends.readValue(buf,index,2); // 2 bytes lesen, für große mengen an friends
-    userids = new vector<long>;
-    int numberOfIds = friends.getValueAsLong();
-    for(int i = 0 ; i < numberOfIds ; i++) {
-      index += friends.readValue(buf,index,4);
-      userids->push_back(friends.getValueAsLong());
-      XDEBUG2( "UserID: %ld\n", friends.getValueAsLong() );
-    }
-  }
+		index += friends.readName(buf, index);
+		index++; // Ignore 04
+		index++; // Ignore 01, dufte skip 1
 
-  int BuddyListNamesPacket::readStrings(vector<string> *strings, char *buf, int index) {
-    VariableValue friends;
-    index += friends.readValue(buf,index,2); //jeweils 2 bytes lesen
-    //index ++; // Ignore 00 0 brauch nicht mehr geskippt werden
-    int numberOfStrings = friends.getValueAsLong();
-    XDEBUG3( "name: %s numberOfStrings: %d\n", friends.getName().c_str(), numberOfStrings );
-    for(int i = 0 ; i < numberOfStrings ; i++) {
-      int length = (unsigned char)buf[index++];
-      index++;
-      index += friends.readValue(buf,index,length);
-      string stringvalue = string(friends.getValue(),length);
-      strings->push_back(stringvalue);
-      XDEBUG3( "String length: %2d : %s\n", length, stringvalue.c_str() );
-    }
-    return index;
-  }
+		index += friends.readValue(buf, index, 2); // 2 bytes lesen, für große mengen an friends
+		userids = new vector<long>;
+		int numberOfIds = friends.getValueAsLong();
+		for (int i = 0; i < numberOfIds; i++) {
+			index += friends.readValue(buf, index, 4);
+			userids->push_back(friends.getValueAsLong());
+			XDEBUG2("UserID: %ld\n", friends.getValueAsLong());
+		}
+	}
 
+	int BuddyListNamesPacket::readStrings(vector<string> *strings, char *buf, int index)
+	{
+		VariableValue friends;
+		index += friends.readValue(buf, index, 2); //jeweils 2 bytes lesen
+		//index ++; // Ignore 00 0 brauch nicht mehr geskippt werden
+		int numberOfStrings = friends.getValueAsLong();
+		XDEBUG3("name: %s numberOfStrings: %d\n", friends.getName().c_str(), numberOfStrings);
+		for (int i = 0; i < numberOfStrings; i++) {
+			int length = (unsigned char)buf[index++];
+			index++;
+			index += friends.readValue(buf, index, length);
+			string stringvalue = string(friends.getValue(), length);
+			strings->push_back(stringvalue);
+			XDEBUG3("String length: %2d : %s\n", length, stringvalue.c_str());
+		}
+		return index;
+	}
 };

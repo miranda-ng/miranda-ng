@@ -24,26 +24,25 @@
 #include "dummyxfiregameresolver.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-
-  XFireGame *DummyXFireGameResolver::resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet) {
-    XDEBUG2( "Resolving GameId: %d\n", gameid );
-    DummyXFireGame *game = new DummyXFireGame();
-    switch(gameid) {
-    case 2: game->init( gameid, "America's Army: Special Forces", packet,iterator ); break;
-    case 3: game->init( gameid, "Unreal Tournament", packet,iterator ); break;
-    case 4: game->init( gameid, "Unreal Tournament 2003", packet ,iterator); break;
-    case 5: game->init( gameid, "Counter-Strike 1.6", packet ,iterator); break;
-    case 32: game->init( gameid, "Teamspeak", packet ,iterator); break;
-    case 4181: game->init( gameid, "Unreal Tournament 2004", packet,iterator ); break;
-    case 4578: game->init( gameid, "Battlefield 2", packet ,iterator); break;
-    case 4611: game->init( gameid, "Live for Speed", packet,iterator ); break;
-    default:
-      game->init( gameid, "Non Resolvegame", packet,iterator );
-      break;
-    }
-    return game;
-  }
-
-
+namespace xfirelib
+{
+	XFireGame* DummyXFireGameResolver::resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet)
+	{
+		XDEBUG2("Resolving GameId: %d\n", gameid);
+		DummyXFireGame *game = new DummyXFireGame();
+		switch (gameid) {
+		case 2: game->init(gameid, "America's Army: Special Forces", packet, iterator); break;
+		case 3: game->init(gameid, "Unreal Tournament", packet, iterator); break;
+		case 4: game->init(gameid, "Unreal Tournament 2003", packet, iterator); break;
+		case 5: game->init(gameid, "Counter-Strike 1.6", packet, iterator); break;
+		case 32: game->init(gameid, "Teamspeak", packet, iterator); break;
+		case 4181: game->init(gameid, "Unreal Tournament 2004", packet, iterator); break;
+		case 4578: game->init(gameid, "Battlefield 2", packet, iterator); break;
+		case 4611: game->init(gameid, "Live for Speed", packet, iterator); break;
+		default:
+			game->init(gameid, "Non Resolvegame", packet, iterator);
+			break;
+		}
+		return game;
+	}
 };

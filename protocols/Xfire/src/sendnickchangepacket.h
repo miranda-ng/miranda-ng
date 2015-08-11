@@ -24,28 +24,25 @@
 #define __SENDNICKCHANGEPACKET_H
 
 #include "xfiresendpacketcontent.h"
-#include <string>
 
 #define XFIRE_SEND_NICKCHANGE_PACKET_ID 14;
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class SendNickChangePacket : public XFireSendPacketContent {
-  public:
-    virtual ~SendNickChangePacket() { }
+	class SendNickChangePacket : public XFireSendPacketContent {
+	public:
+		virtual ~SendNickChangePacket() { }
 
-    XFirePacketContent *newPacket() { return new SendNickChangePacket; }
-    int getPacketId() { return XFIRE_SEND_NICKCHANGE_PACKET_ID; }
+		XFirePacketContent *newPacket() { return new SendNickChangePacket; }
+		int getPacketId() { return XFIRE_SEND_NICKCHANGE_PACKET_ID; }
 
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 1; }
-    int getPacketSize() { return 1024; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 1; }
+		int getPacketSize() { return 1024; }
 
-    string nick;
-  };
-
+		string nick;
+	};
 };
-
 
 #endif

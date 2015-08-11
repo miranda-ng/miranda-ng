@@ -27,51 +27,53 @@
 #include <string.h>
 #include <iostream>
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  int SearchBuddy::getPacketContent(char *packet) {
-	int index = 0;
+namespace xfirelib
+{
+	int SearchBuddy::getPacketContent(char *packet)
+	{
+		int index = 0;
 
-	// name
-	VariableValue val;
-	val.setName( "name" );
-	index += val.writeName( packet, index );
+		// name
+		VariableValue val;
+		val.setName("name");
+		index += val.writeName(packet, index);
 
-	packet[index++] = 0x01;
+		packet[index++] = 0x01;
 
-	val.setValue((char*)searchstring.c_str(),searchstring.size());
-	packet[index++] = searchstring.size()%256;
-    packet[index++] = (int)searchstring.size()/256;
-    index += val.writeValue(packet,index);
+		val.setValue((char*)searchstring.c_str(), searchstring.size());
+		packet[index++] = searchstring.size() % 256;
+		packet[index++] = (int)searchstring.size() / 256;
+		index += val.writeValue(packet, index);
 
-	val.setName( "fname" );
-	index += val.writeName( packet, index );	
+		val.setName("fname");
+		index += val.writeName(packet, index);
 
-	packet[index++] = 0x01;
-	packet[index++] = 0x00;
-	packet[index++] = 0x00;
+		packet[index++] = 0x01;
+		packet[index++] = 0x00;
+		packet[index++] = 0x00;
 
-	val.setName( "lname" );
-	index += val.writeName( packet, index );	
+		val.setName("lname");
+		index += val.writeName(packet, index);
 
-	packet[index++] = 0x01;
-	packet[index++] = 0x00;
-	packet[index++] = 0x00;
+		packet[index++] = 0x01;
+		packet[index++] = 0x00;
+		packet[index++] = 0x00;
 
-	val.setName( "email" );
-	index += val.writeName( packet, index );	
+		val.setName("email");
+		index += val.writeName(packet, index);
 
-	packet[index++] = 0x01;
-	packet[index++] = 0x00;
-	packet[index++] = 0x00;
+		packet[index++] = 0x01;
+		packet[index++] = 0x00;
+		packet[index++] = 0x00;
 
-	length = index;
-	return index;
-  }
+		length = index;
+		return index;
+	}
 
-  int SearchBuddy::getPacketAttributeCount() {
-    return 4;
-  }
-
+	int SearchBuddy::getPacketAttributeCount()
+	{
+		return 4;
+	}
 }

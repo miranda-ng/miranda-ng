@@ -5,8 +5,7 @@
 //liefert bestimmtes game zurück
 Xfire_game* Xfire_gamelist::getGame(unsigned int dbid)
 {
-	if (dbid < gamelist.size())
-	{
+	if (dbid < gamelist.size()) {
 		return gamelist.at(dbid);
 	}
 	return NULL;
@@ -23,10 +22,10 @@ Xfire_game* Xfire_gamelist::getGamebyGameid(unsigned int gameid)
 	return NULL;
 }
 
-void Xfire_gamelist::readGamelist(int anz) {
+void Xfire_gamelist::readGamelist(int anz)
+{
 	//spiele einzeln einlesen
-	for (int i = 0; i < anz; i++)
-	{
+	for (int i = 0; i < anz; i++) {
 		//erzeuge gameobject
 		Xfire_game* game = new Xfire_game();
 
@@ -55,7 +54,8 @@ Xfire_gamelist::Xfire_gamelist()
 }
 
 //dekonstruktor
-Xfire_gamelist::~Xfire_gamelist() {
+Xfire_gamelist::~Xfire_gamelist()
+{
 	for (unsigned int i = 0; i < gamelist.size(); i++) {
 		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) delete game;
@@ -71,21 +71,18 @@ BOOL Xfire_gamelist::getnextGame(Xfire_game**currentgame)
 		return FALSE;
 
 	//is die derzeitige id kleiner wie die anzahl an games, dann passendes game zurückliefern
-	if (nextgameid < gamelist.size())
-	{
+	if (nextgameid < gamelist.size()) {
 		*currentgame = gamelist.at(nextgameid);
 		nextgameid++;
 
 		//muss das spiel geskippt werden, dann nochmal funktion aufrufen um das nächste game zubekommen
-		if ((*currentgame)->skip || (*currentgame)->id == 32 || (*currentgame)->id == 33 || (*currentgame)->id == 34 || (*currentgame)->id == 35)
-		{
+		if ((*currentgame)->skip || (*currentgame)->id == 32 || (*currentgame)->id == 33 || (*currentgame)->id == 34 || (*currentgame)->id == 35) {
 			return getnextGame(currentgame);
 		}
 
 		return TRUE;
 	}
-	else
-	{
+	else {
 		//liste durchgearbeitet, nextid wieder auf 0 setzen
 		nextgameid = 0;
 		return FALSE;
@@ -146,16 +143,13 @@ void Xfire_gamelist::createStartmenu()
 
 	//sortiert mit bubblesortalgo
 	BOOL changed = FALSE;
-	do
-	{
+	do {
 		changed = FALSE;
-		for (unsigned int i = 1; i < gamelist.size(); i++)
-		{
+		for (unsigned int i = 1; i < gamelist.size(); i++) {
 			Xfire_game* game = (Xfire_game*)gamelist.at(sorttemp[i - 1]);
 			Xfire_game* game2 = (Xfire_game*)gamelist.at(sorttemp[i]);
 			//sortieren
-			if (mir_strcmp(game->name, game2->name) > 0)
-			{
+			if (mir_strcmp(game->name, game2->name) > 0) {
 				int tempi = sorttemp[i - 1];
 				sorttemp[i - 1] = sorttemp[i];
 				sorttemp[i] = tempi;
@@ -194,10 +188,8 @@ BOOL Xfire_gamelist::Gameinlist(int id, int*dbid)
 {
 	for (unsigned int i = 0; i < gamelist.size(); i++) {
 		Xfire_game* game = (Xfire_game*)gamelist.at(i);
-		if (game)
-		{
-			if (game->id == id)
-			{
+		if (game) {
+			if (game->id == id) {
 				//soll eine dbid zurückgeliefert werden? dann setzen
 				if (dbid)
 					*dbid = i;
@@ -229,7 +221,8 @@ void Xfire_gamelist::clearStartmenu()
 }
 
 //dekonstruktor
-void Xfire_gamelist::clearGamelist() {
+void Xfire_gamelist::clearGamelist()
+{
 	createDummyMenuItem();
 	for (unsigned int i = 0; i < gamelist.size(); i++) {
 		Xfire_game* game = (Xfire_game*)gamelist.at(i);
@@ -265,11 +258,9 @@ void Xfire_gamelist::clearDatabase(BOOL dontaddcustom)
 	while (somethingfound) {
 		somethingfound = FALSE;
 		//customeintrag? dann ab in die gameliste damit
-		if (this->readBytefromDB("gamecustom", i3) == 1)
-		{
+		if (this->readBytefromDB("gamecustom", i3) == 1) {
 			//customgame nur in die liste adden wenn es gewollt is
-			if (!dontaddcustom)
-			{
+			if (!dontaddcustom) {
 				//erzeuge gameobject
 				Xfire_game* game = new Xfire_game();
 				//lese das spiel ein

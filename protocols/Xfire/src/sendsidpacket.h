@@ -31,27 +31,24 @@
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 
-#include <vector>
-#include <string>
-
 namespace xfirelib {
 	using namespace std;
 
-  class SendSidPacket : public XFireSendPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new SendSidPacket(); }
+	class SendSidPacket : public XFireSendPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new SendSidPacket(); }
 
-    int getPacketId() { return 0x5; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount();
-    int getPacketSize() { return 1000; };
-    void parseContent(char *buf, int length, int numberOfAtts) { };
+		int getPacketId() { return 0x5; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount();
+		int getPacketSize() { return 1000; };
+		void parseContent(char*, int, int) { };
 
-	vector<char *> *sids;
+		vector<char *> *sids;
 
-  private:
-    int length;
-  };
+	private:
+		int length;
+	};
 
 };
 

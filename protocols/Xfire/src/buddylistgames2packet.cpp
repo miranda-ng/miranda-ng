@@ -25,15 +25,17 @@
 #include "buddylistgames2packet.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-  BuddyListGames2Packet::BuddyListGames2Packet() : BuddyListGamesPacket() {
-    
-  }
-  void BuddyListGames2Packet::parseContent(char *buf, int length, int numberOfAtts) {
-    XDEBUG( "....Parsing Packet Content of game 2 ??\n" )
-    this->BuddyListGamesPacket::parseContent(buf,length,numberOfAtts);
-    XDEBUG2( "Parsed Packet Content of game 2 ??? ( %ld )\n", gameids->at(0) )
-  }
+namespace xfirelib
+{
+	BuddyListGames2Packet::BuddyListGames2Packet() : BuddyListGamesPacket()
+	{
+	}
 
+	void BuddyListGames2Packet::parseContent(char *buf, int length, int numberOfAtts)
+	{
+		XDEBUG("....Parsing Packet Content of game 2 ??\n")
+			this->BuddyListGamesPacket::parseContent(buf, length, numberOfAtts);
+		XDEBUG2("Parsed Packet Content of game 2 ??? ( %ld )\n", gameids->at(0))
+	}
 };
 

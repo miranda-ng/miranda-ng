@@ -29,37 +29,32 @@
 
 #define XFIRE_FOUNDBUDDYS_ID 0x8f
 
-#include <vector>
-#include <string>
-
 #include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
-
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class XFireFoundBuddys : public XFireRecvPacketContent {
-  public:
-    XFireFoundBuddys();
-    virtual ~XFireFoundBuddys();
+	class XFireFoundBuddys : public XFireRecvPacketContent {
+	public:
+		XFireFoundBuddys();
+		virtual ~XFireFoundBuddys();
 
-    XFirePacketContent* newPacket() { return new XFireFoundBuddys(); }
+		XFirePacketContent* newPacket() { return new XFireFoundBuddys(); }
 
-    int getPacketId() { return XFIRE_FOUNDBUDDYS_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
+		int getPacketId() { return XFIRE_FOUNDBUDDYS_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    //private:
-    int readStrings(vector<string> *strings, char *buf, int index);
+		//private:
+		int readStrings(vector<string> *strings, char *buf, int index);
 
-    vector<string> *usernames;
-    vector<string> *fname;
-    vector<string> *lname;
-  };
+		vector<string> *usernames;
+		vector<string> *fname;
+		vector<string> *lname;
+	};
 };
-
 
 #endif

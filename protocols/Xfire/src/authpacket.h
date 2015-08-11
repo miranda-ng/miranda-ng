@@ -30,24 +30,24 @@
 
 namespace xfirelib {
 
-  class AuthPacket : public XFireRecvPacketContent {
-  public:
-    AuthPacket();
-    virtual ~AuthPacket();
+	class AuthPacket : public XFireRecvPacketContent {
+	public:
+		AuthPacket();
+		virtual ~AuthPacket();
 
-    XFirePacketContent* newPacket() { return new AuthPacket(); }
+		XFirePacketContent* newPacket() { return new AuthPacket(); }
 
 
-    int getPacketId() { return XFIRE_PACKET_AUTH_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
+		int getPacketId() { return XFIRE_PACKET_AUTH_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    VariableValue *getSalt() { return salt; }
-  private:
-    VariableValue *salt;
-  };
+		VariableValue *getSalt() { return salt; }
+	private:
+		VariableValue *salt;
+	};
 };
 
 

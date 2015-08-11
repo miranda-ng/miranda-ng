@@ -29,20 +29,18 @@
 
 namespace xfirelib {
 
-  class RecvOldVersionPacket : public XFireRecvPacketContent {
-  public:
-    RecvOldVersionPacket();
-    virtual ~RecvOldVersionPacket() { }
-    XFirePacketContent *newPacket() { return new RecvOldVersionPacket; }
-    int getPacketId() { return XFIRE_RECV_OLDVERSION_PACKET_ID; }
+	class RecvOldVersionPacket : public XFireRecvPacketContent {
+	public:
+		RecvOldVersionPacket();
+		virtual ~RecvOldVersionPacket() { }
+		XFirePacketContent *newPacket() { return new RecvOldVersionPacket; }
+		int getPacketId() { return XFIRE_RECV_OLDVERSION_PACKET_ID; }
 
-    void parseContent(char *buf, int length, int numberOfAtts);
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-	char newversion;
+		char newversion;
 
-  };
-
+	};
 };
-
 
 #endif

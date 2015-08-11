@@ -27,24 +27,26 @@
 #include <string.h>
 #include <iostream>
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  int XFirePrefPacket::getPacketContent(char *packet) {
-	int index = 0;
+namespace xfirelib
+{
+	int XFirePrefPacket::getPacketContent(char *packet)
+	{
+		int index = 0;
 
-	VariableValue val;
-	val.setName( "prefs" );
-	index += val.writeName( packet, index );
-	packet[index++] = 0x09;
-	packet[index++] = 0x00;
-	
-	length = index;
-	return index;
-  }
+		VariableValue val;
+		val.setName("prefs");
+		index += val.writeName(packet, index);
+		packet[index++] = 0x09;
+		packet[index++] = 0x00;
 
-  int XFirePrefPacket::getPacketAttributeCount() {
-    return 1;
-  }
+		length = index;
+		return index;
+	}
 
+	int XFirePrefPacket::getPacketAttributeCount()
+	{
+		return 1;
+	}
 }

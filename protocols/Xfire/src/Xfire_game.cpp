@@ -4,7 +4,8 @@
 #include "pwd_dlg.h" //passwort eingabe dlg
 
 //prüft nach, ob das game das nötige extragameargs im launcherstring hat
-BOOL Xfire_game::haveExtraGameArgs() {
+BOOL Xfire_game::haveExtraGameArgs()
+{
 	//kein launcher stirng, dann abbruch
 	if (!this->launchparams)
 		return FALSE;
@@ -17,21 +18,20 @@ BOOL Xfire_game::haveExtraGameArgs() {
 }
 
 //startes das spiel
-BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
+BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
+{
 	//launchparam prüfen ob gefüllt?
 	if (this->launchparams == NULL)
 		return FALSE;
 
 	//ist launchparam großgenug für eibne urlprüfung?
-	if (mir_strlen(this->launchparams) > 5)
-	{
+	if (mir_strlen(this->launchparams) > 5) {
 		//launchparams ne url? dann openurl funktion von miranda verwenden
 		if (this->launchparams[0] == 'h'&&
 			this->launchparams[1] == 't'&&
 			this->launchparams[2] == 't'&&
 			this->launchparams[3] == 'p'&&
-			this->launchparams[4] == ':')
-		{
+			this->launchparams[4] == ':') {
 			Utils_OpenUrl(this->launchparams);
 			return 0;
 		}
@@ -41,10 +41,8 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 	int networksize = 0;
 	char* mynetworkparams = NULL;
 
-	if (this->networkparams)
-	{
-		if (ip)
-		{
+	if (this->networkparams) {
+		if (ip) {
 			char portstr[6] = "";
 			int pwsize = 255;
 
@@ -64,7 +62,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 			str_replace(mynetworkparams, "%UA_GAME_HOST_PORT%", portstr);
 
 			//passwort dialog, nur wenn SHIFT gehalten wird beim join, da sonst immer gefragt wird
-			if (GetAsyncKeyState(VK_LSHIFT) && this->pwparams){
+			if (GetAsyncKeyState(VK_LSHIFT) && this->pwparams) {
 				char password[256] = ""; //passwort maximal 255 zeichen
 
 				if (ShowPwdDlg(password)) {
@@ -80,8 +78,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 					else
 						str_replace(mynetworkparams, "%UA_LAUNCHER_PASSWORD_ARGS%", "");
 				}
-				else
-				{
+				else {
 					str_replace(mynetworkparams, "%UA_LAUNCHER_PASSWORD_ARGS%", "");
 				}
 			}
@@ -98,8 +95,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 
 	//extra parameter
 	int extraparamssize = 0;
-	if (this->extraparams)
-	{
+	if (this->extraparams) {
 		extraparamssize = mir_strlen(this->extraparams);
 	}
 
@@ -107,8 +103,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 	char*temp = NULL;
 	temp = new char[mir_strlen(this->launchparams) + networksize + extraparamssize + 1];
 
-	if (temp == NULL)
-	{
+	if (temp == NULL) {
 		//wenn nwparams gesetzt, leeren
 		if (mynetworkparams)
 			delete[] mynetworkparams;
@@ -120,8 +115,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 	strcpy_s(temp, mir_strlen(this->launchparams) + 1, this->launchparams);
 
 	//netzwerkparameter ?
-	if (mynetworkparams)
-	{
+	if (mynetworkparams) {
 		str_replace(temp, "%UA_LAUNCHER_NETWORK_ARGS%", mynetworkparams);
 		delete[] mynetworkparams;
 	}
@@ -140,23 +134,19 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 	// MessageBoxA(NULL,temp,temp,0);
 
 	//starten
-	if (CreateProcessA(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp), &si, &pi) == 0)
-	{
+	if (CreateProcessA(0, temp, 0, 0, FALSE, 0, 0, GetLaunchPath(temp), &si, &pi) == 0) {
 		//schlug fehl, dann runas methode verwenden
 		char*exe = strrchr(temp, '\\');
-		if (exe == 0)
-		{
+		if (exe == 0) {
 			delete[] temp;
 			return FALSE;
 		}
 		*exe = 0;
 		exe++;
 		char*params = strchr(exe, '.');
-		if (params != 0)
-		{
+		if (params != 0) {
 			params = strchr(params, ' ');
-			if (params != 0)
-			{
+			if (params != 0) {
 				*params = 0;
 				params++;
 			}
@@ -187,8 +177,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 	//versuche ein processhandle des speils zubekommen
 	HANDLE op = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processInfo->th32ProcessID);
 
-	if (op)
-	{
+	if (op) {
 		//varaibele wohin der pfad eingelesen wird
 		TCHAR fpath[MAX_PATH] = _T("");
 
@@ -206,8 +195,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			//if (mir_strcmp(this->path,fpath)==0)
 		{
 			//pfad stimmt überein, commandline prüfen
-			if (checkCommandLine(op, this->mustcontain, this->notcontain))
-			{
+			if (checkCommandLine(op, this->mustcontain, this->notcontain)) {
 				//handle zuamachen
 				CloseHandle(op);
 				//positive antwort an die gamedetection
@@ -217,13 +205,10 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		else //prüfe den multipfad
 		{
 			int size = mpath.size();
-			for (int j = 0; j < size; j++)
-			{
-				if (mir_tstrcmpi(_A2T(mpath.at(j)), fpath) == 0)
-				{
+			for (int j = 0; j < size; j++) {
+				if (mir_tstrcmpi(_A2T(mpath.at(j)), fpath) == 0) {
 					//pfad stimmt überein, commandline prüfen
-					if (checkCommandLine(op, this->mustcontain, this->notcontain))
-					{
+					if (checkCommandLine(op, this->mustcontain, this->notcontain)) {
 						//handle zumachen
 						CloseHandle(op);
 						//positive antwort an die gamedetection
@@ -244,15 +229,13 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			return FALSE;
 
 		//vergleich die exenamen
-		if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0)
-		{
+		if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0) {
 			return TRUE;
 		}
 		else //anderen pfade des games noch durchprüfen
 		{
 			int size = mpath.size();
-			for (int j = 0; j < size; j++)
-			{
+			for (int j = 0; j < size; j++) {
 				//exenamen rausfischen
 				char* exename = strrchr(mpath.at(j), '\\') + 1;
 
@@ -261,8 +244,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 					continue;
 
 				//exe vergleichen
-				if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0)
-				{
+				if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0) {
 					//positive antwort an die gamedetection
 					return TRUE;
 				}
@@ -275,7 +257,8 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 }
 
 //icondaten setzen
-void Xfire_game::setIcon(HICON hicon, HANDLE handle) {
+void Xfire_game::setIcon(HICON hicon, HANDLE handle)
+{
 	this->hicon = hicon;
 	this->iconhandl = handle;
 }
@@ -287,13 +270,10 @@ void Xfire_game::readFromDB(unsigned dbid)
 	this->readStringfromDB("gamepath", dbid, &this->path);
 
 	//8.3 fix, prüfe auf ~ pfad, wenn ja pfad var umwalnd in longname
-	if (this->path)
-	{
+	if (this->path) {
 		BOOL found = FALSE;
-		for (unsigned int i = 0; i < mir_strlen(this->path); i++)
-		{
-			if (this->path[i] == '~')
-			{
+		for (unsigned int i = 0; i < mir_strlen(this->path); i++) {
+			if (this->path[i] == '~') {
 				found = TRUE;
 				break;
 			}
@@ -331,13 +311,11 @@ void Xfire_game::readFromDB(unsigned dbid)
 
 	//mehrere pfade
 	int size = this->readWordfromDB("gamemulti", dbid, 0);
-	for (int j = 0; j < size; j++)
-	{
+	for (int j = 0; j < size; j++) {
 		char* tpath = NULL;
 		this->readStringfromDB("gamepath", dbid, j, &tpath);
 
-		if (tpath)
-		{
+		if (tpath) {
 			mpath.push_back(tpath);
 		}
 	}
@@ -349,12 +327,10 @@ void Xfire_game::readFromDB(unsigned dbid)
 //läd spielnamen aus, sowie icon
 void Xfire_game::setNameandIcon()
 {
-	if (this->customgamename)
-	{
+	if (this->customgamename) {
 		this->setString(this->customgamename, &this->name);
 	}
-	else
-	{
+	else {
 		//std::string game=GetGame(this->id,0,&this->iconhandl,&this->hicon,TRUE);
 		//zielbuffer für den namen
 		char buf[XFIRE_MAXSIZEOFGAMENAME] = "Unknown Game";
@@ -412,11 +388,9 @@ void Xfire_game::writeToDB(unsigned dbid)
 
 	//mehrere pfade
 	int size = mpath.size();
-	if (size > 0)
-	{
+	if (size > 0) {
 		this->writeWordtoDB("gamemulti", dbid, mpath.size());
-		for (int j = 0; j < size; j++)
-		{
+		for (int j = 0; j < size; j++) {
 			this->writeStringtoDB("gamepath", dbid, j, mpath.at(j));
 		}
 	}
@@ -457,8 +431,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 //entfernt menüpunkt
 void Xfire_game::remoteMenuitem()
 {
-	if (menuhandle != NULL)
-	{
+	if (menuhandle != NULL) {
 		Menu_RemoveItem(menuhandle);
 		menuhandle = NULL;
 	}

@@ -28,27 +28,25 @@
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 
-#include <string>
-
 namespace xfirelib {
 
-  /**
-   * (Internal) packet used by Client::login( std::string, std::string )
-   * Users of xfirelib won't need this packet.
-   */
-  class ClientInformationPacket : public XFireSendPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new ClientInformationPacket(); }
+	/**
+	* (Internal) packet used by Client::login( std::string, std::string )
+	* Users of xfirelib won't need this packet.
+	*/
+	class ClientInformationPacket : public XFireSendPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new ClientInformationPacket(); }
 
-    int getPacketId() { return 18; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount();
-    int getPacketSize() { return 46; };
-    void parseContent(char *buf, int length, int numberOfAtts) { };
-    std::string skinname;
-  private:
-    int length;
-  };
+		int getPacketId() { return 18; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount();
+		int getPacketSize() { return 46; };
+		void parseContent(char*, int, int) { };
+		std::string skinname;
+	private:
+		int length;
+	};
 
 };
 

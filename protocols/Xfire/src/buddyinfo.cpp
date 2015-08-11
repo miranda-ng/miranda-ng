@@ -23,42 +23,40 @@
  */
 
 #include "stdafx.h"
-#include <vector>
-#include <string>
 
 #include "buddyinfo.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-  using namespace std;
+namespace xfirelib
+{
+	using namespace std;
 
-  void BuddyInfoPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    int index = 0;
+	void BuddyInfoPacket::parseContent(char *buf, int, int)
+	{
+		int index = 0;
 
-	VariableValue val;
+		VariableValue val;
 
-	XDEBUG2( "Len: %ld\n", length );
+		XDEBUG2("Len: %ld\n", length);
 
-	index+=2; //paar bytes überspringen
+		index += 2; //paar bytes überspringen
 
-	index += val.readValue(buf,index,4);
-	this->userid = val.getValueAsLong();
+		index += val.readValue(buf, index, 4);
+		this->userid = val.getValueAsLong();
 
-	XDEBUG2( "UserId: %ld\n", this->userid);
+		XDEBUG2("UserId: %ld\n", this->userid);
 
-	index+=2;
+		index += 2;
 
-	this->avatarmode = buf[index];
-	XDEBUG2( "Avatarmode: %ld\n", this->avatarmode);
-	index+=6;
+		this->avatarmode = buf[index];
+		XDEBUG2("Avatarmode: %ld\n", this->avatarmode);
+		index += 6;
 
 
-	index += val.readValue(buf,index,4);
-	this->avatarid = val.getValueAsLong();
-	XDEBUG2( "Avatarid: %ld\n", this->avatarid);
-
-  }
-
+		index += val.readValue(buf, index, 4);
+		this->avatarid = val.getValueAsLong();
+		XDEBUG2("Avatarid: %ld\n", this->avatarid);
+	}
 };

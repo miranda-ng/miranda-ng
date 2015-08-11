@@ -29,18 +29,17 @@
 
 namespace xfirelib {
 
-  class SendRemoveBuddyPacket : public XFireSendPacketContent {
-  public:
-    virtual ~SendRemoveBuddyPacket() { }
-    int getPacketId() { return XFIRE_SENDREMOVEBUDDYPACKET; }
+	class SendRemoveBuddyPacket : public XFireSendPacketContent {
+	public:
+		virtual ~SendRemoveBuddyPacket() { }
+		int getPacketId() { return XFIRE_SENDREMOVEBUDDYPACKET; }
 
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 1; }
-    int getPacketSize() { return 1024; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 1; }
+		int getPacketSize() { return 1024; }
 
-    long userid;
-  };
-
+		long userid;
+	};
 };
 
 #endif

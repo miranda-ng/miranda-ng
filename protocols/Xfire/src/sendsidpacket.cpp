@@ -31,41 +31,40 @@
 	whois packet von xfire, für z.b. friends of friends
 */
 
-namespace xfirelib {
-  using namespace std;
+namespace xfirelib
+{
+	int SendSidPacket::getPacketContent(char *packet)
+	{
+		int index = 0;
 
-  int SendSidPacket::getPacketContent(char *packet) {
-	int index = 0;
+		XERROR("Send Sid Packet!\n");
 
-	XERROR("Send Sid Packet!\n");
+		packet[index++] = 0x03;
+		packet[index++] = 's';
+		packet[index++] = 'i';
+		packet[index++] = 'd';
+		packet[index++] = 4;
+		packet[index++] = 3;
+		XDEBUG2("Sids: %d\n", sids->size());
+		packet[index++] = sids->size();
+		packet[index++] = 0;
 
-	packet[index++] = 0x03;
-	packet[index++] = 's';
-	packet[index++] = 'i';
-	packet[index++] = 'd';
-	packet[index++] = 4;
-	packet[index++] = 3;
-	XDEBUG2("Sids: %d\n",sids->size());
-	packet[index++] = sids->size();
-	packet[index++] = 0;
-
-	for(uint i = 0 ; i < sids->size() ; i++) {
-		XDEBUG2("Sid%d:",i);
-		char* sid=sids->at(i);
-		for(int u = 0; u <16 ; u++)
-		{
-			XDEBUG2("%x,",sid[u]);
-			packet[index++] = sid[u];
+		for (uint i = 0; i < sids->size(); i++) {
+			XDEBUG2("Sid%d:", i);
+			char* sid = sids->at(i);
+			for (int u = 0; u < 16; u++) {
+				XDEBUG2("%x,", sid[u]);
+				packet[index++] = sid[u];
+			}
+			XDEBUG("\n");
 		}
-		XDEBUG("\n");
+
+		length = index;
+		return index;
 	}
 
-	length = index;
-	return index;
-  }
-
-  int SendSidPacket::getPacketAttributeCount() {
-    return 1;
-  }
-
+	int SendSidPacket::getPacketAttributeCount()
+	{
+		return 1;
+	}
 }

@@ -7,10 +7,12 @@
 
 #include <sys/types.h>
 #include <stdio.h>
-#include <cstdlib>
 #include <tchar.h>
+
+#include <cstdlib>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #define uint unsigned int
 #define socklen_t int

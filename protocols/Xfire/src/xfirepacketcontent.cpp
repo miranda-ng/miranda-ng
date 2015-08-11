@@ -23,8 +23,10 @@
 
 #include "xfirepacketcontent.h"
 
-namespace xfirelib {
-  XFirePacketContent::XFirePacketContent() : MonitoredObj( ) {
-  }
+namespace xfirelib
+{
+	XFirePacketContent::XFirePacketContent() : MonitoredObj()
+	{
+	}
 
 };

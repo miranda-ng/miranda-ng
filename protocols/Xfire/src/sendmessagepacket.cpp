@@ -34,70 +34,75 @@
 #include <iostream>
 #include "xdebug.h"
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  std::map<std::string,int> SendMessagePacket::imindexes;
+namespace xfirelib
+{
+	map<string, int> SendMessagePacket::imindexes;
 
-  void SendMessagePacket::init(Client *client, string username, string message) {
-    BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
-    if (entry) {
-      setSid(entry->sid);
-    }
-    this->message = message;
-    initIMIndex();
-  }
+	void SendMessagePacket::init(Client *client, string username, string message)
+	{
+		BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
+		if (entry) {
+			setSid(entry->sid);
+		}
+		this->message = message;
+		initIMIndex();
+	}
 
-  void SendMessagePacket::initIMIndex() {
-    string str_sid(sid);
-    if ( imindexes.count( str_sid ) < 1 )
-      imindex = imindexes[str_sid] = 1;
-    else
-      imindex = ++imindexes[str_sid];  
-  }
+	void SendMessagePacket::initIMIndex()
+	{
+		string str_sid(sid);
+		if (imindexes.count(str_sid) < 1)
+			imindex = imindexes[str_sid] = 1;
+		else
+			imindex = ++imindexes[str_sid];
+	}
 
-  void SendMessagePacket::setSid(const char *sid) {
-    memcpy(this->sid,sid,16);
-  }
+	void SendMessagePacket::setSid(const char *sid)
+	{
+		memcpy(this->sid, sid, 16);
+	}
 
-  int SendMessagePacket::getPacketContent(char *buf) {
-    if ( imindex == 0 ) initIMIndex();
+	int SendMessagePacket::getPacketContent(char *buf)
+	{
+		if (imindex == 0) initIMIndex();
 
-    int index = 0;
-    VariableValue val;
-    val.setName("sid");
-    val.setValue(sid,16);
+		int index = 0;
+		VariableValue val;
+		val.setName("sid");
+		val.setValue(sid, 16);
 
-    index += val.writeName(buf,index);
-    buf[index++] = 3;
-    index += val.writeValue(buf,index);
+		index += val.writeName(buf, index);
+		buf[index++] = 3;
+		index += val.writeValue(buf, index);
 
-    val.setName("peermsg");
-    index += val.writeName(buf,index);
-    buf[index++] = 5;
-    //buf[index++] = 7;
-    buf[index++] = 3;
+		val.setName("peermsg");
+		index += val.writeName(buf, index);
+		buf[index++] = 5;
+		//buf[index++] = 7;
+		buf[index++] = 3;
 
-    val.setName("msgtype");
-    val.setValueFromLong(0,4);
-    index += val.writeName(buf,index);
-    buf[index++] = 2;
-    index += val.writeValue(buf,index);
+		val.setName("msgtype");
+		val.setValueFromLong(0, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 2;
+		index += val.writeValue(buf, index);
 
-    val.setName("imindex");
-    val.setValueFromLong(imindex,4);
-    index += val.writeName(buf,index);
-    buf[index++] = 02;
-    index += val.writeValue(buf,index);
+		val.setName("imindex");
+		val.setValueFromLong(imindex, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
 
-    val.setName("im");
-    val.setValue((char*)message.c_str(),message.size());
-    index += val.writeName(buf,index);
-    buf[index++] = 01;
-    buf[index++] = message.size()%256;
-    buf[index++] = (int)message.size()/256;
-    index += val.writeValue(buf,index);
+		val.setName("im");
+		val.setValue((char*)message.c_str(), message.size());
+		index += val.writeName(buf, index);
+		buf[index++] = 01;
+		buf[index++] = message.size() % 256;
+		buf[index++] = (int)message.size() / 256;
+		index += val.writeValue(buf, index);
 
-    return index;
-  }
+		return index;
+	}
 }

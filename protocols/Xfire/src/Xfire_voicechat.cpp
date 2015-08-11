@@ -2,7 +2,8 @@
 #include "Xfire_voicechat.h"
 
 //konstruktor
-Xfire_voicechat::Xfire_voicechat() {
+Xfire_voicechat::Xfire_voicechat()
+{
 	this->resetCurrentvoicestatus();
 	ipport = NULL;
 	tsrDLL = NULL;
@@ -28,7 +29,8 @@ void Xfire_voicechat::initVoicechat()
 }
 
 //prüft ob das paket schonmal versendet wurde, soll unnötigen nwtraffic reduzieren, *ÜBERLEGUNG* ob wirklich notwendig
-BOOL Xfire_voicechat::alreadySend(SendGameStatus2Packet* packet) {
+BOOL Xfire_voicechat::alreadySend(SendGameStatus2Packet* packet)
+{
 	if (packet == NULL)
 		return FALSE;
 
@@ -45,7 +47,8 @@ BOOL Xfire_voicechat::alreadySend(SendGameStatus2Packet* packet) {
 }
 
 //prüft nach laufenden voicechat anwendungen
-BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
+BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet)
+{
 	//kein gültiger verweis?
 	if (packet == NULL)
 		return FALSE;
@@ -55,8 +58,7 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 		if (checkforTS2(packet)) {
 			return alreadySend(packet);
 		}
-		else
-		{
+		else {
 			//kein ts2 mehr? dann paket restten
 			resetSendGameStatus2Packet(packet);
 			resetCurrentvoicestatus();
@@ -69,8 +71,7 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 		if (checkforTS3(packet)) {
 			return alreadySend(packet);
 		}
-		else
-		{
+		else {
 			//kein ts3 mehr? dann paket restten
 			resetSendGameStatus2Packet(packet);
 			resetCurrentvoicestatus();
@@ -83,8 +84,7 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 		if (checkforMumble(packet)) {
 			return alreadySend(packet);
 		}
-		else
-		{
+		else {
 			//kein mumble mehr? dann paket restten
 			resetSendGameStatus2Packet(packet);
 			resetCurrentvoicestatus();
@@ -113,7 +113,8 @@ BOOL Xfire_voicechat::checkVoicechat(SendGameStatus2Packet* packet) {
 }
 
 //setzte currentvoice auf 0 zurück, falls es einen disconnect gab
-void Xfire_voicechat::resetCurrentvoicestatus() {
+void Xfire_voicechat::resetCurrentvoicestatus()
+{
 	currentvoice = XFIREVOICECHAT_NOVOICE;
 	lastpacket.ip[3] = 0;
 	lastpacket.ip[2] = 0;
@@ -124,7 +125,8 @@ void Xfire_voicechat::resetCurrentvoicestatus() {
 }
 
 //resettet das packet auf 0
-void Xfire_voicechat::resetSendGameStatus2Packet(SendGameStatus2Packet* packet) {
+void Xfire_voicechat::resetSendGameStatus2Packet(SendGameStatus2Packet* packet)
+{
 	if (packet == NULL)
 		return;
 	//voiceid
@@ -139,7 +141,8 @@ void Xfire_voicechat::resetSendGameStatus2Packet(SendGameStatus2Packet* packet) 
 }
 
 //schreibt derzetigen status in die mirandadb für variables usw
-void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
+void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet)
+{
 	//für sprintf
 	char temp[32];
 
@@ -171,7 +174,8 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 }
 
 //versucht die TSR zuladen
-HMODULE Xfire_voicechat::loadTSR(char* path, BOOL nolocaltest) {
+HMODULE Xfire_voicechat::loadTSR(char*, BOOL nolocaltest)
+{
 	TCHAR pathtotsr[MAX_PATH] = _T("");
 
 	/*if (path)
@@ -181,8 +185,7 @@ HMODULE Xfire_voicechat::loadTSR(char* path, BOOL nolocaltest) {
 	//versuche dll zuladen
 	HMODULE tsrDLL = LoadLibrary(pathtotsr);
 	//konnte nicht geladen werden 
-	if (!tsrDLL)
-	{
+	if (!tsrDLL) {
 		XFireLog("TSRemote.dll load failed!");
 
 		//bei keinem lokalen test abbruch
@@ -215,7 +218,8 @@ HMODULE Xfire_voicechat::loadTSR(char* path, BOOL nolocaltest) {
 
 
 //teamspeak 3 detection, benötigt ts3plugin
-BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet *packet) {
+BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet *packet)
+{
 	//kein gültiger verweis?
 	if (packet == NULL)
 		return FALSE;
@@ -227,8 +231,7 @@ BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet *packet) {
 	//versuch ipport zubesorgen
 	ts3IPPORT *ipport = (ts3IPPORT *)MapViewOfFile(hMapObject, FILE_MAP_READ, 0, 0, sizeof(ts3IPPORT));
 	//fehler beim zugriff auf filemap?
-	if (ipport == NULL)
-	{
+	if (ipport == NULL) {
 		CloseHandle(hMapObject);
 		return FALSE;
 	}
@@ -265,12 +268,12 @@ BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet *packet) {
 }
 
 //teamspeak 2 detection mit hilfe der tsr
-BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
+BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet)
+{
 	TtsrServerInfo serverinfo = { 0 };
 
 	//get funktion ist nicht initialisiert
-	if (this->tsrGetServerInfo == NULL || packet == NULL)
-	{
+	if (this->tsrGetServerInfo == NULL || packet == NULL) {
 		return FALSE;
 	}
 
@@ -278,11 +281,9 @@ BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
 	this->tsrGetServerInfo(&serverinfo);
 
 	//auswerten wenn serverip gesetzt
-	if (serverinfo.ServerIp[0] != 0)
-	{
+	if (serverinfo.ServerIp[0] != 0) {
 		char * pos = strrchr(serverinfo.ServerIp, ':');
-		if (pos == 0)
-		{
+		if (pos == 0) {
 			return FALSE;
 		}
 
@@ -311,14 +312,14 @@ BOOL Xfire_voicechat::checkforTS2(SendGameStatus2Packet* packet) {
 }
 
 //detection für mumble
-BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
+BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet)
+{
 	//kein gültiger verweis?
 	if (packet == NULL)
 		return FALSE;
 
 	//gültige pid
-	if (this->pid != 0 && !this->isValidPid(this->pid))
-	{
+	if (this->pid != 0 && !this->isValidPid(this->pid)) {
 		this->pid = 0;
 		return FALSE;
 	}
@@ -335,10 +336,8 @@ BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 	if (size) {
 		MIB_TCPTABLE_OWNER_PID *ptab = (MIB_TCPTABLE_OWNER_PID*)malloc(size);
 		//liste auslesen
-		if (GetExtendedTcpTable(ptab, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0) == NO_ERROR)
-		{
-			for (unsigned int i = 0; i < ptab->dwNumEntries; i++)
-			{
+		if (GetExtendedTcpTable(ptab, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0) == NO_ERROR) {
+			for (unsigned int i = 0; i < ptab->dwNumEntries; i++) {
 				if (ptab->table[i].dwOwningPid == this->pid && ptab->table[i].dwLocalAddr != ptab->table[i].dwRemoteAddr) //verbindung gefunden, hoffentlich
 				{
 					unsigned char*rip = (unsigned char*)&ptab->table[i].dwRemoteAddr;

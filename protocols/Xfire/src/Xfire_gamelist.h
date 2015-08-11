@@ -34,7 +34,6 @@
 
 #include "Xfire_game.h"
 #include "Xfire_icon_mng.h"
-#include <vector>
 
 using namespace std;
 

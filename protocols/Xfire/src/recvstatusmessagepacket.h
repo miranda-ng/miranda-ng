@@ -27,31 +27,27 @@
 
 #include "xfirerecvpacketcontent.h"
 #include "buddylist.h"
-#include <string>
-#include <vector>
 
 namespace xfirelib {
 
-  class RecvStatusMessagePacket : public XFireRecvPacketContent {
-  public:
-    RecvStatusMessagePacket();
-    virtual ~RecvStatusMessagePacket() { }
-    XFirePacketContent *newPacket() { return new RecvStatusMessagePacket; }
-    int getPacketId() { return XFIRE_RECV_STATUSMESSAGE_PACKET_ID; }
+	class RecvStatusMessagePacket : public XFireRecvPacketContent {
+	public:
+		RecvStatusMessagePacket();
+		virtual ~RecvStatusMessagePacket() { }
+		XFirePacketContent *newPacket() { return new RecvStatusMessagePacket; }
+		int getPacketId() { return XFIRE_RECV_STATUSMESSAGE_PACKET_ID; }
 
-    void parseContent(char *buf, int length, int numberOfAtts);
-	char * getSid(int i){ return sids->at(i); }
+		void parseContent(char *buf, int length, int numberOfAtts);
+		char * getSid(int i){ return sids->at(i); }
 
-    std::vector<char *> *sids;
-    std::vector<std::string> *msgs;
-	BuddyListEntry** entries;
-	int centries;
+		std::vector<char *> *sids;
+		std::vector<std::string> *msgs;
+		BuddyListEntry** entries;
+		int centries;
 
-  private:
-    int readStrings(std::vector<std::string> *strings, char *buf, int index);
-  };
-
+	private:
+		int readStrings(std::vector<std::string> *strings, char *buf, int index);
+	};
 };
-
 
 #endif

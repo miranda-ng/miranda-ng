@@ -24,43 +24,38 @@
 #define __INVITEBUDDYPACKET_H
 
 #include "xfiresendpacketcontent.h"
-#include <vector>
-#include <string>
 
 #define XFIRE_PACKET_INVITE_BUDDY 6
 
 using namespace xfirelib;
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  /**
-   * Packet Used to Invite Buddy into Contact List
-   * (Received is InviteRequestPacket)
-   */
-  class InviteBuddyPacket : public XFireSendPacketContent {
-  public:
-    InviteBuddyPacket();
-    ~InviteBuddyPacket();
+	/**
+	* Packet Used to Invite Buddy into Contact List
+	* (Received is InviteRequestPacket)
+	*/
+	class InviteBuddyPacket : public XFireSendPacketContent {
+	public:
+		InviteBuddyPacket();
+		~InviteBuddyPacket();
 
-    XFirePacketContent* newPacket() { return new InviteBuddyPacket(); }
+		XFirePacketContent* newPacket() { return new InviteBuddyPacket(); }
 
 
-    int getPacketId() { return XFIRE_PACKET_INVITE_BUDDY; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 2; };
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
+		int getPacketId() { return XFIRE_PACKET_INVITE_BUDDY; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 2; };
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    void addInviteName(string name, string msg);
+		void addInviteName(string name, string msg);
 
-    vector<string> *names;
-    vector<string> *msgs;
-  private:
-  };
-
+		vector<string> *names;
+		vector<string> *msgs;
+	};
 };
-
 
 
 #endif

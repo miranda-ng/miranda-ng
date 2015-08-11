@@ -25,8 +25,6 @@
 #ifndef __SENDMESSAGEPACKET_H
 #define __SENDMESSAGEPACKET_H
 
-
-
 #include "xfiresendpacketcontent.h"
 #include "variablevalue.h"
 #include <string.h>
@@ -34,44 +32,42 @@
 
 namespace xfirelib {
 
-  class SendMessagePacket : public XFireSendPacketContent {
-  public:
-    SendMessagePacket() {
-      imindex = 0;
-    }
-    virtual ~SendMessagePacket() { }
+	class SendMessagePacket : public XFireSendPacketContent {
+	public:
+		SendMessagePacket() {
+			imindex = 0;
+		}
+		virtual ~SendMessagePacket() { }
 
-    void init(Client *client, string username, string message);
-    void setSid(const char *sid);
+		void init(Client *client, string username, string message);
+		void setSid(const char *sid);
 
-    XFirePacketContent* newPacket() { return new SendMessagePacket(); }
+		XFirePacketContent* newPacket() { return new SendMessagePacket(); }
 
-    int getPacketId() { return 2; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() {return 2;};
-    int getPacketSize() { return 5024; };
+		int getPacketId() { return 2; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() {return 2;};
+		int getPacketSize() { return 5024; };
 
-    /**
-     * SID of the user to who the message should be sent.
-     */
-    char sid[16];
-    /**
-     * A running counter for each buddy. (will be initialized to 0 by default.. and.. 
-     * shouldn't be a problem to leave it 0)
-     */
-    long imindex;
-    /**
-     * Message body to be sent.
-     */
-    std::string message;
+		/**
+		* SID of the user to who the message should be sent.
+		*/
+		char sid[16];
+		/**
+		* A running counter for each buddy. (will be initialized to 0 by default.. and.. 
+		* shouldn't be a problem to leave it 0)
+		*/
+		long imindex;
+		/**
+		* Message body to be sent.
+		*/
+		std::string message;
 
-  protected:
-    void initIMIndex();
+	protected:
+		void initIMIndex();
 
-    static std::map<std::string,int> imindexes;
-    
-  };
-
+		static std::map<std::string,int> imindexes;
+	};
 };
 
 #endif

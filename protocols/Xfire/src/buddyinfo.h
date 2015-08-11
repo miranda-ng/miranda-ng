@@ -27,24 +27,23 @@
 #define __BUDDYINFO_H
 
 #include "xfirerecvpacketcontent.h"
-#include <string>
 
 #define XFIRE_BUDDYINFO 0xAE
 
 namespace xfirelib {
-  class BuddyInfoPacket : public XFireRecvPacketContent {
-  public:
-    virtual ~BuddyInfoPacket() { }
-    int getPacketId() { return XFIRE_BUDDYINFO; }
+	class BuddyInfoPacket : public XFireRecvPacketContent {
+	public:
+		virtual ~BuddyInfoPacket() { }
+		int getPacketId() { return XFIRE_BUDDYINFO; }
 
-    XFirePacketContent *newPacket() { return new BuddyInfoPacket(); }
-    void parseContent(char *buf, int length, int numberOfAtts);
+		XFirePacketContent *newPacket() { return new BuddyInfoPacket(); }
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-	unsigned char avatarmode;
-	unsigned int avatarid;
-	unsigned int userid;
+		unsigned char avatarmode;
+		unsigned int avatarid;
+		unsigned int userid;
 
-  };
+	};
 
 };
 

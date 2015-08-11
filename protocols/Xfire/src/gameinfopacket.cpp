@@ -24,62 +24,61 @@
 
 #include "stdafx.h"
 
-#include <vector>
-#include <string>
-
 #include "gameinfopacket.h"
 #include "xfireparse.h"
 #include "variablevalue.h"
 #include "xdebug.h"
 
-namespace xfirelib {
-  using namespace std;
+using namespace std;
 
-  GameInfoPacket::GameInfoPacket() {
-  }
-  GameInfoPacket::~GameInfoPacket() {
-  }
-
-  void GameInfoPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    int index = 0;
-	int numberOfSids = 0;
-    VariableValue val;
-
-	index += val.readName(buf,index);
-
-	index++; //ignore 04
-	index++; //ignore 03
-
-	XDEBUG2("Anzahl: %d\n",buf[index]);
-	numberOfSids = buf[index];
-
-	index++; //ignore 01
-	index++; //ignore 0
-
-	sids = new vector<char *>;
-	for(int i = 0 ; i < numberOfSids ; i++) {
-		index += val.readValue(buf,index,16);
-		char *sid = new char[16];
-		memcpy(sid,val.getValue(),16);
-		sids->push_back(sid);
+namespace xfirelib
+{
+	GameInfoPacket::GameInfoPacket()
+	{
 	}
-	index += val.readName(buf,index);
 
-	index += 4; // nächsten 4 bytes skippen
+	GameInfoPacket::~GameInfoPacket()
+	{
+	}
 
-	gameinfo=new vector<string>;
-	for(int i = 0 ; i < numberOfSids ; i++) {
-      int length = (unsigned char)buf[index++];
-      index++;
-      index += val.readValue(buf,index,length);
-      string stringvalue = string(val.getValue(),length);
-      gameinfo->push_back(stringvalue);
-      XDEBUG(( "String length: %2d : %s\n", length, stringvalue.c_str() ));
-    }
+	void GameInfoPacket::parseContent(char *buf, int, int)
+	{
+		int index = 0;
+		int numberOfSids = 0;
+		VariableValue val;
 
-	XDEBUG2("Position: %d\n",index);
+		index += val.readName(buf, index);
 
-  }
+		index++; //ignore 04
+		index++; //ignore 03
 
+		XDEBUG2("Anzahl: %d\n", buf[index]);
+		numberOfSids = buf[index];
 
+		index++; //ignore 01
+		index++; //ignore 0
+
+		sids = new vector<char *>;
+		for (int i = 0; i < numberOfSids; i++) {
+			index += val.readValue(buf, index, 16);
+			char *sid = new char[16];
+			memcpy(sid, val.getValue(), 16);
+			sids->push_back(sid);
+		}
+		index += val.readName(buf, index);
+
+		index += 4; // nächsten 4 bytes skippen
+
+		gameinfo = new vector<string>;
+		for (int i = 0; i < numberOfSids; i++) {
+			int length = (unsigned char)buf[index++];
+			index++;
+			index += val.readValue(buf, index, length);
+			string stringvalue = string(val.getValue(), length);
+			gameinfo->push_back(stringvalue);
+			XDEBUG(("String length: %2d : %s\n", length, stringvalue.c_str()));
+		}
+
+		XDEBUG2("Position: %d\n", index);
+	}
 };

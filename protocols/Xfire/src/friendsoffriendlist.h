@@ -27,37 +27,33 @@
 
 #define XFIRE_FRIENDS_BUDDYS_NAMES_ID 0x88
 
-#include <vector>
-#include <string>
-
 #include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
-
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class FriendsBuddyListNamesPacket : public XFireRecvPacketContent {
-  public:
-    FriendsBuddyListNamesPacket();
-    virtual ~FriendsBuddyListNamesPacket();
+	class FriendsBuddyListNamesPacket : public XFireRecvPacketContent {
+	public:
+		FriendsBuddyListNamesPacket();
+		virtual ~FriendsBuddyListNamesPacket();
 
-    XFirePacketContent* newPacket() { return new FriendsBuddyListNamesPacket(); }
+		XFirePacketContent* newPacket() { return new FriendsBuddyListNamesPacket(); }
 
-    int getPacketId() { return XFIRE_FRIENDS_BUDDYS_NAMES_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 10024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
+		int getPacketId() { return XFIRE_FRIENDS_BUDDYS_NAMES_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 10024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    //private:
-    int readStrings(vector<string> *strings, char *buf, int index);
+		//private:
+		int readStrings(vector<string> *strings, char *buf, int index);
 
-    vector<string> *usernames;
-    vector<string> *nicks;
-    vector<long> *userids;
-	vector<char *> *sids;
-  };
+		vector<string> *usernames;
+		vector<string> *nicks;
+		vector<long> *userids;
+		vector<char *> *sids;
+	};
 };
 
 

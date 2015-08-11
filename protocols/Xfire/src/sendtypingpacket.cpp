@@ -30,74 +30,74 @@
 
 //sendtypingklasse hinzugefügt http://xfirelib.sphene.net/board2/showThread/367 - big thx to Fl0ri4n - dufte
 
-
 #include "sendtypingpacket.h"
 #include "xfireutils.h"
-#include <string.h>
-#include <iostream>
 #include "xdebug.h"
 
-namespace xfirelib {
-using namespace std;
+namespace xfirelib
+{
+	map<string, int> SendTypingPacket::imindexes;
 
-std::map<std::string,int> SendTypingPacket::imindexes;
+	void SendTypingPacket::init(Client *client, string username)
+	{
+		BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
+		if (entry) {
+			setSid(entry->sid);
+		}
+		initIMIndex();
+	}
 
-void SendTypingPacket::init(Client *client, string username) {
-BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
-if (entry) {
-setSid(entry->sid);
-}
-initIMIndex();
-}
+	void SendTypingPacket::initIMIndex()
+	{
+		string str_sid(sid);
+		if (imindexes.count(str_sid) < 1)
+			imindex = imindexes[str_sid] = 1;
+		else
+			imindex = ++imindexes[str_sid];
 
-void SendTypingPacket::initIMIndex() {
-string str_sid(sid);
-if ( imindexes.count( str_sid ) < 1 )
-imindex = imindexes[str_sid] = 1;
-else
-imindex = ++imindexes[str_sid];
+	}
+	void SendTypingPacket::setSid(const char *sid)
+	{
+		memcpy(this->sid, sid, 16);
+	}
 
-}
-void SendTypingPacket::setSid(const char *sid) {
-memcpy(this->sid,sid,16);
-}
+	int SendTypingPacket::getPacketContent(char *buf)
+	{
+		if (imindex == 0) initIMIndex();
 
-int SendTypingPacket::getPacketContent(char *buf) {
-if ( imindex == 0 ) initIMIndex();
+		int index = 0;
+		VariableValue val;
+		val.setName("sid");
+		val.setValue(sid, 16);
 
-int index = 0;
-VariableValue val;
-val.setName("sid");
-val.setValue(sid,16);
+		index += val.writeName(buf, index);
+		buf[index++] = 3;
+		index += val.writeValue(buf, index);
 
-index += val.writeName(buf,index);
-buf[index++] = 3;
-index += val.writeValue(buf,index);
+		val.setName("peermsg");
+		index += val.writeName(buf, index);
+		buf[index++] = 5;
+		//buf[index++] = 7;
+		buf[index++] = 3;
 
-val.setName("peermsg");
-index += val.writeName(buf,index);
-buf[index++] = 5;
-//buf[index++] = 7;
-buf[index++] = 3;
+		val.setName("msgtype");
+		val.setValueFromLong(3, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 2;
+		index += val.writeValue(buf, index);
 
-val.setName("msgtype");
-val.setValueFromLong(3,4);
-index += val.writeName(buf,index);
-buf[index++] = 2;
-index += val.writeValue(buf,index);
+		val.setName("imindex");
+		val.setValueFromLong(imindex, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
 
-val.setName("imindex");
-val.setValueFromLong(imindex,4);
-index += val.writeName(buf,index);
-buf[index++] = 02;
-index += val.writeValue(buf,index);
+		val.setName("typing");
+		val.setValueFromLong(1, 4);
+		index += val.writeName(buf, index);
+		buf[index++] = 02;
+		index += val.writeValue(buf, index);
 
-val.setName("typing");
-val.setValueFromLong(1,4);
-index += val.writeName(buf,index);
-buf[index++] = 02;
-index += val.writeValue(buf,index);
-
-return index;
-}
+		return index;
+	}
 }

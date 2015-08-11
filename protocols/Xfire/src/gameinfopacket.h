@@ -27,30 +27,28 @@
 
 #define XFIRE_GAMEINFO_ID 156
 
-#include <string>
-
 #include "xfirerecvpacketcontent.h"
 #include "variablevalue.h"
 
 namespace xfirelib {
-  using namespace std;
+	using namespace std;
 
-  class GameInfoPacket : public XFireRecvPacketContent {
-  public:
-    GameInfoPacket();
-    virtual ~GameInfoPacket();
+	class GameInfoPacket : public XFireRecvPacketContent {
+	public:
+		GameInfoPacket();
+		virtual ~GameInfoPacket();
 
-    XFirePacketContent* newPacket() { return new GameInfoPacket(); }
+		XFirePacketContent* newPacket() { return new GameInfoPacket(); }
 
-    virtual int getPacketId() { return XFIRE_GAMEINFO_ID; }
-    int getPacketContent(char *buf) { return 0; }
-    int getPacketAttributeCount() { return 0; };
-    int getPacketSize() { return 1024; };
-    virtual void parseContent(char *buf, int length, int numberOfAtts);
+		virtual int getPacketId() { return XFIRE_GAMEINFO_ID; }
+		int getPacketContent(char*) { return 0; }
+		int getPacketAttributeCount() { return 0; };
+		int getPacketSize() { return 1024; };
+		virtual void parseContent(char *buf, int length, int numberOfAtts);
 
-	vector<char *> *sids;
-	vector<string> *gameinfo;
-  };
+		vector<char *> *sids;
+		vector<string> *gameinfo;
+	};
 };
 
 #endif

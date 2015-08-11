@@ -29,33 +29,28 @@
 
 namespace xfirelib {
 
-  /**
-   * (Internal) Packet used to acknowledge a received message.
-   * It is of no use to users of the library because it is already
-   * sent by the Client.
-   */
-  class MessageACKPacket : public XFireSendPacketContent {
-  public:
-    MessageACKPacket();
-    ~MessageACKPacket();
+	/**
+	* (Internal) Packet used to acknowledge a received message.
+	* It is of no use to users of the library because it is already
+	* sent by the Client.
+	*/
+	class MessageACKPacket : public XFireSendPacketContent {
+	public:
+		MessageACKPacket();
+		~MessageACKPacket();
 
-    XFirePacketContent* newPacket() { return new MessageACKPacket(); }
+		XFirePacketContent* newPacket() { return new MessageACKPacket(); }
 
+		int getPacketId() { return XFIRE_MESSAGE_ACK_ID; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount() { return 2; }
+		int getPacketSize() { return 1024; };
+		void parseContent(char *buf, int length, int numberOfAtts);
 
-    int getPacketId() { return XFIRE_MESSAGE_ACK_ID; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount() { return 2; }
-    int getPacketSize() { return 1024; };
-    void parseContent(char *buf, int length, int numberOfAtts);
-
-    char sid[16];
-    long imindex;
-
-  private:
-  };
-
+		char sid[16];
+		long imindex;
+	};
 };
-
 
 #endif
 

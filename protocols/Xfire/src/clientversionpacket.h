@@ -29,25 +29,25 @@
 
 namespace xfirelib {
 
-  /**
-   * (Internal) Packet used to send client version information.
-   * it is sent in Client::connect( std::string, std::string )
-   * so users of xfirelib won't need this packet.
-   */
-  class ClientVersionPacket : public XFireSendPacketContent {
-  public:
-    XFirePacketContent* newPacket() { return new ClientVersionPacket(); }
+	/**
+	* (Internal) Packet used to send client version information.
+	* it is sent in Client::connect( std::string, std::string )
+	* so users of xfirelib won't need this packet.
+	*/
+	class ClientVersionPacket : public XFireSendPacketContent {
+	public:
+		XFirePacketContent* newPacket() { return new ClientVersionPacket(); }
 
-    int getPacketId() { return 3; }
-    int getPacketContent(char *buf);
-    int getPacketAttributeCount();
-    int getPacketSize() { return 1024; };
-    void setProtocolVersion(int version);
-    void parseContent(char *buf, int length, int numberOfAtts) { };
-  private:
-    int length;
-    int version;
-  };
+		int getPacketId() { return 3; }
+		int getPacketContent(char *buf);
+		int getPacketAttributeCount();
+		int getPacketSize() { return 1024; }
+		void setProtocolVersion(int version);
+		void parseContent(char*, int, int) {}
+	private:
+		int length;
+		int version;
+	};
 
 };
 

@@ -7,9 +7,6 @@
 
 extern Xfire_gamelist xgamelist;
 
-
-#include <vector>
-
 using namespace std;
 
 #include "xdebug.h"
@@ -23,7 +20,8 @@ PROTOACCOUNT **temp;
 int anz, statusid;
 int statustype;
 
-BOOL BackupStatusMsg() {
+BOOL BackupStatusMsg()
+{
 	DBVARIANT dbv;
 
 	statustype = db_get_b(NULL, protocolname, "statuschgtype", 0);
@@ -31,44 +29,38 @@ BOOL BackupStatusMsg() {
 	XFireLog("Backup Status Message...");
 
 	//alten vector löschen
-	if (olstatusmsg != NULL)
-	{
+	if (olstatusmsg != NULL) {
 		delete olstatusmsg;
 		olstatusmsg = NULL;
 	}
-	if (protoname != NULL)
-	{
+	if (protoname != NULL) {
 		delete protoname;
 		protoname = NULL;
 	}
-	if (olstatus != NULL)
-	{
+	if (olstatus != NULL) {
 		delete olstatus;
 		olstatus = NULL;
 	}
-	if (oltostatus != NULL)
-	{
+	if (oltostatus != NULL) {
 		delete oltostatus;
 		oltostatus = NULL;
 	}
-	olstatusmsg = new vector < string > ;
-	protoname = new vector < string > ;
-	olstatus = new vector < unsigned int > ;
-	oltostatus = new vector < unsigned int > ;
+	olstatusmsg = new vector < string >;
+	protoname = new vector < string >;
+	olstatus = new vector < unsigned int >;
+	oltostatus = new vector < unsigned int >;
 
 	//alle protokolle durchgehen und den status in den vector sichern
 	Proto_EnumAccounts(&anz, &temp);
-	for (int i = 0; i < anz; i++)
-	{
+	for (int i = 0; i < anz; i++) {
 		statusid = CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0);
 		XFireLog("Get Status of %s ...", temp[i]->szModuleName);
 
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE || 
-			 !mir_strcmpi(temp[i]->szModuleName, protocolname) || 
-			 !ProtoServiceExists(temp[i]->szModuleName, PS_SETAWAYMSG) || 
-			 db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1)
-		{
+		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE ||
+			!mir_strcmpi(temp[i]->szModuleName, protocolname) ||
+			!ProtoServiceExists(temp[i]->szModuleName, PS_SETAWAYMSG) ||
+			db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1) {
 			XFireLog("-> Skip %s.", temp[i]->szModuleName);
 
 			olstatus->push_back(-1);
@@ -78,32 +70,26 @@ BOOL BackupStatusMsg() {
 			continue;
 		}
 
-		if (statustype)
-		{
+		if (statustype) {
 			int dummystatusid = -1;
 
-			if (statusid != 0)
-			{
+			if (statusid != 0) {
 				int caps = CallProtoService(temp[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				bool dndFirst = db_get_b(NULL, protocolname, "dndfirst", 0) > 0;
 
-				if (dndFirst ? caps & PF2_HEAVYDND : caps & PF2_LIGHTDND)
-				{
+				if (dndFirst ? caps & PF2_HEAVYDND : caps & PF2_LIGHTDND) {
 					dummystatusid = dndFirst ? ID_STATUS_DND : ID_STATUS_OCCUPIED;
 					XFireLog("%s supports %s.", temp[i]->szModuleName, dndFirst ? "DND" : "OCCUPIED");
 				}
-				else if (dndFirst ? caps&PF2_LIGHTDND : caps&PF2_HEAVYDND)
-				{
+				else if (dndFirst ? caps&PF2_LIGHTDND : caps&PF2_HEAVYDND) {
 					dummystatusid = dndFirst ? ID_STATUS_OCCUPIED : ID_STATUS_DND;
 					XFireLog("%s supports %s.", temp[i]->szModuleName, dndFirst ? "OCCUPIED" : "DND");
 				}
-				else if (caps&PF2_SHORTAWAY)
-				{
+				else if (caps&PF2_SHORTAWAY) {
 					dummystatusid = ID_STATUS_AWAY;
 					XFireLog("%s supports AWAY.", temp[i]->szModuleName);
 				}
-				else
-				{
+				else {
 					dummystatusid = statusid;
 					XFireLog("%s no Away???.", temp[i]->szModuleName);
 				}
@@ -112,8 +98,7 @@ BOOL BackupStatusMsg() {
 			oltostatus->push_back(dummystatusid);
 		}
 
-		switch (statusid)
-		{
+		switch (statusid) {
 		case ID_STATUS_ONLINE:
 			if (db_get(NULL, "SRAway", "OnMsg", &dbv))
 				olstatusmsg->push_back(Translate("Yep, I'm here."));
@@ -156,8 +141,7 @@ BOOL BackupStatusMsg() {
 
 		//ab in den vector
 		olstatus->push_back(statusid);
-		if (olstatus->size() > olstatusmsg->size())
-		{
+		if (olstatus->size() > olstatusmsg->size()) {
 			olstatusmsg->push_back(string(dbv.pszVal));
 			protoname->push_back(temp[i]->szModuleName);
 			//freigeben
@@ -173,16 +157,14 @@ BOOL BackupStatusMsg() {
 BOOL SetGameStatusMsg()
 {
 	//prüfe ob vector leer
-	if (olstatusmsg == NULL)
-	{
+	if (olstatusmsg == NULL) {
 		return FALSE;
 	}
 
 	ptrA statusMsg;
 
 	//zusetzende statusmsg erstellen
-	if (ServiceExists(MS_VARS_FORMATSTRING))
-	{
+	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		ptrT statusMsgT(db_get_tsa(NULL, protocolname, "setstatusmsg"));
 		//direkte funktionen verwenden
 		statusMsgT = variables_parse(statusMsgT, NULL, 0);
@@ -191,8 +173,7 @@ BOOL SetGameStatusMsg()
 
 		statusMsg = _T2A(statusMsgT);
 	}
-	else
-	{
+	else {
 		//alternativ zweig ohne variables
 		ptrA statusMsg(db_get_sa(NULL, protocolname, "setstatusmsg"));
 		if (statusMsg == NULL)
@@ -226,15 +207,11 @@ BOOL SetGameStatusMsg()
 	}
 
 	Proto_EnumAccounts(&anz, &temp);
-	for (int i = 0; i < anz; i++)
-	{
-		if (olstatus->at(i) != -1)
-		{
-			if (statustype)
-			{
+	for (int i = 0; i < anz; i++) {
+		if (olstatus->at(i) != -1) {
+			if (statustype) {
 				//newawaysys
-				if (ServiceExists("NewAwaySystem/SetStateA"))
-				{
+				if (ServiceExists("NewAwaySystem/SetStateA")) {
 					XFireLog("-> SetStatusMsg of %s with NewAwaySystem/SetStateA.", protoname->at(i).c_str());
 
 					NAS_PROTOINFO npi = { 0 };
@@ -254,8 +231,7 @@ BOOL SetGameStatusMsg()
 					npi.szMsg = mir_strdup(statusMsg);
 					CallService("NewAwaySystem/SetStateW", (WPARAM)&npi, 1);
 				}
-				else
-				{
+				else {
 					XFireLog("-> SetStatusMsg of %s with Miranda with occupied status.", protoname->at(i).c_str());
 
 					//statusmsg für beschäftigt setzen
@@ -264,15 +240,13 @@ BOOL SetGameStatusMsg()
 					//status auf beschäftigt wechseln
 					CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, oltostatus->at(i), 0);
 					//statusmsg für beschäftigt setzen
-					if (CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0) != oltostatus->at(i))
-					{
+					if (CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0) != oltostatus->at(i)) {
 						XFireLog("Set StatusMsg again, Status was not succesfully set.");
 						CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, oltostatus->at(i), wszStatus);
 					}
 				}
 			}
-			else
-			{
+			else {
 				XFireLog("-> SetStatusMsg of %s.", protoname->at(i).c_str());
 
 				ptrW wszStatus(mir_a2u(statusMsg));
@@ -291,21 +265,17 @@ BOOL SetOldStatusMsg()
 		return FALSE;
 
 	Proto_EnumAccounts(&anz, &temp);
-	for (int i = 0; i < anz; i++)
-	{
-		if (olstatus->at(i) != -1)
-		{
+	for (int i = 0; i < anz; i++) {
+		if (olstatus->at(i) != -1) {
 			ptrW wszStatus(mir_a2u(olstatusmsg->at(i).c_str()));
-			if (statustype)
-			{
+			if (statustype) {
 				//alten status setzen
 				CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, olstatus->at(i), 0);
 				//status wurde nicht gewechselt, dann statusmsg nachträglich setzen
 				if (CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0) != olstatus->at(i))
 					CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), wszStatus);
 			}
-			else
-			{
+			else {
 				CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, olstatus->at(i), 0);
 				CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), wszStatus);
 			}
@@ -313,23 +283,19 @@ BOOL SetOldStatusMsg()
 	}
 
 	//alten vector löschen
-	if (protoname != NULL)
-	{
+	if (protoname != NULL) {
 		delete protoname;
 		protoname = NULL;
 	}
-	if (olstatusmsg != NULL)
-	{
+	if (olstatusmsg != NULL) {
 		delete olstatusmsg;
 		olstatusmsg = NULL;
 	}
-	if (olstatus != NULL)
-	{
+	if (olstatus != NULL) {
 		delete olstatus;
 		olstatus = NULL;
 	}
-	if (oltostatus != NULL)
-	{
+	if (oltostatus != NULL) {
 		delete olstatus;
 		olstatus = NULL;
 	}

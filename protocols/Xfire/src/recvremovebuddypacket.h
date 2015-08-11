@@ -24,7 +24,6 @@
 #define __RECVREMOVEBUDDYPACKET_H
 
 #include "xfirerecvpacketcontent.h"
-#include <string>
 
 #define XFIRE_RECVREMOVEBUDDYPACKET 139
 
@@ -49,8 +48,6 @@ namespace xfirelib {
 		std::string username;
 		MCONTACT handle; // handle eingefügt, damit ich schnell den buddy killen kann - dufte
 	};
-
 };
-
 
 #endif
