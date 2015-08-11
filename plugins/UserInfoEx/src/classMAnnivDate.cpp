@@ -73,7 +73,7 @@ void MAnnivDate::Clear()
  * param:	none
  * return:	nothing
  **/
-void MAnnivDate::SetDate(SYSTEMTIME &st)
+void MAnnivDate::SetDate(const SYSTEMTIME &st)
 {
 	ZeroDate();
 	Year(st.wYear);
@@ -88,7 +88,7 @@ void MAnnivDate::SetDate(SYSTEMTIME &st)
  * param:	none
  * return:	nothing
  **/
-void MAnnivDate::SetDate(MAnnivDate &mda)
+void MAnnivDate::SetDate(const MAnnivDate &mda)
 {
 	SetDate(mda.SystemTime());
 	_wID = mda.Id();
@@ -210,9 +210,10 @@ int MAnnivDate::Age(MTime *pNow)
  * return:	structure, holding zodiac information
  **/
 
-struct {
-	const WORD startDays;
-	const WORD endDays;
+struct
+{
+	WORD startDays;
+	WORD endDays;
 	LPCTSTR szZodiac;
 	LPCSTR szZodiacIcon;
 }

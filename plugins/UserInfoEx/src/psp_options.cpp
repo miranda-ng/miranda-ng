@@ -459,7 +459,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				if (!Settings.EnumSettings(NULL, "SkinIcons"))
 					for (int i = 0; i < Settings.getCount(); i++) {
 						LPSTR s = Settings[i];
-						if (mir_strnicmp(s, "UserInfoEx", 10) == 0)
+						if (mir_strncmpi(s, "UserInfoEx", 10) == 0)
 							db_unset(NULL, "SkinIcons", s);
 					}
 

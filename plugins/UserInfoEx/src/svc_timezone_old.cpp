@@ -119,6 +119,8 @@ public:
 
 class CTzMgr : public LIST<CTimeZone>
 {
+	CTzMgr& operator=(const CTzMgr&);
+
 	CTzBias _bias;
 
 	static int sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)

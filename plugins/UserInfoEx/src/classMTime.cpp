@@ -38,19 +38,19 @@ MTime::MTime()
 	ZeroDate();
 }
 
-MTime::MTime(SYSTEMTIME &st, const BYTE bIsLocal)
+MTime::MTime(SYSTEMTIME &st, bool bIsLocal)
 {
 	_SysTime = st;
 	_isLocal = bIsLocal != FALSE;
 }
 
-MTime::MTime(FILETIME &ft, const BYTE bIsLocal)
+MTime::MTime(FILETIME &ft, bool bIsLocal)
 {
 	ZeroDate();
 	Set(ft, bIsLocal);
 }
 
-MTime::MTime(LARGE_INTEGER &li, const BYTE bIsLocal)
+MTime::MTime(LARGE_INTEGER &li, bool bIsLocal)
 {
 	ZeroDate();
 	Set(li, bIsLocal);
@@ -405,14 +405,14 @@ void	MTime::FromStampAsLocal(const DWORD dwTimeStamp)
 	UTCToLocal();
 }
 
-void	MTime::Set(LARGE_INTEGER liFileTime, const BYTE bIsLocal)
+void	MTime::Set(LARGE_INTEGER liFileTime, bool bIsLocal)
 {
 	if (liFileTime.QuadPart < 0i64) liFileTime.QuadPart = 0;
 	FileTimeToSystemTime((LPFILETIME)&liFileTime, &_SysTime);
 	_isLocal = bIsLocal != FALSE;
 }
 
-void	MTime::Set(FILETIME &ftFileTime, const BYTE bIsLocal)
+void	MTime::Set(const FILETIME &ftFileTime, bool bIsLocal)
 {
 	FileTimeToSystemTime(&ftFileTime, &_SysTime);
 	_isLocal = bIsLocal != FALSE;
@@ -423,7 +423,7 @@ void	MTime::Set(const MTime &mt)
 	Set(mt.SystemTime(), mt.IsLocal());
 }
 
-void	MTime::Set(SYSTEMTIME &st, const BYTE bIsLocal)
+void	MTime::Set(const SYSTEMTIME &st, bool bIsLocal)
 {
 	memcpy(&_SysTime, &st, sizeof(SYSTEMTIME));
 	_isLocal = bIsLocal != FALSE;

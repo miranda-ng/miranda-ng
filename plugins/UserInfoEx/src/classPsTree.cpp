@@ -584,7 +584,7 @@ void CPsTree::DBResetState()
 		{
 			s = Settings[i];
 
-			if (s && *s == '{' && !mir_strnicmp(s + 1, p, c)) 
+			if (s && *s == '{' && !mir_strncmpi(s + 1, p, c)) 
 			{
 				db_unset(NULL, MODNAME, s);
 			}
