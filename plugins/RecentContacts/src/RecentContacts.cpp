@@ -24,7 +24,7 @@ LastUCOptions LastUCOpt = {0};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -49,7 +49,7 @@ PLUGININFOEX pluginInfo =
 
 static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -389,7 +389,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
+INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 {
 	cmultimap *contacts = new cmultimap;
 
@@ -447,7 +447,7 @@ static int OnContactSettingChanged( WPARAM hContact, LPARAM lParam )
 	return 0;
 }
 
-int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
+int Create_TopToolbarShowList(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.hIconHandleUp = icon.hIcolib;
@@ -482,7 +482,7 @@ BOOL SaveLastUsedTimeStamp(MCONTACT hContact)
 	return TRUE;
 }
 
-int OnMsgEvent(WPARAM wParam, LPARAM lParam)
+int OnMsgEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ed = (MessageWindowEventData *)lParam;
 	if (ed->hContact == NULL)
@@ -499,7 +499,7 @@ int OnMsgEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
 		Menu_ModifyItem(hMenuItemRemove, LPGENT("Ignore Contact"));
@@ -508,7 +508,7 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
 
@@ -527,7 +527,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ToggleIgnore (WPARAM hContact, LPARAM lParam)
+INT_PTR ToggleIgnore (WPARAM hContact, LPARAM)
 {
 	if (hContact != NULL) {
 		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;

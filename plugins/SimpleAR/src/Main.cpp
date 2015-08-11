@@ -24,7 +24,7 @@ BOOL gbVarsServiceExist = FALSE;
 INT interval;
 int hLangpack;
 
-TCHAR* ptszDefaultMsg[]={
+TCHAR* ptszDefaultMsg[] = {
 	TranslateT("I am currently away. I will reply to you when I am back."),
 	TranslateT("I am currently very busy and can't spare any time to talk with you. Sorry..."),
 	TranslateT("I am not available right now."),
@@ -34,7 +34,7 @@ TCHAR* ptszDefaultMsg[]={
 };
 
 PLUGININFOEX pluginInfoEx = {
-    sizeof(PLUGININFOEX),
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -44,21 +44,21 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {46BF191F-8DFB-4656-88B2-4C20BE4CFA44}
-	{0x46bf191f, 0x8dfb, 0x4656, {0x88, 0xb2, 0x4c, 0x20, 0xbe, 0x4c, 0xfa, 0x44}}
+	{ 0x46bf191f, 0x8dfb, 0x4656, { 0x88, 0xb2, 0x4c, 0x20, 0xbe, 0x4c, 0xfa, 0x44 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	hinstance = hinst;
 	return TRUE;
 }
 
-INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleEnable(WPARAM, LPARAM)
 {
 	BOOL fEnabled = !db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 	db_set_b(NULL, protocolname, KEY_ENABLED, fEnabled);
@@ -70,26 +70,23 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR Toggle(WPARAM w, LPARAM l)
+INT_PTR Toggle(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)w;
 	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	db_set_b(hContact, protocolname, "TurnedOn", on);
 	on = !on;
 
-	if (on) 
+	if (on)
 		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
 	else
 		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
 	return 0;
 }
 
-INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
+INT OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)w;
-
 	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
-	if (on) 
+	if (on)
 		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
 	else
 		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
@@ -100,32 +97,29 @@ INT CheckDefaults(WPARAM, LPARAM)
 {
 	DBVARIANT dbv;
 	TCHAR *ptszDefault;
-	char szStatus[6]={0};
+	char szStatus[6] = { 0 };
 
-	interval=db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300);
+	interval = db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300);
 
-	if (db_get_ts(NULL,protocolname,KEY_HEADING,&dbv))
+	if (db_get_ts(NULL, protocolname, KEY_HEADING, &dbv))
 		// Heading not set
-		db_set_ts(NULL,protocolname,KEY_HEADING,TranslateT("Dear %user%, the owner left the following message:"));
+		db_set_ts(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
 		db_free(&dbv);
 
-	for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
-	{
-		mir_snprintf(szStatus,_countof(szStatus),"%d",c);
+	for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
+		mir_snprintf(szStatus, _countof(szStatus), "%d", c);
 		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 			continue;
-		else
-		{
-			if (db_get_ts(NULL,protocolname,szStatus,&dbv))
-			{
+		else {
+			if (db_get_ts(NULL, protocolname, szStatus, &dbv)) {
 				if (c < ID_STATUS_FREECHAT)
 					// This mode does not have a preset message
-					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-1];
-				else if(c > ID_STATUS_INVISIBLE)
-					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-3];
+					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 1];
+				else if (c > ID_STATUS_INVISIBLE)
+					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 3];
 				if (ptszDefault)
-					db_set_ts(NULL,protocolname,szStatus,ptszDefault);
+					db_set_ts(NULL, protocolname, szStatus, ptszDefault);
 			}
 			else
 				db_free(&dbv);
@@ -154,68 +148,58 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
 		return FALSE;
 
-	DBEVENTINFO dbei = {sizeof(dbei)};
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDBEvent, &dbei); /// detect size of msg
 
 	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ))
 		return FALSE; /// we need EVENTTYPE_MESSAGE event..
-	else
-	{	/// needed event has occured..
+	else {	/// needed event has occured..
 		DBVARIANT dbv;
 
 		if (!dbei.cbBlob)	/// invalid size
 			return FALSE;
 
-		if (db_get_ts(hContact,"Protocol","p",&dbv))
-			// Contact with no protocol ?!!
+		if (db_get_ts(hContact, "Protocol", "p", &dbv)) // Contact with no protocol ?!!
 			return FALSE;
-		else
-			db_free(&dbv);
+		db_free(&dbv);
 
-		if(db_get_b(hContact, "CList", "NotOnList", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			return FALSE;
 
-		if(db_get_b(hContact, protocolname, "TurnedOn", 0))
+		if (db_get_b(hContact, protocolname, "TurnedOn", 0))
 			return FALSE;
 
-		if (!( dbei.flags & DBEF_SENT))
-		{
-			int timeBetween=time(NULL)-db_get_dw(hContact,protocolname,"LastReplyTS",0);
-			if (timeBetween>interval || db_get_w(hContact,protocolname,"LastStatus",0)!=status)
-			{
-				char szStatus[6]={0};
-				int msgLen=1;
-				int isQun=db_get_b(hContact,pszProto,"IsQun",0);
+		if (!(dbei.flags & DBEF_SENT)) {
+			int timeBetween = time(NULL) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
+			if (timeBetween > interval || db_get_w(hContact, protocolname, "LastStatus", 0) != status) {
+				char szStatus[6] = { 0 };
+				int msgLen = 1;
+				int isQun = db_get_b(hContact, pszProto, "IsQun", 0);
 				if (isQun)
 					return FALSE;
 
-				mir_snprintf(szStatus,_countof(szStatus),"%d",status);
-				if (!db_get_ts(NULL,protocolname,szStatus,&dbv))
-				{
-					if (*dbv.ptszVal)
-					{
-						DBVARIANT dbvHead={0}, dbvNick={0};
+				mir_snprintf(szStatus, _countof(szStatus), "%d", status);
+				if (!db_get_ts(NULL, protocolname, szStatus, &dbv)) {
+					if (*dbv.ptszVal) {
+						DBVARIANT dbvHead = { 0 }, dbvNick = { 0 };
 						CMString ptszTemp;
 						TCHAR *ptszTemp2;
 
-						db_get_ts(hContact,pszProto,"Nick",&dbvNick);
-						if (mir_tstrcmp(dbvNick.ptszVal, NULL) == 0)
-						{
+						db_get_ts(hContact, pszProto, "Nick", &dbvNick);
+						if (mir_tstrcmp(dbvNick.ptszVal, NULL) == 0) {
 							db_free(&dbvNick);
 							return FALSE;
 						}
 
 						msgLen += (int)mir_tstrlen(dbv.ptszVal);
-						if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbvHead))
-						{
+						if (!db_get_ts(NULL, protocolname, KEY_HEADING, &dbvHead)) {
 							ptszTemp = dbvHead.ptszVal;
 							ptszTemp.Replace(_T("%user%"), dbvNick.ptszVal);
 							msgLen += (int)(mir_tstrlen(ptszTemp));
 						}
-						ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen+5));
-						mir_sntprintf(ptszTemp2, msgLen+5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), dbv.ptszVal);
-						if (ServiceExists(MS_VARS_FORMATSTRING))
-						{
+						ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen + 5));
+						mir_sntprintf(ptszTemp2, msgLen + 5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), dbv.ptszVal);
+						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							FORMATINFO fi = { 0 };
 							fi.cbSize = sizeof(fi);
 							fi.flags = FIF_TCHAR;
@@ -223,7 +207,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 							ptszTemp = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 						}
 						else ptszTemp = Utils_ReplaceVarsT(ptszTemp2);
-						
+
 						T2Utf pszUtf(ptszTemp);
 						CallContactService(hContact, PSS_MESSAGE, 0, pszUtf);
 
@@ -247,8 +231,8 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			}
 		}
 
-		db_set_dw(hContact,protocolname,"LastReplyTS",time(NULL));
-		db_set_w(hContact,protocolname,"LastStatus",status);
+		db_set_dw(hContact, protocolname, "LastReplyTS", time(NULL));
+		db_set_w(hContact, protocolname, "LastStatus", status);
 	}
 	return 0;
 }
@@ -265,7 +249,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	mir_getCLI();
 
 	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
-	CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
+	CreateServiceFunction(protocolname"/ToggleAutoanswer", Toggle);
 
 	CMenuItem mi;
 	mi.position = 500090000;

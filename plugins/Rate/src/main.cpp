@@ -55,14 +55,14 @@ PLUGININFOEX pluginInfo={
    {0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
    g_hInst = hinstDLL;
    return TRUE;
 }
 
 // плагининфо
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -78,10 +78,10 @@ static void setExtraIcon(MCONTACT hContact, int bRate = -1, BOOL clear = TRUE)
 		bRate = db_get_b(hContact, "CList", "Rate", 0);
 
 	const char *icon = NULL;
-	switch(bRate) {
-		case 1: icon = "rate_low";  break;
-		case 2: icon = "rate_medium";  break;
-		case 3: icon = "rate_high";  break;
+	switch (bRate) {
+	case 1: icon = "rate_low";  break;
+	case 2: icon = "rate_medium";  break;
+	case 3: icon = "rate_high";  break;
 	}
 
 	if (icon != NULL || clear)
@@ -97,7 +97,7 @@ static IconItem iconList[] =
 	{ LPGEN("Rate low"),    "rate_low",    IDI_RATELO },
 };
 
-int onModulesLoaded(WPARAM wParam,LPARAM lParam)
+int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
@@ -106,11 +106,11 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM hContact,LPARAM lParam)
+int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if (hContact != NULL && !mir_strcmp(cws->szModule,"CList") && !mir_strcmp(cws->szSetting,"Rate"))
+	if (hContact != NULL && !mir_strcmp(cws->szModule, "CList") && !mir_strcmp(cws->szSetting, "Rate"))
 		setExtraIcon(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;
@@ -128,10 +128,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_RegisterIcolib("contact_rate", LPGEN("Contact rate"), "rate_high");
-   return 0;
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-   return 0;
+	return 0;
 }

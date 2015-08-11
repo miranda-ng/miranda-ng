@@ -47,16 +47,16 @@ void LoadOptions()
 	opts.keep_subcontacts_from_offline = db_get_b(NULL, MODULE_NAME, "KeepSubcontactsFromOffline", TRUE);
 }
 
-int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
+int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance=hInst;
+	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.ptszTitle = LPGENT("Quick Contacts");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -75,20 +75,20 @@ void DeInitOptions()
 
 // Options page
 
-static OptPageControl controls[] = { 
-	{ NULL, CONTROL_CHECKBOX,		IDC_LASTSENTTO,		"EnableLastSentTo",				(BYTE) TRUE },
-	{ NULL, CONTROL_RADIO,			IDC_GLOBAL,			"MsgTypeRec",					(WORD) TYPE_GLOBAL, TYPE_GLOBAL },
-	{ NULL, CONTROL_RADIO,			IDC_LOCAL,			"MsgTypeRec",					(WORD) TYPE_GLOBAL, TYPE_LOCAL },
-	{ NULL, CONTROL_PROTOCOL_LIST,	IDC_PROTOCOLS,		"ShowOffline%s",				(BYTE) FALSE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_HIDE_OFFLINE,	"HideOfflineFromOfflineProto",	(BYTE) TRUE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_APPEND_GROUP,	"AppendGroupName",				(BYTE) FALSE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_GROUP_COLUMN,	"GroupColumn",					(BYTE) FALSE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_GROUP_LEFT,		"GroupColumnLeft",				(BYTE) FALSE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_SUBCONTACTS,	"HideSubcontacts",				(BYTE) TRUE },
-	{ NULL, CONTROL_CHECKBOX,		IDC_KEEP_OFFLINE,	"KeepSubcontactsFromOffline",	(BYTE) TRUE }
+static OptPageControl controls[] = {
+	{ NULL, CONTROL_CHECKBOX, IDC_LASTSENTTO, "EnableLastSentTo", (BYTE)TRUE },
+	{ NULL, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_GLOBAL },
+	{ NULL, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_LOCAL },
+	{ NULL, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "ShowOffline%s", (BYTE)FALSE },
+	{ NULL, CONTROL_CHECKBOX, IDC_HIDE_OFFLINE, "HideOfflineFromOfflineProto", (BYTE)TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_APPEND_GROUP, "AppendGroupName", (BYTE)FALSE },
+	{ NULL, CONTROL_CHECKBOX, IDC_GROUP_COLUMN, "GroupColumn", (BYTE)FALSE },
+	{ NULL, CONTROL_CHECKBOX, IDC_GROUP_LEFT, "GroupColumnLeft", (BYTE)FALSE },
+	{ NULL, CONTROL_CHECKBOX, IDC_SUBCONTACTS, "HideSubcontacts", (BYTE)TRUE },
+	{ NULL, CONTROL_CHECKBOX, IDC_KEEP_OFFLINE, "KeepSubcontactsFromOffline", (BYTE)TRUE }
 };
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ret = SaveOptsDlgProc(controls, _countof(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
@@ -98,19 +98,19 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LOCAL), enabled);
-			
+
 			enabled = IsDlgButtonChecked(hwndDlg, IDC_SUBCONTACTS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), enabled);
 			return TRUE;
 		}
 	case WM_COMMAND:
-		if(LOWORD(wParam) == IDC_LASTSENTTO) {
+		if (LOWORD(wParam) == IDC_LASTSENTTO) {
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_LASTSENTTO);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_GLOBAL), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LOCAL), enabled);
 		}
 
-		if(LOWORD(wParam) == IDC_SUBCONTACTS) {
+		if (LOWORD(wParam) == IDC_SUBCONTACTS) {
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_SUBCONTACTS);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_KEEP_OFFLINE), enabled);
 		}
@@ -131,4 +131,3 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	return ret;
 }
-

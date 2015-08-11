@@ -11,7 +11,7 @@ static PWumf lst = NULL;
 HANDLE hLogger = NULL;
 BOOL wumf();
 
-static int DlgResizer(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int DlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch(urc->wId) {
 	case IDC_CONNLIST:
@@ -215,7 +215,7 @@ void printError(DWORD res)
 	LocalFree( lpMsgBuf );
 }
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (!wumf())
 		KillTimer(NULL, 777);

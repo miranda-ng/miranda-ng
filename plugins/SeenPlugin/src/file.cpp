@@ -55,9 +55,9 @@ void UninitFileOutput()
 
 void FileWrite(MCONTACT hcontact)
 {
-	FILE *log = _tfopen(ParseString(g_ptszFileName, hcontact, 1), _T("a"));
+	FILE *log = _tfopen(ParseString(g_ptszFileName, hcontact), _T("a"));
 	if (log != NULL) {
-		_fputts(ParseString(g_ptszFileStamp, hcontact, 1), log);
+		_fputts(ParseString(g_ptszFileStamp, hcontact), log);
 		fputs("\r\n", log);
 		fclose(log);
 	}

@@ -6,7 +6,7 @@
 
 typedef std::vector<const char*> SettingsList;
 
-static int EnumSettingsProc1(const char *pszSetting, LPARAM lParam)
+static int EnumSettingsProc1(const char*, LPARAM)
 {
 	return 0;
 }

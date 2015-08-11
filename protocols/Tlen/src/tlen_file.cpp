@@ -150,7 +150,7 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileReceivingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenFileReceivingConnection(HANDLE hConnection, DWORD, void * pExtra)
 {
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
@@ -386,7 +386,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 	}
 }
 
-static void TlenFileSendingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
+static void TlenFileSendingConnection(HANDLE hConnection, DWORD, void * pExtra)
 {
 	HANDLE slisten;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;

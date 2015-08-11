@@ -22,7 +22,6 @@ static void PaintToolbar(HWND hwnd)
 	GetClientRect(hwnd, &clRect);
 
 	int yScroll = 0;
-	int y = -yScroll;
 
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);

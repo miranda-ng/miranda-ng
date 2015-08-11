@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define EXCLUDE_HIDDEN  1
 #define EXCLUDE_IGNORED 2
-static UINT_PTR hCheckTimer = NULL;
-static UINT_PTR hDateChangeTimer = NULL;
+UINT_PTR hCheckTimer = NULL;
+UINT_PTR hDateChangeTimer = NULL;
 static int currentDay = 0;
 
 
@@ -58,7 +58,6 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *)lParam;
-	DBVARIANT dv = dw->value;
 	if ((mir_strcmp(dw->szModule, DUMMY_MODULE) == 0) && (mir_strcmp(dw->szSetting, DUMMY_SETTING) == 0))
 		RefreshContactListIcons(hContact);
 
@@ -94,7 +93,6 @@ int RefreshContactListIcons(MCONTACT hContact)
 	if (hContact == 0)
 		return 0;
 
-	int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 	int hidden = db_get_b(hContact, "CList", "Hidden", 0);
 	int ignored = db_get_dw(hContact, "Ignore", "Mask1", 0);
 	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
@@ -165,12 +163,12 @@ int KillTimers()
 	return 0;
 }
 
-VOID CALLBACK OnCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK OnCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	CheckBirthdaysService(0, 1);
 }
 
-VOID CALLBACK OnDateChangeTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK OnDateChangeTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	SYSTEMTIME now;
 	GetLocalTime(&now);

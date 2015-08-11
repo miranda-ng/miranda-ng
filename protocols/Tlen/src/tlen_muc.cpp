@@ -91,7 +91,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	return mir_strdup(id);
 }
 
-int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *roomName, const char *from, const char *reason)
+int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char*, const char *from, const char*)
 {
 	int	 ignore, ask, groupChatPolicy;
 	if (roomId == NULL) return 1;
@@ -216,7 +216,7 @@ static int TlenMUCSendQuery(TlenProtocol *proto, int type, const char *parent, i
 	return 0;
 }
 
-INT_PTR TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MUCMenuHandleMUC(WPARAM, LPARAM)
 {
 	if (!isOnline)
 		return 1;
@@ -225,7 +225,7 @@ INT_PTR TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact;
 	DBVARIANT dbv;

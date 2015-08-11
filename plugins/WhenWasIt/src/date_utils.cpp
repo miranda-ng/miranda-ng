@@ -28,7 +28,7 @@ time_t Today()
 	return mktime(date);
 }
 
-bool IsDOBValid(int year, int month, int day)
+bool IsDOBValid(int, int month, int day)
 {
 	return (month != 0 && day != 0);
 }

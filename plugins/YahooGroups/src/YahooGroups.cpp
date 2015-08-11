@@ -51,8 +51,6 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
-	LogInit();
-	
 	currentCodePage = Langpack_GetDefaultCodePage();
 	
 	InitServices();

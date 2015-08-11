@@ -299,10 +299,6 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				/* ks - key size (in bytes) */
 				/* mi - p2p connection id */
 				char *n = TlenXmlGetAttrValue(dcng, "n"); // n - name (file_send)
-				char *k = TlenXmlGetAttrValue(dcng, "k"); // k - ???
-				char *v = TlenXmlGetAttrValue(dcng, "v"); // v - ???
-				char *ck = TlenXmlGetAttrValue(dcng, "ck"); // ck - aes key
-				char *iv = TlenXmlGetAttrValue(dcng, "iv"); // iv - aes initial vector
 				if (!mir_strcmp(n, "file_send")) {
 					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
 						item->id2 = mir_strdup(id2);

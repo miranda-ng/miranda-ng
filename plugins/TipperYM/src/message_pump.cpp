@@ -34,7 +34,7 @@ __inline bool IsContactTooltip(CLCINFOTIPEX *clc)
 	return !(clc->szProto || clc->swzText);
 }
 
-void CALLBACK TimerProcWaitForContent(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK TimerProcWaitForContent(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(0, WaitForContentTimerID);
 	WaitForContentTimerID = 0;
@@ -99,7 +99,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 	return bNeedWait;
 }
 
-unsigned int CALLBACK MessagePumpThread(void *param)
+unsigned int CALLBACK MessagePumpThread(void*)
 {
 	HWND hwndTip = NULL;
 	CLCINFOTIPEX *clcitex = NULL;
@@ -304,7 +304,7 @@ int HideTipHook(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ProtoAck(WPARAM wParam, LPARAM lParam)
+int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if ((ack==NULL) || (ack->result != ACKRESULT_SUCCESS))
@@ -321,13 +321,13 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int AvatarChanged(WPARAM hContact, LPARAM lParam)
+int AvatarChanged(WPARAM hContact, LPARAM)
 {
 	PostMPMessage(MUM_GOTAVATAR, hContact, 0);
 	return 0;
 }
 
-int FramesShowSBTip(WPARAM wParam, LPARAM lParam)
+int FramesShowSBTip(WPARAM wParam, LPARAM)
 {
 	if (opt.bStatusBarTips)
 	{

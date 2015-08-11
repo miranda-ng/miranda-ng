@@ -64,14 +64,14 @@ BOOL hasNewHotkeyModule = FALSE;
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID) 
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -106,7 +106,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 
 // Called when all the modules are loaded
-int ModulesLoaded(WPARAM wParam, LPARAM lParam) 
+int ModulesLoaded(WPARAM, LPARAM) 
 {
 	InitOptions();
 
@@ -632,7 +632,7 @@ HHOOK hHook;
 
 // This function filters the message queue and translates
 // the keyboard accelerators
-LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK HookProc(int code, WPARAM, LPARAM lparam)
 {
 	if (code!=MSGF_DIALOGBOX) 
 		return 0;
@@ -747,7 +747,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_USERNAME), &rc);
 			ScreenToClient(hwndDlg, &rc);
 
-			HWND icon = CreateWindow(_T("STATIC"), _T(""), WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
+			CreateWindow(_T("STATIC"), _T(""), WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
 				rc.left - 20, rc.top + (rc.bottom - rc.top - 16) / 2, 16, 16, hwndDlg, (HMENU) IDC_ICO, 
 				hInst, NULL);
 
@@ -1120,7 +1120,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 
 // Show the main dialog
-INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowDialog(WPARAM, LPARAM) 
 {
 	if (!main_dialog_open) 
 	{

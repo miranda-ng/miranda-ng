@@ -36,8 +36,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			LPNMHDR phdr = (LPNMHDR)(lParam);
 			if (phdr->idFrom == 0 && phdr->code == PSN_APPLY) {
-				BOOL bSuccess = FALSE;
-
 				LastUCOpt.HideOffline = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE);
 				db_set_b(NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, (BYTE)LastUCOpt.HideOffline);
 
@@ -60,7 +58,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-int onOptInitialise(WPARAM wParam, LPARAM lParam)
+int onOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

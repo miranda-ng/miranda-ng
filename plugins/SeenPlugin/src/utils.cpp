@@ -146,7 +146,7 @@ TCHAR *wdays_short[] = { LPGENT("Sun."), LPGENT("Mon."), LPGENT("Tue."), LPGENT(
 TCHAR *monthnames[] = { LPGENT("January"), LPGENT("February"), LPGENT("March"), LPGENT("April"), LPGENT("May"), LPGENT("June"), LPGENT("July"), LPGENT("August"), LPGENT("September"), LPGENT("October"), LPGENT("November"), LPGENT("December") };
 TCHAR *mnames_short[] = { LPGENT("Jan."), LPGENT("Feb."), LPGENT("Mar."), LPGENT("Apr."), LPGENT("May"), LPGENT("Jun."), LPGENT("Jul."), LPGENT("Aug."), LPGENT("Sep."), LPGENT("Oct."), LPGENT("Nov."), LPGENT("Dec.") };
 
-TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
+TCHAR* ParseString(TCHAR *szstring, MCONTACT hcontact)
 {
 #define MAXSIZE 1024
 	static TCHAR sztemp[MAXSIZE + 1];
@@ -496,16 +496,16 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
 	if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
-		_tcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact, 0), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
-	else _tcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact, 0), MAX_CONTACTNAME);
+	else _tcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
 
 	if (!db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
-		_tcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact, 0), MAX_SECONDLINE);
+		_tcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
-	else _tcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact, 0), MAX_SECONDLINE);
+	else _tcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact), MAX_SECONDLINE);
 	ppd.PluginWindowProc = PopupDlgProc;
 	PUAddPopupT(&ppd);
 }
@@ -678,7 +678,7 @@ static void cleanThread(void *param)
 	mir_free(infoParam);
 }
 
-int ModeChange(WPARAM wparam, LPARAM lparam)
+int ModeChange(WPARAM, LPARAM lparam)
 {
 	ACKDATA *ack = (ACKDATA *)lparam;
 

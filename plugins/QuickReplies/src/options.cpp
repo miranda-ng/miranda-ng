@@ -166,7 +166,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int OnOptInitialized(WPARAM wParam, LPARAM lParam)
+int OnOptInitialized(WPARAM wParam, LPARAM)
 {
 	char tabName[32];
 	mir_snprintf(tabName, _countof(tabName), "%s %x", Translate("Button"), iNumber + 1);

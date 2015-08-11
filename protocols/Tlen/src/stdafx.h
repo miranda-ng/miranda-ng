@@ -231,14 +231,8 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
-
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
 
 	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);

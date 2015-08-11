@@ -112,7 +112,7 @@ void InitVars()
 
 }
 
-static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
 /*	if (ServiceExists(MS_DOS_SERVICE))
 		gbDosServiceExist = TRUE; */
@@ -121,7 +121,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	InitVars();
 	void CleanThread();
 	if(gbDelAllTempory || gbDelExcluded)
-		boost::thread *thr = new boost::thread(&CleanThread);
+		new boost::thread(&CleanThread);
 	
 	// Folders plugin support
 	hStopSpamLogDirH = FoldersRegisterCustomPathT(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
@@ -131,7 +131,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 HANDLE hEventFilter = 0, hOptInitialise = 0, hSettingChanged = 0;
 
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;

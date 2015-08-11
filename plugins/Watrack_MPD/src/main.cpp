@@ -22,7 +22,7 @@ BOOL Connected;
 int gbState;
 SONGINFO SongInfo = {0};
 
-void Start(void* param)
+void Start(void*)
 {
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	char *tmp = (char*)mir_u2a(gbHost);
@@ -36,7 +36,7 @@ void Start(void* param)
 		ghPacketReciever = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER,(WPARAM)ghConnection,2048);
 }
 
-void ReStart(void *param)
+void ReStart(void*)
 {
 	if(ghPacketReciever)
 		Netlib_CloseHandle(ghPacketReciever);

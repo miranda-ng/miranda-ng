@@ -42,7 +42,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 	case WM_REFRESH_UI:
 		{
 			ptrT szout(db_get_tsa(NULL, S_MOD, "UserStamp"));
-			TCHAR *str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, wparam, 0);
+			TCHAR *str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, wparam);
 			SetDlgItemText(hdlg, IDC_INFOTEXT, str);
 
 			if (!mir_tstrcmp(str, TranslateT("<unknown>")))

@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen_avatar.h"
 #include "tlen_file.h"
 
-DWORD_PTR TlenProtocol::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR TlenProtocol::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -222,7 +222,7 @@ MCONTACT TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByJID(this, jsr->jid, flags);// wParam is flag e.g. PALF_TEMPORARY
 }
 
-MCONTACT TlenProtocol::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
+MCONTACT TlenProtocol::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -309,7 +309,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
+int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	if (!isOnline)
 		return 1;
@@ -406,7 +406,7 @@ int TlenProtocol::SetStatus(int iNewStatus)
 	return 0;
 }
 
-INT_PTR TlenProtocol::GetStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::GetStatus(WPARAM, LPARAM)
 {
 	return m_iStatus;
 }
@@ -466,7 +466,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const TCHAR* msg)
 	return 0;
 }
 
-int TlenProtocol::GetInfo(MCONTACT hContact, int infoType)
+int TlenProtocol::GetInfo(MCONTACT hContact, int)
 {
 	DBVARIANT dbv;
 	int iqId;
@@ -590,7 +590,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	delete data;
 }
 
-INT_PTR TlenProtocol::SendAlert(WPARAM hContact, LPARAM lParam)
+INT_PTR TlenProtocol::SendAlert(WPARAM hContact, LPARAM)
 {
 	DBVARIANT dbv;
 	if (isOnline && !db_get(hContact, m_szModuleName, "jid", &dbv)) {
@@ -705,12 +705,12 @@ HANDLE TlenProtocol::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int TlenProtocol::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
+int TlenProtocol::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 {
 	return 0;
 }
 
-HANDLE TlenProtocol::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	if (!isOnline) return 0;
 
@@ -730,7 +730,7 @@ HANDLE TlenProtocol::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR*
 	return (HANDLE)hTransfer;
 }
 
-int TlenProtocol::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
+int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
 {
 	if (!isOnline) return 1;
 
@@ -746,11 +746,12 @@ int TlenProtocol::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szR
 	return 0;
 }
 
-int TlenProtocol::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename) {
+int TlenProtocol::FileResume(HANDLE, int*, const TCHAR**)
+{
 	return 0;
 }
 
-int TlenProtocol::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int TlenProtocol::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
 	debugLogA("Invoking FileCancel()");
@@ -833,29 +834,6 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCH
 	}
 
 	return (HANDLE) ft;
-}
-
-int TlenProtocol::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList){
-	return 0;
-}
-
-int TlenProtocol::SendUrl(MCONTACT hContact, int flags, const char* urlt){
-	return 0;
-}
-
-int TlenProtocol::RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt)
-{
-	return Proto_RecvMessage(hContact, evt);
-}
-
-int TlenProtocol::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-int TlenProtocol::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
-{
-	return 0;
 }
 
 static char* settingToChar( DBCONTACTWRITESETTING* cws )
@@ -1002,7 +980,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM lParam)
+int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM)
 {
 	if (!isOnline)	// should never happen
 		return 0;
@@ -1063,14 +1041,14 @@ INT_PTR TlenProtocol::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR CALLBACK TlenChangeAvatarDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam )
+static INT_PTR CALLBACK TlenChangeAvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg);
 		{
 			HICON hIcon = GetIcolibIcon(IDI_TLEN);
-			SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) hIcon);
+			SendMessage(hwndDlg, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 			ReleaseIcolibIcon(hIcon);
 		}
 		CheckDlgButton(hwndDlg, IDC_PUBLICAVATAR, BST_CHECKED);
@@ -1092,32 +1070,33 @@ static INT_PTR CALLBACK TlenChangeAvatarDlgProc( HWND hwndDlg, UINT msg, WPARAM 
 	return 0;
 }
 
-INT_PTR TlenProtocol::SetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::SetMyAvatar(WPARAM, LPARAM lParam)
 {
-	if (!isOnline){
+	if (!isOnline) {
 		PUShowMessageT(TranslateT("You need to be connected to Tlen account to set avatar."), SM_WARNING);
 		return 1;
 	}
-	TCHAR* szFileName = ( TCHAR* )lParam;
-	TCHAR tFileName[ MAX_PATH ];
+	TCHAR* szFileName = (TCHAR*)lParam;
+	TCHAR tFileName[MAX_PATH];
 	if (szFileName != NULL) {
-		int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_USER_CHANGEAVATAR), NULL, TlenChangeAvatarDlgProc, (LPARAM) NULL);
+		int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_USER_CHANGEAVATAR), NULL, TlenChangeAvatarDlgProc, (LPARAM)NULL);
 		TlenGetAvatarFileName(this, NULL, tFileName, MAX_PATH);
-		if ( CopyFile( szFileName, tFileName, FALSE ) == FALSE )
+		if (CopyFile(szFileName, tFileName, FALSE) == FALSE)
 			return 1;
 
 		char* tFileNameA = mir_t2a(tFileName); //TODO - drop io.h
-		int fileIn = open( tFileNameA, O_RDWR | O_BINARY, S_IREAD | S_IWRITE );
-		if ( fileIn != -1 ) {
+		int fileIn = open(tFileNameA, O_RDWR | O_BINARY, S_IREAD | S_IWRITE);
+		if (fileIn != -1) {
 			long  dwPngSize = filelength(fileIn);
 			BYTE* pResult = (BYTE *)mir_alloc(dwPngSize);
 			if (pResult != NULL) {
-				read( fileIn, pResult, dwPngSize );
-				close( fileIn );
+				read(fileIn, pResult, dwPngSize);
+				close(fileIn);
 				TlenUploadAvatar(this, pResult, dwPngSize, (result & 0x10000) != 0);
 				mir_free(pResult);
 			}
-		} else debugLogA("SetMyAvatar open error");
+		}
+		else debugLogA("SetMyAvatar open error");
 		mir_free(tFileName);
 		mir_free(tFileNameA);
 	}
@@ -1132,7 +1111,7 @@ INT_PTR TlenProtocol::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_MAXSIZE:
 		{
 			POINT* size = (POINT*)lParam;
-			if ( size )
+			if (size)
 				size->x = size->y = 64;
 		}
 		return 0;
@@ -1156,7 +1135,7 @@ INT_PTR TlenProtocol::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	//TlenProtocol *proto = (TlenProtocol *)ptr;
-	switch( iEventType ) {
+	switch (iEventType) {
 	case EV_PROTO_ONLOAD:    return OnModulesLoaded(0, 0);
 	case EV_PROTO_ONOPTIONS: return OptionsInit(wParam, lParam);
 	case EV_PROTO_ONEXIT:    return PreShutdown(0, 0);
@@ -1169,33 +1148,33 @@ int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPara
 
 extern INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-INT_PTR TlenProtocol::AccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::AccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, TlenAccMgrUIDlgProc, (LPARAM)this);
 }
 
 void TlenInitServicesVTbl(TlenProtocol *proto)
 {
-	proto->CreateProtoService(PS_GETNAME,        &TlenProtocol::GetName);
+	proto->CreateProtoService(PS_GETNAME, &TlenProtocol::GetName);
 	proto->CreateProtoService(PS_GETAVATARINFO, &TlenProtocol::GetAvatarInfo);
-	proto->CreateProtoService(PS_SEND_NUDGE,     &TlenProtocol::SendAlert);
-	proto->CreateProtoService(PS_GETAVATARCAPS,  &TlenProtocol::GetAvatarCaps);
-	proto->CreateProtoService(PS_SETMYAVATAR,   &TlenProtocol::SetMyAvatar);
-	proto->CreateProtoService(PS_GETMYAVATAR,   &TlenProtocol::GetMyAvatar);
-	proto->CreateProtoService(PS_GETSTATUS,      &TlenProtocol::GetStatus);
+	proto->CreateProtoService(PS_SEND_NUDGE, &TlenProtocol::SendAlert);
+	proto->CreateProtoService(PS_GETAVATARCAPS, &TlenProtocol::GetAvatarCaps);
+	proto->CreateProtoService(PS_SETMYAVATAR, &TlenProtocol::SetMyAvatar);
+	proto->CreateProtoService(PS_GETMYAVATAR, &TlenProtocol::GetMyAvatar);
+	proto->CreateProtoService(PS_GETSTATUS, &TlenProtocol::GetStatus);
 	proto->CreateProtoService(PS_CREATEACCMGRUI, &TlenProtocol::AccMgrUI);
 }
 
-TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
-	PROTO<TlenProtocol>(aProtoName, aUserName)
+TlenProtocol::TlenProtocol(const char *aProtoName, const TCHAR *aUserName) :
+PROTO<TlenProtocol>(aProtoName, aUserName)
 {
 	TlenInitServicesVTbl(this);
 
 	hTlenNudge = CreateProtoEvent("/Nudge");
 
-	HookProtoEvent(ME_OPT_INITIALISE,            &TlenProtocol::OptionsInit);
+	HookProtoEvent(ME_OPT_INITIALISE, &TlenProtocol::OptionsInit);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &TlenProtocol::TlenDbSettingChanged);
-	HookProtoEvent(ME_DB_CONTACT_DELETED,        &TlenProtocol::TlenContactDeleted);
+	HookProtoEvent(ME_DB_CONTACT_DELETED, &TlenProtocol::TlenContactDeleted);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &TlenProtocol::PrebuildContactMenu);
 
 	DBVARIANT dbv;
