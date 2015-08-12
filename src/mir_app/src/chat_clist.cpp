@@ -42,7 +42,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 		}
 	}
 
-	MCONTACT hContact = ci.FindRoom(pszModule, pszRoom);
+	MCONTACT hContact = chatApi.FindRoom(pszModule, pszRoom);
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
 			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
@@ -87,7 +87,7 @@ BOOL SetAllOffline(BOOL, const char *pszModule)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
-		if (!ci.MM_FindModule(szProto))
+		if (!chatApi.MM_FindModule(szProto))
 			continue;
 		if (pszModule && mir_strcmp(pszModule, szProto))
 			continue;
@@ -107,7 +107,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (ci.MM_FindModule(szProto) == NULL)
+	if (chatApi.MM_FindModule(szProto) == NULL)
 		return 0;
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;
@@ -116,7 +116,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (roomid == NULL)
 		return 0;
 
-	SESSION_INFO *si = ci.SM_FindSession(roomid, szProto);
+	SESSION_INFO *si = chatApi.SM_FindSession(roomid, szProto);
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->hWnd != NULL &&
@@ -124,11 +124,11 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 			 !CallService(MS_CLIST_GETEVENT, hContact, 0) &&
 			 IsWindowVisible(si->hWnd) && !IsIconic(si->hWnd))
 		{
-			if (ci.OnDblClickSession)
-				ci.OnDblClickSession(si);
+			if (chatApi.OnDblClickSession)
+				chatApi.OnDblClickSession(si);
 			return 1;
 		}
-		ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);
+		chatApi.ShowRoom(si, WINDOW_VISIBLE, TRUE);
 	}
 	return 1;
 }

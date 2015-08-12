@@ -24,8 +24,8 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 ExtraIconGroup::ExtraIconGroup(const char *_name) :
-	ExtraIcon(_name), setValidExtraIcon(false), insideApply(false),
-	items(1)
+	ExtraIcon(_name), m_setValidExtraIcon(false), m_insideApply(false),
+	m_items(1)
 {
 	db_set_resident(MODULE_NAME, _name);
 }
@@ -36,22 +36,22 @@ ExtraIconGroup::~ExtraIconGroup()
 
 void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 {
-	items.insert(extra);
+	m_items.insert(extra);
 
 	CMString description;
-	for (int i = 0; i < items.getCount(); i++) {
+	for (int i = 0; i < m_items.getCount(); i++) {
 		if (i > 0)
 			description += _T(" / ");
-		description += items[i]->getDescription();
+		description += m_items[i]->getDescription();
 	}
 
-	tszDescription = mir_tstrdup(description);
+	m_tszDescription = mir_tstrdup(description);
 }
 
 void ExtraIconGroup::rebuildIcons()
 {
-	for (int i = 0; i < items.getCount(); i++)
-		items[i]->rebuildIcons();
+	for (int i = 0; i < m_items.getCount(); i++)
+		m_items[i]->rebuildIcons();
 }
 
 void ExtraIconGroup::applyIcon(MCONTACT hContact)
@@ -59,27 +59,26 @@ void ExtraIconGroup::applyIcon(MCONTACT hContact)
 	if (!isEnabled() || hContact == NULL)
 		return;
 
-	setValidExtraIcon = false;
-
-	insideApply = true;
+	m_setValidExtraIcon = false;
+	m_insideApply = true;
 
 	int i;
-	for (i = 0; i < items.getCount(); i++) {
-		items[i]->applyIcon(hContact);
-		if (setValidExtraIcon)
+	for (i = 0; i < m_items.getCount(); i++) {
+		m_items[i]->applyIcon(hContact);
+		if (m_setValidExtraIcon)
 			break;
 	}
 
-	insideApply = false;
+	m_insideApply = false;
 
-	db_set_dw(hContact, MODULE_NAME, szName, setValidExtraIcon ? items[i]->getID() : 0);
+	db_set_dw(hContact, MODULE_NAME, m_szName, m_setValidExtraIcon ? m_items[i]->getID() : 0);
 }
 
 int ExtraIconGroup::getPosition() const
 {
 	int pos = INT_MAX;
-	for (int i = 0; i < items.getCount(); i++)
-		pos = MIN(pos, items[i]->getPosition());
+	for (int i = 0; i < m_items.getCount(); i++)
+		pos = MIN(pos, m_items[i]->getPosition());
 	return pos;
 }
 
@@ -87,19 +86,19 @@ void ExtraIconGroup::setSlot(int slot)
 {
 	ExtraIcon::setSlot(slot);
 
-	for (int i = 0; i < items.getCount(); i++)
-		items[i]->setSlot(slot);
+	for (int i = 0; i < m_items.getCount(); i++)
+		m_items[i]->setSlot(slot);
 }
 
 ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
 {
-	int id = (int)db_get_dw(hContact, MODULE_NAME, szName, 0);
+	int id = (int)db_get_dw(hContact, MODULE_NAME, m_szName, 0);
 	if (id < 1)
 		return NULL;
 
-	for (int i = 0; i < items.getCount(); i++)
-		if (id == items[i]->getID())
-			return items[i];
+	for (int i = 0; i < m_items.getCount(); i++)
+		if (id == m_items[i]->getID())
+			return m_items[i];
 
 	return NULL;
 }
@@ -123,82 +122,82 @@ int ExtraIconGroup::setIconByName(int id, MCONTACT hContact, const char *value)
 
 int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool bByName)
 {
-	if (insideApply) {
-		for (int i=0; i < items.getCount(); i++)
-			if (items[i]->getID() == id) {
+	if (m_insideApply) {
+		for (int i=0; i < m_items.getCount(); i++)
+			if (m_items[i]->getID() == id) {
 				if (bByName)
-					return items[i]->setIconByName(id, hContact, (const char*)value);
-				return items[i]->setIcon(id, hContact, (HANDLE)value);
+					return m_items[i]->setIconByName(id, hContact, (const char*)value);
+				return m_items[i]->setIcon(id, hContact, (HANDLE)value);
 			}
 
 		return -1;
 	}
 
 	ExtraIcon *current = getCurrentItem(hContact);
-	int currentPos = items.getCount();
-	int storePos = items.getCount();
-	for (int i=0; i < items.getCount(); i++) {
-		if (items[i]->getID() == id)
+	int currentPos = m_items.getCount();
+	int storePos = m_items.getCount();
+	for (int i=0; i < m_items.getCount(); i++) {
+		if (m_items[i]->getID() == id)
 			storePos = i;
 
-		if (items[i] == current)
+		if (m_items[i] == current)
 			currentPos = i;
 	}
 
-	if (storePos == items.getCount())
+	if (storePos == m_items.getCount())
 		return -1;
 
 	if (storePos > currentPos) {
-		items[storePos]->storeIcon(hContact, value);
+		m_items[storePos]->storeIcon(hContact, value);
 		return 0;
 	}
 
 	// Ok, we have to set the icon, but we have to assert it is a valid icon
 
-	setValidExtraIcon = false;
+	m_setValidExtraIcon = false;
 
 	int ret;
 	if (bByName)
-		ret = items[storePos]->setIconByName(id, hContact, (const char*)value);
+		ret = m_items[storePos]->setIconByName(id, hContact, (const char*)value);
 	else
-		ret = items[storePos]->setIcon(id, hContact, (HANDLE)value);
+		ret = m_items[storePos]->setIcon(id, hContact, (HANDLE)value);
 
 	if (storePos < currentPos) {
-		if (setValidExtraIcon)
-			db_set_dw(hContact, MODULE_NAME, szName, items[storePos]->getID());
+		if (m_setValidExtraIcon)
+			db_set_dw(hContact, MODULE_NAME, m_szName, m_items[storePos]->getID());
 	}
 	else if (storePos == currentPos) {
-		if (!setValidExtraIcon) {
-			db_set_dw(hContact, MODULE_NAME, szName, 0);
+		if (!m_setValidExtraIcon) {
+			db_set_dw(hContact, MODULE_NAME, m_szName, 0);
 
-			insideApply = true;
+			m_insideApply = true;
 
-			for (++storePos; storePos < items.getCount(); ++storePos) {
-				items[storePos]->applyIcon(hContact);
-				if (setValidExtraIcon)
+			for (++storePos; storePos < m_items.getCount(); ++storePos) {
+				m_items[storePos]->applyIcon(hContact);
+				if (m_setValidExtraIcon)
 					break;
 			}
 
-			insideApply = false;
+			m_insideApply = false;
 
-			if (setValidExtraIcon && storePos < items.getCount())
-				db_set_dw(hContact, MODULE_NAME, szName, items[storePos]->getID());
+			if (m_setValidExtraIcon && storePos < m_items.getCount())
+				db_set_dw(hContact, MODULE_NAME, m_szName, m_items[storePos]->getID());
 		}
 	}
 
 	return ret;
 }
 
-const TCHAR *ExtraIconGroup::getDescription() const
+const TCHAR* ExtraIconGroup::getDescription() const
 {
-	return tszDescription;
+	return m_tszDescription;
 }
 
 const char *ExtraIconGroup::getDescIcon() const
 {
-	for (int i = 0; i < items.getCount(); i++)
-		if (!IsEmpty(items[i]->getDescIcon()))
-			return items[i]->getDescIcon();
+	for (int i = 0; i < m_items.getCount(); i++)
+		if (!IsEmpty(m_items[i]->getDescIcon()))
+			return m_items[i]->getDescIcon();
 
 	return "";
 }
@@ -211,7 +210,7 @@ int ExtraIconGroup::getType() const
 int ExtraIconGroup::ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage)
 {
 	if (hImage != INVALID_HANDLE_VALUE)
-		setValidExtraIcon = true;
+		m_setValidExtraIcon = true;
 
-	return Clist_SetExtraIcon(hContact, slot, hImage);
+	return Clist_SetExtraIcon(hContact, m_slot, hImage);
 }

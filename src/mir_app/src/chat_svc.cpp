@@ -47,26 +47,26 @@ static HANDLE
 
 void LoadChatIcons(void)
 {
-	ci.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
-	ci.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
-	ci.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
-	ci.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
-	ci.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
-	ci.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
-	ci.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
-	ci.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
-	ci.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
-	ci.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
-	ci.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
-	ci.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
-	ci.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
-	ci.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
-	ci.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
-	ci.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
-	ci.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
-	ci.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
-	ci.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
-	ci.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
+	chatApi.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
+	chatApi.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
+	chatApi.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
+	chatApi.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
+	chatApi.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
+	chatApi.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
+	chatApi.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
+	chatApi.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
+	chatApi.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
+	chatApi.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
+	chatApi.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
+	chatApi.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
+	chatApi.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
+	chatApi.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
+	chatApi.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
+	chatApi.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
+	chatApi.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
+	chatApi.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
+	chatApi.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
+	chatApi.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
 
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
@@ -83,9 +83,9 @@ static int FontsChanged(WPARAM, LPARAM)
 	SetIndentSize();
 	g_Settings->bLogIndentEnabled = (db_get_b(NULL, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
 
-	ci.MM_FontsChanged();
-	ci.MM_FixColors();
-	ci.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
+	chatApi.MM_FontsChanged();
+	chatApi.MM_FixColors();
+	chatApi.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 	return 0;
 }
 
@@ -94,28 +94,28 @@ static int IconsChanged(WPARAM, LPARAM)
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
 
-	ci.MM_IconsChanged();
-	ci.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, FALSE);
+	chatApi.MM_IconsChanged();
+	chatApi.SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, FALSE);
 	return 0;
 }
 
 static int PreShutdown(WPARAM, LPARAM)
 {
 	if (g_Settings != NULL) {
-		ci.SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
+		chatApi.SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
 
-		ci.SM_RemoveAll();
-		ci.MM_RemoveAll();
+		chatApi.SM_RemoveAll();
+		chatApi.MM_RemoveAll();
 
-		DeleteObject(ci.hListBkgBrush);
-		DeleteObject(ci.hListSelectedBkgBrush);
+		DeleteObject(chatApi.hListBkgBrush);
+		DeleteObject(chatApi.hListSelectedBkgBrush);
 	}
 	return 0;
 }
 
 static int SmileyOptionsChanged(WPARAM, LPARAM)
 {
-	ci.SM_BroadcastMessage(NULL, GC_REDRAWLOG, 0, 1, FALSE);
+	chatApi.SM_BroadcastMessage(NULL, GC_REDRAWLOG, 0, 1, FALSE);
 	return 0;
 }
 
@@ -125,7 +125,7 @@ static INT_PTR Service_GetCount(WPARAM, LPARAM lParam)
 		return -1;
 
 	mir_cslock lck(cs);
-	return ci.SM_GetCount((char *)lParam);
+	return chatApi.SM_GetCount((char *)lParam);
 }
 
 static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
@@ -138,9 +138,9 @@ static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
 
 	SESSION_INFO *si;
 	if (gci->Flags & GCF_BYINDEX)
-		si = ci.SM_FindSessionByIndex(gci->pszModule, gci->iItem);
+		si = chatApi.SM_FindSessionByIndex(gci->pszModule, gci->iItem);
 	else
-		si = ci.SM_FindSession(gci->pszID, gci->pszModule);
+		si = chatApi.SM_FindSession(gci->pszID, gci->pszModule);
 	if (si == NULL)
 		return 1;
 
@@ -148,7 +148,7 @@ static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
 	if (gci->Flags & GCF_HCONTACT) gci->hContact = si->hContact;
 	if (gci->Flags & GCF_TYPE)     gci->iType = si->iType;
 	if (gci->Flags & GCF_COUNT)    gci->iCount = si->nUsersInNicklist;
-	if (gci->Flags & GCF_USERS)    gci->pszUsers = ci.SM_GetUsers(si);
+	if (gci->Flags & GCF_USERS)    gci->pszUsers = chatApi.SM_GetUsers(si);
 	if (gci->Flags & GCF_ID)       gci->pszID = si->ptszID;
 	if (gci->Flags & GCF_NAME)     gci->pszName = si->ptszName;
 	return 0;
@@ -164,7 +164,7 @@ static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 		return GC_REGISTER_WRONGVER;
 
 	mir_cslock lck(cs);
-	MODULEINFO *mi = ci.MM_AddModule(gcr->pszModule);
+	MODULEINFO *mi = chatApi.MM_AddModule(gcr->pszModule);
 	if (mi == NULL)
 		return GC_REGISTER_ERROR;
 
@@ -185,10 +185,10 @@ static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 		memcpy(mi->crColors, gcr->pColors, sizeof(COLORREF)* gcr->nColors);
 	}
 
-	mi->pszHeader = ci.Log_CreateRtfHeader(mi);
+	mi->pszHeader = chatApi.Log_CreateRtfHeader(mi);
 
 	CheckColorsInModule((char*)gcr->pszModule);
-	ci.SetAllOffline(TRUE, gcr->pszModule);
+	chatApi.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
 }
 
@@ -202,28 +202,28 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 		return GC_NEWSESSION_WRONGVER;
 
 	mir_cslock lck(cs);
-	MODULEINFO *mi = ci.MM_FindModule(gcw->pszModule);
+	MODULEINFO *mi = chatApi.MM_FindModule(gcw->pszModule);
 	if (mi == NULL)
 		return GC_NEWSESSION_ERROR;
 
 
 	// try to restart a session first
-	SESSION_INFO *si = ci.SM_FindSession(gcw->ptszID, gcw->pszModule);
-	if (si != NULL) { 
-		ci.UM_RemoveAll(&si->pUsers);
-		ci.TM_RemoveAll(&si->pStatuses);
+	SESSION_INFO *si = chatApi.SM_FindSession(gcw->ptszID, gcw->pszModule);
+	if (si != NULL) {
+		chatApi.UM_RemoveAll(&si->pUsers);
+		chatApi.TM_RemoveAll(&si->pStatuses);
 
 		si->iStatusCount = 0;
 		si->nUsersInNicklist = 0;
 		si->pMe = NULL;
 
-		if (ci.OnReplaceSession)
-			ci.OnReplaceSession(si);
+		if (chatApi.OnReplaceSession)
+			chatApi.OnReplaceSession(si);
 		return 0;
 	}
-	
+
 	// create a new session and set the defaults
-	if ((si = ci.SM_AddSession(gcw->ptszID, gcw->pszModule)) == NULL)
+	if ((si = chatApi.SM_AddSession(gcw->ptszID, gcw->pszModule)) == NULL)
 		return GC_NEWSESSION_ERROR;
 
 	si->dwItemData = gcw->dwItemData;
@@ -253,7 +253,7 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 		mir_sntprintf(szTemp, _T("Server: %s"), si->ptszName);
 	else
 		_tcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
-	si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
+	si->hContact = chatApi.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)
@@ -261,8 +261,8 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 	else
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-	if (ci.OnCreateSession)
-		ci.OnCreateSession(si, mi);
+	if (chatApi.OnCreateSession)
+		chatApi.OnCreateSession(si, mi);
 	return 0;
 }
 
@@ -284,11 +284,11 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 	if (gce->pDest->iType == GC_EVENT_CONTROL) {
 		switch (wp) {
 		case WINDOW_HIDDEN:
-			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				SetInitDone(si);
-				ci.SetActiveSession(si->ptszID, si->pszModule);
+				chatApi.SetActiveSession(si->ptszID, si->pszModule);
 				if (si->hWnd)
-					ci.ShowRoom(si, wp, FALSE);
+					chatApi.ShowRoom(si, wp, FALSE);
 			}
 			return 0;
 
@@ -296,84 +296,84 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		case WINDOW_MAXIMIZE:
 		case WINDOW_VISIBLE:
 		case SESSION_INITDONE:
-			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				SetInitDone(si);
 				if (wp != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-					ci.ShowRoom(si, wp, TRUE);
+					chatApi.ShowRoom(si, wp, TRUE);
 				return 0;
 			}
 			break;
 
 		case SESSION_OFFLINE:
-			ci.SM_SetOffline(gce->pDest->ptszID, gce->pDest->pszModule);
+			chatApi.SM_SetOffline(gce->pDest->ptszID, gce->pDest->pszModule);
 			// fall through
 
 		case SESSION_ONLINE:
-			ci.SM_SetStatus(gce->pDest->ptszID, gce->pDest->pszModule, wp == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+			chatApi.SM_SetStatus(gce->pDest->ptszID, gce->pDest->pszModule, wp == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 			break;
 
 		case WINDOW_CLEARLOG:
-			if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				ci.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-				if (ci.OnClearLog)
-					ci.OnClearLog(si);
+			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+				chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+				if (chatApi.OnClearLog)
+					chatApi.OnClearLog(si);
 				si->iEventCount = 0;
 				si->LastTime = 0;
 			}
 			break;
 
 		case SESSION_TERMINATE:
-			return ci.SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule, (gce->dwFlags & GCEF_REMOVECONTACT) != 0);
+			return chatApi.SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule, (gce->dwFlags & GCEF_REMOVECONTACT) != 0);
 		}
-		ci.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
+		chatApi.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
 	}
 
 	else if (gce->pDest->iType == GC_EVENT_CHUID && gce->ptszText) {
-		ci.SM_ChangeUID(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszNick, gce->ptszText);
+		chatApi.SM_ChangeUID(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszNick, gce->ptszText);
 	}
 
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->ptszText) {
-		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			replaceStrT(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-			if (ci.OnRenameSession)
-				ci.OnRenameSession(si);
+			if (chatApi.OnRenameSession)
+				chatApi.OnRenameSession(si);
 		}
 	}
 
 	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
-		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule))
+		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule))
 			si->dwItemData = gce->dwItemData;
 	}
 
 	else if (gce->pDest->iType == GC_EVENT_GETITEMDATA) {
-		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			gce->dwItemData = si->dwItemData;
 			return si->dwItemData;
 		}
 		return 0;
 	}
 	else if (gce->pDest->iType == GC_EVENT_SETSBTEXT) {
-		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			replaceStrT(si->ptszStatusbarText, gce->ptszText);
 			if (si->ptszStatusbarText)
 				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-			if (ci.OnSetStatusBar)
-				ci.OnSetStatusBar(si);
+			if (chatApi.OnSetStatusBar)
+				chatApi.OnSetStatusBar(si);
 		}
 	}
 	else if (gce->pDest->iType == GC_EVENT_ACK) {
-		ci.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_ACKMESSAGE, 0, 0);
+		chatApi.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_ACKMESSAGE, 0, 0);
 	}
 	else if (gce->pDest->iType == GC_EVENT_SENDMESSAGE && gce->ptszText) {
-		ci.SM_SendUserMessage(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText);
+		chatApi.SM_SendUserMessage(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText);
 	}
 	else if (gce->pDest->iType == GC_EVENT_SETSTATUSEX) {
-		ci.SM_SetStatusEx(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText, gce->dwItemData);
+		chatApi.SM_SetStatusEx(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText, gce->dwItemData);
 	}
 	else return 1;
 
@@ -382,11 +382,11 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 
 static void AddUser(GCEVENT *gce)
 {
-	SESSION_INFO *si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+	SESSION_INFO *si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 	if (si == NULL) return;
 
-	WORD status = ci.TM_StringToWord(si->pStatuses, gce->ptszStatus);
-	USERINFO *ui = ci.SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
+	WORD status = chatApi.TM_StringToWord(si->pStatuses, gce->ptszStatus);
+	USERINFO *ui = chatApi.SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
 	if (ui == NULL) return;
 
 	ui->pszNick = mir_tstrdup(gce->ptszNick);
@@ -395,8 +395,8 @@ static void AddUser(GCEVENT *gce)
 	ui->Status = status;
 	ui->Status |= si->pStatuses->Status;
 
-	if (ci.OnNewUser)
-		ci.OnNewUser(si, ui);
+	if (chatApi.OnNewUser)
+		chatApi.OnNewUser(si, ui);
 }
 
 static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
@@ -420,17 +420,16 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	NotifyEventHooks(hHookEvent, wParam, lParam);
 
-	SESSION_INFO *si;
 	mir_cslock lck(cs);
 
 	// Do different things according to type of event
 	switch (gcd->iType) {
 	case GC_EVENT_ADDGROUP:
-	{
-		STATUSINFO *si = ci.SM_AddStatus(gcd->ptszID, gcd->pszModule, gce->ptszStatus);
-		if (si && gce->dwItemData)
-			si->hIcon = CopyIcon((HICON)gce->dwItemData);
-	}
+		{
+			STATUSINFO *si = chatApi.SM_AddStatus(gcd->ptszID, gcd->pszModule, gce->ptszStatus);
+			if (si && gce->dwItemData)
+				si->hIcon = CopyIcon((HICON)gce->dwItemData);
+		}
 		return 0;
 
 	case GC_EVENT_CHUID:
@@ -445,15 +444,15 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		return DoControl(gce, wParam);
 
 	case GC_EVENT_SETCONTACTSTATUS:
-		return ci.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
+		return chatApi.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		if (si = ci.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
+		if (SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
 			if (gce->ptszText) {
 				replaceStrT(si->ptszTopic, RemoveFormatting(gce->ptszText));
 				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
-				if (ci.OnSetTopic)
-					ci.OnSetTopic(si);
+				if (chatApi.OnSetTopic)
+					chatApi.OnSetTopic(si);
 				if (db_get_b(NULL, CHAT_MODULE, "TopicOnClist", 0))
 					db_set_ts(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 			}
@@ -461,38 +460,38 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case GC_EVENT_ADDSTATUS:
-		ci.SM_GiveStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
-		bIsHighlighted = ci.IsHighlighted(NULL, gce);
+		chatApi.SM_GiveStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
+		bIsHighlighted = chatApi.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
-		ci.SM_TakeStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
-		bIsHighlighted = ci.IsHighlighted(NULL, gce);
+		chatApi.SM_TakeStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
+		bIsHighlighted = chatApi.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gcd->ptszID && gce->ptszText) {
-			si = ci.SM_FindSession(gcd->ptszID, gcd->pszModule);
-			bIsHighlighted = ci.IsHighlighted(si, gce);
+			SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule);
+			bIsHighlighted = chatApi.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
-		ci.SM_ChangeNick(gcd->ptszID, gcd->pszModule, gce);
-		bIsHighlighted = ci.IsHighlighted(NULL, gce);
+		chatApi.SM_ChangeNick(gcd->ptszID, gcd->pszModule, gce);
+		bIsHighlighted = chatApi.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_JOIN:
 		AddUser(gce);
-		bIsHighlighted = ci.IsHighlighted(NULL, gce);
+		bIsHighlighted = chatApi.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
 		bRemoveFlag = TRUE;
-		bIsHighlighted = ci.IsHighlighted(NULL, gce);
+		bIsHighlighted = chatApi.IsHighlighted(NULL, gce);
 		break;
 	}
 
@@ -504,7 +503,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		pMod = gcd->pszModule;
 	}
 	else if (gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION) {
-		si = ci.GetActiveSession();
+		SESSION_INFO *si = chatApi.GetActiveSession();
 		if (si && !mir_strcmp(si->pszModule, gcd->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
@@ -513,14 +512,14 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		// Send the event to all windows with a user pszUID. Used for broadcasting QUIT etc
-		ci.SM_AddEventToAllMatchingUID(gce);
+		chatApi.SM_AddEventToAllMatchingUID(gce);
 		if (!bRemoveFlag)
 			return 0;
 	}
 
 	// add to log
 	if (pWnd) {
-		si = ci.SM_FindSession(pWnd, pMod);
+		SESSION_INFO *si = chatApi.SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
 		if ((gcd->iType == GC_EVENT_ADDSTATUS || gcd->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
@@ -530,13 +529,13 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
-			int isOk = ci.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
-			if (ci.OnAddLog)
-				ci.OnAddLog(si, isOk);
+			int isOk = chatApi.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
+			if (chatApi.OnAddLog)
+				chatApi.OnAddLog(si, isOk);
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-				ci.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+				chatApi.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-				ci.LogToFile(si, gce);
+				chatApi.LogToFile(si, gce);
 		}
 
 		if (!bRemoveFlag)
@@ -544,7 +543,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (bRemoveFlag)
-		return ci.SM_RemoveUser(gcd->ptszID, gcd->pszModule, gce->ptszUID) == 0;
+		return chatApi.SM_RemoveUser(gcd->ptszID, gcd->pszModule, gce->ptszUID) == 0;
 
 	return GC_EVENT_ERROR;
 }
@@ -580,7 +579,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = "GChat/LeaveChat";
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 
-	ci.SetAllOffline(TRUE, NULL);
+	chatApi.SetAllOffline(TRUE, NULL);
 	return 0;
 }
 
@@ -608,8 +607,8 @@ int LoadChatModule(void)
 	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
 	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
 
-	ci.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
-	ci.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
+	chatApi.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
+	chatApi.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
@@ -624,13 +623,13 @@ void UnloadChatModule(void)
 	if (!bInited)
 		return;
 
-	mir_free(ci.szActiveWndID);
-	mir_free(ci.szActiveWndModule);
+	mir_free(chatApi.szActiveWndID);
+	mir_free(chatApi.szActiveWndModule);
 
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
 
-	DestroyHookableEvent(ci.hSendEvent);
-	DestroyHookableEvent(ci.hBuildMenuEvent);
+	DestroyHookableEvent(chatApi.hSendEvent);
+	DestroyHookableEvent(chatApi.hBuildMenuEvent);
 	DestroyHookableEvent(hHookEvent);
 }

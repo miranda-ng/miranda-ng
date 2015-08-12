@@ -440,7 +440,7 @@ struct CHAT_MANAGER
 	void (*OnFlashHighlight)(SESSION_INFO*, int bInactive);
 };
 
-extern CHAT_MANAGER ci, *pci;
+extern CHAT_MANAGER *pci;
 extern int hLangpack;
 
 __forceinline void mir_getCI(CHAT_MANAGER_INITDATA *pData)

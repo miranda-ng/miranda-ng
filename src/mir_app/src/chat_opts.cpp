@@ -78,16 +78,16 @@ static void LoadColors()
 void LoadLogFonts(void)
 {
 	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
-		LoadMsgDlgFont(i, &ci.aFonts[i].lf, &ci.aFonts[i].color);
+		LoadMsgDlgFont(i, &chatApi.aFonts[i].lf, &chatApi.aFonts[i].color);
 	LoadColors();
 
-	if (ci.hListBkgBrush != NULL)
-		DeleteObject(ci.hListBkgBrush);
-	ci.hListBkgBrush = CreateSolidBrush(g_Settings->crUserListBGColor);
+	if (chatApi.hListBkgBrush != NULL)
+		DeleteObject(chatApi.hListBkgBrush);
+	chatApi.hListBkgBrush = CreateSolidBrush(g_Settings->crUserListBGColor);
 
-	if (ci.hListSelectedBkgBrush != NULL)
-		DeleteObject(ci.hListSelectedBkgBrush);
-	ci.hListSelectedBkgBrush = CreateSolidBrush(g_Settings->crUserListSelectedBGColor);
+	if (chatApi.hListSelectedBkgBrush != NULL)
+		DeleteObject(chatApi.hListSelectedBkgBrush);
+	chatApi.hListSelectedBkgBrush = CreateSolidBrush(g_Settings->crUserListSelectedBGColor);
 }
 
 void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
@@ -234,8 +234,8 @@ void LoadGlobalSettings(void)
 
 	LoadColors();
 
-	if (ci.OnLoadSettings)
-		ci.OnLoadSettings();
+	if (chatApi.OnLoadSettings)
+		chatApi.OnLoadSettings();
 
 	InitSetting(&g_Settings->pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	InitSetting(&g_Settings->pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));

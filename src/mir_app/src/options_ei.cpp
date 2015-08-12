@@ -284,8 +284,8 @@ public:
 			if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 				ExtraIconGroup *group = (ExtraIconGroup *)extra;
 				intlist ids;
-				for (int j = 0; j < group->items.getCount(); j++)
-					ids.add(group->items[j]->getID());
+				for (int j = 0; j < group->m_items.getCount(); j++)
+					ids.add(group->m_items[j]->getID());
 				Tree_AddExtraIconGroup(ids, extra->isEnabled());
 			}
 			else Tree_AddExtraIcon((BaseExtraIcon *)extra, extra->isEnabled());
@@ -379,10 +379,10 @@ public:
 
 			char setting[512];
 			mir_snprintf(setting, "%d_count", k);
-			db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.getCount());
+			db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->m_items.getCount());
 
-			for (int j = 0; j < group->items.getCount(); j++) {
-				BaseExtraIcon *extra = group->items[j];
+			for (int j = 0; j < group->m_items.getCount(); j++) {
+				BaseExtraIcon *extra = group->m_items[j];
 
 				mir_snprintf(setting, "%d_%d", k, j);
 				db_set_s(NULL, MODULE_NAME "Groups", setting, extra->getName());

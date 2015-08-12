@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.
 CallbackExtraIcon::CallbackExtraIcon(int _id, const char *_name, const TCHAR *_description, const char *_descIcon,
 		MIRANDAHOOK _RebuildIcons, MIRANDAHOOK _ApplyIcon, MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param),
-	RebuildIcons(_RebuildIcons), ApplyIcon(_ApplyIcon), needToRebuild(true)
+	m_pfnRebuildIcons(_RebuildIcons), m_pfnApplyIcon(_ApplyIcon), m_needToRebuild(true)
 {
 }
 
@@ -42,12 +42,12 @@ int CallbackExtraIcon::getType() const
 void CallbackExtraIcon::rebuildIcons()
 {
 	if (!isEnabled()) {
-		needToRebuild = true;
+		m_needToRebuild = true;
 		return;
 	}
 
-	needToRebuild = false;
-	RebuildIcons(0, 0);
+	m_needToRebuild = false;
+	m_pfnRebuildIcons(0, 0);
 }
 
 void CallbackExtraIcon::applyIcon(MCONTACT hContact)
@@ -55,15 +55,15 @@ void CallbackExtraIcon::applyIcon(MCONTACT hContact)
 	if (!isEnabled() || hContact == NULL)
 		return;
 
-	if (needToRebuild)
+	if (m_needToRebuild)
 		rebuildIcons();
 
-	ApplyIcon(hContact, 0);
+	m_pfnApplyIcon(hContact, 0);
 }
 
 int CallbackExtraIcon::setIcon(int id, MCONTACT hContact, HANDLE icon)
 {
-	if (!isEnabled() || hContact == NULL || id != this->id)
+	if (!isEnabled() || hContact == NULL || id != m_id)
 		return -1;
 
 	return ClistSetExtraIcon(hContact, icon);

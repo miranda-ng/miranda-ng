@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 ExtraIcon::ExtraIcon(const char *name) :
-	szName(mir_strdup(name)), slot(-1), position(1000), hLangpack(0)
+	m_szName(mir_strdup(name)), m_slot(-1), m_position(1000), m_hLangpack(0)
 {
 }
 
@@ -34,32 +34,32 @@ ExtraIcon::~ExtraIcon()
 
 const char *ExtraIcon::getName() const
 {
-	return szName;
+	return m_szName;
 }
 
 int ExtraIcon::getSlot() const
 {
-	return slot;
+	return m_slot;
 }
 
 void ExtraIcon::setSlot(int slot)
 {
-	this->slot = slot;
+	m_slot = slot;
 }
 
 int ExtraIcon::getPosition() const
 {
-	return position;
+	return m_position;
 }
 
 void ExtraIcon::setPosition(int position)
 {
-	this->position = position;
+	m_position = position;
 }
 
 bool ExtraIcon::isEnabled() const
 {
-	return slot >= 0;
+	return m_slot >= 0;
 }
 
 void ExtraIcon::applyIcons()
@@ -69,7 +69,7 @@ void ExtraIcon::applyIcons()
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// Clear to assert that it will be cleared
-		Clist_SetExtraIcon(hContact, slot, INVALID_HANDLE_VALUE);
+		Clist_SetExtraIcon(hContact, m_slot, INVALID_HANDLE_VALUE);
 		applyIcon(hContact);
 	}
 }
