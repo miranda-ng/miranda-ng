@@ -42,7 +42,6 @@
 //   Constant/Typedef declarations
 // ==========================================================
 
-
 struct GIFinfo {
 	BOOL read;
 	//only really used when reading
@@ -1015,19 +1014,19 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			}
 			FreeImage_SetMetadataEx(FIMD_ANIMATION, dib, "Loop", ANIMTAG_LOOP, FIDT_LONG, 1, 4, &loop);
 
-			//Comment Extension
-			for( idx = 0; idx < info->comment_extension_offsets.size(); idx++ ) {
+			// Comment Extension
+			for (idx = 0; idx < info->comment_extension_offsets.size(); idx++) {
 				io->seek_proc(handle, (long)info->comment_extension_offsets[idx], SEEK_SET);
 				std::string comment;
 				char buf[255];
 				io->read_proc(&b, 1, 1, handle);
-				while( b ) {
+				while (b) {
 					io->read_proc(buf, b, 1, handle);
 					comment.append(buf, b);
 					io->read_proc(&b, 1, 1, handle);
 				}
 				comment.append(1, '\0');
-				sprintf(buf, "Comment%d", idx);
+				sprintf(buf, "Comment%d", (int)idx);
 				DWORD comment_size = (DWORD)comment.size();
 				FreeImage_SetMetadataEx(FIMD_COMMENTS, dib, buf, 1, FIDT_ASCII, comment_size, comment_size, comment.c_str());
 			}
