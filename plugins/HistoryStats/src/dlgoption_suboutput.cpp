@@ -178,7 +178,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 	};
 
 	m_SortKeyToIndex.resize(Settings::skLAST - Settings::skFIRST + 1);
-	m_IndexToSortKey.resize(array_len(sortKeys));
+	m_IndexToSortKey.resize(_countof(sortKeys));
 
 	array_each_(i, sortKeys)
 	{

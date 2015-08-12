@@ -32,7 +32,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 			int nCurLink = 0;
 
 			if (!linkTexts.empty()) {
-				while (!linkTexts.empty() && nCurLink < array_len(LinkIDs)) {
+				while (!linkTexts.empty() && nCurLink < _countof(LinkIDs)) {
 					ext::string::size_type posTexts = linkTexts.rfind('|');
 					ext::string::size_type posURLs = linkURLs.rfind('|');
 
@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 
 			int nHeightAdd = 0;
 
-			while (nCurLink < array_len(LinkIDs)) {
+			while (nCurLink < _countof(LinkIDs)) {
 				HWND hLink = GetDlgItem(hDlg, LinkIDs[nCurLink]);
 				RECT rLink;
 
@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 		HWND hStatic = reinterpret_cast<HWND>(lParam);
 		TCHAR szClassName[64];
 
-		if (GetClassName(hStatic, szClassName, array_len(szClassName)) && ext::strfunc::cmp(szClassName, WC_EDIT) == 0) {
+		if (GetClassName(hStatic, szClassName, _countof(szClassName)) && ext::strfunc::cmp(szClassName, WC_EDIT) == 0) {
 			HDC hDC = reinterpret_cast<HDC>(wParam);
 
 			SetBkColor(hDC, GetSysColor(COLOR_WINDOW));
