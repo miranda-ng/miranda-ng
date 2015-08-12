@@ -268,7 +268,7 @@ public:
 	NETLIBHTTPREQUEST * Send(HANDLE hConnection)
 	{
 		if (url.Find("://") == -1)
-			url.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
+			url.Insert(0, ((flags & NLHRF_SSL) ? "https://" : "http://"));
 		szUrl = url.GetBuffer();
 
 		if (!pData) {
