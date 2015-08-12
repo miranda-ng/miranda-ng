@@ -452,7 +452,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	LONG iGroupId = jnItem["id"].as_int();
 	CMString tszId;
 	tszId.AppendFormat(_T("%d,"), iGroupId);
-	CMString tszIds = ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds"));
+	CMString tszIds(ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds")));
 
 	if (tszIds.Find(tszId, 0) != -1)
 		return NULL;
@@ -700,7 +700,7 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 
 		if (jnItems)
 			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-				CVKNewsItem *vkNotificationItem = GetVkGroupInvates((*it), vkUsers);
+				CVKNewsItem *vkNotificationItem = GetVkGroupInvates((*it), vkUsers);				
 				if (!vkNotificationItem)
 					continue;
 				if (vkNotification.find(vkNotificationItem) == NULL)			
