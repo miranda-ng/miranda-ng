@@ -173,6 +173,10 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 		return;
 	}
 
+	uint64_t filePos = _ftelli64(transfer->hFile);
+	if (filePos != position)
+		_fseeki64(transfer->hFile, position, SEEK_SET);
+
 	if (fwrite(data, sizeof(uint8_t), length, transfer->hFile) != length)
 	{
 		proto->debugLogA(__FUNCTION__": failed write to file (%d)", fileNumber);
