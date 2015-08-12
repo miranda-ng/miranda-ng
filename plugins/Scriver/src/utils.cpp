@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TTI_NONE 0
 #endif
 
-wchar_t *a2w(const char *src, int len)
+wchar_t* a2w(const char *src, int len)
 {
 	wchar_t *wline;
 	int i;
@@ -44,7 +44,8 @@ wchar_t *a2w(const char *src, int len)
 
 static int mimFlags = 0;
 
-enum MIMFLAGS {
+enum MIMFLAGS
+{
 	MIM_CHECKED = 1,
 	MIM_UNICODE = 2
 };
@@ -99,7 +100,7 @@ char* GetRichTextUtf(HWND hwnd)
 	int textBufferSize = GetRichTextLength(hwnd, CP_UTF8, TRUE);
 	if (textBufferSize == 0)
 		return NULL;
-		
+
 	textBufferSize++;
 	char *textBuffer = (char*)mir_alloc(textBufferSize);
 
@@ -117,7 +118,7 @@ int SetRichText(HWND hwnd, const TCHAR *text)
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
-	
+
 	return GetRichTextLength(hwnd, 1200, FALSE);
 }
 
@@ -127,7 +128,7 @@ int SetRichTextRTF(HWND hwnd, const char *text)
 	st.flags = ST_DEFAULT;
 	st.codepage = CP_UTF8;
 	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
-	
+
 	return GetRichTextLength(hwnd, 1200, FALSE);
 }
 
@@ -325,7 +326,7 @@ int DrawMenuItem(WPARAM, LPARAM lParam)
 			hiliteCol = GetSysColor(COLOR_3DHIGHLIGHT);
 			hBrush = CreateSolidBrush(RGB
 				((GetRValue(menuCol) + GetRValue(hiliteCol)) / 2, (GetGValue(menuCol) + GetGValue(hiliteCol)) / 2,
-				(GetBValue(menuCol) + GetBValue(hiliteCol)) / 2));
+					(GetBValue(menuCol) + GetBValue(hiliteCol)) / 2));
 			FillRect(dis->hDC, &rc, hBrush);
 			DeleteObject(hBrush);
 			ImageList_DrawEx((HIMAGELIST)dis->itemData, id, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND25);

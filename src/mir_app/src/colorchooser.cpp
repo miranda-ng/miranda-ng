@@ -274,7 +274,7 @@ void ColorChooser(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWN
 	
 	COLORCHOOSER *pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
 	pCC->hWndTarget = hwndTarget;
-	pCC->pModule = ci.MM_FindModule(si->pszModule);
+	pCC->pModule = chatApi.MM_FindModule(si->pszModule);
 	pCC->xPosition = rc.left + 3;
 	pCC->yPosition = IsWindowVisible(hwndChooser) ? rc.top - 1 : rc.top + 20;
 	pCC->bForeground = bFG;

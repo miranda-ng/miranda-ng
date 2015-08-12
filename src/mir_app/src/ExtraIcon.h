@@ -35,7 +35,7 @@ public:
 
 	virtual void rebuildIcons() = 0;
 	virtual void applyIcons();
-	virtual void applyIcon(MCONTACT hContact) =0 ;
+	virtual void applyIcon(MCONTACT hContact) = 0;
 	virtual void onClick(MCONTACT hContact) = 0;
 
 	virtual int  setIcon(int id, MCONTACT hContact, HANDLE icon) = 0;
@@ -57,13 +57,13 @@ public:
 
 	virtual int ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage) = 0;
 
-	int hLangpack;
+	int m_hLangpack;
 
 protected:
-	ptrA szName;
+	ptrA m_szName;
 
-	int slot;
-	int position;
+	int m_slot;
+	int m_position;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -88,11 +88,11 @@ public:
 	virtual int ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage);
 
 protected:
-	int id;
-	ptrT tszDescription;
-	ptrA szDescIcon;
-	MIRANDAHOOKPARAM OnClick;
-	LPARAM onClickParam;
+	int m_id;
+	ptrT m_tszDescription;
+	ptrA m_szDescIcon;
+	MIRANDAHOOKPARAM m_OnClick;
+	LPARAM m_onClickParam;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -114,10 +114,10 @@ public:
 	virtual int  setIconByName(int id, MCONTACT hContact, const char* icon);
 
 private:
-	int(*RebuildIcons)(WPARAM wParam, LPARAM lParam);
-	int(*ApplyIcon)(WPARAM wParam, LPARAM lParam);
+	int (*m_pfnRebuildIcons)(WPARAM wParam, LPARAM lParam);
+	int (*m_pfnApplyIcon)(WPARAM wParam, LPARAM lParam);
 
-	bool needToRebuild;
+	bool m_needToRebuild;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -165,14 +165,14 @@ public:
 	virtual int getPosition() const;
 	virtual void setSlot(int slot);
 
-	LIST<BaseExtraIcon> items;
+	LIST<BaseExtraIcon> m_items;
 
 	virtual int ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage);
 
 protected:
-	ptrT tszDescription;
-	bool setValidExtraIcon;
-	bool insideApply;
+	ptrT m_tszDescription;
+	bool m_setValidExtraIcon;
+	bool m_insideApply;
 
 	virtual ExtraIcon *getCurrentItem(MCONTACT hContact) const;
 };

@@ -151,12 +151,12 @@ static void LoadGroups(LIST<ExtraIconGroup> &groups)
 			if (extra == NULL)
 				continue;
 
-			group->items.insert(extra);
+			group->m_items.insert(extra);
 			if (extra->getSlot() >= 0)
 				group->setSlot(extra->getSlot());
 		}
 
-		if (group->items.getCount() < 2) {
+		if (group->m_items.getCount() < 2) {
 			delete group;
 			continue;
 		}
@@ -169,8 +169,8 @@ static ExtraIconGroup* IsInGroup(LIST<ExtraIconGroup> &groups, BaseExtraIcon *ex
 {
 	for (int i = 0; i < groups.getCount(); i++) {
 		ExtraIconGroup *group = groups[i];
-		for (int j = 0; j < group->items.getCount(); j++) {
-			if (extra == group->items[j])
+		for (int j = 0; j < group->m_items.getCount(); j++) {
+			if (extra == group->m_items[j])
 				return group;
 		}
 	}
@@ -194,8 +194,8 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 	for (int i=0; i < groups.getCount(); i++) {
 		ExtraIconGroup *group = groups[i];
 
-		for (int j = 0; j < group->items.getCount(); j++)
-			extraIconsByHandle.put(group->items[j]->getID()-1, group);
+		for (int j = 0; j < group->m_items.getCount(); j++)
+			extraIconsByHandle.put(group->m_items[j]->getID()-1, group);
 
 		extraIconsBySlot.insert(group);
 	}
@@ -209,13 +209,13 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack)
+MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 {
 	LIST<ExtraIcon> arDeleted(1);
 
 	for (int i=registeredExtraIcons.getCount()-1; i >= 0; i--) {
 		BaseExtraIcon *p = registeredExtraIcons[i];
-		if (p->hLangpack == hLangpack) {
+		if (p->m_hLangpack == _hLang) {
 			registeredExtraIcons.remove(i);
 			arDeleted.insert(p);
 		}
@@ -345,7 +345,7 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 ///////////////////////////////////////////////////////////////////////////////
 // Services
 
-static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int hLangpack)
+static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int _hLang)
 {
 	char setting[512];
 	mir_snprintf(setting, "Position_%s", name);
@@ -357,7 +357,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int hLangpack)
 		slot = -1;
 	extra->setSlot(slot);
 
-	extra->hLangpack = hLangpack;
+	extra->m_hLangpack = _hLang;
 
 	registeredExtraIcons.insert(extra);
 	extraIconsByHandle.insert(extra);
@@ -396,7 +396,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int hLangpack)
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon, 
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int hLangpack)
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int _hLang)
 {
 	// EXTRAICON_TYPE_CALLBACK 
 	if (IsEmpty(name) || IsEmpty(description))
@@ -410,22 +410,22 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 		return 0;
 
 	ptrT tszDesc(mir_a2t(description));
-	TCHAR *desc = TranslateTH(hLangpack, tszDesc);
+	TCHAR *desc = TranslateTH(_hLang, tszDesc);
 
 	int id = registeredExtraIcons.getCount() + 1;
 	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, hLangpack);
+	EI_PostCreate(extra, name, _hLang);
 	return (HANDLE)id;
 }
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int hLangpack)
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int _hLang)
 {
 	if (IsEmpty(name) || IsEmpty(description))
 		return 0;
 
 	ptrT tszDesc(mir_a2t(description));
-	TCHAR *desc = TranslateTH(hLangpack, tszDesc);
+	TCHAR *desc = TranslateTH(_hLang, tszDesc);
 
 	BaseExtraIcon *extra = GetExtraIconByName(name);
 	if (extra != NULL) {
@@ -458,7 +458,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 
 	int id = registeredExtraIcons.getCount() + 1;
 	extra = new IcolibExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, hLangpack);
+	EI_PostCreate(extra, name, _hLang);
 	return (HANDLE)id;
 }
 

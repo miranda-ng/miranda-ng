@@ -238,7 +238,7 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsT *fontsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterFontWorker(FontIDW *font_id, int hLangpack)
+static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 {
 	if (font_id->cbSize != sizeof(FontIDW) && font_id->cbSize != FontIDW_OLDSIZE)
 		return -1;
@@ -256,7 +256,7 @@ static int sttRegisterFontWorker(FontIDW *font_id, int hLangpack)
 	FontInternal* newItem = new FontInternal;
 	memset(newItem, 0, sizeof(FontInternal));
 	memcpy(newItem, font_id, font_id->cbSize);
-	newItem->hLangpack = hLangpack;
+	newItem->hLangpack = _hLang;
 
 	if (!mir_tstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 		LOGFONT lf;
@@ -325,10 +325,10 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleFonts(int hLangpack)
+MIR_APP_DLL(void) KillModuleFonts(int _hLang)
 {
 	for (int i = font_id_list.getCount() - 1; i >= 0; i--)
-		if (font_id_list[i].hLangpack == hLangpack)
+		if (font_id_list[i].hLangpack == _hLang)
 			font_id_list.remove(i);
 }
 
@@ -340,7 +340,7 @@ void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour)
 	*colour = (COLORREF)db_get_dw(NULL, colour_id->dbSettingsGroup, colour_id->setting, colour_id->defcolour);
 }
 
-static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int hLangpack)
+static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 {
 	if (colour_id->cbSize != sizeof(ColourIDW))
 		return -1;
@@ -354,7 +354,7 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int hLangpack)
 	ColourInternal* newItem = new ColourInternal;
 	memset(newItem, 0, sizeof(ColourInternal));
 	memcpy(newItem, colour_id, sizeof(ColourIDW));
-	newItem->hLangpack = hLangpack;
+	newItem->hLangpack = _hLang;
 	UpdateColourSettings(colour_id, &newItem->value);
 	colour_id_list.insert(newItem);
 	return 0;
@@ -400,10 +400,10 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleColours(int hLangpack)
+MIR_APP_DLL(void) KillModuleColours(int _hLang)
 {
 	for (int i = colour_id_list.getCount() - 1; i >= 0; i--)
-		if (colour_id_list[i].hLangpack == hLangpack)
+		if (colour_id_list[i].hLangpack == _hLang)
 			colour_id_list.remove(i);
 }
 
@@ -426,7 +426,7 @@ void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT *effectsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterEffect service
 
-static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int hLangpack)
+static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 {
 	if (effect_id->cbSize != sizeof(EffectIDW))
 		return -1;
@@ -440,7 +440,7 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int hLangpack)
 	EffectInternal* newItem = new EffectInternal;
 	memset(newItem, 0, sizeof(EffectInternal));
 	memcpy(newItem, effect_id, sizeof(EffectIDW));
-	newItem->hLangpack = hLangpack;
+	newItem->hLangpack = _hLang;
 	UpdateEffectSettings(effect_id, &newItem->value);
 	effect_id_list.insert(newItem);
 	return 0;
@@ -493,9 +493,9 @@ INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleEffects(int hLangpack)
+MIR_APP_DLL(void) KillModuleEffects(int _hLang)
 {
 	for (int i = effect_id_list.getCount() - 1; i >= 0; i--)
-		if (effect_id_list[i].hLangpack == hLangpack)
+		if (effect_id_list[i].hLangpack == _hLang)
 			effect_id_list.remove(i);
 }

@@ -26,32 +26,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WINDOWS_COMMANDS_MAX 30
 
-CHAT_MANAGER ci;
+CHAT_MANAGER chatApi;
 
 MODULEINFO *m_ModList = 0;
 
 static void SetActiveSessionEx(SESSION_INFO *si)
 {
 	if (si) {
-		replaceStrT(ci.szActiveWndID, si->ptszID);
-		replaceStr(ci.szActiveWndModule, si->pszModule);
+		replaceStrT(chatApi.szActiveWndID, si->ptszID);
+		replaceStr(chatApi.szActiveWndModule, si->pszModule);
 	}
 }
 
 static void SetActiveSession(const TCHAR *pszID, const char *pszModule)
 {
-	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
+	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
 	if (si)
 		SetActiveSessionEx(si);
 }
 
 static SESSION_INFO* GetActiveSession(void)
 {
-	SESSION_INFO *si = ci.SM_FindSession(ci.szActiveWndID, ci.szActiveWndModule);
+	SESSION_INFO *si = chatApi.SM_FindSession(chatApi.szActiveWndID, chatApi.szActiveWndModule);
 	if (si)
 		return si;
 
-	return ci.wndList;
+	return chatApi.wndList;
 }
 
 //---------------------------------------------------
@@ -69,13 +69,13 @@ static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
-	if (ci.wndList == NULL) { // list is empty
-		ci.wndList = node;
+	if (chatApi.wndList == NULL) { // list is empty
+		chatApi.wndList = node;
 		node->next = NULL;
 	}
 	else {
-		node->next = ci.wndList;
-		ci.wndList = node;
+		node->next = chatApi.wndList;
+		chatApi.wndList = node;
 	}
 	return node;
 }
@@ -85,15 +85,15 @@ static void SM_FreeSession(SESSION_INFO *si)
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
 	if (si->hContact && db_get_b(si->hContact, si->pszModule, "ChatRoom", 0) != 0) {
-		ci.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
+		chatApi.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 		db_unset(si->hContact, "CList", "StatusMsg");
 	}
 
-	ci.UM_RemoveAll(&si->pUsers);
-	ci.TM_RemoveAll(&si->pStatuses);
-	ci.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+	chatApi.UM_RemoveAll(&si->pUsers);
+	chatApi.TM_RemoveAll(&si->pStatuses);
+	chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 
 	si->iStatusCount = 0;
 	si->nUsersInNicklist = 0;
@@ -119,18 +119,18 @@ static int SM_RemoveSession(const TCHAR *pszID, const char *pszModule, BOOL remo
 	if (!pszModule)
 		return FALSE;
 
-	SESSION_INFO *pTemp = ci.wndList, *pLast = NULL;
+	SESSION_INFO *pTemp = chatApi.wndList, *pLast = NULL;
 	while (pTemp != NULL) {
 		// match
 		if ((!pszID && pTemp->iType != GCW_SERVER || !mir_tstrcmpi(pTemp->ptszID, pszID)) && !mir_strcmpi(pTemp->pszModule, pszModule)) {
 			DWORD dw = pTemp->dwItemData;
 
-			if (ci.OnRemoveSession)
-				ci.OnRemoveSession(pTemp);
+			if (chatApi.OnRemoveSession)
+				chatApi.OnRemoveSession(pTemp);
 			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)pTemp->dwItemData);
 
 			if (pLast == NULL)
-				ci.wndList = pTemp->next;
+				chatApi.wndList = pTemp->next;
 			else
 				pLast->next = pTemp->next;
 
@@ -146,7 +146,7 @@ static int SM_RemoveSession(const TCHAR *pszID, const char *pszModule, BOOL remo
 			if (pLast)
 				pTemp = pLast->next;
 			else
-				pTemp = ci.wndList;
+				pTemp = chatApi.wndList;
 		}
 		else {
 			pLast = pTemp;
@@ -161,7 +161,7 @@ static SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char *pszModule)
 	if (!pszID || !pszModule)
 		return NULL;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next)
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next)
 		if (!mir_tstrcmpi(si->ptszID, pszID) && !mir_strcmpi(si->pszModule, pszModule))
 			return si;
 
@@ -173,16 +173,16 @@ static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
 	if (!pszModule)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 		
-		ci.UM_RemoveAll(&si->pUsers);
+		chatApi.UM_RemoveAll(&si->pUsers);
 		si->nUsersInNicklist = 0;
 		if (si->iType != GCW_SERVER)
 			si->bInitDone = FALSE;
-		if (ci.OnOfflineSession)
-			ci.OnOfflineSession(si);
+		if (chatApi.OnOfflineSession)
+			chatApi.OnOfflineSession(si);
 		if (pszID)
 			return TRUE;
 	}
@@ -194,11 +194,11 @@ static BOOL SM_SetStatusEx(const TCHAR *pszID, const char *pszModule, const TCHA
 	if (!pszModule)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		ci.UM_SetStatusEx(si->pUsers, pszText, flags);
+		chatApi.UM_SetStatusEx(si->pUsers, pszText, flags);
 		if (si->hWnd)
 			RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 		if (pszID)
@@ -212,36 +212,36 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 	if (!ui || !si)
 		return NULL;
 
-	STATUSINFO *ti = ci.TM_FindStatus(si->pStatuses, ci.TM_WordToString(si->pStatuses, ui->Status));
+	STATUSINFO *ti = chatApi.TM_FindStatus(si->pStatuses, chatApi.TM_WordToString(si->pStatuses, ui->Status));
 	if (ti != NULL) {
 		if ((UINT_PTR)ti->hIcon >= STATUSICONCOUNT)
 			return ti->hIcon;
 
-		return ci.hIcons[ICON_STATUS0 + (int)ti->hIcon];
+		return chatApi.hIcons[ICON_STATUS0 + (int)ti->hIcon];
 	}
-	return ci.hIcons[ICON_STATUS0];
+	return chatApi.hIcons[ICON_STATUS0];
 }
 
 static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 {
 	int bManyFix = 0;
 
-	for (SESSION_INFO *p = ci.wndList; p != NULL; p = p->next) {
+	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
 		if (!p->bInitDone || mir_strcmpi(p->pszModule, gce->pDest->pszModule))
 			continue;
 
-		if (!ci.UM_FindUser(p->pUsers, gce->ptszUID))
+		if (!chatApi.UM_FindUser(p->pUsers, gce->ptszUID))
 			continue;
 
-		if (ci.OnEventBroadcast)
-			ci.OnEventBroadcast(p, gce);
+		if (chatApi.OnEventBroadcast)
+			chatApi.OnEventBroadcast(p, gce);
 
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-			ci.DoSoundsFlashPopupTrayStuff(p, gce, FALSE, bManyFix);
+			chatApi.DoSoundsFlashPopupTrayStuff(p, gce, FALSE, bManyFix);
 
 		bManyFix++;
 		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			ci.LogToFile(p, gce);
+			chatApi.LogToFile(p, gce);
 	}
 
 	return 0;
@@ -253,7 +253,7 @@ static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce,
 	if (p == NULL)
 		return TRUE;
 
-	LOGINFO *li = ci.LM_AddEvent(&p->pLog, &p->pLogEnd);
+	LOGINFO *li = chatApi.LM_AddEvent(&p->pLog, &p->pLogEnd);
 	p->iEventCount += 1;
 
 	li->iType = gce->pDest->iType;
@@ -267,7 +267,7 @@ static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce,
 	li->bIsHighlighted = bIsHighlighted;
 
 	if (g_Settings->iEventLimit > 0 && p->iEventCount > g_Settings->iEventLimit + 20) {
-		ci.LM_TrimLog(&p->pLog, &p->pLogEnd, p->iEventCount - g_Settings->iEventLimit);
+		chatApi.LM_TrimLog(&p->pLog, &p->pLogEnd, p->iEventCount - g_Settings->iEventLimit);
 		p->bTrimmed = true;
 		p->iEventCount = g_Settings->iEventLimit;
 		return FALSE;
@@ -281,10 +281,10 @@ static USERINFO* SM_AddUser(const TCHAR *pszID, const char *pszModule, const TCH
 	if (si == NULL)
 		return NULL;
 
-	USERINFO *p = ci.UM_AddUser(si->pStatuses, &si->pUsers, pszUID, pszNick, wStatus);
+	USERINFO *p = chatApi.UM_AddUser(si->pStatuses, &si->pUsers, pszUID, pszNick, wStatus);
 	si->nUsersInNicklist++;
-	if (ci.OnAddUser)
-		ci.OnAddUser(si, p);
+	if (chatApi.OnAddUser)
+		chatApi.OnAddUser(si, p);
 	return p;
 }
 
@@ -297,7 +297,7 @@ static BOOL SM_MoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR *
 	if (si == NULL)
 		return FALSE;
 
-	ci.UM_SortUser(&si->pUsers, pszUID);
+	chatApi.UM_SortUser(&si->pUsers, pszUID);
 	return TRUE;
 }
 
@@ -306,17 +306,17 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR
 	if (!pszModule || !pszUID)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO *ui = ci.UM_FindUser(si->pUsers, pszUID);
+		USERINFO *ui = chatApi.UM_FindUser(si->pUsers, pszUID);
 		if (ui) {
 			si->nUsersInNicklist--;
-			if (ci.OnRemoveUser)
-				ci.OnRemoveUser(si, ui);
+			if (chatApi.OnRemoveUser)
+				chatApi.OnRemoveUser(si, ui);
 
-			ci.UM_RemoveUser(&si->pUsers, pszUID);
+			chatApi.UM_RemoveUser(&si->pUsers, pszUID);
 
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
@@ -332,7 +332,7 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR
 static USERINFO* SM_GetUserFromIndex(const TCHAR *pszID, const char *pszModule, int index)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-	return (si == NULL) ? NULL : ci.UM_FindUserFromIndex(si->pUsers, index);
+	return (si == NULL) ? NULL : chatApi.UM_FindUserFromIndex(si->pUsers, index);
 }
 
 STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszStatus)
@@ -341,11 +341,11 @@ STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char *pszModule, const TCHAR 
 	if (si == NULL)
 		return NULL;
 
-	STATUSINFO *ti = ci.TM_AddStatus(&si->pStatuses, pszStatus, &si->iStatusCount);
+	STATUSINFO *ti = chatApi.TM_AddStatus(&si->pStatuses, pszStatus, &si->iStatusCount);
 	if (ti)
 		si->iStatusCount++;
-	if (ci.OnAddStatus)
-		ci.OnAddStatus(si, ti);
+	if (chatApi.OnAddStatus)
+		chatApi.OnAddStatus(si, ti);
 	return ti;
 }
 
@@ -355,7 +355,7 @@ static BOOL SM_GiveStatus(const TCHAR *pszID, const char *pszModule, const TCHAR
 	if (si == NULL)
 		return FALSE;
 	
-	USERINFO *ui = ci.UM_GiveStatus(si->pUsers, pszUID, ci.TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = chatApi.UM_GiveStatus(si->pUsers, pszUID, chatApi.TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->hWnd)
@@ -370,7 +370,7 @@ static BOOL SM_SetContactStatus(const TCHAR *pszID, const char *pszModule, const
 	if (si == NULL)
 		return FALSE;
 
-	USERINFO *ui = ci.UM_SetContactStatus(si->pUsers, pszUID, wStatus);
+	USERINFO *ui = chatApi.UM_SetContactStatus(si->pUsers, pszUID, wStatus);
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->hWnd)
@@ -385,7 +385,7 @@ static BOOL SM_TakeStatus(const TCHAR *pszID, const char *pszModule, const TCHAR
 	if (si == NULL)
 		return FALSE;
 
-	USERINFO *ui = ci.UM_TakeStatus(si->pUsers, pszUID, ci.TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = chatApi.UM_TakeStatus(si->pUsers, pszUID, chatApi.TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->hWnd)
@@ -399,7 +399,7 @@ static LRESULT SM_SendMessage(const TCHAR *pszID, const char *pszModule, UINT ms
 	if (pszModule == NULL)
 		return 0;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -427,7 +427,7 @@ static BOOL SM_PostMessage(const TCHAR *pszID, const char *pszModule, UINT msg, 
 
 static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync)
 {
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if (pszModule && _strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -446,7 +446,7 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char *pszModule, int wStatus)
 	if (!pszModule)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -458,8 +458,8 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char *pszModule, int wStatus)
 			db_set_w(si->hContact, si->pszModule, "Status", (WORD)wStatus);
 		}
 
-		if (ci.OnSetStatus)
-			ci.OnSetStatus(si, wStatus);
+		if (chatApi.OnSetStatus)
+			chatApi.OnSetStatus(si, wStatus);
 
 		if (pszID)
 			return TRUE;
@@ -472,7 +472,7 @@ static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const 
 	if (!pszModule || !pszText)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -489,11 +489,11 @@ static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR 
 	if (!pszModule)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
-		USERINFO* ui = ci.UM_FindUser(si->pUsers, pszUID);
+		USERINFO* ui = chatApi.UM_FindUser(si->pUsers, pszUID);
 		if (ui)
 			replaceStrT(ui->pszUID, pszNewUID);
 		if (pszID)
@@ -507,16 +507,16 @@ static BOOL SM_ChangeNick(const TCHAR *pszID, const char *pszModule, GCEVENT *gc
 	if (!pszModule)
 		return FALSE;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if ((!pszID || !mir_tstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = ci.UM_FindUser(si->pUsers, gce->ptszUID);
+			USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 			if (ui) {
 				replaceStrT(ui->pszNick, gce->ptszText);
 				SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 				if (si->hWnd)
 					SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-				if (ci.OnChangeNick)
-					ci.OnChangeNick(si);
+				if (chatApi.OnChangeNick)
+					chatApi.OnChangeNick(si);
 			}
 
 			if (pszID)
@@ -528,7 +528,7 @@ static BOOL SM_ChangeNick(const TCHAR *pszID, const char *pszModule, GCEVENT *gc
 
 static BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd)
 {
-	for (SESSION_INFO *p = ci.wndList; p != NULL; p = p->next) {
+	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
 		if (si && si == p)
 			p->hWnd = hwnd;
 		else
@@ -539,17 +539,17 @@ static BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd)
 
 static BOOL SM_RemoveAll(void)
 {
-	while (ci.wndList) {
-		SESSION_INFO *pLast = ci.wndList->next;
+	while (chatApi.wndList) {
+		SESSION_INFO *pLast = chatApi.wndList->next;
 
-		if (ci.wndList->hWnd)
-			SendMessage(ci.wndList->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
-		DoEventHook(ci.wndList->ptszID, ci.wndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)ci.wndList->dwItemData);
+		if (chatApi.wndList->hWnd)
+			SendMessage(chatApi.wndList->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
+		DoEventHook(chatApi.wndList->ptszID, chatApi.wndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)chatApi.wndList->dwItemData);
 
-		SM_FreeSession(ci.wndList);
-		ci.wndList = pLast;
+		SM_FreeSession(chatApi.wndList);
+		chatApi.wndList = pLast;
 	}
-	ci.wndList = NULL;
+	chatApi.wndList = NULL;
 	return TRUE;
 }
 
@@ -625,7 +625,7 @@ static int SM_GetCount(const char *pszModule)
 {
 	int count = 0;
 
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next)
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next)
 		if (!mir_strcmpi(pszModule, si->pszModule))
 			count++;
 
@@ -635,7 +635,7 @@ static int SM_GetCount(const char *pszModule)
 static SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 {
 	int count = 0;
-	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
+	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next) {
 		if (!mir_strcmpi(pszModule, si->pszModule)) {
 			if (iItem == count)
 				return si;
@@ -653,7 +653,7 @@ static char* SM_GetUsers(SESSION_INFO *si)
 		return NULL;
 
 	USERINFO *utemp = NULL;
-	for (SESSION_INFO *p = ci.wndList; p != NULL; p = p->next) {
+	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
 		if (si == p) {
 			if ((utemp = p->pUsers) == NULL)
 				return NULL;
@@ -681,7 +681,7 @@ static char* SM_GetUsers(SESSION_INFO *si)
 
 static void SM_InvalidateLogDirectories()
 {
-	for (SESSION_INFO *si = ci.wndList; si; si = si->next)
+	for (SESSION_INFO *si = chatApi.wndList; si; si = si->next)
 		si->pszLogFileName[0] = si->pszLogFileName[1] = 0;
 }
 
@@ -697,13 +697,13 @@ static MODULEINFO* MM_AddModule(const char *pszModule)
 	if (pszModule == NULL)
 		return NULL;
 
-	if (ci.MM_FindModule(pszModule))
+	if (chatApi.MM_FindModule(pszModule))
 		return NULL;
 
 	MODULEINFO *node = (MODULEINFO*)mir_calloc(g_cbModuleInfo);
 	replaceStr(node->pszModule, pszModule);
-	if (ci.OnCreateModule)
-		ci.OnCreateModule(node);
+	if (chatApi.OnCreateModule)
+		chatApi.OnCreateModule(node);
 
 	if (m_ModList == NULL) { // list is empty
 		m_ModList = node;
@@ -726,15 +726,15 @@ static void MM_IconsChanged()
 		Safe_DestroyIcon(mi->hOnlineTalkIcon);
 		Safe_DestroyIcon(mi->hOfflineTalkIcon);
 
-		if (ci.OnCreateModule) // recreate icons
-			ci.OnCreateModule(mi);
+		if (chatApi.OnCreateModule) // recreate icons
+			chatApi.OnCreateModule(mi);
 	}
 }
 
 static void MM_FontsChanged()
 {
 	for (MODULEINFO *mi = m_ModList; mi != NULL; mi = mi->next)
-		mi->pszHeader = ci.Log_CreateRtfHeader(mi);
+		mi->pszHeader = chatApi.Log_CreateRtfHeader(mi);
 }
 
 static MODULEINFO* MM_FindModule(const char *pszModule)
@@ -789,7 +789,7 @@ static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const TCHAR *pszStatu
 	if (!ppStatusList || !pszStatus)
 		return NULL;
 
-	if (!ci.TM_FindStatus(*ppStatusList, pszStatus)) {
+	if (!chatApi.TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_alloc(sizeof(STATUSINFO));
 		memset(node, 0, sizeof(STATUSINFO));
 		replaceStrT(node->pszGroup, pszStatus);
@@ -921,7 +921,7 @@ static USERINFO* UM_SortUser(USERINFO **ppUserList, const TCHAR *pszUID)
 
 	pLast = NULL;
 
-	while (ui && ci.UM_CompareItem(ui, node->pszNick, node->Status) <= 0) {
+	while (ui && chatApi.UM_CompareItem(ui, node->pszNick, node->Status) <= 0) {
 		pLast = ui;
 		ui = ui->next;
 	}
@@ -950,7 +950,7 @@ USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const TCHAR
 		return NULL;
 
 	USERINFO *ui = *ppUserList, *pLast = NULL;
-	while (ui && ci.UM_CompareItem(ui, pszNick, wStatus) <= 0) {
+	while (ui && chatApi.UM_CompareItem(ui, pszNick, wStatus) <= 0) {
 		pLast = ui;
 		ui = ui->next;
 	}
@@ -1179,21 +1179,21 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == NULL)
-		return (INT_PTR)&ci;
+		return (INT_PTR)&chatApi;
 
 	// wipe out old junk
-	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
+	memset(PBYTE(&chatApi) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
 
 	CHAT_MANAGER_INITDATA *pInit = (CHAT_MANAGER_INITDATA*)lParam;
 	if (g_cbSession) { // reallocate old sessions
 		mir_cslock lck(cs);
 		SESSION_INFO *pPrev = NULL;
-		for (SESSION_INFO *p = ci.wndList; p; p = p->next) {
+		for (SESSION_INFO *p = chatApi.wndList; p; p = p->next) {
 			SESSION_INFO *p1 = (SESSION_INFO*)mir_realloc(p, pInit->cbSession);
 			memset(PBYTE(p1) + sizeof(GCSessionInfoBase), 0, pInit->cbSession - sizeof(GCSessionInfoBase));
 			if (p1 != p) { // realloc could change a pointer, reinsert a structure
-				if (ci.wndList == p)
-					ci.wndList = p1;
+				if (chatApi.wndList == p)
+					chatApi.wndList = p1;
 				if (pPrev != NULL)
 					pPrev->next = p1;
 				p = p1;
@@ -1224,105 +1224,105 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	g_iFontMode = pInit->iFontMode;
 	g_iChatLang = (int)wParam;
 
-	ci.SetActiveSession = SetActiveSession;
-	ci.SetActiveSessionEx = SetActiveSessionEx;
-	ci.GetActiveSession = GetActiveSession;
-	ci.SM_AddSession = SM_AddSession;
-	ci.SM_RemoveSession = SM_RemoveSession;
-	ci.SM_FindSession = SM_FindSession;
-	ci.SM_AddUser = SM_AddUser;
-	ci.SM_ChangeUID = SM_ChangeUID;
-	ci.SM_ChangeNick = SM_ChangeNick;
-	ci.SM_RemoveUser = SM_RemoveUser;
-	ci.SM_SetOffline = SM_SetOffline;
-	ci.SM_SetTabbedWindowHwnd = SM_SetTabbedWindowHwnd;
-	ci.SM_GetStatusIcon = SM_GetStatusIcon;
-	ci.SM_SetStatus = SM_SetStatus;
-	ci.SM_SetStatusEx = SM_SetStatusEx;
-	ci.SM_SendUserMessage = SM_SendUserMessage;
-	ci.SM_AddStatus = SM_AddStatus;
-	ci.SM_AddEventToAllMatchingUID = SM_AddEventToAllMatchingUID;
-	ci.SM_AddEvent = SM_AddEvent;
-	ci.SM_SendMessage = SM_SendMessage;
-	ci.SM_PostMessage = SM_PostMessage;
-	ci.SM_BroadcastMessage = SM_BroadcastMessage;
-	ci.SM_RemoveAll = SM_RemoveAll;
-	ci.SM_GiveStatus = SM_GiveStatus;
-	ci.SM_SetContactStatus = SM_SetContactStatus;
-	ci.SM_TakeStatus = SM_TakeStatus;
-	ci.SM_MoveUser = SM_MoveUser;
-	ci.SM_AddCommand = SM_AddCommand;
-	ci.SM_GetPrevCommand = SM_GetPrevCommand;
-	ci.SM_GetNextCommand = SM_GetNextCommand;
-	ci.SM_GetCount = SM_GetCount;
-	ci.SM_FindSessionByIndex = SM_FindSessionByIndex;
-	ci.SM_GetUsers = SM_GetUsers;
-	ci.SM_GetUserFromIndex = SM_GetUserFromIndex;
-	ci.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
+	chatApi.SetActiveSession = SetActiveSession;
+	chatApi.SetActiveSessionEx = SetActiveSessionEx;
+	chatApi.GetActiveSession = GetActiveSession;
+	chatApi.SM_AddSession = SM_AddSession;
+	chatApi.SM_RemoveSession = SM_RemoveSession;
+	chatApi.SM_FindSession = SM_FindSession;
+	chatApi.SM_AddUser = SM_AddUser;
+	chatApi.SM_ChangeUID = SM_ChangeUID;
+	chatApi.SM_ChangeNick = SM_ChangeNick;
+	chatApi.SM_RemoveUser = SM_RemoveUser;
+	chatApi.SM_SetOffline = SM_SetOffline;
+	chatApi.SM_SetTabbedWindowHwnd = SM_SetTabbedWindowHwnd;
+	chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
+	chatApi.SM_SetStatus = SM_SetStatus;
+	chatApi.SM_SetStatusEx = SM_SetStatusEx;
+	chatApi.SM_SendUserMessage = SM_SendUserMessage;
+	chatApi.SM_AddStatus = SM_AddStatus;
+	chatApi.SM_AddEventToAllMatchingUID = SM_AddEventToAllMatchingUID;
+	chatApi.SM_AddEvent = SM_AddEvent;
+	chatApi.SM_SendMessage = SM_SendMessage;
+	chatApi.SM_PostMessage = SM_PostMessage;
+	chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
+	chatApi.SM_RemoveAll = SM_RemoveAll;
+	chatApi.SM_GiveStatus = SM_GiveStatus;
+	chatApi.SM_SetContactStatus = SM_SetContactStatus;
+	chatApi.SM_TakeStatus = SM_TakeStatus;
+	chatApi.SM_MoveUser = SM_MoveUser;
+	chatApi.SM_AddCommand = SM_AddCommand;
+	chatApi.SM_GetPrevCommand = SM_GetPrevCommand;
+	chatApi.SM_GetNextCommand = SM_GetNextCommand;
+	chatApi.SM_GetCount = SM_GetCount;
+	chatApi.SM_FindSessionByIndex = SM_FindSessionByIndex;
+	chatApi.SM_GetUsers = SM_GetUsers;
+	chatApi.SM_GetUserFromIndex = SM_GetUserFromIndex;
+	chatApi.SM_InvalidateLogDirectories = SM_InvalidateLogDirectories;
 
-	ci.MM_AddModule = MM_AddModule;
-	ci.MM_FindModule = MM_FindModule;
-	ci.MM_FixColors = MM_FixColors;
-	ci.MM_FontsChanged = MM_FontsChanged;
-	ci.MM_IconsChanged = MM_IconsChanged;
-	ci.MM_RemoveAll = MM_RemoveAll;
+	chatApi.MM_AddModule = MM_AddModule;
+	chatApi.MM_FindModule = MM_FindModule;
+	chatApi.MM_FixColors = MM_FixColors;
+	chatApi.MM_FontsChanged = MM_FontsChanged;
+	chatApi.MM_IconsChanged = MM_IconsChanged;
+	chatApi.MM_RemoveAll = MM_RemoveAll;
 
-	ci.TM_AddStatus = TM_AddStatus;
-	ci.TM_FindStatus = TM_FindStatus;
-	ci.TM_StringToWord = TM_StringToWord;
-	ci.TM_WordToString = TM_WordToString;
-	ci.TM_RemoveAll = TM_RemoveAll;
+	chatApi.TM_AddStatus = TM_AddStatus;
+	chatApi.TM_FindStatus = TM_FindStatus;
+	chatApi.TM_StringToWord = TM_StringToWord;
+	chatApi.TM_WordToString = TM_WordToString;
+	chatApi.TM_RemoveAll = TM_RemoveAll;
 
-	ci.UM_SetStatusEx = UM_SetStatusEx;
-	ci.UM_AddUser = UM_AddUser;
-	ci.UM_SortUser = UM_SortUser;
-	ci.UM_FindUser = UM_FindUser;
-	ci.UM_FindUserFromIndex = UM_FindUserFromIndex;
-	ci.UM_GiveStatus = UM_GiveStatus;
-	ci.UM_SetContactStatus = UM_SetContactStatus;
-	ci.UM_TakeStatus = UM_TakeStatus;
-	ci.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
-	ci.UM_RemoveUser = UM_RemoveUser;
-	ci.UM_RemoveAll = UM_RemoveAll;
-	ci.UM_CompareItem = UM_CompareItem;
+	chatApi.UM_SetStatusEx = UM_SetStatusEx;
+	chatApi.UM_AddUser = UM_AddUser;
+	chatApi.UM_SortUser = UM_SortUser;
+	chatApi.UM_FindUser = UM_FindUser;
+	chatApi.UM_FindUserFromIndex = UM_FindUserFromIndex;
+	chatApi.UM_GiveStatus = UM_GiveStatus;
+	chatApi.UM_SetContactStatus = UM_SetContactStatus;
+	chatApi.UM_TakeStatus = UM_TakeStatus;
+	chatApi.UM_FindUserAutoComplete = UM_FindUserAutoComplete;
+	chatApi.UM_RemoveUser = UM_RemoveUser;
+	chatApi.UM_RemoveAll = UM_RemoveAll;
+	chatApi.UM_CompareItem = UM_CompareItem;
 
-	ci.LM_AddEvent = LM_AddEvent;
-	ci.LM_TrimLog = LM_TrimLog;
-	ci.LM_RemoveAll = LM_RemoveAll;
+	chatApi.LM_AddEvent = LM_AddEvent;
+	chatApi.LM_TrimLog = LM_TrimLog;
+	chatApi.LM_RemoveAll = LM_RemoveAll;
 
-	ci.AddRoom = AddRoom;
-	ci.SetOffline = SetOffline;
-	ci.SetAllOffline = SetAllOffline;
-	ci.AddEvent = AddEvent;
-	ci.FindRoom = FindRoom;
-	ci.DoRtfToTags = DoRtfToTags;
+	chatApi.AddRoom = AddRoom;
+	chatApi.SetOffline = SetOffline;
+	chatApi.SetAllOffline = SetAllOffline;
+	chatApi.AddEvent = AddEvent;
+	chatApi.FindRoom = FindRoom;
+	chatApi.DoRtfToTags = DoRtfToTags;
 
-	ci.Log_CreateRTF = Log_CreateRTF;
-	ci.Log_CreateRtfHeader = Log_CreateRtfHeader;
-	ci.LoadMsgDlgFont = LoadMsgDlgFont;
-	ci.MakeTimeStamp = MakeTimeStamp;
+	chatApi.Log_CreateRTF = Log_CreateRTF;
+	chatApi.Log_CreateRtfHeader = Log_CreateRtfHeader;
+	chatApi.LoadMsgDlgFont = LoadMsgDlgFont;
+	chatApi.MakeTimeStamp = MakeTimeStamp;
 
-	ci.DoEventHook = DoEventHook;
-	ci.DoEventHookAsync = DoEventHookAsync;
+	chatApi.DoEventHook = DoEventHook;
+	chatApi.DoEventHookAsync = DoEventHookAsync;
 
-	ci.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
-	ci.DoTrayIcon = DoTrayIcon;
-	ci.DoPopup = DoPopup;
-	ci.ShowPopup = ShowPopup;
-	ci.LogToFile = LogToFile;
-	ci.GetChatLogsFilename = GetChatLogsFilename;
-	ci.GetColorIndex = GetColorIndex;
-	ci.Log_SetStyle = Log_SetStyle;
+	chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
+	chatApi.DoTrayIcon = DoTrayIcon;
+	chatApi.DoPopup = DoPopup;
+	chatApi.ShowPopup = ShowPopup;
+	chatApi.LogToFile = LogToFile;
+	chatApi.GetChatLogsFilename = GetChatLogsFilename;
+	chatApi.GetColorIndex = GetColorIndex;
+	chatApi.Log_SetStyle = Log_SetStyle;
 
-	ci.IsHighlighted = IsHighlighted;
-	ci.RemoveFormatting = RemoveFormatting;
-	ci.ReloadSettings = LoadGlobalSettings;
-	ci.ColorChooser = ColorChooser;
+	chatApi.IsHighlighted = IsHighlighted;
+	chatApi.RemoveFormatting = RemoveFormatting;
+	chatApi.ReloadSettings = LoadGlobalSettings;
+	chatApi.ColorChooser = ColorChooser;
 
-	ci.pLogIconBmpBits = pLogIconBmpBits;
-	ci.logIconBmpSize = logIconBmpSize;
+	chatApi.pLogIconBmpBits = pLogIconBmpBits;
+	chatApi.logIconBmpSize = logIconBmpSize;
 
 	RegisterFonts();
 	OptionsInit();
-	return (INT_PTR)&ci;
+	return (INT_PTR)&chatApi;
 }

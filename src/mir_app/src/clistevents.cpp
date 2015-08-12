@@ -209,7 +209,7 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	//count same protocoled events
 	int nSameProto = 0;
 	char *szEventProto;
-	for (int i = 0; i < cli.events.count; i++) {
+	for (i = 0; i < cli.events.count; i++) {
 		if (cli.events.items[i]->cle.hContact)
 			szEventProto = GetContactProto((cli.events.items[i]->cle.hContact));
 		else if (cli.events.items[i]->cle.flags & CLEF_PROTOCOLGLOBAL)

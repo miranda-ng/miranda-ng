@@ -24,9 +24,12 @@ Boston, MA 02111-1307, USA.
 #include "extraicons.h"
 
 BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
-	ExtraIcon(name), id(id), OnClick(OnClick), onClickParam(param),
-	tszDescription(mir_tstrdup(description)),
-	szDescIcon(mir_strdup(descIcon))
+	ExtraIcon(name),
+	m_id(id),
+	m_OnClick(OnClick),
+	m_onClickParam(param),
+	m_tszDescription(mir_tstrdup(description)),
+	m_szDescIcon(mir_strdup(descIcon))
 {
 }
 
@@ -36,45 +39,45 @@ BaseExtraIcon::~BaseExtraIcon()
 
 void BaseExtraIcon::setOnClick(MIRANDAHOOKPARAM pFunc, LPARAM pParam)
 {
-	OnClick = pFunc;
-	onClickParam = pParam;
+	m_OnClick = pFunc;
+	m_onClickParam = pParam;
 }
 
 int BaseExtraIcon::getID() const
 {
-	return id;
+	return m_id;
 }
 
 const TCHAR* BaseExtraIcon::getDescription() const
 {
-	return tszDescription;
+	return m_tszDescription;
 }
 
 void BaseExtraIcon::setDescription(const TCHAR *desc)
 {
-	tszDescription = mir_tstrdup(desc);
+	m_tszDescription = mir_tstrdup(desc);
 }
 
 const char* BaseExtraIcon::getDescIcon() const
 {
-	return szDescIcon;
+	return m_szDescIcon;
 }
 
 void BaseExtraIcon::setDescIcon(const char *icon)
 {
-	szDescIcon = mir_strdup(icon);
+	m_szDescIcon = mir_strdup(icon);
 }
 
 void BaseExtraIcon::onClick(MCONTACT hContact)
 {
-	if (OnClick != NULL)
-		OnClick(hContact, (LPARAM)ConvertToClistSlot(slot), onClickParam);
+	if (m_OnClick != NULL)
+		m_OnClick(hContact, (LPARAM)ConvertToClistSlot(m_slot), m_onClickParam);
 }
 
 int BaseExtraIcon::ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage)
 {
-	ExtraIcon *tmp = extraIconsByHandle[id - 1];
+	ExtraIcon *tmp = extraIconsByHandle[m_id - 1];
 	if (tmp != this)
 		return tmp->ClistSetExtraIcon(hContact, hImage);
-	return Clist_SetExtraIcon(hContact, slot, hImage);
+	return Clist_SetExtraIcon(hContact, m_slot, hImage);
 }
