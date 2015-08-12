@@ -526,7 +526,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (reply->resultCode == 200) {
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-		if (!jnResponse.isnull()) {
+		if (jnResponse) {
 			int iRet = jnResponse.as_int();
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {

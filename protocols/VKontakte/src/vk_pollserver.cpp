@@ -204,7 +204,7 @@ int CVkProto::PollServer()
 	if (reply->resultCode == 200) {
 		JSONNode jnRoot = JSONNode::parse(reply->pData);
 		const JSONNode &jnFailed = jnRoot["failed"];
-		if (!jnFailed.isnull() && jnFailed.as_int() > 1) {
+		if (jnFailed && jnFailed.as_int() > 1) {
 			RetrievePollingInfo();
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
@@ -214,7 +214,7 @@ int CVkProto::PollServer()
 			itoa(jnRoot["ts"].as_int(), ts, 10);
 			m_pollingTs = mir_strdup(ts);
 			const JSONNode &jnUpdates = jnRoot["updates"];
-			if (!jnUpdates.isnull())
+			if (jnUpdates)
 				PollUpdates(jnUpdates);
 			retVal = 1;
 		}
