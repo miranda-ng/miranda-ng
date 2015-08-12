@@ -353,7 +353,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void AddFeedEvent(CMString& tszBody, time_t tTime);
 	
 	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
-	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);	
+	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);
 		
 	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
@@ -384,7 +384,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	bool CheckMid(LIST<void> &lList, int guid);
 		
-	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);	
+	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -591,7 +591,8 @@ private:
 		m_bUseBBCOnAttacmentsAsNews,
 		m_bUseNonStandardUrlEncode,
 		m_bSetBroadcast,
-		m_bShortenLinksForAudio;
+		m_bShortenLinksForAudio,
+		m_bSplitFormatFwdMsg;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 

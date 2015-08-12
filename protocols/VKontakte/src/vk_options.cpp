@@ -384,7 +384,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_N_LIKES, ppro->m_bNotificationFilterLikes ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_N_REPOSTS, ppro->m_bNotificationFilterReposts ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_N_MENTIONS, ppro->m_bNotificationFilterMentions ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_N_INVITES, ppro->m_bNotificationFilterInvites ? BST_CHECKED : BST_UNCHECKED);	
+		CheckDlgButton(hwndDlg, IDC_N_INVITES, ppro->m_bNotificationFilterInvites ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETPOS, 0, ppro->m_iNewsInterval);
@@ -546,7 +546,7 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		CheckDlgButton(hwndDlg, IDC_ATTBBC_ADV, (ppro->m_iBBCForAttachments == bbcAdvanced) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOTEN_LINKS_FOR_AUDIO, ppro->m_bShortenLinksForAudio ? BST_CHECKED : BST_UNCHECKED);	
+		CheckDlgButton(hwndDlg, IDC_SHOTEN_LINKS_FOR_AUDIO, ppro->m_bShortenLinksForAudio ? BST_CHECKED : BST_UNCHECKED);
 
 		return TRUE;
 
@@ -572,7 +572,7 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {					
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_OFF) == BST_CHECKED)
 				ppro->m_iIMGBBCSupport = imgNo;
 			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_FULLSIZE) == BST_CHECKED)
@@ -588,7 +588,7 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_BASIC) == BST_CHECKED)
 				ppro->m_iBBCForNews = bbcBasic;
 			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_ADV) == BST_CHECKED)
-				ppro->m_iBBCForNews = bbcAdvanced;	
+				ppro->m_iBBCForNews = bbcAdvanced;
 			ppro->setByte("BBCForNews", ppro->m_iBBCForNews);
 
 			ppro->m_bUseBBCOnAttacmentsAsNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_ATT_NEWS) == BST_CHECKED;
