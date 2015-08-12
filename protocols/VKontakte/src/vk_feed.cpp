@@ -98,7 +98,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 	
 	const JSONNode &jnProfiles = jnResponse["profiles"];
 	
-	if (!jnProfiles.isnull())
+	if (jnProfiles)
 		for (auto it = jnProfiles.begin(); it != jnProfiles.end(); ++it) {
 			const JSONNode &jnProfile = (*it);
 			if (!jnProfile["id"])
@@ -118,7 +118,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 		}
 	
 	const JSONNode &jnGroups = jnResponse["groups"];
-	if (!jnGroups.isnull())		
+	if (jnGroups)		
 		for (auto it = jnGroups.begin(); it != jnGroups.end(); ++it) {
 			const JSONNode &jnProfile = (*it);
 			if (!jnProfile["id"])
@@ -142,7 +142,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	if (!jnItem)
 		return vkNewsItem;
 
-	LONG iSourceId = jnItem["source_id"].isnull() ? jnItem["owner_id"].as_int() : jnItem["source_id"].as_int();
+	LONG iSourceId = !jnItem["source_id"] ? jnItem["owner_id"].as_int() : jnItem["source_id"].as_int();
 	LONG iPostId = jnItem["post_id"].as_int();
 	CMString tszText(jnItem["text"].as_mstring());
 
@@ -159,9 +159,9 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	if (vkNewsItem->tszType == _T("photo_tag")) {
 		bPostLink = false;
 		const JSONNode &jnPhotos = jnItem["photo_tags"];
-		if (!jnPhotos.isnull()) {
+		if (jnPhotos) {			
 			const JSONNode &jnPhotoItems = jnPhotos["items"];
-			if (!jnPhotoItems.isnull()) {
+			if (jnPhotoItems) {				
 				tszText = TranslateT("User was tagged in these photos:");
 				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it)
 					tszText += _T("\n") + GetVkPhotoItem((*it), m_iBBCForNews);
@@ -172,14 +172,14 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		bPostLink = false;
 		const JSONNode &jnPhotos = jnItem["photos"];
 		int i = 0;
-		if (!jnPhotos.isnull()) {
+		if (jnPhotos) {
 			const JSONNode &jnPhotoItems = jnPhotos["items"];
-			if (!jnPhotoItems.isnull())
+			if (jnPhotoItems)
 				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it) {
 					const JSONNode &jnPhotoItem = (*it);
 					tszText += GetVkPhotoItem(jnPhotoItem, m_iBBCForNews) + _T("\n");
 					if (i == 0 && vkNewsItem->tszType == _T("wall_photo")) {
-						if (!jnPhotoItem["post_id"].isnull()) {
+						if (jnPhotoItem["post_id"]) {
 							bPostLink = true;
 							iPostId = jnPhotoItem["post_id"].as_int();
 							break; // max 1 wall_photo when photo post_id !=0
@@ -192,7 +192,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	else if (vkNewsItem->tszType == _T("post") || vkNewsItem->tszType.IsEmpty()) {
 		bPostLink = true;
 		const JSONNode &jnRepost = jnItem["copy_history"];
-		if (!jnRepost.isnull()) {
+		if (jnRepost) {
 			CVKNewsItem *vkRepost = GetVkNewsItem((*jnRepost.begin()), vkUsers, true);
 			vkRepost->tszText.Replace(_T("\n"), _T("\n\t"));
 			tszText += vkRepost->tszText;
@@ -202,7 +202,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		}
 
 		const JSONNode &jnAttachments = jnItem["attachments"];
-		if (!jnAttachments.isnull()) {
+		if (jnAttachments) {
 			if (!tszText.IsEmpty())
 				tszText.AppendChar(_T('\n'));
 			tszText += GetAttachmentDescr(jnAttachments, m_bUseBBCOnAttacmentsAsNews ? m_iBBCForNews : m_iBBCForAttachments);
@@ -364,13 +364,13 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		ClearFormatNick(tszText);
 
 		const JSONNode &jnPhoto = jnParent["photo"];
-		if (!jnPhoto.isnull()) {
+		if (jnPhoto) {
 			delete vkNotificationItem;
 			return GetVkParent(jnPhoto, vkPhoto, tszText);
 		}
 
 		const JSONNode &jnVideo = jnParent["video"];
-		if (!jnVideo.isnull()) {
+		if (jnVideo) {
 			delete vkNotificationItem;
 			return GetVkParent(jnVideo, vkVideo, tszText);
 		}
@@ -378,7 +378,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		LONG iId = jnParent["id"].as_int();
 
 		const JSONNode &jnPost = jnParent["post"];
-		if (!jnPost.isnull()) {
+		if (jnPost) {
 			CMString tszRepl;
 			tszRepl.AppendFormat(_T("?reply=%d"), iId);
 			delete vkNotificationItem;
@@ -386,7 +386,7 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 		}
 
 		const JSONNode &jnTopic = jnParent["topic"];
-		if (!jnTopic.isnull()) {
+		if (jnTopic) {
 			CMString tszRepl;
 			tszRepl.AppendFormat(_T("?reply=%d"), iId);
 			delete vkNotificationItem;
@@ -575,7 +575,7 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 	const JSONNode &jnItems = jnResponse["items"];
 
 	OBJLIST<CVKNewsItem> vkNews(5, sttCompareVKNewsItems);
-	if (!jnItems.isnull())
+	if (jnItems)
 		for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 			CVKNewsItem *vkNewsItem = GetVkNewsItem((*it), vkUsers);
 			if (!vkNewsItem)
@@ -679,10 +679,10 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	CreateVkUserInfoList(vkUsers, jnNotifications);
 	CreateVkUserInfoList(vkUsers, jnGroupInvates);
 	
-	if (!jnNotifications.isnull()) {
+	if (jnNotifications) {
 		const JSONNode &jnItems = jnNotifications["items"];
 
-		if (!jnItems.isnull())
+		if (jnItems)
 			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 				CVKNewsItem *vkNotificationItem = GetVkNotificationsItem((*it), vkUsers);
 				if (!vkNotificationItem)
@@ -695,10 +695,10 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 
 	}
 
-	if (!jnGroupInvates.isnull()) {
+	if (jnGroupInvates) {
 		const JSONNode &jnItems = jnGroupInvates["items"];
 
-		if (!jnItems.isnull())
+		if (jnItems)
 			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 				CVKNewsItem *vkNotificationItem = GetVkGroupInvates((*it), vkUsers);
 				if (!vkNotificationItem)

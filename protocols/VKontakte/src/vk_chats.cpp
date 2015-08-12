@@ -44,7 +44,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 
 	CMString tszTitle;
 	c = new CVkChatInfo(id);
-	if (!jnDlg.isnull()) {
+	if (jnDlg) {
 		tszTitle = jnDlg["title"].as_mstring();
 		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle : _T(""));
 	}
@@ -140,8 +140,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		return;
 
 	const JSONNode &jnInfo = jnResponse["info"];
-	if (!jnInfo.isnull()) {
-		if (!jnInfo["title"].isnull())
+	if (jnInfo) {
+		if (jnInfo["title"])
 			SetChatTitle(cc, jnInfo["title"].as_mstring());
 
 		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool()) {
@@ -153,7 +153,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	const JSONNode &jnUsers = jnResponse["users"];
-	if (!jnUsers.isnull()) {
+	if (jnUsers) {
 		for (int i = 0; i < cc->m_users.getCount(); i++)
 			cc->m_users[i].m_bDel = true;
 
@@ -233,10 +233,10 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	const JSONNode &jnMsgs = jnResponse["msgs"];
-	if (!jnMsgs.isnull()) {
+	if (jnMsgs) {
 		
 		const JSONNode &jnItems = jnMsgs["items"];
-		if (!jnItems.isnull()) {
+		if (jnItems) {
 			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 				const JSONNode &jnMsg = (*it);
 				if (!jnMsg)
@@ -294,7 +294,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	CMString tszBody(jnMsg["body"].as_mstring());
 
 	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-	if (!jnFwdMessages.isnull()) {
+	if (jnFwdMessages) {
 		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -302,14 +302,14 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	}
 
 	const JSONNode &jnAttachments = jnMsg["attachments"];
-	if (!jnAttachments.isnull()) {
+	if (jnAttachments) {
 		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
 		tszBody += tszAttachmentDescr;
 	}
 
-	if (!jnMsg["action"].isnull()) {
+	if (jnMsg["action"]) {
 		bIsAction = true;
 		CMString tszAction = jnMsg["action"].as_mstring();
 		
@@ -386,7 +386,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	tszBody.Replace(_T("%"), _T("%%"));
 
 	if (cc->m_bHistoryRead) {
-		if (!jnMsg["title"].isnull())
+		if (jnMsg["title"])
 			SetChatTitle(cc, jnMsg["title"].as_mstring());
 		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory, bIsAction);
 	}

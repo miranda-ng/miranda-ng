@@ -846,7 +846,7 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 	CMString tszLink, tszPreviewLink;
 	for (int i = 0; i < _countof(szImageTypes); i++) {
 		const JSONNode &n = jnPhoto[szImageTypes[i]];
-		if (!n.isnull()) {
+		if (n) {
 			tszLink = n.as_mstring();
 			break;
 		}
@@ -1029,7 +1029,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				tszText.IsEmpty() ? _T(" ") : tszText);
 
 			const JSONNode &jnSubAttachments = jnWall["attachments"];
-			if (!jnSubAttachments.isnull()) {
+			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
 				CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 				tszAttachmentDescr.Replace(_T("\n"), _T("\n\t"));
@@ -1050,7 +1050,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				CMString tszLink;
 				for (int i = 0; i < _countof(szImageTypes); i++) {
 					const JSONNode &n = jnSticker[szImageTypes[i]];
-					if (!n.isnull()) {
+					if (n) {
 						tszLink = n.as_mstring();
 						break;
 					}
@@ -1088,7 +1088,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszLink;
 			for (int i = 0; i < _countof(szGiftTypes); i++) {
 				const JSONNode &n = jnGift[szGiftTypes[i]];
-				if (!n.isnull()) {
+				if (n) {
 					tszLink = n.as_mstring();
 					break;
 				}
@@ -1141,7 +1141,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		CMString tszBody(jnMsg["body"].as_mstring());
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (!jnFwdMessages.isnull()) {
+		if (jnFwdMessages) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -1149,7 +1149,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		}
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (!jnAttachments.isnull()) {
+		if (jnAttachments) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;

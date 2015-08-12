@@ -342,7 +342,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	CMString tszOldListeningTo(ptrT(db_get_tsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
-	if (!jnAudio.isnull()) {
+	if (jnAudio) {
 		CMString tszListeningTo(FORMAT, _T("%s - %s"), jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
 		if (tszListeningTo != tszOldListeningTo) {
 			setTString(hContact, "ListeningTo", tszListeningTo);
@@ -534,7 +534,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 	const JSONNode &jnItems = jnResponse["items"];
 
-	if (!jnItems.isnull())
+	if (jnItems)
 		for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 			MCONTACT hContact = SetContactInfo((*it), true);
 
@@ -598,7 +598,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 	if (reply->resultCode == 200) {
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-		if (!jnResponse.isnull()) {
+		if (jnResponse) {
 			CMString tszNick(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
 			if (tszNick.IsEmpty())
 				tszNick = TranslateT("(Unknown contact)");

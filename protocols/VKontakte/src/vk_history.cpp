@@ -198,7 +198,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		int uid = jnMsg["user_id"].as_int(); 
 		
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (!jnFwdMessages.isnull()) {
+		if (jnFwdMessages) {
 			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -206,7 +206,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		}
 		
 		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (!jnAttachments.isnull()) {
+		if (jnAttachments) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
