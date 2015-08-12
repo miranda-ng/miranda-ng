@@ -1348,7 +1348,7 @@ bool Statistic::createStatisticsSteps()
 		{ &Statistic::stepWriteHTML, LPGENT("Creating HTML") }
 	};
 
-	setProgressMax(false, array_len(stepsInfo));
+	setProgressMax(false, _countof(stepsInfo));
 
 	array_each_(i, stepsInfo)
 	{
