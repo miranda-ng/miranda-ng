@@ -1074,7 +1074,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
 
-			if (!jnLink["photo"].isnull())		
+			if (jnLink["photo"])		
 				res.AppendFormat(_T("\n\t%s"), GetVkPhotoItem(jnLink["photo"], iBBC));
 
 			if (!tszDescription.IsEmpty())
