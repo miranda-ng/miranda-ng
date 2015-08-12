@@ -106,7 +106,7 @@ void Searcher::Find()
 	if (!str[0]) {
 		TCHAR buf[256];
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
-		MessageBox(context->hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 	if (!matchCase) {
@@ -123,7 +123,7 @@ void Searcher::Find()
 		if (onlyIn && context->currentGroup[lastFindSelection].isMe || onlyOut && !context->currentGroup[lastFindSelection].isMe)
 			curSel = lastFindSelection + adder1;
 		else {
-			SendDlgItemMessage(context->hWnd,IDC_EDIT,EM_EXGETSEL,0,(LPARAM)&ft.chrg);
+			SendDlgItemMessage(context->m_hWnd,IDC_EDIT,EM_EXGETSEL,0,(LPARAM)&ft.chrg);
 			if (findBack1) {
 				ft.chrg.cpMin = ft.chrg.cpMin < context->currentGroup[lastFindSelection].endPos ? ft.chrg.cpMin : context->currentGroup[lastFindSelection].endPos; 
 				ft.chrg.cpMax = context->currentGroup[lastFindSelection].startPos;
@@ -136,7 +136,7 @@ void Searcher::Find()
 			if (ft.chrgText.cpMin < 0 || ft.chrgText.cpMax < 0)
 				curSel = lastFindSelection + adder1;
 			else {
-				if (isFindContactChanged && startFindContact == context->hContact && isFindSelChanged && context->selected == startFindSel && ((!findBack1 && ft.chrg.cpMin >= startFindPos) || (findBack1 && ft.chrg.cpMax <= startFindPos)))
+				if (isFindContactChanged && startFindContact == context->m_hContact && isFindSelChanged && context->selected == startFindSel && ((!findBack1 && ft.chrg.cpMin >= startFindPos) || (findBack1 && ft.chrg.cpMax <= startFindPos)))
 					finished = true;
 				else {
 					curSel = lastFindSelection;
@@ -157,7 +157,7 @@ void Searcher::Find()
 		if (startFindPos < 0)
 			startFindPos = 0;
 		isFindSelChanged = false;
-		startFindContact = context->hContact;
+		startFindContact = context->m_hContact;
 		isFindContactChanged = !allUsers;
 		if (findBack1) {
 			for (curSel = (int)context->currentGroup.size() - 1; curSel >= 0; --curSel)
@@ -190,7 +190,7 @@ void Searcher::Find()
 				}
 				SendMessage(context->editWindow,EM_FINDTEXTEX, findStyle,(LPARAM)&ft);
 				if (!(ft.chrgText.cpMin < 0 || ft.chrgText.cpMax < 0)) {
-					if (isFindContactChanged && startFindContact == context->hContact && isFindSelChanged && context->selected == startFindSel && ((!findBack1 && ft.chrg.cpMin >= startFindPos) || (findBack1 && ft.chrg.cpMax <= startFindPos))) {
+					if (isFindContactChanged && startFindContact == context->m_hContact && isFindSelChanged && context->selected == startFindSel && ((!findBack1 && ft.chrg.cpMin >= startFindPos) || (findBack1 && ft.chrg.cpMax <= startFindPos))) {
 						finished = true;
 						break;
 					}
@@ -203,7 +203,7 @@ void Searcher::Find()
 		}
 	}
 	
-	if (isFindContactChanged && startFindContact == context->hContact && isFindSelChanged && context->selected == startFindSel)
+	if (isFindContactChanged && startFindContact == context->m_hContact && isFindSelChanged && context->selected == startFindSel)
 		finished = true;
 
 	if (!finished) {
@@ -223,7 +223,7 @@ void Searcher::Find()
 				if (sel < 0) {
 					isFindContactChanged = true;
 					if (allUsers) {
-						MCONTACT hNext = context->hContact;
+						MCONTACT hNext = context->m_hContact;
 						do
 						{
 							hNext = context->GetNextContact(hNext, adder2);
@@ -232,12 +232,12 @@ void Searcher::Find()
 						context->SelectContact(hNext);
 					}
 
-					sel = (int)context->eventList.size() - 1;
+					sel = (int)context->m_eventList.size() - 1;
 				}
-				else if (sel >= (int)context->eventList.size()) {
+				else if (sel >= (int)context->m_eventList.size()) {
 					isFindContactChanged = true;
 					if (allUsers) {
-						MCONTACT hNext = context->hContact;
+						MCONTACT hNext = context->m_hContact;
 						do
 						{
 							hNext = context->GetNextContact(hNext, adder2);
@@ -268,13 +268,13 @@ void Searcher::Find()
 					Find();
 					return;
 				}
-				if (startFindContact == context->hContact && sel == startFindSel)
+				if (startFindContact == context->m_hContact && sel == startFindSel)
 					break;
 			}
 		}
 	}
 	
-	if (startFindContact != context->hContact)
+	if (startFindContact != context->m_hContact)
 		context->SelectContact(startFindContact);
 
 	if (startFindSel != context->selected) {
@@ -300,19 +300,19 @@ void Searcher::Find()
 		TCHAR buf[256];
 		GetWindowText(context->findWindow, str, _countof(str));
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
-		MessageBox(context->hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}
-	else MessageBox(context->hWnd, TranslateTS(onlyGroup ? LPGENT("You have reached the end of the group.") : LPGENT("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(context->m_hWnd, TranslateTS(onlyGroup ? LPGENT("You have reached the end of the group.") : LPGENT("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 }
 
 bool Searcher::IsInSel(int sel, TCHAR *strFind)
 {
-	if (sel < 0 || sel >= (int)context->eventList.size())
+	if (sel < 0 || sel >= (int)context->m_eventList.size())
 		return false;
 
 	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
 	HistoryEventList::EventData data;
-	for (std::deque<HistoryEventList::EventIndex>::iterator it = context->eventList[sel].begin(); it != context->eventList[sel].end(); ++it) {
+	for (std::deque<HistoryEventList::EventIndex>::iterator it = context->m_eventList[sel].begin(); it != context->m_eventList[sel].end(); ++it) {
 		HistoryEventList::EventIndex hDbEvent = *it;
 		if (context->GetEventData(hDbEvent, data)) {
 			bool isMe = data.isMe;

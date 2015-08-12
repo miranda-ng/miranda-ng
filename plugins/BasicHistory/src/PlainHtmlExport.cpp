@@ -85,7 +85,7 @@ void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, cons
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
 	bool isUrl = false;
-	std::wstring& mes = UrlHighlightHtml(MakeTextHtmled(message), isUrl);
+	std::wstring mes = UrlHighlightHtml(MakeTextHtmled(message), isUrl);
 	if (isUrl)
 		ev = _T("2");
 	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");

@@ -1747,9 +1747,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				BOOL isOK = FALSE;
 				toCp.eventDeltaTime = GetDlgItemInt(hwndDlg, IDC_EVENT_TIME, &isOK, TRUE);
 				if (!isOK) {
-					TCHAR msg[256];
-					mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
-					MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+					TCHAR tszBuf[256];
+					mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
+					MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 					break;
 				}
 				toCp.eventUnit = (enum TaskOptions::EventUnit)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_EVENT_UNIT));
@@ -1778,9 +1778,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.dayOfMonth = GetDlgItemInt(hwndDlg, IDC_TRIGER_DAY, &isOK, FALSE);
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::Monthly) {
-						TCHAR msg[256];
-						mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value."), TranslateT("Day"));
-						MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+						TCHAR tszBuf[256];
+						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Day"));
+						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
 					else toCp.dayOfMonth = to->dayOfMonth;
@@ -1788,9 +1788,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.deltaTime = GetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, &isOK, FALSE);
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::DeltaMin || toCp.trigerType == TaskOptions::DeltaHour) {
-						TCHAR msg[256];
-						mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
-						MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+						TCHAR tszBuf[256];
+						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
+						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
 					else toCp.deltaTime = to->deltaTime;
@@ -1802,14 +1802,14 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				to->taskName = L"";
 				if (!IsValidTask(toCp, top->tasks, &err, &errDescr)) {
 					to->taskName = lastName;
-					TCHAR msg[256];
+					TCHAR tszBuf[256];
 					if (err.empty())
-						_tcscpy_s(msg, TranslateT("Some value is invalid"));
+						_tcscpy_s(tszBuf, TranslateT("Some value is invalid"));
 					else if (errDescr.empty())
-						mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value."), err.c_str());
+						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), err.c_str());
 					else
-						mir_sntprintf(msg, _countof(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
-					MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
+					MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 					break;
 				}
 

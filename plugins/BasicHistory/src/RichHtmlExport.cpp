@@ -120,16 +120,16 @@ std::wstring GetName(const std::wstring &path)
 	return path;
 }
 
-void ExtractFile(short int res, const std::wstring &fileName)
+void ExtractFile(short int iRes, const std::wstring &fileName)
 {
-	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(res), MAKEINTRESOURCE(CUSTOMRES));
+	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(iRes), MAKEINTRESOURCE(CUSTOMRES));
 	if (rSrc != NULL) {
 		HGLOBAL res = LoadResource(hInst, rSrc);
 		int size = SizeofResource(hInst, rSrc);
 		if (res != NULL) {
 			char* resData = (char*)LockResource(res);
 			if (resData != NULL) {
-				std::ofstream stream (fileName.c_str(), std::ios_base::binary);
+				std::ofstream stream(fileName.c_str(), std::ios_base::binary);
 				if (stream.is_open()) {
 					stream.write(resData, size);
 					stream.close();
@@ -371,7 +371,7 @@ void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::
 		EXP_FILE << _T("</div>\n");
 	
 	bool isUrl = false;
-	std::wstring& mes = ReplaceSmileys(isMe, eventText, isUrl);
+	std::wstring mes = ReplaceSmileys(isMe, eventText, isUrl);
 	EXP_FILE << _T("<div class=mes id=session>\n");
 	EXP_FILE << _T("<span class=eventimg id=") << id << _T("><img src=\"") << folderName << _T("\\pnode.ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group") << groupId << _T("', this)\"/>");
 	EXP_FILE << _T("<img src=\"") << folderName << _T("\\event") << ev << _T(".ico\" class=sessionimage width=\"16\" height=\"16\" onclick=\"toggleFolder('group") << groupId << _T("', this)\"/></span>\n");
@@ -387,7 +387,7 @@ void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
 	TCHAR* ev1 = ev;
 	bool isUrl = false;
-	std::wstring& mes = ReplaceSmileys(isMe, message, isUrl);
+	std::wstring mes = ReplaceSmileys(isMe, message, isUrl);
 	if (isUrl)
 		ev = _T("2");
 	EXP_FILE << _T("<div class=mes id=event") << ev << _T(">\n");

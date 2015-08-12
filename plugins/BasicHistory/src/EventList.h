@@ -47,13 +47,13 @@ public:
 	};
 
 private:
-	std::map<int, bool> filterMap;
-	bool onlyInFilter;
-	bool onlyOutFilter;
-	int defFilter;
-	std::wstring filterName;
-	std::vector<IImport::ExternalMessage> importedMessages;
-	DWORD goldBlobSize;
+	std::map<int, bool> m_filterMap;
+	bool m_onlyInFilter;
+	bool m_onlyOutFilter;
+	int  m_defFilter;
+	std::wstring m_filterName;
+	std::vector<IImport::ExternalMessage> m_importedMessages;
+	DWORD m_oldBlobSize;
 
 	struct EventTempIndex
 	{
@@ -72,8 +72,8 @@ private:
 		std::wstring file;
 	};
 
-	static std::map<MCONTACT, ImportDiscData> contactFileMap;
-	static std::wstring contactFileDir;
+	static std::map<MCONTACT, ImportDiscData> m_contactFileMap;
+	static std::wstring m_contactFileDir;
 
 	bool CanShowHistory(DBEVENTINFO* dbei);
 	bool CanShowHistory(const IImport::ExternalMessage& message);
@@ -82,33 +82,35 @@ private:
 	void AddGroup(const EventIndex& ev);
 	void GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, MCONTACT _hContact);
 	void ImportMessages(const std::vector<IImport::ExternalMessage>& messages);
+
 protected:
-	TCHAR contactName[256];
-	TCHAR myName[256];
-	bool isWnd;
-	int deltaTime;
-	DWORD now;
-	bool isFlat;
-	DBEVENTINFO gdbei;
+	TCHAR m_contactName[256];
+	TCHAR m_myName[256];
+	bool  m_isWnd;
+	bool  m_isFlat;
+	int   m_deltaTime;
+	DWORD m_now;
+	DBEVENTINFO m_dbei;
 	
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico) = 0;
 	bool GetEventIcon(bool isMe, int eventType, int &id);
 	void DeleteEvent(const EventIndex& ev)
 	{
 		if (!ev.isExternal)
-			db_event_delete(hContact, ev.hEvent);
+			db_event_delete(m_hContact, ev.hEvent);
 	}
 
 	void RebuildGroup(int selected);
+
 public:
 	HistoryEventList();
 	HistoryEventList(MCONTACT _hContact, int filter);
 	~HistoryEventList();
 	
-	HWND hWnd;
-	MCONTACT hContact;
-	std::vector<std::deque<EventIndex> > eventList;
-	bool useImportedMessages;
+	HWND m_hWnd;
+	MCONTACT m_hContact;
+	std::vector<std::deque<EventIndex> > m_eventList;
+	bool m_useImportedMessages;
 
 	static void Init();
 	void SetDefFilter(int filter);
@@ -134,17 +136,17 @@ public:
 	void GetEventMessage(const EventIndex& ev, TCHAR* message) // must be allocated with MAXSELECTSTR len
 	{
 		if (!ev.isExternal)
-			GetObjectDescription(&gdbei, message, MAXSELECTSTR);
+			GetObjectDescription(&m_dbei, message, MAXSELECTSTR);
 		else
-			_tcscpy_s(message, MAXSELECTSTR,  importedMessages[ev.exIdx].message.c_str());
+			_tcscpy_s(message, MAXSELECTSTR, m_importedMessages[ev.exIdx].message.c_str());
 	}
 	void GetEventMessage(const EventIndex& ev, TCHAR* message, int strLen)
 	{
 		if (!ev.isExternal)
-			GetObjectDescription(&gdbei, message, strLen);
+			GetObjectDescription(&m_dbei, message, strLen);
 		else
 		{
-			std::wstring& meg = importedMessages[ev.exIdx].message;
+			std::wstring& meg = m_importedMessages[ev.exIdx].message;
 			if ((int)meg.size() >= strLen)
 			{
 				memcpy_s(message, strLen * sizeof(TCHAR), meg.c_str(), (strLen - 1) * sizeof(TCHAR));

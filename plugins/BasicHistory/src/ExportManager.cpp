@@ -26,10 +26,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "Options.h"
 #include "codecvt_CodePage.h"
 
-ExportManager::ExportManager(HWND _hwnd, MCONTACT _hContact, int filter) :
-	HistoryEventList(_hContact, filter),
-	hwnd(_hwnd),
-	oldOnTop(false)
+ExportManager::ExportManager(HWND hwnd, MCONTACT hContact, int filter) :
+	HistoryEventList(hContact, filter),
+	m_hwnd(hwnd),
+	m_oldOnTop(false)
 {
 }
 
@@ -90,41 +90,41 @@ std::wstring ReplaceExt(const std::wstring& file, const TCHAR* ext)
 
 bool ExportManager::Export(IExport::ExportType type)
 {
-	exp = NULL;
+	m_exp = NULL;
 	UINT cp;
 	std::wstring encoding;
 	bool isBin = false;
 	switch(type) {
 	case IExport::Txt:
-		exp = new TxtExport();
+		m_exp = new TxtExport();
 		cp = Options::instance->codepageTxt;
 		encoding = Options::instance->encodingTxt;
-		isFlat = true;
+		m_isFlat = true;
 		break;
 	case IExport::PlainHtml:
-		exp = new PlainHtmlExport();
+		m_exp = new PlainHtmlExport();
 		cp = Options::instance->codepageHtml1;
 		encoding = Options::instance->encodingHtml1;
 		break;
 	case IExport::RichHtml:
-		exp = new RichHtmlExport();
+		m_exp = new RichHtmlExport();
 		cp = Options::instance->codepageHtml2;
 		encoding = Options::instance->encodingHtml2;
 		break;
 	case IExport::Binary:
-		exp = new BinaryExport();
+		m_exp = new BinaryExport();
 		cp = CP_UTF8;
 		encoding = L"UTF8";
-		isFlat = true;
-		oldOnTop = true;
+		m_isFlat = true;
+		m_oldOnTop = true;
 		isBin = true;
 		break;
 	case IExport::Dat:
-		exp = new DatExport();
+		m_exp = new DatExport();
 		cp = CP_UTF8;
 		encoding = L"UTF8";
-		isFlat = true;
-		oldOnTop = true;
+		m_isFlat = true;
+		m_oldOnTop = true;
 		isBin = true;
 		break;
 	default:
@@ -132,10 +132,10 @@ bool ExportManager::Export(IExport::ExportType type)
 	}
 
 	std::wstring fileName;
-	if (file.empty())
-		fileName = GetFile(exp->GetExt(), hwnd, false);
+	if (m_file.empty())
+		fileName = GetFile(m_exp->GetExt(), m_hwnd, false);
 	else
-		fileName = ReplaceExt(file, exp->GetExt());
+		fileName = ReplaceExt(m_file, m_exp->GetExt());
 
 	if (fileName.empty())
 		return false;
@@ -148,7 +148,7 @@ bool ExportManager::Export(IExport::ExportType type)
 	
 		std::locale filelocale(std::locale(), new codecvt_CodePage<wchar_t>(cp));
 		stream->imbue(filelocale);
-		exp->SetStream(stream);
+		m_exp->SetStream(stream);
 	}
 	else {
 		std::ofstream* cstream = new std::ofstream (fileName.c_str(), std::ios_base::binary);
@@ -156,14 +156,14 @@ bool ExportManager::Export(IExport::ExportType type)
 			return false;
 	
 		stream = (std::wofstream*)cstream;
-		exp->SetStream(stream);
+		m_exp->SetStream(stream);
 	}
 
-	exp->WriteHeader(fileName, GetFilterName(), GetMyName(), GetMyId(), GetContactName(), GetProtocolName(), GetContactId(), GetBaseProtocol(), encoding);
+	m_exp->WriteHeader(fileName, GetFilterName(), GetMyName(), GetMyId(), GetContactName(), GetProtocolName(), GetContactId(), GetBaseProtocol(), encoding);
 
 	RefreshEventList();
 
-	exp->WriteFooter();
+	m_exp->WriteFooter();
 	if (!isBin) {
 		stream->close();
 		delete stream;
@@ -174,13 +174,13 @@ bool ExportManager::Export(IExport::ExportType type)
 		delete cstream;
 	}
 
-	delete exp;
+	delete m_exp;
 	return true;
 }
 
 const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 {
-	IImport* imp = NULL;
+	IImport *imp = NULL;
 	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -192,14 +192,14 @@ const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 		return L"";
 	}
 	
-	const TCHAR* ext = imp->GetExt();
+	const TCHAR *ext = imp->GetExt();
 	delete imp;
 	return ext;
 }
 
 int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>& contacts)
 {
-	IImport* imp = NULL;
+	IImport *imp = NULL;
 	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -211,14 +211,10 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>&
 		return -2;
 	}
 
-	std::wstring fileName;
-	if (file.empty())
+	if (m_file.empty())
 		return -2;
-	else
-	{
-		fileName = ReplaceExt(file, imp->GetExt());
-	}
 
+	std::wstring fileName = ReplaceExt(m_file, imp->GetExt());
 	if (fileName.empty())
 		return -2;
 
@@ -236,7 +232,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>&
 
 bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<MCONTACT>* contacts)
 {
-	IImport* imp = NULL;
+	IImport *imp = NULL;
 	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -249,18 +245,18 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	}
 	
 	std::wstring fileName;
-	if (file.empty())
-		file = fileName = GetFile(imp->GetExt(), hwnd, true);
+	if (m_file.empty())
+		m_file = fileName = GetFile(imp->GetExt(), m_hwnd, true);
 	else
-		fileName = ReplaceExt(file, imp->GetExt());
+		fileName = ReplaceExt(m_file, imp->GetExt());
 
-	std::ifstream* stream = new std::ifstream (fileName.c_str(), std::ios_base::binary);
+	std::ifstream *stream = new std::ifstream (fileName.c_str(), std::ios_base::binary);
 	if (!stream->is_open())
 		return false;
 	
 	imp->SetStream(stream);
 	std::vector<MCONTACT> v;
-	v.push_back(hContact);
+	v.push_back(m_hContact);
 	bool ret = true;
 	int contInFile = imp->IsContactInFile(v);
 	if (contInFile == -1) {
@@ -272,7 +268,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 			contInFile = imp->IsContactInFile(*contacts);
 			if (contInFile >= 0) {
 				*differentContact = true;
-				hContact = (*contacts)[contInFile];
+				m_hContact = (*contacts)[contInFile];
 			}
 		}
 	}
@@ -294,22 +290,23 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 
 void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int)
 {
-	if (exp == NULL)
+	if (m_exp == NULL)
 		return;
 	
-	exp->WriteGroup(isMe, time, user, eventText);
+	m_exp->WriteGroup(isMe, time, user, eventText);
 	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
 	str[0] = 0;
-	tm lastTime;
 	bool isFirst = true;
 	bool lastMe = false;
 	EventData data;
 	std::deque<EventIndex> revDeq;
-	std::deque<EventIndex>& deq = eventList.back();
-	if (!oldOnTop && Options::instance->messagesNewOnTop) {
+	std::deque<EventIndex> &deq = m_eventList.back();
+	if (!m_oldOnTop && Options::instance->messagesNewOnTop) {
 		revDeq.insert(revDeq.begin(), deq.rbegin(), deq.rend());
 		deq = revDeq;
 	}
+
+	struct tm lastTime = { 0 };
 	for (std::deque<EventIndex>::iterator it = deq.begin(); it != deq.end(); ++it) {
 		EventIndex hDbEvent = *it;
 		if (GetEventData(hDbEvent, data)) {
@@ -338,11 +335,11 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str , MAXSELECTSTR, 0);
 			std::wstring shortDate = str;
 
-			std::wstring user;
+			std::wstring wszUser;
 			if (lastMe)
-				user = myName;
+				wszUser = m_myName;
 			else
-				user = contactName;
+				wszUser = m_contactName;
 				
 			GetEventMessage(hDbEvent, str);
 			std::wstring strMessage = str;
@@ -352,22 +349,22 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 			if (hDbEvent.isExternal)
 				GetExtEventDBei(hDbEvent);
 
-			exp->WriteMessage(lastMe, longDate, shortDate, user, strMessage, gdbei);
+			m_exp->WriteMessage(lastMe, longDate, shortDate, wszUser, strMessage, m_dbei);
 		}
 	}
 }
 
 void ExportManager::DeleteExportedEvents()
 {
-	for (size_t j = 0; j < eventList.size(); ++j)
-		for (size_t i = 0; i < eventList[j].size(); ++i)
-			DeleteEvent(eventList[j][i]);
+	for (size_t j = 0; j < m_eventList.size(); ++j)
+		for (size_t i = 0; i < m_eventList[j].size(); ++i)
+			DeleteEvent(m_eventList[j][i]);
 }
 
-void ExportManager::SetDeleteWithoutExportEvents(int _deltaTime, DWORD _now)
+void ExportManager::SetDeleteWithoutExportEvents(int deltaTime, DWORD now)
 {
-	exp = NULL;
-	deltaTime = _deltaTime;
-	now = _now;
+	m_exp = NULL;
+	m_deltaTime = deltaTime;
+	m_now = now;
 	RefreshEventList();
 }
