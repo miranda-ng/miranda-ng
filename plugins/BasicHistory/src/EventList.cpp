@@ -29,56 +29,56 @@ static mir_cs csEventList;
 bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true);
 std::wstring GetName(const std::wstring &path);
 
-HistoryEventList::HistoryEventList()
-	:hWnd(NULL),
-	isWnd(false),
-	hContact(NULL),
-	deltaTime(0),
-	isFlat(false),
-	useImportedMessages(true)
+HistoryEventList::HistoryEventList() :
+	m_hWnd(NULL),
+	m_isWnd(false),
+	m_hContact(NULL),
+	m_deltaTime(0),
+	m_isFlat(false),
+	m_useImportedMessages(true)
 {
-	memset(&gdbei, 0, sizeof(DBEVENTINFO));
-	gdbei.cbSize = sizeof(DBEVENTINFO);
-	goldBlobSize = 0;
+	memset(&m_dbei, 0, sizeof(DBEVENTINFO));
+	m_dbei.cbSize = sizeof(DBEVENTINFO);
+	m_oldBlobSize = 0;
 }
 
-HistoryEventList::HistoryEventList(MCONTACT _hContact, int filter)
-	:hWnd(NULL),
-	isWnd(false),
-	hContact(_hContact),
-	deltaTime(0),
-	isFlat(false),
-	useImportedMessages(true)
+HistoryEventList::HistoryEventList(MCONTACT _hContact, int filter) :
+	m_hWnd(NULL),
+	m_isWnd(false),
+	m_hContact(_hContact),
+	m_deltaTime(0),
+	m_isFlat(false),
+	m_useImportedMessages(true)
 {
-	memset(&gdbei, 0, sizeof(DBEVENTINFO));
-	gdbei.cbSize = sizeof(DBEVENTINFO);
-	goldBlobSize = 0;
+	memset(&m_dbei, 0, sizeof(DBEVENTINFO));
+	m_dbei.cbSize = sizeof(DBEVENTINFO);
+	m_oldBlobSize = 0;
 	SetDefFilter(filter);
 }
 
 HistoryEventList::~HistoryEventList()
 {
-	mir_free(gdbei.pBlob);
-	eventList.clear();
+	mir_free(m_dbei.pBlob);
+	m_eventList.clear();
 }
 
 bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 {
-	if (deltaTime != 0) {
-		if (deltaTime > 0) {
-			if (now - deltaTime < dbei->timestamp)
+	if (m_deltaTime != 0) {
+		if (m_deltaTime > 0) {
+			if (m_now - m_deltaTime < dbei->timestamp)
 				return false;
 		}
 		else {
-			if (now + deltaTime > dbei->timestamp)
+			if (m_now + m_deltaTime > dbei->timestamp)
 				return false;
 		}
 	}
 
-	if (hContact == NULL || defFilter == 1)
+	if (m_hContact == NULL || m_defFilter == 1)
 		return true;
 
-	if (defFilter < 1) {
+	if (m_defFilter < 1) {
 		switch(dbei->eventType) {
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
@@ -94,11 +94,11 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 		return false;
 	}
 
-	if (filterMap.find(dbei->eventType) != filterMap.end()) {
-		if (onlyInFilter)
+	if (m_filterMap.find(dbei->eventType) != m_filterMap.end()) {
+		if (m_onlyInFilter)
 			return !(dbei->flags & DBEF_SENT);
 
-		if (onlyOutFilter)
+		if (m_onlyOutFilter)
 			return (dbei->flags & DBEF_SENT) != 0;
 
 		return true;
@@ -106,23 +106,23 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 	return false;
 }
 
-bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage& message)
+bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage &message)
 {
-	if (deltaTime != 0) {
-		if (deltaTime > 0) {
-			if (now - deltaTime < message.timestamp)
+	if (m_deltaTime != 0) {
+		if (m_deltaTime > 0) {
+			if (m_now - m_deltaTime < message.timestamp)
 				return false;
 		}
 		else {
-			if (now + deltaTime > message.timestamp)
+			if (m_now + m_deltaTime > message.timestamp)
 				return false;
 		}
 	}
 
-	if (hContact == NULL || defFilter == 1)
+	if (m_hContact == NULL || m_defFilter == 1)
 		return true;
 
-	if (defFilter < 1) {
+	if (m_defFilter < 1) {
 		switch(message.eventType ) {
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
@@ -133,11 +133,11 @@ bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage& message)
 		return false;
 	}
 
-	if (filterMap.find(message.eventType) != filterMap.end()) {
-		if (onlyInFilter)
+	if (m_filterMap.find(message.eventType) != m_filterMap.end()) {
+		if (m_onlyInFilter)
 			return !(message.flags & DBEF_SENT);
 
-		if (onlyOutFilter)
+		if (m_onlyOutFilter)
 			return (message.flags & DBEF_SENT) != 0;
 
 		return true;
@@ -147,79 +147,79 @@ bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage& message)
 
 void HistoryEventList::InitFilters()
 {
-	filterMap.clear();
-	onlyInFilter = false;
-	onlyOutFilter = false;
-	if (defFilter >= 2) {
-		defFilter = 0;
+	m_filterMap.clear();
+	m_onlyInFilter = false;
+	m_onlyOutFilter = false;
+	if (m_defFilter >= 2) {
+		m_defFilter = 0;
 		for (int i = 0; i < (int)Options::instance->customFilters.size(); ++i) {
-			if (filterName == Options::instance->customFilters[i].name) {
-				defFilter = i + 2;
+			if (m_filterName == Options::instance->customFilters[i].name) {
+				m_defFilter = i + 2;
 				if (Options::instance->customFilters[i].onlyIncomming && !Options::instance->customFilters[i].onlyOutgoing)
-					onlyInFilter = true;
+					m_onlyInFilter = true;
 				else if (Options::instance->customFilters[i].onlyOutgoing && !Options::instance->customFilters[i].onlyIncomming)
-					onlyOutFilter = true;
+					m_onlyOutFilter = true;
 
 				for (std::vector<int>::iterator it = Options::instance->customFilters[i].events.begin(); it != Options::instance->customFilters[i].events.end(); ++it)
-					filterMap[*it] = true;
+					m_filterMap[*it] = true;
 				break;
 			}
 		}
 	}
-	else filterName = L"";
+	else m_filterName = L"";
 }
 
 void HistoryEventList::SetDefFilter(int filter)
 {
-	defFilter = filter;
+	m_defFilter = filter;
 	if (filter >= 2 && filter - 2 < (int)Options::instance->customFilters.size())
-		filterName = Options::instance->customFilters[filter - 2].name;
+		m_filterName = Options::instance->customFilters[filter - 2].name;
 	else if (filter == 1)
-		filterName = TranslateT("All events");
+		m_filterName = TranslateT("All events");
 	else
-		filterName = TranslateT("Default history events");
+		m_filterName = TranslateT("Default history events");
 }
 
 int HistoryEventList::GetFilterNr()
 {
-	return defFilter;
+	return m_defFilter;
 }
 
 std::wstring HistoryEventList::GetFilterName()
 {
-	return filterName;
+	return m_filterName;
 }
 
-void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, MCONTACT _hContact)
+void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, MCONTACT hContact)
 {
-	bool isWndLocal = isWnd;
+	bool isWndLocal = m_isWnd;
 	EventTempIndex ti;
 	EventData data;
 	EventIndex ei;
 	ti.isExternal = false;
 	ei.isExternal = false;
-	MEVENT hDbEvent = db_event_first(_hContact);
+	MEVENT hDbEvent = db_event_first(hContact);
 	while (hDbEvent != NULL) {
-		if (isWndLocal && !IsWindow(hWnd))
+		if (isWndLocal && !IsWindow(m_hWnd))
 			break;
 
 		ei.hEvent = hDbEvent;
 		if (GetEventData(ei, data)) {
-			if (noFilter || CanShowHistory(&gdbei)) {
+			if (noFilter || CanShowHistory(&m_dbei)) {
 				ti.hEvent = hDbEvent;
 				ti.timestamp = data.timestamp;
 				tempList.push_back(ti);
 			}
 		}
-		hDbEvent = db_event_next(_hContact, hDbEvent);
+		hDbEvent = db_event_next(hContact, hDbEvent);
 	}
 
 	if (!noExt) {
 		std::list<EventTempIndex>::iterator itL = tempList.begin();
 		ti.isExternal = true;
-		for (int i = 0; i < (int)importedMessages.size(); ++i) {
-			if (noFilter || CanShowHistory(importedMessages[i])) {
-				DWORD ts = importedMessages[i].timestamp;
+		for (int i = 0; i < (int)m_importedMessages.size(); ++i) {
+			if (noFilter || CanShowHistory(m_importedMessages[i])) {
+				DWORD ts = m_importedMessages[i].timestamp;
 				while(itL != tempList.end() && itL->timestamp < ts)++itL;
 				if (itL == tempList.end() || itL->timestamp > ts) {
 					ti.exIdx = i;
@@ -236,13 +236,13 @@ void HistoryEventList::RefreshEventList()
 	InitNames();
 	InitFilters();
 
-	if (useImportedMessages) {
+	if (m_useImportedMessages) {
 		std::vector<IImport::ExternalMessage> messages;
 		{
 			mir_cslock lck(csEventList);
-			std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-			if (it != contactFileMap.end()) {
-				ExportManager imp(hWnd, hContact, 1);
+			std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = m_contactFileMap.find(m_hContact);
+			if (it != m_contactFileMap.end()) {
+				ExportManager imp(m_hWnd, m_hContact, 1);
 				imp.SetAutoImport(it->second.file);
 				if (!imp.Import(it->second.type, messages, NULL))
 					messages.clear();
@@ -252,7 +252,7 @@ void HistoryEventList::RefreshEventList()
 	}
 
 	std::list<EventTempIndex> tempList;
-	GetTempList(tempList, false, false, hContact);
+	GetTempList(tempList, false, false, m_hContact);
 	std::list<EventTempIndex> revTempList;
 	std::list<EventTempIndex>& nrTempList = tempList;
 	bool isNewOnTop = Options::instance->groupNewOnTop;
@@ -261,8 +261,8 @@ void HistoryEventList::RefreshEventList()
 		nrTempList = revTempList;
 	}
 
-	eventList.clear();
-	eventList.push_back(std::deque<EventIndex>());
+	m_eventList.clear();
+	m_eventList.push_back(std::deque<EventIndex>());
 	DWORD lastTime = MAXDWORD;
 	DWORD groupTime = Options::instance->groupTime * 60 * 60;
 	int maxMess = Options::instance->groupMessagesNumber;
@@ -270,32 +270,32 @@ void HistoryEventList::RefreshEventList()
 	EventIndex ei;
 	for (std::list<EventTempIndex>::iterator itL = nrTempList.begin(); itL != nrTempList.end(); ++itL) {
 		DWORD tm = isNewOnTop ? lastTime - itL->timestamp : itL->timestamp - lastTime;
-		if (isFlat || tm < groupTime && limitator < maxMess) {
+		if (m_isFlat || tm < groupTime && limitator < maxMess) {
 			lastTime = itL->timestamp;
 			ei.isExternal = itL->isExternal;
 			ei.hEvent = itL->hEvent;
 			if (isNewOnTop)
-				eventList.back().push_front(ei);
+				m_eventList.back().push_front(ei);
 			else
-				eventList.back().push_back(ei);
+				m_eventList.back().push_back(ei);
 			++limitator;
 		}
 		else {
 			limitator = 0;
 			lastTime = itL->timestamp;
-			if (!eventList.back().empty()) {
-				ei = eventList.back().front();
+			if (!m_eventList.back().empty()) {
+				ei = m_eventList.back().front();
 				AddGroup(ei);
-				eventList.push_back(std::deque<EventIndex>());
+				m_eventList.push_back(std::deque<EventIndex>());
 			}
 			ei.isExternal = itL->isExternal;
 			ei.hEvent = itL->hEvent;
-			eventList.back().push_front(ei);
+			m_eventList.back().push_front(ei);
 		}
 	}
 
-	if (!eventList.back().empty()) {
-		ei = eventList.back().front();
+	if (!m_eventList.back().empty()) {
+		ei = m_eventList.back().front();
 		AddGroup(ei);
 	}
 }
@@ -304,21 +304,21 @@ bool HistoryEventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, Compar
 {
 	InitFilters();
 
-	if (useImportedMessages) {
+	if (m_useImportedMessages) {
 		std::vector<IImport::ExternalMessage> messages;
 		{
 			mir_cslock lck(csEventList);
-			std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-			if (it != contactFileMap.end()) {
-				ExportManager imp(hWnd, hContact, 1);
+			std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = m_contactFileMap.find(hContact);
+			if (it != m_contactFileMap.end()) {
+				ExportManager imp(m_hWnd, hContact, 1);
 				imp.SetAutoImport(it->second.file);
 				if (!imp.Import(it->second.type, messages, NULL))
 					messages.clear();
 			}
 		}
 
-		for (int i = 0; i < (int)importedMessages.size(); ++i)
-			if (compFun->Compare((importedMessages[i].flags & DBEF_SENT) != 0, importedMessages[i].message, strFind))
+		for (int i = 0; i < (int)m_importedMessages.size(); ++i)
+			if (compFun->Compare((m_importedMessages[i].flags & DBEF_SENT) != 0, m_importedMessages[i].message, strFind))
 				return true;
 	}
 
@@ -344,19 +344,19 @@ bool HistoryEventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, Compar
 void HistoryEventList::InitNames()
 {
 	TCHAR str[200];
-	if (hContact) {
-		_tcscpy_s(contactName, 256, pcli->pfnGetContactDisplayName(hContact, 0));
-		mir_sntprintf(str, _countof(str), TranslateT("History for %s"),contactName);
+	if (m_hContact) {
+		_tcscpy_s(m_contactName, pcli->pfnGetContactDisplayName(m_hContact, 0));
+		mir_sntprintf(str, _countof(str), TranslateT("History for %s"), m_contactName);
 	}
 	else {
-		_tcscpy_s(contactName, 256, TranslateT("System"));
+		_tcscpy_s(m_contactName, TranslateT("System"));
 		mir_sntprintf(str, _countof(str), TranslateT("History"));
 	}
 
-	if (isWnd)
-		SetWindowText(hWnd,str);
+	if (m_isWnd)
+		SetWindowText(m_hWnd, str);
 
-	_tcscpy_s(myName, GetMyName().c_str());
+	_tcscpy_s(m_myName, GetMyName().c_str());
 }
 
 void HistoryEventList::AddGroup(const EventIndex& ev)
@@ -370,9 +370,9 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 	std::wstring time = eventText;
 	std::wstring user;
 	if (data.isMe)
-		user = myName;
+		user = m_myName;
 	else
-		user = contactName;
+		user = m_contactName;
 	GetEventMessage(ev, eventText, 256);
 	for (i = 0; eventText[i] != 0 && eventText[i] != _T('\r') && eventText[i] != _T('\n'); ++i);
 	eventText[i] = 0;
@@ -390,8 +390,8 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 
 std::wstring HistoryEventList::GetContactName()
 {
-	if (hContact)
-		return pcli->pfnGetContactDisplayName(hContact, 0);
+	if (m_hContact)
+		return pcli->pfnGetContactDisplayName(m_hContact, 0);
 
 	return TranslateT("System");
 }
@@ -400,17 +400,17 @@ void GetInfo(CONTACTINFO& ci, std::wstring& str)
 {
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
-			str =  ci.pszVal;
+			str = ci.pszVal;
 			mir_free(ci.pszVal);
 		}
 		else if (ci.type == CNFT_DWORD) {
 			TCHAR buf[20];
-			_ltot_s(ci.dVal, buf, 10 );
+			_ltot_s(ci.dVal, buf, 10);
 			str = buf;
 		}
 		else if (ci.type == CNFT_WORD) {
 			TCHAR buf[20];
-			_ltot_s(ci.wVal, buf, 10 );
+			_ltot_s(ci.wVal, buf, 10);
 			str = buf;
 		}
 	}
@@ -422,7 +422,7 @@ std::wstring HistoryEventList::GetMyName()
 	CONTACTINFO ci;
 	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(hContact);
+	ci.szProto = GetContactProto(m_hContact);
 	ci.hContact = 0;
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
 	GetInfo(ci, myName);
@@ -450,12 +450,12 @@ inline std::wstring GetProtocolName(MCONTACT hContact)
 
 std::wstring HistoryEventList::GetProtocolName()
 {
-	return ::GetProtocolName(hContact);
+	return ::GetProtocolName(m_hContact);
 }
 
 std::string HistoryEventList::GetBaseProtocol()
 {
-	char* proto = GetContactProto(hContact);
+	char* proto = GetContactProto(m_hContact);
 	return proto == NULL ? "" : proto;
 }
 
@@ -465,7 +465,7 @@ std::wstring HistoryEventList::GetMyId()
 	CONTACTINFO ci;
 	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.szProto = GetContactProto(hContact);
+	ci.szProto = GetContactProto(m_hContact);
 	ci.hContact = 0;
 	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
 	GetInfo(ci, myId);
@@ -487,10 +487,10 @@ inline std::wstring GetContactId(MCONTACT hContact)
 
 std::wstring HistoryEventList::GetContactId()
 {
-	return ::GetContactId(hContact);
+	return ::GetContactId(m_hContact);
 }
 
-static void GetMessageDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
+static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 {
 	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
 	_tcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
@@ -498,14 +498,14 @@ static void GetMessageDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
 	mir_free(msg);
 }
 
-void HistoryEventList::GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr )
+void HistoryEventList::GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 {
-	GetMessageDescription( dbei, str, cbStr );
+	GetMessageDescription(dbei, str, cbStr);
 }
 
 bool HistoryEventList::GetEventIcon(bool isMe, int eventType, int &id)
 {
-	switch(eventType) {
+	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
 		id = isMe ? 1 : 0;
 		return true;
@@ -527,14 +527,13 @@ bool HistoryEventList::GetEventIcon(bool isMe, int eventType, int &id)
 void HistoryEventList::ImportMessages(const std::vector<IImport::ExternalMessage>& messages)
 {
 	DWORD lastTime = 0;
-	importedMessages.clear();
+	m_importedMessages.clear();
 	for (int i = 0; i < (int)messages.size(); ++i) {
 		if (messages[i].timestamp >= lastTime) {
-			importedMessages.push_back(messages[i]);
+			m_importedMessages.push_back(messages[i]);
 			lastTime = messages[i].timestamp;
 		}
-		else
-		{
+		else {
 			assert(FALSE);
 		}
 	}
@@ -544,15 +543,15 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 {
 	ImportMessages(messages);
 	std::list<EventTempIndex> tempList;
-	GetTempList(tempList, true, false, hContact);
+	GetTempList(tempList, true, false, m_hContact);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = GetContactProto(hContact);
+	dbei.szModule = GetContactProto(m_hContact);
 
 	CallService(MS_DB_SETSAFETYMODE, FALSE, 0);
 	for (std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it) {
 		if (it->isExternal) {
-			IImport::ExternalMessage& msg = importedMessages[it->exIdx];
+			IImport::ExternalMessage& msg = m_importedMessages[it->exIdx];
 			dbei.flags |= DBEF_READ;
 			dbei.timestamp = msg.timestamp;
 			// For now I do not convert event data from string to blob, and event type must be message to handle it properly
@@ -562,8 +561,8 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 			char* buf = new char[dbei.cbBlob];
 			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, NULL, NULL);
 			dbei.pBlob = (PBYTE)buf;
-			db_event_add(hContact, &dbei);
-			delete [] buf;
+			db_event_add(m_hContact, &dbei);
+			delete[] buf;
 		}
 	}
 
@@ -576,21 +575,21 @@ bool HistoryEventList::GetEventData(const EventIndex& ev, EventData& data)
 {
 	if (!ev.isExternal) {
 		DWORD newBlobSize = db_event_getBlobSize(ev.hEvent);
-		if (newBlobSize > goldBlobSize) {
-			gdbei.pBlob = (PBYTE)mir_realloc(gdbei.pBlob,newBlobSize);
-			goldBlobSize = newBlobSize;
+		if (newBlobSize > m_oldBlobSize) {
+			m_dbei.pBlob = (PBYTE)mir_realloc(m_dbei.pBlob, newBlobSize);
+			m_oldBlobSize = newBlobSize;
 		}
 
-		gdbei.cbBlob = goldBlobSize;
-		if (db_event_get(ev.hEvent, &gdbei) == 0) {
-			data.isMe = (gdbei.flags & DBEF_SENT) != 0;
-			data.eventType = gdbei.eventType;
-			data.timestamp = gdbei.timestamp;
+		m_dbei.cbBlob = m_oldBlobSize;
+		if (db_event_get(ev.hEvent, &m_dbei) == 0) {
+			data.isMe = (m_dbei.flags & DBEF_SENT) != 0;
+			data.eventType = m_dbei.eventType;
+			data.timestamp = m_dbei.timestamp;
 			return true;
 		}
 	}
-	else if (ev.exIdx >= 0 && ev.exIdx < (int)importedMessages.size()) {
-		IImport::ExternalMessage& em = importedMessages[ev.exIdx];
+	else if (ev.exIdx >= 0 && ev.exIdx < (int)m_importedMessages.size()) {
+		IImport::ExternalMessage& em = m_importedMessages[ev.exIdx];
 		data.isMe = (em.flags & DBEF_SENT) != 0;
 		data.eventType = em.eventType;
 		data.timestamp = em.timestamp;
@@ -602,18 +601,18 @@ bool HistoryEventList::GetEventData(const EventIndex& ev, EventData& data)
 
 void HistoryEventList::GetExtEventDBei(const EventIndex& ev)
 {
-	IImport::ExternalMessage& em = importedMessages[ev.exIdx];
-	gdbei.flags = em.flags | 0x800;
-	gdbei.eventType = em.eventType;
-	gdbei.timestamp = em.timestamp;
+	IImport::ExternalMessage& em = m_importedMessages[ev.exIdx];
+	m_dbei.flags = em.flags | 0x800;
+	m_dbei.eventType = em.eventType;
+	m_dbei.timestamp = em.timestamp;
 }
 
 HICON HistoryEventList::GetEventCoreIcon(const EventIndex& ev)
 {
 	if (ev.isExternal)
 		return NULL;
-	
-	HICON ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&gdbei);
+
+	HICON ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&m_dbei);
 	HICON icoMsg = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	if (icoMsg == ico)
 		return NULL;
@@ -624,21 +623,21 @@ HICON HistoryEventList::GetEventCoreIcon(const EventIndex& ev)
 void HistoryEventList::RebuildGroup(int selected)
 {
 	std::deque<EventIndex> newGroup;
-	for (size_t i = 0; i < eventList[selected].size(); ++i) {
-		EventIndex& ev = eventList[selected][i];
+	for (size_t i = 0; i < m_eventList[selected].size(); ++i) {
+		EventIndex& ev = m_eventList[selected][i];
 		if (!ev.isExternal) {
 			// If event exist, we add it to new group
 			if (db_event_getBlobSize(ev.hEvent) >= 0)
-				newGroup.push_back(eventList[selected][i]);
+				newGroup.push_back(m_eventList[selected][i]);
 		}
-		else newGroup.push_back(eventList[selected][i]);
+		else newGroup.push_back(m_eventList[selected][i]);
 	}
-	eventList[selected].clear();
-	eventList[selected].insert(eventList[selected].begin(), newGroup.begin(), newGroup.end());
+	m_eventList[selected].clear();
+	m_eventList[selected].insert(m_eventList[selected].begin(), newGroup.begin(), newGroup.end());
 }
 
-std::map<MCONTACT, HistoryEventList::ImportDiscData> HistoryEventList::contactFileMap;
-std::wstring HistoryEventList::contactFileDir;
+std::map<MCONTACT, HistoryEventList::ImportDiscData> HistoryEventList::m_contactFileMap;
+std::wstring HistoryEventList::m_contactFileDir;
 
 void HistoryEventList::AddImporter(MCONTACT hContact, IImport::ImportType type, const std::wstring& file)
 {
@@ -647,10 +646,10 @@ void HistoryEventList::AddImporter(MCONTACT hContact, IImport::ImportType type, 
 	TCHAR buf[32];
 	mir_sntprintf(buf, _T("%016llx"), (unsigned long long int)hContact);
 	ImportDiscData data;
-	data.file = contactFileDir + buf;
+	data.file = m_contactFileDir + buf;
 	data.type = type;
 	CopyFile(file.c_str(), data.file.c_str(), FALSE);
-	contactFileMap[hContact] = data;
+	m_contactFileMap[hContact] = data;
 }
 
 void HistoryEventList::Init()
@@ -658,10 +657,10 @@ void HistoryEventList::Init()
 	TCHAR temp[MAX_PATH];
 	temp[0] = 0;
 	GetTempPath(MAX_PATH, temp);
-	contactFileDir = temp;
-	contactFileDir += L"BasicHistoryImportDir\\";
-	DeleteDirectory(contactFileDir.c_str());
-	CreateDirectory(contactFileDir.c_str(), NULL);
+	m_contactFileDir = temp;
+	m_contactFileDir += L"BasicHistoryImportDir\\";
+	DeleteDirectory(m_contactFileDir.c_str());
+	CreateDirectory(m_contactFileDir.c_str(), NULL);
 }
 
 int HistoryEventList::GetContactMessageNumber(MCONTACT hContact)
@@ -669,8 +668,8 @@ int HistoryEventList::GetContactMessageNumber(MCONTACT hContact)
 	int count = db_event_count(hContact);
 
 	mir_cslock lck(csEventList);
-	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-	if (it != contactFileMap.end())
+	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = m_contactFileMap.find(hContact);
+	if (it != m_contactFileMap.end())
 		++count;
 	return count;
 }
@@ -680,8 +679,8 @@ bool HistoryEventList::IsImportedHistory(MCONTACT hContact)
 	bool count = false;
 
 	mir_cslock lck(csEventList);
-	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-	if (it != contactFileMap.end())
+	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = m_contactFileMap.find(hContact);
+	if (it != m_contactFileMap.end())
 		count = true;
 	return count;
 }
@@ -690,9 +689,9 @@ void HistoryEventList::DeleteImporter(MCONTACT hContact)
 {
 	mir_cslock lck(csEventList);
 
-	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-	if (it != contactFileMap.end()) {
+	std::map<MCONTACT, HistoryEventList::ImportDiscData>::iterator it = m_contactFileMap.find(hContact);
+	if (it != m_contactFileMap.end()) {
 		DeleteFile(it->second.file.c_str());
-		contactFileMap.erase(it);
+		m_contactFileMap.erase(it);
 	}
 }

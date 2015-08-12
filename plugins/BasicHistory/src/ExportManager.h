@@ -22,38 +22,39 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "IImport.h"
 class ExportManager : public HistoryEventList
 {
-private:
-	IExport* exp;
-	std::wstring file;
-	HWND hwnd;
-	bool oldOnTop;
+	IExport* m_exp;
+	std::wstring m_file;
+	HWND m_hwnd;
+	bool m_oldOnTop;
+
 protected:
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico);
+
 public:
 	ExportManager(HWND _hwnd, MCONTACT _hContact, int filter);
 
-	void SetAutoExport(const std::wstring _file, int _deltaTime, DWORD _now)
+	void SetAutoExport(const std::wstring _file, int deltaTime, DWORD now)
 	{
-		file = _file;
-		deltaTime = _deltaTime;
-		now = _now;
+		m_file = _file;
+		m_deltaTime = deltaTime;
+		m_now = now;
 	}
 
 	void SetAutoImport(const std::wstring _file)
 	{
-		file = _file;
+		m_file = _file;
 	}
 
 	std::wstring GetFileName()
 	{
-		return file;
+		return m_file;
 	}
 
 	bool Export(IExport::ExportType type);
-	void SetDeleteWithoutExportEvents(int _deltaTime, DWORD _now);
+	void SetDeleteWithoutExportEvents(int deltaTime, DWORD now);
 	void DeleteExportedEvents();
-	int Import(IImport::ImportType type, const std::vector<MCONTACT>& contacts);
-	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err = NULL, bool* differentContact = NULL, std::vector<MCONTACT>* contacts = NULL);
+	int Import(IImport::ImportType type, const std::vector<MCONTACT> &contacts);
+	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage> &eventList, std::wstring *err = NULL, bool *differentContact = NULL, std::vector<MCONTACT> *contacts = NULL);
 	static const TCHAR* GetExt(IImport::ImportType type);
 };
 
