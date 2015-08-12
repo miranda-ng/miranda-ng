@@ -54,12 +54,18 @@ void WALogin::sendResponse(const std::vector<unsigned char>& challengeData)
 
 void WALogin::sendFeatures()
 {
-	ProtocolTreeNode* child = new ProtocolTreeNode("receipt_acks");
 	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>();
-	children->push_back(child);
+	ProtocolTreeNode* receiptsChild = new ProtocolTreeNode("readreceipts");
+	children->push_back(receiptsChild);
 
-	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture") << XATTR("type", "all");
-	children->push_back(pictureChild);
+	ProtocolTreeNode* groupsChild = new ProtocolTreeNode("groups_v2");
+	children->push_back(groupsChild);
+
+	ProtocolTreeNode* privacyChild = new ProtocolTreeNode("privacy");
+	children->push_back(privacyChild);
+
+	ProtocolTreeNode* presenceChild = new ProtocolTreeNode("presence");
+	children->push_back(presenceChild);
 
 	m_pConnection->out.write(ProtocolTreeNode("stream:features", NULL, children));
 }
