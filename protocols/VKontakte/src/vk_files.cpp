@@ -297,7 +297,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	case CVkFileUploadParam::typeDoc:
-		upload = jnRoot["file"].as_mstring();		
+		upload = jnRoot["file"].as_mstring();
 		if (upload.IsEmpty()) {
 			SendFileFiled(fup, _T("NotUpload Doc"));
 			return;

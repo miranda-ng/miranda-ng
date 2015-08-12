@@ -119,6 +119,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_iInvisibleInterval = getDword("InvisibleInterval", 10);
 
 	m_bShortenLinksForAudio = getBool("ShortenLinksForAudio", true);
+
+	m_bSplitFormatFwdMsg = getBool("SplitFormatFwdMsg", true);
 	
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;
@@ -529,7 +531,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
 				CMString msg,			
-					tszNick = ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
+					tszNick(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
 				if (tszNick.IsEmpty())
 					tszNick = TranslateT("(Unknown contact)");
 				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick);
@@ -579,7 +581,7 @@ int CVkProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 }
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
-{ 
+{
 	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
 		LONG userID = getDword(hContact, "ID", -1);

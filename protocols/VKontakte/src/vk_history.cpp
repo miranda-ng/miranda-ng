@@ -186,7 +186,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		int mid = jnMsg["id"].as_int();
 		if (iLastMsgId < mid) 
-			iLastMsgId = mid;	
+			iLastMsgId = mid;
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);

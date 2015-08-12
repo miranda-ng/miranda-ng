@@ -94,7 +94,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (jnResponse.type() != JSON_STRING) 
 				mid = jnResponse.as_int();
 			else if (_stscanf(jnResponse.as_mstring(), _T("%d"), &mid) != 1)
-				mid = 0;				
+				mid = 0;
 
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);

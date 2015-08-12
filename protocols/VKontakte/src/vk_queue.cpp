@@ -53,7 +53,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		if (reply != NULL) {
 			if (pReq->m_pFunc != NULL)
 				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 	
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);		
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 		}
 		else if (pReq->bIsMainConn) {
 			if (IsStatusConnecting(m_iStatus))
@@ -124,14 +124,14 @@ void CVkProto::WorkerThread(void*)
 		Push(pReq);
 	}
 
-	while (true) {		
+	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
 
 		AsyncHttpRequest *pReq;
 		bool need_sleep = false;
-		while (true) {		
+		while (true) {
 			{
 				mir_cslock lck(m_csRequestsQueue);
 				if (m_arRequestsQueue.getCount() == 0)
