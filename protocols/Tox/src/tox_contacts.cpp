@@ -57,7 +57,7 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 	{
 		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
 		// check only public key part of address
-		if (strnicmp(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
+		if (mir_strncmpi(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
 			break;
 	}
 	return hContact;
