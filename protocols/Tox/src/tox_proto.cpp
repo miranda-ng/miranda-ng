@@ -210,7 +210,16 @@ int CToxProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-HANDLE CToxProto::GetAwayMsg(MCONTACT) { return 0; }
+HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
+{
+	if (IsOnline())
+	{
+		ForkThread(&CToxProto::GetStatusMessageAsync, (void*)hContact);
+		return (HANDLE)hContact;
+	}
+
+	return 0;
+}
 
 int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 {

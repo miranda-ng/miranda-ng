@@ -111,6 +111,38 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/* STATUS MESSAGE */
+void CToxProto::GetStatusMessageAsync(void* arg)
+{
+	MCONTACT hContact = (MCONTACT)arg;
+
+	int32_t friendNumber = GetToxFriendNumber(hContact);
+	if (friendNumber == UINT32_MAX)
+	{
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
+		return;
+	}
+
+	TOX_ERR_FRIEND_QUERY error;
+	size_t size = tox_friend_get_status_message_size(tox, friendNumber, &error);
+	if (error != TOX_ERR_FRIEND_QUERY::TOX_ERR_FRIEND_QUERY_OK)
+	{
+		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
+		return;
+	}
+
+	ptrA statusMessage((char*)mir_calloc(size + 1));
+	if (!tox_friend_get_status_message(tox, friendNumber, (uint8_t*)(char*)statusMessage, &error))
+	{
+		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
+		return;
+	}
+
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)hContact, ptrT(mir_utf8decodeT(statusMessage)));
+}
+
 /* TYPING */
 
 int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
