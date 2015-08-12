@@ -240,7 +240,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				case NM_CLICK:
 				case LVN_ITEMCHANGED:
 					{
-						DWORD i, j = -1, dwTotalIncoming = 0, dwTotalOutgoing = 0;
+						DWORD j = -1, dwTotalIncoming = 0, dwTotalOutgoing = 0;
 
 						i = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETSELECTEDCOUNT, 0, 0);
 						for (; i--;) {

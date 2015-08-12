@@ -1,5 +1,5 @@
 /*
-Traffic Counter plugin for Miranda IM 
+Traffic Counter plugin for Miranda IM
 Copyright 2007-2012 Mironych.
 
 This program is free software; you can redistribute it and/or
@@ -52,7 +52,7 @@ WORD notify_send_size = 0;
 WORD notify_recv_size = 0;
 //
 // Цвет шрифта и фона
-COLORREF Traffic_BkColor,Traffic_FontColor;
+COLORREF Traffic_BkColor, Traffic_FontColor;
 
 //notify
 int  Traffic_PopupBkColor;
@@ -99,7 +99,7 @@ COLORREF KeyColor;
 
 //---------------------------------------------------------------------------------------------
 
-PLUGININFOEX pluginInfoEx = 
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -116,7 +116,7 @@ PLUGININFOEX pluginInfoEx =
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-    return &pluginInfoEx;
+	return &pluginInfoEx;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
@@ -890,16 +890,16 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 						// Значения для выбранного периода.
 						ProtoList[i].TotalRecvTraffic =
 							Stat_GetItemValue(1 << i,
-							unOptions.PeriodForShow + 1,
-							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
+								unOptions.PeriodForShow + 1,
+								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 1);
 						ProtoList[i].TotalSentTraffic =
 							Stat_GetItemValue(1 << i,
-							unOptions.PeriodForShow + 1,
-							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
+								unOptions.PeriodForShow + 1,
+								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 2);
 						ProtoList[i].Total.Timer =
 							Stat_GetItemValue(1 << i,
-							unOptions.PeriodForShow + 1,
-							Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
+								unOptions.PeriodForShow + 1,
+								Stat_GetRecordsNumber(i, unOptions.PeriodForShow + 1) - 1, 4);
 						OverallInfo.TotalRecvTraffic += ProtoList[i].TotalRecvTraffic;
 						OverallInfo.TotalSentTraffic += ProtoList[i].TotalSentTraffic;
 					}
@@ -924,21 +924,21 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 					&& stNow.wMinute == 0
 					&& stNow.wSecond == 0)
 					|| (unOptions.PeriodForShow == 1
-					&& DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1
-					&& stNow.wHour == 0
-					&& stNow.wMinute == 0
-					&& stNow.wSecond == 0)
+						&& DayOfWeek(stNow.wDay, stNow.wMonth, stNow.wYear) == 1
+						&& stNow.wHour == 0
+						&& stNow.wMinute == 0
+						&& stNow.wSecond == 0)
 					|| (unOptions.PeriodForShow == 2
-					&& stNow.wDay == 1
-					&& stNow.wHour == 0
-					&& stNow.wMinute == 0
-					&& stNow.wSecond == 0)
+						&& stNow.wDay == 1
+						&& stNow.wHour == 0
+						&& stNow.wMinute == 0
+						&& stNow.wSecond == 0)
 					|| (unOptions.PeriodForShow == 3
-					&& stNow.wMonth == 1
-					&& stNow.wDay == 1
-					&& stNow.wHour == 0
-					&& stNow.wMinute == 0
-					&& stNow.wSecond == 0))
+						&& stNow.wMonth == 1
+						&& stNow.wDay == 1
+						&& stNow.wHour == 0
+						&& stNow.wMinute == 0
+						&& stNow.wSecond == 0))
 					OverallInfo.Total.TimeAtStart = CurrentTimeMs;
 
 				if (online_count > 0) {
@@ -1152,12 +1152,11 @@ void DestroyProtocolList(void)
 
 int ProtocolAckHook(WPARAM, LPARAM lParam)
 {
-	ACKDATA* pAck = (ACKDATA*)lParam;
-	WORD i;
+	ACKDATA *pAck = (ACKDATA*)lParam;
 
 	if (ACKTYPE_STATUS == pAck->type) {
 		if (ID_STATUS_OFFLINE == pAck->lParam) {
-			for (i = 0; i < NumberOfAccounts; i++) {
+			for (int i = 0; i < NumberOfAccounts; i++) {
 				if (!ProtoList[i].name) continue;
 				if (!mir_strcmp(ProtoList[i].name, pAck->szModule)) {
 					ProtocolIsOffLine(i);
@@ -1167,7 +1166,7 @@ int ProtocolAckHook(WPARAM, LPARAM lParam)
 		}
 		else {
 			if ((pAck->lParam >= ID_STATUS_ONLINE) && (pAck->lParam <= ID_STATUS_OUTTOLUNCH)) {
-				for (i = 0; i < NumberOfAccounts; i++)
+				for (int i = 0; i < NumberOfAccounts; i++)
 					if (!mir_strcmp(ProtoList[i].name, pAck->szModule)) {
 						ProtocolIsOnLine(i);
 						break;
@@ -1201,33 +1200,28 @@ int UpdateFonts(WPARAM, LPARAM)
 
 void UpdateTrafficWindowSize(void)
 {
-	if (Traffic_FrameID != NULL) {
+	if (Traffic_FrameID != NULL)
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, Traffic_FrameID), TrafficWindowHeight());
-	}
 }
 
 unsigned short int TrafficWindowHeight(void)
 {
-	int ActProto, MaxWndHeight;
+	int ActProto = unOptions.ShowOverall + unOptions.ShowSummary;
 
-	for (int i = 0, ActProto = unOptions.ShowOverall + unOptions.ShowSummary; i < NumberOfAccounts; i++)
+	for (int i = 0; i < NumberOfAccounts; i++)
 		ActProto += ProtoList[i].Visible && ProtoList[i].Enabled;
 
 	// Высота строки минимум 16 пикселей (для иконки).
 	Traffic_LineHeight = TrafficFontHeight > 16 ? TrafficFontHeight : 16;
 
 	// Высота фрейма равна количеству строк.
-	MaxWndHeight = ActProto * Traffic_LineHeight
-		+ Traffic_AdditionSpace * (ActProto - 1)
-		+ 4;
-
+	int MaxWndHeight = ActProto * Traffic_LineHeight + Traffic_AdditionSpace * (ActProto - 1) + 4;
 	return (MaxWndHeight < TrafficFontHeight) ? 0 : MaxWndHeight;
 }
 
 // Функция вносит изменения в ProtoList при коммутации аккаунтов
 int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 {
-	BYTE i;
 	PROTOACCOUNT *acc = (PROTOACCOUNT*)lParam;
 
 	switch (wParam) {
@@ -1236,9 +1230,10 @@ int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 		DestroyProtocolList();
 		CreateProtocolList();
 		break;
+
 	case PRAC_CHANGED:
 	case PRAC_CHECKED:
-		for (i = 0; i < NumberOfAccounts; i++)
+		for (int i = 0; i < NumberOfAccounts; i++)
 			if (!mir_strcmp(acc->szModuleName, ProtoList[i].name))
 				ProtoList[i].Enabled = acc->bIsEnabled;
 		break;

@@ -47,7 +47,7 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 		*RowItemsList = (RowItemInfo*)mir_realloc(*RowItemsList, sizeof(RowItemInfo) * (c + 1));
 
 		// Разбираем тег.
-		_stscanf(begin + 1, _T("%c%d"),
+		_stscanf(begin + 1, _T("%c%hd"),
 			&((*RowItemsList)[c].Alignment),
 			&((*RowItemsList)[c].Interval));
 
