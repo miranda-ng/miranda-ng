@@ -1018,7 +1018,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	}
 
 	if (cppv != cats.GetLength()) {
-		displayName = cats.Mid(cppv, cats.GetLength() - cppv);
+		displayName = cats.Mid(cppv);
 		AddCategory(displayName, displayName, smcCustom, defaultFile);
 	}
 }

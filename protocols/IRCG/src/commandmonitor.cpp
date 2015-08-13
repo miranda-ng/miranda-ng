@@ -876,7 +876,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 							begin = mess.Find(' ', end);
 							if (begin >= 0) {
-								CMString rest = mess.Mid(begin, mess.GetLength());
+								CMString rest = mess.Mid(begin);
 								dwAdr = _tcstoul(GetWord(rest.c_str(), 0).c_str(), NULL, 10);
 								iPort = _ttoi(GetWord(rest.c_str(), 1).c_str());
 								dwSize = _ttoi64(GetWord(rest.c_str(), 2).c_str());
@@ -949,7 +949,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 							begin = mess.Find(' ', end);
 							if (begin >= 0) {
-								CMString rest = mess.Mid(begin, mess.GetLength());
+								CMString rest = mess.Mid(begin);
 								iPort = _ttoi(GetWord(rest.c_str(), 0).c_str());
 								dwSize = _ttoi(GetWord(rest.c_str(), 1).c_str());
 								sToken = GetWord(rest.c_str(), 2);
@@ -1034,7 +1034,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				CMString sFileCorrected = sFile;
 				int i = sFile.ReverseFind('\\');
 				if (i != -1)
-					sFileCorrected = sFile.Mid(i + 1, sFile.GetLength());
+					sFileCorrected = sFile.Mid(i + 1);
 				sFile = sFileCorrected;
 			}
 			else if (type == _T("accept") || type == _T("resume")) {
@@ -1056,7 +1056,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				CMString sFileCorrected = sFile;
 				int i = sFile.ReverseFind('\\');
 				if (i != -1)
-					sFileCorrected = sFile.Mid(i + 1, sFile.GetLength());
+					sFileCorrected = sFile.Mid(i + 1);
 				sFile = sFileCorrected;
 			}
 
@@ -1255,7 +1255,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				while (_tcschr(sUserModePrefixes.c_str(), name[index]))
 					index++;
 
-				if (!mir_tstrcmpi(name.Mid(index, name.GetLength()).c_str(), m_info.sNick.c_str())) {
+				if (!mir_tstrcmpi(name.Mid(index).c_str(), m_info.sNick.c_str())) {
 					bFlag = true;
 					break;
 				}
@@ -1392,8 +1392,8 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						command = GetWord(dbv.ptszVal, i);
 						i++;
 						if (!command.IsEmpty()) {
-							CMString S = command.Mid(1, command.GetLength());
-							if (!mir_tstrcmpi(sChanName, S.c_str()))
+							CMString S = command.Mid(1);
+							if (!mir_tstrcmpi(sChanName, S))
 								break;
 
 							save += command + _T(" ");
@@ -1839,7 +1839,7 @@ bool CIrcProto::OnIrc_JOINERROR(const CIrcMessage* pmsg)
 				command = GetWord(dbv.ptszVal, i);
 				i++;
 
-				if (!command.IsEmpty() && pmsg->parameters[0] == command.Mid(1, command.GetLength()))
+				if (!command.IsEmpty() && pmsg->parameters[0] == command.Mid(1))
 					save += command + _T(" ");
 			}
 
@@ -2336,7 +2336,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, m_iStatus);
 
 	if (m_iDesiredStatus == ID_STATUS_AWAY)
-		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450).c_str());
+		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450));
 
 	if (m_perform) {
 		DoPerform("ALL NETWORKS");

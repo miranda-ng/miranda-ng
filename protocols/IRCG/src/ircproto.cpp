@@ -556,7 +556,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 			int i = dci->sFileAndPath.ReverseFind('\\');
 			if (i != -1) {
 				dci->sPath = dci->sFileAndPath.Mid(0, i + 1);
-				dci->sFile = dci->sFileAndPath.Mid(i + 1, dci->sFileAndPath.GetLength());
+				dci->sFile = dci->sFileAndPath.Mid(i + 1);
 			}
 
 			CMString sFileWithQuotes = dci->sFile;
@@ -757,7 +757,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 	else if (iNewStatus == ID_STATUS_AWAY && IsConnected()) //go to away while connected
 	{
-		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450).c_str());
+		PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450));
 		return 0;
 	}
 	else if (iNewStatus == ID_STATUS_ONLINE && IsConnected()) //already online
@@ -815,7 +815,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 				m_statusMessage = newStatus;
 
 			if (m_iStatus == ID_STATUS_AWAY)
-				PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450).c_str());
+				PostIrcMessage(_T("/AWAY %s"), m_statusMessage.Mid(0, 450));
 		}
 	}
 

@@ -116,7 +116,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		int i = sString.Find("|");
 		if (i != -1) {
 			sRequest = sString.Mid(0, i);
-			TCHAR* p = mir_a2t((char*)sString.Mid(i + 1, sString.GetLength()).c_str());
+			TCHAR* p = mir_a2t(sString.Mid(i + 1));
 			sChannel = p;
 			mir_free(p);
 		}
