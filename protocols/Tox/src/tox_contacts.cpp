@@ -184,7 +184,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 0;
 
-	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 	TOX_ERR_FRIEND_ADD error;
 	tox_friend_add_norequest(tox, pubKey, &error);
 	if (error != TOX_ERR_FRIEND_ADD_OK)

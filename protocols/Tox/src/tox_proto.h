@@ -73,6 +73,7 @@ private:
 	ToxAv *toxAv;
 	char *password;
 	mir_cs toxLock;
+	mir_cs profileLock;
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
 	bool isTerminated, isConnected;
