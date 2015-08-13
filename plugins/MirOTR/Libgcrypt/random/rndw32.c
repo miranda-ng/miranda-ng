@@ -828,10 +828,10 @@ _gcry_rndw32_gather_random_fast (void (*add)(const void*, size_t,
      and milliseconds since Windows was started.  */
 
   {
-    byte buffer[20*sizeof(ulong)], *bufptr;
+    byte buffer[20*sizeof(HANDLE)], *bufptr;
 
     bufptr = buffer;
-#define ADD(f)  do { ulong along = (ulong)(f);                  \
+#define ADD(f)  do { ULONG_PTR along = (ULONG_PTR)(f);                  \
                      memcpy (bufptr, &along, sizeof (along) );  \
                      bufptr += sizeof (along);                  \
                    } while (0)
