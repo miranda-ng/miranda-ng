@@ -389,8 +389,8 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				char* buf = rtf_to_html(hwndDlg, IDC_PROFILE);
 				db_set_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, buf);
-				if (ppro->state == 1)
-					ppro->aim_set_profile(ppro->hServerConn, ppro->seqno, buf);//also see set caps for profile setting
+				if (ppro->m_state == 1)
+					ppro->aim_set_profile(ppro->m_hServerConn, ppro->m_seqno, buf);//also see set caps for profile setting
 
 				mir_free(buf);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SETPROFILE), FALSE);
@@ -606,10 +606,9 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ppro = (CAimProto*)((LPPSHNOTIFY)lParam)->lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)ppro);
 
-			if (ppro->wait_conn(ppro->hAdminConn, ppro->hAdminEvent, 0x07))             // Make a connection
-			{
-				ppro->aim_admin_request_info(ppro->hAdminConn, ppro->admin_seqno, 0x01);	// Get our screenname
-				ppro->aim_admin_request_info(ppro->hAdminConn, ppro->admin_seqno, 0x11);	// Get our email
+			if (ppro->wait_conn(ppro->m_hAdminConn, ppro->m_hAdminEvent, 0x07)) { // Make a connection
+				ppro->aim_admin_request_info(ppro->m_hAdminConn, ppro->m_admin_seqno, 0x01);	// Get our screenname
+				ppro->aim_admin_request_info(ppro->m_hAdminConn, ppro->m_admin_seqno, 0x11);	// Get our email
 			}
 
 		case PSN_INFOCHANGED:
@@ -627,14 +626,14 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_SAVECHANGES) {
-			if (!ppro->wait_conn(ppro->hAdminConn, ppro->hAdminEvent, 0x07))             // Make a connection
+			if (!ppro->wait_conn(ppro->m_hAdminConn, ppro->m_hAdminEvent, 0x07))             // Make a connection
 				break;
 
 			char name[64];
 			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, _countof(name));
 			if (mir_strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv)) {
 				if (mir_strcmp(name, dbv.pszVal))
-					ppro->aim_admin_format_name(ppro->hAdminConn, ppro->admin_seqno, name);
+					ppro->aim_admin_format_name(ppro->m_hAdminConn, ppro->m_admin_seqno, name);
 				db_free(&dbv);
 			}
 
@@ -643,7 +642,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (mir_strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
 			{
 				if (mir_strcmp(email, dbv.pszVal))
-					ppro->aim_admin_change_email(ppro->hAdminConn, ppro->admin_seqno, email);
+					ppro->aim_admin_change_email(ppro->m_hAdminConn, ppro->m_admin_seqno, email);
 				db_free(&dbv);
 			}
 
@@ -658,7 +657,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				// Let's allow the client to type (two) new passwords incase they make a mistake so we
 				// can handle any input error locally.
 				if (mir_strcmp(npw1, npw2) == 0) {
-					ppro->aim_admin_change_password(ppro->hAdminConn, ppro->admin_seqno, cpw, npw1);
+					ppro->aim_admin_change_password(ppro->m_hAdminConn, ppro->m_admin_seqno, cpw, npw1);
 				}
 				else {
 					SetDlgItemTextA(hwndDlg, IDC_CPW, "");
@@ -670,8 +669,8 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		else if (LOWORD(wParam) == IDC_CONFIRM)	// Confirmation
 		{
-			if (ppro->wait_conn(ppro->hAdminConn, ppro->hAdminEvent, 0x07))             // Make a connection
-				ppro->aim_admin_account_confirm(ppro->hAdminConn, ppro->admin_seqno);
+			if (ppro->wait_conn(ppro->m_hAdminConn, ppro->m_hAdminEvent, 0x07))             // Make a connection
+				ppro->aim_admin_account_confirm(ppro->m_hAdminConn, ppro->m_admin_seqno);
 		}
 		break;
 	}
@@ -945,15 +944,15 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		ppro = (CAimProto*)lParam;
 
-		CheckRadioButton(hwndDlg, IDC_ALLOWALL, IDC_BLOCKBELOW, btns[ppro->pd_mode - 1]);
+		CheckRadioButton(hwndDlg, IDC_ALLOWALL, IDC_BLOCKBELOW, btns[ppro->m_pd_mode - 1]);
 
-		for (i = 0; i < ppro->allow_list.getCount(); ++i)
-			SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_ADDSTRING, 0, (LPARAM)ppro->allow_list[i].name);
+		for (i = 0; i < ppro->m_allow_list.getCount(); ++i)
+			SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_ADDSTRING, 0, (LPARAM)ppro->m_allow_list[i].name);
 
-		for (i = 0; i < ppro->block_list.getCount(); ++i)
-			SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_ADDSTRING, 0, (LPARAM)ppro->block_list[i].name);
+		for (i = 0; i < ppro->m_block_list.getCount(); ++i)
+			SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_ADDSTRING, 0, (LPARAM)ppro->m_block_list[i].name);
 
-		CheckDlgButton(hwndDlg, IDC_SIS, (ppro->pref1_flags & 0x400) ? BST_CHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_SIS, (ppro->m_pref1_flags & 0x400) ? BST_CHECKED : BST_CHECKED);
 		break;
 
 	case WM_COMMAND:
@@ -981,56 +980,56 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			ppro->aim_ssi_update(ppro->hServerConn, ppro->seqno, true);
+			ppro->aim_ssi_update(ppro->m_hServerConn, ppro->m_seqno, true);
 			for (i = 0; i < 5; ++i) {
-				if (IsDlgButtonChecked(hwndDlg, btns[i]) && ppro->pd_mode != i + 1) {
-					ppro->pd_mode = (char)(i + 1);
-					ppro->pd_flags = 1;
-					ppro->aim_set_pd_info(ppro->hServerConn, ppro->seqno);
+				if (IsDlgButtonChecked(hwndDlg, btns[i]) && ppro->m_pd_mode != i + 1) {
+					ppro->m_pd_mode = (char)(i + 1);
+					ppro->m_pd_flags = 1;
+					ppro->aim_set_pd_info(ppro->m_hServerConn, ppro->m_seqno);
 					break;
 				}
 			}
-			for (i = 0; i < ppro->block_list.getCount(); ++i) {
-				BdListItem& pd = ppro->block_list[i];
+			for (i = 0; i < ppro->m_block_list.getCount(); ++i) {
+				BdListItem& pd = ppro->m_block_list[i];
 				if (SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)pd.name) == LB_ERR) {
-					ppro->aim_delete_contact(ppro->hServerConn, ppro->seqno, pd.name, pd.item_id, 0, 3, false);
-					ppro->block_list.remove(i--);
+					ppro->aim_delete_contact(ppro->m_hServerConn, ppro->m_seqno, pd.name, pd.item_id, 0, 3, false);
+					ppro->m_block_list.remove(i--);
 				}
 			}
 			i = SendDlgItemMessage(hwndDlg, IDC_BLOCKLIST, LB_GETCOUNT, 0, 0);
 			for (; i--;) {
 				char nick[80];
 				SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_GETTEXT, i, (LPARAM)nick);
-				if (ppro->block_list.find_id(nick) == 0) {
-					unsigned short id = ppro->block_list.add(nick);
-					ppro->aim_add_contact(ppro->hServerConn, ppro->seqno, nick, id, 0, 3);
+				if (ppro->m_block_list.find_id(nick) == 0) {
+					unsigned short id = ppro->m_block_list.add(nick);
+					ppro->aim_add_contact(ppro->m_hServerConn, ppro->m_seqno, nick, id, 0, 3);
 				}
 			}
 
-			for (i = 0; i < ppro->allow_list.getCount(); ++i) {
-				BdListItem& pd = ppro->allow_list[i];
+			for (i = 0; i < ppro->m_allow_list.getCount(); ++i) {
+				BdListItem& pd = ppro->m_allow_list[i];
 				if (SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)pd.name) == LB_ERR) {
-					ppro->aim_delete_contact(ppro->hServerConn, ppro->seqno, pd.name, pd.item_id, 0, 2, false);
-					ppro->allow_list.remove(i--);
+					ppro->aim_delete_contact(ppro->m_hServerConn, ppro->m_seqno, pd.name, pd.item_id, 0, 2, false);
+					ppro->m_allow_list.remove(i--);
 				}
 			}
 			i = SendDlgItemMessage(hwndDlg, IDC_ALLOWLIST, LB_GETCOUNT, 0, 0);
 			for (; i--;) {
 				char nick[80];
 				SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_GETTEXT, i, (LPARAM)nick);
-				if (ppro->allow_list.find_id(nick) == 0) {
-					unsigned short id = ppro->allow_list.add(nick);
-					ppro->aim_add_contact(ppro->hServerConn, ppro->seqno, nick, id, 0, 2);
+				if (ppro->m_allow_list.find_id(nick) == 0) {
+					unsigned short id = ppro->m_allow_list.add(nick);
+					ppro->aim_add_contact(ppro->m_hServerConn, ppro->m_seqno, nick, id, 0, 2);
 				}
 			}
 
 			unsigned mask = (IsDlgButtonChecked(hwndDlg, IDC_SIS) == BST_CHECKED) << 10;
-			if ((ppro->pref1_flags & 0x400) ^ mask) {
-				ppro->pref1_flags = (ppro->pref1_flags & ~0x400) | mask;
-				ppro->aim_ssi_update_preferences(ppro->hServerConn, ppro->seqno);
+			if ((ppro->m_pref1_flags & 0x400) ^ mask) {
+				ppro->m_pref1_flags = (ppro->m_pref1_flags & ~0x400) | mask;
+				ppro->aim_ssi_update_preferences(ppro->m_hServerConn, ppro->m_seqno);
 			}
 
-			ppro->aim_ssi_update(ppro->hServerConn, ppro->seqno, false);
+			ppro->aim_ssi_update(ppro->m_hServerConn, ppro->m_seqno, false);
 		}
 		break;
 	}
@@ -1168,16 +1167,16 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			switch (LOWORD(wParam)) {
 			case IDOK:
 				//Instant Idle
-				if (ppro->state == 1) {
-					ppro->aim_set_idle(ppro->hServerConn, ppro->seqno, hours * 60 * 60 + minutes * 60);
-					ppro->instantidle = 1;
+				if (ppro->m_state == 1) {
+					ppro->aim_set_idle(ppro->m_hServerConn, ppro->m_seqno, hours * 60 * 60 + minutes * 60);
+					ppro->m_instantidle = 1;
 				}
 				EndDialog(hwndDlg, IDOK);
 				break;
 
 			case IDCANCEL:
-				ppro->aim_set_idle(ppro->hServerConn, ppro->seqno, 0);
-				ppro->instantidle = 0;
+				ppro->aim_set_idle(ppro->m_hServerConn, ppro->m_seqno, 0);
+				ppro->m_instantidle = 0;
 				EndDialog(hwndDlg, IDCANCEL);
 				break;
 			}
@@ -1217,7 +1216,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		case IDOK:
 			char room[128];
 			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, _countof(room));
-			if (ppro->state == 1 && room[0] != 0) {
+			if (ppro->m_state == 1 && room[0] != 0) {
 				chatnav_param* par = new chatnav_param(room, 4);
 				ppro->ForkThread(&CAimProto::chatnav_request_thread, par);
 			}
@@ -1254,15 +1253,15 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, chat_list_item
 					TCHAR buf[128] = _T("");
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
-					char* sn = mir_t2a(buf);
-					ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno,
+					char *sn = mir_t2a(buf);
+					ppro->aim_chat_invite(ppro->m_hServerConn, ppro->m_seqno,
 						item->cookie, item->exchange, item->instance, sn, msg);
 					mir_free(sn);
 				}
 				else {
 					DBVARIANT dbv;
 					if (!ppro->getString(hItem, AIM_KEY_SN, &dbv)) {
-						ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno,
+						ppro->aim_chat_invite(ppro->m_hServerConn, ppro->m_seqno,
 							item->cookie, item->exchange, item->instance, dbv.pszVal, msg);
 						db_free(&dbv);
 					}
@@ -1347,7 +1346,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			switch (LOWORD(wParam)) {
 			case IDC_ADDSCR:
-				if (param->ppro->state == 1) {
+				if (param->ppro->m_state == 1) {
 					TCHAR sn[64];
 					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, _countof(sn));
 
@@ -1365,11 +1364,11 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					chat_list_item* item = param->ppro->find_chat_by_id(param->id);
 					if (item) {
-						char msg[1024];
-						GetDlgItemTextA(hwndDlg, IDC_MSG, msg, _countof(msg));
+						char buf[1024];
+						GetDlgItemTextA(hwndDlg, IDC_MSG, buf, _countof(buf));
 
 						HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
-						clist_chat_invite_send(NULL, hwndList, item, param->ppro, msg);
+						clist_chat_invite_send(NULL, hwndList, item, param->ppro, buf);
 					}
 					EndDialog(hwndDlg, IDOK);
 				}
@@ -1423,7 +1422,7 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDCANCEL:
-			param->ppro->aim_chat_deny(param->ppro->hServerConn, param->ppro->seqno, param->name, param->icbm_cookie);
+			param->ppro->aim_chat_deny(param->ppro->m_hServerConn, param->ppro->m_seqno, param->name, param->icbm_cookie);
 			delete param->cnp;
 			EndDialog(hwndDlg, IDCANCEL);
 			break;

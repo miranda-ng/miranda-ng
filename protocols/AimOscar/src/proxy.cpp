@@ -24,12 +24,12 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 
 	if (ft->requester) 
 	{
-		if (proxy_initialize_send(ft->hConn, username, ft->icbm_cookie))
+		if (proxy_initialize_send(ft->hConn, m_username, ft->icbm_cookie))
 			return;//error
 	}
 	else
 	{
-		if (proxy_initialize_recv(ft->hConn, username, ft->icbm_cookie, ft->port)) 
+		if (proxy_initialize_recv(ft->hConn, m_username, ft->icbm_cookie, ft->port))
 			return;//error
 	}
 
@@ -89,14 +89,14 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 				unsigned short port = _htons(*(unsigned short*)&packetRecv.buffer[12]);
 				unsigned long  ip   = _htonl(*(unsigned long*)&packetRecv.buffer[14]);
 				
-				aim_send_file(hServerConn, seqno, ip, port, true, ft);
+				aim_send_file(m_hServerConn, m_seqno, ip, port, true, ft);
 				debugLogA("Stage %d Proxy ft and we are not the sender.", ft->req_num);
 			}
 			else if (type == 0x0005) 
 			{
 				if (!ft->requester) 
 				{
-					aim_file_ad(hServerConn, seqno, ft->sn, ft->icbm_cookie, false, ft->max_ver);
+					aim_file_ad(m_hServerConn, m_seqno, ft->sn, ft->icbm_cookie, false, ft->max_ver);
 					ft->accepted = true;
 				}
 
@@ -131,7 +131,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(ft->hConn);
 
-	ft_list.remove_by_ft(ft);
+	m_ft_list.remove_by_ft(ft);
 }
 
 

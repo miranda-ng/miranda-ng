@@ -305,7 +305,7 @@ public:
 	unsigned short LocalPort;// our port
 	
 	//Peer connection stuff
-	HANDLE hNetlibPeer;//handle to the peer netlib
+	HANDLE m_hNetlibPeer;//handle to the peer netlib
 	HANDLE hDirectBoundPort;//direct connection listening port
 	HANDLE current_rendezvous_accept_user;//hack
 
@@ -322,12 +322,12 @@ public:
 	unsigned int services_size;//current services size
 
 	//Some mail connection stuff
-	HANDLE hMailConn;
+	HANDLE m_hMailConn;
 	unsigned short mail_seqno;
 	int mail_packet_offset;
 	
 	//avatar connection stuff
-	HANDLE hAvatarConn;
+	HANDLE m_hAvatarConn;
 	unsigned short avatar_seqno;
 	HANDLE hAvatarEvent;
 	bool AvatarLimitThread;

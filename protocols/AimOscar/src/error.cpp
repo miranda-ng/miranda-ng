@@ -16,12 +16,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "stdafx.h"
 
 void CAimProto::login_error(unsigned short error)
 {
-	switch(error)
-	{
+	switch (error) {
 	case 0x0004:
 		ShowPopup(LPGEN("Invalid Screen Name or password."), ERROR_POPUP);
 		break;
@@ -42,8 +42,7 @@ void CAimProto::login_error(unsigned short error)
 
 void CAimProto::get_error(unsigned short error)
 {
-	switch(error)
-	{
+	switch (error) {
 	case 0x01:
 		ShowPopup(LPGEN("Invalid SNAC header."), ERROR_POPUP);
 		break;
@@ -144,8 +143,7 @@ void CAimProto::get_error(unsigned short error)
 
 void CAimProto::admin_error(unsigned short error)
 {
-	switch(error)
-	{
+	switch (error) {
 	case 0x01:
 		ShowPopup(LPGEN("Check your Screen Name."), ERROR_POPUP);
 		break;
@@ -249,39 +247,39 @@ void CAimProto::admin_error(unsigned short error)
 	case 0x1a:
 		ShowPopup(LPGEN("Bad Database status."), ERROR_POPUP);
 		break;
-	
+
 	case 0x1b:
 		ShowPopup(LPGEN("Migration Cancel."), ERROR_POPUP);
 		break;
-		
+
 	case 0x1c:
 		ShowPopup(LPGEN("Internal Error."), ERROR_POPUP);
 		break;
-		
+
 	case 0x1d:
 		ShowPopup(LPGEN("There is already a Pending Request for this Screen Name."), ERROR_POPUP);
 		break;
-		
+
 	case 0x1e:
 		ShowPopup(LPGEN("Not DT status."), ERROR_POPUP);
 		break;
-		
+
 	case 0x1f:
 		ShowPopup(LPGEN("Outstanding Confirmation."), ERROR_POPUP);
 		break;
-	
+
 	case 0x20:
 		ShowPopup(LPGEN("No Email Address."), ERROR_POPUP);
 		break;
-		
+
 	case 0x21:
 		ShowPopup(LPGEN("Over Limit."), ERROR_POPUP);
 		break;
-		
+
 	case 0x22:
 		ShowPopup(LPGEN("Email Host Fail."), ERROR_POPUP);
 		break;
-		
+
 	case 0x23:
 		ShowPopup(LPGEN("DNS Fail."), ERROR_POPUP);
 		break;

@@ -108,89 +108,88 @@ struct CAimProto : public PROTO<CAimProto>
 	char* ADMIN_COOKIE;
 	int ADMIN_COOKIE_LENGTH;
 
-	char *username;
-	unsigned short seqno;//main connection sequence number
-	int state;//m_iStatus of the connection; e.g. whether connected or not
-	unsigned short port;
+	char *m_username;
+	unsigned short m_seqno;//main connection sequence number
+	int m_state;//m_iStatus of the connection; e.g. whether connected or not
+	unsigned short m_port;
 
 	//Some bools to keep track of different things
-	bool request_HTML_profile;
-	bool request_away_message;
-	bool extra_icons_loaded;
-	bool idle;
-	bool instantidle;
-	bool list_received;
+	bool m_request_HTML_profile;
+	bool m_request_away_message;
+	bool m_extra_icons_loaded;
+	bool m_idle;
+	bool m_instantidle;
+	bool m_list_received;
 
 	//Some main connection stuff
-	HANDLE hServerConn;//handle to the main connection
+	HANDLE m_hServerConn; // handle to the main connection
 
-	unsigned long internal_ip;  // our ip
-	unsigned long detected_ip;  // our ip
-	unsigned short local_port;  // our port
+	unsigned long m_internal_ip;  // our ip
+	unsigned long m_detected_ip;  // our ip
+	unsigned short m_local_port;  // our port
 
 	//Peer connection stuff
-	HANDLE hNetlibPeer;//handle to the peer netlib
-	HANDLE hDirectBoundPort;//direct connection listening port
+	HANDLE m_hNetlibPeer;//handle to the peer netlib
+	HANDLE m_hDirectBoundPort;//direct connection listening port
 
 	//Handles for the context menu items
-	HGENMENU hHTMLAwayContextMenuItem;
-	HGENMENU hAddToServerListContextMenuItem;
-	HGENMENU hBlockContextMenuItem;
-	HGENMENU hMainMenu[3];
+	HGENMENU m_hHTMLAwayContextMenuItem;
+	HGENMENU m_hAddToServerListContextMenuItem;
+	HGENMENU m_hBlockContextMenuItem;
+	HGENMENU m_hMainMenu[3];
 
 	//Some mail connection stuff
-	HANDLE hMailConn;
-	unsigned short mail_seqno;
+	HANDLE m_hMailConn;
+	unsigned short m_mail_seqno;
 
 	//avatar connection stuff
-	unsigned short avatar_seqno;
-	unsigned short avatar_id_sm;
-	unsigned short avatar_id_lg;
-	HANDLE hAvatarConn;
-	HANDLE hAvatarEvent;
+	unsigned short m_avatar_seqno;
+	unsigned short m_avatar_id_sm;
+	unsigned short m_avatar_id_lg;
+	HANDLE m_hAvatarConn;
+	HANDLE m_hAvatarEvent;
 
-	ft_list_type ft_list;
+	ft_list_type m_ft_list;
 
 	//chatnav connection stuff
-	unsigned short chatnav_seqno;
-	HANDLE hChatNavConn;
-	HANDLE hChatNavEvent;
+	unsigned short m_chatnav_seqno;
+	HANDLE m_hChatNavConn;
+	HANDLE m_hChatNavEvent;
 	char MAX_ROOMS;
 
-	OBJLIST<chat_list_item> chat_rooms;
+	OBJLIST<chat_list_item> m_chat_rooms;
 
 	//admin connection stuff
-	unsigned short admin_seqno;
-	HANDLE hAdminConn;
-	HANDLE hAdminEvent;
+	unsigned short m_admin_seqno;
+	HANDLE m_hAdminConn;
+	HANDLE m_hAdminEvent;
 
 	// privacy settings
-	unsigned long pd_flags;
-	unsigned short pd_info_id;
-	char pd_mode;
+	unsigned long m_pd_flags;
+	unsigned short m_pd_info_id;
+	char m_pd_mode;
 
 	// prefernces
-	unsigned short pref1_id;
-	unsigned long pref1_flags;
-	unsigned long pref1_set_flags;
-	unsigned long pref2_len;
-	unsigned long pref2_set_len;
-	char *pref2_flags;
-	char *pref2_set_flags;
+	unsigned short m_pref1_id;
+	unsigned long m_pref1_flags;
+	unsigned long m_pref1_set_flags;
+	unsigned long m_pref2_len;
+	unsigned long m_pref2_set_len;
+	char *m_pref2_flags;
+	char *m_pref2_set_flags;
 
-	BdList allow_list;
-	BdList block_list;
-
-	BdList group_list;
+	BdList m_allow_list;
+	BdList m_block_list;
+	BdList m_group_list;
 
 	//away message retrieval stuff
-	char *modeMsgs[9];
-	char *last_status_msg;
+	char *m_modeMsgs[9];
+	char *m_last_status_msg;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// avatars.cpp
 
-	char *hash_sm, *hash_lg;
+	char *m_hash_sm, *m_hash_lg;
 
 	void   __cdecl avatar_request_thread( void* param );
 	void   __cdecl avatar_upload_thread( void* param );
