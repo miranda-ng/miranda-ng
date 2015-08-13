@@ -67,7 +67,7 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 	buffer[4] = '\0'; //mark the end of the string
 	for (UINT i = 0; i < size; i++) {
 		strncpy_s(buffer + 2, 3, &tmp[i*2], _TRUNCATE);
-		sscanf(buffer, "%x", &outData[i]);
+		sscanf(buffer, "%hhx", &outData[i]);
 	}
 }
 
