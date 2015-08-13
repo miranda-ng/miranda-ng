@@ -20,6 +20,8 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 {
 	debugLogA(__FUNCTION__": loading tox profile");
 
+	mir_cslock locker(profileLock);
+
 	size_t size = 0;
 	uint8_t *data = NULL;
 	
@@ -100,6 +102,8 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 
 void CToxProto::SaveToxProfile()
 {
+	mir_cslock locker(profileLock);
+
 	size_t size = tox_get_savedata_size(tox);
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 	tox_get_savedata(tox, data);
