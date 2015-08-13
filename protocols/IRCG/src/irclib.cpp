@@ -926,11 +926,11 @@ int CDccSession::SetupConnection()
 					int i = di->sFileAndPath.ReverseFind('\\');
 					if (i != -1) {
 						di->sPath = di->sFileAndPath.Mid(0, i + 1);
-						di->sFile = di->sFileAndPath.Mid(i + 1, di->sFileAndPath.GetLength());
+						di->sFile = di->sFileAndPath.Mid(i + 1);
 					}
 
-					pfts.tszCurrentFile = (TCHAR*)di->sFileAndPath.c_str();
-					pfts.tszWorkingDir = (TCHAR*)di->sPath.c_str();
+					pfts.tszCurrentFile = di->sFileAndPath.GetBuffer();
+					pfts.tszWorkingDir = di->sPath.GetBuffer();
 					pfts.totalBytes = di->dwSize;
 					pfts.currentFileSize = pfts.totalBytes;
 

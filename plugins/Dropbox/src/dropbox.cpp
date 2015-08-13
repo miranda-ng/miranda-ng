@@ -80,17 +80,16 @@ void CDropbox::RequestAccountInfo()
 	JSONNode display_name = root.at("display_name");
 	if (!display_name.empty())
 	{
-		ptrT display_name(mir_utf8decodeT(display_name.as_string().c_str()));
-		TCHAR *sep = _tcsrchr(display_name, _T(' '));
-		if (sep)
+		CMString tszDisplayName(display_name.as_mstring());
+		int pos = tszDisplayName.ReverseFind(' ');
+		if (pos != -1)
 		{
-			db_set_ts(hContact, MODULE, "LastName", sep + 1);
-			display_name[mir_tstrlen(display_name) - mir_tstrlen(sep)] = '\0';
-			db_set_ts(hContact, MODULE, "FirstName", display_name);
+			db_set_ts(hContact, MODULE, "LastName", tszDisplayName.Mid(pos+1));
+			db_set_ts(hContact, MODULE, "FirstName", tszDisplayName.Left(pos));
 		}
 		else
 		{
-			db_set_ts(hContact, MODULE, "FirstName", display_name);
+			db_set_ts(hContact, MODULE, "FirstName", tszDisplayName);
 			db_unset(hContact, MODULE, "LastName");
 		}
 	}
@@ -104,8 +103,8 @@ void CDropbox::RequestAccountInfo()
 			db_unset(hContact, MODULE, "Country");
 		else
 		{
-			char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode.c_str(), 0);
-			db_set_s(hContact, MODULE, "Country", country);
+			char *szCountry = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode.c_str(), 0);
+			db_set_s(hContact, MODULE, "Country", szCountry);
 		}
 	}
 
