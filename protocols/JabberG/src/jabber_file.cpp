@@ -82,7 +82,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 {
-	char* p, *q, *s, *eob;
+	char* p, *q, *eob;
 	int num, code;
 
 	eob = buffer + datalen;
@@ -127,7 +127,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 					ft->std.currentFileProgress = 0;
 					debugLogA("Change to FT_RECEIVING");
 				}
-				else if ((s = strchr(str, ':')) != NULL) {
+				else if (char *s = strchr(str, ':')) {
 					*s = '\0';
 					if (!mir_strcmp(str, "Content-Length"))
 						ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s + 1);
@@ -336,7 +336,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer, int datalen)
 {
-	char* p, *q, *t, *eob;
+	char* p, *q, *eob;
 	char* str;
 	int num;
 	int currentFile;
@@ -360,6 +360,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 		if (ft->state == FT_CONNECTING) {
 			// looking for "GET filename.ext HTTP/1.1"
 			if (!strncmp(str, "GET ", 4)) {
+				char *t;
 				for (t = str + 4; *t != '\0' && *t != ' '; t++);
 				*t = '\0';
 				for (t = str + 4; *t != '\0' && *t == '/'; t++);
