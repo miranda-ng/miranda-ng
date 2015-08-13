@@ -192,6 +192,9 @@ protected:
 	HICON GetXStatusIcon(int status, UINT flags);
 	int GetContactXStatus(MCONTACT hContact);
 
+	HANDLE __cdecl GetAwayMsg(MCONTACT hContact);
+	void __cdecl GetAwayMsgThread(void *arg);
+
 	// events
 	int OnModulesLoaded(WPARAM, LPARAM);
 	int OnPreShutdown(WPARAM, LPARAM);
