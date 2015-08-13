@@ -61,12 +61,9 @@ static int QueueSortItems(const QueueItem *p1, const QueueItem *p2)
 
 static OBJLIST<QueueItem> queue(20, QueueSortItems);
 static mir_cs cs;
-static int waitTime;
 
 void InitPolls()
 {
-	waitTime = REQUEST_WAIT_TIME;
-
 	// Init request queue
 	mir_forkthread(RequestThread, NULL);
 }
@@ -137,7 +134,7 @@ static void QueueAdd(MCONTACT hContact, int waitTime)
 // Add an contact to a queue
 void QueueAdd(MCONTACT hContact)
 {
-	QueueAdd(hContact, waitTime);
+	QueueAdd(hContact, REQUEST_WAIT_TIME);
 }
 
 void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pai, const char *szProto)
