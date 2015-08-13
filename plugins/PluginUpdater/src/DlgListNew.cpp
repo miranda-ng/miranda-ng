@@ -337,6 +337,34 @@ static void __stdcall LaunchListDialog(void *param)
 /////////////////////////////////////////////////////////////////////////////////////////
 // building file list in the separate thread
 
+static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* tszBaseUrl, const TCHAR* tszPath)
+{
+	FILEINFO *FileInfo = new FILEINFO;
+	FileInfo->bDeleteOnly = FALSE;
+	// copy the relative old name
+	_tcsncpy(FileInfo->tszOldName, hash.m_name, _countof(FileInfo->tszOldName));
+	_tcsncpy(FileInfo->tszNewName, hash.m_name, _countof(FileInfo->tszNewName));
+
+	TCHAR tszFileName[MAX_PATH];
+	_tcsncpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1, _countof(tszFileName));
+	TCHAR *tp = _tcschr(tszFileName, L'.'); *tp = 0;
+
+	TCHAR tszRelFileName[MAX_PATH];
+	_tcsncpy(tszRelFileName, hash.m_name, MAX_PATH);
+	tp = _tcsrchr(tszRelFileName, L'.'); if (tp) *tp = 0;
+	tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
+	_tcslwr(tp);
+
+	mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
+	mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
+	for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
+		*tp++ = '/';
+	FileInfo->File.CRCsum = hash.m_crc;
+	// Deselect all plugins by default
+	FileInfo->bEnabled = false;
+	return FileInfo;
+}
+
 static void GetList(void *)
 {
 	TCHAR tszTempPath[MAX_PATH];
@@ -361,29 +389,7 @@ static void GetList(void *)
 		mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\%s"), dirname, hash.m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
-			FILEINFO *FileInfo = new FILEINFO;
-			FileInfo->bDeleteOnly = FALSE;
-			// copy the relative old name
-			_tcsncpy(FileInfo->tszOldName, hash.m_name, _countof(FileInfo->tszOldName));
-			_tcsncpy(FileInfo->tszNewName, hash.m_name, _countof(FileInfo->tszNewName));
-
-			TCHAR tszFileName[MAX_PATH];
-			_tcsncpy(tszFileName, _tcsrchr(tszPath, L'\\') + 1, _countof(tszFileName));
-			TCHAR *tp = _tcschr(tszFileName, L'.'); *tp = 0;
-
-			TCHAR tszRelFileName[MAX_PATH];
-			_tcsncpy(tszRelFileName, hash.m_name, MAX_PATH);
-			tp = _tcsrchr(tszRelFileName, L'.'); if (tp) *tp = 0;
-			tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
-			_tcslwr(tp);
-
-			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), baseUrl, tszRelFileName);
-			for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
-				*tp++ = '/';
-			FileInfo->File.CRCsum = hash.m_crc;
-			// Deselect all plugins by default
-			FileInfo->bEnabled = false;
+			FILEINFO *FileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
 			UpdateFiles->insert(FileInfo);
 		}
 	}
@@ -432,4 +438,57 @@ void UnloadListNew()
 {
 	if (hListThread)
 		hListThread = NULL;
+}
+
+INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR *arg = (TCHAR *)lParam;
+	if (arg == NULL)
+		return 1;
+
+	TCHAR uri[1024];
+	_tcsncpy_s(uri, arg, _TRUNCATE);
+
+	TCHAR *p = _tcschr(uri, _T(':'));
+	if (p == NULL)
+		return 1;
+
+	TCHAR pluginPath[MAX_PATH];
+	mir_tstrcpy(pluginPath, p + 1);
+	p = _tcschr(pluginPath, _T('/'));
+	if (p) *p = _T('\\');
+
+	ptrT updateUrl(GetDefaultUrl()), baseUrl;
+	SERVLIST hashes(50, CompareHashes);
+	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+		hListThread = NULL;
+		return 1;
+	}
+
+	FILELIST *fileList = new FILELIST(1);
+
+	VARST dirName(_T("%miranda_path%"));
+	for (int i = 0; i < hashes.getCount(); i++)
+	{
+		ServListEntry &hash = hashes[i];
+
+		if (mir_tstrcmpi(hash.m_name, pluginPath) == 0)
+		{
+			TCHAR tszPath[MAX_PATH];
+			mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\%s"), dirName, hash.m_name);
+
+			FILEINFO *fileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
+			fileList->insert(fileInfo);
+
+			break;
+		}
+	}
+
+	if (fileList->getCount() == 0) {
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("List is empty."), POPUP_TYPE_INFO);
+		delete fileList;
+	}
+	else CallFunctionAsync(LaunchListDialog, fileList);
+
+	return 0;
 }
