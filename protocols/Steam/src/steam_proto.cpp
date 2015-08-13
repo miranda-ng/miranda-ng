@@ -203,11 +203,9 @@ DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_ADDSEARCHRES;
+		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
-	case PFLAGNUM_3:
-		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING;// | PF4_IMSENDOFFLINE;
 	case PFLAGNUM_5:
@@ -338,6 +336,35 @@ int CSteamProto::SetStatus(int new_status)
 	}
 
 	return 0;
+}
+
+void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
+{
+	// Maybe not needed, but better to be sure that this won't happen faster than core handling return value of GetAwayMsg()
+	Sleep(50);
+
+	MCONTACT hContact = (MCONTACT)arg;
+	CMString message(db_get_tsa(hContact, "CList", "StatusMsg"));
+	
+	// if contact has no status message, get xstatus message
+	if (message.IsEmpty())
+	{
+		ptrT xStatusName(getTStringA(hContact, "XStatusName"));
+		ptrT xStatusMsg(getTStringA(hContact, "XStatusMsg"));
+
+		if (xStatusName)
+			message.AppendFormat(_T("%s: %s"), xStatusName, xStatusMsg);
+		else
+			message.Append(xStatusMsg);
+	}
+
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)message.c_str());
+}
+
+HANDLE __cdecl CSteamProto::GetAwayMsg(MCONTACT hContact)
+{
+	ForkThread(&CSteamProto::GetAwayMsgThread, (void*)hContact);
+	return (HANDLE)1;
 }
 
 int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
