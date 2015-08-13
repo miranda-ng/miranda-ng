@@ -36,6 +36,7 @@ Boston, MA 02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
+#include <m_assocmgr.h>
 #include <win2k.h>
 #include <m_pluginupdater.h>
 
@@ -214,6 +215,8 @@ void  InitTimer(void *type);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
 void strdel(TCHAR *parBuffer, int len);
+
+INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam);
 
 ///////////////////////////////////////////////////////////////////////////////
 

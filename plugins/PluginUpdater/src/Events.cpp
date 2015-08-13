@@ -53,6 +53,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\" DEFAULT_UPDATES_FOLDER)), _countof(tszRoot));
 
+#if MIRANDA_VER >= 0x0A00
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
+	{
+		CreateServiceFunction(MODNAME "/ParseUri", ParseUriService);
+		AssocMgr_AddNewUrlTypeT("mirpu:", TranslateT("Plugin updater URI scheme"), hInst, IDI_PLGLIST, MODNAME "/ParseUri", 0);
+	}
+#endif
+
 	int iRestartCount = db_get_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
 		db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, iRestartCount - 1);
