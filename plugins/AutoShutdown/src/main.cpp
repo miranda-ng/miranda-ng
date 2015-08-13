@@ -38,7 +38,7 @@ PLUGININFOEX pluginInfo = {
 	{0x9de24579, 0x5c5c, 0x49aa, {0x80, 0xe8, 0x4d, 0x38, 0xe4, 0x34, 0x4e, 0x63}}
 };
 
-IconItem iconList[] = 
+IconItem iconList[] =
 {
 	{ LPGEN("Header"), "AutoShutdown_Header", IDI_HEADER },
 	{ LPGEN("Active"), "AutoShutdown_Active", IDI_ACTIVE },
@@ -51,13 +51,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, VOID*)
 	return TRUE;
 }
 
-static int ShutdownModulesLoaded(WPARAM,LPARAM)
+static int ShutdownModulesLoaded(WPARAM, LPARAM)
 {
 	/* Toolbar Item */
-	HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
+	HookEvent(ME_TTB_MODULELOADED, ToolbarLoaded); /* no service to check for */
 
 	WatcherModulesLoaded();
-
 	return 0;
 }
 
@@ -72,8 +71,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getCLI();
 
 	INITCOMMONCONTROLSEX icc;
-	icc.dwSize=sizeof(icc);
-	icc.dwICC=ICC_DATE_CLASSES|ICC_UPDOWN_CLASS|ICC_PROGRESS_CLASS;
+	icc.dwSize = sizeof(icc);
+	icc.dwICC = ICC_DATE_CLASSES | ICC_UPDOWN_CLASS | ICC_PROGRESS_CLASS;
 	if (!InitCommonControlsEx(&icc)) return 1;
 
 	if (InitFrame()) return 1; /* before icons */

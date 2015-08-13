@@ -31,71 +31,72 @@ static HANDLE hHookModulesLoaded;
 
 #define M_ENABLE_SUBCTLS  (WM_APP+111)
 
-static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			WORD setting=db_get_w(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
-			if (setting<3) setting=SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETRANGE,0,MAKELPARAM(999,3));
-			SendDlgItemMessage(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,EM_SETLIMITTEXT,3,0);
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETPOS,0,MAKELPARAM(setting,0));
-			SetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,setting,FALSE);
+			WORD setting = db_get_w(NULL, "AutoShutdown", "ConfirmDlgCountdown", SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
+			if (setting < 3)
+				setting = SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_CONFIRMDLGCOUNTDOWN, UDM_SETRANGE, 0, MAKELPARAM(999, 3));
+			SendDlgItemMessage(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, EM_SETLIMITTEXT, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_CONFIRMDLGCOUNTDOWN, UDM_SETPOS, 0, MAKELPARAM(setting, 0));
+			SetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, setting, FALSE);
 		}
-		CheckDlgButton(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK,db_get_b(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_CHECK_REMEMBERONRESTART,db_get_b(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG,db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_SMARTOFFLINECHECK, db_get_b(NULL, "AutoShutdown", "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_REMEMBERONRESTART, db_get_b(NULL, "AutoShutdown", "RememberOnRestart", SETTING_REMEMBERONRESTART_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWCONFIRMDLG, db_get_b(NULL, "AutoShutdown", "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			BOOL enabled = ServiceIsTypeEnabled(SDSDT_SHUTDOWN,0);
+			BOOL enabled = ServiceIsTypeEnabled(SDSDT_SHUTDOWN, 0);
 			if (enabled) {
 				if (ServiceExists(MS_WEATHER_UPDATE)) {
-					EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER),TRUE);
-					CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_WEATHER), TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHECK_WEATHER, db_get_b(NULL, "AutoShutdown", "WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 				}
 			}
 		}
-		SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
+		SendMessage(hwndDlg, M_ENABLE_SUBCTLS, 0, 0);
 		return TRUE; /* default focus */
 
 	case M_ENABLE_SUBCTLS:
 		{
-			BOOL checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG) != 0;
-			if (checked != IsWindowEnabled(GetDlgItem(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN))) {
-				EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN),checked);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN),checked);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_TEXT_COUNTDOWNSTARTS),checked);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_TEXT_SECONDS),checked);
+			BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWCONFIRMDLG) != 0;
+			if (checked != IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN))) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN), checked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SPIN_CONFIRMDLGCOUNTDOWN), checked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT_COUNTDOWNSTARTS), checked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TEXT_SECONDS), checked);
 			}
 			return TRUE;
 		}
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_EDIT_CONFIRMDLGCOUNTDOWN:
-			if (HIWORD(wParam)==EN_KILLFOCUS)
-				if ((int)GetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,NULL,TRUE)<3) {
-					SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETPOS,0,MAKELPARAM(3,0));
-					SetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,3,FALSE);
+			if (HIWORD(wParam) == EN_KILLFOCUS)
+				if ((int)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, NULL, TRUE) < 3) {
+					SendDlgItemMessage(hwndDlg, IDC_SPIN_CONFIRMDLGCOUNTDOWN, UDM_SETPOS, 0, MAKELPARAM(3, 0));
+					SetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, 3, FALSE);
 				}
-				if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-					return TRUE; /* no apply */
-				break;
+			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
+				return TRUE; /* no apply */
+			break;
 		}
-		PostMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
-		PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0); /* enable apply */
+		PostMessage(hwndDlg, M_ENABLE_SUBCTLS, 0, 0);
+		PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0); /* enable apply */
 		return FALSE;
 
 	case WM_NOTIFY:
-		switch(((NMHDR*)lParam)->code) {
+		switch (((NMHDR*)lParam)->code) {
 		case PSN_APPLY:
-			db_set_b(NULL,"AutoShutdown","ShowConfirmDlg",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG) != 0));
-			db_set_w(NULL,"AutoShutdown","ConfirmDlgCountdown",(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,NULL,FALSE));
-			db_set_b(NULL,"AutoShutdown","RememberOnRestart",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_REMEMBERONRESTART) != 0));
-			db_set_b(NULL,"AutoShutdown","SmartOfflineCheck",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK) != 0));
-			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER)))
-				db_set_b(NULL,"AutoShutdown","WeatherShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_WEATHER) != 0));
+			db_set_b(NULL, "AutoShutdown", "ShowConfirmDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWCONFIRMDLG) != 0));
+			db_set_w(NULL, "AutoShutdown", "ConfirmDlgCountdown", (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, NULL, FALSE));
+			db_set_b(NULL, "AutoShutdown", "RememberOnRestart", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_REMEMBERONRESTART) != 0));
+			db_set_b(NULL, "AutoShutdown", "SmartOfflineCheck", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_SMARTOFFLINECHECK) != 0));
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHECK_WEATHER)))
+				db_set_b(NULL, "AutoShutdown", "WeatherShutdown", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_WEATHER) != 0));
 			return TRUE;
 		}
 		break;
@@ -123,7 +124,7 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM)
 void InitOptions(void)
 {
 	/* Option Page */
-	hHookOptInit=HookEvent(ME_OPT_INITIALISE,ShutdownOptInit);
+	hHookOptInit = HookEvent(ME_OPT_INITIALISE, ShutdownOptInit);
 }
 
 void UninitOptions(void)
