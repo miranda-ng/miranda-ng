@@ -76,7 +76,7 @@ void exportModule(MCONTACT hContact, const char *module, FILE *file)
 				fprintf(file, "\n%s=d%s", setting->name, _ultoa(dbv.dVal, tmp, 10));
 				break;
 			case DBVT_BLOB:
-				fprintf(file, "\n%s=n%s", setting->name, ptrA(StringFromBlob(dbv.pbVal, dbv.cpbVal)));
+				fprintf(file, "\n%s=n%s", setting->name, (char*)ptrA(StringFromBlob(dbv.pbVal, dbv.cpbVal)));
 				break;
 			case DBVT_WCHAR:
 			case DBVT_ASCIIZ:
