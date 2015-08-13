@@ -176,32 +176,32 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	bool bIsChatRoom = isChatRoom(hContact);
 
 	//see if we should add the html away message context menu items
-	Menu_ShowItem(hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !bIsChatRoom);
-	Menu_ShowItem(hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && state != 0 && !bIsChatRoom);
+	Menu_ShowItem(m_hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !bIsChatRoom);
+	Menu_ShowItem(m_hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && m_state != 0 && !bIsChatRoom);
 
 	ptrA id(getStringA(hContact, AIM_KEY_SN));
 	if (id == NULL)
 		return 0;
 
-	switch (pd_mode) {
+	switch (m_pd_mode) {
 	case 1:
-		Menu_ModifyItem(hBlockContextMenuItem, LPGENT("&Block"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENT("&Block"));
 		break;
 
 	case 2:
-		Menu_ModifyItem(hBlockContextMenuItem, LPGENT("&Unblock"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENT("&Unblock"));
 		break;
 
 	case 3:
-		Menu_ModifyItem(hBlockContextMenuItem, allow_list.find_id(id) ? LPGENT("&Block") : LPGENT("&Unblock"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, m_allow_list.find_id(id) ? LPGENT("&Block") : LPGENT("&Unblock"));
 		break;
 
 	case 4:
-		Menu_ModifyItem(hBlockContextMenuItem, block_list.find_id(id) ? LPGENT("&Unblock") : LPGENT("&Block"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, m_block_list.find_id(id) ? LPGENT("&Unblock") : LPGENT("&Block"));
 		break;
 
 	default:
-		Menu_ShowItem(hBlockContextMenuItem, false);
+		Menu_ShowItem(m_hBlockContextMenuItem, false);
 		break;
 	}
 	return 0;
@@ -217,21 +217,21 @@ void CAimProto::InitMainMenus(void)
 	mi.position = 201001;
 	mi.hIcolibItem = GetIconHandle("aim");
 	mi.name.a = LPGEN("Manage Account");
-	hMainMenu[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	m_hMainMenu[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/InstantIdle";
 	CreateProtoService(mi.pszService, &CAimProto::InstantIdle);
 	mi.position = 201002;
 	mi.hIcolibItem = GetIconHandle("idle");
 	mi.name.a = LPGEN("Instant Idle");
-	hMainMenu[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	m_hMainMenu[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = "/JoinChatRoom";
 	CreateProtoService(mi.pszService, &CAimProto::JoinChatUI);
 	mi.position = 201003;
 	mi.hIcolibItem = GetIconHandle("aol");
 	mi.name.a = LPGEN( "Join Chat Room" );
-	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	m_hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }
 
 void CAimProto::InitContactMenus(void)
@@ -244,7 +244,7 @@ void CAimProto::InitContactMenus(void)
 	mi.hIcolibItem = GetIconHandle("away");
 	mi.name.a = LPGEN("Read &HTML Away Message");
 	mi.flags = CMIF_NOTOFFLINE | CMIF_HIDDEN;
-	hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	m_hHTMLAwayContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	CreateProtoService("/GetProfile", &CAimProto::GetProfile);
 	mi.pszService = "/GetProfile";
@@ -260,7 +260,7 @@ void CAimProto::InitContactMenus(void)
 	mi.hIcolibItem = GetIconHandle("add");
 	mi.name.a = LPGEN("Add To Server List");
 	mi.flags = CMIF_NOTONLINE | CMIF_HIDDEN;
-	hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	m_hAddToServerListContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	CreateProtoService("/BlockCommand", &CAimProto::BlockBuddy);
 	mi.pszService = "/BlockCommand";
@@ -268,5 +268,5 @@ void CAimProto::InitContactMenus(void)
 	mi.hIcolibItem = GetIconHandle("block");
 	mi.name.a = LPGEN("&Block");
 	mi.flags = CMIF_HIDDEN;
-	hBlockContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	m_hBlockContextMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 }

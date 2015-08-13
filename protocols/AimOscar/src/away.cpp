@@ -16,25 +16,27 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "stdafx.h"
+
+static const int modes[] =
+{
+	ID_STATUS_ONLINE,
+	ID_STATUS_AWAY,
+	ID_STATUS_DND,
+	ID_STATUS_NA,
+	ID_STATUS_OCCUPIED,
+	ID_STATUS_FREECHAT,
+	ID_STATUS_INVISIBLE,
+	ID_STATUS_ONTHEPHONE,
+	ID_STATUS_OUTTOLUNCH,
+};
 
 char** CAimProto::get_status_msg_loc(int status)
 {
-	static const int modes[] =
-	{
-		ID_STATUS_ONLINE,
-		ID_STATUS_AWAY,
-		ID_STATUS_DND, 
-		ID_STATUS_NA,
-		ID_STATUS_OCCUPIED, 
-		ID_STATUS_FREECHAT,
-		ID_STATUS_INVISIBLE,
-		ID_STATUS_ONTHEPHONE,
-		ID_STATUS_OUTTOLUNCH, 
-	};
-
-	for (int i=0; i<9; i++) 
-		if (modes[i] == status) return &modeMsgs[i];
+	for (int i = 0; i < _countof(modes); i++)
+		if (modes[i] == status)
+			return &m_modeMsgs[i];
 
 	return NULL;
 }
@@ -42,10 +44,9 @@ char** CAimProto::get_status_msg_loc(int status)
 int CAimProto::aim_set_away(HANDLE hServerConn, unsigned short &seqno, const char *amsg, bool set)//user info
 {
 	unsigned short offset = 0;
-	char* html_msg = NULL;
+	char *html_msg = NULL;
 	size_t msg_size = 0;
-	if (set)
-	{
+	if (set) {
 		if (!amsg) return -1;
 		setDword(AIM_KEY_LA, (DWORD)time(NULL));
 		html_msg = html_encode(amsg && amsg[0] ? amsg : DEFAULT_AWAY_MSG);
@@ -56,10 +57,10 @@ int CAimProto::aim_set_away(HANDLE hServerConn, unsigned short &seqno, const cha
 	const char *charset = str.isUnicode() ? AIM_MSG_TYPE_UNICODE : AIM_MSG_TYPE;
 	const unsigned short charset_len = (unsigned short)mir_strlen(charset);
 
-	const char* msg = str.getBuf();
+	const char *msg = str.getBuf();
 	const unsigned short msg_len = str.getSize();
 
-	char* buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 3 + charset_len + msg_len + 1);
+	char *buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 3 + charset_len + msg_len + 1);
 
 	aim_writesnac(0x02, 0x04, offset, buf);
 	aim_writetlv(0x03, charset_len, charset, offset, buf);
@@ -84,9 +85,9 @@ int CAimProto::aim_set_statusmsg(HANDLE hServerConn, unsigned short &seqno, cons
 	size_t msg_size = mir_strlen(msg);
 
 	unsigned short msgoffset = 0;
-	char* msgbuf = (char*)alloca(10 + msg_size);
+	char *msgbuf = (char*)alloca(10 + msg_size);
 	if (msg_size) {
-		char* msgb = (char*)alloca(4 + msg_size);
+		char *msgb = (char*)alloca(4 + msg_size);
 		msgb[0] = (unsigned char)(msg_size >> 8);
 		msgb[1] = (unsigned char)(msg_size & 0xff);
 		memcpy(&msgb[2], msg, msg_size);
@@ -117,4 +118,3 @@ int CAimProto::aim_query_away_message(HANDLE hServerConn, unsigned short &seqno,
 	int res = aim_sendflap(hServerConn, 0x02, offset, buf, seqno) == 0;
 	return res;
 }
-

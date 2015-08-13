@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "stdafx.h"
 
 char AIM_CAP_MIRANDA[16] = "MirandaA";
@@ -37,7 +38,7 @@ OBJLIST<CAimProto> g_Instances(1, sttCompareProtocols);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dll entry point
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD /*fdwReason*/,LPVOID /*lpvReserved*/)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
 {
 	hInstance = hinstDLL;
 	return TRUE;
@@ -71,7 +72,7 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD m
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //	OnModulesLoaded - finalizes plugin's configuration on load
@@ -111,7 +112,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
-	Proto_RegisterModule( & pd);
+	Proto_RegisterModule(&pd);
 
 	InitIcons();
 	InitExtraIcons();
