@@ -418,11 +418,6 @@ char *CSkypeProto::RemoveHtml(const char *text)
 	return mir_strdup(new_string.c_str());
 }
 
-bool CSkypeProto::IsMe(const char *skypeName)
-{
-	return (!mir_strcmpi(skypeName, m_szSelfSkypeName) || !mir_strcmp(skypeName, ptrA(getStringA("SelfEndpointName"))));
-}
-
 const char *CSkypeProto::MirandaToSkypeStatus(int status)
 {
 	switch (status)

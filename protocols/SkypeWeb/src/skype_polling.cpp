@@ -17,39 +17,40 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CSkypeProto::ParsePollData(const JSONNode &data)
+void CSkypeProto::ParsePollData(void *pData)
 {
 	debugLogA("CSkypeProto::ParsePollData");
 
-	const JSONNode &node = data["eventMessages"];
-	if (!node)
-		return;
+	JSONNode data = JSONNode::parse(ptrA((char*)pData));
+	if (!data) return;
 
-	const JSONNode &messages = node.as_array();
-	for (size_t i = 0; i < messages.size(); i++)
+	const JSONNode &node = data["eventMessages"];
+	if (!node) return;
+
+	for (auto it = node.begin(); it != node.end(); ++it)
 	{
-		const JSONNode &message = messages.at(i);
+		const JSONNode &message = *it;
 		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 
 		std::string resourceType = resType.as_string();
-		if (!mir_strcmpi(resourceType.c_str(), "NewMessage"))
+		if (resourceType == "NewMessage")
 		{
 			ProcessNewMessageRes(resource);
 		}
-		else if (!mir_strcmpi(resourceType.c_str(), "UserPresence"))
+		else if (resourceType == "UserPresence")
 		{
 			ProcessUserPresenceRes(resource);
 		}
-		else if (!mir_strcmpi(resourceType.c_str(), "EndpointPresence"))
+		else if (resourceType == "EndpointPresence")
 		{
 			ProcessEndpointPresenceRes(resource);
 		}
-		else if (!mir_strcmpi(resourceType.c_str(), "ConversationUpdate"))
+		else if (resourceType == "ConversationUpdate")
 		{
 			ProcessConversationUpdateRes(resource);
 		}
-		else if (!mir_strcmpi(resourceType.c_str(), "ThreadUpdate"))
+		else if (resourceType == "ThreadUpdate")
 		{
 			ProcessThreadUpdateRes(resource);
 		}
@@ -79,11 +80,9 @@ void CSkypeProto::PollingThread(void*)
 		{
 			if (response->pData)
 			{
-				JSONNode root = JSONNode::parse(response->pData);
-				if (root["eventMessages"])
-				{
-					ParsePollData(root);
-				}
+				void *pData = mir_alloc(response->dataLength);
+				memcpy(pData, response->pData, response->dataLength);
+				ForkThread(&CSkypeProto::ParsePollData, pData);
 			}
 		}
 		else
