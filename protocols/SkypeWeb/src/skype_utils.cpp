@@ -25,24 +25,6 @@ void CSkypeProto::FreeCharList(const LIST<char> &lst)
 		mir_free(lst[i]);
 }
 
-void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
-{
-	time_t time = getDword(hContact, "LastMsgReadTime", 0);
-	if (!time)
-		return;
-
-	TCHAR ttime[64];
-	_locale_t locale = _create_locale(LC_ALL, "");
-	_tcsftime_l(ttime, _countof(ttime), _T("%X - %x"), localtime(&time), locale);
-	_free_locale(locale);
-
-	StatusTextData st = { 0 };
-	st.cbSize = sizeof(st);
-	st.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-	mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s"), ttime);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
-}
-
 time_t CSkypeProto::IsoToUnixTime(const char *stamp)
 {
 	char date[9];

@@ -292,13 +292,13 @@ private:
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	//polling
-	void __cdecl PollingThread(void*);
-	void __cdecl ParsePollData(void *pData);
-	void ProcessEndpointPresenceRes(const JSONNode &node);
-	void ProcessUserPresenceRes(const JSONNode &node);
-	void ProcessNewMessageRes(const JSONNode &node);
-	void ProcessConversationUpdateRes(const JSONNode &node);
-	void ProcessThreadUpdateRes(const JSONNode &node);
+	void __cdecl PollingThread     (void*);
+	void __cdecl ParsePollData     (void *pData);
+	void ProcessEndpointPresence   (const JSONNode &node);
+	void ProcessUserPresence       (const JSONNode &node);
+	void ProcessNewMessage         (const JSONNode &node);
+	void ProcessConversationUpdate (const JSONNode &node);
+	void ProcessThreadUpdate       (const JSONNode &node);
 
 	// utils
 	static void FreeCharList(const LIST<char> &lst);
@@ -327,8 +327,6 @@ private:
 
 	static CMStringA ParseUrl(const char *url, const char *token);
 
-	void SetSrmmReadStatus(MCONTACT hContact);
-
 	static CMStringA UrlToSkypename(const char *url);
 	static CMStringA GetServerFromUrl(const char *url);
 
@@ -345,7 +343,6 @@ private:
 	void CloseDialogs();
 	//events
 	void InitDBEvents();
-	int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE(WPARAM wParam, LPARAM lParam);

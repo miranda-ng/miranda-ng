@@ -230,13 +230,3 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
 }
 
-int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
-{
-	debugLogA(__FUNCTION__);
-	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-
-	if (event->uType == MSG_WINDOW_EVT_OPENING)
-		SetSrmmReadStatus(event->hContact);
-
-	return 0;
-}
