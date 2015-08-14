@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define PSAPI_VERSION 1
+
 #include <sys/types.h>
 #include <stdio.h>
 #include <tchar.h>
