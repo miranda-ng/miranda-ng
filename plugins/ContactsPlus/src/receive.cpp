@@ -305,7 +305,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					int nGroupId = -1;
 					if (curs != CB_ERR && IsWindowEnabled(hGroupsCheck) && SendMessage(hGroupsCheck, BM_GETCHECK, 0, 0))
 					{ //got groups, get the one selected in combo
-						TCHAR* caGroup = (TCHAR*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(TCHAR));
+						caGroup = (TCHAR*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(TCHAR));
 						SendMessage(hGroupsCombo, CB_GETLBTEXT, curs, (LPARAM)caGroup);
 						nGroupId = SendMessage(hGroupsCombo, CB_GETITEMDATA, curs, 0);
 					}
