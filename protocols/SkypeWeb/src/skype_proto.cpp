@@ -40,9 +40,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
-	//hooks
-	if (!m_hCallEvent) m_hCallEvent = CreateHookableEvent(MODULE "/IncomingCall");
-
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb", LPGEN("Incoming call canceled sound"));
@@ -61,8 +58,6 @@ CSkypeProto::~CSkypeProto()
 	UninitPopups();
 
 	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
-
-	if (m_hCallEvent && Accounts.getCount() == 0) DestroyHookableEvent(m_hCallEvent);
 	
 	SkypeUnsetTimer();
 }

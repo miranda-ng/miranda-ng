@@ -68,11 +68,11 @@ void CSkypeProto::PollingThread(void*)
 		PollRequest *request = new PollRequest(m_szRegToken, m_szServer);
 		request->nlc = m_pollingConnection;
 		NLHR_PTR response(request->Send(m_hNetlibUser));
+		delete request;
 
 		if (response == NULL)
 		{
 			errors++;
-			delete request;
 			continue;
 		}
 
@@ -98,7 +98,6 @@ void CSkypeProto::PollingThread(void*)
 					int errorCode = error.as_int();
 					if (errorCode == 729)
 					{
-						delete request;
 						break;
 					}
 				}
@@ -106,7 +105,7 @@ void CSkypeProto::PollingThread(void*)
 		}
 
 		m_pollingConnection = response->nlc;
-		delete request;
+		
 	}
 
 	if (!isTerminated)
