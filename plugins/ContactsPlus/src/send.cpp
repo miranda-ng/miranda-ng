@@ -105,16 +105,16 @@ void TSendContactsData::ClearContacts()
 	nContacts = 0;
 }
 
-void TSendContactsData::AddContact(MCONTACT hContact)
+void TSendContactsData::AddContact(MCONTACT hContact1)
 {
 	aContacts = (MCONTACT*)mir_realloc(aContacts, (nContacts + 1)*sizeof(MCONTACT));
-	aContacts[nContacts] = hContact;
+	aContacts[nContacts] = hContact1;
 	nContacts++;
 }
 
-int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, int nContacts)
+int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, int nContacts1)
 {
-	HANDLE hProcc = (HANDLE)CallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts), (LPARAM)phContacts);
+	HANDLE hProcc = (HANDLE)CallContactService(hContact, PSS_CONTACTS, MAKEWPARAM(0, nContacts1), (LPARAM)phContacts);
 	if (!hProcc) {
 		// on trivial error - do not close dialog
 		ShowErrorDlg(hwndDlg, "Contacts transfer failed!", FALSE);
@@ -123,9 +123,9 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, in
 	
 	TAckData *ackData = g_aAckData.Add(hProcc, new TAckData(hContact));
 	uacklist.Add(hProcc);
-	ackData->nContacts = nContacts;
-	ackData->aContacts = (MCONTACT*)mir_alloc(nContacts*sizeof(MCONTACT));
-	memmove(ackData->aContacts, phContacts, nContacts*sizeof(MCONTACT)); // copy the array of hContact for ack array
+	ackData->nContacts = nContacts1;
+	ackData->aContacts = (MCONTACT*)mir_alloc(nContacts1*sizeof(MCONTACT));
+	memmove(ackData->aContacts, phContacts, nContacts1*sizeof(MCONTACT)); // copy the array of hContact for ack array
 	EnableDlgItem(hwndDlg, IDOK, FALSE);
 	EnableDlgItem(hwndDlg, IDC_LIST, FALSE);
 	return TRUE; // Success
