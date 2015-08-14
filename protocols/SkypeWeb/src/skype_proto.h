@@ -295,7 +295,7 @@ private:
 
 	//polling
 	void __cdecl PollingThread(void*);
-	void ParsePollData(const JSONNode &data);
+	void __cdecl ParsePollData(void *pData);
 	void ProcessEndpointPresenceRes(const JSONNode &node);
 	void ProcessUserPresenceRes(const JSONNode &node);
 	void ProcessNewMessageRes(const JSONNode &node);
@@ -309,15 +309,17 @@ private:
 	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
 	}
 
-	bool IsMe(const char *skypeName);
+	__forceinline bool IsMe(const char *szSkypename)
+	{	return (!mir_strcmpi(szSkypename, m_szSelfSkypeName) || !mir_strcmp(szSkypename, ptrA(getStringA("SelfEndpointName"))));
+	}
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	time_t IsoToUnixTime(const char *stamp);
-	char *RemoveHtml(const char *text);
-	CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
+	static time_t IsoToUnixTime(const char *stamp);
+	static char *RemoveHtml(const char *text);
+	static CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
 
-	int SkypeToMirandaStatus(const char *status);
-	const char *MirandaToSkypeStatus(int status);
+	static int SkypeToMirandaStatus(const char *status);
+	static const char *MirandaToSkypeStatus(int status);
 
 	void ShowNotification(const TCHAR *message, MCONTACT hContact = NULL);
 	void ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact = NULL, int type = 0);
@@ -325,12 +327,12 @@ private:
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	CMStringA ParseUrl(const char *url, const char *token);
+	static CMStringA ParseUrl(const char *url, const char *token);
 
 	void SetSrmmReadStatus(MCONTACT hContact);
 
-	CMStringA UrlToSkypename(const char *url);
-	CMStringA GetServerFromUrl(const char *url);
+	static CMStringA UrlToSkypename(const char *url);
+	static CMStringA GetServerFromUrl(const char *url);
 
 	//---Timers
 	void CALLBACK SkypeUnsetTimer();
