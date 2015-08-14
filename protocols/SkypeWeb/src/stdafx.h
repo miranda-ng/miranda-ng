@@ -57,6 +57,7 @@ struct CSkypeProto;
 
 extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
+extern HANDLE g_hCallEvent;
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 

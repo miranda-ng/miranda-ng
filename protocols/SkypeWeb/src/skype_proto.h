@@ -103,8 +103,6 @@ private:
 		   m_TrouterConnection,
 		   m_hTrouterEvent;
 
-	static HANDLE m_hCallEvent;
-
 	TRInfo TRouter;
 
 	LIST<void> m_PopupClasses;

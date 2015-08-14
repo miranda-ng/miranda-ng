@@ -553,7 +553,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	else if (!mir_tstrcmpi(szCommand, _T("call")))
 	{
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
-		NotifyEventHooks(m_hCallEvent, (WPARAM)hContact, (LPARAM)0);
+		NotifyEventHooks(g_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
 	else if (!mir_tstrcmpi(szCommand, _T("userinfo"))){ return 0; }
