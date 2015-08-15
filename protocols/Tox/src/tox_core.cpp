@@ -77,11 +77,11 @@ bool CToxProto::InitToxCore()
 
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 		tox_self_get_name(tox, nick);
-		setWString("Nick", ptrW(Utf8DecodeW((char*)nick)));
+		setTString("Nick", ptrT(Utf8DecodeT((char*)nick)));
 
 		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 		tox_self_get_status_message(tox, statusMessage);
-		setWString("StatusMsg", ptrW(Utf8DecodeW((char*)statusMessage)));
+		setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));
 
 		return true;
 	}

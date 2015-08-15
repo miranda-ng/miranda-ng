@@ -6,7 +6,7 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 	std::regex regex("^v=tox1;id=([A-Fa-f0-9]{76})(;sign=(\\S+))?$");
 	if (std::regex_search(dnsRecord, match, regex))
 	{
-		return match[1];
+		return ToxHexAddress(match[1]);
 	}
 	return ToxHexAddress::Empty();
 }
@@ -186,7 +186,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 	TCHAR text[MAX_PATH];
 	GetDlgItemText(owner, IDC_SEARCH, text, _countof(text));
 
-	const std::string query = T2Utf(text);
+	const std::string query = T2Utf(text).str();
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
