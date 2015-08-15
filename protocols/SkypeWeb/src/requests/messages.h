@@ -21,18 +21,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SendMessageRequest : public HttpRequest
 {
 public:
-	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
+	SendMessageRequest(const char *username, time_t timestamp, const char *message, LoginInfo &li) :
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, username)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode node;
 		node 
 			<< JSONNode("clientmessageid", (long)timestamp)
-			<< JSONNode("messagetype", "RichText")
+			<< JSONNode("messagetype", "Text")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message);
 
@@ -43,16 +43,16 @@ public:
 class SendActionRequest : public HttpRequest
 {
 public:
-	SendActionRequest(const char *regToken, const char *username, const char *selfusername, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
+	SendActionRequest(const char *username, time_t timestamp, const char *message, LoginInfo &li) :
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, username)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		CMStringA content;
-		content.AppendFormat("%s %s", selfusername, message);
+		content.AppendFormat("%s %s", li.szSkypename, message);
 
 		JSONNode node;
 		node 
@@ -60,7 +60,7 @@ public:
 			<< JSONNode("messagetype", "RichText")
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", content)
-			<< JSONNode("skypeemoteoffset", (int)(mir_strlen(selfusername) + 1));
+			<< JSONNode("skypeemoteoffset", (int)(mir_strlen(li.szSkypename) + 1));
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -69,12 +69,12 @@ public:
 class SendTypingRequest : public HttpRequest
 {
 public:
-	SendTypingRequest(const char *regToken, const char *username, int iState, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, ptrA(mir_urlEncode(username)))
+	SendTypingRequest(const char *username, int iState, LoginInfo &li) :
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", li.endpoint.szServer, ptrA(mir_urlEncode(username)))
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
@@ -93,12 +93,12 @@ public:
 class MarkMessageReadRequest : public HttpRequest
 {
 public:
-	MarkMessageReadRequest(const char *username, const char *regToken, LONGLONG /*msgId*/ = 0, LONGLONG msgTimestamp = 0, bool isChat = false, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/conversations/%s:%s/properties?name=consumptionhorizon", server, !isChat ? "8" : "19", username)
+	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp, bool isChat, LoginInfo &li) :
+	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/conversations/%d:%s/properties?name=consumptionhorizon", li.endpoint.szServer, !isChat ? 8 : 19, username)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		//"lastReadMessageTimestamp;modificationTime;lastReadMessageId"

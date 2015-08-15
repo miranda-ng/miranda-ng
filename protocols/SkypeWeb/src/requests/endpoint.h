@@ -21,13 +21,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class CreateEndpointRequest : public HttpRequest
 {
 public:
-	CreateEndpointRequest(const char *token, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", server)
+	CreateEndpointRequest(LoginInfo &li) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", li.endpoint.szServer)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("Authentication", "skypetoken=%s", token);
+			<< FORMAT_VALUE("Authentication", "skypetoken=%s", li.api.szToken);
 
 		Body << VALUE("{}");
 	}
@@ -36,12 +36,12 @@ public:
 class DeleteEndpointRequest : public HttpRequest
 {
 public:
-	DeleteEndpointRequest(const char *regToken, const char *EndpointId, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", server, ptrA(mir_urlEncode(EndpointId)))
+	DeleteEndpointRequest(LoginInfo &li) :
+	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", li.endpoint.szServer, ptrA(mir_urlEncode(li.endpoint.szId)))
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken);
 	}
 };
 

@@ -25,7 +25,7 @@ void CSkypeProto::PollingThread(void*)
 	isTerminated = false;
 	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
 	{
-		PollRequest *request = new PollRequest(m_szRegToken, m_szServer);
+		PollRequest *request = new PollRequest(li);
 		request->nlc = m_pollingConnection;
 		NLHR_PTR response(request->Send(m_hNetlibUser));
 		delete request;

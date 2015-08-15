@@ -61,6 +61,23 @@ extern HANDLE g_hCallEvent;
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
+struct LoginInfo
+{
+	struct
+	{
+		ptrA szToken;
+	} api;
+
+	struct
+	{
+		ptrA szToken;
+		ptrA szId;
+		ptrA szServer;
+	} endpoint;
+
+	ptrA szSkypename;
+};
+
 #include "version.h"
 #include "resource.h"
 #include "skype_icons.h"
@@ -69,6 +86,7 @@ extern HANDLE g_hCallEvent;
 #include "skype_options.h"
 #include "skype_trouter.h"
 #include "skype_db.h"
+//#include "skype_chatrooms.h"
 #include "skype_utils.h"
 #include "http_request.h"
 #include "requests\login.h"

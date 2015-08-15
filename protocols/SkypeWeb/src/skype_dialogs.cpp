@@ -95,7 +95,7 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 			}
 		}
 	}
-	m_ContactsList.insert(m_proto->m_szSelfSkypeName);
+	m_ContactsList.insert(m_proto->li.szSkypename);
 	EndDialog(m_hwnd, m_ContactsList.getCount());
 }
 

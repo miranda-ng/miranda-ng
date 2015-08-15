@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetSearchRequest : public HttpRequest
 {
 public:
-	GetSearchRequest(const char *token, const char *string) :
+	GetSearchRequest(const char *string, LoginInfo &li) :
 		HttpRequest(REQUEST_GET, "api.skype.com/search/users/any")
 	{
 		Url
@@ -29,7 +29,7 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Connection", "keep-alive")
-			<< CHAR_VALUE("X-Skypetoken", token);
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken);
 	}
 };
 

@@ -37,7 +37,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), m_szRegToken), &CSkypeProto::OnGetServerHistory);
+		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), li), &CSkypeProto::OnGetServerHistory);
 
 	for (int i = (int)conversations.size(); i >= 0; i--)
 	{
@@ -111,7 +111,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(m_szRegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 100, false, 0, li), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
@@ -131,7 +131,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	std::string syncState = metadata["syncState"].as_string();
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), (char*)m_szRegToken), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), li), &CSkypeProto::OnSyncHistory);
 
 	for (size_t i = 0; i < conversations.size(); i++)
 	{
@@ -151,7 +151,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 				{
 					if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 					{
-						PushRequest(new GetHistoryRequest(m_szRegToken, szSkypename, 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
+						PushRequest(new GetHistoryRequest(szSkypename, 100, false, 0, li), &CSkypeProto::OnGetServerHistory);
 					}
 				}
 			}

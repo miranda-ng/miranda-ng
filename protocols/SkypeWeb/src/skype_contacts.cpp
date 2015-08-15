@@ -285,7 +285,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 			for (; i < skypenames.getCount() && users.getCount() <= 50; i++)
 				users.insert(mir_strdup(skypenames[i]));
 
-			PushRequest(new GetContactsInfoRequest(m_szTokenSecret, users), &CSkypeProto::LoadContactsInfo);
+			PushRequest(new GetContactsInfoRequest(li, users), &CSkypeProto::LoadContactsInfo);
 
 			FreeCharList(users);
 			users.destroy();
@@ -295,7 +295,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		FreeCharList(skypenames);
 		skypenames.destroy();
 	}
-	PushRequest(new GetContactsAuthRequest(m_szTokenSecret), &CSkypeProto::LoadContactsAuth);
+	PushRequest(new GetContactsAuthRequest(li), &CSkypeProto::LoadContactsAuth);
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
@@ -304,7 +304,7 @@ INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 		return 1;
 
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(m_szTokenSecret, skypename));
+	PushRequest(new AddContactRequest(li, skypename));
 	return 0;
 }
 
@@ -314,7 +314,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 		return 1;
 
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthAcceptRequest(m_szTokenSecret, skypename));
+	PushRequest(new AuthAcceptRequest(li, skypename));
 	return 0;
 }
 
@@ -323,7 +323,7 @@ int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (hContact && !isChatRoom(hContact))
-		PushRequest(new DeleteContactRequest(m_szTokenSecret, db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)));
+		PushRequest(new DeleteContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
 	return 0;
 }
 
@@ -332,7 +332,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(m_szTokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnBlockContact, (void *)hContact);
+		SendRequest(new BlockContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnBlockContact, (void *)hContact);
 	return 0;
 }
 
@@ -347,7 +347,7 @@ void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(m_szTokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnUnblockContact, (void *)hContact);
+	SendRequest(new UnblockContactRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnUnblockContact, (void *)hContact);
 	return 0;
 }
 
