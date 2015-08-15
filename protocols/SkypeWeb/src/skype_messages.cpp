@@ -81,6 +81,15 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
+				if (response->pData != NULL)
+				{
+					JSONNode jRoot = JSONNode::parse(response->pData);
+					auto it = m_mpOutMessages.find(hMessage);
+					if (it == m_mpOutMessages.end())
+					{
+						m_mpOutMessages[hMessage] = jRoot["OriginalArrivalTime"].as_int();
+					}
+				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
 				m_OutMessages.remove(hMessage);
 			}
@@ -129,6 +138,13 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageId.GetLength());
 	evt->dbei->cbBlob += messageId.GetLength();
 
+	auto it = m_mpOutMessages.find((HANDLE)evt->seq);
+	if (it != m_mpOutMessages.end())
+	{
+		evt->dbei->timestamp = it->second;
+		m_mpOutMessages.erase(it);
+	}
+
 	return 0;
 }
 
@@ -145,7 +161,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	ptrA szClearedContent(RemoveHtml(strContent.c_str()));
 
 	bool bEdited = node["skypeeditedid"];
-	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(node["composetime"].as_string().c_str());
+	time_t timestamp =  IsoToUnixTime(node["composetime"].as_string().c_str());
 
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
@@ -169,6 +185,11 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			HANDLE hMessage = (HANDLE)atol(szMessageId);
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
+				auto it = m_mpOutMessages.find(hMessage);
+				if (it == m_mpOutMessages.end())
+				{
+					m_mpOutMessages[hMessage] = timestamp;
+				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
 				m_OutMessages.remove(hMessage);
 			}
