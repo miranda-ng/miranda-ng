@@ -26,7 +26,6 @@ private:
 	CCtrlEdit m_group;
 	CCtrlEdit m_place;
 	CCtrlCheck m_autosync;
-	CCtrlCheck m_localtime;
 	CCtrlCheck m_allasunread;
 	CCtrlCheck m_usehostname;
 	CCtrlCheck m_usebb;

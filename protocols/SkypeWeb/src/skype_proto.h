@@ -98,6 +98,8 @@ private:
 	bool isTerminated,
 		 HistorySynced;
 
+	std::map<HANDLE, time_t> m_mpOutMessages;
+
 	std::map<std::string, std::string> cookies;
 	static std::map<std::tstring, std::tstring> languages;
 
