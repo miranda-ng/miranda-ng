@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+typedef int (WINAPI *pfnMain)(LPTSTR);
+
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
 	TCHAR tszPath[MAX_PATH];
@@ -40,9 +42,9 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	// all old dlls must be removed
 	CheckDlls();
 
-	_tcsncat(tszPath, _T("libs"), _TRUNCATE);
+	_tcsncat_s(tszPath, _T("libs"), _TRUNCATE);
 	DWORD cbPath = (DWORD)_tcslen(tszPath);
-	
+
 	DWORD cbSize = GetEnvironmentVariable(_T("PATH"), NULL, 0);
 	TCHAR *ptszVal = new TCHAR[cbSize + MAX_PATH + 2];
 	_tcscpy(ptszVal, tszPath);
@@ -50,20 +52,22 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	GetEnvironmentVariable(_T("PATH"), ptszVal + cbPath + 1, cbSize);
 	SetEnvironmentVariable(_T("PATH"), ptszVal);
 
-	HINSTANCE hMirApp = LoadLibraryA("mir_app.mir");
+	int retVal;
+	HINSTANCE hMirApp = LoadLibrary(_T("mir_app.mir"));
 	if (hMirApp == NULL) {
 		MessageBox(NULL, _T("mir_app.mir cannot be loaded"), _T("Fatal error"), MB_ICONERROR | MB_OK);
-		return 1;
+		retVal = 1;
 	}
-
-	typedef int (WINAPI *pfnMain)(LPTSTR);
-	pfnMain fnMain = (pfnMain)GetProcAddress(hMirApp, "mir_main");
-	if (fnMain == NULL) {
-		MessageBox(NULL, _T("invalid mir_app.mir present, program exiting"), _T("Fatal error"), MB_ICONERROR | MB_OK);
-		return 2;
+	else {
+		pfnMain fnMain = (pfnMain)GetProcAddress(hMirApp, "mir_main");
+		if (fnMain == NULL) {
+			MessageBox(NULL, _T("invalid mir_app.mir present, program exiting"), _T("Fatal error"), MB_ICONERROR | MB_OK);
+			retVal = 2;
+		}
+		else
+			retVal = fnMain(cmdLine);
+		FreeLibrary(hMirApp);
 	}
-
-	int retVal = fnMain(cmdLine);
-	FreeLibrary(hMirApp);
+	delete[] ptszVal;
 	return retVal;
 }
