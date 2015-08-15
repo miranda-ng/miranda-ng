@@ -892,6 +892,10 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 		newSetting(info.hContact, info.module, DBVT_ASCIIZ);
 		return;
 
+	case MENU_ADD_UNICODE:
+		newSetting(info.hContact, info.module, DBVT_WCHAR);
+		return;
+
 	case MENU_ADD_BLOB:
 		newSetting(info.hContact, info.module, DBVT_BLOB);
 		return;

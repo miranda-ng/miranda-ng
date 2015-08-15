@@ -74,37 +74,31 @@ void freeWatchListItem(int item)
 
 void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 {
-	LVITEM lvItem;
-	int index;
-
 	DBVARIANT *dbv = &(lParam->dbv);
-	MCONTACT hContact = lParam->hContact;
-	
-	char *module = lParam->module;
-	char *setting = lParam->setting;
 
-	if (!module) return;
+	if (!lParam->module) return;
 	
+	LVITEM lvItem;
 	lvItem.lParam = (LPARAM)lParam->hContact;
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 	lvItem.iItem = 0;
 	lvItem.iSubItem = 0;
 
-	if (!setting) // add every item in the module and return
+	if (!lParam->setting) // add every item in the module and return
 	{
 		ModuleSettingLL settinglist;
-		struct DBsetting dummy = {0};
-		ModSetLinkLinkItem *setting;
-		if (IsModuleEmpty(hContact, module) || !EnumSettings(hContact, module, &settinglist)) return;
+		if (IsModuleEmpty(lParam->hContact, lParam->module) || !EnumSettings(lParam->hContact, lParam->module, &settinglist))
+			return;
 
-		dummy.hContact = hContact;
-		dummy.module = module;
-		setting = settinglist.first;
-		while (setting)
+		struct DBsetting dummy = {0};
+		dummy.hContact = lParam->hContact;
+		dummy.module = lParam->module;
+		
+		for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next)
 		{
 			dummy.setting = setting->name;
 			addwatchtolist(hwnd, &dummy);
-			setting = (ModSetLinkLinkItem *)setting->next;
+			
 		}
 		FreeModuleSettingLL(&settinglist);
 		return;
@@ -112,18 +106,19 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 	
 	db_free(&(lParam->dbv));
 
-	db_get_s(hContact, module, setting, &(lParam->dbv), 0);
+	if (db_get_s(lParam->hContact, lParam->module, lParam->setting, &(lParam->dbv), 0))
+		return;
 
 	TCHAR data[32], tmp[16], name[NAME_SIZE];
 
-	GetContactName(hContact, NULL, name, _countof(name));
+	GetContactName(lParam->hContact, NULL, name, _countof(name));
 	lvItem.pszText = name;
 
-	index = ListView_InsertItem(hwnd, &lvItem);
+	int index = ListView_InsertItem(hwnd, &lvItem);
 
 	ListView_SetItemText(hwnd, index, 0, lvItem.pszText);
-	ListView_SetItemTextA(hwnd, index, 1, module);
-	ListView_SetItemTextA(hwnd, index, 2, setting);
+	ListView_SetItemTextA(hwnd, index, 1, lParam->module);
+	ListView_SetItemTextA(hwnd, index, 2, lParam->setting);
 	ListView_SetItemText(hwnd, index, 4, DBVType(dbv->type));
 
 	data[0] = 0;
@@ -167,7 +162,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		break;
 	}
 	case DBVT_DELETED:
-		if (IsResidentSetting(module, setting))
+		if (IsResidentSetting(lParam->module, lParam->setting))
 			ListView_SetItemText(hwnd, index, 3, TranslateT("*** resident ***"));
 		break;
 	} // switch
