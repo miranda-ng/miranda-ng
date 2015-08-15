@@ -32,7 +32,6 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			LVCOLUMN lvCol;
 			LVITEM lvItem;
-			int i;
 			DBVARIANT dbv;
 
 			SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES, DEFAULT_MAXRETRIES), FALSE);
@@ -42,8 +41,10 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			CheckDlgButton(hwndDlg, IDC_CHKINET, db_get_b(NULL, MODULENAME, SETTING_CHKINET, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CONTCHECK, db_get_b(NULL, MODULENAME, SETTING_CONTCHECK, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_BYPING, db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-			if (!db_get(NULL, MODULENAME, SETTING_PINGHOST, &dbv))
+			if (!db_get_s(NULL, MODULENAME, SETTING_PINGHOST, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_PINGHOST, dbv.pszVal);
+				db_free(&dbv);
+			}
 			// proto list
 			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
@@ -62,7 +63,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			PROTOACCOUNT** protos;
 			Proto_EnumAccounts(&count, &protos);
 
-			for (i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				if (!IsSuitableProto(protos[i]))
 					continue;
 

@@ -142,8 +142,10 @@ static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 			status = TranslateT("<last>");
 		else if (p.status == ID_STATUS_CURRENT)
 			status = TranslateT("<current>");
-		else if (p.status >= MIN_STATUS && p.status <= MAX_STATUS )
+		else if (p.status >= MIN_STATUS && p.status <= MAX_STATUS)
 			status = pcli->pfnGetStatusModeDescription(p.status, 0);
+		else
+			status = NULL;
 		if (status == NULL)
 			status = TranslateT("<unknown>");
 
