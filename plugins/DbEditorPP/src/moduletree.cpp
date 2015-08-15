@@ -304,7 +304,6 @@ void replaceTreeItem(MCONTACT hContact, const char* module, const char* newModul
 
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 {
-	TVINSERTSTRUCT tvi;
 	char SelectedModule[FLD_SIZE] = "";
 	char SelectedSetting[FLD_SIZE] = "";
 
@@ -323,7 +322,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 
 	Select = 0;
 
-	switch ((int)param) {
+	switch ((INT_PTR)param) {
 	case 1: // restore after rebuild
 		if (HTREEITEM item = TreeView_GetSelection(hwnd2Tree)) {
 			TCHAR text[FLD_SIZE];
@@ -362,7 +361,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		break;
 	}
 
-	if ((int)param != 4) { // do not rebuild on just going to another setting
+	if ((INT_PTR)param != 4) { // do not rebuild on just going to another setting
+		TVINSERTSTRUCT tvi;
 		if (!EnumModules(&modlist))
 			return;
 
