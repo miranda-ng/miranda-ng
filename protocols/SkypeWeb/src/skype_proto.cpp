@@ -127,7 +127,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthAcceptRequest(token, skypename));
+	PushRequest(new AuthAcceptRequest(li, skypename));
 	return 0;
 }
 
@@ -139,7 +139,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthDeclineRequest(token, skypename));
+	PushRequest(new AuthDeclineRequest(li, skypename));
 	return 0;
 }
 
@@ -155,7 +155,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(token, skypename, T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(li, skypename, T2Utf(szMessage)));
 	return 0;
 }
 
@@ -163,7 +163,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
 	if (!isChatRoom(hContact))
 		PushRequest(
-			new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
+			new GetProfileRequest(li, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
 			&CSkypeProto::LoadProfile);
 	return 0;
 }
@@ -211,7 +211,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
-			SendRequest(new DeleteEndpointRequest(m_szRegToken, m_szEndpointId, m_szServer));
+			SendRequest(new DeleteEndpointRequest(li));
 			delSetting("registrationRoken");
 			delSetting("endpointId");
 			delSetting("expires");
@@ -236,7 +236,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		else
 		{
-			SendRequest(new SetStatusRequest(m_szRegToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
+			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), li), &CSkypeProto::OnStatusChanged);
 		}
 	}
 
@@ -246,7 +246,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(m_szRegToken, ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, m_szServer));
+	SendRequest(new SendTypingRequest(ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, li));
 	return 0;
 }
 

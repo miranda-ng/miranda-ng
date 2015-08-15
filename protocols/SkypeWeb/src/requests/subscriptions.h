@@ -21,12 +21,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class CreateSubscriptionsRequest : public HttpRequest
 {
 public:
-	CreateSubscriptionsRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions", server)
+	CreateSubscriptionsRequest(LoginInfo &li) :
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions", li.endpoint.szServer)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode interestedResources(JSON_ARRAY); interestedResources.set_name("interestedResources");
@@ -49,13 +49,13 @@ public:
 class CreateContactsSubscriptionRequest : public HttpRequest
 {
 public:
-	CreateContactsSubscriptionRequest(const char *regToken, const LIST<char> &skypenames, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", server)
+	CreateContactsSubscriptionRequest(const LIST<char> &skypenames, LoginInfo &li) :
+	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", li.endpoint.szServer)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken);
 
 
 		JSONNode node;

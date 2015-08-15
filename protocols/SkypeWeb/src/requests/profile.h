@@ -21,11 +21,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetProfileRequest : public HttpRequest
 {
 public:
-	GetProfileRequest(const char *token, const char *skypename = "self") :
+	GetProfileRequest(LoginInfo &li, const char *skypename = "self") :
 		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/profile", skypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };

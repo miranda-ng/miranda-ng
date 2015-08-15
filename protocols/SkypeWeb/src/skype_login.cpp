@@ -25,9 +25,11 @@ void CSkypeProto::Login()
 	m_iStatus = ID_STATUS_CONNECTING;
 	requestQueue->Start();
 	int tokenExpires(getDword("TokenExpiresIn", 0));
-	ptrA szLogin(getStringA(SKYPE_SETTINGS_ID));
+
+	li.szSkypename = getStringA(SKYPE_SETTINGS_ID);
+
 	pass_ptrA szPassword(getStringA(SKYPE_SETTINGS_PASSWORD));
-	if (szLogin == NULL || szPassword == NULL)
+	if (li.szSkypename == NULL || szPassword == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		return;
@@ -37,10 +39,10 @@ void CSkypeProto::Login()
 		OnLoginSuccess();
 	else
 	{
-		if (strchr(szLogin, '@'))
+		if (strchr(li.szSkypename, '@'))
 			SendRequest(new LoginMSRequest(), &CSkypeProto::OnMSLoginFirst);
 		else
-			SendRequest(new LoginOAuthRequest(szLogin, szPassword), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest(li.szSkypename, szPassword), &CSkypeProto::OnLoginOAuth);
 	}
 }
 
@@ -121,12 +123,12 @@ void CSkypeProto::OnLoginSuccess()
 {
 	isTerminated = false;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
-	m_szSelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
-	m_szTokenSecret = getStringA("TokenSecret");
-	m_szServer = getStringA("Server");
-	if (m_szServer == NULL)
-		m_szServer = mir_strdup(SKYPE_ENDPOINTS_HOST);
-	SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
+
+	li.api.szToken = getStringA("TokenSecret");
+
+	li.endpoint.szServer = ((ptrA(getStringA("Server")) == NULL) ? mir_strdup(SKYPE_ENDPOINTS_HOST) : getStringA("Server"));
+
+	SendRequest(new CreateEndpointRequest(li), &CSkypeProto::OnEndpointCreated);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
@@ -161,8 +163,8 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
 		{
 			CMStringA szValue = response->headers[i].szValue;
-			m_szServer = GetServerFromUrl(szValue).Detach();
-			setString("Server", m_szServer);
+			li.endpoint.szServer = GetServerFromUrl(szValue).Detach();
+			setString("Server", li.endpoint.szServer);
 		}
 
 	}
@@ -180,19 +182,20 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		if (response->resultCode == 401)
 		{
 			delSetting("TokenExpiresIn");
-			SendRequest(new LoginOAuthRequest(m_szSelfSkypeName, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest(li.szSkypename, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
 		}
 		else //it should be rewritten
 		{
-			SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
+			SendRequest(new CreateEndpointRequest(li), &CSkypeProto::OnEndpointCreated);
 			return;
 		}
 	}
 
-	m_szRegToken = getStringA("registrationToken");
-	m_szEndpointId = getStringA("endpointId");
-	SendRequest(new CreateSubscriptionsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnSubscriptionsCreated);
+	li.endpoint.szToken = getStringA("registrationToken");
+	li.endpoint.szId = getStringA("endpointId");
+
+	SendRequest(new CreateSubscriptionsRequest(li), &CSkypeProto::OnSubscriptionsCreated);
 }
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
@@ -226,9 +229,9 @@ void CSkypeProto::SendPresence(bool isLogin)
 	}
 
 	if (isLogin)
-		SendRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer), &CSkypeProto::OnCapabilitiesSended);
+		SendRequest(new SendCapabilitiesRequest(epname, li), &CSkypeProto::OnCapabilitiesSended);
 	else 
-		PushRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer));
+		PushRequest(new SendCapabilitiesRequest(epname, li));
 }
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
@@ -240,7 +243,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	SendRequest(new SetStatusRequest(m_szRegToken, MirandaToSkypeStatus(m_iDesiredStatus), m_szServer), &CSkypeProto::OnStatusChanged);
+	SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), li), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -248,25 +251,25 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
-	SendRequest(new CreateContactsSubscriptionRequest(m_szRegToken, skypenames, m_szServer));
+	SendRequest(new CreateContactsSubscriptionRequest(skypenames, li));
 	FreeCharList(skypenames);
 	skypenames.destroy();
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
-	SendRequest(new LoadChatsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnLoadChats);
+	SendRequest(new LoadChatsRequest(li), &CSkypeProto::OnLoadChats);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
-	PushRequest(new GetContactListRequest(m_szTokenSecret, m_szSelfSkypeName, NULL), &CSkypeProto::LoadContactList);
+	PushRequest(new GetContactListRequest(li, NULL), &CSkypeProto::LoadContactList);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	
 	if (getBool("AutoSync", true))
-		PushRequest(new SyncHistoryFirstRequest(m_szRegToken, 100, m_szServer), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(100, li), &CSkypeProto::OnSyncHistory);
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
 		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
 
-	PushRequest(new GetProfileRequest(m_szTokenSecret), &CSkypeProto::LoadProfile);
+	PushRequest(new GetProfileRequest(li), &CSkypeProto::LoadProfile);
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)

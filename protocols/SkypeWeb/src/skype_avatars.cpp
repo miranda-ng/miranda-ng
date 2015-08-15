@@ -202,7 +202,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 			return -1;
 		}
 		fclose(hFile);
-		PushRequest(new SetAvatarRequest(m_szTokenSecret, m_szSelfSkypeName, data, length), &CSkypeProto::OnSentAvatar);
+		PushRequest(new SetAvatarRequest(data, length, li), &CSkypeProto::OnSentAvatar);
 	}
 	else
 	{

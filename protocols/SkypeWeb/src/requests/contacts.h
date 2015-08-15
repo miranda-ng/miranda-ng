@@ -21,17 +21,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetContactListRequest : public HttpRequest
 {
 public:
-	GetContactListRequest(const char *token, const char *skypename = "self") :
+	/*GetContactListRequest(LoginInfo &li, const char *skypename = "self") :
 		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts", skypename)
 	{
 		Url << CHAR_VALUE("hideDetails", "true");
 
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
-	}
-	GetContactListRequest(const char *token, const char *skypename, const char *filter) :
-		HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", CMStringA(skypename).MakeLower().GetBuffer())
+	}*/
+	GetContactListRequest(LoginInfo &li, const char *filter) :
+	  HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", CMStringA(li.szSkypename).MakeLower().GetBuffer())
 	{
 		if (filter != NULL)
 		{
@@ -40,18 +40,18 @@ public:
 		}
 
 		Headers 
-			<< CHAR_VALUE("X-SkypeToken", token);
+			<< CHAR_VALUE("X-SkypeToken", li.api.szToken);
 	}
 };
 
 class GetContactsInfoRequest : public HttpRequest
 {
 public:
-	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames, const char *skypename = "self") :
+	GetContactsInfoRequest(LoginInfo &li, const LIST<char> &skypenames, const char *skypename = "self") :
 		HttpRequest(REQUEST_POST, FORMAT, "api.skype.com/users/%s/contacts/profiles", skypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 
 		for (int i = 0; i < skypenames.getCount(); i++)
@@ -59,26 +59,14 @@ public:
 	}
 };
 
-class GetContactStatusRequest : public HttpRequest
-{
-public:
-	GetContactStatusRequest(const char *regToken, const char *skypename, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/contacts/8:%s/presenceDocs/messagingService", server, skypename)
-	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
-	}
-};
-
 class GetContactsAuthRequest : public HttpRequest
 {
 public:
-	GetContactsAuthRequest(const char *token, const char *skypename = "self") :
+	GetContactsAuthRequest(LoginInfo &li, const char *skypename = "self") :
 		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request", skypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -86,11 +74,11 @@ public:
 class AddContactRequest : public HttpRequest
 {
 public:
-	AddContactRequest(const char *token, const char *who, const char *greeting = "", const char *skypename = "self") :
+	AddContactRequest(LoginInfo &li, const char *who, const char *greeting = "", const char *skypename = "self") :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 
@@ -101,11 +89,11 @@ public:
 class DeleteContactRequest : public HttpRequest
 {
 public:
-	DeleteContactRequest(const char *token, const char *who, const char *skypename = "self") :
+	DeleteContactRequest(LoginInfo &li, const char *who, const char *skypename = "self") :
 		HttpRequest(REQUEST_DELETE, FORMAT, "api.skype.com/users/%s/contacts/%s", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 	}
@@ -114,11 +102,11 @@ public:
 class AuthAcceptRequest : public HttpRequest
 {
 public:
-	AuthAcceptRequest(const char *token, const char *who, const char *skypename = "self") :
+	AuthAcceptRequest(LoginInfo &li, const char *who, const char *skypename = "self") :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/accept", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -126,11 +114,11 @@ public:
 class AuthDeclineRequest : public HttpRequest
 {
 public:
-	AuthDeclineRequest(const char *token, const char *who, const char *skypename = "self") :
+	AuthDeclineRequest(LoginInfo &li, const char *who, const char *skypename = "self") :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
@@ -138,11 +126,11 @@ public:
 class BlockContactRequest : public HttpRequest
 {
 public:
-	BlockContactRequest(const char *token, const char *who, const char *skypename = "self") :
+	BlockContactRequest(LoginInfo &li, const char *who, const char *skypename = "self") :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/%s/block", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 
@@ -155,11 +143,11 @@ public:
 class UnblockContactRequest : public HttpRequest
 {
 public:
-	UnblockContactRequest(const char *token, const char *who, const char *skypename = "self") :
+	UnblockContactRequest(LoginInfo &li, const char *who, const char *skypename = "self") :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/%s/unblock", skypename, who)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 

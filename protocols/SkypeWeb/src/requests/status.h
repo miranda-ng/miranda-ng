@@ -21,12 +21,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SetStatusRequest : public HttpRequest
 {
 public:
-	SetStatusRequest(const char *regToken, const char *status, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/presenceDocs/messagingService", server)
+	SetStatusRequest(const char *status, LoginInfo &li) :
+	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/presenceDocs/messagingService", li.endpoint.szServer)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		JSONNode node(JSON_NODE);

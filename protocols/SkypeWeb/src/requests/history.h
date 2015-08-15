@@ -20,8 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SyncHistoryFirstRequest : public HttpRequest
 {
 public:
-	SyncHistoryFirstRequest(const char *regToken, int pageSize = 100, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", server)
+	SyncHistoryFirstRequest(int pageSize, LoginInfo &li) :
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", li.endpoint.szServer)
 	{
 		Url
 			<< INT_VALUE("startTime", 0)
@@ -31,17 +31,17 @@ public:
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 
-	SyncHistoryFirstRequest(const char *url, const char *regToken) :
+	SyncHistoryFirstRequest(const char *url, LoginInfo &li) :
 		HttpRequest(REQUEST_GET, url)
 	{
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
@@ -49,18 +49,18 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, const char *username, int pageSize = 100, bool isChat = false, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%s:%s/messages", server, isChat ? "19" : "8", ptrA(mir_urlEncode(username)))
+	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp, LoginInfo &li) :
+	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%d:%s/messages", li.endpoint.szServer, isChat ? 19 : 8, ptrA(mir_urlEncode(username)))
 	{
 		Url
-			<< INT_VALUE("startTime", timestamp)
+			<< LONG_VALUE("startTime", timestamp)
 			<< INT_VALUE("pageSize", pageSize)
 			<< CHAR_VALUE("view", "msnp24Equivalent")
 			<< CHAR_VALUE("targetType", "Passport|Skype|Lync|Thread");
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
@@ -68,12 +68,12 @@ public:
 class GetHistoryOnUrlRequest : public HttpRequest
 {
 public:
-	GetHistoryOnUrlRequest(const char *url, const char *regToken) :
+	GetHistoryOnUrlRequest(const char *url, LoginInfo &li) :
 		HttpRequest(REQUEST_GET, url)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };

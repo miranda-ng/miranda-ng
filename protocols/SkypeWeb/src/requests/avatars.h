@@ -30,11 +30,11 @@ public:
 class SetAvatarRequest : public HttpRequest
 {
 public:
-	SetAvatarRequest(const char *token, const char *skypename, const char *data, size_t dataSize) :
-		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", skypename)
+	SetAvatarRequest(const char *data, size_t dataSize, LoginInfo &li) :
+		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", li.szSkypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Content-Type", "image/jpeg");
 
 		pData = (char*)mir_alloc(dataSize);

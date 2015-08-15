@@ -24,6 +24,8 @@ typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
 	friend CSkypeGCCreateDlg;
+	//friend CSkypeChatroom;
+	//friend ChatUser;
 
 public:
 
@@ -82,6 +84,8 @@ public:
 
 private:
 
+	LoginInfo li;
+
 	static UINT_PTR m_timer;
 
 	//---Accounts
@@ -119,13 +123,6 @@ private:
 	mir_cs m_AppendMessageLock;
 	static mir_cs accountsLock;
 	static mir_cs timerLock;
-	
-
-	ptrA m_szServer,
-		 m_szRegToken,
-		 m_szTokenSecret,
-		 m_szEndpointId,
-		 m_szSelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
@@ -308,7 +305,7 @@ private:
 	}
 
 	__forceinline bool IsMe(const char *szSkypename)
-	{	return (!mir_strcmpi(szSkypename, m_szSelfSkypeName) || !mir_strcmp(szSkypename, ptrA(getStringA("SelfEndpointName"))));
+	{	return (!mir_strcmpi(szSkypename, li.szSkypename) || !mir_strcmp(szSkypename, ptrA(getStringA("SelfEndpointName"))));
 	}
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);

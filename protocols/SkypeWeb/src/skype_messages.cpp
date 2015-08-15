@@ -59,9 +59,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	ptrA username(getStringA(hContact, "Skypename"));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(m_szRegToken, username, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendActionRequest(username, param->hMessage, &szMessage[4], li), &CSkypeProto::OnMessageSent, param);
 	else
-		SendRequest(new SendMessageRequest(m_szRegToken, username, param->hMessage, szMessage, m_szServer), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendMessageRequest(username, param->hMessage, szMessage, li), &CSkypeProto::OnMessageSent, param);
 
 	m_OutMessages.insert((void*)param->hMessage);
 
@@ -232,5 +232,5 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	time_t timestamp = dbei.timestamp;
 
 	if(db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
-		PushRequest(new MarkMessageReadRequest(username, m_szRegToken, timestamp, timestamp, false, m_szServer));
+		PushRequest(new MarkMessageReadRequest(username, timestamp, timestamp, false, li));
 }

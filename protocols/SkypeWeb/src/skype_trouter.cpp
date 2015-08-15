@@ -49,7 +49,7 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 	TRouter.socketIo = socketio.as_string();
 	TRouter.url = url.as_string();
 
-	SendRequest(new CreateTrouterPoliciesRequest(m_szTokenSecret, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
+	SendRequest(new CreateTrouterPoliciesRequest(li, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
 }
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
@@ -110,7 +110,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 
 	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600)
 	{
-		SendRequest(new RegisterTrouterRequest(m_szTokenSecret, TRouter.url.c_str(), TRouter.sessId.c_str()));
+		SendRequest(new RegisterTrouterRequest(li, TRouter.url.c_str(), TRouter.sessId.c_str()));
 		TRouter.lastRegistrationTime = time(NULL);
 	}
 }
