@@ -179,6 +179,7 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
 		ps[i] = (PROTOCOLSETTINGEX*)calloc(1, sizeof(PROTOCOLSETTINGEX));
 		if (ps[i] == NULL) {
+			free(ps);
 			return NULL;
 		}
 
@@ -571,7 +572,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 			case LOGINERR_SETDELAY:
 			{
-				int newDelay = newDelay = 1000 * db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
+				int newDelay = 1000 * db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
 				log_infoA("KeepStatus: set delay to %d on login error (%s)", newDelay / 1000, ack->szModule);
 				StartTimer(IDT_CHECKCONN, newDelay, TRUE);
 			}
