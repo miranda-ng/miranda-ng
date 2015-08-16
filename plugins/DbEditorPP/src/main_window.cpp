@@ -409,7 +409,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-			///////////////////////// // watches
+		// watches
 		case MENU_VIEW_WATCHES:
 			openWatchedVarWindow();
 			break;
