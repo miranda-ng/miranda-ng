@@ -451,9 +451,9 @@ void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat)
 	}
 }
 
-static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) {
+	switch (uMsg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
@@ -466,7 +466,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 	case WM_GETDLGCODE:
 		if (lParam) {
-			MSG *msg = (MSG *) lParam;
+			MSG *msg = (MSG*)lParam;
 			if (msg->message == WM_KEYDOWN && msg->wParam == VK_TAB)
 				return 0;
 			if (msg->message == WM_CHAR && msg->wParam == '\t')
@@ -477,7 +477,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		cli.pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
 		return 0;
 	}
-	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);
 }
 
 void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)

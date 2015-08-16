@@ -282,7 +282,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		if (LOWORD(wParam) == IDC_LST_CONTACTS) {
 			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
 			if (pnmv->hdr.code == LVN_ITEMCHANGED) {
-				int sel = ListView_GetNextItem(hwndList, -1, LVNI_FOCUSED | LVNI_SELECTED); // return item selected
+				sel = ListView_GetNextItem(hwndList, -1, LVNI_FOCUSED | LVNI_SELECTED); // return item selected
 
 				// enable buttons
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_REM), sel != -1);

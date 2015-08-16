@@ -879,10 +879,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 
 				case LVN_ITEMCHANGED:
-					{
+					if (initialized) {
 						LPNMLISTVIEW param = (LPNMLISTVIEW)lParam;
 						THotkeyItem *item = (THotkeyItem *)param->lParam;
-						if (!initialized || (param->uNewState >> 12 == param->uOldState >> 12))
+						if (param->uNewState >> 12 == param->uOldState >> 12)
 							break;
 
 						if (item && !item->rootHotkey) {
@@ -901,45 +901,42 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 							if (param->uNewState >> 12 == 1) {
 								int count = ListView_GetItemCount(lpnmhdr->hwndFrom);
-								LVITEM lvi = { 0 };
-								lvi.mask = LVIF_PARAM;
-								for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
-									THotkeyItem *item;
-									ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
-									item = (THotkeyItem *)lvi.lParam;
+								LVITEM lvi2 = { 0 };
+								lvi2.mask = LVIF_PARAM;
+								for (lvi2.iItem = 0; lvi2.iItem < count; ++lvi2.iItem) {
+									ListView_GetItem(lpnmhdr->hwndFrom, &lvi2);
+									item = (THotkeyItem*)lvi2.lParam;
 									if (!item) continue;
 									if (!mir_tstrcmp(item->getSection(), buf)) {
-										ListView_DeleteItem(lpnmhdr->hwndFrom, lvi.iItem);
-										--lvi.iItem;
+										ListView_DeleteItem(lpnmhdr->hwndFrom, lvi2.iItem);
+										--lvi2.iItem;
 										--count;
 									}
 								}
 							}
 							else if (param->uNewState >> 12 == 2) {
-								int i, nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
+								int nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
 								initialized = FALSE;
-								for (i = 0; i < hotkeys.getCount(); i++) {
-									LVITEM lvi = { 0 };
-									THotkeyItem *item = hotkeys[i];
-
-									if (item->OptDeleted)
-										continue;
-									if (mir_tstrcmp(buf, item->getSection()))
+								for (int i = 0; i < hotkeys.getCount(); i++) {
+									LVITEM lvi2 = { 0 };
+									item = hotkeys[i];
+									if (item->OptDeleted || mir_tstrcmp(buf, item->getSection()))
 										continue;
 
-									lvi.mask = LVIF_PARAM | LVIF_INDENT;
-									lvi.iIndent = 1;
-									lvi.iItem = nItems++;
-									lvi.lParam = (LPARAM)item;
-									ListView_InsertItem(lpnmhdr->hwndFrom, &lvi);
+									lvi2.mask = LVIF_PARAM | LVIF_INDENT;
+									lvi2.iIndent = 1;
+									lvi2.iItem = nItems++;
+									lvi2.lParam = (LPARAM)item;
+									ListView_InsertItem(lpnmhdr->hwndFrom, &lvi2);
 									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems - 1, item);
 								}
 								ListView_SortItemsEx(lpnmhdr->hwndFrom, sttOptionsSortList, (LPARAM)lpnmhdr->hwndFrom);
 								initialized = TRUE;
 							}
 						}
-						break;
 					}
+					break;
+
 				case NM_CUSTOMDRAW:
 					{
 						NMLVCUSTOMDRAW *param = (NMLVCUSTOMDRAW *)lParam;

@@ -314,6 +314,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_RESULTS);
+	RECT rc, rc2;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -328,10 +329,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Ctrl+Search add contact"), BATF_TCHAR);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP);
-		{
-			RECT rc;
-			GetClientRect(hwndList, &rc);
 
+		GetClientRect(hwndList, &rc);
+		{
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 			lvc.pszText = TranslateT("Results");
@@ -440,7 +440,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ReposTinySearchDlg(hwndDlg, dat);
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_SIZE, 0, 0);
 			if (dat->notSearchedYet) {
-				RECT rc;
 				GetClientRect(hwndList, &rc);
 				ListView_SetColumnWidth(hwndList, 0, rc.right);
 			}
@@ -448,14 +447,12 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		//fall through
 	case WM_MOVE:
 		if (dat && dat->hwndAdvSearch) {
-			RECT rc;
 			GetWindowRect(hwndList, &rc);
 			SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		break;
 
 	case WM_GETMINMAXINFO:
-		RECT rc, rc2;
 		GetWindowRect(hwndList, &rc);
 		GetWindowRect(hwndDlg, &rc2);
 		{
@@ -547,7 +544,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			MINMAXINFO mmi;
 			SendMessage(hwndDlg, WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
 
-			RECT rc;
 			GetWindowRect(hwndDlg, &rc);
 			if (rc.bottom - rc.top < mmi.ptMinTrackSize.y)
 				SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, mmi.ptMinTrackSize.y, SWP_NOZORDER | SWP_NOMOVE);
@@ -559,7 +555,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int borders[3];
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_GETBORDERS, 0, (LPARAM)borders);
 
-			RECT rc;
 			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_GETRECT, 1, (LPARAM)&rc);
 			InflateRect(&rc, -borders[2] / 2, -borders[1] / 2);
 			HDC hdc = GetDC(GetDlgItem(hwndDlg, IDC_STATUSBAR));
@@ -787,7 +782,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_MOREOPTIONS:
-			RECT rc;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_MOREOPTIONS), &rc);
 			ShowMoreOptionsMenu(hwndDlg, rc.left, rc.bottom);
 			break;
@@ -883,7 +877,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					LVITEM lvi = { 0 };
 					lvi.mask = LVIF_PARAM | LVIF_IMAGE;
 					lvi.lParam = (LPARAM)lsr;
-					for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
+					for (i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
 						char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 						if (szComboProto == NULL) continue;
 						if (!mir_strcmp(szComboProto, ack->szModule)) {
@@ -923,7 +917,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_PARAM | LVIF_IMAGE;
 				lvi.lParam = (LPARAM)lsr;
-				for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
+				for (i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
 					char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 					if (szComboProto == NULL) continue;
 					if (!mir_strcmp(szComboProto, ack->szModule)) {

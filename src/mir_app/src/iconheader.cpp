@@ -317,10 +317,10 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit)
 	return TRUE;
 }
 
-static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MIcoTabCtrl* itc = (MIcoTabCtrl *)GetWindowLongPtr(hwndDlg, 0);
-	switch(msg) {
+	switch (uMsg) {
 	case WM_NCCREATE:
 		itc = new MIcoTabCtrl; //(MIcoTabCtrl*)mir_alloc(sizeof(MIcoTabCtrl));
 		itc->nSelectedIdx = -1;
@@ -331,7 +331,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 		if (IsAeroMode()) {
 			RECT rc; GetWindowRect(hwndDlg, &rc);
-			MARGINS margins = {0, 0, rc.bottom-rc.top, 0};
+			MARGINS margins = { 0, 0, rc.bottom - rc.top, 0 };
 			dwmExtendFrameIntoClientArea(GetParent(hwndDlg), &margins);
 		}
 
@@ -343,12 +343,12 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 	case WM_SIZE:
 		GetClientRect(hwndDlg, &itc->rc);
-		itc->width = itc->rc.right-itc->rc.left;
-		itc->height = itc->rc.bottom-itc->rc.top;
+		itc->width = itc->rc.right - itc->rc.left;
+		itc->height = itc->rc.bottom - itc->rc.top;
 
 		if (itc->pList.getCount()) {
-			itc->itemWidth = (itc->width-2*ITC_BORDER_SIZE)/itc->pList.getCount();
-			itc->itemHeight = itc->height-2*ITC_BORDER_SIZE-2;
+			itc->itemWidth = (itc->width - 2 * ITC_BORDER_SIZE) / itc->pList.getCount();
+			itc->itemHeight = itc->height - 2 * ITC_BORDER_SIZE - 2;
 		}
 		else itc->itemWidth = itc->itemHeight = 0;
 		return TRUE;
@@ -360,7 +360,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 	case WM_MOUSEMOVE:
 		if (!itc->bMouseInside) {
-			TRACKMOUSEEVENT tme = {0};
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.hwndTrack = hwndDlg;
@@ -381,8 +381,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return 0;
 
 	case WM_LBUTTONUP:
-		if ((itc->nHotIdx >= 0) && (itc->nHotIdx != itc->nSelectedIdx))
-		{
+		if ((itc->nHotIdx >= 0) && (itc->nHotIdx != itc->nSelectedIdx)) {
 			itc->nSelectedIdx = itc->nHotIdx;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
@@ -402,19 +401,15 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return MA_ACTIVATE;
 
 	case WM_GETDLGCODE:
-	{
-		if (lParam)
-		{
-			MSG *msg = (MSG *) lParam;
-			if (msg->message == WM_KEYDOWN)
-			{
+		if (lParam) {
+			MSG *msg = (MSG *)lParam;
+			if (msg->message == WM_KEYDOWN) {
 				if (msg->wParam == VK_TAB)
 					return 0;
 				if (msg->wParam == VK_ESCAPE)
 					return 0;
-			} else
-			if (msg->message == WM_CHAR)
-			{
+			}
+			else if (msg->message == WM_CHAR) {
 				if (msg->wParam == '\t')
 					return 0;
 				if (msg->wParam == 27)
@@ -422,33 +417,30 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			}
 		}
 		return DLGC_WANTMESSAGE;
-	}
 
 	case WM_KEYDOWN:
-	{
-		int newIdx = itc->nSelectedIdx;
-		switch (wParam)
 		{
-		case VK_NEXT:
-		case VK_RIGHT:
-			newIdx++;
-			break;
-		case VK_PRIOR:
-		case VK_LEFT:
-			newIdx--;
-			break;
-		}
-		if ((newIdx >= 0) && (newIdx < itc->pList.getCount()) && (newIdx != itc->nSelectedIdx))
-		{
-			itc->nSelectedIdx = newIdx;
-			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
-			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
-			SendMessage(GetParent(hwndDlg), WM_COMMAND,
-				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGEDKBD),
-				itc->nSelectedIdx);
+			int newIdx = itc->nSelectedIdx;
+			switch (wParam) {
+			case VK_NEXT:
+			case VK_RIGHT:
+				newIdx++;
+				break;
+			case VK_PRIOR:
+			case VK_LEFT:
+				newIdx--;
+				break;
+			}
+			if ((newIdx >= 0) && (newIdx < itc->pList.getCount()) && (newIdx != itc->nSelectedIdx)) {
+				itc->nSelectedIdx = newIdx;
+				SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
+				RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
+				SendMessage(GetParent(hwndDlg), WM_COMMAND,
+					MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGEDKBD),
+					itc->nSelectedIdx);
+			}
 		}
 		return 0;
-	}
 
 	case WM_ERASEBKGND:
 		return 1;
@@ -475,32 +467,32 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return TRUE;
 
 	case ITCM_ADDITEM:
-	{
-		MIcoTab* pMit = (MIcoTab *)wParam;
-		if (!pMit)
-			return FALSE;
+		{
+			MIcoTab* pMit = (MIcoTab *)wParam;
+			if (!pMit)
+				return FALSE;
 
-		MIcoTab* pListMit = (MIcoTab *)mir_calloc(sizeof(MIcoTab));
-		pListMit->flag = pMit->flag;
-		pListMit->data = pMit->data;
-		if (pMit->flag & MITCF_UNICODE)
-			pListMit->tcsName = mir_u2t(pMit->lpwzName);
-		else
-			pListMit->tcsName = mir_a2t(pMit->lpzName);
-		if (pMit->hIcon) {
-			if (pListMit->flag&MITCF_SHAREDICON)
-				pListMit->hIcon = pMit->hIcon;
+			MIcoTab* pListMit = (MIcoTab *)mir_calloc(sizeof(MIcoTab));
+			pListMit->flag = pMit->flag;
+			pListMit->data = pMit->data;
+			if (pMit->flag & MITCF_UNICODE)
+				pListMit->tcsName = mir_u2t(pMit->lpwzName);
 			else
-				pListMit->hIcon = CopyIcon(pMit->hIcon);
+				pListMit->tcsName = mir_a2t(pMit->lpzName);
+			if (pMit->hIcon) {
+				if (pListMit->flag&MITCF_SHAREDICON)
+					pListMit->hIcon = pMit->hIcon;
+				else
+					pListMit->hIcon = CopyIcon(pMit->hIcon);
+			}
+			itc->pList.insert(pListMit);
+
+			itc->itemWidth = (itc->width - 2 * ITC_BORDER_SIZE) / itc->pList.getCount();
+			itc->itemHeight = itc->height - 2 * ITC_BORDER_SIZE - 2;
+
+			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
 		}
-		itc->pList.insert(pListMit);
-
-		itc->itemWidth = (itc->width-2*ITC_BORDER_SIZE)/itc->pList.getCount();
-		itc->itemHeight = itc->height-2*ITC_BORDER_SIZE-2;
-
-		RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
 		return TRUE;
-	}
 
 	case ITCM_SETSEL:
 		if ((int)wParam >= 0 && (int)wParam < itc->pList.getCount()) {
@@ -530,5 +522,5 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		delete itc;
 		return TRUE;
 	}
-	return DefWindowProc(hwndDlg, msg, wParam, lParam);
+	return DefWindowProc(hwndDlg, uMsg, wParam, lParam);
 }

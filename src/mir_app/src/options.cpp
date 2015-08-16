@@ -339,7 +339,7 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 		HFONT oldFont = (HFONT)SelectObject(hdc, hFont);
 		SetTextColor(hdc, GetSysColor(COLOR_GRAYTEXT));
 		FillRect(hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
-		int oldMode = SetBkMode(hdc, TRANSPARENT);
+		oldMode = SetBkMode(hdc, TRANSPARENT);
 		DrawText(hdc, buf, -1, &rc, 0);
 		SetBkMode(hdc, oldMode);
 		SelectObject(hdc, oldFont);
@@ -820,7 +820,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (UINT i = 0; i < psh->nPages; i++, odp++) {
-				OptionsPageData *opd = new OptionsPageData(odp);
+				opd = new OptionsPageData(odp);
 				if (opd->pDialog == NULL) // smth went wrong
 					delete opd;
 				else
@@ -1169,7 +1169,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 	FreeOptionsData(&opi);
 }
 
-static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
+static void OpenOptionsNow(int _hLang, const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
 {
 	if (IsWindow(hwndOptions)) {
 		ShowWindow(hwndOptions, SW_RESTORE);
@@ -1179,11 +1179,11 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
 				ptrT ptszGroup(mir_a2t(pszGroup));
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszGroup));
+				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(_hLang, ptszGroup));
 				if (hItem != NULL)
-					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(hLangpack, ptszPage));
+					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(_hLang, ptszPage));
 			}
-			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(hLangpack, ptszPage));
+			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(_hLang, ptszPage));
 
 			if (hItem != NULL)
 				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);

@@ -32,10 +32,10 @@ static INT_PTR MoveGroupBefore(WPARAM wParam, LPARAM lParam);
 
 static int CountGroups(void)
 {
-	for (int i=0;; i++) {
+	for (int i = 0;; i++) {
 		char str[33];
 		_itoa(i, str, 10);
-		ptrT grpName( db_get_tsa(NULL, "CListGroups", str));
+		ptrT grpName(db_get_tsa(NULL, "CListGroups", str));
 		if (grpName == NULL)
 			return i;
 	}
@@ -43,18 +43,18 @@ static int CountGroups(void)
 
 static int GroupNameExists(const TCHAR *name, int skipGroup)
 {
-	for (int i=0;; i++) {
+	for (int i = 0;; i++) {
 		if (i == skipGroup)
 			continue;
 
 		char idstr[33];
 		_itoa(i, idstr, 10);
-		ptrT grpName( db_get_tsa(NULL, "CListGroups", idstr));
+		ptrT grpName(db_get_tsa(NULL, "CListGroups", idstr));
 		if (grpName == NULL)
 			break;
 
-		if (!mir_tstrcmp((TCHAR*)grpName+1, name))
-			return i+1;
+		if (!mir_tstrcmp((TCHAR*)grpName + 1, name))
+			return i + 1;
 	}
 	return 0;
 }
@@ -99,7 +99,7 @@ static INT_PTR CreateGroupInternal(INT_PTR iParent, const TCHAR *ptszName)
 			mir_sntprintf(newName + 1, _countof(newName) - 1, _T("%s (%d)"), newBaseName, i++);
 	}
 	if (i) {
-		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, newName };
+		CLISTGROUPCHANGE grpChg = { sizeof(grpChg), NULL, newName };
 
 		newName[0] = 1 | GROUPF_EXPANDED;   //1 is required so we never get '\0'
 		db_set_ts(NULL, "CListGroups", str, newName);
@@ -139,12 +139,12 @@ static INT_PTR GetGroupName2(WPARAM wParam, LPARAM lParam)
 
 	_itoa(wParam - 1, idstr, 10);
 	if (db_get_s(NULL, "CListGroups", idstr, &dbv))
-		return (INT_PTR) (char *) NULL;
+		return (INT_PTR)(char *)NULL;
 	mir_strncpy(name, dbv.pszVal + 1, _countof(name));
-	if ((DWORD *) lParam != NULL)
-		*(DWORD *) lParam = dbv.pszVal[0];
+	if ((DWORD *)lParam != NULL)
+		*(DWORD *)lParam = dbv.pszVal[0];
 	db_free(&dbv);
-	return (INT_PTR) name;
+	return (INT_PTR)name;
 }
 
 TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags)
@@ -153,7 +153,7 @@ TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags)
 	DBVARIANT dbv;
 	static TCHAR name[128];
 
-	_itoa(idx-1, idstr, 10);
+	_itoa(idx - 1, idstr, 10);
 	if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 		return NULL;
 
@@ -168,8 +168,8 @@ static INT_PTR GetGroupName(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret;
 	ret = GetGroupName2(wParam, lParam);
-	if ((int *) lParam)
-		*(int *) lParam = 0 != (*(int *) lParam & GROUPF_EXPANDED);
+	if ((int *)lParam)
+		*(int *)lParam = 0 != (*(int *)lParam & GROUPF_EXPANDED);
 	return ret;
 }
 
@@ -187,11 +187,10 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 		return 1;
 	mir_tstrncpy(name, dbv.ptszVal + 1, _countof(name));
 	db_free(&dbv);
-	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT))
-	{
-		TCHAR szQuestion[256+100];
+	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT)) {
+		TCHAR szQuestion[256 + 100];
 		mir_sntprintf(szQuestion, _countof(szQuestion), TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), name);
-		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO|MB_ICONQUESTION) == IDNO)
+		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
 	SetCursor(LoadCursor(NULL, IDC_WAIT));
@@ -204,29 +203,23 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	else
 		szNewParent[0] = '\0';
 
-	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
-
 	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_ts(hContact, "CList", "Group", &dbv))
 			continue;
 
-		if (mir_tstrcmp(dbv.ptszVal, name))
-		{
+		if (mir_tstrcmp(dbv.ptszVal, name)) {
 			db_free(&dbv);
 			continue;
 		}
 		db_free(&dbv);
 
-		if (szNewParent[0])
-		{
+		CLISTGROUPCHANGE grpChg = { sizeof(grpChg), NULL, NULL };
+		if (szNewParent[0]) {
 			db_set_ts(hContact, "CList", "Group", szNewParent);
 			grpChg.pszNewName = szNewParent;
 		}
-		else
-		{
-			db_unset(hContact, "CList", "Group");
-			grpChg.pszNewName = NULL;
-		}
+		else db_unset(hContact, "CList", "Group");
+
 		NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	}
 	//shuffle list of groups up to fill gap
@@ -244,7 +237,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	{
 		TCHAR szNewName[256];
 		size_t len = mir_tstrlen(name);
-		for (i=0;; i++) {
+		for (i = 0;; i++) {
 			_itoa(i, str, 10);
 			if (db_get_ts(NULL, "CListGroups", str, &dbv))
 				break;
@@ -261,10 +254,8 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 	cli.pfnLoadContactTree();
 
-	{
-		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), name, NULL };
-		NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
-	}
+	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), name, NULL };
+	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 	return 0;
 }
 
@@ -304,7 +295,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	{
 		TCHAR szNewName[256];
 		size_t len = mir_tstrlen(oldName);
-		for (int i=0;; i++) {
+		for (int i = 0;; i++) {
 			if (i == groupId)
 				continue;
 			_itoa(i, idstr, 10);
@@ -327,7 +318,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		pszLastBackslash = _tcsrchr(str, '\\');
 		if (pszLastBackslash != NULL) {
 			*pszLastBackslash = '\0';
-			for (i=0;; i++) {
+			for (i = 0;; i++) {
 				_itoa(i, idstr, 10);
 				if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 					break;
@@ -341,16 +332,15 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			}
 		}
 	}
-	{
-		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), oldName, (TCHAR*)szName };
-		NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
-	}
+
+	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (TCHAR*)szName };
+	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 	return 0;
 }
 
 int fnRenameGroup(int groupID, TCHAR* newName)
 {
-	return -1 != RenameGroupWithMove(groupID-1, newName, 1);
+	return -1 != RenameGroupWithMove(groupID - 1, newName, 1);
 }
 
 static INT_PTR RenameGroup(WPARAM wParam, LPARAM lParam)
@@ -404,7 +394,7 @@ static INT_PTR MoveGroupBefore(WPARAM wParam, LPARAM lParam)
 	TCHAR *szMoveName;
 	DBVARIANT dbv;
 
-	if (wParam == 0 || (LPARAM) wParam == lParam)
+	if (wParam == 0 || (LPARAM)wParam == lParam)
 		return 0;
 	_itoa(wParam - 1, str, 10);
 	if (db_get_ts(NULL, "CListGroups", str, &dbv))
@@ -417,7 +407,7 @@ static INT_PTR MoveGroupBefore(WPARAM wParam, LPARAM lParam)
 		shuffleDir = -1;
 	}
 	else {
-		if ((LPARAM) wParam < lParam) {
+		if ((LPARAM)wParam < lParam) {
 			shuffleFrom = wParam - 1;
 			shuffleTo = lParam - 2;
 			shuffleDir = -1;
@@ -469,7 +459,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 	int menuId, compareResult, menuItemCount;
 
 	if (db_get_utf(NULL, "CListGroups", "0", &dbv))
-		return (INT_PTR) (HMENU) NULL;
+		return (INT_PTR)(HMENU)NULL;
 	db_free(&dbv);
 	hRootMenu = CreateMenu();
 	for (groupId = 0;; groupId++) {
@@ -550,21 +540,19 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 		db_free(&dbv);
 	}
-	return (INT_PTR) hRootMenu;
+	return (INT_PTR)hRootMenu;
 }
 
 int InitGroupServices(void)
 {
-	for (int i=0;; i++)
-	{
+	for (int i = 0;; i++) {
 		char str[32];
 		_itoa(i, str, 10);
 
 		DBVARIANT dbv;
 		if (db_get_utf(NULL, "CListGroups", str, &dbv))
 			break;
-		if (dbv.pszVal[0] & 0x80)
-		{
+		if (dbv.pszVal[0] & 0x80) {
 			dbv.pszVal[0] &= 0x7f;
 			db_set_utf(NULL, "CListGroups", str, dbv.pszVal);
 		}

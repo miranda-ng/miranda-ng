@@ -233,10 +233,10 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 
 		if (nlbp->s != INVALID_SOCKET)
 		if (bind(nlbp->s, (PSOCKADDR)&sin, sizeof(sin)) == 0) {
-			SOCKADDR_IN sin = { 0 };
-			int len = sizeof(sin);
-			if (!getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
-				sin6.sin6_port = sin.sin_port;
+			SOCKADDR_IN sin2 = { 0 };
+			int len = sizeof(sin2);
+			if (!getsockname(nlbp->s, (PSOCKADDR)&sin2, &len))
+				sin6.sin6_port = sin2.sin_port;
 			foundPort = 1;
 		}
 

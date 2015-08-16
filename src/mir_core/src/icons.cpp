@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, char *prefix, int hLangpack)
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, char *prefix, int _hLang)
 {
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
@@ -44,11 +44,11 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 		sid.cx = sid.cy = pIcons[i].size;
 		sid.description.a = pIcons[i].szDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
-		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, hLangpack);
+		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, _hLang);
 	}
 }
 
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconItemT *pIcons, size_t iCount, char *prefix, int hLangpack)
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconItemT *pIcons, size_t iCount, char *prefix, int _hLang)
 {
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
@@ -69,6 +69,6 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 		sid.cx = sid.cy = pIcons[i].size;
 		sid.description.t = pIcons[i].tszDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
-		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, hLangpack);
+		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, _hLang);
 	}
 }

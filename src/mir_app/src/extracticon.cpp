@@ -49,13 +49,12 @@ typedef struct
 
 #define VER30            0x00030000
 
-void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER* pDosHeader, DWORD rva)
+void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, DWORD rva)
 {
-	IMAGE_NT_HEADERS* pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
-	IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(pPE);
-	int i;
+	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
+	IMAGE_SECTION_HEADER *pSection = IMAGE_FIRST_SECTION(pPE);
 
-	for (i=0; i < pPE->FileHeader.NumberOfSections; i++) {
+	for (int i = 0; i < pPE->FileHeader.NumberOfSections; i++) {
 		IMAGE_SECTION_HEADER* cSection = &pSection[i];
 		DWORD size = cSection->Misc.VirtualSize ? cSection->Misc.VirtualSize : cSection->SizeOfRawData;
 
@@ -68,18 +67,14 @@ void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER* pDosHeader, DWORD rva)
 
 void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 {
-	IMAGE_NT_HEADERS* pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
-
-	if (pPE->Signature != IMAGE_NT_SIGNATURE)
-		return NULL;
-	if (pPE->FileHeader.SizeOfOptionalHeader < 2)
+	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
+	if (pPE->Signature != IMAGE_NT_SIGNATURE || pPE->FileHeader.SizeOfOptionalHeader < 2)
 		return NULL;
 
 	// The DataDirectory is an array of 16 structures.
 	// Each array entry has a predefined meaning for what it refers to.
 
-	switch (pPE->OptionalHeader.Magic)
-	{
+	switch (pPE->OptionalHeader.Magic) {
 	case IMAGE_NT_OPTIONAL_HDR32_MAGIC:
 		if (pPE->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32))
 			return _RelativeVirtualAddresstoPtr(pDosHeader, ((PIMAGE_NT_HEADERS32)pPE)->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress);
@@ -94,47 +89,41 @@ void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 	return NULL;
 }
 
-IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void* prt, int resType, int* pCount)
+IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, DWORD resType, int *pCount)
 {
-	IMAGE_RESOURCE_DIRECTORY* pDir = (IMAGE_RESOURCE_DIRECTORY*)prt;
-	IMAGE_RESOURCE_DIRECTORY_ENTRY* pRes;
-	int i, count;
+	IMAGE_RESOURCE_DIRECTORY *pDir = (IMAGE_RESOURCE_DIRECTORY*)prt;
+	int i;
 
 	*pCount = 0;
 
-	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
-	pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
+	int count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
+	IMAGE_RESOURCE_DIRECTORY_ENTRY *pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir + 1);
 
-	for (i=0; i < count; i++)
-		if (pRes[i].Name == (DWORD)resType) break;
+	for (i = 0; i < count; i++)
+		if (pRes[i].Name == resType)
+			break;
 
-	if (i == count) return NULL;
+	if (i == count)
+		return NULL;
 
-	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt +
-		(pRes[i].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
-
+	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + (pRes[i].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
 	*pCount = count;
-	pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
-
-	return pRes;
+	return (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir + 1);
 }
 
-int _FindResourceCount(void* prt, int resType)
+int _FindResourceCount(void *prt, DWORD resType)
 {
 	int count;
-
 	_FindResourceBase(prt, resType, &count);
 	return count;
 }
 
-void* _FindResource(IMAGE_DOS_HEADER* pDosHeader, void* prt, int resIndex, int resType, DWORD* pcbSize)
+void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD resType, DWORD *pcbSize)
 {
 	int count, index = 0;
-	IMAGE_RESOURCE_DIRECTORY_ENTRY* pRes;
-	IMAGE_RESOURCE_DATA_ENTRY* pEntry;
 
-	pRes = _FindResourceBase(prt, resType, &count);
+	IMAGE_RESOURCE_DIRECTORY_ENTRY *pRes = _FindResourceBase(prt, resType, &count);
 	if (resIndex < 0) {
 		for (index = 0; index < count; index++)
 			if (pRes[index].Name == (DWORD)(-resIndex))
@@ -155,7 +144,7 @@ void* _FindResource(IMAGE_DOS_HEADER* pDosHeader, void* prt, int resIndex, int r
 	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
 		return NULL;
 
-	pEntry = (IMAGE_RESOURCE_DATA_ENTRY*)((LPBYTE)prt + pRes[index].OffsetToData);
+	IMAGE_RESOURCE_DATA_ENTRY *pEntry = (IMAGE_RESOURCE_DATA_ENTRY*)((LPBYTE)prt + pRes[index].OffsetToData);
 	*pcbSize = pEntry->Size;
 	return _RelativeVirtualAddresstoPtr(pDosHeader, pEntry->OffsetToData);
 }
@@ -164,39 +153,34 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 {
 	int retval = 0;
 	DWORD fileLen = GetFileSize(hFile, NULL);
-	HANDLE hFileMap = INVALID_HANDLE_VALUE, pFile = NULL;
-	IMAGE_DOS_HEADER* pDosHeader;
-	void* pRes;
-	DWORD cbSize = 0;
-	NEWHEADER* pIconDir;
-	int idIcon;
-	LPBITMAPINFOHEADER pIcon;
-	//  UINT res = 0;
 
-	hFileMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
-	if (hFileMap == NULL) goto cleanup;
+	HANDLE pFile = NULL, hFileMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
+	if (hFileMap == NULL)
+		goto cleanup;
 
 	pFile = MapViewOfFile(hFileMap, FILE_MAP_READ, 0, 0, 0);
-	if (pFile == NULL) goto cleanup;
+	if (pFile == NULL)
+		goto cleanup;
 
-	pDosHeader = (IMAGE_DOS_HEADER*)(void*)pFile;
+	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)(void*)pFile;
 	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE) goto cleanup;
 	if (pDosHeader->e_lfanew <= 0) goto cleanup;
 	if ((DWORD)(pDosHeader->e_lfanew) >= fileLen) goto cleanup;
 
-	pRes = _GetResourceTable(pDosHeader);
+	void *pRes = _GetResourceTable(pDosHeader);
 	if (!pRes) goto cleanup;
 	if (!phicon) {
-		retval = _FindResourceCount(pRes, (int)RT_GROUP_ICON);
+		retval = _FindResourceCount(pRes, (ULONG_PTR)RT_GROUP_ICON);
 		goto cleanup;
 	}
 
-	pIconDir = (NEWHEADER*)_FindResource(pDosHeader, pRes, iconIndex, (int)RT_GROUP_ICON, &cbSize);
+	DWORD cbSize = 0;
+	NEWHEADER *pIconDir = (NEWHEADER*)_FindResource(pDosHeader, pRes, iconIndex, (ULONG_PTR)RT_GROUP_ICON, &cbSize);
 	if (!pIconDir) goto cleanup;
 	if (pIconDir->Reserved || pIconDir->ResType != RES_ICON) goto cleanup;
 
-	idIcon = LookupIconIdFromDirectoryEx((LPBYTE)pIconDir, TRUE, cxIconSize, cyIconSize, flags);
-	pIcon = (LPBITMAPINFOHEADER)_FindResource(pDosHeader, pRes, -idIcon, (int)RT_ICON, &cbSize);
+	int idIcon = LookupIconIdFromDirectoryEx((LPBYTE)pIconDir, TRUE, cxIconSize, cyIconSize, flags);
+	LPBITMAPINFOHEADER pIcon = (LPBITMAPINFOHEADER)_FindResource(pDosHeader, pRes, -idIcon, (ULONG_PTR)RT_ICON, &cbSize);
 	if (!pIcon) goto cleanup;
 
 	if (pIcon->biSize != sizeof(BITMAPINFOHEADER) && pIcon->biSize != sizeof(BITMAPCOREHEADER)) {
@@ -208,16 +192,15 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 	retval = 1;
 
 cleanup:
-	if (pFile) UnmapViewOfFile(pFile);
-	if (hFileMap != INVALID_HANDLE_VALUE) CloseHandle(hFileMap);
-
+	if (pFile)
+		UnmapViewOfFile(pFile);
+	if (hFileMap != INVALID_HANDLE_VALUE)
+		CloseHandle(hFileMap);
 	return retval;
 }
 
 UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, HICON* phicon, UINT flags)
 {
-	HICON hicon;
-
 	if (iconIndex >= 1)
 		return 0;
 
@@ -226,7 +209,7 @@ UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, H
 		return 1;
 
 	flags |= LR_LOADFROMFILE;
-	hicon = (HICON)LoadImage(NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
+	HICON hicon = (HICON)LoadImage(NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
 	if (!hicon)
 		return 0;
 

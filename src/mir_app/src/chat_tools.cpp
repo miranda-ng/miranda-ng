@@ -36,10 +36,10 @@ int GetRichTextLength(HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR szTemp[10000];
-
 TCHAR* RemoveFormatting(const TCHAR *pszWord)
 {
+	static TCHAR szTemp[10000];
+
 	if (pszWord == NULL)
 		return NULL;
 
@@ -184,7 +184,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, _countof(pd.lptzContactName), _T("%s - %s"), 
+	mir_sntprintf(pd.lptzContactName, _countof(pd.lptzContactName), _T("%s - %s"),
 		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 		cli.pfnGetContactDisplayName(hContact, 0));
 
@@ -370,8 +370,8 @@ int GetColorIndex(const char *pszModule, COLORREF cr)
 		return -1;
 
 	for (i = 0; i < pMod->nColorCount; i++)
-	if (pMod->crColors[i] == cr)
-		return i;
+		if (pMod->crColors[i] == cr)
+			return i;
 
 	return -1;
 }
@@ -407,9 +407,9 @@ const TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 {
 	int i, j, k;
 	for (i = 0; s1[i]; i++)
-	for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
-	if (!s2[k + 1])
-		return s1 + i;
+		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
+			if (!s2[k + 1])
+				return s1 + i;
 
 	return NULL;
 }
