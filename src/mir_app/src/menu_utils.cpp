@@ -328,7 +328,7 @@ MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcon, int iFlags)
+MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcolib, int iFlags)
 {
 	if (!bIsGenMenuInited)
 		return -1;
@@ -348,8 +348,8 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
 
-	if (hIcon != INVALID_HANDLE_VALUE && !bIconsDisabled) {
-		HANDLE hIcolibItem = IcoLib_IsManaged((HICON)hIcon);
+	if (hIcolib != INVALID_HANDLE_VALUE && !bIconsDisabled) {
+		HANDLE hIcolibItem = IcoLib_IsManaged((HICON)hIcolib);
 		if (hIcolibItem) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
 			if (hIcon != NULL) {
@@ -360,9 +360,9 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 			else pimi->iconId = -1, pimi->hIcolibItem = NULL;
 		}
 		else {
-			pimi->mi.hIcolibItem = (HICON)hIcon;
-			if (hIcon != NULL)
-				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, (HICON)hIcon);
+			pimi->mi.hIcon = (HICON)hIcolib;
+			if (hIcolib != NULL)
+				pimi->iconId = ImageList_ReplaceIcon(pimi->parent->m_hMenuIcons, pimi->iconId, (HICON)hIcolib);
 			else
 				pimi->iconId = -1;	  //fixme, should remove old icon & shuffle all iconIds
 		}
@@ -409,9 +409,9 @@ TMO_IntMenuItem *MO_GetIntMenuItem(HGENMENU wParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int FindMenuByCommand(TMO_IntMenuItem *pimi, void* pCommand)
+static int FindMenuByCommand(TMO_IntMenuItem *pimi, void *pCommand)
 {
-	return (pimi->iCommand == (int)pCommand);
+	return (pimi->iCommand == *(int*)pCommand);
 }
 
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam)
@@ -426,7 +426,7 @@ int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam)
 		if (pmo == NULL)
 			return -1;
 
-		pimi = MO_RecursiveWalkMenu(pmo->m_items.first, FindMenuByCommand, (void*)command);
+		pimi = MO_RecursiveWalkMenu(pmo->m_items.first, FindMenuByCommand, &command);
 	}
 
 	return (pimi) ? Menu_ProcessCommand(pimi, lParam) : -1;
@@ -441,7 +441,7 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam)
 
 	mir_cslock lck(csMenuHook);
 	for (int i = 0; i < g_menus.getCount(); i++)
-		if (TMO_IntMenuItem *pimi = MO_RecursiveWalkMenu(g_menus[i]->m_items.first, FindMenuByCommand, (void*)command))
+		if (TMO_IntMenuItem *pimi = MO_RecursiveWalkMenu(g_menus[i]->m_items.first, FindMenuByCommand, &command))
 			return Menu_ProcessCommand(pimi, lParam);
 
 	return false;
@@ -624,12 +624,12 @@ int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 	return FALSE;
 }
 
-MIR_APP_DLL(void) KillModuleMenus(int hLangpack)
+MIR_APP_DLL(void) KillModuleMenus(int _hLang)
 {
 	if (!bIsGenMenuInited)
 		return;
 
-	KillMenuItemsParam param(hLangpack);
+	KillMenuItemsParam param(_hLang);
 
 	mir_cslock lck(csMenuHook);
 	for (int i = 0; i < g_menus.getCount(); i++)
@@ -673,7 +673,7 @@ static int FindRoot(TMO_IntMenuItem *pimi, void *param)
 	return FALSE;
 }
 
-MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib, int hLang)
+MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int position, HANDLE hIcoLib, int _hLang)
 {
 	mir_cslock lck(csMenuHook);
 	TIntMenuObject *pmo = GetMenuObjbyId(hMenuObject);
@@ -687,7 +687,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = hIcoLib;
-	mi.hLangpack = hLang;
+	mi.hLangpack = _hLang;
 	mi.name.t = (TCHAR*)ptszName;
 	mi.position = position;
 	return Menu_AddItem(hMenuObject, &mi, NULL);

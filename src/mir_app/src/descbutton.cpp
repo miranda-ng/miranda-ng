@@ -180,7 +180,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat)
 		GetObject(dat->hFont, sizeof(lf), &lf);
 		lf.lfWeight = FW_BOLD;
 		lf.lfHeight *= 1.5;
-		HFONT hfntSave = (HFONT)SelectObject(tempDC, CreateFontIndirect(&lf));
+		HFONT hOldFont = (HFONT)SelectObject(tempDC, CreateFontIndirect(&lf));
 
 		RECT textRect;
 		textRect.left = DBC_BORDER_SIZE + (dat->hIcon ? 32 + DBC_VSPACING : 0);
@@ -190,7 +190,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat)
 		DrawText(tempDC, dat->lpzTitle, -1, &textRect, DT_TOP | DT_LEFT | DT_END_ELLIPSIS);
 		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
 
-		DeleteObject(SelectObject(tempDC, hfntSave));
+		DeleteObject(SelectObject(tempDC, hOldFont));
 	}
 
 	if (dat->lpzDescription) {

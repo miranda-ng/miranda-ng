@@ -569,7 +569,7 @@ static void discoverUPnP(void)
 	PHOSTENT he;
 	fd_set readfd;
 
-	SOCKET sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	SOCKADDR_IN enetaddr;
 	enetaddr.sin_family = AF_INET;
@@ -593,24 +593,24 @@ static void discoverUPnP(void)
 	for (i = 3; --i && szUrl[0] == 0;) {
 		for (j = 0; j < nip; j++) {
 			if (ips)
-				setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, (char *)&ips[j], sizeof(unsigned));
+				setsockopt(s, IPPROTO_IP, IP_MULTICAST_IF, (char *)&ips[j], sizeof(unsigned));
 
 			buflen = mir_snprintf(buf, 1500, search_request_msg, "WANIPConnection:1");
-			sendto(sock, buf, buflen, 0, (SOCKADDR*)&enetaddr, sizeof(enetaddr));
+			sendto(s, buf, buflen, 0, (SOCKADDR*)&enetaddr, sizeof(enetaddr));
 			LongLog(buf);
 
 			buflen = mir_snprintf(buf, 1500, search_request_msg, "WANPPPConnection:1");
-			sendto(sock, buf, buflen, 0, (SOCKADDR*)&enetaddr, sizeof(enetaddr));
+			sendto(s, buf, buflen, 0, (SOCKADDR*)&enetaddr, sizeof(enetaddr));
 			LongLog(buf);
 		}
 
 		if (Miranda_Terminated()) break;
 
 		FD_ZERO(&readfd);
-		FD_SET(sock, &readfd);
+		FD_SET(s, &readfd);
 
 		while (select(1, &readfd, NULL, NULL, &tv) >= 1) {
-			buflen = recv(sock, buf, 1500, 0);
+			buflen = recv(s, buf, 1500, 0);
 			if (buflen != SOCKET_ERROR) {
 				buf[buflen] = 0;
 				LongLog(buf);
@@ -641,14 +641,14 @@ static void discoverUPnP(void)
 				}
 			}
 			FD_ZERO(&readfd);
-			FD_SET(sock, &readfd);
+			FD_SET(s, &readfd);
 		}
 	}
 
 	mir_free(buf);
 	mir_free(ips);
-	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, (char *)&any, sizeof(unsigned));
-	closesocket(sock);
+	setsockopt(s, IPPROTO_IP, IP_MULTICAST_IF, (char *)&any, sizeof(unsigned));
+	closesocket(s);
 }
 
 static bool findUPnPGateway(void)

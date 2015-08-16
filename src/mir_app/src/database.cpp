@@ -195,7 +195,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 		do {
 			TCHAR path[MAX_PATH], path2[MAX_PATH];
 			TCHAR* profile = mir_tstrdup(ffd.cFileName);
-			TCHAR *c = _tcsrchr(profile, '.'); if (c) *c = 0;
+			c = _tcsrchr(profile, '.'); if (c) *c = 0;
 			mir_sntprintf(path, _countof(path), _T("%s\\%s"), pfd, ffd.cFileName);
 			mir_sntprintf(path2, _countof(path2), _T("%s\\%s"), profiledir, profile);
 			CreateDirectoryTreeT(path2);

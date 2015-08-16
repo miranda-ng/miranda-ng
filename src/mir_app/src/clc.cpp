@@ -248,7 +248,7 @@ void UnloadClcModule()
 /////////////////////////////////////////////////////////////////////////////////////////
 // default contact list control window procedure
 
-LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	ClcGroup *group;
 	ClcContact *contact;
@@ -256,10 +256,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	int hit;
 
 	ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
-	if (msg >= CLM_FIRST && msg < CLM_LAST)
-		return cli.pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
+	if (uMsg >= CLM_FIRST && uMsg < CLM_LAST)
+		return cli.pfnProcessExternalMessages(hwnd, dat, uMsg, wParam, lParam);
 
-	switch (msg) {
+	switch (uMsg) {
 	case WM_CREATE:
 		WindowList_Add(hClcWindowList, hwnd, NULL);
 		cli.pfnRegisterFileDropping(hwnd);
@@ -851,7 +851,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		ReleaseCapture();
 		if (wParam == VK_F10 && GetKeyState(VK_SHIFT) & 0x8000)
 			break;
-		SendMessage(GetParent(hwnd), msg, wParam, lParam);
+		SendMessage(GetParent(hwnd), uMsg, wParam, lParam);
 		return 0;
 
 	case WM_TIMER:
@@ -1314,5 +1314,5 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnUnregisterFileDropping(hwnd);
 		WindowList_Remove(hClcWindowList, hwnd);
 	}
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

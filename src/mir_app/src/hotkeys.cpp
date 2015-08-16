@@ -308,11 +308,11 @@ void RegisterHotkeys()
 	}
 }
 
-MIR_APP_DLL(void) KillModuleHotkeys(int hLangpack)
+MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 {
 	for (int i = hotkeys.getCount() - 1; i >= 0; i--) {
 		THotkeyItem *item = hotkeys[i];
-		if (item->hLangpack == hLangpack) {
+		if (item->hLangpack == _hLang) {
 			FreeHotkey(item);
 			hotkeys.remove(i);
 		}
