@@ -163,13 +163,13 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	char *szProto = GetContactProto(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);
 	_ASSERT(ppd.lchIcon);
-	if (!ppd.lchIcon || (DWORD)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
+	if (!ppd.lchIcon || (INT_PTR)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
 		// if we didn't succeed retrieving client icon, show the usual status icon instead
 		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = NULL;
 	}
-	_tcsncpy(ppd.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(sd->hContact, 0), lengthof(ppd.lptzContactName) - 1);
-	_tcsncpy(ppd.lptzText, PopupText, lengthof(ppd.lptzText) - 1);
+	_tcsncpy(ppd.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(sd->hContact, 0), _countof(ppd.lptzContactName) - 1);
+	_tcsncpy(ppd.lptzText, PopupText, _countof(ppd.lptzText) - 1);
 	ppd.colorBack = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_BGCOLOUR));
 	ppd.colorText = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_TEXTCOLOUR));
 	ppd.PluginWindowProc = PopupWndProc;

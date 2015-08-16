@@ -40,11 +40,11 @@ __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsError
 
 __inline void ShowLog(TCString &LogFilePath)
 {
-	int Result = (int)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
+	INT_PTR Result = (INT_PTR)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) // Error
 	{
 		TCHAR szError[64];
-		mir_sntprintf(szError, lengthof(szError), TranslateT("Error #%d"), Result);
+		mir_sntprintf(szError, TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }

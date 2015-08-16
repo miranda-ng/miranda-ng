@@ -50,10 +50,10 @@
 
 #include "m_fingerprint.h"
 
-#include "CommonLibs\TMyArray.h"
-#include "CommonLibs\Options.h"
-#include "CommonLibs\CString.h"
-#include "CommonLibs\pcre.h"
+#include "TMyArray.h"
+#include "Options.h"
+#include "CString.h"
+#include "pcre.h"
 
 #include "resource.h"
 #include "Misc.h"
@@ -116,7 +116,7 @@ static __inline CString LogMessage(const char *Format, ...)
 	char szText[8096];
 	mir_strcpy(szText, LOG_PREFIX);
 	va_start(va, Format);
-	mir_vsnprintf(szText + (lengthof(LOG_PREFIX) - 1), sizeof(szText) - (lengthof(LOG_PREFIX) - 1), Format, va);
+	mir_vsnprintf(szText + _countof(LOG_PREFIX)-1, _countof(szText) - (_countof(LOG_PREFIX)-1), Format, va);
 	va_end(va);
 	CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 	return CString(szText);
