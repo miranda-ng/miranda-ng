@@ -48,7 +48,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 {
 	if (!IsOnline())
 	{
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
 		return 0;
 	}
 
@@ -63,8 +63,10 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	else
 		SendRequest(new SendMessageRequest(username, param->hMessage, szMessage, li), &CSkypeProto::OnMessageSent, param);
 
-	m_OutMessages.insert((void*)param->hMessage);
-
+	{
+		mir_cslock lck(m_lckOutMessagesList);
+		m_OutMessages.insert((void*)param->hMessage);
+	}
 	return param->hMessage;
 }
 
@@ -87,11 +89,14 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 					auto it = m_mpOutMessages.find(hMessage);
 					if (it == m_mpOutMessages.end())
 					{
-						m_mpOutMessages[hMessage] = jRoot["OriginalArrivalTime"].as_int();
+						m_mpOutMessages[hMessage] = (jRoot["OriginalArrivalTime"].as_int() / 1000);
 					}
 				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
-				m_OutMessages.remove(hMessage);
+				{
+					mir_cslock lck(m_lckOutMessagesList);
+					m_OutMessages.remove(hMessage);
+				}
 			}
 		}
 		else
@@ -182,7 +187,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	{
 		if (IsMe(szFromSkypename))
 		{
-			HANDLE hMessage = (HANDLE)atol(szMessageId);
+			HANDLE hMessage = (HANDLE)std::stoll(szMessageId.GetString());
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
 				auto it = m_mpOutMessages.find(hMessage);
@@ -191,7 +196,10 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 					m_mpOutMessages[hMessage] = timestamp;
 				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
-				m_OutMessages.remove(hMessage);
+				{
+					mir_cslock lck(m_lckOutMessagesList);
+					m_OutMessages.remove(hMessage);
+				}
 			}
 			else
 			{

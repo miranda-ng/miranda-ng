@@ -118,6 +118,7 @@ private:
 	LIST<CSkypeGCCreateDlg> m_GCCreateDialogs;
 
 	//locks
+	mir_cs m_lckOutMessagesList;
 	mir_cs m_InviteDialogsLock;
 	mir_cs m_GCCreateDialogsLock;
 	mir_cs messageSyncLock;
@@ -262,6 +263,7 @@ private:
 	void SyncHistory();
 
 	//chats
+
 	void InitGroupChatModule();
 	void CloseAllChatChatSessions();
 
