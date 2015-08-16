@@ -35,7 +35,7 @@ static TCHAR* sttGetGroupName(int id)
 		return TranslateT("Favorite Contacts");
 	}
 
-	return pcli->pfnGetGroupName(id-1, NULL);
+	return pcli->pfnGetGroupName(id - 1, NULL);
 }
 
 static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
@@ -246,20 +246,20 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	if (db_get_dw(hContact, proto, "IdleTS", 0)) {
 		ImageList_DrawDimmed(hIml, iIcon, hdcTemp,
-									lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-									ILD_TRANSPARENT);
+			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+			ILD_TRANSPARENT);
 	}
 	else {
 		ImageList_Draw(hIml, iIcon, hdcTemp,
-							lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-							ILD_TRANSPARENT);
+			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+			ILD_TRANSPARENT);
 	}
 
 	lpdis->rcItem.left += 20;
 
 	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-					  IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
+			IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
@@ -362,28 +362,28 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 
 	switch (message) {
 	case WM_MEASUREITEM:
-	{
-		LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-		if (lpmis->CtlType != ODT_MENU)
-			return FALSE;
+		{
+			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+			if (lpmis->CtlType != ODT_MENU)
+				return FALSE;
 
-		if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
-			return Menu_MeasureItem(lpmis);
+			if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
+				return Menu_MeasureItem(lpmis);
 
-		return MenuMeasureItem(lpmis);
-	}
+			return MenuMeasureItem(lpmis);
+		}
 
 	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-		if (lpdis->CtlType != ODT_MENU)
-			return FALSE;
+		{
+			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
+			if (lpdis->CtlType != ODT_MENU)
+				return FALSE;
 
-		if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
-			return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+			if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
+				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
-		return MenuDrawItem(lpdis);
-	}
+			return MenuDrawItem(lpdis);
+		}
 
 	case WM_MENUCHAR:
 		while (GetMenuItemCount((HMENU)lParam) > 1)
@@ -391,7 +391,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 
 		if (LOWORD(wParam) == VK_BACK) {
 			if (size_t l = mir_tstrlen(g_filter))
-				g_filter[l-1] = 0;
+				g_filter[l - 1] = 0;
 		}
 		else if (_istalnum(LOWORD(wParam))) {
 			if (mir_tstrlen(g_filter) < _countof(g_filter) - 1) {
@@ -402,11 +402,11 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		{
 			int maxRecent = g_Options.wMaxRecent ? g_Options.wMaxRecent : 10;
 			for (int i = 0, nRecent = 0; nRecent < maxRecent; ++i) {
-				MCONTACT hContact = g_contactCache->get(i);
-				if (!hContact) break;
+				MCONTACT cc = g_contactCache->get(i);
+				if (!cc) break;
 				if (!g_contactCache->filter(i, g_filter)) continue;
 
-				AppendMenu((HMENU)lParam, MF_OWNERDRAW, nRecent + 1, (LPCTSTR)hContact);
+				AppendMenu((HMENU)lParam, MF_OWNERDRAW, nRecent + 1, (LPCTSTR)cc);
 				++nRecent;
 			}
 		}
@@ -417,11 +417,12 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
-		MCONTACT hContact = (MCONTACT)mii.dwItemData;
-		if (!CallService(MS_DB_CONTACT_IS, mii.dwItemData, 0))
+
+		MCONTACT cc = (MCONTACT)mii.dwItemData;
+		if (!CallService(MS_DB_CONTACT_IS, cc, 0))
 			return FALSE;
 
-		HMENU hMenu = Menu_BuildContactMenu(hContact);
+		HMENU hMenu = Menu_BuildContactMenu(cc);
 
 		POINT pt;
 		GetCursorPos(&pt);
@@ -474,8 +475,8 @@ int ShowMenu(bool centered)
 			int groupID = -((int)Clist_GroupExists(favList[i]->getGroup()) + 1);
 
 			AppendMenu(hMenu,
-						  MF_OWNERDRAW | MF_SEPARATOR | ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
-						  ++idItem, (LPCTSTR)groupID);
+				MF_OWNERDRAW | MF_SEPARATOR | ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
+				++idItem, (LPCTSTR)groupID);
 
 			mis.itemData = groupID;
 			mis.itemID = idItem;

@@ -162,7 +162,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return FALSE;
 }
 
-int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
+int ChangeInfoData::SaveSettingsToDb(HWND hwnd)
 {
 	int ret = 1;
 
@@ -181,12 +181,12 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 			if (si.displayType & LIF_PASSWORD) {
 				size_t nSettingLen = mir_strlen((char*)sid.value);
 				if (nSettingLen > 8 || nSettingLen < 1) {
-					MessageBox(hwndDlg, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
+					MessageBox(hwnd, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
 					ret = 0;
 					break;
 				}
 				PwConfirmDlgParam param = { ppro, (char*)sid.value };
-				if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PWCONFIRM), hwndDlg, PwConfirmDlgProc, (LPARAM)&param)) {
+				if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PWCONFIRM), hwnd, PwConfirmDlgProc, (LPARAM)&param)) {
 					ret = 0;
 					break;
 				}

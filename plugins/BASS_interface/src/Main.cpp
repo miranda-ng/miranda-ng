@@ -487,9 +487,9 @@ void DeleteFrame()
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
 }
 
-void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
+void LoadBassLibrary(const TCHAR *ptszPath)
 {
-	hBass = LoadLibrary(CurrBassPath);
+	hBass = LoadLibrary(ptszPath);
 	if (hBass != NULL) {
 		newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
@@ -506,7 +506,7 @@ void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
 		sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
 		if (sndLimSnd > MAXCHAN)
 			sndLimSnd = MAXCHAN;
-		
+
 		TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
 		TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
 		QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
@@ -537,8 +537,8 @@ int OnFoldersChanged(WPARAM, LPARAM)
 		UnhookEvent(hPlaySound);
 		DeleteFrame();
 	}
-	LoadBassLibrary(CurrBassPath);
 
+	LoadBassLibrary(CurrBassPath);
 	return 0;
 }
 

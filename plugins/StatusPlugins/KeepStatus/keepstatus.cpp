@@ -98,8 +98,8 @@ TConnectionSettings::TConnectionSettings(PROTOACCOUNT *pa)
 	tszAccName = pa->tszAccountName;
 	szMsg = NULL;
 
-	int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	AssignStatus(this, status, status, NULL);
+	int iStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+	AssignStatus(this, iStatus, iStatus, NULL);
 }
 
 TConnectionSettings::~TConnectionSettings()

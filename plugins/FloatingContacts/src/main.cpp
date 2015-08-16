@@ -426,7 +426,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_HOTKEY:
-		ThumbInfo *pThumb = thumbList.FindThumb((HWND)wParam);
+		pThumb = thumbList.FindThumb((HWND)wParam);
 		if (pThumb)
 			pThumb->PopupMessageDialog();
 	}
@@ -581,7 +581,7 @@ static void CreateBackgroundBrush()
 	hBkBrush = CreateSolidBrush(bkColor);
 
 	// Attach brush to the window
-	SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)hBkBrush);
+	SetClassLongPtr((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG_PTR)hBkBrush);
 }
 
 static int GetContactStatus(MCONTACT hContact)
@@ -839,9 +839,9 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			if (method) {
 				WORD wBehindEdgeBorderSize = db_get_w(NULL, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = { wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy };
-				RECT rcScreen = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize*(method - 1), GetSystemMetrics(SM_CYSCREEN) };
+				RECT rcScr = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize*(method - 1), GetSystemMetrics(SM_CYSCREEN) };
 				RECT rcOverlap;
-				BOOL isIntersect = IntersectRect(&rcOverlap, &rc, &rcScreen);
+				BOOL isIntersect = IntersectRect(&rcOverlap, &rc, &rcScr);
 				if (!isIntersect && bIsCListShow) {
 					bIsCListShow = FALSE;
 					ShowThumbsOnHideCList();

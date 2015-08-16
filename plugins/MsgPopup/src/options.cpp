@@ -38,6 +38,9 @@ static int __inline DBWriteContactSettingDwordDef(MCONTACT hContact, const char 
 
 INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	int value;
+	BOOL Translated;
+
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
@@ -50,8 +53,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		return TRUE;
 
 	case WM_COMMAND:
-		int indx, value;
-		BOOL Translated;
 		if (LOWORD(wParam) == IDC_PREVIEW) {
 			MessageBox(0, TranslateT("Message with question"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONQUESTION);
 			MessageBox(0, TranslateT("Message with exclamation"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONEXCLAMATION);
@@ -64,7 +65,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		if (LOWORD(wParam) == IDC_MESSAGEBEEP)
 			options.Sound = IsDlgButtonChecked(hWnd, IDC_MESSAGEBEEP) == BST_CHECKED;
 		else {
-			for (indx = 0; indx < 4; indx++) {
+			for (int indx = 0; indx < 4; indx++) {
 				if (LOWORD(wParam) == idOptionControls[indx][0]) {
 					if (HIWORD(wParam) != CPN_COLOURCHANGED) return FALSE;
 					options.FG[indx] = SendDlgItemMessage(hWnd, LOWORD(wParam), CPM_GETCOLOUR, 0, 0);
@@ -96,9 +97,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			char szNameFG[4];
 			char szNameBG[4];
 			char szNameTO[4];
-			int indx;
 
-			for (indx = 0; indx < 4; indx++) {
+			for (int indx = 0; indx < 4; indx++) {
 				mir_snprintf(szNameFG, _countof(szNameFG), "FG%d", indx);
 				mir_snprintf(szNameBG, _countof(szNameBG), "BG%d", indx);
 				mir_snprintf(szNameTO, _countof(szNameTO), "TO%d", indx);

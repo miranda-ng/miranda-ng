@@ -80,13 +80,14 @@ static int GapBetweenFrames = 1;
 
 BOOLEAN bMoveTogether;
 int recurs_prevent = 0;
-static BOOL PreventSizeCalling = FALSE;
+static BOOL sttPreventSizeCalling = FALSE;
 
-static HBITMAP hBmpBackground;
-static int backgroundBmpUse;
-static COLORREF bkColour;
-static COLORREF SelBkColour;
-static BOOL bkUseWinColours;
+static HBITMAP sttBmpBackground;
+static int sttBackgroundBmpUse;
+static COLORREF sttBkColour;
+static COLORREF sttSelBkColour;
+static BOOL sttBkUseWinColours;
+
 BYTE AlignCOLLIconToLeft; //will hide frame icon
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 //for old multiwindow
@@ -2355,21 +2356,21 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 	{
 		AlignCOLLIconToLeft = db_get_b(NULL, "FrameTitleBar", "AlignCOLLIconToLeft", CLCDEFAULT_COLLICONTOLEFT);
 
-		bkColour = sttGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
-		bkUseWinColours = db_get_b(NULL, "FrameTitleBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		SelBkColour = sttGetColor("FrameTitleBar", "TextColour", CLCDEFAULT_TEXTCOLOUR);
+		sttBkColour = sttGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+		sttBkUseWinColours = db_get_b(NULL, "FrameTitleBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		sttSelBkColour = sttGetColor("FrameTitleBar", "TextColour", CLCDEFAULT_TEXTCOLOUR);
 		
-		if (hBmpBackground) { 
-			DeleteObject(hBmpBackground);
-			hBmpBackground = NULL;
+		if (sttBmpBackground) {
+			DeleteObject(sttBmpBackground);
+			sttBmpBackground = NULL;
 		}
 		if (g_CluiData.fDisableSkinEngine) {
 			if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 				ptrT tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
 				if (tszBitmapName)
-					hBmpBackground = Bitmap_Load(tszBitmapName);
+					sttBmpBackground = Bitmap_Load(tszBitmapName);
 			}
-			backgroundBmpUse = db_get_w(NULL, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+			sttBackgroundBmpUse = db_get_w(NULL, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 		}
 	}
 
@@ -2526,14 +2527,14 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 		}
 		else {
 			if (g_CluiData.fDisableSkinEngine) {
-				if (!hBmpBackground && bkUseWinColours && xpt_IsThemed(_hFrameTitleTheme)) {
+				if (!sttBmpBackground && sttBkUseWinColours && xpt_IsThemed(_hFrameTitleTheme)) {
 					int state = CS_ACTIVE;
 					// if (GetForegroundWindow() != pcli->hwndContactList) state = CS_INACTIVE;
 					xpt_DrawThemeBackground(_hFrameTitleTheme, hdcMem, WP_SMALLCAPTION, state, &rc, &rc);
 					bThemed = TRUE;
 				}
 				else
-					DrawBackGround(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, hBmpBackground, bkColour, backgroundBmpUse);
+					DrawBackGround(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, sttBmpBackground, sttBkColour, sttBackgroundBmpUse);
 			}
 			else if (!g_CluiData.fLayered) {
 				ske_BltBackImage(g_pfwFrames[pos].TitleBar.hwnd, hdcMem, &rc);
@@ -2544,7 +2545,7 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 		if (bThemed)
 			SetTextColor(hdcMem, GetSysColor(COLOR_CAPTIONTEXT));
 		else
-			SetTextColor(hdcMem, SelBkColour);
+			SetTextColor(hdcMem, sttSelBkColour);
 
 		RECT textrc = rc;
 		if (!AlignCOLLIconToLeft) {
@@ -3411,7 +3412,10 @@ static INT_PTR UnloadMainMenu()
 int UnLoadCLUIFramesModule(void)
 {
 	_fCluiFramesModuleNotStarted = TRUE;
-	if (hBmpBackground) { DeleteObject(hBmpBackground); hBmpBackground = NULL; }
+	if (sttBmpBackground) {
+		DeleteObject(sttBmpBackground);
+		sttBmpBackground = NULL;
+	}
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 0);
 	CLUIFramesStoreAllFrames();
 

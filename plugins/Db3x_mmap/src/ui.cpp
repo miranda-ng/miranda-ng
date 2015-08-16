@@ -40,10 +40,10 @@ static IconItem iconList[] =
 
 static HGENMENU hSetPwdMenu;
 
-static UINT oldLangID;
+static ULONG_PTR oldLangID;
 void LanguageChanged(HWND hwndDlg)
 {
-	UINT LangID = (UINT)GetKeyboardLayout(0);
+	ULONG_PTR LangID = (ULONG_PTR)GetKeyboardLayout(0);
 	char Lang[3] = { 0 };
 	if (LangID != oldLangID) {
 		oldLangID = LangID;

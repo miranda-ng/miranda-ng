@@ -516,7 +516,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					while (!db_unset(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
 					if (XstatusListAux)
-						for (int i = 0; i < ProtoList.protoCount; i++)
+						for (i = 0; i < ProtoList.protoCount; i++)
 							for (int j = 0; j < (int)XstatusListAux[i].count; j++)
 								db_set_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
@@ -930,8 +930,8 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_NOTIFY:
 		{
 			int count;
-			TCHAR theme[MAX_PATH + 1], themeAux[MAX_PATH + 1], *str;
-			//Here we have pressed either the OK or the APPLY button.
+			TCHAR theme[MAX_PATH + 1], themeAux[MAX_PATH + 1];
+			// Here we have pressed either the OK or the APPLY button.
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
@@ -1330,6 +1330,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	switch (msg) {
 
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			WPARAM j;
 			TVINSERTSTRUCT tvis = { 0 };
@@ -1337,7 +1338,6 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			HTREEITEM hSectionItem, hItem;
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TREE_XSTATUS);
 
-			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			if (!XstatusListAux) return TRUE;

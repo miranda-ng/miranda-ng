@@ -189,31 +189,27 @@ void deletePounce(MCONTACT hContact)
 	db_unset(hContact, modname, "FileToSend");
 }
 
-INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	TCHAR msg[1024];
 
-	switch(msg) {
+	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		hContact = lParam;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		getDefaultMessage(hwnd, IDC_MESSAGE, hContact);
-		{
-			TCHAR msg[1024];
-			mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
-			SetDlgItemText(hwnd, GRP_MSG, msg);	
-		}
+		mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+		SetDlgItemText(hwnd, GRP_MSG, msg);	
 		return FALSE;
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int length;
-				TCHAR msg[1024];
-				length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
+				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
 				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 			}
@@ -243,11 +239,12 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	windowInfo *wi = (windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	TCHAR msg[1024];
 
-	switch(msg) {
+	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		wi = (windowInfo *)mir_alloc(sizeof(windowInfo));
@@ -260,11 +257,10 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		wi->SendWhenThey = 0;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 		getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
-		{
-			TCHAR msg[1024];
-			mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
-			SetDlgItemText(hwnd, GRP_MSG, msg);	
-		}
+
+		mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+		SetDlgItemText(hwnd, GRP_MSG, msg);	
+
 		populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 		populateContacts(wi->hContact, GetDlgItem(hwnd, IDC_CONTACTS));
 		SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
@@ -275,9 +271,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		switch(LOWORD(wParam)) {
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int length;
-				TCHAR msg[1024];
-				length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
+				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
 				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 			}
@@ -320,11 +314,10 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_DEFAULT:
 			getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
-			{
-				TCHAR msg[1024];
-				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
-				SetDlgItemText(hwnd, GRP_MSG, msg);
-			}
+
+			mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+			SetDlgItemText(hwnd, GRP_MSG, msg);
+
 			db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG",0));
 			db_set_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfTheirStatusIsFLAG",0));
 			db_set_b(wi->hContact, modname, "Reuse",(BYTE)db_get_b(NULL, modname, "Reuse",0));
@@ -382,14 +375,15 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	TCHAR msg[1024];
+
+	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		{
 			windowInfo *wi = (windowInfo *)mir_alloc(sizeof(windowInfo));
-			TCHAR msg[1024];
 			wi->hContact = 0;
 			wi->SendIfMy = 0;
 			wi->SendWhenThey = 0;
@@ -438,9 +432,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		switch(LOWORD(wParam)) {
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int length;
-				TCHAR msg[1024];
-				length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
+				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
 				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

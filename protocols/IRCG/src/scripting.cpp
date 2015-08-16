@@ -163,10 +163,10 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		}
 		else if (sRequest == "channellist") {
 			CMString S = _T("");
-			int i = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
-			if (i >= 0) {
+			int n = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+			if (n >= 0) {
 				int j = 0;
-				while (j < i) {
+				while (j < n) {
 					GC_INFO gci = { 0 };
 					gci.Flags = GCF_BYINDEX | GCF_ID;
 					gci.pszModule = m_szModuleName;

@@ -882,12 +882,12 @@ void IEView::clear(IEVIEWEVENT *event)
 	if (document == NULL) {
 		pWebBrowser->Navigate(L"about:blank", NULL, NULL, NULL, NULL);
 		HRESULT hr = S_OK;
-		CComPtr<IHTMLDocument2> document;
-		while ((document == NULL) && (hr == S_OK)) {
+		CComPtr<IHTMLDocument2> doc2;
+		while ((doc2 == NULL) && (hr == S_OK)) {
 			Sleep(0);
 			CComPtr<IDispatch> dispatch;
 			if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != NULL)
-				dispatch.QueryInterface(&document);
+				dispatch.QueryInterface(&doc2);
 		}
 	}
 	else {
@@ -935,9 +935,9 @@ HWND IEView::getHWND()
 	return hwnd;
 }
 
-void IEView::setContact(MCONTACT hContact)
+void IEView::setContact(MCONTACT _hContact)
 {
-	this->hContact = hContact;
+	hContact = _hContact;
 	isContactSet = true;
 }
 
@@ -1004,9 +1004,9 @@ WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 		return url;
 	}
 
-	CComPtr<IHTMLElement> parent;
-	if (SUCCEEDED(element->get_parentElement(&parent)) && parent != NULL)
-		return getHrefFromAnchor(parent);
+	CComPtr<IHTMLElement> pParent;
+	if (SUCCEEDED(element->get_parentElement(&pParent)) && pParent != NULL)
+		return getHrefFromAnchor(pParent);
 
 	return NULL;
 }

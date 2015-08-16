@@ -35,7 +35,6 @@ class HttpRequest : protected NETLIBHTTPREQUEST
 {
 private:
 	CMStringA m_szUrl;
-	va_list formatArgs;
 
 	void Init(int type)
 	{
