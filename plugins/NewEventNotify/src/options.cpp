@@ -288,7 +288,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);

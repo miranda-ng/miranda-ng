@@ -193,6 +193,8 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR text[256];
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
@@ -307,7 +309,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
 				int type = MODULE;
-				TCHAR text[FLD_SIZE];
 				TVITEM tvi = { 0 };
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 				tvi.pszText = text;
@@ -394,8 +395,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case MENU_REFRESH_SETS:
 			TVITEM tvi;
-
-			TCHAR text[FLD_SIZE];
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(hwnd2Tree);
 			tvi.pszText = text; // modulename
@@ -444,7 +443,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case MENU_FIX_RESIDENT:
 			if (dlg(TranslateT("Delete resident settings from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 				int cnt = fixResidentSettings();
-				TCHAR text[MSG_SIZE];
 				mir_sntprintf(text, TranslateT("%d orphaned items deleted."), cnt);
 				msg(text);
 			}

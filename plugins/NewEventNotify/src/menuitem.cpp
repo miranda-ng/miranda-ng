@@ -40,9 +40,9 @@ static INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 int MenuitemUpdate(BOOL bStatus)
 {
 	if (bStatus)
-		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_DISABLE), LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED)));
+		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_DISABLE), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
 	else
-		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_ENABLE), LoadIcon(hInst, MAKEINTRESOURCE(IDI_DISABLED)));
+		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_ENABLE), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
 	return 0;
 }
 
@@ -53,7 +53,7 @@ int MenuitemInit(BOOL bStatus)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
 	mi.position = 1;
-	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
+	mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);

@@ -770,7 +770,7 @@ void CConnectPrefsDlg::OnApply()
 		int j = m_serverCombo.GetCount();
 		if (j != CB_ERR && j != 0) {
 			for (int index2 = 0; index2 < j; index2++) {
-				SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(index2);
+				pData = (SERVER_INFO*)m_serverCombo.GetItemData(index2);
 				if (pData == NULL || (INT_PTR)pData == CB_ERR)
 					continue;
 

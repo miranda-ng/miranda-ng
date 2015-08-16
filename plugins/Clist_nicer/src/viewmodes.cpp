@@ -32,16 +32,16 @@ extern HPEN g_hPenCLUIFrames;
 extern FRAMEWND *wndFrameViewMode;
 
 typedef int (__cdecl *pfnEnumCallback)(char *szName);
-static HWND clvmHwnd = 0;
-static int clvm_curItem = 0;
+static HWND sttClvmHwnd = 0;
+static int sttClvm_curItem = 0;
 HMENU hViewModeMenu = 0;
 
-static HWND hwndSelector = 0;
-static HIMAGELIST himlViewModes = 0;
-static HANDLE hInfoItem = 0;
 static int nullImage;
-static DWORD stickyStatusMask = 0;
-static char g_szModename[2048];
+static HWND hwndSelector = 0;
+static HANDLE hInfoItem = 0;
+static HIMAGELIST himlViewModes = 0;
+static DWORD sttStickyStatusMask = 0;
+static char sttModeName[2048];
 
 static int g_ViewModeOptDlg = FALSE;
 
@@ -79,7 +79,7 @@ void CLVM_EnumModes(pfnEnumCallback EnumCallback)
 int FillModes(char *szsetting)
 {
 	if (szsetting[0] != 'ö')
-		SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szsetting);
+		SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szsetting);
 	return 1;
 }
 
@@ -122,7 +122,7 @@ static void ShowPage(HWND hwnd, int page)
 static int UpdateClistItem(MCONTACT hContact, DWORD mask)
 {
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, hContact, MAKELONG(i - ID_STATUS_OFFLINE,
+		SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, hContact, MAKELONG(i - ID_STATUS_OFFLINE,
 			(1 << (i - ID_STATUS_OFFLINE)) & mask ? i - ID_STATUS_OFFLINE : nullImage));
 
 	return 0;
@@ -133,7 +133,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 	DWORD dwMask = 0;
 
 	for (int i = 0; i <= ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE; i++)
-		dwMask |= (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == nullImage ? 0 : 1 << i);
+		dwMask |= (SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == nullImage ? 0 : 1 << i);
 
 	return dwMask;
 }
@@ -141,24 +141,24 @@ static DWORD GetMaskForItem(HANDLE hItem)
 static void UpdateStickies()
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		MCONTACT hItem = (MCONTACT)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+		MCONTACT hItem = (MCONTACT)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
-			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", g_szModename, 0) ? 1 : 0);
-		DWORD localMask = HIWORD(cfg::getDword(hContact, "CLVM", g_szModename, 0));
-		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
+			SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, cfg::getByte(hContact, "CLVM", sttModeName, 0) ? 1 : 0);
+		DWORD localMask = HIWORD(cfg::getDword(hContact, "CLVM", sttModeName, 0));
+		UpdateClistItem(hItem, (localMask == 0 || localMask == sttStickyStatusMask) ? sttStickyStatusMask : localMask);
 	}
 
 	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
+		SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & sttStickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
 
-	HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_ROOT, 0);
-	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP, (LPARAM)hItem);
+	HANDLE hItem = (HANDLE)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+	hItem = (HANDLE)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP, (LPARAM)hItem);
 	while (hItem) {
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
-		hItem=(HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
+			SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
+		hItem=(HANDLE)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
-	ShowPage(clvmHwnd, 0);
+	ShowPage(sttClvmHwnd, 0);
 }
 
 static int FillDialog(HWND hwnd)
@@ -329,14 +329,14 @@ void SaveState()
 	HANDLE hItem;
 	DWORD operators = 0;
 
-	if (clvm_curItem == -1)
+	if (sttClvm_curItem == -1)
 		return;
 
 	{
 		LVITEMA item = {0};
 		char szTemp[256];
 
-		hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
+		hwndList = GetDlgItem(sttClvmHwnd, IDC_PROTOCOLS);
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
@@ -355,7 +355,7 @@ void SaveState()
 		LVITEM item = {0};
 		TCHAR szTemp[256];
 
-		hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
+		hwndList = GetDlgItem(sttClvmHwnd, IDC_GROUPS);
 
 		operators |= ListView_GetCheckState(hwndList, 0) ? CLVM_INCLUDED_UNGROUPED : 0;
 
@@ -372,12 +372,12 @@ void SaveState()
 			}
 		}
 	}
-	hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
+	hwndList = GetDlgItem(sttClvmHwnd, IDC_STATUSMODES);
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 
-	int iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
+	int iLen = SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, sttClvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
 		DWORD dwGlobalMask, dwLocalMask;
@@ -386,13 +386,13 @@ void SaveState()
 		szModeName = (char*)malloc(iLen + 1);
 		if (szModeName) {
 			DWORD options, lmdat;
-			SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szModeName);
+			SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_GETTEXT, sttClvm_curItem, (LPARAM)szModeName);
 			dwGlobalMask = GetMaskForItem(hInfoItem);
 
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+				hItem = (HANDLE)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 				if (hItem) {
-					if (SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+					if (SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 						dwLocalMask = GetMaskForItem(hItem);
 						cfg::writeDword(hContact, "CLVM", szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
 						stickies++;
@@ -402,16 +402,16 @@ void SaveState()
 				}
 			}
 
-			operators |= ((SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_PROTOGROUP_OP : 0) |
-				(SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_GROUPSTATUS_OP : 0) |
-				(IsDlgButtonChecked(clvmHwnd, IDC_AUTOCLEAR) ? CLVM_AUTOCLEAR : 0) |
-				(IsDlgButtonChecked(clvmHwnd, IDC_LASTMSG) ? CLVM_USELASTMSG : 0));
+			operators |= ((SendDlgItemMessage(sttClvmHwnd, IDC_PROTOGROUPOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_PROTOGROUP_OP : 0) |
+				(SendDlgItemMessage(sttClvmHwnd, IDC_GROUPSTATUSOP, CB_GETCURSEL, 0, 0) == 1 ? CLVM_GROUPSTATUS_OP : 0) |
+				(IsDlgButtonChecked(sttClvmHwnd, IDC_AUTOCLEAR) ? CLVM_AUTOCLEAR : 0) |
+				(IsDlgButtonChecked(sttClvmHwnd, IDC_LASTMSG) ? CLVM_USELASTMSG : 0));
 
-			options = SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
+			options = SendDlgItemMessage(sttClvmHwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
 
-			lmdat = MAKELONG(GetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, &translated, FALSE),
-				MAKEWORD(SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
-				SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
+			lmdat = MAKELONG(GetDlgItemInt(sttClvmHwnd, IDC_LASTMSGVALUE, &translated, FALSE),
+				MAKEWORD(SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
+				SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
 
 			SaveViewMode(szModeName, newGroupFilter, newProtoFilter, statusMask, dwGlobalMask, options,
 				stickies, operators, lmdat);
@@ -419,7 +419,7 @@ void SaveState()
 			free(szModeName);
 		}
 	}
-	Utils::enableDlgControl(clvmHwnd, IDC_APPLY, FALSE);
+	Utils::enableDlgControl(sttClvmHwnd, IDC_APPLY, FALSE);
 }
 
 
@@ -434,22 +434,24 @@ void UpdateFilters()
 	DWORD statusMask = 0;
 	DWORD dwFlags;
 	DWORD opt;
-	char szTemp[100];
 
-	if (clvm_curItem == LB_ERR)
+	if (sttClvm_curItem == LB_ERR)
 		return;
 
-	iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
+	iLen = SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, sttClvm_curItem, 0);
 
 	if (iLen == 0)
 		return;
 
 	szBuf = (char *)malloc(iLen + 1);
-	SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szBuf);
-	strncpy(g_szModename, szBuf, sizeof(g_szModename));
-	g_szModename[sizeof(g_szModename) - 1] = 0;
-	mir_snprintf(szTemp, Translate("Current view mode: %s"), g_szModename);
-	SetDlgItemTextA(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
+	SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_GETTEXT, sttClvm_curItem, (LPARAM)szBuf);
+	strncpy(sttModeName, szBuf, sizeof(sttModeName));
+	sttModeName[sizeof(sttModeName) - 1] = 0;
+	{
+		char szTemp[100];
+		mir_snprintf(szTemp, Translate("Current view mode: %s"), sttModeName);
+		SetDlgItemTextA(sttClvmHwnd, IDC_CURVIEWMODE2, szTemp);
+	}
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
 	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
@@ -458,19 +460,19 @@ void UpdateFilters()
 		goto cleanup;
 	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);
 	if ((opt = cfg::getDword(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
-		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
+		SendDlgItemMessage(sttClvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
 	mir_snprintf(szSetting, "%c%s_SM", 246, szBuf);
 	statusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
 	mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf);
-	stickyStatusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
+	sttStickyStatusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
 	dwFlags = cfg::getDword(CLVM_MODULE, szBuf, 0);
 	{
 		LVITEMA item = {0};
 		char szTemp[256];
 		char szMask[256];
 		int i;
-		HWND hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
+		HWND hwndList = GetDlgItem(sttClvmHwnd, IDC_PROTOCOLS);
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
@@ -492,7 +494,7 @@ void UpdateFilters()
 		TCHAR szTemp[256];
 		TCHAR szMask[256];
 		int i;
-		HWND hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
+		HWND hwndList = GetDlgItem(sttClvmHwnd, IDC_GROUPS);
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
@@ -512,7 +514,7 @@ void UpdateFilters()
 	}
 
 	{
-		HWND hwndList = GetDlgItem(clvmHwnd, IDC_STATUSMODES);
+		HWND hwndList = GetDlgItem(sttClvmHwnd, IDC_STATUSMODES);
 		int i;
 
 		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
@@ -522,9 +524,9 @@ void UpdateFilters()
 				ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, FALSE);
 		}
 	}
-	SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_SETCURSEL, dwFlags & CLVM_PROTOGROUP_OP ? 1 : 0, 0);
-	SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_SETCURSEL, dwFlags & CLVM_GROUPSTATUS_OP ? 1 : 0, 0);
-	CheckDlgButton(clvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? BST_CHECKED : BST_UNCHECKED);
+	SendDlgItemMessage(sttClvmHwnd, IDC_PROTOGROUPOP, CB_SETCURSEL, dwFlags & CLVM_PROTOGROUP_OP ? 1 : 0, 0);
+	SendDlgItemMessage(sttClvmHwnd, IDC_GROUPSTATUSOP, CB_SETCURSEL, dwFlags & CLVM_GROUPSTATUS_OP ? 1 : 0, 0);
+	CheckDlgButton(sttClvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? BST_CHECKED : BST_UNCHECKED);
 	UpdateStickies();
 
 	{
@@ -532,22 +534,22 @@ void UpdateFilters()
 		DWORD lmdat;
 		BYTE bTmp;
 
-		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
-		Utils::enableDlgControl(clvmHwnd, IDC_LASTMESSAGEOP, useLastMsg);
-		Utils::enableDlgControl(clvmHwnd, IDC_LASTMSGVALUE, useLastMsg);
-		Utils::enableDlgControl(clvmHwnd, IDC_LASTMESSAGEUNIT, useLastMsg);
+		CheckDlgButton(sttClvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
+		Utils::enableDlgControl(sttClvmHwnd, IDC_LASTMESSAGEOP, useLastMsg);
+		Utils::enableDlgControl(sttClvmHwnd, IDC_LASTMSGVALUE, useLastMsg);
+		Utils::enableDlgControl(sttClvmHwnd, IDC_LASTMESSAGEUNIT, useLastMsg);
 
 		mir_snprintf(szSetting, "%c%s_LM", 246, szBuf);
 		lmdat = cfg::getDword(CLVM_MODULE, szSetting, 0);
 
-		SetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
+		SetDlgItemInt(sttClvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
 		bTmp = LOBYTE(HIWORD(lmdat));
-		SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEOP, CB_SETCURSEL, bTmp, 0);
+		SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEOP, CB_SETCURSEL, bTmp, 0);
 		bTmp = HIBYTE(HIWORD(lmdat));
-		SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEUNIT, CB_SETCURSEL, bTmp, 0);
+		SendDlgItemMessage(sttClvmHwnd, IDC_LASTMESSAGEUNIT, CB_SETCURSEL, bTmp, 0);
 	}
 
-	ShowPage(clvmHwnd, 0);
+	ShowPage(sttClvmHwnd, 0);
 cleanup:
 	db_free(&dbv_pf);
 	db_free(&dbv_gf);
@@ -556,7 +558,7 @@ cleanup:
 
 INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	clvmHwnd = hwndDlg;
+	sttClvmHwnd = hwndDlg;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -601,11 +603,11 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			hInfoItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 			if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
-				clvm_curItem = 0;
+				sttClvm_curItem = 0;
 				UpdateFilters();
 			}
 			else
-				clvm_curItem = -1;
+				sttClvm_curItem = -1;
 			g_ViewModeOptDlg = TRUE;
 			i = 0;
 			while (_page2Controls[i] != 0)
@@ -673,11 +675,11 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 							if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
-								clvm_curItem = 0;
+								sttClvm_curItem = 0;
 								UpdateFilters();
 							}
 							else
-								clvm_curItem = -1;
+								sttClvm_curItem = -1;
 							free(szBuf);
 						}
 					}
@@ -700,7 +702,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						if (iNewItem != LB_ERR) {
 							SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, (WPARAM)iNewItem, 0);
 							SaveViewMode(szBuf, _T(""), "", -1, -1, 0, 0, 0, 0);
-							clvm_curItem = iNewItem;
+							sttClvm_curItem = iNewItem;
 							UpdateStickies();
 							SendDlgItemMessage(hwndDlg, IDC_PROTOGROUPOP, CB_SETCURSEL, 0, 0);
 							SendDlgItemMessage(hwndDlg, IDC_GROUPSTATUSOP, CB_SETCURSEL, 0, 0);
@@ -735,7 +737,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_ADDVIEWMODE, TRUE);
 		if (LOWORD(wParam) == IDC_VIEWMODES && HIWORD(wParam) == LBN_SELCHANGE) {
 			SaveState();
-			clvm_curItem = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0);
+			sttClvm_curItem = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0);
 			UpdateFilters();
 		}
 		break;

@@ -31,7 +31,7 @@ extern PLUGIN_DATA* PopupList[20];
 //---Some global variables for the plugin
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst;
+HINSTANCE g_hInst;
 PLUGIN_OPTIONS pluginOptions;
 int hLangpack;
 PLUGININFOEX pluginInfo = {
@@ -123,7 +123,7 @@ int HookedInit(WPARAM, LPARAM)
 //---Called when an options dialog has to be created
 int HookedOptions(WPARAM wParam, LPARAM)
 {
-	OptionsAdd(hInst, wParam);
+	OptionsAdd(g_hInst, wParam);
 	return 0;
 }
 
@@ -144,8 +144,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getCLI();
 
 	OptionsInit(&pluginOptions);
-	pluginOptions.hInst = hInst;
-
+	pluginOptions.hInst = g_hInst;
 	return 0;
 }
 
@@ -156,7 +155,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
-	hInst = hinstDLL;
+	g_hInst = hinstDLL;
 	return TRUE;
 }
 

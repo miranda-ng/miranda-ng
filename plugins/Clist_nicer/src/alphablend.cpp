@@ -84,7 +84,6 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 	if (rc == NULL)
 		return;
 
-	BLENDFUNCTION bf;
 	int ulBitmapWidth, ulBitmapHeight;
 	UCHAR ubAlpha = 0xFF;
 	UCHAR ubRedFinal = 0xFF;
@@ -158,6 +157,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 
 			basecolor = argb_from_cola(revcolref(basecolor), alpha);
 			basecolor2 = argb_from_cola(revcolref(basecolor2), alpha);
+
 			BLENDFUNCTION bf;
 			bf.BlendOp = AC_SRC_OVER;
 			bf.BlendFlags = 0;
@@ -166,6 +166,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 			HDC hdc = CreateCompatibleDC(hdcwnd);
 			if (!hdc)
 				return;
+
 			HBITMAP hbm = CreateCompatibleBitmap(hdcwnd, width, height);
 			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbm));
 			GdiGradientFill(hdc, tvtx, 2, &grect, 1, (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT) ? GRADIENT_FILL_RECT_V : GRADIENT_FILL_RECT_H);
@@ -260,6 +261,8 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 			}
 		}
 	}
+
+	BLENDFUNCTION bf;
 	bf.BlendOp = AC_SRC_OVER;
 	bf.BlendFlags = 0;
 	bf.SourceConstantAlpha = (UCHAR)(basecolor >> 24);

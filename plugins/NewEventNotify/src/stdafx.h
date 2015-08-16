@@ -223,4 +223,4 @@ int MenuitemUpdate(BOOL bStatus);
 int NumberPopupData(MCONTACT hContact, int eventType);
 int CheckMsgWnd(MCONTACT hContact);
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
