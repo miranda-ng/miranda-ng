@@ -666,7 +666,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 		pclDlg->bUtf8File = clInfo.bUtf8File;
 	}
 	else {
-		eds.dwCookie = (DWORD)hFile;
+		eds.dwCookie = (DWORD_PTR)hFile;
 		eds.pfnCallback = RichEditStreamLoadFile;
 
 		SendMessage(hRichEdit, EM_STREAMIN, (WPARAM)SF_TEXT, (LPARAM)&eds);
@@ -1116,7 +1116,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 
 			EDITSTREAM eds;
-			eds.dwCookie = (DWORD)hFile;
+			eds.dwCookie = (DWORD_PTR)hFile;
 			eds.dwError = 0;
 			eds.pfnCallback = RichEditStreamSaveFile;
 			LRESULT nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF, (LPARAM)&eds);
