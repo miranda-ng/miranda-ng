@@ -1184,7 +1184,7 @@ void UninitCustomMenus(void)
 	hStatusMenuHandles = NULL;
 
 	Menu_RemoveObject(hMainMenuObject);
-	Menu_RemoveObject(hContactMenuObject);
+	Menu_RemoveObject(hStatusMenuObject);
 
 	UnloadMoveToGroup();
 	FreeMenuProtos();
