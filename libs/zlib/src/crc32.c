@@ -184,16 +184,16 @@ local void write_table(out, table)
 #include "crc32.h"
 #endif /* DYNAMIC_CRC_TABLE */
 
-/* =========================================================================
- * This function can be used by asm versions of crc32()
- */
+ /* =========================================================================
+  * This function can be used by asm versions of crc32()
+  */
 const z_crc_t FAR * ZEXPORT get_crc_table()
 {
-#ifdef DYNAMIC_CRC_TABLE
-    if (crc_table_empty)
-        make_crc_table();
-#endif /* DYNAMIC_CRC_TABLE */
-    return (const z_crc_t FAR *)crc_table;
+	#ifdef DYNAMIC_CRC_TABLE
+	if (crc_table_empty)
+		make_crc_table();
+	#endif /* DYNAMIC_CRC_TABLE */
+	return (const z_crc_t FAR *)crc_table;
 }
 
 /* ========================================================================= */
@@ -202,37 +202,37 @@ const z_crc_t FAR * ZEXPORT get_crc_table()
 
 /* ========================================================================= */
 unsigned long ZEXPORT crc32(crc, buf, len)
-    unsigned long crc;
-    const unsigned char FAR *buf;
-    uInt len;
+unsigned long crc;
+const unsigned char FAR *buf;
+uInt len;
 {
-    if (buf == Z_NULL) return 0UL;
+	if (buf == Z_NULL) return 0UL;
 
-#ifdef DYNAMIC_CRC_TABLE
-    if (crc_table_empty)
-        make_crc_table();
-#endif /* DYNAMIC_CRC_TABLE */
+	#ifdef DYNAMIC_CRC_TABLE
+	if (crc_table_empty)
+		make_crc_table();
+	#endif /* DYNAMIC_CRC_TABLE */
 
-#ifdef BYFOUR
-    if (sizeof(void *) == sizeof(ptrdiff_t)) {
-        z_crc_t endian;
+	#ifdef BYFOUR
+	if (sizeof(void *) == sizeof(ptrdiff_t)) {
+		z_crc_t endian;
 
-        endian = 1;
-        if (*((unsigned char *)(&endian)))
-            return crc32_little(crc, buf, len);
-        else
-            return crc32_big(crc, buf, len);
-    }
-#endif /* BYFOUR */
-    crc = crc ^ 0xffffffffUL;
-    while (len >= 8) {
-        DO8;
-        len -= 8;
-    }
-    if (len) do {
-        DO1;
-    } while (--len);
-    return crc ^ 0xffffffffUL;
+		endian = 1;
+		if (*((unsigned char *)(&endian)))
+			return crc32_little(crc, buf, len);
+		else
+			return crc32_big(crc, buf, len);
+	}
+	#endif /* BYFOUR */
+	crc = crc ^ 0xffffffffUL;
+	while (len >= 8) {
+		DO8;
+		len -= 8;
+	}
+	if (len) do {
+		DO1;
+	} while (--len);
+	return crc ^ 0xffffffffUL;
 }
 
 #ifdef BYFOUR
@@ -245,36 +245,36 @@ unsigned long ZEXPORT crc32(crc, buf, len)
 
 /* ========================================================================= */
 local unsigned long crc32_little(crc, buf, len)
-    unsigned long crc;
-    const unsigned char FAR *buf;
-    unsigned len;
+unsigned long crc;
+const unsigned char FAR *buf;
+unsigned len;
 {
-    register z_crc_t c;
-    register const z_crc_t FAR *buf4;
+	register z_crc_t c;
+	register const z_crc_t FAR *buf4;
 
-    c = (z_crc_t)crc;
-    c = ~c;
-    while (len && ((ptrdiff_t)buf & 3)) {
-        c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
-        len--;
-    }
+	c = (z_crc_t)crc;
+	c = ~c;
+	while (len && ((ptrdiff_t)buf & 3)) {
+		c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
+		len--;
+	}
 
-    buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
-    while (len >= 32) {
-        DOLIT32;
-        len -= 32;
-    }
-    while (len >= 4) {
-        DOLIT4;
-        len -= 4;
-    }
-    buf = (const unsigned char FAR *)buf4;
+	buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
+	while (len >= 32) {
+		DOLIT32;
+		len -= 32;
+	}
+	while (len >= 4) {
+		DOLIT4;
+		len -= 4;
+	}
+	buf = (const unsigned char FAR *)buf4;
 
-    if (len) do {
-        c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
-    } while (--len);
-    c = ~c;
-    return (unsigned long)c;
+	if (len) do {
+		c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
+	} while (--len);
+	c = ~c;
+	return (unsigned long)c;
 }
 
 /* ========================================================================= */
@@ -285,38 +285,38 @@ local unsigned long crc32_little(crc, buf, len)
 
 /* ========================================================================= */
 local unsigned long crc32_big(crc, buf, len)
-    unsigned long crc;
-    const unsigned char FAR *buf;
-    unsigned len;
+unsigned long crc;
+const unsigned char FAR *buf;
+unsigned len;
 {
-    register z_crc_t c;
-    register const z_crc_t FAR *buf4;
+	register z_crc_t c;
+	register const z_crc_t FAR *buf4;
 
-    c = ZSWAP32((z_crc_t)crc);
-    c = ~c;
-    while (len && ((ptrdiff_t)buf & 3)) {
-        c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
-        len--;
-    }
+	c = ZSWAP32((z_crc_t)crc);
+	c = ~c;
+	while (len && ((ptrdiff_t)buf & 3)) {
+		c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
+		len--;
+	}
 
-    buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
-    buf4--;
-    while (len >= 32) {
-        DOBIG32;
-        len -= 32;
-    }
-    while (len >= 4) {
-        DOBIG4;
-        len -= 4;
-    }
-    buf4++;
-    buf = (const unsigned char FAR *)buf4;
+	buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
+	buf4--;
+	while (len >= 32) {
+		DOBIG32;
+		len -= 32;
+	}
+	while (len >= 4) {
+		DOBIG4;
+		len -= 4;
+	}
+	buf4++;
+	buf = (const unsigned char FAR *)buf4;
 
-    if (len) do {
-        c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
-    } while (--len);
-    c = ~c;
-    return (unsigned long)(ZSWAP32(c));
+	if (len) do {
+		c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
+	} while (--len);
+	c = ~c;
+	return (unsigned long)(ZSWAP32(c));
 }
 
 #endif /* BYFOUR */
@@ -325,101 +325,101 @@ local unsigned long crc32_big(crc, buf, len)
 
 /* ========================================================================= */
 local unsigned long gf2_matrix_times(mat, vec)
-    unsigned long *mat;
-    unsigned long vec;
+unsigned long *mat;
+unsigned long vec;
 {
-    unsigned long sum;
+	unsigned long sum;
 
-    sum = 0;
-    while (vec) {
-        if (vec & 1)
-            sum ^= *mat;
-        vec >>= 1;
-        mat++;
-    }
-    return sum;
+	sum = 0;
+	while (vec) {
+		if (vec & 1)
+			sum ^= *mat;
+		vec >>= 1;
+		mat++;
+	}
+	return sum;
 }
 
 /* ========================================================================= */
 local void gf2_matrix_square(square, mat)
-    unsigned long *square;
-    unsigned long *mat;
+unsigned long *square;
+unsigned long *mat;
 {
-    int n;
+	int n;
 
-    for (n = 0; n < GF2_DIM; n++)
-        square[n] = gf2_matrix_times(mat, mat[n]);
+	for (n = 0; n < GF2_DIM; n++)
+		square[n] = gf2_matrix_times(mat, mat[n]);
 }
 
 /* ========================================================================= */
 local uLong crc32_combine_(crc1, crc2, len2)
-    uLong crc1;
-    uLong crc2;
-    z_off64_t len2;
+uLong crc1;
+uLong crc2;
+z_off64_t len2;
 {
-    int n;
-    unsigned long row;
-    unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
-    unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
+	int n;
+	unsigned long row;
+	unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
+	unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
 
-    /* degenerate case (also disallow negative lengths) */
-    if (len2 <= 0)
-        return crc1;
+	/* degenerate case (also disallow negative lengths) */
+	if (len2 <= 0)
+		return crc1;
 
-    /* put operator for one zero bit in odd */
-    odd[0] = 0xedb88320UL;          /* CRC-32 polynomial */
-    row = 1;
-    for (n = 1; n < GF2_DIM; n++) {
-        odd[n] = row;
-        row <<= 1;
-    }
+	/* put operator for one zero bit in odd */
+	odd[0] = 0xedb88320UL;          /* CRC-32 polynomial */
+	row = 1;
+	for (n = 1; n < GF2_DIM; n++) {
+		odd[n] = row;
+		row <<= 1;
+	}
 
-    /* put operator for two zero bits in even */
-    gf2_matrix_square(even, odd);
+	/* put operator for two zero bits in even */
+	gf2_matrix_square(even, odd);
 
-    /* put operator for four zero bits in odd */
-    gf2_matrix_square(odd, even);
+	/* put operator for four zero bits in odd */
+	gf2_matrix_square(odd, even);
 
-    /* apply len2 zeros to crc1 (first square will put the operator for one
-       zero byte, eight zero bits, in even) */
-    do {
-        /* apply zeros operator for this bit of len2 */
-        gf2_matrix_square(even, odd);
-        if (len2 & 1)
-            crc1 = gf2_matrix_times(even, crc1);
-        len2 >>= 1;
+	/* apply len2 zeros to crc1 (first square will put the operator for one
+		zero byte, eight zero bits, in even) */
+	do {
+		/* apply zeros operator for this bit of len2 */
+		gf2_matrix_square(even, odd);
+		if (len2 & 1)
+			crc1 = gf2_matrix_times(even, crc1);
+		len2 >>= 1;
 
-        /* if no more bits set, then done */
-        if (len2 == 0)
-            break;
+		/* if no more bits set, then done */
+		if (len2 == 0)
+			break;
 
-        /* another iteration of the loop with odd and even swapped */
-        gf2_matrix_square(odd, even);
-        if (len2 & 1)
-            crc1 = gf2_matrix_times(odd, crc1);
-        len2 >>= 1;
+		/* another iteration of the loop with odd and even swapped */
+		gf2_matrix_square(odd, even);
+		if (len2 & 1)
+			crc1 = gf2_matrix_times(odd, crc1);
+		len2 >>= 1;
 
-        /* if no more bits set, then done */
-    } while (len2 != 0);
+		/* if no more bits set, then done */
+	} while (len2 != 0);
 
-    /* return combined crc */
-    crc1 ^= crc2;
-    return crc1;
+	/* return combined crc */
+	crc1 ^= crc2;
+	return crc1;
 }
 
 /* ========================================================================= */
 uLong ZEXPORT crc32_combine(crc1, crc2, len2)
-    uLong crc1;
-    uLong crc2;
-    z_off_t len2;
+uLong crc1;
+uLong crc2;
+z_off_t len2;
 {
-    return crc32_combine_(crc1, crc2, len2);
+	return crc32_combine_(crc1, crc2, len2);
 }
 
 uLong ZEXPORT crc32_combine64(crc1, crc2, len2)
-    uLong crc1;
-    uLong crc2;
-    z_off64_t len2;
+uLong crc1;
+uLong crc2;
+z_off64_t len2;
 {
-    return crc32_combine_(crc1, crc2, len2);
+	return crc32_combine_(crc1, crc2, len2);
 }
