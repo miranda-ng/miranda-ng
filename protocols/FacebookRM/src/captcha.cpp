@@ -37,7 +37,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 {
 	CAPTCHA_FORM_PARAMS *params = (CAPTCHA_FORM_PARAMS*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
-	case WM_INITDIALOG: {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("key"), TRUE));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIconByHandle(GetIconHandle("key")));
@@ -45,9 +45,8 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
-
 		return TRUE;
-	}
+
 	case WM_CTLCOLORSTATIC:
 		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
 		case IDC_WHITERECT:

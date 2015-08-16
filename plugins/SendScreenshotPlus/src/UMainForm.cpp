@@ -61,11 +61,13 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 		}
 		SetFocus(GetDlgItem(hDlg, ID_imgTarget));
 		return FALSE;
+
 	case WM_CTLCOLORDLG:
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
 		SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
 		return (INT_PTR)GetStockObject(WHITE_BRUSH);
+
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == ID_btnExplore) { /// local file tab
 			OPENFILENAME ofn = { sizeof(OPENFILENAME) };

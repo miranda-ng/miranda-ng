@@ -223,7 +223,6 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
-		PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
 		if ((INT_PTR)popup != CALLSERVICE_NOTFOUND) {
 			DestroyIcon(popup->hIcon);
 			mir_free(popup);

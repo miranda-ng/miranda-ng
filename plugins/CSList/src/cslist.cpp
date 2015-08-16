@@ -950,8 +950,8 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 	case WM_CTLCOLORSTATIC:
 		SetTextColor((HDC)wparam, RGB(174, 174, 174));
 		if (((HWND)lparam == GetDlgItem(hwnd, IDC_NO_ITEMS)) || ((HWND)lparam == GetDlgItem(hwnd, IDC_ADD_SAMPLE)))
-			return (BOOL)GetStockObject(WHITE_BRUSH);
-		return FALSE;
+			return (INT_PTR)GetStockObject(WHITE_BRUSH);
+		return NULL;
 
 	case WM_DESTROY:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
