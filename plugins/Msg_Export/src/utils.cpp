@@ -1133,10 +1133,10 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 					int n = mir_sntprintf(szTemp, _T("%d"), uin);
 					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
 						char *pszEnd = (char *)(dbei.pBlob + dbei.cbSize);
-						for (int n = 0; n < nStringCount && pszCurBlobPos < pszEnd; n++) {
+						for (int i = 0; i < nStringCount && pszCurBlobPos < pszEnd; i++) {
 							if (*pszCurBlobPos) {
 								if (!bWriteNewLine(hFile, nIndent) ||
-									!bWriteTextToFile(hFile, TranslateTS(pszTypes[n]), bWriteUTF8Format) ||
+									!bWriteTextToFile(hFile, TranslateTS(pszTypes[i]), bWriteUTF8Format) ||
 									!bWriteIndentedToFile(hFile, nIndent, pszCurBlobPos, bWriteUTF8Format)) {
 									break;
 								}
