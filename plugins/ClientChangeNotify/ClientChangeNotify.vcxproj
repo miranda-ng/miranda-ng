@@ -26,23 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\CommonLibs\CString.cpp">
-      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\CommonLibs\Options.cpp">
-      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\CommonLibs\pcre.cpp">
-      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\CommonLibs\CString.h" />
-    <ClInclude Include="src\CommonLibs\Options.h" />
-    <ClInclude Include="src\CommonLibs\pcre.h" />
-    <ClInclude Include="src\CommonLibs\TMyArray.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\libs\Pcre16\pcre16.vcxproj">
       <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
     </ProjectReference>

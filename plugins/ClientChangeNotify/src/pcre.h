@@ -18,7 +18,7 @@
 */
 
 #include "CString.h"
-#include "..\..\..\..\libs\pcre16\src\pcre.h"
+#include "..\..\..\libs\pcre16\src\pcre.h"
 
 #pragma once
 

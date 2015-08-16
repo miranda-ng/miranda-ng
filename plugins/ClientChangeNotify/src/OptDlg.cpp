@@ -23,39 +23,31 @@
 
 COptPage g_PopupOptPage(MOD_NAME, NULL);
 
-
 void EnablePopupOptDlgControls()
 {
 	int I;
 	g_PopupOptPage.PageToMem();
-	int UsePopups = g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY);
-	for (I = 0; I < g_PopupOptPage.Items.GetSize(); I++)
-	{
-		switch (g_PopupOptPage.Items[I]->GetParam())
-		{
-			case IDC_POPUPOPTDLG_POPUPNOTIFY:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups);
-			} break;
-			case IDC_POPUPOPTDLG_DEFBGCOLOUR:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR));
-			} break;
-			case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR));
-			} break;
+	bool UsePopups = g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY) != 0;
+	for (I = 0; I < g_PopupOptPage.Items.GetSize(); I++) {
+		switch (g_PopupOptPage.Items[I]->GetParam()) {
+		case IDC_POPUPOPTDLG_POPUPNOTIFY:
+			g_PopupOptPage.Items[I]->Enable(UsePopups);
+			break;
+		case IDC_POPUPOPTDLG_DEFBGCOLOUR:
+			g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR));
+			break;
+		case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
+			g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR));
+			break;
 		}
 	}
-	if (g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY))
-	{
+	if (g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY)) {
 		COptItem *ShowVer = g_PopupOptPage.Find(IDC_POPUPOPTDLG_SHOWVER);
 		ShowVer->SetValue(1);
 		ShowVer->Enable(false);
 		ShowVer->MemToWnd(g_PopupOptPage.hWnd);
 	}
-	if (!bFingerprintExists)
-	{ // disable these checkboxes if Fingerprint wasn't found
+	if (!bFingerprintExists) { // disable these checkboxes if Fingerprint wasn't found
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_VERCHGNOTIFY)->Enable(false);
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_SHOWVER)->Enable(false);
 	}
@@ -64,11 +56,12 @@ void EnablePopupOptDlgControls()
 	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), NULL, false); // update spin control
 }
 
-static struct {
+static struct
+{
 	TCHAR *Text;
 	int Action;
 }
-PopupActions[] = 
+PopupActions[] =
 {
 	LPGENT("Open message window"), PCA_OPENMESSAGEWND,
 	LPGENT("Close popup"), PCA_CLOSEPOPUP,
@@ -93,10 +86,9 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
 			HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
-			int I;
-			for (I = 0; I < lengthof(PopupActions); I++) {
-				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
-				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
+			for (int i = 0; i < _countof(PopupActions); i++) {
+				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
+				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
 			}
 			g_PopupOptPage.DBToMemToPage();
 			EnablePopupOptDlgControls();
@@ -106,7 +98,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_NOTIFY:
 		switch (((NMHDR*)lParam)->code) {
-		case PSN_APPLY: 
+		case PSN_APPLY:
 			g_PopupOptPage.PageToMemToDB();
 			RecompileRegexps(*(TCString*)g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
 			return true;
@@ -129,11 +121,11 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return 0;
-				
+
 			case IDC_POPUPOPTDLG_POPUPPREVIEW:
 				g_PreviewOptPage = new COptPage(g_PopupOptPage);
 				g_PreviewOptPage->PageToMem();
-				DBCONTACTWRITESETTING cws = {0};
+				DBCONTACTWRITESETTING cws = { 0 };
 				cws.szModule = "ICQ";
 				cws.szSetting = DB_MIRVER;
 				db_set_s(NULL, MOD_NAME, DB_OLDMIRVER, "ICQ Lite v5");
@@ -143,7 +135,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			}
 			break;
-		
+
 		case EN_CHANGE:
 			if (LOWORD(wParam) == IDC_POPUPOPTDLG_POPUPDELAY || LOWORD(wParam) == IDC_POPUPOPTDLG_IGNORESTRINGS)
 				if (!ChangeLock && g_PopupOptPage.GetWnd())
@@ -158,7 +150,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 		}
 		break;
-		
+
 	case WM_DESTROY:
 		g_PopupOptPage.SetWnd(NULL);
 		return 0;
