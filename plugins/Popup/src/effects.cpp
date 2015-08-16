@@ -37,17 +37,17 @@ protected:
 	int alpha;
 
 public:
-	virtual void beginEffect(int w, int h, int alpha0, int alpha1, int frameCount)
+	virtual void beginEffect(int _w, int _h, int _alpha0, int _alpha1, int _frameCount)
 	{
-		this->w = w;
-		this->h = h;
-		this->alpha0 = alpha0;
-		this->alpha1 = alpha1;
-		this->frameCount = frameCount;
+		w = _w;
+		h = _h;
+		alpha0 = _alpha0;
+		alpha1 = _alpha1;
+		frameCount = _frameCount;
 	}
-	virtual void beginFrame(int frame)
+	virtual void beginFrame(int _frame)
 	{
-		this->frame = frame;
+		frame = _frame;
 		stage = (frame * 2 > frameCount) ? 1 : 0;
 		if (stage == 0)
 			alpha = alpha0 + (alpha1 - alpha0) * frame * 2 / frameCount;

@@ -1129,7 +1129,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 
 		case CURSOR_TIMER:
-			POINT pt; GetCursorPos(&pt);
+			GetCursorPos(&pt);
 			if (abs(pt.x - m_ptPrevCursor.x) + abs(pt.y - m_ptPrevCursor.y) > 4) {
 				SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);
 				KillTimer(m_hwnd, CURSOR_TIMER);

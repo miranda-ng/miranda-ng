@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __opt_adv_h__
 #define __opt_adv_h__
 
-extern HWND hwndBox;
-
 void OptAdv_RegisterVfx(char *name);
 void OptAdv_UnregisterVfx();
 
