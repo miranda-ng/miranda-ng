@@ -41,7 +41,7 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 {
 	if (!fn) return;
 
-	if ( ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_PREVIEW)) {
+	if (ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_PREVIEW)) {
 		CallProtoService(obj->lpzThemeModuleName, TS_SKIN_PREVIEW, (WPARAM)lps, (LPARAM)fn);
 		return;
 	}
@@ -54,16 +54,16 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 	GetObject(hbmPreview, sizeof(bmp), &bmp);
 
 	SIZE szDst = { abs(bmp.bmWidth), abs(bmp.bmHeight) };
-	if ((szDst.cx > lps->rcItem.right-lps->rcItem.left) || (szDst.cy > lps->rcItem.bottom-lps->rcItem.top)) {
+	if ((szDst.cx > lps->rcItem.right - lps->rcItem.left) || (szDst.cy > lps->rcItem.bottom - lps->rcItem.top)) {
 		float q = min(
-			float(lps->rcItem.right-lps->rcItem.left) / szDst.cx,
-			float(lps->rcItem.bottom-lps->rcItem.top) / szDst.cy);
+			float(lps->rcItem.right - lps->rcItem.left) / szDst.cx,
+			float(lps->rcItem.bottom - lps->rcItem.top) / szDst.cy);
 		szDst.cx *= q;
 		szDst.cy *= q;
 	}
 	POINT ptDst = {
-		(lps->rcItem.left+lps->rcItem.right-szDst.cx) / 2,
-		(lps->rcItem.top+lps->rcItem.bottom-szDst.cy) / 2 };
+		(lps->rcItem.left + lps->rcItem.right - szDst.cx) / 2,
+		(lps->rcItem.top + lps->rcItem.bottom - szDst.cy) / 2 };
 
 	HDC hdc = CreateCompatibleDC(lps->hDC);
 	SelectObject(hdc, hbmPreview);
@@ -82,7 +82,8 @@ struct TSkinListItem
 	TSkinListItem(TCHAR *fn)
 	{
 		title = mir_tstrdup(fn);
-		if (TCHAR *p = _tcsrchr(title, _T('.'))) *p = 0;
+		if (TCHAR *p = _tcsrchr(title, _T('.')))
+			*p = 0;
 
 		TCHAR curPath[MAX_PATH];
 		GetCurrentDirectory(_countof(curPath), curPath);
@@ -90,7 +91,7 @@ struct TSkinListItem
 		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
 		PathToRelativeT(curPath, path);
 
-		size_t length = mir_tstrlen(curPath)+mir_tstrlen(fn)+2;
+		size_t length = mir_tstrlen(curPath) + mir_tstrlen(fn) + 2;
 		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
 		mir_sntprintf(filename, length, _T("%s\\%s"), curPath, fn);
 	}
@@ -138,7 +139,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 		SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 	}
 
-	WIN32_FIND_DATA ffd = {0};
+	WIN32_FIND_DATA ffd = { 0 };
 	HANDLE h = FindFirstFile(_T("*.*"), &ffd);
 	if (h != INVALID_HANDLE_VALUE) {
 		do {
@@ -155,9 +156,9 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 					TSkinListItem *dat = new TSkinListItem(ffd.cFileName);
 					DWORD dwItem = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)ffd.cFileName);
 					SendMessage(hwndList, LB_SETITEMDATA, dwItem, (LPARAM)dat);
-			}	}
-		}
-			while (FindNextFile(h, &ffd));
+				}
+			}
+		} while (FindNextFile(h, &ffd));
 		FindClose(h);
 	}
 
@@ -173,7 +174,7 @@ static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 	sd->hbmpPreview = CreateCompatibleBitmap(lps->hDC, lps->rcItem.right - lps->rcItem.left, lps->rcItem.bottom - lps->rcItem.top);
 	SelectObject(hdc, sd->hbmpPreview);
 
-	BITMAPINFO bi = {0};
+	BITMAPINFO bi = { 0 };
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = 8;
 	bi.bmiHeader.biHeight = -8;
@@ -218,22 +219,16 @@ static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
 	TSelectorData *sd = (TSelectorData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	MODERNOPTOBJECT *&obj = sd->obj;
+	MODERNOPTOBJECT *obj = sd->obj;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			sd = new TSelectorData;
-			MODERNOPTOBJECT *&obj = sd->obj;
+		sd = new TSelectorData;
+		sd->obj = obj = (MODERNOPTOBJECT*)lParam;
+		sd->active = sttGetActiveSkin(obj);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)sd);
 
-			sd->obj = (MODERNOPTOBJECT *)lParam;
-			sd->active = sttGetActiveSkin(obj);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)sd);
-
-			TCHAR *s = mir_a2t(obj->lpzThemeExtension);
-			BuildSkinList(GetDlgItem(hwndDlg, IDC_SKINLIST), s);
-			mir_free(s);
-		}
+		BuildSkinList(GetDlgItem(hwndDlg, IDC_SKINLIST), _A2T(obj->lpzThemeExtension));
 		return FALSE;
 
 	case WM_COMMAND:
@@ -246,18 +241,16 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 				break;
 
 			case LBN_DBLCLK:
-				{
-					int idx = SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0);
-					if (idx >= 0)
-					{
-						TSkinListItem *dat = (TSkinListItem *)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETITEMDATA, idx, 0);
-						sttApplySkin(obj, dat->filename);
-						mir_free(sd->active);
-						sd->active = sttGetActiveSkin(obj);
-						RedrawWindow(GetDlgItem(hwndDlg, IDC_SKINLIST), NULL, NULL, RDW_INVALIDATE);
-					}
-					break;
-			}	}
+				int idx = SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0);
+				if (idx >= 0) {
+					TSkinListItem *dat = (TSkinListItem *)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETITEMDATA, idx, 0);
+					sttApplySkin(obj, dat->filename);
+					mir_free(sd->active);
+					sd->active = sttGetActiveSkin(obj);
+					RedrawWindow(GetDlgItem(hwndDlg, IDC_SKINLIST), NULL, NULL, RDW_INVALIDATE);
+				}
+				break;
+			}
 			break;
 		}
 		return FALSE;
@@ -296,10 +289,9 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 					clLine1 = GetSysColor(COLOR_WINDOWTEXT);
 				}
 				clLine2 = RGB(
-						GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
-						GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
-						GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34
-					);
+					GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
+					GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
+					GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34);
 
 				lps->rcItem.left += 2;
 				lps->rcItem.top += 2;
@@ -310,25 +302,24 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 				int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
 				if (sd->active && !mir_tstrcmp(sd->active, dat->filename)) {
-					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
+					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top + lps->rcItem.bottom - cyIcon) / 2,
 						Skin_LoadIcon(SKINICON_OTHER_EMPTYBLOB),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);
 				}
 				else {
-					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
+					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top + lps->rcItem.bottom - cyIcon) / 2,
 						Skin_LoadIcon(SKINICON_OTHER_SMALLDOT),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);
 				}
 				lps->rcItem.left += cxIcon;
 				lps->rcItem.left += 5;
 
-//				SelectObject(lps->hDC, dat->hfntTitle);
 				SetTextColor(lps->hDC, clLine1);
-				DrawText(lps->hDC, dat->title, -1, &lps->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS|DT_TOP);
+				DrawText(lps->hDC, dat->title, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_TOP);
 				lps->rcItem.left += cxIcon;
 
 				SetTextColor(lps->hDC, clLine2);
-				DrawText(lps->hDC, dat->path, -1, &lps->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_PATH_ELLIPSIS|DT_BOTTOM);
+				DrawText(lps->hDC, dat->path, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_PATH_ELLIPSIS | DT_BOTTOM);
 			}
 			else if (lps->CtlID == IDC_PREVIEW1) {
 				int idx = SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0);
@@ -337,7 +328,6 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 					if (idx >= 0) {
 						TSkinListItem *dat = (TSkinListItem *)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETITEMDATA, idx, 0);
 						CreatePreview(sd, dat->filename, lps);
-						//sttPreviewSkin(obj, dat->filename, lps);
 					}
 					else CreatePreview(sd, NULL, lps);
 				}
