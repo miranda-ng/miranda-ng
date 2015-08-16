@@ -199,19 +199,16 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2), how);
 			// effects drop down
 			{
-				DWORD dwItem, dwActiveItem = 0;
-
-				BOOL how = TRUE;
-
+				how = TRUE;
 				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT), how);
 				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT_TXT), how);
 
 				HWND hCtrl = GetDlgItem(hwnd, IDC_EFFECT);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("No effect")), -2);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Fade in/out")), -1);
-				dwActiveItem = (DWORD)PopupOptions.UseEffect;
+				DWORD dwActiveItem = (DWORD)PopupOptions.UseEffect;
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
-					dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
+					DWORD dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
 					if (PopupOptions.UseEffect && !mir_tstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;

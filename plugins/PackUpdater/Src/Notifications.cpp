@@ -87,7 +87,7 @@ static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }
 
-static VOID MakePopupAction(POPUPACTION &pa, INT id)
+static void MakePopupAction(POPUPACTION &pa, INT id)
 {
 	pa.cbSize = sizeof(POPUPACTION);
 	pa.flags = PAF_ENABLED;
@@ -105,7 +105,7 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
 	}
 }
 
-VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
+void show_popup(HWND hDlg, LPCTSTR pszTitle, LPCTSTR pszText, int iNumber, int ActType)
 {
 	LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 	if (!pmpd)
@@ -114,28 +114,28 @@ VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 	POPUPDATAT_V2 pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.lchContact = NULL; //(HANDLE)wParam;
-	pd.lchIcon = Skin_LoadIcon(PopupsList[Number].Icon);
-	mir_tstrncpy(pd.lptzText, Text, _countof(pd.lptzText));
-	mir_tstrncpy(pd.lptzContactName, Title, _countof(pd.lptzContactName));
+	pd.lchIcon = Skin_LoadIcon(PopupsList[iNumber].Icon);
+	mir_tstrncpy(pd.lptzText, pszText, _countof(pd.lptzText));
+	mir_tstrncpy(pd.lptzContactName, pszTitle, _countof(pd.lptzContactName));
 	switch (MyOptions.DefColors) {
 	case byCOLOR_WINDOWS:
 		pd.colorBack = GetSysColor(COLOR_BTNFACE);
 		pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		break;
 	case byCOLOR_OWN:
-		pd.colorBack = PopupsList[Number].colorBack;
-		pd.colorText = PopupsList[Number].colorText;
+		pd.colorBack = PopupsList[iNumber].colorBack;
+		pd.colorText = PopupsList[iNumber].colorText;
 		break;
 	case byCOLOR_POPUP:
 		pd.colorBack = pd.colorText = 0;
 		break;
 	}
-	if (Number == 0 && ActType != 0)
+	if (iNumber == 0 && ActType != 0)
 		pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	else
 		pd.PluginWindowProc = (WNDPROC)PopupDlgProc2;
 	pd.PluginData = pmpd;
-	if (Number == 0)
+	if (iNumber == 0)
 		pd.iSeconds = -1;
 	else
 		pd.iSeconds = MyOptions.Timeout;

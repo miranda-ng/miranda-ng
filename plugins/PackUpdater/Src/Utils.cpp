@@ -41,7 +41,7 @@ IconItem iconList[] =
 	{ LPGEN("'No' Button"), "btn_cancel", IDI_CANCEL }
 };
 
-VOID IcoLibInit()
+void IcoLibInit()
 {
 	Icon_Register(hInst, MODULEA, iconList, _countof(iconList));
 }
@@ -58,13 +58,13 @@ BOOL NetlibInit()
 	return hNetlibUser != NULL;
 }
 
-VOID NetlibUnInit()
+void NetlibUnInit()
 {
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = NULL;
 }
 
-VOID InitPopupList()
+void InitPopupList()
 {
 	int index = 0;
 	PopupsList[index].ID = index;
@@ -91,7 +91,7 @@ VOID InitPopupList()
 	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups3Tx", COLOR_TX_DEFAULT);
 }
 
-VOID LoadOptions()
+void LoadOptions()
 {
 	MyOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
 	MyOptions.LeftClickAction = db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
@@ -147,12 +147,12 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-VOID __stdcall ExitMe(void*)
+void __stdcall ExitMe(void*)
 {
 	CallService("CloseAction", 0, 0);
 }
 
-VOID __stdcall RestartMe(void*)
+void __stdcall RestartMe(void*)
 {
 	CallService(MS_SYSTEM_RESTART, 1, 0);
 }
@@ -172,7 +172,7 @@ BOOL IsPluginDisabled(TCHAR* filename)
 
 size_t getVer(const TCHAR* verStr)
 {
-	size_t v1 = 0, v2 = 0, v3 = 0, v4 = 0;
+	int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 	_stscanf(verStr, _T("%d.%d.%d.%d"), &v1, &v2, &v3, &v4);
 	return v1 * 10000000 + v2 * 100000 + v3 * 1000 + v4;
 }
@@ -410,12 +410,12 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 	return result;
 }
 
-VOID CALLBACK TimerAPCProc(LPVOID, DWORD, DWORD)
+void CALLBACK TimerAPCProc(LPVOID, DWORD, DWORD)
 {
 	DoCheck(TRUE);
 }
 
-VOID InitTimer()
+void InitTimer()
 {
 	CancelWaitableTimer(Timer);
 	if (UpdateOnPeriod) {

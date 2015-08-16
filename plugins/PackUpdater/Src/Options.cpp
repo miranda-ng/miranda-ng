@@ -292,7 +292,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_PREVIEW:
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Test");
-			for (int i = 0; i < POPUPS; i++) {
+			for (i = 0; i < POPUPS; i++) {
 				if ((BST_UNCHECKED == IsDlgButtonChecked(hdlg, (i + 40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i + 40071)))))
 					continue;
 				show_popup(0, Title, Text, i, 0);

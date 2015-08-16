@@ -102,12 +102,15 @@ int savehtml(char* outFile)
 void readFile(HWND hwnd)
 {
 	int lineNumber, fileLength = 0;
-	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH], fn[8];
+	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH];
 	int fileNumber = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
-	mir_snprintf(fn, "fn%d", fileNumber);
-	if (!db_get_static(NULL, MODNAME, fn, szFileName, _countof(szFileName))) {
-		msg(Translate("File couldn't be opened"), fn);
-		return;
+	{
+		char fn[10];
+		mir_snprintf(fn, "fn%d", fileNumber);
+		if (!db_get_static(NULL, MODNAME, fn, szFileName, _countof(szFileName))) {
+			msg(Translate("File couldn't be opened"), fn);
+			return;
+		}
 	}
 
 	if (!strncmp("http://", szFileName, mir_strlen("http://")) || !strncmp("https://", szFileName, mir_strlen("https://")))
@@ -141,11 +144,14 @@ void readFile(HWND hwnd)
 
 INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	char tmp[MAX_PATH], fn[MAX_PATH];
+
 	switch (msg) {
 	case WM_RELOADWINDOW:
-		char fn[MAX_PATH], string[MAX_STRING_LENGTH], tmp[MAX_STRING_LENGTH];
-		reloadFiles(GetDlgItem(hwnd, IDC_FILE_LIST));
 		{
+			char string[MAX_STRING_LENGTH];
+			reloadFiles(GetDlgItem(hwnd, IDC_FILE_LIST));
+
 			int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 			mir_snprintf(fn, "fn%d", i);
 			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_RESETCONTENT, 0, 0);
@@ -170,7 +176,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam)) {
 		case IDC_ADD_URL:
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_URL))) {
-				char text[512], url[512], fn[10] = "fn0", szFileName[MAX_PATH], temp[512];
+				char text[512], url[512], szFileName[MAX_PATH], temp[512];
 				int i, timer;
 				GetDlgItemTextA(hwnd, IDC_URL, text, _countof(text));
 				mir_strcpy(url, text);
@@ -202,9 +208,10 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (HIWORD(wParam) == EN_CHANGE)
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
+
 		case IDC_ADD_FILE:
 			int i, index;
-			char file[MAX_PATH], fn[6];
+			char file[MAX_PATH];
 			for (i = 0;; i++) {
 				mir_snprintf(fn, "fn%d", i);
 				if (!db_get_static(NULL, MODNAME, fn, file, _countof(file)))
@@ -222,9 +229,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		
 		case IDC_DEL_FILE:
-			char fn1[4], tmp[256];
+			index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0), i = (int)SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETITEMDATA, index, 0);
 			{
-				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0), i = (int)SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETITEMDATA, index, 0);
 				int count = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCOUNT, 0, 0) - 1;
 				if (index == count) {
 					mir_snprintf(fn, "fn%d", index);
@@ -239,6 +245,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				else {
 					mir_snprintf(fn, "fn%d", i);
+					char fn1[4];
 					while (db_get_static(NULL, MODNAME, fn, tmp, _countof(tmp))) {
 						mir_snprintf(fn1, "fn%d", i - 1);
 						db_set_s(NULL, MODNAME, fn1, tmp);
@@ -254,8 +261,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_FILE_LIST:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
-				char fn[20], tmp[MAX_PATH];
+				index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(index, fn, 10));
 				mir_snprintf(fn, "fn%d", index);
 				if (db_get_static(NULL, MODNAME, fn, tmp, _countof(tmp))) {
@@ -285,7 +291,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			case PSN_APPLY:
 				int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 				int timer;
-				char fn[MAX_PATH], string[1000];
+				char string[1000];
 				mir_snprintf(fn, "fn%d", i);
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_WWW_TIMER))) {
 					TCHAR text[5];

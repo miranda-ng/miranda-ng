@@ -69,7 +69,7 @@ struct DLGTEMPLATEEX
 //	Defines
 //=======================================================
 //General
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
 extern int LCStatus;
 extern IconItem icoList[];
 
