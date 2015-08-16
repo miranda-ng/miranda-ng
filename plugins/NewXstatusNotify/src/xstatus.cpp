@@ -472,7 +472,7 @@ void LogXstatusChange(MCONTACT hContact, char *szProto, int xstatusType, TCHAR *
 
 void AddXStatusEventThread(void *arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
@@ -503,7 +503,7 @@ void AddXStatusEventThread(void *arg)
 
 void AddSMsgEventThread(void *arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 
 	STATUSMSGINFO smi;
 	smi.hContact = hContact;

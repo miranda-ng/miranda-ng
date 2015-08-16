@@ -423,13 +423,12 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	}
 
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
-		WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		WORD wStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		TCHAR str[MAX_SECONDLINE] = { 0 };
-		if (opt.ShowStatus) {
+		if (opt.ShowStatus)
 			GetStatusText(hContact, newStatus, oldStatus, str);
-		}
 
-		if (opt.ReadAwayMsg && myStatus != ID_STATUS_INVISIBLE && StatusHasAwayMessage(szProto, newStatus))
+		if (opt.ReadAwayMsg && wStatus != ID_STATUS_INVISIBLE && StatusHasAwayMessage(szProto, newStatus))
 			db_set_ws(hContact, MODULE, "LastPopupText", str);
 
 		PLUGINDATA *pdp = (PLUGINDATA *)mir_calloc(sizeof(PLUGINDATA));
@@ -1036,12 +1035,11 @@ int ProtoAck(WPARAM, LPARAM lParam)
 
 	if (ack->type == ACKTYPE_STATUS) {
 		WORD newStatus = (WORD)ack->lParam;
-		WORD oldStatus = (WORD)ack->hProcess;
-		char *szProto = (char *)ack->szModule;
-
+		WORD oldStatus = (DWORD_PTR)ack->hProcess;
 		if (oldStatus == newStatus)
 			return 0;
 
+		char *szProto = (char *)ack->szModule;
 		if (newStatus == ID_STATUS_OFFLINE) {
 			//The protocol switched to offline. Disable the popups for this protocol
 			db_set_b(NULL, MODULE, szProto, 0);

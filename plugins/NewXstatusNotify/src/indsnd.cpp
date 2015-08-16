@@ -199,20 +199,20 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				PreviewSound(hList);
 			break;
 		case IDC_CHANGE:
-		{
-			int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
-			if (iSel != -1) {
-				TCHAR stzFilePath[MAX_PATH];
-				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
-					iSel = -1;
-					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-						ListView_SetItemText(hList, iSel, 1, stzFilePath);
+			{
+				int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
+				if (iSel != -1) {
+					TCHAR stzFilePath[MAX_PATH];
+					if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
+						iSel = -1;
+						while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
+							ListView_SetItemText(hList, iSel, 1, stzFilePath);
 
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
 				}
 			}
-		}
-		break;
+			break;
 		case IDC_DELETE:
 			if (ListView_GetSelectionMark(hList) != -1)
 				if (RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST)))
@@ -230,7 +230,6 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCHAR buff[MAX_PATH];
-			HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 
 			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM;
@@ -265,7 +264,6 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				TCHAR stzFilePath[MAX_PATH];
 				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
 					int iSel = -1;
-					HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
 						ListView_SetItemText(hList, iSel, 1, stzFilePath);
 

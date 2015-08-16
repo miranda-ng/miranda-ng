@@ -56,7 +56,7 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 
 void ShowLog(TCHAR *file)
 {
-	int res = (int)ShellExecute(NULL, _T("open"), file, NULL, NULL, SW_SHOW);
+	INT_PTR res = (INT_PTR)ShellExecute(NULL, _T("open"), file, NULL, NULL, SW_SHOW);
 	if (res <= 32) // error
 		MessageBox(0, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
 }
