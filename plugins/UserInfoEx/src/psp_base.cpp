@@ -43,10 +43,9 @@ INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// set propertysheet page's background white in aero mode
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORDLG:
-			{
-				if (IsAeroMode())
-					return (INT_PTR)GetStockBrush(WHITE_BRUSH);
-			} break;
+			if (IsAeroMode())
+				return (INT_PTR)GetStockBrush(WHITE_BRUSH);
+			break;
 
 		// Set text color of edit boxes according to the source of information they display.
 		case WM_CTLCOLOREDIT:

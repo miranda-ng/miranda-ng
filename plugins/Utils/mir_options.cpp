@@ -212,8 +212,8 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					PROTOACCOUNT **protos;
 					Proto_EnumAccounts(&count, &protos);
 
-					for (int i = 0; i < count; i++) {
-						PROTOACCOUNT *p = protos[i];
+					for (int k = 0; k < count; k++) {
+						PROTOACCOUNT *p = protos[k];
 						if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
 							continue;
 
@@ -265,14 +265,14 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
 				{
 					int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
-					int i;
-					for (i = 0; i < count; i++) {
-						TCHAR *id = (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)i, 0);
+					int k;
+					for (k = 0; k < count; k++) {
+						TCHAR *id = (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)k, 0);
 						if (mir_tstrcmp(id, tmp) == 0)
 							break;
 					}
-					if (i < count)
-						SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SETCURSEL, i, 0);
+					if (k < count)
+						SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SETCURSEL, k, 0);
 				}
 				break;
 			}
@@ -342,32 +342,28 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					case CONTROL_PROTOCOL_LIST:
 						{
 							LVITEM lvi = { 0 };
-							HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
-							int i;
-
 							lvi.mask = (UINT)LVIF_PARAM;
 
-							for (i = 0; i < ListView_GetItemCount(hwndProtocols); i++) {
-								lvi.iItem = i;
+							HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
+							int count = ListView_GetItemCount(hwndProtocols);
+							for (int k = 0; k < count; k++) {
+								lvi.iItem = k;
 								ListView_GetItem(hwndProtocols, &lvi);
 
 								char *setting = (char *)lvi.lParam;
-								db_set_b(NULL, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, i));
+								db_set_b(NULL, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, k));
 							}
 						}
 						break;
 
 					case CONTROL_TEXT:
-						{
-							TCHAR tmp[1024];
-							GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-							db_set_ts(NULL, module, ctrl->setting, tmp);
-						}
+						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
+						db_set_ts(NULL, module, ctrl->setting, tmp);
 						break;
 
 					case CONTROL_INT:
+						BOOL trans;
 						{
-							BOOL trans;
 							int val = GetDlgItemInt(hwndDlg, ctrl->nID, &trans, ctrl->min <= 0);
 							if (!trans)
 								val = ctrl->dwDefValue;
@@ -378,27 +374,24 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 							db_set_dw(NULL, module, ctrl->setting, val);
 						}
 						break;
+
 					case CONTROL_FILE:
+						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 						{
-							TCHAR tmp[1024];
-							GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 							TCHAR rel[1024];
 							PathToRelative(rel, 1024, tmp);
 							db_set_ts(NULL, module, ctrl->setting, rel);
 						}
 						break;
+
 					case CONTROL_COMBO_TEXT:
-						{
-							TCHAR tmp[1024];
-							GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-							db_set_ts(NULL, module, ctrl->setting, tmp);
-						}
+						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
+						db_set_ts(NULL, module, ctrl->setting, tmp);
 						break;
+
 					case CONTROL_COMBO_ITEMDATA:
-						{
-							int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
-							db_set_ts(NULL, module, ctrl->setting, (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
-						}
+						int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
+						db_set_ts(NULL, module, ctrl->setting, (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
 						break;
 					}
 
@@ -435,12 +428,11 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 			switch (ctrl->type) {
 			case CONTROL_PROTOCOL_LIST:
 				LVITEM lvi = { 0 };
-				HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
-				int i;
-
 				lvi.mask = (UINT)LVIF_PARAM;
 
-				for (i = 0; i < ListView_GetItemCount(hwndProtocols); i++) {
+				HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
+				int count = ListView_GetItemCount(hwndProtocols);
+				for (i = 0; i < count; i++) {
 					lvi.iItem = i;
 					ListView_GetItem(hwndProtocols, &lvi);
 					mir_free((char *)lvi.lParam);

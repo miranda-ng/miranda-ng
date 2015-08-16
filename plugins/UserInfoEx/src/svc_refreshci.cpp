@@ -233,8 +233,7 @@ class CDlgUpdProgress : public CUpdProgress
 	 **/
 	static INT_PTR CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	{
-		switch (uMsg)
-		{
+		switch (uMsg) {
 		case WM_INITDIALOG:
 			{
 				const ICONCTRL idIcon[] = {
@@ -253,19 +252,13 @@ class CDlgUpdProgress : public CUpdProgress
 			return TRUE;
 
 		case WM_CTLCOLORSTATIC:
-			{
-				switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) 
-				{
-					case STATIC_WHITERECT:
-					case IDC_INFO:
-						{
-							SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
-							return GetSysColor(COLOR_WINDOW);
-						}
-				}
+			switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) {
+			case STATIC_WHITERECT:
+			case IDC_INFO:
+				SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
+				return GetSysColor(COLOR_WINDOW);
 			}
 			return FALSE;
-
 		}
 		return CUpdProgress::DefWndProc((CUpdProgress *) GetUserData(hWnd), hWnd, uMsg, wParam, lParam);
 	}

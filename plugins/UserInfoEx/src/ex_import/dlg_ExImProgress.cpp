@@ -55,14 +55,11 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		case WM_CTLCOLORSTATIC:
 			switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) {
-				//case IDC_HEADERBAR
 				case STATIC_WHITERECT:
 				case TXT_SETTING:
 				case IDC_PROGRESS:
 				case TXT_CONTACT:
 				case IDC_PROGRESS2:
-				//case ICO_DLGLOGO:
-				//case IDC_INFO:
 					SetBkColor((HDC)wParam, RGB(255, 255, 255));
 					return (INT_PTR)GetStockObject(WHITE_BRUSH);
 			}

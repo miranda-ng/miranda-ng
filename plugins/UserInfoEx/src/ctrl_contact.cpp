@@ -569,7 +569,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 	case WM_CTLCOLORSTATIC:
 		if ((HWND)lParam == cbex->hEdit)
-				return (BOOL)GetSysColor(COLOR_WINDOW);
+			return (INT_PTR)GetSysColor(COLOR_WINDOW);
 		return FALSE;
 	/**
 		* name:	WM_SETICON

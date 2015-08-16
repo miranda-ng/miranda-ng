@@ -133,22 +133,21 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+
+		SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
+		for (int i = 1; i <= MAXCHAN; i++)
+			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
+
+		SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
+
+		SetDlgItemText(hwndDlg, IDC_CURRPATH, CurrBassPath);
+
+		hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
+		SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
+		SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
+		SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
 		{
 			SYSTEMTIME systime = { 0 };
-
-			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
-			for (int i = 1; i <= MAXCHAN; i++)
-				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
-
-			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
-
-			SetDlgItemText(hwndDlg, IDC_CURRPATH, CurrBassPath);
-
-			hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
-			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
-			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
-			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
-
 			systime.wHour = HIBYTE(TimeWrd1);
 			systime.wMinute = LOBYTE(TimeWrd1);
 			systime.wYear = 2000;
@@ -160,45 +159,45 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			systime.wMinute = LOBYTE(TimeWrd2);
 			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
 			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
+		}
 
-			CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
+
+		for (int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
+			if (StatMask & (1 << (i - IDC_CHECKBOX1)))
+				CheckDlgButton(hwndDlg, i, BST_CHECKED);
+
+		if (QuietTime) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), TRUE);
+			CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
+		}
+
+		if (hBass == NULL) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXCHANNEL), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_OUTDEVICE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
 
 			for (int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
-				if (StatMask & (1 << (i - IDC_CHECKBOX1)))
-					CheckDlgButton(hwndDlg, i, BST_CHECKED);
+				EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
+		}
+		else {
+			DWORD bassver = BASS_GetVersion();
+			mir_sntprintf(tmp, _countof(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+			SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
-			if (QuietTime) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), TRUE);
-				CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
-			}
+			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));
+			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 
-			if (hBass == NULL) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_MAXCHANNEL), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OUTDEVICE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
-
-				for (int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
-					EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
-			}
-			else {
-				DBVARIANT dbv = { 0 }; BASS_DEVICEINFO info; DWORD bassver = BASS_GetVersion();
-
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
-				SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
-
-				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
-				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));
-				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
-				db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
-				for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
-					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
-					if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
-						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
-				}
-				db_free(&dbv);
+			BASS_DEVICEINFO info;
+			ptrT tszDeviceName(db_get_tsa(NULL, ModuleName, OPT_OUTDEVICE));
+			for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
+				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
+				if (!mir_tstrcmp(tszDeviceName, _A2T(info.name)))
+					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
 			}
 		}
 		return TRUE;
@@ -408,7 +407,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if ((HWND)lParam == hwndSlider) {
 			HDC dc = (HDC)wParam;
 			SetBkColor(dc, clBack);
-			return (BOOL)hBkgBrush;
+			return (INT_PTR)hBkgBrush;
 		}
 		break;
 

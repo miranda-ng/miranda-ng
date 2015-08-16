@@ -222,11 +222,11 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		HWND hwndChild = (HWND)lParam;
 		UINT id = GetDlgCtrlID(hwndChild);
 
-		if (hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX)) {
+		if (hwndChild == GetDlgItem(hwndDlg, IDC_TITLEBOX))
 			::SetTextColor((HDC)wParam, RGB(60, 60, 150));
-		}
 		else if (hwndChild == GetDlgItem(hwndDlg, IDC_DESC))
 			::SetTextColor((HDC)wParam, RGB(160, 50, 50));
+		
 		if (id == IDC_TSLABEL_REOPENWARN)
 			break;
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));

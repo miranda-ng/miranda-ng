@@ -89,7 +89,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			SetBkMode((HDC)wParam, TRANSPARENT);
-			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
+			return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
 		return FALSE;
 
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			SetBkMode((HDC)wParam, TRANSPARENT);
-			return (BOOL)GetSysColorBrush(COLOR_HIGHLIGHT);
+			return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 		}
 		return FALSE;
 
