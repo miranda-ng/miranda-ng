@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-
 TCHAR *GetFilter()
 {
 	static TCHAR filter[MAX_PATH];
@@ -8,10 +7,8 @@ TCHAR *GetFilter()
 	return filter;
 }
 
-
 int Openfile(TCHAR *outputFile, const char *module, int maxlen)
 {
-	OPENFILENAME ofn = { 0 };
 	TCHAR filename[MAX_PATH];
 
 	if (module) {
@@ -31,11 +28,10 @@ int Openfile(TCHAR *outputFile, const char *module, int maxlen)
 			}
 			n++;
 		}
-	} 
-	else
-		filename[0] = 0;
+	}
+	else filename[0] = 0;
 
-
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = filename;
 	ofn.lpstrFilter = GetFilter();
@@ -118,13 +114,13 @@ char* NickFromHContact(MCONTACT hContact)
 		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			loaded = Proto_GetAccount(szProto) ? 1 : 0;
 
-		if (!szProto[0] || db_get_static(hContact, szProto, "Nick", name, _countof(name))) 
+		if (!szProto[0] || db_get_static(hContact, szProto, "Nick", name, _countof(name)))
 			mir_strncpy(name, "(UNKNOWN)", _countof(name));
-		
+
 		if (!loaded) {
 			if (szProto[0])
 				mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
-			else 
+			else
 				mir_strncpy(nick, name, _countof(nick));
 		}
 		else {
@@ -134,8 +130,7 @@ char* NickFromHContact(MCONTACT hContact)
 				GetValueA(hContact, szProto, uid, szUID, _countof(szUID));
 				mir_snprintf(nick, _countof(nick), "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
 			}
-			else 
-				mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
+			else mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
 		}
 	}
 
@@ -192,7 +187,7 @@ void exportDB(MCONTACT hContact, const char *module)
 				fprintf(file, "\n\n");
 
 			while (hContact) {
-				
+
 				if (ApplyProtoFilter(hContact)) {
 					hContact = db_find_next(hContact);
 					continue;
@@ -400,10 +395,10 @@ void importSettings(MCONTACT hContact, char *utf8)
 					for (char *pstr = end + 2; *pstr; pstr++) {
 						if (*pstr == '\\') {
 							switch (pstr[1]) {
-								case 'n': *pstr = '\n'; break;
-								case 't': *pstr = '\t'; break;
-								case 'r': *pstr = '\r'; break;
-								default:  *pstr = pstr[1]; break;
+							case 'n': *pstr = '\n'; break;
+							case 't': *pstr = '\t'; break;
+							case 'r': *pstr = '\r'; break;
+							default:  *pstr = pstr[1]; break;
 							}
 							memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 						}
@@ -430,10 +425,9 @@ void importSettings(MCONTACT hContact, char *utf8)
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 }
 
-
-INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwnd);
@@ -450,7 +444,6 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-
 		case IDCANCEL:
 			DestroyWindow(hwnd);
 			break;
@@ -471,16 +464,13 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	return 0;
 }
 
-
 void ImportSettingsMenuItem(MCONTACT hContact)
 {
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IMPORT), hwnd2mainWindow, ImportDlgProc, hContact);
 }
 
-
 int Openfile2Import(TCHAR *outputFiles, int maxlen)
 {
-
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFilter = GetFilter();
@@ -508,12 +498,12 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 
 	DWORD offset = 0;
 
-	mir_tstrcpy(szFileNames, _T(""));	
+	mir_tstrcpy(szFileNames, _T(""));
 
 	if (!FilePath)
 		offset = Openfile2Import(szFileNames, _countof(szFileNames));
 	else {
-	    _A2T tmp(FilePath);
+		_A2T tmp(FilePath);
 		if (GetFileAttributes(tmp) != INVALID_FILE_ATTRIBUTES)
 			mir_tstrncpy(szFileNames, tmp, _countof(szFileNames));
 	}

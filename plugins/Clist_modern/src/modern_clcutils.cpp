@@ -232,9 +232,9 @@ void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 }
 
 
-static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)  {
+	switch (uMsg)  {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
@@ -257,7 +257,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 		return 0;
 	}
-	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);
 }
 
 void cliBeginRenameSelection(HWND hwnd, ClcData *dat)

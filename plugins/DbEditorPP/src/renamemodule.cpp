@@ -23,9 +23,9 @@ int renameModule(MCONTACT hContact, const char *oldName, const char *newName)
 	return cnt;
 }
 
-INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwnd);
@@ -35,8 +35,8 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		mir_sntprintf(msg, TranslateT("Add module to \"%s\""), name);
 		SetWindowText(hwnd, msg);
+		break;
 
-		break;	
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
@@ -49,8 +49,7 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 						db_set_b(hContact, modulename, "(Default)", 0);
 				}
-				else 
-					db_set_b((MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), modulename, "(Default)", 0);
+				else db_set_b((MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), modulename, "(Default)", 0);
 
 				refreshTree(1);
 			}
@@ -62,7 +61,6 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	}
 	return 0;
 }
-
 
 void addModuleDlg(MCONTACT hContact)
 {

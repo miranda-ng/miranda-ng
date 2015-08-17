@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), NULL, TRUE);
 					else { //prepare text
 						TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-						SkinListData* sd = NULL;
+						SkinListData* sd2 = NULL;
 						HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
 						if (hti == 0) return 0;
 						{
@@ -270,17 +270,17 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							tvi.hItem = hti;
 							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE1), &tvi);
-							sd = (SkinListData*)(tvi.lParam);
+							sd2 = (SkinListData*)(tvi.lParam);
 						}
-						if (!sd) return 0;
+						if (!sd2) return 0;
 
-						if (sd->File && !_tcschr(sd->File, _T('%'))) {
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, _countof(Author), sd->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, _countof(URL), sd->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, _countof(Contact), sd->File);
-							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, _countof(Description), sd->File);
+						if (sd2->File && !_tcschr(sd2->File, _T('%'))) {
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, _countof(Author), sd2->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, _countof(URL), sd2->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, _countof(Contact), sd2->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, _countof(Description), sd2->File);
 							mir_sntprintf(text, TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
-								sd->Name, Description, Author, Contact, URL);
+								sd2->Name, Description, Author, Contact, URL);
 						}
 						else {
 							mir_sntprintf(text, TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
@@ -443,11 +443,11 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
 			if (!data)
 				return tmp;
 
-			TVITEM tvi = { 0 };
-			tvi.hItem = tmp;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-			TreeView_GetItem(hTree, &tvi);
-			SkinListData *sd = (SkinListData*)tvi.lParam;
+			TVITEM tvi2 = { 0 };
+			tvi2.hItem = tmp;
+			tvi2.mask = TVIF_HANDLE | TVIF_PARAM;
+			TreeView_GetItem(hTree, &tvi2);
+			SkinListData *sd = (SkinListData*)tvi2.lParam;
 			if (sd)
 				if (!mir_tstrcmpi(sd->File, ((SkinListData*)data)->File))
 					return tmp;

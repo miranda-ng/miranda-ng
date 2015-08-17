@@ -205,9 +205,6 @@ static int FillDialog(HWND hwnd)
 {
 	LVCOLUMN lvc = { 0 };
 	HWND hwndList = GetDlgItem(hwnd, IDC_PROTOCOLS);
-	LVITEMA item = { 0 };
-	int protoCount = 0, i, newItem;
-	PROTOACCOUNT **accs;
 
 	CLVM_EnumModes(FillModes);
 	ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_PROTOCOLS), LVS_EX_CHECKBOXES);
@@ -216,13 +213,17 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(GetDlgItem(hwnd, IDC_PROTOCOLS), 0, &lvc);
 
 	// fill protocols...
+	int protoCount;
+	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&protoCount, &accs);
-
-	item.mask = LVIF_TEXT;
-	item.iItem = 1000;
-	for (i = 0; i < protoCount; i++) {
-		item.pszText = accs[i]->szModuleName;
-		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+	{
+		LVITEMA item = { 0 };
+		item.mask = LVIF_TEXT;
+		item.iItem = 1000;
+		for (int i = 0; i < protoCount; i++) {
+			item.pszText = accs[i]->szModuleName;
+			SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+		}
 	}
 
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
@@ -242,12 +243,12 @@ static int FillDialog(HWND hwnd)
 		item.iItem = 1000;
 
 		item.pszText = TranslateT("Ungrouped contacts");
-		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
+		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 		TCHAR *szGroup;
 		for (int i = 1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
 			item.pszText = szGroup;
-			newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
+			SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 		}
 		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 		ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -257,12 +258,12 @@ static int FillDialog(HWND hwnd)
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT;
 		item.pszText = pcli->pfnGetStatusModeDescription(i, 0);
 		item.iItem = i - ID_STATUS_OFFLINE;
-		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
+		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 	ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -343,8 +344,8 @@ static int DeleteAutoModesCallback(char *szsetting)
 }
 
 
-void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options,
-	unsigned int stickies, unsigned int operators, unsigned int lmdat)
+void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD dwStatusMask, DWORD dwStickyStatusMask,
+	unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat)
 {
 	CLVM_EnumModes(DeleteAutoModesCallback);
 
@@ -354,9 +355,9 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
 	db_set_ws(NULL, CLVM_MODULE, szSetting, szGroupFilter);
 	mir_snprintf(szSetting, "%c%s_SM", 246, name);
-	db_set_dw(NULL, CLVM_MODULE, szSetting, statusMask);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, dwStatusMask);
 	mir_snprintf(szSetting, "%c%s_SSM", 246, name);
-	db_set_dw(NULL, CLVM_MODULE, szSetting, stickyStatusMask);
+	db_set_dw(NULL, CLVM_MODULE, szSetting, dwStickyStatusMask);
 	mir_snprintf(szSetting, "%c%s_OPT", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, options);
 	mir_snprintf(szSetting, "%c%s_LM", 246, name);
@@ -486,7 +487,6 @@ static void UpdateFilters()
 	char szSetting[128];
 	DWORD dwFlags;
 	DWORD opt;
-	TCHAR szTemp[100];
 
 	if (clvm_curItem == LB_ERR)
 		return;
@@ -500,10 +500,11 @@ static void UpdateFilters()
 
 	T2Utf szBuf(szTempBuf);
 	mir_strncpy(g_szModename, szBuf, _countof(g_szModename));
-
-	mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
-	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
-
+	{
+		TCHAR szTemp[100];
+		mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
+		SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
+	}
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
 	ptrA szPF(db_get_sa(NULL, CLVM_MODULE, szSetting));
 	if (szPF == NULL)

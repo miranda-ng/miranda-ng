@@ -1070,7 +1070,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			ClcGroup *group = NULL;
 			cliGetRowByIndex(dat, dat->iDragItem, NULL, &group);
 			if (group && group->parent) {
-				ClcContact *contSour;
 				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
 				if (!contSour->isSubcontact)
 					hNewCursor = LoadCursor(g_hMirApp, MAKEINTRESOURCE(IDC_DROPUSER));
@@ -1389,7 +1388,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			recalcScrollBar = 1;
 			needRepaint = TRUE;
@@ -1412,7 +1411,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) { // CLVM changed
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-				hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+				hSelItem = (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 			pcli->pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 			needRepaint = TRUE;
 			recalcScrollBar = 1;

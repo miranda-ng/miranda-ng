@@ -86,7 +86,7 @@ void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD heigh
 	else bm = new Bitmap(hbmp, NULL);
 
 	ImageAttributes attr;
-	ColorMatrix ClrMatrix =
+	ColorMatrix Matrix =
 	{
 		1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
@@ -94,7 +94,7 @@ void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD heigh
 		0.0f, 0.0f, 0.0f, ((float)alpha) / 255, 0.0f,
 		0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 	};
-	attr.SetColorMatrix(&ClrMatrix, ColorMatrixFlagsDefault, ColorAdjustTypeBitmap);
+	attr.SetColorMatrix(&Matrix, ColorMatrixFlagsDefault, ColorAdjustTypeBitmap);
 	g.SetInterpolationMode(InterpolationModeHighQualityBicubic);
 	RectF rect((float)x, (float)y, (float)width, (float)height);
 	g.DrawImage(bm, rect, (float)x1, (float)y1, (float)width1, (float)height1, UnitPixel, &attr, NULL, NULL);
@@ -116,7 +116,7 @@ BOOL GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWi
 	else bm = new Bitmap(hbmp, NULL);
 
 	ImageAttributes attr;
-	ColorMatrix ClrMatrix =
+	ColorMatrix Matrix =
 	{
 		1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
@@ -124,7 +124,7 @@ BOOL GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWi
 		0.0f, 0.0f, 0.0f, ((float)bf->SourceConstantAlpha) / 255, 0.0f,
 		0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 	};
-	attr.SetColorMatrix(&ClrMatrix, ColorMatrixFlagsDefault, ColorAdjustTypeBitmap);
+	attr.SetColorMatrix(&Matrix, ColorMatrixFlagsDefault, ColorAdjustTypeBitmap);
 
 	if (bf->BlendFlags & 128 && nWidthDest < nWidthSrc && nHeightDest < nHeightSrc) {
 		g.SetInterpolationMode(InterpolationModeHighQualityBicubic);

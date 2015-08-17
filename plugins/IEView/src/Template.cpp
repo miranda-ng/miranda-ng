@@ -77,43 +77,28 @@ const char* Token::getText()
 
 Template::Template(const char *name, const char *text)
 {
-	next = NULL;
-	tokens = NULL;
-	this->text = mir_strdup(text);
-	this->name = mir_strdup(name);
+	m_next = NULL;
+	m_tokens = NULL;
+	m_text = mir_strdup(text);
+	m_name = mir_strdup(name);
 	tokenize();
 }
 
 Template::~Template()
 {
-	mir_free(text);
-	mir_free(name);
-	Token *ptr = tokens, *ptr2;
-	tokens = NULL;
+	mir_free(m_text);
+	mir_free(m_name);
+	Token *ptr = m_tokens, *ptr2;
+	m_tokens = NULL;
 	for (; ptr != NULL; ptr = ptr2) {
 		ptr2 = ptr->getNext();
 		delete ptr;
 	}
 }
 
-const char* Template::getText()
-{
-	return text;
-}
-
-const char* Template::getName()
-{
-	return name;
-}
-
-Template* Template::getNext()
-{
-	return next;
-}
-
 bool Template::equals(const char *name)
 {
-	if (!mir_strcmp(name, this->name))
+	if (!mir_strcmp(m_name, name))
 		return true;
 
 	return false;
@@ -163,10 +148,10 @@ static TokenDef tokenNames[] = {
 
 void Template::tokenize()
 {
-	if (text == NULL)
+	if (m_text == NULL)
 		return;
 
-	char *str = mir_strdup(text);
+	char *str = mir_strdup(m_text);
 	Token *lastToken = NULL;
 	int lastTokenType = Token::PLAIN;
 	int lastTokenEscape = 0;
@@ -211,7 +196,7 @@ void Template::tokenize()
 			if (lastToken != NULL)
 				lastToken->setNext(newToken);
 			else
-				tokens = newToken;
+				m_tokens = newToken;
 
 			lastToken = newToken;
 			lastTokenStart = i;
@@ -223,27 +208,22 @@ void Template::tokenize()
 	mir_free(str);
 }
 
-Token* Template::getTokens()
-{
-	return tokens;
-}
-
-TemplateMap* TemplateMap::mapList = NULL;
+TemplateMap* TemplateMap::m_mapList = NULL;
 
 TemplateMap::TemplateMap(const char *name)
 {
-	entries = NULL;
-	next = NULL;
-	filename = NULL;
-	this->name = mir_strdup(name);
-	this->grouping = false;
-	this->rtl = false;
+	m_entries = NULL;
+	m_next = NULL;
+	m_filename = NULL;
+	m_name = mir_strdup(name);
+	m_grouping = false;
+	m_rtl = false;
 }
 
 TemplateMap::~TemplateMap()
 {
-	mir_free(name);
-	mir_free(filename);
+	mir_free(m_name);
+	mir_free(m_filename);
 
 	clear();
 }
@@ -251,8 +231,8 @@ TemplateMap::~TemplateMap()
 TemplateMap* TemplateMap::add(const char *id, const char *filename)
 {
 	TemplateMap *map;
-	for (map = mapList; map != NULL; map = map->next) {
-		if (!mir_strcmp(map->name, id)) {
+	for (map = m_mapList; map != NULL; map = map->m_next) {
+		if (!mir_strcmp(map->m_name, id)) {
 			map->clear();
 			map->setFilename(filename);
 			return map;
@@ -260,23 +240,23 @@ TemplateMap* TemplateMap::add(const char *id, const char *filename)
 	}
 	map = new TemplateMap(id);
 	map->setFilename(filename);
-	map->next = mapList;
-	mapList = map;
+	map->m_next = m_mapList;
+	m_mapList = map;
 	return map;
 }
 
 void TemplateMap::addTemplate(const char *name, const char *text)
 {
 	Template *tmplate = new Template(name, text);
-	tmplate->next = entries;
-	entries = tmplate;
+	tmplate->m_next = m_entries;
+	m_entries = tmplate;
 }
 
 void TemplateMap::clear()
 {
 	Template *ptr, *ptr2;
-	ptr = entries;
-	entries = NULL;
+	ptr = m_entries;
+	m_entries = NULL;
 	for (; ptr != NULL; ptr = ptr2) {
 		ptr2 = ptr->getNext();
 		delete ptr;
@@ -338,7 +318,6 @@ static TokenDef templateNames[] = {
 TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename, bool onlyInfo)
 {
 	char lastTemplate[1024], tmp2[1024];
-	unsigned int i = 0;
 	if (filename == NULL || mir_strlen(filename) == 0)
 		return NULL;
 
@@ -385,37 +364,27 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		"hMessageInGroupStart", "hMessageInGroupInner",
 		"MessageOutGroupStart", "MessageOutGroupInner",
 		"hMessageOutGroupStart", "hMessageOutGroupInner" };
-	tmap->grouping = true;
-	for (i = 0; i < _countof(groupTemplates); i++) {
+	tmap->m_grouping = true;
+	for (int i = 0; i < _countof(groupTemplates); i++) {
 		if (tmap->getTemplate(groupTemplates[i]) == NULL) {
-			tmap->grouping = false;
+			tmap->m_grouping = false;
 			break;
 		}
 	}
 	static const char *rtlTemplates[] = { "MessageInRTL", "MessageOutRTL" }; //"HTMLStartRTL",
-	tmap->rtl = true;
-	for (i = 0; i < _countof(rtlTemplates); i++) {
+	tmap->m_rtl = true;
+	for (int i = 0; i < _countof(rtlTemplates); i++) {
 		if (tmap->getTemplate(rtlTemplates[i]) == NULL) {
-			tmap->rtl = false;
+			tmap->m_rtl = false;
 			break;
 		}
 	}
 	return tmap;
 }
 
-bool TemplateMap::isGrouping()
-{
-	return grouping;
-}
-
-bool TemplateMap::isRTL()
-{
-	return rtl;
-}
-
 Template* TemplateMap::getTemplate(const char *text)
 {
-	for (Template *ptr = entries; ptr != NULL; ptr = ptr->getNext())
+	for (Template *ptr = m_entries; ptr != NULL; ptr = ptr->getNext())
 		if (ptr->equals(text))
 			return ptr;
 
@@ -424,8 +393,8 @@ Template* TemplateMap::getTemplate(const char *text)
 
 Template* TemplateMap::getTemplate(const char *proto, const char *text)
 {
-	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
-		if (!mir_strcmp(ptr->name, proto))
+	for (TemplateMap *ptr = m_mapList; ptr != NULL; ptr = ptr->m_next)
+		if (!mir_strcmp(ptr->m_name, proto))
 			return ptr->getTemplate(text);
 
 	return NULL;
@@ -433,22 +402,17 @@ Template* TemplateMap::getTemplate(const char *proto, const char *text)
 
 TemplateMap* TemplateMap::getTemplateMap(const char *proto)
 {
-	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
-		if (!mir_strcmp(ptr->name, proto))
+	for (TemplateMap *ptr = m_mapList; ptr != NULL; ptr = ptr->m_next)
+		if (!mir_strcmp(ptr->m_name, proto))
 			return ptr;
 
 	return NULL;
 }
 
-const char *TemplateMap::getFilename()
+void TemplateMap::setFilename(const char *filename)
 {
-	return filename;
-}
-
-void TemplateMap::setFilename(const char *_filename)
-{
-	replaceStr(filename, _filename);
-	Utils::convertPath(filename);
+	replaceStr(m_filename, filename);
+	Utils::convertPath(m_filename);
 }
 
 TemplateMap* TemplateMap::loadTemplates(const char *id, const char *filename, bool onlyInfo)
@@ -458,8 +422,8 @@ TemplateMap* TemplateMap::loadTemplates(const char *id, const char *filename, bo
 
 void TemplateMap::dropTemplates()
 {
-	for (TemplateMap *p = mapList, *p1; p != NULL; p = p1) {
-		p1 = p->next;
+	for (TemplateMap *p = m_mapList, *p1; p != NULL; p = p1) {
+		p1 = p->m_next;
 		delete p;
 	}
 }

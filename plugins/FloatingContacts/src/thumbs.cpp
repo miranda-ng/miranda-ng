@@ -299,12 +299,12 @@ void ThumbInfo::ResizeThumb()
 	}
 }
 
-void ThumbInfo::RefreshContactIcon(int iIcon)
+void ThumbInfo::RefreshContactIcon(int _iIcon)
 {
-	if (iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= iIcon)
-		this->iIcon = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
+	if (iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= _iIcon)
+		iIcon = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
 	else
-		this->iIcon = iIcon;
+		iIcon = _iIcon;
 
 	UpdateContent();
 }

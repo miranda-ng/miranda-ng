@@ -301,7 +301,7 @@ MCONTACT SaveSelection(ClcData *dat)
 	if (pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) == -1)
 		return NULL;
 
-	return (MCONTACT)pcli->pfnContactToHItem(selcontact);
+	return (DWORD_PTR)pcli->pfnContactToHItem(selcontact);
 }
 
 int RestoreSelection(ClcData *dat, MCONTACT hSelected)

@@ -491,7 +491,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = NULL, 
 	if (dat->bPlaying && IsWindowVisible(dat->hWindow)) {
 		POINT ptWnd = { 0 };
 		SIZE szWnd = { dat->rcPos.right - dat->rcPos.left, dat->rcPos.bottom - dat->rcPos.top };
-		BLENDFUNCTION bf = { AC_SRC_OVER, 0, g_CluiData.bCurrentAlpha*dat->bAlpha / 256, AC_SRC_ALPHA };
+		BLENDFUNCTION bf = { AC_SRC_OVER, 0, BYTE(g_CluiData.bCurrentAlpha * dat->bAlpha / 256), AC_SRC_ALPHA };
 		POINT pt_from = { 0, 0 };
 		HDC hDC_animation = GetDC(NULL);
 		HDC copyFromDC;

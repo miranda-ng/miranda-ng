@@ -115,7 +115,7 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM lParam);
 
-static MODERNEFFECT meCurrentEffect = { -1, { 0 }, 0, 0 };
+static MODERNEFFECT meCurrentEffect = { 0xFF, { 0 }, 0, 0 };
 
 //////////////////////////////////////////////////////////////////////////
 // Ini file parser
@@ -713,21 +713,21 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 
 				}
 				else {
-					BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+					BLENDFUNCTION bf2 = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 					int dy = (wr.top - rFill->top) % h;
 					if (dy >= 0) {
 						y = wr.top;
 						int ht = (y + h - dy <= wr.bottom) ? (h - dy) : (wr.bottom - wr.top);
-						ske_AlphaBlend(hDest, wr.left, y, w, ht, mem2dc, 0, dy, w, ht, bf);
+						ske_AlphaBlend(hDest, wr.left, y, w, ht, mem2dc, 0, dy, w, ht, bf2);
 					}
 
 					y = wr.top + h - dy;
 					while (y < wr.bottom - h) {
-						ske_AlphaBlend(hDest, wr.left, y, w, h, mem2dc, 0, 0, w, h, bf);
+						ske_AlphaBlend(hDest, wr.left, y, w, h, mem2dc, 0, 0, w, h, bf2);
 						y += h;
 					}
 					if (y <= wr.bottom)
-						ske_AlphaBlend(hDest, wr.left, y, w, wr.bottom - y, mem2dc, 0, 0, w, wr.bottom - y, bf);
+						ske_AlphaBlend(hDest, wr.left, y, w, wr.bottom - y, mem2dc, 0, 0, w, wr.bottom - y, bf2);
 				}
 			}
 		}
@@ -787,21 +787,20 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 
 				}
 				else {
-					BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+					BLENDFUNCTION bf2 = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 					int dx = (wr.left - rFill->left) % w;
 					if (dx >= 0) {
 						x = wr.left;
 						int wt = (x + w - dx <= wr.right) ? (w - dx) : (wr.right - wr.left);
-						ske_AlphaBlend(hDest, x, wr.top, wt, h, mem2dc, dx, 0, wt, h, bf);
+						ske_AlphaBlend(hDest, x, wr.top, wt, h, mem2dc, dx, 0, wt, h, bf2);
 					}
 					x = wr.left + w - dx;
 					while (x < wr.right - w) {
-						ske_AlphaBlend(hDest, x, wr.top, w, h, mem2dc, 0, 0, w, h, bf);
+						ske_AlphaBlend(hDest, x, wr.top, w, h, mem2dc, 0, 0, w, h, bf2);
 						x += w;
 					}
 					if (x <= wr.right)
-						ske_AlphaBlend(hDest, x, wr.top, wr.right - x, h, mem2dc, 0, 0, wr.right - x, h, bf);
-
+						ske_AlphaBlend(hDest, x, wr.top, wr.right - x, h, mem2dc, 0, 0, wr.right - x, h, bf2);
 				}
 			}
 		}
@@ -867,24 +866,22 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 
 				}
 				else {
-					BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+					BLENDFUNCTION bf2 = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 					int dx = (wr.left - rFill->left) % w;
 					if (dx >= 0) {
 						x = wr.left;
 						int wt = (x + w - dx <= wr.right) ? (w - dx) : (wr.right - wr.left);
-						ske_AlphaBlend(hDest, x, wr.top, wt, h, mem2dc, dx, 0, wt, h, bf);
+						ske_AlphaBlend(hDest, x, wr.top, wt, h, mem2dc, dx, 0, wt, h, bf2);
 					}
 					x = wr.left + w - dx;
 					while (x < wr.right - w) {
-						ske_AlphaBlend(hDest, x, wr.top, w, h, mem2dc, 0, 0, w, h, bf);
+						ske_AlphaBlend(hDest, x, wr.top, w, h, mem2dc, 0, 0, w, h, bf2);
 						x += w;
 					}
 					if (x <= wr.right)
-						ske_AlphaBlend(hDest, x, wr.top, wr.right - x, h, mem2dc, 0, 0, wr.right - x, h, bf);
-
+						ske_AlphaBlend(hDest, x, wr.top, wr.right - x, h, mem2dc, 0, 0, wr.right - x, h, bf2);
 				}
 			}
-
 		}
 		SelectObject(mem2dc, oldbmp);
 		DeleteObject(mem2bmp);
@@ -1251,7 +1248,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 
 			if ((k > 0 || k == -1) && mode == 2) {
 				{
-					BLENDFUNCTION bf = { AC_SRC_OVER, 0, /*(bm.bmBitsPixel == 32)?255:*/pobj->dwAlpha, (pobj->bmBitsPixel == 32 && pobj->Style != ST_BRUSH) ? AC_SRC_ALPHA : 0 };
+					BLENDFUNCTION bf = { AC_SRC_OVER, 0, pobj->dwAlpha, BYTE(pobj->bmBitsPixel == 32 && pobj->Style != ST_BRUSH ? AC_SRC_ALPHA : 0) };
 					if (mode == 2)
 						OffsetRect(&PRect, mode2offset.x, mode2offset.y);
 					ske_AlphaBlend(preq->hDC, PRect.left, PRect.top, PRect.right - PRect.left, PRect.bottom - PRect.top,
@@ -1604,12 +1601,12 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 		DWORD size = SizeofResource(g_hInst, hRSrc);
 		BYTE *mem = (BYTE*)LockResource(hRes);
 		if (size > sizeof(header)) {
-			tga_header_t * header = (tga_header_t *)mem;
-			if (header->pixel_depth == 32 && (header->image_type == 2 || header->image_type == 10)) {
-				colormap = (BYTE*)malloc(header->width*header->height * 4);
-				cx = header->width;
-				cy = header->height;
-				ske_ReadTGAImageData((void*)(mem + sizeof(tga_header_t) + header->id_lenght + header->cm_length), size - (sizeof(tga_header_t) + header->id_lenght + header->cm_length), colormap, cx*cy * 4, header->image_type == 10);
+			tga_header_t *tgahdr = (tga_header_t*)mem;
+			if (tgahdr->pixel_depth == 32 && (tgahdr->image_type == 2 || tgahdr->image_type == 10)) {
+				colormap = (BYTE*)malloc(tgahdr->width*tgahdr->height * 4);
+				cx = tgahdr->width;
+				cy = tgahdr->height;
+				ske_ReadTGAImageData((void*)(mem + sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), size - (sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), colormap, cx*cy * 4, tgahdr->image_type == 10);
 			}
 		}
 		FreeResource(hRes);
@@ -1773,8 +1770,8 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 			mir_free_and_nil(dt->szFileName);
 
 			if (dt->plTextList && dt->plTextList->realCount > 0) {
-				for (int i = 0; i < dt->plTextList->realCount; i++) {
-					GLYPHTEXT *gt = (GLYPHTEXT *)dt->plTextList->items[i];
+				for (int k = 0; k < dt->plTextList->realCount; k++) {
+					GLYPHTEXT *gt = (GLYPHTEXT *)dt->plTextList->items[k];
 					if (gt) {
 						mir_free(gt->stText);
 						mir_free(gt->stValueText);
