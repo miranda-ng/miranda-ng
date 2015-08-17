@@ -735,12 +735,10 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	if (!dat && msg != WM_INITDIALOG)
 		return FALSE;
 
-	RECT rc;
 	DWORD ws;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		HMENU hMenu;
 		{
 			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
@@ -790,7 +788,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (!savePerContact && db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
-			hMenu = GetSystemMenu(hwndDlg, FALSE);
+			HMENU hMenu = GetSystemMenu(hwndDlg, FALSE);
 			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
 			if (dat->bTopmost) {
 				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_CHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always on top"));
@@ -837,7 +835,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (IsIconic(hwndDlg))
 			MoveWindow(dat->hwndActive, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, TRUE);
 		else {
-			RECT rcStatus, rcChild, rcWindow;
+			RECT rcStatus, rcChild, rcWindow, rc;
 			SIZE size;
 			dat->bMinimized = 0;
 			GetClientRect(hwndDlg, &rc);
@@ -964,6 +962,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			else if (pNMHDR->hwndFrom == dat->hwndStatus) {
 				switch (pNMHDR->code) {
 				case NM_CLICK:
+					RECT rc;
 					NMMOUSE *nm = (NMMOUSE*)lParam;
 					SendMessage(dat->hwndStatus, SB_GETRECT, SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 2, (LPARAM)&rc);
 					if (nm->pt.x >= rc.left) {
@@ -1001,6 +1000,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			pt2 = pt;
 			ScreenToClient(dat->hwndStatus, &pt);
 
+			RECT rc;
 			SendMessage(dat->hwndStatus, SB_GETRECT, SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 2, (LPARAM)&rc);
 			if (pt.x >= rc.left) {
 				MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
@@ -1357,17 +1357,19 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
 
-	case DM_SWITCHTITLEBAR:
+	case DM_SWITCHTITLEBAR: {
 		dat->flags2 ^= SMF2_SHOWTITLEBAR;
 		ws = GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
 		if (dat->flags2 & SMF2_SHOWTITLEBAR)
 			ws |= WS_CAPTION;
 
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
+		RECT rc;
 		GetWindowRect(hwndDlg, &rc);
 		SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 			SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 		RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
+	}
 		break;
 
 	case DM_CASCADENEWWINDOW:
