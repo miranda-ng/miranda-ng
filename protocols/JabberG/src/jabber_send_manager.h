@@ -93,7 +93,7 @@ protected:
 	OBJLIST<CJabberSendPermanentInfo> m_arHandlers;
 
 public:
-	CJabberSendManager(CJabberProto* proto);
+	CJabberSendManager(CJabberProto *proto);
 	~CJabberSendManager();
 
 	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = NULL, SEND_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);

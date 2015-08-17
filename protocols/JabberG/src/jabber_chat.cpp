@@ -355,7 +355,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 
 	if (m_bJabberOnline) {
 		TCHAR szPresenceTo[JABBER_MAX_JID_LEN];
-		mir_sntprintf(szPresenceTo, _countof(szPresenceTo), _T("%s/%s"), item->jid, item->nick);
+		mir_sntprintf(szPresenceTo, _T("%s/%s"), item->jid, item->nick);
 
 		m_ThreadInfo->send(
 			XmlNode(_T("presence")) << XATTR(_T("to"), szPresenceTo) << XATTR(_T("type"), _T("unavailable"))
@@ -588,19 +588,19 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 				sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
 			for (i = 0; i < _countof(sttAffiliationItems); i++) {
-				gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
-				item->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
-				item->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
+				gc_item *pItem = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
+				pItem->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
+				pItem->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
 			for (i = 0; i < _countof(sttRoleItems); i++) {
-				gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
-				item->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
-				item->bDisabled = !(force || sttRoleItems[i].check(me, him));
+				gc_item *pItem = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
+				pItem->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
+				pItem->bDisabled = !(force || sttRoleItems[i].check(me, him));
 			}
 
 			if (him->m_tszRealJid && *him->m_tszRealJid) {
-				mir_sntprintf(sttRJidBuf, _countof(sttRJidBuf), TranslateT("Real &JID: %s"), him->m_tszRealJid);
+				mir_sntprintf(sttRJidBuf, TranslateT("Real &JID: %s"), him->m_tszRealJid);
 				if (TCHAR *tmp = _tcschr(sttRJidBuf, _T('/'))) *tmp = 0;
 
 				if (MCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
@@ -977,7 +977,6 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		WindowFreeIcon(hwndDlg);
 		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
 		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
-		TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		if (dat) {
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			mir_free(dat);
@@ -1155,11 +1154,12 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			int idx = gch->dwData - IDM_LINK0;
 			LISTFOREACH(i, ppro, LIST_CHATROOM)
 			{
-				if (JABBER_LIST_ITEM *item = ppro->ListGetItemPtrFromIndex(i))
+				if (JABBER_LIST_ITEM *pItem = ppro->ListGetItemPtrFromIndex(i)) {
 					if (!idx--) {
-						szInviteTo = item->jid;
+						szInviteTo = pItem->jid;
 						break;
 					}
+				}
 			}
 
 			if (!szInviteTo) break;
@@ -1357,7 +1357,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, const TCHAR *nick)
 {
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
-	mir_sntprintf(szFullJid, _countof(szFullJid), _T("%s/%s"), item->jid, nick);
+	mir_sntprintf(szFullJid, _T("%s/%s"), item->jid, nick);
 	MCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
 	if (hContact != NULL) {
 		pResourceStatus r(item->findResource(nick));

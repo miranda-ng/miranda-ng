@@ -104,7 +104,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	TimeZone_PrintDateTime(UTC_TIME_HANDLE, _T("I"), stime, _countof(stime), 0);
 
 	int nGmtOffset = GetGMTOffset();
-	mir_sntprintf(szTZ, _countof(szTZ), _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
+	mir_sntprintf(szTZ, _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
 
 	XmlNodeIq iq(_T("result"), pInfo);
 	HXML timeNode = iq << XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME);
@@ -125,7 +125,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	_tzset();
 	time(&ltime);
 	gmt = gmtime(&ltime);
-	mir_sntprintf(stime, _countof(stime), _T("%.4i%.2i%.2iT%.2i:%.2i:%.2i"),
+	mir_sntprintf(stime, _T("%.4i%.2i%.2iT%.2i:%.2i:%.2i"),
 		gmt->tm_year + 1900, gmt->tm_mon + 1,
 		gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 	dtime = _tctime(&ltime);

@@ -153,7 +153,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				TCHAR szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
 				if (item->arResources.getCount() != NULL && !isXVcard)
 					if (TCHAR *bestResName = ListGetBestClientResourceNamePtr(tszJid))
-						mir_sntprintf(szJid, _countof(szJid), _T("%s/%s"), tszJid, bestResName);
+						mir_sntprintf(szJid, _T("%s/%s"), tszJid, bestResName);
 
 				if (szJid[0] == 0)
 					_tcsncpy_s(szJid, tszJid, _TRUNCATE);
@@ -533,7 +533,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	TCHAR tszJid[JABBER_MAX_JID_LEN];
 	TCHAR *szResource = ListGetBestClientResourceNamePtr(jid);
 	if (szResource)
-		mir_sntprintf(tszJid, _countof(tszJid), _T("%s/%s"), jid, szResource);
+		mir_sntprintf(tszJid, _T("%s/%s"), jid, szResource);
 	else
 		_tcsncpy_s(tszJid, jid, _TRUNCATE);
 

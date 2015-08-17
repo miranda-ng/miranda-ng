@@ -991,16 +991,16 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		TCHAR szTypeValue[ 512 ];
 		switch (pRule->GetType()) {
 		case Jid:
-			mir_sntprintf(szTypeValue, _countof(szTypeValue), _T("If Jabber ID is '%s' then"), pRule->GetValue());
+			mir_sntprintf(szTypeValue, _T("If Jabber ID is '%s' then"), pRule->GetValue());
 			break;
 		case Group:
-			mir_sntprintf(szTypeValue, _countof(szTypeValue), _T("If group is '%s' then"), pRule->GetValue());
+			mir_sntprintf(szTypeValue, _T("If group is '%s' then"), pRule->GetValue());
 			break;
 		case Subscription:
-			mir_sntprintf(szTypeValue, _countof(szTypeValue), _T("If subscription is '%s' then"), pRule->GetValue());
+			mir_sntprintf(szTypeValue, _T("If subscription is '%s' then"), pRule->GetValue());
 			break;
 		case Else:
-			mir_sntprintf(szTypeValue, _countof(szTypeValue), _T("Else"));
+			mir_sntprintf(szTypeValue, _T("Else"));
 			break;
 		}
 
@@ -1033,7 +1033,7 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		}
 
 		TCHAR szListItem[ 512 ];
-		mir_sntprintf(szListItem, _countof(szListItem), _T("%s %s %s"), szTypeValue, pRule->GetAction() ? _T("allow") : _T("deny"), szPackets);
+		mir_sntprintf(szListItem, _T("%s %s %s"), szTypeValue, pRule->GetAction() ? _T("allow") : _T("deny"), szPackets);
 
 		LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)szListItem);
 		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETITEMDATA, nItemId, (LPARAM)pRule);

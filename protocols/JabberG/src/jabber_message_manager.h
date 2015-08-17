@@ -122,7 +122,7 @@ protected:
 	OBJLIST<CJabberMessagePermanentInfo> m_arHandlers;
 
 public:
-	CJabberMessageManager(CJabberProto* proto);
+	CJabberMessageManager(CJabberProto *proto);
 	~CJabberMessageManager();
 
 	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const TCHAR *szXmlns, BOOL bAllowPartialNs, const TCHAR *szTag, void *pUserData = NULL, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);

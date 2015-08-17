@@ -117,14 +117,14 @@ static void sttFillJidList(HWND hwndDlg)
 						if (jidListInfo->type == MUC_BANLIST) {
 							LPCTSTR reason = XmlGetText(XmlGetChild(itemNode , _T("reason")));
 							if (reason != NULL) {
-								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , jid, reason);
+								mir_sntprintf(tszItemText, _T("%s (%s)") , jid, reason);
 								lvi.pszText = tszItemText;
 							}
 						}
 						else if (jidListInfo->type == MUC_VOICELIST || jidListInfo->type == MUC_MODERATORLIST) {
 							LPCTSTR nick = XmlGetAttrValue(itemNode, _T("nick"));
 							if (nick != NULL) {
-								mir_sntprintf(tszItemText, _countof(tszItemText), _T("%s (%s)") , nick, jid);
+								mir_sntprintf(tszItemText, _T("%s (%s)") , nick, jid);
 								lvi.pszText = tszItemText;
 							}
 						}
@@ -248,7 +248,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						HXML queryNode = XmlGetChild(iqNode , _T("query"));
 						if (queryNode != NULL) {
 							TCHAR *localFrom = mir_tstrdup(from);
-							mir_sntprintf(title, _countof(title), TranslateT("%s, %d items (%s)"),
+							mir_sntprintf(title, TranslateT("%s, %d items (%s)"),
 								(dat->type == MUC_VOICELIST) ? TranslateT("Voice List") :
 								(dat->type == MUC_MEMBERLIST) ? TranslateT("Member List") :
 								(dat->type == MUC_MODERATORLIST) ? TranslateT("Moderator List") :
@@ -347,7 +347,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						//delete
 						TCHAR msgText[128];
 
-						mir_sntprintf(msgText, _countof(msgText), TranslateT("Removing %s?"), text);
+						mir_sntprintf(msgText, TranslateT("Removing %s?"), text);
 						if (MessageBox(hwndDlg, msgText, dat->type2str(), MB_YESNO|MB_SETFOREGROUND) == IDYES) {
 							dat->ppro->DeleteMucListItem(dat, (TCHAR*)lvi.lParam);
 							mir_free((void *)lvi.lParam);

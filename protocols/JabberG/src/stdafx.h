@@ -428,7 +428,7 @@ typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, 
 
 struct filetransfer
 {
-	filetransfer(CJabberProto* proto);
+	filetransfer(CJabberProto *proto);
 	~filetransfer();
 
 	void close();
@@ -595,7 +595,7 @@ extern struct CountryListEntry* g_countries;
 extern FI_INTERFACE *FIP;
 
 extern HANDLE hExtListInit, hDiscoInfoResult;
-extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
+extern bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /*******************************************************************
  * Function declarations
@@ -686,7 +686,7 @@ struct CJabberAdhocStartupParams
 	TCHAR *m_szNode;
 	CJabberProto *m_pProto;
 
-	CJabberAdhocStartupParams(CJabberProto* proto, TCHAR* szJid, TCHAR* szNode = NULL)
+	CJabberAdhocStartupParams(CJabberProto *proto, TCHAR* szJid, TCHAR* szNode = NULL)
 	{
 		m_pProto = proto;
 		m_szJid = mir_tstrdup(szJid);
@@ -701,7 +701,7 @@ struct CJabberAdhocStartupParams
 
 struct JabberAdHocData
 {
-	CJabberProto* proto;
+	CJabberProto *proto;
 	int    CurrentHeight;
 	int    curPos;
 	int    frameHeight;
