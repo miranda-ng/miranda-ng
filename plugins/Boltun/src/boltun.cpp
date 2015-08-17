@@ -24,7 +24,6 @@ int hLangpack;
 
 TalkBot* bot = NULL;
 
-
 #define MAX_WARN_TEXT    1024
 #define MAX_MIND_FILE    1024
 
@@ -350,11 +349,12 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		UpdateUnderstandAlwaysCheckbox(hwndDlg);
 		loading = false;
 		return TRUE;
+	
 	case WM_COMMAND:
 		param = LOWORD(wParam);
 		if (param == IDC_ENGINE_SILENT && HIWORD(wParam) == BN_CLICKED)
 			UpdateUnderstandAlwaysCheckbox(hwndDlg);
-		OPENFILENAME ofn;
+
 		switch (param) {
 		case IDC_BTNPATH:
 			{
@@ -365,34 +365,28 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				if (fullname != Config.MindFileName)
 					delete[] fullname;
 
-				memset(&ofn, 0, sizeof(ofn));
+				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = GetParent(hwndDlg);
 
-				TCHAR* mind = TranslateTS(MIND_FILE_DESC);
-				TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
-				size_t l = mir_tstrlen(MIND_DIALOG_FILTER)
-					+ mir_tstrlen(mind) + mir_tstrlen(anyfile);
-				TCHAR *filt = new TCHAR[l];
-				mir_sntprintf(filt, l, MIND_DIALOG_FILTER, mind, anyfile);
-				for (size_t i = 0; i < l; i++)
-					if (filt[i] == '\1')
-						filt[i] = '\0';
-				ofn.lpstrFilter = filt;
+				TCHAR *mind = TranslateTS(MIND_FILE_DESC);
+				TCHAR *anyfile = TranslateTS(ALL_FILES_DESC);
+				CMString filt(FORMAT, MIND_DIALOG_FILTER, mind, anyfile);
+				filt.Replace('\1', '\0');
 
+				ofn.lpstrFilter = filt;
 				ofn.lpstrFile = filename;
 				ofn.nMaxFile = fileNameSize;
 				ofn.Flags = OFN_FILEMUSTEXIST;
 				ofn.lpstrInitialDir = tszPath;
 				if (!GetOpenFileName(&ofn)) {
 					delete[] filename;
-					delete[] filt;
 					break;
 				}
-				delete[] filt;
-				TCHAR* origf = filename;
-				TCHAR* f = filename;
-				TCHAR* p = tszPath;
+
+				TCHAR *origf = filename;
+				TCHAR *f = filename;
+				TCHAR *p = tszPath;
 				while (*p && *f) {
 					TCHAR p1 = (TCHAR)CharLower((TCHAR*)(long)*p++);
 					TCHAR f1 = (TCHAR)CharLower((TCHAR*)(long)*f++);
@@ -405,6 +399,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				SetDlgItemText(hwndDlg, IDC_MINDFILE, filename);
 				delete[] origf;
 			}
+
 		case IDC_BTNRELOAD:
 			{
 				const TCHAR *c = Config.MindFileName;
@@ -415,8 +410,9 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					mir_sntprintf(message, _countof(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 					MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
-				break;
 			}
+			break;
+
 		default:
 			if (!loading) {
 				if (param == IDC_MINDFILE/* && HIWORD(wParam) != EN_CHANGE*/)
@@ -425,27 +421,23 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			}
 		}
 		break;
+
 	case WM_NOTIFY:
-		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code) {
-			case PSN_APPLY:
-			case PSN_KILLACTIVE:
-				{
-					Config.EngineStaySilent = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED ? TRUE : FALSE;
-					Config.EngineMakeLowerCase = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_LOWERCASE) == BST_CHECKED ? TRUE : FALSE;
-					Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
-					UpdateEngine();
-					TCHAR c[MAX_MIND_FILE];
-					bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, _countof(c));
-					if (bTranslated)
-						Config.MindFileName = c;
-					else
-						Config.MindFileName = DEFAULT_MIND_FILE;
-				}
-				return TRUE;
-			}
-			break;
+		NMHDR *nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code) {
+		case PSN_APPLY:
+		case PSN_KILLACTIVE:
+			Config.EngineStaySilent = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED ? TRUE : FALSE;
+			Config.EngineMakeLowerCase = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_LOWERCASE) == BST_CHECKED ? TRUE : FALSE;
+			Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
+			UpdateEngine();
+			TCHAR c[MAX_MIND_FILE];
+			bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, _countof(c));
+			if (bTranslated)
+				Config.MindFileName = c;
+			else
+				Config.MindFileName = DEFAULT_MIND_FILE;
+			return TRUE;
 		}
 		break;
 	}

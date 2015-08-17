@@ -243,9 +243,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {
 				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
-					TCHAR buf[40];
-					mir_sntprintf(buf, _T("[%d]"), nEmails);
-					p->szProtoEMailCount = mir_tstrdup(buf);
+					TCHAR str[40];
+					mir_sntprintf(str, _T("[%d]"), nEmails);
+					p->szProtoEMailCount = mir_tstrdup(str);
 				}
 			}
 
@@ -364,25 +364,25 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 			}
 
-			SIZE textSize;
+			SIZE txtSize;
 			if (p.bShowProtoName) {
-				GetTextExtentPoint32(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &textSize);
-				w += textSize.cx + 3 + spaceWidth;
+				GetTextExtentPoint32(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &txtSize);
+				w += txtSize.cx + 3 + spaceWidth;
 			}
 
 			if (p.bShowProtoEmails && p.szProtoEMailCount) {
-				GetTextExtentPoint32(hDC, p.szProtoEMailCount, (int)mir_tstrlen(p.szProtoEMailCount), &textSize);
-				w += textSize.cx + 3 + spaceWidth;
+				GetTextExtentPoint32(hDC, p.szProtoEMailCount, (int)mir_tstrlen(p.szProtoEMailCount), &txtSize);
+				w += txtSize.cx + 3 + spaceWidth;
 			}
 
 			if (p.bShowStatusName) {
-				GetTextExtentPoint32(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &textSize);
-				w += textSize.cx + 3 + spaceWidth;
+				GetTextExtentPoint32(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &txtSize);
+				w += txtSize.cx + 3 + spaceWidth;
 			}
 
 			if ((p.xStatusMode & 8) && p.tszProtoXStatus) {
-				GetTextExtentPoint32(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &textSize);
-				w += textSize.cx + 3 + spaceWidth;
+				GetTextExtentPoint32(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &txtSize);
+				w += txtSize.cx + 3 + spaceWidth;
 			}
 
 			if (p.bShowProtoName || (p.bShowProtoEmails && p.szProtoEMailCount) || p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus))
@@ -527,9 +527,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				ske_DrawText(hDC, p.tszProtoHumanName, cbLen, &rt, 0);
 
 				if ((p.bShowProtoEmails && p.szProtoEMailCount != NULL) || p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					SIZE textSize;
-					GetTextExtentPoint32(hDC, p.tszProtoHumanName, cbLen, &textSize);
-					x += textSize.cx + 3;
+					SIZE txtSize;
+					GetTextExtentPoint32(hDC, p.tszProtoHumanName, cbLen, &txtSize);
+					x += txtSize.cx + 3;
 				}
 			}
 
@@ -540,9 +540,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				rt.top = textY;
 				ske_DrawText(hDC, p.szProtoEMailCount, cbLen, &rt, 0);
 				if (p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					SIZE textSize;
-					GetTextExtentPoint32(hDC, p.szProtoEMailCount, cbLen, &textSize);
-					x += textSize.cx + 3;
+					SIZE txtSize;
+					GetTextExtentPoint32(hDC, p.szProtoEMailCount, cbLen, &txtSize);
+					x += txtSize.cx + 3;
 				}
 			}
 
@@ -553,9 +553,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				rt.top = textY;
 				ske_DrawText(hDC, p.tszProtoStatusText, cbLen, &rt, 0);
 				if (((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					SIZE textSize;
-					GetTextExtentPoint32(hDC, p.tszProtoStatusText, cbLen, &textSize);
-					x += textSize.cx + 3;
+					SIZE txtSize;
+					GetTextExtentPoint32(hDC, p.tszProtoStatusText, cbLen, &txtSize);
+					x += txtSize.cx + 3;
 				}
 			}
 
@@ -804,16 +804,16 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 						bool first = true;
 						for (int pos = 0; pos < protoCount; pos++) {
-							int i = pcli->pfnGetAccountIndexByPos(pos);
-							if (i < 0 || i >= protoCount)
+							int k = pcli->pfnGetAccountIndexByPos(pos);
+							if (k < 0 || k >= protoCount)
 								continue;
 
 							char protoF[sizeof(g_CluiData.protoFilter)];
-							mir_snprintf(protoF, _countof(protoF), "%s|", accs[i]->szModuleName);
+							mir_snprintf(protoF, _countof(protoF), "%s|", accs[k]->szModuleName);
 							if (strstri(g_CluiData.protoFilter, protoF)) {
 								if (!first)
 									mir_strncat(filterName, "; ", _countof(filterName) - mir_strlen(filterName));
-								mir_strncat(filterName, T2Utf(accs[i]->tszAccountName), _countof(filterName) - mir_strlen(filterName));
+								mir_strncat(filterName, T2Utf(accs[k]->tszAccountName), _countof(filterName) - mir_strlen(filterName));
 								first = false;
 							}
 						}

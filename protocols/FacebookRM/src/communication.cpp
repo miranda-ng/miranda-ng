@@ -1319,65 +1319,57 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		}
 	}
 
-	switch (resp.error_number)
-	{
+	switch (resp.error_number) {
 	case 0: 
-	{
 		// Everything is OK
-	} break;
+		break;
 
-	//case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
+	// case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
 
 	case 1356003: // Contact is offline
-	{
 		parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		return SEND_MESSAGE_ERROR;
-	}
 
 	case 1356026: // Contact has alternative client
-	{
 		client_notify(TranslateT("Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!"));
 		return SEND_MESSAGE_ERROR;
-	}
 
 	case 1357007: // Security check (captcha) is required
-	{
-		std::string imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
-		std::string captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
+		{
+			std::string imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
+			std::string captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
 
-		parent->debugLogA("    Got imageUrl (first): %s", imageUrl.c_str());
-		parent->debugLogA("    Got captchaPersistData (first): %s", captchaPersistData.c_str());
+			parent->debugLogA("    Got imageUrl (first): %s", imageUrl.c_str());
+			parent->debugLogA("    Got captchaPersistData (first): %s", captchaPersistData.c_str());
 
-		std::string data = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
-		data += "&__dyn=&__req=&__rev=&__user=" + this->self_.user_id;
-		http::response resp = flap(REQUEST_CAPTCHA_REFRESH, NULL, &data);
+			std::string capStr = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
+			capStr += "&__dyn=&__req=&__rev=&__user=" + this->self_.user_id;
+			http::response capResp = flap(REQUEST_CAPTCHA_REFRESH, NULL, &capStr);
 
-		if (resp.code == HTTP_CODE_OK) {
-			imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
-			captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
+			if (capResp.code == HTTP_CODE_OK) {
+				imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&capResp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
+				captchaPersistData = utils::text::source_get_value(&capResp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
 
-			parent->debugLogA("    Got imageUrl (second): %s", imageUrl.c_str());
-			parent->debugLogA("    Got captchaPersistData (second): %s", captchaPersistData.c_str());
+				parent->debugLogA("    Got imageUrl (second): %s", imageUrl.c_str());
+				parent->debugLogA("    Got captchaPersistData (second): %s", captchaPersistData.c_str());
 
-			std::string result;
-			if (!parent->RunCaptchaForm(imageUrl, result)) {
-				*error_text = Translate("User cancel captcha challenge.");
-				return SEND_MESSAGE_CANCEL;
+				std::string result;
+				if (!parent->RunCaptchaForm(imageUrl, result)) {
+					*error_text = Translate("User cancel captcha challenge.");
+					return SEND_MESSAGE_CANCEL;
+				}
+
+				return send_message(seqid, hContact, message_text, error_text, captchaPersistData, result);
 			}
-
-			return send_message(seqid, hContact, message_text, error_text, captchaPersistData, result);
 		}
-
 		return SEND_MESSAGE_CANCEL; // Cancel because we failed to load captcha image so we can't continue only with error
-	}
 
 	default: // Other error
 		parent->debugLogA("!!! Send message error #%d: %s", resp.error_number, resp.error_text.c_str());
 		return SEND_MESSAGE_ERROR;
 	}
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
 		handle_success("send_message");
 		return SEND_MESSAGE_OK;
@@ -1451,10 +1443,10 @@ bool facebook_client::post_status(status_data *status)
 	http::response resp = flap(REQUEST_POST_STATUS, &data);
 
 	if (status->isPage) {
-		std::string data = "fb_dtsg=" + this->dtsg_;
-		data += "&user_id=" + this->self_.user_id;
-		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
-		flap(REQUEST_IDENTITY_SWITCH, &data);
+		std::string query = "fb_dtsg=" + this->dtsg_;
+		query += "&user_id=" + this->self_.user_id;
+		query += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
+		flap(REQUEST_IDENTITY_SWITCH, &query);
 	}
 
 	if (resp.isValid()) {

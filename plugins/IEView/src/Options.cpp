@@ -1083,9 +1083,9 @@ void ProtocolSettings::copyFromTemp()
 	setHistoryEnable(isHistoryEnableTemp());
 }
 
-void ProtocolSettings::setNext(ProtocolSettings *next)
+void ProtocolSettings::setNext(ProtocolSettings *_next)
 {
-	this->next = next;
+	next = _next;
 }
 
 const char *ProtocolSettings::getProtocolName()

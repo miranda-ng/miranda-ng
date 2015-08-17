@@ -26,6 +26,7 @@
 #include <fstream>
 #include <assert.h>
 
+#include <algorithm>
 #include <string>
 #include <list>
 

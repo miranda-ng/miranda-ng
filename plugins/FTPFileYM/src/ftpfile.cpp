@@ -22,7 +22,6 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
-HANDLE hModulesLoaded, hEventPreShutdown, hOptionsInit, hPrebuildContactMenu, hTabsrmmButtonPressed;
 HANDLE hServiceUpload, hServiceShowManager, hServiceContactMenu, hServiceMainMenu;
 HGENMENU hMenu, hMainMenu, hSubMenu[ServerList::FTP_COUNT], hMainSubMenu[ServerList::FTP_COUNT];
 
@@ -38,9 +37,9 @@ void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
 int UploadFile(MCONTACT hContact, int iFtpNum, UploadJob::EMode mode);
 
-static PLUGININFOEX pluginInfoEx = 
+static PLUGININFOEX pluginInfoEx =
 {
-	sizeof(PLUGININFOEX), 
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -56,7 +55,7 @@ static PLUGININFOEX pluginInfoEx =
 //------------ BASIC STAFF ------------//
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{	
+{
 	hInst = hinstDLL;
 	return TRUE;
 }
@@ -106,11 +105,10 @@ void InitMenuItems()
 	mi.name.t = stzName;
 
 	CMenuItem mi2;
-	mi2.flags =  CMIF_TCHAR;
+	mi2.flags = CMIF_TCHAR;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
-	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
-	{
+	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
 		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
 			mir_sntprintf(stzName, _countof(stzName), TranslateT("FTP Server %d"), i + 1);
 
@@ -123,10 +121,10 @@ void InitMenuItems()
 
 		mi.root = hMainMenu;
 		hMainSubMenu[i] = Menu_AddMainMenuItem(&mi);
-		
+
 		mi2.root = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
-		mi2.name.t = LPGENT("Upload file(s)");		
+		mi2.name.t = LPGENT("Upload file(s)");
 		HGENMENU tmp = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, mi2.position = i + UploadJob::FTP_RAWFILE);
 
@@ -156,7 +154,7 @@ void InitMenuItems()
 	}
 
 	memset(&mi, 0, sizeof(mi));
-	mi.flags =  CMIF_TCHAR;
+	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.name.t = LPGENT("FTP File manager");
@@ -166,12 +164,12 @@ void InitMenuItems()
 
 	PrebuildMainMenu();
 
-	hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 }
 
 void InitHotkeys()
 {
-	HOTKEYDESC hk = {0};
+	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(hk);
 	hk.pszDescription = LPGEN("Show FTPFile manager");
 	hk.pszName = "FTP_ShowManager";
@@ -182,9 +180,8 @@ void InitHotkeys()
 
 void InitTabsrmmButton()
 {
-	if (ServiceExists(MS_BB_ADDBUTTON)) 
-	{
-		BBButton btn = {0};
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
+		BBButton btn = { 0 };
 		btn.cbSize = sizeof(btn);
 		btn.dwButtonID = 1;
 		btn.pszModuleName = MODULE;
@@ -193,7 +190,7 @@ void InitTabsrmmButton()
 		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 		btn.ptszTooltip = TranslateT("FTP File");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
-		hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 	}
 }
 
@@ -207,87 +204,75 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM)
 	if (szProto) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 
 	bool bHideRoot = opt.bHideInactive;
-	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
+	for (int i = 0; i < ServerList::FTP_COUNT; i++)
 		if (ftpList[i]->bEnabled)
 			bHideRoot = false;
 
 	if (opt.bUseSubmenu)
 		Menu_ShowItem(hMenu, bIsContact && !bHideRoot);
 
-	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
+	for (int i = 0; i < ServerList::FTP_COUNT; i++)
 		Menu_ShowItem(hSubMenu[i], bIsContact && ftpList[i]->bEnabled);
 	return 0;
 }
 
 void PrebuildMainMenu()
 {
-	for (int i=0; i < ServerList::FTP_COUNT; i++)
+	for (int i = 0; i < ServerList::FTP_COUNT; i++)
 		if (ftpList[i])
 			Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
 }
 
-int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam) 
+int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
-	{
-		if (cbc->flags == BBCF_ARROWCLICKED) 
-		{
-			HMENU hMenu = CreatePopupMenu();
-			if (hMenu) 
-			{
+	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) {
+		if (cbc->flags == BBCF_ARROWCLICKED) {
+			HMENU hPopupMenu = CreatePopupMenu();
+			if (hPopupMenu) {
 				int iCount = 0;
-				for (UINT i = 0; i < ServerList::FTP_COUNT; i++) 
-				{
-					if (ftpList[i]->bEnabled)
-					{
+				for (UINT i = 0; i < ServerList::FTP_COUNT; i++) {
+					if (ftpList[i]->bEnabled) {
 						HMENU hModeMenu = CreatePopupMenu();
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_RAWFILE, TranslateT("Upload file"));
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_ZIPFILE, TranslateT("Zip and upload file"));
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_ZIPFOLDER, TranslateT("Zip and upload folder"));
-						AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hModeMenu, ftpList[i]->stzName);
+						AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hModeMenu, ftpList[i]->stzName);
 						DestroyMenu(hModeMenu);
 						iCount++;
 					}
 				}
 
-				if (iCount != 0) 
-				{
+				if (iCount != 0) {
 					POINT pt;
 					GetCursorPos(&pt);
 					HWND hwndBtn = WindowFromPoint(pt);
-					if (hwndBtn) 
-					{
+					if (hwndBtn) {
 						RECT rc;
 						GetWindowRect(hwndBtn, &rc);
 						SetForegroundWindow(cbc->hwndFrom);
-						int selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, 0);
-						if (selected != 0)
-						{
-							int ftpNum = selected & (1|2|4);
-							int mode = selected & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
+						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, 0);
+						if (selected != 0) {
+							int ftpNum = selected & (1 | 2 | 4);
+							int mode = selected & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER);
 							UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);
 						}
 					}
 				}
 
-				DestroyMenu(hMenu);
+				DestroyMenu(hPopupMenu);
 			}
-		} 
-		else
-		{
-			UploadFile(hContact, 0, UploadJob::FTP_RAWFILE);
 		}
+		else UploadFile(hContact, 0, UploadJob::FTP_RAWFILE);
 	}
 
 	return 0;
 }
 
-int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags) 
+int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags)
 {
-	if (!ftpList[iFtpNum]->isValid()) 
-	{
+	if (!ftpList[iFtpNum]->isValid()) {
 		Utils::msgBox(TranslateT("You have to fill FTP server setting before upload a file."), MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -304,11 +289,9 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **ob
 	else
 		result = job->getFiles();
 
-	if (result != 0)
-	{
+	if (result != 0) {
 		uDlg = UploadDialog::getInstance();
-		if (!uDlg->hwnd || !uDlg->hwndTabs)
-		{
+		if (!uDlg->hwnd || !uDlg->hwndTabs) {
 			Utils::msgBox(TranslateT("Error has occurred while trying to create a dialog!"), MB_OK | MB_ICONERROR);
 			delete uDlg;
 			return 1;
@@ -317,8 +300,7 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **ob
 		job->addToUploadDlg();
 		uDlg->show();
 	}
-	else
-	{
+	else {
 		delete job;
 		return 1;
 	}
@@ -328,12 +310,12 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **ob
 
 int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode)
 {
-	return UploadFile(hContact, iFtpNum, mode, NULL, 0, 0); 
+	return UploadFile(hContact, iFtpNum, mode, NULL, 0, 0);
 }
 
 //------------ MIRANDA SERVICES ------------//
 
-INT_PTR UploadService(WPARAM, LPARAM lParam) 
+INT_PTR UploadService(WPARAM, LPARAM lParam)
 {
 	FTPUPLOAD* ftpu = (FTPUPLOAD *)lParam;
 	if (ftpu == NULL || ftpu->cbSize != sizeof(FTPUPLOAD))
@@ -343,27 +325,27 @@ INT_PTR UploadService(WPARAM, LPARAM lParam)
 	int mode = (ftpu->mode * GenericJob::FTP_RAWFILE);
 
 	UploadFile(ftpu->hContact, ftpNum, (GenericJob::EMode)mode, (void**)ftpu->pstzObjects, ftpu->objectCount, ftpu->flags);
-	return 0; 
+	return 0;
 }
 
-INT_PTR ShowManagerService(WPARAM, LPARAM) 
+INT_PTR ShowManagerService(WPARAM, LPARAM)
 {
 	manDlg = Manager::getInstance();
 	manDlg->init();
 	return 0;
 }
 
-INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam) 
+INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 {
-	int ftpNum = lParam & (1|2|4);
-	int mode = lParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
+	int ftpNum = lParam & (1 | 2 | 4);
+	int mode = lParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER);
 	return UploadFile(hContact, ftpNum, (UploadJob::EMode)mode);
 }
 
-INT_PTR MainMenuService(WPARAM wParam, LPARAM) 
+INT_PTR MainMenuService(WPARAM wParam, LPARAM)
 {
-	int ftpNum = wParam & (1|2|4);
-	int mode = wParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER); 
+	int ftpNum = wParam & (1 | 2 | 4);
+	int mode = wParam & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER);
 	return UploadFile(0, ftpNum, (UploadJob::EMode)mode);
 }
 
@@ -382,7 +364,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int Shutdown(WPARAM, LPARAM) 
+int Shutdown(WPARAM, LPARAM)
 {
 	deleteTimer.deinit();
 
@@ -393,7 +375,7 @@ int Shutdown(WPARAM, LPARAM)
 	DeleteJob::jobDone.release();
 	DBEntry::cleanupDB();
 
-	curl_global_cleanup();	
+	curl_global_cleanup();
 
 	ftpList.deinit();
 	opt.deinit();
@@ -406,15 +388,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+	#endif
 
 	CoInitialize(NULL);
 
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
-	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
+	HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
 
 	hServiceUpload = CreateServiceFunction(MS_FTPFILE_UPLOAD, UploadService);
 	hServiceShowManager = CreateServiceFunction(MS_FTPFILE_SHOWMANAGER, ShowManagerService);
@@ -427,22 +409,14 @@ extern "C" int __declspec(dllexport) Load(void)
 	opt.loadOptions();
 	deleteTimer.init();
 	ftpList.init();
-	
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void) 
-{	
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hEventPreShutdown);
-	UnhookEvent(hOptionsInit);
-	UnhookEvent(hPrebuildContactMenu);
-	UnhookEvent(hTabsrmmButtonPressed);
-	
+extern "C" int __declspec(dllexport) Unload(void)
+{
 	DestroyServiceFunction(hServiceUpload);
 	DestroyServiceFunction(hServiceShowManager);
 	DestroyServiceFunction(hServiceContactMenu);
 	DestroyServiceFunction(hServiceMainMenu);
-
 	return 0;
 }

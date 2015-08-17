@@ -198,8 +198,6 @@ int GetBasicFontID(ClcContact * contact)
 
 void PaintNotifyArea(HDC hDC, RECT *rc)
 {
-	static int ev_lastIcon = 0;
-
 	rc->left += 26;
 	int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
 	if (cfg::dat.hUpdateContact != 0) {
@@ -210,7 +208,6 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		rc->left += 18;
 		DrawText(hDC, szName, -1, rc, DT_VCENTER | DT_SINGLELINE);
 		ImageList_DrawEx(hCListImages, (int)cfg::dat.hIconNotify, hDC, 4, (rc->bottom + rc->top - 16) / 2, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
-		ev_lastIcon = cfg::dat.hIconNotify;
 	}
 	else if (iCount > 0) {
 		MENUITEMINFO mii = { 0 };
@@ -225,7 +222,6 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		rc->left += 18;
 		ImageList_DrawEx(hCListImages, nmi->iIcon, hDC, 4, (rc->bottom + rc->top) / 2 - 8, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		DrawText(hDC, szName, -1, rc, DT_VCENTER | DT_SINGLELINE);
-		ev_lastIcon = (int)nmi->hIcon;
 	}
 	else {
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
@@ -411,7 +407,6 @@ int  g_padding_y = 0;
 
 void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
 {
-	RECT rc;
 	SIZE textSize = { 0 }, countsSize = { 0 }, spaceSize = { 0 };
 	int fontHeight;
 	BOOL twoRows = FALSE;
@@ -524,6 +519,7 @@ set_bg_l:
 	else
 		checkboxWidth = 0;
 
+	RECT rc;
 	rc.left = 0;
 	WORD cstatus = contact->wStatus;
 
@@ -840,7 +836,7 @@ set_bg_l:
 		if (!g_hottrack_done)
 			if (ht->IGNORED == 0)
 				DrawAlpha(hdcMem, &rc, ht->COLOR, ht->ALPHA, ht->COLOR2, ht->COLOR2_TRANSPARENT, ht->GRADIENT,
-				ht->CORNER, ht->BORDERSTYLE, ht->imageItem);
+					ht->CORNER, ht->BORDERSTYLE, ht->imageItem);
 	}
 
 	if (g_RTL)
@@ -861,17 +857,17 @@ bgskipped:
 		if (IS_THEMED)
 			hTheme = OpenThemeData(hwnd, L"BUTTON");
 
-		RECT rc;
-		rc.left = leftX;
-		rc.right = rc.left + dat->checkboxSize;
-		rc.top = y + ((rowHeight - dat->checkboxSize) >> 1);
-		rc.bottom = rc.top + dat->checkboxSize;
+		RECT rc2;
+		rc2.left = leftX;
+		rc2.right = rc2.left + dat->checkboxSize;
+		rc2.top = y + ((rowHeight - dat->checkboxSize) >> 1);
+		rc2.bottom = rc2.top + dat->checkboxSize;
 		if (hTheme) {
-			DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, flags & CONTACTF_CHECKED ? (g_hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (g_hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
+			DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, flags & CONTACTF_CHECKED ? (g_hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (g_hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc2, &rc2);
 			CloseThemeData(hTheme);
 			hTheme = 0;
 		}
-		else DrawFrameControl(hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (g_hottrack ? DFCS_HOT : 0));
+		else DrawFrameControl(hdcMem, &rc2, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (g_hottrack ? DFCS_HOT : 0));
 
 		rcContent.left += checkboxWidth;
 		leftX += checkboxWidth;
@@ -886,21 +882,20 @@ bgskipped:
 		iImage = -1;
 
 	if (pi_avatar && (av_left || av_right)) {
-		RECT rc;
-
-		rc.left = rcContent.left;
-		rc.right = clRect->right;
-		rc.top = y;
-		rc.bottom = rc.top + rowHeight;
+		RECT rc2;
+		rc2.left = rcContent.left;
+		rc2.right = clRect->right;
+		rc2.top = y;
+		rc2.bottom = rc2.top + rowHeight;
 
 		if (av_left) {
-			leftOffset += DrawAvatar(hdcMem, &rc, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+			leftOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			rcContent.left += leftOffset;
 			leftX += leftOffset;
 		}
 		else {
-			rc.left = (rcContent.right - cfg::dat.avatarSize) + 1;
-			rightOffset += DrawAvatar(hdcMem, &rc, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+			rc2.left = (rcContent.right - cfg::dat.avatarSize) + 1;
+			rightOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			rcContent.right -= (rightOffset);
 		}
 	}
@@ -968,24 +963,24 @@ bgskipped:
 			0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 	}
 
-	//text
+	// text
 	if (type == CLCIT_DIVIDER) {
-		RECT rc;
-		rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
-		rc.left = rcContent.left;
-		rc.right = rc.left - dat->rightMargin + ((clRect->right - rc.left - textSize.cx) >> 1) - 3;
-		DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
-		TextOut(hdcMem, rc.right + 3, y + ((rowHeight - fontHeight) >> 1), contact->szText, (int)mir_tstrlen(contact->szText));
-		rc.left = rc.right + 6 + textSize.cx;
-		rc.right = clRect->right - dat->rightMargin;
-		DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
+		RECT rc2;
+		rc2.top = y + ((rowHeight) >> 1); rc2.bottom = rc2.top + 2;
+		rc2.left = rcContent.left;
+		rc2.right = rc2.left - dat->rightMargin + ((clRect->right - rc2.left - textSize.cx) >> 1) - 3;
+		DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
+		TextOut(hdcMem, rc2.right + 3, y + ((rowHeight - fontHeight) >> 1), contact->szText, (int)mir_tstrlen(contact->szText));
+		rc2.left = rc2.right + 6 + textSize.cx;
+		rc2.right = clRect->right - dat->rightMargin;
+		DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
 	}
 	else if (type == CLCIT_GROUP) {
-		RECT rc;
+		RECT rc2;
 		int leftLineEnd = 0, rightLineStart;
 		fontHeight = dat->fontInfo[FONTID_GROUPS].fontHeight;
-		rc.top = y + ((rowHeight - fontHeight) >> 1) + cfg::dat.group_padding;
-		rc.bottom = rc.top + textSize.cy;
+		rc2.top = y + ((rowHeight - fontHeight) >> 1) + cfg::dat.group_padding;
+		rc2.bottom = rc2.top + textSize.cy;
 		if (szCounts[0]) {
 			COLORREF clr = GetTextColor(hdcMem);
 
@@ -994,22 +989,22 @@ bgskipped:
 			if (oldGroupColor != -1)
 				SetTextColor(hdcMem, clr);
 
-			rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + iconXSpace;
-			rc.right = clRect->right - dat->rightMargin;
+			rc2.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + iconXSpace;
+			rc2.right = clRect->right - dat->rightMargin;
 
 			if (indent == 0 && iconXSpace == 0)
-				rc.left += 2;
+				rc2.left += 2;
 
 			int required = textSize.cx + countsSize.cx + spaceSize.cx;
 
-			if (required > rc.right - rc.left)
-				textSize.cx = (rc.right - rc.left) - countsSize.cx - spaceSize.cx;
+			if (required > rc2.right - rc2.left)
+				textSize.cx = (rc2.right - rc2.left) - countsSize.cx - spaceSize.cx;
 
 			int labelWidth = textSize.cx + countsSize.cx + spaceSize.cx;
-			int offset = (g_center) ? ((rc.right - rc.left) - labelWidth) / 2 : 0;
+			int offset = (g_center) ? ((rc2.right - rc2.left) - labelWidth) / 2 : 0;
 
-			TextOut(hdcMem, rc.left + offset + textSize.cx + spaceSize.cx, rc.top + groupCountsFontTopShift, szCounts, (int)mir_tstrlen(szCounts));
-			rightLineStart = rc.left + offset + textSize.cx + spaceSize.cx + countsSize.cx + 2;
+			TextOut(hdcMem, rc2.left + offset + textSize.cx + spaceSize.cx, rc2.top + groupCountsFontTopShift, szCounts, (int)mir_tstrlen(szCounts));
+			rightLineStart = rc2.left + offset + textSize.cx + spaceSize.cx + countsSize.cx + 2;
 
 			if (selected && !g_ignoreselforgroups)
 				SetTextColor(hdcMem, dat->selTextColour);
@@ -1017,52 +1012,52 @@ bgskipped:
 				SetTextColor(hdcMem, clr);
 			ChangeToFont(hdcMem, dat, FONTID_GROUPS, &height);
 			SetTextColor(hdcMem, clr);
-			rc.left += offset;
-			rc.right = rc.left + textSize.cx;
-			leftLineEnd = rc.left - 2;
-			qLeft = rc.left;
-			DrawText(hdcMem, contact->szText, -1, &rc, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
+			rc2.left += offset;
+			rc2.right = rc2.left + textSize.cx;
+			leftLineEnd = rc2.left - 2;
+			qLeft = rc2.left;
+			DrawText(hdcMem, contact->szText, -1, &rc2, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
 		}
 		else if (g_center && !szCounts[0]) {
-			rc.left = rcContent.left;
-			rc.right = clRect->right - dat->rightMargin;
-			if (textSize.cx >= rc.right - rc.left)
-				textSize.cx = rc.right - rc.left;
+			rc2.left = rcContent.left;
+			rc2.right = clRect->right - dat->rightMargin;
+			if (textSize.cx >= rc2.right - rc2.left)
+				textSize.cx = rc2.right - rc2.left;
 
-			int offset = ((rc.right - rc.left) - textSize.cx) / 2;
-			rc.left += offset;
-			rc.right = rc.left + textSize.cx;
-			leftLineEnd = rc.left - 2;
-			rightLineStart = rc.right + 2;
-			DrawText(hdcMem, contact->szText, -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE);
-			qLeft = rc.left;
+			int offset = ((rc2.right - rc2.left) - textSize.cx) / 2;
+			rc2.left += offset;
+			rc2.right = rc2.left + textSize.cx;
+			leftLineEnd = rc2.left - 2;
+			rightLineStart = rc2.right + 2;
+			DrawText(hdcMem, contact->szText, -1, &rc2, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE);
+			qLeft = rc2.left;
 		}
 		else {
 			qLeft = rcContent.left + (indent == 0 && iconXSpace == 0 ? 2 : 0);
-			rc.left = qLeft;
-			rc.right = min(rc.left + textSize.cx, clRect->right - dat->rightMargin);
-			DrawText(hdcMem, contact->szText, -1, &rc, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
+			rc2.left = qLeft;
+			rc2.right = min(rc2.left + textSize.cx, clRect->right - dat->rightMargin);
+			DrawText(hdcMem, contact->szText, -1, &rc2, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
 			rightLineStart = qLeft + textSize.cx + 2;
 		}
 
 		if (dat->exStyle & CLS_EX_LINEWITHGROUPS) {
 			if (!g_center) {
-				rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
-				rc.left = rightLineStart;
-				rc.right = clRect->right - 1 - rightIcons*dat->extraColumnSpacing - dat->rightMargin;
-				if (rc.right - rc.left > 1)
-					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
+				rc2.top = y + ((rowHeight) >> 1); rc2.bottom = rc2.top + 2;
+				rc2.left = rightLineStart;
+				rc2.right = clRect->right - 1 - rightIcons*dat->extraColumnSpacing - dat->rightMargin;
+				if (rc2.right - rc2.left > 1)
+					DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
 			}
 			else {
-				rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
-				rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + iconXSpace;
-				rc.right = leftLineEnd;
-				if (rc.right > rc.left)
-					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
-				rc.right = clRect->right - dat->rightMargin;
-				rc.left = rightLineStart;
-				if (rc.right > rc.left)
-					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
+				rc2.top = y + ((rowHeight) >> 1); rc2.bottom = rc2.top + 2;
+				rc2.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + iconXSpace;
+				rc2.right = leftLineEnd;
+				if (rc2.right > rc2.left)
+					DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
+				rc2.right = clRect->right - dat->rightMargin;
+				rc2.left = rightLineStart;
+				if (rc2.right > rc2.left)
+					DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
 			}
 		}
 	}
@@ -1106,7 +1101,7 @@ bgskipped:
 
 			if (cEntry->hTimeZone && fLocalTime) {
 				SIZE szTime;
-				RECT rc = rcContent;
+				RECT rc2 = rcContent;
 				int fHeight = 0;
 
 				TCHAR szResult[80];
@@ -1121,38 +1116,38 @@ bgskipped:
 
 				if (av_right) {
 					if (verticalfit)
-						rc.left = rcContent.right + (rightIcons * dat->extraColumnSpacing) - szTime.cx - 2;
+						rc2.left = rcContent.right + (rightIcons * dat->extraColumnSpacing) - szTime.cx - 2;
 					else
-						rc.left = rcContent.right - szTime.cx - 2;
+						rc2.left = rcContent.right - szTime.cx - 2;
 				}
 				else if (av_rightwithnick) {
 					if (verticalfit && rightIcons * dat->extraColumnSpacing >= szTime.cx)
-						rc.left = clRect->right - dat->rightMargin - szTime.cx;
+						rc2.left = clRect->right - dat->rightMargin - szTime.cx;
 					else if (verticalfit && !avatar_done)
-						rc.left = clRect->right - dat->rightMargin - szTime.cx;
+						rc2.left = clRect->right - dat->rightMargin - szTime.cx;
 					else {
-						rc.left = rcContent.right - szTime.cx - 2;
-						rcContent.right = rc.left - 2;
+						rc2.left = rcContent.right - szTime.cx - 2;
+						rcContent.right = rc2.left - 2;
 					}
 				}
 				else {
 					if (verticalfit)
-						rc.left = clRect->right - dat->rightMargin - szTime.cx;
+						rc2.left = clRect->right - dat->rightMargin - szTime.cx;
 					else
-						rc.left = rcContent.right - szTime.cx - 2;
+						rc2.left = rcContent.right - szTime.cx - 2;
 				}
-				DrawText(hdcMem, szResult, -1, &rc, DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE);
+				DrawText(hdcMem, szResult, -1, &rc2, DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE);
 				ChangeToFont(hdcMem, dat, idOldFont, 0);
 				SetTextColor(hdcMem, oldColor);
 
 				verticalfit = (rowHeight - fontHeight >= g_cysmIcon + 1);
 				if (verticalfit && av_right)
-					rcContent.right = min(clRect->right - cfg::dat.avatarSize - 2, rc.left - 2);
+					rcContent.right = min(clRect->right - cfg::dat.avatarSize - 2, rc2.left - 2);
 				else if (verticalfit && !av_rightwithnick)
-					rcContent.right = min(clRect->right - dat->rightMargin, rc.left - 3);
+					rcContent.right = min(clRect->right - dat->rightMargin, rc2.left - 3);
 			}
 			else {
-nodisplay:
+			nodisplay:
 				verticalfit = (rowHeight - fontHeight >= g_cysmIcon + 1);
 				if (avatar_done) {
 					if (verticalfit && av_right)
@@ -1171,7 +1166,6 @@ nodisplay:
 			rcContent.bottom = y + rowHeight;
 
 			if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_OUTTOLUNCH) {
-				TCHAR *szText = NULL;
 				BYTE smsgValid = cEntry->bStatusMsgValid;
 
 				if ((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)
@@ -1221,28 +1215,27 @@ nodisplay:
 	}
 	if (selected) {
 		if (type != CLCIT_DIVIDER) {
-			TCHAR *szText = contact->szText;
-			RECT rc;
+			RECT rc2;
 			int qlen = (int)mir_tstrlen(dat->szQuickSearch);
 			if (hPreviousFont)
 				SelectObject(hdcMem, hPreviousFont);
 			SetTextColor(hdcMem, dat->quickSearchColour);
 			if (type == CLCIT_CONTACT) {
-				rc.left = rcContent.left;
-				rc.top = y + ((rowHeight - fontHeight) >> 1);
-				rc.right = rcContent.right;
-				rc.bottom = rc.top;
+				rc2.left = rcContent.left;
+				rc2.top = y + ((rowHeight - fontHeight) >> 1);
+				rc2.right = rcContent.right;
+				rc2.bottom = rc2.top;
 				if (twoRows)
-					rc.top = y;
+					rc2.top = y;
 			}
 			else {
-				rc.left = qLeft;
-				rc.top = y + ((rowHeight - fontHeight) >> 1);
-				rc.right = clRect->right - rightOffset;
-				rc.bottom = rc.top;
+				rc2.left = qLeft;
+				rc2.top = y + ((rowHeight - fontHeight) >> 1);
+				rc2.right = clRect->right - rightOffset;
+				rc2.bottom = rc2.top;
 			}
 			if (qlen)
-				DrawText(hdcMem, szText, qlen, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
+				DrawText(hdcMem, contact->szText, qlen, &rc2, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 		}
 	}
 
@@ -1337,13 +1330,14 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
 	SetBkMode(hdcMem, TRANSPARENT);
+	{
+		HBRUSH hBrush = CreateSolidBrush(tmpbkcolour);
+		HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
+		FillRect(hdcMem, rcPaint, hBrush);
 
-	HBRUSH hBrush = CreateSolidBrush(tmpbkcolour);
-	HBRUSH hoBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
-	FillRect(hdcMem, rcPaint, hBrush);
-
-	SelectObject(hdcMem, hoBrush);
-	DeleteObject(hBrush);
+		SelectObject(hdcMem, hoBrush);
+		DeleteObject(hBrush);
+	}
 
 	if (cfg::dat.bWallpaperMode && !dat->bisEmbedded) {
 		SkinDrawBg(hwnd, hdcMem);
@@ -1359,9 +1353,9 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 		GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
 		HDC hdcBmp = CreateCompatibleDC(hdcMem);
 		SelectObject(hdcBmp, dat->hBmpBackground);
-		int y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
+		int yy = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
 		int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-		int maxy = dat->backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : y + 1;
+		int maxy = dat->backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : yy + 1;
 		switch (dat->backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
@@ -1408,11 +1402,11 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 
 		int bitx = 0, bity = 0;
 
-		for (; y < maxy; y += desth) {
-			if (y < rcPaint->top - desth)
+		for (; yy < maxy; yy += desth) {
+			if (yy < rcPaint->top - desth)
 				continue;
 			for (int x = 0; x < maxx; x += destw)
-				StretchBlt(hdcMem, x, y, destw, desth, cfg::dat.hdcPic, bitx, bity, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
+				StretchBlt(hdcMem, x, yy, destw, desth, cfg::dat.hdcPic, bitx, bity, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
 		}
 		DeleteDC(hdcBmp);
 	}
@@ -1452,7 +1446,7 @@ bgdone:
 	group->scanIndex = 0;
 	int indent = 0;
 
-	for (int index = 0; y< rcPaint->bottom;) {
+	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.count) {
 			group = group->parent;
 			indent--;
@@ -1516,29 +1510,26 @@ bgdone:
 
 	DeleteDC(hdcMem);
 	if (grey) {
-		PBYTE bits;
 		BITMAPINFOHEADER bmih = { 0 };
-
-		int i;
-		int greyRed, greyGreen, greyBlue;
-		COLORREF greyColour;
 		bmih.biBitCount = 32;
 		bmih.biSize = sizeof(bmih);
 		bmih.biCompression = BI_RGB;
 		bmih.biHeight = -clRect.bottom;
 		bmih.biPlanes = 1;
 		bmih.biWidth = clRect.right;
-		bits = (PBYTE)mir_alloc(4 * bmih.biWidth * -bmih.biHeight);
+		
+		PBYTE bits = (PBYTE)mir_alloc(4 * bmih.biWidth * -bmih.biHeight);
 		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *)&bmih, DIB_RGB_COLORS);
-		greyColour = GetSysColor(COLOR_3DFACE);
-		greyRed = GetRValue(greyColour) * 2;
-		greyGreen = GetGValue(greyColour) * 2;
-		greyBlue = GetBValue(greyColour) * 2;
+
+		COLORREF greyColour = GetSysColor(COLOR_3DFACE);
+		int greyRed = GetRValue(greyColour) * 2;
+		int greyGreen = GetGValue(greyColour) * 2;
+		int greyBlue = GetBValue(greyColour) * 2;
 		if (divide3[0] == 255) {
-			for (i = 0; i < sizeof(divide3) / sizeof(divide3[0]); i++)
+			for (int i = 0; i < sizeof(divide3) / sizeof(divide3[0]); i++)
 				divide3[i] = (i + 1) / 3;
 		}
-		for (i = 4 * clRect.right *clRect.bottom - 4; i >= 0; i -= 4) {
+		for (int i = 4 * clRect.right *clRect.bottom - 4; i >= 0; i -= 4) {
 			bits[i] = divide3[bits[i] + greyBlue];
 			bits[i + 1] = divide3[bits[i + 1] + greyGreen];
 			bits[i + 2] = divide3[bits[i + 2] + greyRed];

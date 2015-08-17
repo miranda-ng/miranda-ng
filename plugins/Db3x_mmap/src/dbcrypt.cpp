@@ -342,13 +342,13 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 		for (int i = 0; i < arSettings.getCount(); i++) {
 			VarDescr &p = arSettings[i];
 			if (!m_bEncrypted) {
-				size_t len;
-				BYTE *pResult = m_crypto->encodeString(p.szValue, &len);
+				size_t encodedLen;
+				BYTE *pResult = m_crypto->encodeString(p.szValue, &encodedLen);
 				if (pResult != NULL) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
 					dbcws.value.type = DBVT_ENCRYPTED;
 					dbcws.value.pbVal = pResult;
-					dbcws.value.cpbVal = (WORD)len;
+					dbcws.value.cpbVal = (WORD)encodedLen;
 					WriteContactSetting(contactID, &dbcws);
 
 					mir_free(pResult);

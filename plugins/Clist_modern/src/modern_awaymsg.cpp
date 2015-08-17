@@ -66,7 +66,7 @@ static MCONTACT amGetCurrentChain()
 	if (amItems.getCount() == 0)
 		return NULL;
 
-	MCONTACT res = (MCONTACT)amItems[0];
+	MCONTACT res = (DWORD_PTR)amItems[0];
 	amItems.remove(0);
 	return res;
 }

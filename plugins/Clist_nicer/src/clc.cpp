@@ -410,7 +410,6 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_NAMECHANGED:
-		ClcContact *contact;
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
