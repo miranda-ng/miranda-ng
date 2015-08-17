@@ -170,7 +170,8 @@ void PopupSkin::drawActionBar(MyBitmap *bmp, PopupWnd2 *wnd, int x, int y) const
 
 void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options) const
 {
-	if (!m_elements) return;
+	if (!m_elements)
+		return;
 
 	SKINELEMENT *head = NULL;
 
@@ -214,8 +215,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 		wnd->getArgs()->add(buf, (m_flags&(1L << i)) ? 1 : 0);
 	}
 
-	SIZE sz;
-	sz.cx = sz.cy = 0;
+	SIZE sz = { 0, 0 };
 	head = m_elements;
 	while (head) {
 		if ((m_flags & head->flag_mask) != (head->flags & head->flag_mask)) {
@@ -344,10 +344,11 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			}
 			else {
 				HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-				GetTextExtentPoint32(hdc, wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &sz);
+				SIZE szClock;
+				GetTextExtentPoint32(hdc, wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &szClock);
 				SelectObject(hdc, hfnSave);
-				wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
-				wnd->getArgs()->add("clock.height", sz.cy);
+				wnd->getArgs()->add("clock.width", szClock.cx + 2 * STYLE_SZ_GAP);
+				wnd->getArgs()->add("clock.height", szClock.cy);
 			}
 			break;
 		}
