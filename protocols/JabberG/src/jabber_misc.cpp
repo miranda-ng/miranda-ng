@@ -47,7 +47,7 @@ void JabberChatDllError()
 {
 	MessageBox(NULL,
 		TranslateT("CHAT plugin is required for conferences. Install it before chatting"),
-		TranslateT("Jabber Error"), MB_OK|MB_SETFOREGROUND);
+		TranslateT("Jabber Error"), MB_OK | MB_SETFOREGROUND);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -83,14 +83,14 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + mir_strlen(szNick) + mir_strlen(szJid) + 5);
+	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szJid) + 5);
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	mir_strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick)+1;
+	mir_strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick) + 1;
 	*pCurBlob = '\0'; pCurBlob++;		//firstName
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	mir_strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid)+1;
+	mir_strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid) + 1;
 	*pCurBlob = '\0';					//reason
 
 	db_event_add(NULL, &dbei);
@@ -102,13 +102,13 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 
 MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
 {
-	if (jid == NULL || jid[0]=='\0')
+	if (jid == NULL || jid[0] == '\0')
 		return NULL;
 
 	TCHAR *s = NEWTSTR_ALLOCA(jid);
-	TCHAR *q = NULL, *p;
+	TCHAR *q = NULL;
 	// strip resource if present
-	if ((p = _tcschr(s, '@')) != NULL)
+	if (TCHAR *p = _tcschr(s, '@'))
 		if ((q = _tcschr(p, '/')) != NULL)
 			*q = '\0';
 
@@ -118,12 +118,12 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL
 	// We can't use JabberHContactFromJID() here because of the stripResource option
 	size_t len = mir_tstrlen(s);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrT jid( getTStringA(hContact, "jid"));
-		if (jid == NULL)
+		ptrT dbJid(getTStringA(hContact, "jid"));
+		if (dbJid == NULL)
 			continue;
 
-		TCHAR *p = jid;
-		if (p && mir_tstrlen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len))
+		TCHAR *p = dbJid; // not null
+		if (_tcslen(p) >= len && (p[len] == '\0' || p[len] == '/') && !_tcsnicmp(p, s, len))
 			return hContact;
 	}
 
@@ -137,7 +137,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL
 	else
 		SendGetVcard(s);
 	debugLog(_T("Create Jabber contact jid=%s, nick=%s"), s, nick);
-	DBCheckIsTransportedContact(s,hNewContact);
+	DBCheckIsTransportedContact(s, hNewContact);
 	return hNewContact;
 }
 
@@ -184,9 +184,9 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(pszDest);
 
-	pszDest[ tPathLen++ ] = '\\';
+	pszDest[tPathLen++] = '\\';
 
-	const TCHAR* szFileType = ProtoGetAvatarExtension( getByte(hContact, "AvatarType", PA_FORMAT_PNG));
+	const TCHAR* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
 	if (hContact != NULL) {
 		char str[256];
@@ -194,7 +194,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 		DBVARIANT dbv;
 		if (!db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
 			strncpy_s(str, dbv.pszVal, _TRUNCATE);
-			str[ sizeof(str)-1 ] = 0;
+			str[sizeof(str) - 1] = 0;
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
@@ -205,7 +205,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
 	}
 	else {
-		ptrA res1( getStringA("LoginName")), res2( getStringA("LoginServer"));
+		ptrA res1(getStringA("LoginName")), res2(getStringA("LoginServer"));
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar%s"),
 			(res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
 	}
@@ -225,15 +225,15 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		if (!getByte(hContact, "IsTransported", 0))
 			continue;
 
-		ptrT dbJid( getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
-		ptrT dbNick( getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
+		ptrT dbJid(getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
+		ptrT dbNick(getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
 
 		TCHAR *p = _tcschr(dbJid, '@');
 		if (p == NULL)
 			continue;
 
 		*p = 0;
-		if (!mir_tstrcmp(jid, p+1) && !mir_tstrcmp(dbJid, dbNick)) {
+		if (!mir_tstrcmp(jid, p + 1) && !mir_tstrcmp(dbJid, dbNick)) {
 			*p = '@';
 			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
 			m_ThreadInfo->resolveContact = hContact;
@@ -401,13 +401,13 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 	if (!tszMirVer.IsEmpty())
 		setTString(hContact, "MirVer", tszMirVer);
 
-	ptrT jid( getTStringA(hContact, "jid"));
+	ptrT jid(getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return;
 
 	TCHAR szFullJid[JABBER_MAX_JID_LEN];
 	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
-		mir_sntprintf(szFullJid, _countof(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
+		mir_sntprintf(szFullJid, _T("%s/%s"), jid, resource->m_tszResourceName);
 	else
 		mir_tstrncpy(szFullJid, jid, _countof(szFullJid));
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);

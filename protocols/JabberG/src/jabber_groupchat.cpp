@@ -33,24 +33,24 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r);
 
 struct JabberGcRecentInfo
 {
-	ptrT room, server, nick, password;
+	ptrT m_room, m_server, m_nick, m_password;
 	CJabberProto *ppro;
 
-	JabberGcRecentInfo(CJabberProto* proto)
+	JabberGcRecentInfo(CJabberProto *proto)
 	{
 		ppro = proto;
 	}
-	JabberGcRecentInfo(CJabberProto* proto, const TCHAR *_room, const TCHAR *_server, const TCHAR *_nick = NULL, const TCHAR *_password = NULL)
+	JabberGcRecentInfo(CJabberProto *proto, const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
 	{
 		ppro = proto;
-		fillData(_room, _server, _nick, _password);
+		fillData(room, server, nick, password);
 	}
-	JabberGcRecentInfo(CJabberProto* proto, const TCHAR *jid)
+	JabberGcRecentInfo(CJabberProto *proto, const TCHAR *jid)
 	{
 		ppro = proto;
 		fillData(jid);
 	}
-	JabberGcRecentInfo(CJabberProto* proto, int iRecent)
+	JabberGcRecentInfo(CJabberProto *proto, int iRecent)
 	{
 		ppro = proto;
 		loadRecent(iRecent);
@@ -62,40 +62,40 @@ struct JabberGcRecentInfo
 
 	void cleanup()
 	{
-		room = server = nick = password = NULL;
+		m_room = m_server = m_nick = m_password = NULL;
 	}
 
 	BOOL equals(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
 	{
 		return
-			null_strequals(this->room, room) &&
-			null_strequals(this->server, server) &&
-			null_strequals(this->nick, nick) &&
-			null_strequals(this->password, password);
+			null_strequals(m_room, room) &&
+			null_strequals(m_server, server) &&
+			null_strequals(m_nick, nick) &&
+			null_strequals(m_password, password);
 	}
 
 	BOOL equalsnp(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL)
 	{
 		return
-			null_strequals(this->room, room) &&
-			null_strequals(this->server, server) &&
-			null_strequals(this->nick, nick);
+			null_strequals(m_room, room) &&
+			null_strequals(m_server, server) &&
+			null_strequals(m_nick, nick);
 	}
 
 	void fillForm(HWND hwndDlg)
 	{
-		SetDlgItemText(hwndDlg, IDC_SERVER, server ? server : _T(""));
-		SetDlgItemText(hwndDlg, IDC_ROOM, room ? room : _T(""));
-		SetDlgItemText(hwndDlg, IDC_NICK, nick ? nick : _T(""));
-		SetDlgItemText(hwndDlg, IDC_PASSWORD, password ? password : _T(""));
+		SetDlgItemText(hwndDlg, IDC_SERVER, m_server ? m_server : _T(""));
+		SetDlgItemText(hwndDlg, IDC_ROOM, m_room ? m_room : _T(""));
+		SetDlgItemText(hwndDlg, IDC_NICK, m_nick ? m_nick : _T(""));
+		SetDlgItemText(hwndDlg, IDC_PASSWORD, m_password ? m_password : _T(""));
 	}
 
 	void fillData(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
 	{
-		this->room = mir_tstrdup(room);
-		this->server = mir_tstrdup(server);
-		this->nick = mir_tstrdup(nick);
-		this->password = mir_tstrdup(password);
+		m_room = mir_tstrdup(room);
+		m_server = mir_tstrdup(server);
+		m_nick = mir_tstrdup(nick);
+		m_password = mir_tstrdup(password);
 	}
 
 	void fillData(const TCHAR *jid)
@@ -120,18 +120,18 @@ struct JabberGcRecentInfo
 	{
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "rcMuc_%d_server", iRecent);
-		server = ppro->getTStringA(setting);
+		m_server = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_room", iRecent);
-		room = ppro->getTStringA(setting);
+		m_room = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_nick", iRecent);
-		nick = ppro->getTStringA(setting);
+		m_nick = ppro->getTStringA(setting);
 
 		mir_snprintf(setting, "password_rcMuc_%d", iRecent);
-		password = ppro->getTStringA(NULL, setting);
+		m_password = ppro->getTStringA(NULL, setting);
 
-		return room || server || nick || password;
+		return m_room || m_server || m_nick || m_password;
 	}
 
 	void saveRecent(int iRecent)
@@ -139,26 +139,26 @@ struct JabberGcRecentInfo
 		char setting[MAXMODULELABELLENGTH];
 
 		mir_snprintf(setting, "rcMuc_%d_server", iRecent);
-		if (server)
-			ppro->setTString(setting, server);
+		if (m_server)
+			ppro->setTString(setting, m_server);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_room", iRecent);
-		if (room)
-			ppro->setTString(setting, room);
+		if (m_room)
+			ppro->setTString(setting, m_room);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_nick", iRecent);
-		if (nick)
-			ppro->setTString(setting, nick);
+		if (m_nick)
+			ppro->setTString(setting, m_nick);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "password_rcMuc_%d", iRecent);
-		if (password)
-			ppro->setTString(setting, password);
+		if (m_password)
+			ppro->setTString(setting, m_password);
 		else
 			ppro->delSetting(setting);
 	}
@@ -251,12 +251,12 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 	JABBER_LIST_ITEM *item = ListAdd(LIST_CHATROOM, text);
 	item->bAutoJoin = autojoin;
 	replaceStrT(item->nick, nick);
-	replaceStrT(item->password, info.password);
+	replaceStrT(item->password, info.m_password);
 
 	int status = (m_iStatus == ID_STATUS_INVISIBLE) ? ID_STATUS_ONLINE : m_iStatus;
 	XmlNode x(_T("x")); x << XATTR(_T("xmlns"), JABBER_FEAT_MUC);
-	if (info.password && info.password[0])
-		x << XCHILD(_T("password"), info.password);
+	if (info.m_password && info.m_password[0])
+		x << XCHILD(_T("password"), info.m_password);
 
 	SendPresenceTo(status, text, x);
 }
@@ -414,24 +414,24 @@ void CJabberDlgGcJoin::OnInitDialog()
 
 	WindowSetIcon(m_hwnd, m_proto, "group");
 
-	JabberGcRecentInfo *info = NULL;
+	JabberGcRecentInfo *pInfo = NULL;
 	if (m_jid)
-		info = new JabberGcRecentInfo(m_proto, m_jid);
+		pInfo = new JabberGcRecentInfo(m_proto, m_jid);
 	else if(OpenClipboard(m_hwnd)) {
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 
 		if (hData) {
 			TCHAR *buf = (TCHAR *)GlobalLock(hData);
 			if (buf && _tcschr(buf, _T('@')) && !_tcschr(buf, _T(' ')))
-				info = new JabberGcRecentInfo(m_proto, buf);
+				pInfo = new JabberGcRecentInfo(m_proto, buf);
 			GlobalUnlock(hData);
 		}
 		CloseClipboard();
 	}
 
-	if (info) {
-		info->fillForm(m_hwnd);
-		delete info;
+	if (pInfo) {
+		pInfo->fillForm(m_hwnd);
+		delete pInfo;
 	}
 
 	ptrT tszNick(m_proto->getTStringA("Nick"));
@@ -466,9 +466,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		if (!info.loadRecent(i))
 			break;
 
-		mir_sntprintf(jid, _countof(jid), _T("%s@%s (%s)"),
-			info.room, info.server,
-			info.nick ? info.nick : TranslateT("<no nick>"));
+		mir_sntprintf(jid, _T("%s@%s (%s)"), info.m_room, info.m_server, info.m_nick ? info.m_nick : TranslateT("<no nick>"));
 		SetDlgItemText(m_hwnd, IDC_RECENT1 + i, jid);
 	}
 	sttJoinDlgShowRecentItems(m_hwnd, i);

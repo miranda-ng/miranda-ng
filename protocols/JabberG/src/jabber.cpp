@@ -68,7 +68,7 @@ HANDLE hExtListInit, hDiscoInfoResult;
 void JabberUserInfoInit(void);
 void JabberUserInfoUninit(void);
 
-int bSecureIM, bMirOTR, bNewGPG, bPlatform;
+bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
@@ -107,9 +107,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
-	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
-	bMirOTR = (int)GetModuleHandle(_T("mirotr.dll"));
-	bNewGPG = (int)GetModuleHandle(_T("new_gpg.dll"));
+	bSecureIM = ServiceExists("SecureIM/IsContactSecured") != 0;
+	bMirOTR = GetModuleHandle(_T("mirotr.dll")) != NULL;
+	bNewGPG = GetModuleHandle(_T("new_gpg.dll")) != NULL;
 	#ifdef _WIN64
 		bPlatform = 1;
 	#else
@@ -193,7 +193,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
-	mir_sntprintf(szCoreVersion, _countof(szCoreVersion), _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
+	mir_sntprintf(szCoreVersion, _T("%d.%d.%d.%d"), v[0], v[1], v[2], v[3]);
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
@@ -233,13 +233,13 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (g_nTempFileId != 0) {
 		TCHAR tszTempPath[MAX_PATH], tszFilePath[MAX_PATH];
 		GetTempPath(_countof(tszTempPath), tszTempPath);
-		mir_sntprintf(tszFilePath, _countof(tszFilePath), _T("%sjab*.tmp.*"), tszTempPath);
+		mir_sntprintf(tszFilePath, _T("%sjab*.tmp.*"), tszTempPath);
 
 		WIN32_FIND_DATA findData;
 		HANDLE hFind = FindFirstFile(tszFilePath, &findData);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				mir_sntprintf(tszFilePath, _countof(tszFilePath), _T("%s%s"), tszTempPath, findData.cFileName);
+				mir_sntprintf(tszFilePath, _T("%s%s"), tszTempPath, findData.cFileName);
 				DeleteFile(tszFilePath);
 			} while (FindNextFile(hFind, &findData));
 			

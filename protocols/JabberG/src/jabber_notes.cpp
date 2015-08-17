@@ -137,9 +137,8 @@ void CNoteList::LoadXml(HXML hXml)
 	destroy();
 	m_bIsModified = false;
 
-	int count = XmlGetChildCount(hXml);
-	for (int i=0; i < count; i++)
-	{
+	int iCount = XmlGetChildCount(hXml);
+	for (int i = 0; i < iCount; i++) {
 		CNoteItem *pNote = new CNoteItem(xmlGetChild(hXml, i));
 		if (pNote->IsNotEmpty())
 			insert(pNote);
@@ -153,8 +152,7 @@ void CNoteList::SaveXml(HXML hXmlParent)
 	m_bIsModified = false;
 	CNoteList &me = *this;
 
-	for (int i=0; i < getCount(); i++)
-	{
+	for (int i = 0; i < getCount(); i++) {
 		HXML hXmlItem = hXmlParent << XCHILD(_T("note"));
 		hXmlItem << XATTR(_T("from"), me[i].GetFrom()) << XATTR(_T("tags"), me[i].GetTagsStr());
 		hXmlItem << XCHILD(_T("title"), me[i].GetTitle());
@@ -211,7 +209,7 @@ private:
 	}
 };
 
-CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote):
+CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
 	CSuper(parent->GetProto(), IDD_NOTE_EDIT),
 	m_pNote(pNote),
 	m_fnProcess(NULL),
@@ -224,7 +222,7 @@ CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote)
 	m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
 }
 
-CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess):
+CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess) :
 	CSuper(proto, IDD_NOTE_EDIT),
 	m_pNote(pNote),
 	m_fnProcess(fnProcess),
@@ -278,7 +276,7 @@ int CJabberDlgNoteItem::Resizer(UTILRESIZECONTROL *urc)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Notebook window
 
-class CCtrlNotebookList: public CCtrlListBox
+class CCtrlNotebookList : public CCtrlListBox
 {
 	typedef CCtrlListBox CSuper;
 	bool m_adding;
@@ -291,7 +289,7 @@ public:
 	{
 		m_hfntNormal = m_hfntSmall = m_hfntBold = NULL;
 	}
-	
+
 	void SetFonts(HFONT hfntNormal, HFONT hfntSmall, HFONT hfntBold)
 	{
 		m_hfntNormal = hfntNormal;
@@ -486,8 +484,8 @@ private:
 		for (int i = 0; i < m_proto->m_notes.getCount(); i++) {
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
 			for (TCHAR *tag = tags; tag && *tag; tag = tag + mir_tstrlen(tag) + 1)
-			if (!tagSet.find(tag))
-				tagSet.insert(tag);
+				if (!tagSet.find(tag))
+					tagSet.insert(tag);
 		}
 
 		bool selected = false;
@@ -530,7 +528,7 @@ private:
 	void ListItems(const TCHAR *tag)
 	{
 		m_lstNotes.ResetContent();
-		for (int i=0; i < m_proto->m_notes.getCount(); i++)
+		for (int i = 0; i < m_proto->m_notes.getCount(); i++)
 			if (m_proto->m_notes[i].HasTag(tag))
 				InsertItem(m_proto->m_notes[i]);
 		EnableControls();

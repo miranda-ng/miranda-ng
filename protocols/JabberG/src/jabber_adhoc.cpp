@@ -385,7 +385,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 				dat->proto->AdHoc_RequestListOfCommands(pStartupParams->m_szJid, hwndDlg);
 
 				TCHAR Caption[512];
-				mir_sntprintf(Caption, _countof(Caption), TranslateT("Jabber Ad-Hoc commands at %s"), dat->ResponderJID);
+				mir_sntprintf(Caption, TranslateT("Jabber Ad-Hoc commands at %s"), dat->ResponderJID);
 				SetWindowText(hwndDlg, Caption);
 			}
 			else {
@@ -398,7 +398,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 				SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
 
 				TCHAR Caption[512];
-				mir_sntprintf(Caption, _countof(Caption), TranslateT("Sending Ad-Hoc command to %s"), dat->ResponderJID);
+				mir_sntprintf(Caption, TranslateT("Sending Ad-Hoc command to %s"), dat->ResponderJID);
 				SetWindowText(hwndDlg, Caption);
 			}
 

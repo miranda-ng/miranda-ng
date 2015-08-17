@@ -695,7 +695,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 
 		if (m_proto->m_pInfoFrame) {
 			if (mood >= 0) {
-				mir_sntprintf(title, _countof(title), TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
+				mir_sntprintf(title, TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName));
 			}
 			else {
@@ -1083,7 +1083,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 
 		if (m_proto->m_pInfoFrame) {
 			if (activity >= 0) {
-				mir_sntprintf(title, _countof(title), TranslateT("Activity: %s"), activityTitle);
+				mir_sntprintf(title, TranslateT("Activity: %s"), activityTitle);
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(activity)), activityTitle);
 			}
 			else {
@@ -1211,10 +1211,10 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 		li.ptszAlbum = (TCHAR*)szSource;
 		li.ptszTitle = (TCHAR*)szTitle;
 		li.ptszTrack = (TCHAR*)szTrack;
-		szListeningTo = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%title% - %artist%"), (LPARAM)&li);
+		szListeningTo = (TCHAR*)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%title% - %artist%"), (LPARAM)&li);
 	}
 	else {
-		szListeningTo = (TCHAR *) mir_alloc(2048 * sizeof(TCHAR));
+		szListeningTo = (TCHAR*)mir_alloc(2048 * sizeof(TCHAR));
 		mir_sntprintf(szListeningTo, 2047, _T("%s - %s"), szTitle ? szTitle : _T(""), szArtist ? szArtist : _T(""));
 	}
 
@@ -1286,7 +1286,7 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 					szTmp++;
 				}
 			}
-			mir_sntprintf(szLengthInSec, _countof(szLengthInSec), _T("%d"), result);
+			mir_sntprintf(szLengthInSec, _T("%d"), result);
 		}
 
 		SendPepTune(szArtist, szLength ? szLengthInSec : NULL, szSource, szTitle, szTrack, NULL);

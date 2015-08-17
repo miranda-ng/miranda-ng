@@ -217,11 +217,11 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 	xmlDestroyNode(n);
 }
 
-void CJabberProto::ServerThread(JABBER_CONN_DATA *param)
+void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 {
 	ptrT tszValue;
 
-	ThreadData info(this, param);
+	ThreadData info(this, pParam);
 
 	debugLogA("Thread started: type=%d", info.bIsReg);
 
@@ -290,7 +290,7 @@ LBL_FatalError:
 		}
 
 		TCHAR jidStr[512];
-		mir_sntprintf(jidStr, _countof(jidStr), _T("%s@%S/%s"), info.conn.username, info.conn.server, info.resource);
+		mir_sntprintf(jidStr, _T("%s@%S/%s"), info.conn.username, info.conn.server, info.resource);
 		_tcsncpy_s(info.fullJID, jidStr, _TRUNCATE);
 
 		if (m_options.UseDomainLogin) // in the case of NTLM auth we have no need in password
@@ -299,7 +299,7 @@ LBL_FatalError:
 			if (m_savedPassword != NULL)
 				_tcsncpy_s(info.conn.password, m_savedPassword, _TRUNCATE);
 			else {
-				mir_sntprintf(jidStr, _countof(jidStr), _T("%s@%S"), info.conn.username, info.conn.server);
+				mir_sntprintf(jidStr, _T("%s@%S"), info.conn.username, info.conn.server);
 
 				JabberPasswordDlgParam param;
 				param.pro = this;
@@ -971,8 +971,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 		szLengthInTime[0] = 0;
 		if (szLength) {
 			int nLength = _ttoi(szLength);
-			mir_sntprintf(szLengthInTime, _countof(szLengthInTime), _T("%02d:%02d:%02d"),
-				nLength / 3600, (nLength / 60) % 60, nLength % 60);
+			mir_sntprintf(szLengthInTime, _T("%02d:%02d:%02d"), nLength / 3600, (nLength / 60) % 60, nLength % 60);
 		}
 
 		SetContactTune(hContact, szArtist, szLength ? szLengthInTime : NULL, szSource, szTitle, szTrack);
@@ -1290,8 +1289,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
 			TCHAR chkJID[JABBER_MAX_JID_LEN] = _T("@");
 			JabberStripJid(from, chkJID + 1, _countof(chkJID) - 1);
-			for (int i = 1;; i++) {
-				HXML iNode = XmlGetNthChild(xNode, _T("item"), i);
+			for (int j = 1;; j++) {
+				HXML iNode = XmlGetNthChild(xNode, _T("item"), j);
 				if (iNode == NULL)
 					break;
 				
@@ -1301,14 +1300,14 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				const TCHAR *group = XmlGetText(XmlGetChild(iNode, _T("group")));
 				if (action && jid && _tcsstr(jid, chkJID)) {
 					if (!mir_tstrcmp(action, _T("add"))) {
-						MCONTACT hContact = DBCreateContact(jid, nick, FALSE, FALSE);
+						MCONTACT cc = DBCreateContact(jid, nick, FALSE, FALSE);
 						if (group)
-							db_set_ts(hContact, "CList", "Group", group);
+							db_set_ts(cc, "CList", "Group", group);
 					}
 					else if (!mir_tstrcmp(action, _T("delete"))) {
-						MCONTACT hContact = HContactFromJID(jid);
-						if (hContact)
-							CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+						MCONTACT cc = HContactFromJID(jid);
+						if (cc)
+							CallService(MS_DB_CONTACT_DELETE, cc, 0);
 					}
 				}
 			}
@@ -1836,7 +1835,7 @@ void CJabberProto::SetRegConfig(HXML node, void *from)
 {
 	if (m_regInfo && from) {
 		TCHAR text[MAX_PATH];
-		mir_sntprintf(text, MAX_PATH, _T("%s@%S"), m_regInfo->conn.username, m_regInfo->conn.server);
+		mir_sntprintf(text, _T("%s@%S"), m_regInfo->conn.username, m_regInfo->conn.server);
 		XmlNodeIq iq(_T("set"), SerialNext(), (TCHAR*)from);
 		iq << XATTR(_T("from"), text);
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
@@ -1965,26 +1964,26 @@ int ThreadData::recv(char* buf, size_t len)
 	return recvws(buf, len, MSG_DUMPASTEXT);
 }
 
-int ThreadData::sendws(char* buffer, size_t bufsize, int flags)
+int ThreadData::sendws(char* buf, size_t bufsize, int flags)
 {
-	return proto->WsSend(s, buffer, (int)bufsize, flags);
+	return proto->WsSend(s, buf, (int)bufsize, flags);
 }
 
-int ThreadData::send(char* buffer, int bufsize)
+int ThreadData::send(char* buf, int bufsize)
 {
 	if (this == NULL)
 		return 0;
 
 	if (bufsize == -1)
-		bufsize = (int)mir_strlen(buffer);
+		bufsize = (int)mir_strlen(buf);
 
 	WaitForSingleObject(iomutex, 6000);
 
 	int result;
 	if (useZlib)
-		result = zlibSend(buffer, bufsize);
+		result = zlibSend(buf, bufsize);
 	else
-		result = sendws(buffer, bufsize, MSG_DUMPASTEXT);
+		result = sendws(buf, bufsize, MSG_DUMPASTEXT);
 
 	ReleaseMutex(iomutex);
 	return result;

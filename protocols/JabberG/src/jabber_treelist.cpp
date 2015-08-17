@@ -322,8 +322,8 @@ void TreeList_Update(HWND hwnd)
 	else {
 		for (int i = data->hItemSelected->subItems.getCount(); i--;)
 			sttTreeList_CreateItems_List(data->hItemSelected->subItems[i], (LPARAM)hwnd);
-		for (HTREELISTITEM hItem = data->hItemSelected; !(hItem->flags & TLIF_ROOT); hItem = hItem->parent)
-			sttTreeList_CreateItems_List(hItem, (LPARAM)hwnd);
+		for (HTREELISTITEM p = data->hItemSelected; !(p->flags & TLIF_ROOT); p = p->parent)
+			sttTreeList_CreateItems_List(p, (LPARAM)hwnd);
 	}
 	ListView_SortItems(hwnd, sttTreeList_SortFunc, 0);
 	SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);

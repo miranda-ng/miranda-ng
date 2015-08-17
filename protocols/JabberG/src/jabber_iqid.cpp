@@ -502,7 +502,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 	if (m_options.AutoJoinConferences)
 		for (int i=0; i < chatRooms.getCount(); i++)
-			GroupchatJoinByHContact((MCONTACT)chatRooms[i], true);
+			GroupchatJoinByHContact((DWORD_PTR)chatRooms[i], true);
 
 	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
 	WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);
@@ -648,7 +648,6 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	HXML vCardNode, m, n, o;
 	const TCHAR *type, *jid;
 	MCONTACT hContact;
-	TCHAR text[128];
 	DBVARIANT dbv;
 
 	debugLogA("<iq/> iqIdGetVcard");
@@ -810,6 +809,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 			else if (!mir_tstrcmp(XmlGetName(n), _T("ADR"))) {
 				if (!hasHome && XmlGetChild(n, "HOME") != NULL) {
 					// Home address
+					TCHAR text[128];
 					hasHome = true;
 					if ((m=XmlGetChild(n, "STREET")) != NULL && XmlGetText(m) != NULL) {
 						hasHomeStreet = true;
@@ -855,6 +855,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 					// Work address
 					hasWork = true;
 					if ((m=XmlGetChild(n, "STREET")) != NULL && XmlGetText(m) != NULL) {
+						TCHAR text[128];
 						hasWorkStreet = true;
 						if (hContact != NULL) {
 							if ((o=XmlGetChild(n, "EXTADR")) != NULL && XmlGetText(o) != NULL)

@@ -158,7 +158,7 @@ protected:
 	void ExpireInfo(CJabberIqInfo *pInfo);
 
 public:
-	CJabberIqManager(CJabberProto* proto);
+	CJabberIqManager(CJabberProto *proto);
 	~CJabberIqManager();
 
 	bool Start();

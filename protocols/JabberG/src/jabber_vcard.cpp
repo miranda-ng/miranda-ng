@@ -733,7 +733,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 				ptrT email( ppro->getTStringA(idstr));
 				if (email == NULL) break;
 
-				mir_sntprintf(number, _countof(number), _T("%d"), i+1);
+				mir_sntprintf(number, _T("%d"), i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
@@ -754,7 +754,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 				ptrT phone( ppro->getTStringA(idstr));
 				if (phone == NULL) break;
 
-				mir_sntprintf(number, _countof(number), _T("%d"), i+1);
+				mir_sntprintf(number, _T("%d"), i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
@@ -880,7 +880,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 					else if (hti.iSubItem == 2) {
-						EditDlgParam param = { lvi.lParam, ppro };
+						EditDlgParam param = { (int)lvi.lParam, ppro };
 						int res;
 						if (nm->hdr.idFrom == IDC_PHONES)
 							res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);

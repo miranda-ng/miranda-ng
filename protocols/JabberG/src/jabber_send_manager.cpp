@@ -31,7 +31,7 @@ static int CompareItems(const CJabberSendPermanentInfo *p1, const CJabberSendPer
 	return p1->getPriority() - p2->getPriority();
 }
 
-CJabberSendManager::CJabberSendManager(CJabberProto* proto) :
+CJabberSendManager::CJabberSendManager(CJabberProto *proto) :
 	m_arHandlers(1, CompareItems)
 {
 	ppro = proto;

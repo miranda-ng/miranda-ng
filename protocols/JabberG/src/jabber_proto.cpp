@@ -633,7 +633,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 				for (int i=0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
 					TCHAR tmp[JABBER_MAX_JID_LEN];
-					mir_sntprintf(tmp, _countof(tmp), _T("%s/%s"), szBareJid, r->m_tszResourceName);
+					mir_sntprintf(tmp, _T("%s/%s"), szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
 						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
@@ -716,7 +716,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 				mir_free(szServer);
 				szServer = mir_tstrdup(_T("sms"));
 			}
-			mir_sntprintf(jsb->jid, _countof(jsb->jid), _T("%s@%s"), szJid, szServer);
+			mir_sntprintf(jsb->jid, _T("%s@%s"), szJid, szServer);
 		}
 		else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 		mir_free(szServer);
@@ -1122,7 +1122,7 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
 void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 {
-	MCONTACT hContact = (MCONTACT)param;
+	MCONTACT hContact = (DWORD_PTR)param;
 
 	ptrT jid(getTStringA(hContact, "jid"));
 	if (jid != NULL) {

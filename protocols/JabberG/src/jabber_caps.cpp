@@ -201,7 +201,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	if (item) {
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			TCHAR szFullJid[JABBER_MAX_JID_LEN];
-			mir_sntprintf(szFullJid, _countof(szFullJid), _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
+			mir_sntprintf(szFullJid, _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;
@@ -240,7 +240,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 			r->m_dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 
 			TCHAR queryNode[512];
-			mir_sntprintf(queryNode, _countof(queryNode), _T("%s#%s"), r->m_tszCapsNode, r->m_tszCapsVer);
+			mir_sntprintf(queryNode, _T("%s#%s"), r->m_tszCapsNode, r->m_tszCapsVer);
 			m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), queryNode));
 
 			bRequestSent = TRUE;
@@ -517,7 +517,7 @@ BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CJabberClientCapsManager class
 
-CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto* proto)
+CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto)
 {
 	ppro = proto;
 	m_pClients = NULL;
@@ -615,7 +615,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 				continue;
 
 			TCHAR szExtCap[ 512 ];
-			mir_sntprintf(szExtCap, _countof(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
+			mir_sntprintf(szExtCap, _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
 			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
 				break;
@@ -625,7 +625,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
 		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 			TCHAR szExtCap[ 512 ];
-			mir_sntprintf(szExtCap, _countof(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
+			mir_sntprintf(szExtCap, _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
 			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 				break;

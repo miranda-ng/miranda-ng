@@ -276,7 +276,7 @@ protected:
 	CJabberClientCaps *FindClient(const TCHAR *szNode);
 
 public:
-	CJabberClientCapsManager(CJabberProto* proto);
+	CJabberClientCapsManager(CJabberProto *proto);
 	~CJabberClientCapsManager();
 
 	void AddDefaultCaps();
