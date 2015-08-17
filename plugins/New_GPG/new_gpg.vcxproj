@@ -27,6 +27,7 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+      <DisableSpecificWarnings>4459;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>.\src\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
