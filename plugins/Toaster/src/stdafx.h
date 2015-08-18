@@ -36,4 +36,6 @@ const wchar_t AppUserModelID[] = L"MirandaNG";
 
 extern HINSTANCE g_hInstance;
 
+void InitServices();
+
 #endif //_COMMON_H_

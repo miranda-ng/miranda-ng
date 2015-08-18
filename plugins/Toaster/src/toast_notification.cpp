@@ -3,10 +3,7 @@
 ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath) throw()
 	: _text(text), _caption(caption), _imagePath(imagePath)
 {
-	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &_notificationManager);
-
-	if (FAILED(hr))
-		RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
+	
 }
 
 ToastNotification::~ToastNotification()
@@ -157,10 +154,15 @@ HRESULT ToastNotification::Setup(_In_ ABI::Windows::Data::Xml::Dom::IXmlDocument
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
 {
+	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
+	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
+	if (FAILED(hr))
+		RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
+
 	ABI::Windows::UI::Notifications::ToastTemplateType templateId = _imagePath == nullptr
 		? ABI::Windows::UI::Notifications::ToastTemplateType_ToastText02
 		: ABI::Windows::UI::Notifications::ToastTemplateType_ToastImageAndText02;
-	HRESULT hr = _notificationManager->GetTemplateContent(templateId, xml);
+	hr = notificationManager->GetTemplateContent(templateId, xml);
 	if (FAILED(hr))
 		return hr;
 
@@ -208,8 +210,13 @@ HRESULT ToastNotification::Show()
 
 HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 {
+	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
+	HRESULT hr = Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
+	if (FAILED(hr))
+		RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
+
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
-	HRESULT hr = _notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
+	hr = notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
 	if (FAILED(hr))
 		return hr;
 

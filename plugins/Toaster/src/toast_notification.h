@@ -8,8 +8,6 @@ private:
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
-	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> _notificationManager;
-
 	HRESULT GetNodeByTag(_In_ HSTRING tagName, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
 	HRESULT AddNode(_In_ HSTRING name, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode *rootNode, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
 	HRESULT SetNodeValueString(_In_ HSTRING inputString, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode* node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
