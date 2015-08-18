@@ -3,17 +3,17 @@
 INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
-
-		if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
-			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
-
+		{
+			CMStringW szBuff;
+			if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
+				SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
+		}
 		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
 		return TRUE;
 
@@ -54,17 +54,17 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
-
-		if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
-			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
-
+		{
+			CMStringW szBuff;
+			if (ppro->mraGetStringW(NULL, "e-mail", szBuff))
+				SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
+		}
 		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
 		return TRUE;
 
@@ -104,18 +104,19 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
-
-		if (ppro->mraGetStringW(NULL, "Server", szBuff))
-			SetDlgItemText(hWndDlg, IDC_SERVER, szBuff.c_str());
-		else
-			SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
+		{
+			CMStringW szBuff;
+			if (ppro->mraGetStringW(NULL, "Server", szBuff))
+				SetDlgItemText(hWndDlg, IDC_SERVER, szBuff.c_str());
+			else
+				SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
+		}
 
 		SetDlgItemInt(hWndDlg, IDC_SERVERPORT, ppro->getWord("ServerPort", MRA_DEFAULT_SERVER_PORT), FALSE);
 		// if set SSL proxy, setting will ignored

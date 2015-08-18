@@ -14,7 +14,7 @@ public:
 	void* Allocate(size_t len)
 	{
 		if (m_actual + len >= m_max) {
-			size_t increment = (len > 4096) ? len+4096 : 4096;
+			size_t increment = (len > 4096) ? len + 4096 : 4096;
 			m_buf = (PBYTE)realloc(m_buf, m_max += increment);
 		}
 
@@ -43,14 +43,14 @@ public:
 	void SetLPS(const CMStringA &str)
 	{
 		SetUL(str.GetLength());
-		memcpy( Allocate(str.GetLength()), str, str.GetLength());
+		memcpy(Allocate(str.GetLength()), str, str.GetLength());
 	}
 
 	void SetLPSW(const CMStringW &str)
 	{
 		DWORD dwBytes = str.GetLength() * sizeof(WCHAR);
 		SetUL(dwBytes);
-		memcpy( Allocate(dwBytes), str, dwBytes);
+		memcpy(Allocate(dwBytes), str, dwBytes);
 	}
 
 	void SetLPSLowerCase(const CMStringA &str)
@@ -106,7 +106,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetLPS(lpszBuf);// сам мульт ANSI
 		buf.SetLPSW(lpwszMessage);// сам мульт UNICODE
 
-		DWORD dwBufSize = (buf.Len() + 128);
+		DWORD dwBufSize = DWORD(buf.Len() + 128);
 		lpszBuf.Truncate(dwBufSize);
 		if (compress2((LPBYTE)(LPCSTR)lpszBuf, &dwBufSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
 			lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpszBuf, dwBufSize);
@@ -117,10 +117,10 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 	else if ((dwFlags & (MESSAGE_FLAG_CONTACT | MESSAGE_FLAG_NOTIFY | MESSAGE_FLAG_SMS)) == 0) {
 		// Only if message is simple text message or RTF or ALARM
 		if (dwFlags & MESSAGE_FLAG_RTF) { // add RFT part
-			CMStringA lpbRTFData; lpbRTFData.Truncate(lpwszMessage.GetLength()*16 + 4096);
+			CMStringA lpbRTFData; lpbRTFData.Truncate(lpwszMessage.GetLength() * 16 + 4096);
 			if (!MraConvertToRTFW(lpwszMessage, lpbRTFData)) {
 				DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
-				
+
 				OutBuffer buf;
 				buf.SetUL(2);
 				buf.SetLPS(lpbRTFData);
@@ -136,7 +136,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		}
 	}
 
-	if (lpszMessageRTF == NULL || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF|MESSAGE_FLAG_FLASH);
+	if (lpszMessageRTF == NULL || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF | MESSAGE_FLAG_FLASH);
 	if (lpbMultiChatData == NULL || dwMultiChatDataSize == 0) dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
 	OutBuffer buf;
@@ -253,7 +253,7 @@ DWORD CMraProto::MraOfflineMessageDel(DWORDLONG dwMsgUIDL)
 // autorize a user & add him to a roster
 DWORD CMraProto::MraAuthorize(const CMStringA& szEmail)
 {
-	if ( szEmail.GetLength() <= 4)
+	if (szEmail.GetLength() <= 4)
 		return 0;
 
 	OutBuffer buf;
@@ -285,10 +285,10 @@ DWORD CMraProto::MraFileTransfer(const CMStringA &szEmail, DWORD dwIDRequest, DW
 	buf.SetLPSLowerCase(szEmail);
 	buf.SetUL(dwIDRequest);
 	buf.SetUL(dwFilesTotalSize);
-	buf.SetUL(sizeof(DWORD)*5 + szFiles.GetLength() + wszFiles.GetLength()*sizeof(WCHAR) + szAddresses.GetLength());
+	buf.SetUL(sizeof(DWORD) * 5 + szFiles.GetLength() + wszFiles.GetLength()*sizeof(WCHAR) + szAddresses.GetLength());
 
 	buf.SetLPS(szFiles);
-	buf.SetUL(sizeof(DWORD)*2 + wszFiles.GetLength()*sizeof(WCHAR));
+	buf.SetUL(sizeof(DWORD) * 2 + wszFiles.GetLength()*sizeof(WCHAR));
 
 	buf.SetUL(1);
 	buf.SetLPSW(wszFiles);
@@ -317,11 +317,11 @@ HANDLE CMraProto::MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequ
 	OutBuffer buf;
 	CMStringA tmp;
 
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER))      { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_USER); buf.SetLPSLowerCase(szUser); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN))    { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DOMAIN); buf.SetLPSLowerCase(szDomain); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_NICKNAME); buf.SetLPSW(wszNickName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_USER); buf.SetLPSLowerCase(szUser); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DOMAIN); buf.SetLPSLowerCase(szDomain); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_NICKNAME); buf.SetLPSW(wszNickName); }
 	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME); buf.SetLPSW(wszFirstName); }
-	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_LASTNAME); buf.SetLPSW(wszLastName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_LASTNAME); buf.SetLPSW(wszLastName); }
 
 	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX)) {
 		tmp.Format("%lu", dwSex);
@@ -387,7 +387,7 @@ HANDLE CMraProto::MraWPRequestByEMail(MCONTACT hContact, DWORD dwAckType, CMStri
 		return 0;
 
 	int iStart = 0;
-	CMStringA szUser   = szEmail.Tokenize("@", iStart);
+	CMStringA szUser = szEmail.Tokenize("@", iStart);
 	CMStringA szDomain = szEmail.Tokenize("@", iStart);
 
 	DWORD dwRequestFlags = 0;
@@ -498,7 +498,7 @@ DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText
 	return MraSendCMD(MRIM_CS_CHANGE_USER_BLOG_STATUS, buf.Data(), buf.Len());
 }
 
-DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCmdNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
 	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize + sizeof(mrim_packet_header_t));
 
@@ -506,10 +506,10 @@ DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType,
 	memset(pmaHeader, 0, sizeof(mrim_packet_header_t));
 	pmaHeader->magic = CS_MAGIC;
 	pmaHeader->proto = (PROTO_VERSION_MAJOR << 16) + PROTO_VERSION_MINOR; // Версия протокола
-	pmaHeader->seq = dwCMDNum;// Sequence
+	pmaHeader->seq = dwCmdNum;// Sequence
 	pmaHeader->msg = dwType;// Тип пакета
 	pmaHeader->dlen = (unsigned)dwDataSize;// Длина данных
-	
+
 	debugLogA("Sending packet %08x\n", dwType);
 
 	memcpy((lpbData + sizeof(mrim_packet_header_t)), lpData, dwDataSize);
@@ -525,13 +525,13 @@ DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)
 }
 
 
-DWORD CMraProto::MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendQueueCMD(HANDLE hQueue, DWORD dwFlags, MCONTACT hContact, DWORD dwAckType, LPBYTE lpbDataQueue, size_t dwDataQueueSize, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
 	DWORD dwRet = InterlockedIncrement((LONG volatile*)&dwCMDNum);
-	if ( !MraSendQueueAdd(hSendQueueHandle, dwRet, dwFlags, hContact, dwAckType, lpbDataQueue, dwDataQueueSize)) {
+	if (!MraSendQueueAdd(hQueue, dwRet, dwFlags, hContact, dwAckType, lpbDataQueue, dwDataQueueSize)) {
 		mir_cslock l(csCriticalSectionSend); // guarding winsock internal buffers
-		if ( !MraSendPacket(m_hConnection, dwRet, dwType, lpData, dwDataSize)) {
-			MraSendQueueFree(hSendQueueHandle, dwRet);
+		if (!MraSendPacket(m_hConnection, dwRet, dwType, lpData, dwDataSize)) {
+			MraSendQueueFree(hQueue, dwRet);
 			dwRet = 0;
 		}
 	}

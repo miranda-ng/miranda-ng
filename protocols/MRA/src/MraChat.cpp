@@ -79,14 +79,14 @@ void CMraProto::MraChatSessionDestroy(MCONTACT hContact)
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 }
 
-INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, int iType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
 {
 	if (!bChatExists)
 		return 1;
 
 	CMStringW wszID, wszUID, wszNick;
 
-	GCDEST gcd = { m_szModuleName, 0, dwType };
+	GCDEST gcd = { m_szModuleName, 0, iType };
 	if (hContactChatSession) {
 		mraGetStringW(hContactChatSession, "e-mail", wszID);
 		gcd.ptszID = (LPWSTR)wszID.c_str();

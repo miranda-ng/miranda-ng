@@ -15,8 +15,6 @@ struct MRA_MPOP_SESSION_QUEUE_ITEM : public FIFO_MT_ITEM
 	size_t  dwUrlSize;
 };
 
-void MraMPopSessionQueueClear(HANDLE hMPopSessionQueue);
-
 DWORD MraMPopSessionQueueInitialize(HANDLE *phMPopSessionQueue)
 {
 	if (!phMPopSessionQueue)
@@ -32,12 +30,12 @@ DWORD MraMPopSessionQueueInitialize(HANDLE *phMPopSessionQueue)
 	return NO_ERROR;
 }
 
-void MraMPopSessionQueueClear(HANDLE hMPopSessionQueue)
+void MraMPopSessionQueueClear(HANDLE hQueue)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	pmpsqMPopSessionQueue->bKeyValid = false;
 	mir_free(pmpsqMPopSessionQueue->lpszMPOPKey);
 	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
@@ -48,23 +46,23 @@ void MraMPopSessionQueueClear(HANDLE hMPopSessionQueue)
 		mir_free(pmpsqi);
 }
 
-void MraMPopSessionQueueDestroy(HANDLE hMPopSessionQueue)
+void MraMPopSessionQueueDestroy(HANDLE hQueue)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
-	MraMPopSessionQueueClear(hMPopSessionQueue);
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
+	MraMPopSessionQueueClear(hQueue);
 	delete pmpsqMPopSessionQueue;
 }
 
-DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStringA &lpszUrl)
+DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hQueue, const CMStringA &lpszUrl)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 	if (lpszUrl.IsEmpty())
 		return ERROR_INVALID_DATA;
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
 	if (!getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS) || !m_bLoggedIn) { /* Open without web auth. / Not loggedIn. */
@@ -80,13 +78,13 @@ DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStr
 	pmpsqi->lpszUrl = (LPSTR)(pmpsqi + 1);
 	memcpy(pmpsqi->lpszUrl, lpszUrl, lpszUrl.GetLength());
 	FifoMTItemPush(pmpsqMPopSessionQueue, pmpsqi, (LPVOID)pmpsqi);
-	MraMPopSessionQueueStart(hMPopSessionQueue);
+	MraMPopSessionQueueStart(hQueue);
 	return NO_ERROR;
 }
 
-DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, const CMStringA &lpszUrl, CMStringA &szEmail)
+DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hQueue, const CMStringA &lpszUrl, CMStringA &szEmail)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 	if (lpszUrl.IsEmpty() || szEmail.IsEmpty())
 		return ERROR_INVALID_DATA;
@@ -99,26 +97,26 @@ DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, con
 
 	CMStringA szUrl;
 	szUrl.Format("%s/%s/%s", lpszUrl.c_str(), szDomain.c_str(), szUser.c_str());
-	return MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
+	return MraMPopSessionQueueAddUrl(hQueue, szUrl);
 }
 
-void CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
+void CMraProto::MraMPopSessionQueueStart(HANDLE hQueue)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
 	if (!getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS) || !m_bLoggedIn) { /* Open without web auth. / Not loggedIn. */
-		MraMPopSessionQueueFlush(hMPopSessionQueue);
+		MraMPopSessionQueueFlush(hQueue);
 		return;
 	}
 
 	while ( FifoMTGetCount(pmpsqMPopSessionQueue)) {
 		if (!pmpsqMPopSessionQueue->bKeyValid) { /* We have no key, try to get one. */
 			if (0 == MraSendCMD(MRIM_CS_GET_MPOP_SESSION, NULL, 0))	/* Fail to send. */
-				MraMPopSessionQueueFlush(hMPopSessionQueue);
+				MraMPopSessionQueueFlush(hQueue);
 			return;
 		}
 
@@ -136,12 +134,12 @@ void CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 	}
 }
 
-void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
+void CMraProto::MraMPopSessionQueueFlush(HANDLE hQueue)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
 	while (FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
@@ -150,12 +148,12 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
 	}
 }
 
-DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, const CMStringA &szKey)
+DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hQueue, const CMStringA &szKey)
 {
-	if (!hMPopSessionQueue)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	if (pmpsqMPopSessionQueue->dwMPOPKeySize < (size_t)szKey.GetLength() || szKey.IsEmpty()) {
 		mir_free(pmpsqMPopSessionQueue->lpszMPOPKey);
 		pmpsqMPopSessionQueue->lpszMPOPKey = (LPSTR)mir_calloc(szKey.GetLength() + sizeof(size_t));
