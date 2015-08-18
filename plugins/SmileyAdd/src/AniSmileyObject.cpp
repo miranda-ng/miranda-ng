@@ -128,15 +128,15 @@ public:
 		reObj.cbStruct = sizeof(REOBJECT);
 
 		HRESULT hr = RichEditOle->GetObject(m_lastObjNum, &reObj, REO_GETOBJ_NO_INTERFACES);
-		if (hr == S_OK && reObj.dwUser == (DWORD)this && reObj.clsid == CLSID_NULL)
+		if (hr == S_OK && reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL)
 			m_richFlags = reObj.dwFlags;
 		else {
 			long objectCount = RichEditOle->GetObjectCount();
 			for (long i = objectCount; i--; ) {
-				HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
+				hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_NO_INTERFACES);
 				if (FAILED(hr)) continue;
 
-				if (reObj.dwUser == (DWORD)this && reObj.clsid == CLSID_NULL) {
+				if (reObj.dwUser == (DWORD_PTR)this && reObj.clsid == CLSID_NULL) {
 					m_lastObjNum = i;
 					m_richFlags = reObj.dwFlags;
 					break;
@@ -155,7 +155,6 @@ public:
 		}
 	}
 
-
 	void DoDirectDraw(HDC hdc)
 	{
 		HBITMAP hBmp = CreateCompatibleBitmap(hdc, m_rectExt.cx, m_rectExt.cy);
@@ -167,12 +166,12 @@ public:
 		rc.top = m_rectExt.cy - m_sizeExtent.cy;
 		rc.right = rc.left + m_sizeExtent.cx;
 		rc.bottom = rc.top + m_sizeExtent.cy;
-
-		HBRUSH hbr = CreateSolidBrush(m_bkg);
-		RECT frc = { 0, 0, m_rectExt.cx, m_rectExt.cy };
-		FillRect(hdcMem, &frc, hbr);
-		DeleteObject(hbr);
-
+		{
+			HBRUSH hbr = CreateSolidBrush(m_bkg);
+			RECT frc = { 0, 0, m_rectExt.cx, m_rectExt.cy };
+			FillRect(hdcMem, &frc, hbr);
+			DeleteObject(hbr);
+		}
 		m_img->DrawInternal(hdcMem, rc.left, rc.top, m_sizeExtent.cx - 1, m_sizeExtent.cy - 1);
 
 		if (m_richFlags & REO_SELECTED) {

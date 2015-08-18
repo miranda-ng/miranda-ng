@@ -30,6 +30,7 @@ WCMatcher::WCMatcher(WCPattern * pattern, const CMString & text)
 	groupIndeces = groupIndeces + ncgc;
 	for (int i = 0; i < gc; ++i) starts[i] = ends[i] = 0;
 }
+
 WCMatcher::~WCMatcher()
 {
 	delete[](starts - ncgc);
@@ -38,6 +39,7 @@ WCMatcher::~WCMatcher()
 	delete[](groupIndeces - ncgc);
 	delete[](groupPos - ncgc);
 }
+
 void WCMatcher::clearGroups()
 {
 	int i;
@@ -45,11 +47,12 @@ void WCMatcher::clearGroups()
 	for (i = 0; i < gc; ++i)    groups[i] = starts[i] = ends[i] = -1;
 	for (i = 1; i <= ncgc; ++i) groups[0 - i] = starts[0 - i] = ends[0 - i] = -1;
 }
-CMString WCMatcher::replaceWithGroups(const CMString & str)
+
+CMString WCMatcher::replaceWithGroups(const CMString &pStr)
 {
 	CMString ret;
 
-	CMString t = str;
+	CMString t = pStr;
 	while (t.GetLength() > 0) {
 		if (t[0] == '\\') {
 			t.Delete(0);
@@ -77,10 +80,12 @@ CMString WCMatcher::replaceWithGroups(const CMString & str)
 
 	return ret;
 }
+
 unsigned long WCMatcher::getFlags() const
 {
 	return flags;
 }
+
 const CMString& WCMatcher::getText() const
 {
 	return *str;
