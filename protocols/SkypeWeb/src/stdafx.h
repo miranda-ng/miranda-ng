@@ -78,6 +78,21 @@ struct LoginInfo
 	ptrA szSkypename;
 };
 
+
+struct TRInfo
+{
+	std::string socketIo,
+	connId,
+	st,
+	se,
+	instance,
+	ccid,
+	sessId,
+	sig,
+	url;
+	time_t lastRegistrationTime;
+}trouter;
+
 #include "version.h"
 #include "resource.h"
 #include "skype_icons.h"

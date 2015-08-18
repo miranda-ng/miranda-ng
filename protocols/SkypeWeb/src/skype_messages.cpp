@@ -89,7 +89,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 					auto it = m_mpOutMessages.find(hMessage);
 					if (it == m_mpOutMessages.end())
 					{
-						m_mpOutMessages[hMessage] = (jRoot["OriginalArrivalTime"].as_int() / 1000);
+						m_mpOutMessages[hMessage] = std::stoull(jRoot["OriginalArrivalTime"].as_string()) / 1000;
 					}
 				}
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
@@ -187,7 +187,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	{
 		if (IsMe(szFromSkypename))
 		{
-			HANDLE hMessage = (HANDLE)atol(szMessageId);
+			HANDLE hMessage = (HANDLE)std::stoull(szMessageId.GetString());
 			if (m_OutMessages.getIndex(hMessage) != -1)
 			{
 				auto it = m_mpOutMessages.find(hMessage);

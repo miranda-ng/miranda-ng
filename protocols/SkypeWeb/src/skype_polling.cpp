@@ -41,8 +41,16 @@ void CSkypeProto::PollingThread(void*)
 			if (response->pData)
 			{
 				void *pData = mir_alloc(response->dataLength);
-				memcpy(pData, response->pData, response->dataLength);
-				ForkThread(&CSkypeProto::ParsePollData, pData);
+				if (pData != NULL)
+				{
+					memcpy(pData, response->pData, response->dataLength);
+					ForkThread(&CSkypeProto::ParsePollData, pData);
+				}
+				else
+				{
+					debugLogA(__FUNCTION__ ": memory overflow !!!");
+					break;
+				}
 			}
 		}
 		else
@@ -82,7 +90,7 @@ void CSkypeProto::ParsePollData(void *pData)
 {
 	debugLogA(__FUNCTION__);
 
-	JSONNode data = JSONNode::parse(ptrA((char*)pData));
+	JSONNode data = JSONNode::parse((char*)pData);
 	if (!data) return;
 
 	const JSONNode &node = data["eventMessages"];
@@ -116,6 +124,7 @@ void CSkypeProto::ParsePollData(void *pData)
 			ProcessThreadUpdate(resource);
 		}
 	}
+	mir_free(pData);
 }
 
 void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
