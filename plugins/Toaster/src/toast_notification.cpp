@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath) throw()
+ToastNotification::ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption, _In_ wchar_t* imagePath)
 	: _text(text), _caption(caption), _imagePath(imagePath)
 {
 	
