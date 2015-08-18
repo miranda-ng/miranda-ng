@@ -162,7 +162,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	default:
 		{
-			szText = (char*)pEvent->dbei->pBlob;
+			szText = ptrA(mir_utf8decodeA((char*)pEvent->dbei->pBlob));
 		}
 	}
 

@@ -168,7 +168,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	bool bEdited = node["skypeeditedid"];
 	time_t timestamp =  IsoToUnixTime(node["composetime"].as_string().c_str());
 
-	int nEmoteOffset = node["skypeemoteoffset"].as_int();
+	int nEmoteOffset = atoi(node["skypeemoteoffset"].as_string().c_str());
 
 	MCONTACT hContact = AddContact(szConversationName, true);
 
