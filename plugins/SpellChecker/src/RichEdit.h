@@ -3,17 +3,17 @@
 
 class RichEdit
 {
-	HWND hwnd;
-	IRichEditOle *ole;
-	ITextDocument *textDocument;
+	HWND m_hwnd;
+	IRichEditOle *m_ole;
+	ITextDocument *m_textDocument;
 
-	int stopped;
-	BOOL undoEnabled;
-	POINT old_scroll_pos;
-	CHARRANGE old_sel;
-	POINT caretPos;
-	DWORD old_mask;
-	BOOL inverse;
+	int m_stopped;
+	BOOL m_undoEnabled;
+	POINT m_old_scroll_pos;
+	CHARRANGE m_old_sel;
+	POINT m_caretPos;
+	DWORD m_old_mask;
+	BOOL m_inverse;
 
 public:
 	RichEdit(HWND hwnd);
@@ -44,7 +44,7 @@ public:
 	void SetSel(int start, int end);
 	void SetSel(const CHARRANGE &sel);
 
-	TCHAR *GetText(int start, int end) const;
+	TCHAR* GetText(int start, int end) const;
 	int GetTextLength() const;
 
 	void ReplaceSel(const TCHAR *new_text);
@@ -57,9 +57,5 @@ private:
 
 	int FixSel(CHARRANGE *to_fix, CHARRANGE sel_changed, int new_len);
 };
-
-
-
-
 
 #endif // __RICHEDIT_H__

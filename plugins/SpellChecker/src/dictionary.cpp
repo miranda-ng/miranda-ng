@@ -365,7 +365,7 @@ protected:
 	void loadCustomDict()
 	{
 		TCHAR filename[1024];
-		mir_sntprintf(filename, _countof(filename), _T("%s\\%s.cdic"), userPath, language);
+		mir_sntprintf(filename, _T("%s\\%s.cdic"), userPath, language);
 
 		FILE *file = _tfopen(filename, _T("rb"));
 		if (file != NULL) {
@@ -395,7 +395,7 @@ protected:
 		CreateDirectoryTreeT(userPath);
 
 		TCHAR filename[1024];
-		mir_sntprintf(filename, _countof(filename), _T("%s\\%s.cdic"), userPath, language);
+		mir_sntprintf(filename, _T("%s\\%s.cdic"), userPath, language);
 
 		FILE *file = _tfopen(filename, _T("ab"));
 		if (file != NULL) {
@@ -737,7 +737,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
 
 	TCHAR name[64];
-	mir_sntprintf(name, _countof(name), _T("%s_%s"), ini, end);
+	mir_sntprintf(name, _T("%s_%s"), ini, end);
 
 	for (int i = 0; i < tmp_dicts->getCount(); i++) {
 		Dictionary *dict = (*tmp_dicts)[i];
@@ -753,13 +753,13 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 				TCHAR country[1024];
 				GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGCOUNTRY, country, _countof(country));
 
-				TCHAR name[1024];
+				TCHAR localName[1024];
 				if (country[0] != 0)
-					mir_sntprintf(name, _countof(name), _T("%s (%s)"), dict->english_name, country);
+					mir_sntprintf(localName, _T("%s (%s)"), dict->english_name, country);
 				else
-					mir_tstrncpy(name, dict->english_name, _countof(name));
+					mir_tstrncpy(localName, dict->english_name, _countof(localName));
 
-				mir_tstrncpy(dict->localized_name, TranslateTS(name), _countof(dict->localized_name));
+				mir_tstrncpy(dict->localized_name, TranslateTS(localName), _countof(dict->localized_name));
 			}
 
 			if (dict->localized_name[0] != 0) {
@@ -801,7 +801,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			}
 
 			if (dict->localized_name[0] != _T('\0')) {
-				mir_sntprintf(dict->full_name, _countof(dict->full_name), _T("%s [%s]"), dict->localized_name, dict->language);
+				mir_sntprintf(dict->full_name, _T("%s [%s]"), dict->localized_name, dict->language);
 			}
 			else {
 				mir_tstrncpy(dict->full_name, dict->language, _countof(dict->full_name));
@@ -815,7 +815,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 {
 	// Load the language files and create an array with then
 	TCHAR file[1024];
-	mir_sntprintf(file, _countof(file), _T("%s\\*.dic"), path);
+	mir_sntprintf(file, _T("%s\\*.dic"), path);
 
 	BOOL found = FALSE;
 
@@ -823,7 +823,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 	HANDLE hFFD = FindFirstFile(file, &ffd);
 	if (hFFD != INVALID_HANDLE_VALUE) {
 		do {
-			mir_sntprintf(file, _countof(file), _T("%s\\%s"), path, ffd.cFileName);
+			mir_sntprintf(file, _T("%s\\%s"), path, ffd.cFileName);
 
 			// Check .dic
 			DWORD attrib = GetFileAttributes(file);
@@ -873,7 +873,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 		// Get other apps dicts
 		for (int i = 0; i < _countof(otherHunspellApps); i++) {
 			TCHAR key[1024];
-			mir_sntprintf(key, _countof(key), APPPATH, otherHunspellApps[i].key);
+			mir_sntprintf(key, APPPATH, otherHunspellApps[i].key);
 
 			HKEY hKey = 0;
 			LONG lResult = 0;
@@ -911,7 +911,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 
 			if (ERROR_SUCCESS == lResult) {
 				TCHAR folder[1024];
-				mir_sntprintf(folder, _countof(folder), _T("%s\\Dictionaries"), key);
+				mir_sntprintf(folder, _T("%s\\Dictionaries"), key);
 
 				GetHunspellDictionariesFromFolder(languages, folder, user_path, otherHunspellApps[i].name);
 			}

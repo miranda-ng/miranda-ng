@@ -80,8 +80,7 @@ static int IconsChanged(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, _countof(tmp), _T("%s - %s"),
-			TranslateT("Spell Checker"), languages[i]->full_name);
+		mir_sntprintf(tmp, _T("%s - %s"), TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 
 		HICON hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
@@ -135,7 +134,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (opts.use_flags) {
 		// Load flags dll
 		TCHAR flag_file[MAX_PATH];
-		mir_sntprintf(flag_file, _countof(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
+		mir_sntprintf(flag_file, _T("%s\\flags_icons.dll"), flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
 		TCHAR path[MAX_PATH];
@@ -185,7 +184,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Dictionary *dict = languages[j];
 
 		TCHAR filename[MAX_PATH];
-		mir_sntprintf(filename, _countof(filename), _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
+		mir_sntprintf(filename, _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
 		dict->autoReplace = new AutoReplaceMap(filename, dict);
 
 		if (mir_tstrcmp(dict->language, opts.default_language) == 0)
@@ -206,8 +205,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, _countof(tmp), _T("%s - %s"),
-			TranslateT("Spell Checker"), languages[i]->full_name);
+		mir_sntprintf(tmp, _T("%s - %s"), TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		Srmm_AddIcon(&sid);
