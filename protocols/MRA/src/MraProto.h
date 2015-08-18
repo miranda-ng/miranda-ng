@@ -317,7 +317,7 @@ struct CMraProto : public PROTO<CMraProto>
 	void    MraChatSessionDestroy(MCONTACT hContactChatSession);
 	void    MraChatSendPrivateMessage(LPSTR lpwszEMail);
 
-	INT_PTR MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &szUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime);
+	INT_PTR MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, int iType, DWORD dwFlags, const CMStringA &szUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime);
 	INT_PTR MraChatSessionInvite(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
 	INT_PTR MraChatSessionMembersAdd(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);
 	INT_PTR MraChatSessionJoinUser(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime);

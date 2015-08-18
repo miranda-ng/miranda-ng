@@ -233,7 +233,7 @@ int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR *szPath)
 {
 	if (szPath != NULL)
-		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
+		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD_PTR)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
 			return hTransfer; // Success
 
 	return NULL;
@@ -242,7 +242,7 @@ HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR *szPath)
 int CMraProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	if (hContact && hTransfer) {
-		MraFilesQueueCancel(hFilesQueueHandle, (DWORD)hTransfer, TRUE);
+		MraFilesQueueCancel(hFilesQueueHandle, (DWORD_PTR)hTransfer, TRUE);
 		return 0; // Success
 	}
 
@@ -536,13 +536,13 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)iRet;
 }
 
-int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
+int CMraProto::SetAwayMsg(int iStatus, const TCHAR *msg)
 {
 	if (!m_bLoggedIn)
 		return 1;
 
 	size_t dwStatusDescSize = mir_tstrlen(msg);
-	DWORD dwStatus = m_iStatus;
+	DWORD dwStatus = iStatus;
 	DWORD dwXStatus = m_iXStatus;
 
 	// не отправляем новый статусный текст для хстатусов, для хстатусов только эвей сообщения

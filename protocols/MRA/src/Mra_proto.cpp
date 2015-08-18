@@ -232,11 +232,11 @@ DWORD CMraProto::MraNetworkDispatcher()
 			MraSendCMD(MRIM_CS_PING, NULL, 0);
 		}
 		{ /* Remove old items from send queue. */
-			DWORD dwCMDNum, dwFlags, dwAckType;
+			DWORD dwCmdNum, dwFlags, dwAckType;
 			MCONTACT hContact;
 			LPBYTE lpbData;
 			size_t dwDataSize;
-			while (!MraSendQueueFindOlderThan(hSendQueueHandle, SEND_QUEUE_TIMEOUT, &dwCMDNum, &dwFlags, &hContact, &dwAckType, &lpbData, &dwDataSize)) {
+			while (!MraSendQueueFindOlderThan(hSendQueueHandle, SEND_QUEUE_TIMEOUT, &dwCmdNum, &dwFlags, &hContact, &dwAckType, &lpbData, &dwDataSize)) {
 				switch (dwAckType) {
 				case ACKTYPE_ADDED:
 				case ACKTYPE_AUTHREQ:
@@ -244,20 +244,20 @@ DWORD CMraProto::MraNetworkDispatcher()
 					//nothing to do
 					break;
 				case ACKTYPE_MESSAGE:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, (LPARAM)"Undefined message deliver error, time out");
+					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCmdNum, (LPARAM)"Undefined message deliver error, time out");
 					break;
 				case ACKTYPE_GETINFO:
 					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
 					break;
 				case ACKTYPE_SEARCH:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCMDNum, 0);
+					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)dwCmdNum, 0);
 					break;
 				case ICQACKTYPE_SMS:
-					ProtoBroadcastAck(NULL, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCMDNum, 0);
+					ProtoBroadcastAck(NULL, dwAckType, ACKRESULT_FAILED, (HANDLE)dwCmdNum, 0);
 					mir_free(lpbData);
 					break;
 				}
-				MraSendQueueFree(hSendQueueHandle, dwCMDNum);
+				MraSendQueueFree(hSendQueueHandle, dwCmdNum);
 			}
 		}
 
@@ -691,10 +691,10 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 
 		if (dwTemp == MraGetContactStatus(hContact)) {// меняем шило на шило, подозрительно? ;)
 			if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
-				CMStringW szEmail, szBuff;
-				mraGetStringW(hContact, "e-mail", szEmail);
-				szBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), szEmail, TranslateT("invisible status changed"));
-				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, szBuff);
+				CMStringW wszEmail, wszBuff;
+				mraGetStringW(hContact, "e-mail", wszEmail);
+				wszBuff.Format(L"%s <%s> - %s", pcli->pfnGetContactDisplayName(hContact, 0), wszEmail, TranslateT("invisible status changed"));
+				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, wszBuff);
 
 				MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
 			}
@@ -1297,30 +1297,30 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 		// post processing contact list
 		{
-			CMStringA szEmail, szPhones;
-			CMStringW wszAuthMessage, wszNick;
+			CMStringA email, phones;
+			CMStringW wszAuthMessage, nick;
 
 			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
 				wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &szEmail, NULL, NULL) == NO_ERROR)
+				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &email, NULL, NULL) == NO_ERROR)
 				if (dwID == -1) {
-					if (IsEMailChatAgent(szEmail)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
+					if (IsEMailChatAgent(email)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
 						db_unset(hContact, "CList", "Hidden");
 						db_unset(hContact, "CList", "NotOnList");
 						SetExtraIcons(hContact);
 						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
 						CMStringW wszCustomName = pcli->pfnGetContactDisplayName(hContact, 0);
-						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_MULTICHAT), -1, szEmail, wszCustomName);
+						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_MULTICHAT), -1, email, wszCustomName);
 					}
 					else {
 						if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
 							SetExtraIcons(hContact);
 							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
-								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &wszNick, &szPhones);
-								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
+								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &nick, &phones);
+								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_UNICODE_NAME), dwGroupID, email, nick, &phones, &wszAuthMessage);
 							}
 						}
 					}
@@ -1695,15 +1695,15 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				case MULTICHAT_MEMBERS:
 					{
 						DWORD dwMultiChatMembersCount;
-						BinBuffer buf((PBYTE)lpsEMailInMultiChat.GetString(), lpsEMailInMultiChat.GetLength());
-						buf >> dwMultiChatMembersCount;// count
-						for (unsigned i = 0; i < dwMultiChatMembersCount && !buf.eof(); i++) {
-							buf >> szString;
+						BinBuffer binBuf((PBYTE)lpsEMailInMultiChat.GetString(), lpsEMailInMultiChat.GetLength());
+						binBuf >> dwMultiChatMembersCount;// count
+						for (unsigned i = 0; i < dwMultiChatMembersCount && !binBuf.eof(); i++) {
+							binBuf >> szString;
 							MraChatSessionJoinUser(hContact, szString, ((dwMultiChatEventType == MULTICHAT_MEMBERS) ? 0 : dwTime));
 						}
 
 						if (dwMultiChatEventType == MULTICHAT_MEMBERS) {
-							buf >> szString; // [ LPS owner ]
+							binBuf >> szString; // [ LPS owner ]
 							MraChatSessionSetOwner(hContact, szString);
 						}
 					}

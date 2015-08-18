@@ -50,7 +50,7 @@ struct MRA_FILES_THREADPROC_PARAMS
 	MRA_FILES_QUEUE_ITEM	*dat;
 };
 
-DWORD  MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA_FILES_QUEUE_ITEM **ppmrafqFilesQueueItem);
+DWORD  MraFilesQueueItemFindByID(HANDLE hQueue, DWORD dwIDRequest, MRA_FILES_QUEUE_ITEM **ppmrafqFilesQueueItem);
 void   MraFilesQueueItemFree(MRA_FILES_QUEUE_ITEM *dat);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -150,12 +150,12 @@ DWORD MraFilesQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phFilesQueueH
 	return NO_ERROR;
 }
 
-void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
+void MraFilesQueueDestroy(HANDLE hQueue)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 	{
 		mir_cslock l(pmrafqFilesQueue->cs);
@@ -165,12 +165,12 @@ void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
 	delete pmrafqFilesQueue;
 }
 
-DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA_FILES_QUEUE_ITEM **ppmrafqFilesQueueItem)
+DWORD MraFilesQueueItemFindByID(HANDLE hQueue, DWORD dwIDRequest, MRA_FILES_QUEUE_ITEM **ppmrafqFilesQueueItem)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 	LIST_MT_ITERATOR lmtiIterator;
 
@@ -189,10 +189,10 @@ DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA
 	return ERROR_NOT_FOUND;
 }
 
-HANDLE MraFilesQueueItemProxyByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
+HANDLE MraFilesQueueItemProxyByID(HANDLE hQueue, DWORD dwIDRequest)
 {
 	MRA_FILES_QUEUE_ITEM *dat;
-	if (!MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
+	if (!MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat))
 		return dat->hMraMrimProxyData;
 
 	return NULL;
@@ -257,16 +257,16 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 	return lpszCurPos - lpszBuff;
 }
 
-DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest, LPCWSTR lpwszPath, size_t dwPathSize)
+DWORD CMraProto::MraFilesQueueAccept(HANDLE hQueue, DWORD dwIDRequest, LPCWSTR lpwszPath, size_t dwPathSize)
 {
-	if (!hFilesQueueHandle || !lpwszPath || !dwPathSize)
+	if (!hQueue || !lpwszPath || !dwPathSize)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	mir_cslock l(pmrafqFilesQueue->cs);
-	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
+	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) {
 		MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
 		dat->lpwszPath = (LPWSTR)mir_calloc((dwPathSize*sizeof(WCHAR)));
@@ -287,16 +287,16 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 	return dwRetErrorCode;
 }
 
-DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest, BOOL bSendDecline)
+DWORD CMraProto::MraFilesQueueCancel(HANDLE hQueue, DWORD dwIDRequest, BOOL bSendDecline)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	mir_cslock l(pmrafqFilesQueue->cs);
-	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
+	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) { //***deb closesocket, send message to thread
 		InterlockedExchange((volatile LONG*)&dat->bIsWorking, FALSE);
 
@@ -319,28 +319,28 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 	return dwRetErrorCode;
 }
 
-DWORD CMraProto::MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
+DWORD CMraProto::MraFilesQueueStartMrimProxy(HANDLE hQueue, DWORD dwIDRequest)
 {
-	if (!hFilesQueueHandle || !getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
+	if (!hQueue || !getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	mir_cslock l(pmrafqFilesQueue->cs);
-	if (!MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat))
+	if (!MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat))
 	if (dat->bSending == FALSE)
 		SetEvent(dat->hWaitHandle);// cancel wait incomming connection
 
 	return 0;
 }
 
-DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
+DWORD MraFilesQueueFree(HANDLE hQueue, DWORD dwIDRequest)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 	LIST_MT_ITERATOR lmtiIterator;
 
@@ -358,16 +358,16 @@ DWORD MraFilesQueueFree(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 	return ERROR_NOT_FOUND;
 }
 
-DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hFilesQueueHandle, DWORD dwIDRequest, const CMStringA &szAddresses)
+DWORD CMraProto::MraFilesQueueSendMirror(HANDLE hQueue, DWORD dwIDRequest, const CMStringA &szAddresses)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat;
 
 	mir_cslock l(pmrafqFilesQueue->cs);
-	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hFilesQueueHandle, dwIDRequest, &dat);
+	DWORD dwRetErrorCode = MraFilesQueueItemFindByID(hQueue, dwIDRequest, &dat);
 	if (dwRetErrorCode == NO_ERROR) {
 		MraAddrListGetFromBuff(szAddresses, &dat->malAddrList);
 		MraAddrListStoreToContact(dat->hContact, &dat->malAddrList);
@@ -609,12 +609,12 @@ void MraFilesQueueConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, vo
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receive files
 
-DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD dwIDRequest, const CMStringW &lpwszFiles, const CMStringA &szAddresses)
+DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hQueue, DWORD dwFlags, MCONTACT hContact, DWORD dwIDRequest, const CMStringW &lpwszFiles, const CMStringA &szAddresses)
 {
-	if (!hFilesQueueHandle || !dwIDRequest)
+	if (!hQueue || !dwIDRequest)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)mir_calloc(sizeof(MRA_FILES_QUEUE_ITEM)+sizeof(LPSTR)+64);
 	if (!dat)
 		return GetLastError();
@@ -905,12 +905,12 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send files
 
-DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, MCONTACT hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
+DWORD CMraProto::MraFilesQueueAddSend(HANDLE hQueue, DWORD dwFlags, MCONTACT hContact, LPWSTR *plpwszFiles, size_t dwFilesCount, DWORD *pdwIDRequest)
 {
-	if (!hFilesQueueHandle)
+	if (!hQueue)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
+	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hQueue;
 	MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)mir_calloc(sizeof(MRA_FILES_QUEUE_ITEM)+sizeof(LPSTR)+64);
 	if (!dat)
 		return GetLastError();
@@ -951,7 +951,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, M
 		ListMTItemAdd(pmrafqFilesQueue, dat, dat);
 	}
 	MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
-	pmftpp->hFilesQueueHandle = hFilesQueueHandle;
+	pmftpp->hFilesQueueHandle = hQueue;
 	pmftpp->dat = dat;
 	dat->hThread = ForkThreadEx(&CMraProto::MraFilesQueueSendThreadProc, pmftpp, 0);
 
