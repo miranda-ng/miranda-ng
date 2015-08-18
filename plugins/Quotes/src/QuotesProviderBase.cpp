@@ -69,27 +69,21 @@ namespace
 			tstring sName = pNode->GetName();
 			if (0 == quotes_stricmp(_T("section"), sName.c_str()))
 			{
-				CQuotesProviderBase::CQuoteSection qs;
-				if (true == parse_section(pNode, qs))
-				{
-					aSections.push_back(qs);
-				}
+				CQuotesProviderBase::CQuoteSection qs1;
+				if (true == parse_section(pNode, qs1))
+					aSections.push_back(qs1);
 			}
 			else if (0 == quotes_stricmp(_T("quote"), sName.c_str()))
 			{
 				CQuotesProviderBase::CQuote q;
 				if (true == parse_quote(pNode, q))
-				{
 					aQuotes.push_back(q);
-				}
 			}
 			else if (0 == quotes_stricmp(_T("name"), sName.c_str()))
 			{
 				sSectionName = pNode->GetText();
 				if (true == sSectionName.empty())
-				{
 					return false;
-				}
 			}
 		}
 

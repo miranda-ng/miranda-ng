@@ -336,9 +336,9 @@ namespace
 						tstring sName;
 						tstring sValue;
 						tstring sType;
-						for (size_t i = 0; i < cSetChild; ++i)
+						for (size_t j = 0; j < cSetChild; ++j)
 						{
-							IXMLNode::TXMLNodePtr pNode = pSetting->GetChildNode(i);
+							IXMLNode::TXMLNodePtr pNode = pSetting->GetChildNode(j);
 							tstring sNode = pNode->GetName();
 							if (0 == quotes_stricmp(g_pszXmlName, sNode.c_str()))
 							{
@@ -353,8 +353,8 @@ namespace
 
 						if ((false == sName.empty()) && (false == sType.empty()))
 						{
-							std::string s = quotes_t2a(sName.c_str());
-							dbs.szSetting = s.c_str();//T2CA(sName.c_str());
+							std::string s1 = quotes_t2a(sName.c_str());
+							dbs.szSetting = s1.c_str();
 							if (0 == quotes_stricmp(g_pszXmlTypeByte, sType.c_str()))
 							{
 								tistringstream in(sValue.c_str());
