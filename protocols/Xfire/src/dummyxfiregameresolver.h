@@ -28,41 +28,40 @@
 #include "xdebug.h"
 
 namespace xfirelib {
-
 	struct DummyXFireGame;
-	class DummyXFireGameResolver : public XFireGameResolver {
+
+	class DummyXFireGameResolver : public XFireGameResolver
+	{
 	public:
 		XFireGame *resolveGame(int gameid, int iterator, BuddyListGamesPacket *packet);
-
 	};
 
-
-	class DummyXFireGame : public XFireGame {
+	class DummyXFireGame : public XFireGame
+	{
 	public:
 		// TODO !!!!!!!!!!!!! this->packet = packet should NOT be used !!
 		// we need to create a copy of packet, because it will be deleted as soon
 		// as all listeners are notified !!!
-		void init(int gameid, std::string gamename, BuddyListGamesPacket *packet, int iterator) {
-			this->gameid = gameid;
-			this->gamename = gamename;
-			this->packet = packet;
+		void init(int gameid, std::string gamename, BuddyListGamesPacket *packet, int iterator)
+		{
+			m_gameid = gameid;
+			m_gamename = gamename;
+			m_packet = packet;
 
-			memcpy(ip,packet->ips->at(iterator),4);
-			port = packet->ports->at(iterator);
-			XDEBUG(( "init .. %d / %s\n", gameid, gamename.c_str() ));
+			memcpy(m_ip, packet->ips->at(iterator), 4);
+			m_port = packet->ports->at(iterator);
+			XDEBUG(("init .. %d / %s\n", gameid, gamename.c_str()));
 		}
 
-		int getGameId() { return gameid; }
-		std::string getGameName() { return gamename; }
+		int getGameId() { return m_gameid; }
+		std::string getGameName() { return m_gamename; }
 
-		BuddyListGamesPacket *packet;
-		int gameid;
-		char ip[4];
-		long port;
-		std::string gamename;
+		BuddyListGamesPacket *m_packet;
+		int m_gameid;
+		char m_ip[4];
+		long m_port;
+		std::string m_gamename;
 	};
-
 };
-
 
 #endif

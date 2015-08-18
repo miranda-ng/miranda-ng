@@ -40,9 +40,7 @@ namespace xfirelib {
 
 	class SendTypingPacket : public XFireSendPacketContent {
 	public:
-		SendTypingPacket() {
-			imindex = 0;
-		}
+		SendTypingPacket() : m_imindex(0) {}
 		virtual ~SendTypingPacket() { }
 
 		void init(Client *client, string username);
@@ -58,12 +56,12 @@ namespace xfirelib {
 		/**
 		* SID of the user to who the message should be sent.
 		*/
-		char sid[16];
+		char m_sid[16];
 		/**
 		* A running counter for each buddy. (will be initialized to 0 by default.. and..
 		* shouldn't be a problem to leave it 0)
 		*/
-		long imindex;
+		long m_imindex;
 
 	protected:
 		void initIMIndex();

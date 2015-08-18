@@ -252,7 +252,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe)
 	//backslash suchen
 	exename = strrchr(exe, '\\') + 1;
 	//kein backslash dann normal ret als exenamen verwenden
-	if ((int)exename == 1) exename = exe;
+	if ((INT_PTR)exename == 1) exename = exe;
 	//filterstring aufbauen
 	mir_snprintf(szFilter, _countof(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
@@ -374,10 +374,10 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 				//neuen gameeintrag anlegen
 				Xfire_game* newgame = new Xfire_game();
 				//gameid und sendid setzen
-				newgame->id = gameid1;
-				newgame->send_gameid = gameid1;
+				newgame->m_id = gameid1;
+				newgame->m_send_gameid = gameid1;
 				//es handelt sich um einen customeintrag, man staune xD
-				newgame->custom = 1;
+				newgame->m_custom = 1;
 
 				//launcherexe abfragen
 				if (xfire_GetPrivateProfileString(gameidtemp, "LauncherExe", "", ret, 512, inipath)) {
@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 						//lowercase pfad
 						newgame->strtolower(ofn.lpstrFile);
 						//pfad dem spiel zuordnen
-						newgame->setString(ofn.lpstrFile, &newgame->launchparams);
+						newgame->setString(ofn.lpstrFile, &newgame->m_launchparams);
 					}
 					else {
 						//speicher freigeben
@@ -402,7 +402,7 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 						//lowercase pfad
 						newgame->strtolower(ofn.lpstrFile);
 						//pfad dem spiel zuordnen
-						newgame->setString(ofn.lpstrFile, &newgame->path);
+						newgame->setString(ofn.lpstrFile, &newgame->m_path);
 					}
 					else {
 						//speicher freigeben
@@ -416,7 +416,7 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 						//lowercase pfad
 						newgame->strtolower(ofn.lpstrFile);
 						//pfad dem spiel zuordnen
-						newgame->setString(ofn.lpstrFile, &newgame->path);
+						newgame->setString(ofn.lpstrFile, &newgame->m_path);
 					}
 					else {
 						//speicher freigeben
@@ -427,18 +427,17 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 
 
 				//prüfe ob schon ein launchstring festgelegt wurde, wenn nicht die detectexe nehmen
-				if (!newgame->launchparams&&newgame->path) {
-					newgame->setString(newgame->path, &newgame->launchparams);
-				}
+				if (!newgame->m_launchparams && newgame->m_path)
+					newgame->setString(newgame->m_path, &newgame->m_launchparams);
 
 				//prüfe ob schon ein detectexe festgelegt wurde, wenn nicht die launchstring nehmen
-				if (newgame->launchparams&&!newgame->path) {
-					newgame->setString(newgame->launchparams, &newgame->path);
+				if (newgame->m_launchparams && !newgame->m_path) {
+					newgame->setString(newgame->m_launchparams, &newgame->m_path);
 				}
 
 				//LauncherUrl wird der launcherstring überschrieben
 				if (xfire_GetPrivateProfileString(gameidtemp, "LauncherUrl", "", ret, 512, inipath)) {
-					newgame->setString(ret, &newgame->launchparams);
+					newgame->setString(ret, &newgame->m_launchparams);
 				}
 				else if (xfire_GetPrivateProfileString(gameidtemp, "Launch", "", ret, 512, inipath)) {
 					str_replace(ret, "%UA_LAUNCHER_EXE_PATH%", ""); //erstmal unwichtige sachen entfernen
@@ -446,22 +445,22 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 					str_replace(ret, "%UA_LAUNCHER_LOGIN_ARGS%", ""); // - auch entfernen	
 
 					//ein leerzeichen anfügen
-					newgame->appendString(" ", &newgame->launchparams);
+					newgame->appendString(" ", &newgame->m_launchparams);
 					//nun commandline des launchstringes dranhängen
-					newgame->appendString(ret, &newgame->launchparams);
+					newgame->appendString(ret, &newgame->m_launchparams);
 				}
 
 				//restliche wichtige felder einfügen
 				if (xfire_GetPrivateProfileString(gameidtemp, "LauncherPasswordArgs", "", ret, 512, inipath))
-					newgame->setString(ret, &newgame->pwparams);
+					newgame->setString(ret, &newgame->m_pwparams);
 				if (xfire_GetPrivateProfileString(gameidtemp, "LauncherNetworkArgs", "", ret, 512, inipath))
-					newgame->setString(ret, &newgame->networkparams);
+					newgame->setString(ret, &newgame->m_networkparams);
 				if (xfire_GetPrivateProfileString(gameidtemp, "CommandLineMustContain[0]", "", ret, 512, inipath))
-					newgame->setString(ret, &newgame->mustcontain);
+					newgame->setString(ret, &newgame->m_mustcontain);
 				if (xfire_GetPrivateProfileString(gameidtemp, "XUSERSendId", "", ret, 512, inipath))
-					newgame->send_gameid = atoi(ret);
+					newgame->m_send_gameid = atoi(ret);
 				if (xfire_GetPrivateProfileString(gameidtemp, "XUSERSetStatusMsg", "", ret, 512, inipath))
-					newgame->setstatusmsg = atoi(ret);
+					newgame->m_setstatusmsg = atoi(ret);
 
 				//namen setzen und icon laden
 				newgame->setNameandIcon();
@@ -502,42 +501,38 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("Apply"));
 
 			//namen vorbelegen
-			if (editgame->customgamename)
-				SetDlgItemTextA(hwndDlg, IDC_ADD_NAME, editgame->customgamename);
-			else if (editgame->name)
-				SetDlgItemTextA(hwndDlg, IDC_ADD_NAME, editgame->name);
+			if (editgame->m_customgamename)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_NAME, editgame->m_customgamename);
+			else if (editgame->m_name)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_NAME, editgame->m_name);
 
 			//gameid setzen und feld schreibschützen
 			char gameid[10] = "";
-			_itoa_s(editgame->id, gameid, 10, 10);
+			_itoa_s(editgame->m_id, gameid, 10, 10);
 			SetDlgItemTextA(hwndDlg, IDC_ADD_ID, gameid);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD_ID), FALSE);
 
 			//sendgameid setzen, bei -1 leer lassen
-			if (editgame->send_gameid != -1) {
-				_itoa_s(editgame->send_gameid, gameid, 10, 10);
+			if (editgame->m_send_gameid != -1) {
+				_itoa_s(editgame->m_send_gameid, gameid, 10, 10);
 				SetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, gameid);
 			}
 
 			//launcherstring
-			if (editgame->launchparams) {
-				SetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, editgame->launchparams);
-			}
+			if (editgame->m_launchparams)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, editgame->m_launchparams);
 
 			//detectstring
-			if (editgame->path) {
-				SetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, editgame->path);
-			}
+			if (editgame->m_path)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, editgame->m_path);
 
 			//statusmsg
-			if (editgame->statusmsg) {
-				SetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, editgame->statusmsg);
-			}
+			if (editgame->m_statusmsg)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, editgame->m_statusmsg);
 
 			//mustcontain parameter
-			if (editgame->mustcontain) {
-				SetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, editgame->mustcontain);
-			}
+			if (editgame->m_mustcontain)
+				SetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, editgame->m_mustcontain);
 		}
 		//dialog übersetzen
 		TranslateDialogDefault(hwndDlg);
@@ -597,9 +592,9 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 				}
 				else {
 					//spielname zuordnen
-					newgame->setString(temp, &newgame->customgamename);
+					newgame->setString(temp, &newgame->m_customgamename);
 					//spielnamen fürs menü
-					newgame->setString(temp, &newgame->name);
+					newgame->setString(temp, &newgame->m_name);
 				}
 				//spielid nur setzen/prüfen, wenn kein editgame
 				if (!editgame) {
@@ -621,9 +616,9 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 							return MessageBox(hwndDlg, TranslateT("This game ID is already in use."), TranslateT("XFire Options"), MB_OK | MB_ICONEXCLAMATION);
 						}
 						//gameid zuordnen
-						newgame->id = gameid;
+						newgame->m_id = gameid;
 						//standardmäßig wird bei einem customeintrag keine id versendet
-						newgame->send_gameid = -1;
+						newgame->m_send_gameid = -1;
 					}
 				}
 				//zu sendene spielid
@@ -632,7 +627,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 					//standardmäßig wird bei einem customeintrag keine id versendet
 					int sendid = atoi(temp);
 					if (sendid > 0)
-						newgame->send_gameid = sendid;
+						newgame->m_send_gameid = sendid;
 				}
 
 				//launcher exe
@@ -641,7 +636,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 					//lowercase pfad
 					newgame->strtolower(temp);
 					//detect exe
-					newgame->setString(temp, &newgame->launchparams);
+					newgame->setString(temp, &newgame->m_launchparams);
 				}
 				//detectexe
 				GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, _countof(temp));
@@ -653,25 +648,24 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 					//lowercase pfad
 					newgame->strtolower(temp);
 					//detect exe
-					newgame->setString(temp, &newgame->path);
+					newgame->setString(temp, &newgame->m_path);
 					//wenn kein launcher exe/pfad angeben wurde, dann den gamepath nehmen
-					if (!newgame->launchparams)
-						newgame->setString(temp, &newgame->launchparams);
-
+					if (!newgame->m_launchparams)
+						newgame->setString(temp, &newgame->m_launchparams);
 				}
 				//mustcontain parameter
 				GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, _countof(temp));
 				if (mir_strlen(temp)) {
-					newgame->setString(temp, &newgame->mustcontain);
+					newgame->setString(temp, &newgame->m_mustcontain);
 				}
 				//statusmsg speichern
 				GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, _countof(temp));
 				if (mir_strlen(temp)) {
-					newgame->setString(temp, &newgame->statusmsg);
-					newgame->setstatusmsg = 1;
+					newgame->setString(temp, &newgame->m_statusmsg);
+					newgame->m_setstatusmsg = 1;
 				}
 				//custom eintrag aktivieren
-				newgame->custom = 1;
+				newgame->m_custom = 1;
 				//spiel in die gameliste einfügen, aber nur im nicht editmodus
 				if (!editgame)
 					xgamelist.Addgame(newgame);
@@ -697,7 +691,6 @@ INT_PTR CALLBACK DlgAddGameProcMain(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			TCITEMA tci = { 0 };
 			int iTotal;
 			RECT rcClient;
 
@@ -711,12 +704,13 @@ INT_PTR CALLBACK DlgAddGameProcMain(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lPar
 			hPage = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_ADDGAME), hwndDlg, DlgAddGameProc);
 
 			//bei editgame keine spiellisteauswahl
+			TCITEMA tcia = { 0 };
 			if (!editgame) {
 				iTotal = TabCtrl_GetItemCount(hwndTab);
-				tci.mask = TCIF_PARAM | TCIF_TEXT;
-				tci.lParam = (LPARAM)hPage;
-				tci.pszText = Translate("Supported Games");
-				SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
+				tcia.mask = TCIF_PARAM | TCIF_TEXT;
+				tcia.lParam = (LPARAM)hPage;
+				tcia.pszText = Translate("Supported Games");
+				SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tcia);
 				MoveWindow(hPage, 3, 24, rcClient.right - 10, rcClient.bottom - 28, 1);
 				iTotal++;
 			}
@@ -725,10 +719,10 @@ INT_PTR CALLBACK DlgAddGameProcMain(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lPar
 
 			hPage = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_ADDGAME2), hwndDlg, DlgAddGameProc2);
 			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM | TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("Custom game");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
+			tcia.mask = TCIF_PARAM | TCIF_TEXT;
+			tcia.lParam = (LPARAM)hPage;
+			tcia.pszText = Translate("Custom game");
+			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tcia);
 			MoveWindow(hPage, 3, 24, rcClient.right - 10, rcClient.bottom - 28, 1);
 			iTotal++;
 

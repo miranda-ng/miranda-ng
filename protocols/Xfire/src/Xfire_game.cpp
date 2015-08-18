@@ -7,11 +7,11 @@
 BOOL Xfire_game::haveExtraGameArgs()
 {
 	//kein launcher stirng, dann abbruch
-	if (!this->launchparams)
+	if (!m_launchparams)
 		return FALSE;
 
 	//wenn platzhalter vorhanden, dann TRUE zurück
-	if (this->inString(this->launchparams, "%UA_LAUNCHER_EXTRA_ARGS%"))
+	if (inString(m_launchparams, "%UA_LAUNCHER_EXTRA_ARGS%"))
 		return TRUE;
 
 	return FALSE;
@@ -21,18 +21,18 @@ BOOL Xfire_game::haveExtraGameArgs()
 BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 {
 	//launchparam prüfen ob gefüllt?
-	if (this->launchparams == NULL)
+	if (m_launchparams == NULL)
 		return FALSE;
 
 	//ist launchparam großgenug für eibne urlprüfung?
-	if (mir_strlen(this->launchparams) > 5) {
+	if (mir_strlen(m_launchparams) > 5) {
 		//launchparams ne url? dann openurl funktion von miranda verwenden
-		if (this->launchparams[0] == 'h'&&
-			this->launchparams[1] == 't'&&
-			this->launchparams[2] == 't'&&
-			this->launchparams[3] == 'p'&&
-			this->launchparams[4] == ':') {
-			Utils_OpenUrl(this->launchparams);
+		if (m_launchparams[0] == 'h'&&
+			m_launchparams[1] == 't'&&
+			m_launchparams[2] == 't'&&
+			m_launchparams[3] == 'p'&&
+			m_launchparams[4] == ':') {
+			Utils_OpenUrl(m_launchparams);
 			return 0;
 		}
 	}
@@ -41,17 +41,17 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 	int networksize = 0;
 	char* mynetworkparams = NULL;
 
-	if (this->networkparams) {
+	if (m_networkparams) {
 		if (ip) {
 			char portstr[6] = "";
 			int pwsize = 255;
 
 			//größe des netzwerparams berechnen
-			if (this->pwparams)
-				pwsize += mir_strlen(this->pwparams);
+			if (m_pwparams)
+				pwsize += mir_strlen(m_pwparams);
 
-			mynetworkparams = new char[mir_strlen(this->networkparams) + pwsize];
-			strcpy_s(mynetworkparams, mir_strlen(this->networkparams) + pwsize, this->networkparams);
+			mynetworkparams = new char[mir_strlen(m_networkparams) + pwsize];
+			strcpy_s(mynetworkparams, mir_strlen(m_networkparams) + pwsize, m_networkparams);
 
 			//port begrenzen
 			port = port % 65535;
@@ -62,7 +62,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 			str_replace(mynetworkparams, "%UA_GAME_HOST_PORT%", portstr);
 
 			//passwort dialog, nur wenn SHIFT gehalten wird beim join, da sonst immer gefragt wird
-			if (GetAsyncKeyState(VK_LSHIFT) && this->pwparams) {
+			if (GetAsyncKeyState(VK_LSHIFT) && m_pwparams) {
 				char password[256] = ""; //passwort maximal 255 zeichen
 
 				if (ShowPwdDlg(password)) {
@@ -70,7 +70,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 
 					//speicher frei?
 					if (mypwargs != NULL) {
-						strcpy_s(mypwargs, pwsize, this->pwparams);
+						strcpy_s(mypwargs, pwsize, m_pwparams);
 						str_replace(mypwargs, "%UA_GAME_HOST_PASSWORD%", password);
 						str_replace(mynetworkparams, "%UA_LAUNCHER_PASSWORD_ARGS%", mypwargs);
 						delete[] mypwargs;
@@ -90,18 +90,18 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 		}
 
 		if (mynetworkparams)
-			networksize = mir_strlen(mynetworkparams) + mir_strlen(this->networkparams);
+			networksize = mir_strlen(mynetworkparams) + mir_strlen(m_networkparams);
 	}
 
 	//extra parameter
 	int extraparamssize = 0;
-	if (this->extraparams) {
-		extraparamssize = mir_strlen(this->extraparams);
+	if (m_extraparams) {
+		extraparamssize = mir_strlen(m_extraparams);
 	}
 
 	//temporäres array anlegen
 	char*temp = NULL;
-	temp = new char[mir_strlen(this->launchparams) + networksize + extraparamssize + 1];
+	temp = new char[mir_strlen(m_launchparams) + networksize + extraparamssize + 1];
 
 	if (temp == NULL) {
 		//wenn nwparams gesetzt, leeren
@@ -112,7 +112,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 	}
 
 	//launcherstring ins temporäre array
-	strcpy_s(temp, mir_strlen(this->launchparams) + 1, this->launchparams);
+	strcpy_s(temp, mir_strlen(m_launchparams) + 1, m_launchparams);
 
 	//netzwerkparameter ?
 	if (mynetworkparams) {
@@ -122,8 +122,8 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 	else
 		str_replace(temp, "%UA_LAUNCHER_NETWORK_ARGS%", "");
 
-	if (this->extraparams)
-		str_replace(temp, "%UA_LAUNCHER_EXTRA_ARGS%", this->extraparams);
+	if (m_extraparams)
+		str_replace(temp, "%UA_LAUNCHER_EXTRA_ARGS%", m_extraparams);
 	else
 		str_replace(temp, "%UA_LAUNCHER_EXTRA_ARGS%", "");
 
@@ -171,7 +171,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 {
 	//gibts net, weg mit dir
-	if (this->path == NULL)
+	if (m_path == NULL)
 		return FALSE;
 
 	//versuche ein processhandle des speils zubekommen
@@ -189,13 +189,13 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			GetLongPathName(fpath, fpath, _countof(fpath));
 
 		//alles in kelinbuchstaben umwandeln
-		this->strtolowerT(fpath);
+		strtolowerT(fpath);
 
-		if (this->wildcmp(_A2T(this->path), fpath))
-			//if (mir_strcmp(this->path,fpath)==0)
+		if (wildcmp(_A2T(m_path), fpath))
+			//if (mir_strcmp(m_path,fpath)==0)
 		{
 			//pfad stimmt überein, commandline prüfen
-			if (checkCommandLine(op, this->mustcontain, this->notcontain)) {
+			if (checkCommandLine(op, m_mustcontain, m_notcontain)) {
 				//handle zuamachen
 				CloseHandle(op);
 				//positive antwort an die gamedetection
@@ -204,11 +204,11 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		}
 		else //prüfe den multipfad
 		{
-			int size = mpath.size();
+			int size = m_mpath.size();
 			for (int j = 0; j < size; j++) {
-				if (mir_tstrcmpi(_A2T(mpath.at(j)), fpath) == 0) {
+				if (mir_tstrcmpi(_A2T(m_mpath.at(j)), fpath) == 0) {
 					//pfad stimmt überein, commandline prüfen
-					if (checkCommandLine(op, this->mustcontain, this->notcontain)) {
+					if (checkCommandLine(op, m_mustcontain, m_notcontain)) {
 						//handle zumachen
 						CloseHandle(op);
 						//positive antwort an die gamedetection
@@ -220,35 +220,27 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		//is nich das game, handle zumachen
 		CloseHandle(op);
 	}
-	else //if (this->mustcontain==NULL&&this->notcontain==NULL) //spiele die was bestimmtes im pfad benötigen skippen
+	else //if (m_mustcontain==NULL&&m_notcontain==NULL) //spiele die was bestimmtes im pfad benötigen skippen
 	{
-		char* exename = strrchr(this->path, '\\') + 1;
-
-		//kleiner fix bei fehlerhaften pfaden kann keine exe ermittelt werden also SKIP
-		if ((unsigned int)exename == 0x1)
+		char *exename = strrchr(m_path, '\\') + 1;
+		if ((INT_PTR)exename == 0x1)
 			return FALSE;
 
 		//vergleich die exenamen
-		if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0) {
+		if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0)
 			return TRUE;
-		}
-		else //anderen pfade des games noch durchprüfen
-		{
-			int size = mpath.size();
-			for (int j = 0; j < size; j++) {
-				//exenamen rausfischen
-				char* exename = strrchr(mpath.at(j), '\\') + 1;
 
-				//mhn keien exe, nächsten pfad prüfen
-				if ((unsigned int)exename == 0x1)
-					continue;
+		//anderen pfade des games noch durchprüfen
+		int size = m_mpath.size();
+		for (int j = 0; j < size; j++) {
+			//mhn keien exe, nächsten pfad prüfen
+			exename = strrchr(m_mpath.at(j), '\\') + 1;
+			if ((INT_PTR)exename == 0x1)
+				continue;
 
-				//exe vergleichen
-				if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0) {
-					//positive antwort an die gamedetection
-					return TRUE;
-				}
-			}
+			//exe vergleichen
+			if (_stricmp(exename, _T2A(processInfo->szExeFile)) == 0) //positive antwort an die gamedetection
+				return TRUE;
 		}
 	}
 
@@ -259,21 +251,21 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 //icondaten setzen
 void Xfire_game::setIcon(HICON hicon, HANDLE handle)
 {
-	this->hicon = hicon;
-	this->iconhandl = handle;
+	m_hicon = hicon;
+	m_iconhandl = handle;
 }
 
 //liest gamewerte aus der db
 void Xfire_game::readFromDB(unsigned dbid)
 {
 	//lese alle string werte aus der db und befülle die passenden variablen damit
-	this->readStringfromDB("gamepath", dbid, &this->path);
+	this->readStringfromDB("gamepath", dbid, &m_path);
 
 	//8.3 fix, prüfe auf ~ pfad, wenn ja pfad var umwalnd in longname
-	if (this->path) {
+	if (m_path) {
 		BOOL found = FALSE;
-		for (unsigned int i = 0; i < mir_strlen(this->path); i++) {
-			if (this->path[i] == '~') {
+		for (unsigned int i = 0; i < mir_strlen(m_path); i++) {
+			if (m_path[i] == '~') {
 				found = TRUE;
 				break;
 			}
@@ -281,33 +273,33 @@ void Xfire_game::readFromDB(unsigned dbid)
 		//gefunden? dann stirng wandeln und in pfad speichern
 		if (found) {
 			char ctemp[MAX_PATH] = "";
-			strcpy_s(ctemp, MAX_PATH, this->path);
+			strcpy_s(ctemp, MAX_PATH, m_path);
 			GetLongPathNameA(ctemp, ctemp, sizeof(ctemp));
 			this->strtolower(ctemp);
-			this->setString(ctemp, &this->path);
+			setString(ctemp, &m_path);
 		}
 	}
 
-	this->readStringfromDB("gamelaunch", dbid, &this->launchparams);
-	this->readStringfromDB("gamenetargs", dbid, &this->networkparams);
-	this->readStringfromDB("gamepwargs", dbid, &this->pwparams);
-	this->readStringfromDB("gameuserargs", dbid, &this->userparams);
-	this->readStringfromDB("gamecmdline", dbid, &this->mustcontain);
-	this->readStringfromDB("gamencmdline", dbid, &this->notcontain);
+	readStringfromDB("gamelaunch", dbid, &m_launchparams);
+	readStringfromDB("gamenetargs", dbid, &m_networkparams);
+	readStringfromDB("gamepwargs", dbid, &m_pwparams);
+	readStringfromDB("gameuserargs", dbid, &m_userparams);
+	readStringfromDB("gamecmdline", dbid, &m_mustcontain);
+	readStringfromDB("gamencmdline", dbid, &m_notcontain);
 
 	//alle sonstigen werte
-	this->id = this->readWordfromDB("gameid", dbid);
-	this->send_gameid = this->readWordfromDB("gamesendid", dbid);
-	if (this->send_gameid == 0)
-		this->send_gameid = this->id;
-	this->setstatusmsg = this->readWordfromDB("gamesetsmsg", dbid, 0);
-	this->custom = this->readBytefromDB("gamecustom", dbid, 0);
-	this->skip = this->readBytefromDB("gameskip", this->id, 0);
-	this->notinstartmenu = this->readBytefromDB("notinstartmenu", this->id, 0);
-	this->noicqstatus = this->readBytefromDB("gamenostatus", this->id, 0);
-	this->readStringfromDB("gameextraparams", this->id, &this->extraparams);
-	this->readStringfromDB("customgamename", this->id, &this->customgamename);
-	this->readUtf8StringfromDB("statusmsg", this->id, &this->statusmsg);
+	m_id = this->readWordfromDB("gameid", dbid);
+	m_send_gameid = this->readWordfromDB("gamesendid", dbid);
+	if (m_send_gameid == 0)
+		m_send_gameid = m_id;
+	m_setstatusmsg = this->readWordfromDB("gamesetsmsg", dbid, 0);
+	m_custom = this->readBytefromDB("gamecustom", dbid, 0);
+	m_skip = this->readBytefromDB("gameskip", m_id, 0);
+	m_notinstartmenu = this->readBytefromDB("notinstartmenu", m_id, 0);
+	m_noicqstatus = this->readBytefromDB("gamenostatus", m_id, 0);
+	readStringfromDB("gameextraparams", m_id, &m_extraparams);
+	readStringfromDB("customgamename", m_id, &m_customgamename);
+	this->readUtf8StringfromDB("statusmsg", m_id, &m_statusmsg);
 
 	//mehrere pfade
 	int size = this->readWordfromDB("gamemulti", dbid, 0);
@@ -316,7 +308,7 @@ void Xfire_game::readFromDB(unsigned dbid)
 		this->readStringfromDB("gamepath", dbid, j, &tpath);
 
 		if (tpath) {
-			mpath.push_back(tpath);
+			m_mpath.push_back(tpath);
 		}
 	}
 
@@ -327,17 +319,17 @@ void Xfire_game::readFromDB(unsigned dbid)
 //läd spielnamen aus, sowie icon
 void Xfire_game::setNameandIcon()
 {
-	if (this->customgamename) {
-		this->setString(this->customgamename, &this->name);
+	if (m_customgamename) {
+		setString(m_customgamename, &m_name);
 	}
 	else {
-		//std::string game=GetGame(this->id,0,&this->iconhandl,&this->hicon,TRUE);
+		//std::string game=GetGame(m_id,0,&m_iconhandl,&m_hicon,TRUE);
 		//zielbuffer für den namen
 		char buf[XFIRE_MAXSIZEOFGAMENAME] = "Unknown Game";
 		//name des spiels auslesen
-		this->getGamename(this->id, buf, XFIRE_MAXSIZEOFGAMENAME);
+		this->getGamename(m_id, buf, XFIRE_MAXSIZEOFGAMENAME);
 		//namen setzen
-		this->setString(buf, &this->name);
+		setString(buf, &m_name);
 	}
 }
 
@@ -345,62 +337,60 @@ void Xfire_game::setNameandIcon()
 void Xfire_game::writeToDB(unsigned dbid)
 {
 	//alle stringwerte schreiben
-	this->writeStringtoDB("gamepath", dbid, this->path);
-	this->writeStringtoDB("gamelaunch", dbid, this->launchparams);
-	this->writeStringtoDB("gamenetargs", dbid, this->networkparams);
-	this->writeStringtoDB("gamepwargs", dbid, this->pwparams);
-	this->writeStringtoDB("gameuserargs", dbid, this->userparams);
-	this->writeStringtoDB("gamecmdline", dbid, this->mustcontain);
-	this->writeStringtoDB("gamencmdline", dbid, this->notcontain);
+	writeStringtoDB("gamepath", dbid, m_path);
+	writeStringtoDB("gamelaunch", dbid, m_launchparams);
+	writeStringtoDB("gamenetargs", dbid, m_networkparams);
+	writeStringtoDB("gamepwargs", dbid, m_pwparams);
+	writeStringtoDB("gameuserargs", dbid, m_userparams);
+	writeStringtoDB("gamecmdline", dbid, m_mustcontain);
+	writeStringtoDB("gamencmdline", dbid, m_notcontain);
 
 	//alle sonstigen werte
-	this->writeWordtoDB("gameid", dbid, this->id);
-	if (this->send_gameid != 0 && this->send_gameid != this->id) this->writeWordtoDB("gamesendid", dbid, this->send_gameid);
-	if (this->setstatusmsg != 0) this->writeWordtoDB("gamesetsmsg", dbid, this->setstatusmsg);
-	if (this->custom != 0) this->writeBytetoDB("gamecustom", dbid, this->custom);
+	this->writeWordtoDB("gameid", dbid, m_id);
+	if (m_send_gameid != 0 && m_send_gameid != m_id) this->writeWordtoDB("gamesendid", dbid, m_send_gameid);
+	if (m_setstatusmsg != 0) writeWordtoDB("gamesetsmsg", dbid, m_setstatusmsg);
+	if (m_custom != 0) writeBytetoDB("gamecustom", dbid, m_custom);
 	//wenn gesetzt, dann eintrag machen
-	if (this->skip != 0)
-		this->writeBytetoDB("gameskip", this->id, this->skip);
+	if (m_skip != 0)
+		writeBytetoDB("gameskip", m_id, m_skip);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("gameskip", this->id);
-	if (this->notinstartmenu != 0)
-		this->writeBytetoDB("notinstartmenu", this->id, this->notinstartmenu);
+		removeDBEntry("gameskip", m_id);
+	if (m_notinstartmenu != 0)
+		writeBytetoDB("notinstartmenu", m_id, m_notinstartmenu);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("notinstartmenu", this->id);
-	if (this->noicqstatus != 0)
-		this->writeBytetoDB("gamenostatus", this->id, this->noicqstatus);
+		removeDBEntry("notinstartmenu", m_id);
+	if (m_noicqstatus != 0)
+		writeBytetoDB("gamenostatus", m_id, m_noicqstatus);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("gamenostatus", this->id);
-	if (this->extraparams != 0)
-		this->writeStringtoDB("gameextraparams", this->id, this->extraparams);
+		removeDBEntry("gamenostatus", m_id);
+	if (m_extraparams != 0)
+		writeStringtoDB("gameextraparams", m_id, m_extraparams);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("gameextraparams", this->id);
-	if (this->customgamename != 0)
-		this->writeStringtoDB("customgamename", this->id, this->customgamename);
+		removeDBEntry("gameextraparams", m_id);
+	if (m_customgamename != 0)
+		writeStringtoDB("customgamename", m_id, m_customgamename);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("customgamename", this->id);
-	if (this->statusmsg != 0)
-		this->writeUtf8StringtoDB("statusmsg", this->id, this->statusmsg);
+		removeDBEntry("customgamename", m_id);
+	if (m_statusmsg != 0)
+		this->writeUtf8StringtoDB("statusmsg", m_id, m_statusmsg);
 	else //wenn nicht eintrag aus db löschen
-		this->removeDBEntry("statusmsg", this->id);
+		removeDBEntry("statusmsg", m_id);
 
-
-
-	//mehrere pfade
-	int size = mpath.size();
+	// mehrere pfade
+	int size = m_mpath.size();
 	if (size > 0) {
-		this->writeWordtoDB("gamemulti", dbid, mpath.size());
+		this->writeWordtoDB("gamemulti", dbid, m_mpath.size());
 		for (int j = 0; j < size; j++) {
-			this->writeStringtoDB("gamepath", dbid, j, mpath.at(j));
+			writeStringtoDB("gamepath", dbid, j, m_mpath.at(j));
 		}
 	}
 
-	//sendid 0 dann standard id reinladen
-	if (this->send_gameid == 0)
-		this->send_gameid = this->id;
+	// sendid 0 dann standard id reinladen
+	if (m_send_gameid == 0)
+		m_send_gameid = m_id;
 }
 
-//erzeugt ein menüpunkt
+// erzeugt ein menüpunkt
 void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 {
 	char servicefunction[100];
@@ -413,16 +403,16 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 
-	mir_snprintf(temp, _countof(temp), servicefunction, this->id);
+	mir_snprintf(m_temp, _countof(m_temp), servicefunction, m_id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
-	if (ServiceExists(temp))
-		DestroyServiceFunction(temp);
-	CreateServiceFunctionParam(temp, StartGame, this->id);
-	mi.pszService = temp;
+	if (ServiceExists(m_temp))
+		DestroyServiceFunction(m_temp);
+	CreateServiceFunctionParam(m_temp, StartGame, m_id);
+	mi.pszService = m_temp;
 	mi.position = 500090002 + pos;
-	mi.hIcolibItem = this->hicon ? this->hicon : LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
-	mi.name.a = menuitemtext(this->name);
-	this->menuhandle = Menu_AddMainMenuItem(&mi);
+	mi.hIcolibItem = m_hicon ? m_hicon : LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
+	mi.name.a = menuitemtext(m_name);
+	m_menuhandle = Menu_AddMainMenuItem(&mi);
 
 	//menu aktualisieren ob hidden
 	this->refreshMenuitem();
@@ -431,15 +421,15 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 //entfernt menüpunkt
 void Xfire_game::remoteMenuitem()
 {
-	if (menuhandle != NULL) {
-		Menu_RemoveItem(menuhandle);
-		menuhandle = NULL;
+	if (m_menuhandle != NULL) {
+		Menu_RemoveItem(m_menuhandle);
+		m_menuhandle = NULL;
 	}
 }
 
 //aktualisiert menüpunkt ob hidden
 void Xfire_game::refreshMenuitem()
 {
-	if (menuhandle != NULL)
-		Menu_ShowItem(menuhandle, !this->notinstartmenu);
+	if (m_menuhandle != NULL)
+		Menu_ShowItem(m_menuhandle, !m_notinstartmenu);
 }

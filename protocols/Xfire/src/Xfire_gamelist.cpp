@@ -16,7 +16,7 @@ Xfire_game* Xfire_gamelist::getGamebyGameid(unsigned int gameid)
 {
 	for (unsigned int i = 0; i < gamelist.size(); i++) {
 		Xfire_game* game = (Xfire_game*)gamelist.at(i);
-		if (game->id == gameid)
+		if (game->m_id == gameid)
 			return game;
 	}
 	return NULL;
@@ -33,7 +33,7 @@ void Xfire_gamelist::readGamelist(int anz)
 			//lese das spiel ein
 			game->readFromDB(i);
 			//icons laden
-			Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(game->id);
+			Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(game->m_id);
 			game->setIcon(icon.hicon, icon.handle);
 			//in die liste einfügen
 			gamelist.push_back(game);
@@ -76,9 +76,8 @@ BOOL Xfire_gamelist::getnextGame(Xfire_game**currentgame)
 		nextgameid++;
 
 		//muss das spiel geskippt werden, dann nochmal funktion aufrufen um das nächste game zubekommen
-		if ((*currentgame)->skip || (*currentgame)->id == 32 || (*currentgame)->id == 33 || (*currentgame)->id == 34 || (*currentgame)->id == 35) {
+		if ((*currentgame)->m_skip || (*currentgame)->m_id == 32 || (*currentgame)->m_id == 33 || (*currentgame)->m_id == 34 || (*currentgame)->m_id == 35)
 			return getnextGame(currentgame);
-		}
 
 		return TRUE;
 	}
@@ -99,7 +98,7 @@ void Xfire_gamelist::Block(BOOL block)
 void Xfire_gamelist::Addgame(Xfire_game* newgame)
 {
 	//spielicon auslesen
-	Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(newgame->id);
+	Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(newgame->m_id);
 	newgame->setIcon(icon.hicon, icon.handle);
 
 	gamelist.push_back(newgame);
@@ -110,7 +109,7 @@ BOOL Xfire_gamelist::Removegame(int id)
 {
 	std::vector<Xfire_game *>::iterator i = gamelist.begin();
 	while (i != gamelist.end()) {
-		if ((*i)->id == id) {
+		if ((*i)->m_id == (unsigned)id) {
 			(*i)->remoteMenuitem();
 			gamelist.erase(i);
 			return TRUE;
@@ -149,7 +148,7 @@ void Xfire_gamelist::createStartmenu()
 			Xfire_game* game = (Xfire_game*)gamelist.at(sorttemp[i - 1]);
 			Xfire_game* game2 = (Xfire_game*)gamelist.at(sorttemp[i]);
 			//sortieren
-			if (mir_strcmp(game->name, game2->name) > 0) {
+			if (mir_strcmp(game->m_name, game2->m_name) > 0) {
 				int tempi = sorttemp[i - 1];
 				sorttemp[i - 1] = sorttemp[i];
 				sorttemp[i] = tempi;
@@ -189,7 +188,7 @@ BOOL Xfire_gamelist::Gameinlist(int id, int*dbid)
 	for (unsigned int i = 0; i < gamelist.size(); i++) {
 		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) {
-			if (game->id == id) {
+			if (int(game->m_id) == id) {
 				//soll eine dbid zurückgeliefert werden? dann setzen
 				if (dbid)
 					*dbid = i;

@@ -1225,12 +1225,12 @@ static void SetStatusLate(LPVOID param)
 
 static void SendAck(LPVOID param)
 {
-	ProtoBroadcastAck(protocolname, (MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(protocolname, (DWORD_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 static void SendBadAck(LPVOID param)
 {
-	ProtoBroadcastAck(protocolname, (MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)0, LPARAM(Translate("XFire does not support offline messaging!")));
+	ProtoBroadcastAck(protocolname, (DWORD_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)0, LPARAM(Translate("XFire does not support offline messaging!")));
 }
 
 static INT_PTR UserIsTyping(WPARAM hContact, LPARAM lParam)
@@ -1332,10 +1332,8 @@ static void ConnectingThread(LPVOID params)
 
 	if (myClient != NULL&&myClient->client != NULL)
 		myClient->run();
-	else {
-		mir_cslock lck(connectingMutex);
+	else
 		return;
-	}
 
 	if (myClient->client->connected)
 		sendonrecieve = TRUE;
@@ -1556,7 +1554,7 @@ BOOL IsXFireContact(MCONTACT hContact)
 MCONTACT CList_FindContact(int uid)
 {
 	for (MCONTACT hContact = db_find_first(protocolname); hContact; hContact = db_find_next(hContact, protocolname))
-		if (db_get_dw(hContact, protocolname, "UserId", -1) == uid)
+		if (db_get_dw(hContact, protocolname, "UserId", -1) == DWORD(uid))
 			return hContact;
 
 	return 0;
@@ -1941,7 +1939,7 @@ int RebuildContactMenu(WPARAM hContact, LPARAM)
 		Xfire_game* game = xgamelist.getGamebyGameid(gameid);
 		//hat das spiel netzwerkparameter?
 		if (game) {
-			if (game->networkparams) {
+			if (game->m_networkparams) {
 				//is beim buddy ein port hinterlegt, also spielt er im internet?
 				if (!db_get_dw(hContact, protocolname, "Port", 0)) {
 					//nein, dann join button auch ausblenden
@@ -1984,10 +1982,10 @@ void SetXFireGameStatusMsg(Xfire_game* game)
 	//kein gameobject, dann abbrechen
 	if (!game) return;
 
-	if (!game->statusmsg)
-		xgamelist.getIniValue(game->id, "XUSERStatusMsg", statusmsg, 100);
+	if (!game->m_statusmsg)
+		xgamelist.getIniValue(game->m_id, "XUSERStatusMsg", statusmsg, 100);
 	else
-		strcpy_s(statusmsg, 100, game->statusmsg);
+		strncpy_s(statusmsg, game->m_statusmsg, _TRUNCATE);
 
 	if (statusmsg[0] != 0)
 		if (myClient != NULL)
@@ -2078,7 +2076,7 @@ void gamedetectiont(void*)
 						tm * mytm = gmtime(&t3);
 
 						//statusmsg von xfire zurücksetzen
-						if (currentgame->setstatusmsg) {
+						if (currentgame->m_setstatusmsg) {
 							if (myClient != NULL)
 								if (myClient->client->connected)
 									if (bpStatus == ID_STATUS_ONLINE)
@@ -2087,10 +2085,10 @@ void gamedetectiont(void*)
 										myClient->Status(statusmessage[1]);
 						}
 
-						mir_snprintf(temp, _countof(temp), Translate("Last game: %s playtime: %.2d:%.2d:%.2d"), currentgame->name, mytm->tm_hour, mytm->tm_min, mytm->tm_sec);
+						mir_snprintf(temp, Translate("Last game: %s playtime: %.2d:%.2d:%.2d"), currentgame->m_name, mytm->tm_hour, mytm->tm_min, mytm->tm_sec);
 						db_set_s(NULL, protocolname, "LastGame", temp);
 
-						if (currentgame->noicqstatus != TRUE&&db_get_b(NULL, protocolname, "autosetstatusmsg", 0))
+						if (currentgame->m_noicqstatus != TRUE&&db_get_b(NULL, protocolname, "autosetstatusmsg", 0))
 							SetOldStatusMsg();
 
 						db_set_w(NULL, protocolname, "currentgame", 0);
@@ -2099,9 +2097,9 @@ void gamedetectiont(void*)
 						//popup wieder aktivieren, menuservice funk aufrufen, nur wenn popups vorher abgestellt wurden
 						if (disabledpopups)
 							if (db_get_b(NULL, protocolname, "nopopups", 0)) {
-								if (ServiceExists("Popup/EnableDisableMenuCommand")) {
+								if (ServiceExists("Popup/EnableDisableMenuCommand"))
 									CallService("Popup/EnableDisableMenuCommand", NULL, NULL);
-								}
+
 								disabledpopups = FALSE;
 							}
 						//sound wieder aktivieren, nur wenn es vorher abgestellt wurde
@@ -2122,12 +2120,11 @@ void gamedetectiont(void*)
 
 						delete packet;
 					}
-					else //noch offen
-					{
+					else { //noch offen
 						//XFireLog("Spiel noch offen...","");
 						//nur nwspiele nach ip/port scannen
-						if (db_get_b(NULL, protocolname, "ipportdetec", 0))
-							if (currentgame->networkparams != NULL&&currentgame->send_gameid > 0) {
+						if (db_get_b(NULL, protocolname, "ipportdetec", 0)) {
+							if (currentgame->m_networkparams != NULL && currentgame->m_send_gameid > 0) {
 								SendGameStatusPacket *packet = new SendGameStatusPacket();
 								//verscueh serverip und port zu scannen
 
@@ -2144,24 +2141,20 @@ void gamedetectiont(void*)
 										XFireLog("NO IPPort", "");
 									}
 
-									packet->gameid = currentgame->send_gameid;
+									packet->gameid = currentgame->m_send_gameid;
 									if (db_get_b(NULL, protocolname, "sendgamestatus", 1))
 										if (myClient != NULL)
 											myClient->client->send(packet);
 
-									if (currentgame->noicqstatus != TRUE&&db_get_b(NULL, protocolname, "autosetstatusmsg", 0))
+									if (currentgame->m_noicqstatus != TRUE && db_get_b(NULL, protocolname, "autosetstatusmsg", 0))
 										SetGameStatusMsg();
 								}
-								else {
-									XFireLog("GetServerIPPort failed", "");
-								}
+								else XFireLog("GetServerIPPort failed", "");
+
 								delete packet;
 							}
-						//XFireLog("fertig...","");
-						//packet->=xf[currentgame].gameid2;
+						}
 					}
-
-					//if (op!=NULL) CloseHandle(op);
 				}
 				else {
 					//XFireLog("nach spiel suchen...","");
@@ -2186,20 +2179,20 @@ void gamedetectiont(void*)
 							if (nextgame->checkpath(processInfo)) {
 								SendGameStatusPacket *packet = new SendGameStatusPacket();
 
-								XFireLog("XFire Gamedetection - Spiel gefunden: %i", nextgame->id);
+								XFireLog("XFire Gamedetection - Spiel gefunden: %i", nextgame->m_id);
 
 								if (myClient != NULL)
 									if (myClient->client->connected) {
 										currentgame = nextgame;
 										pid = processInfo->th32ProcessID;
-										db_set_w(NULL, protocolname, "currentgame", currentgame->id);
-										db_set_s(NULL, protocolname, "currentgamename", currentgame->name);
-										packet->gameid = currentgame->send_gameid;
+										db_set_w(NULL, protocolname, "currentgame", currentgame->m_id);
+										db_set_s(NULL, protocolname, "currentgamename", currentgame->m_name);
+										packet->gameid = currentgame->m_send_gameid;
 										t1 = time(NULL);
 
 										if (db_get_b(NULL, protocolname, "sendgamestatus", 1)) {
-											XFireLog("XFire Gamedetection - Sendgame-ID: %i", currentgame->send_gameid);
-											if (currentgame->send_gameid > 0) {
+											XFireLog("XFire Gamedetection - Sendgame-ID: %i", currentgame->m_send_gameid);
+											if (currentgame->m_send_gameid > 0) {
 												XFireLog("XFire Gamedetection - Setzte Status für XFire");
 												myClient->client->send(packet);
 											}
@@ -2211,18 +2204,16 @@ void gamedetectiont(void*)
 										NotifyEventHooks(hookgamestart, 1, 0);
 
 										//statusmsg für xfire setzen
-										if (currentgame->setstatusmsg) {
+										if (currentgame->m_setstatusmsg)
 											SetXFireGameStatusMsg(currentgame);
-										}
 
-										if (currentgame->noicqstatus != TRUE&&db_get_b(NULL, protocolname, "autosetstatusmsg", 0)) {
+										if (currentgame->m_noicqstatus != TRUE && db_get_b(NULL, protocolname, "autosetstatusmsg", 0)) {
 											BackupStatusMsg();
 											SetGameStatusMsg();
 										}
 										//popup abschalten, menuservice funk aufrufen
 										if (db_get_b(NULL, protocolname, "nopopups", 0)) {
-											if (ServiceExists("Popup/EnableDisableMenuCommand") && db_get_b(NULL, "Popup", "ModuleIsEnabled", 0) == 1) /**/
-											{
+											if (ServiceExists("Popup/EnableDisableMenuCommand") && db_get_b(NULL, "Popup", "ModuleIsEnabled", 0) == 1) {
 												disabledpopups = TRUE;
 												CallService("Popup/EnableDisableMenuCommand", NULL, NULL);
 											}
@@ -2422,11 +2413,10 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 				db_set_s(hContact, protocolname, "RVoice", gname);
 
 				if (gameob) {
-					if ((unsigned char)gameob->ip[3] != 0) // wenn ip, dann speichern
-					{
-						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
+					if ((unsigned char)gameob->m_ip[3] != 0) { // wenn ip, dann speichern
+						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
 						db_set_s(hContact, protocolname, "VServerIP", temp);
-						db_set_w(hContact, protocolname, "VPort", (unsigned long)gameob->port);
+						db_set_w(hContact, protocolname, "VPort", gameob->m_port);
 					}
 					else {
 						db_unset(hContact, protocolname, "VServerIP");
@@ -2459,9 +2449,8 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 
 				//popup, wenn jemand was spielt
 				if (db_get_b(NULL, protocolname, "gamepopup", 0) == 1) {
-					char temp[256] = "";
-
-					mir_snprintf(temp, _countof(temp), Translate("%s is playing %s."),
+					char szMsg[256] = "";
+					mir_snprintf(szMsg, _countof(szMsg), Translate("%s is playing %s."),
 						//ist ein nick gesetzt?
 						(entry->nick.length() == 0 ?
 						//nein dann username
@@ -2471,15 +2460,15 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 						, gname);
 
 					if (gameob) {
-						if ((unsigned char)gameob->ip[3] != 0) {
-							mir_snprintf(temp, _countof(temp), Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
+						if ((unsigned char)gameob->m_ip[3] != 0) {
+							mir_snprintf(szMsg, _countof(szMsg), Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
 								//ist ein nick gesetzt?
 								(entry->nick.length() == 0 ?
 								//nein dann username
 								entry->username.c_str() :
 								//klar, dann nick nehmen
-								entry->nick.c_str())
-								, gname, (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0], (unsigned long)gameob->port);
+								entry->nick.c_str()),
+								gname, (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0], (unsigned long)gameob->m_port);
 						}
 					}
 
@@ -2489,43 +2478,43 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 						*/
 					if (entry->lastpopup == NULL) {
 						//größe des popupstrings
-						int size = mir_strlen(temp) + 1;
+						int size = mir_strlen(szMsg) + 1;
 						//popup darstellen
-						displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
+						displayPopup(NULL, szMsg, PLUGIN_TITLE, 0, hicongame);
 						//letzten popup definieren
 						entry->lastpopup = new char[size];
 						//string kopieren
-						strcpy_s(entry->lastpopup, size, temp);
+						strcpy_s(entry->lastpopup, size, szMsg);
 					}
 					else {
-						if (mir_strcmp(entry->lastpopup, temp) != 0) {
+						if (mir_strcmp(entry->lastpopup, szMsg) != 0) {
 							delete[] entry->lastpopup;
 							entry->lastpopup = NULL;
 
 							//größe des popupstrings
-							int size = mir_strlen(temp) + 1;
+							int size = mir_strlen(szMsg) + 1;
 							//popup darstellen
-							displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
+							displayPopup(NULL, szMsg, PLUGIN_TITLE, 0, hicongame);
 							//letzten popup definieren
 							entry->lastpopup = new char[size];
 							//string kopieren
-							strcpy_s(entry->lastpopup, size, temp);
+							strcpy_s(entry->lastpopup, size, szMsg);
 						}
 					}
 				}
 
 				if (gameob) {
-					if ((unsigned char)gameob->ip[3] != 0) {
+					if ((unsigned char)gameob->m_ip[3] != 0) {
 						//ip und port in kontakt speichern
-						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
+						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
 						db_set_s(hContact, protocolname, "ServerIP", temp);
-						db_set_w(hContact, protocolname, "Port", (unsigned long)gameob->port);
+						db_set_w(hContact, protocolname, "Port", gameob->m_port);
 
 						//lass das query arbeiten
 						if (dontscan == FALSE)
 							if (ServiceExists("GameServerQuery/Query") && db_get_b(NULL, protocolname, "gsqsupport", 0)) {
 								GameServerQuery_query gsqq = { 0 };
-								gsqq.port = gameob->port;
+								gsqq.port = gameob->m_port;
 								gsqq.xfiregameid = entry->game;
 								strncpy(gsqq.ip, temp, _countof(gsqq.ip) - 1);
 								CallService("GameServerQuery/Query", (WPARAM)entry, (LPARAM)&gsqq);
@@ -2746,19 +2735,16 @@ void CreateGroup(char*grpn, char*field)
 
 	int val = db_get_b(NULL, protocolname, field, 0);
 
-	if (val == 0) {
+	if (val == 0)
 		strcpy_s(grp, _countof(grp), grpn);//((char*)clan->name[i].c_str());
-	}
 	else {
 		char temp[255];
-		DBVARIANT dbv;
 		mir_snprintf(temp, _countof(temp), "%d", val - 1);
 		if (!db_get_s(NULL, "CListGroups", temp, &dbv)) {
 			mir_snprintf(grp, _countof(grp), "%s\\%s", &dbv.pszVal[1], grpn);
 			db_free(&dbv);
 		}
-		else //gruppe existiert nciht mehr, auf root alles legen
-		{
+		else { //gruppe existiert nciht mehr, auf root alles legen
 			strcpy_s(grp, _countof(grp), grpn);
 			db_set_b(NULL, protocolname, field, 0);
 		}
