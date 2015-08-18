@@ -47,7 +47,7 @@ enum
 
 LPCTSTR g_pszSkypeWndClassName = _T("SkypeHelperWindow{155198f0-8749-47b7-ac53-58f2ac70844c}");
 
-const CMirandaStatus2SkypeStatus g_aStatusCode[10] = 
+const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
 {
 	{ID_STATUS_AWAY, "AWAY",_T("Away")},
 	{ID_STATUS_NA, "AWAY",_T("NA")}, // removed in Skype 5
@@ -61,21 +61,21 @@ const CMirandaStatus2SkypeStatus g_aStatusCode[10] =
 	{ID_STATUS_OUTTOLUNCH,"DND",_T("Out to lunch")}
 };
 
-enum{INVALID_INDEX = 0xFFFFFFFF};
-	
+enum { INVALID_INDEX = 0xFFFFFFFF };
+
 class CStatusInfo
 {
 public:
-	CStatusInfo() : m_nStatusIndex(INVALID_INDEX){m_szModule[0] = '\0';}
+	CStatusInfo() : m_nStatusIndex(INVALID_INDEX) { m_szModule[0] = '\0'; }
 
-	size_t StatusIndex()const{return m_nStatusIndex;}
-	void StatusIndex(size_t val){m_nStatusIndex = val;}
+	size_t StatusIndex()const { return m_nStatusIndex; }
+	void StatusIndex(size_t val) { m_nStatusIndex = val; }
 
-	const char* Module()const{return m_szModule;}
+	const char* Module()const { return m_szModule; }
 	void Module(const char* val)
 	{
 		if (val)
-			strncpy_s(m_szModule,val,mir_strlen(val));
+			strncpy_s(m_szModule, val, mir_strlen(val));
 		else
 			m_szModule[0] = '\0';
 	}
@@ -99,27 +99,26 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (!g_Options.IsProtocolExcluded(pAckData->szModule)) {
-		int nStatus = CallProtoService(pAckData->szModule,PS_GETSTATUS,0,0);
-		for(size_t i = 0; i < _countof(g_aStatusCode); ++i) {
+		int nStatus = CallProtoService(pAckData->szModule, PS_GETSTATUS, 0, 0);
+		for (size_t i = 0; i < _countof(g_aStatusCode); ++i) {
 			const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[i];
 			if (ms.m_nMirandaStatus == nStatus) {
 				int nPrevStatus;
-				if ((false == g_Options.IsProtocolStatusExcluded(pAckData->szModule,nStatus))
-					&& ((false == g_Options.GetSyncStatusStateFlag()) 
-						|| (false == g_Options.GetPreviousStatus(pAckData->szModule,nPrevStatus)) 
-						|| (nPrevStatus != nStatus)))
-				{
-					{
-						mir_cslock guard(g_csStatusInfo);
-						g_CurrStatusInfo.StatusIndex(i);
-						g_CurrStatusInfo.Module(pAckData->szModule);
-					}
-					if (0 == ::PostMessage(HWND_BROADCAST,g_MsgIDSkypeControlAPIDiscover,(WPARAM)g_wndMainWindow,0)) {
-						mir_cslock guard(g_csStatusInfo);
-						g_CurrStatusInfo.StatusIndex(INVALID_INDEX);
-						g_CurrStatusInfo.Module(NULL);
-					}
-					else g_Options.SetPreviousStatus(pAckData->szModule,nStatus);
+				if ((false == g_Options.IsProtocolStatusExcluded(pAckData->szModule, nStatus))
+					&& ((false == g_Options.GetSyncStatusStateFlag())
+						|| (false == g_Options.GetPreviousStatus(pAckData->szModule, nPrevStatus))
+						|| (nPrevStatus != nStatus))) {
+							{
+								mir_cslock guard(g_csStatusInfo);
+								g_CurrStatusInfo.StatusIndex(i);
+								g_CurrStatusInfo.Module(pAckData->szModule);
+							}
+							if (0 == ::PostMessage(HWND_BROADCAST, g_MsgIDSkypeControlAPIDiscover, (WPARAM)g_wndMainWindow, 0)) {
+								mir_cslock guard(g_csStatusInfo);
+								g_CurrStatusInfo.StatusIndex(INVALID_INDEX);
+								g_CurrStatusInfo.Module(NULL);
+							}
+							else g_Options.SetPreviousStatus(pAckData->szModule, nStatus);
 				}
 				break;
 			}
@@ -129,31 +128,31 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static void ThreadFunc(void*) 
-{ 
+static void ThreadFunc(void*)
+{
 	while (true) {
 		MSG msg;
-		if (TRUE == ::PeekMessage(&msg,g_wndMainWindow,0,0,PM_NOREMOVE)) {
-			while(::GetMessage(&msg,g_wndMainWindow,0,0)) { 
-				TranslateMessage(&msg); 
-				DispatchMessage(&msg); 
-			} 
+		if (TRUE == ::PeekMessage(&msg, g_wndMainWindow, 0, 0, PM_NOREMOVE)) {
+			while (::GetMessage(&msg, g_wndMainWindow, 0, 0)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
 		}
 		else {
-			DWORD dwResult = ::MsgWaitForMultipleObjects(1,&g_hEventShutdown,FALSE,INFINITE,QS_ALLEVENTS);
+			DWORD dwResult = ::MsgWaitForMultipleObjects(1, &g_hEventShutdown, FALSE, INFINITE, QS_ALLEVENTS);
 			_ASSERT(WAIT_FAILED != dwResult);
 			if (WAIT_OBJECT_0 == dwResult)
 				break;
 		}
 	}
-}   
+}
 
 LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
 	LRESULT lReturnCode = 0;
 	bool bIssueDefProc = false;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_DESTROY:
 		g_wndMainWindow = NULL;
 		break;
@@ -163,7 +162,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 	default:
 		if (msg == g_MsgIDSkypeControlAPIAttach) {
-			switch(lp) {
+			switch (lp) {
 			case SKYPECONTROLAPI_ATTACH_SUCCESS:
 				{
 					CStatusInfo si;
@@ -175,40 +174,38 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						const CMirandaStatus2SkypeStatus& ms = g_aStatusCode[si.StatusIndex()];
 						HWND wndSkypeAPIWindow = reinterpret_cast<HWND>(wp);
 
-						enum{BUFFER_SIZE = 256};
+						enum { BUFFER_SIZE = 256 };
 						char szSkypeCmd[BUFFER_SIZE];
 						const char szSkypeCmdSetStatus[] = "SET USERSTATUS ";
-						::strncpy_s(szSkypeCmd,szSkypeCmdSetStatus,sizeof(szSkypeCmdSetStatus)/sizeof(szSkypeCmdSetStatus[0]));
+						::strncpy_s(szSkypeCmd, szSkypeCmdSetStatus, sizeof(szSkypeCmdSetStatus) / sizeof(szSkypeCmdSetStatus[0]));
 						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, _countof(szSkypeCmd) - mir_strlen(szSkypeCmd));
 						DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 
 						COPYDATASTRUCT oCopyData;
-						oCopyData.dwData=0;
+						oCopyData.dwData = 0;
 						oCopyData.lpData = szSkypeCmd;
-						oCopyData.cbData = cLength+1;
-						SendMessage(wndSkypeAPIWindow,WM_COPYDATA,(WPARAM)hWnd,(LPARAM)&oCopyData);
+						oCopyData.cbData = cLength + 1;
+						SendMessage(wndSkypeAPIWindow, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&oCopyData);
 						if (g_Options.GetSyncStatusMsgFlag()) {
 							TCHAR* pszStatusMsg = NULL;
-							if ( ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG)) 
-								pszStatusMsg = reinterpret_cast<TCHAR*>(CallProtoService(si.Module(),PS_GETMYAWAYMSG,(WPARAM)ms.m_nMirandaStatus,SGMA_TCHAR));
+							if (ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG))
+								pszStatusMsg = reinterpret_cast<TCHAR*>(CallProtoService(si.Module(), PS_GETMYAWAYMSG, (WPARAM)ms.m_nMirandaStatus, SGMA_TCHAR));
 
-							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == reinterpret_cast<int>(pszStatusMsg)))
-								pszStatusMsg = reinterpret_cast<TCHAR*>(CallService(MS_AWAYMSG_GETSTATUSMSGT,(WPARAM)ms.m_nMirandaStatus,0));
+							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == INT_PTR(pszStatusMsg)))
+								pszStatusMsg = reinterpret_cast<TCHAR*>(CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)ms.m_nMirandaStatus, 0));
 
 							if (pszStatusMsg && reinterpret_cast<LPARAM>(pszStatusMsg) != CALLSERVICE_NOTFOUND) {
 								T2Utf pMsg(pszStatusMsg);
 								mir_free(pszStatusMsg);
 
 								const char szSkypeCmdSetStatusMsg[] = "SET PROFILE MOOD_TEXT ";
-								::strncpy_s(szSkypeCmd,szSkypeCmdSetStatusMsg,sizeof(szSkypeCmdSetStatusMsg)/sizeof(szSkypeCmdSetStatusMsg[0]));
+								::strncpy_s(szSkypeCmd, szSkypeCmdSetStatusMsg, sizeof(szSkypeCmdSetStatusMsg) / sizeof(szSkypeCmdSetStatusMsg[0]));
 								::strncat_s(szSkypeCmd, pMsg, _countof(szSkypeCmd) - mir_strlen(szSkypeCmd));
-										
-								DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 
-								oCopyData.dwData=0;
+								oCopyData.dwData = 0;
 								oCopyData.lpData = szSkypeCmd;
-								oCopyData.cbData = cLength+1;
-								SendMessage(wndSkypeAPIWindow,WM_COPYDATA,(WPARAM)hWnd,(LPARAM)&oCopyData);
+								oCopyData.cbData = static_cast<DWORD>(mir_strlen(szSkypeCmd)) + 1;
+								SendMessage(wndSkypeAPIWindow, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&oCopyData);
 							}
 						}
 					}
@@ -227,12 +224,12 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 			case SKYPECONTROLAPI_ATTACH_API_AVAILABLE:
 				break;
 			}
-			lReturnCode=1;
+			lReturnCode = 1;
 		}
 		else bIssueDefProc = true;
 		break;
 	}
-		
+
 	if (true == bIssueDefProc)
 		lReturnCode = DefWindowProc(hWnd, msg, wp, lp);
 
@@ -245,7 +242,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 	BOOL b = SetEvent(g_hEventShutdown);
 	_ASSERT(b && "SetEvent failed");
 
-	DWORD dwResult = ::WaitForSingleObject(g_hThread,INFINITE);
+	DWORD dwResult = ::WaitForSingleObject(g_hThread, INFINITE);
 	_ASSERT(WAIT_FAILED != dwResult);
 
 	b = ::CloseHandle(g_hEventShutdown);
@@ -257,7 +254,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 		g_wndMainWindow = NULL;
 	}
 
-	UnregisterClass(g_pszSkypeWndClassName,g_hModule);
+	UnregisterClass(g_pszSkypeWndClassName, g_hModule);
 	return 0;
 }
 
@@ -282,31 +279,31 @@ extern "C" int __declspec(dllexport) Load()
 
 	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(_T("SkypeControlAPIAttach"));
 	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(_T("SkypeControlAPIDiscover"));
-	if ((0 == g_MsgIDSkypeControlAPIAttach)|| (0 == g_MsgIDSkypeControlAPIDiscover))
+	if ((0 == g_MsgIDSkypeControlAPIAttach) || (0 == g_MsgIDSkypeControlAPIDiscover))
 		return 1;
 
 	WNDCLASS oWindowClass = { 0 };
-	oWindowClass.style = CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS;
+	oWindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 	oWindowClass.lpfnWndProc = (WNDPROC)&SkypeAPI_WindowProc;
 	oWindowClass.hInstance = g_hModule;
 	oWindowClass.lpszClassName = g_pszSkypeWndClassName;
 	if (!RegisterClass(&oWindowClass))
 		return 1;
 
-	g_wndMainWindow = CreateWindowEx( WS_EX_APPWINDOW|WS_EX_WINDOWEDGE,
-		g_pszSkypeWndClassName,_T(""), WS_BORDER|WS_SYSMENU|WS_MINIMIZEBOX,
+	g_wndMainWindow = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE,
+		g_pszSkypeWndClassName, _T(""), WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, NULL, 0, g_hModule, 0);
 	if (g_wndMainWindow == NULL)
 		return 1;
-		
+
 	g_bMirandaIsShutdown = false;
-	g_hEventShutdown = ::CreateEvent(NULL,TRUE,FALSE,NULL);
+	g_hEventShutdown = ::CreateEvent(NULL, TRUE, FALSE, NULL);
 
 	g_hThread = mir_forkthread(ThreadFunc, NULL);
 
-	HookEvent(ME_PROTO_ACK,SSC_OnProtocolAck);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN,SSC_OnPreShutdown);
-	HookEvent(ME_OPT_INITIALISE,SSC_OptInitialise);
+	HookEvent(ME_PROTO_ACK, SSC_OnProtocolAck);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, SSC_OnPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, SSC_OptInitialise);
 	return 0;
 }
 

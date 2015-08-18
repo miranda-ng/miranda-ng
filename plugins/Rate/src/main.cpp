@@ -38,11 +38,11 @@
 HINSTANCE g_hInst;
 
 static HANDLE hExtraIcon = NULL;
-byte bRate = 0;
 int hLangpack;
 
-PLUGININFOEX pluginInfo={
-   sizeof(PLUGININFOEX),
+PLUGININFOEX pluginInfo =
+{
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -50,15 +50,15 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-   UNICODE_AWARE,
+	UNICODE_AWARE,
 	// {45230488-977B-405B-856D-EA276D7083B7}
-   {0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
+	{0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
-   g_hInst = hinstDLL;
-   return TRUE;
+	g_hInst = hinstDLL;
+	return TRUE;
 }
 
 // плагининфо

@@ -284,9 +284,9 @@ void PasteToWeb::FromClipboard()
 				if (mir_strlen(cStr) > str.length())
 				{
 					str = L"";
-					LPWSTR wStr = mir_a2u_cp(cStr, CP_ACP);
-					str.append(wStr, wStr + mir_wstrlen(wStr));
-					mir_free(wStr);
+					LPWSTR p = mir_a2u_cp(cStr, CP_ACP);
+					str.append(p, p + mir_wstrlen(p));
+					mir_free(p);
 				}
 				GlobalUnlock(obj);
 			}

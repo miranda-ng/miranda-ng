@@ -250,14 +250,14 @@ void DisableDelayOptions(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_TX_DELAY_SEC), FALSE);
 }
 
-void ChooseFile(HWND hDlg)
+void ChooseFile(HWND hwndDlg)
 {
 	TCHAR szFile[MAX_PATH]; szFile[0]=0;
 
 	// Initialize OPENFILENAME
 	OPENFILENAME ofn = {0};       // common dialog box structure
 	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = hDlg;
+	ofn.hwndOwner = hwndDlg;
 	ofn.lpstrFile = szFile;
 	ofn.nMaxFile = _countof(szFile);
 	ofn.lpstrFilter = _T("All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0");
@@ -267,7 +267,7 @@ void ChooseFile(HWND hDlg)
 	if (GetSaveFileName(&ofn)) {
 		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hf != INVALID_HANDLE_VALUE) {
-			SetDlgItemText(hDlg,IDC_FILE,szFile);
+			SetDlgItemText(hwndDlg,IDC_FILE,szFile);
 			mir_tstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
 			CloseHandle(hf);
 		}
@@ -275,7 +275,7 @@ void ChooseFile(HWND hDlg)
 	else if (CommDlgExtendedError() != 0) {
 		TCHAR str[256];
 		mir_sntprintf(str, _countof(str), TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
-		MessageBox(hDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
+		MessageBox(hwndDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
 }
 

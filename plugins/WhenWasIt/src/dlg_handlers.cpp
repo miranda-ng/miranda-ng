@@ -398,18 +398,16 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, lParam);
-		{
-			MCONTACT hContact = lParam;
-			WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
-			Utils_RestoreWindowPositionNoSize(hWnd, hContact, ModuleName, "BirthdayWnd");
-		}
-		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hAddBirthdayContact, 1));
-		{
-			for (int i = 0; i < cSaveModule; i++)
-				SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
 
-			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
-		}
+		hContact = lParam;
+		WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
+		Utils_RestoreWindowPositionNoSize(hWnd, hContact, ModuleName, "BirthdayWnd");
+
+		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIconByHandle(hAddBirthdayContact, 1));
+
+		for (int i = 0; i < cSaveModule; i++)
+			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
+		SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
 		break;
 
 	case WM_SHOWWINDOW:
@@ -487,9 +485,9 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			SYSTEMTIME st;
-			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+			hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 			HWND hDate = GetDlgItem(hWnd, IDC_DATE);
+			SYSTEMTIME st;
 			if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID) {
 				int mode = SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_GETCURSEL, 0, 0); //SAVE modes  in date_utils.h are synced
 				SaveBirthday(hContact, st.wYear, st.wMonth, st.wDay, mode);
@@ -580,6 +578,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 		currentDay = today->tm_mday + 1;
 		currentMonth = today->tm_mon + 1;
 	}
+	else currentMonth = currentDay = 0;
 
 	int year, month, day;
 	int module = GetContactDOB(hContact, year, month, day);

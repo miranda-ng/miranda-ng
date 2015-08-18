@@ -602,11 +602,11 @@ static void NotifyTyping(SrmmWindowData *dat, int mode)
 	CallService(MS_PROTO_SELFISTYPING, (WPARAM)dat->hContact, dat->nTypeMode);
 }
 
-INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
@@ -1625,7 +1625,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			// save string from the editor
 			if (dat->hContact) {
 				int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) + 1;
-				TCHAR *msg = (TCHAR*)alloca(sizeof(TCHAR)* len);
+				TCHAR *msg = (TCHAR*)alloca(sizeof(TCHAR)*len);
 				GetDlgItemText(hwndDlg, IDC_MESSAGE, msg, len);
 				if (msg[0])
 					db_set_ts(dat->hContact, SRMSGMOD, DBSAVEDMSG, msg);

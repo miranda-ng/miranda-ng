@@ -76,17 +76,15 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		else if (HIWORD(wparam) == CPN_COLOURCHANGED) {
 			WORD idText, idBack;
-			POPUPDATAT ppd = { 0 };
-			DBVARIANT dbv = { 0 };
-			DWORD temp;
 			if (LOWORD(wparam) > ID_STATUS_OUTTOLUNCH) // we have clicked a text color
 				idText = wparam, idBack = wparam - 20;
 			else
 				idText = wparam + 20, idBack = wparam;
 
+			POPUPDATAT ppd = { 0 };
 			ppd.colorBack = SendDlgItemMessage(hdlg, idBack, CPM_GETCOLOUR, 0, 0);
 			ppd.colorText = SendDlgItemMessage(hdlg, idText, CPM_GETCOLOUR, 0, 0);
-			temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);
+			DWORD temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);
 			GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, temp);
 			SendDlgItemMessage(hdlg, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
 			SendDlgItemMessage(hdlg, idText, CPM_SETCOLOUR, 0, ppd.colorText);

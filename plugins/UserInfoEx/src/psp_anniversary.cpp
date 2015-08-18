@@ -248,7 +248,6 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		case RADIO_REMIND1:
 		case RADIO_REMIND2:
 		case RADIO_REMIND3:
-			CAnnivEditCtrl *pDateCtrl = CAnnivEditCtrl::GetObj(hDlg, EDIT_ANNIVERSARY_DATE);
 			if (PtrIsValid(pDateCtrl) && HIWORD(wParam) == BN_CLICKED)
 				pDateCtrl->OnReminderChecked();
 			return FALSE;

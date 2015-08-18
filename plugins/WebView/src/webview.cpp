@@ -35,7 +35,7 @@ COLORREF  BackgoundClr, TextClr;
 
 UINT_PTR  timerId;
 UINT_PTR  Countdown;
-LOGFONT   lf;
+LOGFONT   g_lf;
 HFONT     h_font;
 HWND      ContactHwnd;
 HINSTANCE hInst;
@@ -63,8 +63,8 @@ void ChangeMenuItemCountdown()
 	// countdown
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
-	TCHAR countername[100]; 
-	mir_sntprintf(countername,_countof(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	TCHAR countername[100];
+	mir_sntprintf(countername, _countof(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
 }
@@ -72,10 +72,10 @@ void ChangeMenuItemCountdown()
 /*****************************************************************************/
 static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX*, int, LPARAM lParam)
 {
-	if (!IsWindow((HWND) lParam))
+	if (!IsWindow((HWND)lParam))
 		return FALSE;
-	if (SendMessage((HWND) lParam, CB_FINDSTRINGEXACT, -1, (LPARAM) lpelfe->elfLogFont.lfFaceName) == CB_ERR)
-		SendMessage((HWND) lParam, CB_ADDSTRING, 0, (LPARAM) lpelfe->elfLogFont.lfFaceName);
+	if (SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)lpelfe->elfLogFont.lfFaceName) == CB_ERR)
+		SendMessage((HWND)lParam, CB_ADDSTRING, 0, (LPARAM)lpelfe->elfLogFont.lfFaceName);
 	return TRUE;
 }
 
@@ -83,11 +83,11 @@ void FillFontListThread(void *param)
 {
 	HDC hdc = GetDC((HWND)param);
 
-	LOGFONT lf = {0};
-	lf.lfCharSet = DEFAULT_CHARSET;
-	lf.lfFaceName[0] = 0;
-	lf.lfPitchAndFamily = 0;
-	EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC) EnumFontsProc, (LPARAM) GetDlgItem((HWND)param, IDC_TYPEFACE), 0);
+	LOGFONT lf = { 0 };
+	g_lf.lfCharSet = DEFAULT_CHARSET;
+	g_lf.lfFaceName[0] = 0;
+	g_lf.lfPitchAndFamily = 0;
+	EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC)EnumFontsProc, (LPARAM)GetDlgItem((HWND)param, IDC_TYPEFACE), 0);
 	ReleaseDC((HWND)param, hdc);
 }
 
@@ -168,7 +168,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	char *szProto = GetContactProto(hContact);
-	if ( mir_strcmp(MODULENAME, szProto))
+	if (mir_strcmp(MODULENAME, szProto))
 		return 0;
 
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
@@ -176,7 +176,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 		ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
 		Utils_OpenUrlT(url);
 
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
+		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	}
 	else if (action == 1) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
@@ -185,11 +185,11 @@ int Doubleclick(WPARAM wParam, LPARAM)
 			SetFocus(hwndDlg);
 		}
 		else {
-			hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM) hContact);
+			hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM)hContact);
 			HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
+			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
-			if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+			if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 				SetWindowPos(hwndDlg, hTopmost,
 					db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
 					db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
@@ -207,7 +207,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 				mir_forkthread(ReadFromFile, (void*)hContact);
 			else
 				mir_forkthread(GetData, (void*)hContact);
-			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
+			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 		}
 	}
 
@@ -229,13 +229,13 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.cbSize = sizeof(CHARFORMAT2);
 	cfFM.dwMask = CFM_COLOR | CFM_CHARSET | CFM_FACE | ENM_LINK | ENM_MOUSEEVENTS | CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_SIZE;
 
-	if ( db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0))
 		bold = CFE_BOLD;
 
-	if ( db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0))
 		italic = CFE_ITALIC;
 
-	if ( db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0))
 		underline = CFE_UNDERLINE;
 
 	cfFM.dwEffects = bold | italic | underline;
@@ -247,14 +247,14 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	else mir_tstrcpy(cfFM.szFaceName, Def_font_face);
 
 	HDC hDC = GetDC(hWindow);
-	cfFM.yHeight = (BYTE)MulDiv(abs(lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
+	cfFM.yHeight = (BYTE)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
 	ReleaseDC(hWindow, hDC);
 
 	cfFM.bCharSet = db_get_b(NULL, MODULENAME, FONT_SCRIPT_KEY, 0);
 	cfFM.bPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 	cfFM.crTextColor = rgbText;
 	cfFM.crBackColor = rgbBack;
-	SendDlgItemMessage(hWindow, IDC_DATA, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) & cfFM);
+	SendDlgItemMessage(hWindow, IDC_DATA, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)& cfFM);
 
 	SendDlgItemMessage(hWindow, IDC_DATA, EM_SETSEL, 0, -1);
 	SendDlgItemMessageA(hWindow, IDC_DATA, EM_REPLACESEL, FALSE, (LPARAM)truncated);
@@ -278,12 +278,12 @@ void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 {
 	DWORD timetemp = db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 100);
-	if(timetemp <= 0) {
+	if (timetemp <= 0) {
 		timetemp = db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME);
 		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp);
 	}
 
-	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp-1);
+	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp - 1);
 
 	ChangeMenuItemCountdown();
 }
@@ -298,7 +298,7 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTitle = _T(MODULENAME);
 	odp.pfnDlgProc = DlgProcOpt;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	// if popup service exists
@@ -314,20 +314,20 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 void FontSettings(void)
 {
-	lf.lfHeight = 16;
-	lf.lfWidth = 0;
-	lf.lfEscapement = 0;
-	lf.lfOrientation = 0;
-	lf.lfWeight = FW_NORMAL;
-	lf.lfItalic = FALSE;
-	lf.lfUnderline = FALSE;
-	lf.lfStrikeOut = 0;
-	lf.lfCharSet = ANSI_CHARSET;
-	lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
-	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-	lf.lfQuality = DEFAULT_QUALITY;
-	lf.lfPitchAndFamily = FIXED_PITCH | FF_MODERN;
-	mir_tstrcpy(lf.lfFaceName, Def_font_face);
+	g_lf.lfHeight = 16;
+	g_lf.lfWidth = 0;
+	g_lf.lfEscapement = 0;
+	g_lf.lfOrientation = 0;
+	g_lf.lfWeight = FW_NORMAL;
+	g_lf.lfItalic = FALSE;
+	g_lf.lfUnderline = FALSE;
+	g_lf.lfStrikeOut = 0;
+	g_lf.lfCharSet = ANSI_CHARSET;
+	g_lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
+	g_lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	g_lf.lfQuality = DEFAULT_QUALITY;
+	g_lf.lfPitchAndFamily = FIXED_PITCH | FF_MODERN;
+	mir_tstrcpy(g_lf.lfFaceName, Def_font_face);
 }
 
 /*****************************************************************************/
@@ -348,10 +348,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OSD_ALERT, OSDAlert);
 
 	FontSettings();
-	h_font = CreateFontIndirect(&lf);
+	h_font = CreateFontIndirect(&g_lf);
 
 	// get data on startup
-	if ( db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0))
 		mir_forkthread(StartUpdate, NULL);
 
 	return 0;
@@ -368,9 +368,9 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	}
 
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM) hContact);
-	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-	if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM)hContact);
+	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+	if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
 			db_get_dw(hContact, MODULENAME, "WVy", 100), // Yposition,
@@ -382,12 +382,12 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 
-	if ( db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
-		if ( db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
+	if (db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0)) {
+		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0))
 			mir_forkthread(ReadFromFile, (void*)hContact);
 		else
 			mir_forkthread(GetData, (void*)hContact);
-		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);     
+		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	}
 
 	return 0;
@@ -426,14 +426,12 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 	int ontop = 0;
 	int done = 0;
 
-	if (((db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0)
-	{
+	if (((db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0) {
 		db_set_b(singlecontact, MODULENAME, ON_TOP_KEY, 0);
 		ontop = 0;
 		done = 1;
 	}
-	if ((!(db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0)
-	{
+	if ((!(db_get_b(singlecontact, MODULENAME, ON_TOP_KEY, 0))) && done == 0) {
 		db_set_b(singlecontact, MODULENAME, ON_TOP_KEY, 1);
 		ontop = 1;
 		done = 1;
@@ -449,7 +447,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 	if (url)
 		Utils_OpenUrlT(url);
 
-	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE); 
+	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	return 0;
 }
 
@@ -476,7 +474,7 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), NULL, DlgProcContactOpt, (LPARAM) wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), NULL, DlgProcContactOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;
@@ -485,13 +483,13 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 {
-	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT) wParam);
+	HWND hwndDlg = WindowList_Find(hWindowList, (MCONTACT)wParam);
 	if (hwndDlg) {
 		DestroyWindow(hwndDlg);
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), NULL, DlgProcAlertOpt, (LPARAM) wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), NULL, DlgProcAlertOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;

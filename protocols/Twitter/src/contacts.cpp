@@ -19,13 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "proto.h"
 
-void TwitterProto::AddToListWorker(void *p)
+void TwitterProto::AddToListWorker(void *pArg)
 {
 	// TODO: what happens if there is an error?
-	if (p == 0)
+	if (pArg == 0)
 		return;
 
-	char *name = static_cast<char*>(p);
+	char *name = static_cast<char*>(pArg);
 
 	try {
 		twitter_user user;
@@ -57,14 +57,15 @@ MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 void TwitterProto::UpdateInfoWorker(void *arg)
 {
-	MCONTACT hContact = (MCONTACT) arg;
+	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 	twitter_user user;
 
 	ptrA username(getStringA(hContact, TWITTER_KEY_UN));
 	if (username == NULL)
 		return;
 
-	{	mir_cslock s(twitter_lock_);
+	{
+		mir_cslock s(twitter_lock_);
 		twit_.get_info(std::string(username), &user);
 	}
 
@@ -93,17 +94,18 @@ int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
 struct search_query
 {
 	search_query(const std::tstring &_query, bool _by_email) : query(_query), by_email(_by_email)
-	{}
+	{
+	}
 	std::tstring query;
 	bool by_email;
 };
 
-void TwitterProto::DoSearch(void *p)
+void TwitterProto::DoSearch(void *pArg)
 {
-	if (p == 0)
+	if (pArg == 0)
 		return;
-	search_query *query = static_cast<search_query*>(p);
 
+	search_query *query = static_cast<search_query*>(pArg);
 	twitter_user info;
 
 	bool found = false;
@@ -155,7 +157,7 @@ HANDLE TwitterProto::SearchByEmail(const TCHAR *email)
 
 void TwitterProto::GetAwayMsgWorker(void *arg)
 {
-	MCONTACT hContact = (MCONTACT) arg;
+	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 	if (hContact == 0)
 		return;
 
@@ -175,7 +177,7 @@ HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
 
 int TwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT) wParam;
+	MCONTACT hContact = (MCONTACT)wParam;
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 

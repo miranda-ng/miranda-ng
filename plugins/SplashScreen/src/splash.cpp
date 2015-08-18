@@ -263,8 +263,8 @@ void __cdecl SplashThread(void *arg)
 	blend.SourceConstantAlpha = 255;
 	UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
-	if (DWORD(arg) > 0) {
-		if (SetTimer(hwndSplash, 6, DWORD(arg), 0)) {
+	if (DWORD_PTR(arg) > 0) {
+		if (SetTimer(hwndSplash, 6, DWORD_PTR(arg), 0)) {
 #ifdef _DEBUG
 			logMessage(_T("Timer TimeToShow"), _T("set"));
 #endif

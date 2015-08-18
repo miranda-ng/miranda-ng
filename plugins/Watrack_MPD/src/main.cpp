@@ -50,7 +50,6 @@ int Parser()
 {
 	static NETLIBPACKETRECVER nlpr = {0};
 	char *ptr;
-	char tmp[256];
 	int i;
 	char *buf;
 	static char ver[16];
@@ -115,6 +114,7 @@ int Parser()
 		}
 		nlpr.bytesUsed = nlpr.bytesAvailable;
 	}
+	char tmp[256];
 	buf = (char*)nlpr.buffer;
 	if(ptr = strstr(buf, "MPD"))
 	{

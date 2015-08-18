@@ -354,8 +354,8 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 	if (hHook == NULL)
 		return 0;
 
-	int hookId = (int)hHook >> 16;
-	int subscriberId = ((int)hHook & 0xFFFF) - 1;
+	int hookId = (INT_PTR)hHook >> 16;
+	int subscriberId = ((INT_PTR)hHook & 0xFFFF) - 1;
 
 	mir_cslock lck(csHooks);
 

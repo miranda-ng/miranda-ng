@@ -546,13 +546,13 @@ int OnPluginLoad(WPARAM, LPARAM lParam)
 
 int OnPluginUnload(WPARAM, LPARAM lParam)
 {
-	int hLangpack = GetPluginLangByInstance((HINSTANCE)lParam);
-	if (hLangpack) {
+	int lang = GetPluginLangByInstance((HINSTANCE)lParam);
+	if (lang) {
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);
 
 		for (int i = Buttons.getCount() - 1; i >= 0; i--)
-			if (Buttons[i]->hLangpack == hLangpack) {
+			if (Buttons[i]->hLangpack == lang) {
 				TTBRemoveButton(Buttons[i]->id, 0);
 				bNeedUpdate = true;
 			}

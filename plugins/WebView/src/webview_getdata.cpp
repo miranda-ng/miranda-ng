@@ -29,7 +29,7 @@ int AlreadyDownloading = 0;
 /*******************/
 void GetData(void *param)
 {
-	MCONTACT hContact = (MCONTACT)param;
+	MCONTACT hContact = (DWORD_PTR)param;
 	int statpos = 0, dispos = 0, statposend = 0;
 	char*pos;
 	DBVARIANT       dbv;
@@ -140,7 +140,6 @@ void GetData(void *param)
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
 
 				TCHAR *statusText = TranslateT("The server replied with a failure code");
-				HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 				WErrorPopup(hContact, statusText);
 				db_set_ts(hContact, "CList", "StatusMsg", statusText);
@@ -155,7 +154,6 @@ void GetData(void *param)
 
 		if (!nlhrReply) {
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_NA);
-			HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 
 			TCHAR *statusText = TranslateT("The server is down or lagging.");
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
@@ -173,11 +171,8 @@ void GetData(void *param)
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM) nlhrReply);
 
-		if (DownloadSuccess) {
-			HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
+		if (DownloadSuccess)
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
-		}
-		///get data in desired range
 
 		// download successful
 		if (DownloadSuccess) {
@@ -239,7 +234,6 @@ void GetData(void *param)
 					else if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
 						TCHAR *szStatusText = TranslateT("Invalid search parameters.");
 						WErrorPopup(hContact, szStatusText);
-						HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 
 						DownloadSuccess = 0;
 						SetDlgItemText(hwndDlg, IDC_STATUSBAR, szStatusText);
@@ -256,7 +250,6 @@ void GetData(void *param)
 					WErrorPopup(hContact, statusText);
 					db_set_ts(hContact, "CList", "StatusMsg", statusText);
 
-					HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 					DownloadSuccess = 0;
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 					TherewasAlert = ProcessAlerts(hContact, _T2A(statusText), contactname, contactname, 1);
@@ -358,8 +351,6 @@ void GetData(void *param)
 				RemoveTabs(truncated);
 
 				if ( db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0)) {
-					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
-
 					SendToRichEdit(hwndDlg, truncated, TextClr, BackgoundClr);
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 1)"));
 
@@ -478,7 +469,6 @@ LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
 
 	if (DownloadSuccess) { // download success
 		char BytesString[128];
-		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 
 		// update window if the update only on alert option isn't ticked or
 		// there was an alert or the update button was clicked

@@ -25,7 +25,7 @@ to the contact list.  Contain code for both name and ID search.
 #include "stdafx.h"
 
 // variables used for weather_addstn.c
-static int searchId = -1;
+static int sttSearchId = -1;
 static TCHAR name1[256];
 
 // ============ ADDING NEW STATION  ============
@@ -133,7 +133,7 @@ BOOL CheckSearch() {
 
 // ============ BASIC ID SEARCH  ============
 
-static TCHAR sID[32];
+static TCHAR sttSID[32];
 
 // A timer process for the ID search (threaded)
 static void __cdecl BasicSearchTimerProc(LPVOID) 
@@ -141,26 +141,26 @@ static void __cdecl BasicSearchTimerProc(LPVOID)
 	int result;
 	// search only when it's not current updating weather.
 	if (CheckSearch())	
-		result = IDSearch(sID, searchId);
+		result = IDSearch(sttSID, sttSearchId);
 
 	// broadcast the search result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)searchId, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId, 0);
 
 	// exit the search
-	searchId = -1;
+	sttSearchId = -1;
 }
 
 // the service function for ID search
 // lParam = ID search string
 INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam) 
 {
-	if (searchId != -1) return 0;   //only one search at a time
-	_tcsncpy(sID, ( TCHAR* )lParam, _countof(sID));
-	sID[_countof(sID)-1] = 0;
-	searchId = 1;
+	if (sttSearchId != -1) return 0;   //only one search at a time
+	_tcsncpy(sttSID, ( TCHAR* )lParam, _countof(sttSID));
+	sttSID[_countof(sttSID)-1] = 0;
+	sttSearchId = 1;
 	// create a thread for the ID search
 	mir_forkthread(BasicSearchTimerProc, NULL);
-	return searchId;
+	return sttSearchId;
 }
 
 // ============ NAME SEARCH  ============
@@ -171,13 +171,13 @@ static void __cdecl NameSearchTimerProc(LPVOID)
 	// search only when it's not current updating weather.
 	if (CheckSearch())
 		if (name1[0] != 0)
-			NameSearch(name1, searchId);	// search nickname field
+			NameSearch(name1, sttSearchId);	// search nickname field
 
 	// broadcast the result
-	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)searchId, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId, 0);
 
 	// exit the search
-	searchId = -1;
+	sttSearchId = -1;
 }
 
 static INT_PTR CALLBACK WeatherSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
@@ -207,14 +207,14 @@ INT_PTR WeatherCreateAdvancedSearchUI(WPARAM, LPARAM lParam)
 // service function for name search
 INT_PTR WeatherAdvancedSearch(WPARAM, LPARAM lParam)
 {
-	if (searchId != -1) return 0;   //only one search at a time
+	if (sttSearchId != -1) return 0;   //only one search at a time
 
-	searchId = 1;
+	sttSearchId = 1;
 	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, _countof(name1));
 
 	// search for the weather station using a thread
 	mir_forkthread(NameSearchTimerProc, NULL);
-	return searchId;
+	return sttSearchId;
 }
 
 // ============ SEARCH FOR A WEATHER STATION USING ID  ============

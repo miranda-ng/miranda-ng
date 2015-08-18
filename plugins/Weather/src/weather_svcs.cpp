@@ -55,7 +55,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 {
 	INT_PTR ret = 0;
 
-	switch(wParam) {
+	switch (wParam) {
 	case PFLAGNUM_1:
 		// support search and visible list
 		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_VISLIST | PF1_MODEMSGRECV;
@@ -63,17 +63,17 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 
 	case PFLAGNUM_2:
 		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND |
-		      PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+			PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 		break;
 
 	case PFLAGNUM_4:
 		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEADDED |
-		      PF4_FORCEAUTH;
+			PF4_FORCEAUTH;
 		break;
 
 	case PFLAGNUM_5: /* this is PFLAGNUM_5 change when alpha SDK is released */
 		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
-		      PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
+			PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 		break;
 
 	case PFLAG_UNIQUEIDTEXT:
@@ -88,10 +88,10 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
 }
 
 // protocol service function to get weather protocol name
-INT_PTR WeatherGetName(WPARAM wParam,LPARAM lParam)
+INT_PTR WeatherGetName(WPARAM wParam, LPARAM lParam)
 {
-	strncpy((char*)lParam,WEATHERPROTOTEXT,wParam-1);
-	*((char*)lParam + wParam-1) = 0;
+	strncpy((char*)lParam, WEATHERPROTOTEXT, wParam - 1);
+	*((char*)lParam + wParam - 1) = 0;
 	return 0;
 }
 
@@ -102,7 +102,7 @@ INT_PTR WeatherGetStatus(WPARAM, LPARAM)
 }
 
 // protocol service function to get the icon of the protocol
-INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM)
+INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
@@ -110,14 +110,14 @@ INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM)
 static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
-	ProtoBroadcastAck(WEATHERPROTONAME, (MCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(WEATHERPROTONAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
 // so just return a 0
-INT_PTR WeatherGetInfo(WPARAM,LPARAM lParam)
+INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA *)lParam;
 	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
 	return 0;
 }
@@ -129,7 +129,6 @@ static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PC
 INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	TCHAR szSearchPath[MAX_PATH], *chop;
-	WORD status;
 	unsigned  i;
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
@@ -139,9 +138,9 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (chop) *chop = '\0';
 	else szSearchPath[0] = 0;
 
-	status = (WORD)db_get_w(pai->hContact, WEATHERPROTONAME, "StatusIcon",0);
-	for (i=0; i<10; i++)
-		if (statusValue[i] == status)
+	int iStatus = db_get_w(pai->hContact, WEATHERPROTONAME, "StatusIcon", 0);
+	for (i = 0; i < 10; i++)
+		if (statusValue[i] == iStatus)
 			break;
 
 	if (i >= 10)
@@ -149,19 +148,18 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	pai->format = PA_FORMAT_PNG;
 	mir_sntprintf(pai->filename, _countof(pai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
-	if ( _taccess(pai->filename, 4) == 0)
+	if (_taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_GIF;
 	mir_sntprintf(pai->filename, _countof(pai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
-	if ( _taccess(pai->filename, 4) == 0)
+	if (_taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_UNKNOWN;
 	pai->filename[0] = 0;
 	return GAIR_NOAVATAR;
 }
-
 
 void AvatarDownloaded(MCONTACT hContact)
 {
@@ -174,17 +172,17 @@ void AvatarDownloaded(MCONTACT hContact)
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 }
 
-
-static void __cdecl WeatherGetAwayMsgThread(void *hContact)
+static void __cdecl WeatherGetAwayMsgThread(void *arg)
 {
 	Sleep(100);
 
+	MCONTACT hContact = (DWORD_PTR)arg;
 	DBVARIANT dbv;
-	if (!db_get_ts((MCONTACT)hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(WEATHERPROTONAME, (MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
-		db_free( &dbv );
+	if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
+		db_free(&dbv);
 	}
-	else ProtoBroadcastAck(WEATHERPROTONAME, (MCONTACT)hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
@@ -251,7 +249,7 @@ void UpdatePopupMenu(BOOL State)
 }
 
 // update the weather auto-update menu item when click on it
-INT_PTR EnableDisableCmd(WPARAM wParam,LPARAM lParam)
+INT_PTR EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
 	return 0;

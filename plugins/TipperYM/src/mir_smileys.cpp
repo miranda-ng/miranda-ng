@@ -133,13 +133,13 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 				info->row_height[row_count] = max(info->row_height[row_count], text_height);
 
 				if (piece->type == TEXT_PIECE_TYPE_TEXT) {
-					RECT text_rc = { 0, 0, 2048, 2048 };
+					RECT rc = { 0, 0, 2048, 2048 };
 
-					DrawText(hdcMem, szText + piece->start_pos, piece->len, &text_rc, DT_CALCRECT | uTextFormat);
-					pos_x += (text_rc.right - text_rc.left);
+					DrawText(hdcMem, szText + piece->start_pos, piece->len, &rc, DT_CALCRECT | uTextFormat);
+					pos_x += (rc.right - rc.left);
 					if (pos_x > max_width) {
-						text_size.cx = max(text_size.cx, pos_x - (text_rc.right - text_rc.left));
-						pos_x = text_rc.right - text_rc.left;
+						text_size.cx = max(text_size.cx, pos_x - (rc.right - rc.left));
+						pos_x = rc.right - rc.left;
 						info->row_height[++row_count] = text_height;
 					}
 
@@ -148,7 +148,6 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 						pos_x = 0;
 						info->row_height[++row_count] = 0;
 					}
-
 				}
 				else {
 					double factor;
