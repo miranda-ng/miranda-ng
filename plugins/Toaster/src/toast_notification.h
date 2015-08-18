@@ -21,7 +21,7 @@ public:
 	COLORREF background;
 	COLORREF foreground;
 
-	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr) throw();
+	ToastNotification(_In_ wchar_t* text, _In_ wchar_t* caption = nullptr, _In_ wchar_t* imagePath = nullptr);
 	~ToastNotification();
 
 	HRESULT Show();
