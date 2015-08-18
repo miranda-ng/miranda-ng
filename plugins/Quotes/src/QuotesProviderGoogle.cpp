@@ -182,8 +182,6 @@ void CQuotesProviderGoogle::RefreshQuotes(TContracts& anContacts)
 			tstring sHTML;
 			if ((true == http.ReadResponce(sHTML)) && (true == IsOnline()))
 			{
-				// 				LogIt(Info,sHTML);
-
 				double dRate = 0.0;
 				if ((true == parse_responce(sHTML, dRate)) && (true == IsOnline()))
 				{
@@ -207,16 +205,14 @@ namespace
 
 	CQuotesProviderGoogle* get_google_provider()
 	{
-		CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+		CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetQuoteProvidersPtr();
 		const CQuotesProviders::TQuotesProviders& rapQuotesProviders = pProviders->GetProviders();
 		for (CQuotesProviders::TQuotesProviders::const_iterator i = rapQuotesProviders.begin(); i != rapQuotesProviders.end(); ++i)
 		{
 			const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
 			CQuotesProviderGoogle* pGoogle = dynamic_cast<CQuotesProviderGoogle*>(pProvider.get());
 			if (pGoogle)
-			{
 				return pGoogle;
-			}
 		}
 
 		assert(!"We should never get here!");
@@ -230,9 +226,7 @@ namespace
 		{
 			const CQuotesProviderGoogle::CQuoteSection& rQuotes = pProvider->GetQuotes();
 			if (rQuotes.GetSectionCount() > 0)
-			{
 				return rQuotes.GetSection(0);
-			}
 		}
 
 		return CQuotesProviderGoogle::CQuoteSection();
@@ -242,13 +236,9 @@ namespace
 		const CQuotesProviderGoogle::CQuote& rTo)
 	{
 		if ((false == rFrom.GetName().empty()) && (false == rTo.GetName().empty()))
-		{
 			return make_contact_name(rFrom.GetName(), rTo.GetName());
-		}
-		else
-		{
-			return make_contact_name(rFrom.GetSymbol(), rTo.GetSymbol());
-		}
+
+		return make_contact_name(rFrom.GetSymbol(), rTo.GetSymbol());
 	}
 
 	typedef std::vector<CQuotesProviderGoogle::CRateInfo> TWatchedRates;
@@ -267,8 +257,7 @@ namespace
 		CCommonDlgProcData d(pProvider);
 		CommonOptionDlgProc(hdlg, message, wParam, lParam, d);
 
-		switch (message)
-		{
+		switch (message) {
 		case WM_NOTIFY:
 		{
 			LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
@@ -330,7 +319,7 @@ namespace
 				::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 			}
 
-			CQuotesProviderGoogle* pProvider = get_google_provider();
+			pProvider = get_google_provider();
 			if (pProvider)
 			{
 				size_t cWatchedRates = pProvider->GetWatchedRateCount();
@@ -426,19 +415,8 @@ namespace
 				break;
 				}
 				break;
-				// 			case LBN_SELCHANGE:
-				// 				switch(LOWORD(lParam))
-				// 				{
-				// 				case IDC_LIST_RATES:
-				// 					{
-				// 						int nSel = ::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
-				// 						::EnableWindow(::GetDlgItem(hdlg,IDC_BUTTON_REMOVE),(-1 != nSel));
-				// 					}
-				// 				}
-				// 				break;
 			}
 			break;
-
 		}
 
 		return FALSE;
@@ -462,7 +440,6 @@ void CQuotesProviderGoogle::Accept(CQuotesProviderVisitor& visitor)const
 double CQuotesProviderGoogle::Convert(double dAmount, const CQuote& from, const CQuote& to)const
 {
 	tstring sFullURL = build_url(GetURL(), from.GetID(), to.GetID(), dAmount);
-	// 	LogIt(Info,sFullURL);
 
 	CHTTPSession http;
 	if ((true == http.OpenURL(sFullURL)))
@@ -470,8 +447,6 @@ double CQuotesProviderGoogle::Convert(double dAmount, const CQuote& from, const 
 		tstring sHTML;
 		if ((true == http.ReadResponce(sHTML)))
 		{
-			// 			LogIt(Info,sHTML);
-
 			double dResult = 0.0;
 			if ((true == parse_responce(sHTML, dResult)))
 			{

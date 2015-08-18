@@ -258,7 +258,7 @@ namespace
 
 	CQuotesProviderDukasCopy* get_dukas_copy_provider()
 	{
-		CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
+		CModuleInfo::TQuotesProvidersPtr pProviders = CModuleInfo::GetQuoteProvidersPtr();
 		const CQuotesProviders::TQuotesProviders& rapQuotesProviders = pProviders->GetProviders();
 		for (CQuotesProviders::TQuotesProviders::const_iterator i = rapQuotesProviders.begin(); i != rapQuotesProviders.end(); ++i)
 		{

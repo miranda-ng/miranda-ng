@@ -128,23 +128,18 @@ namespace
 
 		virtual bool OpenURL(const tstring& rsURL)
 		{
-			// 			USES_CONVERSION;
-
 			m_aURL.swap(TBuffer());
 
 			std::string s = quotes_t2a(rsURL.c_str());
-			const char* psz = s.c_str();//T2CA(rsURL.c_str());
+			const char* psz = s.c_str();
 			m_aURL.insert(m_aURL.begin(), psz, psz + mir_strlen(psz) + 1);
 			return true;
-
 		}
+
 		virtual bool ReadResponce(tstring& rsResponce)const
 		{
 			if (true == m_aURL.empty())
-			{
 				return false;
-			}
-
 
 			NETLIBHTTPREQUEST nlhr = { 0 };
 			nlhr.cbSize = sizeof(nlhr);
