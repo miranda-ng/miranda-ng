@@ -35,18 +35,18 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 
 	// encrcrypt password
 	ptrA base64RsaEncryptedPassword;
-	ptrA password(getStringA("Password"));
+	ptrA szPassword(getStringA("Password"));
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(modulus.c_str(), password, NULL, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(modulus.c_str(), szPassword, NULL, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
 		return;
 	}
 
 	BYTE *encryptedPassword = (BYTE*)mir_calloc(encryptedSize);
-	if ((error = RsaEncrypt(modulus.c_str(), password, encryptedPassword, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(modulus.c_str(), szPassword, encryptedPassword, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
 		return;

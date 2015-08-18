@@ -104,95 +104,94 @@ GenericPlayer::~GenericPlayer()
 
 void GenericPlayer::ProcessReceived()
 {
-	{
-		mir_cslock lck(cs);
+	mir_cslockfull lck(cs);
 
-		// Do the processing
-		// L"<Status 0-stoped 1-playing>\\0<Player>\\0<Type>\\0<Title>\\0<Artist>\\0<Album>\\0<Track>\\0<Year>\\0<Genre>\\0<Length (secs)>\\0\\0"
+	// Do the processing
+	// L"<Status 0-stoped 1-playing>\\0<Player>\\0<Type>\\0<Title>\\0<Artist>\\0<Album>\\0<Track>\\0<Year>\\0<Genre>\\0<Length (secs)>\\0\\0"
 
-		WCHAR *p1 = wcsstr(received, L"\\0");
-		if (IsEmpty(received) || p1 == NULL)
-			return;
+	WCHAR *p1 = wcsstr(received, L"\\0");
+	if (IsEmpty(received) || p1 == NULL)
+		return;
 
-		// Process string
-		WCHAR *parts[11] = { 0 };
-		int pCount = 0;
-		WCHAR *p = received;
-		do {
-			*p1 = _T('\0');
-			parts[pCount] = p;
-			pCount++;
-			p = p1 + 2;
-			p1 = wcsstr(p, _T("\\0"));
-		} while (p1 != NULL && pCount < 10);
-		if (p1 != NULL)
-			*p1 = _T('\0');
+	// Process string
+	WCHAR *parts[11] = { 0 };
+	int pCount = 0;
+	WCHAR *p = received;
+	do {
+		*p1 = _T('\0');
 		parts[pCount] = p;
+		pCount++;
+		p = p1 + 2;
+		p1 = wcsstr(p, _T("\\0"));
+	} while (p1 != NULL && pCount < 10);
+	if (p1 != NULL)
+		*p1 = _T('\0');
+	parts[pCount] = p;
 
-		if (pCount < 5)
-			return;
+	if (pCount < 5)
+		return;
 
-		// See if player is enabled
-		Player *player = this;
-		for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++) {
+	// See if player is enabled
+	Player *player = this;
+	for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++) {
 
-			WCHAR *player_name = players[i]->name;
+		WCHAR *player_name = players[i]->name;
 
-			if (_wcsicmp(parts[1], player_name) == 0) {
-				player = players[i];
-				break;
-			}
+		if (_wcsicmp(parts[1], player_name) == 0) {
+			player = players[i];
+			break;
 		}
-
-		player->FreeData();
-
-		if (wcscmp(L"1", parts[0]) != 0 || IsEmpty(parts[1]) || (IsEmpty(parts[3]) && IsEmpty(parts[4]))) {
-			// Stoped playing or not enought info
-		}
-		else {
-			mir_cslock lck(player->GetLock());
-			LISTENINGTOINFO *li = player->GetInfo();
-
-			li->cbSize = sizeof(listening_info);
-			li->dwFlags = LTI_TCHAR;
-			li->ptszType = U2TD(parts[2], _T("Music"));
-			li->ptszTitle = U2T(parts[3]);
-			li->ptszArtist = U2T(parts[4]);
-			li->ptszAlbum = U2T(parts[5]);
-			li->ptszTrack = U2T(parts[6]);
-			li->ptszYear = U2T(parts[7]);
-			li->ptszGenre = U2T(parts[8]);
-
-			if (player == this)
-				li->ptszPlayer = mir_u2t(parts[1]);
-			else
-				li->ptszPlayer = mir_tstrdup(player->name);
-
-			if (parts[9] != NULL) {
-				long length = _wtoi(parts[9]);
-				if (length > 0) {
-					li->ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
-
-					int s = length % 60;
-					int m = (length / 60) % 60;
-					int h = (length / 60) / 60;
-
-					if (h > 0)
-						mir_sntprintf(li->ptszLength, 9, _T("%d:%02d:%02d"), h, m, s);
-					else
-						mir_sntprintf(li->ptszLength, 9, _T("%d:%02d"), m, s);
-				}
-			}
-		}
-
-		// Put back the '\\'s
-		for (int i = 1; i <= pCount; i++)
-			*(parts[i] - 2) = L'\\';
-		if (p1 != NULL)
-			*p1 = L'\\';
-
-		wcscpy(last_received, received);
 	}
+
+	player->FreeData();
+
+	if (wcscmp(L"1", parts[0]) != 0 || IsEmpty(parts[1]) || (IsEmpty(parts[3]) && IsEmpty(parts[4]))) {
+		// Stoped playing or not enought info
+	}
+	else {
+		mir_cslock plck(player->GetLock());
+		LISTENINGTOINFO *li = player->GetInfo();
+
+		li->cbSize = sizeof(listening_info);
+		li->dwFlags = LTI_TCHAR;
+		li->ptszType = U2TD(parts[2], _T("Music"));
+		li->ptszTitle = U2T(parts[3]);
+		li->ptszArtist = U2T(parts[4]);
+		li->ptszAlbum = U2T(parts[5]);
+		li->ptszTrack = U2T(parts[6]);
+		li->ptszYear = U2T(parts[7]);
+		li->ptszGenre = U2T(parts[8]);
+
+		if (player == this)
+			li->ptszPlayer = mir_u2t(parts[1]);
+		else
+			li->ptszPlayer = mir_tstrdup(player->name);
+
+		if (parts[9] != NULL) {
+			long length = _wtoi(parts[9]);
+			if (length > 0) {
+				li->ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
+
+				int s = length % 60;
+				int m = (length / 60) % 60;
+				int h = (length / 60) / 60;
+
+				if (h > 0)
+					mir_sntprintf(li->ptszLength, 9, _T("%d:%02d:%02d"), h, m, s);
+				else
+					mir_sntprintf(li->ptszLength, 9, _T("%d:%02d"), m, s);
+			}
+		}
+	}
+
+	// Put back the '\\'s
+	for (int i = 1; i <= pCount; i++)
+		*(parts[i] - 2) = L'\\';
+	if (p1 != NULL)
+		*p1 = L'\\';
+
+	wcscpy(last_received, received);
+	lck.unlock();
 
 	NotifyInfoChanged();
 }

@@ -31,19 +31,19 @@ const TCHAR *szTrackerBarDescr[] = {
 	LPGENT("Remove all whitespace")
 };
 
-static char  *fontSizes[] = {"8", "10", "14", "16", "18", "20", "24", "28"};
+static char  *fontSizes[] = { "8", "10", "14", "16", "18", "20", "24", "28" };
 static TCHAR *AlertTypes[] = { LPGENT("Popup plugin"), LPGENT("Log to file"), LPGENT("Open data display window"), LPGENT("Use OSD plugin") };
 static TCHAR *EventTypes[] = { LPGENT("A string is present"), LPGENT("The web page changes"), LPGENT("A specific part of web page changes") };
 
 #define M_FILLSCRIPTCOMBO    (WM_USER+16)
 
-void strdel(TCHAR *parBuffer, int len )
+void strdel(TCHAR *parBuffer, int len)
 {
 	TCHAR* p;
-	for (p = parBuffer+len; *p != 0; p++)
-		p[ -len ] = *p;
+	for (p = parBuffer + len; *p != 0; p++)
+		p[-len] = *p;
 
-	p[ -len ] = '\0';
+	p[-len] = '\0';
 }
 
 TCHAR* FixButtonText(TCHAR *url, size_t len)
@@ -52,9 +52,9 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 	_tcsncpy_s(buttontext, url, _TRUNCATE);
 	_tcsncpy_s(newbuttontext, url, _TRUNCATE);
 
-	if ( _tcschr(newbuttontext, '&') != 0) {
+	if (_tcschr(newbuttontext, '&') != 0) {
 		while (true) {
-			if ( _tcschr(newbuttontext, '&') == 0)
+			if (_tcschr(newbuttontext, '&') == 0)
 				break;
 
 			_tcsncpy_s(buttontext, newbuttontext, _TRUNCATE);
@@ -71,12 +71,12 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 		}
 
 		while (true) {
-			if ( _tcschr(newbuttontext, '!') != 0) {
+			if (_tcschr(newbuttontext, '!') != 0) {
 				TCHAR *stringafter = _tcschr(newbuttontext, '!');
 				int pos = (stringafter - newbuttontext);
 				newbuttontext[pos] = '&';
 			}
-			if ( _tcschr(newbuttontext, '!') == 0)
+			if (_tcschr(newbuttontext, '!') == 0)
 				break;
 		}
 	}
@@ -88,11 +88,10 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 /*****************************************************************************/
 static int CALLBACK EnumFontScriptsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX*, int, LPARAM lParam)
 {
-	if (SendMessage((HWND) lParam, CB_FINDSTRINGEXACT, -1, (LPARAM) lpelfe->elfScript) == CB_ERR)
-	{
-		int i = SendMessage((HWND) lParam, CB_ADDSTRING, 0, (LPARAM) lpelfe->elfScript);
+	if (SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)lpelfe->elfScript) == CB_ERR) {
+		int i = SendMessage((HWND)lParam, CB_ADDSTRING, 0, (LPARAM)lpelfe->elfScript);
 
-		SendMessage((HWND) lParam, CB_SETITEMDATA, i, lpelfe->elfLogFont.lfCharSet);
+		SendMessage((HWND)lParam, CB_SETITEMDATA, i, lpelfe->elfLogFont.lfCharSet);
 	}
 	return TRUE;
 }
@@ -147,7 +146,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		// enable the "apply" button 
-		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND) lParam)
+		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam)
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		// These are simple clicks: we don't save, but we tell the Options Page 
 		// to enable the "Apply" button.
@@ -190,8 +189,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_DELAY:
 			if (HIWORD(wParam) == EN_CHANGE)
 				test++;
-			if (test > 1)
-			{
+			if (test > 1) {
 				//CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD3);
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			}
@@ -231,7 +229,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY: // Here we have pressed either the OK or the APPLY button.
-		switch (((LPNMHDR) lParam)->code) {
+		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			{
 				int popupdelayval = 0;
@@ -286,12 +284,11 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		test = 0;
 		TranslateDialogDefault(hwndDlg);
 		hContact = lParam;
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) hContact);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		SetWindowText(hwndDlg, TranslateT("Alert options"));
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_ALERT)));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
@@ -437,7 +434,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		else
 			CheckRadioButton(hwndDlg, IDC_PREFIX, IDC_SUFFIX, IDC_SUFFIX);
 
-		if ( db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0)) {
+		if (db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0)) {
 			if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_APPEND), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
@@ -512,7 +509,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD_DATE_NAME), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 
-			if ( IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME)) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PREFIX), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SUFFIX), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_24_HOUR), (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)));
@@ -631,8 +628,8 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_ALERT_TYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE) {
-				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				int alertIndex = SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_GETCURSEL, 0, 0);
+				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				alertIndex = SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					db_set_b(hContact, MODULENAME, ALRT_INDEX_KEY, alertIndex);
@@ -678,8 +675,8 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_EVENT_TYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE) {
-				MCONTACT hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				int eventIndex = SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_GETCURSEL, 0, 0);
+				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				eventIndex = SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_GETCURSEL, 0, 0);
 
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					db_set_b(hContact, MODULENAME, EVNT_INDEX_KEY, eventIndex);
@@ -709,7 +706,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_ALERT_APPLY:
 		case IDC_OK2:
 			{
-				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR buf[MAX_PATH];
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
@@ -821,17 +818,17 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		hContact = (MCONTACT) lParam;
+		hContact = (MCONTACT)lParam;
 
 		test = 0;
 		test2 = 0;
 
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) hContact);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 
 		SetWindowText(hwndDlg, TranslateT("Contact options"));
 
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_OPTIONS)));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 
@@ -927,7 +924,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_CPY_STRINGS:
 			{
 				TCHAR string[128];
-				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_START, string, _countof(string));
 				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
@@ -1022,7 +1019,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					break;
 				}
 
-				hContact = (MCONTACT) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_URL, url, _countof(url));
 				db_set_ts(hContact, MODULENAME, URL_KEY, url);
@@ -1139,7 +1136,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			*/
 			oldcolor = BackgoundClr;
 
-			if ( db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0)) {
+			if (db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0)) {
 				CheckDlgButton(hwndDlg, IDC_SUPPRESS, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 			}
@@ -1152,7 +1149,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (ServiceExists(MS_POPUP_ADDPOPUPT) == 0)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 
-			if ( db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0)) {
+			if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_START_DELAY), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SPIN2), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_STARTDELAYTXT), 1);
@@ -1171,7 +1168,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		// selection to the value for fontid wParam
 
 		{
-			LOGFONT         lf = {0};
+			LOGFONT         lf = { 0 };
 			int i;
 			HDC hdc = GetDC(hwndDlg);
 
@@ -1179,12 +1176,10 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, lf.lfFaceName, _countof(lf.lfFaceName));
 			lf.lfPitchAndFamily = 0;
 			SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_RESETCONTENT, 0, 0);
-			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC) EnumFontScriptsProc, (LPARAM) GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
+			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC)EnumFontScriptsProc, (LPARAM)GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
 			ReleaseDC(hwndDlg, hdc);
-			for (i = SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCOUNT, 0, 0) - 1; i >= 0; i--)
-			{
-				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (BYTE)((db_get_b(NULL, MODULENAME, FONT_SCRIPT_KEY, 0))))
-				{
+			for (i = SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCOUNT, 0, 0) - 1; i >= 0; i--) {
+				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (BYTE)((db_get_b(NULL, MODULENAME, FONT_SCRIPT_KEY, 0)))) {
 					SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_SETCURSEL, i, 0);
 					break;
 				}
@@ -1195,7 +1190,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND) lParam)
+		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		switch (LOWORD(wParam)) {
@@ -1266,7 +1261,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->code) {
+		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			db_set_b(NULL, MODULENAME, MENU_OFF, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEMENU));
 			db_set_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS));
@@ -1301,15 +1296,13 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			BackgoundClr = (SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0));
 			TextClr = (SendDlgItemMessage(hwndDlg, IDC_TXTCOLOR, CPM_GETCOLOUR, 0, 0));
 
-			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) != 0))
-			{
+			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) != 0)) {
 				KillTimer(NULL, timerId);
 				KillTimer(NULL, Countdown);
 				timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), timerfunc);
 				Countdown = SetTimer(NULL, 0, MINUTE, Countdownfunc);
 			}
-			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) == 0))
-			{
+			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) == 0)) {
 				KillTimer(NULL, timerId);
 				KillTimer(NULL, Countdown);
 			}

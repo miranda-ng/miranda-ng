@@ -21,59 +21,57 @@ DialogConfigActive::~DialogConfigActive()
 //------------------------------------------------------------------------------
 INT_PTR CALLBACK DialogConfigActive::process(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	if (!m_instance)
-	{
+	if (!m_instance) {
 		return 1;
 	}
 
-	switch (message)
-	{
-	  case WM_INITDIALOG:
-		  m_instance->load(window);
+	switch (message) {
+	case WM_INITDIALOG:
+		m_instance->load(window);
 		break;
 
-	  case WM_NOTIFY:
-		switch(((LPNMHDR)lparam)->idFrom) {
-			case IDC_ACTIVE_USERS: {
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lparam)->idFrom) {
+		case IDC_ACTIVE_USERS:
+			{
 				m_instance->notify(window, lparam);
-				
+
 			} break;
-			case 0: {
-				switch (reinterpret_cast<LPNMHDR>(lparam)->code)
-				{
-				  case PSN_APPLY:
+		case 0:
+			{
+				switch (reinterpret_cast<LPNMHDR>(lparam)->code) {
+				case PSN_APPLY:
 					m_instance->save(window);
 					break;
 
-				  case LVN_ITEMCHANGED:
+				case LVN_ITEMCHANGED:
 					m_instance->changed(window);
 					break;
 				} break;
 			} break;
 		} break;
-	  case WM_COMMAND:
-		switch (LOWORD(wparam))
-		{
-		  case IDC_ACTIVE_OFFLINE:
-		  case IDC_ACTIVE_ONLINE:
-		  case IDC_ACTIVE_AWAY:
-		  case IDC_ACTIVE_DND:
-		  case IDC_ACTIVE_NA:
-		  case IDC_ACTIVE_OCCUPIED:
-		  case IDC_ACTIVE_FREEFORCHAT:
-		  case IDC_ACTIVE_INVISIBLE:
+	case WM_COMMAND:
+		switch (LOWORD(wparam)) {
+		case IDC_ACTIVE_OFFLINE:
+		case IDC_ACTIVE_ONLINE:
+		case IDC_ACTIVE_AWAY:
+		case IDC_ACTIVE_DND:
+		case IDC_ACTIVE_NA:
+		case IDC_ACTIVE_OCCUPIED:
+		case IDC_ACTIVE_FREEFORCHAT:
+		case IDC_ACTIVE_INVISIBLE:
 			m_instance->changed(window);
 			break;
 
-		/*case IDC_ACTIVE_ALL:
-			m_instance->selectAllUsers(window, true);
-			break;*/
+			/*case IDC_ACTIVE_ALL:
+				m_instance->selectAllUsers(window, true);
+				break;*/
 
-		/*case IDC_ACTIVE_NONE:
-			m_instance->selectAllUsers(window, false);
-			break;*/
+				/*case IDC_ACTIVE_NONE:
+					m_instance->selectAllUsers(window, false);
+					break;*/
 
-		  case IDC_ACTIVE_USERS:
+		case IDC_ACTIVE_USERS:
 			m_instance->changed(window);
 			break;
 		}
@@ -92,52 +90,53 @@ INT_PTR CALLBACK DialogConfigActive::process(HWND window, UINT message, WPARAM w
 //------------------------------------------------------------------------------
 // private:
 //------------------------------------------------------------------------------
-void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam) {
+void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam)
+{
 	switch (((LPNMHDR)lParam)->code) {
-		case CLN_NEWCONTACT:
-		case CLN_LISTREBUILT:
-			SetAllContactIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
-			//fall through
-		case CLN_CONTACTMOVED:
-			SetListGroupIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
-			break;
-		case CLN_OPTIONSCHANGED:
-			ResetListOptions( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
-			break;
-		case CLN_CHECKCHANGED:
-			m_instance->changed(hwndDlg);
-			break;
-		case NM_CLICK:
-			{
-				NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-				if (nm->iColumn == -1)
-					break;
-				
-				DWORD hitFlags;
-				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-				if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
-					break;
+	case CLN_NEWCONTACT:
+	case CLN_LISTREBUILT:
+		SetAllContactIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
+		//fall through
+	case CLN_CONTACTMOVED:
+		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+		break;
+	case CLN_OPTIONSCHANGED:
+		ResetListOptions(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
+		break;
+	case CLN_CHECKCHANGED:
+		m_instance->changed(hwndDlg);
+		break;
+	case NM_CLICK:
+		{
+			NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
+			if (nm->iColumn == -1)
+				break;
 
-				if (nm->iColumn == 2) { // ignore all
-					for (int iImage = 0;iImage<2;iImage++)
-						SetIconsForColumn( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, iImage, iImage+3);
-				}
-				else if (nm->iColumn == 3) {	// ignore none
-					for (int iImage = 0;iImage<2;iImage++)
-						SetIconsForColumn( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, iImage, 0);
-				}
-				else {
-					int iImage = SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
-					if (iImage == 0)
-						iImage = nm->iColumn+3;
-					else if (iImage != EMPTY_EXTRA_ICON)
-						iImage = 0;
-					SetIconsForColumn( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, nm->iColumn, iImage);
-				}
-				SetListGroupIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
-				m_instance->changed(hwndDlg);
+			DWORD hitFlags;
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
+			if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+				break;
+
+			if (nm->iColumn == 2) { // ignore all
+				for (int iImage = 0; iImage < 2; iImage++)
+					SetIconsForColumn(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, iImage, iImage + 3);
 			}
-			break;
+			else if (nm->iColumn == 3) {	// ignore none
+				for (int iImage = 0; iImage < 2; iImage++)
+					SetIconsForColumn(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, iImage, 0);
+			}
+			else {
+				int iImage = SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
+				if (iImage == 0)
+					iImage = nm->iColumn + 3;
+				else if (iImage != EMPTY_EXTRA_ICON)
+					iImage = 0;
+				SetIconsForColumn(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, nm->iColumn, iImage);
+			}
+			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+			m_instance->changed(hwndDlg);
+		}
+		break;
 	}
 }
 
@@ -164,8 +163,8 @@ void DialogConfigActive::load(HWND window)
 	ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_USERONLINE);
 
 	SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-	for (int i=0; i < _countof(hIcons); i++)
-		hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);
+	for (int i = 0; i < _countof(hIcons); i++)
+		hIcons[i] = ImageList_GetIcon(hIml, 1 + i, ILD_NORMAL);
 
 	SendDlgItemMessage(window, IDC_ALLICON, STM_SETICON, (WPARAM)hIcons[0], 0);
 	SendDlgItemMessage(window, IDC_NONEICON, STM_SETICON, (WPARAM)hIcons[1], 0);
@@ -176,12 +175,12 @@ void DialogConfigActive::load(HWND window)
 
 	SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_SETEXTRACOLUMNS, 4, 0);
 	{
-		CLCINFOITEM cii = {0};
+		CLCINFOITEM cii = { 0 };
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_GROUPFONT;
 		cii.pszText = TranslateT("** All contacts **");
 		hItemAll = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-	
+
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		ConfigDatabase::ActiveUsersMap active_users = m_db.getActiveUsers();
@@ -217,8 +216,9 @@ void DialogConfigActive::SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int 
 	}
 }
 
-void DialogConfigActive::SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage) {
-	switch ( SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0)) {
+void DialogConfigActive::SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItem2, int iColumn, int iImage)
+{
+	switch (SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0)) {
 	case CLCIT_CONTACT:
 		{
 			int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
@@ -227,7 +227,7 @@ void DialogConfigActive::SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE h
 		}
 		break;
 	case CLCIT_INFO:
-		if (hItem == hItemAll)
+		if (hItem == hItem2)
 			SetAllChildIcons(hwndList, hItem, iColumn, iImage);
 		else
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage)); //hItemUnknown
@@ -240,24 +240,26 @@ void DialogConfigActive::SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE h
 	}
 }
 
-void DialogConfigActive::InitialiseItem(HWND hwndList, HANDLE hItem, bool message, bool status) {
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (message)?0:3)); //Message
-	
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (status)?0:4)); //Online
+void DialogConfigActive::InitialiseItem(HWND hwndList, HANDLE hItem, bool message, bool status)
+{
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (message) ? 0 : 3)); //Message
+
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (status) ? 0 : 4)); //Online
 
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, 1));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, 2));
 }
 
-void DialogConfigActive::SetAllContactIcons(HWND hwndList) {
+void DialogConfigActive::SetAllContactIcons(HWND hwndList)
+{
 	ConfigDatabase::ActiveUsersMap active_users = m_db.getActiveUsers();
 	ConfigDatabase::ActiveUsersMap::const_iterator iter;
-	for (iter = active_users.begin(); iter != active_users.end(); ++iter)
-	{
+	for (iter = active_users.begin(); iter != active_users.end(); ++iter) {
 		MCONTACT hContact = iter->first;
-		if(hContact == 0) {
-			
-		} else {
+		if (hContact == 0) {
+
+		}
+		else {
 			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, 0)) == EMPTY_EXTRA_ICON) {
 				this->InitialiseItem(hwndList, hItem, iter->second.message, iter->second.status);
@@ -266,14 +268,16 @@ void DialogConfigActive::SetAllContactIcons(HWND hwndList) {
 	}
 }
 
-void DialogConfigActive::ResetListOptions(HWND listview) {
+void DialogConfigActive::ResetListOptions(HWND listview)
+{
 	SendMessage(listview, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	SetWindowLongPtr(listview, GWL_STYLE, GetWindowLongPtr(listview, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
-void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount) {
-	int iconOn[2] = {1, 1};
-	int childCount[2] = {0, 0}, i;
+void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
+{
+	int iconOn[2] = { 1, 1 };
+	int childCount[2] = { 0, 0 }, i;
 	int iImage;
 	HANDLE hItem, hChildItem;
 
@@ -284,7 +288,7 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 	while (hItem) {
 		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for (i=0; i < _countof(iconOn); i++)
+		for (i = 0; i < _countof(iconOn); i++)
 			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i] = 0;
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
@@ -292,7 +296,7 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (i=0; i < _countof(iconOn); i++) {
+		for (i = 0; i < _countof(iconOn); i++) {
 			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
 			if (iImage != EMPTY_EXTRA_ICON)
@@ -301,9 +305,9 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for (i=0; i < _countof(iconOn); i++) {
-		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0) : EMPTY_EXTRA_ICON));
-		if (groupChildCount) groupChildCount[i]+=childCount[i];
+	for (i = 0; i < _countof(iconOn); i++) {
+		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i] ? (iconOn[i] ? i + 3 : 0) : EMPTY_EXTRA_ICON));
+		if (groupChildCount) groupChildCount[i] += childCount[i];
 	}
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(2, 1));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(3, 2));
@@ -313,36 +317,37 @@ void DialogConfigActive::SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HAN
 void DialogConfigActive::save(HWND window)
 {
 	// store the checkboxes
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Online, 		(IsDlgButtonChecked(window, IDC_ACTIVE_ONLINE) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Away, 		(IsDlgButtonChecked(window, IDC_ACTIVE_AWAY) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Dnd, 		(IsDlgButtonChecked(window, IDC_ACTIVE_DND) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Na, 		(IsDlgButtonChecked(window, IDC_ACTIVE_NA) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Occupied, 		(IsDlgButtonChecked(window, IDC_ACTIVE_OCCUPIED) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat, 		(IsDlgButtonChecked(window, IDC_ACTIVE_FREEFORCHAT) != 0));
-	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, 		(IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Online, (IsDlgButtonChecked(window, IDC_ACTIVE_ONLINE) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Away, (IsDlgButtonChecked(window, IDC_ACTIVE_AWAY) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Dnd, (IsDlgButtonChecked(window, IDC_ACTIVE_DND) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Na, (IsDlgButtonChecked(window, IDC_ACTIVE_NA) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Occupied, (IsDlgButtonChecked(window, IDC_ACTIVE_OCCUPIED) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat, (IsDlgButtonChecked(window, IDC_ACTIVE_FREEFORCHAT) != 0));
+	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, (IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_FINDCONTACT, hContact, 0);
-		if (hItem) 
+		if (hItem)
 			SaveItemMask(GetDlgItem(window, IDC_ACTIVE_USERS), hContact, hItem);
 	}
 
-	SaveItemMask( GetDlgItem(window, IDC_ACTIVE_USERS), NULL, hItemUnknown);
+	SaveItemMask(GetDlgItem(window, IDC_ACTIVE_USERS), NULL, hItemUnknown);
 
 	m_db.save();
 }
 
-void DialogConfigActive::SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem) {
+void DialogConfigActive::SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem)
+{
 	ConfigDatabase::act mask;
 	mask.message = true;
 	mask.status = true;
-	for (int i=0; i < 2; i++) {
+	for (int i = 0; i < 2; i++) {
 		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 		if (iImage && iImage != EMPTY_EXTRA_ICON) {
-			if(i == 1) { //Online
+			if (i == 1) { //Online
 				mask.status = false;
-			} 
-			if(i == 0) { //message
+			}
+			if (i == 0) { //message
 				mask.message = false;
 			}
 		}
@@ -354,11 +359,8 @@ void DialogConfigActive::SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE h
 void DialogConfigActive::selectAllUsers(HWND window, bool state)
 {
 	HWND listview = GetDlgItem(window, IDC_ACTIVE_USERS);
-
 	for (int i = 0; i < ListView_GetItemCount(listview); ++i)
-	{
 		ListView_SetCheckState(listview, i, state);
-	}
 
 	changed(window);
 }

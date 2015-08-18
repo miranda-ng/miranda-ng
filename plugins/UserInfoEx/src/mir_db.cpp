@@ -386,23 +386,26 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 	if (dbv == NULL)
 		return 1;
 
-	LPSTR tmpBuf;
 	switch (dbv->type) {
 	// source value is of type "ascii"
 	case DBVT_ASCIIZ:
 		switch (destType) {
 		// destination type is "utf8"
 		case DBVT_UTF8:
-			tmpBuf = mir_utf8encode(dbv->pszVal);
-			mir_free(dbv->pszVal);
-			dbv->pszVal = tmpBuf;
+			{
+				LPSTR tmpBuf = mir_utf8encode(dbv->pszVal);
+				mir_free(dbv->pszVal);
+				dbv->pszVal = tmpBuf;
+			}
 			dbv->type = (dbv->pszVal) ? destType : DBVT_DELETED;
 			break;
 		// destination type is "wchar"
 		case DBVT_WCHAR:
-			LPWSTR tmpBuf = mir_a2u(dbv->pszVal);
-			mir_free(dbv->pszVal);
-			dbv->pwszVal = tmpBuf;
+			{
+				LPWSTR tmpBuf = mir_a2u(dbv->pszVal);
+				mir_free(dbv->pszVal);
+				dbv->pwszVal = tmpBuf;
+			}
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 		}
 		break;
@@ -425,19 +428,23 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 		break;
 	// source value is of type "wchar"
 	case DBVT_WCHAR:
-	switch (destType) {
-		// destination type is "ascii"
+		switch (destType) {
+			// destination type is "ascii"
 		case DBVT_ASCIIZ:
-			tmpBuf = mir_u2a(dbv->pwszVal);
-			mir_free(dbv->pwszVal);
-			dbv->pszVal = tmpBuf;
+			{
+				LPSTR tmpBuf = mir_u2a(dbv->pwszVal);
+				mir_free(dbv->pwszVal);
+				dbv->pszVal = tmpBuf;
+			}
 			dbv->type = (dbv->pszVal) ? destType : DBVT_DELETED;
 			break;
-		// destination type is "utf8"
+			// destination type is "utf8"
 		case DBVT_UTF8:
-			tmpBuf = mir_utf8encodeW(dbv->pwszVal);
-			mir_free(dbv->pwszVal);
-			dbv->pszVal = tmpBuf;
+			{
+				LPSTR tmpBuf = mir_utf8encodeW(dbv->pwszVal);
+				mir_free(dbv->pwszVal);
+				dbv->pszVal = tmpBuf;
+			}
 			dbv->type = (dbv->pszVal) ? destType : DBVT_DELETED;
 		}
 	}
@@ -459,8 +466,9 @@ BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 	if (dbv == NULL)
 		return 1;
 
-	switch (destType) {
+	WCHAR wbuf[32];
 	CHAR buf[32];
+	switch (destType) {
 	// destination type is "utf8" or "ascii"
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
@@ -494,23 +502,22 @@ BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 	// destination type is "wchar"
 	case DBVT_WCHAR:
 		switch (dbv->type) {
-		WCHAR buf[32];
 		// source value is of type "byte"
 		case DBVT_BYTE:
-			_ultow(dbv->bVal, buf, 10);
-			dbv->pwszVal = mir_wstrdup(buf);
+			_ultow(dbv->bVal, wbuf, 10);
+			dbv->pwszVal = mir_wstrdup(wbuf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of type "word"
 		case DBVT_WORD:
-			_ultow(dbv->wVal, buf, 10);
-			dbv->pwszVal = mir_wstrdup(buf);
+			_ultow(dbv->wVal, wbuf, 10);
+			dbv->pwszVal = mir_wstrdup(wbuf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of type "dword"
 		case DBVT_DWORD:
-			_ultow(dbv->dVal, buf, 10);
-			dbv->pwszVal = mir_wstrdup(buf);
+			_ultow(dbv->dVal, wbuf, 10);
+			dbv->pwszVal = mir_wstrdup(wbuf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of any string type

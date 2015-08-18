@@ -517,7 +517,7 @@ HWND	 hToolBarTree = NULL;
 
 INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	HTREEITEM hti;
+	HTREEITEM hItem;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -624,9 +624,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_SEPARATOR:
-			hti = TreeView_GetSelection(hToolBarTree);
-			if (!hti)
-				hti = TVI_FIRST;
+			hItem = TreeView_GetSelection(hToolBarTree);
+			if (!hItem)
+				hItem = TVI_FIRST;
 
 			CustomButtonData *cbd = new CustomButtonData();
 			cbd->m_bSeparator = cbd->m_bHidden = cbd->m_bIMButton = cbd->m_bLSided = true;
@@ -638,15 +638,15 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			TVINSERTSTRUCT tvis;
 			tvis.hParent = NULL;
-			tvis.hInsertAfter = hti;
+			tvis.hInsertAfter = hItem;
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
 			tvis.item.pszText = TranslateT("<Separator>");
 			tvis.item.iImage = tvis.item.iSelectedImage = -1;
 			tvis.item.lParam = (LPARAM)cbd;
-			hti = TreeView_InsertItem(hToolBarTree, &tvis);
+			hItem = TreeView_InsertItem(hToolBarTree, &tvis);
 
-			TreeView_SetCheckState(hToolBarTree, hti, (cbd->m_bIMButton || cbd->m_bChatButton));
+			TreeView_SetCheckState(hToolBarTree, hItem, (cbd->m_bIMButton || cbd->m_bChatButton));
 		}
 		break;
 
@@ -660,11 +660,11 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				return 1;
 
 			case PSN_APPLY:
-				hti = TreeView_GetSelection(hToolBarTree);
-				if (hti) {
+				hItem = TreeView_GetSelection(hToolBarTree);
+				if (hItem) {
 					TVITEM tvi;
 					tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-					tvi.hItem = hti;
+					tvi.hItem = hItem;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
 					if (tvi.lParam) {
@@ -704,12 +704,12 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				break;
 
 			case TVN_SELCHANGING:
-				hti = TreeView_GetSelection(hToolBarTree);
-				if (hti != NULL) {
+				hItem = TreeView_GetSelection(hToolBarTree);
+				if (hItem != NULL) {
 					TCHAR strbuf[128];
 
 					TVITEM tvi;
-					tvi.hItem = hti;
+					tvi.hItem = hItem;
 					tvi.pszText = strbuf;
 					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
@@ -732,15 +732,15 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				break;
 
 			case TVN_SELCHANGED:
-				hti = TreeView_GetSelection(hToolBarTree);
-				if (hti != NULL) {
+				hItem = TreeView_GetSelection(hToolBarTree);
+				if (hItem != NULL) {
 					TCHAR strbuf[128];
 
 					TVITEM tvi;
 					tvi.pszText = strbuf;
 					tvi.cchTextMax = _countof(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
-					tvi.hItem = hti;
+					tvi.hItem = hItem;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
 					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR)) {

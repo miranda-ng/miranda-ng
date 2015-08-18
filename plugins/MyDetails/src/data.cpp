@@ -144,8 +144,6 @@ int Protocol::GetStatus()
 
 void Protocol::SetStatus(int aStatus)
 {
-	TCHAR status_msg[256];
-
 	if (ServiceExists(MS_CS_SETSTATUSEX)) {
 		// BEGIN From commomstatus.cpp (KeepStatus)
 		int i, count, pCount;
@@ -170,6 +168,7 @@ void Protocol::SetStatus(int aStatus)
 		pse[0]->status = aStatus;
 		pse[0]->szName = name;
 
+		TCHAR status_msg[256];
 		GetStatusMsg(aStatus, status_msg, _countof(status_msg));
 		pse[0]->szMsg = status_msg;
 

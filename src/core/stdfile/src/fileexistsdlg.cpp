@@ -87,12 +87,12 @@ static void DoAnnoyingShellCommand(HWND hwnd, const TCHAR *szFilename, int cmd, 
 						case C_CONTEXTMENU:
 							HMENU hMenu = CreatePopupMenu();
 							if (SUCCEEDED(pContextMenu->QueryContextMenu(hMenu, 0, 1000, 65535, (GetKeyState(VK_SHIFT) & 0x8000 ? CMF_EXTENDEDVERBS : 0) | CMF_NORMAL))) {
-								int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, NULL);
-								if (cmd) {
+								int ret = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, NULL);
+								if (ret) {
 									CMINVOKECOMMANDINFO ici = { 0 };
 									ici.cbSize = sizeof(ici);
 									ici.hwnd = hwnd;
-									ici.lpVerb = MAKEINTRESOURCEA(cmd - 1000);
+									ici.lpVerb = MAKEINTRESOURCEA(ret - 1000);
 									ici.nShow = SW_SHOW;
 									pContextMenu->InvokeCommand(&ici);
 								}

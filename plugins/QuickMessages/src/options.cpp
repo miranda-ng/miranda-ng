@@ -111,7 +111,6 @@ void SetMenuEntryProperties(HWND hdlg)
 {
 	TVITEM tvi;
 	HTREEITEM hItem = NULL;
-	ButtonData* bd = NULL;
 	int pos = 0;
 
 	if (TreeView_GetCount(hButtonsList) && (tvi.hItem = TreeView_GetSelection(hButtonsList))) {
@@ -137,7 +136,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		TreeView_GetItem(hMenuTree, &tvi);
 
 		if (tvi.lParam) {
-			ButtonData* bd = (ButtonData*)tvi.lParam;
+			ButtonData *bd = (ButtonData*)tvi.lParam;
 			TCHAR szValue[256];
 			GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, _countof(szValue));
 			if (mir_tstrlen(szValue)) {
@@ -154,7 +153,7 @@ void SetMenuEntryProperties(HWND hdlg)
 	}
 	while (tvi.hItem) {
 		TreeView_GetItem(hMenuTree, &tvi);
-		bd = (ButtonData*)tvi.lParam;
+		ButtonData *bd = (ButtonData*)tvi.lParam;
 
 		bd->dwOPPos = pos++;
 

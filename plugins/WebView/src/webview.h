@@ -138,7 +138,7 @@ void ReadFromFile(void *hContact);
 extern int Xposition, Yposition, WindowHeight, WindowWidth;
 extern COLORREF BackgoundClr, TextClr;
 extern UINT_PTR timerId, Countdown;
-extern LOGFONT lf;
+extern LOGFONT g_lf;
 extern HFONT h_font;
 extern HWND ContactHwnd;
 extern HINSTANCE hInst;
