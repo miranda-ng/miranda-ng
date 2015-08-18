@@ -38,141 +38,99 @@ using namespace std;
 //externe funktion die das spielstarten steuern
 extern INT_PTR StartGame(WPARAM wParam, LPARAM lParam, LPARAM fParam);
 
-class Xfire_game : public Xfire_base {
+class Xfire_game : public Xfire_base
+{
 public:
 	//id des spiels
-	unsigned int id;
+	unsigned int m_id;
 	//handle des menuitems
-	HGENMENU menuhandle;
+	HGENMENU m_menuhandle;
 	//spiel soll bei der detection übersprungen werden
-	BOOL skip;
+	BOOL m_skip;
 	//voicehat?
-	BOOL voicechat;
+	BOOL m_voicechat;
 	//es soll kein icq und co status gesetzt werden
-	BOOL noicqstatus;
+	BOOL m_noicqstatus;
 	//handelt es sich um ein "custom" spiel
-	BOOL custom;
+	BOOL m_custom;
 	//soll ein spez. status gesetzt werden
-	BOOL setstatusmsg;
+	BOOL m_setstatusmsg;
 	//iconhandle von miranda
-	HANDLE iconhandl;
+	HANDLE m_iconhandl;
 	//hicon vom icon des spiels
-	HICON hicon;
+	HICON m_hicon;
 	//dont show in startmenü
-	BOOL notinstartmenu;
+	BOOL m_notinstartmenu;
 
 	//pfad des spiels wenn es laufen sollte
-	char* path;
+	char* m_path;
 	//startparameter des spiels
-	char* launchparams;
+	char* m_launchparams;
 	//netzwerkparameter
-	char* networkparams;
+	char* m_networkparams;
 	//username parameter
-	char* userparams;
+	char* m_userparams;
 	//passwort paramter
-	char* pwparams;
+	char* m_pwparams;
 	//mustcontain parameter
-	char* mustcontain;
+	char* m_mustcontain;
 	//notcontain parameter
-	char* notcontain;
+	char* m_notcontain;
 	//spielname
-	char* name;
+	char* m_name;
 	//extraparameter
-	char* extraparams;
+	char* m_extraparams;
 	//custom gamename
-	char* customgamename;
+	char* m_customgamename;
 	//custom statusmsg for xfire
-	char* statusmsg;
+	char* m_statusmsg;
 
 	//mehrere pfade
-	vector<char*> mpath;
+	vector<char*> m_mpath;
 
 	//zu sende gameid
-	signed short send_gameid;
+	signed short m_send_gameid;
 
 	//konstruktor
-	Xfire_game() {
+	Xfire_game()
+	{
 		//vars leer setzen
-		path = NULL;
-		launchparams = NULL;
-		networkparams = NULL;
-		userparams = NULL;
-		pwparams = NULL;
-		mustcontain = NULL;
-		notcontain = NULL;
-		name = NULL;
-		menuhandle = NULL;
-		iconhandl = NULL;
-		hicon = NULL;
-		extraparams = NULL;
-		customgamename = NULL;
-		statusmsg = NULL;
-		id = skip = noicqstatus = custom = setstatusmsg = send_gameid = notinstartmenu = voicechat = 0;
+		m_path = NULL;
+		m_launchparams = NULL;
+		m_networkparams = NULL;
+		m_userparams = NULL;
+		m_pwparams = NULL;
+		m_mustcontain = NULL;
+		m_notcontain = NULL;
+		m_name = NULL;
+		m_menuhandle = NULL;
+		m_iconhandl = NULL;
+		m_hicon = NULL;
+		m_extraparams = NULL;
+		m_customgamename = NULL;
+		m_statusmsg = NULL;
+		m_id = m_skip = m_noicqstatus = m_custom = m_setstatusmsg = m_send_gameid = m_notinstartmenu = m_voicechat = 0;
 	}
 	//dekonstruktor
-	~Xfire_game() {
+	~Xfire_game()
+	{
 		//entferne dyn arrays
-		if (path)
-		{
-			delete[] path;
-			path = NULL;
-		}
-		if (launchparams)
-		{
-			delete[] launchparams;
-			launchparams = NULL;
-		}
-		if (networkparams)
-		{
-			delete[] networkparams;
-			networkparams = NULL;
-		}
-		if (userparams)
-		{
-			delete[] userparams;
-			userparams = NULL;
-		}
-		if (pwparams)
-		{
-			delete[] pwparams;
-			pwparams = NULL;
-		}
-		if (mustcontain)
-		{
-			delete[] mustcontain;
-			mustcontain = NULL;
-		}
-		if (notcontain)
-		{
-			delete[] notcontain;
-			notcontain = NULL;
-		}
-		if (name)
-		{
-			delete[] name;
-			name = NULL;
-		}
-		if (extraparams)
-		{
-			delete[] extraparams;
-			extraparams = NULL;
-		}
-		if (customgamename)
-		{
-			delete[] customgamename;
-			customgamename = NULL;
-		}
-		if (statusmsg)
-		{
-			delete[] statusmsg;
-			statusmsg = NULL;
-		}
+		delete[] m_path;
+		delete[] m_launchparams;
+		delete[] m_networkparams;
+		delete[] m_userparams;
+		delete[] m_pwparams;
+		delete[] m_mustcontain;
+		delete[] m_notcontain;
+		delete[] m_name;
+		delete[] m_extraparams;
+		delete[] m_customgamename;
+		delete[] m_statusmsg;
 
-		for (unsigned int i = 0; i < mpath.size(); i++) {
-			if (mpath.at(i) != NULL)
-				delete mpath.at(i);
-		}
-		mpath.clear();
+		for (unsigned int i = 0; i < m_mpath.size(); i++)
+			if (m_mpath.at(i) != NULL)
+				delete m_mpath.at(i);
+		m_mpath.clear();
 
 		remoteMenuitem();
 	}

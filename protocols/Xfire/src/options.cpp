@@ -250,13 +250,15 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (dbv.pszVal != NULL)
 						db_free(&dbv);
 
-					//den login lowercasen
-					int size = mir_strlen(login);
-					BOOL mustlowercase = FALSE;
-					for (int i = 0; i < size; i++) {
-						if (login[i] >= 'A'&&login[i] <= 'Z')
-							mustlowercase = TRUE;
-						login[i] = tolower(login[i]);
+					// den login lowercasen
+					bool mustlowercase = false;
+					{
+						int size = (int)mir_strlen(login);
+						for (int i = 0; i < size; i++) {
+							if (login[i] >= 'A'&&login[i] <= 'Z')
+								mustlowercase = true;
+							login[i] = tolower(login[i]);
+						}
 					}
 					if (mustlowercase) {
 						MessageBox(NULL, TranslateT("The username must be lowercase, so it will be lowercased saved."), TranslateT("XFire Options"), MB_OK | MB_ICONINFORMATION);
@@ -287,7 +289,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					//neue preferencen sichern
 					if (bpStatus != ID_STATUS_OFFLINE&&bpStatus != ID_STATUS_CONNECTING) {
-						int size = sizeof(xfireconfigitems) / sizeof(xfireconfigitem);
+						int size = _countof(xfireconfigitems);
 						for (int i = 0; i < size; i++) {
 							if (!(BYTE)IsDlgButtonChecked(hwndDlg, xfireconfigitems[i].id)) {
 								db_set_b(NULL, protocolname, xfireconfigitems[i].dbentry, 0);
@@ -846,7 +848,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, TRUE);
 
 				Xfire_game* xgtemp = xgamelist.getGamebyGameid(gameid);
-				if (xgtemp && xgtemp->custom) {
+				if (xgtemp && xgtemp->m_custom) {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_MANADDED), SW_SHOW);
 					ShowWindow(GetDlgItem(hwndDlg, IDC_EDITGAME), SW_SHOW);
 				}
@@ -896,22 +898,22 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (xgamelist.Gameinlist(gameid, &dbid)) {
 					Xfire_game* game = xgamelist.getGame(dbid);
 					if (game) {
-						game->skip = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DONTDETECT);
-						game->noicqstatus = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOSTATUSMSG);
-						game->notinstartmenu = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTINSTARTMENU);
+						game->m_skip = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DONTDETECT);
+						game->m_noicqstatus = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOSTATUSMSG);
+						game->m_notinstartmenu = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTINSTARTMENU);
 
 						//extra parameter auslesen und das gameobj schreiben
 						char str[128] = "";
 						GetDlgItemTextA(hwndDlg, IDC_EXTRAPARAMS, str, _countof(str));
 						if (str[0] != 0) {
 							//extra parameter sind gesetzt, zuweisen
-							game->setString(str, &game->extraparams);
+							game->setString(str, &game->m_extraparams);
 						}
 						else {
 							//extra parameter leer, wenn gesetzt entfernen/freigeben
-							if (game->extraparams) {
-								delete[] game->extraparams;
-								game->extraparams = NULL;
+							if (game->m_extraparams) {
+								delete[] game->m_extraparams;
+								game->m_extraparams = NULL;
 							}
 						}
 
@@ -921,13 +923,9 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						SetDlgItemText(hwndDlg, IDC_TEXTSTATUS, TranslateT("Configuration saved!"));
 					}
-					else {
-						SetDlgItemText(hwndDlg, IDC_TEXTSTATUS, TranslateT("Game not found?!"));
-					}
+					else SetDlgItemText(hwndDlg, IDC_TEXTSTATUS, TranslateT("Game not found?!"));
 				}
-				else {
-					SetDlgItemText(hwndDlg, IDC_TEXTSTATUS, TranslateT("Game not found?!"));
-				}
+				else SetDlgItemText(hwndDlg, IDC_TEXTSTATUS, TranslateT("Game not found?!"));
 
 				//gamelist unblocken
 				xgamelist.Block(FALSE);

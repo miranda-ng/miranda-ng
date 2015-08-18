@@ -76,17 +76,18 @@ using namespace xfirelib;
 class Xfire_voicechat : public Xfire_base {
 private:
 	//interner status, des aktiven voicechats
-	XFIREVOICECHATTYPE currentvoice;
+	XFIREVOICECHATTYPE m_currentvoice;
 	//ipportport structur für ts3
-	ts3IPPORT* ipport;
+	ts3IPPORT* m_ipport;
 	//statuspacket caching
-	SendGameStatus2Packet lastpacket;
+	SendGameStatus2Packet m_lastpacket;
 	//tsremotedll
-	HMODULE tsrDLL;
+	HMODULE m_tsrDLL;
 	//tsrGetServerInfo funktion vom tsremotedll
-	LPtsrGetServerInfo tsrGetServerInfo;
+	LPtsrGetServerInfo m_tsrGetServerInfo;
 	//pid für mumble
-	DWORD pid;
+	DWORD m_pid;
+
 public:
 	Xfire_voicechat();
 	~Xfire_voicechat();

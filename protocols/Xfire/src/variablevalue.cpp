@@ -33,29 +33,28 @@ namespace xfirelib
 {
 	VariableValue::VariableValue()
 	{
-		value = 0;
+		m_value = 0;
 	}
 
 	VariableValue::~VariableValue()
 	{
-		if (value)
-			delete[] value;
+		delete[] m_value;
 	}
 
 	void VariableValue::setName(std::string name)
 	{
-		this->name = name;
+		m_name = name;
 	}
 
 	void VariableValue::setValueLength(int valueLength)
 	{
-		this->valueLength = valueLength;
+		m_valueLength = valueLength;
 	}
 
 	void VariableValue::setValue(char * value)
 	{
-		if (this->value) delete[] this->value;
-		this->value = value;
+		if (m_value) delete[] m_value;
+		m_value = value;
 	}
 
 	void VariableValue::setValue(std::string value)
@@ -66,41 +65,26 @@ namespace xfirelib
 
 	void VariableValue::setValue(const char *value, int valueLength)
 	{
-		this->value = new char[valueLength];
-		memcpy(this->value, value, valueLength);
-		this->valueLength = valueLength;
+		m_value = new char[valueLength];
+		memcpy(m_value, value, valueLength);
+		m_valueLength = valueLength;
 	}
 
 	void VariableValue::setValueFromLong(long value, int bytes)
 	{
-		this->valueLength = bytes;
-		this->value = new char[bytes];
+		m_valueLength = bytes;
+		m_value = new char[bytes];
 		for (int i = 0; i < bytes; i++) {
-			this->value[i] = value % 256;
+			m_value[i] = value % 256;
 			value = value / 256;
 		}
-	}
-
-	std::string VariableValue::getName()
-	{
-		return name;
-	}
-
-	int VariableValue::getValueLength()
-	{
-		return valueLength;
-	}
-
-	char* VariableValue::getValue()
-	{
-		return value;
 	}
 
 	long VariableValue::getValueAsLong()
 	{
 		long intVal = 0;
-		for (int i = 0; i < valueLength; i++) {
-			intVal += ((unsigned char)value[i]) * myPow(256, i);
+		for (int i = 0; i < m_valueLength; i++) {
+			intVal += ((unsigned char)m_value[i]) * myPow(256, i);
 		}
 		return intVal;
 	}
@@ -120,7 +104,7 @@ namespace xfirelib
 		char* namestr = new char[nameLength + 1];
 		namestr[nameLength] = 0;
 		memcpy(namestr, packet + index + read, nameLength);
-		name = string(namestr);
+		m_name = string(namestr);
 		read += nameLength;
 		delete[] namestr;
 		return read;
@@ -129,17 +113,18 @@ namespace xfirelib
 	int VariableValue::readValue(char *packet, int index, int length, int ignoreZeroAfterLength)
 	{
 		int read = 0;
-		valueLength = length;
-		if (valueLength < 0) {
-			valueLength = (unsigned char)packet[index + read]; read++;
-			if (ignoreZeroAfterLength) read++;
+		m_valueLength = length;
+		if (m_valueLength < 0) {
+			m_valueLength = (unsigned char)packet[index + read]; read++;
+			if (ignoreZeroAfterLength)
+				read++;
 		}
 
-		if (value) delete[] value;
-		value = new char[valueLength];
-		memcpy(value, packet + index + read, valueLength);
-		read += valueLength;
-
+		if (m_value)
+			delete[] m_value;
+		m_value = new char[m_valueLength];
+		memcpy(m_value, packet + index + read, m_valueLength);
+		read += m_valueLength;
 		return read;
 	}
 
@@ -148,14 +133,14 @@ namespace xfirelib
 		VariableValue *value = this;
 		int nameLength = packet[index];
 
-		int i = 1;
 		int attLengthLength = 0;
 		int attLength = 0;
 		string name;
 
-		for (; i <= nameLength; i++) {
+		int i = 1;
+		for (; i <= nameLength; i++)
 			name += packet[index + i];
-		}
+
 		value->setName(name);
 
 		index += i;
@@ -179,14 +164,14 @@ namespace xfirelib
 
 	int VariableValue::writeName(char *buf, int index)
 	{
-		int len = name.length();
+		int len = m_name.length();
 		buf[index] = len;
-		memcpy(buf + index + 1, name.c_str(), len);
+		memcpy(buf + index + 1, m_name.c_str(), len);
 		return len + 1;
 	}
 	int VariableValue::writeValue(char *buf, int index)
 	{
-		memcpy(buf + index, value, valueLength);
-		return valueLength;
+		memcpy(buf + index, m_value, m_valueLength);
+		return m_valueLength;
 	}
 };

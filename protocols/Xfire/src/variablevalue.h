@@ -25,20 +25,22 @@
 
 namespace xfirelib {
 
-	class VariableValue {
+	class VariableValue
+	{
 	public:
 		VariableValue();
 		~VariableValue();
 
 		void setName(std::string name);
 		void setValueLength(int valueLength);
-		void setValue( char * value );
-		void setValue( std::string value );
-		void setValue( const char *value, int valueLength );
-		void setValueFromLong( long value, int bytes );
-		std::string getName();
-		int getValueLength();
-		char* getValue();
+		void setValue(char * value);
+		void setValue(std::string value);
+		void setValue(const char *value, int valueLength);
+		void setValueFromLong(long value, int bytes);
+		
+		__forceinline std::string getName() { return m_name; }
+		__forceinline int getValueLength() { return m_valueLength; }
+		__forceinline char* getValue() { return m_value; }
 
 		int readName(char *packet, int index);
 		int readValue(char *packet, int index, int length = -1, int ignoreZeroAfterLength = 0);
@@ -53,11 +55,10 @@ namespace xfirelib {
 	private:
 		long myPow(int x, int y);
 
-		std::string name;
-		char *value;
-		int valueLength;
+		std::string m_name;
+		char* m_value;
+		int m_valueLength;
 	};
-
 };
 
 #endif

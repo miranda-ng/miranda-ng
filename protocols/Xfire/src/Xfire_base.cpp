@@ -110,12 +110,12 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, char**to)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	if (!db_get_s(NULL, protocolname, temp, &dbv)) {
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	if (!db_get_s(NULL, protocolname, m_temp, &m_dbv)) {
 		//string setzen
-		setString(dbv.pszVal, to);
+		setString(m_dbv.pszVal, to);
 		//dbval wieder freigeben
-		db_free(&dbv);
+		db_free(&m_dbv);
 	}
 }
 
@@ -127,12 +127,12 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, int id, char**to
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	if (!db_get_s(NULL, protocolname, temp, &dbv)) {
+	mir_snprintf(m_temp, "%s_%i_%i", name, dbid, id);
+	if (!db_get_s(NULL, protocolname, m_temp, &m_dbv)) {
 		//string setzen
-		setString(dbv.pszVal, to);
+		setString(m_dbv.pszVal, to);
 		//dbval wieder freigeben
-		db_free(&dbv);
+		db_free(&m_dbv);
 	}
 }
 
@@ -144,12 +144,12 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, char**to)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	if (!db_get_utf(NULL, protocolname, temp, &dbv)) {
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	if (!db_get_utf(NULL, protocolname, m_temp, &m_dbv)) {
 		//string setzen
-		setString(dbv.pszVal, to);
+		setString(m_dbv.pszVal, to);
 		//dbval wieder freigeben
-		db_free(&dbv);
+		db_free(&m_dbv);
 	}
 }
 
@@ -161,12 +161,12 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, int id, char
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	if (!db_get_utf(NULL, protocolname, temp, &dbv)) {
+	mir_snprintf(m_temp, "%s_%i_%i", name, dbid, id);
+	if (!db_get_utf(NULL, protocolname, m_temp, &m_dbv)) {
 		//string setzen
-		setString(dbv.pszVal, to);
+		setString(m_dbv.pszVal, to);
 		//dbval wieder freigeben
-		db_free(&dbv);
+		db_free(&m_dbv);
 	}
 }
 
@@ -179,8 +179,8 @@ void Xfire_base::writeStringtoDB(char*name, unsigned int dbid, int id, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	db_set_s(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i_%i", name, dbid, id);
+	db_set_s(NULL, protocolname, m_temp, val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -191,8 +191,8 @@ void Xfire_base::writeStringtoDB(char*name, unsigned int dbid, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	db_set_s(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	db_set_s(NULL, protocolname, m_temp, val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -203,8 +203,8 @@ void Xfire_base::writeUtf8StringtoDB(char*name, unsigned int dbid, int id, char*
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
-	db_set_utf(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i_%i", name, dbid, id);
+	db_set_utf(NULL, protocolname, m_temp, val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -215,8 +215,8 @@ void Xfire_base::writeUtf8StringtoDB(char*name, unsigned int dbid, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	db_set_utf(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	db_set_utf(NULL, protocolname, m_temp, val);
 }
 
 
@@ -228,8 +228,8 @@ void Xfire_base::writeBytetoDB(char*name, unsigned int dbid, int val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	db_set_b(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	db_set_b(NULL, protocolname, m_temp, val);
 }
 
 //schreibt einen wordwert in die db
@@ -240,8 +240,8 @@ void Xfire_base::writeWordtoDB(char*name, unsigned int dbid, int val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	db_set_w(NULL, protocolname, temp, val);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	db_set_w(NULL, protocolname, m_temp, val);
 }
 
 
@@ -253,8 +253,8 @@ unsigned char Xfire_base::readBytefromDB(char*name, unsigned int dbid, int defau
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	return db_get_b(NULL, protocolname, temp, defaultval);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	return db_get_b(NULL, protocolname, m_temp, defaultval);
 }
 
 //liest einen wordval aus der db und gibt es zurück
@@ -265,8 +265,8 @@ unsigned int Xfire_base::readWordfromDB(char*name, unsigned int dbid, int defaul
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
-	return db_get_w(NULL, protocolname, temp, defaultval);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
+	return db_get_w(NULL, protocolname, m_temp, defaultval);
 }
 
 //entfernt einen dbeintrag
@@ -277,13 +277,12 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid)
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i", name, dbid);
+	mir_snprintf(m_temp, "%s_%i", name, dbid);
 
 	//eintrag entfernen
-	if (!db_get(NULL, protocolname, temp, &dbv)) {
-		db_free(&dbv);
-		db_unset(NULL, protocolname, temp);
-
+	if (!db_get(NULL, protocolname, m_temp, &m_dbv)) {
+		db_free(&m_dbv);
+		db_unset(NULL, protocolname, m_temp);
 		return TRUE;
 	}
 	return FALSE;
@@ -297,12 +296,12 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid, int id)
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, _countof(temp), "%s_%i_%i", name, dbid, id);
+	mir_snprintf(m_temp, "%s_%i_%i", name, dbid, id);
 
 	//eintrag entfernen
-	if (!db_get(NULL, protocolname, temp, &dbv)) {
-		db_free(&dbv);
-		db_unset(NULL, protocolname, temp);
+	if (!db_get(NULL, protocolname, m_temp, &m_dbv)) {
+		db_free(&m_dbv);
+		db_unset(NULL, protocolname, m_temp);
 
 		return TRUE;
 	}

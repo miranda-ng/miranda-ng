@@ -371,23 +371,24 @@ BOOL GetServerIPPort(DWORD pid, char*, unsigned long localaddr, char*ip1, char*i
 		return FALSE;
 	}
 
-	//wir wollen alles was da reinkommt haben
-	static int I = 1;
-	static DWORD b;
-	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
-		//DUMP("IOCTL Error","");
-		/*closesocket(s);
-		return FALSE;*/
-		XFireLog("IOCTL error %d", WSAGetLastError());
-		//unter bestimmten umständen schlägt es hier fehl, dann lass trotzdem ip weiter erkennen
+	// wir wollen alles was da reinkommt haben
+	{
+		int I = 1;
+		DWORD b;
+		if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
+			//DUMP("IOCTL Error","");
+			/*closesocket(s);
+			return FALSE;*/
+			XFireLog("IOCTL error %d", WSAGetLastError());
+			//unter bestimmten umständen schlägt es hier fehl, dann lass trotzdem ip weiter erkennen
+		}
 	}
 
 	//socket soll timeout auswerfen, wenn nix kommt, damit der gamethread nicht hängt
 	//DUMP("timeout>>>","");
 	static int timeout = 200;
-	if (setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout) == SOCKET_ERROR)) {
+	if (setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout) == SOCKET_ERROR))
 		XFireLog("setsockopt(SO_RCVTIMEO) error %d", WSAGetLastError());
-	}
 
 	//updstruct, nur mit wichtigen sachen
 	struct mpacket
@@ -559,19 +560,21 @@ BOOL GetServerIPPort2(DWORD pid, char*, unsigned long localaddr, char*ip1, char*
 	msockaddr.sin_family = AF_INET;
 	msockaddr.sin_port = 0;
 
-	//socket an nw binden
+	// socket an nw binden
 	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR) {
 		closesocket(s);
 		return FALSE;
 	}
 
-	//wir wollen alles was da reinkommt haben
-	static int I = 1;
-	DWORD b;
-	if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
-		/*closesocket(s);
-		return FALSE;*/
-		//unter bestimmten umständen schlägt es hier fehl, dann lass trotzdem ip weiter erkennen
+	// wir wollen alles was da reinkommt haben
+	{
+		int I = 1;
+		DWORD b;
+		if (WSAIoctl(s, _WSAIOW(IOC_VENDOR, 1), &I, sizeof(I), NULL, NULL, &b, NULL, NULL) == SOCKET_ERROR) {
+			/*closesocket(s);
+			return FALSE;*/
+			//unter bestimmten umständen schlägt es hier fehl, dann lass trotzdem ip weiter erkennen
+		}
 	}
 
 	//socket soll timeout auswerfen, wenn nix kommt, damit der gamethread nicht hängt
@@ -665,13 +668,12 @@ BOOL GetServerIPPort2(DWORD pid, char*, unsigned long localaddr, char*ip1, char*
 	return TRUE;
 }
 
-
-char * getItem(char * string, char delim, int count)
+char* getItem(char *string, char delim, int count)
 {
 	static char item[255];
 	char i = 0;
 
-	while (*string != '\0'&&count > 0) {
+	while (*string != '\0' && count > 0) {
 		if (*string == delim) {
 			item[i] = 0;
 			i = 0;
@@ -689,9 +691,8 @@ char * getItem(char * string, char delim, int count)
 	if (count > 1)
 		item[0] = 0;
 
-	for (unsigned int i = 0; i < mir_strlen(item); i++) {
-		item[i] = tolower(item[i]);
-	}
+	for (unsigned int j = 0; j < mir_strlen(item); j++)
+		item[j] = tolower(item[j]);
 
 	return item;
 }

@@ -41,9 +41,9 @@ extern HANDLE XFireIconFolder;
 class Xfire_base {
 private:
 	//vars
-	DBVARIANT dbv;
+	DBVARIANT m_dbv;
 public:
-	char temp[128];
+	char m_temp[128];
 	//funktionen/tools
 	void setString(char*from, char**to);
 	void appendString(char*from, char**to);

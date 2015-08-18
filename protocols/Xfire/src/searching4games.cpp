@@ -189,7 +189,7 @@ void Scan4Games(LPVOID)
 	}
 
 	//spiele von db laden
-	if (loadgamesfromdb)
+	if (loadgamesfromdb) {
 		if (foundgames > 0) {
 			//spieliste einlesen
 			xgamelist.readGamelist(foundgames);
@@ -202,27 +202,24 @@ void Scan4Games(LPVOID)
 			searching = FALSE;
 			return;
 		}
-		else if (foundgames == 0) {
+		if (foundgames == 0) {
 			searching = FALSE;
 			//dummymenü punkt entfernen
 			//CallService(MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )dummymenu, 0 );	
 
 			//gamelist unblocken
 			xgamelist.Block(FALSE);
-
 			return;
 		}
-		else
-			foundgames = 0;
-	else
 		foundgames = 0;
+	}
+	else foundgames = 0;
 
 	HWND hwnd = NULL;
 
 	//suche dialog anzeigen
-	if (!db_get_b(NULL, protocolname, "dontdissstatus", 0)) {
+	if (!db_get_b(NULL, protocolname, "dontdissstatus", 0))
 		mir_forkthread(ShowSearchDialog, &hwnd);
-	}
 
 	mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
 	mir_strcat(inipath, "xfire_games.ini");
@@ -363,43 +360,36 @@ void Scan4Games(LPVOID)
 										mir_strcat(path, ret2);
 									}
 								}
-								else {
-									*(path) = 0;
-								}
+								else *(path) = 0;
 							}
 							else if (xfire_GetPrivateProfileString(temp, "DetectExe[0]", "", ret2, 255, inipath)) {
 								cutforlaunch = path + mir_strlen(path);
 								mir_strcat(path, ret2);
 								multiexe = TRUE;
-								if (!CheckPath(path, path_r)) {
+								if (!CheckPath(path, path_r))
 									*(path) = 0;
-								}
 							}
 							else if (xfire_GetPrivateProfileString(temp, "DetectExe", "", ret2, 255, inipath)) {
 								cutforlaunch = path + mir_strlen(path);
 
 								//wenn backslash bei detectexe, dann diesen skippen (eveonline bug)
-								if (ret2[0] == '\\') {
+								if (ret2[0] == '\\')
 									mir_strcat(path, (char*)&ret2[1]);
-								}
-								else {
+								else
 									mir_strcat(path, ret2);
-								}
 
-								if (!CheckPath(path, path_r)) {
+								if (!CheckPath(path, path_r))
 									*(path) = 0;
-								}
 							}
 							else if (xfire_GetPrivateProfileString(temp, "LauncherExe", "", ret2, 255, inipath)) {
 								cutforlaunch = path + mir_strlen(path);
 								mir_strcat(path, ret2);
 							}
 
-
 							//prüfe ob existent, dann ist das spiel installiert
 							if (path[0] != 0 && GetFileAttributesA(path) != 0xFFFFFFFF) {
 								Xfire_game* newgame = new Xfire_game();
-								newgame->id = i;
+								newgame->m_id = i;
 
 								//8.3 pfade umwandeln
 								//GetLongPathNameA(path,path,sizeof(path));
@@ -409,46 +399,45 @@ void Scan4Games(LPVOID)
 									path[ii] = tolower(path[ii]);
 
 								if (path_r[0] == 0)
-									newgame->setString(path, &newgame->path);
+									newgame->setString(path, &newgame->m_path);
 								else {
 									//lowercase wildcard pfad
 									for (unsigned int ii = 0; ii < mir_strlen(path_r); ii++)
 										path_r[ii] = tolower(path_r[ii]);
-									newgame->setString(path_r, &newgame->path);
+									newgame->setString(path_r, &newgame->m_path);
 								}
 
 								//spiel mit mehreren exefiles
 								if (multiexe) {
 									multiexe = FALSE;
-									for (int i = 1; i < 9; i++) {
-										mir_snprintf(ret, _countof(ret), "DetectExe[%d]", i);
+									for (int j = 1; j < 9; j++) {
+										mir_snprintf(ret, _countof(ret), "DetectExe[%d]", j);
 										if (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath)) {
-											char* pos = strrchr(path, '\\');
-											if (pos != 0) {
-												pos++;
-												*pos = 0;
+											char *p = strrchr(path, '\\');
+											if (p != 0) {
+												p++;
+												*p = 0;
 											}
 											mir_strcat(path, ret2);
-											if (!CheckPath(path)) {
+											if (!CheckPath(path))
 												*(path) = 0;
-											}
 											else {
-												for (unsigned int i2 = 0; i2 < mir_strlen(path); i2++)
-													path[i2] = tolower(path[i2]);
+												for (unsigned int k = 0; k < mir_strlen(path); k++)
+													path[k] = tolower(path[k]);
 
 												char* mpathtemp = new char[mir_strlen(path) + 1];
 												mir_strcpy(mpathtemp, path);
-												newgame->mpath.push_back(mpathtemp);
+												newgame->m_mpath.push_back(mpathtemp);
 											}
 										}
 									}
 								}
 
 								//für launcherstring anpassen
-								char* pos = strrchr(path, '\\');
-								if (pos != 0) {
-									pos++;
-									*pos = 0;
+								char* p = strrchr(path, '\\');
+								if (p != 0) {
+									p++;
+									*p = 0;
 								}
 								xfire_GetPrivateProfileString(temp, "LauncherExe", "", ret2, 255, inipath); // anfügen
 								if (cutforlaunch != 0) *cutforlaunch = 0;
@@ -461,8 +450,8 @@ void Scan4Games(LPVOID)
 
 								mir_strcat(path, ret2);
 
-								newgame->setString(path, &newgame->launchparams);
-								newgame->appendString(" ", &newgame->launchparams);
+								newgame->setString(path, &newgame->m_launchparams);
+								newgame->appendString(" ", &newgame->m_launchparams);
 
 								xfire_GetPrivateProfileString(temp, "Launch", "", ret2, 512, inipath);
 								str_replace(ret2, "%UA_LAUNCHER_EXE_DIR%", launchpath);
@@ -470,46 +459,46 @@ void Scan4Games(LPVOID)
 								//str_replace(ret2,"%UA_LAUNCHER_EXTRA_ARGS%",""); // - auch entfernen	
 								str_replace(ret2, "%UA_LAUNCHER_LOGIN_ARGS%", ""); // - auch entfernen	
 
-								newgame->appendString(ret2, &newgame->launchparams);
+								newgame->appendString(ret2, &newgame->m_launchparams);
 
 								/*if (xfire_GetPrivateProfileString(temp, "LauncherLoginArgs", "", ret2, 512, inipath))
 								{
-								str_replace(xf[foundgames].launchparams,"%UA_LAUNCHER_LOGIN_ARGS%",ret2); // - auch entfernen
+								str_replace(xf[foundgames].m_launchparams,"%UA_LAUNCHER_LOGIN_ARGS%",ret2); // - auch entfernen
 								}
 								else*/
-								//	str_replace(xf[foundgames].launchparams,"%UA_LAUNCHER_LOGIN_ARGS%",""); // - auch entfernen	
+								//	str_replace(xf[foundgames].m_launchparams,"%UA_LAUNCHER_LOGIN_ARGS%",""); // - auch entfernen	
 
 								if (xfire_GetPrivateProfileString(temp, "LauncherPasswordArgs", "", ret2, 512, inipath))
-									newgame->setString(ret2, &newgame->pwparams);
+									newgame->setString(ret2, &newgame->m_pwparams);
 
 								if (xfire_GetPrivateProfileString(temp, "LauncherNetworkArgs", "", ret2, 512, inipath))
-									newgame->setString(ret2, &newgame->networkparams);
+									newgame->setString(ret2, &newgame->m_networkparams);
 
 								if (xfire_GetPrivateProfileString(temp, "CommandLineMustContain[0]", "", ret2, 512, inipath))
-									newgame->setString(ret2, &newgame->mustcontain);
+									newgame->setString(ret2, &newgame->m_mustcontain);
 
 								if (xfire_GetPrivateProfileString(temp, "XUSERSendId", "", ret2, 512, inipath))
-									newgame->send_gameid = atoi(ret2);
+									newgame->m_send_gameid = atoi(ret2);
 
 								if (xfire_GetPrivateProfileString(temp, "XUSERSetStatusMsg", "", ret2, 512, inipath))
-									newgame->setstatusmsg = atoi(ret2);
+									newgame->m_setstatusmsg = atoi(ret2);
 
 								//launcherurl?
 								if (xfire_GetPrivateProfileString(temp, "LauncherUrl", "", ret2, 512, inipath))
-									newgame->setString(ret2, &newgame->launchparams);
+									newgame->setString(ret2, &newgame->m_launchparams);
 
 								//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
 								mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[0]");
-								int i = 0;
 
+								int k = 0;
 								while (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath)) {
-									if (!newgame->notcontain) newgame->setString("", &newgame->notcontain);
-									if (i > 0)
-										newgame->appendString(";", &newgame->notcontain);
-									newgame->appendString(ret2, &newgame->notcontain);
+									if (!newgame->m_notcontain) newgame->setString("", &newgame->m_notcontain);
+									if (k > 0)
+										newgame->appendString(";", &newgame->m_notcontain);
+									newgame->appendString(ret2, &newgame->m_notcontain);
 
-									i++;
-									mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", i);
+									k++;
+									mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", k);
 								}
 
 								newgame->setNameandIcon();
@@ -547,16 +536,14 @@ void Scan4Games(LPVOID)
 
 					Xfire_game* newgame = new Xfire_game();
 
-					newgame->id = i;
+					newgame->m_id = i;
 
 					//8.3 pfade umwandeln
-					//GetLongPathNameA(ret2,ret2,sizeof(ret2));
-
 					//lowercase pfad
-					for (unsigned int i = 0; i < mir_strlen(ret2); i++)
-						ret2[i] = tolower(ret2[i]);
+					for (unsigned int k = 0; k < mir_strlen(ret2); k++)
+						ret2[k] = tolower(ret2[k]);
 
-					newgame->setString(ret2, &newgame->path);
+					newgame->setString(ret2, &newgame->m_path);
 
 					//launch parameterstring
 
@@ -567,8 +554,8 @@ void Scan4Games(LPVOID)
 						*(strrchr(launchpath, '\\')) = 0;
 					}
 
-					newgame->setString(ret2, &newgame->launchparams);
-					newgame->appendString(" ", &newgame->launchparams);
+					newgame->setString(ret2, &newgame->m_launchparams);
+					newgame->appendString(" ", &newgame->m_launchparams);
 
 					xfire_GetPrivateProfileString(temp, "Launch", "", ret2, 512, inipath);
 
@@ -578,35 +565,35 @@ void Scan4Games(LPVOID)
 					//str_replace(ret2,"%UA_LAUNCHER_EXTRA_ARGS%",""); // - auch entfernen	
 					str_replace(ret2, "%UA_LAUNCHER_LOGIN_ARGS%", ""); // - auch entfernen
 
-					newgame->appendString(ret2, &newgame->launchparams);
+					newgame->appendString(ret2, &newgame->m_launchparams);
 
 					if (xfire_GetPrivateProfileString(temp, "LauncherPasswordArgs", "", ret2, 512, inipath))
-						newgame->setString(ret2, &newgame->pwparams);
+						newgame->setString(ret2, &newgame->m_pwparams);
 
 					if (xfire_GetPrivateProfileString(temp, "LauncherNetworkArgs", "", ret2, 512, inipath))
-						newgame->setString(ret2, &newgame->networkparams);
+						newgame->setString(ret2, &newgame->m_networkparams);
 
 					if (xfire_GetPrivateProfileString(temp, "CommandLineMustContain[0]", "", ret2, 512, inipath))
-						newgame->setString(ret2, &newgame->mustcontain);
+						newgame->setString(ret2, &newgame->m_mustcontain);
 
 					if (xfire_GetPrivateProfileString(temp, "XUSERSendId", "", ret2, 512, inipath))
-						newgame->send_gameid = atoi(ret2);
+						newgame->m_send_gameid = atoi(ret2);
 
 					if (xfire_GetPrivateProfileString(temp, "XUSERSetStatusMsg", "", ret2, 512, inipath))
-						newgame->setstatusmsg = atoi(ret2);
+						newgame->m_setstatusmsg = atoi(ret2);
 
 					//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
 					mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[0]");
-					int i = 0;
 
+					int k = 0;
 					while (xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath)) {
-						if (!newgame->notcontain) newgame->setString("", &newgame->notcontain);
-						if (i > 0)
-							newgame->appendString(";", &newgame->notcontain);
-						newgame->appendString(ret2, &newgame->notcontain);
+						if (!newgame->m_notcontain) newgame->setString("", &newgame->m_notcontain);
+						if (k > 0)
+							newgame->appendString(";", &newgame->m_notcontain);
+						newgame->appendString(ret2, &newgame->m_notcontain);
 
-						i++;
-						mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", i);
+						k++;
+						mir_snprintf(ret, _countof(ret), "CommandLineMustNotContain[%d]", k);
 					}
 
 					newgame->setNameandIcon();
