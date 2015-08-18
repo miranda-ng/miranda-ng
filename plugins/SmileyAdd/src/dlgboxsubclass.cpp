@@ -145,15 +145,15 @@ public:
 
 	//helper function
 	//identifies the message dialog
-	bool IsMessageSendDialog(HWND hwnd)
+	bool IsMessageSendDialog(HWND hwndDlg)
 	{
 		TCHAR szClassName[32] = _T("");
 
-		GetClassName(hwnd, szClassName, _countof(szClassName));
+		GetClassName(hwndDlg, szClassName, _countof(szClassName));
 		if (mir_tstrcmp(szClassName, _T("#32770")))
 			return false;  
 
-		if ((REdit = GetDlgItem(hwnd, MI_IDC_LOG)) != NULL) {
+		if ((REdit = GetDlgItem(hwndDlg, MI_IDC_LOG)) != NULL) {
 			GetClassName(REdit, szClassName, _countof(szClassName));
 			if (mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
 				 mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
@@ -162,7 +162,7 @@ public:
 		}
 		else return false; 
 
-		if ((MEdit = GetDlgItem(hwnd, MI_IDC_MESSAGE)) != NULL) {
+		if ((MEdit = GetDlgItem(hwndDlg, MI_IDC_MESSAGE)) != NULL) {
 			GetClassName(MEdit, szClassName, _countof(szClassName));
 			if (mir_tstrcmp(szClassName, _T("Edit")) != 0 &&  
 				 mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
@@ -172,14 +172,14 @@ public:
 		}
 		else return false;
 
-		QuoteB = GetDlgItem(hwnd, MI_IDC_QUOTE);
+		QuoteB = GetDlgItem(hwndDlg, MI_IDC_QUOTE);
 
-		if ((LButton = GetDlgItem(hwnd, MI_IDC_ADD)) == NULL)
+		if ((LButton = GetDlgItem(hwndDlg, MI_IDC_ADD)) == NULL)
 			return false;
 
-		if (GetDlgItem(hwnd, MI_IDC_NAME) == NULL) 
+		if (GetDlgItem(hwndDlg, MI_IDC_NAME) == NULL) 
 			return false;
-		if ((MOK = GetDlgItem(hwnd, IDOK)) == NULL) 
+		if ((MOK = GetDlgItem(hwndDlg, IDOK)) == NULL) 
 			return false;
 
 		return true;

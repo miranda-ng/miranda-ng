@@ -312,14 +312,14 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 			// Select text analyze
 			TextSelection->SetRange(smlpos.cpMin, smlpos.cpMax);
 
-			BSTR btxt = NULL;
+			BSTR bstrText = NULL;
 
 			if (smlc == NULL && sml->IsText()) {
-				btxt = SysAllocString(T2W_SM(sml->GetToolText().c_str()));
-				TextSelection->SetText(btxt);
+				bstrText = SysAllocString(T2W_SM(sml->GetToolText().c_str()));
+				TextSelection->SetText(bstrText);
 			}
 			else {
-				TextSelection->GetText(&btxt);
+				TextSelection->GetText(&bstrText);
 
 				// Get font properties
 				SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&chf);
@@ -398,13 +398,13 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 					TextSelection->SetEnd(smlpos.cpMin);
 					UpdateSelection(oldSel, smlpos.cpMin , 1);
 				}
-				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(btxt)+1);
+				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(bstrText)+1);
 
 				ISmileyBase* smileyBase = CreateAniSmileyObject(smlc ? smlc : sml, chf.crBackColor, ishpp);
 				if (smileyBase == NULL) continue;
 
 				smileyBase->SetExtent(DVASPECT_CONTENT, &sizehm);
-				smileyBase->SetHint(W2T_SM(btxt));
+				smileyBase->SetHint(W2T_SM(bstrText));
 
 				smileyBase->SetPosition(hwnd, NULL);
 
@@ -419,7 +419,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 				reobject.poleobj = smileyBase;
 				reobject.polesite = pOleClientSite;
 				reobject.dwFlags = REO_BELOWBASELINE | REO_BLANK;
-				reobject.dwUser = (DWORD)smileyBase;
+				reobject.dwUser = (DWORD_PTR)smileyBase;
 
 				// Insert the bitmap at the current location in the richedit control
 				RichEditOle->InsertObject(&reobject);
@@ -433,7 +433,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 					UpdateSelection(oldSel, smlpos.cpMin , 1);
 				}
 			}
-			SysFreeString(btxt);
+			SysFreeString(bstrText);
 		}
 		SysFreeString(spaceb);
 
