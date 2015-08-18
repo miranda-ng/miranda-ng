@@ -38,9 +38,9 @@ class Dictionary;
 class AutoReplaceMap 
 {
 private:
-	TCHAR filename[1024];
-	Dictionary *dict;
-	map<tstring, AutoReplacement> replacements;
+	TCHAR m_filename[1024];
+	Dictionary *m_dict;
+	map<tstring, AutoReplacement> m_replacements;
 
 	void loadAutoReplaceMap();
 	void writeAutoReplaceMap();
@@ -48,15 +48,15 @@ private:
 public:
 	AutoReplaceMap(TCHAR *filename, Dictionary *dict);
 
-	TCHAR *filterText(const TCHAR *find);
+	TCHAR* filterText(const TCHAR *find);
 	BOOL isWordChar(TCHAR c);
 
 	/// Return an auto replacement to a word or NULL if none exists.
 	/// You have to free the item.
-	TCHAR * autoReplace(const TCHAR * word);
+	TCHAR* autoReplace(const TCHAR *word);
 
 	/// Add a word to the list of auto-replaced words
-	void add(const TCHAR * from, const TCHAR * to, BOOL useVariables = FALSE);
+	void add(const TCHAR *from, const TCHAR *to, BOOL useVariables = FALSE);
 
 	/// Make a copy of the auto replace map
 	void copyMap(map<tstring, AutoReplacement> *replacements);

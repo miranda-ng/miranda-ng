@@ -6,8 +6,12 @@
 
 DEFINE_GUIDXXX(IID_ITextDocument,0x8CC497C0,0xA1DF,0x11CE,0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D);
 
-RichEdit::RichEdit(HWND hwnd)
-	: hwnd(NULL), ole(NULL), textDocument(NULL), stopped(0), undoEnabled(TRUE)
+RichEdit::RichEdit(HWND hwnd) :
+	m_hwnd(NULL),
+	m_ole(NULL),
+	m_textDocument(NULL),
+	m_stopped(0),
+	m_undoEnabled(TRUE)
 {
 	SetHWND(hwnd);
 }
@@ -19,114 +23,114 @@ RichEdit::~RichEdit()
 
 bool RichEdit::IsValid() const
 {
-	return ole != NULL;
+	return m_ole != NULL;
 }
 
 HWND RichEdit::GetHWND() const
 {
-	return hwnd;
+	return m_hwnd;
 }
 
 void RichEdit::SetHWND(HWND hwnd)
 {
-	if (textDocument != NULL) {
-		textDocument->Release();
-		textDocument = NULL;
+	if (m_textDocument != NULL) {
+		m_textDocument->Release();
+		m_textDocument = NULL;
 	}
-	if (ole != NULL) {
-		ole->Release();
-		ole = NULL;
+	if (m_ole != NULL) {
+		m_ole->Release();
+		m_ole = NULL;
 	}
 
-	this->hwnd = hwnd;
+	m_hwnd = hwnd;
 
 	if (hwnd == NULL)
 		return;
 
-	SendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
-	if (ole == NULL)
+	SendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&m_ole);
+	if (m_ole == NULL)
 		return;
 
-	if (ole->QueryInterface(IID_ITextDocument, (void**)&textDocument) != S_OK)
-		textDocument = NULL;
+	if (m_ole->QueryInterface(IID_ITextDocument, (void**)&m_textDocument) != S_OK)
+		m_textDocument = NULL;
 }
 
 LRESULT RichEdit::SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
 {
-	return ::SendMessage(hwnd, Msg, wParam, lParam);
+	return ::SendMessage(m_hwnd, Msg, wParam, lParam);
 }
 
 bool RichEdit::IsReadOnly() const
 {
-	return (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == ES_READONLY;
+	return (GetWindowLongPtr(m_hwnd, GWL_STYLE) & ES_READONLY) == ES_READONLY;
 }
 
 void RichEdit::SuspendUndo()
 {
-	if (textDocument != NULL) {
-		textDocument->Undo(tomSuspend, NULL);
-		undoEnabled = FALSE;
+	if (m_textDocument != NULL) {
+		m_textDocument->Undo(tomSuspend, NULL);
+		m_undoEnabled = FALSE;
 	}
 }
 
 void RichEdit::ResumeUndo()
 {
-	if (textDocument != NULL) {
-		textDocument->Undo(tomResume, NULL);
-		undoEnabled = TRUE;
+	if (m_textDocument != NULL) {
+		m_textDocument->Undo(tomResume, NULL);
+		m_undoEnabled = TRUE;
 	}
 }
 
 void RichEdit::Stop()
 {
-	stopped++;
-	if (stopped != 1)
+	m_stopped++;
+	if (m_stopped != 1)
 		return;
 
 	SuspendUndo();
 
 	SendMessage(WM_SETREDRAW, FALSE, 0);
 
-	SendMessage(EM_GETSCROLLPOS, 0, (LPARAM)&old_scroll_pos);
-	SendMessage(EM_EXGETSEL, 0, (LPARAM)&old_sel);
-	GetCaretPos(&caretPos);
+	SendMessage(EM_GETSCROLLPOS, 0, (LPARAM)&m_old_scroll_pos);
+	SendMessage(EM_EXGETSEL, 0, (LPARAM)&m_old_sel);
+	GetCaretPos(&m_caretPos);
 
-	old_mask = SendMessage(EM_GETEVENTMASK, 0, 0);
-	SendMessage(EM_SETEVENTMASK, 0, old_mask & ~ENM_CHANGE);
+	m_old_mask = SendMessage(EM_GETEVENTMASK, 0, 0);
+	SendMessage(EM_SETEVENTMASK, 0, m_old_mask & ~ENM_CHANGE);
 
-	inverse = (old_sel.cpMin >= LOWORD(SendMessage(EM_CHARFROMPOS, 0, (LPARAM)&caretPos)));
+	m_inverse = (m_old_sel.cpMin >= LOWORD(SendMessage(EM_CHARFROMPOS, 0, (LPARAM)&m_caretPos)));
 }
 
 void RichEdit::Start()
 {
-	stopped--;
+	m_stopped--;
 
-	if (stopped < 0) {
-		stopped = 0;
+	if (m_stopped < 0) {
+		m_stopped = 0;
 		return;
 	}
-	if (stopped > 0)
+	if (m_stopped > 0)
 		return;
 
-	if (inverse) {
-		LONG tmp = old_sel.cpMin;
-		old_sel.cpMin = old_sel.cpMax;
-		old_sel.cpMax = tmp;
+	if (m_inverse) {
+		LONG tmp = m_old_sel.cpMin;
+		m_old_sel.cpMin = m_old_sel.cpMax;
+		m_old_sel.cpMax = tmp;
 	}
 
-	SendMessage(EM_SETEVENTMASK, 0, old_mask);
-	SendMessage(EM_EXSETSEL, 0, (LPARAM)&old_sel);
-	SendMessage(EM_SETSCROLLPOS, 0, (LPARAM)&old_scroll_pos);
+	SendMessage(EM_SETEVENTMASK, 0, m_old_mask);
+	SendMessage(EM_EXSETSEL, 0, (LPARAM)&m_old_sel);
+	SendMessage(EM_SETSCROLLPOS, 0, (LPARAM)&m_old_scroll_pos);
 
 	SendMessage(WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(hwnd, NULL, FALSE);
+	InvalidateRect(m_hwnd, NULL, FALSE);
 
 	ResumeUndo();
 }
 
 BOOL RichEdit::IsStopped()
 {
-	return stopped > 0;
+	return m_stopped > 0;
 }
 
 int RichEdit::GetCharFromPos(const POINT &pt)
@@ -186,7 +190,7 @@ void RichEdit::SetSel(const CHARRANGE &sel)
 
 int RichEdit::GetTextLength() const
 {
-	return GetWindowTextLength(hwnd);
+	return GetWindowTextLength(m_hwnd);
 }
 
 TCHAR* RichEdit::GetText(int start, int end) const
@@ -194,9 +198,9 @@ TCHAR* RichEdit::GetText(int start, int end) const
 	if (end <= start)
 		end = GetTextLength();
 
-	if (textDocument != NULL) {
+	if (m_textDocument != NULL) {
 		ITextRange *range;
-		if (textDocument->Range(start, end, &range) != S_OK)
+		if (m_textDocument->Range(start, end, &range) != S_OK)
 			return mir_tstrdup(_T(""));
 
 		BSTR text = NULL;
@@ -215,7 +219,7 @@ TCHAR* RichEdit::GetText(int start, int end) const
 
 	int len = (GetTextLength() + 1);
 	TCHAR *tmp = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
-	GetWindowText(hwnd, tmp, len);
+	GetWindowText(m_hwnd, tmp, len);
 	tmp[len] = 0;
 
 	TCHAR *ret = (TCHAR *)mir_alloc((end - start + 1) * sizeof(TCHAR));
@@ -228,21 +232,21 @@ TCHAR* RichEdit::GetText(int start, int end) const
 
 void RichEdit::ReplaceSel(const TCHAR *new_text)
 {
-	if (stopped) {
+	if (m_stopped) {
 		CHARRANGE sel = GetSel();
 
 		ResumeUndo();
 
-		SendMessage(EM_REPLACESEL, undoEnabled, (LPARAM)new_text);
+		SendMessage(EM_REPLACESEL, m_undoEnabled, (LPARAM)new_text);
 
 		SuspendUndo();
 
-		FixSel(&old_sel, sel, mir_tstrlen(new_text));
+		FixSel(&m_old_sel, sel, mir_tstrlen(new_text));
 
 		SendMessage(WM_SETREDRAW, FALSE, 0);
-		SendMessage(EM_SETEVENTMASK, 0, old_mask & ~ENM_CHANGE);
+		SendMessage(EM_SETEVENTMASK, 0, m_old_mask & ~ENM_CHANGE);
 	}
-	else SendMessage(EM_REPLACESEL, undoEnabled, (LPARAM)new_text);
+	else SendMessage(EM_REPLACESEL, m_undoEnabled, (LPARAM)new_text);
 }
 
 int RichEdit::Replace(int start, int end, const TCHAR *new_text)

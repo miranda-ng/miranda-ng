@@ -454,7 +454,7 @@ void LoadDictFromKbdl(Dialog *dlg)
 
 	// Use default input language
 	HKL hkl = GetKeyboardLayout(0);
-	mir_sntprintf(szKLName, _countof(szKLName), _T("%x"), (int)LOWORD(hkl));
+	mir_sntprintf(szKLName, _T("%x"), (int)LOWORD(hkl));
 	ToLocaleID(szKLName, _countof(szKLName));
 
 	int d = GetClosestLanguage(szKLName);
@@ -691,10 +691,10 @@ int GetClosestLanguage(TCHAR *lang_name)
 	// Try searching by the prefix only
 	TCHAR lang[128];
 	mir_tstrncpy(lang, lang_name, _countof(lang));
-
-	TCHAR *p = _tcschr(lang, _T('_'));
-	if (p != NULL)
-		*p = _T('\0');
+	{
+		TCHAR *p = _tcschr(lang, _T('_'));
+		if (p != NULL) *p = _T('\0');
+	}
 
 	// First check if there is a language that is only the prefix
 	for (i = 0; i < languages.getCount(); i++)
