@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 __forceinline bool isChatRoom(MCONTACT hContact)
-{	return db_get_b(hContact, ptrA(GetContactProto(hContact)), "ChatRoom", 0);
+{	return (bool)db_get_b(hContact, ptrA(GetContactProto(hContact)), "ChatRoom", 0);
 }
 
 static void __cdecl OnToastNotificationClicked(void* arg)
@@ -39,11 +39,15 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 	{
 		eventHandler = new ToastEventHandler(OnToastNotificationClicked, (void*)hContact);
 
-		TCHAR avatarPath[MAX_PATH] = { 0 };
 		const char* szProto = GetContactProto(hContact);
-		if (ProtoServiceExists(szProto, PS_GETMYAVATAR))
-			if (!CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)avatarPath, (LPARAM)MAX_PATH))
-				imagePath = mir_tstrdup(avatarPath);
+		PROTO_AVATAR_INFORMATION pai;
+		pai.hContact = hContact;
+		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
+		{
+
+			CallProtoService(szProto, PS_GETAVATARINFO, (WPARAM)0, (LPARAM)&pai);
+			imagePath = mir_tstrdup(pai.filename);
+		}
 	}
 	else
 		eventHandler = new ToastEventHandler(nullptr);
@@ -117,8 +121,6 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	default:
 		return 1;
 	}
-
-	return 0;
 }
 
 void InitServices()
