@@ -28,7 +28,6 @@ DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	OSVERSIONINFO osvi = { sizeof(OSVERSIONINFO) };
 	if (IsWinVer8Plus())
 		return &pluginInfo;
 
