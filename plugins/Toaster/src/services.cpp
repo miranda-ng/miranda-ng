@@ -1,10 +1,31 @@
 #include "stdafx.h"
 
+__forceinline bool isChatRoom(MCONTACT hContact)
+{	return db_get_b(hContact, ptrA(GetContactProto(hContact)), "ChatRoom", 0);
+}
+
 static void __cdecl OnToastNotificationClicked(void* arg)
 {
 	MCONTACT hContact = (MCONTACT)arg;
 	if (hContact)
-		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)"");
+	{
+		if (!isChatRoom(hContact))
+		{
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)"");
+		}
+		else
+		{
+			ptrA szProto(GetContactProto(hContact));
+			ptrT szChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+			GCDEST gcd = { szProto, szChatRoom, GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };
+
+			gcd.iType = GC_EVENT_CONTROL;
+			gce.time = time(NULL);
+
+			CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, reinterpret_cast<LPARAM>(&gce));
+		}
+	}
 }
 
 static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)

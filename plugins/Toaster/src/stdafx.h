@@ -5,9 +5,8 @@
 
 #include <Windows.h>
 #include <SDKDDKVer.h>
-#include <strsafe.h>
 #include <intsafe.h>
-
+#include <time.h>
 #include <roapi.h>
 #include <wrl\client.h>
 #include <wrl\implements.h>
@@ -21,12 +20,14 @@
 #include <m_protocols.h>
 #include <m_popup.h>
 #include <m_message.h>
+#include <m_chat.h>
 
 #include "version.h"
 #include "resource.h"
+#include <strsafe.h>
 
 typedef void(__cdecl *pEventHandler)(void*);
-const wchar_t AppUserModelID[] = L"MirandaNG";
+const wchar_t AppUserModelID[] = _T("MirandaNG");
 
 #include "string_reference_wrapper.h"
 #include "toast_event_handler.h"
