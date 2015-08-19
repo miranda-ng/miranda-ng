@@ -19,10 +19,7 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 			ptrT szChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 			GCDEST gcd = { szProto, szChatRoom, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-
-			gcd.iType = GC_EVENT_CONTROL;
 			gce.time = time(NULL);
-
 			CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, reinterpret_cast<LPARAM>(&gce));
 		}
 	}
