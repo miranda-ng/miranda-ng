@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 __forceinline bool isChatRoom(MCONTACT hContact)
-{	return (bool)db_get_b(hContact, ptrA(GetContactProto(hContact)), "ChatRoom", 0);
+{	return (bool)db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0);
 }
 
 static void __cdecl OnToastNotificationClicked(void* arg)
@@ -15,7 +15,7 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 		}
 		else
 		{
-			ptrA szProto(GetContactProto(hContact));
+			const char *szProto = GetContactProto(hContact);
 			ptrT szChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 			GCDEST gcd = { szProto, szChatRoom, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
@@ -41,7 +41,6 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 		pai.hContact = hContact;
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
-
 			CallProtoService(szProto, PS_GETAVATARINFO, (WPARAM)0, (LPARAM)&pai);
 			imagePath = mir_tstrdup(pai.filename);
 		}
