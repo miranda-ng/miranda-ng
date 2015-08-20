@@ -27,7 +27,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (m_iStatus < ID_STATUS_ONLINE)
 		return 0;
 
-	if (this->isChatRoom(hContact))
+	if (isChatRoom(hContact))
 	{
 		return 0;
 	}

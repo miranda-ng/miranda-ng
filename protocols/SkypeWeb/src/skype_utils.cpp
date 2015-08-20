@@ -19,12 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
-void CSkypeProto::FreeCharList(const LIST<char> &lst)
-{
-	for (int i = 0; i < lst.getCount(); i++)
-		mir_free(lst[i]);
-}
-
 time_t CSkypeProto::IsoToUnixTime(const char *stamp)
 {
 	char date[9];

@@ -283,16 +283,12 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		{
 			LIST<char> users(1);
 			for (; i < skypenames.getCount() && users.getCount() <= 50; i++)
-				users.insert(mir_strdup(skypenames[i]));
-
+				users.insert(skypenames[i]);
 			PushRequest(new GetContactsInfoRequest(li, users), &CSkypeProto::LoadContactsInfo);
-
-			FreeCharList(users);
-			users.destroy();
 		}
 		while(i < skypenames.getCount());
 
-		FreeCharList(skypenames);
+		FreeList(skypenames);
 		skypenames.destroy();
 	}
 	PushRequest(new GetContactsAuthRequest(li), &CSkypeProto::LoadContactsAuth);
