@@ -252,10 +252,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Exodus", _T("*Exodus*"), _T("Exodus"), IDI_EXODUS, JABBER_CASE, TRUE },
 
 	{ "client_GCN", _T("*GCN*"), _T("GCN"), IDI_GCN, JABBER_CASE, TRUE },
-	{ "client_GMail", _T("|*gmail.*|GMail*"), _T("GMail"), IDI_GMAIL, JABBER_CASE, TRUE },
+	{ "client_GMail", _T("|*gmail.*|GMail*"), _T("GoogleMail"), IDI_GMAIL, JABBER_CASE, TRUE },
 	{ "client_GOIM", _T("*GOIM*"), _T("GOIM"), IDI_GOIM, JABBER_CASE, TRUE },
-	{ "client_GTalk", _T("|*Talk.v*|*Google*Talk*")
-	_T("|*Gtalk*|*-iPhon*"), _T("GoogleTalk aka GTalk"), IDI_GTALK, JABBER_CASE, TRUE },
+	{ "client_GTalk", _T("|*Talk.v*|*Google*Talk*")_T("|*Gtalk*"), _T("GoogleTalk"), IDI_GTALK, JABBER_CASE, TRUE },
 	{ "client_GTalk_Gadget", _T("|^messaging-*|*Talk*Gadget*"), _T("GTalk Gadget"), IDI_GTALK_GADGET, JABBER_CASE, TRUE },
 	{ "client_Gabber", _T("*Gabber*"), _T("Gabber"), IDI_GABBER, JABBER_CASE, TRUE },
 	{ "client_Gajim", _T("*Gajim*"), _T("Gajim"), IDI_GAJIM, JABBER_CASE, TRUE },
