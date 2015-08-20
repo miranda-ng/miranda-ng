@@ -15,16 +15,13 @@
 #include <m_popup.h>
 #include <m_icolib.h>
 #include <win2k.h>
+#include <m_autobackups.h>
 
 #include <m_folders.h>
 
 #include "options.h"
 #include "resource.h"
 #include "version.h"
-
-
-#define MS_AB_BACKUP "AB/Backup"
-#define MS_AB_SAVEAS "AB/SaveAs"
 
 #define SUB_DIR L"\\AutoBackups"
 #define DIR L"%miranda_userdata%"
