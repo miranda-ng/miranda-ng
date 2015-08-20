@@ -40,10 +40,9 @@ void CSkypeProto::PollingThread(void*)
 		{
 			if (response->pData)
 			{
-				void *pData = mir_alloc(response->dataLength);
+				char *pData = mir_strdup(response->pData);
 				if (pData != NULL)
 				{
-					memcpy(pData, response->pData, response->dataLength);
 					ForkThread(&CSkypeProto::ParsePollData, pData);
 				}
 				else
