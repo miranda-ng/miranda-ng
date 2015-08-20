@@ -302,7 +302,12 @@ private:
 	void ProcessThreadUpdate       (const JSONNode &node);
 
 	// utils
-	static void FreeCharList(const LIST<char> &lst);
+	template <typename T>
+	__inline static void FreeList(const LIST<T> &lst)
+	{
+		for (int i = 0; i < lst.getCount(); i++)
+			mir_free(lst[i]);
+	}
 
 	__forceinline bool IsOnline()
 	{	return (m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread);
