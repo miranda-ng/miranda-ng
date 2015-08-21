@@ -43,6 +43,27 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Icon_Register(g_hInstance, LPGEN("Database") "/" LPGEN("Database backups"), iconList, _countof(iconList));
 
+	CreateServiceFunction(MS_AB_BACKUP, ABService);
+	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
+
+	CMenuItem mi;
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
+
+	mi.name.a = LPGEN("Backup profile");
+	mi.pszService = MS_AB_BACKUP;
+	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.position = 500100000;
+	Menu_AddMainMenuItem(&mi);
+
+	mi.name.a = LPGEN("Save profile as...");
+	mi.pszService = MS_AB_SAVEAS;
+	mi.hIcolibItem = iconList[1].hIcolib;
+	mi.position = 500100001;
+	Menu_AddMainMenuItem(&mi);
+
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	LoadOptions();
+
 	return 0;
 }
 
@@ -95,27 +116,6 @@ int ModulesLoad(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}
-
-	CreateServiceFunction(MS_AB_BACKUP, ABService);
-	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
-
-	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
-
-	mi.name.a = LPGEN("Backup profile");
-	mi.pszService = MS_AB_BACKUP;
-	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.position = 500100000;
-	Menu_AddMainMenuItem(&mi);
-
-	mi.name.a = LPGEN("Save profile as...");
-	mi.pszService = MS_AB_SAVEAS;
-	mi.hIcolibItem = iconList[1].hIcolib;
-	mi.position = 500100001;
-	Menu_AddMainMenuItem(&mi);
-
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	LoadOptions();
 
 	if (options.backup_types & BT_START)
 		BackupStart(NULL);
