@@ -1278,12 +1278,12 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			if (inviteNode != NULL) {
 				inviteFromJid = XmlGetAttrValue(inviteNode, _T("from"));
 				inviteReason = XmlGetText(XmlGetChild(inviteNode, _T("reason")));
+				inviteRoomJid = from;
+				if (inviteReason == NULL)
+					inviteReason = szMessage;
+				isChatRoomInvitation = true;
+				invitePassword = XmlGetText(XmlGetChild(xNode, "password"));
 			}
-			inviteRoomJid = from;
-			if (inviteReason == NULL)
-				inviteReason = szMessage;
-			isChatRoomInvitation = true;
-			invitePassword = XmlGetText(XmlGetChild(xNode, "password"));
 		}
 		else if (!mir_tstrcmp(ptszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) &&
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
