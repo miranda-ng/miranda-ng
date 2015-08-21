@@ -26,10 +26,10 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MENU                ICON                    "res/menu.ico"
-IDI_DELETE              ICON                    "res/delete.ico"
-IDI_OK                  ICON                    "res/btnOk.ico"
-IDI_CANCEL              ICON                    "res/btnClose.ico"
+IDI_MENU                ICON                    "menu.ico"
+IDI_DELETE              ICON                    "delete.ico"
+IDI_OK                  ICON                    "btnOk.ico"
+IDI_CANCEL              ICON                    "btnClose.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
