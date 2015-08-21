@@ -383,6 +383,8 @@ class CJabberDlgGcJoin: public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
+	CCtrlButton btnOk;
+
 public:
 	CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid);
 	~CJabberDlgGcJoin();
@@ -391,16 +393,19 @@ protected:
 	TCHAR *m_jid;
 
 	void OnInitDialog();
-	void OnClose();
 	void OnDestroy();
+
+	void OnBtnOk(CCtrlButton*);
+
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid) :
 	CSuper(proto, IDD_GROUPCHAT_JOIN, NULL),
+	btnOk(this, IDOK),
 	m_jid(mir_tstrdup(jid))
 {
-	m_autoClose = 0;
+	btnOk.OnClick = Callback(this, &CJabberDlgGcJoin::OnBtnOk);
 }
 
 CJabberDlgGcJoin::~CJabberDlgGcJoin()
@@ -472,11 +477,6 @@ void CJabberDlgGcJoin::OnInitDialog()
 	sttJoinDlgShowRecentItems(m_hwnd, i);
 }
 
-void CJabberDlgGcJoin::OnClose()
-{
-	CSuper::OnClose();
-}
-
 void CJabberDlgGcJoin::OnDestroy()
 {
 	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, 0));
@@ -488,10 +488,27 @@ void CJabberDlgGcJoin::OnDestroy()
 	mir_free(m_jid); m_jid = NULL;
 }
 
-INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+void CJabberDlgGcJoin::OnBtnOk(CCtrlButton*)
 {
 	TCHAR text[128];
+	GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
+	TCHAR *server = NEWTSTR_ALLOCA(text), *room;
 
+	m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", server);
+
+	GetDlgItemText(m_hwnd, IDC_ROOM, text, _countof(text));
+	room = NEWTSTR_ALLOCA(text);
+
+	GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
+	TCHAR *nick = NEWTSTR_ALLOCA(text);
+
+	GetDlgItemText(m_hwnd, IDC_PASSWORD, text, _countof(text));
+	TCHAR *password = NEWTSTR_ALLOCA(text);
+	m_proto->GroupchatJoinRoom(server, room, nick, password);
+}
+
+INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch (msg) {
 	case WM_DELETEITEM:
 		{
@@ -675,35 +692,13 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_RECENT3:
 		case IDC_RECENT4:
 		case IDC_RECENT5:
-			{
-				JabberGcRecentInfo info(m_proto, LOWORD(wParam) - IDC_RECENT1);
-				info.fillForm(m_hwnd);
-				if (GetAsyncKeyState(VK_CONTROL))
-					break;
-			}
+			JabberGcRecentInfo info(m_proto, LOWORD(wParam) - IDC_RECENT1);
+			info.fillForm(m_hwnd);
+			if (GetAsyncKeyState(VK_CONTROL))
+				break;
 
-			// fall through
-		case IDOK:
-			{
-				GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
-				TCHAR *server = NEWTSTR_ALLOCA(text), *room;
-
-				m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", server);
-
-				GetDlgItemText(m_hwnd, IDC_ROOM, text, _countof(text));
-				room = NEWTSTR_ALLOCA(text);
-
-				GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
-				TCHAR *nick = NEWTSTR_ALLOCA(text);
-
-				GetDlgItemText(m_hwnd, IDC_PASSWORD, text, _countof(text));
-				TCHAR *password = NEWTSTR_ALLOCA(text);
-				m_proto->GroupchatJoinRoom(server, room, nick, password);
-			}
-			// fall through
-		case IDCANCEL:
+			OnBtnOk(NULL);
 			Close();
-			break;
 		}
 		break;
 
