@@ -132,15 +132,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {
 		ptrT dbvUpdateURL(db_get_tsa(0, MODNAME, DB_SETTING_UPDATE_URL));
 		if (dbvUpdateURL) {
-			if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL))) {
+			if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_OLD))) {
 				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}
-			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK))) {
+			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK_OLD))) {
 				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}
-			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS)_T("/"))) {
+			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD)_T("/"))) {
 				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
 				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}

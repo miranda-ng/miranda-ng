@@ -423,15 +423,10 @@ void UninitListNew()
 		DestroyWindow(hwndDialog);
 }
 
-INT_PTR ShowListCommand(WPARAM,LPARAM)
+static INT_PTR ShowListCommand(WPARAM,LPARAM)
 {
 	DoGetList();
 	return 0;
-}
-
-void InitListNew()
-{
-	CreateServiceFunction(MS_PU_SHOWLIST, ShowListCommand);
 }
 
 void UnloadListNew()
@@ -440,7 +435,7 @@ void UnloadListNew()
 		hListThread = NULL;
 }
 
-INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam)
+static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR *)lParam;
 	if (arg == NULL)
@@ -458,6 +453,9 @@ INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam)
 	p = _tcschr(pluginPath, _T('/'));
 	if (p) *p = _T('\\');
 
+	if (GetFileAttributes(pluginPath) != INVALID_FILE_ATTRIBUTES)
+		return 0;
+
 	ptrT updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
@@ -465,30 +463,24 @@ INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 
-	FILELIST *fileList = new FILELIST(1);
+	ServListEntry *hash = hashes.find((ServListEntry*)&pluginPath);
+	if (hash == NULL)
+		return 0;
 
 	VARST dirName(_T("%miranda_path%"));
-	for (int i = 0; i < hashes.getCount(); i++)
-	{
-		ServListEntry &hash = hashes[i];
+	TCHAR tszPath[MAX_PATH];
+	mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\%s"), dirName, hash->m_name);
+	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);
 
-		if (mir_tstrcmpi(hash.m_name, pluginPath) == 0)
-		{
-			TCHAR tszPath[MAX_PATH];
-			mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\%s"), dirName, hash.m_name);
-
-			FILEINFO *fileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
-			fileList->insert(fileInfo);
-
-			break;
-		}
-	}
-
-	if (fileList->getCount() == 0) {
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("List is empty."), POPUP_TYPE_INFO);
-		delete fileList;
-	}
-	else CallFunctionAsync(LaunchListDialog, fileList);
+	FILELIST *fileList = new FILELIST(1);
+	fileList->insert(fileInfo);
+	CallFunctionAsync(LaunchListDialog, fileList);
 
 	return 0;
+}
+
+void InitListNew()
+{
+	CreateServiceFunction(MODNAME "/ParseUri", ParseUriService);
+	CreateServiceFunction(MS_PU_SHOWLIST, ShowListCommand);
 }

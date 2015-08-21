@@ -133,6 +133,9 @@ static void ApplyUpdates(void *param)
 
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 
+	if (opts.bBackup)
+		CallService(MS_AB_BACKUP);
+
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
@@ -356,9 +359,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-static void DlgUpdateSilent(void *lParam)
+static void DlgUpdateSilent(void *param)
 {
-	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)lParam;
+	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)param;
 	if (UpdateFiles.getCount() == 0) {
 		delete &UpdateFiles;
 		return;
@@ -652,6 +655,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					strdel(tszNewName + iPos, 1);
 				}
 
+#if MIRANDA_VER >= 0x0A00
 				// No need to hash a file if we are forcing a redownload anyway
 				if (!opts.bForceRedownload) {
 					// try to hash the file
@@ -673,6 +677,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				}
 				else
 					Netlib_LogfT(hNetlibUser, _T("File %s: Forcing redownload"), ffd.cFileName);
+#endif
 
 				ptszUrl = item->m_name;
 				MyCRC = item->m_crc;
@@ -851,7 +856,7 @@ void InitTimer(void *type)
 
 	LONGLONG interval;
 
-	switch ((int)type) {
+	switch ((INT_PTR)type) {
 	case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(NULL);

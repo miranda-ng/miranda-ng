@@ -49,7 +49,7 @@
 #define IDC_CUSTOM                      1046
 #define IDC_SILENTMODE                  1047
 #define IDC_NEEDRESTARTLABEL            1048
-#define IDC_DONTSWITCHTOSTABLE          1049
+#define IDC_BACKUP                      1049
 #define IDC_MSG_BOXES                   40071
 #define IDC_ERRORS                      40072
 #define IDC_INFO_MESSAGES               40073

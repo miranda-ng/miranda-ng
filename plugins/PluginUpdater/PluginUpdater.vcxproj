@@ -30,4 +30,11 @@
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\btnClose.ico" />
+    <Image Include="res\btnOk.ico" />
+    <Image Include="res\info.ico" />
+    <Image Include="res\menu.ico" />
+    <Image Include="res\PlgList.ico" />
+  </ItemGroup>
 </Project>
