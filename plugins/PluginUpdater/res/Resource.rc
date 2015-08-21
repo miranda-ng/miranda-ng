@@ -52,7 +52,7 @@ BEGIN
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 222
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 236
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -60,7 +60,7 @@ BEGIN
     GROUPBOX        "Hotkey",IDC_STATIC,2,0,284,26
     CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,
                     "Hyperlink",WS_TABSTOP,29,11,249,10
-    GROUPBOX        "Plugin updates options",IDC_STATIC,1,29,285,60
+    GROUPBOX        "Update options",IDC_STATIC,1,29,285,73
     CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,73,10
     CONTROL         "(but only once a day)",IDC_ONLYONCEADAY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,92,44,186,10
     CONTROL         "Every",IDC_UPDATEONPERIOD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,58,52,10
@@ -68,14 +68,16 @@ BEGIN
     CONTROL         "",IDC_PERIODSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,92,56,10,15
     COMBOBOX        IDC_PERIODMEASURE,114,56,58,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Silent mode",IDC_SILENTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,267,10
-    GROUPBOX        "Files source",IDC_STATIC,1,92,285,96
-    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,105,267,10
-    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,120,267,10
+    CONTROL         "Backup database after update (requires db_autobackups)",IDC_BACKUP,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,11,86,267,10
+    GROUPBOX        "Files source",IDC_STATIC,2,115,285,96
+    CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,128,267,10
+    CONTROL         "Development version (less stable)",IDC_TRUNK,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,143,267,10
     CONTROL         "Development version with debug symbols",IDC_TRUNK_SYMBOLS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,135,267,10
-    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,150,267,10
-    EDITTEXT        IDC_CUSTOMURL,11,164,267,16,ES_AUTOHSCROLL | WS_DISABLED
-    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,194,267,15,NOT WS_VISIBLE
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,158,267,10
+    CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,173,267,10
+    EDITTEXT        IDC_CUSTOMURL,12,187,267,16,ES_AUTOHSCROLL | WS_DISABLED
+    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,213,267,15,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
@@ -176,7 +178,7 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 278
         VERTGUIDE, 286
-        BOTTOMMARGIN, 214
+        BOTTOMMARGIN, 228
     END
 
     IDD_POPUP, DIALOG

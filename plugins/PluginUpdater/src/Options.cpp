@@ -60,11 +60,10 @@ TCHAR* GetDefaultUrl()
 	}
 }
 
-INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
 		if (opts.bUpdateOnStartup) {
 			CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP,  BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), TRUE);
@@ -83,11 +82,14 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
 		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)opts.Period);
 
-		Edit_LimitText(GetDlgItem(hwndDlg, IDC_PERIOD), 2);
+		if (ServiceExists(MS_AB_BACKUP)) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP), TRUE);
+			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENT("Backup profile after update"));
+			if(opts.bBackup)
+				CheckDlgButton(hwndDlg, IDC_BACKUP, BST_CHECKED);
+		}
 
-		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 0, TranslateT("hours"));
-		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
-		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
+		Edit_LimitText(GetDlgItem(hwndDlg, IDC_PERIOD), 2);
 
 		if (db_get_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
@@ -95,8 +97,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 			if (UpdateMode == UPDATE_MODE_STABLE)
 				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-			SetDlgItemText(hwndDlg,IDC_STABLE,TranslateT("Stable version (incompatible with current development version)"));
+			SetDlgItemText(hwndDlg,IDC_STABLE,LPGENT("Stable version (incompatible with current development version)"));
 		}
+		TranslateDialogDefault(hwndDlg);
+
+		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 0, TranslateT("hours"));
+		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
+		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
 		switch (GetUpdateMode()) {
 			case UPDATE_MODE_STABLE:
@@ -129,6 +136,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// fall through
 		case IDC_SILENTMODE:
 		case IDC_ONLYONCEADAY:
+		case IDC_BACKUP:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -203,6 +211,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_set_b(NULL, MODNAME, "UpdateOnPeriod", opts.bUpdateOnPeriod = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD));
 				db_set_b(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE)));
 				db_set_b(NULL, MODNAME, "SilentMode", opts.bSilentMode = IsDlgButtonChecked(hwndDlg, IDC_SILENTMODE));
+				db_set_b(NULL, MODNAME, "Backup", opts.bBackup = IsDlgButtonChecked(hwndDlg, IDC_BACKUP));
 				TCHAR buffer[3] = {0};
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, _countof(buffer));
 				db_set_dw(NULL, MODNAME, "Period", opts.Period = _ttoi(buffer));
@@ -241,7 +250,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -434,7 +443,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-int OptInit(WPARAM wParam, LPARAM)
+static int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;

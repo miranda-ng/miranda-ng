@@ -39,6 +39,7 @@ Boston, MA 02111-1307, USA.
 #include <m_assocmgr.h>
 #include <win2k.h>
 #include <m_pluginupdater.h>
+#include <m_autobackups.h>
 
 #include <m_folders.h>
 
@@ -85,7 +86,7 @@ typedef OBJLIST<FILEINFO> FILELIST;
 
 extern struct PlugOptions
 {
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode, bBackup;
 	BOOL bSilent;
 
 	BYTE bPeriodMeasure;
@@ -102,11 +103,20 @@ extern struct PlugOptions
 #else
 	#define DEFAULT_ONLYONCEADAY      1
 #endif
+#ifdef _WIN64
+#define PLATFORM "64"
+#else
+#define PLATFORM "32"
+#endif
 
-#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x%platform%"
+#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x" PLATFORM
+#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x" PLATFORM
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x" PLATFORM
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")
+
+#define DEFAULT_UPDATE_URL_OLD                "http://miranda-ng.org/distr/stable/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK_OLD          "http://miranda-ng.org/distr/x%platform%"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD  "http://miranda-ng.org/distr/pdb_x%platform%"
 
 #define UPDATE_MODE_CUSTOM			0
 #define UPDATE_MODE_STABLE			1
@@ -215,8 +225,6 @@ void  InitTimer(void *type);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
 void strdel(TCHAR *parBuffer, int len);
-
-INT_PTR ParseUriService(WPARAM wParam, LPARAM lParam);
 
 ///////////////////////////////////////////////////////////////////////////////
 

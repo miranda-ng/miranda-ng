@@ -36,6 +36,7 @@ void LoadOptions()
 	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
 	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
 	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
+	opts.bBackup = db_get_b(NULL, MODNAME, "Backup", 0);
 }
 
 #if MIRANDA_VER >= 0x0A00
