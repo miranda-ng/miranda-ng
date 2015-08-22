@@ -49,6 +49,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb", LPGEN("Incoming call canceled sound"));
 
 	m_hTrouterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hLoginEvent   = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	SkypeSetTimer();
 }
@@ -62,7 +63,8 @@ CSkypeProto::~CSkypeProto()
 	UninitPopups();
 
 	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
-	
+	CloseHandle(m_hLoginEvent); m_hLoginEvent = NULL;
+
 	SkypeUnsetTimer();
 }
 
@@ -235,7 +237,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
-			Login();
+			ForkThread(&CSkypeProto::Login, NULL);
 		}
 		else
 		{

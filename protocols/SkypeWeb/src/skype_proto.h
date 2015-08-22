@@ -109,6 +109,8 @@ private:
 		   m_TrouterConnection,
 		   m_hTrouterEvent;
 
+	HANDLE m_hLoginEvent;
+
 	TRInfo TRouter;
 
 	LIST<void> m_PopupClasses;
@@ -122,8 +124,9 @@ private:
 	mir_cs m_InviteDialogsLock;
 	mir_cs m_GCCreateDialogsLock;
 	mir_cs messageSyncLock;
-	mir_cs m_StatusLock;
+	mir_cs m_LoginLock;
 	mir_cs m_AppendMessageLock;
+
 	static mir_cs accountsLock;
 	static mir_cs timerLock;
 
@@ -171,7 +174,7 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// login
-	void Login();
+	void __cdecl Login(void*);
 	void OnMSLoginFirst(const NETLIBHTTPREQUEST *response);
 	void OnMSLoginSecond(const NETLIBHTTPREQUEST *response);
 	void OnMSLoginThird(const NETLIBHTTPREQUEST *response);
