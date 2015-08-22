@@ -103,15 +103,17 @@ extern struct PlugOptions
 #else
 	#define DEFAULT_ONLYONCEADAY      1
 #endif
+
 #ifdef _WIN64
-#define PLATFORM "64"
+	#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x64"
+	#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x64"
+	#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x64"
 #else
-#define PLATFORM "32"
+	#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x32"
+	#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x32"
+	#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x32"
 #endif
 
-#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x" PLATFORM
-#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x" PLATFORM
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x" PLATFORM
 #define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")
 
 #define DEFAULT_UPDATE_URL_OLD                "http://miranda-ng.org/distr/stable/x%platform%"
