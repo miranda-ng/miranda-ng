@@ -199,7 +199,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		break;
 	}
 
-	mir_cslock lck(m_StatusLock);
+	//mir_cslock lck(m_StatusLock);
 
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
@@ -208,11 +208,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
-		// logout
-		isTerminated = true;
-		requestQueue->Stop();
-		ShutdownConnections();
-
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
 			SendRequest(new DeleteEndpointRequest(li));
@@ -220,6 +215,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("endpointId");
 			delSetting("expires");
 		}
+		// logout
+		isTerminated = true;
+		requestQueue->Stop();
+		ShutdownConnections();
 		
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
