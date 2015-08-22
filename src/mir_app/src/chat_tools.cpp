@@ -446,7 +446,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 			p += _tcsspn(p, _T(" "));
 
 			// compare the words, using wildcards
-			if (wildcmpit(RemoveFormatting(p), tszToken))
+			if (wildcmpit(p, tszToken))
 				return TRUE;
 		}
 	}
