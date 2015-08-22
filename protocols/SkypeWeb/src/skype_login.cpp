@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 UINT_PTR CSkypeProto::m_timer;
 
-void CSkypeProto::Login(void*)
+void CSkypeProto::Login()
 {
 	// login
 	m_iStatus = ID_STATUS_CONNECTING;
@@ -34,11 +34,6 @@ void CSkypeProto::Login(void*)
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		return;
 	}	
-
-	mir_cslock lck(m_LoginLock);
-
-	if (m_iStatus > ID_STATUS_OFFLINE) return;
-
 	HistorySynced = isTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
@@ -49,10 +44,6 @@ void CSkypeProto::Login(void*)
 		else
 			SendRequest(new LoginOAuthRequest(li.szSkypename, szPassword), &CSkypeProto::OnLoginOAuth);
 	}
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_CONNECTING);
-
-	WaitForSingleObject(m_hLoginEvent, INFINITE);
 }
 
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
@@ -265,8 +256,6 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	skypenames.destroy();
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
-
-	SetEvent(m_hLoginEvent);
 
 	SendRequest(new LoadChatsRequest(li), &CSkypeProto::OnLoadChats);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
