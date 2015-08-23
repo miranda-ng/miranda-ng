@@ -1,0 +1,1 @@
+﻿[You cannot send when you are offline.]
