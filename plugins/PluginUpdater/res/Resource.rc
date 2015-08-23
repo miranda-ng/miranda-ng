@@ -68,7 +68,7 @@ BEGIN
     CONTROL         "",IDC_PERIODSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,92,56,10,15
     COMBOBOX        IDC_PERIODMEASURE,114,56,58,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Silent mode",IDC_SILENTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,267,10
-    CONTROL         "Backup database after update (requires db_autobackups)",IDC_BACKUP,
+    CONTROL         "Backup database before update (requires db_autobackups)",IDC_BACKUP,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,11,86,267,10
     GROUPBOX        "Files source",IDC_STATIC,2,115,285,96
     CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,128,267,10
