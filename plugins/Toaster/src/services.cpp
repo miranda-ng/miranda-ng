@@ -37,8 +37,7 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 		eventHandler = new ToastEventHandler(OnToastNotificationClicked, (void*)hContact);
 
 		const char* szProto = GetContactProto(hContact);
-		PROTO_AVATAR_INFORMATION pai;
-		memset(&pai, 0, sizeof(pai));
+		PROTO_AVATAR_INFORMATION pai = { 0 };
 		pai.hContact = hContact;
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
