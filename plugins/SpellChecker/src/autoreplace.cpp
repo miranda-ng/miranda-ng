@@ -44,20 +44,18 @@ void AutoReplaceMap::loadAutoReplaceMap()
 		return;
 
 	char tmp[1024];
-	char c;
-	int pos = 0;
+	int c, pos = 0;
 	while ((c = fgetc(file)) != EOF) {
 		if (c == '\n' || c == '\r' || pos >= _countof(tmp) - 1) {
 			if (pos > 0) {
 				tmp[pos] = '\0';
 
 				// Get from
-				BOOL useVars = false;
+				BOOL useVars = FALSE;
 				char *p;
 				if ((p = strstr(tmp, "->")) != NULL) {
 					*p = '\0';
 					p += 2;
-					useVars = FALSE;
 				}
 				else if ((p = strstr(tmp, "-V>")) != NULL) {
 					*p = '\0';
@@ -80,7 +78,7 @@ void AutoReplaceMap::loadAutoReplaceMap()
 			pos = 0;
 		}
 		else {
-			tmp[pos] = c;
+			tmp[pos] = (char)c;
 			pos++;
 		}
 	}
