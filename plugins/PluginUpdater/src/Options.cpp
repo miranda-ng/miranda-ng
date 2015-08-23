@@ -84,7 +84,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		if (ServiceExists(MS_AB_BACKUP)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP), TRUE);
-			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENT("Backup profile after update"));
+			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENT("Backup profile before update"));
 			if(opts.bBackup)
 				CheckDlgButton(hwndDlg, IDC_BACKUP, BST_CHECKED);
 		}

@@ -1,4 +1,4 @@
 ﻿[Update options]
 [Backup database before update (requires db_autobackups)]
 [Plugin updater URI scheme]
-[Backup profile after update]
+[Backup profile before update]
