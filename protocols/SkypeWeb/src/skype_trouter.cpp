@@ -103,10 +103,9 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	TRouter.sessId = szToken.GetString();
-	if (!m_hTrouterThread)
-		m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
-	else 
-		SetEvent(m_hTrouterEvent);
+	
+	SetEvent(m_hTrouterEvent);
+	SetEvent(m_hTrouterHealthEvent);
 
 	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600)
 	{
@@ -134,41 +133,45 @@ void CSkypeProto::TRouterThread(void*)
 
 	int errors = 0;
 
-	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
+	while (!m_bThreadsTerminated)
 	{
-		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
-		request->nlc = m_TrouterConnection;
-		NLHR_PTR response(request->Send(m_hNetlibUser));
 
-		if (response == NULL)
+		WaitForSingleObject(m_hTrouterEvent, INFINITE);
+
+		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE)
 		{
-			errors++;
+			TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
+			request->nlc = m_TrouterConnection;
+			NLHR_PTR response(request->Send(m_hNetlibUser));
 			delete request;
-			continue;
-		}
-
-		if (response->resultCode == 200)
-		{
-			if (response->pData)
+			if (response == NULL)
 			{
-				char *json = strstr(response->pData, "{");
-				if (json != NULL)
+				errors++;
+				continue;
+			}
+
+			if (response->resultCode == 200)
+			{
+				if (response->pData)
 				{
-					JSONNode root = JSONNode::parse(json);
-					std::string szBody = root["body"].as_string();
-					const JSONNode &headers = root["headers"];
-					const JSONNode body = JSONNode::parse(szBody.c_str());
-					OnTrouterEvent(body, headers);
+					char *json = strstr(response->pData, "{");
+					if (json != NULL)
+					{
+						JSONNode root = JSONNode::parse(json);
+						std::string szBody = root["body"].as_string();
+						const JSONNode &headers = root["headers"];
+						const JSONNode body = JSONNode::parse(szBody.c_str());
+						OnTrouterEvent(body, headers);
+					}
 				}
 			}
+			else
+			{
+				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
+				WaitForSingleObject(m_hTrouterHealthEvent, INFINITE);
+			}
+			m_TrouterConnection = response->nlc;
 		}
-		else
-		{
-			SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
-			WaitForSingleObject(m_hTrouterEvent, INFINITE);
-		}
-		m_TrouterConnection = response->nlc;
-		delete request;
 	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;

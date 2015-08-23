@@ -49,8 +49,13 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb", LPGEN("Incoming call canceled sound"));
 
 	m_hTrouterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hPollingEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hTrouterHealthEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	SkypeSetTimer();
+
+	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
+	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, NULL, NULL);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -61,9 +66,38 @@ CSkypeProto::~CSkypeProto()
 	UnInitNetwork();
 	UninitPopups();
 
+	if (m_hPollingThread)
+	{
+		TerminateThread(m_hPollingThread, NULL);
+		m_hPollingThread = NULL;
+	}
+	CloseHandle(m_hPollingEvent); m_hPollingEvent = NULL;
+
+	if (m_hTrouterThread)
+	{
+		TerminateThread(m_hTrouterThread, NULL);
+		m_hTrouterThread = NULL;
+	}
 	CloseHandle(m_hTrouterEvent); m_hTrouterEvent = NULL;
 	
+	CloseHandle(m_hTrouterHealthEvent);
+
 	SkypeUnsetTimer();
+}
+
+int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	debugLogA(__FUNCTION__);
+
+	requestQueue->Stop();
+
+	m_bThreadsTerminated = true;
+
+	ShutdownConnections();
+
+	SetEvent(m_hPollingEvent);
+	
+	return 0;
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
@@ -216,7 +250,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("expires");
 		}
 		// logout
-		isTerminated = true;
 		requestQueue->Stop();
 		ShutdownConnections();
 		
@@ -271,13 +304,4 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 	}
 
 	return 1;
-}
-
-int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	debugLogA(__FUNCTION__);
-	isTerminated = true;
-	requestQueue->Stop();
-	ShutdownConnections();
-	return 0;
 }
