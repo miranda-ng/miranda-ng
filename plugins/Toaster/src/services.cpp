@@ -38,6 +38,7 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 
 		const char* szProto = GetContactProto(hContact);
 		PROTO_AVATAR_INFORMATION pai;
+		memset(&pai, 0, sizeof(pai));
 		pai.hContact = hContact;
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
