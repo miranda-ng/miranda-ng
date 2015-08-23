@@ -51,22 +51,22 @@
 Производится резервирование профиля...
 [Error]
 Ошибка
-[Database]
-Профиль
-[Database backups]
-Резервирование профиля
 [Miranda NG databases]
 Профили Miranda NG
 [Compressed Miranda NG databases]
 Сжатые профили Miranda NG
 [All files]
 Все файлы
-[Backup folder]
-Папка резервирования
+[Database]
+Профиль
 [Backup profile]
 Резервировать профиль
 [Save profile as...]
 Сохранить профиль как...
+[Database backups]
+Резервирование профиля
+[Backup folder]
+Папка резервирования
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
