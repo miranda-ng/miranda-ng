@@ -34,7 +34,7 @@ void CSkypeProto::Login()
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		return;
 	}	
-	HistorySynced = isTerminated = false;
+	HistorySynced = m_bThreadsTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
 	else
@@ -48,6 +48,8 @@ void CSkypeProto::Login()
 
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
+	if (!IsStatusConnecting(m_iStatus)) return;
+
 	if (response == NULL || response->pData == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -121,7 +123,9 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 }
 void CSkypeProto::OnLoginSuccess()
 {
-	isTerminated = false;
+	if (!IsStatusConnecting(m_iStatus)) return;
+
+	m_bThreadsTerminated = false;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 
 	li.api.szToken = getStringA("TokenSecret");
@@ -133,6 +137,8 @@ void CSkypeProto::OnLoginSuccess()
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 {
+	if (!IsStatusConnecting(m_iStatus)) return;
+
 	m_iStatus++;
 
 	if (response == NULL)
@@ -171,7 +177,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 	if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES)
 	{
-		debugLogA(__FUNCTION__ ": failed to get create endpoint");
+		debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -200,7 +206,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 {
-	m_iStatus++;
+	if (!IsStatusConnecting(m_iStatus)) return;
 
 	if (response == NULL)
 	{
@@ -236,6 +242,8 @@ void CSkypeProto::SendPresence(bool isLogin)
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 {
+	if (!IsStatusConnecting(m_iStatus)) return;
+
 	if (response == NULL || response->pData == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -255,7 +263,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	FreeList(skypenames);
 	skypenames.destroy();
 
-	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
+	SetEvent(m_hPollingEvent);
 
 	SendRequest(new LoadChatsRequest(li), &CSkypeProto::OnLoadChats);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);

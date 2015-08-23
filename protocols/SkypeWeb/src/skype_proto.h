@@ -95,8 +95,7 @@ private:
 
 	RequestQueue *requestQueue;
 
-	bool isTerminated,
-		 HistorySynced;
+	bool HistorySynced;
 
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
@@ -104,10 +103,9 @@ private:
 	static std::map<std::tstring, std::tstring> languages;
 
 	HANDLE m_pollingConnection,
-		   m_hPollingThread,
-		   m_hTrouterThread,
-		   m_TrouterConnection,
-		   m_hTrouterEvent;
+		m_hPollingThread,
+		m_hTrouterThread,
+		m_TrouterConnection;
 
 	TRInfo TRouter;
 
@@ -126,6 +124,13 @@ private:
 	mir_cs m_AppendMessageLock;
 	static mir_cs accountsLock;
 	static mir_cs timerLock;
+
+	bool m_bThreadsTerminated;
+
+	HANDLE m_hPollingEvent;
+	HANDLE m_hTrouterEvent;
+
+	HANDLE m_hTrouterHealthEvent;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
