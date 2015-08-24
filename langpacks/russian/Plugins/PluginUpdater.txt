@@ -25,6 +25,8 @@
 Горячая клавиша
 [Go to Customize -> Hotkeys to change the hotkey]
 Настройка в Тонкая настройка -> Горячие клавиши
+[Update options]
+Настройки обновления
 [On startup]
 При запуске
 [(but only once a day)]
@@ -33,6 +35,8 @@
 Каждые
 [Silent mode]
 Тихое обновление
+[Backup database before update (requires db_autobackups)]
+Резервировать профиль перед обновлением (требуется Db_autobackups)
 [Files source]
 Источник обновления
 [Stable version]
@@ -151,6 +155,8 @@
 Закрыть всплывающее окно
 [Do nothing]
 Ничего не делать
+[Backup profile before update]
+Резервировать профиль перед обновлением
 [Stable version (incompatible with current development version)]
 Стабильная версия (несовместима с версией в разработке)
 [hours]

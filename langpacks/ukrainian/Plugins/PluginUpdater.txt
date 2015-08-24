@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
@@ -25,7 +25,7 @@
 Гаряча клавіша
 [Go to Customize -> Hotkeys to change the hotkey]
 Налаштувати: Тонке налаштування -> Гарячі клавіші
-[Plugin updates options]
+[Update options]
 Налаштування оновлень
 [On startup]
 При запуску
@@ -35,6 +35,8 @@
 Кожні
 [Silent mode]
 Тихе оновлення
+[Backup database before update (requires db_autobackups)]
+Резервувати профіль перед оновленням (потрібен плагін Db_autobackups)
 [Files source]
 Джерело оновлень
 [Stable version]
@@ -153,12 +155,14 @@
 Закрити вікно
 [Do nothing]
 Нічого не робити
+[Backup profile before update]
+Резервувати профіль перед оновленням
+[Stable version (incompatible with current development version)]
+Стабільна версія (несумісна з версією в розробці)
 [hours]
 годин
 [days]
 днів
-[Stable version (incompatible with current development version)]
-Стабільна версія (несумісна з версією в розробці)
 [Test]
 Тест
 [Services]
