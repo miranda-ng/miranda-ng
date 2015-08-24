@@ -60,9 +60,9 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
 bool    ListeningToEnabled(char *proto, bool ignoreGlobal = false);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam, LPARAM lParam);
-INT_PTR EnableListeningTo(char  *proto = NULL, bool enabled = false);
+INT_PTR EnableListeningTo(char *proto = NULL, bool enabled = false);
 INT_PTR GetTextFormat(WPARAM wParam, LPARAM lParam);
-TCHAR*	GetParsedFormat(LISTENINGTOINFO *lti);
+TCHAR*  GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam, LPARAM lParam);
 INT_PTR GetOverrideContactOption(WPARAM wParam, LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam, LPARAM lParam);
@@ -88,8 +88,6 @@ TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai);
 #define XSTATUS_MUSIC 11
 
 #define UNKNOWN(_X_) ( _X_ == NULL || _X_[0] == _T('\0') ? opts.unknown : _X_ )
-
-
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
@@ -408,7 +406,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	StartTimer();
 
 	loaded = TRUE;
-
 	return 0;
 }
 
@@ -461,8 +458,9 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM)
 	if (!loaded)
 		return -1;
 
-	if (wParam < proto_items.size())
-		EnableListeningTo(proto_items[wParam].proto, !ListeningToEnabled(proto_items[wParam].proto, TRUE));
+	if (wParam < proto_items.size()) {
+		ProtocolInfo &pi = proto_items[wParam];		EnableListeningTo(pi.proto, !ListeningToEnabled(pi.proto, TRUE));
+	}
 	return 0;
 }
 
@@ -490,10 +488,10 @@ INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM)
 	if (!loaded)
 		return -1;
 
-	return ListeningToEnabled((char *)wParam);
+	return ListeningToEnabled((char*)wParam);
 }
 
-ProtocolInfo *GetProtoInfo(char *proto)
+ProtocolInfo* GetProtoInfo(char *proto)
 {
 	for (unsigned int i = 1; i < proto_items.size(); i++)
 		if (mir_strcmp(proto, proto_items[i].proto) == 0)
