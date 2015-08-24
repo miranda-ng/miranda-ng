@@ -145,6 +145,8 @@ URI объект
 Разблокировать контакт
 [Create new chat]
 Создать новый чат
+[You cannot send when you are offline.]
+Вы не можете отправлять сообщения без подключения к сети.
 [Unknown error!]
 Неизвестная ошибка!
 [Network error!]

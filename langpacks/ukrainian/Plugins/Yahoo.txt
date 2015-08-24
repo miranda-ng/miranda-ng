@@ -81,8 +81,6 @@ Yahoo Японія
 Причина запрошення
 [Add]
 Додати
-[[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda NG) Отримано запрошення в кімнату %s:%s
 [%s denied invitation with message: %s]
 %s відхилив(ла) запрошення: %s
 [Me]
@@ -101,6 +99,8 @@ Yahoo Японія
 Заходь у мою чат-кімнату...
 [No, thank you...]
 Ні, дякую...
+[[miranda] Got conference invite to room: %s with msg: %s]
+(Miranda NG) Отримано запрошення в кімнату %s:%s
 [Main]
 Головний
 [Mail]

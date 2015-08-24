@@ -51,22 +51,22 @@
 Резервування профілю...
 [Error]
 Помилка
-[Database]
-База даних
-[Database backups]
-Резервування профілю
 [Miranda NG databases]
 Бази даних Miranda NG
 [Compressed Miranda NG databases]
 Стиснуті бази даних Miranda NG
 [All files]
 Усі файли
-[Backup folder]
-Папка резервування
+[Database]
+База даних
 [Backup profile]
 Резервувати профіль
 [Save profile as...]
 Зберегти профіль як...
+[Database backups]
+Резервування профілю
+[Backup folder]
+Папка резервування
 [path to Miranda root folder]
 шлях до папки програми
 [path to folder containing Miranda profiles]
@@ -94,6 +94,6 @@
 [minutes]
 хвилин
 [Select backup folder]
-Обрати папку резервного копіювання
+Виберіть папку для зберігання резервних копій
 [Error creating backup folder]
 Помилка при створенні папки для резервного копіювання

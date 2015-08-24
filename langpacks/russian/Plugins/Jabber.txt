@@ -1398,7 +1398,7 @@ Jabber ошибка
 [Disable frame]
 Выключить фрейм
 [Enable XMPP link processing (requires Association Manager)]
-Обрабатывать XMPP ссылки (требуется плагин "Association Manager")
+Обрабатывать XMPP ссылки (требуется плагин Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
 Использовать локальные группы (игнорировать группы ростера)
 [Security]
