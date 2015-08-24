@@ -201,6 +201,7 @@ void RebuildMenu()
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
 		info->hMenu = Menu_AddMainMenuItem(&mi);
+		Menu_ConfigureItem(info->hMenu, MCI_OPT_EXECPARAM, i);
 	}
 
 	UpdateGlobalStatusMenus();
@@ -460,11 +461,8 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM)
 	if (!loaded)
 		return -1;
 
-	unsigned pos = wParam == 0 ? 0 : wParam - 500080000;
-	if (pos >= proto_items.size() || pos < 0)
-		return 0;
-
-	EnableListeningTo(proto_items[pos].proto, !ListeningToEnabled(proto_items[pos].proto, TRUE));
+	if (wParam < proto_items.size())
+		EnableListeningTo(proto_items[wParam].proto, !ListeningToEnabled(proto_items[wParam].proto, TRUE));
 	return 0;
 }
 
@@ -475,18 +473,16 @@ bool ListeningToEnabled(char *proto, bool ignoreGlobal)
 
 	if (proto == NULL || proto[0] == 0) {
 		// Check all protocols
-		for (unsigned int i = 1; i < proto_items.size(); ++i) {
-			if (!ListeningToEnabled(proto_items[i].proto, TRUE)) {
+		for (unsigned int i = 1; i < proto_items.size(); ++i)
+			if (!ListeningToEnabled(proto_items[i].proto, TRUE))
 				return FALSE;
-			}
-		}
+
 		return TRUE;
 	}
-	else {
-		char setting[256];
-		mir_snprintf(setting, "%sEnabled", proto);
-		return db_get_b(NULL, MODULE_NAME, setting, false) != 0;
-	}
+
+	char setting[256];
+	mir_snprintf(setting, "%sEnabled", proto);
+	return db_get_b(NULL, MODULE_NAME, setting, false) != 0;
 }
 
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM)
