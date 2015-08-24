@@ -51,11 +51,11 @@ static OptPageControl optionsControls[] = {
 };
 
 static OptPageControl formatControls[] = {
-	{ &opts.templ, CONTROL_TEXT, IDC_TEMPLATE, "Template", (DWORD)_T("%artist% - %title%") },
-	{ &opts.unknown, CONTROL_TEXT, IDC_UNKNOWN, "Unknown", (DWORD)LPGENT("<Unknown>"), 0, 0, 128 },
-	{ &opts.xstatus_name, CONTROL_TEXT, IDC_XSTATUS_NAME, "XStatusName", (DWORD)LPGENT("Listening to") },
-	{ &opts.xstatus_message, CONTROL_TEXT, IDC_XSTATUS_MESSAGE, "XStatusMessage", (DWORD)_T("%listening%") },
-	{ &opts.nothing, CONTROL_TEXT, IDC_NOTHING, "Nothing", (DWORD)LPGENT("<Nothing is playing now>"), 0, 0, 128 }
+	{ &opts.templ, CONTROL_TEXT, IDC_TEMPLATE, "Template", (ULONG_PTR)_T("%artist% - %title%") },
+	{ &opts.unknown, CONTROL_TEXT, IDC_UNKNOWN, "Unknown", (ULONG_PTR)LPGENT("<Unknown>"), 0, 0, 128 },
+	{ &opts.xstatus_name, CONTROL_TEXT, IDC_XSTATUS_NAME, "XStatusName", (ULONG_PTR)LPGENT("Listening to") },
+	{ &opts.xstatus_message, CONTROL_TEXT, IDC_XSTATUS_MESSAGE, "XStatusMessage", (ULONG_PTR)_T("%listening%") },
+	{ &opts.nothing, CONTROL_TEXT, IDC_NOTHING, "Nothing", (ULONG_PTR)LPGENT("<Nothing is playing now>"), 0, 0, 128 }
 };
 
 static OptPageControl playersControls[] = {
