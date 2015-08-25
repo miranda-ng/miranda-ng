@@ -28,7 +28,6 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, const char *szContent, cons
 	recv.lParam = emoteOffset;
 	recv.pCustomData = (void*)mir_strdup(szMessageId);
 	recv.cbCustomDataSize = (DWORD)mir_strlen(szMessageId);
-
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 
@@ -234,8 +233,11 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	{
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
+	else if (strMessageType == "RichText/Contacts")
+	{
+		ProcessContactRecv(hContact, timestamp, strContent.c_str(), szMessageId);
+	}
 	//else if (messageType == "Event/SkypeVideoMessage") {}
-	//else if (messageType.c_str() == "RichText/Contacts") {}
 	//else if (messageType.c_str() == "RichText/Location") {}
 	else
 	{
@@ -262,4 +264,62 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 	if(db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
 		PushRequest(new MarkMessageReadRequest(username, timestamp, timestamp, false, li));
+}
+
+
+void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
+{
+	HXML xmlNode = xmlParseString(mir_utf8decodeT(szContent), 0, _T("contacts"));
+	if (xmlNode)
+	{
+		int nCount = 0;
+		PROTOSEARCHRESULT **psr;
+		for (int i = 0; i < xmlGetChildCount(xmlNode); i++) nCount++;
+
+		if (psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * nCount))
+		{
+			nCount = 0;
+			for (int i = 0; i < xmlGetChildCount(xmlNode); i++)
+			{
+				HXML xmlContact = xmlGetNthChild(xmlNode, _T("c"), i);
+				if (xmlContact != NULL)
+				{
+					const TCHAR *tszContactId = xmlGetAttrValue(xmlContact, L"s");
+					//const TCHAR *tszContactName = xmlGetAttrValue(xmlContact, L"f");
+
+					psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
+					psr[nCount]->cbSize = sizeof(psr);
+					psr[nCount]->flags = PSR_TCHAR;
+					psr[nCount]->id.t = mir_tstrdup(tszContactId);
+					//psr[nCount]->nick.t = mir_tstrdup(tszContactName == NULL ? L"" : tszContactName);
+					nCount++;
+				}
+			}
+			if (nCount)
+			{
+				PROTORECVEVENT pre = { 0 };
+				pre.timestamp = (DWORD)timestamp;
+				pre.szMessage = (char*)psr;
+
+				PBYTE b = (PBYTE)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
+				PBYTE pCur = b;
+				*((PDWORD)pCur) = nCount;
+				pCur += sizeof(DWORD);
+
+				mir_strcpy((char*)pCur, szMessageId);
+
+				pre.lParam = (LPARAM)b;
+
+				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
+				for (nCount = 0; nCount < *((PDWORD)b); nCount++)
+				{
+					mir_free(psr[nCount]->id.t);
+					mir_free(psr[nCount]->nick.t);
+					mir_free(psr[nCount]);
+				}
+				mir_free(b);
+			}
+			mir_free(psr);
+		}
+	}
 }
