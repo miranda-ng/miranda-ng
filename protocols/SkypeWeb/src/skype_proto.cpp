@@ -305,3 +305,39 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 
 	return 1;
 }
+
+int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
+{
+	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;
+	DWORD cbBlob = 0;
+	BYTE *pBlob;
+	BYTE *pCurBlob;
+	int i;
+
+	int nCount = *((LPARAM*)pre->lParam);
+	char* szMessageId = ((char*)pre->lParam + sizeof(LPARAM));
+
+	//if (GetMessageFromDb(hContact, szMessageId, pre->timestamp)) return 0;
+
+	for (i = 0; i < nCount; i++)
+		cbBlob += int(/*mir_tstrlen(isrList[i]->nick.t)*/0 + 2 + mir_tstrlen(isrList[i]->id.t) + mir_strlen(szMessageId));
+
+	pBlob = (PBYTE)mir_calloc(cbBlob);
+
+	for (i = 0, pCurBlob = pBlob; i < nCount; i++)
+	{
+		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.t));
+		pCurBlob += mir_strlen((PCHAR)pCurBlob) + 1;
+
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.t));
+		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	}
+
+	//memcpy(pCurBlob + 1, szMessageId, mir_strlen(szMessageId));
+
+	AddEventToDb(hContact, EVENTTYPE_CONTACTS, pre->timestamp, (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0, cbBlob, pBlob);
+
+	mir_free(pBlob);
+
+	return 0;
+}

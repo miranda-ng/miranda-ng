@@ -51,7 +51,7 @@ public:
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
-
+	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	// accounts
 	static CSkypeProto* InitAccount(const char *protoName, const TCHAR *userName);
 	static int          UninitAccount(CSkypeProto *proto);
@@ -261,6 +261,8 @@ private:
 	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
 
 	void OnPrivateMessageEvent(const JSONNode &node);
+
+	void ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId);
 
 	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
