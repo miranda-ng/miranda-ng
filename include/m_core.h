@@ -671,7 +671,9 @@ inline int mir_snprintf(char(&buffer)[_Size], const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return mir_vsnprintf(buffer, _Size, fmt, args);
+	int ret = mir_vsnprintf(buffer, _Size, fmt, args);
+	va_end(args);
+	return ret;
 }
 
 template <size_t _Size>
@@ -679,7 +681,9 @@ inline int mir_snwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return mir_vsnwprintf(buffer, _Size, fmt, args);
+	int ret = mir_vsnwprintf(buffer, _Size, fmt, args);
+	va_end(args);
+	return ret;
 }
 
 template <size_t _Size>
