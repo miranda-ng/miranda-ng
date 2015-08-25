@@ -314,7 +314,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 				for (nCount = 0; nCount < *((PDWORD)b); nCount++)
 				{
 					mir_free(psr[nCount]->id.t);
-					mir_free(psr[nCount]->nick.t);
+					//mir_free(psr[nCount]->nick.t);
 					mir_free(psr[nCount]);
 				}
 				mir_free(b);
