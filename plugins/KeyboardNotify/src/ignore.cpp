@@ -199,18 +199,17 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 	{
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
-			{	int i;
-				HIMAGELIST hIml;
-				hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3+IGNOREEVENT_MAX, 3+IGNOREEVENT_MAX);
-				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLDOT)));
-				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FILLEDBLOB)));
-				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_EMPTYBLOB)));
+			{
+				HIMAGELIST hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3+IGNOREEVENT_MAX, 3+IGNOREEVENT_MAX);
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_FILLEDBLOB));
+				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_EMPTYBLOB));
 				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_URL));
 				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_EVENT_FILE));
 				ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_MIRANDA));
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-				for (i=0; i < _countof(hIcons); i++)
+				for (int i=0; i < _countof(hIcons); i++)
 					hIcons[i] = ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_ALLICON, STM_SETICON, (WPARAM)hIcons[0], 0);
