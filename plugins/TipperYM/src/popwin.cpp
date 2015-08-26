@@ -37,10 +37,11 @@ __inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, cha
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 {
+	POINT pt;
 	RECT rc;
 	PopupWindowData *pwd = (PopupWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	switch(uMsg) {
+	switch (uMsg) {
 	case WM_CREATE:
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
@@ -126,11 +127,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH) {
 					// status message
-					TCHAR *swzText = GetProtoStatusMessage(pwd->clcit.szProto, wStatus);
-					if (swzText) {
-						StripBBCodesInPlace(swzText);
-						AddRow(pwd, TranslateT("Status message:"), swzText, pwd->clcit.szProto, true, true, true);
-						mir_free(swzText);
+					ptrT ptszStatus(GetProtoStatusMessage(pwd->clcit.szProto, wStatus));
+					if (ptszStatus) {
+						StripBBCodesInPlace(ptszStatus);
+						AddRow(pwd, TranslateT("Status message:"), ptszStatus, pwd->clcit.szProto, true, true, true);
 					}
 
 					// jabber mood or icq xstatus
@@ -139,11 +139,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						StripBBCodesInPlace(swzAdvTitle);
 						AddRow(pwd, TranslateT("Mood:"), swzAdvTitle, pwd->clcit.szProto, true, false, true);
 
-						TCHAR *swzAdvText = GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "text");
+						ptrT swzAdvText(GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "text"));
 						if (swzAdvText) {
 							StripBBCodesInPlace(swzAdvText);
 							AddRow(pwd, _T(""), swzAdvText, pwd->clcit.szProto, true, true, false);
-							mir_free(swzAdvText);
 						}
 					}
 					else {
@@ -156,11 +155,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 
 							// xstatus message
-							TCHAR *swzAdvText = GetProtoExtraStatusMessage(pwd->clcit.szProto);
+							ptrT swzAdvText(GetProtoExtraStatusMessage(pwd->clcit.szProto));
 							if (swzAdvText) {
 								StripBBCodesInPlace(swzAdvText);
 								AddRow(pwd, _T(""), swzAdvText, pwd->clcit.szProto, true, true, false);
-								mir_free(swzAdvText);
 							}
 						}
 					}
@@ -175,26 +173,23 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					// jabber activity
-					TCHAR *swzActTitle = GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "title");
+					ptrT swzActTitle(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "title"));
 					if (swzActTitle) {
 						StripBBCodesInPlace(swzActTitle);
 						AddRow(pwd, TranslateT("Activity:"), swzActTitle, pwd->clcit.szProto, true, false, true);
-						mir_free(swzActTitle);
 					}
 
-					TCHAR *swzActText = GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "text");
+					ptrT swzActText(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "text"));
 					if (swzActText) {
 						StripBBCodesInPlace(swzActText);
 						AddRow(pwd, _T(""), swzActText, pwd->clcit.szProto, true, true, false);
-						mir_free(swzActText);
 					}
 
 					// listening to
-					TCHAR *swzListening = GetListeningTo(pwd->clcit.szProto);
+					ptrT swzListening(GetListeningTo(pwd->clcit.szProto));
 					if (swzListening) {
 						StripBBCodesInPlace(swzListening);
 						AddRow(pwd, TranslateT("Listening to:"), swzListening, NULL, false, true, true);
-						mir_free(swzListening);
 					}
 				}
 			}
@@ -304,22 +299,20 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->bIsTextTip = false;
 				pwd->iIndent = opt.iTextIndent;
 				pwd->iSidebarWidth = opt.iSidebarWidth;
-				pwd->hContact = (MCONTACT)pwd->clcit.hItem;
+				pwd->hContact = (DWORD_PTR)pwd->clcit.hItem;
 				pwd->iIconIndex = (int)CallService(MS_CLIST_GETCONTACTICON, pwd->hContact, 0);
 
 				// don't use stored status message
 				if (!opt.bWaitForContent)
 					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
 
-				TCHAR *swzNick = pcli->pfnGetContactDisplayName(pwd->hContact, 0);
-				_tcsncpy(pwd->swzTitle, swzNick, TITLE_TEXT_LEN);
+				_tcsncpy_s(pwd->swzTitle, pcli->pfnGetContactDisplayName(pwd->hContact, 0), _TRUNCATE);
 
 				char *szProto = GetContactProto(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
 
 				// get extra icons
-				DBVARIANT dbv = { 0 };
-				int i = 0;
+				int i;
 
 				if (szProto) {
 					// status icon
@@ -336,10 +329,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (iXstatus) {
 							char szIconProto[64];
 							if (mir_strcmp(szProto, META_PROTO) != 0)
-								strncpy(szIconProto, szProto, sizeof(szIconProto) - 1);
-							else if (!db_get_s(pwd->hContact, szProto, "XStatusProto", &dbv)) {
-								strncpy(szIconProto, dbv.pszVal, sizeof(szIconProto) - 1);
-								db_free(&dbv);
+								strncpy_s(szIconProto, szProto, _TRUNCATE);
+							else {
+								ptrA szXProto(db_get_sa(pwd->hContact, szProto, "XStatusProto"));
+								if (szXProto != NULL)
+									strncpy_s(szIconProto, szXProto, _TRUNCATE);
+								else
+									szIconProto[0] = 0;
 							}
 
 							pwd->extraIcons[i].hIcon = (HICON)CallProtoService(szIconProto, PS_GETCUSTOMSTATUSICON, (WPARAM)iXstatus, LR_SHARED);
@@ -386,10 +382,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->bIsIconVisible[5]) {
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-							if (!db_get_ts(pwd->hContact, szProto, "MirVer", &dbv)) {
-								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(dbv.ptszVal, 0);
+							ptrT tszVersion(db_get_tsa(pwd->hContact, szProto, "MirVer"));
+							if (tszVersion != NULL) {
+								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(tszVersion, 0);
 								pwd->extraIcons[i].bDestroy = true;
-								db_free(&dbv);
 							}
 						}
 					}
@@ -425,7 +421,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// since tipper win is topmost, this should put it at top of topmost windows
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-	}
+		}
 		return 0;
 
 	case WM_ERASEBKGND:
@@ -487,7 +483,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					rcAvatar.right = rcAvatar.left + pwd->iRealAvatarWidth;
 					r2.left += pwd->iRealAvatarWidth + (opt.iOuterAvatarPadding + opt.iInnerAvatarPadding - opt.iPadding); // padding re-added for text
 				}
-				else if (opt.avatarLayout == PAV_RIGHT) {
+				else {
 					rcAvatar.right = r.right - opt.iOuterAvatarPadding;
 					rcAvatar.left = rcAvatar.right - pwd->iRealAvatarWidth;
 					r2.right -= pwd->iRealAvatarWidth + (opt.iOuterAvatarPadding + opt.iInnerAvatarPadding - opt.iPadding);
@@ -786,7 +782,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 			}
 
-			POINT pt;
 			GetCursorPos(&pt);
 			SetForegroundWindow(hwnd);
 			int iSelItem = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, 0);
@@ -953,16 +948,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SendMessage(hwnd, PUM_UPDATERGN, 1, 0);
 			break;
 		case ID_TIMER_CHECKMOUSE:
-		{
-			// workaround for tips that just won't go away
-			POINT pt;
-
-			GetCursorPos(&pt);
-			// mouse has moved beyond tollerance
-			if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
-				PostMPMessage(MUM_DELETEPOPUP, 0, 0);
-		}
-		break;
+			{
+				// workaround for tips that just won't go away
+				GetCursorPos(&pt);
+				// mouse has moved beyond tollerance
+				if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
+					PostMPMessage(MUM_DELETEPOPUP, 0, 0);
+			}
+			break;
 		case ID_TIMER_TRAYTIP:
 			KillTimer(hwnd, ID_TIMER_TRAYTIP);
 			SendMessage(hwnd, PUM_EXPANDTRAYTIP, 0, 0);
@@ -1453,7 +1446,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			mir_free(pwd->rows[i].swzValue);
 			Smileys_FreeParse(pwd->rows[i].spi);
 		}
-
 
 		mir_free(pwd->rows);
 		pwd->rows = NULL;

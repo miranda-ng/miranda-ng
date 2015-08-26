@@ -989,9 +989,9 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedra
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;
 		if (SendMessage(hwndRich, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
-			CHARRANGE sel;
-			sel.cpMin = 0;
-			sel.cpMax = 20;
+			CHARRANGE rng;
+			rng.cpMin = 0;
+			rng.cpMax = 20;
 			SendMessage(hwndRich, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
 			SendMessage(hwndRich, EM_REPLACESEL, TRUE, (LPARAM)_T(""));
 		}
