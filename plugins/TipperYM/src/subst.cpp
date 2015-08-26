@@ -76,44 +76,44 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 	return false;
 }
 
-void StripBBCodesInPlace(TCHAR *swzText)
+void StripBBCodesInPlace(TCHAR *ptszText)
 {
 	if (!db_get_b(0, MODULE, "StripBBCodes", 1))
 		return;
 
-	if (swzText == 0)
+	if (ptszText == 0)
 		return;
 
 	size_t iRead = 0, iWrite = 0;
-	size_t iLen = mir_tstrlen(swzText);
+	size_t iLen = mir_tstrlen(ptszText);
 
 	while(iRead <= iLen) { // copy terminating null too
-		while (iRead <= iLen && swzText[iRead] != '[') {
-			if (swzText[iRead] != swzText[iWrite]) swzText[iWrite] = swzText[iRead];
+		while (iRead <= iLen && ptszText[iRead] != '[') {
+			if (ptszText[iRead] != ptszText[iWrite]) ptszText[iWrite] = ptszText[iRead];
 			iRead++; iWrite++;
 		}
 
 		if (iRead > iLen)
 			break;
 
-		if (iLen - iRead >= 3 && (_tcsnicmp(swzText + iRead, _T("[b]"), 3) == 0 || _tcsnicmp(swzText + iRead, _T("[i]"), 3) == 0))
+		if (iLen - iRead >= 3 && (_tcsnicmp(ptszText + iRead, _T("[b]"), 3) == 0 || _tcsnicmp(ptszText + iRead, _T("[i]"), 3) == 0))
 			iRead += 3;
-		else if (iLen - iRead >= 4 && (_tcsnicmp(swzText + iRead, _T("[/b]"), 4) == 0 || _tcsnicmp(swzText + iRead, _T("[/i]"), 4) == 0))
+		else if (iLen - iRead >= 4 && (_tcsnicmp(ptszText + iRead, _T("[/b]"), 4) == 0 || _tcsnicmp(ptszText + iRead, _T("[/i]"), 4) == 0))
 			iRead += 4;
-		else if (iLen - iRead >= 6 && (_tcsnicmp(swzText + iRead, _T("[color"), 6) == 0)) {
-			while (iRead < iLen && swzText[iRead] != ']') iRead++;
+		else if (iLen - iRead >= 6 && (_tcsnicmp(ptszText + iRead, _T("[color"), 6) == 0)) {
+			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 8 && (_tcsnicmp(swzText + iRead, _T("[/color]"), 8) == 0))
+		else if (iLen - iRead >= 8 && (_tcsnicmp(ptszText + iRead, _T("[/color]"), 8) == 0))
 			iRead += 8;
-		else if (iLen - iRead >= 5 && (_tcsnicmp(swzText + iRead, _T("[size"), 5) == 0)) {
-			while (iRead < iLen && swzText[iRead] != ']') iRead++;
+		else if (iLen - iRead >= 5 && (_tcsnicmp(ptszText + iRead, _T("[size"), 5) == 0)) {
+			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 7 && (_tcsnicmp(swzText + iRead, _T("[/size]"), 7) == 0))
+		else if (iLen - iRead >= 7 && (_tcsnicmp(ptszText + iRead, _T("[/size]"), 7) == 0))
 			iRead += 7;
 		else {
-			if (swzText[iRead] != swzText[iWrite]) swzText[iWrite] = swzText[iRead];
+			if (ptszText[iRead] != ptszText[iWrite]) ptszText[iWrite] = ptszText[iRead];
 			iRead++; iWrite++;
 		}
 	}
@@ -162,7 +162,7 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 	return false;
 }
 
-TCHAR *GetLastMessageText(MCONTACT hContact, bool received)
+TCHAR* GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {	sizeof(dbei) };
@@ -673,17 +673,17 @@ bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t 
 	return ApplySubst(hContact, di.swzValue, di.bParseTipperVarsFirst, buff, bufflen);
 }
 
-void TruncateString(TCHAR *swzText)
+void TruncateString(TCHAR *ptszText)
 {
-	if (swzText && opt.iLimitCharCount > 3) {
-		if ((int)mir_tstrlen(swzText) > opt.iLimitCharCount) {
-			swzText[opt.iLimitCharCount - 3] = 0;
-			mir_tstrcat(swzText, _T("..."));
+	if (ptszText && opt.iLimitCharCount > 3) {
+		if ((int)mir_tstrlen(ptszText) > opt.iLimitCharCount) {
+			ptszText[opt.iLimitCharCount - 3] = 0;
+			mir_tstrcat(ptszText, _T("..."));
 		}
 	}
 }
 
-TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
+TCHAR* GetProtoStatusMessage(char *szProto, WORD wStatus)
 {
 	if (!szProto || wStatus == ID_STATUS_OFFLINE)
 		return NULL;
@@ -693,150 +693,115 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 	if (!(flags & Proto_Status2Flag(wStatus)))
 		return NULL;
 
-	TCHAR *swzText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
-	if ((INT_PTR)swzText == CALLSERVICE_NOTFOUND)
-		swzText = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
+	TCHAR *ptszText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+	if ((INT_PTR)ptszText == CALLSERVICE_NOTFOUND)
+		ptszText = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
 
-	else if (swzText == NULL) {
+	else if (ptszText == NULL) {
 		// try to use service without SGMA_TCHAR
 		char *tmpMsg = (char *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
 		if (tmpMsg && (INT_PTR)tmpMsg != CALLSERVICE_NOTFOUND) {
-			swzText = mir_a2t(tmpMsg);
+			ptszText = mir_a2t(tmpMsg);
 			mir_free(tmpMsg);
 		}
 	}
 
 
-	if (swzText && !swzText[0]) {
-		mir_free(swzText);
-		swzText = NULL;
+	if (ptszText && !ptszText[0]) {
+		mir_free(ptszText);
+		ptszText = NULL;
 	}
 
-	if (swzText && opt.bLimitMsg)
-		TruncateString(swzText);
+	if (ptszText && opt.bLimitMsg)
+		TruncateString(ptszText);
 
-	return swzText;
+	return ptszText;
 }
 
-TCHAR *GetProtoExtraStatusTitle(char *szProto)
+TCHAR* GetProtoExtraStatusTitle(char *szProto)
 {
-	DBVARIANT dbv;
-	TCHAR *swzText = NULL;
-
 	if (!szProto)
 		return NULL;
 
-	if (!db_get_ts(0, szProto, "XStatusName", &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal) != 0)
-			swzText = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-
-	if (!swzText) {
+	TCHAR *ptszText = db_get_tsa(0, szProto, "XStatusName");
+	if (!ptszText) {
 		TCHAR buff[256];
 		if (EmptyXStatusToDefaultName(0, szProto, 0, buff, 256))
-			swzText = mir_tstrdup(buff);
+			ptszText = mir_tstrdup(buff);
 	}
 
 	if (opt.bLimitMsg)
-		TruncateString(swzText);
+		TruncateString(ptszText);
 
-	return swzText;
+	return ptszText;
 }
 
-TCHAR *GetProtoExtraStatusMessage(char *szProto)
+TCHAR* GetProtoExtraStatusMessage(char *szProto)
 {
 	if (!szProto)
 		return NULL;
 
-	TCHAR *swzText = NULL;
-	DBVARIANT dbv;
-	if (!db_get_ts(0, szProto, "XStatusMsg", &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal) != 0)
-			swzText = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
+	TCHAR *ptszText = db_get_tsa(0, szProto, "XStatusMsg");
+	if (ptszText == NULL)
+		return NULL;
 
-		if (ServiceExists(MS_VARS_FORMATSTRING)) {
-			MCONTACT hContact = db_find_first();
-			char *proto = GetContactProto(hContact);
-			while (!proto) {
-				hContact = db_find_next(hContact);
-				if (hContact)
-					proto = GetContactProto(hContact);
-				else {
-					hContact = NULL;
-					break;
-				}
+	if (ServiceExists(MS_VARS_FORMATSTRING)) {
+		MCONTACT hContact = db_find_first();
+		char *proto = GetContactProto(hContact);
+		while (!proto) {
+			hContact = db_find_next(hContact);
+			if (hContact)
+				proto = GetContactProto(hContact);
+			else {
+				hContact = NULL;
+				break;
 			}
-
-			TCHAR *tszParsed = variables_parse(swzText, NULL, hContact);
-			if (tszParsed)
-				replaceStrT(swzText, tszParsed);
 		}
+
+		TCHAR *tszParsed = variables_parse(ptszText, NULL, hContact);
+		if (tszParsed)
+			replaceStrT(ptszText, tszParsed);
 	}
 
 	if (opt.bLimitMsg)
-		TruncateString(swzText);
+		TruncateString(ptszText);
 
-	return swzText;
+	return ptszText;
 }
 
-TCHAR *GetListeningTo(char *szProto)
+TCHAR* GetListeningTo(char *szProto)
 {
-	DBVARIANT dbv;
-	TCHAR *swzText = NULL;
-
 	if (!szProto)
 		return NULL;
 
-	if (!db_get_ts(0, szProto, "ListeningTo", &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal) != 0)
-			swzText = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-
+	TCHAR *ptszText = db_get_tsa(0, szProto, "ListeningTo");
 	if (opt.bLimitMsg)
-		TruncateString(swzText);
+		TruncateString(ptszText);
 
-	return swzText;
+	return ptszText;
 }
 
-TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue)
+TCHAR* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue)
 {
-	DBVARIANT dbv;
-	TCHAR *swzText = NULL;
-
 	if (!szProto)
 		return NULL;
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
-	if (!db_get_ts(0, "AdvStatus", szSetting, &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal) != 0)
-			swzText = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-
+	TCHAR *ptszText = db_get_tsa(0, "AdvStatus", szSetting);
 	if (opt.bLimitMsg)
-		TruncateString(swzText);
+		TruncateString(ptszText);
 
-	return swzText;
+	return ptszText;
 }
 
 HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto)
 {
-	DBVARIANT dbv;
-	HICON hIcon = NULL;
-
 	if (!szProto)
 		return NULL;
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, "activity", "icon");
-	if (!db_get_s(hContact, "AdvStatus", szSetting, &dbv)) {
-		hIcon = IcoLib_GetIcon(dbv.pszVal);
-		db_free(&dbv);
-	}
-
-	return hIcon;
+	ptrA szIcon(db_get_sa(hContact, "AdvStatus", szSetting));
+	return (szIcon != NULL) ? IcoLib_GetIcon(szIcon) : NULL;
 }

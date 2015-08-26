@@ -27,67 +27,63 @@ Boston, MA 02111-1307, USA.
 #include <m_timezones.h>
 
 template<class T>
-static inline size_t __blen(const T *str)
+inline size_t __blen(const T *str)
 {
 	return 0;
 }
 
 template<>
-static inline size_t __blen<char>(const char *str)
+inline size_t __blen<char>(const char *str)
 {
 	return mir_strlen(str);
 }
 
 template<>
-static inline size_t __blen<wchar_t>(const wchar_t *str)
+inline size_t __blen<wchar_t>(const wchar_t *str)
 {
 	return mir_wstrlen(str);
 }
 
 template<class T>
-static inline T * __bTranslate(const T *str)
+inline T * __bTranslate(const T *str)
 {
 	return 0;
 }
 
 template<>
-static inline char * __bTranslate<char>(const char *str)
+inline char * __bTranslate<char>(const char *str)
 {
 	return Translate(str);
 }
 
 template<>
-static inline wchar_t * __bTranslate<wchar_t>(const wchar_t *str)
+inline wchar_t * __bTranslate<wchar_t>(const wchar_t *str)
 {
 	return TranslateW(str);
 }
 
 
 template<class O, class D>
-static void __bcopy(D *dest, const O *orig, size_t len)
+inline void __bcopy(D *dest, const O *orig, size_t len)
 {
 }
 
-template<>
-static void __bcopy(char *dest, const char *orig, size_t len)
+inline void __bcopy(char *dest, const char *orig, size_t len)
 {
 	strncpy(dest, orig, len);
 }
 
-template<>
-static void __bcopy(WCHAR *dest, const WCHAR *orig, size_t len)
+inline void __bcopy(WCHAR *dest, const WCHAR *orig, size_t len)
 {
 	wcsncpy(dest, orig, len);
 }
 
-template<>
-static void __bcopy(WCHAR *dest, const char *orig, size_t len)
+inline void __bcopy(WCHAR *dest, const char *orig, size_t len)
 {
 	MultiByteToWideChar(CallService("LangPack/GetCodePage", 0, 0), 0, orig, (int)len, dest, (int)len);
 }
 
-template<>
-static void __bcopy(char *dest, const WCHAR *orig, size_t len)
+inline void __bcopy(char *dest, const WCHAR *orig, size_t len)
 {
 	WideCharToMultiByte(CallService("LangPack/GetCodePage", 0, 0), 0, orig, (int)len, dest, (int)len, NULL, NULL);
 }

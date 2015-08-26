@@ -48,7 +48,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 	bool bNeedWait = false;
 	if (opt.bWaitForContent && IsContactTooltip(clcitex))
 	{
-		MCONTACT hContact = (MCONTACT) clcitex->hItem;
+		MCONTACT hContact = (DWORD_PTR)clcitex->hItem;
 		char *szProto = GetContactProto(hContact);
 		if (!szProto) return false;
 
@@ -157,7 +157,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 					}
 
 					if (swzMsg) {
-						db_set_ts((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+						db_set_ts((DWORD_PTR)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 						mir_free(swzMsg);
 					}
 
