@@ -47,10 +47,9 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", li.endpoint.szToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-
 		JSONNode node;
 		node 
-			<< JSONNode("clientmessageid", (long)timestamp) 
+			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp)) 
 			<< JSONNode("messagetype", "RichText") 
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message);

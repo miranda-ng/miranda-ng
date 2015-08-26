@@ -249,13 +249,13 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("endpointId");
 			delSetting("expires");
 		}
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
 		requestQueue->Stop();
 		ShutdownConnections();
 		
 		CloseDialogs();
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 
 		if (!Miranda_Terminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);

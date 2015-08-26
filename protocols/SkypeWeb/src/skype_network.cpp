@@ -37,5 +37,7 @@ void CSkypeProto::UnInitNetwork()
 
 void CSkypeProto::ShutdownConnections()
 {
-	Netlib_Shutdown(m_hNetlibUser);
+	Netlib_Shutdown(m_pollingConnection);
+	Netlib_Shutdown(m_TrouterConnection);
+	//Netlib_Shutdown(m_hNetlibUser);
 }

@@ -26,7 +26,7 @@ void CSkypeProto::PollingThread(void*)
 	{
 		WaitForSingleObject(m_hPollingEvent, INFINITE);
 
-		while ((nErrors < POLLING_ERRORS_LIMIT) && (m_iStatus > ID_STATUS_OFFLINE || IsStatusConnecting(m_iStatus)))
+		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)
 		{
 			PollRequest *request = new PollRequest(li);
 			request->nlc = m_pollingConnection;
@@ -210,6 +210,7 @@ void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 		if (IsMe(skypename))
 		{
 			int iNewStatus = SkypeToMirandaStatus(status.c_str());
+			if (iNewStatus == ID_STATUS_OFFLINE) return;
 			int old_status = m_iStatus;
 			m_iDesiredStatus = iNewStatus;
 			m_iStatus = iNewStatus;
