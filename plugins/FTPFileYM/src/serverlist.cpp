@@ -24,16 +24,15 @@ ServerList &ftpList = ServerList::getInstance();
 extern Options &opt;
 
 void ServerList::init()
-{	
-	for (int i = 0; i < FTP_COUNT; i++)
-	{
+{
+	for (int i = 0; i < FTP_COUNT; i++) {
 		ServerList::FTP *ftp = new ServerList::FTP(i);
 		ftpList.add(ftp);
 	}
 }
 
 void ServerList::deinit()
-{	
+{
 	for (UINT i = 0; i < ftpList.size(); i++)
 		delete ftpList[i];
 
@@ -46,37 +45,37 @@ void ServerList::saveToDb() const
 	char buff[256];
 
 	mir_snprintf(buff, "Password%d", opt.selected);
-	DB::setAStringF(0, MODULE, buff, opt.selected, ftp->szPass);
+	DB::setAStringF(0, MODULE, buff, opt.selected, ftp->m_szPass);
 
-	DB::setStringF(0, MODULE, "Name%d", opt.selected, ftp->stzName);
-	DB::setAStringF(0, MODULE, "Server%d", opt.selected, ftp->szServer);
-	DB::setAStringF(0, MODULE, "User%d", opt.selected, ftp->szUser);
-	DB::setAStringF(0, MODULE, "Url%d", opt.selected, ftp->szUrl);
-	DB::setAStringF(0, MODULE, "Dir%d", opt.selected, ftp->szDir);
-	DB::setAStringF(0, MODULE, "Chmod%d", opt.selected, ftp->szChmod);
-	DB::setWordF(0, MODULE, "FtpProto%d", opt.selected, ftp->ftpProto);
-	DB::setWordF(0, MODULE, "Port%d", opt.selected, ftp->iPort);
-	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->bPassive);
-	DB::setByteF(0, MODULE, "Enabled%d", opt.selected, ftp->bEnabled);
+	DB::setStringF(0, MODULE, "Name%d", opt.selected, ftp->m_stzName);
+	DB::setAStringF(0, MODULE, "Server%d", opt.selected, ftp->m_szServer);
+	DB::setAStringF(0, MODULE, "User%d", opt.selected, ftp->m_szUser);
+	DB::setAStringF(0, MODULE, "Url%d", opt.selected, ftp->m_szUrl);
+	DB::setAStringF(0, MODULE, "Dir%d", opt.selected, ftp->m_szDir);
+	DB::setAStringF(0, MODULE, "Chmod%d", opt.selected, ftp->m_szChmod);
+	DB::setWordF(0, MODULE, "FtpProto%d", opt.selected, ftp->m_ftpProto);
+	DB::setWordF(0, MODULE, "Port%d", opt.selected, ftp->m_iPort);
+	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->m_bPassive);
+	DB::setByteF(0, MODULE, "Enabled%d", opt.selected, ftp->m_bEnabled);
 	db_set_b(0, MODULE, "Selected", opt.selected);
 	db_set_b(0, MODULE, "Default", opt.defaultFTP);
 }
 
 ServerList::FTP::FTP(int index)
 {
-	if (DB::getStringF(0, MODULE, "Name%d", index, this->stzName))
-		mir_sntprintf(this->stzName, _countof(this->stzName), TranslateT("FTP Server %d"), index + 1);
+	if (DB::getStringF(0, MODULE, "Name%d", index, m_stzName))
+		mir_sntprintf(m_stzName, _countof(m_stzName), TranslateT("FTP Server %d"), index + 1);
 
-	DB::getAStringF(0, MODULE, "Password%d", index, this->szPass);
-	DB::getAStringF(0, MODULE, "Server%d", index, this->szServer);
-	DB::getAStringF(0, MODULE, "User%d", index, this->szUser);
-	DB::getAStringF(0, MODULE, "Url%d", index, this->szUrl);
-	DB::getAStringF(0, MODULE, "Dir%d", index, this->szDir);
-	DB::getAStringF(0, MODULE, "Chmod%d", index, this->szChmod);
-	this->ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
-	this->iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
-	this->bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
-	this->bEnabled = DB::getByteF(0, MODULE, "Enabled%d", index, 0) ? true : false;
+	DB::getAStringF(0, MODULE, "Password%d", index, m_szPass);
+	DB::getAStringF(0, MODULE, "Server%d", index, m_szServer);
+	DB::getAStringF(0, MODULE, "User%d", index, m_szUser);
+	DB::getAStringF(0, MODULE, "Url%d", index, m_szUrl);
+	DB::getAStringF(0, MODULE, "Dir%d", index, m_szDir);
+	DB::getAStringF(0, MODULE, "Chmod%d", index, m_szChmod);
+	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
+	m_iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
+	m_bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
+	m_bEnabled = DB::getByteF(0, MODULE, "Enabled%d", index, 0) ? true : false;
 }
 
 ServerList::FTP *ServerList::getSelected() const
@@ -86,21 +85,16 @@ ServerList::FTP *ServerList::getSelected() const
 
 bool ServerList::FTP::isValid() const
 {
-	return (this->bEnabled		&&
-			this->szServer[0]	&& 
-			this->szUser[0]		&& 
-			this->szPass[0]		&& 
-			this->szUrl[0]) ? true : false;
+	return (m_bEnabled && m_szServer[0] && m_szUser[0] && m_szPass[0] && m_szUrl[0]) ? true : false;
 }
 
 char *ServerList::FTP::getProtoString() const
 {
-	switch (this->ftpProto)
-	{
-		case FT_STANDARD: 
-		case FT_SSL_EXPLICIT:	return "ftp://";
-		case FT_SSL_IMPLICIT:	return "ftps://";
-		case FT_SSH:			return "sftp://";
+	switch (m_ftpProto) {
+	case FT_STANDARD:
+	case FT_SSL_EXPLICIT:	return "ftp://";
+	case FT_SSL_IMPLICIT:	return "ftps://";
+	case FT_SSH:			return "sftp://";
 	}
 
 	return NULL;

@@ -29,17 +29,17 @@ private:
 	static bool entryExists(GenericJob *job);
 
 public:
-	int fileID;
-	int iFtpNum;
-	char szFileName[256];
-	DWORD deleteTS;
+	int m_fileID;
+	int m_iFtpNum;
+	char m_szFileName[256];
+	DWORD m_deleteTS;
 
 	static mir_cs mutexDB;
 
 	DBEntry();
 	DBEntry(DBEntry *entry);
 
-	static DBEntry *getFirts();
+	static DBEntry *getFirst();
 	static DBEntry *getNext(DBEntry *entry);
 	static void cleanupDB();
 

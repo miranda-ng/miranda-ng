@@ -32,9 +32,9 @@ private:
 
 	static Manager *instance;
 
-	HWND hwnd;
-	HWND hwndFileTree;
-	HIMAGELIST himlStates;
+	HWND m_hwnd;
+	HWND m_hwndFileTree;
+	HIMAGELIST m_himlStates;
 
 	Manager();	
 
@@ -47,10 +47,10 @@ public:
 	class TreeItem
 	{
 	public:
-		HTREEITEM handle;
-		HTREEITEM parent;
-		TCHAR stzToolTip[256];
-		int fileID;
+		HTREEITEM m_handle;
+		HTREEITEM m_parent;
+		TCHAR m_tszToolTip[256];
+		int m_fileID;
 
 		TreeItem(HTREEITEM _handle, HTREEITEM _parent, int _id);
 		void setState(UINT state);	
@@ -65,13 +65,13 @@ public:
 		static UINT _CHECKED() { return INDEXTOSTATEIMAGEMASK(STATE_CHECKED); }
 	};
 
-	vector<TreeItem *> rootItems;
-	vector<TreeItem *> items;
+	vector<TreeItem*> m_rootItems;
+	vector<TreeItem*> m_items;
 
 	~Manager();
 
-	void AddRoot(HTREEITEM h) { rootItems.push_back(new TreeItem(h,NULL,0)); }
-	void AddLeaf(HTREEITEM h, HTREEITEM p, int id) { items.push_back(new TreeItem(h,p,id)); }
+	void AddRoot(HTREEITEM h) { m_rootItems.push_back(new TreeItem(h,NULL,0)); }
+	void AddLeaf(HTREEITEM h, HTREEITEM p, int id) { m_items.push_back(new TreeItem(h,p,id)); }
 
 	static Manager *getInstance() 
 	{

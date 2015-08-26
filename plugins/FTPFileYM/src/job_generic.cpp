@@ -21,53 +21,61 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 extern UploadDialog *uDlg;
 extern ServerList &ftpList;
 
-GenericJob::GenericJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
-	hContact(_hContact),iFtpNum(_iFtpNum),mode(_mode),status(STATUS_CREATED),ftp(ftpList[iFtpNum])
+GenericJob::GenericJob(MCONTACT hContact, int iFtpNum, EMode mode) :
+	m_hContact(hContact),
+	m_iFtpNum(iFtpNum),
+	m_mode(mode),
+	m_status(STATUS_CREATED),
+	m_ftp(ftpList[m_iFtpNum])
 {
-	this->stzFilePath[0] = 0;
-	this->stzFileName[0] = 0;
-	this->szSafeFileName[0] = 0;
+	m_tszFilePath[0] = 0;
+	m_tszFileName[0] = 0;
+	m_szSafeFileName[0] = 0;
 }
 
-GenericJob::GenericJob(GenericJob *job)
-:hContact(job->hContact),iFtpNum(job->iFtpNum),mode(job->mode),status(job->status),ftp(job->ftp),tab(job->tab)
-{ 
-	mir_tstrcpy(this->stzFilePath, job->stzFilePath);
-	mir_tstrcpy(this->stzFileName, job->stzFileName);
-	mir_strcpy(this->szSafeFileName, job->szSafeFileName);
+GenericJob::GenericJob(GenericJob *job) :
+	m_hContact(job->m_hContact),
+	m_iFtpNum(job->m_iFtpNum),
+	m_mode(job->m_mode),
+	m_status(job->m_status),
+	m_ftp(job->m_ftp),
+	m_tab(job->m_tab)
+{
+	mir_tstrcpy(m_tszFilePath, job->m_tszFilePath);
+	mir_tstrcpy(m_tszFileName, job->m_tszFileName);
+	mir_strcpy(m_szSafeFileName, job->m_szSafeFileName);
 }
 
 GenericJob::~GenericJob()
 {
-	for (UINT i = 0; i < this->files.size(); i++)
-		mir_free(this->files[i]);
+	for (UINT i = 0; i < m_files.size(); i++)
+		mir_free(m_files[i]);
 }
 
-int GenericJob::openFileDialog() 
+int GenericJob::openFileDialog()
 {
 	TCHAR temp[MAX_PATH] = _T("");
 	mir_sntprintf(temp, _T("%s\0*.*\0"), TranslateT("All Files (*.*)"));
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
 	ofn.lpstrFilter = temp;
 	ofn.nFilterIndex = 1;
-	ofn.lpstrFile = this->stzFilePath;
+	ofn.lpstrFile = m_tszFilePath;
 	ofn.lpstrTitle = TranslateT("FTP File - Select files");
-	ofn.nMaxFile = _countof(this->stzFilePath);
+	ofn.nMaxFile = _countof(m_tszFilePath);
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
 	return GetOpenFileName(&ofn);
 }
 
 int GenericJob::openFolderDialog()
 {
-	BROWSEINFO bi = {0};
+	BROWSEINFO bi = { 0 };
 	bi.lpszTitle = TranslateT("FTP File - Select a folder");
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON | BIF_DONTGOBELOWDOMAIN;
 	LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
-	if (pidl != 0)
-	{
-		SHGetPathFromIDList(pidl, this->stzFilePath);
+	if (pidl != 0) {
+		SHGetPathFromIDList(pidl, m_tszFilePath);
 		CoTaskMemFree(pidl);
 		return 1;
 	}
@@ -79,20 +87,18 @@ void GenericJob::getFilesFromOpenDialog()
 {
 	TCHAR stzFile[MAX_PATH];
 
-	size_t length = mir_tstrlen(this->stzFilePath);
-	if (this->stzFilePath[0] && this->stzFilePath[length+1]) // multiple files
+	size_t length = mir_tstrlen(m_tszFilePath);
+	if (m_tszFilePath[0] && m_tszFilePath[length + 1]) // multiple files
 	{
-		TCHAR *ptr = this->stzFilePath + length + 1;
-		while (ptr[0]) 
-		{
-			mir_sntprintf(stzFile, _countof(stzFile), _T("%s\\%s"), this->stzFilePath, ptr);
-			this->addFile(stzFile);
+		TCHAR *ptr = m_tszFilePath + length + 1;
+		while (ptr[0]) {
+			mir_sntprintf(stzFile, _countof(stzFile), _T("%s\\%s"), m_tszFilePath, ptr);
+			addFile(stzFile);
 			ptr += mir_tstrlen(ptr) + 1;
 		}
-	} 
-	else
-	{
-		this->addFile(this->stzFilePath);
+	}
+	else {
+		addFile(m_tszFilePath);
 	}
 }
 
@@ -101,20 +107,17 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 	TCHAR stzFile[MAX_PATH], stzDirSave[MAX_PATH];
 
 	GetCurrentDirectory(MAX_PATH, stzDirSave);
-	if (!SetCurrentDirectory(stzFolder))
-	{
+	if (!SetCurrentDirectory(stzFolder)) {
 		Utils::msgBox(TranslateT("Folder not found!"), MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
-	while (hFind != INVALID_HANDLE_VALUE)
-	{
-		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) 
-		{
+	while (hFind != INVALID_HANDLE_VALUE) {
+		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
 			mir_sntprintf(stzFile, _countof(stzFile), _T("%s\\%s"), stzFolder, ffd.cFileName);
-			this->addFile(stzFile);
+			addFile(stzFile);
 		}
 
 		if (!FindNextFile(hFind, &ffd))
@@ -124,8 +127,7 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 	FindClose(hFind);
 	SetCurrentDirectory(stzDirSave);
 
-	if (this->files.size() == 0)
-	{
+	if (m_files.size() == 0) {
 		Utils::msgBox(TranslateT("The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders."), MB_OK | MB_ICONERROR);
 		return 0;
 	}
@@ -135,13 +137,11 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 
 int GenericJob::getFiles()
 {
-	if (this->mode == FTP_ZIPFOLDER)
-	{
-		if (!openFolderDialog()) return 0;		
-		return getFilesFromFolder(this->stzFilePath);	
+	if (m_mode == FTP_ZIPFOLDER) {
+		if (!openFolderDialog()) return 0;
+		return getFilesFromFolder(m_tszFilePath);
 	}
-	else
-	{
+	else {
 		if (!openFileDialog()) return 0;
 		getFilesFromOpenDialog();
 	}
@@ -151,22 +151,19 @@ int GenericJob::getFiles()
 
 int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 {
-	if (this->mode == FTP_ZIPFOLDER)
-	{
+	if (m_mode == FTP_ZIPFOLDER) {
 		TCHAR *folder;
 		if (flags & FUPL_UNICODE)
 			folder = mir_u2t((wchar_t *)objects[0]);
 		else
 			folder = mir_a2t((char *)objects[0]);
 
-		int result = getFilesFromFolder(folder);	
+		int result = getFilesFromFolder(folder);
 		FREE(folder);
 		return result;
 	}
-	else
-	{
-		for (int i = 0; i < objCount; i++)
-		{
+	else {
+		for (int i = 0; i < objCount; i++) {
 			TCHAR *fileName;
 			if (flags & FUPL_UNICODE)
 				fileName = mir_u2t((wchar_t *)objects[i]);
@@ -177,79 +174,76 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 			FREE(fileName);
 		}
 	}
-	
-	return (this->files.size() == 0) ?  0 : 1;
+
+	return (m_files.size() == 0) ? 0 : 1;
 }
 
-void GenericJob::addFile(TCHAR *fileName) 
+void GenericJob::addFile(TCHAR *fileName)
 {
 	TCHAR *buff = mir_tstrdup(fileName);
-	this->files.push_back(buff);
+	m_files.push_back(buff);
 }
 
-void GenericJob::setStatus(EStatus status)
+void GenericJob::setStatus(EStatus _status)
 {
-	this->status = status;
-	this->refreshTab(true);
+	m_status = _status;
+	refreshTab(true);
 }
 
 bool GenericJob::isCompleted()
 {
-	return this->status == STATUS_COMPLETED;
+	return m_status == STATUS_COMPLETED;
 }
 
 bool GenericJob::isPaused()
 {
-	return this->status == STATUS_PAUSED;
+	return m_status == STATUS_PAUSED;
 }
 
 bool GenericJob::isWaitting()
 {
-	return this->status == STATUS_WAITING;
+	return m_status == STATUS_WAITING;
 }
 
 bool GenericJob::isCanceled()
 {
-	return this->status == STATUS_CANCELED;
+	return m_status == STATUS_CANCELED;
 }
 
 bool GenericJob::isConnecting()
 {
-	return (this->status == STATUS_CONNECTING || this->status == STATUS_CREATED);
+	return (m_status == STATUS_CONNECTING || m_status == STATUS_CREATED);
 }
 
 TCHAR *GenericJob::getStatusString()
 {
-	switch (this->status)
-	{
-		case STATUS_CANCELED:	return TranslateT("CANCELED");
-		case STATUS_COMPLETED:	return TranslateT("COMPLETED");
-		case STATUS_CONNECTING: return TranslateT("CONNECTING...");
-		case STATUS_CREATED:	return TranslateT("CREATED");
-		case STATUS_PACKING:	return TranslateT("PACKING...");
-		case STATUS_PAUSED:		return TranslateT("PAUSED");
-		case STATUS_UPLOADING:	return TranslateT("UPLOADING...");
-		case STATUS_WAITING:	return TranslateT("WAITING...");
-		default:				return TranslateT("UNKNOWN");
+	switch (m_status) {
+	case STATUS_CANCELED:   return TranslateT("CANCELED");
+	case STATUS_COMPLETED:  return TranslateT("COMPLETED");
+	case STATUS_CONNECTING: return TranslateT("CONNECTING...");
+	case STATUS_CREATED:	   return TranslateT("CREATED");
+	case STATUS_PACKING:	   return TranslateT("PACKING...");
+	case STATUS_PAUSED:     return TranslateT("PAUSED");
+	case STATUS_UPLOADING:  return TranslateT("UPLOADING...");
+	case STATUS_WAITING:	   return TranslateT("WAITING...");
+	default:
+		return TranslateT("UNKNOWN");
 	}
 }
 
 void GenericJob::refreshTab(bool bTabChanged)
-{ 	
-	if (bTabChanged) 
-	{
-		if (this->hContact != NULL)
-		{
-			SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon( GetContactProto(this->hContact), ID_STATUS_ONLINE));
-			SetDlgItemText(uDlg->hwnd, IDC_UP_CONTACT, (TCHAR *)pcli->pfnGetContactDisplayName(this->hContact, 0));
+{
+	if (bTabChanged) {
+		if (m_hContact != NULL) {
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(GetContactProto(m_hContact), ID_STATUS_ONLINE));
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_CONTACT, pcli->pfnGetContactDisplayName(m_hContact, 0));
 		}
-		else
-		{
-			SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("main"));
-			SetDlgItemTextA(uDlg->hwnd, IDC_UP_CONTACT, this->ftp->szServer);
+		else {
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("main"));
+			SetDlgItemTextA(uDlg->m_hwnd, IDC_UP_CONTACT, m_ftp->m_szServer);
 		}
-			
-		SetDlgItemText(uDlg->hwnd, IDC_UP_FILE, this->stzFileName);
-		SetDlgItemTextA(uDlg->hwnd, IDC_UP_SERVER, this->ftp->szServer);
+
+		SetDlgItemText(uDlg->m_hwnd, IDC_UP_FILE, m_tszFileName);
+		SetDlgItemTextA(uDlg->m_hwnd, IDC_UP_SERVER, m_ftp->m_szServer);
 	}
 }

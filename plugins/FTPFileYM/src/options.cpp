@@ -27,7 +27,7 @@ extern ServerList &ftpList;
 extern void PrebuildMainMenu();
 
 void Options::deinit()
-{	
+{
 	delete this;
 }
 
@@ -50,7 +50,7 @@ void Options::loadOptions()
 void Options::saveOptions() const
 {
 	db_set_b(0, MODULE, "Autosend", bAutosend ? 1 : 0);
-	db_set_b(0, MODULE, "CopyLink", bCopyLink ? 1 : 0);			
+	db_set_b(0, MODULE, "CopyLink", bCopyLink ? 1 : 0);
 	db_set_b(0, MODULE, "UseSubmenu", bUseSubmenu ? 1 : 0);
 	db_set_b(0, MODULE, "HideInactive", bHideInactive ? 1 : 0);
 	db_set_b(0, MODULE, "CloseDlg", bCloseDlg ? 1 : 0);
@@ -64,7 +64,7 @@ void Options::saveOptions() const
 void Options::enableItems(HWND hwndDlg, bool state)
 {
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT), state);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOLIST), state);	
+	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOLIST), state);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SERVER), state);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_USER), state);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), state);
@@ -72,38 +72,38 @@ void Options::enableItems(HWND hwndDlg, bool state)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_URL), state);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), state);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_CHMOD), state);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_PASSIVE), state);	
+	EnableWindow(GetDlgItem(hwndDlg, IDC_PASSIVE), state);
 }
 
 INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{		
-			for (int i = 0; i < ServerList::FTP_COUNT; i++) 
-				ComboBox_AddString(GetDlgItem(hwndDlg, IDC_FTPLIST), ftpList[i]->stzName);
+		{
+			for (int i = 0; i < ServerList::FTP_COUNT; i++)
+				ComboBox_AddString(GetDlgItem(hwndDlg, IDC_FTPLIST), ftpList[i]->m_stzName);
 
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
-			CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);	
+			CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);
 
 			ServerList::FTP *ftp = ftpList.getSelected();
 			ComboBox_AddString(GetDlgItem(hwndDlg, IDC_PROTOLIST), TranslateT("FTP (Standard)"));
 			ComboBox_AddString(GetDlgItem(hwndDlg, IDC_PROTOLIST), TranslateT("FTP+SSL (Explicit)"));
 			ComboBox_AddString(GetDlgItem(hwndDlg, IDC_PROTOLIST), TranslateT("FTP+SSL (Implicit)"));
 			ComboBox_AddString(GetDlgItem(hwndDlg, IDC_PROTOLIST), TranslateT("SFTP (Secure FTP over SSH)"));
-			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST), ftp->ftpProto);		
+			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST), ftp->m_ftpProto);
 
-			SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer);
-			SetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser);
-			SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass);
-			SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir);
-			SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
-			SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
-			SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
-			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled ? BST_CHECKED : BST_UNCHECKED);
-			enableItems(hwndDlg, ftp->bEnabled);
+			SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->m_szServer);
+			SetDlgItemTextA(hwndDlg, IDC_USER, ftp->m_szUser);
+			SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->m_szPass);
+			SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->m_szDir);
+			SetDlgItemTextA(hwndDlg, IDC_URL, ftp->m_szUrl);
+			SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->m_szChmod);
+			SetDlgItemInt(hwndDlg, IDC_PORT, ftp->m_iPort, FALSE);
+			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->m_bPassive ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->m_bEnabled ? BST_CHECKED : BST_UNCHECKED);
+			enableItems(hwndDlg, ftp->m_bEnabled);
 		}
 		return TRUE;
 
@@ -116,33 +116,33 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 		else if (HIWORD(wParam) == CBN_SELCHANGE) {
 			if (LOWORD(wParam) == IDC_FTPLIST) {
 				opt.selected = (BYTE)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
-				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);	
+				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);
 
 				ServerList::FTP *ftp = ftpList.getSelected();
-				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, ftp->ftpProto, 0);
-				SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer);
-				SetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser);
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass);
-				SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir);
-				SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
-				SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
-				SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
-				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled ? BST_CHECKED : BST_UNCHECKED);	
-				enableItems(hwndDlg, ftp->bEnabled);
+				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, ftp->m_ftpProto, 0);
+				SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->m_szServer);
+				SetDlgItemTextA(hwndDlg, IDC_USER, ftp->m_szUser);
+				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->m_szPass);
+				SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->m_szDir);
+				SetDlgItemTextA(hwndDlg, IDC_URL, ftp->m_szUrl);
+				SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->m_szChmod);
+				SetDlgItemInt(hwndDlg, IDC_PORT, ftp->m_iPort, FALSE);
+				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->m_bPassive ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->m_bEnabled ? BST_CHECKED : BST_UNCHECKED);
+				enableItems(hwndDlg, ftp->m_bEnabled);
 			}
 			else if (LOWORD(wParam) == IDC_PROTOLIST) {
 				int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
 				switch (sel) {
-					case ServerList::FTP::FT_STANDARD:
-					case ServerList::FTP::FT_SSL_EXPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 21, FALSE); break;
-					case ServerList::FTP::FT_SSL_IMPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 990, FALSE); break;
-					case ServerList::FTP::FT_SSH: SetDlgItemInt(hwndDlg, IDC_PORT, 22, FALSE); break;
+				case ServerList::FTP::FT_STANDARD:
+				case ServerList::FTP::FT_SSL_EXPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 21, FALSE); break;
+				case ServerList::FTP::FT_SSL_IMPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 990, FALSE); break;
+				case ServerList::FTP::FT_SSH: SetDlgItemInt(hwndDlg, IDC_PORT, 22, FALSE); break;
 				}
 			}
 		}
 
-		if (HIWORD(wParam)==BN_CLICKED || HIWORD(wParam)==EN_CHANGE || HIWORD(wParam)==CBN_SELCHANGE || HIWORD(wParam)==CBN_EDITCHANGE)
+		if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == CBN_SELCHANGE || HIWORD(wParam) == CBN_EDITCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		return TRUE;
@@ -153,21 +153,21 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 				opt.defaultFTP = opt.selected;
 
 			ServerList::FTP *ftp = ftpList.getSelected();
-			GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->stzName, _countof(ftp->stzName));
-			GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer, _countof(ftp->szServer));
-			GetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser, _countof(ftp->szUser));
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass, _countof(ftp->szPass));
-			GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir, _countof(ftp->szDir));
-			GetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl, _countof(ftp->szUrl));
-			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod, _countof(ftp->szChmod));
+			GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->m_stzName, _countof(ftp->m_stzName));
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->m_szServer, _countof(ftp->m_szServer));
+			GetDlgItemTextA(hwndDlg, IDC_USER, ftp->m_szUser, _countof(ftp->m_szUser));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->m_szPass, _countof(ftp->m_szPass));
+			GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->m_szDir, _countof(ftp->m_szDir));
+			GetDlgItemTextA(hwndDlg, IDC_URL, ftp->m_szUrl, _countof(ftp->m_szUrl));
+			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->m_szChmod, _countof(ftp->m_szChmod));
 
-			ftp->ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
-			ftp->iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
-			ftp->bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;
-			ftp->bEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLED) ? true : false;
+			ftp->m_ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
+			ftp->m_iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
+			ftp->m_bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;
+			ftp->m_bEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLED) ? true : false;
 
 			ComboBox_DeleteString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
-			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected, ftp->stzName);
+			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected, ftp->m_stzName);
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
 
 			ftpList.saveToDb();
@@ -181,7 +181,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -220,7 +220,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_NOTIFY:
-		if(((LPNMHDR)lParam)->code == PSN_APPLY) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.bAutosend = IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND) ? true : false;
 			opt.bCopyLink = IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOML) ? true : false;
 			opt.bUseSubmenu = IsDlgButtonChecked(hwndDlg, IDC_USESUBMENU) ? true : false;

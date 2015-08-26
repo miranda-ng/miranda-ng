@@ -22,15 +22,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "job_generic.h"
 #include "..\..\libs\zlib\src\zip.h"
 
-class PackerJob: public GenericJob
+class PackerJob : public GenericJob
 {
 private:
 	static const int MAX_RUNNING_JOBS = 1;
 
-	UINT64 uiFileSize;
-	UINT64 uiReaded;
-	time_t startTS;
-	time_t lastUpdateTick;
+	UINT64 m_uiFileSize;
+	UINT64 m_uiReaded;
+	time_t m_startTS;
+	time_t m_lastUpdateTick;
 
 	static Event jobDone;
 	static mir_cs mutexJobCount;
@@ -46,7 +46,7 @@ private:
 	bool isCanceled();
 
 public:
-	PackerJob(MCONTACT hContact, int iFtpNum, EMode mode);
+	PackerJob(MCONTACT hContact, int m_iFtpNum, EMode mode);
 	virtual ~PackerJob() {};
 
 	virtual void start();

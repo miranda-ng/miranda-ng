@@ -35,7 +35,7 @@ extern Options &opt;
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
-int UploadFile(MCONTACT hContact, int iFtpNum, UploadJob::EMode mode);
+int UploadFile(MCONTACT hContact, int m_iFtpNum, UploadJob::EMode mode);
 
 static PLUGININFOEX pluginInfoEx =
 {
@@ -205,14 +205,14 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM)
 
 	bool bHideRoot = opt.bHideInactive;
 	for (int i = 0; i < ServerList::FTP_COUNT; i++)
-		if (ftpList[i]->bEnabled)
+		if (ftpList[i]->m_bEnabled)
 			bHideRoot = false;
 
 	if (opt.bUseSubmenu)
 		Menu_ShowItem(hMenu, bIsContact && !bHideRoot);
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++)
-		Menu_ShowItem(hSubMenu[i], bIsContact && ftpList[i]->bEnabled);
+		Menu_ShowItem(hSubMenu[i], bIsContact && ftpList[i]->m_bEnabled);
 	return 0;
 }
 
@@ -220,7 +220,7 @@ void PrebuildMainMenu()
 {
 	for (int i = 0; i < ServerList::FTP_COUNT; i++)
 		if (ftpList[i])
-			Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
+			Menu_ShowItem(hMainSubMenu[i], ftpList[i]->m_bEnabled);
 }
 
 int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
@@ -233,12 +233,12 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 			if (hPopupMenu) {
 				int iCount = 0;
 				for (UINT i = 0; i < ServerList::FTP_COUNT; i++) {
-					if (ftpList[i]->bEnabled) {
+					if (ftpList[i]->m_bEnabled) {
 						HMENU hModeMenu = CreatePopupMenu();
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_RAWFILE, TranslateT("Upload file"));
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_ZIPFILE, TranslateT("Zip and upload file"));
 						AppendMenu(hModeMenu, MF_STRING, i + UploadJob::FTP_ZIPFOLDER, TranslateT("Zip and upload folder"));
-						AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hModeMenu, ftpList[i]->stzName);
+						AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hModeMenu, ftpList[i]->m_stzName);
 						DestroyMenu(hModeMenu);
 						iCount++;
 					}
@@ -270,18 +270,18 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags)
+int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags)
 {
-	if (!ftpList[iFtpNum]->isValid()) {
+	if (!ftpList[m_iFtpNum]->isValid()) {
 		Utils::msgBox(TranslateT("You have to fill FTP server setting before upload a file."), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
 	GenericJob *job;
 	if (mode == GenericJob::FTP_RAWFILE)
-		job = new UploadJob(hContact, iFtpNum, mode);
+		job = new UploadJob(hContact, m_iFtpNum, mode);
 	else
-		job = new PackerJob(hContact, iFtpNum, mode);
+		job = new PackerJob(hContact, m_iFtpNum, mode);
 
 	int result;
 	if (objects != NULL)
@@ -291,7 +291,7 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **ob
 
 	if (result != 0) {
 		uDlg = UploadDialog::getInstance();
-		if (!uDlg->hwnd || !uDlg->hwndTabs) {
+		if (!uDlg->m_hwnd || !uDlg->m_hwndTabs) {
 			Utils::msgBox(TranslateT("Error has occurred while trying to create a dialog!"), MB_OK | MB_ICONERROR);
 			delete uDlg;
 			return 1;
@@ -308,16 +308,16 @@ int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode, void **ob
 	return 0;
 }
 
-int UploadFile(MCONTACT hContact, int iFtpNum, GenericJob::EMode mode)
+int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode)
 {
-	return UploadFile(hContact, iFtpNum, mode, NULL, 0, 0);
+	return UploadFile(hContact, m_iFtpNum, mode, NULL, 0, 0);
 }
 
 //------------ MIRANDA SERVICES ------------//
 
 INT_PTR UploadService(WPARAM, LPARAM lParam)
 {
-	FTPUPLOAD* ftpu = (FTPUPLOAD *)lParam;
+	FTPUPLOAD *ftpu = (FTPUPLOAD *)lParam;
 	if (ftpu == NULL || ftpu->cbSize != sizeof(FTPUPLOAD))
 		return 1;
 
@@ -369,7 +369,8 @@ int Shutdown(WPARAM, LPARAM)
 	deleteTimer.deinit();
 
 	delete manDlg;
-	if (uDlg) SendMessage(uDlg->hwnd, WM_CLOSE, 0, 0);
+	if (uDlg)
+		SendMessage(uDlg->m_hwnd, WM_CLOSE, 0, 0);
 
 	UploadJob::jobDone.release();
 	DeleteJob::jobDone.release();
@@ -388,9 +389,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
-	#ifdef _DEBUG
+#ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	#endif
+#endif
 
 	CoInitialize(NULL);
 
