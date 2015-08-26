@@ -58,7 +58,8 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL || response->pData == NULL)
 		return;
-	MCONTACT hContact = (MCONTACT)arg;
+	
+	MCONTACT hContact = (DWORD_PTR)arg;
 	if (response->resultCode != 200)
 		return;
 

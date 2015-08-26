@@ -311,11 +311,10 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 				pre.lParam = (LPARAM)b;
 
 				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-				for (nCount = 0; nCount < *((PDWORD)b); nCount++)
+				for (DWORD i = 0; i < *((PDWORD)b); i++)
 				{
-					mir_free(psr[nCount]->id.t);
-					//mir_free(psr[nCount]->nick.t);
-					mir_free(psr[nCount]);
+					mir_free(psr[i]->id.t);
+					mir_free(psr[i]);
 				}
 				mir_free(b);
 			}
