@@ -245,17 +245,10 @@ void Mind::Load(tstring filename)
 					toLowerStr(c);
 					{
 						std::transform(s1.begin(), s1.end(), s1.begin(), ::tolower);
-						int count1 = (int)s1.length();
-						TCHAR *c = new TCHAR[count1 + 1];
-						mir_tstrcpy(c, s1.c_str());
-						CharLower(c);
-						s1 = c;
-						delete c;
 						vector<tstring> strs = Parse(s1);
-						tstring sc(c);
-						data->raliases.insert(make_pair(sc, strs));
+						data->raliases.insert(make_pair(s1, strs));
 						for (vector<tstring>::const_iterator it = strs.begin(); it != strs.end(); ++it)
-							data->aliases.insert(make_pair(*it, sc));
+							data->aliases.insert(make_pair(*it, s1));
 					}
 					break;
 

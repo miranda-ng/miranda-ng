@@ -72,8 +72,6 @@ ServerList::FTP::FTP(int index)
 	DB::getAStringF(0, MODULE, "Url%d", index, m_szUrl);
 	DB::getAStringF(0, MODULE, "Dir%d", index, m_szDir);
 	DB::getAStringF(0, MODULE, "Chmod%d", index, m_szChmod);
-	if (m_szUrl[0] == 0)
-		strcpy(m_szUrl, "/");
 	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
 	m_iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
 	m_bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
