@@ -137,6 +137,7 @@ void CSkypeProto::TRouterThread(void*)
 	{
 
 		WaitForSingleObject(m_hTrouterEvent, INFINITE);
+		errors = 0;
 
 		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE)
 		{

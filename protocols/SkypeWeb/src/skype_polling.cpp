@@ -25,6 +25,7 @@ void CSkypeProto::PollingThread(void*)
 	while (!m_bThreadsTerminated)
 	{
 		WaitForSingleObject(m_hPollingEvent, INFINITE);
+		nErrors = 0;
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE)
 		{
@@ -73,12 +74,10 @@ void CSkypeProto::PollingThread(void*)
 					}
 				}
 			}
-
 			m_pollingConnection = response->nlc;
-
 		}
 
-		if (m_iStatus > ID_STATUS_OFFLINE)
+		if (m_iStatus != ID_STATUS_OFFLINE)
 		{
 			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
 			SetStatus(ID_STATUS_OFFLINE);
