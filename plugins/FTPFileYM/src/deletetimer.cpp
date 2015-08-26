@@ -24,15 +24,15 @@ DeleteTimer &deleteTimer = DeleteTimer::getInstance();
 extern Options &opt;
 
 void DeleteTimer::init()
-{ 
+{
 	timerId = 0;
-	if (opt.bAutoDelete) 
-		this->start(); 
+	if (opt.bAutoDelete)
+		start();
 }
 
 void DeleteTimer::deinit()
-{ 
-	this->stop();
+{
+	stop();
 	delete this;
 }
 
@@ -44,25 +44,22 @@ void DeleteTimer::start()
 
 void DeleteTimer::stop()
 {
-	if (timerId)
-	{
+	if (timerId) {
 		KillTimer(NULL, timerId);
 		timerId = 0;
 	}
 }
 
-void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) 
+void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lock(DBEntry::mutexDB);
 
-	DBEntry *entry = DBEntry::getFirts();
-	while (entry != NULL)
-	{
-		if (entry->deleteTS > 0 && entry->deleteTS < time(NULL))
-		{
+	DBEntry *entry = DBEntry::getFirst();
+	while (entry != NULL) {
+		if (entry->m_deleteTS > 0 && entry->m_deleteTS < time(NULL)) {
 			DeleteJob *job = new DeleteJob(new DBEntry(entry), NULL);
 			job->start();
-		}	
+		}
 
 		entry = DBEntry::getNext(entry);
 	}

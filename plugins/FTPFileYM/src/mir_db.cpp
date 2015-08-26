@@ -77,8 +77,7 @@ int DB::getDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, in
 int DB::getAString(MCONTACT hContact, char *szModule, char *szSetting, char *buff)
 {
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, szModule, szSetting, &dbv))
-	{
+	if (!db_get_s(hContact, szModule, szSetting, &dbv)) {
 		mir_strcpy(buff, dbv.pszVal);
 		db_free(&dbv);
 		return 0;
@@ -98,8 +97,7 @@ int DB::getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, 
 int DB::getString(MCONTACT hContact, char *szModule, char *szSetting, TCHAR *buff)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, szModule, szSetting, &dbv))
-	{
+	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
 		mir_tstrcpy(buff, dbv.ptszVal);
 		db_free(&dbv);
 		return 0;

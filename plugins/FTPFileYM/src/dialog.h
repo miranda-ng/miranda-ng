@@ -33,7 +33,7 @@ class UploadDialog
 private:
 	static UploadDialog *instance;
 	static mir_cs mutexTabs;
-	TCHAR stzToolTipText[1024];
+	TCHAR m_tszToolTipText[1024];
 
 	UploadDialog();
 
@@ -41,16 +41,16 @@ public:
 	class Tab
 	{
 	public:
-		GenericJob *job;
+		GenericJob *m_job;
 
-		bool bOptCloseDlg;
-		bool bOptCopyLink;
-		bool bOptAutosend;
-		int iOptAutoDelete;
+		bool m_bOptCloseDlg;
+		bool m_bOptCopyLink;
+		bool m_bOptAutosend;
+		int  m_iOptAutoDelete;
 
-		TCHAR stzSpeed[64];
-		TCHAR stzComplet[64];
-		TCHAR stzRemain[64];
+		TCHAR m_stzSpeed[64];
+		TCHAR m_stzComplet[64];
+		TCHAR m_stzRemain[64];
 
 		Tab(GenericJob *Job);
 		~Tab();
@@ -60,11 +60,11 @@ public:
 		void labelCompleted();
 	};
 
-	HWND hwnd;
-	HWND hwndTabs;
-	int activeTab;
+	HWND m_hwnd;
+	HWND m_hwndTabs;
+	int  m_activeTab;
 
-	vector<Tab *> tabs;
+	vector<Tab *> m_tabs;
 
 	~UploadDialog();
 

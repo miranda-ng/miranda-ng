@@ -26,10 +26,10 @@ class DeleteJob
 private:
 	static const int MAX_RUNNING_JOBS = 2;
 		
-	DBEntry *entry;
-	Manager::TreeItem *treeItem;
-	ServerList::FTP *ftp;
-	char buff[256];
+	DBEntry *m_entry;
+	Manager::TreeItem *m_treeItem;
+	ServerList::FTP *m_ftp;
+	char m_buff[256];
 
 	static mir_cs mutexJobCount;
 	static int iRunningJobCount;

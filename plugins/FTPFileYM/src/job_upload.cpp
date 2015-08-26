@@ -26,48 +26,50 @@ extern UploadDialog *uDlg;
 extern ServerList &ftpList;
 
 UploadJob::UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
-	GenericJob(_hContact, _iFtpNum, _mode),fp(NULL) 
-{ 
-	this->szFileLink[0] = 0;
+	GenericJob(_hContact, _iFtpNum, _mode),
+	m_fp(NULL)
+{
+	m_szFileLink[0] = 0;
 }
 
 UploadJob::UploadJob(UploadJob *job) :
-	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
-{ 
-	mir_strcpy(this->szFileLink, job->szFileLink);
-	for (int i = 0; i < _countof(this->lastSpeed); i++)
-		this->lastSpeed[i] = 0;
+	GenericJob(job),
+	m_fp(NULL), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
+{
+	mir_strcpy(m_szFileLink, job->m_szFileLink);
+	for (int i = 0; i < _countof(m_lastSpeed); i++)
+		m_lastSpeed[i] = 0;
 }
 
 UploadJob::UploadJob(PackerJob *job) :
-	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
-{ 
-	for (int i = 0; i < _countof(this->lastSpeed); i++)
-		this->lastSpeed[i] = 0;
+	GenericJob(job), m_fp(NULL), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
+{
+	for (int i = 0; i < _countof(m_lastSpeed); i++)
+		m_lastSpeed[i] = 0;
 
-	Utils::makeSafeString(job->stzFileName, this->szSafeFileName);
-	this->status = STATUS_CREATED;
+	Utils::makeSafeString(job->m_tszFileName, m_szSafeFileName);
+	m_status = STATUS_CREATED;
 }
 
 UploadJob::~UploadJob()
 {
-	if (this->fp) 		
-		fclose(this->fp);
+	if (m_fp)
+		fclose(m_fp);
 
-	if (this->mode != FTP_RAWFILE)
-		DeleteFile(this->stzFilePath);
+	if (m_mode != FTP_RAWFILE)
+		DeleteFile(m_tszFilePath);
 }
 
 void UploadJob::addToUploadDlg()
 {
-	for (UINT i = 0; i < this->files.size(); i++) {
+	for (UINT i = 0; i < m_files.size(); i++) {
 		UploadJob *jobCopy = new UploadJob(this);
-		mir_tstrcpy(jobCopy->stzFilePath, this->files[i]);
-		mir_tstrcpy(jobCopy->stzFileName, Utils::getFileNameFromPath(jobCopy->stzFilePath));
-		Utils::makeSafeString(jobCopy->stzFileName, jobCopy->szSafeFileName);
+		mir_tstrcpy(jobCopy->m_tszFilePath, m_files[i]);
+		mir_tstrcpy(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath));
+		Utils::makeSafeString(jobCopy->m_tszFileName, jobCopy->m_szSafeFileName);
 
 		UploadDialog::Tab *newTab = new UploadDialog::Tab(jobCopy);
-		jobCopy->tab = newTab;
+		jobCopy->m_tab = newTab;
 		jobCopy->start();
 	}
 
@@ -76,10 +78,10 @@ void UploadJob::addToUploadDlg()
 
 void UploadJob::autoSend()
 {
-	if (this->hContact == NULL)
+	if (m_hContact == NULL)
 		return;
 
-	char *szProto = GetContactProto(this->hContact);
+	char *szProto = GetContactProto(m_hContact);
 	if (szProto == NULL)
 		return;
 
@@ -88,63 +90,61 @@ void UploadJob::autoSend()
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;
 	dbei.timestamp = (DWORD)time(NULL);
-	dbei.cbBlob = (DWORD)mir_strlen(this->szFileLink) + 1;
-	dbei.pBlob = (PBYTE)this->szFileLink;
-	db_event_add(this->hContact, &dbei);
-	CallContactService(this->hContact, PSS_MESSAGE, 0, (LPARAM)this->szFileLink);
-	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, 0);
+	dbei.cbBlob = (DWORD)mir_strlen(m_szFileLink) + 1;
+	dbei.pBlob = (PBYTE)m_szFileLink;
+	db_event_add(m_hContact, &dbei);
+	CallContactService(m_hContact, PSS_MESSAGE, 0, (LPARAM)m_szFileLink);
+	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, 0);
 }
 
 void UploadJob::copyLinkToML()
 {
-	if (this->hContact != NULL) {
+	if (m_hContact != NULL) {
 		char buff[256];
-		mir_snprintf(buff, "%s\r\n", this->szFileLink);
-		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, (LPARAM)buff);
+		mir_snprintf(buff, "%s\r\n", m_szFileLink);
+		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, (LPARAM)buff);
 	}
 }
 
 void UploadJob::pause()
 {
 	if (!isCompleted()) {
-		curl_easy_pause(this->hCurl, CURLPAUSE_SEND);
-		this->setStatus(STATUS_PAUSED);
+		curl_easy_pause(m_hCurl, CURLPAUSE_SEND);
+		setStatus(STATUS_PAUSED);
 	}
 }
 
 void UploadJob::pauseHandler()
 {
-	if (this->isPaused()) 
-	{
-		this->resume();
-		SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
-		SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)Translate("Pause"), 0);
-	} 
-	else 
-	{
-		this->pause();
-		SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
-		SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)Translate("Resume"), 0);
-	}	
+	if (isPaused()) {
+		resume();
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)Translate("Pause"), 0);
+	}
+	else {
+		pause();
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)Translate("Resume"), 0);
+	}
 }
 
 void UploadJob::resume()
 {
-	this->uiSent = 0;
-	this->startTS = time(NULL);
+	m_uiSent = 0;
+	m_startTS = time(NULL);
 	if (!isCompleted()) {
-		curl_easy_pause(this->hCurl, CURLPAUSE_CONT);
-		this->setStatus(STATUS_UPLOADING);
+		curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
+		setStatus(STATUS_UPLOADING);
 	}
 }
 
 void UploadJob::cancel()
 {
-	this->setStatus(STATUS_CANCELED);
-	curl_easy_pause(this->hCurl, CURLPAUSE_CONT);	
+	setStatus(STATUS_CANCELED);
+	curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
 }
 
-void UploadJob::waitingThread(void *arg) 
+void UploadJob::waitingThread(void *arg)
 {
 	UploadJob *job = (UploadJob *)arg;
 
@@ -168,7 +168,7 @@ void UploadJob::waitingThread(void *arg)
 
 		lock.unlock();
 		jobDone.wait();
-		job->status = GenericJob::STATUS_WAITING;	
+		job->m_status = GenericJob::STATUS_WAITING;
 	}
 
 	delete job;
@@ -181,66 +181,65 @@ void UploadJob::start()
 
 char *UploadJob::getChmodString()
 {
-	if (ftp->ftpProto == ServerList::FTP::FT_SSH) 
-		mir_snprintf(buff, "%s \"%s/%s\"", ftp->szChmod, ftp->szDir, this->szSafeFileName);
-	else 
-		mir_snprintf(buff, "%s %s", ftp->szChmod, this->szSafeFileName);
+	if (m_ftp->m_ftpProto == ServerList::FTP::FT_SSH)
+		mir_snprintf(m_buff, "%s \"%s/%s\"", m_ftp->m_szChmod, m_ftp->m_szDir, m_szSafeFileName);
+	else
+		mir_snprintf(m_buff, "%s %s", m_ftp->m_szChmod, m_szSafeFileName);
 
-	return buff;
+	return m_buff;
 }
 
 char *UploadJob::getDelFileString()
 {
-	if (ftp->ftpProto == ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, "rm \"%s/%s\"", ftp->szDir, this->szSafeFileName);
+	if (m_ftp->m_ftpProto == ServerList::FTP::FT_SSH)
+		mir_snprintf(m_buff, "rm \"%s/%s\"", m_ftp->m_szDir, m_szSafeFileName);
 	else
-		mir_snprintf(buff, "DELE %s", this->szSafeFileName);
+		mir_snprintf(m_buff, "DELE %s", m_szSafeFileName);
 
-	return buff;
+	return m_buff;
 }
 
 char *UploadJob::getUrlString()
 {
-	if (ftp->szDir[0])
-		mir_snprintf(buff, "%s%s/%s/%s", ftp->getProtoString(), ftp->szServer, ftp->szDir, this->szSafeFileName);
+	if (m_ftp->m_szDir[0])
+		mir_snprintf(m_buff, "%s%s/%s/%s", m_ftp->getProtoString(), m_ftp->m_szServer, m_ftp->m_szDir, m_szSafeFileName);
 	else
-		mir_snprintf(buff, "%s%s/%s", ftp->getProtoString(), ftp->szServer, this->szSafeFileName);
+		mir_snprintf(m_buff, "%s%s/%s", m_ftp->getProtoString(), m_ftp->m_szServer, m_szSafeFileName);
 
-	return buff;
+	return m_buff;
 }
 
 char *UploadJob::getDelUrlString()
 {
-	if (ftp->szDir[0] && ftp->ftpProto != ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, "%s%s/%s/", ftp->getProtoString(), ftp->szServer, ftp->szDir);
+	if (m_ftp->m_szDir[0] && m_ftp->m_ftpProto != ServerList::FTP::FT_SSH)
+		mir_snprintf(m_buff, "%s%s/%s/", m_ftp->getProtoString(), m_ftp->m_szServer, m_ftp->m_szDir);
 	else
-		mir_snprintf(buff, "%s%s/", ftp->getProtoString(), ftp->szServer);
+		mir_snprintf(m_buff, "%s%s/", m_ftp->getProtoString(), m_ftp->m_szServer);
 
-	return buff;
+	return m_buff;
 }
 
 CURL *UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
 {
-	this->hCurl = curl_easy_init();
-	if (!hCurl) return NULL;
+	m_hCurl = curl_easy_init();
+	if (!m_hCurl)
+		return NULL;
 
-	Utils::curlSetOpt(this->hCurl, this->ftp, szUrl, headerList, this->szError);
+	Utils::curlSetOpt(m_hCurl, m_ftp, szUrl, headerList, m_szError);
 
-	curl_easy_setopt(this->hCurl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)this->uiFileSize);
-	curl_easy_setopt(this->hCurl, CURLOPT_READDATA, this);
-	curl_easy_setopt(this->hCurl, CURLOPT_READFUNCTION, &UploadJob::ReadCallback);
-	//curl.easy_setopt(this->hCurl, CURLOPT_UPLOAD, 1L);
-
-	return this->hCurl;
+	curl_easy_setopt(m_hCurl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)m_uiFileSize);
+	curl_easy_setopt(m_hCurl, CURLOPT_READDATA, this);
+	curl_easy_setopt(m_hCurl, CURLOPT_READFUNCTION, &UploadJob::ReadCallback);
+	return m_hCurl;
 }
 
 bool UploadJob::fileExistsOnServer()
 {
-	int result = curl_easy_perform(hCurl);
+	int result = curl_easy_perform(m_hCurl);
 	return result != CURLE_REMOTE_FILE_NOT_FOUND;
 }
 
-INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -255,7 +254,7 @@ INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wPa
 		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED) 
+		if (HIWORD(wParam) == BN_CLICKED)
 			EndDialog(hwndDlg, LOWORD(wParam));
 		break;
 	}
@@ -263,25 +262,25 @@ INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-void UploadJob::upload() 
+void UploadJob::upload()
 {
-	this->refreshTab(true);
+	refreshTab(true);
 
-	this->fp = _tfopen(this->stzFilePath, _T("rb"));
-	if (this->fp == NULL) {
+	m_fp = _tfopen(m_tszFilePath, _T("rb"));
+	if (m_fp == NULL) {
 		Utils::msgBox(TranslateT("Error occurred when opening local file.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
 	}
 
-	struct curl_slist *headerList = NULL;
-	if (this->ftp->szChmod[0])
+	curl_slist *headerList = NULL;
+	if (m_ftp->m_szChmod[0])
 		headerList = curl_slist_append(headerList, getChmodString());
 
 	struct _stat fileInfo;
-	_tstat(this->stzFilePath, &fileInfo);
-	this->uiFileSize = (UINT64)fileInfo.st_size;
+	_tstat(m_tszFilePath, &fileInfo);
+	m_uiFileSize = (UINT64)fileInfo.st_size;
 
-	CURL *hCurl = this->curlInit(getUrlString(), headerList);
+	CURL *hCurl = (getUrlString(), headerList);
 	if (!hCurl) {
 		Utils::msgBox(TranslateT("Error occurred when initializing libcurl.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
@@ -289,54 +288,52 @@ void UploadJob::upload()
 
 	bool uploadFile = true;
 	if (fileExistsOnServer()) {
-		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), 0, DlgProcFileExists, (LPARAM)this->szSafeFileName);
+		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), 0, DlgProcFileExists, (LPARAM)m_szSafeFileName);
 		if (res == IDC_RENAME) {
-			if (Utils::setFileNameDlgA(this->szSafeFileName) == true)
-				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());	
+			if (Utils::setFileNameDlgA(m_szSafeFileName) == true)
+				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());
 		}
 		else if (res == IDC_COPYURL) {
 			uploadFile = false;
 		}
 		else if (res == IDC_CANCEL) {
-			this->setStatus(STATUS_CANCELED);	
-			delete this->tab;
+			setStatus(STATUS_CANCELED);
+			delete m_tab;
 			return;
 		}
 	}
 
-	if (uploadFile)
-	{
-		curl_easy_setopt(this->hCurl, CURLOPT_UPLOAD, 1L);
-		this->setStatus(STATUS_CONNECTING);
-		this->startTS = time(NULL);
+	if (uploadFile) {
+		curl_easy_setopt(m_hCurl, CURLOPT_UPLOAD, 1L);
+		setStatus(STATUS_CONNECTING);
+		m_startTS = time(NULL);
 
 		int result = curl_easy_perform(hCurl);
 		curl_slist_free_all(headerList);
 		curl_easy_cleanup(hCurl);
-		
+
 		if (result != CURLE_OK && result != CURLE_ABORTED_BY_CALLBACK) {
 			char buff[256];
-			mir_snprintf(buff, Translate("FTP error occurred.\n%s"), this->szError);
+			mir_snprintf(buff, Translate("FTP error occurred.\n%s"), m_szError);
 			Utils::msgBoxA(buff, MB_OK | MB_ICONERROR);
 		}
-			
-		if (result > CURLE_OPERATION_TIMEDOUT) {
-			struct curl_slist *headerList = NULL;
-			headerList = curl_slist_append(headerList, getDelFileString());
 
-			CURL *hCurl = curl_easy_init();	
-			if (hCurl) {
-				Utils::curlSetOpt(hCurl, this->ftp, getDelUrlString(), headerList, this->szError);
-				curl_easy_perform(hCurl);
-				curl_slist_free_all(headerList);
-				curl_easy_cleanup(hCurl);
+		if (result > CURLE_OPERATION_TIMEDOUT) {
+			curl_slist *headers2 = curl_slist_append(headerList, getDelFileString());
+
+			CURL *hCurl2 = curl_easy_init();
+			if (hCurl2) {
+				Utils::curlSetOpt(hCurl2, m_ftp, getDelUrlString(), headers2, m_szError);
+				curl_easy_perform(hCurl2);
+				curl_slist_free_all(headers2);
+				curl_easy_cleanup(hCurl2);
 			}
-		}		
+		}
 
 		if (result != CURLE_OK && result != CURLE_QUOTE_ERROR) {
-			if (!this->isCanceled()) {
-				this->setStatus(STATUS_CANCELED);	
-				delete this->tab;	
+			if (!isCanceled()) {
+				setStatus(STATUS_CANCELED);
+				delete m_tab;
 			}
 			return;
 		}
@@ -345,167 +342,161 @@ void UploadJob::upload()
 		SkinPlaySound(SOUND_UPCOMPLETE);
 	}
 
-	this->setStatus(STATUS_COMPLETED);
+	setStatus(STATUS_COMPLETED);
 
-	Utils::createFileDownloadLink(this->ftp->szUrl, this->szSafeFileName, this->szFileLink, sizeof(this->szFileLink));
-	Utils::copyToClipboard(this->szFileLink);
+	Utils::createFileDownloadLink(m_ftp->m_szUrl, m_szSafeFileName, m_szFileLink, sizeof(m_szFileLink));
+	Utils::copyToClipboard(m_szFileLink);
 
-	if (this->tab->bOptAutosend)
-		this->autoSend();	
-	else if (this->tab->bOptCopyLink) 
-		this->copyLinkToML();		
+	if (m_tab->m_bOptAutosend)
+		autoSend();
+	else if (m_tab->m_bOptCopyLink)
+		copyLinkToML();
 
-	if (!this->tab->bOptCloseDlg) {
-		this->tab->labelCompleted();
-		this->tab->select();
+	if (!m_tab->m_bOptCloseDlg) {
+		m_tab->labelCompleted();
+		m_tab->select();
 	}
-	else this->closeTab();
+	else closeTab();
 }
 
 size_t UploadJob::ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg)
 {
 	UploadJob *job = (UploadJob *)arg;
 
-	if (job->uiTotalSent == 0)
-		job->status = UploadJob::STATUS_UPLOADING;
+	if (job->m_uiTotalSent == 0)
+		job->m_status = UploadJob::STATUS_UPLOADING;
 
 	if (job->isCanceled())
 		return CURL_READFUNC_ABORT;
 
-	size_t readed = fread(ptr, size, nmemb, job->fp);
-	job->uiSent += readed;
-	job->uiTotalSent += readed;
-	job->updateStats();	
+	size_t readed = fread(ptr, size, nmemb, job->m_fp);
+	job->m_uiSent += readed;
+	job->m_uiTotalSent += readed;
+	job->updateStats();
 
 	return readed;
 }
 
 void UploadJob::updateStats()
 {
-	if (this->uiSent && (time(NULL) > this->startTS)) {
-		double speed = ((double)this->uiSent / 1024)/(time(NULL) - this->startTS);
-		this->avgSpeed = speed;
-		for (int i = 0; i < _countof(this->lastSpeed); i++) {
-			this->avgSpeed += (this->lastSpeed[i] == 0 ? speed : this->lastSpeed[i]);
-			if (i < _countof(this->lastSpeed) - 1)
-				this->lastSpeed[i + 1] = this->lastSpeed[i];
+	if (m_uiSent && (time(NULL) > m_startTS)) {
+		double speed = ((double)m_uiSent / 1024) / (time(NULL) - m_startTS);
+		m_avgSpeed = speed;
+		for (int i = 0; i < _countof(m_lastSpeed); i++) {
+			m_avgSpeed += (m_lastSpeed[i] == 0 ? speed : m_lastSpeed[i]);
+			if (i < _countof(m_lastSpeed) - 1)
+				m_lastSpeed[i + 1] = m_lastSpeed[i];
 		}
 
-		this->avgSpeed /= _countof(this->lastSpeed) + 1;
-		this->lastSpeed[0] = speed;
-		
-		mir_sntprintf(this->tab->stzSpeed, _countof(this->tab->stzSpeed), _T("%0.1f kB/s"), this->avgSpeed);
-		
-		double perc = this->uiFileSize ? ((double)this->uiTotalSent / this->uiFileSize) * 100 : 0;
-		mir_sntprintf(this->tab->stzComplet, _countof(this->tab->stzComplet), _T("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiTotalSent/1024, (int)this->uiFileSize/1024);
-	
-		long s = (this->uiFileSize - this->uiTotalSent) / (long)(this->avgSpeed * 1024); 
+		m_avgSpeed /= _countof(m_lastSpeed) + 1;
+		m_lastSpeed[0] = speed;
+
+		mir_sntprintf(m_tab->m_stzSpeed, _T("%0.1f kB/s"), m_avgSpeed);
+
+		double perc = m_uiFileSize ? ((double)m_uiTotalSent / m_uiFileSize) * 100 : 0;
+		mir_sntprintf(m_tab->m_stzComplet, _T("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiTotalSent / 1024, (int)m_uiFileSize / 1024);
+
+		long s = (m_uiFileSize - m_uiTotalSent) / (long)(m_avgSpeed * 1024);
 		int d = (s / 60 / 60 / 24);
 		int h = (s - d * 60 * 60 * 24) / 60 / 60;
-		int m = (s  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
+		int m = (s - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
 		TCHAR buff[256];
 		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
 		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
-		mir_sntprintf(this->tab->stzRemain, _countof(this->tab->stzRemain), _T("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiTotalSent)/1024, this->uiFileSize/1024);
+		mir_sntprintf(m_tab->m_stzRemain, _T("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);
 
-		this->refreshTab(false);
+		refreshTab(false);
 	}
 }
 
 void UploadJob::refreshTab(bool bTabChanged)
 {
-	if (uDlg->activeTab == this->tab->index()) {
+	if (uDlg->m_activeTab == m_tab->index()) {
 		GenericJob::refreshTab(bTabChanged);
 
-		ShowWindow(GetDlgItem(uDlg->hwnd, IDC_BTN_CLIPBOARD), this->isCompleted() ? SW_SHOW : SW_HIDE);
-		ShowWindow(GetDlgItem(uDlg->hwnd, IDC_BTN_DOWNLOAD), this->isCompleted() ? SW_SHOW : SW_HIDE);
-		EnableWindow(GetDlgItem(uDlg->hwnd, IDC_BTN_PAUSE), !this->isCompleted() && !this->isConnecting());
+		ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_BTN_CLIPBOARD), isCompleted() ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_BTN_DOWNLOAD), isCompleted() ? SW_SHOW : SW_HIDE);
+		EnableWindow(GetDlgItem(uDlg->m_hwnd, IDC_BTN_PAUSE), !isCompleted() && !isConnecting());
 
-		if (this->isCompleted()) 
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("COMPLETED"));
-		else if (this->isConnecting())
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("CONNECTING..."));
-		else if (this->isPaused())
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("PAUSED"));		
-		else if (this->isWaitting())
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("WAITING..."));		
+		if (isCompleted())
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("COMPLETED"));
+		else if (isConnecting())
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("CONNECTING..."));
+		else if (isPaused())
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("PAUSED"));
+		else if (isWaitting())
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("WAITING..."));
 		else
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("UPLOADING..."));	
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("UPLOADING..."));
 
 		if (bTabChanged) {
-			if (this->isPaused()) {
-				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
-				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Resume"), BATF_TCHAR);
-			} 
+			if (isPaused()) {
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Resume"), BATF_TCHAR);
+			}
 			else {
-				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
-				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_TCHAR);
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_TCHAR);
 			}
 
-			ShowWindow(GetDlgItem(uDlg->hwnd, IDC_ST_REMAIN), !this->isCompleted() ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(uDlg->hwnd, IDC_UP_COMPLETED), !this->isCompleted() ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(uDlg->hwnd, IDC_UP_REMAIN), !this->isCompleted() ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(uDlg->hwnd, IDC_ED_URL), this->isCompleted() ? SW_SHOW : SW_HIDE);
-			SetDlgItemText(uDlg->hwnd, IDC_ST_COMPLETED, this->isCompleted() ? TranslateT("Download link:") : TranslateT("Completed:"));
+			ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_ST_REMAIN), !isCompleted() ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_UP_COMPLETED), !isCompleted() ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_UP_REMAIN), !isCompleted() ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_ED_URL), isCompleted() ? SW_SHOW : SW_HIDE);
+			SetDlgItemText(uDlg->m_hwnd, IDC_ST_COMPLETED, isCompleted() ? TranslateT("Download link:") : TranslateT("Completed:"));
 		}
 
-		if (this->isCompleted()) {	
-			SetDlgItemText(uDlg->hwnd, IDC_UP_SPEED, _T(""));
-			SetDlgItemText(uDlg->hwnd, IDC_UP_COMPLETED, _T(""));
-			SetDlgItemText(uDlg->hwnd, IDC_UP_REMAIN, _T(""));
+		if (isCompleted()) {
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_SPEED, _T(""));
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_COMPLETED, _T(""));
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_REMAIN, _T(""));
 
-			SetDlgItemTextA(uDlg->hwnd, IDC_ED_URL, this->szFileLink);	
-			SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)100);
-			SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)100, 0);
+			SetDlgItemTextA(uDlg->m_hwnd, IDC_ED_URL, m_szFileLink);
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)100);
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)100, 0);
 		}
-		else
-		{
-			SetDlgItemText(uDlg->hwnd, IDC_UP_SPEED, this->tab->stzSpeed);
-			SetDlgItemText(uDlg->hwnd, IDC_UP_COMPLETED, this->tab->stzComplet);
-			SetDlgItemText(uDlg->hwnd, IDC_UP_REMAIN, this->tab->stzRemain);
+		else {
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_SPEED, m_tab->m_stzSpeed);
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_COMPLETED, m_tab->m_stzComplet);
+			SetDlgItemText(uDlg->m_hwnd, IDC_UP_REMAIN, m_tab->m_stzRemain);
 
-			SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)this->uiFileSize);
-			SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)this->uiTotalSent, 0);
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)m_uiFileSize);
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)m_uiTotalSent, 0);
 		}
 	}
 }
 
 void UploadJob::closeTab()
-{ 
-	if (!this->isCompleted()) {
-		this->pause();
+{
+	if (!isCompleted()) {
+		pause();
 		if (Utils::msgBox(TranslateT("Do you really want to cancel running upload?"), MB_YESNO | MB_ICONQUESTION) == IDNO) {
-			this->resume();
+			resume();
 			return;
 		}
 
-		this->cancel();
+		cancel();
 	}
 
-	delete this->tab;		
+	delete m_tab;
 }
 
 void UploadJob::closeAllTabs()
-{ 
-	if (!this->isCompleted()) 		
-		this->cancel();
+{
+	if (!isCompleted())
+		cancel();
 
-	delete this->tab;		
+	delete m_tab;
 }
 
 void UploadJob::createToolTip()
-{ 
-	TCHAR *server = mir_a2t(this->ftp->szServer);
-	mir_sntprintf(uDlg->stzToolTipText, _countof(uDlg->stzToolTipText), 
-		TranslateT("Status: %s\r\nFile: %s\r\nServer: %s"), 
-		this->getStatusString(), this->stzFileName, server);
+{
+	mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
+		getStatusString(), m_tszFileName, m_ftp->m_szServer);
 
-	if (this->tab->stzSpeed[0] && this->tab->stzComplet[0] && this->tab->stzRemain[0])
-		mir_sntprintf(uDlg->stzToolTipText, _countof(uDlg->stzToolTipText), 
-			TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"), 
-			uDlg->stzToolTipText, this->tab->stzSpeed, this->tab->stzComplet, this->tab->stzRemain);
-		
-	FREE(server);
+	if (m_tab->m_stzSpeed[0] && m_tab->m_stzComplet[0] && m_tab->m_stzRemain[0])
+		mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"),
+			uDlg->m_tszToolTipText, m_tab->m_stzSpeed, m_tab->m_stzComplet, m_tab->m_stzRemain);
 }

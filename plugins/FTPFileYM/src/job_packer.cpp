@@ -25,27 +25,28 @@ int PackerJob::iRunningJobCount = 0;
 extern UploadDialog *uDlg;
 extern Options &opt;
 
-PackerJob::PackerJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
-	GenericJob(_hContact, _iFtpNum, _mode),uiFileSize(0),uiReaded(0),lastUpdateTick(0)
-{ }
+PackerJob::PackerJob(MCONTACT hContact, int iFtpNum, EMode mode) :
+	GenericJob(hContact, iFtpNum, mode),
+	m_uiFileSize(0),
+	m_uiReaded(0),
+	m_lastUpdateTick(0)
+{
+}
 
 void PackerJob::getZipFilePath()
 {
-	TCHAR buff[256], stzFileName[256] = {0};
+	TCHAR buff[256], stzFileName[256] = { 0 };
 	TCHAR *pch;
 
-	if (this->files.size() == 1)
-	{
-		mir_tstrcpy(stzFileName, Utils::getFileNameFromPath(this->files[0]));
+	if (m_files.size() == 1) {
+		mir_tstrcpy(stzFileName, Utils::getFileNameFromPath(m_files[0]));
 		pch = _tcsrchr(stzFileName, '.');
 		if (pch) *pch = 0;
 	}
-	else
-	{
-		mir_tstrcpy(buff, this->files[0]);
+	else {
+		mir_tstrcpy(buff, m_files[0]);
 		pch = _tcsrchr(buff, '\\');
-		if (pch) 
-		{
+		if (pch) {
 			*pch = 0;
 			pch = _tcsrchr(buff, '\\');
 			if (pch) mir_tstrcpy(stzFileName, pch + 1);
@@ -57,31 +58,29 @@ void PackerJob::getZipFilePath()
 
 	GetTempPath(_countof(buff), buff);
 
-	mir_sntprintf(this->stzFilePath, _countof(this->stzFilePath), _T("%s%s.zip"), buff, stzFileName);
-	mir_tstrcpy(this->stzFileName, Utils::getFileNameFromPath(this->stzFilePath));
+	mir_sntprintf(m_tszFilePath, _countof(m_tszFilePath), _T("%s%s.zip"), buff, stzFileName);
+	mir_tstrcpy(m_tszFileName, Utils::getFileNameFromPath(m_tszFilePath));
 
 	if (opt.bSetZipName)
-		Utils::setFileNameDlg(this->stzFileName);
+		Utils::setFileNameDlg(m_tszFileName);
 }
 
 void PackerJob::addToUploadDlg()
 {
-	this->getZipFilePath();
+	getZipFilePath();
 
 	UploadDialog::Tab *newTab = new UploadDialog::Tab(this);
-	this->tab = newTab;
-	this->start();
+	m_tab = newTab;
+	start();
 }
 
-void PackerJob::waitingThread(void *arg) 
+void PackerJob::waitingThread(void *arg)
 {
 	PackerJob *job = (PackerJob *)arg;
 
-	while(!Miranda_Terminated())
-	{
+	while (!Miranda_Terminated()) {
 		mir_cslockfull lock(mutexJobCount);
-		if (iRunningJobCount < MAX_RUNNING_JOBS)
-		{
+		if (iRunningJobCount < MAX_RUNNING_JOBS) {
 			iRunningJobCount++;
 			lock.unlock();
 			job->pack();
@@ -97,7 +96,7 @@ void PackerJob::waitingThread(void *arg)
 
 		lock.unlock();
 		jobDone.wait();
-		job->status = GenericJob::STATUS_WAITING;
+		job->m_status = GenericJob::STATUS_WAITING;
 	}
 }
 
@@ -109,31 +108,27 @@ void PackerJob::start()
 void PackerJob::pack()
 {
 	struct _stat fileInfo;
-	for (UINT i = 0; i < this->files.size(); i++) 
-	{
-		if (_tstat(this->files[i], &fileInfo) == 0)
-			this->uiFileSize += (UINT64)fileInfo.st_size;
+	for (UINT i = 0; i < m_files.size(); i++) {
+		if (_tstat(m_files[i], &fileInfo) == 0)
+			m_uiFileSize += (UINT64)fileInfo.st_size;
 	}
 
-	this->setStatus(STATUS_PACKING);
-	this->startTS = time(NULL);
+	setStatus(STATUS_PACKING);
+	m_startTS = time(NULL);
 
-	int res = this->createZipFile();
-	if (res == ZIP_OK)
-	{
+	int res = createZipFile();
+	if (res == ZIP_OK) {
 		UploadJob *ujob = new UploadJob(this);
-		ujob->tab->job = ujob;
-		ujob->start();		
+		ujob->m_tab->m_job = ujob;
+		ujob->start();
 	}
-	else
-	{
-		if (res == ZIP_ERRNO)
-		{
+	else {
+		if (res == ZIP_ERRNO) {
 			Utils::msgBox(TranslateT("Error occurred when zipping the file(s)."), MB_OK | MB_ICONERROR);
-			delete this->tab;	
+			delete m_tab;
 		}
 
-		DeleteFile(this->stzFilePath);
+		DeleteFile(m_tszFilePath);
 	}
 }
 
@@ -141,19 +136,17 @@ int PackerJob::createZipFile()
 {
 	int result = ZIP_ERRNO;
 
-	zipFile zf = zipOpen2_64(this->stzFilePath, 0, NULL, NULL);
+	zipFile zf = zipOpen2_64(m_tszFilePath, 0, NULL, NULL);
 
-	if (zf != NULL)
-	{
+	if (zf != NULL) {
 		result = ZIP_OK;
 
 		int size_buf = 65536;
 		void *buff = (void *)mir_alloc(size_buf);
 
-		for (UINT i = 0; i < this->files.size(); i++) 
-		{
+		for (UINT i = 0; i < m_files.size(); i++) {
 			int size_read;
-			zip_fileinfo zi;			
+			zip_fileinfo zi;
 
 			zi.tmz_date.tm_sec = zi.tmz_date.tm_min = zi.tmz_date.tm_hour = 0;
 			zi.tmz_date.tm_mday = zi.tmz_date.tm_mon = zi.tmz_date.tm_year = 0;
@@ -161,21 +154,17 @@ int PackerJob::createZipFile()
 			zi.internal_fa = 0;
 			zi.external_fa = 0;
 
-			getFileTime(this->files[i], &zi.tmz_date, &zi.dosDate);
+			getFileTime(m_files[i], &zi.tmz_date, &zi.dosDate);
 
-			char *file = mir_t2a(Utils::getFileNameFromPath(this->files[i]));
+			char *file = mir_t2a(Utils::getFileNameFromPath(m_files[i]));
 			int err = zipOpenNewFileInZip(zf, file, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, opt.iCompressionLevel);
 			FREE(file);
 
-			if (err == ZIP_OK)
-			{
-				FILE *fin = _tfopen(this->files[i], _T("rb"));
-				if (fin)
-				{
-					do
-					{
-						if (this->isCanceled())
-						{
+			if (err == ZIP_OK) {
+				FILE *fin = _tfopen(m_files[i], _T("rb"));
+				if (fin) {
+					do {
+						if (isCanceled()) {
 							fclose(fin);
 							result = STATUS_CANCELED;
 							goto Cleanup;
@@ -183,38 +172,30 @@ int PackerJob::createZipFile()
 
 						err = ZIP_OK;
 						size_read = (int)fread(buff, 1, size_buf, fin);
-						if (size_read < size_buf && feof(fin) == 0)
-						{
+						if (size_read < size_buf && feof(fin) == 0) {
 							fclose(fin);
 							result = ZIP_ERRNO;
 							goto Cleanup;
 						}
 
-						if (size_read > 0)
-						{
+						if (size_read > 0) {
 							err = zipWriteInFileInZip(zf, buff, size_read);
-							this->uiReaded += size_read;
+							m_uiReaded += size_read;
 						}
 
-						this->updateStats();
-					} 
-					while ((err == ZIP_OK) && (size_read > 0));
+						updateStats();
+					} while ((err == ZIP_OK) && (size_read > 0));
 					fclose(fin);
-				}	
-				else
-				{
-					err = ZIP_ERRNO;
 				}
+				else err = ZIP_ERRNO;
 
 				err = zipCloseFileInZip(zf);
-				if (err < 0)
-				{
+				if (err < 0) {
 					result = ZIP_ERRNO;
 					goto Cleanup;
 				}
 			}
-			else
-			{
+			else {
 				result = ZIP_ERRNO;
 				break;
 			}
@@ -224,7 +205,7 @@ Cleanup:
 		zipClose(zf, NULL);
 		FREE(buff);
 	}
-	
+
 	return result;
 }
 
@@ -235,10 +216,9 @@ uLong PackerJob::getFileTime(TCHAR *file, tm_zip*, uLong *dt)
 	WIN32_FIND_DATA ff32;
 
 	hFind = FindFirstFile(file, &ff32);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		FileTimeToLocalFileTime(&(ff32.ftLastWriteTime),&ftLocal);
-		FileTimeToDosDateTime(&ftLocal,((LPWORD)dt)+1,((LPWORD)dt)+0);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		FileTimeToLocalFileTime(&(ff32.ftLastWriteTime), &ftLocal);
+		FileTimeToDosDateTime(&ftLocal, ((LPWORD)dt) + 1, ((LPWORD)dt) + 0);
 		FindClose(hFind);
 		return 1;
 	}
@@ -249,55 +229,52 @@ uLong PackerJob::getFileTime(TCHAR *file, tm_zip*, uLong *dt)
 void PackerJob::updateStats()
 {
 	DWORD dwNewTick = GetTickCount();
-	if (this->uiReaded && (time(NULL) > this->startTS) && (dwNewTick > this->lastUpdateTick + 100))
-	{
-		this->lastUpdateTick = dwNewTick;
+	if (m_uiReaded && (time(NULL) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
+		m_lastUpdateTick = dwNewTick;
 
-		double speed = ((double)this->uiReaded / 1024)/(time(NULL) - this->startTS);
-		mir_sntprintf(this->tab->stzSpeed, _countof(this->tab->stzSpeed), TranslateT("%0.1f kB/s"), speed);
+		double speed = ((double)m_uiReaded / 1024) / (time(NULL) - m_startTS);
+		mir_sntprintf(m_tab->m_stzSpeed, TranslateT("%0.1f kB/s"), speed);
 
-		double perc = this->uiFileSize ? ((double)this->uiReaded / this->uiFileSize) * 100 : 0;
-		mir_sntprintf(this->tab->stzComplet, _countof(this->tab->stzComplet), TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiReaded/1024, (int)this->uiFileSize/1024);
+		double perc = m_uiFileSize ? ((double)m_uiReaded / m_uiFileSize) * 100 : 0;
+		mir_sntprintf(m_tab->m_stzComplet, TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiReaded / 1024, (int)m_uiFileSize / 1024);
 
 		TCHAR buff[256];
-		long s = (this->uiFileSize - this->uiReaded) / (long)(speed * 1024); 
+		long s = (m_uiFileSize - m_uiReaded) / (long)(speed * 1024);
 		int d = (s / 60 / 60 / 24);
 		int h = (s - d * 60 * 60 * 24) / 60 / 60;
-		int m = (s  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
+		int m = (s - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
 		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
 		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
-		mir_sntprintf(this->tab->stzRemain, _countof(this->tab->stzRemain), TranslateT("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiReaded)/1024, this->uiFileSize/1024);
+		mir_sntprintf(m_tab->m_stzRemain, TranslateT("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiReaded) / 1024, m_uiFileSize / 1024);
 
-		this->refreshTab(false);		
+		refreshTab(false);
 	}
 }
 
 void PackerJob::refreshTab(bool bTabChanged)
 {
-	if (uDlg->activeTab == this->tab->index())
-	{
+	if (uDlg->m_activeTab == m_tab->index()) {
 		GenericJob::refreshTab(bTabChanged);
 
-		SetDlgItemText(uDlg->hwnd, IDC_UP_SPEED, this->tab->stzSpeed);
-		SetDlgItemText(uDlg->hwnd, IDC_UP_COMPLETED, this->tab->stzComplet);
-		SetDlgItemText(uDlg->hwnd, IDC_UP_REMAIN, this->tab->stzRemain);
+		SetDlgItemText(uDlg->m_hwnd, IDC_UP_SPEED, m_tab->m_stzSpeed);
+		SetDlgItemText(uDlg->m_hwnd, IDC_UP_COMPLETED, m_tab->m_stzComplet);
+		SetDlgItemText(uDlg->m_hwnd, IDC_UP_REMAIN, m_tab->m_stzRemain);
 
-		SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)this->uiFileSize);
-		SendDlgItemMessage(uDlg->hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)this->uiReaded, 0);
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETRANGE32, 0, (LPARAM)m_uiFileSize);
+		SendDlgItemMessage(uDlg->m_hwnd, IDC_PB_UPLOAD, PBM_SETPOS, (WPARAM)m_uiReaded, 0);
 
-		if (bTabChanged)
-		{	
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("PACKING..."));
-			EnableWindow(GetDlgItem(uDlg->hwnd, IDC_BTN_PAUSE), FALSE);
-		}		
+		if (bTabChanged) {
+			SetDlgItemText(uDlg->m_hwnd, IDC_STATUSBAR, TranslateT("PACKING..."));
+			EnableWindow(GetDlgItem(uDlg->m_hwnd, IDC_BTN_PAUSE), FALSE);
+		}
 	}
 }
 
 bool PackerJob::isCanceled()
 {
-	return this->status == STATUS_CANCELED;
+	return m_status == STATUS_CANCELED;
 }
 
 void PackerJob::pauseHandler()
@@ -317,32 +294,25 @@ void PackerJob::resume()
 
 void PackerJob::cancel()
 {
-	this->setStatus(STATUS_CANCELED);
+	setStatus(STATUS_CANCELED);
 }
 
 void PackerJob::closeTab()
 {
-	if (Utils::msgBox(TranslateT("Do you really want to cancel this upload?"), MB_YESNO | MB_ICONQUESTION) == IDYES)
-	{
-		this->cancel();
-		delete this->tab;
-	}	
+	if (Utils::msgBox(TranslateT("Do you really want to cancel this upload?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		cancel();
+		delete m_tab;
+	}
 }
 
 void PackerJob::closeAllTabs()
-{	
-	this->cancel();
-	delete this->tab;	
+{
+	cancel();
+	delete m_tab;
 }
 
 void PackerJob::createToolTip()
 {
-	TCHAR *server = mir_a2t(this->ftp->szServer);
-	mir_sntprintf(uDlg->stzToolTipText, _countof(uDlg->stzToolTipText), 
-		TranslateT("Status: %s\r\nFile: %s\r\nServer: %s"), 
-		this->getStatusString(), 
-		this->stzFileName, 
-		server);
-
-	FREE(server);
+	mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
+		getStatusString(), m_tszFileName, m_ftp->m_szServer);
 }

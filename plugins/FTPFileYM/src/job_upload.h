@@ -29,17 +29,17 @@ class UploadJob: public GenericJob
 private:
 	static const int MAX_RUNNING_JOBS = 4;
 
-	FILE *fp;
-	CURL *hCurl;
-	char szError[CURL_ERROR_SIZE];
-	char buff[256];
+	FILE *m_fp;
+	CURL *m_hCurl;
+	char m_szError[CURL_ERROR_SIZE];
+	char m_buff[256];
 
-	UINT64 uiFileSize;
-	UINT64 uiTotalSent;
-	UINT64 uiSent;
-	time_t startTS;
-	double lastSpeed[10];
-	double avgSpeed;
+	UINT64 m_uiFileSize;
+	UINT64 m_uiTotalSent;
+	UINT64 m_uiSent;
+	time_t m_startTS;
+	double m_lastSpeed[10];
+	double m_avgSpeed;
 
 	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
@@ -51,7 +51,7 @@ private:
 	void copyLinkToML();
 	void autoSend();
 
-	CURL *curlInit(char *szUrl, struct curl_slist *headerList);
+	CURL* curlInit(char *szUrl, struct curl_slist *headerList);
 
 	static void waitingThread(void *arg); 
 	static size_t ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg);
@@ -62,7 +62,7 @@ private:
 	void updateStats();
 
 public:
-	char szFileLink[256];
+	char m_szFileLink[256];
 	static Event jobDone;
 
 	UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode);

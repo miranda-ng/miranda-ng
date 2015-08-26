@@ -39,17 +39,17 @@ public:
 			FT_SSH
 		};
 
-		bool bEnabled;	
-		TCHAR stzName[64];
-		char szServer[256];
-		char szUser[64];
-		char szPass[64];
-		char szDir[64];
-		char szChmod[256];
-		char szUrl[256];
-		EProtoType ftpProto;
-		int iPort;
-		bool bPassive;
+		bool m_bEnabled;	
+		TCHAR m_stzName[64];
+		char m_szServer[256];
+		char m_szUser[64];
+		char m_szPass[64];
+		char m_szDir[64];
+		char m_szChmod[256];
+		char m_szUrl[256];
+		EProtoType m_ftpProto;
+		int m_iPort;
+		bool m_bPassive;
 
 		FTP(int index);
 
@@ -59,11 +59,11 @@ public:
 
 	static const int FTP_COUNT = 5;
 
-	vector<FTP *> items;
+	vector<FTP *> m_items;
 
-	FTP	*operator[] (int i) const { return items[i]; };
-	void add(FTP *newItem) { items.push_back(newItem); }
-	size_t size() { return items.size(); }
+	FTP	*operator[] (int i) const { return m_items[i]; };
+	void add(FTP *newItem) { m_items.push_back(newItem); }
+	size_t size() { return m_items.size(); }
 
 	static ServerList &getInstance() 
 	{

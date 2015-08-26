@@ -66,20 +66,20 @@ public:
 		STATUS_COMPLETED
 	};
 
-	MCONTACT hContact;
-	int iFtpNum, fileID;
-	ServerList::FTP *ftp;
-	TCHAR stzFilePath[1024];
-	TCHAR stzFileName[64];
-	char szSafeFileName[64];
-	EMode mode;
-	EStatus status;
+	MCONTACT m_hContact;
+	int m_iFtpNum, m_fileID;
+	ServerList::FTP *m_ftp;
+	TCHAR m_tszFilePath[1024];
+	TCHAR m_tszFileName[64];
+	char m_szSafeFileName[64];
+	EMode m_mode;
+	EStatus m_status;
 
-	UploadDialog::Tab *tab;
-	vector<TCHAR *> files;
-	TCHAR * operator[] (int i) const { return files[i];}
+	UploadDialog::Tab *m_tab;
+	vector<TCHAR *> m_files;
+	TCHAR* operator[] (int i) const { return m_files[i];}
 
-	GenericJob(MCONTACT hContact, int iFtpNum, EMode mode);
+	GenericJob(MCONTACT hContact, int m_iFtpNum, EMode mode);
 	GenericJob(GenericJob *job);
 	virtual ~GenericJob();
 
