@@ -280,7 +280,7 @@ void UploadJob::upload()
 	_tstat(m_tszFilePath, &fileInfo);
 	m_uiFileSize = (UINT64)fileInfo.st_size;
 
-	CURL *hCurl = (getUrlString(), headerList);
+	CURL *hCurl = curlInit(getUrlString(), headerList);
 	if (!hCurl) {
 		Utils::msgBox(TranslateT("Error occurred when initializing libcurl.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;

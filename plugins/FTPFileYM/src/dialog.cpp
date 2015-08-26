@@ -165,6 +165,8 @@ LRESULT CALLBACK UploadDialog::TabControlProc(HWND hwnd, UINT msg, WPARAM wParam
 
 INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	UploadJob *job;
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -247,17 +249,13 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					return TRUE;
 
 				case IDC_BTN_CLIPBOARD:
-					{
-						UploadJob *job = (UploadJob *)uDlg->m_tabs[uDlg->m_activeTab]->m_job;
-						Utils::copyToClipboard(job->m_szFileLink);
-					}
+					job = (UploadJob*)uDlg->m_tabs[uDlg->m_activeTab]->m_job;
+					Utils::copyToClipboard(job->m_szFileLink);
 					return TRUE;
 
 				case IDC_BTN_DOWNLOAD:
-					{
-						UploadJob *job = (UploadJob *)uDlg->m_tabs[uDlg->m_activeTab]->m_job;
-						ShellExecuteA(NULL, "open", job->m_szFileLink, NULL, NULL, SW_SHOWNORMAL);
-					}
+					job = (UploadJob*)uDlg->m_tabs[uDlg->m_activeTab]->m_job;
+					ShellExecuteA(NULL, "open", job->m_szFileLink, NULL, NULL, SW_SHOWNORMAL);
 					return TRUE;
 
 				case IDC_BTN_FILEMANAGER:
@@ -351,8 +349,8 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					return TRUE;
 				}
 			}
-			break;
 		}
+		break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
