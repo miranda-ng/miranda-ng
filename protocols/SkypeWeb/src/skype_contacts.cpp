@@ -334,7 +334,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
-	MCONTACT hContact = (MCONTACT)p;
+	MCONTACT hContact = (DWORD_PTR)p;
 	if (response == NULL)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 127);
@@ -349,7 +349,7 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
-	MCONTACT hContact = (MCONTACT)p;
+	MCONTACT hContact = (DWORD_PTR)p;
 	if (response == NULL)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 0);
