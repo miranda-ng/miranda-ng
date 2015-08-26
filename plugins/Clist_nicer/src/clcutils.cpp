@@ -474,16 +474,16 @@ void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newStat
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
-static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) {
+	switch (uMsg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			pcli->pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
 			return 0;
 		case VK_ESCAPE:
-			pcli->pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 0);
+			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 0);
 			return 0;
 		}
 		break;
@@ -497,10 +497,10 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		return DLGC_WANTMESSAGE;
 	case WM_KILLFOCUS:
-		pcli->pfnEndRename(GetParent(hwnd), (struct ClcData *) GetWindowLongPtr(GetParent(hwnd), 0), 1);
+		pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(GetParent(hwnd), 0), 1);
 		return 0;
 	}
-	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, uMsg, wParam, lParam);
 }
 
 void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
