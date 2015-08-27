@@ -51,7 +51,7 @@ HICON LoadIconEx(const char* name, bool big)
 
 HANDLE  GetIconHandle(const char* name)
 {
-	for (int i=0; i < _countof(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return iconList[i].hIcolib;
 

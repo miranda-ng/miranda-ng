@@ -119,7 +119,7 @@ void LoadOptions(void)
 
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = db_get_b(NULL, WEATHERPROTONAME, "NoFractions", 0);
-	
+
 	// texts
 	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "DisplayText"))
 		wSetData(&opt.cText, TranslateTS(szValue));
@@ -321,34 +321,34 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		// load units
 		switch (opt.tUnit) {	// temperature
-			case 1: CheckRadioButton(hdlg, IDC_T1, IDC_T2, IDC_T1); break;
-			case 2: CheckRadioButton(hdlg, IDC_T1, IDC_T2, IDC_T2); break;
+		case 1: CheckRadioButton(hdlg, IDC_T1, IDC_T2, IDC_T1); break;
+		case 2: CheckRadioButton(hdlg, IDC_T1, IDC_T2, IDC_T2); break;
 		}
 		switch (opt.wUnit) {	// wind
-			case 1: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W1); break;
-			case 2: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W2); break;
-			case 3: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W3); break;
-			case 4: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W4); break;
+		case 1: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W1); break;
+		case 2: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W2); break;
+		case 3: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W3); break;
+		case 4: CheckRadioButton(hdlg, IDC_W1, IDC_W4, IDC_W4); break;
 		}
 		switch (opt.vUnit) {	// visibility
-			case 1: CheckRadioButton(hdlg, IDC_V1, IDC_V2, IDC_V1); break;
-			case 2: CheckRadioButton(hdlg, IDC_V1, IDC_V2, IDC_V2); break;
+		case 1: CheckRadioButton(hdlg, IDC_V1, IDC_V2, IDC_V1); break;
+		case 2: CheckRadioButton(hdlg, IDC_V1, IDC_V2, IDC_V2); break;
 		}
 		switch (opt.pUnit) {	// pressure
-			case 1: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P1); break;
-			case 2: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P2); break;
-			case 3: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P3); break;
-			case 4: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P4); break;
+		case 1: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P1); break;
+		case 2: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P2); break;
+		case 3: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P3); break;
+		case 4: CheckRadioButton(hdlg, IDC_P1, IDC_P4, IDC_P4); break;
 		}
 		switch (opt.dUnit) {	// pressure
-			case 1: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D1); break;
-			case 2: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D2); break;
-			case 3: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D3); break;
+		case 1: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D1); break;
+		case 2: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D2); break;
+		case 3: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D3); break;
 		}
 
 		switch (opt.eUnit) {	// elev
-			case 1: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E1); break;
-			case 2: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E2); break;
+		case 1: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E1); break;
+		case 2: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E2); break;
 		}
 
 		opt_startup = FALSE;
@@ -356,10 +356,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 	case WM_COMMAND:
 		if (HIWORD(wparam) == BN_CLICKED && GetFocus() == (HWND)lparam)
-		if (!opt_startup)	SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			if (!opt_startup)	SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		if (!((LOWORD(wparam) == IDC_UPDATE || LOWORD(wparam) == IDC_DEGREE) &&
 			(HIWORD(wparam) != EN_CHANGE || (HWND)lparam != GetFocus())))
-		if (!opt_startup)	SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			if (!opt_startup)	SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		return 0;
 
 	case WM_NOTIFY:
@@ -527,13 +527,13 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			TranslateMenu(hMenu1);
 			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
 			case ID_MPREVIEW:
-			{
-				// show the preview in a message box, using the weather data from the default station
-				WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
-				GetDisplay(&winfo, *var[LOWORD(wParam) - IDC_TM1], str);
-				MessageBox(NULL, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
-				break;
-			}
+				{
+					// show the preview in a message box, using the weather data from the default station
+					WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
+					GetDisplay(&winfo, *var[LOWORD(wParam) - IDC_TM1], str);
+					MessageBox(NULL, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
+					break;
+				}
 			case ID_MRESET:
 				unsigned varo = LOWORD(wParam) - IDC_TM1;
 				// remove the old setting from db and free memory

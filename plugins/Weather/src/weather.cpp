@@ -74,18 +74,18 @@ static const PLUGININFOEX pluginInfoEx =
 	{0x6b612a34, 0xdcf2, 0x4e32, {0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD) 
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-int WeatherShutdown(WPARAM, LPARAM) 
+int WeatherShutdown(WPARAM, LPARAM)
 {
 	KillTimer(NULL, timerId);		// kill update timer
 
@@ -117,7 +117,7 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 
 // weather protocol initialization function
 // run after the event ME_SYSTEM_MODULESLOADED occurs
-int WeatherInit(WPARAM, LPARAM) 
+int WeatherInit(WPARAM, LPARAM)
 {
 	// initialize netlib
 	NetlibInit();
@@ -139,7 +139,7 @@ int WeatherInit(WPARAM, LPARAM)
 //============  MISC FUNCTIONS  ============
 
 // initialize the global variables at startup
-void InitVar() 
+void InitVar()
 {
 	// setup the linklist for weather update list
 	UpdateListTail = NULL;
@@ -152,7 +152,7 @@ void InitVar()
 }
 
 // unload function
-extern "C" int __declspec(dllexport) Unload(void) 
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyMwin();
 	DestroyWindow(hPopupWindow);
@@ -174,7 +174,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void) 
+extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
@@ -235,5 +235,5 @@ extern "C" int __declspec(dllexport) Load(void)
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, _T("static"), SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
-	return 0; 
+	return 0;
 }
