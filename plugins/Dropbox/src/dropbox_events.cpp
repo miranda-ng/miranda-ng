@@ -128,6 +128,7 @@ int CDropbox::OnFileDialogCancelled(WPARAM, LPARAM lParam)
 	if (hTransferWindow == hwnd)
 	{
 		CallFunctionAsync(EnableTabSrmmButtonSync, (void*)hTransferContact);
+		hTransferContact = 0;
 		hTransferWindow = 0;
 	}
 
