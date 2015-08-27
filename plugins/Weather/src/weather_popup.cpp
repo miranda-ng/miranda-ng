@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* This file contain the source related to weather popups, including popup
-   options, popup display, and the code for popup process.
+	options, popup display, and the code for popup process.
 */
 
 #include "stdafx.h"
@@ -32,12 +32,11 @@ static HANDLE hPopupContact;
 // display weather popups
 // wParam = the contact to display popup
 // lParam = whether the weather data is changed or not
-int WeatherPopup(WPARAM hContact, LPARAM lParam) 
+int WeatherPopup(WPARAM hContact, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0))
-	{
+		!db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0)) {
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
@@ -47,10 +46,10 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
 		GetDisplay(&winfo, opt.pText, ppd.lptzText);
 		ppd.PluginWindowProc = PopupDlgProc;
-		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
-		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
+		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
+		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopupT( &ppd );
+		PUAddPopupT(&ppd);
 	}
 	return 0;
 }
@@ -62,20 +61,19 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 // lParam = display type
 // Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
 
-int WeatherError(WPARAM wParam, LPARAM lParam) 
+int WeatherError(WPARAM wParam, LPARAM lParam)
 {
-	if ( !opt.UsePopup)
+	if (!opt.UsePopup)
 		return 0;
 
-	TCHAR* tszMsg = ( TCHAR* )wParam;
+	TCHAR* tszMsg = (TCHAR*)wParam;
 
 	if ((DWORD)lParam == SM_WARNING)
-		PUShowMessageT( tszMsg, SM_WARNING );
+		PUShowMessageT(tszMsg, SM_WARNING);
 	else if ((DWORD)lParam == SM_NOTIFY)
-		PUShowMessageT( tszMsg, SM_NOTIFY);
-	else if ((DWORD)lParam == SM_WEATHERALERT) 
-	{
-		POPUPDATAT ppd = {0};
+		PUShowMessageT(tszMsg, SM_NOTIFY);
+	else if ((DWORD)lParam == SM_WEATHERALERT) {
+		POPUPDATAT ppd = { 0 };
 		TCHAR str1[512], str2[512];
 
 		// get the 2 strings
@@ -88,19 +86,19 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 			str1[0] = 0;
 		chop = _tcschr(str2, 255);
 		if (chop != NULL)
-			_tcsncpy(str2, chop+1, _countof(str2) - 1);
+			_tcsncpy(str2, chop + 1, _countof(str2) - 1);
 		else
 			str2[0] = 0;
 
 		// setup the popup
-		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON, 
+		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON,
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
 		mir_tstrcpy(ppd.lptzContactName, str1);
 		mir_tstrcpy(ppd.lptzText, str2);
-		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
-		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
+		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
+		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		PUAddPopupT( &ppd );
+		PUAddPopupT(&ppd);
 	}
 	return 0;
 }
@@ -121,13 +119,13 @@ int WPShowMessage(TCHAR* lpzText, WORD kind)
 // popup dialog pocess
 // for selecting actions when click on the popup window
 // use for displaying contact menu
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	DWORD ID = 0;
 	MCONTACT hContact;
 	hContact = PUGetContact(hWnd);
 
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		ID = opt.LeftClickAction;
 		if (ID != IDM_M7)  PUDeletePopup(hWnd);
@@ -150,7 +148,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
 // process for the popup window
 // containing the code for popup actions
-LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	POINT pt;
 	HMENU hMenu;
@@ -179,7 +177,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		hMenu = Menu_BuildContactMenu(wParam);
 		GetCursorPos(&pt);
 		hPopupContact = (HANDLE)wParam;
-		TrackPopupMenu(hMenu,TPM_LEFTALIGN,pt.x,pt.y,0,hWnd,NULL);
+		TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hWnd, NULL);
 		DestroyMenu(hMenu);
 		break;
 
@@ -204,22 +202,22 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 //============  POPUP OPTIONS  ============
 
 // used to select the menu item for popup action menu
-static void SelectMenuItem(HMENU hMenu, int Check) 
+static void SelectMenuItem(HMENU hMenu, int Check)
 {
-	for (int i=0; i <= GetMenuItemCount(hMenu)-1; i++)
-		CheckMenuItem(hMenu, i, MF_BYPOSITION|((int)GetMenuItemID(hMenu, i) == Check)*8);
+	for (int i = 0; i <= GetMenuItemCount(hMenu) - 1; i++)
+		CheckMenuItem(hMenu, i, MF_BYPOSITION | ((int)GetMenuItemID(hMenu, i) == Check) * 8);
 }
 
 // temporary read the current option to memory
 // but does not write to the database
-void ReadPopupOpt(HWND hdlg) 
+void ReadPopupOpt(HWND hdlg)
 {
 	TCHAR text[MAX_TEXT_SIZE];
 	TCHAR str[512];
 
 	// popup colour
-	opt.TextColour = SendDlgItemMessage(hdlg,IDC_TEXTCOLOUR,CPM_GETCOLOUR,0,0);
-	opt.BGColour = SendDlgItemMessage(hdlg,IDC_BGCOLOUR,CPM_GETCOLOUR,0,0);
+	opt.TextColour = SendDlgItemMessage(hdlg, IDC_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0);
+	opt.BGColour = SendDlgItemMessage(hdlg, IDC_BGCOLOUR, CPM_GETCOLOUR, 0, 0);
 
 	// get delay time
 	GetDlgItemText(hdlg, IDC_DELAY, str, _countof(str));
@@ -244,7 +242,7 @@ void ReadPopupOpt(HWND hdlg)
 }
 
 // copied and modified from NewStatusNotify
-INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ID;
 	TCHAR str[512];
@@ -259,7 +257,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SaveOptions();
 
 		// click actions
-		hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
 		GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
@@ -273,11 +271,11 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_W, opt.ShowWarnings ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemText(hdlg,IDC_PText, opt.pText);
-		SetDlgItemText(hdlg,IDC_PTitle, opt.pTitle);
+		SetDlgItemText(hdlg, IDC_PText, opt.pText);
+		SetDlgItemText(hdlg, IDC_PTitle, opt.pTitle);
 		// setting popup delay option
 		_ltot(opt.pDelay, str, 10);
-		SetDlgItemText(hdlg,IDC_DELAY, str);
+		SetDlgItemText(hdlg, IDC_DELAY, str);
 		if (opt.pDelay == -1)
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD2);
 		else if (opt.pDelay == 0)
@@ -303,12 +301,12 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		// enable the "apply" button 
 		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam)
-			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
-		if ( !((LOWORD(wParam) == IDC_UPDATE || LOWORD(wParam) == IDC_DEGREE) && 
+			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+		if (!((LOWORD(wParam) == IDC_UPDATE || LOWORD(wParam) == IDC_DEGREE) &&
 			(HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())))
-			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
+			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		//These are simple clicks: we don't save, but we tell the Options Page to enable the "Apply" button.
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_BGCOLOUR: //Fall through
 		case IDC_TEXTCOLOUR:
 			// select new colors
@@ -331,17 +329,18 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_RightClick:
 			// right click action selection menu
 			button = GetDlgItem(hdlg, IDC_RightClick);
-			GetWindowRect(button, &pos); 
+			GetWindowRect(button, &pos);
 
-			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.RightClickAction);
-			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
-			if (ID)   opt.RightClickAction = ID;
+			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
+			if (ID)
+				opt.RightClickAction = ID;
 			DestroyMenu(hMenu);
 
-			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.RightClickAction, str, sizeof(str), MF_BYCOMMAND);
 			SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
@@ -351,17 +350,17 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_LeftClick:
 			// left click action selection menu
 			button = GetDlgItem(hdlg, IDC_LeftClick);
-			GetWindowRect(button, &pos); 
+			GetWindowRect(button, &pos);
 
-			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.LeftClickAction);
-			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
+			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
 			if (ID)   opt.LeftClickAction = ID;
 			DestroyMenu(hMenu);
 
-			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
+			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.LeftClickAction, str, sizeof(str), MF_BYCOMMAND);
 			SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
@@ -388,19 +387,19 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_PDEF:
 			// set the default value for popup texts
 			SetTextDefault("Pp");
-			SetDlgItemText(hdlg,IDC_PText, opt.pText);
-			SetDlgItemText(hdlg,IDC_PTitle, opt.pTitle);
+			SetDlgItemText(hdlg, IDC_PText, opt.pText);
+			SetDlgItemText(hdlg, IDC_PTitle, opt.pTitle);
 			wfree(&opt.pText);
 			wfree(&opt.pTitle);
 			break;
 
 		case IDC_VAR3:
 			// display variable list
-			_tcsncpy(str, _T("                                                            \n"),_countof(str) - 1);		// to make the message box wider
+			_tcsncpy(str, _T("                                                            \n"), _countof(str) - 1);		// to make the message box wider
 			mir_tstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_tstrlen(str));
 			mir_tstrncat(str, _T("\n"), _countof(str) - mir_tstrlen(str));
 			mir_tstrncat(str, CUSTOM_VARS, _countof(str) - mir_tstrlen(str));
-			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK|MB_ICONASTERISK|MB_TOPMOST);
+			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
 			break;
 
 		case IDC_PREVIEW:
@@ -414,17 +413,16 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-	
+
 	case WM_NOTIFY: //Here we have pressed either the OK or the APPLY button.
 		switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY: {
-				ReadPopupOpt(hdlg);
+		case PSN_APPLY:
+			ReadPopupOpt(hdlg);
 
-				// save the options, and update main menu
-				SaveOptions();
-				UpdatePopupMenu(opt.UsePopup);
-				return TRUE;
-			}
+			// save the options, and update main menu
+			SaveOptions();
+			UpdatePopupMenu(opt.UsePopup);
+			return TRUE;
 		}
 		break;
 	}

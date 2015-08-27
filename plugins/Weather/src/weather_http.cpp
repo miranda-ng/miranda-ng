@@ -29,11 +29,9 @@ HANDLE hNetlibUser, hNetlibHttp;
 
 int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 {
-	int res = -1, i; 
-	for (i=0; i<nlhrReply->headersCount; i++) 
-	{
-		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) 
-		{
+	int res = -1, i;
+	for (i = 0; i < nlhrReply->headersCount; i++) {
+		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) {
 			res = i;
 			break;
 		}
@@ -48,11 +46,11 @@ int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
 
-int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **szData) 
+int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szData)
 {
 	if (userAgent == NULL || userAgent[0] == 0)
 		userAgent = NETLIB_USER_AGENT;
-	
+
 	NETLIBHTTPHEADER headers[5];
 	headers[0].szName = "User-Agent";
 	headers[0].szValue = userAgent;
@@ -80,7 +78,7 @@ int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **sz
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply == 0) {
-	// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
+		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		*szData = (TCHAR*)mir_alloc(512);
 		// store the error code in szData
 		mir_tstrcpy(*szData, _T("NetLib error occurred!!"));
@@ -110,7 +108,7 @@ int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **sz
 						tmp = *end; *end = 0;
 
 						method = strstr(beg, "http-equiv=\"");
-						if (method && _strnicmp(method+12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
+						if (method && _strnicmp(method + 12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
 							bIsUtf = true;
 							break;
 						}
@@ -121,7 +119,7 @@ int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **sz
 
 			TCHAR *retVal = NULL;
 			if (bIsUtf)
-				retVal = mir_utf8decodeT( nlhrReply->pData );
+				retVal = mir_utf8decodeT(nlhrReply->pData);
 			if (retVal == NULL)
 				retVal = mir_a2t(nlhrReply->pData);
 			*szData = retVal;
@@ -138,27 +136,26 @@ int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **sz
 
 	hNetlibHttp = nlhrReply->nlc;
 	// make a copy of the retrieved data, then free the memory of the http reply
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0, (LPARAM)nlhrReply);
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	return result;
 }
 
 //============  NETLIB INITIALIZATION  ============
 
 // initialize netlib support for weather protocol
-void NetlibInit(void) 
+void NetlibInit(void)
 {
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
 	nlu.szSettingsModule = WEATHERPROTONAME;
 	nlu.ptszDescriptiveName = TranslateT("Weather HTTP connections");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0, (LPARAM)&nlu);
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
-void NetlibHttpDisconnect(void) 
+void NetlibHttpDisconnect(void)
 {
-	if (hNetlibHttp)
-	{
+	if (hNetlibHttp) {
 		HANDLE hConn = hNetlibHttp;
 		hNetlibHttp = NULL;
 		Netlib_CloseHandle(hConn);

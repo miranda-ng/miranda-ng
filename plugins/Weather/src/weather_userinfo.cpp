@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-/* 
+/*
 This file contain the source that is related to display contact
 information, including the one shows in user detail and the brief
 information
@@ -31,7 +31,7 @@ information
 
 // initialize user info
 // lParam = current contact
-int UserInfoInit(WPARAM wParam, LPARAM lParam) 
+int UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -50,7 +50,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
-			odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+			odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 			UserInfo_AddPage(wParam, &odp);
 		}
 	}
@@ -59,14 +59,14 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 
 // dialog process for the weather tab under user info
 // lParam = current contact
-INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WEATHERINFO w;
 	TCHAR str[MAX_TEXT_SIZE];
 
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
-	case WM_INITDIALOG: 
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_MOREDETAIL, BUTTONSETASFLATBTN, TRUE, 0);
 		// save the contact handle for later use
@@ -76,14 +76,14 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		w = LoadWeatherInfo(lParam);
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
-		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
+		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON,
 			(WPARAM)Skin_LoadProtoIcon(WEATHERPROTONAME,
-			db_get_w(hContact, WEATHERPROTONAME, "StatusIcon",0)), 0);
+				db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0)), 0);
 
 		{	// bold and enlarge the current condition
 			LOGFONT lf;
-			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg,IDC_INFO2,WM_GETFONT,0,0);
-			GetObject(hNormalFont,sizeof(lf),&lf);
+			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_GETFONT, 0, 0);
+			GetObject(hNormalFont, sizeof(lf), &lf);
 			lf.lfWeight = FW_BOLD;
 			lf.lfWidth = 7;
 			lf.lfHeight = 15;
@@ -107,14 +107,14 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SetDlgItemText(hwndDlg, IDC_INFO13, w.vis);
 		break;
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 0, 0));
 		DeleteObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_GETFONT, 0, 0));
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
-		case IDC_MOREDETAIL: 
+		switch (LOWORD(wParam)) {
+		case IDC_MOREDETAIL:
 			HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 			if (hMoreDataDlg == NULL)
 				hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, DlgProcMoreData, hContact);
@@ -155,7 +155,7 @@ static int BriefDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 // dialog process for more data in the user info window
 // lParam = contact handle
-INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static const unsigned tabstops = 48;
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -166,7 +166,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		hContact = lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 
-		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM) TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM)TRUE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETMARGINS, EC_LEFTMARGIN, 5);
 		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETTABSTOPS, 1, (LPARAM)&tabstops);
@@ -219,7 +219,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 
-	case WM_SIZE: 
+	case WM_SIZE:
 		{
 			RECT rc;
 			HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
@@ -227,10 +227,10 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + (int)LOWORD(lParam) - (rc.right - rc.left));
 
 			Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_BRIEF), BriefDlgResizer);
-		}				
+		}
 		break;
 
-	case WM_GETMINMAXINFO: 
+	case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
 
@@ -242,13 +242,13 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDCANCEL:
 			// close the info window
 			DestroyWindow(hwndDlg);
 			break;
 
-		case IDC_MUPDATE: 
+		case IDC_MUPDATE:
 			{
 				HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
 
@@ -273,13 +273,13 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_MTOGGLE:
-			if (IsWindowVisible(GetDlgItem(hwndDlg,IDC_DATALIST)))
+			if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_DATALIST)))
 				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("More Info"));
 			else
 				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("Brief Info"));
-			ShowWindow(GetDlgItem(hwndDlg,IDC_DATALIST), (int)!IsWindowVisible(
-				GetDlgItem(hwndDlg,IDC_DATALIST)));
-			ShowWindow(GetDlgItem(hwndDlg,IDC_MTEXT), (int)!IsWindowVisible(GetDlgItem(hwndDlg,IDC_MTEXT)));
+			ShowWindow(GetDlgItem(hwndDlg, IDC_DATALIST), (int)!IsWindowVisible(
+				GetDlgItem(hwndDlg, IDC_DATALIST)));
+			ShowWindow(GetDlgItem(hwndDlg, IDC_MTEXT), (int)!IsWindowVisible(GetDlgItem(hwndDlg, IDC_MTEXT)));
 			break;
 		}
 		break;
@@ -307,7 +307,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		DestroyWindow(hwndDlg);
 		break;
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 
@@ -321,7 +321,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 // set the title of the dialog and on the which rectangle
 // also load brief info into message box
-void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact) 
+void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 {
 	WEATHERINFO winfo;
 	TCHAR str[4096];
@@ -329,7 +329,7 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
-	if ( !(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
+	if (!(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
 		_tcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
 	else
 		// set the display text and show the message box
@@ -343,7 +343,7 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 
 // show brief information dialog
 // wParam = current contact
-int BriefInfo(WPARAM wParam, LPARAM) 
+int BriefInfo(WPARAM wParam, LPARAM)
 {
 	// make sure that the contact is actually a weather one
 	if (IsMyContact(wParam)) {
@@ -362,7 +362,7 @@ int BriefInfo(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam) 
+INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam)
 {
 	return BriefInfo(wParam, lParam);
 }

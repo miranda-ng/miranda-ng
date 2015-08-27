@@ -1,4 +1,4 @@
-	/*
+/*
 Weather Protocol plugin for Miranda IM
 Copyright (c) 2012 Miranda NG Team
 Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
@@ -9,7 +9,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; version 2
 of the License.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* This file contain the source that is related to weather contacts, 
+/* This file contain the source that is related to weather contacts,
 include the links, edit settings, and loading weather information for
 the contact.
 */
@@ -37,7 +37,7 @@ static void OpenUrl(TCHAR* format, TCHAR* id)
 // view weather log for the contact
 // wParam = current contact
 
-INT_PTR ViewLog(WPARAM wParam, LPARAM lParam) 
+INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
 	DBVARIANT dbv;
@@ -47,8 +47,8 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 		db_free(&dbv);
 	}
 	else	// display warning dialog if no path is specified
-		MessageBox(NULL, TranslateT("Weather condition was not logged."), 
-		TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TranslateT("Weather condition was not logged."),
+			TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 	return 0;
 }
 
@@ -66,14 +66,14 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 			return 1;
 		}
 		// set the url and open the webpage
-		OpenUrl(loc2, id );
+		OpenUrl(loc2, id);
 	}
 	return 0;
 }
 
 // load weather map
 // wParam = current contact
-INT_PTR WeatherMap(WPARAM wParam, LPARAM) 
+INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 {
 	TCHAR id[256], loc2[256];
 	GetStationID(wParam, id, _countof(id));
@@ -125,7 +125,7 @@ typedef struct
 
 // edit weather settings
 // lParam = current contact
-INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 	TCHAR str[256], str2[256], city[256], filter[256], *pfilter, *chop;
@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		wndData = ( CntSetWndDataType* )mir_alloc(sizeof(CntSetWndDataType));
+		wndData = (CntSetWndDataType*)mir_alloc(sizeof(CntSetWndDataType));
 		wndData->hContact = hContact = lParam;
 		wndData->hRename = Skin_LoadIcon(SKINICON_OTHER_RENAME);
 		wndData->hUserDetail = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
@@ -151,11 +151,11 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		// set button images
 		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
 		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hUserDetail);
-		SendDlgItemMessage(hwndDlg, IDC_BROWSE,  BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hFile);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW1,   BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hSrchAll);
-		SendDlgItemMessage(hwndDlg, IDC_RESET1,  BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW2,   BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hSrchAll);
-		SendDlgItemMessage(hwndDlg, IDC_RESET2,  BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
+		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hFile);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hSrchAll);
+		SendDlgItemMessage(hwndDlg, IDC_RESET1, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hSrchAll);
+		SendDlgItemMessage(hwndDlg, IDC_RESET2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
 
 		// make all buttons flat
 		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONSETASFLATBTN, TRUE, 0);
@@ -167,30 +167,30 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set tooltip for the buttons
-		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Get city name from ID"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Weather INI information"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Browse"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM) LPGENT("View webpage"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Reset to default"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM) LPGENT("View webpage"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM) LPGENT("Reset to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Get city name from ID"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Weather INI information"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Browse"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM)LPGENT("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM)LPGENT("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset to default"), BATF_TCHAR);
 
 		// save the handle for the contact
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 
 		// start to get the settings
 		// if the setting not exist, leave the dialog box blank
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
 			// check if the station is a default station
 			CheckDlgButton(hwndDlg, IDC_DEFA, mir_tstrcmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_NAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Log", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "Log", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_LOG, dbv.ptszVal);
 			// if the log path is not empty, check the checkbox for external log
 			if (dbv.ptszVal[0]) CheckDlgButton(hwndDlg, IDC_External, BST_CHECKED);
@@ -204,11 +204,11 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, db_get_b(hContact, WEATHERPROTONAME, "DAutoUpdate", FALSE) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_IURL, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
+		if (!db_get_ts(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_MURL, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -222,7 +222,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		wndData = (CntSetWndDataType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		hContact = wndData ? wndData->hContact : NULL;
 
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_ID:
 			// check if there are 2 parts in the ID (svc/id) seperated by "/"
 			// if not, don't let user change the setting
@@ -241,46 +241,47 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), str[0] != 0);
 			break;
 
-		case IDC_GETNAME: 
-			{
-				// the button for getting station name from the internet
-				// this function uses the ID search for add/find weather station
+		case IDC_GETNAME:
+			// the button for getting station name from the internet
+			// this function uses the ID search for add/find weather station
+			if (!CheckSearch())
+				return TRUE;	// don't download if update is in progress
 
-				if ( !CheckSearch()) return TRUE;	// don't download if update is in progress
 				// get the weather update data using the string in the ID field
-				GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-				GetSvc(str);
-				WIDATA *sData = GetWIData(str);
-				GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-				GetID(str);
-				// if ID search is available, do it
-				if (sData->IDSearch.Available) {
-					TCHAR *szData = NULL;
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
+			GetSvc(str);
+			sData = GetWIData(str);
+			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
+			GetID(str);
+			// if ID search is available, do it
+			if (sData->IDSearch.Available) {
+				// load the page
+				mir_snprintf(loc, _countof(loc), sData->IDSearch.SearchURL, str);
+				str[0] = 0;
+				TCHAR *pData = NULL;
+				if (InternetDownloadFile(loc, NULL, sData->UserAgent, &pData) == 0) {
+					TCHAR *szInfo = pData;
+					TCHAR* search = _tcsstr(szInfo, sData->IDSearch.NotFoundStr);
 
-					// load the page
-					mir_snprintf(loc, _countof(loc), sData->IDSearch.SearchURL, str);
-					str[0] = 0;
-					if (InternetDownloadFile(loc, NULL, sData->UserAgent, &szData) == 0) {
-						TCHAR *szInfo = szData;
-						TCHAR* search = _tcsstr(szInfo, sData->IDSearch.NotFoundStr);
-
-						// if the page is found (ie. valid ID), get the name of the city
-						if (search == NULL)
-							GetDataValue(&sData->IDSearch.Name, str, &szInfo);
-					}
-					// free memory
-					mir_free(szData);
-
-					NetlibHttpDisconnect();
+					// if the page is found (ie. valid ID), get the name of the city
+					if (search == NULL)
+						GetDataValue(&sData->IDSearch.Name, str, &szInfo);
 				}
-				// give no station name but only ID if the search is unavailable
-				if (str[0] != 0)	SetDlgItemText(hwndDlg, IDC_NAME, str);
-				break;
+				// free memory
+				mir_free(pData);
+
+				NetlibHttpDisconnect();
 			}
+			// give no station name but only ID if the search is unavailable
+			if (str[0] != 0)
+				SetDlgItemText(hwndDlg, IDC_NAME, str);
+			break;
+
 		case IDC_External:
 			// enable/disable the borwse button depending if the external log is enabled
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
-			if ( !(BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) return TRUE;
+			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_External))
+				return TRUE;
 
 		case IDC_BROWSE:	// fall through
 			// browse for the external log file
@@ -294,14 +295,14 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// set filters
 			_tcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
 			mir_tstrncat(filter, _T(" (*.txt)"), _countof(filter) - mir_tstrlen(filter));
-			pfilter = filter + mir_tstrlen(filter)+1;
+			pfilter = filter + mir_tstrlen(filter) + 1;
 			_tcsncpy(pfilter, _T("*.txt"), _countof(filter) - 1);
-			pfilter = pfilter + mir_tstrlen(pfilter)+1;
+			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
 			mir_tstrncat(pfilter, _T(" (*.*)"), _countof(filter) - mir_tstrlen(filter));
-			pfilter = pfilter + mir_tstrlen(pfilter)+1;
+			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			_tcsncpy(pfilter, _T("*.*"), _countof(filter) - 1);
-			pfilter = pfilter + mir_tstrlen(pfilter)+1;
+			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 1;
@@ -320,7 +321,8 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_VIEW1:
 			// view the page for more info
 			GetDlgItemText(hwndDlg, IDC_IURL, str, _countof(str));
-			if (str[0] == 0) return TRUE;
+			if (str[0] == 0)
+				return TRUE;
 			GetDlgItemText(hwndDlg, IDC_ID, str2, _countof(str2));
 			OpenUrl(str, str2);
 			break;
@@ -328,7 +330,8 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		case IDC_VIEW2:
 			// view the page for weather map
 			GetDlgItemText(hwndDlg, IDC_MURL, str, _countof(str));
-			if (str[0] == 0) return TRUE;
+			if (str[0] == 0)
+				return TRUE;
 			GetDlgItemText(hwndDlg, IDC_ID, str2, _countof(str2));
 			OpenUrl(str, str2);
 			break;
@@ -426,46 +429,43 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 // when a contact is deleted, make sure some other contact take over the default station
 // wParam = deleted contact
-int ContactDeleted(WPARAM wParam, LPARAM) 
+int ContactDeleted(WPARAM wParam, LPARAM)
 {
 	if (!IsMyContact(wParam))
-		return 0; 
+		return 0;
 
 	removeWindow(wParam);
 
 	// exit this function if it is not default station
-	DBVARIANT dbv;
-	if (!db_get_ts(wParam, WEATHERPROTONAME, "ID", &dbv)) {
-		if ( mir_tstrcmp(dbv.ptszVal, opt.Default)) {
-			db_free(&dbv);
+	ptrT tszID(db_get_tsa(wParam, WEATHERPROTONAME, "ID"));
+	if (tszID != NULL)
+		if (mir_tstrcmp(tszID, opt.Default))
 			return 0;
-		}
-		db_free(&dbv);
-	}
 
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
 	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
-		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-			// if the station is not a default station, set it as the new default station
-			// this is the first weather station encountered from the search
-			if ( mir_tstrcmp(opt.Default, dbv.ptszVal)) {
-				_tcsncpy(opt.Default, dbv.ptszVal, _countof(opt.Default) - 1);
-				opt.DefStn = hContact;
-				db_free(&dbv);
-				if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-					TCHAR str[255];
-					mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
-					db_free(&dbv);
-					MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
-				}
-				db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
-				return 0;		// exit this function quickly
+		tszID = db_get_tsa(hContact, WEATHERPROTONAME, "ID");
+		if (tszID == NULL)
+			continue;
+
+		// if the station is not a default station, set it as the new default station
+		// this is the first weather station encountered from the search
+		if (mir_tstrcmp(opt.Default, tszID)) {
+			_tcsncpy_s(opt.Default, tszID, _TRUNCATE);
+			opt.DefStn = hContact;
+			ptrT tszNick(db_get_tsa(hContact, WEATHERPROTONAME, "Nick"));
+			if (tszNick != NULL) {
+				TCHAR str[255];
+				mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), (TCHAR*)tszNick);
+				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
-			db_free(&dbv);
+			db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
+			return 0;		// exit this function quickly
 		}
 	}
+
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station
 	opt.DefStn = NULL;
@@ -475,6 +475,6 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 
 BOOL IsMyContact(MCONTACT hContact)
 {
-	const char* szProto = GetContactProto(hContact);
+	const char *szProto = GetContactProto(hContact);
 	return szProto != NULL && mir_strcmp(WEATHERPROTONAME, szProto) == 0;
 }

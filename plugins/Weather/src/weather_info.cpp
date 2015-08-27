@@ -30,53 +30,51 @@ regrading the loading of ini contents
 //============  INI INFORMATION  ============
 
 // List INI Information for all loaded INI files
-void INIInfo(HWND hwndDlg) 
+void INIInfo(HWND hwndDlg)
 {
-	TCHAR str[16]; 
+	TCHAR str[16];
 	size_t memused = 0;
-	
+
 
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 
 	ListView_DeleteAllItems(hIniList);
 
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = 0;
-	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
-	{
+	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
 		// get the data for the ini file
 		lvi.iSubItem = 0;
 		lvi.pszText = Item->Data.InternalName;
-		ListView_InsertItem(hIniList, &lvi); 
+		ListView_InsertItem(hIniList, &lvi);
 		lvi.iSubItem = 1;
 		lvi.pszText = Item->Data.Author;
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 2;
 		lvi.pszText = Item->Data.Version;
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 3;
-		switch (Item->Data.InternalVer) 
-		{
-			case 1:  lvi.pszText = _T("1.0");  break;
-			case 2:  lvi.pszText = _T("1.1");  break;
-			case 3:  lvi.pszText = _T("1.1a"); break;
-			case 4:  lvi.pszText = _T("1.2");  break;
-			case 5:  lvi.pszText = _T("1.3");  break;
-			case 6:  lvi.pszText = _T("1.4");  break;
-			case 7:  lvi.pszText = _T("1.5");  break;
-			default: lvi.pszText = _T("");     break;
+		switch (Item->Data.InternalVer) {
+		case 1:  lvi.pszText = _T("1.0");  break;
+		case 2:  lvi.pszText = _T("1.1");  break;
+		case 3:  lvi.pszText = _T("1.1a"); break;
+		case 4:  lvi.pszText = _T("1.2");  break;
+		case 5:  lvi.pszText = _T("1.3");  break;
+		case 6:  lvi.pszText = _T("1.4");  break;
+		case 7:  lvi.pszText = _T("1.5");  break;
+		default: lvi.pszText = _T("");     break;
 		}
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 4;
 		lvi.pszText = _ltot(Item->Data.UpdateDataCount, str, 10);
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 5;
 		lvi.pszText = Item->Data.DisplayName;
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 6;
 		lvi.pszText = Item->Data.ShortFileName;
-		ListView_SetItem(hIniList, &lvi); 
+		ListView_SetItem(hIniList, &lvi);
 
 		memused += Item->Data.MemUsed;
 
@@ -90,8 +88,8 @@ static const struct tag_Columns
 {
 	const TCHAR *name;
 	unsigned size;
-} 
-columns[] = 
+}
+columns[] =
 {
 	{ LPGENT("Name"), 70 },
 	{ LPGENT("Author"), 100 },
@@ -103,36 +101,34 @@ columns[] =
 };
 
 
-INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
+INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	switch (msg) 
-	{
-	case WM_INITDIALOG: 
+	switch (msg) {
+	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{ 
+		{
 			HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
-			LVCOLUMN lvc = {0}; 
+			LVCOLUMN lvc = { 0 };
 
 			lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
-			for ( int i=0; i<7; ++i) {
+			for (int i = 0; i < 7; ++i) {
 				lvc.iSubItem = i;
-				lvc.pszText = TranslateTS(columns[i].name);	
+				lvc.pszText = TranslateTS(columns[i].name);
 				lvc.cx = columns[i].size;
-				ListView_InsertColumn(hIniList, i, &lvc); 
-			} 
+				ListView_InsertColumn(hIniList, i, &lvc);
+			}
 			INIInfo(hwndDlg);
-		} 
+		}
 
 		break;
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		break;
 
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == BN_CLICKED && 
-			LOWORD(wParam) == IDC_RELOADINI )
-		{
+		if (HIWORD(wParam) == BN_CLICKED &&
+			LOWORD(wParam) == IDC_RELOADINI) {
 			DestroyWIList();
 			LoadWIData(true);
 			INIInfo(hwndDlg);
@@ -150,14 +146,12 @@ void GetINIInfo(TCHAR *pszSvc)
 	TCHAR str2[2048];
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
-	if (sData == NULL)
-	{
+	if (sData == NULL) {
 		mir_sntprintf(str2, _countof(str2), TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
-		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
+		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 	// if exist, get the information
-	else
-	{
+	else {
 		mir_sntprintf(str2, _countof(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
 		mir_tstrncat(str2, _T("\n\n"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_tstrlen(str2));
@@ -203,7 +197,7 @@ void GetINIInfo(TCHAR *pszSvc)
 		mir_tstrncat(str2, sData->Description, _countof(str2) - mir_tstrlen(str2));
 
 		// display the message box and quit
-		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
+		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 }
 
@@ -211,7 +205,7 @@ void GetINIInfo(TCHAR *pszSvc)
 
 // a message box for displaying the list of custom variables
 // can be found when click on "More" in text option dialog
-void MoreVarList(void) 
+void MoreVarList(void)
 {
 	TCHAR str[10240], tempstr[1024];
 
@@ -219,16 +213,14 @@ void MoreVarList(void)
 	_tcsncpy(str, VARS_LIST, _countof(str) - 1);
 	mir_tstrncat(str, _T("\n\n"), _countof(str) - mir_tstrlen(str));
 	// loop through all weather services to find custom variables
-	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
-	{
+	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
 		// loop through all update items in a service
-		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData;WItem != NULL;WItem = WItem->Next) 
-		{
+		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != NULL; WItem = WItem->Next) {
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
-			if ( mir_tstrcmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
+			if (mir_tstrcmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
 				mir_sntprintf(tempstr, _countof(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
-				TCHAR* find = _tcsstr(str, tempstr);
+				TCHAR *find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
 					mir_tstrncat(str, tempstr, _countof(str) - mir_tstrlen(str));
@@ -243,6 +235,6 @@ void MoreVarList(void)
 		*find = '\0';
 
 	// display the list in a message box
-	MessageBox(NULL, str, TranslateT("More Variables"), MB_OK|MB_ICONINFORMATION|MB_TOPMOST);
+	MessageBox(NULL, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 }
 
