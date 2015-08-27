@@ -182,7 +182,7 @@ Wildcard поиск по сети
 [User limit:]
 Лимит:
 [Private]
-Конфиденциальный
+Приватный
 [Secret]
 Секретный
 [Topic]
