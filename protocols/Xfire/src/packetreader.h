@@ -46,9 +46,9 @@ namespace xfirelib {
 		void initPackets();
 		void fireListeners( XFirePacket *packet );
 
-		Socket *socket;
-		std::vector <XFirePacketContent *> *packets;
-		std::vector <PacketListener *> *packetListeners;
+		Socket *m_socket;
+		std::vector <XFirePacketContent *> *m_packets;
+		std::vector <PacketListener *> *m_packetListeners;
 	};
 };
 

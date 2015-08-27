@@ -44,34 +44,35 @@ namespace xfirelib
 	{
 		BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
 		if (entry) {
-			setSid(entry->sid);
+			setSid(entry->m_sid);
 		}
-		this->message = message;
+		m_message = message;
 		initIMIndex();
 	}
 
 	void SendMessagePacket::initIMIndex()
 	{
-		string str_sid(sid);
+		string str_sid(m_sid);
 		if (imindexes.count(str_sid) < 1)
-			imindex = imindexes[str_sid] = 1;
+			m_imindex = imindexes[str_sid] = 1;
 		else
-			imindex = ++imindexes[str_sid];
+			m_imindex = ++imindexes[str_sid];
 	}
 
 	void SendMessagePacket::setSid(const char *sid)
 	{
-		memcpy(this->sid, sid, 16);
+		memcpy(m_sid, sid, 16);
 	}
 
 	int SendMessagePacket::getPacketContent(char *buf)
 	{
-		if (imindex == 0) initIMIndex();
+		if (m_imindex == 0)
+			initIMIndex();
 
 		int index = 0;
 		VariableValue val;
 		val.setName("sid");
-		val.setValue(sid, 16);
+		val.setValue(m_sid, 16);
 
 		index += val.writeName(buf, index);
 		buf[index++] = 3;
@@ -90,17 +91,17 @@ namespace xfirelib
 		index += val.writeValue(buf, index);
 
 		val.setName("imindex");
-		val.setValueFromLong(imindex, 4);
+		val.setValueFromLong(m_imindex, 4);
 		index += val.writeName(buf, index);
 		buf[index++] = 02;
 		index += val.writeValue(buf, index);
 
 		val.setName("im");
-		val.setValue((char*)message.c_str(), message.size());
+		val.setValue((char*)m_message.c_str(), m_message.size());
 		index += val.writeName(buf, index);
 		buf[index++] = 01;
-		buf[index++] = message.size() % 256;
-		buf[index++] = (int)message.size() / 256;
+		buf[index++] = m_message.size() % 256;
+		buf[index++] = (int)m_message.size() / 256;
 		index += val.writeValue(buf, index);
 
 		return index;

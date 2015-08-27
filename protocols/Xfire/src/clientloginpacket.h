@@ -47,23 +47,23 @@ namespace xfirelib {
 		int getPacketContent(char *buf);
 		int getPacketAttributeCount();
 		int getPacketSize() { return 1024; };
-		void setUsername(std::string name) {this->name = name;}
-		void setPassword(std::string password) {this->password = password; };
+		void setUsername(std::string name) {m_name = name;}
+		void setPassword(std::string password) {m_password = password; };
 
 		/**
 		*Set the salt the server sent us to crypt the password
 		*@param salt The VariableValue object that we extracted from the packet
 		*/
-		void setSalt(VariableValue *salt) {this->salt = salt; };
+		void setSalt(VariableValue *salt) {m_salt = salt; };
 
 		void parseContent(char*, int, int) { };
 	private:
 		void cryptPassword(unsigned char *crypt);
 		void hashSha1(const char *string, unsigned char *sha);
-		int length;
-		std::string name;
-		std::string password;
-		VariableValue *salt;
+		int m_length;
+		std::string m_name;
+		std::string m_password;
+		VariableValue *m_salt;
 	};
 
 };

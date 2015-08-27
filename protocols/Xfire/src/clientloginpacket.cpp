@@ -39,11 +39,11 @@ namespace xfirelib
 
 		index = XFireUtils::addAttributName(packet, index, "name");/*add username attribute*/
 		packet[index] = 0x01;
-		packet[index + 1] = (char)name.length();
+		packet[index + 1] = (char)m_name.length();
 		packet[index + 2] = 0x00;
 		index += 3;
-		std::copy(name.begin(), name.end(), packet + index);
-		index += name.size();
+		std::copy(m_name.begin(), m_name.end(), packet + index);
+		index += m_name.size();
 
 		/*Crypted Password*/
 		unsigned char pass[41];
@@ -75,7 +75,7 @@ namespace xfirelib
 			packet[index++] = 0x0;
 		}
 
-		length = index;
+		m_length = index;
 		return index;
 	}
 
@@ -90,10 +90,10 @@ namespace xfirelib
 		char temp[81];
 		CSHA1 sha1;
 
-		total = name + password + "UltimateArena";
+		total = m_name + m_password + "UltimateArena";
 		hashSha1(total.c_str(), crypt);
 		memcpy(temp, crypt, 40);
-		memcpy(temp + 40, salt->getValue(), 40);
+		memcpy(temp + 40, m_salt->getValue(), 40);
 		temp[80] = 0x00;
 
 		hashSha1(temp, crypt);

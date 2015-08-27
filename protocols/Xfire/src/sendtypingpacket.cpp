@@ -42,7 +42,7 @@ namespace xfirelib
 	{
 		BuddyListEntry *entry = client->getBuddyList()->getBuddyByName(username);
 		if (entry) {
-			setSid(entry->sid);
+			setSid(entry->m_sid);
 		}
 		initIMIndex();
 	}

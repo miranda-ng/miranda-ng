@@ -175,7 +175,7 @@ BOOL SetGameStatusMsg()
 	}
 	else {
 		//alternativ zweig ohne variables
-		ptrA statusMsg(db_get_sa(NULL, protocolname, "setstatusmsg"));
+		statusMsg = db_get_sa(NULL, protocolname, "setstatusmsg");
 		if (statusMsg == NULL)
 			return FALSE;
 
