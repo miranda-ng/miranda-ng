@@ -99,31 +99,31 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
 
-	CMString tszQuery(FORMAT, _T("var ChatId=%d;"), cc->m_chatid);
-	tszQuery += _T("var Info=API.messages.getChat({\"chat_id\":ChatId});");
-	tszQuery += _T("var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});");
+	CMStringA tszQuery(FORMAT, "var ChatId=%d;", cc->m_chatid);
+	tszQuery += "var Info=API.messages.getChat({\"chat_id\":ChatId});";
+	tszQuery += "var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});";
 
 	if (!cc->m_bHistoryRead) {
-		tszQuery += _T("var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});");
-		tszQuery += _T("var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
+		tszQuery += "var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});";
+		tszQuery += "var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
 			"var Jdx = 0;var CFMsgs = parseInt(FMsgs[Idx].length);while (Jdx < CFMsgs){"
 			"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx = Jdx + 1;};Idx = Idx + 1;};"
-			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});");
-		tszQuery += _T("var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});");
+			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});";
+		tszQuery += "var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});";
 	}
 
-	tszQuery += _T("return {\"info\":Info,\"users\":ChatUsers");
+	tszQuery += "return {\"info\":Info,\"users\":ChatUsers";
 
 	if (!cc->m_bHistoryRead)
-		tszQuery += _T(",\"msgs\":ChatMsg,\"fwd_users\":FUsers,\"msgs_users\":MsgUsers");
+		tszQuery += ",\"msgs\":ChatMsg,\"fwd_users\":FUsers,\"msgs_users\":MsgUsers";
 
-	tszQuery +=_T("};");
+	tszQuery +="};";
 
 	debugLogA("CVkProto::RetrieveChantInfo(%d)", cc->m_chatid);
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo)
-		<< TCHAR_PARAM("code", tszQuery)
+		<< CHAR_PARAM("code", tszQuery)
 		<< VER_API)->pUserInfo = cc;
 }
 
