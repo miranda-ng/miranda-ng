@@ -380,11 +380,8 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	if (userID == VK_FEED_USER || !IsOnline())
 		return;
 	
-	CMString userIDs, code;
-	userIDs.AppendFormat(_T("%i"), userID);
-			
-	code.AppendFormat(_T("var userIDs=\"%s\";return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};"), 
-		userIDs, CMString(fieldsName));
+	CMString code(FORMAT, _T("var userIDs=\"%i\";return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};"),
+		userID, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code)
 		<< VER_API);
@@ -634,8 +631,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
-	CMStringA code;
-	code.AppendFormat("var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
+	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
 	CMString tszVarWarning;
 
 	if (m_bReportAbuse) {
@@ -669,9 +665,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	code += "return 1;";
 
 	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
-	CMString ptszMsg;
-
-	ptszMsg.AppendFormat(TranslateT("Are you sure to ban %s? %s%sContinue?"), 
+	CMString ptszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
 		IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick, 
 		tszVarWarning.IsEmpty() ? _T(" ") : TranslateT("\nIt will also"),
 		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning);
@@ -696,10 +690,8 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
-	CMString formatstr = TranslateT("Are you sure to report abuse on %s?"),
-		tszNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))),
-		ptszMsg;
-	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
+	CMString tszNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))),
+		ptszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
 	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 

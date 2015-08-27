@@ -46,10 +46,9 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	
 	TCHAR DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
-	
-	CMStringA fn;
+		
 	T2Utf pszFNAME(FNAME), pszEXT(EXT);
-	fn.AppendFormat("%s%s", pszFNAME, pszEXT);
+	CMStringA fn(FORMAT, "%s%s", pszFNAME, pszEXT);
 	fname = mir_strdup(fn);
 
 	if (tlstrstr(img, EXT)) {

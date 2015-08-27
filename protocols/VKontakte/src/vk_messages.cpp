@@ -153,7 +153,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::MarkMessagesRead (hContact)");
-	if (!IsOnline())
+	if (!IsOnline() || !hContact)
 		return;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1 || userID == VK_FEED_USER)
@@ -170,8 +170,21 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 	if (!IsOnline() || mids.IsEmpty())
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
-		<< CHAR_PARAM("message_ids", mids)
+	CMStringA code(FORMAT, "var Mids=\"%s\";"
+		"var Msgs=API.messages.getById({\"message_ids\":Mids});"
+		"var FMsgs=Msgs.items@.fwd_messages;"
+		"var Idx=0;var Uids=[];"
+		"while(Idx<FMsgs.length){"
+		"var Jdx=0;var CFMsgs=parseInt(FMsgs[Idx].length);"
+		"while(Jdx<CFMsgs){Uids.unshift(FMsgs[Idx][Jdx].user_id);"
+		"Jdx=Jdx+1;};Idx=Idx+1;};"
+		"var FUsers=API.users.get({\"user_ids\":Uids,\"name_case\":\"gen\"});"
+		"return{\"Msgs\":Msgs,\"fwd_users\":FUsers};",
+		mids
+	);
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
+		<< CHAR_PARAM("code", code)
 		<< VER_API);
 }
 
@@ -194,10 +207,13 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
 		return;
+	if (!jnResponse["Msgs"])
+		return;
 
 	CMStringA mids;
-	int numMessages = jnResponse["count"].as_int();
-	const JSONNode &jnMsgs = jnResponse["items"];
+	int numMessages = jnResponse["Msgs"]["count"].as_int();
+	const JSONNode &jnMsgs = jnResponse["Msgs"]["items"];
+	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 
 	debugLogA("CVkProto::OnReceiveMessages numMessages = %d", numMessages);
 
@@ -217,7 +233,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody +=  tszFwdMessages;
@@ -249,12 +265,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			CMString action_chat = jnMsg["action"].as_mstring();
 			int action_mid = _ttoi(jnMsg["action_mid"].as_mstring());
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
-				KickFromChat(chat_id, uid, jnMsg);
+				KickFromChat(chat_id, uid, jnMsg, jnFUsers);
 			else {
 				MCONTACT chatContact = FindChat(chat_id);
 				if (chatContact && getBool(chatContact, "kicked", true))
 					db_unset(chatContact, m_szModuleName, "kicked");
-				AppendChatMessage(chat_id, jnMsg, false);
+				AppendChatMessage(chat_id, jnMsg, jnFUsers, false);
 			}
 			continue;
 		}

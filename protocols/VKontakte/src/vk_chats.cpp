@@ -99,20 +99,23 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
 
-	CMString tszQuery;
-	tszQuery.AppendFormat(_T("var ChatId=%d;"), cc->m_chatid);
+	CMString tszQuery(FORMAT, _T("var ChatId=%d;"), cc->m_chatid);
 	tszQuery += _T("var Info=API.messages.getChat({\"chat_id\":ChatId});");
 	tszQuery += _T("var ChatUsers=API.messages.getChatUsers({\"chat_id\":ChatId,\"fields\":\"id,first_name,last_name\"});");
 
 	if (!cc->m_bHistoryRead) {
 		tszQuery += _T("var ChatMsg=API.messages.getHistory({\"chat_id\":ChatId,\"count\":20,\"rev\":0});");
+		tszQuery += _T("var FMsgs = ChatMsg.items@.fwd_messages;var Idx = 0;var Uids =[];while (Idx < FMsgs.length){"
+			"var Jdx = 0;var CFMsgs = parseInt(FMsgs[Idx].length);while (Jdx < CFMsgs){"
+			"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx = Jdx + 1;};Idx = Idx + 1;};"
+			"var FUsers = API.users.get({\"user_ids\": Uids, \"name_case\":\"gen\"});");
 		tszQuery += _T("var MsgUsers=API.users.get({\"user_ids\":ChatMsg.items@.user_id,\"fields\":\"id,first_name,last_name\"});");
 	}
 
 	tszQuery += _T("return {\"info\":Info,\"users\":ChatUsers");
 
 	if (!cc->m_bHistoryRead)
-		tszQuery += _T(",\"msgs\":ChatMsg,\"msgs_users\":MsgUsers");
+		tszQuery += _T(",\"msgs\":ChatMsg,\"fwd_users\":FUsers,\"msgs_users\":MsgUsers");
 
 	tszQuery +=_T("};");
 
@@ -233,6 +236,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	const JSONNode &jnMsgs = jnResponse["msgs"];
+	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 	if (jnMsgs) {
 		
 		const JSONNode &jnItems = jnMsgs["items"];
@@ -242,7 +246,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				if (!jnMsg)
 					break;
 
-				AppendChatMessage(cc->m_chatid, jnMsg, true);
+				AppendChatMessage(cc->m_chatid, jnMsg, jnFUsers, true);
 			}
 			cc->m_bHistoryRead = true;
 		}
@@ -275,7 +279,7 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
+void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory)
 {
 	debugLogA("CVkProto::AppendChatMessage");
 	CVkChatInfo *cc = AppendChat(id, nullNode);
@@ -295,7 +299,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 
 	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages) {
-		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, bbcNo);
+		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
 		if (!tszBody.IsEmpty())
 			tszFwdMessages = _T("\n") + tszFwdMessages;
 		tszBody += tszFwdMessages;
@@ -322,8 +326,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			if (tszActionMid.IsEmpty())
 				tszBody = TranslateT("kick user");
 			else {
-				CMString tszUid;
-				tszUid.AppendFormat(_T("%d"), uid);
+				CMString tszUid(FORMAT, _T("%d"), uid);
 				if (tszUid == tszActionMid) {
 					if (cc->m_bHistoryRead)
 						return;
@@ -349,8 +352,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 			if (tszActionMid.IsEmpty())
 				tszBody = TranslateT("invite user");
 			else {
-				CMString tszUid;
-				tszUid.AppendFormat(_T("%d"), uid);
+				CMString tszUid(FORMAT, _T("%d"), uid);
 				if (tszUid == tszActionMid)
 					tszBody.AppendFormat(_T(" (https://vk.com/id%s) %s"), tszUid, TranslateT("returned to chat"));
 				else {
@@ -703,7 +705,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	m_chats.remove(cc);
 }
 
-void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg)
+void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers)
 {
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 
@@ -728,7 +730,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg)
 			msg += TranslateT("(Unknown contact)");
 	}
 	else 
-		AppendChatMessage(chat_id, jnMsg, false);
+		AppendChatMessage(chat_id, jnMsg, jnFUsers, false);
 
 	MsgPopup(hContact, msg, TranslateT("Chat"));
 	setByte(cc->m_hContact, "kicked", 1);

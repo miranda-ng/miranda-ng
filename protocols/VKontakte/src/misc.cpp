@@ -361,8 +361,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMString msg;
-			msg.AppendFormat(TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
+			CMString msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
 			MsgPopup(NULL, msg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
@@ -978,8 +977,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszArtist(jnAudio["artist"].as_mstring());
 			CMString tszTitle(jnAudio["title"].as_mstring());
 			CMString tszUrl(jnAudio["url"].as_mstring());
-			CMString tszAudio;
-			tszAudio.AppendFormat(_T("%s - %s"), tszArtist, tszTitle);
+			CMString tszAudio(FORMAT, _T("%s - %s"), tszArtist, tszTitle);
 
 			int iParamPos = tszUrl.Find(_T("?"));
 			if (m_bShortenLinksForAudio &&  iParamPos != -1)
@@ -997,8 +995,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszTitle(jnVideo["title"].as_mstring());
 			int vid = jnVideo["id"].as_int();
 			int ownerID = jnVideo["owner_id"].as_int();
-			CMString tszUrl;
-			tszUrl.AppendFormat(_T("http://vk.com/video%d_%d"), ownerID, vid);
+			CMString tszUrl(FORMAT, _T("http://vk.com/video%d_%d"), ownerID, vid);
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB),
 				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
@@ -1022,8 +1019,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			CMString tszText(jnWall["text"].as_mstring());
 			int id = jnWall["id"].as_int();
 			int fromID = jnWall["from_id"].as_int();
-			CMString tszUrl;
-			tszUrl.AppendFormat(_T("http://vk.com/wall%d_%d"), fromID, id);
+			CMString tszUrl(FORMAT, _T("http://vk.com/wall%d_%d"), fromID, id);
 			res.AppendFormat(_T("%s: %s"),
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl),
 				tszText.IsEmpty() ? _T(" ") : tszText);
@@ -1109,7 +1105,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 	return res;
 }
 
-CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
+CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
 {
 	CMString res;
 	debugLogA("CVkProto::GetFwdMessages");
@@ -1118,19 +1114,39 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		return res;
 	}
 	
+	OBJLIST<CVkUserInfo> vkUsers(2, NumericKeySortT);
+
+	for (auto it = jnFUsers.begin(); it != jnFUsers.end(); ++it) {
+		const JSONNode &jnUser = (*it);
+
+		int iUserId = jnUser["id"].as_int();
+		CMString tszNick(FORMAT, _T("%s %s"), jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
+		CMString tszLink(FORMAT, _T("https://vk.com/id%d"), iUserId);
+		
+		CVkUserInfo * vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, tszNick, tszLink, FindUser(iUserId));
+		vkUsers.insert(vkUser);
+	}
+
+
 	for (auto it = jnMessages.begin(); it != jnMessages.end(); ++it) {
 		const JSONNode &jnMsg = (*it);
 
-		int uid = jnMsg["user_id"].as_int();
-		MCONTACT hContact = FindUser(uid);
-		CMString tszNick;
-		if (hContact)
-			tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
-		if (tszNick.IsEmpty())
-			tszNick = TranslateT("(Unknown contact)");
+		UINT uid = jnMsg["user_id"].as_int();
+		CVkUserInfo * vkUser = vkUsers.find((CVkUserInfo *)&uid);
+		CMString tszNick, tszUrl;
 
-		CMString tszUrl = _T("https://vk.com/id");
-		tszUrl.AppendFormat(_T("%d"), uid);
+		if (vkUser) {
+			tszNick = vkUser->m_tszUserNick;
+			tszUrl = vkUser->m_tszLink;
+		} 
+		else {
+			MCONTACT hContact = FindUser(uid);
+			if (hContact || uid == m_msgId)
+				tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
+			else 
+				tszNick = TranslateT("(Unknown contact)");		
+			tszUrl.AppendFormat(_T("https://vk.com/id%d"), uid);
+		}
 
 		time_t datetime = (time_t)jnMsg["date"].as_int();
 		TCHAR ttime[64];
@@ -1142,7 +1158,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody += tszFwdMessages;
@@ -1157,9 +1173,8 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		}
 
 		tszBody.Replace(_T("\n"), _T("\n\t"));
-		CMString tszMes;
 		TCHAR tcSplit = m_bSplitFormatFwdMsg ? '\n' : ' ';
-		tszMes.AppendFormat(_T("%s %s%c%s %s:\n\n%s\n"),
+		CMString tszMes(FORMAT, _T("%s %s%c%s %s:\n\n%s\n"),
 			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB),
 			SetBBCString(tszNick, iBBC, vkbbcUrl, tszUrl),
 			tcSplit,
@@ -1172,6 +1187,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		res += tszMes;
 	}
 
+	vkUsers.destroy();
 	return res;
 }
 

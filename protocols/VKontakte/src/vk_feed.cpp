@@ -78,7 +78,7 @@ CVkUserInfo* CVkProto::GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers
 
 	if (vkUser == NULL) {
 		CMString tszNick = TranslateT("Unknown");
-		CMString tszLink = _T("https://vk.com/");
+		CMString tszLink(_T("https://vk.com/"));
 		if (iUserId) {
 			tszLink += bIsGroup ? "club" : "id";
 			tszLink.AppendFormat(_T("%d"), bIsGroup ? -iUserId : iUserId);
@@ -379,16 +379,14 @@ CVKNewsItem* CVkProto::GetVkParent(const JSONNode &jnParent, VKObjType vkParentT
 
 		const JSONNode &jnPost = jnParent["post"];
 		if (jnPost) {
-			CMString tszRepl;
-			tszRepl.AppendFormat(_T("?reply=%d"), iId);
+			CMString tszRepl(FORMAT, _T("?reply=%d"), iId);
 			delete vkNotificationItem;
 			return GetVkParent(jnPost, vkPost, tszText, tszRepl);
 		}
 
 		const JSONNode &jnTopic = jnParent["topic"];
 		if (jnTopic) {
-			CMString tszRepl;
-			tszRepl.AppendFormat(_T("?reply=%d"), iId);
+			CMString tszRepl(FORMAT, _T("?reply=%d"), iId);
 			delete vkNotificationItem;
 			return GetVkParent(jnTopic, vkTopic, tszText, tszRepl);
 		}
@@ -450,8 +448,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 		return NULL;
 
 	LONG iGroupId = jnItem["id"].as_int();
-	CMString tszId;
-	tszId.AppendFormat(_T("%d,"), iGroupId);
+	CMString tszId(FORMAT, _T("%d,"), iGroupId);
 	CMString tszIds(ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds")));
 
 	if (tszIds.Find(tszId, 0) != -1)
@@ -466,9 +463,9 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	vkNotification->vkFeedbackType = vkFeedbackType;
 	vkNotification->vkParentType = vkParentType;
 
-	CMString tszGroupName, tszGLink;
+	CMString tszGroupName;
 	CMString tszGName = jnItem["name"].as_mstring();
-	tszGLink.AppendFormat(_T("https://vk.com/%s"), jnItem["screen_name"].as_mstring());
+	CMString tszGLink(FORMAT, _T("https://vk.com/%s"), jnItem["screen_name"].as_mstring());
 	tszGroupName = SetBBCString(tszGName, m_iBBCForNews, vkbbcUrl, tszGLink);
 
 	CMString tszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), m_iBBCForNews, vkbbcUrl, iUserId ? vkNotification->vkUser->m_tszLink : _T("https://vk.com/"));
@@ -613,8 +610,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	if (time(NULL) - tLastNotificationsReqTime < 3 * 60)
 		return;
 
-	CMString code;
-	code.AppendFormat(_T("return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s"),
+	CMString code(FORMAT, _T("return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s"),
 		(LONG)(tLastNotificationsTime + 1),
 		m_bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
 
