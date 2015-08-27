@@ -38,25 +38,30 @@ extern void AddBotMessage(tstring s);
 
 using namespace std;
 
-void TalkBot::UpdateStartChar(tstring& str)
+void TalkBot::UpdateStartChar(tstring &str)
 {
 	if (!makeLowercase)
 		return;
+
 	size_t l = str.length();
 	if (l) {
-		//Answers starting with ' ' must remain unchanged.
+		// Answers starting with ' ' must remain unchanged.
 		if (str[0] == _T(' ')) {
 			str = str.substr(1);
 			return;
 		}
+
+		TCHAR *strl = NEWTSTR_ALLOCA(str.c_str()), *stru = NEWTSTR_ALLOCA(str.c_str());
+		CharLower(strl);
+		CharUpper(stru);
 		for (size_t i = 0; i < l; i++) {
-			TCHAR cl = (TCHAR)CharLower((LPTSTR)(void*)(long)str[i]);
-			TCHAR cu = (TCHAR)CharUpper((LPTSTR)(void*)(long)str[i]);
+			TCHAR cl = strl[i];
+			TCHAR cu = stru[i];
 			if (i != l - 1) {
-				//Do not react to BLONDE ANSWERS
-				TCHAR ncl = (TCHAR)CharLower((LPTSTR)(void*)(long)str[i + 1]);
-				TCHAR ncu = (TCHAR)CharUpper((LPTSTR)(void*)(long)str[i + 1]);
-				if (ncl != ncu && str[i + 1] == ncu)
+				// Do not react to BLONDE ANSWERS
+				TCHAR ncl = strl[i+1];
+				TCHAR ncu = stru[i+1];
+				if (ncl != ncu && str[i+1] == ncu)
 					break;
 			}
 			if (cl != cu) {
@@ -506,8 +511,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	}
 	len = (int)sentence.length();
 	bool hadQuestionSigns = false;
-	int it = 0;
-	while (it != len) {
+	for (int it = 0; it != len;) {
 		while (it != len && _tcschr(dividers, sentence[it])) {
 			if (sentence[it] == _T('?'))
 				hadQuestionSigns = true;
@@ -518,6 +522,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 		}
 		if (it == len)
 			break;
+		
 		hadQuestionSigns = false;
 		int start = it;
 		while (true) {
@@ -525,7 +530,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 				it++;
 			if (it == len || sentence[it] != _T('-'))
 				break;
-			//If we have-a-word-with-minus, we shouldn't split it
+			// If we have-a-word-with-minus, we shouldn't split it
 			if (_tcschr(dividers, sentence[it + 1]))
 				break;
 			it += 2;
@@ -535,15 +540,15 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	}
 	isQuestion = hadQuestionSigns;
 	for (vector<tstring>::iterator it = words.begin(); it != words.end(); ++it) {
-		if (!isQuestion) {
+		if (!isQuestion)
 			if (mind.GetData()->question.find(*it) != mind.GetData()->question.end())
 				isQuestion = true;
-		}
+		
 		if (mind.GetData()->special.find(*it) != mind.GetData()->special.end())
 			otherwords.push_back(*it);
 		#ifdef EXCLUDE_SPECIAL_WORDS
 		else
-			#endif
+		#endif
 			keywords.push_back(*it);
 	}
 }
@@ -558,7 +563,7 @@ void TalkBot::SetLowercase(const bool isLowercase)
 	makeLowercase = isLowercase;
 }
 
-void TalkBot::SetUnderstandAlways(const bool understandAlways)
+void TalkBot::SetUnderstandAlways(const bool _understandAlways)
 {
-	this->understandAlways = understandAlways;
+	this->understandAlways = _understandAlways;
 }
