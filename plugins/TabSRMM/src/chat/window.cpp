@@ -1561,13 +1561,13 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				case 20020: // add to highlight...
 					if (parentdat && ui) {
 						THighLightEdit the = { THighLightEdit::CMD_ADD, parentdat, ui };
-						HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), parentdat->dat->pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
-						TranslateDialogDefault(hwnd);
+						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), parentdat->dat->pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
+						TranslateDialogDefault(hwndDlg);
 
-						RECT	rc, rcWnd;
+						RECT rc, rcWnd;
 						GetClientRect(parentdat->pContainer->hwnd, &rcWnd);
-						GetWindowRect(hwnd, &rc);
-						SetWindowPos(hwnd, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+						GetWindowRect(hwndDlg, &rc);
+						SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 					}
 					break;
 
@@ -2178,9 +2178,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				x_offset = 2;
 
 				if (g_Settings.bShowContactStatus && g_Settings.bContactStatusFirst && ui->ContactStatus) {
-					HICON hIcon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-					IcoLib_ReleaseIcon(hIcon);
+					HICON icon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, NULL, DI_NORMAL);
+					IcoLib_ReleaseIcon(icon);
 					x_offset += 18;
 				}
 
@@ -2202,9 +2202,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				}
 
 				if (g_Settings.bShowContactStatus && !g_Settings.bContactStatusFirst && ui->ContactStatus) {
-					HICON hIcon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
-					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-					IcoLib_ReleaseIcon(hIcon);
+					HICON icon = Skin_LoadProtoIcon(si->pszModule, ui->ContactStatus);
+					DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, icon, 16, 16, 0, NULL, DI_NORMAL);
+					IcoLib_ReleaseIcon(icon);
 					x_offset += 18;
 				}
 
@@ -2308,7 +2308,7 @@ LABEL_SHOWWINDOW:
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcLog);
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERX)) {
 				GetClientRect(hwndDlg, &rc);
-				POINT pt = { wParam, 0 };
+				pt.x = wParam, pt.y = 0;
 				ScreenToClient(hwndDlg, &pt);
 
 				si->iSplitterX = rc.right - pt.x + 1;
@@ -2322,7 +2322,7 @@ LABEL_SHOWWINDOW:
 			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERY) || lParam == -1) {
 				GetClientRect(hwndDlg, &rc);
 				rc.top += (dat->Panel->isActive() ? dat->Panel->getHeight() + 40 : 30);
-				POINT pt = { 0, wParam };
+				pt.x = 0, pt.y = wParam;
 				ScreenToClient(hwndDlg, &pt);
 
 				si->iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
@@ -2335,7 +2335,7 @@ LABEL_SHOWWINDOW:
 				SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 			}
 			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PANELSPLITTER)) {
-				POINT pt = { 0, wParam };
+				pt.x = 0, pt.y = wParam;
 				ScreenToClient(hwndDlg, &pt);
 				GetClientRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rc);
 				if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
@@ -2442,7 +2442,6 @@ LABEL_SHOWWINDOW:
 				}
 
 				if (msg == WM_MOUSEMOVE) {
-					POINT	pt;
 					GetCursorPos(&pt);
 					DM_DismissTip(dat, pt);
 					dat->Panel->trackMouse(pt);
@@ -2506,7 +2505,7 @@ LABEL_SHOWWINDOW:
 				if (((LPNMHDR)lParam)->idFrom == IDC_CHAT_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 					CHARRANGE sel, all = { 0, -1 };
 
-					POINT pt = { (short)LOWORD(((ENLINK*)lParam)->lParam), (short)HIWORD(((ENLINK*)lParam)->lParam) };
+					pt.x = LOWORD(((ENLINK*)lParam)->lParam), pt.y = HIWORD(((ENLINK*)lParam)->lParam);
 					ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
 					// fixing stuff for searches
@@ -3297,16 +3296,15 @@ LABEL_SHOWWINDOW:
 		dat->dwFlags &= ~MWF_NEEDCHECKSIZE;
 		if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
 			dat->dwFlags &= ~MWF_INITMODE;
-		{
-			RECT rcClient;
-			SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
-			MoveWindow(hwndDlg, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
-		}
+
+		SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		MoveWindow(hwndDlg, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
+		
 		if (dat->dwFlags & MWF_WASBACKGROUNDCREATE) {
 			dat->dwFlags &= ~MWF_WASBACKGROUNDCREATE;
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 
-			POINT pt = { 0 };
+			pt.x = pt.y = 0;
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETSCROLLPOS, 0, (LPARAM)&pt);
 			if (PluginConfig.m_bAutoLocaleSupport) {
 				if (dat->hkl == 0)

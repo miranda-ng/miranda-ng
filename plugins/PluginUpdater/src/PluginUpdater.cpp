@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HINSTANCE hInst = NULL;
-TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
+TCHAR g_tszRoot[MAX_PATH] = {0}, g_tszTempPath[MAX_PATH];
 int hLangpack;
 DWORD g_mirandaVersion;
 
@@ -73,9 +73,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0);
 
-	DWORD dwLen = GetTempPath( _countof(tszTempPath), tszTempPath);
-	if (tszTempPath[dwLen-1] == '\\')
-		tszTempPath[dwLen-1] = 0;
+	DWORD dwLen = GetTempPath(_countof(g_tszTempPath), g_tszTempPath);
+	if (g_tszTempPath[dwLen-1] == '\\')
+		g_tszTempPath[dwLen-1] = 0;
 
 	LoadOptions();
 	InitPopupList();

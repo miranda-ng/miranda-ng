@@ -53,10 +53,10 @@ static void ApplyDownloads(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	VARST tszMirandaPath(_T("%miranda_path%"));
@@ -355,7 +355,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const TCHAR* t
 	tp = _tcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
 	_tcslwr(tp);
 
-	mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, tszFileName);
+	mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), g_tszRoot, tszFileName);
 	mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszRelFileName);
 	for (tp = _tcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = _tcschr(tp, '\\'))
 		*tp++ = '/';

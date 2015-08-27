@@ -1006,13 +1006,13 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 		*(pi++) |= *(pc++);
 	}
 	//Copy values into round key arrays
-	int t = 0;
-	for (j = 0; (j < KC) && (t < ROUND_KEY_COUNT); j++, t++) {
-		m_Ke[t / BC][t%BC] = tk[j];
-		m_Kd[m_iROUNDS - (t / BC)][t%BC] = tk[j];
+	int t1 = 0;
+	for (j = 0; (j < KC) && (t1 < ROUND_KEY_COUNT); j++, t1++) {
+		m_Ke[t1 / BC][t1%BC] = tk[j];
+		m_Kd[m_iROUNDS - (t1 / BC)][t1%BC] = tk[j];
 	}
 	int tt, rconpointer = 0;
-	while (t < ROUND_KEY_COUNT) {
+	while (t1 < ROUND_KEY_COUNT) {
 		//Extrapolate using phi (the round key evolution function)
 		tt = tk[KC - 1];
 		tk[0] ^= (sm_S[(tt >> 16) & 0xFF] & 0xFF) << 24 ^
@@ -1036,9 +1036,9 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 		}
 
 		//Copy values into round key arrays
-		for (j = 0; (j < KC) && (t < ROUND_KEY_COUNT); j++, t++) {
-			m_Ke[t / BC][t%BC] = tk[j];
-			m_Kd[m_iROUNDS - (t / BC)][t%BC] = tk[j];
+		for (j = 0; (j < KC) && (t1 < ROUND_KEY_COUNT); j++, t1++) {
+			m_Ke[t1 / BC][t1%BC] = tk[j];
+			m_Kd[m_iROUNDS - (t1 / BC)][t1%BC] = tk[j];
 		}
 	}
 

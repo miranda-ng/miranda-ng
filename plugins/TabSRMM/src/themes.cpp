@@ -181,8 +181,8 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		1,
 		0,
 		0xc0c0c0,
-		-1,
-		-1,
+		DWORD(-1),
+		DWORD(-1),
 		AeroEffectCallback_Solid
 	}
 };

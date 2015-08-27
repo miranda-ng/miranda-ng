@@ -152,7 +152,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	// Download version info
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, _countof(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, _countof(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
+	mir_sntprintf(pFileUrl.tszDiskPath, _countof(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
 	HANDLE nlc;
@@ -166,7 +166,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 		return false;
 	}
 
-	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true)) {
+	if(!unzip(pFileUrl.tszDiskPath, g_tszTempPath, NULL,true)) {
 		Netlib_LogfT(hNetlibUser,_T("Unzipping list of available updates from %s failed"),baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		SkinPlaySound("updatefailed");
@@ -176,10 +176,10 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, _countof(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
+	mir_sntprintf(tszTmpIni, _countof(tszTmpIni), _T("%s\\hashes.txt"), g_tszTempPath);
 	FILE *fp = _tfopen(tszTmpIni, _T("r"));
 	if (!fp) {
-		Netlib_LogfT(hNetlibUser,_T("Opening %s failed"), tszTempPath);
+		Netlib_LogfT(hNetlibUser,_T("Opening %s failed"), g_tszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
@@ -284,7 +284,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				else {
 					// try to write it via PU stub
 					TCHAR tszTempFile[MAX_PATH];
-					mir_sntprintf(tszTempFile, _countof(tszTempFile), _T("%s\\pulocal.tmp"), tszTempPath);
+					mir_sntprintf(tszTempFile, _countof(tszTempFile), _T("%s\\pulocal.tmp"), g_tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD dwBytes;

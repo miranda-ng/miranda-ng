@@ -217,18 +217,18 @@ MCONTACT DecodeMetaContact(MCONTACT hContact)
 		return NULL;
 	
 	MCONTACT hReal = db_mc_getMostOnline(hContact);
-	if (hReal == NULL || hReal == (MCONTACT)CALLSERVICE_NOTFOUND)
+	if (hReal == NULL || (INT_PTR)hReal == CALLSERVICE_NOTFOUND)
 		hReal = hContact;
 
 	return hReal;
 }
 
-bool IsSmileyProto(char* proto)
+bool IsSmileyProto(char *proto)
 {
 	return proto && mir_strcmp(proto, META_PROTO) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_IM | PF1_CHAT));
 }
 
-void ReportError(const TCHAR* errmsg)
+void ReportError(const TCHAR *errmsg)
 {
 	static const TCHAR title[] = _T("Miranda SmileyAdd");
 

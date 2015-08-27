@@ -285,9 +285,9 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 				fShow = true;
 			else {
 				if (PluginConfig.m_bHideOnClose) {
-					TContainerData *pContainer = 0;
-					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-					if (pContainer && pContainer->fHidden)
+					TContainerData *pCont = 0;
+					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pCont);
+					if (pCont && pCont->fHidden)
 						fShow = true;
 				}
 			}

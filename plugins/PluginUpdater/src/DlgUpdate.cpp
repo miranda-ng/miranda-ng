@@ -59,9 +59,9 @@ static void ApplyUpdates(void *param)
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
-	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
-	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -377,10 +377,10 @@ static void DlgUpdateSilent(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), tszRoot);
+	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -589,7 +589,7 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
 	// skip updater's own folder
-	if (!_tcsicmp(tszFolder, tszRoot))
+	if (!_tcsicmp(tszFolder, g_tszRoot))
 		return 0;
 
 	// skip profile folder
@@ -709,7 +709,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			p = (p) ? p + 1 : tszBuf;
 			_tcslwr(p);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), g_tszRoot, p);
 			mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';

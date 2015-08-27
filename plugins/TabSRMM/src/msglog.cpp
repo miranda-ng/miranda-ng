@@ -45,7 +45,7 @@ struct TCpTable cpTable[] = {
 	{ 1257, LPGENT("Baltic") },
 	{ 1258, LPGENT("Vietnamese") },
 	{ 1361, LPGENT("Korean (Johab)") },
-	{ -1, NULL }
+	{ (UINT)-1, NULL }
 };
 
 wchar_t* weekDays[7] = { LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday") };
@@ -1141,15 +1141,15 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		char szPattern[50];
 		mir_snprintf(szPattern, _countof(szPattern), "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
 
-		FINDTEXTEXA fi;
-		fi.lpstrText = szPattern;
-		fi.chrg.cpMin = 0;
-		fi.chrg.cpMax = -1;
-		if (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) != 0) {
+		FINDTEXTEXA ft;
+		ft.lpstrText = szPattern;
+		ft.chrg.cpMin = 0;
+		ft.chrg.cpMax = -1;
+		if (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&ft) != 0) {
 			CHARRANGE sel;
 			sel.cpMin = 0;
 			sel.cpMax = 20;
-			SendMessage(hwndrtf, EM_SETSEL, 0, fi.chrgText.cpMax + 1);
+			SendMessage(hwndrtf, EM_SETSEL, 0, ft.chrgText.cpMax + 1);
 			SendMessageA(hwndrtf, EM_REPLACESEL, TRUE, (LPARAM)"");
 		}
 	}
