@@ -141,6 +141,12 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			if (xml != NULL)
 			{
 				szText.Append(_T2A(xmlGetText(xml)));
+				HXML xmlA = xmlGetChildByPath(xml, _T("a"), 0);
+				if (xmlA != NULL)
+				{
+					szText += _T2A(xmlGetAttrValue(xmlA, _T("href")));
+					xmlDestroyNode(xmlA);
+				}
 				xmlDestroyNode(xml);
 			}
 			else 
@@ -150,6 +156,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			break;
 
 		}
+
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
 		{
 			szText = Translate("Incoming call");
