@@ -104,12 +104,14 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 		va_list args;
 		va_start(args, szFormat);
 		ProtoLogA(this, szFormat, args);
+		va_end(args);
 	}
 	__inline void debugLogW(LPCWSTR wszFormat, ...)
 	{
 		va_list args;
 		va_start(args, wszFormat);
 		ProtoLogW(this, wszFormat, args);
+		va_end(args);
 	}
 
 	__forceinline void WindowSubscribe(HWND hwnd) {
