@@ -122,8 +122,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		CMString Id;
-		Id.AppendFormat(_T("%d"), jnRecord["id"].as_int());
+		CMString Id(FORMAT, _T("%d"), jnRecord["id"].as_int());
 		CMString FirstName(jnRecord["first_name"].as_mstring());
 		CMString LastName(jnRecord["last_name"].as_mstring());
 		CMString Nick(jnRecord["nickname"].as_mstring());
@@ -186,8 +185,7 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 		
-		CMString Id;
-		Id.AppendFormat(_T("%d"), jnRecord["id"].as_int());
+		CMString Id(FORMAT, _T("%d"), jnRecord["id"].as_int());
 		CMString FirstName(jnRecord["first_name"].as_mstring());
 		CMString LastName(jnRecord["last_name"].as_mstring());
 		CMString Nick(jnRecord["nickname"].as_mstring());

@@ -33,7 +33,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
 #define PS_WALLPOST "/WallPost"
-#define MAXHISTORYMIDSPERONE 200
+#define MAXHISTORYMIDSPERONE 175
 #define MAX_RETRIES 10
 
 struct CVkProto;
@@ -413,7 +413,7 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString& ClearFormatNick(CMString& tszText);
 
 	CMString GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
-	CMString GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC = bbcNo);
+	CMString GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
 
 	void SetInvisible(MCONTACT hContact);
 
@@ -643,7 +643,7 @@ private:
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic);
-	void AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory);
+	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -652,7 +652,7 @@ private:
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
-	void KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg);
+	void KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, const JSONNode &jnFUsers);
 	void LeaveChat(int chat_id, bool close_window = true, bool delete_chat = false);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);

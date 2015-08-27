@@ -126,14 +126,17 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	if (-1 == userID || userID == VK_FEED_USER)
 		return;
 
-	CMStringA code;
-
-	code.AppendFormat("var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
+	CMStringA code(FORMAT, "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
 		"var Hist=API.messages.getHistory({\"user_id\":userID,\"count\":iReqCount,\"offset\":iOffset});"
-		"var allCount=Hist.count;var ext=Hist.items.length;var index=0;"
+		"var ext=Hist.items.length;var index=0;"
 		"while(ext!=0){if(Hist.items[index].date>iTime){if(Hist.items[index].id>lastMid)"
 		"{index=index+1;ext=ext-1;}else ext=0;}else ext=0;};"
-		"var ret=Hist.items.slice(0,index); return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"once\":%d,\"rcount\":iReqCount};", 
+		"var ret=Hist.items.slice(0,index);"
+		"var FMsgs=ret@.fwd_messages;var Idx=0;var Uids=[];while(Idx<FMsgs.length){"
+		"var Jdx=0;var CFMsgs=parseInt(FMsgs[Idx].length);while(Jdx<CFMsgs){"
+		"Uids.unshift(FMsgs[Idx][Jdx].user_id);Jdx=Jdx+1;};Idx=Idx+1;};"
+		"var FUsers=API.users.get({\"user_ids\":Uids,\"name_case\":\"gen\"});"
+		"return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"fwd_users\":FUsers,\"once\":%d,\"rcount\":iReqCount};", 
 		iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages)
 		<< CHAR_PARAM("code", code)
@@ -177,6 +180,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	int iTime = jnResponse["datetime"].as_int(); 
 	const JSONNode &jnMsgs = jnResponse["items"];
+	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 
 	int iLastMsgId = getDword(param->hContact, "lastmsgid", -1);
 	int count = 0;
@@ -199,7 +203,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
 			tszBody += tszFwdMessages;
