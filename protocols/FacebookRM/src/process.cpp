@@ -331,12 +331,12 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		facy.handle_success("ProcessUnreadMessages");
 }
 
-void FacebookProto::ProcessUnreadMessage(void *data)
+void FacebookProto::ProcessUnreadMessage(void *pParam)
 {
-	if (data == NULL)
+	if (pParam == NULL)
 		return;
 
-	std::vector<std::string> *threads = (std::vector<std::string>*)data;
+	std::vector<std::string> *threads = (std::vector<std::string>*)pParam;
 
 	if (isOffline()) {
 		delete threads;
@@ -440,21 +440,18 @@ void FacebookProto::ProcessUnreadMessage(void *data)
 	delete threads;
 }
 
-void FacebookProto::LoadLastMessages(void *p)
+void FacebookProto::LoadLastMessages(void *pParam)
 {
-	if (p == NULL)
+	if (pParam == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (MCONTACT*)p;
+	MCONTACT hContact = *(MCONTACT*)pParam;
+	delete (MCONTACT*)pParam;
+
+	if (isOffline())
 		return;
-	}
 
 	facy.handle_entry("LoadLastMessages");
-
-	MCONTACT hContact = *(MCONTACT*)p;
-	delete (MCONTACT*)p;
-
 	if (!isOnline())
 		return;
 
