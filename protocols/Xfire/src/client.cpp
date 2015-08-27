@@ -63,11 +63,11 @@ namespace xfirelib
 	Client::Client()
 	{
 		XDEBUG(("Client constructor...\n"));
-		gameResolver = NULL;
-		packetReader = new PacketReader(NULL);
-		packetReader->addPacketListener(this);
-		buddyList = new BuddyList(this);
-		socket = NULL;
+		m_gameResolver = NULL;
+		m_packetReader = new PacketReader(NULL);
+		m_packetReader->addPacketListener(this);
+		m_buddyList = new BuddyList(this);
+		m_socket = NULL;
 #ifndef NO_PTHREAD
 		sendpingthread.p=NULL;
 		readthread.p=NULL;
@@ -77,29 +77,29 @@ namespace xfirelib
 	Client::~Client()
 	{
 		XDEBUG(("Client destructor...\n"));
-		delete username;
-		delete password;
-		delete buddyList;
-		delete packetReader;
-		delete socket;
+		delete m_username;
+		delete m_password;
+		delete m_buddyList;
+		delete m_packetReader;
+		delete m_socket;
 	}
 
 	void Client::connect(string username, string password, int useproxy, string proxyip, int proxyport)
 	{
 		try {
-			this->gotBudduyList = FALSE;
-			this->username = new string(username);
-			this->password = new string(password);
-			socket = new Socket(XFIRE_HOST, XFIRE_PORT, useproxy, proxyip, proxyport);
+			m_gotBudduyList = FALSE;
+			m_username = new string(username);
+			m_password = new string(password);
+			m_socket = new Socket(XFIRE_HOST, XFIRE_PORT, useproxy, proxyip, proxyport);
 
 			//bevors losgeht, erstmal die localaddr sichern
 			struct sockaddr_in sa;
 			int iLen = sizeof(sa);
-			getsockname(socket->m_sock, (SOCKADDR*)&sa, &iLen);
-			strncpy(this->localaddr, inet_ntoa(sa.sin_addr), sizeof(this->localaddr) - 1);
-			this->llocaladdr = inet_addr(this->localaddr);
+			getsockname(m_socket->m_sock, (SOCKADDR*)&sa, &iLen);
+			strncpy(m_localaddr, inet_ntoa(sa.sin_addr), sizeof(m_localaddr) - 1);
+			m_llocaladdr = inet_addr(m_localaddr);
 
-			packetReader->setSocket(socket);
+			m_packetReader->setSocket(m_socket);
 
 			ResetEvent(hConnectionClose);
 
@@ -107,30 +107,32 @@ namespace xfirelib
 			//packetReader->startListening();
 
 
-			socket->send("UA01");
+			m_socket->send("UA01");
 			XDEBUG(("Sent UA01\n"));
 			ClientInformationPacket *infoPacket = new ClientInformationPacket();
-			this->send(infoPacket);
+			send(infoPacket);
 			delete infoPacket;
 			XINFO(("sent ClientInformationPacket\n"));
 
 			ClientVersionPacket *versionPacket = new ClientVersionPacket();
-			versionPacket->setProtocolVersion(protocolVersion);
-			this->send(versionPacket);
+			versionPacket->setProtocolVersion(m_protocolVersion);
+			send(versionPacket);
 			delete versionPacket;
 
 			XINFO(("sent ClientVersionPacket\n"));
-			this->connected = TRUE;
+			m_connected = TRUE;
 		}
 		catch (SocketException ex) {
 			XERROR(("Socket Exception ?! %s \n", ex.description().c_str()));
-			this->connected = FALSE;
+			m_connected = FALSE;
 		}
 	}
+	
 	XFireGameResolver *Client::getGameResolver()
 	{
-		return gameResolver;
+		return m_gameResolver;
 	}
+	
 	void Client::startThreads()
 	{
 		XINFO(("About to start thread\n"));
@@ -152,20 +154,20 @@ namespace xfirelib
 	{
 		void* ptr = (void*)lParam;
 #endif
-		if (ptr == NULL || ((Client*)ptr)->packetReader == NULL)
+		if (ptr == NULL || ((Client*)ptr)->m_packetReader == NULL)
 #ifndef NO_PTHREAD
 			return NULL;
 #else
 			return;
 #endif
 		try {
-			((Client*)ptr)->packetReader->run();
+			((Client*)ptr)->m_packetReader->run();
 		}
 		catch (SocketException ex) {
 			XERROR(("Socket Exception ?! %s \n", ex.description().c_str()));
 
 			//miranda bescheid geben, wir haben verbindung verloren
-			if (ptr == NULL || ((Client*)ptr)->connected) SetStatus(ID_STATUS_OFFLINE, NULL);
+			if (ptr == NULL || ((Client*)ptr)->m_connected) SetStatus(ID_STATUS_OFFLINE, NULL);
 
 			//((Client*)ptr)->disconnect();
 		}
@@ -216,11 +218,11 @@ namespace xfirelib
 
 	void Client::disconnect()
 	{
-		this->connected = FALSE;
+		m_connected = FALSE;
 
 		//socket vom packetreader auf NULL, damit die readschleife geschlossen wird
-		if (this->packetReader != NULL)
-			this->packetReader->setSocket(NULL);
+		if (m_packetReader != NULL)
+			m_packetReader->setSocket(NULL);
 
 		XDEBUG("cancelling readthread... \n");
 #ifndef NO_PTHREAD
@@ -233,28 +235,28 @@ namespace xfirelib
 #endif
 
 		XDEBUG("deleting socket...\n");
-		if (socket) {
-			delete socket;
-			socket = NULL;
+		if (m_socket) {
+			delete m_socket;
+			m_socket = NULL;
 		}
 		XDEBUG(("done\n"));
 	}
 
 	bool Client::send(XFirePacketContent *content)
 	{
-		if (!socket) {
+		if (!m_socket) {
 			XERROR(("Trying to send content packet altough socket is NULL ! (ignored)\n"));
 			return false;
 		}
 		XFirePacket *packet = new XFirePacket(content);
-		packet->sendPacket(socket);
+		packet->sendPacket(m_socket);
 		delete packet;
 		return true;
 	}
 
 	void Client::addPacketListener(PacketListener *listener)
 	{
-		packetReader->addPacketListener(listener);
+		m_packetReader->addPacketListener(listener);
 	}
 
 
@@ -279,8 +281,8 @@ namespace xfirelib
 
 				ClientLoginPacket *login = new ClientLoginPacket();
 				login->setSalt(authPacket->getSalt());
-				login->setUsername(*username);
-				login->setPassword(*password);
+				login->setUsername(*m_username);
+				login->setPassword(*m_password);
 				send(login);
 				delete login;
 				break;

@@ -33,44 +33,44 @@ namespace xfirelib
 {
 	MessagePacket::MessagePacket()
 	{
-		packetID = 133;
+		m_packetID = 133;
 	}
 
 	int MessagePacket::getPacketContent(char *packet)
 	{
-		memcpy(packet, buf, bufLength);
-		packetID = 2;
+		memcpy(packet, m_buf, m_bufLength);
+		m_packetID = 2;
 		return 150;
 	}
 
 	void MessagePacket::parseContent(char *buf, int length, int)
 	{
-		bufLength = length;
+		m_bufLength = length;
 		XINFO(("Got IM\n"));
 
 		int index = 0;
-		sid = new VariableValue();
-		peermsg = new VariableValue();
-		msgtype = new VariableValue();
+		m_sid = new VariableValue();
+		m_peermsg = new VariableValue();
+		m_msgtype = new VariableValue();
 
-		index += sid->readName(buf, index);
+		index += m_sid->readName(buf, index);
 		index++; //ignore 03
-		index += sid->readValue(buf, index, 16);
+		index += m_sid->readValue(buf, index, 16);
 
-		index += peermsg->readName(buf, index);
+		index += m_peermsg->readName(buf, index);
 		index++;
 		index++;
-		index += msgtype->readName(buf, index);
+		index += m_msgtype->readName(buf, index);
 		index++;
-		index += msgtype->readValue(buf, index, 4);
+		index += m_msgtype->readValue(buf, index, 4);
 
-		if (msgtype->getValue()[0] == 0) {
-			imindex = new VariableValue();
-			index += imindex->readName(buf, index);
+		if (m_msgtype->getValue()[0] == 0) {
+			m_imindex = new VariableValue();
+			index += m_imindex->readName(buf, index);
 
 			VariableValue messageTemp;
 			index++;//ignore 02
-			index += imindex->readValue(buf, index, 4);
+			index += m_imindex->readValue(buf, index, 4);
 			index += messageTemp.readName(buf, index);
 			index++;
 			index += messageTemp.readValue(buf, index, 2);
@@ -78,15 +78,15 @@ namespace xfirelib
 			index = messageTemp.readValue(buf, index, messageLength);
 
 			for (int i = 0; i < messageTemp.getValueLength(); i++) {
-				message += messageTemp.getValue()[i];
+				m_message += messageTemp.getValue()[i];
 			}
 			/*TODO: implement this and answer the package*/
 		}
-		else if (msgtype->getValue()[0] == 1) {
+		else if (m_msgtype->getValue()[0] == 1) {
 			cout << "got ack for a message we have sent" << endl;
 		}
-		else if (msgtype->getValue()[0] == 2) {
-			memcpy(this->buf, buf, 150);
+		else if (m_msgtype->getValue()[0] == 2) {
+			memcpy(m_buf, buf, 150);
 			/*answer the packet*/
 			cout << "some auth magic stuff" << length << endl;
 		}

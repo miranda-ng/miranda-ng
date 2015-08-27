@@ -36,21 +36,21 @@
 using namespace xfirelib;
 
 struct Xfire_avatar_process {
-	MCONTACT hcontact;
-	char username[128];
-	unsigned int userid;
+	MCONTACT m_hcontact;
+	char m_username[128];
+	unsigned int m_userid;
 };
 
 class Xfire_avatar_loader : public Xfire_base {
 private:
 	static void loadThread(LPVOID lparam);
-	xfirelib::Client *client;
-	mir_cs avatarMutex;
+	xfirelib::Client *m_client;
+	mir_cs m_avatarMutex;
 public:
-	vector<Xfire_avatar_process> list;
-	BOOL threadrunning;
-	BOOL loadAvatar(MCONTACT hcontact, char*username, unsigned int userid);
-	Xfire_avatar_loader(xfirelib::Client* client);
+	vector<Xfire_avatar_process> m_list;
+	BOOL m_threadrunning;
+	BOOL loadAvatar(MCONTACT hcontact, char *username, unsigned int userid);
+	Xfire_avatar_loader(xfirelib::Client *client);
 	~Xfire_avatar_loader();
 };
 

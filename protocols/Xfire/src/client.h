@@ -50,22 +50,22 @@ namespace xfirelib {
 		*/
 		bool send(XFirePacketContent *content);
 
-		BuddyList *getBuddyList() { return buddyList; }
+		BuddyList *getBuddyList() { return m_buddyList; }
 		void addPacketListener(PacketListener *packetListener);
 		void disconnect();
 		void sendMessage(string username, string message);
 		void sendNickChange(string nick);
 		XFireGameResolver *getGameResolver();
 		void setGameResolver(XFireGameResolver *resolver) {
-			delete this->gameResolver;
-			this->gameResolver = resolver;
+			delete m_gameResolver;
+			m_gameResolver = resolver;
 		}
 
-		BOOL gotBudduyList;
-		BOOL connected;
-		char protocolVersion;
-		char localaddr[18];
-		unsigned long llocaladdr;
+		BOOL m_gotBudduyList;
+		BOOL m_connected;
+		char m_protocolVersion;
+		char m_localaddr[18];
+		unsigned long m_llocaladdr;
 
 	protected:
 		void receivedPacket( XFirePacket *packet );
@@ -78,12 +78,12 @@ namespace xfirelib {
 		static void startSendPingThread(LPVOID lParam);
 #endif
 	private:
-		XFireGameResolver *gameResolver;
-		PacketReader *packetReader;
-		std::string *username;
-		std::string *password;
-		Socket *socket;
-		BuddyList *buddyList;
+		XFireGameResolver *m_gameResolver;
+		PacketReader *m_packetReader;
+		std::string *m_username;
+		std::string *m_password;
+		Socket *m_socket;
+		BuddyList *m_buddyList;
 #ifndef NO_PTHREAD
 		pthread_t readthread;
 		pthread_t sendpingthread;

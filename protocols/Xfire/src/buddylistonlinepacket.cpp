@@ -73,9 +73,9 @@ namespace xfirelib
 		index++;//ignore 00
 		for (int i = 0; i < numberOfIds; i++) {
 			index += userid.readValue(buf, index, 16);
-			char *sid = new char[16];
-			memcpy(sid, userid.getValue(), 16);
-			sids->push_back(sid);
+			char *szSid = new char[16];
+			memcpy(szSid, userid.getValue(), 16);
+			sids->push_back(szSid);
 		}
 	}
 };

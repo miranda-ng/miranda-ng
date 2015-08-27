@@ -44,8 +44,8 @@ namespace xfirelib {
 		BuddyList(Client *client);
 		~BuddyList();
 
-		vector <BuddyListEntry *> * getEntries() { return entries; }
-		vector <BuddyListEntry *> * getEntriesClan() { return entriesClan; }
+		vector <BuddyListEntry *> * getEntries() { return m_entries; }
+		vector <BuddyListEntry *> * getEntriesClan() { return m_entriesClan; }
 
 		void receivedPacket(XFirePacket *packet);
 		BuddyListEntry *getBuddyById(long userid);
@@ -58,9 +58,9 @@ namespace xfirelib {
 		void updateBuddiesGame(BuddyListGamesPacket* buddiesGames);
 		void updateFriendsofFriend(FriendsBuddyListNamesPacket* friends);
 
-		Client *client;
-		vector <BuddyListEntry *> * entries;
-		vector <BuddyListEntry *> * entriesClan;
+		Client *m_client;
+		vector <BuddyListEntry *> *m_entries;
+		vector <BuddyListEntry *> *m_entriesClan;
 	};
 
 
@@ -72,22 +72,22 @@ namespace xfirelib {
 
 		void setSid(const char *sid);
 
-		long userid;
-		char sid[16];
-		string nick;
-		string username;
-		string statusmsg;
-		string gameinfo;
-		long game;
-		long game2;
-		MCONTACT hcontact;
-		int clanid;
+		long m_userid;
+		char m_sid[16];
+		string m_nick;
+		string m_username;
+		string m_statusmsg;
+		string m_gameinfo;
+		long m_game;
+		long m_game2;
+		MCONTACT m_hcontact;
+		int m_clanid;
 
 		//lastpopup
-		char* lastpopup;
+		char* m_lastpopup;
 
-		XFireGame *gameObj;
-		XFireGame *game2Obj;
+		XFireGame *m_gameObj;
+		XFireGame *m_game2Obj;
 	};
 
 	typedef BuddyListEntry *PBuddyListEntry;

@@ -61,53 +61,56 @@ namespace xfirelib
 {
 	PacketReader::PacketReader(Socket *socket)
 	{
-		this->socket = socket;
-		this->packetListeners = new vector<PacketListener *>();
+		m_socket = socket;
+		m_packetListeners = new vector<PacketListener *>();
 
 		initPackets();
 	}
 	void PacketReader::setSocket(Socket *socket)
 	{
-		this->socket = socket;
+		m_socket = socket;
 	}
 	PacketReader::~PacketReader()
 	{
 		// TODO: delete each packetListener ..
-		delete packetListeners;
+		delete m_packetListeners;
 
-		while (!packets->empty()) { delete packets->at(packets->size() - 1); packets->pop_back(); }
-		delete packets;
+		while (!m_packets->empty()) {
+			delete m_packets->at(m_packets->size() - 1);
+			m_packets->pop_back();
+		}
+		delete m_packets;
 	}
 
 	void PacketReader::initPackets()
 	{
-		packets = new vector <XFirePacketContent *>();
-		packets->push_back(new ClientInformationPacket());
-		packets->push_back(new AuthPacket());
-		packets->push_back(new LoginFailedPacket());
-		packets->push_back(new LoginSuccessPacket());
-		packets->push_back(new MessagePacket());
-		packets->push_back(new BuddyListOnlinePacket());
-		packets->push_back(new BuddyListNamesPacket());
-		packets->push_back(new BuddyListGamesPacket());
-		packets->push_back(new BuddyListGames2Packet());
-		packets->push_back(new OtherLoginPacket());
-		packets->push_back(new InviteBuddyPacket());
-		packets->push_back(new InviteRequestPacket());
-		packets->push_back(new RecvRemoveBuddyPacket());
-		packets->push_back(new RecvDidPacket());
-		packets->push_back(new RecvStatusMessagePacket());
-		packets->push_back(new RecvOldVersionPacket());
-		packets->push_back(new RecvPrefsPacket());
+		m_packets = new vector <XFirePacketContent *>();
+		m_packets->push_back(new ClientInformationPacket());
+		m_packets->push_back(new AuthPacket());
+		m_packets->push_back(new LoginFailedPacket());
+		m_packets->push_back(new LoginSuccessPacket());
+		m_packets->push_back(new MessagePacket());
+		m_packets->push_back(new BuddyListOnlinePacket());
+		m_packets->push_back(new BuddyListNamesPacket());
+		m_packets->push_back(new BuddyListGamesPacket());
+		m_packets->push_back(new BuddyListGames2Packet());
+		m_packets->push_back(new OtherLoginPacket());
+		m_packets->push_back(new InviteBuddyPacket());
+		m_packets->push_back(new InviteRequestPacket());
+		m_packets->push_back(new RecvRemoveBuddyPacket());
+		m_packets->push_back(new RecvDidPacket());
+		m_packets->push_back(new RecvStatusMessagePacket());
+		m_packets->push_back(new RecvOldVersionPacket());
+		m_packets->push_back(new RecvPrefsPacket());
 		//neue packetklassen hinzugefügt - dufte
-		packets->push_back(new FriendsBuddyListNamesPacket());
-		packets->push_back(new ClanBuddyListNamesPacket());
-		packets->push_back(new XFireClanPacket());
-		packets->push_back(new GameInfoPacket());
-		packets->push_back(new ClanInvitationPacket());
-		packets->push_back(new XFireFoundBuddys());
-		packets->push_back(new BuddyInfoPacket());
-		packets->push_back(new RecvBuddyChangedNick());
+		m_packets->push_back(new FriendsBuddyListNamesPacket());
+		m_packets->push_back(new ClanBuddyListNamesPacket());
+		m_packets->push_back(new XFireClanPacket());
+		m_packets->push_back(new GameInfoPacket());
+		m_packets->push_back(new ClanInvitationPacket());
+		m_packets->push_back(new XFireFoundBuddys());
+		m_packets->push_back(new BuddyInfoPacket());
+		m_packets->push_back(new RecvBuddyChangedNick());
 	}
 
 
@@ -134,7 +137,7 @@ namespace xfirelib
 			XFirePacket *packet = new XFirePacket(this);
 			XDEBUG(("Waiting for next packet... \n"));
 			if (packet == NULL) continue;
-			packet->recvPacket(socket);
+			packet->recvPacket(m_socket);
 			XINFO(("Received packet\n"));
 			if (packet->getContent() != NULL) {
 				fireListeners(packet);
@@ -150,8 +153,8 @@ namespace xfirelib
 
 	void PacketReader::fireListeners(XFirePacket *packet)
 	{
-		for (vector<PacketListener *>::iterator it = packetListeners->begin();
-			it != packetListeners->end(); ++it) {
+		for (vector<PacketListener *>::iterator it = m_packetListeners->begin();
+			it != m_packetListeners->end(); ++it) {
 			(*it)->receivedPacket(packet);
 		}
 	}
@@ -159,14 +162,14 @@ namespace xfirelib
 	XFirePacketContent *PacketReader::getPacketContentClass(int packetId)
 	{
 		XDEBUG(("Searching for a content class...\n"));
-		for (uint i = 0; i < packets->size(); i++)
-			if (packets->at(i)->getPacketId() == packetId) return packets->at(i);
+		for (uint i = 0; i < m_packets->size(); i++)
+			if (m_packets->at(i)->getPacketId() == packetId) return m_packets->at(i);
 		XDEBUG(("None Found\n"));
 		return NULL;
 	}
 
 	void PacketReader::addPacketListener(PacketListener *listener)
 	{
-		packetListeners->push_back(listener);
+		m_packetListeners->push_back(listener);
 	}
 };

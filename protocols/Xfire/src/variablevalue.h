@@ -38,7 +38,7 @@ namespace xfirelib {
 		void setValue(const char *value, int valueLength);
 		void setValueFromLong(long value, int bytes);
 		
-		__forceinline std::string getName() { return m_name; }
+		__forceinline std::string& getName() { return m_name; }
 		__forceinline int getValueLength() { return m_valueLength; }
 		__forceinline char* getValue() { return m_value; }
 

@@ -37,24 +37,24 @@ namespace xfirelib {
 		XFirePacketContent* newPacket() { return new MessagePacket(); }
 
 		int getPacketContent(char *packet);
-		int getPacketId() { return packetID; }
+		int getPacketId() { return m_packetID; }
 		int getPacketSize() { return 1024; };
 		void parseContent(char *buf, int length, int numberOfAtts);
-		std::string getMessage() {return message; }
-		int getMessageType(){return msgtype->getValue()[0];}
-		int getImIndex(){ return imindex->getValue()[0];}//TODO: fix this if we have more than 255 messages
+		std::string getMessage() {return m_message; }
+		int getMessageType(){return m_msgtype->getValue()[0];}
+		int getImIndex(){ return m_imindex->getValue()[0];}//TODO: fix this if we have more than 255 messages
 		int getPacketAttributeCount(){ return 2; }
-		char * getSid(){ return sid->getValue(); }
+		char * getSid(){ return m_sid->getValue(); }
 
 	private:
-		VariableValue *sid;
-		VariableValue *peermsg;
-		VariableValue *msgtype;
-		VariableValue *imindex;
-		std::string message;
-		char buf[150];
-		int bufLength;
-		int packetID;//Special case because we have to answer this packet with id 2
+		VariableValue *m_sid;
+		VariableValue *m_peermsg;
+		VariableValue *m_msgtype;
+		VariableValue *m_imindex;
+		std::string m_message;
+		char m_buf[150];
+		int m_bufLength;
+		int m_packetID;//Special case because we have to answer this packet with id 2
 	};
 };
 
