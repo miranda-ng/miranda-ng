@@ -7,8 +7,6 @@ Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
 Ekaterina Gritsenko aka Tuarisa
 George Hazan aka ghazan
-Ulrich Hecht aka fishbone
-Vitaly Igonin aka persei
 Alexey Koulakov aka Awkward
 Michael Kunz aka Protogenes
 Dmitry Kuzkin aka Bio
@@ -18,6 +16,7 @@ Vlad Mironov aka mironych
 Victor Pavlychko aka nullbie
 Robert Pösel aka Robyer
 Konstantin Romanov aka Kildor
+Nikolai Romanovich aka MikalaiR
 Ivan Rozhuk aka rozhuk
 Alexander Shorin aka Kxepal
 Artem Shpynov aka FYR
@@ -29,6 +28,8 @@ Sound pack is developed by Andre Louis aka onj
 People that previously used to develop Miranda IM Project:
 
 Alexey Oblezov aka faith_healer
+Ulrich Hecht aka fishbone
+Vitaly Igonin aka persei
 Ricardo Domenecci aka pescuma
 Gennady Feldman aka gena01
 Martin Öberg aka Strickz
