@@ -51,10 +51,10 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 
 	dbv.type = DBVT_DELETED;
 
-	if ((hContact == NULL) && ((int)szModule < 0x100)) {
+	if ((hContact == NULL) && ((INT_PTR)szModule < 0x100)) {
 		dbv.type = (BYTE)szModule;
 
-		switch ((int)szModule) {
+		switch ((INT_PTR)szModule) {
 		case DBVT_BYTE:
 			dbv.cVal = (BYTE)szSetting;
 			break;
@@ -62,7 +62,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 			dbv.wVal = (WORD)szSetting;
 			break;
 		case DBVT_DWORD:
-			dbv.dVal = (DWORD)szSetting;
+			dbv.dVal = (UINT_PTR)szSetting;
 			break;
 		case DBVT_ASCIIZ:
 			dbv.pszVal = pstr = szSetting;

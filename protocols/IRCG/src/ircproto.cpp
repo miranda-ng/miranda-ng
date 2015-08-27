@@ -658,12 +658,12 @@ struct TFakeAckParam
 
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
-	ProtoBroadcastAck((MCONTACT)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
+	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
-	ProtoBroadcastAck((MCONTACT)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)

@@ -553,7 +553,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 {
 	Sleep(150);
 
-	MCONTACT hContact = (MCONTACT)arg;
+	MCONTACT hContact = (UINT_PTR)arg;
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);

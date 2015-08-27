@@ -502,7 +502,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 		lfoundi = 0;
 	}
 
-	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (MCONTACT)ActualAccount;
+	NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 	NewMailPopup.lchIcon = g_LoadIconEx(2);
 	NewMailPopup.colorBack = nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 	NewMailPopup.colorText = nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -664,7 +664,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		(MN->Real.PopupRun + MN->Virtual.PopupRun)) {
 		POPUPDATAT NewMailPopup = { 0 };
 
-		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (MCONTACT)ActualAccount;
+		NewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NewMailPopup.lchIcon = g_LoadIconEx(2);
 		NewMailPopup.colorBack = nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 		NewMailPopup.colorText = nflags & YAMN_ACC_POPC ? ActualAccount->NewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -759,7 +759,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 	if ((nnflags & YAMN_ACC_POP) && (MN->Real.PopupRun + MN->Virtual.PopupRun == 0)) {
 		POPUPDATAT NoNewMailPopup;
 
-		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (MCONTACT)ActualAccount;
+		NoNewMailPopup.lchContact = (ActualAccount->hContact != NULL) ? ActualAccount->hContact : (UINT_PTR)ActualAccount;
 		NoNewMailPopup.lchIcon = g_LoadIconEx(1);
 		NoNewMailPopup.colorBack = ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupB : GetSysColor(COLOR_BTNFACE);
 		NoNewMailPopup.colorText = ActualAccount->NoNewMailN.Flags & YAMN_ACC_POPC ? ActualAccount->NoNewMailN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
@@ -1434,7 +1434,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags &= ~YAMN_MSG_UNSEEN; //mark the message as seen
 					HWND hMailBrowser;
-					if (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (MCONTACT)MailParam->account)) {
+					if (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)MailParam->account)) {
 						struct CChangeContent Params = { MailParam->account->NewMailN.Flags | YAMN_ACC_MSGP, MailParam->account->NoNewMailN.Flags | YAMN_ACC_MSGP };
 						SendMessageW(hMailBrowser, WM_YAMN_CHANGECONTENT, (WPARAM)MailParam->account, (LPARAM)&Params);
 					}
@@ -1706,7 +1706,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 			WindowList_Add(YAMNVar.MessageWnds, hDlg, NULL);
-			WindowList_Add(YAMNVar.NewMailAccountWnd, hDlg, (MCONTACT)ActualAccount);
+			WindowList_Add(YAMNVar.NewMailAccountWnd, hDlg, (UINT_PTR)ActualAccount);
 
 			{
 				TCHAR accstatus[512];
@@ -2444,7 +2444,7 @@ void __cdecl MailBrowser(void *Param)
 		#endif
 		ReadDoneFcn(ActualAccount->AccountAccessSO);
 
-		if (NULL != (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (MCONTACT)ActualAccount)))
+		if (NULL != (hMailBrowser = WindowList_Find(YAMNVar.NewMailAccountWnd, (UINT_PTR)ActualAccount)))
 			WndFound = TRUE;
 		if ((hMailBrowser == NULL) && ((MyParam.nflags & YAMN_ACC_MSG) || (MyParam.nflags & YAMN_ACC_ICO) || (MyParam.nnflags & YAMN_ACC_MSG))) {
 			hMailBrowser = CreateDialogParamW(YAMNVar.hInst, MAKEINTRESOURCEW(IDD_DLGVIEWMESSAGES), NULL, DlgProcYAMNMailBrowser, (LPARAM)&MyParam);

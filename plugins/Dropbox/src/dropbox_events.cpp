@@ -119,8 +119,7 @@ void __stdcall EnableTabSrmmButtonSync(void *arg)
 	bbd.pszModuleName = MODULE;
 	bbd.dwButtonID = BBB_ID_FILE_SEND;
 	bbd.bbbFlags = BBSF_RELEASED;
-	MCONTACT hContact = (MCONTACT)arg;
-	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+	CallService(MS_BB_SETBUTTONSTATE, (UINT_PTR)arg, (LPARAM)&bbd);
 }
 
 int CDropbox::OnFileDialogCancelled(WPARAM, LPARAM lParam)

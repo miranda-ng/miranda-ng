@@ -372,7 +372,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		<< TCHAR_PARAM("attachment", Attachment)
 		<< VER_API;
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, -1, (int)pReq->pUserInfo);
+	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, -1, (INT_PTR)pReq->pUserInfo);
 	
 	Push(pMsgReq);
 }

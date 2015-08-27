@@ -1546,9 +1546,9 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 	if (pAck->type == ACKTYPE_MESSAGE) {
 		list<SMessageJob*>::iterator iter = CAppletManager::GetInstance()->m_MessageJobs.begin();
 		while (iter != CAppletManager::GetInstance()->m_MessageJobs.end()) {
-			if ((*iter)->hEvent == (MEVENT)pAck->hProcess && (*iter)->hContact == pAck->hContact) {
+			if ((*iter)->hEvent == (UINT_PTR)pAck->hProcess && (*iter)->hContact == pAck->hContact) {
 				Event.eType = EVENT_MESSAGE_ACK;
-				Event.hValue = (MEVENT)pAck->hProcess;
+				Event.hValue = (UINT_PTR)pAck->hProcess;
 				Event.hContact = pAck->hContact;
 				Event.iValue = pAck->result;
 				if (pAck->lParam != 0)
@@ -1570,7 +1570,7 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 	}
 	// protocol status changes
 	else if (pAck->type == ACKTYPE_STATUS && pAck->result == ACKRESULT_SUCCESS) {
-		int iOldStatus = (int)pAck->hProcess;
+		int iOldStatus = (INT_PTR)pAck->hProcess;
 		int iNewStatus = pAck->lParam;
 
 		tstring strProto = toTstring(pAck->szModule);

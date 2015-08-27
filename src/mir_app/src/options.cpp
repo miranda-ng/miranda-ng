@@ -83,7 +83,7 @@ struct OptionsPageData : public MZeroedObject
 	OptionsPageData(OPTIONSDIALOGPAGE *src)
 	{
 		if (src->hInstance != NULL && src->pszTemplate != NULL)
-			pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
+			pDialog = new COptionPageDialog(src->hInstance, (INT_PTR)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
 		else
 			pDialog = src->pDialog;
 		assert(pDialog != NULL);

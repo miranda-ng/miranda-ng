@@ -649,7 +649,7 @@ void RegHotkey(MCONTACT hContact, HWND hwnd)
 
 		chKey = szKey[0];
 
-		RegisterHotKey(hwnd, (int)hwnd, nModifiers, VkKeyScan(chKey));
+		RegisterHotKey(hwnd, (INT_PTR)hwnd, nModifiers, VkKeyScan(chKey));
 	}
 }
 

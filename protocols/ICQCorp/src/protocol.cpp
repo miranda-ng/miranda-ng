@@ -2301,7 +2301,7 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
     // Send chain event
     szBlob = new char[sizeof(DWORD) + mir_strlen(filename) + mir_strlen(m) + 2];
 
-    *(PDWORD)szBlob = (DWORD)transfer;
+    *(PDWORD)szBlob = (UINT_PTR)transfer;
     mir_strcpy(szBlob + sizeof(DWORD), filename);
     mir_strcpy(szBlob + sizeof(DWORD) + mir_strlen(filename) + 1, m);
 

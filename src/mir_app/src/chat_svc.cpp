@@ -274,7 +274,7 @@ static void SetInitDone(SESSION_INFO *si)
 	si->bInitDone = true;
 	for (STATUSINFO *p = si->pStatuses; p; p = p->next)
 		if ((UINT_PTR)p->hIcon < STATUSICONCOUNT)
-			p->hIcon = HICON(si->iStatusCount - (int)p->hIcon - 1);
+			p->hIcon = HICON(si->iStatusCount - (INT_PTR)p->hIcon - 1);
 }
 
 static int DoControl(GCEVENT *gce, WPARAM wp)

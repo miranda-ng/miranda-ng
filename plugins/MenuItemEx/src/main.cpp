@@ -733,7 +733,7 @@ INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
+static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, INT_PTR param)
 {
 	CMenuItem mi;
 	mi.root = hRoot;
@@ -879,7 +879,7 @@ int EnumProtoSubmenu(WPARAM, LPARAM)
 	{
 		hProtoItem[i] = AddSubmenuItem(hmenuProto, accs[i]->tszAccountName,
 			Skin_LoadProtoIcon(accs[i]->szModuleName, ID_STATUS_ONLINE), CMIF_SYSTEM | CMIF_KEEPUNTRANSLATED,
-			MS_PROTO, pos++, (int)accs[i]->szModuleName);
+			MS_PROTO, pos++, (INT_PTR)accs[i]->szModuleName);
 	}
 	return 0;
 }
@@ -993,7 +993,7 @@ static int PluginInit(WPARAM, LPARAM)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Contacts";
 	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood);
+	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (INT_PTR)&ood);
 
 	mi.position++;
 	mi.name.t = LPGENT("Copy to Account");

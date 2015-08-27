@@ -43,25 +43,26 @@ public:
 	static void unregisterClass();
 
 private:
-	HWND m_hWnd;
-	int m_nOwnId;
-	HFONT m_hFont;
-	HTHEME m_hTheme;
-	std::vector<ItemData> m_Items;
+	HWND       m_hWnd;
+	UINT_PTR   m_nOwnId;
+	HFONT      m_hFont;
+	HTHEME     m_hTheme;
 	HIMAGELIST m_hImageList;
 	HIMAGELIST m_hImageListD;
-	SIZE m_IconSize;
-	HWND m_hTooltip;
-	int m_nCurHot;
-	int m_nCurFocused;
-	int m_nCurPressed;
-	bool m_bCurPressedDD;
-	int m_nLayout;
-	int m_nDDWidth;
-	HICON m_hDDIcon;
+	SIZE       m_IconSize;
+	HWND       m_hTooltip;
+	int        m_nCurHot;
+	int        m_nCurFocused;
+	int        m_nCurPressed;
+	bool       m_bCurPressedDD;
+	int        m_nLayout;
+	int        m_nDDWidth;
+	HICON      m_hDDIcon;
+
+	std::vector<ItemData> m_Items;
 
 private:
-	explicit BandCtrlImpl(HWND hWnd, int nOwnId);
+	explicit BandCtrlImpl(HWND hWnd, UINT_PTR nOwnId);
 	~BandCtrlImpl();
 
 private:

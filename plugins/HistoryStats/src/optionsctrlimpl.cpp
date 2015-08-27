@@ -25,8 +25,8 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 			pCS->style |= WS_CHILD;
 			pCS->dwExStyle &= ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE | WS_EX_WINDOWEDGE);
 
-			pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<int>(pCS->hMenu));
-			SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pCtrl));
+			pCtrl = new OptionsCtrlImpl(hWnd, reinterpret_cast<INT_PTR>(pCS->hMenu));
+			SetWindowLongPtr(hWnd, 0, reinterpret_cast<INT_PTR>(pCtrl));
 		}
 		return pCtrl ? TRUE : FALSE;
 
@@ -415,7 +415,7 @@ void OptionsCtrlImpl::unregisterClass()
 	UnregisterClass(m_ClassName, g_hInst);
 }
 
-OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, int nOwnId) :
+OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
 	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hTree(NULL), m_pfnOldTreeProc(NULL), m_bModified(true), m_hDragItem(NULL)
 {
 }

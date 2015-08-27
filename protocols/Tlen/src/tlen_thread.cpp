@@ -163,7 +163,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			// Should be better with modeless.
 			onlinePassword[0] = (char) -1;
 			hEventPasswdDlg = CreateEvent(NULL, FALSE, FALSE, NULL);
-			QueueUserAPC(TlenPasswordCreateDialogApcProc, hMainThread, (DWORD) jidStr);
+			QueueUserAPC(TlenPasswordCreateDialogApcProc, hMainThread, (UINT_PTR)jidStr);
 			WaitForSingleObject(hEventPasswdDlg, INFINITE);
 			CloseHandle(hEventPasswdDlg);
 			

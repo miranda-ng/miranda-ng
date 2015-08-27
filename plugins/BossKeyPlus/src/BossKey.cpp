@@ -83,7 +83,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 	case WM_INITDIALOG:
 		g_hDlgPass = hDlg;
 		hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DLGPASSWD));
-		dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (LONG)hIcon); // set alt+tab icon
+		dwOldIcon = SetClassLongPtr(hDlg, GCLP_HICON, (INT_PTR)hIcon); // set alt+tab icon
 		SendDlgItemMessage(hDlg, IDC_EDIT1, EM_LIMITTEXT, MAXPASSLEN, 0);
 
 		if (IsAeroMode())

@@ -238,11 +238,11 @@ static int lua_GetRegValue(lua_State *L)
 		{
 		case REG_DWORD:
 		case REG_DWORD_BIG_ENDIAN:
-			lua_pushinteger(L, (int)value);
+			lua_pushinteger(L, (INT_PTR)value);
 			break;
 
 		case REG_QWORD:
-			lua_pushnumber(L, (int)value);
+			lua_pushnumber(L, (INT_PTR)value);
 			break;
 
 		case REG_SZ:

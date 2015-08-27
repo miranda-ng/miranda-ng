@@ -443,7 +443,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				bct->stateId = PBS_PRESSED;
 			else if (LOWORD(lParam) > rc.right - 12) {
 				if (GetDlgCtrlID(hwndDlg) == IDOK || bct->stateId != PBS_DISABLED) {
-					WORD w = (WORD)((int)bct->arrow & 0x0000ffff);
+					WORD w = (WORD)((INT_PTR)bct->arrow & 0x0000ffff);
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(w, BN_CLICKED), (LPARAM)hwndDlg);
 				}
 			}

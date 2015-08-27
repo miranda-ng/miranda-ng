@@ -120,7 +120,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 			SetBkColor(hDC, GetSysColor(COLOR_WINDOW));
 			SetTextColor(hDC, GetSysColor(COLOR_WINDOWTEXT));
 
-			return reinterpret_cast<BOOL>(GetSysColorBrush(COLOR_WINDOW));
+			return reinterpret_cast<INT_PTR>(GetSysColorBrush(COLOR_WINDOW));
 		}
 		break;
 	}

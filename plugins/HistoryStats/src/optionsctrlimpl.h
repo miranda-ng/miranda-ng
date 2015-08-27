@@ -359,15 +359,15 @@ public:
 	static void unregisterClass();
 
 private:
-	HWND m_hWnd;
-	int m_nOwnId;
-	HWND m_hTree;
-	WNDPROC m_pfnOldTreeProc;
-	bool m_bModified;
+	HWND      m_hWnd;
+	UINT_PTR  m_nOwnId;
+	HWND      m_hTree;
+	WNDPROC   m_pfnOldTreeProc;
+	bool      m_bModified;
 	HTREEITEM m_hDragItem;
 
 private:
-	explicit OptionsCtrlImpl(HWND hWnd, int nOwnId);
+	explicit OptionsCtrlImpl(HWND hWnd, UINT_PTR nOwnId);
 	explicit OptionsCtrlImpl(const OptionsCtrlImpl& other); // no implementation
 	const OptionsCtrlImpl& operator =(const OptionsCtrlImpl& other); // no implementation
 	~OptionsCtrlImpl();

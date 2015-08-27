@@ -149,7 +149,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
 	dbei.pBlob = (PBYTE)item->sendBuffer;
 
-	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, hContact, &dbei };
+	MessageWindowEvent evt = { sizeof(evt), (INT_PTR)item->hSendId, hContact, &dbei };
 	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
 
 	item->sendBuffer = (char *)dbei.pBlob;

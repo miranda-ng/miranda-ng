@@ -81,7 +81,7 @@ extern "C" {
 	/* Return the OTR policy for the given context. */
 	OtrlPolicy otr_gui_policy(void *opdata, ConnContext *context) {
 		DEBUGOUT_T("OTR_GUI_POLICY\n");
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		DWORD pol;
 		if (hContact) {
 			pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);
@@ -106,7 +106,7 @@ extern "C" {
 		DEBUGOUT_T("OTR_GUI_CREATE_PRIVKEY\n");
 		if (opdata) {
 			mir_free((char*)protocol);
-			protocol = mir_strdup(GetContactProto((MCONTACT)opdata));
+			protocol = mir_strdup(GetContactProto((UINT_PTR)opdata));
 		}
 		if (!protocol) return;
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), 0, GenKeyDlgBoxProc, (LPARAM)protocol);
@@ -121,7 +121,7 @@ extern "C" {
 	* logged in" errors if you're wrong. */
 	int otr_gui_is_logged_in(void *opdata, const char *accountname, const char *protocol, const char *recipient) {
 		DEBUGOUT_T("OTR_GUI_IS_LOGGED_IN\n");
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		if (hContact) {
 			WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_OFFLINE) return 0;
@@ -135,7 +135,7 @@ extern "C" {
 	* accountname/protocol. */
 	void otr_gui_inject_message(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message) {
 		DEBUGOUT_T("OTR_GUI_INJECT_MESSAGE\n");
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			CallContactService(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
 	}
@@ -169,7 +169,7 @@ extern "C" {
 	/* A ConnContext has entered a secure state. */
 	void otr_gui_gone_secure(void *opdata, ConnContext *context) {
 		DEBUGOUT_T("OTR_GUI_GONE_SECURE\n");
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
 		TCHAR buff[512];
@@ -195,7 +195,7 @@ extern "C" {
 
 	/* A ConnContext has left a secure state. */
 	void otr_gui_gone_insecure(void *opdata, ConnContext *context) {
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		DEBUGOUT_T("OTR_GUI_GONE_INSECURE\n");
 		TCHAR buff[512];
 		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
@@ -211,7 +211,7 @@ extern "C" {
 	/* We have completed an authentication, using the D-H keys we
 	* already knew.  is_reply indicates whether we initiated the AKE. */
 	void otr_gui_still_secure(void *opdata, ConnContext *context, int is_reply) {
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		DEBUGOUT_T("OTR_GUI_STILL_SECURE\n");
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
@@ -250,7 +250,7 @@ extern "C" {
 		if (context && context->protocol)
 			proto = context->protocol;
 		else
-			proto = GetContactProto((MCONTACT)opdata);
+			proto = GetContactProto((UINT_PTR)opdata);
 		// ugly wokaround for ICQ. ICQ protocol reports more than 7k, but in SMP this is too long.
 		// possibly ICQ doesn't allow single words without spaces to become longer than ~2340?
 		if (mir_strcmp("ICQ", proto) == 0 || strncmp("ICQ_", proto, 4) == 0)
@@ -302,7 +302,7 @@ extern "C" {
 
 	void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *context, const char *message, gcry_error_t err) {
 		DEBUGOUTA("HANDLE_MSG_EVENT\n");
-		MCONTACT hContact = (MCONTACT)opdata;
+		MCONTACT hContact = (UINT_PTR)opdata;
 		const TCHAR* contact = contact_get_nameT(hContact);
 
 		typedef void(*msgfunc_t)(const MCONTACT, const TCHAR*);

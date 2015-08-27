@@ -553,7 +553,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			switch (nmc->hdr.code) {
 			case CLN_NEWCONTACT:
 				if ((nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					SetContactIcons((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, proto);
+					SetContactIcons((UINT_PTR)nmc->hItem, nmc->hdr.hwndFrom, proto);
 				break;
 
 			case CLN_LISTREBUILT:

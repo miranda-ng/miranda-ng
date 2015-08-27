@@ -202,7 +202,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	ConnContext *context = otr_user_state->context_root;
 	while (context) {
 		if (context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || mir_strcmp(proto, context->protocol) == 0)) {
-			MCONTACT hContact = (MCONTACT)context->app_data;
+			MCONTACT hContact = (UINT_PTR)context->app_data;
 
 			if (hContact) {
 				otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, context->accountname, context->protocol, context->username, OTRL_INSTAG_BEST);

@@ -143,7 +143,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		//		targetHandleSzProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hSubContact, 0);
 		//	}
 
-		char *targetHandleSzProto = GetContactProto((MCONTACT)args->targetHandle); //targetHandleSzProto doesnt need mir_free or delete
+		char *targetHandleSzProto = GetContactProto((UINT_PTR)args->targetHandle); //targetHandleSzProto doesnt need mir_free or delete
 		if (targetHandleSzProto == NULL){
 			logger->log(L"MirandaUtils::sendMessageToContact: ERROR targetHandleSzProto == NULL");
 			return;
@@ -153,7 +153,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		std::size_t bufSize = strlen(msgBuffer) + 1;
 
 		logger->log_p(L"SMTC: bufSize = [%d]", bufSize);
-		HANDLE hProcess = sendMessageMiranda((MCONTACT)args->targetHandle, msgBuffer);
+		HANDLE hProcess = sendMessageMiranda((UINT_PTR)args->targetHandle, msgBuffer);
 		logger->log_p(L"SMTC: hProcess = [" SCNuPTR L"]", hProcess);
 
 		MIRFOXACKDATA* myMfAck = NULL;
@@ -184,7 +184,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 			logger->log_p(L"SMTC: ACK found  counter = [%d]   myMfAck = [" SCNuPTR L"]", counter, myMfAck);
 		}
 
-		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((MCONTACT)args->targetHandle);
+		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((UINT_PTR)args->targetHandle);
 		const wchar_t* contactNameW = NULL;
 		TCHAR* tszAccountName = NULL;
 		if (mirandaContact){
@@ -194,7 +194,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				tszAccountName = mirandaAccount->tszAccountName;
 		}
 		if(myMfAck != NULL && myMfAck->result == ACKRESULT_SUCCESS){
-			addMessageToDB((MCONTACT)args->targetHandle, msgBuffer, bufSize, targetHandleSzProto);
+			addMessageToDB((UINT_PTR)args->targetHandle, msgBuffer, bufSize, targetHandleSzProto);
 			if (mode == MFENUM_SMM_ONLY_SEND){
 				//show notyfication popup (only in SMM_ONLY_SEND mode)
 				wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
@@ -342,12 +342,12 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 
 	MessageWindowData mwd;
 	mwd.cbSize = sizeof(MessageWindowData);
-	mwd.hContact = (MCONTACT)param->targetHandle;
+	mwd.hContact = (UINT_PTR)param->targetHandle;
 	mwd.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	MessageWindowInputData mwid;
 	mwid.cbSize = sizeof(MessageWindowInputData);
-	mwid.hContact = (MCONTACT)param->targetHandle;
+	mwid.hContact = (UINT_PTR)param->targetHandle;
 	mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
 	delete param;

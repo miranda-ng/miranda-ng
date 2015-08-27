@@ -23,19 +23,19 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 		return;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	GetAvatarFileName((MCONTACT)pReq->pUserInfo, ai.filename, _countof(ai.filename));
+	GetAvatarFileName((UINT_PTR)pReq->pUserInfo, ai.filename, _countof(ai.filename));
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
 	FILE *out = _tfopen(ai.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
+		ProtoBroadcastAck((UINT_PTR)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
-	setByte((MCONTACT)pReq->pUserInfo, "NeedNewAvatar", 0);
-	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+	setByte((UINT_PTR)pReq->pUserInfo, "NeedNewAvatar", 0);
+	ProtoBroadcastAck((UINT_PTR)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)

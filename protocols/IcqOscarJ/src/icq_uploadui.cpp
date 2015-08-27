@@ -309,7 +309,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		if (ack->type != ICQACKTYPE_SERVERCLIST)
 			break;
 
-		if ((int)ack->hProcess != currentSequence)
+		if ((INT_PTR)ack->hProcess != currentSequence)
 			break;
 
 		lastAckResult = ack->result == ACKRESULT_SUCCESS ? 0 : 1;

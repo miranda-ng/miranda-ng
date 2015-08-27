@@ -979,7 +979,7 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 static void LoadKLThread(LPVOID _param)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts((MCONTACT)_param, SRMSGMOD_T, "locale", &dbv)) {
+	if (!db_get_ts((UINT_PTR)_param, SRMSGMOD_T, "locale", &dbv)) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)_param, (LPARAM)hkl);
 		db_free(&dbv);

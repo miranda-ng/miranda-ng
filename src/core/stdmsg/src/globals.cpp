@@ -77,7 +77,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (pAck && pAck->type == ACKTYPE_MESSAGE) {
-		msgQueue_processack(pAck->hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
+		msgQueue_processack(pAck->hContact, (INT_PTR)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
 		if (pAck->result == ACKRESULT_SUCCESS)
 			SkinPlaySound("SendMsg");

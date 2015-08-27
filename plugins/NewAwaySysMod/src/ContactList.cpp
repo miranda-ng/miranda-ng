@@ -409,7 +409,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	if (!GroupEnumData.hGroup) // means there is no such group in the groups list
 		return NULL;
 
-	HTREEITEM hGroupItem = FindContact((MCONTACT)GroupEnumData.hGroup);
+	HTREEITEM hGroupItem = FindContact((UINT_PTR)GroupEnumData.hGroup);
 	if (hGroupItem)
 		return hGroupItem; // exists already, just return its handle
 
@@ -427,7 +427,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	tvIns.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvIns.item.state = tvIns.item.stateMask = TVIS_BOLD | TVIS_EXPANDED;
 	tvIns.item.iImage = tvIns.item.iSelectedImage = IMAGE_GROUPOPEN;
-	tvIns.item.lParam = Items.AddElem(CCLItemData((MCONTACT)GroupEnumData.hGroup));
+	tvIns.item.lParam = Items.AddElem(CCLItemData((UINT_PTR)GroupEnumData.hGroup));
 	return TreeView_InsertItem(hTreeView, &tvIns);
 }
 

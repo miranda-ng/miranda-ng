@@ -610,7 +610,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			ACKDATA *ack = (ACKDATA*)lParam;
 			if (ack->type != ICQACKTYPE_XSTATUS_RESPONSE) break;	
 			if (ack->hContact != dat->hContact) break;
-			if ((DWORD)ack->hProcess != dat->iEvent) break;
+			if ((UINT_PTR)ack->hProcess != dat->iEvent) break;
 
 			ShowDlgItem(hwndDlg, IDC_RETRXSTATUS, SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_XMSG, SW_SHOW);

@@ -1,20 +1,20 @@
 /*
-    ICQ Corporate protocol plugin for Miranda IM.
-    Copyright (C) 2003-2005 Eugene Tarasenko <zlyden13@inbox.ru>
+	 ICQ Corporate protocol plugin for Miranda IM.
+	 Copyright (C) 2003-2005 Eugene Tarasenko <zlyden13@inbox.ru>
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	 This program is free software; you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation; either version 2 of the License, or
+	 (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
+	 This program is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	 GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+	 You should have received a copy of the GNU General Public License
+	 along with this program; if not, write to the Free Software
+	 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "corp.h"
@@ -25,19 +25,19 @@ static INT_PTR icqGetCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case PFLAGNUM_1:
-		return PF1_IM|PF1_URL|PF1_FILE|PF1_MODEMSG|PF1_AUTHREQ|PF1_ADDED|PF1_PEER2PEER|PF1_BASICSEARCH|PF1_EXTSEARCH|PF1_CANRENAMEFILE|PF1_FILERESUME|PF1_ADDSEARCHRES|PF1_SEARCHBYEMAIL|PF1_SEARCHBYNAME|PF1_NUMERICUSERID;
+		return PF1_IM | PF1_URL | PF1_FILE | PF1_MODEMSG | PF1_AUTHREQ | PF1_ADDED | PF1_PEER2PEER | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_CANRENAMEFILE | PF1_FILERESUME | PF1_ADDSEARCHRES | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_NUMERICUSERID;
 
 	case PFLAGNUM_2:
-		return PF2_ONLINE|PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_LIGHTDND|PF2_HEAVYDND|PF2_FREECHAT;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 
 	case PFLAGNUM_3:
-		return PF2_SHORTAWAY|PF2_LONGAWAY|PF2_LIGHTDND|PF2_HEAVYDND|PF2_FREECHAT;
+		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (int)Translate("ICQ number:");
+		return (INT_PTR)Translate("ICQ number:");
 
 	case PFLAG_UNIQUEIDSETTING:
-		return (int)"UIN";
+		return (INT_PTR)"UIN";
 	}
 	return 0;
 }
@@ -54,14 +54,13 @@ static INT_PTR icqGetName(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR icqLoadIcon(WPARAM wParam, LPARAM lParam)
 {
-	unsigned int id;
+	int id;
 
-	switch (wParam & 0xFFFF) 
-	{
+	switch (wParam & 0xFFFF) {
 	case PLI_PROTOCOL: id = IDI_ICQCORP; break;
-	default: return (int)(HICON)NULL;
+	default: return NULL;
 	}
-	return (int)LoadImage(hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
+	return (INT_PTR)LoadImage(hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam & PLIF_SMALL ? SM_CXSMICON : SM_CXICON), GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,13 +75,11 @@ static INT_PTR icqSetStatus(WPARAM wParam, LPARAM lParam)
 	if (desiredStatus == ID_STATUS_ONLINE) icq.awayMessage[0] = 0;
 
 	if (icq.desiredStatus == desiredStatus) return 0;
-	if (desiredStatus == ID_STATUS_OFFLINE)
-	{
+	if (desiredStatus == ID_STATUS_OFFLINE) {
 		icq.desiredStatus = desiredStatus;
 		icq.logoff(false);
 	}
-	else
-	{
+	else {
 		if (icq.statusVal == ID_STATUS_OFFLINE) icq.logon(desiredStatus);
 		else icq.setStatus(desiredStatus);
 	}
@@ -259,7 +256,7 @@ static INT_PTR icqSetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 	if (lParam == NULL) return 0;
 
-	if (icq.awayMessage) delete [] icq.awayMessage;
+	if (icq.awayMessage) delete[] icq.awayMessage;
 	icq.awayMessage = new char[mir_strlen((char*)lParam) + 1];
 	mir_strcpy(icq.awayMessage, (char*)lParam);
 
@@ -314,30 +311,26 @@ static INT_PTR icqSendFile(WPARAM wParam, LPARAM lParam)
 	char filename[MAX_PATH], format[32];
 	WIN32_FIND_DATA findData;
 
-	for (filesCount=0,directoriesCount=0; files[filesCount]; filesCount++)
-	{
+	for (filesCount = 0, directoriesCount = 0; files[filesCount]; filesCount++) {
 		FindClose(FindFirstFile(files[filesCount], &findData));
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) directoriesCount++;
 		else filesSize += findData.nFileSizeLow;
 	}
 	filesCount -= directoriesCount;
 
-	if (directoriesCount)
-	{
+	if (directoriesCount) {
 		sprintf(format, "%s, %s", filesCount == 1 ? Translate("%d file") : Translate("%d files"), directoriesCount == 1 ? Translate("%d directory") : Translate("%d directories"));
 		sprintf(filename, format, filesCount, directoriesCount);
 	}
-	else
-	{
-		if (filesCount == 1)
-		{
+	else {
+		if (filesCount == 1) {
 			char *p = strrchr(files[0], '\\');
-			mir_strcpy(filename, p ? p+1 : files[0]);
+			mir_strcpy(filename, p ? p + 1 : files[0]);
 		}
 		else sprintf(filename, filesCount == 1 ? Translate("%d file") : Translate("%d files"), filesCount);
 	}
 
-	return (int)icq.sendFile(u, (char*)ccs->wParam, filename, filesSize, files);
+	return (INT_PTR)icq.sendFile(u, (char*)ccs->wParam, filename, filesSize, files);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -356,7 +349,7 @@ static INT_PTR icqFileAllow(WPARAM wParam, LPARAM lParam)
 	t->path = _strdup((char*)ccs->lParam);
 
 	icq.acceptFile(u, t->sequence, (char*)ccs->lParam);
-	return (int)t;
+	return (INT_PTR)t;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -375,10 +368,8 @@ static INT_PTR icqFileDeny(WPARAM wParam, LPARAM lParam)
 	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
 
 	unsigned int i;
-	for (i=0; i<icqTransfers.size(); i++)
-	{
-		if (icqTransfers[i] == t)
-		{
+	for (i = 0; i < icqTransfers.size(); i++) {
+		if (icqTransfers[i] == t) {
 			delete icqTransfers[i];
 			icqTransfers[i] = icqTransfers[icqTransfers.size() - 1];
 			icqTransfers.pop_back();
@@ -404,10 +395,8 @@ static INT_PTR icqFileCancel(WPARAM wParam, LPARAM lParam)
 	//	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
 
 	unsigned int i;
-	for (i=0; i<icqTransfers.size(); i++)
-	{
-		if (icqTransfers[i] == t)
-		{
+	for (i = 0; i < icqTransfers.size(); i++) {
+		if (icqTransfers[i] == t) {
 			delete icqTransfers[i];
 			icqTransfers[i] = icqTransfers[icqTransfers.size() - 1];
 			icqTransfers.pop_back();
@@ -439,7 +428,7 @@ static INT_PTR icqRecvFile(WPARAM wParam, LPARAM lParam)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = sizeof(DWORD)+(DWORD)mir_strlen(szFile) + (DWORD)mir_strlen(szDesc) + 2;
+	dbei.cbBlob = sizeof(DWORD) + (DWORD)mir_strlen(szFile) + (DWORD)mir_strlen(szDesc) + 2;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 
@@ -483,7 +472,7 @@ static INT_PTR icqSetApparentMode(WPARAM wParam, LPARAM lParam)
 
 	if (oldMode != 0) icq.updateUserList(u, oldMode == ID_STATUS_OFFLINE ? 1 : 2, 0);
 	if (newMode != 0) icq.updateUserList(u, newMode == ID_STATUS_OFFLINE ? 1 : 2, 1);
-	*/    
+	*/
 	return 0;
 }
 

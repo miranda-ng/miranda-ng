@@ -111,14 +111,14 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA *) lParam;
+	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_STATUS)
 		return 0;
 
 	cli.pfnCluiProtocolStatusChanged(lParam, ack->szModule);
 
-	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
-		DWORD caps = (DWORD)CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+	if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
+		DWORD caps = (DWORD)CallProtoServiceInt(NULL, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
 			for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 				MCONTACT hNext = db_find_next(hContact, ack->szModule);
@@ -150,7 +150,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 		index = 0;
 	if (szProto == NULL)
 		return index + 1;
-	for (i=0; i < protoIconIndex.getCount(); i++) {
+	for (i = 0; i < protoIconIndex.getCount(); i++) {
 		if (mir_strcmp(szProto, protoIconIndex[i].szProto) == 0)
 			return protoIconIndex[i].iIconBase + index;
 	}
@@ -173,7 +173,7 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
 	ProtoIconIndex *pii = new ProtoIconIndex;
 	pii->szProto = pa->szModuleName;
-	for (int i=0; i < _countof(statusModeList); i++) {
+	for (int i = 0; i < _countof(statusModeList); i++) {
 		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i]);
 		if (i == 0)
 			pii->iIconBase = iImg;
@@ -183,7 +183,7 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 
 static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 {
-	for (int i=0; i < protoIconIndex.getCount(); i++)
+	for (int i = 0; i < protoIconIndex.getCount(); i++)
 		if (mir_strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
 			protoIconIndex.remove(i);
 			break;
@@ -193,7 +193,7 @@ static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 static int ContactListModulesLoaded(WPARAM, LPARAM)
 {
 	RebuildMenuOrder();
-	for (int i=0; i < accounts.getCount(); i++)
+	for (int i = 0; i < accounts.getCount(); i++)
 		AddProtoIconIndex(accounts[i]);
 
 	cli.pfnLoadContactTree();
@@ -253,11 +253,11 @@ static int CListIconsChanged(WPARAM, LPARAM)
 {
 	int i, j;
 
-	for (i=0; i < _countof(statusModeList); i++)
+	for (i = 0; i < _countof(statusModeList); i++)
 		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
-	for (i=0; i < protoIconIndex.getCount(); i++)
+	for (i = 0; i < protoIconIndex.getCount(); i++)
 		for (j = 0; j < _countof(statusModeList); j++)
 			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
@@ -408,14 +408,12 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT a = wParam, b = lParam;
 	TCHAR namea[128], *nameb;
-	int statusa, statusb;
-	char *szProto1, *szProto2;
 	int rc;
 
-	szProto1 = GetContactProto(a);
-	szProto2 = GetContactProto(b);
-	statusa = db_get_w(a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
-	statusb = db_get_w(b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
+	char *szProto1 = GetContactProto(a);
+	char *szProto2 = GetContactProto(b);
+	int statusa = db_get_w(a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
+	int statusb = db_get_w(b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
 
 	if (sortByProto) {
 		/* deal with statuses, online contacts have to go above offline */
@@ -445,7 +443,6 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 	nameb = cli.pfnGetContactDisplayName(a, 0);
 	_tcsncpy_s(namea, nameb, _TRUNCATE);
-	namea[ _countof(namea)-1 ] = 0;
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
@@ -495,11 +492,11 @@ int LoadContactListModule2(void)
 
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
-	//now all core skin icons are loaded via icon lib. so lets release them
-	for (int i=0; i < _countof(statusModeList); i++)
+	// now all core skin icons are loaded via icon lib. so lets release them
+	for (int i = 0; i < _countof(statusModeList); i++)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
 
-	//see IMAGE_GROUP... in clist.h if you add more images above here
+	// see IMAGE_GROUP... in clist.h if you add more images above here
 	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
 	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
 	return 0;
@@ -510,7 +507,7 @@ void UnloadContactListModule()
 	if (!hCListImages)
 		return;
 
-	//remove transitory contacts
+	// remove transitory contacts
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; ) {
 		MCONTACT hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))

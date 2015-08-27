@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CDummyProto::SendMsgAck(void *param)
 {
-	MCONTACT hContact = (MCONTACT)param;
+	MCONTACT hContact = (UINT_PTR)param;
 	Sleep(100);
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)Translate("Dummy protocol is too dumb to send messages."));
 }

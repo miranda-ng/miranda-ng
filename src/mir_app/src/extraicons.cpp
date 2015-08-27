@@ -101,7 +101,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 
 ExtraIcon* GetExtraIcon(HANDLE id)
 {
-	int i = (int)id;
+	int i = (INT_PTR)id;
 	if (i < 1 || i > extraIconsByHandle.getCount())
 		return NULL;
 
@@ -473,7 +473,7 @@ MIR_APP_DLL(int) ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact, HANDLE 
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIcon((int)hExtraIcon, hContact, hImage);
+	return extra->setIcon((INT_PTR)hExtraIcon, hContact, hImage);
 }
 
 MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName)
@@ -485,7 +485,7 @@ MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, c
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIconByName((int)hExtraIcon, hContact, icoName);
+	return extra->setIconByName((INT_PTR)hExtraIcon, hContact, icoName);
 }
 
 MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
@@ -497,7 +497,7 @@ MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIcon((int)hExtraIcon, hContact, NULL);
+	return extra->setIcon((INT_PTR)hExtraIcon, hContact, NULL);
 }
 
 static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM)

@@ -656,7 +656,7 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem *Item) // Item is 
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
 	CBaseTreeItem *TreeItem = Item;
 	if (Flags & MTGN_BYID) {
-		int Order = TreeCtrl->IDToOrder((int)Item);
+		int Order = TreeCtrl->IDToOrder((INT_PTR)Item);
 		_ASSERT(Order != -1);
 		TreeItem = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 	}

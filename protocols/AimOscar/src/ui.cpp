@@ -1330,7 +1330,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				switch (nmc->hdr.code) {
 				case CLN_NEWCONTACT:
 					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-						clist_validate_contact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+						clist_validate_contact((UINT_PTR)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 					break;
 
 				case CLN_LISTREBUILT:

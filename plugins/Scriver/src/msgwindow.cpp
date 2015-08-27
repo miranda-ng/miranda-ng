@@ -555,7 +555,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						while (GetParent(hParent) != NULL)
 							hParent = GetParent(hParent);
 
-						hParent = WindowList_Find(g_dat.hParentWindowList, (MCONTACT)hParent);
+						hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
 						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 							if (hParent == NULL) {
 								RECT rc, rcDesktop;
@@ -775,7 +775,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (dat->prev != NULL)
 				dat->prev->next = dat;
 
-			WindowList_Add(g_dat.hParentWindowList, hwndDlg, (MCONTACT)hwndDlg);
+			WindowList_Add(g_dat.hParentWindowList, hwndDlg, (UINT_PTR)hwndDlg);
 			SubclassTabCtrl(dat->hwndTabs);
 
 			SetContainerWindowStyle(dat);

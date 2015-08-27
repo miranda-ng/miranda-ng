@@ -336,7 +336,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 					if (buf[0]) str.insert(mir_t2a(buf));
 				}
 				else {
-					MsnContact *msc = ppro->Lists_Get((MCONTACT)hItem);
+					MsnContact *msc = ppro->Lists_Get((UINT_PTR)hItem);
 					if (msc) {
 						char szContact[MSN_MAX_EMAIL_LEN];
 
@@ -404,7 +404,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				switch (nmc->hdr.code) {
 				case CLN_NEWCONTACT:
 					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-						ChatValidateContact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+						ChatValidateContact((UINT_PTR)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 					break;
 
 				case CLN_LISTREBUILT:

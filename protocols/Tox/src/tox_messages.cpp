@@ -114,7 +114,7 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 /* STATUS MESSAGE */
 void CToxProto::GetStatusMessageAsync(void* arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	MCONTACT hContact = (UINT_PTR)arg;
 
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)

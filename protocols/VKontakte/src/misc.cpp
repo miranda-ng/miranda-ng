@@ -283,7 +283,7 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 {
 	for (int i = lList.getCount() - 1; i >= 0; i--)
-		if ((int)lList[i] == guid) {
+		if ((INT_PTR)lList[i] == guid) {
 			lList.remove(i);
 			return true;
 		}
@@ -549,7 +549,7 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 
 void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 {
-	MCONTACT hContact = (MCONTACT)p;
+	MCONTACT hContact = (UINT_PTR)p;
 	if (hContact == NULL || hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
@@ -696,7 +696,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 void CVkProto::ContactTypingThread(void *p)
 {
 	debugLogA("CVkProto::ContactTypingThread");
-	MCONTACT hContact = (MCONTACT)p;
+	MCONTACT hContact = (UINT_PTR)p;
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 	Sleep(5500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact);

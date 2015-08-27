@@ -106,9 +106,9 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 		break;
 
 	case mwSession_STOPPING:
-		if ((int)info) {// & ERR_FAILURE) {
-			proto->showPopup((int)info);
-		}
+		if ((INT_PTR)info)
+			proto->showPopup((INT_PTR)info);
+		
 		proto->SessionStopping();
 		break;
 
@@ -475,8 +475,8 @@ WORD CSametimeProto::GetClientVersion()
 	if (!session) return 0;
 
 	WORD retval = 0;
-	retval = (int)mwSession_getProperty(session, mwSession_CLIENT_VER_MAJOR) << 8;
-	retval |= (int)mwSession_getProperty(session, mwSession_CLIENT_VER_MINOR);
+	retval = (UINT_PTR)mwSession_getProperty(session, mwSession_CLIENT_VER_MAJOR) << 8;
+	retval |= (UINT_PTR)mwSession_getProperty(session, mwSession_CLIENT_VER_MINOR);
 	return retval;
 }
 
@@ -485,8 +485,8 @@ WORD CSametimeProto::GetServerVersion()
 	if (!session) return 0;
 
 	WORD retval = 0;
-	retval = (int)mwSession_getProperty(session, mwSession_SERVER_VER_MAJOR) << 8;
-	retval |= (int)mwSession_getProperty(session, mwSession_SERVER_VER_MINOR);
+	retval = (UINT_PTR)mwSession_getProperty(session, mwSession_SERVER_VER_MAJOR) << 8;
+	retval |= (UINT_PTR)mwSession_getProperty(session, mwSession_SERVER_VER_MINOR);
 	return retval;
 }
 

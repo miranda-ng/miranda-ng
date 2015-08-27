@@ -243,7 +243,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 
 			dwReqMsgID1 = pCookie->dwMsgID1;
 			dwReqMsgID2 = pCookie->dwMsgID2;
-			dc.dwReqId = (DWORD)pCookie->ft;
+			dc.dwReqId = (UINT_PTR)pCookie->ft;
 			SAFE_FREE((void**)&pCookie);
 		}
 	}

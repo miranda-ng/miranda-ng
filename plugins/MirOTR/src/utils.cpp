@@ -65,7 +65,7 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 }
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
-	MCONTACT hContact = (MCONTACT)context->app_data;
+	MCONTACT hContact = (UINT_PTR)context->app_data;
 	TCHAR msg[1024];
 
 	mir_sntprintf(msg, _countof(msg), (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));

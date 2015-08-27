@@ -155,7 +155,7 @@ void DlgFilterWords::onSetAdd()
 
 	m_Filters.push_back(pFilter);
 
-	HANDLE hAdded = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<DWORD>(pFilter));
+	HANDLE hAdded = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<UINT_PTR>(pFilter));
 
 	m_Sets.selectItem(hAdded);
 }

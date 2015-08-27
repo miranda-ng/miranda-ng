@@ -343,7 +343,7 @@ void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
 	// Maybe not needed, but better to be sure that this won't happen faster than core handling return value of GetAwayMsg()
 	Sleep(50);
 
-	MCONTACT hContact = (MCONTACT)arg;
+	MCONTACT hContact = (UINT_PTR)arg;
 	CMString message(db_get_tsa(hContact, "CList", "StatusMsg"));
 	
 	// if contact has no status message, get xstatus message

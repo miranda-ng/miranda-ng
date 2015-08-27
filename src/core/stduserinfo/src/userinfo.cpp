@@ -243,7 +243,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
 			dat = (DetailsData*)mir_calloc(sizeof(DetailsData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			dat->hContact = (MCONTACT)psh->pszCaption;
+			dat->hContact = (UINT_PTR)psh->pszCaption;
 			dat->hProtoAckEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_PROTOACK);
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 
@@ -439,10 +439,11 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)
 				dat->infosUpdated[ack->lParam] = 1;
 
-			for (i = 0; i < (int)ack->hProcess; i++)
+			for (i = 0; i < (INT_PTR)ack->hProcess; i++)
 				if (dat->infosUpdated[i] == 0)
 					break;
-			if (i == (int)ack->hProcess) {
+			
+			if (i == (INT_PTR)ack->hProcess) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_HIDE);
 				KillTimer(hwndDlg, 1);
 				SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);

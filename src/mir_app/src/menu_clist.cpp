@@ -1017,7 +1017,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 
 	for (int i = 0; i < accounts.getCount(); i++) {
 		if (!mir_strcmp(accounts[i]->szModuleName, ack->szModule)) {
-			int iOldStatus = (int)ack->hProcess;
+			int iOldStatus = (INT_PTR)ack->hProcess;
 			if ((iOldStatus >= ID_STATUS_OFFLINE || iOldStatus == 0) && iOldStatus < ID_STATUS_OFFLINE + _countof(statusModeList)) {
 				int pos = statustopos(iOldStatus);
 				if (pos == -1)

@@ -306,7 +306,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	gcwindow.pszModule = m_szModuleName;
 	gcwindow.ptszName = sender ? senderName : TranslateT("Conference");
 	gcwindow.ptszID = chat->id;
-	gcwindow.dwItemData = (DWORD)chat;
+	gcwindow.dwItemData = (UINT_PTR)chat;
 	gcwindow.ptszStatusbarText = status;
 
 	// Here we put nice new hash sign

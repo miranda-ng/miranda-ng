@@ -27,7 +27,7 @@ LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, MCONTACT user)
 {
 	logmsg("ShowOSD");
 
-	if (!hwnd)
+	if (!g_hWnd)
 		return 0;
 
 	if (timeout==0)
@@ -40,7 +40,7 @@ LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, MCONTACT user)
 	om.param=(unsigned int)user;
 	om.callback=showmsgwnd;
 	
-	return SendMessage(hwnd, WM_USER+4, (WPARAM)&om, 0);
+	return SendMessage(g_hWnd, WM_USER+4, (WPARAM)&om, 0);
 }
 
 int ProtoAck(WPARAM,LPARAM lparam)

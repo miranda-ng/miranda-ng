@@ -294,7 +294,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wd->show_grid = db_get_b(0, PLUG, "ShowGridLines", 0) ? true : false;
 	wd->show_stat = db_get_b(0, PLUG, "ShowStats", 1) ? true : false;
 
-	db_set_dw(0, PLUG, buff, (DWORD)hGraphWnd);
+	db_set_dw(0, PLUG, buff, (UINT_PTR)hGraphWnd);
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd);
 

@@ -570,7 +570,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 
 static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM)
 {
-	MetaSrmmData tmp = { hMeta };
+	MetaSrmmData tmp = { (UINT_PTR)hMeta };
 	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
 		return p->m_hSub;
 
@@ -659,7 +659,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 
 static VOID CALLBACK sttMenuThread(PVOID param)
 {
-	HMENU hMenu = Menu_BuildContactMenu(MCONTACT(param));
+	HMENU hMenu = Menu_BuildContactMenu((UINT_PTR)param);
 
 	TPMPARAMS tpmp = { 0 };
 	tpmp.cbSize = sizeof(tpmp);
