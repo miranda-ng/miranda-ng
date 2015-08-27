@@ -791,7 +791,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case CLN_NEWCONTACT:
 				if (nmc != NULL)
-					cli.pfnSetAllExtraIcons((MCONTACT)nmc->hItem);
+					cli.pfnSetAllExtraIcons((UINT_PTR)nmc->hItem);
 				return TRUE;
 
 			case CLN_LISTREBUILT:
@@ -844,8 +844,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
 					if (hItem) {
 						if (hitFlags & CLCHT_ONITEMEXTRA) {
-							if (!IsHContactGroup(hItem) && !IsHContactInfo(hItem))
-								if (cli.pfnGetCacheEntry((MCONTACT)nmc->hItem))
+							if (!IsHContactGroup((UINT_PTR)hItem) && !IsHContactInfo((UINT_PTR)hItem))
+								if (cli.pfnGetCacheEntry((UINT_PTR)nmc->hItem))
 									NotifyEventHooks(hEventExtraClick, (WPARAM)nmc->hItem, nmc->iColumn+1);
 						}
 						break;

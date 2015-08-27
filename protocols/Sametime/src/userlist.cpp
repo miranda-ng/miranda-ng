@@ -653,7 +653,7 @@ void CSametimeProto::UserRecvAwayMessage(MCONTACT hContact)
 void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList* results, gpointer data)
 {
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
-	BOOL advanced = (BOOL)data;
+	BOOL advanced = (INT_PTR)data;
 
 	MYCUSTOMSEARCHRESULTS mcsr;
 	memset(&mcsr, 0, sizeof(mcsr));

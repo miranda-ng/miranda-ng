@@ -136,7 +136,7 @@ static int TlenVoicePlaybackStart(TLEN_VOICE_CONTROL *control)
 		control->proto->debugLogA("Playback device ID #%u: %s\r\n", iSelDev, wic.szPname);
 	}
 
-	MMRESULT mmres = waveOutOpen(&control->hWaveOut, iSelDev, &wfm, (DWORD_PTR)&TlenVoicePlaybackCallback, (DWORD)control, CALLBACK_FUNCTION);
+	MMRESULT mmres = waveOutOpen(&control->hWaveOut, iSelDev, &wfm, (UINT_PTR)&TlenVoicePlaybackCallback, (UINT_PTR)control, CALLBACK_FUNCTION);
 	if (mmres != MMSYSERR_NOERROR) {
 		control->proto->debugLogA("TlenVoiceStart FAILED!");
 		return 1;

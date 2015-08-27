@@ -1328,7 +1328,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
 			::ShowWindow(hwnd, SW_SHOWNORMAL);
 
-		WindowList_Add(hWindowList, hwnd, (MCONTACT)hwnd);
+		WindowList_Add(hWindowList, hwnd, (UINT_PTR)hwnd);
 	}
 	return TRUE;
 

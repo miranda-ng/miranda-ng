@@ -217,7 +217,7 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 		if ((UINT_PTR)ti->hIcon >= STATUSICONCOUNT)
 			return ti->hIcon;
 
-		return chatApi.hIcons[ICON_STATUS0 + (int)ti->hIcon];
+		return chatApi.hIcons[ICON_STATUS0 + (INT_PTR)ti->hIcon];
 	}
 	return chatApi.hIcons[ICON_STATUS0];
 }
@@ -794,7 +794,7 @@ static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const TCHAR *pszStatu
 		memset(node, 0, sizeof(STATUSINFO));
 		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
-		while ((int)node->hIcon > STATUSICONCOUNT - 1)
+		while ((INT_PTR)node->hIcon > STATUSICONCOUNT - 1)
 			node->hIcon--;
 
 		if (*ppStatusList == NULL) { // list is empty
@@ -863,7 +863,7 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 	while (*ppStatusList != NULL) {
 		STATUSINFO *pLast = ppStatusList[0]->next;
 		mir_free(ppStatusList[0]->pszGroup);
-		if ((int)ppStatusList[0]->hIcon > 10)
+		if ((INT_PTR)ppStatusList[0]->hIcon > 10)
 			DestroyIcon(ppStatusList[0]->hIcon);
 		mir_free(*ppStatusList);
 		*ppStatusList = pLast;

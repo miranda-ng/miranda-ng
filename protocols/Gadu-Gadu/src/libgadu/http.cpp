@@ -330,7 +330,7 @@ int gg_http_watch_fd(struct gg_http *h)
 			unsigned int left;
 			char *line;
 
-			left = h->header_size - ((long)(tmp) - (long)(h->header) + sep_len);
+			left = h->header_size - ((INT_PTR)tmp - (INT_PTR)(h->header) + sep_len);
 
 			gg_debug(GG_DEBUG_MISC, "=> http, got all header (%d bytes, %d left)\n", h->header_size - left, left);
 

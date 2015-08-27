@@ -4168,7 +4168,7 @@ tmpfd (void)
 #ifdef HAVE_W32CE_SYSTEM
           int fd = (int)file;
 #else
-          int fd = _open_osfhandle ((long)file, 0);
+          int fd = _open_osfhandle((INT_PTR)file, 0);
           if (fd == -1)
             {
               CloseHandle (file);

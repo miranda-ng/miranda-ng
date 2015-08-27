@@ -65,7 +65,7 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 	if (hIcolib != NULL || clear) {
 		ExtraIcon *extra = GetExtraIcon(hExtraIcon);
 		if (extra)
-			extra->setIcon((int)hExtraIcon, hContact, hIcolib);
+			extra->setIcon((INT_PTR)hExtraIcon, hContact, hIcolib);
 	}
 }
 
@@ -94,7 +94,7 @@ static void SetGender(MCONTACT hContact, int gender, bool clear)
 	if (ico != NULL || clear) {
 		ExtraIcon *extra = GetExtraIcon(hExtraGender);
 		if (extra)
-			extra->setIconByName((int)hExtraGender, hContact, ico);
+			extra->setIconByName((INT_PTR)hExtraGender, hContact, ico);
 	}
 }
 

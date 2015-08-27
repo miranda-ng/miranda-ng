@@ -119,7 +119,7 @@ entry_found:
 
 static void DoSplitSendA(LPVOID param)
 {
-	SendJob *job = sendQueue->getJobByIndex((int)param);
+	SendJob *job = sendQueue->getJobByIndex((INT_PTR)param);
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
 	ptrA   szBegin((char*)mir_alloc(iLen + 1));
@@ -575,7 +575,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
 
-	MessageWindowEvent evt = { sizeof(evt), (int)job.hSendId, job.hContact, &dbei };
+	MessageWindowEvent evt = { sizeof(evt), (INT_PTR)job.hSendId, job.hContact, &dbei };
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;

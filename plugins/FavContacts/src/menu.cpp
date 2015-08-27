@@ -472,7 +472,7 @@ int ShowMenu(bool centered)
 				szColumn.cx = szColumn.cy = 0;
 			}
 
-			int groupID = -((int)Clist_GroupExists(favList[i]->getGroup()) + 1);
+			int groupID = -((INT_PTR)Clist_GroupExists(favList[i]->getGroup()) + 1);
 
 			AppendMenu(hMenu,
 				MF_OWNERDRAW | MF_SEPARATOR | ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),

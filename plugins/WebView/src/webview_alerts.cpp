@@ -432,7 +432,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
 				if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-					WErrorPopup((MCONTACT)contactname, TranslateT("Cannot read from file"));
+					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 				else {
 					memset(&cachecompare, 0, sizeof(cachecompare));
 					fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
@@ -441,7 +441,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			}
 			// write to cache
 			if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-				WErrorPopup((MCONTACT)contactname, TranslateT("Cannot write to file 1"));
+				WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 1"));
 			else {
 				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
 				fclose(pcachefile);
@@ -644,7 +644,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				// file exists?
 				if ( _taccess(newcachepath, 0) != -1) {
 					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-						WErrorPopup((MCONTACT)contactname, TranslateT("Cannot read from file"));
+						WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 					else {
 						memset(&cachecompare, 0, sizeof(cachecompare));
 						fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
@@ -653,7 +653,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				}
 				// write to cache
 				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-					WErrorPopup((MCONTACT)contactname, TranslateT("Cannot write to file 2"));
+					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache
 					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
@@ -791,7 +791,7 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 void ReadFromFile(void *param)
 {
-	MCONTACT hContact = (MCONTACT)param;
+	MCONTACT hContact = (UINT_PTR)param;
 
 	DBVARIANT dbv;
 	char truncated[MAXSIZE1];

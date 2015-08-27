@@ -365,7 +365,7 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 
 		const TCHAR *cargs = decode_se_arg(args);
 
-		if ((int)ShellExecute(0, _T("open"), file.c_str(), cargs, 0, SW_SHOWNORMAL) <= 32)
+		if ((INT_PTR)ShellExecute(0, _T("open"), file.c_str(), cargs, 0, SW_SHOWNORMAL) <= 32)
 			throw _T("Failed to open: ") + file + _T(" ") + args;
 
 	}
@@ -389,7 +389,7 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 		args = strip(args);
 		dir = /*unquote(*/strip(dir)/*)*/;
 
-		if ((int)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
+		if ((INT_PTR)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
 			throw _T("Failed: ") + what;
 	}
 	else if (what == _T("close"))

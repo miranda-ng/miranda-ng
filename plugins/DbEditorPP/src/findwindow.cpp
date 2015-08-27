@@ -319,7 +319,7 @@ int FindMatchA(const char *text, char *search, int options)
 		return (options & F_CASE) ? !strcmp(text, search) : !stricmp(text, search);
 	
 	// on empty string strstr() returns full string while StrStrI() returns NULL 	
-	return (options & F_CASE) ? (int)strstr(text, search) : (int)StrStrIA(text, search);
+	return (options & F_CASE) ? (INT_PTR)strstr(text, search) : (INT_PTR)StrStrIA(text, search);
 }
 
 
@@ -332,7 +332,7 @@ int FindMatchW(const WCHAR *text, WCHAR *search, int options)
 		return (options & F_CASE) ? !wcscmp(text, search) : !wcsicmp(text, search);
 
 	// on empty string strstr() returns full string while StrStrI() returns NULL 	
-	return (options & F_CASE) ? (int)wcsstr(text, search) : (int)StrStrIW(text, search);
+	return (options & F_CASE) ? (INT_PTR)wcsstr(text, search) : (INT_PTR)StrStrIW(text, search);
 }
 
 

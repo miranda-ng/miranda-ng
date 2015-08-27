@@ -233,7 +233,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 		switch (GetDlgCtrlID((HWND)lparam)) {
 		case IDC_OPCLIST:
 			SetBkMode((HDC)wparam, TRANSPARENT);
-			return (BOOL)CreateSolidBrush(GetSysColor(COLOR_3DFACE));
+			return (INT_PTR)CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 		}
 		break;
 
@@ -271,7 +271,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 		case CLN_CHECKCHANGED:
 			if (((LPNMHDR)lparam)->idFrom == IDC_EMCLIST) {
-				int iSelection = (int)((NMCLISTCONTROL *)lparam)->hItem;
+				int iSelection = (INT_PTR)((NMCLISTCONTROL *)lparam)->hItem;
 				MCONTACT hContact = db_find_first();
 				for (; hContact; hContact = db_find_next(hContact))
 					if (SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, hContact, 0) == iSelection)

@@ -333,7 +333,7 @@ LBL_Def:
 			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+						hSelItem = (UINT_PTR)pcli->pfnContactToHItem(selcontact);
 					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
 					recalcScrollBar = 1;
 					FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL);
@@ -350,7 +350,7 @@ LBL_Def:
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+						hSelItem = (UINT_PTR)pcli->pfnContactToHItem(selcontact);
 					pcli->pfnRemoveItemFromGroup(hwnd, group, contact, 0);
 					contactRemoved = TRUE;
 					recalcScrollBar = 1;

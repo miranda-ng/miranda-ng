@@ -199,7 +199,7 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 {
 	extern DWORD itlsSettings;
-	if (!ReadCheckbox(0, IDC_AUTHONMAILBOX, (DWORD)TlsGetValue(itlsSettings)) || !OpenUrlWithAuth(acc, mailbox, url))
+	if (!ReadCheckbox(0, IDC_AUTHONMAILBOX, (UINT_PTR)TlsGetValue(itlsSettings)) || !OpenUrlWithAuth(acc, mailbox, url))
 		Utils_OpenUrlT(url);
 }
 

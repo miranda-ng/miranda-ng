@@ -112,6 +112,6 @@ int OptionsInit(WPARAM wparam,LPARAM lparam);
 void loadDBSettings(plgsettings *ps);
 
 extern HINSTANCE hI;
-extern HWND hwnd;
+extern HWND   g_hWnd;
 extern HANDLE hservosda;
-extern HANDLE hHookedNewEvent, hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged, hpluginShutDown;
+extern HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;

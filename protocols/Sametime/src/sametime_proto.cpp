@@ -226,8 +226,6 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 	debugLog(_T("CSametimeProto::SendMsg()  hContact=[%x]"), hContact);
 
 	char *proto = GetContactProto(hContact);
-	int ret;
-
 	if (!proto || mir_strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		TFakeAckParams* tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 		tfap->proto = this;
@@ -240,7 +238,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 	if (!msg)
 		return 0;
 
-	ret = (int)SendMessageToUser(hContact, msg);
+	int ret = (INT_PTR)SendMessageToUser(hContact, msg);
 
 	TFakeAckParams *tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 	tfap->proto = this;

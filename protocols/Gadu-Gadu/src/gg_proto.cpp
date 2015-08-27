@@ -21,7 +21,7 @@
 
 #include "gg.h"
 
-GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
+GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
 	PROTO<GGPROTO>(pszProtoName, tszUserName),
 	avatar_requests(1, NumericKeySortT),
 	avatar_transfers(1, NumericKeySortT)
@@ -68,7 +68,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	TCHAR szPath[MAX_PATH];
-	mir_sntprintf(szPath, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
+	mir_sntprintf(szPath, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST(_T("%miranda_userdata%")), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -142,22 +142,22 @@ MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT hContact)
 {
 	switch (type) {
-		case PFLAGNUM_1:
-			return PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_EXTSEARCHUI | PF1_SEARCHBYNAME |
-				   PF1_MODEMSG | PF1_NUMERICUSERID | PF1_VISLIST | PF1_FILE;
-		case PFLAGNUM_2:
-			return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE |
-				   PF2_LONGAWAY;
-		case PFLAGNUM_3:
-			return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
-		case PFLAGNUM_4:
-			return PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE;
-		case PFLAGNUM_5:
-			return PF2_LONGAWAY;
-		case PFLAG_UNIQUEIDTEXT:
-			return (DWORD_PTR) Translate("Gadu-Gadu Number");
-		case PFLAG_UNIQUEIDSETTING:
-			return (DWORD_PTR) GG_KEY_UIN;
+	case PFLAGNUM_1:
+		return PF1_IM | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_EXTSEARCHUI | PF1_SEARCHBYNAME |
+			PF1_MODEMSG | PF1_NUMERICUSERID | PF1_VISLIST | PF1_FILE;
+	case PFLAGNUM_2:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE |
+			PF2_LONGAWAY;
+	case PFLAGNUM_3:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
+	case PFLAGNUM_4:
+		return PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE;
+	case PFLAGNUM_5:
+		return PF2_LONGAWAY;
+	case PFLAG_UNIQUEIDTEXT:
+		return (DWORD_PTR)Translate("Gadu-Gadu Number");
+	case PFLAG_UNIQUEIDSETTING:
+		return (DWORD_PTR)GG_KEY_UIN;
 	}
 	return 0;
 }
@@ -169,7 +169,7 @@ void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 {
 	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
 	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
-	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
+	ProtoBroadcastAck((UINT_PTR)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
 	debugLogA("cmdgetinfothread(): end.");
 }
 
@@ -178,13 +178,11 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 	gg_pubdir50_t req;
 
 	// Custom contact info
-	if (hContact)
-	{
-		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
-		{
-#ifdef DEBUGMODE
+	if (hContact) {
+		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
+		#ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 6 GGPROTO::cmdgetinfothread");
-#endif
+		#endif
 			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
@@ -194,15 +192,13 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 		gg_pubdir50_seq_set(req, GG_SEQ_INFO);
 
 		debugLogA("GetInfo(): Requesting user info.", req->seq);
-		if (isonline())
-		{
+		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 48, "sess_mutex", 1);
-			if (!gg_pubdir50(sess, req))
-			{
+			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
-#ifdef DEBUGMODE
+			#ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 7 GGPROTO::cmdgetinfothread");
-#endif
+			#endif
 				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
@@ -210,13 +206,11 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 		}
 	}
 	// Own contact info
-	else
-	{
-		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ)))
-		{
-#ifdef DEBUGMODE
+	else {
+		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ))) {
+		#ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 8 GGPROTO::cmdgetinfothread");
-#endif
+		#endif
 			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
@@ -225,15 +219,13 @@ int GGPROTO::GetInfo(MCONTACT hContact, int infoType)
 		gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
 
 		debugLogA("GetInfo(): Requesting owner info.", req->seq);
-		if (isonline())
-		{
+		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 49, "sess_mutex", 1);
-			if (!gg_pubdir50(sess, req))
-			{
+			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
-#ifdef DEBUGMODE
+			#ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
-#endif
+			#endif
 				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
@@ -266,9 +258,9 @@ HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
-#endif
+	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
@@ -278,12 +270,11 @@ HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 
 	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
-	if (!gg_pubdir50(sess, req))
-	{
+	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GGPROTO::searchthread");
-#endif
+	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
@@ -308,33 +299,30 @@ HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TC
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (req == NULL) {
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GGPROTO::searchthread");
-#endif
+	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
 
 	// Add nick,firstName,lastName and search it
 	CMStringA szQuery;
-	if (nick)
-	{
+	if (nick) {
 		T2Utf nick_utf8(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
 		szQuery.Append(nick_utf8);
 	}
 	szQuery.AppendChar('.');
 
-	if (firstName)
-	{
+	if (firstName) {
 		T2Utf firstName_utf8(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
 		szQuery.Append(firstName_utf8);
 	}
 	szQuery.AppendChar('.');
 
-	if (lastName)
-	{
+	if (lastName) {
 		T2Utf lastName_utf8(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
 		szQuery.Append(lastName_utf8);
@@ -350,12 +338,11 @@ HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TC
 
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 	gg_EnterCriticalSection(&sess_mutex, "SearchByName", 51, "sess_mutex", 1);
-	if (!gg_pubdir50(sess, req))
-	{
+	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GGPROTO::searchthread");
-#endif
+	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
@@ -376,11 +363,10 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		return 0;
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
-	if (!req)
-	{
-#ifdef DEBUGMODE
+	if (!req) {
+	#ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
-#endif
+	#endif
 		ForkThread(&GGPROTO::searchthread, NULL);
 		return (HWND)1;
 	}
@@ -390,8 +376,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	// Fetch search data
 	TCHAR text[64];
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
-	if (mir_tstrlen(text))
-	{
+	if (mir_tstrlen(text)) {
 		T2Utf firstName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
 		szQuery.Append(firstName_utf8);
@@ -399,8 +384,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 1 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
-	if (mir_tstrlen(text))
-	{
+	if (mir_tstrlen(text)) {
 		T2Utf lastName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
 		szQuery.Append(lastName_utf8);
@@ -408,8 +392,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 2 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
-	if (mir_tstrlen(text))
-	{
+	if (mir_tstrlen(text)) {
 		T2Utf nickName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
 		szQuery.Append(nickName_utf8);
@@ -417,8 +400,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 3 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
-	if (mir_tstrlen(text))
-	{
+	if (mir_tstrlen(text)) {
 		T2Utf city_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
 		szQuery.Append(city_utf8);
@@ -426,8 +408,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 4 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, _countof(text));
-	if (mir_tstrlen(text))
-	{
+	if (mir_tstrlen(text)) {
 		int yearTo = _tstoi(text);
 		int yearFrom;
 		time_t t = time(NULL);
@@ -455,21 +436,19 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 	/* 5 */ szQuery.AppendChar('.');
 
-	switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0))
-	{
-		case 1:
-			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_FEMALE);
-			szQuery.Append(GG_PUBDIR50_GENDER_MALE);
-			break;
-		case 2:
-			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_MALE);
-			szQuery.Append(GG_PUBDIR50_GENDER_FEMALE);
-			break;
+	switch (SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
+	case 1:
+		gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_FEMALE);
+		szQuery.Append(GG_PUBDIR50_GENDER_MALE);
+		break;
+	case 2:
+		gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_MALE);
+		szQuery.Append(GG_PUBDIR50_GENDER_FEMALE);
+		break;
 	}
 	/* 6 */ szQuery.AppendChar('.');
 
-	if (IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))
-	{
+	if (IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED)) {
 		gg_pubdir50_add(req, GG_PUBDIR50_ACTIVE, GG_PUBDIR50_ACTIVE_TRUE);
 		szQuery.Append(GG_PUBDIR50_ACTIVE_TRUE);
 	}
@@ -489,15 +468,13 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 
-	if (isonline())
-	{
+	if (isonline()) {
 		gg_EnterCriticalSection(&sess_mutex, "SearchAdvanced", 52, "sess_mutex", 1);
-		if (!gg_pubdir50(sess, req))
-		{
+		if (!gg_pubdir50(sess, req)) {
 			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GGPROTO::searchthread");
-#endif
+		#endif
 			ForkThread(&GGPROTO::searchthread, NULL);
 			return (HWND)1;
 		}
@@ -512,9 +489,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 //////////////////////////////////////////////////////////
 // create adv search dialog
 
-static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)_T(""));				// 0
@@ -544,7 +521,7 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 {
 	GG_SEQ_ACK *pAck = (GG_SEQ_ACK *)ack;
 	gg_sleep(100, FALSE, "sendackthread", 105, 1);
-	ProtoBroadcastAck(pAck->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) pAck->seq, 0);
+	ProtoBroadcastAck(pAck->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pAck->seq, 0);
 	mir_free(ack);
 }
 
@@ -560,17 +537,15 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
 	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
-	if (!getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
-	{
+	if (!getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK)) {
 		// Auto-ack message without waiting for server ack
 		GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
-		if (ack)
-		{
+		if (ack) {
 			ack->seq = seq;
 			ack->hContact = hContact;
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 			debugLogA("SendMsg(): ForkThread 16 GGPROTO::sendackthread");
-#endif
+		#endif
 			ForkThread(&GGPROTO::sendackthread, ack);
 		}
 	}
@@ -615,15 +590,15 @@ void __cdecl GGPROTO::getawaymsgthread(void *arg)
 {
 	DBVARIANT dbv;
 
-	MCONTACT hContact = (MCONTACT) arg;
+	MCONTACT hContact = (UINT_PTR)arg;
 	debugLogA("getawaymsgthread(): started");
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
-	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
-	{
+	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		debugLog(_T("getawaymsgthread(): Reading away msg <%s>."), dbv.ptszVal);
 		db_free(&dbv);
-	} else {
+	}
+	else {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	}
 	debugLogA("getawaymsgthread(): end");
@@ -651,47 +626,43 @@ int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
 
 	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
 	// Select proper our msg ptr
-	switch(status)
-	{
-		case ID_STATUS_ONLINE:
-			msgPtr = &modemsg.online;
-			break;
-		case ID_STATUS_AWAY:
-			msgPtr = &modemsg.away;
-			break;
-		case ID_STATUS_DND:
-			msgPtr = &modemsg.dnd;
-			break;
-		case ID_STATUS_FREECHAT:
-			msgPtr = &modemsg.freechat;
-			break;
-		case ID_STATUS_INVISIBLE:
-			msgPtr = &modemsg.invisible;
-			break;
-		default:
-			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 1, "modemsg_mutex", 1);
-			return 1;
+	switch (status) {
+	case ID_STATUS_ONLINE:
+		msgPtr = &modemsg.online;
+		break;
+	case ID_STATUS_AWAY:
+		msgPtr = &modemsg.away;
+		break;
+	case ID_STATUS_DND:
+		msgPtr = &modemsg.dnd;
+		break;
+	case ID_STATUS_FREECHAT:
+		msgPtr = &modemsg.freechat;
+		break;
+	case ID_STATUS_INVISIBLE:
+		msgPtr = &modemsg.invisible;
+		break;
+	default:
+		gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 1, "modemsg_mutex", 1);
+		return 1;
 	}
 
 	// Check if we change status here somehow
 	if (*msgPtr && newMsg && !mir_tstrcmp(*msgPtr, newMsg)
-		|| !*msgPtr && (!newMsg || !*newMsg))
-	{
-		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus)
-		{
+		|| !*msgPtr && (!newMsg || !*newMsg)) {
+		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus) {
 			debugLogA("SetAwayMsg(): Message hasn't been changed, return.");
 			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 2, "modemsg_mutex", 1);
 			return 0;
 		}
 	}
-	else
-	{
+	else {
 		if (*msgPtr)
 			mir_free(*msgPtr);
 		*msgPtr = newMsg && *newMsg ? mir_tstrdup(newMsg) : NULL;
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 		debugLogA("SetAwayMsg(): Message changed.");
-#endif
+	#endif
 	}
 	gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 3, "modemsg_mutex", 1);
 
@@ -725,7 +696,7 @@ int GGPROTO::UserIsTyping(MCONTACT hContact, int type)
 
 int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch( eventType ) {
+	switch (eventType) {
 	case EV_PROTO_ONLOAD:
 		HookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
 		HookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);

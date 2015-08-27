@@ -681,7 +681,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			TCHAR *user, hash[45] = { 0 };
 			for (ConnContext *context = otr_user_state->context_root; context; context = context->next) {
 				if (context->app_data) {
-					user = (TCHAR*)contact_get_nameT((MCONTACT)context->app_data);
+					user = (TCHAR*)contact_get_nameT((UINT_PTR)context->app_data);
 					if (user) {
 						PROTOACCOUNT *pa = Proto_GetAccount(context->protocol);
 
@@ -746,7 +746,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 					ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
 					Fingerprint *fp = (Fingerprint*)lvi.lParam;
 					if (fp->context->active_fingerprint == fp) {
-						MCONTACT hContact = (MCONTACT)fp->context->app_data;
+						MCONTACT hContact = (UINT_PTR)fp->context->app_data;
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
@@ -777,7 +777,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 				switch (it->second) {
 				case FPM_DELETE:
 					if (it->first->context->active_fingerprint == it->first) {
-						MCONTACT hContact = (MCONTACT)it->first->context->app_data;
+						MCONTACT hContact = (UINT_PTR)it->first->context->app_data;
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));

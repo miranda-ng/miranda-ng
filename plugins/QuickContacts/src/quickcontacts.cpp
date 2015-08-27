@@ -207,7 +207,7 @@ int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 		|| db_get_w(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 
 		return 0;
 
-	db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD)(HANDLE)wparam);
+	db_set_dw(NULL, MODULE_NAME, "LastSentTo", (UINT_PTR)wparam);
 	return 0;
 }
 

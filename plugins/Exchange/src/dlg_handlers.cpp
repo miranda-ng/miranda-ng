@@ -29,13 +29,13 @@ static WNDPROC OldListProc;
 INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing; //true when dialog is being created
-	
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
 			bInitializing = 1;
-			DBVARIANT dbv = {0};
+			DBVARIANT dbv = { 0 };
 			dbv.type = DBVT_ASCIIZ;
 
 			int bCheck = db_get_b(NULL, ModuleName, "Check", 1);
@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_RECONNECT, (db_get_b(NULL, ModuleName, "Reconnect", 0)) ? BST_CHECKED : BST_UNCHECKED);
 
 			SetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, db_get_dw(NULL, ModuleName, "ReconnectInterval", DEFAULT_RECONNECT_INTERVAL), FALSE);
-			CheckDlgButton(hWnd, IDC_USE_POPUPS, (BOOL) db_get_b(NULL, ModuleName, "UsePopups", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_USE_POPUPS, (BOOL)db_get_b(NULL, ModuleName, "UsePopups", 0) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), ServiceExists(MS_POPUP_ADDPOPUPT)); //disable the popups checkbox if no popup module is present
 
 			CheckDlgButton(hWnd, IDC_CHECK_EMAILS, (bCheck) ? BST_CHECKED : BST_UNCHECKED);
@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			EnableWindow(GetDlgItem(hWnd, IDC_PORT_EDIT), portCheck);
 
 			int retries = db_get_b(NULL, ModuleName, "MaxRetries", MAX_EXCHANGE_CONNECT_RETRIES);
-			SetDlgItemInt(hWnd,IDC_MAX_RETRIES,retries,FALSE);
+			SetDlgItemInt(hWnd, IDC_MAX_RETRIES, retries, FALSE);
 
 			EnableWindow(GetDlgItem(hWnd, IDC_RECONNECT_INTERVAL), IsDlgButtonChecked(hWnd, IDC_RECONNECT));
 
@@ -104,7 +104,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
@@ -121,17 +121,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				db_set_ts(NULL, ModuleName, "Server", buffer);
 
 				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, _countof(buffer));
-				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd,IDC_PORT_EDIT,NULL,FALSE));
+				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, NULL, FALSE));
 
-				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd,IDC_INTERVAL_EDIT,NULL,FALSE));
-				db_set_dw(NULL, ModuleName, "ReconnectInterval", GetDlgItemInt(hWnd,IDC_RECONNECT_INTERVAL,NULL,FALSE));
+				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, NULL, FALSE));
+				db_set_dw(NULL, ModuleName, "ReconnectInterval", GetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, NULL, FALSE));
 
 				db_set_b(NULL, ModuleName, "Reconnect", IsDlgButtonChecked(hWnd, IDC_RECONNECT));
 
 				db_set_b(NULL, ModuleName, "UsePopups", IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
 				db_set_b(NULL, ModuleName, "UsePortCheck", IsDlgButtonChecked(hWnd, IDC_USE_PORTCHECK));
 
-				db_set_b(NULL, ModuleName, "MaxRetries", GetDlgItemInt(hWnd,IDC_MAX_RETRIES,NULL,FALSE));
+				db_set_b(NULL, ModuleName, "MaxRetries", GetDlgItemInt(hWnd, IDC_MAX_RETRIES, NULL, FALSE));
 
 				exchangeServer.Reconnect(); //login info may be changed
 				UpdateTimers(); //interval might get changed
@@ -165,7 +165,7 @@ int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYDOWN:
 		if (wParam == 'X')
-			SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);						
+			SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
 
 		break;
 
@@ -192,9 +192,9 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)hiMailIcon);
 
-			LVCOLUMN col = {0};
+			LVCOLUMN col = { 0 };
 			HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
-			OldListProc = (WNDPROC) SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) ListSubclassProc);
+			OldListProc = (WNDPROC)SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR)ListSubclassProc);
 			ListView_SetExtendedListViewStyle(hList, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.cx = 100;
@@ -223,8 +223,8 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
 			ListView_DeleteAllItems(hList);
 			int count = GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			LVITEM item = {0};
-			TEmailHeader email = {0};
+			LVITEM item = { 0 };
+			TEmailHeader email = { 0 };
 			email.cbSize = sizeof(TEmailHeader);
 			TCHAR sender[1024] = _T("");
 			TCHAR subject[1024] = _T("");
@@ -235,8 +235,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			email.szSubject = subject;
 			item.mask = LVIF_TEXT;
 
-			for (int i = 0; i < count; i++)
-			{
+			for (int i = 0; i < count; i++) {
 				exchangeServer.GetEmailHeader(i, &email);
 				item.iItem = i;
 				item.iSubItem = 0;
@@ -268,7 +267,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			HDWP hdWnds = BeginDeferWindowPos(3);
 			RECT rParent;
-			WINDOWPOS *wndPos = (WINDOWPOS *) lParam;
+			WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
 
 			if ((!wndPos) || (wndPos->flags & SWP_NOSIZE))
 				break;
@@ -299,7 +298,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			for (int i = 0; i < count; i++) {
 				if (ListView_GetCheckState(hList, i)) {
 					TCHAR emailID[2048]; //uhh ohh
-					LVITEM item = {0};
+					LVITEM item = { 0 };
 					item.iItem = i;
 					item.mask = LVIF_TEXT;
 					item.iSubItem = 2;
@@ -310,8 +309,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				}
 			}
 			count = exchangeServer.GetUnreadEmailsCount();
-			if (count > 0)
-			{
+			if (count > 0) {
 				SetWindowLongPtr(hWnd, GWLP_USERDATA, count);
 				SendMessage(hWnd, EXM_UPDATE_EMAILS, 0, 0);
 			}
@@ -330,12 +328,10 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
 		case STN_CLICKED:
-			{
-				int count = (int) PUGetPluginData(hWnd);
-				ShowEmailsWindow(count);
-				PUDeletePopup(hWnd);
-				break;
-			}
+			int count = (INT_PTR)PUGetPluginData(hWnd);
+			ShowEmailsWindow(count);
+			PUDeletePopup(hWnd);
+			break;
 		}
 		break;
 

@@ -65,7 +65,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 
 void MarkEventRead(MCONTACT hCnt, MEVENT hEvt)
 {
-	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
+	DWORD settings = (UINT_PTR)TlsGetValue(itlsSettings);
 	if (ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
 		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
 		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
@@ -144,7 +144,7 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 static bool DoAddPopup(POPUPDATAT *data)
 {
-	if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings)) && IsFullScreen()) {
+	if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (UINT_PTR)TlsGetValue(itlsSettings)) && IsFullScreen()) {
 		HWND handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE, -100, -100, 10, 10, 0, 0, 0, 0);
 		if (handle) {
 			ShowWindow(handle, SW_MINIMIZE);
@@ -208,13 +208,13 @@ BOOL UsePopups()
 {
 	return ServiceExists(MS_POPUP_QUERY) &&
 		CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) &&
-		ReadCheckbox(0, IDC_POPUPSENABLED, (DWORD)TlsGetValue(itlsSettings));
+		ReadCheckbox(0, IDC_POPUPSENABLED, (UINT_PTR)TlsGetValue(itlsSettings));
 }
 
 void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
 	MCONTACT hCnt = SetupPseudocontact(jid, unreadCount, acc, &data->lptzContactName[0]);
-	MEVENT hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (DWORD)TlsGetValue(itlsSettings))
+	MEVENT hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (UINT_PTR)TlsGetValue(itlsSettings))
 		? AddCListNotification(hCnt, acc, data, url) : NULL;
 
 	if (!UsePopups())
@@ -276,7 +276,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 			tszSenders.AppendFormat(_T("    %s\n"), p.addr);
 	}
 
-	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
+	if (ReadCheckbox(0, IDC_ADDSNIP, (UINT_PTR)TlsGetValue(itlsSettings)))
 		mir_sntprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
 	else
 		mir_sntprintf(data.lptzText, TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
@@ -304,7 +304,8 @@ DWORD ReadNotificationSettings(LPCSTR acc)
 	return result;
 }
 
-struct POPUP_IDENT_STRINGS {
+struct POPUP_IDENT_STRINGS
+{
 	LPCTSTR url;
 	LPCTSTR jid;
 };
@@ -329,7 +330,7 @@ BOOL CALLBACK ClosePopupFunc(__in  HWND hwnd, __in LPARAM lParam)
 
 void CloseNotifications(LPCSTR acc, LPCTSTR url, LPCTSTR jid, BOOL PopupsOnly)
 {
-	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
+	DWORD settings = (UINT_PTR)TlsGetValue(itlsSettings);
 	if (acc && !PopupsOnly &&
 		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
 		ReadCheckbox(0, IDC_CLEARPSEUDOCONTACTLOG, settings))

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void __cdecl CAimProto::avatar_request_thread(void* param)
 {
-	MCONTACT hContact = (MCONTACT)param;
+	MCONTACT hContact = (UINT_PTR)param;
 
 	char *sn = getStringA(hContact, AIM_KEY_SN);
 	debugLogA("Starting avatar request thread for %s)", sn);

@@ -273,7 +273,7 @@ void CSendLater::processContacts()
 {
 	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
 		for (int i = 0; i < m_sendLaterContactList.getCount(); i++)
-			processSingleContact((MCONTACT)m_sendLaterContactList[i]);
+			processSingleContact((UINT_PTR)m_sendLaterContactList[i]);
 
 		m_sendLaterContactList.destroy();
 	}

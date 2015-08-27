@@ -11,11 +11,11 @@ Distributed under GNU's GPL 2 or later
 
 HINSTANCE hI;
 
-HWND hwnd=0;
+HWND g_hWnd = 0;
 HANDLE hservosda;
 int hLangpack = 0;
 CLIST_INTERFACE *pcli;
-HANDLE hHookedNewEvent, hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged, hpluginShutDown;
+HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
 
 void logmsg2(char *str);
 int MainInit(WPARAM,LPARAM);
@@ -58,11 +58,9 @@ extern "C" __declspec(dllexport) int Load()
 extern "C" __declspec(dllexport) int Unload()
 {
 	logmsg("Unload");
-	UnhookEvent(hpluginShutDown);
 	UnhookEvent(hProtoAck);
 	UnhookEvent(hContactSettingChanged);
 	UnhookEvent(hContactStatusChanged);
-	UnhookEvent(hHookedNewEvent);
 	UnhookEvent(hHookedInit);
 
 	DestroyServiceFunction(hservosda);

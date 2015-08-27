@@ -18,7 +18,7 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 
 	switch (msg) {
 	case WM_NCCREATE:
-		pCtrl = new BandCtrlImpl(hWnd, reinterpret_cast<int>(reinterpret_cast<CREATESTRUCT*>(lParam)->hMenu));
+		pCtrl = new BandCtrlImpl(hWnd, reinterpret_cast<INT_PTR>(reinterpret_cast<CREATESTRUCT*>(lParam)->hMenu));
 		SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pCtrl));
 		return TRUE;
 
@@ -186,7 +186,7 @@ void BandCtrlImpl::unregisterClass()
 	UnregisterClass(m_ClassName, g_hInst);
 }
 
-BandCtrlImpl::BandCtrlImpl(HWND hWnd, int nOwnId) :
+BandCtrlImpl::BandCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
 	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hFont(NULL),
 	m_hTheme(NULL), m_hImageList(NULL), m_hImageListD(NULL), m_hTooltip(NULL),
 	m_nCurHot(-1), m_nCurFocused(-1), m_nCurPressed(-1), m_bCurPressedDD(false),
@@ -624,7 +624,7 @@ void BandCtrlImpl::recalcButtonRects()
 			if (!m_hTooltip)
 				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
 
-			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, i + 1, m_Items[i].rItem, NULL,
+			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i+1), m_Items[i].rItem, NULL,
 				const_cast<TCHAR*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 

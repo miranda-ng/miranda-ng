@@ -134,7 +134,7 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 		return NULL;
 
 	HICON hIcon = NULL; // icon handle
-	int index = -(int)lpIconName;
+	int index = -(INT_PTR)lpIconName;
 	ExtractIconEx(filename, index, NULL, &hIcon, 1);
 	return hIcon;
 }

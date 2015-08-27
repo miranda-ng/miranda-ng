@@ -230,7 +230,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				break;
 
 			case CLN_NEWCONTACT:
-				iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
+				iSelection = (INT_PTR)((NMCLISTCONTROL *)lParam)->hItem;
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				break;
 
 			case CLN_CHECKCHANGED:
-				iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
+				iSelection = (INT_PTR)((NMCLISTCONTROL *)lParam)->hItem;
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						hSelectedContact = hContact;

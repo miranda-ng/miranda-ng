@@ -1286,7 +1286,7 @@ int ContactMatchSearch(MCONTACT hContact, char *contact, char *id, char *account
 
 void __cdecl OpenMessageWindowThread(void *data)
 {
-	MCONTACT hContact = (MCONTACT)data;
+	MCONTACT hContact = (UINT_PTR)data;
 	if (hContact) {
 		CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
 	}

@@ -89,8 +89,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 		if (h != hwndTemp)
 			if (!hwndParent || !(GetWindowLongPtr(hwndTemp, GWL_STYLE) & BS_GROUPBOX))
 				return -1;
-	}
-		while (hwndParent);
+	} while (hwndParent);
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
@@ -294,7 +293,7 @@ void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.pt.y = si.nMax;
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
 void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)
@@ -331,9 +330,9 @@ void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newSt
 	nm.hdr.code = CLN_EXPANDED;
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-	nm.hItem = (HANDLE) group->groupId;
+	nm.hItem = (HANDLE)group->groupId;
 	nm.action = group->expanded;
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
 void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
@@ -348,7 +347,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat)
 	if (contact->type == CLCIT_GROUP)
 		cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 	if (contact->type == CLCIT_CONTACT)
-		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM) contact->hContact, 0);
+		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)contact->hContact, 0);
 }
 
 int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk)
@@ -501,9 +500,9 @@ void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	int h = cli.pfnGetRowHeight(dat, dat->selection);
 	dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, pt.x, pt.y, clRect.right - pt.x, h, hwnd, NULL, cli.hInst, NULL);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
-	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM) (contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
+	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
-	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM) (-1));
+	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(dat->hwndRenameEdit, SW_SHOW);
 	SetFocus(dat->hwndRenameEdit);
 }
@@ -626,11 +625,11 @@ void fnHideInfoTip(HWND, struct ClcData *dat)
 		return;
 
 	CLCINFOTIP it = { 0 };
-	it.isGroup = IsHContactGroup(dat->hInfoTipItem);
-	it.hItem = (HANDLE) ((UINT_PTR) dat->hInfoTipItem & ~HCONTACT_ISGROUP);
+	it.isGroup = IsHContactGroup((UINT_PTR)dat->hInfoTipItem);
+	it.hItem = (HANDLE)((UINT_PTR)dat->hInfoTipItem & ~HCONTACT_ISGROUP);
 	it.cbSize = sizeof(it);
 	dat->hInfoTipItem = NULL;
-	NotifyEventHooks(hHideInfoTipEvent, 0, (LPARAM) & it);
+	NotifyEventHooks(hHideInfoTipEvent, 0, (LPARAM)&it);
 }
 
 void fnNotifyNewContact(HWND hwnd, MCONTACT hContact)
@@ -641,7 +640,7 @@ void fnNotifyNewContact(HWND hwnd, MCONTACT hContact)
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.flags = 0;
 	nm.hItem = (HANDLE)hContact;
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
 DWORD fnGetDefaultExStyle(void)
@@ -695,10 +694,10 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 	mir_snprintf(idstr, "Font%dCol", i);
 	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
-	
+
 	mir_snprintf(idstr, "Font%dSize", i);
 	lf->lfHeight = (char)db_get_b(NULL, "CLC", idstr, lf->lfHeight);
-	
+
 	mir_snprintf(idstr, "Font%dSty", i);
 	BYTE style = (BYTE)db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
@@ -706,7 +705,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	lf->lfItalic = (style & DBFONTF_ITALIC) != 0;
 	lf->lfUnderline = (style & DBFONTF_UNDERLINE) != 0;
 	lf->lfStrikeOut = 0;
-	
+
 	mir_snprintf(idstr, "Font%dSet", i);
 	lf->lfCharSet = db_get_b(NULL, "CLC", idstr, lf->lfCharSet);
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -750,7 +749,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 		dat->groupIndent = 10;
 
 		LPARAM dwColor = GetSysColor(COLOR_WINDOWTEXT);
-		for (int i=0; i <= FONTID_MAX; i++)
+		for (int i = 0; i <= FONTID_MAX; i++)
 			SendMessage(hwnd, CLM_SETTEXTCOLOR, i, dwColor);
 	}
 
@@ -823,7 +822,7 @@ void fnSetContactCheckboxes(ClcContact *cc, int checked)
 
 void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
-	for (int i=0; i < group->cl.count; i++) {
+	for (int i = 0; i < group->cl.count; i++) {
 		ClcContact *cc = group->cl.items[i];
 		if (cc->type == CLCIT_GROUP) {
 			cli.pfnSetGroupChildCheckboxes(cc->group, checked);

@@ -46,7 +46,7 @@ static bool hasTips()
 
 #define initcheck if (!fTrayInited) return
 
-#define SIZEOFNID ((cli.shellVersion >= 5) ? NOTIFYICONDATA_V2_SIZE : NOTIFYICONDATA_V1_SIZE)
+#define SIZEOFNID (DWORD)((cli.shellVersion >= 5) ? NOTIFYICONDATA_V2_SIZE : NOTIFYICONDATA_V1_SIZE)
 
 static BOOL fTrayInited = FALSE;
 

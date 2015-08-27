@@ -978,8 +978,7 @@ int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 				res = 3; // threshold exceeded
 			}
 		}
-		else
-			res = 4; // no timestamp found
+		else res = 4; // no timestamp found
 	}
 
 	return res;
@@ -989,7 +988,7 @@ int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 {
 	if (pDelay)
-		SleepEx((DWORD)pDelay, TRUE);
+		SleepEx((UINT_PTR)pDelay, TRUE);
 
 	mir_cslockfull l(cookieMutex);
 

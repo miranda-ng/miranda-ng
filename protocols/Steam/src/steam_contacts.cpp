@@ -522,7 +522,7 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
-	ai.hContact = (MCONTACT)arg;
+	ai.hContact = (UINT_PTR)arg;
 	GetDbAvatarInfo(ai);
 
 	if (response == NULL || response->resultCode != HTTP_CODE_OK)
@@ -582,7 +582,7 @@ void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
-		MCONTACT hContact = (MCONTACT)arg;
+		MCONTACT hContact = (UINT_PTR)arg;
 		ptrA who(getStringA(hContact, "SteamID"));
 
 		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", who);

@@ -86,7 +86,7 @@ char *BinToHex(int size, PBYTE data)
 {
 	char *szresult = NULL;
 	int maxSize = size * 2 + HEX_SIZE + 1;
-	szresult = (char *) new char[ maxSize ];
+	szresult = (char *) new char[maxSize];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
 	bin2hex(data, size, szresult + HEX_SIZE);
 	return szresult;
@@ -94,11 +94,11 @@ char *BinToHex(int size, PBYTE data)
 
 void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 {
-	TCHAR buffer[32] = {0};
-	_tcsncpy(buffer, _T("0x"),_countof(_T("0x")));
+	TCHAR buffer[32] = { 0 };
+	_tcsncpy(buffer, _T("0x"), _countof(_T("0x")));
 	_tcsncpy(buffer + 2, inData, HEX_SIZE);
 	_stscanf(buffer, _T("%x"), &size);
-	outData = (unsigned char*)new char[size*2];
+	outData = (unsigned char*)new char[size * 2];
 
 	TCHAR *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
@@ -110,7 +110,7 @@ void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 
 int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, int size)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	int res = 1;
 	dbv.type = DBVT_ASCIIZ;
 	if (db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0) {
@@ -204,7 +204,7 @@ void __cdecl CheckEmailWorkerThread(void *data)
 {
 	mir_cslock lck(csCheck);
 
-	int bForceAttempt = (int) data;
+	int bForceAttempt = (INT_PTR)data;
 
 	if (!exchangeServer.IsConnected())
 		exchangeServer.Connect(bForceAttempt);
@@ -222,9 +222,9 @@ int ThreadCheckEmail(int bForceAttempt)
 
 void _popupUtil(TCHAR* szMsg)
 {
-	POPUPDATAT ppd = {0};
+	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hiMailIcon;
-	_tcsncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME-1);
-	_tcsncpy(ppd.lptzText, szMsg,MAX_SECONDLINE-1);
+	_tcsncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME - 1);
+	_tcsncpy(ppd.lptzText, szMsg, MAX_SECONDLINE - 1);
 	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
 }

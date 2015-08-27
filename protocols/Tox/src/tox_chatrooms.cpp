@@ -308,7 +308,7 @@ INT_PTR CALLBACK CToxProto::ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_NEWCONTACT:
 				if ((nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 				{
-					param->proto->ChatValidateContact(nmc->hdr.hwndFrom, param->invitedContacts, (MCONTACT)nmc->hItem);
+					param->proto->ChatValidateContact(nmc->hdr.hwndFrom, param->invitedContacts, (UINT_PTR)nmc->hItem);
 				}
 				break;
 
