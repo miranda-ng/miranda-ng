@@ -215,31 +215,31 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			BOOL isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
 			BOOL isStrikeout = (cfOld.dwEffects & CFM_STRIKEOUT) && (cfOld.dwMask & CFM_STRIKEOUT);
 
-			int cmd = LOWORD(wParam);
-			if (cmd == IDC_FONTBOLD && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTBOLD)))
+			int ctrlId = LOWORD(wParam);
+			if (ctrlId == IDC_FONTBOLD && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTBOLD)))
 				break;
-			if (cmd == IDC_FONTITALIC && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTITALIC)))
+			if (ctrlId == IDC_FONTITALIC && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTITALIC)))
 				break;
-			if (cmd == IDC_FONTUNDERLINE && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTUNDERLINE)))
+			if (ctrlId == IDC_FONTUNDERLINE && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTUNDERLINE)))
 				break;
-			if (cmd == IDC_FONTSTRIKEOUT && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTSTRIKEOUT)))
+			if (ctrlId == IDC_FONTSTRIKEOUT && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTSTRIKEOUT)))
 				break;
-			if (cmd == IDC_FONTBOLD) {
+			if (ctrlId == IDC_FONTBOLD) {
 				cf.dwEffects = isBold ? 0 : CFE_BOLD;
 				cf.dwMask = CFM_BOLD;
 				CheckDlgButton(hwndDlg, IDC_FONTBOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else if (cmd == IDC_FONTITALIC) {
+			else if (ctrlId == IDC_FONTITALIC) {
 				cf.dwEffects = isItalic ? 0 : CFE_ITALIC;
 				cf.dwMask = CFM_ITALIC;
 				CheckDlgButton(hwndDlg, IDC_FONTITALIC, !isItalic ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else if (cmd == IDC_FONTUNDERLINE) {
+			else if (ctrlId == IDC_FONTUNDERLINE) {
 				cf.dwEffects = isUnderline ? 0 : CFE_UNDERLINE;
 				cf.dwMask = CFM_UNDERLINE;
 				CheckDlgButton(hwndDlg, IDC_FONTUNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
 			}
-			else if (cmd == IDC_FONTSTRIKEOUT) {
+			else if (ctrlId == IDC_FONTSTRIKEOUT) {
 				cf.dwEffects = isStrikeout ? 0 : CFM_STRIKEOUT;
 				cf.dwMask = CFM_STRIKEOUT;
 				CheckDlgButton(hwndDlg, IDC_FONTSTRIKEOUT, !isStrikeout ? BST_CHECKED : BST_UNCHECKED);
@@ -1184,19 +1184,19 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwda
 	else
 		GetWindowRect(GetDlgItem(hwndParent, uID), &rc);
 	if (PtInRect(&rc, pt)) {
-		HWND hwnd = (mwdat->hwndIEView || mwdat->hwndHPP) ? mwdat->hwndIWebBrowserControl : GetDlgItem(hwndParent, uID);
+		HWND hwndLog = (mwdat->hwndIEView || mwdat->hwndHPP) ? mwdat->hwndIWebBrowserControl : GetDlgItem(hwndParent, uID);
 		short wDirection = (short)HIWORD(wParam);
 
-		if (hwnd == 0)
-			hwnd = WindowFromPoint(pt);
+		if (hwndLog == 0)
+			hwndLog = WindowFromPoint(pt);
 
 		if (LOWORD(wParam) & MK_SHIFT || M.GetByte("fastscroll", 0)) {
 			if (wDirection < 0)
-				SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
+				SendMessage(hwndLog, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
 			else if (wDirection > 0)
-				SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
+				SendMessage(hwndLog, WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
 		}
-		else SendMessage(hwnd, WM_MOUSEWHEEL, wParam, lParam);
+		else SendMessage(hwndLog, WM_MOUSEWHEEL, wParam, lParam);
 		return 0;
 	}
 

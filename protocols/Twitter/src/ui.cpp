@@ -98,11 +98,11 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return false;
 }
 
-INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	TwitterProto *proto;
 
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -140,11 +140,10 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			char str[16];
 			mir_snprintf(str, "%d", 140 - len);
 			SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
-
 			return true;
 		}
-
 		break;
+
 	case WM_SETREPLY:
 		char foo[512];
 		mir_snprintf(foo, _countof(foo), "@%s ", (char*)wParam);
@@ -196,12 +195,11 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, proto->getByte(TWITTER_KEY_TWEET_TO_MSG, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-
 		// Do this last so that any events propagated by pre-filling the form don't
 		// instigate a PSM_CHANGED message
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
 		break;
+
 	case WM_COMMAND:
 		if (GetWindowLongPtr(hwndDlg, GWLP_USERDATA)) // Window is done initializing
 		{

@@ -133,7 +133,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 				}
 
 				tstring colorname = message.substr(beginmark + 7, 8);
-			search_again:
+search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < rtf_ctable_size; ii++) {
 					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, mir_tstrlen(rtf_ctable[ii].szName))) {
@@ -173,7 +173,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 						else goto invalid_code;
 					}
 					else {
-					invalid_code:
+invalid_code:
 						if (endmark != message.npos)
 							message.erase(endmark, 8);
 						if (closing != message.npos && closing < (size_t)endmark)
@@ -205,11 +205,11 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 			}
 
 			// search a corresponding endmarker which fulfills the criteria
-			INT_PTR tempmark = beginmark + 1;
-			while ((endmark = message.find(endmarker, tempmark)) != message.npos) {
+			INT_PTR mark = beginmark + 1;
+			while ((endmark = message.find(endmarker, mark)) != message.npos) {
 				if (_istpunct(message[endmark + 1]) || _istspace(message[endmark + 1]) || message[endmark + 1] == 0 || _tcschr(_T("*/_"), message[endmark + 1]) != NULL)
 					goto ok;
-				tempmark = endmark + 1;
+				mark = endmark + 1;
 			}
 			break;
 		}
@@ -217,7 +217,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 			if ((endmark = message.find(endmarker, beginmark + 1)) == message.npos)
 				break;
 		}
-	ok:
+ok:
 		if ((endmark - beginmark) < 2) {
 			beginmark++;
 			continue;
@@ -287,118 +287,122 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 		if (title[curpos] == 0)
 			break;
 
+		const	TCHAR *p;
 		switch (title[curpos]) {
-		case 'n': {
-			const	TCHAR *tszNick = dat->cache->getNick();
-			if (tszNick[0])
-				title.insert(tempmark + 2, tszNick);
+		case 'n':
+			p = dat->cache->getNick();
+			if (p[0])
+				title.insert(tempmark + 2, p);
 			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(tszNick);
+			curpos = tempmark + mir_tstrlen(p);
 			break;
-		}
 		case 'p':
-		case 'a': {
-			const	TCHAR *szAcc = dat->cache->getRealAccount();
-			if (szAcc)
-				title.insert(tempmark + 2, szAcc);
+		case 'a':
+			p = dat->cache->getRealAccount();
+			if (p)
+				title.insert(tempmark + 2, p);
 			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(szAcc);
+			curpos = tempmark + mir_tstrlen(p);
 			break;
-		}
-		case 's': {
+
+		case 's':
 			if (dat->szStatus[0])
 				title.insert(tempmark + 2, dat->szStatus);
 			title.erase(tempmark, 2);
 			curpos = tempmark + mir_tstrlen(dat->szStatus);
 			break;
-		}
-		case 'u': {
-			const TCHAR	*szUIN = dat->cache->getUIN();
-			if (szUIN[0])
-				title.insert(tempmark + 2, szUIN);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(szUIN);
-			break;
-		}
-		case 'c': {
-			TCHAR	*c = (!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
-			title.insert(tempmark + 2, c);
-			title.erase(tempmark, 2);
-			curpos = tempmark + mir_tstrlen(c);
-			break;
-		}
-		case 'o': {
-			const char *szProto = dat->cache->getActiveProto();
-			if (szProto)
-				title.insert(tempmark + 2, _A2T(szProto));
-			title.erase(tempmark, 2);
-			curpos = tempmark + (szProto ? mir_strlen(szProto) : 0);
-			break;
-		}
-		case 'x': {
-			BYTE xStatus = dat->cache->getXStatusId();
 
-			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-				DBVARIANT dbv = { 0 };
+		case 'u':
+			p = dat->cache->getUIN();
+			if (p[0])
+				title.insert(tempmark + 2, p);
+			title.erase(tempmark, 2);
+			curpos = tempmark + mir_tstrlen(p);
+			break;
 
-				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-					_tcsncpy(szTemp, dbv.ptszVal, 500);
-					szTemp[500] = 0;
-					db_free(&dbv);
-					title.insert(tempmark + 2, szTemp);
-					curpos = tempmark + mir_tstrlen(szTemp);
-				}
-				else {
-					title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
-					curpos = tempmark + mir_tstrlen(xStatusDescr[xStatus - 1]);
-				}
+		case 'c':
+			p = (!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
+			title.insert(tempmark + 2, p);
+			title.erase(tempmark, 2);
+			curpos = tempmark + mir_tstrlen(p);
+			break;
+
+		case 'o':
+			{
+				const char *szProto = dat->cache->getActiveProto();
+				if (szProto)
+					title.insert(tempmark + 2, _A2T(szProto));
+				title.erase(tempmark, 2);
+				curpos = tempmark + (szProto ? mir_strlen(szProto) : 0);
 			}
-			title.erase(tempmark, 2);
 			break;
-		}
-		case 'm': {
-			TCHAR *szFinalStatus = NULL;
-			BYTE  xStatus = dat->cache->getXStatusId();
-			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-				DBVARIANT dbv = { 0 };
 
-				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-					_tcsncpy(szTemp, dbv.ptszVal, 500);
-					szTemp[500] = 0;
-					db_free(&dbv);
-					title.insert(tempmark + 2, szTemp);
+		case 'x':
+			{
+				BYTE xStatus = dat->cache->getXStatusId();
+
+				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					DBVARIANT dbv = { 0 };
+					if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+						_tcsncpy(szTemp, dbv.ptszVal, 500);
+						szTemp[500] = 0;
+						db_free(&dbv);
+						title.insert(tempmark + 2, szTemp);
+						curpos = tempmark + mir_tstrlen(szTemp);
+					}
+					else {
+						title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
+						curpos = tempmark + mir_tstrlen(xStatusDescr[xStatus - 1]);
+					}
 				}
-				else szFinalStatus = xStatusDescr[xStatus - 1];
+				title.erase(tempmark, 2);
 			}
-			else szFinalStatus = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
-
-			if (szFinalStatus) {
-				title.insert(tempmark + 2, szFinalStatus);
-				curpos = tempmark + mir_tstrlen(szFinalStatus);
-			}
-
-			title.erase(tempmark, 2);
 			break;
-		}
 
-				  // status message (%T will skip the "No status message" for empty messages)
+		case 'm':
+			p = NULL;
+			{
+				BYTE xStatus = dat->cache->getXStatusId();
+				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					DBVARIANT dbv = { 0 };
+
+					if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+						_tcsncpy(szTemp, dbv.ptszVal, 500);
+						szTemp[500] = 0;
+						db_free(&dbv);
+						title.insert(tempmark + 2, szTemp);
+					}
+					else p = xStatusDescr[xStatus - 1];
+				}
+				else p = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
+
+				if (p) {
+					title.insert(tempmark + 2, p);
+					curpos = tempmark + mir_tstrlen(p);
+				}
+
+				title.erase(tempmark, 2);
+			}
+			break;
+
+		// status message (%T will skip the "No status message" for empty messages)
 		case 't':
-		case 'T': {
-			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
-			if (tszStatusMsg) {
-				title.insert(tempmark + 2, tszStatusMsg);
-				curpos = tempmark + mir_tstrlen(tszStatusMsg);
-			}
-			else if (title[curpos] == 't') {
-				const TCHAR* tszStatusMsg = TranslateT("No status message");
-				title.insert(tempmark + 2, tszStatusMsg);
-				curpos = tempmark + mir_tstrlen(tszStatusMsg);
+		case 'T':
+			{
+				ptrT tszStatus(dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true));
+				if (tszStatus) {
+					title.insert(tempmark + 2, tszStatus);
+					curpos = tempmark + mir_tstrlen(tszStatus);
+				}
+				else if (title[curpos] == 't') {
+					p = TranslateT("No status message");
+					title.insert(tempmark + 2, p);
+					curpos = tempmark + mir_tstrlen(p);
+				}
 			}
 			title.erase(tempmark, 2);
-			if (tszStatusMsg)
-				mir_free(tszStatusMsg);
 			break;
-		}
+
 		default:
 			title.erase(tempmark, 1);
 			break;
@@ -1104,8 +1108,8 @@ static wchar_t* warnings[] = {
 };
 
 CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags) :
-m_szTitle(mir_wstrdup(tszTitle)),
-m_szText(mir_wstrdup(tszText))
+	m_szTitle(mir_wstrdup(tszTitle)),
+	m_szText(mir_wstrdup(tszText))
 {
 	m_uId = uId;
 	m_hFontCaption = 0;
@@ -1246,11 +1250,11 @@ INT_PTR CALLBACK CWarning::stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		}
 		break;
 
-#if defined(__LOGDEBUG_)
+	#if defined(__LOGDEBUG_)
 	case WM_NCDESTROY:
 		_DebugTraceW(L"window destroyed");
 		break;
-#endif
+	#endif
 	}
 	return FALSE;
 }
@@ -1262,101 +1266,101 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		HICON		hIcon = 0;
-		UINT		uResId = 0;
-		TCHAR		temp[1024];
-		SETTEXTEX	stx = { ST_SELECTION, CP_UTF8 };
-		size_t		pos = 0;
+		{
+			HICON		hIcon = 0;
+			UINT		uResId = 0;
+			TCHAR		temp[1024];
+			SETTEXTEX	stx = { ST_SELECTION, CP_UTF8 };
+			size_t		pos = 0;
 
-		m_hwnd = hwnd;
+			m_hwnd = hwnd;
 
-		::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
-		::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true)));
-		::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA)));
-		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
-		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
+			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
+			::SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true)));
+			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(::Skin_LoadIcon(SKINICON_OTHER_MIRANDA)));
+			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
+			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
-		mir_sntprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
-		tstring *str = new tstring(temp);
+			mir_sntprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+			tstring *str = new tstring(temp);
 
-		str->append(m_szText);
-		str->append(L"}");
+			str->append(m_szText);
+			str->append(L"}");
 
-		TranslateDialogDefault(hwnd);
+			TranslateDialogDefault(hwnd);
 
-		/*
-		* convert normal line breaks to rtf
-		*/
-		while ((pos = str->find(L"\n")) != str->npos) {
-			str->erase(pos, 1);
-			str->insert(pos, L"\\line ");
+			/*
+			* convert normal line breaks to rtf
+			*/
+			while ((pos = str->find(L"\n")) != str->npos) {
+				str->erase(pos, 1);
+				str->insert(pos, L"\\line ");
+			}
+
+			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, T2Utf(str->c_str()));
+			delete str;
+
+			::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle);
+
+			if (m_dwFlags & CWF_NOALLOWHIDE)
+				Utils::showDlgControl(hwnd, IDC_DONTSHOWAGAIN, SW_HIDE);
+			if (m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL) {
+				Utils::showDlgControl(hwnd, IDOK, SW_HIDE);
+				::SetFocus(::GetDlgItem(hwnd, IDCANCEL));
+			}
+			else {
+				Utils::showDlgControl(hwnd, IDCANCEL, SW_HIDE);
+				Utils::showDlgControl(hwnd, IDYES, SW_HIDE);
+				Utils::showDlgControl(hwnd, IDNO, SW_HIDE);
+				::SetFocus(::GetDlgItem(hwnd, IDOK));
+			}
+			if (m_dwFlags & MB_ICONERROR || m_dwFlags & MB_ICONHAND)
+				uResId = 32513;
+			else if (m_dwFlags & MB_ICONEXCLAMATION || m_dwFlags & MB_ICONWARNING)
+				uResId = 32515;
+			else if (m_dwFlags & MB_ICONASTERISK || m_dwFlags & MB_ICONINFORMATION)
+				uResId = 32516;
+			else if (m_dwFlags & MB_ICONQUESTION)
+				uResId = 32514;
+
+			if (uResId)
+				hIcon = reinterpret_cast<HICON>(::LoadImage(0, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
+			else
+				hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
+
+			::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
+			if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
+				::ShowWindow(hwnd, SW_SHOWNORMAL);
+
+			WindowList_Add(hWindowList, hwnd, (UINT_PTR)hwnd);
 		}
-
-		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, T2Utf(str->c_str()));
-		delete str;
-
-		::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle);
-
-		if (m_dwFlags & CWF_NOALLOWHIDE)
-			Utils::showDlgControl(hwnd, IDC_DONTSHOWAGAIN, SW_HIDE);
-		if (m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL) {
-			Utils::showDlgControl(hwnd, IDOK, SW_HIDE);
-			::SetFocus(::GetDlgItem(hwnd, IDCANCEL));
-		}
-		else {
-			Utils::showDlgControl(hwnd, IDCANCEL, SW_HIDE);
-			Utils::showDlgControl(hwnd, IDYES, SW_HIDE);
-			Utils::showDlgControl(hwnd, IDNO, SW_HIDE);
-			::SetFocus(::GetDlgItem(hwnd, IDOK));
-		}
-		if (m_dwFlags & MB_ICONERROR || m_dwFlags & MB_ICONHAND)
-			uResId = 32513;
-		else if (m_dwFlags & MB_ICONEXCLAMATION || m_dwFlags & MB_ICONWARNING)
-			uResId = 32515;
-		else if (m_dwFlags & MB_ICONASTERISK || m_dwFlags & MB_ICONINFORMATION)
-			uResId = 32516;
-		else if (m_dwFlags & MB_ICONQUESTION)
-			uResId = 32514;
-
-		if (uResId)
-			hIcon = reinterpret_cast<HICON>(::LoadImage(0, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
-		else
-			hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
-
-		::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
-		if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
-			::ShowWindow(hwnd, SW_SHOWNORMAL);
-
-		WindowList_Add(hWindowList, hwnd, (UINT_PTR)hwnd);
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-	{
-		HWND hwndChild = reinterpret_cast<HWND>(lParam);
-		UINT id = ::GetDlgCtrlID(hwndChild);
-		if (0 == m_hFontCaption) {
-			HFONT hFont = reinterpret_cast<HFONT>(::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_GETFONT, 0, 0));
-			LOGFONT lf = { 0 };
+		{
+			HWND hwndChild = reinterpret_cast<HWND>(lParam);
+			UINT id = ::GetDlgCtrlID(hwndChild);
+			if (0 == m_hFontCaption) {
+				HFONT hFont = reinterpret_cast<HFONT>(::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_GETFONT, 0, 0));
+				LOGFONT lf = { 0 };
 
-			::GetObject(hFont, sizeof(lf), &lf);
-			lf.lfHeight = (int)((double)lf.lfHeight * 1.7f);
-			m_hFontCaption = ::CreateFontIndirect(&lf);
-			::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
-		}
+				::GetObject(hFont, sizeof(lf), &lf);
+				lf.lfHeight = (int)((double)lf.lfHeight * 1.7f);
+				m_hFontCaption = ::CreateFontIndirect(&lf);
+				::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
+			}
 
-		if (IDC_CAPTION == id) {
-			::SetTextColor(reinterpret_cast<HDC>(wParam), ::GetSysColor(COLOR_HIGHLIGHT));
-			::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
-		}
+			if (IDC_CAPTION == id) {
+				::SetTextColor(reinterpret_cast<HDC>(wParam), ::GetSysColor(COLOR_HIGHLIGHT));
+				::SendMessage(hwndChild, WM_SETFONT, (WPARAM)m_hFontCaption, FALSE);
+			}
 
-		if (IDC_WARNGROUP != id && IDC_DONTSHOWAGAIN != id) {
-			::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
-			return reinterpret_cast<INT_PTR>(::GetSysColorBrush(COLOR_WINDOW));
+			if (IDC_WARNGROUP != id && IDC_DONTSHOWAGAIN != id) {
+				::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
+				return reinterpret_cast<INT_PTR>(::GetSysColorBrush(COLOR_WINDOW));
+			}
 		}
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {

@@ -146,7 +146,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 	}
 
-	TContainerData *p;
+	TContainerData *pCont;
 
 	switch (msg) {
 	case WM_CREATE:
@@ -323,20 +323,20 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							nen_options.iNoAutoPopup ^= 1;
 							break;
 						case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
-							for (p = pFirstContainer; p; p = p->pNext)
-								ShowWindow(p->hwnd, SW_HIDE);
+							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+								ShowWindow(pCont->hwnd, SW_HIDE);
 							break;
 						case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
-							for (p = pFirstContainer; p; p = p->pNext)
-								ShowWindow(p->hwnd, SW_SHOW);
+							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+								ShowWindow(pCont->hwnd, SW_SHOW);
 							break;
 						case ID_TRAYCONTEXT_BE:
 							nen_options.iDisable = 1;
 							nen_options.iNoSounds = 1;
 							nen_options.iNoAutoPopup = 1;
 
-							for (p = pFirstContainer; p; p = p->pNext)
-								SendMessage(p->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
+							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+								SendMessage(pCont->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
 							break;
 						}
 					}
@@ -458,18 +458,18 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			bool bNewAero = M.getAeroState(); // refresh dwm state
 
-			for (p = pFirstContainer; p; p = p->pNext) {
+			for (pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
 				if (bNewAero)
-					SetAeroMargins(p);
+					SetAeroMargins(pCont);
 				else {
 					MARGINS m = { 0 };
 					if (M.m_pfnDwmExtendFrameIntoClientArea)
-						M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
+						M.m_pfnDwmExtendFrameIntoClientArea(pCont->hwnd, &m);
 				}
-				if (p->SideBar)
-					if (p->SideBar->isActive()) // the container for the sidebar buttons
-						RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
-				RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+				if (pCont->SideBar)
+					if (pCont->SideBar->isActive()) // the container for the sidebar buttons
+						RedrawWindow(GetDlgItem(pCont->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
+				RedrawWindow(pCont->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
 		}
 		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
@@ -496,9 +496,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		FreeTabConfig();
 		ReloadTabConfig();
 
-		for (p = pFirstContainer; p; p = p->pNext) {
-			SendDlgItemMessage(p->hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
-			BroadCastContainer(p, EM_THEMECHANGED, 0, 0);
+		for (pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
+			SendDlgItemMessage(pCont->hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
+			BroadCastContainer(pCont, EM_THEMECHANGED, 0, 0);
 		}
 		break;
 
@@ -547,14 +547,14 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
-		for (p = pFirstContainer; p; p = p->pNext)
+		for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 			if (CSkin::m_skinEnabled) {             // invalidate cached background DCs for skinned containers
-				p->oldDCSize.cx = p->oldDCSize.cy = 0;
-				SelectObject(p->cachedDC, p->oldHBM);
-				DeleteObject(p->cachedHBM);
-				DeleteDC(p->cachedDC);
-				p->cachedDC = 0;
-				RedrawWindow(p->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+				pCont->oldDCSize.cx = pCont->oldDCSize.cy = 0;
+				SelectObject(pCont->cachedDC, pCont->oldHBM);
+				DeleteObject(pCont->cachedHBM);
+				DeleteDC(pCont->cachedDC);
+				pCont->cachedDC = 0;
+				RedrawWindow(pCont->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
 		break;
 
@@ -570,8 +570,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (wParam == TIMERID_SENDLATER) {
 			// send heartbeat to each container, they use this to update
 			// dynamic content (i.e. local time in the info panel).
-			for (p = pFirstContainer; p; p = p->pNext)
-				SendMessage(p->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
+			for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+				SendMessage(pCont->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed
 			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {

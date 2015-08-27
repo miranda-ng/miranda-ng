@@ -106,13 +106,13 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 /// Paint ////////////////////////////////////
 LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 {
-	HDC hdc;
 	PAINTSTRUCT ps;
-	hdc = BeginPaint(hwnd, &ps);
-
-	RECT rc;
-	GetClientRect(hwnd, &rc);
-	FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+	HDC hdc = BeginPaint(hwnd, &ps);
+	{
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+	}
 
 	SetTextColor(hdc, RGB(0, 0, 0));
 	SetBkMode(hdc, TRANSPARENT);

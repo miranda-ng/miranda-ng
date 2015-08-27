@@ -873,11 +873,11 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		return;
 
 	HWND hwndDlg = m_dat->hwnd;
-
-	RECT rc;
-	::GetWindowRect(GetDlgItem(hwndDlg, ctrlId), &rc);
-
-	::SendMessage(m_dat->hwndTip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELONG(rc.left, rc.bottom));
+	{
+		RECT rc;
+		::GetWindowRect(GetDlgItem(hwndDlg, ctrlId), &rc);
+		::SendMessage(m_dat->hwndTip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELONG(rc.left, rc.bottom));
+	}
 	if (lParam)
 		m_dat->ti.lpszText = reinterpret_cast<TCHAR *>(lParam);
 	else {
@@ -1243,7 +1243,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 // @param pt : mouse coordinates (screen)
 // @return   : always 0
 
-int CInfoPanel::invokeConfigDialog(const POINT& pt)
+int CInfoPanel::invokeConfigDialog(const POINT &pt)
 {
 	if (!m_active)
 		return 0;
@@ -1262,19 +1262,15 @@ int CInfoPanel::invokeConfigDialog(const POINT& pt)
 		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), 0 /*m_dat->pContainer->hwnd */,
 			ConfigDlgProcStub, (LPARAM)this);
 		if (m_hwndConfig) {
-			RECT	rc, rcLog;
-			POINT	pt;
-
 			TranslateDialogDefault(m_hwndConfig);
 
 			::GetClientRect(m_hwndConfig, &rc);
+
+			RECT rcLog;
 			::GetWindowRect(GetDlgItem(m_dat->hwnd, m_isChat ? IDC_CHAT_LOG : IDC_LOG), &rcLog);
-			pt.x = rcLog.left;
-			pt.y = rcLog.top;
-			//::ScreenToClient(m_dat->pContainer->hwnd, &pt);
 
 			m_fDialogCreated = true;
-			::SetWindowPos(m_hwndConfig, HWND_TOP, pt.x + 10, pt.y - (m_active ? 10 : 0), 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			::SetWindowPos(m_hwndConfig, HWND_TOP, rcLog.left + 10, rcLog.top - (m_active ? 10 : 0), 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			return 1;
 		}
 	}

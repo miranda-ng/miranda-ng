@@ -23,10 +23,10 @@ HANDLE hPluginUpdaterFolder;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hPluginUpdaterFolder, tszRoot, MAX_PATH, _T(""));
-	size_t len = _tcslen(tszRoot);
-	if (tszRoot[len-1] == '\\' || tszRoot[len-1] == '/')
-		tszRoot[len-1] = 0;
+	FoldersGetCustomPathT(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, _T(""));
+	size_t len = _tcslen(g_tszRoot);
+	if (g_tszRoot[len-1] == '\\' || g_tszRoot[len-1] == '/')
+		g_tszRoot[len-1] = 0;
 	return 0;
 }
 
@@ -35,7 +35,7 @@ void EmptyFolder()
 	SHFILEOPSTRUCT file_op = {
 		NULL,
 		FO_DELETE,
-		tszRoot,
+		g_tszRoot,
 		_T(""),
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
@@ -50,8 +50,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
-	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\" DEFAULT_UPDATES_FOLDER)), _countof(tszRoot));
+	else lstrcpyn(g_tszRoot, VARST( _T("%miranda_path%\\" DEFAULT_UPDATES_FOLDER)), _countof(g_tszRoot));
 
 #if MIRANDA_VER >= 0x0A00
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))

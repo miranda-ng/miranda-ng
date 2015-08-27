@@ -546,11 +546,11 @@ void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft)
 			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			HANDLE s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
-			if (s != NULL) {
+			HANDLE sock = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
+			if (sock != NULL) {
 				SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
 				//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
-				ft->s = s;
+				ft->s = sock;
 				TlenP2PEstablishOutgoingConnection(ft, FALSE);
 				if (ft->state != FT_ERROR) {
 					ft->proto->debugLogA("Entering send loop for this file connection...");
@@ -563,7 +563,7 @@ void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft)
 					}
 				}
 				ft->proto->debugLogA("Closing connection for this file transfer... ");
-				Netlib_CloseHandle(s);
+				Netlib_CloseHandle(sock);
 			}
 			else ft->state = FT_ERROR;
 		}
