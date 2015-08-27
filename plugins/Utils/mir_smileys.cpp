@@ -236,10 +236,10 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 				TextPiece *piece = (TextPiece *)plText->items[i];
 
 				if (piece->type == TEXT_PIECE_TYPE_TEXT) {
-					RECT text_rc = { 0, 0, 0x7FFFFFFF, 0x7FFFFFFF };
+					RECT rc = { 0, 0, 0x7FFFFFFF, 0x7FFFFFFF };
 
-					DrawText(hdcMem, &szText[piece->start_pos], piece->len, &text_rc, DT_CALCRECT | uTextFormat);
-					text_size.cx = text_size.cx + text_rc.right - text_rc.left;
+					DrawText(hdcMem, &szText[piece->start_pos], piece->len, &rc, DT_CALCRECT | uTextFormat);
+					text_size.cx = text_size.cx + rc.right - rc.left;
 				}
 				else {
 					double factor;

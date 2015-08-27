@@ -1409,7 +1409,6 @@ static int UpdateTBToolTip(int framepos)
 
 int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar)
 {
-	HDC hdc;
 	RECT rcWindow, rc;
 	HWND hwndParent = GetParent(hwnd);
 	LRESULT result = 0;
@@ -1457,7 +1456,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 	}
 
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
-		hdc = GetWindowDC(hwnd);
+		HDC hdc = GetWindowDC(hwnd);
 		HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
 		GetWindowRect(hwnd, &rcWindow);
 		rc.left = rc.top = 0;
@@ -2812,7 +2811,6 @@ LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			CLUIFrameResizeFloatingFrame(framepos);
 
-			RECT rect;
 			GetWindowRect(Frames[framepos].ContainerWnd, &rect);
 			Frames[framepos].FloatingPos.x = rect.left;
 			Frames[framepos].FloatingPos.y = rect.top;

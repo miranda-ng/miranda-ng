@@ -164,7 +164,8 @@ void CluiProtocolStatusChanged(int, const char*)
 
 	// count down since built in ones tend to go at the end
 	char *szMaxProto = NULL;
-	for (int i = 0, partCount = 0; i < protoCount; i++) {
+	partCount = 0;
+	for (int i = 0; i < protoCount; i++) {
 		int idx = pcli->pfnGetAccountIndexByPos(i);
 		if (idx == -1)
 			continue;

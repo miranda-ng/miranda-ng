@@ -372,15 +372,15 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_SIZE:
-	{
-		HWND child = (HWND)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		RECT r;
-		GetClientRect(hwnd, &r);
+		{
+			HWND child = (HWND)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			RECT r;
+			GetClientRect(hwnd, &r);
 
-		SetWindowPos(child, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
-		InvalidateRect(child, NULL, TRUE);
-	}
-	return TRUE;
+			SetWindowPos(child, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+			InvalidateRect(child, NULL, TRUE);
+		}
+		return TRUE;
 
 	case WM_CLOSE:
 		db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
@@ -1441,7 +1441,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 	}
 	else {
 		// Well, lets do it by hand
-		static int statusModePf2List[] = { 0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT,
+		static unsigned statusModePf2List[] = { 0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT,
 			PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
 
 		menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
@@ -1523,10 +1523,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	Protocol *proto;
+	RECT r;
 
 	switch (msg) {
 	case WM_CREATE:
-	{
 		data = new MyDetailsFrameData();
 		memset(data, 0, sizeof(MyDetailsFrameData));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
@@ -1541,23 +1541,21 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		SetCycleTime(hwnd);
 		SetStatusMessageRefreshTime(hwnd);
-
-		TRACKMOUSEEVENT tme;
-		tme.cbSize = sizeof(TRACKMOUSEEVENT);
-		tme.dwFlags = TME_HOVER | TME_LEAVE;
-		tme.hwndTrack = hwnd;
-		tme.dwHoverTime = HOVER_DEFAULT;
-		TrackMouseEvent(&tme);
-	}
-	return TRUE;
+		{
+			TRACKMOUSEEVENT tme;
+			tme.cbSize = sizeof(TRACKMOUSEEVENT);
+			tme.dwFlags = TME_HOVER | TME_LEAVE;
+			tme.hwndTrack = hwnd;
+			tme.dwHoverTime = HOVER_DEFAULT;
+			TrackMouseEvent(&tme);
+		}
+		return TRUE;
 
 	case WM_PRINTCLIENT:
 		Draw(hwnd, (HDC)wParam);
 		return TRUE;
 
 	case WM_PAINT:
-	{
-		RECT r;
 		if (GetUpdateRect(hwnd, &r, FALSE)) {
 			PAINTSTRUCT ps;
 
@@ -1565,8 +1563,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			Draw(hwnd, hdc);
 			EndPaint(hwnd, &ps);
 		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_SIZE:
 		data->recalc_rectangles = true;
@@ -2048,14 +2045,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_NCMOUSELEAVE:
 	case WM_MOUSELEAVE:
-	{
-		TRACKMOUSEEVENT tme;
-		tme.cbSize = sizeof(TRACKMOUSEEVENT);
-		tme.dwFlags = TME_HOVER;
-		tme.hwndTrack = hwnd;
-		tme.dwHoverTime = HOVER_DEFAULT;
-		TrackMouseEvent(&tme);
-	}
+		{
+			TRACKMOUSEEVENT tme;
+			tme.cbSize = sizeof(TRACKMOUSEEVENT);
+			tme.dwFlags = TME_HOVER;
+			tme.hwndTrack = hwnd;
+			tme.dwHoverTime = HOVER_DEFAULT;
+			TrackMouseEvent(&tme);
+		}
 	case WM_NCMOUSEMOVE:
 		MakeHover(hwnd, data->draw_img, &data->mouse_over_img, NULL, NULL);
 		MakeHover(hwnd, data->draw_nick, &data->mouse_over_nick, NULL, NULL);
@@ -2066,14 +2063,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_MOUSEHOVER:
-	{
-		TRACKMOUSEEVENT tme;
-		tme.cbSize = sizeof(TRACKMOUSEEVENT);
-		tme.dwFlags = TME_LEAVE;
-		tme.hwndTrack = hwnd;
-		tme.dwHoverTime = HOVER_DEFAULT;
-		TrackMouseEvent(&tme);
-	}
+		{
+			TRACKMOUSEEVENT tme;
+			tme.cbSize = sizeof(TRACKMOUSEEVENT);
+			tme.dwFlags = TME_LEAVE;
+			tme.hwndTrack = hwnd;
+			tme.dwHoverTime = HOVER_DEFAULT;
+			TrackMouseEvent(&tme);
+		}
 	case WM_MOUSEMOVE:
 		proto = protocols->Get(data->protocol_number);
 		if (proto != NULL) {
@@ -2088,36 +2085,32 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_NOTIFY:
-	{
-		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-		switch (lpnmhdr->code) {
-		case TTN_GETDISPINFO:
 		{
-			MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			proto = protocols->Get(data->protocol_number);
+			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+			switch (lpnmhdr->code) {
+			case TTN_GETDISPINFO:
+				proto = protocols->Get(data->protocol_number);
 
-			LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lpnmhdr;
-			SendMessage(lpnmhdr->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 300);
+				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lpnmhdr;
+				SendMessage(lpnmhdr->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 300);
 
-			if (lpnmhdr->hwndFrom == data->nick_tt_hwnd)
-				lpttd->lpszText = proto->nickname;
-			else if (lpnmhdr->hwndFrom == data->status_tt_hwnd)
-				lpttd->lpszText = proto->status_name;
-			else if (lpnmhdr->hwndFrom == data->away_msg_tt_hwnd)
-				lpttd->lpszText = proto->status_message;
-			else if (lpnmhdr->hwndFrom == data->listening_to_tt_hwnd)
-				lpttd->lpszText = proto->listening_to;
-			else if (lpnmhdr->hwndFrom == data->next_proto_tt_hwnd)
-				lpttd->lpszText = TranslateT("Show next account");
-			else if (lpnmhdr->hwndFrom == data->prev_proto_tt_hwnd)
-				lpttd->lpszText = TranslateT("Show previous account");
+				if (lpnmhdr->hwndFrom == data->nick_tt_hwnd)
+					lpttd->lpszText = proto->nickname;
+				else if (lpnmhdr->hwndFrom == data->status_tt_hwnd)
+					lpttd->lpszText = proto->status_name;
+				else if (lpnmhdr->hwndFrom == data->away_msg_tt_hwnd)
+					lpttd->lpszText = proto->status_message;
+				else if (lpnmhdr->hwndFrom == data->listening_to_tt_hwnd)
+					lpttd->lpszText = proto->listening_to;
+				else if (lpnmhdr->hwndFrom == data->next_proto_tt_hwnd)
+					lpttd->lpszText = TranslateT("Show next account");
+				else if (lpnmhdr->hwndFrom == data->prev_proto_tt_hwnd)
+					lpttd->lpszText = TranslateT("Show previous account");
 
-			return 0;
+				return 0;
+			}
 		}
-		}
-	}
-	break;
+		break;
 
 	case WM_DESTROY:
 		KillTimer(hwnd, ID_FRAME_TIMER);
@@ -2128,7 +2121,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-		// Custom Messages //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Custom Messages //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	case MWM_REFRESH:
 		KillTimer(hwnd, ID_RECALC_TIMER);
 		SetTimer(hwnd, ID_RECALC_TIMER, RECALC_TIME, NULL);
@@ -2148,7 +2141,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			proto->GetNick();
 			RefreshFrame();
 		}
-
 		break;
 
 	case MWM_STATUS_CHANGED:
@@ -2160,7 +2152,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			RefreshFrame();
 		}
-
 		break;
 
 	case MWM_STATUS_MSG_CHANGED:
@@ -2400,8 +2391,7 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 			|| !mir_strcmp(cws->szSetting, "FirstName")
 			|| !mir_strcmp(cws->szSetting, "e-mail")
 			|| !mir_strcmp(cws->szSetting, "LastName")
-			|| !mir_strcmp(cws->szSetting, "JID"))
-		{
+			|| !mir_strcmp(cws->szSetting, "JID")) {
 			// Name changed
 			if (proto != NULL)
 				PostMessage(hwnd_frame, MWM_NICK_CHANGED, (WPARAM)proto->name, 0);

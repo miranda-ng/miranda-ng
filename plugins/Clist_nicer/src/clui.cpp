@@ -659,13 +659,14 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 			HDC hdc = nmcsbcd->hdc;
 			StatusItems_t *item = 0, *arrowItem = 0;
 			UINT uItemID = ID_EXTBKSCROLLBACK;
-			RECT rcWindow;
-			POINT pt;
-			DWORD dfcFlags;
 			HRGN rgn = 0;
-			GetWindowRect(pcli->hwndContactTree, &rcWindow);
-			pt.x = rcWindow.left;
-			pt.y = rcWindow.top;
+
+			RECT rc;
+			GetWindowRect(pcli->hwndContactTree, &rc);
+
+			POINT pt;
+			pt.x = rc.left;
+			pt.y = rc.top;
 			ScreenToClient(pcli->hwndContactList, &pt);
 			hdcScroll = hdc;
 			BitBlt(hdcScroll, nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right - nmcsbcd->rect.left,
@@ -697,9 +698,8 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 				DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
 					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 			}
-			dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
-				(nmcsbcd->uState == CDIS_HOT ? DFCS_HOT :
-				(nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
+			DWORD dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
+				(nmcsbcd->uState == CDIS_HOT ? DFCS_HOT : (nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
 
 			if (nmcsbcd->uItem == HTSCROLL_UP)
 				arrowItem = arStatusItems[ID_EXTBKSCROLLARROWUP - ID_STATUS_OFFLINE];
@@ -707,7 +707,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 				arrowItem = arStatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
 			if (arrowItem && !arrowItem->IGNORED)
 				DrawAlpha(hdcScroll, &nmcsbcd->rect, arrowItem->COLOR, arrowItem->ALPHA, arrowItem->COLOR2, arrowItem->COLOR2_TRANSPARENT,
-				arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
+					arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
 			else if (arrowItem)
 				DrawFrameControl(hdcScroll, &nmcsbcd->rect, DFC_SCROLL, (nmcsbcd->uItem == HTSCROLL_UP ? DFCS_SCROLLUP : DFCS_SCROLLDOWN) | dfcFlags);
 
