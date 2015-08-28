@@ -37,7 +37,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	{
 		if (ServiceExists("AddToStartMenu/Add"))
 		{
-			CallService("AddToStartMenu / Add");
+			CallService("AddToStartMenu/Add");
 		}
 		else
 		{
