@@ -37,13 +37,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	CreateServiceFunction(MODULENAME "/Add", Service);
-	
-	CMenuItem mi;
-	mi.position = -0x7FFFFFFF;
-	//mi.hIcolibItem = icon.hIcolib;
-	mi.name.a = LPGEN("Add to start menu");
-	mi.pszService = MODULENAME "/Add";
-	Menu_AddMainMenuItem(&mi);
+
+	if (!ShortcutExists())
+	{
+		CMenuItem mi;
+		mi.position = -0x7FFFFFFF;
+		//mi.hIcolibItem = icon.hIcolib;
+		mi.name.a = LPGEN("Add to start menu");
+		mi.pszService = MODULENAME "/Add";
+		Menu_AddMainMenuItem(&mi);
+	}
 
 	return 0;
 }
@@ -58,32 +61,37 @@ INT_PTR Service(WPARAM, LPARAM)
 	return (INT_PTR)TryCreateShortcut();
 }
 
-HRESULT TryCreateShortcut()
+wchar_t* GetShortcutPath()
 {
 	wchar_t shortcutPath[MAX_PATH];
-	DWORD charWritten = GetEnvironmentVariable(L"APPDATA", shortcutPath, MAX_PATH);
-	HRESULT hr = charWritten > 0 ? S_OK : E_INVALIDARG;
+	GetEnvironmentVariable(_T("APPDATA"), shortcutPath, MAX_PATH);
+	wcscat_s(shortcutPath, ARRAYSIZE(shortcutPath), L"\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk");
 
-	if (SUCCEEDED(hr))
+	return mir_wstrdup(shortcutPath);
+}
+
+HRESULT ShortcutExists()
+{
+	HRESULT hr;
+	DWORD attributes = GetFileAttributes(ptrW(GetShortcutPath()));
+	bool fileExists = attributes < 0xFFFFFFF;
+
+	if (!fileExists)
 	{
-		errno_t concatError = wcscat_s(shortcutPath, ARRAYSIZE(shortcutPath), L"\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk");
-		hr = concatError == 0 ? S_OK : E_INVALIDARG;
-		if (SUCCEEDED(hr))
-		{
-			DWORD attributes = GetFileAttributes(shortcutPath);
-			bool fileExists = attributes < 0xFFFFFFF;
-
-			if (!fileExists)
-			{
-				hr = InstallShortcut(shortcutPath);
-			}
-			else
-			{
-				hr = S_FALSE;
-			}
-		}
+		hr = S_OK;
+	}
+	else
+	{
+		hr = S_FALSE;
 	}
 	return hr;
+}
+
+HRESULT TryCreateShortcut()
+{
+	if (!ShortcutExists())
+		return InstallShortcut(ptrW(GetShortcutPath()));
+	return S_FALSE;
 }
 
 HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
