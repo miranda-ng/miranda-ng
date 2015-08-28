@@ -29,15 +29,17 @@
 #include "search.h"
 #include "ignore.h"
 
-typedef struct {
+struct yahoo_idlabel
+{
 	int id;
 	char *label;
-} yahoo_idlabel;
+};
 
-typedef struct {
+struct yahoo_authorize_data
+{
 	int id;
 	char *who;
-} yahoo_authorize_data;
+};
 
 yahoo_idlabel yahoo_status_codes[] = {
 	{ YAHOO_STATUS_AVAILABLE, "" },
@@ -1256,7 +1258,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
  */
 unsigned int CYahooProto::ext_add_handler(int fd, yahoo_input_condition cond, void *data)
 {
-	struct _conn *c = y_new0(struct _conn, 1);
+	_conn *c = y_new0(_conn, 1);
 
 	c->tag = ++m_connection_tags;
 	c->id = m_id;
@@ -1276,7 +1278,7 @@ void CYahooProto::ext_remove_handler(unsigned int tag)
 	LOG(("[ext_remove_handler] id:%d tag:%d ", m_id, tag));
 
 	for (YList *l = m_connections; l; l = y_list_next(l)) {
-		struct _conn *c = (_conn*)l->data;
+		_conn *c = (_conn*)l->data;
 		if (c->tag == tag) {
 			/* don't actually remove it, just mark it for removal */
 			/* we'll remove when we start the next poll cycle */
@@ -1287,7 +1289,8 @@ void CYahooProto::ext_remove_handler(unsigned int tag)
 	}
 }
 
-struct connect_callback_data {
+struct connect_callback_data
+{
 	yahoo_connect_callback callback;
 	void * callback_data;
 	int id;
@@ -1298,7 +1301,7 @@ void ext_yahoo_remove_handler(int id, unsigned int tag);
 
 static void connect_complete(void *data, int source, yahoo_input_condition)
 {
-	struct connect_callback_data *ccd = (connect_callback_data*)data;
+	connect_callback_data *ccd = (connect_callback_data*)data;
 	int error = 0;//, err_size = sizeof(error);
 	NETLIBSELECT tSelect = { 0 };
 
@@ -1321,7 +1324,7 @@ static void connect_complete(void *data, int source, yahoo_input_condition)
 	FREE(ccd);
 }
 
-void yahoo_callback(struct _conn *c, yahoo_input_condition cond)
+void yahoo_callback(_conn *c, yahoo_input_condition cond)
 {
 	int ret = 1;
 
@@ -1372,7 +1375,7 @@ int CYahooProto::ext_connect_async(const char *host, int port, int type, yahoo_c
 /*
  * Callback handling code ends here
  ***********************************/
-char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *host, const char *path)
+char * CYahooProto::ext_send_https_request(yahoo_data *yd, const char *host, const char *path)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 	char z[4096], *result = NULL;
@@ -1719,7 +1722,7 @@ void ext_yahoo_send_http_request(int id, enum yahoo_connection_type type, const 
 	GETPROTOBYID(id)->ext_send_http_request(type, method, url, cookies, content_length, callback, callback_data);
 }
 
-char *ext_yahoo_send_https_request(struct yahoo_data *yd, const char *host, const char *path)
+char *ext_yahoo_send_https_request(yahoo_data *yd, const char *host, const char *path)
 {
 	CYahooProto* ppro = getProtoById(yd->client_id);
 	if (ppro)
@@ -1734,7 +1737,7 @@ void ext_yahoo_got_ignore(int id, YList * igns)
 
 void register_callbacks()
 {
-	static struct yahoo_callbacks yc;
+	static yahoo_callbacks yc;
 
 	yc.ext_yahoo_login_response = ext_yahoo_login_response;
 	yc.ext_yahoo_got_buddies = ext_yahoo_got_buddies;

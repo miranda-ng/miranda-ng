@@ -1,15 +1,15 @@
 /*
- * $Id: avatar.cpp 14178 2012-03-11 15:02:54Z borkra $
- *
- * myYahoo Miranda Plugin
- *
- * Authors: Gennady Feldman (aka Gena01)
- *          Laurent Marechal (aka Peorth)
- *
- * This code is under GPL and is based on AIM, MSN and Miranda source code.
- * I want to thank Robert Rainwater and George Hazan for their code and support
- * and for answering some of my questions during development of this plugin.
- */
+* $Id: avatar.cpp 14178 2012-03-11 15:02:54Z borkra $
+*
+* myYahoo Miranda Plugin
+*
+* Authors: Gennady Feldman (aka Gena01)
+*          Laurent Marechal (aka Peorth)
+*
+* This code is under GPL and is based on AIM, MSN and Miranda source code.
+* I want to thank Robert Rainwater and George Hazan for their code and support
+* and for answering some of my questions during development of this plugin.
+*/
 
 #include "stdafx.h"
 
@@ -20,7 +20,7 @@
 #include "avatar.h"
 #include "resource.h"
 
-// 31 bit hash function  - this is based on g_string_hash function from glib
+ // 31 bit hash function  - this is based on g_string_hash function from glib
 int YAHOO_avt_hash(const char *key, DWORD len)
 {
 	// Thank you Pidgin and Kopete devs. It seems that both clients are using this code now.
@@ -43,19 +43,17 @@ int YAHOO_avt_hash(const char *key, DWORD len)
 
 void upload_avt(int, INT_PTR fd, int error, void *data)
 {
-	struct yahoo_file_info *sf = (struct yahoo_file_info*) data;
+	yahoo_file_info *sf = (yahoo_file_info*)data;
 	unsigned long size = 0;
 	char buf[1024];
 	int rw;			/* */
-	DWORD dw;		/* needed for ReadFile */
-	HANDLE myhFile;
 
 	if (fd < 1 || error) {
 		LOG(("[get_fd] Connect Failed!"));
 		return;
 	}
 
-	myhFile = CreateFileA(sf->filename,
+	HANDLE myhFile = CreateFileA(sf->filename,
 		GENERIC_READ,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
@@ -71,14 +69,14 @@ void upload_avt(int, INT_PTR fd, int error, void *data)
 	LOG(("Sending file: %s size: %ld", sf->filename, sf->filesize));
 
 	do {
-		rw = ReadFile(myhFile, buf, sizeof(buf), &dw, NULL);
+		DWORD dwRead;
+		rw = ReadFile(myhFile, buf, sizeof(buf), &dwRead, NULL);
 
 		if (rw != 0) {
-			rw = Netlib_Send((HANDLE)fd, buf, dw, MSG_NODUMP);
+			rw = Netlib_Send((HANDLE)fd, buf, dwRead, MSG_NODUMP);
 
 			if (rw < 1) {
 				LOG(("Upload Failed. Send error?"));
-				//ShowError(Translate("Yahoo Error"), Translate("Avatar upload failed!?!"));
 				break;
 			}
 
@@ -98,7 +96,7 @@ void upload_avt(int, INT_PTR fd, int error, void *data)
 
 void __cdecl CYahooProto::send_avt_thread(void *psf)
 {
-	struct yahoo_file_info *sf = (yahoo_file_info*)psf;
+	yahoo_file_info *sf = (yahoo_file_info*)psf;
 	if (sf == NULL) {
 		debugLogA("[yahoo_send_avt_thread] SF IS NULL!!!");
 		return;
@@ -122,7 +120,7 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 		return;
 	}
 
-	yahoo_file_info *sf = y_new(struct yahoo_file_info, 1);
+	yahoo_file_info *sf = y_new(yahoo_file_info, 1);
 	sf->filesize = statbuf.st_size;
 
 	wchar_t tszFilename[MAX_PATH];
@@ -137,7 +135,8 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	ForkThread(&CYahooProto::send_avt_thread, sf);
 }
 
-struct avatar_info{
+struct avatar_info
+{
 	char *who;
 	char *pic_url;
 	int cksum;
@@ -145,7 +144,7 @@ struct avatar_info{
 
 void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 {
-	struct avatar_info *avt = (avatar_info*)pavt;
+	avatar_info *avt = (avatar_info*)pavt;
 	int 	error = 0;
 	TCHAR  buf[4096];
 
@@ -266,7 +265,6 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 	switch (type) {
 	case 1:
 		{
-			int cksum = 0;
 			DBVARIANT dbv;
 
 			/* need to send avatar info */
@@ -278,12 +276,12 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 
 			LOG(("[ext_yahoo_got_picture] Getting ready to send info!"));
 			/* need to read CheckSum */
-			cksum = getDword("AvatarHash", 0);
-			if (cksum) {
+			int savedSum = getDword("AvatarHash", 0);
+			if (savedSum) {
 				if (!getString("AvatarURL", &dbv)) {
-					LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", dbv.pszVal, cksum, who));
-					//void yahoo_send_picture_info(int id, const char *me, const char *who, const char *pic_url, int cksum)
-					yahoo_send_picture_info(m_id, who, 2, dbv.pszVal, cksum);
+					LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", dbv.pszVal, savedSum, who));
+					//void yahoo_send_picture_info(int id, const char *me, const char *who, const char *pic_url, int savedSum)
+					yahoo_send_picture_info(m_id, who, 2, dbv.pszVal, savedSum);
 					db_free(&dbv);
 					break;
 				}
@@ -297,7 +295,6 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 					// NO avatar URL??
 					if (!getTString("AvatarFile", &dbv)) {
 						struct _stat statbuf;
-
 						if (_tstat(dbv.ptszVal, &statbuf) != 0) {
 							LOG(("[ext_yahoo_got_picture] Avatar File Missing? Can't find file: %s", dbv.ptszVal));
 						}
@@ -308,24 +305,20 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 
 						db_free(&dbv);
 					}
-					else {
-						LOG(("[ext_yahoo_got_picture] No Local Avatar File??? "));
-					}
+					else LOG(("[ext_yahoo_got_picture] No Local Avatar File??? "));
 				}
-				else
-					LOG(("[ext_yahoo_got_picture] Another avatar upload in progress?"));
+				else LOG(("[ext_yahoo_got_picture] Another avatar upload in progress?"));
 			}
 		}
 		break;
-	case 2: /*
-			  * We got Avatar Info for our buddy.
-			  */
+	case 2:
+		// We got Avatar Info for our buddy.
 		if (!getByte("ShowAvatars", 1)) {
 			LOG(("[ext_yahoo_got_picture] We are not using/showing avatars!"));
 			return;
 		}
 
-		/* got avatar info, so set miranda up */
+		// got avatar info, so set miranda up
 		hContact = getbuddyH(who);
 		if (!hContact) {
 			LOG(("[ext_yahoo_got_picture] Buddy not on my buddy list?."));
@@ -357,7 +350,7 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 				debugLogA("[ext_yahoo_got_picture] Checksums don't match or avatar file is missing. Current: %d, New: %d",
 					getDword(hContact, "PictCK", 0), cksum);
 
-				struct avatar_info *avt = (avatar_info*)malloc(sizeof(struct avatar_info));
+				avatar_info *avt = (avatar_info*)malloc(sizeof(avatar_info));
 				avt->who = strdup(who);
 				avt->pic_url = strdup(pic_url);
 				avt->cksum = cksum;
@@ -666,19 +659,13 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			return GAIR_WAITFOR;
 		}
 		else if (m_bLoggedIn) {
-			DBVARIANT dbv;
-
-			if (!getString(pai->hContact, YAHOO_LOGINID, &dbv)) {
+			ptrA szId(getStringA(pai->hContact, YAHOO_LOGINID));
+			if (szId != NULL) {
 				debugLogA("[YAHOO_GETAVATARINFO] Requesting avatar!");
-
-				request_avatar(dbv.pszVal);
-				db_free(&dbv);
-
+				request_avatar(szId);
 				return GAIR_WAITFOR;
 			}
-			else {
-				debugLogA("[YAHOO_GETAVATARINFO] Can't retrieve user id?!");
-			}
+			else debugLogA("[YAHOO_GETAVATARINFO] Can't retrieve user id?!");
 		}
 	}
 

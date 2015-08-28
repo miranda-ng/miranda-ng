@@ -63,7 +63,7 @@ HANDLE __cdecl CYahooProto::SearchBasic(const TCHAR* nick)
 
 void CYahooProto::ext_got_search_result(int found, int start, int total, YList *contacts)
 {
-	struct yahoo_found_contact *yct = NULL;
+	yahoo_found_contact *yct = NULL;
 	int i = start;
 	YList *en = contacts;
 
