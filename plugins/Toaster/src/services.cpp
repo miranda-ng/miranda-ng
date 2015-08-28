@@ -112,9 +112,9 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
 
+		mir_cslock lck(csNotifications);
 		while (lstNotifications.getCount())
 		{
-			mir_cslock lck(csNotifications);
 			lstNotifications[0].Hide();
 			lstNotifications.remove(0);
 		}
