@@ -107,7 +107,6 @@ __forceinline char *GetRTFFont(DWORD dwIndex)
  * the highlight code (individual background colors).
  * Doesn't touch the message for sure, but empty lines at the end are ugly anyway.
  */
-
 static void TrimMessage(TCHAR *msg)
 {
 	size_t iLen = mir_tstrlen(msg) - 1;

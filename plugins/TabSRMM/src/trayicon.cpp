@@ -126,10 +126,10 @@ void TSAPI CreateTrayMenus(int mode)
 		}
 	}
 }
+
 /*
  * create a system tray icon, create all necessary submenus
  */
-
 void TSAPI CreateSystrayIcon(int create)
 {
 	NOTIFYICONDATA nim;
@@ -158,7 +158,6 @@ void TSAPI CreateSystrayIcon(int create)
  * mode = 0 - continue to flash
  * mode = 1 - restore the original icon
  */
-
 void TSAPI FlashTrayIcon(HICON hIcon)
 {
 	NOTIFYICONDATA nim;
@@ -188,7 +187,6 @@ void TSAPI FlashTrayIcon(HICON hIcon)
  * maximum number of allowed entries (20 at the moment). The oldest (topmost) entry
  * is deleted, if necessary.
  */
-
 void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
 	TCHAR szMenuEntry[80];
@@ -203,7 +201,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 		szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (wStatus == 0)
-			wStatus = db_get_w((MCONTACT)hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (szStatus == NULL)
 			szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 	}
@@ -277,7 +275,6 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
  * at runtime.
  * scans the contact db for favorites or recent session entries and builds the menus.
  */
-
 typedef struct _recentEntry {
 	DWORD dwTimestamp;
 	MCONTACT hContact;

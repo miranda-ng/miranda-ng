@@ -766,25 +766,21 @@ void CThumbIM::update()
  */
 void CThumbIM::renderContent()
 {
-	HBITMAP			hbmAvatar, hbmOldAv;
-	double			dNewWidth = 0.0, dNewHeight = 0.0;
-	bool			fFree = false;
-	HRGN			hRgn = 0;
-	HDC				dc;
-	const wchar_t*	tszStatusMsg = 0;
+	double dNewWidth = 0.0, dNewHeight = 0.0;
+	bool fFree = false;
 
-	hbmAvatar = (m_dat->ace && m_dat->ace->hbmPic) ? m_dat->ace->hbmPic : PluginConfig.g_hbmUnknown;
+	HBITMAP hbmAvatar = (m_dat->ace && m_dat->ace->hbmPic) ? m_dat->ace->hbmPic : PluginConfig.g_hbmUnknown;
 	Utils::scaleAvatarHeightLimited(hbmAvatar, dNewWidth, dNewHeight, m_rcIcon.bottom - m_rcIcon.top);
 
 	HBITMAP hbmResized = CSkin::ResizeBitmap(hbmAvatar, dNewWidth, dNewHeight, fFree);
 
-	dc = CreateCompatibleDC(m_hdc);
-	hbmOldAv = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmResized));
+	HDC	dc = CreateCompatibleDC(m_hdc);
+	HBITMAP hbmOldAv = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmResized));
 
 	LONG xOff = m_rcIcon.right - (LONG)dNewWidth - 2;
 	LONG yOff = (m_cy - (LONG)dNewHeight) / 2 + m_rcIcon.top;
 
-	hRgn = ::CreateRectRgn(xOff - 1, yOff - 1, xOff + (LONG)dNewWidth + 2, yOff + (LONG)dNewHeight + 2);
+	HRGN hRgn = ::CreateRectRgn(xOff - 1, yOff - 1, xOff + (LONG)dNewWidth + 2, yOff + (LONG)dNewHeight + 2);
 	CSkin::m_default_bf.SourceConstantAlpha = 150;
 	GdiAlphaBlend(m_hdc, xOff, yOff, (LONG)dNewWidth, (LONG)dNewHeight, dc, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 	CSkin::m_default_bf.SourceConstantAlpha = 255;
@@ -808,7 +804,8 @@ void CThumbIM::renderContent()
 
 	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
 
-	if (0 == (tszStatusMsg = m_dat->cache->getStatusMsg()))
+	const wchar_t *tszStatusMsg = m_dat->cache->getStatusMsg();
+	if (tszStatusMsg == 0)
 		tszStatusMsg = TranslateT("No status message");
 
 	CSkin::RenderText(m_hdc, m_dat->hTheme, tszStatusMsg, &m_rcBottom, DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | m_dtFlags, 10, 0, true);

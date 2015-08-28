@@ -345,7 +345,6 @@ void Chat_AddIcons(void)
 /*
  * get icon by name from the core icon library service
  */
-
 HICON LoadIconEx(char *pszIcoLibName)
 {
 	char szTemp[256];
@@ -936,12 +935,7 @@ static UINT _eventorder[] =
 	GC_EVENT_PART | GC_EVENT_TOPIC | GC_EVENT_ADDSTATUS | GC_EVENT_INFORMATION | GC_EVENT_QUIT | \
 	GC_EVENT_KICK | GC_EVENT_NOTICE)
 
-/**
- * Dialog procedure for group chat options tab #3 (event filter configuration)
- *
- * @return
- */
-
+// Dialog procedure for group chat options tab #3 (event filter configuration)
 INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {

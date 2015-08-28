@@ -315,7 +315,6 @@ static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
 	return((BYTE)percent_to_byte(alpha) << 24 | col);
 }
 
-
 void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, BYTE clr_dest_trans, BYTE bGradient,
 	BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
 {
@@ -586,8 +585,6 @@ void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *
 
 void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapHeight, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha)
 {
-	FLOAT fSolidMulti, fInvSolidMulti;
-
 	// solid to transparent
 	if (transparent) {
 		*ubAlpha = (UCHAR)((float)y / (float)ulBitmapHeight * 255);
@@ -597,6 +594,7 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 		*ubBlueFinal = ubBlue;
 	}
 	else { // solid to solid2
+		FLOAT fSolidMulti, fInvSolidMulti;
 		if (FLG_GRADIENT & GRADIENT_BT) {
 			fSolidMulti = ((float)y / (float)ulBitmapHeight);
 			fInvSolidMulti = 1 - fSolidMulti;
@@ -621,7 +619,6 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 // @param rc     RECT *: client rectangle inside the target DC.
 // @param fIgnoreGlyph: bool: will ignore any glyph item. Set it to true when
 //                      using this function from _outside_ a skin
-
 void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const
 {
 	BYTE l = m_bLeft, r = m_bRight, t = m_bTop, b = m_bBottom;
@@ -796,7 +793,6 @@ void CImageItem::Create(const TCHAR *szImageFile)
 //
 // @return char*: full path and filename to the .png image which represents this image item.
 // caller MUST delete it.
-
 TCHAR* CImageItem::Read(const TCHAR *szFilename)
 {
 	TCHAR buffer[501];
@@ -886,7 +882,6 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free all resources allocated by an image item
-
 void CImageItem::Free()
 {
 	if (m_hdc) {
@@ -908,7 +903,6 @@ void CImageItem::Free()
 // @param hBitmap	bitmap handle
 // @param bAlpha	new alpha value (0 -> fully transparent, 255 -> opaque)
 // 					default value is 255
-
 void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 {
 	BITMAP bmp;
@@ -1000,7 +994,6 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // load PNG image using core service(advaimg)
-
 HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
 {
 	HBITMAP hBitmap = 0;
@@ -1008,13 +1001,11 @@ HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
 	return hBitmap;
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // set filename and load parameters from the database
 // called on:
 // ) init
 // ) manual loading on user's request
-
 void CSkin::setFileName()
 {
 	DBVARIANT dbv;
@@ -1030,7 +1021,6 @@ void CSkin::setFileName()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // initialize the skin object
-
 void CSkin::Init(bool fStartup)
 {
 	m_ImageItems = 0;
@@ -1056,8 +1046,6 @@ void CSkin::Init(bool fStartup)
 // throws a warning to close all message windows before a skin can
 // be loaded. user can cancel it
 // @return: bool: true if windows were closed (or none was open) -> skin can be loaded
-//
-
 bool CSkin::warnToClose() const
 {
 	if (::pFirstContainer == NULL)
@@ -1076,7 +1064,6 @@ bool CSkin::warnToClose() const
 // mir_free the aero tab bitmaps
 // only called on exit, NOT when a skin is unloaded as these elements
 // are always needed (even without a skin)
-
 void CSkin::UnloadAeroTabs()
 {
 	if (m_tabTop) {
@@ -1110,7 +1097,6 @@ void CSkin::UnloadAeroTabs()
 // Called when:
 // * user unloads the skin from the dialog box
 // * a new skin is loaded by user's request.
-
 void CSkin::Unload()
 {
 	// do nothing when user decides to not close any window
@@ -1227,7 +1213,6 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 // @param id     int: zero-based index into the table of predefined skin items
 // @param szItem char *: the section name in the ini file which holds the definition for this
 //    item.
-
 void CSkin::ReadItem(const int id, const TCHAR *szItem)
 {
 	TCHAR buffer[512];
@@ -1294,7 +1279,6 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 // The real work is done by the CImageItem::Read().
 //
 // @param itemname char *: image item name, also section name in the .tsk file
-
 void CSkin::ReadImageItem(const TCHAR *itemname)
 {
 	TCHAR buffer[512], szItemNr[30];
@@ -1356,7 +1340,6 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 // It reads and initializes all static values for the skin. Afterwards
 // it calls ReadItems() to read additional skin information like image items,
 // buttons and icons.
-
 void CSkin::Load(void)
 {
 	if (warnToClose() == false)
@@ -1524,7 +1507,6 @@ void CSkin::Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load additional skin items (like image items, buttons, icons etc.)
 // This is called AFTER ReadItems() has read the basic skin items
-
 void CSkin::LoadItems()
 {
 	TCHAR *szSections = NULL;
@@ -1592,7 +1574,6 @@ void CSkin::LoadItems()
 // ) icons change (via ico lib service)
 //
 // @param fDeleteOnly:	only delete GDI resources (this is ONLY used at plugin shutdown)
-
 void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 {
 	if (m_tabCloseHDC || fDeleteOnly) {
@@ -1661,7 +1642,6 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 // ) dwm mode changes
 // ) aero effect is changed by the user
 // ) glow colorization is changed by user's request
-
 void CSkin::setupAeroSkins()
 {
 	M.getAeroState();
@@ -1832,7 +1812,6 @@ void CSkin::setupAeroSkins()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Calculate window frame borders for a skin with the ability to paint the window frame.
 // Uses system metrics to determine predefined window borders and caption bar size.
-
 void CSkin::SkinCalcFrameWidth()
 {
 	int xBorder = GetSystemMetrics(SM_CXSIZEFRAME);
@@ -1853,7 +1832,6 @@ void CSkin::SkinCalcFrameWidth()
 // @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
 // @param rcClient   RECT *: client rectangle (target area)
 // @param hdcTarget  HDC: device context of the target window
-
 void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget)
 {
 	RECT rcWindow;
@@ -1886,7 +1864,6 @@ void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, R
 // @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
 // @param rcClient   RECT *: client rectangle (target area)
 // @param hdcTarget  HDC: device context of the target window
-
 void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget)
 {
 	RECT rcWindow;
@@ -1905,7 +1882,6 @@ void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdc
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // draw an icon "Dimmed" (small amount of transparency applied)
-
 void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha)
 {
 	HDC dcMem = ::CreateCompatibleDC(hdc);
@@ -1971,7 +1947,6 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID
 /////////////////////////////////////////////////////////////////////////////////////////
 // process WM_NCPAINT for the rich edit control. Draws a visual style border and avoid
 // classic static edge / client edge may also draw a colorized border around the control
-
 UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
 {
 	// do default processing (otherwise, NO scrollbar as it is painted in NC_PAINT)
@@ -2043,7 +2018,6 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, 
 //  			   "f3e355"
 //
 // @return COLORREF representation of the string value.
-
 DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 {
 	TCHAR *stopped;
@@ -2056,7 +2030,6 @@ DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Render text to the given HDC. This function is aero aware and will use uxtheme DrawThemeTextEx() when needed.
 // Paramaters are pretty much comparable to GDI DrawText() API
-
 int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
 	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
@@ -2090,7 +2063,6 @@ int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWO
 //bitmap should be freed.
 //
 // @return HBTIAMP: handle to a bitmap with the desired size.
-
 HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &mustFree)
 {
 	BITMAP	bm;
@@ -2124,7 +2096,6 @@ HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &must
 //
 // @return bool: true if the item has been painted, false if not
 //  	   (only reason: the ignore flag in the item is set).
-
 bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item)
 {
 	if (!item->IGNORED) {
@@ -2146,7 +2117,6 @@ bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *
 // @param dc     The device context for which the bitmap should be created.
 //
 // @return HBITMAP: handle to the bitmap created.
-
 HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
 {
 	BITMAPINFO dib = { 0 };
@@ -2170,7 +2140,6 @@ HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
 // @param rc         RECT &: Rectangular area within the client area of hwndClient.
 //
 //It will receive the transformed coordinates, relative to the client area of hwndParent
-
 void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 {
 	POINT pt;
@@ -2195,7 +2164,6 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 //
 // @param hdc      HDC: handle to the device context in which painting should occur.
 // @param rcWindow RECT &: The window rectangle of the message dialog window
-
 void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindow)
 {
 	if (dat) {
@@ -2291,7 +2259,6 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 // @param hdcSrc The source device context (usually obtained by BeginPaint())
 // @param rc     RECT&: the target rectangle that receives the painting
 // @param hdcOut HDC& (out) receives the buffered device context handle
-
 HANDLE CSkin::InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut)
 {
 	return CMimAPI::m_pfnBeginBufferedPaint(hdcSrc, &rc, BPBF_TOPDOWNDIB, NULL, &hdcOut);
@@ -2302,7 +2269,6 @@ HANDLE CSkin::InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut)
 //
 // @param hbp    HANDLE: handle of the buffered paint context
 // @param rc     RECT*: target rectangly where alpha value should be applied
-
 void CSkin::FinalizeBufferedPaint(HANDLE hbp, RECT *rc)
 {
 	if (m_pCurrentAeroEffect && m_pCurrentAeroEffect->m_finalAlpha > 0)
@@ -2323,7 +2289,6 @@ void CSkin::FinalizeBufferedPaint(HANDLE hbp, RECT *rc)
 // @param hbp    HANDLE: handle to a buffered paint identifier.
 //  			 default is none, needed forsome special
 //  			 effects. default paramenter is 0
-
 void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea)
 {
 	if (m_pCurrentAeroEffect == 0 || m_aeroEffect == AERO_EFFECT_NONE)
@@ -2335,7 +2300,6 @@ void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // aero effect callbacks
-
 void CSkin::AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea)
 {
 	if (iEffectArea < 0x1000) {
@@ -2438,7 +2402,6 @@ void CSkin::setAeroEffect(LRESULT effect)
 // extract the aero skin images from the DLL and store them in
 // the private data folder.
 // runs at every startup
-
 void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
 	TCHAR tszBasePath[MAX_PATH];
@@ -2457,7 +2420,6 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // redraw the splitter area between the message input and message log area only
-
 void CSkin::UpdateToolbarBG(TWindowData *dat)
 {
 	if (dat == NULL)
@@ -2491,7 +2453,6 @@ void CSkin::UpdateToolbarBG(TWindowData *dat)
 //
 // @param hdc: device context
 // @param rc:  area to fill.
-
 void CSkin::FillBack(const HDC hdc, RECT* rc)
 {
 	if (0 == CSkin::m_BrushFill) {

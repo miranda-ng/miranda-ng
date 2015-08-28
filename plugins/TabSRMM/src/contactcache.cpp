@@ -115,12 +115,11 @@ void CContactCache::updateState()
  */
 bool CContactCache::updateNick()
 {
-	bool	fChanged = false;
-
+	bool fChanged = false;
 	if (m_Valid) {
-		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
-		if (tszNick)
-			fChanged = (mir_tstrcmp(m_szNick, tszNick) ? true : false);
+		TCHAR *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
+		if (tszNick && mir_tstrcmp(m_szNick, tszNick))
+			fChanged = true;
 		_tcsncpy_s(m_szNick, (tszNick ? tszNick : _T("<undef>")), _TRUNCATE);
 	}
 	return fChanged;
@@ -272,12 +271,9 @@ void CContactCache::setWindowData(const HWND hwnd, TWindowData *dat)
  * saves message to the input history.
  * it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
  */
-
 void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 {
-	size_t 	iLength = 0, iStreamLength = 0;
-	int 	oldTop = 0;
-	char*	szFromStream = NULL;
+	int  oldTop = 0;
 
 	if (m_hwnd == 0 || m_dat == 0)
 		return;
@@ -287,8 +283,9 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 		m_iHistoryTop = (int)wParam;
 	}
 
-	szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
+	char *szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
 	if (szFromStream != NULL) {
+		size_t 	iLength = 0, iStreamLength = 0;
 		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
 
 		if (iLength > 0 && m_history != NULL) { // XXX: iLength > 1 ?

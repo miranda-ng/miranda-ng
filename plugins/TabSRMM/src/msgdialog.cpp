@@ -79,7 +79,6 @@ static void _clrMsgFilter(LPARAM lParam)
 // @param idFrom		dlg ctrl id
 // @param hwndFrom		src window handle
 // @param pt			mouse pointer position
-
 static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 {
 	CHARRANGE sel, all = { 0, -1 };
@@ -214,7 +213,6 @@ LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sublassing procedure for the h++ based message log viewer
-
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TWindowData *mwdat = (TWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
@@ -252,7 +250,6 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 //
 // it protects itself from being called more than once per session activation and is valid for
 // normal IM sessions *only*. Group chat sessions have their own activation handler (see chat/window.c)
-
 static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 {
 	if (dat == NULL || dat->iTabID < 0)
@@ -771,7 +768,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclasses the avatar display controls, needed for skinning and to prevent
 // it from flickering during resize/move operations.
-
 static LRESULT CALLBACK AvatarSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -937,7 +933,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // resizer proc for the "new" layout.
-
 static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc)
 {
 	TWindowData *dat = (TWindowData*)lParam;

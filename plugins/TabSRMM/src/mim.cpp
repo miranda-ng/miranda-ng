@@ -53,7 +53,6 @@ bool   CMimAPI::m_haveBufferedPaint = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // window list functions
-
 void CMimAPI::BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(m_hMessageWindowList, msg, wParam, lParam);
@@ -183,7 +182,6 @@ bool CMimAPI::getAeroState()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialize various Win32 API functions which are not common to all versions of Windows.
 // We have to work with functions pointers here.
-
 void CMimAPI::InitAPI()
 {
 	DWORD dwVer = LOWORD(GetVersion());
@@ -228,7 +226,6 @@ void CMimAPI::InitAPI()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // hook subscriber function for incoming message typing events
-
 int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 {
 	int foundWin = 0, preTyping = 0;
@@ -331,7 +328,6 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 // it to the owners window
 //
 // ACKTYPE_AVATAR no longer handled here, because we have avs services now.
-
 int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA*)lParam;
@@ -387,7 +383,6 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 //
 // this handler POSTs the event to the message window procedure - so it is fast and can exit quickly which will
 // improve the overall responsiveness when receiving messages.
-
 int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact) {
@@ -407,7 +402,6 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 // session(tab) must be created.
 //
 // if a session is already created, it just does nothing and DispatchNewEvent() will take care.
-
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	TCHAR szName[CONTAINER_NAMELEN + 1];

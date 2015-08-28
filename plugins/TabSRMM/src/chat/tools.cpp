@@ -491,7 +491,6 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 * log the event to the log file
 * allows selective logging of wanted events
 */
-
 BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (!si || !gce)
@@ -609,7 +608,6 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
  * set all filters and notification config for a session
  * uses per channel mask + filterbits, default config as backup
  */
-
 void Chat_SetFilters(SESSION_INFO *si)
 {
 	if (si == NULL)

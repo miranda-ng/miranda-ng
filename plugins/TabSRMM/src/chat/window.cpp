@@ -885,8 +885,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			dat->lastEnterTime = 0;
 			return 0;
 		}
-		if (wParam == VK_RETURN)
-			break;
 		// fall through
 
 	case WM_LBUTTONDOWN:
@@ -1522,11 +1520,13 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return FALSE;
 
 	case WM_CONTEXTMENU:
-		TVHITTESTINFO hti;
 		{
 			SESSION_INFO *parentdat = dat->si;
+			if (parentdat == NULL)
+				break;
 
 			int height = 0;
+			TVHITTESTINFO hti;
 			hti.pt.x = GET_X_LPARAM(lParam);
 			hti.pt.y = GET_Y_LPARAM(lParam);
 			if (hti.pt.x == -1 && hti.pt.y == -1) {
@@ -1559,7 +1559,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case 20020: // add to highlight...
-					if (parentdat && ui) {
+					{
 						THighLightEdit the = { THighLightEdit::CMD_ADD, parentdat, ui };
 						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), parentdat->dat->pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
 						TranslateDialogDefault(hwndDlg);

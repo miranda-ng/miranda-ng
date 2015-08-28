@@ -82,7 +82,6 @@ int TSAPI RBStateConvert2Flat(int state)
  *
  * @return int: state item id
  */
-
 static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 {
 	if (hdc_buttonglyph == 0) {

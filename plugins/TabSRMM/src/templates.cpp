@@ -79,10 +79,8 @@ static int                      helpActive = 0;
 
 static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 {
-	DBVARIANT dbv = { 0 };
-	int i;
-
-	for (i = 0; i <= TMPL_ERRMSG; i++) {
+	for (int i = 0; i <= TMPL_ERRMSG; i++) {
+		DBVARIANT dbv = { 0 };
 		if (db_get_ts(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
@@ -93,18 +91,16 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 
 void LoadDefaultTemplates()
 {
-	int i;
-
 	LTR_Active = LTR_Default;
 	RTL_Active = RTL_Default;
 
 	if (M.GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
-		for (i = 0; i <= TMPL_ERRMSG; i++)
+		for (int i = 0; i <= TMPL_ERRMSG; i++)
 			db_set_ts(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
 		db_set_b(0, RTLTEMPLATES_MODULE, "setup", 2);
 	}
 	if (M.GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
-		for (i = 0; i <= TMPL_ERRMSG; i++)
+		for (int i = 0; i <= TMPL_ERRMSG; i++)
 			db_set_ts(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	}
@@ -116,7 +112,6 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	TemplateEditorInfo *teInfo = 0;
 	TTemplateSet *tSet;
-	int i;
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	/*
 	* since this dialog needs a MessageWindowData * but has no container, we can store
@@ -173,7 +168,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			for (i = 0; i <= TMPL_ERRMSG; i++) {
+			for (int i = 0; i <= TMPL_ERRMSG; i++) {
 				SendDlgItemMessageA(hwndDlg, IDC_TEMPLATELIST, LB_ADDSTRING, 0, (LPARAM)Translate(TemplateNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_SETITEMDATA, i, (LPARAM)i);
 			}
@@ -196,11 +191,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_RESETALLTEMPLATES:
-			if (MessageBox(0, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
+			if (MessageBox(hwndDlg, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
 				TranslateT("Template set editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				db_set_b(0, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
 				LoadDefaultTemplates();
-				MessageBox(0, TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
+				MessageBox(hwndDlg, TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
 					TranslateT("Template set editor"), MB_OK);
 				DestroyWindow(hwndDlg);
 			}
@@ -310,13 +305,12 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	{
 		DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
 		int iItem = dis->itemData;
-		HBRUSH bkg, oldBkg;
 		SetBkMode(dis->hDC, TRANSPARENT);
 		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
 		if (dis->itemState & ODS_SELECTED) {
 			if (teInfo->updateInfo[iItem] == TRUE) {
-				bkg = CreateSolidBrush(RGB(255, 0, 0));
-				oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
+				HBRUSH bkg = CreateSolidBrush(RGB(255, 0, 0));
+				HBRUSH oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
 				FillRect(dis->hDC, &dis->rcItem, bkg);
 				SelectObject(dis->hDC, oldBkg);
 				DeleteObject(bkg);

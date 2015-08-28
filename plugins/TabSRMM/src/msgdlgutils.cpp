@@ -70,7 +70,6 @@ bool TSAPI IsCustomEvent(int eventType)
 // reorder tabs within a container. fSavePos indicates whether the new position should
 // be saved to the contacts db record (if so, the container will try to open the tab
 // at the saved position later)
-
 void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fSavePos)
 {
 	if (dat == NULL || !IsWindow(hwndDlg))
@@ -100,7 +99,6 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclassing for the save as file dialog (needed to set it to thumbnail view on Windows 2000
 // or later
-
 static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
@@ -126,7 +124,6 @@ static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lP
 // saves a contact picture to disk
 // takes hbm (bitmap handle) and bool isOwnPic (1 == save the picture as your own avatar)
 // requires AVS and ADVAIMG services (Miranda 0.7+)
-
 static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 {
 	TCHAR szFinalFilename[MAX_PATH];
@@ -194,7 +191,6 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 /////////////////////////////////////////////////////////////////////////////////////////
 // flash a tab icon if mode = true, otherwise restore default icon
 // store flashing state into bState
-
 void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState, BOOL mode, HICON origImage)
 {
 	if (mode)
@@ -212,7 +208,6 @@ void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState,
 /////////////////////////////////////////////////////////////////////////////////////////
 // calculates avatar layouting, based on splitter position to find the optimal size
 // for the avatar w/o disturbing the toolbar too much.
-
 void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 {
 	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE || dat->pContainer->dwFlags & CNT_DEFERREDCONFIGURE || dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(dat->pContainer->hwnd))
@@ -420,7 +415,6 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 /////////////////////////////////////////////////////////////////////////////////////////
 // update the status bar field which displays the number of characters in the input area
 // and various indicators (caps lock, num lock, insert mode).
-
 void TSAPI UpdateReadChars(const TWindowData *dat)
 {
 	if (dat && (dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd)) {
@@ -460,7 +454,6 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // update all status bar fields and force a redraw of the status bar.
-
 void TSAPI UpdateStatusBar(const TWindowData *dat)
 {
 	if (dat && dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd) {
@@ -497,7 +490,6 @@ void TSAPI UpdateStatusBar(const TWindowData *dat)
 //
 // NOT used for typing notification feedback as this is handled directly from the
 // MTN handler.
-
 void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
 {
 	TCITEM item = { 0 };
@@ -520,7 +512,6 @@ void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // catches notifications from the AVS controls
-
 void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 {
 	if (((LPNMHDR)lParam)->code == NM_AVATAR_CHANGED) {
@@ -541,7 +532,6 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieve the visiblity of the avatar window, depending on the global setting
 // and local mode
-
 bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 {
 	BYTE bAvatarMode = dat->pContainer->avatarMode;
@@ -627,7 +617,6 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // checks, if there is a valid smileypack installed for the given protocol
-
 int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 {
 	if (!PluginConfig.g_SmileyAddAvail)
@@ -645,7 +634,6 @@ int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // return value MUST be mir_free()'d by caller.
-
 TCHAR* TSAPI QuoteText(const TCHAR *text)
 {
 	int outChar, lineChar;
@@ -789,7 +777,6 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 // typed message before sending it.
 // caller must mir_free the returned pointer.
 // UNICODE version returns UTF-8 encoded string.
-
 static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	static DWORD dwRead;
@@ -831,10 +818,6 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 	SendMessage(hwndRtf, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
-// tags and return plain text
 
 static TCHAR tszRtfBreaks[] = _T(" \\\n\r");
 
@@ -881,6 +864,9 @@ static int GetRtfIndex(int iCol, int iCount, int *pIndex)
 	return -1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
+// tags and return plain text
 BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors, COLORREF *pColors)
 {
 	if (pszText.IsEmpty())
@@ -1034,7 +1020,6 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieve both buddys and my own UIN for a message session and store them in the message window *dat
 // respects metacontacts and uses the current protocol if the contact is a MC
-
 void TSAPI GetMYUIN(TWindowData *dat)
 {
 	CONTACTINFO ci = { sizeof(ci) };
@@ -1241,7 +1226,6 @@ void TSAPI PlayIncomingSound(const TWindowData *dat)
 /////////////////////////////////////////////////////////////////////////////////////////
 // reads send format and configures the toolbar buttons
 // if mode == 0, int only configures the buttons and does not change send format
-
 void TSAPI GetSendFormat(TWindowData *dat)
 {
 	UINT controls[5] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT, IDC_FONTFACE };
@@ -1262,7 +1246,6 @@ void TSAPI GetSendFormat(TWindowData *dat)
 // keyboard layout.
 //
 // GetLocaleInfo() should no longer be used on Vista and later
-
 void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 {
 	TCHAR szLI[256], *stopped = NULL;
@@ -1387,7 +1370,6 @@ void TSAPI LoadTimeZone(TWindowData *dat)
 }
 
 // paste contents of the clipboard into the message input area and send it immediately
-
 void TSAPI HandlePasteAndSend(const TWindowData *dat)
 {
 	UINT ctrlID = dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE;
@@ -1405,7 +1387,6 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 /////////////////////////////////////////////////////////////////////////////////////////
 // draw various elements of the message window, like avatar(s), info panel fields
 // and the color formatting menu
-
 int TSAPI MsgWindowDrawHandler(WPARAM, LPARAM lParam, TWindowData *dat)
 {
 	if (!dat)
@@ -1792,7 +1773,6 @@ HICON TSAPI MY_GetContactIcon(const TWindowData *dat, LPCSTR szSetting)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // read keyboard state and return the state of the modifier keys
-
 void TSAPI KbdState(TWindowData *dat, BOOL& isShift, BOOL& isControl, BOOL& isAlt)
 {
 	GetKeyboardState(dat->kstate);
@@ -1804,7 +1784,6 @@ void TSAPI KbdState(TWindowData *dat, BOOL& isShift, BOOL& isControl, BOOL& isAl
 /////////////////////////////////////////////////////////////////////////////////////////
 // clear the message log
 // code needs to distuingish between IM and MUC sessions.
-
 void TSAPI ClearLog(TWindowData *dat)
 {
 	if (dat && dat->bType == SESSIONTYPE_IM) {
@@ -1849,7 +1828,6 @@ void TSAPI ClearLog(TWindowData *dat)
 //
 // the container will use this in its WM_GETMINMAXINFO handler to set
 // minimum tracking height.
-
 void TSAPI DetermineMinHeight(TWindowData *dat)
 {
 	if (!dat)
@@ -1890,7 +1868,6 @@ LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 static LIST<TCHAR> vTempFilenames(5);
 
 // send a pasted bitmap by file transfer.
-
 void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 {
 	const wchar_t* 	mirandatempdir = L"Miranda";
@@ -1992,7 +1969,6 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 }
 
 // remove all temporary files created by the "send clipboard as file" feature.
-
 void TSAPI CleanTempFiles()
 {
 	for (int i = 0; i < vTempFilenames.getCount(); i++) {

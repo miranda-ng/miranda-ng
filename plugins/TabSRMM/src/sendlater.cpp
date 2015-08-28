@@ -31,7 +31,6 @@
 CSendLater *sendLater = 0;
 
 // implementation of the CSendLaterJob class
-//
 CSendLaterJob::CSendLaterJob()
 {
 	memset(this, 0, sizeof(CSendLaterJob));
@@ -40,14 +39,12 @@ CSendLaterJob::CSendLaterJob()
 
 // return true if this job is persistent (saved to the database).
 // such a job will survive a restart of Miranda
-//
 bool CSendLaterJob::isPersistentJob()
 {
 	return(szId[0] == 'S' ? true : false);
 }
 
 // check conditions for deletion
-//
 bool CSendLaterJob::mustDelete()
 {
 	if (fSuccess)
@@ -60,7 +57,6 @@ bool CSendLaterJob::mustDelete()
 }
 
 // clean database entries for a persistent job (currently: manual send later jobs)
-//
 void CSendLaterJob::cleanDB()
 {
 	if (isPersistentJob()) {
@@ -80,7 +76,6 @@ void CSendLaterJob::cleanDB()
 
 // read flags for a persistent jobs from the db
 // flag key name is the job id with a "$" prefix.
-//
 void CSendLaterJob::readFlags()
 {
 	if (isPersistentJob()) {
@@ -97,7 +92,6 @@ void CSendLaterJob::readFlags()
 
 // write flags for a persistent jobs from the db
 // flag key name is the job id with a "$" prefix.
-//
 void CSendLaterJob::writeFlags()
 {
 	if (isPersistentJob()) {
@@ -110,7 +104,6 @@ void CSendLaterJob::writeFlags()
 }
 
 // delete a send later job
-//
 CSendLaterJob::~CSendLaterJob()
 {
 	if (fSuccess || fFailed) {
@@ -174,7 +167,6 @@ m_currJob(-1)
 // clear all open send jobs. Only called on system shutdown to remove
 // the jobs from memory. Must _NOT_ delete any sendlater related stuff from
 // the database (only successful sends may do this).
-//
 CSendLater::~CSendLater()
 {
 	if (m_hwndDlg)
@@ -209,7 +201,6 @@ void CSendLater::startJobListProcess()
 // hotkeyhandler.cpp.
 //
 // returns true if more jobs are awaiting processing, false otherwise.
-//
 bool CSendLater::processCurrentJob()
 {
 	if (!m_sendLaterJobList.getCount() || m_currJob == -1)
@@ -241,7 +232,6 @@ bool CSendLater::processCurrentJob()
 // stub used as enum proc for the database enumeration, collecting
 // all entries in the SendLater module
 // (static function)
-//
 int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
 {
 	return(sendLater->addJob(szSetting, lParam));
@@ -251,7 +241,6 @@ int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
 // enum the "SendLater" module and add all jobs to the list of open jobs.
 // addJob() will deal with possible duplicates
 // @param hContact HANDLE: contact's handle
-//
 void CSendLater::processSingleContact(const MCONTACT hContact)
 {
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
@@ -268,7 +257,6 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 
 // called periodically from a timer, check if new contacts were added
 // and process them
-//
 void CSendLater::processContacts()
 {
 	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
@@ -288,7 +276,6 @@ void CSendLater::processContacts()
 //
 // @param 	lParam: a contact handle for which the job should be scheduled
 // @return 	0 on failure, 1 otherwise
-//
 int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
 	MCONTACT	hContact = lParam;
@@ -451,7 +438,6 @@ void CSendLater::addContact(const MCONTACT hContact)
 //
 // Add the message to the database and mark it as successful. The job will be
 // removed later by the job list processing code.
-//
 HANDLE CSendLater::processAck(const ACKDATA *ack)
 {
 	if (m_sendLaterJobList.getCount() == 0 || !m_fAvail)
@@ -507,7 +493,6 @@ LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
 
 // fills the list of jobs with current contents of the job queue
 // filters by m_hFilter (contact handle)
-//
 void CSendLater::qMgrFillList(bool fClear)
 {
 	TCHAR *formatTime = _T("%Y.%m.%d - %H:%M");
@@ -664,7 +649,6 @@ void CSendLater::qMgrSetupColumns()
 }
 
 // save user defined column widths to the database
-//
 void CSendLater::qMgrSaveColumns()
 {
 	char		szColFormatNew[100];
@@ -857,7 +841,6 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 }
 
 // invoke queue manager dialog - do nothing if this dialog is already open
-//
 void CSendLater::invokeQueueMgrDlg()
 {
 	if (m_hwndDlg == 0)
@@ -865,7 +848,6 @@ void CSendLater::invokeQueueMgrDlg()
 }
 
 // service function to invoke the queue manager
-//
 INT_PTR CSendLater::svcQMgr(WPARAM, LPARAM)
 {
 	sendLater->invokeQueueMgrDlg();
