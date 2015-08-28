@@ -12,6 +12,7 @@ ToastEventHandler::ToastEventHandler(_In_ pEventHandler callback, _In_ void* arg
 
 ToastEventHandler::~ToastEventHandler()
 {
+	mir_free(_arg);
 }
 
 IFACEMETHODIMP_(ULONG) ToastEventHandler::AddRef()
