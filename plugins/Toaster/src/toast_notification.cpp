@@ -96,13 +96,11 @@ HRESULT ToastNotification::SetTextValues(_In_reads_(textValuesCount) wchar_t** t
 
 HRESULT ToastNotification::SetImageSrc(_In_z_ wchar_t* imagePath, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml)
 {
-	wchar_t imageSrc[MAX_PATH] = L"file:///";
-	HRESULT hr = StringCchCat(imageSrc, ARRAYSIZE(imageSrc), imagePath);
-	if (FAILED(hr))
-		return hr;
+	wchar_t imageSrc[MAX_PATH];
+	mir_snwprintf(imageSrc, _T("file:///%s"), imagePath);
 
 	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNode> imageNode;
-	hr = GetNodeByTag(StringReferenceWrapper(L"image").Get(), &imageNode, xml);
+	HRESULT hr = GetNodeByTag(StringReferenceWrapper(L"image").Get(), &imageNode, xml);
 
 	Microsoft::WRL::ComPtr<ABI::Windows::Data::Xml::Dom::IXmlNamedNodeMap> attributes;
 	hr = imageNode->get_Attributes(&attributes);
