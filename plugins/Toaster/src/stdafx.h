@@ -3,12 +3,6 @@
 
 #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-#include <Windows.h>
-#include <SDKDDKVer.h>
-#include <intsafe.h>
-#include <time.h>
-#include <roapi.h>
-#include <wrl\client.h>
 #include <wrl\implements.h>
 #include <windows.ui.notifications.h>
 
@@ -16,17 +10,16 @@
 #include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_core.h>
-#include <m_utils.h>
 #include <m_langpack.h>
 #include <m_avatars.h>
 #include <m_protocols.h>
 #include <m_popup.h>
 #include <m_message.h>
 #include <m_chat.h>
+#include <m_string.h>
 
 #include "version.h"
 #include "resource.h"
-#include <strsafe.h>
 
 typedef void(__cdecl *pEventHandler)(void*);
 const wchar_t AppUserModelID[] = _T("MirandaNG");
