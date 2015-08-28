@@ -29,7 +29,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	return &pluginInfo;
+	if (IsWinVer7Plus())
+		return &pluginInfo;
+	return NULL;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
