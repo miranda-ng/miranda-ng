@@ -36,5 +36,7 @@ extern HINSTANCE g_hInst;
 
 
 INT_PTR Service(WPARAM, LPARAM);
+HRESULT ShortcutExists();
+wchar_t* GetShortcutPath();
 HRESULT TryCreateShortcut();
 HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath);
