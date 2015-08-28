@@ -34,7 +34,6 @@ SendQueue *sendQueue = 0;
 // searches the queue for a message belonging to the given contact which has been marked
 // as "failed" by either the ACKRESULT_FAILED or a timeout handler
 // returns: zero-based queue index or -1 if none was found
-
 int SendQueue::findNextFailed(const TWindowData *dat) const
 {
 	if (dat)
@@ -62,7 +61,6 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 /////////////////////////////////////////////////////////////////////////////////////////
 //add a message to the sending queue.
 // iLen = required size of the memory block to hold the message
-
 int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 {
 	int i;
@@ -178,7 +176,6 @@ static void DoSplitSendA(LPVOID param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // return effective length of the message in bytes (utf-8 encoded)
-
 size_t SendQueue::getSendLength(const int iEntry)
 {
 	SendJob &p = m_jobs[iEntry];
@@ -320,7 +317,6 @@ void SendQueue::clearJob(const int iIndex)
 // ) a delivery has completed successfully
 // ) user decided to cancel a failed send
 // it removes the completed / canceled send job from the queue and schedules the next job to send (if any)
-
 void SendQueue::checkQueue(const TWindowData *dat) const
 {
 	if (dat) {
@@ -339,7 +335,6 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 /////////////////////////////////////////////////////////////////////////////////////////
 // logs an error message to the message window.Optionally, appends the original message
 // from the given sendJob (queue index)
-
 void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const
 {
 	if (dat == 0)
@@ -369,7 +364,6 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR 
 // ) input area
 // ) multisend contact list instance
 // ) send button
-
 void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 {
 	if (dat) {
@@ -382,7 +376,6 @@ void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // show or hide the error control button bar on top of the window
-
 void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 {
 	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
@@ -487,7 +480,6 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // searches string for characters typical for RTL text(hebrew and other RTL languages
-
 int SendQueue::RTL_Detect(const WCHAR *pszwText)
 {
 	int i, n = 0;
@@ -633,7 +625,6 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int)
 // hContact  : contact to which the job should be added (default = hOwner of the send job)
 //
 // @return the index on success, -1 on failure
-
 int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, bool fIsSendLater)
 {
 	bool  fAvail = sendLater->isAvail();

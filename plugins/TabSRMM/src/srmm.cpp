@@ -141,7 +141,6 @@ int _DebugTraceW(const wchar_t *fmt, ...)
  * can display the message either as systray notification (baloon popup) or using the
  * popup plugin.
  */
-
 int _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...)
 {
 	va_list	va;

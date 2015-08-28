@@ -146,8 +146,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 	}
 
-	TContainerData *pCont;
-
 	switch (msg) {
 	case WM_CREATE:
 		for (int i = 0; i < _countof(_hotkeydescs); i++) {
@@ -211,7 +209,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					HICON hIcon;
 
 					if (dis->itemData > 0)
-						hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
+						hIcon = (dis->itemData & 0x10000000) ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
 					else if (dat != NULL) {
 						hIcon = MY_GetContactIcon(dat, 0);
 						idle = dat->idle;
@@ -323,11 +321,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							nen_options.iNoAutoPopup ^= 1;
 							break;
 						case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
-							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 								ShowWindow(pCont->hwnd, SW_HIDE);
 							break;
 						case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
-							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 								ShowWindow(pCont->hwnd, SW_SHOW);
 							break;
 						case ID_TRAYCONTEXT_BE:
@@ -335,7 +333,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							nen_options.iNoSounds = 1;
 							nen_options.iNoAutoPopup = 1;
 
-							for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 								SendMessage(pCont->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
 							break;
 						}
@@ -458,7 +456,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			bool bNewAero = M.getAeroState(); // refresh dwm state
 
-			for (pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
+			for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
 				if (bNewAero)
 					SetAeroMargins(pCont);
 				else {
@@ -496,7 +494,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		FreeTabConfig();
 		ReloadTabConfig();
 
-		for (pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
+		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
 			SendDlgItemMessage(pCont->hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
 			BroadCastContainer(pCont, EM_THEMECHANGED, 0, 0);
 		}
@@ -547,7 +545,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
-		for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 			if (CSkin::m_skinEnabled) {             // invalidate cached background DCs for skinned containers
 				pCont->oldDCSize.cx = pCont->oldDCSize.cy = 0;
 				SelectObject(pCont->cachedDC, pCont->oldHBM);
@@ -570,7 +568,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (wParam == TIMERID_SENDLATER) {
 			// send heartbeat to each container, they use this to update
 			// dynamic content (i.e. local time in the info panel).
-			for (pCont = pFirstContainer; pCont; pCont = pCont->pNext)
+			for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
 				SendMessage(pCont->hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed

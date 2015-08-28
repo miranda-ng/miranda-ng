@@ -87,9 +87,7 @@ CSideBarButton::CSideBarButton(const UINT id, CSideBar *sideBar)
 	_create();
 }
 
-/**
- * Internal method to create the button item and configure the associated button control
- */
+// Internal method to create the button item and configure the associated button control
 void CSideBarButton::_create()
 {
 	m_hwnd = 0;
@@ -330,18 +328,15 @@ int CSideBarButton::testCloseButton() const
 	}
 	return -1;
 }
-/**
- * call back from the button window procedure. Activate my session
- */
+
+// call back from the button window procedure. Activate my session
 void CSideBarButton::activateSession() const
 {
 	if (m_dat)
 		::SendMessage(m_dat->hwnd, DM_ACTIVATEME, 0, 0);					// the child window will activate itself
 }
 
-/**
- * show the context menu (same as on tabs
- */
+// show the context menu (same as on tabs
 void CSideBarButton::invokeContextMenu()
 {
 	const TContainerData *pContainer = m_sideBar->getContainer();
@@ -479,7 +474,6 @@ void CSideBar::destroyScroller()
  * Does not remove the sessions. This is basically only used when switching
  * from a sidebar to a tabbed interface
  */
-
 void CSideBar::removeAll()
 {
 	m_buttonlist.destroy();

@@ -31,9 +31,9 @@
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
-NEN_OPTIONS    nen_options;
-static HANDLE  hUserPrefsWindowLis = 0;
-HMODULE        g_hIconDLL = 0;
+NEN_OPTIONS nen_options;
+static HANDLE hUserPrefsWindowLis = 0;
+HMODULE g_hIconDLL = 0, g_hMsftedit;
 
 static void UnloadIcons();
 
@@ -41,7 +41,6 @@ void Chat_AddIcons(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes IEView plugin options. Apply them to all open tabs
-
 int IEViewOptionsChanged(WPARAM, LPARAM)
 {
 	M.BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
@@ -50,7 +49,6 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes smileyadd options. Notify all open tabs about the changes
-
 int SmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
@@ -60,7 +58,6 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Message API 0.0.0.3 services
-
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 {
 	char *szBuf = (char*)wParam;
@@ -73,7 +70,6 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 // wparam = (MessageWindowInputData*)
 // lparam = (MessageWindowData*)
 // returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
-
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
@@ -116,7 +112,6 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
-
 static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
 {
 	if (!dat)
@@ -153,7 +148,6 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
-
 static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 {
 	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, wParam);
@@ -167,7 +161,6 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // service function - open the tray menu from the TTB button
-
 static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 {
 	SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, lParam == 0 ? WM_LBUTTONUP : WM_RBUTTONUP);
@@ -179,7 +172,6 @@ static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 // wParam == hContact of the window to find
 // lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
 // is directly used as the handle for the target window
-
 static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndTarget = (HWND)lParam;
@@ -195,7 +187,6 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // return the version of the window api supported
-
 static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 {
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
@@ -207,12 +198,11 @@ static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 // thanks to bio for the suggestion of this service
 // if wParam == 0, then lParam is considered to be a valid window handle and
 // the function tests the popup mode of the target container
-
+//
 // returns the hwnd if there is an open window or tab for the given hcontact (wParam),
 // or (if lParam was specified) the hwnd if the window exists.
 // 0 if there is none (or the popup mode of the target container was configured to "hide"
 // the window..
-
 INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = 0;
@@ -252,7 +242,6 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 // ReadMessageCommand is executed whenever the user wants to manually open a window.
 // This can happen when double clicking a contact on the clist OR when opening a new
 // message (clicking on a popup, clicking the flashing tray icon and so on).
-
 static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
@@ -277,7 +266,6 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 // e.g. it is called when user double clicks a contact on the contact list
 // it is implemented as a service, so external plugins can use it to open a message window.
 // contacts handle must be passed in wParam.
-
 INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
 {
 	// make sure that only the main UI thread will handle window creation
@@ -335,7 +323,6 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // open a window when user clicks on the flashing "typing message" tray icon.
 // just calls SendMessageCommand() for the given contact.
-
 static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
@@ -353,7 +340,7 @@ int SplitmsgShutdown(void)
 	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
 
-	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
+	FreeLibrary(g_hMsftedit);
 
 	if (g_hIconDLL) {
 		FreeLibrary(g_hIconDLL);
@@ -395,7 +382,6 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 //
 // this function searches and activates the tab belonging to the given hwnd (which is the
 // hwnd of a message dialog window)
-
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
@@ -444,7 +430,6 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 // this function creates and activates a new tab within the given container.
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
-
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent)
 {
 	if (M.FindWindow(hContact) != 0) {
@@ -597,7 +582,6 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 // this is used by the 2nd containermode (limit tabs on default containers).
 // it searches a container with "room" for the new tabs or otherwise creates
 // a new (cloned) one.
-
 TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName)
 {
 	int iMaxTabs = M.GetDword("maxtabs", 0);
@@ -614,7 +598,6 @@ TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // load some global icons.
-
 void TSAPI CreateImageList(BOOL bInitial)
 {
 	// the imagelist is now a fake. It is still needed to provide the tab control with a
@@ -775,7 +758,6 @@ static int GetIconPackVersion(HMODULE hDLL)
 /////////////////////////////////////////////////////////////////////////////////////////
 // setup default icons for the IcoLib service. This needs to be done every time the
 // plugin is loaded default icons are taken from the icon pack in either \icons or \plugins
-
 static int TSAPI SetupIconLibConfig()
 {
 	int j = 2, version = 0;
@@ -833,7 +815,6 @@ static int TSAPI SetupIconLibConfig()
 }
 
 // load the icon theme from IconLib - check if it exists...
-
 static int TSAPI LoadFromIconLib()
 {
 	for (int n = 0; n < _countof(ICONBLOCKS); n++)
@@ -865,7 +846,6 @@ static int TSAPI LoadFromIconLib()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // load icon theme from either icon pack or IcoLib
-
 void TSAPI LoadIconTheme()
 {
 	if (SetupIconLibConfig() == 0)
@@ -913,7 +893,6 @@ int IconsChanged(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // initialises the internal API, services, events etc...
-
 static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
@@ -953,7 +932,7 @@ int LoadSendRecvMessageModule(void)
 	icex.dwICC = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
-	Utils::loadSystemLibrary(L"\\Msftedit.dll");
+	g_hMsftedit = Utils::loadSystemLibrary(L"\\Msftedit.dll");
 
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();

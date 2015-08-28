@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (ñ) 2012-15 Miranda NG project,
+// Copyright (c) 2012-15 Miranda NG project,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -271,7 +271,6 @@ checkboxes[] = {
 //
 // ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
 // ignore temporary bits.
-
 int TSAPI LoadLocalFlags(TWindowData *dat)
 {
 	if (dat == NULL)
@@ -302,7 +301,6 @@ int TSAPI LoadLocalFlags(TWindowData *dat)
 //
 // @params: Win32 window procedure conform
 // @return LRESULT
-
 static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -397,7 +395,6 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 // @params: like any Win32 window procedure
 //
 // @return LRESULT (ignored for dialog procs, use DWLP_MSGRESULT)
-
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

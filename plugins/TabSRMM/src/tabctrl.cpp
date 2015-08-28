@@ -36,7 +36,6 @@ static WNDPROC		OldTabControlClassProc;
 // returns the index of the tab under the mouse pointer. Used for
 // context menu popup and tooltips
 // pt: mouse coordinates, obtained from GetCursorPos()
-
 int TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt)
 {
 	TCHITTESTINFO tch;
@@ -79,7 +78,6 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 /////////////////////////////////////////////////////////////////////////////////////////
 // tabctrl helper function
 // Finds leftmost down item.
-
 static UINT FindLeftDownItem(HWND hwnd)
 {
 	RECT rctLeft = { 100000, 0, 0, 0 }, rctCur;
@@ -100,7 +98,6 @@ static UINT FindLeftDownItem(HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // tab control color definitions, including the database setting key names
-
 static struct colOptions
 {
 	UINT defclr;
@@ -120,7 +117,6 @@ static struct colOptions
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // hints for drawing functions
-
 #define HINT_ACTIVATE_RIGHT_SIDE 1
 #define HINT_ACTIVE_ITEM 2
 #define FLOAT_ITEM_HEIGHT_SHIFT 2
@@ -160,7 +156,6 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat
 // it obtains the label and icon handle directly from the message window data
 // no image list is used and necessary, the message window dialog procedure has to provide a valid
 // icon handle in dat->hTabIcon
-
 static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData *dat)
 {
 	if (dat == NULL)
@@ -1310,7 +1305,6 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // load the tab control configuration data (colors, fonts, flags...
-
 void TSAPI ReloadTabConfig()
 {
 	PluginConfig.tabConfig.m_hPenLight = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
@@ -1357,11 +1351,10 @@ void TSAPI FreeTabConfig()
 	memset(&PluginConfig.tabConfig, 0, sizeof(PluginConfig.tabConfig));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// options dialog for setting up tab options
-
 static bool tconfig_init = false;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// options dialog for setting up tab options
 INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -1461,7 +1454,6 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // register the new tab control as a window class (TSTabCtrlClass)
-
 int TSAPI RegisterTabCtrlClass(void)
 {
 	WNDCLASSEX wc = { 0 };

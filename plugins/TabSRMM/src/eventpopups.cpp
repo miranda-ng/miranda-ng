@@ -651,10 +651,8 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 	return 0;
 }
 
-/*
-* updates the menu entry...
-* bForced is used to only update the status, nickname etc. and does NOT update the unread count
-*/
+// updates the menu entry...
+// bForced is used to only update the status, nickname etc. and does NOT update the unread count
 void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 {
 	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->hContact == NULL)
@@ -685,10 +683,7 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
 }
 
-/*
- * if we want tray support, add the contact to the list of unread sessions in the tray menu
- */
-
+// if we want tray support, add the contact to the list of unread sessions in the tray menu
 int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
@@ -810,10 +805,7 @@ passed:
 	return 0;
 }
 
-/**
-* remove all popups for hContact, but only if the mask matches the current "mode"
-*/
-
+// remove all popups for hContact, but only if the mask matches the current "mode"
 void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 {
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_bPopupAvail)

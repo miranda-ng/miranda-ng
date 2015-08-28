@@ -181,7 +181,6 @@ skip_textpatterns:
  *
  * @param Standard Windows dialog procedure parameters
  */
-
 INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {

@@ -1324,7 +1324,6 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 void BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL code)
 {
 	RECT rc;
-	int i;
 	BOOL bFromArrow = 0;
 	CustomButtonClickData cbcd = { 0 };
 
@@ -1332,7 +1331,7 @@ void BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL co
 	cbcd.pt.x = rc.left;
 	cbcd.pt.y = rc.bottom;
 
-	for (i = 0; i < LButtonsList.getCount(); i++) {
+	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData* cbd = LButtonsList[i];
 		if (cbd->m_dwButtonCID == idFrom) {
 			cbcd.pszModule = cbd->m_pszModuleName;
@@ -1346,7 +1345,7 @@ void BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL co
 	}
 
 	if (!cbcd.pszModule)
-		for (i = 0; i < RButtonsList.getCount(); i++) {
+		for (int i = 0; i < RButtonsList.getCount(); i++) {
 			CustomButtonData* cbd = RButtonsList[i];
 			if (cbd->m_dwButtonCID == idFrom) {
 				cbcd.pszModule = cbd->m_pszModuleName;
