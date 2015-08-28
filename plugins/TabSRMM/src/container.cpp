@@ -118,18 +118,8 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 
 	switch (msg) {
-	case WM_NCPAINT: {
-			PAINTSTRUCT ps;
-			HDC hdcReal;
-			LONG width, height;
-			HDC hdc;
-			CSkinItem *item = &SkinItems[0], *item_normal, *item_pressed, *item_hot;
-			HFONT hOldFont = 0;
-			TEXTMETRIC tm;
-
-			if (!pContainer || !bSkinned)
-				break;
-
+	case WM_NCPAINT:
+		if (pContainer && bSkinned) {
 			if (CSkin::m_frameSkins) {
 				HDC dcFrame = GetDCEx(hwndDlg, 0, DCX_WINDOW |/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
 				LONG clip_top, clip_left;
@@ -164,7 +154,10 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				TCHAR szWindowText[512];
 				GetWindowText(hwndDlg, szWindowText, _countof(szWindowText));
 				szWindowText[511] = 0;
-				hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);
+
+				HFONT hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);
+
+				TEXTMETRIC tm;
 				GetTextMetrics(dcMem, &tm);
 				SetTextColor(dcMem, CInfoPanel::m_ipConfig.clrs[IPFONTCOUNT - 1]);
 				SetBkMode(dcMem, TRANSPARENT);
@@ -193,9 +186,9 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				pContainer->rcMin.right = pContainer->rcMax.left - 2;
 				pContainer->rcMin.left = pContainer->rcMin.right - CSkin::m_titleBarButtonSize.cx;
 
-				item_normal = &SkinItems[ID_EXTBKTITLEBUTTON];
-				item_hot = &SkinItems[ID_EXTBKTITLEBUTTONMOUSEOVER];
-				item_pressed = &SkinItems[ID_EXTBKTITLEBUTTONPRESSED];
+				CSkinItem *item_normal = &SkinItems[ID_EXTBKTITLEBUTTON];
+				CSkinItem *item_hot = &SkinItems[ID_EXTBKTITLEBUTTONMOUSEOVER];
+				CSkinItem *item_pressed = &SkinItems[ID_EXTBKTITLEBUTTONPRESSED];
 
 				for (int i = 0; i < 3; i++) {
 					RECT *pRect = NULL;
@@ -215,7 +208,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						break;
 					}
 					if (pRect) {
-						item = pContainer->buttons[i].isPressed ? item_pressed : (pContainer->buttons[i].isHot ? item_hot : item_normal);
+						CSkinItem *item = pContainer->buttons[i].isPressed ? item_pressed : (pContainer->buttons[i].isHot ? item_hot : item_normal);
 						CSkin::DrawItem(dcMem, pRect, item);
 						DrawIconEx(dcMem, pRect->left + ((pRect->right - pRect->left) / 2 - 8), pRect->top + ((pRect->bottom - pRect->top) / 2 - 8), hIcon, 16, 16, 0, 0, DI_NORMAL);
 					}
@@ -229,12 +222,13 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			else mir_callNextSubclass(hwndDlg, ContainerWndProc, msg, wParam, lParam);
 
-			hdcReal = BeginPaint(hwndDlg, &ps);
+			PAINTSTRUCT ps;
+			HDC hdcReal = BeginPaint(hwndDlg, &ps);
 
 			RECT rcClient;
 			GetClientRect(hwndDlg, &rcClient);
-			width = rcClient.right - rcClient.left;
-			height = rcClient.bottom - rcClient.top;
+			int width = rcClient.right - rcClient.left;
+			int height = rcClient.bottom - rcClient.top;
 			if (width != pContainer->oldDCSize.cx || height != pContainer->oldDCSize.cy) {
 				CSkinItem *sbaritem = &SkinItems[ID_EXTBKSTATUSBAR];
 				BOOL statusBarSkinnd = !(pContainer->dwFlags & CNT_NOSTATUSBAR) && !sbaritem->IGNORED;
@@ -252,9 +246,8 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				pContainer->cachedHBM = CreateCompatibleBitmap(hdcReal, width, height);
 				pContainer->oldHBM = (HBITMAP)SelectObject(pContainer->cachedDC, pContainer->cachedHBM);
 
-				hdc = pContainer->cachedDC;
-
-				if (!CSkin::DrawItem(hdc, &rcClient, item))
+				HDC hdc = pContainer->cachedDC;
+				if (!CSkin::DrawItem(hdc, &rcClient, &SkinItems[0]))
 					FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
 
 				if (sbarDelta) {
@@ -266,22 +259,21 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			EndPaint(hwndDlg, &ps);
 			return 0;
 		}
+		break;
+
 	case WM_NCLBUTTONDOWN:
 	case WM_NCLBUTTONUP:
 	case WM_NCMOUSEHOVER:
 	case WM_NCMOUSEMOVE:
 		if (pContainer && CSkin::m_frameSkins) {
 			POINT pt;
-			RECT rcWindow;
-			BOOL isMin, isMax, isClose;
-			int i;
-
 			GetCursorPos(&pt);
+
+			RECT rcWindow;
 			GetWindowRect(hwndDlg, &rcWindow);
 
 			memcpy(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(TitleBtn) * 3);
 			memset(&pContainer->buttons[0], 0, (sizeof(TitleBtn) * 3));
-			isMin = isMax = isClose = FALSE;
 
 			if (pt.x >= (rcWindow.left + pContainer->rcMin.left) && pt.x <= (rcWindow.left + pContainer->rcClose.right) && pt.y < rcWindow.top + 24 && wParam != HTTOPRIGHT) {
 				LRESULT result = 0; //DefWindowProc(hwndDlg, msg, wParam, lParam);
@@ -289,9 +281,9 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				LONG left = rcWindow.left;
 
 				pt.y = 10;
-				isMin = pt.x >= left + pContainer->rcMin.left && pt.x <= left + pContainer->rcMin.right;
-				isMax = pt.x >= left + pContainer->rcMax.left && pt.x <= left + pContainer->rcMax.right;
-				isClose = pt.x >= left + pContainer->rcClose.left && pt.x <= left + pContainer->rcClose.right;
+				bool isMin = pt.x >= left + pContainer->rcMin.left && pt.x <= left + pContainer->rcMin.right;
+				bool isMax = pt.x >= left + pContainer->rcMax.left && pt.x <= left + pContainer->rcMax.right;
+				bool isClose = pt.x >= left + pContainer->rcClose.left && pt.x <= left + pContainer->rcClose.right;
 
 				if (msg == WM_NCMOUSEMOVE) {
 					if (isMax)
@@ -321,10 +313,10 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					else if (isClose)
 						PostMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
 				}
-				for (i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					if (pContainer->buttons[i].isHot != pContainer->oldbuttons[i].isHot) {
-						RECT *rc = 0;
-						HICON hIcon = 0;
+						RECT *rc;
+						HICON hIcon;
 
 						switch (i) {
 						case 0:
@@ -339,6 +331,8 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							rc = &pContainer->rcClose;
 							hIcon = CSkin::m_closeIcon;
 							break;
+						default:
+							continue; // shall never happen
 						}
 						if (rc) {
 							CSkinItem *item = &SkinItems[pContainer->buttons[i].isPressed ? ID_EXTBKTITLEBUTTONPRESSED : (pContainer->buttons[i].isHot ? ID_EXTBKTITLEBUTTONMOUSEOVER : ID_EXTBKTITLEBUTTON)];
@@ -371,12 +365,10 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		if (wParam) {
-			RECT *rc;
 			NCCALCSIZE_PARAMS *ncsp = (NCCALCSIZE_PARAMS *)lParam;
-
 			DefWindowProc(hwndDlg, msg, wParam, lParam);
-			rc = &ncsp->rgrc[0];
 
+			RECT *rc = &ncsp->rgrc[0];
 			rc->left += CSkin::m_realSkinnedFrame_left;
 			rc->right -= CSkin::m_realSkinnedFrame_right;
 			rc->bottom -= CSkin::m_realSkinnedFrame_bottom;
@@ -395,6 +387,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 		}
 		break;
+
 	case WM_SETTEXT:
 	case WM_SETICON:
 		if (CSkin::m_frameSkins) {
@@ -405,19 +398,13 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_NCHITTEST:
-		{
+		if (pContainer && (pContainer->dwFlags & CNT_NOTITLE)) {
 			RECT r;
-			POINT pt;
-			int clip = CSkin::m_bClipBorder;
-
-			if (!pContainer)
-				break;
-
-			if (!(pContainer->dwFlags & CNT_NOTITLE))
-				break;
-
 			GetWindowRect(hwndDlg, &r);
+
+			POINT pt;
 			GetCursorPos(&pt);
+			int clip = CSkin::m_bClipBorder;
 			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6) {
 				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
 					return HTBOTTOM;
@@ -440,9 +427,9 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
 				return HTRIGHT;
 		}
-		return(DefWindowProc(hwndDlg, WM_NCHITTEST, wParam, lParam));
+		break;
 
-	case 0xae:						// must be some undocumented message - seems it messes with the title bar...
+	case 0xae: // must be some undocumented message - seems it messes with the title bar...
 		if (CSkin::m_frameSkins)
 			return 0;
 	}
