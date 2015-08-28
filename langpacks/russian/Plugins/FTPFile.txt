@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.1
+;  Version: 0.6.0.2
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
@@ -203,7 +203,7 @@ FTP файл менеджер
 Ошибка при архивации файлов.
 [Do you really want to cancel this upload?]
 Вы действительно хотите отменить эту загрузку?
-[Status: %s\r\nFile: %s\r\nServer: %s]
+[Status: %s\r\nFile: %s\r\nServer: %S]
 Состояние: %s\r\nФайл: %s\r\nСервер: %s
 [File exists - %s]
 Файл существует - %s

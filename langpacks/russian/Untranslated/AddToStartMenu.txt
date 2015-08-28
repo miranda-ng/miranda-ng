@@ -1,0 +1,2 @@
+﻿[Add portable miranda shortcut to windows start menu.]
+[Add to start menu]

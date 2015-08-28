@@ -1,0 +1,11 @@
+﻿#muuid {1fdbd8f0-3929-41bc-92d1-020779460769}
+;============================================================
+;  File: Toaster.dll
+;  Plugin: Toaster
+;  Version: 0.11.0.2
+;  Authors: Miranda NG team
+;============================================================
+[Provides popup services based on Windows toast notification for different plugins.]
+;file \plugins\Toaster\src\main.cpp
+[This plugin requires Windows 8 or higher]
+[In Windows8 desktop application must have a shortcut on the Start menu. Please, install "AddToStartMenu" plugin.]
