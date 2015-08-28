@@ -113,7 +113,7 @@ void ext_yahoo_chat_join(int, const char*, const char*, const char*, YList *memb
 	y_list_free(members);
 }
 
-void ext_yahoo_chat_userjoin(int, const char*, const char*, struct yahoo_chat_member*)
+void ext_yahoo_chat_userjoin(int, const char*, const char*, yahoo_chat_member*)
 {}
 
 void ext_yahoo_chat_userleave(int, const char*, const char*, const char*)
@@ -301,7 +301,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
-		static const struct gc_item Items[] =
+		static const gc_item Items[] =
 		{
 			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
@@ -312,7 +312,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		char* id = mir_t2a(gcmi->pszUID);
 		if (!_stricmp(m_yahoo_id, id)) {
-			static const struct gc_item Items[] =
+			static const gc_item Items[] =
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
@@ -323,7 +323,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			gcmi->Item = (gc_item*)Items;
 		}
 		else {
-			static const struct gc_item Items[] =
+			static const gc_item Items[] =
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
 				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
@@ -412,11 +412,11 @@ static void ClistChatPrepare(MCONTACT hItem, HWND hwndList, CYahooProto* ppro)
 	}
 }
 
-INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	InviteChatParam* param = (InviteChatParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -505,11 +505,11 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 /////////////////////////////////////////////////////////////////////////////////////////
 // Chat request dialog
 
-INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	InviteChatReqParam* param = (InviteChatReqParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 

@@ -76,7 +76,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 		ridx = 0; widx = 0;
 
 		for (l = m_connections; l;) {
-			struct _conn *c = (_conn *)l->data;
+			_conn *c = (_conn *)l->data;
 			//LOG(("Connection tag:%d id:%d fd:%d remove:%d", c->tag, c->id, c->fd, c->remove));
 			if (c->remove) {
 				YList *n = y_list_next(l);
@@ -155,7 +155,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 		/* do the timer check ends */
 
 		for (l = m_connections; l; l = y_list_next(l)) {
-			struct _conn *c = (_conn *)l->data;
+			_conn *c = (_conn *)l->data;
 
 			if (c->remove)
 				continue;
@@ -200,7 +200,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 	/* cleanup the data stuff and close our connection handles */
 	while (m_connections) {
 		YList *tmp = m_connections;
-		struct _conn * c = (_conn *)m_connections->data;
+		_conn * c = (_conn *)m_connections->data;
 		Netlib_CloseHandle((HANDLE)c->fd);
 		FREE(c);
 		m_connections = y_list_remove_link(m_connections, m_connections);

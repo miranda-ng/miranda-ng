@@ -211,15 +211,12 @@ YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 			bool reconnectRequired = false;
 			char str[128];
 			GetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, str, _countof(str));
-
-			DBVARIANT dbv;
-			if (ppro->getString(YAHOO_LOGINSERVER, &dbv)) {
-				reconnectRequired = true;
-			}
-			else {
-				if (mir_strcmp(str, dbv.pszVal))
+			{
+				ptrA szServer(ppro->getStringA(YAHOO_LOGINSERVER));
+				if (szServer == NULL)
 					reconnectRequired = true;
-				db_free(&dbv);
+				else if (mir_strcmp(str, szServer))
+					reconnectRequired = true;
 			}
 
 			ppro->setString(YAHOO_LOGINSERVER, str);
@@ -271,7 +268,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 		LOG(("[DlgProcYahooOptsIgnore] Grabbing current ignore list..."))
 			l = (YList *)ppro->GetIgnoreList();
 		while (l != NULL) {
-			struct yahoo_buddy *b = (struct yahoo_buddy *) l->data;
+			yahoo_buddy *b = (yahoo_buddy *) l->data;
 
 			LOG(("[DlgProcYahooOptsIgnore] Buddy: %s", b->id))
 				SendDlgItemMessageA(hwndDlg, IDC_YIGN_LIST, LB_ADDSTRING, 0, (LPARAM)b->id);

@@ -1,15 +1,16 @@
 /*
- * $Id: file_transfer.cpp 13893 2011-10-23 19:29:28Z borkra $
- *
- * myYahoo Miranda Plugin 
- *
- * Authors: Gennady Feldman (aka Gena01) 
- *          Laurent Marechal (aka Peorth)
- *
- * This code is under GPL and is based on AIM, MSN and Miranda source code.
- * I want to thank Robert Rainwater and George Hazan for their code and support
- * and for answering some of my questions during development of this plugin.
- */
+* $Id: file_transfer.cpp 13893 2011-10-23 19:29:28Z borkra $
+*
+* myYahoo Miranda Plugin
+*
+* Authors: Gennady Feldman (aka Gena01)
+*          Laurent Marechal (aka Peorth)
+*
+* This code is under GPL and is based on AIM, MSN and Miranda source code.
+* I want to thank Robert Rainwater and George Hazan for their code and support
+* and for answering some of my questions during development of this plugin.
+*/
+
 #include <time.h>
 #include <sys/stat.h>
 
@@ -17,7 +18,7 @@
 #include <m_protosvc.h>
 #include "file_transfer.h"
 
-YList *file_transfers=NULL;
+YList *file_transfers = NULL;
 
 static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, const char *who, const char *msg,
 	const char *url, const char *ft_token, int y7, YList *fs, int sending)
@@ -118,7 +119,7 @@ static void free_ft(y_filetransfer *ft)
 
 	while (ft->files) {
 		YList *tmp = ft->files;
-		yahoo_file_info * c = (yahoo_file_info*)ft->files->data;
+		yahoo_file_info *c = (yahoo_file_info*)ft->files->data;
 		FREE(c->filename);
 		FREE(c);
 		ft->files = y_list_remove_link(ft->files, ft->files);
@@ -141,7 +142,7 @@ static void free_ft(y_filetransfer *ft)
 static void upload_file(int, INT_PTR fd, int error, void *data)
 {
 	y_filetransfer *sf = (y_filetransfer*)data;
-	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
+	yahoo_file_info *fi = (yahoo_file_info *)sf->files->data;
 	char buf[1024];
 	unsigned long size = 0;
 	DWORD dw = 0;
@@ -256,7 +257,7 @@ static void upload_file(int, INT_PTR fd, int error, void *data)
 			y_list_free_1(l);
 
 			// need to move to the next file on the list and fill the file information
-			struct yahoo_file_info *fi = (yahoo_file_info*)sf->files->data;
+			fi = (yahoo_file_info*)sf->files->data;
 			sf->pfts.tszCurrentFile = _tcsdup(sf->pfts.ptszFiles[sf->pfts.currentFileNumber]);
 			sf->pfts.currentFileSize = fi->filesize;
 			sf->pfts.currentFileProgress = 0;
@@ -264,17 +265,14 @@ static void upload_file(int, INT_PTR fd, int error, void *data)
 			ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, sf, 0);
 			LOG(("Waiting for next file request packet..."));
 		}
-
 	}
-	else {
-		ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, sf, 0);
-	}
+	else ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, sf, 0);
 }
 
 static void dl_file(int id, INT_PTR fd, int error, const char*, unsigned long size, void *data)
 {
 	y_filetransfer *sf = (y_filetransfer*)data;
-	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
+	yahoo_file_info *fi = (yahoo_file_info *)sf->files->data;
 	char buf[1024];
 	unsigned long rsize = 0;
 	DWORD dw, c;
@@ -429,7 +427,7 @@ static void dl_file(int id, INT_PTR fd, int error, const char*, unsigned long si
 			y_list_free_1(l);
 
 			// need to move to the next file on the list and fill the file information
-			struct yahoo_file_info *fi = (yahoo_file_info*)sf->files->data;
+			fi = (yahoo_file_info*)sf->files->data;
 			sf->pfts.tszCurrentFile = _tcsdup(sf->pfts.ptszFiles[sf->pfts.currentFileNumber]);
 			sf->pfts.currentFileSize = fi->filesize;
 			sf->pfts.currentFileProgress = 0;
@@ -450,7 +448,7 @@ static void dl_file(int id, INT_PTR fd, int error, const char*, unsigned long si
 void __cdecl CYahooProto::recv_filethread(void *psf)
 {
 	y_filetransfer *sf = (y_filetransfer*)psf;
-	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
+	yahoo_file_info *fi = (yahoo_file_info *)sf->files->data;
 
 	ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
 
@@ -495,7 +493,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 			mir_strcpy(fn, "filename.ext");
 	}
 
-	yahoo_file_info *fi = y_new(struct yahoo_file_info, 1);
+	yahoo_file_info *fi = y_new(yahoo_file_info, 1);
 	fi->filename = strdup(fn);
 	fi->filesize = fesize;
 
@@ -543,7 +541,7 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 	fn[0] = '\0';
 	for (YList *f = files; f; f = y_list_next(f)) {
 		char z[1024];
-		struct yahoo_file_info *fi = (struct yahoo_file_info *) f->data;
+		yahoo_file_info *fi = (yahoo_file_info *) f->data;
 
 		mir_snprintf(z, _countof(z), "%s (%lu)\r\n", fi->filename, fi->filesize);
 		mir_strcat(fn, z);
@@ -620,7 +618,8 @@ void ext_yahoo_send_file7info(int id, const char *me, const char *who, const cha
 	yahoo_send_file7info(id, me, who, ft_token, c, ft->relay);
 }
 
-struct _sfs{
+struct _sfs
+{
 	char *me;
 	char *token;
 	y_filetransfer *sf;
@@ -637,7 +636,7 @@ void CYahooProto::ext_ft7_send_file(const char *me, const char *who, const char*
 		return;
 	}
 
-	struct _sfs *s = (struct _sfs *) malloc(sizeof(struct _sfs));
+	_sfs *s = (_sfs *) malloc(sizeof(_sfs));
 
 	s->me = strdup(me);
 	s->token = strdup(token);
@@ -650,9 +649,9 @@ void CYahooProto::ext_ft7_send_file(const char *me, const char *who, const char*
 
 void __cdecl CYahooProto::send_filethread(void *psf)
 {
-	struct _sfs *s = (struct _sfs *)psf;
+	_sfs *s = (_sfs *)psf;
 	y_filetransfer *sf = s->sf;
-	struct yahoo_file_info *fi = (struct yahoo_file_info *)sf->files->data;
+	yahoo_file_info *fi = (yahoo_file_info *)sf->files->data;
 
 	ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
 
@@ -694,7 +693,7 @@ HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const TCHAR *szDescripti
 			if (_tstat(ppszFiles[i], &statbuf) == 0)
 				tFileSize = statbuf.st_size;
 
-			struct yahoo_file_info *fi = y_new(struct yahoo_file_info, 1);
+			yahoo_file_info *fi = y_new(yahoo_file_info, 1);
 
 			fi->filename = strdup(T2Utf(ppszFiles[i]));
 			fi->filesize = tFileSize;
@@ -800,7 +799,7 @@ int __cdecl CYahooProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
 	}
 
 	if (ft->ftoken != NULL) {
-		struct yahoo_file_info *fi = (struct yahoo_file_info *)ft->files->data;
+		yahoo_file_info *fi = (yahoo_file_info *)ft->files->data;
 
 		debugLogA("[YahooFileDeny] DC Detected: Denying File Transfer!");
 		yahoo_ftdc_deny(m_id, ft->who, fi->filename, ft->ftoken, 2);
