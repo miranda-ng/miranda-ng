@@ -99,49 +99,41 @@ HRESULT TryCreateShortcut()
 HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
 {
 	wchar_t exePath[MAX_PATH];
+	GetModuleFileName(NULL, exePath, MAX_PATH);
 
-	DWORD charWritten = GetModuleFileNameEx(GetCurrentProcess(), nullptr, exePath, ARRAYSIZE(exePath));
-
-	HRESULT hr = charWritten > 0 ? S_OK : E_FAIL;
-
+	ComPtr<IShellLink> shellLink;
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&shellLink));
 	if (SUCCEEDED(hr))
 	{
-		ComPtr<IShellLink> shellLink;
-		hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&shellLink));
-
+		hr = shellLink->SetPath(exePath);
 		if (SUCCEEDED(hr))
 		{
-			hr = shellLink->SetPath(exePath);
+			hr = shellLink->SetArguments(L"");
 			if (SUCCEEDED(hr))
 			{
-				hr = shellLink->SetArguments(L"");
+				ComPtr<IPropertyStore> propertyStore;
+				hr = shellLink.As(&propertyStore);
 				if (SUCCEEDED(hr))
 				{
-					ComPtr<IPropertyStore> propertyStore;
-
-					hr = shellLink.As(&propertyStore);
+					PROPVARIANT appIdPropVar;
+					hr = InitPropVariantFromString(AppUserModelID, &appIdPropVar);
 					if (SUCCEEDED(hr))
 					{
-						PROPVARIANT appIdPropVar;
-						hr = InitPropVariantFromString(AppUserModelID, &appIdPropVar);
+						hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
 						if (SUCCEEDED(hr))
 						{
-							hr = propertyStore->SetValue(PKEY_AppUserModel_ID, appIdPropVar);
+							hr = propertyStore->Commit();
 							if (SUCCEEDED(hr))
 							{
-								hr = propertyStore->Commit();
+								ComPtr<IPersistFile> persistFile;
+								hr = shellLink.As(&persistFile);
 								if (SUCCEEDED(hr))
 								{
-									ComPtr<IPersistFile> persistFile;
-									hr = shellLink.As(&persistFile);
-									if (SUCCEEDED(hr))
-									{
-										hr = persistFile->Save(shortcutPath, TRUE);
-									}
+									hr = persistFile->Save(shortcutPath, TRUE);
 								}
 							}
-							PropVariantClear(&appIdPropVar);
 						}
+						PropVariantClear(&appIdPropVar);
 					}
 				}
 			}
