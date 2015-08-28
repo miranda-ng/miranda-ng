@@ -215,21 +215,27 @@ HRESULT ToastNotification::Show(_In_ ToastEventHandler* handler)
 	if (FAILED(hr))
 		RaiseException(static_cast<DWORD>(STATUS_INVALID_PARAMETER), EXCEPTION_NONCONTINUABLE, 0, nullptr);
 
-	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
 	hr = notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
 	if (FAILED(hr))
 		return hr;
-
-	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotification> notification;
 	hr = Create(&notification);
 	if (FAILED(hr))
 		return hr;
 
-	EventRegistrationToken activatedToken;
+	EventRegistrationToken activatedToken, dismissedToken, failedToken;
 	Microsoft::WRL::ComPtr<ToastEventHandler> eventHandler(handler);
 	hr = notification->add_Activated(eventHandler.Get(), &activatedToken);
 	if (FAILED(hr))
 		return hr;
 
+	notification->add_Activated(eventHandler.Get(), &activatedToken);
+	notification->add_Dismissed(eventHandler.Get(), &dismissedToken);
+	notification->add_Failed(eventHandler.Get(), &failedToken);
+
 	return notifier->Show(notification.Get());
+}
+
+HRESULT ToastNotification::Hide()
+{
+	return notifier->Hide(notification.Get());
 }

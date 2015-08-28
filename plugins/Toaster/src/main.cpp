@@ -39,7 +39,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-
+	HookEvent(ME_SYSTEM_SHUTDOWN, &OnPreShutdown);
 	InitServices();
 
 	return 0;
@@ -47,5 +47,16 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	return 0;
+}
+
+int OnPreShutdown(WPARAM, LPARAM)
+{
+	mir_cslock lck(csNotifications);
+	for (int i = 0; i < lstNotifications.getCount(); i++)
+		lstNotifications[0].Hide();
+
+	lstNotifications.destroy();
+
 	return 0;
 }
