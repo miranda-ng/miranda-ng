@@ -68,7 +68,7 @@ void VerifyFingerprintMessage(ConnContext *context, bool verify) {
 	MCONTACT hContact = (UINT_PTR)context->app_data;
 	TCHAR msg[1024];
 
-	mir_sntprintf(msg, _countof(msg), (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
+	mir_sntprintf(msg, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 	ShowMessage(hContact, msg);
 	SetEncryptionStatus(hContact, otr_context_get_trust(context));
 }
@@ -155,7 +155,7 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 
 	if ( !options.bHavePopups) {	
 		TCHAR title[256];
-		mir_sntprintf(title, _countof(title), _T("%s Message"), _T(MODULENAME));
+		mir_sntprintf(title, _T("%s Message"), _T(MODULENAME));
 
 		if(line1 && line2) {
 			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
@@ -205,7 +205,7 @@ void ShowWarning(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, _countof(buffer), _T("%s Warning"), _T(MODULENAME));
+	mir_sntprintf(buffer, _T("%s Warning"), _T(MODULENAME));
 
 	TCHAR *message;
 	switch(disp) {
@@ -251,7 +251,7 @@ void ShowError(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, _countof(buffer), _T("%s Error"), _T(MODULENAME));
+	mir_sntprintf(buffer, _T("%s Error"), _T(MODULENAME));
 
 
 	TCHAR *message;

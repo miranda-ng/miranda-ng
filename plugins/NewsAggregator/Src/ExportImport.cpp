@@ -130,7 +130,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 												if ( !group)
 													group = (TCHAR *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
 												else {
-													mir_sntprintf(tmpgroup, _countof(tmpgroup), _T("%s\\%s"), xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
+													mir_sntprintf(tmpgroup, _T("%s\\%s"), xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
 												break;
@@ -209,9 +209,9 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					}
 					TCHAR mes[MAX_PATH];
 					if (DUPES)
-						mir_sntprintf(mes, _countof(mes), TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+						mir_sntprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
 					else
-						mir_sntprintf(mes, _countof(mes), TranslateT("Imported %d feed(s)."), count);
+						mir_sntprintf(mes, TranslateT("Imported %d feed(s)."), count);
 					MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, _countof(tmp), _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -491,7 +491,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				TCHAR tmp[MAX_PATH];
-				mir_sntprintf(tmp, _countof(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				mir_sntprintf(tmp, _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;

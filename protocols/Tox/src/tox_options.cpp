@@ -109,7 +109,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 {
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _countof(filter), _T("%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c"),
+	mir_sntprintf(filter, _T("%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c"),
 		TranslateT("Tox profile"), 0, 0, TranslateT("All files"), 0, 0, 0);
 
 	TCHAR profilePath[MAX_PATH] = { 0 };
@@ -141,7 +141,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 {
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _countof(filter), _T("%s(*.tox)%c*.tox%c%c"),
+	mir_sntprintf(filter, _T("%s(*.tox)%c*.tox%c%c"),
 		TranslateT("Tox profile"), 0, 0, 0);
 
 	TCHAR profilePath[MAX_PATH];
@@ -195,7 +195,7 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 bool CToxOptionsMultimedia::GetDeviceFullName(GUID guid, TCHAR *deviceName, DWORD deviceNameLength)
 {
 	TCHAR registryKey[MAX_PATH];
-	mir_sntprintf(registryKey, _countof(registryKey), _T("System\\CurrentControlSet\\Control\\MediaCategories\\{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}"),
+	mir_sntprintf(registryKey, _T("System\\CurrentControlSet\\Control\\MediaCategories\\{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}"),
 		guid.Data1, guid.Data2, guid.Data3, guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]);
 
 	HKEY hKey;
@@ -424,7 +424,7 @@ void CToxOptionsNodeList::OnInitDialog()
 	}
 
 	char module[MAX_PATH], setting[MAX_PATH];
-	mir_snprintf(module, _countof(module), "%s_Nodes", m_proto->m_szModuleName);
+	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (int i = 0; i < nodeCount; i++)
 	{
@@ -530,7 +530,7 @@ void CToxOptionsNodeList::OnApply()
 	lvi.pszText = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
 
 	char module[MAX_PATH];
-	mir_snprintf(module, _countof(module), "%s_Nodes", m_proto->m_szModuleName);
+	mir_snprintf(module, "%s_Nodes", m_proto->m_szModuleName);
 
 	int iItem = 0;
 	int itemCount = m_nodes.GetItemCount();

@@ -41,7 +41,7 @@ typedef struct
 	{
 		if (mrapPlaces[i].dwCityID == 0 && mrapPlaces[i].dwPlaceID == 0)
 		{
-			mir_sntprintf(szBuff, _countof(szBuff), L"	{%ld, 	TEXT(\"%s\")}, ", mrapPlaces[i].dwCountryID, mrapPlaces[i].lpszData);
+			mir_sntprintf(szBuff, L"	{%ld, 	TEXT(\"%s\")}, ", mrapPlaces[i].dwCountryID, mrapPlaces[i].lpszData);
 			DebugPrintCRLFW(szBuff);
 		}
 	}
@@ -53,7 +53,7 @@ typedef struct
 	{
 		if (mrapPlaces[i].dwCityID && mrapPlaces[i].dwPlaceID == 0)
 		{
-			mir_sntprintf(szBuff, _countof(szBuff), L"	{%ld, 	%ld, 	TEXT(\"%s\")}, ", mrapPlaces[i].dwCountryID, mrapPlaces[i].dwCityID, mrapPlaces[i].lpszData);
+			mir_sntprintf(szBuff, L"	{%ld, 	%ld, 	TEXT(\"%s\")}, ", mrapPlaces[i].dwCountryID, mrapPlaces[i].dwCityID, mrapPlaces[i].lpszData);
 			DebugPrintCRLFW(szBuff);
 		}
 	}

@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(productVersion), (LPARAM)productVersion);
 
 			TCHAR str[64];
-			mir_sntprintf(str, _countof(str), STR_VERSION_FORMAT, productVersion);
+			mir_sntprintf(str, STR_VERSION_FORMAT, productVersion);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);

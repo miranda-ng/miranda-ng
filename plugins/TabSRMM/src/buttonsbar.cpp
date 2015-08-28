@@ -72,7 +72,7 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, _countof(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
 
 	if (!db_get_s(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
@@ -830,8 +830,8 @@ void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, _countof(SettingName), "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
-	mir_snprintf(SettingParameter, _countof(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, cbd->m_bLSided, cbd->m_bRSided, cbd->m_bCanBeHidden);
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
+	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, cbd->m_bLSided, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else

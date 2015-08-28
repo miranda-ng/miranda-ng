@@ -484,9 +484,9 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
-		mir_sntprintf(tabtitle, _countof(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
+		mir_sntprintf(tabtitle, _T("%s (%s)  "), newcontactname, szStatus);
 	else
-		mir_sntprintf(tabtitle, _countof(tabtitle), _T("%s   "), newcontactname);
+		mir_sntprintf(tabtitle, _T("%s   "), newcontactname);
 
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -1046,7 +1046,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	TCHAR sztName[64];
-	mir_sntprintf(sztName, _countof(sztName), _T("s%u"), nextStgId++);
+	mir_sntprintf(sztName, _T("s%u"), nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

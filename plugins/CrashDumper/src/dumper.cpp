@@ -477,7 +477,7 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	buffer.AppendFormat(TEXT("Build time: %s\r\n"), mirtime);
 
 	TCHAR profpn[MAX_PATH];
-	mir_sntprintf(profpn, _countof(profpn), TEXT("%s\\%s"), profpathfull, profname);
+	mir_sntprintf(profpn, TEXT("%s\\%s"), profpathfull, profname);
 
 	buffer.AppendFormat(TEXT("Profile: %s\r\n"), profpn);
 

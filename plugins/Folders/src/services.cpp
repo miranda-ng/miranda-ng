@@ -87,7 +87,7 @@ int InitServices()
 	pos = _tcsrchr(szMirandaPath, '\\'); if (pos) *pos = 0;
 
 	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	mir_sntprintf(szUserDataPath, _countof(szUserDataPath), szTemp);
+	mir_sntprintf(szUserDataPath, szTemp);
 	mir_free(szTemp);
 
 	CreateServiceFunction(MS_FOLDERS_GET_PATH, GetPathService);

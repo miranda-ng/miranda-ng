@@ -276,7 +276,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 		if (LOWORD(wparam) == IDC_VARIABLES) {
 			char szout[2048];
-			mir_snprintf(szout, _countof(szout), VARIABLE_LIST);
+			mir_snprintf(szout, VARIABLE_LIST);
 			MessageBoxA(hdlg, szout, Translate("Last Seen Variables"), MB_OK | MB_TOPMOST);
 		}
 		break; //case WM_COMMAND

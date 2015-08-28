@@ -129,7 +129,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, _countof(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 	if (hContact) {
 		hContact = db_mc_tryMeta(hContact);
@@ -169,7 +169,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 	if (tszRecvPath)
 		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
-		mir_sntprintf(tszTemp, _countof(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
+		mir_sntprintf(tszTemp, _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 	patchDir(tszTemp, _countof(tszTemp));
 	RemoveInvalidPathChars(tszTemp);

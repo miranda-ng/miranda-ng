@@ -165,7 +165,7 @@ static void FillHistoryThread(void* param)
 		GetObjectSummary(&dbei, str, _countof(str));
 		if (str[0]) {
 			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, _T("d t"), strdatetime, _countof(strdatetime), 0);
-			mir_sntprintf(eventText, _countof(eventText), _T("%s: %s"), strdatetime, str);
+			mir_sntprintf(eventText, _T("%s: %s"), strdatetime, str);
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TCHAR* contactName, str[200];
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-			mir_sntprintf(str, _countof(str), TranslateT("History for %s"), contactName);
+			mir_sntprintf(str, TranslateT("History for %s"), contactName);
 			SetWindowText(hwndDlg, str);
 		}
 		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_HISTORY);

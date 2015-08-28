@@ -243,9 +243,9 @@ void FILEECHO::updateTitle()
 
 	contactName = (char*)pcli->pfnGetContactDisplayName(hContact, 0);
 	if (iState == STATE_OPERATE && chunkCount != 0)
-		mir_snprintf(newtitle, _countof(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else
-		mir_snprintf(newtitle, _countof(newtitle), "%s: %s", Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, "%s: %s", Translate(szFEMode[inSend]), contactName);
 	SetWindowText(hDlg, newtitle);
 }
 
@@ -412,9 +412,9 @@ void FILEECHO::sendReq()
 	if (*p == '\\')
 		mir_strcpy(filename, p + 1);
 
-	mir_snprintf(sendbuf, _countof(sendbuf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(sendbuf, Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILESIZE, sendbuf);
-	mir_snprintf(sendbuf, _countof(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary + '0', codeSymb, chunkCount, fileSize);
+	mir_snprintf(sendbuf, "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary + '0', codeSymb, chunkCount, fileSize);
 	sendCmd(0, CMD_REQ, sendbuf, filename);
 
 	SetDlgItemText(hDlg, IDC_STATUS, Translate("Request sent. Awaiting of acceptance.."));
@@ -618,7 +618,7 @@ void FILEECHO::onSendTimer()
 	}
 
 	char prefix[128];
-	mir_snprintf(prefix, _countof(prefix), "%X,%X,%X>", chunkIndx + 1, chunkPos[chunkIndx], chksum);
+	mir_snprintf(prefix, "%X,%X,%X>", chunkIndx + 1, chunkPos[chunkIndx], chksum);
 #ifdef DEBUG
 	overhead += mir_tstrlen((char*)buffer);
 #endif

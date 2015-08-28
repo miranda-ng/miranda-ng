@@ -17,7 +17,7 @@ int inline _DebugPopup(MCONTACT hContact, TCHAR *fmt, ...)
 	TCHAR debug[1024];
 
 	va_start(va, fmt);
-	mir_sntprintf(debug, _countof(debug), fmt, va);
+	mir_sntprintf(debug, fmt, va);
     
 	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
 		POPUPDATAT ppd = { 0 };

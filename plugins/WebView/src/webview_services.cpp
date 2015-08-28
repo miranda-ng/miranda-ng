@@ -85,12 +85,12 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_sntprintf(cachedirectorypath, _countof(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+			mir_sntprintf(cachedirectorypath, _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			TCHAR newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_sntprintf(newcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
-			mir_sntprintf(renamedcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
+			mir_sntprintf(newcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
+			mir_sntprintf(renamedcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
 
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
@@ -124,9 +124,9 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, _countof(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
+	mir_sntprintf(cachedirectorypath, _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_sntprintf(newcachepath, _countof(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
+	mir_sntprintf(newcachepath, _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
 	// file exists?
 	if ( _taccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _tfopen(newcachepath, _T("r"));

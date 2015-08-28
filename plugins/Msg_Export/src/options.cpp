@@ -706,7 +706,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					DWORD dwUIN = db_get_dw(hContact, sTmpA.c_str(), "UIN", 0);
 					TCHAR szTmp[50];
-					mir_sntprintf(szTmp, _countof(szTmp), _T("%d"), dwUIN);
+					mir_sntprintf(szTmp, _T("%d"), dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
 					ListView_SetItem(hMapUser, &sItem);

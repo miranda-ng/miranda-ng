@@ -45,7 +45,7 @@ void LoadProfilStatus(void *arg)
 
 	//dl
 	char url[255];
-	mir_snprintf(url, _countof(url), "http://miniprofile.xfire.com/bg/sh/type/1/%s.png", fname);
+	mir_snprintf(url, "http://miniprofile.xfire.com/bg/sh/type/1/%s.png", fname);
 	char* buf = NULL;
 	unsigned int size = 0;
 
@@ -66,7 +66,7 @@ void SetItemTxt(HWND hwndDlg, int feldid, char*feld, MCONTACT hcontact, int type
 	if (!db_get(hcontact, protocolname, feld, &dbv)) {
 		if (type == 1) {
 			char temp[255];
-			mir_snprintf(temp, _countof(temp), "%i", dbv.wVal);
+			mir_snprintf(temp, "%i", dbv.wVal);
 			SetDlgItemTextA(hwndDlg, feldid, temp);
 		}
 		else {
@@ -91,7 +91,7 @@ static int GetIPPortUDetails(MCONTACT hContact, char* feld1, char* feld2)
 		return 0;
 
 	char temp[255];
-	mir_snprintf(temp, _countof(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, feld2, -1));
+	mir_snprintf(temp, "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, feld2, -1));
 	db_free(&dbv);
 
 	if (OpenClipboard(NULL)) {

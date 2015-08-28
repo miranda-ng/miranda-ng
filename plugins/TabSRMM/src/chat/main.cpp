@@ -184,7 +184,7 @@ static void OnLoadSettings()
 
 	for (int i = 0; i < 5; i++) {
 		char szBuf[40];
-		mir_snprintf(szBuf, _countof(szBuf), "NickColor%d", i);
+		mir_snprintf(szBuf, "NickColor%d", i);
 		g_Settings.nickColors[i] = M.GetDword(CHAT_MODULE, szBuf, g_Settings.UserListColors[0]);
 	}
 	g_Settings.nickColors[5] = M.GetDword(CHAT_MODULE, "NickColor5", GetSysColor(COLOR_HIGHLIGHT));

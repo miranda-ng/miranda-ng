@@ -455,7 +455,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (hdr->hdr.code == PSN_APPLY) {
 				bool needRestart = false;
 				TCHAR bufRestart[1024];
-				int bufLen = mir_sntprintf(bufRestart, _countof(bufRestart), _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
+				int bufLen = mir_sntprintf(bufRestart, _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				for (int iRow = 0; iRow != -1;) {

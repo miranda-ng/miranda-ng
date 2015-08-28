@@ -33,7 +33,7 @@ static INT_PTR GetClistVersion(WPARAM, LPARAM lParam)
 {
 	static char g_szVersionString[256];
 
-	mir_snprintf(g_szVersionString, _countof(g_szVersionString), "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
+	mir_snprintf(g_szVersionString, "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
 	if (!IsBadWritePtr((LPVOID)lParam, 4))
 		*((DWORD *)lParam) = pluginInfo.version;
 

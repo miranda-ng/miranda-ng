@@ -64,7 +64,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP)
 {
 	char szMask[MAX_PATH+1];
-	mir_snprintf(szMask, _countof(szMask), "%s*", pszRealPath);
+	mir_snprintf(szMask, "%s*", pszRealPath);
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
@@ -100,7 +100,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
-	mir_snprintf(szMask, _countof(szMask), "%s%s", pszRealPath, "index.xsl");
+	mir_snprintf(szMask, "%s%s", pszRealPath, "index.xsl");
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 

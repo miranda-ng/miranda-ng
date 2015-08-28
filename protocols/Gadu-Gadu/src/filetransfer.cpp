@@ -269,7 +269,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc->tick = tick;
-								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc->contact;
@@ -299,7 +299,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc->contact;
@@ -497,7 +497,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc7->tick = tick;
-								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
+								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc7->contact;
@@ -527,7 +527,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc7->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, _countof(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
+								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc7->contact;
@@ -662,7 +662,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
-	mir_snprintf(fileName, _countof(fileName), "%s%s", path, dcc->file_info.filename);
+	mir_snprintf(fileName, "%s%s", path, dcc->file_info.filename);
 	dcc->folder = _strdup((char*)path);
 	dcc->tick = 0;
 	mir_free(path);
@@ -702,7 +702,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath)
 {
 	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
-	mir_snprintf(fileName, _countof(fileName), "%s%s", path, dcc7->filename);
+	mir_snprintf(fileName, "%s%s", path, dcc7->filename);
 	dcc7->folder = _strdup((char*)path);
 	dcc7->tick = 0;
 	mir_free(path);

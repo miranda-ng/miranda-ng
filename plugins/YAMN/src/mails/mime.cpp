@@ -661,7 +661,7 @@ FailBackRaw:
 	for (i=0;i<numparts;i++) {
 		if (i) { // part before first boudary should not have headers
 			char infoline[1024]; size_t linesize = 0;
-			mir_snprintf(infoline, _countof(infoline), "%s %d", Translate("Part"), i);
+			mir_snprintf(infoline, "%s %d", Translate("Part"), i);
 			linesize = mir_strlen(infoline);
 			if (partData[i].TransEnc) {
 				mir_snprintf(infoline + linesize, _countof(infoline) - linesize, "; %s", partData[i].TransEnc);

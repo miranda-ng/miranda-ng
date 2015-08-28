@@ -362,7 +362,7 @@ void DeleteArray(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszFormat, int iSta
 {
 	char pszSetting[MAXSETTING];
 	do {
-		mir_snprintf(pszSetting, _countof(pszSetting), pszFormat, iStart++);
+		mir_snprintf(pszSetting, pszFormat, iStart++);
 	}
 		while (!db_unset(hContact, pszModule, pszSetting));
 }

@@ -381,7 +381,7 @@ void LoadNotes(BOOL bIsStartup)
 	{
 		char *DelPos;
 
-		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, "NotesData%d", I);
 
 		if (Value)
 		{
@@ -694,7 +694,7 @@ void PurgeNotes(void)
 	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 	for(I = 0; I < NotesCount; I++)
 	{
-		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 }
@@ -940,7 +940,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 			Value[0xffff] = 0;
 		}
 
-		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
+		mir_snprintf(ValueName, "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
 
 		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
@@ -956,7 +956,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	// delete any left over DB note entries
 	for(; I < OldNotesCount; I++)
 	{
-		mir_snprintf(ValueName, _countof(ValueName), "NotesData%d", I);
+		mir_snprintf(ValueName, "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 

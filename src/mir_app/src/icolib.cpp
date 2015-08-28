@@ -353,7 +353,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 {
 	TCHAR tszName[100];
-	mir_sntprintf(tszName, _countof(tszName), _T("*StaticIcon_%d"), iStaticCount++);
+	mir_sntprintf(tszName, _T("*StaticIcon_%d"), iStaticCount++);
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));
 	newItem->file = IconSourceFile_Get(tszName, false);

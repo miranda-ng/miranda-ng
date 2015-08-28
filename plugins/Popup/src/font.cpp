@@ -40,28 +40,28 @@ void InitFonts()
 	mir_tstrncpy(fid.deffontsettings.szFace, _T("Tahoma"), _countof(fid.deffontsettings.szFace));
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TITLE), _countof(fid.name));
-	mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
+	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_CLOCK), _countof(fid.name));
-	mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
+	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TEXT), _countof(fid.name));
-	mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
+	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style = 0;
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_ACTION), _countof(fid.name));
-	mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
+	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION), _countof(fid.name));
-	mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
+	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
 	FontRegisterT(&fid);
 

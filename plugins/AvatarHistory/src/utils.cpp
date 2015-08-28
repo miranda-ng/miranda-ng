@@ -151,7 +151,7 @@ TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 	
 #ifdef DBGPOPUPS
 	TCHAR log[1024];
-	mir_sntprintf(log, _countof(log), _T("Path: %s\nProto: %S\nUIN: %s"), fn, proto, uin);
+	mir_sntprintf(log, _T("Path: %s\nProto: %S\nUIN: %s"), fn, proto, uin);
 	ShowPopup(hContact, _T("AVH Debug: GetContactFolder"), log);
 #endif
 
@@ -178,7 +178,7 @@ void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
 
 	GetOldStyleAvatarName(shortcut, hContact);
 
-	mir_sntprintf(shortcut, _countof(shortcut), _T("%s.%s.lnk"), shortcut,
+	mir_sntprintf(shortcut, _T("%s.%s.lnk"), shortcut,
 		GetExtension(history_filename));
 
 	if (!CreateShortcut(history_filename, shortcut))
@@ -208,7 +208,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 	else
 		GetProtocolFolder(file, proto);
 
-	mir_sntprintf(search, _countof(search), _T("%s\\%s.*"), file, hash);
+	mir_sntprintf(search, _T("%s\\%s.*"), file, hash);
 
 	WIN32_FIND_DATA finddata;
 	HANDLE hFind = FindFirstFile(search, &finddata);
@@ -225,7 +225,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".jpg"))
 				|| !mir_tstrcmpi(&finddata.cFileName[len-5], _T(".jpeg"))))
 		{
-			mir_sntprintf(file, _countof(file), _T("%s\\%s"), file, finddata.cFileName);
+			mir_sntprintf(file, _T("%s\\%s"), file, finddata.cFileName);
 			ret = mir_tstrdup(file);
 			break;
 		}

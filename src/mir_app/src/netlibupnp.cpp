@@ -261,25 +261,16 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 			char szData1[1024];
 
 			szReq = mir_strdup(szResult);
-			sz = mir_snprintf(szData1, _countof(szData1),
-				soap_action, szActionName, szDev, szReq, szActionName);
-
-			sz = mir_snprintf(szData, 4096,
-				szPostHdr, szPath, szHost, sPort,
-				sz, szDev, szActionName, szData1);
+			sz = mir_snprintf(szData1, soap_action, szActionName, szDev, szReq, szActionName);
+			sz = mir_snprintf(szData, 4096, szPostHdr, szPath, szHost, sPort, sz, szDev, szActionName, szData1);
 		}
 		break;
 
 		case ControlQuery:
 		{
 			char szData1[1024];
-
-			sz = mir_snprintf(szData1, _countof(szData1),
-				soap_query, szActionName);
-
-			sz = mir_snprintf(szData, 4096,
-				szPostHdr, szPath, szHost, sPort,
-				sz, "urn:schemas-upnp-org:control-1-0", "QueryStateVariable", szData1);
+			sz = mir_snprintf(szData1, soap_query, szActionName);
+			sz = mir_snprintf(szData, 4096, szPostHdr, szPath, szHost, sPort, sz, "urn:schemas-upnp-org:control-1-0", "QueryStateVariable", szData1);
 		}
 		break;
 		}

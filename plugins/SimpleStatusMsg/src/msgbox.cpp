@@ -643,7 +643,7 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 	char text[16], buff2[80];
 
 	for (i = 1; i <= data->max_hist_msgs; i++) {
-		mir_snprintf(text, _countof(text), "SMsg%d", i);
+		mir_snprintf(text, "SMsg%d", i);
 		db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
 	}
 	db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
@@ -657,7 +657,7 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 			continue;
 
-		mir_snprintf(buff2, _countof(buff2), "Last%sMsg", accounts->pa[i]->szModuleName);
+		mir_snprintf(buff2, "Last%sMsg", accounts->pa[i]->szModuleName);
 		db_set_s(NULL, "SimpleStatusMsg", buff2, "");
 	}
 	db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)data->max_hist_msgs);
@@ -696,7 +696,7 @@ void DisplayCharsCount(struct MsgBoxData *dlg_data, HWND hwndDlg)
 				lines++;
 		}
 	}
-	mir_sntprintf(status_text, _countof(status_text), TranslateT("OK (%d)"), len - (lines - 1));
+	mir_sntprintf(status_text, TranslateT("OK (%d)"), len - (lines - 1));
 	SetDlgItemText(hwndDlg, IDC_OK, status_text);
 }
 
@@ -780,7 +780,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	TCHAR szTitle[256], szProtoName[128];
 	BOOL bDisabled = msgbox_data->m_szProto && !(CallProtoService(msgbox_data->m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND);
 
-	mir_sntprintf(szProtoName, _countof(szProtoName), msgbox_data->m_szProto ? Proto_GetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
+	mir_sntprintf(szProtoName, msgbox_data->m_szProto ? Proto_GetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
 	if (iStatus == ID_STATUS_CURRENT) {
 		if (msgbox_data->m_bOnStartup)
 			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
@@ -905,7 +905,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			init_data = (struct MsgBoxInitData *)lParam;
 			GetWindowText(hwndDlg, szFormat, _countof(szFormat));
-			mir_sntprintf(szProtoName, _countof(szProtoName), init_data->m_szProto ? Proto_GetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
+			mir_sntprintf(szProtoName, init_data->m_szProto ? Proto_GetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
 
 			if (init_data->m_iStatus == ID_STATUS_CURRENT) {
 				if (init_data->m_bOnStartup)
@@ -1099,7 +1099,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 			else {
 				TCHAR str[64];
-				mir_sntprintf(str, _countof(str), TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
+				mir_sntprintf(str, TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
 				SetDlgItemText(hwndDlg, IDC_OK, str);
 			}
 			msgbox_data->m_iCountdown--;
@@ -1179,10 +1179,10 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								if (!mir_tstrcmp(dbv.ptszVal, tszMsg)) {
 									found = TRUE;
 									if (msgbox_data->m_szProto) {
-										mir_snprintf(buff2, _countof(buff2), "Last%sMsg", msgbox_data->m_szProto);
+										mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
 										db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-										mir_snprintf(buff2, _countof(buff2), "%sMsg", msgbox_data->m_szProto);
+										mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
 										db_set_ts(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
 									}
 									else {
@@ -1200,10 +1200,10 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 											if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 												continue;
 
-											mir_snprintf(buff2, _countof(buff2), "Last%sMsg", accounts->pa[j]->szModuleName);
+											mir_snprintf(buff2, "Last%sMsg", accounts->pa[j]->szModuleName);
 											db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-											mir_snprintf(buff2, _countof(buff2), "%sMsg", accounts->pa[j]->szModuleName);
+											mir_snprintf(buff2, "%sMsg", accounts->pa[j]->szModuleName);
 											iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(accounts->pa[j]->szModuleName) : GetCurrentStatus(accounts->pa[j]->szModuleName);
 											db_set_ts(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 										}
@@ -1227,10 +1227,10 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							db_set_ts(NULL, "SimpleStatusMsg", buff, tszMsg);
 
 							if (msgbox_data->m_szProto) {
-								mir_snprintf(buff2, _countof(buff2), "Last%sMsg", msgbox_data->m_szProto);
+								mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);
 								db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-								mir_snprintf(buff2, _countof(buff2), "%sMsg", msgbox_data->m_szProto);
+								mir_snprintf(buff2, "%sMsg", msgbox_data->m_szProto);
 								db_set_ts(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, buff2), tszMsg);
 							}
 							else {
@@ -1248,10 +1248,10 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 									if (!(CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 										continue;
 
-									mir_snprintf(buff2, _countof(buff2), "Last%sMsg", accounts->pa[j]->szModuleName);
+									mir_snprintf(buff2, "Last%sMsg", accounts->pa[j]->szModuleName);
 									db_set_s(NULL, "SimpleStatusMsg", buff2, buff);
 
-									mir_snprintf(buff2, _countof(buff2), "%sMsg", accounts->pa[j]->szModuleName);
+									mir_snprintf(buff2, "%sMsg", accounts->pa[j]->szModuleName);
 									iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(accounts->pa[j]->szModuleName) : GetCurrentStatus(accounts->pa[j]->szModuleName);
 									db_set_ts(NULL, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 								}

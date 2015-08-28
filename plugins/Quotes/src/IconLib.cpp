@@ -24,8 +24,6 @@ void Quotes_IconsInit()
 std::string Quotes_MakeIconName(const char* name)
 {
 	assert(name);
-	//char szSettingName[100];
-	//mir_snprintf(szSettingName,_countof(szSettingName),"%s_%s",QUOTES_PROTOCOL_NAME,name);
 	std::string sName(QUOTES_PROTOCOL_NAME);
 	sName += "_";
 	sName += name;

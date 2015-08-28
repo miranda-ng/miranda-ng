@@ -288,7 +288,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 					myAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
 
 				char szAddr[256];
-				mir_snprintf(szAddr, _countof(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
+				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
 
 				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
@@ -403,7 +403,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				}
 
 				char fileBuffer[2048];
-				int bytes = mir_snprintf(fileBuffer, _countof(fileBuffer), "HTTP/1.1 200 OK\r\nContent-Length: %I64u\r\n\r\n", statbuf.st_size);
+				int bytes = mir_snprintf(fileBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %I64u\r\n\r\n", statbuf.st_size);
 				WsSend(s, fileBuffer, bytes, MSG_DUMPASTEXT);
 
 				ft->std.flags |= PFTS_SENDING;

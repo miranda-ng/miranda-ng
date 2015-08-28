@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					}
 
 					TCHAR tmp[MAX_PATH];
-					mir_sntprintf(tmp, _countof(tmp), _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
+					mir_sntprintf(tmp, _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
 
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					TCHAR tmp[MAX_PATH];
-					mir_sntprintf(tmp, _countof(tmp), _T("%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c"), TranslateT("Sound Files"), 0, 0, 0);
+					mir_sntprintf(tmp, _T("%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c"), TranslateT("Sound Files"), 0, 0, 0);
 					ofn.lpstrFilter = tmp;
 					ofn.hwndOwner = 0;
 					ofn.lpstrFile = szTempPath;

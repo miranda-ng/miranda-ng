@@ -107,7 +107,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				WORD wSave = dbv.wVal;
 				if (wSave == (WORD)-1) {
 					char szSettingName[100];
-					mir_snprintf(szSettingName, _countof(szSettingName), "%sName", szSetting);
+					mir_snprintf(szSettingName, "%sName", szSetting);
 					if (!db_get_ts(hContact, szModule, szSettingName, &dbv)) {
 						ptstr = dbv.ptszVal;
 						unspecified = false;
@@ -215,7 +215,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
 				TCHAR szExec[264], szEmail[256];
 				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
-				mir_sntprintf(szExec, _countof(szExec), _T("mailto:%s"), szEmail);
+				mir_sntprintf(szExec, _T("mailto:%s"), szEmail);
 				ShellExecute(hwndDlg, _T("open"), szExec, NULL, NULL, SW_SHOW);
 			}
 			break;

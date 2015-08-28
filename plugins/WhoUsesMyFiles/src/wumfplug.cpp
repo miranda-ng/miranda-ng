@@ -119,7 +119,7 @@ void ShowWumfPopup(PWumf w)
 	TCHAR text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
-	mir_sntprintf(title, _countof(title), _T("%s (%s)"), w->szComp, w->szUser);
+	mir_sntprintf(title, _T("%s (%s)"), w->szComp, w->szUser);
 	mir_sntprintf(text, _T("%s (%s)"), w->szPath, w->szPerm);
 	ShowThePopup(w, title, text);
 }
@@ -274,7 +274,7 @@ void ChooseFile(HWND hwndDlg)
 	}
 	else if (CommDlgExtendedError() != 0) {
 		TCHAR str[256];
-		mir_sntprintf(str, _countof(str), TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
+		mir_sntprintf(str, TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
 		MessageBox(hwndDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
 }

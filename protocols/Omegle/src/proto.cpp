@@ -27,11 +27,11 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 {
 	this->facy.parent = this;
 
-	this->signon_lock_ = CreateMutex( NULL, FALSE, NULL );
-	this->log_lock_ = CreateMutex( NULL, FALSE, NULL );
-	this->facy.send_message_lock_ = CreateMutex( NULL, FALSE, NULL );
-	this->facy.connection_lock_ = CreateMutex( NULL, FALSE, NULL );
-	this->events_loop_lock_ = CreateMutex( NULL, FALSE, NULL );
+	this->signon_lock_ = CreateMutex(NULL, FALSE, NULL);
+	this->log_lock_ = CreateMutex(NULL, FALSE, NULL);
+	this->facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
+	this->facy.connection_lock_ = CreateMutex(NULL, FALSE, NULL);
+	this->events_loop_lock_ = CreateMutex(NULL, FALSE, NULL);
 
 	// Group chats
 	CreateProtoService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
@@ -44,12 +44,12 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 
 	// Create standard network connection
 	TCHAR descr[512];
-	NETLIBUSER nlu = {sizeof(nlu)};
+	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf(descr,_countof(descr),TranslateT("%s server connection"),m_tszUserName);
+	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
@@ -58,32 +58,32 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT( "StrangerTyp", m_tszUserName, LPGENT( "Stranger typing" ));
-	SkinAddNewSoundExT( "StrangerTypStop", m_tszUserName, LPGENT( "Stranger stopped typing" ));
-	SkinAddNewSoundExT( "StrangerChange", m_tszUserName, LPGENT( "Changing stranger" ));
+	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENT("Stranger typing"));
+	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENT("Stranger stopped typing"));
+	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENT("Changing stranger"));
 }
 
-OmegleProto::~OmegleProto( )
+OmegleProto::~OmegleProto()
 {
-	Netlib_CloseHandle( m_hNetlibUser );
+	Netlib_CloseHandle(m_hNetlibUser);
 
-	WaitForSingleObject( this->signon_lock_, IGNORE );
-	WaitForSingleObject( this->log_lock_, IGNORE );
-	WaitForSingleObject( this->facy.send_message_lock_, IGNORE );
-	WaitForSingleObject( this->events_loop_lock_, IGNORE );
+	WaitForSingleObject(this->signon_lock_, IGNORE);
+	WaitForSingleObject(this->log_lock_, IGNORE);
+	WaitForSingleObject(this->facy.send_message_lock_, IGNORE);
+	WaitForSingleObject(this->events_loop_lock_, IGNORE);
 
-	CloseHandle( this->signon_lock_ );
-	CloseHandle( this->log_lock_ );
-	CloseHandle( this->facy.send_message_lock_ );
-	CloseHandle( this->events_loop_lock_ );
-	CloseHandle( this->facy.connection_lock_ );
+	CloseHandle(this->signon_lock_);
+	CloseHandle(this->log_lock_);
+	CloseHandle(this->facy.send_message_lock_);
+	CloseHandle(this->events_loop_lock_);
+	CloseHandle(this->facy.connection_lock_);
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
 DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 {
-	switch(type) {
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_CHAT;
 	case PFLAGNUM_2:
@@ -93,7 +93,7 @@ DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return OMEGLE_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) Translate("Visible name");
+		return (DWORD_PTR)Translate("Visible name");
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR) "Nick";
 	}
@@ -102,10 +102,10 @@ DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int OmegleProto::SetStatus( int new_status )
+int OmegleProto::SetStatus(int new_status)
 {
 	// Routing statuses not supported by Omegle
-	switch ( new_status ) {
+	switch (new_status) {
 	case ID_STATUS_OFFLINE:
 	case ID_STATUS_CONNECTING:
 		new_status = ID_STATUS_OFFLINE;
@@ -117,44 +117,39 @@ int OmegleProto::SetStatus( int new_status )
 
 	m_iDesiredStatus = new_status;
 
-	if ( new_status == m_iStatus)
-	{
+	if (new_status == m_iStatus) {
 		return 0;
 	}
 
-	if ( m_iStatus == ID_STATUS_CONNECTING && new_status != ID_STATUS_OFFLINE )
-	{
+	if (m_iStatus == ID_STATUS_CONNECTING && new_status != ID_STATUS_OFFLINE) {
 		return 0;
 	}
 
-	if ( new_status == ID_STATUS_OFFLINE )
-	{
-		ForkThread( &OmegleProto::SignOff, this );
+	if (new_status == ID_STATUS_OFFLINE) {
+		ForkThread(&OmegleProto::SignOff, this);
 	}
-	else
-	{
-		ForkThread( &OmegleProto::SignOn, this );
+	else {
+		ForkThread(&OmegleProto::SignOn, this);
 	}
 	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
-int OmegleProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
+int OmegleProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
-	switch(event)
-	{
+	switch (event) {
 	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam,lParam);
+		return OnModulesLoaded(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
-		return OnPreShutdown  (wParam,lParam);
+		return OnPreShutdown(wParam, lParam);
 
 	case EV_PROTO_ONOPTIONS:
-		return OnOptionsInit  (wParam,lParam);
+		return OnOptionsInit(wParam, lParam);
 
 	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam,lParam);
+		return OnContactDeleted(wParam, lParam);
 	}
 
 	return 1;
@@ -165,21 +160,21 @@ int OmegleProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_OmegleACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_OmegleACCOUNT),
 		(HWND)lParam, OmegleAccountProc, (LPARAM)this);
 }
 
 int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Register group chat
-	GCREGISTER gcr = {sizeof(gcr)};
+	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.dwFlags = 0; //GC_TYPNOTIF; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
 	gcr.nColors = 0;
 	gcr.pColors = NULL;
-	CallService(MS_GC_REGISTER,0,reinterpret_cast<LPARAM>(&gcr));
+	CallService(MS_GC_REGISTER, 0, reinterpret_cast<LPARAM>(&gcr));
 
 	return 0;
 }
@@ -187,23 +182,23 @@ int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance   = g_hInstance;
-	odp.ptszTitle   = m_tszUserName;
+	odp.hInstance = g_hInstance;
+	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	odp.position    = 271828;
-	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTab     = LPGENT("Account");
+	odp.position = 271828;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc  = OmegleOptionsProc;
+	odp.pfnDlgProc = OmegleOptionsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
 int OmegleProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	SetStatus( ID_STATUS_OFFLINE );
+	SetStatus(ID_STATUS_OFFLINE);
 	return 0;
 }
 

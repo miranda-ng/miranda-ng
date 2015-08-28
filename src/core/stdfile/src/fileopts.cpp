@@ -127,7 +127,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (iScanner >= _countof(virusScanners) || iScanner < 0) break;
 			str[0] = '\0';
 			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
-				mir_sntprintf(str, _countof(str), virusScanners[iScanner].szCommandLine, szScanExe);
+				mir_sntprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
 		}
 		break;

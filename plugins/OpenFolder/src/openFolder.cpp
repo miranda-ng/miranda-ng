@@ -64,7 +64,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 HICON LoadIconExEx(const char* IcoLibName, int)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
+	mir_snprintf(szSettingName, "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
 	return IcoLib_GetIcon(szSettingName);
 }
 

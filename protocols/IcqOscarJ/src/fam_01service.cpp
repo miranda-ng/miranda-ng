@@ -735,7 +735,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 
 		// prepare mood id
 		if (m_bMoodsEnabled && bXStatus && moodXStatus[bXStatus - 1] != -1)
-			mir_snprintf(szMoodData, _countof(szMoodData), "icqmood%d", moodXStatus[bXStatus - 1]);
+			mir_snprintf(szMoodData, "icqmood%d", moodXStatus[bXStatus - 1]);
 		else
 			szMoodData[0] = '\0';
 

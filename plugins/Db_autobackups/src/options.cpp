@@ -48,13 +48,12 @@ int LoadOptions(void)
 			if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
 				_tcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
 			else
-				mir_sntprintf(options.folder, _countof(options.folder), _T("%s\\%s"), profilePath, dbv.ptszVal);
+				mir_sntprintf(options.folder, _T("%s\\%s"), profilePath, dbv.ptszVal);
 
 			db_free(&dbv);
 			mir_free(tmp);
 		}
-		else
-			mir_sntprintf(options.folder, _countof(options.folder), _T("%s%s"), DIR, SUB_DIR);
+		else mir_sntprintf(options.folder, _T("%s%s"), DIR, SUB_DIR);
 	}
 	options.num_backups = db_get_w(0, "AutoBackups", "NumBackups", 3);
 
@@ -76,7 +75,7 @@ int SaveOptions(void)
 	db_set_w(0, "AutoBackups", "Period", (WORD)options.period);
 	db_set_b(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
 
-	mir_sntprintf(prof_dir, _countof(prof_dir), _T("%s\\"), profilePath);
+	mir_sntprintf(prof_dir, _T("%s\\"), profilePath);
 	size_t prof_len = mir_tstrlen(prof_dir);
 	size_t opt_len = mir_tstrlen(options.folder);
 
@@ -89,7 +88,7 @@ int SaveOptions(void)
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
 	if (mir_tstrlen(tmp) < 2 || tmp[1] != ':') {
 		_tcsncpy_s(prof_dir, options.folder, _TRUNCATE);
-		mir_sntprintf(options.folder, _countof(options.folder), _T("%s\\%s"), profilePath, prof_dir);
+		mir_sntprintf(options.folder, _T("%s\\%s"), profilePath, prof_dir);
 	}
 	mir_free(tmp);
 	db_set_w(0, "AutoBackups", "NumBackups", options.num_backups);
@@ -188,7 +187,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		else {
 			TCHAR tszTooltipText[4096];
-			mir_sntprintf(tszTooltipText, _countof(tszTooltipText), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTooltipText, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("%miranda_path%"), TranslateT("path to Miranda root folder"),
 				_T("%miranda_profilesdir%"), TranslateT("path to folder containing Miranda profiles"),
 				_T("%miranda_profilename%"), TranslateT("name of current Miranda profile (filename, without extension)"),
@@ -346,7 +345,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
 					_tcsncpy_s(backupfolder, tmp, _TRUNCATE);
 				else
-					mir_sntprintf(backupfolder, _countof(backupfolder), _T("%s\\%s"), profilePath, tmp);
+					mir_sntprintf(backupfolder, _T("%s\\%s"), profilePath, tmp);
 				mir_free(tmp);
 
 				int err = CreateDirectoryTreeT(backupfolder);

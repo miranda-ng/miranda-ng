@@ -779,11 +779,11 @@ void checkthread(void*)
 
 		if (attSize) {
 			WCHAR field_attachments_UNICODE[MAX_FIELD];
-			mir_sntprintf(field_attachments_UNICODE, _countof(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
-			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
+			mir_sntprintf(field_attachments_UNICODE, TranslateW(L"Attachments: %d bytes"), attSize);
+			mir_sntprintf(msgSubject, L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
 		}
 		else {
-			mir_sntprintf(msgSubject, _countof(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE);
+			mir_sntprintf(msgSubject, L"%S\n%s", field_date, field_subject_UNICODE);
 		}
 
 		//check if this is not filtered msg

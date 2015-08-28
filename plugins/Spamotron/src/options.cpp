@@ -519,7 +519,7 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					if (!dbuf)
 						return FALSE;
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
-					mir_snprintf(cbuf, _countof(cbuf), "%0.04f", get_msg_score(dbuf));
+					mir_snprintf(cbuf, "%0.04f", get_msg_score(dbuf));
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
 					MessageBoxA(NULL, cbuf, Translate("Message score"), MB_OK);
 					free(dbuf);

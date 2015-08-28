@@ -181,7 +181,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 				break;
 
 			char szLogText[MAX_PATH];
-			mir_snprintf(szLogText, _countof(szLogText), szChange, nItems);
+			mir_snprintf(szLogText, szChange, nItems);
 			debugLogA("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
 		}
 		break;

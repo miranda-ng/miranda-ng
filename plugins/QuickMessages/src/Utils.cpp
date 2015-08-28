@@ -21,90 +21,87 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ListData* ButtonsList[100];
 
-SortedList* QuickList=NULL;
+SortedList* QuickList = NULL;
 
-typedef void (*ItemDestuctor)(void*);
+typedef void(*ItemDestuctor)(void*);
 
 int  sstSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
-	ButtonData * mtbi1=(ButtonData *)*((ButtonData ** )vmtbi1);
-	ButtonData * mtbi2=(ButtonData *)*((ButtonData ** )vmtbi2);
-	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
-	return mtbi1->dwPos-mtbi2->dwPos;
+	ButtonData * mtbi1 = (ButtonData *)*((ButtonData **)vmtbi1);
+	ButtonData * mtbi2 = (ButtonData *)*((ButtonData **)vmtbi2);
+	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	return mtbi1->dwPos - mtbi2->dwPos;
 }
 
 int  sstQuickSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
-	QuickData * mtbi1=(QuickData *)*((QuickData ** )vmtbi1);
-	QuickData * mtbi2=(QuickData *)*((QuickData ** )vmtbi2);
-	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
-	return mtbi1->dwPos-mtbi2->dwPos;
+	QuickData * mtbi1 = (QuickData *)*((QuickData **)vmtbi1);
+	QuickData * mtbi2 = (QuickData *)*((QuickData **)vmtbi2);
+	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	return mtbi1->dwPos - mtbi2->dwPos;
 }
 
 
 int  sstOpSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
-	ButtonData * mtbi1=(ButtonData *)*((ButtonData ** )vmtbi1);
-	ButtonData * mtbi2=(ButtonData *)*((ButtonData ** )vmtbi2);
-	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
-	return mtbi1->dwOPPos-mtbi2->dwOPPos;
+	ButtonData * mtbi1 = (ButtonData *)*((ButtonData **)vmtbi1);
+	ButtonData * mtbi2 = (ButtonData *)*((ButtonData **)vmtbi2);
+	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	return mtbi1->dwOPPos - mtbi2->dwOPPos;
 }
 
 
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
-{																			
-	int i=0;
+{
+	int i = 0;
 	if (!pList)
 		return;
-	for (i=0; i<pList->realCount; i++)
-		pItemDestructor(pList->items[i]);	
-	List_Destroy(pList);																											
+	for (i = 0; i < pList->realCount; i++)
+		pItemDestructor(pList->items[i]);
+	List_Destroy(pList);
 	mir_free(pList);
 }
 
 void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestructor)
-{																																
-	if (index>=0 && index<pList->realCount)	
-	{
+{
+	if (index >= 0 && index < pList->realCount) {
 		pItemDestructor(pList->items[index]);
 		List_Remove(pList, index);
 	}
 }
 
 void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor)
-{																																
+{
 	if (List_RemovePtr(pList, ptr))
 		pItemDestructor(ptr);
 }
 
 void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 {
-	FSortFunc pOldSort=pList->sortFunc;
+	FSortFunc pOldSort = pList->sortFunc;
 	int i;
-	if (!pSortFunct) pSortFunct=pOldSort;
-	pList->sortFunc=NULL;
-	for (i=0; i<pList->realCount-1; i++)
-		if (pOldSort(pList->items[i],pList->items[i+1])<0)
-		{
-			void * temp=pList->items[i];
-			pList->items[i]=pList->items[i+1];
-			pList->items[i+1]=temp;
+	if (!pSortFunct) pSortFunct = pOldSort;
+	pList->sortFunc = NULL;
+	for (i = 0; i < pList->realCount - 1; i++)
+		if (pOldSort(pList->items[i], pList->items[i + 1]) < 0) {
+			void * temp = pList->items[i];
+			pList->items[i] = pList->items[i + 1];
+			pList->items[i + 1] = temp;
 			i--;
-			if (i>0) i--;
+			if (i > 0) i--;
 		}
-		pList->sortFunc=pOldSort;
+	pList->sortFunc = pOldSort;
 }
 
 void li_ZeroQuickList(SortedList *pList)
 {
 	int i;
-	for (i=0; i<pList->realCount; i++)
-	{
-		QuickData * qd=(QuickData *)pList->items[i];
-		qd->dwPos=0;
-		qd->bIsService=0;
-		qd->ptszValue=NULL;
-		qd->ptszValueName=NULL;
+	for (i = 0; i < pList->realCount; i++) {
+		QuickData * qd = (QuickData *)pList->items[i];
+		qd->dwPos = 0;
+		qd->bIsService = 0;
+		qd->ptszValue = NULL;
+		qd->ptszValueName = NULL;
 		List_Remove(pList, i);
 		i--;
 	}
@@ -114,11 +111,11 @@ static void listdestructor(void * input)
 {
 	ButtonData * cbdi = (ButtonData *)input;
 
-	if(cbdi->pszName != cbdi->pszOpName)
+	if (cbdi->pszName != cbdi->pszOpName)
 		mir_free(cbdi->pszOpName);
 	mir_free(cbdi->pszName);
 
-	if(cbdi->pszValue != cbdi->pszOpValue)
+	if (cbdi->pszValue != cbdi->pszOpValue)
 		mir_free(cbdi->pszOpValue);
 	mir_free(cbdi->pszValue);
 
@@ -127,104 +124,102 @@ static void listdestructor(void * input)
 
 void RemoveMenuEntryNode(SortedList *pList, int index)
 {
-	li_RemoveDestruct(pList,index,listdestructor);
+	li_RemoveDestruct(pList, index, listdestructor);
 }
 
 void DestroyButton(int listnum)
 {
-	int i=listnum;
-	ListData* ld=ButtonsList[listnum];
+	int i = listnum;
+	ListData* ld = ButtonsList[listnum];
 
 	mir_free(ld->ptszButtonName);
-	if(ld->ptszOPQValue != ld->ptszQValue)
+	if (ld->ptszOPQValue != ld->ptszQValue)
 		mir_free(ld->ptszOPQValue);
 	mir_free(ld->ptszQValue);
 
-	li_ListDestruct((SortedList*)ld->sl,listdestructor);
+	li_ListDestruct((SortedList*)ld->sl, listdestructor);
 
 	mir_free(ld);
-	ButtonsList[i]=NULL;
-	while(ButtonsList[i+1])
-	{
-		ButtonsList[i]=ButtonsList[i+1];
-		ButtonsList[i+1]=NULL;
+	ButtonsList[i] = NULL;
+	while (ButtonsList[i + 1]) {
+		ButtonsList[i] = ButtonsList[i + 1];
+		ButtonsList[i + 1] = NULL;
 		i++;
 	}
 }
 
-
-void SaveModuleSettings(int buttonnum,ButtonData* bd)
+void SaveModuleSettings(int buttonnum, ButtonData* bd)
 {
-	char szMEntry[256]={'\0'};
+	char szMEntry[256] = { '\0' };
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryName_%u_%u",buttonnum,bd->dwPos);
-	db_set_ts(NULL, PLGNAME,szMEntry,bd->pszName );
+	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, bd->dwPos);
+	db_set_ts(NULL, PLGNAME, szMEntry, bd->pszName);
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryValue_%u_%u",buttonnum,bd->dwPos);
-	if(bd->pszValue)
-		db_set_ts(NULL, PLGNAME,szMEntry,bd->pszValue );
+	mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, bd->dwPos);
+	if (bd->pszValue)
+		db_set_ts(NULL, PLGNAME, szMEntry, bd->pszValue);
 	else
-		db_unset(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME, szMEntry);
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryRel_%u_%u",buttonnum,bd->dwPos);
-	db_set_b(NULL, PLGNAME,szMEntry,bd->fEntryType );
+	mir_snprintf(szMEntry, "EntryRel_%u_%u", buttonnum, bd->dwPos);
+	db_set_b(NULL, PLGNAME, szMEntry, bd->fEntryType);
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
-	db_set_b(NULL, PLGNAME,szMEntry,bd->bInQMenu);
+	mir_snprintf(szMEntry, "EntryToQMenu_%u_%u", buttonnum, bd->dwPos);
+	db_set_b(NULL, PLGNAME, szMEntry, bd->bInQMenu);
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
-	db_set_b(NULL, PLGNAME,szMEntry,bd->bIsServName);
+	mir_snprintf(szMEntry, "EntryIsServiceName_%u_%u", buttonnum, bd->dwPos);
+	db_set_b(NULL, PLGNAME, szMEntry, bd->bIsServName);
 }
 
-void CleanSettings(int buttonnum,int from)
+void CleanSettings(int buttonnum, int from)
 {
-	char szMEntry[256]={'\0'};
-	DBVARIANT dbv = {0};
-	if(from==-1){
-		mir_snprintf(szMEntry,_countof(szMEntry),"ButtonName_%u",buttonnum);
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"ButtonValue_%u",buttonnum);
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"RCEntryIsServiceName_%u",buttonnum);
-		db_unset(NULL, PLGNAME,szMEntry);
+	char szMEntry[256] = { '\0' };
+	DBVARIANT dbv = { 0 };
+	if (from == -1) {
+		mir_snprintf(szMEntry, "ButtonName_%u", buttonnum);
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "ButtonValue_%u", buttonnum);
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", buttonnum);
+		db_unset(NULL, PLGNAME, szMEntry);
 	}
 
-	mir_snprintf(szMEntry,_countof(szMEntry),"EntryName_%u_%u",buttonnum,from);
-	while(!db_get_ts(NULL, PLGNAME,szMEntry,&dbv)) {
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"EntryValue_%u_%u",buttonnum,from);
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"EntryRel_%u_%u",buttonnum,from);
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,from);
-		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,_countof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,from);
-		db_unset(NULL, PLGNAME,szMEntry);
+	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, from);
+	while (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, from);
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "EntryRel_%u_%u", buttonnum, from);
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "EntryToQMenu_%u_%u", buttonnum, from);
+		db_unset(NULL, PLGNAME, szMEntry);
+		mir_snprintf(szMEntry, "EntryIsServiceName_%u_%u", buttonnum, from);
+		db_unset(NULL, PLGNAME, szMEntry);
 
-		mir_snprintf(szMEntry,_countof(szMEntry),"EntryName_%u_%u",buttonnum,++from);
+		mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, ++from);
 	}
 	db_free(&dbv);
 }
 
-BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode) 
-{	  
-	char szMEntry[256] = {'\0'};
+BYTE getEntryByte(int buttonnum, int entrynum, BOOL mode)
+{
+	char szMEntry[256] = { '\0' };
 
 	switch (mode) {
 	case 0:
-		mir_snprintf(szMEntry, _countof(szMEntry), "EntryToQMenu_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, "EntryToQMenu_%u_%u", buttonnum, entrynum);
 		break;
 	case 1:
-		mir_snprintf(szMEntry, _countof(szMEntry), "EntryRel_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, "EntryRel_%u_%u", buttonnum, entrynum);
 		break;
 	case 2:
-		mir_snprintf(szMEntry, _countof(szMEntry), "EntryIsServiceName_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, "EntryIsServiceName_%u_%u", buttonnum, entrynum);
 		break;
 	case 3:
-		mir_snprintf(szMEntry, _countof(szMEntry), "RCEntryIsServiceName_%u", buttonnum);
+		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", buttonnum);
 		break;
 	}
-	return db_get_b(NULL, PLGNAME, szMEntry, 0); 
+	return db_get_b(NULL, PLGNAME, szMEntry, 0);
 }
 
 static HANDLE AddIcon(char* szIcoName)
@@ -244,22 +239,22 @@ static HANDLE AddIcon(char* szIcoName)
 
 DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 {
-	if ( !ServiceExists(MS_BB_ADDBUTTON)) {
+	if (!ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bb = { sizeof(bb) };
 		bb.pszModuleName = PLGNAME;
 
 		while (buttonsWas > buttonsNow) {
 			bb.dwButtonID = --buttonsWas;
 			CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bb);
-		}	
-		
+		}
+
 		while (buttonsWas < buttonsNow) {
-			if  (ServiceExists(MS_BB_ADDBUTTON)) {
+			if (ServiceExists(MS_BB_ADDBUTTON)) {
 				char iconname[40];
-				mir_snprintf(iconname, _countof(iconname), LPGEN("Quick Messages Button %u"), buttonsWas);
+				mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), buttonsWas);
 				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
 				bb.dwButtonID = buttonsWas++;
-				bb.dwDefPos = 300+buttonsWas;
+				bb.dwDefPos = 300 + buttonsWas;
 				bb.hIcon = AddIcon(iconname);
 				CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bb);
 			}
@@ -270,93 +265,90 @@ DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 
 
 void InitButtonsList()
-{  
-	int i,j,k=0;
-	QuickList=List_Create(0,1);
-	for(i=0;i<g_iButtonsCount;i++)
-	{
-		TCHAR* pszBName=NULL;
-		ListData* ld=NULL;
-		if (!(pszBName=getMenuEntry(i,0,3))) { 
-			g_iButtonsCount=i;
-			db_set_b(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
-			break;}
+{
+	int i, j, k = 0;
+	QuickList = List_Create(0, 1);
+	for (i = 0; i < g_iButtonsCount; i++) {
+		TCHAR* pszBName = NULL;
+		ListData* ld = NULL;
+		if (!(pszBName = getMenuEntry(i, 0, 3))) {
+			g_iButtonsCount = i;
+			db_set_b(NULL, PLGNAME, "ButtonsCount", (BYTE)g_iButtonsCount);
+			break;
+		}
 
 		ld = (ListData *)mir_alloc(sizeof(ListData));
-		ButtonsList[i]=ld;
-		ld->sl=List_Create(0,1);
-		ld->ptszQValue=ld->ptszOPQValue=getMenuEntry(i,0,2);
-		ld->ptszButtonName=pszBName;
-		ld->dwPos=ld->dwOPPos=i;
-		ld->dwOPFlags=0;
-		ld->bIsServName=ld->bIsOpServName=getEntryByte(i,0,3);
-		for(j=0;;j++)
-		{	
-			TCHAR* pszEntry=NULL;
-			ButtonData *bd=NULL;
+		ButtonsList[i] = ld;
+		ld->sl = List_Create(0, 1);
+		ld->ptszQValue = ld->ptszOPQValue = getMenuEntry(i, 0, 2);
+		ld->ptszButtonName = pszBName;
+		ld->dwPos = ld->dwOPPos = i;
+		ld->dwOPFlags = 0;
+		ld->bIsServName = ld->bIsOpServName = getEntryByte(i, 0, 3);
+		for (j = 0;; j++) {
+			TCHAR* pszEntry = NULL;
+			ButtonData *bd = NULL;
 
-			if (!(pszEntry=getMenuEntry(i,j,0)))
+			if (!(pszEntry = getMenuEntry(i, j, 0)))
 				break;
 
 			bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
-			memset(bd,0,sizeof(ButtonData));
+			memset(bd, 0, sizeof(ButtonData));
 
-			bd->dwPos=bd->dwOPPos=j;
-			bd->pszName=bd->pszOpName=pszEntry;
-			bd->pszValue=bd->pszOpValue=getMenuEntry(i,j,1);
-			bd->fEntryType=bd->fEntryOpType=getEntryByte(i,j,1);
-			bd->bInQMenu=bd->bOpInQMenu=getEntryByte(i,j,0);
-			bd->bIsServName=bd->bIsOpServName=getEntryByte(i,j,2);
-			if(bd->bInQMenu){
+			bd->dwPos = bd->dwOPPos = j;
+			bd->pszName = bd->pszOpName = pszEntry;
+			bd->pszValue = bd->pszOpValue = getMenuEntry(i, j, 1);
+			bd->fEntryType = bd->fEntryOpType = getEntryByte(i, j, 1);
+			bd->bInQMenu = bd->bOpInQMenu = getEntryByte(i, j, 0);
+			bd->bIsServName = bd->bIsOpServName = getEntryByte(i, j, 2);
+			if (bd->bInQMenu) {
 				QuickData* qd = (QuickData *)mir_alloc(sizeof(QuickData));
-				qd->dwPos=k++;
-				qd->ptszValue=bd->pszValue;
-				qd->ptszValueName=bd->pszName;
-				List_InsertPtr(QuickList,qd);
+				qd->dwPos = k++;
+				qd->ptszValue = bd->pszValue;
+				qd->ptszValueName = bd->pszName;
+				List_InsertPtr(QuickList, qd);
 			}
-			List_InsertPtr((SortedList*)ld->sl,bd);
+			List_InsertPtr((SortedList*)ld->sl, bd);
 		}
 	}
 }
 
 void DestructButtonsList()
 {
-	int i=0;
+	int i = 0;
 	//	for ( i=0; i < g_iButtonsCount; i++ )
-	while(ButtonsList[i])
-	{
-		li_ListDestruct(ButtonsList[i]->sl,listdestructor);
+	while (ButtonsList[i]) {
+		li_ListDestruct(ButtonsList[i]->sl, listdestructor);
 		mir_free(ButtonsList[i]->ptszButtonName);
-		if(ButtonsList[i]->ptszOPQValue!=ButtonsList[i]->ptszQValue)
+		if (ButtonsList[i]->ptszOPQValue != ButtonsList[i]->ptszQValue)
 			if (ButtonsList[i]->ptszOPQValue) mir_free(ButtonsList[i]->ptszOPQValue);
 		if (ButtonsList[i]->ptszQValue) mir_free(ButtonsList[i]->ptszQValue);
-		i++;	
+		i++;
 	}
-	if(QuickList)
-	{
+	if (QuickList) {
 		li_ZeroQuickList(QuickList);
 		List_Destroy(QuickList);
 	}
 }
 
-TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode) 
-{	  
+TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
+{
 	TCHAR* buffer = NULL;
 	char szMEntry[256];
 	DBVARIANT dbv;
 
 	switch (mode) {
 	case 0:
-		mir_snprintf(szMEntry, _countof(szMEntry), "EntryName_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, entrynum);
 		break;
 	case 1:
-		mir_snprintf(szMEntry, _countof(szMEntry), "EntryValue_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, entrynum);
 		break;
 	case 2:
-		mir_snprintf(szMEntry, _countof(szMEntry), "ButtonValue_%u", buttonnum);
+		mir_snprintf(szMEntry, "ButtonValue_%u", buttonnum);
 		break;
 	case 3:
-		mir_snprintf(szMEntry, _countof(szMEntry), "ButtonName_%u", buttonnum);
+		mir_snprintf(szMEntry, "ButtonName_%u", buttonnum);
 		break;
 	default:
 		szMEntry[0] = 0;
@@ -369,24 +361,24 @@ TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 		db_free(&dbv);
 	}
 
-	return buffer; 
+	return buffer;
 }
 
 int RegisterCustomButton(WPARAM, LPARAM)
 {
-	if ( !ServiceExists(MS_BB_ADDBUTTON))
+	if (!ServiceExists(MS_BB_ADDBUTTON))
 		return 1;
 
-	for (int i=0; i < g_iButtonsCount; i++) {
+	for (int i = 0; i < g_iButtonsCount; i++) {
 		ListData* ld = ButtonsList[i];
 
 		char iconname[40];
-		mir_snprintf(iconname, _countof(iconname), LPGEN("Quick Messages Button %u"), i);
+		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), i);
 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
 		bbd.dwButtonID = i;
-		bbd.dwDefPos = 320+i;
+		bbd.dwDefPos = 320 + i;
 		bbd.hIcon = AddIcon(iconname);
 		bbd.pszModuleName = PLGNAME;
 		bbd.ptszTooltip = ld->ptszButtonName;
@@ -395,7 +387,7 @@ int RegisterCustomButton(WPARAM, LPARAM)
 	return 0;
 }
 
-TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize)
+TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR* ptszClip, int QVSize, int TextSize, int ClipSize)
 {
 	int i = 0, iOffset = 0;
 	TCHAR* tempPointer = NULL;
@@ -407,13 +399,13 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 	TCHAR* ptszName = NULL;
 	CONTACTINFO ci;
 
-	if (!_tcschr(ptszQValue,varstr))
+	if (!_tcschr(ptszQValue, varstr))
 		return ptszQValue;
 
-	if(TextSize && ptszText[TextSize - 1] == '\0')
-		TextSize --;
-	if(ClipSize && ptszClip[ClipSize - 1] == '\0')
-		ClipSize --;
+	if (TextSize && ptszText[TextSize - 1] == '\0')
+		TextSize--;
+	if (ClipSize && ptszClip[ClipSize - 1] == '\0')
+		ClipSize--;
 
 	while (ptszQValue[i]) {
 		if (ptszQValue[i] != '%')
@@ -563,7 +555,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			mir_free(ptszName);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue,varstr))
+			if (!_tcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -572,8 +564,8 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			break;
 		}
 move_next:
-		iOffset ++;
-		i ++;
+		iOffset++;
+		i++;
 	}
 	return ptszQValue;
 }

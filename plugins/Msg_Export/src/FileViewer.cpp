@@ -191,14 +191,8 @@ int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 	COLORREF cMyText = db_get_dw(NULL, "SRMsg", "Font3Col", RGB(64, 0, 128));
 	COLORREF cYourText = db_get_dw(NULL, "SRMsg", "Font0Col", RGB(240, 0, 0));
 
-	/* original header !!
-				"{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0\\fnil\\fcharset0 Courier New;}}\r\n"
-				"{\\colortbl ;\\red%d\\green%d\\blue%d;\\red%d\\green%d\\blue%d;}\r\n"
-				"\\viewkind4\\uc1\\pard\\cf2\\lang1033\\f0\\fs16 ",
-
-				*/
 	char szRtfHeader[400];
-	int nSrcLen = mir_snprintf(szRtfHeader, _countof(szRtfHeader),
+	int nSrcLen = mir_snprintf(szRtfHeader,
 		"{\\rtf1\\ansi\r\n"
 		"{\\colortbl ;\\red%d\\green%d\\blue%d;\\red%d\\green%d\\blue%d;}\r\n"
 		"\\viewkind4\\uc1\\pard\\cf2 ",
@@ -625,9 +619,9 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 		TCHAR szTmp[1500];
 
 		if (nDBCount == -1)
-			mir_sntprintf(szTmp, _countof(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
+			mir_sntprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
 		else
-			mir_sntprintf(szTmp, _countof(szTmp), TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
+			mir_sntprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
 
 		SETTEXTEX stText = { 0 };
 		stText.codepage = 1200;
@@ -674,7 +668,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	CloseHandle(hFile);
 
 	TCHAR szTmp[100];
-	mir_sntprintf(szTmp, _countof(szTmp), _T("File open time %d\n"), GetTickCount() - dwStart);
+	mir_sntprintf(szTmp, _T("File open time %d\n"), GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 
 	GETTEXTLENGTHEX sData = { 0 };
@@ -686,7 +680,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	if (!bScrollToBottom)
 		SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&ptOldPos);
 
-	mir_sntprintf(szTmp, _countof(szTmp), TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
+	mir_sntprintf(szTmp, TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 	return true;
 }

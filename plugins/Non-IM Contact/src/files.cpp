@@ -114,7 +114,7 @@ void readFile(HWND hwnd)
 	}
 
 	if (!strncmp("http://", szFileName, mir_strlen("http://")) || !strncmp("https://", szFileName, mir_strlen("https://")))
-		mir_snprintf(szFileName, _countof(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
+		mir_snprintf(szFileName, "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
 
 	FILE *filen = fopen(szFileName, "r");
 	if (!filen) {
@@ -130,7 +130,7 @@ void readFile(HWND hwnd)
 		else if (temp[mir_strlen(temp) - 1] == '\n')
 			temp[mir_strlen(temp) - 1] = '\0';
 		else temp[mir_strlen(temp)] = '\0';
-		mir_snprintf(temp1, _countof(temp1), Translate("line(%-3d) = | %s"), lineNumber, temp);
+		mir_snprintf(temp1, Translate("line(%-3d) = | %s"), lineNumber, temp);
 		SendDlgItemMessageA(hwnd, IDC_FILE_CONTENTS, LB_ADDSTRING, 0, (LPARAM)temp1);
 		lineNumber++;
 		fileLength++;
@@ -186,7 +186,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						if (!db_get_static(NULL, MODNAME, fn, text, _countof(text)))
 							break;
 					}
-					mir_snprintf(szFileName, _countof(szFileName), "%s\\plugins\\%s.html", getMimDir(temp), fn);
+					mir_snprintf(szFileName, "%s\\plugins\\%s.html", getMimDir(temp), fn);
 					if (savehtml(szFileName)) {
 						mir_snprintf(fn, "fn%d", i);
 						db_set_s(NULL, MODNAME, fn, url);

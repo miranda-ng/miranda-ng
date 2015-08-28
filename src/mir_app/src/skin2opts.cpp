@@ -118,7 +118,7 @@ static void __fastcall MySetCursor(TCHAR* nCursor)
 static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _countof(path), _T("%s,"), filename);
+	mir_sntprintf(path, _T("%s,"), filename);
 	size_t suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lvi.iItem = 0;
 			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
 			for (int i = 0; i < count; lvi.iItem++, i++) {
-				mir_sntprintf(caption, _countof(caption), _T("%d"), i + 1);
+				mir_sntprintf(caption, _T("%d"), i + 1);
 				lvi.pszText = caption;
 
 				HICON hIcon = NULL;
@@ -520,7 +520,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
-				mir_sntprintf(path, _countof(path), _T("%s,%d"), filename, (int)lvi.lParam);
+				mir_sntprintf(path, _T("%s,%d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
 				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 			}

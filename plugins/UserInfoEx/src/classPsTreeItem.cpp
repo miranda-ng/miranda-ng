@@ -88,7 +88,7 @@ CPsTreeItem::~CPsTreeItem()
 LPCSTR CPsTreeItem::PropertyKey(LPCSTR pszProperty)
 {
 	static CHAR pszSetting[MAXSETTING];
-	mir_snprintf(pszSetting, _countof(pszSetting), "{%s\\%s}_%s", _pszPrefix, _pszName, pszProperty);
+	mir_snprintf(pszSetting, "{%s\\%s}_%s", _pszPrefix, _pszName, pszProperty);
 	return pszSetting;
 }
 
@@ -121,7 +121,7 @@ LPCSTR CPsTreeItem::GlobalName()
 LPCSTR CPsTreeItem::GlobalPropertyKey(LPCSTR pszProperty)
 {
 	static CHAR pszSetting[MAXSETTING];
-	mir_snprintf(pszSetting, _countof(pszSetting), "{Global\\%s}_%s", GlobalName(), pszProperty);
+	mir_snprintf(pszSetting, "{Global\\%s}_%s", GlobalName(), pszProperty);
 	return pszSetting;
 }
 
@@ -138,7 +138,7 @@ LPCSTR CPsTreeItem::IconKey()
 	if (pszIconName)
 	{
 		static CHAR pszSetting[MAXSETTING];
-		mir_snprintf(pszSetting, _countof(pszSetting), MODNAME"_{%s}", pszIconName);
+		mir_snprintf(pszSetting, MODNAME"_{%s}", pszIconName);
 		return pszSetting;
 	}
 	return NULL;
@@ -283,7 +283,7 @@ HICON CPsTreeItem::ProtoIcon()
 	for (int i = 0; i < ProtoCount; i++) {
 		if (!mir_tstrncmpi(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
 			CHAR szIconID[MAX_PATH];
-			mir_snprintf(szIconID, _countof(szIconID), "core_status_%s1", pa[i]->szModuleName);
+			mir_snprintf(szIconID, "core_status_%s1", pa[i]->szModuleName);
 			HICON hIco = IcoLib_GetIcon(szIconID);
 			if (!hIco)
 				hIco = (HICON)CallProtoService(pa[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL, NULL);

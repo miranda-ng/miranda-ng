@@ -119,7 +119,7 @@ char* NickFromHContact(MCONTACT hContact)
 
 		if (!loaded) {
 			if (szProto[0])
-				mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
+				mir_snprintf(nick, "%s (%s)", name, szProto);
 			else
 				mir_strncpy(nick, name, _countof(nick));
 		}
@@ -128,9 +128,9 @@ char* NickFromHContact(MCONTACT hContact)
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
 				char szUID[FLD_SIZE];
 				GetValueA(hContact, szProto, uid, szUID, _countof(szUID));
-				mir_snprintf(nick, _countof(nick), "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
+				mir_snprintf(nick, "%s *(%s)*<%s>*{%s}*", name, szProto, uid, szUID);
 			}
-			else mir_snprintf(nick, _countof(nick), "%s (%s)", name, szProto);
+			else mir_snprintf(nick, "%s (%s)", name, szProto);
 		}
 	}
 

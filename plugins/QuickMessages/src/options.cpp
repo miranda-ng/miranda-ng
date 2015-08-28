@@ -247,7 +247,7 @@ void SaveMenuTree()
 		ld->ptszButtonName = mir_tstrdup(tvi.pszText);
 
 		if (ld->ptszQValue) {
-			mir_snprintf(szMEntry, _countof(szMEntry), "ButtonValue_%u", iBl);
+			mir_snprintf(szMEntry, "ButtonValue_%u", iBl);
 			db_set_ts(NULL, PLGNAME, szMEntry, ld->ptszQValue);
 		}
 
@@ -262,13 +262,13 @@ void SaveMenuTree()
 		}
 
 
-		mir_snprintf(szMEntry, _countof(szMEntry), "ButtonName_%u", iBl);
+		mir_snprintf(szMEntry, "ButtonName_%u", iBl);
 		db_set_ts(NULL, PLGNAME, szMEntry, ld->ptszButtonName);
 
 		ld->dwOPFlags = 0;
 		ld->dwPos = iBl;
 		ld->bIsServName = ld->bIsOpServName;
-		mir_snprintf(szMEntry, _countof(szMEntry), "RCEntryIsServiceName_%u", iBl);
+		mir_snprintf(szMEntry, "RCEntryIsServiceName_%u", iBl);
 		db_set_b(NULL, PLGNAME, szMEntry, ld->bIsServName);
 
 		bDeleted = FALSE;

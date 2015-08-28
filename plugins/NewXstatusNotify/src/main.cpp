@@ -88,7 +88,7 @@ BYTE GetGender(MCONTACT hContact)
 HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODULE, szIcon);
+	mir_snprintf(szSettingName, "%s_%s", MODULE, szIcon);
 	return IcoLib_GetIconHandle(szSettingName);
 }
 
@@ -416,8 +416,8 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	// check if that proto from which we received statuschange notification, isn't in autodisable list
 	if (opt.AutoDisable) {
 		char statusIDs[12], statusIDp[12];
-		mir_snprintf(statusIDs, _countof(statusIDs), "s%d", myStatus);
-		mir_snprintf(statusIDp, _countof(statusIDp), "p%d", myStatus);
+		mir_snprintf(statusIDs, "s%d", myStatus);
+		mir_snprintf(statusIDp, "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
 	}
@@ -442,7 +442,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (opt.BlinkIcon && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, newStatus) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
-		mir_sntprintf(str, _countof(str), TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
+		mir_sntprintf(str, TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -458,7 +458,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), stzTime, _countof(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("dd/MM/yyyy"), stzDate, _countof(stzDate));
-		mir_sntprintf(stzText, _countof(stzText), TranslateT("%s, %s. %s changed status to %s (was %s)\r\n"),
+		mir_sntprintf(stzText, TranslateT("%s, %s. %s changed status to %s (was %s)\r\n"),
 			stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText,
 			StatusList[Index(oldStatus)].lpzStandardText);
 		LogToFile(stzText);
@@ -552,7 +552,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		}
 		else if (strstr(cws->szSetting, "text")) {
 			char dbSetting[128];
-			mir_snprintf(dbSetting, _countof(dbSetting), "%s%s", szSetting, "Msg");
+			mir_snprintf(dbSetting, "%s%s", szSetting, "Msg");
 			smi.compare = CompareStatusMsg(&smi, cws, dbSetting);
 			if (smi.compare == COMPARE_SAME) {
 				replaceStrT(smi.newstatusmsg, 0);
@@ -650,11 +650,11 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		goto skip_notify;
 
 	char dbSetting[64];
-	mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", szProto);
+	mir_snprintf(dbSetting, "%s_enabled", szProto);
 	// this proto is not set for status message notifications
 	if (db_get_b(NULL, MODULE, dbSetting, 1) == 0)
 		goto skip_notify;
-	mir_snprintf(dbSetting, _countof(dbSetting), "%d", IDC_CHK_STATUS_MESSAGE);
+	mir_snprintf(dbSetting, "%d", IDC_CHK_STATUS_MESSAGE);
 	// status message change notifications are disabled
 	if (db_get_b(NULL, MODULE, dbSetting, 1) == 0)
 		goto skip_notify;
@@ -665,8 +665,8 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	// check if our status isn't on autodisable list
 	if (opt.AutoDisable) {
 		char statusIDs[12], statusIDp[12];
-		mir_snprintf(statusIDs, _countof(statusIDs), "s%d", myStatus);
-		mir_snprintf(statusIDp, _countof(statusIDp), "p%d", myStatus);
+		mir_snprintf(statusIDs, "s%d", myStatus);
+		mir_snprintf(statusIDp, "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : bEnableSound;
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : bEnablePopup;
 	}
@@ -694,7 +694,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		TCHAR *str;
 		if (smi.compare == COMPARE_DEL) {
 			char protoname[MAX_PATH];
-			mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgRemoved", szProto);
+			mir_snprintf(protoname, "%s_TPopupSMsgRemoved", szProto);
 			DBVARIANT dbVar = { 0 };
 			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
@@ -706,7 +706,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		}
 		else {
 			char protoname[MAX_PATH];
-			mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgChanged", szProto);
+			mir_snprintf(protoname, "%s_TPopupSMsgChanged", szProto);
 			DBVARIANT dbVar = { 0 };
 			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
@@ -732,7 +732,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
-		mir_sntprintf(str, _countof(str), TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
+		mir_sntprintf(str, TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -759,7 +759,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		else
 			str = GetStr(&smi, templates.LogSMsgChanged);
 
-		mir_sntprintf(stzText, _countof(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), str);
+		mir_sntprintf(stzText, _T("%s, %s. %s %s\r\n"), stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), str);
 
 		LogToFile(stzText);
 		mir_free(str);

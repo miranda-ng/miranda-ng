@@ -3,7 +3,7 @@
 int readFileIntoArray(int fileNumber, char *FileContents[])
 {
 	char dbSetting[20], temp[MAX_STRING_LENGTH];
-	mir_snprintf(dbSetting, _countof(dbSetting), "fn%d", fileNumber);
+	mir_snprintf(dbSetting, "fn%d", fileNumber);
 
 	char *szVar = db_get_sa(NULL, MODNAME, dbSetting);
 	if (szVar == NULL)
@@ -11,7 +11,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 
 	char tszFileName[MAX_PATH];
 	if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 7))
-		mir_snprintf(tszFileName, _countof(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
+		mir_snprintf(tszFileName, "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
 	else
 		mir_strncpy(tszFileName, szVar, _countof(tszFileName));
 	mir_free(szVar);
@@ -405,7 +405,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 			return 0;
 
 		if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 8))
-			mir_snprintf(tszFileName, _countof(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), file);
+			mir_snprintf(tszFileName, "%s\\plugins\\fn%d.html", getMimDir(temp), file);
 		else
 			mir_strncpy(tszFileName, szVar, _countof(tszFileName));
 		mir_free(szVar);
@@ -417,7 +417,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
 			szNewStr.Append(tszFileName);
-			mir_snprintf(tszFileName, _countof(tszFileName), "%s%d))", szPattern, file);
+			mir_snprintf(tszFileName, "%s%d))", szPattern, file);
 			return (int)mir_strlen(tszFileName);
 		}
 		CloseHandle(hFile);
@@ -540,7 +540,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 				return ERROR_NO_FILE;
 			}
 			else {
-				mir_snprintf(tempString, _countof(tempString), "fn%d", tempInt);
+				mir_snprintf(tempString, "fn%d", tempInt);
 				if (db_get_static(NULL, MODNAME, tempString, tempString, _countof(tempString)))
 					szNewString.Append(tempString);
 				else return ERROR_NO_FILE;
@@ -623,7 +623,7 @@ void replaceAllStrings(MCONTACT hContact)
 	/* tooltips*/
 	WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
 	if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1)) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2, _countof(tmp2))) {
-		mir_snprintf(tmp3, _countof(tmp3), "%s %s", tmp1, tmp2);
+		mir_snprintf(tmp3, "%s %s", tmp1, tmp2);
 		db_set_s(hContact, "UserInfo", "FirstName", tmp3);
 	}
 	else if (db_get_static(hContact, MODNAME, "Program", tmp1, _countof(tmp1))) {

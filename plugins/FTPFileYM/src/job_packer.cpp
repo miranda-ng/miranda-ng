@@ -58,7 +58,7 @@ void PackerJob::getZipFilePath()
 
 	GetTempPath(_countof(buff), buff);
 
-	mir_sntprintf(m_tszFilePath, _countof(m_tszFilePath), _T("%s%s.zip"), buff, stzFileName);
+	mir_sntprintf(m_tszFilePath, _T("%s%s.zip"), buff, stzFileName);
 	mir_tstrcpy(m_tszFileName, Utils::getFileNameFromPath(m_tszFilePath));
 
 	if (opt.bSetZipName)

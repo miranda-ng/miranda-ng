@@ -493,21 +493,21 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 	//search in recent
 	for (int i = 0; i < 10; i++) {
 		char key[30];
-		mir_snprintf(key, _countof(key), "RecentlySearched_%d", i);
+		mir_snprintf(key, "RecentlySearched_%d", i);
 		ptrT szValue(getTStringA(key));
 		if (szValue == NULL || mir_tstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j = i; j < 10; j++) {
-			mir_snprintf(key, _countof(key), "RecentlySearched_%d", j + 1);
+			mir_snprintf(key, "RecentlySearched_%d", j + 1);
 			szValue = getTStringA(key);
 			if (szValue != NULL) {
-				mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
+				mir_snprintf(key, "RecentlySearched_%d", j);
 				setTString(NULL, key, szValue);
 			}
 			else {
 				if (deleteLastFromDB) {
-					mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
+					mir_snprintf(key, "RecentlySearched_%d", j);
 					delSetting(NULL, key);
 				}
 				break;
@@ -523,15 +523,15 @@ void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 	SearchDeleteFromRecent(szAddr);
 
 	for (int j = 9; j > 0; j--) {
-		mir_snprintf(key, _countof(key), "RecentlySearched_%d", j - 1);
+		mir_snprintf(key, "RecentlySearched_%d", j - 1);
 		ptrT szValue(getTStringA(key));
 		if (szValue != NULL) {
-			mir_snprintf(key, _countof(key), "RecentlySearched_%d", j);
+			mir_snprintf(key, "RecentlySearched_%d", j);
 			setTString(NULL, key, szValue);
 		}
 	}
 
-	mir_snprintf(key, _countof(key), "RecentlySearched_%d", 0);
+	mir_snprintf(key, "RecentlySearched_%d", 0);
 	setTString(key, szAddr);
 	if (hwndDialog)
 		JabberSearchAddUrlToRecentCombo(hwndDialog, szAddr);
@@ -563,7 +563,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 			for (i = 0; i < 10; i++) {
 				char key[30];
-				mir_snprintf(key, _countof(key), "RecentlySearched_%d", i);
+				mir_snprintf(key, "RecentlySearched_%d", i);
 				ptrT szValue(dat->ppro->getTStringA(key));
 				if (szValue != NULL)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);

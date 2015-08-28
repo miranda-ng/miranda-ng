@@ -545,7 +545,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				cle.hDbEvent = hDbEvent;
 
 				TCHAR toolTip[256];
-				mir_sntprintf(toolTip, _countof(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}

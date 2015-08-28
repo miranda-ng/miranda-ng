@@ -219,7 +219,7 @@ static void LoadLangPackFile(FILE *fp, char *line)
 				TCHAR	*p = _tcsrchr(langPack.tszFullPath, '\\');
 				if (p)
 					*p = 0;
-				mir_sntprintf(tszFileName, _countof(tszFileName), _T("%s\\%S"), langPack.tszFullPath, ltrim(line + 9));
+				mir_sntprintf(tszFileName, _T("%s\\%S"), langPack.tszFullPath, ltrim(line + 9));
 				if (p)
 					*p = '\\';
 
@@ -380,7 +380,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	// ensure that a lang's name is a full file name
 	TCHAR tszFullPath[MAX_PATH];
 	if (!PathIsAbsoluteT(ptszLangPack))
-		mir_sntprintf(tszFullPath, _countof(tszFullPath), _T("%s\\%s"), g_tszRoot, ptszLangPack);
+		mir_sntprintf(tszFullPath, _T("%s\\%s"), g_tszRoot, ptszLangPack);
 	else
 		_tcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
@@ -653,7 +653,7 @@ void GetDefaultLang()
 	
 	// try to load langpack that matches UserDefaultUILanguage
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
-		mir_sntprintf(tszPath, _countof(tszPath), _T("langpack_%s.txt"), _tcslwr(tszLangName));
+		mir_sntprintf(tszPath, _T("langpack_%s.txt"), _tcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {
 			db_set_ts(NULL, "Langpack", "Current", tszPath);
 			return;
@@ -661,7 +661,7 @@ void GetDefaultLang()
 	}
 
 	// finally try to load first file
-	mir_sntprintf(tszPath, _countof(tszPath), _T("%s\\langpack_*.txt"), g_tszRoot);
+	mir_sntprintf(tszPath, _T("%s\\langpack_*.txt"), g_tszRoot);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(tszPath, &fd);

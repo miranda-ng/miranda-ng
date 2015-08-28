@@ -857,7 +857,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 						}
 						else {// err allocating file disk space
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
+							mir_sntprintf(szErrorText, TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						}
 						CloseHandle(hFile);
@@ -870,7 +870,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 					}
 					else {// err on open file
 						dwRetErrorCode = GetLastError();
-						mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Receive files: can't open file %s, error"), wszFileName);
+						mir_sntprintf(szErrorText, TranslateT("Receive files: can't open file %s, error"), wszFileName);
 						ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						bFailed = TRUE;
 						break;
@@ -878,7 +878,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				}
 				else {// err on send request for file
 					dwRetErrorCode = GetLastError();
-					mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
+					mir_sntprintf(szErrorText, TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
 					ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 					bFailed = TRUE;
 					break;
@@ -1101,14 +1101,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 						}
 						else { // err on open file
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
+							mir_sntprintf(szErrorText, TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 							bFailed = TRUE;
 							break;
 						}
 					}
 					else {
-						mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff) + sizeof(MRA_FT_GET_FILE)));
+						mir_sntprintf(szErrorText, TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff) + sizeof(MRA_FT_GET_FILE)));
 						ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 						bFailed = TRUE;
 						break;

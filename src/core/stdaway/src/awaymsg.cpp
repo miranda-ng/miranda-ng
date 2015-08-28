@@ -61,11 +61,11 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
 			GetWindowText(hwndDlg, format, _countof(format));
-			mir_sntprintf(str, _countof(str), format, status, contactName);
+			mir_sntprintf(str, format, status, contactName);
 			SetWindowText(hwndDlg, str);
 
 			GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, _countof(format));
-			mir_sntprintf(str, _countof(str), format, status);
+			mir_sntprintf(str, format, status);
 			SetDlgItemText(hwndDlg, IDC_RETRIEVING, str);
 
 			Window_SetProtoIcon_IcoLib(hwndDlg, szProto, dwStatus);
@@ -141,7 +141,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					TCHAR str[128];
-					mir_sntprintf(str, _countof(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
+					mir_sntprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 					Menu_ModifyItem(hAwayMsgMenuItem, str, Skin_LoadProtoIcon(szProto, status), CMIF_NOTOFFLINE);
 					return 0;
 				}

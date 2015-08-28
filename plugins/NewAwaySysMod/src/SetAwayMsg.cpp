@@ -433,7 +433,7 @@ void UpdateCheckboxesState(CCList *CList)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "", name);
+	mir_snprintf(szSettingName, "%s_%s", "", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -848,7 +848,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				return true;
 			}
 			TCHAR BtnTitle[64];
-			mir_sntprintf(BtnTitle, _countof(BtnTitle), TranslateT("Closing in %d"), Countdown);
+			mir_sntprintf(BtnTitle, TranslateT("Closing in %d"), Countdown);
 			SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 			Countdown--;
 		}

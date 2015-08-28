@@ -54,7 +54,7 @@ void ext_yahoo_conf_userdecline(int id, const char*, const char *who, const char
 	TCHAR info[1024];
 	TCHAR *whot = mir_utf8decodeT(who);
 	TCHAR *msgt = mir_utf8decodeT(msg);
-	mir_sntprintf(info, _countof(info), TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : _T(""));
+	mir_sntprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : _T(""));
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_INFORMATION, info);
 	mir_free(msgt);
 	mir_free(whot);
@@ -570,7 +570,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	char room[128];
-	mir_snprintf(room, _countof(room), "%s-%u", m_yahoo_id, time(NULL));
+	mir_snprintf(room, "%s-%u", m_yahoo_id, time(NULL));
 
 	InviteChatParam* param = new InviteChatParam(room, this);
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL,
@@ -587,7 +587,7 @@ void CALLBACK ConferenceRequestCB(PVOID pParam)
 void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
 {
 	char z[1024];
-	mir_snprintf(z, _countof(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
+	mir_snprintf(z, Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
 	LOG(("[ext_yahoo_got_conf_invite] %s", z));
 
 	CYahooProto* ppro = getProtoById(id);

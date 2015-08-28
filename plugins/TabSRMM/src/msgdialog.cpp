@@ -2326,8 +2326,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			if (iIndex < SendQueue::NR_SENDJOBS) { // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
-				mir_sntprintf(job->szErrorMsg, _countof(job->szErrorMsg), TranslateT("Delivery failure: %s"),
-					TranslateT("The message send timed out"));
+				mir_sntprintf(job->szErrorMsg, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 					SkinPlaySound("SendError");
@@ -2544,7 +2543,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				char szIndex[10];
 				char *szKey = "TAB_ContainersW";
 
-				mir_snprintf(szIndex, _countof(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
+				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					ptrT val(db_get_tsa(NULL, szKey, szIndex));
 					if (val)

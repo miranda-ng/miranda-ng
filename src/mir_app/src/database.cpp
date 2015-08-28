@@ -186,7 +186,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 	if (isRootDir)
 		_tcsncpy_s(pfd, VARST(_T("%miranda_path%\\*.dat")), _TRUNCATE);
 	else
-		mir_sntprintf(pfd, _countof(pfd), _T("%s\\*.dat"), profiledir);
+		mir_sntprintf(pfd, _T("%s\\*.dat"), profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
@@ -196,10 +196,10 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			TCHAR path[MAX_PATH], path2[MAX_PATH];
 			TCHAR* profile = mir_tstrdup(ffd.cFileName);
 			c = _tcsrchr(profile, '.'); if (c) *c = 0;
-			mir_sntprintf(path, _countof(path), _T("%s\\%s"), pfd, ffd.cFileName);
-			mir_sntprintf(path2, _countof(path2), _T("%s\\%s"), profiledir, profile);
+			mir_sntprintf(path, _T("%s\\%s"), pfd, ffd.cFileName);
+			mir_sntprintf(path2, _T("%s\\%s"), profiledir, profile);
 			CreateDirectoryTreeT(path2);
-			mir_sntprintf(path2, _countof(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
+			mir_sntprintf(path2, _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
 			if (_taccess(path2, 0) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
@@ -241,7 +241,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 	if (bShowProfileManager || !reqfd) {
 		TCHAR searchspec[MAX_PATH];
-		mir_sntprintf(searchspec, _countof(searchspec), _T("%s\\*.*"), profiledir);
+		mir_sntprintf(searchspec, _T("%s\\*.*"), profiledir);
 
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(searchspec, &ffd);
@@ -252,7 +252,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 					continue;
 
 				TCHAR newProfile[MAX_PATH];
-				mir_sntprintf(newProfile, _countof(newProfile), _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
+				mir_sntprintf(newProfile, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
 				if (_taccess(newProfile, 0) != 0)
 					continue;
 

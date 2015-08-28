@@ -23,10 +23,10 @@ void CToxProto::InitIcons()
 	sid.pszName = szSettingName;
 	sid.section.t = szSectionName;
 
-	mir_sntprintf(szSectionName, _countof(szSectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+	mir_sntprintf(szSectionName, _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
 	for (int i = 0; i < _countof(Icons); i++)
 	{
-		mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODULE, Icons[i].Name);
+		mir_snprintf(szSettingName, "%s_%s", MODULE, Icons[i].Name);
 
 		sid.description.t = Icons[i].Description;
 		sid.iDefaultIndex = -Icons[i].IconId;
@@ -55,7 +55,7 @@ HANDLE CToxProto::GetIconHandle(const char *name)
 HANDLE CToxProto::Skin_GetIconHandle(const char *name)
 {
 	char iconName[100];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, name);
+	mir_snprintf(iconName, "%s_%s", MODULE, name);
 	HANDLE hIcon = IcoLib_GetIconHandle(iconName);
 	if (hIcon == NULL)
 		hIcon = GetIconHandle(name);

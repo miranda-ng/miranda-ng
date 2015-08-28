@@ -154,7 +154,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	if (item->rootHotkey = hotkeys.find(item)) {
 		if (item->rootHotkey->allowSubHotkeys) {
 			char nameBuf[MAXMODULELABELLENGTH];
-			mir_snprintf(nameBuf, _countof(nameBuf), "%s$%d", item->rootHotkey->pszName, item->rootHotkey->nSubHotkeys);
+			mir_snprintf(nameBuf, "%s$%d", item->rootHotkey->pszName, item->rootHotkey->nSubHotkeys);
 			item->pszName = mir_strdup(nameBuf);
 			item->Enabled = TRUE;
 
@@ -221,7 +221,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	char *pszName = (char *)lParam;
 	char pszNamePrefix[MAXMODULELABELLENGTH];
 	size_t cbNamePrefix;
-	mir_snprintf(pszNamePrefix, _countof(pszNamePrefix), "%s$", pszName);
+	mir_snprintf(pszNamePrefix, "%s$", pszName);
 	cbNamePrefix = mir_strlen(pszNamePrefix);
 
 	for (i = 0; i < hotkeys.getCount(); i++) {

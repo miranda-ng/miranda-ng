@@ -20,7 +20,7 @@ int CSteamProto::GetContactXStatus(MCONTACT hContact)
 void SetContactExtraIcon(MCONTACT hContact, int status)
 {
 	char iconName[100];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "gaming");
+	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 
 	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? IcoLib_GetIconHandle(iconName) : NULL);
 }
@@ -96,7 +96,7 @@ HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
 		return 0;
 
 	char iconName[100];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "gaming");
+	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 
 	HICON icon = IcoLib_GetIcon(iconName, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);

@@ -72,17 +72,17 @@ void CJabberProto::ConvertPasswords()
 
 	for (int i = 0;; i++) {
 		char varName[100];
-		mir_snprintf(varName, _countof(varName), "rcMuc_%d_server", i);
+		mir_snprintf(varName, "rcMuc_%d_server", i);
 		ptrA str(getStringA(NULL, varName));
 		if (str == NULL)
 			break;
 
-		mir_snprintf(varName, _countof(varName), "rcMuc_%d", i);
+		mir_snprintf(varName, "rcMuc_%d", i);
 		passw = JSetStringCrypt(m_szModuleName, NULL, varName);
 		if (passw != NULL) {
 			delSetting(varName);
 
-			mir_snprintf(varName, _countof(varName), "password_rcMuc_%d", i);
+			mir_snprintf(varName, "password_rcMuc_%d", i);
 			setTString(varName, passw);
 		}
 	}

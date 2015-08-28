@@ -72,7 +72,7 @@ static INT_PTR CALLBACK TlenPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		mir_snprintf(text, _countof(text), Translate("Enter password for %s"), (char *) lParam);
+		mir_snprintf(text, Translate("Enter password for %s"), (char *) lParam);
 		SetDlgItemTextA(hwndDlg, IDC_JID, text);
 		return TRUE;
 	case WM_COMMAND:
@@ -207,7 +207,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		return;
 	}
 	
-	mir_snprintf(jidStr, _countof(jidStr), "%s@%s", info->username, info->server);
+	mir_snprintf(jidStr, "%s@%s", info->username, info->server);
 	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
@@ -400,7 +400,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	int iqId;
 	char text[128];
 	char *str = TlenPasswordHash(proto->threadData->password);
-	mir_snprintf(text, _countof(text), "%s%s", proto->threadData->streamId, str);
+	mir_snprintf(text, "%s%s", proto->threadData->streamId, str);
 	mir_free(str);
 	str = TlenSha1(text);
 	char *p=TlenTextEncode(proto->threadData->username);
@@ -913,7 +913,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 	char *f = TlenXmlGetAttrValue(node, "f");
 	if (f != NULL) {
 		char webContactName[128];
-		mir_snprintf(webContactName, _countof(webContactName), Translate("%s Web Messages"), info->proto->m_szModuleName);
+		mir_snprintf(webContactName, Translate("%s Web Messages"), info->proto->m_szModuleName);
 		MCONTACT hContact = TlenHContactFromJID(info->proto, webContactName);
 		if (hContact == NULL) {
 			hContact = TlenDBCreateContact(info->proto, webContactName, webContactName, TRUE);
@@ -1204,7 +1204,7 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 	char *from=TlenXmlGetAttrValue(node, "f");
 	if (from != NULL) {
 		if (strchr(from, '@') == NULL) {
-			mir_snprintf(jid, _countof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, "%s@%s", from, info->server);
 		} else {
 			strncpy_s(jid, from, _TRUNCATE);
 		}

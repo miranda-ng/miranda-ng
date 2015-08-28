@@ -113,10 +113,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		pd.lchIcon = LoadIconEx("window");
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, _countof(pd.lptzContactName), _T("%s - %s"),
-		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
-		pcli->pfnGetContactDisplayName(hContact, 0));
-
+	mir_sntprintf(pd.lptzContactName, _T("%s - %s"), (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
 	_tcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
@@ -536,7 +533,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 		if (pszWordText && pszWordText[0]) {
 			TCHAR szMenuText[4096];
-			mir_sntprintf(szMenuText, _countof(szMenuText), TranslateT("Look up '%s':"), pszWordText);
+			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
 		else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));

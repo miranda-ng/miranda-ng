@@ -253,13 +253,13 @@ INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 	case WM_INITDIALOG: {
 			char szBuffer[2048];
 #ifdef _WIN64
-			mir_snprintf(szBuffer, _countof(szBuffer),
+			mir_snprintf(szBuffer,
 				"Exception %16.16X at address %16.16X occured in %s at line %d.\r\n\r\nEAX=%16.16X EBX=%16.16X ECX=%16.16X\r\nEDX=%16.16X ESI=%16.16X EDI=%16.16X\r\nEBP=%16.16X ESP=%16.16X EIP=%16.16X",
 				exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
 				exCtx.Rax, exCtx.Rbx, exCtx.Rcx, exCtx.Rdx,
 				exCtx.Rsi, exCtx.Rdi, exCtx.Rbp, exCtx.Rsp, exCtx.Rip);
 #else
-			mir_snprintf(szBuffer, _countof(szBuffer),
+			mir_snprintf(szBuffer,
 				"Exception %8.8X at address %8.8X occured in %s at line %d.\r\n\r\nEAX=%8.8X EBX=%8.8X ECX=%8.8X\r\nEDX=%8.8X ESI=%8.8X EDI=%8.8X\r\nEBP=%8.8X ESP=%8.8X EIP=%8.8X",
 				exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
 				exCtx.Eax,exCtx.Ebx, exCtx.Ecx, exCtx.Edx,
@@ -303,8 +303,8 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCH
 	memcpy(&exRecord, ep->ExceptionRecord, sizeof(EXCEPTION_RECORD));
 	memcpy(&exCtx, ep->ContextRecord, sizeof(CONTEXT));
 
-	mir_snprintf(exSzFile, _countof(exSzFile), "%s%s", szName, szExt);
-	mir_sntprintf(exReason, _countof(exReason), _T("An application error has occured: %s"), szReason);
+	mir_snprintf(exSzFile, "%s%s", szName, szExt);
+	mir_sntprintf(exReason, _T("An application error has occured: %s"), szReason);
 	exLine = line;
 	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
@@ -370,7 +370,7 @@ void CRTException::display() const
 	TCHAR *tszMsg = mir_a2t(what());
 
 	TCHAR tszBoxMsg[500];
-	mir_sntprintf(tszBoxMsg, _countof(tszBoxMsg), _T("%s\n\n(%s)"), tszMsg, m_szParam);
+	mir_sntprintf(tszBoxMsg, _T("%s\n\n(%s)"), tszMsg, m_szParam);
 	::MessageBox(0, tszBoxMsg, _T("Clist_nicer runtime error"), MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

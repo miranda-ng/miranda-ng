@@ -54,9 +54,9 @@ static void Finalize(time_t& ts)
 		}
 		for (int i = 1;; i++) {
 			if (i == 1)
-				mir_sntprintf(opts.backupFilename, _countof(opts.backupFilename), TranslateT("%s\\Backup of %s"), dbPath, dbFile);
+				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup of %s"), dbPath, dbFile);
 			else
-				mir_sntprintf(opts.backupFilename, _countof(opts.backupFilename), TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
+				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
 			if (_taccess(opts.backupFilename, 0) == -1) break;
 		}
 

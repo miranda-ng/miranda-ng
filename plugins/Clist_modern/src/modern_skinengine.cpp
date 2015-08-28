@@ -1480,7 +1480,7 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 
 	TCHAR b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		mir_sntprintf(b2, _countof(b2), _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
+		mir_sntprintf(b2, _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
 	else
 		mir_tstrncpy(b2, file, _countof(b2));
 
@@ -2980,13 +2980,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 		BitBlt(g_pCachedWindow->hImageDC, rLine.left, rLine.top, rLine.right - rLine.left, rLine.bottom - rLine.top, g_pCachedWindow->hBackDC, rLine.left, rLine.top, SRCCOPY);
 
 		char req[255];
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=Back", Frame->name);
+		mir_snprintf(req, "Main,ID=ScrollBar,Frame=%S,Part=Back", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rLine, &rLine, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=Thumb", Frame->name);
+		mir_snprintf(req, "Main,ID=ScrollBar,Frame=%S,Part=Thumb", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rThumb, &rThumb, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar, Frame=%S,Part=UpLineButton", Frame->name);
+		mir_snprintf(req, "Main,ID=ScrollBar, Frame=%S,Part=UpLineButton", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rUpBtn, &rUpBtn, req);
-		mir_snprintf(req, _countof(req), "Main,ID=ScrollBar,Frame=%S,Part=DownLineButton", Frame->name);
+		mir_snprintf(req, "Main,ID=ScrollBar,Frame=%S,Part=DownLineButton", Frame->name);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC, &rDnBtn, &rDnBtn, req);
 	}
 
@@ -3301,9 +3301,9 @@ static DWORD ske_HexToARGB(char * Hex)
 	char buf2[11] = { 0 };
 	mir_snprintf(buf, "%s\n", Hex);
 	if (buf[1] == 'x' || buf[1] == 'X')
-		mir_snprintf(buf2, _countof(buf2), "0x%s\n", buf + 2);
+		mir_snprintf(buf2, "0x%s\n", buf + 2);
 	else
-		mir_snprintf(buf2, _countof(buf2), "0x%s\n", buf);
+		mir_snprintf(buf2, "0x%s\n", buf);
 	buf2[10] = '\0';
 
 	char *st;

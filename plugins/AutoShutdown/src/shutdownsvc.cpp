@@ -384,7 +384,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{
 			TCHAR szText[256];
-			mir_sntprintf(szText, _countof(szText), TranslateTS(desc[shutdownType - 1]), lParam);
+			mir_sntprintf(szText, TranslateTS(desc[shutdownType - 1]), lParam);
 			SetDlgItemText(hwndDlg, IDC_TEXT_HEADER, szText);
 			/* countdown finished */
 			if (!lParam)

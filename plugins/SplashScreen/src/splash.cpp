@@ -42,9 +42,9 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 #ifdef _DEBUG
 		TCHAR b[40];
-		mir_sntprintf(b, _countof(b), _T("%d"), wParam);
+		mir_sntprintf(b, _T("%d"), wParam);
 		logMessage(_T("Timer ID"), b);
-		mir_sntprintf(b, _countof(b), _T("%d"), options.showtime);
+		mir_sntprintf(b, _T("%d"), options.showtime);
 		logMessage(_T("ShowTime value"), b);
 #endif
 
@@ -229,7 +229,7 @@ void __cdecl SplashThread(void *arg)
 
 		TCHAR verString[256] = { 0 };
 		TCHAR *mirandaVerString = mir_a2t(szVersion);
-		mir_sntprintf(verString, _countof(verString), _T("%s%s"), szPrefix, mirandaVerString);
+		mir_sntprintf(verString, _T("%s%s"), szPrefix, mirandaVerString);
 		mir_free(mirandaVerString);
 		LOGFONT lf = { 0 };
 		lf.lfHeight = 14;
@@ -327,7 +327,7 @@ BOOL ShowSplash(BOOL bpreview)
 		timeout = options.showtime;
 #ifdef _DEBUG
 		TCHAR b[40];
-		mir_sntprintf(b, _countof(b), _T("%d"), options.showtime);
+		mir_sntprintf(b, _T("%d"), options.showtime);
 		logMessage(_T("Timeout"), b);
 #endif
 	}

@@ -115,7 +115,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				char szPhone[96], szArea[32], szNumber[64];
 				GetDlgItemTextA(hwndDlg, IDC_AREA, szArea, _countof(szArea));
 				GetDlgItemTextA(hwndDlg, IDC_NUMBER, szNumber, _countof(szNumber));
-				mir_snprintf(szPhone, _countof(szPhone), "+%u (%s) %s", SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0), 0), szArea, szNumber);
+				mir_snprintf(szPhone, "+%u (%s) %s", SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0), 0), szArea, szNumber);
 				noRecursion = 1;
 				SetDlgItemTextA(hwndDlg, IDC_PHONE, szPhone);
 				noRecursion = 0;
@@ -284,7 +284,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							break;
 
 						lvi.pszText = idstr2;
-						mir_sntprintf(idstr2, _countof(idstr2), _T("%d"), i + 2);
+						mir_sntprintf(idstr2, _T("%d"), i + 2);
 					}
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.ptszVal);
@@ -298,7 +298,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (db_get_ts(hContact, "UserInfo", idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
-					mir_sntprintf(idstr2, _countof(idstr2), TranslateT("Custom %d"), i + 1);
+					mir_sntprintf(idstr2, TranslateT("Custom %d"), i + 1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, dbv.ptszVal);
 					db_free(&dbv);
@@ -359,7 +359,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (db_get_ts(hContact, "UserInfo", idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
-					mir_sntprintf(idstr2, _countof(idstr2), TranslateT("Custom %d"), i + 1);
+					mir_sntprintf(idstr2, TranslateT("Custom %d"), i + 1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 					if (mir_tstrlen(dbv.ptszVal) > 4 && !mir_tstrcmp(dbv.ptszVal + mir_tstrlen(dbv.ptszVal) - 4, _T(" SMS"))) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
@@ -439,7 +439,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR szEmail[256];
 				if (IsOverEmail(hwndDlg, szEmail, _countof(szEmail))) {
 					TCHAR szExec[264];
-					mir_sntprintf(szExec, _countof(szExec), _T("mailto:%s"), szEmail);
+					mir_sntprintf(szExec, _T("mailto:%s"), szEmail);
 					ShellExecute(hwndDlg, _T("open"), szExec, NULL, NULL, SW_SHOW);
 					break;
 				}

@@ -364,12 +364,12 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			static char szStyle[256];
 			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-				mir_snprintf(szStyle, _countof(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
+				mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
 				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 			else {
 				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-				mir_snprintf(szStyle, _countof(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
+				mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
 				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 		}

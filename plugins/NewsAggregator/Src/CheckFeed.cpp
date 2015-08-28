@@ -57,7 +57,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						HXML child = xmlGetChild(chan, j);
 						if (!mir_tstrcmpi(xmlGetName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
-							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							mir_sntprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
 								TCHAR buf[MAX_PATH];
@@ -74,7 +74,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						HXML child = xmlGetChild(node, j);
 						if (!mir_tstrcmpi(xmlGetName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
-							mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							mir_sntprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_tstrcmpi(codepage, _T("koi8-r"))) {
 								TCHAR buf[MAX_PATH];
@@ -93,7 +93,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 	}
 	Netlib_LogfT(hNetlibUser, _T("%s is not a valid feed's address."), tszURL);
 	TCHAR mes[MAX_PATH];
-	mir_sntprintf(mes, _countof(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
+	mir_sntprintf(mes, TranslateT("%s\nis not a valid feed's address."), tszURL);
 	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
 	return NULL;
 }
@@ -229,7 +229,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							LPCTSTR szAttrName = xmlGetAttrName(node, i);
 							if (!mir_tstrcmpi(szAttrName, _T("version"))) {
 								TCHAR ver[MAX_PATH];
-								mir_sntprintf(ver, _countof(ver), _T("RSS %s"), xmlGetAttrValue(node, szAttrName));
+								mir_sntprintf(ver, _T("RSS %s"), xmlGetAttrValue(node, szAttrName));
 								db_set_ts(hContact, MODULE, "MirVer", ver);
 								break;
 							}
@@ -346,7 +346,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 
 										CMString filename = szNick;
 										filename.Replace(_T("/"), _T("_"));
-										mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
+										mir_sntprintf(ai.filename, _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
 										CreateDirectoryTreeT(tszRoot);
 										if (DownloadFile(url, ai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
@@ -487,7 +487,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 										ai.format = ProtoGetAvatarFormat(ext);
 
 										TCHAR *filename = szNick;
-										mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+										mir_sntprintf(ai.filename, _T("%s\\%s.%s"), tszRoot, filename, ext);
 										if (DownloadFile(url, ai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
@@ -632,7 +632,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								mir_sntprintf(ai.filename, _T("%s\\%s.%s"), tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
@@ -665,7 +665,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(ai.filename, _countof(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								mir_sntprintf(ai.filename, _T("%s\\%s.%s"), tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
 									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);

@@ -186,7 +186,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 	FontID fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	mir_snprintf(fontid.group, _countof(fontid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
+	mir_snprintf(fontid.group, PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
@@ -194,17 +194,17 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	fontid.deffontsettings.size = -11;
 	mir_strncpy(fontid.deffontsettings.szFace, "MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
-	mir_snprintf(fontid.name, _countof(fontid.name), "%s (colors only)", notification->lpzName);
-	mir_snprintf(fontid.prefix, _countof(fontid.prefix), "{%s/%s}text", notification->lpzGroup, notification->lpzName);
+	mir_snprintf(fontid.name, "%s (colors only)", notification->lpzName);
+	mir_snprintf(fontid.prefix, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
 	FontRegister(&fontid);
 
 	ColourID colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
-	mir_snprintf(colourid.group, _countof(colourid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
+	mir_snprintf(colourid.group, PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(colourid.dbSettingsGroup, "PopupNotifications");
-	mir_snprintf(colourid.name, _countof(colourid.name), "%s (colors only)", notification->lpzName);
-	mir_snprintf(colourid.setting, _countof(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
+	mir_snprintf(colourid.name, "%s (colors only)", notification->lpzName);
+	mir_snprintf(colourid.setting, "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
 	ColourRegister(&colourid);
 
@@ -237,14 +237,14 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	LOGFONTA lf; // dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
 	FontID fontid = { 0 }; // use ansi version of fontID coz POPUPNOTIFICATION use char
 	fontid.cbSize = sizeof(fontid);
-	mir_snprintf(fontid.group, _countof(fontid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
-	mir_snprintf(fontid.name, _countof(fontid.name), "%s (colors only)", ptd->notification.lpzName);
+	mir_snprintf(fontid.group, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
+	mir_snprintf(fontid.name, "%s (colors only)", ptd->notification.lpzName);
 	ppd->colorText = (COLORREF)CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lf);
 
 	ColourID colourid = { 0 }; // use ansi version of ColourID coz POPUPNOTIFICATION use char
 	colourid.cbSize = sizeof(colourid);
-	mir_snprintf(colourid.group, _countof(colourid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
-	mir_snprintf(colourid.name, _countof(colourid.name), "%s (colors only)", ptd->notification.lpzName);
+	mir_snprintf(colourid.group, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
+	mir_snprintf(colourid.name, "%s (colors only)", ptd->notification.lpzName);
 	ppd->colorBack = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
 
 	ppd->lchIcon = IcoLib_GetIconByHandle(ptd->hIcoLib);

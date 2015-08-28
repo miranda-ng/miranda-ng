@@ -269,7 +269,7 @@ struct HttpSecurityContext
 			if (szHost && _stricmp(szProvider, "Basic")) {
 				unsigned long ip = inet_addr(szHost);
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
-				mir_snprintf(szSpnStr, _countof(szSpnStr), "HTTP/%s", host && host->h_name ? host->h_name : szHost);
+				mir_snprintf(szSpnStr, "HTTP/%s", host && host->h_name ? host->h_name : szHost);
 				_strlwr(szSpnStr + 5);
 				NetlibLogf(nlu, "Host SPN: %s", szSpnStr);
 			}
@@ -897,9 +897,9 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		char *pspace = strchr(szMirandaVer, ' ');
 		if (pspace) {
 			*pspace++='\0';
-			mir_snprintf(szUserAgent, _countof(szUserAgent), "Miranda/%s (%s)", szMirandaVer, pspace);
+			mir_snprintf(szUserAgent, "Miranda/%s (%s)", szMirandaVer, pspace);
 		}
-		else mir_snprintf(szUserAgent, _countof(szUserAgent), "Miranda/%s", szMirandaVer);
+		else mir_snprintf(szUserAgent, "Miranda/%s", szMirandaVer);
 	}
 	if (!doneAcceptEncoding) {
 		nlhrSend.headers[nlhrSend.headersCount].szName = "Accept-Encoding";

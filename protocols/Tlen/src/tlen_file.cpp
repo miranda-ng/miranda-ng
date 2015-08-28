@@ -551,7 +551,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 	char *from = TlenXmlGetAttrValue(node, "f");
 	if (from != NULL) {
 		if (strchr(from, '@') == NULL)
-			mir_snprintf(jid, _countof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, "%s@%s", from, info->server);
 		else
 			strncpy_s(jid, from, _TRUNCATE);
 
@@ -577,7 +577,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 						else mir_strcpy(szFilename, Translate("1 File"));
 					}
 					else if (numFiles > 1)
-						mir_snprintf(szFilename, _countof(szFilename), Translate("%d Files"), numFiles);
+						mir_snprintf(szFilename, Translate("%d Files"), numFiles);
 				}
 
 				if (szFilename[0] != '\0' && ft->iqId != NULL) {

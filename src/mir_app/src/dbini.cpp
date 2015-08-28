@@ -447,7 +447,7 @@ static void DoAutoExec(void)
 	do {
 		bool secFN = mir_tstrcmpi(fd.cFileName, szOverrideSecurityFilename) == 0;
 
-		mir_sntprintf(szIniPath, _countof(szIniPath), _T("%s%s"), szFindPath, fd.cFileName);
+		mir_sntprintf(szIniPath, _T("%s%s"), szFindPath, fd.cFileName);
 		if (!mir_tstrcmpi(szUse, _T("prompt")) && !secFN) {
 			int result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
 			if (result == IDC_NOTOALL) break;

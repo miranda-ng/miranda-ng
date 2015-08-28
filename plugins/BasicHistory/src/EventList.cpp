@@ -346,11 +346,11 @@ void HistoryEventList::InitNames()
 	TCHAR str[200];
 	if (m_hContact) {
 		_tcscpy_s(m_contactName, pcli->pfnGetContactDisplayName(m_hContact, 0));
-		mir_sntprintf(str, _countof(str), TranslateT("History for %s"), m_contactName);
+		mir_sntprintf(str, TranslateT("History for %s"), m_contactName);
 	}
 	else {
 		_tcscpy_s(m_contactName, TranslateT("System"));
-		mir_sntprintf(str, _countof(str), TranslateT("History"));
+		mir_sntprintf(str, TranslateT("History"));
 	}
 
 	if (m_isWnd)

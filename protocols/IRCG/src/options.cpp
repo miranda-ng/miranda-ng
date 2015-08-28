@@ -398,7 +398,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		pData->m_name = m_server.GetTextA();
 
 		char temp[255];
-		mir_snprintf(temp, _countof(temp), "%s: %s", pData->m_group, pData->m_name);
+		mir_snprintf(temp, "%s: %s", pData->m_group, pData->m_name);
 		mir_free(pData->m_name);
 		pData->m_name = mir_strdup(temp);
 
@@ -776,9 +776,9 @@ void CConnectPrefsDlg::OnApply()
 
 				char TextLine[512];
 				if (pData->m_iSSL > 0)
-					mir_snprintf(TextLine, _countof(TextLine), "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
+					mir_snprintf(TextLine, "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				else
-					mir_snprintf(TextLine, _countof(TextLine), "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
+					mir_snprintf(TextLine, "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				db_set_s(NULL, SERVERSMODULE, pData->m_name, TextLine);
 
 				// combobox might contain new items
@@ -1372,7 +1372,7 @@ void CIrcProto::InitIgnore(void)
 	int idx = 0;
 	char settingName[40];
 	for (;;) {
-		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", idx++);
+		mir_snprintf(settingName, "IGNORE:%d", idx++);
 
 		DBVARIANT dbv;
 		if (getTString(settingName, &dbv))
@@ -1392,13 +1392,13 @@ void CIrcProto::RewriteIgnoreSettings(void)
 
 	int i = 0;
 	for (;;) {
-		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", i++);
+		mir_snprintf(settingName, "IGNORE:%d", i++);
 		if (db_unset(NULL, m_szModuleName, settingName))
 			break;
 	}
 
 	for (i = 0; i < m_ignoreItems.getCount(); i++) {
-		mir_snprintf(settingName, _countof(settingName), "IGNORE:%d", i);
+		mir_snprintf(settingName, "IGNORE:%d", i);
 
 		CIrcIgnoreItem& C = m_ignoreItems[i];
 		setTString(settingName, (C.mask + _T(" ") + C.flags + _T(" ") + C.network).c_str());

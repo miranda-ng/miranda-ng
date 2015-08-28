@@ -287,9 +287,9 @@ void LoadExtBkSettingsFromDB()
 		*p = _StatusItems[0];
 		ID_EXTBK_LAST++;
 
-		mir_snprintf(p->szDBname, _countof(p->szDBname), "EXBK_%s", accs[i]->szModuleName);
+		mir_snprintf(p->szDBname, "EXBK_%s", accs[i]->szModuleName);
 		if (i == 0)
-			mir_snprintf(p->szName, _countof(p->szName), "{-}%s", accs[i]->szModuleName);
+			mir_snprintf(p->szName, "{-}%s", accs[i]->szModuleName);
 		else
 			strncpy_s(p->szName, accs[i]->szModuleName, _TRUNCATE);
 		p->statusID = ID_EXTBK_LAST;
@@ -487,34 +487,34 @@ void extbk_export(char *file)
 	}
 
 	for (n = 0; n <= FONTID_LAST; n++) {
-		mir_snprintf(szSection, _countof(szSection), "Font%d", n);
+		mir_snprintf(szSection, "Font%d", n);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dName", n);
+		mir_snprintf(szKey, "Font%dName", n);
 		if (!cfg::getString(NULL, "CLC", szKey, &dbv)) {
 			WritePrivateProfileStringA(szSection, "Name", dbv.pszVal, file);
 			mir_free(dbv.pszVal);
 		}
-		mir_snprintf(szKey, _countof(szKey), "Font%dSize", n);
+		mir_snprintf(szKey, "Font%dSize", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Size", &data, 1, file);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dSty", n);
+		mir_snprintf(szKey, "Font%dSty", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Style", &data, 1, file);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dSet", n);
+		mir_snprintf(szKey, "Font%dSet", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Set", &data, 1, file);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dCol", n);
+		mir_snprintf(szKey, "Font%dCol", n);
 		data = cfg::getDword("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Color", &data, 4, file);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dFlags", n);
+		mir_snprintf(szKey, "Font%dFlags", n);
 		data = (DWORD)cfg::getDword("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Flags", &data, 4, file);
 
-		mir_snprintf(szKey, _countof(szKey), "Font%dAs", n);
+		mir_snprintf(szKey, "Font%dAs", n);
 		data = (DWORD)cfg::getWord("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 	}
@@ -555,7 +555,7 @@ DWORD __fastcall HexStringToLong(const char *szSource)
 static StatusItems_t default_item = {
 	"{--Contact--}", "", 0,
 	CLCDEFAULT_GRADIENT, CLCDEFAULT_CORNER,
-	CLCDEFAULT_COLOR, CLCDEFAULT_COLOR2, CLCDEFAULT_COLOR2_TRANSPARENT, -1,
+	CLCDEFAULT_COLOR, CLCDEFAULT_COLOR2, CLCDEFAULT_COLOR2_TRANSPARENT, DWORD(-1),
 	CLCDEFAULT_ALPHA, CLCDEFAULT_MRGN_LEFT, CLCDEFAULT_MRGN_TOP, CLCDEFAULT_MRGN_RIGHT,
 	CLCDEFAULT_MRGN_BOTTOM, CLCDEFAULT_IGNORE
 };
@@ -700,12 +700,12 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	mir_snprintf(def_color, _countof(def_color), "%6.6x", clr);
+	mir_snprintf(def_color, "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color1", def_color, buffer, 400, file);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	mir_snprintf(def_color, _countof(def_color), "%6.6x", clr);
+	mir_snprintf(def_color, "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color2", def_color, buffer, 400, file);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
@@ -777,7 +777,7 @@ done_with_glyph:
 		strncpy(tmpItem.szName, &itemname[1], sizeof(tmpItem.szName));
 		tmpItem.szName[sizeof(tmpItem.szName) - 1] = 0;
 		_splitpath(szFileName, szDrive, szPath, NULL, NULL);
-		mir_snprintf(szFinalName, _countof(szFinalName), "%s\\%s\\%s", szDrive, szPath, buffer);
+		mir_snprintf(szFinalName, "%s\\%s\\%s", szDrive, szPath, buffer);
 		tmpItem.alpha = GetPrivateProfileIntA(itemname, "Alpha", 100, szFileName);
 		tmpItem.alpha = min(tmpItem.alpha, 100);
 		tmpItem.alpha = (BYTE)((FLOAT)(((FLOAT)tmpItem.alpha) / 100) * 255);
@@ -853,7 +853,7 @@ done_with_glyph:
 			goto imgread_done;
 		}
 		for (n = 0;; n++) {
-			mir_snprintf(szItemNr, _countof(szItemNr), "Item%d", n);
+			mir_snprintf(szItemNr, "Item%d", n);
 			GetPrivateProfileStringA(itemname, szItemNr, "None", buffer, 500, szFileName);
 			if (!mir_strcmp(buffer, "None"))
 				break;
@@ -1274,7 +1274,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 				char UIN[40];
 				switch (dbv.type) {
 				case DBVT_DWORD:
-					mir_snprintf(UIN, _countof(UIN), "%d", dbv.dVal);
+					mir_snprintf(UIN, "%d", dbv.dVal);
 					break;
 				case DBVT_ASCIIZ:
 					strncpy_s(UIN, dbv.pszVal, _TRUNCATE);
@@ -1363,38 +1363,38 @@ void extbk_import(char *file, HWND hwndDlg)
 	GetPrivateProfileStructA("Global", "Version", &version, 4, file);
 	if (version >= 2) {
 		for (n = 0; n <= FONTID_LAST; n++) {
-			mir_snprintf(szSection, _countof(szSection), "Font%d", n);
+			mir_snprintf(szSection, "Font%d", n);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dName", n);
+			mir_snprintf(szKey, "Font%dName", n);
 			GetPrivateProfileStringA(szSection, "Name", "Arial", buffer, sizeof(buffer), file);
 			cfg::writeString(NULL, "CLC", szKey, buffer);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dSize", n);
+			mir_snprintf(szKey, "Font%dSize", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Size", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dSty", n);
+			mir_snprintf(szKey, "Font%dSty", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Style", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dSet", n);
+			mir_snprintf(szKey, "Font%dSet", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Set", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dCol", n);
+			mir_snprintf(szKey, "Font%dCol", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Color", &data, 4, file);
 			cfg::writeDword("CLC", szKey, data);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dFlags", n);
+			mir_snprintf(szKey, "Font%dFlags", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Flags", &data, 4, file);
 			cfg::writeDword("CLC", szKey, (WORD)data);
 
-			mir_snprintf(szKey, _countof(szKey), "Font%dAs", n);
+			mir_snprintf(szKey, "Font%dAs", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 			cfg::writeDword("CLC", szKey, (WORD)data);

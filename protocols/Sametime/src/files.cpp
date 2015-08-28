@@ -33,7 +33,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	TCHAR descriptionT[512];
 	if (message) {
 		TCHAR* messageT = mir_utf8decodeT(message);
-		mir_sntprintf(descriptionT, _countof(descriptionT), _T("%s - %s"), filenameT, messageT);
+		mir_sntprintf(descriptionT, _T("%s - %s"), filenameT, messageT);
 		mir_free(messageT);
 	} else
 		_tcsncpy_s(descriptionT, filenameT, _TRUNCATE);

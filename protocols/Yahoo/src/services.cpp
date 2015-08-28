@@ -224,7 +224,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 		y = yahoo_urlencode(yahoo_get_cookie(m_id, "y"));
 		t = yahoo_urlencode(yahoo_get_cookie(m_id, "t"));
 		u = yahoo_urlencode(url);
-		mir_snprintf(tUrl, _countof(tUrl),
+		mir_snprintf(tUrl, 
 			"http://msg.edit.yahoo.com/config/reset_cookies?&.y=Y=%s&.t=T=%s&.ver=2&.done=http%%3a//us.rd.yahoo.com/messenger/client/%%3f%s",
 			y, t, u);
 
@@ -233,7 +233,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 		FREE(u);
 	}
 	else {
-		mir_snprintf(tUrl, _countof(tUrl), url);
+		mir_snprintf(tUrl, url);
 	}
 
 	debugLogA("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
@@ -258,7 +258,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand(WPARAM wParam, LPARAM)
 	if (getString(wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 
-	mir_snprintf(tUrl, _countof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
+	mir_snprintf(tUrl, "http://profiles.yahoo.com/%s", dbv.pszVal);
 	db_free(&dbv);
 
 	OpenURL(tUrl, 0);
@@ -284,7 +284,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM, LPARAM)
 	}
 
 	char tUrl[4096];
-	mir_snprintf(tUrl, _countof(tUrl), "http://profiles.yahoo.com/%s", dbv.pszVal);
+	mir_snprintf(tUrl, "http://profiles.yahoo.com/%s", dbv.pszVal);
 	db_free(&dbv);
 
 	OpenURL(tUrl, 0);

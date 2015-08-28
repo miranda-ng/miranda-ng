@@ -220,7 +220,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 				{
 					case CNFT_BYTE:
 						{
-							mir_sntprintf(tmp, _countof(tmp), _T("%d"), ctInfo.bVal);
+							mir_sntprintf(tmp, _T("%d"), ctInfo.bVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -228,7 +228,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 						
 					case CNFT_WORD:
 						{
-							mir_sntprintf(tmp, _countof(tmp), _T("%d"), ctInfo.wVal);
+							mir_sntprintf(tmp, _T("%d"), ctInfo.wVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -236,7 +236,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 						
 					case CNFT_DWORD:
 						{
-							mir_sntprintf(tmp, _countof(tmp), _T("%ld"), ctInfo.dVal);
+							mir_sntprintf(tmp, _T("%ld"), ctInfo.dVal);
 							buffer = _tcsdup(tmp);
 							
 							break;

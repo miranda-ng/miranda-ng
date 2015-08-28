@@ -328,7 +328,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				GetDlgItemText(hDlg, EDIT_AREA, szArea, _countof(szArea));
 				GetDlgItemText(hDlg, EDIT_NUMBER, szData, _countof(szData));
-				mir_sntprintf(szPhone, _countof(szPhone), _T("+%u (%s) %s"), nCountry, szArea, szData);
+				mir_sntprintf(szPhone, _T("+%u (%s) %s"), nCountry, szArea, szData);
 				noRecursion = 1;
 				SetDlgItemText(hDlg, EDIT_PHONE, szPhone);
 				noRecursion = 0;
@@ -780,7 +780,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						!cbex->pItems ||
 						cbex->iSelectedItem < 0 ||
 						cbex->iSelectedItem >= cbex->numItems ||
-						FAILED(mir_sntprintf(szMsg, _countof(szMsg), TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
+						FAILED(mir_sntprintf(szMsg, TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
 						cbex->pItems[cbex->iSelectedItem].szCat, cbex->pItems[cbex->iSelectedItem].pszVal))
 			)
 				{
@@ -946,7 +946,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		// set category string
 		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
-			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, _countof(cbex->pItems[cbex->numItems].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 		}
 
 		// set value string
@@ -986,7 +986,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
 			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, _countof(cbex->pItems[pItem->iItem].szCat))) 
-				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, _countof(cbex->pItems[pItem->iItem].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
 		}
@@ -1349,7 +1349,7 @@ int CtrlContactAddMyItemsFromDB(
 	cbi.pszIcon = szIcon;
 
 	for (i = 0;
-		SUCCEEDED(mir_snprintf(pszSetting, _countof(pszSetting), szFormatVal, i)) &&
+		SUCCEEDED(mir_snprintf(pszSetting, szFormatVal, i)) &&
 		(cbi.wFlags = DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
 		i++)
 	{
@@ -1360,7 +1360,7 @@ int CtrlContactAddMyItemsFromDB(
 		dbv.ptszVal = NULL;
 
 		// read category
-		if (SUCCEEDED(mir_snprintf(pszSetting, _countof(pszSetting), szFormatCat, i))) {
+		if (SUCCEEDED(mir_snprintf(pszSetting, szFormatCat, i))) {
 			if (cbi.wFlags & CTRLF_HASCUSTOM) {
 				if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbv))
 					dbv.type = DBVT_DELETED;
@@ -1480,13 +1480,13 @@ int CtrlContactWriteMyItemsToDB(
 			if (cbi.wFlags & CBEXIF_SMS) {
 				mir_tstrncat(szVal, _T(" SMS"), _countof(szVal) - mir_tstrlen(szVal));
 			}
-			mir_snprintf(pszSetting, _countof(pszSetting), szFormatCat, i);
+			mir_snprintf(pszSetting, szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
 				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else
 				db_unset(hContact, pszModule, pszSetting);
-			mir_snprintf(pszSetting, _countof(pszSetting), szFormatVal, i);
+			mir_snprintf(pszSetting, szFormatVal, i);
 			if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;

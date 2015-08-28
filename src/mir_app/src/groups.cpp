@@ -81,7 +81,7 @@ static INT_PTR CreateGroupInternal(INT_PTR iParent, const TCHAR *ptszName)
 		if (db_get_ts(NULL, "CListGroups", str, &dbv))
 			return 0;
 
-		mir_sntprintf(newBaseName, _countof(newBaseName), _T("%s\\%s"), dbv.ptszVal + 1, grpName);
+		mir_sntprintf(newBaseName, _T("%s\\%s"), dbv.ptszVal + 1, grpName);
 		mir_free(dbv.pszVal);
 	}
 	else mir_tstrncpy(newBaseName, grpName, _countof(newBaseName));
@@ -189,7 +189,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	db_free(&dbv);
 	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT)) {
 		TCHAR szQuestion[256 + 100];
-		mir_sntprintf(szQuestion, _countof(szQuestion), TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), name);
+		mir_sntprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), name);
 		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
@@ -243,7 +243,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 				break;
 			if (!_tcsncmp(dbv.ptszVal + 1, name, len) && dbv.pszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
 				if (szNewParent[0])
-					mir_sntprintf(szNewName, _countof(szNewName), _T("%s\\%s"), szNewParent, dbv.ptszVal + len + 2);
+					mir_sntprintf(szNewName, _T("%s\\%s"), szNewParent, dbv.ptszVal + len + 2);
 				else
 					mir_tstrncpy(szNewName, dbv.ptszVal + len + 2, _countof(szNewName));
 				cli.pfnRenameGroup(i + 1, szNewName);
@@ -302,7 +302,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 				break;
 			if (!_tcsncmp(dbv.ptszVal + 1, oldName, len) && dbv.ptszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
-				mir_sntprintf(szNewName, _countof(szNewName), _T("%s\\%s"), szName, dbv.ptszVal + len + 2);
+				mir_sntprintf(szNewName, _T("%s\\%s"), szName, dbv.ptszVal + len + 2);
 				RenameGroupWithMove(i, szNewName, 0);   //luckily, child groups will never need reordering
 			}
 			db_free(&dbv);

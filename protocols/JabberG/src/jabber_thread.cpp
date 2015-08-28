@@ -148,7 +148,7 @@ void ThreadData::xmpp_client_query(void)
 		return;
 
 	char temp[256];
-	mir_snprintf(temp, _countof(temp), "_xmpp-client._tcp.%s", conn.server);
+	mir_snprintf(temp, "_xmpp-client._tcp.%s", conn.server);
 
 	DNS_RECORDA *results = NULL;
 	DNS_STATUS status = DnsQuery_A(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD *)&results, NULL);

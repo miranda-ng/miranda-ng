@@ -87,16 +87,16 @@ void GGPROTO::initpopups()
 	puc.hIcon = CopyIcon(LoadIconEx("main", FALSE));
 	ReleaseIconEx("main", FALSE);
 	puc.iSeconds = 4;
-	mir_sntprintf(szDescr, _countof(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
-	mir_snprintf(szName, _countof(szName), "%s_%s", m_szModuleName, "Notify");
+	mir_sntprintf(szDescr, _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
+	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	puc.colorBack = RGB(191, 0, 0); // Red
 	puc.colorText = RGB(255, 245, 225); // Yellow
 	puc.iSeconds = 60;
 	puc.hIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
-	mir_sntprintf(szDescr, _countof(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Error"));
-	mir_snprintf(szName, _countof(szName), "%s_%s", m_szModuleName, "Error");
+	mir_sntprintf(szDescr, _T("%s/%s"), m_tszUserName, TranslateT("Error"));
+	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&puc);
 }
 
@@ -117,9 +117,9 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		ppd.pszClassName = szName;
 		
 		if (puData->flags & GG_POPUP_ERROR || puData->flags & GG_POPUP_WARNING)
-			mir_snprintf(szName, _countof(szName), "%s_%s", gg->m_szModuleName, "Error");
+			mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Error");
 		else
-			mir_snprintf(szName, _countof(szName), "%s_%s", gg->m_szModuleName, "Notify");
+			mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Notify");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 		return;

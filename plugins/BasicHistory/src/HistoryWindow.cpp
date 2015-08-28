@@ -1949,7 +1949,7 @@ void HistoryWindow::Delete(int what)
 		return;
 
 	TCHAR message[256];
-	mir_sntprintf(message, _countof(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
+	mir_sntprintf(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if (MessageBox(m_hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 

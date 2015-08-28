@@ -221,7 +221,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				}
 				TranslateDialogDefault(hDlg);			//to translate oldTitle
 				GetWindowText(hDlg, oldTitle, _countof(oldTitle));
-				mir_sntprintf(newTitle, _countof(newTitle), _T("%s - %s"), name, oldTitle);
+				mir_sntprintf(newTitle, _T("%s - %s"), name, oldTitle);
 				SetWindowText(hDlg, newTitle);
 			}
 

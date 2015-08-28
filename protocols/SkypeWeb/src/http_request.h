@@ -277,7 +277,7 @@ public:
 		}
 
 		char message[1024];
-		mir_snprintf(message, _countof(message), "Send request to %s", szUrl);
+		mir_snprintf(message, "Send request to %s", szUrl);
 		CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);

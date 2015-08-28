@@ -597,7 +597,7 @@ class CAnnivList
 		LVCOLUMN lvc;
 		CHAR pszSetting[MAXSETTING];
 
-		mir_snprintf(pszSetting, _countof(pszSetting), "AnnivDlg_Col%d", iSubItem);
+		mir_snprintf(pszSetting, "AnnivDlg_Col%d", iSubItem);
 		lvc.cx = db_get_w(NULL, MODNAME, pszSetting, defaultWidth);
 		lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 		lvc.iSubItem = iSubItem;
@@ -876,7 +876,7 @@ public:
 				int c, cc = Header_GetItemCount(ListView_GetHeader(_hList));
 
 				for (c = 0; c < cc; c++) {
-					mir_snprintf(pszSetting, _countof(pszSetting), "AnnivDlg_Col%d", c);
+					mir_snprintf(pszSetting, "AnnivDlg_Col%d", c);
 					db_set_w(NULL, MODNAME, pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
 				}
 				DeleteAllItems();

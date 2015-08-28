@@ -1346,7 +1346,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 				max_hist_msgs = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 				for (i = 1; i <= max_hist_msgs; i++) {
-					mir_snprintf(text, _countof(text), "SMsg%d", i);
+					mir_snprintf(text, "SMsg%d", i);
 					db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
 				}
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");

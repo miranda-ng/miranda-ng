@@ -199,7 +199,7 @@ static MEVENT AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *da
 	dbei.eventType = EVENTTYPE_MESSAGE;
 
 	char szEventText[4096];
-	dbei.cbBlob = mir_snprintf(szEventText, _countof(szEventText), "%s\r\n%s", szUrl, szText);
+	dbei.cbBlob = mir_snprintf(szEventText, "%s\r\n%s", szUrl, szText);
 	dbei.pBlob = (PBYTE)szEventText;
 	return db_event_add(hContact, &dbei);
 }

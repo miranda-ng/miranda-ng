@@ -293,8 +293,8 @@ void RegisterKeyBindings()
 	desc.pszName = strName;
 	desc.pszDescription = strDesc;
 	for (int i = 0; i < 9; i++) {
-		mir_snprintf(strName, _countof(strName), "Scriver/Nav/Tab %d", i + 1);
-		mir_snprintf(strDesc, _countof(strDesc), Translate("Navigate: tab %d"), i + 1);
+		mir_snprintf(strName, "Scriver/Nav/Tab %d", i + 1);
+		mir_snprintf(strDesc, Translate("Navigate: tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, '1' + i);
 		Hotkey_Register(&desc);

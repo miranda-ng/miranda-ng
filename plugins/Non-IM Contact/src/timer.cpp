@@ -32,7 +32,7 @@ void timerFunc(void*)
 			int timer = db_get_w(NULL, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {
 				if (!InternetDownloadFile(text)) {
-					mir_snprintf(szFileName, _countof(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), i);
+					mir_snprintf(szFileName, "%s\\plugins\\fn%d.html", getMimDir(temp), i);
 					savehtml(szFileName);
 				}
 			}

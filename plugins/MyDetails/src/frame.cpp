@@ -1474,7 +1474,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 	// Add this proto to menu
 	TCHAR tmp[128];
-	mir_sntprintf(tmp, _countof(tmp), TranslateT("Enable listening to for %s"), proto->description);
+	mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -1712,7 +1712,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my avatar for %s..."), proto->description);
+				mir_sntprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1752,7 +1752,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s..."), proto->description);
+				mir_sntprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1800,7 +1800,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), proto->description);
+					mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
 					MENUITEMINFO mii = { 0 };
 					mii.cbSize = sizeof(mii);
@@ -1819,7 +1819,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				// Add this to menu
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1882,7 +1882,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				TCHAR tmp[128];
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Enable listening to for %s"), proto->description);
+				mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1898,7 +1898,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				// Add this to menu
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
@@ -1917,7 +1917,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my status message for %s..."), proto->description);
+					mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
 					memset(&mii, 0, sizeof(mii));
 					mii.cbSize = sizeof(mii);
@@ -1935,7 +1935,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					InsertMenuItem(submenu, 0, TRUE, &mii);
 				}
 
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s..."), proto->description);
+				mir_sntprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
@@ -1952,7 +1952,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
-				mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my avatar for %s..."), proto->description);
+				mir_sntprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);

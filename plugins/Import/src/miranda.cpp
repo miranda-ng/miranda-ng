@@ -33,7 +33,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 {
 	// find in Miranda profile subfolders
 	TCHAR searchspec[MAX_PATH];
-	mir_sntprintf(searchspec, _countof(searchspec), _T("%s\\*.*"), mirandaPath);
+	mir_sntprintf(searchspec, _T("%s\\*.*"), mirandaPath);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchspec, &fd);
@@ -52,7 +52,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 		TCHAR buf[MAX_PATH], profile[MAX_PATH];
 		mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), mirandaPath, fd.cFileName, fd.cFileName);
 		if (_taccess(buf, 0) == 0) {
-			mir_sntprintf(profile, _countof(profile), _T("%s.dat"), fd.cFileName);
+			mir_sntprintf(profile, _T("%s.dat"), fd.cFileName);
 
 			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ADDSTRING, 0, (LPARAM)profile);
 			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETITEMDATA, i, (LPARAM)mir_tstrdup(buf));

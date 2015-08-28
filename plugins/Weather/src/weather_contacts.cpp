@@ -29,7 +29,7 @@ static void OpenUrl(TCHAR* format, TCHAR* id)
 {
 	TCHAR loc[512];
 	GetID(id);
-	mir_sntprintf(loc, _countof(loc), format, id);
+	mir_sntprintf(loc, format, id);
 	Utils_OpenUrlT(loc);
 }
 
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// if ID search is available, do it
 			if (sData->IDSearch.Available) {
 				// load the page
-				mir_snprintf(loc, _countof(loc), sData->IDSearch.SearchURL, str);
+				mir_snprintf(loc, sData->IDSearch.SearchURL, str);
 				str[0] = 0;
 				TCHAR *pData = NULL;
 				if (InternetDownloadFile(loc, NULL, sData->UserAgent, &pData) == 0) {
@@ -371,7 +371,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
 			db_set_ts(hContact, WEATHERPROTONAME, "Nick", city);
-			mir_sntprintf(str2, _countof(str2), TranslateT("Current weather information for %s."), city);
+			mir_sntprintf(str2, TranslateT("Current weather information for %s."), city);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
 				GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 				db_set_ts(hContact, WEATHERPROTONAME, "Log", str);
@@ -458,7 +458,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 			ptrT tszNick(db_get_tsa(hContact, WEATHERPROTONAME, "Nick"));
 			if (tszNick != NULL) {
 				TCHAR str[255];
-				mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), (TCHAR*)tszNick);
+				mir_sntprintf(str, TranslateT("%s is now the default weather station"), (TCHAR*)tszNick);
 				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
 			db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);

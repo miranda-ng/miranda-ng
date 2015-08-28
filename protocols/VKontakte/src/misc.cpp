@@ -732,7 +732,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
-	mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s"), ttime);
+	mir_sntprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
@@ -747,7 +747,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	if (tmpMsg)
 		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
-		mir_snprintf(HeadMsg, _countof(HeadMsg), "[sticker:%d]", stickerid);
+		mir_snprintf(HeadMsg, "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
 		if (retLen < mir_strlen(Msg)) {
 			CMStringA szMsg(Msg, int(mir_strlen(Msg) - mir_strlen(tmpMsg)));

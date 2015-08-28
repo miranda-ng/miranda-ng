@@ -191,11 +191,11 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				if (p->typ == 1) { // Treeview part for typ 1 (notification)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIconByHandle(p->hIcoLib));
-					mir_sntprintf(itemName, _countof(itemName), _T("%s/%s"), p->pszTreeRoot, p->pszDescription);
+					mir_sntprintf(itemName, _T("%s/%s"), p->pszTreeRoot, p->pszDescription);
 				}
 				else { // Treeview part typ 2 (popup class api)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, p->pupClass.hIcon);
-					mir_sntprintf(itemName, _countof(itemName), _T("%s/%s"), LPGENT("CLASS Plugins"), p->pszDescription);
+					mir_sntprintf(itemName, _T("%s/%s"), LPGENT("CLASS Plugins"), p->pszDescription);
 				}
 				OptTree_AddItem(hwndTree, itemName, (LPARAM)p, iconIndex);
 			}

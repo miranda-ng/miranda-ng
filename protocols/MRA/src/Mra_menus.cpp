@@ -282,7 +282,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	HGENMENU hRoot;
 	{
 		TCHAR szItem[MAX_PATH + 64];
-		mir_sntprintf(szItem, _countof(szItem), _T("%s Custom Status"), m_tszUserName);
+		mir_sntprintf(szItem, _T("%s Custom Status"), m_tszUserName);
 
 		CMenuItem mi;
 		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);
@@ -303,10 +303,10 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 	if (getByte(NULL, "xStatusShowAll", MRA_DEFAULT_SHOW_ALL_XSTATUSES))
 		dwCount = MRA_XSTATUS_COUNT;
 	for (DWORD i = 0; i < dwCount; i ++) {
-		mir_snprintf(szServiceFunction, _countof(szServiceFunction), "/menuXStatus%ld", i);
+		mir_snprintf(szServiceFunction, "/menuXStatus%ld", i);
 		mi.position ++;
 		if (i) {
-			mir_snprintf(szValueName, _countof(szValueName), "XStatus%ldName", i);
+			mir_snprintf(szValueName, "XStatus%ldName", i);
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
 				mi.name.t = (TCHAR*)szStatusTitle.c_str();
 			else
@@ -400,7 +400,7 @@ void CMraProto::InitMenus()
 	// xstatus menu
 	for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, _countof(szServiceName), "/menuXStatus%d", i);
+		mir_snprintf(szServiceName, "/menuXStatus%d", i);
 		CreateProtoServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
 	}
 }

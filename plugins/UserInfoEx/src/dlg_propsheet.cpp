@@ -137,7 +137,7 @@ private:
 
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDOK), FALSE);
 				EnableWindow(GetDlgItem(_pPs->hDlg, IDAPPLY), FALSE);
-				mir_snprintf(_pPs->szUpdating, _countof(_pPs->szUpdating), "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
+				mir_snprintf(_pPs->szUpdating, "%s (%s)", Translate("Uploading"), (*_pPd)->szModuleName);
 				ShowWindow(GetDlgItem(_pPs->hDlg, TXT_UPDATING), SW_SHOW);
 				SetTimer(_pPs->hDlg, TIMERID_UPDATING, 100, NULL);
 				return 0;
@@ -1541,7 +1541,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (pPs->hContact != NULL) {
 				ResetUpdateInfo(pPs);
 
-				mir_snprintf(pPs->szUpdating, _countof(pPs->szUpdating), "%s (%s)", Translate("updating"), pPs->pszProto);
+				mir_snprintf(pPs->szUpdating, "%s (%s)", Translate("updating"), pPs->pszProto);
 
 				// need meta contact's subcontact information
 				if (DB::Module::IsMetaAndScan(pPs->pszProto)) {

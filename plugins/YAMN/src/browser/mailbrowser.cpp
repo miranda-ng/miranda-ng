@@ -569,7 +569,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, DWORD nflags)
 			SendMessageW(hListView, LVM_SETITEMTEXTW, (WPARAM)item.iItem, (LPARAM)&item);
 
 			item.iSubItem = 2;
-			mir_sntprintf(SizeStr, _countof(SizeStr), L"%d kB", msgq->MailData->Size / 1024);
+			mir_sntprintf(SizeStr, L"%d kB", msgq->MailData->Size / 1024);
 			item.pszText = SizeStr;
 			SendMessageW(hListView, LVM_SETITEMTEXTW, (WPARAM)item.iItem, (LPARAM)&item);
 
@@ -636,7 +636,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
 		char sMsg[250];
-		mir_snprintf(sMsg, _countof(sMsg), Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		mir_snprintf(sMsg, Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT cEvent;
 			cEvent.cbSize = sizeof(CLISTEVENT);
@@ -671,7 +671,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		NewMailPopup.PluginData = (void *)0;	//multiple popups
 
 		mir_tstrncpy(NewMailPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(NewMailPopup.lptzContactName));
-		mir_sntprintf(NewMailPopup.lptzText, _countof(NewMailPopup.lptzText), TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		mir_sntprintf(NewMailPopup.lptzText, TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		PUAddPopupT(&NewMailPopup);
 	}
 
@@ -767,7 +767,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 
 		mir_tstrncpy(NoNewMailPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(NoNewMailPopup.lptzContactName));
 		if (MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC)
-			mir_sntprintf(NoNewMailPopup.lptzText, _countof(NoNewMailPopup.lptzText), TranslateT("No new mail message, %d spam(s)"), MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC);
+			mir_sntprintf(NoNewMailPopup.lptzText, TranslateT("No new mail message, %d spam(s)"), MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC);
 		else
 			mir_tstrncpy(NoNewMailPopup.lptzText, TranslateT("No new mail message"), _countof(NoNewMailPopup.lptzText));
 		PUAddPopupT(&NoNewMailPopup);
@@ -2045,7 +2045,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					if (Total) {
 						TCHAR DeleteMsg[1024];
 
-						mir_sntprintf(DeleteMsg, _countof(DeleteMsg), TranslateT("Do you really want to delete %d selected mails?"), Total);
+						mir_sntprintf(DeleteMsg, TranslateT("Do you really want to delete %d selected mails?"), Total);
 						if (IDOK == MessageBox(hDlg, DeleteMsg, TranslateT("Delete confirmation"), MB_OKCANCEL | MB_ICONWARNING)) {
 							struct DeleteParam ParamToDeleteMails = { YAMN_DELETEVERSION, ThreadRunningEV, ActualAccount, NULL };
 

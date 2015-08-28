@@ -59,9 +59,9 @@ static void ApplyUpdates(void *param)
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
-	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), g_tszRoot);
+	mir_sntprintf(tszFileBack, _T("%s\\Backups"), g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
-	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), g_tszRoot);
+	mir_sntprintf(tszFileTemp, _T("%s\\Temp"), g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -101,7 +101,7 @@ static void ApplyUpdates(void *param)
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -109,8 +109,8 @@ static void ApplyUpdates(void *param)
 				// otherwise it would be replaced by unzip
 				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, _countof(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -377,10 +377,10 @@ static void DlgUpdateSilent(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, _countof(tszFileBack), _T("%s\\Backups"), g_tszRoot);
+	mir_sntprintf(tszFileBack, _T("%s\\Backups"), g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, _countof(tszFileTemp), _T("%s\\Temp"), g_tszRoot);
+	mir_sntprintf(tszFileTemp, _T("%s\\Temp"), g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
@@ -418,7 +418,7 @@ static void DlgUpdateSilent(void *param)
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-				mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
 			else {
@@ -426,8 +426,8 @@ static void DlgUpdateSilent(void *param)
 				// otherwise it would be replaced by unzip
 				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
 					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_sntprintf(tszSrcPath, _countof(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-					mir_sntprintf(tszBackFile, _countof(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+					mir_sntprintf(tszSrcPath, _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+					mir_sntprintf(tszBackFile, _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
@@ -455,7 +455,7 @@ static void DlgUpdateSilent(void *param)
 
 	// 5) Prepare Restart
 	TCHAR tszTitle[100];
-	mir_sntprintf(tszTitle, _countof(tszTitle), TranslateT("%d component(s) was updated"), count);
+	mir_sntprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
@@ -477,7 +477,7 @@ static void DlgUpdateSilent(void *param)
 		if (!notified) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
 			TCHAR tszText[200];
-			mir_sntprintf(tszText, _countof(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+			mir_sntprintf(tszText, _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
 #if MIRANDA_VER >= 0x0A00
@@ -599,7 +599,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 		return 0;
 
 	TCHAR tszBuf[MAX_PATH];
-	mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\*"), tszFolder);
+	mir_sntprintf(tszBuf, _T("%s\\*"), tszFolder);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
@@ -613,7 +613,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			// Scan recursively all subfolders
 			if (_tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T(".."))) {
-				mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+				mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
 				count += ScanFolder(tszBuf, cbBaseLen, level + 1, tszBaseUrl, hashes, UpdateFiles);
 			}
 		}
@@ -624,12 +624,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				if (level == 0)
 					_tcsncpy(tszNewName, ffd.cFileName, MAX_PATH);
 				else
-					mir_sntprintf(tszNewName, _countof(tszNewName), _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
+					mir_sntprintf(tszNewName, _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
 
 			TCHAR *ptszUrl;
 			int MyCRC;
-			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
+			mir_sntprintf(tszBuf, _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
@@ -709,8 +709,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			p = (p) ? p + 1 : tszBuf;
 			_tcslwr(p);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, _countof(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), g_tszRoot, p);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, _countof(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
+			mir_sntprintf(FileInfo->File.tszDiskPath, _T("%s\\Temp\\%s.zip"), g_tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, _T("%s/%s.zip"), tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';
 

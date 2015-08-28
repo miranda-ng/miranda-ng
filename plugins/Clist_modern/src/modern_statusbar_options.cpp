@@ -403,25 +403,25 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				StatusBarProtocolOptions *sbpo = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, i, 0);
 
 				char settingBuf[256];
-				mir_snprintf(settingBuf, _countof(settingBuf), "SBarAccountIsCustom_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "SBarAccountIsCustom_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->AccountIsCustomized);
 
-				mir_snprintf(settingBuf, _countof(settingBuf), "HideAccount_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "HideAccount_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->HideAccount);
 
-				mir_snprintf(settingBuf, _countof(settingBuf), "SBarShow_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "SBarShow_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarShow);
-				mir_snprintf(settingBuf, _countof(settingBuf), "SBarRightClk_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "SBarRightClk_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarRightClk);
-				mir_snprintf(settingBuf, _countof(settingBuf), "UseConnectingIcon_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "UseConnectingIcon_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->UseConnectingIcon);
-				mir_snprintf(settingBuf, _countof(settingBuf), "ShowUnreadEmails_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "ShowUnreadEmails_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->ShowUnreadEmails);
-				mir_snprintf(settingBuf, _countof(settingBuf), "ShowXStatus_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "ShowXStatus_%s", sbpo->szName);
 				db_set_b(NULL, "CLUI", settingBuf, sbpo->ShowXStatus);
-				mir_snprintf(settingBuf, _countof(settingBuf), "PaddingLeft_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "PaddingLeft_%s", sbpo->szName);
 				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingLeft);
-				mir_snprintf(settingBuf, _countof(settingBuf), "PaddingRight_%s", sbpo->szName);
+				mir_snprintf(settingBuf, "PaddingRight_%s", sbpo->szName);
 				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingRight);
 			}
 

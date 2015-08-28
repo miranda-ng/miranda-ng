@@ -193,7 +193,7 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 		WritePrivateProfileStringA(fontBlocks[n].szBLockname, "Valid", "1", szIniFilename);
 		for (i = 0; i < fontBlocks[n].iCount; i++) {
 			mir_snprintf(szTemp, "Font%d", firstIndex + i);
-			mir_snprintf(szAppname, _countof(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
+			mir_snprintf(szAppname, fontBlocks[n].szIniTemp, firstIndex + i);
 			if (!db_get_s(NULL, szModule, szTemp, &dbv)) {
 				WritePrivateProfileStringA(szAppname, "Face", dbv.pszVal, szIniFilename);
 				db_free(&dbv);
@@ -274,7 +274,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 			}
 			for (i = 0; i < fontBlocks[n].iCount; i++) {
 				mir_snprintf(szTemp, "Font%d", firstIndex + i);
-				mir_snprintf(szAppname, _countof(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
+				mir_snprintf(szAppname, fontBlocks[n].szIniTemp, firstIndex + i);
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 						strncpy_s(szBuf, "Arial", _TRUNCATE);
@@ -425,7 +425,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	szFilename[0] = 0;
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, _countof(filter), _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
+	mir_sntprintf(filter, _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = 0;

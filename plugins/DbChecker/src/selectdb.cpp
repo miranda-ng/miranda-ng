@@ -36,7 +36,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	if (opts.dbChecker == NULL) {
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
 		if (dblink == NULL) {
-			mir_sntprintf(tszMsg, _countof(tszMsg),
+			mir_sntprintf(tszMsg,
 				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
 		LBL_Error:
@@ -45,7 +45,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 		}
 
 		if (dblink->CheckDB == NULL) {
-			mir_sntprintf(tszMsg, _countof(tszMsg),
+			mir_sntprintf(tszMsg,
 				TranslateT("Database driver '%s' doesn't support checking."),
 				TranslateTS(dblink->szFullName));
 			goto LBL_Error;
@@ -129,7 +129,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
 	TCHAR szSize[20];
-	mir_sntprintf(szSize, _countof(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
+	mir_sntprintf(szSize, _T("%.2lf MB"), totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
 	return iNewItem;
 }
@@ -149,7 +149,7 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 				continue;
 
-			mir_sntprintf(szFilename, _countof(szFilename), _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
+			mir_sntprintf(szFilename, _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
 			if (_taccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
 		} while (FindNextFile(hFind, &fd));

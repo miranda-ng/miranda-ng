@@ -427,7 +427,7 @@ int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 {
 	char *tmp, *tmporig;
 	TCHAR msg[MAX_BUFFER_LENGTH];
-	mir_sntprintf(msg, _countof(msg), message, pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_sntprintf(msg, message, pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (_getOptB("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);
@@ -467,9 +467,9 @@ int LogToSystemHistory(char *message, char *origmessage)
 	dbei.szModule = PLUGIN_NAME;
 	dbei.pBlob = (PBYTE)msg;
 	if (origmessage)
-		dbei.cbBlob = (1 + mir_snprintf(msg, _countof(msg), "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
+		dbei.cbBlob = (1 + mir_snprintf(msg, "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
 	else 
-		dbei.cbBlob = (1 + mir_snprintf(msg, _countof(msg), "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
+		dbei.cbBlob = (1 + mir_snprintf(msg, "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_READ;
 	db_event_add(NULL, &dbei);

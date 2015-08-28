@@ -123,7 +123,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		SkinPlaySound("RecvFile");
 
 		TCHAR szTooltip[256];
-		mir_sntprintf(szTooltip, _countof(szTooltip), TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;

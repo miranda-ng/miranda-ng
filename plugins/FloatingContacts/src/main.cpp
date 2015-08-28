@@ -916,7 +916,7 @@ extern "C" int __declspec(dllexport) Load()
 		COLORREF defColor = GetSysColor((i == FLT_FONTID_NOTONLIST) ? COLOR_3DSHADOW : COLOR_WINDOWTEXT);
 
 		char szId[20];
-		mir_snprintf(szId, _countof(szId), "Font%d", i);
+		mir_snprintf(szId, "Font%d", i);
 		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), s_fonts[i], NULL, NULL, i + 1, false, &lf, defColor);
 	}
 

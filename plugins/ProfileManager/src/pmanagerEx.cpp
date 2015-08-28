@@ -71,7 +71,7 @@ static INT_PTR CheckDb(WPARAM, LPARAM)
 		STARTUPINFO si = { 0 };
 		si.cb = sizeof(si);
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
+		mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d /svc:dbchecker"), mirandaPath, GetCurrentProcessId());
 		CallService("CloseAction", 0, 0);
 		CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	}

@@ -131,7 +131,7 @@ void UploadDialog::Tab::select()
 void UploadDialog::Tab::labelCompleted()
 {
 	TCHAR buff[64], buff2[256];
-	mir_sntprintf(buff2, _countof(buff2), _T("* %s"), Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
+	mir_sntprintf(buff2, _T("* %s"), Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
 
 	TCITEM tab = { 0 };
 	tab.mask = TCIF_TEXT;

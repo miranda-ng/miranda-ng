@@ -90,13 +90,13 @@ int AccountName2Protocol(const char *accountName, OUT char *uniqueProtocolName, 
 void HandleWrongParametersCount(PCommand command, PReply reply)
 {
 	reply->code = MIMRES_WRONGPARAMSCOUNT;
-	mir_snprintf(reply->message, _countof(reply->message), Translate("Wrong number of parameters for command '%s'."), command->command);
+	mir_snprintf(reply->message, Translate("Wrong number of parameters for command '%s'."), command->command);
 }
 
 void HandleUnknownParameter(PCommand command, char *param, PReply reply)
 {
 	reply->code = MIMRES_UNKNOWNPARAM;
-	mir_snprintf(reply->message, _countof(reply->message), Translate("Unknown parameter '%s' for command '%s'."), param, command->command);
+	mir_snprintf(reply->message, Translate("Unknown parameter '%s' for command '%s'."), param, command->command);
 }
 
 int ParseValueParam(char *param, void *&result)
@@ -231,7 +231,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 			}
 
 			reply->code = MIMRES_SUCCESS;
-			mir_snprintf(reply->message, _countof(reply->message), Translate("Current global status: %s.%s"), pretty, perAccountStatus.c_str());
+			mir_snprintf(reply->message, Translate("Current global status: %s.%s"), pretty, perAccountStatus.c_str());
 
 			return;
 		}
@@ -252,7 +252,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				PrettyStatusMode(status, pn, sizeof(pn));
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Changed global status to '%s' (previous status was '%s')."), pn, po);
+				mir_snprintf(reply->message, Translate("Changed global status to '%s' (previous status was '%s')."), pn, po);
 			}
 			else {
 				HandleUnknownParameter(command, argv[2], reply);
@@ -283,17 +283,17 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				switch (res) {
 				case 0:
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Changed '%s' status to '%s' (previous status was '%s')."), account, pn, po);
+					mir_snprintf(reply->message, Translate("Changed '%s' status to '%s' (previous status was '%s')."), account, pn, po);
 					return;
 
 				case CALLSERVICE_NOTFOUND:
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("'%s' doesn't seem to be a valid account."), account);
+					mir_snprintf(reply->message, Translate("'%s' doesn't seem to be a valid account."), account);
 					return;
 
 				default:
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Failed to change status for account '%s' to '%s'."), account, pn);
+					mir_snprintf(reply->message, Translate("Failed to change status for account '%s' to '%s'."), account, pn);
 					return;
 				}
 			}
@@ -377,22 +377,22 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 			switch (res) {
 			case 0:
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Changed '%s' status message to '%s' (status is '%s')."), account, awayMsg, pn);
+				mir_snprintf(reply->message, Translate("Changed '%s' status message to '%s' (status is '%s')."), account, awayMsg, pn);
 				return;
 
 			case CALLSERVICE_NOTFOUND:
 				reply->code = MIMRES_FAILURE;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("'%s' doesn't seem to be a valid account."), account);
+				mir_snprintf(reply->message, Translate("'%s' doesn't seem to be a valid account."), account);
 				return;
 
 			case -2:
 				reply->code = MIMRES_FAILURE;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Account '%s' does not support away messages, skipping."), account);
+				mir_snprintf(reply->message, Translate("Account '%s' does not support away messages, skipping."), account);
 				return;
 
 			default:
 				reply->code = MIMRES_FAILURE;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Failed to change status message for account '%s' to '%s' (status is '%s')."), account, awayMsg, pn);
+				mir_snprintf(reply->message, Translate("Failed to change status message for account '%s' to '%s' (status is '%s')."), account, awayMsg, pn);
 				return;
 			}
 		}
@@ -407,21 +407,21 @@ void Set2StateReply(PReply reply, int state, int failure, char *successTrue, cha
 	if (state) {
 		if (failure) {
 			reply->code = MIMRES_FAILURE;
-			mir_snprintf(reply->message, _countof(reply->message), Translate(failureTrue));
+			mir_snprintf(reply->message, Translate(failureTrue));
 		}
 		else {
 			reply->code = MIMRES_SUCCESS;
-			mir_snprintf(reply->message, _countof(reply->message), Translate(successTrue));
+			mir_snprintf(reply->message, Translate(successTrue));
 		}
 	}
 	else {
 		if (failure) {
 			reply->code = MIMRES_FAILURE;
-			mir_snprintf(reply->message, _countof(reply->message), Translate(failureFalse));
+			mir_snprintf(reply->message, Translate(failureFalse));
 		}
 		else {
 			reply->code = MIMRES_SUCCESS;
-			mir_snprintf(reply->message, _countof(reply->message), Translate(successFalse));
+			mir_snprintf(reply->message, Translate(successFalse));
 		}
 	}
 }
@@ -594,7 +594,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 			PostMessage(hWndMiranda, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 			reply->code = MIMRES_SUCCESS;
-			mir_snprintf(reply->message, _countof(reply->message), Translate("Issued a quit command."));
+			mir_snprintf(reply->message, Translate("Issued a quit command."));
 			break;
 		}
 
@@ -612,7 +612,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 				PostMessage(hWndMiranda, WM_COMMAND, ID_ICQ_EXIT, 0);
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Issued a quit and wait command."));
+				mir_snprintf(reply->message, Translate("Issued a quit and wait command."));
 
 				SetEvent(heServerBufferFull);
 
@@ -646,11 +646,11 @@ void HandleExchangeCommand(PCommand command, TArgument *argv, int argc, PReply r
 				INT_PTR ret = CallService(MS_EXCHANGE_CHECKEMAIL, 0, 0);
 				if (ret != CALLSERVICE_NOTFOUND) {
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Issued check email command to Exchange plugin."));
+					mir_snprintf(reply->message, Translate("Issued check email command to Exchange plugin."));
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Exchange plugin is not running."));
+					mir_snprintf(reply->message, Translate("Exchange plugin is not running."));
 				}
 			}
 			else {
@@ -678,11 +678,11 @@ void HandleYAMNCommand(PCommand command, TArgument *argv, int argc, PReply reply
 					CallService(MS_YAMN_FORCECHECK, 0, 0);
 
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Issued check email command to YAMN plugin."));
+					mir_snprintf(reply->message, Translate("Issued check email command to YAMN plugin."));
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("YAMN plugin is not running."));
+					mir_snprintf(reply->message, Translate("YAMN plugin is not running."));
 				}
 			}
 			else {
@@ -713,11 +713,11 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 					INT_PTR res = CallService(service, ((res1 == 1) ? *((long *)wParam) : (WPARAM)wParam), (LPARAM)((res2 == 1) ? *((long *)lParam) : (LPARAM)lParam));
 
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("CallService call successful: service '%s' returned %p."), service, res);
+					mir_snprintf(reply->message, Translate("CallService call successful: service '%s' returned %p."), service, res);
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Invalid parameter '%s' passed to CallService command."), (wParam) ? argv[4] : argv[3]);
+					mir_snprintf(reply->message, Translate("Invalid parameter '%s' passed to CallService command."), (wParam) ? argv[4] : argv[3]);
 				}
 
 				free(wParam);
@@ -726,7 +726,7 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 			}
 			else {
 				reply->code = MIMRES_FAILURE;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Service '%s' does not exist."), service);
+				mir_snprintf(reply->message, Translate("Service '%s' does not exist."), service);
 			}
 
 			break;
@@ -893,7 +893,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				db_unset(NULL, module, key);
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Setting '%s/%s' deleted."), module, key);
+				mir_snprintf(reply->message, Translate("Setting '%s/%s' deleted."), module, key);
 			}
 			else {
 				HandleWrongParametersCount(command, reply);
@@ -941,7 +941,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				}
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("Wrote '%s:%s' to database entry '%s/%s'."), wrote, argv[5] + 1, module, key);
+				mir_snprintf(reply->message, Translate("Wrote '%s:%s' to database entry '%s/%s'."), wrote, argv[5] + 1, module, key);
 
 				free(value);
 			}
@@ -962,16 +962,16 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 
 					if (ParseDatabaseData(&var, buffer, sizeof(buffer), TRUE)) {
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(reply->message, _countof(reply->message), "'%s/%s' - %s.", module, key, buffer);
+						mir_snprintf(reply->message, "'%s/%s' - %s.", module, key, buffer);
 					}
 					else {
 						reply->code = MIMRES_FAILURE;
-						mir_snprintf(reply->message, _countof(reply->message), Translate("Could not retrieve setting '%s/%s': %s."), module, key, buffer);
+						mir_snprintf(reply->message, Translate("Could not retrieve setting '%s/%s': %s."), module, key, buffer);
 					}
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Setting '%s/%s' was not found."), module, key);
+					mir_snprintf(reply->message, Translate("Setting '%s/%s' was not found."), module, key);
 				}
 
 			}
@@ -1057,7 +1057,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				int value = db_get_b(NULL, module, "NLUseProxy", 0);
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(buffer, _countof(buffer), "%s proxy status is %s", protocol, (value) ? "enabled" : "disabled");
+				mir_snprintf(buffer, "%s proxy status is %s", protocol, (value) ? "enabled" : "disabled");
 
 				break;
 			}
@@ -1071,7 +1071,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", 0);
 
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, _countof(buffer), Translate("'%s' proxy was disabled."), protocol);
+						mir_snprintf(buffer, Translate("'%s' proxy was disabled."), protocol);
 
 						break;
 					}
@@ -1081,7 +1081,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", 1);
 
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, _countof(buffer), Translate("'%s' proxy was enabled."), protocol);
+						mir_snprintf(buffer, Translate("'%s' proxy was enabled."), protocol);
 
 						break;
 					}
@@ -1093,7 +1093,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", value);
 
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, _countof(buffer), (value) ? Translate("'%s' proxy was enabled.") : Translate("'%s' proxy was disabled."));
+						mir_snprintf(buffer, (value) ? Translate("'%s' proxy was enabled.") : Translate("'%s' proxy was disabled."));
 
 						break;
 					}
@@ -1121,7 +1121,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				PrettyProxyType(db_get_b(NULL, module, "NLProxyType", 0), type, sizeof(type));
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(buffer, _countof(buffer), Translate("%s proxy server: %s %s:%d."), protocol, type, host, port);
+				mir_snprintf(buffer, Translate("%s proxy server: %s %s:%d."), protocol, type, host, port);
 
 				break;
 			}
@@ -1140,11 +1140,11 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					db_set_b(NULL, module, "NLProxyType", type);
 
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(buffer, _countof(buffer), Translate("%s proxy set to %s %s:%d."), protocol, argv[4], host, port);
+					mir_snprintf(buffer, Translate("%s proxy set to %s %s:%d."), protocol, argv[4], host, port);
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(buffer, _countof(buffer), Translate("%s The port or the proxy type parameter is invalid."), protocol);
+					mir_snprintf(buffer, Translate("%s The port or the proxy type parameter is invalid."), protocol);
 				}
 
 				break;
@@ -1167,7 +1167,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 		reply->message[_countof(reply->message) - 1] = 0;
 	}
 	else {
-		mir_snprintf(reply->message, _countof(reply->message), buffer);
+		mir_snprintf(reply->message, buffer);
 	}
 }
 
@@ -1210,7 +1210,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 
 		if (!found) {
 			reply->code = MIMRES_FAILURE;
-			mir_snprintf(reply->message, _countof(reply->message), Translate("'%s' doesn't seem to be a valid account."), account);
+			mir_snprintf(reply->message, Translate("'%s' doesn't seem to be a valid account."), account);
 		}
 	}
 	else {
@@ -1309,7 +1309,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				char *contact = GetContactName(hContact, protocol);
 				char *id = GetContactID(hContact, protocol);
 				if (ContactMatchSearch(hContact, contact, id, protocol, &argv[3], argc - 3)) {
-					mir_snprintf(buffer, _countof(buffer), "%s:[%s]:%s (%08d)", contact, id, protocol, hContact);
+					mir_snprintf(buffer, "%s:[%s]:%s (%08d)", contact, id, protocol, hContact);
 					if (count) {
 						mir_strncat(reply->message, "\n", _countof(reply->message) - mir_strlen(reply->message));
 						mir_strncat(reply->message, buffer, _countof(reply->message) - mir_strlen(reply->message));
@@ -1376,7 +1376,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 	char *message = DbGetEventTextA(dbEvent, CP_ACP);
 
 	static char buffer[8192];
-	mir_snprintf(buffer, _countof(buffer), "[%s] %15s: %s", timestamp, sender, message);
+	mir_snprintf(buffer, "[%s] %15s: %s", timestamp, sender, message);
 
 
 	if (reply->message[0] != 0) {
@@ -1409,7 +1409,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				DBEVENTINFO dbEvent = { sizeof(dbEvent) };
 
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(reply->message, _countof(reply->message), Translate("No unread messages found."));
+				mir_snprintf(reply->message, Translate("No unread messages found."));
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					MEVENT hEvent = db_event_firstUnread(hContact);
@@ -1426,7 +1426,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						char protocol[128];
 						GetContactProto(hContact, protocol, sizeof(protocol));
 						char *contact = GetContactName(hContact, protocol);
-						mir_snprintf(buffer, _countof(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
+						mir_snprintf(buffer, Translate("%s:%s - %d unread events."), contact, protocol, count);
 
 						if (contacts > 0) {
 							mir_strncat(reply->message, "\n", _countof(reply->message) - mir_strlen(reply->message));
@@ -1467,13 +1467,13 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 					}
 					else if (_stricmp(cmd, "show") == 0) {
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(reply->message, _countof(reply->message), Translate("Contact '%s' has %d events in history."), contact, db_event_count(hContact));
+						mir_snprintf(reply->message, Translate("Contact '%s' has %d events in history."), contact, db_event_count(hContact));
 					}
 					else HandleUnknownParameter(command, cmd, reply);
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Could not find contact handle for contact '%s'."), contact);
+					mir_snprintf(reply->message, Translate("Could not find contact handle for contact '%s'."), contact);
 				}
 			}
 			break;
@@ -1529,7 +1529,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(reply->message, _countof(reply->message), Translate("Could not find contact handle for contact '%s'."), contact);
+					mir_snprintf(reply->message, Translate("Could not find contact handle for contact '%s'."), contact);
 				}
 			}
 			break;
@@ -1549,14 +1549,14 @@ void HandleVersionCommand(PCommand command, TArgument*, int argc, PReply reply)
 		if (ServiceExists(MS_CRASHDUMPER_GETINFO)) {
 			char *data;
 			CallService(MS_CRASHDUMPER_GETINFO, (WPARAM)FALSE, (LPARAM)&data);
-			mir_snprintf(reply->message, _countof(reply->message), data);
+			mir_snprintf(reply->message, data);
 			mir_free(data);
 		}
 		else {
 			char miranda[512];
 			DWORD v = pluginInfo.version;
 			CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM) sizeof(miranda), (LPARAM)miranda);
-			mir_snprintf(reply->message, _countof(reply->message), "Miranda %s\nCmdLine v.%d.%d.%d.%d", miranda, ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF), (v & 0xFF));
+			mir_snprintf(reply->message, "Miranda %s\nCmdLine v.%d.%d.%d.%d", miranda, ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF), (v & 0xFF));
 		}
 	}
 	else HandleWrongParametersCount(command, reply);
@@ -1577,7 +1577,7 @@ void HandleSetNicknameCommand(PCommand command, TArgument *argv, int argc, PRepl
 		}
 		else {
 			reply->code = MIMRES_FAILURE;
-			mir_snprintf(reply->message, _countof(reply->message), Translate("Error setting nickname to '%s' for protocol '%s'"), nickname, protocol);
+			mir_snprintf(reply->message, Translate("Error setting nickname to '%s' for protocol '%s'"), nickname, protocol);
 		}
 	}
 	else HandleWrongParametersCount(command, reply);
@@ -1684,6 +1684,6 @@ void HandleCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 
 	default:
 		reply->code = MIMRES_NOTFOUND;
-		mir_snprintf(reply->message, _countof(reply->message), Translate("Command '%s' is not currently supported."), command->command);
+		mir_snprintf(reply->message, Translate("Command '%s' is not currently supported."), command->command);
 	}
 }

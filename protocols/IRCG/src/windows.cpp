@@ -376,13 +376,13 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(m_list.GetHwnd(), SW_HIDE);
 
 			// New dialog title
-			mir_sntprintf(newTitle, _countof(newTitle), TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
+			mir_sntprintf(newTitle, TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
 			SetWindowText(m_hwnd, newTitle);
 		}
 		else {
 			ShowWindow(m_list.GetHwnd(), SW_SHOW);
 			ShowWindow(m_list2.GetHwnd(), SW_HIDE);
-			mir_sntprintf(newTitle, _countof(newTitle), TranslateT("Channels on server"));
+			mir_sntprintf(newTitle, TranslateT("Channels on server"));
 			SetWindowText(m_hwnd, newTitle);
 		}
 	}
@@ -967,7 +967,7 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 	TCHAR temp2[450];
 	TCHAR window[256];
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-	mir_sntprintf(temp2, _countof(temp2), _T("/MODE %s %s %s"), window, mode, _T("%question"));
+	mir_sntprintf(temp2, _T("/MODE %s %s %s"), window, mode, _T("%question"));
 	SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 	dlg->Activate();
 }
@@ -1010,7 +1010,7 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			TCHAR temp2[450];
 			TCHAR window[256];
 			GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-			mir_sntprintf(temp2, _countof(temp2), _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
+			mir_sntprintf(temp2, _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
 			SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 			dlg->Activate();
 		}

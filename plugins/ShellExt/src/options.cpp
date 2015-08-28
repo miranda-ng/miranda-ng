@@ -30,7 +30,7 @@ static void InitControls(HWND hwndDlg)
 	int comReg = IsCOMRegistered();
 
 	TCHAR szBuf[MAX_PATH];
-	mir_sntprintf(szBuf, _countof(szBuf), _T("%s (%s)"),
+	mir_sntprintf(szBuf, _T("%s (%s)"),
 		TranslateTS(COM_OKSTR[(comReg & COMREG_OK) != 0]),
 		TranslateTS(COM_APPROVEDSTR[(comReg & COMREG_APPROVED) != 0]));
 	SetDlgItemText(hwndDlg, IDC_STATUS, szBuf);

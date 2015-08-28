@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (!db_get_w(NULL, MODNAME, "Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_sntprintf(string, _countof(string), TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
+					mir_sntprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}
@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_OPEN_FOLDER:
 			if (BrowseForFolder(hwnd, szFileName)) {
-				mir_snprintf(szFileName, _countof(szFileName), "%s ,/e", szFileName);
+				mir_snprintf(szFileName, "%s ,/e", szFileName);
 				SetDlgItemTextA(hwnd, IDC_LINK, "explorer.exe");
 				SetDlgItemTextA(hwnd, IDC_PARAMS, szFileName);
 			}

@@ -300,7 +300,7 @@ int StatusMsgExists(MCONTACT hContact)
 
 	for (int i = 0; i < _countof(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, _countof(par), "%s/%s", module, statusMsg[i].name);
+			mir_snprintf(par, "%s/%s", module, statusMsg[i].name);
 		else
 			strncpy(par, statusMsg[i].name, _countof(par)-1);
 
@@ -342,9 +342,9 @@ void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
 	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
 	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
 	if (mIP)
-		mir_snprintf(szmIP, _countof(szmIP), "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
+		mir_snprintf(szmIP, "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
 	if (rIP)
-		mir_snprintf(szrIP, _countof(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
+		mir_snprintf(szrIP, "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 	mir_strcpy(szIP, szrIP);
 	mir_strcat(szIP, szmIP);
 }
@@ -507,7 +507,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_sntprintf(buffer, _countof(buffer), _T("%s [%S]"), TranslateT("Copy ID"), szID);
+			mir_sntprintf(buffer, _T("%s [%S]"), TranslateT("Copy ID"), szID);
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
 		else Menu_ModifyItem(hmenuCopyID, LPGENT("Copy ID"), hIconCID);
@@ -620,7 +620,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 	buffer[0] = 0;
 	for (int i = 0; i < _countof(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, _countof(par), "%s/%s", module, statusMsg[i].name);
+			mir_snprintf(par, "%s/%s", module, statusMsg[i].name);
 		else
 			strncpy(par, statusMsg[i].name, _countof(par) - 1);
 

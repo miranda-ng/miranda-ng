@@ -51,7 +51,7 @@ void gg_icolib_init()
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", GGDEF_PROTO, name);
+	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -66,7 +66,7 @@ HANDLE GetIconHandle(int iconId)
 void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", GGDEF_PROTO, name);
+	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
 	IcoLib_Release(szSettingName, big);
 }
 

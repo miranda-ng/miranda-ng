@@ -194,7 +194,7 @@ static void sttEmptyBuf(StringBuf *buf)
 static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 {
 	char indentLevel[128];
-	mir_snprintf(indentLevel, _countof(indentLevel), RTF_INDENT_FMT, (int)(indent*200));
+	mir_snprintf(indentLevel, RTF_INDENT_FMT, (int)(indent*200));
 
 	sttAppendBufRaw(buf, RTF_BEGINTAG);
 	sttAppendBufRaw(buf, indentLevel);
@@ -228,7 +228,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 		if (XmlGetChildCount(node)) {
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
 			char indentTextLevel[128];
-			mir_snprintf(indentTextLevel, _countof(indentTextLevel), RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
+			mir_snprintf(indentTextLevel, RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
 		}
 

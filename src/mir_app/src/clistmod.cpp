@@ -100,7 +100,7 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 	default:
 		if (IsStatusConnecting(mode)) {
 			const TCHAR* connFmt = LPGENT("Connecting (attempt %d)");
-			mir_sntprintf(szMode, _countof(szMode), (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
+			mir_sntprintf(szMode, (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
 		return NULL;

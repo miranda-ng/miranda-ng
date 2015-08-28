@@ -1212,7 +1212,7 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 		TCHAR szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
 		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
-		mir_sntprintf(szImagePath, _countof(szImagePath), _T("%s\\%s\\%s"), szDrive, szDir, buffer);
+		mir_sntprintf(szImagePath, _T("%s\\%s\\%s"), szDrive, szDir, buffer);
 		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
 	else hIcon = NULL;
@@ -1241,12 +1241,12 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	mir_sntprintf(def_color, _countof(def_color), _T("%6.6x"), clr);
+	mir_sntprintf(def_color, _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color1"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	mir_sntprintf(def_color, _countof(def_color), _T("%6.6x"), clr);
+	mir_sntprintf(def_color, _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color2"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
@@ -1316,7 +1316,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 
 	// handle the assignments of image items to skin items
 	for (int n = 0;; n++) {
-		mir_sntprintf(szItemNr, _countof(szItemNr), _T("Item%d"), n);
+		mir_sntprintf(szItemNr, _T("Item%d"), n);
 		GetPrivateProfileString(itemname, szItemNr, _T("None"), buffer, 500, m_tszFileName);
 		if (!mir_tstrcmp(buffer, _T("None")))
 			break;
@@ -1481,7 +1481,7 @@ void CSkin::Load(void)
 	GetPrivateProfileString(_T("Theme"), _T("File"), _T("None"), buffer, MAX_PATH, m_tszFileName);
 
 	_tsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
-	mir_sntprintf(szFinalName, _countof(szFinalName), _T("%s\\%s\\%s"), szDrive, szPath, buffer);
+	mir_sntprintf(szFinalName, _T("%s\\%s\\%s"), szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
 		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
 		CacheLogFonts();

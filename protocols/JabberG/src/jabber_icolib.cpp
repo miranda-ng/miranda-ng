@@ -113,7 +113,7 @@ CIconPool::~CIconPool()
 void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)
 {
 	char szSettingName[128];
-	mir_snprintf(szSettingName, _countof(szSettingName), "jabber_%s", name);
+	mir_snprintf(szSettingName, "jabber_%s", name);
 
 	CPoolItem *item = new CPoolItem;
 	item->m_name = mir_strdup(name);
@@ -278,8 +278,8 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, TCHAR *Sec
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str = strrchr(szPath, '\\');
 	if (str != NULL) *str = 0;
-	mir_snprintf(szMyPath, _countof(szMyPath), "%s\\Icons\\%s", szPath, filename);
-	mir_snprintf(szFullPath, _countof(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
+	mir_snprintf(szMyPath, "%s\\Icons\\%s", szPath, filename);
+	mir_snprintf(szFullPath, "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi = ExtractIconFromPath(szFullPath, &nf);
 	if (hi) has_proto_icon = TRUE;
@@ -317,7 +317,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
 		TCHAR *descr = pcli->pfnGetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
-		mir_snprintf(Uname, _countof(Uname), "%s_Transport_%s_%d", m_szModuleName, proto, n);
+		mir_snprintf(Uname, "%s_Transport_%s_%d", m_szModuleName, proto, n);
 		HICON hicon = LoadTransportIcon(defFile, -skinIconStatusToResourceId[i], Uname, Group, descr, -(n + ID_STATUS_OFFLINE), &needFree);
 		int index = (m_transportProtoTableStartIndex[iID] == -1) ? -1 : m_transportProtoTableStartIndex[iID] + n;
 		int added = ImageList_ReplaceIcon(hAdvancedStatusIcon, index, hicon ? hicon : empty);
@@ -548,7 +548,7 @@ HANDLE g_GetIconHandle(int iconId)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
+	mir_snprintf(szSettingName, "%s_%s", GLOBAL_SETTING_PREFIX, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

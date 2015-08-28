@@ -16,7 +16,7 @@ void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			TCHAR name[300];
-			mir_sntprintf(name, _countof(name), _T("%s (%s)"), pcli->pfnGetContactDisplayName(hContact, 0), _A2T(szProto));
+			mir_sntprintf(name, _T("%s (%s)"), pcli->pfnGetContactDisplayName(hContact, 0), _A2T(szProto));
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, hContact);
 			if (BPhContact == hContact)
@@ -201,7 +201,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		getDefaultMessage(hwnd, IDC_MESSAGE, hContact);
-		mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+		mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 		SetDlgItemText(hwnd, GRP_MSG, msg);	
 		return FALSE;
 
@@ -210,7 +210,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
-				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
+				mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 			}
 			break;
@@ -258,7 +258,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 		getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
 
-		mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+		mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 		SetDlgItemText(hwnd, GRP_MSG, msg);	
 
 		populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
@@ -272,7 +272,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
-				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
+				mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 			}
 			break;
@@ -315,7 +315,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		case IDC_DEFAULT:
 			getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
 
-			mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+			mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);
 
 			db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG",0));
@@ -390,7 +390,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 
 			getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
-			mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
+			mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);	
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 			SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
@@ -433,7 +433,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE));
-				mir_sntprintf(msg, _countof(msg), TranslateT("The Message    (%d Characters)"), length);
+				mir_sntprintf(msg, TranslateT("The Message    (%d Characters)"), length);
 				SetDlgItemText(hwnd, GRP_MSG, msg);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
@@ -524,7 +524,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_TIMER:
 		{
 			TCHAR message[1024];
-			mir_sntprintf(message, _countof(message), TranslateT("Pounce being sent to %s in %d seconds"), pcli->pfnGetContactDisplayName(spdps->hContact, 0), spdps->timer);
+			mir_sntprintf(message, TranslateT("Pounce being sent to %s in %d seconds"), pcli->pfnGetContactDisplayName(spdps->hContact, 0), spdps->timer);
 			SetDlgItemText(hwnd, LBL_CONTACT, message);
 		}
 		spdps->timer--;
@@ -601,12 +601,12 @@ void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess)
 	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, PounceSentDlgProc, hContact);
 	TCHAR msg[256];
 	if (SentSuccess) {
-		mir_sntprintf(msg, _countof(msg), TranslateT("Message successfully sent to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(msg, TranslateT("Message successfully sent to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		SetDlgItemText(hwnd, IDOK, TranslateT("OK"));
 		ShowWindow(GetDlgItem(hwnd, IDCANCEL), 0);
 	}
 	else {
-		mir_sntprintf(msg, _countof(msg), TranslateT("Message failed to send to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(msg, TranslateT("Message failed to send to %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		SetDlgItemText(hwnd, IDOK, TranslateT("Retry"));
 	}
 	SetDlgItemText(hwnd, LBL_CONTACT, msg);

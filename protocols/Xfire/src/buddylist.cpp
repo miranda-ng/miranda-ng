@@ -149,7 +149,7 @@ namespace xfirelib
 			/* ## buddies im miranda verarbietn */
 			char temp[255];
 			char * dummy;
-			mir_snprintf(temp, _countof(temp), "Clan_%d", entry->m_clanid);
+			mir_snprintf(temp, "Clan_%d", entry->m_clanid);
 
 			DBVARIANT dbv;
 			if (!db_get(NULL, protocolname, temp, &dbv))

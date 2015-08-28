@@ -956,7 +956,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			TCHAR date[64], time[64], fmt[128];
 			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("d"), date, _countof(date), 0);
 			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, _T("t"), time, _countof(time), 0);
-			mir_sntprintf(fmt, _countof(fmt), TranslateT("Last message received on %s at %s."), date, time);
+			mir_sntprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 		}
 		else SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)_T(""));
@@ -1051,9 +1051,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 				if (statusIcon)
-					mir_sntprintf(newtitle, _countof(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
+					mir_sntprintf(newtitle, _T("%s - %s"), contactName, TranslateT("Message session"));
 				else
-					mir_sntprintf(newtitle, _countof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
+					mir_sntprintf(newtitle, _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
 					
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 				if (!cws || (!mir_strcmp(cws->szModule, dat->szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
@@ -1297,7 +1297,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					TCHAR* szContactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-					mir_sntprintf(szBuf, _countof(szBuf), TranslateT("%s is typing a message..."), szContactName);
+					mir_sntprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
 					dat->nTypeSecs--;
 
 					SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);

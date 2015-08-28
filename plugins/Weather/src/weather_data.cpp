@@ -154,7 +154,7 @@ void EraseAllInfo()
 
 			opt.DefStn = hContact;
 			if (!db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
-				mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+				mir_sntprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 				db_free(&dbv);
 				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
@@ -181,7 +181,7 @@ void EraseAllInfo()
 		}
 		opt.DefStn = LastContact;
 		if (!db_get_ts(LastContact, WEATHERPROTONAME, "Nick", &dbv)) {
-			mir_sntprintf(str, _countof(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_sntprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}

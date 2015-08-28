@@ -537,7 +537,7 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_VSCROLL:
 	case WM_HSCROLL:
 		TCHAR str[10];
-		mir_sntprintf(str, _countof(str), _T("%d%%"), 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
+		mir_sntprintf(str, _T("%d%%"), 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemText(hDlg, IDC_TRANSPERC, str);
 		if (wParam != 0x12345678)
 			SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);

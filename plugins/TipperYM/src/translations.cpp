@@ -233,21 +233,21 @@ TCHAR *DayMonthYearToDate(MCONTACT hContact, const char *szModuleName, const cha
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sDay", prefix);
+	mir_snprintf(szSettingName, "%sDay", prefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 	{
 		int day = 0;
 		if (GetInt(dbv, &day))
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMonth", prefix);
+			mir_snprintf(szSettingName, "%sMonth", prefix);
 			int month = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 			{
 				if (GetInt(dbv, &month))
 				{
 					db_free(&dbv);
-					mir_snprintf(szSettingName, _countof(szSettingName), "%sYear", prefix);
+					mir_snprintf(szSettingName, "%sYear", prefix);
 					int year = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
@@ -281,21 +281,21 @@ TCHAR *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const char
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sDay", szPrefix);
+	mir_snprintf(szSettingName, "%sDay", szPrefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 	{
 		int day = 0;
 		if (GetInt(dbv, &day))
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMonth", szPrefix);
+			mir_snprintf(szSettingName, "%sMonth", szPrefix);
 			int month = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 			{
 				if (GetInt(dbv, &month))
 				{
 					db_free(&dbv);
-					mir_snprintf(szSettingName, _countof(szSettingName), "%sYear", szPrefix);
+					mir_snprintf(szSettingName, "%sYear", szPrefix);
 					int year = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
@@ -330,21 +330,21 @@ TCHAR *HoursMinutesSecondsToTime(MCONTACT hContact, const char *szModuleName, co
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sHours", szPrefix);
+	mir_snprintf(szSettingName, "%sHours", szPrefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 	{
 		int hours = 0;
 		if (GetInt(dbv, &hours))
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMinutes", szPrefix);
+			mir_snprintf(szSettingName, "%sMinutes", szPrefix);
 			int minutes = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 			{
 				if (GetInt(dbv, &minutes))
 				{
 					db_free(&dbv);
-					mir_snprintf(szSettingName, _countof(szSettingName), "%sSeconds", szPrefix);
+					mir_snprintf(szSettingName, "%sSeconds", szPrefix);
 					int seconds = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
@@ -374,14 +374,14 @@ TCHAR *HoursMinutesToTime(MCONTACT hContact, const char *szModuleName, const cha
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sHours", szPrefix);
+	mir_snprintf(szSettingName, "%sHours", szPrefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 	{
 		int hours = 0;
 		if (GetInt(dbv, &hours)) 
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMinutes", szPrefix);
+			mir_snprintf(szSettingName, "%sMinutes", szPrefix);
 			int minutes = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 			{
@@ -410,42 +410,42 @@ TCHAR *DmyToTimeDifference(MCONTACT hContact, const char *szModuleName, const ch
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sDay", szPrefix);
+	mir_snprintf(szSettingName, "%sDay", szPrefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 	{
 		int day = 0;
 		if (GetInt(dbv, &day))
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMonth", szPrefix);
+			mir_snprintf(szSettingName, "%sMonth", szPrefix);
 			int month = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 			{
 				if (GetInt(dbv, &month)) 
 				{
 					db_free(&dbv);
-					mir_snprintf(szSettingName, _countof(szSettingName), "%sYear", szPrefix);
+					mir_snprintf(szSettingName, "%sYear", szPrefix);
 					int year = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
 						if (GetInt(dbv, &year)) 
 						{
 							db_free(&dbv);
-							mir_snprintf(szSettingName, _countof(szSettingName), "%sHours", szPrefix);
+							mir_snprintf(szSettingName, "%sHours", szPrefix);
 							if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 							{
 								int hours = 0;
 								if (GetInt(dbv, &hours))
 								{
 									db_free(&dbv);
-									mir_snprintf(szSettingName, _countof(szSettingName), "%sMinutes", szPrefix);
+									mir_snprintf(szSettingName, "%sMinutes", szPrefix);
 									int minutes = 0;
 									if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 									{
 										if (GetInt(dbv, &minutes)) 
 										{
 											db_free(&dbv);
-											mir_snprintf(szSettingName, _countof(szSettingName), "%sSeconds", szPrefix);
+											mir_snprintf(szSettingName, "%sSeconds", szPrefix);
 											int seconds = 0;
 											if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 											{
@@ -512,14 +512,14 @@ TCHAR *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleName,
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sDay", szPrefix);
+	mir_snprintf(szSettingName, "%sDay", szPrefix);
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 	{
 		int day = 0;
 		if (GetInt(dbv, &day))
 		{
 			db_free(&dbv);
-			mir_snprintf(szSettingName, _countof(szSettingName), "%sMonth", szPrefix);
+			mir_snprintf(szSettingName, "%sMonth", szPrefix);
 			int month = 0;
 			if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 			{

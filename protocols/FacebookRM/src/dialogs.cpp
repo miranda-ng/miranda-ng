@@ -219,7 +219,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		ptrA firstname(data->proto->getStringA(FACEBOOK_KEY_FIRST_NAME));
 		if (firstname != NULL) {
 			char title[100];
-			mir_snprintf(title, _countof(title), Translate("What's on your mind, %s?"), firstname);
+			mir_snprintf(title, Translate("What's on your mind, %s?"), firstname);
 			SetWindowTextA(hwnd, title);
 		}
 	}

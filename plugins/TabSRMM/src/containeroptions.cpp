@@ -151,7 +151,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		TranslateDialogDefault(hwndDlg);
 		SetWindowText(hwndDlg, TranslateT("Container options"));
 		TCHAR szNewTitle[128];
-		mir_sntprintf(szNewTitle, _countof(szNewTitle), _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
+		mir_sntprintf(szNewTitle, _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
 			TranslateT("Default container") : pContainer->szName);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 		Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else {
 				if (pContainer->settings != &PluginConfig.globalContainerSettings) {
 					char szCname[40];
-					mir_snprintf(szCname, _countof(szCname), "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+					mir_snprintf(szCname, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 					pContainer->settings->fPrivate = false;
 					db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
 					mir_free(pContainer->settings);

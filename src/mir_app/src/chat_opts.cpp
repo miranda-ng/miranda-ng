@@ -144,7 +144,7 @@ void RegisterFonts(void)
 		strncpy_s(fontid.dbSettingsGroup, CHATFONT_MODULE, _TRUNCATE);
 		_tcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
-		mir_snprintf(fontid.prefix, _countof(fontid.prefix), "Font%d", index);
+		mir_snprintf(fontid.prefix, "Font%d", index);
 		fontid.order = index;
 
 		switch (i) {

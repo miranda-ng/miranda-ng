@@ -46,7 +46,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 {
 	// find in Miranda NG profile subfolders
 	TCHAR searchspec[MAX_PATH];
-	mir_sntprintf(searchspec, _countof(searchspec), _T("%s\\*.*"), szProfileDir);
+	mir_sntprintf(searchspec, _T("%s\\*.*"), szProfileDir);
 	
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(searchspec, &ffd);
@@ -59,7 +59,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 			TCHAR buf[MAX_PATH], profile[MAX_PATH];
 			mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), szProfileDir, ffd.cFileName, ffd.cFileName);
 			if (_taccess(buf, 0) == 0) {
-				mir_sntprintf(profile, _countof(profile), _T("%s.dat"), ffd.cFileName);
+				mir_sntprintf(profile, _T("%s.dat"), ffd.cFileName);
 				if (!callback(buf, profile, lParam))
 					break;
 			}
@@ -264,11 +264,11 @@ class CChooseProfileDlg : public CDlgBase
 		struct _stat statbuf;
 		if (_tstat(tszFullPath, &statbuf) == 0) {
 			if (statbuf.st_size > 1000000) {
-				mir_sntprintf(sizeBuf, _countof(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1048576.0);
+				mir_sntprintf(sizeBuf, _T("%.3lf"), (double)statbuf.st_size / 1048576.0);
 				mir_tstrcpy(sizeBuf + 5, _T(" MB"));
 			}
 			else {
-				mir_sntprintf(sizeBuf, _countof(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1024.0);
+				mir_sntprintf(sizeBuf, _T("%.3lf"), (double)statbuf.st_size / 1024.0);
 				mir_tstrcpy(sizeBuf + 5, _T(" KB"));
 			}
 			bFileLocked = !fileExist(tszFullPath);
@@ -319,7 +319,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (!m_profileList.GetItem(&item))
 			return;
 
-		mir_sntprintf(fullName, _countof(fullName), _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profile, profile);
+		mir_sntprintf(fullName, _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profile, profile);
 		CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, item.iImage == 2);
 	}
 
@@ -338,11 +338,11 @@ class CChooseProfileDlg : public CDlgBase
 		if (!m_profileList.GetItem(&item))
 			return;
 
-		mir_sntprintf(profilef, _countof(profilef), TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
+		mir_sntprintf(profilef, TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
 		if (IDYES != MessageBox(NULL, profilef, _T("Miranda NG"), MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
-		mir_sntprintf(profilef, _countof(profilef), _T("%s\\%s%c"), m_pd->ptszProfileDir, profile, 0);
+		mir_sntprintf(profilef, _T("%s\\%s%c"), m_pd->ptszProfileDir, profile, 0);
 
 		SHFILEOPSTRUCT sf = { 0 };
 		sf.wFunc = FO_DELETE;
@@ -383,7 +383,7 @@ class CChooseProfileDlg : public CDlgBase
 		// profile is placed in "profile_name" subfolder
 
 		TCHAR tmpPath[MAX_PATH];
-		mir_sntprintf(tmpPath, _countof(tmpPath), _T("%s\\%s.dat"), m_pd->ptszProfileDir, profile);
+		mir_sntprintf(tmpPath, _T("%s\\%s.dat"), m_pd->ptszProfileDir, profile);
 		if (_taccess(tmpPath, 2))
 			mir_sntprintf(m_pd->ptszProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profile, profile);
 		else
@@ -520,7 +520,7 @@ public:
 			TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
 			struct _stat statbuf;
 			m_profileList.GetItemText(pTip->iItem, 0, profilename, _countof(profilename));
-			mir_sntprintf(tszFullPath, _countof(tszFullPath), _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profilename, profilename);
+			mir_sntprintf(tszFullPath, _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profilename, profilename);
 			_tstat(tszFullPath, &statbuf);
 			mir_sntprintf(pTip->pszText, pTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
 		}

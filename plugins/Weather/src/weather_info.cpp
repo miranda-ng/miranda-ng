@@ -147,12 +147,12 @@ void GetINIInfo(TCHAR *pszSvc)
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL) {
-		mir_sntprintf(str2, _countof(str2), TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
+		mir_sntprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else {
-		mir_sntprintf(str2, _countof(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		mir_sntprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
 		mir_tstrncat(str2, _T("\n\n"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, _T("\t\t"), _countof(str2) - mir_tstrlen(str2));
@@ -187,9 +187,9 @@ void GetINIInfo(TCHAR *pszSvc)
 		mir_tstrncat(str2, sData->ShortFileName, _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, _T("\n"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, TranslateT("Item Count:"), _countof(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, _countof(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
+		mir_sntprintf(str2, _T("%s\t%i\n"), str2, sData->UpdateDataCount);
 		mir_tstrncat(str2, TranslateT("Memory Used:"), _countof(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, _countof(str2), _T("%s\t%i "), str2, sData->MemUsed);
+		mir_sntprintf(str2, _T("%s\t%i "), str2, sData->MemUsed);
 		mir_tstrncat(str2, TranslateT("bytes"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, _T("\n\n"), _countof(str2) - mir_tstrlen(str2));
 		mir_tstrncat(str2, TranslateT("Description:"), _countof(str2) - mir_tstrlen(str2));
@@ -219,7 +219,7 @@ void MoreVarList(void)
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
 			if (mir_tstrcmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
-				mir_sntprintf(tempstr, _countof(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
+				mir_sntprintf(tempstr, _T("%c[%s]"), '%', WItem->Item.Name);
 				TCHAR *find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {

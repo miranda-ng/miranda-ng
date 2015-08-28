@@ -70,7 +70,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	MCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-		mir_snprintf(jid, _countof(jid), "%s@%s", id, dbv.pszVal);
+		mir_snprintf(jid, "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if (((hContact=TlenHContactFromJID(proto, jid)) != NULL) || !mir_strcmp(id, proto->threadData->username)) {
 			CONTACTINFO ci = { sizeof(ci) };
@@ -107,7 +107,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char*, 
 		char jid[256];
 		DBVARIANT dbv;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-			mir_snprintf(jid, _countof(jid), "%s@%s", from, dbv.pszVal);
+			mir_snprintf(jid, "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
 			mir_strcpy(jid, from);
@@ -119,7 +119,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char*, 
 		TLEN_LIST_ITEM *item;
 		DBVARIANT dbv;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-			mir_snprintf(jid, _countof(jid), "%s@%s", from, dbv.pszVal);
+			mir_snprintf(jid, "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
 			mir_strcpy(jid, from);
@@ -190,7 +190,7 @@ static int TlenMUCSendQuery(TlenProtocol *proto, int type, const char *parent, i
 	if (type == 3) { // find chat room by name
 		char serialId[32];
 		TLEN_LIST_ITEM *item;
-		mir_snprintf(serialId, _countof(serialId), TLEN_IQID"%d", TlenSerialNext(proto));
+		mir_snprintf(serialId, TLEN_IQID"%d", TlenSerialNext(proto));
 		item = TlenListAdd(proto, LIST_SEARCH, serialId);
 		item->roomName = mir_strdup(parent);
 		TlenSend(proto, "<iq to='c' type='3' n='%s' id='%s'/>", parent, serialId);
@@ -236,7 +236,7 @@ INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM)
 	if ((hContact=wParam) != NULL && isOnline) {
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
-			mir_snprintf(serialId, _countof(serialId), TLEN_IQID"%d", TlenSerialNext(this));
+			mir_snprintf(serialId, TLEN_IQID"%d", TlenSerialNext(this));
 			item = TlenListAdd(this, LIST_INVITATIONS, serialId);
 			item->nick = mir_strdup(dbv.pszVal);
 			TlenSend(this, "<p to='c' tp='c' id='%s'/>", serialId);

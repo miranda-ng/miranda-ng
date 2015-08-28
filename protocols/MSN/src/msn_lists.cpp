@@ -243,7 +243,7 @@ void CMsnProto::MSN_CleanupLists(void)
 				mir_free(sze);
 
 				TCHAR title[128];
-				mir_sntprintf(title, _countof(title), TranslateT("%s protocol"), m_tszUserName);
+				mir_sntprintf(title, TranslateT("%s protocol"), m_tszUserName);
 
 				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 					MSN_AddUser(p.hContact, p.email, 0, LIST_LL);

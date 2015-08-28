@@ -105,7 +105,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
-	mir_sntprintf(szVal, _countof(szVal), _T("%.0f"), cValue.doubleValue);
+	mir_sntprintf(szVal, _T("%.0f"), cValue.doubleValue);
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
 	mir_free(szCounter);
@@ -282,7 +282,7 @@ static TCHAR *parseDiffTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	diff = difftime(mktime(&t1), mktime(&t0));
-	mir_sntprintf(szTime, _countof(szTime), _T("%.0f"), diff);
+	mir_sntprintf(szTime, _T("%.0f"), diff);
 
 	return mir_tstrdup(szTime);
 }
@@ -819,7 +819,7 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR szVal[32];
-	mir_sntprintf(szVal, _countof(szVal), _T("%u"), cValue.largeValue);
+	mir_sntprintf(szVal, _T("%u"), cValue.largeValue);
 	PdhRemoveCounter(hCounter);
 	PdhCloseQuery(hQuery);
 	return mir_tstrdup(szVal);

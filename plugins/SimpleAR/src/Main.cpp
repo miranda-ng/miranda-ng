@@ -108,7 +108,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 		db_free(&dbv);
 
 	for (int c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++) {
-		mir_snprintf(szStatus, _countof(szStatus), "%d", c);
+		mir_snprintf(szStatus, "%d", c);
 		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 			continue;
 		else {
@@ -178,7 +178,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 				if (isQun)
 					return FALSE;
 
-				mir_snprintf(szStatus, _countof(szStatus), "%d", status);
+				mir_snprintf(szStatus, "%d", status);
 				if (!db_get_ts(NULL, protocolname, szStatus, &dbv)) {
 					if (*dbv.ptszVal) {
 						DBVARIANT dbvHead = { 0 }, dbvNick = { 0 };

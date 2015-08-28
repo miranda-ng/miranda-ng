@@ -8,13 +8,13 @@ public:
 		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[MAX_PATH];
-		mir_snprintf(data, _countof(data), "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		mir_snprintf(data, "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);
@@ -29,13 +29,13 @@ public:
 		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[MAX_PATH];
-		mir_snprintf(data, _countof(data), "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		mir_snprintf(data, "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);
@@ -50,13 +50,13 @@ public:
 		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
-		mir_snprintf(login, _countof(login), "%s||oauth:%s", steamId, token);
+		mir_snprintf(login, "%s||oauth:%s", steamId, token);
 
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, _countof(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
 
 		char data[MAX_PATH];
-		mir_snprintf(data, _countof(data), "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		mir_snprintf(data, "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
 		SetData(data, strlen(data));
 		AddHeader("Cookie", cookie);

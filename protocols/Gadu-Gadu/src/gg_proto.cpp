@@ -40,7 +40,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
 
 	// Register m_hNetlibUser user
 	TCHAR name[128];
-	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);

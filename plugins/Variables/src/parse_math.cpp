@@ -54,7 +54,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
-	mir_sntprintf(szVal, _countof(szVal), _T("%x"), val);
+	mir_sntprintf(szVal, _T("%x"), val);
 	unsigned int zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(TCHAR));
 	if (res == NULL)

@@ -68,7 +68,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					ptstr = str;
-					mir_sntprintf(str, _countof(str), dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					mir_sntprintf(str, dbv.cVal ? _T("GMT%+d:%02d") : _T("GMT"), -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			} else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
@@ -82,7 +82,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, _countof(str), _T("%S"), pstr);
+					mir_sntprintf(str, _T("%S"), pstr);
 				}
 			}
 			else {
@@ -100,12 +100,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, _countof(str), _T("%S"), pstr);
+					mir_sntprintf(str, _T("%S"), pstr);
 				}
 				if (dbv.dVal == 0) unspecified = 1;
 			} else if (special == SVS_GGVERSION) {
 				ptstr = str;
-				mir_sntprintf(str, _countof(str), _T("%S"), (char *)gg_version2string(dbv.dVal));
+				mir_sntprintf(str, _T("%S"), (char *)gg_version2string(dbv.dVal));
 			} else {
 				ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			}
@@ -113,7 +113,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_ASCIIZ:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			ptstr = str;
-			mir_sntprintf(str, _countof(str), _T("%S"), dbv.pszVal);
+			mir_sntprintf(str, _T("%S"), dbv.pszVal);
 			break;
 		case DBVT_TCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');

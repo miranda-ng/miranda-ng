@@ -410,7 +410,7 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 	if (my_login_info && GetAwareIdFromContact(hContact, &id_block)) {
 		TCHAR title[512];
 		TCHAR* ts = mir_utf8decodeT(my_login_info->user_name);
-		mir_sntprintf(title, _countof(title), TranslateT("%s's conference"), ts);
+		mir_sntprintf(title, TranslateT("%s's conference"), ts);
 		mir_free(ts);
 
 		idb.user = id_block.user;

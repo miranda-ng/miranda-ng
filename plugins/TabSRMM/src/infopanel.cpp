@@ -496,7 +496,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			time_t diff = time(NULL) - m_dat->idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
-			mir_sntprintf(szBuf, _countof(szBuf), TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
+			mir_sntprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		}
 		else _tcscpy_s(szBuf, 256, tszUin);
 
@@ -613,7 +613,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 	if (m_height < DEGRADE_THRESHOLD) {
 		TCHAR	tszText[2048];
-		mir_sntprintf(tszText, _countof(tszText), TranslateT("Topic is: %s"),
+		mir_sntprintf(tszText, TranslateT("Topic is: %s"),
 			si->ptszTopic ? si->ptszTopic : TranslateT("no topic set."));
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
@@ -670,7 +670,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 
 	SIZE szTitle;
 	TCHAR	szPrefix[100];
-	mir_sntprintf(szPrefix, _countof(szPrefix), TranslateT("Topic is: %s"), _T(""));
+	mir_sntprintf(szPrefix, TranslateT("Topic is: %s"), _T(""));
 	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_tstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
 	if (m_hoverFlags & HOVER_UIN)
@@ -1061,11 +1061,11 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 	{
 		TCHAR	tszTitle[100];
-		mir_sntprintf(tszTitle, _countof(tszTitle), TranslateT("Set panel visibility for this %s"),
+		mir_sntprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
 			m_isChat ? TranslateT("chat room") : TranslateT("contact"));
 		::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
 
-		mir_sntprintf(tszTitle, _countof(tszTitle), m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
+		mir_sntprintf(tszTitle, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
 			TranslateT("Do not synchronize the panel height with group chat windows"));
 
 		::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);

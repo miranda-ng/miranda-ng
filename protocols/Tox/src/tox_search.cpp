@@ -95,7 +95,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 					{
 						dnsString[length] = 0;
 						char dnsQuery[MAX_PATH * 2];
-						mir_snprintf(dnsQuery, _countof(dnsQuery), "_%s._tox.%s", dnsString, dnsDomain);
+						mir_snprintf(dnsQuery, "_%s._tox.%s", dnsString, dnsDomain);
 
 						ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
 						if (!address.IsEmpty())
@@ -106,7 +106,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 							psr.nick.a = mir_strdup(name);
 
 							char email[MAX_PATH];
-							mir_snprintf(email, _countof(email), "%s@%s", name, domain);
+							mir_snprintf(email, "%s@%s", name, domain);
 							psr.email.a = mir_strdup(email);
 
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -123,7 +123,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 	if (resolved == 0 && domain)
 	{
 		char dnsQuery[MAX_PATH];
-		mir_snprintf(dnsQuery, _countof(dnsQuery), "%s._tox.%s", name, domain);
+		mir_snprintf(dnsQuery, "%s._tox.%s", name, domain);
 
 		ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
 		if (!address.IsEmpty())
@@ -134,7 +134,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 			psr.nick.a = mir_strdup(name);
 
 			char email[MAX_PATH];
-			mir_snprintf(email, _countof(email), "%s@%s", name, domain);
+			mir_snprintf(email, "%s@%s", name, domain);
 			psr.email.a = mir_strdup(email);
 
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);

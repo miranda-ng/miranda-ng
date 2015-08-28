@@ -181,7 +181,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 
 	if (options.num_backups == 0)
 		return 0; /* Roration disabled. */
-	mir_sntprintf(backupfolderTmp, _countof(backupfolderTmp), _T("%s\\%s*"), backupfolder, dbname);
+	mir_sntprintf(backupfolderTmp, _T("%s\\%s*"), backupfolder, dbname);
 	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
@@ -201,7 +201,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	if (i > 0)
 		qsort(bf, i, sizeof(backupFile), Comp); /* Sort the list of found files by date in descending order. */
 	for (; i >= options.num_backups; i --) {
-		mir_sntprintf(backupfolderTmp, _countof(backupfolderTmp), _T("%s\\%s"), backupfolder, bf[(i - 1)].Name);
+		mir_sntprintf(backupfolderTmp, _T("%s\\%s"), backupfolder, bf[(i - 1)].Name);
 		DeleteFile(backupfolderTmp);
 	}
 err_out:
@@ -237,7 +237,7 @@ int Backup(TCHAR *backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, _countof(dest_file), _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
+		mir_sntprintf(dest_file, _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
 		mir_free(backupfolder);
 	}
 	else {
@@ -253,7 +253,7 @@ int Backup(TCHAR *backup_filename)
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
-	mir_sntprintf(source_file, _countof(source_file), _T("%s\\%s"), profilePath, dbname);
+	mir_sntprintf(source_file, _T("%s\\%s"), profilePath, dbname);
 	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
 	if (bZip)

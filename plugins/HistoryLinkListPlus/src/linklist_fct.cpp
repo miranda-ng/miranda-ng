@@ -306,7 +306,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				_tcscpy_s(cf.szFaceName, _T("Arial"));
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				
-				mir_sntprintf(searchText, _countof(searchText), _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
+				mir_sntprintf(searchText, _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
 			}
@@ -455,7 +455,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					type = _T("[UNK ]");
 				}
 
-				mir_sntprintf(textLine, _countof(textLine), _T("%s%s%s%s%s%s%s\n"),
+				mir_sntprintf(textLine, _T("%s%s%s%s%s%s%s\n"),
 					options.showDirection ? (actualElement->direction==DIRECTION_IN?_T("[in ]"):_T("[out]")) : _T(""),
 					options.showDirection? _T(" ") : _T(""),
 					options.showType ? type : _T(""),

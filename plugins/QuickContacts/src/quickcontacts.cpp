@@ -248,7 +248,7 @@ TCHAR *GetListName(c_struct *cs)
 {
 	if (opts.group_append && cs->szgroup[0] != _T('\0'))
 	{
-		mir_sntprintf(tmp_list_name, _countof(tmp_list_name), _T("%s (%s)"), cs->szname, cs->szgroup);
+		mir_sntprintf(tmp_list_name, _T("%s (%s)"), cs->szname, cs->szgroup);
 		return tmp_list_name;
 	}
 	else
@@ -715,7 +715,7 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, _countof(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, _T("%s (%s)"), TranslateTS(name), key);
 
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONSETASFLATBTN, 0, 0);
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_TCHAR);
@@ -731,7 +731,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, _countof(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, _T("%s (%s)"), TranslateTS(name), key);
 
 	SetDlgItemText(hwndDlg, dlgItem, full);
 }
