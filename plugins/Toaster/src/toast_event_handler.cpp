@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+using namespace ABI::Windows::UI::Notifications;
+
 ToastEventHandler::ToastEventHandler() : _ref(1), _callback(nullptr), _arg(nullptr)
 {
 }
@@ -30,10 +32,13 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 		*ppv = static_cast<IUnknown*>(static_cast<DesktopToastActivatedEventHandler*>(this));
 	else if (IsEqualIID(riid, __uuidof(DesktopToastActivatedEventHandler)))
 		*ppv = static_cast<DesktopToastActivatedEventHandler*>(this);
+	else if (IsEqualIID(riid, __uuidof(DesktopToastDismissedEventHandler)))
+		*ppv = static_cast<DesktopToastDismissedEventHandler*>(this);
+	else if (IsEqualIID(riid, __uuidof(DesktopToastFailedEventHandler)))
+		*ppv = static_cast<DesktopToastFailedEventHandler*>(this);
 	else *ppv = nullptr;
 
-	if (*ppv)
-	{
+	if (*ppv) {
 		reinterpret_cast<IUnknown*>(*ppv)->AddRef();
 		return S_OK;
 	}
@@ -41,10 +46,24 @@ IFACEMETHODIMP ToastEventHandler::QueryInterface(_In_ REFIID riid, _COM_Outptr_ 
 	return E_NOINTERFACE;
 }
 
-IFACEMETHODIMP ToastEventHandler::Invoke(_In_ ABI::Windows::UI::Notifications::IToastNotification* /* sender */, _In_::IInspectable* /* args */)
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IInspectable* /* args */)
 {
 	if (_callback != nullptr)
 		_callback(_arg);
 
+	return S_OK;
+}
+
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastDismissedEventArgs* /* e */)
+{
+	callbackArg *cb = (callbackArg*)_arg;
+	lstNotifications.remove(cb->notification);
+	return S_OK;
+}
+
+IFACEMETHODIMP ToastEventHandler::Invoke(_In_ IToastNotification* /* sender */, _In_ IToastFailedEventArgs* /* e */)
+{
+	callbackArg *cb = (callbackArg*)_arg;
+	lstNotifications.remove(cb->notification);
 	return S_OK;
 }

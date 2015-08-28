@@ -1,12 +1,16 @@
 #include "stdafx.h"
 
+mir_cs csNotifications;
+OBJLIST<ToastNotification> lstNotifications(1);
+
 __forceinline bool isChatRoom(MCONTACT hContact)
-{	return (bool)db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0);
+{	return (db_get_b(hContact, GetContactProto(hContact), "ChatRoom", 0) == 1);
 }
 
 static void __cdecl OnToastNotificationClicked(void* arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	callbackArg *cb = (callbackArg*)arg;
+	MCONTACT hContact = cb->hContact;
 	if (hContact)
 	{
 		if (!isChatRoom(hContact))
@@ -16,13 +20,13 @@ static void __cdecl OnToastNotificationClicked(void* arg)
 		else
 		{
 			const char *szProto = GetContactProto(hContact);
-			ptrT szChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
-			GCDEST gcd = { szProto, szChatRoom, GC_EVENT_CONTROL };
+			ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+			GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			gce.time = time(NULL);
-			CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, reinterpret_cast<LPARAM>(&gce));
+			CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 		}
 	}
+	lstNotifications.remove(cb->notification);
 }
 
 static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
@@ -31,25 +35,25 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 		return;
 
 	ptrT imagePath;
-	ToastEventHandler *eventHandler;
+	callbackArg *arg = (callbackArg*)mir_calloc(sizeof(callbackArg));
 	if (hContact)
 	{
-		eventHandler = new ToastEventHandler(OnToastNotificationClicked, (void*)hContact);
-
+		arg->hContact = hContact;
 		const char* szProto = GetContactProto(hContact);
-		PROTO_AVATAR_INFORMATION pai = { 0 };
-		pai.hContact = hContact;
+
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO))
 		{
+			PROTO_AVATAR_INFORMATION pai = { 0 };
+			pai.hContact = hContact;
 			CallProtoService(szProto, PS_GETAVATARINFO, (WPARAM)0, (LPARAM)&pai);
 			imagePath = mir_tstrdup(pai.filename);
 		}
 	}
-	else
-		eventHandler = new ToastEventHandler(nullptr);
 
-	ToastNotification notification(text, title, imagePath);
-	notification.Show(eventHandler);
+	ToastNotification* notification = new ToastNotification (text, title, imagePath);
+	arg->notification = notification;
+	notification->Show(new ToastEventHandler(OnToastNotificationClicked, arg));
+	lstNotifications.insert(notification);
 }
 
 static INT_PTR CreatePopup(WPARAM wParam, LPARAM)
@@ -107,6 +111,14 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
+
+		while (lstNotifications.getCount())
+		{
+			mir_cslock lck(csNotifications);
+			lstNotifications[0].Hide();
+			lstNotifications.remove(0);
+		}
+
 		return enabled;
 	}
 	break;

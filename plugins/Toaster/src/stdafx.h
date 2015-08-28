@@ -13,6 +13,8 @@
 #include <windows.ui.notifications.h>
 
 #include <newpluginapi.h>
+#include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_langpack.h>
@@ -33,10 +35,19 @@ const wchar_t AppUserModelID[] = _T("MirandaNG");
 #include "toast_event_handler.h"
 #include "toast_notification.h"
 
+extern mir_cs csNotifications;
+extern OBJLIST<ToastNotification> lstNotifications;
+
+struct callbackArg
+{
+	MCONTACT hContact;
+	ToastNotification* notification;
+};
+
 #define MODULE "Toaster"
 
 extern HINSTANCE g_hInstance;
 
 void InitServices();
-
+int OnPreShutdown(WPARAM, LPARAM);
 #endif //_COMMON_H_

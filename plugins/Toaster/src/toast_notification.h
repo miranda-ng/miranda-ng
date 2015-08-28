@@ -8,6 +8,9 @@ private:
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
+	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;
+	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotification> notification;
+
 	HRESULT GetNodeByTag(_In_ HSTRING tagName, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
 	HRESULT AddNode(_In_ HSTRING name, _Outptr_ ABI::Windows::Data::Xml::Dom::IXmlNode **node, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode *rootNode, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
 	HRESULT SetNodeValueString(_In_ HSTRING inputString, _In_ ABI::Windows::Data::Xml::Dom::IXmlNode* node, _In_ ABI::Windows::Data::Xml::Dom::IXmlDocument* xml);
@@ -26,6 +29,7 @@ public:
 
 	HRESULT Show();
 	HRESULT Show(_In_ ToastEventHandler* handler);
+	HRESULT Hide();
 };
 
 #endif //_TOAST_NOTIFICATION_H_
