@@ -28,11 +28,24 @@ DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	if (IsWinVer8Plus())
-		return &pluginInfo;
-
-	MessageBox(NULL, TranslateT("This plugin only supports Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
-	return NULL;
+	if (!IsWinVer8Plus())
+	{
+		MessageBox(NULL, TranslateT("This plugin only supports Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
+		return NULL;
+	}
+	else if (IsWinVer8Plus() && !IsWinVer10Plus())
+	{
+		if (ServiceExists("AddToStartMenu/Add"))
+		{
+			CallService("AddToStartMenu / Add");
+		}
+		else
+		{
+			MessageBox(NULL, TranslateT("In Windows8 desktop application must have a shortcut on the Start menu. Please, install \"AddToStartMenu\" plugin."), _T(MODULE), MB_OK | MB_ICONERROR);
+			return NULL;
+		}
+	}
+	return &pluginInfo;
 
 }
 
