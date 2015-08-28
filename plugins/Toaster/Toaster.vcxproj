@@ -49,7 +49,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
     </Link>
     <ClCompile>
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MultiThreadedDebugDLL</RuntimeLibrary>

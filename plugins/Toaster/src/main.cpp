@@ -30,7 +30,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	if (!IsWinVer8Plus())
 	{
-		MessageBox(NULL, TranslateT("This plugin only supports Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
 		return NULL;
 	}
 	return &pluginInfo;
