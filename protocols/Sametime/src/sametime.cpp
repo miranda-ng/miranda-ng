@@ -108,14 +108,14 @@ HANDLE GetIconHandle(int iconId)
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, "%s_%s", "SAMETIME", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
 void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, "%s_%s", "SAMETIME", name);
 	IcoLib_Release(szSettingName, big);
 }
 

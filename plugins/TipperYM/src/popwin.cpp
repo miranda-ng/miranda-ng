@@ -79,7 +79,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				if (Proto_IsAccountLocked(pa))
-					mir_sntprintf(pwd->swzTitle, _countof(pwd->swzTitle), TranslateT("%s (locked)"), pwd->swzTitle);
+					mir_sntprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
 
 				// protocol status
 				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
@@ -107,7 +107,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				TCHAR swzLogon[64];
 				if (TimestampToTimeDifference(NULL, pwd->clcit.szProto, "LogonTS", swzLogon, 59)) {
 					TCHAR ago[96];
-					mir_sntprintf(ago, _countof(ago), TranslateT("%s ago"), swzLogon);
+					mir_sntprintf(ago, TranslateT("%s ago"), swzLogon);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
 
@@ -1492,7 +1492,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			mir_tstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
 				if (Proto_IsAccountLocked(pa))
-					mir_sntprintf(swzProto, _countof(swzProto), TranslateT("%s (locked)"), pa->tszAccountName);
+					mir_sntprintf(swzProto, TranslateT("%s (locked)"), pa->tszAccountName);
 
 			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));
 			bFirstItem = false;
@@ -1500,7 +1500,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (dwItems & TRAYTIP_LOGON) {
 				if (TimestampToTimeDifference(NULL, pa->szModuleName, "LogonTS", buff, 59)) {
 					TCHAR ago[96];
-					mir_sntprintf(ago, _countof(ago), TranslateT("%s ago"), buff);
+					mir_sntprintf(ago, TranslateT("%s ago"), buff);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
 			}
@@ -1621,7 +1621,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							TCHAR *swzNick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
 								TCHAR *swzProto = a2t(proto);
-								mir_sntprintf(swzName, _countof(swzName), _T("%s (%s)"), swzNick, swzProto);
+								mir_sntprintf(swzName, _T("%s (%s)"), swzNick, swzProto);
 								mir_free(swzProto);
 							}
 							else mir_tstrcpy(swzName, swzNick);

@@ -22,7 +22,7 @@ void AddContactEMailToListParam(MCONTACT hContact, BOOL bMRAOnly, LPSTR lpszModu
 
 	for (int i = 0; true; i++) {
 		char szBuff[MAX_PATH];
-		mir_snprintf(szBuff, _countof(szBuff), "%s%lu", lpszValueName, i);
+		mir_snprintf(szBuff, "%s%lu", lpszValueName, i);
 		if (DB_GetStringA(hContact, lpszModule, szBuff, szEmail)) {
 			if (bMRAOnly == FALSE || IsEMailMR(szEmail)) {
 				WCHAR wszBuff[MAX_EMAIL_LEN];

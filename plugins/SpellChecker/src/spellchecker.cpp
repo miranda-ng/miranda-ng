@@ -150,7 +150,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 			sid.description.t = p->full_name;
 
 			char lang[32];
-			mir_snprintf(lang, _countof(lang), "spell_lang_%d", i);
+			mir_snprintf(lang, "spell_lang_%d", i);
 			sid.pszName = lang;
 
 			HICON hFlag = NULL, hFlagIcoLib = NULL;

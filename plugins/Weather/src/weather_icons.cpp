@@ -45,7 +45,7 @@ void InitIcons(void)
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", WEATHERPROTONAME, name);
+	mir_snprintf(szSettingName, "%s_%s", WEATHERPROTONAME, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

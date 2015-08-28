@@ -31,7 +31,7 @@ INT_PTR ShowSplashService(WPARAM wparam, LPARAM lparam)
 
 	TCHAR *pos = _tcsrchr(filename, _T(':'));
 	if (pos == NULL)
-		mir_sntprintf(szSplashFile, _countof(szSplashFile), _T("%s\\%s"), szMirDir, filename);
+		mir_sntprintf(szSplashFile, _T("%s\\%s"), szMirDir, filename);
 	else
 		mir_tstrcpy(szSplashFile, filename);
 

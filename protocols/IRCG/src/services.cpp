@@ -116,7 +116,7 @@ int IrcPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 void InitContactMenus(void)
 {
 	char temp[MAXMODULELABELLENGTH];
-	char *d = temp + mir_snprintf(temp, _countof(temp), "IRC");
+	char *d = temp + mir_snprintf(temp, "IRC");
 
 	CMenuItem mi;
 	mi.pszService = temp;
@@ -438,7 +438,7 @@ static void DoChatFormatting(TCHAR* pszText)
 				if (p1 - 3 >= pszText && p1[-3] == '\003')
 					mir_tstrcpy(InsertThis, _T(","));
 				else if (iFG >= 0)
-					mir_sntprintf(InsertThis, _countof(InsertThis), _T("\x03%u,"), iFG);
+					mir_sntprintf(InsertThis, _T("\x03%u,"), iFG);
 				else
 					mir_tstrcpy(InsertThis, _T("\x0399,"));
 
@@ -447,7 +447,7 @@ static void DoChatFormatting(TCHAR* pszText)
 
 			case 'F':
 				if (iFG >= 0)
-					mir_sntprintf(InsertThis, _countof(InsertThis), _T("\x03%u,99"), iFG);
+					mir_sntprintf(InsertThis, _T("\x03%u,99"), iFG);
 				else
 					mir_tstrcpy(InsertThis, _T("\x0399,99"));
 				iRemoveChars = 2;

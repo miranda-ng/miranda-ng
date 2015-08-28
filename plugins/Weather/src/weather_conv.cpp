@@ -390,7 +390,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 		do {
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
-			mir_sntprintf(LangPackStr, _countof(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
+			mir_sntprintf(LangPackStr, _T("# Weather %s %i #"), statusStr[i], j);
 			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
 			CharLowerBuff(LangPackStr1, (DWORD)mir_tstrlen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
@@ -545,7 +545,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				name[0] = 0;
 				// read the entire variable name
 				while (dis[i] != ']' && i < mir_tstrlen(dis)) {
-					mir_snprintf(temp, _countof(temp), "%c", dis[i++]);
+					mir_snprintf(temp, "%c", dis[i++]);
 					mir_strcat(name, temp);
 				}
 				// access the database to get its value
@@ -559,7 +559,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 		}
 		// if the character is not a variable, write the original character to the new string
 		else {
-			mir_sntprintf(lpzDate, _countof(lpzDate), _T("%c"), dis[i]);
+			mir_sntprintf(lpzDate, _T("%c"), dis[i]);
 			mir_tstrcat(str, lpzDate);
 		}
 	}
@@ -632,7 +632,7 @@ TCHAR *GetError(int code)
 	case 503:	str = E503; break;
 	case 504:	str = E504; break;
 	default:
-		mir_sntprintf(str2, _countof(str2), TranslateT("HTTP Error %i"), code);
+		mir_sntprintf(str2, TranslateT("HTTP Error %i"), code);
 		str = str2;
 		break;
 	}

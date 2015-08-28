@@ -108,7 +108,7 @@ void InitXStatusIcons()
 	hXStatusAdvancedStatusIcons[0] = NULL;
 	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
 		char szIconName[MAX_PATH];
-		mir_snprintf(szIconName, _countof(szIconName), "mra_xstatus%ld", i);
+		mir_snprintf(szIconName, "mra_xstatus%ld", i);
 		sid.pszName = szIconName;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
@@ -124,7 +124,7 @@ void DestroyXStatusIcons()
 	char szBuff[MAX_PATH];
 
 	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
-		mir_snprintf(szBuff, _countof(szBuff), "mra_xstatus%ld", i);
+		mir_snprintf(szBuff, "mra_xstatus%ld", i);
 		IcoLib_RemoveIcon(szBuff);
 	}
 

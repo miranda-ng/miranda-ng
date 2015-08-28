@@ -95,7 +95,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			TCHAR tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, _countof(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+			mir_sntprintf(tszTagHelp, _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 				_T("#<title>#"), TranslateT("The title of the item."),
 				_T("#<description>#"), TranslateT("The item synopsis."),
 				_T("#<link>#"), TranslateT("The URL of the item."),

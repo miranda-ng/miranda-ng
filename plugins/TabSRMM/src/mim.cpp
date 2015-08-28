@@ -149,7 +149,7 @@ void CMimAPI::InitPaths()
 {
 	const TCHAR *szUserdataDir = getUserDir();
 
-	mir_sntprintf(m_szProfilePath, _countof(m_szProfilePath), _T("%stabSRMM"), szUserdataDir);
+	mir_sntprintf(m_szProfilePath, _T("%stabSRMM"), szUserdataDir);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		_tcsncpy_s(m_szChatLogsPath, _T("%miranda_logpath%"), _TRUNCATE);
 		_tcsncpy_s(m_szSkinsPath, _T("%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
@@ -164,7 +164,7 @@ void CMimAPI::InitPaths()
 
 	Utils::ensureTralingBackslash(m_szSkinsPath);
 
-	mir_sntprintf(m_szSavedAvatarsPath, _countof(m_szSavedAvatarsPath), _T("%s\\Saved Contact Pictures"), m_szProfilePath);
+	mir_sntprintf(m_szSavedAvatarsPath, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
 }
 
 bool CMimAPI::getAeroState()
@@ -299,7 +299,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 
 	if (mode) {
 		TCHAR szTip[256];
-		mir_sntprintf(szTip, _countof(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 		if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
@@ -550,7 +550,7 @@ nowindowcreate:
 			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-			mir_sntprintf(toolTip, _countof(toolTip), TranslateT("Message from %s"), contactName);
+			mir_sntprintf(toolTip, TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}

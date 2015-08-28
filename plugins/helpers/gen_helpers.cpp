@@ -85,7 +85,7 @@ int AddDebugLogMessageA(const char* fmt, ...)
 	mir_vsnprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
-	mir_snprintf(szFinal, _countof(szFinal), "%s: %s", MODULENAME, szText);
+	mir_snprintf(szFinal, "%s: %s", MODULENAME, szText);
 #else
 	strncpy(szFinal, szText, _countof(szFinal));
 #endif
@@ -106,7 +106,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 	mir_vsntprintf(tszText, _countof(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
-	mir_sntprintf(tszFinal, _countof(tszFinal), _T("%s: %s"), MODULENAME, tszText);
+	mir_sntprintf(tszFinal, _T("%s: %s"), MODULENAME, tszText);
 #else
 	_tcsncpy(tszFinal, tszText, _countof(tszFinal));
 #endif

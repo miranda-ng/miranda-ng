@@ -303,7 +303,7 @@ bool SmileyPackType::LoadSmileyFile(const CMString& filename, const CMString& pa
 		if (!noerr) {
 			static const TCHAR errmsg[] = LPGENT("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			TCHAR msgtxt[1024];
-			mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), modpath.c_str(), packname);
+			mir_sntprintf(msgtxt, TranslateTS(errmsg), modpath.c_str(), packname);
 			ReportError(msgtxt);
 		}
 
@@ -463,7 +463,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 				if (!noerr) {
 					static const TCHAR errmsg[] = LPGENT("Smiley #%u in file %s for smiley pack %s not found.");
 					TCHAR msgtxt[1024];
-					mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
+					mir_sntprintf(msgtxt, TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
 					CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, _T2A(msgtxt));
 					errorFound = true;
 				}
@@ -838,7 +838,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 				packnam = "MSN";
 
 			char path[MAX_PATH];
-			mir_snprintf(path, _countof(path), "Smileys\\nova\\%s.msl", packnam);
+			mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
 			paths = A2T_SM(path);
 			CMString patha;
@@ -865,7 +865,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defau
 		packnam = "MSN";
 
 	char path[MAX_PATH];
-	mir_snprintf(path, _countof(path), "Smileys\\nova\\%s.msl", packnam);
+	mir_snprintf(path, "Smileys\\nova\\%s.msl", packnam);
 
 	CMString paths = A2T_SM(path), patha;
 	pathToAbsolute(paths, patha);
@@ -936,7 +936,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 		CMString displayName = dbv.ptszVal;
 		if (packname != NULL) {
 			char path[MAX_PATH];
-			mir_snprintf(path, _countof(path), "Smileys\\nova\\%s.msl", packname);
+			mir_snprintf(path, "Smileys\\nova\\%s.msl", packname);
 
 			CMString paths = A2T_SM(path), patha;
 			pathToAbsolute(paths, patha);
@@ -1014,13 +1014,13 @@ SmileyLookup::SmileyLookup(const CMString& str, const bool regexs, const int ind
 				matcher->getStartingIndex() != matcher->getEndingIndex());
 			if (!m_valid) {
 				static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
-				mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
+				mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 			}
 			delete matcher;
 		}
 		else {
 			static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" malformed.");
-			mir_sntprintf(msgtxt, _countof(msgtxt), TranslateTS(errmsg), str.c_str(), smpt.c_str());
+			mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 		}
 
 		if (!m_valid)

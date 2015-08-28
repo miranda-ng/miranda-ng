@@ -424,7 +424,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	CMString szTmp;
 	for (int i = 0; i < nMenuResourceItemsNew; i++) {
-		mir_snprintf(text, _countof(text), "/UseResource_%d", i);
+		mir_snprintf(text, "/UseResource_%d", i);
 		if (i >= m_nMenuResourceItems) {
 			CreateProtoServiceParam(text, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES + i);
 			mi.name.a = "";
@@ -690,7 +690,7 @@ void CJabberProto::MenuInit()
 	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.root = m_hMenuPriorityRoot;
 
-	mir_snprintf(srvFce, _countof(srvFce), "/menuSetPriority/%d", 0);
+	mir_snprintf(srvFce, "/menuSetPriority/%d", 0);
 	bool needServices = !ProtoServiceExists(m_szModuleName, srvFce);
 	if (needServices)
 		CreateProtoServiceParam(srvFce, &CJabberProto::OnMenuSetPriority, 0);
@@ -702,7 +702,7 @@ void CJabberProto::MenuInit()
 			continue;
 		}
 
-		mir_snprintf(srvFce, _countof(srvFce), "/menuSetPriority/%d", steps[i]);
+		mir_snprintf(srvFce, "/menuSetPriority/%d", steps[i]);
 		if (steps[i] > 0) {
 			mir_sntprintf(szName, TranslateT("Increase priority by %d"), steps[i]);
 			mi.hIcolibItem = GetIconHandle(IDI_ARROW_UP);

@@ -160,7 +160,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
 			{
 				TCHAR filter[200];
-				mir_sntprintf(filter, _countof(filter), _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+				mir_sntprintf(filter, _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -307,14 +307,14 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	case TIMEFORMAT_MILLISECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, _countof(szTime), "%I64u.%03I64u ", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, "%I64u.%03I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
 	case TIMEFORMAT_MICROSECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, _countof(szTime), "%I64u.%06I64u ", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, "%I64u.%06I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
@@ -325,9 +325,9 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 
 	char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
 	if (szUser)
-		mir_snprintf(szHead, _countof(szHead), "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
+		mir_snprintf(szHead, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
 	else
-		mir_snprintf(szHead, _countof(szHead), "[%s%04X] ", szTime, GetCurrentThreadId());
+		mir_snprintf(szHead, "[%s%04X] ", szTime, GetCurrentThreadId());
 
 	if (logOptions.toOutputDebugString) {
 		if (szHead[0])
@@ -401,7 +401,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
-	int titleLineLen = mir_snprintf(szTitleLine, _countof(szTitleLine), "(%p:%u) Data %s%s\r\n",
+	int titleLineLen = mir_snprintf(szTitleLine, "(%p:%u) Data %s%s\r\n",
 		nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 

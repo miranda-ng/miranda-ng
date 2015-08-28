@@ -168,7 +168,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			HANDLE hProtoAckEvent;
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
-			mir_sntprintf(newTitle, _countof(newTitle), oldTitle, gg->m_tszUserName);
+			mir_sntprintf(newTitle, oldTitle, gg->m_tszUserName);
 			SetWindowText(hwndDlg, newTitle);
 			WindowSetIcon(hwndDlg, "sessions");
 
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						TCHAR szUrl[256], szIP[64];
 						szIP[0] = 0;
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
-						mir_sntprintf(szUrl, _countof(szUrl), _T("http://whois.domaintools.com/%s"), szIP);
+						mir_sntprintf(szUrl, _T("http://whois.domaintools.com/%s"), szIP);
 						Utils_OpenUrlT(szUrl);
 						break;
 					}

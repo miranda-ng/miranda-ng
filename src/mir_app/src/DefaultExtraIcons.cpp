@@ -112,7 +112,7 @@ struct Info
 static void EmailOnClick(Info*, const char *text)
 {
 	char cmd[1024];
-	mir_snprintf(cmd, _countof(cmd), "mailto:%s", text);
+	mir_snprintf(cmd, "mailto:%s", text);
 	ShellExecuteA(NULL, "open", cmd, NULL, NULL, SW_SHOW);
 }
 

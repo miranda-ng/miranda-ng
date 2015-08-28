@@ -57,9 +57,9 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 	GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 	if (wParam) {
 		VARST profilename(_T("%miranda_profilename%"));
-		mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+		mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
 	}
-	else mir_sntprintf(cmdLine, _countof(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+	else mir_sntprintf(cmdLine, _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &pi);

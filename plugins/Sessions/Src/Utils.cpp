@@ -127,7 +127,7 @@ bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 {
 	char szFormNumBuf[100];
-	mir_snprintf(szFormNumBuf, _countof(szFormNumBuf), "%02u", ordernum);
+	mir_snprintf(szFormNumBuf, "%02u", ordernum);
 
 	if (mode == 0) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsMarks"));
@@ -149,7 +149,7 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 			db_set_s(hContact, MODNAME, "LastSessionsOrder", temp);
 		}
 		else if (writemode == 1) {
-			mir_snprintf(szFormNumBuf, _countof(szFormNumBuf), "%02u%s", ordernum, "000000000000000000");
+			mir_snprintf(szFormNumBuf, "%02u%s", ordernum, "000000000000000000");
 			db_set_s(hContact, MODNAME, "LastSessionsOrder", szFormNumBuf);
 		}
 	}
@@ -229,7 +229,7 @@ BOOL ResaveSettings(char *szName, int iFirst, int iLimit, TCHAR *szBuffer)
 			break;
 
 		char szNameBuf[256];
-		mir_snprintf(szNameBuf, _countof(szNameBuf), "%s_%u", szName, i);
+		mir_snprintf(szNameBuf, "%s_%u", szName, i);
 
 		TCHAR *ptszTemp = db_get_tsa(NULL, MODNAME, szNameBuf);
 		db_set_ts(NULL, MODNAME, szNameBuf, szBuffer);
@@ -297,7 +297,7 @@ int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, in
 	}
 
 	for (int i = 0; i < iLimit; i++) {
-		mir_snprintf(szBuffer, _countof(szBuffer), "%s_%u", pszSetting, i);
+		mir_snprintf(szBuffer, "%s_%u", pszSetting, i);
 		TCHAR *pszBuffer = db_get_tsa(NULL, MODNAME, szBuffer);
 		if (pszBuffer) {
 			if (!IsMarkedUserDefSession(i + iFirstNum) || mode == 1) {
@@ -326,7 +326,7 @@ int FillFavoritesMenu(HMENU hMenu, int iLimit)
 	for (int i = 0; i < iLimit; i++) {
 		if (IsMarkedUserDefSession(i)) {
 			char szBuffer[256];
-			mir_snprintf(szBuffer, _countof(szBuffer), "%s_%u", "UserSessionDsc", i);
+			mir_snprintf(szBuffer, "%s_%u", "UserSessionDsc", i);
 			TCHAR *pszBuffer = db_get_tsa(NULL, MODNAME, szBuffer);
 			if (pszBuffer) {
 				AppendMenu(hMenu, MF_STRING, i + 1, pszBuffer);
@@ -361,14 +361,14 @@ int CheckContactVisibility(MCONTACT hContact)
 void RenameUserDefSession(int ses_count, TCHAR* ptszNewName)
 {
 	char szSession[256];
-	mir_snprintf(szSession, _countof(szSession), "%s_%u", "UserSessionDsc", ses_count);
+	mir_snprintf(szSession, "%s_%u", "UserSessionDsc", ses_count);
 	db_set_ts(NULL, MODNAME, szSession, ptszNewName);
 }
 
 int MarkUserDefSession(int ses_count, BYTE bCheck)
 {
 	char szSessionName[256];
-	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", ses_count);
+	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
 	db_set_b(NULL, MODNAME, szSessionName, bCheck);
 	return 0;
 }
@@ -376,7 +376,7 @@ int MarkUserDefSession(int ses_count, BYTE bCheck)
 BYTE IsMarkedUserDefSession(int ses_count)
 {
 	char szSessionName[256];
-	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", ses_count);
+	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
 	return db_get_b(NULL, MODNAME, szSessionName, 0);
 }
 

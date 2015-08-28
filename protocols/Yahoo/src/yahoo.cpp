@@ -521,7 +521,7 @@ void CYahooProto::ext_got_audible(const char *me, const char *who, const char *a
 	}
 
 	char z[1028];
-	mir_snprintf(z, _countof(z), "[miranda-audible] %s", msg ? msg : "");
+	mir_snprintf(z, "[miranda-audible] %s", msg ? msg : "");
 	ext_got_im((char*)me, (char*)who, 0, z, 0, 0, 1, -1, NULL, 0);
 }
 
@@ -735,7 +735,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	nick[0] = '\0';
 
 	if (lname && fname)
-		mir_snprintf(nick, _countof(nick), "%s %s", fname, lname);
+		mir_snprintf(nick, "%s %s", fname, lname);
 	else if (lname)
 		strncpy_s(nick, lname, _TRUNCATE);
 	else if (fname)
@@ -926,15 +926,15 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 			TCHAR z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
 
 			if (from == NULL) {
-				mir_sntprintf(title, _countof(title), _T("%s: %s"), m_tszUserName, TranslateT("New Mail"));
-				mir_sntprintf(z, _countof(z), TranslateT("You have %i unread messages"), cnt);
+				mir_sntprintf(title, _T("%s: %s"), m_tszUserName, TranslateT("New Mail"));
+				mir_sntprintf(z, TranslateT("You have %i unread messages"), cnt);
 			}
 			else {
-				mir_sntprintf(title, _countof(title), TranslateT("New Mail (%i messages)"), cnt);
+				mir_sntprintf(title, TranslateT("New Mail (%i messages)"), cnt);
 
 				ptrT tszFrom(mir_utf8decodeT(from));
 				ptrT tszSubj(mir_utf8decodeT(subj));
-				mir_sntprintf(z, _countof(z), TranslateT("From: %s\nSubject: %s"), (TCHAR*)tszFrom, (TCHAR*)tszSubj);
+				mir_sntprintf(z, TranslateT("From: %s\nSubject: %s"), (TCHAR*)tszFrom, (TCHAR*)tszSubj);
 			}
 
 			if (!ShowPopup(title, z, "http://mail.yahoo.com"))
@@ -986,7 +986,7 @@ void ext_yahoo_got_cookies(int id)
 
 		 //wsprintfA(z, "Cookie: %s; C=%s; Y=%s; T=%s", Bcookie, yahoo_get_cookie(id, "c"), yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
 		 //wsprintfA(z, "Cookie: %s; Y=%s", Bcookie, yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
-		 mir_snprintf(z, _countof(z), "Cookie: Y=%s; T=%s", yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
+		 mir_snprintf(z, "Cookie: Y=%s; T=%s", yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
 		 LOG(("Our Cookie: '%s'", z));
 		 CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hnuMain, (LPARAM)z);*/
 
@@ -995,7 +995,7 @@ void ext_yahoo_got_cookies(int id)
 		char z[1024];
 
 		// need to add Cookie header to our requests or we get booted w/ "Bad Cookie" message.
-		mir_snprintf(z, _countof(z), "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
+		mir_snprintf(z, "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
 			yahoo_get_cookie(id, "t"), yahoo_get_cookie(id, "c"));    
 		LOG(("Our Cookie: '%s'", z));
 		CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hNetlibUser, (LPARAM)z);
@@ -1237,7 +1237,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 
 		if (nlhr.requestType == REQUEST_POST) {
 			httpHeaders[nlhr.headersCount].szName = "Content-Length";
-			mir_snprintf(z, _countof(z), "%d", content_length);
+			mir_snprintf(z, "%d", content_length);
 			httpHeaders[nlhr.headersCount].szValue = z;
 
 			nlhr.headersCount++;
@@ -1381,7 +1381,7 @@ char * CYahooProto::ext_send_https_request(yahoo_data *yd, const char *host, con
 	char z[4096], *result = NULL;
 	int i;
 
-	mir_snprintf(z, _countof(z), "https://%s%s", host, path);
+	mir_snprintf(z, "https://%s%s", host, path);
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT; /* Use HTTP/1.1 and don't dump the requests to the log */
@@ -1454,7 +1454,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 	char z[4096];
 
-	mir_snprintf(z, _countof(z), "http://%s%s", getByte("YahooJapan", 0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
+	mir_snprintf(z, "http://%s%s", getByte("YahooJapan", 0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_HTTP11;

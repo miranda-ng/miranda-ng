@@ -23,23 +23,23 @@ struct TCMInvokeCommandInfo
 
 int IsCOMRegistered()
 {
-  HKEY hRegKey;
-  int  res = 0;
+	HKEY hRegKey;
+	int  res = 0;
 
-  // these arent the BEST checks in the world
-  if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, _T("miranda.shlext"), 0, KEY_READ, &hRegKey)) {
-	  res += COMREG_OK;
-	  RegCloseKey(hRegKey);
-  }
-
-  if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"), 0, KEY_READ, &hRegKey)) {
-	  DWORD lpType = REG_SZ;
-	  if (!RegQueryValueEx(hRegKey, _T("{72013A26-A94C-11d6-8540-A5E62932711D}"), NULL, &lpType, 0, 0))
-		  res += COMREG_APPROVED;
+	// these arent the BEST checks in the world
+	if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, _T("miranda.shlext"), 0, KEY_READ, &hRegKey)) {
+		res += COMREG_OK;
 		RegCloseKey(hRegKey);
-  }
+	}
 
-  return res;
+	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"), 0, KEY_READ, &hRegKey)) {
+		DWORD lpType = REG_SZ;
+		if (!RegQueryValueEx(hRegKey, _T("{72013A26-A94C-11d6-8540-A5E62932711D}"), NULL, &lpType, 0, 0))
+			res += COMREG_APPROVED;
+		RegCloseKey(hRegKey);
+	}
+
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ BOOL AddToList(TAddArgList& args)
 			HANDLE hFind = FindFirstFileA(szBuf, &fd);
 			while (true) {
 				if (fd.cFileName[0] != '.') {
-					mir_snprintf(szBuf, _countof(szBuf),"%s\\%s", args.szFile, fd.cFileName);
+					mir_snprintf(szBuf, "%s\\%s", args.szFile, fd.cFileName);
 					// keep a copy of the current thing being processed
 					szThis = args.szFile;
 					args.szFile = szBuf;
@@ -105,7 +105,7 @@ BOOL AddToList(TAddArgList& args)
 						FindClose(hFind);
 						return true;
 					}
-				} 
+				}
 				if (!FindNextFileA(hFind, &fd))
 					break;
 			}
@@ -142,7 +142,7 @@ void __cdecl IssueTransferThread(void *param)
 	TSlotIPC *pct = pipch->DataPtr;
 	BOOL bQuit = false;
 	while (pct != NULL) {
-		if (pct->cbSize != sizeof(TSlotIPC)) 
+		if (pct->cbSize != sizeof(TSlotIPC))
 			break;
 		args.szFile = LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC));
 		args.hContact = pct->hContact;
@@ -193,7 +193,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 
 	int protoCount;
 	PROTOACCOUNT **pp;
-	Proto_EnumAccounts(&protoCount,&pp);
+	Proto_EnumAccounts(&protoCount, &pp);
 	if (protoCount != 0) {
 		spi.pid = GetCurrentProcessId();
 		while (protoCount > 0) {
@@ -274,8 +274,8 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED)) {
 				// don't show people who are "Hidden" "NotOnList" or Ignored
 				if (db_get_b(hContact, "CList", "Hidden", 0) == 1 ||
-					 db_get_b(hContact, "CList", "NotOnList", 0) == 1 ||
-					 CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_URL | IGNOREEVENT_FILE) != 0) 
+					db_get_b(hContact, "CList", "NotOnList", 0) == 1 ||
+					CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_URL | IGNOREEVENT_FILE) != 0)
 					continue;
 			}
 			// is HIT2 off?
@@ -298,9 +298,9 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 	dwContacts = i;
 	qsort(pContacts, dwContacts, sizeof(TSlotInfo), SortContact);
-	
+
 	// create an IPC slot for each contact and store display name, etc
-	for (i=0; i < dwContacts; i++) {
+	for (i = 0; i < dwContacts; i++) {
 		ptrA szContact(mir_t2a(pcli->pfnGetContactDisplayName(pContacts[i].hContact, 0)));
 		if (szContact != NULL) {
 			ptrA szGroup;
@@ -343,7 +343,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 void __cdecl ClearMRUThread(void*)
 {
 	for (MCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact))
-		if ( db_get_b(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0)
+		if (db_get_b(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0)
 			db_set_b(hContact, SHLExt_Name, SHLExt_MRU, 0);
 }
 
@@ -414,7 +414,7 @@ void __stdcall ipcService(ULONG_PTR)
 
 		// if the group mode is on, check if they want the CList setting
 		bool bGroupMode = (BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED));
-		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED)) 
+		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED))
 			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
 
 		TSlotIPC *pct = NULL;
@@ -435,7 +435,7 @@ void __stdcall ipcService(ULONG_PTR)
 			// return contact's grouping if it's present
 			while (bGroupMode) {
 				_itoa(iSlot, szGroupStr, 10);
-				if ( db_get_s(0, "CListGroups", szGroupStr, &dbv) != 0)
+				if (db_get_s(0, "CListGroups", szGroupStr, &dbv) != 0)
 					break;
 				pct = ipcAlloc(pMMT, lstrlenA(dbv.pszVal + 1) + 1);
 				// first byte has flags, need null term
@@ -552,13 +552,13 @@ void CheckUnregisterServer()
 		// launches regsvr to remove the dll under admin.
 		TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 		GetModuleFileName(hInst, szFileName, _countof(szFileName));
-		mir_sntprintf(szBuf, _countof(szBuf), _T("/s /u \"%s\""), szFileName);
+		mir_sntprintf(szBuf, _T("/s /u \"%s\""), szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = _T("runas");
 		sei.lpFile = _T("regsvr32");
 		sei.lpParameters = szBuf;
-		if ( ShellExecuteEx(&sei) == TRUE)
+		if (ShellExecuteEx(&sei) == TRUE)
 			return;
 
 		Sleep(1000);
@@ -581,7 +581,7 @@ void CheckRegisterServer()
 			TranslateT("Miranda NG - Shell context menus (shellext.dll)"), MB_OK | MB_ICONINFORMATION);
 		// /s = silent
 		GetModuleFileName(hInst, szFileName, _countof(szFileName));
-		mir_sntprintf(szBuf, _countof(szBuf), _T("/s \"%s\""), szFileName);
+		mir_sntprintf(szBuf, _T("/s \"%s\""), szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = _T("runas");

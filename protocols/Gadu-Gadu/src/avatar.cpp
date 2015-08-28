@@ -389,7 +389,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	size_t avatarFileB64EncLen = mir_strlen(avatarFileB64Enc);
 
 	char dataPrefix[64];
-	mir_snprintf(dataPrefix, _countof(dataPrefix), "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
+	mir_snprintf(dataPrefix, "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
 	size_t dataPrefixLen = mir_strlen(dataPrefix);
 
 	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;

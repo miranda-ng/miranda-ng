@@ -605,7 +605,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				MarkChanges(2, hwndDlg);
 				break;
 			case IDC_BROWSE_TEMPLATES:
-				mir_snprintf(filter, _countof(filter), "%s (*.ivt)%c*.ivt%c%s (*.*)%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s (*.*)%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 					UpdateTemplateIcons(hwndDlg, path);
@@ -613,21 +613,21 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				break;
 			case IDC_BROWSE_BACKGROUND_IMAGE:
-				mir_snprintf(filter, _countof(filter), "%s (*.jpg,*.jpeg,*.gif,*.png,*.bmp)%c*.jpg;*.jpeg;*.gif;*.png;*.bmp%c%s (*.*)%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, "%s (*.jpg,*.jpeg,*.gif,*.png,*.bmp)%c*.jpg;*.jpeg;*.gif;*.png;*.bmp%c%s (*.*)%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 					MarkChanges(2, hwndDlg);
 				}
 				break;
 			case IDC_BROWSE_EXTERNALCSS:
-				mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 					MarkChanges(2, hwndDlg);
 				}
 				break;
 			case IDC_BROWSE_EXTERNALCSS_RTL:
-				mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 					MarkChanges(2, hwndDlg);
@@ -737,7 +737,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			MarkChanges(4, hwndDlg);
 			break;
 		case IDC_BROWSE_TEMPLATES:
-			mir_snprintf(filter, _countof(filter), "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 				UpdateTemplateIcons(hwndDlg, path);
@@ -745,21 +745,21 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			}
 			break;
 		case IDC_BROWSE_BACKGROUND_IMAGE:
-			mir_snprintf(filter, _countof(filter), "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS:
-			mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 				MarkChanges(4, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS_RTL:
-			mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 				MarkChanges(4, hwndDlg);
@@ -870,7 +870,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			MarkChanges(8, hwndDlg);
 			break;
 		case IDC_BROWSE_TEMPLATES:
-			mir_snprintf(filter, _countof(filter), "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "ivt", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 				UpdateTemplateIcons(hwndDlg, path);
@@ -878,21 +878,21 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			}
 			break;
 		case IDC_BROWSE_BACKGROUND_IMAGE:
-			mir_snprintf(filter, _countof(filter), "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "jpg", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS:
-			mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 				MarkChanges(8, hwndDlg);
 			}
 			break;
 		case IDC_BROWSE_EXTERNALCSS_RTL:
-			mir_snprintf(filter, _countof(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+			mir_snprintf(filter, "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 			if (BrowseFile(hwndDlg, filter, "css", path, _countof(path))) {
 				SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 				MarkChanges(8, hwndDlg);
@@ -1495,13 +1495,13 @@ void Options::init()
 		else continue;
 
 		/* SRMM settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
 		proto->setSRMMEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_MODE);
 		proto->setSRMMMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
 		proto->setSRMMFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1510,7 +1510,7 @@ void Options::init()
 			proto->setSRMMBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1519,7 +1519,7 @@ void Options::init()
 			proto->setSRMMCssFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
@@ -1528,13 +1528,13 @@ void Options::init()
 		}
 
 		/* Group chat settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
 		proto->setChatEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_MODE);
 		proto->setChatMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
 		proto->setChatFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1543,7 +1543,7 @@ void Options::init()
 			proto->setChatBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1552,7 +1552,7 @@ void Options::init()
 			proto->setChatCssFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
@@ -1561,13 +1561,13 @@ void Options::init()
 		}
 
 		/* History settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
 		proto->setHistoryEnable(i == 0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_MODE);
 		proto->setHistoryMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
 		proto->setHistoryFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1576,7 +1576,7 @@ void Options::init()
 			proto->setHistoryBackgroundFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
@@ -1585,7 +1585,7 @@ void Options::init()
 			proto->setHistoryCssFilename(tmpPath);
 			db_free(&dbv);
 		}
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
 			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
@@ -1681,67 +1681,67 @@ void Options::saveProtocolSettings()
 		char tmpPath[MAX_PATH];
 		proto->copyFromTemp();
 		/* SRMM settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->isSRMMEnable());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_MODE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->getSRMMMode());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getSRMMFlags());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
 		mir_strcpy(tmpPath, proto->getSRMMBackgroundFilename());
 		PathToRelative(proto->getSRMMBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
 		mir_strcpy(tmpPath, proto->getSRMMCssFilename());
 		PathToRelative(proto->getSRMMCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
 		mir_strcpy(tmpPath, proto->getSRMMTemplateFilename());
 		PathToRelative(proto->getSRMMTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		/* Group Chat settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->isChatEnable());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_MODE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->getChatMode());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getChatFlags());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
 		mir_strcpy(tmpPath, proto->getChatBackgroundFilename());
 		PathToRelative(proto->getChatBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
 		mir_strcpy(tmpPath, proto->getChatCssFilename());
 		PathToRelative(proto->getChatCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
 		mir_strcpy(tmpPath, proto->getChatTemplateFilename());
 		PathToRelative(proto->getChatTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		/* History settings */
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->isHistoryEnable());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_MODE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_MODE);
 		db_set_b(NULL, ieviewModuleName, dbsName, proto->getHistoryMode());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getHistoryFlags());
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
 		mir_strcpy(tmpPath, proto->getHistoryBackgroundFilename());
 		PathToRelative(proto->getHistoryBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
 		mir_strcpy(tmpPath, proto->getHistoryCssFilename());
 		PathToRelative(proto->getHistoryCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
-		mir_snprintf(dbsName, _countof(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
+		mir_snprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
 		mir_strcpy(tmpPath, proto->getHistoryTemplateFilename());
 		PathToRelative(proto->getHistoryTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);

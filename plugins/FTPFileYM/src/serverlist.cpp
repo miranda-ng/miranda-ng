@@ -64,7 +64,7 @@ void ServerList::saveToDb() const
 ServerList::FTP::FTP(int index)
 {
 	if (DB::getStringF(0, MODULE, "Name%d", index, m_stzName))
-		mir_sntprintf(m_stzName, _countof(m_stzName), TranslateT("FTP Server %d"), index + 1);
+		mir_sntprintf(m_stzName, TranslateT("FTP Server %d"), index + 1);
 
 	DB::getAStringF(0, MODULE, "Password%d", index, m_szPass);
 	DB::getAStringF(0, MODULE, "Server%d", index, m_szServer);

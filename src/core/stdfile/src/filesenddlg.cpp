@@ -49,16 +49,16 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	if (i > 1) {
 		TCHAR szFormat[32];
 		if (fileCount && dirCount) {
-			mir_sntprintf(szFormat, _countof(szFormat), _T("%s, %s"), TranslateTS(fileCount == 1 ? _T("%d file") : _T("%d files")), TranslateTS(dirCount == 1 ? _T("%d directory") : _T("%d directories")));
-			mir_sntprintf(str, _countof(str), szFormat, fileCount, dirCount);
+			mir_sntprintf(szFormat, _T("%s, %s"), TranslateTS(fileCount == 1 ? _T("%d file") : _T("%d files")), TranslateTS(dirCount == 1 ? _T("%d directory") : _T("%d directories")));
+			mir_sntprintf(str, szFormat, fileCount, dirCount);
 		}
 		else if (fileCount) {
 			mir_tstrcpy(szFormat, TranslateT("%d files"));
-			mir_sntprintf(str, _countof(str), szFormat, fileCount);
+			mir_sntprintf(str, szFormat, fileCount);
 		}
 		else {
 			mir_tstrcpy(szFormat, TranslateT("%d directories"));
-			mir_sntprintf(str, _countof(str), szFormat, dirCount);
+			mir_sntprintf(str, szFormat, dirCount);
 		}
 		SetDlgItemText(hwndDlg, IDC_FILE, str);
 	}

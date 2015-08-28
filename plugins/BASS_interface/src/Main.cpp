@@ -185,7 +185,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		else {
 			DWORD bassver = BASS_GetVersion();
-			mir_sntprintf(tmp, _countof(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+			mir_sntprintf(tmp, TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
 			SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);

@@ -278,7 +278,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						}
 						else if (retVal != 3 && retVal != 7) {
 							char err[512];
-							mir_snprintf(err, _countof(err), "Unknown Authentication error: %s", szFault);
+							mir_snprintf(err, "Unknown Authentication error: %s", szFault);
 							MSN_ShowError(err);
 						}
 					}

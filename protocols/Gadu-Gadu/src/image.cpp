@@ -845,7 +845,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	if (res != 0) {
 		TCHAR image_msg[MAX_PATH + 11];
-		mir_sntprintf(image_msg, _countof(image_msg), _T("[img]%s[/img]"), szPath);
+		mir_sntprintf(image_msg, _T("[img]%s[/img]"), szPath);
 
 		T2Utf szMessage(image_msg);
 		PROTORECVEVENT pre = {0};

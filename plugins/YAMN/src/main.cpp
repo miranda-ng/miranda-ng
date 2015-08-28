@@ -203,7 +203,7 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 static void LoadPlugins()
 {
 	TCHAR szSearchPath[MAX_PATH];
-	mir_sntprintf(szSearchPath, _countof(szSearchPath), _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
+	mir_sntprintf(szSearchPath, _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
 
 	hDllPlugins = NULL;
 
@@ -225,7 +225,7 @@ static void LoadPlugins()
 				continue;
 
 			TCHAR szPluginPath[MAX_PATH];
-			mir_sntprintf(szPluginPath, _countof(szPluginPath),_T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
+			mir_sntprintf(szPluginPath, _T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
 			if (hDll == NULL)
 				continue;

@@ -258,7 +258,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 
 			if (ran_to > ran_from)
 			{
-				mir_sntprintf(substituteStr, _countof(substituteStr), _T("%d"), GetRandom(ran_from, ran_to));
+				mir_sntprintf(substituteStr, _T("%d"), GetRandom(ran_from, ran_to));
 				for (k = i + 1; msg[k]; k++) if (msg[k] == '%') { k++; break; }
 
 				if (mir_tstrlen(substituteStr) > k - i)
@@ -1360,14 +1360,14 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 			if (iCurrentStatus < ID_STATUS_ONLINE)
 				continue;
 
-			mir_snprintf(szBuffer, _countof(szBuffer), "FCur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, "FCur%sMsg", accounts->pa[i]->szModuleName);
 			if (db_get_ts(NULL, "SimpleStatusMsg", szBuffer, &dbv))
 				continue;
 
 			tszMsg = InsertVarsIntoMsg(dbv.ptszVal, accounts->pa[i]->szModuleName, iCurrentStatus, NULL);
 			db_free(&dbv);
 
-			mir_snprintf(szBuffer, _countof(szBuffer), "Cur%sMsg", accounts->pa[i]->szModuleName);
+			mir_snprintf(szBuffer, "Cur%sMsg", accounts->pa[i]->szModuleName);
 			if (!db_get_ts(NULL, "SimpleStatusMsg", szBuffer, &dbv))
 			{
 				if (tszMsg && dbv.ptszVal && !mir_tstrcmp(tszMsg, dbv.ptszVal) || !tszMsg && !dbv.ptszVal)

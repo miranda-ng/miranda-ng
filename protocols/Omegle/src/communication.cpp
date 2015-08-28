@@ -551,7 +551,7 @@ bool Omegle_client::events()
 			st.cbSize = sizeof(st);
 			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
 
-			mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("%s is typing."), TranslateT("Stranger"));
+			mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateT("Stranger"));
 
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}
@@ -566,7 +566,7 @@ bool Omegle_client::events()
 			st.cbSize = sizeof(st);
 			// st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
 
-			mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("%s stopped typing."), TranslateT("Stranger"));
+			mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateT("Stranger"));
 
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}

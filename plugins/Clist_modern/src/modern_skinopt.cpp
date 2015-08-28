@@ -252,7 +252,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					TCHAR prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
 					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, _countof(imfn), sd->File);
 					IniParser::GetSkinFolder(sd->File, skinfolder);
-					mir_sntprintf(prfn, _countof(prfn), _T("%s\\%s"), skinfolder, imfn);
+					mir_sntprintf(prfn, _T("%s\\%s"), skinfolder, imfn);
 					PathToAbsoluteT(prfn, imfn);
 					hPreviewBitmap = ske_LoadGlyphImage(imfn);
 
@@ -332,7 +332,7 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 	struct _tfinddata_t fd = { 0 };
 	TCHAR mask[MAX_PATH];
 	long hFile;
-	mir_sntprintf(mask, _countof(mask), _T("%s\\*.msf"), Folder);
+	mir_sntprintf(mask, _T("%s\\*.msf"), Folder);
 	//fd.attrib = _A_SUBDIR;
 	hFile = _tfindfirst(mask, &fd);
 	if (hFile != -1)
@@ -342,14 +342,14 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 		} while (!_tfindnext(hFile, &fd));
 		_findclose(hFile);
 	}
-	mir_sntprintf(mask, _countof(mask), _T("%s\\*"), Folder);
+	mir_sntprintf(mask, _T("%s\\*"), Folder);
 	hFile = _tfindfirst(mask, &fd);
 	{
 		do {
 			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, _T(".")) == 0 || mir_tstrcmpi(fd.name, _T("..")) == 0))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
-				mir_sntprintf(path, _countof(path), _T("%s\\%s"), Folder, fd.name);
+				mir_sntprintf(path, _T("%s\\%s"), Folder, fd.name);
 				SearchSkinFiles(hwndDlg, path);
 			}
 		} while (!_tfindnext(hFile, &fd));
@@ -414,7 +414,7 @@ HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR * path, TCHAR* file)
 		_tcsncpy_s(fullName, TranslateT("Default Skin"), _TRUNCATE);
 	}
 	else {
-		mir_sntprintf(fullName, _countof(fullName), _T("%s\\%s"), path, file);
+		mir_sntprintf(fullName, _T("%s\\%s"), path, file);
 		_tcsncpy_s(defskinname, file, _TRUNCATE);
 		TCHAR *p = _tcsrchr(defskinname, '.'); if (p) *p = 0;
 		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, _countof(sd->Name), fullName);
@@ -522,7 +522,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR skinfolder[MAX_PATH] = { 0 };
 		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, _countof(imfn), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder);
-		mir_sntprintf(prfn, _countof(prfn), _T("%s\\%s"), skinfolder, imfn);
+		mir_sntprintf(prfn, _T("%s\\%s"), skinfolder, imfn);
 		PathToAbsoluteT(prfn, imfn);
 
 		hPreviewBitmap = ske_LoadGlyphImage(imfn);

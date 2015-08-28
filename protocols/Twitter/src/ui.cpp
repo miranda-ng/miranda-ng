@@ -113,7 +113,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		// Set window title
 		TCHAR title[512];
-		mir_sntprintf(title, _countof(title), _T("Send Tweet for %s"), proto->m_tszUserName);
+		mir_sntprintf(title, _T("Send Tweet for %s"), proto->m_tszUserName);
 		SetWindowText(hwndDlg, title);
 		return true;
 
@@ -146,7 +146,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 	case WM_SETREPLY:
 		char foo[512];
-		mir_snprintf(foo, _countof(foo), "@%s ", (char*)wParam);
+		mir_snprintf(foo, "@%s ", (char*)wParam);
 		size_t len = mir_strlen(foo);
 
 		SetDlgItemTextA(hwndDlg, IDC_TWEETMSG, foo);
@@ -190,7 +190,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		else SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_SETCURSEL, 0, 0);
 
 		char pollrate_str[32];
-		mir_snprintf(pollrate_str, _countof(pollrate_str), "%d", proto->getDword(TWITTER_KEY_POLLRATE, 80));
+		mir_snprintf(pollrate_str, "%d", proto->getDword(TWITTER_KEY_POLLRATE, 80));
 		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
 
 		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, proto->getByte(TWITTER_KEY_TWEET_TO_MSG, 0) ? BST_CHECKED : BST_UNCHECKED);

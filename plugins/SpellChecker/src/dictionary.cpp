@@ -521,8 +521,8 @@ public:
 		char aff[1024];
 
 
-		mir_snprintf(dic, _countof(dic), "%S.dic", fileWithoutExtension);
-		mir_snprintf(aff, _countof(aff), "%S.aff", fileWithoutExtension);
+		mir_snprintf(dic, "%S.dic", fileWithoutExtension);
+		mir_snprintf(aff, "%S.aff", fileWithoutExtension);
 
 
 		hunspell = new Hunspell(aff, dic);
@@ -761,7 +761,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 			}
 
 			if (dict->localized_name[0] != 0) {
-				mir_sntprintf(dict->full_name, _countof(dict->full_name), _T("%s [%s]"), dict->localized_name, dict->language);
+				mir_sntprintf(dict->full_name, _T("%s [%s]"), dict->localized_name, dict->language);
 			}
 			break;
 		}

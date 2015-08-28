@@ -246,7 +246,7 @@ static void CacheClientIcons()
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
-		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
+		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		overlayicons[i - IDI_OVL_OFFLINE] = IcoLib_GetIcon(szBuffer);
 	}
 }
@@ -257,7 +257,7 @@ static void InitIcoLib()
 
 	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		char szBuffer[128];
-		mir_snprintf(szBuffer, _countof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
+		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
 		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Overlay icons"), &icon, 1);
 	}
@@ -270,7 +270,7 @@ static void InitIcoLib()
 			continue;
 
 		TCHAR szDescr[128];
-		mir_sntprintf(szDescr, _countof(szDescr), TranslateT("%s connecting"), accs[k]->tszAccountName);
+		mir_sntprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
 		Icon_RegisterT(g_hInst, LPGENT("Contact list") _T("/") LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
@@ -1420,7 +1420,7 @@ skipbg:
 							if (serviceFailure) {
 								char szError[512];
 
-								mir_snprintf(szError, _countof(szError), Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
+								mir_snprintf(szError, Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
 								MessageBoxA(0, szError, Translate("Service failure"), MB_OK);
 							}
 							break;
@@ -1669,7 +1669,7 @@ buttons_done:
 
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
-						mir_snprintf(szBuffer, _countof(szBuffer), "%s_conn", pd->RealName);
+						mir_snprintf(szBuffer, "%s_conn", pd->RealName);
 						hIcon = IcoLib_GetIcon(szBuffer);
 					}
 					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {

@@ -269,7 +269,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				// LAST STATUS
 				if (proto->status == ID_STATUS_LAST) {
 					TCHAR last[80];
-					mir_sntprintf(last, _countof(last), _T("%s (%s)"), TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
+					mir_sntprintf(last, _T("%s (%s)"), TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_STARTUPLIST), lvItem.iItem, 1, last);
 					actualStatus = proto->lastStatus;
 				}
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (proto->status == ID_STATUS_CURRENT) {
 					int currentStatus = CallProtoService(proto->szName, PS_GETSTATUS, 0, 0);
 					TCHAR current[80];
-					mir_sntprintf(current, _countof(current), _T("%s (%s)"), TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
+					mir_sntprintf(current, _T("%s (%s)"), TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_STARTUPLIST), lvItem.iItem, 1, current);
 					actualStatus = currentStatus;
 				}

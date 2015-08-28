@@ -415,7 +415,7 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 	MCONTACT hNotificationsChatRoom = ChatIDToHContact(FACEBOOK_NOTIFICATIONS_CHATROOM);
 	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
 		TCHAR nameT[200];
-		mir_sntprintf(nameT, _countof(nameT), _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
+		mir_sntprintf(nameT, _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session
 		GCSESSION gcw = { sizeof(gcw) };

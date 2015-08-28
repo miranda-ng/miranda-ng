@@ -950,7 +950,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				TCHAR str[256];
-				mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
+				mir_sntprintf(str, _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -964,7 +964,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				TCHAR str[256];
-				mir_sntprintf(str, _countof(str), _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
+				mir_sntprintf(str, _T("%s (%d, id %x)"), mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -1046,10 +1046,10 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 		HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 		TCHAR sectionName[256];
-		mir_sntprintf(sectionName, _countof(sectionName), LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
+		mir_sntprintf(sectionName, LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
 
 		char iconame[256];
-		mir_snprintf(iconame, _countof(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
+		mir_snprintf(iconame, "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
 
 		// remove '&'
 		if (descr) {

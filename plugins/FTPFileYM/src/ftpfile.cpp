@@ -110,7 +110,7 @@ void InitMenuItems()
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
 		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
-			mir_sntprintf(stzName, _countof(stzName), TranslateT("FTP Server %d"), i + 1);
+			mir_sntprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 
 		mi.flags = CMIF_TCHAR;
 		mi.root = (opt.bUseSubmenu) ? hMenu : 0;

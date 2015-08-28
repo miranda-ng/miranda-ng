@@ -73,7 +73,7 @@ void CSendLaterJob::cleanDB()
 		db_set_dw(hContact, "SendLater", "count", iCount);
 
 		// delete flags
-		mir_snprintf(szKey, _countof(szKey), "$%s", szId);
+		mir_snprintf(szKey, "$%s", szId);
 		db_unset(hContact, "SendLater", szKey);
 	}
 }
@@ -87,7 +87,7 @@ void CSendLaterJob::readFlags()
 		char szKey[100];
 		DWORD localFlags;
 
-		mir_snprintf(szKey, _countof(szKey), "$%s", szId);
+		mir_snprintf(szKey, "$%s", szId);
 		localFlags = db_get_dw(hContact, "SendLater", szKey, 0);
 
 		if (localFlags & SLF_SUSPEND)
@@ -104,7 +104,7 @@ void CSendLaterJob::writeFlags()
 		DWORD localFlags = (bCode == JOB_HOLD ? SLF_SUSPEND : 0);
 		char szKey[100];
 
-		mir_snprintf(szKey, _countof(szKey), "$%s", szId);
+		mir_snprintf(szKey, "$%s", szId);
 		db_set_dw(hContact, "SendLater", szKey, localFlags);
 	}
 }
@@ -130,12 +130,12 @@ CSendLaterJob::~CSendLaterJob()
 				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
-					mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("A send later job completed successfully.\nThe original message: %s"),
+					mir_sntprintf(ppd.lptzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
 				else if (fFailed) {
-					mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("A send later job failed to complete.\nThe original message: %s"),
+					mir_sntprintf(ppd.lptzText, TranslateT("A send later job failed to complete.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
@@ -538,7 +538,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			TCHAR tszBuf[255];
-			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s [%s]"), tszNick, c->getRealAccount());
+			mir_sntprintf(tszBuf, _T("%s [%s]"), tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
 			lvItem.cchTextMax = _countof(tszBuf);
 			lvItem.iItem = uIndex++;
@@ -590,7 +590,7 @@ void CSendLater::qMgrFillList(bool fClear)
 				bCode = p->bCode;
 
 			TCHAR tszStatus[20];
-			mir_sntprintf(tszStatus, _countof(tszStatus), _T("X/%s[%c] (%d)"), tszStatusText, bCode, p->iSendCount);
+			mir_sntprintf(tszStatus, _T("X/%s[%c] (%d)"), tszStatusText, bCode, p->iSendCount);
 			tszStatus[0] = p->szId[0];
 			lvItem.pszText = tszStatus;
 			lvItem.iSubItem = 3;

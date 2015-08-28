@@ -174,7 +174,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		hContact = (MCONTACT)lparam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lparam);
-		mir_sntprintf(sztemp, _countof(sztemp), _T("%s: %s"),
+		mir_sntprintf(sztemp, _T("%s: %s"),
 			pcli->pfnGetContactDisplayName(hContact, 0),
 			TranslateT("last seen history"));
 		SetWindowText(hwndDlg, sztemp);

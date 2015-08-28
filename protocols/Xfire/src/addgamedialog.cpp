@@ -138,11 +138,11 @@ static void FillGameList(LPVOID hwndDlg)
 
 						if (z2 != zahlbuffer2) {
 							listentry.gameid = MAKELONG(gameid, atoi(zahlbuffer2));
-							mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid, atoi(zahlbuffer2));
+							mir_snprintf(gameidtemp, "%d_%d", gameid, atoi(zahlbuffer2));
 						}
 						else {
 							listentry.gameid = gameid;
-							mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid);
+							mir_snprintf(gameidtemp, "%d", gameid);
 						}
 
 
@@ -254,7 +254,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe)
 	//kein backslash dann normal ret als exenamen verwenden
 	if ((INT_PTR)exename == 1) exename = exe;
 	//filterstring aufbauen
-	mir_snprintf(szFilter, _countof(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
+	mir_snprintf(szFilter, "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
 	unsigned int sizeFilter = mir_strlen(szFilter);
 	for (unsigned int i = 0; i < sizeFilter; i++)
@@ -325,13 +325,13 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 				int gameid2 = HIWORD(gameids);
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, "%d", gameid1);
 
 				//spielnamen holen
 				if (xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
-					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, "%d", gameid1);
 
 					//einige felder vorbelegen
 					SetDlgItemTextA(hPage, IDC_ADD_NAME, ret);
@@ -367,9 +367,9 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 				char ret[512];
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, _countof(gameidtemp), "%d", gameid1);
+					mir_snprintf(gameidtemp, "%d", gameid1);
 
 				//neuen gameeintrag anlegen
 				Xfire_game* newgame = new Xfire_game();

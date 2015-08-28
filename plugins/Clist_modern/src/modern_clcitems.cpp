@@ -248,7 +248,7 @@ void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName)
 	_itoa_s(i - 1, buf, 10);
 
 	TCHAR b2[255];
-	mir_sntprintf(b2, _countof(b2), _T("#%s"), szName);
+	mir_sntprintf(b2, _T("#%s"), szName);
 	b2[0] = 1 | GROUPF_EXPANDED;
 	db_set_ws(NULL, "CListGroups", buf, b2);
 	pcli->pfnGetGroupName(i, &groupFlags);
@@ -718,7 +718,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 		}
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
 			if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-				mir_sntprintf(szGroupMask, _countof(szGroupMask), _T("%s|"), &dbv.ptszVal[0]);
+				mir_sntprintf(szGroupMask, _T("%s|"), &dbv.ptszVal[0]);
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 				mir_free(dbv.ptszVal);
 			}

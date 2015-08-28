@@ -308,9 +308,9 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	if (frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		TCHAR TBcapt[255];
 		if (total > 0)
-			mir_sntprintf(TBcapt, _countof(TBcapt), _T("Ping (%d/%d)"), upCount, total);
+			mir_sntprintf(TBcapt, _T("Ping (%d/%d)"), upCount, total);
 		else
-			mir_sntprintf(TBcapt, _countof(TBcapt), _T("Ping"));
+			mir_sntprintf(TBcapt, _T("Ping"));
 
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBNAME | FO_TCHAR, frame_id), (LPARAM)TBcapt);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_TCHAR, frame_id), (LPARAM)TBcapt);

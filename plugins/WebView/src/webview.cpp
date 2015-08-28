@@ -64,7 +64,7 @@ void ChangeMenuItemCountdown()
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
 	TCHAR countername[100];
-	mir_sntprintf(countername, _countof(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	mir_sntprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
 }

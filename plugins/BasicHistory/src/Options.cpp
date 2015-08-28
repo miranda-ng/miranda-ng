@@ -805,7 +805,7 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	TCHAR extUpper[32];
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_sntprintf(filter, _countof(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
+	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
 	mir_sntprintf(filter + len, _countof(filter) - len, _T("*.%s"), ext);
 	len += mir_tstrlen(filter + len) + 1;
@@ -1701,7 +1701,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				TCHAR sep = _T(':');
 				if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_STIME, timeFormat, 10) > 0)
 					sep = timeFormat[0];
-				mir_sntprintf(timeFormat, _countof(timeFormat), _T("HH%cmm"), sep);
+				mir_sntprintf(timeFormat, _T("HH%cmm"), sep);
 			}
 
 			SYSTEMTIME st;

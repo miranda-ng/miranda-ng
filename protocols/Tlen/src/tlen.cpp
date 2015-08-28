@@ -66,7 +66,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 static IconItem iconList[] =
 {
@@ -98,7 +98,8 @@ HICON GetIcolibIcon(int iconId)
 	return NULL;
 }
 
-void ReleaseIcolibIcon(HICON hIcon) {
+void ReleaseIcolibIcon(HICON hIcon)
+{
 	IcoLib_ReleaseIcon(hIcon);
 }
 
@@ -165,7 +166,7 @@ INT_PTR TlenProtocol::ContactMenuHandleSendPicture(WPARAM hContact, LPARAM)
 
 INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 {
-	char szFileName[ MAX_PATH ];
+	char szFileName[MAX_PATH];
 	DBVARIANT dbv;
 	NETLIBHTTPREQUEST req;
 	NETLIBHTTPHEADER headers[2];
@@ -185,7 +186,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 
 	memset(&cookie, 0, sizeof(cookie));
 	if (login != NULL && password != NULL) {
-		mir_snprintf( form, _countof(form), "username=%s&password=%s", login, password);
+		mir_snprintf(form, "username=%s&password=%s", login, password);
 		headers[0].szName = "Content-Type";
 		headers[0].szValue = "application/x-www-form-urlencoded";
 		memset(&req, 0, sizeof(req));
@@ -199,9 +200,9 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 		req.szUrl = "http://poczta.o2.pl/login.html";
 		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp != NULL) {
-			if (resp->resultCode/100 == 2 || resp->resultCode == 302) {
+			if (resp->resultCode / 100 == 2 || resp->resultCode == 302) {
 				int i;
-				for (i=0; i<resp->headersCount; i++ ) {
+				for (i = 0; i < resp->headersCount; i++) {
 					if (strcmpi(resp->headers[i].szName, "Set-Cookie") == 0) {
 						char *start = strstr(resp->headers[i].szValue, "ssid=");
 						if (start != NULL) {
@@ -221,8 +222,8 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 	}
 	mir_free(login);
 	mir_free(password);
-	
-	mir_snprintf(szFileName, _countof(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
+
+	mir_snprintf(szFileName, "http://poczta.o2.pl/login.html?sid=%s", cookie);
 	Utils_OpenUrl(szFileName);
 	return 0;
 }
@@ -329,7 +330,7 @@ void TlenProtocol::initMenuItems()
 
 TlenProtocol* tlenProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
-	TlenProtocol* ppro = new TlenProtocol( pszProtoName, tszUserName );
+	TlenProtocol* ppro = new TlenProtocol(pszProtoName, tszUserName);
 	return ppro;
 }
 
@@ -341,12 +342,12 @@ static int tlenProtoUninit(TlenProtocol* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
-	srand((unsigned) time(NULL));
+	srand((unsigned)time(NULL));
 
 	TlenRegisterIcons();
 
@@ -354,8 +355,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.szName = "TLEN";
-	pd.fnInit = ( pfnInitProto )tlenProtoInit;
-	pd.fnUninit = ( pfnUninitProto )tlenProtoUninit;
+	pd.fnInit = (pfnInitProto)tlenProtoInit;
+	pd.fnUninit = (pfnUninitProto)tlenProtoUninit;
 	pd.type = PROTOTYPE_PROTOCOL;
 	Proto_RegisterModule(&pd);
 	return 0;

@@ -467,7 +467,7 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 		int fileId = _topen(tFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 		if (fileId < 0) {
 			char errmsg[512];
-			mir_snprintf(errmsg, _countof(errmsg), "Cannot store avatar. File '%s' could not be created/overwritten", tFileName);
+			mir_snprintf(errmsg, "Cannot store avatar. File '%s' could not be created/overwritten", tFileName);
 			ShowPopup(errmsg, ERROR_POPUP);
 			return 1;
 		}

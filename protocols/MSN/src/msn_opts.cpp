@@ -53,7 +53,7 @@ void MsnInitIcons(void)
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "MSN_%s", name);
+	mir_snprintf(szSettingName, "MSN_%s", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -69,7 +69,7 @@ HANDLE GetIconHandle(int iconId)
 void  ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "MSN_%s", name);
+	mir_snprintf(szSettingName, "MSN_%s", name);
 	IcoLib_Release(szSettingName, big);
 }
 
@@ -204,7 +204,7 @@ LBL_Continue:
 
 					if (strchr(szFile, ' ') != NULL) {
 						char tmpBuf[MAX_PATH + 2];
-						mir_snprintf(tmpBuf, _countof(tmpBuf), "\"%s\"", szFile);
+						mir_snprintf(tmpBuf, "\"%s\"", szFile);
 						mir_strcpy(szFile, tmpBuf);
 					}
 

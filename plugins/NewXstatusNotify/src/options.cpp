@@ -218,7 +218,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 			//Statuses notified
 			char status[8];
-			mir_snprintf(status, _countof(status), "%d", i);
+			mir_snprintf(status, "%d", i);
 			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline ? BST_CHECKED : BST_UNCHECKED);
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ofn.nMaxFile = MAX_PATH;
 			ofn.hwndOwner = hwndDlg;
 			TCHAR filter[MAX_PATH];
-			mir_sntprintf(filter, _countof(filter), _T("%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c"), TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
+			mir_sntprintf(filter, _T("%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c"), TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 2;
 			ofn.lpstrInitialDir = buff;
@@ -289,7 +289,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			//Notified statuses
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				char status[8];
-				mir_snprintf(status, _countof(status), "%d", i);
+				mir_snprintf(status, "%d", i);
 				db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 			}
 			opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
@@ -729,7 +729,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				DBVARIANT dbVar = { 0 };
 				char protoname[MAX_PATH] = { 0 };
-				mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgChanged", protos[i]->szModuleName);
+				mir_snprintf(protoname, "%s_TPopupSMsgChanged", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
 					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 				else {
@@ -737,7 +737,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					db_free(&dbVar);
 				}
 
-				mir_snprintf(protoname, _countof(protoname), "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
+				mir_snprintf(protoname, "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
 					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 				else {
@@ -749,7 +749,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
 
 				char dbSetting[128];
-				mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", protos[i]->szModuleName);
+				mir_snprintf(dbSetting, "%s_enabled", protos[i]->szModuleName);
 				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
 				lvItem.iItem++;
 			}
@@ -862,7 +862,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_GetItem(hList, &lvItem);
 
 				char dbSetting[128];
-				mir_snprintf(dbSetting, _countof(dbSetting), "%s_enabled", (char *)lvItem.lParam);
+				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
 				db_set_b(NULL, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}

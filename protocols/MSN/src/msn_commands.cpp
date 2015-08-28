@@ -480,7 +480,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
 				TCHAR tComment[40];
-				mir_sntprintf(tComment, _countof(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+				mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
@@ -521,7 +521,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	const char* szCont = ezxml_attr(cont, "n");
 
 	char szEmail[128];
-	mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
+	mir_snprintf(szEmail, "%s@%s", szCont, szDom);
 
 	const char *szNetId = ezxml_attr(cont, "t");
 	if (msnSearchId != NULL) {
@@ -761,7 +761,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 
 		for (unsigned i = 4; i < pCount; i++) {
 			char part[16];
-			size_t lenPart = mir_snprintf(part, _countof(part), "{%d}", i - 4);
+			size_t lenPart = mir_snprintf(part, "{%d}", i - 4);
 			if (parts[i][0] == '\0' && unknown != NULL)
 				parts[i] = unknown;
 			size_t lenPartsI = mir_strlen(parts[i]);
@@ -1431,7 +1431,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ft->p2p_dest = mir_strdup(email);
 
 		TCHAR tComment[40];
-		mir_sntprintf(tComment, _countof(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+		mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
 		pre.dwFlags = PRFF_TCHAR;
@@ -1449,9 +1449,9 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ThreadData* newThread = new ThreadData;
 
 		if (inet_addr(IPAddress) != MyConnection.extIP || !IPAddressInt)
-			mir_snprintf(newThread->mServer, _countof(newThread->mServer), "%s:%s", IPAddress, Port);
+			mir_snprintf(newThread->mServer, "%s:%s", IPAddress, Port);
 		else
-			mir_snprintf(newThread->mServer, _countof(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
+			mir_snprintf(newThread->mServer, "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
 
 		newThread->mType = SERVER_FILETRANS;
 
@@ -1528,7 +1528,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 
 	if (IPAddress != NULL && Port == NULL && SessionID != NULL && SessionProtocol == NULL) { // netmeeting receive 2
 		char ipaddr[256];
-		mir_snprintf(ipaddr, _countof(ipaddr), "callto://%s", IPAddress);
+		mir_snprintf(ipaddr, "callto://%s", IPAddress);
 		ShellExecuteA(NULL, "open", ipaddr, NULL, NULL, SW_SHOW);
 	}
 }
@@ -1545,7 +1545,7 @@ void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
 			int listId = atol(ezxml_attr(cont, "l"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, "%s@%s", szCont, szDom);
 			Lists_Remove(listId, szEmail);
 
 			MsnContact* msc = Lists_Get(szEmail);
@@ -1641,7 +1641,7 @@ void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
 			int netId = atol(ezxml_attr(cont, "t"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, _countof(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, "%s@%s", szCont, szDom);
 
 			UrlDecode((char*)szNick);
 
@@ -2203,7 +2203,7 @@ LBL_InvalidCommand:
 			newThread->mType = SERVER_SWITCHBOARD;
 			newThread->mInitialContactWLID = mir_strdup(data.callerEmail);
 			MSN_HContactFromEmail(data.callerEmail, data.callerNick, true, true);
-			mir_snprintf(newThread->mCookie, _countof(newThread->mCookie), "%s %d", data.authChallengeInfo, trid);
+			mir_snprintf(newThread->mCookie, "%s %d", data.authChallengeInfo, trid);
 
 			ReleaseSemaphore(newThread->hWaitEvent, MSN_PACKETS_COMBINE, NULL);
 

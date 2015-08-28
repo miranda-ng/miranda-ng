@@ -267,7 +267,7 @@ HANDLE FacebookProto::SearchByEmail(const TCHAR* email)
 HANDLE FacebookProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
 	TCHAR arg[200];
-	mir_sntprintf(arg, _countof(arg), _T("%s %s %s"), nick, firstName, lastName);
+	mir_sntprintf(arg, _T("%s %s %s"), nick, firstName, lastName);
 	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 
@@ -521,7 +521,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	char service[100];
-	mir_snprintf(service, _countof(service), "%s%s", m_szModuleName, "/Mind");
+	mir_snprintf(service, "%s%s", m_szModuleName, "/Mind");
 
 	ttb.pszService = service;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");
@@ -762,7 +762,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	TCHAR tstr[256];
-	mir_sntprintf(tstr, _countof(tstr), TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
+	mir_sntprintf(tstr, TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
 	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
@@ -1123,10 +1123,10 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	if (isChatRoom(hContact)) {
 		// Load readers names
 		ptrT treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
-		mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
+		mir_sntprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	} else if (!ServiceExists("MessageState/DummyService")){
-		mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("Message read: %s"), ttime);
+		mir_sntprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	}
 }

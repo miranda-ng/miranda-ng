@@ -525,9 +525,8 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 			// They are the same -> use the name to keep the case
 			if (mir_tstrcmpi(name, nick) == 0)
 				mir_tstrncpy(contact->szText, name, _countof(contact->szText));
-			else
-				// Append then
-				mir_sntprintf(contact->szText, _countof(contact->szText), _T("%s - %s"), name, nick);
+			else // Append then
+				mir_sntprintf(contact->szText, _T("%s - %s"), name, nick);
 		}
 		else mir_tstrncpy(contact->szText, name, _countof(contact->szText));
 	}

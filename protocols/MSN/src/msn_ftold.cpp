@@ -64,7 +64,7 @@ void CMsnProto::msnftp_invite(filetransfer *ft)
 		pszFiles = *ft->std.ptszFiles;
 
 	char msg[1024];
-	mir_snprintf(msg, _countof(msg),
+	mir_snprintf(msg,
 		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		"Application-Name: File Transfer\r\n"
 		"Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
@@ -152,7 +152,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 
 		char tCommand[30];
 		size_t tCommandLen;
-		tCommandLen = mir_snprintf(tCommand, _countof(tCommand), "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
+		tCommandLen = mir_snprintf(tCommand, "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
 		info->send(tCommand, tCommandLen);
 		break;
 
@@ -176,7 +176,7 @@ LBL_InvalidCommand:
 		if (info->mCaller == 0) { //receive
 			char tCommand[MSN_MAX_EMAIL_LEN + 50];
 			size_t tCommandLen;
-			tCommandLen = mir_snprintf(tCommand, _countof(tCommand), "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
+			tCommandLen = mir_snprintf(tCommand, "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
 			info->send(tCommand, tCommandLen);
 		}
 		else if (info->mCaller == 2) { //send

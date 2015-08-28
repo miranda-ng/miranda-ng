@@ -419,7 +419,7 @@ void XFireClient::receivedPacket(XFirePacket *packet)
 			ClanInvitationPacket *claninv = (ClanInvitationPacket*)content;
 			for (int i = 0; i < claninv->numberOfInv; i++) {
 				char msg[XFIRE_MAX_STATIC_STRING_LEN];
-				mir_snprintf(msg, _countof(msg), Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation."), claninv->invitefromusername[i].c_str(),
+				mir_snprintf(msg, Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation."), claninv->invitefromusername[i].c_str(),
 					claninv->invitefrom[i].c_str(),
 					claninv->clanname[i].c_str(),
 					claninv->invitemsg[i].c_str(), "\n");
@@ -479,7 +479,7 @@ void XFireClient::receivedPacket(XFirePacket *packet)
 		 char temp[255];
 		 char * dummy;
 		 ClanBuddyListNamesPacket *clan = (ClanBuddyListNamesPacket*)content;
-		 mir_snprintf(temp, _countof(temp), "Clan_%d", clan->clanid);
+		 mir_snprintf(temp, "Clan_%d", clan->clanid);
 
 		 DBVARIANT dbv;
 		 if (!db_get(NULL,protocolname,temp,&dbv))
@@ -623,10 +623,10 @@ void XFireClient::receivedPacket(XFirePacket *packet)
 			XFireClanPacket *clan = (XFireClanPacket*)content;
 
 			for (int i = 0; i < clan->count; i++) {
-				mir_snprintf(temp, _countof(temp), "Clan_%d", clan->clanid[i]);
+				mir_snprintf(temp, "Clan_%d", clan->clanid[i]);
 				db_set_s(NULL, protocolname, temp, (char*)clan->name[i].c_str());
 
-				mir_snprintf(temp, _countof(temp), "ClanUrl_%d", clan->clanid[i]);
+				mir_snprintf(temp, "ClanUrl_%d", clan->clanid[i]);
 				db_set_s(NULL, protocolname, temp, (char*)clan->url[i].c_str());
 
 				if (!db_get_b(NULL, protocolname, "noclangroups", 0)) {
@@ -815,7 +815,7 @@ INT_PTR UrlCall(WPARAM, LPARAM lparam)
 							if (mir_strlen(g) > 25) //zugroße abschneiden
 								*(g + 25) = 0;
 
-							mir_snprintf(temp, _countof(temp), Translate("Do you really want to add %s to your friend list?"), g);
+							mir_snprintf(temp, Translate("Do you really want to add %s to your friend list?"), g);
 							//Nutzer vorher fragen, ob er wirklich user xyz adden möchte
 							if (MessageBoxA(NULL, temp, Translate(PLUGIN_TITLE), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 								if (myClient != NULL) {
@@ -991,7 +991,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//statusmessages setzen
 	mir_strcpy(statusmessage[0], "");
-	mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
+	mir_snprintf(statusmessage[1], "(AFK) %s", Translate("Away from Keyboard"));
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -1412,7 +1412,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 		{
 			//setze bei aktivem nocustomaway die alte awaystatusmsg zurück, bugfix
 			if (db_get_b(NULL, protocolname, "nocustomaway", 0))
-				mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
+				mir_snprintf(statusmessage[1], "(AFK) %s", Translate("Away from Keyboard"));
 
 			myClient->Status(statusmessage[1]);
 		}
@@ -1783,7 +1783,7 @@ static INT_PTR GetIPPort(WPARAM hContact, LPARAM)
 		return 0;
 
 	char temp[XFIRE_MAX_STATIC_STRING_LEN];
-	mir_snprintf(temp, _countof(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, "Port", -1));
+	mir_snprintf(temp, "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, "Port", -1));
 	db_free(&dbv);
 
 	if (OpenClipboard(NULL)) {
@@ -1811,7 +1811,7 @@ static INT_PTR GetVIPPort(WPARAM hContact, LPARAM)
 		return 0;
 
 	char temp[XFIRE_MAX_STATIC_STRING_LEN];
-	mir_snprintf(temp, _countof(temp), "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, "VPort", -1));
+	mir_snprintf(temp, "%s:%d", dbv.pszVal, db_get_w(hContact, protocolname, "VPort", -1));
 	db_free(&dbv);
 
 	if (OpenClipboard(NULL)) {
@@ -1850,7 +1850,7 @@ static INT_PTR GotoXFireClanSite(WPARAM hContact, LPARAM)
 	char temp[64] = "";
 
 	int clanid = db_get_dw(hContact, protocolname, "Clan", -1);
-	mir_snprintf(temp, _countof(temp), "ClanUrl_%d", clanid);
+	mir_snprintf(temp, "ClanUrl_%d", clanid);
 
 	if (db_get_s(NULL, protocolname, temp, &dbv))
 		return 0;
@@ -2125,7 +2125,7 @@ void gamedetectiont(void*)
 								if (GetServerIPPort(pid, myClient->m_client->m_localaddr, myClient->m_client->m_llocaladdr, &packet->ip[3], &packet->ip[2], &packet->ip[1], &packet->ip[0], &packet->port)) {
 
 									if (packet->ip[3] != 0) {
-										mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
+										mir_snprintf(temp, "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
 										db_set_s(NULL, protocolname, "ServerIP", temp);
 										XFireLog("Got IPPort: %s", temp);
 									}
@@ -2368,7 +2368,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 
 				if (gameob) {
 					if ((unsigned char)gameob->m_ip[3] != 0) { // wenn ip, dann speichern
-						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
+						mir_snprintf(temp, "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
 						db_set_s(hContact, protocolname, "VServerIP", temp);
 						db_set_w(hContact, protocolname, "VPort", gameob->m_port);
 					}
@@ -2404,7 +2404,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 				//popup, wenn jemand was spielt
 				if (db_get_b(NULL, protocolname, "gamepopup", 0) == 1) {
 					char szMsg[256] = "";
-					mir_snprintf(szMsg, _countof(szMsg), Translate("%s is playing %s."),
+					mir_snprintf(szMsg, Translate("%s is playing %s."),
 						//ist ein nick gesetzt?
 						(entry->m_nick.length() == 0 ?
 						//nein dann username
@@ -2415,7 +2415,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 
 					if (gameob) {
 						if ((unsigned char)gameob->m_ip[3] != 0) {
-							mir_snprintf(szMsg, _countof(szMsg), Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
+							mir_snprintf(szMsg, Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
 								//ist ein nick gesetzt?
 								(entry->m_nick.length() == 0 ?
 								//nein dann username
@@ -2460,7 +2460,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 				if (gameob) {
 					if ((unsigned char)gameob->m_ip[3] != 0) {
 						//ip und port in kontakt speichern
-						mir_snprintf(temp, _countof(temp), "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
+						mir_snprintf(temp, "%d.%d.%d.%d", (unsigned char)gameob->m_ip[3], (unsigned char)gameob->m_ip[2], (unsigned char)gameob->m_ip[1], (unsigned char)gameob->m_ip[0]);
 						db_set_s(hContact, protocolname, "ServerIP", temp);
 						db_set_w(hContact, protocolname, "Port", gameob->m_port);
 
@@ -2572,10 +2572,10 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 					else {
 						char temp[256];
 						DBVARIANT dbv;
-						mir_snprintf(temp, _countof(temp), "%d", val - 1);
+						mir_snprintf(temp, "%d", val - 1);
 						db_get_s(NULL, "CListGroups", temp, &dbv);
 						if (dbv.pszVal != NULL) {
-							mir_snprintf(temp, _countof(temp), "%s\\%s", &dbv.pszVal[1], group);
+							mir_snprintf(temp, "%s\\%s", &dbv.pszVal[1], group);
 							db_set_s(entry->m_hcontact, "CList", "Group", temp);
 							db_free(&dbv);
 						}
@@ -2592,10 +2592,10 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 				else {
 					char temp[256];
 					DBVARIANT dbv;
-					mir_snprintf(temp, _countof(temp), "%d", val - 1);
+					mir_snprintf(temp, "%d", val - 1);
 					db_get_s(NULL, "CListGroups", temp, &dbv);
 					if (dbv.pszVal != NULL) {
-						mir_snprintf(temp, _countof(temp), "%s\\%s", &dbv.pszVal[1], group);
+						mir_snprintf(temp, "%s\\%s", &dbv.pszVal[1], group);
 						db_set_s(entry->m_hcontact, "CList", "Group", temp);
 						db_free(&dbv);
 					}
@@ -2693,9 +2693,9 @@ void CreateGroup(char*grpn, char*field)
 		strcpy_s(grp, _countof(grp), grpn);//((char*)clan->name[i].c_str());
 	else {
 		char temp[255];
-		mir_snprintf(temp, _countof(temp), "%d", val - 1);
+		mir_snprintf(temp, "%d", val - 1);
 		if (!db_get_s(NULL, "CListGroups", temp, &dbv)) {
-			mir_snprintf(grp, _countof(grp), "%s\\%s", &dbv.pszVal[1], grpn);
+			mir_snprintf(grp, "%s\\%s", &dbv.pszVal[1], grpn);
 			db_free(&dbv);
 		}
 		else { //gruppe existiert nciht mehr, auf root alles legen
@@ -2709,7 +2709,7 @@ void CreateGroup(char*grpn, char*field)
 	char temp[10];
 	int i = 0;
 	for (i = 0;; i++) {
-		mir_snprintf(temp, _countof(temp), "%d", i);
+		mir_snprintf(temp, "%d", i);
 		if (db_get_s(NULL, "CListGroups", temp, &dbv)) {
 			i--;
 			break;
@@ -2723,7 +2723,7 @@ void CreateGroup(char*grpn, char*field)
 	strcpy_s(group, 255, "D");
 	strcat_s(group, 255, grp);
 	group[0] = 1 | GROUPF_EXPANDED;
-	mir_snprintf(temp, _countof(temp), "%d", i + 1);
+	mir_snprintf(temp, "%d", i + 1);
 	db_set_s(NULL, "CListGroups", temp, group);
 	CallServiceSync(MS_CLUI_GROUPADDED, i + 1, 0);
 }
@@ -2736,17 +2736,16 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam)
 		if (wParam == ID_STATUS_ONLINE)
 			mir_strcpy(statusmessage[0], "");
 		else if (wParam != ID_STATUS_OFFLINE)
-			mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
+			mir_snprintf(statusmessage[1], "(AFK) %s", Translate("Away from Keyboard"));
 	}
 	else {
 		if (wParam == ID_STATUS_ONLINE)
 			mir_strcpy(statusmessage[0], (char*)lParam);
 		else if (wParam != ID_STATUS_OFFLINE) {
-			if (db_get_b(NULL, protocolname, "nocustomaway", 0) == 0 && mir_strlen((char*)lParam) > 0) {
-				mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", (char*)lParam);
-				//mir_strcpy(statusmessage[1],( char* )lParam);
-			}
-			else mir_snprintf(statusmessage[1], _countof(statusmessage[1]), "(AFK) %s", Translate("Away from Keyboard"));
+			if (db_get_b(NULL, protocolname, "nocustomaway", 0) == 0 && mir_strlen((char*)lParam) > 0)
+				mir_snprintf(statusmessage[1], "(AFK) %s", (char*)lParam);
+			else
+				mir_snprintf(statusmessage[1], "(AFK) %s", Translate("Away from Keyboard"));
 		}
 	}
 
@@ -2832,7 +2831,7 @@ INT_PTR RemoveFriend(WPARAM hContact, LPARAM)
 	char temp[256];
 	DBVARIANT dbv;
 	if (!db_get_s(hContact, protocolname, "Username", &dbv)) {
-		mir_snprintf(temp, _countof(temp), Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
+		mir_snprintf(temp, Translate("Do you really want to delete your friend %s?"), dbv.pszVal);
 		if (MessageBoxA(NULL, temp, Translate("Confirm Delete"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			if (myClient != NULL) {
 				if (myClient->m_client->m_connected) {
@@ -2923,7 +2922,7 @@ int doneQuery(WPARAM wParam, LPARAM lParam)
 	db_set_s(bud->m_hcontact, protocolname, "ServerName", gameinfo->name);
 	db_set_s(bud->m_hcontact, protocolname, "GameType", gameinfo->gametype);
 	db_set_s(bud->m_hcontact, protocolname, "Map", gameinfo->map);
-	mir_snprintf(temp, _countof(temp), "(%d/%d)", gameinfo->players, gameinfo->maxplayers);
+	mir_snprintf(temp, "(%d/%d)", gameinfo->players, gameinfo->maxplayers);
 	db_set_s(bud->m_hcontact, protocolname, "Players", temp);
 	db_set_b(bud->m_hcontact, protocolname, "Passworded", gameinfo->password);
 

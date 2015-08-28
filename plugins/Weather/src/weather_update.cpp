@@ -106,7 +106,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			mir_sntprintf(str, _countof(str), _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
+			mir_sntprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -410,19 +410,19 @@ int GetWeatherData(MCONTACT hContact)
 		// generate update URL
 		switch (i) {
 		case 0:
-			mir_snprintf(loc, _countof(loc), Data->UpdateURL, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL, _T2A(id));
 			break;
 
 		case 1:
-			mir_snprintf(loc, _countof(loc), Data->UpdateURL2, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL2, _T2A(id));
 			break;
 
 		case 2:
-			mir_snprintf(loc, _countof(loc), Data->UpdateURL3, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL3, _T2A(id));
 			break;
 
 		case 3:
-			mir_snprintf(loc, _countof(loc), Data->UpdateURL4, _T2A(id));
+			mir_snprintf(loc, Data->UpdateURL4, _T2A(id));
 			break;
 
 		default:

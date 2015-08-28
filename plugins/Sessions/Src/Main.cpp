@@ -602,17 +602,17 @@ int DelUserDefSession(int ses_count)
 	}
 
 	char szSessionName[256];
-	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", ses_count);
+	mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
-	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", ses_count);
+	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", i);
+		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i);
 		ptrT szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
 
-		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "UserSessionDsc", i - 1);
+		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i - 1);
 		if (szSessionNameBuf) {
 			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
 			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
@@ -620,7 +620,7 @@ int DelUserDefSession(int ses_count)
 		else {
 			db_unset(NULL, MODNAME, szSessionName);
 
-			mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "FavUserSession", i - 1);
+			mir_snprintf(szSessionName, "%s_%u", "FavUserSession", i - 1);
 			db_unset(NULL, MODNAME, szSessionName);
 			break;
 		}
@@ -638,14 +638,14 @@ int DeleteAutoSession(int ses_count)
 	}
 
 	char szSessionName[256];
-	mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", ses_count);
+	mir_snprintf(szSessionName, "%s_%u", "SessionDate", ses_count);
 	db_unset(NULL, MODNAME, szSessionName);
 
 	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", i);
+		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i);
 		ptrT szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
 
-		mir_snprintf(szSessionName, _countof(szSessionName), "%s_%u", "SessionDate", i - 1);
+		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i - 1);
 		if (szSessionNameBuf)
 			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
 		else {

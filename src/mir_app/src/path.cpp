@@ -144,13 +144,13 @@ static __forceinline char* GetPathVarX(const char*, int code)
 		if (hAvatarFolder != NULL)
 			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+			mir_sntprintf(szFullPath, _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return makeFileName(szFullPath);
@@ -228,13 +228,13 @@ static __forceinline TCHAR* GetPathVarX(const TCHAR*, int code)
 		if (hAvatarFolder != NULL)
 			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+			mir_sntprintf(szFullPath, _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
 	case 2:
-		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _T("%s\\%s\\Logs"), g_profileDir, g_shortProfileName);
 		break;
 	case 3:
-		mir_sntprintf(szFullPath, _countof(szFullPath), _T("%s\\%s"), g_profileDir, g_shortProfileName);
+		mir_sntprintf(szFullPath, _T("%s\\%s"), g_profileDir, g_shortProfileName);
 		break;
 	}
 	return mir_tstrdup(szFullPath);
@@ -387,7 +387,7 @@ MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *wszData, MCONTACT hConta
 
 static int OnFoldersChanged(WPARAM, LPARAM)
 {
-	mir_sntprintf(tszAvatarRoot, _countof(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+	mir_sntprintf(tszAvatarRoot, _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 
 	TCHAR tmpVar[MAX_PATH];
 	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
@@ -397,7 +397,7 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 
 void InitPathVar()
 {
-	mir_sntprintf(tszAvatarRoot, _countof(tszAvatarRoot), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
+	mir_sntprintf(tszAvatarRoot, _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
 		TCHAR tmpVar[MAX_PATH];
 		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))

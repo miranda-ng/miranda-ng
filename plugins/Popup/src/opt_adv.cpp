@@ -161,7 +161,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopupOptions.Alpha);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), AlphaTrackBarWndProc);
-			mir_sntprintf(tstr, _countof(tstr), _T("%d%%"), Byte2Percentile(PopupOptions.Alpha));
+			mir_sntprintf(tstr, _T("%d%%"), Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
 			{
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case IDC_TRANS_SLIDER:
 			PopupOptions.Alpha = (BYTE)SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_GETPOS, 0, 0);
-			mir_sntprintf(tstr, _countof(tstr), TranslateT("%d%%"), Byte2Percentile(PopupOptions.Alpha));
+			mir_sntprintf(tstr, TranslateT("%d%%"), Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;

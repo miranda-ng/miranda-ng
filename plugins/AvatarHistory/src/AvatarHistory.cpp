@@ -187,7 +187,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 					else
 						GetProtocolFolder(history_filename, proto);
 
-					mir_sntprintf(history_filename, _countof(history_filename), 
+					mir_sntprintf(history_filename, 
 							_T("%s\\%s"), history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
@@ -236,7 +236,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	mir_sntprintf(basedir, _countof(basedir), _T("%s\\Avatars History"), profilePath);
+	mir_sntprintf(basedir, _T("%s\\Avatars History"), profilePath);
 
 	hFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\Avatars History"));

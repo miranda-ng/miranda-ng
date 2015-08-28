@@ -70,7 +70,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 			Protocol *proto = protocols->Get(proto_num);
 
 			TCHAR tmp[128];
-			mir_sntprintf(tmp, _countof(tmp), TranslateT("Set my nickname for %s"), proto->description);
+			mir_sntprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
 
 			SetWindowText(hwndDlg, tmp);
 
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			}
 
 			TCHAR title[256];
-			mir_sntprintf(title, _countof(title), TranslateT("Set my status message for %s"), proto->description);
+			mir_sntprintf(title, TranslateT("Set my status message for %s"), proto->description);
 			SetWindowText(hwndDlg, title);
 
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_LoadProtoIcon(NULL, data->status));
 
 			TCHAR title[256];
-			mir_sntprintf(title, _countof(title), TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
+			mir_sntprintf(title, TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
 			SetWindowText(hwndDlg, title);
 
 			SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));

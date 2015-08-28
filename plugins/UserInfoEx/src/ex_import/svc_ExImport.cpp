@@ -281,7 +281,7 @@ INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM)
 		if (SendMessage(hClist,CLM_GETITEMTYPE, (WPARAM)hItem, 0) == CLCIT_GROUP) {
 			SendMessage(hClist,CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)ptszItem);
 			LPTSTR temp = mir_tstrdup(ptszGroup);
-			mir_sntprintf(tszGroup, _countof(tszGroup),_T("%s%s%s"), ptszItem, mir_tstrlen(temp)? _T("\\"):_T(""), temp);
+			mir_sntprintf(tszGroup, _T("%s%s%s"), ptszItem, mir_tstrlen(temp)? _T("\\"):_T(""), temp);
 			mir_free (temp);
 		}
 		hParent = SendMessage(hClist,CLM_GETNEXTITEM, (WPARAM)CLGN_PARENT, (LPARAM)hItem);

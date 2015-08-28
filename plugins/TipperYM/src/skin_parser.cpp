@@ -88,7 +88,7 @@ void ParseAboutPart(FILE *fp, TCHAR *buff, TCHAR *szSkinName)
 					else if (_tcsstr(buff, _T("preview"))) 
 					{
 						TCHAR szImgPath[1024];
-						mir_sntprintf(szImgPath, _countof(szImgPath), _T("%s\\%s\\%s"), SKIN_FOLDER, szSkinName, pch);
+						mir_sntprintf(szImgPath, _T("%s\\%s\\%s"), SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
 							mir_tstrcpy(opt.szPreviewFile, szImgPath);
 					}
@@ -126,7 +126,7 @@ void ParseImagePart(FILE *fp, TCHAR *buff, int iPart)
 					if (_tcsstr(buff, _T("image")))
 					{
 						TCHAR szImgPath[1024];
-						mir_sntprintf(szImgPath, _countof(szImgPath), _T("%s\\%s\\%s"), SKIN_FOLDER, opt.szSkinName, pch);
+						mir_sntprintf(szImgPath, _T("%s\\%s\\%s"), SKIN_FOLDER, opt.szSkinName, pch);
 						opt.szImgFile[iPart] = mir_tstrdup(szImgPath);
 					}
 					else if (_tcsstr(buff, _T("tm")))

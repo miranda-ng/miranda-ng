@@ -45,7 +45,7 @@ int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 {
 	char url[MAX_PATH];
 	DWORD gameId = getDword(hContact, "GameID", 0);
-	mir_snprintf(url, _countof(url), "steam://rungameid/%lu", gameId);
+	mir_snprintf(url, "steam://rungameid/%lu", gameId);
 	Utils_OpenUrl(url);
 	return 0;
 }

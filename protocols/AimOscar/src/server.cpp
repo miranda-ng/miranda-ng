@@ -289,7 +289,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						char f = cap[13];
 						char g = cap[14];
 						char h = cap[15];
-						mir_snprintf(client, _countof(client), CLIENT_OSCARJ, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e));
+						mir_snprintf(client, CLIENT_OSCARJ, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e));
 					}
 					else if (memcmp(cap, "MirandaA", 8) == 0) {
 						char a = cap[8];
@@ -300,7 +300,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						char f = cap[13];
 						char g = cap[14];
 						char h = cap[15];
-						mir_snprintf(client, _countof(client), CLIENT_AIMOSCAR, a, b, c, d, e, f, g, h);
+						mir_snprintf(client, CLIENT_AIMOSCAR, a, b, c, d, e, f, g, h);
 					}
 					if (memcmp(cap, "sinj", 4) == 0) {
 						char a = cap[4];
@@ -311,7 +311,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						char f = cap[9];
 						char g = cap[10];
 						char h = cap[11];
-						mir_snprintf(client, _countof(client), CLIENT_OSCARSN, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e), secure_cap_str(&cap[12]));
+						mir_snprintf(client, CLIENT_OSCARSN, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e), secure_cap_str(&cap[12]));
 					}
 					if (memcmp(cap, "icqp", 4) == 0) {
 						char a = cap[4];
@@ -322,7 +322,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						char f = cap[9];
 						char g = cap[10];
 						char h = cap[11];
-						mir_snprintf(client, _countof(client), CLIENT_OSCARPL, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e), secure_cap_str(&cap[12]));
+						mir_snprintf(client, CLIENT_OSCARPL, a & 0x7f, b, c, d, alpha_cap_str(a), e & 0x7f, f, g, h, alpha_cap_str(e), secure_cap_str(&cap[12]));
 					}
 					else if (memcmp(cap, "Kopete ICQ", 10) == 0) {
 						mir_strcpy(client, CLIENT_KOPETE);
@@ -1469,7 +1469,7 @@ void CAimProto::snac_list_modification_ack(SNAC &snac)//family 0x0013
 
 			default:
 				char msg[64];
-				mir_snprintf(msg, _countof(msg), "Error removing buddy from list. Error code %#x", code);
+				mir_snprintf(msg, "Error removing buddy from list. Error code %#x", code);
 				ShowPopup(msg, ERROR_POPUP);
 				break;
 			}
@@ -1503,7 +1503,7 @@ void CAimProto::snac_list_modification_ack(SNAC &snac)//family 0x0013
 
 			default:
 				char msg[64];
-				mir_snprintf(msg, _countof(msg), Translate("Unknown error when adding buddy to list. Error code %#x"), code);
+				mir_snprintf(msg, Translate("Unknown error when adding buddy to list. Error code %#x"), code);
 				ShowPopup(msg, ERROR_POPUP);
 				break;
 			}
@@ -1521,7 +1521,7 @@ void CAimProto::snac_list_modification_ack(SNAC &snac)//family 0x0013
 
 			default:
 				char msg[64];
-				mir_snprintf(msg, _countof(msg), Translate("Unknown error when attempting to modify a group. Error code %#x"), code);
+				mir_snprintf(msg, Translate("Unknown error when attempting to modify a group. Error code %#x"), code);
 				ShowPopup(msg, ERROR_POPUP);
 				break;
 			}
@@ -1661,7 +1661,7 @@ void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 		if (new_mail && num_msgs) {
 			TCHAR msg[1024];
 
-			int len = mir_sntprintf(msg, _countof(msg), _T("%S@%S (%d)\r\n%s "), sn, address, num_msgs,
+			int len = mir_sntprintf(msg, _T("%S@%S (%d)\r\n%s "), sn, address, num_msgs,
 				TranslateT("You've got mail! Checked at"));
 
 			SYSTEMTIME stLocal;

@@ -225,7 +225,7 @@ char *StringFromBlob(BYTE *blob, WORD len)
 	data[0] = 0;
 
 	for (j = 0; j < len; j++) {
-		mir_snprintf(tmp, _countof(tmp), "%02X ", blob[j]);
+		mir_snprintf(tmp, "%02X ", blob[j]);
 		mir_strcat(data, tmp);
 	}
 	return data;
@@ -542,7 +542,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	int i = 0;
 	while (cs[i].name) {
 		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
-			mir_snprintf(tmp, _countof(tmp), cs[i].dbname, i);
+			mir_snprintf(tmp, cs[i].dbname, i);
 			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
 		}
 		i++;

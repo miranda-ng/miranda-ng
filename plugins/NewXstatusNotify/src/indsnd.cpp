@@ -72,9 +72,9 @@ TCHAR *SelectSound(HWND hwndDlg, TCHAR *buff, size_t bufflen)
 	ofn.hInstance = hInst;
 	TCHAR filter[MAX_PATH];
 	if (GetModuleHandle(_T("bass_interface.dll")))
-		mir_sntprintf(filter, _countof(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+		mir_sntprintf(filter, _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 	else
-		mir_sntprintf(filter, _countof(filter), _T("%s (*.wav)%c*.wav%c%s (*.*)%c*%c"), TranslateT("Wave files"), 0, 0, TranslateT("All files"), 0, 0);
+		mir_sntprintf(filter, _T("%s (*.wav)%c*.wav%c%s (*.*)%c*%c"), TranslateT("Wave files"), 0, 0, TranslateT("All files"), 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = buff;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;

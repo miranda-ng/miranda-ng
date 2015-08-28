@@ -36,7 +36,7 @@ void CYahooProto::IconsInit(void)
 HICON CYahooProto::LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "YAHOO_%s", name);
+	mir_snprintf(szSettingName, "YAHOO_%s", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -52,6 +52,6 @@ HANDLE CYahooProto::GetIconHandle(int iconId)
 void CYahooProto::ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "YAHOO_%s", name);
+	mir_snprintf(szSettingName, "YAHOO_%s", name);
 	IcoLib_Release(szSettingName, big);
 }

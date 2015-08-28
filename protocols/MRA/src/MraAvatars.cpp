@@ -48,7 +48,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 
 DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
-	mir_snprintf(szAvtSectName, _countof(szAvtSectName), "%s Avatars", m_szModuleName);
+	mir_snprintf(szAvtSectName, "%s Avatars", m_szModuleName);
 
 	if (phAvatarsQueueHandle == NULL)
 		return ERROR_INVALID_HANDLE;
@@ -230,7 +230,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							break;
 
 						default:
-							mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
+							mir_sntprintf(szErrorText, TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
 							ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 							break;
 						}
@@ -288,7 +288,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 								}
 								else {
 									dwErrorCode = GetLastError();
-									mir_sntprintf(szErrorText, _countof(szErrorText), TranslateT("Avatars: can't open file %s, error"), wszFileName);
+									mir_sntprintf(szErrorText, TranslateT("Avatars: can't open file %s, error"), wszFileName);
 									ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 								}
 							}
@@ -375,7 +375,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 	}
 
 	char szBuff[4096];
-	mir_snprintf(szBuff, _countof(szBuff), "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
+	mir_snprintf(szBuff, "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
 	CMStringA szSelfVersionString = MraGetSelfVersionString();
 
 	NETLIBHTTPHEADER nlbhHeaders[8] = { 0 };
@@ -473,7 +473,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD d
 		return ERROR_NOT_SUPPORTED;
 
 	TCHAR tszBase[MAX_PATH];
-	mir_sntprintf(tszBase, _countof(tszBase), _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(tszBase, _T("%s\\%s\\"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible

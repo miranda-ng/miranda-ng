@@ -375,29 +375,29 @@ void SearchWord(TCHAR * word, int engine)
 		ptrA wordURL(mir_urlEncode(wordUTF));
 		switch (engine) {
 		case SEARCHENGINE_WIKIPEDIA:
-			mir_snprintf(szURL, _countof(szURL), "http://en.wikipedia.org/wiki/%s", wordURL);
+			mir_snprintf(szURL, "http://en.wikipedia.org/wiki/%s", wordURL);
 			break;
 		case SEARCHENGINE_YAHOO:
-			mir_snprintf(szURL, _countof(szURL), "http://search.yahoo.com/search?p=%s&ei=UTF-8", wordURL);
+			mir_snprintf(szURL, "http://search.yahoo.com/search?p=%s&ei=UTF-8", wordURL);
 			break;
 		case SEARCHENGINE_FOODNETWORK:
-			mir_snprintf(szURL, _countof(szURL), "http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", wordURL);
+			mir_snprintf(szURL, "http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", wordURL);
 			break;
 		case SEARCHENGINE_BING:
-			mir_snprintf(szURL, _countof(szURL), "http://www.bing.com/search?q=%s&form=OSDSRC", wordURL);
+			mir_snprintf(szURL, "http://www.bing.com/search?q=%s&form=OSDSRC", wordURL);
 			break;
 		case SEARCHENGINE_GOOGLE_MAPS:
-			mir_snprintf(szURL, _countof(szURL), "http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			mir_snprintf(szURL, "http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", wordURL);
 			break;
 		case SEARCHENGINE_GOOGLE_TRANSLATE:
-			mir_snprintf(szURL, _countof(szURL), "http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			mir_snprintf(szURL, "http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", wordURL);
 			break;
 		case SEARCHENGINE_YANDEX:
-			mir_snprintf(szURL, _countof(szURL), "http://yandex.ru/yandsearch?text=%s", wordURL);
+			mir_snprintf(szURL, "http://yandex.ru/yandsearch?text=%s", wordURL);
 			break;
 		case SEARCHENGINE_GOOGLE:
 		default:
-			mir_snprintf(szURL, _countof(szURL), "http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			mir_snprintf(szURL, "http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", wordURL);
 			break;
 		}
 

@@ -464,7 +464,7 @@ bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 	char cBuf[10];
 	BYTE *p = (BYTE*)pData;
 	for (int n = 0; n < nSize; n++) {
-		mir_snprintf(cBuf, _countof(cBuf), "%.2X ", p[n]);
+		mir_snprintf(cBuf, "%.2X ", p[n]);
 		if (!bWriteToFile(hFile, cBuf, 3))
 			return false;
 	}
@@ -702,7 +702,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 			tstring sReplaceUin;
 			if (dwUIN) {
 				TCHAR sTmp[20];
-				mir_sntprintf(sTmp, _countof(sTmp), _T("%d"), dwUIN);
+				mir_sntprintf(sTmp, _T("%d"), dwUIN);
 				sReplaceUin = sTmp;
 			}
 			else sReplaceUin = FileNickFromHandle(hContact);
@@ -784,11 +784,11 @@ void ReplaceTimeVariables(tstring &sRet)
 		GetLocalTime(&stTime);
 		TCHAR sTmp[20];
 
-		mir_sntprintf(sTmp, _countof(sTmp), _T("%d"), stTime.wYear);
+		mir_sntprintf(sTmp, _T("%d"), stTime.wYear);
 		ReplaceAll(sRet, _T("%year%"), sTmp);
-		mir_sntprintf(sTmp, _countof(sTmp), _T("%.2d"), stTime.wMonth);
+		mir_sntprintf(sTmp, _T("%.2d"), stTime.wMonth);
 		ReplaceAll(sRet, _T("%month%"), sTmp);
-		mir_sntprintf(sTmp, _countof(sTmp), _T("%.2d"), stTime.wDay);
+		mir_sntprintf(sTmp, _T("%.2d"), stTime.wDay);
 		ReplaceAll(sRet, _T("%day%"), sTmp);
 	}
 }

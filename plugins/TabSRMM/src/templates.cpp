@@ -363,7 +363,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dat->dwFlags = MWF_LOG_ALL;
 		dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
 		dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
-		mir_sntprintf(dat->szMyNickname, _countof(dat->szMyNickname), _T("My Nickname"));
+		mir_sntprintf(dat->szMyNickname, _T("My Nickname"));
 		StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
 		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 		if (teInfo->changed)

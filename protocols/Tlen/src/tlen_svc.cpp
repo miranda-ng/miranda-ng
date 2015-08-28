@@ -803,7 +803,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCH
 	db_free(&dbv);
 
 	int id = TlenSerialNext(this);
-	mir_snprintf(idStr, _countof(idStr), "%d", id);
+	mir_snprintf(idStr, "%d", id);
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, idStr);
 	if (item != NULL) {
 		ft->iqId = mir_strdup(idStr);

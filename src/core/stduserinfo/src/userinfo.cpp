@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				name = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
-			mir_sntprintf(newTitle, _countof(newTitle), oldTitle, name);
+			mir_sntprintf(newTitle, oldTitle, name);
 			SetWindowText(hwndDlg, newTitle);
 
 			//////////////////////////////////////////////////////////////////////
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_TIMER:
 		TCHAR str[128];
-		mir_sntprintf(str, _countof(str), _T("%.*s%s%.*s"), dat->updateAnimFrame % 10, _T("........."), dat->szUpdating, dat->updateAnimFrame % 10, _T("........."));
+		mir_sntprintf(str, _T("%.*s%s%.*s"), dat->updateAnimFrame % 10, _T("........."), dat->szUpdating, dat->updateAnimFrame % 10, _T("........."));
 		SetDlgItemText(hwndDlg, IDC_UPDATING, str);
 		if (++dat->updateAnimFrame == UPDATEANIMFRAMES)
 			dat->updateAnimFrame = 0;

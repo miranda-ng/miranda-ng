@@ -268,9 +268,9 @@ static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static TCHAR szDesc[32];
 	if (assoc->pszFileExt == NULL)
-		mir_sntprintf(szDesc, _countof(szDesc), _T("%hs:"), assoc->pszClassName);
+		mir_sntprintf(szDesc, _T("%hs:"), assoc->pszClassName);
 	else
-		mir_sntprintf(szDesc, _countof(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
+		mir_sntprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
 }
 

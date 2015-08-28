@@ -90,7 +90,7 @@ static void TrayAnimThread(LPVOID)
 void TSAPI CreateTrayMenus(int mode)
 {
 	if (mode) {
-		mir_sntprintf(g_eventName, _countof(g_eventName), _T("tsr_evt_%d"), GetCurrentThreadId());
+		mir_sntprintf(g_eventName, _T("tsr_evt_%d"), GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
 		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);
@@ -217,7 +217,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 	if (acc && acc->tszAccountName) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
-		mir_sntprintf(szMenuEntry, _countof(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
+		mir_sntprintf(szMenuEntry, _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
 			if (hMenu == PluginConfig.g_hMenuRecent) {
 				if (CheckMenuItem(hMenu, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == 0) {

@@ -63,7 +63,7 @@ void InitIcons(void)
 HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "AIM_%s", name);
+	mir_snprintf(szSettingName, "AIM_%s", name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 
@@ -79,7 +79,7 @@ HANDLE GetIconHandle(const char *name)
 void ReleaseIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName ), "%s_%s", "AIM", name);
+	mir_snprintf(szSettingName, "%s_%s", "AIM", name);
 	IcoLib_Release(szSettingName, big);
 }
 

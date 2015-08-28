@@ -822,7 +822,7 @@ void RebuildMenuOrder(void)
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.t = tbuf;
 		}
 		else mi.name.t = pa->tszAccountName;
@@ -846,7 +846,7 @@ void RebuildMenuOrder(void)
 			mi.flags |= CMIF_CHECKED;
 
 		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, _countof(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.t = tbuf;
 		}
 		else mi.name.t = pa->tszAccountName;
@@ -1150,7 +1150,7 @@ void InitCustomMenus(void)
 	hkd.dwFlags = HKD_TCHAR;
 	for (int i = 0; i < _countof(statusHotkeys); i++) {
 		char szName[30];
-		mir_snprintf(szName, _countof(szName), "StatusHotKey_%d", i);
+		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
 		hkd.ptszDescription = fnGetStatusModeDescription(hkd.lParam, 0);

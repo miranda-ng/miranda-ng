@@ -410,7 +410,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
-						mir_sntprintf(szFullName, _countof(szFullName), _T("%s\\%s"),
+						mir_sntprintf(szFullName, _T("%s\\%s"),
 							cli.pfnGetGroupName(contact->group->parent->groupId, NULL), text);
 						cli.pfnRenameGroup(contact->groupId, szFullName);
 					}

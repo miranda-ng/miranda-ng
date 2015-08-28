@@ -18,10 +18,10 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
-	mir_sntprintf(sectionName, _countof(sectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+	mir_sntprintf(sectionName, _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
 
 	char settingName[100];
-	mir_snprintf(settingName, _countof(settingName), "%s_%s", MODULE, "main");
+	mir_snprintf(settingName, "%s_%s", MODULE, "main");
 
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
@@ -32,7 +32,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	sid.iDefaultIndex = -IDI_STEAM;
 	IcoLib_AddIcon(&sid);
 
-	mir_snprintf(settingName, _countof(settingName), "%s_%s", MODULE, "gaming");
+	mir_snprintf(settingName, "%s_%s", MODULE, "gaming");
 	sid.description.t = LPGENT("Gaming icon");
 	sid.iDefaultIndex = -IDI_GAMING;
 	IcoLib_AddIcon(&sid);
@@ -63,7 +63,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 	// netlib support
 	TCHAR name[128];
-	mir_sntprintf(name, _countof(name), TranslateT("%s connection"), m_tszUserName);
+	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;

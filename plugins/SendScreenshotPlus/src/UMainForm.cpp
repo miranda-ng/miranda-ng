@@ -240,7 +240,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		if (m_MonitorCount > 1) {
 			TCHAR tszTemp[120];
 			for (size_t mon = 0; mon < m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
-				mir_sntprintf(tszTemp, _countof(tszTemp), _T("%Iu. %s%s"),
+				mir_sntprintf(tszTemp, _T("%Iu. %s%s"),
 					mon + 1, TranslateT("Monitor"),
 					(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
 					);

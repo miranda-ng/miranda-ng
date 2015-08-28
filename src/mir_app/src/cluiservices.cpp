@@ -167,7 +167,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				TCHAR tszName[64];
 				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
-					mir_sntprintf(tszName, _countof(tszName), _T("%s "), pa->tszAccountName);
+					mir_sntprintf(tszName, _T("%s "), pa->tszAccountName);
 				else
 					tszName[0] = 0;
 

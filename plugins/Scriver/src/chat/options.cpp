@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		TCHAR tszTooltipText[2048];
 		RECT rect;
 
-		mir_sntprintf(tszTooltipText, _countof(tszTooltipText),
+		mir_sntprintf(tszTooltipText,
 			_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
 			_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
 			_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),

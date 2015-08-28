@@ -29,7 +29,7 @@ MCONTACT CToxProto::AddChatRoom(int groupNumber)
 		setWord(hContact, TOX_SETTINGS_CHAT_ID, groupNumber);
 
 		TCHAR title[MAX_PATH];
-		mir_sntprintf(title, _countof(title), _T("%s #%d"), TranslateT("Groupchat"), groupNumber);
+		mir_sntprintf(title, _T("%s #%d"), TranslateT("Groupchat"), groupNumber);
 		setTString(hContact, "Nick", title);
 
 		DBVARIANT dbv;

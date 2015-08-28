@@ -56,7 +56,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*)
 			//port begrenzen
 			port = port % 65535;
 			//port in string wandeln
-			mir_snprintf(portstr, _countof(portstr), "%d", port);
+			mir_snprintf(portstr, "%d", port);
 
 			str_replace(mynetworkparams, "%UA_GAME_HOST_NAME%", ip);
 			str_replace(mynetworkparams, "%UA_GAME_HOST_PORT%", portstr);
@@ -403,7 +403,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Start game"), 500084000);
 
-	mir_snprintf(m_temp, _countof(m_temp), servicefunction, m_id);
+	mir_snprintf(m_temp, servicefunction, m_id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
 	if (ServiceExists(m_temp))
 		DestroyServiceFunction(m_temp);

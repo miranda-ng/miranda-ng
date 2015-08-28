@@ -570,7 +570,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 
 static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM)
 {
-	MetaSrmmData tmp = { (UINT_PTR)hMeta };
+	MetaSrmmData tmp = { (MCONTACT)hMeta };
 	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
 		return p->m_hSub;
 
@@ -853,7 +853,7 @@ void Meta_InitServices()
 	// hidden contact menu items...ho hum
 	for (int i = 0; i < MAX_CONTACTS; i++) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, _countof(szServiceName), "MetaContacts/MenuFunc%d", i);
+		mir_snprintf(szServiceName, "MetaContacts/MenuFunc%d", i);
 		CreateServiceFunctionParam(szServiceName, MenuFunc, i);
 	}
 

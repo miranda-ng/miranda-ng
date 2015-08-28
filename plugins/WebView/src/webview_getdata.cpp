@@ -280,9 +280,9 @@ void GetData(void *param)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					mir_snprintf(tstr, _countof(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					mir_snprintf(tstr, _countof(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
 			else {
@@ -300,9 +300,9 @@ void GetData(void *param)
 
 				db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					mir_snprintf(tstr, _countof(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					mir_snprintf(tstr, _countof(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
 
@@ -313,7 +313,7 @@ void GetData(void *param)
 			strncpy_s(timeat, _countof(timeat), Translate("at the time"), _TRUNCATE);
 			strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
 			strftime(temptime2, 32, " %I:%M %p.", nTime);
-			mir_snprintf(timestring, _countof(timestring), " %s %s%s%s", timeprefix, temptime1, timeat, temptime2);
+			mir_snprintf(timestring, " %s %s%s%s", timeprefix, temptime1, timeat, temptime2);
 		} // end download success 
 
 		if (DownloadSuccess) {

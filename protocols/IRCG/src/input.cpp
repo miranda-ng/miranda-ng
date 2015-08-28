@@ -121,7 +121,7 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 
 				TCHAR buf[5];
 				for (int index = 1; index < 8; index++) {
-					mir_sntprintf(buf, _countof(buf), _T("#$%u"), index);
+					mir_sntprintf(buf, _T("#$%u"), index);
 					if (!GetWord(line, index).IsEmpty() && IsChannel(GetWord(line, index)))
 						str.Replace(buf, GetWord(line, index).c_str());
 					else {
@@ -131,11 +131,11 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 					}
 				}
 				for (int index2 = 1; index2 < 8; index2++) {
-					mir_sntprintf(buf, _countof(buf), _T("$%u-"), index2);
+					mir_sntprintf(buf, _T("$%u-"), index2);
 					str.Replace(buf, GetWordAddress(line, index2));
 				}
 				for (int index3 = 1; index3 < 8; index3++) {
-					mir_sntprintf(buf, _countof(buf), _T("$%u"), index3);
+					mir_sntprintf(buf, _T("$%u"), index3);
 					str.Replace(buf, GetWord(line, index3).c_str());
 				}
 				Messageout += GetWordAddress(str.c_str(), 1);

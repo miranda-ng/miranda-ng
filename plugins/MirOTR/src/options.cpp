@@ -750,8 +750,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
-						mir_sntprintf(buff, _countof(buff) - 1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						buff[_countof(buff) - 1] = '\0';
+						mir_sntprintf(buff, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						ShowError(buff);
 					}
 					else {
@@ -781,8 +780,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						TCHAR buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
 						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
-						mir_sntprintf(buff, _countof(buff) - 1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						buff[_countof(buff) - 1] = '\0';
+						mir_sntprintf(buff, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						ShowError(buff);
 					}
 					else otrl_context_forget_fingerprint(it->first, 1);

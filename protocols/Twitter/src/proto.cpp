@@ -45,7 +45,7 @@ TwitterProto::TwitterProto(const char *proto_name, const TCHAR *username) :
 
 	// Initialize hotkeys
 	char text[512];
-	mir_snprintf(text, _countof(text), "%s/Tweet", m_szModuleName);
+	mir_snprintf(text, "%s/Tweet", m_szModuleName);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = text;
@@ -324,7 +324,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// Create avatar network connection (TODO: probably remove this)
 	char module[512];
-	mir_snprintf(module, _countof(module), "%sAv", m_szModuleName);
+	mir_snprintf(module, "%sAv", m_szModuleName);
 	nlu.szSettingsModule = module;
 	mir_sntprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
@@ -380,7 +380,7 @@ int TwitterProto::ShowPinDialog()
 void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName, _countof(popup.lptzContactName), TranslateT("%s Protocol"), m_tszUserName);
+	mir_sntprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
 	wcsncpy_s(popup.lptzText, text, _TRUNCATE);
 
 	if (Error) {
@@ -398,7 +398,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 void TwitterProto::ShowPopup(const char *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName, _countof(popup.lptzContactName), TranslateT("%s Protocol"), m_tszUserName);
+	mir_sntprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
 	mbcs_to_tcs(CP_UTF8, text, popup.lptzText, _countof(popup.lptzText));
 	if (Error) {
 		popup.iSeconds = -1;
@@ -422,7 +422,7 @@ void TwitterProto::SendTweetWorker(void *p)
 	char *text = static_cast<char*>(p);
 	if (mir_strlen(mir_utf8decodeA(text)) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
 		TCHAR errorPopup[280];
-		mir_sntprintf(errorPopup, _countof(errorPopup), TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
+		mir_sntprintf(errorPopup, TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
 		ShowPopup(errorPopup, 1);
 		return;
 	}
@@ -455,7 +455,7 @@ void TwitterProto::UpdateSettings()
 std::tstring TwitterProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _countof(path), _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
+	mir_sntprintf(path, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 	return path;
 }
 

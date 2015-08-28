@@ -145,7 +145,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	// register netlib handle
    char tempNdesc[50];
-	mir_snprintf(tempNdesc, _countof(tempNdesc), "%s connection settings", MODULENAME);
+	mir_snprintf(tempNdesc, "%s connection settings", MODULENAME);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
    nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
@@ -216,7 +216,7 @@ extern "C" int __declspec(dllexport) Load()
 		CreateServiceFunction("Countdown", CountdownMenuCommand);
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 		TCHAR countername[100];
-		mir_sntprintf(countername, _countof(countername), TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+		mir_sntprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.t = countername;

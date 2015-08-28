@@ -92,7 +92,7 @@ void GenericJob::getFilesFromOpenDialog()
 	{
 		TCHAR *ptr = m_tszFilePath + length + 1;
 		while (ptr[0]) {
-			mir_sntprintf(stzFile, _countof(stzFile), _T("%s\\%s"), m_tszFilePath, ptr);
+			mir_sntprintf(stzFile, _T("%s\\%s"), m_tszFilePath, ptr);
 			addFile(stzFile);
 			ptr += mir_tstrlen(ptr) + 1;
 		}
@@ -116,7 +116,7 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
 	while (hFind != INVALID_HANDLE_VALUE) {
 		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-			mir_sntprintf(stzFile, _countof(stzFile), _T("%s\\%s"), stzFolder, ffd.cFileName);
+			mir_sntprintf(stzFile, _T("%s\\%s"), stzFolder, ffd.cFileName);
 			addFile(stzFile);
 		}
 

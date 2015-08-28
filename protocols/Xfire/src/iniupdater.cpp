@@ -51,11 +51,11 @@ void UpdateMyXFireIni(LPVOID)
 
 	//ini pfad rausbekommen
 	char file[1024], file2[1024], file3[1024];
-	mir_snprintf(file, _countof(file), "%sxfire_games.new", inipath);
-	mir_snprintf(file2, _countof(file2), "%sxfire_games.ini", inipath);
-	mir_snprintf(file3, _countof(file3), "%sxfire_games.old", inipath);
+	mir_snprintf(file, "%sxfire_games.new", inipath);
+	mir_snprintf(file2, "%sxfire_games.ini", inipath);
+	mir_snprintf(file3, "%sxfire_games.old", inipath);
 
-	mir_snprintf(request, _countof(request), "%s%d", INI_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, "%s%d", INI_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request)) {
 		if (db_get_b(NULL, protocolname, "dontaskforupdate", 0) == 1 || DialogBox(hinstance, MAKEINTRESOURCE(IDD_UPDATE), NULL, DlgUpdateDialogProc) == IDOK) {
@@ -84,11 +84,11 @@ void UpdateMyIcons(LPVOID)
 
 	//ini pfad rausbekommen
 	char file[1024], file2[1024], file3[1024];
-	mir_snprintf(file, _countof(file), "%sicons.new", inipath);
-	mir_snprintf(file2, _countof(file2), "%sicons.dll", inipath);
-	mir_snprintf(file3, _countof(file3), "%sicons.old", inipath);
+	mir_snprintf(file, "%sicons.new", inipath);
+	mir_snprintf(file2, "%sicons.dll", inipath);
+	mir_snprintf(file3, "%sicons.old", inipath);
 
-	mir_snprintf(request, _countof(request), "%s%d", ICO_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, "%s%d", ICO_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request)) {
 		if (db_get_b(NULL, protocolname, "dontaskforupdate", 0) == 1 || MessageBox(NULL, TranslateT("There is a new Icons.dll online, do you want to update now?"), TranslateT(PLUGIN_TITLE), MB_YESNO | MB_ICONQUESTION) == IDYES) {

@@ -2127,7 +2127,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	mi.pszService = srvFce;
 
 	int i = 0;
-	mir_snprintf(srvFce, _countof(srvFce), "/menuPrivacy%d", i);
+	mir_snprintf(srvFce, "/menuPrivacy%d", i);
 	if (i > m_privacyMenuServiceAllocated) {
 		CreateProtoServiceParam(srvFce, &CJabberProto::menuSetPrivacyList, i);
 		m_privacyMenuServiceAllocated = i;
@@ -2139,7 +2139,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	for (CPrivacyList *pList = m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
 		i++;
-		mir_snprintf(srvFce, _countof(srvFce), "/menuPrivacy%d", i);
+		mir_snprintf(srvFce, "/menuPrivacy%d", i);
 
 		if (i > m_privacyMenuServiceAllocated) {
 			CreateProtoServiceParam(srvFce, &CJabberProto::menuSetPrivacyList, i);

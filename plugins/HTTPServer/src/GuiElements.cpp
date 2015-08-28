@@ -434,7 +434,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	ofn.lStructSize = sizeof(OPENFILENAME);
 
 	char temp[MAX_PATH];
-	mir_snprintf(temp, _countof(temp), _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 
 	ofn.lpstrFile = pstNewShare->pszRealPath;
@@ -1208,7 +1208,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, _countof(szKeyWord));
 							DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
 
-							mir_snprintf(szKeyWord, _countof(szKeyWord), Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
+							mir_snprintf(szKeyWord, Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
 							    SplitIpAddress(dwExternalIP) ,
 							    szUrl);
 							MessageBox(hwndDlg, szKeyWord, MSG_BOX_TITEL, MB_OK);

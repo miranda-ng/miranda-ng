@@ -39,7 +39,7 @@ void InitIcons()
 HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%s_%s", MODULE, name);
+	mir_snprintf(szSettingName, "%s_%s", MODULE, name);
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

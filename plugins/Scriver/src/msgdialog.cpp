@@ -302,7 +302,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		ptrT pszWord(GetRichTextWord(hwnd, &ptl));
 		if (pszWord && pszWord[0]) {
 			TCHAR szMenuText[4096];
-			mir_sntprintf(szMenuText, _countof(szMenuText), TranslateT("Look up '%s':"), pszWord);
+			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
 			ModifyMenu(hSubMenu, 5, MF_STRING | MF_BYPOSITION, 5, szMenuText);
 			SetSearchEngineIcons(hMenu, g_dat.hSearchEngineIconList);
 		}
@@ -1266,7 +1266,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
 			GetClientRect(hwndDlg, &rc);
 
-			POINT pt = { 0, wParam };
+			POINT pt = { 0, (int)wParam };
 			ScreenToClient(hwndDlg, &pt);
 			dat->splitterPos = rc.bottom - pt.y;
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);

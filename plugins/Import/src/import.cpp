@@ -713,7 +713,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 					ccDst->pSubs[i] = MapContact(ccSrc->pSubs[i]);
 
 					char szSettingName[100];
-					mir_snprintf(szSettingName, _countof(szSettingName), "Handle%d", i);
+					mir_snprintf(szSettingName, "Handle%d", i);
 					db_set_dw(hDest, META_PROTO, szSettingName, ccDst->pSubs[i]);
 
 					db_set_b(ccDst->pSubs[i], META_PROTO, "IsSubcontact", 1);

@@ -806,7 +806,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, _countof(gpgexe));
 
 			// filter zusammensetzen
-			mir_snprintf(filter, _countof(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
+			mir_snprintf(filter, _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
 
 			// OPENFILENAME initialisieren
 			OPENFILENAME ofn = { sizeof(ofn) };
@@ -1042,7 +1042,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	if (bPGPloaded && ver) {
 		char pgpVerStr[64];
-		mir_snprintf(pgpVerStr, _countof(pgpVerStr), Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
+		mir_snprintf(pgpVerStr, Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
 		SetDlgItemText(hDlg, IDC_PGP_SDK, pgpVerStr);
 	}
 	else SetDlgItemText(hDlg, IDC_PGP_SDK, Translate(sim219));
@@ -1548,14 +1548,14 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 {
 	// restore sort column
 	char t[32];
-	mir_snprintf(t, _countof(t), "os%02x", (UINT)lParamSort & 0xF0);
+	mir_snprintf(t, "os%02x", (UINT)lParamSort & 0xF0);
 	if ((lParamSort & 0x0F) == 0)
 		lParamSort = (int)db_get_b(0, MODULENAME, t, lParamSort + 1);
 
 	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
 
 	// restore sort order
-	mir_snprintf(t, _countof(t), "os%02x", (UINT)lParamSort);
+	mir_snprintf(t, "os%02x", (UINT)lParamSort);
 	int m = db_get_b(0, MODULENAME, t, 0);
 	if (bChangeSortOrder) { m = !m; db_set_b(0, MODULENAME, t, m); }
 
@@ -1571,7 +1571,7 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
 
 	ofn.lpstrFile = KeyPath;
 	char temp[MAX_PATH];
-	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = TranslateT("Open Key File");
 	if (!GetOpenFileName(&ofn)) return FALSE;
@@ -1628,7 +1628,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	char temp[MAX_PATH];
-	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.hwndOwner = hParent;
 	ofn.nMaxFile = MAX_PATH;
@@ -1661,7 +1661,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
 	ofn.lpstrFile = szFile;
 	char temp[MAX_PATH];
-	mir_snprintf(temp, _countof(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
 	if (!GetOpenFileName(&ofn))

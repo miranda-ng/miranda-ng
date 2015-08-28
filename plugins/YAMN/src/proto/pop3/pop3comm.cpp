@@ -380,7 +380,7 @@ DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, _countof(Debug), _T("CodePage: %d, remaining %d chars"), ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
+	mir_sntprintf(Debug, _T("CodePage: %d, remaining %d chars"), ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
 	MessageBox(NULL,Debug,_T("debug"),MB_OK);
 #endif
 	return 0;
@@ -713,7 +713,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 				for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != NULL; NewMsgsPtr = NewMsgsPtr->Next) {
 					if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
 						TCHAR accstatus[512];
-						mir_sntprintf(accstatus, _countof(accstatus), TranslateT("Reading body %s"), NewMsgsPtr->ID);
+						mir_sntprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
 						SetAccountStatus(ActualAccount, accstatus);
 						DataRX = MyClient->Top(MsgQueuePtr->Number, 100);
 #ifdef DEBUG_DECODE
@@ -786,7 +786,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 			{
 				BOOL autoretr = (ActualAccount->Flags & YAMN_ACC_BODY) != 0;
 				DataRX = MyClient->Top(MsgQueuePtr->Number, autoretr ? 100 : 0);
-				mir_sntprintf(accstatus, _countof(accstatus), TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
+				mir_sntprintf(accstatus, TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
 				SetAccountStatus(ActualAccount, accstatus);
 
 #ifdef DEBUG_DECODE

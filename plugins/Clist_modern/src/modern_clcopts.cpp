@@ -1015,7 +1015,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)MIRANDANAME);
 
 			char szUin[20];
-			mir_snprintf(szUin, _countof(szUin), "%u", db_get_dw(NULL, "ICQ", "UIN", 0));
+			mir_snprintf(szUin, "%u", db_get_dw(NULL, "ICQ", "UIN", 0));
 			SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)szUin);
 
 			if (!db_get_s(NULL, "ICQ", "Nick", &dbv)) {

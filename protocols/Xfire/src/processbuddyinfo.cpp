@@ -45,7 +45,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		mir_strcat(filename, ".gif");
 		type = PA_FORMAT_GIF;
 
-		mir_snprintf(temp, _countof(temp), "/xfire/xf/images/avatars/gallery/default/%03d.gif", buddyinfo->avatarid);
+		mir_snprintf(temp, "/xfire/xf/images/avatars/gallery/default/%03d.gif", buddyinfo->avatarid);
 
 		dl = GetWWWContent("media.xfire.com", temp, filename, FALSE);
 		break;
@@ -54,7 +54,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		mir_strcat(filename, ".jpg");
 		type = PA_FORMAT_JPEG;
 
-		mir_snprintf(temp, _countof(temp), "/avatar/100/%s.jpg?%d", username, buddyinfo->avatarid);
+		mir_snprintf(temp, "/avatar/100/%s.jpg?%d", username, buddyinfo->avatarid);
 
 		dl = GetWWWContent("screenshot.xfire.com", temp, filename, FALSE);
 		break;
@@ -62,7 +62,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		type = PA_FORMAT_GIF;
 		mir_strcat(filename, "xfire.gif");
 
-		mir_snprintf(temp, _countof(temp), "/xfire/xf/images/avatars/gallery/default/xfire.gif", buddyinfo->avatarid);
+		mir_snprintf(temp, "/xfire/xf/images/avatars/gallery/default/xfire.gif", buddyinfo->avatarid);
 
 		dl = GetWWWContent("media.xfire.com", temp, filename, TRUE);
 		break;

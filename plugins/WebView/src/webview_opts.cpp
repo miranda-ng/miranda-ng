@@ -64,7 +64,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 			int posafter = (stringafter - buttontext) + 1;
 			strdel(stringafter, 1);
 			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-			mir_sntprintf(newbuttontext, _countof(buttontext), _T("%s!!%s"), stringbefore, stringafter);
+			mir_sntprintf(newbuttontext, _T("%s!!%s"), stringbefore, stringafter);
 
 			posafter = 0;
 			posbefore = 0;

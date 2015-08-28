@@ -31,16 +31,16 @@ MIR_CORE_DLL(int) Utils_SaveWindowPosition(HWND hwnd, MCONTACT hContact, const c
 	GetWindowPlacement(hwnd, &wp);
 
 	char szSettingName[64];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
+	mir_snprintf(szSettingName, "%sx", szNamePrefix);
 	db_set_dw(hContact, szModule, szSettingName, wp.rcNormalPosition.left);
 
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
+	mir_snprintf(szSettingName, "%sy", szNamePrefix);
 	db_set_dw(hContact, szModule, szSettingName, wp.rcNormalPosition.top);
 
-	mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
+	mir_snprintf(szSettingName, "%swidth", szNamePrefix);
 	db_set_dw(hContact, szModule, szSettingName, wp.rcNormalPosition.right-wp.rcNormalPosition.left);
 
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
+	mir_snprintf(szSettingName, "%sheight", szNamePrefix);
 	db_set_dw(hContact, szModule, szSettingName, wp.rcNormalPosition.bottom-wp.rcNormalPosition.top);
 	return 0;
 }
@@ -54,12 +54,12 @@ EXTERN_C MIR_CORE_DLL(int) Utils_RestoreWindowPosition(HWND hwnd, MCONTACT hCont
 	GetWindowPlacement(hwnd, &wp);
 
 	char szSettingName[64];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
+	mir_snprintf(szSettingName, "%sx", szNamePrefix);
 	int x = db_get_dw(hContact, szModule, szSettingName, -1);
 	if (x == -1)
 		return 1;
 
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
+	mir_snprintf(szSettingName, "%sy", szNamePrefix);
 	int y = (int)db_get_dw(hContact, szModule, szSettingName, -1);
 
 	if (flags & RWPF_NOSIZE)
@@ -68,10 +68,10 @@ EXTERN_C MIR_CORE_DLL(int) Utils_RestoreWindowPosition(HWND hwnd, MCONTACT hCont
 		wp.rcNormalPosition.left = x;
 		wp.rcNormalPosition.top = y;
 
-		mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
+		mir_snprintf(szSettingName, "%swidth", szNamePrefix);
 		wp.rcNormalPosition.right = wp.rcNormalPosition.left+db_get_dw(hContact, szModule, szSettingName, -1);
 
-		mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
+		mir_snprintf(szSettingName, "%sheight", szNamePrefix);
 		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top+db_get_dw(hContact, szModule, szSettingName, -1);
 	}
 	wp.flags = 0;

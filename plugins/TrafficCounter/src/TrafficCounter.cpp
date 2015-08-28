@@ -1075,10 +1075,7 @@ void NotifyOnSend(void)
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	//
-	mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("%d kilobytes sent"),
-		notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
-	//
+	mir_sntprintf(ppd.lptzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
@@ -1094,10 +1091,7 @@ void NotifyOnRecv(void)
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	//
-	mir_sntprintf(ppd.lptzText, _countof(ppd.lptzText), TranslateT("%d kilobytes received"),
-		notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
-	//
+	mir_sntprintf(ppd.lptzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;

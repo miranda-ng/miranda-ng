@@ -34,7 +34,7 @@ static void LogPictureMessage(TlenProtocol *proto, const char *jid, const char *
 {
 	char message[1024];
 	const char *msg = isSent ? LPGEN("Image sent file://%s") : LPGEN("Image received file://%s");
-	mir_snprintf(message, _countof(message), Translate(msg), filename);
+	mir_snprintf(message, Translate(msg), filename);
 	TlenLogMessage(proto, TlenHContactFromJID(proto, jid), isSent ? DBEF_SENT : 0, message);
 }
 
@@ -49,7 +49,7 @@ static void TlenPsPostThread(void *ptr) {
 		DWORD ret;
 		item->ft->s = socket;
 		item->ft->hFileEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		ret = mir_snprintf(header, _countof(header), "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
+		ret = mir_snprintf(header, "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
 		TlenWsSend(proto, socket, header, (int)ret);
 		ret = WaitForSingleObject(item->ft->hFileEvent, 1000 * 60 * 5);
 		if (ret == WAIT_OBJECT_0) {
@@ -58,7 +58,7 @@ static void TlenPsPostThread(void *ptr) {
 				int i;
 				char header[512];
 				char fileBuffer[2048];
-				i = mir_snprintf(header, _countof(header), "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
+				i = mir_snprintf(header, "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
 				TlenWsSend(proto, socket, header, i);
 				proto->debugLogA("Sending picture data...");
 				for (i = item->ft->filesSize[0]; i > 0; ) {
@@ -114,7 +114,7 @@ static void TlenPsGetThread(void *ptr) {
 			char header[512];
 			char fileBuffer[2048];
 			TlenXmlInitState(&xmlState);
-			int header_len = mir_snprintf(header, _countof(header), "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
+			int header_len = mir_snprintf(header, "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
 			TlenWsSend(proto, socket, header, header_len);
 			proto->debugLogA("Reveiving picture data...");
 			{
@@ -221,7 +221,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 			char fileName[MAX_PATH];
 			char *ext = TlenXmlGetAttrValue(node, "ext");
 			char *tmpPath = Utils_ReplaceVars( "%miranda_userdata%" );
-			int tPathLen = mir_snprintf(fileName, _countof(fileName), "%s\\Images\\Tlen", tmpPath);
+			int tPathLen = mir_snprintf(fileName, "%s\\Images\\Tlen", tmpPath);
 			long oldSize = 0, lSize = atol(size);
 			DWORD dwAttributes = GetFileAttributesA( fileName );
 			if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 )
@@ -285,7 +285,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 					char fileBuffer[2048];
 					int id = TlenSerialNext(proto);
 					T2Utf szFileName(tszFileName);
-					mir_snprintf(idStr, _countof(idStr), "%d", id);
+					mir_snprintf(idStr, "%d", id);
 					item = TlenListAdd(proto, LIST_PICTURE, idStr);
 					item->ft = TlenFileCreateFT(proto, jid);
 					item->ft->files = (char **) mir_alloc(sizeof(char *));

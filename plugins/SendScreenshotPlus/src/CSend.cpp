@@ -399,7 +399,7 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
-	mir_sntprintf(tszMsg, _countof(tszMsg), _T("%s - %s"), _T(SZ_SENDSS), TranslateT("Error"));
+	mir_sntprintf(tszMsg, _T("%s - %s"), _T(SZ_SENDSS), TranslateT("Error"));
 	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
 
 	va_list vl;

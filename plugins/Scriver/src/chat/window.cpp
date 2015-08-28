@@ -799,7 +799,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * p
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -1432,7 +1432,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				char szIndicator = SM_GetStatusIndicator(si, ui);
 				if (szIndicator > '\0') {
 					static TCHAR ptszBuf[128];
-					mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%c%s"), szIndicator, ui->pszNick);
+					mir_sntprintf(ptszBuf, _T("%c%s"), szIndicator, ui->pszNick);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
 				else SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
@@ -1641,7 +1641,7 @@ LABEL_SHOWWINDOW:
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
 						static TCHAR ptszBuf[1024];
-						mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+						mir_sntprintf(ptszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
 							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));

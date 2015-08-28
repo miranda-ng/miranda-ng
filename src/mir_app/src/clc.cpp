@@ -1135,7 +1135,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						TCHAR szNewName[120];
-						mir_sntprintf(szNewName, _countof(szNewName), _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
+						mir_sntprintf(szNewName, _T("%s\\%s"), cli.pfnGetGroupName(contactn->groupId, NULL), contacto->szText);
 						cli.pfnRenameGroup(contacto->groupId, szNewName);
 					}
 				}

@@ -621,7 +621,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)path);
 
-		mir_sntprintf(title, _countof(title), _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
+		mir_sntprintf(title, _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);

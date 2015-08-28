@@ -1211,7 +1211,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 					const TCHAR *ptszExt;
 					int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
 					TCHAR tszImageFile[MAX_PATH];
-					mir_sntprintf(tszImageFile, _countof(tszImageFile), _T("%s%s"), pCookieData->szFile, ptszExt);
+					mir_sntprintf(tszImageFile, _T("%s%s"), pCookieData->szFile, ptszExt);
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format

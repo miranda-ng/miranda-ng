@@ -468,7 +468,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 						if (dat->fTimeFlags&SDWTF_ST_TIME)
 							GetFormatedDateTime(szTime, _countof(szTime), dat->settingLastTime, FALSE);
 						else GetFormatedCountdown(szTime, _countof(szTime), dat->countdown);
-						mir_sntprintf(ttdi->szText, _countof(ttdi->szText), _T("%s %s"), (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
+						mir_sntprintf(ttdi->szText, _T("%s %s"), (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
 						ttdi->lpszText = ttdi->szText;
 					}
 					return 0;

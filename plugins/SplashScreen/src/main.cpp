@@ -65,11 +65,11 @@ void SplashMain()
 	if (bstartup) {
 		// Retrive path to exe of current running Miranda is located
 		szMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
-		mir_sntprintf(szhAdvaimgPath, _countof(szhAdvaimgPath), _T("%s\\plugins\\advaimg.dll"), szMirDir);
+		mir_sntprintf(szhAdvaimgPath, _T("%s\\plugins\\advaimg.dll"), szMirDir);
 		CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVersion);
 
 		#ifdef _DEBUG
-		mir_sntprintf(szLogFile, _countof(szLogFile), _T("%s\\%s.log"), szMirDir, _T(__PLUGIN_NAME));
+		mir_sntprintf(szLogFile, _T("%s\\%s.log"), szMirDir, _T(__PLUGIN_NAME));
 		initLog();
 		TCHAR *mirandaVerString = mir_a2t(szVersion);
 		logMessage(_T("Miranda version"), mirandaVerString);
@@ -104,7 +104,7 @@ void SplashMain()
 		TCHAR *pos3 = 0;
 		pos3 = _tcsrchr(inBuf, _T(':'));
 		if (pos3 == NULL)
-			mir_sntprintf(szSplashFile, _countof(szSplashFile), _T("%s\\%s"), szMirDir, inBuf);
+			mir_sntprintf(szSplashFile, _T("%s\\%s"), szMirDir, inBuf);
 		else
 			mir_tstrcpy(szSplashFile, inBuf);
 
@@ -122,7 +122,7 @@ void SplashMain()
 		TCHAR *pos2;
 		pos2 = _tcschr(inBuf, _T(':'));
 		if (pos2 == NULL)
-			mir_sntprintf(szSoundFile, _countof(szSoundFile), _T("%s\\%s"), szMirDir, inBuf);
+			mir_sntprintf(szSoundFile, _T("%s\\%s"), szMirDir, inBuf);
 		else
 			mir_tstrcpy(szSoundFile, inBuf);
 
@@ -145,7 +145,7 @@ void SplashMain()
 			p = _tcsrchr(szSplashDir, _T('\\'));
 			if (p) *p = 0;
 			// create the search filter
-			mir_sntprintf(szSearch, _countof(szSearch), _T("%s\\*.*"), szSplashDir);
+			mir_sntprintf(szSearch, _T("%s\\*.*"), szSplashDir);
 			// FFFN will return filenames
 			HANDLE hFind = INVALID_HANDLE_VALUE;
 			WIN32_FIND_DATA ffd;
@@ -179,7 +179,7 @@ void SplashMain()
 				int r = 0;
 				if (filescount) r = (rand() % filescount) + 1;
 
-				mir_sntprintf(szSplashFile, _countof(szSplashFile), _T("%s\\%s"), szSplashDir, files[r - 1]);
+				mir_sntprintf(szSplashFile, _T("%s\\%s"), szSplashDir, files[r - 1]);
 
 				#ifdef _DEBUG
 				logMessage(_T("final file"), szSplashFile);

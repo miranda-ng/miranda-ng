@@ -278,7 +278,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					GetWindowPlacement(hDlg, &wp);
 
 					char szSettingName[64];
-					mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", dbLastUC_WindowPosPrefix);
+					mir_snprintf(szSettingName, "%swidth", dbLastUC_WindowPosPrefix);
 					int width = db_get_dw(NULL, dbLastUC_ModuleName, szSettingName, -1);
 
 					int right = rect.left - 6;

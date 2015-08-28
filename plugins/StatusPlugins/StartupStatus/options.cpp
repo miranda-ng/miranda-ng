@@ -165,7 +165,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
 		_tcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_tstrlen(savePath));
 	else
-		mir_sntprintf(savePath, _countof(savePath), _T(".\\%s"), SHORTCUT_FILENAME);
+		mir_sntprintf(savePath, _T(".\\%s"), SHORTCUT_FILENAME);
 
 	// Get a pointer to the IShellLink interface.
 	IShellLink *psl;

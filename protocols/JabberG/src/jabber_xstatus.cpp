@@ -1221,7 +1221,7 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 	setTString(hContact, "ListeningTo", szListeningTo);
 
 	char tuneIcon[128];
-	mir_snprintf(tuneIcon, _countof(tuneIcon), "%s_%s", m_szModuleName, "main");
+	mir_snprintf(tuneIcon, "%s_%s", m_szModuleName, "main");
 	WriteAdvStatus(hContact, ADVSTATUS_TUNE, _T("listening_to"), tuneIcon, TranslateT("Listening To"), szListeningTo);
 
 	mir_free(szListeningTo);

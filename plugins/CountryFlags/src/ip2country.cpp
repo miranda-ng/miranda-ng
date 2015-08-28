@@ -246,7 +246,7 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			}
 			/* not in list */
 			if (i == nCountriesCount) {
-				mir_snprintf(out, _countof(out), "Unknown: %s-%s [%s, %s]\n", pszFrom, pszTo, pszTwo, pszCountry);
+				mir_snprintf(out, "Unknown: %s-%s [%s, %s]\n", pszFrom, pszTo, pszTwo, pszCountry);
 				OutputDebugStringA(out); /* all ascii */
 			}
 		}

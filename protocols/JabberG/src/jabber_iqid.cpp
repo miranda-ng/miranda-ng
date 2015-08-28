@@ -219,7 +219,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 			JabberShaStrBuf buf;
 			T2Utf str(m_ThreadInfo->conn.password);
 			char text[200];
-			mir_snprintf(text, _countof(text), "%s%s", m_ThreadInfo->szStreamId, str);
+			mir_snprintf(text, "%s%s", m_ThreadInfo->szStreamId, str);
 			query << XCHILD(_T("digest"), _A2T(JabberSha1(text, buf)));
 		}
 		else if (XmlGetChild(queryNode, "password") != NULL)
@@ -751,13 +751,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 						if (nEmail == 0)
 							mir_strcpy(text, "e-mail");
 						else
-							mir_snprintf(text, _countof(text), "e-mail%d", nEmail - 1);
+							mir_snprintf(text, "e-mail%d", nEmail - 1);
 					}
-					else mir_snprintf(text, _countof(text), "e-mail%d", nEmail);
+					else mir_snprintf(text, "e-mail%d", nEmail);
 					setTString(hContact, text, XmlGetText(m));
 
 					if (hContact == NULL) {
-						mir_snprintf(text, _countof(text), "e-mailFlag%d", nEmail);
+						mir_snprintf(text, "e-mailFlag%d", nEmail);
 						int nFlag = 0;
 						if (XmlGetChild(n, "HOME") != NULL) nFlag |= JABBER_VCEMAIL_HOME;
 						if (XmlGetChild(n, "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
@@ -925,10 +925,10 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 					}
 					else {
 						char text[100];
-						mir_snprintf(text, _countof(text), "Phone%d", nPhone);
+						mir_snprintf(text, "Phone%d", nPhone);
 						setTString(text, XmlGetText(m));
 
-						mir_snprintf(text, _countof(text), "PhoneFlag%d", nPhone);
+						mir_snprintf(text, "PhoneFlag%d", nPhone);
 						int nFlag = 0;
 						if (XmlGetChild(n, "HOME")  != NULL) nFlag |= JABBER_VCTEL_HOME;
 						if (XmlGetChild(n, "WORK")  != NULL) nFlag |= JABBER_VCTEL_WORK;
@@ -1013,7 +1013,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 				delSetting(hContact, "e-mail");
 			else {
 				char text[100];
-				mir_snprintf(text, _countof(text), "e-mail%d", nEmail - 1);
+				mir_snprintf(text, "e-mail%d", nEmail - 1);
 				if (db_get_s(hContact, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				delSetting(hContact, text);
@@ -1024,11 +1024,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	else {
 		while (true) {
 			char text[100];
-			mir_snprintf(text, _countof(text), "e-mail%d", nEmail);
+			mir_snprintf(text, "e-mail%d", nEmail);
 			if (getString(text, &dbv)) break;
 			db_free(&dbv);
 			delSetting(text);
-			mir_snprintf(text, _countof(text), "e-mailFlag%d", nEmail);
+			mir_snprintf(text, "e-mailFlag%d", nEmail);
 			delSetting(text);
 			nEmail++;
 		}
@@ -1058,11 +1058,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	else {
 		while (true) {
 			char text[100];
-			mir_snprintf(text, _countof(text), "Phone%d", nPhone);
+			mir_snprintf(text, "Phone%d", nPhone);
 			if (getString(text, &dbv)) break;
 			db_free(&dbv);
 			delSetting(text);
-			mir_snprintf(text, _countof(text), "PhoneFlag%d", nPhone);
+			mir_snprintf(text, "PhoneFlag%d", nPhone);
 			delSetting(text);
 			nPhone++;
 		}

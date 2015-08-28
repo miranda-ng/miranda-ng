@@ -184,10 +184,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, _countof(pd.lptzContactName), _T("%s - %s"),
-		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
-		cli.pfnGetContactDisplayName(hContact, 0));
-
+	mir_sntprintf(pd.lptzContactName, _T("%s - %s"), (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
 	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
@@ -563,9 +560,9 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	// formatting strings don't need to be translatable - changing them via language pack would
 	// only screw up the log format.
 	if (p)
-		mir_sntprintf(szLine, _countof(szLine), _T("%s %c %s\r\n"), szTime, p, szBuffer);
+		mir_sntprintf(szLine, _T("%s %c %s\r\n"), szTime, p, szBuffer);
 	else
-		mir_sntprintf(szLine, _countof(szLine), _T("%s %s\r\n"), szTime, szBuffer);
+		mir_sntprintf(szLine, _T("%s %s\r\n"), szTime, szBuffer);
 
 	if (szLine[0]) {
 		_fputts(szLine, hFile);
@@ -590,11 +587,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
 
 				TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewPath, _countof(tszNewPath), _T("%s%sarchived\\"), tszDrive, tszDir);
+				mir_sntprintf(tszNewPath, _T("%s%sarchived\\"), tszDrive, tszDir);
 				CreateDirectoryTreeT(tszNewPath);
 
 				TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewName, _countof(tszNewName), _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
+				mir_sntprintf(tszNewName, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 				fclose(hFile);
 				hFile = 0;
 				if (!PathFileExists(tszNewName))
@@ -742,7 +739,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
 		if (g_Settings->pszLogDir[mir_tstrlen(g_Settings->pszLogDir) - 1] == '\\') {
-			mir_sntprintf(tszTemp, _countof(tszTemp), _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
+			mir_sntprintf(tszTemp, _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
 			ptszVarPath = tszTemp;
 		}
 		else ptszVarPath = g_Settings->pszLogDir;

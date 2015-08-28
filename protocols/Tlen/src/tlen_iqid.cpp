@@ -54,7 +54,7 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 		char text[128];
 
 		TlenSend(proto, "</s>");
-		mir_snprintf(text, _countof(text), Translate("Authentication failed for %s@%s."), proto->threadData->username, proto->threadData->server);
+		mir_snprintf(text, Translate("Authentication failed for %s@%s."), proto->threadData->username, proto->threadData->server);
 		MessageBoxA(NULL, text, Translate("Tlen Authentication"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		proto->threadData = NULL;	// To disallow auto reconnect
@@ -258,7 +258,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			if (strchr(jid, '@') != NULL) {
 				strncpy_s(text, jid, _TRUNCATE);
 			} else {
-				mir_snprintf(text, _countof(text),  "%s@%s", jid, dbv.pszVal);	// Add @tlen.pl
+				mir_snprintf(text,  "%s@%s", jid, dbv.pszVal);	// Add @tlen.pl
 			}
 			db_free(&dbv);
 			if ((hContact=TlenHContactFromJID(proto, text)) == NULL) {
@@ -419,7 +419,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 						if (strchr(jid, '@') != NULL) {
 							strncpy_s(jsr.jid, jid, _TRUNCATE);
 						} else {
-							mir_snprintf(jsr.jid, _countof(jsr.jid), "%s@%s", jid, dbv.pszVal);
+							mir_snprintf(jsr.jid, "%s@%s", jid, dbv.pszVal);
 						}
 						jsr.jid[sizeof(jsr.jid)-1] = '\0';
 						jsr.hdr.id.t = mir_a2t(jid);
@@ -467,7 +467,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 					if (strchr(proto->searchJID, '@') != NULL)
 						strncpy_s(jsr.jid, proto->searchJID, _TRUNCATE);
 					else
-						mir_snprintf(jsr.jid, _countof(jsr.jid), "%s@%s", proto->searchJID, dbv.pszVal);
+						mir_snprintf(jsr.jid, "%s@%s", proto->searchJID, dbv.pszVal);
 
 					jsr.hdr.nick.t = jsr.hdr.firstName.t = jsr.hdr.lastName.t = jsr.hdr.email.t = jsr.hdr.id.t = TEXT("");
 					ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) id, (LPARAM) &jsr);

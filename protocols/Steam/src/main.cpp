@@ -47,7 +47,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Proto_RegisterModule(&pd);
 
 	char iconName[100];
-	mir_snprintf(iconName, _countof(iconName), "%s_%s", MODULE, "gaming");
+	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 
 	// extra statuses
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);

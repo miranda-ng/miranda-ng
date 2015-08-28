@@ -155,7 +155,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 static void enumServerGroups(CIcqProto* ppro)
 {
 	char szModule[MAX_PATH+9];
-	mir_snprintf(szModule, _countof(szModule), "%s%s", ppro->m_szModuleName, "SrvGroups");
+	mir_snprintf(szModule, "%s%s", ppro->m_szModuleName, "SrvGroups");
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = &GroupEnumIdsEnumProc;

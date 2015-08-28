@@ -186,7 +186,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameOut = mir_strdup("&nbsp;");
 		szNameIn = mir_strdup("&nbsp;");
 	}
-	mir_snprintf(tempStr, _countof(tempStr), "%snoavatar.png", tempBase);
+	mir_snprintf(tempStr, "%snoavatar.png", tempBase);
 	TCHAR szNoAvatarPath[MAX_PATH];
 	_tcsncpy_s(szNoAvatarPath, _A2T(protoSettings->getSRMMTemplateFilename()), _TRUNCATE);
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
@@ -194,9 +194,9 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		*szNoAvatarPathTmp = 0;
 	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
-		mir_snprintf(tempStr, _countof(tempStr), "%snoavatar.jpg", tempBase);
+		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
-		mir_snprintf(tempStr, _countof(tempStr), "%snoavatar.png", tempBase);
+		mir_snprintf(tempStr, "%snoavatar.png", tempBase);
 	char *szNoAvatar = mir_utf8encode(tempStr);
 
 	char *szAvatarIn = getAvatar(event->hContact, szRealProto);
@@ -368,9 +368,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		*szNoAvatarPathTmp = 0;
 	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
-		mir_snprintf(tempStr, _countof(tempStr), "%snoavatar.jpg", tempBase);
+		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
-		mir_snprintf(tempStr, _countof(tempStr), "%snoavatar.png", tempBase);
+		mir_snprintf(tempStr, "%snoavatar.png", tempBase);
 	char *szNoAvatar = mir_utf8encode(tempStr);
 
 	char *szAvatarIn = NULL;
@@ -426,12 +426,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			if (isSent) {
 				szAvatar = szAvatarOut;
 				szUIN = szUINOut;
-				mir_snprintf(szCID, _countof(szCID), "%d", 0);
+				mir_snprintf(szCID, "%d", 0);
 			}
 			else {
 				szAvatar = szAvatarIn;
 				szUIN = szUINIn;
-				mir_snprintf(szCID, _countof(szCID), "%d", (int)event->hContact);
+				mir_snprintf(szCID, "%d", (int)event->hContact);
 			}
 			tmpltName[0] = groupTemplate;
 			tmpltName[1] = NULL;

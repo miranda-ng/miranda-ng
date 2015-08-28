@@ -1323,7 +1323,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 			TranslateT("Nickname"), ui1->pszNick,
 			TranslateT("Unique ID"), ui1->pszUID,
 			TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1671,7 +1671,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					}
 				}
 				if (tszBuf[0] == 0)
-					mir_sntprintf(tszBuf, _countof(tszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
+					mir_sntprintf(tszBuf, _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 					TranslateT("Nick"), ui1->pszNick,
 					TranslateT("Unique ID"), ui1->pszUID,
 					TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1976,17 +1976,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					else if (diff > 59) {
 						DWORD hours = diff / 60;
 						DWORD minutes = diff % 60;
-						mir_sntprintf(mi->tszIdleMsg, _countof(mi->tszIdleMsg), TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
+						mir_sntprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
 							TranslateT("hours") : TranslateT("hour"),
 							minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
-					else mir_sntprintf(mi->tszIdleMsg, _countof(mi->tszIdleMsg), TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+					else mir_sntprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 				}
-				mir_sntprintf(szFinalStatusBarText, _countof(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
+				mir_sntprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 			}
 			else {
 				if (si->ptszStatusbarText)
-					mir_sntprintf(szFinalStatusBarText, _countof(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
+					mir_sntprintf(szFinalStatusBarText, _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
 				else
 					_tcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
 			}
@@ -3165,7 +3165,7 @@ LABEL_SHOWWINDOW:
 				DBVARIANT dbv = { 0 };
 				char szIndex[10];
 				char *szKey = "TAB_ContainersW";
-				mir_snprintf(szIndex, _countof(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
+				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);

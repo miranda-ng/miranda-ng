@@ -111,7 +111,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	#ifdef DEBUG_LOAD_TIME
 	t = __rdtsc() - t;
 	char dest[101];
-	mir_snprintf(dest, _countof(dest), "%I64d ticks\n", t / 3200000);
+	mir_snprintf(dest, "%I64d ticks\n", t / 3200000);
 	MessageBoxA(NULL, dest, NULL, 0);
 	//exit(0);
 	#endif
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				bTranslated = blInit = LoadMind(c, line);
 				if (!bTranslated) {
 					TCHAR message[5000];
-					mir_sntprintf(message, _countof(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+					mir_sntprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 					MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
 			}
@@ -571,7 +571,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	blInit = LoadMind(Config.MindFileName, line);
 	if (!blInit) {
 		TCHAR path[2000];
-		mir_sntprintf(path, _countof(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
+		mir_sntprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
@@ -589,7 +589,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 			//So in case of saving error we will remain silent
 			#if 0
 			TCHAR path[MAX_PATH];
-			mir_sntprintf(path, _countof(path), TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
+			mir_sntprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
 			TCHAR* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR | MB_TASKMODAL | MB_OK); */
 				#endif

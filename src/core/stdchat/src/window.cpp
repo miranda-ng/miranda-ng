@@ -996,7 +996,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, _countof(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			mir_sntprintf(tszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(si->pStatuses, ui->Status));
@@ -1149,13 +1149,13 @@ static int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char * szModule, 
 	GetWindowPlacement(hwnd, &wp);
 
 	char szSettingName[64];
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sx", szNamePrefix);
+	mir_snprintf(szSettingName, "%sx", szNamePrefix);
 	int x = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sy", szNamePrefix);
+	mir_snprintf(szSettingName, "%sy", szNamePrefix);
 	int y = (int)db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, _countof(szSettingName), "%swidth", szNamePrefix);
+	mir_snprintf(szSettingName, "%swidth", szNamePrefix);
 	int width = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, _countof(szSettingName), "%sheight", szNamePrefix);
+	mir_snprintf(szSettingName, "%sheight", szNamePrefix);
 	int height = db_get_dw(hContact, szModule, szSettingName, -1);
 
 	if (x == -1)
@@ -2332,7 +2332,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != NULL) {
 					static TCHAR ptszBuf[1024];
-					mir_sntprintf(ptszBuf, _countof(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+					mir_sntprintf(ptszBuf, _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 						TranslateT("Nickname"), ui->pszNick,
 						TranslateT("Unique ID"), ui->pszUID,
 						TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -2451,11 +2451,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					_tcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFolder, _countof(szFolder), _T("%s\\%s"), g_Settings.pszLogDir, szName);
+					mir_sntprintf(szFolder, _T("%s\\%s"), g_Settings.pszLogDir, szName);
 					mir_sntprintf(szName, _T("%s.log"), si->ptszID);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFile, _countof(szFile), _T("%s\\%s"), szFolder, szName);
+					mir_sntprintf(szFile, _T("%s\\%s"), szFolder, szName);
 					ShellExecute(hwndDlg, _T("open"), szFile, NULL, NULL, SW_SHOW);
 				}
 			}

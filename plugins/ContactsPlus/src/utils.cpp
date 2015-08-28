@@ -130,7 +130,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
 			TCHAR *szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-			mir_sntprintf(newtitle, _countof(newtitle), _T("%s %s (%s)"), TranslateTS(pszTitleStart), contactName, szStatus);
+			mir_sntprintf(newtitle, _T("%s %s (%s)"), TranslateTS(pszTitleStart), contactName, szStatus);
 		}
 	}
 

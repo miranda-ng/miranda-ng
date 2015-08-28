@@ -155,7 +155,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_state_t ctx;
 
 	Utils_GetRandom(digest, sizeof(digest));
-	mir_snprintf(cnonce, _countof(cnonce), "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
+	mir_snprintf(cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	T2Utf uname(info->conn.username), passw(info->conn.password);
 	ptrA  serv(mir_utf8encode(info->conn.server));
@@ -182,15 +182,15 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_finish(&ctx, (BYTE*)hash2);
 
 	mir_md5_init(&ctx);
-	mir_snprintf(tmpBuf, _countof(tmpBuf), "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
+	mir_snprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
 	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)nonce, (int)mir_strlen(nonce));
-	mir_snprintf(tmpBuf, _countof(tmpBuf), ":%08d:", iCallCount);
+	mir_snprintf(tmpBuf, ":%08d:", iCallCount);
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)mir_strlen(cnonce));
 	mir_md5_append(&ctx, (BYTE*)":auth:", 6);
-	mir_snprintf(tmpBuf, _countof(tmpBuf), "%08x%08x%08x%08x", htonl(hash2[0]), htonl(hash2[1]), htonl(hash2[2]), htonl(hash2[3]));
+	mir_snprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash2[0]), htonl(hash2[1]), htonl(hash2[2]), htonl(hash2[3]));
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
 	mir_md5_finish(&ctx, (BYTE*)digest);
 
@@ -278,7 +278,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	mir_sha1_finish(&ctx, storedKey);
 
 	char authmsg[4096];
-	int authmsgLen = mir_snprintf(authmsg, _countof(authmsg), "%s,%s,c=biws,r=%s", msg1, chl, snonce);
+	int authmsgLen = mir_snprintf(authmsg, "%s,%s,c=biws,r=%s", msg1, chl, snonce);
 
 	BYTE clientSig[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(clientSig, storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen);

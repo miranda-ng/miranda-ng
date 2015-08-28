@@ -226,7 +226,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				TCHAR str[256], format[128];
 				GetWindowText(hwndDlg, format, _countof(format));
-				mir_sntprintf(str, _countof(str), format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
+				mir_sntprintf(str, format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
 				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, _countof(dat->okButtonFormat));
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 	case WM_TIMER:
 		if (--dat->countdown >= 0) {
 			TCHAR str[64];
-			mir_sntprintf(str, _countof(str), dat->okButtonFormat, dat->countdown);
+			mir_sntprintf(str, dat->okButtonFormat, dat->countdown);
 			SetDlgItemText(hwndDlg, IDOK, str);
 		}
 		else {

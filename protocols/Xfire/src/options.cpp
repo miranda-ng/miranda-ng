@@ -177,7 +177,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			char temp[255] = "";
-			mir_snprintf(temp, _countof(temp), "%d", db_get_b(NULL, protocolname, "protover", 0x5b));
+			mir_snprintf(temp, "%d", db_get_b(NULL, protocolname, "protover", 0x5b));
 			SetDlgItemTextA(hwndDlg, IDC_PVER, temp);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LASTGAME), FALSE);
@@ -363,10 +363,10 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendDlgItemMessage(hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)TranslateT("<Root Group>"));
 				SendDlgItemMessage(hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)TranslateT("<Root Group>"));
 
-				mir_snprintf(temp, _countof(temp), "%d", gruppen_id);
+				mir_snprintf(temp, "%d", gruppen_id);
 				while (!db_get_s(NULL, "CListGroups", temp, &dbv)) {
 					gruppen_id++;
-					mir_snprintf(temp, _countof(temp), "%d", gruppen_id);
+					mir_snprintf(temp, "%d", gruppen_id);
 
 					if (dbv.pszVal != NULL) {
 						SendDlgItemMessageA(hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
@@ -729,7 +729,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			char temp[XFIRE_MAXSIZEOFGAMENAME];
 			for (int i = 0; i < found; i++) {
 				//id auslesen
-				mir_snprintf(temp, _countof(temp), "gameid_%d", i);
+				mir_snprintf(temp, "gameid_%d", i);
 				int gameid = db_get_w(NULL, protocolname, temp, 0);
 				//spielnamen auslesen
 				xgamelist.getGamename(gameid, temp, XFIRE_MAXSIZEOFGAMENAME);
@@ -859,17 +859,17 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				//gameskip wert setzen
 				char temp[64] = "";
-				mir_snprintf(temp, _countof(temp), "gameskip_%d", gameid);
+				mir_snprintf(temp, "gameskip_%d", gameid);
 				CheckDlgButton(hwndDlg, IDC_DONTDETECT, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
-				mir_snprintf(temp, _countof(temp), "gamenostatus_%d", gameid);
+				mir_snprintf(temp, "gamenostatus_%d", gameid);
 				CheckDlgButton(hwndDlg, IDC_NOSTATUSMSG, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
-				mir_snprintf(temp, _countof(temp), "notinstartmenu_%d", gameid);
+				mir_snprintf(temp, "notinstartmenu_%d", gameid);
 				CheckDlgButton(hwndDlg, IDC_NOTINSTARTMENU, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 				//extra parameter auslesen, aber nur, wenn das spiel auch sowas unterstützt
 				if (xgtemp && xgtemp->haveExtraGameArgs()) {
 					EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, TRUE);
-					mir_snprintf(temp, _countof(temp), "gameextraparams_%d", gameid);
+					mir_snprintf(temp, "gameextraparams_%d", gameid);
 					DBVARIANT dbv;
 					if (!db_get(NULL, protocolname, temp, &dbv)) {
 						SetDlgItemTextA(hwndDlg, IDC_EXTRAPARAMS, dbv.pszVal);

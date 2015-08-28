@@ -126,7 +126,7 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 		
 			TCHAR szFormat[256], szFinal[256];
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
-			mir_sntprintf(szFinal, _countof(szFinal), szFormat, cli.pfnGetContactDisplayName(lParam, 0));
+			mir_sntprintf(szFinal, szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
 		SetFocus( GetDlgItem(hWnd, IDNO));
@@ -993,7 +993,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PROTOACCOUNT *pa;
 					TCHAR tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
-						mir_sntprintf(tszName, _countof(tszName), _T("%s "), pa->tszAccountName);
+						mir_sntprintf(tszName, _T("%s "), pa->tszAccountName);
 					else
 						tszName[0] = 0;
 

@@ -204,7 +204,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		//Popups nitified
 		for (i = 0; i < POPUPS; i++) {
 			mir_snprintf(str, "Popups%d", i);
-			mir_snprintf(str2, _countof(str2), "Popups%dM", i);
+			mir_snprintf(str2, "Popups%dM", i);
 			CheckDlgButton(hdlg, (i + 40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, (i + 1024), (db_get_b(NULL, MODNAME, str2, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			if (IsDlgButtonChecked(hdlg, (i + 40071)))
@@ -373,7 +373,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (i = 0; i < POPUPS; i++) {
 				mir_snprintf(str, "Popups%d", i);
 				db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i + 40071))));
-				mir_snprintf(str2, _countof(str2), "Popups%dM", i);
+				mir_snprintf(str2, "Popups%dM", i);
 				db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i + 1024))));
 			}
 			return TRUE;

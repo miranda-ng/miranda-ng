@@ -143,13 +143,13 @@ static bool OnCreateAccount(HWND hwndDlg)
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
 		TCHAR szPlugin[MAX_PATH];
-		mir_sntprintf(szPlugin, _countof(szPlugin), _T("%s.dll"), _A2T(pa->szProtoName));
+		mir_sntprintf(szPlugin, _T("%s.dll"), _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			TCHAR szNewName[MAX_PATH];
-			mir_sntprintf(szNewName, _countof(szNewName), _T("%s~"), szPlugin);
+			mir_sntprintf(szNewName, _T("%s~"), szPlugin);
 			MoveFile(szPlugin, szNewName);
 		}
 		param->action = PRAC_ADDED;
@@ -202,9 +202,9 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				TCHAR str[200];
 				if (param->action == PRAC_CHANGED) { // update
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
-					mir_sntprintf(str, _countof(str), _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
+					mir_sntprintf(str, _T("%s: %s"), TranslateT("Editing account"), param->pa->tszAccountName);
 				}
-				else mir_sntprintf(str, _countof(str), _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
+				else mir_sntprintf(str, _T("%s: %s"), TranslateT("Upgrading account"), param->pa->tszAccountName);
 
 				SetWindowText(hwndDlg, str);
 				SetDlgItemText(hwndDlg, IDC_ACCNAME, param->pa->tszAccountName);

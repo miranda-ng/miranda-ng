@@ -43,7 +43,7 @@ int GGPROTO::gc_init()
 
 		gc_enabled = TRUE;
 		// create & hook event
-		mir_snprintf(service, _countof(service), GG_GC_GETCHAT, m_szModuleName);
+		mir_snprintf(service, GG_GC_GETCHAT, m_szModuleName);
 		debugLogA("gc_init(): Registered with groupchat plugin.");
 	}
 	else debugLogA("gc_init(): Cannot register with groupchat plugin !!!");
@@ -299,7 +299,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	// Create new chat window
 	TCHAR status[256];
 	TCHAR *senderName = sender ? pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0) : NULL;
-	mir_sntprintf(status, _countof(status), (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
+	mir_sntprintf(status, (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
 
 	GCSESSION gcwindow = { sizeof(gcwindow) };
 	gcwindow.iType = GCW_CHATROOM;

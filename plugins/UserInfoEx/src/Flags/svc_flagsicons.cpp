@@ -133,7 +133,7 @@ HICON LoadFlag(int countryNumber)
 		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber=0xFFFF,0);
 
 	char szId[20];
-	mir_snprintf(szId, _countof(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", countryNumber); /* buffer safe */
+	mir_snprintf(szId, (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", countryNumber); /* buffer safe */
 	return IcoLib_GetIcon(szId);
 }
 
@@ -349,7 +349,7 @@ void InitIcons()
 			for (int i=0; i < nCountriesCount; i++) {
 				sid.description.t = mir_a2t(LPGEN(countries[i].szName));
 				/* create identifier */
-				mir_snprintf(szId, _countof(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
+				mir_snprintf(szId, (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);
 				/* create icon */
 				sid.hDefaultIcon = ImageList_ExtractIcon(NULL, himl, index);
@@ -374,7 +374,7 @@ void UninitIcons()
 	for(int i=0;i<nCountriesCount;++i) {
 		// create identifier
 		char szId[20];
-		mir_snprintf(szId, _countof(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
+		mir_snprintf(szId, (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 		IcoLib_RemoveIcon(szId);
 	}
 	mir_free(phIconHandles);  // does NULL check

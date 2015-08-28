@@ -306,11 +306,11 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// the protocol supports status message sending for current status, or autoreplying
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || 
 			((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
-			mir_sntprintf(szSetStr, _countof(szSetStr), TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_sntprintf(szSetStr, TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
-			mir_sntprintf(szReadStr, _countof(szReadStr), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
+			mir_sntprintf(szReadStr, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
 			hReadMsgIcon = Skin_LoadProtoIcon(szProto, iContactMode);
 		}
 	}

@@ -103,7 +103,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 					if (pdescr == NULL)
 						return -1;
 					char key[MAX_PATH];
-					mir_snprintf(key, _countof(key), "Global avatar for %s accounts", pdescr->szProtoName);
+					mir_snprintf(key, "Global avatar for %s accounts", pdescr->szProtoName);
 					if (tszValue = db_get_tsa(NULL, PPICT_MODULE, key))
 						MyPathToAbsolute(tszValue, tszFilename);
 				}

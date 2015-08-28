@@ -42,7 +42,7 @@ char *gg_status2db(int status, const char *suffix)
 	}
 
 	static char str[64];
-	mir_snprintf(str, _countof(str), "%s%s", prefix, suffix);
+	mir_snprintf(str, "%s%s", prefix, suffix);
 	return str;
 }
 
@@ -219,7 +219,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		char *AvatarName = strrchr(AvatarURL, '/');
 		AvatarName++;
 		char AvatarNameWithTS[128];
-		mir_snprintf(AvatarNameWithTS, _countof(AvatarNameWithTS), "%s%s", AvatarName, AvatarTs);
+		mir_snprintf(AvatarNameWithTS, "%s%s", AvatarName, AvatarTs);
 		AvatarHash = gg_avatarhash(AvatarNameWithTS);
 	}
 

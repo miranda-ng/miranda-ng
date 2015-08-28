@@ -219,7 +219,7 @@ void SvcFlagsLoadModule()
 		langid = 1;
 
 	char szId[20];
-	mir_snprintf(szId, _countof(szId), (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
+	mir_snprintf(szId, (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
 	hExtraIconSvc = ExtraIcon_RegisterIcolib("Flags", LPGEN("Flags (uinfoex)"), szId);
 }
 

@@ -1151,7 +1151,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 		return;
 
 	TCHAR tszTitle[100];
-	mir_sntprintf(tszTitle, _countof(tszTitle), TranslateT("%s options"), pa->tszAccountName);
+	mir_sntprintf(tszTitle, TranslateT("%s options"), pa->tszAccountName);
 
 	OPENOPTIONSDIALOG ood = { sizeof(ood) };
 	ood.pszGroup = LPGEN("Network");

@@ -206,7 +206,7 @@ void TfrmAbout::btnPageClick()
 	TCHAR newTitle[128];
 	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
 	TCHAR* pszVer = mir_a2t(__VERSION_STRING_DOTS);
-	mir_sntprintf(newTitle, _countof(newTitle), _T("%s - %s\nv%s"), pszPlug, title, pszVer);
+	mir_sntprintf(newTitle, _T("%s - %s\nv%s"), pszPlug, title, pszVer);
 	mir_free(pszPlug);
 	mir_free(pszVer);
 	SetDlgItemText(m_hWnd, IDC_HEADERBAR, newTitle);

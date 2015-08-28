@@ -168,7 +168,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 			continue;
 
 		char dbSetting[128];
-		mir_snprintf(dbSetting, _countof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
+		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
 		if (ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
@@ -301,9 +301,9 @@ static int OnOkToExit(WPARAM, LPARAM)
 			continue;
 
 		char lastName[128], lastMsg[128];
-		mir_snprintf(lastName, _countof(lastName), "%s%s", PREFIX_LAST, pa->szModuleName);
+		mir_snprintf(lastName, "%s%s", PREFIX_LAST, pa->szModuleName);
 		db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
-		mir_snprintf(lastMsg, _countof(lastMsg), "%s%s", PREFIX_LASTMSG, pa->szModuleName);
+		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
 		db_unset(NULL, MODULENAME, lastMsg);
 
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))

@@ -199,7 +199,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	}
 
 	char help[1024];
-	mir_snprintf(help, _countof(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
+	mir_snprintf(help, Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
 	CallContactService(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
 	return 0;
 }

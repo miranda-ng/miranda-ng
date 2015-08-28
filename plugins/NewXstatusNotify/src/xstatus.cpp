@@ -226,7 +226,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	HICON hIcon = NULL;
 	TCHAR str[256] = { 0 };
 	TCHAR stzType[32];
-	mir_sntprintf(str, _countof(str), TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
+	mir_sntprintf(str, TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
 
 	if (opt.BlinkIcon_Status) {
 		DBVARIANT dbv;
@@ -337,7 +337,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 		Template = templates.LogXMsgRemoved; break;
 	}
 
-	mir_sntprintf(stzText, _countof(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, 
+	mir_sntprintf(stzText, _T("%s, %s. %s %s\r\n"), stzDate, stzTime, 
 		pcli->pfnGetContactDisplayName(xsc->hContact, 0), ReplaceVars(xsc, Template).GetString());
 
 	LogToFile(stzText);
@@ -369,8 +369,8 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (opt.AutoDisable) {
 		char statusIDs[12], statusIDp[12];
 		WORD myStatus = (WORD)CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0);
-		mir_snprintf(statusIDs, _countof(statusIDs), "s%d", myStatus);
-		mir_snprintf(statusIDp, _countof(statusIDp), "p%d", myStatus);
+		mir_snprintf(statusIDs, "s%d", myStatus);
+		mir_snprintf(statusIDp, "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : bEnableSound;
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : bEnablePopup;
 	}

@@ -140,7 +140,7 @@ void LogWumf(PWumf w)
 		hLogger = mir_createLog("wumf", _T("WhoIsUsingMyFiles log file"), WumfOptions.LogFile, 0);
 		if (hLogger == NULL) {
 			TCHAR str[256];
-			mir_sntprintf(str, _countof(str), _T("Can't open log file %s"), WumfOptions.LogFile);
+			mir_sntprintf(str, _T("Can't open log file %s"), WumfOptions.LogFile);
 			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
 			return;

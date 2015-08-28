@@ -172,7 +172,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	char szP2PModuleName[MAX_PATH];
-	mir_snprintf(szP2PModuleName, _countof(szP2PModuleName), "%sP2P", m_szModuleName);
+	mir_snprintf(szP2PModuleName, "%sP2P", m_szModuleName);
 	mir_sntprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	nlu.ptszDescriptiveName = szBuffer;
@@ -241,9 +241,9 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 	char pszSrvGroupsName[MAX_PATH];
 	char* modules[5] = { 0, 0, 0, 0, 0 };
 
-	mir_snprintf(pszP2PName, _countof(pszP2PName), "%sP2P", m_szModuleName);
-	mir_snprintf(pszGroupsName, _countof(pszGroupsName), "%sGroups", m_szModuleName);
-	mir_snprintf(pszSrvGroupsName, _countof(pszSrvGroupsName), "%sSrvGroups", m_szModuleName);
+	mir_snprintf(pszP2PName, "%sP2P", m_szModuleName);
+	mir_snprintf(pszGroupsName, "%sGroups", m_szModuleName);
+	mir_snprintf(pszSrvGroupsName, "%sSrvGroups", m_szModuleName);
 	modules[0] = m_szModuleName;
 	modules[1] = pszP2PName;
 	modules[2] = pszGroupsName;
@@ -1215,7 +1215,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 					}
 					else {
 						char tmp[64];
-						mir_snprintf(szFiles, _countof(szFiles), ICQTranslateUtfStatic("%d Files", tmp, _countof(tmp)), ft->dwFileCount);
+						mir_snprintf(szFiles, ICQTranslateUtfStatic("%d Files", tmp, _countof(tmp)), ft->dwFileCount);
 						pszFiles = szFiles;
 					}
 
@@ -1857,11 +1857,11 @@ int __cdecl CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 	case EV_PROTO_ONERASE:
 		{
 			char szDbSetting[MAX_PATH];
-			mir_snprintf(szDbSetting, _countof(szDbSetting), "%sP2P", m_szModuleName);
+			mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
-			mir_snprintf(szDbSetting, _countof(szDbSetting), "%sSrvGroups", m_szModuleName);
+			mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
-			mir_snprintf(szDbSetting, _countof(szDbSetting), "%sGroups", m_szModuleName);
+			mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
 		}
 		break;

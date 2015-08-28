@@ -48,7 +48,7 @@ static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage, LPARAM lParam)
 		return FALSE; /* stop poll thread */
 
 	TCHAR str[64];
-	mir_sntprintf(str, _countof(str), TranslateT("(current: %u%%)"), nCpuUsage);
+	mir_sntprintf(str, TranslateT("(current: %u%%)"), nCpuUsage);
 	SetWindowText((HWND)lParam, str);
 	return TRUE;
 }

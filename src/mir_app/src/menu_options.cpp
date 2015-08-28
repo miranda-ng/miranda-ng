@@ -83,13 +83,13 @@ class CGenMenuOptionsPage : public CDlgBase
 				char menuItemName[256], DBString[300];
 				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
-				mir_snprintf(DBString, _countof(DBString), "%s_visible", menuItemName);
+				mir_snprintf(DBString, "%s_visible", menuItemName);
 				db_set_b(NULL, szModule, DBString, tvi.iImage != 0);
 
-				mir_snprintf(DBString, _countof(DBString), "%s_pos", menuItemName);
+				mir_snprintf(DBString, "%s_pos", menuItemName);
 				db_set_dw(NULL, szModule, DBString, runtimepos);
 
-				mir_snprintf(DBString, _countof(DBString), "%s_name", menuItemName);
+				mir_snprintf(DBString, "%s_name", menuItemName);
 				if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
 					db_set_ts(NULL, szModule, DBString, iod->name);
 				else
@@ -120,7 +120,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			return;
 
 		char szModule[256];
-		mir_snprintf(szModule, _countof(szModule), "%s_Items", pmo->pszName);
+		mir_snprintf(szModule, "%s_Items", pmo->pszName);
 		CallService(MS_DB_MODULE_DELETE, NULL, (LPARAM)szModule);
 		SaveTreeInternal(m_menuItems.GetRoot(), szModule);
 	}
@@ -244,7 +244,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			return false;
 
 		char szModule[256];
-		mir_snprintf(szModule, _countof(szModule), "%s_Items", pmo->pszName);
+		mir_snprintf(szModule, "%s_Items", pmo->pszName);
 
 		bRebuild = true;
 		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);

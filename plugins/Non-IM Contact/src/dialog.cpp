@@ -288,7 +288,7 @@ void DoPropertySheet(MCONTACT hContact)
 	psh.hInstance = g_hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
 	db_get_static(hContact, MODNAME, "Nick", nick, _countof(nick));
-	mir_snprintf(title, _countof(title), Translate("Edit Non-IM Contact \"%s\""), nick);
+	mir_snprintf(title, Translate("Edit Non-IM Contact \"%s\""), nick);
 	psh.pszCaption = title;
 	psh.nPages = _countof(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;

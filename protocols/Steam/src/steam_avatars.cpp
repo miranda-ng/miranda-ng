@@ -3,7 +3,7 @@
 TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _countof(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(path, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)

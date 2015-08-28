@@ -68,7 +68,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CYahooProto::OnPrebuildContactMenu);
 
 	TCHAR tModuleDescr[100];
-	mir_sntprintf(tModuleDescr, _countof(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
+	mir_sntprintf(tModuleDescr, TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);

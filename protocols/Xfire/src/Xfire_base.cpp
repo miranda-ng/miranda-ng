@@ -466,7 +466,7 @@ BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char
 		return FALSE; //kein pfad bug?!?!
 
 	if (subid == 0) {
-		mir_snprintf(idstring, _countof(idstring), "%d", gameid);
+		mir_snprintf(idstring, "%d", gameid);
 
 		if (xfire_GetPrivateProfileString(idstring, valname, "", out, sizeofout, path))
 			return TRUE;
@@ -474,7 +474,7 @@ BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char
 		subid++;
 	}
 
-	mir_snprintf(idstring, _countof(idstring), "%d_%d", gameid, subid);
+	mir_snprintf(idstring, "%d_%d", gameid, subid);
 
 	if (xfire_GetPrivateProfileString(idstring, valname, "", out, sizeofout, path))
 		return TRUE;
@@ -511,7 +511,7 @@ BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize)
 		//customnamen laden, wenn vorhanden
 		DBVARIANT dbv;
 		char dbstr[XFIRE_MAXSIZEOFGAMENAME];
-		mir_snprintf(dbstr, _countof(dbstr), "customgamename_%d", gameid);
+		mir_snprintf(dbstr, "customgamename_%d", gameid);
 		if (!db_get(NULL, protocolname, dbstr, &dbv)) {
 			strncpy_s(out, outsize, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);

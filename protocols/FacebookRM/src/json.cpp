@@ -391,7 +391,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 			newText = _A2T(type.c_str());
 
 		TCHAR title[200];
-		mir_sntprintf(title, _countof(title), TranslateT("User sent %s:"), newText.c_str());
+		mir_sntprintf(title, TranslateT("User sent %s:"), newText.c_str());
 
 		*message_text += T2Utf(title);
 		*message_text += attachments_text;
@@ -685,7 +685,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 						StatusTextData st = { 0 };
 						st.cbSize = sizeof(st);
 
-						mir_sntprintf(st.tszText, _countof(st.tszText), TranslateT("%s is typing a message..."), name);
+						mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), name);
 
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 					}

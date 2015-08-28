@@ -481,7 +481,7 @@ void UpdateFilters()
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, _countof(szMask), "%s|", szTemp);
+			mir_snprintf(szMask, "%s|", szTemp);
 			if (dbv_pf.pszVal && strstr(dbv_pf.pszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -505,7 +505,7 @@ void UpdateFilters()
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, _countof(szMask), _T("%s|"), szTemp);
+			mir_sntprintf(szMask, _T("%s|"), szTemp);
 			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else

@@ -42,7 +42,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* pts
 		else {
 			proto->debugLog(_T("getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s"), ptszDest, errno, strerror(errno));
 			TCHAR buffer[512];
-			mir_sntprintf(buffer, _countof(buffer), TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ptszDest);
+			mir_sntprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ptszDest);
 			PUShowMessageT(buffer, SM_WARNING);
 		}
 	}
@@ -111,7 +111,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat",  format);
 	} else {
 		TCHAR buffer[128];
-		mir_sntprintf(buffer, _countof(buffer), TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
+		mir_sntprintf(buffer, TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
 		PUShowMessageT(buffer, SM_WARNING);
 		proto->debugLog(buffer);
 		return;

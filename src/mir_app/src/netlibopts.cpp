@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TCHAR str[80];
 		{
 			int selectedProxyType = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETCURSEL, 0, 0), 0);
-			mir_sntprintf(str, _countof(str), TranslateT("(often %d)"), oftenProxyPorts[selectedProxyType]);
+			mir_sntprintf(str, TranslateT("(often %d)"), oftenProxyPorts[selectedProxyType]);
 			SetDlgItemText(hwndDlg, IDC_STOFTENPORT, str);
 			if (IsDlgButtonChecked(hwndDlg, IDC_USEPROXY) != BST_UNCHECKED) {
 				int enableAuth = 0, enableUser = 0, enablePass = 0, enableServer = 1;

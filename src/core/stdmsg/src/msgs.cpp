@@ -94,7 +94,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	TCHAR toolTip[256];
-	mir_sntprintf(toolTip, _countof(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = toolTip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
@@ -165,7 +165,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
-		mir_sntprintf(szTip, _countof(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags & SMF_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn = { sizeof(tn) };
@@ -257,7 +257,7 @@ static void RestoreUnreadMessageAlerts(void)
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
-					mir_sntprintf(toolTip, _countof(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+					mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				}
 			}
@@ -516,7 +516,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 {
 	WCHAR szwName[64];
 	char szName[64];
-	mir_snprintf(szName, _countof(szName), "s%u", nextStgId++);
+	mir_snprintf(szName, "s%u", nextStgId++);
 	MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, _countof(szwName));
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;

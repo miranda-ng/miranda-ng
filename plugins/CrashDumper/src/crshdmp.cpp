@@ -68,7 +68,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	CreateDirectoryTree(VersionInfoFolder);
 
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, _countof(path), TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+	mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
@@ -159,7 +159,7 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 	ptrT tmp(db_get_wsa(NULL, PluginName, "Username"));
 	if (tmp != NULL) {
 		TCHAR buffer[MAX_PATH];
-		mir_sntprintf(buffer, _countof(buffer), _T("http://vi.miranda-ng.org/detail/%s"), tmp);
+		mir_sntprintf(buffer, _T("http://vi.miranda-ng.org/detail/%s"), tmp);
 
 		int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
 		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
@@ -359,7 +359,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
 	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 	if (catchcrashes && !needrestart)
-		mir_sntprintf(CrashLogFolder, _countof(CrashLogFolder), TEXT("%s\\CrashLog"), profpath);
+		mir_sntprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
 	_tcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
 

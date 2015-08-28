@@ -41,7 +41,7 @@ int InitMenus(WPARAM wParam, LPARAM lParam)
 	if (pga != NULL) {
 		LPCSTR szModuleName = pga->m_japi->GetModuleName();
 		char szServiceName[100];
-		mir_snprintf(szServiceName, _countof(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
+		mir_snprintf(szServiceName, "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
 		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
 		CMenuItem mi;
