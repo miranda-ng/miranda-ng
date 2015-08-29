@@ -44,12 +44,14 @@
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions Condition="'$(VisualStudioVersion)' == '12.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
+    <Link>
+      <AdditionalOptions Condition="'$(VisualStudioVersion)' == '12.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
+    </Link>
   </ItemDefinitionGroup>
 </Project>
