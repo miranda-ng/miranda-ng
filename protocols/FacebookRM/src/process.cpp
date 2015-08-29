@@ -314,13 +314,13 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 		std::vector<std::string> threads;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_unread_threads(&resp.data, &threads, inboxOnly);
-	delete p;
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_unread_threads(&resp.data, &threads, inboxOnly);
+		delete p;
 
-	ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
+		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
 
-	debugLogA("*** Unread threads list processed");
+		debugLogA("*** Unread threads list processed");
 
 	CODE_BLOCK_CATCH
 
@@ -352,6 +352,8 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
 	http::response resp;
+
+	// TODO: First load info about amount of unread messages, then load exactly this amount for each thread
 
 	while (!threads->empty()) {
 		std::string data = "client=mercury";
@@ -1117,7 +1119,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 	}
 
 	// Parse it
-	std::string reqs = utils::text::source_get_value(&resp.data, 3, "id=\"friend_requests_section\"", "</h4>", "<h4");
+	std::string reqs = utils::text::source_get_value(&resp.data, 3, "id=\"friends_center_main\"", "</h3>", "/friends/center/suggestions/");
 
 	std::string::size_type pos = 0;
 	std::string::size_type pos2 = 0;
@@ -1125,21 +1127,21 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 	while (!last && !reqs.empty()) {
 		std::string req;
-		if ((pos2 = reqs.find("<img src=", pos)) != std::string::npos) {
+		if ((pos2 = reqs.find("</table>", pos)) != std::string::npos) {
 			req = reqs.substr(pos, pos2 - pos);
-			pos = pos2 + 9;
+			pos = pos2 + 8;
 		} else {
 			req = reqs.substr(pos);
 			last = true;
 		}
-
-		std::string get = utils::text::source_get_value(&req, 3, "<form", "action=\"", "\">");
+		
+		std::string get = utils::text::source_get_value(&req, 2, "notifications.php?", "\"");
 		std::string time = utils::text::source_get_value2(&get, "seenrequesttime=", "&\"");
-		std::string reason = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<span", ">", "</span>"));
+		std::string reason = utils::text::remove_html(utils::text::source_get_value(&req, 4, "</a>", "<div", ">", "</div>"));
 
 		facebook_user fbu;
-		fbu.real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<strong", ">", "</strong>"));
-		fbu.user_id = utils::text::source_get_value2(&get, "id=", "&\"");
+		fbu.real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<a", ">", "</a>"));
+		fbu.user_id = utils::text::source_get_value2(&get, "confirm=", "&\"");
 
 		if (!fbu.user_id.empty() && !fbu.real_name.empty()) {
 			MCONTACT hContact = AddToContactList(&fbu, CONTACT_APPROVE);
