@@ -133,7 +133,8 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 
 	vector = y_new(char *, nelem + 1);
 
-	for(char *p=str, *s=strstr(p,sep); i<nelem && s; p=s+l, s=strstr(p,sep), i++) {
+	char *p, *s;
+	for(p=str, s=strstr(p,sep); i<nelem && s; p=s+l, s=strstr(p,sep), i++) {
 		int len = s-p;
 		vector[i] = y_new(char, len+1);
 		strncpy(vector[i], p, len);
