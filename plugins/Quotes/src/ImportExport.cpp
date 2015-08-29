@@ -393,7 +393,7 @@ namespace
 							}
 							else if (0 == quotes_stricmp(g_pszXmlTypeAsciiz, sType.c_str()))
 							{
-								CT2A v(sValue.c_str());
+								ptrA v(mir_t2a(sValue.c_str()));
 								dbs.value.pszVal = v;
 								dbs.value.type = DBVT_ASCIIZ;
 								if (set_contact_settings(hContact, dbs))
@@ -409,7 +409,7 @@ namespace
 							}
 							else if (0 == quotes_stricmp(g_pszXmlTypeWchar, sType.c_str()))
 							{
-								CT2W val(sValue.c_str());
+								ptrW val(mir_t2u(sValue.c_str()));
 								dbs.value.pwszVal = val;
 								dbs.value.type = DBVT_WCHAR;
 								if (set_contact_settings(hContact, dbs))

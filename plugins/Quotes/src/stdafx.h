@@ -5,17 +5,15 @@
 
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
 #include <windows.h>
 #include <mshtml.h>
-#include <atlenc.h>
 #include <comdef.h>
 #include <commctrl.h>
 #include <ShellAPI.h>
 #include <sys\stat.h>
 #include <CommDlg.h>
 #include <fstream>
+#include <msapi/comptr.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>

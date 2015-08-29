@@ -96,14 +96,12 @@ namespace
 
 		virtual tstring GetAttribute(const tstring& rsAttrName)const
 		{
-			USES_CONVERSION;
-
 			tstring sAttr;
 			CComPtr<IHTMLElement> pElement;
 			if (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement, reinterpret_cast<void**>(&pElement))) && pElement)
 			{
 				_variant_t vAttribute;
-				BSTR pbstrAttrName = T2BSTR(rsAttrName.c_str());
+				BSTR pbstrAttrName = ::SysAllocString(rsAttrName.c_str());
 				if (SUCCEEDED(pElement->getAttribute(pbstrAttrName, 1, &vAttribute))
 					&& VT_NULL != vAttribute.vt && VT_EMPTY != vAttribute.vt)
 				{
@@ -219,47 +217,29 @@ CHTMLParserMS::CHTMLParserMS() : m_bCallUninit(false)
 
 CHTMLParserMS::~CHTMLParserMS()
 {
-	if (true == m_bCallUninit)
-	{
+	if (m_bCallUninit)
 		::CoUninitialize();
-	}
 }
 
 CHTMLParserMS::THTMLNodePtr CHTMLParserMS::ParseString(const tstring& rsHTML)
 {
-	USES_CONVERSION;
+	mir_cslock lck(m_cs);
 
-	try
+	CComPtr<IMarkupContainer> pMC;
+	HRESULT hr = m_pMS->ParseString((OLECHAR*)rsHTML.c_str(), 0, &pMC, m_pMkStart, m_pMkFinish);
+	if (SUCCEEDED(hr) && pMC)
 	{
-		mir_cslock lck(m_cs);
-
-		OLECHAR* p = T2OLE(const_cast<LPTSTR>(rsHTML.c_str()));
-		CComPtr<IMarkupContainer>  pMC;
-		_com_util::CheckError(m_pMS->ParseString(p, 0, &pMC, m_pMkStart, m_pMkFinish));
-
-		if (pMC)
+		CComPtr<IHTMLDocument2> pNewDoc;
+		hr = pMC->QueryInterface(IID_IHTMLDocument, (LPVOID*)&pNewDoc);
+		if (SUCCEEDED(hr) && pNewDoc)
 		{
-			CComPtr<IHTMLDocument2> pNewDoc;
+			CComPtr<IHTMLElementCollection> pColl;
+			pNewDoc->get_all(&pColl);
 
-			_com_util::CheckError(pMC->QueryInterface(IID_IHTMLDocument,
-				(LPVOID*)&pNewDoc));
-
-			if (pNewDoc)
-			{
-				CComPtr<IHTMLElementCollection> pColl;
-				_com_util::CheckError(pNewDoc->get_all(&pColl));
-
-				CHTMLNode::TDocumentPtr pDoc;
-				pMC->QueryInterface(IID_IHTMLDocument3, (LPVOID*)&pDoc);
-
-
-				return THTMLNodePtr(new CHTMLNode(CHTMLNode::TComPtr(pColl), pDoc));
-			}
+			CHTMLNode::TDocumentPtr pDoc;
+			pMC->QueryInterface(IID_IHTMLDocument3, (LPVOID*)&pDoc);
+			return THTMLNodePtr(new CHTMLNode(CHTMLNode::TComPtr(pColl), pDoc));
 		}
-	}
-	catch (_com_error&/* e*/)
-	{
-		// 		show_com_error_msg(e);
 	}
 
 	return THTMLNodePtr();
@@ -290,9 +270,7 @@ bool CHTMLParserMS::IsInstalled()
 	}
 
 	if (bCallUninit)
-	{
 		::CoUninitialize();
-	}
 
 	return bResult;
 }
