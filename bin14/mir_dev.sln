@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
@@ -432,8 +432,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageState", "..\plugins\MessageState\MessageState.vcxproj", "{D7F4D0B3-7B2C-4DB9-B9CB-0C93491E38E4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirLua", "..\plugins\MirLua\MirLua.vcxproj", "{27D41D81-991F-4DC6-8749-B0321C87E694}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddToStartMenu", "..\plugins\AddToStartMenu\AddToStartMenu.vcxproj", "{2954E74F-57F3-421A-980C-681B54810C9A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toaster", "..\plugins\Toaster\Toaster.vcxproj", "{1FDBD8F0-3929-41BC-92D1-020779460769}"
 EndProject
@@ -1971,14 +1969,6 @@ Global
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|Win32.Build.0 = Release|Win32
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.ActiveCfg = Release|x64
 		{27D41D81-991F-4DC6-8749-B0321C87E694}.Release|x64.Build.0 = Release|x64
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Debug|Win32.Build.0 = Debug|Win32
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Debug|x64.ActiveCfg = Debug|x64
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Debug|x64.Build.0 = Debug|x64
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Release|Win32.ActiveCfg = Release|Win32
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Release|Win32.Build.0 = Release|Win32
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Release|x64.ActiveCfg = Release|x64
-		{2954E74F-57F3-421A-980C-681B54810C9A}.Release|x64.Build.0 = Release|x64
 		{1FDBD8F0-3929-41BC-92D1-020779460769}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1FDBD8F0-3929-41BC-92D1-020779460769}.Debug|Win32.Build.0 = Debug|Win32
 		{1FDBD8F0-3929-41BC-92D1-020779460769}.Debug|x64.ActiveCfg = Debug|x64
