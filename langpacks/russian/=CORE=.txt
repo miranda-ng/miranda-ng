@@ -2063,6 +2063,14 @@ Miranda не смогла загрузить встроенную систему
 Миранда пытается обновить структуру вашего профиля.\nНе удалось автоматически переместить профиль %s в новое расположение %s\nВероятная причина - нехватка прав доступа. Пожалуйста, переместите профиль вручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профиля не должен находится в корневой папке Miranda.
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
+Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nНеобходимо установить плагин dbx_mmap.dll
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭто может оказаться повреждённый профиль, попробуйте исправить его с помощью DbChecker.
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Miranda NG не может открыть '%s'\nОн недоступен, занят другим приложением или другой копией Miranda NG
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+Miranda NG не может открыть '%s'\nНе установлен подходящий драйвер базы
 [No profile support installed!]
 Нет установленных плагинов базы!
 [Miranda can't open that profile]
