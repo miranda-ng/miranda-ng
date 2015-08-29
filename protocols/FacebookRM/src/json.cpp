@@ -431,11 +431,12 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 		if (t == "messaging") {
 			// various messaging stuff (received and sent messages, getting seen info)
 
-			const JSONNode &ev = (*it)["event"];
-			if (!ev)
+			const JSONNode &ev_ = (*it)["event"];
+			if (!ev_)
 				continue;
 
-			if (ev.as_string() == "read_receipt") {
+			std::string ev = ev_.as_string();
+			if (ev == "read_receipt") {
 				// user read message
 				const JSONNode &reader_ = (*it)["reader"];
 				const JSONNode &time_ = (*it)["time"];
@@ -483,7 +484,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector< facebo
 				if (hContact)
 					proto->facy.insert_reader(hContact, timestamp, reader);
 			}
-			else if (t == "deliver") {
+			else if (ev == "deliver") {
 				// inbox message (multiuser or direct)
 
 				const JSONNode &msg = (*it)["message"];
