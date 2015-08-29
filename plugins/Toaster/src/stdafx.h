@@ -16,8 +16,6 @@
 #include <m_popup.h>
 #include <m_message.h>
 #include <m_chat.h>
-#include <m_imgsrvc.h>
-#include <m_folders.h>
 
 #include "version.h"
 #include "resource.h"
@@ -32,12 +30,10 @@ DEFINE_PROPERTYKEY(PKEY_AppUserModel_ID, 0x9F4C2855, 0x9F79, 0x4B39, 0xA8, 0xD0,
 #include "toast_event_handler.h"
 #include "toast_notification.h"
 #include "add_to_start_menu.h"
-#include "avatars.h"
 
 extern HINSTANCE g_hInstance;
 extern mir_cs csNotifications;
 extern OBJLIST<ToastNotification> lstNotifications;
-extern HANDLE g_hTempAvatarsFolder;
 
 struct callbackArg
 {
