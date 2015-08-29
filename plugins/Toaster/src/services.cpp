@@ -51,7 +51,7 @@ static void ShowToastNotification(TCHAR* text, TCHAR* title, MCONTACT hContact)
 				wchar_t dir[MAX_PATH];
 				FoldersGetCustomPathT(g_hTempAvatarsFolder, dir, _countof(dir), VARSW(L"%miranda_userdata%\\Temp"));
 				ToasterAvatar *ta = new ToasterAvatar(&pai);
-				CMStringW wszPath(FORMAT, L"%s\\%lld.%d.png", dir, hContact, db_get_dw(hContact, "ContactPhoto", "ImagePath"));
+				CMStringW wszPath(FORMAT, L"%s\\%lld.%d.png", dir, hContact, db_get_dw(hContact, "ContactPhoto", "ImageHash"));
 				ta->Save(wszPath);
 				imagePath = wszPath.Detach();
 				delete ta;
