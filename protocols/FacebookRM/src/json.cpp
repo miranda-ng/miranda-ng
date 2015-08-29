@@ -874,17 +874,19 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	std::map<std::string, std::string> thread_ids;
 	for (auto it = threads.begin(); it != threads.end(); ++it) {
 		const JSONNode &is_canonical_user = (*it)["is_canonical_user"];
-		const JSONNode &canonical = (*it)["canonical_fbid"];
+		const JSONNode &thread_fbid = (*it)["thread_fbid"]; // alternatively there is "other_user_fbid" too
 		const JSONNode &thread_id = (*it)["thread_id"];
 		const JSONNode &name = (*it)["name"];
 		//const JSONNode &message_count = (*it)["message_count");
 		//const JSONNode &unread_count = (*it)["unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		const JSONNode &folder = (*it)["folder"];
 
-		if (!canonical || !thread_id)
+		if (!thread_fbid || !thread_id) {
+			proto->debugLogA("!!! Missing thread_fbid/thread_id");
 			continue;
+		}
 
-		std::string id = canonical.as_string();
+		std::string id = thread_fbid.as_string();
 		std::string tid = thread_id.as_string();
 
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
@@ -919,6 +921,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	for (auto it = actions.begin(); it != actions.end(); ++it) {
 		const JSONNode &author = (*it)["author"];
 		const JSONNode &author_email = (*it)["author_email"];
+		const JSONNode &other_user_fbid = (*it)["other_user_fbid"];
 		const JSONNode &body = (*it)["body"];
 		const JSONNode &tid = (*it)["thread_id"];
 		const JSONNode &mid = (*it)["message_id"];
@@ -937,12 +940,13 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		std::string message_id = mid.as_string();
 		std::string message_text = body.as_string();
 		std::string author_id = author.as_string();
+		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
 		std::string::size_type pos = author_id.find(":");
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
-		parseAttachments(proto, &message_text, *it, thread_id, ""); // FIXME: is here supported other_user_fbid ?
+		parseAttachments(proto, &message_text, *it, thread_id, other_user_id);
 
 		if (filtered.as_bool() && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
@@ -978,6 +982,8 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			auto iter = thread_ids.find(thread_id);
 			if (iter != thread_ids.end())
 				message->user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+			else if (!other_user_id.empty())
+				message->user_id = other_user_id;
 			else {
 				delete message;
 				continue;
