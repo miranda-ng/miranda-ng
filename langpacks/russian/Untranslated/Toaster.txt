@@ -1,3 +1,3 @@
 ﻿[Provides popup services based on Windows toast notification for different plugins.]
 [This plugin requires Windows 8 or higher]
-[In Windows8 desktop application must have a shortcut on the Start menu. Please, install "AddToStartMenu" plugin.]
+[Failed create shortcut]
