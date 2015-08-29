@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org),
+Copyright (ï¿½) 2012-15 Miranda NG project (http://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -2056,7 +2056,9 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						// Has to keep the empty space??
 						if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
 							// Make rectangle
-							// RECT rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, max_width, max_width, dat->avatars_maxheight_size, HORIZONTAL_SPACE);
+							// NOTE: Calling _GetRectangle on next line has to be here, because it provides side-effect for positioning contact name correctly if contact has no avatar.
+							// It makes it aligned same way as if avatar was here. Just defining rc variable is useless, as it is never used (and just shows warning).
+							/*RECT rc =*/ _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left, max_width, max_width, dat->avatars_maxheight_size, HORIZONTAL_SPACE);
 
 							// Store position
 							//StoreItemPos( Drawing, CIT_AVATAR, &rc );
