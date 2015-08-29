@@ -5,6 +5,8 @@
 #include "smartptr.h"
 #include "secblock.h"
 
+#pragma warning(disable:4297)
+
 NAMESPACE_BEGIN(CryptoPP)
 
 //! used to pass byte array input as part of a NameValuePairs object
