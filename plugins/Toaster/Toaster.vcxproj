@@ -23,11 +23,6 @@
     <ProjectGuid>{1FDBD8F0-3929-41BC-92D1-020779460769}</ProjectGuid>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PlatformToolset>v140</PlatformToolset>
-    <WindowsAppContainer>
-    </WindowsAppContainer>
-  </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
@@ -50,20 +45,13 @@
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>delayimp.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <DelayLoadDLLs>API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <AdditionalOptions Condition="'$(VisualStudioVersion)' == '12.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
-      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MultiThreadedDebugDLL</RuntimeLibrary>
-    </ClCompile>
-    <ClCompile>
-      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <ClCompile>
-      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>
