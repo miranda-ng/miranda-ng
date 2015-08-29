@@ -29,6 +29,7 @@ private:
 	CCtrlCheck m_allasunread;
 	CCtrlCheck m_usehostname;
 	CCtrlCheck m_usebb;
+	CCtrlHyperlink m_link;
 
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog);
