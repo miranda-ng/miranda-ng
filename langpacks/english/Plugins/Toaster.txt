@@ -2,10 +2,10 @@
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.0.2
+;  Version: 0.11.1.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
-[In Windows8 desktop application must have a shortcut on the Start menu. Please, install "AddToStartMenu" plugin.]
+[Failed create shortcut]
