@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
-	: CSkypeDlgBase(proto, idDialog, false),
+: CSkypeDlgBase(proto, idDialog, false),
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),
@@ -26,7 +26,8 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	m_autosync(this, IDC_AUTOSYNC),
 	m_allasunread(this, IDC_MESASUREAD),
 	m_usehostname(this, IDC_USEHOST),
-	m_usebb(this, IDC_BBCODES)
+	m_usebb(this, IDC_BBCODES),
+	m_link(this, IDC_CHANGEPASS, "https://login.skype.com/recovery/password-change") // TODO : ...?username=%username%
 {
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);
@@ -44,9 +45,9 @@ void CSkypeOptionsMain::OnInitDialog()
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
 	m_place.Enable(!m_proto->getBool("UseHostName", false));
-	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
-	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 128, 0);
-	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
+	m_skypename.SendMsg(EM_LIMITTEXT, 32, 0);
+	m_password.SendMsg(EM_LIMITTEXT, 128, 0);
+	m_group.SendMsg(EM_LIMITTEXT, 64, 0);
 }
 
 
