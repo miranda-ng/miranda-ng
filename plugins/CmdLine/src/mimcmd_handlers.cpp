@@ -1257,7 +1257,7 @@ int ContactMatchSearch(MCONTACT hContact, char *contact, char *id, char *account
 				char protocol[128];
 
 				AccountName2Protocol(account, protocol, sizeof(protocol));
-				WORD contactStatus = db_get_w(hContact, protocol, "Status", ID_STATUS_ONLINE);
+				WORD contactStatus = db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE);
 
 				if (searchStatus != contactStatus) {
 					matches = 0;
