@@ -62,7 +62,7 @@ static void fillProfileName(const TCHAR* ptszFileName)
 
 bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 {
-	VARST pfd( _T("%miranda_path%"));
+	VARST pfd(_T("%miranda_path%"));
 	if (exact)
 		return mir_tstrcmpi(profiledir, pfd) == 0;
 
@@ -78,10 +78,10 @@ int getProfilePath(TCHAR *buf, size_t)
 	if (profiledir[0] == 0)
 		mir_tstrcpy(profiledir, _T("%miranda_path%\\Profiles"));
 
-	size_t len = PathToAbsoluteT( VARST(profiledir), buf);
+	size_t len = PathToAbsoluteT(VARST(profiledir), buf);
 
-	if (buf[len-1] == '/' || buf[len-1] == '\\')
-		buf[len-1] = 0;
+	if (buf[len - 1] == '/' || buf[len - 1] == '\\')
+		buf[len - 1] = 0;
 
 	return 0;
 }
@@ -152,7 +152,7 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), g_profileDir, profileName);
 	PathToAbsoluteT(buf, szProfile, newProfileDir);
 
-	if ( _tcschr(buf, '\\')) {
+	if (_tcschr(buf, '\\')) {
 		_tcsncpy_s(g_profileDir, szProfile, _TRUNCATE);
 		if (profileName[0]) {
 			p = _tcsrchr(g_profileDir, '\\'); *p = 0;
@@ -166,7 +166,7 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 
 void getProfileCmdLine(TCHAR *szProfile, size_t cch)
 {
-	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
+	LPCTSTR ptszProfileName = CmdLine_GetOption(_T("profile"));
 	if (ptszProfileName != NULL)
 		loadProfileByShortName(ptszProfileName, szProfile, cch);
 }
@@ -203,22 +203,21 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			if (_taccess(path2, 0) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
-					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
-					path, path2);
+								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
+								  path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 			}
 			else if (MoveFile(path, path2) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf,
-					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
-					path, path2);
+								  TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
+								  path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 				mir_free(profile);
 				break;
 			}
 			mir_free(profile);
-		}
-			while (FindNextFile(hFind, &ffd));
+		} while (FindNextFile(hFind, &ffd));
 	}
 	FindClose(hFind);
 }
@@ -263,8 +262,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
 					break;
 				}
-			}
-				while (FindNextFile(hFind, &ffd));
+			} while (FindNextFile(hFind, &ffd));
 
 			FindClose(hFind);
 		}
@@ -308,8 +306,8 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL,
-			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
-			LPGENT("Miranda NG"), MB_ICONERROR | MB_OK);
+					  TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
+					  LPGENT("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
 
@@ -373,7 +371,7 @@ int touchDatabase(const TCHAR *tszProfile, DATABASELINK **dblink)
 			return EGROKPRF_OBSOLETE;
 		}
 	}
-	
+
 	if (dblink)
 		*dblink = NULL;
 	return EGROKPRF_CANTREAD;
@@ -382,8 +380,6 @@ int touchDatabase(const TCHAR *tszProfile, DATABASELINK **dblink)
 // enumerate all plugins that had valid DatabasePluginInfo()
 int tryOpenDatabase(const TCHAR *tszProfile)
 {
-	bool bWasOpened = false;
-
 	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
 		DATABASELINK *p = arDbPlugins[i];
 
@@ -406,19 +402,18 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 			}
 		}
 
-		bWasOpened = true;
-
 		// try to load database
 		MIDatabase *pDb = p->Load(tszProfile, FALSE);
-		if (pDb) {
-			fillProfileName(tszProfile);
-			currDblink = p;
-			db_setCurrent(currDb = pDb);
-			return 0;
-		}
+		if (pDb == NULL)
+			return EGROKPRF_CANTREAD;
+
+		fillProfileName(tszProfile);
+		currDblink = p;
+		db_setCurrent(currDb = pDb);
+		return 0;
 	}
 
-	return (bWasOpened) ? -1 : EGROKPRF_CANTREAD;
+	return -1; // no suitable driver found
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
@@ -434,19 +429,20 @@ static int tryCreateDatabase(const TCHAR *ptszProfile)
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;
 			MIDatabase *pDb = p->Load(tszProfile, FALSE);
-			if (pDb != NULL) {
-				fillProfileName(tszProfile);
-				currDblink = p;
-				db_setCurrent(currDb = pDb);
-				return 0;
-			}
-			return 1;
+			if (pDb == NULL) // driver was found but smth went wrong
+				return EGROKPRF_CANTREAD;
+
+			fillProfileName(tszProfile);
+			currDblink = p;
+			db_setCurrent(currDb = pDb);
+			return 0;
 		}
 	}
-	return 1;
+	return -1; // no suitable driver found
 }
 
-typedef struct {
+typedef struct
+{
 	TCHAR *profile;
 	UINT msg;
 	ATOM aPath;
@@ -478,6 +474,11 @@ static int FindMirandaForProfile(TCHAR *szProfile)
 	return x.found;
 }
 
+static TCHAR tszNoDrivers[] = _T("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll");
+static TCHAR tszUnknownFormat[] = _T("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.");
+static TCHAR tszProfileLocked[] = _T("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance");
+static TCHAR tszNoSuitableDriver[] = _T("Miranda was unable to open '%s'\nThere is no suitable database driver installed");
+
 int LoadDatabaseModule(void)
 {
 	TCHAR szProfile[MAX_PATH];
@@ -491,11 +492,14 @@ int LoadDatabaseModule(void)
 	if (!getProfile(szProfile, _countof(szProfile)))
 		return 1;
 
+	TCHAR *ptszFileName = _tcsrchr(szProfile, '\\');
+	ptszFileName = (ptszFileName) ? ptszFileName + 1 : szProfile;
+
 	if (arDbPlugins.getCount() == 0) {
-		TCHAR buf[256];
-		TCHAR *p = _tcsrchr(szProfile, '\\');
-		mir_sntprintf(buf, TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll"), p ? ++p : szProfile);
-		MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL,
+			CMString(FORMAT, TranslateTS(tszNoDrivers), ptszFileName),
+			TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
+		return 1;
 	}
 
 	// find a driver to support the given profile
@@ -508,24 +512,27 @@ int LoadDatabaseModule(void)
 		else
 			rc = tryOpenDatabase(szProfile);
 
-		if (rc > 0) {
+		// there were no suitable driver installed
+		if (rc == -1) {
+			MessageBox(NULL,
+				CMString(FORMAT, TranslateTS(tszNoSuitableDriver), ptszFileName),
+				TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
+		}
+		else if (rc > 0) {
 			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
-				TCHAR buf[256];
-				TCHAR *p = _tcsrchr(szProfile, '\\');
-				mir_sntprintf(buf, TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed."), p ? ++p : szProfile);
-				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
+				MessageBox(NULL,
+					CMString(FORMAT, TranslateTS(tszUnknownFormat), ptszFileName),
+					TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if (!FindMirandaForProfile(szProfile)) {
-				TCHAR buf[256];
-				TCHAR *p = _tcsrchr(szProfile, '\\');
-				mir_sntprintf(buf, TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
-				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
+				retry = IDRETRY == MessageBox(NULL,
+					CMString(FORMAT, TranslateTS(tszProfileLocked), ptszFileName),
+					TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR);
 			}
 		}
-	}
-		while (retry);
+	} while (retry);
 
 	EnsureCheckerLoaded(false); // unload dbchecker
 
