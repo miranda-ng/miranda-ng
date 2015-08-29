@@ -502,7 +502,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_ICONCHANGED:
 		{
-			int recalcScrollBar = 0, shouldShow;
 			WORD status;
 			MCONTACT hSelItem = NULL;
 			ClcContact *selcontact = NULL;
@@ -515,7 +514,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-			shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0))
+			int shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0))
 				&& (!cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);
 
 			contact = NULL;
@@ -523,9 +522,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (MCONTACT)cli.pfnContactToHItem(selcontact);
+						hSelItem = (UINT_PTR)cli.pfnContactToHItem(selcontact);
 					cli.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
-					recalcScrollBar = 1;
 					cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 					if (contact) {
 						contact->iImage = (WORD)lParam;
@@ -539,9 +537,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-						hSelItem = (MCONTACT)cli.pfnContactToHItem(selcontact);
+						hSelItem = (UINT_PTR)cli.pfnContactToHItem(selcontact);
 					cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
-					recalcScrollBar = 1;
 				}
 				else {
 					contact->iImage = (WORD)lParam;
@@ -1027,24 +1024,23 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				dat->dragStage = (dat->dragStage & ~DRAGSTAGEM_STAGE) | DRAGSTAGE_ACTIVE;
 		}
 		if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
-			HCURSOR hNewCursor;
 			RECT clRect;
-			POINT pt;
-			int target;
-
 			GetClientRect(hwnd, &clRect);
+
+			POINT pt;
 			pt.x = (short)LOWORD(lParam);
 			pt.y = (short)HIWORD(lParam);
-			hNewCursor = LoadCursor(NULL, IDC_NO);
+			
+			HCURSOR hNewCursor = LoadCursor(NULL, IDC_NO);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 			if (dat->dragAutoScrolling) {
 				KillTimer(hwnd, TIMERID_DRAGAUTOSCROLL);
 				dat->dragAutoScrolling = 0;
 			}
-			target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
+			int target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
 			if (dat->dragStage & DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
-
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+
 				NMCLISTCONTROL nm;
 				nm.hdr.code = CLN_DRAGSTOP;
 				nm.hdr.hwndFrom = hwnd;
@@ -1054,6 +1050,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 				dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 			}
+			
 			switch (target) {
 			case DROPTARGET_ONSELF:
 			case DROPTARGET_ONCONTACT:
@@ -1065,33 +1062,31 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				hNewCursor = LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
 				break;
 			case DROPTARGET_OUTSIDE:
-				{
-					NMCLISTCONTROL nm;
-
-					if (pt.x >= 0 && pt.x < clRect.right
-						&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
-						|| (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
-						if (!dat->dragAutoScrolling) {
-							if (pt.y < 0)
-								dat->dragAutoScrolling = -1;
-							else
-								dat->dragAutoScrolling = 1;
-							SetTimer(hwnd, TIMERID_DRAGAUTOSCROLL, dat->scrollTime, NULL);
-						}
-						SendMessage(hwnd, WM_TIMER, TIMERID_DRAGAUTOSCROLL, 0);
+				if (pt.x >= 0 && pt.x < clRect.right
+					&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
+					|| (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
+					if (!dat->dragAutoScrolling) {
+						if (pt.y < 0)
+							dat->dragAutoScrolling = -1;
+						else
+							dat->dragAutoScrolling = 1;
+						SetTimer(hwnd, TIMERID_DRAGAUTOSCROLL, dat->scrollTime, NULL);
 					}
-
-					dat->dragStage |= DRAGSTAGEF_OUTSIDE;
-					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
-					nm.hdr.code = CLN_DRAGGING;
-					nm.hdr.hwndFrom = hwnd;
-					nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-					nm.flags = 0;
-					nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
-					nm.pt = pt;
-					if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm))
-						return 0;
+					SendMessage(hwnd, WM_TIMER, TIMERID_DRAGAUTOSCROLL, 0);
 				}
+
+				dat->dragStage |= DRAGSTAGEF_OUTSIDE;
+				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+
+				NMCLISTCONTROL nm;
+				nm.hdr.code = CLN_DRAGGING;
+				nm.hdr.hwndFrom = hwnd;
+				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+				nm.flags = 0;
+				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+				nm.pt = pt;
+				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
+					return 0;
 				break;
 
 			default:
