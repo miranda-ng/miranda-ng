@@ -1095,12 +1095,9 @@
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 [No profile support installed!]
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-[Miranda can't understand that profile]
-[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 [Miranda can't open that profile]
+[Miranda can't understand that profile]
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]

@@ -22,6 +22,7 @@
 [Place:]
 [Use hostname]
 [Use BBCode]
+[Change password]
 [Enter password]
 [Save password]
 [Enter the password to continue.]
