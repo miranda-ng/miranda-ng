@@ -46,12 +46,14 @@
     <Link>
       <AdditionalDependencies>delayimp.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>API-MS-WIN-CORE-WINRT-STRING-L1-1-0.DLL;API-MS-WIN-CORE-WINRT-L1-1-0.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <AdditionalOptions Condition="'$(VisualStudioVersion)' == '12.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
+    <Link>
+      <AdditionalOptions Condition="'$(VisualStudioVersion)' == '12.0'">/PDBALTPATH:%_PDB%</AdditionalOptions>
+    </Link>
   </ItemDefinitionGroup>
 </Project>
