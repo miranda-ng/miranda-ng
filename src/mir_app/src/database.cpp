@@ -474,10 +474,10 @@ static int FindMirandaForProfile(TCHAR *szProfile)
 	return x.found;
 }
 
-static TCHAR tszNoDrivers[] = _T("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll");
-static TCHAR tszUnknownFormat[] = _T("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.");
-static TCHAR tszProfileLocked[] = _T("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance");
-static TCHAR tszNoSuitableDriver[] = _T("Miranda was unable to open '%s'\nThere is no suitable database driver installed");
+static TCHAR tszNoDrivers[] = LPGENT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll");
+static TCHAR tszUnknownFormat[] = LPGENT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.");
+static TCHAR tszProfileLocked[] = LPGENT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance");
+static TCHAR tszNoSuitableDriver[] = LPGENT("Miranda was unable to open '%s'\nThere is no suitable database driver installed");
 
 int LoadDatabaseModule(void)
 {
