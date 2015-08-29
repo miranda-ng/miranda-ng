@@ -317,7 +317,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_LOAD_FRIENDSHIPS:
 	{
-		return "/friends/?";
+		return "/friends/center/requests/?";
 	}
 
 	case REQUEST_SEARCH:
@@ -441,9 +441,16 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&clientid=" + this->chat_clientid_;
 		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &this->random_);
 
+		/*
+		original cb = return (1048576 * Math.random() | 0).toString(36);
+		char buffer[10];
+		itoa(((int)(1048576 * (((double)rand()) / (RAND_MAX + 1))) | 0), buffer, 36);
+		action += "&cb=" + buffer;
+		*/
+
 		int idleSeconds = parent->IdleSeconds();
 		action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
-		action += "&cap=0"; // TODO: what's this item?
+		action += "&cap=0"; // TODO: what's this item? Sometimes it's 0, sometimes 8
 		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
 
 		action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
@@ -451,11 +458,10 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&uid=" + self_.user_id;
 		action += "&viewer_uid=" + self_.user_id;
 
-		if (!this->chat_sticky_num_.empty())
+		if (!this->chat_sticky_num_.empty() && !this->chat_sticky_pool_.empty()) {
 			action += "&sticky_token=" + this->chat_sticky_num_;
-
-		if (!this->chat_sticky_pool_.empty())
 			action += "&sticky_pool=" + this->chat_sticky_pool_;
+		}
 
 		if (!isPing && !this->chat_traceid_.empty())
 			action += "&traceid=" + this->chat_traceid_;
