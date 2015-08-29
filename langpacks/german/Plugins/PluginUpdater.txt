@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Install and update plugins and other Miranda NG components.]
@@ -26,8 +26,8 @@ Kei&ne auswählen
 Hotkey
 [Go to Customize -> Hotkeys to change the hotkey]
 Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
-[Plugin updates options]
-Plugin-Aktualisierungs-Einstellungen
+[Update options]
+Aktualisierungseinstellungen
 [On startup]
 Beim Start
 [(but only once a day)]
@@ -36,6 +36,8 @@ Beim Start
 Alle
 [Silent mode]
 Stiller Modus
+[Backup database before update (requires db_autobackups)]
+Datenbank vor Aktualisierung sichern (benötigt db_autobackups)
 [Files source]
 Quelle der Dateien
 [Stable version]
@@ -153,6 +155,8 @@ Keine Aktualisierungen gefunden.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 ;file \plugins\PluginUpdater\src\Events.cpp
+[Plugin updater URI scheme]
+PluginUpdater URI-Schema
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
@@ -160,12 +164,14 @@ Popup schließen
 [Do nothing]
 Nichts tun
 ;file \plugins\PluginUpdater\src\Options.cpp
+[Backup profile before update]
+Datenbank vor Aktualisierung sichern
+[Stable version (incompatible with current development version)]
+Stabile Version (inkompatibel mit aktueller Entwicklungsversion)
 [hours]
 Stunden
 [days]
 Tage
-[Stable version (incompatible with current development version)]
-Stabile Version (inkompatibel mit aktueller Entwicklungsversion)
 [Test]
 Testen
 [Services]

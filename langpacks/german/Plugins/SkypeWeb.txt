@@ -30,14 +30,16 @@ Konto
 Sonstiges
 [Automatic messages synchronization]
 Automatische Nachrichtensynchronisierung
-[Use local time for received messages]
-Lokale Zeit für empfangene Nachrichten verwenden
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Place:]
 Ort:
 [Use hostname]
 Hostname verwenden
+[Use BBCode]
+BBCode verwenden
+[Change password]
+Passwort ändern
 [Enter password]
 Passwort eingeben
 [Save password]
@@ -93,10 +95,14 @@ Eingehender Anruf
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [Invalid data!]
 Ungültige Daten!
-[Original message:\n\t%s\n]
-Originalnachricht:\n\t%s\n
-[Edited at %s:\n\t%s\n]
-Bearbeitet um %s:\n\t%s\n
+[[b]Original message:[/b]\n%s\n]
+\[b]Originalnachricht:[/b]\n%s\n
+[Original message:\n%s\n]
+Originalnachricht:\n%s\n
+[[b]Edited at %s:[/b]\n%s\n]
+\[b]Bearbeitet um %s:[/b]\n%s\n
+[Edited at %s:\n%s\n]
+Bearbeitet um %s:\n%s\n
 [Call]
 Anrufen
 [Call missed]
@@ -151,8 +157,12 @@ Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[You cannot send when you are offline.]
+Sie können keine Nachricht versenden, so lange Sie offline sind.
 [Unknown error!]
 Unbekannter Fehler!
+[Network error!]
+Netzwerkfehler!
 ;file \protocols\SkypeWeb\src\skype_mslogin.cpp
 [Enter confirmation code]
 Bestätigungscode eingeben
@@ -179,6 +189,3 @@ Eingehender-Anruf-Abgebrochen-Klang
 Aufbau einer TRouter-Verbindung fehlgeschlagen.
 [Incoming call from %s]
 Eingehender Anruf von %s
-;file \protocols\SkypeWeb\src\skype_utils.cpp
-[Message read: %s]
-Nachricht gelesen: %s

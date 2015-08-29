@@ -1901,18 +1901,6 @@ Soll dieser Verlaufseintrag gelöscht werden?
 Verlauf löschen
 [View &history]
 &Verlauf anzeigen
-;file \src\core\stdurl\url.cpp
-[URL from %s]
-URL von %s
-[Web page address (&URL)]
-Webseite (&URL)
-[URL]
-URL
-;file \src\core\stdurl\urldialogs.cpp
-[Send URL to]
-URL senden an
-[Send timed out]
-Sende Timeout erreicht
 ;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 E-Mail-Adresse bearbeiten
@@ -2140,16 +2128,18 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht autom
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mmap.dll oder ein vergleichbares Plugin installiert sein.
-[No profile support installed!]
-Kein Profilplugin installiert!
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorliegt.\nDas Profil könnte auch beschädigt sein, bitte verwenden Sie DBChecker, welcher auch im Profil enthalten seien sollte.
-[Miranda can't understand that profile]
-Miranda erkennt das Format dieses Profils nicht.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda kann Profil '%s' nicht öffnen.\nAuf dieses Profil kann nicht zugegriffen werden oder es wird von einer anderen Anwendung verwendet.
+[Miranda was unable to open '%s'\nThere is no suitable database driver installed]
+Miranda kann Profil '%s' nicht öffnen.\nEs ist kein passender Datenbanktreiber installiert.
+[No profile support installed!]
+Kein Profilplugin installiert!
 [Miranda can't open that profile]
 Miranda kann dieses Profil nicht öffnen.
+[Miranda can't understand that profile]
+Miranda erkennt das Format dieses Profils nicht.
 ;file \src\mir_app\src\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sicherheitssysteme zum Schutz gegen bösartige Veränderungen ist vorhandenen und werden Sie vor jeder Änderung, die gemacht wird, warnen.
@@ -2659,6 +2649,8 @@ Kein Kontakt gefunden
 [Icon sets]
 Iconsammlung
 ;file \src\mir_app\src\skinicons.cpp
+[URL]
+URL
 [User online]
 Benutzer online
 [Group (open)]
