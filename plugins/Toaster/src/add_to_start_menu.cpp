@@ -1,38 +1,15 @@
 #include "stdafx.h"
 
+#define SHORTCUT_PATH "\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk"
+
 using namespace Microsoft::WRL;
 
 wchar_t* GetShortcutPath()
 {
-	wchar_t shortcutPath[MAX_PATH];
-	GetEnvironmentVariable(_T("APPDATA"), shortcutPath, MAX_PATH);
-	wcscat_s(shortcutPath, ARRAYSIZE(shortcutPath), L"\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk");
-
-	return mir_wstrdup(shortcutPath);
-}
-
-HRESULT ShortcutExists()
-{
-	HRESULT hr;
-	DWORD attributes = GetFileAttributes(ptrW(GetShortcutPath()));
-	bool fileExists = attributes < 0xFFFFFFF;
-
-	if (!fileExists)
-	{
-		hr = S_OK;
-	}
-	else
-	{
-		hr = S_FALSE;
-	}
-	return hr;
-}
-
-HRESULT TryCreateShortcut()
-{
-	if (!ShortcutExists())
-		return InstallShortcut(ptrW(GetShortcutPath()));
-	return S_OK;
+	wchar_t path[MAX_PATH];
+	GetEnvironmentVariable(_T("APPDATA"), path, MAX_PATH);
+	wcscat_s(path, _T(SHORTCUT_PATH));
+	return mir_wstrdup(path);
 }
 
 HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
