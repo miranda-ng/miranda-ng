@@ -45,13 +45,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	if (IsWinVer8Plus() && !IsWinVer10Plus())
 	{
-		if (ServiceExists("AddToStartMenu/Add"))
+		if (FAILED(TryCreateShortcut()))
 		{
-			CallService("AddToStartMenu/Add");
-		}
-		else
-		{
-			MessageBox(NULL, TranslateT("In Windows8 desktop application must have a shortcut on the Start menu. Please, install \"AddToStartMenu\" plugin."), _T(MODULE), MB_OK | MB_ICONERROR);
+			MessageBox(NULL, TranslateT("Failed create shortcut"), _T(MODULE), MB_OK | MB_ICONERROR);
 		}
 	}
 
