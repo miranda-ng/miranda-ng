@@ -41,7 +41,7 @@ class CDropbox;
 #define DROPBOX_API_URL "https://api.dropbox.com/" DROPBOX_API_VER
 #define DROPBOX_APICONTENT_URL "https://api-content.dropbox.com/" DROPBOX_API_VER
 
-#define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
+#define DROPBOX_APP_KEY "9x3rhyxfmhhzgtc"
 #include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
 
 #include "dropbox_dialogs.h"
